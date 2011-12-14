@@ -23,13 +23,13 @@ The Samples folder contains many different directories which each house a separa
 
 - IntelliJ Project files (.ipr, .iml, .iws)
 - Program.java (the source code for the sample).
-- Data folder (contains the input documents and any source files. All generated output produced by the sample is also placed into this folder).
+- Data folder which contains the input documents and any source files. All generated output produced by the sample is also placed into this folder.
 - Out folder (created when the sample is compiled and contains the compiled classes when the project is built).
 
 You can choose one of several options to run the demos.
 
 1)
-Open the IntelliJ project file using the Intellij IDEA Java IDE of the sample you wish to run. Click on "Run" menu and choose one of the following menu items:
+Open the IntelliJ project file using the IntelliJ IDEA Java IDE of the sample you wish to run. Click on "Run" menu and choose one of the following menu items:
 
 - Run
 - Debug
@@ -49,16 +49,9 @@ Create a new project in your favourite Java IDE and choose to create a new proje
 
 - Include all files within the folder of the sample that is being compiled. 
 - A library reference to Aspose.Words.jar which is found within the lib folder must be added to the project. 
-- Depending on the samples being compiled a reference to other Aspose.Words libraries may also be required. These are found under the demos-only-lib folder inside the lib folder.
-- Example code which demonstrate conversion of a document to image require the appropriate ImageIO codecs installed on the system. This will present itself as a runtime error such as: "java.lang.IllegalStateException: Cannot find an ImageIO writer for the specified format: bmp".
-
-Java provides standard codecs during most installations, however in some situations missing codecs must be downloaded manually:
-  - The BMP codec is missing from Java 1.4.
-  - The TIFF codec is missing from Java 1.5.
-
-Information on how to install ImageIO codecs can be found at the following site: Information on how to install ImageIO codecs can be found at the following site: http://download.java.net/media/jai-imageio/builds/release/1.1/INSTALL-jai_imageio.html
-
-- The entry points for each sample are always found at "Program.Main".
+- Depending on the sample being compiled, a reference to other Aspose.Words libraries may also be required. These are found under the demos-only-lib folder inside the lib folder.
+- Example code which demonstrates conversion of a document to image requires the appropriate ImageIO codecs installed on the system. If one of these codecs is missing it will present itself as a runtime error such as: "java.lang.IllegalStateException: Cannot find an ImageIO writer for the specified format: bmp". See below for details on how to download and install ImageIO.
+- The entry point for each sample is always found at "Program.Main".
 
 
 Software Requirements
@@ -67,6 +60,12 @@ Software Requirements
 - Aspose.Words for Java 10.3.0 or later
 - An additional library: Aspose.Network for Java 2.0.1 or later. This is used to demonstrate integration of Aspose.Words with other Aspose libraries.
 - The TestNG plugin must be enabled in IntelliJ IDEA in order to properly run the test code found in Examples.
+
+- Java provides standard codecs during most installations, however in some situations missing codecs must be downloaded manually:
+  - The BMP codec is missing from Java 1.4.
+  - The TIFF codec is missing from Java 1.5.
+
+Information on how to install ImageIO codecs and the binaries can be found at the following site: http://download.java.net/media/jai-imageio/builds/release/1.1/
 
 
 Running the Samples under Linux and MacOS
