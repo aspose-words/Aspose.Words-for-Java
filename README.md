@@ -95,7 +95,7 @@ Firstly make sure that you have downloaded and extracted the latest version of [
 
 Download the examples from the above link. There are IntelliJ Idea project files (.ipr) provided for the examples which can be used to easily compile and run each example.
 
-You can choose one of several options to run the demos.
+You can choose one of several options to run the examples.
 
 1)
 Open the IntelliJ project file using the IntelliJ IDEA Java IDE of the example you wish to run. The example should be ready to compile. Click on "Run" menu and choose one of the following menu items:
