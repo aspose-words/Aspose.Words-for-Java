@@ -86,7 +86,7 @@ For further details on setting up the examples and any requirements refer to the
 
 ##Download the Examples
 
-Please [Download the Aspose.Words for .Java Examples](https://github.com/asposewords/Aspose_Words_Java/downloads) to try them at your end.
+Please [Download the Aspose.Words for Java Examples](https://github.com/asposewords/Aspose_Words_Java/downloads) to try them at your end.
 
 
 ##How to use the Examples?
@@ -112,7 +112,7 @@ Create a new project in your favourite Java IDE and choose to create a new proje
 - Include all files within the folder of the example that is being compiled. 
 - A library reference to Aspose.Words.jar which is found within the lib folder must be added to the project. 
 - Depending on the example being compiled, a reference to other Aspose.Words libraries may also be required. These are found under the demos-only-lib folder inside the lib folder.
-- Example code which demonstrates conversion of a document to image requires the appropriate ImageIO codecs installed on the system. If one of these codecs is missing it will present itself as a runtime error such as: "java.lang.IllegalStateException: Cannot find an ImageIO writer for the specified format: bmp".
+- Example code which demonstrates conversion of a document to image requires the appropriate ImageIO codecs installed on the system. If one of these codecs is missing it will present itself as a runtime error such as: "java.lang.IllegalStateException: Cannot find an ImageIO writer for the specified format: bmp". The ImageIO can be downloaded from here: http://download.java.net/media/jai-imageio/builds/release/1.1/
 - The entry point for each example is always found at "Program.Main".
 
 ##Contact Us
