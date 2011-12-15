@@ -74,7 +74,7 @@ The general structure of each example contains:
 
 ###Output
 
-+ Most examples will perform operations on documents and save them into the Data directory. This directory is found inside each of the examples e.g "\(ExampleName)\CSharp\Data\".
++ Most examples will perform operations on documents and save them into the Data directory. This directory is found inside each of the examples e.g "\(ExampleName)\Java\Data\".
 + Other examples print output to the console.
 + Some printing examples will display a print preview dialog and allow you to print the document output.
 
