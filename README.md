@@ -64,7 +64,7 @@ The general structure of each example contains:
   <tr><td>SplitIntoHtmlPages</td><td>Exports a word document into separate HTML articles based on heading styles.</td></tr>
   <tr><td>UntangleRowBookmarks</td><td>Demonstrates how to fix bookmarks if they are incorrectly loaded in table rows.</td></tr>
   <tr><td>Word2Help</td><td>Expands on the SplitIntoHtmlPages example by producing fully named HTML articles from the source Word document.</td></tr>
-  <tr><td>XMLMailMerge</td><td>Shows how to perform mail merge from an XML document.</td></tr>
+  <tr><td>XMLMailMerge</td><td>Shows how to perform mail merge from an XML datasource.</td></tr>
 </table>
 
 ###Data
