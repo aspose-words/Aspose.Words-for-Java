@@ -50,18 +50,20 @@ Create a new project in your favourite Java IDE and choose to create a new proje
 - Include all files within the folder of the sample that is being compiled. 
 - A library reference to Aspose.Words.jar which is found within the lib folder must be added to the project. 
 - Depending on the sample being compiled, a reference to other Aspose.Words libraries may also be required. These are found under the demos-only-lib folder inside the lib folder.
-- Example code which demonstrates conversion of a document to image requires the appropriate ImageIO codecs installed on the system. If one of these codecs is missing it will present itself as a runtime error such as: "java.lang.IllegalStateException: Cannot find an ImageIO writer for the specified format: bmp". See below for details on how to download and install ImageIO.
 - The entry point for each sample is always found at "Program.Main".
 
 
 Software Requirements
 ==========================================
 
-- Aspose.Words for Java 10.3.0 or later
+- Aspose.Words for Java 10.6.0 or later
 - An additional library: Aspose.Network for Java 2.0.1 or later. This is used to demonstrate integration of Aspose.Words with other Aspose libraries.
 - The TestNG plugin must be enabled in IntelliJ IDEA in order to properly run the test code found in Examples.
+- For samples which use a graphical interface the "UI Designer" plugin must be installed and enabled. This can be found under File -> Settings -> Plugins. "UI Designer" needs to be present and enabled on the installed plugins list.
 
-- Java provides standard codecs during most installations, however in some situations missing codecs must be downloaded manually:
+- Example code which demonstrates conversion of a document to image requires the appropriate ImageIO codecs installed on the system. If one of these codecs is missing it will present itself as a runtime error such as: "java.lang.IllegalStateException: Cannot find an ImageIO writer for the specified format: bmp". See below for details on how to download and install ImageIO.
+
+- Java comes with most standard ImageIO codecs during most installations, however in some situations missing codecs must be downloaded manually:
   - The BMP codec is missing from Java 1.4.
   - The TIFF codec is missing from Java 1.5.
 
