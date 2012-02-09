@@ -34,6 +34,9 @@ IF "%sampleName%" == "SaveHtmlAndEmail" goto :eof
 IF "%sampleName%" == "DocumentPreviewAndPrint" goto :eof
 IF "%sampleName%" == "MultiplePagesOnSheet" goto :eof
 
+:: Skip potential folder if it does not contain a Java sub folder.
+IF NOT EXIST %sampleName%\Java goto:eof
+
 :: If the generated folder contains no class files then assume the project could not be compiled.
 :: Skip this sample.
 IF NOT EXIST %sampleName%\Java\out\%sampleName%\*.class (

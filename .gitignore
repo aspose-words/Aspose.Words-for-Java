@@ -4,7 +4,7 @@ classes/
 generated/
 *.suo
 bin/
-* Out.*
+* Out*
 *.ldb
 _ReSharper*/
 *.iws
@@ -16,4 +16,4 @@ BuildLog.txt
 Out*/
 TestFile*.png
 Data/*Out*
-Data/*from DB*
+*from DB*

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////////////
 package RemoveEmptyRegions;
 
+import com.aspose.words.MailMergeCleanupOptions;
 import com.sun.rowset.CachedRowSetImpl;
 import java.io.File;
 import java.net.URI;
@@ -30,21 +31,20 @@ class Program
         // Open the document.
         Document doc = new Document(dataDir + "TestFile.doc");
 
-        // Create a dummy data source containing two empty DataTables which corresponds to the regions in the document.
+        // Create a dummy data source containing no data.
         DataSet data = new DataSet();
-        DataTable suppliers = new DataTable(new CachedRowSetImpl(), "Suppliers");
-        DataTable storeDetails = new DataTable(new CachedRowSetImpl(), "StoreDetails");
-        data.getTables().add(suppliers);
-        data.getTables().add(storeDetails);
 
-        // Set the RemoveEmptyRegions to true in order to remove unmerged mail merge regions from the document.
-        doc.getMailMerge().setRemoveEmptyRegions(true);
+        // Set the appropriate mail merge clean up options to remove any unused regions from the document.
+        doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_UNUSED_REGIONS);
 
-        // Execute mail merge. It will have no effect as there is no data.
+        // Execute mail merge which will have no effect as there is no data. However the regions found in the document will be removed
+        // automatically as they are unused.
         doc.getMailMerge().executeWithRegions(data);
 
         // Save the output document to disk.
         doc.save(dataDir + "TestFile.RemoveEmptyRegions Out.doc");
         //ExEnd
+
+        assert doc.getMailMerge().getFieldNames().length == 0: "Error: There are still unused regions remaining in the document";
     }
 }

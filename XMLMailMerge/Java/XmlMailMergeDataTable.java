@@ -36,7 +36,7 @@ public class XmlMailMergeDataTable implements IMailMergeDataSource
      * @param xmlDoc The DOM object which contains the parsed XML data.
      * @param tableName The name of the element in the data source where the data of the region is extracted from.
      */
-    public XmlMailMergeDataTable(org.w3c.dom.Document xmlDoc, String tableName)
+    public XmlMailMergeDataTable(org.w3c.dom.Document xmlDoc, String tableName) throws Exception
     {
         this(xmlDoc.getDocumentElement(), tableName);
     }
@@ -44,20 +44,12 @@ public class XmlMailMergeDataTable implements IMailMergeDataSource
     /**
      * Private constructor that is also called by GetChildDataSource.
      */
-    private XmlMailMergeDataTable(Node rootNode, String tableName)
+    private XmlMailMergeDataTable(Node rootNode, String tableName) throws Exception
     {
         mTableName = tableName;
 
         // Get the first element on this level matching the table name.
-        for (Node childNode = rootNode.getFirstChild(); childNode != null; childNode = childNode.getNextSibling())
-        {
-            // For this to represent a table it must be an element node.
-            if ((childNode.getNodeType() == Node.ELEMENT_NODE) && childNode.getNodeName().equals(mTableName))
-            {
-                mCurrentNode = childNode;
-                break;
-            }
-        }
+        mCurrentNode = (Node)retrieveExpression("./" + tableName).evaluate(rootNode, XPathConstants.NODE);
     }
 
     /**
@@ -152,7 +144,7 @@ public class XmlMailMergeDataTable implements IMailMergeDataSource
     }
 
     /**
-     * Returns a cached version of a compiled XPathExpression if available, otherwise creates and returns a new expression.
+     * Returns a cached version of a compiled XPathExpression if available, otherwise creates a new expression.
      */
     private XPathExpression retrieveExpression(String path) throws Exception
     {

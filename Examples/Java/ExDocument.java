@@ -19,6 +19,7 @@ import org.testng.Assert;
 
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -427,6 +428,59 @@ public class ExDocument extends ExBase
         // In you want to read the result into a Document object again, in Java you need to get the
         // data bytes and wrap into an input stream.
         ByteArrayInputStream srcStream = new ByteArrayInputStream(dstStream.toByteArray());
+        //ExEnd
+    }
+
+    @Test
+    public void doc2EpubSave() throws Exception
+    {
+        //ExStart
+        //ExId:Doc2EpubSave
+        //ExSummary:Converts a document to EPUB using default save options.
+        // Open an existing document from disk.
+        Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
+
+        // Save the document in EPUB format.
+        doc.save(getMyDir() + "Document.EpubConversion Out.epub");
+        //ExEnd
+    }
+
+    @Test
+    public void doc2EpubSaveWithOptions()  throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlSaveOptions
+        //ExFor:HtmlSaveOptions.Encoding
+        //ExFor:HtmlSaveOptions.DocumentSplitCriteria
+        //ExFor:HtmlSaveOptions.ExportDocumentProperties
+        //ExFor:HtmlSaveOptions.SaveFormat
+        //ExId:Doc2EpubSaveWithOptions
+        //ExSummary:Converts a document to EPUB with save options specified.
+
+        // Open an existing document from disk.
+        Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
+
+        // Create a new instance of HtmlSaveOptions. This object allows us to set options that control
+        // how the output document is saved.
+        HtmlSaveOptions saveOptions =
+                new HtmlSaveOptions();
+
+        // Specify the desired encoding.
+        saveOptions.setEncoding(Charset.forName("UTF-8"));
+
+        // Specify at what elements to split the internal HTML at. This creates a new HTML within the EPUB
+        // which allows you to limit the size of each HTML part. This is useful for readers which cannot read
+        // HTML files greater than a certain size e.g 300kb.
+        saveOptions.setDocumentSplitCriteria(DocumentSplitCriteria.HEADING_PARAGRAPH);
+
+        // Specify that we want to export document properties.
+        saveOptions.setExportDocumentProperties(true);
+
+        // Specify that we want to save in EPUB format.
+        saveOptions.setSaveFormat(SaveFormat.EPUB);
+
+        // Export the document as an EPUB file.
+        doc.save(getMyDir() + "Document.EpubConversion Out.epub", saveOptions);
         //ExEnd
     }
 

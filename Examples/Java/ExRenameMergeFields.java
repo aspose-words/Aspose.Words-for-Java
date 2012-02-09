@@ -114,7 +114,7 @@ class MergeField
 
         matcher.find();
 
-        String newFieldCode = java.text.MessageFormat.format("{0} {1} {2}", matcher.group(1).toString(), fieldName, matcher.group(3).toString());
+        String newFieldCode = java.text.MessageFormat.format(" {0}{1} ", matcher.group(1).toString(), fieldName);
         fieldCode.setText(newFieldCode);
 
         // But sometimes the field code can consist of more than one run, delete these runs.
@@ -171,7 +171,7 @@ class MergeField
     private final Node mFieldSeparator;
     private final Node mFieldEnd;
 
-    private static final Pattern G_REGEX = Pattern.compile("\\s*(\\S+)\\s+(\\S+)\\s+(.+)");
+    private static final Pattern G_REGEX = Pattern.compile("\\s*(MERGEFIELD\\s|)(\\s|)(\\S+)\\s+");
 }
 
 //ExEnd

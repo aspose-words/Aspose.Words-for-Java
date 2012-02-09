@@ -31,19 +31,21 @@ public class Program
         // Open the document.
         Document doc = new Document(dataDir + "TestFile.doc");
 
-        // Create a data source which contains empty DataTables with no data.
+        // Create a data source which has some data missing.
         // This will result in some regions that are merged and some that remain after executing mail merge.
         DataSet data = getDataSource();
 
-        // Set the RemoveEmptyRegions to false as we want to handle the unmerged regions manually.
-        doc.getMailMerge().setRemoveEmptyRegions(false);
+        // Make sure that we have not set the removal of any unused regions as we will handle them manually.
+        // We achieve this by removing the RemoveUnusedRegions flag from the cleanup options by using the bitwise XOR operator.
+        doc.getMailMerge().setCleanupOptions(doc.getMailMerge().getCleanupOptions() ^ MailMergeCleanupOptions.REMOVE_UNUSED_REGIONS);
+
         // Execute mail merge. Some regions will be merged with data, others left unmerged.
         doc.getMailMerge().executeWithRegions(data);
 
         // The regions which contained data now would of been merged. Any regions which had no data and were
         // not merged will still remain in the document.
         Document mergedDoc = doc.deepClone(); //ExSkip
-        // Apply logic to each empty region left in the document using the logic set out in the handler.
+        // Apply logic to each unused region left in the document using the logic set out in the handler.
         // The handler class must implement the IFieldMergingCallback interface.
         executeCustomLogicOnEmptyRegions(doc, new EmptyRegionsHandler());
 
@@ -54,7 +56,7 @@ public class Program
         // Reload the original merged document.
         doc = mergedDoc.deepClone();
 
-        // Apply different logic to empty regions this time.
+        // Apply different logic to unused regions this time.
         executeCustomLogicOnEmptyRegions(doc, new EmptyRegionsHandler_MergeTable());
 
         doc.save(dataDir + "TestFile.CustomLogicEmptyRegions2 Out.doc");
@@ -119,12 +121,12 @@ public class Program
 
     //ExStart
     //ExId:ExecuteCustomLogicOnEmptyRegionsMethod
-    //ExSummary:Shows how to execute custom logic on empty regions using the specified handler.
+    //ExSummary:Shows how to execute custom logic on unused regions using the specified handler.
     /**
-     * Applies logic defined in the passed handler class to all empty regions in the document. This allows to manually control
-     * how empty regions are handled in the document.
+     * Applies logic defined in the passed handler class to all unused regions in the document. This allows to manually control
+     * how unused regions are handled in the document.
      *
-     * @param doc The document containing empty regions.
+     * @param doc The document containing unused regions.
      * @param handler The handler which implements the IFieldMergingCallback interface and defines the logic to be applied to each unmerged region.
      */
     public static void executeCustomLogicOnEmptyRegions(Document doc, IFieldMergingCallback handler) throws Exception
@@ -133,18 +135,18 @@ public class Program
     }
 
     /**
-     * Applies logic defined in the passed handler class to specific empty regions in the document as defined in regionsList. This allows to manually control
-     * how empty regions are handled in the document.
+     * Applies logic defined in the passed handler class to specific unused regions in the document as defined in regionsList. This allows to manually control
+     * how unused regions are handled in the document.
      *
-     * @param doc The document containing empty regions.
+     * @param doc The document containing unused regions.
      * @param handler The handler which implements the IFieldMergingCallback interface and defines the logic to be applied to each unmerged region.
      * @param regionsList A list of strings corresponding to the region names that are to be handled by the supplied handler class. Other regions encountered will not be handled and are removed automatically.
      */
     public static void executeCustomLogicOnEmptyRegions(Document doc, IFieldMergingCallback handler, ArrayList regionsList) throws Exception
     {
         // Certain regions can be skipped from applying logic to by not adding the table name inside the CreateEmptyDataSource method.
-        // Set this property to true so any regions which are not handled by the user's logic are removed automatically.
-        doc.getMailMerge().setRemoveEmptyRegions(true);
+        // Enable this cleanup option so any regions which are not handled by the user's logic are removed automatically.
+        doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_UNUSED_REGIONS);
 
         // Set the user's handler which is called for each unmerged region.
         doc.getMailMerge().setFieldMergingCallback(handler);
@@ -261,7 +263,7 @@ public class Program
         {
             //ExStart
             //ExId:ContactDetailsCodeVariation
-            //ExSummary:Shows how to replace an empty region with a message and remove extra paragraphs.
+            //ExSummary:Shows how to replace an unused region with a message and remove extra paragraphs.
             // Store the parent paragraph of the current field for easy access.
             Paragraph parentParagraph = args.getField().getStart().getParentParagraph();
 
@@ -293,8 +295,8 @@ public class Program
             //ExStart
             //ExFor:Cell.IsFirstCell
             //ExId:SuppliersCodeVariation
-            //ExSummary:Shows how to merge all the parent cells of an empty region and display a message within the table.
-            // Replace the empty region in the table with a "no records" message and merge all cells into one.
+            //ExSummary:Shows how to merge all the parent cells of an unused region and display a message within the table.
+            // Replace the unused region in the table with a "no records" message and merge all cells into one.
             if ("Suppliers".equals(args.getTableName()))
             {
                 if ("FirstField".equals((String)args.getFieldValue()))
@@ -327,7 +329,6 @@ public class Program
     /**
      * Returns the data used to merge the TestFile document.
      * This dataset purposely contains only rows for the StoreDetails region and only a select few for the child region.
-     * The other DataTables are left empty so they will not be merged.
      */
     private static DataSet getDataSource() throws Exception
     {
@@ -340,7 +341,6 @@ public class Program
         DataSet data = new DataSet();
         DataTable storeDetails = new DataTable(storeDetailsResultSet, "StoreDetails");
         DataTable contactDetails = new DataTable(contactDetailsResultSet, "ContactDetails");
-        DataTable suppliers = new DataTable(suppliersResultSet, "Suppliers");
 
         // Add the data to the tables.
         addRow(storeDetailsResultSet, new String[] {"0", "Hungry Coyote Import Store", "2732 Baker Blvd", "Eugene", "USA"});
@@ -353,7 +353,6 @@ public class Program
         // Include the tables in the DataSet.
         data.getTables().add(storeDetails);
         data.getTables().add(contactDetails);
-        data.getTables().add(suppliers);
 
         // Setup the relation between the parent table (StoreDetails) and the child table (ContactDetails).
         data.getRelations().add(new DataRelation(
