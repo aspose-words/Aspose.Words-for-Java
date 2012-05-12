@@ -137,6 +137,7 @@ public class ExRendering extends ExBase
     {
         //ExStart
         //ExFor:XpsSaveOptions
+        //ExFor:XpsSaveOptions.#ctor
         //ExFor:Document.Save(String)
         //ExFor:Document.Save(Stream, SaveFormat)
         //ExFor:Document.Save(String, SaveOptions)
@@ -164,6 +165,7 @@ public class ExRendering extends ExBase
     public void saveAsImage() throws Exception
     {
         //ExStart
+        //ExFor:ImageSaveOptions.#ctor
         //ExFor:Document.Save(String)
         //ExFor:Document.Save(Stream, SaveFormat)
         //ExFor:Document.Save(String, SaveOptions)
@@ -219,7 +221,7 @@ public class ExRendering extends ExBase
         options.setPageIndex(0);
         options.setPageCount(1);
 
-        doc.save(getMyDir() + "Rendering.SaveToTiffCompression Out.tif", options);
+        doc.save(getMyDir() + "Rendering.SaveToTiffCompression Out.tiff", options);
         //ExEnd
     }
 
@@ -412,9 +414,9 @@ public class ExRendering extends ExBase
         //ExSummary:Prints a range of pages along with the name of the document.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
-	    AttributeSet printerSettings = new HashAttributeSet();
-	    // Page numbers in printer settings are 1-based.
-	    printerSettings.add(new PageRanges(1, 3));
+        AttributeSet printerSettings = new HashAttributeSet();
+        // Page numbers in printer settings are 1-based.
+        printerSettings.add(new PageRanges(1, 3));
 
         doc.print(printerSettings, "My Print Document.doc");
         //ExEnd
@@ -623,7 +625,7 @@ public class ExRendering extends ExBase
      *
      * This class is an example on how to implement custom printing of an Aspose.Words document.
      * It selects an appropriate paper size, orientation when printing.
-    */
+     */
     public class MyPrintDocument implements Pageable, Printable
     {
         public MyPrintDocument(Document document) throws Exception
@@ -745,80 +747,302 @@ public class ExRendering extends ExBase
     @Test
     public void setTrueTypeFontsFolder() throws Exception
     {
-        // Store the font folders currently used so we can restore them later.
-        String[] fontFolders = FontSettings.getFontsFolders();
+        // Store the font sources currently used so we can restore them later.
+        FontSourceBase[] fontSources = FontSettings.getFontsSources();
 
         //ExStart
         //ExFor:FontSettings
         //ExFor:FontSettings.SetFontsFolder(String, Boolean)
         //ExId:SetFontsFolderCustomFolder
-        //ExSummary:Demonstrates how to set the folder Aspose.Words uses to look for TrueType fonts during rendering.
+        //ExSummary:Demonstrates how to set the folder Aspose.Words uses to look for TrueType fonts during rendering or embedding of fonts.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
-        // Set fonts to be scanned for under the specified directory. Do not search within sub-folders.
+        // Note that this setting will override any default font sources that are being searched by default. Now only these folders will be searched for
+        // fonts when rendering or embedding fonts. To add an extra font source while keeping system font sources then use both FontSettings.GetFontSources and
+        // FontSettings.SetFontSources instead.
         FontSettings.setFontsFolder("C:\\MyFonts\\", false);
 
         doc.save(getMyDir() + "Rendering.SetFontsFolder Out.pdf");
         //ExEnd
 
-        // Restore the original folders used to search for fonts.
-        FontSettings.setFontsFolders(fontFolders, true);
+        // Restore the original sources used to search for fonts.
+        FontSettings.setFontsSources(fontSources);
     }
 
     @Test
     public void setFontsFoldersMultipleFolders() throws Exception
     {
-        // Store the font folders currently used so we can restore them later.
-        String[] fontFolders = FontSettings.getFontsFolders();
+        // Store the font sources currently used so we can restore them later.
+        FontSourceBase[] fontSources = FontSettings.getFontsSources();
 
         //ExStart
         //ExFor:FontSettings
         //ExFor:FontSettings.SetFontsFolders(String[], Boolean)
         //ExId:SetFontsFoldersMultipleFolders
-        //ExSummary:Demonstrates how to set Aspose.Words to look in multiple folders for TrueType fonts when rendering.
+        //ExSummary:Demonstrates how to set Aspose.Words to look in multiple folders for TrueType fonts when rendering or embedding fonts.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
-        // Pass true to the second parameter to search within all sub-folders of the specified folders as well.
+        // Note that this setting will override any default font sources that are being searched by default. Now only these folders will be searched for
+        // fonts when rendering or embedding fonts. To add an extra font source while keeping system font sources then use both FontSettings.GetFontSources and
+        // FontSettings.SetFontSources instead.
         FontSettings.setFontsFolders(new String[] {"C:\\MyFonts\\", "D:\\Misc\\Fonts\\"}, true);
 
         doc.save(getMyDir() + "Rendering.SetFontsFolders Out.pdf");
         //ExEnd
 
-        // Restore the original folders used to search for fonts.
-        FontSettings.setFontsFolders(fontFolders, true);
+        // Restore the original sources used to search for fonts.
+        FontSettings.setFontsSources(fontSources);
     }
 
     @Test
-    public void SetFontsFoldersSystemAndCustomFolder() throws Exception
+    public void setFontsFoldersSystemAndCustomFolder() throws Exception
     {
-        // Store the font folders currently used so we can restore them later.
-        String[] origFontFolders = FontSettings.getFontsFolders();
+        // Store the font sources currently used so we can restore them later.
+        FontSourceBase[] origFontSources = FontSettings.getFontsSources();
 
         //ExStart
         //ExFor:FontSettings
-        //ExFor:FontSettings.SetFontsFolders(String[], Boolean)
+        //ExFor:FontSettings.GetFontsSources()
+        //ExFor:FontSettings.SetFontsSources()
         //ExId:SetFontsFoldersSystemAndCustomFolder
-        //ExSummary:Demonstrates how to set Aspose.Words to look for TrueType fonts in system folders and a custom defined folder as well.
+        //ExSummary:Demonstrates how to set Aspose.Words to look for TrueType fonts in system folders as well as a custom defined folder when scanning for fonts.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
-        // Retrieve the array of environment-dependent font folders that are searched by default. For example this will contain "Windows\Fonts\" on a Windows machines.
-        ArrayList fontFolders = new ArrayList(Arrays.asList(FontSettings.getFontsFolders()));
+        // Retrieve the array of environment-dependent font sources that are searched by default. For example this will contain a "Windows\Fonts\" source on a Windows machines.
+        // We add this array to a new ArrayList to make adding or removing font entries much easier.
+        ArrayList fontSources = new ArrayList(Arrays.asList(FontSettings.getFontsSources()));
 
-        // Add our custom folder to the list.
-        fontFolders.add("C:\\MyFonts\\");
+        // Add a new folder source which will instruct Aspose.Words to search the following folder for fonts.
+        FolderFontSource folderFontSource = new FolderFontSource("C:\\MyFonts\\", true);
 
-        // Convert the list to an array to pass back to the FontSettings class.
-        FontSettings.setFontsFolders((String[])fontFolders.toArray(new String[fontFolders.size()]), true);
+        // Add the custom folder which contains our fonts to the list of existing font sources.
+        fontSources.add(folderFontSource);
+
+        // Convert the Arraylist of source back into a primitive array of FontSource objects.
+        FontSourceBase[] updatedFontSources = (FontSourceBase[])fontSources.toArray(new FontSourceBase[fontSources.size()]);
+
+        // Apply the new set of font sources to use.
+        FontSettings.setFontsSources(updatedFontSources);
 
         doc.save(getMyDir() + "Rendering.SetFontsFolders Out.pdf");
         //ExEnd
 
-        // Verify that folders are set correctly.
-        Assert.assertTrue(FontSettings.getFontsFolders()[0].toLowerCase().contains("fonts")); // Regardless of OS the system fonts path should contain "Fonts".
-        Assert.assertEquals("C:\\MyFonts\\", FontSettings.getFontsFolders()[1]);
+        // Verify that font sources are set correctly.
+        Assert.assertTrue(FontSettings.getFontsSources()[0] instanceof SystemFontSource); // The first source should be a system font source.
+        Assert.assertTrue(FontSettings.getFontsSources()[1] instanceof FolderFontSource); // The second source should be our folder font source.
 
-        // Restore the original folders used to search for fonts.
-        FontSettings.setFontsFolders(origFontFolders, true);
+        FolderFontSource folderSource = ((FolderFontSource)FontSettings.getFontsSources()[1]);
+        Assert.assertEquals(folderSource.getFolderPath(), "C:\\MyFonts\\");
+        Assert.assertTrue(folderSource.getScanSubfolders());
+
+        // Restore the original sources used to search for fonts.
+        FontSettings.setFontsSources(origFontSources);
+    }
+
+    @Test
+    public void setDefaultFontName() throws Exception
+    {
+        //ExStart
+        //ExFor:FontSettings.DefaultFontName
+        //ExId:SetDefaultFontName
+        //ExSummary:Demonstrates how to specify what font to substitute for a missing font during rendering.
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // If the default font defined here cannot be found during rendering then the closest font on the machine is used instead.
+        FontSettings.setDefaultFontName("Arial Unicode MS");
+
+        // Now the set default font is used in place of any missing fonts during any rendering calls.
+        doc.save(getMyDir() + "Rendering.SetDefaultFont Out.pdf");
+        doc.save(getMyDir() + "Rendering.SetDefaultFont Out.xps");
+        //ExEnd
+    }
+
+    @Test
+    public void recieveFontSubstitutionNotification() throws Exception
+    {
+        // Store the font sources currently used so we can restore them later.
+        FontSourceBase[] origFontSources = FontSettings.getFontsSources();
+
+        //ExStart
+        //ExFor:IWarningCallback
+        //ExFor:SaveOptions.WarningCallback
+        //ExId:FontSubstitutionNotification
+        //ExSummary:Demonstrates how to recieve notifications of font substitutions by using IWarningCallback.
+        // Load the document to render.
+        Document doc = new Document(getMyDir() + "Document.doc");
+
+        // We can choose the default font to use in the case of any missing fonts.
+        FontSettings.setDefaultFontName("Arial");
+
+        // For testing we will set Aspose.Words to look for fonts only in a folder which doesn't exist. Since Aspose.Words won't
+        // find any fonts in the specified directory, then during rendering the fonts in the document will be subsuited with the default
+        // font specified under FontSettings.DefaultFontName. We can pick up on this subsuition using our callback.
+        FontSettings.setFontsFolder("", false);
+
+        // Create a new class implementing IWarningCallback which collect any warnings produced during document save.
+        HandleDocumentWarnings callback = new HandleDocumentWarnings();
+
+        // We assign the callback to the appropriate save options class. In this case, we are going to save to PDF
+        // so we create a PdfSaveOptions class and assign the callback there.
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setWarningCallback(callback);
+
+        // Pass the save options along with the save path to the save method.
+        doc.save(getMyDir() + "Rendering.MissingFontNotification Out.pdf", saveOptions);
+        //ExEnd
+
+        Assert.assertTrue(callback.mFontWarnings.getCount() > 0);
+        Assert.assertTrue(callback.mFontWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
+        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().contains("has not been found"));
+
+        // Restore default fonts.
+        FontSettings.setFontsSources(origFontSources);
+    }
+
+    //ExStart
+    //ExFor:IWarningCallback
+    //ExFor:SaveOptions.WarningCallback
+    //ExId:FontSubstitutionWarningCallback
+    //ExSummary:Demonstrates how to implement the IWarningCallback to be notified of any font substitution during document save.
+    public class HandleDocumentWarnings implements IWarningCallback
+    {
+        /**
+         * Our callback only needs to implement the "Warning" method. This method is called whenever there is a
+         * potential issue during document procssing. The callback can be set to listen for warnings generated during document
+         * load and/or document save.
+         */
+        public void warning(WarningInfo info)
+        {
+            // We are only interested in fonts being substituted.
+            if (info.getWarningType() == WarningType.FONT_SUBSTITUTION)
+            {
+                System.out.println("Font substitution: " + info.getDescription());
+                mFontWarnings.warning(info); //ExSkip
+            }
+        }
+
+        public WarningInfoCollection mFontWarnings = new WarningInfoCollection(); //ExSkip
+    }
+    //ExEnd
+
+    @Test
+    public void recieveFontSubstitutionUpdatePageLayout() throws Exception
+    {
+        // Store the font sources currently used so we can restore them later.
+        FontSourceBase[] origFontSources = FontSettings.getFontsSources();
+
+        // Load the document to render.
+        Document doc = new Document(getMyDir() + "Document.doc");
+
+        // We can choose the default font to use in the case of any missing fonts.
+        FontSettings.setDefaultFontName("Arial");
+
+        // For testing we will set Aspose.Words to look for fonts only in a folder which doesn't exist. Since Aspose.Words won't
+        // find any fonts in the specified directory, then during rendering the fonts in the document will be subsuited with the default
+        // font specified under FontSettings.DefaultFontName. We can pick up on this subsuition using our callback.
+        FontSettings.setFontsFolder("", false);
+
+        //ExStart
+        //ExId:FontSubstitutionUpdatePageLayout
+        //ExSummary:Demonstrates how IWarningCallback will still recieve warning notifcations even if UpdatePageLayout is called before document save.
+        // When you call UpdatePageLayout the document is rendered in memory. Any warnings that occured during rendering
+        // are stored until the document save and then sent to the appropriate WarningCallback.
+        doc.updatePageLayout();
+
+        // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
+        HandleDocumentWarnings callback = new HandleDocumentWarnings();
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setWarningCallback(callback);
+
+        // Even though the document was rendered previously, any save warnings are notified to the user during document save.
+        doc.save(getMyDir() + "Rendering.FontsNotificationUpdatePageLayout Out.pdf", saveOptions);
+        //ExEnd
+
+        Assert.assertTrue(callback.mFontWarnings.getCount() > 0);
+        Assert.assertTrue(callback.mFontWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
+        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().contains("has not been found"));
+
+        // Restore default fonts.
+        FontSettings.setFontsSources(origFontSources);
+    }
+
+    @Test
+    public void embedFullFontsInPdf() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.#ctor
+        //ExFor:PdfSaveOptions.EmbedFullFonts
+        //ExId:EmbedFullFonts
+        //ExSummary:Demonstrates how to set Aspose.Words to embed full fonts in the output PDF document.
+        // Load the document to render.
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // Aspose.Words embeds full fonts by default when EmbedFullFonts is set to true. The property below can be changed
+        // each time a document is rendered.
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setEmbedFullFonts(true);
+
+        // The output PDF will be embedded with all fonts found in the document.
+        doc.save(getMyDir() + "Rendering.EmbedFullFonts Out.pdf");
+        //ExEnd
+    }
+
+    @Test
+    public void subsetFontsInPdf() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.EmbedFullFonts
+        //ExId:Subset
+        //ExSummary:Demonstrates how to set Aspose.Words to subset fonts in the output PDF.
+        // Load the document to render.
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // To subset fonts in the output PDF document, simply create new PdfSaveOptions and set EmbedFullFonts to false.
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setEmbedFullFonts(false);
+
+        // The output PDF will contain subsets of the fonts in the document. Only the glyphs used
+        // in the document are included in the PDF fonts.
+        doc.save(getMyDir() + "Rendering.SubsetFonts Out.pdf");
+        //ExEnd
+    }
+
+    @Test
+    public void disableEmbeddingStandardWindowsFonts() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.EmbedStandardWindowsFonts
+        //ExId:EmbedStandardWindowsFonts
+        //ExSummary:Shows how to set Aspose.Words to skip embedding Arial and Times New Roman fonts into a PDF document.
+        // Load the document to render.
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // To disable embedding standard windows font use the PdfSaveOptions and set the EmbedStandardWindowsFonts property to false.
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setEmbedStandardWindowsFonts(false);
+
+        // The output PDF will be saved without embedding standard windows fonts.
+        doc.save(getMyDir() + "Rendering.DisableEmbedWindowsFonts Out.pdf");
+        //ExEnd
+    }
+
+    @Test
+    public void disableEmbeddingCoreFonts() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.UseCoreFonts
+        //ExId:DisableUseOfCoreFonts
+        //ExSummary:Shows how to set Aspose.Words to avoid embedding core fonts and let the reader subsuite PDF Type 1 fonts instead.
+        // Load the document to render.
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // To disable embedding of core fonts and subsuite PDF type 1 fonts set UseCoreFonts to true.
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setUseCoreFonts(true);
+
+        // The output PDF will not be embedded with core fonts such as Arial, Times New Roman etc.
+        doc.save(getMyDir() + "Rendering.DisableEmbedWindowsFonts Out.pdf");
+        //ExEnd
     }
 
     @Test

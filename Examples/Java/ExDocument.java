@@ -450,6 +450,7 @@ public class ExDocument extends ExBase
     {
         //ExStart
         //ExFor:HtmlSaveOptions
+        //ExFor:HtmlSaveOptions.#ctor
         //ExFor:HtmlSaveOptions.Encoding
         //ExFor:HtmlSaveOptions.DocumentSplitCriteria
         //ExFor:HtmlSaveOptions.ExportDocumentProperties
@@ -777,9 +778,8 @@ public class ExDocument extends ExBase
         //ExEnd
     }
 
-    @Test
-    public void detectDocumentSignatures() throws Exception
-    {
+ @Test
+    public void detectDocumentSignatures() throws Exception {
         //ExStart
         //ExFor:FileFormatUtil.DetectFileFormat(String)
         //ExFor:FileFormatInfo.HasDigitalSignature
@@ -789,63 +789,70 @@ public class ExDocument extends ExBase
         String filePath = getMyDir() + "Document.Signed.docx";
 
         FileFormatInfo info = FileFormatUtil.detectFileFormat(filePath);
-        if (info.hasDigitalSignature())
-        {
+        if (info.hasDigitalSignature()) {
             System.out.println(java.text.MessageFormat.format(
                     "Document {0} has digital signatures, they will be lost if you open/save this document with Aspose.Words.",
                     new File(filePath).getName()));
         }
         //ExEnd
+        Document doc;
     }
 
-// JAVA-deleted: Aspose.Words for Java does not provide access to document digital signatures yet.
-//    @Test
-//    public void validateAllDocumentSignatures() throws Exception
-//    {
-//        //ExStart
-//        //ExFor:Document.DigitalSignatures
-//        //ExFor:DigitalSignatureCollection
-//        //ExFor:DigitalSignatureCollection.IsValid
-//        //ExId:ValidateAllDocumentSignatures
-//        //ExSummary:Shows how to validate all signatures in a document.
-//        // Load the signed document.
-//        Document doc = new Document(getMyDir() + "Document.Signed.docx");
-//
-//        if (doc.getDigitalSignatures().isValid())
-//            System.out.println("Signatures belonging to this document are valid");
-//        else
-//            System.out.println("Signatures belonging to this document are NOT valid");
-//        //ExEnd
-//    }
-//
-//    @Test
-//    public void validateIndividualDocumentSignatures() throws Exception
-//    {
-//        //ExStart
-//        //ExFor:DigitalSignature
-//        //ExFor:Document.DigitalSignatures
-//        //ExFor:DigitalSignature.IsValid
-//        //ExFor:DigitalSignature.Comments
-//        //ExFor:DigitalSignature.SignTime
-//        //ExFor:DigitalSignature.Certificate
-//        //ExId:ValidateIndividualSignatures
-//        //ExSummary:Shows how to validate each signature in a document and display basic information about the signature.
-//        // Load the document which contains signature.
-//        Document doc = new Document(getMyDir() + "Document.Signed.docx");
-//
-//        for (DigitalSignature signature : (Iterable<DigitalSignature>) doc.getDigitalSignatures())
-//        {
-//            System.out.println("*** Signature Found ***");
-//            System.out.println("Is valid: " + signature.isValid());
-//            System.out.println("Reason for signing: " + signature.getComments()); // This property is available in MS Word documents only.
-//            System.out.println("Time of signing: " + signature.getSignTime());
-//            System.out.println("Subject name: " + signature.getCertificate().SubjectName.Name);
-//            System.out.println("Issuer name: " + signature.getCertificate().IssuerName.Name);
-//            Console.WriteLine();
-//        }
-//        //ExEnd
-//    }
-//
+    @Test
+    public void validateAllDocumentSignatures() throws Exception {
+        //ExStart
+        //ExFor:Document.DigitalSignatures
+        //ExFor:DigitalSignatureCollection
+        //ExFor:DigitalSignatureCollection.IsValid
+        //ExId:ValidateAllDocumentSignatures
+        //ExSummary:Shows how to validate all signatures in a document.
+        // Load the signed document.
+        Document doc = new Document(getMyDir() + "Document.Signed.docx");
+
+        if (doc.getDigitalSignatures().isValid())
+            System.out.println("Signatures belonging to this document are valid");
+        else
+            System.out.println("Signatures belonging to this document are NOT valid");
+        //ExEnd
+
+        Assert.assertTrue(doc.getDigitalSignatures().isValid());
+    }
+
+    @Test
+    public void validateIndividualDocumentSignatures() throws Exception {
+        //ExStart
+        //ExFor:DigitalSignature
+        //ExFor:Document.DigitalSignatures
+        //ExFor:DigitalSignature.IsValid
+        //ExFor:DigitalSignature.Comments
+        //ExFor:DigitalSignature.SignTime
+        //ExFor:DigitalSignature.SignatureType
+        //ExFor:DigitalSignature.Certificate
+        //ExId:ValidateIndividualSignatures
+        //ExSummary:Shows how to validate each signature in a document and display basic information about the signature.
+        // Load the document which contains signature.
+        Document doc = new Document(getMyDir() + "Document.Signed.docx");
+
+        for (DigitalSignature signature : (Iterable<DigitalSignature>) doc.getDigitalSignatures()) {
+            System.out.println("*** Signature Found ***");
+            System.out.println("Is valid: " + signature.isValid());
+            System.out.println("Reason for signing: " + signature.getComments()); // This property is available in MS Word documents only.
+            System.out.println("Signature type: " + signature.getSignatureType());
+            System.out.println("Time of signing: " + signature.getSignTime());
+            System.out.println("Subject name: " + signature.getCertificate().getSubjectDN().getName());
+            System.out.println("Issuer name: " + signature.getCertificate().getIssuerDN().getName());
+            System.out.println();
+        }
+        //ExEnd
+
+        DigitalSignature digitalSig = doc.getDigitalSignatures().get(0);
+        Assert.assertTrue(digitalSig.isValid());
+        Assert.assertEquals("Test Sign", digitalSig.getComments());
+        Assert.assertEquals("0", digitalSig.getSignatureType());
+        Assert.assertTrue(digitalSig.getCertificate().getSubjectDN().getName().contains("Aspose Pty Ltd"));
+        Assert.assertTrue(digitalSig.getCertificate().getIssuerDN().getName().contains("VeriSign"));
+    }
+
 //    @Test (expectedExceptions = CryptographicException.class)
 //    public void signPDFDocument() throws Exception
 //    {
@@ -909,7 +916,7 @@ public class ExDocument extends ExBase
             }
         });
 
-        // The list of files may come in any order, let's sort the files by name so the documents are appended alphabetically.
+        // The list of files may come in any order, let's sort the files by name so the documents are enumerated alphabetically.
         Arrays.sort(files);
 
         // Iterate through every file in the directory and append each one to the end of the template document.
@@ -917,7 +924,8 @@ public class ExDocument extends ExBase
         {
             String fileName = file.getCanonicalPath();
 
-            // We have some encrypted test documents in our directory, skip them.
+            // We have some encrypted test documents in our directory, Aspose.Words can open encrypted documents
+            // but only with the correct password. Let's just skip them here for simplicity.
             FileFormatInfo info = FileFormatUtil.detectFileFormat(fileName);
             if (info.isEncrypted())
                 continue;

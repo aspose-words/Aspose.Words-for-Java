@@ -97,6 +97,7 @@ public class ExSwfSaveOptions extends ExBase
 
         //ExStart
         //ExFor:SwfSaveOptions
+        //ExFor:SwfSaveOptions.#ctor
         //ExFor:SwfSaveOptions.LogoImageBytes
         //ExFor:SwfSaveOptions.LogoLink
         //ExSummary:Shows how to specify a custom logo and link it to a web address in the embedded document viewer.
