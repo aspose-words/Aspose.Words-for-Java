@@ -18,6 +18,9 @@ Using Aspose.Words for Java in your project gives you the following benefits:
 
 These example projects provide helpful demonstrations and code when using Aspose.Words for Java.
 
+## Aspose.Words for Java at a Glance
+![Aspose.Words Overview](http://www.aspose.com/Aspose.Words/Images/aspose.words-for-java-file-format-support-new.jpg "Supported Conversions")
+
 ##What's Included in this Examples Repository?
 
 ###Code
@@ -119,7 +122,7 @@ Create a new project in your favourite Java IDE and choose to create a new proje
 + **Website:** [www.aspose.com](http://www.aspose.com)
 + **Product Home:** [Aspose.Words for Java](http://www.aspose.com/categories/java-components/aspose.words-for-java/default.aspx)
 + **Download:** [Download Aspose.Words for Java](http://www.aspose.com/community/files/72/java-components/aspose.words-for-java/category1378.aspx)
-+ **Documentation:** [Aspose.Words for Java Documentation](http://www.aspose.com/documentation/java-components/aspose.words-for-java/index.html)
++ **Documentation:** [Aspose.Words for Java Documentation](http://www.aspose.com/docs/display/wordsjava/Home)
 + **Forum:** [Aspose.Words for Java Forum](http://www.aspose.com/community/forums/aspose.words-product-family/75/showforum.aspx)
 + **Blog:** [Aspose.Words for Java Blog](http://www.aspose.com/blogs/aspose-products/aspose-words-product-family.html)
 

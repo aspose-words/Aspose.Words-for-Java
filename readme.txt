@@ -45,7 +45,7 @@ The compile script will attempt to compile all of the samples. A message within 
 The run script will attempt to run all of the samples sequentially. The output of the sample is displayed on the console if there is any. Most output of samples do not display anything on the console as they only generate documents which can be found in the Data folder of each sample. If there are any run time errors then the full stack trace is displayed to the console.
 
 3)
-Create a new project in your favourite Java IDE and choose to create a new project from existing sources. 
+Create a new project in your favorite Java IDE and choose to create a new project from existing sources. 
 
 - Include all files within the folder of the sample that is being compiled. 
 - A library reference to Aspose.Words.jar which is found within the lib folder must be added to the project. 
@@ -70,7 +70,7 @@ Software Requirements
 Information on how to install ImageIO codecs and the binaries can be found at the following site: http://download.java.net/media/jai-imageio/builds/release/1.1/
 
 
-Running the Samples under Linux and MacOS
+Running the Samples under Linux or MacOS
 ==========================================
 
 The samples should be compiled and run using either of the Sun-JDK or Open-JDK. There should be no extra requirements as long as the standard Java libraries are present.
