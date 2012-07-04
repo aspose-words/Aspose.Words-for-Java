@@ -36,9 +36,9 @@ public class Program
         DataSet data = getDataSource();
 
         // Make sure that we have not set the removal of any unused regions as we will handle them manually.
-        // We achieve this by removing the RemoveUnusedRegions flag from the cleanup options by using the bitwise XOR operator.
-        doc.getMailMerge().setCleanupOptions(doc.getMailMerge().getCleanupOptions() ^ MailMergeCleanupOptions.REMOVE_UNUSED_REGIONS);
-
+        // We achieve this by removing the RemoveUnusedRegions flag from the cleanup options by using the AND and NOT bitwise operators.
+        doc.getMailMerge().setCleanupOptions(doc.getMailMerge().getCleanupOptions() & ~MailMergeCleanupOptions.REMOVE_UNUSED_REGIONS);
+        
         // Execute mail merge. Some regions will be merged with data, others left unmerged.
         doc.getMailMerge().executeWithRegions(data);
 
