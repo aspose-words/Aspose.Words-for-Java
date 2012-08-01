@@ -14,7 +14,7 @@ import java.io.*;
 import java.io.File;
 import java.net.URI;
 
-import com.aspose.words.DocumentBuilder;
+import com.aspose.words.Document;
 
 
 class Program
@@ -25,30 +25,11 @@ class Program
         URI exeDir = Program.class.getResource("").toURI();
         String dataDir = new File(exeDir.resolve("../../Data")) + File.separator;
 
-        // This object will help us generate the document.
-        DocumentBuilder builder = new DocumentBuilder();
+        // The encoding of the text file is automatically detected.
+        Document doc = new Document(dataDir + "LoadTxt.txt");
 
-        FileInputStream stream = new FileInputStream(dataDir + "LoadTxt.txt");
-
-        try
-        {
-           // You might need to specify a different encoding depending on your plain text files.
-           BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF8"));
-
-           String line = null;
-           // Read plain text "lines" and convert them into paragraphs in the document.
-           while ((line = reader.readLine()) != null) {
-                builder.writeln(line);
-           }
-
-           reader.close();
-        }
-
-        finally { if (stream != null) stream.close(); }
-
-        // Save in any Aspose.Words supported format.
-        builder.getDocument().save(dataDir + "LoadTxt Out.docx");
-        builder.getDocument().save(dataDir + "LoadTxt Out.html");
+        // Save as any Aspose.Words supported format, such as DOCX.
+        doc.save(dataDir + "LoadTxt Out.docx");
     }
 }
 //ExEnd
