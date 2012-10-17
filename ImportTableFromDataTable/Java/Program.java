@@ -72,8 +72,8 @@ public class Program
         doc.expandTableStylesToDirectFormatting();
         assert(table.getRows().getCount() == 6) : "Unexpected row count";
         assert(doc.getChildNodes(NodeType.TABLE, true).getCount() == 1) : "Unexpected table count";
-        assert(table.getFirstRow().getFirstCell().toTxt().trim().equals("EmployeeID")) : "Unexpected header text";
-        assert(table.getRows().get(2).getCells().get(2).toTxt().trim().equals("Andrew")) : "Unexpected row text";
+        assert(table.getFirstRow().getFirstCell().toString(SaveFormat.TEXT).trim().equals("EmployeeID")) : "Unexpected header text";
+        assert(table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT).trim().equals("Andrew")) : "Unexpected row text";
         assert(table.getRows().get(1).getFirstCell().getCellFormat().getShading().getBackgroundPatternColor() != Color.WHITE) : "Unexpected cell shading";
     }
 

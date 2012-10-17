@@ -32,8 +32,8 @@ public class ExTableColumn extends ExBase
         //ExEnd
 
         Assert.assertEquals(table.getChildNodes(NodeType.CELL, true).getCount(), 16);
-        Assert.assertEquals(table.getRows().get(2).getCells().get(2).toTxt().trim(), "Cell 3 contents");
-        Assert.assertEquals(table.getLastRow().getCells().get(2).toTxt().trim(), "Cell 3 contents");
+        Assert.assertEquals(table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT).trim(), "Cell 3 contents");
+        Assert.assertEquals(table.getLastRow().getCells().get(2).toString(SaveFormat.TEXT).trim(), "Cell 3 contents");
     }
 
     @Test
@@ -60,8 +60,8 @@ public class ExTableColumn extends ExBase
         doc.save(getMyDir() + "Table.InsertColumn Out.doc");
 
         Assert.assertEquals(24, table.getChildNodes(NodeType.CELL, true).getCount());
-        Assert.assertEquals("Column Text 0", table.getFirstRow().getCells().get(1).toTxt().trim());
-        Assert.assertEquals("Column Text 3", table.getLastRow().getCells().get(1).toTxt().trim());
+        Assert.assertEquals("Column Text 0", table.getFirstRow().getCells().get(1).toString(SaveFormat.TEXT).trim());
+        Assert.assertEquals("Column Text 3", table.getLastRow().getCells().get(1).toString(SaveFormat.TEXT).trim());
     }
 
     @Test
@@ -170,7 +170,7 @@ class Column
         StringBuilder builder = new StringBuilder();
 
         for (Cell cell : getCells())
-            builder.append(cell.toTxt());
+            builder.append(cell.toString(SaveFormat.TEXT));
 
         return builder.toString();
     }

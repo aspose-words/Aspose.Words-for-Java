@@ -7,16 +7,9 @@
 //////////////////////////////////////////////////////////////////////////
 package Examples;
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.Footnote;
-import com.aspose.words.FootnoteType;
-import com.aspose.words.Paragraph;
-import com.aspose.words.Run;
 import org.testng.Assert;
-import com.aspose.words.NodeType;
-import com.aspose.words.Comment;
 
 import java.util.Date;
 
@@ -44,7 +37,7 @@ public class ExInlineStory extends ExBase
         footnote.getFirstParagraph().getRuns().add(new Run(doc, "Footnote text."));
         //ExEnd
 
-        Assert.assertEquals(doc.getChildNodes(NodeType.FOOTNOTE, true).get(0).toTxt().trim(), "Footnote text.");
+        Assert.assertEquals(doc.getChildNodes(NodeType.FOOTNOTE, true).get(0).toString(SaveFormat.TEXT).trim(), "Footnote text.");
     }
 
     @Test

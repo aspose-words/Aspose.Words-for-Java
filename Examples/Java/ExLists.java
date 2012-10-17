@@ -7,29 +7,13 @@
 //////////////////////////////////////////////////////////////////////////
 package Examples;
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.Document;
-import com.aspose.words.ListTemplate;
-import com.aspose.words.List;
-import com.aspose.words.StyleIdentifier;
-import com.aspose.words.ListLevel;
+
 import java.awt.Color;
 import java.text.MessageFormat;
 
-import com.aspose.words.NumberStyle;
-import com.aspose.words.ListLevelAlignment;
-import com.aspose.words.ListTrailingCharacter;
-import com.aspose.words.Style;
-import com.aspose.words.StyleType;
 import org.testng.Assert;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
-import com.aspose.words.Paragraph;
-import com.aspose.words.Body;
-import com.aspose.words.BreakType;
-import com.aspose.words.ListCollection;
-import com.aspose.words.ListLabel;
 
 
 public class ExLists extends ExBase
@@ -269,7 +253,7 @@ public class ExLists extends ExBase
         //ExFor:List
         //ExFor:ListCollection
         //ExFor:ListCollection.Add(ListTemplate)
-        //ExFor:ListCollection.AddCopy
+		//ExFor:ListCollection.AddCopy(List)
         //ExFor:ListLevel.StartAt
         //ExFor:ListTemplate
         //ExFor:ListFormat.List
@@ -535,8 +519,8 @@ public class ExLists extends ExBase
 
     //ExStart
     //ExFor:ListCollection
-    //ExFor:ListCollection.AddCopy
     //ExFor:ListCollection.GetEnumerator
+	//ExFor:ListCollection.AddCopy(List)
     //ExSummary:Enumerates through all lists defined in one document and creates a sample of those lists in another document.
     public void printOutAllLists() throws Exception
     {
@@ -728,7 +712,7 @@ public class ExLists extends ExBase
     {
         //ExStart
         //ExFor:Document.UpdateListLabels()
-        //ExFor:Node.ToTxt
+        //ExFor:Node.ToString(SaveFormat)
         //ExFor:ListLabel
         //ExFor:Paragraph.ListLabel
         //ExFor:ListLabel.LabelValue
@@ -748,7 +732,7 @@ public class ExLists extends ExBase
 
                 // This is the text we get when actually getting when we output this node to text format.
                 // The list labels are not included in this text output. Trim any paragraph formatting characters.
-                String paragraphText = paragraph.toTxt().trim();
+                String paragraphText = paragraph.toString(SaveFormat.TEXT).trim();
                 System.out.println("Exported Text: " + paragraphText);
 
                 ListLabel label = paragraph.getListLabel();

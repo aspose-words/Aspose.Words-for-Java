@@ -1600,7 +1600,7 @@ public class ExDocumentBuilder extends ExBase {
         builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote text.");
         //ExEnd
 
-        Assert.assertEquals(doc.getChildNodes(NodeType.FOOTNOTE, true).get(0).toTxt().trim(), "Footnote text.");
+        Assert.assertEquals(doc.getChildNodes(NodeType.FOOTNOTE, true).get(0).toString(SaveFormat.TEXT).trim(), "Footnote text.");
     }
 
     @Test

@@ -52,7 +52,7 @@ public class Topic
 
     private static void throwTopicException(String message, Section section) throws Exception
     {
-        throw new Exception(message + " Section text: " + section.getBody().toTxt().substring(0, 50));
+        throw new Exception(message + " Section text: " + section.getBody().toString(SaveFormat.TEXT).substring(0, 50));
     }
 
     private void fixHyperlinks(DocumentBase originalDoc, String fixUrl) throws Exception

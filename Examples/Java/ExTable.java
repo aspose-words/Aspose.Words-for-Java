@@ -58,9 +58,9 @@ public class ExTable extends ExBase
                 for (Cell cell : row.getCells())
                 {
                     int cellIndex = row.getCells().indexOf(cell);
-                    // Get the content of this cell
-                    String cellText = cell.toTxt().trim();
-                    // Print the content of the cell
+                    // Get the plain text content of this cell.
+                    String cellText = cell.toString(SaveFormat.TEXT).trim();
+                    // Print the content of the cell.
                     System.out.println(MessageFormat.format("\t\tContents of Cell:{0} = \"{1}\"", cellIndex, cellText));
                 }
                 //Console.WriteLine();
@@ -658,7 +658,7 @@ public class ExTable extends ExBase
         doc.save(getMyDir() + "Table.ReplaceCellText Out.docx");
         //ExEnd
 
-        Assert.assertEquals(table.getLastRow().getLastCell().toTxt().trim(), "20");
+        Assert.assertEquals(table.getLastRow().getLastCell().toString(SaveFormat.TEXT).trim(), "20");
     }
 
     @Test
@@ -809,7 +809,7 @@ public class ExTable extends ExBase
         Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
 
         // The range text will include control characters such as "\a" for a cell.
-        // You can call ToTxt() on the desired node to find the plain text.
+        // You can call ToString and pass SaveFormat.Text on the desired node to find the plain text content.
 
         // Print the plain text range of the table to the screen.
         System.out.println("Contents of the table: ");
@@ -828,8 +828,8 @@ public class ExTable extends ExBase
         System.out.println(table.getLastRow().getLastCell().getRange().getText());
         //ExEnd
 
-        //Assert.assertEquals(table.getRows().get(1).toTxt(), "Apples 20 ");
-        //Assert.assertEquals(table.getLastRow().getLastCell().toTxt(), "50");
+        //Assert.assertEquals(table.getRows().get(1).toString(SaveFormat.TEXT), "Apples 20 ");
+        //Assert.assertEquals(table.getLastRow().getLastCell().toString(SaveFormat.Text), "50");
     }
 
     @Test
@@ -915,7 +915,7 @@ public class ExTable extends ExBase
         Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 1);
         Assert.assertEquals(doc.getChildNodes(NodeType.ROW, true).getCount(), 1);
         Assert.assertEquals(doc.getChildNodes(NodeType.CELL, true).getCount(), 2);
-        Assert.assertEquals(doc.getFirstSection().getBody().getTables().get(0).toTxt().trim(), "Row 1, Cell 1 Text\r\nRow 1, Cell 2 Text");
+        Assert.assertEquals(doc.getFirstSection().getBody().getTables().get(0).toString(SaveFormat.TEXT).trim(), "Row 1, Cell 1 Text\r\nRow 1, Cell 2 Text");
     }
 
     @Test
@@ -1048,7 +1048,7 @@ public class ExTable extends ExBase
 
         // Verify that the row was cloned and appended properly.
         Assert.assertEquals(table.getRows().getCount(), 5);
-        Assert.assertEquals(table.getLastRow().toTxt().trim(), "");
+        Assert.assertEquals(table.getLastRow().toString(SaveFormat.TEXT).trim(), "");
         Assert.assertEquals(table.getLastRow().getCells().getCount(), 2);
     }
 
@@ -1087,7 +1087,7 @@ public class ExTable extends ExBase
             cell.removeAllChildren();
         //ExEnd
 
-        Assert.assertEquals(tableClone.toTxt().trim(), "");
+        Assert.assertEquals(tableClone.toString(SaveFormat.TEXT).trim(), "");
     }
 
     @Test

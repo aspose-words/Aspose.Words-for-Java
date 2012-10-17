@@ -44,7 +44,7 @@ class Program
         ArrayList paragraphs = paragraphsByStyleName(doc, PARA_STYLE);
         System.out.println(java.text.MessageFormat.format("Paragraphs with \"{0}\" styles ({1}):", PARA_STYLE, paragraphs.size()));
         for (Paragraph paragraph : (Iterable<Paragraph>) paragraphs)
-            System.out.print(paragraph.toTxt());
+            System.out.print(paragraph.toString(SaveFormat.TEXT));
 
         // Collect runs with defined styles.
         // Show the number of collected runs and display the text of this runs.

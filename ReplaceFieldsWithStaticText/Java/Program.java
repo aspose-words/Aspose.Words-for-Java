@@ -45,11 +45,11 @@ class Program
          */
         public static void convertFieldsToStaticText(CompositeNode compositeNode, int targetFieldType) throws Exception
         {
-            String originalNodeText = compositeNode.toTxt(); //ExSkip
+            String originalNodeText = compositeNode.toString(SaveFormat.TEXT); //ExSkip
             FieldsHelper helper = new FieldsHelper(targetFieldType);
             compositeNode.accept(helper);
 
-            assert (originalNodeText.equals(compositeNode.toTxt())) : "Error: Text of the node converted differs from the original"; //ExSkip
+            assert (originalNodeText.equals(compositeNode.toString(SaveFormat.TEXT))) : "Error: Text of the node converted differs from the original"; //ExSkip
             for (Node node : (Iterable<Node>)compositeNode.getChildNodes(NodeType.ANY, true)) //ExSkip
                 assert (!(node instanceof FieldChar && ((FieldChar)node).getFieldType() == targetFieldType)) : "Error: A field node that should be removed still remains."; //ExSkip
         }

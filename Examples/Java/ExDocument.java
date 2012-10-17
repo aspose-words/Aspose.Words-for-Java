@@ -795,7 +795,6 @@ public class ExDocument extends ExBase
                     new File(filePath).getName()));
         }
         //ExEnd
-        Document doc;
     }
 
     @Test
@@ -833,7 +832,7 @@ public class ExDocument extends ExBase
         // Load the document which contains signature.
         Document doc = new Document(getMyDir() + "Document.Signed.docx");
 
-        for (DigitalSignature signature : (Iterable<DigitalSignature>) doc.getDigitalSignatures()) {
+        for (DigitalSignature signature : doc.getDigitalSignatures()) {
             System.out.println("*** Signature Found ***");
             System.out.println("Is valid: " + signature.isValid());
             System.out.println("Reason for signing: " + signature.getComments()); // This property is available in MS Word documents only.
@@ -848,7 +847,7 @@ public class ExDocument extends ExBase
         DigitalSignature digitalSig = doc.getDigitalSignatures().get(0);
         Assert.assertTrue(digitalSig.isValid());
         Assert.assertEquals("Test Sign", digitalSig.getComments());
-        Assert.assertEquals("0", digitalSig.getSignatureType());
+        Assert.assertEquals(2, digitalSig.getSignatureType());
         Assert.assertTrue(digitalSig.getCertificate().getSubjectDN().getName().contains("Aspose Pty Ltd"));
         Assert.assertTrue(digitalSig.getCertificate().getIssuerDN().getName().contains("VeriSign"));
     }
@@ -950,14 +949,14 @@ public class ExDocument extends ExBase
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
         // This is for illustration purposes only, remember how many run nodes we had in the original document.
-        int runsBefore = doc.getChildNodes(NodeType.RUN, true, false).getCount();
+        int runsBefore = doc.getChildNodes(NodeType.RUN, true).getCount();
 
         // Join runs with the same formatting. This is useful to speed up processing and may also reduce redundant
         // tags when exporting to HTML which will reduce the output file size.
         int joinCount = doc.joinRunsWithSameFormatting();
 
         // This is for illustration purposes only, see how many runs are left after joining.
-        int runsAfter = doc.getChildNodes(NodeType.RUN, true, false).getCount();
+        int runsAfter = doc.getChildNodes(NodeType.RUN, true).getCount();
 
         System.out.println(MessageFormat.format("Number of runs before:{0}, after:{1}, joined:{2}", runsBefore, runsAfter, joinCount));
 
@@ -1013,13 +1012,13 @@ public class ExDocument extends ExBase
     }
 
     @Test
-    public void documentGetText_ToTxt() throws Exception
+    public void documentGetText_ToString() throws Exception
     {
         //ExStart
         //ExFor:CompositeNode.GetText
-        //ExFor:Node.ToTxt
+        //ExFor:Node.ToString(SaveFormat)
         //ExId:NodeTxtExportDifferences
-        //ExSummary:Shows the difference between calling the GetText and ToTxt methods on a node.
+        //ExSummary:Shows the difference between calling the GetText and ToString methods on a node.
         Document doc = new Document();
 
         // Enter a dummy field into the document.
@@ -1029,10 +1028,10 @@ public class ExDocument extends ExBase
         // GetText will retrieve all field codes and special characters
         System.out.println("GetText() Result: " + doc.getText());
 
-        // ToTxt will not retrieve fields code or special characters, but will still contain some natural formatting characters
-        // such as paragraph markers etc. This is the same as "viewing" the document as if it was opened in a text editor
-        // Only the results of fields are shown without any internal codes or characters
-        System.out.println("ToTxt() Result: " + doc.toTxt());
+        // ToString will export the node to the specified format. When converted to text it will not retrieve fields code
+        // or special characters, but will still contain some natural formatting characters such as paragraph markers etc.
+        // This is the same as "viewing" the document as if it was opened in a text editor.
+        System.out.println("ToString() Result: " + doc.toString(SaveFormat.TEXT));
         //ExEnd
     }
 

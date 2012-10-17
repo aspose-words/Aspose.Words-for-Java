@@ -494,7 +494,7 @@ public class ExFont extends ExBase
         Document doc = new Document(getMyDir() + "Font.Names.doc");
 
         // Select all runs in the document.
-        NodeCollection runs = doc.getChildNodes(NodeType.RUN, true, false);
+        NodeCollection runs = doc.getChildNodes(NodeType.RUN, true);
 
         // Use a hashtable so we will keep only unique font names.
         HashMap fontNames = new HashMap();

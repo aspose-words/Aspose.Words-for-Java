@@ -39,7 +39,7 @@ public class ExRenameMergeFields extends ExBase
         Document doc = new Document(getMyDir() + "RenameMergeFields.doc");
 
         // Select all field start nodes so we can find the merge fields.
-        NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true, false);
+        NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true);
         for (FieldStart fieldStart : (Iterable<FieldStart>) fieldStarts)
         {
             if (fieldStart.getFieldType() == FieldType.FIELD_MERGE_FIELD)

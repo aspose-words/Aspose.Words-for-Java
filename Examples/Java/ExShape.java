@@ -30,16 +30,16 @@ public class ExShape extends ExBase
         //ExSummary:Shows how to delete all shapes from a document.
         // Here we get all shapes from the document node, but you can do this for any smaller
         // node too, for example delete shapes from a single section or a paragraph.
-        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true, false);
+        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         shapes.clear();
 
         // There could also be group shapes, they have different node type, remove them all too.
-        NodeCollection groupShapes = doc.getChildNodes(NodeType.GROUP_SHAPE, true, false);
+        NodeCollection groupShapes = doc.getChildNodes(NodeType.GROUP_SHAPE, true);
         groupShapes.clear();
         //ExEnd
 
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true, false).getCount(), 0);
-        Assert.assertEquals(doc.getChildNodes(NodeType.GROUP_SHAPE, true, false).getCount(), 0);
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 0);
+        Assert.assertEquals(doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount(), 0);
         doc.save(getMyDir() + "Shape.DeleteAllShapes Out.doc");
     }
 

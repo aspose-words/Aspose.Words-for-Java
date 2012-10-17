@@ -65,7 +65,7 @@ class Program
         // Look through all comments and gather information about them.
         for (Comment comment : (Iterable<Comment>) comments)
         {
-            collectedComments.add(comment.getAuthor() + " " + comment.getDateTime() + " " + comment.toTxt());
+            collectedComments.add(comment.getAuthor() + " " + comment.getDateTime() + " " + comment.toString(SaveFormat.TEXT));
         }
         return collectedComments;
     }
@@ -83,7 +83,7 @@ class Program
         for (Comment comment : (Iterable<Comment>) comments)
         {
             if (comment.getAuthor() == authorName)
-                collectedComments.add(comment.getAuthor() + " " + comment.getDateTime() + " " + comment.toTxt());
+                collectedComments.add(comment.getAuthor() + " " + comment.getDateTime() + " " + comment.toString(SaveFormat.TEXT));
         }
         return collectedComments;
     }

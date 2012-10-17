@@ -258,7 +258,7 @@ public class ExImage extends ExBase
     public void deleteAllImages() throws Exception
     {
         Document doc = new Document(getMyDir() + "Image.SampleImages.doc");
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true, false).getCount(), 6);
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 6);
 
         //ExStart
         //ExFor:Shape.HasImage
@@ -266,7 +266,7 @@ public class ExImage extends ExBase
         //ExSummary:Shows how to delete all images from a document.
         // Here we get all shapes from the document node, but you can do this for any smaller
         // node too, for example delete shapes from a single section or a paragraph.
-        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true, false);
+        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
         // We cannot delete shape nodes while we enumerate through the collection.
         // One solution is to add nodes that we want to delete to a temporary array and delete afterwards.
@@ -283,7 +283,7 @@ public class ExImage extends ExBase
             shape.remove();
         //ExEnd
 
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true, false).getCount(), 1);
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 1);
         doc.save(getMyDir() + "Image.DeleteAllImages Out.doc");
     }
 
@@ -291,7 +291,7 @@ public class ExImage extends ExBase
     public void deleteAllImagesPreOrder() throws Exception
     {
         Document doc = new Document(getMyDir() + "Image.SampleImages.doc");
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true, false).getCount(), 6);
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 6);
 
         //ExStart
         //ExFor:Node.NextPreOrder
@@ -314,7 +314,7 @@ public class ExImage extends ExBase
         }
         //ExEnd
 
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true, false).getCount(), 1);
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 1);
         doc.save(getMyDir() + "Image.DeleteAllImagesPreOrder Out.doc");
     }
 
@@ -325,7 +325,7 @@ public class ExImage extends ExBase
     //ExFor:ImageData
     //ExFor:ImageData.ImageType
     //ExFor:ImageData.Save(string)
-    //ExFor:CompositeNode.GetChildNodes(NodeType, bool, bool)
+    //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
     //ExId:ExtractImagesToFiles
     //ExSummary:Shows how to extract images from a document and save them as files.
     @Test //ExSkip
@@ -333,7 +333,7 @@ public class ExImage extends ExBase
     {
         Document doc = new Document(getMyDir() + "Image.SampleImages.doc");
 
-        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true, false);
+        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         int imageIndex = 0;
         for (Shape shape : (Iterable<Shape>) shapes)
         {
