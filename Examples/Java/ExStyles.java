@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////////////
 package Examples;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.StyleCollection;
@@ -15,6 +16,8 @@ import com.aspose.words.StyleIdentifier;
 import com.aspose.words.Paragraph;
 import com.aspose.words.NodeType;
 import com.aspose.words.TabStop;
+
+import java.awt.*;
 
 
 public class ExStyles extends ExBase
@@ -100,6 +103,76 @@ public class ExStyles extends ExBase
 
         doc.save(getMyDir() + "Document.TableOfContentsTabStops Out.doc");
         //ExEnd
+    }
+
+    @Test
+    public void copyStyleSameDocument() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Document.doc");
+
+        //ExStart
+        //ExFor:StyleCollection.AddCopy
+        //ExFor:Style.Name
+        //ExSummary:Demonstrates how to copy a style within the same document.
+        // The AddCopy method creates a copy of the specified style and automatically generates a new name for the style, such as "Heading 1_0".
+        Style newStyle = doc.getStyles().addCopy(doc.getStyles().get("Heading 1"));
+
+        // You can change the new style name if required as the Style.Name property is read-write.
+        newStyle.setName("My Heading 1");
+        //ExEnd
+
+        Assert.assertNotNull(newStyle);
+        Assert.assertEquals(newStyle.getName(), "My Heading 1");
+        Assert.assertEquals(newStyle.getType(), doc.getStyles().get("Heading 1").getType());
+    }
+
+    @Test
+    public void copyStyleDifferentDocument() throws Exception
+    {
+        Document dstDoc = new Document();
+        Document srcDoc = new Document();
+
+        //ExStart
+        //ExFor:StyleCollection.AddCopy
+        //ExSummary:Demonstrates how to copy style from one document into a different document.
+        // Change the font of the heading style to red in the source document.
+        Style srcStyle = srcDoc.getStyles().get("Heading 1");
+        srcStyle.getFont().setColor(Color.RED);
+
+        // The AddCopy method can be used to copy a style from a different document.
+        Style newStyle = dstDoc.getStyles().addCopy(srcStyle);
+        //ExEnd
+
+        Assert.assertNotNull(newStyle);
+        Assert.assertEquals(newStyle.getName(), "Heading 1_0");
+        Assert.assertEquals(newStyle.getFont().getColor().getRGB(), Color.RED.getRGB());
+    }
+
+    @Test
+    public void overwriteStyleDifferentDocument() throws Exception
+    {
+        Document dstDoc = new Document();
+        Document srcDoc = new Document();
+
+        //ExStart
+        //ExFor:StyleCollection.AddCopy
+        //ExId:OverwriteStyleDifferentDocument
+        //ExSummary:Demonstrates how to copy a style from one document to another and overide an existing style in the destination document.
+        // Change the font of the heading style to red in the source document.
+        Style srcStyle = srcDoc.getStyles().get("Heading 1");
+        srcStyle.getFont().setColor(Color.RED);
+
+        // The AddCopy method can be used to copy a style from a different document.
+        Style newStyle = dstDoc.getStyles().addCopy(srcStyle);
+
+        // The name of the new style can be changed to the name of any existing style. Doing this will override the existing style.
+        newStyle.setName("Heading 1");
+        //ExEnd
+
+        Assert.assertNotNull(newStyle);
+        Assert.assertEquals(newStyle.getName(), "Heading 1");
+        Assert.assertNull(dstDoc.getStyles().get("Heading 1_0"));
+        Assert.assertEquals(newStyle.getFont().getColor().getRGB(), Color.RED.getRGB());
     }
 }
 
