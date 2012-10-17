@@ -1073,7 +1073,20 @@ public class ExRendering extends ExBase
         // Render the document to PDF format with the specified permissions.
         doc.save(getMyDir() + "Rendering.SpecifyPermissions Out.pdf", saveOptions);
         //ExEnd
+    }
 
+    @Test
+    public void SetPdfNumeralFormat() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.NumeralFormat.doc");
+        //ExStart
+        //ExFor:PdfSaveOptions.NumeralFormat
+        //ExSummary:Demonstrates how to set the numeral format used when saving to PDF.
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setNumeralFormat(NumeralFormat.CONTEXT);
+        //ExEnd
+
+        doc.save(getMyDir() + "Rendering.NumeralFormat Out.pdf", options);
     }
 }
 
