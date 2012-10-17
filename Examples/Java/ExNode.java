@@ -7,20 +7,9 @@
 //////////////////////////////////////////////////////////////////////////
 package Examples;
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.NodeType;
-import com.aspose.words.Paragraph;
-import com.aspose.words.Run;
-import com.aspose.words.Node;
 import org.testng.Assert;
-import com.aspose.words.CompositeNode;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.Section;
-import com.aspose.words.Body;
-import com.aspose.words.TableCollection;
-import com.aspose.words.Table;
-import com.aspose.words.NodeList;
 
 
 public class ExNode extends ExBase
@@ -493,6 +482,115 @@ public class ExNode extends ExBase
         // i.e A paragraph node will always return NodeType.Paragraph, a table node will always return NodeType.Table.
         System.out.println("NodeType of Paragraph: " + Node.nodeTypeToString(para.getNodeType()));
         System.out.println("NodeType of Table: " + Node.nodeTypeToString(table.getNodeType()));
+        //ExEnd
+    }
+
+    @Test
+    public void convertNodeToHtmlWithDefaultOptions() throws Exception
+    {
+        //ExStart
+        //ExFor:Node.ToString(SaveFormat)
+        //ExSummary:Exports the content of a node to string in HTML format using default options.
+        Document doc = new Document(getMyDir() + "Document.doc");
+
+        // Extract the last paragraph in the document to convert to HTML.
+        Node node = doc.getLastSection().getBody().getLastParagraph();
+
+        // When ToString is called using the SaveFormat overload then conversion is executed using default save options.
+        // When saving to HTML using default options the following settings are set:
+        //   ExportImagesAsBase64 = true
+        //   CssStyleSheetType = CssStyleSheetType.Inline
+        //   ExportFontResources = false
+        String nodeAsHtml = node.toString(SaveFormat.HTML);
+        //ExEnd
+
+        Assert.assertEquals(nodeAsHtml, "<p style=\"margin:0pt\"><span style=\"font-family:'Times New Roman'; font-size:12pt\">Hello World!</span></p>");
+    }
+
+    @Test
+    public void convertNodeToHtmlWithSaveOptions() throws Exception
+    {
+        //ExStart
+        //ExFor:Node.ToString(SaveOptions)
+        //ExSummary:Exports the content of a node to string in HTML format using custom specified options.
+        Document doc = new Document(getMyDir() + "Document.doc");
+
+        // Extract the last paragraph in the document to convert to HTML.
+        Node node = doc.getLastSection().getBody().getLastParagraph();
+
+        // Create an instance of HtmlSaveOptions and set a few options.
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setExportHeadersFootersMode(ExportHeadersFootersMode.PER_SECTION);
+        saveOptions.setExportRelativeFontSize(true);
+
+        // Convert the document to HTML and return as a string. Pass the instance of HtmlSaveOptions to
+        // to use the specified options during the conversion.
+        String nodeAsHtml = node.toString(saveOptions);
+        //ExEnd
+
+        Assert.assertEquals(nodeAsHtml, "<p style=\"margin:0pt\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>");
+    }
+
+    @Test
+    public void typedNodeCollectionToArray() throws Exception
+    {
+        Document doc = new Document();
+
+        //ExStart
+        //ExFor:ParagraphCollection.ToArray
+        //ExSummary:Demonstrates typed implementations of ToArray on classes derived from NodeCollection.
+        // You can use ToArray to return a typed array of nodes.
+        Paragraph[] paras = doc.getFirstSection().getBody().getParagraphs().toArray();
+        //ExEnd
+
+        Assert.assertTrue(paras.length > 0);
+    }
+
+    @Test
+    public void nodeEnumerationHotRemove() throws Exception
+    {
+        //ExStart
+        //ExFor:ParagraphCollection.ToArray
+        //ExSummary:Demonstrates how to use "hot remove" to remove a node during enumeration.
+        DocumentBuilder builder = new DocumentBuilder();
+        builder.writeln("The first paragraph");
+        builder.writeln("The second paragraph");
+        builder.writeln("The third paragraph");
+        builder.writeln("The fourth paragraph");
+
+        // Hot remove allows a node to be removed from a live collection and have the enumeration continue.
+        for (Paragraph para : (Iterable<Paragraph>)builder.getDocument().getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true))
+        {
+            if (para.getRange().getText().contains("third"))
+            {
+                // Enumeration will continue even after this node is removed.
+                para.remove();
+            }
+        }
+        //ExEnd
+    }
+
+    @Test
+    public void enumerationHotRemoveLimitations() throws Exception
+    {
+        //ExStart
+        //ExFor:ParagraphCollection.ToArray
+        //ExSummary:Demonstrates an example breakage of the node collection enumerator.
+        DocumentBuilder builder = new DocumentBuilder();
+        builder.writeln("The first paragraph");
+        builder.writeln("The second paragraph");
+        builder.writeln("The third paragraph");
+        builder.writeln("The fourth paragraph");
+
+        // This causes unexpected behavior, the fourth pargraph in the collection is not visited.
+        for (Paragraph para : (Iterable<Paragraph>)builder.getDocument().getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true))
+        {
+            if (para.getRange().getText().contains("third"))
+            {
+                para.getPreviousSibling().remove();
+                para.remove();
+            }
+        }
         //ExEnd
     }
 }
