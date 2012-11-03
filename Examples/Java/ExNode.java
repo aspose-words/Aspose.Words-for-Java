@@ -28,32 +28,31 @@ public class ExNode extends ExBase
         //ExEnd
     }
 
-    @Test
-    public void cloneCompositeNode() throws Exception
-    {
-        //ExStart
-        //ExFor:Node
-        //ExFor:CompositeNode.Clone
-        //ExFor:Paragraph.Clone
-        //ExSummary:Shows how to clone composite nodes with and without their child nodes.
-        // Create a new empty document.
-        Document doc = new Document();
+	@Test
+	public void cloneNode() throws Exception
+	{
+		//ExStart
+		//ExFor:Node
+		//ExFor:Node.Clone
+		//ExSummary:Shows how to clone nodes with and without their child nodes.
+		// Create a new empty document.
+		Document doc = new Document();
 
-        // Add some text to the first paragraph
-        Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
-        para.appendChild(new Run(doc, "Some text"));
+		// Add some text to the first paragraph
+		Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
+		para.appendChild(new Run(doc, "Some text"));
 
-        // Clone the paragraph and the child nodes.
-        Node cloneWithChildren = para.deepClone(true);
-        // Only clone the paragraph and no child nodes.
-        Node cloneWithoutChildren = para.deepClone(false);
-        //ExEnd
+		// Clone the paragraph and the child nodes.
+		Node cloneWithChildren = para.deepClone(true);
+		// Only clone the paragraph and no child nodes.
+		Node cloneWithoutChildren = para.deepClone(false);
+		//ExEnd
 
-        Assert.assertTrue(((CompositeNode)cloneWithChildren).hasChildNodes());
-        Assert.assertFalse(((CompositeNode)cloneWithoutChildren).hasChildNodes());
-    }
+		Assert.assertTrue(((CompositeNode)cloneWithChildren).hasChildNodes());
+		Assert.assertFalse(((CompositeNode)cloneWithoutChildren).hasChildNodes());
+	}
 
-    @Test
+	@Test
     public void getParentNode() throws Exception
     {
         //ExStart
