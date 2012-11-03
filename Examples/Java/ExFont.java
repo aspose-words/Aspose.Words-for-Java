@@ -147,7 +147,6 @@ public class ExFont extends ExBase
         // Add a run of normal text.
         run = new Run(doc, "Normal text");
         para.appendChild(run);
-        para.appendChild(run);
 
         // Add a run of text that appears as subscript.
         run = new Run(doc, "Subscript");
