@@ -325,6 +325,10 @@ public class ExImage extends ExBase
     //ExFor:ImageData
     //ExFor:ImageData.ImageType
     //ExFor:ImageData.Save(string)
+    //ExFor:FileFormatUtil.ImageTypeToExtension(Aspose.Words.Drawing.ImageType)
+    //ExFor:DrawingMLImageData
+    //ExFor:DrawingMLImageData.ImageType
+    //ExFor:DrawingMLImageData.Save(string)
     //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
     //ExId:ExtractImagesToFiles
     //ExSummary:Shows how to extract images from a document and save them as files.
@@ -342,6 +346,20 @@ public class ExImage extends ExBase
                 String imageFileName = java.text.MessageFormat.format(
                         "Image.ExportImages.{0} Out{1}", imageIndex, FileFormatUtil.imageTypeToExtension(shape.getImageData().getImageType()));
                 shape.getImageData().save(getMyDir() + imageFileName);
+                imageIndex++;
+            }
+        }
+
+        // Newer Microsoft Word documents (such as DOCX) may contain a different type of image container called DrawingML.
+        // Repeat the process to extract these if they are present in the loaded document.
+        NodeCollection dmlShapes = doc.getChildNodes(NodeType.DRAWING_ML, true);
+        for (DrawingML dml : (Iterable<DrawingML>) dmlShapes)
+        {
+            if (dml.hasImage())
+            {
+                String imageFileName = java.text.MessageFormat.format(
+                        "Image.ExportImages.{0} Out{1}", imageIndex, FileFormatUtil.imageTypeToExtension(dml.getImageData().getImageType()));
+                dml.getImageData().save(getMyDir() + imageFileName);
                 imageIndex++;
             }
         }
