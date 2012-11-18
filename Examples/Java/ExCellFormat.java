@@ -45,6 +45,7 @@ public class ExCellFormat extends ExBase
         builder.getCellFormat().setVerticalMerge(CellMerge.NONE);
         builder.write("Text in another cell");
         builder.endRow();
+        builder.endTable();
         //ExEnd
     }
 
@@ -75,6 +76,7 @@ public class ExCellFormat extends ExBase
         builder.insertCell();
         builder.write("Text in another cell.");
         builder.endRow();
+        builder.endTable();
         //ExEnd
     }
 }
