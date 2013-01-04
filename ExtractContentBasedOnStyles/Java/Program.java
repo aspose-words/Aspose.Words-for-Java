@@ -11,16 +11,13 @@ import java.util.ArrayList;
 import java.io.File;
 import java.net.URI;
 
-import com.aspose.words.Document;
-import com.aspose.words.Paragraph;
-import com.aspose.words.Run;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
+import com.aspose.words.*;
 
 
 /**
  * Shows how to find paragraphs and runs formatted with a specific style.
  */
+@SuppressWarnings("unchecked")
 class Program
 {
     public static void main(String[] args) throws Exception

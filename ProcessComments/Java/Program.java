@@ -11,12 +11,9 @@ import java.util.ArrayList;
 import java.io.File;
 import java.net.URI;
 
-import com.aspose.words.Document;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
-import com.aspose.words.Comment;
+import com.aspose.words.*;
 
-
+@SuppressWarnings("unchecked")
 class Program
 {
     public static void main(String[] args) throws Exception
@@ -82,7 +79,7 @@ class Program
         // Look through all comments and gather information about those written by the authorName author.
         for (Comment comment : (Iterable<Comment>) comments)
         {
-            if (comment.getAuthor() == authorName)
+            if (comment.getAuthor().equals(authorName))
                 collectedComments.add(comment.getAuthor() + " " + comment.getDateTime() + " " + comment.toString(SaveFormat.TEXT));
         }
         return collectedComments;
@@ -112,7 +109,7 @@ class Program
         for (int i = comments.getCount() - 1; i >= 0; i--)
         {
             Comment comment = (Comment)comments.get(i);
-            if (comment.getAuthor() == authorName)
+            if (comment.getAuthor().equals(authorName))
                 comment.remove();
         }
     }

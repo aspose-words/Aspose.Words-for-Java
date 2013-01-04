@@ -68,7 +68,7 @@ public class Program
         //ExId:HandleContactDetailsRegion
         //ExSummary:Shows how to specify only the ContactDetails region to be handled through the handler class.
         // Only handle the ContactDetails region in our handler.
-        ArrayList regions = new ArrayList();
+        ArrayList<String> regions = new ArrayList<String>();
         regions.add("ContactDetails");
         executeCustomLogicOnEmptyRegions(doc, new EmptyRegionsHandler(), regions);
         //ExEnd
@@ -274,7 +274,7 @@ public class Program
                 // Called for the first field encountered in a region. This can be used to execute logic on the first field
                 // in the region without needing to hard code the field name. Often the base logic is applied to the first field and
                 // different logic for other fields. The rest of the fields in the region will have a null FieldValue.
-                if ("FirstField".equals((String)args.getFieldValue()))
+                if ("FirstField".equals(args.getFieldValue()))
                 {
                     // Remove the "Name:" tag from the start of the paragraph
                     parentParagraph.getRange().replace("Name:", "", false, false);
@@ -299,7 +299,7 @@ public class Program
             // Replace the unused region in the table with a "no records" message and merge all cells into one.
             if ("Suppliers".equals(args.getTableName()))
             {
-                if ("FirstField".equals((String)args.getFieldValue()))
+                if ("FirstField".equals(args.getFieldValue()))
                 {
                     // We will use the first paragraph to display our message. Make it centered within the table. The other fields in other cells
                     // within the table will be merged and won't be displayed so we don't need to do anything else with them.
@@ -335,7 +335,6 @@ public class Program
         // Create empty disconnected Java result sets.
         ResultSet storeDetailsResultSet = createCachedRowSet(new String[]{"ID", "Name", "Address", "City", "Country"});
         ResultSet contactDetailsResultSet = createCachedRowSet(new String[]{"ID", "Name", "Number"});
-        ResultSet suppliersResultSet = createCachedRowSet(new String[] {"ID", "CompanyName", "ContactName"});
 
         // Create new Aspose.Words DataSet and DataTable objects to be used for mail merge.
         DataSet data = new DataSet();
