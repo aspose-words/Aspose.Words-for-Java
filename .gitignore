@@ -17,3 +17,16 @@ Out*/
 TestFile*.png
 Data/*Out*
 *from DB*
+*.iml
+*.ipr
+*.eml
+nbproject/
+target/
+build/
+build.xml
+Thumbs.db
+manifest.mf
+.settings/
+*.lic
+.idea/
+pom.xml
