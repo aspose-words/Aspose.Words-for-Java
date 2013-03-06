@@ -1,32 +1,30 @@
+
 Temp/
 obj/
 classes/
 generated/
-*.suo
 bin/
 * Out*
+* out*
 *.ldb
 _ReSharper*/
 *.iws
-out/
-*.user
-*.resx
-Out/
-BuildLog.txt
-Out*/
-TestFile*.png
-Data/*Out*
-*from DB*
 *.iml
 *.ipr
 *.eml
+out/
+*.user
+*.resx
 nbproject/
 target/
 build/
 build.xml
 Thumbs.db
 manifest.mf
+Out/
+Out*/
 .settings/
 *.lic
+Data/*Out*
 .idea/
 pom.xml
