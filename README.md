@@ -39,14 +39,7 @@ The Aspose.Words for Java examples published here at GitHub is a part of the abo
 
 ###Code
 
-All examples are contained in separate folders at the root of the repository. Each example contains a Program.java file which always contains the main entry point for the application.
-
-The general structure of each example contains:
-
-- IntelliJ Project files (.ipr, .iml, .iws)
-- Program.java (the source code for the example).
-- Data folder which contains the input documents and any source files. All generated output produced by the example is also placed into this folder.
-- Out folder (created when the example is compiled and contains the compiled classes when the project is built).
+Each example is runnable Java class with its own main method. You can run each example separately and in order to view its output.
 
 <table>
   <tr><th>Example<th>Description</th></tr>
@@ -86,14 +79,14 @@ The general structure of each example contains:
 
 ###Data
 
-+ Input Documents - Each example contains a Data directory which contains any input Word Documents used in the example.
++ Input Documents - Each example directory contains a Data directory which contains any input documents or files used in the example.
 + Northwind.mdb - Many examples use this Microsoft Access Database found under the "Database" directory for demonstrating merging data into documents.
 
 ###Output
 
-+ Most examples will perform operations on documents and save them into the Data directory. This directory is found inside each of the examples e.g "\(ExampleName)\Java\Data\".
++ Most examples will perform operations on documents and save them into the Data directory found in the example directory.
 + Other examples print output to the console.
-+ Some printing examples will display a print preview dialog and allow you to print the document output.
++ Some examples may display print preview dialog and print to a specified printer.
 
 
 ###Help Material
@@ -108,28 +101,36 @@ Please [Download the Aspose.Words for Java Examples](https://github.com/asposewo
 
 ##How to use the Examples?
 
-Firstly make sure that you have downloaded and extracted the latest version of [Aspose.Words for Java](http://www.aspose.com/community/files/72/java-components/aspose.words-for-java/category1378.aspx). We recommend extracting the Aspose.Words archive at the same location with the examples to ensure all dependencies in the examples can be found.
+Firstly make sure that you have downloaded and extracted the latest version of [Aspose.Words for Java](http://www.aspose.com/community/files/72/java-components/aspose.words-for-java/category1378.aspx). It’s recommended extracting the Aspose.Words for Java archive to the same location as the examples to ensure all dependencies in the examples can be located.
 
-Download the examples from the above link. There are IntelliJ Idea project files (.ipr) provided for the examples which can be used to easily compile and run each example.
+Download the examples from the above link. The .project and .classpath files are provided to allow easy import of the examples for use in IntelliJ IDEA, Eclipse and NetBeans.
 
-You can choose one of several options to run the examples.
+Once downloaded you can open the examples by following the instructions below for your chosen IDE:
 
-1)
-Open the IntelliJ project file using the IntelliJ IDEA Java IDE of the example you wish to run. The example should be ready to compile. Click on "Run" menu and choose one of the following menu items:
+To import the examples into IntelliJ IDEA 11.0 and above:
 
-- Run
-- Debug
++ Open IntelliJ and choose File -> Open Project.
++ Navigate to the root of the examples folder and select it then press Ok to import.
 
-2)
-The examples are shipped with scripts found at the root: "Compile All.bat" and "Run All.bat". These allow all of the example projects within the folder to be built and run automatically under Windows. 
+To import the examples into the workspace of any version of Eclipse:
 
-3)
-Create a new project in your favourite Java IDE and choose to create a new project from existing sources. 
++ Open Eclipse and choose File -> Import.
++ From the dialog select General and then Existing Projects into Workspace then press Next.
++ Click Browse next to Root Directory and choose the root directory of the examples folder.
++ Click Finish to import.
 
-- Include all files within the folder of the example that is being compiled. 
-- A library reference to Aspose.Words.jar which is found within the lib folder must be added to the project. 
-- Depending on the example being compiled, a reference to other Aspose.Words libraries may also be required. These are found under the demos-only-lib folder inside the lib folder.
-- The entry point for each example is always found at "Program.Main".
+To import the examples into NetBeans 6.0 and above:
+
++ Open NetBeans and choose File -> Import -> Eclipse Project.
++ Choose Import Project ignoring Project Dependencies.
++ Browse Project to Import and select the root folder of the examples. Choose the same folder for the Destination Folder.
++ Click Finish to import.
+
+The examples are sorted into different packages and are ready to compile. To run:
+
+- Intellij IDEA – Right click on the source file and choose Run.
+- Eclipse – Right click on the source file and choose Run As -> Java Application.
+- NetBeans – Right click on the source file and choose Run File. 
 
 ## Support and Contribution
 
