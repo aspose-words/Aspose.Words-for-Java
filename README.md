@@ -101,7 +101,7 @@ Please [Download the Aspose.Words for Java Examples](https://github.com/asposewo
 
 ##How to use the Examples?
 
-Firstly make sure that you have downloaded and extracted the latest version of [Aspose.Words for Java](http://www.aspose.com/community/files/72/java-components/aspose.words-for-java/category1378.aspx). It’s recommended extracting the Aspose.Words for Java archive to the same location as the examples to ensure all dependencies in the examples can be located.
+Firstly make sure that you have downloaded and extracted the latest version of [Aspose.Words for Java](http://www.aspose.com/community/files/72/java-components/aspose.words-for-java/category1378.aspx). Itï¿½s recommended extracting the Aspose.Words for Java archive to the same location as the examples to ensure all dependencies in the examples can be located.
 
 Download the examples from the above link. The .project and .classpath files are provided to allow easy import of the examples for use in IntelliJ IDEA, Eclipse and NetBeans.
 
@@ -109,28 +109,28 @@ Once downloaded you can open the examples by following the instructions below fo
 
 To import the examples into IntelliJ IDEA 11.0 and above:
 
-+ Open IntelliJ and choose File -> Open Project.
-+ Navigate to the root of the examples folder and select it then press Ok to import.
+1. Open IntelliJ and choose File -> Open Project.
+2. Navigate to the root of the examples folder and select it then press Ok to import.
 
 To import the examples into the workspace of any version of Eclipse:
 
-+ Open Eclipse and choose File -> Import.
-+ From the dialog select General and then Existing Projects into Workspace then press Next.
-+ Click Browse next to Root Directory and choose the root directory of the examples folder.
-+ Click Finish to import.
+1. Open Eclipse and choose File -> Import.
+2. From the dialog select General and then Existing Projects into Workspace then press Next.
+3. Click Browse next to Root Directory and choose the root directory of the examples folder.
+4. Click Finish to import.
 
 To import the examples into NetBeans 6.0 and above:
 
-+ Open NetBeans and choose File -> Import -> Eclipse Project.
-+ Choose Import Project ignoring Project Dependencies.
-+ Browse Project to Import and select the root folder of the examples. Choose the same folder for the Destination Folder.
-+ Click Finish to import.
+1. Open NetBeans and choose File -> Import -> Eclipse Project.
+2. Choose Import Project ignoring Project Dependencies.
+3. Browse Project to Import and select the root folder of the examples. Choose the same folder for the Destination Folder.
+4. Click Finish to import.
 
 The examples are sorted into different packages and are ready to compile. To run:
 
-- Intellij IDEA – Right click on the source file and choose Run.
-- Eclipse – Right click on the source file and choose Run As -> Java Application.
-- NetBeans – Right click on the source file and choose Run File. 
++ Intellij IDEA - Right click on the source file and choose Run.
++ Eclipse - Right click on the source file and choose Run As -> Java Application.
++ NetBeans - Right click on the source file and choose Run File. 
 
 ## Support and Contribution
 
