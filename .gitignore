@@ -1,0 +1,30 @@
+
+Temp/
+obj/
+classes/
+generated/
+bin/
+* Out*
+* out*
+*.ldb
+_ReSharper*/
+*.iws
+*.iml
+*.ipr
+*.eml
+out/
+*.user
+*.resx
+nbproject/
+target/
+build/
+build.xml
+Thumbs.db
+manifest.mf
+Out/
+Out*/
+.settings/
+*.lic
+Data/*Out*
+.idea/
+pom.xml
