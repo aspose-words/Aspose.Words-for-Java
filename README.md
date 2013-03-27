@@ -18,6 +18,10 @@ Using Aspose.Words for Java in your project gives you the following benefits:
 
 These example projects provide helpful demonstrations and code when using Aspose.Words for Java. You will need to [download Aspose.Words for Java](http://www.aspose.com/community/files/72/java-components/aspose.words-for-java/category1378.aspx) separately and it will work in evaluation mode.
 
+###Run Examples on your PC
+
+Download the [Aspose Examples Dashboard for Java](http://www.aspose.com/community/files/72/java-components/aspose.total-for-java/category1426.aspx) to view and run all these examples on your PC.
+
 ## Aspose.Words for Java at a Glance
 ![Aspose.Words Overview](http://www.aspose.com/Aspose.Words/Images/aspose.words-for-java-file-format-support-new.jpg "Supported Conversions")
 
