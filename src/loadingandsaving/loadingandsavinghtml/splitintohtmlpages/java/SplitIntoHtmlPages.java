@@ -1,10 +1,10 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
 package loadingandsaving.loadingandsavinghtml.splitintohtmlpages.java;
 
 import java.io.File;
@@ -22,7 +22,6 @@ public class SplitIntoHtmlPages
         // license.SetLicense(@"Aspose.Words.lic");
 
 
-        URI exeDir = Program.class.getResource("").toURI();
         String dataDir = "src/loadingandsaving/loadingandsavinghtml/splitintohtmlpages/data/";
 
         String srcFileName = dataDir + "SOI 2007-2012-DeeM with footnote added.doc";

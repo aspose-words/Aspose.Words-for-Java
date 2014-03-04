@@ -1,11 +1,11 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-package quickstart.ported.applycustomlogictoemptyregions
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
+package mailmergeandreporting.applycustomlogictoemptyregions.java;
 
 import javax.sql.rowset.RowSetMetaDataImpl;
 import java.sql.ResultSet;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.io.File;
 import java.net.URI;
 
-import com.aspose.words.*
+import com.aspose.words.*;
 import com.sun.rowset.CachedRowSetImpl;
 
 
@@ -22,7 +22,6 @@ public class ApplyCustomLogicToEmptyRegions
     public static void main(String[] args) throws Exception
     {
             // The path to the documents directory.
-        URI exeDir = Program.class.getResource("").toURI();
         String dataDir = "src/mailmergeandreporting/applycustomlogictoemptyregions/data/";
 
         //ExStart

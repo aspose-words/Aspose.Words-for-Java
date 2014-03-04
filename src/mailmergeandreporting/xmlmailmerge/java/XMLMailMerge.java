@@ -1,13 +1,10 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-//ExStart
-//ExId:XMLMailMerge
-//ExSummary:Shows how to execute mail merge using an XML data source by implementing IMailMergeDataSource.
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
 package mailmergeandreporting.xmlmailmerge.java;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,7 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.net.URI;
 
-import com.aspose.words.*
+import com.aspose.words.*;
 
 /**
  * This sample demonstrates how to execute mail merge with data from an XML data source. The XML file is read into memory,
@@ -27,7 +24,6 @@ public class XMLMailMerge
     public static void main(String[] args) throws Exception
     {
             // The path to the documents directory.
-        URI exeDir = Program.class.getResource("").toURI();
         String dataDir = "src/mailmergeandreporting/xmlmailmerge/data/";
 
         // Use DocumentBuilder from the javax.xml.parsers package and Document class from the org.w3c.dom package to read

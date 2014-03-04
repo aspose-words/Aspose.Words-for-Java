@@ -1,11 +1,11 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-package quickstart.ported.compressimages;
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
+package programmingwithdocuments.workingwithimages.compressimages.java;
 
 import com.aspose.words.*;
 
@@ -19,8 +19,7 @@ public class CompressImages
     public static void main(String[] args) throws Exception
     {
             // The path to the documents directory.
-        URI exeDir = Program.class.getResource("").toURI();
-        String dataDir = new File(exeDir.resolve("../../Data")) + File.separator;
+        String dataDir = "src/programmingwithdocuments/workingwithimages/compressimages/data/";
         String srcFileName = dataDir + "Test.docx";
 
         System.out.println(MessageFormat.format("Loading {0}. Size {1}.", srcFileName, getFileSize(srcFileName)));

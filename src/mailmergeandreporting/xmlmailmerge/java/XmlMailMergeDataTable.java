@@ -1,16 +1,13 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-//ExStart
-//ExId:XMLMailMergeDataTable
-//ExSummary:Shows how to create a class implementing IMailMergeDataSource which allows data to be mail merged from an XML document.
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
 package mailmergeandreporting.xmlmailmerge.java;
 
-import com.aspose.words.*
+import com.aspose.words.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 

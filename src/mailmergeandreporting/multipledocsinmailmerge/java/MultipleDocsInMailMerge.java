@@ -1,13 +1,10 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-//ExStart
-//ExId:MultipleDocsInMailMerge
-//ExSummary:Produce multiple documents during mail merge.
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
 package mailmergeandreporting.multipledocsinmailmerge.java;
 
 import java.io.File;
@@ -16,15 +13,14 @@ import java.sql.*;
 import java.text.MessageFormat;
 import java.util.Hashtable;
 
-import com.aspose.words.*
+import com.aspose.words.*;
 
 
 public class MultipleDocsInMailMerge
 {
     public static void main(String[] args) throws Exception
     {
-        //Sample infrastructure.
-        URI exeDir = Program.class.getResource("").toURI();
+        // The path to the documents directory.
         String dataDir = "src/mailmergeandreporting/multipledocsinmailmerge/data/";
 
         produceMultipleDocuments(dataDir, "TestFile.doc");

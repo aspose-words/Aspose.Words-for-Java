@@ -1,11 +1,11 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-package com.aspose.words.documentexplorer;
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
+import com.aspose.words.*;
 
 import com.aspose.words.*;
 
@@ -75,7 +75,7 @@ public class Item
 
                 // Represent a paragraph break using the special formatting marker. This makes the text easier to read.
                 if(fieldInfo.getName().equals("PARAGRAPH_BREAK_CHAR"))
-                   text = text.replace(ch.toString(), "¶" + "\n"); // JTextArea lines are separated using simple "\n" character and not using system independent new line character.
+                   text = text.replace(ch.toString(), "ï¿½" + "\n"); // JTextArea lines are separated using simple "\n" character and not using system independent new line character.
                 else
                    text = text.replace(ch.toString(), java.text.MessageFormat.format("[!{0}!]", fieldInfo.getName().replace("_CHAR", "")));
             }

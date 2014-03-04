@@ -1,16 +1,13 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-//ExStart
-//ExFor:IMailMergeDataSourceRoot
-//ExSummary:Shows how to execute mail merge with regions on data stored in an XML document.
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
 package mailmergeandreporting.xmlmailmerge.java;
 
-import com.aspose.words.*
+import com.aspose.words.*;
 
 /**
  * Use this class when using mail merge with regions and nested mail merge with numerous regions. All regions in the document

@@ -1,14 +1,14 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
+ 
 package programmingwithdocuments.workingwithtables.importtablefromdatatable.java;
 
-import com.aspose.words.*
+import com.aspose.words.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -25,7 +25,6 @@ public class ImportTableFromDataTable
     public static void main(String[] args) throws Exception
     {
             // The path to the documents directory.
-        URI exeDir = Program.class.getResource("").toURI();
         String dataDir = "src/programmingwithdocuments/workingwithtables/importtablefromdatatable/data/";
         // This is the location to our database. You must have the Examples folder extracted as well for the database to be found.
         String databaseDir = new File(exeDir.resolve("../../../../Examples/Java/Database/")) + File.separator;

@@ -1,17 +1,17 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
 package programmingwithdocuments.workingwithcomments.processcomments.java;
 
 import java.util.ArrayList;
 import java.io.File;
 import java.net.URI;
 
-import com.aspose.words.*
+import com.aspose.words.*;
 
 @SuppressWarnings("unchecked")
 public class ProcessComments
@@ -19,7 +19,6 @@ public class ProcessComments
     public static void main(String[] args) throws Exception
     {
         // A sample infrastructure.
-        URI exeDir = Program.class.getResource("").toURI();
         String dataDir = "src/programmingwithdocuments/workingwithcomments/processcomments/data/";
 
         // Open the document.

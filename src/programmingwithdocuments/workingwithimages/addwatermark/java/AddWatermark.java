@@ -1,14 +1,11 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-//ExStart
-//ExId:AddWatermark
-//ExSummary:Inserts a watermark into a Word document.
-package programmingwithdocuments.insertimages.addwatermark.java;
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
+package programmingwithdocuments.workingwithimages.addwatermark.java;
 
 import java.awt.Color;
 import java.io.File;
@@ -22,7 +19,7 @@ public class AddWatermark
     public static void main(String[] args) throws Exception
     {
         // The path to the documents directory.
-        String dataDir = "src/programmingwithdocuments/insertimages/addimagetoeachpage/data/";
+        String dataDir = "src/programmingwithdocuments/workingwithimages/addwatermark/data/";
 
         Document doc = new Document(dataDir + "TestFile.doc");
         insertWatermarkText(doc, "CONFIDENTIAL");

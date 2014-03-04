@@ -1,19 +1,16 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2013 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-//ExStart
-//ExId:MailMergeFormFields
-//ExSummary:Complete source code of a program that inserts checkboxes and text input form fields into a document during mail merge.
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
 package mailmergeandreporting.mailmergeformfields.java;
 
 import java.io.File;
 import java.net.URI;
 
-import com.aspose.words.*
+import com.aspose.words.*;
 
 
 /**
@@ -32,7 +29,6 @@ public class MailMergeFormFields
 
     private void execute() throws Exception
     {
-        URI exeDir = Program.class.getResource("").toURI();
         String dataDir = "src/mailmergeandreporting/mailmergeformfields/data/";
 
         // Load the template document.
