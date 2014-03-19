@@ -11,7 +11,6 @@ public class ApplyLicense
 {
     public static void main(String[] args) throws Exception
     {
-import com.aspose.words.*;
         // This line attempts to set a license from several locations relative to the executable and Aspose.Words.dll.
         // You can also use the additional overload to load a license from a stream, this is useful for instance when the
         // license is stored as an embedded resource
