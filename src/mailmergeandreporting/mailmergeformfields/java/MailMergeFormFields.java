@@ -23,12 +23,6 @@ public class MailMergeFormFields
      */
     public static void main(String[] args) throws Exception
     {
-        Program program = new Program();
-        program.execute();
-    }
-
-    private void execute() throws Exception
-    {
         String dataDir = "src/mailmergeandreporting/mailmergeformfields/data/";
 
         // Load the template document.
@@ -50,7 +44,7 @@ public class MailMergeFormFields
         doc.save(dataDir + "Template Out.doc");
     }
 
-    private class HandleMergeField implements IFieldMergingCallback
+    private static class HandleMergeField implements IFieldMergingCallback
     {
         /**
          * This handler is called for every mail merge field found in the document,

@@ -27,7 +27,7 @@ public class ImportTableFromDataTable
             // The path to the documents directory.
         String dataDir = "src/programmingwithdocuments/workingwithtables/importtablefromdatatable/data/";
         // This is the location to our database. You must have the Examples folder extracted as well for the database to be found.
-        String databaseDir = new File(exeDir.resolve("../../../../Examples/Java/Database/")) + File.separator;
+        String databaseDir = new File(dataDir, "../../../../Examples/Java/Database/") + File.separator;
 
         // Create the output directory if it doesn't exist.
         File dataDirectory = new File(dataDir);

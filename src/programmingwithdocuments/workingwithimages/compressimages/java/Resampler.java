@@ -8,6 +8,7 @@
 package programmingwithdocuments.workingwithimages.compressimages.java;
 
 import com.aspose.words.*;
+import com.aspose.words.Shape;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;

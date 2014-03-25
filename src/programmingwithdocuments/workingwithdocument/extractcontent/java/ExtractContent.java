@@ -22,7 +22,7 @@ public class ExtractContent
     public static void main(String[] args) throws Exception
     {
             // The path to the documents directory.
-        gDataDir = new File(exeDir.resolve("../../Data")) + File.separator;
+        gDataDir = "src/programmingwithdocuments/workingwithdocument/extractcontent/data/";
 
         // Call methods to test extraction of different types from the document.
         extractContentBetweenParagraphs();

@@ -25,7 +25,7 @@ public class AppendDocument
     public static void main(String[] args) throws Exception
     {
             // The path to the documents directory.
-        gDataDir = new File(exeDir.resolve("../../Data")) + File.separator;
+        gDataDir = "src/programmingwithdocuments/joiningandappending/appenddocument/data/";
 
         // Run each of the sample code snippets.
         appendDocument_SimpleAppendDocument();

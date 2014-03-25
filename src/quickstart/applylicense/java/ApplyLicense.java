@@ -7,6 +7,9 @@
  */
   
 package quickstart.applylicense.java;
+
+import com.aspose.words.License;
+
 public class ApplyLicense
 {
     public static void main(String[] args) throws Exception
@@ -16,6 +19,7 @@ public class ApplyLicense
         // license is stored as an embedded resource
         try
         {
+            License license = new License();
             license.setLicense("Aspose.Words.lic");
         }
         catch (Exception e)
