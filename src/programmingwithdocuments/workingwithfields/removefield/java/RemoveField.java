@@ -23,7 +23,7 @@ public class RemoveField
         //ExFor:Field.Remove
         //ExId:DocumentBuilder_RemoveField
         //ExSummary:Removes a field from the document.
-        Field field = doc.getRange().getFields(0);
+        Field field = doc.getRange().getFields().get(0);
         // Calling this method completely removes the field from the document.
         field.remove();
         //ExEnd

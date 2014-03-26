@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Data>
   <Folders>
     <Folder>
@@ -427,30 +427,7 @@ You can also see the detailed specification about what HTML features are support
                 </DataFile>
               </InputFiles>
               <Type>Console</Type>
-            </Example>
-            <Example>
-              <Title>Save Document as MHTML and Email</Title>
-              <Description>Aspose.Words can save any document in MHTML (Web Archive) format. This makes it very easy to use Aspose.Words and Aspose.Email together to generate and send email messages with rich content. For example, you can load a predefined DOC, OOXML or RTF document into Aspose.Words, fill it with data, save as MHTML and then email using Aspose.Email.</Description>
-              <FolderName>savemhtmlandemail</FolderName>
-              <Order>2</Order>
-              <DocLink>
-                <DisplayName>How to  Convert a Document to MHTML and Email</DisplayName>
-                <Url>How+to++Convert+a+Document+to+MHTML+and+Email</Url>
-              </DocLink>
-              <InputFiles>
-                <DataFile>
-                  <Path>..\data\DinnerInvitationDemo.doc</Path>
-                </DataFile>
-              </InputFiles>
-              <Type>Console</Type>
-            </Example>
-            <Example>
-              <Title>Save Document as HTML and Email</Title>
-              <Description>Demonstrates converting a document to HTML for use in e-mail with the email API provided by the framework.</Description>
-              <FolderName>savehtmlandemail</FolderName>
-              <Order>1</Order>
-              <Type>WinForm</Type>
-            </Example>
+            </Example>       
           </Examples>
         </Folder>
         <Folder>

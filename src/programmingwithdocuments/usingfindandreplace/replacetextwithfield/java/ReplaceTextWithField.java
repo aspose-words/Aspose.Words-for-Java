@@ -58,7 +58,7 @@ public class ReplaceTextWithField
         /**
          * Finds and splits the match runs and returns them in an ArrayList.
          */
-        public ArrayList FindAndSplitMatchRuns(ReplacingArgs e) {
+        public ArrayList FindAndSplitMatchRuns(ReplacingArgs e) throws Exception {
             // This is a Run node that contains either the beginning or the complete match.
             Node currentNode = e.getMatchNode();
 
@@ -100,7 +100,7 @@ public class ReplaceTextWithField
          * Splits text of the specified run into two runs.
          * Inserts the new run just after the specified run.
          */
-        private Run SplitRun(Run run, int position) {
+        private Run SplitRun(Run run, int position) throws Exception {
             Run afterRun = (Run) run.deepClone(true);
             afterRun.setText(run.getText().substring(position));
             run.setText(run.getText().substring(0, position));
