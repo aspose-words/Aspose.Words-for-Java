@@ -1026,6 +1026,30 @@ The advantages of the Aspose.Words reporting solution are:
           </InputFiles>
           <Type>Console</Type>
         </Example>
+          <Example>
+              <Title>Mail Merge using Mustache Template Syntax</Title>
+              <Description>This new syntax allows you to create templates for use with mail merge that use plain text markers instead of merge fields. You can enable mail merging into plain text fields by enabling the MailMerge.UseNonMergeFields property and can freely mix them in your template with the Microsoft Word fields such as IF or Formula fields.</Description>
+              <FolderName>mustachetemplatesyntax</FolderName>
+              <Order>8</Order>
+              <DocLink>
+                  <DisplayName>Mail Merge using Mustache Template Syntax</DisplayName>
+                  <Url>Mail+Merge+using+%27Mustache%27+Template+Syntax</Url>
+              </DocLink>
+              <InputFiles>
+                  <DataFile>
+                      <Path>..\data\ExecuteTemplate.doc</Path>
+                  </DataFile>
+                  <DataFile>
+                      <Path>..\data\Orders.xml</Path>
+                  </DataFile>
+              </InputFiles>
+              <OutputFiles>
+                  <DataFile>
+                      <Path>..\Data\Output.doc</Path>
+                  </DataFile>
+              </OutputFiles>
+              <Type>Console</Type>
+          </Example>
         <Example>
           <Title>MailMerge using LINQ and XML</Title>
           <Description>Demonstrates how to use the Aspose.Words API with LINQ to merge data stored in XML into a Word document.</Description>
