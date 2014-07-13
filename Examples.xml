@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Data>
   <Folders>
     <Folder>
@@ -427,7 +427,30 @@ You can also see the detailed specification about what HTML features are support
                 </DataFile>
               </InputFiles>
               <Type>Console</Type>
-            </Example>       
+            </Example>
+            <Example>
+              <Title>Save Document as MHTML and Email</Title>
+              <Description>Aspose.Words can save any document in MHTML (Web Archive) format. This makes it very easy to use Aspose.Words and Aspose.Email together to generate and send email messages with rich content. For example, you can load a predefined DOC, OOXML or RTF document into Aspose.Words, fill it with data, save as MHTML and then email using Aspose.Email.</Description>
+              <FolderName>savemhtmlandemail</FolderName>
+              <Order>2</Order>
+              <DocLink>
+                <DisplayName>How to  Convert a Document to MHTML and Email</DisplayName>
+                <Url>How+to++Convert+a+Document+to+MHTML+and+Email</Url>
+              </DocLink>
+              <InputFiles>
+                <DataFile>
+                  <Path>..\data\DinnerInvitationDemo.doc</Path>
+                </DataFile>
+              </InputFiles>
+              <Type>Console</Type>
+            </Example>
+            <Example>
+              <Title>Save Document as HTML and Email</Title>
+              <Description>Demonstrates converting a document to HTML for use in e-mail with the email API provided by the framework.</Description>
+              <FolderName>savehtmlandemail</FolderName>
+              <Order>1</Order>
+              <Type>WinForm</Type>
+            </Example>
           </Examples>
         </Folder>
         <Folder>
@@ -922,7 +945,7 @@ The advantages of the Aspose.Words reporting solution are:
           <Title>Apply Custom Logic during Mail Merge</Title>
           <Description>Provides code which allow the user to add custom code to handle unmerged regions after mail merge.</Description>
           <FolderName>applycustomlogictoemptyregions</FolderName>
-          <Order>7</Order>
+          <Order>2</Order>
           <DocLink>
             <DisplayName>How to  Apply Custom Logic to Unmerged Regions</DisplayName>
             <Url>How+to++Apply+Custom+Logic+to+Unmerged+Regions</Url>
@@ -938,7 +961,7 @@ The advantages of the Aspose.Words reporting solution are:
           <Title>Mail Merge from XML Datasource</Title>
           <Description>Shows how to perform simple mail merge from an XML datasource using the Aspose.Words mail merge engine.</Description>
           <FolderName>xmlmailmerge</FolderName>
-          <Order>2</Order>
+          <Order>4</Order>
           <DocLink>
             <DisplayName>How to  Mail Merge from XML using DataSet</DisplayName>
             <Url>How+to++Mail+Merge+from+XML+using+DataSet</Url>
@@ -973,7 +996,7 @@ The advantages of the Aspose.Words reporting solution are:
           <Title>Mail Merge Data from a Relational Datasource using Nested Mail Merge</Title>
           <Description>Mail merge regions provide the ability to merge data with multiple rows into a document. When these regions are nested this allows you to merge parent-child data such mail merging several orders and the items for each order. This example demonstrates how to use nested mail merge regions to merge parent-child data from an XML file.</Description>
           <FolderName>nestedmailmerge</FolderName>
-          <Order>6</Order>
+          <Order>7</Order>
           <DocLink>
             <DisplayName>How to Use Nested Mail Merge Regions</DisplayName>
             <Url>How+to+Use+Nested+Mail+Merge+Regions</Url>
@@ -995,7 +1018,7 @@ The advantages of the Aspose.Words reporting solution are:
           <Title>Produce Multiple Documents per record during Mail Merge</Title>
           <Description>Provides code to produce individual documents for each record during simple mail merge.</Description>
           <FolderName>multipledocsinmailmerge</FolderName>
-          <Order>4</Order>
+          <Order>6</Order>
           <DocLink>
             <DisplayName>How to  Produce Multiple Documents during Mail Merge</DisplayName>
             <Url>How+to++Produce+Multiple+Documents+during+Mail+Merge</Url>
@@ -1026,30 +1049,6 @@ The advantages of the Aspose.Words reporting solution are:
           </InputFiles>
           <Type>Console</Type>
         </Example>
-          <Example>
-              <Title>Mail Merge using Mustache Template Syntax</Title>
-              <Description>This new syntax allows you to create templates for use with mail merge that use plain text markers instead of merge fields. You can enable mail merging into plain text fields by enabling the MailMerge.UseNonMergeFields property and can freely mix them in your template with the Microsoft Word fields such as IF or Formula fields.</Description>
-              <FolderName>mustachetemplatesyntax</FolderName>
-              <Order>8</Order>
-              <DocLink>
-                  <DisplayName>Mail Merge using Mustache Template Syntax</DisplayName>
-                  <Url>Mail+Merge+using+%27Mustache%27+Template+Syntax</Url>
-              </DocLink>
-              <InputFiles>
-                  <DataFile>
-                      <Path>..\data\ExecuteTemplate.doc</Path>
-                  </DataFile>
-                  <DataFile>
-                      <Path>..\data\Orders.xml</Path>
-                  </DataFile>
-              </InputFiles>
-              <OutputFiles>
-                  <DataFile>
-                      <Path>..\Data\Output.doc</Path>
-                  </DataFile>
-              </OutputFiles>
-              <Type>Console</Type>
-          </Example>
         <Example>
           <Title>MailMerge using LINQ and XML</Title>
           <Description>Demonstrates how to use the Aspose.Words API with LINQ to merge data stored in XML into a Word document.</Description>
@@ -1067,6 +1066,30 @@ The advantages of the Aspose.Words reporting solution are:
               <Path>..\data\TestFile.doc</Path>
             </DataFile>
           </InputFiles>
+          <Type>Console</Type>
+        </Example>
+        <Example>
+          <Title>Mail Merge using Mustache Template Syntax</Title>
+          <Description>This new syntax allows you to create templates for use with mail merge that use plain text markers instead of merge fields. You can enable mail merging into plain text fields by enabling the MailMerge.UseNonMergeFields property and can freely mix them in your template with the Microsoft Word fields such as IF or Formula fields.</Description>
+          <FolderName>mustachetemplatesyntax</FolderName>
+          <Order>8</Order>
+          <DocLink>
+            <DisplayName>Mail Merge using Mustache Template Syntax</DisplayName>
+            <Url>Mail+Merge+using+%27Mustache%27+Template+Syntax</Url>
+          </DocLink>
+          <InputFiles>
+            <DataFile>
+              <Path>..\data\ExecuteTemplate.doc</Path>
+            </DataFile>
+            <DataFile>
+              <Path>..\data\Orders.xml</Path>
+            </DataFile>
+          </InputFiles>
+          <OutputFiles>
+            <DataFile>
+              <Path>..\data\Output.doc</Path>
+            </DataFile>
+          </OutputFiles>
           <Type>Console</Type>
         </Example>
       </Examples>

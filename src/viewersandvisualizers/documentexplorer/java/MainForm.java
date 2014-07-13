@@ -1,556 +1,266 @@
-/* 
+/*
  * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
  *
  * This file is part of Aspose.Words. The source code in this file
  * is only intended as a supplement to the documentation, and is provided
  * "as is", without warranty of any kind, either expressed or implied.
  */
-import com.aspose.words.*;
+package viewersandvisualizers.documentexplorer.java;
 
-import com.aspose.words.Document;
-import com.aspose.words.License;
+public class MainForm extends javax.swing.JFrame {
 
-import javax.swing.*;
-import javax.swing.event.TreeExpansionEvent;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.event.TreeWillExpandListener;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.util.Enumeration;
-
-/**
-* The main form of the DocumentExplorer demo.
-*
-* DocumentExplorer allows to open DOC, DOT, DOCX, XML, WML, RTF, ODT,
-* OTT, HTML, XHTML and MHTML files using Aspose.Words.
-*
-* Once a document is opened, you can explore its object model in the tree.
-* You can also save the document into DOC, DOCX, ODF, EPUB, PDF, SWF, RTF, WordML,
-* HTML, MHTML and plain text formats.
-
-*/
-public class MainForm extends JDialog implements TreeWillExpandListener, TreeSelectionListener, KeyListener
-{
-	private JPanel contentPane;
-	private JPanel jPanel2;
-	private JTextPane textPane1;
-	private JScrollPane treeScrollPane;
-	private JMenuItem menuSaveAs;
-	private JMenuItem menuExpandAll;
-	private JMenuItem menuCollapseAll;
-	private JMenuItem menuRemoveNode;
-	private JButton toolSaveAs;
-	private JButton toolExpandAll;
-	private JButton toolCollapseAll;
-	private JButton toolRemove;
-
-	/**
-	* Ctor.
-	*/
-	public MainForm() throws Exception
-	{
-		initComponents();
-		setContentPane(contentPane);
-		setModal(true);
-
-		// Search for an Aspose.Words license in the application directory.
-		// The File.Exists check is only needed in this demo so it will work
-		// both when the license file is present as well as when it's missing.
-		// In your real application you just need to call the SetLicense method.
-		File licenseFile = new File(System.getProperty("user.dir") + "\\Aspose.Words.lic");
-		if (licenseFile.exists())
-		{
-			// This shows how to license Aspose.Words.
-			// If you don't specify a license, Aspose.Words works in evaluation mode.
-			License license = new License();
-			license.setLicense(licenseFile.getAbsolutePath());
-		}
-		Globals.mMainForm = this;
-        Globals.mMainForm.setTitle(Globals.APPLICATION_TITLE);
-        Frame parentFrame = (Frame)Globals.mMainForm.getOwner();
-        parentFrame.setIconImage(Utils.createImageIcon("images/App.gif").getImage());
-	}
-
-	/**
-	* Initialize Menu and Toolbar
-	*/
-	private void initComponents()
-	{
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		addWindowListener(new WindowAdapter()
-		{
-			public void windowClosing(WindowEvent e)
-			{
-				onClose();
-			}
-		});
-
-		// ToolBar
-		jPanel2.setLayout(new BorderLayout());
-
-		JToolBar jToolBar = new JToolBar();
-		JButton jToolbarButton;
-		jToolbarButton = new JButton(Utils.createImageIcon("images/tlb_1.gif"));
-		jToolbarButton.setEnabled(true);
-		jToolbarButton.setToolTipText("Open Document");
-		jToolbarButton.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onOpen();}
-		});
-		jToolBar.add(jToolbarButton);
-
-		toolSaveAs = new JButton(Utils.createImageIcon("images/tlb_2.gif"));
-		toolSaveAs.setEnabled(false);
-		toolSaveAs.setToolTipText("Save Document As ...");
-		toolSaveAs.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onSaveAs();}
-		});
-		jToolBar.add(toolSaveAs);
-
-		toolExpandAll = new JButton(Utils.createImageIcon("images/tlb_3.gif"));
-		toolExpandAll.setEnabled(false);
-		toolExpandAll.setToolTipText("Expand All");
-		toolExpandAll.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onExpandAll();}
-		});
-		jToolBar.add(toolExpandAll);
-
-		toolCollapseAll = new JButton(Utils.createImageIcon("images/tlb_4.gif"));
-		toolCollapseAll.setEnabled(false);
-		toolCollapseAll.setToolTipText("Collapse All");
-		toolCollapseAll.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onCollapseAll();}
-		});
-		jToolBar.add(toolCollapseAll);
-
-		toolRemove = new JButton(Utils.createImageIcon("images/tlb_5.gif"));
-		toolRemove.setEnabled(false);
-		toolRemove.setToolTipText("Remove Node");
-		toolRemove.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onRemove();}
-		});
-		jToolBar.add(toolRemove);
-
-		jPanel2.add(jToolBar);
-
-		//Menu
-		JMenuBar jMainMenu;
-
-		JMenu jMenu;
-		JMenuItem jMenuItem;
-
-		jMainMenu = new JMenuBar();
-
-		// File Menu
-		jMenu = new JMenu();
-		jMenu.setMnemonic('F');
-		jMenu.setText("File");
-		jMenuItem = new JMenuItem();
-		jMenuItem.setMnemonic('O');
-		jMenuItem.setText("Open");
-		jMenuItem.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onOpen();}
-		});
-		jMenu.add(jMenuItem);
-
-		menuSaveAs = new JMenuItem();
-		menuSaveAs.setMnemonic('A');
-		menuSaveAs.setText("Save As");
-		menuSaveAs.setEnabled(false);
-		menuSaveAs.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onSaveAs();}
-		});
-		jMenu.add(menuSaveAs);
-
-		jMenu.add(new JSeparator(JSeparator.HORIZONTAL));
-
-		jMenuItem = new JMenuItem();
-		jMenuItem.setMnemonic('X');
-		jMenuItem.setText("Exit");
-		jMenuItem.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onClose();}
-		});
-		jMenu.add(jMenuItem);
-
-		jMainMenu.add(jMenu);
-
-		// Edit Menu
-		jMenu = new JMenu();
-		jMenu.setText("Edit");
-		menuRemoveNode = new JMenuItem();
-		menuRemoveNode.setText("Remove Node");
-		menuRemoveNode.setEnabled(false);
-		menuRemoveNode.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onRemove();}
-		});
-		jMenu.add(menuRemoveNode);
-		jMainMenu.add(jMenu);
-
-		// View Menu
-		jMenu = new JMenu();
-		jMenu.setMnemonic('V');
-		jMenu.setText("View");
-		menuExpandAll = new JMenuItem();
-		menuExpandAll.setMnemonic('E');
-		menuExpandAll.setText("Expand All");
-		menuExpandAll.setEnabled(false);
-		menuExpandAll.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onExpandAll();}
-		});
-		jMenu.add(menuExpandAll);
-
-		menuCollapseAll = new JMenuItem();
-		menuCollapseAll.setMnemonic('C');
-		menuCollapseAll.setText("Collapse All");
-		menuCollapseAll.setEnabled(false);
-		menuCollapseAll.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onCollapseAll();}
-		});
-		jMenu.add(menuCollapseAll);
-		jMainMenu.add(jMenu);
-
-		// Help Menu
-		jMenu = new JMenu();
-		jMenu.setMnemonic('H');
-		jMenu.setText("Help");
-
-		jMenuItem = new JMenuItem();
-		jMenuItem.setMnemonic('A');
-		jMenuItem.setText("About");
-		jMenuItem.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent evt) {onAbout();}
-		});
-		jMenu.add(jMenuItem);
-
-		jMainMenu.add(jMenu);
-
-		setJMenuBar(jMainMenu);
-	}
-
-	private void onClose()
-	{
-		dispose();
-	}
-
-	/**
-	* Opens a document with the name and format provided in a standard Save As dialog.
-	*/
-	private void onOpen()
-	{
-		try
-		{
-			String fileName = Dialogs.openDocument();
-			if (!"".equals(fileName))
-			{
-				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				Globals.mDocument = new Document(fileName);
-
-				Globals.mMainForm.setTitle(Globals.APPLICATION_TITLE + " - " + fileName);
-
-				Globals.mRootNode = Item.createItem(Globals.mDocument).getTreeNode();
-				Globals.mTreeModel = new DefaultTreeModel(Globals.mRootNode);
-				Globals.mTree = new JTree(Globals.mTreeModel);
-				Globals.mTree.setExpandsSelectedPaths(false);
-				Globals.mTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-				Globals.mTree.setCellRenderer(new OurCellRenderer());
-				Globals.mTree.setShowsRootHandles(true);
-				Globals.mTree.addTreeWillExpandListener(this);
-				Globals.mTree.addTreeSelectionListener(this);
-				Globals.mTree.addKeyListener(this);
-				treeScrollPane.setViewportView(Globals.mTree);
-				TreePath path = new TreePath(Globals.mRootNode);
-				((Item) Globals.mRootNode.getUserObject()).onExpand();
-				Globals.mTree.expandPath(path);
-				Globals.mTree.setSelectionPath(path);
-
-				// Enable all toolbar buttons and menu items
-				menuSaveAs.setEnabled(true);
-				menuExpandAll.setEnabled(true);
-				menuCollapseAll.setEnabled(true);
-				toolSaveAs.setEnabled(true);
-				toolExpandAll.setEnabled(true);
-				toolCollapseAll.setEnabled(true);
-			}
-		}
-		catch (Exception e)
-		{
-			ExceptionDialog dialog = new ExceptionDialog(e);
-			dialog.pack();
-			dialog.setVisible(true);
-		}
-
-        finally
-        {
-            // Set the cursor back to normal even if an exception occurs.
-           	setCursor(null);
+    /**
+     * Creates new form FrameTemplate
+     */
+    public MainForm() {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-	}
+        //</editor-fold>
 
-	/**
-	* Saves the document with the name and format provided in standard Save As dialog.
-	*/
-	private void onSaveAs()
-	{
-		String fileName = Dialogs.saveDocument();
-		if ("".equals(fileName) || Globals.mDocument == null)
-		{
-			return;
-		}
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        initComponents();
+    }
 
-		try
-		{
-		    Globals.mDocument.save(fileName);
-		}
-		catch (Exception e)
-		{
-			ExceptionDialog dialog = new ExceptionDialog(e);
-			dialog.pack();
-			dialog.setVisible(true);
-		}
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-        finally
-        {
-            // Set the cursor back to normal even if an exception occurs.
-		    setCursor(null);
-        }
-	}
+        treeScrollPane = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextPane();
+        jToolBar1 = new javax.swing.JToolBar();
+        toolOpenDocument = new javax.swing.JButton();
+        toolSaveAs = new javax.swing.JButton();
+        toolExpandAll = new javax.swing.JButton();
+        toolCollapseAll = new javax.swing.JButton();
+        toolRemove = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        menuOpen = new javax.swing.JMenuItem();
+        menuSaveAs = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        menuExit = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        menuRemoveNode = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        menuExpandAll = new javax.swing.JMenuItem();
+        menuCollapseAll = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        menuAbout = new javax.swing.JMenuItem();
 
-	/**
-	* Expand all child nodes under the selected node.
-	*/
-	private void onExpandAll()
-	{
-		TreePath path = Globals.mTree.getSelectionPath();
-		if (path != null)
-		{
-			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			expandAll(Globals.mTree, path, true);
-			setCursor(null);
-		}
-	}
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Document Explorer");
+        setIconImages(null);
+        setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+        setName("DocumentExplorer"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
-	/**
-	* Collapse all child nodes under the selected node
-	*/
-	private void onCollapseAll()
-	{
-		TreePath path = Globals.mTree.getSelectionPath();
-		if (path != null)
-		{
-			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			expandAll(Globals.mTree, path, false);
-			setCursor(null);
-		}
-	}
+        treeScrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        treeScrollPane.setAutoscrolls(true);
 
-	private void expandAll(JTree tree, TreePath parent, boolean expand)
-	{
-		// Traverse children.
-		TreeNode node = (TreeNode) parent.getLastPathComponent();
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
-		// Expansion or collapse must be done from the bottom-up
-		if (expand)
-		{
-			tree.expandPath(parent);
-		}
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 604, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 31, Short.MAX_VALUE)
+        );
 
-		if (node.getChildCount() >= 0)
-		{
-			for (Enumeration e = node.children(); e.hasMoreElements();)
-			{
-				TreeNode n = (TreeNode) e.nextElement();
-				TreePath path = parent.pathByAddingChild(n);
-				expandAll(tree, path, expand);
-			}
-		}
+        textArea.setEditable(false);
+        jScrollPane1.setViewportView(textArea);
 
-		if (!expand)
-		{
-			tree.collapsePath(parent);
-		}
-	}
+        jToolBar1.setRollover(true);
 
-	/**
-	* Informs Item class, which provides GUI representation of a document node,
-	* that the corresponding TreeNode is about being expanded.
-	*/
-	public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException
-	{
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) event.getPath().getLastPathComponent();
-		if (node != null)
-		{
-			try
-			{
-				((Item) node.getUserObject()).onExpand();
-			}
-			catch (Exception e)
-			{
-				throw new RuntimeException(e);
-			}
-		}
-	}
+        toolOpenDocument.setIcon(new javax.swing.ImageIcon(getClass().getResource("/viewersandvisualizers/documentexplorer/java/images/tlb_1.gif"))); // NOI18N
+        toolOpenDocument.setFocusable(false);
+        toolOpenDocument.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolOpenDocument.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(toolOpenDocument);
 
-	public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException
-	{
-	}
+        toolSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/viewersandvisualizers/documentexplorer/java/images/tlb_2.gif"))); // NOI18N
+        toolSaveAs.setEnabled(false);
+        toolSaveAs.setFocusable(false);
+        toolSaveAs.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolSaveAs.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(toolSaveAs);
 
-	/**
-	* Informs Item class, which provides GUI representation of a document node,
-	* that the corresponding TreeNode was selected.
-	*/
-	public void valueChanged(TreeSelectionEvent e)
-	{
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) Globals.mTree.getLastSelectedPathComponent();
+        toolExpandAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/viewersandvisualizers/documentexplorer/java/images/tlb_3.gif"))); // NOI18N
+        toolExpandAll.setEnabled(false);
+        toolExpandAll.setFocusable(false);
+        toolExpandAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolExpandAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(toolExpandAll);
 
-		if (node == null) return;
-		try
-		{
-			// This operation can take some time so we set the Cursor to WaitCursor.
-			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			// Show the text contained by selected document node.
-			Item selectedItem = (Item) node.getUserObject();
-			textPane1.setText(selectedItem.getText());
-			textPane1.moveCaretPosition(0);
+        toolCollapseAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/viewersandvisualizers/documentexplorer/java/images/tlb_4.gif"))); // NOI18N
+        toolCollapseAll.setEnabled(false);
+        toolCollapseAll.setFocusable(false);
+        toolCollapseAll.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolCollapseAll.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(toolCollapseAll);
 
-			toolRemove.setEnabled(selectedItem.isRemovable());
-			menuRemoveNode.setEnabled(selectedItem.isRemovable());
+        toolRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/viewersandvisualizers/documentexplorer/java/images/tlb_5.gif"))); // NOI18N
+        toolRemove.setEnabled(false);
+        toolRemove.setFocusable(false);
+        toolRemove.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        toolRemove.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(toolRemove);
 
-			// Restore cursor.
-			setCursor(null);
-		}
-		catch (Exception ex)
-		{
-			textPane1.setText("");
-		}
-	}
+        jMenu1.setMnemonic('F');
+        jMenu1.setText("File");
 
-	/**
-	* Removes the currently selected node.
-	*/
-	private void onRemove()
-	{
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) Globals.mTree.getSelectionPath().getLastPathComponent();
-		if (node != null)
-		{
-			try
-			{
-				((Item) node.getUserObject()).remove();
-			}
-			catch (Exception e)
-			{
-			}
-		}
-	}
+        menuOpen.setMnemonic('O');
+        menuOpen.setText("Open");
+        jMenu1.add(menuOpen);
 
-	/**
-	* Show the About dialog
-	*/
-	private void onAbout()
-	{
-		AboutForm dialog = new AboutForm();
-		dialog.pack();
+        menuSaveAs.setMnemonic('A');
+        menuSaveAs.setText("Save As");
+        menuSaveAs.setEnabled(false);
+        jMenu1.add(menuSaveAs);
+        jMenu1.add(jSeparator1);
 
-        // Get the screen size
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Dimension screenSize = toolkit.getScreenSize();
+        menuExit.setMnemonic('X');
+        menuExit.setText("Exit");
+        jMenu1.add(menuExit);
 
-		// Calculate the frame location
-		int x = (screenSize.width - dialog.getWidth()) / 2;
-		int y = (screenSize.height - dialog.getHeight()) / 2;
+        jMenuBar1.add(jMenu1);
 
-		// Set the new frame location
-		dialog.setLocation(x, y);
-		dialog.setVisible(true);
-	}
+        jMenu2.setMnemonic('E');
+        jMenu2.setText("Edit");
 
-	public void keyTyped(KeyEvent e)
-	{
-		if (e.getID() == KeyEvent.KEY_TYPED && e.getKeyChar() == 127)
-		{
-			onRemove();
-		}
-	}
+        menuRemoveNode.setText("Remove Node");
+        menuRemoveNode.setEnabled(false);
+        jMenu2.add(menuRemoveNode);
 
-	public void keyPressed(KeyEvent e)
-	{
-	}
+        jMenuBar1.add(jMenu2);
 
-	public void keyReleased(KeyEvent e)
-	{
-	}
+        jMenu3.setMnemonic('V');
+        jMenu3.setText("View");
 
-	/**
-	* Change the icon for the current node according to the node type.
-	*/
-	private class OurCellRenderer extends DefaultTreeCellRenderer
-	{
-		public Component getTreeCellRendererComponent(
-				JTree tree,
-				Object value,
-				boolean sel,
-				boolean expanded,
-				boolean leaf,
-				int row,
-				boolean hasFocus)
-		{
-			super.getTreeCellRendererComponent(
-					tree, value, sel,
-					expanded, leaf, row,
-					hasFocus);
+        menuExpandAll.setMnemonic('E');
+        menuExpandAll.setText("Expand All");
+        menuExpandAll.setEnabled(false);
+        jMenu3.add(menuExpandAll);
 
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-			Object userObject = node.getUserObject();
-			if (userObject instanceof Item)
-			{
-				ImageIcon icon = null;
-				try
-				{
-					icon = ((Item) userObject).getIcon();
-				}
-				catch (Exception e)
-				{
-					throw new RuntimeException(e);
-				}
-				if (icon != null)
-				{
-					setIcon(icon);
-				}
-			}
-			return this;
-		}
-	}
+        menuCollapseAll.setMnemonic('C');
+        menuCollapseAll.setText("Collapse All");
+        menuCollapseAll.setEnabled(false);
+        jMenu3.add(menuCollapseAll);
 
-	public static void main(String[] args) throws Exception
-	{
-		MainForm dialog = new MainForm();
-		dialog.pack();
+        jMenuBar1.add(jMenu3);
 
-		// Get the screen size
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Dimension screenSize = toolkit.getScreenSize();
+        jMenu4.setMnemonic('H');
+        jMenu4.setText("Help");
 
-		// Calculate the frame location
-		int x = (screenSize.width - dialog.getWidth()) / 2;
-		int y = (screenSize.height - dialog.getHeight()) / 2;
+        menuAbout.setMnemonic('A');
+        menuAbout.setText("About");
+        jMenu4.add(menuAbout);
 
-		// Set the new frame location
-		dialog.setLocation(x, y);
-		dialog.setVisible(true);
-		System.exit(0);
-	}
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(316, 316, 316)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(treeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, 0)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(treeScrollPane)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    protected javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JToolBar jToolBar1;
+    protected javax.swing.JMenuItem menuAbout;
+    protected javax.swing.JMenuItem menuCollapseAll;
+    protected javax.swing.JMenuItem menuExit;
+    protected javax.swing.JMenuItem menuExpandAll;
+    protected javax.swing.JMenuItem menuOpen;
+    protected javax.swing.JMenuItem menuRemoveNode;
+    protected javax.swing.JMenuItem menuSaveAs;
+    protected javax.swing.JTextPane textArea;
+    protected javax.swing.JButton toolCollapseAll;
+    protected javax.swing.JButton toolExpandAll;
+    protected javax.swing.JButton toolOpenDocument;
+    protected javax.swing.JButton toolRemove;
+    protected javax.swing.JButton toolSaveAs;
+    protected javax.swing.JScrollPane treeScrollPane;
+    // End of variables declaration//GEN-END:variables
 }

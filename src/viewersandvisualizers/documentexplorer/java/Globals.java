@@ -1,17 +1,18 @@
-/* 
+/*
  * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
  *
  * This file is part of Aspose.Words. The source code in this file
  * is only intended as a supplement to the documentation, and is provided
  * "as is", without warranty of any kind, either expressed or implied.
  */
-import com.aspose.words.*;
+package viewersandvisualizers.documentexplorer.java;
 
 import com.aspose.words.Document;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+
 /**
 * This class is used as a repository for objects, that should be available from any place of the project code.
 */
@@ -30,7 +31,7 @@ public class Globals
 
     // Open File filters
 	static final OpenFileFilter OPEN_FILE_FILTER_ALL_SUPPORTED_FORMATS = new OpenFileFilter(
-			new String[] {".doc",".dot",".docx;",".dotx;",".docm",".dotm",".xml",".wml",".rtf",".odt",".ott",".htm",".html",".xhtml",".mht",".mhtm",".mhtml"}, "All Supported Formats (*.doc;*.dot;*.docx;*.dotx;*.docm;*.dotm;*.xml;*.wml;*.rtf;*.odt;*.ott;*.htm;*.html;*.xhtml;*.mht;*.mhtm;*.mhtml)");
+			new String[] {".doc",".dot",".docx",".dotx",".docm",".dotm",".xml",".wml",".rtf",".odt",".ott",".htm",".html",".xhtml",".mht",".mhtm",".mhtml"}, "All Supported Formats (*.doc;*.dot;*.docx;*.dotx;*.docm;*.dotm;*.xml;*.wml;*.rtf;*.odt;*.ott;*.htm;*.html;*.xhtml;*.mht;*.mhtm;*.mhtml)");
 
     static final OpenFileFilter OPEN_FILE_FILTER_DOC_FORMAT = new OpenFileFilter(
 			new String[] {".doc", ".doct"}, "Word 97-2003 Documents (*.doc;*.dot)");
