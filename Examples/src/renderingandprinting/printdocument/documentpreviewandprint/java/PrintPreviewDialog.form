@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="DocumentPreviewAndPrint.PrintPreviewDialog">
+  <grid id="27dc6" binding="contentPane" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="1000" height="700"/>
+    </constraints>
+    <properties>
+      <maximumSize width="1000" height="700"/>
+      <minimumSize width="1000" height="700"/>
+      <preferredSize width="1000" height="700"/>
+      <requestFocusEnabled value="true"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <toolbar id="40920">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="556e7" class="javax.swing.JButton" binding="printButton">
+            <constraints/>
+            <properties>
+              <margin top="2" left="14" bottom="2" right="14"/>
+              <text value="Print"/>
+            </properties>
+          </component>
+          <component id="75b7b" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="98763" class="javax.swing.JButton" binding="pageSetupButton">
+            <constraints/>
+            <properties>
+              <text value="Page Setup"/>
+            </properties>
+          </component>
+          <component id="184f7" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="dd36d" class="javax.swing.JComboBox" binding="zoomComboBox">
+            <constraints/>
+            <properties>
+              <background color="-1"/>
+              <maximumSize width="130" height="30"/>
+              <minimumSize width="130" height="23"/>
+              <requestFocusEnabled value="false"/>
+            </properties>
+          </component>
+          <component id="8c9e6" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <grid id="37f63" layout-manager="GridLayoutManager" row-count="1" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints/>
+            <properties>
+              <maximumSize width="175" height="2147483647"/>
+              <minimumSize width="175" height="24"/>
+              <opaque value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="4ea06" class="javax.swing.plaf.basic.BasicArrowButton" binding="firstPageButton" custom-create="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="db0d" class="javax.swing.plaf.basic.BasicArrowButton" binding="previousPageButton" custom-create="true">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="4756b" class="javax.swing.plaf.basic.BasicArrowButton" binding="nextPageButton" custom-create="true">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="4f938" class="javax.swing.plaf.basic.BasicArrowButton" binding="lastPageButton" custom-create="true">
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="f58be" class="javax.swing.JTextPane" binding="pageNumberTextBox">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="40" height="20"/>
+                    <preferred-size width="40" height="20"/>
+                    <maximum-size width="40" height="20"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <editable value="false"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="4ba0b" class="javax.swing.JToolBar$Separator">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="a8b80" class="javax.swing.JButton" binding="closeButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Close"/>
+            </properties>
+          </component>
+        </children>
+      </toolbar>
+      <scrollpane id="8918a" binding="documentViewer">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <verticalScrollBarPolicy value="20"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="c1ac" class="javax.swing.JLabel" binding="imageLabel">
+            <constraints/>
+            <properties>
+              <horizontalAlignment value="0"/>
+              <horizontalTextPosition value="0"/>
+              <maximumSize width="500" height="500"/>
+              <minimumSize width="500" height="500"/>
+              <preferredSize width="500" height="500"/>
+              <requestFocusEnabled value="true"/>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <grid id="61390" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="f41a4" class="javax.swing.JProgressBar" binding="progressBar">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="300" height="10"/>
+              </grid>
+            </constraints>
+            <properties>
+              <preferredSize width="60" height="14"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
