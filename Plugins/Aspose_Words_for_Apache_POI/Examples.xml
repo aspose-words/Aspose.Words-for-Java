@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data>
+	<Folders>
+		<Folder>
+			<Title>Features Comparison</Title>
+			<Description>
+				Contain the code comparison for features in Apache POI
+				WP SDK and
+				Aspose.Words
+				These examples are helpful for developers who
+				want to compare Apache POI
+				with Aspose OR migrate from Apache POI to
+				Aspose.
+			</Description>
+			<FolderName>featurescomparison</FolderName>
+			<Order>1</Order>
+			<Folders>
+				<Folder>
+					<Title>Working with Documents</Title>
+					<Description>This folder contain the examples to deal with
+						documents.
+					</Description>
+					<FolderName>workingwithdocuments</FolderName>
+					<Order>1</Order>
+					<Examples>
+						<Example>
+							<Title>Convert Word Doc to Other Formats</Title>
+							<Description>Converts a document from DOC to other formats.
+							</Description>
+							<FolderName>converttoformats</FolderName>
+							<Order>2</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\Aspose_DocToPDF_Out.pdf</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\Aspose_DocToTxt_Out.txt</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\Aspose_DocToJPG_Out.jpg</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\html\Aspose_DocToHTML_Out.html</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\Apache_DocToHTML_Out.html</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Create New Word Document</Title>
+							<Description>Creates a new Word Document from scratch
+							</Description>
+							<FolderName>createnewdocument</FolderName>
+							<Order>1</Order>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\Aspose_NewDoc_Out.docx</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\Apache_newWordDoc_Out.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Format Text in Document</Title>
+							<Description>Formats text and paragraph</Description>
+							<FolderName>formattext</FolderName>
+							<Order>3</Order>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\Aspose_FormattedText_Out.doc</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\Apache_FormattedText_Out.docx</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Get Document Properties</Title>
+							<Description>Document properties allow some useful information to
+								be stored along with the document. There are system (built-in)
+								and user defined (custom) properties. Built-in properties
+								contain such things as document title, author's name, document
+								statistics, and so on. Custom properties are just name-value
+								pairs where user defines both the name and value.
+
+								You can use
+								document properties in your document automation project
+								to store
+								some useful info along with the document such as when
+								the
+								document was received/processed/time stamped and so on.
+							</Description>
+							<FolderName>getdocumentproperties</FolderName>
+							<Order>4</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Open Existing Document</Title>
+							<Description>How to open existing word document</Description>
+							<FolderName>openexistingdocument</FolderName>
+							<Order>5</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\Aspose_ExistingDoc_Out.docx</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\Apache_ExistingDoc_Out.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Save Document</Title>
+							<Description>How to save document as a file.</Description>
+							<FolderName>savedocument</FolderName>
+							<Order>6</Order>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\Aspose_SaveDoc_Out.docx</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\Apache_SaveDoc_Out.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+					</Examples>
+				</Folder>
+				<Folder>
+					<Title>Working with Headers and Footers</Title>
+					<Description>How to deal with Headers and Footers</Description>
+					<FolderName>workingwithheadersandfooters</FolderName>
+					<Order>2</Order>
+					<Examples>
+						<Example>
+							<Title>Working with Footers</Title>
+							<Description>How to create footer in word document.</Description>
+							<FolderName>workingwithfooter</FolderName>
+							<Order>2</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\AsposeFooter.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeFooter_Out.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Working with Headers</Title>
+							<Description>How to create header in word document.</Description>
+							<FolderName>workingwithheader</FolderName>
+							<Order>1</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\AsposeHeader.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeHeader_Out.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+					</Examples>
+				</Folder>
+				<Folder>
+					<Title>Working with Images</Title>
+					<Description>Includes examples to insert images in doc and extract
+						images from a document.
+					</Description>
+					<FolderName>workingwithimages</FolderName>
+					<Order>3</Order>
+					<Examples>
+						<Example>
+							<Title>Extract Images from Word Document</Title>
+							<Description>How to extract images from a document</Description>
+							<FolderName>extractimagesfromdocument</FolderName>
+							<Order>2</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Insert Image</Title>
+							<Description>How to insert images in document</Description>
+							<FolderName>insertimage</FolderName>
+							<Order>1</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\aspose.jpg</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\background.jpg</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\Aspose_InsertImage_Out.docx</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\Apache_ImagesInDoc_Out.docx</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+					</Examples>
+				</Folder>
+				<Folder>
+					<Title>Working with Ranges</Title>
+					<Description>How to deal with ranges</Description>
+					<FolderName>workingwithranges</FolderName>
+					<Order>4</Order>
+					<Examples>
+						<Example>
+							<Title>Access Ranges in Document</Title>
+							<Description>How to access and use ranges in document
+							</Description>
+							<FolderName>accessranges</FolderName>
+							<Order>1</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Delete Ranges in Document</Title>
+							<Description>How to delete ranges in document</Description>
+							<FolderName>deleteranges</FolderName>
+							<Order>2</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Insert Before and After Ranges</Title>
+							<Description>How to insert data before and after the specified
+								ranges
+							</Description>
+							<FolderName>insertbeforeandafterranges</FolderName>
+							<Order>3</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\background.jpg</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeReplaceTextboxesWithImages_Out.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+					</Examples>
+				</Folder>
+				<Folder>
+					<Title>Working with Tables</Title>
+					<Description>How to deal with tables</Description>
+					<FolderName>workingwithtables</FolderName>
+					<Order>5</Order>
+					<Examples>
+						<Example>
+							<Title>Create Tables</Title>
+							<Description>Shows how to create table from scratch</Description>
+							<FolderName>createtables</FolderName>
+							<Order>1</Order>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\Aspose_CreateTable_Out.doc</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\Apache_CreateTable_Out.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Format Table in Document</Title>
+							<Description>How to format tables in document.</Description>
+							<FolderName>formattable</FolderName>
+							<Order>2</Order>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\Aspose_styledTable_Out.doc</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\Apache_styledTable_Out.docx</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+					</Examples>
+				</Folder>
+			</Folders>
+		</Folder>
+		<Folder>
+			<Title>Aspose Features</Title>
+			<Description>Contain the Aspose features that are not available in
+				Apache POI WP (HWPF + XWPF) SDK.
+				These examples are helpful for
+				developers who want to compare Apache POI
+				with Aspose OR migrate from
+				Apache POI to Aspose.
+			</Description>
+			<FolderName>asposefeatures</FolderName>
+			<Order>2</Order>
+			<Folders>
+				<Folder>
+					<Title>Working with Documents</Title>
+					<Description>Contain examples to guide How to Work with Documents</Description>
+					<FolderName>workingwithdocument</FolderName>
+					<Order>1</Order>
+					<Examples>
+						<Example>
+							<Title>Append Documents</Title>
+							<Description>How to Append Documents</Description>
+							<FolderName>appenddoc</FolderName>
+							<Order>1</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\doc1.doc</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\doc2.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeMerged.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Add Watermark</Title>
+							<Description>How to Add Watermark</Description>
+							<FolderName>addwatermark</FolderName>
+							<Order>2</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeWatermark.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Check Format Compatibility</Title>
+							<Description>How to Check Format Compatibility</Description>
+							<FolderName>checkformatcompatibility</FolderName>
+							<Order>3</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\document.docx</Path>
+								</DataFile>
+							</InputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Clone Documents</Title>
+							<Description>How to Clone Documents</Description>
+							<FolderName>clonedoc</FolderName>
+							<Order>4</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeClone.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Insert Picture in Document</Title>
+							<Description>How to Insert Picture in Document</Description>
+							<FolderName>insertpicture</FolderName>
+							<Order>5</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\background.jpg</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeImageInDoc.docx</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Load Text File</Title>
+							<Description>How to Load Text File</Description>
+							<FolderName>loadtxtfile</FolderName>
+							<Order>6</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\LoadTxt.txt</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeLoadTxt_Out.docx</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Moving the Cursor</Title>
+							<Description>How to Move the Cursor</Description>
+							<FolderName>movingcursor</FolderName>
+							<Order>7</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeMovingCursor.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Protect Documents</Title>
+							<Description>How to Protect Documents</Description>
+							<FolderName>protectdoc</FolderName>
+							<Order>8</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeProtect.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Set Page Borders</Title>
+							<Description>How to Set Page Borders</Description>
+							<FolderName>setpageborders</FolderName>
+							<Order>9</Order>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposePageBorders.docx</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Track Changes in Documents</Title>
+							<Description>How to Track Changes in Document</Description>
+							<FolderName>trackchanges</FolderName>
+							<Order>10</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\trackDoc.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeAcceptChanges.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Working with Bookmarks</Title>
+							<Description>How to Work with Bookmarks</Description>
+							<FolderName>workingwithbookmarks</FolderName>
+							<Order>11</Order>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeBookmark.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Working with Digital Signatures</Title>
+							<Description>How to work with Digital Signature</Description>
+							<FolderName>workingwithdigitalsignature</FolderName>
+							<Order>12</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.docx</Path>
+								</DataFile>
+							</InputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+					</Examples>
+				</Folder>
+				<Folder>
+					<Title>Working with Tables</Title>
+					<Description>Includes Examples to guide How to Work with Tables
+					</Description>
+					<FolderName>workingwithtables</FolderName>
+					<Order>2</Order>
+					<Examples>
+						<Example>
+							<Title>Autofit Setting to Tables</Title>
+							<Description>How to Apply Auto Fit Settings to Tables
+							</Description>
+							<FolderName>autofitsettingstotable</FolderName>
+							<Order></Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\tableDoc.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeAutoFitTable_Out.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+						<Example>
+							<Title>Joining Tables</Title>
+							<Description>How to Join Tables</Description>
+							<FolderName>joiningtables</FolderName>
+							<Order></Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\tableDoc.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeJoinTables.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+
+						</Example>
+						<Example>
+							<Title>Split Table</Title>
+							<Description>How to Split Table</Description>
+							<FolderName>splittables</FolderName>
+							<Order></Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\tableDoc.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeSplitTable.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+
+						</Example>
+					</Examples>
+				</Folder>
+				<Folder>
+					<Title>Working with Text</Title>
+					<Description>Includes Examples to guide How to Work with Text
+					</Description>
+					<FolderName>workingwithtext</FolderName>
+					<Order>3</Order>
+					<Examples>
+						<Example>
+							<Title>Find and Replace Text in Documents</Title>
+							<Description>How to Find and Replace Text</Description>
+							<FolderName>findnreplacetxt</FolderName>
+							<Order>1</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\replaceDoc.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\replaceDoc.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Insert Comments</Title>
+							<Description>How to Insert Comments</Description>
+							<FolderName>insertcomments</FolderName>
+							<Order>2</Order>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeComments.docx</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Specify Default Fonts</Title>
+							<Description>How to Specify Default Fonts</Description>
+							<FolderName>specifydefaultfonts</FolderName>
+							<Order>3</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\document.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeSetDefaultFont_Out.pdf</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\AsposeSetDefaultFont_Out.xps</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+						<Example>
+							<Title>Using Control Characters</Title>
+							<Description>How to use Control Characters</Description>
+							<FolderName>usingcontrolcharacters</FolderName>
+							<Order>4</Order>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeControlChars.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+						</Example>
+					</Examples>
+				</Folder>
+				<Folder>
+					<Title>Mail Merge</Title>
+					<Description>Includes examples of Mail Merge functionality
+					</Description>
+					<FolderName>mailmerge</FolderName>
+					<Order>4</Order>
+					<Examples>
+						<Example>
+							<Title>Mail Merge from XML Data Source</Title>
+							<Description>How to Mail Merge from XML Data Source</Description>
+							<FolderName>mailmergefromxmldatasource</FolderName>
+							<Order>1</Order>
+							<InputFiles>
+								<DataFile>
+									<Path>..\data\Customers.xml</Path>
+								</DataFile>
+								<DataFile>
+									<Path>..\data\mergeDoc.doc</Path>
+								</DataFile>
+							</InputFiles>
+							<OutputFiles>
+								<DataFile>
+									<Path>..\data\AsposeMailMerge.doc</Path>
+								</DataFile>
+							</OutputFiles>
+							<Type>Console</Type>
+							
+						</Example>
+					</Examples>
+				</Folder>
+			</Folders>
+		</Folder>
+	</Folders>
+</Data>
