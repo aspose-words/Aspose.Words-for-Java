@@ -12,7 +12,9 @@ Please navigate to:
 
 http://www.aspose.com/community/files/72/java-components/aspose.words-for-java/
 
-Further the most complete documentation of the project is under development at Aspose confluence wiki and the link will be added here upon completion.
+For most complete documentation of the project, check Aspose.Words Java for PHP confluence wiki link:
+
+http://www.aspose.com/docs/display/wordsjava/3.+Aspose.Words+Java+For+PHP
 
 
 
