@@ -23,9 +23,7 @@ Thumbs.db
 manifest.mf
 Out/
 Out*/
-.settings/
 *.lic
 Data/*Out*
 .idea/
-pom.xml
 /dist/
