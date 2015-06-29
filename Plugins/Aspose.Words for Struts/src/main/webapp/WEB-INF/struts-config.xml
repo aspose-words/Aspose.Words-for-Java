@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+"http://struts.apache.org/dtds/struts-config_1_3.dtd" >
+
+<struts-config>
+	<!-- Form Bean Definitions -->
+	<form-beans>
+		<form-bean name="BookForm" type="com.books.BookForm" />
+	</form-beans>
+
+	<!-- Action Mapping Definitions -->
+	<action-mappings>
+		<action path="/showbooks" type="com.books.ShowBooks" validate="false"
+			scope="session">
+			<forward name="success" path="/jsp/books/books.jsp" />
+		</action>
+
+		<!-- Example of Struts Dispatch Action : has the extra attribute parameter -->
+		<action path="/bookaction" type="com.books.BookActions"
+			parameter="actionMethod" name="BookForm" validate="false" scope="session">
+			<forward name="addBook" path="/jsp/books/addbook.jsp" />
+			<forward name="editBook" path="/jsp/books/editbook.jsp" />
+			<forward name="deleteBook" path="/jsp/books/deletebook.jsp" />
+			<forward name="exportword" path="/exportToWord" />
+		</action>
+	</action-mappings>
+</struts-config>
