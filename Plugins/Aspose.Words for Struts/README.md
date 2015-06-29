@@ -9,7 +9,6 @@ You should have apache tomcat installed. After building the project .war file, c
 
 For most complete documentation of the project, check Aspose.Words Java for Struts confluence wiki
 
-http://www.aspose.com/docs/display/wordsjava/3.+Aspose.Words+Java+ForStruts
-
+http://www.aspose.com/docs/display/wordsjava/3.+Aspose.Words+Java+For+Struts
 
 
