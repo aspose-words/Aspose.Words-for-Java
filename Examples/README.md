@@ -1,13 +1,9 @@
-##Aspose.Words for Java Examples
+##Aspose.Cells for Java Examples
 
-This package contains Java Example Project for [Aspose.Words for Java](http://www.aspose.com/java/word-component.aspx).
+This directory contains Java examples for [Aspose.Cells for Java](http://www.aspose.com/java/excel-component.aspx).
 
-<p align="center">
-  <a title="Download complete Aspose.Words for Java source code" href="https://github.com/asposewords/Aspose_Words_Java/archive/master.zip">
-	<img src="https://raw.github.com/AsposeExamples/java-examples-dashboard/master/images/downloadZip-Button-Large.png" />
-  </a>
-</p>
+##How to use the Examples?
 
-## How to Run the Examples?
+Clone or Download the ZIP and extract the contents to your local hard drive. If you have IntelliJ IDEA, then open the project directly by browsing to the folder. For Netbeans and Eclipse, you can use import project feature.
 
-All the examples are arranged in src folder and any modern IDE like IntelliJ IDEA, Eclipse, Netbeans etc can import the source folder easily. Visit our [documentation website](http://www.aspose.com/docs/display/wordsjava/How+to+Run+the+Examples) for more details.
+Also download the [latest version](http://www.aspose.com/community/files/72/java-components/aspose.cells-for-java/default.aspx) of Aspose.Cells for Java and set/fix jar references.
