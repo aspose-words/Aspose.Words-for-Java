@@ -1,0 +1,28 @@
+<!--
+  ~ @author Adeel Ilyas <adeel.ilyas@aspose.com>
+  -->
+<idea-plugin version="2">
+    <id>com.aspose.words.java.intellij.maven</id>
+    <name>Aspose.Words Java for IntelliJ IDEA Maven</name>
+    <version>1.0.0.0</version>
+    <vendor email="marketplace@aspose.com" url="http://www.aspose.com">Aspose Pty Ltd.</vendor>
+
+
+    <description><![CDATA[<br/><b>Aspose.Words for Java</b> is an advanced class library for Java that enables you to perform a great range of document processing tasks directly within your Java applications.<br/><br/><b>Aspose.Words for Java</b> supports processing word (DOC, DOCX, OOXML, RTF) HTML, OpenDocument, PDF, EPUB, XPS, SWF and all image formats. With Aspose.Words you can generate, modify, and convert documents without using Microsoft Word. <br/><br/>The plugin's <b>Aspose.Words Maven Project</b> wizard creates a Aspose.Words Java API maven project by fetching and referencing the latest API artifact from the Aspose Cloud Maven Repository.<br/><br/><b>Aspose.Words Maven Project</b> wizard also gives you option to download the example source codes of using Aspose.Words for Java API<br/><br/>Once you are finished with the wizard i.e created project and downloaded examples. You can add those free of cost example source codes for using Aspose.Words Java API in your project <br/><br/>The newly created project and the examples you added is now ready to be extended, all references and required resources will also be automatically added.<br/>
+        ]]></description>
+
+
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="139"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <moduleBuilder builderClass="com.aspose.wizards.maven.AsposeMavenModuleBuilder"/>
+    </extensions>
+
+    <actions>
+        <action id="aspose.words.example" class="com.aspose.examples.AsposeExampleAction" text="Aspose.Words Example" icon="/resources/asposeSmall.png"
+                description="Aspose.Words Examples allow you to add Aspose sourcecode examples to demonstrate Aspose.Words Java API usage. Available samples are displayed in tree format from where you can select one. Selected category examples will be added to current project including source files and required data files.">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
