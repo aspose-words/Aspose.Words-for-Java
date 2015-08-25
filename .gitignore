@@ -9,7 +9,6 @@ bin/
 *.ldb
 _ReSharper*/
 *.iws
-*.iml
 *.ipr
 *.eml
 out/
@@ -25,5 +24,4 @@ Out/
 Out*/
 *.lic
 Data/*Out*
-.idea/
 /dist/
