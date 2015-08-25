@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.aspose.wizards.maven.AsposeMavenModuleWizardStep">
+  <grid id="27dc6" binding="myMainPanel" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="661" height="386"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="320a3" binding="myArchetypesPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <inheritsPopupMenu value="true"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="171aa" class="javax.swing.JCheckBox" binding="alsoDownloadExampleSourceCheckBox" default-binding="true">
+            <constraints border-constraint="South"/>
+            <properties>
+              <text resource-bundle="Bundle" key="AsposeWizardPanel.WizardStep.ExampleChkbox"/>
+            </properties>
+          </component>
+          <component id="9ed67" class="javax.swing.JTextPane" binding="fieldTextPane">
+            <constraints border-constraint="West"/>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="4c7a2" class="javax.swing.JLabel" binding="bannerLbl">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="1" use-parent-layout="false">
+            <minimum-size width="10" height="-1"/>
+            <preferred-size width="390" height="-1"/>
+            <maximum-size width="66666" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <alignmentY value="0.0"/>
+          <horizontalAlignment value="2"/>
+          <horizontalTextPosition value="2"/>
+          <icon value="resources/long_bannerIntelliJ.png"/>
+          <iconTextGap value="0"/>
+          <text value=""/>
+          <verticalAlignment value="1"/>
+          <verticalTextPosition value="1"/>
+        </properties>
+      </component>
+      <grid id="2021" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="10" left="10" bottom="10" right="10"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="7" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <alignmentX value="0.0"/>
+          <alignmentY value="0.0"/>
+          <opaque value="true"/>
+        </properties>
+        <border type="none" title-resource-bundle="Bundle" title-key="AsposeWizardPanel.WizardStep.headingMavn" title-justification="1">
+          <font/>
+          <title-color color="-16777216"/>
+        </border>
+        <children>
+          <component id="ddae6" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="GroupId"/>
+            </properties>
+          </component>
+          <component id="d7d25" class="javax.swing.JTextField" binding="myGroupIdField">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="444" height="24"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="bbb74" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="ArtifactId"/>
+            </properties>
+          </component>
+          <component id="efb5e" class="javax.swing.JTextField" binding="myArtifactIdField">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="444" height="24"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="4eb56" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Version"/>
+            </properties>
+          </component>
+          <component id="b1344" class="javax.swing.JTextField" binding="myVersionField">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="444" height="24"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
