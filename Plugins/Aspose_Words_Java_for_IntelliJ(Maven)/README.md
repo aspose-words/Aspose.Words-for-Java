@@ -1,5 +1,5 @@
-﻿## Aspose.Word Java for IntelliJ IDEA (Maven)
- 
+﻿## **Aspose.Words Java for IntelliJ IDEA (Maven)**
+
 The project is **Intellij IDEA (JetBrains IDE) plugin**  that lets you work with the most powerful word document types manipulating API - **Aspose.Words for Java**.
 
 ## **About** **Plugin**
