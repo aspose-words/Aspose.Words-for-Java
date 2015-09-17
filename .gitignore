@@ -1,4 +1,19 @@
+# Eclipse project files
+.classpath
+.project
+.settings/
+test-output/
 
+# IntelliJ project files
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Mac
+.DS_Store
+
+# Others
 Temp/
 obj/
 classes/
@@ -8,8 +23,6 @@ bin/
 * out*
 *.ldb
 _ReSharper*/
-*.iws
-*.ipr
 *.eml
 out/
 *.user
