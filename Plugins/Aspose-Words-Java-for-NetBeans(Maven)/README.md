@@ -44,4 +44,4 @@ For more info about the **Aspose.Words for Java API**, [please check the api doc
 
 ## Plugin Documentation
 
-For the most complete documentation,  [Please check this WIKI](http://www.aspose.com/docs/display/wordsjava/8.+Aspose.Words+Java+for+NetBeans+%28Maven%29)
+For the most complete documentation,  [Please check this WIKI](http://www.aspose.com/docs/display/wordsjava/Aspose.Words+Java+for+NetBeans+(Maven))
