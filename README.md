@@ -1,29 +1,25 @@
-﻿## Aspose.Word Java for IntelliJ IDEA (Maven)
- 
-The project is **Intellij IDEA (JetBrains IDE) plugin**  that lets you work with the most powerful word document types manipulating API - **Aspose.Words for Java**.
+##Aspose.Words for Java
 
-## **About** **Plugin**
+This package contains [Examples](https://github.com/asposewords/Aspose_Words_Java/tree/master/Examples) for [Aspose.Words for Java](http://www.aspose.com/java/word-component.aspx) and will help you write your own applications.
 
-The plugins is for those who wants to utilize / use **Aspose.Words for Java API** (to create / manipulate word documents types: DOC, DOCX, OOXML, RTF) in their projects.  
+Aspose.Words for Java is a class library that enables your applications to perform a great range of document processing tasks. Aspose.Words supports DOC, DOCX, RTF, HTML, OpenDocument, PDF, XPS, EPUB and other formats. With Aspose.Words you can generate, modify, convert, render and print documents without utilizing Microsoft Word.
 
-The plugin contains two wizards:
+<p align="center">
 
-1.  **Aspose-Words Maven Project** Wizard - To create **Aspose.Words for Java API** Maven project
-2.  **Aspose.Words Examples** - To create / download **Aspose.Words for Java API** Examples Source Codes (Which is meant to demonstrate the different usages of the API)
+  <a title="Download complete Aspose.Words for Java source code" href="https://github.com/asposewords/Aspose_Words_Java/archive/master.zip">
+	<img src="https://raw.github.com/AsposeExamples/java-examples-dashboard/master/images/downloadZip-Button-Large.png" />
+  </a>
+</p>
 
-**Details:**
+Directory | Description
+--------- | -----------
+[Examples](https://github.com/asposewords/Aspose_Words_Java/tree/master/Examples)  | A collection of Java examples that help you learn the product features
 
-1.  **Aspose.Words Maven Project** wizard, after installing the plugin, can be run from **File->New Project->Aspose.Words Maven Project** option. You will have to follow the wizard steps asking for the project information i.e **Project Name, Artifact ID** for your maven project or whether you want to download the Examples Source Codes (for later addition into the project).
-2.  **Aspose.Words Examples** wizard lets you create /copy downloaded Source Code Examples into your project. All the examples withn the selected category will be copied/ created inside "**com.aspose.words.examples**" package and also the corresponding directory structure for the package will be created within "src/main/resources" folder which is needed to run the examples.
+## Resources
 
-## What is Aspose.Words Java API?
-
-**Aspose.Words for Java** is an advanced class library for Java that enables you to perform a great range of document processing tasks directly within your Java applications.
-
-Aspose.Words for Java supports processing word (**DOC, DOCX, OOXML, RTF**) **HTML, OpenDocument, PDF, EPUB, XPS, SWF and all image formats**. With Aspose.Words you can **generate**, **modify**, and **convert** documents without using Microsoft Word.
-
-For more info about the **Aspose.Words for Java API**, [please check the api documentation - click here](http://www.aspose.com/java/word-component.aspx)
-
-## Plugin Documentation
-
-For the complete documentation of this Intellij IDEA plugin, [please go through this wiki - click here](http://www.aspose.com/docs/display/wordsjava/Aspose.Words+Java+for+NetBeans+%28Maven%29)
++ **Website:** [www.aspose.com](http://www.aspose.com)
++ **Product Home:** [Aspose.Words for Java](http://www.aspose.com/java/word-component.aspx)
++ **Download:** [Download Aspose.Words for Java](http://www.aspose.com/community/files/72/java-components/aspose.words-for-java/default.aspx)
++ **Documentation:** [Aspose.Words for Java Documentation](http://www.aspose.com/docs/display/wordsjava/Home)
++ **Forum:** [Aspose.Words for Java Forum](http://www.aspose.com/community/forums/aspose.words-product-family/75/showforum.aspx)
++ **Blog:** [Aspose.Words for Java Blog](http://www.aspose.com/blogs/aspose-products/aspose-words-product-family.html)
