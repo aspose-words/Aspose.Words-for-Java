@@ -10,6 +10,8 @@ package com.aspose.words.examples.loading_saving;
 
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
+import com.sun.media.jfxmediaimpl.MediaUtils;
+import javafx.scene.shape.Path;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Stack;
+
 
 public class PageSplitter
 {
@@ -26,16 +29,17 @@ public class PageSplitter
         String dataDir = Utils.getDataDir(PageSplitter.class);
 
         SplitAllDocumentsToPages(dataDir);
+        System.out.println("\nDocument split to pages successfully.\nFile saved at " + dataDir + "\\Out");
     }
 
     public static void SplitDocumentToPages(File docName) throws Exception
     {
         String folderName = docName.getParent();
-        String fileName = docName.getName();
+        String fileName =  docName.getName();
         String extensionName = fileName.substring(fileName.lastIndexOf("."));
         String outFolder = new File(folderName, "Out").getAbsolutePath();
+        System.out.println("Processing document: " + fileName );
 
-        System.out.println("Processing document: " + fileName + extensionName);
 
         Document doc = new Document(docName.getAbsolutePath());
 

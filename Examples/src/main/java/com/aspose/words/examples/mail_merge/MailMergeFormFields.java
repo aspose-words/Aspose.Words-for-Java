@@ -68,6 +68,7 @@ public class MailMergeFormFields
                 // Insert a check box.
                 mBuilder.insertCheckBox(checkBoxName, (Boolean)e.getFieldValue(), 0);
 
+
                 // Nothing else to do for this field.
                 return;
             }
