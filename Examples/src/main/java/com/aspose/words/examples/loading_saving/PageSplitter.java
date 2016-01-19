@@ -246,7 +246,8 @@ class SectionSplitter extends DocumentVisitor {
         mPageNumberFinder = pageNumberFinder;
     }
 
-    public int VisitParagraphStart(Paragraph paragraph) throws Exception {
+
+    public int visitParagraphStart(Paragraph paragraph) throws Exception {
         if (paragraph.isListItem()) {
             List paraList = paragraph.getListFormat().getList();
             ListLevel currentLevel = paragraph.getListFormat().getListLevel();
@@ -292,7 +293,10 @@ class SectionSplitter extends DocumentVisitor {
         }
 
         Section prevSection = (Section) paragraph.getParentSection().getPreviousSibling();
-        Paragraph prevBodyPara = (Paragraph) paragraph.getPreviousSibling();
+        Paragraph prevBodyPara = null;
+
+        if (paragraph.getPreviousSibling() != null && paragraph.getPreviousSibling().getNodeType() == NodeType.PARAGRAPH)
+            prevBodyPara = (Paragraph) paragraph.getPreviousSibling();
 
         Paragraph prevSectionPara = prevSection != null && paragraph == paragraph.getParentSection().getBody().getFirstChild() ? prevSection.getBody().getLastParagraph() : null;
         Paragraph prevParagraph = prevBodyPara != null ? prevBodyPara : prevSectionPara;
@@ -317,7 +321,7 @@ class SectionSplitter extends DocumentVisitor {
         return VisitorAction.CONTINUE;
     }
 
-    public int VisitSectionStart(Section section) throws Exception {
+    public int visitSectionStart(Section section) throws Exception {
         mSectionCount++;
         Section previousSection = (Section) section.getPreviousSibling();
 
@@ -356,7 +360,7 @@ class SectionSplitter extends DocumentVisitor {
         return VisitorAction.CONTINUE;
     }
 
-    public int VisitDocumentEnd(Document doc) throws Exception {
+    public int visitDocumentEnd(Document doc) throws Exception {
         // All sections have separate headers and footers now, update the fields in all headers and footers
         // to the correct values. This allows each page to maintain the correct field results even when
         // PAGE or IF fields are used.
@@ -370,49 +374,48 @@ class SectionSplitter extends DocumentVisitor {
         return VisitorAction.CONTINUE;
     }
 
-    public int VisitSmartTagEnd(SmartTag smartTag) throws Exception {
+    public int visitSmartTagEnd(SmartTag smartTag) throws Exception {
         if (IsCompositeAcrossPage(smartTag))
             SplitComposite(smartTag);
 
         return VisitorAction.CONTINUE;
     }
 
-    public int VisitCustomXmlMarkupEnd(CustomXmlMarkup customXmlMarkup) throws Exception {
+    public int visitCustomXmlMarkupEnd(CustomXmlMarkup customXmlMarkup) throws Exception {
         if (IsCompositeAcrossPage(customXmlMarkup))
             SplitComposite(customXmlMarkup);
 
         return VisitorAction.CONTINUE;
     }
 
-    public int VisitStructuredDocumentTagEnd(StructuredDocumentTag sdt) throws Exception {
+    public int visitStructuredDocumentTagEnd(StructuredDocumentTag sdt) throws Exception {
         if (IsCompositeAcrossPage(sdt))
             SplitComposite(sdt);
 
         return VisitorAction.CONTINUE;
     }
 
-    public int VisitCellEnd(Cell cell) throws Exception {
+    public int visitCellEnd(Cell cell) throws Exception {
         if (IsCompositeAcrossPage(cell))
             SplitComposite(cell);
 
         return VisitorAction.CONTINUE;
     }
 
-    public int VisitRowEnd(Row row) throws Exception {
+    public int visitRowEnd(Row row) throws Exception {
         if (IsCompositeAcrossPage(row))
             SplitComposite(row);
 
         return VisitorAction.CONTINUE;
     }
 
-    public int VisitTableEnd(Table table) throws Exception {
+    public int visitTableEnd(Table table) throws Exception {
         if (IsCompositeAcrossPage(table)) {
             // Copy any header rows to other pages.
-            Stack stack = new Stack();
-            stack.add(table.getRows().toArray());
+            Row[] rows = table.getRows().toArray();
 
             for (Table cloneTable : (Iterable<Table>) SplitComposite(table)) {
-                for (Row row : (Iterable<Row>) stack) {
+                for (Row row : rows) {
                     if (row.getRowFormat().getHeadingFormat())
                         cloneTable.prependChild(row.deepClone(true));
                 }
@@ -422,7 +425,7 @@ class SectionSplitter extends DocumentVisitor {
         return VisitorAction.CONTINUE;
     }
 
-    public int VisitParagraphEnd(Paragraph paragraph) throws Exception {
+    public int visitParagraphEnd(Paragraph paragraph) throws Exception {
         if (IsCompositeAcrossPage(paragraph)) {
             for (Paragraph clonePara : (Iterable<Paragraph>) SplitComposite(paragraph)) {
                 // Remove list numbering from the cloned paragraph but leave the indent the same
@@ -442,7 +445,7 @@ class SectionSplitter extends DocumentVisitor {
         return VisitorAction.CONTINUE;
     }
 
-    public int VisitSectionEnd(Section section) throws Exception {
+    public int visitSectionEnd(Section section) throws Exception {
         if (IsCompositeAcrossPage(section)) {
             // If a TOC field spans across more than one page then the hyperlink formatting may show through.
             // Remove direct formatting to avoid this.
@@ -483,7 +486,7 @@ class SectionSplitter extends DocumentVisitor {
         return mListLevelToPageLookup.containsKey(para.getListFormat().getListLevel()) && (Integer) mListLevelToPageLookup.get(para.getListFormat().getListLevel()) != mPageNumberFinder.GetPage(para);
     }
 
-    private void RemovePageBreaksFromParagraph(Paragraph para) throws Exception{
+    private void RemovePageBreaksFromParagraph(Paragraph para) throws Exception {
         if (para != null) {
             for (Run run : para.getRuns())
                 run.setText(run.getText().replace(ControlChar.PAGE_BREAK, ""));
@@ -591,3 +594,4 @@ class SectionSplitter extends DocumentVisitor {
     private PageNumberFinder mPageNumberFinder;
     private int mSectionCount;
 }
+
