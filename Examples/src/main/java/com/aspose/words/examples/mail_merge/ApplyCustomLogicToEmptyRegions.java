@@ -9,6 +9,9 @@ package com.aspose.words.examples.mail_merge;
 
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
+import com.aspose.words.net.System.Data.DataRelation;
+import com.aspose.words.net.System.Data.DataSet;
+import com.aspose.words.net.System.Data.DataTable;
 import com.sun.rowset.CachedRowSetImpl;
 
 import javax.sql.rowset.RowSetMetaDataImpl;

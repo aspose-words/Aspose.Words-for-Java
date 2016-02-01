@@ -19,7 +19,8 @@ public class InParagraphList {
         ReportingEngine engine = new ReportingEngine();
 
         // Execute the build report.
-        engine.buildReport(doc, Common.GetClients(), "clients");
+//        engine.getKnownTypes().add(DateUtil.class);
+        engine.buildReport(doc, Common.GetClients());
 
         dataDir = dataDir + Utils.GetOutputFilePath(fileName);
 

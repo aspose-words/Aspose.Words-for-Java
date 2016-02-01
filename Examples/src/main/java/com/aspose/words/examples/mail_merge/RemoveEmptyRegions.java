@@ -7,10 +7,10 @@
  */
 package com.aspose.words.examples.mail_merge;
 
-import com.aspose.words.DataSet;
 import com.aspose.words.Document;
 import com.aspose.words.MailMergeCleanupOptions;
 import com.aspose.words.examples.Utils;
+import com.aspose.words.net.System.Data.DataSet;
 
 
 public class RemoveEmptyRegions

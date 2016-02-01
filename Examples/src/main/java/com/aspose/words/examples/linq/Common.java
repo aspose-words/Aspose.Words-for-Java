@@ -1,7 +1,14 @@
 package com.aspose.words.examples.linq;
 import java.io.File;
 import java.io.FileInputStream;
+
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.examples.Utils;
+import com.aspose.words.net.System.Data.DataRow;
+import com.aspose.words.net.System.Data.DataSet;
+import com.aspose.words.net.System.Data.DataTable;
+
 import java.util.*;
 public class Common {
     public static List<Manager> managers = new ArrayList<Manager>();
@@ -19,17 +26,30 @@ public class Common {
     /// <summary>
     /// Return an enumeration of instances of the Client class.
     /// </summary>
-    public static Iterable<Client> GetClients()
+    public static DataSet GetClients() throws Exception
     {
-        List<Client> clients =  new ArrayList<Client>();
+        // Create a new data set
+        DataSet dataSet = new DataSet("DS");
+
+        // Add a new table to store clients
+        DataTable dt = new DataTable("clients");
+
+        // Add columns
+        dt.getColumns().add("Name");
+        dataSet.getTables().add(dt);
+
+        // Populate the data in table
         for (Manager manager : GetManagers()) {
             List<Contract> listOfContracts = manager.getContracts();
             for (Contract contract : listOfContracts) {
-                clients.add(contract.getClient());
+                DataRow row = dt.newRow();
+                row.set("Name", contract.getClient().getName());
+                dt.getRows().add(row);
             }
         }
-        return (Iterable<Client>)clients;
+        return dataSet;
     }
+
     /// <summary>
     /// Return an enumeration of instances of the Manager class.
     /// </summary>

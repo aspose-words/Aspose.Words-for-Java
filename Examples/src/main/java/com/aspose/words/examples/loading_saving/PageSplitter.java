@@ -381,12 +381,12 @@ class SectionSplitter extends DocumentVisitor {
         return VisitorAction.CONTINUE;
     }
 
-    public int visitCustomXmlMarkupEnd(CustomXmlMarkup customXmlMarkup) throws Exception {
-        if (IsCompositeAcrossPage(customXmlMarkup))
-            SplitComposite(customXmlMarkup);
-
-        return VisitorAction.CONTINUE;
-    }
+//    public int visitCustomXmlMarkupEnd(CustomXmlMarkup customXmlMarkup) throws Exception {
+//        if (IsCompositeAcrossPage(customXmlMarkup))
+//            SplitComposite(customXmlMarkup);
+//
+//        return VisitorAction.CONTINUE;
+//    }
 
     public int visitStructuredDocumentTagEnd(StructuredDocumentTag sdt) throws Exception {
         if (IsCompositeAcrossPage(sdt))

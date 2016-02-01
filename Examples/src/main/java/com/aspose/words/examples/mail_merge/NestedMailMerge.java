@@ -7,11 +7,11 @@
  */
 package com.aspose.words.examples.mail_merge;
 
-import com.aspose.words.DataRelation;
-import com.aspose.words.DataSet;
-import com.aspose.words.DataTable;
 import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
+import com.aspose.words.net.System.Data.DataRelation;
+import com.aspose.words.net.System.Data.DataSet;
+import com.aspose.words.net.System.Data.DataTable;
 import com.sun.rowset.CachedRowSetImpl;
 
 import java.io.File;
