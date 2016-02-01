@@ -1,8 +1,8 @@
 package com.aspose.words.examples;
-
 import com.aspose.words.License;
-
 import java.io.File;
+
+
 
 public class Utils {
 
@@ -17,8 +17,20 @@ public class Utils {
             if (dir.isDirectory() == false)
                 dir.mkdir();
         }
-
         System.out.println("Using data directory: " + dir.toString());
         return dir.toString() + File.separator;
+    }
+    public static String GetOutputFilePath(String inputFilePath)
+    {
+        String extension = "";
+        int i = inputFilePath.lastIndexOf('.');
+        if (i > 0) {
+            extension = inputFilePath.substring(i+1);
+        }
+        if (inputFilePath.contains("."))
+        {
+            inputFilePath = inputFilePath.substring(0, inputFilePath.lastIndexOf("."));}
+
+        return inputFilePath + "_out_." + extension;
     }
 }
