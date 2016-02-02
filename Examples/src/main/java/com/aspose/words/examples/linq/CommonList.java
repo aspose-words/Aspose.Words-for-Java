@@ -1,17 +1,17 @@
 package com.aspose.words.examples.linq;
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
-import java.util.Date;
-public class BubbleChart {
+import  java.util.*;
+public class CommonList {
     /**
      * The main entry point for the application.
      */
     public static void main(String[] args) throws Exception
     {
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(BubbleChart.class);
+        String dataDir = Utils.getDataDir(CommonList.class);
 
-        String fileName = "BubbleChart.docx";
+        String fileName = "CommonList.doc";
         // Load the template document.
         Document doc = new Document(dataDir + fileName);
 
@@ -19,15 +19,16 @@ public class BubbleChart {
         ReportingEngine engine = new ReportingEngine();
 
         // Execute the build report.
-        engine.buildReport(doc, Common.GetContracts(), "contracts");
+        // engine.getKnownTypes().add(DateUtil.class);
+        engine.buildReport(doc, Common.Managers());
 
         dataDir = dataDir + Utils.GetOutputFilePath(fileName);
 
         // Save the finished document to disk.
         doc.save(dataDir);
 
-        System.out.println("\nBubble chart template document is populated with the data about contracts.\nFile saved at " + dataDir);
+
+        System.out.println("\nCommon list template document is populated with the data about managers.\nFile saved at " + dataDir);
 
     }
-
 }

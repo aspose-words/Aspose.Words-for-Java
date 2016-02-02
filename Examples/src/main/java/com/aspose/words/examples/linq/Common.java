@@ -9,7 +9,10 @@ import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.net.System.Data.DataTable;
 
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
+
 public class Common {
     public static List<Manager> managers = new ArrayList<Manager>();
 
@@ -24,7 +27,7 @@ public class Common {
     }
 
     /// <summary>
-    /// Return an enumeration of instances of the Client class.
+    /// Return an dataset of the Client class.
     /// </summary>
     public static DataSet GetClients() throws Exception
     {
@@ -53,7 +56,7 @@ public class Common {
     /// <summary>
     /// Return an enumeration of instances of the Manager class.
     /// </summary>
-    public static List<Manager> GetManagers() {
+    private static List<Manager> GetManagers() {
 
         Manager manager = new Manager();
         manager.setName("John Smith");
@@ -194,17 +197,58 @@ public class Common {
         return bFile;
     }
     /// <summary>
-    ///  Return an enumeration of instances of the Contract class.
+    ///  Return an dataset of the Contract class.
     /// </summary>
-    public static List<Contract> GetContracts()
+    public static DataSet GetContracts() throws Exception
     {
-        List<Contract> contracts = new ArrayList<Contract>();
+        // Create a new data set
+        DataSet dataSet = new DataSet("DS");
+
+        // Add a new table to store contracts
+        DataTable dt = new DataTable("contracts");
+
+        // Add columns
+        dt.getColumns().add("Price", float.class);
+        dt.getColumns().add("Date", Date.class);
+        dataSet.getTables().add(dt);
+
         for (Manager manager : GetManagers()) {
             for (Contract contract : manager.getContracts()) {
-                contracts.add(contract);
+                DataRow row = dt.newRow();
+                row.set("Price", contract.getPrice());
+                row.set("Date", contract.getDate());
+                dt.getRows().add(row);
             }
         }
-        return contracts;
+        return dataSet;
+    }
+    /// <summary>
+    ///  Return an dataset of the Manager class.
+    /// </summary>
+    public static DataSet Managers() throws Exception
+    {
+        // Create a new data set
+        DataSet dataSet = new DataSet("DS");
+
+        // Add a new table to store contracts
+        DataTable dt = new DataTable("managers");
+
+        // Add columns
+        dt.getColumns().add("Name");
+        dt.getColumns().add("Age", int.class);
+        dt.getColumns().add("Photo", byte[].class);
+        dt.getColumns().add("Contracts", Contract.class);
+        dataSet.getTables().add(dt);
+
+        for (Manager manager : GetManagers()) {
+            DataRow row = dt.newRow();
+            row.set("Name", manager.getName());
+            row.set("Age", manager.getAge());
+            row.set("Photo", manager.getPhoto());
+            row.set("Contracts", manager.getContracts());
+            dt.getRows().add(row);
+        }
+        return dataSet;
     }
 
 }

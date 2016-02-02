@@ -19,6 +19,7 @@ obj/
 classes/
 generated/
 bin/
+*_out_*
 * Out*
 * out*
 *.ldb
