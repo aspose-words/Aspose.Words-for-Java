@@ -202,53 +202,75 @@ public class Common {
     public static DataSet GetContracts() throws Exception
     {
         // Create a new data set
-        DataSet dataSet = new DataSet("DS");
+        DataSet ds = new DataSet("ds");
 
         // Add a new table to store contracts
-        DataTable dt = new DataTable("contracts");
+        DataTable dtContracts = new DataTable("Contracts");
 
-        // Add columns
-        dt.getColumns().add("Price", float.class);
-        dt.getColumns().add("Date", Date.class);
-        dataSet.getTables().add(dt);
+        // Add a new table to store managers
+        DataTable dtManagers = new DataTable("Managers");
 
+        // Add a new table to store clients
+        DataTable dtClients = new DataTable("Clients");
+
+        // Add columns to Managers table
+        dtManagers.getColumns().add("Id", int.class);
+        dtManagers.getColumns().add("Name");
+        dtManagers.getColumns().add("Age", int.class);
+        dtManagers.getColumns().add("Photo", byte[].class);
+        ds.getTables().add(dtManagers);
+
+        // Add columns to Contracts table
+        dtContracts.getColumns().add("Id", int.class);
+        dtContracts.getColumns().add("ClientId", int.class);
+        dtContracts.getColumns().add("ManagerId", int.class);
+        dtContracts.getColumns().add("Price", float.class);
+        dtContracts.getColumns().add("Date", Date.class);
+        ds.getTables().add(dtContracts);
+
+        // Add columns to Clients table
+        dtClients.getColumns().add("Id", int.class);
+        dtClients.getColumns().add("Name");
+        ds.getTables().add(dtClients);
+        ds.getRelations().add(dtClients,dtContracts, "Id","ClientId");
+        ds.getRelations().add(dtManagers,dtContracts, "Id","ManagerId");
+
+
+        int managerCounter = 1;
+        int contractCounter =1;
+        int clientCounter = 1;
         for (Manager manager : GetManagers()) {
+            // Add data row to managers table.
+            DataRow managerRow = dtManagers.newRow();
+            managerRow.set("Id", managerCounter);
+            managerRow.set("Name", manager.getName());
+            managerRow.set("Age", manager.getAge());
+            managerRow.set("Photo", manager.getPhoto());
+            dtManagers.getRows().add(managerRow);
+
             for (Contract contract : manager.getContracts()) {
-                DataRow row = dt.newRow();
-                row.set("Price", contract.getPrice());
-                row.set("Date", contract.getDate());
-                dt.getRows().add(row);
+                DataRow contractRow = dtContracts.newRow();
+                DataRow clientRow = dtClients.newRow();
+
+                clientRow.set("Id", clientCounter);
+                clientRow.set("Name", contract.getClient().getName());
+                dtClients.getRows().add(clientRow);
+
+                contractRow.set("Id", contractCounter);
+                contractRow.set("ClientId", clientCounter);
+                contractRow.set("ManagerId", managerCounter);
+                contractRow.set("Price", contract.getPrice());
+                contractRow.set("Date", contract.getDate());
+                dtContracts.getRows().add(contractRow);
+                clientCounter += 1;
+                contractCounter += 1;
+
+
             }
+            managerCounter += 1;
         }
-        return dataSet;
+        return ds;
     }
-    /// <summary>
-    ///  Return an dataset of the Manager class.
-    /// </summary>
-    public static DataSet Managers() throws Exception
-    {
-        // Create a new data set
-        DataSet dataSet = new DataSet("DS");
 
-        // Add a new table to store contracts
-        DataTable dt = new DataTable("managers");
-
-        // Add columns
-        dt.getColumns().add("Name");
-        dt.getColumns().add("Age", int.class);
-        dt.getColumns().add("Photo", byte[].class);
-        dt.getColumns().add("Contracts", Contract.class);
-        dataSet.getTables().add(dt);
-
-        for (Manager manager : GetManagers()) {
-            DataRow row = dt.newRow();
-            row.set("Name", manager.getName());
-            row.set("Age", manager.getAge());
-            row.set("Photo", manager.getPhoto());
-            row.set("Contracts", manager.getContracts());
-            dt.getRows().add(row);
-        }
-        return dataSet;
-    }
 
 }
