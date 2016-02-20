@@ -224,11 +224,6 @@ class Resampler
                 // This has some problems with colors if we use the BufferedImage ctor that accepts the color model,
                 // so let's just convert the bitmap to RGB color. It is enough for the sample project.
                 return BufferedImage.TYPE_INT_RGB;
-            case BufferedImage.TYPE_INT_ARGB:
-            case BufferedImage.TYPE_4BYTE_ABGR:
-                // 32bit image with alpha channel has wrong colors if it is saved to JPEG.
-                // JPEG doesn't support transparency so we may convert image to RGB without alpha.
-                return BufferedImage.TYPE_INT_RGB;
             default:
                 // The image format should be okay.
                 return srcImageType;
