@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.aspose.words.java.maven"
+      label="Aspose.Words Java for Eclipse (Maven)"
+      version="1.0.0.3"
+      provider-name="http://www.aspose.com">
+
+   <description>
+      Aspose.Words Maven Project wizard creates Maven Project for using Aspose.Words for Java API within Eclipse IDE.
+Aspose.Words for Java is an advanced class library for Java that enables you to perform a great range of document processing tasks directly within your Java applications.
+Aspose.Words for Java supports processing word (DOC, DOCX, OOXML, RTF) HTML, OpenDocument, PDF, EPUB, XPS, SWF and all image formats.
+With Aspose.Words you can generate, modify, and convert documents without using Microsoft Word.&quot;
+Aspose.Words Maven Project wizard fetch and configures the latest Maven dependency reference of Aspose.Words for Java from the Aspose Cloud Maven Repository.
+The wizard also gives you option to download the Code Examples to use Aspose.Words for Java API.
+Once you are finished with this wizard - created Maven project and downloaded Code Examples. Next you can insert those Code Examples to use Aspose.Words for Java API in your Project from File -&gt; New -&gt; Other -&gt; Aspose.Words Code Example
+The newly created project and the Code Examples you added is now ready to be enhanced, all required resources and references are also automatically added.
+   </description>
+
+   <license url="">
+      The MIT License (MIT)
+Copyright (c) 2001-2016 Aspose Pty Ltd
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+   </license>
+
+   <plugin
+         id="com.aspose.words.java.maven.plugin"
+         download-size="0"
+         install-size="0"
+         version="1.0.0.3"
+         unpack="false"/>
+
+</feature>
