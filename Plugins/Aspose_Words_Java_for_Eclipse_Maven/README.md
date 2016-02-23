@@ -12,15 +12,13 @@ The Plugin intended for developers using Maven platform for Java developments an
 
 The plugin provides following features to work with [Aspose.Words for Java](http://goo.gl/Eg359W) API within **Eclipse IDE** comfortably:
 
-![plugin title shot](http://i.imgur.com/ahtYw1V.png)
-
 ### Aspose.Words Maven Project (wizard)
-
+![plugin title shot](http://i.imgur.com/Q4oWEOp.png)
 *   By using this wizard plugin creates Maven project for using [Aspose.Words for Java](http://goo.gl/Eg359W) from **New -> Project -> Maven-> Aspose.Words Maven Project**
 *   The wizard will also give option for downloading latest available Code Examples for using the API.
 
 ### Aspose.Words Code Example (wizard)
-
+![plugin title shot](http://i.imgur.com/9EKXo7f.png)
 *   By using this wizard plugin lets you copy the downloaded Code Examples into your project for using [Aspose.Words for Java](http://goo.gl/Eg359W) from **New -> Other -> Java -> Aspose.Words Code Example**
 *   The wizard will also look for and updates for newly available Code Examples from [Aspose.Words for Java examples repository.](https://goo.gl/Qx9Hp9)
      **NOTE:** Selected Code Examples (category) source codes will be copied under **"com.aspose.words.examples"** package. Resources needed for running examples will be copied to the corresponding directory (package) within **"src/main/resources"**.	    
