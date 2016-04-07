@@ -54,7 +54,7 @@ module Asposewordsjavaforruby
   def set_license(aspose_license_file)
     begin
       fstream = input_file(aspose_license_file)
-      license = Rjb::import('com.aspose.api.License').new()
+      license = Rjb::import('com.aspose.words.License').new()
       license.setLicense(fstream)
     rescue Exception => ex
       logger = Logger.new(STDOUT)
