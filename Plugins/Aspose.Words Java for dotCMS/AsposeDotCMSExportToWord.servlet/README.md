@@ -1,10 +1,10 @@
-# **Export to Word Plugin for dotCMS**
+# Export to Word Plugin for dotCMS
 
 Export to Word Plugin for dotCMS allow users to export online content into Word Processing document using [Aspose.Words for Java](http://www.aspose.com/java/word-component.aspx). It dynamically exports the content of the Web page to a Word  Processing document and then automatically downloads the file to  the disk location selected by the user in just couple of seconds. The generated Word processing document can then be opened using any Word Processing Application such as Microsoft Word or Apache OpenOffice etc.
 
 ![Export to Word Image 1](http://i.imgur.com/aqlE55d.png|align=center,border=1!)
 
-## **Installing**
+## Installing
 
 Once downloaded, please follow these steps to install the plugin into your dotCMS website:
 
@@ -17,7 +17,7 @@ Copy the AsposeDotCMSExportToWord JAR file inside the Felix OSGI container (dotC
   1. javax.xml.stream
   2. javax.xml.namespace
 
-## **Using**
+## Using
 
 After you have installed the Export to Word OSGI plugin, it is really simple to start using it on your website. Please follow these simple steps to get started:
 1. Make sure you are logged-in to dotCMS with a Host or Admin level account.
@@ -31,7 +31,7 @@ After you have installed the Export to Word OSGI plugin, it is really simple to 
 ```
 4. This will add **Export to Word** button on the page and clicking a button will dynamically exports the content of the page into a Word Processing document.
 
-## **How to apply Aspose License?**
+## How to apply Aspose License?
 
 This Plugin uses an evaluation version of Aspose.Words. Once you are happy with your evaluation, you can purchase a license at the [Aspose website](http://www.aspose.com/purchase/default.aspx).  
 To remove evaluation message and feature limitations, product license should be applied. You will receive a license file after you have purchased the product. Please follow the steps below to apply the license
@@ -46,7 +46,7 @@ license.setLicense("Aspose.Words.Java.lic");
 ```
 Please check this [article](http://www.aspose.com/docs/display/wordsjava/Applying+a+License) for further details.
 
-## **Supported Platforms**
+## Supported Platforms
 
 In order to deploy Export to Word OSGI/Dynamic Plugin you need to have the following requirements met:
 - dotCMS 2.2 +
