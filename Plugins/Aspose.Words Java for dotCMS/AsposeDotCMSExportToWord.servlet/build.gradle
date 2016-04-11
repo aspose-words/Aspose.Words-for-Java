@@ -1,0 +1,40 @@
+apply plugin: 'application'
+apply plugin: 'osgi'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+sourceCompatibility = '1.7'
+version = '0.1'
+
+
+repositories {
+	maven {
+        url "http://repo.dotcms.com/artifactory/libs-release"
+    }
+}
+dependencies {
+	compile fileTree(dir: '../../../../dotCMS/WEB-INF/felix/load', include: '*.jar')//As this example depends on the com.dotcms.service example
+	compile fileTree(dir: 'src/main/resources/libs', include: '*.jar')
+	compile (group: 'com.dotcms', name: 'dotcms', version: '3.3.1'){
+		transitive = true
+	}
+	providedCompile "javax.servlet:servlet-api:2.5"
+}
+
+jar {
+    manifest {
+        name = 'Aspose Export to Word Plugin'
+        instruction 'Bundle-Vendor', 'Aspose'
+        instruction 'Bundle-Description', 'Export Web page content into Word Processing document using Aspose.Words for Java library'
+        instruction 'Bundle-DocURL', 'http://www.aspose.com/'
+        instruction 'Bundle-Activator', 'com.aspose.dotcms.words.Activator'
+        instruction 'Bundle-ClassPath', '.,libs/aspose-words-16.2.0-jdk16.jar'
+        instruction 'DynamicImport-Package', '*'
+        instruction 'Import-Package', '!com.aspose.words.*,*;version=0'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.8'
+}
+
