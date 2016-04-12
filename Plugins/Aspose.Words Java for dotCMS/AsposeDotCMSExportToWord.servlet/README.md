@@ -20,6 +20,7 @@ Copy the AsposeDotCMSExportToWord JAR file inside the Felix OSGI container (dotC
 ## Using
 
 After you have installed the Export to Word OSGI plugin, it is really simple to start using it on your website. Please follow these simple steps to get started:
+
 1. Make sure you are logged-in to dotCMS with a Host or Admin level account.
 2. Navigate to the page whose content you want to export to a Word Processing document.
 3. Add following HTML code in your page content.
@@ -29,7 +30,7 @@ After you have installed the Export to Word OSGI plugin, it is really simple to 
     <input type="submit" value="Export to Word" style="float: right;" />
 </form>
 ```
-4. This will add **Export to Word** button on the page and clicking a button will dynamically exports the content of the page into a Word Processing document.
+This will add **Export to Word** button on the page and clicking a button will dynamically exports the content of the page into a Word Processing document.
 
 ## How to apply Aspose License?
 
