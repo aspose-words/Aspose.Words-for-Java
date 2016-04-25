@@ -9,21 +9,20 @@ package com.aspose.words.examples.loading_saving;
 
 import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
+import com.aspose.words.*;
 
-public class LoadTxt
+public class LoadEncryptedDoc
 {
     public static void main(String[] args) throws Exception
     {
-        // ExStart:LoadTxt
+        // ExStart:LoadEncryptedDocument
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(LoadTxt.class);
+        String dataDir = Utils.getDataDir(LoadEncryptedDoc.class);
 
-        // The encoding of the text file is automatically detected.
-        Document doc = new Document(dataDir + "LoadTxt.txt");
+        // Load the encrypted document from the absolute path on disk.
+        Document doc = new Document(dataDir + "LoadEncrypted.docx", new LoadOptions("aspose"));
+        // ExEnd:LoadEncryptedDocument
 
-        // Save as any Aspose.Words supported format, such as DOCX.
-        doc.save(dataDir + "LoadTxt_out_.docx");
-        // ExEnd:LoadTxt
-        System.out.println("Loaded data from text file successfully.");
+        System.out.println("Encrypted document loaded successfully.");
     }
 }

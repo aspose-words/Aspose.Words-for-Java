@@ -1,0 +1,44 @@
+/* 
+ * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
+ *
+ * This file is part of Aspose.Words. The source code in this file
+ * is only intended as a supplement to the documentation, and is provided
+ * "as is", without warranty of any kind, either expressed or implied.
+ */
+package com.aspose.words.examples.loading_saving;
+
+import com.aspose.words.Document;
+import com.aspose.words.examples.Utils;
+import com.aspose.words.*;
+import java.io.*;
+
+public class ConvertDocumentToByte
+{
+    public static void main(String[] args) throws Exception
+    {
+        // ExStart:ConvertDocumentToByte
+        // The path to the documents directory.
+        String dataDir = Utils.getDataDir(ConvertDocumentToByte.class);
+
+        // Load the document.
+        Document doc = new Document(dataDir + "Test File (doc).doc");
+
+        // Create a new memory stream.
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        // Save the document to stream.
+        doc.save(outStream, SaveFormat.DOCX);
+
+        // Convert the document to byte form.
+        byte[] docBytes = outStream.toByteArray();
+
+        // The bytes are now ready to be stored/transmitted.
+
+        // Now reverse the steps to load the bytes back into a document object.
+        ByteArrayInputStream inStream = new ByteArrayInputStream(docBytes);
+
+        // Load the stream into a new document object.
+        Document loadDoc = new Document(inStream);
+        // ExEnd:ConvertDocumentToByte
+        System.out.println("Document converted to byte array successfully.");
+    }
+}

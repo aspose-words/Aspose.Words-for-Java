@@ -11,8 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 public class CheckFormat {
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
+        // ExStart:CheckFormatCompatibility
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(CheckFormat.class);
 
@@ -20,11 +20,12 @@ public class CheckFormat {
         String unknownDir = dataDir + "OutUnknown" + File.separator;
         String encryptedDir = dataDir + "OutEncrypted" + File.separator;
         String pre97Dir = dataDir + "OutPre97" + File.separator;
-
+        // ExStart:GetListOfFilesInFolder
         File[] fileList = new java.io.File(dataDir).listFiles();
+        // ExEnd:GetListOfFilesInFolder
+
         // Loop through all found files.
-        for (File file : fileList)
-        {
+        for (File file : fileList) {
             if (file.isDirectory())
                 continue;
 
@@ -37,8 +38,7 @@ public class CheckFormat {
             FileFormatInfo info = FileFormatUtil.detectFileFormat(fileName);
 
             // Display the document type.
-            switch (info.getLoadFormat())
-            {
+            switch (info.getLoadFormat()) {
                 case LoadFormat.DOC:
                     System.out.println("\tMicrosoft Word 97-2003 document.");
                     break;
@@ -78,7 +78,7 @@ public class CheckFormat {
                 case LoadFormat.OTT:
                     System.out.println("\tOpenDocument Text Template.");
                     break;
-                case LoadFormat.DOC_PRE_WORD_97:
+                case LoadFormat.DOC_PRE_WORD_60:
                     System.out.println("\tMS Word 6 or Word 95 format.");
                     break;
                 case LoadFormat.UNKNOWN:
@@ -88,16 +88,12 @@ public class CheckFormat {
             }
 
             // Now copy the document into the appropriate folder.
-            if (info.isEncrypted())
-            {
+            if (info.isEncrypted()) {
                 System.out.println("\tAn encrypted document.");
                 fileCopy(fileName, new File(encryptedDir, nameOnly).getPath());
-            }
-            else
-            {
-                switch (info.getLoadFormat())
-                {
-                    case LoadFormat.DOC_PRE_WORD_97:
+            } else {
+                switch (info.getLoadFormat()) {
+                    case LoadFormat.DOC_PRE_WORD_60:
                         fileCopy(fileName, new File(pre97Dir + nameOnly).getPath());
                         break;
                     case LoadFormat.UNKNOWN:
@@ -109,7 +105,8 @@ public class CheckFormat {
                 }
             }
         }
-        //ExEnd
+        // ExEnd:CheckFormatCompatibility
+
     }
 
     private static void fileCopy(String sourceFileName, String destinationFileName) throws Exception
@@ -143,4 +140,5 @@ public class CheckFormat {
         }
 
     }
+
 }

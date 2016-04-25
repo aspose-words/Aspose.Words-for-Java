@@ -21,15 +21,17 @@ public class LoadAndSaveToStream
 {
     public static void main(String[] args) throws Exception
     {
+        // ExStart:LoadAndSaveToStream
+        // ExStart:OpenFromStream
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(LoadAndSaveToStream.class);
-
         // Open the stream. Read only access is enough for Aspose.Words to load a document.
         InputStream stream = new FileInputStream(dataDir + "Document.doc");
         // Load the entire document into memory.
         Document doc = new Document(stream);
         // You can close the stream now, it is no longer needed because the document is in memory.
         stream.close();
+        // ExEnd:OpenFromStream
         // ... do something with the document
         // Convert the document to a different format and save to stream.
         ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
@@ -37,7 +39,7 @@ public class LoadAndSaveToStream
         FileOutputStream output = new FileOutputStream(dataDir + "Document Out.rtf");
         output.write(dstStream.toByteArray());
         output.close();
-
+        // ExEnd:LoadAndSaveToStream
         System.out.println("Document loaded from stream and then saved successfully.");
     }
 }

@@ -10,20 +10,21 @@ package com.aspose.words.examples.loading_saving;
 import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
 
-public class LoadTxt
+public class Doc2PDF
 {
     public static void main(String[] args) throws Exception
     {
-        // ExStart:LoadTxt
+        // ExStart:Doc2PDF
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(LoadTxt.class);
+        String dataDir = Utils.getDataDir(Doc2PDF.class);
 
-        // The encoding of the text file is automatically detected.
-        Document doc = new Document(dataDir + "LoadTxt.txt");
+        // Load the document from disk.
+        Document doc = new Document(dataDir + "Template.doc");
 
-        // Save as any Aspose.Words supported format, such as DOCX.
-        doc.save(dataDir + "LoadTxt_out_.docx");
-        // ExEnd:LoadTxt
-        System.out.println("Loaded data from text file successfully.");
+        // Save the document in PDF format.
+        dataDir = dataDir + "Template_out_.pdf";
+        doc.save(dataDir);
+        // ExEnd:Doc2PDF
+        System.out.println("\nDocument converted to PDF successfully.\nFile saved at " + dataDir);
     }
 }
