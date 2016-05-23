@@ -187,7 +187,7 @@ public class Common {
             fileInputStream.close();
             for (int i = 0; i < bFile.length; i++)
             {
-                System.out.print((char) bFile[i]);
+                //System.out.print((char) bFile[i]);
             }
         }
         catch (Exception e)

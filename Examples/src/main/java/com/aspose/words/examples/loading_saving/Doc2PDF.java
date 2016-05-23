@@ -22,7 +22,7 @@ public class Doc2PDF
         Document doc = new Document(dataDir + "Template.doc");
 
         // Save the document in PDF format.
-        dataDir = dataDir + "Template_out_.pdf";
+        dataDir = dataDir + "output.pdf";
         doc.save(dataDir);
         // ExEnd:Doc2PDF
         System.out.println("\nDocument converted to PDF successfully.\nFile saved at " + dataDir);
