@@ -14,30 +14,20 @@ import com.aspose.words.examples.Utils;
 import java.awt.*;
 
 
-public class DocumentBuilderInsertParagraph {
+public class DocumentBuilderCursorPosition
+{
     public static void main(String[] args) throws Exception {
         //ExStart:1
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(DocumentBuilderInsertParagraph.class);
+        String dataDir = Utils.getDataDir(DocumentBuilderCursorPosition.class);
 
         // Open the document.
-        Document doc = new Document();
+        Document doc = new Document(dataDir + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
-        Font font = builder.getFont();
-        font.setSize(16);
-        font.setColor(Color.DARK_GRAY);
-        font.setBold(true);
-        font.setName("Algerian");
-        font.setUnderline(2);
-
-        ParagraphFormat paragraphFormat = builder.getParagraphFormat();
-        paragraphFormat.setFirstLineIndent(12);
-        paragraphFormat.setAlignment(1);
-        paragraphFormat.setKeepTogether(true);
-
-
-        builder.write("This is a sample Paragraph");
+        Node node = builder.getCurrentNode();
+        Paragraph curParagraph = builder.getCurrentParagraph();
         doc.save(dataDir + "output.doc");
+
         //ExEnd:1
     }
 }

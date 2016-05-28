@@ -8,35 +8,24 @@
 package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.*;
-import com.aspose.words.Font;
 import com.aspose.words.examples.Utils;
 
-import java.awt.*;
 
-
-public class DocumentBuilderInsertParagraph {
+public class SetCurrentStateOfCheckBox {
     public static void main(String[] args) throws Exception {
         //ExStart:1
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(DocumentBuilderInsertParagraph.class);
+        String dataDir = Utils.getDataDir(SetCurrentStateOfCheckBox.class);
 
         // Open the document.
-        Document doc = new Document();
+        Document doc = new Document(dataDir + "CheckBoxTypeContentControl.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
-        Font font = builder.getFont();
-        font.setSize(16);
-        font.setColor(Color.DARK_GRAY);
-        font.setBold(true);
-        font.setName("Algerian");
-        font.setUnderline(2);
+        StructuredDocumentTag SdtCheckBox  = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
 
-        ParagraphFormat paragraphFormat = builder.getParagraphFormat();
-        paragraphFormat.setFirstLineIndent(12);
-        paragraphFormat.setAlignment(1);
-        paragraphFormat.setKeepTogether(true);
+        //StructuredDocumentTag.Checked property gets/sets current state of the Checkbox SDT
+        if (SdtCheckBox.getSdtType() == SdtType.CHECKBOX)
+            SdtCheckBox.setChecked(true);
 
-
-        builder.write("This is a sample Paragraph");
         doc.save(dataDir + "output.doc");
         //ExEnd:1
     }

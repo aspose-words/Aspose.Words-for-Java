@@ -57,9 +57,7 @@ public class BookmarkTable
         //End of bookmark
         builder.endBookmark("MyBookmark");
 
-
-
-        dataDir = dataDir + "Bookmark.Table_out_.doc";
+        dataDir = dataDir + "output.doc";
         doc.save(dataDir);
         // ExEnd:BookmarkTable
         System.out.println("\nTable bookmarked successfully.\nFile saved at " + dataDir);

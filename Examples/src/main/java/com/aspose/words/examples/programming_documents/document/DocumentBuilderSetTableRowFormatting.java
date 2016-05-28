@@ -8,36 +8,36 @@
 package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.*;
-import com.aspose.words.Font;
 import com.aspose.words.examples.Utils;
 
-import java.awt.*;
 
-
-public class DocumentBuilderInsertParagraph {
+public class DocumentBuilderSetTableRowFormatting {
     public static void main(String[] args) throws Exception {
         //ExStart:1
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(DocumentBuilderInsertParagraph.class);
+        String dataDir = Utils.getDataDir(DocumentBuilderSetTableRowFormatting.class);
 
         // Open the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        Font font = builder.getFont();
-        font.setSize(16);
-        font.setColor(Color.DARK_GRAY);
-        font.setBold(true);
-        font.setName("Algerian");
-        font.setUnderline(2);
 
-        ParagraphFormat paragraphFormat = builder.getParagraphFormat();
-        paragraphFormat.setFirstLineIndent(12);
-        paragraphFormat.setAlignment(1);
-        paragraphFormat.setKeepTogether(true);
+        Table table = builder.startTable();
+        builder.insertCell();
 
+        RowFormat rowFormat = builder.getRowFormat();
+        rowFormat.setHeight(100);
+        rowFormat.setHeightRule(HeightRule.EXACTLY);
 
-        builder.write("This is a sample Paragraph");
+        table.setBottomPadding(30);
+        table.setTopPadding(30);
+        table.setLeftPadding(30);
+        table.setRightPadding(30);
+        builder.writeln("I'm a wonderful formatted row.");
+
+        builder.endRow();
+        builder.endTable();
         doc.save(dataDir + "output.doc");
+
         //ExEnd:1
     }
 }

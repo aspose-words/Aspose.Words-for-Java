@@ -7,33 +7,23 @@
  */
 package com.aspose.words.examples.programming_documents.document;
 
-import com.aspose.words.*;
-import com.aspose.words.Font;
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.examples.Utils;
 
-import java.awt.*;
 
-
-public class WriteAndFont
-{
-    public static void main(String[] args) throws Exception
-    {
+public class DocumentBuilderMoveToNode {
+    public static void main(String[] args) throws Exception {
         //ExStart:1
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(WriteAndFont.class);
+        String dataDir = Utils.getDataDir(DocumentBuilderMoveToNode.class);
 
         // Open the document.
-        Document doc = new Document();
+        Document doc = new Document(dataDir + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
-        Font font = builder.getFont();
-        font.setSize(16);
-        font.setColor(Color.blue);
-        font.setBold(true);
-        font.setName("Algerian");
-        font.setUnderline(Underline.DOUBLE);
-        builder.write("aspose......... aspose_words_java");
+        builder.moveTo(doc.getFirstSection().getBody().getLastParagraph());
         doc.save(dataDir + "output.doc");
 
+        //ExEnd:1
     }
-    //ExEnd:1
 }

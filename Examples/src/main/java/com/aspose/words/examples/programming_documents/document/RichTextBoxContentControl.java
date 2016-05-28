@@ -8,35 +8,30 @@
 package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.*;
-import com.aspose.words.Font;
 import com.aspose.words.examples.Utils;
 
 import java.awt.*;
 
 
-public class DocumentBuilderInsertParagraph {
+public class RichTextBoxContentControl {
     public static void main(String[] args) throws Exception {
         //ExStart:1
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(DocumentBuilderInsertParagraph.class);
+        String dataDir = Utils.getDataDir(RichTextBoxContentControl.class);
 
         // Open the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        Font font = builder.getFont();
-        font.setSize(16);
-        font.setColor(Color.DARK_GRAY);
-        font.setBold(true);
-        font.setName("Algerian");
-        font.setUnderline(2);
+        StructuredDocumentTag sdtRichText =new StructuredDocumentTag(doc, SdtType.RICH_TEXT, MarkupLevel.BLOCK);
 
-        ParagraphFormat paragraphFormat = builder.getParagraphFormat();
-        paragraphFormat.setFirstLineIndent(12);
-        paragraphFormat.setAlignment(1);
-        paragraphFormat.setKeepTogether(true);
+        Paragraph para = new Paragraph(doc);
+        Run run = new Run(doc);
+        run.setText("Hello World");
+        run.getFont().setColor(Color.MAGENTA);
+        para.getRuns().add(run);
+        sdtRichText.getChildNodes().add(para);
+        doc.getFirstSection().getBody().appendChild(sdtRichText);
 
-
-        builder.write("This is a sample Paragraph");
         doc.save(dataDir + "output.doc");
         //ExEnd:1
     }

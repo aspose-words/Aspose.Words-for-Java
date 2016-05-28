@@ -8,35 +8,21 @@
 package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.*;
-import com.aspose.words.Font;
 import com.aspose.words.examples.Utils;
 
-import java.awt.*;
 
-
-public class DocumentBuilderInsertParagraph {
+public class CheckBoxTypeContentControl {
     public static void main(String[] args) throws Exception {
         //ExStart:1
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(DocumentBuilderInsertParagraph.class);
+        String dataDir = Utils.getDataDir(CheckBoxTypeContentControl.class);
 
         // Open the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        Font font = builder.getFont();
-        font.setSize(16);
-        font.setColor(Color.DARK_GRAY);
-        font.setBold(true);
-        font.setName("Algerian");
-        font.setUnderline(2);
+        StructuredDocumentTag stdCheckBox =new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE);
 
-        ParagraphFormat paragraphFormat = builder.getParagraphFormat();
-        paragraphFormat.setFirstLineIndent(12);
-        paragraphFormat.setAlignment(1);
-        paragraphFormat.setKeepTogether(true);
-
-
-        builder.write("This is a sample Paragraph");
+        builder.insertNode(stdCheckBox);
         doc.save(dataDir + "output.doc");
         //ExEnd:1
     }
