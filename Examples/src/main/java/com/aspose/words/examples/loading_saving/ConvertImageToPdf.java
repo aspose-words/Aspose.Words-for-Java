@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class ImageToPdfMethod {
+public class ConvertImageToPdf {
     public static void main(String[] args) throws Exception {
         /// ExStart:convertImageToPdfMethod
         /**
@@ -27,7 +27,7 @@ public class ImageToPdfMethod {
          * @param outputFileName Output PDF file name.
          */
 
-        String dataDir = Utils.getDataDir(ImageToPdfMethod.class);
+        String dataDir = Utils.getDataDir(ConvertImageToPdf.class);
         String inputFileName = dataDir + "Test.bmp";
         String outputFileName = dataDir + "output.pdf";
 

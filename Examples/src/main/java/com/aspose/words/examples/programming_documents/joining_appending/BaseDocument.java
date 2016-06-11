@@ -9,21 +9,18 @@ package com.aspose.words.examples.programming_documents.joining_appending;
 
 import com.aspose.words.Document;
 import com.aspose.words.ImportFormatMode;
-import com.aspose.words.SectionStart;
 import com.aspose.words.examples.Utils;
 
 
-public class BaseDocument
-{
-    private static String gDataDir;
+public class BaseDocument {
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
+        //ExStart:1
         // The path to the documents directory.
-        gDataDir = Utils.getDataDir(BaseDocument.class);
+        String dataDir = Utils.getDataDir(BaseDocument.class);
 
         Document dstDoc = new Document();
-        Document srcDoc = new Document(gDataDir + "TestFile.Source.doc");
+        Document srcDoc = new Document(dataDir + "TestFile.Source.doc");
 
         // The destination document is not actually empty which often causes a blank page to appear before the appended document
         // This is due to the base document having an empty section and the new document being started on the next page.
@@ -31,8 +28,8 @@ public class BaseDocument
         dstDoc.removeAllChildren();
 
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
-        dstDoc.save(gDataDir + "TestFile.BaseDocument Out.doc");
-
+        dstDoc.save(dataDir + "TestFile.BaseDocument.out.doc");
+        //ExEnd:1
         System.out.println("Documents appended successfully.");
     }
 }

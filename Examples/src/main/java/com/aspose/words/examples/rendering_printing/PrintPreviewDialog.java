@@ -24,7 +24,7 @@ import java.awt.print.PrinterJob;
 
 public class PrintPreviewDialog extends JFrame {
     /**
-     * The dialog components. 
+     * The dialog components.
      */
     private JButton printButton;
     private JComboBox zoomComboBox;
@@ -41,7 +41,7 @@ public class PrintPreviewDialog extends JFrame {
     private JButton pageSetupButton;
 
     /**
-     * Private instance members. 
+     * Private instance members.
      */
     private Printable mPrintableDoc;
     private Pageable mPageableDoc;
@@ -57,11 +57,11 @@ public class PrintPreviewDialog extends JFrame {
     private PrintRequestAttributeSet mAttributeSet;
 
     /**
-     * Creates a new instance of PrintPreviewDialog for the given printable object. Since this object 
-     * does not define formatting for each page the preview dialog presents a page setup option 
-     * where the user can specify custom page settings for the document. 
-     * @param printJob The print job for the given document. 
-     * @param doc The printable document. 
+     * Creates a new instance of PrintPreviewDialog for the given printable object. Since this object
+     * does not define formatting for each page the preview dialog presents a page setup option
+     * where the user can specify custom page settings for the document.
+     * @param printJob The print job for the given document.
+     * @param doc The printable document.
      */
     public PrintPreviewDialog(PrinterJob printJob, Printable doc)
     {
@@ -77,9 +77,9 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Creates a new instance of PrintPreviewDialog for the given pageable object. Since this object 
-     * defines formatting for each page the page setup option on the preview dialog is disabled. 
-     * @param doc The pageable document. 
+     * Creates a new instance of PrintPreviewDialog for the given pageable object. Since this object
+     * defines formatting for each page the page setup option on the preview dialog is disabled.
+     * @param doc The pageable document.
      */
     public PrintPreviewDialog(Pageable doc)
     {
@@ -186,7 +186,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Called to display the print preview dialog. 
+     * Called to display the print preview dialog.
      */
     public boolean display()
     {
@@ -205,7 +205,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Renders the current page index of the document to image based on the current zoom factor and displays it on a JScrollPane. 
+     * Renders the current page index of the document to image based on the current zoom factor and displays it on a JScrollPane.
      */
     private int renderImageAndDisplay()
     {
@@ -272,7 +272,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Finds the page range selected by the user by the printer attributes. 
+     * Finds the page range selected by the user by the printer attributes.
      */
     private void findPageRangeFromAttributes(PrintRequestAttributeSet attributes)
     {
@@ -310,7 +310,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Changes the current page to display. 
+     * Changes the current page to display.
      */
     private void setPageToDisplay(int page)
     {
@@ -319,7 +319,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Adds the zoom options to the combobox. 
+     * Adds the zoom options to the combobox.
      */
     private void populateZoomComboBox()
     {
@@ -336,7 +336,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Returns the zoom modifier for the given zoom level. 
+     * Returns the zoom modifier for the given zoom level.
      */
     private double getCurrentZoomModifier()
     {
@@ -352,9 +352,9 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Verifies the page index based off the known valid page range and if valid calls for the new page to be rendered. 
-     * Depending if a page range was specified by the user we may or may not know the final page number yet. If we don't then 
-     * it is found later when each page is rendered. 
+     * Verifies the page index based off the known valid page range and if valid calls for the new page to be rendered.
+     * Depending if a page range was specified by the user we may or may not know the final page number yet. If we don't then
+     * it is found later when each page is rendered.
      */
     private void updateCurrentPage()
     {
@@ -405,7 +405,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Enables or disables arrow buttons based off the current state of the page index. 
+     * Enables or disables arrow buttons based off the current state of the page index.
      */
     private void updateArrowButtons()
     {
@@ -446,7 +446,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Returns true if the last page number of the document is known. 
+     * Returns true if the last page number of the document is known.
      */
     private boolean knowsDocumentPages()
     {
@@ -454,7 +454,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Called when user presses the cross on the window or the escape key to close the program. 
+     * Called when user presses the cross on the window or the escape key to close the program.
      */
     private void closeWindow()
     {
@@ -464,8 +464,8 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Called when the user press the Page Setup button. A screen is displayed which allows 
-     * the user to change the page setting of the document before printing. 
+     * Called when the user press the Page Setup button. A screen is displayed which allows
+     * the user to change the page setting of the document before printing.
      */
     private void onPageSetup()
     {
@@ -484,8 +484,8 @@ public class PrintPreviewDialog extends JFrame {
 
 
     /**
-     * Called when the user presses the print button. Returns true to specify that printing was accepted 
-     * and closes the window. 
+     * Called when the user presses the print button. Returns true to specify that printing was accepted
+     * and closes the window.
      */
     private void onPrint()
     {
@@ -494,7 +494,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Re-renders the document page if the zoom level has been changed. 
+     * Re-renders the document page if the zoom level has been changed.
      */
     private void onZoomChanged()
     {
@@ -506,7 +506,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Called when the first page button is selected. Displays the first page. 
+     * Called when the first page button is selected. Displays the first page.
      */
     private void onFirstPageSelected()
     {
@@ -514,7 +514,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Called when the next page button is selected. Displays the next page. 
+     * Called when the next page button is selected. Displays the next page.
      */
     private void onNextPageSelected()
     {
@@ -522,7 +522,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Called when the last page button is selected. Displays the last page. 
+     * Called when the last page button is selected. Displays the last page.
      */
     private void onLastPageSelected()
     {
@@ -530,7 +530,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Called when the previous page button is selected. Displays the previous page. 
+     * Called when the previous page button is selected. Displays the previous page.
      */
     private void onPreviousPageSelected()
     {
@@ -538,7 +538,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * Creates the custom arrow buttons. 
+     * Creates the custom arrow buttons.
      */
     private void createUIComponents() {
         previousPageButton = new BasicArrowButton(BasicArrowButton.WEST);
@@ -549,7 +549,7 @@ public class PrintPreviewDialog extends JFrame {
     }
 
     /**
-     * A simple extension of the BasicArrowButton which displays two arrows instead of one. 
+     * A simple extension of the BasicArrowButton which displays two arrows instead of one.
      */
     public class DoubleArrowButton extends BasicArrowButton
     {

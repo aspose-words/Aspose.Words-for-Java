@@ -19,6 +19,7 @@ public class ConvertNumPageFields
 
     public static void main(String[] args) throws Exception
     {
+        //ExStart:1
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(ConvertNumPageFields.class);
 
@@ -40,7 +41,7 @@ public class ConvertNumPageFields
         dstDoc.updatePageLayout();
 
         dstDoc.save(gDataDir + "TestFile.ConvertNumPageFields Out.doc");
-
+        //ExEnd:1
         System.out.println("Documents appended successfully.");
     }
 

@@ -28,10 +28,8 @@ public class LoadAndSave {
         // Load the document from disk.
         Document doc = new Document(dataDir + fileName);
 
-        dataDir = dataDir + Utils.GetOutputFilePath(fileName);
-
         // Save the finished document to disk.
-        doc.save(dataDir);
+        doc.save(dataDir + "output.doc");
         System.out.println("Document loaded and saved successfully.");
 
 

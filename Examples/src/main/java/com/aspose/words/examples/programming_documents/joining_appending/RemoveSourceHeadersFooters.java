@@ -20,6 +20,7 @@ public class RemoveSourceHeadersFooters
 
     public static void main(String[] args) throws Exception
     {
+        //ExStart:1
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(RemoveSourceHeadersFooters.class);
 
@@ -40,6 +41,7 @@ public class RemoveSourceHeadersFooters
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(gDataDir + "TestFile.RemoveSourceHeadersFooters Out.doc");
 
+        //ExEnd:1
         System.out.println("Documents appended successfully.");
     }
 }

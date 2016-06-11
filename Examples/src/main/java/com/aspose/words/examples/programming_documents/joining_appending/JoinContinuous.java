@@ -23,6 +23,7 @@ public class JoinContinuous
 
     public static void main(String[] args) throws Exception
     {
+        //ExStart:1
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(JoinContinuous.class);
 
@@ -36,6 +37,7 @@ public class JoinContinuous
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(gDataDir + "TestFile.JoinContinuous Out.doc");
 
+        //ExEnd:1
         System.out.println("Documents appended successfully.");
     }
 }

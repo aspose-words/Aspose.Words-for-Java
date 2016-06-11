@@ -23,10 +23,10 @@ import java.util.Enumeration;
 
 /**
  * The main form of the DocumentExplorer demo.
- * 
+ *
 * DocumentExplorer allows to open DOC, DOT, DOCX, XML, WML, RTF, ODT, OTT,
  * HTML, XHTML and MHTML files using Aspose.Words.
- * 
+ *
 * Once a document is opened, you can explore its object model in the tree. You
  * can also save the document into DOC, DOCX, ODF, EPUB, PDF, SWF, RTF, WordML,
  * HTML, MHTML and plain text formats.

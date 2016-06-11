@@ -13,17 +13,16 @@ import com.aspose.words.examples.Utils;
 import java.util.HashMap;
 
 
-public class ListUseDestinationStyles
-{
+public class ListUseDestinationStyles {
     private static String gDataDir;
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
+        //ExStart:1
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(ListUseDestinationStyles.class);
 
         Document dstDoc = new Document(gDataDir + "TestFile.DestinationList.doc");
-        Document srcDoc =  new Document(gDataDir + "TestFile.SourceList.doc");
+        Document srcDoc = new Document(gDataDir + "TestFile.SourceList.doc");
 
         // Set the source document to continue straight after the end of the destination document.
         srcDoc.getFirstSection().getPageSetup().setSectionStart(SectionStart.CONTINUOUS);
@@ -32,25 +31,19 @@ public class ListUseDestinationStyles
         HashMap newLists = new HashMap();
 
         // Iterate through all paragraphs in the document.
-        for (Paragraph para : (Iterable<Paragraph>) srcDoc.getChildNodes(NodeType.PARAGRAPH, true))
-        {
-            if (para.isListItem())
-            {
+        for (Paragraph para : (Iterable<Paragraph>) srcDoc.getChildNodes(NodeType.PARAGRAPH, true)) {
+            if (para.isListItem()) {
                 int listId = para.getListFormat().getList().getListId();
 
                 // Check if the destination document contains a list with this ID already. If it does then this may
                 // cause the two lists to run together. Create a copy of the list in the source document instead.
-                if (dstDoc.getLists().getListByListId(listId) != null)
-                {
+                if (dstDoc.getLists().getListByListId(listId) != null) {
                     List currentList;
                     // A newly copied list already exists for this ID, retrieve the stored list and use it on
                     // the current paragraph.
-                    if (newLists.containsKey(listId))
-                    {
-                        currentList = (List)newLists.get(listId);
-                    }
-                    else
-                    {
+                    if (newLists.containsKey(listId)) {
+                        currentList = (List) newLists.get(listId);
+                    } else {
                         // Add a copy of this list to the document and store it for later reference.
                         currentList = srcDoc.getLists().addCopy(para.getListFormat().getList());
                         newLists.put(listId, currentList);
@@ -68,6 +61,7 @@ public class ListUseDestinationStyles
         // Save the combined document to disk.
         dstDoc.save(gDataDir + "TestFile.ListUseDestinationStyles Out.docx");
 
+        //ExEnd:1
         System.out.println("Documents appended successfully.");
     }
 }

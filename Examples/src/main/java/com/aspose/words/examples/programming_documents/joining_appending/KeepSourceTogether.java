@@ -17,6 +17,7 @@ public class KeepSourceTogether
 
     public static void main(String[] args) throws Exception
     {
+        //ExStart:1
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(KeepSourceTogether.class);
 
@@ -35,6 +36,7 @@ public class KeepSourceTogether
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(gDataDir + "TestDcc.KeepSourceTogether Out.doc");
 
+        //ExEnd:1
         System.out.println("Documents appended successfully.");
     }
 }

@@ -17,7 +17,7 @@ import com.aspose.words.examples.Utils;
 public class RetrieveRowIndex {
     public static void main(String[] args) throws Exception {
 
-        //TODO
+
         //ExStart:1
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(RetrieveRowIndex.class);

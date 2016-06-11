@@ -18,8 +18,7 @@ import java.awt.*;
 
 public class DocumentBuilderSetFontFormatting
 {
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:1
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderSetFontFormatting.class);
@@ -36,6 +35,7 @@ public class DocumentBuilderSetFontFormatting
         builder.write("I'm a very nice formatted string.");
         doc.save(dataDir + "output.doc");
 
+
+        //ExEnd:1
     }
-    //ExEnd:1
 }

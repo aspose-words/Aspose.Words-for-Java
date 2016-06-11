@@ -19,6 +19,7 @@ public class ListKeepSourceFormatting
 
     public static void main(String[] args) throws Exception
     {
+        //ExStart:1
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(ListKeepSourceFormatting.class);
 
@@ -31,6 +32,7 @@ public class ListKeepSourceFormatting
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(gDataDir + "TestFile.ListKeepSourceFormatting Out.doc");
 
+        //ExEnd:1
         System.out.println("Documents appended successfully.");
     }
 }

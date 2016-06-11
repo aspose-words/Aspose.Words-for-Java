@@ -22,7 +22,7 @@ public class LoadTxt
         Document doc = new Document(dataDir + "LoadTxt.txt");
 
         // Save as any Aspose.Words supported format, such as DOCX.
-        doc.save(dataDir + "LoadTxt_out_.docx");
+        doc.save(dataDir + "output.docx");
         // ExEnd:LoadTxt
         System.out.println("Loaded data from text file successfully.");
     }

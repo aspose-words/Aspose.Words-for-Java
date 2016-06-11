@@ -12,12 +12,11 @@ import com.aspose.words.ImportFormatMode;
 import com.aspose.words.examples.Utils;
 
 
-public class UpdatePageLayout
-{
+public class UpdatePageLayout {
     private static String gDataDir;
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
+        //ExStart:1
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(UpdatePageLayout.class);
 
@@ -38,6 +37,7 @@ public class UpdatePageLayout
         // Save the joined document to PDF.
         dstDoc.save(gDataDir + "TestFile.UpdatePageLayout Out.pdf");
 
+        //ExEnd:1
         System.out.println("Documents appended successfully.");
     }
 }

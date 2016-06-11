@@ -23,6 +23,7 @@ public class KeepSourceFormatting
 
     public static void main(String[] args) throws Exception
     {
+        //ExStart:1
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(KeepSourceFormatting.class);
 
@@ -35,6 +36,7 @@ public class KeepSourceFormatting
         // Save the joined document to disk.
         dstDoc.save(gDataDir + "TestFile.KeepSourceFormatting Out.docx");
 
+        //ExEnd:1
         System.out.println("Documents appended successfully.");
     }
 }

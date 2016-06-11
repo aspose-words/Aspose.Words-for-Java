@@ -19,6 +19,7 @@ public class FindAndHighlight
 {
     public static void main(String[] args) throws Exception
     {
+        //ExStart:1
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(FindAndHighlight.class);
 
@@ -26,30 +27,29 @@ public class FindAndHighlight
 
         // We want the "your document" phrase to be highlighted.
         Pattern regex = Pattern.compile("your document", Pattern.CASE_INSENSITIVE);
-        doc.getRange().replace(regex, new ReplaceEvaluatorFindAndHighlight(), true);
+        doc.getRange().replace(regex, new ReplaceEvaluatorFindAndHighlight(), false);
 
         // Save the output document.
         doc.save(dataDir + "TestFile Out.doc");
+        //ExEnd:1
 
         System.out.println("Text found and highlighted successfully.");
     }
 }
-
-class ReplaceEvaluatorFindAndHighlight implements IReplacingCallback
-{
+//ExStart:1
+class ReplaceEvaluatorFindAndHighlight implements IReplacingCallback {
     /**
      * This method is called by the Aspose.Words find and replace engine for each match.
      * This method highlights the match string, even if it spans multiple runs.
      */
-    public int replacing(ReplacingArgs e) throws Exception
-    {
+    public int replacing(ReplacingArgs e) throws Exception {
         // This is a Run node that contains either the beginning or the complete match.
         Node currentNode = e.getMatchNode();
 
         // The first (and may be the only) run can contain text before the match,
         // in this case it is necessary to split the run.
         if (e.getMatchOffset() > 0)
-            currentNode = splitRun((Run)currentNode, e.getMatchOffset());
+            currentNode = splitRun((Run) currentNode, e.getMatchOffset());
 
         // This array is used to store all nodes of the match for further highlighting.
         ArrayList runs = new ArrayList();
@@ -57,26 +57,23 @@ class ReplaceEvaluatorFindAndHighlight implements IReplacingCallback
         // Find all runs that contain parts of the match string.
         int remainingLength = e.getMatch().group().length();
         while (
-            (remainingLength > 0) &&
-            (currentNode != null) &&
-            (currentNode.getText().length() <= remainingLength))
-        {
+                (remainingLength > 0) &&
+                        (currentNode != null) &&
+                        (currentNode.getText().length() <= remainingLength)) {
             runs.add(currentNode);
             remainingLength = remainingLength - currentNode.getText().length();
 
             // Select the next Run node.
             // Have to loop because there could be other nodes such as BookmarkStart etc.
-            do
-            {
+            do {
                 currentNode = currentNode.getNextSibling();
             }
             while ((currentNode != null) && (currentNode.getNodeType() != NodeType.RUN));
         }
 
         // Split the last run that contains the match if there is any text left.
-        if ((currentNode != null) && (remainingLength > 0))
-        {
-            splitRun((Run)currentNode, remainingLength);
+        if ((currentNode != null) && (remainingLength > 0)) {
+            splitRun((Run) currentNode, remainingLength);
             runs.add(currentNode);
         }
 
@@ -88,6 +85,7 @@ class ReplaceEvaluatorFindAndHighlight implements IReplacingCallback
         return ReplaceAction.SKIP;
     }
 
+//ExEnd:1
     /**
     * Splits text of the specified run into two runs.
     * Inserts the new run just after the specified run.
@@ -101,4 +99,3 @@ class ReplaceEvaluatorFindAndHighlight implements IReplacingCallback
         return afterRun;
     }
 }
-//ExEnd

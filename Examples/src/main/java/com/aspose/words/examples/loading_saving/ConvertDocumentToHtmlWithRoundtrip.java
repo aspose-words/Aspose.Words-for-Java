@@ -17,7 +17,7 @@ public class ConvertDocumentToHtmlWithRoundtrip
     {
         // ExStart:ConvertDocumentToHtmlWithRoundtrip
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(ConvertDocumentToByte.class);
+        String dataDir = Utils.getDataDir(ConvertDocumentToHtmlWithRoundtrip.class);
 
         // Load the document.
         Document doc = new Document(dataDir + "Test File (doc).doc");

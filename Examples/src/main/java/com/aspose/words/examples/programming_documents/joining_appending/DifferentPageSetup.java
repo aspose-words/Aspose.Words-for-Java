@@ -13,17 +13,16 @@ import com.aspose.words.SectionStart;
 import com.aspose.words.examples.Utils;
 
 
-public class DifferentPageSetup
-{
+public class DifferentPageSetup {
     private static String gDataDir;
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
+        //ExStart:1
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(DifferentPageSetup.class);
 
         Document dstDoc = new Document(gDataDir + "TestFile.Destination.doc");
-        Document srcDoc =  new Document(gDataDir + "TestFile.SourcePageSetup.doc");
+        Document srcDoc = new Document(gDataDir + "TestFile.SourcePageSetup.doc");
 
         // Set the source document to continue straight after the end of the destination document.
         // If some page setup settings are different then this may not work and the source document will appear
@@ -41,6 +40,7 @@ public class DifferentPageSetup
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(gDataDir + "TestFile.DifferentPageSetup Out.doc");
 
+        //ExEnd:1
         System.out.println("Documents appended successfully.");
     }
 }
