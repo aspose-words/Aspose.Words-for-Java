@@ -1,11 +1,3 @@
-/* 
- * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
- *
- * This file is part of Aspose.Words. The source code in this file
- * is only intended as a supplement to the documentation, and is provided
- * "as is", without warranty of any kind, either expressed or implied.
- */
-
 package com.aspose.words.examples.programming_documents.fields;
 
 import com.aspose.words.*;
@@ -14,10 +6,8 @@ import com.aspose.words.examples.Utils;
 import java.util.ArrayList;
 
 
-public class ConvertFieldsInParagraph
-{
-    public static void main(String[] args) throws Exception
-    {
+public class ConvertFieldsInParagraph {
+    public static void main(String[] args) throws Exception {
         //ExStart:1
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertFieldsInParagraph.class);
@@ -29,47 +19,38 @@ public class ConvertFieldsInParagraph
         FieldsHelper.convertFieldsToStaticText(doc.getFirstSection().getBody().getLastParagraph(), FieldType.FIELD_IF);
 
         // Save the document with fields transformed to disk.
-        doc.save(dataDir + "Output.doc");
+        doc.save(dataDir + "output.doc");
         //ExEnd:1
 
         System.out.println("Converted fields in the paragraph with text successfully.");
     }
 
     //ExStart:2
-    private static class FieldsHelper extends DocumentVisitor
-    {
-        /**
-         * Converts any fields of the specified type found in the descendants of the node into static text.
-         *
-         * @param compositeNode The node in which all descendants of the specified FieldType will be converted to static text.
-         * @param targetFieldType The FieldType of the field to convert to static text.
-         */
-        public static void convertFieldsToStaticText(CompositeNode compositeNode, int targetFieldType) throws Exception
-        {
+    private static class FieldsHelper extends DocumentVisitor {
+        private int mFieldDepth = 0;
+        private ArrayList mNodesToSkip = new ArrayList();
+        private int mTargetFieldType;
+
+        private FieldsHelper(int targetFieldType) {
+            mTargetFieldType = targetFieldType;
+        }
+
+        public static void convertFieldsToStaticText(CompositeNode compositeNode, int targetFieldType) throws Exception {
             String originalNodeText = compositeNode.toString(SaveFormat.TEXT); //ExSkip
             FieldsHelper helper = new FieldsHelper(targetFieldType);
             compositeNode.accept(helper);
 
             assert (originalNodeText.equals(compositeNode.toString(SaveFormat.TEXT))) : "Error: Text of the node converted differs from the original"; //ExSkip
-            for (Node node : (Iterable<Node>)compositeNode.getChildNodes(NodeType.ANY, true)) //ExSkip
-                assert (!(node instanceof FieldChar && ((FieldChar)node).getFieldType() == targetFieldType)) : "Error: A field node that should be removed still remains."; //ExSkip
+            for (Node node : (Iterable<Node>) compositeNode.getChildNodes(NodeType.ANY, true)) //ExSkip
+                assert (!(node instanceof FieldChar && ((FieldChar) node).getFieldType() == targetFieldType)) : "Error: A field node that should be removed still remains."; //ExSkip
         }
 
-        private FieldsHelper(int targetFieldType)
-        {
-            mTargetFieldType = targetFieldType;
-        }
-
-        public int visitFieldStart(FieldStart fieldStart)
-        {
+        public int visitFieldStart(FieldStart fieldStart) {
             // We must keep track of the starts and ends of fields incase of any nested fields.
-            if (fieldStart.getFieldType() == mTargetFieldType)
-            {
+            if (fieldStart.getFieldType() == mTargetFieldType) {
                 mFieldDepth++;
                 fieldStart.remove();
-            }
-            else
-            {
+            } else {
                 // This removes the field start if it's inside a field that is being converted.
                 CheckDepthAndRemoveNode(fieldStart);
             }
@@ -77,16 +58,12 @@ public class ConvertFieldsInParagraph
             return VisitorAction.CONTINUE;
         }
 
-        public int visitFieldSeparator(FieldSeparator fieldSeparator)
-        {
+        public int visitFieldSeparator(FieldSeparator fieldSeparator) {
             // When visiting a field separator we should decrease the depth level.
-            if (fieldSeparator.getFieldType() == mTargetFieldType)
-            {
+            if (fieldSeparator.getFieldType() == mTargetFieldType) {
                 mFieldDepth--;
                 fieldSeparator.remove();
-            }
-            else
-            {
+            } else {
                 // This removes the field separator if it's inside a field that is being converted.
                 CheckDepthAndRemoveNode(fieldSeparator);
             }
@@ -94,8 +71,7 @@ public class ConvertFieldsInParagraph
             return VisitorAction.CONTINUE;
         }
 
-        public int visitFieldEnd(FieldEnd fieldEnd)
-        {
+        public int visitFieldEnd(FieldEnd fieldEnd) {
             if (fieldEnd.getFieldType() == mTargetFieldType)
                 fieldEnd.remove();
             else
@@ -104,18 +80,15 @@ public class ConvertFieldsInParagraph
             return VisitorAction.CONTINUE;
         }
 
-        public int visitRun(Run run)
-        {
+        public int visitRun(Run run) {
             // Remove the run if it is between the FieldStart and FieldSeparator of the field being converted.
             CheckDepthAndRemoveNode(run);
 
             return VisitorAction.CONTINUE;
         }
 
-        public int visitParagraphEnd(Paragraph paragraph)
-        {
-            if (mFieldDepth > 0)
-            {
+        public int visitParagraphEnd(Paragraph paragraph) {
+            if (mFieldDepth > 0) {
                 // The field code that is being converted continues onto another paragraph. We
                 // need to copy the remaining content from this paragraph onto the next paragraph.
                 Node nextParagraph = paragraph.getNextSibling();
@@ -125,10 +98,9 @@ public class ConvertFieldsInParagraph
                     nextParagraph = nextParagraph.getNextSibling();
 
                 // Copy all of the nodes over. Keep a list of these nodes so we know not to remove them.
-                while (paragraph.hasChildNodes())
-                {
+                while (paragraph.hasChildNodes()) {
                     mNodesToSkip.add(paragraph.getLastChild());
-                    ((Paragraph)nextParagraph).prependChild(paragraph.getLastChild());
+                    ((Paragraph) nextParagraph).prependChild(paragraph.getLastChild());
                 }
 
                 paragraph.remove();
@@ -137,8 +109,7 @@ public class ConvertFieldsInParagraph
             return VisitorAction.CONTINUE;
         }
 
-        public int visitTableStart(Table table)
-        {
+        public int visitTableStart(Table table) {
             CheckDepthAndRemoveNode(table);
 
             return VisitorAction.CONTINUE;
@@ -147,15 +118,10 @@ public class ConvertFieldsInParagraph
         /**
          * Checks whether the node is inside a field or should be skipped and then removes it if necessary.
          */
-        private void CheckDepthAndRemoveNode(Node node)
-        {
+        private void CheckDepthAndRemoveNode(Node node) {
             if (mFieldDepth > 0 && !mNodesToSkip.contains(node))
                 node.remove();
         }
-
-        private int mFieldDepth = 0;
-        private ArrayList mNodesToSkip = new ArrayList();
-        private int mTargetFieldType;
     }
     //ExEnd:2
 

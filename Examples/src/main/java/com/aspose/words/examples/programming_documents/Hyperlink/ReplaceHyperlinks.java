@@ -1,20 +1,14 @@
-/* 
- * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
- *
- * This file is part of Aspose.Words. The source code in this file
- * is only intended as a supplement to the documentation, and is provided
- * "as is", without warranty of any kind, either expressed or implied.
- */
 package com.aspose.words.examples.programming_documents.Hyperlink;
 
-import com.aspose.words.*;
+import com.aspose.words.Document;
+import com.aspose.words.Field;
+import com.aspose.words.FieldHyperlink;
+import com.aspose.words.FieldType;
 import com.aspose.words.examples.Utils;
 
 
-public class ReplaceHyperlinks
-{
-    public static void main(String[] args) throws Exception
-    {
+public class ReplaceHyperlinks {
+    public static void main(String[] args) throws Exception {
         //ExStart:1
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ReplaceHyperlinks.class);
@@ -23,10 +17,9 @@ public class ReplaceHyperlinks
 
         // Open the document.
         Document doc = new Document(dataDir + "ReplaceHyperlinks.doc");
-        for(Field field: doc.getRange().getFields()){
-            if (field.getType() == FieldType.FIELD_HYPERLINK)
-            {
-                FieldHyperlink hyperlink = (FieldHyperlink)field;
+        for (Field field : doc.getRange().getFields()) {
+            if (field.getType() == FieldType.FIELD_HYPERLINK) {
+                FieldHyperlink hyperlink = (FieldHyperlink) field;
 
                 // Some hyperlinks can be local (links to bookmarks inside the document), ignore these.
                 if (hyperlink.getSubAddress() != null)
@@ -35,10 +28,9 @@ public class ReplaceHyperlinks
                 hyperlink.setAddress(NewUrl);
                 hyperlink.setResult(NewName);
             }
-
+            doc.save(dataDir + "output.doc");
+            //ExEnd:1
         }
-        doc.save(dataDir + "output.doc");
-        //ExEnd:1
     }
 
 }

@@ -1,10 +1,3 @@
-/* 
- * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
- *
- * This file is part of Aspose.Words. The source code in this file
- * is only intended as a supplement to the documentation, and is provided
- * "as is", without warranty of any kind, either expressed or implied.
- */
 package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.*;
@@ -14,17 +7,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class ExtractContentBetweenBlockLevelNodes
-{
-    public static void main(String[] args) throws Exception
-    {
+public class ExtractContentBetweenBlockLevelNodes {
+    public static void main(String[] args) throws Exception {
+        //ExStart:1
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractContentBetweenBlockLevelNodes.class);
 
         Document doc = new Document(dataDir + "TestFile.doc");
 
-        Paragraph startPara = (Paragraph)doc.getLastSection().getChild(NodeType.PARAGRAPH, 2, true);
-        Table endTable = (Table)doc.getLastSection().getChild(NodeType.TABLE, 0, true);
+        Paragraph startPara = (Paragraph) doc.getLastSection().getChild(NodeType.PARAGRAPH, 2, true);
+        Table endTable = (Table) doc.getLastSection().getChild(NodeType.TABLE, 0, true);
 
         // Extract the content between these nodes in the document. Include these markers in the extraction.
         ArrayList extractedNodes = extractContent(startPara, endTable, true);
@@ -32,30 +24,29 @@ public class ExtractContentBetweenBlockLevelNodes
         // Lets reverse the array to make inserting the content back into the document easier.
         Collections.reverse(extractedNodes);
 
-        while (extractedNodes.size() > 0)
-        {
+        while (extractedNodes.size() > 0) {
             // Insert the last node from the reversed list
-            endTable.getParentNode().insertAfter((Node)extractedNodes.get(0), endTable);
+            endTable.getParentNode().insertAfter((Node) extractedNodes.get(0), endTable);
             // Remove this node from the list after insertion.
             extractedNodes.remove(0);
         }
 
         // Save the generated document to disk.
-        doc.save(dataDir + "TestFile.DuplicatedContent Out.doc");
+        doc.save(dataDir + "output.doc");
 
         System.out.println("Content extracted between the block level nodes successfully.");
     }
+    //ExEnd:1
 
     /**
      * Extracts a range of nodes from a document found between specified markers and returns a copy of those nodes. Content can be extracted
      * between inline nodes, block level nodes, and also special nodes such as Comment or Boomarks. Any combination of different marker types can used.
      *
-     * @param startNode The node which defines where to start the extraction from the document. This node can be block or inline level of a body.
-     * @param endNode The node which defines where to stop the extraction from the document. This node can be block or inline level of body.
+     * @param startNode   The node which defines where to start the extraction from the document. This node can be block or inline level of a body.
+     * @param endNode     The node which defines where to stop the extraction from the document. This node can be block or inline level of body.
      * @param isInclusive Should the marker nodes be included.
      */
-    public static ArrayList extractContent(Node startNode, Node endNode, boolean isInclusive) throws Exception
-    {
+    public static ArrayList extractContent(Node startNode, Node endNode, boolean isInclusive) throws Exception {
         // First check that the nodes passed to this method are valid for use.
         verifyParameterNodes(startNode, endNode);
 
@@ -82,41 +73,33 @@ public class ExtractContentBetweenBlockLevelNodes
 
         // Begin extracting content. Process all block level nodes and specifically split the first and last nodes when needed so paragraph formatting is retained.
         // Method is little more complex than a regular extractor as we need to factor in extracting using inline nodes, fields, bookmarks etc as to make it really useful.
-        while (isExtracting)
-        {
+        while (isExtracting) {
             // Clone the current node and its children to obtain a copy.
-            CompositeNode cloneNode = (CompositeNode)currNode.deepClone(true);
+            CompositeNode cloneNode = (CompositeNode) currNode.deepClone(true);
             isEndingNode = currNode.equals(endNode);
 
-            if(isStartingNode || isEndingNode)
-            {
+            if (isStartingNode || isEndingNode) {
                 // We need to process each marker separately so pass it off to a separate method instead.
-                if (isStartingNode)
-                {
+                if (isStartingNode) {
                     processMarker(cloneNode, nodes, originalStartNode, isInclusive, isStartingNode, isEndingNode);
                     isStartingNode = false;
                 }
 
                 // Conditional needs to be separate as the block level start and end markers maybe the same node.
-                if (isEndingNode)
-                {
+                if (isEndingNode) {
                     processMarker(cloneNode, nodes, originalEndNode, isInclusive, isStartingNode, isEndingNode);
                     isExtracting = false;
                 }
-            }
-            else
+            } else
                 // Node is not a start or end marker, simply add the copy to the list.
                 nodes.add(cloneNode);
 
             // Move to the next node and extract it. If next node is null that means the rest of the content is found in a different section.
-            if (currNode.getNextSibling() == null && isExtracting)
-            {
+            if (currNode.getNextSibling() == null && isExtracting) {
                 // Move to the next section.
-                Section nextSection = (Section)currNode.getAncestor(NodeType.SECTION).getNextSibling();
+                Section nextSection = (Section) currNode.getAncestor(NodeType.SECTION).getNextSibling();
                 currNode = nextSection.getBody().getFirstChild();
-            }
-            else
-            {
+            } else {
                 // Move to the next node in the body.
                 currNode = currNode.getNextSibling();
             }
@@ -129,8 +112,7 @@ public class ExtractContentBetweenBlockLevelNodes
     /**
      * Checks the input parameters are correct and can be used. Throws an exception if there is any problem.
      */
-    private static void verifyParameterNodes(Node startNode, Node endNode) throws Exception
-    {
+    private static void verifyParameterNodes(Node startNode, Node endNode) throws Exception {
         // The order in which these checks are done is important.
         if (startNode == null)
             throw new IllegalArgumentException("Start node cannot be null");
@@ -145,26 +127,23 @@ public class ExtractContentBetweenBlockLevelNodes
 
         // Check the end node is after the start node in the DOM tree
         // First check if they are in different sections, then if they're not check their position in the body of the same section they are in.
-        Section startSection = (Section)startNode.getAncestor(NodeType.SECTION);
-        Section endSection = (Section)endNode.getAncestor(NodeType.SECTION);
+        Section startSection = (Section) startNode.getAncestor(NodeType.SECTION);
+        Section endSection = (Section) endNode.getAncestor(NodeType.SECTION);
 
         int startIndex = startSection.getParentNode().indexOf(startSection);
         int endIndex = endSection.getParentNode().indexOf(endSection);
 
-        if (startIndex == endIndex)
-        {
+        if (startIndex == endIndex) {
             if (startSection.getBody().indexOf(startNode) > endSection.getBody().indexOf(endNode))
                 throw new IllegalArgumentException("The end node must be after the start node in the body");
-        }
-        else if (startIndex > endIndex)
+        } else if (startIndex > endIndex)
             throw new IllegalArgumentException("The section of end node must be after the section start node");
     }
 
     /**
      * Checks if a node passed is an inline node.
      */
-    private static boolean isInline(Node node) throws Exception
-    {
+    private static boolean isInline(Node node) throws Exception {
         // Test if the node is desendant of a Paragraph or Table node and also is not a paragraph or a table a paragraph inside a comment class which is decesant of a pararaph is possible.
         return ((node.getAncestor(NodeType.PARAGRAPH) != null || node.getAncestor(NodeType.TABLE) != null) && !(node.getNodeType() == NodeType.PARAGRAPH || node.getNodeType() == NodeType.TABLE));
     }
@@ -172,14 +151,11 @@ public class ExtractContentBetweenBlockLevelNodes
     /**
      * Removes the content before or after the marker in the cloned node depending on the type of marker.
      */
-    private static void processMarker(CompositeNode cloneNode, ArrayList nodes, Node node, boolean isInclusive, boolean isStartMarker, boolean isEndMarker) throws Exception
-    {
+    private static void processMarker(CompositeNode cloneNode, ArrayList nodes, Node node, boolean isInclusive, boolean isStartMarker, boolean isEndMarker) throws Exception {
         // If we are dealing with a block level node just see if it should be included and add it to the list.
-        if(!isInline(node))
-        {
+        if (!isInline(node)) {
             // Don't add the node twice if the markers are the same node
-            if(!(isStartMarker && isEndMarker))
-            {
+            if (!(isStartMarker && isEndMarker)) {
                 if (isInclusive)
                     nodes.add(cloneNode);
             }
@@ -188,12 +164,10 @@ public class ExtractContentBetweenBlockLevelNodes
 
         // If a marker is a FieldStart node check if it's to be included or not.
         // We assume for simplicity that the FieldStart and FieldEnd appear in the same paragraph.
-        if (node.getNodeType() == NodeType.FIELD_START)
-        {
+        if (node.getNodeType() == NodeType.FIELD_START) {
             // If the marker is a start node and is not be included then skip to the end of the field.
             // If the marker is an end node and it is to be included then move to the end field so the field will not be removed.
-            if ((isStartMarker && !isInclusive) || (!isStartMarker && isInclusive))
-            {
+            if ((isStartMarker && !isInclusive) || (!isStartMarker && isInclusive)) {
                 while (node.getNextSibling() != null && node.getNodeType() != NodeType.FIELD_END)
                     node = node.getNextSibling();
 
@@ -202,8 +176,7 @@ public class ExtractContentBetweenBlockLevelNodes
 
         // If either marker is part of a comment then to include the comment itself we need to move the pointer forward to the Comment
         // node found after the CommentRangeEnd node.
-        if (node.getNodeType() == NodeType.COMMENT_RANGE_END)
-        {
+        if (node.getNodeType() == NodeType.COMMENT_RANGE_END) {
             while (node.getNextSibling() != null && node.getNodeType() != NodeType.COMMENT)
                 node = node.getNextSibling();
 
@@ -226,21 +199,16 @@ public class ExtractContentBetweenBlockLevelNodes
         boolean isRemoving = isStartMarker;
         Node nextNode = cloneNode.getFirstChild();
 
-        while (isProcessing && nextNode != null)
-        {
+        while (isProcessing && nextNode != null) {
             Node currentNode = nextNode;
             isSkip = false;
 
-            if (currentNode.equals(node))
-            {
-                if (isStartMarker)
-                {
+            if (currentNode.equals(node)) {
+                if (isStartMarker) {
                     isProcessing = false;
                     if (isInclusive)
                         isRemoving = false;
-                }
-                else
-                {
+                } else {
                     isRemoving = true;
                     if (isInclusive)
                         isSkip = true;
@@ -253,8 +221,7 @@ public class ExtractContentBetweenBlockLevelNodes
         }
 
         // After processing the composite node may become empty. If it has don't include it.
-        if (!(isStartMarker && isEndMarker))
-        {
+        if (!(isStartMarker && isEndMarker)) {
             if (cloneNode.hasChildNodes())
                 nodes.add(cloneNode);
         }

@@ -1,21 +1,12 @@
-/* 
- * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
- *
- * This file is part of Aspose.Words. The source code in this file
- * is only intended as a supplement to the documentation, and is provided
- * "as is", without warranty of any kind, either expressed or implied.
- */
 package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.examples.mail_merge.RemoveEmptyRegions;
 
 
-public class RemoveBreaks
-{
-    public static void main(String[] args) throws Exception
-    {
+public class RemoveBreaks {
+    public static void main(String[] args) throws Exception {
+        //ExStart:1
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(RemoveBreaks.class);
 
@@ -33,26 +24,24 @@ public class RemoveBreaks
 
         System.out.println("Removed breaks from the document successfully.");
     }
+    //ExEnd:1
 
     //ExStart
     //ExFor:ControlChar.PageBreak
     //ExId:RemoveBreaks_Pages
     //ExSummary:Removes all page breaks from the document.
-    private static void removePageBreaks(Document doc) throws Exception
-    {
+    private static void removePageBreaks(Document doc) throws Exception {
         // Retrieve all paragraphs in the document.
         NodeCollection paragraphs = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
         // Iterate through all paragraphs
-        for (Paragraph para : (Iterable<Paragraph>) paragraphs)
-        {
+        for (Paragraph para : (Iterable<Paragraph>) paragraphs) {
             // If the paragraph has a page break before set then clear it.
             if (para.getParagraphFormat().getPageBreakBefore())
                 para.getParagraphFormat().setPageBreakBefore(false);
 
             // Check all runs in the paragraph for page breaks and remove them.
-            for (Run run : (Iterable<Run>) para.getRuns())
-            {
+            for (Run run : (Iterable<Run>) para.getRuns()) {
                 if (run.getText().contains(ControlChar.PAGE_BREAK))
                     run.setText(run.getText().replace(ControlChar.PAGE_BREAK, ""));
             }
@@ -66,12 +55,10 @@ public class RemoveBreaks
     //ExStart
     //ExId:RemoveBreaks_Sections
     //ExSummary:Combines all sections in the document into one.
-    private static void removeSectionBreaks(Document doc) throws Exception
-    {
+    private static void removeSectionBreaks(Document doc) throws Exception {
         // Loop through all sections starting from the section that precedes the last one
         // and moving to the first section.
-        for (int i = doc.getSections().getCount() - 2; i >= 0; i--)
-        {
+        for (int i = doc.getSections().getCount() - 2; i >= 0; i--) {
             // Copy the content of the current section to the beginning of the last section.
             doc.getLastSection().prependContent(doc.getSections().get(i));
             // Remove the copied section.

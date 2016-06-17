@@ -1,10 +1,3 @@
-/* 
- * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
- *
- * This file is part of Aspose.Words. The source code in this file
- * is only intended as a supplement to the documentation, and is provided
- * "as is", without warranty of any kind, either expressed or implied.
- */
 package com.aspose.words.examples.programming_documents.joining_appending;
 
 import com.aspose.words.*;
@@ -14,15 +7,14 @@ import java.util.HashMap;
 
 
 public class ListUseDestinationStyles {
-    private static String gDataDir;
 
     public static void main(String[] args) throws Exception {
         //ExStart:1
         // The path to the documents directory.
-        gDataDir = Utils.getDataDir(ListUseDestinationStyles.class);
+        String dataDir = Utils.getDataDir(ListUseDestinationStyles.class);
 
-        Document dstDoc = new Document(gDataDir + "TestFile.DestinationList.doc");
-        Document srcDoc = new Document(gDataDir + "TestFile.SourceList.doc");
+        Document dstDoc = new Document(dataDir + "TestFile.DestinationList.doc");
+        Document srcDoc = new Document(dataDir + "TestFile.SourceList.doc");
 
         // Set the source document to continue straight after the end of the destination document.
         srcDoc.getFirstSection().getPageSetup().setSectionStart(SectionStart.CONTINUOUS);
@@ -59,9 +51,7 @@ public class ListUseDestinationStyles {
         dstDoc.appendDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES);
 
         // Save the combined document to disk.
-        dstDoc.save(gDataDir + "TestFile.ListUseDestinationStyles Out.docx");
-
+        dstDoc.save(dataDir + "output.docx");
         //ExEnd:1
-        System.out.println("Documents appended successfully.");
     }
 }
