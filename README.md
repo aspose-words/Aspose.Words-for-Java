@@ -1,7 +1,7 @@
 ##Aspose.Words for Java
 [Aspose.Words for Java](http://www.aspose.com/products/words/java) is an advanced Java Word processing API that enables you to perform a great range of document processing tasks directly within your Java applications. Aspose.Words for Java API supports processing word (DOC, DOCX, OOXML, RTF) HTML, OpenDocument, PDF, EPUB, XPS, SWF and all image formats. With Aspose.Words you can generate, modify, and convert documents without using Microsoft Word.
 
-This repository contains [Examples](Examples), [Plugins](Plugins) and [Showcases](Showcases) for [Aspose.Words for Java](http://www.aspose.com/products/words/java) to help you learn and write your own applications.
+This repository contains [Examples](Examples), [Plugins](Plugins) and Showcases for [Aspose.Words for Java](http://www.aspose.com/products/words/java) to help you learn and write your own applications.
 
 <p align="center">
 
@@ -13,7 +13,6 @@ This repository contains [Examples](Examples), [Plugins](Plugins) and [Showcases
 Directory | Description
 --------- | -----------
 [Examples](Examples)  | A collection of Java examples that help you learn and explore the API features
-[Showcases](Showcases)  | Standalone ready-to-use applications that demonstrate some specific use cases
 [Plugins](Plugins)  | Plugins that will demonstrate one or more features of Aspose.Words for Java
 
 ## Resources
