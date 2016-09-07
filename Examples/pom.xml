@@ -13,9 +13,15 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>16.4.0</version>
+            <version>16.7.0</version>
             <classifier>jdk16</classifier>
         </dependency>
+        <dependency>
+			<groupId>com.aspose</groupId>
+			<artifactId>aspose-email</artifactId>
+			<version>6.8.0</version>
+			<classifier>jdk16</classifier>
+		</dependency>
         <dependency>
             <groupId>javax.media.jai</groupId>
             <artifactId>com.springsource.javax.media.jai.core</artifactId>
