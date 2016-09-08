@@ -1,35 +1,38 @@
 package com.aspose.words.examples.programming_documents.find_replace;
 
+import java.util.regex.Pattern;
+
 import com.aspose.words.Document;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.ReplaceAction;
 import com.aspose.words.ReplacingArgs;
 import com.aspose.words.examples.Utils;
 
-import java.util.regex.Pattern;
-
-//ExStart:1
 public class ReplaceWithEvaluator {
-    public static void main(String[] args) throws Exception {
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(ReplaceWithEvaluator.class);
 
-        Document doc = new Document(dataDir + "Document.doc");
-        doc.getRange().replace(Pattern.compile("[s|m]ad"), new ReplaceCallback(), true);
+	public static void main(String[] args) throws Exception {
 
-        doc.save(dataDir + "output.doc");
-    }
+		// The path to the documents directory.
+		String dataDir = Utils.getDataDir(ReplaceWithEvaluator.class);
+
+		Document doc = new Document(dataDir + "Document.doc");
+		doc.getRange().replace(Pattern.compile("[s|m]ad"), new MyReplaceEvaluator(), true);
+		doc.save(dataDir + "output.doc");
+	}
 }
 
-class ReplaceCallback implements IReplacingCallback {
-    private int count = 0;
+class MyReplaceEvaluator implements IReplacingCallback {
+	private int mMatchNumber;
 
-    @Override
-    public int replacing(ReplacingArgs args) throws Exception {
-        count++;
-        args.setReplacement("HAPPY-" + count);
-        return ReplaceAction.REPLACE;
-    }
+	/**
+	 * This is called during a replace operation each time a match is found.
+	 * This method appends a number to the match string and returns it as a
+	 * replacement string.
+	 */
+	public int replacing(ReplacingArgs e) throws Exception {
+		e.setReplacement(e.getMatch().group() + Integer.toString(mMatchNumber));
+		mMatchNumber++;
+		return ReplaceAction.REPLACE;
+	}
+
 }
-//ExEnd:1
-

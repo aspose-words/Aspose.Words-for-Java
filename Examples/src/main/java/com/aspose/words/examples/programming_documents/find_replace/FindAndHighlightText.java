@@ -1,4 +1,4 @@
-package com.aspose.words.examples.programming_documents.document;
+package com.aspose.words.examples.programming_documents.find_replace;
 
 import java.awt.Color;
 import java.util.ArrayList;
