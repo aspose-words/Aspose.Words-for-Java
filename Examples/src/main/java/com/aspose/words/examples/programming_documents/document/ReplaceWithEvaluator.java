@@ -1,42 +1,38 @@
-/* 
- * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
- *
- * This file is part of Aspose.Words. The source code in this file
- * is only intended as a supplement to the documentation, and is provided
- * "as is", without warranty of any kind, either expressed or implied.
- */
 package com.aspose.words.examples.programming_documents.document;
-
-import com.aspose.words.Document;
-import com.aspose.words.IReplacingCallback;
-import com.aspose.words.ReplacingArgs;
-import com.aspose.words.examples.Utils;
 
 import java.util.regex.Pattern;
 
-//TODO: re-check output
-public class ReplaceWithEvaluator
-{
-    public static void main(String[] args) throws Exception
-    {
-        //ExStart:1
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(ReplaceWithEvaluator.class);
+import com.aspose.words.Document;
+import com.aspose.words.IReplacingCallback;
+import com.aspose.words.ReplaceAction;
+import com.aspose.words.ReplacingArgs;
+import com.aspose.words.examples.Utils;
 
-        Document doc = new Document(dataDir + "Document.doc");
-       /// doc.getRange().replace(Pattern.compile("[s|m]ad"));
-        doc.getRange().replace(Pattern.compile("[s|m]ad]"), new ReplaceCallback(), true);
+public class ReplaceWithEvaluator {
 
-        doc.save(dataDir + "output.doc");
-        //ExEnd:1
-    }
+	public static void main(String[] args) throws Exception {
 
+		// The path to the documents directory.
+		String dataDir = Utils.getDataDir(ReplaceWithEvaluator.class);
+
+		Document doc = new Document(dataDir + "Document.doc");
+		doc.getRange().replace(Pattern.compile("[s|m]ad"), new MyReplaceEvaluator(), true);
+		doc.save(dataDir + "output.doc");
+	}
 }
 
-class ReplaceCallback implements IReplacingCallback {
-    @Override
-    public int replacing(ReplacingArgs replacingArgs) throws Exception {
-        return 1;
-    }
-}
+class MyReplaceEvaluator implements IReplacingCallback {
+	private int mMatchNumber;
 
+	/**
+	 * This is called during a replace operation each time a match is found.
+	 * This method appends a number to the match string and returns it as a
+	 * replacement string.
+	 */
+	public int replacing(ReplacingArgs e) throws Exception {
+		e.setReplacement(e.getMatch().group() + Integer.toString(mMatchNumber));
+		mMatchNumber++;
+		return ReplaceAction.REPLACE;
+	}
+
+}
