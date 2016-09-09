@@ -3,12 +3,11 @@ package com.aspose.words.examples.programming_documents.document;
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
-
-public class RemoveBreaks {
+public class RemovePageAndSectionBreaks {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+        
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(RemoveBreaks.class);
+        String dataDir = Utils.getDataDir(RemovePageAndSectionBreaks.class);
 
         // Open the document.
         Document doc = new Document(dataDir + "TestFile.doc");
@@ -20,16 +19,12 @@ public class RemoveBreaks {
         removeSectionBreaks(doc);
 
         // Save the document.
-        doc.save(dataDir + "TestFile Out.doc");
+        doc.save(dataDir + "TestFile_out.doc");
 
         System.out.println("Removed breaks from the document successfully.");
     }
-    //ExEnd:1
 
-    //ExStart
-    //ExFor:ControlChar.PageBreak
-    //ExId:RemoveBreaks_Pages
-    //ExSummary:Removes all page breaks from the document.
+    /* ExSummary:Removes all page breaks from the document.*/
     private static void removePageBreaks(Document doc) throws Exception {
         // Retrieve all paragraphs in the document.
         NodeCollection paragraphs = doc.getChildNodes(NodeType.PARAGRAPH, true);
@@ -45,16 +40,10 @@ public class RemoveBreaks {
                 if (run.getText().contains(ControlChar.PAGE_BREAK))
                     run.setText(run.getText().replace(ControlChar.PAGE_BREAK, ""));
             }
-
         }
-
     }
-    //ExEnd
 
-
-    //ExStart
-    //ExId:RemoveBreaks_Sections
-    //ExSummary:Combines all sections in the document into one.
+    /* ExSummary:Combines all sections in the document into one.*/
     private static void removeSectionBreaks(Document doc) throws Exception {
         // Loop through all sections starting from the section that precedes the last one
         // and moving to the first section.
@@ -65,5 +54,4 @@ public class RemoveBreaks {
             doc.getSections().get(i).remove();
         }
     }
-    //ExEnd
 }
