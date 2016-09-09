@@ -9,7 +9,6 @@ import com.aspose.words.examples.Utils;
 
 public class ReplaceHyperlinks {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ReplaceHyperlinks.class);
         String NewUrl = "http://www.aspose.com";
@@ -29,8 +28,6 @@ public class ReplaceHyperlinks {
                 hyperlink.setResult(NewName);
             }
             doc.save(dataDir + "output.doc");
-            //ExEnd:1
         }
     }
-
 }
