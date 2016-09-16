@@ -27,6 +27,12 @@ public class Utils {
         return dir.toString() + File.separator;
     }
     
+    public static void applyALicense() throws Exception {
+    	String dataDir = getSharedDataDir(Utils.class) + "License/";
+    	com.aspose.words.License license = new com.aspose.words.License();
+    	license.setLicense(dataDir + "Aspose.Words.Java.lic");
+    }
+    
     public static String GetOutputFilePath(String inputFilePath)
     {
         String extension = "";
