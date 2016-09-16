@@ -10,6 +10,7 @@ import com.aspose.words.Shape;
 public class WorkWithChartSeriesCollectionOfChart {
 
 	public static void main(String[] args) throws Exception {
+		
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 		Shape shape = builder.insertChart(ChartType.LINE, 432, 252);
