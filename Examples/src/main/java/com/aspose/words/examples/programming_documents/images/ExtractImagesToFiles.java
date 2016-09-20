@@ -6,7 +6,7 @@ import com.aspose.words.examples.Utils;
 
 public class ExtractImagesToFiles {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+        
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractImagesToFiles.class);
 
@@ -23,6 +23,5 @@ public class ExtractImagesToFiles {
                 imageIndex++;
             }
         }
-        //ExEnd
     }
 }
