@@ -22,6 +22,11 @@
 			<version>6.8.0</version>
 			<classifier>jdk16</classifier>
 		</dependency>
+		<dependency>
+            <groupId>com.aspose</groupId>
+            <artifactId>aspose-barcode</artifactId>
+            <version>8.0.0</version>
+        </dependency>
         <dependency>
             <groupId>javax.media.jai</groupId>
             <artifactId>com.springsource.javax.media.jai.core</artifactId>
