@@ -16,6 +16,7 @@ import com.aspose.words.VerticalAlignment;
 import com.aspose.words.WrapType;
 import com.aspose.words.examples.Utils;
 
+// ExStart:
 public class AddWatermarkToADocument {
 
 	private static final String dataDir = Utils.getSharedDataDir(AddWatermarkToADocument.class) + "Document/";
@@ -85,3 +86,4 @@ public class AddWatermarkToADocument {
 		header.appendChild(watermarkPara.deepClone(true));
 	}
 }
+// ExEnd:

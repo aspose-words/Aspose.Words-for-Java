@@ -13,6 +13,7 @@ public class ApplyBordersAndShading {
 	private static final String dataDir = Utils.getSharedDataDir(ApplyBordersAndShading.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
+		// ExStart:
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -53,6 +54,7 @@ public class ApplyBordersAndShading {
 		builder.writeln("Cell #4");
 
 		doc.save(dataDir + "Table.SetBordersAndShading Out.doc");
+		// ExEnd:
 	}
 
 }

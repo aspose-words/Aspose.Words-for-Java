@@ -22,6 +22,7 @@ public class ApplyAutoFitSettingsToATable {
 	}
 
 	public static void autoFittingATableToWindow() throws Exception {
+		// ExStart:AutoFittingATableToWindow
 		// Open the document
 		Document doc = new Document(dataDir + "TestFile.doc");
 		Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -31,9 +32,11 @@ public class ApplyAutoFitSettingsToATable {
 
 		// Save the document to disk.
 		doc.save(dataDir + "TestFile.AutoFitToWindow Out.doc");
+		// ExEnd:AutoFittingATableToWindow
 	}
 	
 	public static void autoFittingATableToContents() throws Exception {
+		// ExStart:AutoFittingATableToContents
 		// Open the document
 		Document doc = new Document(dataDir + "TestFile.doc");
 		Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
@@ -43,9 +46,11 @@ public class ApplyAutoFitSettingsToATable {
 
 		// Save the document to disk.
 		doc.save(dataDir + "TestFile.AutoFitToContents Out.doc");
+		// ExEnd:AutoFittingATableToContents
 	}
 	
 	public static void disablingAutoFittingOnATableAndUseFixedColumnWidths() throws Exception {
+		// ExStart:DisablingAutoFittingOnATableAndUseFixedColumnWidths
 		// Open the document
 		Document doc = new Document(dataDir + "TestFile.doc");
 		Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
@@ -55,5 +60,6 @@ public class ApplyAutoFitSettingsToATable {
 
 		// Save the document to disk.
 		doc.save(dataDir + "TestFile.FixedWidth Out.doc");
+		// ExEnd:DisablingAutoFittingOnATableAndUseFixedColumnWidths
 	}
 }

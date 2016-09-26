@@ -10,6 +10,7 @@ import com.aspose.words.Node;
 import com.aspose.words.NodeType;
 import com.aspose.words.examples.Utils;
 
+// ExStart:
 public class RemoveATableOfContents {
 
 	private static final String dataDir = Utils.getSharedDataDir(RemoveATableOfContents.class) + "TableOfContents/";
@@ -75,5 +76,5 @@ public class RemoveATableOfContents {
 			node.remove();
 		}
 	}
-
 }
+// ExEnd:

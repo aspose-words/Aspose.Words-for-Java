@@ -11,6 +11,7 @@ public class InsertATableOfContentsUsingHeadingStyles {
 	private static final String dataDir = Utils.getSharedDataDir(InsertATableOfContentsUsingHeadingStyles.class) + "TableOfContents/";
 	
 	public static void main(String[] args) throws Exception {
+		// ExStart:
 		Document doc = new Document();
 
 		// Create a document builder to insert content with into document.
@@ -56,6 +57,6 @@ public class InsertATableOfContentsUsingHeadingStyles {
 		doc.updateFields();
 		
 		doc.save(dataDir + "InsertATableOfContentsUsingHeadingStyles_out.docx");
+		// ExEnd:
 	}
-
 }

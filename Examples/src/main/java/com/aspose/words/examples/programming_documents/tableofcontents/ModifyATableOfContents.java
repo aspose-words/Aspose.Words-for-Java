@@ -18,12 +18,15 @@ public class ModifyATableOfContents {
 	}	
 
 	public static void changeAFormattingPropertyUsedInFirstLevelTOCStyle() throws Exception {
+		// ExStart:ChangeAFormattingPropertyUsedInFirstLevelTOCStyle
 		Document doc = new Document();
 		// Retrieve the style used for the first level of the TOC and change the formatting of the style.
 		doc.getStyles().getByStyleIdentifier(StyleIdentifier.TOC_1).getFont().setBold(true);
+		// ExEnd:ChangeAFormattingPropertyUsedInFirstLevelTOCStyle
 	}
 
 	public static void modifyPositionOfRightTabStopInTOC() throws Exception {
+		// ExStart:ModifyPositionOfRightTabStopInTOC
 		Document doc = new Document(dataDir + "Field.TableOfContents.doc");
 
 		// Iterate through all paragraphs in the document
@@ -41,6 +44,6 @@ public class ModifyATableOfContents {
 		}
 
 		doc.save(dataDir + "Field.TableOfContentsTabStops_Out.doc");
+		// ExEnd:ModifyPositionOfRightTabStopInTOC
 	}
-
 }

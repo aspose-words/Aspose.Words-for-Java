@@ -17,7 +17,10 @@ public class InsertATableOfContentsField {
 
 		// The newly inserted table of contents will be initially empty.
 		// It needs to be populated by updating the fields in the document.
-		doc.updateFields();
+		
+        // ExStart:UpdateTableOfContents
+        doc.updateFields();
+        // ExEnd:UpdateTableOfContents
 		
 		doc.save(dataDir + "InsertATableOfContentsField_out.docx");
 	}

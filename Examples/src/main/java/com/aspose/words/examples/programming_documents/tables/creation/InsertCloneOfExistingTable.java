@@ -24,6 +24,7 @@ public class InsertCloneOfExistingTable {
 	}
 
 	public static void cloneOfATable() throws Exception {
+		// ExStart:CloneOfATable
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
 		// Retrieve the first table in the document.
@@ -40,9 +41,11 @@ public class InsertCloneOfExistingTable {
 		table.getParentNode().insertAfter(new Paragraph(doc), table);
 
 		doc.save(dataDir + "Table_CloneTableAndInsert_Out.doc");
+		// ExEnd:CloneOfATable
 	}
 
 	public static void removeAllContentFromCellsOfAClonedTable() throws Exception {
+		// ExStart:RemoveAllContentFromCellsOfAClonedTable
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
 		// Retrieve the first table in the document.
@@ -63,9 +66,11 @@ public class InsertCloneOfExistingTable {
 		table.getParentNode().insertAfter(new Paragraph(doc), table);
 
 		doc.save(dataDir + "RemoveAllContentFromCellsOfAClonedTable_Out.doc");
+		// ExEnd:RemoveAllContentFromCellsOfAClonedTable
 	}
 
 	public static void cloneLastRowOfATable() throws Exception {
+		// ExStart:CloneLastRowOfATable
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
 		// Retrieve the first table in the document.
@@ -83,5 +88,6 @@ public class InsertCloneOfExistingTable {
 		table.appendChild(clonedRow);
 
 		doc.save(dataDir + "Table.AddCloneRowToTable_Out.doc");
+		// ExEnd:CloneLastRowOfATable
 	}
 }

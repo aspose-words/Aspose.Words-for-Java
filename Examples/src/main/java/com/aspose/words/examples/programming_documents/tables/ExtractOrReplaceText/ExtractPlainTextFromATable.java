@@ -17,6 +17,7 @@ public class ExtractPlainTextFromATable {
 	}
 
 	public static void printTextRangeOfATable() throws Exception {
+		// ExStart:PrintTextRangeOfATable
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
 		// Get the first table in the document.
@@ -28,9 +29,11 @@ public class ExtractPlainTextFromATable {
 		// Print the plain text range of the table to the screen.
 		System.out.println("Contents of the table: ");
 		System.out.println(table.getRange().getText());
+		// ExEnd:PrintTextRangeOfATable
 	}
 	
 	public static void printTextRangeOfRowAndTableElements() throws Exception {
+		// ExStart:PrintTextRangeOfRowAndTableElements
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
 		// Get the first table in the document.
@@ -43,6 +46,7 @@ public class ExtractPlainTextFromATable {
 		// Print the contents of the last cell in the table to the screen.
 		System.out.println("\nContents of the cell: ");
 		System.out.println(table.getLastRow().getLastCell().getRange().getText());
+		// ExEnd:PrintTextRangeOfRowAndTableElements
 	}
 
 }

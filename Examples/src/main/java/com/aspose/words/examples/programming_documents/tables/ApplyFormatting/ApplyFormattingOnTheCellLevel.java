@@ -14,6 +14,7 @@ public class ApplyFormattingOnTheCellLevel {
 	private static final String dataDir = Utils.getSharedDataDir(ApplyFormattingOnTheCellLevel.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
+		// ExStart:
 		Document doc = new Document(dataDir + "Table.Document.doc");
 		Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
 
@@ -24,6 +25,6 @@ public class ApplyFormattingOnTheCellLevel {
 		firstCell.getCellFormat().setWidth(30); // in points
 		firstCell.getCellFormat().setOrientation(TextOrientation.DOWNWARD);
 		firstCell.getCellFormat().getShading().setForegroundPatternColor(Color.GREEN);
+		// ExEnd:
 	}
-
 }

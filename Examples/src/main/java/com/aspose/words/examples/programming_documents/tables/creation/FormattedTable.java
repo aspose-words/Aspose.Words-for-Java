@@ -10,7 +10,7 @@ public class FormattedTable {
 	private static final String dataDir = Utils.getSharedDataDir(FormattedTable.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
-
+		// ExStart:
 		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-.NET
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
@@ -86,5 +86,6 @@ public class FormattedTable {
 
 		// Save the document to disk.
 		doc.save(dataDir + "DocumentBuilder_CreateFormattedTable_Out.doc");
+		// ExEnd:
 	}
 }

@@ -13,6 +13,7 @@ public class ExtractContentBasedOnStyles {
 	private static final String dataDir = Utils.getSharedDataDir(ApplyBordersAndShading.class) + "Styles/";
 
 	public static void main(String[] args) throws Exception {
+		// ExStart:
 		// Open the document.
 		Document doc = new Document(dataDir + "TestFile.doc");
 
@@ -33,8 +34,10 @@ public class ExtractContentBasedOnStyles {
 		System.out.println(java.text.MessageFormat.format("\nRuns with \"{0}\" styles ({1}):", RUN_STYLE, runs.size()));
 		for (Run run : (Iterable<Run>) runs)
 			System.out.println(run.getRange().getText());
+		// ExEnd:
 	}
 
+	// ExStart:ParagraphsByStyleName
 	public static ArrayList<Paragraph> paragraphsByStyleName(Document doc, String styleName) throws Exception {
 		// Create an array to collect paragraphs of the specified style.
 		ArrayList<Paragraph> paragraphsWithStyle = new ArrayList();
@@ -47,7 +50,9 @@ public class ExtractContentBasedOnStyles {
 		}
 		return paragraphsWithStyle;
 	}
+	// ExEnd:ParagraphsByStyleName
 
+	// ExStart:RunsByStyleName
 	public static ArrayList<Run> runsByStyleName(Document doc, String styleName) throws Exception {
 		// Create an array to collect runs of the specified style.
 		ArrayList<Run> runsWithStyle = new ArrayList();
@@ -60,4 +65,5 @@ public class ExtractContentBasedOnStyles {
 		}
 		return runsWithStyle;
 	}
+	// ExEnd:RunsByStyleName
 }

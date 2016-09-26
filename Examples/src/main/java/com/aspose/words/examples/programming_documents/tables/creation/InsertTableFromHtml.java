@@ -8,7 +8,7 @@ public class InsertTableFromHtml {
 	private static final String dataDir = Utils.getSharedDataDir(InsertTableFromHtml.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
-		
+		// ExStart:
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 		
@@ -27,6 +27,6 @@ public class InsertTableFromHtml {
 
 		// Save the document to disk.
 		doc.save(dataDir + "DocumentBuilder_InsertTableFromHtml_Out.doc");
-
+		// ExEnd:
 	}
 }

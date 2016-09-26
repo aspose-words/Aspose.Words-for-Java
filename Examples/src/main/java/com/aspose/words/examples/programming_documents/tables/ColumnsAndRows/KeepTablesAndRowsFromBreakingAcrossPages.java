@@ -21,6 +21,7 @@ public class KeepTablesAndRowsFromBreakingAcrossPages {
 	}
 
 	public static void keepingARowFromBreakingAcrossPages() throws Exception {
+		// ExStart:KeepingARowFromBreakingAcrossPages
 		Document doc = new Document(dataDir + "Table.TableAcrossPage.doc");
 
 		// Retrieve the first table in the document.
@@ -32,10 +33,12 @@ public class KeepTablesAndRowsFromBreakingAcrossPages {
 		}
 
 		doc.save(dataDir + "Table.DisableBreakAcrossPages_out.doc");
+		// ExEnd:KeepingARowFromBreakingAcrossPages
 	}
 
 	@SuppressWarnings("unchecked")
 	public static void keepingATableFromBreakingAcrossPages() throws Exception {
+		// ExStart:KeepingATableFromBreakingAcrossPages
 		Document doc = new Document(dataDir + "Table.TableAcrossPage.doc");
 		// Retrieve the first table in the document.
 		Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -53,6 +56,6 @@ public class KeepTablesAndRowsFromBreakingAcrossPages {
 		}
 		
 		doc.save(dataDir + "Table.KeepTableTogether_out.doc");
+		// ExEnd:KeepingATableFromBreakingAcrossPages
 	}
-
 }

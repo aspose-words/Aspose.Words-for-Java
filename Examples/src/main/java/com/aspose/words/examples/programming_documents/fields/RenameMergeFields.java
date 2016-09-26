@@ -12,6 +12,7 @@ import com.aspose.words.NodeType;
 import com.aspose.words.Run;
 import com.aspose.words.examples.Utils;
 
+// ExStart:
 /**
  * Shows how to rename merge fields in a Word document.
  */
@@ -113,3 +114,4 @@ class MergeField {
 		}
 	}
 }
+// ExEnd:

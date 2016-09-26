@@ -24,6 +24,7 @@ public class ApplyFormattingOnTheTableLevel {
 	}
 
 	public static void applyOutlineBorderToATable() throws Exception {
+		// ExStart:ApplyOutlineBorderToATable
 		Document doc = new Document(dataDir + "Table.EmptyTable.doc");
 		Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
@@ -43,9 +44,11 @@ public class ApplyFormattingOnTheTableLevel {
 		table.setShading(TextureIndex.TEXTURE_SOLID, Color.GREEN, Color.GREEN);
 
 		doc.save(dataDir + "Table.SetOutlineBorders_Out.doc");
+		// ExEnd:ApplyOutlineBorderToATable
 	}
 	
 	public static void buildATableWithAllBordersEnabled() throws Exception {
+		// ExStart:BuildATableWithAllBordersEnabled
 		Document doc = new Document(dataDir + "Table.EmptyTable.doc");
 		Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
 
@@ -56,5 +59,6 @@ public class ApplyFormattingOnTheTableLevel {
 		table.setBorders(LineStyle.SINGLE, 1.5, Color.GREEN);
 
 		doc.save(dataDir + "Table.SetAllBorders Out.doc");
+		// ExEnd:BuildATableWithAllBordersEnabled
 	}
 }

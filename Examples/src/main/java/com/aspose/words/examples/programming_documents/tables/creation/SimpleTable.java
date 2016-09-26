@@ -8,8 +8,7 @@ public class SimpleTable {
 	private static final String dataDir = Utils.getSharedDataDir(SimpleTable.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
-
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-.NET
+		// ExStart:
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -38,5 +37,6 @@ public class SimpleTable {
 
 		// Save the document to disk.
 		doc.save(dataDir + "DocumentBuilder_CreateSimpleTable_Out.doc");
+		// ExEnd:
 	}
 }
