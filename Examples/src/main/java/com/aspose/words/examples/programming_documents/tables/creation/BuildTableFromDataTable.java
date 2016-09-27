@@ -19,6 +19,7 @@ public class BuildTableFromDataTable {
 	private static final String dataDir = Utils.getSharedDataDir(BuildTableFromDataTable.class) + "Tables/";
 	
 	public static void main(String[] args) {
+		// ExStart:
 		// Create a new document.
 		Document doc = new Document();
 
@@ -43,8 +44,10 @@ public class BuildTableFromDataTable {
 		table.getFirstRow().getLastCell().removeAllChildren();
 
 		doc.save(dataDir + "Table.FromDataTable_Out.docx");
+		// ExEnd:
 	}
 
+	// ExStart:ImportTableFromDataTable
 	/*
 	 * Imports the content from the specified DataTable into a new Aspose.Words
 	 * Table object. The table is inserted at the current position of the
@@ -111,4 +114,5 @@ public class BuildTableFromDataTable {
 		builder.endTable();
 		return table;
 	}
+	// ExEnd:ImportTableFromDataTable
 }
