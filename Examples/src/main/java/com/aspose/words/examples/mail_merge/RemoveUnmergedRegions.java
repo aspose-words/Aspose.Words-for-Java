@@ -6,8 +6,9 @@ import com.aspose.words.examples.Utils;
 import com.aspose.words.net.System.Data.DataSet;
 
 public class RemoveUnmergedRegions {
-	
-	
+
+	private static final String dataDir = Utils.getSharedDataDir(RemoveUnmergedRegions.class) + "MailMerge/";
+
 	public static void main(String[] args) throws Exception {
 
 		// Open the document.
@@ -25,7 +26,6 @@ public class RemoveUnmergedRegions {
 
 		// Save the output document to disk.
 		doc.save(dataDir + "TestFile.RemoveEmptyRegions Out.doc");
-
 
 	}
 }
