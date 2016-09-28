@@ -14,12 +14,11 @@ import com.aspose.words.Run;
 import com.aspose.words.examples.Utils;
 
 public class FindAndHighlightText {
-
+	
+	private static final String dataDir = Utils.getSharedDataDir(FindAndHighlightText.class) + "FindAndReplace/";
+	
 	public static void main(String[] args) throws Exception {
 		
-		// Sample infrastructure.
-		String dataDir = Utils.getSharedDataDir(FindAndHighlightText.class) + "FindAndReplace/";
-
 		Document doc = new Document(dataDir + "TestFile.doc");
 
 		// We want the "your document" phrase to be highlighted.

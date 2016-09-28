@@ -9,15 +9,13 @@ import com.aspose.words.ReplacingArgs;
 import com.aspose.words.examples.Utils;
 
 public class ReplaceWithEvaluator {
-
+	
+	private static final String dataDir = Utils.getSharedDataDir(ReplaceWithEvaluator.class) + "FindAndReplace/";
+	
 	public static void main(String[] args) throws Exception {
-
-		// The path to the documents directory.
-		String dataDir = Utils.getDataDir(ReplaceWithEvaluator.class);
-
-		Document doc = new Document(dataDir + "Document.doc");
+		Document doc = new Document(dataDir + "Range.ReplaceWithEvaluator.doc");
 		doc.getRange().replace(Pattern.compile("[s|m]ad"), new MyReplaceEvaluator(), true);
-		doc.save(dataDir + "output.doc");
+		doc.save(dataDir + "Range.ReplaceWithEvaluator_Out.doc");
 	}
 }
 

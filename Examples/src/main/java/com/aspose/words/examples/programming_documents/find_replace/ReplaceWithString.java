@@ -1,16 +1,18 @@
 package com.aspose.words.examples.programming_documents.find_replace;
 
 import com.aspose.words.Document;
+import com.aspose.words.FindReplaceDirection;
+import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.examples.Utils;
 
 public class ReplaceWithString {
-    @SuppressWarnings("deprecation")
-	public static void main(String[] args) throws Exception {
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(ReplaceWithString.class);
 
-        Document doc = new Document(dataDir + "Document.doc");
-        doc.getRange().replace("sad", "bad", false, true);
-        doc.save(dataDir + "output.doc");   
-    }
+	public static final String dataDir = Utils.getSharedDataDir(ReplaceWithString.class) + "FindAndReplace/";
+
+	public static void main(String[] args) throws Exception {
+
+		Document doc = new Document(dataDir + "ReplaceWithString.doc");
+		doc.getRange().replace("sad", "bad", new FindReplaceOptions(FindReplaceDirection.FORWARD));
+		doc.save(dataDir + "ReplaceWithString_out.doc");
+	}
 }

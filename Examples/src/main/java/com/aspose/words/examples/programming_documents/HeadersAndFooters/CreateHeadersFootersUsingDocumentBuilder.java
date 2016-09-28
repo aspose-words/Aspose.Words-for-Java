@@ -19,7 +19,7 @@ import com.aspose.words.examples.programming_documents.tables.creation.BuildTabl
 
 public class CreateHeadersFootersUsingDocumentBuilder {
 	
-	private static final String dataDir = Utils.getSharedDataDir(BuildTableFromDataTable.class) + "HeadersAndFooters/";
+	private static final String dataDir = Utils.getSharedDataDir(CreateHeadersFootersUsingDocumentBuilder.class) + "HeadersAndFooters/";
 	
 	public static void main(String[] args) throws Exception {
 		Document doc = new Document();

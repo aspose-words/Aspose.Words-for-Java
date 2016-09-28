@@ -15,107 +15,98 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class ReplaceTextWithField
-{
-    public static void main(String[] args) throws Exception
-    {
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(ReplaceTextWithField.class);
+public class ReplaceTextWithField {
 
-        Document doc = new Document(dataDir + "Field.ReplaceTextWithFields.doc");
+	private static final String dataDir = Utils.getSharedDataDir(ReplaceTextWithField.class) + "FindAndReplace/";
 
-        // Replace any "PlaceHolderX" instances in the document (where X is a number) with a merge field.
-        Pattern regex = Pattern.compile("PlaceHolder(\\d+)", Pattern.CASE_INSENSITIVE);
-        doc.getRange().replace(regex, new ReplaceTextWithFieldHandler("MERGEFIELD"), false);
+	public static void main(String[] args) throws Exception {
 
-        doc.save(dataDir + "Field.ReplaceTextWithFields Out.doc");
+		Document doc = new Document(dataDir + "Field.ReplaceTextWithFields.doc");
 
-        System.out.println("Text replaced with field successfully.");
-    }
+		// Replace any "PlaceHolderX" instances in the document (where X is a number) with a merge field.
+		Pattern regex = Pattern.compile("PlaceHolder(\\d+)", Pattern.CASE_INSENSITIVE);
+		doc.getRange().replace(regex, new ReplaceTextWithFieldHandler("MERGEFIELD"), false);
 
-    private static class ReplaceTextWithFieldHandler implements IReplacingCallback {
+		doc.save(dataDir + "Field.ReplaceTextWithFields Out.doc");
 
-        public ReplaceTextWithFieldHandler(String name) {
-            mFieldName = name.toUpperCase();
-        }
+		System.out.println("Text replaced with field successfully.");
+	}
 
-        public int replacing(ReplacingArgs e) throws Exception {
-            ArrayList runs = FindAndSplitMatchRuns(e);
+	private static class ReplaceTextWithFieldHandler implements IReplacingCallback {
 
-            // Create DocumentBuilder which is used to insert the field.
-            DocumentBuilder builder = new DocumentBuilder((Document) e.getMatchNode().getDocument());
-            builder.moveTo((Run) runs.get(runs.size() - 1));
+		public ReplaceTextWithFieldHandler(String name) {
+			mFieldName = name.toUpperCase();
+		}
 
-            // Insert the field into the document using the specified field type and the match text as the field name.
-            // If the fields you are inserting do not require this extra parameter then it can be removed from the string below.
-            builder.insertField(MessageFormat.format("{0} {1}", mFieldName, e.getMatch().group(0)));
+		public int replacing(ReplacingArgs e) throws Exception {
+			ArrayList runs = FindAndSplitMatchRuns(e);
 
-            // Now remove all runs in the sequence.
-            for (Run run : (Iterable<Run>) runs)
-                run.remove();
+			// Create DocumentBuilder which is used to insert the field.
+			DocumentBuilder builder = new DocumentBuilder((Document) e.getMatchNode().getDocument());
+			builder.moveTo((Run) runs.get(runs.size() - 1));
 
-            // Signal to the replace engine to do nothing because we have already done all what we wanted.
-            return ReplaceAction.SKIP;
-        }
+			// Insert the field into the document using the specified field type and the match text as the field name.
+			// If the fields you are inserting do not require this extra parameter then it can be removed from the string below.
+			builder.insertField(MessageFormat.format("{0} {1}", mFieldName, e.getMatch().group(0)));
 
-        /**
-         * Finds and splits the match runs and returns them in an ArrayList.
-         */
-        public ArrayList FindAndSplitMatchRuns(ReplacingArgs e) throws Exception {
-            // This is a Run node that contains either the beginning or the complete match.
-            Node currentNode = e.getMatchNode();
+			// Now remove all runs in the sequence.
+			for (Run run : (Iterable<Run>) runs)
+				run.remove();
 
-            // The first (and may be the only) run can contain text before the match,
-            // in this case it is necessary to split the run.
-            if (e.getMatchOffset() > 0)
-                currentNode = SplitRun((Run) currentNode, e.getMatchOffset());
+			// Signal to the replace engine to do nothing because we have already done all what we wanted.
+			return ReplaceAction.SKIP;
+		}
 
-            // This array is used to store all nodes of the match for further removing.
-            ArrayList runs = new ArrayList();
+		/**
+		 * Finds and splits the match runs and returns them in an ArrayList.
+		 */
+		public ArrayList FindAndSplitMatchRuns(ReplacingArgs e) throws Exception {
+			// This is a Run node that contains either the beginning or the complete match.
+			Node currentNode = e.getMatchNode();
 
-            // Find all runs that contain parts of the match string.
-            int remainingLength = e.getMatch().group().length();
-            while (
-                    (remainingLength > 0) &&
-                            (currentNode != null) &&
-                            (currentNode.getText().length() <= remainingLength)) {
-                runs.add(currentNode);
-                remainingLength = remainingLength - currentNode.getText().length();
+			// The first (and may be the only) run can contain text before the match,
+			// in this case it is necessary to split the run.
+			if (e.getMatchOffset() > 0)
+				currentNode = SplitRun((Run) currentNode, e.getMatchOffset());
 
-                // Select the next Run node.
-                // Have to loop because there could be other nodes such as BookmarkStart etc.
-                do {
-                    currentNode = currentNode.getNextSibling();
-                }
-                while ((currentNode != null) && (currentNode.getNodeType() != NodeType.RUN));
-            }
+			// This array is used to store all nodes of the match for further removing.
+			ArrayList runs = new ArrayList();
 
-            // Split the last run that contains the match if there is any text left.
-            if ((currentNode != null) && (remainingLength > 0)) {
-                SplitRun((Run) currentNode, remainingLength);
-                runs.add(currentNode);
-            }
+			// Find all runs that contain parts of the match string.
+			int remainingLength = e.getMatch().group().length();
+			while ((remainingLength > 0) && (currentNode != null) && (currentNode.getText().length() <= remainingLength)) {
+				runs.add(currentNode);
+				remainingLength = remainingLength - currentNode.getText().length();
 
-            return runs;
-        }
+				// Select the next Run node.
+				// Have to loop because there could be other nodes such as BookmarkStart etc.
+				do {
+					currentNode = currentNode.getNextSibling();
+				} while ((currentNode != null) && (currentNode.getNodeType() != NodeType.RUN));
+			}
 
-        /**
-         * Splits text of the specified run into two runs.
-         * Inserts the new run just after the specified run.
-         */
-        private Run SplitRun(Run run, int position) throws Exception {
-            Run afterRun = (Run) run.deepClone(true);
-            afterRun.setText(run.getText().substring(position));
-            run.setText(run.getText().substring(0, position));
-            run.getParentNode().insertAfter(afterRun, run);
-            return afterRun;
+			// Split the last run that contains the match if there is any text left.
+			if ((currentNode != null) && (remainingLength > 0)) {
+				SplitRun((Run) currentNode, remainingLength);
+				runs.add(currentNode);
+			}
 
-        }
+			return runs;
+		}
 
-        private String mFieldName;
-    }
+		/**
+		 * Splits text of the specified run into two runs. Inserts the new run
+		 * just after the specified run.
+		 */
+		private Run SplitRun(Run run, int position) throws Exception {
+			Run afterRun = (Run) run.deepClone(true);
+			afterRun.setText(run.getText().substring(position));
+			run.setText(run.getText().substring(0, position));
+			run.getParentNode().insertAfter(afterRun, run);
+			return afterRun;
+
+		}
+
+		private String mFieldName;
+	}
 }
-
-
-
-
