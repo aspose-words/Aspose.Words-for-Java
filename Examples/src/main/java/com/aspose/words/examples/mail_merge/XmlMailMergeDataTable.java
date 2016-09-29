@@ -106,8 +106,14 @@ public class XmlMailMergeDataTable implements IMailMergeDataSource {
 	 * retrieve the data for the child table. In the XML data source nested data
 	 * this should look like this:
 	 *
-	 * <Tables> <ParentTable> <Name>ParentName</Name>
-	 * <ChildTable> <Text>Content</Text> </ChildTable> </ParentTable> </Tables>
+	 * <Tables> 
+	 * 	 <ParentTable> 
+	 *     <Name>ParentName</Name>
+	 *     <ChildTable> 
+	 *       <Text>Content</Text> 
+	 *     </ChildTable> 
+	 *   </ParentTable>
+	 * </Tables>
 	 */
 	public IMailMergeDataSource getChildDataSource(String tableName) throws Exception {
 		return new XmlMailMergeDataTable(mCurrentNode, tableName);
