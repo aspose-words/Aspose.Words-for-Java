@@ -3,7 +3,6 @@ package com.aspose.words.examples.mail_merge;
 import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
 
-import java.io.File;
 import java.sql.*;
 import java.text.MessageFormat;
 import java.util.Hashtable;
