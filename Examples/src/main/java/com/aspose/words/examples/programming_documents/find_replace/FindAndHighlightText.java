@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import com.aspose.words.Document;
+import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.Node;
 import com.aspose.words.NodeType;
@@ -20,12 +21,13 @@ public class FindAndHighlightText {
 	public static void main(String[] args) throws Exception {
 		
 		Document doc = new Document(dataDir + "TestFile.doc");
-
+		
+		FindReplaceOptions options = new FindReplaceOptions();
+		options.ReplacingCallback = new ReplaceEvaluatorFindAndHighlight();
+		
 		// We want the "your document" phrase to be highlighted.
 		Pattern regex = Pattern.compile("your document", Pattern.CASE_INSENSITIVE);
-		// Generally it is recommend if you are modifying the document in a custom replacement evaluator
-		// then you should use backward replacement by specifying false value to the third parameter of the replace method.
-		doc.getRange().replace(regex, new ReplaceEvaluatorFindAndHighlight(), false);
+		doc.getRange().replace(regex, "", options);
 
 		// Save the output document.
 		doc.save(dataDir + "TestFile_out.doc");

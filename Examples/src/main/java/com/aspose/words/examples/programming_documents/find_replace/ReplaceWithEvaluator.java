@@ -3,18 +3,23 @@ package com.aspose.words.examples.programming_documents.find_replace;
 import java.util.regex.Pattern;
 
 import com.aspose.words.Document;
+import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.ReplaceAction;
 import com.aspose.words.ReplacingArgs;
 import com.aspose.words.examples.Utils;
 
 public class ReplaceWithEvaluator {
-	
+
 	private static final String dataDir = Utils.getSharedDataDir(ReplaceWithEvaluator.class) + "FindAndReplace/";
-	
+
 	public static void main(String[] args) throws Exception {
 		Document doc = new Document(dataDir + "Range.ReplaceWithEvaluator.doc");
-		doc.getRange().replace(Pattern.compile("[s|m]ad"), new MyReplaceEvaluator(), true);
+
+		FindReplaceOptions options = new FindReplaceOptions();
+		options.ReplacingCallback = new MyReplaceEvaluator();
+
+		doc.getRange().replace(Pattern.compile("[s|m]ad"), "", options);
 		doc.save(dataDir + "Range.ReplaceWithEvaluator_Out.doc");
 	}
 }
@@ -32,5 +37,4 @@ class MyReplaceEvaluator implements IReplacingCallback {
 		mMatchNumber++;
 		return ReplaceAction.REPLACE;
 	}
-
 }

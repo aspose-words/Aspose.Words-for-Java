@@ -1,6 +1,7 @@
 package com.aspose.words.examples.programming_documents.find_replace;
 
 import com.aspose.words.Document;
+import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.examples.Utils;
 
 import java.util.regex.Pattern;
@@ -11,7 +12,8 @@ public class ReplaceWithRegex {
 	
 	public static void main(String[] args) throws Exception {
 		Document doc = new Document(dataDir + "ReplaceWithRegex.doc");
-		doc.getRange().replace(Pattern.compile("[s|m]ad"), "happy");
+		FindReplaceOptions options = new FindReplaceOptions();
+		doc.getRange().replace(Pattern.compile("[s|m]ad"), "happy", options);
 		doc.save(dataDir + "ReplaceWithRegex_Out.doc");
 	}
 }
