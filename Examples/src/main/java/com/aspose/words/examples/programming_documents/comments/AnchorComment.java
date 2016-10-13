@@ -8,7 +8,7 @@ import java.util.Date;
 @SuppressWarnings("unchecked")
 public class AnchorComment {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         String dataDir = Utils.getDataDir(AnchorComment.class);
         Document doc = new Document();
 
@@ -38,7 +38,7 @@ public class AnchorComment {
         commentRangeEnd.getParentNode().insertAfter(comment, commentRangeEnd);
 
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
 
     }
 }

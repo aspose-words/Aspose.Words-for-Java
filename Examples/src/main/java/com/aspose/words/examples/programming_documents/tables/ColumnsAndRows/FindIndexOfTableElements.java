@@ -21,24 +21,18 @@ public class FindIndexOfTableElements {
 	}
 
 	public static void findIndexOfTableInADocument(Document doc, Table table) {
-		// ExStart:FindIndexOfTableInADocument
 		NodeCollection allTables = doc.getChildNodes(NodeType.TABLE, true);
 		int tableIndex = allTables.indexOf(table);
 		System.out.println("Table Index: " + tableIndex);
-		// ExEnd:FindIndexOfTableInADocument
 	}
 	
 	public static void findIndexOfARowInATable(Table table, Row row) {
-		// ExStart:FindIndexOfARowInATable
 		int rowIndex = table.indexOf(row);
 		System.out.println("Row Index: " + rowIndex);
-		// ExEnd:FindIndexOfARowInATable
 	}
 	
 	public static void findIndexOfACellInARow(Row row, Cell cell) {
-		// ExStart:FindIndexOfACellInARow
 		int cellIndex = row.indexOf(cell);
 		System.out.println("Cell Index: " + cellIndex);
-		// ExEnd:FindIndexOfACellInARow
 	}
 }

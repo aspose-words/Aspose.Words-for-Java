@@ -13,7 +13,6 @@ public class ExtractContentBasedOnStyles {
 	private static final String dataDir = Utils.getSharedDataDir(ApplyBordersAndShading.class) + "Styles/";
 
 	public static void main(String[] args) throws Exception {
-		// ExStart:
 		// Open the document.
 		Document doc = new Document(dataDir + "TestFile.doc");
 
@@ -25,19 +24,17 @@ public class ExtractContentBasedOnStyles {
 		// Show the number of collected paragraphs and display the text of this paragraphs.
 		ArrayList<Paragraph> paragraphs = paragraphsByStyleName(doc, PARA_STYLE);
 		System.out.println(java.text.MessageFormat.format("Paragraphs with \"{0}\" styles ({1}):", PARA_STYLE, paragraphs.size()));
-		for (Paragraph paragraph : (Iterable<Paragraph>) paragraphs)
+		for (Paragraph paragraph : paragraphs)
 			System.out.print(paragraph.toString(SaveFormat.TEXT));
 
 		// Collect runs with defined styles.
 		// Show the number of collected runs and display the text of this runs.
 		ArrayList<Run> runs = runsByStyleName(doc, RUN_STYLE);
 		System.out.println(java.text.MessageFormat.format("\nRuns with \"{0}\" styles ({1}):", RUN_STYLE, runs.size()));
-		for (Run run : (Iterable<Run>) runs)
+		for (Run run : runs)
 			System.out.println(run.getRange().getText());
-		// ExEnd:
 	}
 
-	// ExStart:ParagraphsByStyleName
 	public static ArrayList<Paragraph> paragraphsByStyleName(Document doc, String styleName) throws Exception {
 		// Create an array to collect paragraphs of the specified style.
 		ArrayList<Paragraph> paragraphsWithStyle = new ArrayList();
@@ -50,9 +47,7 @@ public class ExtractContentBasedOnStyles {
 		}
 		return paragraphsWithStyle;
 	}
-	// ExEnd:ParagraphsByStyleName
 
-	// ExStart:RunsByStyleName
 	public static ArrayList<Run> runsByStyleName(Document doc, String styleName) throws Exception {
 		// Create an array to collect runs of the specified style.
 		ArrayList<Run> runsWithStyle = new ArrayList();
@@ -65,5 +60,4 @@ public class ExtractContentBasedOnStyles {
 		}
 		return runsWithStyle;
 	}
-	// ExEnd:RunsByStyleName
 }

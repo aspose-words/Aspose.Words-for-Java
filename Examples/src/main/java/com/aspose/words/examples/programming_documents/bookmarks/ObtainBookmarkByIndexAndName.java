@@ -10,9 +10,7 @@ public class ObtainBookmarkByIndexAndName
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
-        // ExStart:ObtainBookmarkByIndexAndName
+    public static void main(String[] args) throws Exception {
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ObtainBookmarkByIndexAndName.class);
 
@@ -24,8 +22,5 @@ public class ObtainBookmarkByIndexAndName
         // By name.
         Bookmark bookmark2 = doc.getRange().getBookmarks().get("Bookmark2");
         System.out.println("\nBookmark by name is " + bookmark2.getText());
-       // ExEnd:ObtainBookmarkByIndexAndName
-
     }
-
 }

@@ -4,11 +4,9 @@ import com.aspose.words.Document;
 import com.aspose.words.Section;
 import com.aspose.words.examples.Utils;
 
-public class CopySection
-{
-    public static void main(String[] args) throws Exception
-    {
-        // ExStart:CopySection
+public class CopySection  {
+    public static void main(String[] args) throws Exception {
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(SectionsAccessByIndex.class);
         Document srcDoc = new Document(dataDir + "Document.doc");
@@ -19,7 +17,6 @@ public class CopySection
         dstDoc.getSections().add(newSection);
 
         dstDoc.save(dataDir+ "output.doc");
-        // ExEnd:CopySection
         System.out.println("\nSection copied successfully.\nFile saved at " + dataDir);
     }
 }

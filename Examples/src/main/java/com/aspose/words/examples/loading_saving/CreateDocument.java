@@ -12,7 +12,7 @@ public class CreateDocument
 {
     public static void main(String[] args) throws Exception
     {
-        // ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(CreateDocument.class);
 
@@ -21,7 +21,7 @@ public class CreateDocument
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("hello world");
         doc.save(dataDir + "output.docx");
-        //ExEnd:1
+
         System.out.println("Document created successfully.");
     }
 }

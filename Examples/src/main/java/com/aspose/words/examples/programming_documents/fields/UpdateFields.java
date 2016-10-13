@@ -10,11 +10,11 @@ public class UpdateFields {
 
         Document doc = new Document(dataDir + "in.doc");
 
-        //ExStart:1
+
         // update fields
         doc.updateFields();
         doc.save(dataDir + "output.docx");
-        //ExEnd:1
+
 
     }
 }

@@ -7,7 +7,7 @@ import com.aspose.words.examples.Utils;
 
 public class ModifyContentControls {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ModifyContentControls.class);
 
@@ -34,7 +34,7 @@ public class ModifyContentControls {
                 }
             }
             doc.save(dataDir + "output.doc");
-            //ExEnd:1
+
         }
     }
 }

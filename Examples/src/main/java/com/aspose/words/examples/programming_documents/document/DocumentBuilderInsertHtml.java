@@ -7,7 +7,7 @@ import com.aspose.words.examples.Utils;
 
 public class DocumentBuilderInsertHtml {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertHtml.class);
 
@@ -21,6 +21,5 @@ public class DocumentBuilderInsertHtml {
                         "<h1 align='left'>Heading 1 left.</h1>");
 
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
     }
 }

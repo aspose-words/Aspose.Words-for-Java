@@ -7,9 +7,8 @@ import java.nio.charset.Charset;
 
 public class ConvertDocumentToEPUB
 {
-    public static void main(String[] args) throws Exception
-    {
-        // ExStart:ConvertDocumentToEPUB
+    public static void main(String[] args) throws Exception {
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertDocumentToEPUB.class);
 
@@ -18,10 +17,7 @@ public class ConvertDocumentToEPUB
 
         // Save the document in EPUB format.
         doc.save(dataDir + "Document.EpubConversion_out_.epub");
-        // ExEnd:ConvertDocumentToEPUB
+
         System.out.println("Document converted to EPUB successfully.");
-
-
-
     }
 }

@@ -9,7 +9,7 @@ import java.text.MessageFormat;
 public class ConvertNumPageFields {
 
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertNumPageFields.class);
 
@@ -31,7 +31,7 @@ public class ConvertNumPageFields {
         dstDoc.updatePageLayout();
 
         dstDoc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 
     /**

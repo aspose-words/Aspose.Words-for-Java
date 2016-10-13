@@ -8,7 +8,7 @@ import com.aspose.words.examples.Utils;
 public class KeepSourceFormatting {
 
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(KeepSourceFormatting.class);
 
@@ -20,6 +20,6 @@ public class KeepSourceFormatting {
 
         // Save the joined document to disk.
         dstDoc.save(dataDir + "output.docx");
-        //ExEnd:1
+
     }
 }

@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class DocumentBuilderApplyBordersAndShadingToParagraph {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderApplyBordersAndShadingToParagraph.class);
 
@@ -31,7 +31,7 @@ public class DocumentBuilderApplyBordersAndShadingToParagraph {
 
         builder.write("I'm a formatted paragraph with double border and nice shading.");
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
 
 
     }

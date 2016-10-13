@@ -12,7 +12,7 @@ import java.io.FileOutputStream;
 
 public class CheckFormat {
     public static void main(String[] args) throws Exception {
-        // ExStart:CheckFormatCompatibility
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(CheckFormat.class);
 
@@ -20,9 +20,8 @@ public class CheckFormat {
         String unknownDir = dataDir + "OutUnknown" + File.separator;
         String encryptedDir = dataDir + "OutEncrypted" + File.separator;
         String pre97Dir = dataDir + "OutPre97" + File.separator;
-        // ExStart:GetListOfFilesInFolder
+
         File[] fileList = new java.io.File(dataDir).listFiles();
-        // ExEnd:GetListOfFilesInFolder
 
         // Loop through all found files.
         for (File file : fileList) {
@@ -105,8 +104,6 @@ public class CheckFormat {
                 }
             }
         }
-        // ExEnd:CheckFormatCompatibility
-
     }
 
     private static void fileCopy(String sourceFileName, String destinationFileName) throws Exception

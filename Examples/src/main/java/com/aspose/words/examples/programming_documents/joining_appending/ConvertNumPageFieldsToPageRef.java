@@ -14,7 +14,7 @@ public class ConvertNumPageFieldsToPageRef
     public static void main(String[] args) throws Exception
     {
 
-        //ExStart:1
+
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(ConvertNumPageFieldsToPageRef.class);
 
@@ -37,7 +37,7 @@ public class ConvertNumPageFieldsToPageRef
 
         dstDoc.save(gDataDir + "TestFile.ConvertNumPageFields Out.doc");
 
-        //ExEnd:1
+
         System.out.println("Documents appended successfully.");
     }
 
@@ -47,7 +47,7 @@ public class ConvertNumPageFieldsToPageRef
      *
      * @param doc The combined document to process.
      */
-    //ExStart:1
+
     public static void convertNumPageFieldsToPageRef(Document doc) throws Exception
     {
         // This is the prefix for each bookmark which signals where page numbering restarts.
@@ -138,7 +138,7 @@ public class ConvertNumPageFieldsToPageRef
             }
         }
     }
-    //ExEnd:1
+
 
     /**
      * Retrieves the field code from a field.

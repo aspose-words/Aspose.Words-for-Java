@@ -161,7 +161,7 @@ class PageNumberFinder {
             if (!mReversePageLookup.containsKey(page))
                 continue;
 
-            for (Node node : (Iterable<Node>) (ArrayList) mReversePageLookup.get(page)) {
+            for (Node node : (Iterable<Node>) mReversePageLookup.get(page)) {
                 if (node.getParentNode() != null && ((nodeType == NodeType.ANY) || (nodeType == node.getNodeType())) && !pageNodes.contains(node))
                     pageNodes.add(node);
             }
@@ -322,7 +322,7 @@ class SectionSplitter extends DocumentVisitor {
         if (previousSection != null) {
             if (!section.getPageSetup().getRestartPageNumbering()) {
                 section.getPageSetup().setRestartPageNumbering(true);
-                section.getPageSetup().setPageStartingNumber(previousSection.getPageSetup().getPageStartingNumber() + (int) mPageNumberFinder.PageSpan(previousSection));
+                section.getPageSetup().setPageStartingNumber(previousSection.getPageSetup().getPageStartingNumber() + mPageNumberFinder.PageSpan(previousSection));
             }
 
             for (HeaderFooter previousHeaderFooter : previousSection.getHeadersFooters()) {

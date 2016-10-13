@@ -35,11 +35,7 @@ public class DocumentItems {
         }
 
         public boolean isRemovable() {
-            if (this.getNode() == ((Document) this.getNode().getDocument()).getLastSection()) {
-                return false;
-            } else {
-                return true;
-            }
+            return this.getNode() != ((Document) this.getNode().getDocument()).getLastSection();
         }
         public static final String NODE_TYPE_STRING = "SECTION";
     }
@@ -108,11 +104,7 @@ public class DocumentItems {
 
         public boolean isRemovable() {
             Paragraph para = (Paragraph) this.getNode();
-            if (para.isEndOfSection()) {
-                return false;
-            } else {
-                return true;
-            }
+            return !para.isEndOfSection();
         }
         public static final String NODE_TYPE_STRING = "PARAGRAPH";
     }

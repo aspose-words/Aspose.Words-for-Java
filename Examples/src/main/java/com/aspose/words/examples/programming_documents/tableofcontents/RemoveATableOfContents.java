@@ -10,7 +10,6 @@ import com.aspose.words.Node;
 import com.aspose.words.NodeType;
 import com.aspose.words.examples.Utils;
 
-// ExStart:
 public class RemoveATableOfContents {
 
 	private static final String dataDir = Utils.getSharedDataDir(RemoveATableOfContents.class) + "TableOfContents/";
@@ -55,7 +54,7 @@ public class RemoveATableOfContents {
 
 		boolean isRemoving = true;
 		// Get the FieldStart of the specified TOC.
-		Node currentNode = (Node) fieldStarts.get(index);
+		Node currentNode = fieldStarts.get(index);
 
 		while (isRemoving) {
 			// It is safer to store these nodes and delete them all at once later.
@@ -72,9 +71,8 @@ public class RemoveATableOfContents {
 		}
 
 		// Remove all nodes found in the specified TOC.
-		for (Node node : (Iterable<Node>) nodeList) {
+		for (Node node : nodeList) {
 			node.remove();
 		}
 	}
 }
-// ExEnd:

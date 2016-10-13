@@ -7,7 +7,7 @@ import com.aspose.words.examples.Utils;
 
 public class DocumentBuilderSetTableCellFormatting {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderSetTableCellFormatting.class);
 
@@ -27,6 +27,6 @@ public class DocumentBuilderSetTableCellFormatting {
         builder.endRow();
         builder.endTable();
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

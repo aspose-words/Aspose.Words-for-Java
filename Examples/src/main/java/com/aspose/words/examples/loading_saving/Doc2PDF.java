@@ -5,9 +5,7 @@ import com.aspose.words.examples.Utils;
 
 public class Doc2PDF
 {
-    public static void main(String[] args) throws Exception
-    {
-        // ExStart:Doc2PDF
+    public static void main(String[] args) throws Exception {
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(Doc2PDF.class);
 
@@ -17,7 +15,7 @@ public class Doc2PDF
         // Save the document in PDF format.
         dataDir = dataDir + "output.pdf";
         doc.save(dataDir);
-        // ExEnd:Doc2PDF
+
         System.out.println("\nDocument converted to PDF successfully.\nFile saved at " + dataDir);
     }
 }

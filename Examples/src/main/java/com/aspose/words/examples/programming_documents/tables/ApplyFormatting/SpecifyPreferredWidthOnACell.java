@@ -14,7 +14,6 @@ public class SpecifyPreferredWidthOnACell {
 	private static final String dataDir = Utils.getSharedDataDir(SpecifyAPreferredWidthOnATable.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
-		// ExStart:SpecifyPreferredWidthOnACell
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -41,21 +40,15 @@ public class SpecifyPreferredWidthOnACell {
 		builder.writeln("In this case the cell will fill up the rest of the available space.");
 
 		doc.save(dataDir + "Table.PreferredWidths Out.doc");
-		// ExEnd:SpecifyPreferredWidthOnACell
 	}
 
 	public static void findPreferredWidthTypeAndValueOfATableOrCell(Table table) {
-		// ExStart:FindPreferredWidthTypeAndValueOfATableOrCell
 		Cell firstCell = table.getFirstRow().getFirstCell();
 		int type = firstCell.getCellFormat().getPreferredWidth().getType();
 		double value = firstCell.getCellFormat().getPreferredWidth().getValue();
-		// ExEnd:FindPreferredWidthTypeAndValueOfATableOrCell
 	}
 
 	public static void allowAutoFit(Table table) throws Exception {
-		// ExStart:AllowAutoFit
 		table.setAllowAutoFit(true);
-		// ExEnd:AllowAutoFit
 	}
-
 }

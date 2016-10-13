@@ -9,7 +9,7 @@ import com.aspose.words.examples.Utils;
 public class LinkHeadersFooters {
 
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(LinkHeadersFooters.class);
 
@@ -25,6 +25,6 @@ public class LinkHeadersFooters {
 
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

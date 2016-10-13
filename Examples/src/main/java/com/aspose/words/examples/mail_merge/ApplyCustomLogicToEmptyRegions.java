@@ -222,7 +222,6 @@ public class ApplyCustomLogicToEmptyRegions {
 			// Do Nothing
 		}
 	}
-	//ExEnd
 
 	public static class EmptyRegionsHandler_MergeTable implements IFieldMergingCallback {
 		/**

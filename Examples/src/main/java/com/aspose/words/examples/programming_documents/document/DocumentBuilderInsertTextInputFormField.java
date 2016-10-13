@@ -8,7 +8,7 @@ import com.aspose.words.examples.Utils;
 
 public class DocumentBuilderInsertTextInputFormField {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertTextInputFormField.class);
 
@@ -17,6 +17,6 @@ public class DocumentBuilderInsertTextInputFormField {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertTextInput("TextInput", TextFormFieldType.REGULAR, "", "Hello", 0);
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

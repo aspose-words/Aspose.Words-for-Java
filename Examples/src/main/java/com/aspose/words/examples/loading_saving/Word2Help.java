@@ -642,7 +642,7 @@ class TopicCollection
             {
                 // Pull up headings. For example: if Heading 1-4 become topics, then I want Headings 5+
                 // to become Headings 4+. Maybe I want to pull up even higher?
-                para.getParagraphFormat().setStyleIdentifier((/*StyleIdentifier*/int)((int)style - 1));
+                para.getParagraphFormat().setStyleIdentifier(style - 1);
             }
         }
 

@@ -10,7 +10,6 @@ import com.aspose.words.examples.Utils;
 
 public class CheckCellsMerged {
 
-	// ExStart:
 	private static final String dataDir = Utils.getSharedDataDir(CheckCellsMerged.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
@@ -41,5 +40,4 @@ public class CheckCellsMerged {
 		else
 			return "The cell at " + cellLocation + " is not merged";
 	}
-	// ExEnd:
 }

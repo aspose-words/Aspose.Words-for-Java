@@ -9,7 +9,6 @@ import com.aspose.words.Table;
 public class SpecifyRowHeights {
 
 	public static void main(String[] args) throws Exception {
-		// ExStart:
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 		
@@ -30,6 +29,5 @@ public class SpecifyRowHeights {
 
 		builder.endRow();
 		builder.endTable();
-		// ExEnd:
 	}
 }

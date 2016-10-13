@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ExtractContentBetweenParagraphs {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractContentBetweenParagraphs.class);
 
@@ -26,7 +26,7 @@ public class ExtractContentBetweenParagraphs {
 
         System.out.println("Content extracted between the paragraphs successfully.");
     }
-    //ExEnd:1
+
 
     /**
      * Extracts a range of nodes from a document found between specified markers and returns a copy of those nodes. Content can be extracted
@@ -37,7 +37,6 @@ public class ExtractContentBetweenParagraphs {
      * @param isInclusive Should the marker nodes be included.
      */
 
-    //ExStart:extractContent
     public static ArrayList extractContent(Node startNode, Node endNode, boolean isInclusive) throws Exception {
         // First check that the nodes passed to this method are valid for use.
         verifyParameterNodes(startNode, endNode);
@@ -100,12 +99,11 @@ public class ExtractContentBetweenParagraphs {
         // Return the nodes between the node markers.
         return nodes;
     }
-    //ExEnd:extractContent
 
     /**
      * Checks the input parameters are correct and can be used. Throws an exception if there is any problem.
      */
-    //ExStart:verifyParameterNodes
+
     private static void verifyParameterNodes(Node startNode, Node endNode) throws Exception {
         // The order in which these checks are done is important.
         if (startNode == null)
@@ -220,9 +218,7 @@ public class ExtractContentBetweenParagraphs {
                 nodes.add(cloneNode);
         }
     }
-    //ExEnd:verifyParameterNodes
 
-    //ExStart:generateDocument
     public static Document generateDocument(Document srcDoc, ArrayList nodes) throws Exception {
 
         // Create a blank document.
@@ -241,7 +237,4 @@ public class ExtractContentBetweenParagraphs {
         // Return the generated document.
         return dstDoc;
     }
-    //ExEnd:generateDocument
-
-
 }

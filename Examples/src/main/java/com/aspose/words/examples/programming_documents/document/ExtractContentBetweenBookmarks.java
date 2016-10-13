@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ExtractContentBetweenBookmarks {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractContentBetweenBookmarks.class);
 
@@ -33,7 +33,7 @@ public class ExtractContentBetweenBookmarks {
 
         System.out.println("Content extracted between bookmarks successfully.");
     }
-    //ExEnd:1
+
 
     /**
      * Extracts a range of nodes from a document found between specified markers and returns a copy of those nodes. Content can be extracted

@@ -26,7 +26,6 @@ public class WorkingWithColumns {
 	}
 
 	public static void insertABlankColumnIntoATable(Document doc, Table table) throws Exception {
-		// ExStart:InsertABlankColumnIntoATable
 		// Get the second column in the table.
 		Column column = Column.fromIndex(table, 1);
 
@@ -38,21 +37,17 @@ public class WorkingWithColumns {
 		for (Cell cell : newColumn.getCells()) {
 			cell.getFirstParagraph().appendChild(new Run(doc, "Column Text " + newColumn.indexOf(cell)));
 		}
-		// ExEnd:InsertABlankColumnIntoATable
 	}
 	
 	public static void getTextOfATableColumn(Table table) throws Exception {
-		// ExStart:GetTextOfATableColumn
 		// Get the first column in the table.
 		Column column = Column.fromIndex(table, 0);
 
 		// Print the plain text of the column to the screen.
 		System.out.println(column.toTxt());
-		// ExEnd:GetTextOfATableColumn
 	}
 	
 	public static void removeAColumnFromATable() throws Exception {
-		// ExStart:RemoveAColumnFromATable
 		Document doc = new Document(dataDir + "Table.Document.doc");
 		Table table = (Table)doc.getChild(NodeType.TABLE, 1, true);
 
@@ -61,6 +56,5 @@ public class WorkingWithColumns {
 		column.remove();
 
 		doc.save(dataDir + "Table.RemoveColumn Out.doc");
-		// ExEnd:RemoveAColumnFromATable
 	}
 }

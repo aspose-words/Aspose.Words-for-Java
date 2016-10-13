@@ -11,7 +11,7 @@ public class RangesDeleteText
 
     public static void main(String[] args) throws Exception
     {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(RangesDeleteText.class);
 
@@ -19,6 +19,6 @@ public class RangesDeleteText
         doc.getSections().get(0).getRange().delete();
 
         doc.save(dataDir + "output.doc");
-      //ExEnd:1
+
     }
 }

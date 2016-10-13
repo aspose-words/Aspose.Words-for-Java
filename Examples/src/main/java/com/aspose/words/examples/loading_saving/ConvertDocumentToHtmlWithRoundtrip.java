@@ -8,7 +8,6 @@ public class ConvertDocumentToHtmlWithRoundtrip
 {
     public static void main(String[] args) throws Exception
     {
-        // ExStart:ConvertDocumentToHtmlWithRoundtrip
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertDocumentToHtmlWithRoundtrip.class);
 
@@ -27,7 +26,6 @@ public class ConvertDocumentToHtmlWithRoundtrip
 
         //Save the document Docx file format
         doc.save(dataDir + "TestFile_out_.docx", SaveFormat.DOCX);
-        // ExEnd:ConvertDocumentToHtmlWithRoundtrip
         System.out.println("Document converted to html with roundtrip informations successfully.");
     }
 }

@@ -8,7 +8,7 @@ import com.aspose.words.examples.Utils;
 @SuppressWarnings("unchecked")
 public class RemoveComments {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(RemoveComments.class);
 
@@ -19,6 +19,6 @@ public class RemoveComments {
         // Remove all comments.
         comments.clear();
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

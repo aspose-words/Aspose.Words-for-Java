@@ -10,7 +10,7 @@ import java.nio.charset.Charset;
 
 public class ConvertDocumentToEPUBUysingDefaultSaveOptions {
     public static void main(String[] args) throws Exception {
-        // ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertDocumentToEPUBUysingDefaultSaveOptions.class);
         // Open an existing document from disk.
@@ -36,7 +36,6 @@ public class ConvertDocumentToEPUBUysingDefaultSaveOptions {
 
         // Export the document as an EPUB file.
         doc.save(dataDir + "Document.EpubConversion_out_.epub", saveOptions);
-        // ExEnd:1
         System.out.println("Document using save options converted to EPUB successfully.");
     }
 }

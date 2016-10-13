@@ -141,7 +141,7 @@ public class GetRemoveField {
      * @param fieldStart The field start node of the field to remove.
      */
 
-    //ExStart:1
+
     private static void removeField(FieldStart fieldStart) throws Exception {
         Node currentNode = fieldStart;
         boolean isRemoving = true;
@@ -167,5 +167,5 @@ public class GetRemoveField {
         return builder.toString();
     }
 
-//ExEnd:1
+
 }

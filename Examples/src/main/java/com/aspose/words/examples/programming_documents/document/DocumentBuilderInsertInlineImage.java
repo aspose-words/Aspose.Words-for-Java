@@ -7,7 +7,7 @@ import com.aspose.words.examples.Utils;
 
 public class DocumentBuilderInsertInlineImage {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertInlineImage.class);
 
@@ -17,6 +17,6 @@ public class DocumentBuilderInsertInlineImage {
         builder.insertImage(dataDir + "test.jpg");
 
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

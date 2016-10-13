@@ -23,7 +23,6 @@ public class TableStyles {
 	}
 
 	public static void applyATableStyle() throws Exception {
-		// ExStart:ApplyATableStyle
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -63,11 +62,9 @@ public class TableStyles {
 		builder.endRow();
 
 		doc.save(dataDir + "DocumentBuilder.SetTableStyle Out.docx");
-		// ExEnd:ApplyATableStyle
 	}
 
 	public static void expandFormattingFromStylesOnToRowsAndCells() throws Exception {
-		// ExStart:ExpandFormattingFromStylesOnToRowsAndCells
 		Document doc = new Document(dataDir + "Table.TableStyle.docx");
 
 		// Get the first cell of the first table in the document.
@@ -86,6 +83,5 @@ public class TableStyles {
 		// should have been applied from the table style.
 		Color cellShadingAfter = firstCell.getCellFormat().getShading().getBackgroundPatternColor();
 		System.out.println("Cell shading after style expansion: " + cellShadingAfter);
-		// ExEnd:ExpandFormattingFromStylesOnToRowsAndCells
 	}
 }

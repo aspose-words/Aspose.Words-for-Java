@@ -36,7 +36,7 @@ public class RemovePageAndSectionBreaks {
                 para.getParagraphFormat().setPageBreakBefore(false);
 
             // Check all runs in the paragraph for page breaks and remove them.
-            for (Run run : (Iterable<Run>) para.getRuns()) {
+            for (Run run : para.getRuns()) {
                 if (run.getText().contains(ControlChar.PAGE_BREAK))
                     run.setText(run.getText().replace(ControlChar.PAGE_BREAK, ""));
             }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ConvertFieldsInDocument {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertFieldsInDocument.class);
 
@@ -19,12 +19,11 @@ public class ConvertFieldsInDocument {
 
         // Save the document with fields transformed to disk.
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
 
         System.out.println("Converted fields in the document with text successfully.");
     }
 
-    //ExStart:2
     private static class FieldsHelper extends DocumentVisitor {
         private int mFieldDepth = 0;
         private ArrayList mNodesToSkip = new ArrayList();
@@ -128,6 +127,4 @@ public class ConvertFieldsInDocument {
                 node.remove();
         }
     }
-    //ExEnd:2
-
 }

@@ -17,7 +17,7 @@ public class UseDestinationStyles
 
     public static void main(String[] args) throws Exception
     {
-        //ExStart:1
+
         // The path to the documents directory.
         gDataDir = Utils.getDataDir(UseDestinationStyles.class);
 
@@ -30,7 +30,7 @@ public class UseDestinationStyles
         // Save the joined document to disk.
         dstDoc.save(gDataDir + "TestFile.UseDestinationStyles Out.doc");
 
-        //ExEnd:1
+
         System.out.println("Documents appended successfully.");
     }
 }

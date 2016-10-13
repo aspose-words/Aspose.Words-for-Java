@@ -42,7 +42,6 @@ public class DocumentInDB
 
         // Delete the document from the database.
         deleteFromDatabase(FILE_NAME);
-        //ExEnd
     }
 
     /**

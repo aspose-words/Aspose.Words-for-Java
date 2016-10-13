@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class DocumentBuilderInsertParagraph {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertParagraph.class);
 
@@ -32,6 +32,6 @@ public class DocumentBuilderInsertParagraph {
 
         builder.write("This is a sample Paragraph");
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

@@ -6,7 +6,7 @@ import com.aspose.words.examples.Utils;
 
 public class DocumentBuilderBuildTable {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderBuildTable.class);
 
@@ -36,6 +36,6 @@ public class DocumentBuilderBuildTable {
         builder.endTable();
 
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

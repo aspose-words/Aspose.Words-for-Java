@@ -14,7 +14,7 @@ import com.aspose.words.examples.Utils;
 
 public class AccessAndVerifySignature {
     public static void main(String[] args) throws Exception {
-        // ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(AccessAndVerifySignature.class);
 
@@ -30,6 +30,5 @@ public class AccessAndVerifySignature {
             System.out.println("Subject name: " + signature.getCertificate().getSubjectAlternativeNames());
             System.out.println("Issuer name: " + signature.getCertificate().getIssuerAlternativeNames());
         }
-        // ExEnd:1
     }
 }

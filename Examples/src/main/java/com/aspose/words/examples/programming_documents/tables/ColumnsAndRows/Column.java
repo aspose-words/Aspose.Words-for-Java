@@ -7,7 +7,6 @@ import com.aspose.words.Row;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.Table;
 
-// ExStart:
 /**
  * Represents a facade object for a column of a table in a Microsoft Word
  * document.
@@ -37,7 +36,7 @@ public class Column {
 	 */
 	public Cell[] getCells() {
 		ArrayList<Cell> columnCells = getColumnCells();
-		return (Cell[]) columnCells.toArray(new Cell[columnCells.size()]);
+		return columnCells.toArray(new Cell[columnCells.size()]);
 	}
 
 	/**
@@ -110,4 +109,3 @@ public class Column {
 		return columnCells;
 	}
 }
-// ExEnd:

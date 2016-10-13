@@ -8,7 +8,7 @@ import com.aspose.words.examples.Utils;
 
 public class DocumentBuilderMoveToBookmark {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderMoveToBookmark.class);
 
@@ -20,6 +20,6 @@ public class DocumentBuilderMoveToBookmark {
         builder.writeln("This is a very cool bookmark.");
 
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

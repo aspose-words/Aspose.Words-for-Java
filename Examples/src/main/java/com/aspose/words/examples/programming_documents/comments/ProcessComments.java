@@ -8,7 +8,7 @@ import java.util.ArrayList;
 @SuppressWarnings("unchecked")
 public class ProcessComments {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ProcessComments.class);
 
@@ -35,7 +35,6 @@ public class ProcessComments {
 
     }
 
-    //ExStart
     //ExFor:Comment.Author
     //ExFor:Comment.DateTime
     //ExId:ProcessComments_Extract_All
@@ -50,9 +49,7 @@ public class ProcessComments {
         }
         return collectedComments;
     }
-    //ExEnd
 
-    //ExStart
     //ExId:ProcessComments_Extract_Author
     //ExSummary:Extracts the author name, date&time and text of the comments by the specified author.
     static ArrayList extractComments(Document doc, String authorName) throws Exception {
@@ -66,9 +63,7 @@ public class ProcessComments {
         }
         return collectedComments;
     }
-    //ExEnd
 
-    //ExStart
     //ExId:ProcessComments_Remove_All
     //ExSummary:Removes all comments in the document.
     static void removeComments(Document doc) throws Exception {
@@ -77,9 +72,7 @@ public class ProcessComments {
         // Remove all comments.
         comments.clear();
     }
-    //ExEnd
 
-    //ExStart
     //ExId:ProcessComments_Remove_Author
     //ExSummary:Removes comments by the specified author.
     static void removeComments(Document doc, String authorName) throws Exception {
@@ -91,6 +84,6 @@ public class ProcessComments {
             if (comment.getAuthor().equals(authorName))
                 comment.remove();
         }
-        //ExEnd:1
+
     }
 }

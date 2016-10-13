@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 
 public class GetListOfFilesInFolder {
     public static void main(String[] args) throws Exception {
-        // ExStart:GetListOfFilesInFolder
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(GetListOfFilesInFolder.class);
 
@@ -19,9 +18,8 @@ public class GetListOfFilesInFolder {
         String unknownDir = dataDir + "OutUnknown" + File.separator;
         String encryptedDir = dataDir + "OutEncrypted" + File.separator;
         String pre97Dir = dataDir + "OutPre97" + File.separator;
-        // ExStart:GetListOfFilesInFolder
+
         File[] fileList = new File(dataDir).listFiles();
-        // ExEnd:GetListOfFilesInFolder
 
         // Loop through all found files.
         for (File file : fileList) {
@@ -33,7 +31,5 @@ public class GetListOfFilesInFolder {
             System.out.print(nameOnly);
 
         }
-        //ExEnd:GetListOfFilesInFolder
     }
-
 }

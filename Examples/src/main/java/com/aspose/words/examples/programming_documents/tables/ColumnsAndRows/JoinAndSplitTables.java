@@ -20,7 +20,6 @@ public class JoinAndSplitTables {
 	}
 
 	public static void combineTwoTablesIntoOne() throws Exception {
-		// ExStart:CombineTwoTablesIntoOne
 		// Load the document.
 		Document doc = new Document(dataDir + "Table.Document.doc");
 
@@ -38,11 +37,9 @@ public class JoinAndSplitTables {
 		secondTable.remove();
 
 		doc.save(dataDir + "Table.CombineTables Out.doc");
-		// ExEnd:CombineTwoTablesIntoOne
 	}
 
 	public static void splitATableIntoTwoSeparateTables() throws Exception {
-		// ExStart:SplitATableIntoTwoSeparateTables
 		// Load the document.
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
@@ -69,6 +66,5 @@ public class JoinAndSplitTables {
 		} while (currentRow != row);
 
 		doc.save(dataDir + "Table.SplitTable Out.doc");
-		// ExEnd:SplitATableIntoTwoSeparateTables
 	}
 }

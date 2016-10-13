@@ -175,7 +175,7 @@ public class InsertDocumentIntoAnotherDocument {
 		// Loop through all sections in the source document.
 		for (Section srcSection : srcDoc.getSections()) {
 			// Loop through all block level nodes (paragraphs and tables) in the body of the section.
-			for (Node srcNode : (Iterable<Node>) srcSection.getBody()) {
+			for (Node srcNode : srcSection.getBody()) {
 				// Let's skip the node if it is a last empty paragraph in a section.
 				if (srcNode.getNodeType() == (NodeType.PARAGRAPH)) {
 					Paragraph para = (Paragraph) srcNode;

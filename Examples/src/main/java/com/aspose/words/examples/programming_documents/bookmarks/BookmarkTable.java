@@ -11,9 +11,8 @@ public class BookmarkTable
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
-        // ExStart:BookmarkTable
+    public static void main(String[] args) throws Exception {
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(BookmarkTable.class);
         //Create empty document
@@ -51,7 +50,6 @@ public class BookmarkTable
         builder.endBookmark("MyBookmark");
 
         doc.save(dataDir+ "output.doc");
-        // ExEnd:BookmarkTable
         System.out.println("\nTable bookmarked successfully.\nFile saved at " + dataDir);
     }
 

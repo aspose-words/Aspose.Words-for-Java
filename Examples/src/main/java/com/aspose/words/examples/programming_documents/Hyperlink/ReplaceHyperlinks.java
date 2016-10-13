@@ -6,16 +6,18 @@ import com.aspose.words.FieldHyperlink;
 import com.aspose.words.FieldType;
 import com.aspose.words.examples.Utils;
 
-
 public class ReplaceHyperlinks {
+
+    // The path to the documents directory.
+    private static final String dataDir = Utils.getSharedDataDir(ReplaceHyperlinks.class) + "Hyperlink/";
+
     public static void main(String[] args) throws Exception {
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(ReplaceHyperlinks.class);
-        String NewUrl = "http://www.aspose.com";
-        String NewName = "Aspose - The .NET & Java Component Publisher";
+
+        String newUrl = "http://www.aspose.com";
+        String newName = "Aspose - The .NET & Java Component Publisher";
 
         // Open the document.
-        Document doc = new Document(dataDir + "ReplaceHyperlinks.doc");
+        Document doc = new Document(dataDir + "ReplaceHyperlinks.docx");
         for (Field field : doc.getRange().getFields()) {
             if (field.getType() == FieldType.FIELD_HYPERLINK) {
                 FieldHyperlink hyperlink = (FieldHyperlink) field;
@@ -24,10 +26,10 @@ public class ReplaceHyperlinks {
                 if (hyperlink.getSubAddress() != null)
                     continue;
 
-                hyperlink.setAddress(NewUrl);
-                hyperlink.setResult(NewName);
+                hyperlink.setAddress(newUrl);
+                hyperlink.setResult(newName);
             }
-            doc.save(dataDir + "output.doc");
+            doc.save(dataDir + "ReplaceHyperlinks_Out.doc");
         }
     }
 }

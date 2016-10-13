@@ -61,7 +61,7 @@ public class SpecifyTrueTypeFontsLocation {
 		fontSources.add(folderFontSource);
 
 		// Convert the ArrayList of source back into a primitive array of FontSource objects.
-		FontSourceBase[] updatedFontSources = (FontSourceBase[]) fontSources.toArray(new FontSourceBase[fontSources.size()]);
+		FontSourceBase[] updatedFontSources = fontSources.toArray(new FontSourceBase[fontSources.size()]);
 
 		// Apply the new set of font sources to use.
 		FontSettings.getDefaultInstance().setFontsSources(updatedFontSources);

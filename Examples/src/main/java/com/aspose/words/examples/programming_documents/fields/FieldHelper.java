@@ -26,7 +26,7 @@ public class FieldHelper
         System.out.println("Converted fields in the document body with text successfully.");
     }
 
-    //ExStart:1
+
     private static class FieldsHelper extends DocumentVisitor
     {
         /**
@@ -150,4 +150,3 @@ public class FieldHelper
     }
 
 }
-//ExEnd:1

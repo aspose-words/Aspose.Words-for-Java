@@ -7,7 +7,7 @@ import com.aspose.words.examples.Utils;
 public class KeepSourceTogether {
 
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(KeepSourceTogether.class);
 
@@ -24,6 +24,6 @@ public class KeepSourceTogether {
 
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

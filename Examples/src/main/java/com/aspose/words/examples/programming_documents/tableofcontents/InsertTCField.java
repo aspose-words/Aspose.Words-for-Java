@@ -6,7 +6,6 @@ import com.aspose.words.DocumentBuilder;
 public class InsertTCField {
 
 	public static void main(String[] args) throws Exception {
-		// ExStart:
 		Document doc = new Document();
 
 		// Create a document builder to insert content with.
@@ -14,6 +13,5 @@ public class InsertTCField {
 
 		// Insert a TC field at the current document builder position.
 		builder.insertField("TC \"Entry Text\" \\f t");
-		// ExEnd:
 	}
 }

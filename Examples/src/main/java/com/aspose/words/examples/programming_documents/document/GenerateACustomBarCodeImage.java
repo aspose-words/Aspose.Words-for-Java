@@ -11,7 +11,6 @@ import com.aspose.words.Document;
 import com.aspose.words.IBarcodeGenerator;
 import com.aspose.words.examples.Utils;
 
-// ExStart:
 public class GenerateACustomBarCodeImage {
 
 	private static final String dataDir = Utils.getSharedDataDir(GenerateACustomBarCodeImage.class) + "Barcode/";
@@ -220,4 +219,3 @@ public class GenerateACustomBarCodeImage {
 		}
 	}
 }
-// ExEnd:

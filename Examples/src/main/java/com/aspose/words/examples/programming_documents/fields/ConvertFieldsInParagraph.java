@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ConvertFieldsInParagraph {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertFieldsInParagraph.class);
 
@@ -20,12 +20,11 @@ public class ConvertFieldsInParagraph {
 
         // Save the document with fields transformed to disk.
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
 
         System.out.println("Converted fields in the paragraph with text successfully.");
     }
 
-    //ExStart:2
     private static class FieldsHelper extends DocumentVisitor {
         private int mFieldDepth = 0;
         private ArrayList mNodesToSkip = new ArrayList();
@@ -123,6 +122,4 @@ public class ConvertFieldsInParagraph {
                 node.remove();
         }
     }
-    //ExEnd:2
-
 }

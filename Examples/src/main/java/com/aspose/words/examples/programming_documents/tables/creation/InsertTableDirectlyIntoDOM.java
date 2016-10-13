@@ -9,7 +9,6 @@ public class InsertTableDirectlyIntoDOM {
 	private static final String dataDir = Utils.getSharedDataDir(InsertTableDirectlyIntoDOM.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
-		// ExStart:
 		Document doc = new Document();
 
 		// We start by creating the table object. Note how we must pass the document object
@@ -51,6 +50,5 @@ public class InsertTableDirectlyIntoDOM {
 		row.getLastCell().getFirstParagraph().appendChild(new Run(doc, "Row 1, Cell 2 Text"));
 
 		doc.save(dataDir + "Table_InsertTableUsingNodes_Out.doc");
-		// ExEnd:
 	}
 }

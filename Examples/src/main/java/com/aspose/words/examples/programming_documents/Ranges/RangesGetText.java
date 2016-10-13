@@ -12,13 +12,13 @@ public class RangesGetText
 
     public static void main(String[] args) throws Exception
     {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(RangesGetText.class);
 
         Document doc = new Document(dataDir + "Document.doc");
         String text = doc.getText();
         System.out.println(text);
-        //ExEnd:1
+
     }
 }

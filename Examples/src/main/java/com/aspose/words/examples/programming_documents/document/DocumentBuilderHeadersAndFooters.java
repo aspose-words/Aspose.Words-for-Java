@@ -7,7 +7,7 @@ import com.aspose.words.examples.Utils;
 
 public class DocumentBuilderHeadersAndFooters {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderHeadersAndFooters.class);
 
@@ -33,6 +33,6 @@ public class DocumentBuilderHeadersAndFooters {
         builder.writeln("Page3");
 
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

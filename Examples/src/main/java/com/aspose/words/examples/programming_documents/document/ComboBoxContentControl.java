@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class ComboBoxContentControl {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ComboBoxContentControl.class);
 
@@ -24,6 +24,6 @@ public class ComboBoxContentControl {
         doc.getFirstSection().getBody().appendChild(sdt);
 
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

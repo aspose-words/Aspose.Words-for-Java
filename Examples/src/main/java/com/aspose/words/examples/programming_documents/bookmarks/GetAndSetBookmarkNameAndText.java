@@ -10,9 +10,8 @@ public class GetAndSetBookmarkNameAndText
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
-        // ExStart:GetAndSetBookmarkNameAndText
+    public static void main(String[] args) throws Exception {
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(GetAndSetBookmarkNameAndText.class);
 
@@ -27,9 +26,6 @@ public class GetAndSetBookmarkNameAndText
         // Set the name and text of the bookmark.
         bookmark.setName("RenamedBookmark");
         bookmark.setText("This is a new bookmarked text.");
-       // ExEnd:GetAndSetBookmarkNameAndText
         System.out.println("\nBookmark name and text set successfully.");
-
     }
-
 }

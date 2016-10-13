@@ -8,9 +8,7 @@ import com.aspose.words.*;
 import  java.io.*;
 public class SpecifySaveOption
 {
-    public static void main(String[] args) throws Exception
-    {
-        // ExStart:SpecifySaveOption
+    public static void main(String[] args) throws Exception {
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(SpecifySaveOption.class);
         String fileName = "TestFile RenderShape.docx";
@@ -32,7 +30,6 @@ public class SpecifySaveOption
         options.setImagesFolder(imagesDir.getPath());
         dataDir = dataDir + Utils.GetOutputFilePath(fileName);
         doc.save(dataDir, options);
-        // ExEnd:SpecifySaveOption
         System.out.println("\nSave option specified successfully.\nFile saved at " + dataDir);
     }
 }

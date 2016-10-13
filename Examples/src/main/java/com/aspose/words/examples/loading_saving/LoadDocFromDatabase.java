@@ -10,7 +10,7 @@ import java.io.ByteArrayOutputStream;
 
 public class LoadDocFromDatabase {
     public static void main(String[] args) throws Exception {
-        // ExStart:1
+
         // Retrieve the blob from database
         byte[] buffer = new byte[100];
         // Now we have the document in a byte array buffer
@@ -19,6 +19,5 @@ public class LoadDocFromDatabase {
         ByteArrayInputStream bin = new ByteArrayInputStream(buffer);
         // Open the doucment from input stream
         //Document doc = new Document(bin);
-        // ExEnd:1
     }
 }

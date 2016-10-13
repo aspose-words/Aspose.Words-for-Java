@@ -10,9 +10,7 @@ import java.io.File;
 
 public class DigitallySignedPdf
 {
-    public static void main(String[] args) throws Exception
-    {
-        // ExStart:DetectDocumentSignatures
+    public static void main(String[] args) throws Exception {
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DigitallySignedPdf.class);
 
@@ -27,9 +25,5 @@ public class DigitallySignedPdf
                     "Document {0} has digital signatures, they will be lost if you open/save this document with Aspose.Words.",
                     new File(filePath).getName()));
         }
-        // ExEnd:DetectDocumentSignatures
     }
-
-
 }
-//ExEnd

@@ -5,7 +5,7 @@ import com.aspose.words.examples.Utils;
 
 public class InsertNestedFields {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertNestedFields.class);
 
@@ -33,7 +33,7 @@ public class InsertNestedFields {
         field.update();
 
         doc.save(dataDir + "output.docx");
-        //ExEnd:1
+
 
     }
 }

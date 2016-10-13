@@ -12,9 +12,8 @@ import java.io.File;
 
 public class LargeSizeImageToPdf
 {
-    public static void main(String[] args) throws Exception
-    {
-        // ExStart:LargeSizeImageToPdf
+    public static void main(String[] args) throws Exception {
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ImageToPdf.class);
 
@@ -22,10 +21,10 @@ public class LargeSizeImageToPdf
         convertImageToPdf(dataDir + "Test.png", dataDir + "TestPng_out_.pdf");
         convertImageToPdf(dataDir + "Test.bmp", dataDir + "TestBmp_out_.pdf");
         convertImageToPdf(dataDir + "Test.gif", dataDir + "TestGif_out_.pdf");
-        // ExEnd:LargeSizeImageToPdf
+
         System.out.println("Large size images converted to PDF successfully.");
     }
-    // ExStart:convertLargeImageToPdf
+
     /**
      * Converts an image to PDF using Aspose.Words for Java.
      *
@@ -166,6 +165,4 @@ public class LargeSizeImageToPdf
             image.setHeight(size.getHeightPoints() * ratio);
         }
     }
-    // ExEnd:convertLargeImageToPdf
 }
-//ExEnd

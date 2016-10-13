@@ -19,7 +19,7 @@ import java.awt.*;
 
 public class ConvertBetweenMeasurementUnits {
     public static void main(String[] args) throws Exception {
-        //ExStart:1
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertBetweenMeasurementUnits.class);
 
@@ -34,6 +34,6 @@ public class ConvertBetweenMeasurementUnits {
         pageSetup.setHeaderDistance(ConvertUtil.inchToPoint(0.2));
         pageSetup.setFooterDistance(ConvertUtil.inchToPoint(0.2));
         doc.save(dataDir + "output.doc");
-        //ExEnd:1
+
     }
 }

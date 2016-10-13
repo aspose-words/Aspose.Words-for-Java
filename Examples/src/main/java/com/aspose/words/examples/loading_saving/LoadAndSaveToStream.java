@@ -15,7 +15,7 @@ public class LoadAndSaveToStream {
     private static Connection mConnection;
 
     public static void main(String[] args) throws Exception {
-        // ExStart:LoadAndSave
+
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(LoadAndSaveToStream.class);
         String inputFile = "Test File (doc).doc";
@@ -29,9 +29,6 @@ public class LoadAndSaveToStream {
         // Save the finished document to disk.
         doc.save(out, SaveFormat.PNG);
         System.out.println("Document loaded and saved successfully.");
-
-
-        // ExEnd:LoadAndSave
     }
 }
 
