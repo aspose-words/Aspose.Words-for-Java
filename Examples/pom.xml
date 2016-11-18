@@ -13,7 +13,7 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>16.8.0</version>
+            <version>16.11.0</version>
             <classifier>jdk16</classifier>
         </dependency>
         <dependency>

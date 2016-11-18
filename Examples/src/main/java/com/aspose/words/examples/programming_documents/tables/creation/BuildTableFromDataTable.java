@@ -30,7 +30,7 @@ public class BuildTableFromDataTable {
 		doc.getFirstSection().getPageSetup().setOrientation(Orientation.LANDSCAPE);
 
 		// Retrieve the data from our data source which is stored as a DataTable.
-		DataTable dataTable = getEmployees(databaseDir);
+		DataTable dataTable = null; //getEmployees(databaseDir);
 
 		// Build a table in the document from the data contained in the DataTable.
 		Table table = importTableFromDataTable(builder, dataTable, true);
