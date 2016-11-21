@@ -57,12 +57,14 @@ class FindAndReplace:
     def main(self,srcDocFile,outputDocFile,searchString,replaceString):
 
         Document =jpype.JClass("com.aspose.words.Document")
+        FindReplaceDirection =jpype.JClass("com.aspose.words.FindReplaceDirection")
+        FindReplaceOptions =jpype.JClass("com.aspose.words.FindReplaceOptions")
 
         doc = Document(srcDocFile)
 
         print "Original document text: " + doc.getRange().getText()
 
-        doc.getRange().replace(searchString, replaceString, 0, 0)
+        doc.getRange().replace(searchString, replaceString, FindReplaceOptions(FindReplaceDirection.FORWARD))
         # Check the replacement was made.
 
         print "Document text after replace: " + doc.getRange().getText()
