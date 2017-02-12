@@ -40,6 +40,11 @@ public class AddWatermarkToADocument {
 		// You are free to try other shape types as watermarks.
 		Shape watermark = new Shape(doc, ShapeType.TEXT_PLAIN_TEXT);
 
+		// ExStart:SetWatermarkName
+		// Set name to be able to remove it afterwards
+	    watermark.setName("WaterMark");
+		// ExEnd:SetWatermarkName
+	    
 		// Set up the text of the watermark.
 		watermark.getTextPath().setText(watermarkText);
 		watermark.getTextPath().setFontFamily("Arial");
