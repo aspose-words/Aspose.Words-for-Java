@@ -22,8 +22,8 @@ The plugin contains two wizards:
 
 Aspose.Words for Java supports processing word (**DOC, DOCX, OOXML, RTF**) **HTML, OpenDocument, PDF, EPUB, XPS, SWF and all image formats**. With Aspose.Words you can **generate**, **modify**, and **convert** documents without using Microsoft Word.
 
-For more info about the **Aspose.Words for Java API**, [please check the api documentation - click here](http://www.aspose.com/java/word-component.aspx)
+For more info about the **Aspose.Words for Java API**, [please check the api documentation - click here](https://docs.aspose.com/display/wordsjava/Introducing+Aspose.Words+for+Java)
 
 ## Plugin Documentation
 
-For the complete documentation of this Intellij IDEA plugin, [please go through this wiki - click here](http://www.aspose.com/docs/display/wordsjava/7.+Aspose.Words+Java+for+IntelliJ+IDEA+%28Maven%29)
+For the complete documentation of this Intellij IDEA plugin, [please go through this wiki - click here](https://docs.aspose.com/display/wordsjava/Aspose.Words+Project+Wizard+for+IntelliJ+IDEA+-+Maven)
