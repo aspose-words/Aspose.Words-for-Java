@@ -19,10 +19,10 @@ Or install it yourself as:
 
 To download Aspose.Words for Java API to be used with these examples through RJB, Please navigate to:
 
-http://www.aspose.com/community/files/72/java-components/aspose.words-for-java/
+https://downloads.aspose.com/words/java
 
 For most complete documentation of the project, check Aspose.Words Java for Ruby confluence wiki link:
 
-http://www.aspose.com/docs/display/wordsjava/4.+Aspose.Words+Java+For+Ruby
+https://docs.aspose.com/display/wordsjava/Aspose.Words+Java+For+Ruby
 
 
