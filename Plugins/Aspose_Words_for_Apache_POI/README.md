@@ -4,15 +4,15 @@ Aspose.Words Java for Apache POI WP is a project to provide comparative source c
 
 Below are some code comparisons and features of Aspose.Words for Java that are not available in Apache POI
 
-* [Code Comparison for common features in **Aspose.Words** and **Apache POI WP**](http://www.aspose.com/docs/display/wordsjava/1.2+Code+Comparison+for+Common+Features+in+Aspose.Words+and+Apache+POI+-+HWPF+and+XWPF)
-* [Missing Features of Apache POI WP available in Aspose.Words](http://www.aspose.com/docs/display/wordsjava/1.3+Missing+Features+in+Apache+POI+WP+-+HWPF+and+XWPF)
+* [Code Comparison for common features in **Aspose.Words** and **Apache POI WP**](https://docs.aspose.com/display/wordsjava/Code+Comparison+for+Common+Features+in+Aspose.Words+and+Apache+POI+-+HWPF+and+XWPF)
+* [Missing Features of Apache POI WP available in Aspose.Words](https://docs.aspose.com/display/wordsjava/Missing+Features+in+Apache+POI+-+HWPF+and+XWPF)
 
 These examples are helpful for developers who want to compare Apache POI with Aspose.Words OR migrate from Apache POI to Aspose.
 
 ### Feedback and Suggestions
 
-* Many more examples are yet to come. [Keep visiting us](http://www.aspose.com/java/total-component.aspx).
-* Raise your queries and suggest more examples via [Aspose Forums](http://www.aspose.com/community/forums/default.aspx) or via this social coding site.
+* Many more examples are yet to come. [Keep visiting us](https://www.aspose.com/products/total/java).
+* Raise your queries and suggest more examples via [Aspose Forums](https://www.aspose.com/community/forums/default.aspx) or via this social coding site.
 
 ## Why Aspose for Apache POI ?
 
@@ -45,13 +45,13 @@ All the Aspose APIs don’t have any dependency over any other engine. For examp
 
 ### Aspose.Words for Java
 
-[![Aspose.Words for Java](http://www.aspose.com/App_Themes/V2/images/productLogos/Java/aspose_words-for-java.jpg)](http://www.aspose.com/java/word-component.aspx)
+[![Aspose.Words for Java](http://www.aspose.com/App_Themes/V2/images/productLogos/Java/aspose_words-for-java.jpg)](https://www.aspose.com/products/words/java)
 
 Aspose.Words for Java is an advanced class library for Java that enables you to perform a great range of document processing tasks directly within your Java applications.
 
 Aspose.Words for Java supports DOC, OOXML, RTF, HTML and OpenDocument formats. With Aspose.Words you can generate, modify, and convert documents without using Microsoft Word.
 
-[Learn More](http://www.aspose.com/java/word-component.aspx)
+[Learn More](https://docs.aspose.com/display/wordsjava/Introducing+Aspose.Words+for+Java)
 
 ## Download Latest Versions?
 
