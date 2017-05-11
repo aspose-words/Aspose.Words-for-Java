@@ -11,7 +11,7 @@ public class InTableRow {
 
         String dataDir = Utils.getDataDir(InTableRow.class);
 
-        String fileName = "InTableList.doc";
+        String fileName = "InTableRow.doc";
         // Load the template document.
         Document doc = new Document(dataDir + fileName);
 
