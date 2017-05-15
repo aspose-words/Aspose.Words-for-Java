@@ -24,6 +24,7 @@ public class FindAndHighlightText {
 		
 		FindReplaceOptions options = new FindReplaceOptions();
 		options.ReplacingCallback = new ReplaceEvaluatorFindAndHighlight();
+		options.setDirection(FindReplaceDirection.BACKWARD);
 		
 		// We want the "your document" phrase to be highlighted.
 		Pattern regex = Pattern.compile("your document", Pattern.CASE_INSENSITIVE);
