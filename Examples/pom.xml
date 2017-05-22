@@ -25,7 +25,7 @@
 		<dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-barcode</artifactId>
-            <version>17.03.0</version>
+            <version>17.03</version>
         </dependency>
         <dependency>
             <groupId>javax.media.jai</groupId>
