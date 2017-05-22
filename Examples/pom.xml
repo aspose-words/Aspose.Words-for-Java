@@ -13,19 +13,19 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>17.3.0</version>
+            <version>17.5</version>
             <classifier>jdk16</classifier>
         </dependency>
         <dependency>
 			<groupId>com.aspose</groupId>
 			<artifactId>aspose-email</artifactId>
-			<version>6.8.0</version>
+			<version>17.5.0</version>
 			<classifier>jdk16</classifier>
 		</dependency>
 		<dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-barcode</artifactId>
-            <version>8.0.0</version>
+            <version>17.03.0</version>
         </dependency>
         <dependency>
             <groupId>javax.media.jai</groupId>
