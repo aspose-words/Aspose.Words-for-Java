@@ -4,14 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import com.aspose.words.Document;
-import com.aspose.words.FindReplaceOptions;
-import com.aspose.words.IReplacingCallback;
-import com.aspose.words.Node;
-import com.aspose.words.NodeType;
-import com.aspose.words.ReplaceAction;
-import com.aspose.words.ReplacingArgs;
-import com.aspose.words.Run;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
 public class FindAndHighlightText {
