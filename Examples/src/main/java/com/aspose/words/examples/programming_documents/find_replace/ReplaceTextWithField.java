@@ -15,9 +15,13 @@ public class ReplaceTextWithField {
 
 		Document doc = new Document(dataDir + "Field.ReplaceTextWithFields.doc");
 
+		FindReplaceOptions opts = new FindReplaceOptions();
+		opts.setDirection(FindReplaceDirection.BACKWARD);
+		opts.ReplacingCallback = new ReplaceTextWithFieldHandler("MERGEFIELD");
+
 		// Replace any "PlaceHolderX" instances in the document (where X is a number) with a merge field.
 		Pattern regex = Pattern.compile("PlaceHolder(\\d+)", Pattern.CASE_INSENSITIVE);
-		doc.getRange().replace(regex, new ReplaceTextWithFieldHandler("MERGEFIELD"), false);
+		doc.getRange().replace(regex, "", opts);
 
 		doc.save(dataDir + "Field.ReplaceTextWithFields Out.doc");
 
