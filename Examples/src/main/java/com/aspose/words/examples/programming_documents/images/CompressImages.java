@@ -81,7 +81,7 @@ class Resampler
         int count = 0;
 
         // Convert VML shapes.
-        for (Shape vmlShape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true, false))
+        for (Shape vmlShape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
         {
             // It is important to use this method to correctly get the picture shape size in points even if the picture is inside a group shape.
             Point2D.Float shapeSizeInPoints = vmlShape.getSizeInPoints();
@@ -91,7 +91,7 @@ class Resampler
         }
 
         // Convert DrawingML shapes.
-        for (com.aspose.words.Shape dmlShape : (Iterable<com.aspose.words.Shape>) doc.getChildNodes(NodeType.SHAPE, true, false))
+        for (com.aspose.words.Shape dmlShape : (Iterable<com.aspose.words.Shape>) doc.getChildNodes(NodeType.SHAPE, true))
         {
             // In MS Word the size of a DrawingML shape is always in points at the moment.
             Point2D.Float shapeSizeInPoints = dmlShape.getSizeInPoints();

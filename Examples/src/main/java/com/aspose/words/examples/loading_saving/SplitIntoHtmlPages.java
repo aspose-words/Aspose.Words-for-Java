@@ -148,7 +148,7 @@ class Worker
      */
     private ArrayList selectTopicStarts() throws Exception
     {
-        NodeCollection paras = mDoc.getChildNodes(NodeType.PARAGRAPH, true, false);
+        NodeCollection paras = mDoc.getChildNodes(NodeType.PARAGRAPH, true);
         ArrayList topicStartParas = new ArrayList();
 
         for (Paragraph para : (Iterable<Paragraph>) paras)
@@ -259,7 +259,7 @@ class Worker
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setPrettyFormat(true);
         // This is to allow headings to appear to the left of main text.
-        saveOptions.setAllowNegativeLeftIndent(true);
+        saveOptions.setAllowNegativeIndent(true);
         saveOptions.setExportHeadersFootersMode(ExportHeadersFootersMode.NONE);
 
         dummyDoc.save(topic.getFileName(), saveOptions);

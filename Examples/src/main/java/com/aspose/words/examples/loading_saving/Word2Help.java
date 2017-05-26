@@ -396,7 +396,7 @@ class TopicWord2Help
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setPrettyFormat(true);
         // This is to allow headings to appear to the left of main text.
-        saveOptions.setAllowNegativeLeftIndent(true);
+        saveOptions.setAllowNegativeIndent(true);
         // Disable headers and footers.
         saveOptions.setExportHeadersFootersMode(ExportHeadersFootersMode.NONE);
 
@@ -625,7 +625,7 @@ class TopicCollection
     {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true, false);
+        NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
         ArrayList topicStartParas = new ArrayList();
 
         for (Paragraph para : (Iterable<Paragraph>) paras)
