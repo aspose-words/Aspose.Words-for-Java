@@ -3,22 +3,7 @@ package com.aspose.words.examples.programming_documents.document;
 import java.io.ByteArrayInputStream;
 import java.util.regex.Pattern;
 
-import com.aspose.words.Bookmark;
-import com.aspose.words.CompositeNode;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.FieldMergingArgs;
-import com.aspose.words.IFieldMergingCallback;
-import com.aspose.words.IReplacingCallback;
-import com.aspose.words.ImageFieldMergingArgs;
-import com.aspose.words.ImportFormatMode;
-import com.aspose.words.Node;
-import com.aspose.words.NodeImporter;
-import com.aspose.words.NodeType;
-import com.aspose.words.Paragraph;
-import com.aspose.words.ReplaceAction;
-import com.aspose.words.ReplacingArgs;
-import com.aspose.words.Section;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
 public class InsertDocumentIntoAnotherDocument {
@@ -63,7 +48,12 @@ public class InsertDocumentIntoAnotherDocument {
 
 	public static void insertDocumentAtReplace() throws Exception {
 		Document mainDoc = new Document(dataDir + "InsertDocument1.doc");
-		mainDoc.getRange().replace(Pattern.compile("\\[MY_DOCUMENT\\]"), new InsertDocumentAtReplaceHandler(), false);
+
+		FindReplaceOptions opts = new FindReplaceOptions();
+		opts.setDirection(FindReplaceDirection.BACKWARD);
+		opts.ReplacingCallback = new InsertDocumentAtReplaceHandler();
+
+		mainDoc.getRange().replace(Pattern.compile("\\[MY_DOCUMENT\\]"), "", opts);
 		mainDoc.save(dataDir + "InsertDocumentAtReplace_out.doc");
 	}
 
