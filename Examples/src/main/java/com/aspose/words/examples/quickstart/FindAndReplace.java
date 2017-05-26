@@ -3,6 +3,7 @@
 package com.aspose.words.examples.quickstart;
 
 import com.aspose.words.Document;
+import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.examples.Utils;
 import com.aspose.words.examples.programming_documents.find_replace.FindAndHighlightText;
 
@@ -23,7 +24,7 @@ public class FindAndReplace
         System.out.println("Original document text: " + doc.getRange().getText());
         Pattern regex = Pattern.compile("_CustomerName_", Pattern.CASE_INSENSITIVE);
         // Replace the text in the document.
-        doc.getRange().replace(regex, "James Bond");
+        doc.getRange().replace(regex, "James Bond", new FindReplaceOptions());
         // Check the replacement was made.
         System.out.println("Document text after replace: " + doc.getRange().getText());
         // Save the modified document.

@@ -2,19 +2,19 @@ package com.aspose.words.examples.programming_documents.tableofcontents;
 
 import java.util.regex.Pattern;
 
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.IReplacingCallback;
-import com.aspose.words.ReplaceAction;
-import com.aspose.words.ReplacingArgs;
+import com.aspose.words.*;
 
 public class FindAndInsertATCField {
 
 	public static void main(String[] args) throws Exception {
 		Document doc = new Document();
 
+		FindReplaceOptions opts = new FindReplaceOptions();
+		opts.setDirection(FindReplaceDirection.BACKWARD);
+		opts.ReplacingCallback = new InsertTCFieldHandler("Chapter 1", "\\l 1");
+
 		// Insert a TC field which displays "Chapter 1" just before the text "The Beginning" in the document.
-		doc.getRange().replace(Pattern.compile("The Beginning"), new InsertTCFieldHandler("Chapter 1", "\\l 1"), false);
+		doc.getRange().replace(Pattern.compile("The Beginning"), "", opts);
 	}
 }
 

@@ -239,8 +239,11 @@ public class ApplyCustomLogicToEmptyRegions {
 				// in the region without needing to hard code the field name. Often the base logic is applied to the first field and
 				// different logic for other fields. The rest of the fields in the region will have a null FieldValue.
 				if ("FirstField".equals(args.getFieldValue())) {
+					FindReplaceOptions opts = new FindReplaceOptions();
+					opts.MatchCase = false;
+					opts.FindWholeWordsOnly = false;
 					// Remove the "Name:" tag from the start of the paragraph
-					parentParagraph.getRange().replace("Name:", "", false, false);
+					parentParagraph.getRange().replace("Name:", "", opts);
 					// Set the text of the first field to display a message stating that there are no records.
 					args.setText("No records to display");
 				} else {
