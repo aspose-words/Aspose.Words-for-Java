@@ -34,7 +34,7 @@ public class CreateBookmark
         options.getOutlineOptions().setDefaultBookmarksOutlineLevel(1);
         options.getOutlineOptions().setDefaultBookmarksOutlineLevel(2);
 
-        doc.save(dataDir + "output.pdf");
+        doc.save(dataDir + "output.pdf", options);
         System.out.println("\nBookmark created successfully.");
     }
 
