@@ -3,7 +3,11 @@ package com.aspose.words.examples.mail_merge;
 import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
 
-import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import java.sql.*;
 import java.text.MessageFormat;
 import java.util.Hashtable;
@@ -11,18 +15,21 @@ import java.util.Hashtable;
 
 public class MultipleDocsInMailMerge
 {
+    private static Connection mConnection;
+    private static final String dataDir = Utils.getSharedDataDir(NestedMailMergeRegions.class) + "MailMerge/";
+
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(MultipleDocsInMailMerge.class);
-
-        produceMultipleDocuments(dataDir, "TestFile.doc");
+        produceMultipleDocuments(dataDir, "TestFile.Multiple Pages.doc");
     }
 
     public static void produceMultipleDocuments(String dataDir, String srcDoc) throws Exception
     {
+        // Create a connection to the database
+        createConnection(dataDir);
+
         // Open the database connection.
-        ResultSet rs = getData(dataDir, "SELECT * FROM Customers");
+        ResultSet rs = executeQuery("SELECT * FROM Customers");
 
         // Open the template document.
         Document doc = new Document(dataDir + srcDoc);
@@ -72,20 +79,29 @@ public class MultipleDocsInMailMerge
     }
 
     /**
-	 * Utility function that creates a connection to the Database.
-	 */
-    public static ResultSet getData(String dataDir, String query) throws Exception
-	{
-		// Load a DB driver that is used by the demos
-		Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-		// Compose connection string.
-		String connectionString = "jdbc:odbc:DRIVER={Microsoft Access Driver (*.mdb)};" +
-								  "DBQ=" + new File(dataDir, "Customers.mdb") + ";UID=Admin";
-		// DSN-less DB connection.
-		Connection connection = DriverManager.getConnection(connectionString);
+     * Executes a query to the demo database using a new statement and returns
+     * the result in a ResultSet.
+     */
+    protected static ResultSet executeQuery(String query) throws Exception {
+        return createStatement().executeQuery(query);
+    }
 
-        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+    /**
+     * Utility function that creates a connection to the Database.
+     */
+    public static void createConnection(String dataDir) throws Exception {
+        Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+        String connectionString = "jdbc:ucanaccess://" + dataDir + "Customers.mdb";
 
-        return statement.executeQuery(query);
-	}
+        // Create a connection to the database.
+        mConnection = DriverManager.getConnection(connectionString);
+    }
+
+    /**
+     * Utility function that creates a statement to the database.
+     */
+    public static Statement createStatement() throws Exception {
+        return mConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+    }
+
 }
