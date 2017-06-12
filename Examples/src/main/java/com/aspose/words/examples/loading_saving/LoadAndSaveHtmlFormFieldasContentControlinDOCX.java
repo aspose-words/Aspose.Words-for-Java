@@ -15,7 +15,7 @@ public class LoadAndSaveHtmlFormFieldasContentControlinDOCX {
     public static void main(String[] args) throws Exception {
 
         HtmlLoadOptions lo = new HtmlLoadOptions();
-        // lo.PreferredControlType = HtmlControlType.StructuredDocumentTag;
+        lo.PreferredControlType = HtmlControlType.StructuredDocumentTag;
 
         //Load the HTML document
         Document doc = new Document(dataDir + "input.html", lo);
