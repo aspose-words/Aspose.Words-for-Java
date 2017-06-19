@@ -18,7 +18,7 @@ public class ChildNodes {
 	}
 	
 	public static void enumerateChildrenOfACompositeNodeUsingEnumeratorProvidedByChildNodesCollection(String dataDir) throws Exception {
-		
+		//ExStart:enumerateChildrenOfACompositeNodeUsingEnumeratorProvidedByChildNodesCollection
 		Document doc = new Document(dataDir + "Document.doc");          
 		Paragraph paragraph = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 0, true);
 		            
@@ -31,10 +31,11 @@ public class ChildNodes {
 		        System.out.println(run.getText());
 		    }
 		}
+		//ExEnd:enumerateChildrenOfACompositeNodeUsingEnumeratorProvidedByChildNodesCollection
 	}
 	
 	public static void enumerateChildrenOfACompositeNodeUsingIndexedAccess(String dataDir) throws Exception {
-		
+		//ExStart:enumerateChildrenOfACompositeNodeUsingIndexedAccess
 		Document doc = new Document(dataDir + "Document.doc");          
 		Paragraph paragraph = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 0, true);
 		
@@ -49,6 +50,7 @@ public class ChildNodes {
 		        System.out.println(run.getText());
 		    }
 		}
+		//ExEnd:enumerateChildrenOfACompositeNodeUsingIndexedAccess
 	}
 
 }

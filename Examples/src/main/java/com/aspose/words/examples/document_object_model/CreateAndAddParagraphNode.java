@@ -7,9 +7,11 @@ import com.aspose.words.Section;
 public class CreateAndAddParagraphNode {
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:
 		Document doc = new Document();
 		Paragraph para = new Paragraph(doc);
 		Section section = doc.getLastSection();
 		section.getBody().appendChild(para);
+		//ExEnd:
 	}
 }

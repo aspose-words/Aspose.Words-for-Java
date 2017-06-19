@@ -9,6 +9,7 @@ import com.aspose.words.TableCollection;
 public class TypedAccessToChildrenAndParent {
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:
 		Document doc = new Document();
 
 		// Quick typed access to the first child Section node of the Document.
@@ -29,5 +30,6 @@ public class TypedAccessToChildrenAndParent {
 			if (table.getLastRow() != null)
 				table.getLastRow().remove();
 		}
+		//ExEnd:
 	}
 }

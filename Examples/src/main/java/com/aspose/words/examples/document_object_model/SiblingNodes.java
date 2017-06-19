@@ -6,7 +6,7 @@ import com.aspose.words.Node;
 import com.aspose.words.examples.Utils;
 
 public class SiblingNodes {
-
+	//ExStart:
 	public static void main(String[] args) throws Exception {
 		String dataDir = Utils.getSharedDataDir(ChildNodes.class) + "DocumentObjectModel/";
 		recurseAllNodes(dataDir);
@@ -34,5 +34,5 @@ public class SiblingNodes {
 				traverseAllNodes((CompositeNode) childNode);
 		}
 	}
-
+	//ExEnd:
 }

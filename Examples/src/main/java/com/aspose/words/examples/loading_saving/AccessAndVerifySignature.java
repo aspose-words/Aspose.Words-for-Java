@@ -13,12 +13,10 @@ import com.aspose.words.examples.Utils;
 //FIXME: no input file
 
 public class AccessAndVerifySignature {
-
-    // The path to the documents directory.
-    private static final String dataDir = Utils.getSharedDataDir(AccessAndVerifySignature.class) + "LoadingSavingAndConverting/";
-
     public static void main(String[] args) throws Exception {
-
+        //ExStart:1
+        // The path to the documents directory.
+        String dataDir = Utils.getSharedDataDir(AccessAndVerifySignature.class) + "LoadingSavingAndConverting/";
         // The path to the document which is to be processed.
         String filePath = dataDir + "Document.Signed.docx";
         Document doc = new Document(filePath);
@@ -29,5 +27,6 @@ public class AccessAndVerifySignature {
             System.out.println("Reason for signing: " + signature.getComments()); // This property is available in MS Word documents only.
             System.out.println("Time of signing: " + signature.getSignTime());
         }
+        //ExEnd:1
     }
 }

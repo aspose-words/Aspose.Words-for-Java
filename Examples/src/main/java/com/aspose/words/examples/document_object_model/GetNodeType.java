@@ -5,8 +5,10 @@ import com.aspose.words.Document;
 public class GetNodeType {
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:
 		Document doc = new Document();
 		// Returns NodeType.Document
 		int type = doc.getNodeType();
+		//ExEnd:
 	}
 }

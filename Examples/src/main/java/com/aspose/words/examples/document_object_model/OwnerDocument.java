@@ -6,6 +6,7 @@ import com.aspose.words.Paragraph;
 public class OwnerDocument {
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:
 		// Open a file from disk.
 		Document doc = new Document();
 
@@ -27,6 +28,7 @@ public class OwnerDocument {
 
 		// The paragraph node is now a child of the Body node.
 		System.out.println("Paragraph has a parent node: " + (para.getParentNode() != null));
+		//ExEnd:
 	}
 
 }
