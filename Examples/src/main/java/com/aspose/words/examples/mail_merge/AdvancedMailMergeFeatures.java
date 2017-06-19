@@ -13,20 +13,26 @@ public class AdvancedMailMergeFeatures {
 	 * source have different names.
 	 */
 	private static void addMappingWhenMergeFieldAndDataFieldHaveDifferentNames(Document doc) {
+		//ExStart:addMappingWhenMergeFieldAndDataFieldHaveDifferentNames
 		doc.getMailMerge().getMappedDataFields().add("MyFieldName_InDocument", "MyFieldName_InDataSource");
+		//ExEnd:addMappingWhenMergeFieldAndDataFieldHaveDifferentNames
 	}
 
 	/**
 	 * Get names of all merge fields in a document.
 	 */
 	private static void getNamesOfAllMergeFields(Document doc) throws Exception {
+		//ExStart:getNamesOfAllMergeFields
 		String[] fieldNames = doc.getMailMerge().getFieldNames();
+		//ExEnd:getNamesOfAllMergeFields
 	}
 	
 	/**
 	 * Delete all merge fields from a document without executing mail merge.
 	 */
 	private static void deletingMergeFields(Document doc) throws Exception {
+		//ExStart:deletingMergeFields
 		doc.getMailMerge().deleteFields();
+		//ExEnd:deletingMergeFields
 	}
 }

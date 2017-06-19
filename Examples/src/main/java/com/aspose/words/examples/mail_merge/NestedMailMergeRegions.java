@@ -12,7 +12,7 @@ import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.net.System.Data.DataTable;
 
 public class NestedMailMergeRegions {
-
+	//ExStart:
 	private static final String dataDir = Utils.getSharedDataDir(NestedMailMergeRegions.class) + "MailMerge/";
 	private static Connection mConnection;
 
@@ -76,4 +76,5 @@ public class NestedMailMergeRegions {
 	public static Statement createStatement() throws Exception {
 		return mConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 	}
+	//ExEnd:
 }

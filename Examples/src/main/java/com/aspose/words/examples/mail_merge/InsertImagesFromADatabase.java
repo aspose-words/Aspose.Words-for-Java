@@ -8,7 +8,7 @@ import com.aspose.words.IFieldMergingCallback;
 import com.aspose.words.ImageFieldMergingArgs;
 import com.aspose.words.examples.Utils;
 import com.aspose.words.net.System.Data.DataTable;
-
+//ExStart:
 public class InsertImagesFromADatabase {
 
 	private static final String dataDir = Utils.getSharedDataDir(InsertImagesFromADatabase.class) + "MailMerge/";
@@ -58,3 +58,4 @@ class HandleMergeImageFieldFromBlob implements IFieldMergingCallback {
 		e.setImageStream(imageStream);
 	}
 }
+//ExEnd:

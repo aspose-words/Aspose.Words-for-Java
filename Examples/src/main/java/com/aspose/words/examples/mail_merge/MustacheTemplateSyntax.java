@@ -5,8 +5,8 @@ import com.aspose.words.examples.Utils;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MustacheTemplateSyntax {
-
 	public static void main(String[] args) throws Exception {
+		//ExStart:
 		// The path to the documents directory.
 		String dataDir = Utils.getDataDir(MustacheTemplateSyntax.class);
 
@@ -31,6 +31,7 @@ public class MustacheTemplateSyntax {
 		doc.save(dataDir + "Output.docx");
 
 		System.out.println("Mail merge performed successfully.");
+		//ExEnd:
 	}
 
 }

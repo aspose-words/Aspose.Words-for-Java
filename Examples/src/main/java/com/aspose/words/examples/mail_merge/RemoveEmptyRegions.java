@@ -19,8 +19,10 @@ public class RemoveEmptyRegions
         // Create a dummy data source containing no data.
         DataSet data = new DataSet();
 
+        //ExStart:1
         // Set the appropriate mail merge clean up options to remove any unused regions from the document.
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_UNUSED_REGIONS);
+        //ExEnd:1
 
         // Execute mail merge which will have no effect as there is no data. However the regions found in the document will be removed
         // automatically as they are unused.

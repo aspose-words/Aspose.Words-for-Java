@@ -5,7 +5,7 @@ import com.aspose.words.examples.Utils;
 import com.aspose.words.net.System.Data.DataTable;
 
 public class ExecuteMailMergeWithRegions {
-
+	//ExStart:
 	private static final String dataDir = Utils.getSharedDataDir(ExecuteMailMergeWithRegions.class) + "MailMerge/";
 
 	public static void main(String[] args) throws Exception {
@@ -68,4 +68,5 @@ public class ExecuteMailMergeWithRegions {
 		java.sql.Statement statement = conn.createStatement();
 		return statement.executeQuery(commandText);
 	}
+	//ExEnd:
 }

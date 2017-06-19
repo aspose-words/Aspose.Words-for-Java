@@ -3,7 +3,7 @@ package com.aspose.words.examples.mail_merge;
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
-
+//ExStart:
 /**
  * This sample shows how to insert check boxes and text input form fields during mail merge into a document.
  */
@@ -83,3 +83,4 @@ public class MailMergeFormFields
         private DocumentBuilder mBuilder;
     }
 }
+//ExEnd:

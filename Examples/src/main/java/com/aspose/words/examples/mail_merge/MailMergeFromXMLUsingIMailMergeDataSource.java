@@ -8,6 +8,7 @@ import com.aspose.words.examples.Utils;
 
 public class MailMergeFromXMLUsingIMailMergeDataSource {
 
+	//ExStart:
 	/**
 	 * This sample demonstrates how to execute mail merge with data from an XML
 	 * data source. The XML file is read into memory, stored in a DOM and passed
@@ -35,5 +36,5 @@ public class MailMergeFromXMLUsingIMailMergeDataSource {
 		// Save the output document.
 		doc.save(dataDir + "TestFile Out.doc");
 	}
-
+	//ExEnd:
 }

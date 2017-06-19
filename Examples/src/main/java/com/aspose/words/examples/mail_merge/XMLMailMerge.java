@@ -5,7 +5,7 @@ import com.aspose.words.examples.Utils;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
+//ExStart:
 /**
  * This sample demonstrates how to execute mail merge with data from an XML data
  * source. The XML file is read into memory, stored in a DOM and passed to a
@@ -38,3 +38,4 @@ public class XMLMailMerge {
 		System.out.println("Mail merge performed successfully.");
 	}
 }
+//ExEnd:

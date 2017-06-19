@@ -3,6 +3,7 @@ package com.aspose.words.examples.mail_merge;
 import com.aspose.words.IMailMergeDataSource;
 import com.aspose.words.IMailMergeDataSourceRoot;
 
+//ExStart:
 public class XmlMailMergeDataSet implements IMailMergeDataSourceRoot
 {
     /**
@@ -23,3 +24,4 @@ public class XmlMailMergeDataSet implements IMailMergeDataSourceRoot
 
     private org.w3c.dom.Document mXmlDoc;
 }
+//ExEnd:

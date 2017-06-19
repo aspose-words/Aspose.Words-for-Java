@@ -16,6 +16,8 @@ public class ApplyCustomLogicToEmptyRegions {
 		// The path to the documents directory.
 		String dataDir = Utils.getDataDir(ApplyCustomLogicToEmptyRegions.class);
 
+		//ExStart:HandleUnmergedRegionsAfterMailMerge
+		// Open the document.
 		Document doc = new Document(dataDir + "TestFile.doc");
 
 		// Create a data source which has some data missing.
@@ -38,6 +40,7 @@ public class ApplyCustomLogicToEmptyRegions {
 
 		// Save the output document to disk.
 		doc.save(dataDir + "TestFile.CustomLogicEmptyRegions1 Out.doc");
+		//ExEnd:HandleUnmergedRegionsAfterMailMerge
 
 		// Reload the original merged document.
 		doc = mergedDoc.deepClone();
@@ -50,15 +53,18 @@ public class ApplyCustomLogicToEmptyRegions {
 		// Reload the original merged document.
 		doc = mergedDoc.deepClone();
 
+		//ExStart:HandleTheContactDetailsRegion
 		ArrayList<String> regions = new ArrayList<String>();
 		regions.add("ContactDetails");
 		executeCustomLogicOnEmptyRegions(doc, new EmptyRegionsHandler(), regions);
+		//ExEnd:HandleTheContactDetailsRegion
 
 		doc.save(dataDir + "TestFile.CustomLogicEmptyRegions3 Out.doc");
 
 		System.out.println("Mail merge performed successfully.");
 	}
 
+	//ExStart:ManuallyHandleUnmergedRegions
 	/**
 	 * Returns a DataSet object containing a DataTable for the unmerged regions
 	 * in the specified document. If regionsList is null all regions found
@@ -92,7 +98,9 @@ public class ApplyCustomLogicToEmptyRegions {
 
 		return dataSet;
 	}
+	//ExEnd:ManuallyHandleUnmergedRegions
 
+	//ExStart:ExecuteCustomLogicOnUnusedRegions
 	/**
 	 * Applies logic defined in the passed handler class to all unused regions
 	 * in the document. This allows to manually control how unused regions are
@@ -175,7 +183,9 @@ public class ApplyCustomLogicToEmptyRegions {
 		resultSet.moveToCurrentRow();
 		resultSet.last();
 	}
+    //ExEnd:ExecuteCustomLogicOnUnusedRegions
 
+	//ExStart:EmptyRegionsHandler
 	public static class EmptyRegionsHandler implements IFieldMergingCallback {
 		/**
 		 * Called for each field belonging to an unmerged region in the
@@ -222,6 +232,7 @@ public class ApplyCustomLogicToEmptyRegions {
 			// Do Nothing
 		}
 	}
+    //ExEnd:EmptyRegionsHandler
 
 	public static class EmptyRegionsHandler_MergeTable implements IFieldMergingCallback {
 		/**
@@ -229,6 +240,7 @@ public class ApplyCustomLogicToEmptyRegions {
 		 * document.
 		 */
 		public void fieldMerging(FieldMergingArgs args) throws Exception {
+			//ExStart:ReplaceAnUnusedRegionWithAMessage
 			// Store the parent paragraph of the current field for easy access.
 			Paragraph parentParagraph = args.getField().getStart().getParentParagraph();
 
@@ -254,7 +266,10 @@ public class ApplyCustomLogicToEmptyRegions {
 						parentParagraph.remove();
 				}
 			}
+			//ExEnd:ReplaceAnUnusedRegionWithAMessage
 
+			//ExStart:MergeAllTheParentCellsOfAnUnusedRegion
+			// Replace the unused region in the table with a "no records" message and merge all cells into one.
 			if ("Suppliers".equals(args.getTableName())) {
 				if ("FirstField".equals(args.getFieldValue())) {
 					// We will use the first paragraph to display our message. Make it centered within the table. The other fields in other cells
@@ -272,7 +287,7 @@ public class ApplyCustomLogicToEmptyRegions {
 						cell.getCellFormat().setHorizontalMerge(CellMerge.PREVIOUS); // Otherwise the merge is continued using "CellMerge.Previous".
 				}
 			}
-
+			//ExEnd:MergeAllTheParentCellsOfAnUnusedRegion
 		}
 
 		public void imageFieldMerging(ImageFieldMergingArgs args) throws Exception {

@@ -10,6 +10,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import java.util.HashMap;
 
+//ExStart:
 /**
  * A custom mail merge data source that allows you to merge data from an XML
  * document into Word templates. This class demonstrates how data can be read
@@ -148,3 +149,4 @@ public class XmlMailMergeDataTable implements IMailMergeDataSource {
 	private final HashMap mExpressionSet = new HashMap();
 	private final XPath mXPath = XPathFactory.newInstance().newXPath();
 }
+//ExEnd:

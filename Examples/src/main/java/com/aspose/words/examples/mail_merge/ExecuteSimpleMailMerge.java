@@ -8,6 +8,7 @@ public class ExecuteSimpleMailMerge {
 	private static final String dataDir = Utils.getSharedDataDir(ExecuteSimpleMailMerge.class) + "MailMerge/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:
 		// Open an existing document.
 		Document doc = new Document(dataDir + "MailMerge.ExecuteArray.doc");
 
@@ -19,5 +20,6 @@ public class ExecuteSimpleMailMerge {
 				new Object[] { "James Bond", "MI5 Headquarters", "Milbank", "", "London" });
 
 		doc.save(dataDir + "MailMerge.ExecuteArray_Out.doc");
+		//ExEnd:
 	}
 }

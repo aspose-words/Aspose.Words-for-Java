@@ -8,6 +8,7 @@ import com.aspose.words.ImageFieldMergingArgs;
 import com.aspose.words.TextFormFieldType;
 import com.aspose.words.examples.Utils;
 
+//ExStart:
 /**
  * This sample shows how to insert check boxes and text input form fields during
  * mail merge into a document.
@@ -84,3 +85,4 @@ class HandleMergeField implements IFieldMergingCallback {
 
 	private DocumentBuilder mBuilder;
 }
+//ExEnd:

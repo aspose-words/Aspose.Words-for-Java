@@ -15,6 +15,7 @@ import java.util.Hashtable;
 
 public class MultipleDocsInMailMerge
 {
+    //ExStart:
     private static Connection mConnection;
     private static final String dataDir = Utils.getSharedDataDir(NestedMailMergeRegions.class) + "MailMerge/";
 
@@ -103,5 +104,5 @@ public class MultipleDocsInMailMerge
     public static Statement createStatement() throws Exception {
         return mConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
     }
-
+    //ExEnd:
 }

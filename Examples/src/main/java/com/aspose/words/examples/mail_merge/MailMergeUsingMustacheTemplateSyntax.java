@@ -17,6 +17,7 @@ public class MailMergeUsingMustacheTemplateSyntax {
 	}
 
 	public static void simpleInsertionOfDataIntoMergeFields() throws Exception {
+		//ExStart:simpleInsertionOfDataIntoMergeFields
 		// Open an existing document.
 		Document doc = new Document(dataDir + "MailMerge.ExecuteArray.doc");
 
@@ -26,9 +27,11 @@ public class MailMergeUsingMustacheTemplateSyntax {
 		doc.getMailMerge().execute(new String[] { "FullName", "Company", "Address", "Address2", "City" }, new Object[] { "James Bond", "MI5 Headquarters", "Milbank", "", "London" });
 
 		doc.save(dataDir + "MailMerge.ExecuteArray_Out.doc");
+		//ExEnd:simpleInsertionOfDataIntoMergeFields
 	}
 
 	public static void useMailMergeUsingMustacheSyntax() throws Exception {
+		//ExStart:useMailMergeUsingMustacheSyntax
 		// Use DocumentBuilder from the javax.xml.parsers package and Document class from the org.w3c.dom package to read
 		// the XML data file and store it in memory.
 		javax.xml.parsers.DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -47,5 +50,6 @@ public class MailMergeUsingMustacheTemplateSyntax {
 
 		// Save the output document.
 		doc.save(dataDir + "MailMergeUsingMustacheSyntax_Out.docx");
+		//ExEnd:useMailMergeUsingMustacheSyntax
 	}
 }

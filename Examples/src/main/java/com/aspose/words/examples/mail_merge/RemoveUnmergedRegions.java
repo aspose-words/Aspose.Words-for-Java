@@ -10,7 +10,7 @@ public class RemoveUnmergedRegions {
 	private static final String dataDir = Utils.getSharedDataDir(RemoveUnmergedRegions.class) + "MailMerge/";
 
 	public static void main(String[] args) throws Exception {
-
+		//ExStart:
 		// Open the document.
 		Document doc = new Document(dataDir + "TestFile.doc");
 
@@ -26,6 +26,6 @@ public class RemoveUnmergedRegions {
 
 		// Save the output document to disk.
 		doc.save(dataDir + "TestFile.RemoveEmptyRegions Out.doc");
-
+		//ExEnd:
 	}
 }

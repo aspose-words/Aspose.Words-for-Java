@@ -13,7 +13,7 @@ import com.aspose.words.ImageFieldMergingArgs;
 import com.aspose.words.examples.Utils;
 import com.aspose.words.net.System.Data.DataTable;
 import com.sun.rowset.CachedRowSetImpl;
-
+//ExStart:
 public class ApplyCustomFormattingDuringMailMerge {
 
 	private static final String dataDir = Utils.getSharedDataDir(ApplyCustomFormattingDuringMailMerge.class) + "MailMerge/";
@@ -126,3 +126,4 @@ class HandleMergeFieldAlternatingRows implements IFieldMergingCallback {
 	private DocumentBuilder mBuilder;
 	private int mRowIdx;
 }
+//ExEnd:

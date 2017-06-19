@@ -7,6 +7,7 @@ import java.sql.*;
 import java.text.MessageFormat;
 import java.util.Hashtable;
 
+//ExStart:
 public class ProduceMultipleDocumentsDuringMailMerge {
 
 	private static final String dataDir = Utils.getSharedDataDir(ProduceMultipleDocumentsDuringMailMerge.class) + "MailMerge/";
@@ -81,3 +82,4 @@ public class ProduceMultipleDocumentsDuringMailMerge {
 		return statement.executeQuery(query);
 	}
 }
+//ExEnd:
