@@ -16,20 +16,28 @@ public class DocumentPreviewAndPrint {
 		// Open the document.
 		Document doc = new Document(dataDir + "TestFile.doc");
 
+		//ExStart:PrintDialog
 		PrinterJob pj = PrinterJob.getPrinterJob();
 
 		// Initialize the Print Dialog with the number of pages in the document.
 		PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
 		attributes.add(new PageRanges(1, doc.getPageCount()));
+		//ExEnd:PrintDialog
+
+		//ExStart:UserAcceptedThePrint
 		if (!pj.printDialog(attributes)) {
 			return;
 		}
+		//ExEnd:UserAcceptedThePrint
 
+		//ExStart:PageableInterface
 		// This object is responsible for rendering our document for use with the Java Print API.
 		AsposeWordsPrintDocument awPrintDoc = new AsposeWordsPrintDocument(doc);
 		// Pass our document as pageable to the printer job.
 		pj.setPageable(awPrintDoc);
+		//ExEnd:PageableInterface
 
+		//ExStart:AcceptPrintableOrPageableObject
 		// Create an instance of the print preview dialog and pass the print dialog and our document.
 
 		// Note that AsposeWordsPrintDocument implements both the Pageable and Printable interfaces. If the pageable constructor for PrintPreviewDialog
@@ -42,5 +50,6 @@ public class DocumentPreviewAndPrint {
 		// Proceed with printing if the user accepts the print preview.
 		if (previewDlg.display())
 			pj.print(attributes);
+		//ExEnd:AcceptPrintableOrPageableObject
 	}
 }

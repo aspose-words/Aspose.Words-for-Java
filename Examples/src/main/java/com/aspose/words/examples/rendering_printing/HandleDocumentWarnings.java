@@ -4,6 +4,7 @@ import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningType;
 
+//ExStart:
 public class HandleDocumentWarnings implements IWarningCallback {
 	/**
 	 * Our callback only needs to implement the "Warning" method. This method is
@@ -18,3 +19,4 @@ public class HandleDocumentWarnings implements IWarningCallback {
 		}
 	}
 }
+//ExEnd:

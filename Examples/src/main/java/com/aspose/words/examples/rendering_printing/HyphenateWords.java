@@ -20,23 +20,24 @@ public class HyphenateWords {
 	}
 
 	public static void loadHyphenationDictionaryFromFile() throws Exception {
+		//ExStart:LoadHyphenationDictionaryFromFile
 		Document doc = new Document(dataDir + "in.docx");
 
 		Hyphenation.registerDictionary("en-US", dataDir + "hyph_en_US.dic");
 		Hyphenation.registerDictionary("de-CH", dataDir + "hyph_de_CH.dic");
 
 		doc.save(dataDir + "LoadHyphenationDictionaryFromFile_Out.pdf");
-
+		//ExEnd:LoadHyphenationDictionaryFromFile
 	}
 
 	public static void loadHyphenationDictionaryFromStream() throws Exception {
+		//ExStart:LoadHyphenationDictionaryFromStream
 		Document doc = new Document(dataDir + "in.docx");
 
 		InputStream stream = new FileInputStream(dataDir + "hyph_de_CH.dic");
 		Hyphenation.registerDictionary("de-CH", stream);
 
 		doc.save(dataDir + "LoadHyphenationDictionaryFromStream_Out.pdf");
-
+		//ExEnd:LoadHyphenationDictionaryFromStream
 	}
-
 }

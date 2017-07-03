@@ -8,7 +8,7 @@ import com.aspose.words.examples.Utils;
  */
 public class SaveImageWithResolution {
     public static void main(String[] args) throws Exception {
-
+        //ExStart:SetHorizontalAndVerticalImageResolution
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(SaveImageWithResolution.class);
         com.aspose.words.Document doc = new com.aspose.words.Document(dataDir + "TestFile.doc");
@@ -20,5 +20,6 @@ public class SaveImageWithResolution {
         options.setPageCount(1);
 
         doc.save(dataDir + "Rendering.SaveToImageResolution Out.png", options);
+        //ExEnd:SetHorizontalAndVerticalImageResolution
     }
 }

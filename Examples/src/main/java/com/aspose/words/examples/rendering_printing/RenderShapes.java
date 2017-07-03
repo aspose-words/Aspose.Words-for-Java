@@ -25,6 +25,7 @@ public class RenderShapes
 {
     public static void main(String[] args) throws Exception
     {
+        //ExStart:Main
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(RenderShapes.class);
 
@@ -45,8 +46,10 @@ public class RenderShapes
         RenderRowToImage(dataDir, doc);
         RenderParagraphToImage(dataDir, doc);
         FindShapeSizes(shape);
+        //ExEnd:Main
     }
 
+    //ExStart:RenderShapeToDisk
     public static void RenderShapeToDisk(String dataDir, Shape shape) throws Exception
     {
         ShapeRenderer r = shape.getShapeRenderer();
@@ -61,7 +64,9 @@ public class RenderShapes
 
         System.out.println("Shape rendered to disk successfully.");
     }
+    //ExEnd:RenderShapeToDisk
 
+    //ExStart:RenderShapeToStream
     public static void RenderShapeToStream(String dataDir, Shape shape) throws Exception
     {
         ShapeRenderer r = new ShapeRenderer(shape);
@@ -84,7 +89,9 @@ public class RenderShapes
 
         System.out.println("Shape rendered to stream successfully.");
     }
+    //ExEnd:RenderShapeToStream
 
+    //ExStart:RenderDrawingMLToDisk
     public static void RenderDrawingMLToDisk(String dataDir, Shape drawingML) throws Exception
     {
         // Save the DrawingML image to disk in JPEG format and using default options.
@@ -92,7 +99,9 @@ public class RenderShapes
 
         System.out.println("Shape rendered to disk successfully.");
     }
+    //ExEnd:RenderDrawingMLToDisk
 
+    //ExStart:RenderShapeToGraphics
     public static void RenderShapeToGraphics(String dataDir, Shape shape) throws Exception
     {
         // The shape renderer is retrieved using this method. This is made into a separate object from the shape as it internally
@@ -132,7 +141,9 @@ public class RenderShapes
 
         System.out.println("Shape rendered to Graphics successfully.");
     }
+    //ExEnd:RenderShapeToGraphics
 
+    //ExStart:RenderCellToImage
     public static void RenderCellToImage(String dataDir, Document doc) throws Exception
     {
         Cell cell = (Cell)doc.getChild(NodeType.CELL, 2, true); // The third cell in the first table.
@@ -140,7 +151,9 @@ public class RenderShapes
 
         System.out.println("Cell rendered to image successfully.");
     }
+    //ExEnd:RenderCellToImage
 
+    //ExStart:RenderRowToImage
     public static void RenderRowToImage(String dataDir, Document doc) throws Exception
     {
         Row row = (Row)doc.getChild(NodeType.ROW, 0, true); // The first row in the first table.
@@ -148,7 +161,9 @@ public class RenderShapes
 
         System.out.println("Row rendered to image successfully.");
     }
+    //ExEnd:RenderRowToImage
 
+    //ExStart:RenderParagraphToImage
     public static void RenderParagraphToImage(String dataDir, Document doc) throws Exception
     {
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
@@ -162,7 +177,9 @@ public class RenderShapes
 
         System.out.println("Paragraph rendered to image successfully.");
     }
+    //ExEnd:RenderParagraphToImage
 
+    //ExStart:FindShapeSizes
     public static void FindShapeSizes(Shape shape) throws Exception
     {
         Point2D.Float shapeSizeInDocument = shape.getShapeRenderer().getSizeInPoints();
@@ -179,7 +196,9 @@ public class RenderShapes
         gr.dispose();
 
     }
+    //ExEnd:FindShapeSizes
 
+    //ExStart:RenderNode
     /// <summary>
     /// Renders any node in a document to the path specified using the image save options.
     /// </summary>
@@ -263,7 +282,9 @@ public class RenderShapes
 
         ImageIO.write(croppedImage, "png", new File(filePath));
     }
+    //ExEnd:RenderNode
 
+    //ExStart:FindBoundingBoxAroundNode
     /// <summary>
     /// Finds the minimum bounding box around non-transparent pixels in a Bitmap.
     /// </summary>
@@ -290,4 +311,5 @@ public class RenderShapes
         // Add one pixel to the width and height to avoid clipping.
         return new Rectangle(min.x, min.y, (max.x - min.x) + 1, (max.y - min.y) + 1);
     }
+    //ExEnd:FindBoundingBoxAroundNode
 }

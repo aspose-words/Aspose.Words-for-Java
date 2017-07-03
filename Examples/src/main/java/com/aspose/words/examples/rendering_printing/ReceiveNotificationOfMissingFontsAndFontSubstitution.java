@@ -10,6 +10,7 @@ public class ReceiveNotificationOfMissingFontsAndFontSubstitution {
 	private static final String dataDir = Utils.getSharedDataDir(ReceiveNotificationOfMissingFontsAndFontSubstitution.class) + "RenderingAndPrinting/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:Main
 		// Load the document to render.
 		Document doc = new Document(dataDir + "Rendering.doc");
 		
@@ -30,9 +31,11 @@ public class ReceiveNotificationOfMissingFontsAndFontSubstitution {
 		doc.save(dataDir + "Rendering.MissingFontNotification Out.pdf");
 		
 		getNotificationBeforeSaving(doc);
+		//ExEnd:Main
 	}
 	
 	public static void getNotificationBeforeSaving(Document doc) throws Exception {
+		//ExStart:GetNotificationBeforeSaving
 		doc.updatePageLayout();
 
 		// Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
@@ -42,6 +45,6 @@ public class ReceiveNotificationOfMissingFontsAndFontSubstitution {
 
 		// Even though the document was rendered previously, any save warnings are notified to the user during document save.
 		doc.save(dataDir + "Rendering.FontsNotificationUpdatePageLayout Out.pdf");
+		//ExEnd:GetNotificationBeforeSaving
 	}
-	
 }

@@ -17,6 +17,7 @@ public class EmbedFontsInAdobePDF {
 	}
 
 	public static void embedFullFontsInPDFDocument() throws Exception {
+		//ExStart:EmbedFullFontsInPDFDocument
 		// Load the document to render.
 		Document doc = new Document(dataDir + "Rendering.doc");
 
@@ -27,9 +28,11 @@ public class EmbedFontsInAdobePDF {
 
 		// The output PDF will be embedded with all fonts found in the document.
 		doc.save(dataDir + "Rendering.EmbedFullFonts Out.pdf", options);
+		//ExEnd:EmbedFullFontsInPDFDocument
 	}
 	
 	public static void embedSubsetFontsInPDFDocument() throws Exception {
+		//ExStart:EmbedSubsetFontsInPDFDocument
 		// Load the document to render.
 		Document doc = new Document(dataDir + "Rendering.doc");
 
@@ -40,7 +43,6 @@ public class EmbedFontsInAdobePDF {
 		// The output PDF will contain subsets of the fonts in the document. Only the glyphs used
 		// in the document are included in the PDF fonts.
 		doc.save(dataDir + "Rendering.SubsetFonts Out.pdf", options);
+		//ExEnd:EmbedSubsetFontsInPDFDocument
 	}
-
-
 }

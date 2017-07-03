@@ -18,6 +18,7 @@ public class ControlEmbeddingOfCoreAndSystemFonts {
 	}
 
 	public static void embedCoreFonts() throws Exception {
+		//ExStart:embedCoreFonts
 		// Load the document to render.
 		Document doc = new Document(dataDir + "Rendering.doc");
 
@@ -27,9 +28,11 @@ public class ControlEmbeddingOfCoreAndSystemFonts {
 
 		// The output PDF will not be embedded with core fonts such as Arial, Times New Roman etc.
 		doc.save(dataDir + "Rendering.DisableEmbedWindowsFonts_Out.pdf");
+		//ExEnd:embedCoreFonts
 	}
 
 	public static void embedSystemFonts() throws Exception {
+		//ExStart:embedSystemFonts
 		// Load the document to render.
 		Document doc = new Document(dataDir + "Rendering.doc");
 		
@@ -40,5 +43,6 @@ public class ControlEmbeddingOfCoreAndSystemFonts {
 
 		// The output PDF will be saved without embedding standard windows fonts.
 		doc.save(dataDir + "Rendering.DisableEmbedWindowsFonts_Out.pdf");
+		//ExEnd:embedSystemFonts
 	}
 }

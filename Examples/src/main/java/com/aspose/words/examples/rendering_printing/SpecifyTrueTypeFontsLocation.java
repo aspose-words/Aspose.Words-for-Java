@@ -25,6 +25,7 @@ public class SpecifyTrueTypeFontsLocation {
 	}
 
 	public static void specifyAFontFolder() throws Exception {
+		//ExStart:SpecifyAFontFolder
 		Document doc = new Document(dataDir + "Rendering.doc");
 
 		// Note that this setting will override any default font sources that are being searched by default. Now only these folders will be searched for
@@ -33,9 +34,11 @@ public class SpecifyTrueTypeFontsLocation {
 		FontSettings.getDefaultInstance().setFontsFolder("/Users/username/MyFonts/", false);
 
 		doc.save(dataDir + "Rendering.SpecifyingAFontFolder_Out.pdf");
+		//ExEnd:SpecifyAFontFolder
 	}
 
 	public static void specifyMultipleFontFolders() throws Exception {
+		//ExStart:SpecifyMultipleFontFolders
 		Document doc = new Document(dataDir + "Rendering.doc");
 
 		// Note that this setting will override any default font sources that are being searched by default. Now only these folders will be searched for
@@ -44,9 +47,11 @@ public class SpecifyTrueTypeFontsLocation {
 		FontSettings.getDefaultInstance().setFontsFolders(new String[] { "/Users/username/MyFonts/", "/Users/username/Documents/Fonts/" }, true);
 
 		doc.save(dataDir + "Rendering.SpecifyMultipleFontFolders_Out.pdf");
+		//ExEnd:SpecifyMultipleFontFolders
 	}
 
 	public static void specifyFontsFromBothSystemFontsFolderAndCustomFolder() throws Exception {
+		//ExStart:SpecifyFontsFromBothSystemFontsFolderAndCustomFolder
 		Document doc = new Document(dataDir + "Rendering.doc");
 
 		// Retrieve the array of environment-dependent font sources that are searched by default.
@@ -67,5 +72,6 @@ public class SpecifyTrueTypeFontsLocation {
 		FontSettings.getDefaultInstance().setFontsSources(updatedFontSources);
 
 		doc.save(dataDir + "Rendering.SpecifyFontsToBeReadFromBothSystemFontsFolderAndCustomFolder_Out.pdf");
+		//ExEnd:SpecifyFontsFromBothSystemFontsFolderAndCustomFolder
 	}
 }

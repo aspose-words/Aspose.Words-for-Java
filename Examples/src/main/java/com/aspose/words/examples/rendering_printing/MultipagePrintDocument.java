@@ -13,13 +13,18 @@ import javax.print.attribute.standard.PageRanges;
 
 import com.aspose.words.Document;
 
+//ExStart:CustomClassImplementsPrintableInterface
 public class MultipagePrintDocument implements Printable {
+//ExEnd:CustomClassImplementsPrintableInterface
 
+	//ExStart:DataAndStateFields
 	private Document mDocument;
 	private int mPagesPerSheet;
 	private boolean mPrintPageBorders;
 	private AttributeSet mAttributeSet;
+	//ExEnd:DataAndStateFields
 
+	//ExStart:ConstructorOfCustomPrintDocumentClass
 	public MultipagePrintDocument(Document document, int pagesPerSheet, boolean printPageBorders, AttributeSet attributes) {
 		if (document == null)
 			throw new IllegalArgumentException("document");
@@ -29,7 +34,9 @@ public class MultipagePrintDocument implements Printable {
 		mPrintPageBorders = printPageBorders;
 		mAttributeSet = attributes;
 	}
+	//ExEnd:ConstructorOfCustomPrintDocumentClass
 
+	//ExStart:GeneratesPrintedPage
 	public int print(Graphics g, PageFormat pf, int page) {
 		// The page start and end indices as defined in the attribute set.
 		int[][] pageRanges = ((PageRanges) mAttributeSet.get(PageRanges.class)).getMembers();
@@ -92,12 +99,13 @@ public class MultipagePrintDocument implements Printable {
 				// If there are any errors that occur during rendering then do nothing.
 				// This will draw a blank page if there are any errors during rendering.
 			}
-
 		}
 
 		return Printable.PAGE_EXISTS;
 	}
+	//ExEnd:GeneratesPrintedPage
 
+	//ExStart:GetThumbCount
 	private Dimension getThumbCount(int pagesPerSheet, PageFormat pf) {
 		Dimension size;
 		// Define the number of the columns and rows on the sheet for the Landscape-oriented paper.
@@ -130,5 +138,5 @@ public class MultipagePrintDocument implements Printable {
 
 		return size;
 	}
-
+	//ExEnd:GetThumbCount
 }
