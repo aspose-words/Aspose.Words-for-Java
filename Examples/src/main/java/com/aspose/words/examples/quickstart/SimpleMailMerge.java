@@ -9,6 +9,7 @@ public class SimpleMailMerge
 {
     public static void main(String[] args) throws Exception
     {
+        //ExStart:
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(SimpleMailMerge.class);
 
@@ -19,6 +20,7 @@ public class SimpleMailMerge
                 new Object[] { "James Bond", "MI5 Headquarters", "Milbank", "", "London" });
         // Saves the document to disk.
         doc.save(dataDir + "MailMerge Result Out.docx");
+        //ExEnd:
 
         System.out.println("Mail merge performed successfully.");
     }

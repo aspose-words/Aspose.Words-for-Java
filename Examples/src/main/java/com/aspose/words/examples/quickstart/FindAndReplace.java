@@ -15,6 +15,7 @@ public class FindAndReplace
 
     public static void main(String[] args) throws Exception
     {
+        //ExStart:
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(FindAndReplace.class);
 
@@ -29,6 +30,7 @@ public class FindAndReplace
         System.out.println("Document text after replace: " + doc.getRange().getText());
         // Save the modified document.
         doc.save(dataDir + "ReplaceSimple Out.doc");
+        //ExEnd:
 
         System.out.println("Text found and replaced successfully.");
     }

@@ -12,6 +12,7 @@ public class UpdateFields
 {
     public static void main(String[] args) throws Exception
     {
+        //ExStart:
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(UpdateFields.class);
 
@@ -57,7 +58,7 @@ public class UpdateFields
         // Call the method below to update the TOC.
         doc.updateFields();
         doc.save(dataDir + "Document Field Update Out.docx");
-
+        //ExEnd:
         System.out.println("Fields updated in the document successfully.");
     }
 }
