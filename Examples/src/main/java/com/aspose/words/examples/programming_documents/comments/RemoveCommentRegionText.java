@@ -7,7 +7,8 @@ import com.aspose.words.examples.Utils;
 public class RemoveCommentRegionText {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:RemoveCommentRegionText
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(RemoveCommentRegionText.class);
 
         // Open the document.
@@ -28,6 +29,7 @@ public class RemoveCommentRegionText {
 		}
  
         doc.save(dataDir + "output.doc");
+		//ExEnd:RemoveCommentRegionText
 
     }
 }

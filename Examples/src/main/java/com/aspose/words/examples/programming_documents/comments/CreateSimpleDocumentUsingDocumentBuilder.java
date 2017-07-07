@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class CreateSimpleDocumentUsingDocumentBuilder {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:CreateSimpleDocumentUsingDocumentBuilder
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(CreateSimpleDocumentUsingDocumentBuilder.class);
 
         // Open the document.
@@ -17,6 +18,7 @@ public class CreateSimpleDocumentUsingDocumentBuilder {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("Aspose_Words_Java");
         doc.save(dataDir + "output.doc");
+		//ExEnd:CreateSimpleDocumentUsingDocumentBuilder
 
     }
 }

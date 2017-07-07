@@ -9,7 +9,8 @@ import com.aspose.words.examples.Utils;
 public class RemoveComments {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:RemoveComments
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(RemoveComments.class);
 
         // Open the document.
@@ -19,6 +20,7 @@ public class RemoveComments {
         // Remove all comments.
         comments.clear();
         doc.save(dataDir + "output.doc");
+		//ExEnd:RemoveComments
 
     }
 }

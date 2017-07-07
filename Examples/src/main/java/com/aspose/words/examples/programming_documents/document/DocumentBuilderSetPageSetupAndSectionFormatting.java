@@ -11,7 +11,8 @@ import com.aspose.words.examples.Utils;
 public class DocumentBuilderSetPageSetupAndSectionFormatting {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:DocumentBuilderSetPageSetupAndSectionFormatting
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderSetPageSetupAndSectionFormatting.class);
 
         // Open the document.
@@ -22,6 +23,7 @@ public class DocumentBuilderSetPageSetupAndSectionFormatting {
         builder.getPageSetup().setPaperSize(PaperSize.PAPER_10_X_14);
 
         doc.save(dataDir + "output.doc");
+		//ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting
 
     }
 }

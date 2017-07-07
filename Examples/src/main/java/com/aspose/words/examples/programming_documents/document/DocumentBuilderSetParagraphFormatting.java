@@ -11,7 +11,8 @@ public class DocumentBuilderSetParagraphFormatting {
     public static void main(String[] args) throws Exception {
 
 
-        // The path to the documents directory.
+        //ExStart:DocumentBuilderSetParagraphFormatting
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderSetParagraphFormatting.class);
 
         // Open the document.
@@ -28,6 +29,7 @@ public class DocumentBuilderSetParagraphFormatting {
         builder.writeln("I'm a very nice formatted paragraph. I'm intended to demonstrate how the left and right indents affect word wrapping.");
         builder.writeln("I'm another nice formatted paragraph. I'm intended to demonstrate how the space after paragraph looks like.");
         doc.save(dataDir + "output.doc");
+		//ExEnd:DocumentBuilderSetParagraphFormatting
 
     }
 }

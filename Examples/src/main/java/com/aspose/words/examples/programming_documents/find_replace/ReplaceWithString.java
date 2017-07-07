@@ -11,8 +11,10 @@ public class ReplaceWithString {
 
 	public static void main(String[] args) throws Exception {
 
+		//ExStart:ReplaceWithString
 		Document doc = new Document(dataDir + "ReplaceWithString.doc");
 		doc.getRange().replace("sad", "bad", new FindReplaceOptions(FindReplaceDirection.FORWARD));
 		doc.save(dataDir + "ReplaceWithString_out.doc");
+		//ExEnd:ReplaceWithString
 	}
 }

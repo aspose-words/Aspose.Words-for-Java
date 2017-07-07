@@ -9,7 +9,8 @@ import java.util.Date;
 public class AnchorComment {
     public static void main(String[] args) throws Exception {
 
-        String dataDir = Utils.getDataDir(AnchorComment.class);
+        //ExStart:AnchorComment
+		String dataDir = Utils.getDataDir(AnchorComment.class);
         Document doc = new Document();
 
         Paragraph para1 = new Paragraph(doc);
@@ -38,6 +39,7 @@ public class AnchorComment {
         commentRangeEnd.getParentNode().insertAfter(comment, commentRangeEnd);
 
         doc.save(dataDir + "output.doc");
+		//ExEnd:AnchorComment
 
 
     }

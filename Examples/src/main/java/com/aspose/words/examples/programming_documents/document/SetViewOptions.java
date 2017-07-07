@@ -7,6 +7,7 @@ import com.aspose.words.examples.programming_documents.document.properties.Acces
 
 public class SetViewOptions {
 	
+	//ExStart:SetViewOptions
 	public static final String dataDir = Utils.getSharedDataDir(AccessingDocumentProperties.class) + "Document/";
 	
 	public static void main(String[] args) throws Exception {
@@ -15,5 +16,6 @@ public class SetViewOptions {
 		doc.getViewOptions().setZoomPercent(50);
 		doc.save(dataDir + "Document.SetZoom_out.doc");
 	}
+	//ExEnd:SetViewOptions
 
 }

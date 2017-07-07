@@ -13,6 +13,7 @@ public class ReplaceTextWithField {
 
 	public static void main(String[] args) throws Exception {
 
+		//ExStart:ReplaceTextWithField
 		Document doc = new Document(dataDir + "Field.ReplaceTextWithFields.doc");
 
 		FindReplaceOptions opts = new FindReplaceOptions();
@@ -24,10 +25,11 @@ public class ReplaceTextWithField {
 		doc.getRange().replace(regex, "", opts);
 
 		doc.save(dataDir + "Field.ReplaceTextWithFields Out.doc");
+		//ExEnd:ReplaceTextWithField
 
 		System.out.println("Text replaced with field successfully.");
 	}
-
+//ExStart:ReplaceTextWithFieldHandler
 	private static class ReplaceTextWithFieldHandler implements IReplacingCallback {
 
 		public ReplaceTextWithFieldHandler(String name) {
@@ -105,4 +107,5 @@ public class ReplaceTextWithField {
 
 		private String mFieldName;
 	}
+//ExEnd:ReplaceTextWithFieldHandler
 }

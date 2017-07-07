@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ExtractContentBetweenCommentRange {
     public static void main(String[] args) throws Exception {
-
+//ExStart:ExtractContentBetweenCommentRange
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractContentBetweenCommentRange.class);
 
@@ -28,7 +28,7 @@ public class ExtractContentBetweenCommentRange {
         ArrayList extractedNodesExclusive = extractContent(commentStart, commentEnd, false);
         dstDoc = generateDocument(doc, extractedNodesExclusive);
         dstDoc.save(dataDir + "output.doc");
-
+//ExEnd:ExtractContentBetweenCommentRange
         System.out.println("Content extracted between comment range successfully.");
     }
 

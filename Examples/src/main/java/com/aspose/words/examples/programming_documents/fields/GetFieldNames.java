@@ -6,7 +6,8 @@ import com.aspose.words.examples.Utils;
 public class GetFieldNames {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:GetFieldNames
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(GetFieldNames.class);
 
         Document doc = new Document(dataDir + "Rendering.doc");
@@ -15,6 +16,7 @@ public class GetFieldNames {
         for (String name : fieldNames) {
             System.out.println(name);
         }
+		//ExEnd:GetFieldNames
 
 
     }

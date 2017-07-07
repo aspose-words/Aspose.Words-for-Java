@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class ExtractContentBetweenRuns {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:ExtractContentBetweenRuns
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractContentBetweenRuns.class);
 
         Document doc = new Document(dataDir + "TestFile.doc");
@@ -28,6 +29,7 @@ public class ExtractContentBetweenRuns {
         Node node = (Node) extractedNodes.get(0);
         // Print the text of this node to the console.
         System.out.println(node.toString(SaveFormat.TEXT));
+		//ExEnd:ExtractContentBetweenRuns
 
         System.out.println("Content extracted between the runs successfully.");
     }

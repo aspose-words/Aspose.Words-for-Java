@@ -11,7 +11,8 @@ import java.awt.*;
 public class DocumentBuilderInsertParagraph {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:DocumentBuilderInsertParagraph
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertParagraph.class);
 
         // Open the document.
@@ -32,6 +33,7 @@ public class DocumentBuilderInsertParagraph {
 
         builder.write("This is a sample Paragraph");
         doc.save(dataDir + "output.doc");
+		//ExEnd:DocumentBuilderInsertParagraph
 
     }
 }

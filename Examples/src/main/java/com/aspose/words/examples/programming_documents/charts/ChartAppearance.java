@@ -15,6 +15,7 @@ public class ChartAppearance {
 	public static final String dataDir = Utils.getSharedDataDir(OOXMLCharts.class) + "Charts/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:ChartAppearance
 		// Working with Charts through Shape.Chart Object
 		changeChartAppearanceUsingShapeChartObject();
 		
@@ -23,9 +24,11 @@ public class ChartAppearance {
 		
 		//All single ChartSeries have default ChartDataPoint options, lets change them
 		changeDefaultChartDataPointOptions();
+		//ExEnd:ChartAppearance
 	}
 	
 	private static void changeChartAppearanceUsingShapeChartObject() throws Exception {
+		//ExStart:changeChartAppearanceUsingShapeChartObject
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -48,9 +51,11 @@ public class ChartAppearance {
 		chart.getLegend().setOverlay(true);
 
 		doc.save(dataDir + "ChartAppearance_out.docx");
+		//ExEnd:changeChartAppearanceUsingShapeChartObject
 	}
 	
 	private static void workingWithSingleChartSeries() throws Exception {
+		//ExStart:workingWithSingleChartSeries
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -73,9 +78,11 @@ public class ChartAppearance {
 		series1.setSmooth(true);
 		
 		doc.save(dataDir + "SingleChartSeries_out.docx");
+		//ExEnd:workingWithSingleChartSeries
 	}
 	
 	private static void changeDefaultChartDataPointOptions() throws Exception {
+		//ExStart:changeDefaultChartDataPointOptions
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -97,7 +104,8 @@ public class ChartAppearance {
 		series1.getMarker().setSymbol(MarkerSymbol.STAR);
 		series1.getMarker().setSize(10);
 		
-		doc.save(dataDir + "ChartDataPoints_out.docx");
+		doc.save(dataDir + "ChartDataPoints_out.docx");//
+		//ExEnd:changeDefaultChartDataPointOptions
 	}
 	
 }

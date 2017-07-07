@@ -17,6 +17,7 @@ public class OOXMLCharts {
 
 	public static void main(String[] args) throws Exception {
 		
+		//ExStart:OOXMLCharts
 		// Insert Column chart
 		insertColumnChart1();
 		insertColumnChart2();
@@ -29,9 +30,11 @@ public class OOXMLCharts {
 		
 		// Insert Bubble chart
 		insertBubbleChart();
+		//ExEnd:OOXMLCharts
 	}
 
 	public static void insertColumnChart1() throws Exception {
+		//ExStart:insertColumnChart1
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -58,9 +61,11 @@ public class OOXMLCharts {
 		seriesColl.add("AW Series 5", categories, new double[] { 9, 10 });
 
 		doc.save(dataDir + "TestInsertChartColumn1_out.docx");
+		//ExEnd:insertColumnChart1
 	}
 
 	public static void insertColumnChart2() throws Exception {
+		//ExStart:insertColumnChart2
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -72,9 +77,11 @@ public class OOXMLCharts {
 		chart.getSeries().add("AW Series 1", new String[] { "AW Category 1", "AW Category 2" }, new double[] { 1, 2 });
 
 		doc.save(dataDir + "TestInsertColumnChart2_out.docx");
+		//ExEnd:insertColumnChart2
 	}
 
 	public static void insertScatterChart() throws Exception {
+		//ExStart:insertScatterChart
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -86,9 +93,11 @@ public class OOXMLCharts {
 		chart.getSeries().add("AW Series 1", new double[] { 0.7, 1.8, 2.6 }, new double[] { 2.7, 3.2, 0.8 });
 
 		doc.save(dataDir + "TestInsertScatterChart_out.docx");
+		//ExEnd:insertScatterChart
 	}
 	
 	public static void insertAreaChart() throws Exception {
+		//ExStart:insertAreaChart
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -107,9 +116,11 @@ public class OOXMLCharts {
 		chart.getSeries().add ("AW Series 1", new Date[] {date1, date2, date3, date4, date5}, new double[] {32, 32, 28, 12, 15});
 
 		doc.save(dataDir + "TestInsertAreaChart_out.docx");
+		//ExEnd:insertAreaChart
 	}
 	
 	public static void insertBubbleChart() throws Exception {
+		//ExStart:insertBubbleChart
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -121,5 +132,6 @@ public class OOXMLCharts {
 		chart.getSeries().add("AW Series 1", new double[] { 0.7, 1.8, 2.6 }, new double[] { 2.7, 3.2, 0.8 }, new double[] { 10, 4, 8 });
 
 		doc.save(dataDir + "TestInsertBubbleChart_out.docx");
+		//ExEnd:insertBubbleChart
 	}
 }

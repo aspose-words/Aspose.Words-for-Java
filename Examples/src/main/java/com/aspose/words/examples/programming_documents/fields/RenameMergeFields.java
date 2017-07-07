@@ -23,6 +23,7 @@ public class RenameMergeFields {
 	 * Finds all merge fields in a Word document and changes their names.
 	 */
 	public static void main(String[] args) throws Exception {
+		//ExStart:RenameMergeFields
 		// Specify your document name here.
 		Document doc = new Document(dataDir + "RenameMergeFields.doc");
 
@@ -35,9 +36,11 @@ public class RenameMergeFields {
 			}
 		}
 		doc.save(dataDir + "RenameMergeFields Out.doc");
+		//ExEnd:RenameMergeFields
 	}
 }
 
+//ExStart:MergeField
 /**
  * Represents a facade object for a merge field in a Microsoft Word document.
  */
@@ -112,4 +115,5 @@ class MergeField {
 			curChild = nextChild;
 		}
 	}
+	//ExEnd:MergeField
 }

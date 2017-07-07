@@ -12,6 +12,7 @@ public class RemoveFootersButLeaveHeadersIntact {
 	private static final String dataDir = Utils.getSharedDataDir(BuildTableFromDataTable.class) + "HeadersAndFooters/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:RemoveFootersButLeaveHeadersIntact
 		Document doc = new Document(dataDir + "HeaderFooter.RemoveFooters.doc");
 
 		for (Section section : doc.getSections()) {
@@ -34,6 +35,7 @@ public class RemoveFootersButLeaveHeadersIntact {
 		}
 
 		doc.save(dataDir + "HeaderFooter.RemoveFooters Out.doc");
+		//ExEnd:RemoveFootersButLeaveHeadersIntact
 
 	}
 

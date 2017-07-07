@@ -10,6 +10,7 @@ public class TrackChanges {
 
 	public static void main(String[] args) throws Exception {
 		
+		//ExStart:TrackChanges
 		Document doc = new Document(dataDir + "Document.doc");
 
 		// Start tracking and make some revisions.
@@ -20,6 +21,7 @@ public class TrackChanges {
 		doc.acceptAllRevisions();
 		
 		doc.save(dataDir + "Document.AcceptedRevisions_out_.doc");
+		//ExEnd:TrackChanges
 	}
 
 }

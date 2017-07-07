@@ -13,7 +13,8 @@ public class ReplaceHyperlinks {
 
     public static void main(String[] args) throws Exception {
 
-        String newUrl = "http://www.aspose.com";
+        //ExStart:ReplaceHyperlinks
+		String newUrl = "http://www.aspose.com";
         String newName = "Aspose - The .NET & Java Component Publisher";
 
         // Open the document.
@@ -30,6 +31,7 @@ public class ReplaceHyperlinks {
                 hyperlink.setResult(newName);
             }
             doc.save(dataDir + "ReplaceHyperlinks_Out.doc");
+			//ExEnd:ReplaceHyperlinks
         }
     }
 }

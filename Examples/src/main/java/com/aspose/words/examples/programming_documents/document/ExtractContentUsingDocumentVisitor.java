@@ -14,9 +14,10 @@ import com.aspose.words.VisitorAction;
 import com.aspose.words.examples.Utils;
 
 public class ExtractContentUsingDocumentVisitor {
-
+//ExStart:ExtractContentUsingDocumentVisitor
 	public static void main(String[] args) throws Exception {
 		
+		//ExStart:ExtractContentUsingDocumentVisitor
 		String dataDir = Utils.getSharedDataDir(ExtractContentUsingDocumentVisitor.class) + "ExtractedSelectedContentBetweenNodes/";
 		
 		// Open the document we want to convert.
@@ -149,4 +150,5 @@ class MyDocToTxtWriter extends DocumentVisitor {
 		if (!mIsSkipText)
 			mBuilder.append(text);
 	}
+	//ExEnd:ExtractContentUsingDocumentVisitor
 }

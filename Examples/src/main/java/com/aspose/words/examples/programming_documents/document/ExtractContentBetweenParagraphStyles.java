@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ExtractContentBetweenParagraphStyles {
     public static void main(String[] args) throws Exception {
-
+//ExStart:ExtractContentBetweenParagraphStyles
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractContentBetweenParagraphStyles.class);
 
@@ -28,7 +28,7 @@ public class ExtractContentBetweenParagraphStyles {
         // Insert the content into a new separate document and save it to disk.
         Document dstDoc = generateDocument(doc, extractedNodes);
         dstDoc.save(dataDir + "output.doc");
-
+//ExEnd:ExtractContentBetweenParagraphStyles
         System.out.println("Content extracted between the paragraph styles successfully.");
     }
 

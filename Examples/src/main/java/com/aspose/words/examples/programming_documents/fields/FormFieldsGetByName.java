@@ -9,7 +9,8 @@ import com.aspose.words.examples.Utils;
 public class FormFieldsGetByName {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:FormFieldsGetByName
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(FormFieldsGetByName.class);
 
         Document doc = new Document(dataDir + "FormFields.doc");
@@ -22,6 +23,7 @@ public class FormFieldsGetByName {
         FormField formField2 = documentFormFields.get("Text2");
         System.out.println("Name: " + formField2.getName());
         doc.save(dataDir + "output.docx");
+		//ExEnd:FormFieldsGetByName
 
     }
 }

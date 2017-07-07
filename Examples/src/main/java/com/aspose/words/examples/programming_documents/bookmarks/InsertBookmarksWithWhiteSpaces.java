@@ -14,7 +14,8 @@ public class InsertBookmarksWithWhiteSpaces
      */
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:InsertBookmarksWithWhiteSpaces
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertBookmarksWithWhiteSpaces.class);
 
         Document doc = new Document();
@@ -39,5 +40,6 @@ public class InsertBookmarksWithWhiteSpaces
         doc.save(dataDir, options);
 
         System.out.println("\nBookmarks with white spaces inserted successfully.\nFile saved at " + dataDir);
+		//ExEnd:InsertBookmarksWithWhiteSpaces
     }
 }

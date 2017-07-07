@@ -22,7 +22,8 @@ public class CopyBookmarkedText
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:CopyBookmarkedText
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(CopyBookmarkedText.class);
 
         // Load the source document.
@@ -51,6 +52,7 @@ public class CopyBookmarkedText
         dstDoc.save(dataDir + "Template Out.doc");
 
         System.out.println("Bookmarked text copied successfully.");
+		//ExEnd:CopyBookmarkedText
     }
 
     /**
@@ -63,7 +65,8 @@ public class CopyBookmarkedText
      */
     private static void appendBookmarkedText(NodeImporter importer, Bookmark srcBookmark, CompositeNode dstNode) throws Exception
     {
-        // This is the paragraph that contains the beginning of the bookmark.
+        //ExStart:appendBookmarkedText
+		// This is the paragraph that contains the beginning of the bookmark.
         Paragraph startPara = (Paragraph)srcBookmark.getBookmarkStart().getParentNode();
 
         // This is the paragraph that contains the end of the bookmark.
@@ -90,5 +93,6 @@ public class CopyBookmarkedText
             // Now we simply append the new node to the destination.
             dstNode.appendChild(newNode);
         }
+		//ExEnd:appendBookmarkedText
     }
 }

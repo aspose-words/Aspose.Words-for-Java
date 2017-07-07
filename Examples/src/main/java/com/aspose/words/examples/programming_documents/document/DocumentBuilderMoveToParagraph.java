@@ -9,7 +9,8 @@ import com.aspose.words.examples.Utils;
 public class DocumentBuilderMoveToParagraph {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:DocumentBuilderMoveToParagraph
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderMoveToParagraph.class);
 
         // Open the document.
@@ -20,6 +21,7 @@ public class DocumentBuilderMoveToParagraph {
         builder.writeln("This is the 3rd paragraph.");
 
         doc.save(dataDir + "output.doc");
+		//ExEnd:DocumentBuilderMoveToParagraph
 
     }
 }

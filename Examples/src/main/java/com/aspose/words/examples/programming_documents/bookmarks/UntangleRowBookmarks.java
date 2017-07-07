@@ -13,7 +13,8 @@ public class UntangleRowBookmarks
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(UntangleRowBookmarks.class);
 
         // Load a document.
@@ -33,11 +34,13 @@ public class UntangleRowBookmarks
         doc.save(dataDir + "TestDefect1352 Out.doc");
 
         System.out.println("Untangled row bookmarks successfully.");
+		//ExEnd:
     }
 
     private static void untangleRowBookmarks(Document doc) throws Exception
     {
-        for (Bookmark bookmark : doc.getRange().getBookmarks())
+        //ExStart:untangleRowBookmarks
+		for (Bookmark bookmark : doc.getRange().getBookmarks())
         {
             // Get the parent row of both the bookmark and bookmark end node.
             Row row1 = (Row)bookmark.getBookmarkStart().getAncestor(Row.class);
@@ -49,11 +52,13 @@ public class UntangleRowBookmarks
             if ((row1 != null) && (row2 != null) && (row1.getNextSibling() == row2))
                 row1.getLastCell().getLastParagraph().appendChild(bookmark.getBookmarkEnd());
         }
+		//ExEnd:untangleRowBookmarks
     }
 
     private static void deleteRowByBookmark(Document doc, String bookmarkName) throws Exception
     {
-        // Find the bookmark in the document. Exit if cannot find it.
+        //ExStart:deleteRowByBookmark
+		// Find the bookmark in the document. Exit if cannot find it.
         Bookmark bookmark = doc.getRange().getBookmarks().get(bookmarkName);
         if (bookmark == null)
             return;
@@ -65,5 +70,6 @@ public class UntangleRowBookmarks
 
         // Remove the row.
         row.remove();
+		//ExEnd:deleteRowByBookmark
     }
 }

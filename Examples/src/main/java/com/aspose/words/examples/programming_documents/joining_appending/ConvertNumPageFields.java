@@ -10,7 +10,8 @@ public class ConvertNumPageFields {
 
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:ConvertNumPageFields
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertNumPageFields.class);
 
         Document dstDoc = new Document(dataDir + "TestFile.Destination.doc");
@@ -31,9 +32,10 @@ public class ConvertNumPageFields {
         dstDoc.updatePageLayout();
 
         dstDoc.save(dataDir + "output.doc");
+		//ExEnd:ConvertNumPageFields
 
     }
-
+//ExStart:convertNumPageFieldsToPageRef
     /**
      * Replaces all NUMPAGES fields in the document with PAGEREF fields. The replacement field displays the total number
      * of pages in the sub document instead of the total pages in the document.
@@ -158,4 +160,5 @@ public class ConvertNumPageFields {
             currentNode = nextNode;
         }
     }
+	//ExEnd:convertNumPageFieldsToPageRef
 }

@@ -10,7 +10,8 @@ import com.aspose.words.examples.Utils;
 public class DocumentBuilderInsertTableOfContents {
     public static void main(String[] args) throws Exception {
 
-        String dataDir = Utils.getDataDir(DocumentBuilderInsertTableOfContents.class);
+        //ExStart:DocumentBuilderInsertTableOfContents
+		String dataDir = Utils.getDataDir(DocumentBuilderInsertTableOfContents.class);
 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -43,6 +44,7 @@ public class DocumentBuilderInsertTableOfContents {
 
         doc.updateFields();
         doc.save(dataDir + "output.doc");
+		//ExEnd:DocumentBuilderInsertTableOfContents
 
     }
 }

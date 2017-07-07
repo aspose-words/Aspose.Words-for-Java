@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ExtractContentBetweenParagraphs {
     public static void main(String[] args) throws Exception {
-
+//ExStart:ExtractContentBetweenParagraphs
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractContentBetweenParagraphs.class);
 
@@ -23,7 +23,7 @@ public class ExtractContentBetweenParagraphs {
         // Insert the content into a new separate document and save it to disk.
         Document dstDoc = generateDocument(doc, extractedNodes);
         dstDoc.save(dataDir + "output.doc");
-
+//ExEnd:ExtractContentBetweenParagraphs
         System.out.println("Content extracted between the paragraphs successfully.");
     }
 

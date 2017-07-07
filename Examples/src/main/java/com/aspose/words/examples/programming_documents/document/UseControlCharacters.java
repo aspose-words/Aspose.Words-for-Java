@@ -8,7 +8,8 @@ import com.aspose.words.examples.Utils;
 public class UseControlCharacters {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:UseControlCharacters
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(UseControlCharacters.class);
 
         // Open the document.
@@ -22,6 +23,7 @@ public class UseControlCharacters {
         builder.write(ControlChar.CR_LF);
 
         doc.save(dataDir + "output.doc");
+		//ExEnd:UseControlCharacters
 
     }
 }

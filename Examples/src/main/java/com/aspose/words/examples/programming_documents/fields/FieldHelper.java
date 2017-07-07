@@ -26,7 +26,7 @@ public class FieldHelper
         System.out.println("Converted fields in the document body with text successfully.");
     }
 
-
+//ExStart:FieldsHelper
     private static class FieldsHelper extends DocumentVisitor
     {
         /**
@@ -148,5 +148,5 @@ public class FieldHelper
         private ArrayList mNodesToSkip = new ArrayList();
         private int mTargetFieldType;
     }
-
+//ExEnd:FieldsHelper
 }

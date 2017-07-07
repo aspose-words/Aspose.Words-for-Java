@@ -22,9 +22,11 @@ public class AddWatermarkToADocument {
 
 	public static void main(String[] args) throws Exception {
 
+		//ExStart:AddWatermarkToADocument
 		Document doc = new Document(dataDir + "Document.doc");
 		insertWatermarkText(doc, "CONFIDENTIAL");
 		doc.save(dataDir + "Document_out.doc");
+		//ExEnd:AddWatermarkToADocument
 	}
 
 	/**
@@ -35,15 +37,16 @@ public class AddWatermarkToADocument {
 	 * @param watermarkText
 	 *            Text of the watermark.
 	 */
+	 //ExStart:insertWatermarkText
 	private static void insertWatermarkText(Document doc, String watermarkText) throws Exception {
 		// Create a watermark shape. This will be a WordArt shape.
 		// You are free to try other shape types as watermarks.
 		Shape watermark = new Shape(doc, ShapeType.TEXT_PLAIN_TEXT);
 
-		// ExStart:SetWatermarkName
+		
 		// Set name to be able to remove it afterwards
 	    watermark.setName("WaterMark");
-		// ExEnd:SetWatermarkName
+		
 	    
 		// Set up the text of the watermark.
 		watermark.getTextPath().setText(watermarkText);
@@ -76,7 +79,8 @@ public class AddWatermarkToADocument {
 			insertWatermarkIntoHeader(watermarkPara, sect, HeaderFooterType.HEADER_EVEN);
 		}
 	}
-
+//ExEnd:insertWatermarkText
+//ExStart:insertWatermarkIntoHeader
 	private static void insertWatermarkIntoHeader(Paragraph watermarkPara, Section sect, int headerType) throws Exception {
 		HeaderFooter header = sect.getHeadersFooters().getByHeaderFooterType(headerType);
 
@@ -89,4 +93,5 @@ public class AddWatermarkToADocument {
 		// Insert a clone of the watermark into the header.
 		header.appendChild(watermarkPara.deepClone(true));
 	}
+//ExEnd:insertWatermarkIntoHeader
 }

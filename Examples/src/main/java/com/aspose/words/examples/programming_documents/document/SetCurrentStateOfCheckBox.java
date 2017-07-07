@@ -8,7 +8,8 @@ import com.aspose.words.examples.Utils;
 public class SetCurrentStateOfCheckBox {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:SetCurrentStateOfCheckBox
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(SetCurrentStateOfCheckBox.class);
 
         // Open the document.
@@ -21,6 +22,7 @@ public class SetCurrentStateOfCheckBox {
             SdtCheckBox.setChecked(true);
 
         doc.save(dataDir + "output.doc");
+		//ExEnd:SetCurrentStateOfCheckBox
 
     }
 }

@@ -9,7 +9,8 @@ import com.aspose.words.examples.Utils;
 public class DocumentBuilderMoveToTableCell {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:DocumentBuilderMoveToTableCell
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderMoveToTableCell.class);
 
         // Open the document.
@@ -21,6 +22,7 @@ public class DocumentBuilderMoveToTableCell {
         builder.writeln("Hello World!");
 
         doc.save(dataDir + "output.doc");
+		//ExEnd:DocumentBuilderMoveToTableCell
 
     }
 }

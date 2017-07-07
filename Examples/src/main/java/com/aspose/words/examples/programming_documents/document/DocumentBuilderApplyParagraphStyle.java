@@ -8,7 +8,8 @@ import com.aspose.words.examples.Utils;
 public class DocumentBuilderApplyParagraphStyle {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:DocumentBuilderApplyParagraphStyle
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderApplyParagraphStyle.class);
 
         // Open the document.
@@ -17,6 +18,7 @@ public class DocumentBuilderApplyParagraphStyle {
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.TITLE);
         builder.write("Hello");
         doc.save(dataDir + "output.doc");
+		//ExEnd:DocumentBuilderApplyParagraphStyle
 
     }
 }

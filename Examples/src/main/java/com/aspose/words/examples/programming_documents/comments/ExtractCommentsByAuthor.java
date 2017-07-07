@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class ExtractCommentsByAuthor {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:ExtractCommentsByAuthor
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractCommentsByAuthor.class);
 
         String authorName = "ks";
@@ -24,6 +25,7 @@ public class ExtractCommentsByAuthor {
                 collectedComments.add(comment.getAuthor() + " " + comment.getDateTime() + " " + comment.toString(SaveFormat.TEXT));
         }
         System.out.print(collectedComments);
+		//ExEnd:ExtractCommentsByAuthor
 
     }
 }

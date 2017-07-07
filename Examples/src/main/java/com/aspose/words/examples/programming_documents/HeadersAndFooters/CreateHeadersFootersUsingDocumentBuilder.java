@@ -22,6 +22,7 @@ public class CreateHeadersFootersUsingDocumentBuilder {
 	private static final String dataDir = Utils.getSharedDataDir(CreateHeadersFootersUsingDocumentBuilder.class) + "HeadersAndFooters/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:CreateHeadersFootersUsingDocumentBuilder
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -133,8 +134,9 @@ public class CreateHeadersFootersUsingDocumentBuilder {
 
 		// Save the resulting document.
 		doc.save(dataDir + "HeaderFooter.Primer_Out.doc");
+		//ExEnd:CreateHeadersFootersUsingDocumentBuilder
 	}
-	
+	//ExStart:copyHeadersFootersFromPreviousSection
 	/**
 	 * Clones and copies headers/footers form the previous section to the specified section.
 	 */
@@ -150,5 +152,5 @@ public class CreateHeadersFootersUsingDocumentBuilder {
 	    for (HeaderFooter headerFooter : previousSection.getHeadersFooters())
 	        section.getHeadersFooters().add(headerFooter.deepClone(true));
 	}
-
+//ExEnd:copyHeadersFootersFromPreviousSection
 }

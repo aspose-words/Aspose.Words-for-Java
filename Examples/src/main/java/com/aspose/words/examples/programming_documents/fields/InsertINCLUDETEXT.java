@@ -9,7 +9,8 @@ import com.aspose.words.examples.Utils;
 public class InsertINCLUDETEXT {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:InsertINCLUDETEXT
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertINCLUDETEXT.class);
 
         Document doc = new Document(dataDir + "in.doc");
@@ -33,6 +34,7 @@ public class InsertINCLUDETEXT {
         dataDir = dataDir + "InsertIncludeFieldWithoutDocumentBuilder_out.doc";
 
         doc.save(dataDir);
+		//ExEnd:InsertINCLUDETEXT
 
     }
 }

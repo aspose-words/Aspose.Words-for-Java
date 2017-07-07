@@ -13,6 +13,7 @@ public class FindAndHighlightText {
 	
 	public static void main(String[] args) throws Exception {
 		
+		//ExStart:FindAndHighlightText
 		Document doc = new Document(dataDir + "TestFile.doc");
 		
 		FindReplaceOptions options = new FindReplaceOptions();
@@ -25,9 +26,10 @@ public class FindAndHighlightText {
 
 		// Save the output document.
 		doc.save(dataDir + "TestFile_out.doc");
+		//ExEnd:FindAndHighlightText
 	}
 }
-
+//ExStart:ReplaceEvaluatorFindAndHighlight
 class ReplaceEvaluatorFindAndHighlight implements IReplacingCallback {
 	/**
 	 * This method is called by the Aspose.Words find and replace engine for
@@ -84,4 +86,5 @@ class ReplaceEvaluatorFindAndHighlight implements IReplacingCallback {
 		run.getParentNode().insertAfter(afterRun, run);
 		return afterRun;
 	}
+//ExEnd:ReplaceEvaluatorFindAndHighlight
 }

@@ -19,6 +19,7 @@ public class AddOrRemoveDocumentProperties {
 	}
 
 	public static void addDocumentProperties() throws Exception {
+		//ExStart:addDocumentProperties
 		Document doc = new Document(dataDir + "Properties.doc");
 
 		CustomDocumentProperties props = doc.getCustomDocumentProperties();
@@ -30,11 +31,14 @@ public class AddOrRemoveDocumentProperties {
 			props.add("Authorized Revision", doc.getBuiltInDocumentProperties().getRevisionNumber());
 			props.add("Authorized Amount", 123.45);
 		}
+		//ExEnd:addDocumentProperties
 	}
 	
 	public static void removeDocumentProperty() throws Exception {
+		//ExStart:removeDocumentProperty
 		Document doc = new Document(dataDir + "Properties.doc");
 		doc.getCustomDocumentProperties().remove("Authorized Date");
+		//ExEnd:removeDocumentProperty
 	}
 
 }

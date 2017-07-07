@@ -9,7 +9,8 @@ import com.aspose.words.examples.Utils;
 public class DocumentBuilderMoveToDocumentStartEnd {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:DocumentBuilderMoveToDocumentStartEnd
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderMoveToDocumentStartEnd.class);
 
         // Open the document.
@@ -23,6 +24,7 @@ public class DocumentBuilderMoveToDocumentStartEnd {
         builder.moveToDocumentStart();
         builder.write("\nThis is the beginning of the document.");
         doc.save(dataDir + "output.doc");
+		//ExEnd:DocumentBuilderMoveToDocumentStartEnd
 
     }
 }

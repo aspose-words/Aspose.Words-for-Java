@@ -8,7 +8,8 @@ import com.aspose.words.examples.Utils;
 public class ModifyContentControls {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:ModifyContentControls
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ModifyContentControls.class);
 
         // Open the document.
@@ -34,6 +35,7 @@ public class ModifyContentControls {
                 }
             }
             doc.save(dataDir + "output.doc");
+			//ExEnd:ModifyContentControls
 
         }
     }

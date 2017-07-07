@@ -15,6 +15,7 @@ public class WorkWithSingleChartDataPointOfAChartSeries {
 	public static final String dataDir = Utils.getSharedDataDir(OOXMLCharts.class) + "Charts/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:WorkWithSingleChartDataPointOfAChartSeries
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -49,6 +50,7 @@ public class WorkWithSingleChartDataPointOfAChartSeries {
 		dataPoint12.getMarker().setSize(20);
 		
 		doc.save(dataDir + "SingleChartDataPointOfAChartSeries_out.docx");
+		//ExEnd:WorkWithSingleChartDataPointOfAChartSeries
 	}
 
 }

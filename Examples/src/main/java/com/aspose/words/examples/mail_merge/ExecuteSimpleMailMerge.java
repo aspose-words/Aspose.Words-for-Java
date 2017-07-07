@@ -9,6 +9,7 @@ public class ExecuteSimpleMailMerge {
 
 	public static void main(String[] args) throws Exception {
 		//ExStart:
+		
 		// Open an existing document.
 		Document doc = new Document(dataDir + "MailMerge.ExecuteArray.doc");
 

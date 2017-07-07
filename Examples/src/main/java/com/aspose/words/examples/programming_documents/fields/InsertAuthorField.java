@@ -6,7 +6,8 @@ import com.aspose.words.examples.Utils;
 public class InsertAuthorField {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:InsertAuthorField
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertAuthorField.class);
 
         Document doc = new Document(dataDir + "in.doc");
@@ -26,7 +27,7 @@ public class InsertAuthorField {
         // Finally update this AUTHOR field
         field.update();
         doc.save(dataDir + "output.docx");
-
+//ExEnd:InsertAuthorField
 
     }
 }

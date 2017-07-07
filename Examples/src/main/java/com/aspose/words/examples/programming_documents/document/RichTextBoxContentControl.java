@@ -10,7 +10,8 @@ import java.awt.*;
 public class RichTextBoxContentControl {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:RichTextBoxContentControl
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(RichTextBoxContentControl.class);
 
         // Open the document.
@@ -27,6 +28,7 @@ public class RichTextBoxContentControl {
         doc.getFirstSection().getBody().appendChild(sdtRichText);
 
         doc.save(dataDir + "output.doc");
+		//ExEnd:RichTextBoxContentControl
 
     }
 }

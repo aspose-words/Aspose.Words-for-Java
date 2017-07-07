@@ -17,7 +17,8 @@ public class ChangeFieldUpdateCultureSource
     {
         //TODO
 
-        // The path to the documents directory.
+        //ExStart:ChangeFieldUpdateCultureSource
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ChangeFieldUpdateCultureSource.class);
 
         Document doc = new Document();
@@ -37,6 +38,7 @@ public class ChangeFieldUpdateCultureSource
        // doc.MailMerge.Execute(new string[] { "Date2" }, new object[] { new DateTime(2011, 1, 01) });
 
         doc.save(dataDir + "InsertNestedFields Out.docx");
+		//ExEnd:ChangeFieldUpdateCultureSource
 
 
         System.out.println("Nested fields inserted into the document successfully.");

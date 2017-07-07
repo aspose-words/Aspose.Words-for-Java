@@ -7,7 +7,8 @@ import com.aspose.words.examples.Utils;
 public class CheckBoxTypeContentControl {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:CheckBoxTypeContentControl
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(CheckBoxTypeContentControl.class);
 
         // Open the document.
@@ -17,6 +18,7 @@ public class CheckBoxTypeContentControl {
 
         builder.insertNode(stdCheckBox);
         doc.save(dataDir + "output.doc");
+		//ExEnd:CheckBoxTypeContentControl
 
     }
 }

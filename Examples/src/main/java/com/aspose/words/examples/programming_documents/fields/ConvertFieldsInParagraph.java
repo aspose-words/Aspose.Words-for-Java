@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class ConvertFieldsInParagraph {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:ConvertFieldsInParagraph
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertFieldsInParagraph.class);
 
         Document doc = new Document(dataDir + "TestFile.doc");
@@ -20,6 +21,7 @@ public class ConvertFieldsInParagraph {
 
         // Save the document with fields transformed to disk.
         doc.save(dataDir + "output.doc");
+		//ExEnd:ConvertFieldsInParagraph
 
 
         System.out.println("Converted fields in the paragraph with text successfully.");

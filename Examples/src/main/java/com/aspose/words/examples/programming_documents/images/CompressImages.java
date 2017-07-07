@@ -23,7 +23,8 @@ public class CompressImages
 {
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:CompressImages
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(CompressImages.class);
 
         String srcFileName = dataDir + "Test.docx";
@@ -57,15 +58,17 @@ public class CompressImages
         double imagePpi = shape.getImageData().getImageSize().getWidthPixels() / ConvertUtil.pointToInch(shape.getSizeInPoints().getX());
 
         assert (imagePpi < 150) : "Image was not resampled successfully.";
+		//ExEnd:CompressImages
     }
-
+//ExStart:getFileSize
     public static int getFileSize(String fileName) throws Exception
     {
         File file = new File(fileName);
         return (int)file.length();
     }
+//ExEnd:getFileSize
 }
-
+//ExStart:Resampler
 class Resampler
 {
     /**
@@ -229,3 +232,4 @@ class Resampler
         }
     }
 }
+//ExEnd:Resampler

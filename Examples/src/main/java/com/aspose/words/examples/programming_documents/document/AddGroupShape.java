@@ -15,6 +15,7 @@ public class AddGroupShape {
 	private static final String dataDir = Utils.getSharedDataDir(BuildTableFromDataTable.class) + "Document/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:AddGroupShape
 		Document doc = new Document();
 		doc.ensureMinimum();
 		GroupShape gs = new GroupShape(doc);
@@ -39,6 +40,7 @@ public class AddGroupShape {
 		builder.insertNode(gs);
 
 		doc.save(dataDir + "AddGroupShape_out.docx");
+		//ExEnd:AddGroupShape
 
 	}
 

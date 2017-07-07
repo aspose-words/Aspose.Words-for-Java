@@ -9,7 +9,8 @@ import com.aspose.words.examples.Utils;
 public class DocumentBuilderMoveToSection {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:DocumentBuilderMoveToSection
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderMoveToSection.class);
 
         // Open the document.
@@ -19,6 +20,7 @@ public class DocumentBuilderMoveToSection {
        builder.moveToSection(2);
         builder.write("\nThis is third Section\n");
         doc.save(dataDir + "output.doc");
+		//ExEnd:DocumentBuilderMoveToSection
 
     }
 }

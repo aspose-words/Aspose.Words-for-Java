@@ -15,7 +15,8 @@ public class CompareTwoWordDocumentswithCompareOptions {
 
     public static void main(String[] args) throws Exception {
 
-        String dataDir = Utils.getDataDir(CompareTwoWordDocumentswithCompareOptions.class);
+        //ExStart:CompareTwoWordDocumentswithCompareOptions
+		String dataDir = Utils.getDataDir(CompareTwoWordDocumentswithCompareOptions.class);
 
         com.aspose.words.Document docA = new com.aspose.words.Document(dataDir + "DocumentA.doc");
         com.aspose.words.Document docB = new com.aspose.words.Document(dataDir + "DocumentB.doc");
@@ -29,5 +30,6 @@ public class CompareTwoWordDocumentswithCompareOptions {
             System.out.println("Documents are equal");
         else
             System.out.println("Documents are not equal");
+		//ExEnd:CompareTwoWordDocumentswithCompareOptions
     }
 }

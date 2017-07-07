@@ -14,6 +14,7 @@ public class ReplaceWithEvaluator {
 	private static final String dataDir = Utils.getSharedDataDir(ReplaceWithEvaluator.class) + "FindAndReplace/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:ReplaceWithEvaluator
 		Document doc = new Document(dataDir + "Range.ReplaceWithEvaluator.doc");
 
 		FindReplaceOptions options = new FindReplaceOptions();
@@ -21,9 +22,10 @@ public class ReplaceWithEvaluator {
 
 		doc.getRange().replace(Pattern.compile("[s|m]ad"), "", options);
 		doc.save(dataDir + "Range.ReplaceWithEvaluator_Out.doc");
+		//ExEnd:ReplaceWithEvaluator
 	}
 }
-
+//ExStart:MyReplaceEvaluator
 class MyReplaceEvaluator implements IReplacingCallback {
 	private int mMatchNumber;
 
@@ -37,4 +39,5 @@ class MyReplaceEvaluator implements IReplacingCallback {
 		mMatchNumber++;
 		return ReplaceAction.REPLACE;
 	}
+//ExEnd:MyReplaceEvaluator
 }

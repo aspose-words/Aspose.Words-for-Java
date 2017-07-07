@@ -8,7 +8,8 @@ import com.aspose.words.examples.Utils;
  */
 public class ApplyCustomFieldFormatting {
     public static void main(String[] args) throws Exception {
-        // The path to the documents directory.
+        //ExStart:ApplyCustomFieldFormatting
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ApplyCustomFieldFormatting.class);
         DocumentBuilder builder = new DocumentBuilder();
         Document document = builder.getDocument();
@@ -18,6 +19,7 @@ public class ApplyCustomFieldFormatting {
 
         field.update();
         document.save(dataDir + "FormatFieldResult_out.docx");
+		//ExEnd:ApplyCustomFieldFormatting
     }
 
 

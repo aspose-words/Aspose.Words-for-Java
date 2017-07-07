@@ -11,9 +11,11 @@ public class ReplaceWithRegex {
 	private static final String dataDir = Utils.getSharedDataDir(ReplaceWithRegex.class) + "FindAndReplace/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:ReplaceWithRegex
 		Document doc = new Document(dataDir + "ReplaceWithRegex.doc");
 		FindReplaceOptions options = new FindReplaceOptions();
 		doc.getRange().replace(Pattern.compile("[s|m]ad"), "happy", options);
 		doc.save(dataDir + "ReplaceWithRegex_Out.doc");
+		//ExEnd:ReplaceWithRegex
 	}
 }

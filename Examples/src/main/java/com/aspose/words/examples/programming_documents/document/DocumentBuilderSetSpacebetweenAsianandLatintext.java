@@ -12,7 +12,8 @@ public class DocumentBuilderSetSpacebetweenAsianandLatintext {
     public static void main(String[] args) throws Exception {
 
 
-        // The path to the documents directory.
+        //ExStart:DocumentBuilderSetSpacebetweenAsianandLatintext
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderSetSpacebetweenAsianandLatintext.class);
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -29,6 +30,7 @@ public class DocumentBuilderSetSpacebetweenAsianandLatintext {
         dataDir = dataDir + "DocumentBuilderSetSpacebetweenAsianandLatintext.doc";
         doc.save(dataDir);
         System.out.println("Document Saved");
+		//ExEnd:DocumentBuilderSetSpacebetweenAsianandLatintext
 
     }
     }

@@ -14,7 +14,7 @@ import com.aspose.words.examples.Utils;
 public class GenerateACustomBarCodeImage {
 
 	private static final String dataDir = Utils.getSharedDataDir(GenerateACustomBarCodeImage.class) + "Barcode/";
-
+//ExStart:GenerateACustomBarCodeImage
 	public static void main(String[] args) throws Exception {
 		Document doc = new Document(dataDir + "Document.docx");
 		// Set custom barcode generator
@@ -218,4 +218,5 @@ public class GenerateACustomBarCodeImage {
 			return null;
 		}
 	}
+	//ExEnd:GenerateACustomBarCodeImage
 }

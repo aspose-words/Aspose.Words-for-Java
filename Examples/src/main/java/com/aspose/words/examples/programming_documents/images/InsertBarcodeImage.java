@@ -6,6 +6,7 @@ import com.aspose.words.examples.Utils;
 public class InsertBarcodeImage {
 	public static void main(String[] args) throws Exception {
 		
+		//ExStart:InsertBarcodeImage
 		// The path to the documents directory.
 		String dataDir = Utils.getDataDir(InsertBarcodeImage.class);
 
@@ -31,8 +32,9 @@ public class InsertBarcodeImage {
 		dataDir = dataDir + "Document_out_.docx";
 		// Save the document as a PDF to disk. You can also save this directly to a stream.
 		doc.save(dataDir);
+		//ExEnd:InsertBarcodeImage
 	}
-
+//ExStart:InsertBarcodeIntoFooter
 	private static void InsertBarcodeIntoFooter(DocumentBuilder builder, Section section, int pageId, int footerType) {
 		// Move to the footer type in the specific section.
 		try {
@@ -61,4 +63,5 @@ public class InsertBarcodeImage {
 
 		}
 	}
+//ExEnd:InsertBarcodeIntoFooter
 }

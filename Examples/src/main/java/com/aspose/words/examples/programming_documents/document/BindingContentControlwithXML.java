@@ -10,7 +10,8 @@ import java.util.UUID;
 public class BindingContentControlwithXML {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:BindingContentControlwithXML
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(BindingContentControlwithXML.class);
 
         Document doc = new Document();
@@ -26,5 +27,6 @@ public class BindingContentControlwithXML {
 
         // Save the document to disk.
         doc.save(dataDir);
+		//ExEnd:BindingContentControlwithXML
     }
 }

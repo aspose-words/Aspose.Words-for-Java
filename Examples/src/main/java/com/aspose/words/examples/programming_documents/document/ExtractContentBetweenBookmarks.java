@@ -7,9 +7,11 @@ import java.util.ArrayList;
 
 
 public class ExtractContentBetweenBookmarks {
+	
     public static void main(String[] args) throws Exception {
-
-        // The path to the documents directory.
+//ExStart:ExtractContentBetweenBookmarks
+        
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractContentBetweenBookmarks.class);
 
         Document doc = new Document(dataDir + "TestFile.doc");
@@ -30,7 +32,7 @@ public class ExtractContentBetweenBookmarks {
         ArrayList extractedNodesExclusive = extractContent(bookmarkStart, bookmarkEnd, false);
         dstDoc = generateDocument(doc, extractedNodesExclusive);
         dstDoc.save(dataDir + "output.doc");
-
+//ExEnd:ExtractContentBetweenBookmarks
         System.out.println("Content extracted between bookmarks successfully.");
     }
 

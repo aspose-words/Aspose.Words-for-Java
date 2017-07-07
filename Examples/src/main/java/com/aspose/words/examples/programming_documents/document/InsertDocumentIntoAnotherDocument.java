@@ -22,6 +22,7 @@ public class InsertDocumentIntoAnotherDocument {
 	}
 
 	public static void insertADocumentAtABookmark() throws Exception {
+		//ExStart:insertADocumentAtABookmark
 		Document mainDoc = new Document(dataDir + "InsertDocument1.doc");
 		Document subDoc = new Document(dataDir + "InsertDocument2.doc");
 
@@ -29,9 +30,11 @@ public class InsertDocumentIntoAnotherDocument {
 		insertDocument(bookmark.getBookmarkStart().getParentNode(), subDoc);
 
 		mainDoc.save(dataDir + "InsertDocumentAtBookmark_out.doc");
+		//ExEnd:insertADocumentAtABookmark
 	}
 
 	public static void insertDocumentAtMailMerge() throws Exception {
+		//ExStart:insertDocumentAtMailMerge
 		// Open the main document.
 		Document mainDoc = new Document(dataDir + "InsertDocument1.doc");
 
@@ -44,9 +47,11 @@ public class InsertDocumentIntoAnotherDocument {
 		mainDoc.getMailMerge().execute(new String[] { "Document_1" }, new String[] { dataDir + "InsertDocument2.doc" });
 
 		mainDoc.save(dataDir + "InsertDocumentAtMailMerge_out.doc");
+		//ExEnd:insertDocumentAtMailMerge
 	}
 
 	public static void insertDocumentAtReplace() throws Exception {
+		//ExStart:insertDocumentAtReplace
 		Document mainDoc = new Document(dataDir + "InsertDocument1.doc");
 
 		FindReplaceOptions opts = new FindReplaceOptions();
@@ -55,9 +60,12 @@ public class InsertDocumentIntoAnotherDocument {
 
 		mainDoc.getRange().replace(Pattern.compile("\\[MY_DOCUMENT\\]"), "", opts);
 		mainDoc.save(dataDir + "InsertDocumentAtReplace_out.doc");
+		//ExStart:insertDocumentAtReplace
 	}
 
+	//ExStart:InsertDocumentAtReplaceHandler
 	private static class InsertDocumentAtReplaceHandler implements IReplacingCallback {
+		
 		public int replacing(ReplacingArgs e) throws Exception {
 			Document subDoc = new Document(dataDir + "InsertDocument2.doc");
 
@@ -71,7 +79,9 @@ public class InsertDocumentIntoAnotherDocument {
 			return ReplaceAction.SKIP;
 		}
 	}
+	//ExEnd:InsertDocumentAtReplaceHandler
 
+	//ExStart:InsertDocumentAtMailMergeHandler
 	private static class InsertDocumentAtMailMergeHandler implements IFieldMergingCallback {
 		/**
 		 * This handler makes special processing for the "Document_1" field. The
@@ -103,7 +113,9 @@ public class InsertDocumentIntoAnotherDocument {
 			// Do nothing.
 		}
 	}
+	//ExEnd:InsertDocumentAtMailMergeHandler
 
+	//ExStart:InsertDocumentAtMailMergeBlobHandler
 	//Load a document from a BLOB database field 
 	private class InsertDocumentAtMailMergeBlobHandler implements IFieldMergingCallback {
 		/**
@@ -138,7 +150,9 @@ public class InsertDocumentIntoAnotherDocument {
 			// Do nothing.
 		}
 	}
+//ExEnd:InsertDocumentAtMailMergeBlobHandler
 
+//ExStart:insertDocument
 	/**
 	 * Inserts content of the external document after the specified node.
 	 * Section breaks and section formatting of the inserted document are
@@ -182,7 +196,9 @@ public class InsertDocumentIntoAnotherDocument {
 			}
 		}
 	}
-
+    //ExEnd:insertDocument
+	
+	//ExStart:insertDocumentWithSectionFormatting
 	/**
 	 * Inserts content of the external document after the specified node.
 	 *
@@ -237,4 +253,5 @@ public class InsertDocumentIntoAnotherDocument {
 			currentSection = (Section) newNode;
 		}
 	}
+	//ExEnd:insertDocumentWithSectionFormatting
 }

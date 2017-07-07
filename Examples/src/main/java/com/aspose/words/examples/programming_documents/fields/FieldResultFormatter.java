@@ -7,6 +7,7 @@ import com.aspose.words.IFieldResultFormatter;
 /**
  * Created by Home on 5/29/2017.
  */
+ //ExStart:FieldResultFormatter
 public class FieldResultFormatter implements IFieldResultFormatter {
 
     private final String mNumberFormat;
@@ -50,5 +51,5 @@ public class FieldResultFormatter implements IFieldResultFormatter {
         return (mDateFormat.isEmpty() || mDateFormat == null) ? null : String
                 .format(mDateFormat, value);
     }
-
+//ExEnd:FieldResultFormatter
 }

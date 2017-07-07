@@ -8,7 +8,8 @@ import com.aspose.words.examples.Utils;
 public class DocumentBuilderInsertOleObject {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:DocumentBuilderInsertOleObject
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertOleObject.class);
 
         // Open the document.
@@ -16,6 +17,7 @@ public class DocumentBuilderInsertOleObject {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertOleObject("http://www.aspose.com", "htmlfile", true, true, null);
         doc.save(dataDir + "output.doc");
+		//ExEnd:DocumentBuilderInsertOleObject
 
     }
 }

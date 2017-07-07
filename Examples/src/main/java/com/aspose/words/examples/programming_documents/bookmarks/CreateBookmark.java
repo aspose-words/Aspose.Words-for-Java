@@ -14,7 +14,8 @@ public class CreateBookmark
      */
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:CreateBookmark
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(CreateBookmark.class);
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -36,6 +37,7 @@ public class CreateBookmark
 
         doc.save(dataDir + "output.pdf", options);
         System.out.println("\nBookmark created successfully.");
+		//ExEnd:CreateBookmark
     }
 
 }

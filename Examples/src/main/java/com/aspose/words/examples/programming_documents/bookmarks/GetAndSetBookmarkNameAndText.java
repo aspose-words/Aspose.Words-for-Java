@@ -12,7 +12,8 @@ public class GetAndSetBookmarkNameAndText
      */
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:GetAndSetBookmarkNameAndText
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(GetAndSetBookmarkNameAndText.class);
 
         Document doc = new Document(dataDir + "Bookmark.doc");
@@ -27,5 +28,6 @@ public class GetAndSetBookmarkNameAndText
         bookmark.setName("RenamedBookmark");
         bookmark.setText("This is a new bookmarked text.");
         System.out.println("\nBookmark name and text set successfully.");
+		//ExEnd:GetAndSetBookmarkNameAndText
     }
 }

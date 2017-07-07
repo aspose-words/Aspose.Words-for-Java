@@ -9,6 +9,7 @@ public class AccessingDocumentProperties {
 	public static final String dataDir = Utils.getSharedDataDir(AccessingDocumentProperties.class) + "Document/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:AccessingDocumentProperties
 		String fileName = dataDir + "Properties.doc";
 		Document doc = new Document(fileName);
 
@@ -21,6 +22,7 @@ public class AccessingDocumentProperties {
 		System.out.println("3. Custom Properties");
 		for (DocumentProperty prop : doc.getCustomDocumentProperties())
 		    System.out.println(prop.getName() + " : " + prop.getValue());
+		//ExEnd:AccessingDocumentProperties
 	}
 
 }

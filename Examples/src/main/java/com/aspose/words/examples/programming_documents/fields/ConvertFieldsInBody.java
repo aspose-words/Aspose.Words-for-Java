@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class ConvertFieldsInBody {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:ConvertFieldsInBody
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertFieldsInBody.class);
 
         Document doc = new Document(dataDir + "TestFile.doc");
@@ -19,11 +20,12 @@ public class ConvertFieldsInBody {
 
         // Save the document with fields transformed to disk.
         doc.save(dataDir + "output.doc");
+		//ExEnd:ConvertFieldsInBody
 
 
         System.out.println("Converted fields in the document body with text successfully.");
     }
-
+//ExStart:FieldsHelper
     private static class FieldsHelper extends DocumentVisitor {
         private int mFieldDepth = 0;
         private ArrayList mNodesToSkip = new ArrayList();
@@ -121,4 +123,5 @@ public class ConvertFieldsInBody {
                 node.remove();
         }
     }
+	//ExEnd:FieldsHelper
 }

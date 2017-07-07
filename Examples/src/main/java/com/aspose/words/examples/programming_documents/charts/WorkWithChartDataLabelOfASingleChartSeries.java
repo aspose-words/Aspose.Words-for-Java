@@ -14,6 +14,7 @@ public class WorkWithChartDataLabelOfASingleChartSeries {
 	public static final String dataDir = Utils.getSharedDataDir(OOXMLCharts.class) + "Charts/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:WorkWithChartDataLabelOfASingleChartSeries
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 		Shape shape = builder.insertChart(ChartType.BAR, 432, 252);
@@ -44,6 +45,7 @@ public class WorkWithChartDataLabelOfASingleChartSeries {
 		chartDataLabel01.setShowValue(true);
 		
 		doc.save(dataDir + "ChartDataLabelOfASingleChartSeries_out.docx");
+		//ExEnd:WorkWithChartDataLabelOfASingleChartSeries
 	}
 
 }

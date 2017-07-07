@@ -7,7 +7,8 @@ import com.aspose.words.examples.Utils;
 public class InsertFormFields {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:InsertFormFields
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertFormFields.class);
 
         Document doc = new Document();
@@ -16,6 +17,7 @@ public class InsertFormFields {
         String[] items = {"One", "Two", "Three"};
         builder.insertComboBox("DropDown", items, 0);
         doc.save(dataDir + "output.docx");
+		//ExEnd:InsertFormFields
 
 
     }
