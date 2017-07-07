@@ -12,8 +12,7 @@ public class BookmarkNameAndText
      */
     public static void main(String[] args) throws Exception
     {
-        //ExStart:
-		//ExEnd:
+        //ExStart:BookmarkNameAndText
 		// The path to the documents directory.
         String dataDir = Utils.getDataDir(BookmarkNameAndText.class);
 
