@@ -56,7 +56,7 @@ public class InsertDocumentIntoAnotherDocument {
 
 		FindReplaceOptions opts = new FindReplaceOptions();
 		opts.setDirection(FindReplaceDirection.BACKWARD);
-		opts.ReplacingCallback = new InsertDocumentAtReplaceHandler();
+		opts.setReplacingCallback(new InsertDocumentAtReplaceHandler());
 
 		mainDoc.getRange().replace(Pattern.compile("\\[MY_DOCUMENT\\]"), "", opts);
 		mainDoc.save(dataDir + "InsertDocumentAtReplace_out.doc");

@@ -18,7 +18,7 @@ public class ReplaceWithEvaluator {
 		Document doc = new Document(dataDir + "Range.ReplaceWithEvaluator.doc");
 
 		FindReplaceOptions options = new FindReplaceOptions();
-		options.ReplacingCallback = new MyReplaceEvaluator();
+		options.setReplacingCallback(new MyReplaceEvaluator());
 
 		doc.getRange().replace(Pattern.compile("[s|m]ad"), "", options);
 		doc.save(dataDir + "Range.ReplaceWithEvaluator_Out.doc");

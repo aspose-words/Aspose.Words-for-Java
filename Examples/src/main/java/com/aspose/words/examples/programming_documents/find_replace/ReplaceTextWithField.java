@@ -18,7 +18,7 @@ public class ReplaceTextWithField {
 
 		FindReplaceOptions opts = new FindReplaceOptions();
 		opts.setDirection(FindReplaceDirection.BACKWARD);
-		opts.ReplacingCallback = new ReplaceTextWithFieldHandler("MERGEFIELD");
+		opts.setReplacingCallback(new ReplaceTextWithFieldHandler("MERGEFIELD"));
 
 		// Replace any "PlaceHolderX" instances in the document (where X is a number) with a merge field.
 		Pattern regex = Pattern.compile("PlaceHolder(\\d+)", Pattern.CASE_INSENSITIVE);

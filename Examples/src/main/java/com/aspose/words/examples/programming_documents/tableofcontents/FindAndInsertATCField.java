@@ -11,7 +11,7 @@ public class FindAndInsertATCField {
 
 		FindReplaceOptions opts = new FindReplaceOptions();
 		opts.setDirection(FindReplaceDirection.BACKWARD);
-		opts.ReplacingCallback = new InsertTCFieldHandler("Chapter 1", "\\l 1");
+		opts.setReplacingCallback(new InsertTCFieldHandler("Chapter 1", "\\l 1"));
 
 		// Insert a TC field which displays "Chapter 1" just before the text "The Beginning" in the document.
 		doc.getRange().replace(Pattern.compile("The Beginning"), "", opts);

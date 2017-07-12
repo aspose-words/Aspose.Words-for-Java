@@ -1,6 +1,7 @@
 package com.aspose.words.examples.loading_saving;
 
 import com.aspose.words.Document;
+import com.aspose.words.HtmlControlType;
 import com.aspose.words.HtmlLoadOptions;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.examples.Utils;
@@ -15,7 +16,7 @@ public class LoadAndSaveHtmlFormFieldasContentControlinDOCX {
     public static void main(String[] args) throws Exception {
 
         HtmlLoadOptions lo = new HtmlLoadOptions();
-        lo.PreferredControlType = HtmlControlType.StructuredDocumentTag;
+        lo.setPreferredControlType(HtmlControlType.STRUCTURED_DOCUMENT_TAG);
 
         //Load the HTML document
         Document doc = new Document(dataDir + "input.html", lo);

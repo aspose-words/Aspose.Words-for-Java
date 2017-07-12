@@ -17,7 +17,7 @@ public class FindAndHighlightText {
 		Document doc = new Document(dataDir + "TestFile.doc");
 		
 		FindReplaceOptions options = new FindReplaceOptions();
-		options.ReplacingCallback = new ReplaceEvaluatorFindAndHighlight();
+		options.setReplacingCallback(new ReplaceEvaluatorFindAndHighlight());
 		options.setDirection(FindReplaceDirection.BACKWARD);
 		
 		// We want the "your document" phrase to be highlighted.

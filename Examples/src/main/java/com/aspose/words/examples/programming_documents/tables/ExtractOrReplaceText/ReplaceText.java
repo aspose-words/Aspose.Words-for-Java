@@ -14,8 +14,8 @@ public class ReplaceText {
 		Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
 		FindReplaceOptions opts = new FindReplaceOptions();
-		opts.MatchCase = true;
-		opts.FindWholeWordsOnly = true;
+		opts.setMatchCase(true);
+		opts.setFindWholeWordsOnly(true);
 
 		// Replace any instances of our string in the entire table.
 		table.getRange().replace("Carrots", "Eggs", opts);
