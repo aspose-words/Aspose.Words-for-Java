@@ -12,7 +12,7 @@ import com.aspose.words.net.System.Data.DataTable;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
-
+//ExStart:Common
 public class Common {
     public static List<Manager> managers = new ArrayList<Manager>();
 
@@ -271,6 +271,7 @@ public class Common {
         }
         return ds;
     }
+	//ExEnd:Common
 
 
 }

@@ -8,6 +8,7 @@ public class SimpleTable {
 	private static final String dataDir = Utils.getSharedDataDir(SimpleTable.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:SimpleTable
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -36,5 +37,6 @@ public class SimpleTable {
 
 		// Save the document to disk.
 		doc.save(dataDir + "DocumentBuilder_CreateSimpleTable_Out.doc");
+		//ExEnd:SimpleTable
 	}
 }

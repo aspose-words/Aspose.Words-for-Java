@@ -12,13 +12,16 @@ public class JoinAndSplitTables {
 	private static final String dataDir = Utils.getSharedDataDir(JoinAndSplitTables.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:JoinAndSplitTables
 		// Combine the rows from two tables into one
 		combineTwoTablesIntoOne();
 
 		// Split a Table into Two Separate Tables
 		splitATableIntoTwoSeparateTables();
+		//ExStart:JoinAndSplitTables
 	}
 
+	//ExStart:combineTwoTablesIntoOne
 	public static void combineTwoTablesIntoOne() throws Exception {
 		// Load the document.
 		Document doc = new Document(dataDir + "Table.Document.doc");
@@ -37,8 +40,10 @@ public class JoinAndSplitTables {
 		secondTable.remove();
 
 		doc.save(dataDir + "Table.CombineTables Out.doc");
+		//ExEnd:combineTwoTablesIntoOne
 	}
 
+	//ExStart:splitATableIntoTwoSeparateTables
 	public static void splitATableIntoTwoSeparateTables() throws Exception {
 		// Load the document.
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
@@ -66,5 +71,6 @@ public class JoinAndSplitTables {
 		} while (currentRow != row);
 
 		doc.save(dataDir + "Table.SplitTable Out.doc");
+		//ExEnd:splitATableIntoTwoSeparateTables
 	}
 }

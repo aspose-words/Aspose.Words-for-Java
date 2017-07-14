@@ -1,4 +1,5 @@
 package com.aspose.words.examples.linq;
+//ExStart:Client
 public class Client
 {
     private String Name;
@@ -11,3 +12,4 @@ public class Client
         Name = value;
     }
 }
+//ExEnd:Client

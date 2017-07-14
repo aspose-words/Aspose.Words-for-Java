@@ -17,7 +17,8 @@ public class SimpleAppendDocument
 
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:SimpleAppendDocument
+		// The path to the documents directory.
         gDataDir = Utils.getDataDir(SimpleAppendDocument.class);
 
         Document dstDoc = new Document(gDataDir + "TestFile.Destination.doc");
@@ -26,6 +27,7 @@ public class SimpleAppendDocument
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
 
         dstDoc.save(gDataDir + "TestFile.SimpleAppendDocument Out.docx");
+		//ExEnd:SimpleAppendDocument
 
         System.out.println("Documents appended successfully.");
     }

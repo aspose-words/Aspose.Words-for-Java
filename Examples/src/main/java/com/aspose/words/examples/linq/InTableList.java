@@ -7,8 +7,8 @@ public class InTableList {
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
-
+        //ExStart:InTableList
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(InTableList.class);
 
         String fileName = "InTableList.doc";
@@ -25,6 +25,7 @@ public class InTableList {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:InTableList
 
         System.out.println("\nIn-Table list template document is populated with the data about managers.\nFile saved at " + dataDir);
 

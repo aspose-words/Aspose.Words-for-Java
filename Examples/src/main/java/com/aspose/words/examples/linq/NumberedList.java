@@ -7,7 +7,8 @@ public class NumberedList {
      * The main entry point for the application.
      */
     public static void main(String[] args) throws Exception {
-        // The path to the documents directory.
+        //ExStart:NumberedList
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(NumberedList.class);
         String fileName = "NumberedList.doc";
         // Load the template document.
@@ -23,6 +24,7 @@ public class NumberedList {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:NumberedList
 
         System.out.println("\nNumbered list template document is populated with the data about clients.\nFile saved at " + dataDir);
     }

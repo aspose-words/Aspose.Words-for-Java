@@ -10,7 +10,8 @@ public class LinkHeadersFooters {
 
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:LinkHeadersFooters
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(LinkHeadersFooters.class);
 
         Document dstDoc = new Document(dataDir + "TestFile.Destination.doc");
@@ -25,6 +26,7 @@ public class LinkHeadersFooters {
 
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(dataDir + "output.doc");
+		//ExEnd:LinkHeadersFooters
 
     }
 }

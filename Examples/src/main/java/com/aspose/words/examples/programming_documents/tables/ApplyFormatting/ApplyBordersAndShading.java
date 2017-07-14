@@ -14,6 +14,7 @@ public class ApplyBordersAndShading {
 
 	public static void main(String[] args) throws Exception {
 
+		//ExStart:ApplyBordersAndShading
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -54,5 +55,6 @@ public class ApplyBordersAndShading {
 		builder.writeln("Cell #4");
 
 		doc.save(dataDir + "Table.SetBordersAndShading Out.doc");
+		//ExEnd:ApplyBordersAndShading
 	}
 }

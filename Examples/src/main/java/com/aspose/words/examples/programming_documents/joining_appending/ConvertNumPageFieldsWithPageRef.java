@@ -13,7 +13,8 @@ public class ConvertNumPageFieldsWithPageRef
 
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:ConvertNumPageFieldsWithPageRef
+		// The path to the documents directory.
         gDataDir = Utils.getDataDir(ConvertNumPageFieldsWithPageRef.class);
 
         Document doc = new Document();
@@ -105,9 +106,11 @@ public class ConvertNumPageFieldsWithPageRef
                 }
             }
         }
+		//ExEnd:ConvertNumPageFieldsWithPageRef
     }
 
-    /**
+    //ExStart:getFieldCode
+	/**
      * Retrieves the field code from a field.
      *
      * @param fieldStart The field start of the field which to gather the field code from.
@@ -125,8 +128,10 @@ public class ConvertNumPageFieldsWithPageRef
         }
         return builder.toString();
     }
+	//ExEnd:getFieldCode
 
-    /**
+    //ExStart:removeField
+	/**
      * Removes the Field from the document.
      *
      * @param fieldStart The field start node of the field to remove.
@@ -145,4 +150,5 @@ public class ConvertNumPageFieldsWithPageRef
             currentNode = nextNode;
         }
     }
+	//ExEnd:removeField
 }

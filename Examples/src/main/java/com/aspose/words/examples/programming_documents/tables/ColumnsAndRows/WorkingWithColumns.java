@@ -12,6 +12,7 @@ public class WorkingWithColumns {
 	private static final String dataDir = Utils.getSharedDataDir(WorkingWithColumns.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:WorkingWithColumns
 		Document doc = new Document(dataDir + "Table.Document.doc");
 		Table table = (Table)doc.getChild(NodeType.TABLE, 1, true);
 		
@@ -23,8 +24,10 @@ public class WorkingWithColumns {
 		
 		//Remove a column from a table in a document
 		removeAColumnFromATable();
+		//ExEnd:WorkingWithColumns
 	}
 
+	//ExStart:insertABlankColumnIntoATable
 	public static void insertABlankColumnIntoATable(Document doc, Table table) throws Exception {
 		// Get the second column in the table.
 		Column column = Column.fromIndex(table, 1);
@@ -38,7 +41,9 @@ public class WorkingWithColumns {
 			cell.getFirstParagraph().appendChild(new Run(doc, "Column Text " + newColumn.indexOf(cell)));
 		}
 	}
+	//ExEnd:insertABlankColumnIntoATable
 	
+	//ExStart:getTextOfATableColum
 	public static void getTextOfATableColumn(Table table) throws Exception {
 		// Get the first column in the table.
 		Column column = Column.fromIndex(table, 0);
@@ -46,7 +51,9 @@ public class WorkingWithColumns {
 		// Print the plain text of the column to the screen.
 		System.out.println(column.toTxt());
 	}
+	//ExEnd:getTextOfATableColum
 	
+	//ExStart:removeAColumnFromATable
 	public static void removeAColumnFromATable() throws Exception {
 		Document doc = new Document(dataDir + "Table.Document.doc");
 		Table table = (Table)doc.getChild(NodeType.TABLE, 1, true);
@@ -57,4 +64,5 @@ public class WorkingWithColumns {
 
 		doc.save(dataDir + "Table.RemoveColumn Out.doc");
 	}
+	//ExEnd:removeAColumnFromATable
 }

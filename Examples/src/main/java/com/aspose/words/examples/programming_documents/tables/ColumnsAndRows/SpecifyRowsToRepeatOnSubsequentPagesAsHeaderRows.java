@@ -11,6 +11,7 @@ public class SpecifyRowsToRepeatOnSubsequentPagesAsHeaderRows {
 	private static final String dataDir = Utils.getSharedDataDir(SpecifyRowsToRepeatOnSubsequentPagesAsHeaderRows.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:SpecifyRowsToRepeatOnSubsequentPagesAsHeaderRows
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -40,5 +41,6 @@ public class SpecifyRowsToRepeatOnSubsequentPagesAsHeaderRows {
 		}
 
 		doc.save(dataDir + "Table.HeadingRow Out.doc");
+		//ExEnd:SpecifyRowsToRepeatOnSubsequentPagesAsHeaderRows
 	}
 }

@@ -12,17 +12,22 @@ public class ModifyATableOfContents {
 	private static final String dataDir = Utils.getSharedDataDir(ModifyATableOfContents.class) + "TableOfContents/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:ModifyATableOfContents
 		changeAFormattingPropertyUsedInFirstLevelTOCStyle();
 		
 		modifyPositionOfRightTabStopInTOC();
+		//ExEnd:ModifyATableOfContents
 	}	
 
+	//ExStart:changeAFormattingPropertyUsedInFirstLevelTOCStyle
 	public static void changeAFormattingPropertyUsedInFirstLevelTOCStyle() throws Exception {
 		Document doc = new Document();
 		// Retrieve the style used for the first level of the TOC and change the formatting of the style.
 		doc.getStyles().getByStyleIdentifier(StyleIdentifier.TOC_1).getFont().setBold(true);
 	}
+	//ExEnd:changeAFormattingPropertyUsedInFirstLevelTOCStyle
 
+	//ExStart:modifyPositionOfRightTabStopInTOC
 	public static void modifyPositionOfRightTabStopInTOC() throws Exception {
 		Document doc = new Document(dataDir + "Field.TableOfContents.doc");
 
@@ -42,4 +47,5 @@ public class ModifyATableOfContents {
 
 		doc.save(dataDir + "Field.TableOfContentsTabStops_Out.doc");
 	}
+	//ExEnd:modifyPositionOfRightTabStopInTOC
 }

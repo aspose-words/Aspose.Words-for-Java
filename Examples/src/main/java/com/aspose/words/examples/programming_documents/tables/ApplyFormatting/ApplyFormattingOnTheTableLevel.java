@@ -16,13 +16,16 @@ public class ApplyFormattingOnTheTableLevel {
 	private static final String dataDir = Utils.getSharedDataDir(ApplyFormattingOnTheTableLevel.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:ApplyFormattingOnTheTableLevel
 		// Apply a outline border to a table
 		applyOutlineBorderToATable();
 		
 		// Build a table with all borders enabled (grid)
 		buildATableWithAllBordersEnabled();
+		//ExEnd:ApplyFormattingOnTheTableLevel
 	}
 
+	//ExStart:applyOutlineBorderToATable
 	public static void applyOutlineBorderToATable() throws Exception {
 		Document doc = new Document(dataDir + "Table.EmptyTable.doc");
 		Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -44,7 +47,9 @@ public class ApplyFormattingOnTheTableLevel {
 
 		doc.save(dataDir + "Table.SetOutlineBorders_Out.doc");
 	}
+	//ExEnd:applyOutlineBorderToATable
 	
+	//ExStart:buildATableWithAllBordersEnabled
 	public static void buildATableWithAllBordersEnabled() throws Exception {
 		Document doc = new Document(dataDir + "Table.EmptyTable.doc");
 		Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
@@ -57,4 +62,5 @@ public class ApplyFormattingOnTheTableLevel {
 
 		doc.save(dataDir + "Table.SetAllBorders Out.doc");
 	}
+	//ExEnd:buildATableWithAllBordersEnabled
 }

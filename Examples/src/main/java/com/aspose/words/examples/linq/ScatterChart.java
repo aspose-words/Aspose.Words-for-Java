@@ -7,7 +7,8 @@ public class ScatterChart {
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:ScatterChart
+		// The path to the documents directory.
 
         String dataDir = Utils.getDataDir(ScatterChart.class);
 
@@ -25,6 +26,7 @@ public class ScatterChart {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:ScatterChart
 
         System.out.println("\nScatter chart template document is populated with the data about contracts.\nFile saved at " + dataDir);
 

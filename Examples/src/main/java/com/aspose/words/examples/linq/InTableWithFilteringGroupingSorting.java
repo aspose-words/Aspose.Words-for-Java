@@ -10,8 +10,8 @@ public class InTableWithFilteringGroupingSorting {
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
-
+        //ExStart:InTableWithFilteringGroupingSorting
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(InTableWithFilteringGroupingSorting.class);
 
         String fileName = "InTableWithFilteringGroupingSorting.doc";
@@ -28,6 +28,7 @@ public class InTableWithFilteringGroupingSorting {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:InTableWithFilteringGroupingSorting
 
      //   System.out.println("\nBubble chart template document is populated with the data about managers.\nFile saved at " + dataDir);
 

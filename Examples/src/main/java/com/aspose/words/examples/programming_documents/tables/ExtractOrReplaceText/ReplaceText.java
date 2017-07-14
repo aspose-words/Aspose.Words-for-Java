@@ -8,6 +8,7 @@ public class ReplaceText {
 	private static final String dataDir = Utils.getSharedDataDir(ReplaceText.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:ReplaceText
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
 		// Get the first table in the document.
@@ -24,5 +25,6 @@ public class ReplaceText {
 		table.getLastRow().getLastCell().getRange().replace("50", "20", opts);
 
 		doc.save(dataDir + "Table.ReplaceCellText Out.docx");
+		//ExEnd:ReplaceText
 	}
 }

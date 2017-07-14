@@ -11,6 +11,7 @@ public class SpecifyAPreferredWidthOnATable {
 	private static final String dataDir = Utils.getSharedDataDir(SpecifyAPreferredWidthOnATable.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:SpecifyAPreferredWidthOnATable
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -29,5 +30,6 @@ public class SpecifyAPreferredWidthOnATable {
 		builder.writeln("Cell #3");
 
 		doc.save(dataDir + "Table.PreferredWidth Out.doc");
+		//ExEnd:SpecifyAPreferredWidthOnATable
 	}
 }

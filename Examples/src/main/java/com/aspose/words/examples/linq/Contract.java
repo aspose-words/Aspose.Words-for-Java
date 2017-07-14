@@ -1,5 +1,6 @@
 package com.aspose.words.examples.linq;
 import java.util.Date;
+//ExStart:Contract
 public class Contract
 {
     private Manager Manager;
@@ -39,3 +40,4 @@ public class Contract
         Date = value;
     }
 }
+//ExEnd:Contract

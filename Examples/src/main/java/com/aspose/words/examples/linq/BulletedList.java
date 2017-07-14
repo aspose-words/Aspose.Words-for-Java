@@ -8,7 +8,8 @@ public class BulletedList {
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:BulletedList
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(BulletedList.class);
 
         String fileName = "BulletedList.doc";
@@ -26,6 +27,7 @@ public class BulletedList {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:BulletedList
 
 
         System.out.println("\nBulleted list template document is populated with the data about clients.\nFile saved at " + dataDir);

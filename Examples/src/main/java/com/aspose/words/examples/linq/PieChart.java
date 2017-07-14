@@ -7,8 +7,8 @@ public class PieChart {
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
-
+        //ExStart:PieChart
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(PieChart.class);
 
         String fileName = "PieChart.docx";
@@ -25,6 +25,7 @@ public class PieChart {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:PieChart
 
         System.out.println("\nPie chart template document is populated with the data about managers.\nFile saved at " + dataDir);
 

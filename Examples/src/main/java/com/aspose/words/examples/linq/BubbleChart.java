@@ -10,7 +10,8 @@ public class BubbleChart {
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:BubbleChart
+		// The path to the documents directory.
 
         String dataDir = Utils.getDataDir(BubbleChart.class);
 
@@ -28,6 +29,7 @@ public class BubbleChart {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:BubbleChart
 
         System.out.println("\nBubble chart template document is populated with the data about managers.\nFile saved at " + dataDir);
 

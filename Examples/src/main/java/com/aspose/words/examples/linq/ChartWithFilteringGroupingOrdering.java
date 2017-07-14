@@ -10,7 +10,8 @@ public class ChartWithFilteringGroupingOrdering {
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:ChartWithFilteringGroupingOrdering
+		// The path to the documents directory.
 
         String dataDir = Utils.getDataDir(ChartWithFilteringGroupingOrdering.class);
 
@@ -28,6 +29,7 @@ public class ChartWithFilteringGroupingOrdering {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:ChartWithFilteringGroupingOrdering
 
      //   System.out.println("\nBubble chart template document is populated with the data about managers.\nFile saved at " + dataDir);
 

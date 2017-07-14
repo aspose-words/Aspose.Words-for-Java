@@ -16,6 +16,7 @@ public class MergeCellsInARange {
 	private static final String dataDir = Utils.getSharedDataDir(MergeCellsInARange.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:MergeCellsInARange
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 			
 		// Retrieve the first table in the document.
@@ -29,8 +30,10 @@ public class MergeCellsInARange {
 		mergeCells(cellStartRange, cellEndRange);
 		
 		doc.save(dataDir + "Table.MergeCellsInARange Out.doc");
+		//ExEnd:MergeCellsInARange
 	}
 
+	//ExStart:mergeCells
 	/**
 	 * Merges the range of cells found between the two specified cells both
 	 * horizontally and vertically. Can span over multiple rows.
@@ -63,5 +66,5 @@ public class MergeCellsInARange {
 				}
 			}
 		}
-	}
+	}//ExEnd:mergeCells
 }

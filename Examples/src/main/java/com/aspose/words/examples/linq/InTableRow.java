@@ -7,8 +7,8 @@ public class InTableRow {
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
-
+        //ExStart:InTableRow
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(InTableRow.class);
 
         String fileName = "InTableRow.doc";
@@ -26,6 +26,7 @@ public class InTableRow {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:InTableRow
 
         System.out.println("\nIn-Table row template document is populated with the data about managers.\nFile saved at " + dataDir);
 

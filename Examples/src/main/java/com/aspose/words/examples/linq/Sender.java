@@ -1,4 +1,5 @@
 package com.aspose.words.examples.linq;
+//ExStart:Sender
 public class Sender {
     private String Name;
     public final String getName()
@@ -19,3 +20,4 @@ public class Sender {
         Message = value;
     }
 }
+//ExEnd:Sender

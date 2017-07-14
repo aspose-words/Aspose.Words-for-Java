@@ -10,12 +10,15 @@ public class ExtractPlainTextFromATable {
 	private static final String dataDir = Utils.getSharedDataDir(ExtractPlainTextFromATable.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:ExtractPlainTextFromATable
 		// Print the text range of a table
 		printTextRangeOfATable();
 		// Print the text range of row and table elements
 		printTextRangeOfRowAndTableElements();
+		//ExEnd:ExtractPlainTextFromATable
 	}
 
+	//ExStart:printTextRangeOfATable
 	public static void printTextRangeOfATable() throws Exception {
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
@@ -28,8 +31,11 @@ public class ExtractPlainTextFromATable {
 		// Print the plain text range of the table to the screen.
 		System.out.println("Contents of the table: ");
 		System.out.println(table.getRange().getText());
+		
 	}
+	//ExEnd:printTextRangeOfATable
 	
+	//ExStart:printTextRangeOfRowAndTableElements
 	public static void printTextRangeOfRowAndTableElements() throws Exception {
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
@@ -44,4 +50,5 @@ public class ExtractPlainTextFromATable {
 		System.out.println("\nContents of the cell: ");
 		System.out.println(table.getLastRow().getLastCell().getRange().getText());
 	}
+	//ExEnd:printTextRangeOfRowAndTableElements
 }

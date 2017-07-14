@@ -7,7 +7,8 @@ public class SingleRow {
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:SingleRow
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(SingleRow.class);
 
         String fileName = "SingleRow.doc";
@@ -24,6 +25,7 @@ public class SingleRow {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:SingleRow
 
         System.out.println("\nSingle row template document is populated with the data about manager.\nFile saved at " + dataDir);
 

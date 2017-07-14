@@ -15,6 +15,8 @@ public class RemoveATableOfContents {
 	private static final String dataDir = Utils.getSharedDataDir(RemoveATableOfContents.class) + "TableOfContents/";
 
 	public static void main(String[] args) throws Exception {
+
+    	//ExStart:RemoveATableOfContents
 		// Open a document which contains a TOC.
 		Document doc = new Document(dataDir + "Document.TableOfContents.doc");
 
@@ -23,9 +25,11 @@ public class RemoveATableOfContents {
 
 		// Save the output.
 		doc.save(dataDir + "Document.TableOfContentsRemoveToc_Out.doc");
+		//ExEnd:RemoveATableOfContents
 
 	}
 
+	//ExStart:removeTableOfContents
 	/**
 	 * Removes the specified table of contents field from the document.
 	 *
@@ -75,4 +79,5 @@ public class RemoveATableOfContents {
 			node.remove();
 		}
 	}
+	//ExEnd:removeTableOfContents
 }

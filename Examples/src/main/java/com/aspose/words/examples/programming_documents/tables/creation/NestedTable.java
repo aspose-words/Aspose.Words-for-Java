@@ -8,7 +8,8 @@ public class NestedTable {
 	private static final String dataDir = Utils.getSharedDataDir(NestedTable.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-.NET
+		
+		//ExStart:NestedTable
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -37,5 +38,6 @@ public class NestedTable {
 
 		// Save the document to disk.
 		doc.save(dataDir + "DocumentBuilder_InsertNestedTable_Out.doc");
+		//ExEnd:NestedTable
 	}
 }

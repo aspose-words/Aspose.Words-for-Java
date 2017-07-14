@@ -9,7 +9,8 @@ public class HelloWorld {
     public static void main(String[] args) throws Exception
     {
 
-        // The path to the documents directory.
+        //ExStart:HelloWorld
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(HelloWorld.class);
 
         String fileName = "HelloWorld.doc";
@@ -31,6 +32,7 @@ public class HelloWorld {
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:HelloWorld
 
         System.out.println("\nTemplate document is populated with the data about the sender.\nFile saved at " + dataDir);
 

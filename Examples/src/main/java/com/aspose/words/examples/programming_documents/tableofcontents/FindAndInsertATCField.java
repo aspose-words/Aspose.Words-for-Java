@@ -7,6 +7,8 @@ import com.aspose.words.*;
 public class FindAndInsertATCField {
 
 	public static void main(String[] args) throws Exception {
+		
+		//ExStart:FindAndInsertATCField
 		Document doc = new Document();
 
 		FindReplaceOptions opts = new FindReplaceOptions();
@@ -15,9 +17,10 @@ public class FindAndInsertATCField {
 
 		// Insert a TC field which displays "Chapter 1" just before the text "The Beginning" in the document.
 		doc.getRange().replace(Pattern.compile("The Beginning"), "", opts);
+		//ExEnd:FindAndInsertATCField
 	}
 }
-
+//ExStart:InsertTCFieldHandler
 class InsertTCFieldHandler implements IReplacingCallback {
 	// Store the text and switches to be used for the TC fields.
 	private String mFieldText;
@@ -62,3 +65,4 @@ class InsertTCFieldHandler implements IReplacingCallback {
 	}
 
 }
+//ExEnd:InsertTCFieldHandler

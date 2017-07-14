@@ -9,6 +9,7 @@ public class InsertATableOfContentsField {
 	private static final String dataDir = Utils.getSharedDataDir(InsertATableOfContentsField.class) + "TableOfContents/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:InsertATableOfContentsField
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -21,5 +22,6 @@ public class InsertATableOfContentsField {
         doc.updateFields();
 		
 		doc.save(dataDir + "InsertATableOfContentsField_out.docx");
+		//ExEnd:InsertATableOfContentsField
 	}
 }

@@ -7,6 +7,7 @@ import com.aspose.words.Row;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.Table;
 
+//ExStart:Column
 /**
  * Represents a facade object for a column of a table in a Microsoft Word
  * document.
@@ -109,3 +110,4 @@ public class Column {
 		return columnCells;
 	}
 }
+//ExEnd:Column

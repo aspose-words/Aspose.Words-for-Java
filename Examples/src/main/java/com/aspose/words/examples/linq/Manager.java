@@ -1,5 +1,6 @@
 package com.aspose.words.examples.linq;
 import java.util.List;
+//ExStart:Manager
 public class Manager
 {
     private String Name;
@@ -39,6 +40,6 @@ public class Manager
         Contracts = value;
     }
 
-
 }
+//ExEnd:Manager
 

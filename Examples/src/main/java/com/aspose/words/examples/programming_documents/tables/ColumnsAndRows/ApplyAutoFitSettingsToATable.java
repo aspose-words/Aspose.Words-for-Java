@@ -11,6 +11,7 @@ public class ApplyAutoFitSettingsToATable {
 	private static final String dataDir = Utils.getSharedDataDir(ApplyAutoFitSettingsToATable.class) + "Tables/";
 	
 	public static void main(String[] args) throws Exception {
+		//ExStart:ApplyAutoFitSettingsToATable
 		// Auto fits a table to fit the page width
 		autoFittingATableToWindow();
 		
@@ -19,8 +20,10 @@ public class ApplyAutoFitSettingsToATable {
 		
 		// Disabling AutoFitting on a Table and Use Fixed Column Widths
 		disablingAutoFittingOnATableAndUseFixedColumnWidths();
+		//ExEnd:ApplyAutoFitSettingsToATable
 	}
 
+	//ExStart:autoFittingATableToWindow
 	public static void autoFittingATableToWindow() throws Exception {
 		// Open the document
 		Document doc = new Document(dataDir + "TestFile.doc");
@@ -32,7 +35,9 @@ public class ApplyAutoFitSettingsToATable {
 		// Save the document to disk.
 		doc.save(dataDir + "TestFile.AutoFitToWindow Out.doc");
 	}
+	//ExEnd:autoFittingATableToWindow
 	
+	//ExStart:autoFittingATableToContents
 	public static void autoFittingATableToContents() throws Exception {
 		// Open the document
 		Document doc = new Document(dataDir + "TestFile.doc");
@@ -44,7 +49,9 @@ public class ApplyAutoFitSettingsToATable {
 		// Save the document to disk.
 		doc.save(dataDir + "TestFile.AutoFitToContents Out.doc");
 	}
+	//ExEnd:autoFittingATableToContents
 	
+	//ExStart:disablingAutoFittingOnATableAndUseFixedColumnWidths
 	public static void disablingAutoFittingOnATableAndUseFixedColumnWidths() throws Exception {
 		// Open the document
 		Document doc = new Document(dataDir + "TestFile.doc");
@@ -56,4 +63,5 @@ public class ApplyAutoFitSettingsToATable {
 		// Save the document to disk.
 		doc.save(dataDir + "TestFile.FixedWidth Out.doc");
 	}
+	//ExEnd:disablingAutoFittingOnATableAndUseFixedColumnWidths
 }

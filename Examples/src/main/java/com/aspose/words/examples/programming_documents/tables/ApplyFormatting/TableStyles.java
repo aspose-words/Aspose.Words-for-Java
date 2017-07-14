@@ -17,11 +17,14 @@ public class TableStyles {
 	private static final String dataDir = Utils.getSharedDataDir(TableStyles.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:TableStyles
 		applyATableStyle();
 		
 		expandFormattingFromStylesOnToRowsAndCells();
+		//ExEnd:TableStyles
 	}
 
+	//ExStart:applyTableStyle
 	public static void applyATableStyle() throws Exception {
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
@@ -63,7 +66,9 @@ public class TableStyles {
 
 		doc.save(dataDir + "DocumentBuilder.SetTableStyle Out.docx");
 	}
+	//ExEnd:applyTableStyle
 
+	//ExStart:expandFormattingFromStylesOnToRowsAndCells
 	public static void expandFormattingFromStylesOnToRowsAndCells() throws Exception {
 		Document doc = new Document(dataDir + "Table.TableStyle.docx");
 
@@ -84,4 +89,5 @@ public class TableStyles {
 		Color cellShadingAfter = firstCell.getCellFormat().getShading().getBackgroundPatternColor();
 		System.out.println("Cell shading after style expansion: " + cellShadingAfter);
 	}
+	//ExEnd:expandFormattingFromStylesOnToRowsAndCells
 }

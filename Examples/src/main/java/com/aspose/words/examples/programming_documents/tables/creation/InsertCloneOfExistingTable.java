@@ -13,6 +13,7 @@ public class InsertCloneOfExistingTable {
 	private static final String dataDir = Utils.getSharedDataDir(InsertCloneOfExistingTable.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:InsertCloneOfExistingTable
 		// Make a clone of a table in the document and insert it after the original table
 		cloneOfATable();
 
@@ -21,8 +22,10 @@ public class InsertCloneOfExistingTable {
 		
 		// Make a clone of the last row of a table and append it to the table
 		cloneLastRowOfATable();
+		//ExEnd:InsertCloneOfExistingTable
 	}
 
+	//ExStart:cloneOfATable
 	public static void cloneOfATable() throws Exception {
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
@@ -41,7 +44,9 @@ public class InsertCloneOfExistingTable {
 
 		doc.save(dataDir + "Table_CloneTableAndInsert_Out.doc");
 	}
+	//ExEnd:cloneOfATable
 
+	//ExStart:removeAllContentFromCellsOfAClonedTable
 	public static void removeAllContentFromCellsOfAClonedTable() throws Exception {
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
@@ -64,7 +69,9 @@ public class InsertCloneOfExistingTable {
 
 		doc.save(dataDir + "RemoveAllContentFromCellsOfAClonedTable_Out.doc");
 	}
+	//ExEnd:removeAllContentFromCellsOfAClonedTable
 
+	//ExStart:cloneLastRowOfATable
 	public static void cloneLastRowOfATable() throws Exception {
 		Document doc = new Document(dataDir + "Table.SimpleTable.doc");
 
@@ -84,4 +91,5 @@ public class InsertCloneOfExistingTable {
 
 		doc.save(dataDir + "Table.AddCloneRowToTable_Out.doc");
 	}
+	//ExEnd:cloneLastRowOfATable
 }

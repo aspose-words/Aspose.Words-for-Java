@@ -11,6 +11,7 @@ import com.aspose.words.Table;
 public class FindPreferredWidthTypeAndValueOfATableOrCell {
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:FindPreferredWidthTypeAndValueOfATableOrCell
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -35,5 +36,6 @@ public class FindPreferredWidthTypeAndValueOfATableOrCell {
 		builder.getCellFormat().getShading().setBackgroundPatternColor(Color.GREEN);
 		builder.writeln("Cell automatically sized. The size of this cell is calculated from the table preferred width.");
 		builder.writeln("In this case the cell will fill up the rest of the available space.");
+		//ExEnd:FindPreferredWidthTypeAndValueOfATableOrCell
 	}
 }

@@ -10,7 +10,9 @@ public class MergeCellsInATable {
 
 	}
 
+	//ExStart:mergeCellsHorizontally
 	public static void mergeCellsHorizontally() throws Exception {
+		
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -32,7 +34,9 @@ public class MergeCellsInATable {
 		builder.endRow();
 		builder.endTable();
 	}
+	//ExEnd:mergeCellsHorizontally
 	
+	//ExStart:mergeCellsVertically
 	public static void mergeCellsVertically() throws Exception {
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
@@ -56,4 +60,5 @@ public class MergeCellsInATable {
 		builder.endRow();
 		builder.endTable();
 	}
+	//ExStart:mergeCellsVertically
 }

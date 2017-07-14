@@ -7,8 +7,8 @@ public class InParagraphList {
      */
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
-
+        //ExStart:InParagraphList
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(InParagraphList.class);
 
         String fileName = "InParagraphList.doc";
@@ -19,13 +19,14 @@ public class InParagraphList {
         ReportingEngine engine = new ReportingEngine();
 
         // Execute the build report.
-//        engine.getKnownTypes().add(DateUtil.class);
+		// engine.getKnownTypes().add(DateUtil.class);
         engine.buildReport(doc, Common.GetClients());
 
         dataDir = dataDir + Utils.GetOutputFilePath(fileName);
 
         // Save the finished document to disk.
         doc.save(dataDir);
+		//ExEnd:InParagraphList
 
         System.out.println("\nIn-Paragraph list template document is populated with the data about clients.\nFile saved at " + dataDir);
 

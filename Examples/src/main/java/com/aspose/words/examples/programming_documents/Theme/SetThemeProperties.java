@@ -12,6 +12,7 @@ public class SetThemeProperties
     public static void main(String[] args) throws Exception
     {
 
+		//ExStart:SetThemeProperties
 		// The path to the documents directory.
 		String dataDir = Utils.getDataDir(SetThemeProperties.class);
 
@@ -23,6 +24,7 @@ public class SetThemeProperties
 		// Set Color.Gold for theme color Hyperlink.
 		theme.getColors().setHyperlink(java.awt.Color.DARK_GRAY);
 		doc.save(dataDir+  "output.doc");
+		//ExEnd:SetThemeProperties
 
 	}
 }

@@ -9,7 +9,9 @@ import com.aspose.words.examples.Utils;
 public class ApplyCellPadding {
 
     public static void main(String[] args) throws Exception {
-        String dataDir = Utils.getDataDir(ApplyCellPadding.class);
+        
+		//ExStart:ApplyCellPadding
+		String dataDir = Utils.getDataDir(ApplyCellPadding.class);
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -27,6 +29,7 @@ public class ApplyCellPadding {
 
         //Save the document to disk.
         doc.save(dataDir);
+		//ExEnd:ApplyCellPadding
 
     }
 }

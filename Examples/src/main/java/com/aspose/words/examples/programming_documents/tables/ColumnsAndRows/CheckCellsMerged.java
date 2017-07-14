@@ -13,6 +13,7 @@ public class CheckCellsMerged {
 	private static final String dataDir = Utils.getSharedDataDir(CheckCellsMerged.class) + "Tables/";
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:CheckCellsMerged
 		Document doc = new Document(dataDir + "Table.MergedCells.doc");
 
 		// Retrieve the first table in the document.
@@ -23,8 +24,10 @@ public class CheckCellsMerged {
 				System.out.println(printCellMergeType(cell));
 			}
 		}
+		//ExEnd:CheckCellsMerged
 	}
 
+	//ExStart:printCellMergeType
 	public static String printCellMergeType(Cell cell) {
 		boolean isHorizontallyMerged = cell.getCellFormat().getHorizontalMerge() != CellMerge.NONE;
 		boolean isVerticallyMerged = cell.getCellFormat().getVerticalMerge() != CellMerge.NONE;
@@ -39,5 +42,5 @@ public class CheckCellsMerged {
 			return "The cell at " + cellLocation + " is vertically merged";
 		else
 			return "The cell at " + cellLocation + " is not merged";
-	}
+	}//ExEnd:printCellMergeType
 }
