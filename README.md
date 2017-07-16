@@ -21,6 +21,6 @@ Directory | Description
 + **Product Home:** [Aspose.Words for Java](https://www.aspose.com/products/words/java)
 + **Download:** [Download Aspose.Words for Java](https://downloads.aspose.com/words/java)
 + **Documentation:** [Aspose.Words for Java Documentation](https://docs.aspose.com//display/wordsjava/Home)
-+ **Free Support Forum:** [Aspose.Words for .NET Free Support Forum](https://forum.aspose.com/)
++ **Free Support Forum:** [Aspose.Words for .NET Free Support Forum](https://forum.aspose.com/c/words)
 + **Paid Support Helpdesk:** [Aspose.Words for .NET Paid Support Helpdesk](https://helpdesk.aspose.com/)
 + **Blog:** [Aspose.Words for Java Blog](https://blog.aspose.com/category/aspose-products/aspose-words-product-family/)
