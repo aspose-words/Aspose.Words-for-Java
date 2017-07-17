@@ -29,7 +29,8 @@ public class SpecifySaveOption
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
         options.setExportTextInputFormFieldAsText(true);
         options.setImagesFolder(imagesDir.getPath());
-        dataDir = dataDir + Utils.GetOutp
+        dataDir = dataDir + Utils.GetOutputFilePath(fileName);
+		doc.save(dataDir, options);
 		//ExEnd:SpecifySaveOption
         System.out.println("\nSave option specified successfully.\nFile saved at " + dataDir);
     }
