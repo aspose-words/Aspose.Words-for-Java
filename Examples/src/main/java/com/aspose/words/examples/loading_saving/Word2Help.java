@@ -27,7 +27,8 @@ public class Word2Help
 {
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:Word2Help
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(Word2Help.class);
 
         // Specifies the destination directory where the HTML files are output.
@@ -67,11 +68,12 @@ public class Word2Help
         topics.addFromDir(dataDir);
         topics.writeHtml(outDir);
         topics.writeContentXml(outDir);
+		//ExEnd:Word2Help
 
         System.out.println("Conversion completed successfully.");
     }
 }
-
+//ExStart:Hyperlink
 /**
  * This "facade" class makes it easier to work with a hyperlink field in a Word document.
  *
@@ -243,7 +245,8 @@ class Hyperlink
                     "\""                // One closing apostrophe
     );
 }
-
+//ExEnd:Hyperlink
+//ExStart:RegularExpressions
 /**
  * Central storage for regular expressions used in the project.
  */
@@ -300,6 +303,9 @@ class RegularExpressions
     private static final String HTML_BODY_DIV_START_PATTERN = "(?<=\\<body\\>\\s{0,200}\\<div)\\s";
     private static Pattern gHtmlBodyDivStart;
 }
+//ExEnd:RegularExpressions
+
+//ExStart:TopicWord2Help
 
 /**
  * Represents a single topic that will be written as an HTML file.
@@ -481,7 +487,8 @@ class TopicWord2Help
     private final String mTitle;
     private final int mHeadingLevel;
 }
-
+//ExEnd:TopicWord2Help
+//ExStart:TopicCollection
 /**
  * This is the main class.
  * Loads Word document(s), splits them into topics, saves HTML files and builds content.xml.
@@ -736,4 +743,5 @@ class TopicCollection
      */
     private static final int MAX_TOPIC_HEADING = StyleIdentifier.HEADING_4;
 }
+//ExEnd:TopicCollection
 

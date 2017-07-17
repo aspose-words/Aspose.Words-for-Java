@@ -14,7 +14,8 @@ public class DetectDocumentSignatures
 {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:DetectDocumentSignatures
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(DetectDocumentSignatures.class);
 
         // The path to the document which is to be processed.
@@ -27,5 +28,7 @@ public class DetectDocumentSignatures
                     "Document {0} has digital signatures, they will be lost if you open/save this document with Aspose.Words.",
                     new File(filePath).getName()));
         }
+		//ExEnd:DetectDocumentSignatures
+		
     }
 }

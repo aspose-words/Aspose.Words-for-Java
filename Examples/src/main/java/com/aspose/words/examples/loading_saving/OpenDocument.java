@@ -13,11 +13,13 @@ import java.io.FileOutputStream;
 public class OpenDocument{
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:OpenDocument
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(OpenDocument.class);
         String filename = "Test.docx";
 
         Document doc = new Document(dataDir + filename);
+		//ExEnd:OpenDocument
 
 
     }

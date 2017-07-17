@@ -14,17 +14,19 @@ public class LargeSizeImageToPdf
 {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:LargeSizeImageToPdf
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ImageToPdf.class);
 
         convertImageToPdf(dataDir + "Test.jpg", dataDir + "TestJpg_out_.pdf");
         convertImageToPdf(dataDir + "Test.png", dataDir + "TestPng_out_.pdf");
         convertImageToPdf(dataDir + "Test.bmp", dataDir + "TestBmp_out_.pdf");
         convertImageToPdf(dataDir + "Test.gif", dataDir + "TestGif_out_.pdf");
+		//ExEnd:LargeSizeImageToPdf
 
         System.out.println("Large size images converted to PDF successfully.");
     }
-
+//ExStart:convertImageToPdf
     /**
      * Converts an image to PDF using Aspose.Words for Java.
      *
@@ -107,8 +109,10 @@ public class LargeSizeImageToPdf
         // Save the document to PDF.
         doc.save(outputFileName);
     }
+	//ExEnd:convertImageToPdf
 
-    public static double[] CalculateImageSize(BufferedImage img, double containerHeight,  double containerWidth, double targetHeight, double targetWidth) throws Exception {
+    //ExStart:CalculateImageSize
+	public static double[] CalculateImageSize(BufferedImage img, double containerHeight,  double containerWidth, double targetHeight, double targetWidth) throws Exception {
 
         targetHeight = containerHeight;
         targetWidth = containerWidth;
@@ -140,8 +144,10 @@ public class LargeSizeImageToPdf
 
         return(size);
     }
+	//ExEnd:CalculateImageSize
 
-    public static void resizeLargeImage(Shape image) throws Exception {
+    //ExStart:resizeLargeImage
+	public static void resizeLargeImage(Shape image) throws Exception {
         // Return if this shape is not an image.
         if (!image.hasImage())
             return;
@@ -165,4 +171,5 @@ public class LargeSizeImageToPdf
             image.setHeight(size.getHeightPoints() * ratio);
         }
     }
+	//ExEnd:resizeLargeImage
 }

@@ -24,7 +24,8 @@ public class SplitIntoHtmlPages
         // license.SetLicense(@"Aspose.Words.lic");
 
 
-        // The path to the documents directory.
+        //ExStart:SplitIntoHtmlPages
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(SplitIntoHtmlPages.class);
 
         String srcFileName = dataDir + "SOI 2007-2012-DeeM with footnote added.doc";
@@ -36,11 +37,12 @@ public class SplitIntoHtmlPages
         // This class does the job.
         Worker w = new Worker();
         w.execute(srcFileName, tocTemplate, outDir.getPath());
+		//ExStart:SplitIntoHtmlPages
 
         System.out.println("Document split into HTML pages successfully.");
     }
 }
-
+//ExStart:TocMailMergeDataSource
 /**
  * A custom data source for Aspose.Words mail merge.
  * Returns topic objects.
@@ -93,7 +95,8 @@ class TocMailMergeDataSource implements IMailMergeDataSource
     private final ArrayList mTopics;
     private int mIndex;
 }
-
+//ExEnd:TocMailMergeDataSource
+//ExStart:Topic
 /**
  * A simple class to hold a topic title and HTML file name together.
  */
@@ -112,7 +115,9 @@ class Topic
     private final String mTitle;
     private final String mFileName;
 }
+//ExEnd:Topic
 
+//ExStart:Worker
 /**
  *This class takes a Microsoft Word document, splits it into topics at paragraphs formatted
  * with the Heading 1 style and saves every topic as an HTML file.
@@ -311,3 +316,4 @@ class Worker
     private String mTocTemplate;
     private String mDstDir;
 }
+//ExEnd:Worker

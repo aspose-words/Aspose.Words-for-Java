@@ -17,14 +17,17 @@ public class PageSplitter
 {
     public static void main(String[] args) throws Exception
     {
-        // The path to the documents directory.
+        //ExStart:PageSplitter
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(PageSplitter.class);
 
         SplitAllDocumentsToPages(dataDir);
+		//ExEnd:PageSplitter
         System.out.println("\nDocument split to pages successfully.\nFile saved at " + dataDir + "\\Out");
     }
 
-    public static void SplitDocumentToPages(File docName) throws Exception
+    //ExStart:SplitDocumentToPages
+	public static void SplitDocumentToPages(File docName) throws Exception
     {
         String folderName = docName.getParent();
         String fileName =  docName.getName();
@@ -54,8 +57,10 @@ public class PageSplitter
         // Detach the collector from the document.
         layoutCollector.setDocument(null);
     }
+	//ExEnd:SplitDocumentToPages
 
-    public static void SplitAllDocumentsToPages(String folderName) throws Exception
+    //ExStart:SplitAllDocumentsToPages
+	public static void SplitAllDocumentsToPages(String folderName) throws Exception
     {
         File[] files = new File(folderName).listFiles();
 
@@ -65,8 +70,10 @@ public class PageSplitter
             }
         }
     }
+	//ExEnd:SplitAllDocumentsToPages
 }
 
+//ExStart:DocumentPageSplitter
 class DocumentPageSplitter {
     /**
      * Initializes new instance of this class. This method splits the document into sections so that each page
@@ -586,4 +593,5 @@ class SectionSplitter extends DocumentVisitor {
     private PageNumberFinder mPageNumberFinder;
     private int mSectionCount;
 }
+//ExEnd:DocumentPageSplitter
 

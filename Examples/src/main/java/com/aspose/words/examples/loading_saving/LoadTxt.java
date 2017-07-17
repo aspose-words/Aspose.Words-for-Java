@@ -7,7 +7,8 @@ public class LoadTxt
 {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:LoadText
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(LoadTxt.class);
 
         // The encoding of the text file is automatically detected.
@@ -15,6 +16,7 @@ public class LoadTxt
 
         // Save as any Aspose.Words supported format, such as DOCX.
         doc.save(dataDir + "output.docx");
+		//ExEnd:LoadText
 
         System.out.println("Loaded data from text file successfully.");
     }

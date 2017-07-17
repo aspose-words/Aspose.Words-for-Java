@@ -12,7 +12,8 @@ public class ConvertDocumentToByte
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertDocumentToByte.class);
 
-        // Load the document.
+        //ExStart:ConvertDocumentToByte
+		// Load the document.
         Document doc = new Document(dataDir + "Test File (doc).doc");
 
         // Create a new memory stream.
@@ -30,6 +31,7 @@ public class ConvertDocumentToByte
 
         // Load the stream into a new document object.
         Document loadDoc = new Document(inStream);
+		//ExEnd:ConvertDocumentToByte
         System.out.println("Document converted to byte array successfully.");
     }
 }

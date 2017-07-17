@@ -13,7 +13,8 @@ import java.io.FileOutputStream;
 public class CheckFormat {
     public static void main(String[] args) throws Exception {
 
-        // The path to the documents directory.
+        //ExStart:CheckFormat
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(CheckFormat.class);
 
         String supportedDir = dataDir + "OutSupported" + File.separator;
@@ -104,9 +105,11 @@ public class CheckFormat {
                 }
             }
         }
+		//ExEnd:CheckFormat
     }
 
-    private static void fileCopy(String sourceFileName, String destinationFileName) throws Exception
+    //ExStart:fileCopy
+	private static void fileCopy(String sourceFileName, String destinationFileName) throws Exception
     {
         File sourceFile = new File(sourceFileName);
         File destinationFile = new File(destinationFileName);
@@ -137,5 +140,6 @@ public class CheckFormat {
         }
 
     }
+	//ExEnd:fileCopy
 
 }

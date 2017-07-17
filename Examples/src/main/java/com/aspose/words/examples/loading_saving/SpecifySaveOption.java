@@ -9,7 +9,8 @@ import  java.io.*;
 public class SpecifySaveOption
 {
     public static void main(String[] args) throws Exception {
-        // The path to the documents directory.
+        //ExStart:SpecifySaveOption
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(SpecifySaveOption.class);
         String fileName = "TestFile RenderShape.docx";
         // Load the document.
@@ -28,8 +29,8 @@ public class SpecifySaveOption
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
         options.setExportTextInputFormFieldAsText(true);
         options.setImagesFolder(imagesDir.getPath());
-        dataDir = dataDir + Utils.GetOutputFilePath(fileName);
-        doc.save(dataDir, options);
+        dataDir = dataDir + Utils.GetOutp
+		//ExEnd:SpecifySaveOption
         System.out.println("\nSave option specified successfully.\nFile saved at " + dataDir);
     }
 }

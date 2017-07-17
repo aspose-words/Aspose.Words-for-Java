@@ -11,7 +11,8 @@ import java.io.FileOutputStream;
 
 public class GetListOfFilesInFolder {
     public static void main(String[] args) throws Exception {
-        // The path to the documents directory.
+        //ExStart:GetListOfFilesInFolder
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(GetListOfFilesInFolder.class);
 
         String supportedDir = dataDir + "OutSupported" + File.separator;
@@ -31,5 +32,6 @@ public class GetListOfFilesInFolder {
             System.out.print(nameOnly);
 
         }
+		//ExEnd:GetListOfFilesInFolder
     }
 }

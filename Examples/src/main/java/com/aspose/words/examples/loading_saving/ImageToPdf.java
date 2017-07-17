@@ -13,16 +13,18 @@ import java.io.File;
 public class ImageToPdf
 {
     public static void main(String[] args) throws Exception {
-        // The path to the documents directory.
+        //ExStart:ImageToPdf
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(ImageToPdf.class);
 
         convertImageToPdf(dataDir + "Test.jpg", dataDir + "TestJpg_out_.pdf");
         convertImageToPdf(dataDir + "Test.png", dataDir + "TestPng_out_.pdf");
         convertImageToPdf(dataDir + "Test.bmp", dataDir + "TestBmp_out_.pdf");
         convertImageToPdf(dataDir + "Test.gif", dataDir + "TestGif_out_.pdf");
+		//ExEnd:ImageToPdf
         System.out.println("Images converted to PDF successfully.");
     }
-
+//ExStart:convertImageToPdf
     /**
      * Converts an image to PDF using Aspose.Words for Java.
      *
@@ -87,4 +89,5 @@ public class ImageToPdf
         // Save the document to PDF.
         doc.save(outputFileName);
     }
+	//ExEnd:convertImageToPdf
 }

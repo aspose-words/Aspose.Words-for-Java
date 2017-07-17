@@ -13,6 +13,7 @@ import com.aspose.words.examples.Utils;
 public class ConvertADocumentToMHTMLAndEmail {
 
 	public static void main(String[] args) throws Exception {
+		//ExStart:ConvertADocumentToMHTMLAndEmail
 		String dataDir = Utils.getSharedDataDir(ConvertADocumentToMHTMLAndEmail.class) + "LoadingSavingAndConverting/";
 		
 		// Load the document into Aspose.Words.
@@ -34,5 +35,6 @@ public class ConvertADocumentToMHTMLAndEmail {
 
 		// Save the message in Outlook MSG format.
 		message.save(dataDir + "Message Out.msg", SaveOptions.getDefaultMsg());
+		//ExEnd:ConvertADocumentToMHTMLAndEmail
 	}
 }

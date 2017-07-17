@@ -14,7 +14,8 @@ public class LoadAndSave {
     private static Connection mConnection;
 
     public static void main(String[] args) throws Exception {
-        // The path to the documents directory.
+        //ExStart:LoadAndSave
+		// The path to the documents directory.
         String dataDir = Utils.getDataDir(LoadAndSave.class);
         String fileName = "Test File (doc).doc";
         // Load the document from disk.
@@ -22,6 +23,7 @@ public class LoadAndSave {
 
         // Save the finished document to disk.
         doc.save(dataDir + "output.doc");
+		//ExEnd:LoadAndSave
         System.out.println("Document loaded and saved successfully.");
     }
 }
