@@ -22,6 +22,8 @@ public class ApplyFormattingOnTheTableLevel {
 		
 		// Build a table with all borders enabled (grid)
 		buildATableWithAllBordersEnabled();
+        // Get Distance between TableSurrounding Text
+		getDistancebetweenTableSurroundingText();
 		//ExEnd:ApplyFormattingOnTheTableLevel
 	}
 
@@ -63,4 +65,17 @@ public class ApplyFormattingOnTheTableLevel {
 		doc.save(dataDir + "Table.SetAllBorders Out.doc");
 	}
 	//ExEnd:buildATableWithAllBordersEnabled
+
+	//ExStart:getDistancebetweenTableSurroundingText
+	public static void getDistancebetweenTableSurroundingText() throws Exception {
+		Document doc = new Document(dataDir + "Table.EmptyTable.doc");
+		System.out.println("\nGet distance between table left, right, bottom, top and the surrounding text.");
+		Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+
+		System.out.println(table.getDistanceTop());
+		System.out.println(table.getDistanceBottom());
+		System.out.println(table.getDistanceRight());
+		System.out.println(table.getDistanceLeft());
+	}
+	//ExEnd:getDistancebetweenTableSurroundingText
 }
