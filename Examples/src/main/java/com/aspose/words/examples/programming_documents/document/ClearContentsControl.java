@@ -22,7 +22,7 @@ public class ClearContentsControl {
         // Save the document to disk.
         doc.save(dataDir);
         // ExEnd:ClearContentsControl
-        System.out.println("\nClear the contents of content control successfully.");
+        System.out.println("\nCleared the contents of content control successfully.");
 
     }
 }
