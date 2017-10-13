@@ -5,6 +5,7 @@ import com.aspose.words.*;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.UUID;
 
 /**
  * Created by Home on 8/10/2017.
@@ -25,6 +26,8 @@ public class SigningSignatureLine {
         SigningEncryptedDocument(dataDir);
         CreatingAndSigningNewSignatureLine(dataDir);
         SigningExistingSignatureLine(dataDir);
+        SetSignatureProviderID(dataDir);
+        CreateNewSignatureLineAndSetProviderID(dataDir);
 
     }
 
@@ -89,5 +92,46 @@ public class SigningSignatureLine {
         // ExEnd:SigningExistingSignatureLine
 
         System.out.println("\nDocument is signed with existing SignatureLine successfully.\nFile saved at " + dataDir + "Document.Signed.ExistingSignatureLine.docx");
+    }
+
+    public static void SetSignatureProviderID(String dataDir) throws Exception
+    {
+        // ExStart:SetSignatureProviderID
+        Document doc = new Document(dataDir + "Document.Signed.docx");
+        SignatureLine signatureLine = ((Shape)doc.getFirstSection().getBody().getChild(NodeType.SHAPE, 0, true)).getSignatureLine();
+
+        //Set signature and signature line provider ID
+        SignOptions signOptions = new SignOptions();
+        signOptions.setProviderId(signatureLine.getProviderId());
+        signOptions.setSignatureLineId(signatureLine.getId());
+
+        CertificateHolder certHolder = CertificateHolder.create(dataDir + "temp.pfx", "password");
+        DigitalSignatureUtil.sign(dataDir + "Document.Signed.docx", dataDir + "Document.Signed_out.docx", certHolder, signOptions);
+
+        // ExEnd:SetSignatureProviderID
+
+        System.out.println("\nProvider ID of signature is set successfully.\nFile saved at " + dataDir + "Document.Signed_out.docx");
+    }
+
+    public static void CreateNewSignatureLineAndSetProviderID(String dataDir) throws Exception
+    {
+        // ExStart:CreateNewSignatureLineAndSetProviderID
+        Document doc = new Document(dataDir + "Document.Signed.docx");
+
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        SignatureLine signatureLine = builder.insertSignatureLine(new SignatureLineOptions()).getSignatureLine();
+        signatureLine.setProviderId(UUID.randomUUID());
+        doc.save(dataDir + "Document.Signed_out.docx");
+
+        SignOptions signOptions = new SignOptions();
+        signOptions.setSignatureLineId(signatureLine.getId());
+        signOptions.setProviderId(signatureLine.getProviderId());
+
+        CertificateHolder certHolder = CertificateHolder.create(dataDir + "temp.pfx", "password");
+        DigitalSignatureUtil.sign(dataDir + "Document.Signed_out.docx", dataDir + "Document.Signed_out.docx", certHolder, signOptions);
+
+        // ExEnd:CreateNewSignatureLineAndSetProviderID
+
+        System.out.println("\nCreate new signature line and set provider ID successfully.\nFile saved at " + dataDir + "Document.Signed_out.docx");
     }
 }
