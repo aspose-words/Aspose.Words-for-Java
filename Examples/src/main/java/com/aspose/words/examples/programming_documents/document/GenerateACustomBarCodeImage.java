@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.CodeLocation;
-import com.aspose.barcode.Symbology;
+import com.aspose.barcode.EncodeTypes;
 import com.aspose.words.BarcodeParameters;
 import com.aspose.words.Document;
 import com.aspose.words.IBarcodeGenerator;
@@ -16,10 +16,10 @@ public class GenerateACustomBarCodeImage {
 	private static final String dataDir = Utils.getSharedDataDir(GenerateACustomBarCodeImage.class) + "Barcode/";
 //ExStart:GenerateACustomBarCodeImage
 	public static void main(String[] args) throws Exception {
-		Document doc = new Document(dataDir + "Document.docx");
+		Document doc = new Document(dataDir + "GenerateACustomBarCodeImage.docx");
 		// Set custom barcode generator
 		doc.getFieldOptions().setBarcodeGenerator(new CustomBarcodeGenerator());
-		doc.save(dataDir + "output.pdf");
+		doc.save(dataDir + "GenerateACustomBarCodeImage_out.pdf");
 
 	}
 	
@@ -28,38 +28,6 @@ public class GenerateACustomBarCodeImage {
 	 * Aspose.BarCode module)
 	 */
 	static class CustomBarcodeGenerator implements IBarcodeGenerator {
-		/**
-		 * Converts barcode type from Word to Aspose.BarCode.
-		 *
-		 * @param inputCode
-		 * @return
-		 */
-		private long convertBarcodeType(String inputCode) {
-			if (inputCode == null) {
-				return Integer.MIN_VALUE;
-			}
-
-			String type = inputCode.toUpperCase();
-
-			if (type.equals("QR"))
-				return Symbology.QR;
-			if (type.equals("CODE128"))
-				return Symbology.Code128;
-			if (type.equals("CODE39"))
-				return Symbology.Code39Standard;
-			if (type.equals("EAN8"))
-				return Symbology.EAN8;
-			if (type.equals("EAN13"))
-				return Symbology.EAN13;
-			if (type.equals("UPCA"))
-				return Symbology.UPCA;
-			if (type.equals("UPCE"))
-				return Symbology.UPCE;
-			if (type.equals("ITF14"))
-				return Symbology.ITF14;
-
-			return Integer.MIN_VALUE;
-		}
 
 		/**
 		 * Converts barcode image height from Word units to Aspose.BarCode units.
@@ -148,15 +116,31 @@ public class GenerateACustomBarCodeImage {
 			}
 
 			BarCodeBuilder builder = new BarCodeBuilder();
+            String type = parameters.getBarcodeType().toUpperCase();
 
-			builder.setSymbologyType(convertBarcodeType(parameters.getBarcodeType()));
-			if (builder.getSymbologyType() == Integer.MIN_VALUE) {
-				return null;
-			}
+            if (type.equals("QR"))
+                builder.setEncodeType(EncodeTypes.QR);
+            if (type.equals("CODE128"))
+                builder.setEncodeType(EncodeTypes.CODE_128);
+            if (type.equals("CODE39"))
+                builder.setEncodeType(EncodeTypes.CODE_39_STANDARD);
+            if (type.equals("EAN8"))
+                builder.setEncodeType(EncodeTypes.EAN_8);
+            if (type.equals("UPCA"))
+                builder.setEncodeType(EncodeTypes.UPCA);
+            if (type.equals("UPCE"))
+                builder.setEncodeType(EncodeTypes.UPCE);
+            if (type.equals("ITF14"))
+                builder.setEncodeType(EncodeTypes.ITF_14);
+            if (type.equals("CASE"))
+                builder.setEncodeType(EncodeTypes.NONE);
+
+            if (builder.getEncodeType() == EncodeTypes.NONE)
+                return null;
 
 			builder.setCodeText(parameters.getBarcodeValue());
 
-			if (builder.getSymbologyType() == Symbology.QR) {
+			if (builder.getEncodeType() == EncodeTypes.QR) {
 				builder.setDisplay2DText(parameters.getBarcodeValue());
 			}
 
@@ -184,7 +168,7 @@ public class GenerateACustomBarCodeImage {
 			final float scale = 0.4f; // Empiric scaling factor for converting Word barcode to Aspose.BarCode
 			float xdim = 1.0f;
 
-			if (builder.getSymbologyType() == Symbology.QR) {
+			if (builder.getEncodeType() == EncodeTypes.QR) {
 				builder.setAutoSize(false);
 				builder.setImageWidth(builder.getImageWidth() * scale);
 				builder.setImageHeight(builder.getImageWidth());
@@ -197,7 +181,7 @@ public class GenerateACustomBarCodeImage {
 				float scalingFactor = convertScalingFactor(parameters.getScalingFactor());
 				builder.setImageHeight(builder.getImageHeight() * scalingFactor);
 
-				if (builder.getSymbologyType() == Symbology.QR) {
+				if (builder.getEncodeType() == EncodeTypes.QR) {
 					builder.setImageWidth(builder.getImageHeight());
 					builder.setxDimension(xdim * scalingFactor);
 					builder.setyDimension(xdim * scalingFactor);
