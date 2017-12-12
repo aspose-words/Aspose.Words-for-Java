@@ -1,7 +1,7 @@
 Aspose.Words for Java
-[Aspose.Words for Java](https://www.aspose.com/products/words/java) is an advanced Java Word processing API that enables you to perform a great range of document processing tasks directly within your Java applications. Aspose.Words for Java API supports processing word (DOC, DOCX, OOXML, RTF) HTML, OpenDocument, PDF, EPUB, XPS, SWF and all image formats. With Aspose.Words you can generate, modify, and convert documents without using Microsoft Word.
+[Aspose.Words for Java](https://products.aspose.com/words/java) is an advanced Java Word processing API that enables you to perform a great range of document processing tasks directly within your Java applications. Aspose.Words for Java API supports processing word (DOC, DOCX, OOXML, RTF) HTML, OpenDocument, PDF, EPUB, XPS, SWF and all image formats. With Aspose.Words you can generate, modify, and convert documents without using Microsoft Word.
 
-This repository contains [Examples](Examples), [Plugins](Plugins) and Showcases for [Aspose.Words for Java](https://www.aspose.com/products/words/java) to help you learn and write your own applications.
+This repository contains [Examples](Examples), [Plugins](Plugins) and Showcases for [Aspose.Words for Java](https://products.aspose.com/words/java) to help you learn and write your own applications.
 
 <p align="center">
 
@@ -18,8 +18,8 @@ Directory | Description
 ## Resources
 
 + **Website:** [www.aspose.com](https://www.aspose.com)
-+ **Product Home:** [Aspose.Words for Java](https://www.aspose.com/products/words/java)
-+ **Download:** [Download Aspose.Words for Java](https://downloads.aspose.com/words/java)
++ **Product Home:** [Aspose.Words for Java](https://products.aspose.com/words/java)
++ **Download:** [Download Aspose.Words for Java](http://maven.aspose.com/repository/simple/ext-release-local/com/aspose/aspose-words/)
 + **Documentation:** [Aspose.Words for Java Documentation](https://docs.aspose.com//display/wordsjava/Home)
 + **Free Support Forum:** [Aspose.Words for .NET Free Support Forum](https://forum.aspose.com/c/words)
 + **Paid Support Helpdesk:** [Aspose.Words for .NET Paid Support Helpdesk](https://helpdesk.aspose.com/)
