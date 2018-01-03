@@ -33,7 +33,7 @@ public class HandleMailMergeSwitches {
 
             if (e.getFieldName().startsWith("HTML")) {
                 if (e.getField().getFieldCode().contains("\\b")) {
-                    FieldMergeField field = (FieldMergeField) e.getField();
+                    FieldMergeField field = e.getField();
 
                     DocumentBuilder builder = new DocumentBuilder(e.getDocument());
                     builder.moveToMergeField(e.getDocumentFieldName(), true, false);

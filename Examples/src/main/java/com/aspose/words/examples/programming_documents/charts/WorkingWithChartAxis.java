@@ -18,6 +18,7 @@ public class WorkingWithChartAxis {
         SetNumberFormatForAxis(dataDir);
         SetboundsOfAxis(dataDir);
         SetIntervalUnitBetweenLabelsOnAxis(dataDir);
+        HideChartAxis(dataDir);
     }
 
     public static void DefineXYAxisProperties(String dataDir) throws Exception {
@@ -96,7 +97,7 @@ public class WorkingWithChartAxis {
         xAxis.setMajorTickMark(AxisTickMark.CROSS);
         xAxis.setMinorTickMark(AxisTickMark.OUTSIDE);
 
-        dataDir = dataDir + "SetDateTimeValuesToAxis_out.pdf";
+        dataDir = dataDir + "SetDateTimeValuesToAxis_out.docx";
         doc.save(dataDir);
         // ExEnd:SetDateTimeValuesToAxis
         System.out.println("\nDateTime values are set for chart axis successfully.\nFile saved at " + dataDir);
@@ -177,5 +178,32 @@ public class WorkingWithChartAxis {
         doc.save(dataDir);
         // ExEnd:SetIntervalUnitBetweenLabelsOnAxis
         System.out.println("\nSet interval unit between labels on an axis successfully.\nFile saved at " + dataDir);
+    }
+
+    public static void HideChartAxis(String dataDir) throws Exception
+    {
+        // ExStart:HideChartAxis
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert chart.
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432, 252);
+        Chart chart = shape.getChart();
+
+        // Clear demo data.
+        chart.getSeries().clear();
+
+        // Fill data.
+        chart.getSeries().add("AW Series 1",
+                new String[] { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" },
+                new double[] { 1.2, 0.3, 2.1, 2.9, 4.2 });
+
+        // Hide the Y axis.
+        chart.getAxisY().setHidden(true);
+
+        dataDir = dataDir + "HideChartAxis_out.docx";
+        doc.save(dataDir);
+        // ExEnd:HideChartAxis
+        System.out.println("\nY Axis of chart has been hidden successfully.\nFile saved at " + dataDir);
     }
 }
