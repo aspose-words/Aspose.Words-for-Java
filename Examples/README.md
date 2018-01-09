@@ -1,6 +1,6 @@
 Aspose.Words for Java Examples
 
-This directory contains Java examples for [Aspose.Words for Java](https://www.aspose.com/products/words/java).
+This directory contains Java examples for [Aspose.Words for Java](https://products.aspose.com/words/java).
 
 How to use the Examples?
 
