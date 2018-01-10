@@ -11,7 +11,7 @@ These examples are helpful for developers who want to compare Docx4j with Aspose
 
 ### Feedback and Suggestions
 
-* Many more examples are yet to come. [Keep visiting us](https://www.aspose.com/products/total/java).
+* Many more examples are yet to come. [Keep visiting us](https://products.aspose.com/total/java).
 * Raise your queries and suggest more examples via [Aspose Forums](https://www.aspose.com/community/forums/default.aspx) or via this social coding site.
 
 ## Why Aspose for Docx4j ?
@@ -45,13 +45,13 @@ All the Aspose APIs don’t have any dependency over any other engine. For examp
 
 ### Aspose.Words for Java
 
-[![Aspose.Words for Java](http://www.aspose.com/App_Themes/V2/images/productLogos/Java/aspose_words-for-java.jpg)](https://www.aspose.com/products/words/java)
+[![Aspose.Words for Java](http://www.aspose.com/App_Themes/V2/images/productLogos/Java/aspose_words-for-java.jpg)](https://products.aspose.com/words/java)
 
 Aspose.Words for Java is an advanced class library for Java that enables you to perform a great range of document processing tasks directly within your Java applications.
 
 Aspose.Words for Java supports DOC, OOXML, RTF, HTML and OpenDocument formats. With Aspose.Words you can generate, modify, and convert documents without using Microsoft Word.
 
-[Learn More](https://www.aspose.com/products/words/java)
+[Learn More](https://products.aspose.com/words/java)
 
 ## Download Latest Versions?
 
