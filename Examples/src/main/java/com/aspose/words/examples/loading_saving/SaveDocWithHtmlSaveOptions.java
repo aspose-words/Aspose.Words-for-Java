@@ -1,9 +1,6 @@
 package com.aspose.words.examples.loading_saving;
 
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.HtmlMetafileFormat;
-import com.aspose.words.HtmlSaveOptions;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
 public class SaveDocWithHtmlSaveOptions {
@@ -13,6 +10,7 @@ public class SaveDocWithHtmlSaveOptions {
 
         saveHtmlWithMetafileFormat(dataDir);
         importExportSVGinHTML(dataDir);
+        setCssClassNamePrefix(dataDir);
     }
 
     public static void saveHtmlWithMetafileFormat(String dataDir) throws Exception
@@ -42,5 +40,20 @@ public class SaveDocWithHtmlSaveOptions {
         doc.save(dataDir, options);
         // ExEnd:ImportExportSVGinHTML
         System.out.println("\nDocument saved with SVG Metafile format.\nFile saved at " + dataDir);
+    }
+
+    public static void setCssClassNamePrefix(String dataDir) throws Exception
+    {
+        // ExStart:SetCssClassNamePrefix
+        Document doc = new Document(dataDir + "Document.docx");
+
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
+        saveOptions.setCssClassNamePrefix("pfx_");
+
+        dataDir = dataDir + "CssClassNamePrefix_out.html";
+        doc.save(dataDir, saveOptions);
+        // ExEnd:SetCssClassNamePrefix
+        System.out.println("\nDocument saved with CSS prefix pfx_.\nFile saved at " + dataDir);
     }
 }
