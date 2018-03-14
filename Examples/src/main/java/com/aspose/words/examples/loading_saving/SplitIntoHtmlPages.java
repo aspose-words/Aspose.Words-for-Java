@@ -70,6 +70,11 @@ class TocMailMergeDataSource implements IMailMergeDataSource
         }
     }
 
+    @Override
+    public boolean getValue(String s, asposewobfuscated.zz95<Object> objectzz95) throws Exception {
+        return false;
+    }
+
     public boolean getValue(String fieldName, Object[] fieldValue) throws Exception
     {
         if ("TocEntry".equals(fieldName))
