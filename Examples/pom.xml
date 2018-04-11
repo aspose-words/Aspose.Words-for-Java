@@ -24,7 +24,7 @@
         <repository>
             <id>AsposeJavaAPI</id>
             <name>Aspose Java API</name>
-            <url>http://maven.aspose.com/repository/simple/ext-release-local/</url>
+            <url>http://artifact.aspose.com/repo/</url>
         </repository>
         <repository>
             <id>com.springsource.repository.bundles.external</id>
@@ -37,13 +37,13 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>18.3</version>
+            <version>18.4</version>
             <classifier>jdk16</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>18.3</version>
+            <version>18.4</version>
             <classifier>javadoc</classifier>
         </dependency>
         <dependency>

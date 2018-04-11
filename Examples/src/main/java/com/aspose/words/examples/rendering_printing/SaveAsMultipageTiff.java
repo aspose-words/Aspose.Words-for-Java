@@ -14,7 +14,7 @@ public class SaveAsMultipageTiff {
 	public static void main(String[] args) throws Exception {
 		
 		// Open the document.
-		Document doc = new Document(dataDir + "TestFile.doc");
+		Document doc = new Document(dataDir + "in.docx");
 		//ExStart:ProgrammingSample
 		// Save the document as multipage TIFF.
 		doc.save(dataDir + "TestFile Out.tiff");
