@@ -10,6 +10,8 @@ package com.aspose.words.examples.loading_saving;
 
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
+import com.aspose.words.ref.Ref;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -71,21 +73,17 @@ class TocMailMergeDataSource implements IMailMergeDataSource
     }
 
     @Override
-    public boolean getValue(String s, asposewobfuscated.zz95<Object> objectzz95) throws Exception {
-        return false;
-    }
-
-    public boolean getValue(String fieldName, Object[] fieldValue) throws Exception
+    public boolean getValue(String fieldName, Ref<Object> fieldValue) throws Exception
     {
         if ("TocEntry".equals(fieldName))
         {
             // The template document is supposed to have only one field called "TocEntry".
-            fieldValue[0] = mTopics.get(mIndex);
+            fieldValue.set(mTopics.get(mIndex));
             return true;
         }
         else
         {
-            fieldValue[0] = null;
+            fieldValue.set(null);
             return false;
         }
     }
