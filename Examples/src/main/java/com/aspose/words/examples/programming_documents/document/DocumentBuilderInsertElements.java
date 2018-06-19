@@ -8,11 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import java.util.stream.Stream;
-
-/**
- * Created by awaishafeez on 12/8/2017.
- */
 public class DocumentBuilderInsertElements {
     public static void main(String[] args) throws Exception {
         // The path to the documents directory.

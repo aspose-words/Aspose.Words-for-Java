@@ -11,12 +11,44 @@ public class WorkingWithShapes {
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(WorkingWithShapes.class);
 
-        SetShapeLayoutInCell(dataDir);
-        SetAspectRatioLocked(dataDir);
+        setShapeLayoutInCell(dataDir);
+        setAspectRatioLocked(dataDir);
+        insertShapeUsingDocumentBuilder(dataDir);
     }
 
-    public static void SetAspectRatioLocked(String dataDir) throws Exception
-    {
+    public static void insertShapeUsingDocumentBuilder(String dataDir) throws Exception {
+        // ExStart:InsertShapeUsingDocumentBuilder
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        //Free-floating shape insertion.
+        Shape shape = builder.insertShape(ShapeType.TEXT_BOX,
+                RelativeHorizontalPosition.PAGE, 100,
+                RelativeVerticalPosition.PAGE, 100,
+                50, 50,
+                WrapType.NONE);
+
+        shape.setRotation(30.0);
+
+        builder.writeln();
+
+        //Inline shape insertion.
+        shape = builder.insertShape(ShapeType.TEXT_BOX, 50, 50);
+        shape.setRotation(30.0);
+
+        OoxmlSaveOptions so = new OoxmlSaveOptions(SaveFormat.DOCX);
+        // "Strict" or "Transitional" compliance allows to save shape as DML.
+        so.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
+
+        dataDir = dataDir + "Shape_InsertShapeUsingDocumentBuilder_out.docx";
+
+        // Save the document to disk.
+        doc.save(dataDir, so);
+        // ExEnd:InsertShapeUsingDocumentBuilder
+        System.out.println("\nInsert Shape successfully using DocumentBuilder.\nFile saved at " + dataDir);
+    }
+
+    public static void setAspectRatioLocked(String dataDir) throws Exception {
         // ExStart:SetAspectRatioLocked
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -30,8 +62,7 @@ public class WorkingWithShapes {
         System.out.println("\nShape's AspectRatioLocked property is set successfully.\nFile saved at " + dataDir);
     }
 
-    public static void SetShapeLayoutInCell(String dataDir) throws Exception
-    {
+    public static void setShapeLayoutInCell(String dataDir) throws Exception {
         // ExStart:SetShapeLayoutInCell
         Document doc = new Document(dataDir + "LayoutInCell.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);

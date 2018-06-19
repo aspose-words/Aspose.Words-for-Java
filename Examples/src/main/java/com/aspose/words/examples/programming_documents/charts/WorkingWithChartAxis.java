@@ -58,8 +58,8 @@ public class WorkingWithChartAxis {
         yAxis.setMajorUnit(100);
         yAxis.setMinorUnit(50);
         yAxis.getDisplayUnit().setUnit(AxisBuiltInUnit.HUNDREDS);
-        yAxis.getScaling().setMinimum(100);
-        yAxis.getScaling().setMaximum(700);
+        yAxis.getScaling().setMinimum(new AxisBound(100));
+        yAxis.getScaling().setMaximum(new AxisBound(700));
 
         dataDir = dataDir + "SetAxisProperties_out.docx";
         doc.save(dataDir);
@@ -88,8 +88,8 @@ public class WorkingWithChartAxis {
 
         // Set X axis bounds.
         ChartAxis xAxis = chart.getAxisX();
-        xAxis.getScaling().setMinimum(new Date(2017, 11, 5).getTime());
-        xAxis.getScaling().setMaximum(new Date(2017, 12, 3).getTime());
+        xAxis.getScaling().setMinimum(new AxisBound(new Date(2017, 11, 5).getTime()));
+        xAxis.getScaling().setMaximum(new AxisBound(new Date(2017, 12, 3).getTime()));
 
         // Set major units to a week and minor units to a day.
         xAxis.setMajorUnit(7);
@@ -146,8 +146,8 @@ public class WorkingWithChartAxis {
                 new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"},
                 new double[]{1.2, 0.3, 2.1, 2.9, 4.2});
 
-        chart.getAxisY().getScaling().setMinimum(0);
-        chart.getAxisY().getScaling().setMaximum(6);
+        chart.getAxisY().getScaling().setMinimum(new AxisBound(0));
+        chart.getAxisY().getScaling().setMaximum(new AxisBound(6));
 
         dataDir = dataDir + "SetboundsOfAxis_out.docx";
         doc.save(dataDir);

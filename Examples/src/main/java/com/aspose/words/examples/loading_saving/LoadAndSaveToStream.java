@@ -9,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
-import java.util.stream.Stream;
 
 public class LoadAndSaveToStream {
     private static Connection mConnection;
