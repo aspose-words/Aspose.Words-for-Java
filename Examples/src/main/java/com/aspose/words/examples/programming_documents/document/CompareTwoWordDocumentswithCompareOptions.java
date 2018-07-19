@@ -24,6 +24,13 @@ public class CompareTwoWordDocumentswithCompareOptions {
         com.aspose.words.CompareOptions options = new com.aspose.words.CompareOptions();
         options.setIgnoreFormatting(true);
         options.setIgnoreHeadersAndFooters(true);
+        options.setIgnoreCaseChanges(true);
+        options.setIgnoreTables(true);
+        options.setIgnoreFields(true);
+        options.setIgnoreComments(true);
+        options.setIgnoreTextboxes(true);
+        options.setIgnoreFootnotes(true);
+
         // DocA now contains changes as revisions.
         docA.compare(docB, "user", new Date(), options);
         if (docA.getRevisions().getCount() == 0)

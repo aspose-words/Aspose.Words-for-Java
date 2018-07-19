@@ -2,15 +2,18 @@ package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.Document;
 import com.aspose.words.ParagraphCollection;
+import com.aspose.words.RevisionGroup;
+import com.aspose.words.RevisionType;
 import com.aspose.words.examples.Utils;
 import com.aspose.words.examples.programming_documents.document.properties.AccessingDocumentProperties;
 
 public class TrackChanges {
     public static void main(String[] args) throws Exception {
-        String dataDir = Utils.getSharedDataDir(AccessingDocumentProperties.class) + "Document/";
+        String dataDir = Utils.getSharedDataDir(TrackChanges.class) + "Document/";
 
         acceptRevisions(dataDir);
         getRevisionTypes(dataDir);
+        getRevisionGroups(dataDir);
     }
 
     private static void acceptRevisions(String dataDir) throws Exception {
@@ -42,5 +45,16 @@ public class TrackChanges {
                 System.out.println("The paragraph " + i + " has been moved (inserted).");
         }
         // ExEnd:GetRevisionTypes
+    }
+
+    private static void getRevisionGroups(String dataDir) throws Exception {
+        // ExStart:GetRevisionGroups
+        Document doc = new Document(dataDir + "Revisions.docx");
+
+        for (RevisionGroup group : (Iterable<RevisionGroup>) doc.getRevisions().getGroups()) {
+            System.out.println(group.getAuthor() + ", " + RevisionType.getName(group.getRevisionType()) + ": ");
+            System.out.println(group.getText());
+        }
+        // ExEnd:GetRevisionGroups
     }
 }
