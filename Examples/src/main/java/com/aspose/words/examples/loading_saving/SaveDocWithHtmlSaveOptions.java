@@ -11,6 +11,7 @@ public class SaveDocWithHtmlSaveOptions {
         saveHtmlWithMetafileFormat(dataDir);
         importExportSVGinHTML(dataDir);
         setCssClassNamePrefix(dataDir);
+        setExportCidUrlsForMhtmlResources(dataDir);
     }
 
     public static void saveHtmlWithMetafileFormat(String dataDir) throws Exception
@@ -55,5 +56,20 @@ public class SaveDocWithHtmlSaveOptions {
         doc.save(dataDir, saveOptions);
         // ExEnd:SetCssClassNamePrefix
         System.out.println("\nDocument saved with CSS prefix pfx_.\nFile saved at " + dataDir);
+    }
+
+    public static void setExportCidUrlsForMhtmlResources(String dataDir) throws Exception
+    {
+        // ExStart:SetExportCidUrlsForMhtmlResources
+        Document doc = new Document(dataDir + "CidUrls.docx");
+
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.MHTML);
+        saveOptions.setPrettyFormat(true);
+        saveOptions.setExportCidUrlsForMhtmlResources(true);
+
+        dataDir = dataDir + "SetExportCidUrlsForMhtmlResources_out.mhtml";
+        doc.save(dataDir, saveOptions);
+        // ExEnd:SetExportCidUrlsForMhtmlResources
+        System.out.println("\nDocument has saved with Content - Id URL scheme.\nFile saved at " + dataDir);
     }
 }

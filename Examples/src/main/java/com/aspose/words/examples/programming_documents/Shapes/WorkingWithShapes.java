@@ -14,6 +14,7 @@ public class WorkingWithShapes {
         setShapeLayoutInCell(dataDir);
         setAspectRatioLocked(dataDir);
         insertShapeUsingDocumentBuilder(dataDir);
+        addCornersSnipped(dataDir);
     }
 
     public static void insertShapeUsingDocumentBuilder(String dataDir) throws Exception {
@@ -98,5 +99,21 @@ public class WorkingWithShapes {
         doc.save(dataDir);
         // ExEnd:SetShapeLayoutInCell
         System.out.println("\nShape's IsLayoutInCell property is set successfully.\nFile saved at " + dataDir);
+    }
+
+    public static void addCornersSnipped(String dataDir) throws Exception {
+        // ExStart:AddCornersSnipped
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        Shape shape = builder.insertShape(ShapeType.TOP_CORNERS_SNIPPED, 50, 50);
+
+        OoxmlSaveOptions so = new OoxmlSaveOptions(SaveFormat.DOCX);
+        so.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
+        dataDir = dataDir + "AddCornersSnipped_out.docx";
+
+        //Save the document to disk.
+        doc.save(dataDir, so);
+        // ExEnd:AddCornersSnipped
+        System.out.println("\nCorner Snip shape is created successfully.\nFile saved at " + dataDir);
     }
 }

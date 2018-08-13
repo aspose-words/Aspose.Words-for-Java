@@ -1,9 +1,6 @@
 package com.aspose.words.examples.programming_documents.document;
 
-import com.aspose.words.Document;
-import com.aspose.words.ParagraphCollection;
-import com.aspose.words.RevisionGroup;
-import com.aspose.words.RevisionType;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 import com.aspose.words.examples.programming_documents.document.properties.AccessingDocumentProperties;
 
@@ -14,6 +11,8 @@ public class TrackChanges {
         acceptRevisions(dataDir);
         getRevisionTypes(dataDir);
         getRevisionGroups(dataDir);
+        setShowCommentsinPDF(dataDir);
+        setShowInBalloons(dataDir);
     }
 
     private static void acceptRevisions(String dataDir) throws Exception {
@@ -56,5 +55,31 @@ public class TrackChanges {
             System.out.println(group.getText());
         }
         // ExEnd:GetRevisionGroups
+    }
+
+    private static void setShowCommentsinPDF(String dataDir) throws Exception {
+        // ExStart:SetShowCommentsinPDF
+        Document doc = new Document(dataDir + "Revisions.docx");
+
+        //Do not render the comments in PDF
+        doc.getLayoutOptions().setShowComments(false);
+        doc.save(dataDir + "RemoveCommentsinPDF_out.pdf");
+        // ExEnd:SetShowCommentsinPDF
+        System.out.println("\nFile saved at " + dataDir);
+    }
+
+    private static void setShowInBalloons(String dataDir) throws Exception {
+        // ExStart:SetShowInBalloons
+        Document doc = new Document(dataDir + "Revisions.docx");
+
+        // Renders insert and delete revisions inline, format revisions in balloons.
+        doc.getLayoutOptions().getRevisionOptions().setShowInBalloons(ShowInBalloons.FORMAT);
+
+        // Renders insert revisions inline, delete and format revisions in balloons.
+        //doc.LayoutOptions.RevisionOptions.ShowInBalloons = ShowInBalloons.FormatAndDelete;
+
+        doc.save(dataDir + "SetShowInBalloons_out.pdf");
+        // ExEnd:SetShowInBalloons
+        System.out.println("\nFile saved at " + dataDir);
     }
 }
