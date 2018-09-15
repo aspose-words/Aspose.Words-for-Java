@@ -11,6 +11,8 @@ public class Load_Options {
         loadOptionsUpdateDirtyFields(dataDir);
         loadAndSaveEncryptedODT(dataDir);
         verifyODTdocument(dataDir);
+        convertShapeToOfficeMath(dataDir);
+        annotationsAtBlockLevel(dataDir);
     }
 
     public static void loadOptionsUpdateDirtyFields(String dataDir) throws Exception
@@ -43,5 +45,39 @@ public class Load_Options {
         FileFormatInfo info = FileFormatUtil.detectFileFormat(dataDir + "encrypted.odt");
         System.out.println(info.isEncrypted());
         // ExEnd:VerifyODTdocument
+    }
+
+    public static void convertShapeToOfficeMath(String dataDir) throws Exception
+    {
+        // ExStart:ConvertShapeToOfficeMath
+        LoadOptions lo = new LoadOptions();
+        lo.setConvertShapeToOfficeMath(true);
+
+        // Specify load option to use previous default behaviour i.e. convert math shapes to office math ojects on loading stage.
+        Document doc = new Document(dataDir + "OfficeMath.docx", lo);
+        //Save the document into DOCX
+        doc.save(dataDir + "ConvertShapeToOfficeMath_out.docx", SaveFormat.DOCX);
+        // ExEnd:ConvertShapeToOfficeMath
+    }
+
+    public static void annotationsAtBlockLevel(String dataDir) throws Exception
+    {
+        // ExStart:AnnotationsAtBlockLevel
+        LoadOptions options = new LoadOptions();
+        options.setAnnotationsAtBlockLevel(false);
+        Document doc = new Document(dataDir + "AnnotationsAtBlockLevel.docx", options);
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        StructuredDocumentTag sdt = (StructuredDocumentTag)doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).get(0);
+
+        BookmarkStart start = builder.startBookmark("bm");
+        BookmarkEnd end = builder.endBookmark("bm");
+
+        sdt.getParentNode().insertBefore(start, sdt);
+        sdt.getParentNode().insertAfter(end, sdt);
+
+        //Save the document into DOCX
+        doc.save(dataDir + "AnnotationsAtBlockLevel_out.docx", SaveFormat.DOCX);
+        // ExEnd:AnnotationsAtBlockLevel
     }
 }
