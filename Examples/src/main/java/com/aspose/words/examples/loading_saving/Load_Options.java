@@ -64,7 +64,7 @@ public class Load_Options {
     {
         // ExStart:AnnotationsAtBlockLevel
         LoadOptions options = new LoadOptions();
-        options.setAnnotationsAtBlockLevel(false);
+        options.setAnnotationsAtBlockLevel(true);
         Document doc = new Document(dataDir + "AnnotationsAtBlockLevel.docx", options);
         DocumentBuilder builder = new DocumentBuilder(doc);
 

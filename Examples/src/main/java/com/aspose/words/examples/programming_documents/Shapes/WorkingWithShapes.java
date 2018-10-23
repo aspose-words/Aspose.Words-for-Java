@@ -15,6 +15,7 @@ public class WorkingWithShapes {
         setAspectRatioLocked(dataDir);
         insertShapeUsingDocumentBuilder(dataDir);
         addCornersSnipped(dataDir);
+        getActualShapeBoundsPoints(dataDir);
     }
 
     public static void insertShapeUsingDocumentBuilder(String dataDir) throws Exception {
@@ -115,5 +116,17 @@ public class WorkingWithShapes {
         doc.save(dataDir, so);
         // ExEnd:AddCornersSnipped
         System.out.println("\nCorner Snip shape is created successfully.\nFile saved at " + dataDir);
+    }
+
+    public static void getActualShapeBoundsPoints(String dataDir) throws Exception {
+        // ExStart:GetActualShapeBoundsPoints
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        Shape shape = builder.insertImage(dataDir + "Test.png");
+        shape.setAspectRatioLocked(false);
+
+        System.out.print("\nGets the actual bounds of the shape in points. ");
+        System.out.println(shape.getShapeRenderer().getBoundsInPoints());
+        // ExEnd:GetActualShapeBoundsPoints
     }
 }

@@ -27,6 +27,7 @@ public class ApplyFormattingOnTheTableLevel {
         //ExEnd:ApplyFormattingOnTheTableLevel
 
         setTableTitleandDescription(dataDir);
+        allowCellSpacing(dataDir);
     }
 
     //ExStart:applyOutlineBorderToATable
@@ -93,5 +94,17 @@ public class ApplyFormattingOnTheTableLevel {
         doc.save(dataDir);
         // ExEnd:SetTableTitleandDescription
         System.out.println("\nTable's title and description is set successfully.");
+    }
+
+    private static void allowCellSpacing(String dataDir) throws Exception {
+        // ExStart:AllowCellSpacing
+        Document doc = new Document(dataDir + "Table.Document.doc");
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table.setAllowCellSpacing(true);
+        table.setCellSpacing(2);
+        dataDir = dataDir + "Table.AllowCellSpacing_out.docx";
+        doc.save(dataDir);
+        // ExEnd:AllowCellSpacing
+        System.out.println("\nAllow spacing between cells is set successfully.\nFile saved at " + dataDir);
     }
 }

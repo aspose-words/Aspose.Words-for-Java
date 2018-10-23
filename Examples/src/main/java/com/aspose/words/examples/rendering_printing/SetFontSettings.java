@@ -10,10 +10,10 @@ public class SetFontSettings {
         String dataDir = Utils.getSharedDataDir(SetFontSettings.class) + "RenderingAndPrinting/";
 
         enableDisableFontSubstitution(dataDir);
+        setFontFallbackSettings(dataDir);
     }
 
-    public static void enableDisableFontSubstitution(String dataDir) throws Exception
-    {
+    public static void enableDisableFontSubstitution(String dataDir) throws Exception {
         // ExStart:EnableDisableFontSubstitution
         // The path to the documents directory.
         Document doc = new Document(dataDir + "Rendering.doc");
@@ -28,5 +28,20 @@ public class SetFontSettings {
         doc.save(dataDir);
         // ExEnd:EnableDisableFontSubstitution
         System.out.println("\nDocument is rendered to PDF with disabled font substitution.\nFile saved at " + dataDir);
+    }
+
+    public static void setFontFallbackSettings(String dataDir) throws Exception {
+        // ExStart:SetFontFallbackSettings
+        Document doc = new Document(dataDir + "Rendering.doc");
+
+        FontSettings fontSettings = new FontSettings();
+        fontSettings.getFallbackSettings().load(dataDir + "Fallback.xml");
+
+        // Set font settings
+        doc.setFontSettings(fontSettings);
+        dataDir = dataDir + "Rendering.FontFallback_out.pdf";
+        doc.save(dataDir);
+        // ExEnd:SetFontFallbackSettings
+        System.out.println("\nDocument is rendered to PDF with font fallback.\nFile saved at " + dataDir);
     }
 }

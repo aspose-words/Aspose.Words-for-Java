@@ -56,7 +56,7 @@ public class Common {
     /// <summary>
     /// Return an enumeration of instances of the Manager class.
     /// </summary>
-    private static List<Manager> GetManagers() {
+    public static List<Manager> GetManagers() {
 
         Manager manager = new Manager();
         manager.setName("John Smith");
