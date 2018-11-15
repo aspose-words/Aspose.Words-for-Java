@@ -6,7 +6,6 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -27,8 +26,6 @@ import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningType;
 import com.aspose.words.WarningInfoCollection;
 
-
-@Test
 public class ExPdfSaveOptions extends ApiExampleBase
 {
     @Test

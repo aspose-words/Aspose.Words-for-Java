@@ -10,7 +10,6 @@
 //ExId:MossDoc2Pdf
 //ExSummary:The following is the complete code of the document converter.
 
-package Examples;
 
 import com.aspose.words.Document;
 import com.aspose.words.PdfSaveOptions;
@@ -21,16 +20,15 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Date;
 
-
-/// <summary>
-/// DOC2PDF document converter for SharePoint.
-/// Uses Aspose.Words to perform the conversion.
-/// </summary>
+/**
+ *  DOC2PDF document converter for SharePoint.
+ *  Uses Aspose.Words to perform the conversion.
+ */
 public class ExMossDoc2Pdf
 {
-    /// <summary>
-    /// The main entry point for the application.
-    /// </summary>
+    /**
+     *  The main entry point for the application.
+     */
     public static void main(String[] args) throws Exception
     {
         // Although SharePoint passes "-log <filename>" to us and we are

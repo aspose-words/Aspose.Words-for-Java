@@ -6,8 +6,6 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-package Examples;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.aspose.words.*;

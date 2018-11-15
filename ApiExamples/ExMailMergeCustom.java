@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import com.aspose.words.ref.Ref;
 import org.testng.annotations.Test;
@@ -14,7 +13,6 @@ import com.aspose.words.Document;
 import java.util.ArrayList;
 
 import com.aspose.words.IMailMergeDataSource;
-
 
 public class ExMailMergeCustom extends ApiExampleBase
 {

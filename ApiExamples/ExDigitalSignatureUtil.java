@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -23,8 +22,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 
-
-@Test
 public class ExDigitalSignatureUtil extends ApiExampleBase
 {
     @Test

@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import com.aspose.words.*;
 import org.testng.annotations.Test;
@@ -16,8 +15,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-
-@Test
 public class ExHtmlSaveOptions extends ApiExampleBase
 {
     //For assert this test you need to open HTML docs and they shouldn't have negative left margins

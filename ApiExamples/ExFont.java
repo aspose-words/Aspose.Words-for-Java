@@ -6,9 +6,6 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-
-package Examples;
-
 import com.aspose.words.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -19,7 +16,6 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 
 import org.testng.Assert;
-
 
 public class ExFont extends ApiExampleBase
 {
@@ -609,11 +605,11 @@ public class ExFont extends ApiExampleBase
     //ExSummary:Demonstrates how to implement the IWarningCallback to be notified of any font substitution during document save.
     public static class HandleDocumentWarnings implements IWarningCallback
     {
-        /// <summary>
-        /// Our callback only needs to implement the "Warning" method. This method is called whenever there is a
-        /// potential issue during document processing. The callback can be set to listen for warnings generated during document
-        /// load and/or document save.
-        /// </summary>
+        /**
+         *  Our callback only needs to implement the "Warning" method. This method is called whenever there is a
+         *  potential issue during document processing. The callback can be set to listen for warnings generated during document
+         *  load and/or document save.
+         */
         public void warning(WarningInfo info)
         {
             // We are only interested in fonts being substituted.
@@ -653,13 +649,13 @@ public class ExFont extends ApiExampleBase
     @Test
     public void fontSubstitutionWarningsClosestMatch() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Font.DisapearingBulletPoints.doc");
+        Document doc = new Document(getMyDir() + "Font.DisappearingBulletPoints.doc");
 
         // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
         HandleDocumentWarnings callback = new HandleDocumentWarnings();
         doc.setWarningCallback(callback);
 
-        doc.save(getMyDir() + "\\Artifacts\\Font.DisapearingBulletPoints.pdf");
+        doc.save(getMyDir() + "\\Artifacts\\Font.DisappearingBulletPoints.pdf");
 
         Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'SymbolPS' has not been found. Using 'Wingdings' font instead. Reason: closest match according to font info from the document."));
     }

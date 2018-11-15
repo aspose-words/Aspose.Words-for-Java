@@ -9,7 +9,6 @@
 //ExStart
 //ExId:RenameMergeFields
 //ExSummary:Shows how to rename merge fields in a Word document.
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -22,7 +21,6 @@ import com.aspose.words.Node;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 /**
  * Shows how to rename merge fields in a Word document.

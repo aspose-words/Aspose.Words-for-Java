@@ -11,7 +11,6 @@
 //ExFor:FieldStart
 //ExId:ReplaceHyperlinks
 //ExSummary:Finds all hyperlinks in a Word document and changes their URL and display name.
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -26,11 +25,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 //ExSkip
 
-
 /**
  * Shows how to replace hyperlinks in a Word document.
  */
-@Test //ExSkip
 public class ExReplaceHyperlinks extends ApiExampleBase
 {
     /**

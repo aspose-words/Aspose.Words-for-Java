@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.HtmlFixedSaveOptions;
@@ -26,8 +25,6 @@ import java.io.FilenameFilter;
 import java.text.MessageFormat;
 import java.util.regex.Pattern;
 
-
-@Test
 public class ExSavingCallback extends ApiExampleBase
 {
     @Test
@@ -100,9 +97,9 @@ public class ExSavingCallback extends ApiExampleBase
         return filenames;
     }
 
-    /// <summary>
-    /// Custom PageFileName is specified.
-    /// </summary>
+    /** 
+     * Custom PageFileName is specified.
+     */
     private static class CustomPageFileNamePageSavingCallback implements IPageSavingCallback
     {
         public void pageSaving(PageSavingArgs args) throws Exception

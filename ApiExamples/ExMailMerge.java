@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import com.aspose.words.*;
 
@@ -502,10 +501,10 @@ public class ExMailMerge extends ApiExampleBase
         Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Artifacts\\MailMerge.CleanUp.docx", getMyDir() + "\\Golds\\MailMerge.CleanUp Gold.docx"));
     }
 
-    /// <summary>
-    /// Create DataTable and fill it with data.
-    /// In real life this DataTable should be filled from a database.
-    /// </summary>
+    /**
+     *  Create DataTable and fill it with data.
+     *  In real life this DataTable should be filled from a database.
+     */
     private static DataTable getDataTable()
     {
         DataTable dataTable = new DataTable("StudentCourse");

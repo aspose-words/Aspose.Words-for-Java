@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import com.aspose.words.License;
 import org.testng.annotations.AfterMethod;
@@ -14,7 +13,6 @@ import org.testng.annotations.BeforeMethod;
 import javax.sql.rowset.*;
 import java.io.File;
 import java.net.URI;
-
 
 /**
  * Provides common infrastructure for all API examples that are implemented as unit tests.
@@ -127,12 +125,11 @@ public class ApiExampleBase
 
     static
     {
-        try
-        {
-            G_ASSEMBLY_DIR = getAssemblyDir(ApiExampleBase.class);
-            G_MY_DIR = new File(G_ASSEMBLY_DIR + "../../Data") + File.separator;
-            G_IMAGE_DIR = new File(G_ASSEMBLY_DIR + "../../Data/Images/") + File.separator;
-            G_DATABASE_DIR = new File(G_ASSEMBLY_DIR + "../../Data/Database") + File.separator;
+        try {
+            G_ASSEMBLY_DIR = System.getProperty("user.dir");
+            G_MY_DIR = new File(G_ASSEMBLY_DIR) + File.separator + "Data" + File.separator;
+            G_IMAGE_DIR = new File(G_ASSEMBLY_DIR) + File.separator + "Data" + File.separator + "Images" + File.separator;
+            G_DATABASE_DIR = new File(G_ASSEMBLY_DIR) + File.separator + "Data" + File.separator + "Database" + File.separator;
         } catch (Exception e)
         {
             throw new RuntimeException(e);

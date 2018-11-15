@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.WarningInfoCollection;
@@ -14,8 +13,6 @@ import java.util.Iterator;
 
 import com.aspose.words.WarningInfo;
 
-
-@Test
 public class ExWarningInfoCollection extends ApiExampleBase
 {
     @Test

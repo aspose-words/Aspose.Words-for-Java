@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import com.aspose.words.*;
 import com.aspose.words.Font;
@@ -26,7 +25,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
-
 
 public class ExDocumentBuilder extends ApiExampleBase
 {
@@ -310,7 +308,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // The best place for the watermark image is in the header or footer so it is shown on every page.
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
 
-        BufferedImage image = ImageIO.read(new File(getMyDir() + "Watermark.png"));
+        BufferedImage image = ImageIO.read(new File(getImageDir() + "Watermark.png"));
 
         // Insert a floating picture.
         Shape shape = builder.insertImage(image);

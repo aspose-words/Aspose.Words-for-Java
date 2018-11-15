@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import com.aspose.words.*;
 import org.testng.annotations.Test;
@@ -14,7 +13,6 @@ import java.awt.Color;
 import java.text.MessageFormat;
 
 import org.testng.Assert;
-
 
 public class ExLists extends ApiExampleBase
 {

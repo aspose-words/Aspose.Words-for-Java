@@ -6,9 +6,6 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-
-package Examples;
-
 import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -19,7 +16,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
-
 
 public class ExField extends ApiExampleBase
 {

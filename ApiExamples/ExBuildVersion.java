@@ -1,4 +1,3 @@
-package Examples;
 
 import com.aspose.words.BuildVersionInfo;
 import org.testng.annotations.Test;

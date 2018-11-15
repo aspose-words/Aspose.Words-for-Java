@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -26,8 +25,6 @@ import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.Date;
 
-
-@Test
 public class ExOoxmlSaveOptions extends ApiExampleBase
 {
     @Test

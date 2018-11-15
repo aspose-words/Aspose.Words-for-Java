@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -18,12 +17,15 @@ import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.Node;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
-
-@Test
 public class ExParagraph extends ApiExampleBase
 {
     @Test
@@ -78,8 +80,8 @@ public class ExParagraph extends ApiExampleBase
     @Test
     public void insertFieldAfterTextInParagraph() throws Exception
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("d/MM/yyyy");
-        String date = dateFormat.format(new Date());
+        LocalDateTime ldt = LocalDateTime.now();
+        String date = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH).format(ldt);
 
         Document doc = DocumentHelper.createDocumentFillWithDummyText();
 
@@ -253,27 +255,27 @@ public class ExParagraph extends ApiExampleBase
         }
     }
 
-    /// <summary>
-    /// Insert field into the first paragraph of the current document using field type
-    /// </summary>
+    /**
+     *  Insert field into the first paragraph of the current document using field type
+     */
     private static void insertFieldUsingFieldType(Document doc, /*FieldType*/int fieldType, boolean updateField, Node refNode, boolean isAfter, int paraIndex) throws Exception
     {
         Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
         para.insertField(fieldType, updateField, refNode, isAfter);
     }
 
-    /// <summary>
-    /// Insert field into the first paragraph of the current document using field code
-    /// </summary>
+    /**
+     *  Insert field into the first paragraph of the current document using field code
+     */
     private static void insertFieldUsingFieldCode(Document doc, String fieldCode, Node refNode, boolean isAfter, int paraIndex) throws Exception
     {
         Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
         para.insertField(fieldCode, refNode, isAfter);
     }
 
-    /// <summary>
-    /// Insert field into the first paragraph of the current document using field code and field String
-    /// </summary>
+    /**
+     *  Insert field into the first paragraph of the current document using field code and field String
+     */
     private static void insertFieldUsingFieldCodeFieldString(Document doc, String fieldCode, String fieldValue, Node refNode, boolean isAfter, int paraIndex)
     {
         Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);

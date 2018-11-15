@@ -6,8 +6,6 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-package Examples;
-
 import com.aspose.words.*;
 import org.testng.Assert;
 
@@ -15,15 +13,14 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
-
-/// <summary>
-/// Functions for operations with document and content
-/// </summary>
+/**
+ *  Functions for operations with document and content
+ */
 class DocumentHelper
 {
-    /// <summary>
-    /// Create new document without run in the paragraph
-    /// </summary>
+    /**
+     *  Create new document without run in the paragraph
+     */
     static Document createDocumentWithoutDummyText() throws Exception
     {
         Document doc = new Document();
@@ -41,9 +38,9 @@ class DocumentHelper
         return doc;
     }
 
-    /// <summary>
-    /// Create new document with text
-    /// </summary>
+    /**
+     *  Create new document with text
+     */
     static Document createDocumentFillWithDummyText() throws Exception
     {
         Document doc = new Document();
@@ -100,9 +97,9 @@ class DocumentHelper
         }
     }
 
-    /// <summary>
-    /// Create new document template for reporting engine
-    /// </summary>
+    /**
+     *  Create new document template for reporting engine
+     */
     static Document createSimpleDocument(String templateText) throws Exception
     {
         Document doc = new Document();
@@ -113,9 +110,9 @@ class DocumentHelper
         return doc;
     }
 
-    /// <summary>
-    /// Create new document with textbox shape and some query
-    /// </summary>
+    /**
+     *  Create new document with textbox shape and some query
+     */
     static Document createTemplateDocumentWithDrawObjects(String templateText, /*ShapeType*/int shapeType) throws Exception
     {
         Document doc = new Document();
@@ -137,12 +134,12 @@ class DocumentHelper
         return doc;
     }
 
-    /// <summary>
-    /// Compare word documents
-    /// </summary>
-    /// <param name="filePathDoc1">First document path</param>
-    /// <param name="filePathDoc2">Second document path</param>
-    /// <returns>Result of compare document</returns>
+    /**
+     *  Compare word documents
+     *  @param filePathDoc1 First document path
+     *  @param  filePathDoc2 Second document path 
+     *  @returns Result of compare document
+     */
     static boolean compareDocs(String filePathDoc1, String filePathDoc2) throws Exception
     {
         Document doc1 = new Document(filePathDoc1);
@@ -152,12 +149,12 @@ class DocumentHelper
 
     }
 
-    /// <summary>
-    /// Insert run into the current document
-    /// </summary>
-    /// <param name="doc">Current document</param>
-    /// <param name="text">Custom text</param>
-    /// <param name="paraIndex">Paragraph index</param>
+    /**
+     *  Insert run into the current document
+     *  <param name="doc">Current document</param>
+     *  <param name="text">Custom text</param>
+     *  <param name="paraIndex">Paragraph index</param>
+     *  */
     static Run insertNewRun(Document doc, String text, int paraIndex)
     {
         Paragraph para = getParagraph(doc, paraIndex);
@@ -172,11 +169,11 @@ class DocumentHelper
         return run;
     }
 
-    /// <summary>
-    /// Insert text into the current document
-    /// </summary>
-    /// <param name="builder">Current document builder</param>
-    /// <param name="textStrings">Custom text</param>
+    /**
+     *  Insert text into the current document
+     *  <param name="builder">Current document builder</param>
+     *  <param name="textStrings">Custom text</param>
+     */
     static void insertBuilderText(DocumentBuilder builder, String[] textStrings)
     {
         for (String textString : textStrings)
@@ -185,20 +182,20 @@ class DocumentHelper
         }
     }
 
-    /// <summary>
-    /// Get paragraph text of the current document
-    /// </summary>
-    /// <param name="doc">Current document</param>
-    /// <param name="paraIndex">Paragraph number from collection</param>
+    /**
+     *  Get paragraph text of the current document
+     *  <param name="doc">Current document</param>
+     *  <param name="paraIndex">Paragraph number from collection</param>
+     */
     static String getParagraphText(Document doc, int paraIndex)
     {
         return doc.getFirstSection().getBody().getParagraphs().get(paraIndex).getText();
     }
 
-    /// <summary>
-    /// Insert new table in the document
-    /// </summary>
-    /// <param name="builder">Current document builder</param>
+    /**
+     *  Insert new table in the document
+     *  <param name="builder">Current document builder</param>
+     */
     static Table insertTable(DocumentBuilder builder) throws Exception
     {
         //Start creating a new table
@@ -232,12 +229,11 @@ class DocumentHelper
         return table;
     }
 
-    /// <summary>
-    /// Insert TOC entries in the document
-    /// </summary>
-    /// <param name="builder">
-    /// The builder.
-    /// </param>
+    /**
+     *  Insert TOC entries in the document
+     *  @param  builder 
+     *  The builder
+     */
     static void insertToc(DocumentBuilder builder)
     {
         // Creating TOC entries
@@ -262,21 +258,21 @@ class DocumentHelper
         builder.writeln("Heading 1.1.1.1.1.1.1.1.1");
     }
 
-    /// <summary>
-    /// Get section text of the current document
-    /// </summary>
-    /// <param name="doc">Current document</param>
-    /// <param name="secIndex">Section number from collection</param>
+    /**
+     *  Get section text of the current document
+     *  <param name="doc">Current document</param>
+     *  <param name="secIndex">Section number from collection</param>
+     */
     static String getSectionText(Document doc, int secIndex)
     {
         return doc.getSections().get(secIndex).getText();
     }
 
-    /// <summary>
-    /// Get paragraph of the current document
-    /// </summary>
-    /// <param name="doc">Current document</param>
-    /// <param name="paraIndex">Paragraph number from collection</param>
+    /**
+     *  Get paragraph of the current document
+     *  <param name="doc">Current document</param>
+     *  <param name="paraIndex">Paragraph number from collection</param>
+     */
     static Paragraph getParagraph(Document doc, int paraIndex)
     {
         return doc.getFirstSection().getBody().getParagraphs().get(paraIndex);
@@ -302,6 +298,4 @@ class DocumentHelper
 
         return new byte[0];
     }
-
-    private static String mFirstFile, mSecondFile;
 }

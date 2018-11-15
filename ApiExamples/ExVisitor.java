@@ -5,11 +5,9 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import com.aspose.words.*;
 import org.testng.annotations.Test;
-
 
 public class ExVisitor extends ApiExampleBase
 {
@@ -40,7 +38,7 @@ public class ExVisitor extends ApiExampleBase
     public void toText() throws Exception
     {
         // Open the document we want to convert.
-        Document doc = new Document(getMyDir() + "Visitor.ToText.doc");
+        Document doc = new Document(getMyDir() + "DocumentVisitor.Destination.docx");
 
         // Create an object that inherits from the DocumentVisitor class.
         MyDocToTxtWriter myConverter = new MyDocToTxtWriter();

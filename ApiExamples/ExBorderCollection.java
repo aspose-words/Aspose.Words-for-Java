@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -16,8 +15,6 @@ import com.aspose.words.Border;
 import java.awt.Color;
 import com.aspose.words.LineStyle;
 
-
-@Test
 public class ExBorderCollection extends ApiExampleBase
 {
     @Test

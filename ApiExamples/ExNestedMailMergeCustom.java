@@ -6,14 +6,11 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-package Examples;
-
 import com.aspose.words.*;
 import com.aspose.words.ref.Ref;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-
 
 public class ExNestedMailMergeCustom extends ApiExampleBase
 {

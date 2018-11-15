@@ -5,14 +5,12 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.regex.Pattern;
-
 
 public class ExHeaderFooter extends ApiExampleBase
 {
@@ -219,7 +217,7 @@ public class ExHeaderFooter extends ApiExampleBase
 
         // Insert absolutely positioned image into the top/left corner of the header.
         // Distance from the top/left edges of the page is set to 10 points.
-        String imageFileName = getMyDir() + "Aspose.Words.gif";
+        String imageFileName = getImageDir() + "Aspose.Words.gif";
         builder.insertImage(imageFileName, RelativeHorizontalPosition.PAGE, 10, RelativeVerticalPosition.PAGE, 10, 50, 50, WrapType.THROUGH);
 
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);

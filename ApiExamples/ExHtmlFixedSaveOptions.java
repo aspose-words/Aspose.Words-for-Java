@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -20,8 +19,6 @@ import com.aspose.words.ResourceSavingArgs;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 
-
-@Test
 public class ExHtmlFixedSaveOptions extends ApiExampleBase
 {
     @Test
@@ -182,7 +179,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
         //ExStart
         //ExFor:HtmlFixedSaveOptions.UseTargetMachineFonts
         //ExSummary: Shows how used target machine fonts to display the document
-        Document doc = new Document(getMyDir() + "Font.DisapearingBulletPoints.doc");
+        Document doc = new Document(getMyDir() + "Font.DisappearingBulletPoints.doc");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
         saveOptions.setUseTargetMachineFonts(true);
@@ -195,9 +192,9 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
 
     private static class ResourceSavingCallback implements IResourceSavingCallback
     {
-        /// <summary>
-        /// Called when Aspose.Words saves an external resource to fixed page HTML or SVG.
-        /// </summary>
+        /**
+         *  Called when Aspose.Words saves an external resource to fixed page HTML or SVG.
+         */
         public void resourceSaving(ResourceSavingArgs args) throws Exception
         {
             args.setResourceStream(new ByteArrayOutputStream());

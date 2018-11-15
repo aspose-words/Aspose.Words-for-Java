@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -15,20 +14,13 @@ import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.WrapType;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
 import com.aspose.words.ConvertUtil;
 
 import javax.imageio.ImageIO;
 
-import static Examples.DocumentHelper.convertImageToByteArray;
-
-
-@Test
 public class ExDocumentBuilderImages extends ApiExampleBase
 {
     @Test
@@ -63,7 +55,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Prepare a byte array of an image.
-        byte[] imageBytes = convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
+        byte[] imageBytes = DocumentHelper.convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
 
         builder.insertImage(imageBytes);
         builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromByteArrayDefault.doc");
@@ -80,7 +72,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Prepare a byte array of an image.
-        byte[] imageBytes = convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
+        byte[] imageBytes = DocumentHelper.convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
 
         builder.insertImage(imageBytes, ConvertUtil.pixelToPoint(450.0), ConvertUtil.pixelToPoint(144.0));
         builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromByteArrayCustomSize.doc");
@@ -97,7 +89,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Prepare a byte array of an image.
-        byte[] imageBytes = convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
+        byte[] imageBytes = DocumentHelper.convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
 
         builder.insertImage(imageBytes, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN, 100.0, 200.0, 100.0, WrapType.SQUARE);
         builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromByteArrayRelativePosition.doc");

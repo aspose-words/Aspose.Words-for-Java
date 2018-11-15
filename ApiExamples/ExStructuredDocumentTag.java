@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
@@ -23,10 +22,9 @@ import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.UUID;
 
-
-/// <summary>
-/// Tests that verify work with structured document tags in the document 
-/// </summary>
+/**
+ *  Tests that verify work with structured document tags in the document 
+ */
 @Test
 public class ExStructuredDocumentTag extends ApiExampleBase
 {

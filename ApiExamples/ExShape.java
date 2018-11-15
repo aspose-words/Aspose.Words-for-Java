@@ -5,7 +5,6 @@
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
-package Examples;
 
 import com.aspose.words.*;
 import org.testng.annotations.DataProvider;
@@ -17,7 +16,6 @@ import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 
 /**
  * Examples using shapes in documents.
