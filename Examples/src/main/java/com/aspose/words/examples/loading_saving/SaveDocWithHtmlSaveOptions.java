@@ -12,10 +12,10 @@ public class SaveDocWithHtmlSaveOptions {
         importExportSVGinHTML(dataDir);
         setCssClassNamePrefix(dataDir);
         setExportCidUrlsForMhtmlResources(dataDir);
+        setResolveFontNames(dataDir);
     }
 
-    public static void saveHtmlWithMetafileFormat(String dataDir) throws Exception
-    {
+    public static void saveHtmlWithMetafileFormat(String dataDir) throws Exception {
         // ExStart:SaveHtmlWithMetafileFormat
         Document doc = new Document(dataDir + "Document.docx");
         HtmlSaveOptions options = new HtmlSaveOptions();
@@ -27,8 +27,7 @@ public class SaveDocWithHtmlSaveOptions {
         System.out.println("\nDocument saved with Metafile format.\nFile saved at " + dataDir);
     }
 
-    public static void importExportSVGinHTML(String dataDir) throws Exception
-    {
+    public static void importExportSVGinHTML(String dataDir) throws Exception {
         // ExStart:ImportExportSVGinHTML
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -43,8 +42,7 @@ public class SaveDocWithHtmlSaveOptions {
         System.out.println("\nDocument saved with SVG Metafile format.\nFile saved at " + dataDir);
     }
 
-    public static void setCssClassNamePrefix(String dataDir) throws Exception
-    {
+    public static void setCssClassNamePrefix(String dataDir) throws Exception {
         // ExStart:SetCssClassNamePrefix
         Document doc = new Document(dataDir + "Document.docx");
 
@@ -58,8 +56,7 @@ public class SaveDocWithHtmlSaveOptions {
         System.out.println("\nDocument saved with CSS prefix pfx_.\nFile saved at " + dataDir);
     }
 
-    public static void setExportCidUrlsForMhtmlResources(String dataDir) throws Exception
-    {
+    public static void setExportCidUrlsForMhtmlResources(String dataDir) throws Exception {
         // ExStart:SetExportCidUrlsForMhtmlResources
         Document doc = new Document(dataDir + "CidUrls.docx");
 
@@ -71,5 +68,19 @@ public class SaveDocWithHtmlSaveOptions {
         doc.save(dataDir, saveOptions);
         // ExEnd:SetExportCidUrlsForMhtmlResources
         System.out.println("\nDocument has saved with Content - Id URL scheme.\nFile saved at " + dataDir);
+    }
+
+    public static void setResolveFontNames(String dataDir) throws Exception {
+        // ExStart:SetResolveFontNames
+        Document doc = new Document(dataDir + "Test File (docx).docx");
+
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
+        saveOptions.setPrettyFormat(true);
+        saveOptions.setResolveFontNames(true);
+
+        dataDir = dataDir + "ResolveFontNames_out.html";
+        doc.save(dataDir, saveOptions);
+        // ExEnd:SetResolveFontNames
+        System.out.println("\nFontSettings is used to resolve font family name.\nFile saved at " + dataDir);
     }
 }

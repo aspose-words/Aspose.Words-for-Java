@@ -38,7 +38,7 @@ public class SetupLanguagePreferences {
         // The path to the documents directory.
         LoadOptions loadOptions = new LoadOptions();
 
-        loadOptions.getLanguagePreferences().setAsDefault(EditingLanguage.RUSSIAN);
+        loadOptions.getLanguagePreferences().setDefaultEditingLanguage(EditingLanguage.RUSSIAN);
 
         Document doc = new Document(dataDir + "languagepreferences.docx", loadOptions);
 
