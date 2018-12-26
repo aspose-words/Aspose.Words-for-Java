@@ -14,6 +14,7 @@ public class MailMergeUsingMustacheTemplateSyntax {
 		simpleInsertionOfDataIntoMergeFields();
 
 		useMailMergeUsingMustacheSyntax();
+		useOfifelseMustacheSyntax();
 	}
 
 	public static void simpleInsertionOfDataIntoMergeFields() throws Exception {
@@ -24,7 +25,7 @@ public class MailMergeUsingMustacheTemplateSyntax {
 		doc.getMailMerge().setUseNonMergeFields(true);
 
 		// Fill the fields in the document with user data.
-		doc.getMailMerge().execute(new String[] { "FullName", "Company", "Address", "Address2", "City" }, new Object[] { "James Bond", "MI5 Headquarters", "Milbank", "", "London" });
+		doc.getMailMerge().execute(new String[]{"FullName", "Company", "Address", "Address2", "City"}, new Object[]{"James Bond", "MI5 Headquarters", "Milbank", "", "London"});
 
 		doc.save(dataDir + "MailMerge.ExecuteArray_Out.doc");
 		//ExEnd:simpleInsertionOfDataIntoMergeFields
@@ -51,5 +52,19 @@ public class MailMergeUsingMustacheTemplateSyntax {
 		// Save the output document.
 		doc.save(dataDir + "MailMergeUsingMustacheSyntax_Out.docx");
 		//ExEnd:useMailMergeUsingMustacheSyntax
+	}
+
+	public static void useOfifelseMustacheSyntax() throws Exception {
+		// ExStart:UseOfifelseMustacheSyntax
+		// Open a template document.
+		Document doc = new Document(dataDir + "UseOfifelseMustacheSyntax.docx");
+
+		doc.getMailMerge().setUseNonMergeFields(true);
+		doc.getMailMerge().execute(new String[]{"GENDER"}, new Object[]{"MALE"});
+
+		// Save the output document.
+		doc.save(dataDir + "MailMergeUsingMustacheSyntaxifelse_out.docx");
+		// ExEnd:UseOfifelseMustacheSyntax
+		System.out.println("\nMail merge performed with mustache if else syntax successfully.\nFile saved at " + dataDir);
 	}
 }
