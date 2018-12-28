@@ -19,7 +19,7 @@ Directory | Description
 
 + **Website:** [www.aspose.com](https://www.aspose.com)
 + **Product Home:** [Aspose.Words for Java](https://products.aspose.com/words/java)
-+ **Download:** [Download Aspose.Words for Java](http://maven.aspose.com/repository/simple/ext-release-local/com/aspose/aspose-words/)
++ **Download:** [Download Aspose.Words for Java](https://repository.aspose.com/repo/com/aspose/aspose-words/)
 + **Documentation:** [Aspose.Words for Java Documentation](https://docs.aspose.com//display/wordsjava/Home)
 + **Free Support Forum:** [Aspose.Words for .NET Free Support Forum](https://forum.aspose.com/c/words)
 + **Paid Support Helpdesk:** [Aspose.Words for .NET Paid Support Helpdesk](https://helpdesk.aspose.com/)
