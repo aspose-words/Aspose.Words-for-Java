@@ -24,7 +24,7 @@
         <repository>
             <id>AsposeJavaAPI</id>
             <name>Aspose Java API</name>
-            <url>http://artifact.aspose.com/repo/</url>
+            <url>http://repository.aspose.com/repo/</url>
         </repository>
         <repository>
             <id>com.springsource.repository.bundles.external</id>
