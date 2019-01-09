@@ -158,10 +158,10 @@ public class GenerateACustomBarCodeImage {
                 builder.setAutoSize(false);
             }
 
-            builder.setCodeLocation(CodeLocation.None);
+            builder.setCodeLocation(CodeLocation.NONE);
 
             if (parameters.getDisplayText()) {
-                builder.setCodeLocation(CodeLocation.Below);
+                builder.setCodeLocation(CodeLocation.BELOW);
             }
 
             builder.getCaptionAbove().setText("");
