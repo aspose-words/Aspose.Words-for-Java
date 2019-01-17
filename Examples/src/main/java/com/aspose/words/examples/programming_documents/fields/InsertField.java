@@ -1,9 +1,6 @@
 package com.aspose.words.examples.programming_documents.fields;
 
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.FieldCompare;
-import com.aspose.words.FieldType;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
 public class InsertField {
@@ -20,6 +17,7 @@ public class InsertField {
         //ExEnd:InsertField
 
         fieldCompare(dataDir);
+        fieldIf(dataDir);
     }
 
     private static void fieldCompare(String dataDir) throws Exception {
@@ -52,6 +50,44 @@ public class InsertField {
         doc.updateFields();
         //ExEnd:fieldCompare
         doc.save(dataDir + "Field.Compare.docx");
+    }
+    private static void fieldIf(String dataDir) throws Exception {
+        System.out.println("==== fieldIf ====");
+        //ExStart:fieldIf
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Statement 1: ");
+
+        // Use document builder to insert an if field
+        FieldIf fieldIf = (FieldIf)builder.insertField(FieldType.FIELD_IF, true);
+
+        // The if field will output either the TrueText or FalseText string into the document, depending on the truth of the statement
+        // In this case, "0 = 1" is incorrect, so the output will be "False"
+        fieldIf.setLeftExpression("0");
+        fieldIf.setComparisonOperator("=");
+        fieldIf.setRightExpression("1");
+        fieldIf.setTrueText("True");
+        fieldIf.setFalseText("False");
+
+        System.out.println(" IF  0 = 1 True False".equals(fieldIf.getFieldCode()));
+        System.out.println(FieldIfComparisonResult.getName(fieldIf.evaluateCondition()));
+
+        // This time, the statement is correct, so the output will be "True"
+        builder.write("\nStatement 2: ");
+        fieldIf = (FieldIf)builder.insertField(FieldType.FIELD_IF, true);
+        fieldIf.setLeftExpression("5");
+        fieldIf.setComparisonOperator("=");
+        fieldIf.setRightExpression("2 + 3");
+        fieldIf.setTrueText("True");
+        fieldIf.setFalseText("False");
+
+        System.out.println(" IF  5 = \"2 + 3\" True False".equals(fieldIf.getFieldCode()));
+        System.out.println(FieldIfComparisonResult.getName(fieldIf.evaluateCondition()));
+
+        doc.updateFields();
+        //ExEnd:fieldIf
+        doc.save(dataDir + "Field.If.docx");
     }
 }
 
