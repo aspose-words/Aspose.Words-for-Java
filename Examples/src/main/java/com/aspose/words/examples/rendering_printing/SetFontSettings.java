@@ -19,8 +19,8 @@ public class SetFontSettings {
         Document doc = new Document(dataDir + "Rendering.doc");
 
         FontSettings fontSettings = new FontSettings();
-        fontSettings.setDefaultFontName("Arial");
-        fontSettings.setEnableFontSubstitution(false);
+        fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
+        fontSettings.getSubstitutionSettings().getFontInfoSubstitution().setEnabled(false);
 
         // Set font settings
         doc.setFontSettings(fontSettings);

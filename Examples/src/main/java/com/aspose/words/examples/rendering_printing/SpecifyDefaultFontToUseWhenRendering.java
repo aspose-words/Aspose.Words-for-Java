@@ -9,15 +9,15 @@ public class SpecifyDefaultFontToUseWhenRendering {
 	private static final String dataDir = Utils.getSharedDataDir(SpecifyDefaultFontToUseWhenRendering.class) + "RenderingAndPrinting/";
 	
 	public static void main(String[] args) throws Exception {
-		//ExStart:
+		//ExStart:SpecifyDefaultFontToUseWhenRendering
 		Document doc = new Document(dataDir + "Rendering.doc");
 
 		// If the default font defined here cannot be found during rendering then the closest font on the machine is used instead.
-		FontSettings.getDefaultInstance().setDefaultFontName("Arial Unicode MS");
+		FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial Unicode MS");
 
 		// Now the set default font is used in place of any missing fonts during any rendering calls.
 		doc.save(dataDir + "Rendering.SetDefaultFont Out.pdf");
 		doc.save(dataDir + "Rendering.SetDefaultFont Out.xps");
-		//ExEnd:
+		//ExEnd:SpecifyDefaultFontToUseWhenRendering
 	}
 }

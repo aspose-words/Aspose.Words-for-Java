@@ -15,7 +15,7 @@ public class ReceiveNotificationOfMissingFontsAndFontSubstitution {
 		Document doc = new Document(dataDir + "Rendering.doc");
 		
 		// We can choose the default font to use in the case of any missing fonts.
-		FontSettings.getDefaultInstance().setDefaultFontName("Arial");
+		FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
 
 		// For testing we will set Aspose.Words to look for fonts only in a folder which doesn't exist. Since Aspose.Words won't
 		// find any fonts in the specified directory, then during rendering the fonts in the document will be subsuited with the default

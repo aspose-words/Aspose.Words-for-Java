@@ -14,7 +14,7 @@ public class MultiplePagesOnSheet {
 	private static final String dataDir = Utils.getSharedDataDir(DocumentPreviewAndPrint.class) + "RenderingAndPrinting/";
 
 	public static void main(String[] args) throws Exception {
-		//ExStart:
+		//ExStart: MultiplePagesOnSheet
 		// Open the document.
 		Document doc = new Document(dataDir + "TestFile.doc");
 
@@ -32,7 +32,7 @@ public class MultiplePagesOnSheet {
 		pj.setPrintable(awPrintDoc);
 
 		pj.print();
-		//ExEnd:
+		//ExEnd: MultiplePagesOnSheet
 	}
 
 }
