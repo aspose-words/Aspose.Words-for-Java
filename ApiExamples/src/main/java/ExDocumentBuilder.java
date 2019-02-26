@@ -184,16 +184,13 @@ public class ExDocumentBuilder extends ApiExampleBase
             {
                 FieldIf fieldIf = (FieldIf) field;
 
-                String fieldCode = fieldIf.getFieldCode();
-                Assert.assertEquals(fieldCode, " IF  MERGEFIELD Q223  > 0 \" (and additionally London Weighting of   MERGEFIELD  Q223 \\f £  per hour) \" \"\" ");//ExSkip
-
                 if (containsNestedFields)
                 {
-                    fieldCode = fieldIf.getFieldCode(true);
-                    Assert.assertEquals(fieldCode, " IF  MERGEFIELD Q223  > 0 \" (and additionally London Weighting of   MERGEFIELD  Q223 \\f £  per hour) \" \"\" ");//ExSkip
+                    String fieldCode = fieldIf.getFieldCode(true);
+                    Assert.assertEquals(fieldCode, " IF  MERGEFIELD Q223  > 0 \" (and additionally London Weighting of  \u0013 MERGEFIELD  Q223 \\f £ \u0014\u0015 per hour) \" \"\" ");//ExSkip
                 } else
                 {
-                    fieldCode = fieldIf.getFieldCode(false);
+                    String fieldCode = fieldIf.getFieldCode(false);
                     Assert.assertEquals(fieldCode, " IF  > 0 \" (and additionally London Weighting of   per hour) \" \"\" ");//ExSkip
                 }
             }
@@ -205,7 +202,7 @@ public class ExDocumentBuilder extends ApiExampleBase
     @DataProvider(name = "getFieldCodeDataProvider")
     public static Object[][] getFieldCodeDataProvider()
     {
-        return new Object[][]{{true}, {false},};
+        return new Object[][]{{true}, {false}};
     }
 
     @Test

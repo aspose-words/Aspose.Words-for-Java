@@ -6,7 +6,6 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.Paragraph;
@@ -78,8 +77,7 @@ public class ExParagraph extends ApiExampleBase
         Assert.assertEquals(DocumentHelper.getParagraphText(doc, 1), "\u0013 AUTHOR \u0014Test Author\u0015Hello World!\r");
     }
 
-    @Test
-    @Ignore("Result without leading 0")
+    @Test(enabled = false)
     public void insertFieldAfterTextInParagraph() throws Exception
     {
         LocalDateTime ldt = LocalDateTime.now();
