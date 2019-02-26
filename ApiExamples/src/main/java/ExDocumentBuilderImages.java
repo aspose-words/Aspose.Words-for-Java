@@ -41,7 +41,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
             stream.close();
         }
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromStreamRelativePosition.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromStreamRelativePosition.doc");
         //ExEnd
     }
 
@@ -58,7 +58,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         byte[] imageBytes = DocumentHelper.convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
 
         builder.insertImage(imageBytes);
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromByteArrayDefault.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromByteArrayDefault.doc");
         //ExEnd
     }
 
@@ -75,7 +75,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         byte[] imageBytes = DocumentHelper.convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
 
         builder.insertImage(imageBytes, ConvertUtil.pixelToPoint(450.0), ConvertUtil.pixelToPoint(144.0));
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromByteArrayCustomSize.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromByteArrayCustomSize.doc");
         //ExEnd
     }
 
@@ -92,7 +92,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         byte[] imageBytes = DocumentHelper.convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
 
         builder.insertImage(imageBytes, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN, 100.0, 200.0, 100.0, WrapType.SQUARE);
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromByteArrayRelativePosition.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromByteArrayRelativePosition.doc");
         //ExEnd
     }
 
@@ -114,7 +114,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         {
             rasterImage.flush();
         }
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromImageWithStreamCustomSize.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromImageWithStreamCustomSize.doc");
         //ExEnd
     }
 
@@ -136,7 +136,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
             rasterImage.flush();
         }
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromImageWithStreamRelativePosition.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromImageWithStreamRelativePosition.doc");
         //ExEnd
     }
 
@@ -158,7 +158,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
             stream.close();
         }
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromStreamCustomSize.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromStreamCustomSize.doc");
         //ExEnd
     }
 
@@ -177,7 +177,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         // Local URI
         builder.insertImage(getImageDir() + "Aspose.Words.gif", ConvertUtil.pixelToPoint(400.0), ConvertUtil.pixelToPoint(400.0));
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertImageFromUrlCustomSize.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertImageFromUrlCustomSize.doc");
         //ExEnd
     }
 }

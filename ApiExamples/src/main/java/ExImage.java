@@ -35,14 +35,14 @@ public class ExImage extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         builder.write("Image from local file: ");
-        builder.insertImage(getMyDir() + "\\Images\\Aspose.Words.gif");
+        builder.insertImage(getImageDir() + "Aspose.Words.gif");
         builder.writeln();
 
         builder.write("Image from an Internet url, automatically downloaded for you: ");
         builder.insertImage("http://www.aspose.com/Images/aspose-logo.jpg");
         builder.writeln();
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromUrl.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromUrl.doc");
         //ExEnd
     }
 
@@ -55,7 +55,7 @@ public class ExImage extends ApiExampleBase
         // This creates a builder and also an empty document inside the builder.
         DocumentBuilder builder = new DocumentBuilder();
 
-        InputStream stream = new FileInputStream(getMyDir() + "\\Images\\Aspose.Words.gif");
+        InputStream stream = new FileInputStream(getImageDir() + "Aspose.Words.gif");
         try
         {
             builder.write("Image from stream: ");
@@ -65,7 +65,7 @@ public class ExImage extends ApiExampleBase
             stream.close();
         }
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromStream.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromStream.doc");
         //ExEnd
     }
 
@@ -79,17 +79,17 @@ public class ExImage extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         // Insert a raster image.
-        BufferedImage rasterImage = ImageIO.read(new File(getMyDir() + "\\Images\\Aspose.Words.gif"));
+        BufferedImage rasterImage = ImageIO.read(new File(getImageDir() + "Aspose.Words.gif"));
         builder.write("Raster image: ");
         builder.insertImage(rasterImage);
         builder.writeln();
 
         // Aspose.Words allows to insert a metafile too, but on Java you should specify a filename or a stream, not a BufferedImage.
         builder.write("Metafile: ");
-        builder.insertImage(getMyDir() + "\\Images\\Hammer.wmf");
+        builder.insertImage(getImageDir() + "Hammer.wmf");
         builder.writeln();
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFromImage.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromImage.doc");
         //ExEnd
     }
 
@@ -116,7 +116,7 @@ public class ExImage extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         // By default, the image is inline.
-        Shape shape = builder.insertImage(getMyDir() + "\\Images\\Aspose.Words.gif");
+        Shape shape = builder.insertImage(getImageDir() + "Aspose.Words.gif");
 
         // Make the image float, put it behind text and center on the page.
         shape.setWrapType(WrapType.NONE);
@@ -126,7 +126,7 @@ public class ExImage extends ApiExampleBase
         shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
         shape.setVerticalAlignment(VerticalAlignment.CENTER);
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFloatingPageCenter.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPageCenter.doc");
         //ExEnd
     }
 
@@ -145,7 +145,7 @@ public class ExImage extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         // By default, the image is inline.
-        Shape shape = builder.insertImage(getMyDir() + "\\Images\\Hammer.wmf");
+        Shape shape = builder.insertImage(getImageDir() + "Hammer.wmf");
 
         // Make the image float, put it behind text and center on the page.
         shape.setWrapType(WrapType.NONE);
@@ -160,7 +160,7 @@ public class ExImage extends ApiExampleBase
         shape.setWidth(builder.getCurrentSection().getPageSetup().getPageWidth());
         shape.setHeight(50);
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateFloatingPositionSize.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPositionSize.doc");
         //ExEnd
     }
 
@@ -174,11 +174,11 @@ public class ExImage extends ApiExampleBase
         // This creates a builder and also an empty document inside the builder.
         DocumentBuilder builder = new DocumentBuilder();
 
-        Shape shape = builder.insertImage(getMyDir() + "\\Images\\Hammer.wmf");
+        Shape shape = builder.insertImage(getImageDir() + "Hammer.wmf");
         shape.setHRef("http://www.aspose.com/Community/Forums/75/ShowForum.aspx");
         shape.setScreenTip("Aspose.Words Support Forums");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.InsertImageWithHyperlink.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.InsertImageWithHyperlink.doc");
         //ExEnd
     }
 
@@ -192,13 +192,13 @@ public class ExImage extends ApiExampleBase
         Document doc = new Document();
 
         Shape shape = new Shape(doc, ShapeType.IMAGE);
-        shape.getImageData().setImage(getMyDir() + "\\Images\\Hammer.wmf");
+        shape.getImageData().setImage(getImageDir() + "Hammer.wmf");
         shape.setWidth(100);
         shape.setHeight(100);
 
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(shape);
 
-        doc.save(getMyDir() + "\\Artifacts\\Image.CreateImageDirectly.doc");
+        doc.save(getArtifactsDir() + "Image.CreateImageDirectly.doc");
         //ExEnd
     }
 
@@ -214,7 +214,7 @@ public class ExImage extends ApiExampleBase
         //ExSummary:Shows how to insert a linked image into a document.
         DocumentBuilder builder = new DocumentBuilder();
 
-        String imageFileName = getMyDir() + "\\Images\\Hammer.wmf";
+        String imageFileName = getImageDir() + "Hammer.wmf";
 
         builder.write("Image linked, not stored in the document: ");
 
@@ -244,7 +244,7 @@ public class ExImage extends ApiExampleBase
         builder.insertNode(stored);
         builder.writeln();
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.CreateLinkedImage.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateLinkedImage.doc");
         //ExEnd
     }
 
@@ -277,7 +277,7 @@ public class ExImage extends ApiExampleBase
         //ExEnd
 
         Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 1);
-        doc.save(getMyDir() + "\\Artifacts\\Image.DeleteAllImages.doc");
+        doc.save(getArtifactsDir() + "Image.DeleteAllImages.doc");
     }
 
     @Test
@@ -307,7 +307,7 @@ public class ExImage extends ApiExampleBase
         //ExEnd
 
         Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 1);
-        doc.save(getMyDir() + "\\Artifacts\\Image.DeleteAllImagesPreOrder.doc");
+        doc.save(getArtifactsDir() + "Image.DeleteAllImagesPreOrder.doc");
     }
 
     //ExStart
@@ -354,7 +354,7 @@ public class ExImage extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         // By default, the image is inserted at 100% scale.
-        Shape shape = builder.insertImage(getMyDir() + "\\Images\\Aspose.Words.gif");
+        Shape shape = builder.insertImage(getImageDir() + "Aspose.Words.gif");
 
         // It is easy to change the shape size. In this case, make it 50% relative to the current shape size.
         shape.setWidth(shape.getWidth() * 0.5);
@@ -365,7 +365,7 @@ public class ExImage extends ApiExampleBase
         shape.setWidth(imageSize.getWidthPoints() * 1.1);
         shape.setHeight(imageSize.getHeightPoints() * 1.1);
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Image.ScaleImage.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.ScaleImage.doc");
         //ExEnd
     }
 }

@@ -94,7 +94,7 @@ public class ExStyles extends ApiExampleBase
             }
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.TableOfContentsTabStops.doc");
+        doc.save(getArtifactsDir() + "Document.TableOfContentsTabStops.doc");
         //ExEnd
     }
 

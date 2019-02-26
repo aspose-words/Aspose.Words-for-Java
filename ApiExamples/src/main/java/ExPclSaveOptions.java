@@ -24,7 +24,7 @@ public class ExPclSaveOptions extends ApiExampleBase
         PclSaveOptions saveOptions = new PclSaveOptions();
         saveOptions.setRasterizeTransformedElements(true);
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.EpubConversion.pcl", saveOptions);
+        doc.save(getArtifactsDir() + "Document.EpubConversion.pcl", saveOptions);
         //ExEnd
     }
 
@@ -41,7 +41,7 @@ public class ExPclSaveOptions extends ApiExampleBase
         saveOptions.addPrinterFont("Courier", "Courier");
         saveOptions.setFallbackFontName("Times New Roman");
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.EpubConversion.pcl", saveOptions);
+        doc.save(getArtifactsDir() + "Document.EpubConversion.pcl", saveOptions);
         //ExEnd
     }
 }

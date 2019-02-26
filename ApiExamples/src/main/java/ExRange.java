@@ -43,7 +43,7 @@ public class ExRange extends ApiExampleBase
         doc.getRange().replace("_CustomerName_", "James Bond", options);
 
         // Save the modified document.
-        doc.save(getMyDir() + "\\Artifacts\\Range.ReplaceSimple.docx");
+        doc.save(getArtifactsDir() + "Range.ReplaceSimple.docx");
         //ExEnd
 
         Assert.assertEquals(doc.getText(), "Hello James Bond,\r\f");
@@ -64,7 +64,7 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replace("sad", "bad", options);
 
-        doc.save(getMyDir() + "\\Artifacts\\ReplaceWithString.docx");
+        doc.save(getArtifactsDir() + "ReplaceWithString.docx");
     }
 
     @Test
@@ -81,7 +81,7 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replace(Pattern.compile("[s|m]ad"), "bad", options);
         //ExEnd
-        doc.save(getMyDir() + "\\Artifacts\\ReplaceWithRegex.docx");
+        doc.save(getArtifactsDir() + "ReplaceWithRegex.docx");
     }
 
     @Test
@@ -112,7 +112,7 @@ public class ExRange extends ApiExampleBase
         doc.getRange().replace(Pattern.compile(" <CustomerName>,"), "", options);
 
         // Save the modified document.
-        doc.save(getMyDir() + "\\Artifacts\\Range.ReplaceWithInsertHtml.doc");
+        doc.save(getArtifactsDir() + "Range.ReplaceWithInsertHtml.doc");
 
         Assert.assertEquals(doc.getText(), "James Bond, Hello\r\f"); //ExSkip
     }

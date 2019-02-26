@@ -43,7 +43,7 @@ public class ExImageSaveOptions extends ApiExampleBase
         //Define which page will save
         saveOptions.setPageIndex(0);
 
-        doc.save(getMyDir() + "\\Artifacts\\SaveOptions.MyraidPro Out.gif", saveOptions);
+        doc.save(getArtifactsDir() + "SaveOptions.MyraidPro Out.gif", saveOptions);
         //ExEnd
         }
 
@@ -64,7 +64,7 @@ public class ExImageSaveOptions extends ApiExampleBase
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.JPEG);
         saveOptions.setGraphicsQualityOptions(qualityOptions);
 
-        doc.save(getMyDir() + "\\Artifacts\\SaveOptions.QualityOptions Out.jpeg", saveOptions);
+        doc.save(getArtifactsDir() + "SaveOptions.QualityOptions Out.jpeg", saveOptions);
         //ExEnd
     }
 
@@ -81,7 +81,7 @@ public class ExImageSaveOptions extends ApiExampleBase
         imageSaveOptions.setImageColorMode(ImageColorMode.BLACK_AND_WHITE);
         imageSaveOptions.setPixelFormat(ImagePixelFormat.FORMAT_1_BPP_INDEXED);
         
-        doc.save(getMyDir() + "\\Artifacts\\ImageSaveOptions.BlackAndWhite Out.png", imageSaveOptions);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.BlackAndWhite Out.png", imageSaveOptions);
         //ExEnd
     }
 }

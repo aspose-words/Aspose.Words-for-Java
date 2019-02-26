@@ -75,7 +75,7 @@ public class ExBorder extends ApiExampleBase
 
         builder.getCurrentParagraph().getRuns().get(0).setText("Paragraph with no border");
 
-        doc.save(getMyDir() + "\\Artifacts\\Border.NoBorder.doc");
+        doc.save(getArtifactsDir() + "Border.NoBorder.doc");
         //ExEnd
     }
 }

@@ -141,7 +141,7 @@ public class ExTableColumn extends ApiExampleBase
         column.remove();
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.RemoveColumn.doc");
+        doc.save(getArtifactsDir() + "Table.RemoveColumn.doc");
 
         Assert.assertEquals(table.getChildNodes(NodeType.CELL, true).getCount(), 16);
         Assert.assertEquals(table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT).trim(), "Cell 3 contents");
@@ -169,7 +169,7 @@ public class ExTableColumn extends ApiExampleBase
             cell.getFirstParagraph().appendChild(new Run(doc, "Column Text " + newColumn.indexOf(cell)));
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.InsertColumn.doc");
+        doc.save(getArtifactsDir() + "Table.InsertColumn.doc");
 
         Assert.assertEquals(table.getChildNodes(NodeType.CELL, true).getCount(), 24);
         Assert.assertEquals(table.getFirstRow().getCells().get(1).toString(SaveFormat.TEXT).trim(), "Column Text 0");

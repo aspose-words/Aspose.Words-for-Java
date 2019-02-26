@@ -47,7 +47,7 @@ public class ExRenameMergeFields extends ApiExampleBase
             }
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\RenameMergeFields.doc");
+        doc.save(getArtifactsDir() + "RenameMergeFields.doc");
     }
 }
 

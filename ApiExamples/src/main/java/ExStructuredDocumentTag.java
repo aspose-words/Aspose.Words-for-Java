@@ -92,9 +92,9 @@ public class ExStructuredDocumentTag extends ApiExampleBase
 
         doc.getFirstSection().getBody().appendChild(sdt);
 
-        doc.save(getMyDir() + "\\Artifacts\\SDT.CustomXml.docx");
+        doc.save(getArtifactsDir() + "SDT.CustomXml.docx");
         //ExEnd
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Artifacts\\SDT.CustomXml.docx", getMyDir() + "\\Golds\\SDT.CustomXml Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "SDT.CustomXml.docx", getGoldsDir() + "SDT.CustomXml Gold.docx"));
     }
 
     @Test

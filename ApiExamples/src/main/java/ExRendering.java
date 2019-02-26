@@ -37,7 +37,7 @@ public class ExRendering extends ApiExampleBase
         //ExSummary:Converts a whole document to PDF using default options.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SaveToPdfDefault.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SaveToPdfDefault.pdf");
         //ExEnd
     }
 
@@ -56,7 +56,7 @@ public class ExRendering extends ApiExampleBase
         options.getOutlineOptions().setHeadingsOutlineLevels(3);
         options.getOutlineOptions().setExpandedOutlineLevels(1);
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SaveToPdfWithOutline.pdf", options);
+        doc.save(getArtifactsDir() + "Rendering.SaveToPdfWithOutline.pdf", options);
         //ExEnd
     }
 
@@ -70,7 +70,7 @@ public class ExRendering extends ApiExampleBase
         //ExSummary:Converts just one page (third page in this example) of the document to PDF.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
-        OutputStream stream = new FileOutputStream(getMyDir() + "\\Artifacts\\Rendering.SaveToPdfStreamOnePage.pdf");
+        OutputStream stream = new FileOutputStream(getArtifactsDir() + "Rendering.SaveToPdfStreamOnePage.pdf");
         try
         {
             PdfSaveOptions options = new PdfSaveOptions();
@@ -97,7 +97,7 @@ public class ExRendering extends ApiExampleBase
         PdfSaveOptions options = new PdfSaveOptions();
         options.setTextCompression(PdfTextCompression.NONE);
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SaveToPdfNoCompression.pdf", options);
+        doc.save(getArtifactsDir() + "Rendering.SaveToPdfNoCompression.pdf", options);
         //ExEnd
     }
 
@@ -115,7 +115,7 @@ public class ExRendering extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
         // Option 1: Save document to file in the PDF format with default options
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.PdfDefaultOptions.pdf");
+        doc.save(getArtifactsDir() + "Rendering.PdfDefaultOptions.pdf");
 
         // Option 2: Save the document to stream in the PDF format with default options
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -127,7 +127,7 @@ public class ExRendering extends ApiExampleBase
         pdfOptions.setPageIndex(0);
         pdfOptions.setPageCount(1);
         pdfOptions.setPreserveFormFields(true);
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.PdfCustomOptions.pdf", pdfOptions);
+        doc.save(getArtifactsDir() + "Rendering.PdfCustomOptions.pdf", pdfOptions);
         //ExEnd
     }
 
@@ -145,7 +145,7 @@ public class ExRendering extends ApiExampleBase
         // Open the document
         Document doc = new Document(getMyDir() + "Rendering.doc");
         // Save document to file in the Xps format with default options
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.XpsDefaultOptions.xps");
+        doc.save(getArtifactsDir() + "Rendering.XpsDefaultOptions.xps");
 
         // Save document to stream in the Xps format with default options
         ByteArrayOutputStream docStream = new ByteArrayOutputStream();
@@ -156,7 +156,7 @@ public class ExRendering extends ApiExampleBase
         XpsSaveOptions xpsOptions = new XpsSaveOptions();
         xpsOptions.setPageIndex(0);
         xpsOptions.setPageCount(1);
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.XpsCustomOptions.xps", xpsOptions);
+        doc.save(getArtifactsDir() + "Rendering.XpsCustomOptions.xps", xpsOptions);
         //ExEnd
     }
 
@@ -173,7 +173,7 @@ public class ExRendering extends ApiExampleBase
         // Open the document
         Document doc = new Document(getMyDir() + "Rendering.doc");
         // Save as a Jpeg image file with default options
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.JpegDefaultOptions.jpg");
+        doc.save(getArtifactsDir() + "Rendering.JpegDefaultOptions.jpg");
 
         // Save document to an ByteArrayOutputStream as a Jpeg with default options
         ByteArrayOutputStream docStream = new ByteArrayOutputStream();
@@ -187,7 +187,7 @@ public class ExRendering extends ApiExampleBase
         imageOptions.setPageIndex(2);
         imageOptions.setPageCount(1);
         imageOptions.setJpegQuality(80);
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.JpegCustomOptions.jpg", imageOptions);
+        doc.save(getArtifactsDir() + "Rendering.JpegCustomOptions.jpg", imageOptions);
         //ExEnd
     }
 
@@ -204,7 +204,7 @@ public class ExRendering extends ApiExampleBase
         options.setResolution(300);
         options.setPageCount(1);
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SaveToImageResolution.png", options);
+        doc.save(getArtifactsDir() + "Rendering.SaveToImageResolution.png", options);
         //ExEnd
     }
 
@@ -222,7 +222,7 @@ public class ExRendering extends ApiExampleBase
         for (int i = 0; i < doc.getPageCount(); i++)
         {
             options.setPageIndex(i);
-            doc.save(getMyDir() + "\\Artifacts\\Rendering.SaveToEmf." + Integer.toString(i) + ".emf", options);
+            doc.save(getArtifactsDir() + "Rendering.SaveToEmf." + Integer.toString(i) + ".emf", options);
         }
         //ExEnd
     }
@@ -240,11 +240,11 @@ public class ExRendering extends ApiExampleBase
 
         // Try worst quality.
         options.setJpegQuality(0);
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SaveToImageJpegQuality0.jpeg", options);
+        doc.save(getArtifactsDir() + "Rendering.SaveToImageJpegQuality0.jpeg", options);
 
         // Try best quality.
         options.setJpegQuality(100);
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SaveToImageJpegQuality100.jpeg", options);
+        doc.save(getArtifactsDir() + "Rendering.SaveToImageJpegQuality100.jpeg", options);
         //ExEnd
     }
 
@@ -260,10 +260,10 @@ public class ExRendering extends ApiExampleBase
         ImageSaveOptions imgOptions = new ImageSaveOptions(SaveFormat.PNG);
 
         imgOptions.setPaperColor(new Color(0, 0, 0, 0));
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SaveToImagePaperColorTransparent.png", imgOptions);
+        doc.save(getArtifactsDir() + "Rendering.SaveToImagePaperColorTransparent.png", imgOptions);
 
         imgOptions.setPaperColor(new Color(0x80, 0x80, 0x70));
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SaveToImagePaperColorCoral.png", imgOptions);
+        doc.save(getArtifactsDir() + "Rendering.SaveToImagePaperColorCoral.png", imgOptions);
         //ExEnd
     }
 
@@ -298,7 +298,7 @@ public class ExRendering extends ApiExampleBase
 
         // Saving a document to PDF or to image or printing for the first time will automatically
         // layout document pages and this information will be cached inside the document.
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.UpdatePageLayout1.pdf");
+        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout1.pdf");
 
         // Modify the document in any way.
         doc.getStyles().get("Normal").getFont().setSize(6);
@@ -309,7 +309,7 @@ public class ExRendering extends ApiExampleBase
         // you need to manually request page layout to be updated.
         doc.updatePageLayout();
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.UpdatePageLayout2.pdf");
+        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout2.pdf");
         //ExEnd
     }
 
@@ -325,7 +325,7 @@ public class ExRendering extends ApiExampleBase
         // This updates all fields in the document.
         doc.updateFields();
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.UpdateFields.pdf");
+        doc.save(getArtifactsDir() + "Rendering.UpdateFields.pdf");
         //ExEnd
     }
 
@@ -448,7 +448,7 @@ public class ExRendering extends ApiExampleBase
             if (gr != null) gr.dispose();
         }
 
-        ImageIO.write(img, "PNG", new File(getMyDir() + "\\Artifacts\\Rendering.RenderToScale.png"));
+        ImageIO.write(img, "PNG", new File(getArtifactsDir() + "Rendering.RenderToScale.png"));
         //ExEnd
     }
 
@@ -484,7 +484,7 @@ public class ExRendering extends ApiExampleBase
             // This is the calculated scale factor to fit 297mm into 3".
             System.out.println(MessageFormat.format("The image was rendered at {0,number,#}% zoom.", returnedScale * 100));
 
-            ImageIO.write(img, "PNG", new File(getMyDir() + "\\Artifacts\\Rendering.RenderToSize.png"));
+            ImageIO.write(img, "PNG", new File(getArtifactsDir() + "Rendering.RenderToSize.png"));
         } finally
         {
             if (gr != null) gr.dispose();
@@ -553,7 +553,7 @@ public class ExRendering extends ApiExampleBase
                 gr.drawRect((int) thumbLeft, (int) thumbTop, (int) size.getX(), (int) size.getY());
             }
 
-            ImageIO.write(img, "PNG", new File(getMyDir() + "\\Artifacts\\Rendering.Thumbnails.png"));
+            ImageIO.write(img, "PNG", new File(getArtifactsDir() + "Rendering.Thumbnails.png"));
         } finally
         {
             if (gr != null) gr.dispose();
@@ -718,7 +718,7 @@ public class ExRendering extends ApiExampleBase
         // FontSettings.SetFontSources instead.
         FontSettings.getDefaultInstance().setFontsFolder("C:\\MyFonts\\", false);
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SetFontsFolder.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SetFontsFolder.pdf");
         //ExEnd
 
         // Restore the original sources used to search for fonts.
@@ -743,7 +743,7 @@ public class ExRendering extends ApiExampleBase
         // FontSettings.SetFontSources instead.
         FontSettings.getDefaultInstance().setFontsFolders(new String[] { "C:\\MyFonts\\", "D:\\Misc\\Fonts\\" }, true);
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SetFontsFolders.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SetFontsFolders.pdf");
         //ExEnd
 
         // Restore the original sources used to search for fonts.
@@ -780,7 +780,7 @@ public class ExRendering extends ApiExampleBase
         // Apply the new set of font sources to use.
         FontSettings.getDefaultInstance().setFontsSources(updatedFontSources);
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SetFontsFolders.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SetFontsFolders.pdf");
         //ExEnd
 
         // Verify that font sources are set correctly.
@@ -892,8 +892,8 @@ public class ExRendering extends ApiExampleBase
         FontSettings.getDefaultInstance().setDefaultFontName("Arial Unicode MS");
 
         // Now the set default font is used in place of any missing fonts during any rendering calls.
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SetDefaultFont.pdf");
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SetDefaultFont.xps");
+        doc.save(getArtifactsDir() + "Rendering.SetDefaultFont.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SetDefaultFont.xps");
         //ExEnd
     }
 
@@ -926,7 +926,7 @@ public class ExRendering extends ApiExampleBase
         doc.updatePageLayout();
 
         // Even though the document was rendered previously, any save warnings are notified to the user during document save.
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.FontsNotificationUpdatePageLayout.pdf");
+        doc.save(getArtifactsDir() + "Rendering.FontsNotificationUpdatePageLayout.pdf");
         //ExEnd
 
         Assert.assertTrue(callback.mFontWarnings.getCount() > 0);
@@ -954,7 +954,7 @@ public class ExRendering extends ApiExampleBase
         options.setEmbedFullFonts(true);
 
         // The output PDF will be embedded with all fonts found in the document.
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.EmbedFullFonts.pdf");
+        doc.save(getArtifactsDir() + "Rendering.EmbedFullFonts.pdf");
         //ExEnd
     }
 
@@ -974,7 +974,7 @@ public class ExRendering extends ApiExampleBase
 
         // The output PDF will contain subsets of the fonts in the document. Only the glyphs used
         // in the document are included in the PDF fonts.
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SubsetFonts.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SubsetFonts.pdf");
         //ExEnd
     }
 
@@ -992,7 +992,7 @@ public class ExRendering extends ApiExampleBase
         options.setFontEmbeddingMode(PdfFontEmbeddingMode.EMBED_NONE);
 
         // The output PDF will be saved without embedding standard windows fonts.
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.DisableEmbedWindowsFonts.pdf");
+        doc.save(getArtifactsDir() + "Rendering.DisableEmbedWindowsFonts.pdf");
         //ExEnd
     }
 
@@ -1011,7 +1011,7 @@ public class ExRendering extends ApiExampleBase
         options.setUseCoreFonts(true);
 
         // The output PDF will not be embedded with core fonts such as Arial, Times New Roman etc.
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.DisableEmbedWindowsFonts.pdf");
+        doc.save(getArtifactsDir() + "Rendering.DisableEmbedWindowsFonts.pdf");
         //ExEnd
     }
 
@@ -1041,7 +1041,7 @@ public class ExRendering extends ApiExampleBase
         saveOptions.setEncryptionDetails(encryptionDetails);
 
         // Render the document to PDF format with the specified permissions.
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.SpecifyPermissions.pdf", saveOptions);
+        doc.save(getArtifactsDir() + "Rendering.SpecifyPermissions.pdf", saveOptions);
         //ExEnd
     }
 
@@ -1056,7 +1056,7 @@ public class ExRendering extends ApiExampleBase
         options.setNumeralFormat(NumeralFormat.CONTEXT);
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.NumeralFormat.pdf", options);
+        doc.save(getArtifactsDir() + "Rendering.NumeralFormat.pdf", options);
     }
 }
 

@@ -17,6 +17,7 @@ import com.aspose.words.IResourceSavingCallback;
 import com.aspose.words.ResourceSavingArgs;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.nio.charset.Charset;
 
 public class ExHtmlFixedSaveOptions extends ApiExampleBase
@@ -36,7 +37,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setEncoding(Charset.forName("US-ASCII"));
 
-        doc.save(getMyDir() + "\\Artifacts\\UseEncoding.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "UseEncoding.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
@@ -60,7 +61,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
         htmlFixedSaveOptions.setExportEmbeddedImages(true);
         htmlFixedSaveOptions.setExportEmbeddedSvg(true);
 
-        doc.save(getMyDir() + "\\Artifacts\\ExportEmbeddedObjects.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "ExportEmbeddedObjects.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
@@ -74,7 +75,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setEncoding(Charset.forName("UTF-32"));
 
-        doc.save(getMyDir() + "\\Artifacts\\EncodingUsingNewEncoding.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "EncodingUsingNewEncoding.html", htmlFixedSaveOptions);
     }
 
     //Note: Test doesn't contain validation result, because it's may take a lot of time for assert result
@@ -87,7 +88,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setEncoding(Charset.forName("UTF-16"));
 
-        doc.save(getMyDir() + "\\Artifacts\\EncodingUsingGetEncoding.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "EncodingUsingGetEncoding.html", htmlFixedSaveOptions);
     }
 
     @Test
@@ -104,7 +105,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setExportFormFields(true);
         
-        doc.save(getMyDir() + "\\Artifacts\\ExportFormFiels.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "ExportFormFiels.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
@@ -119,10 +120,10 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setCssClassNamesPrefix("test");
 
-        doc.save(getMyDir() + "\\Artifacts\\cssPrefix_Out.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "cssPrefix_Out.html", htmlFixedSaveOptions);
         //ExEnd
 
-        DocumentHelper.findTextInFile(getMyDir() + "\\Artifacts\\cssPrefix_Out\\styles.css", "test");
+        DocumentHelper.findTextInFile(getArtifactsDir() + "cssPrefix_Out" + File.separator +"styles.css", "test");
     }
 
     @Test
@@ -137,7 +138,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setPageHorizontalAlignment(HtmlFixedPageHorizontalAlignment.LEFT);
 
-        doc.save(getMyDir() + "\\Artifacts\\HtmlFixedPageHorizontalAlignment.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedPageHorizontalAlignment.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
@@ -155,7 +156,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\HtmlFixedPageMargins.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedPageMargins.html", saveOptions);
         }
 
     @Test
@@ -169,7 +170,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
         saveOptions.setPageMargins(10.0);
 
-        doc.save(getMyDir() + "\\Artifacts\\HtmlFixedPageMargins.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedPageMargins.html", saveOptions);
         //ExEnd
     }
 
@@ -187,7 +188,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase
         saveOptions.setExportEmbeddedFonts(false);
         saveOptions.setResourceSavingCallback(new ResourceSavingCallback());
 
-        doc.save(getMyDir() + "\\Artifacts\\UseMachineFonts Out.html", saveOptions);
+        doc.save(getArtifactsDir() + "UseMachineFonts Out.html", saveOptions);
     }
 
     private static class ResourceSavingCallback implements IResourceSavingCallback

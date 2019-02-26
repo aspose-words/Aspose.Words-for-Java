@@ -33,7 +33,7 @@ public class ExTabStopCollection extends ApiExampleBase
             para.getParagraphFormat().getTabStops().clear();
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.AllTabStopsRemoved.doc");
+        doc.save(getArtifactsDir() + "Document.AllTabStopsRemoved.doc");
         //ExEnd
     }
 
@@ -60,7 +60,7 @@ public class ExTabStopCollection extends ApiExampleBase
             para.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(50.0), TabAlignment.LEFT, TabLeader.DASHES);
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.AddedTabStops.doc");
+        doc.save(getArtifactsDir() + "Document.AddedTabStops.doc");
         //ExEnd
     }
 
@@ -81,7 +81,7 @@ public class ExTabStopCollection extends ApiExampleBase
 
         System.out.println(paragraph.getParagraphFormat().getTabStops().getCount());
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.RemovedTabStopsByIndex.doc");
+        doc.save(getArtifactsDir() + "Document.RemovedTabStopsByIndex.doc");
         //ExEnd
     }
 

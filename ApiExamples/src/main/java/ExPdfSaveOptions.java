@@ -61,7 +61,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         pdfSaveOptions.getOutlineOptions().setCreateMissingOutlineLevels(true);
         pdfSaveOptions.setSaveFormat(SaveFormat.PDF);
 
-        doc.save(getMyDir() + "\\Artifacts\\CreateMissingOutlineLevels.pdf", pdfSaveOptions);
+        doc.save(getArtifactsDir() + "CreateMissingOutlineLevels.pdf", pdfSaveOptions);
         //ExEnd
     }
 
@@ -79,7 +79,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
         pdfSaveOptions.setDmlRenderingMode(DmlRenderingMode.DRAWING_ML);
 
-        doc.save(getMyDir() + "\\Artifacts\\DrawingMl.pdf", pdfSaveOptions);
+        doc.save(getArtifactsDir() + "DrawingMl.pdf", pdfSaveOptions);
         //ExEnd
     }
 
@@ -94,7 +94,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
         pdfSaveOptions.setUpdateFields(false);
 
-        doc.save(getMyDir() + "\\Artifacts\\UpdateFields_False.pdf", pdfSaveOptions);
+        doc.save(getArtifactsDir() + "UpdateFields_False.pdf", pdfSaveOptions);
         //ExEnd
     }
 
@@ -106,7 +106,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
         pdfSaveOptions.setUpdateFields(true);
 
-        doc.save(getMyDir() + "\\Artifacts\\UpdateFields_False.pdf", pdfSaveOptions);
+        doc.save(getArtifactsDir() + "UpdateFields_False.pdf", pdfSaveOptions);
     }
 
     //ToDo: Add gold asserts for PDF files
@@ -129,14 +129,14 @@ public class ExPdfSaveOptions extends ApiExampleBase
         options.setImageCompression(PdfImageCompression.JPEG);
         options.setPreserveFormFields(true);
 
-        doc.save(getMyDir() + "\\Artifacts\\SaveOptions.PdfImageCompression Out.pdf", options);
+        doc.save(getArtifactsDir() + "SaveOptions.PdfImageCompression Out.pdf", options);
 
         PdfSaveOptions optionsA1B = new PdfSaveOptions();
         optionsA1B.setCompliance(PdfCompliance.PDF_A_1_B);
         optionsA1B.setImageCompression(PdfImageCompression.JPEG);
         optionsA1B.setJpegQuality(100); // Use JPEG compression at 50% quality to reduce file size.
 
-        doc.save(getMyDir() + "\\Artifacts\\SaveOptions.PdfImageComppression PDF_A_1_B Out.pdf", optionsA1B);
+        doc.save(getArtifactsDir() + "SaveOptions.PdfImageComppression PDF_A_1_B Out.pdf", optionsA1B);
         //ExEnd
 
         PdfSaveOptions optionsA1A = new PdfSaveOptions();
@@ -144,7 +144,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         optionsA1A.setExportDocumentStructure(true);
         optionsA1A.setImageCompression(PdfImageCompression.JPEG);
 
-        doc.save(getMyDir() + "\\Artifacts\\SaveOptions.PdfImageComppression PDF_A_1_A Out.pdf", optionsA1A);
+        doc.save(getArtifactsDir() + "SaveOptions.PdfImageComppression PDF_A_1_A Out.pdf", optionsA1A);
     }
 
     @Test
@@ -161,7 +161,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         pdfSaveOptions.setColorMode(ColorMode.GRAYSCALE);
 
         // Assert that color image in document was grey
-        doc.save(getMyDir() + "\\Artifacts\\ColorMode.PdfGrayscaleMode.pdf", pdfSaveOptions);
+        doc.save(getArtifactsDir() + "ColorMode.PdfGrayscaleMode.pdf", pdfSaveOptions);
         //ExEnd
     }
 
@@ -177,7 +177,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
         pdfSaveOptions.setDisplayDocTitle(true);
 
-        doc.save(getMyDir() + "\\Artifacts\\PdfTitle.pdf", pdfSaveOptions);
+        doc.save(getArtifactsDir() + "PdfTitle.pdf", pdfSaveOptions);
         //ExEnd
     }
 
@@ -194,7 +194,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         SaveOptions saveOptions = SaveOptions.createSaveOptions(SaveFormat.PDF);
         saveOptions.setMemoryOptimization(true);
 
-        doc.save(getMyDir() + "\\Artifacts\\SaveOptions.MemoryOptimization Out.pdf", saveOptions);
+        doc.save(getArtifactsDir() + "SaveOptions.MemoryOptimization Out.pdf", saveOptions);
         //ExEnd
     }
 

@@ -194,7 +194,7 @@ public class ExField extends ApiExampleBase
         Locale.setDefault(currentCulture);
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\Field.ChangeLocale.doc");
+        doc.save(getArtifactsDir() + "Field.ChangeLocale.doc");
     }
 
     @Test
@@ -217,7 +217,7 @@ public class ExField extends ApiExampleBase
         tocField.remove();
 
         // Save the output.
-        doc.save(getMyDir() + "\\Artifacts\\Document.TableOfContentsRemoveTOC.doc");
+        doc.save(getArtifactsDir() + "Document.TableOfContentsRemoveTOC.doc");
     }
     //ExEnd
 
@@ -382,13 +382,13 @@ public class ExField extends ApiExampleBase
             {
                 FieldIncludePicture includePicture = (FieldIncludePicture) field;
 
-                includePicture.setSourceFullName(getMyDir() + "\\Images\\dotnet-logo.png");
+                includePicture.setSourceFullName(getImageDir() + "dotnet-logo.png");
                 includePicture.update(true);
             }
         }
 
         doc.updateFields();
-        doc.save(getMyDir() + "\\Artifacts\\Field.UpdateFieldIgnoringMergeFormat.docx");
+        doc.save(getArtifactsDir() + "Field.UpdateFieldIgnoringMergeFormat.docx");
         //ExEnd
     }
 
@@ -519,7 +519,7 @@ public class ExField extends ApiExampleBase
             }
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Field.UpdateTocPages.docx");
+        doc.save(getArtifactsDir() + "Field.UpdateTocPages.docx");
     }
 
     private void removeSequence(Node start, Node end)

@@ -70,7 +70,7 @@ public class ExUtilityClasses extends ApiExampleBase
         pageSetup.setFooterDistance(ConvertUtil.millimeterToPoint(5.0));
 
         builder.writeln("Hello world.");
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\PageSetup.PageMargins.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.PageMargins.doc");
         //ExEnd
     }
 
@@ -109,7 +109,7 @@ public class ExUtilityClasses extends ApiExampleBase
         pageSetupNoDpi.setFooterDistance(ConvertUtil.pixelToPoint(20.0));
 
         builder.writeln("Hello world.");
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\PageSetup.PageMargins.DefaultResolution.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.PageMargins.DefaultResolution.doc");
 
         double myDpi = 150.0;
 
@@ -121,7 +121,7 @@ public class ExUtilityClasses extends ApiExampleBase
         pageSetupWithDpi.setHeaderDistance(ConvertUtil.pixelToPoint(20.0, myDpi));
         pageSetupWithDpi.setFooterDistance(ConvertUtil.pixelToPoint(20.0, myDpi));
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\PageSetup.PageMargins.CustomResolution.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.PageMargins.CustomResolution.doc");
         //ExEnd
     }
 

@@ -37,7 +37,7 @@ public class ExBorderCollection extends ApiExampleBase
             b.setLineStyle(LineStyle.DOUBLE);
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Border.ChangedColourBorder.doc");
+        doc.save(getArtifactsDir() + "Border.ChangedColourBorder.doc");
         //ExEnd
         }
 

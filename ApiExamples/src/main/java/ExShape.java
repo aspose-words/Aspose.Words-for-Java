@@ -42,7 +42,7 @@ public class ExShape extends ApiExampleBase
 
         Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 0);
         Assert.assertEquals(doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount(), 0);
-        doc.save(getMyDir() + "\\Artifacts\\Shape.DeleteAllShapes.doc");
+        doc.save(getArtifactsDir() + "Shape.DeleteAllShapes.doc");
     }
 
     @Test
@@ -93,7 +93,7 @@ public class ExShape extends ApiExampleBase
         lineB.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineB);
 
-        doc.save(getMyDir() + "\\Artifacts\\Shape.LineFlipOrientation.doc");
+        doc.save(getArtifactsDir() + "Shape.LineFlipOrientation.doc");
         //ExEnd
     }
 
@@ -123,7 +123,7 @@ public class ExShape extends ApiExampleBase
         shape.setTop(-100);
         builder.insertNode(shape);
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Shape.Fill.doc");
+        builder.getDocument().save(getArtifactsDir() + "Shape.Fill.doc");
         //ExEnd
     }
 
@@ -203,7 +203,7 @@ public class ExShape extends ApiExampleBase
             }
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Shape.ReplaceTextboxesWithImages.doc");
+        doc.save(getArtifactsDir() + "Shape.ReplaceTextboxesWithImages.doc");
         //ExEnd
     }
 
@@ -251,7 +251,7 @@ public class ExShape extends ApiExampleBase
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(textBox);
 
         // Save the output
-        doc.save(getMyDir() + "\\Artifacts\\Shape.CreateTextBox.doc");
+        doc.save(getArtifactsDir() + "Shape.CreateTextBox.doc");
         //ExEnd
     }
 
@@ -363,7 +363,7 @@ public class ExShape extends ApiExampleBase
 
         //Get OfficeMath node from the document and render this as image (you can also do the same with the Shape node)
         OfficeMath math = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
-        math.getMathRenderer().save(getMyDir() + "\\Artifacts\\Shape.OfficeMath.svg", new ImageSaveOptions(SaveFormat.SVG));
+        math.getMathRenderer().save(getArtifactsDir() + "Shape.OfficeMath.svg", new ImageSaveOptions(SaveFormat.SVG));
         //ExEnd
     }
 
@@ -409,7 +409,7 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getMyDir() + "Artifacts\\Shape.OfficeMath.docx");
         //ExEnd
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "Artifacts\\Shape.OfficeMath.docx", getMyDir() + "\\Golds\\Shape.OfficeMath Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "Artifacts\\Shape.OfficeMath.docx", getGoldsDir() + "Shape.OfficeMath Gold.docx"));
     }
 
     @Test
@@ -645,7 +645,7 @@ public class ExShape extends ApiExampleBase
 
         builder.insertOleObject("http://www.aspose.com", "htmlfile", true, false, null);
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.InsertedOleObject.docx");
+        doc.save(getArtifactsDir() + "Document.InsertedOleObject.docx");
     }
 
     @Test(description = "WORDSNET-16085")
@@ -671,14 +671,14 @@ public class ExShape extends ApiExampleBase
             setOlePackage.setFileName("Cat FileName.zip");
             setOlePackage.setDisplayName("Cat DisplayName.zip");
 
-            doc.save(getMyDir() + "\\Artifacts\\Shape.InsertOlePackage.docx");
+            doc.save(getArtifactsDir() + "Shape.InsertOlePackage.docx");
         } finally
         {
             if (stream != null) stream.close();
         }
         //ExEnd
 
-        doc = new Document(getMyDir() + "\\Artifacts\\Shape.InsertOlePackage.docx");
+        doc = new Document(getArtifactsDir() + "Shape.InsertOlePackage.docx");
 
         Shape getShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         OlePackage getOlePackage = getShape.getOleFormat().getOlePackage();
@@ -740,9 +740,9 @@ public class ExShape extends ApiExampleBase
         // in this case NumberFormat will be reset to general and inherited from a source cell.
         chartDataLabel2.getNumberFormat().isLinkedToSource(true);
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.NumberFormat.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilder.NumberFormat.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Artifacts\\DocumentBuilder.NumberFormat.docx", getMyDir() + "\\Golds\\DocumentBuilder.NumberFormat Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "DocumentBuilder.NumberFormat.docx", getGoldsDir() + "DocumentBuilder.NumberFormat Gold.docx"));
     }
 
     @Test
@@ -803,6 +803,6 @@ public class ExShape extends ApiExampleBase
         seriesColl.add("AW Series 3", categories, new double[]{Double.NaN, 4.0, 5.0, Double.NaN, 7.0, 8.0});
         seriesColl.add("AW Series 4", categories, new double[]{Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 9.0});
 
-        doc.save(getMyDir() + "\\Artifacts\\EmptyValuesInChartData.docx");
+        doc.save(getArtifactsDir() + "EmptyValuesInChartData.docx");
     }
 }

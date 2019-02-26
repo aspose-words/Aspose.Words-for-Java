@@ -68,13 +68,13 @@ public class ExSavingCallback extends ApiExampleBase
         }
         htmlFixedSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "Rendering.html", htmlFixedSaveOptions);
 
-        String[] filePaths = GetFiles(getMyDir() + "\\Artifacts\\", "Page_*.html");
+        String[] filePaths = GetFiles(getArtifactsDir() + "", "Page_*.html");
 
         for (int i = 0; i < doc.getPageCount(); i++)
         {
-            String file = MessageFormat.format(getMyDir() + "\\Artifacts\\Page_{0}.html", i);
+            String file = MessageFormat.format(getArtifactsDir() + "Page_{0}.html", i);
             Assert.assertEquals(file, filePaths[i]);//ExSkip
         }
     }
@@ -105,7 +105,7 @@ public class ExSavingCallback extends ApiExampleBase
         public void pageSaving(PageSavingArgs args) throws Exception
         {
             // Specify name of the output file for the current page.
-            args.setPageFileName(MessageFormat.format(getMyDir() + "\\Artifacts\\Page_{0}.html", args.getPageIndex()));
+            args.setPageFileName(MessageFormat.format(getArtifactsDir() + "Page_{0}.html", args.getPageIndex()));
         }
     }
     //ExEnd

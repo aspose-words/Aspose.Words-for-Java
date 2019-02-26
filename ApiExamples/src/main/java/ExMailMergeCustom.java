@@ -47,7 +47,7 @@ public class ExMailMergeCustom extends ApiExampleBase
         // Now you can pass your data source into Aspose.Words.
         doc.getMailMerge().execute(customersDataSource);
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.CustomDataSource.doc");
+        doc.save(getArtifactsDir() + "MailMerge.CustomDataSource.doc");
     }
 
     /**

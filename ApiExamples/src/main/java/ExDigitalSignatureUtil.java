@@ -33,13 +33,13 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         //ExSummary:Shows how to remove every signature from a document.
         // By string:
         Document doc = new Document(getMyDir() + "Document.DigitalSignature.docx");
-        String outFileName = getMyDir() + "\\Artifacts\\Document.NoSignatures.FromString.docx";
+        String outFileName = getArtifactsDir() + "Document.NoSignatures.FromString.docx";
 
         DigitalSignatureUtil.removeAllSignatures(doc.getOriginalFileName(), outFileName);
 
         // By stream:
         FileInputStream streamIn = new FileInputStream(getMyDir() + "Document.DigitalSignature.docx");
-        FileOutputStream streamOut = new FileOutputStream(getMyDir() + "\\Artifacts\\Document.NoSignatures.FromInputStream.doc");
+        FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "Document.NoSignatures.FromInputStream.doc");
 
         DigitalSignatureUtil.removeAllSignatures(streamIn, streamOut);
         //ExEnd
@@ -80,7 +80,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
 
         // By string:
         Document doc = new Document(getMyDir() + "Document.DigitalSignature.docx");
-        String outputFileName = getMyDir() + "\\Artifacts\\Document.DigitalSignature.docx";
+        String outputFileName = getArtifactsDir() + "Document.DigitalSignature.docx";
 
         SignOptions signOptions = new SignOptions();
         signOptions.setComments("My comment");
@@ -90,7 +90,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
 
         // By stream:
         InputStream streamIn = new FileInputStream(getMyDir() + "Document.DigitalSignature.docx");
-        OutputStream streamOut = new FileOutputStream(getMyDir() + "\\Artifacts\\Document.DigitalSignature.docx");
+        OutputStream streamOut = new FileOutputStream(getArtifactsDir() + "Document.DigitalSignature.docx");
 
         DigitalSignatureUtil.sign(streamIn, streamOut, certificateHolder, signOptions);
         //ExEnd
@@ -105,7 +105,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         CertificateHolder ch = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
         Document doc = new Document(getMyDir() + "TestRepeatingSection.docx");
-        String outputFileName = getMyDir() + "\\Artifacts\\TestRepeatingSection.Signed.doc";
+        String outputFileName = getArtifactsDir() + "TestRepeatingSection.Signed.doc";
 
         SignOptions signOptions = new SignOptions();
         signOptions.setComments("Comment");
@@ -120,7 +120,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
         
         Document doc = new Document(getMyDir() + "Document.Encrypted.docx", new LoadOptions("docPassword"));
-        String outputFileName = getMyDir() + "\\Artifacts\\Document.Encrypted.docx";
+        String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
 
         SignOptions signOptions = new SignOptions();
         signOptions.setComments("Comment");
@@ -145,7 +145,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
         //ExFor:SignOptions.DecryptionPassword
         //ExSummary:Shows how to sign encrypted document opened from a file.
-        String outputFileName = getMyDir() + "\\Artifacts\\Document.Encrypted.docx";
+        String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
 
         Document doc = new Document(getMyDir() + "Document.Encrypted.docx", new LoadOptions("docPassword"));
         
@@ -179,7 +179,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         //ExFor:DigitalSignatureUtil.Sign(Stream, Stream, CertificateHolder, SignOptions)
         //ExSummary:Shows how to sign encrypted document opened from a stream.
         FileInputStream streamIn = new FileInputStream(getMyDir() + "Document.Encrypted.docx");
-        FileOutputStream streamOut = new FileOutputStream(getMyDir() + "\\Artifacts\\Document.Encrypted.docx");
+        FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "Document.Encrypted.docx");
 
         // Create certificate holder from a file.
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
@@ -194,7 +194,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         //ExEnd
 
         // Open encrypted document from a file.
-        InputStream streamOutIn = new FileInputStream(getMyDir() + "\\Artifacts\\Document.Encrypted.docx");
+        InputStream streamOutIn = new FileInputStream(getArtifactsDir() + "Document.Encrypted.docx");
         Document signedDoc = new Document(streamOutIn, new LoadOptions("docPassword"));
 
         // Check that encrypted document was successfully signed.
@@ -229,7 +229,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
     public void noCertificateForSign() throws Exception
     {
         Document doc = new Document(getMyDir() + "Document.DigitalSignature.docx");
-        String outputFileName = getMyDir() + "\\Artifacts\\Document.DigitalSignature.docx";
+        String outputFileName = getArtifactsDir() + "Document.DigitalSignature.docx";
 
         SignOptions signOptions = new SignOptions();
         signOptions.setComments("Comment");

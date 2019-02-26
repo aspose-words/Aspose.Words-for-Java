@@ -405,7 +405,7 @@ public class ExFont extends ApiExampleBase
         // Insert some Arabic text.
         builder.writeln("مرحبًا");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Font.Bidi.doc");
+        builder.getDocument().save(getArtifactsDir() + "Font.Bidi.doc");
         //ExEnd
     }
 
@@ -430,7 +430,7 @@ public class ExFont extends ApiExampleBase
         // Insert some Chinese text.
         builder.writeln("你好世界");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Font.FarEast.doc");
+        builder.getDocument().save(getArtifactsDir() + "Font.FarEast.doc");
         //ExEnd
     }
 
@@ -451,7 +451,7 @@ public class ExFont extends ApiExampleBase
 
         builder.writeln("Hello, Привет");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Font.Names.doc");
+        builder.getDocument().save(getArtifactsDir() + "Font.Names.doc");
         //ExEnd
     }
 
@@ -477,7 +477,7 @@ public class ExFont extends ApiExampleBase
                 run.getFont().setStyleIdentifier(StyleIdentifier.STRONG);
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Font.StyleIdentifier.doc");
+        doc.save(getArtifactsDir() + "Font.StyleIdentifier.doc");
         //ExEnd
     }
 
@@ -501,7 +501,7 @@ public class ExFont extends ApiExampleBase
             if (run.getFont().getStyleName().equals("Emphasis")) run.getFont().setStyleName("Strong");
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Font.StyleName.doc");
+        doc.save(getArtifactsDir() + "Font.StyleName.doc");
         //ExEnd
     }
 
@@ -526,7 +526,7 @@ public class ExFont extends ApiExampleBase
             if (!charStyle.getBuiltIn()) run.getFont().setUnderline(Underline.DOUBLE);
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Font.Style.doc");
+        doc.save(getArtifactsDir() + "Font.Style.doc");
         //ExEnd
     }
 
@@ -587,7 +587,7 @@ public class ExFont extends ApiExampleBase
         FontSettings.getDefaultInstance().setFontsFolder("", false);
 
         // Pass the save options along with the save path to the save method.
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.MissingFontNotification.pdf");
+        doc.save(getArtifactsDir() + "Rendering.MissingFontNotification.pdf");
         //ExEnd
 
         Assert.assertTrue(callback.mFontWarnings.getCount() > 0);
@@ -640,7 +640,7 @@ public class ExFont extends ApiExampleBase
 
         doc.setFontSettings(fontSettings);
 
-        doc.save(getMyDir() + "\\Artifacts\\Rendering.MissingFontNotification.pdf");
+        doc.save(getArtifactsDir() + "Rendering.MissingFontNotification.pdf");
 
         Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'Arial' has not been found. Using 'Arvo' font instead. Reason: table substitution."));
         Assert.assertTrue(callback.mFontWarnings.get(1).getDescription().equals("Font 'Times New Roman' has not been found. Using 'Noticia Text' font instead. Reason: font info substitution."));
@@ -655,7 +655,7 @@ public class ExFont extends ApiExampleBase
         HandleDocumentWarnings callback = new HandleDocumentWarnings();
         doc.setWarningCallback(callback);
 
-        doc.save(getMyDir() + "\\Artifacts\\Font.DisappearingBulletPoints.pdf");
+        doc.save(getArtifactsDir() + "Font.DisappearingBulletPoints.pdf");
 
         Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'SymbolPS' has not been found. Using 'Wingdings' font instead. Reason: font info substitution."));
     }
@@ -728,7 +728,7 @@ public class ExFont extends ApiExampleBase
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         table.accept(hiddenContentRemover);
 
-        doc.save(getMyDir() + "\\Artifacts\\Font.Hidden.doc");
+        doc.save(getArtifactsDir() + "Font.Hidden.doc");
 
         Assert.assertEquals(doc.getChildNodes(NodeType.PARAGRAPH, true).getCount(), 13); //ExSkip
         Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 1); //ExSkip

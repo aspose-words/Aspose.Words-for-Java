@@ -25,7 +25,7 @@ public class ExOdtSaveOptions extends ApiExampleBase
         OdtSaveOptions saveOptions = new OdtSaveOptions();
         saveOptions.setMeasureUnit(OdtSaveMeasureUnit.INCHES);
 
-        doc.save(getMyDir() + "\\Artifacts\\OdtSaveOptions.MeasureUnit.odt");
+        doc.save(getArtifactsDir() + "OdtSaveOptions.MeasureUnit.odt");
         //ExEnd
     }
 }

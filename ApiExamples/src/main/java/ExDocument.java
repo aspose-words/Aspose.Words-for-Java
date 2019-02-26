@@ -55,7 +55,7 @@ public class ExDocument extends ApiExampleBase
         // The directory must be specified one level up because the class file will be in a subfolder according
         // to the package name, but the licensing code looks at the "root" folder of the jar only.
         File licFile = new File(ExDocument.class.getResource("").toURI().resolve("Aspose.Words.Java.lic"));
-        copyFile(new File(TEST_LICENSE_FILE_NAME), licFile);
+        copyFile(new File(getLicenseDir() + "Aspose.Words.Java.lic"), licFile);
 
         //ExStart
         //ExFor:License
@@ -75,7 +75,7 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void licenseFromStream() throws Exception
     {
-        InputStream myStream = new FileInputStream(TEST_LICENSE_FILE_NAME);
+        InputStream myStream = new FileInputStream(getLicenseDir() + "Aspose.Words.Java.lic");
         try
         {
             //ExStart
@@ -116,7 +116,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.Save(String)
         //ExId:SaveToFile
         //ExSummary:Saves a document to a file.
-        doc.save(getMyDir() + "\\Artifacts\\Document.OpenFromFile.doc");
+        doc.save(getArtifactsDir() + "Document.OpenFromFile.doc");
         //ExEnd
     }
 
@@ -127,7 +127,7 @@ public class ExDocument extends ApiExampleBase
         //ExId:OpenAndSaveToFile
         //ExSummary:Opens a document from a file and saves it to a different format
         Document doc = new Document(getMyDir() + "Document.doc");
-        doc.save(getMyDir() + "\\Artifacts\\Document.html");
+        doc.save(getArtifactsDir() + "Document.html");
         //ExEnd
     }
 
@@ -185,7 +185,7 @@ public class ExDocument extends ApiExampleBase
         stream.close();
 
         // Save in the DOC format.
-        doc.save(getMyDir() + "\\Artifacts\\Document.OpenFromStreamWithBaseUri.doc");
+        doc.save(getArtifactsDir() + "Document.OpenFromStreamWithBaseUri.doc");
         //ExEnd
 
         // Lets make sure the image was imported successfully into a Shape node.
@@ -230,7 +230,7 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(byteStream);
 
         // Convert the document to any format supported by Aspose.Words.
-        doc.save(getMyDir() + "\\Artifacts\\Document.OpenFromWeb.docx");
+        doc.save(getArtifactsDir() + "Document.OpenFromWeb.docx");
         //ExEnd
     }
 
@@ -269,7 +269,7 @@ public class ExDocument extends ApiExampleBase
 
         // Save the document to disk.
         // The extension of the filename can be changed to save the document into other formats. e.g PDF, DOCX, ODT, RTF.
-        doc.save(getMyDir() + "\\Artifacts\\Document.HtmlPageFromWebpage.doc");
+        doc.save(getArtifactsDir() + "Document.HtmlPageFromWebpage.doc");
         //ExEnd
     }
 
@@ -333,7 +333,7 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Converts from DOC to HTML format.
         Document doc = new Document(getMyDir() + "Document.doc");
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.ConvertToHtml.html", SaveFormat.HTML);
+        doc.save(getArtifactsDir() + "Document.ConvertToHtml.html", SaveFormat.HTML);
         //ExEnd
     }
 
@@ -345,7 +345,7 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Converts from DOC to MHTML format.
         Document doc = new Document(getMyDir() + "Document.doc");
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.ConvertToMhtml.mht");
+        doc.save(getArtifactsDir() + "Document.ConvertToMhtml.mht");
         //ExEnd
     }
 
@@ -357,7 +357,7 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows how to save a document in TXT format.
         Document doc = new Document(getMyDir() + "Document.doc");
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.ConvertToTxt.txt");
+        doc.save(getArtifactsDir() + "Document.ConvertToTxt.txt");
         //ExEnd
     }
 
@@ -371,7 +371,7 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Converts a whole document from DOC to PDF using default options.
         Document doc = new Document(getMyDir() + "Document.doc");
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.Doc2PdfSave.pdf");
+        doc.save(getArtifactsDir() + "Document.Doc2PdfSave.pdf");
         //ExEnd
     }
 
@@ -403,7 +403,7 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
 
         // Save the document in EPUB format.
-        doc.save(getMyDir() + "\\Artifacts\\Document.EpubConversion.epub");
+        doc.save(getArtifactsDir() + "Document.EpubConversion.epub");
         //ExEnd
     }
 
@@ -441,7 +441,7 @@ public class ExDocument extends ApiExampleBase
         saveOptions.setSaveFormat(SaveFormat.EPUB);
 
         // Export the document as an EPUB file.
-        doc.save(getMyDir() + "\\Artifacts\\Document.EpubConversion.epub", saveOptions);
+        doc.save(getArtifactsDir() + "Document.EpubConversion.epub", saveOptions);
         //ExEnd
     }
 
@@ -458,7 +458,7 @@ public class ExDocument extends ApiExampleBase
         // If this is setting is false (by default) then the HTML tags will be exported in condensed form with no indentation.
         htmlOptions.setPrettyFormat(true);
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.PrettyFormat.html", htmlOptions);
+        doc.save(getArtifactsDir() + "Document.PrettyFormat.html", htmlOptions);
         //ExEnd
     }
 
@@ -474,7 +474,7 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
         // This is the directory we want the exported images to be saved to.
-        File imagesDir = new File(getMyDir(), "SaveHtmlWithOptions");
+        File imagesDir = new File(getArtifactsDir(), "SaveHtmlWithOptions");
 
         // The folder specified needs to exist and should be empty.
         if (imagesDir.exists()) imagesDir.delete();
@@ -486,11 +486,11 @@ public class ExDocument extends ApiExampleBase
         options.setExportTextInputFormFieldAsText(true);
         options.setImagesFolder(imagesDir.getPath());
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.SaveWithOptions.html", options);
+        doc.save(getArtifactsDir() + "Document.SaveWithOptions.html", options);
         //ExEnd
 
         // Verify the images were saved to the correct location.
-        Assert.assertTrue(new File(getMyDir() + "\\Artifacts\\Document.SaveWithOptions.html").exists());
+        Assert.assertTrue(new File(getArtifactsDir() + "Document.SaveWithOptions.html").exists());
         Assert.assertEquals(imagesDir.list().length, 9);
 
         for (File imageFile : imagesDir.listFiles())
@@ -524,7 +524,7 @@ public class ExDocument extends ApiExampleBase
         // Create and pass the object which implements the handler methods.
         options.setFontSavingCallback(new HandleFontSaving());
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.SaveWithFontsExport.html", options);
+        doc.save(getArtifactsDir() + "Document.SaveWithFontsExport.html", options);
     }
 
     public class HandleFontSaving implements IFontSavingCallback
@@ -560,7 +560,7 @@ public class ExDocument extends ApiExampleBase
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
         options.setImageSavingCallback(new HandleImageSaving());
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.SaveWithCustomImagesExport.html", options);
+        doc.save(getArtifactsDir() + "Document.SaveWithCustomImagesExport.html", options);
     }
 
     public class HandleImageSaving implements IImageSavingCallback
@@ -603,7 +603,7 @@ public class ExDocument extends ApiExampleBase
         // Insert sample HTML content
         builder.insertHtml("<p>Hello World</p>");
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.FontChanger.doc");
+        doc.save(getArtifactsDir() + "Document.FontChanger.doc");
 
         // Check that the inserted content has the correct formatting
         Run run = (Run) doc.getChild(NodeType.RUN, 0, true);
@@ -699,7 +699,7 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(docStream);
 
         // Save the document with the original file name, " Out" and the document's file extension.
-        doc.save(getMyDir() + "\\Artifacts\\Document.WithFileExtension" + FileFormatUtil.saveFormatToExtension(saveFormat));
+        doc.save(getArtifactsDir() + "Document.WithFileExtension" + FileFormatUtil.saveFormatToExtension(saveFormat));
         //ExEnd
 
         Assert.assertEquals(FileFormatUtil.saveFormatToExtension(saveFormat), ".doc");
@@ -738,7 +738,7 @@ public class ExDocument extends ApiExampleBase
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
 
         // Save the document.
-        dstDoc.save(getMyDir() + "\\Artifacts\\Document.AppendDocument.doc");
+        dstDoc.save(getArtifactsDir() + "Document.AppendDocument.doc");
         //ExEnd
     }
 
@@ -893,14 +893,14 @@ public class ExDocument extends ApiExampleBase
             new Date()));
 
         // Save the document as PDF with the digital signature set.
-        doc.save(getMyDir() + "\\Artifacts\\Document.Signed.pdf", options);
+        doc.save(getArtifactsDir() + "Document.Signed.pdf", options);
         //ExEnd
     }
 
     @Test
     public void appendAllDocumentsInFolder() throws Exception
     {
-        String path = getMyDir() + "\\Artifacts\\Document.AppendDocumentsFromFolder.doc";
+        String path = getArtifactsDir() + "Document.AppendDocumentsFromFolder.doc";
 
         // Delete the file that was created by the previous run as I don't want to append it again.
         new File(path).delete();
@@ -921,14 +921,7 @@ public class ExDocument extends ApiExampleBase
         // Gather the files which will be appended to our template document.
         // In this case we search only for files with the ".doc" extension.
         File srcDir = new File(getMyDir());
-        FilenameFilter filter = new FilenameFilter()
-        {
-            @Override
-            public boolean accept(File dir, String name)
-            {
-                return name.endsWith(".doc");
-            }
-        };
+        FilenameFilter filter = (dir, name) -> name.endsWith(".doc");
         File[] files = srcDir.listFiles(filter);
 
         // The list of files may come in any order, let's sort the files by name so the documents are enumerated alphabetically.
@@ -976,7 +969,7 @@ public class ExDocument extends ApiExampleBase
         System.out.println(MessageFormat.format("Number of runs before:{0}, after:{1}, joined:{2}", runsBefore, runsAfter, joinCount));
 
         // Save the optimized document to disk.
-        doc.save(getMyDir() + "\\Artifacts\\Document.JoinRunsWithSameFormatting.html");
+        doc.save(getArtifactsDir() + "Document.JoinRunsWithSameFormatting.html");
         //ExEnd
 
         // Verify that runs were joined in the document.
@@ -992,7 +985,7 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Opens a document, makes sure it is no longer attached to a template and saves the document.
         Document doc = new Document(getMyDir() + "Document.doc");
         doc.setAttachedTemplate("");
-        doc.save(getMyDir() + "\\Artifacts\\Document.DetachTemplate.doc");
+        doc.save(getArtifactsDir() + "Document.DetachTemplate.doc");
         //ExEnd
     }
 
@@ -1295,7 +1288,7 @@ public class ExDocument extends ApiExampleBase
         System.out.println("Cell shading after style expansion: " + cellShadingAfter);
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.ExpandTableStyleFormatting.docx");
+        doc.save(getArtifactsDir() + "Table.ExpandTableStyleFormatting.docx");
 
         Assert.assertEquals(cellShadingBefore, 0.0);
         Assert.assertEquals(cellShadingAfter, 0.0);
@@ -1345,7 +1338,7 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.doc");
         doc.getViewOptions().setViewType(ViewType.PAGE_LAYOUT);
         doc.getViewOptions().setZoomPercent(50);
-        doc.save(getMyDir() + "\\Artifacts\\Document.SetZoom.doc");
+        doc.save(getArtifactsDir() + "Document.SetZoom.doc");
         //ExEnd
     }
 
@@ -1487,7 +1480,7 @@ public class ExDocument extends ApiExampleBase
         doc1.getRevisions().acceptAll();
 
         // doc1, when saved, now resembles doc2.
-        doc1.save(getMyDir() + "\\Artifacts\\Document.Compare.doc");
+        doc1.save(getArtifactsDir() + "Document.Compare.doc");
         //ExEnd
     }
 
@@ -1508,10 +1501,10 @@ public class ExDocument extends ApiExampleBase
 
         doc1.compare(doc2, "vderyushev", new Date(), compareOptions);
 
-        doc1.save(getMyDir() + "\\Artifacts\\Document.CompareOptions.docx");
+        doc1.save(getArtifactsDir() + "Document.CompareOptions.docx");
         //ExEnd
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Artifacts\\Document.CompareOptions.docx", getMyDir() + "\\Golds\\Document.CompareOptions Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "Document.CompareOptions.docx", getGoldsDir() + "Document.CompareOptions Gold.docx"));
     }
 
     @Test(description = "Result of this test is normal behavior MS Word. The bullet is missing for the 3rd list item")
@@ -1526,9 +1519,9 @@ public class ExDocument extends ApiExampleBase
 
         doc1.compare(doc2, "vderyushev", new Date(), compareOptions);
 
-        doc1.save(getMyDir() + "\\Artifacts\\Document.UseCurrentDocumentFormatting.docx");
+        doc1.save(getArtifactsDir() + "Document.UseCurrentDocumentFormatting.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Artifacts\\Document.UseCurrentDocumentFormatting.docx", getMyDir() + "\\Golds\\Document.UseCurrentDocumentFormatting Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "Document.UseCurrentDocumentFormatting.docx", getGoldsDir() + "Document.UseCurrentDocumentFormatting Gold.docx"));
     }
 
     @Test
@@ -1610,7 +1603,7 @@ public class ExDocument extends ApiExampleBase
         doc.getFirstSection().getBody().appendParagraph("Hello again!");
         System.out.println(doc.getRevisions().getCount()); // 4
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.StartTrackRevisions.doc");
+        doc.save(getArtifactsDir() + "Document.StartTrackRevisions.doc");
         //ExEnd
     }
 
@@ -1626,7 +1619,7 @@ public class ExDocument extends ApiExampleBase
         doc.getLayoutOptions().getRevisionOptions().setShowInBalloons(1);
 
         //Check that revisions are in balloons 
-        doc.save(getMyDir() + "\\Artifacts\\ShowRevisionBalloons.pdf");
+        doc.save(getArtifactsDir() + "ShowRevisionBalloons.pdf");
         //ExEnd
     }
 
@@ -1644,7 +1637,7 @@ public class ExDocument extends ApiExampleBase
 
         // Revisions will now show up as normal text in the output document.
         doc.acceptAllRevisions();
-        doc.save(getMyDir() + "\\Artifacts\\Document.AcceptedRevisions.doc");
+        doc.save(getArtifactsDir() + "Document.AcceptedRevisions.doc");
         //ExEnd
     }
 
@@ -1695,7 +1688,7 @@ public class ExDocument extends ApiExampleBase
         doc.getHyphenationOptions().setHyphenationZone(720); // 0.5 inch
         doc.getHyphenationOptions().setHyphenateCaps(true);
 
-        doc.save(getMyDir() + "\\Artifacts\\HyphenationOptions.docx");
+        doc.save(getArtifactsDir() + "HyphenationOptions.docx");
         //ExEnd
 
         Assert.assertEquals(doc.getHyphenationOptions().getAutoHyphenation(), true);
@@ -1703,7 +1696,7 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(doc.getHyphenationOptions().getHyphenationZone(), 720);
         Assert.assertEquals(doc.getHyphenationOptions().getHyphenateCaps(), true);
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Artifacts\\HyphenationOptions.docx", getMyDir() + "\\Golds\\Document.HyphenationOptions Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "HyphenationOptions.docx", getGoldsDir() + "Document.HyphenationOptions Gold.docx"));
     }
 
     @Test

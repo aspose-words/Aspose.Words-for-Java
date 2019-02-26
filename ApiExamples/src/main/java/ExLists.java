@@ -77,7 +77,7 @@ public class ExLists extends ApiExampleBase
         // End the bulleted list.
         builder.getListFormat().removeNumbers();
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Lists.ApplyDefaultBulletsAndNumbers.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.ApplyDefaultBulletsAndNumbers.doc");
         //ExEnd
     }
 
@@ -122,7 +122,7 @@ public class ExLists extends ApiExampleBase
         // This is a way to stop list formatting.
         builder.getListFormat().setList(null);
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Lists.SpecifyListLevel.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.SpecifyListLevel.doc");
         //ExEnd
     }
 
@@ -167,7 +167,7 @@ public class ExLists extends ApiExampleBase
 
         builder.getParagraphFormat().clearFormatting();
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Lists.NestedLists.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.NestedLists.doc");
         //ExEnd
     }
 
@@ -238,7 +238,7 @@ public class ExLists extends ApiExampleBase
 
         builder.getListFormat().removeNumbers();
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Lists.CreateCustomList.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.CreateCustomList.doc");
         //ExEnd
     }
 
@@ -284,7 +284,7 @@ public class ExLists extends ApiExampleBase
         builder.writeln("Item 2");
         builder.getListFormat().removeNumbers();
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Lists.RestartNumberingUsingListCopy.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.RestartNumberingUsingListCopy.doc");
         //ExEnd
     }
 
@@ -357,7 +357,7 @@ public class ExLists extends ApiExampleBase
         builder.writeln("Item 2");
         builder.getListFormat().removeNumbers();
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Lists.CreateAndUseListStyle.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.CreateAndUseListStyle.doc");
         //ExEnd
 
         // Verify properties of list 1
@@ -483,7 +483,7 @@ public class ExLists extends ApiExampleBase
         list = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_CHAPTER);
         addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline 4");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Lists.OutlineHeadingTemplates.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.OutlineHeadingTemplates.doc");
     }
 
     private static void addOutlineHeadingParagraphs(DocumentBuilder builder, List list, String title)
@@ -532,7 +532,7 @@ public class ExLists extends ApiExampleBase
             addListSample(builder, dstList);
         }
 
-        dstDoc.save(getMyDir() + "\\Artifacts\\Lists.PrintOutAllLists.doc");
+        dstDoc.save(getArtifactsDir() + "Lists.PrintOutAllLists.doc");
     }
 
     private static void addListSample(DocumentBuilder builder, List list)
@@ -658,7 +658,7 @@ public class ExLists extends ApiExampleBase
 
         builder.getListFormat().removeNumbers();
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Lists.CreateListRestartAfterHigher.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.CreateListRestartAfterHigher.doc");
         //ExEnd
     }
 
@@ -696,7 +696,7 @@ public class ExLists extends ApiExampleBase
         builder.getParagraphFormat().setStyle(doc.getStyles().get("Normal"));
         builder.writeln("Hello World: Normal.");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Lists.ParagraphStyleBulleted.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.ParagraphStyleBulleted.doc");
         //ExEnd
     }
 

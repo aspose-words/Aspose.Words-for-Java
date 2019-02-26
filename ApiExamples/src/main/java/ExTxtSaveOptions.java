@@ -24,15 +24,15 @@ public class ExTxtSaveOptions extends ApiExampleBase
         TxtSaveOptions saveOptions = new TxtSaveOptions();
         saveOptions.setForcePageBreaks(false);
 
-        doc.save(getMyDir() + "\\Artifacts\\SaveOptions.PageBreaks.False.txt", saveOptions);
+        doc.save(getArtifactsDir() + "SaveOptions.PageBreaks.False.txt", saveOptions);
         //ExEnd
-        Document docFalse = new Document(getMyDir() + "\\Artifacts\\SaveOptions.PageBreaks.False.txt");
+        Document docFalse = new Document(getArtifactsDir() + "SaveOptions.PageBreaks.False.txt");
         Assert.assertEquals(docFalse.getText(), "Some text before page break\r\rJidqwjidqwojidqwojidqwojidqwojidqwoji\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\rQwdqwdqwdqwdqwdqwdqwd\rQwdqwdqwdqwdqwdqwdqw\r\r\r\r\rqwdqwdqwdqwdqwdqwdqwqwd\r\f");
 
         saveOptions.setForcePageBreaks(true);
-        doc.save(getMyDir() + "\\Artifacts\\SaveOptions.PageBreaks.True.txt", saveOptions);
+        doc.save(getArtifactsDir() + "SaveOptions.PageBreaks.True.txt", saveOptions);
 
-        Document docTrue = new Document(getMyDir() + "\\Artifacts\\SaveOptions.PageBreaks.True.txt");
+        Document docTrue = new Document(getArtifactsDir() + "SaveOptions.PageBreaks.True.txt");
         Assert.assertEquals(docTrue.getText(), "Some text before page break\r\f\r\fJidqwjidqwojidqwojidqwojidqwojidqwoji\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\rQwdqwdqwdqwdqwdqwdqwd\rQwdqwdqwdqwdqwdqwdqw\r\r\r\r\f\r\fqwdqwdqwdqwdqwdqwdqwqwd\r\f");
     }
 }

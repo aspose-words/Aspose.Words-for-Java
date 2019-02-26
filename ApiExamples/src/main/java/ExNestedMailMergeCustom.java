@@ -37,7 +37,7 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
         // Now you can pass your data source into Aspose.Words.
         doc.getMailMerge().executeWithRegions(customersDataSource);
 
-        doc.save(getMyDir() + "\\Artifacts\\NestedMailMerge.CustomDataSource.doc");
+        doc.save(getArtifactsDir() + "NestedMailMerge.CustomDataSource.doc");
     }
 
     /**

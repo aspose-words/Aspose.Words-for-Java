@@ -31,7 +31,7 @@ public class ExMailMerge extends ApiExampleBase
         // Fill the fields in the document with user data.
         doc.getMailMerge().execute(new String[]{"FullName", "Company", "Address", "Address2", "City"}, new Object[]{"James Bond", "MI5 Headquarters", "Milbank", "", "London"});
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.ExecuteArray.doc");
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteArray.doc");
         //ExEnd
     }
 
@@ -56,7 +56,7 @@ public class ExMailMerge extends ApiExampleBase
         // Field values from the table are inserted into the mail merge fields found in the document.
         doc.getMailMerge().execute(table);
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.ExecuteDataTable.doc");
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.doc");
         //ExEnd
     }
 
@@ -95,7 +95,7 @@ public class ExMailMerge extends ApiExampleBase
         // Perform the mail merge
         doc.getMailMerge().execute(dataReader);
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.ExecuteDataReader.doc");
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataReader.doc");
         //ExEnd
     }
 
@@ -118,7 +118,7 @@ public class ExMailMerge extends ApiExampleBase
         // Populate the document with the data.
         doc.getMailMerge().execute(orderView);
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.ExecuteDataView.doc");
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataView.doc");
     }
 
     private DataTable getOrders() throws Exception
@@ -159,7 +159,7 @@ public class ExMailMerge extends ApiExampleBase
         // If a table is found, its content is merged into the mail merge region in the document.
         doc.getMailMerge().executeWithRegions(dataSet);
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.ExecuteWithRegionsDataSet.doc");
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsDataSet.doc");
         //ExEnd
     }
 
@@ -190,7 +190,7 @@ public class ExMailMerge extends ApiExampleBase
         DataTable orderDetailsTable = getTestOrderDetails(orderId, "ExtendedPrice DESC");
         doc.getMailMerge().executeWithRegions(orderDetailsTable);
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.ExecuteWithRegionsDataTable.doc");
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsDataTable.doc");
     }
 
     private static DataTable getTestOrder(int orderId) throws Exception
@@ -496,9 +496,9 @@ public class ExMailMerge extends ApiExampleBase
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_EMPTY_TABLE_ROWS);
         doc.getMailMerge().executeWithRegions(data);
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.CleanUp.docx");
+        doc.save(getArtifactsDir() + "MailMerge.CleanUp.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Artifacts\\MailMerge.CleanUp.docx", getMyDir() + "\\Golds\\MailMerge.CleanUp Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "MailMerge.CleanUp.docx", getGoldsDir() + "MailMerge.CleanUp Gold.docx"));
     }
 
     /**

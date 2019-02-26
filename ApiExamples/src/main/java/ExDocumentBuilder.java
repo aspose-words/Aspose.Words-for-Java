@@ -92,7 +92,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.insertBreak(BreakType.PAGE_BREAK);
         builder.writeln("Page3");
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.HeadersAndFooters.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.HeadersAndFooters.doc");
         //ExEnd
     }
 
@@ -216,7 +216,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.writeln("Hello World!");
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilderAndSave.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilderAndSave.docx");
         //ExEnd
     }
 
@@ -247,7 +247,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.write(" for more information.");
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertHyperlink.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertHyperlink.doc");
         //ExEnd
     }
 
@@ -282,7 +282,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.writeln(". We hope you enjoyed the example.");
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.PushPopFont.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.PushPopFont.doc");
         //ExEnd
     }
 
@@ -319,7 +319,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2);
         shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2);
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertWatermark.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertWatermark.doc");
         //ExEnd
     }
 
@@ -336,7 +336,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.insertHtml("<P align='right'>Paragraph right</P>" + "<b>Implicit paragraph left</b>" + "<div align='center'>Div center</div>" + "<h1 align='left'>Heading 1 left.</h1>");
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertHtml.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertHtml.doc");
         //ExEnd
     }
 
@@ -353,7 +353,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.insertHtml("<P align='right'>Paragraph right</P>" + "<b>Implicit paragraph left</b>" + "<div align='center'>Div center</div>" + "<h1 align='left'>Heading 1 left.</h1>", useBuilderFormatting);
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertHtml.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertHtml.doc");
         //ExEnd
     }
 
@@ -371,10 +371,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.insertHtml(MATH_ML);
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\MathML Out.docx");
-        doc.save(getMyDir() + "\\Artifacts\\MathML Out.pdf");
+        doc.save(getArtifactsDir() + "MathML Out.docx");
+        doc.save(getArtifactsDir() + "MathML Out.pdf");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Golds\\MathML Gold.docx", getMyDir() + "\\Artifacts\\MathML Out.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getGoldsDir() + "MathML Gold.docx", getArtifactsDir() + "MathML Out.docx"));
     }
 
     @Test
@@ -419,7 +419,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.writeln("");
         builder.writeln("");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\DocumentBuilder.CreateForm.doc");
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.CreateForm.doc");
         //ExEnd
     }
 
@@ -515,7 +515,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.moveToDocumentEnd();
         builder.writeln("End of document.");
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.WorkingWithNodes.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.WorkingWithNodes.doc");
         //ExEnd
     }
 
@@ -542,7 +542,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.setItalic(true);
         builder.writeln("Vladimir Averkin");
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.FillingDocument.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.FillingDocument.doc");
         //ExEnd
     }
 
@@ -604,7 +604,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.updateFields();
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertToc.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertToc.docx");
     }
 
     @Test
@@ -683,7 +683,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.endTable();
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertTable.doc");
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.InsertTable.doc");
         //ExEnd
     }
 
@@ -736,7 +736,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.writeln("50");
         builder.endRow();
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.SetTableStyle.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilder.SetTableStyle.docx");
         //ExEnd
 
         // Verify that the style was set by expanding to direct formatting.
@@ -784,7 +784,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             builder.endRow();
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.HeadingRow.doc");
+        doc.save(getArtifactsDir() + "Table.HeadingRow.doc");
         //ExEnd
 
         Assert.assertTrue(table.getFirstRow().getRowFormat().getHeadingFormat());
@@ -818,7 +818,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.insertCell();
         builder.writeln("Cell #3");
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.PreferredWidth.doc");
+        doc.save(getArtifactsDir() + "Table.PreferredWidth.doc");
         //ExEnd
 
         // Verify the correct settings were applied.
@@ -862,7 +862,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.writeln("Cell automatically sized. The size of this cell is calculated from the table preferred width.");
         builder.writeln("In this case the cell will fill up the rest of the available space.");
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.CellPreferredWidths.doc");
+        doc.save(getArtifactsDir() + "Table.CellPreferredWidths.doc");
         //ExEnd
 
         // Verify the correct settings were applied.
@@ -884,7 +884,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // inserted from HTML.
         builder.insertHtml("<table>" + "<tr>" + "<td>Row 1, Cell 1</td>" + "<td>Row 1, Cell 2</td>" + "</tr>" + "<tr>" + "<td>Row 2, Cell 2</td>" + "<td>Row 2, Cell 2</td>" + "</tr>" + "</table>");
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertTableFromHtml.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertTableFromHtml.doc");
         //ExEnd
 
         // Verify the table was constructed properly.
@@ -925,7 +925,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.endTable();
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertNestedTable.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertNestedTable.doc");
         //ExEnd
 
         Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 2);
@@ -970,7 +970,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.endTable();
 
         // Save the document to disk.
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.CreateSimpleTable.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.CreateSimpleTable.doc");
         //ExEnd
 
         // Verify that the cell count of the table is four.
@@ -1065,7 +1065,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.endRow();
         builder.endTable();
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.CreateFormattedTable.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.CreateFormattedTable.doc");
         //ExEnd
 
         // Verify that the cell style is different compared to default.
@@ -1127,7 +1127,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getCellFormat().clearFormatting();
         builder.writeln("Cell #4");
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.SetBordersAndShading.doc");
+        doc.save(getArtifactsDir() + "Table.SetBordersAndShading.doc");
         //ExEnd
 
         // Verify the table was created correctly.
@@ -1188,7 +1188,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Clear hyperlink formatting.
         builder.getFont().clearFormatting();
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertHyperlinkToLocalBookmark.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertHyperlinkToLocalBookmark.doc");
         //ExEnd
     }
 
@@ -1512,7 +1512,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertImage("http://www.aspose.com/images/aspose-logo.gif");
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertImageFromUrl.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertImageFromUrl.doc");
         //ExEnd
 
         // Verify that the image was inserted into the document.
@@ -1535,7 +1535,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.insertImage(getImageDir() + "LogoSmall.png", RelativeHorizontalPosition.MARGIN, 200.0, RelativeVerticalPosition.MARGIN, 100.0, -1, -1, WrapType.SQUARE);
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertImageOriginalSize.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertImageOriginalSize.doc");
     }
 
     @Test
@@ -1631,7 +1631,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         SignatureLine signatureLine = builder.insertSignatureLine(signatureLineOptions).getSignatureLine();
         signatureLine.setProviderId(UUID.fromString("CF5A7BB4-8F3C-4756-9DF6-BEF7F13259A2"));
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.SignatureLineProviderId In.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId In.docx");
 
         SignOptions signOptions = new SignOptions();
         signOptions.setSignatureLineId(signatureLine.getId());
@@ -1641,10 +1641,10 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         CertificateHolder certHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
-        DigitalSignatureUtil.sign(getMyDir() + "\\Artifacts\\DocumentBuilder.SignatureLineProviderId In.docx", getMyDir() + "\\Artifacts\\DocumentBuilder.SignatureLineProviderId Out.docx", certHolder, signOptions);
+        DigitalSignatureUtil.sign(getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId In.docx", getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId Out.docx", certHolder, signOptions);
         //ExEnd
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Artifacts\\DocumentBuilder.SignatureLineProviderId Out.docx", getMyDir() + "\\Golds\\DocumentBuilder.SignatureLineProviderId Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId Out.docx", getGoldsDir() + "DocumentBuilder.SignatureLineProviderId Gold.docx"));
     }
 
     @Test
@@ -1885,9 +1885,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.getFootnoteOptions().setStartNumber(1);
         doc.getFootnoteOptions().setRestartRule(FootnoteNumberingRule.RESTART_PAGE);
 
-        doc.save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertFootnote.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertFootnote.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertFootnote.docx", getMyDir() + "\\Golds\\DocumentBuilder.InsertFootnote Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "DocumentBuilder.InsertFootnote.docx", getGoldsDir() + "DocumentBuilder.InsertFootnote Gold.docx"));
     }
 
     @Test
@@ -1967,9 +1967,9 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.insertDocument(docToInsert, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         //ExEnd
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertDocument.docx");
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.InsertDocument.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "\\Artifacts\\DocumentBuilder.InsertDocument.docx", getMyDir() + "\\Golds\\DocumentBuilder.InsertDocument Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "DocumentBuilder.InsertDocument.docx", getGoldsDir() + "DocumentBuilder.InsertDocument Gold.docx"));
     }
 
     @Test
@@ -2002,7 +2002,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Shape oleObject = builder.insertOleObject(getMyDir() + "Document.Spreadsheet.xlsx", false, false, representingImage);
         Shape oleObjectWithProgId = builder.insertOleObject(getMyDir() + "Document.Spreadsheet.xlsx", "Excel.Sheet", false, false, representingImage);
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.InsertedOleObject.docx");
+        doc.save(getArtifactsDir() + "Document.InsertedOleObject.docx");
         //ExEnd
     }
 
@@ -2031,7 +2031,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.insertChart(ChartType.PIE, ConvertUtil.pixelToPoint(300.0), ConvertUtil.pixelToPoint(300.0));
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.InsertedChartDouble.doc");
+        doc.save(getArtifactsDir() + "Document.InsertedChartDouble.doc");
         //ExEnd
     }
 
@@ -2046,7 +2046,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.insertChart(ChartType.PIE, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN, 100.0, 200.0, 100.0, WrapType.SQUARE);
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.InsertedChartRelativePosition.doc");
+        doc.save(getArtifactsDir() + "Document.InsertedChartRelativePosition.doc");
         //ExEnd
     }
 
@@ -2062,7 +2062,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.write("This field was inserted/updated at ");
         builder.insertField(FieldType.FIELD_TIME, true);
 
-        doc.save(getMyDir() + "\\Artifacts\\Document.InsertedField.doc");
+        doc.save(getArtifactsDir() + "Document.InsertedField.doc");
         //ExEnd
     }
 

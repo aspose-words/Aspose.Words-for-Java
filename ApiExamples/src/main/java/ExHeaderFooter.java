@@ -31,10 +31,10 @@ public class ExHeaderFooter extends ApiExampleBase
         // Add a paragraph with text to the footer.
         footer.appendParagraph("TEST FOOTER");
 
-        doc.save(getMyDir() + "\\Artifacts\\HeaderFooter.CreateFooter.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.CreateFooter.doc");
         //ExEnd
 
-        doc = new Document(getMyDir() + "\\Artifacts\\HeaderFooter.CreateFooter.doc");
+        doc = new Document(getArtifactsDir() + "HeaderFooter.CreateFooter.doc");
         Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getRange().getText().contains("TEST FOOTER"));
     }
 
@@ -68,7 +68,7 @@ public class ExHeaderFooter extends ApiExampleBase
             if (footer != null) footer.remove();
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\HeaderFooter.RemoveFooters.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.RemoveFooters.doc");
         //ExEnd
     }
 
@@ -84,11 +84,11 @@ public class ExHeaderFooter extends ApiExampleBase
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         saveOptions.setExportHeadersFootersMode(ExportHeadersFootersMode.NONE); // Disables exporting headers and footers.
 
-        doc.save(getMyDir() + "\\Artifacts\\HeaderFooter.DisableHeadersFooters.html", saveOptions);
+        doc.save(getArtifactsDir() + "HeaderFooter.DisableHeadersFooters.html", saveOptions);
         //ExEnd
 
         // Verify that the output document is correct.
-        doc = new Document(getMyDir() + "\\Artifacts\\HeaderFooter.DisableHeadersFooters.html");
+        doc = new Document(getArtifactsDir() + "HeaderFooter.DisableHeadersFooters.html");
         Assert.assertFalse(doc.getRange().getText().contains("DYNAMIC TEMPLATE"));
     }
 
@@ -114,11 +114,11 @@ public class ExHeaderFooter extends ApiExampleBase
 
         footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", "Copyright (C) 2011 by Aspose Pty Ltd.", options);
 
-        doc.save(getMyDir() + "\\Artifacts\\HeaderFooter.ReplaceText.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
         //ExEnd
 
         // Verify that the appropriate changes were made to the output document.
-        doc = new Document(getMyDir() + "\\Artifacts\\HeaderFooter.ReplaceText.doc");
+        doc = new Document(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
         Assert.assertTrue(doc.getRange().getText().contains("Copyright (C) 2011 by Aspose Pty Ltd."));
     }
 
@@ -299,7 +299,7 @@ public class ExHeaderFooter extends ApiExampleBase
         row.getLastCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
 
         // Save the resulting document.
-        doc.save(getMyDir() + "\\Artifacts\\HeaderFooter.Primer.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.Primer.doc");
     }
 
     /**

@@ -97,7 +97,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase
         OoxmlSaveOptions options = new OoxmlSaveOptions();
         options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
 
-        doc.save(getMyDir() + "\\Artifacts\\RestartingDocumentList.docx", options);
+        doc.save(getArtifactsDir() + "RestartingDocumentList.docx", options);
         //ExEnd
     }
 

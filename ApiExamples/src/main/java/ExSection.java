@@ -38,7 +38,7 @@ public class ExSection extends ApiExampleBase
         // By default, all sections are protected, but we can selectively turn protection off.
         doc.getSections().get(0).setProtectedForForms(false);
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\Section.Protect.doc");
+        builder.getDocument().save(getArtifactsDir() + "Section.Protect.doc");
         //ExEnd
     }
 
@@ -149,7 +149,7 @@ public class ExSection extends ApiExampleBase
         System.out.println(doc.getText());
 
         // Save the document.
-        doc.save(getMyDir() + "\\Artifacts\\Section.CreateFromScratch.doc");
+        doc.save(getArtifactsDir() + "Section.CreateFromScratch.doc");
         //ExEnd
 
         Assert.assertEquals(doc.getText(), "Hello World!\f");
@@ -423,7 +423,7 @@ public class ExSection extends ApiExampleBase
             section.getPageSetup().setPaperSize(PaperSize.LETTER);
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Section.ModifyPageSetupInAllSections.doc");
+        doc.save(getArtifactsDir() + "Section.ModifyPageSetupInAllSections.doc");
         //ExEnd
     }
 

@@ -18,8 +18,6 @@ import java.net.URI;
  */
 public class ApiExampleBase
 {
-    private /*final*/ File dirPath = new File(G_MY_DIR + "Artifacts\\");
-
     private static void deleteDir(File dir)
     {
         //Delete all dirs and files from directory
@@ -38,20 +36,22 @@ public class ApiExampleBase
     {
         setUnlimitedLicense();
 
-        if (!dirPath.exists())
+        if (!new File(G_ARTIFACTS_DIR).exists())
             //Create new empty directory
-            dirPath.mkdir();
+            new File(G_ARTIFACTS_DIR).mkdir();
     }
 
     @AfterMethod
     public void tearDown()
     {
         //Delete all dirs and files from directory
-        deleteDir(dirPath);
+        deleteDir(new File(G_ARTIFACTS_DIR));
     }
 
     private static void setUnlimitedLicense() throws Exception
     {
+        String TEST_LICENSE_FILE_NAME = getLicenseDir() + "Aspose.Words.Java.lic";
+
         if (new File(TEST_LICENSE_FILE_NAME).exists())
         {
             // This shows how to use an Aspose.Words license when you have purchased one.
@@ -63,32 +63,21 @@ public class ApiExampleBase
         }
     }
 
-    static void removeLicense() throws Exception
-    {
-        License license = new License();
-        license.setLicense("");
-    }
-
     /**
-     *  Returns the assembly directory correctly even if the assembly is shadow-copied.
+     * Gets the path to the gold documents used by the code examples. Ends with a back slash.
      */
-    private static String getAssemblyDir(Class assembly) throws Exception
+    static String getGoldsDir()
     {
-        // CodeBase is a full URI, such as file:///x:\blahblah.
-        URI uri = assembly.getResource("").toURI();
-        return new File(uri) + File.separator;
+        return G_GOLDS_DIR;
     }
 
     /**
-     * Gets the path to the currently running executable.
+     * Gets the path to the artifacts documents used by the code examples. Ends with a back slash.
      */
-    static String getAssemblyDir()
-    {
-        return G_ASSEMBLY_DIR;
-    }
+    static String getArtifactsDir() { return G_ARTIFACTS_DIR; }
 
     /**
-     * Gets the path to the documents used by the code examples. Ends with a back slash.
+     * Gets the path to the test documents used by the code examples. Ends with a back slash.
      */
     static String getMyDir()
     {
@@ -111,24 +100,32 @@ public class ApiExampleBase
         return G_DATABASE_DIR;
     }
 
+    /**
+     * Gets the path of the demo database. Ends with a back slash.
+     */
+    static String getLicenseDir()
+    {
+        return G_LICENSE_DIR;
+    }
 
-    private static final String G_ASSEMBLY_DIR;
+    private static final String G_USER_DIR;
     private static final String G_MY_DIR;
+    private static final String G_ARTIFACTS_DIR;
+    private static final String G_GOLDS_DIR;
     private static final String G_IMAGE_DIR;
     private static final String G_DATABASE_DIR;
-
-    /**
-     * This is where the test license is on my development machine.
-     */
-    static final String TEST_LICENSE_FILE_NAME = "X:\\Internal-projects\\awuex\\Licenses\\Aspose.Words.Java.lic";
+    private static final String G_LICENSE_DIR;
 
     static
     {
         try {
-            G_ASSEMBLY_DIR = System.getProperty("user.dir");
-            G_MY_DIR = new File(G_ASSEMBLY_DIR) + File.separator + "Data" + File.separator;
-            G_IMAGE_DIR = new File(G_ASSEMBLY_DIR) + File.separator + "Data" + File.separator + "Images" + File.separator;
-            G_DATABASE_DIR = new File(G_ASSEMBLY_DIR) + File.separator + "Data" + File.separator + "Database" + File.separator;
+            G_USER_DIR = System.getProperty("user.dir");
+            G_MY_DIR = new File(G_USER_DIR) + File.separator + "Data" + File.separator;
+            G_ARTIFACTS_DIR = new File(G_USER_DIR) + File.separator + "Data" + File.separator + "Artifacts" + File.separator;
+            G_GOLDS_DIR = new File(G_USER_DIR) + File.separator + "Data" + File.separator + "Golds" + File.separator;
+            G_IMAGE_DIR = new File(G_USER_DIR) + File.separator + "Data" + File.separator + "Images" + File.separator;
+            G_DATABASE_DIR = new File(G_USER_DIR) + File.separator + "Data" + File.separator + "Database" + File.separator;
+            G_LICENSE_DIR = new File(G_USER_DIR) + File.separator + "Data" + File.separator + "License" + File.separator;
         } catch (Exception e)
         {
             throw new RuntimeException(e);

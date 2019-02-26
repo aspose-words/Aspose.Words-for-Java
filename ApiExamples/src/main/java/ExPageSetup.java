@@ -44,7 +44,7 @@ public class ExPageSetup extends ApiExampleBase
         builder.getPageSetup().clearFormatting();
         builder.writeln("Section 2, back to default Letter paper size, portrait orientation and top alignment.");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\PageSetup.ClearFormatting.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.ClearFormatting.doc");
         //ExEnd
     }
 
@@ -84,7 +84,7 @@ public class ExPageSetup extends ApiExampleBase
         builder.insertBreak(BreakType.PAGE_BREAK);
         builder.writeln("Text page 3.");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\PageSetup.DifferentHeaders.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.DifferentHeaders.doc");
         //ExEnd
     }
 
@@ -191,7 +191,7 @@ public class ExPageSetup extends ApiExampleBase
 
         builder.writeln("Hello world.");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\PageSetup.PageMargins.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.PageMargins.doc");
         //ExEnd
     }
 
@@ -216,7 +216,7 @@ public class ExPageSetup extends ApiExampleBase
         builder.insertBreak(BreakType.COLUMN_BREAK);
         builder.writeln("Text in column 2.");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\PageSetup.ColumnsSameWidth.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.ColumnsSameWidth.doc");
         //ExEnd
     }
 
@@ -256,7 +256,7 @@ public class ExPageSetup extends ApiExampleBase
         builder.insertBreak(BreakType.COLUMN_BREAK);
         builder.writeln("Wide column 2.");
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\PageSetup.ColumnsCustomWidth.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.ColumnsCustomWidth.doc");
         //ExEnd
     }
 
@@ -279,7 +279,7 @@ public class ExPageSetup extends ApiExampleBase
         for (int i = 1; i <= 20; i++)
             builder.writeln(java.text.MessageFormat.format("Line {0}.", i));
 
-        builder.getDocument().save(getMyDir() + "\\Artifacts\\PageSetup.LineNumbers.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.LineNumbers.doc");
         //ExEnd
     }
 
@@ -308,7 +308,7 @@ public class ExPageSetup extends ApiExampleBase
         border.setColor(Color.BLUE);
         border.setDistanceFromText(0);
 
-        doc.save(getMyDir() + "\\Artifacts\\PageSetup.PageBorderTop.doc");
+        doc.save(getArtifactsDir() + "PageSetup.PageBorderTop.doc");
         //ExEnd
     }
 
@@ -333,7 +333,7 @@ public class ExPageSetup extends ApiExampleBase
         ps.getBorders().setDistanceFromText(24);
         ps.getBorders().setShadow(true);
 
-        doc.save(getMyDir() + "\\Artifacts\\PageSetup.PageBorders.doc");
+        doc.save(getArtifactsDir() + "PageSetup.PageBorders.doc");
         //ExEnd
     }
 
@@ -378,7 +378,7 @@ public class ExPageSetup extends ApiExampleBase
         section.getPageSetup().setRestartPageNumbering(true);
         section.getPageSetup().setPageNumberStyle(NumberStyle.ARABIC);
 
-        doc.save(getMyDir() + "\\Artifacts\\PageSetup.PageNumbering.doc");
+        doc.save(getArtifactsDir() + "PageSetup.PageNumbering.doc");
         //ExEnd
     }
 

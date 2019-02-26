@@ -58,7 +58,7 @@ public class ExReplaceHyperlinks extends ApiExampleBase
             }
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\ReplaceHyperlinks.doc");
+        doc.save(getArtifactsDir() + "ReplaceHyperlinks.doc");
     }
 
     private static final String NEW_URL = "http://www.aspose.com";

@@ -176,7 +176,7 @@ public class ExTable extends ApiExampleBase
     public void convertTextboxToTable() throws Exception
     {
         // Open the document
-        Document doc = new Document(getMyDir() + "Shape.Textbox.doc");
+        Document doc = new Document(getMyDir() + "Shape.TextBox.doc");
 
         // Convert all shape nodes which contain child nodes.
         // We convert the collection to an array as static "snapshot" because the original textboxes will be removed after conversion which will
@@ -191,7 +191,7 @@ public class ExTable extends ApiExampleBase
             }
         }
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.ConvertTextboxToTable.html");
+        doc.save(getArtifactsDir() + "Table.ConvertTextboxToTable.html");
     }
 
     /**
@@ -358,11 +358,11 @@ public class ExTable extends ApiExampleBase
         // Fill the cells with a light green solid color.
         table.setShading(TextureIndex.TEXTURE_SOLID, Color.GREEN, Color.GREEN);
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.SetOutlineBorders.doc");
+        doc.save(getArtifactsDir() + "Table.SetOutlineBorders.doc");
         //ExEnd
 
         // Verify the borders were set correctly.
-        doc = new Document(getMyDir() + "\\Artifacts\\Table.SetOutlineBorders.doc");
+        doc = new Document(getArtifactsDir() + "Table.SetOutlineBorders.doc");
         Assert.assertEquals(table.getAlignment(), TableAlignment.CENTER);
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB(), Color.GREEN.getRGB());
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getRight().getColor().getRGB(), Color.GREEN.getRGB());
@@ -389,11 +389,11 @@ public class ExTable extends ApiExampleBase
         // Set a green border around and inside the table.
         table.setBorders(LineStyle.SINGLE, 1.5, Color.GREEN);
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.SetAllBorders.doc");
+        doc.save(getArtifactsDir() + "Table.SetAllBorders.doc");
         //ExEnd
 
         // Verify the borders were set correctly.
-        doc = new Document(getMyDir() + "\\Artifacts\\Table.SetAllBorders.doc");
+        doc = new Document(getArtifactsDir() + "Table.SetAllBorders.doc");
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getLeft().getColor().getRGB(), Color.GREEN.getRGB());
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB(), Color.GREEN.getRGB());
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getRight().getColor().getRGB(), Color.GREEN.getRGB());
@@ -422,9 +422,9 @@ public class ExTable extends ApiExampleBase
         firstRow.getRowFormat().setAllowBreakAcrossPages(true);
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.RowFormat.doc");
+        doc.save(getArtifactsDir() + "Table.RowFormat.doc");
 
-        doc = new Document(getMyDir() + "\\Artifacts\\Table.RowFormat.doc");
+        doc = new Document(getArtifactsDir() + "Table.RowFormat.doc");
         table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getLineStyle(), LineStyle.NONE);
         Assert.assertEquals(table.getFirstRow().getRowFormat().getHeightRule(), HeightRule.AUTO);
@@ -451,9 +451,9 @@ public class ExTable extends ApiExampleBase
         firstCell.getCellFormat().getShading().setForegroundPatternColor(Color.GREEN);
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.CellFormat.doc");
+        doc.save(getArtifactsDir() + "Table.CellFormat.doc");
 
-        doc = new Document(getMyDir() + "\\Artifacts\\Table.CellFormat.doc");
+        doc = new Document(getArtifactsDir() + "Table.CellFormat.doc");
         table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         Assert.assertEquals(table.getFirstRow().getFirstCell().getCellFormat().getWidth(), 30.0);
         Assert.assertEquals(table.getFirstRow().getFirstCell().getCellFormat().getOrientation(), TextOrientation.DOWNWARD);
@@ -488,7 +488,7 @@ public class ExTable extends ApiExampleBase
         // Clear the borders all cells in the table.
         table.clearBorders();
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.ClearBorders.doc");
+        doc.save(getArtifactsDir() + "Table.ClearBorders.doc");
         //ExEnd
     }
 
@@ -514,7 +514,7 @@ public class ExTable extends ApiExampleBase
         // Replace any instances of our string in the last cell of the table only.
         table.getLastRow().getLastCell().getRange().replace("50", "20", options);
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.ReplaceCellText.doc");
+        doc.save(getArtifactsDir() + "Table.ReplaceCellText.doc");
         //ExEnd
 
         Assert.assertEquals(table.getLastRow().getLastCell().toString(SaveFormat.TEXT).trim(), "20");
@@ -576,7 +576,7 @@ public class ExTable extends ApiExampleBase
         // upon save. This has to do with document validation.
         table.getParentNode().insertAfter(new Paragraph(doc), table);
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.CloneTableAndInsert.doc");
+        doc.save(getArtifactsDir() + "Table.CloneTableAndInsert.doc");
         //ExEnd
 
         // Verify that the table was cloned and inserted properly.
@@ -610,7 +610,7 @@ public class ExTable extends ApiExampleBase
             row.getRowFormat().setAllowBreakAcrossPages(false);
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.DisableBreakAcrossPages.doc");
+        doc.save(getArtifactsDir() + "Table.DisableBreakAcrossPages.doc");
 
         Assert.assertFalse(table.getFirstRow().getRowFormat().getAllowBreakAcrossPages());
         Assert.assertFalse(table.getLastRow().getRowFormat().getAllowBreakAcrossPages());
@@ -657,7 +657,7 @@ public class ExTable extends ApiExampleBase
                     para.getParagraphFormat().setKeepWithNext(true);
         //ExEnd
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.KeepTableTogether.doc");
+        doc.save(getArtifactsDir() + "Table.KeepTableTogether.doc");
 
         // Verify the correct paragraphs were set properly.
         for (Paragraph para : (Iterable<Paragraph>) table.getChildNodes(NodeType.PARAGRAPH, true))
@@ -689,7 +689,7 @@ public class ExTable extends ApiExampleBase
         // Add the row to the end of the table.
         table.appendChild(clonedRow);
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.AddCloneRowToTable.doc");
+        doc.save(getArtifactsDir() + "Table.AddCloneRowToTable.doc");
         //ExEnd
 
         // Verify that the row was cloned and appended properly.
@@ -913,7 +913,7 @@ public class ExTable extends ApiExampleBase
         row.getLastCell().appendChild(new Paragraph(doc));
         row.getLastCell().getFirstParagraph().appendChild(new Run(doc, "Row 1, Cell 2 Text"));
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.InsertTableUsingNodes.doc");
+        doc.save(getArtifactsDir() + "Table.InsertTableUsingNodes.doc");
         //ExEnd
 
         Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 1);
@@ -946,7 +946,7 @@ public class ExTable extends ApiExampleBase
         // Add this table to the first cell of the outer table.
         outerTable.getFirstRow().getFirstCell().appendChild(innerTable);
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.CreateNestedTable.doc");
+        doc.save(getArtifactsDir() + "Table.CreateNestedTable.doc");
 
         Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 2); //ExSkip
         Assert.assertEquals(outerTable.getFirstRow().getFirstCell().getTables().getCount(), 1); //ExSkip
@@ -1045,7 +1045,7 @@ public class ExTable extends ApiExampleBase
         //ExEnd
 
         // Save the document.
-        doc.save(getMyDir() + "\\Artifacts\\Table.MergeCellRange.doc");
+        doc.save(getArtifactsDir() + "Table.MergeCellRange.doc");
 
         // Verify the cells were merged
         int mergedCellsCount = 0;
@@ -1124,7 +1124,7 @@ public class ExTable extends ApiExampleBase
         // Remove the empty table container.
         secondTable.remove();
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.CombineTables.doc");
+        doc.save(getArtifactsDir() + "Table.CombineTables.doc");
         //ExEnd
 
         Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 1);
@@ -1164,10 +1164,10 @@ public class ExTable extends ApiExampleBase
             table.prependChild(currentRow);
         } while (currentRow != row);
 
-        doc.save(getMyDir() + "\\Artifacts\\Table.SplitTable.doc");
+        doc.save(getArtifactsDir() + "Table.SplitTable.doc");
         //ExEnd
 
-        doc = new Document(getMyDir() + "\\Artifacts\\Table.SplitTable.doc");
+        doc = new Document(getArtifactsDir() + "Table.SplitTable.doc");
         // Test we are adding the rows in the correct order and the
         // selected row was also moved.
         Assert.assertEquals(table.getFirstRow(), row);

@@ -75,7 +75,7 @@ public class ExInsertDocument extends ApiExampleBase
         Bookmark bookmark = mainDoc.getRange().getBookmarks().get("insertionPlace");
         insertDocument(bookmark.getBookmarkStart().getParentNode(), subDoc);
 
-        mainDoc.save(getMyDir() + "\\Artifacts\\InsertDocumentAtBookmark.doc");
+        mainDoc.save(getArtifactsDir() + "InsertDocumentAtBookmark.doc");
         //ExEnd
     }
 
@@ -102,7 +102,7 @@ public class ExInsertDocument extends ApiExampleBase
         // that should be inserted to this field.
         mainDoc.getMailMerge().execute(new String[]{"Document_1"}, new String[]{getMyDir() + "InsertDocument2.doc"});
 
-        mainDoc.save(getMyDir() + "\\Artifacts\\InsertDocumentAtMailMerge.doc");
+        mainDoc.save(getArtifactsDir() + "InsertDocumentAtMailMerge.doc");
     }
 
     private class InsertDocumentAtMailMergeHandler implements IFieldMergingCallback
@@ -206,7 +206,7 @@ public class ExInsertDocument extends ApiExampleBase
         options.setReplacingCallback(new InsertDocumentAtReplaceHandler());
 
         mainDoc.getRange().replace(Pattern.compile("\\[MY_DOCUMENT\\]"), "", options);
-        mainDoc.save(getMyDir() + "\\Artifacts\\InsertDocumentAtReplace.doc");
+        mainDoc.save(getArtifactsDir() + "InsertDocumentAtReplace.doc");
     }
 
     private class InsertDocumentAtReplaceHandler implements IReplacingCallback

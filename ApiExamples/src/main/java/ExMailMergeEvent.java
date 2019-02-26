@@ -60,7 +60,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         doc.getMailMerge().execute(new String[]{"htmlField1"}, new String[]{htmlText.toString()});
 
         // Save resulting document with a new name.
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.InsertHtml.doc");
+        doc.save(getArtifactsDir() + "MailMerge.InsertHtml.doc");
     }
 
     private class HandleMergeFieldInsertHtml implements IFieldMergingCallback
@@ -118,7 +118,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         doc.getMailMerge().executeWithRegions(dataTable);
 
         // Save resulting document with a new name.
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.InsertCheckBox.doc");
+        doc.save(getArtifactsDir() + "MailMerge.InsertCheckBox.doc");
     }
 
     private class HandleMergeFieldInsertCheckBox implements IFieldMergingCallback
@@ -190,7 +190,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         DataTable dataTable = getSuppliersDataTable();
         doc.getMailMerge().executeWithRegions(dataTable);
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.AlternatingRows.doc");
+        doc.save(getArtifactsDir() + "MailMerge.AlternatingRows.doc");
     }
 
     private class HandleMergeFieldAlternatingRows implements IFieldMergingCallback
@@ -273,7 +273,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         // Pass a URL which points to the image to merge into the document.
         doc.getMailMerge().execute(new String[]{"Logo"}, new Object[]{"http://www.aspose.com/images/aspose-logo.gif"});
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.MergeImageFromUrl.doc");
+        doc.save(getArtifactsDir() + "MailMerge.MergeImageFromUrl.doc");
         //ExEnd
 
         // Verify the image was merged into the document.
@@ -319,7 +319,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         // Close the database.
         conn.close();
 
-        doc.save(getMyDir() + "\\Artifacts\\MailMerge.MergeImage.doc");
+        doc.save(getArtifactsDir() + "MailMerge.MergeImage.doc");
     }
 
     private class HandleMergeImageFieldFromBlob implements IFieldMergingCallback

@@ -34,7 +34,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase
         loadOptions.setWebRequestTimeout(1000);
 
         Document doc = new Document(getMyDir() + "Shape.VmlAndDml.htm", loadOptions);
-        doc.save(getMyDir() + "\\Artifacts\\Shape.VmlAndDml.docx");
+        doc.save(getArtifactsDir() + "Shape.VmlAndDml.docx");
         //ExEnd
     }
 

@@ -167,7 +167,7 @@ public class ExBookmarks extends ApiExampleBase
 
         p.appendChild(new Run(doc, "Text after bookmark."));
 
-        doc.save(getMyDir() + "\\Artifacts\\Bookmarks.CreateBookmarkWithNodes.doc");
+        doc.save(getArtifactsDir() + "Bookmarks.CreateBookmarkWithNodes.doc");
         //ExEnd
 
         Assert.assertEquals(doc.getRange().getBookmarks().get("My bookmark").getText(), "Text inside bookmark. ");
@@ -221,7 +221,7 @@ public class ExBookmarks extends ApiExampleBase
         pdfSaveOptions.getOutlineOptions().getBookmarksOutlineLevels().add("My Bookmark", 1);
         pdfSaveOptions.getOutlineOptions().getBookmarksOutlineLevels().add("Nested Bookmark", 2);
 
-        doc.save(getMyDir() + "\\Artifacts\\Bookmarks.WhiteSpaces Out.pdf", pdfSaveOptions);
+        doc.save(getArtifactsDir() + "Bookmarks.WhiteSpaces.pdf", pdfSaveOptions);
         //ExEnd
     }
 }
