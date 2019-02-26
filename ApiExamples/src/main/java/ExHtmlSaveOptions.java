@@ -50,7 +50,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase
         switch (saveFormat)
         {
             case SaveFormat.HTML:
-                DocumentHelper.findTextInFile(getMyDir() + "\\Artifacts\\HtmlSaveOptions.ExportToHtmlUsingImage." + SaveFormat.toString(saveFormat).toLowerCase(), "<img src=\"HtmlSaveOptions.ExportToHtmlUsingImage.001.png\" width=\"49\" height=\"19\" alt=\"\" style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />");
+                DocumentHelper.findTextInFile(getMyDir() + "\\Artifacts\\HtmlSaveOptions.ExportToHtmlUsingImage." + SaveFormat.toString(saveFormat).toLowerCase(), "<img src=\"HtmlSaveOptions.ExportToHtmlUsingImage.001.png\" width=\"49\" height=\"19\" alt=\"\" style=\"vertical-align:middle; -aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />");
                 return;
 
             case SaveFormat.MHTML:
@@ -58,7 +58,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase
                 return;
 
             case SaveFormat.EPUB:
-                DocumentHelper.findTextInFile(getMyDir() + "\\Artifacts\\HtmlSaveOptions.ExportToHtmlUsingImage." + SaveFormat.toString(saveFormat).toLowerCase(), "<span style=\"font-family:\'Cambria Math\'\">A=π</span><span style=\"font-family:\'Cambria Math\'\">r</span><span style=\"font-family:\'Cambria Math\'\">2</span>");
+                DocumentHelper.findTextInFile(getMyDir() + "\\Artifacts\\HtmlSaveOptions.ExportToHtmlUsingImage." + SaveFormat.toString(saveFormat).toLowerCase(), "<span style=\"font-family:'Cambria Math'\">A=π</span><span style=\"font-family:'Cambria Math'\">r</span><span style=\"font-family:'Cambria Math'\">2</span>");
                 return;
         }
     }
@@ -105,7 +105,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase
                 dirFiles = DirectoryGetFiles(getMyDir() + "\\Artifacts\\", "HtmlSaveOptions.ExportTextBoxAsSvg.001.png");
                 Assert.assertFalse(dirFiles.isEmpty());
 
-                DocumentHelper.findTextInFile(getMyDir() + "\\Artifacts\\HtmlSaveOptions.ExportTextBoxAsSvg." + SaveFormat.toString(saveFormat).toLowerCase(), "<img src=\"HtmlSaveOptions.ExportTextBoxAsSvg.001.png\" width=\"240\" height=\"119\" alt=\"\" style=\"margin:3.22pt 9pt 3.6pt 8.62pt; -aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:14.4pt; -aw-wrap-type:square; float:left\" />");
+                DocumentHelper.findTextInFile(getMyDir() + "\\Artifacts\\HtmlSaveOptions.ExportTextBoxAsSvg." + SaveFormat.toString(saveFormat).toLowerCase(), "<img src=\"HtmlSaveOptions.ExportTextBoxAsSvg.001.png\" width=\"241\" height=\"120\" alt=\"\" style=\"margin:3.6pt 9pt; -aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:14.4pt; -aw-wrap-type:square; float:left\" />");
                 return;
         }
     }

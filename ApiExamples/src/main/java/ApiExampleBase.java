@@ -10,7 +10,6 @@ import com.aspose.words.License;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import javax.sql.rowset.*;
 import java.io.File;
 import java.net.URI;
 
@@ -121,7 +120,7 @@ public class ApiExampleBase
     /**
      * This is where the test license is on my development machine.
      */
-    static final String TEST_LICENSE_FILE_NAME = "X:\\awuex\\Licenses\\Aspose.Words.Java.lic";
+    static final String TEST_LICENSE_FILE_NAME = "X:\\Internal-projects\\awuex\\Licenses\\Aspose.Words.Java.lic";
 
     static
     {

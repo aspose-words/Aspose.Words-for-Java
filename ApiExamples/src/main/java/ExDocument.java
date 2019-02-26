@@ -9,18 +9,14 @@
 import com.aspose.words.*;
 import com.aspose.words.Font;
 import com.aspose.words.Shape;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.*;
-
-import org.testng.Assert;
-
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -1622,12 +1618,12 @@ public class ExDocument extends ApiExampleBase
     public void showRevisionBalloonsInPdf() throws Exception
     {
         //ExStart
-        //ExFor:RevisionOptions.ShowRevisionBalloons
+        //ExFor:RevisionOptions.ShowInBalloons
         //ExSummary:Shows how render tracking changes in balloons
         Document doc = new Document(getMyDir() + "ShowRevisionBalloons.docx");
 
         //Set option true, if you need render tracking changes in balloons in pdf document
-        doc.getLayoutOptions().getRevisionOptions().setShowRevisionBalloons(true);
+        doc.getLayoutOptions().getRevisionOptions().setShowInBalloons(1);
 
         //Check that revisions are in balloons 
         doc.save(getMyDir() + "\\Artifacts\\ShowRevisionBalloons.pdf");
@@ -1757,8 +1753,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:PlainTextDocument.#ctor(String)
         //ExFor:PlainTextDocument.#ctor(String, LoadOptions)
         //ExSummary:Show how to simply extract text from a document.
-        LoadOptions loadOptions = new LoadOptions();
-        loadOptions.setAllowTrailingWhitespaceForListItems(false);
+        TxtLoadOptions loadOptions = new TxtLoadOptions();
+        loadOptions.setDetectNumberingWithWhitespaces(false);
 
         PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Bookmark.docx");
         Assert.assertEquals(plaintext.getText(), "This is a bookmarked text.\f"); //ExSkip
@@ -1801,8 +1797,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:PlainTextDocument.#ctor(Stream)
         //ExFor:PlainTextDocument.#ctor(Stream, LoadOptions)
         //ExSummary:Show how to simply extract text from a stream.
-        LoadOptions loadOptions = new LoadOptions();
-        loadOptions.setAllowTrailingWhitespaceForListItems(false);
+        TxtLoadOptions loadOptions = new TxtLoadOptions();
+        loadOptions.setDetectNumberingWithWhitespaces(false);
 
         InputStream stream = new FileInputStream(getMyDir() + "Bookmark.docx");
 

@@ -642,8 +642,8 @@ public class ExFont extends ApiExampleBase
 
         doc.save(getMyDir() + "\\Artifacts\\Rendering.MissingFontNotification.pdf");
 
-        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font substitutes: 'Arial' replaced with 'Arvo'."));
-        Assert.assertTrue(callback.mFontWarnings.get(1).getDescription().equals("Font 'Times New Roman' has not been found. Using 'Noticia Text' font instead. Reason: closest match according to font info from the document."));
+        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'Arial' has not been found. Using 'Arvo' font instead. Reason: table substitution."));
+        Assert.assertTrue(callback.mFontWarnings.get(1).getDescription().equals("Font 'Times New Roman' has not been found. Using 'Noticia Text' font instead. Reason: font info substitution."));
     }
 
     @Test
@@ -657,7 +657,7 @@ public class ExFont extends ApiExampleBase
 
         doc.save(getMyDir() + "\\Artifacts\\Font.DisappearingBulletPoints.pdf");
 
-        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'SymbolPS' has not been found. Using 'Wingdings' font instead. Reason: closest match according to font info from the document."));
+        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'SymbolPS' has not been found. Using 'Wingdings' font instead. Reason: font info substitution."));
     }
 
     @Test
