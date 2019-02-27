@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.lang.SystemUtils;
 import org.testng.annotations.Test;
 
 import java.awt.Color;
@@ -104,61 +105,61 @@ public class ExPageSetup extends ApiExampleBase
     @Test
     public void defaultPaperTray() throws Exception
     {
-        //ExStart
-        //ExFor:PageSetup.FirstPageTray
-        //ExFor:PageSetup.OtherPagesTray
-        //ExSummary:Changes all sections in a document to use the default paper tray of the selected printer.
-        Document doc = new Document();
+        if (!SystemUtils.IS_OS_LINUX) {
+            //ExStart
+            //ExFor:PageSetup.FirstPageTray
+            //ExFor:PageSetup.OtherPagesTray
+            //ExSummary:Changes all sections in a document to use the default paper tray of the selected printer.
+            Document doc = new Document();
 
-        // Find the printer that will be used for printing this document. In this case it is the default printer.
-        // You can define a specific printer by using PrintServiceLookup.lookupPrintServices. 
-        PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
-        Media defaultTray = (Media) printService.getDefaultAttributeValue(Media.class);
+            // Find the printer that will be used for printing this document. In this case it is the default printer.
+            // You can define a specific printer by using PrintServiceLookup.lookupPrintServices.
+            PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
+            Media defaultTray = (Media) printService.getDefaultAttributeValue(Media.class);
 
-        // The paper tray value stored in documents is completely printer specific. This means
-        // The code below resets all page tray values to use the current printers default tray.
-        // You can enumerate getSupportedAttributeValues for Media type to find the other valid
-        // paper tray values of the selected printer.
-        for (Section section : doc.getSections())
-        {
-            section.getPageSetup().setFirstPageTray(defaultTray.getValue());
-            section.getPageSetup().setOtherPagesTray(defaultTray.getValue());
+            // The paper tray value stored in documents is completely printer specific. This means
+            // The code below resets all page tray values to use the current printers default tray.
+            // You can enumerate getSupportedAttributeValues for Media type to find the other valid
+            // paper tray values of the selected printer.
+            for (Section section : doc.getSections()) {
+                section.getPageSetup().setFirstPageTray(defaultTray.getValue());
+                section.getPageSetup().setOtherPagesTray(defaultTray.getValue());
+            }
+            //ExEnd
         }
-        //ExEnd
     }
 
     @Test
     public void paperTrayForDifferentPaperType() throws Exception
     {
-        //ExStart
-        //ExFor:PageSetup.FirstPageTray
-        //ExFor:PageSetup.OtherPagesTray
-        //ExSummary:Shows how to set up printing using different printer trays for different paper sizes.
-        Document doc = new Document();
+        if (!SystemUtils.IS_OS_LINUX) {
+            //ExStart
+            //ExFor:PageSetup.FirstPageTray
+            //ExFor:PageSetup.OtherPagesTray
+            //ExSummary:Shows how to set up printing using different printer trays for different paper sizes.
+            Document doc = new Document();
 
-        // Choose the default printer to be used for printing this document.
-        PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
-        Media[] trays = (Media[]) printService.getSupportedAttributeValues(Media.class, null, null);
+            // Choose the default printer to be used for printing this document.
+            PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
+            Media[] trays = (Media[]) printService.getSupportedAttributeValues(Media.class, null, null);
 
-        // This is the tray we will use for A4 paper size. This is the first tray in the media set.
-        int printerTrayForA4 = trays[0].getValue();
-        // This is the tray we will use Letter paper size. This is the second tray in the media set.
-        int printerTrayForLetter = trays[1].getValue();
+            // This is the tray we will use for A4 paper size. This is the first tray in the media set.
+            int printerTrayForA4 = trays[0].getValue();
+            // This is the tray we will use Letter paper size. This is the second tray in the media set.
+            int printerTrayForLetter = trays[1].getValue();
 
-        // Set the tray used for each section based off the paper size used in the section.
-        for (Section section : doc.getSections())
-        {
-            if (section.getPageSetup().getPaperSize() == PaperSize.LETTER)
-            {
-                section.getPageSetup().setFirstPageTray(printerTrayForLetter);
-                section.getPageSetup().setOtherPagesTray(printerTrayForLetter);
-            } else if (section.getPageSetup().getPaperSize() == PaperSize.A4)
-            {
-                section.getPageSetup().setFirstPageTray(printerTrayForA4);
-                section.getPageSetup().setOtherPagesTray(printerTrayForA4);
+            // Set the tray used for each section based off the paper size used in the section.
+            for (Section section : doc.getSections()) {
+                if (section.getPageSetup().getPaperSize() == PaperSize.LETTER) {
+                    section.getPageSetup().setFirstPageTray(printerTrayForLetter);
+                    section.getPageSetup().setOtherPagesTray(printerTrayForLetter);
+                } else if (section.getPageSetup().getPaperSize() == PaperSize.A4) {
+                    section.getPageSetup().setFirstPageTray(printerTrayForA4);
+                    section.getPageSetup().setOtherPagesTray(printerTrayForA4);
+                }
             }
+            //ExEnd
         }
-        //ExEnd
     }
 
     @Test

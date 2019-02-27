@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.lang.SystemUtils;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -627,37 +628,41 @@ public class ExFont extends ApiExampleBase
     @Test
     public void fontSubstitutionWarnings() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        if (!SystemUtils.IS_OS_LINUX) {
+            Document doc = new Document(getMyDir() + "Rendering.doc");
 
-        // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
-        HandleDocumentWarnings callback = new HandleDocumentWarnings();
-        doc.setWarningCallback(callback);
+            // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
+            HandleDocumentWarnings callback = new HandleDocumentWarnings();
+            doc.setWarningCallback(callback);
 
-        FontSettings fontSettings = new FontSettings();
-        fontSettings.setDefaultFontName("Arial");
-        fontSettings.setFontSubstitutes("Arial", "Arvo", "Slab");
-        fontSettings.setFontsFolder(getMyDir() + "MyFonts\\", false);
+            FontSettings fontSettings = new FontSettings();
+            fontSettings.setDefaultFontName("Arial");
+            fontSettings.setFontSubstitutes("Arial", "Arvo", "Slab");
+            fontSettings.setFontsFolder(getMyDir() + "MyFonts\\", false);
 
-        doc.setFontSettings(fontSettings);
+            doc.setFontSettings(fontSettings);
 
-        doc.save(getArtifactsDir() + "Rendering.MissingFontNotification.pdf");
+            doc.save(getArtifactsDir() + "Rendering.MissingFontNotification.pdf");
 
-        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'Arial' has not been found. Using 'Arvo' font instead. Reason: table substitution."));
-        Assert.assertTrue(callback.mFontWarnings.get(1).getDescription().equals("Font 'Times New Roman' has not been found. Using 'Noticia Text' font instead. Reason: font info substitution."));
+            Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'Arial' has not been found. Using 'Arvo' font instead. Reason: table substitution."));
+            Assert.assertTrue(callback.mFontWarnings.get(1).getDescription().equals("Font 'Times New Roman' has not been found. Using 'Noticia Text' font instead. Reason: font info substitution."));
+        }
     }
 
     @Test
     public void fontSubstitutionWarningsClosestMatch() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Font.DisappearingBulletPoints.doc");
+        if (!SystemUtils.IS_OS_LINUX) {
+            Document doc = new Document(getMyDir() + "Font.DisappearingBulletPoints.doc");
 
-        // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
-        HandleDocumentWarnings callback = new HandleDocumentWarnings();
-        doc.setWarningCallback(callback);
+            // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
+            HandleDocumentWarnings callback = new HandleDocumentWarnings();
+            doc.setWarningCallback(callback);
 
-        doc.save(getArtifactsDir() + "Font.DisappearingBulletPoints.pdf");
+            doc.save(getArtifactsDir() + "Font.DisappearingBulletPoints.pdf");
 
-        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'SymbolPS' has not been found. Using 'Wingdings' font instead. Reason: font info substitution."));
+            Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'SymbolPS' has not been found. Using 'Wingdings' font instead. Reason: font info substitution."));
+        }
     }
 
     @Test

@@ -332,8 +332,8 @@ public class ExImage extends ApiExampleBase
         {
             if (shape.hasImage())
             {
-                String imageFileName = java.text.MessageFormat.format("\\Artifacts\\Image.ExportImages.{0} Out{1}", imageIndex, FileFormatUtil.imageTypeToExtension(shape.getImageData().getImageType()));
-                shape.getImageData().save(getMyDir() + imageFileName);
+                String imageFileName = java.text.MessageFormat.format("Image.ExportImages.{0} Out{1}", imageIndex, FileFormatUtil.imageTypeToExtension(shape.getImageData().getImageType()));
+                shape.getImageData().save(getArtifactsDir() + imageFileName);
                 imageIndex++;
             }
         }

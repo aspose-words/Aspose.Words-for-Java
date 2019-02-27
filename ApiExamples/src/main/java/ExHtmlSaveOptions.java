@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.lang.SystemUtils;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -208,22 +209,22 @@ public class ExHtmlSaveOptions extends ApiExampleBase
     @Test(dataProvider = "exportFontsDataProvider")
     public void exportFonts(boolean exportAsBase64) throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        if (!SystemUtils.IS_OS_LINUX) {
+            Document doc = new Document(getMyDir() + "Document.doc");
 
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-        saveOptions.setExportFontResources(true);
-        saveOptions.setExportFontsAsBase64(exportAsBase64);
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            saveOptions.setExportFontResources(true);
+            saveOptions.setExportFontsAsBase64(exportAsBase64);
 
-        if (!exportAsBase64)
-        {
-            doc.save(getArtifactsDir() + "DocumentExportFonts Out 1.html", saveOptions);
-            Assert.assertFalse(DirectoryGetFiles(getArtifactsDir(), "DocumentExportFonts Out 1.times.ttf").isEmpty()); //Verify that the font has been added to the folder
+            if (!exportAsBase64) {
+                doc.save(getArtifactsDir() + "DocumentExportFonts Out 1.html", saveOptions);
+                Assert.assertFalse(DirectoryGetFiles(getArtifactsDir(), "DocumentExportFonts Out 1.times.ttf").isEmpty()); //Verify that the font has been added to the folder
 
-        } else
-        {
-            doc.save(getArtifactsDir() + "DocumentExportFonts Out 2.html", saveOptions);
-            Assert.assertTrue(DirectoryGetFiles(getArtifactsDir(), "DocumentExportFonts Out 2.times.ttf").isEmpty()); //Verify that the font is not added to the folder
+            } else {
+                doc.save(getArtifactsDir() + "DocumentExportFonts Out 2.html", saveOptions);
+                Assert.assertTrue(DirectoryGetFiles(getArtifactsDir(), "DocumentExportFonts Out 2.times.ttf").isEmpty()); //Verify that the font is not added to the folder
 
+            }
         }
     }
 
@@ -237,41 +238,45 @@ public class ExHtmlSaveOptions extends ApiExampleBase
     @Test
     public void resourceFolderPriority() throws Exception
     {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ResourceFolder.docx");
+        if (!SystemUtils.IS_OS_LINUX) {
+            Document doc = new Document(getMyDir() + "HtmlSaveOptions.ResourceFolder.docx");
 
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-        saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
-        saveOptions.setExportFontResources(true);
-        saveOptions.setResourceFolder(getArtifactsDir() + "Resources");
-        saveOptions.setResourceFolderAlias("http://example.com/resources");
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
+            saveOptions.setExportFontResources(true);
+            saveOptions.setResourceFolder(getArtifactsDir() + "Resources");
+            saveOptions.setResourceFolderAlias("http://example.com/resources");
 
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolder Out.html", saveOptions);
+            doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolder Out.html", saveOptions);
 
-        Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.001.jpeg").isEmpty());
-        Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.002.png").isEmpty());
-        Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.calibri.ttf").isEmpty());
-        Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.css").isEmpty());
+            Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.001.jpeg").isEmpty());
+            Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.002.png").isEmpty());
+            Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.calibri.ttf").isEmpty());
+            Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.css").isEmpty());
+        }
 
     }
 
     @Test
     public void resourceFolderLowPriority() throws Exception
     {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ResourceFolder.docx");
+        if (!SystemUtils.IS_OS_LINUX) {
+            Document doc = new Document(getMyDir() + "HtmlSaveOptions.ResourceFolder.docx");
 
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-        saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
-        saveOptions.setExportFontResources(true);
-        saveOptions.setFontsFolder(getArtifactsDir() + "Fonts");
-        saveOptions.setImagesFolder(getArtifactsDir() + "Images");
-        saveOptions.setResourceFolder(getArtifactsDir() + "Resources");
-        saveOptions.setResourceFolderAlias("http://example.com/resources");
+            HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+            saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
+            saveOptions.setExportFontResources(true);
+            saveOptions.setFontsFolder(getArtifactsDir() + "Fonts");
+            saveOptions.setImagesFolder(getArtifactsDir() + "Images");
+            saveOptions.setResourceFolder(getArtifactsDir() + "Resources");
+            saveOptions.setResourceFolderAlias("http://example.com/resources");
 
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolder Out.html", saveOptions);
+            doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolder Out.html", saveOptions);
 
-        Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolder Out.001.jpeg").isEmpty());
-        Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolder Out.002.png").isEmpty());
-        Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Fonts", "HtmlSaveOptions.ResourceFolder Out.calibri.ttf").isEmpty());
-        Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.css").isEmpty());
+            Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolder Out.001.jpeg").isEmpty());
+            Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolder Out.002.png").isEmpty());
+            Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Fonts", "HtmlSaveOptions.ResourceFolder Out.calibri.ttf").isEmpty());
+            Assert.assertFalse(DirectoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.css").isEmpty());
+        }
     }
 }

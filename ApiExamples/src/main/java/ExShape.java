@@ -407,9 +407,9 @@ public class ExShape extends ApiExampleBase
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);
         officeMath.setJustification(OfficeMathJustification.LEFT);
 
-        doc.save(getMyDir() + "Artifacts\\Shape.OfficeMath.docx");
+        doc.save(getArtifactsDir() + "Shape.OfficeMath.docx");
         //ExEnd
-        Assert.assertTrue(DocumentHelper.compareDocs(getMyDir() + "Artifacts\\Shape.OfficeMath.docx", getGoldsDir() + "Shape.OfficeMath Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "Shape.OfficeMath.docx", getGoldsDir() + "Shape.OfficeMath Gold.docx"));
     }
 
     @Test
