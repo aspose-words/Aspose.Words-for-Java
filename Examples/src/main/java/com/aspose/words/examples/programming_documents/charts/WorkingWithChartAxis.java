@@ -19,6 +19,7 @@ public class WorkingWithChartAxis {
         SetboundsOfAxis(dataDir);
         SetIntervalUnitBetweenLabelsOnAxis(dataDir);
         HideChartAxis(dataDir);
+        TickMultiLineLabelAlignment(dataDir);
     }
 
     public static void DefineXYAxisProperties(String dataDir) throws Exception {
@@ -205,5 +206,20 @@ public class WorkingWithChartAxis {
         doc.save(dataDir);
         // ExEnd:HideChartAxis
         System.out.println("\nY Axis of chart has been hidden successfully.\nFile saved at " + dataDir);
+    }
+    
+    public static void TickMultiLineLabelAlignment(String dataDir) throws Exception
+    {
+        // ExStart:TickMultiLineLabelAlignment
+    	Document doc = new Document(dataDir + "Document.docx");
+    	Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+    	ChartAxis axis = shape.getChart().getAxisX();
+
+    	//This property has effect only for multi-line labels.
+    	axis.setTickLabelAlignment(ParagraphAlignment.RIGHT);
+
+    	doc.save(dataDir + "Document_out.docx");
+        // ExEnd:TickMultiLineLabelAlignment
+        System.out.println("\nMulti-Line label for X Axis of chart has been aligned successfully.\nFile saved at " + dataDir);
     }
 }

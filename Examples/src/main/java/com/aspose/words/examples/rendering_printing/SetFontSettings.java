@@ -11,6 +11,7 @@ public class SetFontSettings {
 
         enableDisableFontSubstitution(dataDir);
         setFontFallbackSettings(dataDir);
+        setPredefinedFontFallbackSettings(dataDir);
     }
 
     public static void enableDisableFontSubstitution(String dataDir) throws Exception {
@@ -42,6 +43,21 @@ public class SetFontSettings {
         dataDir = dataDir + "Rendering.FontFallback_out.pdf";
         doc.save(dataDir);
         // ExEnd:SetFontFallbackSettings
+        System.out.println("\nDocument is rendered to PDF with font fallback.\nFile saved at " + dataDir);
+    }
+    
+    public static void setPredefinedFontFallbackSettings(String dataDir) throws Exception {
+        // ExStart: setPredefinedFontFallbackSettings
+        Document doc = new Document(dataDir + "Rendering.doc");
+
+        FontSettings fontSettings = new FontSettings();
+        fontSettings.getFallbackSettings().loadNotoFallbackSettings();
+
+        // Set font settings
+        doc.setFontSettings(fontSettings);
+        dataDir = dataDir + "Rendering.FontFallbackGoogleNoto_out.pdf";
+        doc.save(dataDir);
+        // ExEnd: setPredefinedFontFallbackSettings
         System.out.println("\nDocument is rendered to PDF with font fallback.\nFile saved at " + dataDir);
     }
 }
