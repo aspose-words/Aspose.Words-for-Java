@@ -27,6 +27,8 @@ public class BookmarkNameAndText
         // Set the name and text of the bookmark.
         bookmark.setName("RenamedBookmark");
         bookmark.setText("This is a new bookmarked text.");
+	// save
+	doc.save(dataDir + "renameBookmark.docx");
         System.out.println("\nBookmark name and text set successfully.");
 
 		//ExEnd:BookmarkNameAndText
