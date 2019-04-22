@@ -39,7 +39,7 @@ public class ExImage extends ApiExampleBase
         builder.writeln();
 
         builder.write("Image from an Internet url, automatically downloaded for you: ");
-        builder.insertImage("http://www.aspose.com/Images/aspose-logo.jpg");
+        builder.insertImage(getAsposelogoUri().toURL().openStream());
         builder.writeln();
 
         builder.getDocument().save(getArtifactsDir() + "Image.CreateFromUrl.doc");

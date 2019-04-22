@@ -108,6 +108,14 @@ public class ApiExampleBase
         return G_LICENSE_DIR;
     }
 
+    /**
+     * Gets the path to the codebase directory.
+     * @return url with aspose logo image
+     */
+    static URI getAsposelogoUri() {
+        return G_ASPOSELOGO_URI;
+    }
+
     private static final String G_USER_DIR;
     private static final String G_MY_DIR;
     private static final String G_ARTIFACTS_DIR;
@@ -115,6 +123,7 @@ public class ApiExampleBase
     private static final String G_IMAGE_DIR;
     private static final String G_DATABASE_DIR;
     private static final String G_LICENSE_DIR;
+    private static final URI G_ASPOSELOGO_URI;
 
     static
     {
@@ -126,6 +135,7 @@ public class ApiExampleBase
             G_IMAGE_DIR = new File(G_USER_DIR) + File.separator + "Data" + File.separator + "Images" + File.separator;
             G_DATABASE_DIR = new File(G_USER_DIR) + File.separator + "Data" + File.separator + "Database" + File.separator;
             G_LICENSE_DIR = new File(G_USER_DIR) + File.separator + "Data" + File.separator + "License" + File.separator;
+            G_ASPOSELOGO_URI = new URI("https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png");
         } catch (Exception e)
         {
             throw new RuntimeException(e);

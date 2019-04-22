@@ -1510,7 +1510,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExSummary:Shows how to insert an image into a document from a web address.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.insertImage("http://www.aspose.com/images/aspose-logo.gif");
+        builder.insertImage(getAsposelogoUri().toURL().openStream());
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertImageFromUrl.doc");
         //ExEnd

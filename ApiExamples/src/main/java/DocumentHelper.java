@@ -278,25 +278,24 @@ class DocumentHelper
         return doc.getFirstSection().getBody().getParagraphs().get(paraIndex);
     }
 
-    static byte[] convertImageToByteArray(File imagePath, String formatName)
-    {
-        try
-        {
-            BufferedImage originalImage = ImageIO.read(imagePath);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    /**
+     * Get paragraph of the current document.
+     *
+     * @param inputStream stream with test image
+     * @return byte array
+     * @throws IOException exception for reading array stream
+     */
+    static byte[] getBytesFromStream(final InputStream inputStream) throws IOException {
+        final int bufferSize = 1024;
+        int len;
 
-            ImageIO.write(originalImage, formatName, baos);
-            baos.flush();
-            byte[] imageBytes = baos.toByteArray();
-            baos.close();
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        byte[] buffer = new byte[bufferSize];
 
-            return imageBytes;
-        } catch(IOException e)
-        {
-            System.out.println(e.getMessage());
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
         }
-
-        return new byte[0];
+        return byteBuffer.toByteArray();
     }
 
     static void checkSubstitutes(Iterable<String> substitutes, String[] expectedSubtitutes)

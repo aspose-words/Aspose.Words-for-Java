@@ -271,7 +271,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         Document doc = new Document(getMyDir() + "MailMerge.MergeImageSimple.doc");
 
         // Pass a URL which points to the image to merge into the document.
-        doc.getMailMerge().execute(new String[]{"Logo"}, new Object[]{"http://www.aspose.com/images/aspose-logo.gif"});
+        doc.getMailMerge().execute(new String[]{"Logo"}, new Object[]{DocumentHelper.getBytesFromStream(getAsposelogoUri().toURL().openStream())});
 
         doc.save(getArtifactsDir() + "MailMerge.MergeImageFromUrl.doc");
         //ExEnd
