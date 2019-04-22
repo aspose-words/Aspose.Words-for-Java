@@ -818,10 +818,10 @@ public class ExRendering extends ApiExampleBase
     public void setFontSubstitutes() throws Exception
     {
         //ExStart
-        //ExFor:FontSettings.SetFontSubstitutes(String, String[])
+        //ExFor:TableSubstitutionRule.SetSubstitutes(String, String[])
         //ExSummary:Shows how to define alternative fonts if original does not exist
         FontSettings fontSettings = new FontSettings();
-        fontSettings.setFontSubstitutes("Times New Roman","Slab", "Arvo" );
+        fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Times New Roman","Slab", "Arvo" );
         //ExEnd
         Document doc = new Document(getMyDir() + "Rendering.doc");
         doc.setFontSettings(fontSettings);
@@ -832,11 +832,12 @@ public class ExRendering extends ApiExampleBase
         //Check that font source are default
         FontSourceBase[] fontSource = doc.getFontSettings().getFontsSources();
         Assert.assertEquals(FontSourceType.toString(fontSource[0].getType()), "SystemFonts");
+        Assert.assertEquals(doc.getFontSettings().getSubstitutionSettings().getDefaultFontSubstitution().getDefaultFontName(), "Times New Roman");
 
-        Assert.assertEquals(doc.getFontSettings().getDefaultFontName(), "Times New Roman");
+        String[] expectedFonts = new String[]{"Slab", "Arvo"};
 
-        String[] alternativeFonts = doc.getFontSettings().getFontSubstitutes("Times New Roman");
-        Assert.assertEquals(alternativeFonts, new String[] { "Slab", "Arvo" });
+        Iterable<String> alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Times New Roman");
+        DocumentHelper.checkSubstitutes(alternativeFonts, expectedFonts);
     }
 
     @Test
@@ -863,8 +864,8 @@ public class ExRendering extends ApiExampleBase
     public void addFontSubstitutes() throws Exception
     {
         FontSettings fontSettings = new FontSettings();
-        fontSettings.setFontSubstitutes("Slab","Times New Roman", "Arial");
-        fontSettings.addFontSubstitutes("Arvo", "Open Sans", "Arial" );
+        fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Slab","Times New Roman", "Arial");
+        fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Arvo", "Open Sans", "Arial" );
 
         Document doc = new Document(getMyDir() + "Rendering.doc");
         doc.setFontSettings(fontSettings);
@@ -872,24 +873,27 @@ public class ExRendering extends ApiExampleBase
         ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
         doc.save(dstStream, SaveFormat.DOCX);
 
-        String[] alternativeFonts = doc.getFontSettings().getFontSubstitutes("Slab");
-        Assert.assertEquals(alternativeFonts, new String[] { "Times New Roman", "Arial" });
+        String[] slabSubstitutes = new String[] { "Times New Roman", "Arial" };
+        String[] arvoSubstitutes = new String[] { "Open Sans", "Arial" };
 
-        alternativeFonts = doc.getFontSettings().getFontSubstitutes("Arvo");
-        Assert.assertEquals(alternativeFonts, new String[] { "Open Sans", "Arial" });
+        Iterable<String> alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Slab");
+        DocumentHelper.checkSubstitutes(alternativeFonts, slabSubstitutes);
+
+        alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Arvo");
+        DocumentHelper.checkSubstitutes(alternativeFonts, arvoSubstitutes);
     }
 
     @Test
     public void setDefaultFontName() throws Exception
     {
         //ExStart
-        //ExFor:FontSettings.DefaultFontName
+        //ExFor:DefaultFontSubstitutionRule.DefaultFontName
         //ExId:SetDefaultFontName
         //ExSummary:Demonstrates how to specify what font to substitute for a missing font during rendering.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
         // If the default font defined here cannot be found during rendering then the closest font on the machine is used instead.
-        FontSettings.getDefaultInstance().setDefaultFontName("Arial Unicode MS");
+        FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial Unicode MS");
 
         // Now the set default font is used in place of any missing fonts during any rendering calls.
         doc.save(getArtifactsDir() + "Rendering.SetDefaultFont.pdf");
@@ -911,7 +915,7 @@ public class ExRendering extends ApiExampleBase
         doc.setWarningCallback(callback);
 
         // We can choose the default font to use in the case of any missing fonts.
-        FontSettings.getDefaultInstance().setDefaultFontName("Arial");
+        FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
 
         // For testing we will set Aspose.Words to look for fonts only in a folder which doesn't exist. Since Aspose.Words won't
         // find any fonts in the specified directory, then during rendering the fonts in the document will be subsuited with the default

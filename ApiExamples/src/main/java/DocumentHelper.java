@@ -298,4 +298,13 @@ class DocumentHelper
 
         return new byte[0];
     }
+
+    static void checkSubstitutes(Iterable<String> substitutes, String[] expectedSubtitutes)
+    {
+        int i = 0;
+        for (String font : substitutes) {
+            Assert.assertEquals(font, expectedSubtitutes[i]);
+            i++;
+        }
+    }
 }
