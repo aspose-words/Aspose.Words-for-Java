@@ -16,6 +16,7 @@ public class WorkingWithShapes {
         insertShapeUsingDocumentBuilder(dataDir);
         addCornersSnipped(dataDir);
         getActualShapeBoundsPoints(dataDir);
+        SpecifyVerticalAnchor(dataDir);
     }
 
     public static void insertShapeUsingDocumentBuilder(String dataDir) throws Exception {
@@ -129,4 +130,23 @@ public class WorkingWithShapes {
         System.out.println(shape.getShapeRenderer().getBoundsInPoints());
         // ExEnd:GetActualShapeBoundsPoints
     }
+    
+    public static void SpecifyVerticalAnchor(String dataDir) throws Exception {
+        // ExStart:SpecifyVerticalAnchor
+        Document doc = new Document(dataDir + "VerticalAnchor.docx");
+        
+        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+        int imageIndex = 0;
+        for (Shape textBoxShape : (Iterable<Shape>) shapes)
+        {
+        	if (textBoxShape != null)
+            {
+                textBoxShape.getTextBox().setVerticalAnchor(TextBoxAnchor.BOTTOM);
+            }
+        }
+        
+        doc.save(dataDir + "VerticalAnchor_out.docx");
+        // ExEnd:SpecifyVerticalAnchor
+    }
+
 }
