@@ -55,7 +55,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Prepare a byte array of an image.
-        byte[] imageBytes = DocumentHelper.convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
+        byte[] imageBytes = DocumentHelper.getBytesFromStream(new FileInputStream(getImageDir() + "Aspose.Words.gif"));
 
         builder.insertImage(imageBytes);
         builder.getDocument().save(getArtifactsDir() + "Image.CreateFromByteArrayDefault.doc");
@@ -72,7 +72,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Prepare a byte array of an image.
-        byte[] imageBytes = DocumentHelper.convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
+        byte[] imageBytes = DocumentHelper.getBytesFromStream(new FileInputStream(getImageDir() + "Aspose.Words.gif"));
 
         builder.insertImage(imageBytes, ConvertUtil.pixelToPoint(450.0), ConvertUtil.pixelToPoint(144.0));
         builder.getDocument().save(getArtifactsDir() + "Image.CreateFromByteArrayCustomSize.doc");
@@ -89,7 +89,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Prepare a byte array of an image.
-        byte[] imageBytes = DocumentHelper.convertImageToByteArray(new File(getImageDir() + "Aspose.Words.gif"), "gif");
+        byte[] imageBytes = DocumentHelper.getBytesFromStream(new FileInputStream(getImageDir() + "Aspose.Words.gif"));
 
         builder.insertImage(imageBytes, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN, 100.0, 200.0, 100.0, WrapType.SQUARE);
         builder.getDocument().save(getArtifactsDir() + "Image.CreateFromByteArrayRelativePosition.doc");
@@ -172,7 +172,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Remote URI
-        builder.insertImage("http://www.aspose.com/images/aspose-logo.gif", ConvertUtil.pixelToPoint(450.0), ConvertUtil.pixelToPoint(144.0));
+        builder.insertImage(getAsposelogoUri().toURL().openStream(), ConvertUtil.pixelToPoint(450.0), ConvertUtil.pixelToPoint(144.0));
 
         // Local URI
         builder.insertImage(getImageDir() + "Aspose.Words.gif", ConvertUtil.pixelToPoint(400.0), ConvertUtil.pixelToPoint(400.0));

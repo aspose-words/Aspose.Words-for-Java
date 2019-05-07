@@ -580,7 +580,7 @@ public class ExFont extends ApiExampleBase
         doc.setWarningCallback(callback);
 
         // We can choose the default font to use in the case of any missing fonts.
-        FontSettings.getDefaultInstance().setDefaultFontName("Arial");
+        FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
 
         // For testing we will set Aspose.Words to look for fonts only in a folder which doesn't exist. Since Aspose.Words won't
         // find any fonts in the specified directory, then during rendering the fonts in the document will be substituted with the default 
@@ -636,8 +636,8 @@ public class ExFont extends ApiExampleBase
             doc.setWarningCallback(callback);
 
             FontSettings fontSettings = new FontSettings();
-            fontSettings.setDefaultFontName("Arial");
-            fontSettings.setFontSubstitutes("Arial", "Arvo", "Slab");
+            FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
+            fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Arial", "Arvo", "Slab");
             fontSettings.setFontsFolder(getMyDir() + "MyFonts\\", false);
 
             doc.setFontSettings(fontSettings);
