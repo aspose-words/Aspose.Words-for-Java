@@ -3956,6 +3956,7 @@ public class ExField extends ApiExampleBase {
     public void footnoteRef() throws Exception
     {
         //ExStart
+        //ExFor:FieldFootnoteRef
         //ExSummary:Shows how to cross-reference footnotes with the FOOTNOTEREF field
         // Create a blank document and a document builder for it
         Document doc = new Document();
@@ -3971,14 +3972,15 @@ public class ExField extends ApiExampleBase {
         builder.write("CrossReference: ");
 
         // Insert a FOOTNOTEREF field, which lets us reference a footnote more than once while re-using the same footnote marker
-        Field field = builder.insertField(" ftnref ");
+        //Field field = builder.insertField(" ftnref ");
+        FieldFootnoteRef field = (FieldFootnoteRef) builder.insertField(FieldType.FIELD_FOOTNOTE_REF, true);
 
         // Get this field to reference a bookmark
         // The bookmark that we chose contains a footnote marker belonging to the footnote we inserted, which will be displayed by the field, just by itself
         builder.moveTo(field.getSeparator());
         builder.write("CrossRefBookmark");
 
-        Assert.assertEquals(field.getFieldCode(), " ftnref CrossRefBookmark");
+        Assert.assertEquals(field.getFieldCode(), " FOOTNOTEREF CrossRefBookmark");
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.FootnoteRef.docx");

@@ -189,36 +189,6 @@ public class ExBookmarks extends ApiExampleBase {
         Assert.assertEquals(doc.getRange().getBookmarks().get(0).getName(), "My Bookmark");
     }
 
-    @Test
-    public void allowToAddBookmarksWithWhiteSpaces() throws Exception {
-        //ExStart
-        //ExFor:OutlineOptions.BookmarksOutlineLevels
-        //ExFor:BookmarksOutlineLevelCollection.Add(String, Int32)
-        //ExSummary:Shows how adding bookmarks outlines with whitespaces(pdf, xps)
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Add bookmarks with whitespaces. MS Word formats (like doc, docx) does not support bookmarks with whitespaces by default 
-        // and all whitespaces in the bookmarks were replaced with underscores. If you need to use bookmarks in PDF or XPS outlines, you can use them with whitespaces.
-        builder.startBookmark("My Bookmark");
-        builder.writeln("Text inside a bookmark.");
-
-        builder.startBookmark("Nested Bookmark");
-        builder.writeln("Text inside a NestedBookmark.");
-        builder.endBookmark("Nested Bookmark");
-
-        builder.writeln("Text after Nested Bookmark.");
-        builder.endBookmark("My Bookmark");
-
-        // Specify bookmarks outline level. If you are using xps format, just use XpsSaveOptions.
-        PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
-        pdfSaveOptions.getOutlineOptions().getBookmarksOutlineLevels().add("My Bookmark", 1);
-        pdfSaveOptions.getOutlineOptions().getBookmarksOutlineLevels().add("Nested Bookmark", 2);
-
-        doc.save(getArtifactsDir() + "Bookmarks.WhiteSpaces.pdf", pdfSaveOptions);
-        //ExEnd
-    }
-
     //ExStart
     //ExFor:Bookmark.BookmarkStart
     //ExFor:Bookmark.BookmarkEnd

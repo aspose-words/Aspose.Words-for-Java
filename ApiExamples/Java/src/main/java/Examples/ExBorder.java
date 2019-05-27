@@ -20,7 +20,7 @@ public class ExBorder extends ApiExampleBase {
         //ExStart
         //ExFor:Border
         //ExFor:Border.Color
-        //ExFor:Border.LineWidthy
+        //ExFor:Border.LineWidth
         //ExFor:Border.LineStyle
         //ExFor:Font.Border
         //ExFor:LineStyle

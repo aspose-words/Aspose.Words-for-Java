@@ -324,7 +324,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     @Test(groups = "SkipMono")
     public void handleBinaryRasterWarnings() throws Exception {
         //ExStart
-        //ExFor:MetafileRenderingMode.VectorWithFallback
+        //ExFor:MetafileRenderingMode
         //ExFor:MetafileRenderingOptions
         //ExFor:MetafileRenderingOptions.EmulateRasterOperations
         //ExFor:MetafileRenderingOptions.RenderingMode
