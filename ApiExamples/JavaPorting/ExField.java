@@ -147,6 +147,7 @@ import com.aspose.words.FieldNext;
 import com.aspose.words.FieldNextIf;
 import com.aspose.words.FieldNoteRef;
 import com.aspose.words.FootnoteType;
+import com.aspose.words.FieldFootnoteRef;
 import com.aspose.words.FieldPageRef;
 import com.aspose.words.FieldUpdateCultureSource;
 import com.aspose.words.FieldTime;
@@ -178,9 +179,6 @@ import com.aspose.words.FieldOcx;
 import com.aspose.words.FieldPrivate;
 import com.aspose.words.FieldSection;
 import com.aspose.words.FieldSectionPages;
-import com.aspose.words.FieldBidiOutline;
-import com.aspose.words.Shape;
-import com.aspose.words.ShapeType;
 import org.testng.annotations.DataProvider;
 
 
@@ -4393,6 +4391,7 @@ public class ExField extends ApiExampleBase
     public void footnoteRef() throws Exception
     {
         //ExStart
+        //ExFor:FieldFootnoteRef
         //ExSummary:Shows how to cross-reference footnotes with the FOOTNOTEREF field
         // Create a blank document and a document builder for it
         Document doc = new Document();
@@ -4408,14 +4407,15 @@ public class ExField extends ApiExampleBase
         builder.write("CrossReference: ");
 
         // Insert a FOOTNOTEREF field, which lets us reference a footnote more than once while re-using the same footnote marker
-        Field field = builder.insertField(" ftnref ");
+        //Field field = builder.insertField(" ftnref ");
+        FieldFootnoteRef field = (FieldFootnoteRef) builder.insertField(FieldType.FIELD_FOOTNOTE_REF, true);
 
         // Get this field to reference a bookmark
         // The bookmark that we chose contains a footnote marker belonging to the footnote we inserted, which will be displayed by the field, just by itself
         builder.moveTo(field.getSeparator());
         builder.write("CrossRefBookmark");
 
-        msAssert.areEqual(" ftnref CrossRefBookmark", field.getFieldCode());
+        msAssert.areEqual(field.getFieldCode(), " FOOTNOTEREF CrossRefBookmark");
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.FootnoteRef.docx");
@@ -5439,80 +5439,6 @@ public class ExField extends ApiExampleBase
         builder.insertParagraph();
         return field;
     }
-    //ExEnd
-
-    @Test
-    public void bidiOutline() throws Exception
-    {
-        //ExStart
-        //ExFor:FieldShape
-        //ExFor:FieldShape.Text
-        //ExSummary:Shows how to create RTL lists with BIDIOUTLINE fields.
-        // Create a blank document and a document builder
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Use our builder to insert a BIDIOUTLINE field
-        // This field numbers paragraphs like the AUTONUM/LISTNUM fields,
-        // but is only visible when a RTL editing language is enabled, such as Hebrew or Arabic
-        // The following field will display ".1", the RTL equivalent of list number "1."
-        FieldBidiOutline field = (FieldBidiOutline)builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
-        msAssert.areEqual(" BIDIOUTLINE ", field.getFieldCode());
-        builder.writeln("שלום");
-
-        // Add two more BIDIOUTLINE fields, which will be automatically numbered ".2" and ".3"
-        builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
-        builder.writeln("שלום");
-        builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
-        builder.writeln("שלום");
-
-        // Set the horizontal text alignment for every paragraph in the document to RTL
-        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
-        {
-            para.getParagraphFormat().setBidi(true);
-        }
-
-        // If a RTL editing language is enabled in Microsoft Word, out fields will display numbers
-        // Otherwise, they will appear as "###" 
-        doc.save(getArtifactsDir() + "Field.BIDIOUTLINE.docx");
-        //ExEnd
-    }
-
-    @Test
-    public void legacy() throws Exception
-    {
-        //ExStart
-        //ExFor:FieldEmbed
-        //ExFor:FieldShape
-        //ExFor:FieldShape.Text
-        //ExSummary:Shows how some older Microsoft Word fields such as SHAPE and EMBED are handled.
-        // Open a document that was created in Microsoft Word 2003
-        Document doc = new Document(getMyDir() + "Field.Legacy.doc");
-
-        // If we open the document in Word and press Alt+F9, we will see a SHAPE and an EMBED field
-        // A SHAPE field is the anchor/canvas for an autoshape object with the "In line with text" wrapping style enabled
-        // An EMBED field has the same function, but for an embedded object, such as a spreadsheet from an external Excel document
-        // However, these fields will not appear in the document's Fields collection
-        msAssert.areEqual(0, doc.getRange().getFields().getCount());
-
-        // These fields are supported only by old versions of Microsoft Word
-        // As such, they are converted into shapes during the document importation process and can instead be found in the collection of Shape nodes
-        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
-        msAssert.areEqual(3, shapes.getCount());
-
-        // The first Shape node corresponds to what was the SHAPE field in the input document: the inline canvas for an autoshape
-        Shape shape = (Shape)shapes.get(0);
-        msAssert.areEqual(ShapeType.IMAGE, shape.getShapeType());
-
-        // The next Shape node is the autoshape that is within the canvas
-        shape = (Shape)shapes.get(1);
-        msAssert.areEqual(ShapeType.CAN, shape.getShapeType());
-
-        // The third Shape is what was the EMBED field that contained the external spreadsheet
-        shape = (Shape)shapes.get(2);
-        msAssert.areEqual(ShapeType.OLE_OBJECT, shape.getShapeType());
-        //ExEnd
-    }
 
 	//JAVA-added for string switch emulation
 	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
@@ -5521,4 +5447,5 @@ public class ExField extends ApiExampleBase
 		"en-US"
 	);
 
+    //ExEnd
 }

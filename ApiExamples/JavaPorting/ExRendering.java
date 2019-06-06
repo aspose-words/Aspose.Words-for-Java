@@ -926,7 +926,7 @@ public class ExRendering extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.FontSettings
-        //ExFor:FontSettings.SetFontSubstitutes(String, String[])
+        //ExFor:TableSubstitutionRule.SetSubstitutes(String, String[])
         //ExSummary:Shows how to define alternative fonts if original does not exist
         FontSettings fontSettings = new FontSettings();
         fontSettings.getSubstitutionSettings().getTableSubstitution().setSubstitutes("Times New Roman", new String[] { "Slab", "Arvo" });
@@ -991,7 +991,7 @@ public class ExRendering extends ApiExampleBase
     public void setDefaultFontName() throws Exception
     {
         //ExStart
-        //ExFor:FontSettings.DefaultFontName
+        //ExFor:DefaultFontSubstitutionRule.DefaultFontName
         //ExId:SetDefaultFontName
         //ExSummary:Demonstrates how to specify what font to substitute for a missing font during rendering.
         Document doc = new Document(getMyDir() + "Rendering.doc");
