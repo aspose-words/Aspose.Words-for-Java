@@ -37,7 +37,7 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>19.5</version>
+            <version>19.6</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
@@ -49,13 +49,13 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-email</artifactId>
-            <version>19.4</version>
+            <version>19.5</version>
             <classifier>jdk16</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-barcode</artifactId>
-            <version>19.4</version>
+            <version>19.5</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>

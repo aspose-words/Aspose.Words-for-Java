@@ -6,10 +6,14 @@ import com.aspose.words.AutoFitBehavior;
 import com.aspose.words.Cell;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.words.LineStyle;
 import com.aspose.words.NodeType;
 import com.aspose.words.StyleIdentifier;
+import com.aspose.words.StyleType;
 import com.aspose.words.Table;
+import com.aspose.words.TableStyle;
 import com.aspose.words.TableStyleOptions;
+import com.aspose.words.TextureIndex;
 import com.aspose.words.examples.Utils;
 
 public class TableStyles {
@@ -21,6 +25,8 @@ public class TableStyles {
 		applyATableStyle();
 		
 		expandFormattingFromStylesOnToRowsAndCells();
+		CreateTableStyle(dataDir);
+		DefineConditionalFormatting(dataDir);
 		//ExEnd:TableStyles
 	}
 
@@ -90,4 +96,62 @@ public class TableStyles {
 		System.out.println("Cell shading after style expansion: " + cellShadingAfter);
 	}
 	//ExEnd:expandFormattingFromStylesOnToRowsAndCells
+	
+	private static void CreateTableStyle(String dataDir) throws Exception
+    {
+        // ExStart:CreateTableStyle
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Table table = builder.startTable();
+        builder.insertCell();
+        builder.write("Name");
+        builder.insertCell();
+        builder.write("Value");
+        builder.endRow();
+        builder.insertCell();
+        builder.insertCell();
+        builder.endTable();
+
+        TableStyle tableStyle = (TableStyle)doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
+        tableStyle.getBorders().setLineStyle(LineStyle.DOUBLE);
+        tableStyle.getBorders().setLineWidth(1);
+        tableStyle.setLeftPadding(18);
+        tableStyle.setRightPadding(18);
+        tableStyle.setTopPadding(12);
+        tableStyle.setBottomPadding(12);
+
+        table.setStyle(tableStyle);
+
+        doc.save(dataDir + "TableStyleCreation.docx");
+        // ExEnd:CreateTableStyle
+    }
+	
+    private static void DefineConditionalFormatting(String dataDir) throws Exception
+    {
+        // ExStart:DefineConditionalFormatting
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Table table = builder.startTable();
+        builder.insertCell();
+        builder.write("Name");
+        builder.insertCell();
+        builder.write("Value");
+        builder.endRow();
+        builder.insertCell();
+        builder.insertCell();
+        builder.endTable();
+
+        TableStyle tableStyle = (TableStyle)doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
+
+        // Define background color to the first row of table.
+        tableStyle.getConditionalStyles().getFirstRow().getShading().setBackgroundPatternColor(Color.YELLOW);
+        tableStyle.getConditionalStyles().getFirstRow().getShading().setTexture(TextureIndex.TEXTURE_NONE);
+
+        table.setStyle(tableStyle);
+
+        doc.save(dataDir + "TableConditionalStyle.docx");
+        // ExEnd:DefineConditionalFormatting
+    }
 }
