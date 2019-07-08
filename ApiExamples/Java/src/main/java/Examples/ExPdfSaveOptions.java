@@ -14,25 +14,10 @@ import com.aspose.pdf.Page;
 import com.aspose.pdf.TextFragmentAbsorber;
 import com.aspose.pdf.facades.Bookmarks;
 import com.aspose.pdf.facades.PdfBookmarkEditor;
+import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.StyleIdentifier;
-import com.aspose.words.PdfSaveOptions;
-import com.aspose.words.SaveFormat;
-import org.testng.Assert;
-import com.aspose.words.DmlRenderingMode;
-import com.aspose.words.PdfImageCompression;
-import com.aspose.words.PdfCompliance;
-import com.aspose.words.ColorMode;
-import com.aspose.words.SaveOptions;
-import com.aspose.words.MetafileRenderingOptions;
-import com.aspose.words.MetafileRenderingMode;
-import com.aspose.words.IWarningCallback;
-import com.aspose.words.WarningInfo;
-import com.aspose.words.WarningType;
-import com.aspose.words.WarningInfoCollection;
 
 import java.text.MessageFormat;
 
@@ -440,6 +425,22 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         saveOptions.getMetafileRenderingOptions().setScaleWmfFontsToMetafileSize(true);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.FontsScaledToMetafileSize.pdf", saveOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void additionalTextPositioning() throws Exception {
+        //ExStart
+        //ExFor:PdfSaveOptions.AdditionalTextPositioning
+        //ExSummary:Show how to write additional text positioning operators.
+        Document doc = new Document(getMyDir() + "PdfSaveOptions.AdditionalTextPositioning.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        // This may help to overcome issues with inaccurate text positioning with some printers
+        saveOptions.setAdditionalTextPositioning(true);
+        saveOptions.setTextCompression(PdfTextCompression.NONE);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf", saveOptions);
         //ExEnd
     }
 }

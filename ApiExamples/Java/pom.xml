@@ -54,13 +54,13 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>19.5</version>
+            <version>19.6</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>19.5</version>
+            <version>19.6</version>
             <classifier>javadoc</classifier>
         </dependency>
         <dependency>

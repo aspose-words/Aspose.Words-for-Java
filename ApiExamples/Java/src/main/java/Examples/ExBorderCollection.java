@@ -8,14 +8,11 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.BorderCollection;
+
+import java.awt.*;
 import java.util.Iterator;
-import com.aspose.words.Border;
-import java.awt.Color;
-import com.aspose.words.LineStyle;
 
 public class ExBorderCollection extends ApiExampleBase {
     @Test

@@ -8,12 +8,11 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
+import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningInfoCollection;
+import org.testng.annotations.Test;
 
 import java.util.Iterator;
-
-import com.aspose.words.WarningInfo;
 
 public class ExWarningInfoCollection extends ApiExampleBase {
     @Test

@@ -8,9 +8,10 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.aspose.words.*;
+
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.Calendar;

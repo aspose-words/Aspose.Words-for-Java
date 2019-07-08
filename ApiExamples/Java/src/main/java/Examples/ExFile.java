@@ -8,17 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.FileCorruptedException;
-import com.aspose.words.FileFormatInfo;
-import com.aspose.words.FileFormatUtil;
+import com.aspose.words.*;
 import org.testng.Assert;
-import com.aspose.words.LoadFormat;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
-import com.aspose.words.Shape;
+import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
 import java.nio.file.Paths;

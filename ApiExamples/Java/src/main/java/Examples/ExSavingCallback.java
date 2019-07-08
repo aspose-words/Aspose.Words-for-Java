@@ -8,19 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
-import com.aspose.words.HtmlFixedSaveOptions;
-import com.aspose.words.ImageSaveOptions;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.PdfSaveOptions;
-import com.aspose.words.PsSaveOptions;
-import com.aspose.words.SvgSaveOptions;
-import com.aspose.words.XamlFixedSaveOptions;
-import com.aspose.words.XpsSaveOptions;
-import com.aspose.words.Document;
+import com.aspose.words.*;
 import org.testng.Assert;
-import com.aspose.words.IPageSavingCallback;
-import com.aspose.words.PageSavingArgs;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.FilenameFilter;

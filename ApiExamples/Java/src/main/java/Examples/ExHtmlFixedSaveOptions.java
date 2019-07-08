@@ -8,15 +8,10 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.HtmlFixedSaveOptions;
-import com.aspose.words.HtmlFixedPageHorizontalAlignment;
+import com.aspose.words.*;
 import org.testng.Assert;
-import com.aspose.words.ExportFontFormat;
-import com.aspose.words.IResourceSavingCallback;
-import com.aspose.words.ResourceSavingArgs;
+import org.testng.annotations.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 
@@ -197,8 +192,8 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
                 case ".woff":
                     Assert.fail("'ResourceSavingCallback' is not fired for fonts when 'UseTargetMachineFonts' is true");
                     break;
-                }
             }
         }
-    //ExEnd
     }
+    //ExEnd
+}

@@ -8,12 +8,11 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-
-import com.aspose.words.*;
 
 public class ExTableColumn extends ApiExampleBase {
 

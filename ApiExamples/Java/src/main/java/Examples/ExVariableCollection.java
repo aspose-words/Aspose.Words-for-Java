@@ -8,8 +8,8 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import org.testng.annotations.Test;
 
 import java.text.MessageFormat;
 import java.util.Iterator;

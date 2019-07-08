@@ -7,11 +7,11 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
+import com.aspose.words.Document;
+import com.aspose.words.TxtLeadingSpacesOptions;
 import com.aspose.words.TxtLoadOptions;
 import com.aspose.words.TxtTrailingSpacesOptions;
-import com.aspose.words.TxtLeadingSpacesOptions;
-import com.aspose.words.Document;
+import org.testng.annotations.Test;
 
 @Test
 public class ExTxtLoadOptions extends ApiExampleBase {

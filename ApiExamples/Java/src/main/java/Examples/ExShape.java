@@ -9,13 +9,17 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import com.aspose.words.Shape;
+import com.aspose.words.Stroke;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.testng.Assert;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -388,12 +392,29 @@ public class ExShape extends ApiExampleBase {
     @Test
     public void officeMathDisplayGold() throws Exception {
         //ExStart
+        //ExFor:OfficeMath
         //ExFor:OfficeMath.DisplayType
+        //ExFor:OfficeMath.EquationXmlEncoding
         //ExFor:OfficeMath.Justification
+        //ExFor:OfficeMath.NodeType
+        //ExFor:OfficeMath.ParentParagraph
+        //ExFor:OfficeMathDisplayType
+        //ExFor:OfficeMathJustification
         //ExSummary:Shows how to set office math display formatting.
         Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
+
+        // OfficeMath nodes that are children of other OfficeMath nodes are always inline
+        // The node we are working with is a base node, so its location and display type can be changed
+        Assert.assertEquals(officeMath.getMathObjectType(), MathObjectType.O_MATH_PARA);
+        Assert.assertEquals(officeMath.getNodeType(), NodeType.OFFICE_MATH);
+        Assert.assertEquals(officeMath.getParentParagraph(), officeMath.getParentNode());
+
+        // Used by OOXML and WML formats
+        Assert.assertNull(officeMath.getEquationXmlEncoding());
+
+        // We can change the location and display type of the OfficeMath node
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);
         officeMath.setJustification(OfficeMathJustification.LEFT);
 

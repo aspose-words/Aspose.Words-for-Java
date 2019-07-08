@@ -9,9 +9,9 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.testng.annotations.Test;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -129,7 +129,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                 if (re.matcher(file.getName()).matches()) {
                     dirFiles.add(file.getPath());
                 }
-                }
+            }
         }
         return dirFiles;
     }
@@ -470,7 +470,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ContentIdScheme.mhtml", saveOptions);
     }
 
-    @Test (enabled = false, description = "Bug")
+    @Test(enabled = false, description = "Bug")
     public void resolveFontNames() throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ResolveFontNames

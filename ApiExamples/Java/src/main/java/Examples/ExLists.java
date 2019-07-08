@@ -9,12 +9,12 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import com.aspose.words.List;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.awt.Color;
+import java.awt.*;
 import java.text.MessageFormat;
-
-import org.testng.Assert;
 
 public class ExLists extends ApiExampleBase {
     @Test

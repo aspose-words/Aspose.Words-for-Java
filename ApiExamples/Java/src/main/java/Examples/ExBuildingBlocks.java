@@ -8,20 +8,10 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.GlossaryDocument;
-import com.aspose.words.BuildingBlock;
-import com.aspose.words.BuildingBlockType;
-import com.aspose.words.BuildingBlockGallery;
-import com.aspose.words.BuildingBlockBehavior;
-import com.aspose.words.DocumentVisitor;
-import com.aspose.words.VisitorAction;
-import com.aspose.words.Section;
-import com.aspose.words.Body;
-import com.aspose.words.Paragraph;
-import com.aspose.words.Run;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -30,7 +20,7 @@ public class ExBuildingBlocks extends ApiExampleBase {
     //ExStart
     //ExFor:Document.GlossaryDocument
     //ExFor:BuildingBlocks.BuildingBlock
-    //ExFor:BuildingBlocks.BuildingBlock.#ctor(BuildingBlocks.GlossaryDocument) 
+    //ExFor:BuildingBlocks.BuildingBlock.#ctor(BuildingBlocks.GlossaryDocument)
     //ExFor:BuildingBlocks.BuildingBlock.Accept(DocumentVisitor)
     //ExFor:BuildingBlocks.BuildingBlock.Behavior
     //ExFor:BuildingBlocks.BuildingBlock.Category

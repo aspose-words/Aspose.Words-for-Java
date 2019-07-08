@@ -8,15 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
-import com.aspose.words.HtmlLoadOptions;
-import com.aspose.words.Document;
+import com.aspose.words.*;
 import org.testng.Assert;
-import com.aspose.words.HtmlControlType;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
-import com.aspose.words.StructuredDocumentTag;
-import com.aspose.words.FormField;
+import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
 

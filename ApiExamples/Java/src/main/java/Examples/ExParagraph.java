@@ -9,8 +9,8 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.testng.annotations.Test;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -247,6 +247,44 @@ public class ExParagraph extends ApiExampleBase {
         format.setHangingPunctuation(true);
 
         doc.save(getArtifactsDir() + "Paragraph.AsianTypographyProperties.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void dropCapPosition() throws Exception {
+        //ExStart
+        //ExFor:DropCapPosition
+        //ExSummary:Shows how to set the position of a drop cap.
+        // Create a blank document
+        Document doc = new Document();
+
+        // Every paragraph has its own drop cap setting
+        Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
+
+        // By default, it is "none", for no drop caps
+        Assert.assertEquals(para.getParagraphFormat().getDropCapPosition(), com.aspose.words.DropCapPosition.NONE);
+
+        // Move the first capital to outside the text margin
+        para.getParagraphFormat().setDropCapPosition(com.aspose.words.DropCapPosition.MARGIN);
+
+        // This text will be affected
+        para.getRuns().add(new Run(doc, "Hello World!"));
+
+        doc.save(getArtifactsDir() + "Paragraph.DropCap.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void breakIsStyleSeparator() throws Exception {
+        //ExStart
+        //ExFor:Paragraph.BreakIsStyleSeparator
+        //ExSummary:Shows how to check if paragraph break is a Style Separator
+        Document doc = new Document(getMyDir() + "Paragraph.BreakIsStyleSeparator.docx");
+
+        Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
+        if (!paragraph.getBreakIsStyleSeparator()) {
+            Assert.fail(); //ExSkip
+        }
         //ExEnd
     }
 

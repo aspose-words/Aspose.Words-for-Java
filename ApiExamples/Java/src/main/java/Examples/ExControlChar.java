@@ -8,13 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.ControlChar;
-import com.aspose.words.NodeType;
-import com.aspose.words.Section;
 
 @Test
 public class ExControlChar extends ApiExampleBase {

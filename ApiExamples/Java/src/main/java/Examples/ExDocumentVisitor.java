@@ -8,33 +8,8 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentVisitor;
-import com.aspose.words.VisitorAction;
-import com.aspose.words.NodeType;
-import com.aspose.words.Section;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.Body;
-import com.aspose.words.Paragraph;
-import com.aspose.words.Run;
-import com.aspose.words.SubDocument;
-import com.aspose.words.Table;
-import com.aspose.words.Row;
-import com.aspose.words.Cell;
-import com.aspose.words.CommentRangeStart;
-import com.aspose.words.CommentRangeEnd;
-import com.aspose.words.Comment;
-import com.aspose.words.FieldStart;
-import com.aspose.words.FieldEnd;
-import com.aspose.words.FieldSeparator;
-import com.aspose.words.HeaderFooter;
-import com.aspose.words.EditableRangeStart;
-import com.aspose.words.EditableRangeEnd;
-import com.aspose.words.Footnote;
-import com.aspose.words.OfficeMath;
-import com.aspose.words.SmartTag;
-import com.aspose.words.StructuredDocumentTag;
 
 @Test
 public class ExDocumentVisitor extends ApiExampleBase {
@@ -835,6 +810,9 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExStart
     //ExFor:DocumentVisitor.VisitOfficeMathEnd(Math.OfficeMath)
     //ExFor:DocumentVisitor.VisitOfficeMathStart(Math.OfficeMath)
+    //ExFor:Math.MathObjectType
+    //ExFor:Math.OfficeMath.Accept(DocumentVisitor)
+    //ExFor:Math.OfficeMath.MathObjectType
     //ExSummary:Traverse a document with a visitor that prints all offise math nodes that it encounters.
     @Test //ExSkip
     public void officeMathToText() throws Exception {
@@ -1009,6 +987,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExEnd
 
     //ExStart
+    //ExFor:StructuredDocumentTag.Accept(DocumentVisitor)
     //ExFor:DocumentVisitor.VisitStructuredDocumentTagEnd(Markup.StructuredDocumentTag)
     //ExFor:DocumentVisitor.VisitStructuredDocumentTagStart(Markup.StructuredDocumentTag)
     //ExSummary:Traverse a document with a visitor that prints all structured document tag nodes that it encounters.

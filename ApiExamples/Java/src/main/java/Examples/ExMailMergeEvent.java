@@ -9,11 +9,13 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import com.aspose.words.net.System.Data.*;
+import com.aspose.words.Shape;
+import com.aspose.words.net.System.Data.DataRow;
+import com.aspose.words.net.System.Data.DataTable;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileReader;

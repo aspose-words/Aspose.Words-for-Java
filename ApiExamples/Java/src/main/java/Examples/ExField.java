@@ -18,13 +18,18 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -379,6 +384,7 @@ public class ExField extends ApiExampleBase {
     public void updateFieldIgnoringMergeFormat() throws Exception {
         //ExStart
         //ExFor:Field.Update(bool)
+        //ExFor:LoadOptions.PreserveIncludePictureField
         //ExSummary:Shows a way to update a field ignoring the MERGEFORMAT switch
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setPreserveIncludePictureField(true);
@@ -2149,6 +2155,61 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
+    //ExStart
+    //ExFor:ImageFieldMergingArgs.Image
+    //ExSummary:Shows how to set which images to merge during the mail merge.
+    @Test //ExSkip
+    public void mergeFieldImages() throws Exception {
+        Document doc = new Document();
+
+        // Insert a merge field where images will be placed during the mail merge
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertField("MERGEFIELD Image:ImageColumn");
+
+        // When we merge images, our data table will normally have the full e. of the images we wish to merge
+        // If this is cumbersome, we can move image filename logic to another place and populate the data table with just shorthands for images
+        DataTable dataTable = createDataTable("Images", "ImageColumn",
+                new String[]
+                        {
+                                "Aspose logo",
+                                ".Net logo",
+                                "Watermark"
+                        });
+
+        // A custom merging callback will contain filenames that our shorthands will refer to
+        doc.getMailMerge().setFieldMergingCallback(new ImageFilenameCallback());
+        doc.getMailMerge().execute(dataTable);
+
+        doc.save(getArtifactsDir() + "Field.MergeFieldImages.docx");
+    }
+
+    /// <summary>
+    /// Image merging callback that pairs image shorthand names with filenames
+    /// </summary>
+    private static class ImageFilenameCallback implements IFieldMergingCallback {
+        public ImageFilenameCallback() {
+            imageFilenames.put("Aspose logo", getImageDir() + "Aspose.Words.gif");
+            imageFilenames.put(".Net logo", getImageDir() + "dotnet-logo.png");
+            imageFilenames.put("Watermark", getImageDir() + "Watermark.png");
+        }
+
+        public void fieldMerging(FieldMergingArgs e) {
+            throw new UnsupportedOperationException();
+        }
+
+        public void imageFieldMerging(ImageFieldMergingArgs e) throws IOException {
+            if (imageFilenames.containsKey(e.getFieldValue().toString())) {
+                BufferedImage image = ImageIO.read(new File(imageFilenames.get(e.getFieldValue().toString())));
+                e.setImage(image);
+            }
+
+            Assert.assertNotNull(e.getImage());
+        }
+
+        private HashMap<String, String> imageFilenames = new HashMap<>();
+    }
+    //ExEnd
+
     @Test(enabled = false, description = "WORDSNET-17524")
     public void fieldXE() throws Exception {
         //ExStart
@@ -3796,7 +3857,7 @@ public class ExField extends ApiExampleBase {
         builder.insertField(FieldType.FIELD_DATE, true);
 
         LocalDateTime actualDate = LocalDateTime.now();
-        String actualDateFormated = DateTimeFormatter.ofPattern("M/dd/yyyy").format(actualDate);
+        String actualDateFormated = DateTimeFormatter.ofPattern("M/d/yyyy").format(actualDate);
 
         Assert.assertEquals(field.getFieldCode(), " QUOTE \u0013 DATE \u0014" + actualDateFormated + "\u0015");
 
@@ -3953,8 +4014,7 @@ public class ExField extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void footnoteRef() throws Exception
-    {
+    public void footnoteRef() throws Exception {
         //ExStart
         //ExFor:FieldFootnoteRef
         //ExSummary:Shows how to cross-reference footnotes with the FOOTNOTEREF field
@@ -4913,8 +4973,7 @@ public class ExField extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void bidiOutline() throws Exception
-    {
+    public void bidiOutline() throws Exception {
         //ExStart
         //ExFor:FieldShape
         //ExFor:FieldShape.Text
@@ -4927,7 +4986,7 @@ public class ExField extends ApiExampleBase {
         // This field numbers paragraphs like the AUTONUM/LISTNUM fields,
         // but is only visible when a RTL editing language is enabled, such as Hebrew or Arabic
         // The following field will display ".1", the RTL equivalent of list number "1."
-        FieldBidiOutline field = (FieldBidiOutline)builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
+        FieldBidiOutline field = (FieldBidiOutline) builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
         Assert.assertEquals(field.getFieldCode(), " BIDIOUTLINE ");
         builder.writeln("שלום");
 
@@ -4938,8 +4997,7 @@ public class ExField extends ApiExampleBase {
         builder.writeln("שלום");
 
         // Set the horizontal text alignment for every paragraph in the document to RTL
-        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
-        {
+        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true)) {
             para.getParagraphFormat().setBidi(true);
         }
 
@@ -4950,8 +5008,7 @@ public class ExField extends ApiExampleBase {
     }
 
     @Test
-    public void legacy() throws Exception
-    {
+    public void legacy() throws Exception {
         //ExStart
         //ExFor:FieldEmbed
         //ExFor:FieldShape
@@ -4982,6 +5039,30 @@ public class ExField extends ApiExampleBase {
         // The third Shape is what was the EMBED field that contained the external spreadsheet
         shape = (Shape) shapes.get(2);
         Assert.assertEquals(shape.getShapeType(), ShapeType.OLE_OBJECT);
+        //ExEnd
+    }
+
+    @Test
+    public void fieldDisplayResult() throws Exception {
+        //ExStart
+        //ExFor:Field.DisplayResult
+        //ExSummary:Shows how to get the text that represents the displayed field result.
+        Document document = new Document(getMyDir() + "Field.FieldDisplayResult.docx");
+
+        FieldCollection fields = document.getRange().getFields();
+
+        Assert.assertEquals(fields.get(0).getDisplayResult(), "111");
+        Assert.assertEquals(fields.get(1).getDisplayResult(), "222");
+        Assert.assertEquals(fields.get(2).getDisplayResult(), "Multi\rLine\rText");
+        Assert.assertEquals(fields.get(3).getDisplayResult(), "%");
+        Assert.assertEquals(fields.get(4).getDisplayResult(), "Macro Button Text");
+        Assert.assertEquals(fields.get(5).getDisplayResult(), "");
+
+        // Method must be called to obtain correct value for the "FieldListNum", "FieldAutoNum",
+        // "FieldAutoNumOut" and "FieldAutoNumLgl" fields
+        document.updateListLabels();
+
+        Assert.assertEquals(fields.get(5).getDisplayResult(), "1)");
         //ExEnd
     }
 }

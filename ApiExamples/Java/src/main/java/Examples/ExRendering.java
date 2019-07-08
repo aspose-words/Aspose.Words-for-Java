@@ -865,7 +865,7 @@ public class ExRendering extends ApiExampleBase {
         doc.save(dstStream, SaveFormat.DOCX);
 
         Iterable<String> alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Slab");
-        Assert.assertEquals(alternativeFonts, Arrays.asList(new String[] {"Times New Roman", "Arial"}));
+        Assert.assertEquals(alternativeFonts, Arrays.asList(new String[]{"Times New Roman", "Arial"}));
 
         alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Arvo");
         Assert.assertEquals(alternativeFonts, Arrays.asList(new String[]{"Open Sans", "Arial"}));

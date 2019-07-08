@@ -10,25 +10,26 @@ package Examples;
 
 
 import com.aspose.words.*;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.regex.Matcher;
-
+import com.aspose.words.Font;
+import com.aspose.words.Shape;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.awt.Color;
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
-
-import org.testng.Assert;
 
 public class ExFont extends ApiExampleBase {
     @Test
@@ -1313,6 +1314,27 @@ public class ExFont extends ApiExampleBase {
     //ExEnd
 
     @Test
+    public void loadNotoFontsFallbackSettings() throws Exception {
+        //ExStart
+        //ExFor:FontFallbackSettings.LoadNotoFallbackSettings
+        //ExSummary:Shows how to add predefined font fallback settings for Google Noto fonts.
+        FontSettings fontSettings = new FontSettings();
+        // These are free fonts licensed under SIL OFL
+        // They can be downloaded from https://www.google.com/get/noto/#sans-lgc
+        fontSettings.setFontsFolder(getFontsDir() + "Noto", false);
+        // Note that only Sans style Noto fonts with regular weight are used in the predefined settings
+        // Some of the Noto fonts uses advanced typography features
+        // Advanced typography is currently not supported by AW and these fonts may be rendered inaccurately
+        fontSettings.getFallbackSettings().loadNotoFallbackSettings();
+        fontSettings.getSubstitutionSettings().getFontInfoSubstitution().setEnabled(false);
+        fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Noto Sans");
+
+        Document doc = new Document();
+        doc.setFontSettings(fontSettings);
+        //ExEnd
+    }
+
+    @Test
     public void defaultFontSubstitutionRule() throws Exception {
         //ExStart
         //ExFor:Fonts.DefaultFontSubstitutionRule
@@ -1480,7 +1502,7 @@ public class ExFont extends ApiExampleBase {
         substitutionRule.loadWindowsSettings();
 
         // In Windows, the default substitute for the "Times New Roman CE" font is "Times New Roman"
-        Assert.assertEquals(substitutionRule.getSubstitutes("Times New Roman CE"), Arrays.asList(new String[] {"Times New Roman"}));
+        Assert.assertEquals(substitutionRule.getSubstitutes("Times New Roman CE"), Arrays.asList(new String[]{"Times New Roman"}));
 
         // We can save the table for viewing in the form of an XML document
         substitutionRule.save(getArtifactsDir() + "Font.TableSubstitutionRule.Windows.xml");
@@ -1566,4 +1588,84 @@ public class ExFont extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Font.TableSubstitutionRule.Custom.pdf");
         //ExEnd
     }
+
+    @Test
+    public void resolveFontsBeforeLoadingDocument() throws Exception {
+        //ExStart
+        //ExFor:LoadOptions.FontSettings
+        //ExSummary:Shows how to resolve fonts before loading HTML and SVG documents.
+        FontSettings fontSettings = new FontSettings();
+        TableSubstitutionRule substitutionRule = fontSettings.getSubstitutionSettings().getTableSubstitution();
+        // If "HaettenSchweiler" is not installed on the local machine,
+        // it is still considered available, because it is substituted with "Comic Sans MS"
+        substitutionRule.addSubstitutes("HaettenSchweiler", new String[]{"Comic Sans MS"});
+
+        LoadOptions loadOptions = new LoadOptions();
+        loadOptions.setFontSettings(fontSettings);
+        // The same for SVG document
+        Document doc = new Document(getMyDir() + "Document.LoadFormat.html", loadOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void getFontLeading() throws Exception {
+        //ExStart
+        //ExFor:Font.LineSpacing
+        //ExSummary:Shows how to get line spacing of current font (in points)
+        DocumentBuilder builder = new DocumentBuilder(new Document());
+        builder.getFont().setName("Calibri");
+        builder.writeln("qText");
+
+        // Obtain line spacing.
+        Font font = builder.getDocument().getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getFont();
+        System.out.println(MessageFormat.format("lineSpacing = {0}", font.getLineSpacing()));
+        //ExEnd
+    }
+
+    @Test
+    public void hasDmlEffect() throws Exception {
+        //ExStart
+        //ExFor:Font.HasDmlEffect(TextDmlEffect)
+        //ExSummary:Shows how to checks if particular Dml text effect is applied.
+        Document doc = new Document(getMyDir() + "Font.HasDmlEffect.docx");
+
+        RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
+
+        Assert.assertTrue(runs.get(0).getFont().hasDmlEffect(TextDmlEffect.SHADOW));
+        Assert.assertTrue(runs.get(1).getFont().hasDmlEffect(TextDmlEffect.SHADOW));
+        Assert.assertTrue(runs.get(2).getFont().hasDmlEffect(TextDmlEffect.REFLECTION));
+        Assert.assertTrue(runs.get(3).getFont().hasDmlEffect(TextDmlEffect.EFFECT_3_D));
+        Assert.assertTrue(runs.get(4).getFont().hasDmlEffect(TextDmlEffect.FILL));
+        //ExEnd
+    }
+
+//    //ExStart
+//    //ExFor:StreamFontSource
+//    //ExFor:StreamFontSource.OpenFontDataStream
+//    //ExSummary:Shows how to allows to load fonts from stream.
+//    @Test //ExSkip
+//    public void streamFontSourceFileRendering() throws Exception
+//    {
+//        FontSettings fontSettings = new FontSettings();
+//        fontSettings.setFontsSources(new FontSourceBase[] { new StreamFontSourceFile() });
+//
+//        DocumentBuilder builder = new DocumentBuilder();
+//        builder.getDocument().setFontSettings(fontSettings);
+//        builder.getFont().setName("Kreon-Regular");
+//        builder.writeln("Test aspose text when saving to PDF.");
+//
+//        builder.getDocument().save(getArtifactsDir() + "Font.StreamFontSourceFileRendering.pdf");
+//    }
+//
+//    /// <summary>
+//    /// Load the font data only when it is required and not to store it in the memory for the "FontSettings" lifetime.
+//    /// </summary>
+//    private class StreamFontSourceFile extends StreamFontSource
+//    {
+//        public InputStream openFontDataStream() throws Exception
+//        {
+//            return new FileInputStream(getFontsDir() + "Kreon-Regular.ttf");
+//        }
+//    }
+    //ExEnd
 }

@@ -11,10 +11,10 @@ package Examples;
 import com.aspose.words.*;
 import org.testng.annotations.Test;
 
-import java.awt.Color;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.attribute.standard.Media;
+import java.awt.*;
 
 public class ExPageSetup extends ApiExampleBase {
     @Test

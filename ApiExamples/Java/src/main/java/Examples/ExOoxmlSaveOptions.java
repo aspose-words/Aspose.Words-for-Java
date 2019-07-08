@@ -8,20 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.MsWordVersion;
-import com.aspose.words.Shape;
-import com.aspose.words.NodeType;
+import com.aspose.words.*;
 import org.testng.Assert;
-import com.aspose.words.ShapeMarkupLanguage;
-import com.aspose.words.OoxmlSaveOptions;
-import com.aspose.words.OoxmlCompliance;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.ListTemplate;
-import com.aspose.words.List;
-import com.aspose.words.BreakType;
+import org.testng.annotations.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
@@ -114,5 +103,20 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         Date documentTimeAfterSave = doc.getBuiltInDocumentProperties().getLastSavedTime();
 
         Assert.assertFalse(documentTimeBeforeSave == documentTimeAfterSave);
+    }
+
+    @Test
+    public void keepLegacyControlChars() throws Exception {
+        //ExStart
+        //ExFor:OoxmlSaveOptions.KeepLegacyControlChars
+        //ExSummary:Shows how to support legacy control characters when converting to .docx
+        Document doc = new Document(getMyDir() + "OoxmlSaveOptions.KeepLegacyControlChars.doc");
+
+        // Note that only one legacy character (ShortDateTime) is supported which declared in the "DOC" format
+        OoxmlSaveOptions so = new OoxmlSaveOptions();
+        so.setKeepLegacyControlChars(true);
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.KeepLegacyControlChars.docx", so);
+        //ExEnd
     }
 }

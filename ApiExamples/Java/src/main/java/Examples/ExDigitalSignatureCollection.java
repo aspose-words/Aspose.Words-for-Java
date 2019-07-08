@@ -8,12 +8,12 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
+import com.aspose.words.DigitalSignature;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignatureUtil;
-import java.util.Iterator;
+import org.testng.annotations.Test;
 
-import com.aspose.words.DigitalSignature;
+import java.util.Iterator;
 
 public class ExDigitalSignatureCollection extends ApiExampleBase {
     @Test

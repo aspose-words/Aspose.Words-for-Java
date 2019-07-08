@@ -8,13 +8,12 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.Document;
+import com.aspose.words.IMailMergeDataSource;
 import com.aspose.words.ref.Ref;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
 
 import java.util.ArrayList;
-
-import com.aspose.words.IMailMergeDataSource;
 
 public class ExMailMergeCustom extends ApiExampleBase {
     //ExStart

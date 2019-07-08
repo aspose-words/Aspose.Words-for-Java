@@ -8,10 +8,10 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.Hyphenation;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
 import java.io.InputStream;

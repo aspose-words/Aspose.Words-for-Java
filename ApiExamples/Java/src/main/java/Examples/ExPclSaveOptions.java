@@ -8,10 +8,10 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.Section;
-import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.PclSaveOptions;
+import com.aspose.words.Section;
+import org.testng.annotations.Test;
 
 public class ExPclSaveOptions extends ApiExampleBase {
     @Test

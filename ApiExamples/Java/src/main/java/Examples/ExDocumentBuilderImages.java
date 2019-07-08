@@ -8,21 +8,14 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.RelativeHorizontalPosition;
-import com.aspose.words.RelativeVerticalPosition;
-import com.aspose.words.WrapType;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import com.aspose.words.ConvertUtil;
-
-import javax.imageio.ImageIO;
 
 @Test
 public class ExDocumentBuilderImages extends ApiExampleBase {

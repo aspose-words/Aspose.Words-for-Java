@@ -9,18 +9,16 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-import org.testng.Assert;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 
 /**
  * Mostly scenarios that deal with image shapes.

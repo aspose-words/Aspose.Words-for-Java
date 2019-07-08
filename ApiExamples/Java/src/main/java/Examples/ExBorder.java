@@ -12,7 +12,7 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ExBorder extends ApiExampleBase {
     @Test

@@ -14,14 +14,8 @@ package Examples;
 //ExId:ReplaceHyperlinks
 //ExSummary:Finds all hyperlinks in a Word document and changes their URL and display name.
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.NodeList;
-import com.aspose.words.FieldStart;
-import com.aspose.words.FieldType;
-import com.aspose.words.NodeType;
-import com.aspose.words.Run;
-import com.aspose.words.Node;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

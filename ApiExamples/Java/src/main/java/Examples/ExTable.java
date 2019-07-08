@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.MessageFormat;
+import java.util.Iterator;
 
 /**
  * Examples using tables in documents.
@@ -1200,6 +1201,226 @@ public class ExTable extends ApiExampleBase {
             Assert.assertEquals(table.getAbsoluteVerticalDistance(), 4.8);
             Assert.assertEquals(table.getAllowOverlap(), true);
         }
+        //ExEnd
+    }
+
+    @Test
+    public void tableStyleCreation() throws Exception {
+        //ExStart
+        //ExFor:TableStyle
+        //ExFor:TableStyle.AllowBreakAcrossPages
+        //ExFor:TableStyle.Bidi
+        //ExFor:TableStyle.CellSpacing
+        //ExFor:TableStyle.BottomPadding
+        //ExFor:TableStyle.LeftPadding
+        //ExFor:TableStyle.RightPadding
+        //ExFor:TableStyle.TopPadding
+        //ExFor:TableStyle.Shading
+        //ExFor:TableStyle.Borders
+        //ExSummary:Shows how to create your own style settings for the table.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Table table = builder.startTable();
+        builder.insertCell();
+        builder.write("Name");
+        builder.insertCell();
+        builder.write("مرحبًا");
+        builder.endRow();
+        builder.insertCell();
+        builder.insertCell();
+        builder.endTable();
+
+        TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
+        tableStyle.setAllowBreakAcrossPages(true);
+        tableStyle.setBidi(true);
+        tableStyle.setCellSpacing(5.0);
+        tableStyle.setBottomPadding(20.0);
+        tableStyle.setLeftPadding(5.0);
+        tableStyle.setRightPadding(10.0);
+        tableStyle.setTopPadding(20.0);
+        tableStyle.getShading().setBackgroundPatternColor(Color.WHITE);
+        tableStyle.getBorders().setColor(Color.BLACK);
+        tableStyle.getBorders().setLineStyle(LineStyle.DOT_DASH);
+
+        table.setStyle(tableStyle);
+
+        doc.save(getArtifactsDir() + "Table.TableStyleCreation.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void setTableAligment() throws Exception {
+        //ExStart
+        //ExFor:TableStyle.Alignment
+        //ExFor:TableStyle.LeftIndent
+        //ExSummary:Shows how to set table position.
+        Document doc = new Document();
+
+        TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
+        // By default AW uses Alignment instead of LeftIndent
+        // To set table position use
+        tableStyle.setAlignment(TableAlignment.CENTER);
+        // or
+        tableStyle.setLeftIndent(55.0);
+        //ExEnd
+    }
+
+    @Test
+    public void workWithTableConditionalStyles() throws Exception {
+        //ExStart
+        //ExFor:ConditionalStyle
+        //ExFor:ConditionalStyle.Shading
+        //ExFor:ConditionalStyle.Borders
+        //ExFor:ConditionalStyle.ParagraphFormat
+        //ExFor:ConditionalStyle.BottomPadding
+        //ExFor:ConditionalStyle.LeftPadding
+        //ExFor:ConditionalStyle.RightPadding
+        //ExFor:ConditionalStyle.TopPadding
+        //ExFor:ConditionalStyle.Font
+        //ExFor:ConditionalStyleCollection.FirstRow
+        //ExFor:ConditionalStyleCollection.LastRow
+        //ExFor:ConditionalStyleCollection.LastColumn
+        //ExFor:ConditionalStyleCollection.Count
+        //ExFor:ConditionalStyleCollection
+        //ExFor:ConditionalStyleCollection.BottomLeftCell
+        //ExFor:ConditionalStyleCollection.BottomRightCell
+        //ExFor:ConditionalStyleCollection.EvenColumnBanding
+        //ExFor:ConditionalStyleCollection.EvenRowBanding
+        //ExFor:ConditionalStyleCollection.FirstColumn
+        //ExFor:ConditionalStyleCollection.Item(ConditionalStyleType)
+        //ExFor:ConditionalStyleCollection.Item(TableStyleOverrideType)
+        //ExFor:ConditionalStyleCollection.Item(Int32)
+        //ExFor:ConditionalStyleCollection.OddColumnBanding
+        //ExFor:ConditionalStyleCollection.OddRowBanding
+        //ExFor:ConditionalStyleCollection.TopLeftCell
+        //ExFor:ConditionalStyleCollection.TopRightCell
+        //ExFor:ConditionalStyleType
+        //ExSummary:Shows how to work with certain area styles of a table.
+        Document doc = new Document(getMyDir() + "Table.ConditionalStyles.docx");
+
+        TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
+        // There is a different ways how to get conditional styles:
+        // by conditional style type
+        tableStyle.getConditionalStyles().getByConditionalStyleType(ConditionalStyleType.FIRST_ROW).getShading().setBackgroundPatternColor(Color.BLUE);
+        // by index
+        tableStyle.getConditionalStyles().get(0).getBorders().setColor(Color.BLACK);
+        tableStyle.getConditionalStyles().get(0).getBorders().setLineStyle(LineStyle.DOT_DASH);
+        Assert.assertEquals(tableStyle.getConditionalStyles().get(0).getType(), ConditionalStyleType.FIRST_ROW);
+        // directly from ConditionalStyleCollection
+        tableStyle.getConditionalStyles().getFirstRow().getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+        // To see this in Word document select Total Row checkbox in Design Tab
+        tableStyle.getConditionalStyles().getLastRow().setBottomPadding(10.0);
+        tableStyle.getConditionalStyles().getLastRow().setLeftPadding(10.0);
+        tableStyle.getConditionalStyles().getLastRow().setRightPadding(10.0);
+        tableStyle.getConditionalStyles().getLastRow().setTopPadding(10.0);
+        // To see this in Word document select Last Column checkbox in Design Tab
+        tableStyle.getConditionalStyles().getLastColumn().getFont().setBold(true);
+
+        System.out.println(tableStyle.getConditionalStyles().getCount());
+        System.out.println(tableStyle.getConditionalStyles().get(0).getType());
+
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table.setStyle(tableStyle);
+
+        doc.save(getArtifactsDir() + "Table.WorkWithTableConditionalStyles.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void clearTableStyleFormatting() throws Exception {
+        //ExStart
+        //ExFor:ConditionalStyle.ClearFormatting
+        //ExFor:ConditionalStyleCollection.ClearFormatting
+        //ExSummary:Shows how to reset all table styles.
+        Document doc = new Document(getMyDir() + "Table.ConditionalStyles.docx");
+
+        TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
+        // You can reset styles from the specific table area
+        tableStyle.getConditionalStyles().get(0).clearFormatting();
+        // Or clear all table styles
+        tableStyle.getConditionalStyles().clearFormatting();
+        //ExEnd
+    }
+
+    @Test(enabled = false, description = "WORDSNET-18708")
+    public void getConditionalStylesEnumerator() throws Exception {
+        //ExStart
+        //ExFor:ConditionalStyle.Type
+        //ExFor:ConditionalStyleCollection.GetEnumerator
+        //ExSummary:Shows how to enumerate all table styles in a collection.
+        Document doc = new Document(getMyDir() + "Table.ConditionalStyles.docx");
+
+        TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
+
+        // Get the enumerator from the document's ConditionalStyleCollection and iterate over the styles
+        Iterator<ConditionalStyle> enumerator = tableStyle.getConditionalStyles().iterator();
+        try {
+            while (enumerator.hasNext()) {
+                ConditionalStyle currentStyle = enumerator.next();
+
+                if (currentStyle != null) {
+                    System.out.println(currentStyle.getType());
+                }
+            }
+        } finally {
+            if (enumerator != null) enumerator.remove();
+        }
+        //ExEnd
+    }
+
+    @Test
+    public void workWithOddEvenRowColumnStyles() throws Exception {
+        //ExStart
+        //ExFor:TableStyle.ColumnStripe
+        //ExFor:TableStyle.RowStripe
+        //ExSummary:Shows how to work with odd/even row/column styles.
+        Document doc = new Document(getMyDir() + "Table.ConditionalStyles.docx");
+
+        TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
+        tableStyle.getBorders().setColor(Color.BLACK);
+        tableStyle.getBorders().setLineStyle(LineStyle.DOT_DASH);
+        // Define our stripe through one column and row
+        tableStyle.setColumnStripe(1);
+        tableStyle.setRowStripe(1);
+        // Let's start from the first row and second column
+        tableStyle.getConditionalStyles().getByConditionalStyleType(ConditionalStyleType.ODD_ROW_BANDING).getShading().setBackgroundPatternColor(Color.BLUE);
+        tableStyle.getConditionalStyles().getByConditionalStyleType(ConditionalStyleType.EVEN_COLUMN_BANDING).getShading().setBackgroundPatternColor(Color.BLUE);
+
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table.setStyle(tableStyle);
+
+        doc.save(getArtifactsDir() + "Table.WorkWithOddEvenRowColumnStyles.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void convertToHorizontallyMergedCells() throws Exception {
+        //ExStart
+        //ExFor:Table.ConvertToHorizontallyMergedCells
+        //ExSummary:Shows how to convert cells horizontally merged by width to cells merged by CellFormat.HorizontalMerge.
+        Document doc = new Document(getMyDir() + "Table.ConvertToHorizontallyMergedCells.docx");
+
+        // MS Word does not write merge flags anymore, they define merged cells by its width
+        // So AW by default define only 5 cells in a row and all of it didn't have horizontal merge flag
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
+        Row row = table.getRows().get(0);
+        Assert.assertEquals(row.getCells().getCount(), 5);
+
+        // To resolve this inconvenience, we have added new public method to convert cells which are horizontally merged
+        // by its width to the cell horizontally merged by flags. Thus now we have 7 cells and some of them have
+        // horizontal merge value
+        table.convertToHorizontallyMergedCells();
+        row = table.getRows().get(0);
+        Assert.assertEquals(row.getCells().getCount(), 7);
+
+        Assert.assertEquals(row.getCells().get(0).getCellFormat().getHorizontalMerge(), CellMerge.NONE);
+        Assert.assertEquals(row.getCells().get(1).getCellFormat().getHorizontalMerge(), CellMerge.FIRST);
+        Assert.assertEquals(row.getCells().get(2).getCellFormat().getHorizontalMerge(), CellMerge.PREVIOUS);
+        Assert.assertEquals(row.getCells().get(3).getCellFormat().getHorizontalMerge(), CellMerge.NONE);
+        Assert.assertEquals(row.getCells().get(4).getCellFormat().getHorizontalMerge(), CellMerge.FIRST);
+        Assert.assertEquals(row.getCells().get(5).getCellFormat().getHorizontalMerge(), CellMerge.PREVIOUS);
+        Assert.assertEquals(row.getCells().get(6).getCellFormat().getHorizontalMerge(), CellMerge.NONE);
         //ExEnd
     }
 }

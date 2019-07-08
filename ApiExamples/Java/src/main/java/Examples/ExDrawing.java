@@ -12,20 +12,13 @@ import com.aspose.words.*;
 import com.aspose.words.Shape;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import sun.misc.IOUtils;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
-
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.stream.Stream;
-
-import javax.imageio.ImageIO;
-
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Test
 public class ExDrawing extends ApiExampleBase {

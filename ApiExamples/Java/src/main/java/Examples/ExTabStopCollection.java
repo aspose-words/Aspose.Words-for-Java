@@ -8,14 +8,8 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.Paragraph;
-import com.aspose.words.NodeType;
-import com.aspose.words.TabStop;
-import com.aspose.words.ConvertUtil;
-import com.aspose.words.TabAlignment;
-import com.aspose.words.TabLeader;
 
 import java.text.MessageFormat;
 

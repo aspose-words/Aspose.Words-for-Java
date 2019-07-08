@@ -9,11 +9,11 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.testng.annotations.Test;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.util.regex.Pattern;
-import java.awt.Color;
 
 public class ExRange extends ApiExampleBase {
     @Test

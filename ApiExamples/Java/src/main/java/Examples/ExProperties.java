@@ -9,12 +9,11 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.CountingOutputStream;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -89,7 +88,7 @@ public class ExProperties extends ApiExampleBase {
     }
 
     @Test
-    public void description() throws Exception {
+    public void builtInPropertiesDirectAccess() throws Exception {
         //ExStart
         //ExFor:BuiltInDocumentProperties.Author
         //ExFor:BuiltInDocumentProperties.Category

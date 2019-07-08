@@ -8,9 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.XpsSaveOptions;
+import org.testng.annotations.Test;
 
 @Test
 public class ExXpsSaveOptions extends ApiExampleBase {

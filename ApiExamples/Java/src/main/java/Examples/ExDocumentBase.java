@@ -8,27 +8,15 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.GlossaryDocument;
-import com.aspose.words.Run;
-import org.testng.Assert;
-import com.aspose.words.Section;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.Style;
-import com.aspose.words.StyleType;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.ImportFormatMode;
+import com.aspose.words.*;
 import com.aspose.words.Shape;
-import com.aspose.words.ShapeType;
-import com.aspose.words.NodeType;
-import com.aspose.words.IResourceLoadingCallback;
-import com.aspose.words.ResourceLoadingAction;
-import com.aspose.words.ResourceLoadingArgs;
-import com.aspose.words.ResourceType;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.awt.*;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 

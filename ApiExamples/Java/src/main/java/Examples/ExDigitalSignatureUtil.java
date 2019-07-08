@@ -8,15 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.DigitalSignatureUtil;
-import com.aspose.words.DigitalSignatureCollection;
-import com.aspose.words.CertificateHolder;
-import com.aspose.words.SignOptions;
-import com.aspose.words.LoadOptions;
+import com.aspose.words.*;
 import org.testng.Assert;
-import com.aspose.words.IncorrectPasswordException;
+import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -135,10 +129,11 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
     }
 
     @Test(description = "WORDSNET-16868")
-    public void singDocumentWithPasswordDecrypring() throws Exception {
+    public void signDocumentWithDecryptionPassword() throws Exception {
         //ExStart
         //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
         //ExFor:SignOptions.DecryptionPassword
+        //ExFor:LoadOptions.Password
         //ExSummary:Shows how to sign encrypted document opened from a file.
         String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
 
@@ -154,10 +149,13 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
 
         // Digitally sign encrypted with "docPassword" document in the specified path.
         DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, certificateHolder, signOptions);
-        //ExEnd
 
         // Open encrypted document from a file.
-        Document signedDoc = new Document(outputFileName, new LoadOptions("docPassword"));
+        LoadOptions loadOptions = new LoadOptions("docPassword");
+        Assert.assertEquals(loadOptions.getPassword(), signOptions.getDecryptionPassword());
+
+        Document signedDoc = new Document(outputFileName, loadOptions);
+        //ExEnd
 
         // Check that encrypted document was successfully signed.
         DigitalSignatureCollection signatures = signedDoc.getDigitalSignatures();

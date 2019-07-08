@@ -10,7 +10,6 @@ package Examples;
 
 import com.aspose.words.Document;
 import com.aspose.words.SaveFormat;
-import org.testng.annotations.Test;
 
 public class ExMossRtf2Docx {
     //ExStart

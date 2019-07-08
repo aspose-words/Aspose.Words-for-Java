@@ -9,15 +9,9 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import TestData.TestClasses.SignPersonTestClass;
-import org.testng.annotations.Test;
+import com.aspose.words.*;
 import org.testng.Assert;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.SignatureLineOptions;
-import com.aspose.words.SignatureLine;
-import com.aspose.words.CertificateHolder;
-import com.aspose.words.SignOptions;
-import com.aspose.words.DigitalSignatureUtil;
+import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
 import java.io.IOException;

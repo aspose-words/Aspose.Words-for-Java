@@ -12,14 +12,8 @@ package Examples;
 //ExId:RenameMergeFields
 //ExSummary:Shows how to rename merge fields in a Word document.
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
-import com.aspose.words.FieldStart;
-import com.aspose.words.FieldType;
-import com.aspose.words.Run;
-import com.aspose.words.Node;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

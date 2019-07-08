@@ -12,14 +12,13 @@ import com.aspose.words.*;
 import com.aspose.words.Font;
 import com.aspose.words.Shape;
 import org.apache.commons.lang.StringUtils;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
-
-import org.testng.Assert;
-
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -235,6 +234,7 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:Document.#ctor(Stream, LoadOptions)
         //ExFor:LoadOptions.#ctor(LoadFormat, String, String)
+        //ExFor:LoadOptions.LoadFormat
         //ExFor:LoadFormat
         //ExSummary:Shows how to insert the HTML contents from a web page into a new document.
         // The url of the page to load
@@ -319,18 +319,25 @@ public class ExDocument extends ApiExampleBase {
     public void annotationsAtBlockLevel() throws Exception {
         //ExStart
         //ExFor:LoadOptions.AnnotationsAtBlockLevel
+        //ExFor:LoadOptions.AnnotationsAtBlockLevelAsDefault
         //ExSummary:Shows how to place bookmark nodes on the block, cell and row levels.
+        // Any LoadOptions instances we create will have a default AnnotationsAtBlockLevel value equal to this
+        LoadOptions.setAnnotationsAtBlockLevelAsDefault(false);
+
         LoadOptions loadOptions = new LoadOptions();
+        Assert.assertEquals(loadOptions.getAnnotationsAtBlockLevel(), LoadOptions.getAnnotationsAtBlockLevelAsDefault());
+
         loadOptions.setAnnotationsAtBlockLevel(true);
 
-
+        // Open a document with a structured document tag and get that tag
         Document doc = new Document(getMyDir() + "Document.AnnotationsAtBlockLevel.docx", loadOptions);
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).get(1);
 
-        BookmarkStart start = builder.startBookmark("bm");
-        BookmarkEnd end = builder.endBookmark("bm");
+        // Insert a bookmark and make it envelop our tag
+        BookmarkStart start = builder.startBookmark("MyBookmark");
+        BookmarkEnd end = builder.endBookmark("MyBookmark");
 
         sdt.getParentNode().insertBefore(start, sdt);
         sdt.getParentNode().insertAfter(end, sdt);
@@ -352,6 +359,139 @@ public class ExDocument extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Document.ConvertShapeToOfficeMath.docx", SaveFormat.DOCX);
         //ExEnd
     }
+
+    @Test
+    public void loadOptionsEncoding() throws Exception {
+        //ExStart
+        //ExFor:LoadOptions.Encoding
+        //ExSummary:Shows how to set the encoding with which to open a document.
+        // Java does not support UTF-7 encoding and if we open the document with UTF-8 encoding,
+        // the content of the document will not be represented correctly
+        LoadOptions loadOptions = new LoadOptions();
+        {
+            loadOptions.setEncoding(Charset.forName("UTF-8"));
+        }
+        Document doc = new Document(getMyDir() + "EncodedInUTF-7.txt", loadOptions);
+
+        Assert.assertEquals(doc.toString(SaveFormat.TEXT), "Hello world+ACE-\r\n\r\n");
+        //ExEnd
+    }
+
+    @Test
+    public void loadOptionsFontSettings() throws Exception {
+        //ExStart
+        //ExFor:LoadOptions.FontSettings
+        //ExSummary:Shows how to set font settings and apply them during the loading of a document.
+        // Create a FontSettings object that will substitute the "Times New Roman" font with the font "Arvo" from our "MyFonts" folder
+        FontSettings fontSettings = new FontSettings();
+        fontSettings.setFontsFolder(getFontsDir(), false);
+        fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Times New Roman", "Arvo");
+
+        // Set that FontSettings object as a member of a newly created LoadOptions object
+        LoadOptions loadOptions = new LoadOptions();
+        {
+            loadOptions.setFontSettings(fontSettings);
+        }
+
+        // We can now open a document while also passing the LoadOptions object into the constructor so the font substitution occurs upon loading
+        Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
+
+        // The effects of our font settings can be observed after rendering
+        doc.save(getArtifactsDir() + "Document.LoadOptionsFontSettings.pdf");
+        //ExEnd
+    }
+
+    @Test
+    public void loadOptionsMswVersion() throws Exception {
+        //ExStart
+        //ExFor:LoadOptions.MswVersion
+        //ExSummary:Shows how to emulate the loading procedure of a specific Microsoft Word version during document loading.
+        // Create a new LoadOptions object, which will load documents according to MS Word 2007 specification by default
+        LoadOptions loadOptions = new LoadOptions();
+        Assert.assertEquals(loadOptions.getMswVersion(), MsWordVersion.WORD_2007);
+
+        // This document is missing the default paragraph format style,
+        // so when it is opened with either Microsoft Word or Aspose Words, that default style will be regenerated,
+        // and will show up in the Styles collection, with values according to Microsoft Word 2007 specifications
+        Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
+        Assert.assertEquals(13.8, doc.getStyles().getDefaultParagraphFormat().getLineSpacing(), 0.005f);
+
+        // We can change the loading version like this, to Microsoft Word 2016
+        loadOptions.setMswVersion(MsWordVersion.WORD_2016);
+
+        // The generated default style now has a different spacing, which will impact the appearance of our document
+        doc = new Document(getMyDir() + "Document.docx", loadOptions);
+        Assert.assertEquals(12.95, doc.getStyles().getDefaultParagraphFormat().getLineSpacing(), 0.005f);
+        //ExEnd
+    }
+
+    //ExStart
+    //ExFor:LoadOptions.ResourceLoadingCallback
+    //ExSummary:Shows how to handle external resources in Html documents during loading.
+    @Test //ExSkip
+    public void loadOptionsCallback() throws Exception {
+        // Create a new LoadOptions object and set its ResourceLoadingCallback attribute
+        // as an instance of our IResourceLoadingCallback implementation
+        LoadOptions loadOptions = new LoadOptions();
+        {
+            loadOptions.setResourceLoadingCallback(new HtmlLinkedResourceLoadingCallback());
+        }
+
+        // When we open an Html document, external resources such as references to CSS stylesheet files and external images
+        // will be handled in a custom manner by the loading callback as the document is loaded
+        Document doc = new Document(getMyDir() + "ResourcesForCallback.html", loadOptions);
+        doc.save(getArtifactsDir() + "Document.LoadOptionsCallback.pdf");
+    }
+
+    /// <summary>
+    /// Resource loading callback that, upon encountering external resources,
+    /// acknowledges CSS style sheets and replaces all images with a substitute.
+    /// </summary>
+    private static class HtmlLinkedResourceLoadingCallback implements IResourceLoadingCallback {
+        public int resourceLoading(ResourceLoadingArgs args) throws IOException {
+            switch (args.getResourceType()) {
+                case ResourceType.CSS_STYLE_SHEET:
+                    System.out.println(MessageFormat.format("External CSS Stylesheet found upon loading: {0}", args.getOriginalUri()));
+                    return ResourceLoadingAction.DEFAULT;
+                case ResourceType.IMAGE:
+                    System.out.println(MessageFormat.format("External Image found upon loading: {0}", args.getOriginalUri()));
+
+                    byte[] imageBytes = DocumentHelper.getBytesFromStream(getAsposelogoUri().toURL().openStream());
+                    args.setData(imageBytes);
+
+                    return ResourceLoadingAction.USER_PROVIDED;
+
+            }
+            return ResourceLoadingAction.DEFAULT;
+        }
+    }
+    //ExEnd
+
+    //ExStart
+    //ExFor:LoadOptions.WarningCallback
+    //ExSummary:Shows how to print warnings that occur during document loading.
+    @Test //ExSkip
+    public void loadOptionsWarningCallback() throws Exception {
+        // Create a new LoadOptions object and set its WarningCallback attribute as an instance of our IWarningCallback implementation
+        LoadOptions loadOptions = new LoadOptions();
+        {
+            loadOptions.setWarningCallback(new DocumentLoadingWarningCallback());
+        }
+
+        // Minor warnings that might not prevent the effective loading of the document will now be printed
+        Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
+    }
+
+    /// <summary>
+    /// IWarningCallback that prints warnings and their details as they arise during document loading.
+    /// </summary>
+    private static class DocumentLoadingWarningCallback implements IWarningCallback {
+        public void warning(WarningInfo info) {
+            System.out.println(MessageFormat.format("WARNING: {0}, source: {1}", info.getWarningType(), info.getSource()));
+            System.out.println(MessageFormat.format("\tDescription: {0}", info.getDescription()));
+        }
+    }
+    //ExEnd
 
     @Test
     public void convertToHtml() throws Exception {
@@ -2221,7 +2361,6 @@ public class ExDocument extends ApiExampleBase {
     @Test
     public void docPackageCustomParts() throws Exception {
         //ExStart
-        //ExFor:Document.PackageCustomParts
         //ExFor:CustomPart
         //ExFor:CustomPart.ContentType
         //ExFor:CustomPart.RelationshipType
@@ -2229,37 +2368,80 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:CustomPart.Data
         //ExFor:CustomPart.Name
         //ExFor:CustomPart.Clone
+        //ExFor:CustomPartCollection
+        //ExFor:CustomPartCollection.Add(CustomPart)
+        //ExFor:CustomPartCollection.Clear
+        //ExFor:CustomPartCollection.Clone
+        //ExFor:CustomPartCollection.Count
+        //ExFor:CustomPartCollection.GetEnumerator
+        //ExFor:CustomPartCollection.Item(Int32)
+        //ExFor:CustomPartCollection.RemoveAt(Int32)
+        //ExFor:Document.PackageCustomParts
         //ExSummary:Shows how to open a document with custom parts and access them.
-        Document doc = new Document(getMyDir() + "Document.PackageCustomParts.docx");
-
-        Assert.assertEquals(2, doc.getPackageCustomParts().getCount());
-
+        // Open a document that contains custom parts
         // CustomParts are arbitrary content OOXML parts
         // Not to be confused with Custom XML data which is represented by CustomXmlParts
         // This part is internal, meaning it is contained inside the OOXML package
-        CustomPart part = doc.getPackageCustomParts().get(0);
-        Assert.assertEquals(part.getName(), "/payload/payload_on_package.test");
-        Assert.assertEquals(part.getContentType(), "mytest/somedata");
-        Assert.assertEquals(part.getRelationshipType(), "http://mytest.payload.internal");
-        Assert.assertEquals(part.isExternal(), false);
-        Assert.assertEquals(part.getData().length, 18);
+        Document doc = new Document(getMyDir() + "Document.PackageCustomParts.docx");
+        Assert.assertEquals(doc.getPackageCustomParts().getCount(), 2);
+
+        // Clone the second part
+        CustomPart clonedPart = doc.getPackageCustomParts().get(1).deepClone();
+
+        // Add the clone to the collection
+        doc.getPackageCustomParts().add(clonedPart);
+
+        Assert.assertEquals(doc.getPackageCustomParts().getCount(), 3);
+
+        // Use an enumerator to print information about the contents of each part
+        Iterator<CustomPart> enumerator = doc.getPackageCustomParts().iterator();
+
+        int index = 0;
+        while (enumerator.hasNext()) {
+            CustomPart customPart = (CustomPart) enumerator.next();
+            System.out.println(MessageFormat.format("Part index {0}:", index));
+            System.out.println(MessageFormat.format("\tName: {0}", customPart.getName()));
+            System.out.println(MessageFormat.format("\tContentType: {0}", customPart.getContentType()));
+            System.out.println(MessageFormat.format("\tRelationshipType: {0}", customPart.getRelationshipType()));
+            if (customPart.isExternal()) {
+                System.out.println("\tSourced from outside the document");
+            } else {
+                System.out.println(MessageFormat.format("\tSourced from within the document, length: {0} bytes", customPart.getData().length));
+            }
+            index++;
+        }
+
+        testCustomPartRead(doc); //ExSkip
+
+        // Delete parts one at a time based on index
+        doc.getPackageCustomParts().removeAt(2);
+        Assert.assertEquals(doc.getPackageCustomParts().getCount(), 2);
+
+        // Delete all parts
+        doc.getPackageCustomParts().clear();
+        Assert.assertEquals(doc.getPackageCustomParts().getCount(), 0);
+        //ExEnd
+    }
+
+    private void testCustomPartRead(Document docWithCustomParts) {
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(0).getName(), "/payload/payload_on_package.test");
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(0).getContentType(), "mytest/somedata");
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(0).getRelationshipType(), "http://mytest.payload.internal");
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(0).isExternal(), false);
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(0).getData().length, 18);
 
         // This part is external and its content is sourced from outside the document
-        part = doc.getPackageCustomParts().get(1);
-        Assert.assertEquals(part.getName(), "http://www.aspose.com/Images/aspose-logo.jpg");
-        Assert.assertEquals(part.getContentType(), "");
-        Assert.assertEquals(part.getRelationshipType(), "http://mytest.payload.external");
-        Assert.assertEquals(part.isExternal(), true);
-        Assert.assertEquals(part.getData().length, 0);
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(1).getName(), "http://www.aspose.com/Images/aspose-logo.jpg");
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(1).getContentType(), "");
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(1).getRelationshipType(), "http://mytest.payload.external");
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(1).isExternal(), true);
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(1).getData().length, 0);
 
-        // Lets copy external part
-        CustomPart clonedPart = doc.getPackageCustomParts().get(1).deepClone();
-        Assert.assertEquals(clonedPart.getName(), "http://www.aspose.com/Images/aspose-logo.jpg");
-        Assert.assertEquals(clonedPart.getContentType(), "");
-        Assert.assertEquals(clonedPart.getRelationshipType(), "http://mytest.payload.external");
-        Assert.assertEquals(clonedPart.isExternal(), true);
-        Assert.assertEquals(clonedPart.getData().length, 0);
-        //ExEnd
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(2).getName(), "http://www.aspose.com/Images/aspose-logo.jpg");
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(2).getContentType(), "");
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(2).getRelationshipType(), "http://mytest.payload.external");
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(2).isExternal(), true);
+        Assert.assertEquals(docWithCustomParts.getPackageCustomParts().get(2).getData().length, 0);
     }
 
     @Test
@@ -2358,6 +2540,7 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:LanguagePreferences
         //ExFor:LanguagePreferences.AddEditingLanguage(EditingLanguage)
+        //ExFor:LoadOptions.LanguagePreferences
         //ExSummary:Shows how to set up language preferences that will be used when document is loading
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.getLanguagePreferences().addEditingLanguage(EditingLanguage.JAPANESE);
@@ -2762,5 +2945,91 @@ public class ExDocument extends ApiExampleBase {
         System.out.println(MessageFormat.format("{0}   Page {1}", tabs, layoutEnumerator.getPageIndex()));
     }
     //ExEnd
+
+    @Test(dataProvider = "alwaysCompressMetafilesDataProvider")
+    public void alwaysCompressMetafiles(boolean isAlwaysCompressMetafiles) throws Exception {
+        //ExStart
+        //ExFor:DocSaveOptions.AlwaysCompressMetafiles
+        //ExSummary:Shows how to change metafiles compression in a document while saving.
+        // The document has a mathematical formula
+        Document doc = new Document(getMyDir() + "Document.AlwaysCompressMetafiles.doc");
+
+        // Large metafiles are always compressed when exporting a document in Aspose.Words, but small metafiles are not
+        // compressed for performance reason. Some other document editors, such as LibreOffice, cannot read uncompressed
+        // metafiles. The following option 'AlwaysCompressMetafiles' was introduced to choose appropriate behavior
+        DocSaveOptions saveOptions = new DocSaveOptions();
+        // False - small metafiles are not compressed for performance reason
+        // True - all metafiles are compressed regardless of its size
+        saveOptions.setAlwaysCompressMetafiles(isAlwaysCompressMetafiles);
+
+        doc.save(getArtifactsDir() + "Document.AlwaysCompressMetafiles.doc", saveOptions);
+        //ExEnd
+    }
+
+    //JAVA-added data provider for test method
+    @DataProvider(name = "alwaysCompressMetafilesDataProvider")
+    public static Object[][] alwaysCompressMetafilesDataProvider() {
+        return new Object[][]{{false}, {true}};
+    }
+
+    @Test
+    public void readMacrosFromDocument() throws Exception {
+        //ExStart
+        //ExFor:Document.VbaProject
+        //ExFor:VbaProject
+        //ExFor:VbaModuleCollection
+        //ExFor:VbaModule
+        //ExFor:VbaProject.Name
+        //ExFor:VbaProject.Modules
+        //ExFor:VbaModule.Name
+        //ExFor:VbaModule.SourceCode
+        //ExSummary:Shows how to get access to VBA project information in the document.
+        Document doc = new Document(getMyDir() + "Document.TestButton.docm");
+
+        // A VBA project inside the document is defined as a collection of VBA modules
+        VbaProject vbaProject = doc.getVbaProject();
+        Assert.assertEquals(vbaProject.getName(), "AsposeVBAtest"); //ExSkip
+
+
+        VbaModuleCollection vbaModules = doc.getVbaProject().getModules();
+        for (VbaModule module : vbaModules) {
+            System.out.println(MessageFormat.format("Module name: {0};\nModule code:\n{1}\n", module.getName(), module.getSourceCode()));
+        }
+        //ExEnd
+
+        VbaModule defaultModule = vbaModules.get(0);
+        Assert.assertEquals(defaultModule.getName(), "ThisDocument");
+        Assert.assertTrue(defaultModule.getSourceCode().contains("MsgBox \"First test\""));
+
+        VbaModule createdModule = vbaModules.get(1);
+        Assert.assertEquals(createdModule.getName(), "Module1");
+        Assert.assertTrue(createdModule.getSourceCode().contains("MsgBox \"Second test\""));
+
+        VbaModule classModule = vbaModules.get(2);
+        Assert.assertEquals(classModule.getName(), "Class1");
+        Assert.assertTrue(classModule.getSourceCode().contains("MsgBox \"Class test\""));
+    }
+
+    @Test
+    public void openType() throws Exception {
+        //ExStart
+        //ExFor:LayoutOptions.TextShaperFactory
+        //ExSummary:Shows how to support OpenType features using HarfBuzz text shaping engine.
+        // Open a document
+        Document doc = new Document(getMyDir() + "OpenType.Document.docx");
+
+        // Please note that text shaping is only performed when exporting to PDF or XPS formats now
+
+        // Aspose.Words is capable of using text shaper objects provided externally.
+        // A text shaper represents a font and computes shaping information for a text.
+        // A document typically refers to multiple fonts thus a text shaper factory is necessary.
+        // When text shaper factory is set, layout starts to use OpenType features.
+        // An Instance property returns static BasicTextShaperCache object wrapping HarfBuzzTextShaperFactory
+        //doc.getLayoutOptions().setTextShaperFactory(HarfBuzzTextShaperFactory.Instance);
+
+        // Render the document to PDF format
+        doc.save(getArtifactsDir() + "OpenType.Document.pdf");
+        //ExEnd
+    }
 }
 

@@ -8,15 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.Paragraph;
-import com.aspose.words.AbsolutePositionTab;
-import com.aspose.words.NodeType;
-import com.aspose.words.DocumentVisitor;
-import com.aspose.words.VisitorAction;
-import com.aspose.words.Run;
 
 @Test
 public class ExAbsolutePositionTab extends ApiExampleBase {

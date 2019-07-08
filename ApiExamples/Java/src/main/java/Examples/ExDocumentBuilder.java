@@ -15,6 +15,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -22,7 +23,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
-import javax.imageio.ImageIO;
 
 public class ExDocumentBuilder extends ApiExampleBase {
     @Test
@@ -216,7 +216,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public static Object[][] getFieldCodeDataProvider() {
         return new Object[][]{
                 {true},
-                {false} };
+                {false}};
     }
 
     @Test
@@ -1941,6 +1941,57 @@ public class ExDocumentBuilder extends ApiExampleBase {
     }
 
     @Test
+    public void keepSourceNumbering() throws Exception {
+        //ExStart
+        //ExFor:ImportFormatOptions.KeepSourceNumbering
+        //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how the numbering will be imported when it clashes in source and destination documents.
+        Document dstDoc = new Document(getMyDir() + "DocumentBuilder.KeepSourceNumbering.DestinationDocument.docx");
+        Document srcDoc = new Document(getMyDir() + "DocumentBuilder.KeepSourceNumbering.SourceDocument.docx");
+
+        ImportFormatOptions importFormatOptions = new ImportFormatOptions();
+        // Keep source list formatting when importing numbered paragraphs
+        importFormatOptions.setKeepSourceNumbering(true);
+
+        NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, importFormatOptions);
+
+        ParagraphCollection paragraphs = srcDoc.getFirstSection().getBody().getParagraphs();
+        for (int i = 0; i < paragraphs.getCount(); i++) {
+            Paragraph srcPara = paragraphs.get(i);
+            Node importedNode = importer.importNode(srcPara, true);
+            dstDoc.getFirstSection().getBody().appendChild(importedNode);
+        }
+
+        dstDoc.save(getArtifactsDir() + "DocumentBuilder.KeepSourceNumbering.ResultDocument.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void ignoreTextBoxes() throws Exception {
+        //ExStart
+        //ExFor:ImportFormatOptions.IgnoreTextBoxes
+        //ExSummary:Shows how to manage formatting in the text boxes of the source destination during the import.
+        Document dstDoc = new Document(getMyDir() + "DocumentBuilder.IgnoreTextBoxes.DestinationDocument.docx");
+        Document srcDoc = new Document(getMyDir() + "DocumentBuilder.IgnoreTextBoxes.SourceDocument.docx");
+
+        ImportFormatOptions importFormatOptions = new ImportFormatOptions();
+        // Keep the source text boxes formatting when importing
+        importFormatOptions.setIgnoreTextBoxes(false);
+
+        NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, importFormatOptions);
+
+        ParagraphCollection paragraphs = srcDoc.getFirstSection().getBody().getParagraphs();
+        for (int i = 0; i < paragraphs.getCount(); i++) {
+            Paragraph srcPara = paragraphs.get(i);
+            Node importedNode = importer.importNode(srcPara, true);
+            dstDoc.getFirstSection().getBody().appendChild(importedNode);
+        }
+
+        dstDoc.save(getArtifactsDir() + "DocumentBuilder.IgnoreTextBoxes.ResultDocument.docx");
+        //ExEnd
+    }
+
+    @Test
     public void moveToFieldEx() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.MoveToField
@@ -2356,5 +2407,65 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.write("This is text with some other formatting ");
 
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.InsertTextWithoutStyleSeparator.docx");
+    }
+
+    @Test
+    public void resolveStyleBehaviorWhileInsertDocument() throws Exception {
+        //ExStart
+        //ExFor:ImportFormatOptions
+        //ExFor:ImportFormatOptions.SmartStyleBehavior
+        //ExFor:DocumentBuilder.InsertDocument(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to resolve styles behavior while inserting documents.
+        Document destDoc = new Document(getMyDir() + "DocumentBuilder.SmartStyleBehavior.DestinationDocument.docx");
+        Document sourceDoc1 = new Document(getMyDir() + "DocumentBuilder.SmartStyleBehavior.SourceDocument01.docx");
+        Document sourceDoc2 = new Document(getMyDir() + "DocumentBuilder.SmartStyleBehavior.SourceDocument02.docx");
+
+        DocumentBuilder builder = new DocumentBuilder(destDoc);
+
+        builder.moveToDocumentEnd();
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.moveToDocumentEnd();
+
+        ImportFormatOptions importFormatOptions = new ImportFormatOptions();
+        importFormatOptions.setSmartStyleBehavior(true);
+
+        // When SmartStyleBehavior is enabled,
+        // a source style will be expanded into a direct attributes inside a destination document,
+        // if KeepSourceFormatting importing mode is used.
+        builder.insertDocument(sourceDoc1, ImportFormatMode.KEEP_SOURCE_FORMATTING, importFormatOptions);
+
+        builder.moveToDocumentEnd();
+        builder.insertBreak(BreakType.PAGE_BREAK);
+
+        // When SmartStyleBehavior is disabled,
+        // a source style will be expanded only if it is numbered.
+        // Existing destination attributes will not be overridden, including lists.
+        builder.insertDocument(sourceDoc2, ImportFormatMode.USE_DESTINATION_STYLES);
+
+        destDoc.save(getArtifactsDir() + "DocumentBuilder.SmartStyleBehavior.ResultDocument.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void resolveStyleBehaviorWhileAppendDocument() throws Exception {
+        //ExStart
+        //ExFor:Document.AppendDocument(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to resolve styles behavior while append document.
+        Document srcDoc = new Document(getMyDir() + "DocumentBuilder.ResolveStyleBehaviorWhileAppendDocument.Source.docx");
+        Document dstDoc = new Document(getMyDir() + "DocumentBuilder.ResolveStyleBehaviorWhileAppendDocument.Destination.docx");
+
+        ImportFormatOptions options = new ImportFormatOptions();
+        // Specify that if numbering clashes in source and destination documents
+        // then a numbering from the source document will be used.
+        options.setKeepSourceNumbering(true);
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES, options);
+        dstDoc.updateListLabels();
+        //ExEnd
+
+        Paragraph para = dstDoc.getSections().get(1).getBody().getLastParagraph();
+        String paraText = para.getText();
+
+        Assert.assertEquals(para.getListLabel().getLabelString(), "1.");
+        Assert.assertTrue(paraText.startsWith("13->13"), paraText);
     }
 }
