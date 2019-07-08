@@ -75,10 +75,10 @@ import com.aspose.words.SignatureLine;
 import com.aspose.words.TextBox;
 import com.aspose.words.LayoutFlow;
 import com.aspose.words.TextBoxWrapMode;
+import com.aspose.words.TextBoxAnchor;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.TextPathAlignment;
 import org.testng.annotations.DataProvider;
-
 
 
 /// <summary>
@@ -777,12 +777,29 @@ public class ExShape extends ApiExampleBase
     public void officeMathDisplayGold() throws Exception
     {
         //ExStart
+        //ExFor:OfficeMath
         //ExFor:OfficeMath.DisplayType
+        //ExFor:OfficeMath.EquationXmlEncoding
         //ExFor:OfficeMath.Justification
+        //ExFor:OfficeMath.NodeType
+        //ExFor:OfficeMath.ParentParagraph
+        //ExFor:OfficeMathDisplayType
+        //ExFor:OfficeMathJustification
         //ExSummary:Shows how to set office math display formatting.
         Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
+
+        // OfficeMath nodes that are children of other OfficeMath nodes are always inline
+        // The node we are working with is a base node, so its location and display type can be changed
+        msAssert.areEqual(MathObjectType.O_MATH_PARA, officeMath.getMathObjectType());
+        msAssert.areEqual(NodeType.OFFICE_MATH, officeMath.getNodeType());
+        msAssert.areEqual(officeMath.getParentNode(), officeMath.getParentParagraph());
+
+        // Used by OOXML and WML formats
+        Assert.assertNull(officeMath.getEquationXmlEncodingInternal());
+
+        // We can change the location and display type of the OfficeMath node
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);
         officeMath.setJustification(OfficeMathJustification.LEFT);
 
@@ -1417,6 +1434,43 @@ public class ExShape extends ApiExampleBase
         builder.write("Text placed according to textbox margins");
 
         doc.save(getArtifactsDir() + "Drawing.TextBox.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void createNewTextBoxAndChangeTextAnchor() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Set compatibility options to correctly using of VerticalAnchor property
+        doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2016);
+
+        Shape textBoxShape = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 100.0);
+        // Not all formats are compatible with this one
+        // For most of incompatible formats AW generated a warnings on save, so use doc.WarningCallback to check it.
+        textBoxShape.getTextBox().setVerticalAnchor(TextBoxAnchor.BOTTOM);
+        
+        builder.moveTo(textBoxShape.getLastParagraph());
+        builder.write("Text placed bottom");
+
+        doc.save(getArtifactsDir() + "Shape.CreateNewTextBoxAndChangeAnchor.docx");
+    }
+
+    @Test
+    public void getTextBoxAndChangeTextAnchor() throws Exception
+    {
+        //ExStart
+        //ExFor:TextBoxAnchor
+        //ExFor:TextBox.VerticalAnchor
+        //ExSummary:Shows how to change text position inside textbox shape.
+        Document doc = new Document(getMyDir() + "Shape.GetTextBoxAndChangeAnchor.docx");
+        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+
+        Shape textbox = (Shape) shapes.get(0);
+        textbox.getTextBox().setVerticalAnchor(TextBoxAnchor.BOTTOM);
+        
+        doc.save(getArtifactsDir() + "Shape.GetTextBoxAndChangeAnchor.docx");
         //ExEnd
     }
 

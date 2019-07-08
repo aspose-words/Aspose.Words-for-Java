@@ -151,7 +151,6 @@ public class ExBorder extends ApiExampleBase
             // Changing the line style made the borders visible
             Assert.assertTrue(secondParaBorders.get(i).isVisible());
         }
-
         //ExEnd
     }
 

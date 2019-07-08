@@ -331,4 +331,23 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         doc.save(getArtifactsDir() + "Paragraph.DropCap.docx");
         //ExEnd
     }
+
+    @Test
+    public void breakIsStyleSeparator() throws Exception
+    {
+        //ExStart
+        //ExFor:Paragraph.BreakIsStyleSeparator
+        //ExSummary:Shows how to check if paragraph break is a Style Separator
+        Document doc = new Document(getMyDir() + "Paragraph.BreakIsStyleSeparator.docx");
+        
+        Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
+        if (paragraph.getBreakIsStyleSeparator())
+        {
+            // Do something ...
+            Assert.Pass(); //ExSkip
+        }
+
+        Assert.fail(); //ExSkip
+        //ExEnd
+    }
 }

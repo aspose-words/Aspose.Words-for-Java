@@ -312,7 +312,7 @@ public class ExDrawing extends ApiExampleBase
 
         builder.moveTo(textbox.getFirstParagraph());
         builder.write("This text is flipped 90 degrees to the left.");
-
+        
         doc.save(getArtifactsDir() + "Drawing.TextBox.docx");
         //ExEnd
     }
@@ -521,8 +521,9 @@ public class ExDrawing extends ApiExampleBase
         msAssert.areEqual(200, imageSize.getHeightPixels());
         msAssert.areEqual(200, imageSize.getWidthPixels());
 
-        msAssert.areEqual(95.986599999999996d, imageSize.getHorizontalResolution());
-        msAssert.areEqual(95.986599999999996d, imageSize.getVerticalResolution());
+		final double DELTA = 0.05;
+        Assert.assertEquals(95.98d, imageSize.getHorizontalResolution(), DELTA);
+        Assert.assertEquals(95.98d, imageSize.getVerticalResolution(), DELTA);
 
         // These values are read-only
         // If we want to transform the image, we need to change the size of the shape that contains it

@@ -19,12 +19,13 @@ import com.aspose.words.FieldMergeField;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.ImageFieldMergingArgs;
 import com.aspose.words.net.System.Data.DataTable;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import org.testng.Assert;
 import com.aspose.words.net.System.Data.DataRow;
 import java.awt.Color;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
-import org.testng.Assert;
 import com.aspose.words.net.System.Data.IDataReader;
 import com.aspose.ms.System.IO.MemoryStream;
 
@@ -40,6 +41,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         //ExFor:MailMerge.FieldMergingCallback
         //ExFor:IFieldMergingCallback
         //ExFor:FieldMergingArgs
+        //ExFor:FieldMergingArgsBase
         //ExFor:FieldMergingArgsBase.Field
         //ExFor:FieldMergingArgsBase.DocumentFieldName
         //ExFor:FieldMergingArgsBase.Document
@@ -105,6 +107,8 @@ public class ExMailMergeEvent extends ApiExampleBase
         //ExStart
         //ExFor:DocumentBuilder.MoveToMergeField(String)
         //ExFor:FieldMergingArgsBase.FieldName
+        //ExFor:FieldMergingArgsBase.TableName
+        //ExFor:FieldMergingArgsBase.RecordIndex
         //ExSummary:Shows how to insert checkbox form fields into a document during mail merge.
         // File 'MailMerge.InsertCheckBox.doc' is a template
         // containing the table with the following fields in it:
@@ -132,11 +136,21 @@ public class ExMailMergeEvent extends ApiExampleBase
         {
             if (args.getDocumentFieldName().equals("CourseName"))
             {
+                // The name of the table that we are merging can be found here
+                msAssert.areEqual("StudentCourse", args.getTableName());
+
                 // Insert the checkbox for this merge field, using DocumentBuilder.
                 DocumentBuilder builder = new DocumentBuilder(args.getDocument());
                 builder.moveToMergeField(args.getFieldName());
                 builder.insertCheckBox(args.getDocumentFieldName() + mCheckBoxCount, false, 0);
-                builder.write((String) args.getFieldValue());
+
+                // Get the actual value of the field
+                String fieldValue = args.getFieldValue().toString();
+
+                // In this case, for every record index 'n', the corresponding field value is "Course n"
+                msAssert.areEqual(char.GetNumericValue(fieldValue.charAt(7)), args.getRecordIndex());
+
+                builder.write(fieldValue);
                 mCheckBoxCount++;
             }
         }
@@ -176,6 +190,7 @@ public class ExMailMergeEvent extends ApiExampleBase
     {
         //ExStart
         //ExId:MailMergeAlternatingRows
+        //ExFor:MailMerge.ExecuteWithRegions(DataTable)
         //ExSummary:Demonstrates how to implement custom logic in the MergeField event to apply cell formatting.
         Document doc = new Document(getMyDir() + "MailMerge.AlternatingRows.doc");
 

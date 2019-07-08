@@ -23,7 +23,7 @@ public class ExTxtSaveOptions extends ApiExampleBase
     public void pageBreaks() throws Exception
     {
         //ExStart
-        //ExFor:TxtSaveOptions.ForcePageBreaks
+        //ExFor:TxtSaveOptionsBase.ForcePageBreaks
         //ExSummary:Shows how to specify whether the page breaks should be preserved during export.
         Document doc = new Document(getMyDir() + "SaveOptions.PageBreaks.docx");
 
@@ -51,7 +51,7 @@ public class ExTxtSaveOptions extends ApiExampleBase
     public void exportHeadersFooters(/*TxtExportHeadersFootersMode*/int txtExportHeadersFootersMode) throws Exception
     {
         //ExStart
-        //ExFor:TxtSaveOptions.ExportHeadersFootersMode
+        //ExFor:TxtSaveOptionsBase.ExportHeadersFootersMode
         //ExFor:TxtExportHeadersFootersMode
         //ExSummary:Shows how to specifies the way headers and footers are exported to plain text format.
         Document doc = new Document(getMyDir() + "HeaderFooter.HeaderFooterOrder.docx");
@@ -77,4 +77,23 @@ public class ExTxtSaveOptions extends ApiExampleBase
 			{TxtExportHeadersFootersMode.PRIMARY_ONLY},
 		};
 	}
+
+    @Test
+    public void txtListIndentation() throws Exception
+    {
+        //ExStart
+        //ExFor:TxtListIndentation
+        //ExFor:TxtListIndentation.Count
+        //ExFor:TxtListIndentation.Character
+        //ExSummary:Shows how list levels are displayed when the document is converting to plain text format
+        Document doc = new Document(getMyDir() + "TxtSaveOptions.TxtListIndentation.docx");
+ 
+        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
+        txtSaveOptions.getListIndentation().setCount(3);
+        txtSaveOptions.getListIndentation().setCharacter(' ');
+        txtSaveOptions.setPreserveTableLayout(true);
+ 
+        doc.save(getArtifactsDir() + "TxtSaveOptions.TxtListIndentation.txt", txtSaveOptions);
+        //ExEnd
+    }
 }

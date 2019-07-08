@@ -135,4 +135,20 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         DateTime documentTimeAfterSave = doc.getBuiltInDocumentProperties().getLastSavedTimeInternal();
         msAssert.areNotEqual(documentTimeBeforeSave, documentTimeAfterSave);
     }
+
+    @Test
+    public void keepLegacyControlChars() throws Exception
+    {
+        //ExStart
+        //ExFor:OoxmlSaveOptions.KeepLegacyControlChars
+        //ExSummary:Shows how to support legacy control characters when converting to .docx
+        Document doc = new Document(getMyDir() + "OoxmlSaveOptions.KeepLegacyControlChars.doc");
+ 
+        // Note that only one legacy character (ShortDateTime) is supported which declared in the "DOC" format
+        OoxmlSaveOptions so = new OoxmlSaveOptions();
+        so.setKeepLegacyControlChars(true);
+ 
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.KeepLegacyControlChars.docx", so);
+        //ExEnd
+    }
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2018 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -185,6 +185,13 @@ public class ApiExampleBase
     private static  String mDatabaseDir;
 
     /// <summary>
+    /// Gets the path of the free fonts. Ends with a back slash.
+    /// </summary>
+    static String getFontsDir() { return mFontsDir; };
+
+    private static  String mFontsDir;
+
+    /// <summary>
     /// Gets the url of the Aspose logo.
     /// </summary>
     static String getAsposeLogoUrl() { return mAsposeLogoUrl; };
@@ -204,6 +211,7 @@ public class ApiExampleBase
         	(new msUri(new msUri(getCodeBaseDir()), "Data/").getLocalPath());
         	(new msUri(new msUri(getCodeBaseDir()), "Data/Images/").getLocalPath());
         	(new msUri(new msUri(getCodeBaseDir()), "Data/Database/").getLocalPath());
+        	(new msUri(new msUri(getCodeBaseDir()), "Data/MyFonts/").getLocalPath());
         	(new msUri("https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png").getAbsoluteUri());
     	}
     	catch (Exception e)

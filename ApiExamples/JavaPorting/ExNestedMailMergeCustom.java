@@ -21,7 +21,10 @@ import com.aspose.words.ref.Ref;
 @Test
 public class ExNestedMailMergeCustom extends ApiExampleBase
 {
-    @Test
+    //ExStart
+    //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSource)
+    //ExSummary:Performs mail merge with regions from a custom data source.
+    @Test //ExSkip
     public void mailMergeCustomDataSource() throws Exception
     {
         // Create some data that we will use in the mail merge.
@@ -161,9 +164,6 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
             return (!isEof());
         }
 
-        //ExStart
-        //ExId:GetChildDataSourceExample
-        //ExSummary:Shows how to get a child collection of objects by using the GetChildDataSource method in the parent class.
         public IMailMergeDataSource getChildDataSource(String tableName)
         {
             switch (gStringSwitchMap.of(tableName))
@@ -175,7 +175,6 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
                     return null;
             }
         }
-        //ExEnd
 
         private boolean isEof() { return (mRecordIndex >= mCustomers.size()); }
 
@@ -252,4 +251,5 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
 		"Quantity"
 	);
 
+    //ExEnd
 }

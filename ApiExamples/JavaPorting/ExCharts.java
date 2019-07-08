@@ -35,6 +35,7 @@ import com.aspose.words.ChartDataPoint;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.ChartLegend;
 import com.aspose.words.LegendPosition;
+import com.aspose.words.ParagraphAlignment;
 import org.testng.annotations.DataProvider;
 
 
@@ -1075,6 +1076,7 @@ public class ExCharts extends ApiExampleBase
         //ExFor:Charts.ChartAxis.MinorUnitIsAuto
         //ExFor:Charts.ChartAxis.MinorUnitScale
         //ExFor:Charts.ChartAxis.TickLabelSpacing
+        //ExFor:Charts.ChartAxis.TickLabelAlignment
         //ExFor:Charts.AxisDisplayUnit
         //ExFor:Charts.AxisDisplayUnit.CustomUnit
         //ExFor:Charts.AxisDisplayUnit.Unit
@@ -1108,6 +1110,9 @@ public class ExCharts extends ApiExampleBase
 
         // We can also use this attribute to set minor tick spacing
         axis.setTickLabelSpacing(2);
+        // We can define text alignment when axis tick labels are multi-line
+        // MS Word aligns them to the center by default
+        axis.setTickLabelAlignment(ParagraphAlignment.RIGHT);
 
         // Get the axis to display values, but in millions
         axis.getDisplayUnit().setUnit(AxisBuiltInUnit.MILLIONS);

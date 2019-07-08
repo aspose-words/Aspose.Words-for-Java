@@ -103,13 +103,16 @@ import com.aspose.words.IFieldMergingCallback;
 import com.aspose.words.FieldMergingArgs;
 import com.aspose.words.ImageFieldMergingArgs;
 import com.aspose.words.MergeFieldImageDimension;
+import java.util.HashMap;
+import com.aspose.ms.System.Collections.msDictionary;
+import com.aspose.BitmapPal;
+import java.awt.image.BufferedImage;
 import com.aspose.words.FieldIndex;
 import com.aspose.words.FieldXE;
 import com.aspose.words.FieldBarcode;
 import com.aspose.words.FieldDisplayBarcode;
 import com.aspose.words.FieldMergeBarcode;
 import com.aspose.words.BarcodeParameters;
-import java.awt.image.BufferedImage;
 import com.aspose.words.FieldLink;
 import com.aspose.words.FieldDde;
 import com.aspose.words.FieldDdeAuto;
@@ -179,6 +182,9 @@ import com.aspose.words.FieldOcx;
 import com.aspose.words.FieldPrivate;
 import com.aspose.words.FieldSection;
 import com.aspose.words.FieldSectionPages;
+import com.aspose.words.FieldBidiOutline;
+import com.aspose.words.Shape;
+import com.aspose.words.ShapeType;
 import org.testng.annotations.DataProvider;
 
 
@@ -553,6 +559,7 @@ public class ExField extends ApiExampleBase
     {
         //ExStart
         //ExFor:Field.Update(bool)
+        //ExFor:LoadOptions.PreserveIncludePictureField
         //ExSummary:Shows a way to update a field ignoring the MERGEFORMAT switch
         LoadOptions loadOptions = new LoadOptions(); { loadOptions.setPreserveIncludePictureField(true); }
 
@@ -2341,7 +2348,7 @@ public class ExField extends ApiExampleBase
     //ExFor:ImageFieldMergingArgs.ImageWidth
     //ExFor:ImageFieldMergingArgs.ImageHeight
     //ExSummary:Shows how to set the dimensions of merged images.
-    @Test
+    @Test //ExSkip
     public void mergeFieldImageDimension() throws Exception
     {
         Document doc = new Document();
@@ -2417,6 +2424,67 @@ public class ExField extends ApiExampleBase
         private /*final*/ double mImageWidth;
         private /*final*/ double mImageHeight;
         private /*final*/ /*MergeFieldImageDimensionUnit*/int mUnit;
+    }
+    //ExEnd
+
+    //ExStart
+    //ExFor:ImageFieldMergingArgs.Image
+    //ExSummary:Shows how to set which images to merge during the mail merge.
+    @Test //ExSkip
+    public void mergeFieldImages() throws Exception
+    {
+        Document doc = new Document();
+
+        // Insert a merge field where images will be placed during the mail merge
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertField("MERGEFIELD Image:ImageColumn");
+
+        // When we merge images, our data table will normally have the full e. of the images we wish to merge
+        // If this is cumbersome, we can move image filename logic to another place and populate the data table with just shorthands for images
+        DataTable dataTable = createDataTable("Images", "ImageColumn",
+            new String[]
+            {
+                "Aspose logo",
+                ".Net logo",
+                "Watermark"
+            });
+
+        // A custom merging callback will contain filenames that our shorthands will refer to
+        doc.getMailMerge().setFieldMergingCallback(new ImageFilenameCallback());
+        doc.getMailMerge().execute(dataTable);
+
+        doc.save(getArtifactsDir() + "Field.MergeFieldImages.docx");
+    }
+
+    /// <summary>
+    /// Image merging callback that pairs image shorthand names with filenames
+    /// </summary>
+    private static class ImageFilenameCallback implements IFieldMergingCallback
+    {
+        public ImageFilenameCallback()
+        {
+            imageFilenames = new HashMap<String, String>();
+            msDictionary.add(imageFilenames, "Aspose logo", getImageDir() + "Aspose.Words.gif");
+            msDictionary.add(imageFilenames, ".Net logo", getImageDir() + "dotnet-logo.png");
+            msDictionary.add(imageFilenames, "Watermark", getImageDir() + "Watermark.png");
+        }
+
+        public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs e)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs e)
+        {
+            if (imageFilenames.containsKey(e.getFieldValue().toString()))
+            {
+                                e.setImage(BitmapPal.loadNativeImage(imageFilenames.get(e.getFieldValue().toString())));
+                                                }
+            
+            Assert.assertNotNull(e.getImage());
+        }
+
+        private /*final*/ HashMap<String, String> imageFilenames;
     }
     //ExEnd
 
@@ -5439,6 +5507,105 @@ public class ExField extends ApiExampleBase
         builder.insertParagraph();
         return field;
     }
+    //ExEnd
+
+    @Test
+    public void bidiOutline() throws Exception
+    {
+        //ExStart
+        //ExFor:FieldShape
+        //ExFor:FieldShape.Text
+        //ExSummary:Shows how to create RTL lists with BIDIOUTLINE fields.
+        // Create a blank document and a document builder
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Use our builder to insert a BIDIOUTLINE field
+        // This field numbers paragraphs like the AUTONUM/LISTNUM fields,
+        // but is only visible when a RTL editing language is enabled, such as Hebrew or Arabic
+        // The following field will display ".1", the RTL equivalent of list number "1."
+        FieldBidiOutline field = (FieldBidiOutline)builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
+        msAssert.areEqual(" BIDIOUTLINE ", field.getFieldCode());
+        builder.writeln("שלום");
+
+        // Add two more BIDIOUTLINE fields, which will be automatically numbered ".2" and ".3"
+        builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
+        builder.writeln("שלום");
+        builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
+        builder.writeln("שלום");
+
+        // Set the horizontal text alignment for every paragraph in the document to RTL
+        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
+        {
+            para.getParagraphFormat().setBidi(true);
+        }
+
+        // If a RTL editing language is enabled in Microsoft Word, out fields will display numbers
+        // Otherwise, they will appear as "###" 
+        doc.save(getArtifactsDir() + "Field.BIDIOUTLINE.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void legacy() throws Exception
+    {
+        //ExStart
+        //ExFor:FieldEmbed
+        //ExFor:FieldShape
+        //ExFor:FieldShape.Text
+        //ExSummary:Shows how some older Microsoft Word fields such as SHAPE and EMBED are handled.
+        // Open a document that was created in Microsoft Word 2003
+        Document doc = new Document(getMyDir() + "Field.Legacy.doc");
+
+        // If we open the document in Word and press Alt+F9, we will see a SHAPE and an EMBED field
+        // A SHAPE field is the anchor/canvas for an autoshape object with the "In line with text" wrapping style enabled
+        // An EMBED field has the same function, but for an embedded object, such as a spreadsheet from an external Excel document
+        // However, these fields will not appear in the document's Fields collection
+        msAssert.areEqual(0, doc.getRange().getFields().getCount());
+
+        // These fields are supported only by old versions of Microsoft Word
+        // As such, they are converted into shapes during the document importation process and can instead be found in the collection of Shape nodes
+        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+        msAssert.areEqual(3, shapes.getCount());
+
+        // The first Shape node corresponds to what was the SHAPE field in the input document: the inline canvas for an autoshape
+        Shape shape = (Shape)shapes.get(0);
+        msAssert.areEqual(ShapeType.IMAGE, shape.getShapeType());
+
+        // The next Shape node is the autoshape that is within the canvas
+        shape = (Shape)shapes.get(1);
+        msAssert.areEqual(ShapeType.CAN, shape.getShapeType());
+
+        // The third Shape is what was the EMBED field that contained the external spreadsheet
+        shape = (Shape)shapes.get(2);
+        msAssert.areEqual(ShapeType.OLE_OBJECT, shape.getShapeType());
+        //ExEnd
+    }
+
+    @Test
+    public void fieldDisplayResult() throws Exception
+    {
+        //ExStart
+        //ExFor:Field.DisplayResult
+        //ExSummary:Shows how to get the text that represents the displayed field result.
+        Document document = new Document(getMyDir() + "Field.FieldDisplayResult.docx");
+ 
+        FieldCollection fields = document.getRange().getFields();
+ 
+        msAssert.areEqual("111", fields.get(0).getDisplayResult());
+        msAssert.areEqual("222", fields.get(1).getDisplayResult());
+        msAssert.areEqual("Multi\rLine\rText", fields.get(2).getDisplayResult());
+        msAssert.areEqual("%", fields.get(3).getDisplayResult());
+        msAssert.areEqual("Macro Button Text", fields.get(4).getDisplayResult());
+        msAssert.areEqual("", fields.get(5).getDisplayResult());
+ 
+        // Method must be called to obtain correct value for the "FieldListNum", "FieldAutoNum",
+        // "FieldAutoNumOut" and "FieldAutoNumLgl" fields
+        document.updateListLabels();
+ 
+        msAssert.areEqual("1)", fields.get(5).getDisplayResult());
+        //ExEnd
+    }
 
 	//JAVA-added for string switch emulation
 	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
@@ -5447,5 +5614,4 @@ public class ExField extends ApiExampleBase
 		"en-US"
 	);
 
-    //ExEnd
 }

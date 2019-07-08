@@ -22,6 +22,7 @@ import com.aspose.words.SignOptions;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.LoadOptions;
 import com.aspose.words.IncorrectPasswordException;
+import com.aspose.ms.NUnit.Framework.msAssert;
 
 
 @Test
@@ -138,11 +139,12 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
     }
 
     @Test (description = "WORDSNET-16868")
-    public void singDocumentWithPasswordDecrypring() throws Exception
+    public void signDocumentWithDecryptionPassword() throws Exception
     {
         //ExStart
         //ExFor:CertificateHolder
         //ExFor:SignOptions.DecryptionPassword
+        //ExFor:LoadOptions.Password
         //ExSummary:Shows how to sign encrypted document file.
         String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
 
@@ -163,7 +165,10 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         //ExEnd
 
         // Open encrypted document from a file.
-        Document signedDoc = new Document(outputFileName, new LoadOptions("docPassword"));
+        LoadOptions loadOptions = new LoadOptions("docPassword");
+        msAssert.areEqual(signOptions.getDecryptionPassword(),loadOptions.getPassword());
+
+        Document signedDoc = new Document(outputFileName, loadOptions);
 
         // Check that encrypted document was successfully signed.
         DigitalSignatureCollection signatures = signedDoc.getDigitalSignatures();

@@ -100,6 +100,5 @@ public class ExAbsolutePositionTab extends ApiExampleBase
 
         private /*final*/ StringBuilder mBuilder;
     }
-
     //ExEnd
 }

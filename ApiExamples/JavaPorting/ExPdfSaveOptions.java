@@ -30,6 +30,7 @@ import com.aspose.words.WarningType;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.WarningInfoCollection;
 import com.aspose.words.HeaderFooterBookmarksExportMode;
+import com.aspose.words.PdfTextCompression;
 import org.testng.annotations.DataProvider;
 
 
@@ -450,6 +451,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         saveOptions.getMetafileRenderingOptions().setScaleWmfFontsToMetafileSize(true);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.FontsScaledToMetafileSize.pdf", saveOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void additionalTextPositioning() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.AdditionalTextPositioning
+        //ExSummary:Show how to write additional text positioning operators.
+        Document doc = new Document(getMyDir() + "PdfSaveOptions.AdditionalTextPositioning.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        // This may help to overcome issues with inaccurate text positioning with some printers
+        saveOptions.setAdditionalTextPositioning(true);
+        saveOptions.setTextCompression(PdfTextCompression.NONE);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf", saveOptions);
         //ExEnd
     }
 }
