@@ -2998,27 +2998,5 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(classModule.getName(), "Class1");
         Assert.assertTrue(classModule.getSourceCode().contains("MsgBox \"Class test\""));
     }
-
-    @Test
-    public void openType() throws Exception {
-        //ExStart
-        //ExFor:LayoutOptions.TextShaperFactory
-        //ExSummary:Shows how to support OpenType features using HarfBuzz text shaping engine.
-        // Open a document
-        Document doc = new Document(getMyDir() + "OpenType.Document.docx");
-
-        // Please note that text shaping is only performed when exporting to PDF or XPS formats now
-
-        // Aspose.Words is capable of using text shaper objects provided externally.
-        // A text shaper represents a font and computes shaping information for a text.
-        // A document typically refers to multiple fonts thus a text shaper factory is necessary.
-        // When text shaper factory is set, layout starts to use OpenType features.
-        // An Instance property returns static BasicTextShaperCache object wrapping HarfBuzzTextShaperFactory
-        //doc.getLayoutOptions().setTextShaperFactory(HarfBuzzTextShaperFactory.Instance);
-
-        // Render the document to PDF format
-        doc.save(getArtifactsDir() + "OpenType.Document.pdf");
-        //ExEnd
-    }
 }
 
