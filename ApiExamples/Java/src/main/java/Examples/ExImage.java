@@ -127,7 +127,9 @@ public class ExImage extends ApiExampleBase {
     public void createFloatingPositionSize() throws Exception {
         //ExStart
         //ExFor:ShapeBase.Left
+        //ExFor:ShapeBase.Right
         //ExFor:ShapeBase.Top
+        //ExFor:ShapeBase.Bottom
         //ExFor:ShapeBase.Width
         //ExFor:ShapeBase.Height
         //ExFor:DocumentBuilder.CurrentSection
@@ -152,6 +154,14 @@ public class ExImage extends ApiExampleBase {
         shape.setWidth(builder.getCurrentSection().getPageSetup().getPageWidth());
         shape.setHeight(50);
 
+        // The width will be scaled to the height and the dimensions of the real image
+        final double delta = 0.05;
+        Assert.assertEquals(shape.getWidth(), 50.85d, delta);
+
+        // The Bottom and Right members contain the locations of the bottom and right edges of the image
+        Assert.assertEquals(shape.getBottom(), shape.getTop() + shape.getHeight());
+        Assert.assertEquals(shape.getRight(), shape.getLeft() + shape.getWidth());
+
         builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPositionSize.doc");
         //ExEnd
     }
@@ -161,12 +171,14 @@ public class ExImage extends ApiExampleBase {
         //ExStart
         //ExFor:ShapeBase.HRef
         //ExFor:ShapeBase.ScreenTip
+        //ExFor:ShapeBase.Target
         //ExSummary:Shows how to insert an image with a hyperlink.
         // This creates a builder and also an empty document inside the builder.
         DocumentBuilder builder = new DocumentBuilder();
 
         Shape shape = builder.insertImage(getImageDir() + "Hammer.wmf");
         shape.setHRef("http://www.aspose.com/Community/Forums/75/ShowForum.aspx");
+        shape.setTarget("New Window");
         shape.setScreenTip("Aspose.Words Support Forums");
 
         builder.getDocument().save(getArtifactsDir() + "Image.InsertImageWithHyperlink.doc");
@@ -178,9 +190,13 @@ public class ExImage extends ApiExampleBase {
         //ExStart
         //ExFor:Shape.#ctor(DocumentBase,ShapeType)
         //ExFor:ShapeType
-        //ExSummary:Shows how to create and add an image to a document without using document builder.
+        //ExSummary:Shows how to create shape and add an image to a document without using a document builder.
         Document doc = new Document();
 
+        // Public constructor of "Shape" class creates shape with "ShapeMarkupLanguage.Vml" markup type
+        // If you need to create "NonPrimitive" shapes, like SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
+        // TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
+        // please use DocumentBuilder.InsertShape methods
         Shape shape = new Shape(doc, ShapeType.IMAGE);
         shape.getImageData().setImage(getImageDir() + "Hammer.wmf");
         shape.setWidth(100);

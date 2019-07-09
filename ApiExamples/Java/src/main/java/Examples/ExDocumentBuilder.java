@@ -159,9 +159,15 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void insertHorizontalRule() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertHorizontalRule
+        //ExFor:ShapeBase.IsHorizontalRule
         //ExSummary:Shows how to insert horizontal rule shape in a document.
+        // Use a document builder to insert a horizontal rule
         DocumentBuilder builder = new DocumentBuilder();
         builder.insertHorizontalRule();
+
+        // Get the rule from the document's shape collection and verify it
+        Shape horizontalRule = (Shape)builder.getDocument().getChild(NodeType.SHAPE, 0, true);
+        Assert.assertTrue(horizontalRule.isHorizontalRule());
         //ExEnd
     }
 
@@ -458,6 +464,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals(formFields.get(0).getCheckBoxSize(), 10);
 
         //Check that is the right checkbox
+        // Please pay attention that MS Word allows strings with at most 20 characters
         Assert.assertEquals(formFields.get(1).getName(), "CheckBox_Default");
 
         //Assert that parameters sets correctly
@@ -466,6 +473,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals(50, formFields.get(1).getCheckBoxSize());
 
         //Check that is the right checkbox
+        // Please pay attention that MS Word allows strings with at most 20 characters
         Assert.assertEquals(formFields.get(2).getName(), "CheckBox_OnlyCheckedValue");
 
         //Assert that parameters sets correctly
@@ -1340,6 +1348,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExFor:ParagraphFormat.KeepTogether
         //ExFor:ParagraphFormat.AddSpaceBetweenFarEastAndAlpha
         //ExFor:ParagraphFormat.AddSpaceBetweenFarEastAndDigit
+        //ExFor:Paragraph.IsEndOfDocument
         //ExId:DocumentBuilderInsertParagraph
         //ExSummary:Shows how to insert a paragraph into the document.
         Document doc = new Document();
@@ -1362,6 +1371,9 @@ public class ExDocumentBuilder extends ApiExampleBase {
         paragraphFormat.setKeepTogether(true);
 
         builder.writeln("A whole paragraph.");
+
+        // We can use this flag to ensure that we're at the end of the document
+        Assert.assertTrue(builder.getCurrentParagraph().isEndOfDocument());
         //ExEnd
     }
 

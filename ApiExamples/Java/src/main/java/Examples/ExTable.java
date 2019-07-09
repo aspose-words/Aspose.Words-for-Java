@@ -611,6 +611,7 @@ public class ExTable extends ApiExampleBase {
         //ExFor:ParagraphFormat.KeepWithNext
         //ExFor:Row.IsLastRow
         //ExFor:Paragraph.IsEndOfCell
+        //ExFor:Paragraph.IsInCell
         //ExFor:Cell.ParentRow
         //ExFor:Cell.Paragraphs
         //ExId:KeepTableTogether
@@ -620,6 +621,9 @@ public class ExTable extends ApiExampleBase {
         // row of the table.
         for (Cell cell : (Iterable<Cell>) table.getChildNodes(NodeType.CELL, true)) {
             for (Paragraph para : cell.getParagraphs()) {
+                // Every paragraph that's inside a cell will have this flag set
+                Assert.assertTrue(para.isInCell());
+
                 if (!(cell.getParentRow().isLastRow() && para.isEndOfCell())) {
                     para.getParagraphFormat().setKeepWithNext(true);
                 }
@@ -1187,6 +1191,7 @@ public class ExTable extends ApiExampleBase {
         //ExFor:Table.AbsoluteHorizontalDistance
         //ExFor:Table.AbsoluteVerticalDistance
         //ExFor:Table.AllowOverlap
+        //ExFor:ShapeBase.AllowOverlap
         //ExSummary:Shows how get properties for floating tables
         Document doc = new Document(getMyDir() + "Table.Distance.docx");
 

@@ -9,6 +9,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
@@ -543,6 +544,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExStart
     //ExFor:DocumentVisitor.VisitHeaderFooterStart(HeaderFooter)
     //ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
+    //ExFor:HeaderFooter.Accept(Aspose.Words.DocumentVisitor)
+    //ExFor:HeaderFooterCollection.ToArray
     //ExSummary:Traverse a document with a visitor that prints all header/footer nodes that it encounters.
     @Test //ExSkip
     public void headerFooterToText() throws Exception {
@@ -559,6 +562,11 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
+
+        // An alternative way of visiting a document's header/footers section-by-section is by accessing the collection
+        // We can also turn it into an array
+        HeaderFooter[] headerFooters = doc.getFirstSection().getHeadersFooters().toArray();
+        Assert.assertEquals(headerFooters.length, 6);
     }
 
     /// <summary>
@@ -722,6 +730,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExStart
     //ExFor:DocumentVisitor.VisitFootnoteEnd(Footnote)
     //ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
+    //ExFor:Footnote.Accept(DocumentVisitor)
     //ExSummary:Traverse a document with a visitor that prints all footnotes that it encounters.
     @Test //ExSkip
     public void footnoteToText() throws Exception {

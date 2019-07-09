@@ -1638,34 +1638,4 @@ public class ExFont extends ApiExampleBase {
         Assert.assertTrue(runs.get(4).getFont().hasDmlEffect(TextDmlEffect.FILL));
         //ExEnd
     }
-
-//    //ExStart
-//    //ExFor:StreamFontSource
-//    //ExFor:StreamFontSource.OpenFontDataStream
-//    //ExSummary:Shows how to allows to load fonts from stream.
-//    @Test //ExSkip
-//    public void streamFontSourceFileRendering() throws Exception
-//    {
-//        FontSettings fontSettings = new FontSettings();
-//        fontSettings.setFontsSources(new FontSourceBase[] { new StreamFontSourceFile() });
-//
-//        DocumentBuilder builder = new DocumentBuilder();
-//        builder.getDocument().setFontSettings(fontSettings);
-//        builder.getFont().setName("Kreon-Regular");
-//        builder.writeln("Test aspose text when saving to PDF.");
-//
-//        builder.getDocument().save(getArtifactsDir() + "Font.StreamFontSourceFileRendering.pdf");
-//    }
-//
-//    /// <summary>
-//    /// Load the font data only when it is required and not to store it in the memory for the "FontSettings" lifetime.
-//    /// </summary>
-//    private class StreamFontSourceFile extends StreamFontSource
-//    {
-//        public InputStream openFontDataStream() throws Exception
-//        {
-//            return new FileInputStream(getFontsDir() + "Kreon-Regular.ttf");
-//        }
-//    }
-//    //ExEnd
 }

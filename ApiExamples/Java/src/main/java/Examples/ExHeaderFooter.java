@@ -21,22 +21,117 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExStart
         //ExFor:HeaderFooter
         //ExFor:HeaderFooter.#ctor(DocumentBase, HeaderFooterType)
+        //ExFor:HeaderFooter.HeaderFooterType
+        //ExFor:HeaderFooter.IsHeader
         //ExFor:HeaderFooterCollection
+        //ExFor:Paragraph.IsEndOfHeaderFooter
+        //ExFor:Paragraph.ParentSection
+        //ExFor:Paragraph.ParentStory
         //ExFor:Story.AppendParagraph
         //ExSummary:Creates a footer using the document object model and inserts it into a section.
         Document doc = new Document();
+
+        HeaderFooter header = new HeaderFooter(doc, HeaderFooterType.HEADER_PRIMARY);
+        doc.getFirstSection().getHeadersFooters().add(header);
+
+        // Add a paragraph with text to the footer.
+        Paragraph para = header.appendParagraph("My header");
+
+        Assert.assertTrue(header.isHeader());
+        Assert.assertTrue(para.isEndOfHeaderFooter());
 
         HeaderFooter footer = new HeaderFooter(doc, HeaderFooterType.FOOTER_PRIMARY);
         doc.getFirstSection().getHeadersFooters().add(footer);
 
         // Add a paragraph with text to the footer.
-        footer.appendParagraph("TEST FOOTER");
+        para = footer.appendParagraph("My footer");
+
+        Assert.assertFalse(footer.isHeader());
+        Assert.assertTrue(para.isEndOfHeaderFooter());
+
+        Assert.assertEquals(para.getParentStory(), footer);
+        Assert.assertEquals(para.getParentSection(), footer.getParentSection());
+        Assert.assertEquals(header.getParentSection(), footer.getParentSection());
 
         doc.save(getArtifactsDir() + "HeaderFooter.CreateFooter.doc");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "HeaderFooter.CreateFooter.doc");
-        Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getRange().getText().contains("TEST FOOTER"));
+        Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getRange().getText().contains("My header"));
+        Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getRange().getText().contains("My footer"));
+    }
+
+    @Test
+    public void headerFooterLink() throws Exception
+    {
+        //ExStart
+        //ExFor:HeaderFooter.IsLinkedToPrevious
+        //ExFor:HeaderFooterCollection.Item(System.Int32)
+        //ExFor:HeaderFooterCollection.LinkToPrevious(Aspose.Words.HeaderFooterType,System.Boolean)
+        //ExFor:HeaderFooterCollection.LinkToPrevious(System.Boolean)
+        //ExFor:HeaderFooter.ParentSection
+        //ExSummary:Shows how to link header/footers between sections.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create three sections
+        builder.write("Section 1");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.write("Section 2");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.write("Section 3");
+
+        // Create a header and footer in the first section and give them text
+        builder.moveToSection(0);
+
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.write("This is the header, which will be displayed in sections 1 and 2.");
+
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        builder.write("This is the footer, which will be displayed in sections 1, 2 and 3.");
+
+        // If headers/footers are linked by the next section, they appear in that section also
+        // The second section will display the header/footers of the first
+        doc.getSections().get(1).getHeadersFooters().linkToPrevious(true);
+
+        // However, the underlying headers/footers in the respective header/footer collections of the sections still remain different
+        // Linking just overrides the existing headers/footers from the latter section
+        Assert.assertEquals(doc.getSections().get(1).getHeadersFooters().get(0).getHeaderFooterType(), doc.getSections().get(0).getHeadersFooters().get(0).getHeaderFooterType());
+        Assert.assertNotEquals(doc.getSections().get(1).getHeadersFooters().get(0).getParentSection(), doc.getSections().get(0).getHeadersFooters().get(0).getParentSection());
+        Assert.assertNotEquals(doc.getSections().get(1).getHeadersFooters().get(0).getText(), doc.getSections().get(0).getHeadersFooters().get(0).getText());
+
+        // Likewise, unlinking headers/footers makes them not appear
+        doc.getSections().get(2).getHeadersFooters().linkToPrevious(false);
+
+        // We can also choose only certain header/footer types to get linked, like the footer in this case
+        // The 3rd section now won't have the same header but will have the same footer as the 2nd and 1st sections
+        doc.getSections().get(2).getHeadersFooters().linkToPrevious(HeaderFooterType.FOOTER_PRIMARY, true);
+
+        // The first section's header/footers can't link themselves to anything because there is no previous section
+        Assert.assertEquals(doc.getSections().get(0).getHeadersFooters().getCount(), 2);
+        Assert.assertFalse(doc.getSections().get(0).getHeadersFooters().get(0).isLinkedToPrevious());
+        Assert.assertFalse(doc.getSections().get(0).getHeadersFooters().get(1).isLinkedToPrevious());
+
+        // All of the second section's header/footers are linked to those of the first
+        Assert.assertEquals(doc.getSections().get(1).getHeadersFooters().getCount(), 6);
+        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(0).isLinkedToPrevious());
+        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(1).isLinkedToPrevious());
+        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(2).isLinkedToPrevious());
+        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(3).isLinkedToPrevious());
+        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(4).isLinkedToPrevious());
+        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(5).isLinkedToPrevious());
+
+        // In the third section, only the footer we explicitly linked is linked to that of the second, and consequently the first section
+        Assert.assertEquals(doc.getSections().get(2).getHeadersFooters().getCount(), 6);
+        Assert.assertFalse(doc.getSections().get(2).getHeadersFooters().get(0).isLinkedToPrevious());
+        Assert.assertFalse(doc.getSections().get(2).getHeadersFooters().get(1).isLinkedToPrevious());
+        Assert.assertFalse(doc.getSections().get(2).getHeadersFooters().get(2).isLinkedToPrevious());
+        Assert.assertTrue(doc.getSections().get(2).getHeadersFooters().get(3).isLinkedToPrevious());
+        Assert.assertFalse(doc.getSections().get(2).getHeadersFooters().get(4).isLinkedToPrevious());
+        Assert.assertFalse(doc.getSections().get(2).getHeadersFooters().get(5).isLinkedToPrevious());
+
+        doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterLink.docx");
+        //ExEnd
     }
 
     @Test

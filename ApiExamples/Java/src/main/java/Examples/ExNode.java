@@ -561,6 +561,7 @@ public class ExNode extends ApiExampleBase {
         //ExFor:CompositeNode.InsertAfter(Node, Node)
         //ExFor:CompositeNode.InsertBefore(Node, Node)
         //ExFor:CompositeNode.PrependChild(Node)
+        //ExFor:Paragraph.GetText
         //ExSummary:Shows how to add, update and delete child nodes from within a CompositeNode.
         Document doc = new Document();
 

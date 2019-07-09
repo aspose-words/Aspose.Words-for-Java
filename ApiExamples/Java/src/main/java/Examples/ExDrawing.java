@@ -10,6 +10,7 @@ package Examples;
 
 import com.aspose.words.*;
 import com.aspose.words.Shape;
+import com.aspose.words.Stroke;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -34,18 +35,22 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:Drawing.Fill.ImageBytes
         //ExFor:Drawing.Fill.On
         //ExFor:Drawing.JoinStyle
+        //ExFor:Shape.Stroke
         //ExFor:Stroke.Color
         //ExFor:Stroke.StartArrowLength
         //ExFor:Stroke.StartArrowType
         //ExFor:Stroke.StartArrowWidth
+        //ExFor:Stroke.EndArrowLength
+        //ExFor:Stroke.EndArrowWidth
         //ExFor:Stroke.DashStyle
         //ExFor:Stroke.EndArrowType
         //ExFor:Stroke.EndCap
-        //ExSummary:Shows to create a variety of shapes
+        //ExFor:Stroke.Opacity
+        //ExSummary:Shows to create a variety of shapes.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Draw a dotted horizontal red line with an arrow on the left end and a diamond on the other
+        // Draw a dotted horizontal half-transparent red line with an arrow on the left end and a diamond on the other
         Shape arrow = new Shape(doc, ShapeType.LINE);
         arrow.setWidth(200.0);
         arrow.getStroke().setColor(Color.RED);
@@ -53,7 +58,10 @@ public class ExDrawing extends ApiExampleBase {
         arrow.getStroke().setStartArrowLength(ArrowLength.LONG);
         arrow.getStroke().setStartArrowWidth(ArrowWidth.WIDE);
         arrow.getStroke().setEndArrowType(ArrowType.DIAMOND);
+        arrow.getStroke().setEndArrowLength(ArrowLength.LONG);
+        arrow.getStroke().setEndArrowWidth(ArrowWidth.WIDE);
         arrow.getStroke().setDashStyle(DashStyle.DASH);
+        arrow.getStroke().setOpacity(0.5);
 
         Assert.assertEquals(arrow.getStroke().getJoinStyle(), JoinStyle.MITER);
 
@@ -107,6 +115,34 @@ public class ExDrawing extends ApiExampleBase {
         //ExEnd
     }
 
+    @Test
+    public void strokePattern() throws Exception
+    {
+        //ExStart
+        //ExFor:Stroke.Color2
+        //ExFor:Stroke.ImageBytes
+        //ExSummary:Shows how to process shape stroke features from older versions of Microsoft Word.
+        // Open a document which contains a rectangle with a thick, two-tone-patterned outline
+        // These features cannot be recreated in new versions of Microsoft Word, so we will open an older .doc file
+        Document doc = new Document(getMyDir() + "Shape.StrokePattern.doc");
+
+        // Get the first shape's stroke
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Stroke s = shape.getStroke();
+
+        // Every stroke will have a Color attribute, but only strokes from older Word versions have a Color2 attribute,
+        // since the two-tone pattern line feature which requires the Color2 attribute is no longer supported
+        Assert.assertEquals(s.getColor(), new Color((128), (0), (0), (255)));
+        Assert.assertEquals(s.getColor2(), new Color((255), (255), (0), (255)));
+
+        // This attribute contains the image data for the pattern, which we can save to our local file system
+        Assert.assertNotNull(s.getImageBytes());
+        ByteArrayInputStream imageInputStream = new ByteArrayInputStream(s.getImageBytes());
+        BufferedImage bImage = ImageIO.read(imageInputStream);
+        ImageIO.write(bImage, "png", new File(getArtifactsDir() + "Drawing.StrokePattern.png"));
+        //ExEnd
+    }
+
     //ExStart
     //ExFor:DocumentVisitor.VisitShapeEnd(Shape)
     //ExFor:DocumentVisitor.VisitShapeStart(Shape)
@@ -116,12 +152,17 @@ public class ExDrawing extends ApiExampleBase {
     //ExFor:Drawing.GroupShape.#ctor(DocumentBase)
     //ExFor:Drawing.GroupShape.#ctor(DocumentBase,Drawing.ShapeMarkupLanguage)
     //ExFor:Drawing.GroupShape.Accept(DocumentVisitor)
+    //ExFor:ShapeBase.IsGroup
+    //ExFor:ShapeBase.ShapeType
     //ExSummary:Shows how to create a group of shapes, and let it accept a visitor
     @Test //ExSkip
     public void groupOfShapes() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // If you need to create "NonPrimitive" shapes, like SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
+        // TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
+        // please use DocumentBuilder.InsertShape methods
         Shape balloon = new Shape(doc, ShapeType.BALLOON);
         balloon.setWidth(200.0);
         balloon.setHeight(200.0);
@@ -136,6 +177,7 @@ public class ExDrawing extends ApiExampleBase {
         group.appendChild(balloon);
         group.appendChild(cube);
 
+        Assert.assertTrue(group.isGroup());
         builder.insertNode(group);
 
         ShapeInfoPrinter printer = new ShapeInfoPrinter();

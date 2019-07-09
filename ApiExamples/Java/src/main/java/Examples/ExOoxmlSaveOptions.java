@@ -22,6 +22,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:OoxmlCompliance
         //ExFor:OoxmlSaveOptions.Compliance
+        //ExFor:ShapeMarkupLanguage
         //ExSummary:Shows conversion VML shapes to DML using ISO/IEC 29500:2008 Strict compliance level
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -31,8 +32,10 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
 
         builder.insertImage(getImageDir() + "dotnet-logo.png");
 
+        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+
         // Loop through all single shapes inside document.
-        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
+        for (Shape shape : (Iterable<Shape>) shapes) {
             System.out.println(shape.getMarkupLanguage());
             Assert.assertEquals(shape.getMarkupLanguage(), ShapeMarkupLanguage.VML); //ExSkip
         }
@@ -46,8 +49,10 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
         doc.save(dstStream, saveOptions);
 
+        shapes = doc.getChildNodes(NodeType.SHAPE, true);
+
         //Assert that image have drawingML markup language
-        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
+        for (Shape shape : (Iterable<Shape>) shapes) {
             Assert.assertEquals(shape.getMarkupLanguage(), ShapeMarkupLanguage.DML);
         }
     }

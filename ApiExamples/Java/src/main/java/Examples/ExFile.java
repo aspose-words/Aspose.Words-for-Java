@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 
 @Test
 public class ExFile extends ApiExampleBase {

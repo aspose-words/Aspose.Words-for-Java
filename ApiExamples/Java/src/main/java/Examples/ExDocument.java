@@ -156,6 +156,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Document.#ctor(Stream,LoadOptions)
         //ExFor:LoadOptions.#ctor
         //ExFor:LoadOptions.BaseUri
+        //ExFor:ShapeBase.IsImage
         //ExId:DocumentCtor_LoadOptions
         //ExSummary:Opens an HTML document with images from a stream using a base URI.
 
@@ -272,6 +273,7 @@ public class ExDocument extends ApiExampleBase {
     public void loadFormat() throws Exception {
         //ExStart
         //ExFor:Document.#ctor(String,LoadOptions)
+        //ExFor:LoadOptions.LoadFormat
         //ExFor:LoadFormat
         //ExSummary:Explicitly loads a document as HTML without automatic file format detection.
         LoadOptions loadOptions = new LoadOptions();
@@ -327,6 +329,7 @@ public class ExDocument extends ApiExampleBase {
         LoadOptions loadOptions = new LoadOptions();
         Assert.assertEquals(loadOptions.getAnnotationsAtBlockLevel(), LoadOptions.getAnnotationsAtBlockLevelAsDefault());
 
+        // If we want to work with annotations that transcend structures like tables, we will need to set this to true
         loadOptions.setAnnotationsAtBlockLevel(true);
 
         // Open a document with a structured document tag and get that tag
@@ -357,23 +360,6 @@ public class ExDocument extends ApiExampleBase {
         // Specify load option to convert math shapes to office math objects on loading stage.
         Document doc = new Document(getMyDir() + "Document.ConvertShapeToOfficeMath.docx", loadOptions);
         doc.save(getArtifactsDir() + "Document.ConvertShapeToOfficeMath.docx", SaveFormat.DOCX);
-        //ExEnd
-    }
-
-    @Test
-    public void loadOptionsEncoding() throws Exception {
-        //ExStart
-        //ExFor:LoadOptions.Encoding
-        //ExSummary:Shows how to set the encoding with which to open a document.
-        // Java does not support UTF-7 encoding and if we open the document with UTF-8 encoding,
-        // the content of the document will not be represented correctly
-        LoadOptions loadOptions = new LoadOptions();
-        {
-            loadOptions.setEncoding(Charset.forName("UTF-8"));
-        }
-        Document doc = new Document(getMyDir() + "EncodedInUTF-7.txt", loadOptions);
-
-        Assert.assertEquals(doc.toString(SaveFormat.TEXT), "Hello world+ACE-\r\n\r\n");
         //ExEnd
     }
 
@@ -1679,6 +1665,8 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:Paragraph.IsMoveFromRevision
         //ExFor:Paragraph.IsMoveToRevision
+        //ExFor:ParagraphCollection
+        //ExFor:ParagraphCollection.Item(Int32)
         //ExSummary:Shows how to get paragraph that was moved (deleted/inserted) in Microsoft Word while change tracking was enabled.
         Document doc = new Document(getMyDir() + "Document.Revisions.docx");
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
@@ -2541,6 +2529,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:LanguagePreferences
         //ExFor:LanguagePreferences.AddEditingLanguage(EditingLanguage)
         //ExFor:LoadOptions.LanguagePreferences
+        //ExFor:EditingLanguage
         //ExSummary:Shows how to set up language preferences that will be used when document is loading
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.getLanguagePreferences().addEditingLanguage(EditingLanguage.JAPANESE);

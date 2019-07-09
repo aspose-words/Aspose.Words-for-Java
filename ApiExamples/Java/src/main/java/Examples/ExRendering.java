@@ -399,7 +399,8 @@ public class ExRendering extends ApiExampleBase {
     @Test(enabled = false, description = "Run only when the printer driver is installed")
     public void printWithPrintDialog() throws Exception {
         //ExStart
-        //ExFor:AsposeWordsPrintDocument
+        //ExFor:AsposeWordsPrintDocument.#ctor(Document)
+        //ExFor:AsposeWordsPrintDocument.CachePrinterSettings
         //ExSummary:Shows the standard Java print dialog that allows selecting the printer and the specified page range to print the document with.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 

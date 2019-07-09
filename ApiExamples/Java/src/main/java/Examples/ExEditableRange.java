@@ -202,8 +202,8 @@ public class ExEditableRange extends ApiExampleBase {
 
         //ExStart
         //ExFor:EditableRange.EditorGroup
+        //ExFor:EditorType
         //ExSummary:Shows how to add editing group for editable ranges
-        //Add EditableRangeStart
         EditableRangeStart startRange1 = builder.startEditableRange();
 
         builder.writeln("EditableRange_1_1");

@@ -131,7 +131,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
     @Test(description = "WORDSNET-16868")
     public void signDocumentWithDecryptionPassword() throws Exception {
         //ExStart
-        //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
+        //ExFor:CertificateHolder
         //ExFor:SignOptions.DecryptionPassword
         //ExFor:LoadOptions.Password
         //ExSummary:Shows how to sign encrypted document opened from a file.
