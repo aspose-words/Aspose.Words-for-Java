@@ -229,9 +229,13 @@ public class ExImage extends ApiExampleBase
         //ExStart
         //ExFor:Shape.#ctor(DocumentBase,ShapeType)
         //ExFor:ShapeType
-        //ExSummary:Shows how to create and add an image to a document without using document builder.
+        //ExSummary:Shows how to create shape and add an image to a document without using a document builder.
         Document doc = new Document();
 
+        // Public constructor of "Shape" class creates shape with "ShapeMarkupLanguage.Vml" markup type
+        // If you need to create "NonPrimitive" shapes, like SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
+        // TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
+        // please use DocumentBuilder.InsertShape methods
         Shape shape = new Shape(doc, ShapeType.IMAGE);
         shape.getImageData().setImage(getMyDir() + "Images/Hammer.wmf");
         shape.setWidth(100.0);

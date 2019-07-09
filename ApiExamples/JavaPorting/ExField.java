@@ -4475,7 +4475,6 @@ public class ExField extends ApiExampleBase
         builder.write("CrossReference: ");
 
         // Insert a FOOTNOTEREF field, which lets us reference a footnote more than once while re-using the same footnote marker
-        //Field field = builder.insertField(" ftnref ");
         FieldFootnoteRef field = (FieldFootnoteRef) builder.insertField(FieldType.FIELD_FOOTNOTE_REF, true);
 
         // Get this field to reference a bookmark

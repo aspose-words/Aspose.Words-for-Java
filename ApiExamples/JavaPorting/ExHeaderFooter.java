@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.HeaderFooter;
 import com.aspose.words.HeaderFooterType;
+import com.aspose.words.Paragraph;
 import org.testng.Assert;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DocumentBuilder;
@@ -50,6 +51,9 @@ public class ExHeaderFooter extends ApiExampleBase
         //ExFor:HeaderFooter.HeaderFooterType
         //ExFor:HeaderFooter.IsHeader
         //ExFor:HeaderFooterCollection
+        //ExFor:Paragraph.IsEndOfHeaderFooter
+        //ExFor:Paragraph.ParentSection
+        //ExFor:Paragraph.ParentStory
         //ExFor:Story.AppendParagraph
         //ExSummary:Creates a header and footer using the document object model and insert them into a section.
         Document doc = new Document();
@@ -58,20 +62,24 @@ public class ExHeaderFooter extends ApiExampleBase
         doc.getFirstSection().getHeadersFooters().add(header);
 
         // Add a paragraph with text to the footer.
-        header.appendParagraph("My header");
+        Paragraph para = header.appendParagraph("My header");
 
         Assert.assertTrue(header.isHeader());
+        Assert.assertTrue(para.isEndOfHeaderFooter());
 
         HeaderFooter footer = new HeaderFooter(doc, HeaderFooterType.FOOTER_PRIMARY);
         doc.getFirstSection().getHeadersFooters().add(footer);
 
-        Assert.assertFalse(footer.isHeader());
-
         // Add a paragraph with text to the footer.
-        footer.appendParagraph("My footer");
+        para = footer.appendParagraph("My footer");
 
-        msAssert.areEqual(header.getParentSection(), footer.getParentSection());
+        Assert.assertFalse(footer.isHeader());
+        Assert.assertTrue(para.isEndOfHeaderFooter());
 
+        msAssert.areEqual(footer, para.getParentStory());
+        msAssert.areEqual(footer.getParentSection(), para.getParentSection());
+        msAssert.areEqual(footer.getParentSection(), header.getParentSection());
+        
         doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterCreate.docx");
         //ExEnd
         doc = new Document(getArtifactsDir() + "HeaderFooter.HeaderFooterCreate.docx");

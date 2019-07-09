@@ -25,6 +25,7 @@ class ExInline !Test class should be public in Java to run, please fix .Net sour
     public void inlineRevisions() throws Exception
     {
         //ExStart
+        //ExFor:Paragraph.Runs
         //ExFor:Inline
         //ExFor:Inline.IsDeleteRevision
         //ExFor:Inline.IsFormatRevision

@@ -1161,18 +1161,28 @@ public class ExShape extends ApiExampleBase
         //ExStart
         //ExFor:DocumentBuilder.InsertShape(ShapeType, RelativeHorizontalPosition, double, RelativeVerticalPosition, double, double, double, WrapType)
         //ExFor:DocumentBuilder.InsertShape(ShapeType, double, double)
-        //ExSummary:Shows how to insert DML shape into the document
+        //ExSummary:Shows how to insert DML shapes into the document using a document builder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        // Two ways of shape insertion
-        Shape freeFloatingShape = builder.insertShape(ShapeType.TEXT_BOX, RelativeHorizontalPosition.PAGE, 100.0, RelativeVerticalPosition.PAGE, 100.0, 50.0, 50.0, WrapType.NONE);
+        
+        // There are two ways of shape insertion
+        // These methods allow inserting DML shape into the document model
+        // Document must be saved in the format, which supports DML shapes, otherwise, such nodes will be converted
+        // to VML shape, while document saving
+
+        // 1. Free-floating shape insertion
+        Shape freeFloatingShape = builder.insertShape(ShapeType.TOP_CORNERS_ROUNDED, RelativeHorizontalPosition.PAGE, 100.0, RelativeVerticalPosition.PAGE, 100.0, 50.0, 50.0, WrapType.NONE);
         freeFloatingShape.setRotation(30.0);
-        Shape inlineShape = builder.insertShape(ShapeType.TEXT_BOX, 50.0, 50.0);
+        // 2. Inline shape insertion
+        Shape inlineShape = builder.insertShape(ShapeType.DIAGONAL_CORNERS_ROUNDED, 50.0, 50.0);
         inlineShape.setRotation(30.0);
 
+        // If you need to create "NonPrimitive" shapes, like SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
+        // TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
+        // please save the document with "Strict" or "Transitional" compliance which allows saving shape as DML
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
-        // "Strict" or "Transitional" compliance allows to save shape as DML
         saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
+        
         doc.save(getArtifactsDir() + "RotatedShape.docx", saveOptions);
         //ExEnd
     }

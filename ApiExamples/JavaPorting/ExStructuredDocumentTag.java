@@ -40,6 +40,7 @@ import java.util.Iterator;
 import com.aspose.ms.System.Guid;
 import com.aspose.words.CustomXmlPart;
 import com.aspose.words.CustomXmlPartCollection;
+import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.CustomXmlSchemaCollection;
 import com.aspose.words.SmartTag;
 import com.aspose.words.CustomXmlPropertyCollection;
@@ -226,7 +227,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         tag.setTag("MyPlainTextSDT");
 
         // Every StructuredDocumentTag gets a random unique ID
-        Assert.Positive(tag.getId());
+        Assert.That(tag.getId(), Is.Positive);
 
         // Set the font for the text inside the StructuredDocumentTag
         tag.getContentsFont().setName("Arial");
@@ -527,6 +528,44 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "SDT.CustomXml.docx", getGoldsDir() + "SDT.CustomXml Gold.docx"));
+    }
+
+    @Test
+    public void xmlMapping() throws Exception
+    {
+        //ExStart
+        //ExFor:XmlMapping
+        //ExFor:XmlMapping.CustomXmlPart
+        //ExFor:XmlMapping.Delete
+        //ExFor:XmlMapping.IsMapped
+        //ExFor:XmlMapping.PrefixMappings
+        //ExFor:XmlMapping.XPath
+        //ExSummary:Shows how to set XML mappings for CustomXmlParts.
+        Document doc = new Document();
+
+        // Construct an XML part that contains data and add it to the document's CustomXmlPart collection
+        String xmlPartId = Guid.newGuid().toString("B");
+        String xmlPartContent = "<root><text>Text element #1</text><text>Text element #2</text></root>";
+        CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
+        msConsole.writeLine(Encoding.getUTF8().getString(xmlPart.getData()));
+
+        // Create a StructuredDocumentTag that will display the contents of our CustomXmlPart in the document
+        StructuredDocumentTag sdt = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
+
+        // If we set a mapping for our StructuredDocumentTag,
+        // it will only display a part of the CustomXmlPart that the XPath points to
+        // This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart
+        sdt.getXmlMapping().setMapping(xmlPart, "/root[1]/text[2]", "xmlns:ns='http://www.w3.org/2001/XMLSchema'");
+
+        Assert.assertTrue(sdt.getXmlMapping().isMapped());
+        msAssert.areEqual(xmlPart, sdt.getXmlMapping().getCustomXmlPart());
+        msAssert.areEqual("/root[1]/text[2]", sdt.getXmlMapping().getXPath());
+        msAssert.areEqual("xmlns:ns='http://www.w3.org/2001/XMLSchema'", sdt.getXmlMapping().getPrefixMappings());
+
+        // Add the StructuredDocumentTag to the document to display the content from our CustomXmlPart
+        doc.getFirstSection().getBody().appendChild(sdt);
+        doc.save(getArtifactsDir() + "SDT.XmlMapping.docx");
+        //ExEnd
     }
 
     @Test

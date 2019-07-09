@@ -676,6 +676,7 @@ public class ExTable extends ApiExampleBase
         //ExFor:ParagraphFormat.KeepWithNext
         //ExFor:Row.IsLastRow
         //ExFor:Paragraph.IsEndOfCell
+        //ExFor:Paragraph.IsInCell
         //ExFor:Cell.ParentRow
         //ExFor:Cell.Paragraphs
         //ExId:KeepTableTogether
@@ -685,8 +686,13 @@ public class ExTable extends ApiExampleBase
         // row of the table.
         for (Cell cell : table.getChildNodes(NodeType.CELL, true).<Cell>OfType() !!Autoporter error: Undefined expression type )
         for (Paragraph para : cell.getParagraphs().<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        {
+            // Every paragraph that's inside a cell will have this flag set
+            Assert.assertTrue(para.isInCell());
+
             if (!(cell.getParentRow().isLastRow() && para.isEndOfCell()))
                 para.getParagraphFormat().setKeepWithNext(true);
+        }
         //ExEnd
 
         doc.save(getArtifactsDir() + "Table.KeepTableTogether.doc");

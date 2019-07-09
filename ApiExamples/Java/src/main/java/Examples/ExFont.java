@@ -1667,5 +1667,5 @@ public class ExFont extends ApiExampleBase {
 //            return new FileInputStream(getFontsDir() + "Kreon-Regular.ttf");
 //        }
 //    }
-    //ExEnd
+//    //ExEnd
 }

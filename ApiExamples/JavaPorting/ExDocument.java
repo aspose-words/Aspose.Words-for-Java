@@ -1977,6 +1977,8 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Paragraph.IsMoveFromRevision
         //ExFor:Paragraph.IsMoveToRevision
+        //ExFor:ParagraphCollection
+        //ExFor:ParagraphCollection.Item(Int32)
         //ExSummary:Shows how to get paragraph that was moved (deleted/inserted) in Microsoft Word while change tracking was enabled.
         Document doc = new Document(getMyDir() + "Document.Revisions.docx");
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
@@ -3393,5 +3395,4 @@ public class ExDocument extends ApiExampleBase
         doc.save(getArtifactsDir() + "OpenType.Document.pdf");
         //ExEnd
     }
-
 }

@@ -18,8 +18,6 @@ import com.aspose.ms.System.DateTime;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
 import com.aspose.words.LayoutEnumerator;
 import com.aspose.words.LayoutEntityType;
 import com.aspose.words.DocumentBuilder;
@@ -229,16 +227,9 @@ public class ExProperties extends ApiExampleBase
         properties.setParagraphs(doc.getChildNodes(NodeType.PARAGRAPH, true).getCount());
         msAssert.areEqual(2, properties.getParagraphs());
 
-        // Bytes: Use a stream to find out the real file size of our document and assign it to the Property
-        MemoryStream stream = new MemoryStream();
-        try /*JAVA: was using*/
-        {
-            doc.save(stream, SaveFormat.DOCX);
-            properties.setBytes((int)stream.getLength());
-            msAssert.areEqual(10871, properties.getBytes());
-        }
-        finally { if (stream != null) stream.close(); }
-        
+        // Check the real file size of our document
+        msAssert.areEqual(13485, properties.getBytes());
+
         // Template: The Template attribute can reflect the filename of the attached template document
         doc.setAttachedTemplate(getMyDir() + "Document.BusinessBrochureTemplate.dot");
         msAssert.areEqual("Normal", properties.getTemplate());          
@@ -252,7 +243,7 @@ public class ExProperties extends ApiExampleBase
 
         // If the document contains links and they are all up to date, we can set this to true
         Assert.assertFalse(properties.getLinksUpToDate());
-        
+
         doc.save(getArtifactsDir() + "Properties.Content.docx");
     }
 

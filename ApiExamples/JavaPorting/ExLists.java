@@ -15,6 +15,7 @@ import com.aspose.words.Document;
 import com.aspose.words.ListTemplate;
 import com.aspose.words.List;
 import com.aspose.words.StyleIdentifier;
+import org.testng.Assert;
 import com.aspose.words.ListLevel;
 import java.awt.Color;
 import com.aspose.words.NumberStyle;
@@ -23,7 +24,6 @@ import com.aspose.words.ListTrailingCharacter;
 import com.aspose.words.Style;
 import com.aspose.words.StyleType;
 import com.aspose.ms.System.msConsole;
-import org.testng.Assert;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
@@ -156,6 +156,7 @@ public class ExLists extends ApiExampleBase
     {
         //ExStart
         //ExFor:ListFormat.List
+        //ExFor:Paragraph.IsListItem
         //ExSummary:Shows how to start a numbered list, add a bulleted list inside it, then return to the numbered list.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -171,6 +172,9 @@ public class ExLists extends ApiExampleBase
         builder.getListFormat().setList(numberedList);
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.NORMAL);
         builder.writeln("Numbered list item 1.");
+
+        // Every paragraph that comprises a list will have this flag
+        Assert.assertTrue(builder.getCurrentParagraph().isListItem());
 
         // Create a bulleted list.
         List bulletedList = doc.getLists().add(ListTemplate.BULLET_DEFAULT);
