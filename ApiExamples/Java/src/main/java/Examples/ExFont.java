@@ -17,7 +17,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.*;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -1280,7 +1279,6 @@ public class ExFont extends ApiExampleBase {
     public void loadFontFallbackSettingsFromStream() throws Exception {
         //ExStart
         //ExFor:FontFallbackSettings.Load(Stream)
-        //ExFor:FontFallbackSettings.Save(Stream)
         //ExSummary:Shows how to load and save font fallback settings from stream.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
@@ -1288,6 +1286,7 @@ public class ExFont extends ApiExampleBase {
         InputStream fontFallbackStream = new FileInputStream(getMyDir() + "Fallback.xml");
         try {
             FontSettings fontSettings = new FontSettings();
+            // Note: Saves font fallback setting by stream is not implemented now
             fontSettings.getFallbackSettings().load(fontFallbackStream);
 
             doc.setFontSettings(fontSettings);
@@ -1298,20 +1297,8 @@ public class ExFont extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "LoadFontFallbackSettingsFromStream.pdf");
-
-        // Saves font fallback setting by stream
-        File fallbackFile = new File(getArtifactsDir() + "FallbackSettings.xml");
-        fallbackFile.createNewFile();
-        InputStream fontFallbackStream1 = new FileInputStream(fallbackFile);
-        try {
-            doc.getFontSettings().getFallbackSettings().save(fontFallbackStream1);
-        } finally {
-            if (fontFallbackStream1 != null) {
-                fontFallbackStream1.close();
-            }
-        }
+        //ExEnd
     }
-    //ExEnd
 
     @Test
     public void loadNotoFontsFallbackSettings() throws Exception {
@@ -1489,7 +1476,6 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Fonts.TableSubstitutionRule
         //ExFor:Fonts.TableSubstitutionRule.LoadLinuxSettings
         //ExFor:Fonts.TableSubstitutionRule.LoadWindowsSettings
-        //ExFor:Fonts.TableSubstitutionRule.Save(System.IO.Stream)
         //ExFor:Fonts.TableSubstitutionRule.Save(System.String)
         //ExSummary:Shows how to access font substitution tables for Windows and Linux.
         // Create a blank document and a new FontSettings object
@@ -1505,22 +1491,13 @@ public class ExFont extends ApiExampleBase {
         Assert.assertEquals(substitutionRule.getSubstitutes("Times New Roman CE"), Arrays.asList(new String[]{"Times New Roman"}));
 
         // We can save the table for viewing in the form of an XML document
+        // Note: Saves table substitution rules by stream is not implemented now
         substitutionRule.save(getArtifactsDir() + "Font.TableSubstitutionRule.Windows.xml");
 
         // Linux has its own substitution table
         // If "FreeSerif" is unavailable to substitute for "Times New Roman CE", we then look for "Liberation Serif", and so on
         substitutionRule.loadLinuxSettings();
         Assert.assertEquals(substitutionRule.getSubstitutes("Times New Roman CE"), Arrays.asList(new String[]{"FreeSerif", "Liberation Serif", "DejaVu Serif"}));
-
-        // Save the Linux substitution table using a stream
-        File linuxRules = new File(getArtifactsDir() + "Font.TableSubstitutionRule.Linux.xml");
-        linuxRules.createNewFile();
-        InputStream fileStream = new FileInputStream(linuxRules);
-        try {
-            substitutionRule.save(fileStream);
-        } finally {
-            if (fileStream != null) fileStream.close();
-        }
         //ExEnd
     }
 

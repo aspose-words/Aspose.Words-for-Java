@@ -23,8 +23,6 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
     public void insertImageFromStream() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(Stream)
-        //ExFor:DocumentBuilder.InsertImage(Stream, Double, Double)
-        //ExFor:DocumentBuilder.InsertImage(Stream, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
         //ExSummary:Shows different solutions of how to import an image into a document from a stream.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -33,10 +31,48 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         try {
             builder.writeln("Inserted image from stream: ");
             builder.insertImage(stream);
+        } finally {
+            if (stream != null) {
+                stream.close();
+            }
+        }
 
+        doc.save(getArtifactsDir() + "InsertImageFromStream.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void insertImageFromStreamWithACustomSize() throws Exception {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertImage(Stream, Double, Double)
+        //ExSummary:Shows different solutions of how to import an image with a custom size into a document from a stream.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        InputStream stream = new FileInputStream(getImageDir() + "Aspose.Words.gif");
+        try {
             builder.writeln("\nInserted image from stream with a custom size: ");
             builder.insertImage(stream, ConvertUtil.pixelToPoint(250.0), ConvertUtil.pixelToPoint(144.0));
+        } finally {
+            if (stream != null) {
+                stream.close();
+            }
+        }
 
+        doc.save(getArtifactsDir() + "InsertImageFromStreamWithACustomSize.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void insertImageFromStreamUsingRelativePositions() throws Exception {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertImage(Stream, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
+        //ExSummary:Shows different solutions of how to import an image using relative positions into a document from a stream.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        InputStream stream = new FileInputStream(getImageDir() + "Aspose.Words.gif");
+        try {
             builder.writeln("\nInserted image from stream using relative positions: ");
             builder.insertImage(stream, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN,
                     100.0, 200.0, 100.0, WrapType.SQUARE);
@@ -46,7 +82,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
             }
         }
 
-        doc.save(getArtifactsDir() + "InsertImageFromStream.docx");
+        doc.save(getArtifactsDir() + "InsertImageFromStreamUsingRelativePositions.docx");
         //ExEnd
     }
 
