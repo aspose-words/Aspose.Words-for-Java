@@ -406,8 +406,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void bidi() throws Exception
-    {
+    public void bidi() throws Exception {
         //ExStart
         //ExFor:PageSetup.Bidi
         //ExSummary:Shows how to change the order of columns.
@@ -432,8 +431,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void borderSurrounds() throws Exception
-    {
+    public void borderSurrounds() throws Exception {
         //ExStart
         //ExFor:PageSetup.BorderSurroundsFooter
         //ExFor:PageSetup.BorderSurroundsHeader
@@ -463,8 +461,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void gutter() throws Exception
-    {
+    public void gutter() throws Exception {
         //ExStart
         //ExFor:PageSetup.Gutter
         //ExFor:PageSetup.RtlGutter
@@ -474,8 +471,7 @@ public class ExPageSetup extends ApiExampleBase {
 
         // Insert text spanning several pages
         DocumentBuilder builder = new DocumentBuilder(doc);
-        for (int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
             builder.insertBreak(BreakType.PAGE_BREAK);
         }
@@ -498,8 +494,7 @@ public class ExPageSetup extends ApiExampleBase {
 
 
     @Test
-    public void booklet() throws Exception
-    {
+    public void booklet() throws Exception {
         //ExStart
         //ExFor:PageSetup.SheetsPerBooklet
         //ExSummary:Shows how to create a booklet.
@@ -509,8 +504,7 @@ public class ExPageSetup extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("My Booklet:");
 
-        for (int i = 0; i < 15; i++)
-        {
+        for (int i = 0; i < 15; i++) {
             builder.insertBreak(BreakType.PAGE_BREAK);
             builder.write(MessageFormat.format("Booklet face #{0}", i));
         }
@@ -528,8 +522,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void textOrientation() throws Exception
-    {
+    public void textOrientation() throws Exception {
         //ExStart
         //ExFor:PageSetup.TextOrientation
         //ExSummary:Shows how to set text orientation.
@@ -551,8 +544,7 @@ public class ExPageSetup extends ApiExampleBase {
     //ExFor:Body.ParentSection
     //ExSummary:Shows how to store endnotes at the end of each section instead of the document and manipulate their positions.
     @Test //ExSkip
-    public void suppressEndnotes() throws Exception
-    {
+    public void suppressEndnotes() throws Exception {
         // Create a new document and make it empty
         Document doc = new Document();
         doc.removeAllChildren();
@@ -576,8 +568,7 @@ public class ExPageSetup extends ApiExampleBase {
     /// <summary>
     /// Add a section to the end of a document, give it a body and a paragraph, then add text and an endnote to that paragraph
     /// </summary>
-    private void insertSection(Document doc, String sectionBodyText, String endnoteText)
-    {
+    private void insertSection(Document doc, String sectionBodyText, String endnoteText) {
         Section section = new Section(doc);
 
         doc.appendChild(section);

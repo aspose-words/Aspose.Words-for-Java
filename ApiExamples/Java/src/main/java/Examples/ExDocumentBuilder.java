@@ -166,7 +166,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.insertHorizontalRule();
 
         // Get the rule from the document's shape collection and verify it
-        Shape horizontalRule = (Shape)builder.getDocument().getChild(NodeType.SHAPE, 0, true);
+        Shape horizontalRule = (Shape) builder.getDocument().getChild(NodeType.SHAPE, 0, true);
         Assert.assertTrue(horizontalRule.isHorizontalRule());
         //ExEnd
     }

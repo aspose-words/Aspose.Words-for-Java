@@ -13,7 +13,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class ExInlineStory extends ApiExampleBase {
@@ -68,8 +67,7 @@ public class ExInlineStory extends ApiExampleBase {
     }
 
     @Test
-    public void footnoteEndnote() throws Exception
-    {
+    public void footnoteEndnote() throws Exception {
         //ExStart
         //ExFor:Footnote.FootnoteType
         //ExSummary:Demonstrates the difference between footnotes and endnotes.
@@ -119,8 +117,7 @@ public class ExInlineStory extends ApiExampleBase {
     }
 
     @Test
-    public void inlineStoryRevisions() throws Exception
-    {
+    public void inlineStoryRevisions() throws Exception {
         //ExStart
         //ExFor:InlineStory.IsDeleteRevision
         //ExFor:InlineStory.IsInsertRevision
@@ -156,8 +153,7 @@ public class ExInlineStory extends ApiExampleBase {
     }
 
     @Test
-    public void insertInlineStoryNodes() throws Exception
-    {
+    public void insertInlineStoryNodes() throws Exception {
         //ExStart
         //ExFor:Comment.StoryType
         //ExFor:Footnote.StoryType
@@ -196,7 +192,7 @@ public class ExInlineStory extends ApiExampleBase {
         Assert.assertEquals(footnote.getStoryType(), StoryType.FOOTNOTES);
 
         // A comment is another type of inline story
-        Comment comment = (Comment)builder.getCurrentParagraph().appendChild(new Comment(doc, "John Doe", "J. D.", new Date()));
+        Comment comment = (Comment) builder.getCurrentParagraph().appendChild(new Comment(doc, "John Doe", "J. D.", new Date()));
 
         // The parent paragraph of an inline story node will be the one from the main document body
         Assert.assertEquals(comment.getParentParagraph(), doc.getFirstSection().getBody().getFirstParagraph());

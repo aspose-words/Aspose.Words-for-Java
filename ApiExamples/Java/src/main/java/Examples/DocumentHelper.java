@@ -12,6 +12,8 @@ import com.aspose.words.*;
 import org.testng.Assert;
 
 import java.io.*;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Functions for operations with document and content.
@@ -317,5 +319,16 @@ public final class DocumentHelper {
             byteBuffer.write(buffer, 0, len);
         }
         return byteBuffer.toByteArray();
+    }
+
+    /**
+     * Create specific date for tests.
+     *
+     * @return specific date
+     */
+    static Date createDate(int year, int month, int day) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day);
+        return cal.getTime();
     }
 }

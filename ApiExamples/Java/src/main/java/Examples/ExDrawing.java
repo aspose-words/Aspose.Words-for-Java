@@ -116,8 +116,7 @@ public class ExDrawing extends ApiExampleBase {
     }
 
     @Test
-    public void strokePattern() throws Exception
-    {
+    public void strokePattern() throws Exception {
         //ExStart
         //ExFor:Stroke.Color2
         //ExFor:Stroke.ImageBytes
@@ -127,7 +126,7 @@ public class ExDrawing extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Shape.StrokePattern.doc");
 
         // Get the first shape's stroke
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         Stroke s = shape.getStroke();
 
         // Every stroke will have a Color attribute, but only strokes from older Word versions have a Color2 attribute,

@@ -47,7 +47,10 @@ public class ExParagraph extends ApiExampleBase {
         // We can choose a node in the paragraph and insert a field
         // before or after that node instead of appending it to the end of a paragraph
         para = doc.getFirstSection().getBody().appendParagraph("");
-        Run run = new Run(doc); { run.setText(" My Run. "); }
+        Run run = new Run(doc);
+        {
+            run.setText(" My Run. ");
+        }
         para.appendChild(run);
 
         // Insert a field into the paragraph and place it before the run we created
@@ -311,8 +314,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void isRevision() throws Exception
-    {
+    public void isRevision() throws Exception {
         //ExStart
         //ExFor:Paragraph.IsDeleteRevision
         //ExFor:Paragraph.IsInsertRevision
@@ -353,8 +355,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void breakIsStyleSeparator() throws Exception
-    {
+    public void breakIsStyleSeparator() throws Exception {
         //ExStart
         //ExFor:Paragraph.BreakIsStyleSeparator
         //ExSummary:Shows how to write text to the same line as a TOC heading and have it not show up in the TOC.
@@ -389,8 +390,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void tabStops() throws Exception
-    {
+    public void tabStops() throws Exception {
         //ExStart
         //ExFor:Paragraph.GetEffectiveTabStops
         //ExSummary:Shows how to set custom tab stops.
@@ -419,8 +419,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void joinRuns() throws Exception
-    {
+    public void joinRuns() throws Exception {
         //ExStart
         //ExFor:Paragraph.JoinRunsWithSameFormatting
         //ExSummary:Shows how to simplify paragraphs by merging superfluous runs.

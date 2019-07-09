@@ -62,8 +62,7 @@ public class ExHeaderFooter extends ApiExampleBase {
     }
 
     @Test
-    public void headerFooterLink() throws Exception
-    {
+    public void headerFooterLink() throws Exception {
         //ExStart
         //ExFor:HeaderFooter.IsLinkedToPrevious
         //ExFor:HeaderFooterCollection.Item(System.Int32)
