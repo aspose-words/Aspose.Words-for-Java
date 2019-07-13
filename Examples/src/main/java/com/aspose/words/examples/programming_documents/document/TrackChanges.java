@@ -82,4 +82,24 @@ public class TrackChanges {
         // ExEnd:SetShowInBalloons
         System.out.println("\nFile saved at " + dataDir);
     }
+
+    private static void GetRevisionGroupDetails(String dataDir) throws Exception
+    {
+        // ExStart:GetRevisionGroupDetails
+        Document doc = new Document(dataDir + "TestFormatDescription.docx");
+
+        for (Revision revision : (Iterable<Revision>) doc.getRevisions())
+        {
+            String groupText = revision.getGroup() != null
+                ? "Revision group text: " + revision.getGroup().getText()
+                : "Revision has no group";
+
+            System.out.println("Type: " + revision.getRevisionType());
+            System.out.println("Author: " + revision.getAuthor());
+            System.out.println("Date: " + revision.getDateTime());
+            System.out.println("Revision text: " + revision.getParentNode().toString(SaveFormat.TEXT));
+            System.out.println(groupText);
+        }
+        // ExEnd:GetRevisionGroupDetails
+    }
 }
