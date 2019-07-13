@@ -17,6 +17,7 @@ public class WorkingWithShapes {
         addCornersSnipped(dataDir);
         getActualShapeBoundsPoints(dataDir);
         SpecifyVerticalAnchor(dataDir);
+        DetectSmartArtShape(dataDir);
     }
 
     public static void insertShapeUsingDocumentBuilder(String dataDir) throws Exception {
