@@ -29,8 +29,7 @@ import java.util.UUID;
  */
 public class ExShape extends ApiExampleBase {
     @Test
-    public void insertShape() throws Exception
-    {
+    public void insertShape() throws Exception {
         //ExStart
         //ExFor:ShapeBase.AlternativeText
         //ExFor:ShapeBase.Name
@@ -74,8 +73,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void shapeCoords() throws Exception
-    {
+    public void shapeCoords() throws Exception {
         //ExStart
         //ExFor:ShapeBase.DistanceBottom
         //ExFor:ShapeBase.DistanceLeft
@@ -103,8 +101,7 @@ public class ExShape extends ApiExampleBase {
         shape.setRotation(60.0);
 
         // Add text that the shape will push out of the way
-        for (int i = 0; i < 500; i++)
-        {
+        for (int i = 0; i < 500; i++) {
             builder.write("text ");
         }
 
@@ -113,8 +110,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void insertGroupShape() throws Exception
-    {
+    public void insertGroupShape() throws Exception {
         //ExStart
         //ExFor:ShapeBase.AnchorLocked
         //ExFor:ShapeBase.IsTopLevel
@@ -457,8 +453,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void oleControl() throws Exception
-    {
+    public void oleControl() throws Exception {
         //ExStart
         //ExFor:OleFormat
         //ExFor:OleFormat.AutoUpdate
@@ -471,7 +466,7 @@ public class ExShape extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Shape.Ole.Spreadsheet.docm");
 
         // The first shape will contain an OLE object
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         // This object is a Microsoft Excel spreadsheet
         OleFormat oleFormat = shape.getOleFormat();
@@ -494,8 +489,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void oleLinked() throws Exception
-    {
+    public void oleLinked() throws Exception {
         //ExStart
         //ExFor:OleFormat.IconCaption
         //ExFor:OleFormat.GetOleEntry(String)
@@ -543,8 +537,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void oleControlCollection() throws Exception
-    {
+    public void oleControlCollection() throws Exception {
         //ExStart
         //ExFor:OleFormat.Clsid
         //ExFor:Ole.Forms2OleControlCollection
@@ -556,11 +549,11 @@ public class ExShape extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Shape.Ole.ControlCollection.docm");
 
         // Get the shape that contains the control
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         Assert.assertEquals(shape.getOleFormat().getClsid().toString(), "6e182020-f460-11ce-9bcd-00aa00608e01");
 
-        Forms2OleControl oleControl = (Forms2OleControl)shape.getOleFormat().getOleControl();
+        Forms2OleControl oleControl = (Forms2OleControl) shape.getOleFormat().getOleControl();
 
         // Some controls contain child controls
         Forms2OleControlCollection oleControlCollection = oleControl.getChildNodes();
@@ -987,8 +980,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void replaceRelativeSizeToAbsolute() throws Exception
-    {
+    public void replaceRelativeSizeToAbsolute() throws Exception {
         Document doc = new Document(getMyDir() + "Shape.ShapeSize.docx");
 
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
@@ -1096,8 +1088,7 @@ public class ExShape extends ApiExampleBase {
     //ExFor:Shape.StrokeWeight
     //ExSummary:Shows how to iterate over all the shapes in a document.
     @Test //ExSkip
-    public void visitShapes() throws Exception
-    {
+    public void visitShapes() throws Exception {
         // Open a document that contains shapes
         Document doc = new Document(getMyDir() + "Shape.Revisions.docx");
 
@@ -1112,10 +1103,8 @@ public class ExShape extends ApiExampleBase {
     /// <summary>
     /// DocumentVisitor implementation that collects information about visited shapes into a StringBuilder, to be printed to the console
     /// </summary>
-    private static class ShapeVisitor extends DocumentVisitor
-    {
-        public ShapeVisitor()
-        {
+    private static class ShapeVisitor extends DocumentVisitor {
+        public ShapeVisitor() {
             mShapesVisited = 0;
             mTextIndentLevel = 0;
             mStringBuilder = new StringBuilder();
@@ -1124,10 +1113,8 @@ public class ExShape extends ApiExampleBase {
         /// <summary>
         /// Appends a line to the StringBuilder with one prepended tab character for each indent level
         /// </summary>
-        private void appendLine(String text)
-        {
-            for (int i = 0; i < mTextIndentLevel; i++)
-            {
+        private void appendLine(String text) {
+            for (int i = 0; i < mTextIndentLevel; i++) {
                 mStringBuilder.append('\t');
             }
 
@@ -1137,16 +1124,14 @@ public class ExShape extends ApiExampleBase {
         /// <summary>
         /// Return all the text that the StringBuilder has accumulated
         /// </summary>
-        public String getText()
-        {
+        public String getText() {
             return MessageFormat.format("Shapes visited: {0}\n{1}", mShapesVisited, mStringBuilder);
         }
 
         /// <summary>
         /// Called when the start of a Shape node is visited
         /// </summary>
-        public int visitShapeStart(Shape shape)
-        {
+        public int visitShapeStart(Shape shape) {
             appendLine(MessageFormat.format("Shape found: {0}", shape.getShapeType()));
 
             mTextIndentLevel++;
@@ -1158,8 +1143,7 @@ public class ExShape extends ApiExampleBase {
             appendLine(MessageFormat.format("Shadow enabled: {0}", shape.getShadowEnabled()));
             appendLine(MessageFormat.format("StoryType: {0}", shape.getStoryType()));
 
-            if (shape.getStroked())
-            {
+            if (shape.getStroked()) {
                 Assert.assertEquals(shape.getStrokeColor(), shape.getStroke().getColor());
                 appendLine(MessageFormat.format("Stroke colors: {0}, {1}", shape.getStroke().getColor(), shape.getStroke().getColor2()));
                 appendLine(MessageFormat.format("Stroke weight: {0}", shape.getStrokeWeight()));
@@ -1180,8 +1164,7 @@ public class ExShape extends ApiExampleBase {
         /// <summary>
         /// Called when the end of a Shape node is visited
         /// </summary>
-        public int visitShapeEnd(Shape shape)
-        {
+        public int visitShapeEnd(Shape shape) {
             mTextIndentLevel--;
             mShapesVisited++;
             appendLine(MessageFormat.format("End of {0}", shape.getShapeType()));
@@ -1192,8 +1175,7 @@ public class ExShape extends ApiExampleBase {
         /// <summary>
         /// Called when the start of a GroupShape node is visited
         /// </summary>
-        public int visitGroupShapeStart(GroupShape groupShape)
-        {
+        public int visitGroupShapeStart(GroupShape groupShape) {
             appendLine(MessageFormat.format("Shape group found: {0}", groupShape.getShapeType()));
             mTextIndentLevel++;
 
@@ -1203,8 +1185,7 @@ public class ExShape extends ApiExampleBase {
         /// <summary>
         /// Called when the end of a GroupShape node is visited
         /// </summary>
-        public int visitGroupShapeEnd(GroupShape groupShape)
-        {
+        public int visitGroupShapeEnd(GroupShape groupShape) {
             mTextIndentLevel--;
             appendLine(MessageFormat.format("End of {0}", groupShape.getShapeType()));
 
@@ -1218,8 +1199,7 @@ public class ExShape extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void signatureLine() throws Exception
-    {
+    public void signatureLine() throws Exception {
         //ExStart
         //ExFor:Shape.SignatureLine
         //ExFor:ShapeBase.IsSignatureLine
@@ -1279,8 +1259,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void textBox() throws Exception
-    {
+    public void textBox() throws Exception {
         //ExStart
         //ExFor:Shape.TextBox
         //ExFor:Shape.LastParagraph
@@ -1341,8 +1320,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void createNewTextBoxAndChangeTextAnchor() throws Exception
-    {
+    public void createNewTextBoxAndChangeTextAnchor() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1361,8 +1339,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void getTextBoxAndChangeTextAnchor() throws Exception
-    {
+    public void getTextBoxAndChangeTextAnchor() throws Exception {
         //ExStart
         //ExFor:TextBoxAnchor
         //ExFor:TextBox.VerticalAnchor
@@ -1403,8 +1380,7 @@ public class ExShape extends ApiExampleBase {
     //ExFor:TextPathAlignment
     //ExSummary:Shows how to work with WordArt.
     @Test //ExSkip
-    public void insertTextPaths() throws Exception
-    {
+    public void insertTextPaths() throws Exception {
         Document doc = new Document();
 
         // Insert a WordArt object and capture the shape that contains it in a variable
@@ -1470,10 +1446,9 @@ public class ExShape extends ApiExampleBase {
     /// <summary>
     /// Insert a new paragraph with a WordArt shape inside it
     /// </summary>
-    private Shape appendWordArt(Document doc, String text, String textFontFamily, double shapeWidth, double shapeHeight, Color wordArtFill, Color line, int wordArtShapeType) throws Exception
-    {
+    private Shape appendWordArt(Document doc, String text, String textFontFamily, double shapeWidth, double shapeHeight, Color wordArtFill, Color line, int wordArtShapeType) throws Exception {
         // Insert a new paragraph
-        Paragraph para = (Paragraph)doc.getFirstSection().getBody().appendChild(new Paragraph(doc));
+        Paragraph para = (Paragraph) doc.getFirstSection().getBody().appendChild(new Paragraph(doc));
 
         // Create an inline Shape, which will serve as a container for our WordArt, and append it to the paragraph
         // The shape can only be a valid WordArt shape if the ShapeType assigned here is a WordArt-designated ShapeType
@@ -1499,8 +1474,7 @@ public class ExShape extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void shapeRevision() throws Exception
-    {
+    public void shapeRevision() throws Exception {
         //ExStart
         //ExFor:ShapeBase.IsDeleteRevision
         //ExFor:ShapeBase.IsInsertRevision
@@ -1546,8 +1520,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void moveRevisions() throws Exception
-    {
+    public void moveRevisions() throws Exception {
         //ExStart
         //ExFor:ShapeBase.IsMoveFromRevision
         //ExFor:ShapeBase.IsMoveToRevision
@@ -1561,7 +1534,7 @@ public class ExShape extends ApiExampleBase {
         // The document has one shape that was moved, but shape move revisions will have two instances of that shape
         // One will be the shape at its arrival destination and the other will be the shape at its original location
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
-        Assert.assertEquals(shapes.getCount(),2);
+        Assert.assertEquals(shapes.getCount(), 2);
 
         Shape firstShape = (Shape) shapes.get(0);
 
@@ -1578,8 +1551,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void adjustWithEffects() throws Exception
-    {
+    public void adjustWithEffects() throws Exception {
         //ExStart
         //ExFor:ShapeBase.AdjustWithEffects(RectangleF)
         //ExFor:ShapeBase.BoundsWithEffects
@@ -1587,7 +1559,7 @@ public class ExShape extends ApiExampleBase {
         // Open a document that contains two shapes and get its shape collection
         Document doc = new Document(getMyDir() + "Shape.AdjustWithEffects.docx");
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
-        Assert.assertEquals(shapes.getCount() ,2);
+        Assert.assertEquals(shapes.getCount(), 2);
 
         Shape firstShape = (Shape) shapes.get(0);
         Shape secondShape = (Shape) shapes.get(1);
