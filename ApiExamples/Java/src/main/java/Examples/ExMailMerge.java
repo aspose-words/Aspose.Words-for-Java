@@ -22,6 +22,7 @@ public class ExMailMerge extends ApiExampleBase {
         //ExStart
         //ExFor:MailMerge.Execute(String[], Object[])
         //ExFor:ContentDisposition
+        //ExFor:Document.Save(HttpResponse,String,ContentDisposition,SaveOptions)
         //ExId:MailMergeArray
         //ExSummary:Performs a simple insertion of data into merge fields.
         // Open an existing document.
@@ -40,6 +41,7 @@ public class ExMailMerge extends ApiExampleBase {
         //ExFor:Document
         //ExFor:MailMerge
         //ExFor:MailMerge.Execute(DataTable)
+        //ExFor:MailMerge.Execute(DataRow)
         //ExFor:Document.MailMerge
         //ExSummary:Executes mail merge from data stored in a ResultSet.
         Document doc = new Document(getMyDir() + "MailMerge.ExecuteDataTable.doc");
@@ -55,6 +57,14 @@ public class ExMailMerge extends ApiExampleBase {
         doc.getMailMerge().execute(table);
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.doc");
+
+        // Open a fresh copy of our document to perform another mail merge.
+        doc = new Document(getMyDir() + "MailMerge.ExecuteDataTable.doc");
+
+        // We can also source values for a mail merge from a single row in the table
+        doc.getMailMerge().execute(table.getRows().get(1));
+
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.OneRow.doc");
         //ExEnd
     }
 
