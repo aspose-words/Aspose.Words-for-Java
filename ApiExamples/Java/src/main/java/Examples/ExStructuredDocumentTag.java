@@ -422,16 +422,12 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         // Construct an XML part that contains data and add it to the document's collection
         // Once the "Developer" tab in Mircosoft Word is enabled,
         // we can find elements from this collection as well as a couple defaults in the "XML Mapping Pane"
-        String digits = UUID.randomUUID().toString();;
-        String uuid = digits.replaceAll(
-                "(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})",
-                "{$1-$2-$3-$4-$5}");
-        String xmlPartId = uuid;
+        String xmlPartId = UUID.randomUUID().toString();
         String xmlPartContent = "<root><text>Hello, World!</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
 
         // The data we entered resides in these variables
-        Assert.assertEquals(xmlPart.getData(), xmlPartContent.toCharArray());
+        Assert.assertEquals(xmlPart.getData(), xmlPartContent.getBytes());
         Assert.assertEquals(xmlPart.getId(), xmlPartId);
 
         // XML parts can be referenced by collection index or GUID
@@ -450,16 +446,12 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         // Iterate through collection with an enumerator and print the contents of each part
         Iterator<CustomXmlPart> enumerator = doc.getCustomXmlParts().iterator();
-        try {
-            int index = 0;
-            while (enumerator.hasNext()) {
-                CustomXmlPart customXmlPart = enumerator.next();
-                System.out.println(MessageFormat.format("XML part index {0}, ID: {1}", index, customXmlPart.getId()));
-                System.out.println(MessageFormat.format("\tContent: {0}", customXmlPart.getData()));
-                index++;
-            }
-        } finally {
-            if (enumerator != null) enumerator.remove();
+        int index = 0;
+        while (enumerator.hasNext()) {
+            CustomXmlPart customXmlPart = enumerator.next();
+            System.out.println(MessageFormat.format("XML part index {0}, ID: {1}", index, customXmlPart.getId()));
+            System.out.println(MessageFormat.format("\tContent: {0}", customXmlPart.getData()));
+            index++;
         }
 
         // XML parts can be removed by index
@@ -558,12 +550,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         // We can iterate over the collection with an enumerator
         Iterator<String> enumerator = schemas.iterator();
-        try {
-            while (enumerator.hasNext()) {
-                System.out.println(enumerator.next());
-            }
-        } finally {
-            if (enumerator != null) enumerator.remove();
+        while (enumerator.hasNext()) {
+            System.out.println(enumerator.next());
         }
 
         // We can also remove elements by index, element, or we can clear the entire collection
