@@ -69,23 +69,6 @@ public class ExMailMerge extends ApiExampleBase {
     }
 
     @Test
-    public void trimWhiteSpaces() throws Exception {
-        //ExStart
-        //ExFor:MailMerge.TrimWhitespaces
-        //ExSummary:Shows how to trimmed whitespaces from mail merge values.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.insertField("MERGEFIELD field", null);
-
-        doc.getMailMerge().setTrimWhitespaces(true);
-        doc.getMailMerge().execute(new String[]{"field"}, new Object[]{" first line\rsecond line\rthird line "});
-
-        Assert.assertEquals(doc.getText(), "first line\rsecond line\rthird line\f");
-        //ExEnd
-    }
-
-    @Test
     public void executeDataReader() throws Exception {
         //ExStart
         //ExFor:MailMerge.Execute(IDataReader)
@@ -132,7 +115,6 @@ public class ExMailMerge extends ApiExampleBase {
         return new DataTable(resultSet, "OrderDetails");
     }
     //ExEnd
-
 
     @Test
     public void executeWithRegionsDataSet() throws Exception {
@@ -249,6 +231,23 @@ public class ExMailMerge extends ApiExampleBase {
         //ExId:MailMergeMappedDataFields
         //ExSummary:Shows how to add a mapping when a merge field in a document and a data field in a data source have different names.
         doc.getMailMerge().getMappedDataFields().add("MyFieldName_InDocument", "MyFieldName_InDataSource");
+        //ExEnd
+    }
+
+    @Test
+    public void trimWhiteSpaces() throws Exception {
+        //ExStart
+        //ExFor:MailMerge.TrimWhitespaces
+        //ExSummary:Shows how to trimmed whitespaces from mail merge values.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertField("MERGEFIELD field", null);
+
+        doc.getMailMerge().setTrimWhitespaces(true);
+        doc.getMailMerge().execute(new String[]{"field"}, new Object[]{" first line\rsecond line\rthird line "});
+
+        Assert.assertEquals(doc.getText(), "first line\rsecond line\rthird line\f");
         //ExEnd
     }
 
