@@ -149,4 +149,21 @@ public class WorkingWithShapes {
         // ExEnd:SpecifyVerticalAnchor
     }
 
+    public static void DetectSmartArtShape(String dataDir) throws Exception
+    {
+        // ExStart:DetectSmartArtShape
+        Document doc = new Document(dataDir + "input.docx");
+        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+        int count = 0;
+        for (Shape textBoxShape : (Iterable<Shape>) shapes)
+        {
+        	if (textBoxShape.hasSmartArt())
+            {
+        		count++;
+            }
+        }
+        
+        System.out.println("The document has " + count + " shapes with SmartArt.");
+        // ExEnd:DetectSmartArtShape
+    }
 }
