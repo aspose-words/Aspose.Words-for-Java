@@ -23,6 +23,7 @@ import com.aspose.words.BreakType;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.words.TabAlignment;
 import com.aspose.words.TabLeader;
+import com.aspose.words.LineSpacingRule;
 
 
 @Test
@@ -339,6 +340,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         // Move the first capital to outside the text margin
         para.getParagraphFormat().setDropCapPosition(com.aspose.words.DropCapPosition.MARGIN);
+        para.getParagraphFormat().setLinesToDrop(2);
 
         // This text will be affected
         para.getRuns().add(new Run(doc, "Hello World!"));
@@ -488,6 +490,177 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         msAssert.areEqual(2, para.getRuns().getCount());
         msAssert.areEqual("Run 1. Run 2. Run 3. ", para.getRuns().get(0).getText());
         msAssert.areEqual("Run 4. ", para.getRuns().get(1).getText());
+        //ExEnd
+    }
+
+    @Test
+    public void lineSpacing() throws Exception
+    {
+        //ExStart
+        //ExFor:ParagraphFormat.LineSpacing
+        //ExFor:ParagraphFormat.LineSpacingRule
+        //ExSummary:Shows how to work with line spacing.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Set the paragraph's line spacing to have a minimum value
+        // This will give vertical padding to lines of text of any size that's too small to maintain the line height
+        builder.getParagraphFormat().setLineSpacingRule(LineSpacingRule.AT_LEAST);
+        builder.getParagraphFormat().setLineSpacing(20.0);
+
+        builder.writeln("Minimum line spacing of 20.");
+        builder.writeln("Minimum line spacing of 20.");
+
+        // Set the line spacing to always be exactly 5 points
+        // If the font size is larger than the spacing, the top of the text will be truncated
+        builder.insertParagraph();
+        builder.getParagraphFormat().setLineSpacingRule(LineSpacingRule.EXACTLY);
+        builder.getParagraphFormat().setLineSpacing(5.0);
+
+        builder.writeln("Line spacing of exactly 5.");
+        builder.writeln("Line spacing of exactly 5.");
+
+        // Set the line spacing to a multiple of the default line spacing, which is 12 points by default
+        // 18 points will set the spacing to always be 1.5 lines, which will scale with different font sizes
+        builder.insertParagraph();
+        builder.getParagraphFormat().setLineSpacingRule(LineSpacingRule.MULTIPLE);
+        builder.getParagraphFormat().setLineSpacing(18.0);
+
+        builder.writeln("Line spacing of 1.5 default lines.");
+        builder.writeln("Line spacing of 1.5 default lines.");
+
+        doc.save(getArtifactsDir() + "Paragraph.LineSpacing.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void paragraphSpacing() throws Exception
+    {
+        //ExStart
+        //ExFor:ParagraphFormat.NoSpaceBetweenParagraphsOfSameStyle
+        //ExFor:ParagraphFormat.SpaceAfter
+        //ExFor:ParagraphFormat.SpaceAfterAuto
+        //ExFor:ParagraphFormat.SpaceBefore
+        //ExFor:ParagraphFormat.SpaceBeforeAuto
+        //ExSummary:Shows how to work with paragraph spacing.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Set the amount of white space before and after each paragraph to 12 points
+        builder.getParagraphFormat().setSpaceBefore(12.0f);
+        builder.getParagraphFormat().setSpaceAfter(12.0f);
+
+        // We can set these flags to apply default spacing, effectively ignoring the spacing in the attributes we set above
+        Assert.assertFalse(builder.getParagraphFormat().getSpaceAfterAuto());
+        Assert.assertFalse(builder.getParagraphFormat().getSpaceBeforeAuto());
+        Assert.assertFalse(builder.getParagraphFormat().getNoSpaceBetweenParagraphsOfSameStyle());
+
+        // Insert two paragraphs which will have padding above and below them and save the document
+        builder.writeln("Paragraph 1.");
+        builder.writeln("Paragraph 2.");
+
+        doc.save(getArtifactsDir() + "Paragraph.ParagraphSpacing.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void outlineLevel() throws Exception
+    {
+        //ExStart
+        //ExFor:ParagraphFormat.OutlineLevel
+        //ExSummary:Shows how to set paragraph outline levels to create collapsible text.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Each paragraph has an OutlineLevel, which could be any number from 1 to 9, or at the default "BodyText" value
+        // Setting the attribute to one of the numbered values will enable an arrow in Microsoft Word
+        // next to the beginning of the paragraph that, when clicked, will collapse the paragraph
+        builder.getParagraphFormat().setOutlineLevel(com.aspose.words.OutlineLevel.LEVEL_1);
+        builder.writeln("Paragraph outline level 1.");
+
+        // Level 1 is the topmost level, which practically means that clicking its arrow will also collapse
+        // any following paragraph with a lower level, like the paragraphs below
+        builder.getParagraphFormat().setOutlineLevel(com.aspose.words.OutlineLevel.LEVEL_2);
+        builder.writeln("Paragraph outline level 2.");
+
+        // Two paragraphs of the same level will not collapse each other
+        builder.getParagraphFormat().setOutlineLevel(com.aspose.words.OutlineLevel.LEVEL_3);
+        builder.writeln("Paragraph outline level 3.");
+        builder.writeln("Paragraph outline level 3.");
+
+        // The default "BodyText" value is the lowest
+        builder.getParagraphFormat().setOutlineLevel(com.aspose.words.OutlineLevel.BODY_TEXT);
+        builder.writeln("Paragraph at main text level.");
+
+        doc.save(getArtifactsDir() + "Paragraph.OutlineLevel.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void pageBreakBefore() throws Exception
+    {
+        //ExStart
+        //ExFor:ParagraphFormat.PageBreakBefore
+        //ExSummary:Shows how to force a page break before each paragraph.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Set this to insert a page break before this paragraph
+        builder.getParagraphFormat().setPageBreakBefore(true);
+
+        // The value we set is propagated to all paragraphs that are created afterwards
+        builder.writeln("Paragraph 1, page 1.");
+        builder.writeln("Paragraph 2, page 2.");
+
+        doc.save(getArtifactsDir() + "Paragraph.PageBreakBefore.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void widowControl() throws Exception
+    {
+        //ExStart
+        //ExFor:ParagraphFormat.WidowControl
+        //ExSummary:Shows how to enable widow/orphan control for a paragraph.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert text that will not fit on one page, with one line spilling into page 2
+        builder.getFont().setSize(68.0);
+        builder.writeln("Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+
+        // This line is referred to as an "Orphan",
+        // and a line left behind on the end of the previous page is likewise called a "Widow"
+        // These are not ideal for readability, and the alternative to changing size/line spacing/page margins
+        // in order to accomodate ill fitting text is this flag, for which the corresponding Microsoft Word option is 
+        // found in Home > Paragraph > Paragraph Settings (button on the bottom right of the tab) 
+        // In our document this will add more text to the orphan by putting two lines of text into the second page
+        builder.getParagraphFormat().setWidowControl(true);
+
+        doc.save(getArtifactsDir() + "Paragraph.WidowControl.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void linesToDrop() throws Exception
+    {
+        //ExStart
+        //ExFor:ParagraphFormat.LinesToDrop
+        //ExSummary:Shows how to set the size of the drop cap text.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Setting this attribute will designate the current paragraph as a drop cap,
+        // in this case with a height of 4 lines of text
+        builder.getParagraphFormat().setLinesToDrop(4);
+        builder.write("H");
+
+        // Any subsequent paragraphs will wrap around the drop cap
+        builder.insertParagraph();
+        builder.write("ello world.");
+
+        doc.save(getArtifactsDir() + "Paragraph.LinesToDrop.odt");
         //ExEnd
     }
 }

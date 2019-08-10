@@ -32,6 +32,8 @@ import java.awt.Graphics2D;
 import com.aspose.ms.System.Drawing.Text.TextRenderingHint;
 import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.Drawing.msSizeF;
+import com.aspose.words.PrinterSettingsContainer;
+import com.aspose.ms.System.msString;
 import com.aspose.words.FontSourceBase;
 import com.aspose.words.FontSettings;
 import java.util.ArrayList;
@@ -781,31 +783,92 @@ public class ExRendering extends ApiExampleBase
     }
     //ExEnd
 
-    @Test
-    public void writePageInfo() throws Exception
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printPageInfo() throws Exception
     {
         //ExStart
         //ExFor:PageInfo
+        //ExFor:PageInfo.GetSizeInPixels(Single, Single, Single)
+        //ExFor:PageInfo.GetSpecifiedPrinterPaperSource(PaperSourceCollection, PaperSource)
+        //ExFor:PageInfo.HeightInPoints
+        //ExFor:PageInfo.Landscape
         //ExFor:PageInfo.PaperSize
         //ExFor:PageInfo.PaperTray
-        //ExFor:PageInfo.Landscape
+        //ExFor:PageInfo.SizeInPoints
         //ExFor:PageInfo.WidthInPoints
-        //ExFor:PageInfo.HeightInPoints
-        //ExSummary:Retrieves page size and orientation information for every page in a Word document.
+        //ExSummary:Shows how to print page size and orientation information for every page in a Word document.
         Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // The first section has 2 pages
+        // We will assign a different printer paper tray to each one, whose number will match a kind of paper source
+        // These sources and their Kinds will vary depending on the installed printer driver
+        PrinterSettings.PaperSourceCollection paperSources = new PrinterSettings().getPaperSources();
+
+        doc.getFirstSection().getPageSetup().setFirstPageTray(paperSources.get(0).RawKind);
+        doc.getFirstSection().getPageSetup().setOtherPagesTray(paperSources.get(1).RawKind);
 
         msConsole.writeLine("Document \"{0}\" contains {1} pages.", doc.getOriginalFileName(), doc.getPageCount());
 
+        float scale = 1.0f;
+        float dpi = 96f;
+
         for (int i = 0; i < doc.getPageCount(); i++)
         {
+            // Each page has a PageInfo object, whose index is the respective page's number
             PageInfo pageInfo = doc.getPageInfo(i);
-            msConsole.writeLine("Page {0}. PaperSize:{1} ({2:F0}x{3:F0}pt), Orientation:{4}, PaperTray:{5}", i + 1,
-                pageInfo.getPaperSize(), pageInfo.getWidthInPoints(), pageInfo.getHeightInPoints(),
-                pageInfo.getLandscape() ? "Landscape" : "Portrait", pageInfo.getPaperTray());
-        }
 
+            // Print the page's orientation and dimensions
+            msConsole.writeLine($"Page {i + 1}:");
+            msConsole.writeLine($"\tOrientation:\t{(pageInfo.Landscape ? "Landscape" : "Portrait")}");
+            msConsole.writeLine($"\tPaper size:\t\t{pageInfo.PaperSize} ({pageInfo.WidthInPoints:F0}x{pageInfo.HeightInPoints:F0}pt)");
+            msConsole.writeLine($"\tSize in points:\t{pageInfo.SizeInPoints}");
+            msConsole.writeLine($"\tSize in pixels:\t{pageInfo.GetSizeInPixels(1.0f, 96)} at {scale * 100}% scale, {dpi} dpi");
+
+            // Paper source tray information
+            msConsole.writeLine($"\tTray:\t{pageInfo.PaperTray}");
+            PaperSource source = pageInfo.GetSpecifiedPrinterPaperSource(paperSources, paperSources.get(0));
+            msConsole.writeLine($"\tSuitable print source:\t{source.SourceName}, kind: {source.Kind}");
+        }
         //ExEnd
     }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printerSettingsContainer()
+    {
+        //ExStart
+        //ExFor:PrinterSettingsContainer
+        //ExFor:PrinterSettingsContainer.#ctor(PrinterSettings)
+        //ExFor:PrinterSettingsContainer.DefaultPageSettingsPaperSource
+        //ExFor:PrinterSettingsContainer.PaperSizes
+        //ExFor:PrinterSettingsContainer.PaperSources
+        //ExSummary:Shows how to access and list your printer's paper sources and sizes.
+        // The PrinterSettingsContainer contains a PrinterSettings object,
+        // which contains unique data for different printer drivers
+        PrinterSettingsContainer container = new PrinterSettingsContainer(new PrinterSettings());
+
+        // You can find the printer's list of paper sources here
+        msConsole.writeLine($"{container.PaperSources.Count} printer paper sources:");
+        for (PaperSource paperSource : (Iterable<PaperSource>) container.getPaperSources())
+        {
+            boolean isDefault = msString.equals(container.getDefaultPageSettingsPaperSource().SourceName, paperSource.SourceName);
+            msConsole.WriteLine($"\t{paperSource.SourceName}, " +
+                              $"RawKind: {paperSource.RawKind} {(isDefault ? "(Default)" : "")}");
+        }
+
+        // You can find the list of PaperSizes that can be sent to the printer here
+        // Both the PrinterSource and PrinterSize contain a "RawKind" attribute,
+        // which equates to a paper type listed on the PaperSourceKind enum
+        // If the list of PaperSources contains a PaperSource with the same RawKind as that of the page being printed,
+        // the page will be printed by the paper source and on the appropriate paper size by the printer
+        // Otherwise, the printer will default to the source designated by DefaultPageSettingsPaperSource 
+        msConsole.writeLine($"{container.PaperSizes.Count} paper sizes:");
+        for (PaperSize paperSize : (Iterable<PaperSize>) container.getPaperSizes())
+        {
+            msConsole.writeLine($"\t{paperSize}, RawKind: {paperSize.RawKind}");
+        }
+        //ExEnd
+    }
+
 
     @Test
     public void setTrueTypeFontsFolder() throws Exception

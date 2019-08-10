@@ -48,7 +48,6 @@ import com.aspose.ms.System.IO.FileMode;
 import java.util.ArrayList;
 import com.aspose.words.Forms2OleControlCollection;
 import com.aspose.words.ImageSaveOptions;
-import com.aspose.words.ShapeRenderer;
 import com.aspose.words.OfficeMath;
 import com.aspose.words.OfficeMathDisplayType;
 import com.aspose.words.OfficeMathJustification;
@@ -78,7 +77,13 @@ import com.aspose.words.TextBoxWrapMode;
 import com.aspose.words.TextBoxAnchor;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.TextPathAlignment;
+import com.aspose.words.ShapeRenderer;
+import com.aspose.words.OfficeMathRenderer;
+import com.aspose.ms.System.Drawing.msSizeF;
+import com.aspose.ms.System.Drawing.Rectangle;
+import java.awt.Graphics2D;
 import org.testng.annotations.DataProvider;
+
 
 
 /// <summary>
@@ -686,43 +691,6 @@ public class ExShape extends ApiExampleBase
 
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         Assert.That(shape.getOleFormat().getSuggestedFileName(), Is.Empty);
-    }
-
-    @Test
-    public void getOpaqueBoundsInPixels() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Shape.TextBox.doc");
-
-        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-
-        ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
-
-        MemoryStream stream = new MemoryStream();
-        ShapeRenderer renderer = shape.getShapeRenderer();
-        renderer.save(stream, imageOptions);
-
-        shape.remove();
-
-        // Check that the opaque bounds and bounds have default values
-        msAssert.areEqual(250,
-            renderer.getOpaqueBoundsInPixelsInternal(imageOptions.getScale(), imageOptions.getVerticalResolution()).getWidth());
-        msAssert.areEqual(52,
-            renderer.getOpaqueBoundsInPixelsInternal(imageOptions.getScale(), imageOptions.getHorizontalResolution()).getHeight());
-
-        msAssert.areEqual(250, renderer.getBoundsInPixelsInternal(imageOptions.getScale(), imageOptions.getVerticalResolution()).getWidth());
-        msAssert.areEqual(52,
-            renderer.getBoundsInPixelsInternal(imageOptions.getScale(), imageOptions.getHorizontalResolution()).getHeight());
-
-        msAssert.areEqual(250,
-            renderer.getOpaqueBoundsInPixelsInternal(imageOptions.getScale(), imageOptions.getHorizontalResolution()).getWidth());
-        msAssert.areEqual(52,
-            renderer.getOpaqueBoundsInPixelsInternal(imageOptions.getScale(), imageOptions.getHorizontalResolution()).getHeight());
-
-        msAssert.areEqual(250, renderer.getBoundsInPixelsInternal(imageOptions.getScale(), imageOptions.getVerticalResolution()).getWidth());
-        msAssert.areEqual(52, renderer.getBoundsInPixelsInternal(imageOptions.getScale(), imageOptions.getVerticalResolution()).getHeight());
-
-        msAssert.areEqual((float) 187.850006, renderer.getOpaqueBoundsInPointsInternal().getWidth());
-        msAssert.areEqual((float) 39.25, renderer.getOpaqueBoundsInPointsInternal().getHeight());
     }
 
     @Test
@@ -1752,6 +1720,7 @@ public class ExShape extends ApiExampleBase
     {
         //ExStart
         //ExFor:ShapeBase.GetShapeRenderer
+        //ExFor:NodeRendererBase.Save(Stream, ImageSaveOptions)
         //ExSummary:Shows how to export shapes to files in the local file system using a shape renderer.
         // Open a document that contains shapes and get its shape collection
         Document doc = new Document(getMyDir() + "Shape.VarietyOfShapes.docx");
@@ -1768,4 +1737,106 @@ public class ExShape extends ApiExampleBase
         }
         //ExEnd
     }
+
+    @Test
+    public void officeMathRenderer() throws Exception
+    {
+        //ExStart
+        //ExFor:NodeRendererBase
+        //ExFor:NodeRendererBase.BoundsInPoints
+        //ExFor:NodeRendererBase.GetBoundsInPixels(Single, Single)
+        //ExFor:NodeRendererBase.GetBoundsInPixels(Single, Single, Single)
+        //ExFor:NodeRendererBase.GetOpaqueBoundsInPixels(Single, Single)
+        //ExFor:NodeRendererBase.GetOpaqueBoundsInPixels(Single, Single, Single)
+        //ExFor:NodeRendererBase.GetSizeInPixels(Single, Single)
+        //ExFor:NodeRendererBase.GetSizeInPixels(Single, Single, Single)
+        //ExFor:NodeRendererBase.OpaqueBoundsInPoints
+        //ExFor:NodeRendererBase.SizeInPoints
+        //ExFor:OfficeMathRenderer
+        //ExFor:OfficeMathRenderer.#ctor(Math.OfficeMath)
+        //ExSummary:Shows how to measure and scale shapes.
+        // Open a document that contains an OfficeMath object
+        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+
+        // Create a renderer for the OfficeMath object 
+        OfficeMath officeMath = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, 0, true);
+        OfficeMathRenderer renderer = new OfficeMathRenderer(officeMath);
+
+        // We can measure the size of the image that the OfficeMath object will create when we render it
+        Assert.assertEquals(117.0f, msSizeF.getWidth(renderer.getSizeInPointsInternal()), 0.1f);
+        Assert.assertEquals(12.9f, msSizeF.getHeight(renderer.getSizeInPointsInternal()), 0.1f);
+
+        Assert.assertEquals(117.0f, renderer.getBoundsInPointsInternal().getWidth(), 0.1f);
+        Assert.assertEquals(12.9f, renderer.getBoundsInPointsInternal().getHeight(), 0.1f);
+
+        // Shapes with transparent parts may return different values here
+        Assert.assertEquals(117.0f, renderer.getOpaqueBoundsInPointsInternal().getWidth(), 0.1f);
+        Assert.assertEquals(14.7f, renderer.getOpaqueBoundsInPointsInternal().getHeight(), 0.1f);
+
+        // Get the shape size in pixels, with linear scaling to a specific DPI
+        Rectangle bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f);
+        msAssert.areEqual(156, bounds.getWidth());
+        msAssert.areEqual(18, bounds.getHeight());
+
+        // Get the shape size in pixels, but with a different DPI for the horizontal and vertical dimensions
+        bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f, 150.0f);
+        msAssert.areEqual(156, bounds.getWidth());
+        msAssert.areEqual(27, bounds.getHeight());
+
+        // The opaque bounds may vary here also
+        bounds = renderer.getOpaqueBoundsInPixelsInternal(1.0f, 96.0f);
+        msAssert.areEqual(156, bounds.getWidth());
+        msAssert.areEqual(20, bounds.getHeight());
+
+        bounds = renderer.getOpaqueBoundsInPixelsInternal(1.0f, 96.0f, 150.0f);
+        msAssert.areEqual(156, bounds.getWidth());
+        msAssert.areEqual(31, bounds.getHeight());
+        //ExEnd
+    }
+
+    //ExStart
+    //ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
+    //ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
+    //ExFor:ShapeRenderer
+    //ExFor:ShapeRenderer.#ctor(ShapeBase)
+    //ExSummary:Shows how to render a shape with a Graphics object.
+    @Test //ExSkip
+    public void displayShapeForm()
+    {
+        // Create a new ShapeForm instance and show it as a dialog box
+        ShapeForm shapeForm = new ShapeForm();
+        shapeForm.ShowDialog();
+    }
+
+    /// <summary>
+    /// Windows Form that renders and displays shapes from a document.
+    /// </summary>
+    private static class ShapeForm extends Form
+    {
+        protected /*override*/ void onPaint(PaintEventArgs e) throws Exception
+        {
+            // Set the size of the Form canvas
+            this.Size = msSize.ctor(1000, 800);
+
+            // Open a document and get its first shape, which is a chart
+            Document doc = new Document(getMyDir() + "Shape.VarietyOfShapes.docx");
+            Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+
+            // Create a ShapeRenderer instance and a Graphics object
+            // The ShapeRenderer will render the shape that is passed during construction over the Graphics object
+            // Whatever is rendered on this Graphics object will be displayed on the screen inside this form
+            ShapeRenderer renderer = new ShapeRenderer(shape);
+            Graphics2D formGraphics = CreateGraphics();
+
+            // Call this method on the renderer to render the chart in the passed Graphics object,
+            // on a specified x/y coordinate and scale
+            renderer.renderToScaleInternal(formGraphics, 0f, 0f, 1.5f);
+
+            // Get another shape from the document, and render it to a specific size instead of a linear scale
+            GroupShape groupShape = (GroupShape)doc.getChild(NodeType.GROUP_SHAPE, 0, true);
+            renderer = new ShapeRenderer(groupShape);
+            renderer.renderToSize(formGraphics, 500f, 400f, 100f, 200f);
+        }
+    }
+    //ExEnd
 }

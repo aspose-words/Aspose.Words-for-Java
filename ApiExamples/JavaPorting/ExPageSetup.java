@@ -24,6 +24,7 @@ import com.aspose.words.ConvertUtil;
 import com.aspose.words.TextColumnCollection;
 import com.aspose.words.TextColumn;
 import com.aspose.words.LineNumberRestartMode;
+import org.testng.Assert;
 import com.aspose.ms.System.msString;
 import com.aspose.words.PageBorderDistanceFrom;
 import com.aspose.words.PageBorderAppliesTo;
@@ -40,7 +41,6 @@ import com.aspose.words.EndnotePosition;
 import com.aspose.words.MultiplePagesType;
 import com.aspose.words.Body;
 import com.aspose.ms.NUnit.Framework.msAssert;
-import org.testng.Assert;
 import com.aspose.words.Paragraph;
 import com.aspose.words.FootnoteType;
 
@@ -300,6 +300,7 @@ public class ExPageSetup extends ApiExampleBase
         //ExFor:PageSetup.LineNumberDistanceFromText
         //ExFor:PageSetup.LineNumberCountBy
         //ExFor:PageSetup.LineNumberRestartMode
+        //ExFor:ParagraphFormat.SuppressLineNumbers
         //ExFor:LineNumberRestartMode
         //ExSummary:Turns on Microsoft Word line numbering for a section.
         DocumentBuilder builder = new DocumentBuilder();
@@ -310,10 +311,13 @@ public class ExPageSetup extends ApiExampleBase
         ps.setLineNumberRestartMode(LineNumberRestartMode.RESTART_PAGE);
         ps.setLineNumberDistanceFromText(50.0d);
 
+        // The line counter will skip any paragraph with this flag set to true
+        Assert.assertFalse(builder.getParagraphFormat().getSuppressLineNumbers());
+
         for (int i = 1; i <= 20; i++)
             builder.writeln(msString.format("Line {0}.", i));
 
-        builder.getDocument().save(getArtifactsDir() + "PageSetup.LineNumbers.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.LineNumbers.docx");
         //ExEnd
     }
 
