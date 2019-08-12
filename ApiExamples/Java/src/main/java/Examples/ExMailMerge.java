@@ -72,7 +72,7 @@ public class ExMailMerge extends ApiExampleBase {
     public void executeDataReader() throws Exception {
         //ExStart
         //ExFor:MailMerge.Execute(IDataReader)
-        //ExSummary:Executes mail merge from an ADO.NET DataReader.
+        //ExSummary:Shows how to run a mail merge using data from a data reader.
         // Open the template document
         Document doc = new Document(getMyDir() + "MailingLabelsDemo.doc");
 
@@ -87,34 +87,6 @@ public class ExMailMerge extends ApiExampleBase {
         doc.save(getArtifactsDir() + "MailMerge.ExecuteDataReader.doc");
         //ExEnd
     }
-
-    @Test
-    public void executeDataView() throws Exception {
-        //ExStart
-        //ExFor:MailMerge.Execute(DataView)
-        //ExSummary:Executes mail merge from an ADO.NET DataView.
-        // Open the document that we want to fill with data.
-        Document doc = new Document(getMyDir() + "MailMerge.ExecuteDataView.doc");
-
-        // Get the data from the database.
-        DataTable orderTable = getOrders();
-
-        // Create a customized view of the data.
-        DataView orderView = new DataView(orderTable);
-        //orderView.setRowFilter("OrderId = 10444"); // not work in Java
-
-        // Populate the document with the data.
-        doc.getMailMerge().execute(orderView);
-
-        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataView.doc");
-    }
-
-    private DataTable getOrders() throws Exception {
-        // Create the command.
-        java.sql.ResultSet resultSet = executeDataTable("SELECT * FROM AsposeWordOrders");
-        return new DataTable(resultSet, "OrderDetails");
-    }
-    //ExEnd
 
     @Test
     public void executeWithRegionsDataSet() throws Exception {
