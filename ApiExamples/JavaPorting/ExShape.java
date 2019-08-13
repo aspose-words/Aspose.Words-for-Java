@@ -84,8 +84,6 @@ import com.aspose.ms.System.Drawing.Rectangle;
 import java.awt.Graphics2D;
 import org.testng.annotations.DataProvider;
 
-
-
 /// <summary>
 /// Examples using shapes in documents.
 /// </summary>
