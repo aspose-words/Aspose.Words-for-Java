@@ -130,9 +130,6 @@ public class ExBorder extends ApiExampleBase
             Assert.assertFalse(firstParaBorders.get(i).isVisible());
         }
 
-        // We see that the elements in both collections are equal, while the collections themselves are not.
-        Assert.assertFalse(firstParaBorders.equals(secondParaBorders));
-
         // Each border in the second paragraph collection becomes no longer the same as its counterpart from the first paragraph collection
         // There are always 6 elements in a border collection, and changing all of them will make the second collection completely different from the first
         secondParaBorders.getByBorderType(BorderType.LEFT).setLineStyle(LineStyle.DOT_DASH);

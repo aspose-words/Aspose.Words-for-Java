@@ -20,7 +20,6 @@ public class ExInline extends ApiExampleBase {
     @Test
     public void inlineRevisions() throws Exception {
         //ExStart
-        //ExFor:Paragraph.Runs
         //ExFor:Inline
         //ExFor:Inline.IsDeleteRevision
         //ExFor:Inline.IsFormatRevision
@@ -28,6 +27,11 @@ public class ExInline extends ApiExampleBase {
         //ExFor:Inline.IsMoveFromRevision
         //ExFor:Inline.IsMoveToRevision
         //ExFor:Inline.ParentParagraph
+        //ExFor:Paragraph.Runs
+        //ExFor:Revision.ParentNode
+        //ExFor:RunCollection
+        //ExFor:RunCollection.Item(Int32)
+        //ExFor:RunCollection.ToArray
         //ExSummary:Shows how to process revision-related properties of Inline nodes.
         Document doc = new Document(getMyDir() + "Inline.Revisions.docx");
 

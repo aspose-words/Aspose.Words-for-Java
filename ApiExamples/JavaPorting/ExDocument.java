@@ -91,7 +91,6 @@ import com.aspose.words.CleanupOptions;
 import com.aspose.words.ShowInBalloons;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.ThumbnailGeneratingOptions;
-import com.aspose.words.Paragraph;
 import com.aspose.words.TxtLoadOptions;
 import com.aspose.words.PlainTextDocument;
 import com.aspose.words.BuiltInDocumentProperties;
@@ -104,6 +103,9 @@ import com.aspose.words.SaveOptions;
 import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.StyleType;
 import com.aspose.words.ListTemplate;
+import com.aspose.words.RevisionType;
+import com.aspose.words.RevisionCollection;
+import com.aspose.words.RevisionGroup;
 import com.aspose.words.CompatibilityOptions;
 import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.HeaderFooter;
@@ -119,7 +121,6 @@ import com.aspose.words.OdsoDataSourceType;
 import com.aspose.words.CustomPart;
 import com.aspose.words.TextFormFieldType;
 import com.aspose.words.EditingLanguage;
-import com.aspose.words.RevisionGroup;
 import com.aspose.words.RevisionOptions;
 import com.aspose.words.RevisionTextEffect;
 import com.aspose.words.LayoutCollector;
@@ -1779,6 +1780,7 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.Compare(Document, String, DateTime)
+        //ExFor:RevisionCollection.AcceptAll
         //ExSummary:Shows how to apply the compare method to two documents and then use the results. 
         Document doc1 = new Document(getMyDir() + "Document.Compare.1.doc");
         Document doc2 = new Document(getMyDir() + "Document.Compare.2.doc");
@@ -2002,6 +2004,9 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.UpdateThumbnail()
         //ExFor:Document.UpdateThumbnail(ThumbnailGeneratingOptions)
+        //ExFor:ThumbnailGeneratingOptions
+        //ExFor:ThumbnailGeneratingOptions.GenerateFromFirstPage
+        //ExFor:ThumbnailGeneratingOptions.ThumbnailSize
         //ExSummary:Shows how to update a document's thumbnail.
         Document doc = new Document();
 
@@ -2028,21 +2033,25 @@ public class ExDocument extends ApiExampleBase
         //ExFor:HyphenationOptions.ConsecutiveHyphenLimit
         //ExFor:HyphenationOptions.HyphenationZone
         //ExFor:HyphenationOptions.HyphenateCaps
+        //ExFor:ParagraphFormat.SuppressAutoHyphens
         //ExSummary:Shows how to configure document hyphenation options.
         Document doc = new Document();
-        // Create new Run with text that we want to move to the next line using the hyphen
-        Run run = new Run(doc);
-        {
-            run.setText("poqwjopiqewhpefobiewfbiowefob ewpj weiweohiewobew ipo efoiewfihpewfpojpief pijewfoihewfihoewfphiewfpioihewfoihweoihewfpj");
-        }
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Paragraph para = doc.getFirstSection().getBody().getParagraphs().get(0);
-        para.appendChild(run);
+        // Set this to insert a page break before this paragraph
+        builder.getFont().setSize(24.0);
+        builder.getParagraphFormat().setSuppressAutoHyphens(false);
+
+        builder.writeln("Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
 
         doc.getHyphenationOptions().setAutoHyphenation(true);
         doc.getHyphenationOptions().setConsecutiveHyphenLimit(2);
         doc.getHyphenationOptions().setHyphenationZone(720); // 0.5 inch
         doc.getHyphenationOptions().setHyphenateCaps(true);
+
+        // Each paragraph has this flag that can be set to suppress hyphenation
+        Assert.assertFalse(builder.getParagraphFormat().getSuppressAutoHyphens());
 
         doc.save(getArtifactsDir() + "HyphenationOptions.docx");
         //ExEnd
@@ -2320,6 +2329,16 @@ public class ExDocument extends ApiExampleBase
     public void revisions() throws Exception
     {
         //ExStart
+        //ExFor:Revision
+        //ExFor:Revision.Accept
+        //ExFor:Revision.Author
+        //ExFor:Revision.DateTime
+        //ExFor:Revision.Group
+        //ExFor:Revision.Reject
+        //ExFor:Revision.RevisionType
+        //ExFor:RevisionCollection
+        //ExFor:RevisionCollection.Item(Int32)
+        //ExFor:RevisionCollection.Count
         //ExFor:Document.HasRevisions
         //ExFor:Document.TrackRevisions
         //ExFor:Document.Revisions
@@ -2327,45 +2346,124 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // A blank document comes with no revisions
+        // Normal editing of the document does not count as a revision
+        builder.write("This does not count as a revision. ");
         Assert.assertFalse(doc.hasRevisions());
 
-        builder.writeln("This does not count as a revision.");
-
-        // Just adding text does not count as a revision
-        Assert.assertFalse(doc.hasRevisions());
-
-        // For our edits to count as revisions, we need to declare an author and start tracking them
+        // In order for our edits to count as revisions, we need to declare an author and start tracking them
         doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
+        builder.write("This is revision #1. ");
 
-        builder.writeln("This is a revision.");
-
-        // The above text is now tracked as a revision and will show up accordingly in our output file
-        Assert.assertTrue(doc.hasRevisions());
-        msAssert.areEqual("John Doe", doc.getRevisions().get(0).getAuthor());
-
-        // Document.TrackRevisions corresponds to Microsoft Word tracking changes, not the ones we programmatically make here 
+        // This flag corresponds to the "Track Changes" option being turned on in Microsoft Word, to track the editing manually
+        // done there and not the programmatic changes we are about to do here
         Assert.assertFalse(doc.getTrackRevisions());
+
+        // As well as nodes in the document, revisions get referenced in this collection
+        Assert.assertTrue(doc.hasRevisions());
+        msAssert.areEqual(1, doc.getRevisions().getCount());
+
+        Revision revision = doc.getRevisions().get(0);
+        msAssert.areEqual("John Doe", revision.getAuthor());
+        msAssert.areEqual("This is revision #1. ", revision.getParentNode().getText());
+        msAssert.areEqual(RevisionType.INSERTION, revision.getRevisionType());
+        msAssert.areEqual(revision.getDateTimeInternal().getDate(), DateTime.getNow().getDate());
+        msAssert.areEqual(doc.getRevisions().getGroups().get(0), revision.getGroup());
+
+        // Deleting content also counts as a revision
+        // The most recent revisions are put at the start of the collection
+        doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).remove();
+        msAssert.areEqual(RevisionType.DELETION, doc.getRevisions().get(0).getRevisionType());
+        msAssert.areEqual(2, doc.getRevisions().getCount());
+
+        // Insert revisions are treated as document text by the GetText() method before they are accepted,
+        // since they are still nodes with text and are in the body
+        msAssert.areEqual("This does not count as a revision. This is revision #1.", msString.trim(doc.getText()));
+
+        // Accepting the deletion revision will assimilate it into the paragraph text and remove it from the collection
+        doc.getRevisions().get(0).accept();
+        msAssert.areEqual(1, doc.getRevisions().getCount());
+
+        // Once the delete revision is accepted, the nodes that it concerns are removed and their text will not show up here
+        msAssert.areEqual("This is revision #1.", msString.trim(doc.getText()));
+
+        // The second insertion revision is now at index 0, which we can reject to ignore and discard it
+        doc.getRevisions().get(0).reject();
+        msAssert.areEqual(0, doc.getRevisions().getCount());
+        msAssert.areEqual("", msString.trim(doc.getText()));
 
         // This takes us back to not counting changes as revisions
         doc.stopTrackRevisions();
 
-        builder.writeln("This does not count as a revision.");
+        builder.writeln("This also does not count as a revision.");
+        msAssert.areEqual(0, doc.getRevisions().getCount());
 
-        doc.save(getArtifactsDir() + "Revisions.docx");
+        doc.save(getArtifactsDir() + "Document.Revisions.docx");
+        //ExEnd
+    }
 
-        // We can get rid of all the changes we made that counted as revisions
-        doc.getRevisions().rejectAll();
-        Assert.assertFalse(doc.hasRevisions());
+    @Test
+    public void revisionCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:Revision.ParentStyle
+        //ExFor:RevisionCollection.GetEnumerator
+        //ExFor:RevisionCollection.Groups
+        //ExFor:RevisionCollection.RejectAll
+        //ExFor:RevisionGroupCollection.GetEnumerator
+        //ExSummary:Shows how to look through a document's revisions.
+        // Open a document that contains revisions and get its revision collection
+        Document doc = new Document(getMyDir() + "Document.Revisions.docx");
+        RevisionCollection revisions = doc.getRevisions();
+        
+        // This collection itself has a collection of revision groups, which are merged sequences of adjacent revisions
+        msConsole.writeLine($"{revisions.Groups.Count} revision groups:");
 
-        // The second line that our builder wrote will not appear at all in the output
-        doc.save(getArtifactsDir() + "RevisionsRejected.docx");
+        // We can iterate over the collection of groups and access the text that the revision concerns
+        Iterator<RevisionGroup> e = revisions.getGroups().iterator();
+        try /*JAVA: was using*/
+        {
+            while (e.hasNext())
+            {
+                msConsole.writeLine($"\tGroup type \"{e.Current.RevisionType}\", " +
+                                  $"author: {e.Current.Author}, contents: [{e.Current.Text.Trim()}]");
+            }
+        }
+        finally { if (e != null) e.close(); }
 
-        // Alternatively, we can track revisions from Microsoft Word like this
-        // This is the same as turning on "Track Changes" in Word
-        doc.setTrackRevisions(true);
+        // The collection of revisions is considerably larger than the condensed form we printed above,
+        // depending on how many Runs the text has been segmented into during editing in Microsoft Word,
+        // since each Run affected by a revision gets its own Revision object
+        msConsole.writeLine($"\n{revisions.Count} revisions:");
 
-        doc.save(getArtifactsDir() + "RevisionsTrackedFromMSWord.docx");
+        Iterator<Revision> e1 = revisions.iterator();
+        try /*JAVA: was using*/
+        {
+            while (e1.hasNext())
+            {
+                // A StyleDefinitionChange strictly affects styles and not document nodes, so in this case the ParentStyle
+                // attribute will always be used, while the ParentNode will always be null
+                // Since all other changes affect nodes, ParentNode will conversely be in use and ParentStyle will be null
+                if (e1.next().getRevisionType() == RevisionType.STYLE_DEFINITION_CHANGE)
+                {
+                    msConsole.writeLine($"\tRevision type \"{e.Current.RevisionType}\", " +
+                                      $"author: {e.Current.Author}, style: [{e.Current.ParentStyle.Name}]");
+                }
+                else
+                {
+                    msConsole.writeLine($"\tRevision type \"{e.Current.RevisionType}\", " +
+                                      $"author: {e.Current.Author}, contents: [{e.Current.ParentNode.GetText().Trim()}]");
+                }
+            }
+        }
+        finally { if (e1 != null) e1.close(); }
+
+        // While the collection of revision groups provides a clearer overview of all revisions that took place in the document,
+        // the changes must be accepted/rejected by the revisions themselves, the RevisionCollection, or the document
+        // In this case we will reject all revisions via the collection, reverting the document to its original form, which we will then save
+        revisions.rejectAll();
+        msAssert.areEqual(0, revisions.getCount());
+
+        doc.save(getArtifactsDir() + "Document.RevisionCollection.docx");
         //ExEnd
     }
 

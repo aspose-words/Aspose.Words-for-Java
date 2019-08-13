@@ -127,6 +127,9 @@ public class ExLists extends ApiExampleBase {
     public void nestedLists() throws Exception {
         //ExStart
         //ExFor:ListFormat.List
+        //ExFor:ParagraphFormat.ClearFormatting
+        //ExFor:ParagraphFormat.DropCapPosition
+        //ExFor:ParagraphFormat.IsListItem
         //ExFor:Paragraph.IsListItem
         //ExSummary:Shows how to start a numbered list, add a bulleted list inside it, then return to the numbered list.
         Document doc = new Document();
@@ -146,6 +149,7 @@ public class ExLists extends ApiExampleBase {
 
         // Every paragraph that comprises a list will have this flag
         Assert.assertTrue(builder.getCurrentParagraph().isListItem());
+        Assert.assertTrue(builder.getParagraphFormat().isListItem());
 
         // Create a bulleted list.
         List bulletedList = doc.getLists().add(ListTemplate.BULLET_DEFAULT);
@@ -167,7 +171,7 @@ public class ExLists extends ApiExampleBase {
 
         builder.getParagraphFormat().clearFormatting();
 
-        builder.getDocument().save(getArtifactsDir() + "Lists.NestedLists.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.NestedLists.docx");
         //ExEnd
     }
 

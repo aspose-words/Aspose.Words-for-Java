@@ -26,12 +26,14 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public void createMissingOutlineLevels() throws Exception {
         //ExStart
         //ExFor:OutlineOptions.CreateMissingOutlineLevels
+        //ExFor:ParagraphFormat.IsHeading
         //ExSummary:Shows how to create missing outline levels saving the document in PDF
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Creating TOC entries
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);
+        Assert.assertTrue(builder.getParagraphFormat().isHeading());
 
         builder.writeln("Heading 1");
 

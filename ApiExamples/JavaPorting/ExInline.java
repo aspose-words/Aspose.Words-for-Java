@@ -25,7 +25,6 @@ class ExInline !Test class should be public in Java to run, please fix .Net sour
     public void inlineRevisions() throws Exception
     {
         //ExStart
-        //ExFor:Paragraph.Runs
         //ExFor:Inline
         //ExFor:Inline.IsDeleteRevision
         //ExFor:Inline.IsFormatRevision
@@ -33,6 +32,11 @@ class ExInline !Test class should be public in Java to run, please fix .Net sour
         //ExFor:Inline.IsMoveFromRevision
         //ExFor:Inline.IsMoveToRevision
         //ExFor:Inline.ParentParagraph
+        //ExFor:Paragraph.Runs
+        //ExFor:Revision.ParentNode
+        //ExFor:RunCollection
+        //ExFor:RunCollection.Item(Int32)
+        //ExFor:RunCollection.ToArray
         //ExSummary:Shows how to process revision-related properties of Inline nodes.
         Document doc = new Document(getMyDir() + "Inline.Revisions.docx");
 
@@ -46,7 +50,7 @@ class ExInline !Test class should be public in Java to run, please fix .Net sour
         Paragraph firstParagraph = run.getParentParagraph();
         RunCollection runs = firstParagraph.getRuns();
 
-        msAssert.areEqual(6, runs.getCount());
+        msAssert.areEqual(6, runs.toArray().length);
 
         // The text in the run at index #2 was typed after revisions were tracked, so it will count as an insert revision
         // The font was changed, so it will also be a format revision
