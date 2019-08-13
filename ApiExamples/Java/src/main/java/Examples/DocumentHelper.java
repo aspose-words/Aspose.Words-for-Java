@@ -12,6 +12,8 @@ import com.aspose.words.*;
 import org.testng.Assert;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -330,5 +332,17 @@ public final class DocumentHelper {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day);
         return cal.getTime();
+    }
+
+    /**
+     * Create date without time for tests.
+     *
+     * @return specific date without time
+     */
+    static Date getDateWithoutTimeUsingFormat(Date date)
+            throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat(
+                "dd/MM/yyyy");
+        return formatter.parse(formatter.format(date));
     }
 }

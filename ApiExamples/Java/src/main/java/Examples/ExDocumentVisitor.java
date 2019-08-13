@@ -546,6 +546,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
     //ExFor:HeaderFooter.Accept(Aspose.Words.DocumentVisitor)
     //ExFor:HeaderFooterCollection.ToArray
+    //ExFor:Run.Accept(DocumentVisitor)
+    //ExFor:Run.GetText
     //ExSummary:Traverse a document with a visitor that prints all header/footer nodes that it encounters.
     @Test //ExSkip
     public void headerFooterToText() throws Exception {

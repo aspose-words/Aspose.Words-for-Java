@@ -258,6 +258,7 @@ public class ExPageSetup extends ApiExampleBase {
         //ExFor:PageSetup.LineNumberDistanceFromText
         //ExFor:PageSetup.LineNumberCountBy
         //ExFor:PageSetup.LineNumberRestartMode
+        //ExFor:ParagraphFormat.SuppressLineNumbers
         //ExFor:LineNumberRestartMode
         //ExSummary:Turns on Microsoft Word line numbering for a section.
         DocumentBuilder builder = new DocumentBuilder();
@@ -268,11 +269,14 @@ public class ExPageSetup extends ApiExampleBase {
         ps.setLineNumberRestartMode(LineNumberRestartMode.RESTART_PAGE);
         ps.setLineNumberDistanceFromText(50.0d);
 
+        // The line counter will skip any paragraph with this flag set to true
+        Assert.assertFalse(builder.getParagraphFormat().getSuppressLineNumbers());
+
         for (int i = 1; i <= 20; i++) {
             builder.writeln(java.text.MessageFormat.format("Line {0}.", i));
         }
 
-        builder.getDocument().save(getArtifactsDir() + "PageSetup.LineNumbers.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.LineNumbers.docx");
         //ExEnd
     }
 

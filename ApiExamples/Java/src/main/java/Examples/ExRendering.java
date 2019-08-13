@@ -13,10 +13,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
 import javax.print.attribute.AttributeSet;
 import javax.print.attribute.HashAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Media;
 import javax.print.attribute.standard.PageRanges;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -676,23 +679,48 @@ public class ExRendering extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test
-    public void writePageInfo() throws Exception {
+    @Test(enabled = false, description = "Run only when the printer driver is installed")
+    public void printPageInfo() throws Exception {
         //ExStart
         //ExFor:PageInfo
+        //ExFor:PageInfo.GetSizeInPixels(Single, Single, Single)
+        //ExFor:PageInfo.HeightInPoints
+        //ExFor:PageInfo.Landscape
         //ExFor:PageInfo.PaperSize
         //ExFor:PageInfo.PaperTray
-        //ExFor:PageInfo.Landscape
+        //ExFor:PageInfo.SizeInPoints
         //ExFor:PageInfo.WidthInPoints
-        //ExFor:PageInfo.HeightInPoints
-        //ExSummary:Retrieves page size and orientation information for every page in a Word document.
+        //ExSummary:Shows how to print page size and orientation information for every page in a Word document.
         Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // The first section has 2 pages
+        // We will assign a different printer paper tray to each one, whose number will match a kind of paper source
+        // These sources and their Kinds will vary depending on the installed printer driver
+        // Choose the default printer to be used for printing this document.
+        PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
+        Media[] trays = (Media[]) printService.getSupportedAttributeValues(Media.class, null, null);
+
+        doc.getFirstSection().getPageSetup().setFirstPageTray(trays[0].getValue());
+        doc.getFirstSection().getPageSetup().setOtherPagesTray(trays[1].getValue());
 
         System.out.println(MessageFormat.format("Document \"{0}\" contains {1} pages.", doc.getOriginalFileName(), doc.getPageCount()));
 
+        float scale = 1.0f;
+        float dpi = 96f;
+
         for (int i = 0; i < doc.getPageCount(); i++) {
+            // Each page has a PageInfo object, whose index is the respective page's number
             PageInfo pageInfo = doc.getPageInfo(i);
-            System.out.println(MessageFormat.format("Page {0}. PaperSize:{1} ({2}x{3}pt), Orientation:{4}, PaperTray:{5}", i + 1, pageInfo.getPaperSize(), pageInfo.getWidthInPoints(), pageInfo.getHeightInPoints(), pageInfo.getLandscape() ? "Landscape" : "Portrait", pageInfo.getPaperTray()));
+
+            // Print the page's orientation and dimensions
+            System.out.println(MessageFormat.format("Page {0}:", i++));
+            System.out.println(MessageFormat.format("\tOrientation:\t{0}", (pageInfo.getLandscape() ? "Landscape" : "Portrait")));
+            System.out.println(MessageFormat.format("\tPaper size:\t\t{0} ({1:F0}x{2:F0}pt)", pageInfo.getPaperSize(), pageInfo.getWidthInPoints(), pageInfo.getHeightInPoints()));
+            System.out.println(MessageFormat.format("\tSize in points:\t{0}", pageInfo.getSizeInPoints()));
+            System.out.println(MessageFormat.format("\tSize in pixels:\t{0} at {1}% scale, {2} dpi", pageInfo.getSizeInPixels(1.0f, 96), scale * 100, dpi));
+
+            // Paper source tray information
+            System.out.println(MessageFormat.format("\tTray:\t{0}", pageInfo.getPaperTray()));
         }
         //ExEnd
     }

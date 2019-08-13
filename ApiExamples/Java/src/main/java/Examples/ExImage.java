@@ -315,33 +315,6 @@ public class ExImage extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Image.DeleteAllImagesPreOrder.doc");
     }
 
-    //ExStart
-    //ExFor:Shape
-    //ExFor:Shape.ImageData
-    //ExFor:Shape.HasImage
-    //ExFor:ImageData
-    //ExFor:FileFormatUtil.ImageTypeToExtension(Aspose.Words.Drawing.ImageType)
-    //ExFor:ImageData.ImageType
-    //ExFor:ImageData.Save(String)
-    //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
-    //ExId:ExtractImagesToFiles
-    //ExSummary:Shows how to extract images from a document and save them as files.
-    @Test //ExSkip
-    public void extractImagesToFiles() throws Exception {
-        Document doc = new Document(getMyDir() + "Image.SampleImages.doc");
-
-        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
-        int imageIndex = 0;
-        for (Shape shape : (Iterable<Shape>) shapes) {
-            if (shape.hasImage()) {
-                String imageFileName = MessageFormat.format(getArtifactsDir() + "Image.ExportImages.{0} Out{1}", imageIndex, FileFormatUtil.imageTypeToExtension(shape.getImageData().getImageType()));
-                shape.getImageData().save(imageFileName);
-                imageIndex++;
-            }
-        }
-    }
-    //ExEnd
-
     @Test
     public void scaleImage() throws Exception {
         //ExStart

@@ -15,6 +15,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -1622,6 +1623,7 @@ public class ExShape extends ApiExampleBase {
     public void renderAllShapes() throws Exception {
         //ExStart
         //ExFor:ShapeBase.GetShapeRenderer
+        //ExFor:NodeRendererBase.Save(Stream, ImageSaveOptions)
         //ExSummary:Shows how to export shapes to files in the local file system using a shape renderer.
         // Open a document that contains shapes and get its shape collection
         Document doc = new Document(getMyDir() + "Shape.VarietyOfShapes.docx");
@@ -1634,6 +1636,105 @@ public class ExShape extends ApiExampleBase {
             ShapeRenderer renderer = shape.getShapeRenderer();
             ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
             renderer.save(getArtifactsDir() + MessageFormat.format("Shape.ShapeRenderer {0}.png", shape.getName()), options);
+        }
+        //ExEnd
+    }
+
+    @Test
+    public void officeMathRenderer() throws Exception {
+        //ExStart
+        //ExFor:NodeRendererBase
+        //ExFor:NodeRendererBase.BoundsInPoints
+        //ExFor:NodeRendererBase.GetBoundsInPixels(Single, Single)
+        //ExFor:NodeRendererBase.GetBoundsInPixels(Single, Single, Single)
+        //ExFor:NodeRendererBase.GetOpaqueBoundsInPixels(Single, Single)
+        //ExFor:NodeRendererBase.GetOpaqueBoundsInPixels(Single, Single, Single)
+        //ExFor:NodeRendererBase.GetSizeInPixels(Single, Single)
+        //ExFor:NodeRendererBase.GetSizeInPixels(Single, Single, Single)
+        //ExFor:NodeRendererBase.OpaqueBoundsInPoints
+        //ExFor:NodeRendererBase.SizeInPoints
+        //ExFor:OfficeMathRenderer
+        //ExFor:OfficeMathRenderer.#ctor(Math.OfficeMath)
+        //ExSummary:Shows how to measure and scale shapes.
+        // Open a document that contains an OfficeMath object
+        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+
+        // Create a renderer for the OfficeMath object
+        OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
+        OfficeMathRenderer renderer = new OfficeMathRenderer(officeMath);
+
+        // We can measure the size of the image that the OfficeMath object will create when we render it
+        Assert.assertEquals(renderer.getSizeInPoints().getX(), 117.0, 0.1);
+        Assert.assertEquals(renderer.getSizeInPoints().getY(), 12.9, 0.1);
+
+        Assert.assertEquals(renderer.getBoundsInPoints().getWidth(), 117.0, 0.1);
+        Assert.assertEquals(renderer.getBoundsInPoints().getHeight(), 12.9, 0.1);
+
+        // Shapes with transparent parts may return different values here
+        Assert.assertEquals(renderer.getOpaqueBoundsInPoints().getWidth(), 117.0, 0.1);
+        Assert.assertEquals(renderer.getOpaqueBoundsInPoints().getHeight(), 14.7, 0.1);
+
+        // Get the shape size in pixels, with linear scaling to a specific DPI
+        Rectangle bounds = renderer.getBoundsInPixels(1.0f, 96.0f);
+        Assert.assertEquals(bounds.getWidth(), 156.0);
+        Assert.assertEquals(bounds.getHeight(), 18.0);
+
+        // Get the shape size in pixels, but with a different DPI for the horizontal and vertical dimensions
+        bounds = renderer.getBoundsInPixels(1.0f, 96.0f, 150.0f);
+        Assert.assertEquals(bounds.getWidth(), 156.0);
+        Assert.assertEquals(bounds.getHeight(), 27.0);
+
+        // The opaque bounds may vary here also
+        bounds = renderer.getOpaqueBoundsInPixels(1.0f, 96.0f);
+        Assert.assertEquals(bounds.getWidth(), 156.0);
+        Assert.assertEquals(bounds.getHeight(), 20.0);
+
+        bounds = renderer.getOpaqueBoundsInPixels(1.0f, 96.0f, 150.0f);
+        Assert.assertEquals(bounds.getWidth(), 156.0);
+        Assert.assertEquals(bounds.getHeight(), 31.0);
+        //ExEnd
+    }
+
+    //ExStart
+    //ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
+    //ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
+    //ExFor:ShapeRenderer
+    //ExFor:ShapeRenderer.#ctor(ShapeBase)
+    //ExSummary:Shows how to render a shape with a Graphics object.
+    public static class JFrameGraphics extends JPanel {
+        public void paint(Graphics graphics) {
+            try {
+                // Open a document and get its first shape, which is a chart
+                Document doc = new Document(getMyDir() + "Shape.VarietyOfShapes.docx");
+
+                Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
+
+                // Create a ShapeRenderer instance and a Graphics object
+                // The ShapeRenderer will render the shape that is passed during construction over the Graphics object
+                // Whatever is rendered on this Graphics object will be displayed on the screen inside this form
+                ShapeRenderer renderer = new ShapeRenderer(shape);
+
+                // Call this method on the renderer to render the chart in the passed Graphics object,
+                // on a specified x/y coordinate and scale
+                renderer.renderToScale((Graphics2D) graphics, 0f, 0f, 1.5f);
+
+                // Get another shape from the document, and render it to a specific size instead of a linear scale
+                GroupShape groupShape = (GroupShape) doc.getChild(NodeType.GROUP_SHAPE, 0, true);
+                renderer = new ShapeRenderer(groupShape);
+                renderer.renderToSize((Graphics2D) graphics, 500f, 400f, 100f, 200f);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public static void main(String[] args) {
+            // Create windows form for present shapes
+            JFrame frame = new JFrame("Aspose example");
+            frame.getContentPane().add(new JFrameGraphics());
+            frame.setSize(1000, 800);
+            frame.setVisible(true);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setResizable(false);
         }
         //ExEnd
     }
