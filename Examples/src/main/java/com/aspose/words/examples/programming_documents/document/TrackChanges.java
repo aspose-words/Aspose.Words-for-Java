@@ -13,6 +13,8 @@ public class TrackChanges {
         getRevisionGroups(dataDir);
         setShowCommentsinPDF(dataDir);
         setShowInBalloons(dataDir);
+        getRevisionGroupDetails(dataDir);
+        accessRevisedVersion(dataDir);
     }
 
     private static void acceptRevisions(String dataDir) throws Exception {
@@ -83,7 +85,7 @@ public class TrackChanges {
         System.out.println("\nFile saved at " + dataDir);
     }
 
-    private static void GetRevisionGroupDetails(String dataDir) throws Exception
+    private static void getRevisionGroupDetails(String dataDir) throws Exception
     {
         // ExStart:GetRevisionGroupDetails
         Document doc = new Document(dataDir + "TestFormatDescription.docx");
@@ -101,5 +103,30 @@ public class TrackChanges {
             System.out.println(groupText);
         }
         // ExEnd:GetRevisionGroupDetails
+    }
+
+    private static void accessRevisedVersion(String dataDir) throws Exception
+    {
+        // ExStart:AccessRevisedVersion
+        Document doc = new Document(dataDir + "Test.docx");
+        doc.updateListLabels();
+
+        // Switch to the revised version of the document.
+        doc.setRevisionsView(RevisionsView.FINAL);
+
+        for (Revision revision : (Iterable<Revision>) doc.getRevisions())
+        {
+            if (revision.getParentNode().getNodeType() == NodeType.PARAGRAPH)
+            {
+                Paragraph paragraph = (Paragraph)revision.getParentNode();
+                if (paragraph.isListItem())
+                {
+                    // Print revised version of LabelString and ListLevel.
+                    System.out.println(paragraph.getListLabel().getLabelString());
+                    System.out.println(paragraph.getListFormat().getListLevel());
+                }
+            }
+        }
+        // ExEnd:AccessRevisedVersion
     }
 }
