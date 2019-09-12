@@ -84,6 +84,7 @@ import com.aspose.ms.System.Drawing.Rectangle;
 import java.awt.Graphics2D;
 import org.testng.annotations.DataProvider;
 
+
 /// <summary>
 /// Examples using shapes in documents.
 /// </summary>
@@ -1798,7 +1799,7 @@ public class ExShape extends ApiExampleBase
     //ExFor:ShapeRenderer
     //ExFor:ShapeRenderer.#ctor(ShapeBase)
     //ExSummary:Shows how to render a shape with a Graphics object.
-    @Test //ExSkip
+    @Test (groups = "IgnoreOnJenkins") //ExSkip
     public void displayShapeForm()
     {
         // Create a new ShapeForm instance and show it as a dialog box
