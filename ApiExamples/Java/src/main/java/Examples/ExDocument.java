@@ -3090,8 +3090,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void openType() throws Exception
-    {
+    public void openType() throws Exception {
         //ExStart
         //ExFor:LayoutOptions.TextShaperFactory
         //ExSummary:Shows how to support OpenType features using HarfBuzz text shaping engine.
