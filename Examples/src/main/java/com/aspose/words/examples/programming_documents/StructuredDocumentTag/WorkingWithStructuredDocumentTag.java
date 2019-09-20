@@ -12,6 +12,7 @@ public class WorkingWithStructuredDocumentTag {
 
         setContentControlColor(dataDir);
         setContentControlStyle(dataDir);
+        CreatingTableRepeatingSectionMappedToCustomXmlPart(dataDir);
     }
 
     public static void setContentControlColor(String dataDir) throws Exception
@@ -40,5 +41,56 @@ public class WorkingWithStructuredDocumentTag {
         doc.save(dataDir);
         // ExEnd:setContentControlStyle
         System.out.println("\nSet the style of content control successfully.");
+    }
+    
+    public static void CreatingTableRepeatingSectionMappedToCustomXmlPart(String dataDir) throws Exception
+    {
+        // ExStart:CreatingTableRepeatingSectionMappedToCustomXmlPart
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        CustomXmlPart xmlPart = doc.getCustomXmlParts().add("Books",
+            "<books><book><title>Everyday Italian</title><author>Giada De Laurentiis</author></book>" +
+            "<book><title>Harry Potter</title><author>J K. Rowling</author></book>" +
+            "<book><title>Learning XML</title><author>Erik T. Ray</author></book></books>");
+
+        Table table = builder.startTable();
+
+        builder.insertCell();
+        builder.write("Title");
+
+        builder.insertCell();
+        builder.write("Author");
+
+        builder.endRow();
+        builder.endTable();
+
+        StructuredDocumentTag repeatingSectionSdt =
+            new StructuredDocumentTag(doc, SdtType.REPEATING_SECTION, MarkupLevel.ROW);
+        
+        repeatingSectionSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book", "");
+        table.appendChild(repeatingSectionSdt);
+
+        StructuredDocumentTag repeatingSectionItemSdt =
+            new StructuredDocumentTag(doc, SdtType.REPEATING_SECTION_ITEM, MarkupLevel.ROW);
+        repeatingSectionSdt.appendChild(repeatingSectionItemSdt);
+
+        Row row = new Row(doc);
+        repeatingSectionItemSdt.appendChild(row);
+
+        StructuredDocumentTag titleSdt =
+            new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.CELL);
+        
+        titleSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book[1]/title[1]", "");
+        row.appendChild(titleSdt);
+
+        StructuredDocumentTag authorSdt =
+            new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.CELL);
+        authorSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book[1]/author[1]", "");
+        row.appendChild(authorSdt);
+
+        doc.save(dataDir + "Document.docx");
+        // ExEnd:CreatingTableRepeatingSectionMappedToCustomXmlPart
+        System.out.println("\nCreation of a Table Repeating Section Mapped To a Custom Xml Part is successfull.");
     }
 }
