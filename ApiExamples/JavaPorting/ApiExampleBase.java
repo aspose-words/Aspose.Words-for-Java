@@ -203,16 +203,16 @@ public class ApiExampleBase
     	/*JAVA-added try/catch to wrap a checked exception into unchecked one*/
     	try
     	{
-        	(getAssemblyDir(Assembly.GetExecutingAssembly()));
-        	(getCodeBaseDir(Assembly.GetExecutingAssembly()));
-        	(new msUri(new msUri(getCodeBaseDir()), "Data/Artifacts/").getLocalPath());
-        	(new msUri(new msUri(getCodeBaseDir()), "Data/License/").getLocalPath());
-        	(new msUri(new msUri(getCodeBaseDir()), "Data/Golds/").getLocalPath());
-        	(new msUri(new msUri(getCodeBaseDir()), "Data/").getLocalPath());
-        	(new msUri(new msUri(getCodeBaseDir()), "Data/Images/").getLocalPath());
-        	(new msUri(new msUri(getCodeBaseDir()), "Data/Database/").getLocalPath());
-        	(new msUri(new msUri(getCodeBaseDir()), "Data/MyFonts/").getLocalPath());
-        	(new msUri("https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png").getAbsoluteUri());
+        	mAssemblyDir = getAssemblyDir(Assembly.GetExecutingAssembly());
+        	mCodeBaseDir = getCodeBaseDir(Assembly.GetExecutingAssembly());
+        	mArtifactsDir = new msUri(new msUri(getCodeBaseDir()), "Data/Artifacts/").getLocalPath();
+        	mLicenseDir = new msUri(new msUri(getCodeBaseDir()), "Data/License/").getLocalPath();
+        	mGoldsDir = new msUri(new msUri(getCodeBaseDir()), "Data/Golds/").getLocalPath();
+        	mMyDir = new msUri(new msUri(getCodeBaseDir()), "Data/").getLocalPath();
+        	mImageDir = new msUri(new msUri(getCodeBaseDir()), "Data/Images/").getLocalPath();
+        	mDatabaseDir = new msUri(new msUri(getCodeBaseDir()), "Data/Database/").getLocalPath();
+        	mFontsDir = new msUri(new msUri(getCodeBaseDir()), "Data/MyFonts/").getLocalPath();
+        	mAsposeLogoUrl = new msUri("https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png").getAbsoluteUri();
     	}
     	catch (Exception e)
     	{

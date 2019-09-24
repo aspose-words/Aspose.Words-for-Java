@@ -22,8 +22,10 @@ import com.aspose.words.ReplaceAction;
 import com.aspose.words.ReplacingArgs;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
+import com.aspose.words.FindReplaceDirection;
 import com.aspose.ms.System.Convert;
 import com.aspose.ms.System.msString;
+import com.aspose.words.ParagraphAlignment;
 
 
 @Test
@@ -192,7 +194,16 @@ public class ExRange extends ApiExampleBase
     }
     //ExEnd
 
-    @Test
+    //ExStart
+    //ExFor:FindReplaceOptions.ApplyFont
+    //ExFor:FindReplaceOptions.Direction
+    //ExFor:FindReplaceOptions.ReplacingCallback
+    //ExFor:ReplacingArgs.GroupIndex
+    //ExFor:ReplacingArgs.GroupName
+    //ExFor:ReplacingArgs.Match
+    //ExFor:ReplacingArgs.MatchOffset
+    //ExSummary:Shows how to apply a different font to new content via FindReplaceOptions.
+    @Test //ExSkip
     public void replaceNumbersAsHex() throws Exception
     {
         Document doc = new Document();
@@ -204,29 +215,78 @@ public class ExRange extends ApiExampleBase
 
         FindReplaceOptions options = new FindReplaceOptions();
 
-        // Highlight newly inserted content.
-        options.getApplyFont().setHighlightColor(msColor.getDarkOrange());
+        // Highlight newly inserted content with a color
+        options.getApplyFont().setHighlightColor(msColor.getLightGray());
+
+        // Apply an IReplacingCallback to make the replacement to convert integers into hex equivalents
+        // and also to count replacements in the order they take place
         options.setReplacingCallback(new NumberHexer());
 
+        // By default, text is searched for replacements front to back, but we can change it to go the other way
+        options.setDirection(FindReplaceDirection.BACKWARD);
+
         int count = doc.getRange().replaceInternal(new Regex("[0-9]+"), "", options);
+        msAssert.areEqual(4, count);
+
+        doc.save(getArtifactsDir() + "Range.ReplaceNumbersAsHex.docx");
     }
 
-    // Customer defined callback.
+    /// <summary>
+    /// Replaces arabic numbers with hexadecimal equivalents and appends the number of each replacement
+    /// </summary>
     private static class NumberHexer implements IReplacingCallback
     {
         public /*ReplaceAction*/int replacing(ReplacingArgs args)
         {
-            // Parse numbers.
+            mCurrentReplacementNumber++;
+            
+            // Parse numbers
             int number = Convert.toInt32(args.getMatchInternal().getValue());
 
-            // And write it as HEX.
-            args.setReplacement(msString.format("0x{0:X}", number));
+            // And write it as HEX
+            args.setReplacement("0x{number:X} (replacement #{mCurrentReplacementNumber})");
+
+            msConsole.writeLine($"Match #{mCurrentReplacementNumber}");
+            msConsole.writeLine($"\tOriginal value:\t{args.Match.Value}");
+            msConsole.writeLine($"\tReplacement:\t{args.Replacement}");
+            msConsole.writeLine($"\tOffset in parent {args.MatchNode.NodeType} node:\t{args.MatchOffset}");
+
+            if (msString.isNullOrEmpty(args.GroupName))
+                msConsole.writeLine($"\tGroup index:\t{args.GroupIndex}");
+            else
+                msConsole.writeLine($"\tGroup name:\t{args.GroupName}");
 
             return ReplaceAction.REPLACE;
         }
+
+        private int mCurrentReplacementNumber;
     }
+    //ExEnd
 
     //<<<<<<<< #endregion 
+
+    @Test
+    public void applyParagraphFormat() throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.ApplyParagraphFormat
+        //ExSummary:Shows how to affect the format of paragraphs with successful replacements.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Every paragraph that ends with a full stop like this one will be right aligned.");
+        builder.writeln("This one will not!");
+        builder.writeln("And this one will.");
+        
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.getApplyParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
+
+        int count = doc.getRange().replace(".&p", "!&p", options);
+        msAssert.areEqual(2, count);
+
+        doc.save(getArtifactsDir() + "Range.ApplyParagraphFormat.docx");
+        //ExEnd
+    }
 
     @Test
     public void deleteSelection() throws Exception

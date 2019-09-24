@@ -1798,7 +1798,7 @@ public class ExShape extends ApiExampleBase
     //ExFor:ShapeRenderer
     //ExFor:ShapeRenderer.#ctor(ShapeBase)
     //ExSummary:Shows how to render a shape with a Graphics object.
-    @Test //ExSkip
+    @Test (groups = "IgnoreOnJenkins") //ExSkip
     public void displayShapeForm()
     {
         // Create a new ShapeForm instance and show it as a dialog box

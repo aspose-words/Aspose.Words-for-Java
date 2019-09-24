@@ -43,11 +43,13 @@ import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.DocumentSplitCriteria;
+import com.aspose.words.PdfSaveOptions;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.IFontSavingCallback;
 import com.aspose.words.FontSavingArgs;
-import com.aspose.words.IImageSavingCallback;
-import com.aspose.words.ImageSavingArgs;
+import com.aspose.ms.System.msString;
+import com.aspose.ms.System.IO.FileStream;
+import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.Run;
 import com.aspose.words.INodeChangingCallback;
 import com.aspose.words.NodeChangingArgs;
@@ -57,11 +59,8 @@ import java.io.FileNotFoundException;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignature;
 import com.aspose.words.CertificateHolder;
-import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.PdfDigitalSignatureDetails;
 import com.aspose.ms.System.DateTime;
-import com.aspose.ms.System.IO.FileStream;
-import com.aspose.ms.System.IO.FileMode;
 import org.bouncycastle.jcajce.provider.keystore.pkcs12.PKCS12KeyStoreSpi;
 import java.util.Iterator;
 import com.aspose.words.DigitalSignatureUtil;
@@ -73,7 +72,6 @@ import com.aspose.words.ControlChar;
 import com.aspose.ms.System.Globalization.CultureInfo;
 import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.words.FieldUpdateCultureSource;
-import com.aspose.ms.System.msString;
 import com.aspose.words.ProtectionType;
 import com.aspose.words.Table;
 import com.aspose.words.Cell;
@@ -136,6 +134,7 @@ import com.aspose.words.DocSaveOptions;
 import com.aspose.words.VbaProject;
 import com.aspose.words.VbaModuleCollection;
 import com.aspose.words.VbaModule;
+import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
 import org.testng.annotations.DataProvider;
 
 
@@ -751,6 +750,37 @@ public class ExDocument extends ApiExampleBase
     }
 
     @Test
+    public void downsampleOptions() throws Exception
+    {
+        //ExStart
+        //ExFor:DownsampleOptions
+        //ExFor:DownsampleOptions.DownsampleImages
+        //ExFor:DownsampleOptions.Resolution
+        //ExFor:DownsampleOptions.ResolutionThreshold
+        //ExSummary:Shows how to change the resolution of images in output pdf documents.
+        // Open a document that contains images 
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // If we want to convert the document to .pdf, we can use a SaveOptions implementation to customize the saving process
+        PdfSaveOptions options = new PdfSaveOptions();
+
+        // This conversion will downsample images by default
+        Assert.assertTrue(options.getDownsampleOptions().getDownsampleImages());
+        msAssert.areEqual(220, options.getDownsampleOptions().getResolution());
+
+        // We can set the output resolution to a different value
+        // The first two images in the input document will be affected by this
+        options.getDownsampleOptions().setResolution(36);
+
+        // We can set a minimum threshold for downsampling 
+        // This value will prevent the second image in the input document from being downsampled
+        options.getDownsampleOptions().setResolutionThreshold(128);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.pdf", options);
+        //ExEnd
+    }
+
+    @Test
     public void saveHtmlPrettyFormat() throws Exception
     {
         //ExStart
@@ -808,62 +838,57 @@ public class ExDocument extends ApiExampleBase
     //ExFor:IFontSavingCallback
     //ExFor:IFontSavingCallback.FontSaving
     //ExFor:FontSavingArgs
+    //ExFor:FontSavingArgs.Bold
+    //ExFor:FontSavingArgs.Document
     //ExFor:FontSavingArgs.FontFamilyName
     //ExFor:FontSavingArgs.FontFileName
-    //ExId:SaveHtmlExportFonts
+    //ExFor:FontSavingArgs.FontStream
+    //ExFor:FontSavingArgs.IsExportNeeded
+    //ExFor:FontSavingArgs.IsSubsettingNeeded
+    //ExFor:FontSavingArgs.Italic
+    //ExFor:FontSavingArgs.KeepFontStreamOpen
+    //ExFor:FontSavingArgs.OriginalFileName
+    //ExFor:FontSavingArgs.OriginalFileSize
     //ExSummary:Shows how to define custom logic for handling font exporting when saving to HTML based formats.
     @Test //ExSkip
     public void saveHtmlExportFonts() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Rendering.doc");
 
-        // Set the option to export font resources.
-        HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.MHTML);
+        // Set the option to export font resources
+        HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
         options.setExportFontResources(true);
-        // Create and pass the object which implements the handler methods.
+        // Create and pass the object which implements the handler methods
         options.setFontSavingCallback(new HandleFontSaving());
 
         doc.save(getArtifactsDir() + "Document.SaveWithFontsExport.html", options);
     }
 
+    /// <summary>
+    /// Prints information about fonts and saves them alongside their output .html
+    /// </summary>
     public static class HandleFontSaving implements IFontSavingCallback
     {
-        public void /*IFontSavingCallback.*/fontSaving(FontSavingArgs args)
+        public void /*IFontSavingCallback.*/fontSaving(FontSavingArgs args) throws Exception
         {
-            // You can implement logic here to rename fonts, save to file etc. For this example just print some details about the current font being handled.
-            msConsole.writeLine("Font Name = {0}, Font Filename = {1}", args.getFontFamilyName(), args.getFontFileName());
-        }
-    }
-    //ExEnd
+            // Print information about fonts
+            msConsole.write($"Font:\t{args.FontFamilyName}");
+            if (args.getBold()) msConsole.write(", bold");
+            if (args.getItalic()) msConsole.write(", italic");
+            msConsole.writeLine($"\nSource:\t{args.OriginalFileName}, {args.OriginalFileSize} bytes\n");
 
-    //ExStart
-    //ExFor:IImageSavingCallback
-    //ExFor:IImageSavingCallback.ImageSaving
-    //ExFor:ImageSavingArgs
-    //ExFor:ImageSavingArgs.ImageFileName
-    //ExFor:HtmlSaveOptions
-    //ExFor:HtmlSaveOptions.ImageSavingCallback
-    //ExId:SaveHtmlCustomExport
-    //ExSummary:Shows how to define custom logic for controlling how images are saved when exporting to HTML based formats.
-    @Test //ExSkip
-    public void saveHtmlExportImages() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Document.doc");
+            Assert.assertTrue(args.isExportNeeded());
+            Assert.assertTrue(args.isSubsettingNeeded());
 
-        // Create and pass the object which implements the handler methods.
-        HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
-        options.setImageSavingCallback(new HandleImageSaving());
+            // We can designate where each font will be saved by either specifying a file name, or creating a new stream
+            args.setFontFileName(msString.split(args.getOriginalFileName(), '\\').Last());
 
-        doc.save(getArtifactsDir() + "Document.SaveWithCustomImagesExport.html", options);
-    }
+            args.FontStream = 
+                new FileStream(getArtifactsDir() + msString.split(args.getOriginalFileName(), '\\').Last(), FileMode.CREATE);
+            Assert.assertFalse(args.getKeepFontStreamOpen());
 
-    public static class HandleImageSaving implements IImageSavingCallback
-    {
-        public void /*IImageSavingCallback.*/imageSaving(ImageSavingArgs args) throws Exception
-        {
-            // Change any images in the document being exported with the extension of "jpeg" to "jpg".
-            if (args.getImageFileName().endsWith(".jpeg"))
-                args.setImageFileName(args.getImageFileName().replace(".jpeg", ".jpg"));
+            // We can access the source document from here also
+            Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.doc"));
         }
     }
     //ExEnd
@@ -2430,7 +2455,7 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (e != null) e.close(); }
 
-        // The collection of revisions is considerably larger than the condensed form we printed above,
+		// The collection of revisions is considerably larger than the condensed form we printed above,
         // depending on how many Runs the text has been segmented into during editing in Microsoft Word,
         // since each Run affected by a revision gets its own Revision object
         msConsole.writeLine($"\n{revisions.Count} revisions:");

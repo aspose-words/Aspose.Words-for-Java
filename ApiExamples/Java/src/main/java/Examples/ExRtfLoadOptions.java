@@ -17,6 +17,8 @@ public class ExRtfLoadOptions extends ApiExampleBase {
     @Test
     public void recognizeUtf8Text() throws Exception {
         //ExStart
+        //ExFor:RtfLoadOptions
+        //ExFor:RtfLoadOptions.#ctor
         //ExFor:RtfLoadOptions.RecognizeUtf8Text
         //ExSummary:Shows how to detect UTF8 characters during import.
         RtfLoadOptions loadOptions = new RtfLoadOptions();

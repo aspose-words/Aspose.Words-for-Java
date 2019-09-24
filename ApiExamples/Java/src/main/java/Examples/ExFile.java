@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 
 @Test
 public class ExFile extends ApiExampleBase {
@@ -214,7 +215,7 @@ public class ExFile extends ApiExampleBase {
         int imageIndex = 0;
         for (Shape shape : (Iterable<Shape>) shapes) {
             if (shape.hasImage()) {
-                String imageFileName = String.format("Image.ExportImages.{0}{1}", imageIndex,
+                String imageFileName = MessageFormat.format("Image.ExportImages.{0}{1}", imageIndex,
                         FileFormatUtil.imageTypeToExtension(shape.getImageData().getImageType()));
                 shape.getImageData().save(getArtifactsDir() + imageFileName);
                 imageIndex++;
