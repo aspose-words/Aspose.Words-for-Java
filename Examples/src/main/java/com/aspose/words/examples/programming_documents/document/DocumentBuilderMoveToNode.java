@@ -9,7 +9,7 @@ public class DocumentBuilderMoveToNode {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderMoveToNode
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderMoveToNode.class);
 
         // Open the document.
@@ -17,7 +17,7 @@ public class DocumentBuilderMoveToNode {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.moveTo(doc.getFirstSection().getBody().getLastParagraph());
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderMoveToNode
+        //ExEnd:DocumentBuilderMoveToNode
 
     }
 }

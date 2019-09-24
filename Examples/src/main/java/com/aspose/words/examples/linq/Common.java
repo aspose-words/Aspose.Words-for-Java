@@ -1,17 +1,16 @@
 package com.aspose.words.examples.linq;
-import java.io.File;
-import java.io.FileInputStream;
 
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
 import com.aspose.words.examples.Utils;
 import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.net.System.Data.DataTable;
 
-import java.sql.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 //ExStart:Common
 public class Common {
     public static List<Manager> managers = new ArrayList<Manager>();
@@ -19,7 +18,7 @@ public class Common {
     /// <summary>
     /// Return first manager from Managers which is an enumeration of instances of the Manager class.
     /// </summary>
-    public static Manager GetManager(){
+    public static Manager GetManager() {
         for (Manager manager : GetManagers()) {
             return manager;
         }
@@ -29,8 +28,7 @@ public class Common {
     /// <summary>
     /// Return an dataset of the Client class.
     /// </summary>
-    public static DataSet GetClients() throws Exception
-    {
+    public static DataSet GetClients() throws Exception {
         // Create a new data set
         DataSet dataSet = new DataSet("DS");
 
@@ -165,42 +163,38 @@ public class Common {
         managers.add(manager);
         return managers;
     }
+
     /// <summary>
     /// Return an array of photo bytes.
     /// </summary>
-    private static byte[] Photo()
-    {
+    private static byte[] Photo() {
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(Common.class);
         File file = new File(dataDir + "photo.png");
         return readContentIntoByteArray(file);
     }
-    private static byte[] readContentIntoByteArray(File file)
-    {
+
+    private static byte[] readContentIntoByteArray(File file) {
         FileInputStream fileInputStream = null;
         byte[] bFile = new byte[(int) file.length()];
-        try
-        {
+        try {
             //convert file into array of bytes
             fileInputStream = new FileInputStream(file);
             fileInputStream.read(bFile);
             fileInputStream.close();
-            for (int i = 0; i < bFile.length; i++)
-            {
+            for (int i = 0; i < bFile.length; i++) {
                 //System.out.print((char) bFile[i]);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return bFile;
     }
+
     /// <summary>
     ///  Return an dataset of the Contract class.
     /// </summary>
-    public static DataSet GetContracts() throws Exception
-    {
+    public static DataSet GetContracts() throws Exception {
         // Create a new data set
         DataSet ds = new DataSet("ds");
 
@@ -232,12 +226,12 @@ public class Common {
         dtClients.getColumns().add("Id", int.class);
         dtClients.getColumns().add("Name");
         ds.getTables().add(dtClients);
-        ds.getRelations().add(dtClients,dtContracts, "Id","ClientId");
-        ds.getRelations().add(dtManagers,dtContracts, "Id","ManagerId");
+        ds.getRelations().add(dtClients, dtContracts, "Id", "ClientId");
+        ds.getRelations().add(dtManagers, dtContracts, "Id", "ManagerId");
 
 
         int managerCounter = 1;
-        int contractCounter =1;
+        int contractCounter = 1;
         int clientCounter = 1;
         for (Manager manager : GetManagers()) {
             // Add data row to managers table.
@@ -271,7 +265,7 @@ public class Common {
         }
         return ds;
     }
-	//ExEnd:Common
+    //ExEnd:Common
 
 
 }

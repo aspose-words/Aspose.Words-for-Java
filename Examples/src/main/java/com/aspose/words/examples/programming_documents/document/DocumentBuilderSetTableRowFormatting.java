@@ -8,7 +8,7 @@ public class DocumentBuilderSetTableRowFormatting {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderSetTableRowFormatting
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderSetTableRowFormatting.class);
 
         // Open the document.
@@ -31,7 +31,7 @@ public class DocumentBuilderSetTableRowFormatting {
         builder.endRow();
         builder.endTable();
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderSetTableRowFormatting
+        //ExEnd:DocumentBuilderSetTableRowFormatting
 
     }
 }

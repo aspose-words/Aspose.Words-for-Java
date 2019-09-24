@@ -9,7 +9,7 @@ public class DocumentBuilderInsertComboBoxFormField {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderInsertComboBoxFormField
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertComboBoxFormField.class);
 
         // Open the document.
@@ -18,7 +18,7 @@ public class DocumentBuilderInsertComboBoxFormField {
         String[] items = {"One", "Two", "Three"};
         builder.insertComboBox("DropDown", items, 0);
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderInsertComboBoxFormField
+        //ExEnd:DocumentBuilderInsertComboBoxFormField
 
     }
 }

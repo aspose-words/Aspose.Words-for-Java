@@ -1,10 +1,9 @@
 package com.aspose.words.examples.linq;
 
-import com.aspose.words.ReportBuildOptions;
+import com.aspose.words.Document;
 import com.aspose.words.ReportingEngine;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.*;
 
 public class BuildOptions {
     public static void main(String[] args) throws Exception {
@@ -14,8 +13,7 @@ public class BuildOptions {
         removeEmptyParagraphs(dataDir);
     }
 
-    public static void removeEmptyParagraphs(String dataDir) throws Exception
-    {
+    public static void removeEmptyParagraphs(String dataDir) throws Exception {
         //ExStart:RemoveEmptyParagraphs
         // Load the template document.
         Document doc = new Document(dataDir + "template_cleanup.docx");

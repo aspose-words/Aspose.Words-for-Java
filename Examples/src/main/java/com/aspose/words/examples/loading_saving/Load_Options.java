@@ -15,8 +15,7 @@ public class Load_Options {
         annotationsAtBlockLevel(dataDir);
     }
 
-    public static void loadOptionsUpdateDirtyFields(String dataDir) throws Exception
-    {
+    public static void loadOptionsUpdateDirtyFields(String dataDir) throws Exception {
         // ExStart:LoadOptionsUpdateDirtyFields
         LoadOptions lo = new LoadOptions();
         //Update the fields with the dirty attribute
@@ -30,8 +29,7 @@ public class Load_Options {
         System.out.println("\nUpdate the fields with the dirty attribute successfully.\nFile saved at " + dataDir);
     }
 
-    public static void loadAndSaveEncryptedODT(String dataDir) throws Exception
-    {
+    public static void loadAndSaveEncryptedODT(String dataDir) throws Exception {
         // ExStart:LoadAndSaveEncryptedODT
         Document doc = new Document(dataDir + "encrypted.odt", new com.aspose.words.LoadOptions("password"));
         doc.save(dataDir + "out.odt", new OdtSaveOptions("newpassword"));
@@ -39,16 +37,14 @@ public class Load_Options {
         System.out.println("\nLoad and save encrypted document successfully.\nFile saved at " + dataDir);
     }
 
-    public static void verifyODTdocument(String dataDir) throws Exception
-    {
+    public static void verifyODTdocument(String dataDir) throws Exception {
         // ExStart:VerifyODTdocument
         FileFormatInfo info = FileFormatUtil.detectFileFormat(dataDir + "encrypted.odt");
         System.out.println(info.isEncrypted());
         // ExEnd:VerifyODTdocument
     }
 
-    public static void convertShapeToOfficeMath(String dataDir) throws Exception
-    {
+    public static void convertShapeToOfficeMath(String dataDir) throws Exception {
         // ExStart:ConvertShapeToOfficeMath
         LoadOptions lo = new LoadOptions();
         lo.setConvertShapeToOfficeMath(true);
@@ -60,15 +56,14 @@ public class Load_Options {
         // ExEnd:ConvertShapeToOfficeMath
     }
 
-    public static void annotationsAtBlockLevel(String dataDir) throws Exception
-    {
+    public static void annotationsAtBlockLevel(String dataDir) throws Exception {
         // ExStart:AnnotationsAtBlockLevel
         LoadOptions options = new LoadOptions();
         options.setAnnotationsAtBlockLevel(true);
         Document doc = new Document(dataDir + "AnnotationsAtBlockLevel.docx", options);
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        StructuredDocumentTag sdt = (StructuredDocumentTag)doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).get(0);
+        StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).get(0);
 
         BookmarkStart start = builder.startBookmark("bm");
         BookmarkEnd end = builder.endBookmark("bm");

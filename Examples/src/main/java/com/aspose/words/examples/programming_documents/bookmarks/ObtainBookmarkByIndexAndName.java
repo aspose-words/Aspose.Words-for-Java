@@ -5,14 +5,13 @@ import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
 
 
-public class ObtainBookmarkByIndexAndName
-{
+public class ObtainBookmarkByIndexAndName {
     /**
      * The main entry point for the application.
      */
     public static void main(String[] args) throws Exception {
         //ExStart:ObtainBookmarkByIndexAndName
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ObtainBookmarkByIndexAndName.class);
 
         Document doc = new Document(dataDir + "Bookmarks.doc");
@@ -23,6 +22,6 @@ public class ObtainBookmarkByIndexAndName
         // By name.
         Bookmark bookmark2 = doc.getRange().getBookmarks().get("Bookmark2");
         System.out.println("\nBookmark by name is " + bookmark2.getText());
-		//ExEnd:ObtainBookmarkByIndexAndName
+        //ExEnd:ObtainBookmarkByIndexAndName
     }
 }

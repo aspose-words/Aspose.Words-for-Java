@@ -42,7 +42,7 @@ public class WorkingWithTxt {
         //ExStart:DetectNumberingWithWhitespaces
         TxtLoadOptions loadOptions = new TxtLoadOptions();
         loadOptions.setDetectNumberingWithWhitespaces(false);
-        
+
         Document doc = new Document(dataDir + "LoadTxt.txt", loadOptions);
 
         dataDir = dataDir + "DetectNumberingWithWhitespaces_out.docx";
@@ -88,39 +88,39 @@ public class WorkingWithTxt {
         //ExEnd:ExportHeadersFootersMode
         System.out.println("\nExport text files with TxtExportHeadersFootersMode.\nFiles saved at " + dataDir);
     }
-    
-    public static void useTabCharacterPerLevelForListIndentation(String dataDir) throws Exception{
-    	//ExStart:useTabCharacterPerLevelForListIndentation
+
+    public static void useTabCharacterPerLevelForListIndentation(String dataDir) throws Exception {
+        //ExStart:useTabCharacterPerLevelForListIndentation
         Document doc = new Document(dataDir + "Input.docx");
 
-    	TxtSaveOptions options = new TxtSaveOptions();
-    	options.getListIndentation().setCount(1);
-    	options.getListIndentation().setCharacter('\t');
+        TxtSaveOptions options = new TxtSaveOptions();
+        options.getListIndentation().setCount(1);
+        options.getListIndentation().setCharacter('\t');
 
-    	doc.save(dataDir + "output.txt", options);
-    	//ExEnd:useTabCharacterPerLevelForListIndentation
+        doc.save(dataDir + "output.txt", options);
+        //ExEnd:useTabCharacterPerLevelForListIndentation
     }
-    
-    public static void useSpaceCharacterPerLevelForListIndentation(String dataDir) throws Exception{
-    	//ExStart:useSpaceCharacterPerLevelForListIndentation
+
+    public static void useSpaceCharacterPerLevelForListIndentation(String dataDir) throws Exception {
+        //ExStart:useSpaceCharacterPerLevelForListIndentation
         Document doc = new Document(dataDir + "Input.docx");
 
-    	TxtSaveOptions options = new TxtSaveOptions();
-    	options.getListIndentation().setCount(3);
-    	options.getListIndentation().setCharacter(' ');
+        TxtSaveOptions options = new TxtSaveOptions();
+        options.getListIndentation().setCount(3);
+        options.getListIndentation().setCharacter(' ');
 
-    	doc.save(dataDir + "output.txt", options);
-    	//ExEnd:useSpaceCharacterPerLevelForListIndentation
+        doc.save(dataDir + "output.txt", options);
+        //ExEnd:useSpaceCharacterPerLevelForListIndentation
     }
 
-    public static void defaultLevelForListIndentation(String dataDir) throws Exception{
-    	//ExStart:defaultLevelForListIndentation
+    public static void defaultLevelForListIndentation(String dataDir) throws Exception {
+        //ExStart:defaultLevelForListIndentation
         Document doc = new Document(dataDir + "Input.docx");
         doc.save(dataDir + "output1.txt");
 
         Document doc2 = new Document("Input.docx");
         TxtSaveOptions options = new TxtSaveOptions();
         doc2.save(dataDir + "output2.txt", options);
-    	//ExEnd:defaultLevelForListIndentation
+        //ExEnd:defaultLevelForListIndentation
     }
 }

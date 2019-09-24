@@ -7,29 +7,29 @@ import com.aspose.words.Table;
 import com.aspose.words.examples.Utils;
 
 public class SpecifyAPreferredWidthOnATable {
-	
-	private static final String dataDir = Utils.getSharedDataDir(SpecifyAPreferredWidthOnATable.class) + "Tables/";
-	
-	public static void main(String[] args) throws Exception {
-		//ExStart:SpecifyAPreferredWidthOnATable
-		Document doc = new Document();
-		DocumentBuilder builder = new DocumentBuilder(doc);
 
-		// Insert a table with a width that takes up half the page width.
-		Table table = builder.startTable();
+    private static final String dataDir = Utils.getSharedDataDir(SpecifyAPreferredWidthOnATable.class) + "Tables/";
 
-		// Insert a few cells
-		builder.insertCell();
-		table.setPreferredWidth(PreferredWidth.fromPercent(50));
-		builder.writeln("Cell #1");
+    public static void main(String[] args) throws Exception {
+        //ExStart:SpecifyAPreferredWidthOnATable
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-		builder.insertCell();
-		builder.writeln("Cell #2");
+        // Insert a table with a width that takes up half the page width.
+        Table table = builder.startTable();
 
-		builder.insertCell();
-		builder.writeln("Cell #3");
+        // Insert a few cells
+        builder.insertCell();
+        table.setPreferredWidth(PreferredWidth.fromPercent(50));
+        builder.writeln("Cell #1");
 
-		doc.save(dataDir + "Table.PreferredWidth Out.doc");
-		//ExEnd:SpecifyAPreferredWidthOnATable
-	}
+        builder.insertCell();
+        builder.writeln("Cell #2");
+
+        builder.insertCell();
+        builder.writeln("Cell #3");
+
+        doc.save(dataDir + "Table.PreferredWidth Out.doc");
+        //ExEnd:SpecifyAPreferredWidthOnATable
+    }
 }

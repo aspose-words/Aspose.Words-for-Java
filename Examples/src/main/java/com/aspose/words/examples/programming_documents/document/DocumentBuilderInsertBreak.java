@@ -10,7 +10,7 @@ public class DocumentBuilderInsertBreak {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderInsertBreak
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertBreak.class);
 
         // Open the document.
@@ -25,7 +25,7 @@ public class DocumentBuilderInsertBreak {
 
         builder.write("This is Page 3");
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderInsertBreak
+        //ExEnd:DocumentBuilderInsertBreak
 
     }
 }

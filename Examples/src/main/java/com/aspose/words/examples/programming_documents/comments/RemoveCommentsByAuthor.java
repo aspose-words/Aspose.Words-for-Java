@@ -11,7 +11,7 @@ public class RemoveCommentsByAuthor {
     public static void main(String[] args) throws Exception {
 
         //ExStart:RemoveCommentsByAuthor
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(RemoveCommentsByAuthor.class);
 
         // Open the document.
@@ -26,7 +26,7 @@ public class RemoveCommentsByAuthor {
                 comment.remove();
         }
         doc.save(dataDir + "output.doc");
-		//ExEnd:RemoveCommentsByAuthor
+        //ExEnd:RemoveCommentsByAuthor
 
     }
 }

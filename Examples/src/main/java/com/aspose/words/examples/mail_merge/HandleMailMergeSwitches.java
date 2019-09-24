@@ -1,7 +1,7 @@
 package com.aspose.words.examples.mail_merge;
 
-import com.aspose.words.examples.Utils;
 import com.aspose.words.*;
+import com.aspose.words.examples.Utils;
 
 /**
  * Created by awaishafeez on 12/19/2017.
@@ -49,5 +49,5 @@ public class HandleMailMergeSwitches {
             // Do Nothing
         }
     }
-   // ExEnd:HandleMailMergeSwitches
+    // ExEnd:HandleMailMergeSwitches
 }

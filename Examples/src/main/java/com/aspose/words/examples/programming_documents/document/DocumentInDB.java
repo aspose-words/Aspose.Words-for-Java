@@ -1,4 +1,3 @@
-
 package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.Document;
@@ -12,10 +11,8 @@ import java.sql.*;
 import java.text.MessageFormat;
 
 
-public class DocumentInDB
-{
-    public static void main(String[] args) throws Exception
-    {
+public class DocumentInDB {
+    public static void main(String[] args) throws Exception {
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentInDB.class);
 
@@ -52,8 +49,7 @@ public class DocumentInDB
     //ExStart
     //ExId:DocumentInDB_StoreToDB
     //ExSummary:Stores the document to the specified database.
-    public static void storeToDatabase(Document doc) throws Exception
-    {
+    public static void storeToDatabase(Document doc) throws Exception {
         // Save the document to a OutputStream object.
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         doc.save(outputStream, SaveFormat.DOC);
@@ -87,8 +83,7 @@ public class DocumentInDB
     //ExStart
     //ExId:DocumentInDB_ReadFromDB
     //ExSummary:Retrieves and returns the document from the specified database using the filename as a key to fetch the document.
-    public static Document readFromDatabase(String fileName) throws Exception
-    {
+    public static Document readFromDatabase(String fileName) throws Exception {
         // Create the SQL command.
         String commandString = "SELECT * FROM Documents WHERE FileName='" + fileName + "'";
 
@@ -96,7 +91,7 @@ public class DocumentInDB
         ResultSet resultSet = executeQuery(commandString);
 
         // Check there was a matching record found from the database and throw an exception if no record was found.
-        if(!resultSet.isBeforeFirst())
+        if (!resultSet.isBeforeFirst())
             throw new IllegalArgumentException(MessageFormat.format("Could not find any record matching the document \"{0}\" in the database.", fileName));
 
         // Move to the first record.
@@ -126,8 +121,7 @@ public class DocumentInDB
     //ExStart
     //ExId:DocumentInDB_DeleteFromDB
     //ExSummary:Delete the document from the database, using filename to fetch the record.
-    public static void deleteFromDatabase(String fileName) throws Exception
-    {
+    public static void deleteFromDatabase(String fileName) throws Exception {
         // Create the SQL command.
         String commandString = "DELETE * FROM Documents WHERE FileName='" + fileName + "'";
 
@@ -139,11 +133,11 @@ public class DocumentInDB
     //ExStart
     //ExId:DocumentInDB_DatabaseHelpers
     //ExSummary:Helper methods used to connect to and execute queries on a database.
+
     /**
      * Utility function that creates a connection to the Database.
      */
-    public static void createConnection(String dataBasePath) throws Exception
-    {
+    public static void createConnection(String dataBasePath) throws Exception {
         //  Load a DB driver that is used by the demos
         Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
 
@@ -160,16 +154,14 @@ public class DocumentInDB
     /**
      * Executes a query on the database.
      */
-    protected static ResultSet executeQuery(String query) throws Exception
-    {
+    protected static ResultSet executeQuery(String query) throws Exception {
         return createStatement().executeQuery(query);
     }
 
     /**
      * Creates a new database statement.
      */
-    public static Statement createStatement() throws Exception
-    {
+    public static Statement createStatement() throws Exception {
         return mConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
     }
     //ExEnd

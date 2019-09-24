@@ -10,7 +10,7 @@ public class DocumentBuilderInsertTextInputFormField {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderInsertTextInputFormField
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertTextInputFormField.class);
 
         // Open the document.
@@ -18,7 +18,7 @@ public class DocumentBuilderInsertTextInputFormField {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertTextInput("TextInput", TextFormFieldType.REGULAR, "", "Hello", 0);
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderInsertTextInputFormField
+        //ExEnd:DocumentBuilderInsertTextInputFormField
 
     }
 }

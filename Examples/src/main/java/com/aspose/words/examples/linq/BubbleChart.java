@@ -8,10 +8,9 @@ public class BubbleChart {
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:BubbleChart
-		// The path to the documents directory.
+        // The path to the documents directory.
 
         String dataDir = Utils.getDataDir(BubbleChart.class);
 
@@ -29,7 +28,7 @@ public class BubbleChart {
 
         // Save the finished document to disk.
         doc.save(dataDir);
-		//ExEnd:BubbleChart
+        //ExEnd:BubbleChart
 
         System.out.println("\nBubble chart template document is populated with the data about managers.\nFile saved at " + dataDir);
 

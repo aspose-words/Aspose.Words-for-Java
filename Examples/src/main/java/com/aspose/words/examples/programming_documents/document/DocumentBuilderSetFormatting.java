@@ -1,9 +1,8 @@
 package com.aspose.words.examples.programming_documents.document;
 
-import com.aspose.words.examples.Utils;
-import com.aspose.words.examples.loading_saving.WorkingWithTxt;
-import com.aspose.words.ParagraphFormat;
 import com.aspose.words.Document;
+import com.aspose.words.ParagraphFormat;
+import com.aspose.words.examples.Utils;
 
 public class DocumentBuilderSetFormatting {
     public static void main(String[] args) throws Exception {
@@ -12,8 +11,7 @@ public class DocumentBuilderSetFormatting {
         setAsianTypographyLinebreakGroupProp(dataDir);
     }
 
-    public static void setAsianTypographyLinebreakGroupProp(String dataDir) throws Exception
-    {
+    public static void setAsianTypographyLinebreakGroupProp(String dataDir) throws Exception {
         // ExStart:SetAsianTypographyLinebreakGroupProp
         Document doc = new Document(dataDir + "Input.docx");
 

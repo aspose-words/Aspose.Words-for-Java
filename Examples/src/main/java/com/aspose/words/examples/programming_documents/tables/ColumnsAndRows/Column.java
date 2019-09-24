@@ -1,113 +1,115 @@
 package com.aspose.words.examples.programming_documents.tables.ColumnsAndRows;
 
-import java.util.ArrayList;
-
 import com.aspose.words.Cell;
 import com.aspose.words.Row;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.Table;
 
+import java.util.ArrayList;
+
 //ExStart:Column
+
 /**
  * Represents a facade object for a column of a table in a Microsoft Word
  * document.
  */
 public class Column {
-	
-	private int mColumnIndex;
-	private Table mTable;
-	
-	private Column(Table table, int columnIndex) {
-		if (table == null)
-			throw new IllegalArgumentException("table");
 
-		mTable = table;
-		mColumnIndex = columnIndex;
-	}
+    private int mColumnIndex;
+    private Table mTable;
 
-	/**
-	 * Returns a new column facade from the table and supplied zero-based index.
-	 */
-	public static Column fromIndex(Table table, int columnIndex) {
-		return new Column(table, columnIndex);
-	}
+    private Column(Table table, int columnIndex) {
+        if (table == null)
+            throw new IllegalArgumentException("table");
 
-	/**
-	 * Returns the cells which make up the column.
-	 */
-	public Cell[] getCells() {
-		ArrayList<Cell> columnCells = getColumnCells();
-		return columnCells.toArray(new Cell[columnCells.size()]);
-	}
+        mTable = table;
+        mColumnIndex = columnIndex;
+    }
 
-	/**
-	 * Returns the index of the given cell in the column.
-	 */
-	public int indexOf(Cell cell) {
-		return getColumnCells().indexOf(cell);
-	}
+    /**
+     * Returns a new column facade from the table and supplied zero-based index.
+     */
+    public static Column fromIndex(Table table, int columnIndex) {
+        return new Column(table, columnIndex);
+    }
 
-	/**
-	 * Inserts a brand new column before this column into the table.
-	 * @throws Exception 
-	 */
-	public Column insertColumnBefore() throws Exception {
-		Cell[] columnCells = getCells();
+    /**
+     * Returns the cells which make up the column.
+     */
+    public Cell[] getCells() {
+        ArrayList<Cell> columnCells = getColumnCells();
+        return columnCells.toArray(new Cell[columnCells.size()]);
+    }
 
-		if (columnCells.length == 0)
-			throw new IllegalArgumentException("Column must not be empty");
+    /**
+     * Returns the index of the given cell in the column.
+     */
+    public int indexOf(Cell cell) {
+        return getColumnCells().indexOf(cell);
+    }
 
-		// Create a clone of this column.
-		for (Cell cell : columnCells)
-			cell.getParentRow().insertBefore(cell.deepClone(false), cell);
+    /**
+     * Inserts a brand new column before this column into the table.
+     *
+     * @throws Exception
+     */
+    public Column insertColumnBefore() throws Exception {
+        Cell[] columnCells = getCells();
 
-		// This is the new column.
-		Column column = new Column(columnCells[0].getParentRow().getParentTable(), mColumnIndex);
+        if (columnCells.length == 0)
+            throw new IllegalArgumentException("Column must not be empty");
 
-		// We want to make sure that the cells are all valid to work with (have at least one paragraph).
-		for (Cell cell : column.getCells())
-			cell.ensureMinimum();
+        // Create a clone of this column.
+        for (Cell cell : columnCells)
+            cell.getParentRow().insertBefore(cell.deepClone(false), cell);
 
-		// Increase the index which this column represents since there is now one extra column infront.
-		mColumnIndex++;
+        // This is the new column.
+        Column column = new Column(columnCells[0].getParentRow().getParentTable(), mColumnIndex);
 
-		return column;
-	}
+        // We want to make sure that the cells are all valid to work with (have at least one paragraph).
+        for (Cell cell : column.getCells())
+            cell.ensureMinimum();
 
-	/**
-	 * Removes the column from the table.
-	 */
-	public void remove() {
-		for (Cell cell : getCells())
-			cell.remove();
-	}
+        // Increase the index which this column represents since there is now one extra column infront.
+        mColumnIndex++;
 
-	/**
-	 * Returns the text of the column.
-	 */
-	public String toTxt() throws Exception {
-		StringBuilder builder = new StringBuilder();
+        return column;
+    }
 
-		for (Cell cell : getCells())
-			builder.append(cell.toString(SaveFormat.TEXT));
+    /**
+     * Removes the column from the table.
+     */
+    public void remove() {
+        for (Cell cell : getCells())
+            cell.remove();
+    }
 
-		return builder.toString();
-	}
+    /**
+     * Returns the text of the column.
+     */
+    public String toTxt() throws Exception {
+        StringBuilder builder = new StringBuilder();
 
-	/**
-	 * Provides an up-to-date collection of cells which make up the column
-	 * represented by this facade.
-	 */
-	private ArrayList<Cell> getColumnCells() {
-		ArrayList<Cell> columnCells = new ArrayList<Cell>();
+        for (Cell cell : getCells())
+            builder.append(cell.toString(SaveFormat.TEXT));
 
-		for (Row row : mTable.getRows()) {
-			Cell cell = row.getCells().get(mColumnIndex);
-			if (cell != null)
-				columnCells.add(cell);
-		}
+        return builder.toString();
+    }
 
-		return columnCells;
-	}
+    /**
+     * Provides an up-to-date collection of cells which make up the column
+     * represented by this facade.
+     */
+    private ArrayList<Cell> getColumnCells() {
+        ArrayList<Cell> columnCells = new ArrayList<Cell>();
+
+        for (Row row : mTable.getRows()) {
+            Cell cell = row.getCells().get(mColumnIndex);
+            if (cell != null)
+                columnCells.add(cell);
+        }
+
+        return columnCells;
+    }
 }
 //ExEnd:Column

@@ -2,7 +2,6 @@ package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.examples.programming_documents.document.properties.AccessingDocumentProperties;
 
 public class TrackChanges {
     public static void main(String[] args) throws Exception {
@@ -83,16 +82,14 @@ public class TrackChanges {
         System.out.println("\nFile saved at " + dataDir);
     }
 
-    private static void GetRevisionGroupDetails(String dataDir) throws Exception
-    {
+    private static void GetRevisionGroupDetails(String dataDir) throws Exception {
         // ExStart:GetRevisionGroupDetails
         Document doc = new Document(dataDir + "TestFormatDescription.docx");
 
-        for (Revision revision : (Iterable<Revision>) doc.getRevisions())
-        {
+        for (Revision revision : (Iterable<Revision>) doc.getRevisions()) {
             String groupText = revision.getGroup() != null
-                ? "Revision group text: " + revision.getGroup().getText()
-                : "Revision has no group";
+                    ? "Revision group text: " + revision.getGroup().getText()
+                    : "Revision has no group";
 
             System.out.println("Type: " + revision.getRevisionType());
             System.out.println("Author: " + revision.getAuthor());

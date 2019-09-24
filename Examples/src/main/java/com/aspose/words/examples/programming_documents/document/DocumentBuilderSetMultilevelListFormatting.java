@@ -9,7 +9,7 @@ public class DocumentBuilderSetMultilevelListFormatting {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderSetMultilevelListFormatting
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderSetMultilevelListFormatting.class);
 
         // Open the document.
@@ -34,7 +34,7 @@ public class DocumentBuilderSetMultilevelListFormatting {
         builder.getListFormat().removeNumbers();
 
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderSetMultilevelListFormatting
+        //ExEnd:DocumentBuilderSetMultilevelListFormatting
 
     }
 }

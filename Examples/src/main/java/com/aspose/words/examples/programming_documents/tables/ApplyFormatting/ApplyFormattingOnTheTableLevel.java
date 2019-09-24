@@ -1,15 +1,9 @@
 package com.aspose.words.examples.programming_documents.tables.ApplyFormatting;
 
-import java.awt.Color;
-
-import com.aspose.words.BorderType;
-import com.aspose.words.Document;
-import com.aspose.words.LineStyle;
-import com.aspose.words.NodeType;
-import com.aspose.words.Table;
-import com.aspose.words.TableAlignment;
-import com.aspose.words.TextureIndex;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
+
+import java.awt.*;
 
 public class ApplyFormattingOnTheTableLevel {
 

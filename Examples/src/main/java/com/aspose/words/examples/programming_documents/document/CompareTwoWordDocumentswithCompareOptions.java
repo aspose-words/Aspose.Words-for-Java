@@ -1,10 +1,8 @@
 package com.aspose.words.examples.programming_documents.document;
 
-import java.util.Date;
-
-import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
 
+import java.util.Date;
 
 
 /**
@@ -16,7 +14,7 @@ public class CompareTwoWordDocumentswithCompareOptions {
     public static void main(String[] args) throws Exception {
 
         //ExStart:CompareTwoWordDocumentswithCompareOptions
-		String dataDir = Utils.getDataDir(CompareTwoWordDocumentswithCompareOptions.class);
+        String dataDir = Utils.getDataDir(CompareTwoWordDocumentswithCompareOptions.class);
 
         com.aspose.words.Document docA = new com.aspose.words.Document(dataDir + "DocumentA.doc");
         com.aspose.words.Document docB = new com.aspose.words.Document(dataDir + "DocumentB.doc");
@@ -37,6 +35,6 @@ public class CompareTwoWordDocumentswithCompareOptions {
             System.out.println("Documents are equal");
         else
             System.out.println("Documents are not equal");
-		//ExEnd:CompareTwoWordDocumentswithCompareOptions
+        //ExEnd:CompareTwoWordDocumentswithCompareOptions
     }
 }

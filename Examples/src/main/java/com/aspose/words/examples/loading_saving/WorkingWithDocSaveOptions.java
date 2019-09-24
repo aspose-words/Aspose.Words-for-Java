@@ -6,16 +6,15 @@ import com.aspose.words.examples.Utils;
 
 public class WorkingWithDocSaveOptions {
 
-	public static void main(String[] args) throws Exception {
-		// The path to the documents directory.
+    public static void main(String[] args) throws Exception {
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(WorkingWithDocSaveOptions.class);
-        
-		EncryptDocumentWithPassword(dataDir);
-        AlwaysCompressMetafiles(dataDir);
-	}
 
-	public static void EncryptDocumentWithPassword(String dataDir) throws Exception
-    {
+        EncryptDocumentWithPassword(dataDir);
+        AlwaysCompressMetafiles(dataDir);
+    }
+
+    public static void EncryptDocumentWithPassword(String dataDir) throws Exception {
         //ExStart: EncryptDocumentWithPassword
         Document doc = new Document(dataDir + "Document.doc");
         DocSaveOptions docSaveOptions = new DocSaveOptions();
@@ -26,8 +25,7 @@ public class WorkingWithDocSaveOptions {
         System.out.println("\nThe password of document is set using RC4 encryption method. \nFile saved at " + dataDir);
     }
 
-    public static void AlwaysCompressMetafiles(String dataDir) throws Exception
-    {
+    public static void AlwaysCompressMetafiles(String dataDir) throws Exception {
         //ExStart: AlwaysCompressMetafiles
         Document doc = new Document(dataDir + "Document.doc");
         DocSaveOptions saveOptions = new DocSaveOptions();

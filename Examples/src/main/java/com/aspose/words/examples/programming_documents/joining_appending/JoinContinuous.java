@@ -12,7 +12,7 @@ public class JoinContinuous {
     public static void main(String[] args) throws Exception {
 
         //ExStart:JoinContinuous
-		// The path to the documents directory.
+        // The path to the documents directory.
         gDataDir = Utils.getDataDir(JoinContinuous.class);
 
         Document dstDoc = new Document(gDataDir + "TestFile.Destination.doc");
@@ -24,7 +24,7 @@ public class JoinContinuous {
         // Append the source document using the original styles found in the source document.
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(gDataDir + "output.doc");
-		//ExEnd:JoinContinuous
+        //ExEnd:JoinContinuous
 
     }
 }

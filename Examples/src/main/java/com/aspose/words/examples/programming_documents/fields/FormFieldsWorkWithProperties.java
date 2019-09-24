@@ -7,7 +7,7 @@ public class FormFieldsWorkWithProperties {
     public static void main(String[] args) throws Exception {
 
         //ExStart:FormFieldsWorkWithProperties
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(FormFieldsWorkWithProperties.class);
 
         Document doc = new Document(dataDir + "FormFields.doc");
@@ -20,7 +20,7 @@ public class FormFieldsWorkWithProperties {
             formField.setResult("Field Name :" + formField.getName());
 
         doc.save(dataDir + "output.docx");
-		//ExEnd:FormFieldsWorkWithProperties
+        //ExEnd:FormFieldsWorkWithProperties
 
     }
 }

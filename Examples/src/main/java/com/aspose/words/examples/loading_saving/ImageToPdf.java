@@ -10,29 +10,28 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class ImageToPdf
-{
+public class ImageToPdf {
     public static void main(String[] args) throws Exception {
         //ExStart:ImageToPdf
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ImageToPdf.class);
 
         convertImageToPdf(dataDir + "Test.jpg", dataDir + "TestJpg_out_.pdf");
         convertImageToPdf(dataDir + "Test.png", dataDir + "TestPng_out_.pdf");
         convertImageToPdf(dataDir + "Test.bmp", dataDir + "TestBmp_out_.pdf");
         convertImageToPdf(dataDir + "Test.gif", dataDir + "TestGif_out_.pdf");
-		//ExEnd:ImageToPdf
+        //ExEnd:ImageToPdf
         System.out.println("Images converted to PDF successfully.");
     }
 //ExStart:convertImageToPdf
+
     /**
      * Converts an image to PDF using Aspose.Words for Java.
      *
-     * @param inputFileName File name of input image file.
+     * @param inputFileName  File name of input image file.
      * @param outputFileName Output PDF file name.
      */
-    public static void convertImageToPdf(String inputFileName, String outputFileName) throws Exception
-    {
+    public static void convertImageToPdf(String inputFileName, String outputFileName) throws Exception {
         // Create Aspose.Words.Document and DocumentBuilder.
         // The builder makes it simple to add content to the document.
         Document doc = new Document();
@@ -44,14 +43,12 @@ public class ImageToPdf
         ImageReader reader = ImageIO.getImageReaders(iis).next();
         reader.setInput(iis, false);
 
-        try
-        {
+        try {
             // Get the number of frames in the image.
             int framesCount = reader.getNumImages(true);
 
             // Loop through all frames.
-            for (int frameIdx = 0; frameIdx < framesCount; frameIdx++)
-            {
+            for (int frameIdx = 0; frameIdx < framesCount; frameIdx++) {
                 // Insert a section break before each new page, in case of a multi-frame image.
                 if (frameIdx != 0)
                     builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
@@ -68,18 +65,16 @@ public class ImageToPdf
 
                 // Insert the image into the document and position it at the top left corner of the page.
                 builder.insertImage(
-                    image,
-                    RelativeHorizontalPosition.PAGE,
-                    0,
-                    RelativeVerticalPosition.PAGE,
-                    0,
-                    ps.getPageWidth(),
-                    ps.getPageHeight(),
-                    WrapType.NONE);
+                        image,
+                        RelativeHorizontalPosition.PAGE,
+                        0,
+                        RelativeVerticalPosition.PAGE,
+                        0,
+                        ps.getPageWidth(),
+                        ps.getPageHeight(),
+                        WrapType.NONE);
             }
-        }
-
-        finally {
+        } finally {
             if (iis != null) {
                 iis.close();
                 reader.dispose();
@@ -89,5 +84,5 @@ public class ImageToPdf
         // Save the document to PDF.
         doc.save(outputFileName);
     }
-	//ExEnd:convertImageToPdf
+    //ExEnd:convertImageToPdf
 }

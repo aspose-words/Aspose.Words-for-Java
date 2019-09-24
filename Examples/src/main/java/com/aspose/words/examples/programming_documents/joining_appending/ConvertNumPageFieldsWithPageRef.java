@@ -1,4 +1,3 @@
-
 package com.aspose.words.examples.programming_documents.joining_appending;
 
 import com.aspose.words.*;
@@ -7,14 +6,12 @@ import com.aspose.words.examples.Utils;
 import java.text.MessageFormat;
 
 
-public class ConvertNumPageFieldsWithPageRef
-{
+public class ConvertNumPageFieldsWithPageRef {
     private static String gDataDir;
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:ConvertNumPageFieldsWithPageRef
-		// The path to the documents directory.
+        // The path to the documents directory.
         gDataDir = Utils.getDataDir(ConvertNumPageFieldsWithPageRef.class);
 
         Document doc = new Document();
@@ -34,18 +31,15 @@ public class ConvertNumPageFieldsWithPageRef
         int subDocumentCount = 0;
 
         // Iterate through all sections in the document.
-        for (Section section : doc.getSections())
-        {
+        for (Section section : doc.getSections()) {
             // This section has it's page numbering restarted so we will treat this as the start of a sub document.
             // Any PAGENUM fields in this inner document must be converted to special PAGEREF fields to correct numbering.
-            if (section.getPageSetup().getRestartPageNumbering())
-            {
+            if (section.getPageSetup().getRestartPageNumbering()) {
                 // Don't do anything if this is the first section in the document. This part of the code will insert the bookmark marking
                 // the end of the previous sub document so therefore it is not applicable for first section in the document.
-                if (!section.equals(doc.getFirstSection()))
-                {
+                if (!section.equals(doc.getFirstSection())) {
                     // Get the previous section and the last node within the body of that section.
-                    Section prevSection = (Section)section.getPreviousSibling();
+                    Section prevSection = (Section) section.getPreviousSibling();
                     Node lastNode = prevSection.getBody().getLastChild();
 
                     // Use the DocumentBuilder to move to this node and insert the bookmark there.
@@ -60,8 +54,7 @@ public class ConvertNumPageFieldsWithPageRef
             }
 
             // The last section simply needs the ending bookmark to signal that it is the end of the current sub document.
-            if (section.equals(doc.getLastSection()))
-            {
+            if (section.equals(doc.getLastSection())) {
                 // Insert the bookmark at the end of the body of the last section.
                 // Don't increase the count this time as we are just marking the end of the document.
                 Node lastNode = doc.getLastSection().getBody().getLastChild();
@@ -73,12 +66,10 @@ public class ConvertNumPageFieldsWithPageRef
             // Iterate through each NUMPAGES field in the section and replace the field with a PAGEREF field referring to the bookmark of the current subdocument
             // This bookmark is positioned at the end of the sub document but does not exist yet. It is inserted when a section with restart page numbering or the last
             // section is encountered.
-            for (Node node : section.getChildNodes(NodeType.FIELD_START, true).toArray())
-            {
-                FieldStart fieldStart = (FieldStart)node;
+            for (Node node : section.getChildNodes(NodeType.FIELD_START, true).toArray()) {
+                FieldStart fieldStart = (FieldStart) node;
 
-                if (fieldStart.getFieldType() == FieldType.FIELD_NUM_PAGES)
-                {
+                if (fieldStart.getFieldType() == FieldType.FIELD_NUM_PAGES) {
                     // Get the field code.
                     String fieldCode = getFieldCode(fieldStart);
                     // Since the NUMPAGES field does not take any additional parameters we can assume the remaining part of the field
@@ -106,42 +97,40 @@ public class ConvertNumPageFieldsWithPageRef
                 }
             }
         }
-		//ExEnd:ConvertNumPageFieldsWithPageRef
+        //ExEnd:ConvertNumPageFieldsWithPageRef
     }
 
     //ExStart:getFieldCode
-	/**
+
+    /**
      * Retrieves the field code from a field.
      *
      * @param fieldStart The field start of the field which to gather the field code from.
      */
-    private static String getFieldCode(FieldStart fieldStart) throws Exception
-    {
+    private static String getFieldCode(FieldStart fieldStart) throws Exception {
         StringBuilder builder = new StringBuilder();
 
         for (Node node = fieldStart; node != null && node.getNodeType() != NodeType.FIELD_SEPARATOR &&
-                node.getNodeType() != NodeType.FIELD_END; node = node.nextPreOrder(node.getDocument()))
-        {
+                node.getNodeType() != NodeType.FIELD_END; node = node.nextPreOrder(node.getDocument())) {
             // Use text only of Run nodes to avoid duplication.
             if (node.getNodeType() == NodeType.RUN)
                 builder.append(node.getText());
         }
         return builder.toString();
     }
-	//ExEnd:getFieldCode
+    //ExEnd:getFieldCode
 
     //ExStart:removeField
-	/**
+
+    /**
      * Removes the Field from the document.
      *
      * @param fieldStart The field start node of the field to remove.
      */
-    private static void removeField(FieldStart fieldStart) throws Exception
-    {
+    private static void removeField(FieldStart fieldStart) throws Exception {
         Node currentNode = fieldStart;
         boolean isRemoving = true;
-        while (currentNode != null && isRemoving)
-        {
+        while (currentNode != null && isRemoving) {
             if (currentNode.getNodeType() == NodeType.FIELD_END)
                 isRemoving = false;
 
@@ -150,5 +139,5 @@ public class ConvertNumPageFieldsWithPageRef
             currentNode = nextNode;
         }
     }
-	//ExEnd:removeField
+    //ExEnd:removeField
 }

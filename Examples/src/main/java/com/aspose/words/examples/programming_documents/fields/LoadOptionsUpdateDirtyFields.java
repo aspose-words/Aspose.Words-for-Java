@@ -1,9 +1,9 @@
 package com.aspose.words.examples.programming_documents.fields;
 
+import com.aspose.words.Document;
 import com.aspose.words.LoadOptions;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.*;
 
 /**
  * Created by Home on 9/18/2017.

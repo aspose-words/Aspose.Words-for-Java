@@ -1,16 +1,17 @@
 package com.aspose.words.examples.linq;
-import com.aspose.words.*;
+
+import com.aspose.words.Document;
+import com.aspose.words.ReportingEngine;
 import com.aspose.words.examples.Utils;
-import  java.util.*;
+
 public class HelloWorld {
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
 
         //ExStart:HelloWorld
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(HelloWorld.class);
 
         String fileName = "HelloWorld.doc";
@@ -32,7 +33,7 @@ public class HelloWorld {
 
         // Save the finished document to disk.
         doc.save(dataDir);
-		//ExEnd:HelloWorld
+        //ExEnd:HelloWorld
 
         System.out.println("\nTemplate document is populated with the data about the sender.\nFile saved at " + dataDir);
 

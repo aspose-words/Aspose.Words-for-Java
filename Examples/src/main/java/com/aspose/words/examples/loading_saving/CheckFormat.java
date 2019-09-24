@@ -1,6 +1,5 @@
 package com.aspose.words.examples.loading_saving;
 
-import com.aspose.words.Document;
 import com.aspose.words.FileFormatInfo;
 import com.aspose.words.FileFormatUtil;
 import com.aspose.words.LoadFormat;
@@ -14,7 +13,7 @@ public class CheckFormat {
     public static void main(String[] args) throws Exception {
 
         //ExStart:CheckFormat
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(CheckFormat.class);
 
         String supportedDir = dataDir + "OutSupported" + File.separator;
@@ -105,12 +104,11 @@ public class CheckFormat {
                 }
             }
         }
-		//ExEnd:CheckFormat
+        //ExEnd:CheckFormat
     }
 
     //ExStart:fileCopy
-	private static void fileCopy(String sourceFileName, String destinationFileName) throws Exception
-    {
+    private static void fileCopy(String sourceFileName, String destinationFileName) throws Exception {
         File sourceFile = new File(sourceFileName);
         File destinationFile = new File(destinationFileName);
 
@@ -121,8 +119,7 @@ public class CheckFormat {
         FileInputStream fis = null;
         FileOutputStream fos = null;
 
-        try
-        {
+        try {
             fis = new FileInputStream(sourceFile);
             fos = new FileOutputStream(destinationFile);
 
@@ -130,9 +127,7 @@ public class CheckFormat {
             int bytesRead;
             while ((bytesRead = fis.read(buffer)) != -1)
                 fos.write(buffer, 0, bytesRead);
-        }
-        finally
-        {
+        } finally {
             if (fis != null)
                 fis.close();
             if (fos != null)
@@ -140,6 +135,6 @@ public class CheckFormat {
         }
 
     }
-	//ExEnd:fileCopy
+    //ExEnd:fileCopy
 
 }

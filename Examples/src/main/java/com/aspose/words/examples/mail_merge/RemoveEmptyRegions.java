@@ -6,10 +6,8 @@ import com.aspose.words.examples.Utils;
 import com.aspose.words.net.System.Data.DataSet;
 
 
-public class RemoveEmptyRegions
-{
-    public static void main(String[] args) throws Exception
-    {
+public class RemoveEmptyRegions {
+    public static void main(String[] args) throws Exception {
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(RemoveEmptyRegions.class);
 
@@ -31,7 +29,7 @@ public class RemoveEmptyRegions
         // Save the output document to disk.
         doc.save(dataDir + "Output.doc");
 
-        assert doc.getMailMerge().getFieldNames().length == 0: "Error: There are still unused regions remaining in the document";
+        assert doc.getMailMerge().getFieldNames().length == 0 : "Error: There are still unused regions remaining in the document";
 
         System.out.println("Non empty regions removed during mail merge successfully.");
     }

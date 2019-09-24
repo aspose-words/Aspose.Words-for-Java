@@ -25,6 +25,7 @@ public class DocumentItems {
         public boolean isRemovable() {
             return false;
         }
+
         public static final String NODE_TYPE_STRING = "DOCUMENT";
     }
 
@@ -37,6 +38,7 @@ public class DocumentItems {
         public boolean isRemovable() {
             return this.getNode() != ((Document) this.getNode().getDocument()).getLastSection();
         }
+
         public static final String NODE_TYPE_STRING = "SECTION";
     }
 
@@ -57,6 +59,7 @@ public class DocumentItems {
         public String getName() throws Exception {
             return MessageFormat.format("{0} - {1}", super.getName(), getHeaderFooterTypeAsString((HeaderFooter) this.getNode()));
         }
+
         public static final String NODE_TYPE_STRING = "HEADER_FOOTER";
     }
 
@@ -69,6 +72,7 @@ public class DocumentItems {
         public boolean isRemovable() {
             return false;
         }
+
         public static final String NODE_TYPE_STRING = "BODY";
     }
 
@@ -77,6 +81,7 @@ public class DocumentItems {
         public TableItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "TABLE";
     }
 
@@ -85,6 +90,7 @@ public class DocumentItems {
         public RowItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "ROW";
     }
 
@@ -93,6 +99,7 @@ public class DocumentItems {
         public CellItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "CELL";
     }
 
@@ -106,6 +113,7 @@ public class DocumentItems {
             Paragraph para = (Paragraph) this.getNode();
             return !para.isEndOfSection();
         }
+
         public static final String NODE_TYPE_STRING = "PARAGRAPH";
     }
 
@@ -114,6 +122,7 @@ public class DocumentItems {
         public RunItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "RUN";
     }
 
@@ -122,6 +131,7 @@ public class DocumentItems {
         public FieldStartItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "FIELD_START";
     }
 
@@ -130,6 +140,7 @@ public class DocumentItems {
         public FieldSeparatorItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "FIELD_SEPARATOR";
     }
 
@@ -138,6 +149,7 @@ public class DocumentItems {
         public FieldEndItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "FIELD_END";
     }
 
@@ -150,6 +162,7 @@ public class DocumentItems {
         public String getName() throws Exception {
             return MessageFormat.format("{0} - \"{1}\"", super.getName(), ((BookmarkStart) this.getNode()).getName());
         }
+
         public static final String NODE_TYPE_STRING = "BOOKMARK_START";
     }
 
@@ -162,6 +175,7 @@ public class DocumentItems {
         public String getName() throws Exception {
             return MessageFormat.format("{0} - \"{1}\"", super.getName(), ((BookmarkEnd) this.getNode()).getName());
         }
+
         public static final String NODE_TYPE_STRING = "BOOKMARK_END";
     }
 
@@ -170,6 +184,7 @@ public class DocumentItems {
         public CustomXmlMarkupItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "CUSTOM_XML_MARKUP";
     }
 
@@ -178,6 +193,7 @@ public class DocumentItems {
         public StructuredDocumentTagItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "STRUCTURED_DOCUMENT_TAG";
     }
 
@@ -190,6 +206,7 @@ public class DocumentItems {
         public CommentItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "COMMENT";
     }
 
@@ -202,6 +219,7 @@ public class DocumentItems {
         public CommentRangeStartItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "COMMENT_RANGE_START";
     }
 
@@ -214,6 +232,7 @@ public class DocumentItems {
         public CommentRangeEndItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "COMMENT_RANGE_END";
     }
 
@@ -222,6 +241,7 @@ public class DocumentItems {
         public DrawingMLItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "DRAWING_ML";
     }
 
@@ -230,6 +250,7 @@ public class DocumentItems {
         public OfficeMathItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "OFFICE_MATH";
     }
 
@@ -238,6 +259,7 @@ public class DocumentItems {
         public SmartTagItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "SMART_TAG";
     }
 
@@ -246,6 +268,7 @@ public class DocumentItems {
         public GroupShapeItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "GROUP_SHAPE";
     }
 
@@ -254,6 +277,7 @@ public class DocumentItems {
         public FootnoteItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "FOOTNOTE";
     }
 
@@ -292,6 +316,7 @@ public class DocumentItems {
                     }
             }
         }
+
         public static final String NODE_TYPE_STRING = "SHAPE";
     }
 
@@ -317,6 +342,7 @@ public class DocumentItems {
                     return super.getIconName();
             }
         }
+
         public static final String NODE_TYPE_STRING = "FORM_FIELD";
     }
 
@@ -325,6 +351,7 @@ public class DocumentItems {
         public SpecialCharItem(Node node) {
             super(node);
         }
+
         public static final String NODE_TYPE_STRING = "SPECIAL_CHAR";
     }
 }

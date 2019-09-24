@@ -1,4 +1,3 @@
-
 package com.aspose.words.examples.programming_documents.joining_appending;
 
 import com.aspose.words.*;
@@ -13,7 +12,7 @@ public class GetRemoveField {
     public static void main(String[] args) throws Exception {
 
         //ExStart:GetRemoveField
-		// The path to the documents directory.
+        // The path to the documents directory.
         gDataDir = Utils.getDataDir(GetRemoveField.class);
 
         Document dstDoc = new Document(gDataDir + "TestFile.Destination.doc");
@@ -34,14 +33,15 @@ public class GetRemoveField {
         dstDoc.updatePageLayout();
 
         dstDoc.save(gDataDir + "TestFile.ConvertNumPageFields Out.doc");
-		//ExEnd:GetRemoveField
+        //ExEnd:GetRemoveField
 
 
         System.out.println("Documents appended successfully.");
     }
 
     //ExStart:convertNumPageFieldsToPageRef
-	/**
+
+    /**
      * Replaces all NUMPAGES fields in the document with PAGEREF fields. The replacement field displays the total number
      * of pages in the sub document instead of the total pages in the document.
      *
@@ -130,7 +130,7 @@ public class GetRemoveField {
             }
         }
     }
-	//ExEnd:convertNumPageFieldsToPageRef
+    //ExEnd:convertNumPageFieldsToPageRef
 
     /**
      * Retrieves the field code from a field.
@@ -140,7 +140,8 @@ public class GetRemoveField {
 
 
     //ExStart:removeField
-	/**
+
+    /**
      * Removes the Field from the document.
      *
      * @param fieldStart The field start node of the field to remove.
@@ -159,10 +160,10 @@ public class GetRemoveField {
             currentNode = nextNode;
         }
     }
-	//ExEnd:removeField
+    //ExEnd:removeField
 
     //ExStart:getFieldCode
-	private static String getFieldCode(FieldStart fieldStart) throws Exception {
+    private static String getFieldCode(FieldStart fieldStart) throws Exception {
         StringBuilder builder = new StringBuilder();
 
         for (Node node = fieldStart; node != null && node.getNodeType() != NodeType.FIELD_SEPARATOR &&
@@ -173,7 +174,7 @@ public class GetRemoveField {
         }
         return builder.toString();
     }
-	//ExEnd:getFieldCode
+    //ExEnd:getFieldCode
 
 
 }

@@ -1,14 +1,16 @@
 package com.aspose.words.examples.linq;
-import com.aspose.words.*;
+
+import com.aspose.words.Document;
+import com.aspose.words.ReportingEngine;
 import com.aspose.words.examples.Utils;
+
 public class InTableList {
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:InTableList
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(InTableList.class);
 
         String fileName = "InTableList.doc";
@@ -25,7 +27,7 @@ public class InTableList {
 
         // Save the finished document to disk.
         doc.save(dataDir);
-		//ExEnd:InTableList
+        //ExEnd:InTableList
 
         System.out.println("\nIn-Table list template document is populated with the data about managers.\nFile saved at " + dataDir);
 

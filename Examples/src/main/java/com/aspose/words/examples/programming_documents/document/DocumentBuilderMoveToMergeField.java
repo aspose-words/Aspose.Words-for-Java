@@ -9,7 +9,7 @@ public class DocumentBuilderMoveToMergeField {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderMoveToMergeField
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderMoveToMergeField.class);
 
         // Open the document.
@@ -20,7 +20,7 @@ public class DocumentBuilderMoveToMergeField {
         builder.writeln("This is a very nice merge field.");
         // doc.save(dataDir + "output.doc");
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderMoveToMergeField
+        //ExEnd:DocumentBuilderMoveToMergeField
 
     }
 }

@@ -1,13 +1,10 @@
-
-
 package com.aspose.words.examples.quickstart;
 
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.examples.Utils;
 
-public class HelloWorld
-{
+public class HelloWorld {
     public static void main(String[] args) throws Exception {
         //ExStart:CreateNewDocument
         // The path to the documents directory.

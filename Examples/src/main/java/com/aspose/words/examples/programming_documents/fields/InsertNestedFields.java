@@ -7,7 +7,7 @@ public class InsertNestedFields {
     public static void main(String[] args) throws Exception {
 
         //ExStart:InsertNestedFields
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertNestedFields.class);
 
         Document doc = new Document();
@@ -34,7 +34,7 @@ public class InsertNestedFields {
         field.update();
 
         doc.save(dataDir + "output.docx");
-		//ExEnd:InsertNestedFields
+        //ExEnd:InsertNestedFields
 
 
     }

@@ -13,7 +13,7 @@ import java.io.File;
 public class ConvertImageToPdf {
     public static void main(String[] args) throws Exception {
         //ExStart:ConvertImageToPdf
-		/**
+        /**
          * Converts an image to PDF using Aspose.Words for Java.
          *
          * @param inputFileName File name of input image file.
@@ -65,7 +65,7 @@ public class ConvertImageToPdf {
                     WrapType.NONE);
 
             doc.save(outputFileName);
-			//ExEnd:ConvertImageToPdf
+            //ExEnd:ConvertImageToPdf
         }
     }
 }

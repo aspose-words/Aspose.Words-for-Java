@@ -7,7 +7,7 @@ public class InsertMailMergeAddressBlockFieldUsingDOM {
     public static void main(String[] args) throws Exception {
 
         //ExStart:InsertMailMergeAddressBlockFieldUsingDOM
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertMailMergeAddressBlockFieldUsingDOM.class);
 
         Document doc = new Document(dataDir + "in.doc");
@@ -44,7 +44,7 @@ public class InsertMailMergeAddressBlockFieldUsingDOM {
         field.update();
 
         doc.save(dataDir + "output.docx");
-		//ExEnd:InsertMailMergeAddressBlockFieldUsingDOM
+        //ExEnd:InsertMailMergeAddressBlockFieldUsingDOM
 
 
     }

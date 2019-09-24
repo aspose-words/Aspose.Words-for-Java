@@ -5,9 +5,9 @@ import com.aspose.words.examples.Utils;
 
 public class RemovePageAndSectionBreaks {
     public static void main(String[] args) throws Exception {
-        
+
         //ExStart:RemovePageAndSectionBreaks
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(RemovePageAndSectionBreaks.class);
 
         // Open the document.
@@ -23,11 +23,11 @@ public class RemovePageAndSectionBreaks {
         doc.save(dataDir + "TestFile_out.doc");
 
         System.out.println("Removed breaks from the document successfully.");
-		//ExEnd:RemovePageAndSectionBreaks
+        //ExEnd:RemovePageAndSectionBreaks
     }
 
     //ExStart:removePageBreaks
-	/* ExSummary:Removes all page breaks from the document.*/
+    /* ExSummary:Removes all page breaks from the document.*/
     private static void removePageBreaks(Document doc) throws Exception {
         // Retrieve all paragraphs in the document.
         NodeCollection paragraphs = doc.getChildNodes(NodeType.PARAGRAPH, true);
@@ -47,7 +47,7 @@ public class RemovePageAndSectionBreaks {
     }
 //ExEnd:removePageBreaks
 
-//ExStart:removeSectionBreaks
+    //ExStart:removeSectionBreaks
     /* ExSummary:Combines all sections in the document into one.*/
     private static void removeSectionBreaks(Document doc) throws Exception {
         // Loop through all sections starting from the section that precedes the last one
@@ -59,5 +59,5 @@ public class RemovePageAndSectionBreaks {
             doc.getSections().get(i).remove();
         }
     }
-	//ExEnd:removeSectionBreaks
+    //ExEnd:removeSectionBreaks
 }

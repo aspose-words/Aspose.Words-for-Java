@@ -1,5 +1,3 @@
-
-
 package com.aspose.words.examples.quickstart;
 
 import com.aspose.words.*;

@@ -11,7 +11,7 @@ public class DocumentBuilderInsertHyperlink {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderInsertHyperlink
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertHyperlink.class);
 
         // Open the document.
@@ -31,7 +31,7 @@ public class DocumentBuilderInsertHyperlink {
         builder.getFont().clearFormatting();
         builder.write(" for more information.");
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderInsertHyperlink
+        //ExEnd:DocumentBuilderInsertHyperlink
 
     }
 }

@@ -10,7 +10,7 @@ public class ConvertFieldsInDocument {
     public static void main(String[] args) throws Exception {
 
         //ExStart:ConvertFieldsInDocument
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertFieldsInDocument.class);
 
         Document doc = new Document(dataDir + "TestFile.doc");
@@ -20,7 +20,7 @@ public class ConvertFieldsInDocument {
 
         // Save the document with fields transformed to disk.
         doc.save(dataDir + "output.doc");
-		//ExEnd:ConvertFieldsInDocument
+        //ExEnd:ConvertFieldsInDocument
 
 
         System.out.println("Converted fields in the document with text successfully.");
