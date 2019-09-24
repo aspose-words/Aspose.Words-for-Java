@@ -595,6 +595,36 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
+    public void downsampleOptions() throws Exception {
+        //ExStart
+        //ExFor:DownsampleOptions
+        //ExFor:DownsampleOptions.DownsampleImages
+        //ExFor:DownsampleOptions.Resolution
+        //ExFor:DownsampleOptions.ResolutionThreshold
+        //ExSummary:Shows how to change the resolution of images in output pdf documents.
+        // Open a document that contains images
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // If we want to convert the document to .pdf, we can use a SaveOptions implementation to customize the saving process
+        PdfSaveOptions options = new PdfSaveOptions();
+
+        // This conversion will downsample images by default
+        Assert.assertTrue(options.getDownsampleOptions().getDownsampleImages());
+        Assert.assertEquals(options.getDownsampleOptions().getResolution(), 220);
+
+        // We can set the output resolution to a different value
+        // The first two images in the input document will be affected by this
+        options.getDownsampleOptions().setResolution(36);
+
+        // We can set a minimum threshold for downsampling
+        // This value will prevent the second image in the input document from being downsampled
+        options.getDownsampleOptions().setResolutionThreshold(128);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.pdf", options);
+        //ExEnd
+    }
+
+    @Test
     public void saveHtmlPrettyFormat() throws Exception {
         //ExStart
         //ExFor:SaveOptions.PrettyFormat
@@ -653,13 +683,21 @@ public class ExDocument extends ApiExampleBase {
     //ExFor:IFontSavingCallback
     //ExFor:IFontSavingCallback.FontSaving
     //ExFor:FontSavingArgs
+    //ExFor:FontSavingArgs.Bold
+    //ExFor:FontSavingArgs.Document
     //ExFor:FontSavingArgs.FontFamilyName
     //ExFor:FontSavingArgs.FontFileName
-    //ExId:SaveHtmlExportFonts
+    //ExFor:FontSavingArgs.FontStream
+    //ExFor:FontSavingArgs.IsExportNeeded
+    //ExFor:FontSavingArgs.IsSubsettingNeeded
+    //ExFor:FontSavingArgs.Italic
+    //ExFor:FontSavingArgs.KeepFontStreamOpen
+    //ExFor:FontSavingArgs.OriginalFileName
+    //ExFor:FontSavingArgs.OriginalFileSize
     //ExSummary:Shows how to define custom logic for handling font exporting when saving to HTML based formats.
     @Test //ExSkip
     public void saveHtmlExportFonts() throws Exception {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Rendering.doc");
 
         // Set the option to export font resources.
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.MHTML);
@@ -670,10 +708,28 @@ public class ExDocument extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Document.SaveWithFontsExport.html", options);
     }
 
-    public class HandleFontSaving implements IFontSavingCallback {
-        public void fontSaving(final FontSavingArgs args) {
-            // You can implement logic here to rename fonts, save to file etc. For this example just print some details about the current font being handled.
-            System.out.println(MessageFormat.format("Font Name = {0}, Font Filename = {1}", args.getFontFamilyName(), args.getFontFileName()));
+    /// <summary>
+    /// Prints information about fonts and saves them alongside their output .html
+    /// </summary>
+    public static class HandleFontSaving implements IFontSavingCallback {
+        public void fontSaving(FontSavingArgs args) throws Exception {
+            // Print information about fonts
+            System.out.println(MessageFormat.format("Font:\t{0}", args.getFontFamilyName()));
+            if (args.getBold()) System.out.println(", bold");
+            if (args.getItalic()) System.out.println(", italic");
+            System.out.println(MessageFormat.format("\nSource:\t{0}, {1} bytes\n", args.getOriginalFileName(), args.getOriginalFileSize()));
+
+            Assert.assertTrue(args.isExportNeeded());
+            Assert.assertTrue(args.isSubsettingNeeded());
+
+            // We can designate where each font will be saved by either specifying a file name, or creating a new stream
+            String[] parts = args.getOriginalFileName().split("\\\\");
+            String lastOne = parts[parts.length - 1];
+            args.setFontFileName(lastOne);
+
+            Assert.assertFalse(args.getKeepFontStreamOpen());
+            // We can access the source document from here also
+            Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.doc"));
         }
     }
     //ExEnd

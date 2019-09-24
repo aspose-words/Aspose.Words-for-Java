@@ -574,8 +574,8 @@ public class ExReportingEngine extends ApiExampleBase {
                 builder.getDocument().getText());
     }
 
-    @Test(dataProvider = "inlineErrorMassagesDataProvider")
-    public void inlineErrorMassages(String templateText, String result) throws Exception {
+    @Test(dataProvider = "inlineErrorMessagesDataProvider")
+    public void inlineErrorMessages(String templateText, String result) throws Exception {
         DocumentBuilder builder = new DocumentBuilder();
         DocumentHelper.insertBuilderText(builder, new String[]{templateText});
 
@@ -585,12 +585,12 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     //JAVA-added data provider for test method
-    @DataProvider(name = "inlineErrorMassagesDataProvider")
-    public static Object[][] inlineErrorMassagesDataProvider() {
+    @DataProvider(name = "inlineErrorMessagesDataProvider")
+    public static Object[][] inlineErrorMessagesDataProvider() {
         return new Object[][]
                 {
-                        {"<<[missingObject.First().id]>>", "<<[missingObject.First( Error! Can not get the value of member \'missingObject\' on type \'class com.aspose.words.net.System.Data.DataSet\'. ).id]>>"},
-                        {"<<[new DateTime()]:”dd.MM.yyyy”>>", "<<[new DateTime( Error! A type identifier is expected. )]:”dd.MM.yyyy”>>"},
+                        {"<<[missingObject.First().id]>>", "<<[missingObject.First( Error! Can not get the value of member 'missingObject' on type 'class com.aspose.words.net.System.Data.DataSet'. ).id]>>"},
+                        {"<<[new DateTime()]:\"dd.MM.yyyy\">>", "<<[new DateTime( Error! A type identifier is expected. )]:\"dd.MM.yyyy\">>"},
                         {"<<]>>", "<<] Error! Character ']' is unexpected. >>"},
                         {"<<[>>", "<<[>> Error! An expression is expected."},
                         {"<<>>", "<<>> Error! Tag end is unexpected."},

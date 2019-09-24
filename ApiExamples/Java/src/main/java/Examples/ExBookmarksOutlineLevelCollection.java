@@ -102,5 +102,7 @@ public class ExBookmarksOutlineLevelCollection extends ApiExampleBase {
         Assert.assertEquals(bookmarks.get(0).getTitle(), "Bookmark 1");
         Assert.assertEquals(bookmarks.get(1).getTitle(), "Bookmark 2");
         Assert.assertEquals(bookmarks.get(2).getTitle(), "Bookmark 3");
+
+        bookmarkEditor.close();
     }
 }

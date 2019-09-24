@@ -13,6 +13,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
+import java.text.MessageFormat;
 import java.util.regex.Pattern;
 
 public class ExRange extends ApiExampleBase {
@@ -166,7 +167,16 @@ public class ExRange extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test
+    //ExStart
+    //ExFor:FindReplaceOptions.ApplyFont
+    //ExFor:FindReplaceOptions.Direction
+    //ExFor:FindReplaceOptions.ReplacingCallback
+    //ExFor:ReplacingArgs.GroupIndex
+    //ExFor:ReplacingArgs.GroupName
+    //ExFor:ReplacingArgs.Match
+    //ExFor:ReplacingArgs.MatchOffset
+    //ExSummary:Shows how to apply a different font to new content via FindReplaceOptions.
+    @Test //ExSkip
     public void replaceNumbersAsHex() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -175,27 +185,68 @@ public class ExRange extends ApiExampleBase {
         builder.write("There are few numbers that should be converted to HEX and highlighted: 123, 456, 789 and 17379.");
 
         FindReplaceOptions options = new FindReplaceOptions();
-        // Highlight newly inserted content.
+        // Highlight newly inserted content with a color
         options.getApplyFont().setHighlightColor(new Color(255, 140, 0));
+        // Apply an IReplacingCallback to make the replacement to convert integers into hex equivalents
+        // and also to count replacements in the order they take place
         options.setReplacingCallback(new NumberHexer());
+        // By default, text is searched for replacements front to back, but we can change it to go the other way
+        options.setDirection(FindReplaceDirection.BACKWARD);
 
-        doc.getRange().replace(Pattern.compile("[0-9]+"), "", options);
+        int count = doc.getRange().replace(Pattern.compile("[0-9]+"), "", options);
+        Assert.assertEquals(count, 4);
+
+        doc.save(getArtifactsDir() + "Range.ReplaceNumbersAsHex.docx");
     }
 
-    // Customer defined callback.
-    private class NumberHexer implements IReplacingCallback {
-        public int replacing(final ReplacingArgs args) {
-            // Parse numbers.
+    /// <summary>
+    /// Replaces arabic numbers with hexadecimal equivalents and appends the number of each replacement
+    /// </summary>
+    private static class NumberHexer implements IReplacingCallback {
+        public int replacing(ReplacingArgs args) {
+            mCurrentReplacementNumber++;
+
+            // Parse numbers
             String numberStr = args.getMatch().group();
             numberStr = numberStr.trim();
-            // Java throws NumberFormatException both for overflow and bad format.
+            // Java throws NumberFormatException both for overflow and bad format
             int number = Integer.parseInt(numberStr);
 
             // And write it as HEX.
-            args.setReplacement(String.format("0x{0:X}", number));
+            args.setReplacement(MessageFormat.format("0x{0} (replacement #{1})", Integer.toHexString(number), mCurrentReplacementNumber));
+
+            System.out.println(MessageFormat.format("Match #{0}", mCurrentReplacementNumber));
+            System.out.println(MessageFormat.format("\tOriginal value:\t{0}", args.getMatch().group()));
+            System.out.println(MessageFormat.format("\tReplacement:\t{0}", args.getReplacement()));
+            System.out.println(MessageFormat.format("\tOffset in parent {0} node:\t{1}", args.getMatchNode().getNodeType(), args.getMatchOffset()));
 
             return ReplaceAction.REPLACE;
         }
+
+        private int mCurrentReplacementNumber;
+    }
+    //ExEnd
+
+    @Test
+    public void applyParagraphFormat() throws Exception {
+        //ExStart
+        //ExFor:FindReplaceOptions.ApplyParagraphFormat
+        //ExSummary:Shows how to affect the format of paragraphs with successful replacements.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Every paragraph that ends with a full stop like this one will be right aligned.");
+        builder.writeln("This one will not!");
+        builder.writeln("And this one will.");
+
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.getApplyParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
+
+        int count = doc.getRange().replace(".&p", "!&p", options);
+        Assert.assertEquals(count, 2);
+
+        doc.save(getArtifactsDir() + "Range.ApplyParagraphFormat.docx");
+        //ExEnd
     }
 
     @Test

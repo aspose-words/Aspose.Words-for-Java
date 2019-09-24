@@ -19,7 +19,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:ImageSaveOptions.UseGdiEmfRenderer
         //ExSummary:Shows how to save metafiles directly without using GDI+ to EMF.
-        Document doc = new Document(getMyDir() + "SaveOptions.MyraidPro.docx");
+        Document doc = new Document(getMyDir() + "SaveOptions.MyriadPro.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EMF);
         saveOptions.setUseGdiEmfRenderer(false);
@@ -33,7 +33,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:ImageSaveOptions.PageIndex
         //ExSummary:Shows how to save specific document page as image file.
-        Document doc = new Document(getMyDir() + "SaveOptions.MyraidPro.docx");
+        Document doc = new Document(getMyDir() + "SaveOptions.MyriadPro.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.GIF);
         //Define which page will save
@@ -44,22 +44,30 @@ public class ExImageSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void qualityOptions() throws Exception {
+    public void graphicsQuality() throws Exception {
         //ExStart
         //ExFor:GraphicsQualityOptions
+        //ExFor:GraphicsQualityOptions.CompositingMode
+        //ExFor:GraphicsQualityOptions.CompositingQuality
+        //ExFor:GraphicsQualityOptions.InterpolationMode
+        //ExFor:GraphicsQualityOptions.StringFormat
         //ExFor:GraphicsQualityOptions.SmoothingMode
         //ExFor:GraphicsQualityOptions.TextRenderingHint
-        //ExSummary:Shows how to set render quality options. 
-        Document doc = new Document(getMyDir() + "SaveOptions.MyraidPro.docx");
+        //ExSummary:Shows how to set render quality options when converting documents to image formats.
+        Document doc = new Document(getMyDir() + "SaveOptions.MyriadPro.docx");
 
         GraphicsQualityOptions qualityOptions = new GraphicsQualityOptions();
-        qualityOptions.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        qualityOptions.getRenderingHints().put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        qualityOptions.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // SmoothingMode
+        qualityOptions.getRenderingHints().put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON); // TextRenderingHint
+        qualityOptions.getRenderingHints().put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY); // CompositingMode
+        qualityOptions.getRenderingHints().put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY); // CompositingQuality
+        qualityOptions.getRenderingHints().put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR); // InterpolationMode
+        qualityOptions.getRenderingHints().put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON); // StringFormat
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.JPEG);
         saveOptions.setGraphicsQualityOptions(qualityOptions);
 
-        doc.save(getArtifactsDir() + "SaveOptions.QualityOptions.jpeg", saveOptions);
+        doc.save(getArtifactsDir() + "SaveOptions.GraphicsQuality.jpeg", saveOptions);
         //ExEnd
     }
 
