@@ -65,6 +65,12 @@
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
+    		<groupId>com.aspose</groupId>
+    		<artifactId>aspose-words</artifactId>
+    		<version>19.9</version>
+    		<classifier>shaping-harfbuzz-plugin</classifier>
+		</dependency>
+        <dependency>
             <groupId>javax.media.jai</groupId>
             <artifactId>com.springsource.javax.media.jai.core</artifactId>
             <version>1.1.3</version>
