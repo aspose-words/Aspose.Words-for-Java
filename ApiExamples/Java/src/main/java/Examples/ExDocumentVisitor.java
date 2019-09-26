@@ -12,6 +12,8 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.MessageFormat;
+
 @Test
 public class ExDocumentVisitor extends ApiExampleBase {
     //ExStart
@@ -406,7 +408,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         /// Called when a Comment node is encountered in the document.
         /// </summary>
         public int visitCommentStart(final Comment comment) {
-            indentAndAppendLine(String.format("[Comment start] For comment range ID {0}, By {1} on {2}", comment.getId(),
+            indentAndAppendLine(MessageFormat.format("[Comment start] For comment range ID {0}, By {1} on {2}", comment.getId(),
                     comment.getAuthor(), comment.getDateTime()));
             mDocTraversalDepth++;
             mVisitorIsInsideComment = true;

@@ -205,8 +205,8 @@ public class ExMailMergeCustom extends ApiExampleBase
     {
         public Employee(String aFullName, String aDepartment)
         {
-            (aFullName);
-            (aDepartment);
+            mFullName = aFullName;
+            mDepartment = aDepartment;
         }
 
         public String getFullName() { return mFullName; };

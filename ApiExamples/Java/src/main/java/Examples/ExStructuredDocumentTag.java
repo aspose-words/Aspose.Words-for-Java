@@ -41,7 +41,10 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         StructuredDocumentTag sdTagRepeatingSection = (StructuredDocumentTag) sdTags.get(0);
         Assert.assertEquals(sdTagRepeatingSection.getSdtType(), SdtType.REPEATING_SECTION);
 
-        StructuredDocumentTag sdTagRichText = (StructuredDocumentTag) sdTags.get(1);
+        StructuredDocumentTag sdTagRepeatingSectionItem = (StructuredDocumentTag) sdTags.get(1);
+        Assert.assertEquals(sdTagRepeatingSectionItem.getSdtType(), SdtType.REPEATING_SECTION_ITEM);
+
+        StructuredDocumentTag sdTagRichText = (StructuredDocumentTag) sdTags.get(2);
         Assert.assertEquals(sdTagRichText.getSdtType(), SdtType.RICH_TEXT);
     }
 
