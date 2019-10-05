@@ -15,6 +15,20 @@ Directory | Description
 [Examples](Examples)  | A collection of Java examples that help you learn and explore the API features
 [Plugins](Plugins)  | Plugins that will demonstrate one or more features of Aspose.Words for Java
 
+## How to Run Examples
+<ul>
+	<li>You can either clone the repository using your favorite GitHub client or download the ZIP file from here.</li>
+	<li>Extract the contents of the ZIP file to any folder on your computer. All the examples are located in the Examples folder.</li>
+	<li>You can run/execute these examples with any IDE of you choice.</li>
+	<li>Open the project in your selected IDE.
+</li>
+	<li>Open the example file that you want to run.</li>
+	<li>Run the file in your IDE (method may vary depending on the IDE you use).
+</li>
+	<li>The resources folder in Examples/src folder contains input files used in the examples. It is mandatory that you download this folder along with the examples project.</li>
+	<li>Please find more details for how to run the examples here.</li>
+</ul>
+
 ## Resources
 
 + **Website:** [www.aspose.com](https://www.aspose.com)
