@@ -22,6 +22,11 @@ import com.aspose.words.IResourceSavingCallback;
 import com.aspose.words.ResourceSavingArgs;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.IO.Path;
+import com.aspose.words.SaveFormat;
+import com.aspose.ms.System.IO.Directory;
+import com.aspose.ms.System.msConsole;
+import com.aspose.ms.System.IO.FileStream;
+import com.aspose.ms.System.IO.FileMode;
 
 
 @Test
@@ -228,6 +233,69 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             }
         }
     }
+    //ExEnd
+
+    //ExStart
+    //ExFor:HtmlFixedSaveOptions
+    //ExFor:HtmlFixedSaveOptions.ResourceSavingCallback
+    //ExFor:HtmlFixedSaveOptions.ResourcesFolder
+    //ExFor:HtmlFixedSaveOptions.ResourcesFolderAlias
+    //ExFor:HtmlFixedSaveOptions.ShowPageBorder
+    //ExSummary:Shows how to print the URIs of linked resources created during conversion of a document to fixed-form .html.
+    @Test //ExSkip
+    public void htmlFixedResourceFolder() throws Exception
+    {
+        // Open a document which contains images
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        HtmlFixedSaveOptions options = new HtmlFixedSaveOptions();
+        {
+            options.setSaveFormat(SaveFormat.HTML_FIXED);
+            options.setExportEmbeddedImages(false);
+            options.setResourcesFolder(getArtifactsDir() + "HtmlFixedResourceFolder");
+            options.setResourcesFolderAlias(getArtifactsDir() + "HtmlFixedResourceFolderAlias");
+            options.setShowPageBorder(false);
+            options.setResourceSavingCallback(new ResourceUriPrinter());
+        }
+
+        // A folder specified by ResourcesFolderAlias will contain the resources instead of ResourcesFolder
+        // We must ensure the folder exists before the streams can put their resources into it
+        Directory.createDirectory(options.getResourcesFolderAlias());
+
+        doc.save(getArtifactsDir() + "HtmlFixedResourceFolder.html", options);
+    }
+
+    /// <summary>
+    /// Counts and prints URIs of resources contained by as they are converted to fixed .Html
+    /// </summary>
+    private static class ResourceUriPrinter implements IResourceSavingCallback
+    {
+        public void /*IResourceSavingCallback.*/resourceSaving(ResourceSavingArgs args) throws Exception
+        {
+            // If we set a folder alias in the SaveOptions object, it will be printed here
+            msConsole.writeLine($"Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
+
+            String extension = Path.getExtension(args.getResourceFileName());
+            switch (gStringSwitchMap.of(extension))
+            {
+                case /*".ttf"*/0:
+                case /*".woff"*/1:
+                {
+                    // By default 'ResourceFileUri' used system folder for fonts
+                    // To avoid problems across platforms you must explicitly specify the path for the fonts
+                    args.setResourceFileUri(getArtifactsDir() + Path.DirectorySeparatorChar + args.getResourceFileName());
+                    break;
+                }
+            }
+            msConsole.writeLine("\t" + args.getResourceFileUri());
+
+            // If we specified a ResourcesFolderAlias we will also need to redirect each stream to put its resource in that folder
+            args.ResourceStream = new FileStream(args.getResourceFileUri(), FileMode.CREATE);
+            args.setKeepResourceStreamOpen(false);
+        }
+
+        private int mSavedResourceCount;
+    }
 
 	//JAVA-added for string switch emulation
 	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
@@ -235,7 +303,6 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 		".ttf",
 		".woff"
 	);
-
 
     //ExEnd
 }

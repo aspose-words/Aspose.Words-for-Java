@@ -116,6 +116,11 @@ import com.aspose.words.MailMergeMainDocumentType;
 import com.aspose.words.MailMergeDataType;
 import com.aspose.words.Odso;
 import com.aspose.words.OdsoDataSourceType;
+import com.aspose.words.OdsoFieldMapDataCollection;
+import com.aspose.words.OdsoFieldMapData;
+import com.aspose.words.OdsoFieldMappingType;
+import com.aspose.words.OdsoRecipientDataCollection;
+import com.aspose.words.OdsoRecipientData;
 import com.aspose.words.CustomPart;
 import com.aspose.words.TextFormFieldType;
 import com.aspose.words.EditingLanguage;
@@ -275,7 +280,7 @@ public class ExDocument extends ApiExampleBase
             // Open the document. Note the Document constructor detects HTML format automatically.
             // Pass the URI of the base folder so any images with relative URIs in the HTML document can be found.
             LoadOptions loadOptions = new LoadOptions();
-            loadOptions.setBaseUri(getMyDir());
+            loadOptions.setBaseUri(getImageDir());
 
             doc = new Document(stream, loadOptions);
         }
@@ -757,6 +762,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:DownsampleOptions.DownsampleImages
         //ExFor:DownsampleOptions.Resolution
         //ExFor:DownsampleOptions.ResolutionThreshold
+        //ExFor:PdfSaveOptions.DownsampleOptions
         //ExSummary:Shows how to change the resolution of images in output pdf documents.
         // Open a document that contains images 
         Document doc = new Document(getMyDir() + "Rendering.doc");
@@ -881,10 +887,10 @@ public class ExDocument extends ApiExampleBase
             Assert.assertTrue(args.isSubsettingNeeded());
 
             // We can designate where each font will be saved by either specifying a file name, or creating a new stream
-            args.setFontFileName(msString.split(args.getOriginalFileName(), '\\').Last());
+            args.setFontFileName(msString.split(args.getOriginalFileName(), Path.DirectorySeparatorChar).Last());
 
             args.FontStream = 
-                new FileStream(getArtifactsDir() + msString.split(args.getOriginalFileName(), '\\').Last(), FileMode.CREATE);
+                new FileStream(getArtifactsDir() + msString.split(args.getOriginalFileName(), Path.DirectorySeparatorChar).Last(), FileMode.CREATE);
             Assert.assertFalse(args.getKeepFontStreamOpen());
 
             // We can access the source document from here also
@@ -2751,6 +2757,13 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.MailMergeSettings
         //ExFor:MailMergeDataType
         //ExFor:MailMergeMainDocumentType
+        //ExFor:Odso
+        //ExFor:Odso.Clone
+        //ExFor:Odso.ColumnDelimiter
+        //ExFor:Odso.DataSource
+        //ExFor:Odso.DataSourceType
+        //ExFor:Odso.FirstRowContainsColumnNames
+        //ExFor:OdsoDataSourceType
         //ExSummary:Shows how to execute a mail merge with MailMergeSettings.
         // We'll create a simple document that will act as a destination for mail merge data
         Document doc = new Document();
@@ -2780,13 +2793,122 @@ public class ExDocument extends ApiExampleBase
 
         // Office Data Source Object settings
         Odso odso = mailMergeSettings.getOdso();
+        odso.setDataSource(getArtifactsDir() + "Document.Lines.txt");
         odso.setDataSourceType(OdsoDataSourceType.TEXT);
         odso.setColumnDelimiter('|');
-        odso.setDataSource(getArtifactsDir() + "Document.Lines.txt");
         odso.setFirstRowContainsColumnNames(true);
+
+        // ODSO objects can also be cloned
+        Assert.assertNotSame(odso, odso.deepClone());
 
         // The mail merge will be performed when this document is opened 
         doc.save(getArtifactsDir() + "Document.MailMergeSettings.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void odsoEmail() throws Exception
+    {
+        //ExStart
+        //ExFor:Odso.TableName
+        //ExFor:Odso.UdlConnectString
+        //ExSummary:Shows how to execute a mail merge while connecting to an external data source.
+        Document doc = new Document(getMyDir() + "OdsoData.doc");
+        
+        Odso odso = doc.getMailMergeSettings().getOdso();
+        
+        msConsole.writeLine($"File will connect to data source located in:\n\t\"{odso.DataSource}\"");
+        msConsole.writeLine($"Source type:\n\t{odso.DataSourceType}");
+        msConsole.writeLine($"Connection string:\n\t{odso.UdlConnectString}");
+        msConsole.writeLine($"Table:\n\t{odso.TableName}");
+        msConsole.writeLine($"Query:\n\t{doc.MailMergeSettings.Query}");
+        //ExEnd
+    }
+
+    @Test
+    public void odsoFieldMapDataCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:Odso.FieldMapDatas
+        //ExFor:OdsoFieldMapData
+        //ExFor:OdsoFieldMapData.Clone
+        //ExFor:OdsoFieldMapData.Column
+        //ExFor:OdsoFieldMapData.MappedName
+        //ExFor:OdsoFieldMapData.Name
+        //ExFor:OdsoFieldMapData.Type
+        //ExFor:OdsoFieldMapDataCollection
+        //ExFor:OdsoFieldMapDataCollection.Add(OdsoFieldMapData)
+        //ExFor:OdsoFieldMapDataCollection.Clear
+        //ExFor:OdsoFieldMapDataCollection.Count
+        //ExFor:OdsoFieldMapDataCollection.GetEnumerator
+        //ExFor:OdsoFieldMapDataCollection.Item(Int32)
+        //ExFor:OdsoFieldMapDataCollection.RemoveAt(Int32)
+        //ExFor:OdsoFieldMappingType
+        //ExSummary:Shows how to access the collection of data that maps data source columns to merge fields.
+        Document doc = new Document(getMyDir() + "OdsoData.doc");
+
+        // This collection defines how columns from an external data source will be mapped to predefined MERGEFIELD,
+        // ADDRESSBLOCK and GREETINGLINE fields during a mail merge
+        OdsoFieldMapDataCollection fieldMapDataCollection = doc.getMailMergeSettings().getOdso().getFieldMapDatas();
+
+        msAssert.areEqual(30, fieldMapDataCollection.getCount());
+        int index = 0;
+
+        for (OdsoFieldMapData data : fieldMapDataCollection)
+        {
+            msConsole.writeLine($"Field map data index #{index++}, type \"{data.Type}\":");
+
+            if (data.getType() != OdsoFieldMappingType.NULL)
+            {
+                msConsole.writeLine(
+                    $"\tColumn named {data.Name}, number {data.Column} in the data source mapped to merge field named {data.MappedName}.");
+            }
+            else
+            {
+                msConsole.writeLine("\tNo valid column to field mapping data present.");
+            }
+
+            msAssert.areNotEqual(data, data.deepClone());
+        }
+        //ExEnd
+    }
+
+    @Test
+    public void odsoRecipientDataCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:Odso.RecipientDatas
+        //ExFor:OdsoRecipientData
+        //ExFor:OdsoRecipientData.Active
+        //ExFor:OdsoRecipientData.Clone
+        //ExFor:OdsoRecipientData.Column
+        //ExFor:OdsoRecipientData.Hash
+        //ExFor:OdsoRecipientData.UniqueTag
+        //ExFor:OdsoRecipientDataCollection
+        //ExFor:OdsoRecipientDataCollection.Add(OdsoRecipientData)
+        //ExFor:OdsoRecipientDataCollection.Clear
+        //ExFor:OdsoRecipientDataCollection.Count
+        //ExFor:OdsoRecipientDataCollection.GetEnumerator
+        //ExFor:OdsoRecipientDataCollection.Item(Int32)
+        //ExFor:OdsoRecipientDataCollection.RemoveAt(Int32)
+        //ExSummary:Shows how to access the collection of data that designates merge data source records to be excluded from a merge.
+        Document doc = new Document(getMyDir() + "OdsoData.doc");
+
+        // Records in this collection that do not have the "Active" flag set to true will be excluded from the mail merge
+        OdsoRecipientDataCollection odsoRecipientDataCollection = doc.getMailMergeSettings().getOdso().getRecipientDatas();
+
+        msAssert.areEqual(70, odsoRecipientDataCollection.getCount());
+        int index = 0;
+
+        for (OdsoRecipientData data : odsoRecipientDataCollection)
+        {
+            msConsole.writeLine($"Odso recipient data index #{index++}, will {(data.Active ? "" : "not ")}be imported upon mail merge.");
+            msConsole.writeLine($"\tColumn #{data.Column}");
+            msConsole.writeLine($"\tHash code: {data.Hash}");
+            msConsole.writeLine($"\tContents array length: {data.UniqueTag.Length}");
+
+            msAssert.areNotEqual(data, data.deepClone());
+        }
         //ExEnd
     }
 
@@ -3512,7 +3634,7 @@ public class ExDocument extends ApiExampleBase
         // A document typically refers to multiple fonts thus a text shaper factory is necessary.
         // When text shaper factory is set, layout starts to use OpenType features.
         // An Instance property returns static BasicTextShaperCache object wrapping HarfBuzzTextShaperFactory
-        doc.getLayoutOptions().setTextShaperFactory(HarfBuzzTextShaperFactory.Instance);
+        doc.getLayoutOptions().setTextShaperFactory(HarfBuzzTextShaperFactory.getInstance());
 
         // Render the document to PDF format
         doc.save(getArtifactsDir() + "OpenType.Document.pdf");

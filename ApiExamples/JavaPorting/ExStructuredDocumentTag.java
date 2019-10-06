@@ -39,8 +39,8 @@ import com.aspose.words.SdtListItem;
 import java.util.Iterator;
 import com.aspose.ms.System.Guid;
 import com.aspose.words.CustomXmlPart;
-import com.aspose.words.CustomXmlPartCollection;
 import com.aspose.ms.System.Text.Encoding;
+import com.aspose.words.CustomXmlPartCollection;
 import com.aspose.words.CustomXmlSchemaCollection;
 import com.aspose.words.SmartTag;
 import com.aspose.words.CustomXmlPropertyCollection;
@@ -76,7 +76,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         StructuredDocumentTag sdTagRepeatingSection = (StructuredDocumentTag) sdTags.get(0);
         msAssert.areEqual(SdtType.REPEATING_SECTION, sdTagRepeatingSection.getSdtType());
 
-        StructuredDocumentTag sdTagRichText = (StructuredDocumentTag) sdTags.get(1);
+        StructuredDocumentTag sdTagRichText = (StructuredDocumentTag) sdTags.get(2);
         msAssert.areEqual(SdtType.RICH_TEXT, sdTagRichText.getSdtType());
     }
 
@@ -442,7 +442,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExEnd
     }
 
-    @Test (groups = "SkipTearDown")
+    @Test
     public void creatingCustomXml() throws Exception
     {
         //ExStart
@@ -475,7 +475,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
 
         // The data we entered resides in these variables
-        msAssert.areEqual(xmlPartContent.toCharArray(), xmlPart.getData());
+        msAssert.areEqual(Encoding.getASCII().getBytes(xmlPartContent), xmlPart.getData());
         msAssert.areEqual(xmlPartId, xmlPart.getId());
 
         // XML parts can be referenced by collection index or GUID
@@ -628,7 +628,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:XmlMapping.StoreItemId
         //ExSummary:Shows how to get special id of your xml part.
-        Document doc = new Document(getArtifactsDir() + "SDT.CustomXml.docx");
+        Document doc = new Document(getMyDir() + "SDT.CustomXml.docx");
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
         msConsole.writeLine("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());

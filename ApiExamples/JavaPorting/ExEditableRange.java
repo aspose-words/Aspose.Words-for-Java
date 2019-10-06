@@ -116,8 +116,8 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         msAssert.areEqual(editableRange2.getId(), edRange2End.getEditableRangeStart().getEditableRange().getId());
 
         // If the editable range was found in a document, it will probably have something in the single user property
-        // But if we make one programmatically, the property is null by default
-        msAssert.areEqual(null, editableRange1.getSingleUser());
+        // But if we make one programmatically, the property is empty by default
+        msAssert.areEqual("", editableRange1.getSingleUser());
 
         // We have to set it ourselves if we want the ranges to belong to somebody
         editableRange1.setSingleUser("john.doe@myoffice.com");

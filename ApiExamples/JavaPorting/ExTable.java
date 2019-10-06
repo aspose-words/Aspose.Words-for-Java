@@ -11,17 +11,19 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
-import com.aspose.words.Table;
+import com.aspose.words.TableCollection;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import org.testng.Assert;
 import com.aspose.ms.System.msConsole;
-import com.aspose.words.Row;
-import com.aspose.words.Cell;
+import com.aspose.words.RowCollection;
+import com.aspose.words.CellCollection;
 import com.aspose.ms.System.msString;
 import com.aspose.words.SaveFormat;
-import org.testng.Assert;
+import com.aspose.words.Table;
+import com.aspose.words.NodeType;
 import com.aspose.words.Node;
-import com.aspose.words.TableCollection;
+import com.aspose.words.Row;
+import com.aspose.words.Cell;
 import com.aspose.words.Shape;
 import com.aspose.words.StoryType;
 import com.aspose.words.Section;
@@ -34,12 +36,12 @@ import com.aspose.words.LineStyle;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.TextureIndex;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.TextOrientation;
 import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.ControlChar;
 import com.aspose.words.Paragraph;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.words.NodeCollection;
 import com.aspose.words.PreferredWidthType;
 import com.aspose.words.Run;
 import com.aspose.words.CellMerge;
@@ -67,50 +69,66 @@ public class ExTable extends ApiExampleBase
     public void displayContentOfTables() throws Exception
     {
         //ExStart
-        //ExFor:Table
-        //ExFor:Row.Cells
-        //ExFor:Table.Rows
         //ExFor:Cell
-        //ExFor:Row
-        //ExFor:RowCollection
         //ExFor:CellCollection
-        //ExFor:NodeCollection.IndexOf(Node)
+        //ExFor:CellCollection.Item(System.Int32)
+        //ExFor:CellCollection.ToArray
+        //ExFor:Row
+        //ExFor:Row.Cells
+        //ExFor:RowCollection
+        //ExFor:RowCollection.Item(System.Int32)
+        //ExFor:RowCollection.ToArray
+        //ExFor:Table
+        //ExFor:Table.Rows
+        //ExFor:TableCollection.Item(System.Int32)
+        //ExFor:TableCollection.ToArray
         //ExSummary:Shows how to iterate through all tables in the document and display the content from each cell.
         Document doc = new Document(getMyDir() + "Table.Document.doc");
 
         // Here we get all tables from the Document node. You can do this for any other composite node
         // which can contain block level nodes. For example you can retrieve tables from header or from a cell
         // containing another table (nested tables).
-        NodeCollection tables = doc.getChildNodes(NodeType.TABLE, true);
+        TableCollection tables = doc.getFirstSection().getBody().getTables();
+
+        // We can make a new array to clone all of the tables in the collection
+        msAssert.areEqual(2, tables.toArray().length);
 
         // Iterate through all tables in the document
-        for (Table table : tables.<Table>OfType() !!Autoporter error: Undefined expression type )
+        for (int i = 0; i < tables.getCount(); i++)
         {
             // Get the index of the table node as contained in the parent node of the table
-            int tableIndex = table.getParentNode().getChildNodes().indexOf(table);
-            msConsole.writeLine("Start of Table {0}", tableIndex);
+            msConsole.writeLine($"Start of Table {i}");
+
+            RowCollection rows = tables.get(i).getRows();
+
+            // RowCollections can be cloned into arrays
+            msAssert.areEqual(rows, rows.toArray());
+            Assert.assertNotSame(rows, rows.toArray());
 
             // Iterate through all rows in the table
-            for (Row row : table.getRows().<Row>OfType() !!Autoporter error: Undefined expression type )
+            for (int j = 0; j < rows.getCount(); j++)
             {
-                int rowIndex = table.getRows().indexOf(row);
-                msConsole.writeLine("\tStart of Row {0}", rowIndex);
+                msConsole.writeLine($"\tStart of Row {j}");
+
+                CellCollection cells = rows.get(j).getCells();
+
+                // RowCollections can also be cloned into arrays 
+                msAssert.areEqual(cells, cells.toArray());
+                Assert.assertNotSame(cells, cells.toArray());
 
                 // Iterate through all cells in the row
-                for (Cell cell : row.getCells().<Cell>OfType() !!Autoporter error: Undefined expression type )
+                for (int k = 0; k < cells.getCount(); k++)
                 {
-                    int cellIndex = row.getCells().indexOf(cell);
                     // Get the plain text content of this cell.
-                    String cellText = msString.trim(cell.toString(SaveFormat.TEXT));
+                    String cellText = msString.trim(cells.get(k).toString(SaveFormat.TEXT));
                     // Print the content of the cell.
-                    msConsole.writeLine("\t\tContents of Cell:{0} = \"{1}\"", cellIndex, cellText);
+                    msConsole.writeLine($"\t\tContents of Cell:{k} = \"{cellText}\"");
                 }
 
-                msConsole.writeLine("\tEnd of Row {0}", rowIndex);
+                msConsole.writeLine($"\tEnd of Row {j}");
             }
 
-            msConsole.writeLine("End of Table {0}", tableIndex);
-            msConsole.writeLine();
+            msConsole.writeLine($"End of Table {i}\n");
         }
         //ExEnd
 
@@ -366,6 +384,7 @@ public class ExTable extends ApiExampleBase
         //ExFor:Table.Alignment
         //ExFor:TableAlignment
         //ExFor:Table.ClearBorders
+        //ExFor:Table.ClearShading
         //ExFor:Table.SetBorder
         //ExFor:TextureIndex
         //ExFor:Table.SetShading
@@ -377,8 +396,9 @@ public class ExTable extends ApiExampleBase
         // Align the table to the center of the page.
         table.setAlignment(TableAlignment.CENTER);
 
-        // Clear any existing borders from the table.
+        // Clear any existing borders and shading from the table.
         table.clearBorders();
+        table.clearShading();
 
         // Set a green border around the table but not inside. 
         table.setBorder(BorderType.LEFT, LineStyle.SINGLE, 1.5, msColor.getGreen(), true);
@@ -494,6 +514,12 @@ public class ExTable extends ApiExampleBase
     @Test
     public void getDistance() throws Exception
     {
+        //ExStart
+        //ExFor:Table.DistanceBottom
+        //ExFor:Table.DistanceLeft
+        //ExFor:Table.DistanceRight
+        //ExFor:Table.DistanceTop
+        //ExSummary:Shows the minimum distance operations between table boundaries and text.
         Document doc = new Document(getMyDir() + "Table.Distance.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -502,6 +528,7 @@ public class ExTable extends ApiExampleBase
         msAssert.areEqual(26.35d, table.getDistanceBottom());
         msAssert.areEqual(9.05d, table.getDistanceLeft());
         msAssert.areEqual(22.7d, table.getDistanceRight());
+        //ExEnd
     }
 
     @Test
@@ -845,7 +872,7 @@ public class ExTable extends ApiExampleBase
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         //ExStart
-        //ExFor:NodeCollection.IndexOf
+        //ExFor:NodeCollection.IndexOf(Node)
         //ExId:IndexOfTable
         //ExSummary:Retrieves the index of a table in the document.
         NodeCollection allTables = doc.getChildNodes(NodeType.TABLE, true);
@@ -1245,6 +1272,10 @@ public class ExTable extends ApiExampleBase
     @Test
     public void checkDefaultValuesForFloatingTableProperties() throws Exception
     {
+        //ExStart
+        //ExFor:Table.TextWrapping
+        //ExFor:TextWrapping
+        //ExSummary:Shows how to work with table text wrapping.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1260,6 +1291,7 @@ public class ExTable extends ApiExampleBase
             msAssert.areEqual(0, table.getAbsoluteVerticalDistance());
             msAssert.areEqual(true, table.getAllowOverlap());
         }
+        //ExEnd
     }
 
     @Test
@@ -1296,6 +1328,10 @@ public class ExTable extends ApiExampleBase
     public void tableStyleCreation() throws Exception
     {
         //ExStart
+        //ExFor:Table.Bidi
+        //ExFor:Table.CellSpacing
+        //ExFor:Table.Style
+        //ExFor:Table.StyleName
         //ExFor:TableStyle
         //ExFor:TableStyle.AllowBreakAcrossPages
         //ExFor:TableStyle.Bidi
@@ -1333,7 +1369,12 @@ public class ExTable extends ApiExampleBase
         tableStyle.getBorders().setLineStyle(LineStyle.DOT_DASH);
 
         table.setStyle(tableStyle);
- 
+
+        // Some Table attributes are linked to style variables
+        msAssert.areEqual(true, table.getBidi());
+        msAssert.areEqual(5.0, table.getCellSpacing());
+        msAssert.areEqual("MyTableStyle1", table.getStyleName());
+
         doc.save(getArtifactsDir() + "Table.TableStyleCreation.docx");
         //ExEnd
     }
@@ -1387,6 +1428,7 @@ public class ExTable extends ApiExampleBase
         //ExFor:ConditionalStyleCollection.TopLeftCell
         //ExFor:ConditionalStyleCollection.TopRightCell
         //ExFor:ConditionalStyleType
+        //ExFor:TableStyle.ConditionalStyles
         //ExSummary:Shows how to work with certain area styles of a table.
         Document doc = new Document(getMyDir() + "Table.ConditionalStyles.docx");
 
