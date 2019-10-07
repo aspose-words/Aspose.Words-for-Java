@@ -24,46 +24,64 @@ public class ExTable extends ApiExampleBase {
     @Test
     public void displayContentOfTables() throws Exception {
         //ExStart
-        //ExFor:Table
-        //ExFor:Row.Cells
-        //ExFor:Table.Rows
         //ExFor:Cell
-        //ExFor:Row
-        //ExFor:RowCollection
         //ExFor:CellCollection
-        //ExFor:NodeCollection.IndexOf(Node)
+        //ExFor:CellCollection.Item(System.Int32)
+        //ExFor:CellCollection.ToArray
+        //ExFor:Row
+        //ExFor:Row.Cells
+        //ExFor:RowCollection
+        //ExFor:RowCollection.Item(System.Int32)
+        //ExFor:RowCollection.ToArray
+        //ExFor:Table
+        //ExFor:Table.Rows
+        //ExFor:TableCollection.Item(System.Int32)
+        //ExFor:TableCollection.ToArray
         //ExSummary:Shows how to iterate through all tables in the document and display the content from each cell.
         Document doc = new Document(getMyDir() + "Table.Document.doc");
 
         // Here we get all tables from the Document node. You can do this for any other composite node
         // which can contain block level nodes. For example you can retrieve tables from header or from a cell
         // containing another table (nested tables).
-        NodeCollection tables = doc.getChildNodes(NodeType.TABLE, true);
+        TableCollection tables = doc.getFirstSection().getBody().getTables();
+
+        // We can make a new array to clone all of the tables in the collection
+        Assert.assertEquals(tables.toArray().length, 2);
 
         // Iterate through all tables in the document
-        for (Table table : (Iterable<Table>) tables) {
+        for (int i = 0; i < tables.getCount(); i++)
+        {
             // Get the index of the table node as contained in the parent node of the table
-            int tableIndex = table.getParentNode().getChildNodes().indexOf(table);
-            System.out.println(MessageFormat.format("Start of Table {0}", tableIndex));
+            System.out.println(MessageFormat.format("Start of Table {0}", i));
+
+            RowCollection rows = tables.get(i).getRows();
+
+            // RowCollections can be cloned into arrays
+            Assert.assertNotSame(rows, rows.toArray());
 
             // Iterate through all rows in the table
-            for (Row row : table.getRows()) {
-                int rowIndex = table.getRows().indexOf(row);
-                System.out.println(MessageFormat.format("\tStart of Row {0}", rowIndex));
+            for (int j = 0; j < rows.getCount(); j++)
+            {
+                System.out.println(MessageFormat.format("\tStart of Row {0}", j));
+
+                CellCollection cells = rows.get(j).getCells();
+
+                // RowCollections can also be cloned into arrays
+                Assert.assertNotSame(cells, cells.toArray());
 
                 // Iterate through all cells in the row
-                for (Cell cell : row.getCells()) {
-                    int cellIndex = row.getCells().indexOf(cell);
+                for (int k = 0; k < cells.getCount(); k++)
+                {
                     // Get the plain text content of this cell.
-                    String cellText = cell.toString(SaveFormat.TEXT).trim();
+                    String cellText = cells.get(k).toString(SaveFormat.TEXT).trim();
                     // Print the content of the cell.
-                    System.out.println(MessageFormat.format("\t\tContents of Cell:{0} = \"{1}\"", cellIndex, cellText));
+                    System.out.println(MessageFormat.format("\t\tContents of Cell:{0} = \"{1}\"", k, cellText));
                 }
-                //Console.WriteLine();
-                System.out.println(MessageFormat.format("\tEnd of Row {0}", rowIndex));
+
+                System.out.println(MessageFormat.format("\tEnd of Row {0}", j));
             }
-            System.out.println(MessageFormat.format("End of Table {0}", tableIndex));
-            System.out.println();
+
+            System.out.println(MessageFormat.format("End of Table {0}\n", i));
         }
         //ExEnd
 
@@ -311,6 +329,7 @@ public class ExTable extends ApiExampleBase {
         //ExFor:Table.Alignment
         //ExFor:TableAlignment
         //ExFor:Table.ClearBorders
+        //ExFor:Table.ClearShading
         //ExFor:Table.SetBorder
         //ExFor:TextureIndex
         //ExFor:Table.SetShading
@@ -322,8 +341,9 @@ public class ExTable extends ApiExampleBase {
         // Align the table to the center of the page.
         table.setAlignment(TableAlignment.CENTER);
 
-        // Clear any existing borders from the table.
+        // Clear any existing borders and shading from the table.
         table.clearBorders();
+        table.clearShading();
 
         // Set a green border around the table but not inside.
         table.setBorder(BorderType.LEFT, LineStyle.SINGLE, 1.5, Color.GREEN, true);
@@ -435,6 +455,12 @@ public class ExTable extends ApiExampleBase {
 
     @Test
     public void getDistance() throws Exception {
+        //ExStart
+        //ExFor:Table.DistanceBottom
+        //ExFor:Table.DistanceLeft
+        //ExFor:Table.DistanceRight
+        //ExFor:Table.DistanceTop
+        //ExSummary:Shows the minimum distance operations between table boundaries and text.
         Document doc = new Document(getMyDir() + "Table.Distance.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -443,6 +469,7 @@ public class ExTable extends ApiExampleBase {
         Assert.assertEquals(table.getDistanceBottom(), 26.35d);
         Assert.assertEquals(table.getDistanceLeft(), 9.05d);
         Assert.assertEquals(table.getDistanceRight(), 22.7d);
+        //ExEnd
     }
 
     @Test
@@ -778,7 +805,7 @@ public class ExTable extends ApiExampleBase {
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         //ExStart
-        //ExFor:NodeCollection.IndexOf
+        //ExFor:NodeCollection.IndexOf(Node)
         //ExId:IndexOfTable
         //ExSummary:Retrieves the index of a table in the document.
         NodeCollection allTables = doc.getChildNodes(NodeType.TABLE, true);
@@ -1165,6 +1192,10 @@ public class ExTable extends ApiExampleBase {
 
     @Test
     public void checkDefaultValuesForFloatingTableProperties() throws Exception {
+        //ExStart
+        //ExFor:Table.TextWrapping
+        //ExFor:TextWrapping
+        //ExSummary:Shows how to work with table text wrapping.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1179,6 +1210,7 @@ public class ExTable extends ApiExampleBase {
             Assert.assertEquals(table.getAbsoluteVerticalDistance(), 0);
             Assert.assertEquals(table.getAllowOverlap(), true);
         }
+        //ExEnd
     }
 
     @Test
@@ -1212,6 +1244,10 @@ public class ExTable extends ApiExampleBase {
     @Test
     public void tableStyleCreation() throws Exception {
         //ExStart
+        //ExFor:Table.Bidi
+        //ExFor:Table.CellSpacing
+        //ExFor:Table.Style
+        //ExFor:Table.StyleName
         //ExFor:TableStyle
         //ExFor:TableStyle.AllowBreakAcrossPages
         //ExFor:TableStyle.Bidi
@@ -1249,6 +1285,11 @@ public class ExTable extends ApiExampleBase {
         tableStyle.getBorders().setLineStyle(LineStyle.DOT_DASH);
 
         table.setStyle(tableStyle);
+
+        // Some Table attributes are linked to style variables
+        Assert.assertEquals(table.getBidi(), true);
+        Assert.assertEquals(table.getCellSpacing(), 5.0);
+        Assert.assertEquals(table.getStyleName(), "MyTableStyle1");
 
         doc.save(getArtifactsDir() + "Table.TableStyleCreation.docx");
         //ExEnd
@@ -1301,6 +1342,7 @@ public class ExTable extends ApiExampleBase {
         //ExFor:ConditionalStyleCollection.TopLeftCell
         //ExFor:ConditionalStyleCollection.TopRightCell
         //ExFor:ConditionalStyleType
+        //ExFor:TableStyle.ConditionalStyles
         //ExSummary:Shows how to work with certain area styles of a table.
         Document doc = new Document(getMyDir() + "Table.ConditionalStyles.docx");
 

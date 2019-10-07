@@ -51,6 +51,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         //ExSummary:Shows how to load all existing signatures from a document.
         // Load all signatures from the document using string parameters
         DigitalSignatureCollection digitalSignatures = DigitalSignatureUtil.loadSignatures(getMyDir() + "Document.DigitalSignature.docx");
+        Assert.assertNotNull(digitalSignatures);
 
         // Load all signatures from the document using stream parameters
         InputStream stream = new FileInputStream(getMyDir() + "Document.DigitalSignature.docx");
@@ -135,10 +136,6 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         //ExFor:SignOptions.DecryptionPassword
         //ExFor:LoadOptions.Password
         //ExSummary:Shows how to sign encrypted document opened from a file.
-        String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
-
-        Document doc = new Document(getMyDir() + "Document.Encrypted.docx", new LoadOptions("docPassword"));
-
         // Create certificate holder from a file.
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
@@ -148,7 +145,10 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         signOptions.setDecryptionPassword("docPassword");
 
         // Digitally sign encrypted with "docPassword" document in the specified path.
-        DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, certificateHolder, signOptions);
+        String inputFileName = getMyDir() + "Document.Encrypted.docx";
+        String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
+
+        DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
 
         // Open encrypted document from a file.
         LoadOptions loadOptions = new LoadOptions("docPassword");
