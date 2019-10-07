@@ -8,16 +8,13 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.pdf.*;
+import com.aspose.pdf.JavascriptAction;
+import com.aspose.pdf.LinkAnnotation;
+import com.aspose.pdf.Page;
+import com.aspose.pdf.TextFragmentAbsorber;
 import com.aspose.pdf.facades.Bookmarks;
 import com.aspose.pdf.facades.PdfBookmarkEditor;
 import com.aspose.words.*;
-import com.aspose.words.Document;
-import com.aspose.words.PdfSaveOptions;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.SaveOptions;
-import com.aspose.words.WarningInfo;
-import com.aspose.words.WarningType;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -315,10 +312,10 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public static Object[][] escapeUriDataProvider() {
         return new Object[][]
                 {
-                        {"https://www.google.com/search?q= aspose",  "app.launchURL(\"https://www.google.com/search?q=%20aspose\", true);",  true},
-                        {"https://www.google.com/search?q=%20aspose",  "app.launchURL(\"https://www.google.com/search?q=%20aspose\", true);",  true},
-                        {"https://www.google.com/search?q= aspose",  "app.launchURL(\"https://www.google.com/search?q= aspose\", true);",  false},
-                        {"https://www.google.com/search?q=%20aspose",  "app.launchURL(\"https://www.google.com/search?q=%20aspose\", true);",  false}
+                        {"https://www.google.com/search?q= aspose", "app.launchURL(\"https://www.google.com/search?q=%20aspose\", true);", true},
+                        {"https://www.google.com/search?q=%20aspose", "app.launchURL(\"https://www.google.com/search?q=%20aspose\", true);", true},
+                        {"https://www.google.com/search?q= aspose", "app.launchURL(\"https://www.google.com/search?q= aspose\", true);", false},
+                        {"https://www.google.com/search?q=%20aspose", "app.launchURL(\"https://www.google.com/search?q=%20aspose\", true);", false}
                 };
     }
 
@@ -462,8 +459,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void saveAsPdfBookFold() throws Exception
-    {
+    public void saveAsPdfBookFold() throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.UseBookFoldPrintingSettings
         //ExSummary:Shows how to save a document to the PDF format in the form of a book fold.
@@ -471,8 +467,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // Configure both page setup and PdfSaveOptions to create a book fold
-        for (Section s : (Iterable<Section>) doc.getSections())
-        {
+        for (Section s : (Iterable<Section>) doc.getSections()) {
             s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
         }
 
@@ -486,8 +481,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void zoomBehaviour() throws Exception
-    {
+    public void zoomBehaviour() throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.PageMode
         //ExFor:PdfSaveOptions.ZoomBehavior
@@ -510,8 +504,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void noteHyperlinks() throws Exception
-    {
+    public void noteHyperlinks() throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.CreateNoteHyperlinks
         //ExSummary:Shows how to make footnotes and endnotes work like hyperlinks.
@@ -529,8 +522,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void customPropertiesExport() throws Exception
-    {
+    public void customPropertiesExport() throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.CustomPropertiesExport
         //ExSummary:Shows how to export custom properties while saving to .pdf.
@@ -549,8 +541,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void drawingML() throws Exception
-    {
+    public void drawingML() throws Exception {
         //ExStart
         //ExFor:DmlRenderingMode
         //ExFor:PdfSaveOptions.DmlEffectsRenderingMode
@@ -568,8 +559,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void exportDocumentStructure() throws Exception
-    {
+    public void exportDocumentStructure() throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.ExportDocumentStructure
         //ExSummary:Shows how to convert a .docx to .pdf while preserving the document structure.
@@ -586,8 +576,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void preblendImages() throws Exception
-    {
+    public void preblendImages() throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.PreblendImages
         //ExSummary:Shows how to preblend images with transparent backgrounds.

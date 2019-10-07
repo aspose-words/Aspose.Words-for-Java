@@ -208,8 +208,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     //ExFor:HtmlFixedSaveOptions.ShowPageBorder
     //ExSummary:Shows how to print the URIs of linked resources created during conversion of a document to fixed-form .html.
     @Test //ExSkip
-    public void htmlFixedResourceFolder() throws Exception
-    {
+    public void htmlFixedResourceFolder() throws Exception {
         // Open a document which contains images
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
@@ -233,19 +232,15 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     /// <summary>
     /// Counts and prints URIs of resources contained by as they are converted to fixed .Html
     /// </summary>
-    private static class ResourceUriPrinter implements IResourceSavingCallback
-    {
-        public void resourceSaving(ResourceSavingArgs args) throws Exception
-        {
+    private static class ResourceUriPrinter implements IResourceSavingCallback {
+        public void resourceSaving(ResourceSavingArgs args) throws Exception {
             // If we set a folder alias in the SaveOptions object, it will be printed here
             System.out.println(MessageFormat.format("Resource #{0} \"{1}\"", ++mSavedResourceCount, args.getResourceFileName()));
 
             String extension = FilenameUtils.getExtension(args.getResourceFileName());
-            switch (extension)
-            {
+            switch (extension) {
                 case "ttf":
-                case "woff":
-                {
+                case "woff": {
                     // By default 'ResourceFileUri' used system folder for fonts
                     // To avoid problems across platforms you must explicitly specify the path for the fonts
                     args.setResourceFileUri(getArtifactsDir() + File.separatorChar + args.getResourceFileName());

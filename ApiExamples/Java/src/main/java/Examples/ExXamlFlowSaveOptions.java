@@ -7,20 +7,15 @@
 
 package Examples;
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.XamlFlowSaveOptions;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.IImageSavingCallback;
-import com.aspose.words.ImageSavingArgs;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.MessageFormat;
 
 @Test
-public class ExXamlFlowSaveOptions extends ApiExampleBase
-{
+public class ExXamlFlowSaveOptions extends ApiExampleBase {
     //ExStart
     //ExFor:XamlFlowSaveOptions
     //ExFor:XamlFlowSaveOptions.#ctor
@@ -31,8 +26,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
     //ExFor:XamlFlowSaveOptions.SaveFormat
     //ExSummary:Shows how to print the filenames of linked images created during conversion of a document to flow-form .xaml.
     @Test //ExSkip
-    public void xamlFlowImageFolder() throws Exception
-    {
+    public void xamlFlowImageFolder() throws Exception {
         // Open a document which contains images
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
@@ -54,15 +48,12 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
     /// <summary>
     /// Counts and prints filenames of images while their parent document is converted to flow-form .xaml
     /// </summary>
-    private static class ImageUriPrinter implements IImageSavingCallback
-    {
-        public ImageUriPrinter(String imagesFolderAlias)
-        {
+    private static class ImageUriPrinter implements IImageSavingCallback {
+        public ImageUriPrinter(String imagesFolderAlias) {
             mImagesFolderAlias = imagesFolderAlias;
         }
 
-        public void imageSaving(ImageSavingArgs args) throws Exception
-        {
+        public void imageSaving(ImageSavingArgs args) throws Exception {
             System.out.println(MessageFormat.format("Image #{0} \"{1}\"", ++mSavedImageCount, args.getImageFileName()));
 
             // If we specified a ImagesFolderAlias we will also need to redirect each stream to put its image in that folder

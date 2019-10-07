@@ -7,20 +7,15 @@
 
 package Examples;
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.XamlFixedSaveOptions;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.IResourceSavingCallback;
-import com.aspose.words.ResourceSavingArgs;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.MessageFormat;
 
 @Test
-public class ExXamlFixedSaveOptions extends ApiExampleBase
-{
+public class ExXamlFixedSaveOptions extends ApiExampleBase {
     //ExStart
     //ExFor:XamlFixedSaveOptions
     //ExFor:XamlFixedSaveOptions.ResourceSavingCallback
@@ -29,8 +24,7 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase
     //ExFor:XamlFixedSaveOptions.SaveFormat
     //ExSummary:Shows how to print the URIs of linked resources created during conversion of a document to fixed-form .xaml.
     @Test //ExSkip
-    public void xamlFixedResourceFolder() throws Exception
-    {
+    public void xamlFixedResourceFolder() throws Exception {
         // Open a document which contains resources
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
@@ -52,10 +46,8 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase
     /// <summary>
     /// Counts and prints URIs of resources created during conversion to to fixed .xaml
     /// </summary>
-    private static class ResourceUriPrinter implements IResourceSavingCallback
-    {
-        public void resourceSaving(ResourceSavingArgs args) throws Exception
-        {
+    private static class ResourceUriPrinter implements IResourceSavingCallback {
+        public void resourceSaving(ResourceSavingArgs args) throws Exception {
             // If we set a folder alias in the SaveOptions object, it will be printed here
             System.out.println(MessageFormat.format("Resource #{0} \"{1}\"", ++mSavedResourceCount, args.getResourceFileName()));
             System.out.println("\t" + args.getResourceFileUri());

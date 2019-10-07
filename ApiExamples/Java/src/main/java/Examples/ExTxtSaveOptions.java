@@ -12,7 +12,6 @@ import com.aspose.words.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class ExTxtSaveOptions extends ApiExampleBase {
@@ -94,8 +93,7 @@ public class ExTxtSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void paragraphBreak() throws Exception
-    {
+    public void paragraphBreak() throws Exception {
         //ExStart
         //ExFor:TxtSaveOptions
         //ExFor:TxtSaveOptions.SaveFormat
@@ -110,15 +108,18 @@ public class ExTxtSaveOptions extends ApiExampleBase {
         builder.write("Paragraph 3.");
 
         // When saved to plain text, the paragraphs we created can be separated by a custom string
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions(); { txtSaveOptions.setSaveFormat(SaveFormat.TEXT); txtSaveOptions.setParagraphBreak(" End of paragraph.\n\n\t"); }
+        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
+        {
+            txtSaveOptions.setSaveFormat(SaveFormat.TEXT);
+            txtSaveOptions.setParagraphBreak(" End of paragraph.\n\n\t");
+        }
 
         doc.save(getArtifactsDir() + "TxtSaveOptions.ParagraphBreak.txt", txtSaveOptions);
         //ExEnd
     }
 
     @Test
-    public void encoding() throws Exception
-    {
+    public void encoding() throws Exception {
         //ExStart
         //ExFor:TxtSaveOptionsBase.Encoding
         //ExSummary:Shows how to set encoding for a .txt output document.
@@ -128,15 +129,17 @@ public class ExTxtSaveOptions extends ApiExampleBase {
         builder.writeln("Ã€ Ãˆ ÃŒ Ã’ Ã™.");
 
         // We can use a SaveOptions object to make sure the encoding we save the .txt document in supports our content
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions(); { txtSaveOptions.setEncoding(StandardCharsets.UTF_8); }
+        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
+        {
+            txtSaveOptions.setEncoding(StandardCharsets.UTF_8);
+        }
 
         doc.save(getArtifactsDir() + "TxtSaveOptions.Encoding.txt", txtSaveOptions);
         //ExEnd
     }
 
     @Test
-    public void appearance() throws Exception
-    {
+    public void appearance() throws Exception {
         //ExStart
         //ExFor:TxtSaveOptionsBase.PreserveTableLayout
         //ExFor:TxtSaveOptions.SimplifyListLabels
@@ -149,7 +152,11 @@ public class ExTxtSaveOptions extends ApiExampleBase {
         // We can preserve some of the table layout in the appearance of our content with the PreserveTableLayout flag
         // The SimplifyListLabels flag will convert some list symbols
         // into ASCII characters such as *, o, +, > etc, depending on list level
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions(); { txtSaveOptions.setSimplifyListLabels(true); txtSaveOptions.setPreserveTableLayout(true);}
+        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
+        {
+            txtSaveOptions.setSimplifyListLabels(true);
+            txtSaveOptions.setPreserveTableLayout(true);
+        }
 
         doc.save(getArtifactsDir() + "TxtSaveOptions.Appearance.txt", txtSaveOptions);
         //ExEnd

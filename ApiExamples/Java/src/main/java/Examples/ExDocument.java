@@ -2505,8 +2505,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void odsoEmail() throws Exception
-    {
+    public void odsoEmail() throws Exception {
         //ExStart
         //ExFor:Odso.TableName
         //ExFor:Odso.UdlConnectString
@@ -2524,8 +2523,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void odsoFieldMapDataCollection() throws Exception
-    {
+    public void odsoFieldMapDataCollection() throws Exception {
         //ExStart
         //ExFor:Odso.FieldMapDatas
         //ExFor:OdsoFieldMapData
@@ -2552,16 +2550,12 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(fieldMapDataCollection.getCount(), 30);
         int index = 0;
 
-        for (OdsoFieldMapData data : fieldMapDataCollection)
-        {
+        for (OdsoFieldMapData data : fieldMapDataCollection) {
             System.out.println(MessageFormat.format("Field map data index #{0}, type \"{1}\":", index++, data.getType()));
 
-            if (data.getType() != OdsoFieldMappingType.NULL)
-            {
+            if (data.getType() != OdsoFieldMappingType.NULL) {
                 System.out.println(MessageFormat.format("\tColumn named {0}, number {1} in the data source mapped to merge field named {2}.", data.getName(), data.getColumn(), data.getMappedName()));
-            }
-            else
-            {
+            } else {
                 System.out.println("\tNo valid column to field mapping data present.");
             }
 
@@ -2571,8 +2565,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void odsoRecipientDataCollection() throws Exception
-    {
+    public void odsoRecipientDataCollection() throws Exception {
         //ExStart
         //ExFor:Odso.RecipientDatas
         //ExFor:OdsoRecipientData
@@ -2597,8 +2590,7 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(odsoRecipientDataCollection.getCount(), 70);
         int index = 0;
 
-        for (OdsoRecipientData data : odsoRecipientDataCollection)
-        {
+        for (OdsoRecipientData data : odsoRecipientDataCollection) {
             System.out.println(MessageFormat.format("Odso recipient data index #{0}, will {1}be imported upon mail merge.", index++, (data.getActive() ? "" : "not ")));
             System.out.println(MessageFormat.format("\tColumn #{0}", data.getColumn()));
             System.out.println(MessageFormat.format("\tHash code: {0}", data.getHash()));

@@ -49,8 +49,7 @@ public class ExTable extends ApiExampleBase {
         Assert.assertEquals(tables.toArray().length, 2);
 
         // Iterate through all tables in the document
-        for (int i = 0; i < tables.getCount(); i++)
-        {
+        for (int i = 0; i < tables.getCount(); i++) {
             // Get the index of the table node as contained in the parent node of the table
             System.out.println(MessageFormat.format("Start of Table {0}", i));
 
@@ -60,8 +59,7 @@ public class ExTable extends ApiExampleBase {
             Assert.assertNotSame(rows, rows.toArray());
 
             // Iterate through all rows in the table
-            for (int j = 0; j < rows.getCount(); j++)
-            {
+            for (int j = 0; j < rows.getCount(); j++) {
                 System.out.println(MessageFormat.format("\tStart of Row {0}", j));
 
                 CellCollection cells = rows.get(j).getCells();
@@ -70,8 +68,7 @@ public class ExTable extends ApiExampleBase {
                 Assert.assertNotSame(cells, cells.toArray());
 
                 // Iterate through all cells in the row
-                for (int k = 0; k < cells.getCount(); k++)
-                {
+                for (int k = 0; k < cells.getCount(); k++) {
                     // Get the plain text content of this cell.
                     String cellText = cells.get(k).toString(SaveFormat.TEXT).trim();
                     // Print the content of the cell.

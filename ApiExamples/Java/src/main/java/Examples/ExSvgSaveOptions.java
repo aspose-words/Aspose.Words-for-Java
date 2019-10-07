@@ -7,23 +7,16 @@
 
 package Examples;
 
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.SvgSaveOptions;
-import com.aspose.words.SvgTextOutputMode;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.IResourceSavingCallback;
-import com.aspose.words.ResourceSavingArgs;
 
 import java.io.File;
 import java.text.MessageFormat;
 
 @Test
-public class ExSvgSaveOptions extends ApiExampleBase
-{
+public class ExSvgSaveOptions extends ApiExampleBase {
     @Test
-    public void saveLikeImage() throws Exception
-    {
+    public void saveLikeImage() throws Exception {
         //ExStart
         //ExFor:SvgSaveOptions.FitToViewPort
         //ExFor:SvgSaveOptions.ShowPageBorder
@@ -53,8 +46,7 @@ public class ExSvgSaveOptions extends ApiExampleBase
     //ExFor:SvgSaveOptions.SaveFormat
     //ExSummary:Shows how to manipulate and print the URIs of linked resources created during conversion of a document to .svg.
     @Test //ExSkip
-    public void svgResourceFolder() throws Exception
-    {
+    public void svgResourceFolder() throws Exception {
         // Open a document which contains images
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
@@ -77,10 +69,8 @@ public class ExSvgSaveOptions extends ApiExampleBase
     /// <summary>
     /// Counts and prints URIs of resources contained by as they are converted to .svg
     /// </summary>
-    private static class ResourceUriPrinter implements IResourceSavingCallback
-    {
-        public void resourceSaving(ResourceSavingArgs args)
-        {
+    private static class ResourceUriPrinter implements IResourceSavingCallback {
+        public void resourceSaving(ResourceSavingArgs args) {
             // If we set a folder alias in the SaveOptions object, it will be printed here
             System.out.println(MessageFormat.format("Resource #{0} \"{1}\"", ++mSavedResourceCount, args.getResourceFileName()));
             System.out.println("\t" + args.getResourceFileUri());

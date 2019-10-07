@@ -129,8 +129,7 @@ public class ExRendering extends ApiExampleBase {
     }
 
     @Test
-    public void saveAsXps() throws Exception
-    {
+    public void saveAsXps() throws Exception {
         //ExStart
         //ExFor:XpsSaveOptions
         //ExFor:XpsSaveOptions.#ctor
@@ -166,8 +165,7 @@ public class ExRendering extends ApiExampleBase {
     }
 
     @Test
-    public void saveAsXpsBookFold() throws Exception
-    {
+    public void saveAsXpsBookFold() throws Exception {
         //ExStart
         //ExFor:XpsSaveOptions.#ctor(SaveFormat)
         //ExFor:XpsSaveOptions.UseBookFoldPrintingSettings
@@ -176,8 +174,7 @@ public class ExRendering extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // Configure both page setup and XpsSaveOptions to create a book fold
-        for (Section s : (Iterable<Section>) doc.getSections())
-        {
+        for (Section s : (Iterable<Section>) doc.getSections()) {
             s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
         }
 

@@ -36,8 +36,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
     }
 
     @Test
-    public void encryptedHtml() throws Exception
-    {
+    public void encryptedHtml() throws Exception {
         //ExStart
         //ExFor:HtmlLoadOptions.#ctor(String)
         //ExSummary:Shows how to encrypt an Html document and then open it using a password.
@@ -66,8 +65,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
     }
 
     @Test
-    public void baseUri() throws Exception
-    {
+    public void baseUri() throws Exception {
         //ExStart
         //ExFor:HtmlLoadOptions.#ctor(LoadFormat,String,String)
         //ExSummary:Shows how to specify a base URI when opening an html document.
@@ -82,7 +80,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         // The image will be displayed correctly by the output document and
         doc.save(getArtifactsDir() + "Shape.BaseUri.docx");
 
-        Shape imgShape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
+        Shape imgShape = (Shape) doc.getChildNodes(NodeType.SHAPE, true).get(0);
         Assert.assertTrue(imgShape.isImage());
 
         imgShape.getImageData().save(getArtifactsDir() + "BaseUri.png");

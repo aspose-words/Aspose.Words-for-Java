@@ -288,8 +288,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
             int rowWidth = row.indexOf(row.getLastCell()) + 1;
             int rowIndex = row.getParentTable().indexOf(row);
             String rowStatusInTable = row.isFirstRow() && row.isLastRow() ? "only" : row.isFirstRow() ? "first" : row.isLastRow() ? "last" : "";
-            if (!"".equals(rowStatusInTable))
-            {
+            if (!"".equals(rowStatusInTable)) {
                 rowStatusInTable = MessageFormat.format(", the {0} row in this table,", rowStatusInTable);
             }
 
@@ -316,8 +315,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
             Row row = cell.getParentRow();
             Table table = row.getParentTable();
             String cellStatusInRow = cell.isFirstCell() && cell.isLastCell() ? "only" : cell.isFirstCell() ? "first" : cell.isLastCell() ? "last" : "";
-            if (!"".equals(cellStatusInRow))
-            {
+            if (!"".equals(cellStatusInRow)) {
                 cellStatusInRow = MessageFormat.format(", the {0} cell in this row", cellStatusInRow);
             }
 
