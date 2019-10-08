@@ -904,6 +904,7 @@ public class ExRendering extends ApiExampleBase
         //ExEnd
     }
 
+
     @Test
     public void setTrueTypeFontsFolder() throws Exception
     {

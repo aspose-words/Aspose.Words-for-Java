@@ -2,6 +2,8 @@ package com.aspose.words.examples.loading_saving;
 
 import com.aspose.words.DocSaveOptions;
 import com.aspose.words.Document;
+import com.aspose.words.SaveFormat;
+import com.aspose.words.SaveOptions;
 import com.aspose.words.examples.Utils;
 
 public class WorkingWithDocSaveOptions {
@@ -12,7 +14,8 @@ public class WorkingWithDocSaveOptions {
 
         EncryptDocumentWithPassword(dataDir);
         AlwaysCompressMetafiles(dataDir);
-    }
+        SavePictureBullet(dataDir);
+	}
 
     public static void EncryptDocumentWithPassword(String dataDir) throws Exception {
         //ExStart: EncryptDocumentWithPassword
@@ -34,5 +37,16 @@ public class WorkingWithDocSaveOptions {
         doc.save("SmallMetafilesUncompressed.doc", saveOptions);
         //ExEnd: AlwaysCompressMetafiles
         System.out.println("\nThe document is saved with AlwaysCompressMetafiles setting to false. \nFile saved at " + dataDir);
+    }
+    
+    public static void SavePictureBullet(String dataDir) throws Exception
+    {
+        //ExStart:SavePictureBullet
+        Document doc = new Document(dataDir + "in.doc");
+        DocSaveOptions saveOptions = (DocSaveOptions)SaveOptions.createSaveOptions(SaveFormat.DOC);
+        saveOptions.setSavePictureBullet(false);
+        doc.save(dataDir + "out.doc", saveOptions);
+        //ExEnd:SavePictureBullet
+        System.out.println("\nThe document is saved with SavePictureBullet setting to false. \nFile saved at " + dataDir);
     }
 }
