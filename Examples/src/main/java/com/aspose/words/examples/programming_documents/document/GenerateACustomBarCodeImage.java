@@ -1,7 +1,6 @@
 package com.aspose.words.examples.programming_documents.document;
 
-import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.CodeLocation;
+import com.aspose.barcode.BaseEncodeType;
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.generation.AutoSizeMode;
 import com.aspose.barcode.generation.BarcodeGenerator;
