@@ -1,8 +1,5 @@
 package com.aspose.words.examples.loading_saving;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-
 import com.aspose.email.MailAddress;
 import com.aspose.email.MailMessage;
 import com.aspose.email.SaveOptions;
@@ -10,31 +7,34 @@ import com.aspose.words.Document;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.examples.Utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
 public class ConvertADocumentToMHTMLAndEmail {
 
-	public static void main(String[] args) throws Exception {
-		//ExStart:ConvertADocumentToMHTMLAndEmail
-		String dataDir = Utils.getSharedDataDir(ConvertADocumentToMHTMLAndEmail.class) + "LoadingSavingAndConverting/";
-		
-		// Load the document into Aspose.Words.
-		String srcFileName = dataDir + "Document.doc";
-		Document doc = new Document(srcFileName);
+    public static void main(String[] args) throws Exception {
+        //ExStart:ConvertADocumentToMHTMLAndEmail
+        String dataDir = Utils.getSharedDataDir(ConvertADocumentToMHTMLAndEmail.class) + "LoadingSavingAndConverting/";
 
-		// Save to an output stream in MHTML format.
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		doc.save(outputStream, SaveFormat.MHTML);
+        // Load the document into Aspose.Words.
+        String srcFileName = dataDir + "Document.doc";
+        Document doc = new Document(srcFileName);
 
-		// Load the MHTML stream back into an input stream for use with Aspose.Email.
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        // Save to an output stream in MHTML format.
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        doc.save(outputStream, SaveFormat.MHTML);
 
-		// Create an Aspose.Email MIME email message from the stream.
-		MailMessage message = MailMessage.load(inputStream);
-		message.setFrom(new MailAddress("your_from@email.com"));
-		message.getTo().add("your_to@email.com");
-		message.setSubject("Aspose.Words + Aspose.Email MHTML Test Message");
+        // Load the MHTML stream back into an input stream for use with Aspose.Email.
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
 
-		// Save the message in Outlook MSG format.
-		message.save(dataDir + "Message Out.msg", SaveOptions.getDefaultMsg());
-		//ExEnd:ConvertADocumentToMHTMLAndEmail
-	}
+        // Create an Aspose.Email MIME email message from the stream.
+        MailMessage message = MailMessage.load(inputStream);
+        message.setFrom(new MailAddress("your_from@email.com"));
+        message.getTo().add("your_to@email.com");
+        message.setSubject("Aspose.Words + Aspose.Email MHTML Test Message");
+
+        // Save the message in Outlook MSG format.
+        message.save(dataDir + "Message Out.msg", SaveOptions.getDefaultMsg());
+        //ExEnd:ConvertADocumentToMHTMLAndEmail
+    }
 }

@@ -24,11 +24,11 @@ import com.aspose.words.SubDocument;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.Table;
 import com.aspose.words.Row;
+import com.aspose.ms.System.msString;
 import com.aspose.words.Cell;
 import com.aspose.words.CommentRangeStart;
 import com.aspose.words.CommentRangeEnd;
 import com.aspose.words.Comment;
-import com.aspose.ms.System.msString;
 import com.aspose.words.FieldStart;
 import com.aspose.words.FieldEnd;
 import com.aspose.words.FieldSeparator;
@@ -234,12 +234,21 @@ public class ExDocumentVisitor extends ApiExampleBase
     //ExEnd
 
     //ExStart
+    //ExFor:Cell.Accept(DocumentVisitor)
+    //ExFor:Cell.IsFirstCell
+    //ExFor:Cell.IsLastCell
     //ExFor:DocumentVisitor.VisitTableEnd(Tables.Table)
     //ExFor:DocumentVisitor.VisitTableStart(Tables.Table)
     //ExFor:DocumentVisitor.VisitRowEnd(Tables.Row)
     //ExFor:DocumentVisitor.VisitRowStart(Tables.Row)
     //ExFor:DocumentVisitor.VisitCellStart(Tables.Cell)
     //ExFor:DocumentVisitor.VisitCellEnd(Tables.Cell)
+    //ExFor:Row.Accept(DocumentVisitor)
+    //ExFor:Row.FirstCell
+    //ExFor:Row.GetText
+    //ExFor:Row.IsFirstRow
+    //ExFor:Row.LastCell
+    //ExFor:Row.ParentTable
     //ExSummary:Traverse a document with a visitor that prints all tables that it encounters.
     @Test //ExSkip
     public void tableToText() throws Exception
@@ -328,7 +337,16 @@ public class ExDocumentVisitor extends ApiExampleBase
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitRowStart(Row row)
         {
-            indentAndAppendLine("[Row start]");
+            String rowContents = msString.trimEnd(row.getText(), new char[]{ '\u0007', ' ' }).replace("\u0007", ", ");
+            int rowWidth = row.indexOf(row.getLastCell()) + 1;
+            int rowIndex = row.getParentTable().indexOf(row);
+            String rowStatusInTable = row.isFirstRow() && row.isLastRow() ? "only" : row.isFirstRow() ? "first" : row.isLastRow() ? "last" : "";
+            if (!"".equals(rowStatusInTable))
+            {
+                rowStatusInTable = $", the {rowStatusInTable} row in this table,";
+            }
+
+            indentAndAppendLine($"[Row start] Row #{++rowIndex}{rowStatusInTable} width {rowWidth}, \"{rowContents}\"");
             mDocTraversalDepth++;
 
             return VisitorAction.CONTINUE;
@@ -352,9 +370,13 @@ public class ExDocumentVisitor extends ApiExampleBase
         {
             Row row = cell.getParentRow();
             Table table = row.getParentTable();
+            String cellStatusInRow = cell.isFirstCell() && cell.isLastCell() ? "only" : cell.isFirstCell() ? "first" : cell.isLastCell() ? "last" : "";
+            if (!"".equals(cellStatusInRow))
+            {
+                cellStatusInRow = $", the {cellStatusInRow} cell in this row";
+            }
 
-            indentAndAppendLine("[Cell start] Row " + (table.indexOf(row) + 1) + ", Col " +
-                                (row.indexOf(cell) + 1) + "");
+            indentAndAppendLine($"[Cell start] Row {table.IndexOf(row) + 1}, Col {row.IndexOf(cell) + 1}{cellStatusInRow}");
             mDocTraversalDepth++;
 
             return VisitorAction.CONTINUE;

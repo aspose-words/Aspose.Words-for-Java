@@ -1,8 +1,5 @@
 package com.aspose.words.examples.loading_saving;
 
-import com.aspose.words.Document;
-import com.aspose.words.examples.Utils;
-
 public class SendToClientBrowser {
     public static void main(String[] args) throws Exception {
         /*

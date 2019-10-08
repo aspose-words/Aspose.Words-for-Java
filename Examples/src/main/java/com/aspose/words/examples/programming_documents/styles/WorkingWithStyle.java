@@ -3,8 +3,6 @@ package com.aspose.words.examples.programming_documents.styles;
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
-import java.awt.*;
-
 public class WorkingWithStyle {
     public static void main(String[] args) throws Exception {
         // The path to the documents directory.

@@ -10,7 +10,7 @@ public class ExtractTextOnly {
     public static void main(String[] args) throws Exception {
 
         //ExStart:ExtractTextOnly
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractTextOnly.class);
 
         Document doc = new Document();
@@ -27,7 +27,7 @@ public class ExtractTextOnly {
         // or special characters, but will still contain some natural formatting characters such as paragraph markers etc.
         // This is the same as "viewing" the document as if it was opened in a text editor.
         System.out.println("ToString() Result: " + doc.toString(SaveFormat.TEXT));
-		//ExEnd:ExtractTextOnly
+        //ExEnd:ExtractTextOnly
 
     }
 

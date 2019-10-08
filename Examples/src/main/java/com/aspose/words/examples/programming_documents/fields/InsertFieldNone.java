@@ -14,7 +14,7 @@ public class InsertFieldNone {
         // ExStart:InsertFieldNone
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        FieldUnknown field = (FieldUnknown)builder.insertField(FieldType.FIELD_NONE, false);
+        FieldUnknown field = (FieldUnknown) builder.insertField(FieldType.FIELD_NONE, false);
 
         dataDir = dataDir + "InsertFieldNone_out.docx";
         doc.save(dataDir);

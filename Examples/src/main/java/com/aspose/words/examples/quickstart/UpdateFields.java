@@ -1,5 +1,3 @@
-
-
 package com.aspose.words.examples.quickstart;
 
 import com.aspose.words.BreakType;
@@ -8,10 +6,8 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.words.examples.Utils;
 
-public class UpdateFields
-{
-    public static void main(String[] args) throws Exception
-    {
+public class UpdateFields {
+    public static void main(String[] args) throws Exception {
         //ExStart:
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(UpdateFields.class);

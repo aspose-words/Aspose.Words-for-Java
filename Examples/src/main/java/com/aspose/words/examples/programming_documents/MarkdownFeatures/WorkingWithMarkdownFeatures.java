@@ -5,18 +5,17 @@ import com.aspose.words.examples.Utils;
 
 public class WorkingWithMarkdownFeatures {
 
-	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-		String dataDir = Utils.getDataDir(WorkingWithMarkdownFeatures.class);
-		MarkdownDocumentWithEmphases(dataDir);
-		MarkdownDocumentWithHeadings(dataDir);
-		MarkdownDocumentWithBlockQuotes(dataDir);
-		MarkdownDocumentWithHorizontalRule(dataDir);
-		ReadMarkdownDocument(dataDir);
-	}
-	
-	private static void MarkdownDocumentWithEmphases(String dataDir) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
+        // TODO Auto-generated method stub
+        String dataDir = Utils.getDataDir(WorkingWithMarkdownFeatures.class);
+        MarkdownDocumentWithEmphases(dataDir);
+        MarkdownDocumentWithHeadings(dataDir);
+        MarkdownDocumentWithBlockQuotes(dataDir);
+        MarkdownDocumentWithHorizontalRule(dataDir);
+        ReadMarkdownDocument(dataDir);
+    }
+
+    private static void MarkdownDocumentWithEmphases(String dataDir) throws Exception {
         // ExStart:MarkdownDocumentWithEmphases
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -43,8 +42,7 @@ public class WorkingWithMarkdownFeatures {
         System.out.println("\nMarkdown Document With Emphases Produced!\nFile saved at " + dataDir);
     }
 
-    private static void MarkdownDocumentWithHeadings(String dataDir) throws Exception
-    {
+    private static void MarkdownDocumentWithHeadings(String dataDir) throws Exception {
         //ExStart: MarkdownDocumentWithHeadings
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -78,8 +76,7 @@ public class WorkingWithMarkdownFeatures {
         System.out.println("\nMarkdown Document With Headings Produced!\nFile saved at " + dataDir);
     }
 
-    private static void MarkdownDocumentWithBlockQuotes(String dataDir) throws Exception
-    {
+    private static void MarkdownDocumentWithBlockQuotes(String dataDir) throws Exception {
         // ExStart: MarkdownDocumentWithBlockQuotes
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -108,8 +105,7 @@ public class WorkingWithMarkdownFeatures {
         System.out.println("\nMarkdown Document With BlockQuotes Produced!\nFile saved at " + dataDir);
     }
 
-    private static void MarkdownDocumentWithHorizontalRule(String dataDir) throws Exception
-    {
+    private static void MarkdownDocumentWithHorizontalRule(String dataDir) throws Exception {
         // ExStart: MarkdownDocumentWithHorizontalRule
         DocumentBuilder builder = new DocumentBuilder(new Document());
 
@@ -121,8 +117,7 @@ public class WorkingWithMarkdownFeatures {
         System.out.println("\nMarkdown Document With Horizontal Rule Produced!\nFile saved at " + dataDir);
     }
 
-    private static void ReadMarkdownDocument(String dataDir) throws Exception
-    {
+    private static void ReadMarkdownDocument(String dataDir) throws Exception {
         // ExStart: ReadMarkdownDocument
         // This is Markdown document that was produced in example of MarkdownDocumentWithBlockQuotes.
         Document doc = new Document(dataDir + "QuotesExample.md");

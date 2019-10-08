@@ -1,14 +1,14 @@
 package com.aspose.words.examples.linq;
 
-import com.aspose.words.*;
+import com.aspose.words.Document;
+import com.aspose.words.ReportingEngine;
 import com.aspose.words.examples.Utils;
 
 public class SettingBackgroundColor {
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:SettingBackgroundColor
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(SettingBackgroundColor.class);

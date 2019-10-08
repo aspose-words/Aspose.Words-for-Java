@@ -1,4 +1,3 @@
-
 package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.*;
@@ -9,7 +8,7 @@ public class ModifyContentControls {
     public static void main(String[] args) throws Exception {
 
         //ExStart:ModifyContentControls
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ModifyContentControls.class);
 
         // Open the document.
@@ -35,7 +34,7 @@ public class ModifyContentControls {
                 }
             }
             doc.save(dataDir + "output.doc");
-			//ExEnd:ModifyContentControls
+            //ExEnd:ModifyContentControls
 
         }
     }

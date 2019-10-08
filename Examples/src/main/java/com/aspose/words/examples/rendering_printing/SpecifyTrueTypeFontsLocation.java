@@ -1,77 +1,77 @@
 package com.aspose.words.examples.rendering_printing;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.aspose.words.Document;
 import com.aspose.words.FolderFontSource;
 import com.aspose.words.FontSettings;
 import com.aspose.words.FontSourceBase;
 import com.aspose.words.examples.Utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class SpecifyTrueTypeFontsLocation {
 
-	private static final String dataDir = Utils.getSharedDataDir(SpecifyTrueTypeFontsLocation.class) + "RenderingAndPrinting/";
+    private static final String dataDir = Utils.getSharedDataDir(SpecifyTrueTypeFontsLocation.class) + "RenderingAndPrinting/";
 
-	public static void main(String[] args) throws Exception {
-		// Specifying a Font Folder
-		specifyAFontFolder();
+    public static void main(String[] args) throws Exception {
+        // Specifying a Font Folder
+        specifyAFontFolder();
 
-		// Specifying Multiple Font Folders
-		specifyMultipleFontFolders();
-		
-		// Specifying Fonts to be Read from both the System Fonts Folder and a Custom Folder
-		specifyFontsFromBothSystemFontsFolderAndCustomFolder();
-	}
+        // Specifying Multiple Font Folders
+        specifyMultipleFontFolders();
 
-	public static void specifyAFontFolder() throws Exception {
-		//ExStart:SpecifyAFontFolder
-		Document doc = new Document(dataDir + "Rendering.doc");
+        // Specifying Fonts to be Read from both the System Fonts Folder and a Custom Folder
+        specifyFontsFromBothSystemFontsFolderAndCustomFolder();
+    }
 
-		// Note that this setting will override any default font sources that are being searched by default. Now only these folders will be searched for
-		// fonts when rendering or embedding fonts. To add an extra font source while keeping system font sources then use both FontSettings.GetFontSources and
-		// FontSettings.SetFontSources instead.
-		FontSettings.getDefaultInstance().setFontsFolder("/Users/username/MyFonts/", false);
+    public static void specifyAFontFolder() throws Exception {
+        //ExStart:SpecifyAFontFolder
+        Document doc = new Document(dataDir + "Rendering.doc");
 
-		doc.save(dataDir + "Rendering.SpecifyingAFontFolder_Out.pdf");
-		//ExEnd:SpecifyAFontFolder
-	}
+        // Note that this setting will override any default font sources that are being searched by default. Now only these folders will be searched for
+        // fonts when rendering or embedding fonts. To add an extra font source while keeping system font sources then use both FontSettings.GetFontSources and
+        // FontSettings.SetFontSources instead.
+        FontSettings.getDefaultInstance().setFontsFolder("/Users/username/MyFonts/", false);
 
-	public static void specifyMultipleFontFolders() throws Exception {
-		//ExStart:SpecifyMultipleFontFolders
-		Document doc = new Document(dataDir + "Rendering.doc");
+        doc.save(dataDir + "Rendering.SpecifyingAFontFolder_Out.pdf");
+        //ExEnd:SpecifyAFontFolder
+    }
 
-		// Note that this setting will override any default font sources that are being searched by default. Now only these folders will be searched for
-		// fonts when rendering or embedding fonts. To add an extra font source while keeping system font sources then use both FontSettings.GetFontSources and
-		// FontSettings.SetFontSources instead.
-		FontSettings.getDefaultInstance().setFontsFolders(new String[] { "/Users/username/MyFonts/", "/Users/username/Documents/Fonts/" }, true);
+    public static void specifyMultipleFontFolders() throws Exception {
+        //ExStart:SpecifyMultipleFontFolders
+        Document doc = new Document(dataDir + "Rendering.doc");
 
-		doc.save(dataDir + "Rendering.SpecifyMultipleFontFolders_Out.pdf");
-		//ExEnd:SpecifyMultipleFontFolders
-	}
+        // Note that this setting will override any default font sources that are being searched by default. Now only these folders will be searched for
+        // fonts when rendering or embedding fonts. To add an extra font source while keeping system font sources then use both FontSettings.GetFontSources and
+        // FontSettings.SetFontSources instead.
+        FontSettings.getDefaultInstance().setFontsFolders(new String[]{"/Users/username/MyFonts/", "/Users/username/Documents/Fonts/"}, true);
 
-	public static void specifyFontsFromBothSystemFontsFolderAndCustomFolder() throws Exception {
-		//ExStart:SpecifyFontsFromBothSystemFontsFolderAndCustomFolder
-		Document doc = new Document(dataDir + "Rendering.doc");
+        doc.save(dataDir + "Rendering.SpecifyMultipleFontFolders_Out.pdf");
+        //ExEnd:SpecifyMultipleFontFolders
+    }
 
-		// Retrieve the array of environment-dependent font sources that are searched by default.
-		// For example this will contain a "Windows\Fonts\" source on a Windows machines and /Library/Fonts/ on Mac OS X.
-		// We add this array to a new ArrayList to make adding or removing font entries much easier.
-		ArrayList<FolderFontSource> fontSources = new ArrayList(Arrays.asList(FontSettings.getDefaultInstance().getFontsSources()));
+    public static void specifyFontsFromBothSystemFontsFolderAndCustomFolder() throws Exception {
+        //ExStart:SpecifyFontsFromBothSystemFontsFolderAndCustomFolder
+        Document doc = new Document(dataDir + "Rendering.doc");
 
-		// Add a new folder source which will instruct Aspose.Words to search the following folder for fonts.
-		FolderFontSource folderFontSource = new FolderFontSource("/Users/username/MyFonts/", true);
+        // Retrieve the array of environment-dependent font sources that are searched by default.
+        // For example this will contain a "Windows\Fonts\" source on a Windows machines and /Library/Fonts/ on Mac OS X.
+        // We add this array to a new ArrayList to make adding or removing font entries much easier.
+        ArrayList<FolderFontSource> fontSources = new ArrayList(Arrays.asList(FontSettings.getDefaultInstance().getFontsSources()));
 
-		// Add the custom folder which contains our fonts to the list of existing font sources.
-		fontSources.add(folderFontSource);
+        // Add a new folder source which will instruct Aspose.Words to search the following folder for fonts.
+        FolderFontSource folderFontSource = new FolderFontSource("/Users/username/MyFonts/", true);
 
-		// Convert the ArrayList of source back into a primitive array of FontSource objects.
-		FontSourceBase[] updatedFontSources = fontSources.toArray(new FontSourceBase[fontSources.size()]);
+        // Add the custom folder which contains our fonts to the list of existing font sources.
+        fontSources.add(folderFontSource);
 
-		// Apply the new set of font sources to use.
-		FontSettings.getDefaultInstance().setFontsSources(updatedFontSources);
+        // Convert the ArrayList of source back into a primitive array of FontSource objects.
+        FontSourceBase[] updatedFontSources = fontSources.toArray(new FontSourceBase[fontSources.size()]);
 
-		doc.save(dataDir + "Rendering.SpecifyFontsToBeReadFromBothSystemFontsFolderAndCustomFolder_Out.pdf");
-		//ExEnd:SpecifyFontsFromBothSystemFontsFolderAndCustomFolder
-	}
+        // Apply the new set of font sources to use.
+        FontSettings.getDefaultInstance().setFontsSources(updatedFontSources);
+
+        doc.save(dataDir + "Rendering.SpecifyFontsToBeReadFromBothSystemFontsFolderAndCustomFolder_Out.pdf");
+        //ExEnd:SpecifyFontsFromBothSystemFontsFolderAndCustomFolder
+    }
 }

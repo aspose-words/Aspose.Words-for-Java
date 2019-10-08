@@ -10,7 +10,7 @@ public class AddComments {
     public static void main(String[] args) throws Exception {
 
         //ExStart:AddComments
-		String dataDir = Utils.getDataDir(AddComments.class);
+        String dataDir = Utils.getDataDir(AddComments.class);
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("Some text is added.");
@@ -20,7 +20,7 @@ public class AddComments {
         comment.getParagraphs().add(new Paragraph(doc));
         comment.getFirstParagraph().getRuns().add(new Run(doc, "Comment text."));
         doc.save(dataDir + "output.doc");
-		//ExEnd:AddComments
+        //ExEnd:AddComments
 
     }
 }

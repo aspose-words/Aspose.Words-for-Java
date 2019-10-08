@@ -10,7 +10,7 @@ public class ExtractContentUsingField {
     public static void main(String[] args) throws Exception {
 
         //ExStart:ExtractContentUsingField
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractContentUsingField.class);
 
         Document doc = new Document(dataDir + "TestFile.doc");
@@ -32,7 +32,7 @@ public class ExtractContentUsingField {
         // Insert the content into a new separate document and save it to disk.
         Document dstDoc = generateDocument(doc, extractedNodes);
         dstDoc.save(dataDir + "output.pdf");
-		//ExEnd:ExtractContentUsingField
+        //ExEnd:ExtractContentUsingField
 
         System.out.println("Content extracted using fields successfully.");
     }

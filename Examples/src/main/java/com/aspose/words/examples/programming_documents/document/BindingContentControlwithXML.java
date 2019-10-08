@@ -2,6 +2,7 @@ package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
+
 import java.util.UUID;
 
 /**
@@ -11,7 +12,7 @@ public class BindingContentControlwithXML {
     public static void main(String[] args) throws Exception {
 
         //ExStart:BindingContentControlwithXML
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(BindingContentControlwithXML.class);
 
         Document doc = new Document();
@@ -27,6 +28,6 @@ public class BindingContentControlwithXML {
 
         // Save the document to disk.
         doc.save(dataDir);
-		//ExEnd:BindingContentControlwithXML
+        //ExEnd:BindingContentControlwithXML
     }
 }

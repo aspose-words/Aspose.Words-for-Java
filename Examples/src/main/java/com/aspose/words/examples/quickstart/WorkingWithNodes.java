@@ -13,10 +13,8 @@ import com.aspose.words.Node;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Section;
 
-public class WorkingWithNodes
-{
-    public static void main(String[] args) throws Exception
-    {
+public class WorkingWithNodes {
+    public static void main(String[] args) throws Exception {
         //ExStart:
         // Create a new document.
         Document doc = new Document();

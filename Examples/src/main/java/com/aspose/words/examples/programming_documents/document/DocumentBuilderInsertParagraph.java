@@ -1,8 +1,9 @@
-
 package com.aspose.words.examples.programming_documents.document;
 
-import com.aspose.words.*;
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Font;
+import com.aspose.words.ParagraphFormat;
 import com.aspose.words.examples.Utils;
 
 import java.awt.*;
@@ -12,7 +13,7 @@ public class DocumentBuilderInsertParagraph {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderInsertParagraph
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertParagraph.class);
 
         // Open the document.
@@ -33,7 +34,7 @@ public class DocumentBuilderInsertParagraph {
 
         builder.write("This is a sample Paragraph");
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderInsertParagraph
+        //ExEnd:DocumentBuilderInsertParagraph
 
     }
 }

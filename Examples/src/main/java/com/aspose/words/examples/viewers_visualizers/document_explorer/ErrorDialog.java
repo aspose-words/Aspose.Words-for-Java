@@ -56,5 +56,6 @@ public class ErrorDialog {
     private void onOK() {
         errorDialog.dispose();
     }
+
     ErrorDialogForm errorDialog;
 }

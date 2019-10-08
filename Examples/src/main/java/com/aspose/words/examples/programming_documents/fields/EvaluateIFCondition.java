@@ -1,6 +1,8 @@
 package com.aspose.words.examples.programming_documents.fields;
 
-import com.aspose.words.*;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.FieldIf;
+
 /**
  * Created by awaishafeez on 12/19/2017.
  */
@@ -8,7 +10,7 @@ public class EvaluateIFCondition {
     public static void main(String[] args) throws Exception {
         // ExStart:EvaluateIFCondition
         DocumentBuilder builder = new DocumentBuilder();
-        FieldIf field = (FieldIf)builder.insertField("IF 1 = 1", null);
+        FieldIf field = (FieldIf) builder.insertField("IF 1 = 1", null);
 
         int actualResult = field.evaluateCondition();
         switch (actualResult) {

@@ -9,7 +9,7 @@ public class DocumentBuilderInsertCheckBoxFormField {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderInsertCheckBoxFormField
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertCheckBoxFormField.class);
 
         // Open the document.
@@ -17,7 +17,7 @@ public class DocumentBuilderInsertCheckBoxFormField {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertCheckBox("CheckBox", true, true, 0);
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderInsertCheckBoxFormField
+        //ExEnd:DocumentBuilderInsertCheckBoxFormField
 
     }
 }

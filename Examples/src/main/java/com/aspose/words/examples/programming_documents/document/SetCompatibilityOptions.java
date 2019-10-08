@@ -1,6 +1,6 @@
 package com.aspose.words.examples.programming_documents.document;
 
-import com.aspose.words.*;
+import com.aspose.words.Document;
 import com.aspose.words.MsWordVersion;
 import com.aspose.words.examples.Utils;
 
@@ -15,8 +15,7 @@ public class SetCompatibilityOptions {
         optimizeFor(dataDir);
     }
 
-    private static void optimizeFor(String dataDir) throws Exception
-    {
+    private static void optimizeFor(String dataDir) throws Exception {
         String fileName = dataDir + "TestFile.docx";
         // ExStart:OptimizeFor
         Document doc = new Document(fileName);

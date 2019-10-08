@@ -51,6 +51,7 @@ public class InsertField {
         //ExEnd:fieldCompare
         doc.save(dataDir + "Field.Compare.docx");
     }
+
     private static void fieldIf(String dataDir) throws Exception {
         System.out.println("==== fieldIf ====");
         //ExStart:fieldIf
@@ -60,7 +61,7 @@ public class InsertField {
         builder.write("Statement 1: ");
 
         // Use document builder to insert an if field
-        FieldIf fieldIf = (FieldIf)builder.insertField(FieldType.FIELD_IF, true);
+        FieldIf fieldIf = (FieldIf) builder.insertField(FieldType.FIELD_IF, true);
 
         // The if field will output either the TrueText or FalseText string into the document, depending on the truth of the statement
         // In this case, "0 = 1" is incorrect, so the output will be "False"
@@ -75,7 +76,7 @@ public class InsertField {
 
         // This time, the statement is correct, so the output will be "True"
         builder.write("\nStatement 2: ");
-        fieldIf = (FieldIf)builder.insertField(FieldType.FIELD_IF, true);
+        fieldIf = (FieldIf) builder.insertField(FieldType.FIELD_IF, true);
         fieldIf.setLeftExpression("5");
         fieldIf.setComparisonOperator("=");
         fieldIf.setRightExpression("2 + 3");

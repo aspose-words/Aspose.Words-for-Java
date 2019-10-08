@@ -131,39 +131,34 @@ public class WorkingWithShapes {
         System.out.println(shape.getShapeRenderer().getBoundsInPoints());
         // ExEnd:GetActualShapeBoundsPoints
     }
-    
+
     public static void SpecifyVerticalAnchor(String dataDir) throws Exception {
         // ExStart:SpecifyVerticalAnchor
         Document doc = new Document(dataDir + "VerticalAnchor.docx");
-        
+
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         int imageIndex = 0;
-        for (Shape textBoxShape : (Iterable<Shape>) shapes)
-        {
-        	if (textBoxShape != null)
-            {
+        for (Shape textBoxShape : (Iterable<Shape>) shapes) {
+            if (textBoxShape != null) {
                 textBoxShape.getTextBox().setVerticalAnchor(TextBoxAnchor.BOTTOM);
             }
         }
-        
+
         doc.save(dataDir + "VerticalAnchor_out.docx");
         // ExEnd:SpecifyVerticalAnchor
     }
 
-    public static void DetectSmartArtShape(String dataDir) throws Exception
-    {
+    public static void DetectSmartArtShape(String dataDir) throws Exception {
         // ExStart:DetectSmartArtShape
         Document doc = new Document(dataDir + "input.docx");
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         int count = 0;
-        for (Shape textBoxShape : (Iterable<Shape>) shapes)
-        {
-        	if (textBoxShape.hasSmartArt())
-            {
-        		count++;
+        for (Shape textBoxShape : (Iterable<Shape>) shapes) {
+            if (textBoxShape.hasSmartArt()) {
+                count++;
             }
         }
-        
+
         System.out.println("The document has " + count + " shapes with SmartArt.");
         // ExEnd:DetectSmartArtShape
     }

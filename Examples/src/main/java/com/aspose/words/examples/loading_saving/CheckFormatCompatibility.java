@@ -12,7 +12,7 @@ import java.io.FileOutputStream;
 public class CheckFormatCompatibility {
     public static void main(String[] args) throws Exception {
         //ExStart:CheckFormatCompatibility
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(CheckFormatCompatibility.class);
 
         String supportedDir = dataDir + "OutSupported" + File.separator;
@@ -106,8 +106,7 @@ public class CheckFormatCompatibility {
     }//ExEnd:CheckFormatCompatibility
 
     //ExStart:fileCopy
-	private static void fileCopy(String sourceFileName, String destinationFileName) throws Exception
-    {
+    private static void fileCopy(String sourceFileName, String destinationFileName) throws Exception {
         File sourceFile = new File(sourceFileName);
         File destinationFile = new File(destinationFileName);
 
@@ -118,8 +117,7 @@ public class CheckFormatCompatibility {
         FileInputStream fis = null;
         FileOutputStream fos = null;
 
-        try
-        {
+        try {
             fis = new FileInputStream(sourceFile);
             fos = new FileOutputStream(destinationFile);
 
@@ -127,9 +125,7 @@ public class CheckFormatCompatibility {
             int bytesRead;
             while ((bytesRead = fis.read(buffer)) != -1)
                 fos.write(buffer, 0, bytesRead);
-        }
-        finally
-        {
+        } finally {
             if (fis != null)
                 fis.close();
             if (fos != null)
@@ -137,6 +133,6 @@ public class CheckFormatCompatibility {
         }
 
     }
-	//ExEnd:fileCopy
+    //ExEnd:fileCopy
 
 }

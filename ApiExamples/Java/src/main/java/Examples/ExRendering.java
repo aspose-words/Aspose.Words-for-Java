@@ -133,26 +133,57 @@ public class ExRendering extends ApiExampleBase {
         //ExStart
         //ExFor:XpsSaveOptions
         //ExFor:XpsSaveOptions.#ctor
+        //ExFor:XpsSaveOptions.OutlineOptions
+        //ExFor:XpsSaveOptions.SaveFormat
         //ExFor:Document.Save(String)
         //ExFor:Document.Save(Stream, SaveFormat)
         //ExFor:Document.Save(String, SaveOptions)
-        //ExId:SaveToXps_NewAPI
-        //ExSummary:Shows how to save a document to the Xps format using the Save method and the XpsSaveOptions class.
+        //ExSummary:Shows how to save a document to the XPS format in different ways.
         // Open the document
         Document doc = new Document(getMyDir() + "Rendering.doc");
-        // Save document to file in the Xps format with default options
-        doc.save(getArtifactsDir() + "Rendering.XpsDefaultOptions.xps");
 
-        // Save document to stream in the Xps format with default options
-        ByteArrayOutputStream docStream = new ByteArrayOutputStream();
+        // Save document to file in the XPS format with default options
+        doc.save(getArtifactsDir() + "Rendering.SaveAsXps.DefaultOptions.xps");
+
+        // Save document to stream in the XPS format with default options
+        OutputStream docStream = new FileOutputStream(getArtifactsDir() + "Rendering.SaveAsXps.FromStream.xps");
         doc.save(docStream, SaveFormat.XPS);
+        docStream.close();
 
-        // Save document to file in the Xps format with specified options
-        // Render the first page only
+        // Save document to file in the XPS format with specified options
+        // Render 3 pages starting from page 2; pages 2, 3 and 4
         XpsSaveOptions xpsOptions = new XpsSaveOptions();
-        xpsOptions.setPageIndex(0);
-        xpsOptions.setPageCount(1);
-        doc.save(getArtifactsDir() + "Rendering.XpsCustomOptions.xps", xpsOptions);
+        xpsOptions.setSaveFormat(SaveFormat.XPS);
+        xpsOptions.setPageIndex(1);
+        xpsOptions.setPageCount(3);
+
+        // All paragraphs in the "Heading 1" style will be included in the outline but "Heading 2" and onwards won't
+        xpsOptions.getOutlineOptions().setHeadingsOutlineLevels(1);
+
+        doc.save(getArtifactsDir() + "Rendering.SaveAsXps.PartialDocument.xps", xpsOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void saveAsXpsBookFold() throws Exception {
+        //ExStart
+        //ExFor:XpsSaveOptions.#ctor(SaveFormat)
+        //ExFor:XpsSaveOptions.UseBookFoldPrintingSettings
+        //ExSummary:Shows how to save a document to the XPS format in the form of a book fold.
+        // Open a document with multiple paragraphs
+        Document doc = new Document(getMyDir() + "Paragraphs.docx");
+
+        // Configure both page setup and XpsSaveOptions to create a book fold
+        for (Section s : (Iterable<Section>) doc.getSections()) {
+            s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
+        }
+
+        XpsSaveOptions xpsOptions = new XpsSaveOptions(SaveFormat.XPS);
+        xpsOptions.setUseBookFoldPrintingSettings(true);
+
+        // In order to make a booklet, we will need to print this document, stack the pages
+        // in the order they come out of the printer and then fold down the middle
+        doc.save(getArtifactsDir() + "Rendering.SaveAsXpsBookFold.xps", xpsOptions);
         //ExEnd
     }
 

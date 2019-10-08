@@ -46,6 +46,7 @@ import com.aspose.words.OleFormat;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import java.util.ArrayList;
+import com.aspose.ms.System.IO.Path;
 import com.aspose.words.Forms2OleControlCollection;
 import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.OfficeMath;
@@ -611,7 +612,7 @@ public class ExShape extends ApiExampleBase
         msAssert.areEqual(true, oleFormat.getOleIcon());
 
         // Get the name or the source file and verify that the whole file is linked
-        Assert.assertTrue(oleFormat.getSourceFullName().endsWith("Images\\visio2010.vsd"));
+        Assert.assertTrue(oleFormat.getSourceFullName().endsWith("Images" + Path.DirectorySeparatorChar + "visio2010.vsd"));
         msAssert.areEqual("", oleFormat.getSourceItem());
 
         msAssert.areEqual("Packager", oleFormat.getIconCaption());

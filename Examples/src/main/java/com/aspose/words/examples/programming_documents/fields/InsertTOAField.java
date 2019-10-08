@@ -9,7 +9,7 @@ import com.aspose.words.examples.Utils;
 public class InsertTOAField {
     public static void main(String[] args) throws Exception {
         //ExStart:InsertTOAField
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertTOAField.class);
 
         Document doc = new Document(dataDir + "in.doc");
@@ -40,6 +40,6 @@ public class InsertTOAField {
 
         dataDir = dataDir + "InsertTOAFieldWithoutDocumentBuilder_out.doc";
         doc.save(dataDir);
-		//ExEnd:InsertTOAField
+        //ExEnd:InsertTOAField
     }
 }

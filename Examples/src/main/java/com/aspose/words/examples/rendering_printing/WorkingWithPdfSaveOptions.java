@@ -8,10 +8,10 @@ import com.aspose.words.examples.Utils;
 
 public class WorkingWithPdfSaveOptions {
 
-	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
+    public static void main(String[] args) throws Exception {
+        // TODO Auto-generated method stub
 
-		String dataDir = Utils.getDataDir(WorkingWithPdfSaveOptions.class);
+        String dataDir = Utils.getDataDir(WorkingWithPdfSaveOptions.class);
 
         EscapeUriInPdf(dataDir);
         ExportHeaderFooterBookmarks(dataDir);
@@ -19,8 +19,7 @@ public class WorkingWithPdfSaveOptions {
         AdditionalTextPositioning(dataDir);
     }
 
-    public static void EscapeUriInPdf(String dataDir) throws Exception
-    {
+    public static void EscapeUriInPdf(String dataDir) throws Exception {
         // ExStart:EscapeUriInPdf
         // The path to the documents directory.
         Document doc = new Document(dataDir + "EscapeUri.docx");
@@ -34,8 +33,7 @@ public class WorkingWithPdfSaveOptions {
         System.out.println("\nFile saved at " + dataDir);
     }
 
-    public static void ExportHeaderFooterBookmarks(String dataDir) throws Exception
-    {
+    public static void ExportHeaderFooterBookmarks(String dataDir) throws Exception {
         // ExStart:ExportHeaderFooterBookmarks
         // The path to the documents directory.
         Document doc = new Document(dataDir + "TestFile.docx");
@@ -50,8 +48,7 @@ public class WorkingWithPdfSaveOptions {
         System.out.println("\nFile saved at " + dataDir);
     }
 
-    public static void ScaleWmfFontsToMetafileSize(String dataDir) throws Exception
-    {
+    public static void ScaleWmfFontsToMetafileSize(String dataDir) throws Exception {
         // ExStart:ScaleWmfFontsToMetafileSize
         // The path to the documents directory.
         Document doc = new Document(dataDir + "MetafileRendering.docx");
@@ -68,9 +65,8 @@ public class WorkingWithPdfSaveOptions {
         // ExEnd:ScaleWmfFontsToMetafileSize
         System.out.println("\nFonts as metafile are rendered to its default size in PDF. File saved at " + dataDir);
     }
-    
-    public static void AdditionalTextPositioning(String dataDir) throws Exception
-    {
+
+    public static void AdditionalTextPositioning(String dataDir) throws Exception {
         // ExStart:AdditionalTextPositioning
         // The path to the documents directory.
         Document doc = new Document(dataDir + "TestFile.docx");

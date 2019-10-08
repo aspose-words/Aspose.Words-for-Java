@@ -1,24 +1,18 @@
 package com.aspose.words.examples.programming_documents.find_replace;
 
-import com.aspose.words.Document;
-import com.aspose.words.FindReplaceOptions;
-import com.aspose.words.HeaderFooter;
-import com.aspose.words.HeaderFooterCollection;
-import com.aspose.words.HeaderFooterType;
-import com.aspose.words.Section;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
 public class ReplaceInHeaderAndFooter {
 
-	public static void main(String[] args) throws Exception {
-		// The path to the documents directory.
+    public static void main(String[] args) throws Exception {
+        // The path to the documents directory.
         String dataDir = Utils.getSharedDataDir(ReplaceInHeaderAndFooter.class) + "FindAndReplace/";
-		ReplaceTextInFooter(dataDir);
+        ReplaceTextInFooter(dataDir);
 
-	}
-	
-	private static void ReplaceTextInFooter(String dataDir) throws Exception
-    {
+    }
+
+    private static void ReplaceTextInFooter(String dataDir) throws Exception {
         // ExStart:ReplaceTextInFooter
         // Open the template document, containing obsolete copyright information in the footer.
         Document doc = new Document(dataDir + "HeaderFooter.ReplaceText.doc");

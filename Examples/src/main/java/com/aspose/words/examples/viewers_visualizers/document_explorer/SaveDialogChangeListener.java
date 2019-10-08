@@ -75,6 +75,7 @@ class SaveDialogChangeListener implements PropertyChangeListener {
             mChooser.updateUI();
         }
     }
+
     private static JFileChooser mChooser;
     private static File mNewFile;
     private static File mOldFile;

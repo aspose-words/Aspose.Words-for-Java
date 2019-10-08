@@ -1,6 +1,7 @@
 package com.aspose.words.examples.programming_documents.tables.ApplyFormatting;
 
-import com.aspose.words.*;
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.examples.Utils;
 
 /**
@@ -9,9 +10,9 @@ import com.aspose.words.examples.Utils;
 public class ApplyCellPadding {
 
     public static void main(String[] args) throws Exception {
-        
-		//ExStart:ApplyCellPadding
-		String dataDir = Utils.getDataDir(ApplyCellPadding.class);
+
+        //ExStart:ApplyCellPadding
+        String dataDir = Utils.getDataDir(ApplyCellPadding.class);
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -29,7 +30,7 @@ public class ApplyCellPadding {
 
         //Save the document to disk.
         doc.save(dataDir);
-		//ExEnd:ApplyCellPadding
+        //ExEnd:ApplyCellPadding
 
     }
 }

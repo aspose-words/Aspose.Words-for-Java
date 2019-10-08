@@ -16,8 +16,7 @@ public class SetPdfSaveOptions {
         scaleWmfFontsToMetafileSize(dataDir);
     }
 
-    public static void escapeUriInPdf(String dataDir) throws Exception
-    {
+    public static void escapeUriInPdf(String dataDir) throws Exception {
         // ExStart:EscapeUriInPdf
         // The path to the documents directory.
         Document doc = new Document(dataDir + "EscapeUri.docx");
@@ -31,8 +30,7 @@ public class SetPdfSaveOptions {
         System.out.println("\nFile saved at " + dataDir);
     }
 
-    public static void exportHeaderFooterBookmarks(String dataDir)throws Exception
-    {
+    public static void exportHeaderFooterBookmarks(String dataDir) throws Exception {
         // ExStart:ExportHeaderFooterBookmarks
         // The path to the documents directory.
         Document doc = new Document(dataDir + "TestFile.docx");
@@ -47,7 +45,7 @@ public class SetPdfSaveOptions {
         System.out.println("\nFile saved at " + dataDir);
     }
 
-    public static void scaleWmfFontsToMetafileSize(String dataDir)throws Exception {
+    public static void scaleWmfFontsToMetafileSize(String dataDir) throws Exception {
         // ExStart:ScaleWmfFontsToMetafileSize
         // The path to the documents directory.
         Document doc = new Document(dataDir + "MetafileRendering.docx");

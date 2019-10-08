@@ -2,7 +2,6 @@ package com.aspose.words.examples.programming_documents.document.properties;
 
 import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.examples.loading_saving.WorkingWithTxt;
 
 public class DocProperties {
     public static void main(String[] args) throws Exception {
@@ -11,8 +10,7 @@ public class DocProperties {
         removePersonalInformation(dataDir);
     }
 
-    public static void removePersonalInformation(String dataDir) throws Exception
-    {
+    public static void removePersonalInformation(String dataDir) throws Exception {
         // ExStart:RemovePersonalInformation
         Document doc = new Document(dataDir + "Properties.doc");
         doc.setRemovePersonalInformation(true);

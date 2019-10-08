@@ -1,15 +1,16 @@
 package com.aspose.words.examples.linq;
-import com.aspose.words.*;
+
+import com.aspose.words.Document;
+import com.aspose.words.ReportingEngine;
 import com.aspose.words.examples.Utils;
-import  java.util.*;
+
 public class BulletedList {
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:BulletedList
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(BulletedList.class);
 
         String fileName = "BulletedList.doc";
@@ -27,7 +28,7 @@ public class BulletedList {
 
         // Save the finished document to disk.
         doc.save(dataDir);
-		//ExEnd:BulletedList
+        //ExEnd:BulletedList
 
 
         System.out.println("\nBulleted list template document is populated with the data about clients.\nFile saved at " + dataDir);

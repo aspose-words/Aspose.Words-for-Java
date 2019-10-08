@@ -1,4 +1,3 @@
-
 package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.Document;
@@ -10,7 +9,7 @@ public class DocumentBuilderInsertBookmark {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderInsertBookmark
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertBookmark.class);
 
         // Open the document.
@@ -20,7 +19,7 @@ public class DocumentBuilderInsertBookmark {
         builder.write("This is just a fine bookmark.");
         builder.endBookmark("FineBookmark");
         doc.save(dataDir + "output.doc");//
-		//ExEnd:DocumentBuilderInsertBookmark
+        //ExEnd:DocumentBuilderInsertBookmark
 
     }
 }

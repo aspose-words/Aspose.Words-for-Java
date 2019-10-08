@@ -7,7 +7,7 @@ public class InsertAuthorField {
     public static void main(String[] args) throws Exception {
 
         //ExStart:InsertAuthorField
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertAuthorField.class);
 
         Document doc = new Document(dataDir + "in.doc");

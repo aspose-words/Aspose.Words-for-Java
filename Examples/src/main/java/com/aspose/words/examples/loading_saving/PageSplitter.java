@@ -8,30 +8,27 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
 
-public class PageSplitter
-{
-    public static void main(String[] args) throws Exception
-    {
+public class PageSplitter {
+    public static void main(String[] args) throws Exception {
         License lic = new License();
         lic.setLicense("D:\\temp\\aspose.total.java.lic");
 
         //ExStart:PageSplitter
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(PageSplitter.class);
 
         SplitAllDocumentsToPages(dataDir);
-		//ExEnd:PageSplitter
+        //ExEnd:PageSplitter
         System.out.println("\nDocument split to pages successfully.\nFile saved at " + dataDir + "\\Out");
     }
 
     //ExStart:SplitDocumentToPages
-	public static void SplitDocumentToPages(File docName) throws Exception
-    {
+    public static void SplitDocumentToPages(File docName) throws Exception {
         String folderName = docName.getParent();
-        String fileName =  docName.getName();
+        String fileName = docName.getName();
         String extensionName = fileName.substring(fileName.lastIndexOf("."));
         String outFolder = new File(folderName, "Out").getAbsolutePath();
-        System.out.println("Processing document: " + fileName );
+        System.out.println("Processing document: " + fileName);
 
         Document doc = new Document(docName.getAbsolutePath());
 
@@ -39,17 +36,15 @@ public class PageSplitter
         DocumentPageSplitter splitter = new DocumentPageSplitter(doc);
 
         // Save each page to the disk as a separate document.
-        for (int page = 1; page <= doc.getPageCount(); page++)
-        {
+        for (int page = 1; page <= doc.getPageCount(); page++) {
             Document pageDoc = splitter.getDocumentOfPage(page);
             pageDoc.save(new File(outFolder, MessageFormat.format("{0} - page{1} Out{2}", fileName, page, extensionName)).getAbsolutePath());
         }
     }
-	//ExEnd:SplitDocumentToPages
+    //ExEnd:SplitDocumentToPages
 
     //ExStart:SplitAllDocumentsToPages
-	public static void SplitAllDocumentsToPages(String folderName) throws Exception
-    {
+    public static void SplitAllDocumentsToPages(String folderName) throws Exception {
         File[] files = new File(folderName).listFiles();
 
         for (File file : files) {
@@ -58,12 +53,11 @@ public class PageSplitter
             }
         }
     }
-	//ExEnd:SplitAllDocumentsToPages
+    //ExEnd:SplitAllDocumentsToPages
 }
 
 //ExStart:DocumentPageSplitter
-class DocumentPageSplitter
-{
+class DocumentPageSplitter {
     private PageNumberFinder pageNumberFinder;
 
     /// <summary>
@@ -72,8 +66,7 @@ class DocumentPageSplitter
     /// It is recommended not to modify the document afterwards.
     /// </summary>
     /// <param name="source">source document</param>
-    public DocumentPageSplitter(Document source) throws Exception
-    {
+    public DocumentPageSplitter(Document source) throws Exception {
         this.pageNumberFinder = PageNumberFinderFactory.create(source);
     }
 
@@ -93,8 +86,7 @@ class DocumentPageSplitter
     /// <returns>
     /// The <see cref="Document"/>.
     /// </returns>
-    public Document getDocumentOfPage(int pageIndex) throws Exception
-    {
+    public Document getDocumentOfPage(int pageIndex) throws Exception {
         return this.getDocumentOfPageRange(pageIndex, pageIndex);
     }
 
@@ -110,11 +102,9 @@ class DocumentPageSplitter
     /// <returns>
     /// The <see cref="Document"/>.
     /// </returns>
-    public Document getDocumentOfPageRange(int startIndex, int endIndex) throws Exception
-    {
+    public Document getDocumentOfPageRange(int startIndex, int endIndex) throws Exception {
         Document result = (Document) this.getDocument().deepClone(false);
-        for (Section section : (Iterable<Section>) this.pageNumberFinder.retrieveAllNodesOnPages(startIndex, endIndex, NodeType.SECTION))
-        {
+        for (Section section : (Iterable<Section>) this.pageNumberFinder.retrieveAllNodesOnPages(startIndex, endIndex, NodeType.SECTION)) {
             result.appendChild(result.importNode(section, true));
         }
 
@@ -346,14 +336,12 @@ class PageNumberFinder {
     }
 }
 
-class PageNumberFinderFactory
-{
+class PageNumberFinderFactory {
     /* Simulation of static class by using private constructor */
-    private PageNumberFinderFactory()
-    {}
+    private PageNumberFinderFactory() {
+    }
 
-    public static PageNumberFinder create(Document document) throws Exception
-    {
+    public static PageNumberFinder create(Document document) throws Exception {
         LayoutCollector layoutCollector = new LayoutCollector(document);
         document.updatePageLayout();
         PageNumberFinder pageNumberFinder = new PageNumberFinder(layoutCollector);
@@ -381,7 +369,7 @@ class SectionSplitter extends DocumentVisitor {
         return this.continueIfCompositeAcrossPageElseSkip(row);
     }
 
-    public int visitCellStart(Cell cell) throws Exception{
+    public int visitCellStart(Cell cell) throws Exception {
         return this.continueIfCompositeAcrossPageElseSkip(cell);
     }
 
@@ -588,75 +576,61 @@ class SectionSplitter extends DocumentVisitor {
     }
 }
 
-class SplitPageBreakCorrector
-{
+class SplitPageBreakCorrector {
     private static final String PAGE_BREAK_STR = "\f";
     private static final char PAGE_BREAK = '\f';
 
-    public static void processSection(Section section)
-    {
-        if (section.getChildNodes().getCount() == 0)
-        {
+    public static void processSection(Section section) {
+        if (section.getChildNodes().getCount() == 0) {
             return;
         }
 
         Body lastBody = section.getBody();
-        if (lastBody == null)
-        {
+        if (lastBody == null) {
             return;
         }
 
         Run run = null;
-        for(Run r : (Iterable<Run>) lastBody.getChildNodes(NodeType.RUN, true)){
+        for (Run r : (Iterable<Run>) lastBody.getChildNodes(NodeType.RUN, true)) {
             if (r.getText().endsWith(PAGE_BREAK_STR)) {
                 run = r;
                 break;
             }
         }
 
-        if (run != null)
-        {
+        if (run != null) {
             removePageBreak(run);
         }
 
         return;
     }
 
-    public static void removePageBreakFromParagraph(Paragraph paragraph)
-    {
-        Run run = (Run)paragraph.getFirstChild();
-        if (run.getText().equals(PAGE_BREAK_STR))
-        {
+    public static void removePageBreakFromParagraph(Paragraph paragraph) {
+        Run run = (Run) paragraph.getFirstChild();
+        if (run.getText().equals(PAGE_BREAK_STR)) {
             paragraph.removeChild(run);
         }
     }
 
-    private static void processLastParagraph(Paragraph paragraph)
-    {
+    private static void processLastParagraph(Paragraph paragraph) {
         Node lastNode = paragraph.getChildNodes().get(paragraph.getChildNodes().getCount() - 1);
-        if (lastNode.getNodeType() != NodeType.RUN)
-        {
+        if (lastNode.getNodeType() != NodeType.RUN) {
             return;
         }
 
-        Run run = (Run)lastNode;
+        Run run = (Run) lastNode;
         removePageBreak(run);
     }
 
-    private static void removePageBreak(Run run)
-    {
+    private static void removePageBreak(Run run) {
         Paragraph paragraph = run.getParentParagraph();
-        if (run.getText().equals(PAGE_BREAK_STR))
-        {
+        if (run.getText().equals(PAGE_BREAK_STR)) {
             paragraph.removeChild(run);
-        }
-        else if (run.getText().endsWith(PAGE_BREAK_STR))
-        {
+        } else if (run.getText().endsWith(PAGE_BREAK_STR)) {
             run.setText(run.getText().replaceAll("[" + PAGE_BREAK + "]+$", ""));
         }
 
-        if (paragraph.getChildNodes().getCount() == 0)
-        {
+        if (paragraph.getChildNodes().getCount() == 0) {
             CompositeNode parent = paragraph.getParentNode();
             parent.removeChild(paragraph);
         }

@@ -3,29 +3,21 @@ package com.aspose.words.examples.mail_merge;
 import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
 import java.sql.*;
 import java.text.MessageFormat;
 import java.util.Hashtable;
 
 
-public class MultipleDocsInMailMerge
-{
+public class MultipleDocsInMailMerge {
     //ExStart:
     private static Connection mConnection;
     private static final String dataDir = Utils.getSharedDataDir(NestedMailMergeRegions.class) + "MailMerge/";
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         produceMultipleDocuments(dataDir, "TestFile.Multiple Pages.doc");
     }
 
-    public static void produceMultipleDocuments(String dataDir, String srcDoc) throws Exception
-    {
+    public static void produceMultipleDocuments(String dataDir, String srcDoc) throws Exception {
         // Create a connection to the database
         createConnection(dataDir);
 
@@ -39,10 +31,9 @@ public class MultipleDocsInMailMerge
         int counter = 1;
 
         // Loop though all records in the data source.
-        while(rs.next())
-        {
+        while (rs.next()) {
             // Clone the template instead of loading it from disk (for speed).
-            Document dstDoc = (Document)doc.deepClone(true);
+            Document dstDoc = (Document) doc.deepClone(true);
 
             // Extract the data from the current row of the ResultSet into a Hashtable.
             Hashtable dataMap = getRowData(rs);
@@ -56,15 +47,13 @@ public class MultipleDocsInMailMerge
     }
 
     /**
-	 * Creates a Hashtable from the name and value of each column in the current row of the ResultSet.
-	 */
-    public static Hashtable getRowData(ResultSet rs) throws Exception
-    {
+     * Creates a Hashtable from the name and value of each column in the current row of the ResultSet.
+     */
+    public static Hashtable getRowData(ResultSet rs) throws Exception {
         ResultSetMetaData metaData = rs.getMetaData();
         Hashtable values = new Hashtable();
 
-        for(int i = 1; i <= metaData.getColumnCount(); i++)
-        {
+        for (int i = 1; i <= metaData.getColumnCount(); i++) {
             values.put(metaData.getColumnName(i), rs.getObject(i));
         }
 
@@ -72,11 +61,10 @@ public class MultipleDocsInMailMerge
     }
 
     /**
-	 * Utility function that returns the keys of a Hashtable as an array of Strings.
-	 */
-    public static String[] keySetToArray(Hashtable table)
-    {
-        return (String[])table.keySet().toArray(new String[table.size()]);
+     * Utility function that returns the keys of a Hashtable as an array of Strings.
+     */
+    public static String[] keySetToArray(Hashtable table) {
+        return (String[]) table.keySet().toArray(new String[table.size()]);
     }
 
     /**

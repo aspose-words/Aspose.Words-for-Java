@@ -188,12 +188,21 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExEnd
 
     //ExStart
+    //ExFor:Cell.Accept(DocumentVisitor)
+    //ExFor:Cell.IsFirstCell
+    //ExFor:Cell.IsLastCell
     //ExFor:DocumentVisitor.VisitTableEnd(Tables.Table)
     //ExFor:DocumentVisitor.VisitTableStart(Tables.Table)
     //ExFor:DocumentVisitor.VisitRowEnd(Tables.Row)
     //ExFor:DocumentVisitor.VisitRowStart(Tables.Row)
     //ExFor:DocumentVisitor.VisitCellStart(Tables.Cell)
     //ExFor:DocumentVisitor.VisitCellEnd(Tables.Cell)
+    //ExFor:Row.Accept(DocumentVisitor)
+    //ExFor:Row.FirstCell
+    //ExFor:Row.GetText
+    //ExFor:Row.IsFirstRow
+    //ExFor:Row.LastCell
+    //ExFor:Row.ParentTable
     //ExSummary:Traverse a document with a visitor that prints all tables that it encounters.
     @Test //ExSkip
     public void tableToText() throws Exception {
@@ -275,7 +284,15 @@ public class ExDocumentVisitor extends ApiExampleBase {
         /// Called when a Row node is encountered in the document.
         /// </summary>
         public int visitRowStart(final Row row) {
-            indentAndAppendLine("[Row start]");
+            String rowContents = row.getText().replaceAll("\\u0007", ", ").replaceAll(", , ", "");
+            int rowWidth = row.indexOf(row.getLastCell()) + 1;
+            int rowIndex = row.getParentTable().indexOf(row);
+            String rowStatusInTable = row.isFirstRow() && row.isLastRow() ? "only" : row.isFirstRow() ? "first" : row.isLastRow() ? "last" : "";
+            if (!"".equals(rowStatusInTable)) {
+                rowStatusInTable = MessageFormat.format(", the {0} row in this table,", rowStatusInTable);
+            }
+
+            indentAndAppendLine(MessageFormat.format("[Row start] Row #{0}{1} width {2}, \"{3}\"", ++rowIndex, rowStatusInTable, rowWidth, rowContents));
             mDocTraversalDepth++;
 
             return VisitorAction.CONTINUE;
@@ -297,9 +314,12 @@ public class ExDocumentVisitor extends ApiExampleBase {
         public int visitCellStart(final Cell cell) {
             Row row = cell.getParentRow();
             Table table = row.getParentTable();
+            String cellStatusInRow = cell.isFirstCell() && cell.isLastCell() ? "only" : cell.isFirstCell() ? "first" : cell.isLastCell() ? "last" : "";
+            if (!"".equals(cellStatusInRow)) {
+                cellStatusInRow = MessageFormat.format(", the {0} cell in this row", cellStatusInRow);
+            }
 
-            indentAndAppendLine("[Cell start] Row " + (table.indexOf(row) + 1) + ", Col "
-                    + (row.indexOf(cell) + 1) + "");
+            indentAndAppendLine(MessageFormat.format("[Cell start] Row {0}, Col {1}{2}", table.indexOf(row) + 1, row.indexOf(cell) + 1, cellStatusInRow));
             mDocTraversalDepth++;
 
             return VisitorAction.CONTINUE;

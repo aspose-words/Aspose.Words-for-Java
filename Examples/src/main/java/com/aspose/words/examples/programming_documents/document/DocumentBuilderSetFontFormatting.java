@@ -13,7 +13,7 @@ public class DocumentBuilderSetFontFormatting {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderSetFontFormatting
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderSetFontFormatting.class);
 
         // Open the document.
@@ -27,7 +27,7 @@ public class DocumentBuilderSetFontFormatting {
         font.setUnderline(Underline.DOTTED);
         builder.write("I'm a very nice formatted string.");
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderSetFontFormatting
+        //ExEnd:DocumentBuilderSetFontFormatting
 
     }
 }

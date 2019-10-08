@@ -9,9 +9,9 @@ import java.awt.*;
 
 public class WriteAndFont {
     public static void main(String[] args) throws Exception {
-        
+
         //ExStart:WriteAndFont
-		// Open the document.
+        // Open the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         Font font = builder.getFont();
@@ -21,6 +21,6 @@ public class WriteAndFont {
         font.setName("Algerian");
         font.setUnderline(Underline.DOUBLE);
         builder.write("aspose......... aspose_words_java");
-		//ExEnd:WriteAndFont
+        //ExEnd:WriteAndFont
     }
 }

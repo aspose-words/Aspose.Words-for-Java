@@ -30,8 +30,7 @@ public class WorkingWithFootnote {
         System.out.println("\nFootnote number of columns set successfully.\nFile saved at " + dataDir);
     }
 
-    private static void SetFootnoteAndEndNotePosition(String dataDir)  throws Exception
-    {
+    private static void SetFootnoteAndEndNotePosition(String dataDir) throws Exception {
         // ExStart:SetFootnoteAndEndNotePosition
         Document doc = new Document(dataDir + "TestFile.docx");
 
@@ -45,8 +44,8 @@ public class WorkingWithFootnote {
         // ExEnd:SetFootnoteAndEndNotePosition
         System.out.println("\nFootnote number of columns set successfully.\nFile saved at " + dataDir);
     }
-    private static void SetEndnoteOptions(String dataDir) throws Exception
-    {
+
+    private static void SetEndnoteOptions(String dataDir) throws Exception {
         // ExStart:SetEndnoteOptions
         Document doc = new Document(dataDir + "TestFile.docx");
 

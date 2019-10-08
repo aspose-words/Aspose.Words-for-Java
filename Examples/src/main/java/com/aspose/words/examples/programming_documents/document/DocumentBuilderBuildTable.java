@@ -8,7 +8,7 @@ public class DocumentBuilderBuildTable {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderBuildTable
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderBuildTable.class);
 
         // Open the document.
@@ -37,7 +37,7 @@ public class DocumentBuilderBuildTable {
         builder.endTable();
 
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderBuildTable
+        //ExEnd:DocumentBuilderBuildTable
 
     }
 }

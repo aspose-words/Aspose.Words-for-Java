@@ -8,8 +8,8 @@ import java.util.Collections;
 
 
 public class ExtractContentBetweenBlockLevelNodes {
-	
-		
+
+
     public static void main(String[] args) throws Exception {
 //ExStart:ExtractContentBetweenBlockLevelNodes
         // The path to the documents directory.
@@ -35,7 +35,7 @@ public class ExtractContentBetweenBlockLevelNodes {
 
         // Save the generated document to disk.
         doc.save(dataDir + "output.doc");
-		//ExEnd:ExtractContentBetweenBlockLevelNodes
+        //ExEnd:ExtractContentBetweenBlockLevelNodes
 
         System.out.println("Content extracted between the block level nodes successfully.");
     }
@@ -230,6 +230,6 @@ public class ExtractContentBetweenBlockLevelNodes {
         }
 
     }
-	
-		
+
+
 }

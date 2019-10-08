@@ -10,31 +10,30 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class LargeSizeImageToPdf
-{
+public class LargeSizeImageToPdf {
     public static void main(String[] args) throws Exception {
 
         //ExStart:LargeSizeImageToPdf
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ImageToPdf.class);
 
         convertImageToPdf(dataDir + "Test.jpg", dataDir + "TestJpg_out_.pdf");
         convertImageToPdf(dataDir + "Test.png", dataDir + "TestPng_out_.pdf");
         convertImageToPdf(dataDir + "Test.bmp", dataDir + "TestBmp_out_.pdf");
         convertImageToPdf(dataDir + "Test.gif", dataDir + "TestGif_out_.pdf");
-		//ExEnd:LargeSizeImageToPdf
+        //ExEnd:LargeSizeImageToPdf
 
         System.out.println("Large size images converted to PDF successfully.");
     }
 //ExStart:convertImageToPdf
+
     /**
      * Converts an image to PDF using Aspose.Words for Java.
      *
-     * @param inputFileName File name of input image file.
+     * @param inputFileName  File name of input image file.
      * @param outputFileName Output PDF file name.
      */
-    public static void convertImageToPdf(String inputFileName, String outputFileName) throws Exception
-    {
+    public static void convertImageToPdf(String inputFileName, String outputFileName) throws Exception {
         // Create Aspose.Words.Document and DocumentBuilder.
         // The builder makes it simple to add content to the document.
         Document doc = new Document();
@@ -46,14 +45,12 @@ public class LargeSizeImageToPdf
         ImageReader reader = ImageIO.getImageReaders(iis).next();
         reader.setInput(iis, false);
 
-        try
-        {
+        try {
             // Get the number of frames in the image.
             int framesCount = reader.getNumImages(true);
 
             // Loop through all frames.
-            for (int frameIdx = 0; frameIdx < framesCount; frameIdx++)
-            {
+            for (int frameIdx = 0; frameIdx < framesCount; frameIdx++) {
                 // Insert a section break before each new page, in case of a multi-frame image.
                 if (frameIdx != 0)
                     builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
@@ -68,8 +65,7 @@ public class LargeSizeImageToPdf
                 double currentImageHeight = ConvertUtil.pixelToPoint(image.getHeight());
                 double currentImageWidth = ConvertUtil.pixelToPoint(image.getWidth());
 
-                if (currentImageWidth >= maxPageWidth || currentImageHeight >= maxPageHeight)
-                {
+                if (currentImageWidth >= maxPageWidth || currentImageHeight >= maxPageHeight) {
 
                     // Get max image size.
                     double[] size = CalculateImageSize(image, maxPageHeight, maxPageWidth, currentImageHeight, currentImageWidth);
@@ -97,9 +93,7 @@ public class LargeSizeImageToPdf
 
                 resizeLargeImage(shape);
             }
-        }
-
-        finally {
+        } finally {
             if (iis != null) {
                 iis.close();
                 reader.dispose();
@@ -109,10 +103,10 @@ public class LargeSizeImageToPdf
         // Save the document to PDF.
         doc.save(outputFileName);
     }
-	//ExEnd:convertImageToPdf
+    //ExEnd:convertImageToPdf
 
     //ExStart:CalculateImageSize
-	public static double[] CalculateImageSize(BufferedImage img, double containerHeight,  double containerWidth, double targetHeight, double targetWidth) throws Exception {
+    public static double[] CalculateImageSize(BufferedImage img, double containerHeight, double containerWidth, double targetHeight, double targetWidth) throws Exception {
 
         targetHeight = containerHeight;
         targetWidth = containerWidth;
@@ -121,13 +115,10 @@ public class LargeSizeImageToPdf
         double imgHeight = ConvertUtil.pixelToPoint(img.getHeight());
         double imgWidth = ConvertUtil.pixelToPoint(img.getWidth());
 
-        if (imgHeight < targetHeight && imgWidth < targetWidth)
-        {
+        if (imgHeight < targetHeight && imgWidth < targetWidth) {
             targetHeight = imgHeight;
             targetWidth = imgWidth;
-        }
-        else
-        {
+        } else {
             //Calculate size of an image in the document
             double ratioWidth = imgWidth / targetWidth;
             double ratioHeight = imgHeight / targetHeight;
@@ -142,12 +133,12 @@ public class LargeSizeImageToPdf
         size[0] = targetWidth; //width
         size[1] = targetHeight; //height
 
-        return(size);
+        return (size);
     }
-	//ExEnd:CalculateImageSize
+    //ExEnd:CalculateImageSize
 
     //ExStart:resizeLargeImage
-	public static void resizeLargeImage(Shape image) throws Exception {
+    public static void resizeLargeImage(Shape image) throws Exception {
         // Return if this shape is not an image.
         if (!image.hasImage())
             return;
@@ -171,5 +162,5 @@ public class LargeSizeImageToPdf
             image.setHeight(size.getHeightPoints() * ratio);
         }
     }
-	//ExEnd:resizeLargeImage
+    //ExEnd:resizeLargeImage
 }

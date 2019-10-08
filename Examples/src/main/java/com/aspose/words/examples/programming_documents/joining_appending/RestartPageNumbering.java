@@ -10,7 +10,7 @@ public class RestartPageNumbering {
     public static void main(String[] args) throws Exception {
 
         //ExStart:RestartPageNumbering
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(RestartPageNumbering.class);
 
         Document dstDoc = new Document(dataDir + "TestFile.Destination.doc");
@@ -23,7 +23,7 @@ public class RestartPageNumbering {
 
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(dataDir + "output.doc");
-		//ExEnd:RestartPageNumbering
+        //ExEnd:RestartPageNumbering
 
     }
 }

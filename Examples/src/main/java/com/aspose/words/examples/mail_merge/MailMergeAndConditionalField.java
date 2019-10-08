@@ -3,7 +3,6 @@ package com.aspose.words.examples.mail_merge;
 import com.aspose.words.Document;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.net.System.Data.DataTable;
 
 public class MailMergeAndConditionalField {
     public static void main(String[] args) throws Exception {

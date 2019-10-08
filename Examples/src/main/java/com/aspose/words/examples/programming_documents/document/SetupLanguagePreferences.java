@@ -1,11 +1,9 @@
 package com.aspose.words.examples.programming_documents.document;
 
+import com.aspose.words.Document;
 import com.aspose.words.EditingLanguage;
 import com.aspose.words.LoadOptions;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.examples.loading_saving.WorkingWithTxt;
-
-import com.aspose.words.Document;
 
 public class SetupLanguagePreferences {
     public static void main(String[] args) throws Exception {
@@ -15,8 +13,7 @@ public class SetupLanguagePreferences {
         setRussianAsDefaultEditingLanguage(dataDir);
     }
 
-    private static void addJapaneseAsEditinglanguages(String dataDir) throws Exception
-    {
+    private static void addJapaneseAsEditinglanguages(String dataDir) throws Exception {
         // ExStart:AddJapaneseAsEditinglanguages
         // The path to the documents directory.
         LoadOptions loadOptions = new LoadOptions();
@@ -25,15 +22,14 @@ public class SetupLanguagePreferences {
         Document doc = new Document(dataDir + "languagepreferences.docx", loadOptions);
 
         int localeIdFarEast = doc.getStyles().getDefaultFont().getLocaleIdFarEast();
-        if (localeIdFarEast == (int)EditingLanguage.JAPANESE)
+        if (localeIdFarEast == (int) EditingLanguage.JAPANESE)
             System.out.println("The document either has no any FarEast language set in defaults or it was set to Japanese originally.");
         else
             System.out.println("The document default FarEast language was set to another than Japanese language originally, so it is not overridden.");
         // ExEnd:AddJapaneseAsEditinglanguages
     }
 
-    private static void setRussianAsDefaultEditingLanguage(String dataDir) throws Exception
-    {
+    private static void setRussianAsDefaultEditingLanguage(String dataDir) throws Exception {
         // ExStart:SetRussianAsDefaultEditingLanguage
         // The path to the documents directory.
         LoadOptions loadOptions = new LoadOptions();

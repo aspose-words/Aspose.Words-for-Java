@@ -1,6 +1,6 @@
 package com.aspose.words.examples.rendering_printing;
 
-import com.aspose.words.*;
+import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.examples.Utils;
 
 /**

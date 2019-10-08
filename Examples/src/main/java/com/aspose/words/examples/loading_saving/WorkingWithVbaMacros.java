@@ -19,9 +19,9 @@ public class WorkingWithVbaMacros {
     {
 		//ExStart: ReadVbaMacros
         Document doc = new Document(dataDir + "Document.dot");
-        
+
         for (VbaModule module : doc.getVbaProject().getModules()) {
-                System.out.println(module.getSourceCode());
+            System.out.println(module.getSourceCode());
         }
         //ExEnd: ReadVbaMacros
     }

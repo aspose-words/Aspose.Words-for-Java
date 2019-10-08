@@ -6,15 +6,13 @@ import com.aspose.words.Row;
 import com.aspose.words.examples.Utils;
 
 
-public class UntangleRowBookmarks
-{
+public class UntangleRowBookmarks {
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(UntangleRowBookmarks.class);
 
         // Load a document.
@@ -34,17 +32,15 @@ public class UntangleRowBookmarks
         doc.save(dataDir + "TestDefect1352 Out.doc");
 
         System.out.println("Untangled row bookmarks successfully.");
-		//ExEnd:
+        //ExEnd:
     }
 
-    private static void untangleRowBookmarks(Document doc) throws Exception
-    {
+    private static void untangleRowBookmarks(Document doc) throws Exception {
         //ExStart:untangleRowBookmarks
-		for (Bookmark bookmark : doc.getRange().getBookmarks())
-        {
+        for (Bookmark bookmark : doc.getRange().getBookmarks()) {
             // Get the parent row of both the bookmark and bookmark end node.
-            Row row1 = (Row)bookmark.getBookmarkStart().getAncestor(Row.class);
-            Row row2 = (Row)bookmark.getBookmarkEnd().getAncestor(Row.class);
+            Row row1 = (Row) bookmark.getBookmarkStart().getAncestor(Row.class);
+            Row row2 = (Row) bookmark.getBookmarkEnd().getAncestor(Row.class);
 
             // If both rows are found okay and the bookmark start and end are contained
             // in adjacent rows, then just move the bookmark end node to the end
@@ -52,24 +48,23 @@ public class UntangleRowBookmarks
             if ((row1 != null) && (row2 != null) && (row1.getNextSibling() == row2))
                 row1.getLastCell().getLastParagraph().appendChild(bookmark.getBookmarkEnd());
         }
-		//ExEnd:untangleRowBookmarks
+        //ExEnd:untangleRowBookmarks
     }
 
-    private static void deleteRowByBookmark(Document doc, String bookmarkName) throws Exception
-    {
+    private static void deleteRowByBookmark(Document doc, String bookmarkName) throws Exception {
         //ExStart:deleteRowByBookmark
-		// Find the bookmark in the document. Exit if cannot find it.
+        // Find the bookmark in the document. Exit if cannot find it.
         Bookmark bookmark = doc.getRange().getBookmarks().get(bookmarkName);
         if (bookmark == null)
             return;
 
         // Get the parent row of the bookmark. Exit if the bookmark is not in a row.
-        Row row = (Row)bookmark.getBookmarkStart().getAncestor(Row.class);
+        Row row = (Row) bookmark.getBookmarkStart().getAncestor(Row.class);
         if (row == null)
             return;
 
         // Remove the row.
         row.remove();
-		//ExEnd:deleteRowByBookmark
+        //ExEnd:deleteRowByBookmark
     }
 }

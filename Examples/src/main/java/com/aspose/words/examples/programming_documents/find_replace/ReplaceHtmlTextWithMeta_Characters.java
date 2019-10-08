@@ -1,7 +1,7 @@
 package com.aspose.words.examples.programming_documents.find_replace;
 
-import com.aspose.words.examples.Utils;
 import com.aspose.words.*;
+import com.aspose.words.examples.Utils;
 
 /**
  * Created by awaishafeez on 1/3/2018.

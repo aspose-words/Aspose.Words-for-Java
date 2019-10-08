@@ -1,16 +1,16 @@
 package com.aspose.words.examples.loading_saving;
 
 import com.aspose.words.Document;
-import com.aspose.words.LoadOptions;
-import com.aspose.words.examples.Utils;
+import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.SaveFormat;
-import com.aspose.words.*;
-import  java.io.*;
-public class SpecifySaveOption
-{
+import com.aspose.words.examples.Utils;
+
+import java.io.File;
+
+public class SpecifySaveOption {
     public static void main(String[] args) throws Exception {
         //ExStart:SpecifySaveOption
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(SpecifySaveOption.class);
         String fileName = "TestFile RenderShape.docx";
         // Load the document.
@@ -20,18 +20,18 @@ public class SpecifySaveOption
         File imagesDir = new File(dataDir, "Images");
 
         // The folder specified needs to exist and should be empty.
-        if(imagesDir.exists())
+        if (imagesDir.exists())
             imagesDir.delete();
 
         imagesDir.mkdir();
 
-       // Set an option to export form fields as plain text, not as HTML input elements.
+        // Set an option to export form fields as plain text, not as HTML input elements.
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
         options.setExportTextInputFormFieldAsText(true);
         options.setImagesFolder(imagesDir.getPath());
         dataDir = dataDir + Utils.GetOutputFilePath(fileName);
-		doc.save(dataDir, options);
-		//ExEnd:SpecifySaveOption
+        doc.save(dataDir, options);
+        //ExEnd:SpecifySaveOption
         System.out.println("\nSave option specified successfully.\nFile saved at " + dataDir);
     }
 }

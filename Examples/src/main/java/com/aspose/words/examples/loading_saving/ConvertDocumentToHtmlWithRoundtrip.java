@@ -1,15 +1,14 @@
 package com.aspose.words.examples.loading_saving;
 
 import com.aspose.words.Document;
+import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.*;
-public class ConvertDocumentToHtmlWithRoundtrip
-{
-    public static void main(String[] args) throws Exception
-    {
+
+public class ConvertDocumentToHtmlWithRoundtrip {
+    public static void main(String[] args) throws Exception {
         //ExStart:ConvertDocumentToHtmlWithRoundtrip
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertDocumentToHtmlWithRoundtrip.class);
 
         // Load the document.
@@ -27,7 +26,7 @@ public class ConvertDocumentToHtmlWithRoundtrip
 
         //Save the document Docx file format
         doc.save(dataDir + "TestFile_out_.docx", SaveFormat.DOCX);
-		//ExEnd:ConvertDocumentToHtmlWithRoundtrip
+        //ExEnd:ConvertDocumentToHtmlWithRoundtrip
         System.out.println("Document converted to html with roundtrip informations successfully.");
     }
 }

@@ -11,14 +11,14 @@ public class ImageColorFilters {
         exposeThresholdControlForTiffBinarization(dataDir);
     }
 
-    private static void exposeThresholdControlForTiffBinarization(String dataDir)throws Exception {
+    private static void exposeThresholdControlForTiffBinarization(String dataDir) throws Exception {
         // ExStart:ExposeThresholdControlForTiffBinarization
         Document doc = new Document(dataDir + "TestFile.Colors.docx");
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.TIFF);
         options.setTiffCompression(TiffCompression.CCITT_3);
         options.setImageColorMode(ImageColorMode.GRAYSCALE);
         options.setTiffBinarizationMethod(ImageBinarizationMethod.FLOYD_STEINBERG_DITHERING);
-        options.setThresholdForFloydSteinbergDithering((byte)254);
+        options.setThresholdForFloydSteinbergDithering((byte) 254);
 
         dataDir = dataDir + "ThresholdForFloydSteinbergDithering_out.tiff";
         doc.save(dataDir, options);

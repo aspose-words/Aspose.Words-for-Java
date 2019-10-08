@@ -9,7 +9,7 @@ public class DocumentBuilderInsertField {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderInsertField
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertField.class);
 
         // Open the document.
@@ -21,7 +21,7 @@ public class DocumentBuilderInsertField {
         builder.insertField("MERGEFIELD Date2 \\@ \"dddd, d MMMM yyyy\"");
 
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderInsertField
+        //ExEnd:DocumentBuilderInsertField
 
     }
 }

@@ -11,7 +11,7 @@ public class DocumentBuilderInsertTableOfContents {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderInsertTableOfContents
-		String dataDir = Utils.getDataDir(DocumentBuilderInsertTableOfContents.class);
+        String dataDir = Utils.getDataDir(DocumentBuilderInsertTableOfContents.class);
 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -44,7 +44,7 @@ public class DocumentBuilderInsertTableOfContents {
 
         doc.updateFields();
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderInsertTableOfContents
+        //ExEnd:DocumentBuilderInsertTableOfContents
 
     }
 }

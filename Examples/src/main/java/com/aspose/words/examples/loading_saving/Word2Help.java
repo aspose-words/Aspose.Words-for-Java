@@ -23,22 +23,18 @@ import java.util.regex.Pattern;
  * a form that can then be easily compiled together into a single compiled help file (CHM) by using
  * the Microsoft HTML Help Workshop application.
  */
-public class Word2Help
-{
-    public static void main(String[] args) throws Exception
-    {
+public class Word2Help {
+    public static void main(String[] args) throws Exception {
         //ExStart:Word2Help
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(Word2Help.class);
 
         // Specifies the destination directory where the HTML files are output.
         File outPath = new File(dataDir, "Out");
 
         // Remove any existing output and recreate the Out folder.
-        if(outPath.exists())
-        {
-            for(File file : outPath.listFiles())
-            {
+        if (outPath.exists()) {
+            for (File file : outPath.listFiles()) {
                 file.delete();
             }
         }
@@ -68,32 +64,31 @@ public class Word2Help
         topics.addFromDir(dataDir);
         topics.writeHtml(outDir);
         topics.writeContentXml(outDir);
-		//ExEnd:Word2Help
+        //ExEnd:Word2Help
 
         System.out.println("Conversion completed successfully.");
     }
 }
 //ExStart:Hyperlink
+
 /**
  * This "facade" class makes it easier to work with a hyperlink field in a Word document.
- *
+ * <p>
  * A hyperlink is represented by a HYPERLINK field in a Word document. A field in Aspose.Words
  * consists of several nodes and it might be difficult to work with all those nodes directly.
  * This is a simple implementation and will work only if the hyperlink code and name
  * each consist of one Run only.
- *
+ * <p>
  * [FieldStart][Run - field code][FieldSeparator][Run - field result][FieldEnd]
- *
+ * <p>
  * The field code contains a string in one of these formats:
  * HYPERLINK "url"
  * HYPERLINK \l "bookmark name"
- *
+ * <p>
  * The field result contains text that is displayed to the user.
  */
-class Hyperlink
-{
-    public Hyperlink(FieldStart fieldStart) throws Exception
-    {
+class Hyperlink {
+    public Hyperlink(FieldStart fieldStart) throws Exception {
         if (fieldStart == null)
             throw new IllegalArgumentException("fieldStart");
         if (fieldStart.getFieldType() != FieldType.FIELD_HYPERLINK)
@@ -117,8 +112,7 @@ class Hyperlink
 
         Matcher match = G_REGEX.matcher(fieldCode.trim());
 
-        if(match.find())
-        {
+        if (match.find()) {
             mIsLocal = match.group(1) != null;
             mTarget = match.group(2);
         }
@@ -127,16 +121,14 @@ class Hyperlink
     /*
      * Gets or sets the display name of the hyperlink.
      */
-    public String getName() throws Exception
-    {
+    public String getName() throws Exception {
         return getTextSameParent(mFieldSeparator, mFieldEnd);
     }
 
-    public void setName(String value) throws Exception
-    {
+    public void setName(String value) throws Exception {
         // Hyperlink display name is stored in the field result which is a Run
         // node between field separator and field end.
-        Run fieldResult = (Run)mFieldSeparator.getNextSibling();
+        Run fieldResult = (Run) mFieldSeparator.getNextSibling();
         fieldResult.setText(value);
 
         // But sometimes the field result can consist of more than one run, delete these runs.
@@ -146,13 +138,11 @@ class Hyperlink
     /*
      * Gets or sets the target url or bookmark name of the hyperlink.
      */
-    public String getTarget() throws Exception
-    {
+    public String getTarget() throws Exception {
         return mTarget;
     }
 
-    public void setTarget(String value) throws Exception
-    {
+    public void setTarget(String value) throws Exception {
         mTarget = value;
         updateFieldCode();
     }
@@ -160,13 +150,11 @@ class Hyperlink
     /*
      * True if the hyperlink's target is a bookmark inside the document. False if the hyperlink is a url.
      */
-    public boolean isLocal() throws Exception
-    {
+    public boolean isLocal() throws Exception {
         return mIsLocal;
     }
 
-    public void setLocal(boolean value) throws Exception
-    {
+    public void setLocal(boolean value) throws Exception {
         mIsLocal = value;
         updateFieldCode();
     }
@@ -174,10 +162,9 @@ class Hyperlink
     /**
      * Updates the field code.
      */
-    private void updateFieldCode() throws Exception
-    {
+    private void updateFieldCode() throws Exception {
         // Field code is stored in a Run node between field start and field separator.
-        Run fieldCode = (Run)mFieldStart.getNextSibling();
+        Run fieldCode = (Run) mFieldStart.getNextSibling();
         fieldCode.setText(java.text.MessageFormat.format("HYPERLINK {0}\"{1}\"", ((mIsLocal) ? "\\l " : ""), mTarget));
 
         // But sometimes the field code can consist of more than one run, delete these runs.
@@ -187,10 +174,8 @@ class Hyperlink
     /**
      * Goes through siblings starting from the start node until it finds a node of the specified type or null.
      */
-    private static Node findNextSibling(Node start, int nodeType) throws Exception
-    {
-        for (Node node = start; node != null; node = node.getNextSibling())
-        {
+    private static Node findNextSibling(Node start, int nodeType) throws Exception {
+        for (Node node = start; node != null; node = node.getNextSibling()) {
             if (node.getNodeType() == nodeType)
                 return node;
         }
@@ -200,8 +185,7 @@ class Hyperlink
     /*
      * Retrieves text from start up to but not including the end node.
      */
-    private static String getTextSameParent(Node start, Node end) throws Exception
-    {
+    private static String getTextSameParent(Node start, Node end) throws Exception {
         if ((end != null) && (start.getParentNode() != end.getParentNode()))
             throw new IllegalArgumentException("Start and end nodes are expected to have the same parent.");
 
@@ -215,14 +199,12 @@ class Hyperlink
      * Removes nodes from start up to but not including the end node.
      * Start and end are assumed to have the same parent.
      */
-    private static void removeSameParent(Node start, Node end) throws Exception
-    {
+    private static void removeSameParent(Node start, Node end) throws Exception {
         if ((end != null) && (start.getParentNode() != end.getParentNode()))
             throw new IllegalArgumentException("Start and end nodes are expected to have the same parent.");
 
         Node curChild = start;
-        while (curChild != end)
-        {
+        while (curChild != end) {
             Node nextChild = curChild.getNextSibling();
             curChild.remove();
             curChild = nextChild;
@@ -247,21 +229,20 @@ class Hyperlink
 }
 //ExEnd:Hyperlink
 //ExStart:RegularExpressions
+
 /**
  * Central storage for regular expressions used in the project.
  */
-class RegularExpressions
-{
+class RegularExpressions {
     // This class is static. No instance creation is allowed.
-    private RegularExpressions() throws Exception {}
+    private RegularExpressions() throws Exception {
+    }
 
     /**
      * Regular expression specifying html title (framing tags excluded).
      */
-    public static Pattern getHtmlTitle() throws Exception
-    {
-        if (gHtmlTitle == null)
-        {
+    public static Pattern getHtmlTitle() throws Exception {
+        if (gHtmlTitle == null) {
             gHtmlTitle = Pattern.compile(HTML_TITLE_PATTERN,
                     Pattern.CASE_INSENSITIVE);
         }
@@ -271,10 +252,8 @@ class RegularExpressions
     /**
      * Regular expression specifying html head.
      */
-    public static Pattern getHtmlHead() throws Exception
-    {
-        if (gHtmlHead == null)
-        {
+    public static Pattern getHtmlHead() throws Exception {
+        if (gHtmlHead == null) {
             gHtmlHead = Pattern.compile(HTML_HEAD_PATTERN,
                     Pattern.CASE_INSENSITIVE);
         }
@@ -284,10 +263,8 @@ class RegularExpressions
     /**
      * Regular expression specifying space right after div keyword in the first div declaration of html body.
      */
-    public static Pattern getHtmlBodyDivStart() throws Exception
-    {
-        if (gHtmlBodyDivStart == null)
-        {
+    public static Pattern getHtmlBodyDivStart() throws Exception {
+        if (gHtmlBodyDivStart == null) {
             gHtmlBodyDivStart = Pattern.compile(HTML_BODY_DIV_START_PATTERN,
                     Pattern.CASE_INSENSITIVE);
         }
@@ -310,18 +287,16 @@ class RegularExpressions
 /**
  * Represents a single topic that will be written as an HTML file.
  */
-class TopicWord2Help
-{
+class TopicWord2Help {
     /**
      * Creates a topic.
      */
-    public TopicWord2Help(Section section, String fixUrl) throws Exception
-    {
+    public TopicWord2Help(Section section, String fixUrl) throws Exception {
         mTopicDoc = new Document();
         mTopicDoc.appendChild(mTopicDoc.importNode(section, true, ImportFormatMode.KEEP_SOURCE_FORMATTING));
         mTopicDoc.getFirstSection().remove();
 
-        Paragraph headingPara = (Paragraph)mTopicDoc.getFirstSection().getBody().getFirstChild();
+        Paragraph headingPara = (Paragraph) mTopicDoc.getFirstSection().getBody().getFirstChild();
         if (headingPara == null)
             throwTopicException("The section does not start with a paragraph.", section);
 
@@ -341,25 +316,21 @@ class TopicWord2Help
         fixHyperlinks(section.getDocument(), fixUrl);
     }
 
-    private static void throwTopicException(String message, Section section) throws Exception
-    {
+    private static void throwTopicException(String message, Section section) throws Exception {
         throw new Exception(message + " Section text: " + section.getBody().toString(SaveFormat.TEXT).substring(0, 50));
     }
 
-    private void fixHyperlinks(DocumentBase originalDoc, String fixUrl) throws Exception
-    {
+    private void fixHyperlinks(DocumentBase originalDoc, String fixUrl) throws Exception {
         if (fixUrl.endsWith("/"))
             fixUrl = fixUrl.substring(0, fixUrl.length() - 1);
 
         NodeCollection fieldStarts = mTopicDoc.getChildNodes(NodeType.FIELD_START, true);
-        for (FieldStart fieldStart : (Iterable<FieldStart>) fieldStarts)
-        {
+        for (FieldStart fieldStart : (Iterable<FieldStart>) fieldStarts) {
             if (fieldStart.getFieldType() != FieldType.FIELD_HYPERLINK)
                 continue;
 
             Hyperlink hyperlink = new Hyperlink(fieldStart);
-            if (hyperlink.isLocal())
-            {
+            if (hyperlink.isLocal()) {
                 // We use "Hyperlink to a place in this document" feature of Microsoft Word
                 // to create local hyperlinks between topics within the same doc file.
                 // It causes MS Word to auto generate the bookmark name.
@@ -374,30 +345,26 @@ class TopicWord2Help
                 if (bmk == null)
                     throw new Exception(MessageFormat.format("Found a link to a bookmark, but cannot locate the bookmark. Name:{0}.", bmkName));
 
-                Paragraph para = (Paragraph)bmk.getBookmarkStart().getParentNode();
+                Paragraph para = (Paragraph) bmk.getBookmarkStart().getParentNode();
                 String topicName = para.getText().trim();
 
                 hyperlink.setTarget(headingToFileName(topicName) + ".html");
                 hyperlink.setLocal(false);
-            }
-            else
-            {
+            } else {
                 // We "fix" URL like this:
                 // http://www.aspose.com/Products/Aspose.Words/Api/Aspose.Words.Body.html
                 // by changing them into this:
                 // Aspose.Words.Body.html
                 if (hyperlink.getTarget().startsWith(fixUrl) &&
-                        (hyperlink.getTarget().length() > (fixUrl.length() + 1)))
-                {
+                        (hyperlink.getTarget().length() > (fixUrl.length() + 1))) {
                     hyperlink.setTarget(hyperlink.getTarget().substring(fixUrl.length() + 1));
                 }
             }
         }
     }
 
-    public void writeHtml(String htmlHeader, String htmlBanner, String htmlFooter, String outDir) throws Exception
-    {
-        String fileName = new File(outDir,  getFileName()).getAbsolutePath();
+    public void writeHtml(String htmlHeader, String htmlBanner, String htmlFooter, String outDir) throws Exception {
+        String fileName = new File(outDir, getFileName()).getAbsolutePath();
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setPrettyFormat(true);
@@ -413,14 +380,14 @@ class TopicWord2Help
         String html;
         FileInputStream reader = null;
 
-        try{
+        try {
             reader = new FileInputStream(fileName);
             byte[] fileBytes = new byte[reader.available()];
             reader.read(fileBytes);
             html = new String(fileBytes);
+        } finally {
+            if (reader != null) reader.close();
         }
-
-        finally { if (reader != null) reader.close(); }
 
         // Builds the HTML <head> element.
         String header = htmlHeader.replaceFirst(RegularExpressions.getHtmlTitle().pattern(), mTitle);
@@ -439,22 +406,20 @@ class TopicWord2Help
 
         FileOutputStream writer = null;
 
-        try{
+        try {
             writer = new FileOutputStream(fileName);
             writer.write(html.getBytes());
+        } finally {
+            if (writer != null) writer.close();
         }
-
-        finally { if (writer != null) writer.close(); }
     }
 
     /**
      * Removes various characters from the header to form a file name that does not require escaping.
      */
-    private static String headingToFileName(String heading) throws Exception
-    {
+    private static String headingToFileName(String heading) throws Exception {
         StringBuilder b = new StringBuilder();
-        for (int i = 0; i < heading.length(); i++)
-        {
+        for (int i = 0; i < heading.length(); i++) {
             char c = heading.charAt(i);
             if (Character.isLetterOrDigit(c))
                 b.append(c);
@@ -463,22 +428,29 @@ class TopicWord2Help
         return b.toString();
     }
 
-    public Document getDocument() throws Exception { return mTopicDoc; }
+    public Document getDocument() throws Exception {
+        return mTopicDoc;
+    }
 
     /**
      * Gets the name of the topic html file without path.
      */
-    public String getFileName() throws Exception { return headingToFileName(mTitle) + ".html"; }
+    public String getFileName() throws Exception {
+        return headingToFileName(mTitle) + ".html";
+    }
 
-    public String getTitle() throws Exception { return mTitle; }
+    public String getTitle() throws Exception {
+        return mTitle;
+    }
 
-    public int getHeadingLevel() throws Exception { return mHeadingLevel; }
+    public int getHeadingLevel() throws Exception {
+        return mHeadingLevel;
+    }
 
     /**
      * Returns true if the topic has no text (the heading paragraph has already been removed from the topic).
      */
-    public boolean isHeadingOnly() throws Exception
-    {
+    public boolean isHeadingOnly() throws Exception {
         Body body = mTopicDoc.getFirstSection().getBody();
         return (body.getFirstParagraph() == null);
     }
@@ -489,22 +461,20 @@ class TopicWord2Help
 }
 //ExEnd:TopicWord2Help
 //ExStart:TopicCollection
+
 /**
  * This is the main class.
  * Loads Word document(s), splits them into topics, saves HTML files and builds content.xml.
  */
-class TopicCollection
-{
+class TopicCollection {
     /**
      * Ctor.
      *
      * @param htmlTemplatesDir The directory that contains header.html, banner.html and footer.html files.
-     *
-     * @param fixUrl The url that will be removed from any hyperlinks that start with this url.
-     * This allows turning some absolute URLS into relative ones.
+     * @param fixUrl           The url that will be removed from any hyperlinks that start with this url.
+     *                         This allows turning some absolute URLS into relative ones.
      */
-    public TopicCollection(String htmlTemplatesDir, String fixUrl) throws Exception
-    {
+    public TopicCollection(String htmlTemplatesDir, String fixUrl) throws Exception {
         mTopics = new ArrayList();
         mFixUrl = fixUrl;
         mHtmlHeader = readFile(htmlTemplatesDir + "header.html");
@@ -516,8 +486,7 @@ class TopicCollection
      * Processes all DOC files found in the specified directory.
      * Loads and splits each document into separate topics.
      */
-    public void addFromDir(String dirName) throws Exception
-    {
+    public void addFromDir(String dirName) throws Exception {
         FilenameFilter fileFilter = new FilenameFilter() {
 
             public boolean accept(File dir, String name) {
@@ -532,8 +501,7 @@ class TopicCollection
     /**
      * Processes a specified DOC file. Loads and splits into topics.
      */
-    public void addFromFile(String fileName) throws Exception
-    {
+    public void addFromFile(String fileName) throws Exception {
         Document doc = new Document(fileName);
         insertTopicSections(doc);
         addTopics(doc);
@@ -542,10 +510,8 @@ class TopicCollection
     /**
      * Saves all topics as HTML files.
      */
-    public void writeHtml(String outDir) throws Exception
-    {
-        for (TopicWord2Help topic : (Iterable<TopicWord2Help>) mTopics)
-        {
+    public void writeHtml(String outDir) throws Exception {
+        for (TopicWord2Help topic : (Iterable<TopicWord2Help>) mTopics) {
             if (!topic.isHeadingOnly())
                 topic.writeHtml(mHtmlHeader, mHtmlBanner, mHtmlFooter, outDir);
         }
@@ -554,8 +520,7 @@ class TopicCollection
     /**
      * Saves the content.xml file that describes the tree of topics.
      */
-    public void writeContentXml(String outDir) throws Exception
-    {
+    public void writeContentXml(String outDir) throws Exception {
         DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
         javax.xml.parsers.DocumentBuilder parser = fact.newDocumentBuilder();
         org.w3c.dom.Document doc = parser.newDocument();
@@ -566,40 +531,33 @@ class TopicCollection
 
         Element currentElement = root;
 
-        for (int i = 0; i < mTopics.size(); i++)
-        {
-            TopicWord2Help topic = (TopicWord2Help)mTopics.get(i);
+        for (int i = 0; i < mTopics.size(); i++) {
+            TopicWord2Help topic = (TopicWord2Help) mTopics.get(i);
 
             int nextTopicIdx = i + 1;
-            TopicWord2Help nextTopic = (nextTopicIdx < mTopics.size()) ? (TopicWord2Help)mTopics.get(i + 1) : null;
+            TopicWord2Help nextTopic = (nextTopicIdx < mTopics.size()) ? (TopicWord2Help) mTopics.get(i + 1) : null;
 
             int nextHeadingLevel = (nextTopic != null) ? nextTopic.getHeadingLevel() : 0;
 
-            if (nextHeadingLevel > topic.getHeadingLevel())
-            {
+            if (nextHeadingLevel > topic.getHeadingLevel()) {
                 // Next topic is nested, therefore we have to start a book.
                 // We only allow increase level at a time.
                 if (nextHeadingLevel != topic.getHeadingLevel() + 1)
                     throw new Exception("Topic is nested for more than one level at a time. Title: " + topic.getTitle());
 
                 currentElement = writeBookStart(currentElement, topic);
-            }
-            else if (nextHeadingLevel < topic.getHeadingLevel())
-            {
+            } else if (nextHeadingLevel < topic.getHeadingLevel()) {
                 // Next topic is one or more levels higher in the outline.
                 // Write out the current topic.
                 writeItem(currentElement, topic.getTitle(), topic.getFileName());
 
                 // End one or more nested topics could have ended at this point.
                 int levelsToClose = topic.getHeadingLevel() - nextHeadingLevel;
-                while (levelsToClose > 0)
-                {
-                    currentElement = (Element)currentElement.getParentNode();
+                while (levelsToClose > 0) {
+                    currentElement = (Element) currentElement.getParentNode();
                     levelsToClose--;
                 }
-            }
-            else
-            {
+            } else {
                 // A topic at the current level and it has no children.
                 writeItem(currentElement, topic.getTitle(), topic.getFileName());
             }
@@ -611,7 +569,7 @@ class TopicCollection
         // Prepare the output file
         File file = new File(outDir, "content.xml");
         FileOutputStream outputStream = new FileOutputStream(file.getAbsolutePath());
-        StreamResult result = new StreamResult(new OutputStreamWriter(outputStream,"UTF-8")); // UTF-8 encoding must be specified in order for the output to have proper indentation.
+        StreamResult result = new StreamResult(new OutputStreamWriter(outputStream, "UTF-8")); // UTF-8 encoding must be specified in order for the output to have proper indentation.
 
         // Write the DOM document to disk.
         TransformerFactory tf = TransformerFactory.newInstance();
@@ -628,38 +586,31 @@ class TopicCollection
      *
      * @param doc The document where to insert the section breaks.
      */
-    private static void insertTopicSections(Document doc) throws Exception
-    {
+    private static void insertTopicSections(Document doc) throws Exception {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
         ArrayList topicStartParas = new ArrayList();
 
-        for (Paragraph para : (Iterable<Paragraph>) paras)
-        {
+        for (Paragraph para : (Iterable<Paragraph>) paras) {
             int style = para.getParagraphFormat().getStyleIdentifier();
             if ((style >= StyleIdentifier.HEADING_1) && (style <= MAX_TOPIC_HEADING) &&
-                    (para.hasChildNodes()))
-            {
+                    (para.hasChildNodes())) {
                 // Select heading paragraphs that must become topic starts.
                 // We can't modify them in this loop, we have to remember them in an array first.
                 topicStartParas.add(para);
-            }
-            else if ((style > MAX_TOPIC_HEADING) && (style <= StyleIdentifier.HEADING_9))
-            {
+            } else if ((style > MAX_TOPIC_HEADING) && (style <= StyleIdentifier.HEADING_9)) {
                 // Pull up headings. For example: if Heading 1-4 become topics, then I want Headings 5+
                 // to become Headings 4+. Maybe I want to pull up even higher?
                 para.getParagraphFormat().setStyleIdentifier(style - 1);
             }
         }
 
-        for (Paragraph para : (Iterable<Paragraph>) topicStartParas)
-        {
+        for (Paragraph para : (Iterable<Paragraph>) topicStartParas) {
             Section section = para.getParentSection();
 
             // Insert section break if the paragraph is not at the beginning of a section already.
-            if (para != section.getBody().getFirstParagraph())
-            {
+            if (para != section.getBody().getFirstParagraph()) {
                 builder.moveTo(para.getFirstChild());
                 builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
 
@@ -673,25 +624,19 @@ class TopicCollection
     /**
      * Goes through the sections in the document and adds them as topics to the collection.
      */
-    private void addTopics(Document doc) throws Exception
-    {
-        for (Section section : doc.getSections())
-        {
-            try
-            {
+    private void addTopics(Document doc) throws Exception {
+        for (Section section : doc.getSections()) {
+            try {
                 TopicWord2Help topic = new TopicWord2Help(section, mFixUrl);
                 mTopics.add(topic);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 // If one topic fails, we continue with others.
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    private static Element writeBookStart(Element root, TopicWord2Help topic) throws Exception
-    {
+    private static Element writeBookStart(Element root, TopicWord2Help topic) throws Exception {
         Element book = root.getOwnerDocument().createElement("book");
         root.appendChild(book);
 
@@ -703,8 +648,7 @@ class TopicCollection
         return book;
     }
 
-    private static void writeItem(Element root, String name, String href) throws Exception
-    {
+    private static void writeItem(Element root, String name, String href) throws Exception {
         Element item = root.getOwnerDocument().createElement("item");
         root.appendChild(item);
 
@@ -712,20 +656,16 @@ class TopicCollection
         item.setAttribute("href", href);
     }
 
-    private static String readFile(String fileName) throws Exception
-    {
+    private static String readFile(String fileName) throws Exception {
         FileInputStream reader = null;
-        try
-        {
+        try {
             reader = new FileInputStream(fileName);
             byte[] fileBytes = new byte[reader.available()];
 
             reader.read(fileBytes);
 
             return new String(fileBytes);
-        }
-
-        finally {
+        } finally {
             if (reader != null)
                 reader.close();
         }

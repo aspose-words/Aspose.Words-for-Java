@@ -8,7 +8,7 @@ public class RemoveField {
     public static void main(String[] args) throws Exception {
 
         //ExStart:RemoveField
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(RemoveField.class);
         Document doc = new Document(dataDir + "Field.RemoveField.doc");
 
@@ -17,7 +17,7 @@ public class RemoveField {
         field.remove();
 
         doc.save(dataDir + "output.docx");
-		//ExEnd:RemoveField
+        //ExEnd:RemoveField
 
         System.out.println("Field removed from the document successfully.");
     }

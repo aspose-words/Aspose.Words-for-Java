@@ -25,7 +25,7 @@ public class ChartNumberFormat {
         chart.getSeries().clear();
 
         // Add new series
-        ChartSeries series0 = chart.getSeries().add("AW Series 0", new String[] { "AW0", "AW1", "AW2" }, new double[] { 2.5, 1.5, 3.5 });
+        ChartSeries series0 = chart.getSeries().add("AW Series 0", new String[]{"AW0", "AW1", "AW2"}, new double[]{2.5, 1.5, 3.5});
 
         // Add DataLabel to the first point of the first series.
         ChartDataLabel chartDataLabel0 = series0.getDataLabels().add(0);
@@ -51,7 +51,7 @@ public class ChartNumberFormat {
         chartDataLabel2.getNumberFormat().isLinkedToSource(true);
 
 
-        doc.save(dataDir +"NumberFormat_DataLabel_out.docx");
+        doc.save(dataDir + "NumberFormat_DataLabel_out.docx");
         // ExEnd:ChartNumberFormat
         System.out.println("\nSimple line chart created with formatted data lablel successfully.\nFile saved at " + dataDir);
     }
