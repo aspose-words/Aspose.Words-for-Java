@@ -98,7 +98,7 @@ public class ExEditableRange extends ApiExampleBase {
 
         // If the editable range was found in a document, it will probably have something in the single user property
         // But if we make one programmatically, the property is null by default
-        Assert.assertEquals(editableRange1.getSingleUser(), null);
+        Assert.assertEquals(editableRange1.getSingleUser(), "");
 
         // We have to set it ourselves if we want the ranges to belong to somebody
         editableRange1.setSingleUser("john.doe@myoffice.com");
