@@ -4,6 +4,7 @@ import com.aspose.barcode.BaseEncodeType;
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.generation.AutoSizeMode;
 import com.aspose.barcode.generation.BarcodeGenerator;
+import com.aspose.barcode.generation.CodeLocation;
 import com.aspose.words.BarcodeParameters;
 import com.aspose.words.Document;
 import com.aspose.words.IBarcodeGenerator;
@@ -162,10 +163,10 @@ public class GenerateACustomBarCodeImage {
             	generator.getParameters().getBarcode().setAutoSizeMode(AutoSizeMode.NEAREST);
             }
 
-            generator.getParameters().getBarcode().getCodeTextParameters().setLocation(com.aspose.barcode.generation.CodeLocation.NONE);
+            generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
 
             if (parameters.getDisplayText()) {
-            	generator.getParameters().getBarcode().getCodeTextParameters().setLocation(com.aspose.barcode.generation.CodeLocation.BELOW);
+            	generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
             }
 
             generator.getParameters().getCaptionAbove().setText("");
