@@ -12,9 +12,6 @@ import com.aspose.words.Document;
 import com.aspose.words.SaveFormat;
 
 public class ExMossRtf2Docx {
-    //ExStart
-    //ExId:MossRtf2Docx
-    //ExSummary:Converts an RTF document to OOXML.
     public static void convertRtfToDocx(final String inFileName, final String outFileName) throws Exception {
         // Load an RTF file into Aspose.Words.
         Document doc = new Document(inFileName);
@@ -22,6 +19,5 @@ public class ExMossRtf2Docx {
         // Save the document in the OOXML format.
         doc.save(outFileName, SaveFormat.DOCX);
     }
-    //ExEnd
 }
 

@@ -8,10 +8,6 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-//ExStart
-//ExId:MossDoc2Pdf
-//ExSummary:The following is the complete code of the document converter.
-
 import com.aspose.words.Document;
 import com.aspose.words.PdfSaveOptions;
 
@@ -110,5 +106,3 @@ public class ExMossDoc2Pdf {
     private static Writer gLog;
 
 }
-
-//ExEnd

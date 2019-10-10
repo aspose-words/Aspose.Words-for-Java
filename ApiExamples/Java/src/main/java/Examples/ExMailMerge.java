@@ -23,7 +23,6 @@ public class ExMailMerge extends ApiExampleBase {
         //ExFor:MailMerge.Execute(String[], Object[])
         //ExFor:ContentDisposition
         //ExFor:Document.Save(HttpResponse,String,ContentDisposition,SaveOptions)
-        //ExId:MailMergeArray
         //ExSummary:Performs a simple insertion of data into merge fields.
         // Open an existing document.
         Document doc = new Document(getMyDir() + "MailMerge.ExecuteArray.doc");
@@ -123,7 +122,6 @@ public class ExMailMerge extends ApiExampleBase {
     //ExStart
     //ExFor:Document.MailMerge
     //ExFor:MailMerge.ExecuteWithRegions(DataTable)
-    //ExId:MailMergeRegions
     //ExSummary:Executes a mail merge with repeatable regions.
     @Test //ExSkip
     public void executeWithRegionsDataTable() throws Exception {
@@ -200,7 +198,6 @@ public class ExMailMerge extends ApiExampleBase {
         //ExFor:MailMerge.MappedDataFields
         //ExFor:MappedDataFieldCollection
         //ExFor:MappedDataFieldCollection.Add
-        //ExId:MailMergeMappedDataFields
         //ExSummary:Shows how to add a mapping when a merge field in a document and a data field in a data source have different names.
         doc.getMailMerge().getMappedDataFields().add("MyFieldName_InDocument", "MyFieldName_InDataSource");
         //ExEnd
@@ -228,7 +225,6 @@ public class ExMailMerge extends ApiExampleBase {
         Document doc = new Document();
         //ExStart
         //ExFor:MailMerge.GetFieldNames
-        //ExId:MailMergeGetFieldNames
         //ExSummary:Shows how to get names of all merge fields in a document.
         String[] fieldNames = doc.getMailMerge().getFieldNames();
         //ExEnd
@@ -239,7 +235,6 @@ public class ExMailMerge extends ApiExampleBase {
         Document doc = new Document();
         //ExStart
         //ExFor:MailMerge.DeleteFields
-        //ExId:MailMergeDeleteFields
         //ExSummary:Shows how to delete all merge fields from a document without executing mail merge.
         doc.getMailMerge().deleteFields();
         //ExEnd
@@ -251,7 +246,6 @@ public class ExMailMerge extends ApiExampleBase {
         //ExStart
         //ExFor:MailMerge.CleanupOptions
         //ExFor:MailMergeCleanupOptions
-        //ExId:MailMergeRemoveContainingFields
         //ExSummary:Shows how to instruct the mail merge engine to remove any containing fields from around a merge field during mail merge.
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_CONTAINING_FIELDS);
         //ExEnd
@@ -263,7 +257,6 @@ public class ExMailMerge extends ApiExampleBase {
         //ExStart
         //ExFor:MailMerge.CleanupOptions
         //ExFor:MailMergeCleanupOptions
-        //ExId:MailMergeRemoveUnusedFields
         //ExSummary:Shows how to automatically remove unmerged merge fields during mail merge.
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_UNUSED_FIELDS);
         //ExEnd
@@ -275,7 +268,6 @@ public class ExMailMerge extends ApiExampleBase {
         //ExStart
         //ExFor:MailMerge.CleanupOptions
         //ExFor:MailMergeCleanupOptions
-        //ExId:MailMergeRemoveEmptyParagraphs
         //ExSummary:Shows how to make sure empty paragraphs that result from merging fields with no data are removed from the document.
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS);
         //ExEnd

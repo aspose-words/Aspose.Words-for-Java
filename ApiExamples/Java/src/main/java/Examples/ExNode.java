@@ -17,7 +17,6 @@ public class ExNode extends ApiExampleBase {
     public void useNodeType() throws Exception {
         //ExStart
         //ExFor:NodeType
-        //ExId:UseNodeType
         //ExSummary:The following example shows how to use the NodeType enumeration.
         Document doc = new Document();
 
@@ -53,7 +52,6 @@ public class ExNode extends ApiExampleBase {
     public void getParentNode() throws Exception {
         //ExStart
         //ExFor:Node.ParentNode
-        //ExId:AccessParentNode
         //ExSummary:Shows how to access the parent node.
         // Create a new empty document. It has one section.
         Document doc = new Document();
@@ -73,7 +71,6 @@ public class ExNode extends ApiExampleBase {
         //ExStart
         //ExFor:Node.Document
         //ExFor:Node.ParentNode
-        //ExId:CreatingNodeRequiresDocument
         //ExSummary:Shows that when you create any node, it requires a document that will own the node.
         // Open a file from disk.
         Document doc = new Document();
@@ -116,7 +113,6 @@ public class ExNode extends ApiExampleBase {
         //ExStart
         //ExFor:CompositeNode.ChildNodes
         //ExFor:CompositeNode.GetEnumerator
-        //ExId:ChildNodesForEach
         //ExSummary:Shows how to enumerate immediate children of a CompositeNode using the enumerator provided by the ChildNodes collection.
         NodeCollection children = paragraph.getChildNodes();
         for (Node child : (Iterable<Node>) children) {
@@ -138,7 +134,6 @@ public class ExNode extends ApiExampleBase {
         //ExStart
         //ExFor:NodeCollection.Count
         //ExFor:NodeCollection.Item
-        //ExId:ChildNodesIndexer
         //ExSummary:Shows how to enumerate immediate children of a CompositeNode using indexed access.
         NodeCollection children = paragraph.getChildNodes();
         for (int i = 0; i < children.getCount(); i++) {
@@ -160,7 +155,6 @@ public class ExNode extends ApiExampleBase {
     //ExFor:Node.IsComposite
     //ExFor:CompositeNode.IsComposite
     //ExFor:Node.NodeTypeToString
-    //ExId:RecurseAllNodes
     //ExSummary:Shows how to efficiently visit all direct and indirect children of a composite node.
     @Test //ExSkip
     public void recurseAllNodes() throws Exception {
@@ -255,7 +249,6 @@ public class ExNode extends ApiExampleBase {
         //ExFor:Table.FirstRow
         //ExFor:Table.LastRow
         //ExFor:TableCollection
-        //ExId:TypedPropertiesAccess
         //ExSummary:Demonstrates how to use typed properties to access nodes of the document tree.
         // Quick typed access to the first child Section node of the Document.
         Section section = doc.getFirstSection();
@@ -365,16 +358,12 @@ public class ExNode extends ApiExampleBase {
 
     @Test
     public void createAndAddParagraphNode() throws Exception {
-        //ExStart
-        //ExId:CreateAndAddParagraphNode
-        //ExSummary:Creates and adds a paragraph node.
         Document doc = new Document();
 
         Paragraph para = new Paragraph(doc);
 
         Section section = doc.getLastSection();
         section.getBody().appendChild(para);
-        //ExEnd
     }
 
     @Test
@@ -433,7 +422,6 @@ public class ExNode extends ApiExampleBase {
         //ExFor:BookmarkEnd.NodeType
         //ExFor:GroupShape.NodeType
         //ExFor:CommentRangeStart.NodeType
-        //ExId:GetNodeTypeEnums
         //ExSummary:Shows how to retrieve the NodeType enumeration of nodes.
         Document doc = new Document(getMyDir() + "Document.doc");
 
