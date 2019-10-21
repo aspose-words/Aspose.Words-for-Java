@@ -13,7 +13,7 @@ public class PageSplitter
     public static void main(String[] args) throws Exception
     {
         License lic = new License();
-        lic.setLicense("D:\\temp\\aspose.total.java.lic");
+        lic.setLicense("aspose.total.java.lic");
 
         //ExStart:PageSplitter
 		// The path to the documents directory.
