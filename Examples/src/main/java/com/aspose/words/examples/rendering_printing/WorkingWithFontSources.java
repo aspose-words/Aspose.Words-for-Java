@@ -1,10 +1,6 @@
 package com.aspose.words.examples.rendering_printing;
 
-import com.aspose.words.Document;
-import com.aspose.words.FolderFontSource;
-import com.aspose.words.FontSettings;
-import com.aspose.words.FontSourceBase;
-import com.aspose.words.PhysicalFontInfo;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
 import java.util.ArrayList;
@@ -18,8 +14,7 @@ public class WorkingWithFontSources {
         getListOfAvailableFonts(dataDir);
     }
 
-    public static void getListOfAvailableFonts(String dataDir) throws Exception
-    {
+    public static void getListOfAvailableFonts(String dataDir) throws Exception {
         // ExStart:GetListOfAvailableFonts
         // The path to the documents directory.
         Document doc = new Document(dataDir + "TestFile.docx");
@@ -36,9 +31,8 @@ public class WorkingWithFontSources {
         // Convert the Arraylist of source back into a primitive array of FontSource objects.
         FontSourceBase[] updatedFontSources = (FontSourceBase[]) fontSources.toArray(new FontSourceBase[fontSources.size()]);
 
-        for (PhysicalFontInfo fontInfo : (Iterable<PhysicalFontInfo>) updatedFontSources[0].getAvailableFonts())
-        {
-            System.out.println("FontFamilyName : "+ fontInfo.getFontFamilyName());
+        for (PhysicalFontInfo fontInfo : (Iterable<PhysicalFontInfo>) updatedFontSources[0].getAvailableFonts()) {
+            System.out.println("FontFamilyName : " + fontInfo.getFontFamilyName());
             System.out.println("FullFontName  : " + fontInfo.getFullFontName());
             System.out.println("Version  : " + fontInfo.getVersion());
             System.out.println("FilePath : " + fontInfo.getFilePath());

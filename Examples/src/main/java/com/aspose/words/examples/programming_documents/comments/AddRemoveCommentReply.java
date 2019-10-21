@@ -18,7 +18,7 @@ public class AddRemoveCommentReply {
         String dataDir = Utils.getDataDir(AddRemoveCommentReply.class);
         // ExStart:AddRemoveCommentReply
         Document doc = new Document(dataDir + "TestFile.doc");
-        Comment comment = (Comment)doc.getChild(NodeType.COMMENT, 0, true);
+        Comment comment = (Comment) doc.getChild(NodeType.COMMENT, 0, true);
 
         //Remove the reply
         comment.removeReply(comment.getReplies().get(0));

@@ -8,8 +8,7 @@ import com.aspose.words.examples.Utils;
  * Created by Home on 7/12/2017.
  */
 public class DisplayDocTitleInWindowTitlebar {
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:DisplayDocTitleInWindowTitlebar
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(DisplayDocTitleInWindowTitlebar.class);
@@ -21,7 +20,7 @@ public class DisplayDocTitleInWindowTitlebar {
         saveOptions.setDisplayDocTitle(true);
 
         // Save the document in PDF format.
-        doc.save(dataDir + "Test File.Pdf",saveOptions);
+        doc.save(dataDir + "Test File.Pdf", saveOptions);
         //ExEnd:DisplayDocTitleInWindowTitlebar
 
         System.out.println("Document converted to PDF successfully.");

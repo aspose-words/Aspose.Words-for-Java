@@ -181,8 +181,7 @@ public class WorkingWithChartAxis {
         System.out.println("\nSet interval unit between labels on an axis successfully.\nFile saved at " + dataDir);
     }
 
-    public static void HideChartAxis(String dataDir) throws Exception
-    {
+    public static void HideChartAxis(String dataDir) throws Exception {
         // ExStart:HideChartAxis
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -196,8 +195,8 @@ public class WorkingWithChartAxis {
 
         // Fill data.
         chart.getSeries().add("AW Series 1",
-                new String[] { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" },
-                new double[] { 1.2, 0.3, 2.1, 2.9, 4.2 });
+                new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"},
+                new double[]{1.2, 0.3, 2.1, 2.9, 4.2});
 
         // Hide the Y axis.
         chart.getAxisY().setHidden(true);
@@ -207,18 +206,17 @@ public class WorkingWithChartAxis {
         // ExEnd:HideChartAxis
         System.out.println("\nY Axis of chart has been hidden successfully.\nFile saved at " + dataDir);
     }
-    
-    public static void TickMultiLineLabelAlignment(String dataDir) throws Exception
-    {
+
+    public static void TickMultiLineLabelAlignment(String dataDir) throws Exception {
         // ExStart:TickMultiLineLabelAlignment
-    	Document doc = new Document(dataDir + "Document.docx");
-    	Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-    	ChartAxis axis = shape.getChart().getAxisX();
+        Document doc = new Document(dataDir + "Document.docx");
+        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        ChartAxis axis = shape.getChart().getAxisX();
 
-    	//This property has effect only for multi-line labels.
-    	axis.setTickLabelAlignment(ParagraphAlignment.RIGHT);
+        //This property has effect only for multi-line labels.
+        axis.setTickLabelAlignment(ParagraphAlignment.RIGHT);
 
-    	doc.save(dataDir + "Document_out.docx");
+        doc.save(dataDir + "Document_out.docx");
         // ExEnd:TickMultiLineLabelAlignment
         System.out.println("\nMulti-Line label for X Axis of chart has been aligned successfully.\nFile saved at " + dataDir);
     }

@@ -1,43 +1,43 @@
 package com.aspose.words.examples.rendering_printing;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-
 import com.aspose.words.Document;
 import com.aspose.words.Hyphenation;
 import com.aspose.words.examples.Utils;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 public class HyphenateWords {
 
-	private static final String dataDir = Utils.getSharedDataDir(HyphenateWords.class) + "RenderingAndPrinting/";
+    private static final String dataDir = Utils.getSharedDataDir(HyphenateWords.class) + "RenderingAndPrinting/";
 
-	public static void main(String[] args) throws Exception {
-		//  Load hyphenation dictionaries for a specified languages from file.
-		loadHyphenationDictionaryFromFile();
-		
-		// Load a hyphenation dictionary for a specified language from a stream.
-		loadHyphenationDictionaryFromStream();
-	}
+    public static void main(String[] args) throws Exception {
+        //  Load hyphenation dictionaries for a specified languages from file.
+        loadHyphenationDictionaryFromFile();
 
-	public static void loadHyphenationDictionaryFromFile() throws Exception {
-		//ExStart:LoadHyphenationDictionaryFromFile
-		Document doc = new Document(dataDir + "in.docx");
+        // Load a hyphenation dictionary for a specified language from a stream.
+        loadHyphenationDictionaryFromStream();
+    }
 
-		Hyphenation.registerDictionary("en-US", dataDir + "hyph_en_US.dic");
-		Hyphenation.registerDictionary("de-CH", dataDir + "hyph_de_CH.dic");
+    public static void loadHyphenationDictionaryFromFile() throws Exception {
+        //ExStart:LoadHyphenationDictionaryFromFile
+        Document doc = new Document(dataDir + "in.docx");
 
-		doc.save(dataDir + "LoadHyphenationDictionaryFromFile_Out.pdf");
-		//ExEnd:LoadHyphenationDictionaryFromFile
-	}
+        Hyphenation.registerDictionary("en-US", dataDir + "hyph_en_US.dic");
+        Hyphenation.registerDictionary("de-CH", dataDir + "hyph_de_CH.dic");
 
-	public static void loadHyphenationDictionaryFromStream() throws Exception {
-		//ExStart:LoadHyphenationDictionaryFromStream
-		Document doc = new Document(dataDir + "in.docx");
+        doc.save(dataDir + "LoadHyphenationDictionaryFromFile_Out.pdf");
+        //ExEnd:LoadHyphenationDictionaryFromFile
+    }
 
-		InputStream stream = new FileInputStream(dataDir + "hyph_de_CH.dic");
-		Hyphenation.registerDictionary("de-CH", stream);
+    public static void loadHyphenationDictionaryFromStream() throws Exception {
+        //ExStart:LoadHyphenationDictionaryFromStream
+        Document doc = new Document(dataDir + "in.docx");
 
-		doc.save(dataDir + "LoadHyphenationDictionaryFromStream_Out.pdf");
-		//ExEnd:LoadHyphenationDictionaryFromStream
-	}
+        InputStream stream = new FileInputStream(dataDir + "hyph_de_CH.dic");
+        Hyphenation.registerDictionary("de-CH", stream);
+
+        doc.save(dataDir + "LoadHyphenationDictionaryFromStream_Out.pdf");
+        //ExEnd:LoadHyphenationDictionaryFromStream
+    }
 }

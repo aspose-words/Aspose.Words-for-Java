@@ -2,8 +2,8 @@ package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.CompareOptions;
 import com.aspose.words.ComparisonTargetType;
-import com.aspose.words.examples.Utils;
 import com.aspose.words.Document;
+import com.aspose.words.examples.Utils;
 
 import java.util.Date;
 

@@ -12,13 +12,20 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.HtmlLoadOptions;
 import com.aspose.words.Document;
+import com.aspose.words.CertificateHolder;
+import com.aspose.words.SignOptions;
+import com.aspose.ms.System.DateTime;
+import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
+import com.aspose.ms.System.msString;
+import com.aspose.words.LoadFormat;
+import com.aspose.words.Shape;
+import com.aspose.words.NodeType;
 import com.aspose.words.HtmlControlType;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
 import com.aspose.words.StructuredDocumentTag;
 import com.aspose.words.FormField;
 
@@ -30,13 +37,16 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     public void supportVml() throws Exception
     {
         //ExStart
+        //ExFor:HtmlLoadOptions.#ctor
         //ExFor:HtmlLoadOptions.SupportVml
+        //ExFor:HtmlLoadOptions.WebRequestTimeout
         //ExSummary:Shows how to parse HTML document with conditional comments like "<!--[if gte vml 1]>" and "<![if !vml]>"
         HtmlLoadOptions loadOptions = new HtmlLoadOptions();
 
-        //If value is true, then we parse "<!--[if gte vml 1]>", else parse "<![if !vml]>"
+        // If value is true, then we parse "<!--[if gte vml 1]>", else parse "<![if !vml]>"
         loadOptions.setSupportVml(true);
-        //Wait for a response, when loading external resources
+
+        // Wait for a response, when loading external resources
         loadOptions.setWebRequestTimeout(1000);
 
         Document doc = new Document(getMyDir() + "Shape.VmlAndDml.htm", loadOptions);
@@ -45,10 +55,57 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     }
 
     @Test
-    public void webRequestTimeoutDefaultValue()
+    public void encryptedHtml() throws Exception
     {
-        HtmlLoadOptions loadOptions = new HtmlLoadOptions();
-        msAssert.areEqual(100000, loadOptions.getWebRequestTimeout());
+        //ExStart
+        //ExFor:HtmlLoadOptions.#ctor(String)
+        //ExSummary:Shows how to encrypt an Html document and then open it using a password.
+        // Create and sign an encrypted html document from an encrypted .docx
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+
+        SignOptions signOptions = new SignOptions();
+        {
+            signOptions.setComments("Comment");
+            signOptions.setSignTime(DateTime.getNow());
+            signOptions.setDecryptionPassword("docPassword");
+        }
+
+        String inputFileName = getMyDir() + "Document.Encrypted.docx";
+        String outputFileName = getArtifactsDir() + "HtmlLoadOptions.EncryptedHtml.html";
+        DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
+
+        // This .html document will need a password to be decrypted, opened and have its contents accessed
+        // The password is specified by HtmlLoadOptions.Password
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions("docPassword");
+        msAssert.areEqual(signOptions.getDecryptionPassword(), loadOptions.getPassword());
+
+        Document doc = new Document(outputFileName, loadOptions);
+        msAssert.areEqual("Test signed document.", msString.trim(doc.getText()));       
+        //ExEnd
+    }
+
+    @Test
+    public void baseUri() throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlLoadOptions.#ctor(LoadFormat,String,String)
+        //ExSummary:Shows how to specify a base URI when opening an html document.
+        // Create and sign an encrypted html document from an encrypted .docx
+        // If we want to load an .html document which contains an image linked by a relative URI
+        // while the image is in a different location, we will need to resolve the relative URI into an absolute one
+        // by creating an HtmlLoadOptions and providing a base URI 
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions(LoadFormat.HTML, "", getImageDir());
+
+        Document doc = new Document(getMyDir() + "Document.OpenFromStreamWithBaseUri.html", loadOptions);
+
+        // The image will be displayed correctly by the output document and
+        doc.save(getArtifactsDir() + "Shape.BaseUri.docx");
+    
+        Shape imgShape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
+        Assert.assertTrue(imgShape.isImage());
+
+        imgShape.getImageData().save(getArtifactsDir() + "BaseUri.png");
+        //ExEnd
     }
 
     @Test

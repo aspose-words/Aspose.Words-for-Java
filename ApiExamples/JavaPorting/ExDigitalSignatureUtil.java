@@ -146,10 +146,6 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         //ExFor:SignOptions.DecryptionPassword
         //ExFor:LoadOptions.Password
         //ExSummary:Shows how to sign encrypted document file.
-        String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
-
-        Document doc = new Document(getMyDir() + "Document.Encrypted.docx", new LoadOptions("docPassword"));
-
         // Create certificate holder from a file.
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
@@ -161,7 +157,10 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         }
 
         // Digitally sign encrypted with "docPassword" document in the specified path.
-        DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, certificateHolder, signOptions);
+        String inputFileName = getMyDir() + "Document.Encrypted.docx";
+        String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
+
+        DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
         //ExEnd
 
         // Open encrypted document from a file.

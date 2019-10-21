@@ -21,10 +21,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class RenderShapes
-{
-    public static void main(String[] args) throws Exception
-    {
+public class RenderShapes {
+    public static void main(String[] args) throws Exception {
         //ExStart:Main
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(RenderShapes.class);
@@ -34,8 +32,8 @@ public class RenderShapes
         Document doc2 = new Document(dataDir + "TestFile.docx");
 
         // Retrieve the target shape from the document. In our sample document this is the first shape.
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-        Shape drawingML = (Shape)doc2.getChild(NodeType.SHAPE, 0, true);
+        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        Shape drawingML = (Shape) doc2.getChild(NodeType.SHAPE, 0, true);
 
         // Test rendering of different types of nodes.
         RenderShapeToDisk(dataDir, shape);
@@ -50,8 +48,7 @@ public class RenderShapes
     }
 
     //ExStart:RenderShapeToDisk
-    public static void RenderShapeToDisk(String dataDir, Shape shape) throws Exception
-    {
+    public static void RenderShapeToDisk(String dataDir, Shape shape) throws Exception {
         ShapeRenderer r = shape.getShapeRenderer();
 
         // Define custom options which control how the image is rendered. Render the shape to the JPEG raster format.
@@ -67,8 +64,7 @@ public class RenderShapes
     //ExEnd:RenderShapeToDisk
 
     //ExStart:RenderShapeToStream
-    public static void RenderShapeToStream(String dataDir, Shape shape) throws Exception
-    {
+    public static void RenderShapeToStream(String dataDir, Shape shape) throws Exception {
         ShapeRenderer r = new ShapeRenderer(shape);
 
         // Define custom options which control how the image is rendered. Render the shape to the vector format EMF.
@@ -92,8 +88,7 @@ public class RenderShapes
     //ExEnd:RenderShapeToStream
 
     //ExStart:RenderDrawingMLToDisk
-    public static void RenderDrawingMLToDisk(String dataDir, Shape drawingML) throws Exception
-    {
+    public static void RenderDrawingMLToDisk(String dataDir, Shape drawingML) throws Exception {
         // Save the DrawingML image to disk in JPEG format and using default options.
         drawingML.getShapeRenderer().save(dataDir + "TestFile.RenderDrawingML Out.jpg", null);
 
@@ -102,8 +97,7 @@ public class RenderShapes
     //ExEnd:RenderDrawingMLToDisk
 
     //ExStart:RenderShapeToGraphics
-    public static void RenderShapeToGraphics(String dataDir, Shape shape) throws Exception
-    {
+    public static void RenderShapeToGraphics(String dataDir, Shape shape) throws Exception {
         // The shape renderer is retrieved using this method. This is made into a separate object from the shape as it internally
         // caches the rendered shape.
         ShapeRenderer r = shape.getShapeRenderer();
@@ -119,7 +113,7 @@ public class RenderShapes
 
         // Rendering to a graphics object means we can specify settings and transformations to be applied to
         // the shape that is rendered. In our case we will rotate the rendered shape.
-        Graphics2D gr = (Graphics2D)image.getGraphics();
+        Graphics2D gr = (Graphics2D) image.getGraphics();
 
 
         // Clear the shape with the background color of the document.
@@ -144,9 +138,8 @@ public class RenderShapes
     //ExEnd:RenderShapeToGraphics
 
     //ExStart:RenderCellToImage
-    public static void RenderCellToImage(String dataDir, Document doc) throws Exception
-    {
-        Cell cell = (Cell)doc.getChild(NodeType.CELL, 2, true); // The third cell in the first table.
+    public static void RenderCellToImage(String dataDir, Document doc) throws Exception {
+        Cell cell = (Cell) doc.getChild(NodeType.CELL, 2, true); // The third cell in the first table.
         RenderNode(cell, dataDir + "TestFile.RenderCell Out.png", null);
 
         System.out.println("Cell rendered to image successfully.");
@@ -154,9 +147,8 @@ public class RenderShapes
     //ExEnd:RenderCellToImage
 
     //ExStart:RenderRowToImage
-    public static void RenderRowToImage(String dataDir, Document doc) throws Exception
-    {
-        Row row = (Row)doc.getChild(NodeType.ROW, 0, true); // The first row in the first table.
+    public static void RenderRowToImage(String dataDir, Document doc) throws Exception {
+        Row row = (Row) doc.getChild(NodeType.ROW, 0, true); // The first row in the first table.
         RenderNode(row, dataDir + "TestFile.RenderRow Out.png", null);
 
         System.out.println("Row rendered to image successfully.");
@@ -164,9 +156,8 @@ public class RenderShapes
     //ExEnd:RenderRowToImage
 
     //ExStart:RenderParagraphToImage
-    public static void RenderParagraphToImage(String dataDir, Document doc) throws Exception
-    {
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+    public static void RenderParagraphToImage(String dataDir, Document doc) throws Exception {
+        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         Paragraph paragraph = shape.getLastParagraph();
 
         // Save the node with a light pink background.
@@ -180,8 +171,7 @@ public class RenderShapes
     //ExEnd:RenderParagraphToImage
 
     //ExStart:FindShapeSizes
-    public static void FindShapeSizes(Shape shape) throws Exception
-    {
+    public static void FindShapeSizes(Shape shape) throws Exception {
         Point2D.Float shapeSizeInDocument = shape.getShapeRenderer().getSizeInPoints();
         float width = shapeSizeInDocument.x; // The width of the shape.
         float height = shapeSizeInDocument.y; // The height of the shape.
@@ -205,8 +195,7 @@ public class RenderShapes
     /// <param name="node">The node to render.</param>
     /// <param name="path">The path to save the rendered image to.</param>
     /// <param name="imageOptions">The image options to use during rendering. This can be null.</param>
-    public static void RenderNode(Node node, String filePath, ImageSaveOptions imageOptions) throws Exception
-    {
+    public static void RenderNode(Node node, String filePath, ImageSaveOptions imageOptions) throws Exception {
         // Run some argument checks.
         if (node == null)
             throw new IllegalArgumentException("Node cannot be null");
@@ -222,13 +211,13 @@ public class RenderShapes
         imageOptions.setPaperColor(new Color(0, 0, 0, 0));
         // There a bug which affects the cache of a cloned node. To avoid this we instead clone the entire document including all nodes,
         // find the matching node in the cloned document and render that instead.
-        Document doc = (Document)node.getDocument().deepClone(true);
+        Document doc = (Document) node.getDocument().deepClone(true);
         node = doc.getChild(NodeType.ANY, node.getDocument().getChildNodes(NodeType.ANY, true).indexOf(node), true);
 
         // Create a temporary shape to store the target node in. This shape will be rendered to retrieve
         // the rendered content of the node.
         Shape shape = new Shape(doc, ShapeType.TEXT_BOX);
-        Section parentSection = (Section)node.getAncestor(NodeType.SECTION);
+        Section parentSection = (Section) node.getAncestor(NodeType.SECTION);
 
         // Assume that the node cannot be larger than the page in size.
         shape.setWidth(parentSection.getPageSetup().getPageWidth());
@@ -244,9 +233,8 @@ public class RenderShapes
         Node currentNode = node;
         while (!(currentNode.getParentNode() instanceof InlineStory
                 || currentNode.getParentNode() instanceof Story
-                || currentNode.getParentNode() instanceof ShapeBase))
-        {
-            CompositeNode parent = (CompositeNode)currentNode.getParentNode().deepClone(false);
+                || currentNode.getParentNode() instanceof ShapeBase)) {
+            CompositeNode parent = (CompositeNode) currentNode.getParentNode().deepClone(false);
             currentNode = currentNode.getParentNode();
             parent.appendChild(node.deepClone(true));
             node = parent; // Store this new node to be inserted into the shape.
@@ -276,9 +264,9 @@ public class RenderShapes
         g.setBackground(savePaperColor);
         g.clearRect(0, 0, croppedImage.getWidth(), croppedImage.getHeight());
         g.drawImage(renderedImage,
-            0, 0, croppedImage.getWidth(), croppedImage.getHeight(),
-            cropRectangle.x, cropRectangle.y, cropRectangle.x + cropRectangle.width, cropRectangle.y + cropRectangle.height,
-            null);
+                0, 0, croppedImage.getWidth(), croppedImage.getHeight(),
+                cropRectangle.x, cropRectangle.y, cropRectangle.x + cropRectangle.width, cropRectangle.y + cropRectangle.height,
+                null);
 
         ImageIO.write(croppedImage, "png", new File(filePath));
     }
@@ -288,18 +276,14 @@ public class RenderShapes
     /// <summary>
     /// Finds the minimum bounding box around non-transparent pixels in a Bitmap.
     /// </summary>
-    public static Rectangle FindBoundingBoxAroundNode(BufferedImage originalBitmap)
-    {
+    public static Rectangle FindBoundingBoxAroundNode(BufferedImage originalBitmap) {
         Point min = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
         Point max = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
-        for (int x = 0; x < originalBitmap.getWidth(); ++x)
-        {
-            for (int y = 0; y < originalBitmap.getHeight(); ++y)
-            {
+        for (int x = 0; x < originalBitmap.getWidth(); ++x) {
+            for (int y = 0; y < originalBitmap.getHeight(); ++y) {
                 // For each pixel that is not transparent calculate the bounding box around it.
-                if (originalBitmap.getRGB(x, y) != 0)
-                {
+                if (originalBitmap.getRGB(x, y) != 0) {
                     min.x = Math.min(x, min.x);
                     min.y = Math.min(y, min.y);
                     max.x = Math.max(x, max.x);

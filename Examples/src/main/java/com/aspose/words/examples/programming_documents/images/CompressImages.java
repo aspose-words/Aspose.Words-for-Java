@@ -1,4 +1,3 @@
-
 package com.aspose.words.examples.programming_documents.images;
 
 import com.aspose.words.*;
@@ -19,12 +18,10 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 
 
-public class CompressImages
-{
-    public static void main(String[] args) throws Exception
-    {
+public class CompressImages {
+    public static void main(String[] args) throws Exception {
         //ExStart:CompressImages
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(CompressImages.class);
 
         String srcFileName = dataDir + "Test.docx";
@@ -54,38 +51,36 @@ public class CompressImages
 
         // Verify that the first image was compressed by checking the new Ppi.
         doc = new Document(dstFileName);
-        com.aspose.words.Shape shape = (com.aspose.words.Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        com.aspose.words.Shape shape = (com.aspose.words.Shape) doc.getChild(NodeType.SHAPE, 0, true);
         double imagePpi = shape.getImageData().getImageSize().getWidthPixels() / ConvertUtil.pointToInch(shape.getSizeInPoints().getX());
 
         assert (imagePpi < 150) : "Image was not resampled successfully.";
-		//ExEnd:CompressImages
+        //ExEnd:CompressImages
     }
-//ExStart:getFileSize
-    public static int getFileSize(String fileName) throws Exception
-    {
+
+    //ExStart:getFileSize
+    public static int getFileSize(String fileName) throws Exception {
         File file = new File(fileName);
-        return (int)file.length();
+        return (int) file.length();
     }
 //ExEnd:getFileSize
 }
+
 //ExStart:Resampler
-class Resampler
-{
+class Resampler {
     /**
      * Resamples all images in the document that are greater than the specified PPI (pixels per inch) to the specified PPI
      * and converts them to JPEG with the specified quality setting.
      *
-     * @param doc The document to process.
-     * @param desiredPpi Desired pixels per inch. 220 high quality. 150 screen quality. 96 email quality.
+     * @param doc         The document to process.
+     * @param desiredPpi  Desired pixels per inch. 220 high quality. 150 screen quality. 96 email quality.
      * @param jpegQuality 0 - 100% JPEG quality.
      */
-    public static int resample(Document doc, int desiredPpi, int jpegQuality) throws Exception
-    {
+    public static int resample(Document doc, int desiredPpi, int jpegQuality) throws Exception {
         int count = 0;
 
         // Convert VML shapes.
-        for (Shape vmlShape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
-        {
+        for (Shape vmlShape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
             // It is important to use this method to correctly get the picture shape size in points even if the picture is inside a group shape.
             Point2D.Float shapeSizeInPoints = vmlShape.getSizeInPoints();
 
@@ -94,8 +89,7 @@ class Resampler
         }
 
         // Convert DrawingML shapes.
-        for (com.aspose.words.Shape dmlShape : (Iterable<com.aspose.words.Shape>) doc.getChildNodes(NodeType.SHAPE, true))
-        {
+        for (com.aspose.words.Shape dmlShape : (Iterable<com.aspose.words.Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
             // In MS Word the size of a DrawingML shape is always in points at the moment.
             Point2D.Float shapeSizeInPoints = dmlShape.getSizeInPoints();
             if (resampleCore(dmlShape.getImageData(), shapeSizeInPoints, desiredPpi, jpegQuality))
@@ -108,8 +102,7 @@ class Resampler
     /**
      * Resamples one VML or DrawingML image
      */
-    private static boolean resampleCore(ImageData imageData, Point2D.Float shapeSizeInPoints, int ppi, int jpegQuality) throws Exception
-    {
+    private static boolean resampleCore(ImageData imageData, Point2D.Float shapeSizeInPoints, int ppi, int jpegQuality) throws Exception {
         // The are actually several shape types that can have an image (picture, ole object, ole control), let's skip other shapes.
         if (imageData == null)
             return false;
@@ -124,8 +117,7 @@ class Resampler
         if ((imageType == ImageType.WMF) || (imageType == ImageType.EMF))
             return false;
 
-        try
-        {
+        try {
             double shapeWidthInches = ConvertUtil.pointToInch(shapeSizeInPoints.getX());
             double shapeHeightInches = ConvertUtil.pointToInch(shapeSizeInPoints.getY());
 
@@ -137,8 +129,7 @@ class Resampler
             System.out.print(MessageFormat.format("Image PpiX:{0}, PpiY:{1}. ", (int) currentPpiX, (int) currentPpiY));
 
             // Let's resample only if the current PPI is higher than the requested PPI (e.g. we have extra data we can get rid of).
-            if ((currentPpiX <= ppi) || (currentPpiY <= ppi))
-            {
+            if ((currentPpiX <= ppi) || (currentPpiY <= ppi)) {
                 System.out.println("Skipping.");
                 return false;
             }
@@ -146,14 +137,13 @@ class Resampler
             BufferedImage srcImage = imageData.toImage();
 
             // Create a new image of such size that it will hold only the pixels required by the desired ppi.
-            int dstWidthPixels = (int)(shapeWidthInches * ppi);
-            int dstHeightPixels = (int)(shapeHeightInches * ppi);
+            int dstWidthPixels = (int) (shapeWidthInches * ppi);
+            int dstHeightPixels = (int) (shapeHeightInches * ppi);
             BufferedImage dstImage = new BufferedImage(dstWidthPixels, dstHeightPixels, getResampledImageType(srcImage.getType()));
 
             // Drawing the source image to the new image scales it to the new size.
-            Graphics2D g = (Graphics2D)dstImage.getGraphics();
-            try
-            {
+            Graphics2D g = (Graphics2D) dstImage.getGraphics();
+            try {
                 // Setting any other interpolation or rendering value can increase the time taken extremely.
                 g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
                 g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
@@ -164,16 +154,14 @@ class Resampler
                         0, 0, dstWidthPixels, dstHeightPixels,
                         0, 0, srcImage.getWidth(), srcImage.getHeight(),
                         null);
-            }
-            finally
-            {
+            } finally {
                 g.dispose();
             }
 
 
             // Create JPEG encoder parameters with the quality setting.
             Iterator writers = ImageIO.getImageWritersByFormatName("jpeg");
-            ImageWriter writer = (ImageWriter)writers.next();
+            ImageWriter writer = (ImageWriter) writers.next();
             ImageWriteParam param = writer.getDefaultWriteParam();
             param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
             param.setCompressionQuality(jpegQuality / 100.0f);
@@ -193,14 +181,11 @@ class Resampler
 
             // If the image saved as JPEG is smaller than the original, store it in the shape.
             System.out.println(MessageFormat.format("Original size {0}, new size {1}.", originalBytes.length, dstStream.size()));
-            if (dstStream.size() < originalBytes.length)
-            {
+            if (dstStream.size() < originalBytes.length) {
                 imageData.setImageBytes(dstStream.toByteArray());
                 return true;
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             // Catch an exception, log an error and continue if cannot process one of the images for whatever reason.
             System.out.println("Error processing an image, ignoring. " + e.getMessage());
         }
@@ -208,11 +193,9 @@ class Resampler
         return false;
     }
 
-    private static int getResampledImageType(int srcImageType)
-    {
+    private static int getResampledImageType(int srcImageType) {
         // In general, we want to preserve the image color model, but some things need to be taken care of.
-        switch (srcImageType)
-        {
+        switch (srcImageType) {
             case BufferedImage.TYPE_CUSTOM:
                 // I have seen some PNG images return TYPE_CUSTOM and creating a BufferedImage of this type fails,
                 // so we fallback to a more suitable value.
@@ -223,9 +206,9 @@ class Resampler
                 return BufferedImage.TYPE_INT_RGB;
             case BufferedImage.TYPE_INT_ARGB:
             case BufferedImage.TYPE_4BYTE_ABGR:
-            	// 32bit image with alpha channel has wrong colors if it is saved to JPEG.
-            	// JPEG doesn't support transparency so we may convert image to RGB without alpha.
-            	return BufferedImage.TYPE_INT_RGB;
+                // 32bit image with alpha channel has wrong colors if it is saved to JPEG.
+                // JPEG doesn't support transparency so we may convert image to RGB without alpha.
+                return BufferedImage.TYPE_INT_RGB;
             default:
                 // The image format should be okay.
                 return srcImageType;

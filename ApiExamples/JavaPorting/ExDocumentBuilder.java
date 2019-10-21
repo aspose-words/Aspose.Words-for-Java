@@ -751,32 +751,38 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:DocumentBuilder.CellFormat
         //ExFor:DocumentBuilder.RowFormat
         //ExFor:CellFormat
+        //ExFor:CellFormat.FitText
         //ExFor:CellFormat.Width
         //ExFor:CellFormat.VerticalAlignment
         //ExFor:CellFormat.Shading
-        //ExFor.CellFormat.Orientation
+        //ExFor:CellFormat.Orientation
+        //ExFor:CellFormat.WrapText
         //ExFor:RowFormat
+        //ExFor:RowFormat.Borders
+        //ExFor:RowFormat.ClearFormatting
         //ExFor:RowFormat.HeightRule
         //ExFor:RowFormat.Height
-        //ExFor:RowFormat.Borders
         //ExFor:HeightRule
         //ExFor:Shading.BackgroundPatternColor
         //ExFor:Shading.ClearFormatting
         //ExSummary:Shows how to build a nice bordered table.
         DocumentBuilder builder = new DocumentBuilder();
 
-        // Start building a table.
+        // Start building a table
         builder.startTable();
-
+        
         // Set the appropriate paragraph, cell, and row formatting. The formatting properties are preserved
-        // until they are explicitly modified so there's no need to set them for each row or cell. 
-
+        // until they are explicitly modified so there's no need to set them for each row or cell
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
 
-        builder.getCellFormat().setWidth(300.0);
+        builder.getCellFormat().clearFormatting();
+        builder.getCellFormat().setWidth(150.0);
         builder.getCellFormat().setVerticalAlignment(CellVerticalAlignment.CENTER);
         builder.getCellFormat().getShading().setBackgroundPatternColor(msColor.getGreenYellow());
+        builder.getCellFormat().setWrapText(false);
+        builder.getCellFormat().setFitText(true);
 
+        builder.getRowFormat().clearFormatting();
         builder.getRowFormat().setHeightRule(HeightRule.EXACTLY);
         builder.getRowFormat().setHeight(50.0);
         builder.getRowFormat().getBorders().setLineStyle(LineStyle.ENGRAVE_3_D);
@@ -790,7 +796,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.endRow();
 
-        // Remove the shading (clear background).
+        // Remove the shading (clear background)
         builder.getCellFormat().getShading().clearFormatting();
 
         builder.insertCell();
@@ -803,7 +809,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.insertCell();
 
-        // Make the row height bigger so that a vertically oriented text could fit into cells.
+        // Make the row height bigger so that a vertically oriented text could fit into cells
         builder.getRowFormat().setHeight(150.0);
         builder.getCellFormat().setOrientation(TextOrientation.UPWARD);
         builder.write("Row 3, Col 1");
@@ -816,7 +822,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.endTable();
 
-        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.InsertTable.doc");
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.InsertTable.docx");
         //ExEnd
     }
 
@@ -967,9 +973,13 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:CellFormat.PreferredWidth
         //ExFor:PreferredWidth
+        //ExFor:PreferredWidth.Auto
+        //ExFor:PreferredWidth.Equals(PreferredWidth)
+        //ExFor:PreferredWidth.Equals(System.Object)
         //ExFor:PreferredWidth.FromPoints
         //ExFor:PreferredWidth.FromPercent
-        //ExFor:PreferredWidth.Auto
+        //ExFor:PreferredWidth.GetHashCode
+        //ExFor:PreferredWidth.ToString
         //ExId:CellPreferredWidths
         //ExSummary:Shows how to set the different preferred width settings.
         Document doc = new Document();
@@ -984,11 +994,20 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.LightYellow);
         builder.writeln("Cell at 40 points width");
 
+        PreferredWidth width = builder.getCellFormat().getPreferredWidth();
+        msConsole.writeLine($"Width \"{width.GetHashCode()}\": {width.ToString()}");
+
         // Insert a relative (percent) sized cell.
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(20.0));
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.LightBlue);
         builder.writeln("Cell at 20% width");
+
+        // Each cell had its own PreferredWidth
+        Assert.assertFalse(builder.getCellFormat().getPreferredWidth().equals(width));
+
+        width = builder.getCellFormat().getPreferredWidth();
+        msConsole.writeLine($"Width \"{width.GetHashCode()}\": {width.ToString()}");
 
         // Insert a auto sized cell.
         builder.insertCell();
@@ -998,7 +1017,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             "Cell automatically sized. The size of this cell is calculated from the table preferred width.");
         builder.writeln("In this case the cell will fill up the rest of the available space.");
 
-        doc.save(getArtifactsDir() + "Table.CellPreferredWidths.doc");
+        doc.save(getArtifactsDir() + "Table.CellPreferredWidths.docx");
         //ExEnd
 
         // Verify the correct settings were applied.

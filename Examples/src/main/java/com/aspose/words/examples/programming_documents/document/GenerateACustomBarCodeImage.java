@@ -1,16 +1,17 @@
 package com.aspose.words.examples.programming_documents.document;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-
 import com.aspose.barcode.BaseEncodeType;
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.generation.AutoSizeMode;
 import com.aspose.barcode.generation.BarcodeGenerator;
+import com.aspose.barcode.generation.CodeLocation;
 import com.aspose.words.BarcodeParameters;
 import com.aspose.words.Document;
 import com.aspose.words.IBarcodeGenerator;
 import com.aspose.words.examples.Utils;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class GenerateACustomBarCodeImage {
 
@@ -63,13 +64,13 @@ public class GenerateACustomBarCodeImage {
         private Color convertColor(String inputColor) {
             // Input should be from "0x000000" to "0xFFFFFF"
             /*
-			 * Integer color = Integer.MIN_VALUE; try { color =
-			 * Integer.parseInt(inputColor.replace("0x", "")); } catch
-			 * (NumberFormatException e) { color = Integer.MIN_VALUE; }
-			 *
-			 * if (color == Integer.MIN_VALUE) { throw new RuntimeException(
-			 * "Error! Incorrect color - " + inputColor + "."); }
-			 */
+             * Integer color = Integer.MIN_VALUE; try { color =
+             * Integer.parseInt(inputColor.replace("0x", "")); } catch
+             * (NumberFormatException e) { color = Integer.MIN_VALUE; }
+             *
+             * if (color == Integer.MIN_VALUE) { throw new RuntimeException(
+             * "Error! Incorrect color - " + inputColor + "."); }
+             */
 
             return Color.BLACK;
 
@@ -162,10 +163,10 @@ public class GenerateACustomBarCodeImage {
             	generator.getParameters().getBarcode().setAutoSizeMode(AutoSizeMode.NEAREST);
             }
 
-            generator.getParameters().getBarcode().getCodeTextParameters().setLocation(com.aspose.barcode.generation.CodeLocation.NONE);
+            generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
 
             if (parameters.getDisplayText()) {
-            	generator.getParameters().getBarcode().getCodeTextParameters().setLocation(com.aspose.barcode.generation.CodeLocation.BELOW);
+            	generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
             }
 
             generator.getParameters().getCaptionAbove().setText("");

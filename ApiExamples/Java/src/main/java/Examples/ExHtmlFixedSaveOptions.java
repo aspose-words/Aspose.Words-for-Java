@@ -9,11 +9,15 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.io.FilenameUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.charset.Charset;
+import java.text.MessageFormat;
 
 public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     @Test
@@ -185,15 +189,72 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
             args.setResourceStream(new ByteArrayOutputStream());
             args.setKeepResourceStreamOpen(true);
 
-            String fileName = args.getResourceFileName();
-            String extension = fileName.substring(fileName.lastIndexOf("."));
+            String extension = FilenameUtils.getExtension(args.getResourceFileName());
             switch (extension) {
-                case ".ttf":
-                case ".woff":
+                case "ttf":
+                case "woff":
                     Assert.fail("'ResourceSavingCallback' is not fired for fonts when 'UseTargetMachineFonts' is true");
                     break;
             }
         }
+    }
+    //ExEnd
+
+    //ExStart
+    //ExFor:HtmlFixedSaveOptions
+    //ExFor:HtmlFixedSaveOptions.ResourceSavingCallback
+    //ExFor:HtmlFixedSaveOptions.ResourcesFolder
+    //ExFor:HtmlFixedSaveOptions.ResourcesFolderAlias
+    //ExFor:HtmlFixedSaveOptions.ShowPageBorder
+    //ExSummary:Shows how to print the URIs of linked resources created during conversion of a document to fixed-form .html.
+    @Test //ExSkip
+    public void htmlFixedResourceFolder() throws Exception {
+        // Open a document which contains images
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        HtmlFixedSaveOptions options = new HtmlFixedSaveOptions();
+        {
+            options.setSaveFormat(SaveFormat.HTML_FIXED);
+            options.setExportEmbeddedImages(false);
+            options.setResourcesFolder(getArtifactsDir() + "HtmlFixedResourceFolder");
+            options.setResourcesFolderAlias(getArtifactsDir() + "HtmlFixedResourceFolderAlias");
+            options.setShowPageBorder(false);
+            options.setResourceSavingCallback(new ResourceUriPrinter());
+        }
+
+        // A folder specified by ResourcesFolderAlias will contain the resources instead of ResourcesFolder
+        // We must ensure the folder exists before the streams can put their resources into it
+        new File(options.getResourcesFolderAlias()).mkdir();
+
+        doc.save(getArtifactsDir() + "HtmlFixedResourceFolder.html", options);
+    }
+
+    /// <summary>
+    /// Counts and prints URIs of resources contained by as they are converted to fixed .Html
+    /// </summary>
+    private static class ResourceUriPrinter implements IResourceSavingCallback {
+        public void resourceSaving(ResourceSavingArgs args) throws Exception {
+            // If we set a folder alias in the SaveOptions object, it will be printed here
+            System.out.println(MessageFormat.format("Resource #{0} \"{1}\"", ++mSavedResourceCount, args.getResourceFileName()));
+
+            String extension = FilenameUtils.getExtension(args.getResourceFileName());
+            switch (extension) {
+                case "ttf":
+                case "woff": {
+                    // By default 'ResourceFileUri' used system folder for fonts
+                    // To avoid problems across platforms you must explicitly specify the path for the fonts
+                    args.setResourceFileUri(getArtifactsDir() + File.separatorChar + args.getResourceFileName());
+                    break;
+                }
+            }
+            System.out.println("\t" + args.getResourceFileUri());
+
+            // If we specified a ResourcesFolderAlias we will also need to redirect each stream to put its resource in that folder
+            args.setResourceStream(new FileOutputStream(args.getResourceFileUri()));
+            args.setKeepResourceStreamOpen(false);
+        }
+
+        private int mSavedResourceCount;
     }
     //ExEnd
 }

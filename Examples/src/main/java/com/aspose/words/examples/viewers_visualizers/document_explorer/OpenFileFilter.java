@@ -43,6 +43,7 @@ public class OpenFileFilter extends FileFilter {
     public String getDescription() {
         return mDescription;
     }
+
     String[] mExtensions;
     String mDescription;
 }

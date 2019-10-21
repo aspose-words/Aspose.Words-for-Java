@@ -6,24 +6,22 @@ import com.aspose.words.examples.Utils;
 
 /**
  * Shows how to copy bookmarked text from one document to another while preserving all content and formatting.
- *
+ * <p>
  * Does not cover all cases possible (bookmark can start/end in various places of a document
  * making copying scenario more complex).
- *
+ * <p>
  * Supported scenarios at the moment are:
- *
+ * <p>
  * 1. Bookmark start and end are in the same section of the document, but in different paragraphs.
  * Complete paragraphs are copied.
  */
-public class CopyBookmarkedText
-{
+public class CopyBookmarkedText {
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:CopyBookmarkedText
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(CopyBookmarkedText.class);
 
         // Load the source document.
@@ -52,25 +50,24 @@ public class CopyBookmarkedText
         dstDoc.save(dataDir + "Template Out.doc");
 
         System.out.println("Bookmarked text copied successfully.");
-		//ExEnd:CopyBookmarkedText
+        //ExEnd:CopyBookmarkedText
     }
 
     /**
      * Copies content of the bookmark and adds it to the end of the specified node.
      * The destination node can be in a different document.
      *
-     * @param importer Maintains the import context.
+     * @param importer    Maintains the import context.
      * @param srcBookmark The input bookmark.
-     * @param dstNode Must be a node that can contain paragraphs (such as a Story).
+     * @param dstNode     Must be a node that can contain paragraphs (such as a Story).
      */
-    private static void appendBookmarkedText(NodeImporter importer, Bookmark srcBookmark, CompositeNode dstNode) throws Exception
-    {
+    private static void appendBookmarkedText(NodeImporter importer, Bookmark srcBookmark, CompositeNode dstNode) throws Exception {
         //ExStart:appendBookmarkedText
-		// This is the paragraph that contains the beginning of the bookmark.
-        Paragraph startPara = (Paragraph)srcBookmark.getBookmarkStart().getParentNode();
+        // This is the paragraph that contains the beginning of the bookmark.
+        Paragraph startPara = (Paragraph) srcBookmark.getBookmarkStart().getParentNode();
 
         // This is the paragraph that contains the end of the bookmark.
-        Paragraph endPara = (Paragraph)srcBookmark.getBookmarkEnd().getParentNode();
+        Paragraph endPara = (Paragraph) srcBookmark.getBookmarkEnd().getParentNode();
 
         if ((startPara == null) || (endPara == null))
             throw new IllegalStateException("Parent of the bookmark start or end is not a paragraph, cannot handle this scenario yet.");
@@ -84,8 +81,7 @@ public class CopyBookmarkedText
         Node endNode = endPara.getNextSibling();
 
         // This is the loop to go through all paragraph-level nodes in the bookmark.
-        for (Node curNode = startPara; curNode != endNode; curNode = curNode.getNextSibling())
-        {
+        for (Node curNode = startPara; curNode != endNode; curNode = curNode.getNextSibling()) {
             // This creates a copy of the current node and imports it (makes it valid) in the context
             // of the destination document. Importing means adjusting styles and list identifiers correctly.
             Node newNode = importer.importNode(curNode, true);
@@ -93,6 +89,6 @@ public class CopyBookmarkedText
             // Now we simply append the new node to the destination.
             dstNode.appendChild(newNode);
         }
-		//ExEnd:appendBookmarkedText
+        //ExEnd:appendBookmarkedText
     }
 }

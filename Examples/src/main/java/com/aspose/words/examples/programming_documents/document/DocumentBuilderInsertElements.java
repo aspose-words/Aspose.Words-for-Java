@@ -1,6 +1,9 @@
 package com.aspose.words.examples.programming_documents.document;
 
-import com.aspose.words.*;
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.OlePackage;
+import com.aspose.words.Shape;
 import com.aspose.words.examples.Utils;
 
 import java.io.ByteArrayInputStream;

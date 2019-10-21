@@ -7,61 +7,61 @@ import com.aspose.words.Table;
 import com.aspose.words.examples.Utils;
 
 public class ApplyAutoFitSettingsToATable {
-	
-	private static final String dataDir = Utils.getSharedDataDir(ApplyAutoFitSettingsToATable.class) + "Tables/";
-	
-	public static void main(String[] args) throws Exception {
-		//ExStart:ApplyAutoFitSettingsToATable
-		// Auto fits a table to fit the page width
-		autoFittingATableToWindow();
-		
-		// Auto fits a table in the document to its contents
-		autoFittingATableToContents();
-		
-		// Disabling AutoFitting on a Table and Use Fixed Column Widths
-		disablingAutoFittingOnATableAndUseFixedColumnWidths();
-		//ExEnd:ApplyAutoFitSettingsToATable
-	}
 
-	//ExStart:autoFittingATableToWindow
-	public static void autoFittingATableToWindow() throws Exception {
-		// Open the document
-		Document doc = new Document(dataDir + "TestFile.doc");
-		Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+    private static final String dataDir = Utils.getSharedDataDir(ApplyAutoFitSettingsToATable.class) + "Tables/";
 
-		// Auto fit the first table to the page width.
-		table.autoFit(AutoFitBehavior.AUTO_FIT_TO_WINDOW);
+    public static void main(String[] args) throws Exception {
+        //ExStart:ApplyAutoFitSettingsToATable
+        // Auto fits a table to fit the page width
+        autoFittingATableToWindow();
 
-		// Save the document to disk.
-		doc.save(dataDir + "TestFile.AutoFitToWindow Out.doc");
-	}
-	//ExEnd:autoFittingATableToWindow
-	
-	//ExStart:autoFittingATableToContents
-	public static void autoFittingATableToContents() throws Exception {
-		// Open the document
-		Document doc = new Document(dataDir + "TestFile.doc");
-		Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        // Auto fits a table in the document to its contents
+        autoFittingATableToContents();
 
-		// Auto fit the table to the cell contents
-		table.autoFit(AutoFitBehavior.AUTO_FIT_TO_CONTENTS);
+        // Disabling AutoFitting on a Table and Use Fixed Column Widths
+        disablingAutoFittingOnATableAndUseFixedColumnWidths();
+        //ExEnd:ApplyAutoFitSettingsToATable
+    }
 
-		// Save the document to disk.
-		doc.save(dataDir + "TestFile.AutoFitToContents Out.doc");
-	}
-	//ExEnd:autoFittingATableToContents
-	
-	//ExStart:disablingAutoFittingOnATableAndUseFixedColumnWidths
-	public static void disablingAutoFittingOnATableAndUseFixedColumnWidths() throws Exception {
-		// Open the document
-		Document doc = new Document(dataDir + "TestFile.doc");
-		Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+    //ExStart:autoFittingATableToWindow
+    public static void autoFittingATableToWindow() throws Exception {
+        // Open the document
+        Document doc = new Document(dataDir + "TestFile.doc");
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-		// Disable autofitting on this table.
-		table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
+        // Auto fit the first table to the page width.
+        table.autoFit(AutoFitBehavior.AUTO_FIT_TO_WINDOW);
 
-		// Save the document to disk.
-		doc.save(dataDir + "TestFile.FixedWidth Out.doc");
-	}
-	//ExEnd:disablingAutoFittingOnATableAndUseFixedColumnWidths
+        // Save the document to disk.
+        doc.save(dataDir + "TestFile.AutoFitToWindow Out.doc");
+    }
+    //ExEnd:autoFittingATableToWindow
+
+    //ExStart:autoFittingATableToContents
+    public static void autoFittingATableToContents() throws Exception {
+        // Open the document
+        Document doc = new Document(dataDir + "TestFile.doc");
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+
+        // Auto fit the table to the cell contents
+        table.autoFit(AutoFitBehavior.AUTO_FIT_TO_CONTENTS);
+
+        // Save the document to disk.
+        doc.save(dataDir + "TestFile.AutoFitToContents Out.doc");
+    }
+    //ExEnd:autoFittingATableToContents
+
+    //ExStart:disablingAutoFittingOnATableAndUseFixedColumnWidths
+    public static void disablingAutoFittingOnATableAndUseFixedColumnWidths() throws Exception {
+        // Open the document
+        Document doc = new Document(dataDir + "TestFile.doc");
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+
+        // Disable autofitting on this table.
+        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
+
+        // Save the document to disk.
+        doc.save(dataDir + "TestFile.FixedWidth Out.doc");
+    }
+    //ExEnd:disablingAutoFittingOnATableAndUseFixedColumnWidths
 }

@@ -1,6 +1,9 @@
 package com.aspose.words.examples.programming_documents.document;
 
-import com.aspose.words.*;
+import com.aspose.words.Document;
+import com.aspose.words.OdtSaveMeasureUnit;
+import com.aspose.words.OdtSaveOptions;
+import com.aspose.words.OoxmlSaveOptions;
 import com.aspose.words.examples.Utils;
 
 /**

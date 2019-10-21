@@ -1,156 +1,142 @@
 package com.aspose.words.examples.programming_documents.HeadersAndFooters;
 
-import com.aspose.words.BreakType;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.HeaderFooter;
-import com.aspose.words.HeaderFooterType;
-import com.aspose.words.Orientation;
-import com.aspose.words.PageSetup;
-import com.aspose.words.ParagraphAlignment;
-import com.aspose.words.PreferredWidth;
-import com.aspose.words.RelativeHorizontalPosition;
-import com.aspose.words.RelativeVerticalPosition;
-import com.aspose.words.Row;
-import com.aspose.words.Section;
-import com.aspose.words.WrapType;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.examples.programming_documents.tables.creation.BuildTableFromDataTable;
 
 public class CreateHeadersFootersUsingDocumentBuilder {
-	
-	private static final String dataDir = Utils.getSharedDataDir(CreateHeadersFootersUsingDocumentBuilder.class) + "HeadersAndFooters/";
-	
-	public static void main(String[] args) throws Exception {
-		//ExStart:CreateHeadersFootersUsingDocumentBuilder
-		Document doc = new Document();
-		DocumentBuilder builder = new DocumentBuilder(doc);
 
-		Section currentSection = builder.getCurrentSection();
-		PageSetup pageSetup = currentSection.getPageSetup();
+    private static final String dataDir = Utils.getSharedDataDir(CreateHeadersFootersUsingDocumentBuilder.class) + "HeadersAndFooters/";
 
-		// Specify if we want headers/footers of the first page to be different from other pages.
-		// You can also use PageSetup.OddAndEvenPagesHeaderFooter property to specify
-		// different headers/footers for odd and even pages.
-		pageSetup.setDifferentFirstPageHeaderFooter(true);
+    public static void main(String[] args) throws Exception {
+        //ExStart:CreateHeadersFootersUsingDocumentBuilder
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-		// --- Create header for the first page. ---
-		pageSetup.setHeaderDistance(20);
-		builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
-		builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+        Section currentSection = builder.getCurrentSection();
+        PageSetup pageSetup = currentSection.getPageSetup();
 
-		// Set font properties for header text.
-		builder.getFont().setName("Arial");
-		builder.getFont().setBold(true);
-		builder.getFont().setSize(14);
-		// Specify header title for the first page.
-		builder.write("Aspose.Words Header/Footer Creation Primer - Title Page.");
+        // Specify if we want headers/footers of the first page to be different from other pages.
+        // You can also use PageSetup.OddAndEvenPagesHeaderFooter property to specify
+        // different headers/footers for odd and even pages.
+        pageSetup.setDifferentFirstPageHeaderFooter(true);
 
-		// --- Create header for pages other than first. ---
-		pageSetup.setHeaderDistance(20);
-		builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        // --- Create header for the first page. ---
+        pageSetup.setHeaderDistance(20);
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
 
-		// Insert absolutely positioned image into the top/left corner of the header.
-		// Distance from the top/left edges of the page is set to 10 points.
-		String imageFileName = dataDir + "Aspose.Words.gif";
-		builder.insertImage(imageFileName, RelativeHorizontalPosition.PAGE, 10, RelativeVerticalPosition.PAGE, 10, 50, 50, WrapType.THROUGH);
+        // Set font properties for header text.
+        builder.getFont().setName("Arial");
+        builder.getFont().setBold(true);
+        builder.getFont().setSize(14);
+        // Specify header title for the first page.
+        builder.write("Aspose.Words Header/Footer Creation Primer - Title Page.");
 
-		builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
-		// Specify another header title for other pages.
-		builder.write("Aspose.Words Header/Footer Creation Primer.");
+        // --- Create header for pages other than first. ---
+        pageSetup.setHeaderDistance(20);
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
 
-		// --- Create footer for pages other than first. ---
-		builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        // Insert absolutely positioned image into the top/left corner of the header.
+        // Distance from the top/left edges of the page is set to 10 points.
+        String imageFileName = dataDir + "Aspose.Words.gif";
+        builder.insertImage(imageFileName, RelativeHorizontalPosition.PAGE, 10, RelativeVerticalPosition.PAGE, 10, 50, 50, WrapType.THROUGH);
 
-		// We use table with two cells to make one part of the text on the line (with page numbering)
-		// to be aligned left, and the other part of the text (with copyright) to be aligned right.
-		builder.startTable();
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
+        // Specify another header title for other pages.
+        builder.write("Aspose.Words Header/Footer Creation Primer.");
 
-		// Clear table borders
-		builder.getCellFormat().clearFormatting();
+        // --- Create footer for pages other than first. ---
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
 
-		builder.insertCell();
-		// Set first cell to 1/3 of the page width.
-		builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 / 3));
+        // We use table with two cells to make one part of the text on the line (with page numbering)
+        // to be aligned left, and the other part of the text (with copyright) to be aligned right.
+        builder.startTable();
 
-		// Insert page numbering text here.
-		// It uses PAGE and NUMPAGES fields to auto calculate current page number and total number of pages.
-		builder.write("Page ");
-		builder.insertField("PAGE", "");
-		builder.write(" of ");
-		builder.insertField("NUMPAGES", "");
+        // Clear table borders
+        builder.getCellFormat().clearFormatting();
 
-		// Align this text to the left.
-		builder.getCurrentParagraph().getParagraphFormat().setAlignment(ParagraphAlignment.LEFT);
+        builder.insertCell();
+        // Set first cell to 1/3 of the page width.
+        builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 / 3));
 
-		builder.insertCell();
-		// Set the second cell to 2/3 of the page width.
-		builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
+        // Insert page numbering text here.
+        // It uses PAGE and NUMPAGES fields to auto calculate current page number and total number of pages.
+        builder.write("Page ");
+        builder.insertField("PAGE", "");
+        builder.write(" of ");
+        builder.insertField("NUMPAGES", "");
 
-		builder.write("(C) 2001 Aspose Pty Ltd. All rights reserved.");
+        // Align this text to the left.
+        builder.getCurrentParagraph().getParagraphFormat().setAlignment(ParagraphAlignment.LEFT);
 
-		// Align this text to the right.
-		builder.getCurrentParagraph().getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
+        builder.insertCell();
+        // Set the second cell to 2/3 of the page width.
+        builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
 
-		builder.endRow();
-		builder.endTable();
+        builder.write("(C) 2001 Aspose Pty Ltd. All rights reserved.");
 
-		builder.moveToDocumentEnd();
-		// Make page break to create a second page on which the primary headers/footers will be seen.
-		builder.insertBreak(BreakType.PAGE_BREAK);
+        // Align this text to the right.
+        builder.getCurrentParagraph().getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
 
-		// Make section break to create a third page with different page orientation.
-		builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.endRow();
+        builder.endTable();
 
-		// Get the new section and its page setup.
-		currentSection = builder.getCurrentSection();
-		pageSetup = currentSection.getPageSetup();
+        builder.moveToDocumentEnd();
+        // Make page break to create a second page on which the primary headers/footers will be seen.
+        builder.insertBreak(BreakType.PAGE_BREAK);
 
-		// Set page orientation of the new section to landscape.
-		pageSetup.setOrientation(Orientation.LANDSCAPE);
+        // Make section break to create a third page with different page orientation.
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
 
-		// This section does not need different first page header/footer.
-		// We need only one title page in the document and the header/footer for this page
-		// has already been defined in the previous section
-		pageSetup.setDifferentFirstPageHeaderFooter(false);
+        // Get the new section and its page setup.
+        currentSection = builder.getCurrentSection();
+        pageSetup = currentSection.getPageSetup();
 
-		// This section displays headers/footers from the previous section by default.
-		// Call currentSection.HeadersFooters.LinkToPrevious(false) to cancel this.
-		// Page width is different for the new section and therefore we need to set
-		// a different cell widths for a footer table.
-		currentSection.getHeadersFooters().linkToPrevious(false);
+        // Set page orientation of the new section to landscape.
+        pageSetup.setOrientation(Orientation.LANDSCAPE);
 
-		// If we want to use the already existing header/footer set for this section
-		// but with some minor modifications then it may be expedient to copy headers/footers
-		// from the previous section and apply the necessary modifications where we want them.
-		copyHeadersFootersFromPreviousSection(currentSection);
+        // This section does not need different first page header/footer.
+        // We need only one title page in the document and the header/footer for this page
+        // has already been defined in the previous section
+        pageSetup.setDifferentFirstPageHeaderFooter(false);
 
-		// Find the footer that we want to change.
-		HeaderFooter primaryFooter = currentSection.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
+        // This section displays headers/footers from the previous section by default.
+        // Call currentSection.HeadersFooters.LinkToPrevious(false) to cancel this.
+        // Page width is different for the new section and therefore we need to set
+        // a different cell widths for a footer table.
+        currentSection.getHeadersFooters().linkToPrevious(false);
 
-		Row row = primaryFooter.getTables().get(0).getFirstRow();
-		row.getFirstCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 / 3));
-		row.getLastCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
+        // If we want to use the already existing header/footer set for this section
+        // but with some minor modifications then it may be expedient to copy headers/footers
+        // from the previous section and apply the necessary modifications where we want them.
+        copyHeadersFootersFromPreviousSection(currentSection);
 
-		// Save the resulting document.
-		doc.save(dataDir + "HeaderFooter.Primer_Out.doc");
-		//ExEnd:CreateHeadersFootersUsingDocumentBuilder
-	}
-	//ExStart:copyHeadersFootersFromPreviousSection
-	/**
-	 * Clones and copies headers/footers form the previous section to the specified section.
-	 */
-	private static void copyHeadersFootersFromPreviousSection(Section section) throws Exception
-	{
-	    Section previousSection = (Section)section.getPreviousSibling();
+        // Find the footer that we want to change.
+        HeaderFooter primaryFooter = currentSection.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
 
-	    if (previousSection == null)
-	        return;
+        Row row = primaryFooter.getTables().get(0).getFirstRow();
+        row.getFirstCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 / 3));
+        row.getLastCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
 
-	    section.getHeadersFooters().clear();
+        // Save the resulting document.
+        doc.save(dataDir + "HeaderFooter.Primer_Out.doc");
+        //ExEnd:CreateHeadersFootersUsingDocumentBuilder
+    }
+    //ExStart:copyHeadersFootersFromPreviousSection
 
-	    for (HeaderFooter headerFooter : previousSection.getHeadersFooters())
-	        section.getHeadersFooters().add(headerFooter.deepClone(true));
-	}
+    /**
+     * Clones and copies headers/footers form the previous section to the specified section.
+     */
+    private static void copyHeadersFootersFromPreviousSection(Section section) throws Exception {
+        Section previousSection = (Section) section.getPreviousSibling();
+
+        if (previousSection == null)
+            return;
+
+        section.getHeadersFooters().clear();
+
+        for (HeaderFooter headerFooter : previousSection.getHeadersFooters())
+            section.getHeadersFooters().add(headerFooter.deepClone(true));
+    }
 //ExEnd:copyHeadersFootersFromPreviousSection
 }

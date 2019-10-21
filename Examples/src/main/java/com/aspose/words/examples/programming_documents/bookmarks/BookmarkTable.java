@@ -2,19 +2,17 @@ package com.aspose.words.examples.programming_documents.bookmarks;
 
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
-import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.examples.Utils;
 
 
-public class BookmarkTable
-{
+public class BookmarkTable {
     /**
      * The main entry point for the application.
      */
     public static void main(String[] args) throws Exception {
 
         //ExStart:BookmarkTable
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(BookmarkTable.class);
         //Create empty document
         Document doc = new Document();
@@ -50,9 +48,9 @@ public class BookmarkTable
         //End of bookmark
         builder.endBookmark("MyBookmark");
 
-        doc.save(dataDir+ "output.doc");
+        doc.save(dataDir + "output.doc");
         System.out.println("\nTable bookmarked successfully.\nFile saved at " + dataDir);
-		//ExEnd:BookmarkTable
+        //ExEnd:BookmarkTable
     }
 
 }

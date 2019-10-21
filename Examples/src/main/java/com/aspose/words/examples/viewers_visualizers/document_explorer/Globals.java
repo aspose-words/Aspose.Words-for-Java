@@ -14,42 +14,42 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
-* This class is used as a repository for objects, that should be available from any place of the project code.
-*/
-public class Globals
-{
+ * This class is used as a repository for objects, that should be available from any place of the project code.
+ */
+public class Globals {
     /**
-    * This class is purely static, that's why we prevent instance creation by declaring the constructor as private.
-    */
-    private Globals() {}
+     * This class is purely static, that's why we prevent instance creation by declaring the constructor as private.
+     */
+    private Globals() {
+    }
 
-	// Titles used within the application.
-	static final String APPLICATION_TITLE = "Document Explorer";
-	static final String UNEXPECTED_EXCEPTION_DIALOG_TITLE = APPLICATION_TITLE + " - unexpected error occured";
-	static final String OPEN_DOCUMENT_DIALOG_TITLE = "Open Document";
-	static final String SAVE_DOCUMENT_DIALOG_TITLE = "Save Document As";
+    // Titles used within the application.
+    static final String APPLICATION_TITLE = "Document Explorer";
+    static final String UNEXPECTED_EXCEPTION_DIALOG_TITLE = APPLICATION_TITLE + " - unexpected error occured";
+    static final String OPEN_DOCUMENT_DIALOG_TITLE = "Open Document";
+    static final String SAVE_DOCUMENT_DIALOG_TITLE = "Save Document As";
 
     // Open File filters
-	static final OpenFileFilter OPEN_FILE_FILTER_ALL_SUPPORTED_FORMATS = new OpenFileFilter(
-			new String[] {".doc",".dot",".docx",".dotx",".docm",".dotm",".xml",".wml",".rtf",".odt",".ott",".htm",".html",".xhtml",".mht",".mhtm",".mhtml"}, "All Supported Formats (*.doc;*.dot;*.docx;*.dotx;*.docm;*.dotm;*.xml;*.wml;*.rtf;*.odt;*.ott;*.htm;*.html;*.xhtml;*.mht;*.mhtm;*.mhtml)");
+    static final OpenFileFilter OPEN_FILE_FILTER_ALL_SUPPORTED_FORMATS = new OpenFileFilter(
+            new String[]{".doc", ".dot", ".docx", ".dotx", ".docm", ".dotm", ".xml", ".wml", ".rtf", ".odt", ".ott", ".htm", ".html", ".xhtml", ".mht", ".mhtm", ".mhtml"}, "All Supported Formats (*.doc;*.dot;*.docx;*.dotx;*.docm;*.dotm;*.xml;*.wml;*.rtf;*.odt;*.ott;*.htm;*.html;*.xhtml;*.mht;*.mhtm;*.mhtml)");
 
     static final OpenFileFilter OPEN_FILE_FILTER_DOC_FORMAT = new OpenFileFilter(
-			new String[] {".doc", ".doct"}, "Word 97-2003 Documents (*.doc;*.dot)");
+            new String[]{".doc", ".doct"}, "Word 97-2003 Documents (*.doc;*.dot)");
 
     static final OpenFileFilter OPEN_FILE_FILTER_DOCX_FORMAT = new OpenFileFilter(
-			new String[] {".docx", ".dotx", ".docm", ".dotm"}, "Word 2007 OOXML Documents (*.docx;*.dotx;*.docm;*.dotm)");
+            new String[]{".docx", ".dotx", ".docm", ".dotm"}, "Word 2007 OOXML Documents (*.docx;*.dotx;*.docm;*.dotm)");
 
     static final OpenFileFilter OPEN_FILE_FILTER_XML_FORMAT = new OpenFileFilter(
-			new String[] {".xml", ".wml"}, "XML Documents (*.xml;*.wml)");
+            new String[]{".xml", ".wml"}, "XML Documents (*.xml;*.wml)");
 
     static final OpenFileFilter OPEN_FILE_FILTER_RTF_FORMAT = new OpenFileFilter(
-			new String[] {".rtf"}, "Rich Text Format (*.rtf)");
+            new String[]{".rtf"}, "Rich Text Format (*.rtf)");
 
     static final OpenFileFilter OPEN_FILE_FILTER_ODT_FORMAT = new OpenFileFilter(
-			new String[] {".odt", ".ott"}, "OpenDocument Text (*.odt;*.ott)");
+            new String[]{".odt", ".ott"}, "OpenDocument Text (*.odt;*.ott)");
 
     static final OpenFileFilter OPEN_FILE_FILTER_HTML_FORMAT = new OpenFileFilter(
-			new String[] {".htm", ".html", ".xhtml", ".mht", ".mhtm", ".mhtml"}, "Web Pages (*.htm;*.html;*.xhtml;*.mht;*.mhtm;*.mhtml)");
+            new String[]{".htm", ".html", ".xhtml", ".mht", ".mhtm", ".mhtml"}, "Web Pages (*.htm;*.html;*.xhtml;*.mht;*.mhtm;*.mhtml)");
 
     // Save File Filters
     static final SaveFileFilter SAVE_FILE_FILTER_DOC = new SaveFileFilter(
@@ -97,28 +97,28 @@ public class Globals
     static final SaveFileFilter SAVE_FILE_FILTER_XAML = new SaveFileFilter(
             ".xaml", "XAML Fixed Document (*.xaml)");
 
-	/**
-	* Reference for application's main form.
-	*/
-	static MainForm mMainForm;
+    /**
+     * Reference for application's main form.
+     */
+    static MainForm mMainForm;
 
     /**
-    * Reference for currently loaded Document.
-    */
+     * Reference for currently loaded Document.
+     */
     static Document mDocument;
 
     /**
-    * Reference for current Tree Model
-    */
+     * Reference for current Tree Model
+     */
     static DefaultTreeModel mTreeModel;
 
     /**
-    * Reference for the current Tree
-    */
+     * Reference for the current Tree
+     */
     static JTree mTree;
 
     /**
-    * Reference for the current root node.
-    */
+     * Reference for the current root node.
+     */
     static DefaultMutableTreeNode mRootNode;
 }

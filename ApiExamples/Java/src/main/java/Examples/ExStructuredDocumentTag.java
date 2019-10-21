@@ -571,7 +571,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExStart
         //ExFor:XmlMapping.StoreItemId
         //ExSummary:Shows how to get special id of your xml part.
-        Document doc = new Document(getArtifactsDir() + "SDT.CustomXml.docx");
+        Document doc = new Document(getMyDir() + "SDT.CustomXml.docx");
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
         System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());

@@ -525,7 +525,7 @@ public class ExShape extends ApiExampleBase {
         Assert.assertEquals(oleFormat.getOleIcon(), true);
 
         // Get the name or the source file and verify that the whole file is linked
-        Assert.assertTrue(oleFormat.getSourceFullName().endsWith("Images\\visio2010.vsd"));
+        Assert.assertTrue(oleFormat.getSourceFullName().endsWith("Images" + File.separatorChar + "visio2010.vsd"));
         Assert.assertEquals(oleFormat.getSourceItem(), "");
         Assert.assertEquals(oleFormat.getIconCaption(), "Packager");
 

@@ -1,8 +1,8 @@
 package com.aspose.words.examples.mail_merge;
 
+import com.aspose.words.Document;
 import com.aspose.words.MailMergeCleanupOptions;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.Document;
 
 public class MailMergeCleanUp {
     public static void main(String[] args) throws Exception {

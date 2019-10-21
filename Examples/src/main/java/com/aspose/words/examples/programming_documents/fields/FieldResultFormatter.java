@@ -1,13 +1,14 @@
 package com.aspose.words.examples.programming_documents.fields;
 
+import com.aspose.words.IFieldResultFormatter;
+
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.aspose.words.IFieldResultFormatter;
 /**
  * Created by Home on 5/29/2017.
  */
- //ExStart:FieldResultFormatter
+//ExStart:FieldResultFormatter
 public class FieldResultFormatter implements IFieldResultFormatter {
 
     private final String mNumberFormat;
@@ -39,14 +40,14 @@ public class FieldResultFormatter implements IFieldResultFormatter {
     public String formatNumeric(double value, String format) {
         // TODO Auto-generated method stub
 
-        mNumberFormatInvocations.add(new Object[] { value, format });
+        mNumberFormatInvocations.add(new Object[]{value, format});
         return (mNumberFormat.isEmpty() || mNumberFormat == null) ? null
                 : String.format(mNumberFormat, value);
     }
 
     public String formatDateTime(Date value, String format, int calendarType) {
         mDateFormatInvocations
-                .add(new Object[] { value, format, calendarType });
+                .add(new Object[]{value, format, calendarType});
 
         return (mDateFormat.isEmpty() || mDateFormat == null) ? null : String
                 .format(mDateFormat, value);

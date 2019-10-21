@@ -12,7 +12,7 @@ public class AppendDocumentManually {
     public static void main(String[] args) throws Exception {
 
         //ExStart:AppendDocumentManually
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(AppendDocumentManually.class);
 
         Document dstDoc = new Document(dataDir + "TestFile.Destination.doc");
@@ -24,7 +24,7 @@ public class AppendDocumentManually {
         }
 
         dstDoc.save(dataDir + "output.doc");
-		//ExEnd:AppendDocumentManually
+        //ExEnd:AppendDocumentManually
 
     }
 }

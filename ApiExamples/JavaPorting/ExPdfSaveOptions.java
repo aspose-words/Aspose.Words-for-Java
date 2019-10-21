@@ -16,9 +16,9 @@ import com.aspose.words.StyleIdentifier;
 import org.testng.Assert;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.SaveFormat;
-import com.aspose.words.DmlRenderingMode;
 import com.aspose.words.PdfImageCompression;
 import com.aspose.words.PdfCompliance;
+import com.aspose.words.PdfImageColorSpaceExportMode;
 import com.aspose.words.ColorMode;
 import com.aspose.words.SaveOptions;
 import com.aspose.ms.NUnit.Framework.msAssert;
@@ -31,6 +31,14 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.WarningInfoCollection;
 import com.aspose.words.HeaderFooterBookmarksExportMode;
 import com.aspose.words.PdfTextCompression;
+import com.aspose.words.Section;
+import com.aspose.words.MultiplePagesType;
+import com.aspose.words.PdfZoomBehavior;
+import com.aspose.words.PdfPageMode;
+import com.aspose.words.PdfCustomPropertiesExport;
+import com.aspose.words.DmlEffectsRenderingMode;
+import java.awt.image.BufferedImage;
+import com.aspose.BitmapPal;
 import org.testng.annotations.DataProvider;
 
 
@@ -43,6 +51,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExStart
         //ExFor:OutlineOptions.CreateMissingOutlineLevels
         //ExFor:ParagraphFormat.IsHeading
+        //ExFor:PdfSaveOptions.OutlineOptions
+        //ExFor:PdfSaveOptions.SaveFormat
         //ExSummary:Shows how to create missing outline levels saving the document in PDF
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -83,27 +93,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Assert.AreEqual(11, bookmarks.Count);
     }
 
-    //Note: Test doesn't contain validation result.
-    //For validation result, you can add some shapes to the document and assert, that the DML shapes are render correctly
-    @Test
-    public void drawingMl() throws Exception
-    {
-        //ExStart
-        //ExFor:DmlRenderingMode
-        //ExFor:SaveOptions.DmlRenderingMode
-        //ExSummary:Shows how to define rendering for DML shapes
-        Document doc = DocumentHelper.createDocumentFillWithDummyText();
-
-        PdfSaveOptions pdfSaveOptions = new PdfSaveOptions(); { pdfSaveOptions.setDmlRenderingMode(DmlRenderingMode.DRAWING_ML); }
-
-        doc.save(getArtifactsDir() + "DrawingMl.pdf", pdfSaveOptions);
-        //ExEnd
-    }
-
     @Test (groups = "SkipMono")
     public void withoutUpdateFields() throws Exception
     {
         //ExStart
+        //ExFor:PdfSaveOptions.Clone
         //ExFor:SaveOptions.UpdateFields
         //ExSummary:Shows how to update fields before saving into a PDF document.
         Document doc = DocumentHelper.createDocumentFillWithDummyText();
@@ -112,6 +106,9 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         {
             pdfSaveOptions.setUpdateFields(false);
         }
+
+        // PdfSaveOptions objects can be cloned
+        Assert.assertNotSame(pdfSaveOptions, pdfSaveOptions.deepClone());
 
         doc.save(getArtifactsDir() + "UpdateFields_False.pdf", pdfSaveOptions);
         //ExEnd
@@ -151,9 +148,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExStart
         //ExFor:PdfSaveOptions.Compliance
         //ExFor:PdfSaveOptions.ImageCompression
+        //ExFor:PdfSaveOptions.ImageColorSpaceExportMode
         //ExFor:PdfSaveOptions.JpegQuality
         //ExFor:PdfImageCompression
         //ExFor:PdfCompliance
+        //ExFor:PdfImageColorSpaceExportMode
         //ExSummary:Shows how to save images to PDF using JPEG encoding to decrease file size.
         Document doc = new Document(getMyDir() + "SaveOptions.PdfImageCompression.rtf");
         
@@ -165,11 +164,14 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "SaveOptions.PdfImageCompression.pdf", options);
 
         PdfSaveOptions optionsA1B = new PdfSaveOptions();
-        optionsA1B.setCompliance(PdfCompliance.PDF_A_1_B);
-        optionsA1B.setImageCompression(PdfImageCompression.JPEG);
-        optionsA1B.setJpegQuality(100); // Use JPEG compression at 50% quality to reduce file size.
+        {
+            optionsA1B.setCompliance(PdfCompliance.PDF_A_1_B);
+            optionsA1B.setImageCompression(PdfImageCompression.JPEG);
+            optionsA1B.setJpegQuality(100); // Use JPEG compression at 50% quality to reduce file size
+            optionsA1B.setImageColorSpaceExportMode(PdfImageColorSpaceExportMode.SIMPLE_CMYK);
+        }
 
-        doc.save(getArtifactsDir() + "SaveOptions.PdfImageComppression PDF_A_1_B.pdf", optionsA1B);
+        doc.save(getArtifactsDir() + "SaveOptions.PdfImageComppression PDF_A_1_B.pdf", optionsA1B);        
         //ExEnd
 
         PdfSaveOptions optionsA1A = new PdfSaveOptions();
@@ -238,6 +240,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     {
         //ExStart
         //ExFor:PdfSaveOptions.EscapeUri
+        //ExFor:PdfSaveOptions.OpenHyperlinksInNewWindow
         //ExSummary: Shows how to escape hyperlinks or not in the document.
         DocumentBuilder builder = new DocumentBuilder();
         builder.insertHyperlink("Testlink", uri, false);
@@ -245,6 +248,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Set this property to false if you are sure that hyperlinks in document's model are already escaped
         PdfSaveOptions options = new PdfSaveOptions();
         options.setEscapeUri(isEscaped);
+        options.setOpenHyperlinksInNewWindow(true);
 
         builder.getDocument().save(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf", options);
         //ExEnd
@@ -257,8 +261,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Get the first link annotation
         LinkAnnotation linkAnnot = (LinkAnnotation) page.Annotations[1];
 
-        GoToURIAction action = (GoToURIAction) linkAnnot.Action;
-        String uriText = action.URI;
+        JavascriptAction action = (JavascriptAction) linkAnnot.Action;
+        String uriText = action.Script;
 
         msAssert.areEqual(result, uriText);
     }
@@ -269,10 +273,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 	{
 		return new Object[][]
 		{
-			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q=%20aspose",  true},
-			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose",  true},
-			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q= aspose",  false},
-			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose",  false},
+			{"https://www.google.com/search?q= aspose",  "app.launchURL(\"https://www.google.com/search?q=%20aspose\", true);",  true},
+			{"https://www.google.com/search?q=%20aspose",  "app.launchURL(\"https://www.google.com/search?q=%20aspose\", true);",  true},
+			{"https://www.google.com/search?q= aspose",  "app.launchURL(\"https://www.google.com/search?q= aspose\", true);",  false},
+			{"https://www.google.com/search?q=%20aspose",  "app.launchURL(\"https://www.google.com/search?q=%20aspose\", true);",  false},
 		};
 	}
 
@@ -335,16 +339,17 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     {
         //ExStart
         //ExFor:HeaderFooterBookmarksExportMode
+        //ExFor:PdfSaveOptions.HeaderFooterBookmarksExportMode
         //ExFor:OutlineOptions
         //ExFor:OutlineOptions.DefaultBookmarksOutlineLevel
-        //ExSummary:Shows how bookmarks in headers/footers are exported to pdf
+        //ExSummary:Shows how bookmarks in headers/footers are exported to pdf.
         Document doc = new Document(getMyDir() + "PdfSaveOption.HeaderFooterBookmarksExportMode.docx");
 
-        // You can specify how bookmarks in headers/footers are exported.
+        // You can specify how bookmarks in headers/footers are exported
         // There is a several options for this:
-        // "None" - Bookmarks in headers/footers are not exported.
-        // "First" - Only bookmark in first header/footer of the section is exported.
-        // "All" - Bookmarks in all headers/footers are exported.
+        // "None" - Bookmarks in headers/footers are not exported
+        // "First" - Only bookmark in first header/footer of the section is exported
+        // "All" - Bookmarks in all headers/footers are exported
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         {
             saveOptions.setHeaderFooterBookmarksExportMode(headerFooterBookmarksExportMode);
@@ -427,6 +432,151 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         saveOptions.setTextCompression(PdfTextCompression.NONE);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf", saveOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void saveAsPdfBookFold() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.UseBookFoldPrintingSettings
+        //ExSummary:Shows how to save a document to the PDF format in the form of a book fold.
+        // Open a document with multiple paragraphs
+        Document doc = new Document(getMyDir() + "Paragraphs.docx");
+
+        // Configure both page setup and PdfSaveOptions to create a book fold
+        for (Section s : (Iterable<Section>) doc.getSections())
+        {
+            s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
+        }
+
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setUseBookFoldPrintingSettings(true);
+
+        // In order to make a booklet, we will need to print this document, stack the pages
+        // in the order they come out of the printer and then fold down the middle
+        doc.save(getArtifactsDir() + "PdfSaveOptions.SaveAsPdfBookFold.pdf", options);
+        //ExEnd
+    }
+
+    @Test
+    public void zoomBehaviour() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.PageMode
+        //ExFor:PdfSaveOptions.ZoomBehavior
+        //ExFor:PdfSaveOptions.ZoomFactor
+        //ExFor:PdfPageMode
+        //ExFor:PdfZoomBehavior
+        //ExSummary:Shows how to set the default zooming of an output PDF to 1/4 of default size.
+        // Open a document with multiple paragraphs
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setZoomBehavior(PdfZoomBehavior.ZOOM_FACTOR);
+        options.setZoomFactor(25);
+        options.setPageMode(PdfPageMode.USE_THUMBS);
+
+        // When opening the .pdf with a viewer such as Adobe Acrobat Pro, the zoom level will be at 25% by default,
+        // with thumbnails for each page to the left
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ZoomBehaviour.pdf", options);
+        //ExEnd
+    }
+
+    @Test
+    public void noteHyperlinks() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.CreateNoteHyperlinks
+        //ExSummary:Shows how to make footnotes and endnotes work like hyperlinks.
+        // Open a document with footnotes/endnotes
+        Document doc = new Document(getMyDir() + "Document.FootnoteEndnote.docx");
+
+        // Creating a PdfSaveOptions instance with this flag set will convert footnote/endnote number symbols in the text
+        // into hyperlinks pointing to the footnotes, and the actual footnotes/endnotes at the end of pages into links to their
+        // referenced body text
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setCreateNoteHyperlinks(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf", options);
+        //ExEnd
+    }
+
+    @Test
+    public void customPropertiesExport() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.CustomPropertiesExport
+        //ExSummary:Shows how to export custom properties while saving to .pdf.
+        Document doc = new Document();
+
+        // Add a custom document property that doesn't use the name of some built in properties
+        doc.getCustomDocumentProperties().add("Company", "My value");
+        
+        // Configure the PdfSaveOptions like this will display the properties
+        // in the "Document Properties" menu of Adobe Acrobat Pro
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setCustomPropertiesExport(PdfCustomPropertiesExport.STANDARD);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf", options);
+        //ExEnd
+    }
+
+    @Test
+    public void drawingML() throws Exception
+    {
+        //ExStart
+        //ExFor:DmlRenderingMode
+        //ExFor:PdfSaveOptions.DmlEffectsRenderingMode
+        //ExFor:SaveOptions.DmlRenderingMode
+        //ExSummary:Shows how to configure DrawingML rendering quality with PdfSaveOptions.
+        Document doc = new Document(getMyDir() + "DrawingMLEffects.docx");
+
+        // Creating a new PdfSaveOptions object and setting its DmlEffectsRenderingMode to "None" will
+        // strip the shapes of all their shading effects in the output pdf
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setDmlEffectsRenderingMode(DmlEffectsRenderingMode.NONE);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.DrawingML.pdf", options);
+        //ExEnd
+    }
+
+    @Test
+    public void exportDocumentStructure() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.ExportDocumentStructure
+        //ExSummary:Shows how to convert a .docx to .pdf while preserving the document structure.
+        Document doc = new Document(getMyDir() + "Paragraphs.docx");
+
+        // Create a PdfSaveOptions object and configure it to preserve the logical structure that's in the input document
+        // The file size will be increased and the structure will be visible in the "Content" navigation pane
+        // of Adobe Acrobat Pro, while editing the .pdf
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setExportDocumentStructure(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportDocumentStructure.pdf", options);
+        //ExEnd
+    }
+
+    @Test
+    public void preblendImages() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.PreblendImages
+        //ExSummary:Shows how to preblend images with transparent backgrounds.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        BufferedImage img = BitmapPal.loadNativeImage(getImageDir() + "TransparentBG.png");
+        builder.insertImage(img);
+
+        // Create a PdfSaveOptions object and setting this flag may change the quality and size of the output .pdf
+        // because of the way some images are rendered
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setPreblendImages(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.PreblendImages.pdf", options);
         //ExEnd
     }
 }

@@ -9,7 +9,7 @@ public class KeepSourceTogether {
     public static void main(String[] args) throws Exception {
 
         //ExStart:KeepSourceTogether
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(KeepSourceTogether.class);
 
         Document dstDoc = new Document(dataDir + "TestFile.Destination.doc");
@@ -25,7 +25,7 @@ public class KeepSourceTogether {
 
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
         dstDoc.save(dataDir + "output.doc");
-		//ExEnd:KeepSourceTogether
+        //ExEnd:KeepSourceTogether
 
     }
 }

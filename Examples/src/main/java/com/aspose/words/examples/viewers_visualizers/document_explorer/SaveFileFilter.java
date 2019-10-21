@@ -41,6 +41,7 @@ public class SaveFileFilter extends FileFilter {
     public String getDescription() {
         return mDescription;
     }
+
     String mExtension;
     String mDescription;
 }

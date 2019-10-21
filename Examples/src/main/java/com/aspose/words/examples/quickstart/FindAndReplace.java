@@ -1,20 +1,15 @@
-
-
 package com.aspose.words.examples.quickstart;
 
 import com.aspose.words.Document;
 import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.examples.Utils;
-import com.aspose.words.examples.programming_documents.find_replace.FindAndHighlightText;
 
 import java.util.regex.Pattern;
 
-public class FindAndReplace
-{
+public class FindAndReplace {
     private static final String dataDir = Utils.getSharedDataDir(FindAndReplace.class) + "FindAndReplace/";
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(FindAndReplace.class);

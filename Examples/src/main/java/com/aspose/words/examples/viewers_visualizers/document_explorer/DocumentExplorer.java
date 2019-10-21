@@ -7,8 +7,6 @@
  */
 package com.aspose.words.examples.viewers_visualizers.document_explorer;
 
-import com.aspose.words.examples.*;
-
 public class DocumentExplorer {
 
     public static void main(String[] args) throws Exception {

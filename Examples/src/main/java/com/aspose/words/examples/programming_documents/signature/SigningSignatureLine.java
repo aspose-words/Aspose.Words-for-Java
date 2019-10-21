@@ -1,7 +1,7 @@
 package com.aspose.words.examples.programming_documents.signature;
 
-import com.aspose.words.examples.Utils;
 import com.aspose.words.*;
+import com.aspose.words.examples.Utils;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -16,9 +16,8 @@ public class SigningSignatureLine {
     public static void main(String[] args) throws Exception {
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(SigningSignatureLine.class);
-        File certificate= new File(dataDir + "temp.pfx");
-        if (!certificate.exists())
-        {
+        File certificate = new File(dataDir + "temp.pfx");
+        if (!certificate.exists()) {
             System.out.println("Certificate file does not exist.");
             return;
         }
@@ -31,8 +30,7 @@ public class SigningSignatureLine {
 
     }
 
-    public static void SimpleDocumentSigning(String dataDir) throws Exception
-    {
+    public static void SimpleDocumentSigning(String dataDir) throws Exception {
         // ExStart:SimpleDocumentSigning
         CertificateHolder certHolder = CertificateHolder.create(dataDir + "temp.pfx", "password");
         DigitalSignatureUtil.sign(dataDir + "Document.Signed.docx", dataDir + "Document.Signed_out.docx", certHolder);
@@ -41,8 +39,7 @@ public class SigningSignatureLine {
         System.out.println("\nDocument is signed successfully.\nFile saved at " + dataDir + "Document.Signed_out.docx");
     }
 
-    public static void SigningEncryptedDocument(String dataDir) throws Exception
-    {
+    public static void SigningEncryptedDocument(String dataDir) throws Exception {
         // ExStart:SigningEncryptedDocument
 
         SignOptions signOptions = new SignOptions();
@@ -55,8 +52,7 @@ public class SigningSignatureLine {
 
     }
 
-    public static void CreatingAndSigningNewSignatureLine(String dataDir) throws Exception
-    {
+    public static void CreatingAndSigningNewSignatureLine(String dataDir) throws Exception {
         // ExStart:CreatingAndSigningNewSignatureLine
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -76,11 +72,10 @@ public class SigningSignatureLine {
         System.out.println("\nDocument is created and Signed with new SignatureLine successfully.\nFile saved at " + dataDir + "Document.NewSignatureLine.docx_out.docx");
     }
 
-    public static void SigningExistingSignatureLine(String dataDir) throws Exception
-    {
+    public static void SigningExistingSignatureLine(String dataDir) throws Exception {
         // ExStart:SigningExistingSignatureLine
         Document doc = new Document(dataDir + "Document.Signed.docx");
-        SignatureLine signatureLine = ((Shape)doc.getFirstSection().getBody().getChild(NodeType.SHAPE, 0, true)).getSignatureLine();
+        SignatureLine signatureLine = ((Shape) doc.getFirstSection().getBody().getChild(NodeType.SHAPE, 0, true)).getSignatureLine();
 
         SignOptions signOptions = new SignOptions();
         signOptions.setSignatureLineId(signatureLine.getId());
@@ -94,11 +89,10 @@ public class SigningSignatureLine {
         System.out.println("\nDocument is signed with existing SignatureLine successfully.\nFile saved at " + dataDir + "Document.Signed.ExistingSignatureLine.docx");
     }
 
-    public static void SetSignatureProviderID(String dataDir) throws Exception
-    {
+    public static void SetSignatureProviderID(String dataDir) throws Exception {
         // ExStart:SetSignatureProviderID
         Document doc = new Document(dataDir + "Document.Signed.docx");
-        SignatureLine signatureLine = ((Shape)doc.getFirstSection().getBody().getChild(NodeType.SHAPE, 0, true)).getSignatureLine();
+        SignatureLine signatureLine = ((Shape) doc.getFirstSection().getBody().getChild(NodeType.SHAPE, 0, true)).getSignatureLine();
 
         //Set signature and signature line provider ID
         SignOptions signOptions = new SignOptions();
@@ -113,8 +107,7 @@ public class SigningSignatureLine {
         System.out.println("\nProvider ID of signature is set successfully.\nFile saved at " + dataDir + "Document.Signed_out.docx");
     }
 
-    public static void CreateNewSignatureLineAndSetProviderID(String dataDir) throws Exception
-    {
+    public static void CreateNewSignatureLineAndSetProviderID(String dataDir) throws Exception {
         // ExStart:CreateNewSignatureLineAndSetProviderID
         Document doc = new Document(dataDir + "Document.Signed.docx");
 

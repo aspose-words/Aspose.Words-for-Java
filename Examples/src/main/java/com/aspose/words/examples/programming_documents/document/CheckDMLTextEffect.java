@@ -8,24 +8,24 @@ import com.aspose.words.examples.Utils;
 
 public class CheckDMLTextEffect {
 
-	public static void main(String[] args) throws Exception {
-		// ExStart: CheckDMLTextEffect
-		// The path to the documents directory.
-		String dataDir = Utils.getDataDir(CheckDMLTextEffect.class);
-		
-		// Initialize document.
-		Document doc = new Document(dataDir + "Document.doc");
-		RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
+    public static void main(String[] args) throws Exception {
+        // ExStart: CheckDMLTextEffect
+        // The path to the documents directory.
+        String dataDir = Utils.getDataDir(CheckDMLTextEffect.class);
 
-		Font runFont = runs.get(0).getFont();
+        // Initialize document.
+        Document doc = new Document(dataDir + "Document.doc");
+        RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
 
-		// One run might have several Dml text effects applied.
-		System.out.println(runFont.hasDmlEffect(TextDmlEffect.SHADOW));
-		System.out.println(runFont.hasDmlEffect(TextDmlEffect.EFFECT_3_D));
-		System.out.println(runFont.hasDmlEffect(TextDmlEffect.REFLECTION));
-		System.out.println(runFont.hasDmlEffect(TextDmlEffect.OUTLINE));
-		System.out.println(runFont.hasDmlEffect(TextDmlEffect.FILL));
-		// ExEnd: CheckDMLTextEffect
-	}
+        Font runFont = runs.get(0).getFont();
+
+        // One run might have several Dml text effects applied.
+        System.out.println(runFont.hasDmlEffect(TextDmlEffect.SHADOW));
+        System.out.println(runFont.hasDmlEffect(TextDmlEffect.EFFECT_3_D));
+        System.out.println(runFont.hasDmlEffect(TextDmlEffect.REFLECTION));
+        System.out.println(runFont.hasDmlEffect(TextDmlEffect.OUTLINE));
+        System.out.println(runFont.hasDmlEffect(TextDmlEffect.FILL));
+        // ExEnd: CheckDMLTextEffect
+    }
 
 }

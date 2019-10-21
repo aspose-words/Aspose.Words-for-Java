@@ -45,7 +45,7 @@ public class SetFontSettings {
         // ExEnd:SetFontFallbackSettings
         System.out.println("\nDocument is rendered to PDF with font fallback.\nFile saved at " + dataDir);
     }
-    
+
     public static void setPredefinedFontFallbackSettings(String dataDir) throws Exception {
         // ExStart: setPredefinedFontFallbackSettings
         Document doc = new Document(dataDir + "Rendering.doc");

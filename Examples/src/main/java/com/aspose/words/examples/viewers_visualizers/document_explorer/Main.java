@@ -23,14 +23,13 @@ import java.util.Enumeration;
 
 /**
  * The main form of the DocumentExplorer demo.
- *
-* DocumentExplorer allows to open DOC, DOT, DOCX, XML, WML, RTF, ODT, OTT,
+ * <p>
+ * DocumentExplorer allows to open DOC, DOT, DOCX, XML, WML, RTF, ODT, OTT,
  * HTML, XHTML and MHTML files using Aspose.Words.
- *
-* Once a document is opened, you can explore its object model in the tree. You
+ * <p>
+ * Once a document is opened, you can explore its object model in the tree. You
  * can also save the document into DOC, DOCX, ODF, EPUB, PDF, SWF, RTF, WordML,
  * HTML, MHTML and plain text formats.
- *
  */
 public class Main implements TreeWillExpandListener, TreeSelectionListener, KeyListener {
 
@@ -251,7 +250,7 @@ public class Main implements TreeWillExpandListener, TreeSelectionListener, KeyL
         }
 
         if (node.getChildCount() >= 0) {
-            for (Enumeration e = node.children(); e.hasMoreElements();) {
+            for (Enumeration e = node.children(); e.hasMoreElements(); ) {
                 TreeNode n = (TreeNode) e.nextElement();
                 TreePath path = parent.pathByAddingChild(n);
                 expandAll(tree, path, expand);

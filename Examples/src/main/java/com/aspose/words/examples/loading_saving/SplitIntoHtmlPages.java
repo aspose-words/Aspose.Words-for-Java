@@ -15,10 +15,8 @@ import com.aspose.words.ref.Ref;
 import java.io.File;
 import java.util.ArrayList;
 
-public class SplitIntoHtmlPages
-{
-    public static void main(String[] args) throws Exception
-    {
+public class SplitIntoHtmlPages {
+    public static void main(String[] args) throws Exception {
         // You need to have a valid license for Aspose.Words.
         // The best way is to embed the license as a resource into the project
         // and specify only file name without path in the following call.
@@ -27,7 +25,7 @@ public class SplitIntoHtmlPages
 
 
         //ExStart:SplitIntoHtmlPages
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(SplitIntoHtmlPages.class);
 
         String srcFileName = dataDir + "SOI 2007-2012-DeeM with footnote added.doc";
@@ -39,59 +37,51 @@ public class SplitIntoHtmlPages
         // This class does the job.
         Worker w = new Worker();
         w.execute(srcFileName, tocTemplate, outDir.getPath());
-		//ExStart:SplitIntoHtmlPages
+        //ExStart:SplitIntoHtmlPages
 
         System.out.println("Document split into HTML pages successfully.");
     }
 }
 //ExStart:TocMailMergeDataSource
+
 /**
  * A custom data source for Aspose.Words mail merge.
  * Returns topic objects.
  */
-class TocMailMergeDataSource implements IMailMergeDataSource
-{
-    TocMailMergeDataSource(ArrayList topics) throws Exception
-    {
+class TocMailMergeDataSource implements IMailMergeDataSource {
+    TocMailMergeDataSource(ArrayList topics) throws Exception {
         mTopics = topics;
         // Initialize to BOF.
         mIndex = -1;
     }
 
-    public boolean moveNext() throws Exception
-    {
-        if (mIndex < mTopics.size() - 1)
-        {
+    public boolean moveNext() throws Exception {
+        if (mIndex < mTopics.size() - 1) {
             mIndex++;
             return true;
-        }
-        else
-        {
+        } else {
             // Reached EOF, return false.
             return false;
         }
     }
 
     @Override
-    public boolean getValue(String fieldName, Ref<Object> fieldValue) throws Exception
-    {
-        if ("TocEntry".equals(fieldName))
-        {
+    public boolean getValue(String fieldName, Ref<Object> fieldValue) throws Exception {
+        if ("TocEntry".equals(fieldName)) {
             // The template document is supposed to have only one field called "TocEntry".
             fieldValue.set(mTopics.get(mIndex));
             return true;
-        }
-        else
-        {
+        } else {
             fieldValue.set(null);
             return false;
         }
     }
 
-    public String getTableName() throws Exception { return "TOC"; }
+    public String getTableName() throws Exception {
+        return "TOC";
+    }
 
-    public IMailMergeDataSource getChildDataSource(String tableName) throws Exception
-    {
+    public IMailMergeDataSource getChildDataSource(String tableName) throws Exception {
         return null;
     }
 
@@ -100,20 +90,23 @@ class TocMailMergeDataSource implements IMailMergeDataSource
 }
 //ExEnd:TocMailMergeDataSource
 //ExStart:Topic
+
 /**
  * A simple class to hold a topic title and HTML file name together.
  */
-class Topic
-{
-    Topic(String title, String fileName) throws Exception
-    {
+class Topic {
+    Topic(String title, String fileName) throws Exception {
         mTitle = title;
         mFileName = fileName;
     }
 
-    String getTitle() throws Exception { return mTitle; }
+    String getTitle() throws Exception {
+        return mTitle;
+    }
 
-    String getFileName() throws Exception { return mFileName; }
+    String getFileName() throws Exception {
+        return mFileName;
+    }
 
     private final String mTitle;
     private final String mFileName;
@@ -121,25 +114,24 @@ class Topic
 //ExEnd:Topic
 
 //ExStart:Worker
+
 /**
- *This class takes a Microsoft Word document, splits it into topics at paragraphs formatted
+ * This class takes a Microsoft Word document, splits it into topics at paragraphs formatted
  * with the Heading 1 style and saves every topic as an HTML file.
- *
+ * <p>
  * Also generates contents.html file that provides links to all saved topics.
  */
-class Worker
-{
+class Worker {
     /**
      * Performs the Word to HTML conversion.
      *
      * @param srcFileName The MS Word file to convert.
      * @param tocTemplate An MS Word file that is used as a template to build
-     * a table of contents. This file needs to have a mail merge region called "TOC" defined
-     * and one mail merge field called "TocEntry".
-     * @param dstDir The output directory where to write HTML files. Must exist.
+     *                    a table of contents. This file needs to have a mail merge region called "TOC" defined
+     *                    and one mail merge field called "TocEntry".
+     * @param dstDir      The output directory where to write HTML files. Must exist.
      */
-    void execute(String srcFileName, String tocTemplate, String dstDir) throws Exception
-    {
+    void execute(String srcFileName, String tocTemplate, String dstDir) throws Exception {
         mDoc = new Document(srcFileName);
         mTocTemplate = tocTemplate;
         mDstDir = dstDir;
@@ -154,13 +146,11 @@ class Worker
      * Selects heading paragraphs that must become topic starts.
      * We can't modify them in this loop, we have to remember them in an array first.
      */
-    private ArrayList selectTopicStarts() throws Exception
-    {
+    private ArrayList selectTopicStarts() throws Exception {
         NodeCollection paras = mDoc.getChildNodes(NodeType.PARAGRAPH, true);
         ArrayList topicStartParas = new ArrayList();
 
-        for (Paragraph para : (Iterable<Paragraph>) paras)
-        {
+        for (Paragraph para : (Iterable<Paragraph>) paras) {
             int style = para.getParagraphFormat().getStyleIdentifier();
             if (style == StyleIdentifier.HEADING_1)
                 topicStartParas.add(para);
@@ -172,16 +162,13 @@ class Worker
     /**
      * Inserts section breaks before the specified paragraphs.
      */
-    private void insertSectionBreaks(ArrayList topicStartParas) throws Exception
-    {
+    private void insertSectionBreaks(ArrayList topicStartParas) throws Exception {
         DocumentBuilder builder = new DocumentBuilder(mDoc);
-        for (Paragraph para : (Iterable<Paragraph>) topicStartParas)
-        {
+        for (Paragraph para : (Iterable<Paragraph>) topicStartParas) {
             Section section = para.getParentSection();
 
             // Insert section break if the paragraph is not at the beginning of a section already.
-            if (para != section.getBody().getFirstParagraph())
-            {
+            if (para != section.getBody().getFirstParagraph()) {
                 builder.moveTo(para.getFirstChild());
                 builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
 
@@ -196,11 +183,9 @@ class Worker
      * Splits the current document into one topic per section and saves each topic
      * as an HTML file. Returns a collection of Topic objects.
      */
-    private ArrayList saveHtmlTopics() throws Exception
-    {
+    private ArrayList saveHtmlTopics() throws Exception {
         ArrayList topics = new ArrayList();
-        for (int sectionIdx = 0; sectionIdx < mDoc.getSections().getCount(); sectionIdx++)
-        {
+        for (int sectionIdx = 0; sectionIdx < mDoc.getSections().getCount(); sectionIdx++) {
             Section section = mDoc.getSections().get(sectionIdx);
 
             String paraText = section.getBody().getFirstParagraph().getText();
@@ -230,11 +215,9 @@ class Worker
      * Leaves alphanumeric characters, replaces white space with underscore
      * and removes all other characters from a string.
      */
-    private static String makeTopicFileName(String paraText) throws Exception
-    {
+    private static String makeTopicFileName(String paraText) throws Exception {
         StringBuilder b = new StringBuilder();
-        for (int i = 0; i < paraText.length(); i++)
-        {
+        for (int i = 0; i < paraText.length(); i++) {
             char c = paraText.charAt(i);
             if (Character.isLetterOrDigit(c))
                 b.append(c);
@@ -247,8 +230,7 @@ class Worker
     /**
      * Removes the last character (which is a paragraph break character from the given string).
      */
-    private static String makeTopicTitle(String paraText) throws Exception
-    {
+    private static String makeTopicTitle(String paraText) throws Exception {
         return paraText.substring((0), (0) + (paraText.length() - 1));
     }
 
@@ -256,8 +238,7 @@ class Worker
      * Saves one section of a document as an HTML file.
      * Any embedded images are saved as separate files in the same folder as the HTML file.
      */
-    private static void saveHtmlTopic(Section section, Topic topic) throws Exception
-    {
+    private static void saveHtmlTopic(Section section, Topic topic) throws Exception {
         Document dummyDoc = new Document();
         dummyDoc.removeAllChildren();
         dummyDoc.appendChild(dummyDoc.importNode(section, true, ImportFormatMode.KEEP_SOURCE_FORMATTING));
@@ -276,8 +257,7 @@ class Worker
     /**
      * Generates a table of contents for the topics and saves to contents.html.
      */
-    private void saveTableOfContents(ArrayList topics) throws Exception
-    {
+    private void saveTableOfContents(ArrayList topics) throws Exception {
         Document tocDoc = new Document(mTocTemplate);
 
         // We use a custom mail merge even handler defined below.
@@ -288,15 +268,13 @@ class Worker
         tocDoc.save(new File(mDstDir, "contents.html").getPath());
     }
 
-    private class HandleTocMergeField implements IFieldMergingCallback
-    {
-        public void fieldMerging(FieldMergingArgs e) throws Exception
-        {
+    private class HandleTocMergeField implements IFieldMergingCallback {
+        public void fieldMerging(FieldMergingArgs e) throws Exception {
             if (mBuilder == null)
                 mBuilder = new DocumentBuilder(e.getDocument());
 
             // Our custom data source returns topic objects.
-            Topic topic = (Topic)e.getFieldValue();
+            Topic topic = (Topic) e.getFieldValue();
 
             // We use the document builder to move to the current merge field and insert a hyperlink.
             mBuilder.moveToMergeField(e.getFieldName());
@@ -307,8 +285,7 @@ class Worker
             e.setText("");
         }
 
-        public void imageFieldMerging(ImageFieldMergingArgs args) throws Exception
-        {
+        public void imageFieldMerging(ImageFieldMergingArgs args) throws Exception {
             // Do nothing.
         }
 

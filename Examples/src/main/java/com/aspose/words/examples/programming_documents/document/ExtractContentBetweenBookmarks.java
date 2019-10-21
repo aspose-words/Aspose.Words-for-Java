@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 
 public class ExtractContentBetweenBookmarks {
-	
+
     public static void main(String[] args) throws Exception {
 //ExStart:ExtractContentBetweenBookmarks
-        
-		// The path to the documents directory.
+
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ExtractContentBetweenBookmarks.class);
 
         Document doc = new Document(dataDir + "TestFile.doc");

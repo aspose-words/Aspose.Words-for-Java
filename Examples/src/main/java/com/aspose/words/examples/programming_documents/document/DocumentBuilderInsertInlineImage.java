@@ -9,7 +9,7 @@ public class DocumentBuilderInsertInlineImage {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderInsertInlineImage
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderInsertInlineImage.class);
 
         // Open the document.
@@ -18,7 +18,7 @@ public class DocumentBuilderInsertInlineImage {
         builder.insertImage(dataDir + "test.jpg");
 
         doc.save(dataDir + "output.doc");
-		//ExEnd:DocumentBuilderInsertInlineImage
+        //ExEnd:DocumentBuilderInsertInlineImage
 
     }
 }

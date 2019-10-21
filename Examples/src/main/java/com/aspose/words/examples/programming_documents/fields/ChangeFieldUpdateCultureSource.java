@@ -8,17 +8,17 @@
 
 package com.aspose.words.examples.programming_documents.fields;
 
-import com.aspose.words.*;
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.FieldUpdateCultureSource;
 import com.aspose.words.examples.Utils;
 
-public class ChangeFieldUpdateCultureSource
-{
-    public static void main(String[] args) throws Exception
-    {
+public class ChangeFieldUpdateCultureSource {
+    public static void main(String[] args) throws Exception {
         //TODO
 
         //ExStart:ChangeFieldUpdateCultureSource
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ChangeFieldUpdateCultureSource.class);
 
         Document doc = new Document();
@@ -34,11 +34,11 @@ public class ChangeFieldUpdateCultureSource
         doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
 //DateTime object issue
         //  doc.getMailMerge().ex
-       // doc.getMailMerge().execute(new String[] { "Date2" }, new Object[] { new (2011, 1, 01) });
-       // doc.MailMerge.Execute(new string[] { "Date2" }, new object[] { new DateTime(2011, 1, 01) });
+        // doc.getMailMerge().execute(new String[] { "Date2" }, new Object[] { new (2011, 1, 01) });
+        // doc.MailMerge.Execute(new string[] { "Date2" }, new object[] { new DateTime(2011, 1, 01) });
 
         doc.save(dataDir + "InsertNestedFields Out.docx");
-		//ExEnd:ChangeFieldUpdateCultureSource
+        //ExEnd:ChangeFieldUpdateCultureSource
 
 
         System.out.println("Nested fields inserted into the document successfully.");

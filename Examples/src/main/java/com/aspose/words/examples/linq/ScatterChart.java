@@ -1,14 +1,16 @@
 package com.aspose.words.examples.linq;
-import com.aspose.words.*;
+
+import com.aspose.words.Document;
+import com.aspose.words.ReportingEngine;
 import com.aspose.words.examples.Utils;
+
 public class ScatterChart {
     /**
      * The main entry point for the application.
      */
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         //ExStart:ScatterChart
-		// The path to the documents directory.
+        // The path to the documents directory.
 
         String dataDir = Utils.getDataDir(ScatterChart.class);
 
@@ -26,7 +28,7 @@ public class ScatterChart {
 
         // Save the finished document to disk.
         doc.save(dataDir);
-		//ExEnd:ScatterChart
+        //ExEnd:ScatterChart
 
         System.out.println("\nScatter chart template document is populated with the data about contracts.\nFile saved at " + dataDir);
 

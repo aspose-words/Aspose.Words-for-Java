@@ -5,8 +5,6 @@ import com.aspose.words.examples.Utils;
 
 import java.util.ArrayList;
 
-import static java.lang.System.in;
-
 @SuppressWarnings("unchecked")
 public class ProcessComments {
     public static void main(String[] args) throws Exception {

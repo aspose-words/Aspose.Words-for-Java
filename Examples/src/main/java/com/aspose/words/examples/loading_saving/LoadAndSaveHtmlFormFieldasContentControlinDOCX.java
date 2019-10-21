@@ -16,7 +16,7 @@ public class LoadAndSaveHtmlFormFieldasContentControlinDOCX {
     public static void main(String[] args) throws Exception {
 
         //ExStart:LoadAndSaveHtmlFormFieldasContentControlinDOCX
-		HtmlLoadOptions lo = new HtmlLoadOptions();
+        HtmlLoadOptions lo = new HtmlLoadOptions();
         lo.setPreferredControlType(HtmlControlType.STRUCTURED_DOCUMENT_TAG);
 
         //Load the HTML document
@@ -24,7 +24,7 @@ public class LoadAndSaveHtmlFormFieldasContentControlinDOCX {
 
         //Save the HTML document as DOCX
         doc.save(dataDir + "output.docx", SaveFormat.DOCX);
-		//ExEnd:LoadAndSaveHtmlFormFieldasContentControlinDOCX
+        //ExEnd:LoadAndSaveHtmlFormFieldasContentControlinDOCX
         System.out.println("Html form fields are exported as content control successfully.");
     }
 

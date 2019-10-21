@@ -10,18 +10,18 @@
  */
 package com.aspose.words.examples.programming_documents.document;
 
-import com.aspose.words.*;
-import com.aspose.words.Font;
+import com.aspose.words.ConvertUtil;
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.PageSetup;
 import com.aspose.words.examples.Utils;
-
-import java.awt.*;
 
 
 public class ConvertBetweenMeasurementUnits {
     public static void main(String[] args) throws Exception {
 
         //ExStart:ConvertBetweenMeasurementUnits
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(ConvertBetweenMeasurementUnits.class);
 
         // Open the document.
@@ -35,7 +35,7 @@ public class ConvertBetweenMeasurementUnits {
         pageSetup.setHeaderDistance(ConvertUtil.inchToPoint(0.2));
         pageSetup.setFooterDistance(ConvertUtil.inchToPoint(0.2));
         doc.save(dataDir + "output.doc");
-		//ExEnd:ConvertBetweenMeasurementUnits
+        //ExEnd:ConvertBetweenMeasurementUnits
 
     }
 }

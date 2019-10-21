@@ -1,6 +1,8 @@
 package com.aspose.words.examples.programming_documents.document;
 
-import com.aspose.words.*;
+import com.aspose.words.Document;
+import com.aspose.words.NodeType;
+import com.aspose.words.StructuredDocumentTag;
 import com.aspose.words.examples.Utils;
 
 /**

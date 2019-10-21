@@ -42,5 +42,6 @@ public class About {
     private void onOK() {
         aboutForm.dispose();
     }
+
     AboutForm aboutForm;
 }

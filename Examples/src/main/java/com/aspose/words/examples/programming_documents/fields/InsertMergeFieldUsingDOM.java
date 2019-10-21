@@ -7,7 +7,7 @@ public class InsertMergeFieldUsingDOM {
     public static void main(String[] args) throws Exception {
 
         //ExStart:InsertMergeFieldUsingDOM
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertMergeFieldUsingDOM.class);
 
         Document doc = new Document(dataDir + "in.doc");
@@ -44,7 +44,7 @@ public class InsertMergeFieldUsingDOM {
         field.update();
 
         doc.save(dataDir + "output.docx");
-		//ExEnd:InsertMergeFieldUsingDOM
+        //ExEnd:InsertMergeFieldUsingDOM
 
 
     }

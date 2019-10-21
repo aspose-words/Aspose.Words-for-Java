@@ -20,8 +20,7 @@ public class FindReplaceUsingMetaCharacters {
         replaceTextContaingMetaCharacters(dataDir);
     }
 
-    public static void metaCharactersInSearchPattern(String dataDir) throws Exception
-    {
+    public static void metaCharactersInSearchPattern(String dataDir) throws Exception {
         // ExStart:MetaCharactersInSearchPattern
         // Initialize a Document.
         Document doc = new Document();
@@ -48,8 +47,7 @@ public class FindReplaceUsingMetaCharacters {
         System.out.println("\nFind and Replace text using meta-characters has done successfully.\nFile saved at " + dataDir);
     }
 
-    public static void replaceTextContaingMetaCharacters(String dataDir) throws Exception
-    {
+    public static void replaceTextContaingMetaCharacters(String dataDir) throws Exception {
         // ExStart:ReplaceTextContaingMetaCharacters
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

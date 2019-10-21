@@ -1,21 +1,19 @@
 package com.aspose.words.examples.programming_documents.bookmarks;
 
-import com.aspose.words.Bookmark;
-import com.aspose.words.*;
-import com.aspose.words.Row;
-import  com.aspose.words.SaveFormat.*;
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.examples.Utils;
 
 
-public class InsertBookmarksWithWhiteSpaces
-{
+public class InsertBookmarksWithWhiteSpaces {
     /**
      * The main entry point for the application.
      */
     public static void main(String[] args) throws Exception {
 
         //ExStart:InsertBookmarksWithWhiteSpaces
-		// The path to the documents directory.
+        // The path to the documents directory.
         String dataDir = Utils.getDataDir(InsertBookmarksWithWhiteSpaces.class);
 
         Document doc = new Document();
@@ -40,6 +38,6 @@ public class InsertBookmarksWithWhiteSpaces
         doc.save(dataDir, options);
 
         System.out.println("\nBookmarks with white spaces inserted successfully.\nFile saved at " + dataDir);
-		//ExEnd:InsertBookmarksWithWhiteSpaces
+        //ExEnd:InsertBookmarksWithWhiteSpaces
     }
 }

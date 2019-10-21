@@ -134,6 +134,7 @@ public class ExBorder extends ApiExampleBase {
         //ExStart
         //ExFor:BorderCollection.Horizontal
         //ExFor:BorderCollection.Vertical
+        //ExFor:Cell.LastParagraph
         //ExSummary:Shows the difference between the Horizontal and Vertical properties of BorderCollection.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -183,7 +184,7 @@ public class ExBorder extends ApiExampleBase {
 
             row.appendChild(new Cell(doc));
             row.getLastCell().appendChild(new Paragraph(doc));
-            row.getLastCell().getFirstParagraph().appendChild(new Run(doc, "Vertical border to the left."));
+            row.getLastCell().getLastParagraph().appendChild(new Run(doc, "Vertical border to the left."));
             table.appendChild(row);
         }
 
