@@ -34,7 +34,6 @@ public class ExCellFormat extends ApiExampleBase
         //ExFor:DocumentBuilder.EndRow
         //ExFor:CellMerge
         //ExFor:CellFormat.VerticalMerge
-        //ExId:VerticalMerge
         //ExSummary:Creates a table with two columns with cells merged vertically in the first column.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -66,7 +65,6 @@ public class ExCellFormat extends ApiExampleBase
         //ExStart
         //ExFor:CellMerge
         //ExFor:CellFormat.HorizontalMerge
-        //ExId:HorizontalMerge
         //ExSummary:Creates a table with two rows with cells in the first row horizontally merged.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

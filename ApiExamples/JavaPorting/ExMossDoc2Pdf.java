@@ -5,10 +5,6 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-//ExStart
-//ExId:MossDoc2Pdf
-//ExSummary:The following is the complete code of the document converter.
-
 package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
@@ -17,6 +13,7 @@ import com.aspose.ms.java.collections.StringSwitchMap;
 import com.aspose.ms.System.IO.StreamWriter;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.Globalization.CultureInfo;
+import com.aspose.ms.System.Environment;
 import com.aspose.words.Document;
 import com.aspose.words.PdfSaveOptions;
 
@@ -50,7 +47,7 @@ public /*static*/ class ExMossDoc2Pdf
         try
         {
             gLog.writeLine(DateTime.getNow().toString(CultureInfo.getInvariantCulture()) + " Started");
-            gLog.writeLine(Environment.CommandLine);
+            gLog.writeLine(Environment.getCommandLine());
 
             parseCommandLine(args);
 
@@ -69,7 +66,7 @@ public /*static*/ class ExMossDoc2Pdf
         catch (Exception e)
         {
             gLog.writeLine(e.getMessage());
-            Environment.ExitCode = 100;
+            Environment.setExitCode(100);
         }
         finally
         {
@@ -132,5 +129,3 @@ public /*static*/ class ExMossDoc2Pdf
 	);
 
 }
-
-//ExEnd

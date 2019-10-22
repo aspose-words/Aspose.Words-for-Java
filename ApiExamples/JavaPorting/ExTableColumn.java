@@ -29,9 +29,6 @@ import com.aspose.ms.System.msConsole;
 @Test
 public class ExTableColumn extends ApiExampleBase
 {
-    //ExStart
-    //ExId:ColumnFacade
-    //ExSummary:Demonstrates a facade object for working with a column of a table.
     /// <summary>
     /// Represents a facade object for a column of a table in a Microsoft Word document.
     /// </summary>
@@ -133,22 +130,17 @@ public class ExTableColumn extends ApiExampleBase
         private int mColumnIndex;
         private /*final*/ Table mTable;
     }
-    //ExEnd
-
+    
     @Test
     public void removeColumnFromTable() throws Exception
     {
-        //ExStart
-        //ExId:RemoveTableColumn
-        //ExSummary:Shows how to remove a column from a table in a document.
         Document doc = new Document(getMyDir() + "Table.Document.doc");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
         // Get the third column from the table and remove it.
         Column column = Column.fromIndex(table, 2);
         column.remove();
-        //ExEnd
-
+        
         doc.save(getArtifactsDir() + "Table.RemoveColumn.doc");
 
         msAssert.areEqual(16, table.getChildNodes(NodeType.CELL, true).getCount());
@@ -162,9 +154,6 @@ public class ExTableColumn extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Table.Document.doc");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
-        //ExStart
-        //ExId:InsertNewColumn
-        //ExSummary:Shows how to insert a blank column into a table.
         // Get the second column in the table.
         Column column = Column.fromIndex(table, 1);
 
@@ -175,8 +164,7 @@ public class ExTableColumn extends ApiExampleBase
         // Add some text to each of the column cells.
         for (Cell cell : newColumn.getCells())
             cell.getFirstParagraph().appendChild(new Run(doc, "Column Text " + newColumn.indexOf(cell)));
-        //ExEnd
-
+        
         doc.save(getArtifactsDir() + "Table.InsertColumn.doc");
 
         msAssert.areEqual(24, table.getChildNodes(NodeType.CELL, true).getCount());
@@ -190,15 +178,11 @@ public class ExTableColumn extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Table.Document.doc");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
-        //ExStart
-        //ExId:TableColumnToTxt
-        //ExSummary:Shows how to get the plain text of a table column.
         // Get the first column in the table.
         Column column = Column.fromIndex(table, 0);
 
         // Print the plain text of the column to the screen.
         msConsole.writeLine(column.toTxt());
-        //ExEnd
 
         msAssert.areEqual("\r\nRow 1\r\nRow 2\r\nRow 3\r\n", column.toTxt());
     }

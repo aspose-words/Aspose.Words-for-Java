@@ -39,7 +39,6 @@ public class ExInsertDocument extends ApiExampleBase
     //ExFor:NodeImporter
     //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode)
     //ExFor:NodeImporter.ImportNode(Node, Boolean)
-    //ExId:InsertDocumentMain
     //ExSummary:This is a method that inserts contents of one document at a specified location in another document.
     /// <summary>
     /// Inserts content of the external document after the specified node.
@@ -90,9 +89,6 @@ public class ExInsertDocument extends ApiExampleBase
     @Test
     public void insertDocumentAtBookmark() throws Exception
     {
-        //ExStart
-        //ExId:InsertDocumentAtBookmark
-        //ExSummary:Invokes the InsertDocument method shown above to insert a document at a bookmark.
         Document mainDoc = new Document(getMyDir() + "InsertDocument1.doc");
         Document subDoc = new Document(getMyDir() + "InsertDocument2.doc");
 
@@ -100,7 +96,6 @@ public class ExInsertDocument extends ApiExampleBase
         insertDocument(bookmark.getBookmarkStart().getParentNode(), subDoc);
 
         mainDoc.save(getArtifactsDir() + "InsertDocumentAtBookmark.doc");
-        //ExEnd
     }
 
     @Test
@@ -108,7 +103,6 @@ public class ExInsertDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:CompositeNode.HasChildNodes
-        //ExId:InsertDocumentAtMailMerge
         //ExSummary:Demonstrates how to use the InsertDocument method to insert a document into a merge field during mail merge.
         // Open the main document.
         Document mainDoc = new Document(getMyDir() + "InsertDocument1.doc");
@@ -172,7 +166,6 @@ public class ExInsertDocument extends ApiExampleBase
         //ExFor:ReplacingArgs
         //ExFor:ReplacingArgs.MatchNode
         //ExFor:FindReplaceDirection
-        //ExId:InsertDocumentAtReplace
         //ExSummary:Shows how to insert content of one document into another during a customized find and replace operation.
         Document mainDoc = new Document(getMyDir() + "InsertDocument1.doc");
 

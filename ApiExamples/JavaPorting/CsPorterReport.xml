@@ -44,6 +44,7 @@
 		<File project="Examples" dir="" name="ExMailMerge" status="AUTO" />
 		<File project="Examples" dir="" name="ExMailMergeCustom" status="AUTO" />
 		<File project="Examples" dir="" name="ExMailMergeEvent" status="AUTO" />
+		<File project="Examples" dir="" name="ExMetered" status="NEW" />
 		<File project="Examples" dir="" name="ExMossDoc2Pdf" status="AUTO" />
 		<File project="Examples" dir="" name="ExMossRtf2Docx" status="AUTO" />
 		<File project="Examples" dir="" name="ExNestedMailMergeCustom" status="AUTO" />
@@ -67,7 +68,7 @@
 		<File project="Examples" dir="" name="ExSignDocumentCustom" status="AUTO" />
 		<File project="Examples" dir="" name="ExStructuredDocumentTag" status="AUTO" />
 		<File project="Examples" dir="" name="ExStyles" status="AUTO" />
-		<File project="Examples" dir="" name="ExSvgSaveOptions" status="NEW" />
+		<File project="Examples" dir="" name="ExSvgSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExTable" status="AUTO" />
 		<File project="Examples" dir="" name="ExTableColumn" status="AUTO" />
 		<File project="Examples" dir="" name="ExTabStopCollection" status="AUTO" />
@@ -76,8 +77,8 @@
 		<File project="Examples" dir="" name="ExUtilityClasses" status="AUTO" />
 		<File project="Examples" dir="" name="ExVariableCollection" status="AUTO" />
 		<File project="Examples" dir="" name="ExWarningInfoCollection" status="AUTO" />
-		<File project="Examples" dir="" name="ExXamlFixedSaveOptions" status="NEW" />
-		<File project="Examples" dir="" name="ExXamlFlowSaveOptions" status="NEW" />
+		<File project="Examples" dir="" name="ExXamlFixedSaveOptions" status="AUTO" />
+		<File project="Examples" dir="" name="ExXamlFlowSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExXpsSaveOptions" status="AUTO" />
 		<File project="Examples" dir="Properties" name="AssemblyInfo" status="EMPTY-IN-JAVA" />
 		<File project="Examples" dir="TestData" name="Common" status="AUTO" />

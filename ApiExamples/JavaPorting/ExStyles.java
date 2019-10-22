@@ -35,7 +35,6 @@ public class ExStyles extends ApiExampleBase
         //ExStart
         //ExFor:DocumentBase.Styles
         //ExFor:Style.Name
-        //ExId:GetStyles
         //ExSummary:Shows how to get access to the collection of styles defined in the document.
         Document doc = new Document();
         StyleCollection styles = doc.getStyles();
@@ -70,12 +69,9 @@ public class ExStyles extends ApiExampleBase
     public void changeStyleOfTocLevel() throws Exception
     {
         Document doc = new Document();
-        //ExStart
-        //ExId:ChangeTOCStyle
-        //ExSummary:Changes a formatting property used in the first level TOC style.
+        
         // Retrieve the style used for the first level of the TOC and change the formatting of the style.
         doc.getStyles().getByStyleIdentifier(StyleIdentifier.TOC_1).getFont().setBold(true);
-        //ExEnd
     }
 
     @Test
@@ -89,7 +85,6 @@ public class ExStyles extends ApiExampleBase
         //ExFor:TabStop.Alignment
         //ExFor:TabStop.Position
         //ExFor:TabStop.Leader
-        //ExId:ChangeTOCTabStops
         //ExSummary:Shows how to modify the position of the right tab stop in TOC related paragraphs.
         Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
 
@@ -167,7 +162,6 @@ public class ExStyles extends ApiExampleBase
 
         //ExStart
         //ExFor:StyleCollection.AddCopy
-        //ExId:OverwriteStyleDifferentDocument   
         //ExSummary:Demonstrates how to copy a style from one document to another and override an existing style in the destination document.
         // This is the style in the source document to copy to the destination document.
         Style srcStyle = srcDoc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1);

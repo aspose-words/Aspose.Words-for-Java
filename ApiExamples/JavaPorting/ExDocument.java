@@ -160,7 +160,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:License
         //ExFor:License.#ctor
         //ExFor:License.SetLicense(String)
-        //ExId:LicenseFromFileNoPath
         //ExSummary:Aspose.Words will attempt to find the license file in the embedded resources or in the assembly folders.
         License license = new License();
         license.setLicense("Aspose.Words.lic");
@@ -182,7 +181,6 @@ public class ExDocument extends ApiExampleBase
         {
             //ExStart
             //ExFor:License.SetLicense(Stream)
-            //ExId:LicenseFromStream
             //ExSummary:Initializes a license from a stream.
             License license = new License();
             license.setLicenseInternal(myStream);
@@ -197,7 +195,6 @@ public class ExDocument extends ApiExampleBase
     public void documentCtor() throws Exception
     {
         //ExStart
-        //ExId:DocumentCtor
         //ExFor:Document.#ctor(Boolean)
         //ExSummary:Shows how to create a blank document. Note the blank document contains one section and one paragraph.
         Document doc = new Document();
@@ -209,7 +206,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.#ctor(String)
-        //ExId:OpenFromFile
         //ExSummary:Opens a document from a file.
         // Open a document. The file is opened read only and only for the duration of the constructor.
         Document doc = new Document(getMyDir() + "Document.doc");
@@ -217,7 +213,6 @@ public class ExDocument extends ApiExampleBase
 
         //ExStart
         //ExFor:Document.Save(String)
-        //ExId:SaveToFile
         //ExSummary:Saves a document to a file.
         doc.save(getArtifactsDir() + "Document.OpenFromFile.doc");
         //ExEnd
@@ -226,12 +221,8 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void openAndSaveToFile() throws Exception
     {
-        //ExStart
-        //ExId:OpenAndSaveToFile
-        //ExSummary:Opens a document from a file and saves it to a different format
         Document doc = new Document(getMyDir() + "Document.doc");
         doc.save(getArtifactsDir() + "Document.html");
-        //ExEnd
     }
 
     @Test
@@ -239,7 +230,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.#ctor(Stream)
-        //ExId:OpenFromStream
         //ExSummary:Opens a document from a stream.
         // Open the stream. Read only access is enough for Aspose.Words to load a document.
         Stream stream = File.openRead(getMyDir() + "Document.doc");
@@ -262,7 +252,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:LoadOptions.#ctor
         //ExFor:LoadOptions.BaseUri
         //ExFor:ShapeBase.IsImage
-        //ExId:DocumentCtor_LoadOptions
         //ExSummary:Opens an HTML document with images from a stream using a base URI.
         Document doc = new Document();
         // We are opening this HTML file:      
@@ -408,7 +397,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.#ctor(String,LoadOptions)
         //ExFor:LoadOptions
         //ExFor:LoadOptions.#ctor(String)
-        //ExId:OpenEncrypted
         //ExSummary:Loads a Microsoft Word document encrypted with a password.
         Document doc = new Document(getMyDir() + "Document.LoadEncrypted.doc", new LoadOptions("qwerty"));
         //ExEnd
@@ -637,7 +625,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:SaveFormat
         //ExSummary:Converts from DOC to HTML format.
         Document doc = new Document(getMyDir() + "Document.doc");
-
         doc.save(getArtifactsDir() + "Document.ConvertToHtml.html", SaveFormat.HTML);
         //ExEnd
     }
@@ -649,7 +636,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.Save(String)
         //ExSummary:Converts from DOC to MHTML format.
         Document doc = new Document(getMyDir() + "Document.doc");
-
         doc.save(getArtifactsDir() + "Document.ConvertToMhtml.mht");
         //ExEnd
     }
@@ -657,13 +643,9 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void convertToTxt() throws Exception
     {
-        //ExStart
-        //ExId:ExtractContentSaveAsText
-        //ExSummary:Shows how to save a document in TXT format.
         Document doc = new Document(getMyDir() + "Document.doc");
-
         doc.save(getArtifactsDir() + "Document.ConvertToTxt.txt");
-        //ExEnd
+        
     }
 
     @Test
@@ -672,10 +654,8 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document
         //ExFor:Document.Save(String)
-        //ExId:Doc2PdfSave
         //ExSummary:Converts a whole document from DOC to PDF using default options.
         Document doc = new Document(getMyDir() + "Document.doc");
-
         doc.save(getArtifactsDir() + "Document.Doc2PdfSave.pdf");
         //ExEnd
     }
@@ -685,7 +665,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.Save(Stream,SaveFormat)
-        //ExId:SaveToStream
         //ExSummary:Shows how to save a document to a stream.
         Document doc = new Document(getMyDir() + "Document.doc");
 
@@ -704,16 +683,10 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void doc2EpubSave() throws Exception
     {
-        //ExStart
-        //ExId:Doc2EpubSave
-        //ExSummary:Converts a document to EPUB using default save options.
-
         // Open an existing document from disk.
         Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
-
         // Save the document in EPUB format.
         doc.save(getArtifactsDir() + "Document.EpubConversion.epub");
-        //ExEnd
     }
 
     @Test
@@ -726,7 +699,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:HtmlSaveOptions.DocumentSplitCriteria
         //ExFor:HtmlSaveOptions.ExportDocumentProperties
         //ExFor:HtmlSaveOptions.SaveFormat
-        //ExId:Doc2EpubSaveWithOptions
         //ExSummary:Converts a document to EPUB with save options specified.
         // Open an existing document from disk.
         Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
@@ -810,7 +782,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:HtmlSaveOptions
         //ExFor:HtmlSaveOptions.ExportTextInputFormFieldAsText
         //ExFor:HtmlSaveOptions.ImagesFolder
-        //ExId:SaveWithOptions
         //ExSummary:Shows how to set save options before saving a document to HTML.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
@@ -891,7 +862,6 @@ public class ExDocument extends ApiExampleBase
 
             args.FontStream = 
                 new FileStream(getArtifactsDir() + msString.split(args.getOriginalFileName(), Path.DirectorySeparatorChar).Last(), FileMode.CREATE);
-
             Assert.assertFalse(args.getKeepFontStreamOpen());
 
             // We can access the source document from here also
@@ -909,7 +879,6 @@ public class ExDocument extends ApiExampleBase
     //ExFor:NodeChangingArgs
     //ExFor:NodeChangingArgs.Node
     //ExFor:DocumentBase.NodeChangingCallback
-    //ExId:NodeChangingInDocument
     //ExSummary:Shows how to implement custom logic over node insertion in the document by changing the font of inserted HTML content.
     @Test //ExSkip
     public void testNodeChangingInDocument() throws Exception
@@ -989,9 +958,6 @@ public class ExDocument extends ApiExampleBase
     // the file not to be found.
     public void appendDocumentFromAutomation() throws Exception
     {
-        //ExStart
-        //ExId:AppendDocumentFromAutomation
-        //ExSummary:Shows how to join multiple documents together.
         // The document that the other documents will be appended to.
         Document doc = new Document();
         
@@ -1019,8 +985,6 @@ public class ExDocument extends ApiExampleBase
                 Assert.That(() => doc.getSections().get(i).getHeadersFooters().linkToPrevious(false),
                     Throws.<NullPointerException>TypeOf());
         }
-
-        //ExEnd
     }
 
     @Test
@@ -1033,7 +997,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:DigitalSignatureCollection.Count
         //ExFor:DigitalSignatureCollection.Item(Int32)
         //ExFor:DigitalSignatureType
-        //ExId:ValidateAllDocumentSignatures
         //ExSummary:Shows how to validate all signatures in a document.
         // Load the signed document.
         Document doc = new Document(getMyDir() + "Document.DigitalSignature.docx");
@@ -1065,7 +1028,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:DigitalSignature.SignTime
         //ExFor:DigitalSignature.SignatureType
         //ExFor:DigitalSignature.Certificate
-        //ExId:ValidateIndividualSignatures
         //ExSummary:Shows how to validate each signature in a document and display basic information about the signature.
         // Load the document which contains signature.
         Document doc = new Document(getMyDir() + "Document.DigitalSignature.docx");
@@ -1101,7 +1063,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:PdfDigitalSignatureDetails
         //ExFor:PdfSaveOptions.DigitalSignatureDetails
         //ExFor:PdfDigitalSignatureDetails.#ctor(CertificateHolder, String, String, DateTime)
-        //ExId:SignPDFDocument
         //ExSummary:Shows how to sign a generated PDF document using Aspose.Words.
         // Create a simple document from scratch.
         Document doc = new Document();
@@ -1336,7 +1297,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.Clone
-        //ExId:CloneDocument
         //ExSummary:Shows how to deep clone a document.
         Document doc = new Document(getMyDir() + "Document.doc");
         Document clone = doc.deepClone();
@@ -1368,7 +1328,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:FieldOptions
         //ExFor:FieldOptions.FieldUpdateCultureSource
         //ExFor:FieldUpdateCultureSource
-        //ExId:ChangeFieldUpdateCultureSource
         //ExSummary:Shows how to specify where the culture used for date formatting during field update and mail merge is chosen from.
         // Set the culture used during field update to the culture used by the field.
         doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
@@ -1388,7 +1347,6 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:CompositeNode.GetText
         //ExFor:Node.ToString(SaveFormat)
-        //ExId:NodeTxtExportDifferences
         //ExSummary:Shows the difference between calling the GetText and ToString methods on a node.
         Document doc = new Document();
 
@@ -1409,9 +1367,6 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void documentByteArray() throws Exception
     {
-        //ExStart
-        //ExId:DocumentToFromByteArray
-        //ExSummary:Shows how to convert a document object to an array of bytes and back into a document object again.
         // Load the document.
         Document doc = new Document(getMyDir() + "Document.doc");
 
@@ -1430,8 +1385,6 @@ public class ExDocument extends ApiExampleBase
 
         // Load the stream into a new document object.
         Document loadDoc = new Document(streamIn);
-        //ExEnd
-
         msAssert.areEqual(doc.getText(), loadDoc.getText());
     }
 
@@ -1440,7 +1393,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.Protect(ProtectionType,String)
-        //ExId:ProtectDocument
         //ExSummary:Shows how to protect a document.
         Document doc = new Document();
         doc.protect(ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password");
@@ -1448,7 +1400,6 @@ public class ExDocument extends ApiExampleBase
 
         //ExStart
         //ExFor:Document.Unprotect
-        //ExId:UnprotectDocument
         //ExSummary:Shows how to unprotect a document. Note that the password is not required.
         doc.unprotect();
         //ExEnd
@@ -1481,7 +1432,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.ProtectionType
-        //ExId:GetProtectionType
         //ExSummary:Shows how to get protection type currently set in the document.
         Document doc = new Document(getMyDir() + "Document.doc");
         /*ProtectionType*/int protectionType = doc.getProtectionType();
@@ -1520,7 +1470,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.UpdateTableLayout
-        //ExId:UpdateTableLayout
         //ExSummary:Shows how to update the layout of tables in a document.
         Document doc = new Document(getMyDir() + "Document.doc");
 
@@ -1553,7 +1502,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.UpdateFields
-        //ExId:UpdateFieldsInDocument
         //ExSummary:Shows how to update all fields in a document.
         Document doc = new Document(getMyDir() + "Document.doc");
         doc.updateFields();
@@ -1588,7 +1536,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.ExpandTableStylesToDirectFormatting
-        //ExId:TableStyleToDirectFormatting
         //ExSummary:Shows how to expand the formatting from styles onto the rows and cells of the table as direct formatting.
         Document doc = new Document(getMyDir() + "Table.TableStyle.docx");
 
@@ -1655,7 +1602,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:ViewOptions.ViewType
         //ExFor:ViewOptions.ZoomPercent
         //ExFor:ViewType
-        //ExId:SetZoom
         //ExSummary:The following code shows how to make sure the document is displayed at 50% zoom when opened in Microsoft Word.
         Document doc = new Document(getMyDir() + "Document.doc");
         doc.getViewOptions().setViewType(ViewType.PAGE_LAYOUT);
@@ -1670,7 +1616,6 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.Variables
         //ExFor:VariableCollection
-        //ExId:GetDocumentVariables
         //ExSummary:Shows how to enumerate over document variables.
         Document doc = new Document(getMyDir() + "Document.doc");
 

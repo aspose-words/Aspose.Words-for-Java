@@ -104,7 +104,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Font.Color
         //ExFor:Font.Underline
         //ExFor:DocumentBuilder.#ctor
-        //ExId:DocumentBuilderInsertText
         //ExSummary:Inserts formatted text using DocumentBuilder.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -133,7 +132,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:PageSetup.DifferentFirstPageHeaderFooter
         //ExFor:PageSetup.OddAndEvenPagesHeaderFooter
         //ExFor:BreakType
-        //ExId:DocumentBuilderMoveToHeaderFooter
         //ExSummary:Creates headers and footers in a document using DocumentBuilder.
         // Create a blank document.
         Document doc = new Document();
@@ -169,7 +167,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:DocumentBuilder.InsertField(String)
         //ExFor:DocumentBuilder.MoveToMergeField(String, Boolean, Boolean)
-        //ExId:DocumentBuilderInsertField
         //ExSummary:Shows how to insert merge fields and move between them.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -317,16 +314,12 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderAndSave() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderAndSave
-        //ExSummary:Shows how to create build a document using a document builder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("Hello World!");
 
         doc.save(getArtifactsDir() + "DocumentBuilderAndSave.docx");
-        //ExEnd
     }
 
     @Test
@@ -338,7 +331,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Font.Color
         //ExFor:Font.Underline
         //ExFor:Underline
-        //ExId:DocumentBuilderInsertHyperlink
         //ExSummary:Inserts a hyperlink into a document using DocumentBuilder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -438,7 +430,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:DocumentBuilder
         //ExFor:DocumentBuilder.InsertHtml(String)
-        //ExId:DocumentBuilderInsertHtml
         //ExSummary:Inserts HTML into a document. The formatting specified in the HTML is applied.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -692,7 +683,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:ParagraphFormat.StyleIdentifier
         //ExFor:DocumentBuilder.InsertBreak
         //ExFor:BreakType
-        //ExId:InsertTableOfContents
         //ExSummary:Demonstrates how to insert a Table of contents (TOC) into a document using heading styles as entries.
         // Use a blank document
         Document doc = new Document();
@@ -835,7 +825,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:TableStyleOptions
         //ExFor:Table.AutoFit
         //ExFor:AutoFitBehavior
-        //ExId:InsertTableWithTableStyle
         //ExSummary:Shows how to build a new table with a table style applied.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -895,7 +884,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:RowFormat.HeadingFormat
-        //ExId:InsertTableWithHeadingFormat
         //ExSummary:Shows how to build a table which include heading rows that repeat on subsequent pages. 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -940,7 +928,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Table.PreferredWidth
         //ExFor:PreferredWidth.FromPercent
         //ExFor:PreferredWidth
-        //ExId:TablePreferredWidth
         //ExSummary:Shows how to set a table to auto fit to 50% of the page width.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -980,7 +967,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:PreferredWidth.FromPercent
         //ExFor:PreferredWidth.GetHashCode
         //ExFor:PreferredWidth.ToString
-        //ExId:CellPreferredWidths
         //ExSummary:Shows how to set the different preferred width settings.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1029,9 +1015,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void insertTableFromHtml() throws Exception
     {
-        //ExStart
-        //ExId:InsertTableFromHtml
-        //ExSummary:Shows how to insert a table in a document from a String containing HTML tags.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1041,7 +1024,6 @@ public class ExDocumentBuilder extends ApiExampleBase
                            "<tr>" + "<td>Row 2, Cell 2</td>" + "<td>Row 2, Cell 2</td>" + "</tr>" + "</table>");
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertTableFromHtml.doc");
-        //ExEnd
 
         // Verify the table was constructed properly.
         msAssert.areEqual(1, doc.getChildNodes(NodeType.TABLE, true).getCount());
@@ -1054,7 +1036,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:Cell.FirstParagraph
-        //ExId:BuildNestedTableUsingDocumentBuilder
         //ExSummary:Shows how to insert a nested table using DocumentBuilder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1097,7 +1078,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:DocumentBuilder
         //ExFor:DocumentBuilder.Write
         //ExFor:DocumentBuilder.InsertCell
-        //ExId:BuildSimpleTable
         //ExSummary:Shows how to create a simple table using DocumentBuilder with default formatting.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1148,7 +1128,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Shading.BackgroundPatternColor
         //ExFor:DocumentBuilder.ParagraphFormat
         //ExFor:DocumentBuilder.Font
-        //ExId:BuildFormattedTable
         //ExSummary:Shows how to create a formatted table using DocumentBuilder
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1243,7 +1222,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:BorderCollection.Right
         //ExFor:BorderCollection.Top
         //ExFor:BorderCollection.Bottom
-        //ExId:TableBordersAndShading
         //ExSummary:Shows how to format table and cell with different borders and shadings
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1356,27 +1334,19 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderCtor() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderCtor
-        //ExSummary:Shows how to create a simple document using a document builder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("Hello World!");
-        //ExEnd
     }
 
     @Test
     public void documentBuilderCursorPosition() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderCursorPosition
-        //ExSummary:Shows how to access the current node in a document builder.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         Node curNode = builder.getCurrentNode();
         Paragraph curParagraph = builder.getCurrentParagraph();
-        //ExEnd
     }
 
     @Test
@@ -1385,7 +1355,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:Story.LastParagraph
         //ExFor:DocumentBuilder.MoveTo(Node)
-        //ExId:DocumentBuilderMoveToNode
         //ExSummary:Shows how to move a cursor position to a specified node.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1397,9 +1366,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderMoveToDocumentStartEnd() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderMoveToDocumentStartEnd
-        //ExSummary:Shows how to move a cursor position to the beginning or end of a document.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1408,22 +1374,17 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.moveToDocumentStart();
         builder.writeln("This is the beginning of the document.");
-        //ExEnd
     }
 
     @Test
     public void documentBuilderMoveToSection() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderMoveToSection
-        //ExSummary:Shows how to move a cursor position to the specified section.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Parameters are 0-index. Moves to third section.
         builder.moveToSection(2);
         builder.writeln("This is the 3rd section.");
-        //ExEnd
     }
 
     @Test
@@ -1431,7 +1392,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.MoveToParagraph
-        //ExId:DocumentBuilderMoveToParagraph
         //ExSummary:Shows how to move a cursor position to the specified paragraph.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1447,7 +1407,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.MoveToCell
-        //ExId:DocumentBuilderMoveToTableCell
         //ExSummary:Shows how to move a cursor position to the specified table cell.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1461,15 +1420,11 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderMoveToBookmark() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderMoveToBookmark
-        //ExSummary:Shows how to move a cursor position to a bookmark.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.moveToBookmark("CoolBookmark");
         builder.writeln("This is a very cool bookmark.");
-        //ExEnd
     }
 
     @Test
@@ -1477,7 +1432,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.MoveToBookmark(String, Boolean, Boolean)
-        //ExId:DocumentBuilderMoveToBookmarkEnd
         //ExSummary:Shows how to move a cursor position to just after the bookmark end.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1490,15 +1444,11 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderMoveToMergeField() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderMoveToMergeField
-        //ExSummary:Shows how to move the cursor to a position just beyond the specified merge field.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.moveToMergeField("NiceMergeField");
         builder.writeln("This is a very nice merge field.");
-        //ExEnd
     }
 
     @Test
@@ -1512,7 +1462,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:ParagraphFormat.AddSpaceBetweenFarEastAndAlpha
         //ExFor:ParagraphFormat.AddSpaceBetweenFarEastAndDigit
         //ExFor:Paragraph.IsEndOfDocument
-        //ExId:DocumentBuilderInsertParagraph
         //ExSummary:Shows how to insert a paragraph into the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1560,7 +1509,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:TextOrientation
         //ExFor:Table.AutoFit
         //ExFor:AutoFitBehavior
-        //ExId:DocumentBuilderBuildTable
         //ExSummary:Shows how to build a formatted table that contains 2 rows and 2 columns.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1624,9 +1572,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderInsertBreak() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderInsertBreak
-        //ExSummary:Shows how to insert page breaks into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1637,20 +1582,15 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.insertBreak(BreakType.PAGE_BREAK);
 
         builder.writeln("This is page 3.");
-        //ExEnd
     }
 
     @Test
     public void documentBuilderInsertInlineImage() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderInsertInlineImage
-        //ExSummary:Shows how to insert an inline image at the cursor position into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.insertImage(getImageDir() + "Watermark.png");
-        //ExEnd
     }
 
     @Test
@@ -1658,7 +1598,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
-        //ExId:DocumentBuilderInsertFloatingImage
         //ExSummary:Shows how to insert a floating image from a file or URL.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1692,7 +1631,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
-        //ExId:DocumentBuilderInsertFloatingImageSourceSize
         //ExSummary:Shows how to insert a floating image from a file or URL and retain the original image size in the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1708,16 +1646,12 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderInsertBookmark() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderInsertBookmark
-        //ExSummary:Shows how to insert a bookmark into a document using a document builder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.startBookmark("FineBookmark");
         builder.writeln("This is just a fine bookmark.");
         builder.endBookmark("FineBookmark");
-        //ExEnd
     }
 
     @Test
@@ -1725,7 +1659,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertTextInput
-        //ExId:DocumentBuilderInsertTextInputFormField
         //ExSummary:Shows how to insert a text input form field into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1739,7 +1672,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertComboBox
-        //ExId:DocumentBuilderInsertComboBoxFormField
         //ExSummary:Shows how to insert a combobox form field into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1752,9 +1684,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderInsertToc() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderInsertTOC
-        //ExSummary:Shows how to insert a Table of Contents field into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1764,7 +1693,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         // The newly inserted table of contents will be initially empty.
         // It needs to be populated by updating the fields in the document.
         doc.updateFields();
-        //ExEnd
     }
 
     @Test (description = "WORDSNET-16868")
@@ -1858,9 +1786,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderSetFontFormatting() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderSetFontFormatting
-        //ExSummary:Shows how to set font formatting.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1876,7 +1801,6 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // Output formatted text
         builder.writeln("I'm a very nice formatted String.");
-        //ExEnd
     }
 
     @Test
@@ -1885,7 +1809,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:ParagraphFormat.RightIndent
         //ExFor:ParagraphFormat.LeftIndent
-        //ExId:DocumentBuilderSetParagraphFormatting
         //ExSummary:Shows how to set paragraph formatting.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1917,7 +1840,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:CellFormat.BottomPadding
         //ExFor:DocumentBuilder.StartTable
         //ExFor:DocumentBuilder.EndTable
-        //ExId:DocumentBuilderSetCellFormatting
         //ExSummary:Shows how to create a table that contains a single formatted cell.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1951,7 +1873,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Table.RightPadding
         //ExFor:Table.TopPadding
         //ExFor:Table.BottomPadding
-        //ExId:DocumentBuilderSetRowFormatting
         //ExSummary:Shows how to create a table that contains a single cell and apply row formatting.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1979,9 +1900,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderSetListFormatting() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderSetListFormatting
-        //ExSummary:Shows how to build a multilevel list.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2009,15 +1927,11 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.writeln("Item 3");
 
         builder.getListFormat().removeNumbers();
-        //ExEnd
     }
 
     @Test
     public void documentBuilderSetSectionFormatting() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderSetSectionFormatting
-        //ExSummary:Shows how to set such properties as page size and orientation for the current section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2025,7 +1939,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getPageSetup().setOrientation(Orientation.LANDSCAPE);
         builder.getPageSetup().setLeftMargin(50.0);
         builder.getPageSetup().setPaperSize(PaperSize.PAPER_10_X_14);
-        //ExEnd
     }
 
     @Test
@@ -2064,9 +1977,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderApplyParagraphStyle() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderApplyParagraphStyle
-        //ExSummary:Shows how to apply a paragraph style.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2074,7 +1984,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.TITLE);
 
         builder.write("Hello");
-        //ExEnd
     }
 
     @Test
@@ -2088,7 +1997,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Shading.Texture
         //ExFor:Shading.BackgroundPatternColor
         //ExFor:Shading.ForegroundPatternColor
-        //ExId:DocumentBuilderApplyBordersAndShading
         //ExSummary:Shows how to apply borders and shading to a paragraph.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

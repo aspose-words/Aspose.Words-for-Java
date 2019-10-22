@@ -85,6 +85,7 @@ import com.aspose.ms.System.Drawing.Rectangle;
 import java.awt.Graphics2D;
 import org.testng.annotations.DataProvider;
 
+
 /// <summary>
 /// Examples using shapes in documents.
 /// </summary>
@@ -638,7 +639,6 @@ public class ExShape extends ApiExampleBase
         //ExFor:Ole.Forms2OleControlCollection
         //ExFor:Ole.Forms2OleControlCollection.Count
         //ExFor:Ole.Forms2OleControlCollection.Item(Int32)
-        //ExFor:Ole.NamespaceDoc
         //ExSummary:Shows how to access an OLE control embedded in a document and its child controls.
         // Open a document that contains a Microsoft Forms OLE control with child controls
         Document doc = new Document(getMyDir() + "Shape.Ole.ControlCollection.docm");
