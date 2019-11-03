@@ -49,6 +49,7 @@ import com.aspose.words.Run;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.msString;
+import com.aspose.words.PdfSaveOptions;
 
 
 /// <summary>
@@ -893,5 +894,37 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         msAssert.areEqual(SdtType.BUILDING_BLOCK_GALLERY, buildingBlockSdt.getSdtType());
         msAssert.areEqual("Table of Contents", buildingBlockSdt.getBuildingBlockGallery());
         msAssert.areEqual("Built-in", buildingBlockSdt.getBuildingBlockCategory());
+    }
+
+    @Test
+    public void updateSdtContent() throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.UpdateSdtContent
+        //ExSummary:Shows how structured document tags can be updated while saving to .pdf.
+        Document doc = new Document();
+
+        // Insert two StructuredDocumentTags; a date and a drop down list 
+        StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.DATE, MarkupLevel.BLOCK);
+        tag.setFullDateInternal(DateTime.getNow());
+
+        doc.getFirstSection().getBody().appendChild(tag);
+
+        tag = new StructuredDocumentTag(doc, SdtType.DROP_DOWN_LIST, MarkupLevel.BLOCK);
+        tag.getListItems().add(new SdtListItem("Value 1"));
+        tag.getListItems().add(new SdtListItem("Value 2"));
+        tag.getListItems().add(new SdtListItem("Value 3"));
+        tag.getListItems().setSelectedValue(tag.getListItems().get(1));
+
+        doc.getFirstSection().getBody().appendChild(tag);
+        
+        // We've selected default values for both tags
+        // We can save those values in the document without immediately updating the tags, leaving them in their default state
+        // by using a SaveOptions object with this flag set
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setUpdateSdtContent(false);
+
+        doc.save(getArtifactsDir() + "UpdateSdtContent.pdf", options);
+        //ExEnd
     }
 }

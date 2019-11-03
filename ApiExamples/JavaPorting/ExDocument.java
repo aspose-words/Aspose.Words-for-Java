@@ -59,12 +59,11 @@ import java.io.FileNotFoundException;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignature;
 import com.aspose.words.CertificateHolder;
-import com.aspose.words.PdfDigitalSignatureDetails;
-import com.aspose.ms.System.DateTime;
 import org.bouncycastle.jcajce.provider.keystore.pkcs12.PKCS12KeyStoreSpi;
 import java.util.Iterator;
 import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.words.SignOptions;
+import com.aspose.ms.System.DateTime;
 import com.aspose.words.StyleIdentifier;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -140,6 +139,8 @@ import com.aspose.words.VbaProject;
 import com.aspose.words.VbaModuleCollection;
 import com.aspose.words.VbaModule;
 import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
+import com.aspose.words.SaveOutputParameters;
+import com.aspose.words.WordML2003SaveOptions;
 import org.testng.annotations.DataProvider;
 
 
@@ -699,6 +700,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:HtmlSaveOptions.DocumentSplitCriteria
         //ExFor:HtmlSaveOptions.ExportDocumentProperties
         //ExFor:HtmlSaveOptions.SaveFormat
+        //ExFor:SaveOptions
+        //ExFor:SaveOptions.SaveFormat
         //ExSummary:Converts a document to EPUB with save options specified.
         // Open an existing document from disk.
         Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
@@ -1055,33 +1058,6 @@ public class ExDocument extends ApiExampleBase
                     digitalSig.getCertificateHolder().getCertificateInternal().getIssuerName().Name.contains("VeriSign"));
     }
 
-    @Test (description = "WORDSNET-16868")
-    public void signPdfDocument() throws Exception
-    {
-        //ExStart
-        //ExFor:PdfSaveOptions
-        //ExFor:PdfDigitalSignatureDetails
-        //ExFor:PdfSaveOptions.DigitalSignatureDetails
-        //ExFor:PdfDigitalSignatureDetails.#ctor(CertificateHolder, String, String, DateTime)
-        //ExSummary:Shows how to sign a generated PDF document using Aspose.Words.
-        // Create a simple document from scratch.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.writeln("Test Signed PDF.");
-
-        // Load the certificate from disk.
-        // The other constructor overloads can be used to load certificates from different locations.
-        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
-
-        // Pass the certificate and details to the save options class to sign with.
-        PdfSaveOptions options = new PdfSaveOptions();
-        options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", DateTime.getNow()));
-
-        // Save the document as PDF with the digital signature set.
-        doc.save(getArtifactsDir() + "Document.Signed.pdf", options);
-        //ExEnd
-    }
-
     @Test
     public void certificateHolderCreate() throws Exception
     {
@@ -1259,19 +1235,6 @@ public class ExDocument extends ApiExampleBase
         // Verify that runs were joined in the document.
         Assert.That(runsAfter, Is.LessThan(runsBefore));
         msAssert.areNotEqual(0, joinCount);
-    }
-
-    @Test
-    public void detachTemplate() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.AttachedTemplate
-        //ExSummary:Opens a document, makes sure it is no longer attached to a template and saves the document.
-        Document doc = new Document(getMyDir() + "Document.doc");
-
-        doc.setAttachedTemplate("");
-        doc.save(getArtifactsDir() + "Document.DetachTemplate.doc");
-        //ExEnd
     }
 
     @Test
@@ -2204,18 +2167,19 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.Save(Stream, String, Saving.SaveOptions)
+        //ExFor:SaveOptions.UseAntiAliasing
+        //ExFor:SaveOptions.UseHighQualityRendering
         //ExSummary:Improve the quality of a rendered document with SaveOptions.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.getFont().setSize(60.0);
-
         builder.writeln("Some text.");
 
         SaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
+        msAssert.areEqual(false, options.getUseAntiAliasing());
 
-        options.setUseAntiAliasing(false);
-        doc.save(getArtifactsDir() + "Document.SaveOptionsLowQuality.jpg", options);
+        doc.save(getArtifactsDir() + "Document.SaveOptionsDefault.jpg", options);
 
         options.setUseAntiAliasing(true);
         options.setUseHighQualityRendering(true);
@@ -2466,7 +2430,31 @@ public class ExDocument extends ApiExampleBase
         // Any changes to the styles in this template will be propagated to those styles in the document
         doc.setAutomaticallyUpdateSyles(true);
 
-        doc.save(getArtifactsDir() + "TemplateStylesUpdating.docx");
+        doc.save(getArtifactsDir() + "Document.TemplateStylesUpdating.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void defaultTemplate() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.AttachedTemplate
+        //ExFor:SaveOptions.CreateSaveOptions(String)
+        //ExFor:SaveOptions.DefaultTemplate
+        //ExSummary:Shows how to set a default .docx document template.
+        Document doc = new Document();
+
+        // If we set this flag to true while not having a template attached to the document,
+        // there will be no effect because there is no template document to draw style changes from
+        doc.setAutomaticallyUpdateSyles(true);
+        Assert.That(doc.getAttachedTemplate(), Is.Empty);
+
+        // We can set a default template document filename in a SaveOptions object to make it apply to
+        // all documents we save with it that have no AttachedTemplate value
+        SaveOptions options = SaveOptions.createSaveOptions("Document.DefaultTemplate.docx");
+        options.setDefaultTemplate(getMyDir() + "Document.BusinessBrochureTemplate.dotx");
+
+        doc.save(getArtifactsDir() + "Document.DefaultTemplate.docx", options);
         //ExEnd
     }
 
@@ -3583,7 +3571,43 @@ public class ExDocument extends ApiExampleBase
         doc.getLayoutOptions().setTextShaperFactory(HarfBuzzTextShaperFactory.getInstance());
 
         // Render the document to PDF format
-        doc.save(getArtifactsDir() + "OpenType.Document.pdf");
+        doc.save(getArtifactsDir() + "Document.OpenType.pdf");
+        //ExEnd
+    }
+
+    @Test
+    public void saveOutputParameters() throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOutputParameters
+        //ExFor:SaveOutputParameters.ContentType
+        //ExSummary:Shows how to verify Content-Type strings from save output parameters.
+        Document doc = new Document(getMyDir() + "Document.doc");
+
+        SaveOutputParameters parameters = doc.save(getArtifactsDir() + "Document.SaveOutputParameters.doc");
+        msAssert.areEqual("application/msword", parameters.getContentType());
+
+        parameters = doc.save(getArtifactsDir() + "Document.SaveOutputParameters.pdf");
+        msAssert.areEqual("application/pdf", parameters.getContentType());
+        //ExEnd
+    }
+
+    @Test
+    public void wordML2003SaveOptions() throws Exception
+    {
+        //ExStart
+        //ExFor:WordML2003SaveOptions
+        //ExFor:WordML2003SaveOptions.SaveFormat
+        //ExSummary:Shows how to save to a .wml document while applying save options.
+        Document doc = new Document(getMyDir() + "Document.doc");
+
+        WordML2003SaveOptions options = new WordML2003SaveOptions();
+        {
+            options.setSaveFormat(SaveFormat.WORD_ML);
+            options.setMemoryOptimization(true);
+        }
+
+        doc.save(getArtifactsDir() + "Document.WordML2003SaveOptions.wml", options);
         //ExEnd
     }
 }

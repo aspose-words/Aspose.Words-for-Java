@@ -333,12 +333,18 @@ public class ExImage extends ApiExampleBase
         msAssert.areEqual(6, doc.getChildNodes(NodeType.SHAPE, true).getCount());
 
         //ExStart
-        //ExFor:Node.NextPreOrder
+        //ExFor:Node.NextPreOrder(Node)
+        //ExFor:Node.PreviousPreOrder(Node)
         //ExSummary:Shows how to delete all images from a document using pre-order tree traversal.
         Node curNode = doc;
         while (curNode != null)
         {
             Node nextNode = curNode.nextPreOrder(doc);
+
+            if (curNode.previousPreOrder(doc) != null && nextNode != null)
+            {
+                msAssert.areEqual(curNode, nextNode.previousPreOrder(doc));
+            }
 
             if (((curNode.getNodeType()) == (NodeType.SHAPE)))
             {

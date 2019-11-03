@@ -43,6 +43,10 @@ import com.aspose.words.FieldToc;
 import com.aspose.words.FieldType;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Text.Encoding;
+import com.aspose.words.IImageSavingCallback;
+import com.aspose.words.ImageSavingArgs;
+import com.aspose.ms.System.msConsole;
+import com.aspose.words.LayoutCollector;
 import org.testng.annotations.DataProvider;
 
 
@@ -1044,4 +1048,49 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.html", options);
         //ExEnd
     }
+
+    //ExStart
+    //ExFor:ImageSavingArgs.CurrentShape
+    //ExFor:ImageSavingArgs.Document
+    //ExFor:ImageSavingArgs.ImageStream
+    //ExFor:ImageSavingArgs.IsImageAvailable
+    //ExFor:ImageSavingArgs.KeepImageStreamOpen
+    //ExSummary:Shows how to involve an image saving callback in an .html conversion process.
+    @Test //ExSkip
+    public void imageSavingCallback() throws Exception
+    {
+        // Open a document which contains shapes with images
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // Create a HtmlSaveOptions object with a custom image saving callback that will print image information
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        options.setImageSavingCallback(new ImageShapePrinter());
+       
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ImageSavingCallback.html", options);
+    }
+
+    /// <summary>
+    /// Prints information of all images that are about to be saved from within a document to image files
+    /// </summary>
+    private static class ImageShapePrinter implements IImageSavingCallback
+    {
+        public void /*IImageSavingCallback.*/imageSaving(ImageSavingArgs args)
+        {
+            args.setKeepImageStreamOpen(false);
+            Assert.assertTrue(args.isImageAvailable());
+
+            msConsole.writeLine($"{args.Document.OriginalFileName.Split('\\').Last()} Image #{++mImageCount}");
+
+            LayoutCollector layoutCollector = new LayoutCollector(args.getDocument());
+
+            msConsole.writeLine($"\tOn page:\t{layoutCollector.GetStartPageIndex(args.CurrentShape)}");
+            msConsole.writeLine($"\tDimensions:\t{args.CurrentShape.Bounds.ToString()}");
+            msConsole.writeLine($"\tAlignment:\t{args.CurrentShape.VerticalAlignment}");
+            msConsole.writeLine($"\tWrap type:\t{args.CurrentShape.WrapType}");
+            msConsole.writeLine($"Output filename:\t{args.ImageFileName}\n");
+        }
+
+        private int mImageCount;
+    }
+    //ExEnd
 }

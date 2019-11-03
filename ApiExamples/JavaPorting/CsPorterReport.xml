@@ -44,7 +44,7 @@
 		<File project="Examples" dir="" name="ExMailMerge" status="AUTO" />
 		<File project="Examples" dir="" name="ExMailMergeCustom" status="AUTO" />
 		<File project="Examples" dir="" name="ExMailMergeEvent" status="AUTO" />
-		<File project="Examples" dir="" name="ExMetered" status="NEW" />
+		<File project="Examples" dir="" name="ExMetered" status="AUTO" />
 		<File project="Examples" dir="" name="ExMossDoc2Pdf" status="AUTO" />
 		<File project="Examples" dir="" name="ExMossRtf2Docx" status="AUTO" />
 		<File project="Examples" dir="" name="ExNestedMailMergeCustom" status="AUTO" />
@@ -56,12 +56,14 @@
 		<File project="Examples" dir="" name="ExPclSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExPdfSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExProperties" status="AUTO" />
+		<File project="Examples" dir="" name="ExPsSaveOptions" status="NEW" />
 		<File project="Examples" dir="" name="ExRange" status="AUTO" />
 		<File project="Examples" dir="" name="ExRenameMergeFields" status="AUTO" />
 		<File project="Examples" dir="" name="ExRendering" status="AUTO" />
 		<File project="Examples" dir="" name="ExReplaceHyperlinks" status="AUTO" />
 		<File project="Examples" dir="" name="ExReportingEngine" status="AUTO" />
 		<File project="Examples" dir="" name="ExRtfLoadOptions" status="AUTO" />
+		<File project="Examples" dir="" name="ExRtfSaveOptions" status="NEW" />
 		<File project="Examples" dir="" name="ExSavingCallback" status="AUTO" />
 		<File project="Examples" dir="" name="ExSection" status="AUTO" />
 		<File project="Examples" dir="" name="ExShape" status="AUTO" />
