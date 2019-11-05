@@ -164,10 +164,6 @@ public class ExInsertDocument extends ApiExampleBase {
         }
     }
 
-    @Test
-    public void insertDocumentAtReplaceCaller() throws Exception {
-        insertDocumentAtReplace();
-    }
 
     //ExStart
     //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
@@ -178,6 +174,7 @@ public class ExInsertDocument extends ApiExampleBase {
     //ExFor:ReplacingArgs.MatchNode
     //ExFor:FindReplaceDirection
     //ExSummary:Shows how to insert content of one document into another during a customized find and replace operation.
+    @Test //ExSkip
     public void insertDocumentAtReplace() throws Exception {
         Document mainDoc = new Document(getMyDir() + "InsertDocument1.doc");
 

@@ -14,6 +14,8 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.SaveFormat;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 @Test
 public class ExDocSaveOptions extends ApiExampleBase {
     @Test
@@ -40,6 +42,26 @@ public class ExDocSaveOptions extends ApiExampleBase {
         options.setSaveRoutingSlip(true);
 
         doc.save(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", options);
+        //ExEnd
+    }
+
+    @Test
+    public void tempFolder() throws Exception {
+        //ExStart
+        //ExFor:SaveOptions.TempFolder
+        //ExSummary:Shows how to save a document using temporary files.
+        Document doc = new Document(getMyDir() + "Rendering.doc");
+
+        // We can use a SaveOptions object to set the saving method of a document from a MemoryStream to temporary files
+        // While saving, the files will briefly pop up in the folder we set as the TempFolder attribute below
+        // Doing this will free up space in the memory that the stream would usually occupy
+        DocSaveOptions options = new DocSaveOptions();
+        options.setTempFolder(getArtifactsDir() + "TempFiles");
+
+        // Ensure that the directory exists and save
+        new File(options.getTempFolder()).mkdir();
+
+        doc.save(getArtifactsDir() + "DocSaveOptions.TempFolder.doc", options);
         //ExEnd
     }
 }

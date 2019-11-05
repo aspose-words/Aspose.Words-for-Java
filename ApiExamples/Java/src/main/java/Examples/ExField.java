@@ -1525,24 +1525,24 @@ public class ExField extends ApiExampleBase {
         fieldToc.setPreserveTabs(true);
         fieldToc.setUseParagraphOutlineLevel(false);
 
-        insertHeading(builder, "First entry", "Heading 1");
+        insertNewPageWithHeading(builder, "First entry", "Heading 1");
         builder.writeln("Paragraph text.");
-        insertHeading(builder, "Second entry", "Heading 1");
-        insertHeading(builder, "Third entry", "Quote");
-        insertHeading(builder, "Fourth entry", "Intense Quote");
+        insertNewPageWithHeading(builder, "Second entry", "Heading 1");
+        insertNewPageWithHeading(builder, "Third entry", "Quote");
+        insertNewPageWithHeading(builder, "Fourth entry", "Intense Quote");
 
         // These two headings will have the page numbers omitted because they are within the "2-5" range
-        insertHeading(builder, "Fifth entry", "Heading 2");
-        insertHeading(builder, "Sixth entry", "Heading 3");
+        insertNewPageWithHeading(builder, "Fifth entry", "Heading 2");
+        insertNewPageWithHeading(builder, "Sixth entry", "Heading 3");
 
         // This entry will be omitted because "Heading 4" is outside of the "1-3" range we set earlier
-        insertHeading(builder, "Seventh entry", "Heading 4");
+        insertNewPageWithHeading(builder, "Seventh entry", "Heading 4");
 
         builder.endBookmark("MyBookmark");
         builder.writeln("Paragraph text.");
 
         // This entry will be omitted because it is outside the bookmark specified by the TOC
-        insertHeading(builder, "Eighth entry", "Heading 1");
+        insertNewPageWithHeading(builder, "Eighth entry", "Heading 1");
 
         Assert.assertEquals(fieldToc.getFieldCode(), " TOC  \\b MyBookmark \\t \"Quote; 6; Intense Quote; 7\" \\o 1-3 \\n 2-5 \\p - \\h \\x \\w");
 
@@ -1555,7 +1555,7 @@ public class ExField extends ApiExampleBase {
     /// Start a new page and insert a paragraph of a specified style
     /// </summary>
     @Test(enabled = false)
-    public void insertHeading(final DocumentBuilder builder, final String captionText, final String styleName) {
+    public void insertNewPageWithHeading(final DocumentBuilder builder, final String captionText, final String styleName) {
         builder.insertBreak(BreakType.PAGE_BREAK);
         String originalStyle = builder.getParagraphFormat().getStyleName();
         builder.getParagraphFormat().setStyle(builder.getDocument().getStyles().get(styleName));
@@ -4952,6 +4952,7 @@ public class ExField extends ApiExampleBase {
     @Test
     public void bidiOutline() throws Exception {
         //ExStart
+        //ExFor:FieldBidiOutline
         //ExFor:FieldShape
         //ExFor:FieldShape.Text
         //ExFor:ParagraphFormat.Bidi

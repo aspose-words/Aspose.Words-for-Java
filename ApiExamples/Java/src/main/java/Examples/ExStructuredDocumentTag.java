@@ -16,6 +16,7 @@ import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.UUID;
 
@@ -817,5 +818,36 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Assert.assertEquals(SdtType.BUILDING_BLOCK_GALLERY, buildingBlockSdt.getSdtType());
         Assert.assertEquals("Table of Contents", buildingBlockSdt.getBuildingBlockGallery());
         Assert.assertEquals("Built-in", buildingBlockSdt.getBuildingBlockCategory());
+    }
+
+    @Test
+    public void updateSdtContent() throws Exception {
+        //ExStart
+        //ExFor:SaveOptions.UpdateSdtContent
+        //ExSummary:Shows how structured document tags can be updated while saving to .pdf.
+        Document doc = new Document();
+
+        // Insert two StructuredDocumentTags; a date and a drop down list
+        StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.DATE, MarkupLevel.BLOCK);
+        tag.setFullDate(new Date());
+
+        doc.getFirstSection().getBody().appendChild(tag);
+
+        tag = new StructuredDocumentTag(doc, SdtType.DROP_DOWN_LIST, MarkupLevel.BLOCK);
+        tag.getListItems().add(new SdtListItem("Value 1"));
+        tag.getListItems().add(new SdtListItem("Value 2"));
+        tag.getListItems().add(new SdtListItem("Value 3"));
+        tag.getListItems().setSelectedValue(tag.getListItems().get(1));
+
+        doc.getFirstSection().getBody().appendChild(tag);
+
+        // We've selected default values for both tags
+        // We can save those values in the document without immediately updating the tags, leaving them in their default state
+        // by using a SaveOptions object with this flag set
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setUpdateSdtContent(false);
+
+        doc.save(getArtifactsDir() + "UpdateSdtContent.pdf", options);
+        //ExEnd
     }
 }

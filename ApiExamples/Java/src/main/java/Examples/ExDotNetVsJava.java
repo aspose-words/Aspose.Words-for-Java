@@ -15,8 +15,7 @@ import com.aspose.words.HeaderFooter;
  */
 public class ExDotNetVsJava {
     // The saveFormat parameter is a SaveFormat enum value.
-    void save(final String fileName, final int saveFormat)
-    {
+    void save(final String fileName, final int saveFormat) {
         // Do nothing.
     }
 

@@ -12,6 +12,9 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.MessageFormat;
+import java.util.Iterator;
+
 public class ExNode extends ApiExampleBase {
     @Test
     public void useNodeType() throws Exception {
@@ -104,6 +107,7 @@ public class ExNode extends ApiExampleBase {
         Document doc = new Document();
         //ExStart
         //ExFor:Node
+        //ExFor:NodeType
         //ExFor:CompositeNode
         //ExFor:CompositeNode.GetChild
         //ExSummary:Shows how to extract a specific child node from a CompositeNode by using the GetChild method and passing the NodeType and index.
@@ -314,6 +318,8 @@ public class ExNode extends ApiExampleBase {
         //ExStart
         //ExFor:CompositeNode.SelectSingleNode
         //ExFor:CompositeNode.SelectNodes
+        //ExFor:NodeList.GetEnumerator
+        //ExFor:NodeList.ToArray
         //ExSummary:Shows how to select certain nodes by using an XPath expression.
         Document doc = new Document(getMyDir() + "Table.Document.doc");
 
@@ -321,8 +327,19 @@ public class ExNode extends ApiExampleBase {
         // This will return any paragraphs which are in a table.
         NodeList nodeList = doc.selectNodes("//Table//Paragraph");
 
+        // Iterate through the list with an enumerator and print the contents of every paragraph in each cell of the table
+        int index = 0;
+        Iterator<Node> e = nodeList.iterator();
+        while (e.hasNext()) {
+            Node currentNode = e.next();
+            System.out.println(MessageFormat.format("Table paragraph index {0}, contents: \"{1}\"", index++, currentNode.getText().trim()));
+        }
+
         // This expression will select any paragraphs that are direct children of any body node in the document.
         nodeList = doc.selectNodes("//Body/Paragraph");
+
+        // We can treat the list as an array too
+        Assert.assertEquals(nodeList.toArray().length, 4);
 
         // Use SelectSingleNode to select the first result of the same expression as above.
         Node node = doc.selectSingleNode("//Body/Paragraph");
@@ -587,6 +604,146 @@ public class ExNode extends ApiExampleBase {
 
         Assert.assertEquals(paragraph.getText(), "Run 1. Updated run 2. Run 3. " + (char) 12);
         Assert.assertEquals(paragraph.getChildNodes(NodeType.ANY, true).getCount(), 3);
+        //ExEnd
+    }
+
+    //ExStart
+    //ExFor:NodeChangingAction
+    //ExFor:NodeChangingArgs.Action
+    //ExFor:NodeChangingArgs.NewParent
+    //ExFor:NodeChangingArgs.OldParent
+    //ExSummary:Shows how to use a NodeChangingCallback to monitor changes to the document tree as it is edited.
+    @Test //ExSkip
+    public void nodeChangingCallback() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Set the NodeChangingCallback attribute to a custom printer
+        doc.setNodeChangingCallback(new NodeChangingPrinter());
+
+        // All node additions and removals will be printed to the console as we edit the document
+        builder.writeln("Hello world!");
+        builder.startTable();
+        builder.insertCell();
+        builder.write("Cell 1");
+        builder.insertCell();
+        builder.write("Cell 2");
+        builder.endTable();
+
+        builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        builder.getCurrentParagraph().getParentNode().removeAllChildren();
+    }
+
+    /// <summary>
+    /// Prints all inserted/removed nodes as well as their parent nodes
+    /// </summary>
+    private static class NodeChangingPrinter implements INodeChangingCallback {
+        public void nodeInserting(NodeChangingArgs args) {
+            Assert.assertEquals(args.getAction(), NodeChangingAction.INSERT);
+            Assert.assertEquals(args.getOldParent(), null);
+        }
+
+        public void nodeInserted(NodeChangingArgs args) {
+            Assert.assertEquals(args.getAction(), NodeChangingAction.INSERT);
+            Assert.assertNotNull(args.getNewParent());
+
+            System.out.println("Inserted node:");
+            System.out.println(MessageFormat.format("\tType:\t{0}", args.getNode().getNodeType()));
+
+            if (!"".equals(args.getNode().getText().trim())) {
+                System.out.println(MessageFormat.format("\tText:\t\"{0}\"", args.getNode().getText().trim()));
+            }
+
+            System.out.println(MessageFormat.format("\tHash:\t{0}", args.getNode().hashCode()));
+            System.out.println(MessageFormat.format("\tParent:\t{0} ({1})", args.getNewParent().getNodeType(), args.getNewParent().hashCode()));
+        }
+
+        public void nodeRemoving(NodeChangingArgs args) {
+            Assert.assertEquals(args.getAction(), NodeChangingAction.REMOVE);
+        }
+
+        public void nodeRemoved(NodeChangingArgs args) {
+            Assert.assertEquals(args.getAction(), NodeChangingAction.REMOVE);
+            Assert.assertNull(args.getNewParent());
+
+            System.out.println(MessageFormat.format("Removed node: {0} ({1})", args.getNode().getNodeType(), args.getNode().hashCode()));
+        }
+    }
+    //ExEnd
+
+    @Test
+    public void nodeCollection() throws Exception {
+        //ExStart
+        //ExFor:NodeCollection.Contains(Node)
+        //ExFor:NodeCollection.Insert(Int32,Node)
+        //ExFor:NodeCollection.Remove(Node)
+        //ExSummary:Shows how to work with a NodeCollection.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // The normal way to insert Runs into a document is to add text using a DocumentBuilder
+        builder.write("Run 1. ");
+        builder.write("Run 2. ");
+
+        // Every .Write() invocation creates a new Run, which is added to the parent Paragraph's RunCollection
+        RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
+        Assert.assertEquals(runs.getCount(), 2);
+
+        // We can insert a node into the RunCollection manually to achieve the same effect
+        Run newRun = new Run(doc, "Run 3. ");
+        runs.insert(3, newRun);
+
+        Assert.assertTrue(runs.contains(newRun));
+        Assert.assertEquals("Run 1. Run 2. Run 3.", doc.getText().trim());
+
+        // Text can also be deleted from the document by accessing individual Runs via the RunCollection and editing or removing them
+        Run run = runs.get(1);
+        runs.remove(run);
+        Assert.assertEquals("Run 1. Run 3.", doc.getText().trim());
+
+        Assert.assertNotNull(run);
+        Assert.assertFalse(runs.contains(run));
+        //ExEnd
+    }
+
+    @Test
+    public void nodeList() throws Exception {
+        //ExStart
+        //ExFor:NodeList.Count
+        //ExFor:NodeList.Item(System.Int32)
+        //ExSummary:Shows how to use XPaths to navigate a NodeList.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert some nodes with a DocumentBuilder
+        builder.writeln("Hello world!");
+
+        builder.startTable();
+        builder.insertCell();
+        builder.write("Cell 1");
+        builder.insertCell();
+        builder.write("Cell 2");
+        builder.endTable();
+
+        builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        // Get all run nodes, of which we put 3 in the entire document
+        NodeList nodeList = doc.selectNodes("//Run");
+        Assert.assertEquals(nodeList.getCount(), 3);
+
+        // Using a double forward slash, select all Run nodes that are indirect descendants of a Table node,
+        // which would in this case be the runs inside the two cells we inserted
+        nodeList = doc.selectNodes("//Table//Run");
+        Assert.assertEquals(nodeList.getCount(), 2);
+
+        // Single forward slashes specify direct descendant relationships,
+        // of which we skipped quite a few by using double slashes
+        Assert.assertEquals(doc.selectNodes("//Table/Row/Cell/Paragraph/Run"), doc.selectNodes("//Table//Run"));
+
+        // We can access the actual nodes via a NodeList too
+        nodeList = doc.selectNodes("//Shape");
+        Assert.assertEquals(nodeList.getCount(), 1);
+        Shape shape = (Shape) nodeList.get(0);
+        Assert.assertTrue(shape.hasImage());
         //ExEnd
     }
 }

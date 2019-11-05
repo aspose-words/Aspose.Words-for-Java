@@ -85,18 +85,16 @@ public class ExTable extends ApiExampleBase {
         Assert.assertTrue(tables.getCount() > 0);
     }
 
-    @Test
-    public void calculateDepthOfNestedTablesCaller() throws Exception {
-        calculateDepthOfNestedTables();
-    }
 
     //ExStart
     //ExFor:Node.GetAncestor(NodeType)
+    //ExFor:Node.GetAncestor(System.Type)
     //ExFor:Table.NodeType
     //ExFor:Cell.Tables
     //ExFor:TableCollection
     //ExFor:NodeCollection.Count
     //ExSummary:Shows how to find out if a table contains another table or if the table itself is nested inside another table.
+    @Test //ExSkip
     public void calculateDepthOfNestedTables() throws Exception {
         Document doc = new Document(getMyDir() + "Table.NestedTables.doc");
         int tableIndex = 0;
@@ -132,13 +130,13 @@ public class ExTable extends ApiExampleBase {
 
         int type = table.getNodeType();
         // The parent of the table will be a Cell, instead attempt to find a grandparent that is of type Table
-        Node parent = table.getAncestor(type);
+        Node parent = table.getAncestor(table.getNodeType());
 
         while (parent != null) {
             // Every time we find a table a level up we increase the depth counter and then try to find an
             // ancestor of type table from the parent.
             depth++;
-            parent = parent.getAncestor(type);
+            parent = parent.getAncestor(Table.class);
         }
 
         return depth;

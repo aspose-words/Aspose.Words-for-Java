@@ -542,6 +542,8 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:HtmlSaveOptions.DocumentSplitCriteria
         //ExFor:HtmlSaveOptions.ExportDocumentProperties
         //ExFor:HtmlSaveOptions.SaveFormat
+        //ExFor:SaveOptions
+        //ExFor:SaveOptions.SaveFormat
         //ExSummary:Converts a document to EPUB with save options specified.
         // Open an existing document from disk.
         Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
@@ -1924,6 +1926,8 @@ public class ExDocument extends ApiExampleBase {
     public void saveWithOptions() throws Exception {
         //ExStart
         //ExFor:Document.Save(Stream, String, Saving.SaveOptions)
+        //ExFor:SaveOptions.UseAntiAliasing
+        //ExFor:SaveOptions.UseHighQualityRendering
         //ExSummary:Improve the quality of a rendered document with SaveOptions.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1933,9 +1937,9 @@ public class ExDocument extends ApiExampleBase {
         builder.writeln("Some text.");
 
         SaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
+        Assert.assertEquals(options.getUseAntiAliasing(), false);
 
-        options.setUseAntiAliasing(false);
-        doc.save(getArtifactsDir() + "Document.SaveOptionsLowQuality.jpg", options);
+        doc.save(getArtifactsDir() + "Document.SaveOptionsDefault.jpg", options);
 
         options.setUseAntiAliasing(true);
         options.setUseHighQualityRendering(true);
@@ -2172,7 +2176,30 @@ public class ExDocument extends ApiExampleBase {
         // Any changes to the styles in this template will be propagated to those styles in the document
         doc.setAutomaticallyUpdateSyles(true);
 
-        doc.save(getArtifactsDir() + "TemplateStylesUpdating.docx");
+        doc.save(getArtifactsDir() + "Document.TemplateStylesUpdating.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void defaultTemplate() throws Exception {
+        //ExStart
+        //ExFor:Document.AttachedTemplate
+        //ExFor:SaveOptions.CreateSaveOptions(String)
+        //ExFor:SaveOptions.DefaultTemplate
+        //ExSummary:Shows how to set a default .docx document template.
+        Document doc = new Document();
+
+        // If we set this flag to true while not having a template attached to the document,
+        // there will be no effect because there is no template document to draw style changes from
+        doc.setAutomaticallyUpdateSyles(true);
+        Assert.assertTrue(doc.getAttachedTemplate().isEmpty());
+
+        // We can set a default template document filename in a SaveOptions object to make it apply to
+        // all documents we save with it that have no AttachedTemplate value
+        SaveOptions options = SaveOptions.createSaveOptions("Document.DefaultTemplate.docx");
+        options.setDefaultTemplate(getMyDir() + "Document.BusinessBrochureTemplate.dotx");
+
+        doc.save(getArtifactsDir() + "Document.DefaultTemplate.docx", options);
         //ExEnd
     }
 
@@ -3222,7 +3249,41 @@ public class ExDocument extends ApiExampleBase {
         doc.getLayoutOptions().setTextShaperFactory(HarfBuzzTextShaperFactory.getInstance());
 
         // Render the document to PDF format
-        doc.save(getArtifactsDir() + "OpenType.Document.pdf");
+        doc.save(getArtifactsDir() + "Document.OpenType.pdf");
+        //ExEnd
+    }
+
+    @Test
+    public void saveOutputParameters() throws Exception {
+        //ExStart
+        //ExFor:SaveOutputParameters
+        //ExFor:SaveOutputParameters.ContentType
+        //ExSummary:Shows how to verify Content-Type strings from save output parameters.
+        Document doc = new Document(getMyDir() + "Document.doc");
+
+        SaveOutputParameters parameters = doc.save(getArtifactsDir() + "Document.SaveOutputParameters.doc");
+        Assert.assertEquals(parameters.getContentType(), "application/msword");
+
+        parameters = doc.save(getArtifactsDir() + "Document.SaveOutputParameters.pdf");
+        Assert.assertEquals(parameters.getContentType(), "application/pdf");
+        //ExEnd
+    }
+
+    @Test
+    public void wordML2003SaveOptions() throws Exception {
+        //ExStart
+        //ExFor:WordML2003SaveOptions
+        //ExFor:WordML2003SaveOptions.SaveFormat
+        //ExSummary:Shows how to save to a .wml document while applying save options.
+        Document doc = new Document(getMyDir() + "Document.doc");
+
+        WordML2003SaveOptions options = new WordML2003SaveOptions();
+        {
+            options.setSaveFormat(SaveFormat.WORD_ML);
+            options.setMemoryOptimization(true);
+        }
+
+        doc.save(getArtifactsDir() + "Document.WordML2003SaveOptions.wml", options);
         //ExEnd
     }
 }
