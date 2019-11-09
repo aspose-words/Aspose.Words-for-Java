@@ -12,7 +12,6 @@ public class Load_Options {
         loadAndSaveEncryptedODT(dataDir);
         verifyODTdocument(dataDir);
         convertShapeToOfficeMath(dataDir);
-        annotationsAtBlockLevel(dataDir);
     }
 
     public static void loadOptionsUpdateDirtyFields(String dataDir) throws Exception {
@@ -54,25 +53,5 @@ public class Load_Options {
         //Save the document into DOCX
         doc.save(dataDir + "ConvertShapeToOfficeMath_out.docx", SaveFormat.DOCX);
         // ExEnd:ConvertShapeToOfficeMath
-    }
-
-    public static void annotationsAtBlockLevel(String dataDir) throws Exception {
-        // ExStart:AnnotationsAtBlockLevel
-        LoadOptions options = new LoadOptions();
-        options.setAnnotationsAtBlockLevel(true);
-        Document doc = new Document(dataDir + "AnnotationsAtBlockLevel.docx", options);
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).get(0);
-
-        BookmarkStart start = builder.startBookmark("bm");
-        BookmarkEnd end = builder.endBookmark("bm");
-
-        sdt.getParentNode().insertBefore(start, sdt);
-        sdt.getParentNode().insertAfter(end, sdt);
-
-        //Save the document into DOCX
-        doc.save(dataDir + "AnnotationsAtBlockLevel_out.docx", SaveFormat.DOCX);
-        // ExEnd:AnnotationsAtBlockLevel
     }
 }
