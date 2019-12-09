@@ -57,7 +57,12 @@ public class ExMailMerge extends ApiExampleBase
             new Object[] { "James Bond", "MI5 Headquarters", "Milbank", "", "London" });
 
         // Send the document in Word format to the client browser with an option to save to disk or open inside the current browser.
-        Assert.That(() => doc.Save(Response, "Artifacts/MailMerge.ExecuteArray.doc", ContentDisposition.INLINE, null), Throws.<NullPointerException>TypeOf()); //Thrown because HttpResponse is null in the test.
+        Assert.That(() => doc.Save(Response, "Artifacts/MailMerge.ExecuteArray.doc", ContentDisposition.INLINE, null), 
+            Throws.<NullPointerException>TypeOf()); //Thrown because HttpResponse is null in the test.
+
+        // The response will need to be closed manually to make sure that no superfluous content is added to the document after saving
+        Assert.That(() => Response.End(), 
+            Throws.<NullPointerException>TypeOf());
         //ExEnd
     }
 

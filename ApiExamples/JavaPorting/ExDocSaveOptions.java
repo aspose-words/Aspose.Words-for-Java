@@ -67,5 +67,22 @@ public class ExDocSaveOptions extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "DocSaveOptions.TempFolder.doc", options);
         //ExEnd
+        }
+
+    @Test
+    public void pictureBullets() throws Exception
+    {
+        //ExStart
+        //ExFor:DocSaveOptions.SavePictureBullet
+        //ExSummary:Shows how to remove PictureBullet data from the document.
+        Document doc = new Document(getMyDir() + "Document.PictureBullets.docx");
+
+        // Word 97 cannot work correctly with PictureBullet data
+        // To remove PictureBullet data, set the option to "false"
+        DocSaveOptions saveOptions = new DocSaveOptions(SaveFormat.DOC);
+        saveOptions.setSavePictureBullet(false);
+
+        doc.save(getArtifactsDir() + "Document.PictureBullets.doc", saveOptions);
+        //ExEnd
     }
 }

@@ -88,6 +88,7 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.Style;
 import com.aspose.words.StyleType;
+import com.aspose.words.NodeCollection;
 import org.testng.annotations.DataProvider;
 
 
@@ -2654,4 +2655,308 @@ public class ExDocumentBuilder extends ApiExampleBase
         msAssert.areEqual("1.", para.getListLabel().getLabelString());
         msAssert.isTrue(paraText.startsWith("13->13"), paraText);
     }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (1)
+    public void createMarkdownDocumentWithEmphases() throws Exception
+    {
+        DocumentBuilder builder = new DocumentBuilder();
+        
+        // Bold and Italic are represented as Font.Bold and Font.Italic
+        builder.getFont().setItalic(true);
+        builder.writeln("Italic");
+        
+        // Use clear formatting if don't want to combine styles between paragraphs
+        builder.getFont().clearFormatting();
+        
+        builder.getFont().setBold(true);
+        builder.writeln("Bold");
+        
+        // Use clear formatting if don't want to combine styles between paragraphs
+        builder.getFont().clearFormatting();
+        
+        // You can also write create BoldItalic text
+        builder.getFont().setItalic(true);
+        builder.getFont().setBold(true);
+        builder.writeln("ItalicBold");
+        
+        // Markdown treats asterisks (*) and underscores (_) as indicators of emphasis
+        builder.getDocument().save(getArtifactsDir() + "MarkdownExample.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (2)
+    public void addHeadingsToMarkdownDocument() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "MarkdownExample.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.writeln("\n");
+        builder.getParagraphFormat().clearFormatting();
+        
+        // By default Heading styles in Word may have bold and italic formatting
+        // If we do not want text to be emphasized, set these properties explicitly to false
+        // Thus we can't use 'builder.Font.ClearFormatting()' because Bold/Italic will be set to true
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        // Create one heading for each level
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 1"));
+        builder.getFont().setItalic(true);
+        builder.writeln("ItalicHeading 1");
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 2"));
+        builder.writeln("Heading 2");
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 3"));
+        builder.writeln("Heading 3");
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 4"));
+        builder.writeln("Heading 4");
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 5"));
+        builder.getFont().setItalic(true);
+        builder.getFont().setBold(true);
+        builder.writeln("ItalicBoldHeading 5");
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 6"));
+        builder.getFont().setBold(true);
+        builder.writeln("BoldHeading 6");
+        
+        doc.save(getArtifactsDir() + "MarkdownExample.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (3)
+    public void addBlockquotesToMarkdownDocument() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "MarkdownExample.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.writeln("\n");
+        builder.getParagraphFormat().clearFormatting();
+        
+        // By default document stores blockquote style for the first level
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Quote"));
+        builder.writeln("Blockquote");
+        
+        // But you also can create styles for nested levels
+        Style quoteLevel2 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote1");
+        builder.getParagraphFormat().setStyle(quoteLevel2);
+        builder.writeln("Blockquote 1");
+        
+        Style quoteLevel3 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote2");
+        builder.getParagraphFormat().setStyle(quoteLevel3);
+        builder.getFont().setItalic(true);
+        builder.writeln("ItalicBlockquote 2");
+        
+        // Use clear formatting if don't want to combine styles between paragraphs
+        builder.getFont().clearFormatting();
+        
+        Style quoteLevel4 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote3");
+        builder.getParagraphFormat().setStyle(quoteLevel4);
+        builder.getFont().setBold(true);
+        builder.writeln("BoldBlockquote 3");
+        
+        // Use clear formatting if don't want to combine styles between paragraphs
+        builder.getFont().clearFormatting();
+        
+        Style quoteLevel5 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote4");
+        builder.getParagraphFormat().setStyle(quoteLevel5);
+        builder.writeln("Blockquote 4");
+        
+        Style quoteLevel6 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote5");
+        builder.getParagraphFormat().setStyle(quoteLevel6);
+        builder.writeln("Blockquote 5");
+        
+        Style quoteLevel7 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote6");
+        builder.getParagraphFormat().setStyle(quoteLevel7);
+        builder.getFont().setItalic(true);
+        builder.getFont().setBold(true);
+        builder.writeln("ItalicBoldBlockquote 6");
+        
+        doc.save(getArtifactsDir() + "MarkdownExample.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (4)
+    public void addHeadingsAsBlockquotesToMarkdownDocument() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "MarkdownExample.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.writeln("\n");
+        builder.getParagraphFormat().clearFormatting();
+        builder.writeln("\n");
+
+        // By default Heading styles in Word may have bold and italic formatting
+        // If we do not want text to be emphasized, set these properties explicitly to false
+        // Thus we can't use 'builder.Font.ClearFormatting()' because Bold/Italic will be set to true
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        Style headingQuoteLevel1 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote.Heading 1");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel1);
+        builder.writeln("HeadingBlockquote 1");
+        
+        Style headingQuoteLevel2 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote1.Heading 2");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel2);
+        builder.getFont().setItalic(true);
+        builder.writeln("ItalicHeadingBlockquote 2");
+        
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        Style headingQuoteLevel3 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote2.Heading 3");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel3);
+        builder.getFont().setBold(true);
+        builder.writeln("BoldHeadingBlockquote 3");
+        
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        Style headingQuoteLevel4 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote3.Heading 4");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel4);
+        builder.getFont().setItalic(true);
+        builder.getFont().setBold(true);
+        builder.writeln("ItalicBoldHeadingBlockquote 4");
+        
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        Style headingQuoteLevel5 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote4.Heading 5");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel5);
+        builder.writeln("HeadingBlockquote 5");
+        
+        Style headingQuoteLevel6 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote5.Heading 6");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel6);
+        builder.writeln("HeadingBlockquote 6");
+        
+        doc.save(getArtifactsDir() + "MarkdownExample.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (5)
+    public void addHorizontalRuleToMarkdownDocument() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "MarkdownExample.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.writeln("\n");
+        builder.getParagraphFormat().clearFormatting();
+
+        // Insert HorizontalRule that will be present in .md file as '-----'
+        builder.insertHorizontalRule();
+ 
+        builder.getDocument().save(getArtifactsDir() + "MarkdownExample.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (enabled = false, description = "WORDSNET-19631", dataProvider = "loadMarkdownDocumentAndAssertContentDataProvider") @Order (6)
+    public void loadMarkdownDocumentAndAssertContent(String text, String styleName, boolean isItalic, boolean isBold) throws Exception
+    {
+        // Load created document from previous tests
+        Document doc = new Document(getArtifactsDir() + "MarkdownExample.md");
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+
+        for (Paragraph paragraph : (Iterable<Paragraph>) paragraphs)
+        {
+            if (paragraph.getRuns().getCount() != 0)
+            {
+                if (msString.equals(paragraph.getRuns().get(0).getText(), text))
+                {
+                    // Check that all document text has the necessary styles
+                    msAssert.areEqual(styleName, paragraph.getParagraphFormat().getStyle().getName());
+                    msAssert.areEqual(isItalic, paragraph.getRuns().get(0).getFont().getItalic());
+                    msAssert.areEqual(isBold, paragraph.getRuns().get(0).getFont().getBold());
+                }
+            }
+
+            // Check that document also has a HorizontalRule present as a shape
+            NodeCollection shapesCollection = doc.getFirstSection().getBody().getChildNodes(NodeType.SHAPE, true);
+            Shape horizontalRuleShape = (Shape) shapesCollection.get(0);
+            
+            Assert.assertTrue(shapesCollection.getCount() == 1);
+            Assert.assertTrue(horizontalRuleShape.isHorizontalRule());
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "loadMarkdownDocumentAndAssertContentDataProvider")
+	public static Object[][] loadMarkdownDocumentAndAssertContentDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"Italic",  "Normal",  true,  false},
+			{"Bold",  "Normal",  false,  true},
+			{"ItalicBold",  "Normal",  true,  true},
+			{"ItalicHeading 1",  "Heading 1",  true,  false},
+			{"Heading 2",  "Heading 2",  false,  false},
+			{"Heading 3",  "Heading 3",  false,  false},
+			{"Heading 4",  "Heading 4",  false,  false},
+			{"ItalicBoldHeading 5",  "Heading 5",  true,  true},
+			{"BoldHeading 6",  "Heading 6",  false,  true},
+			{"Blockquote",  "Quote",  false,  false},
+			{"Blockquote 1",  "Quote1",  false,  false},
+			{"ItalicBlockquote 2",  "Quote2",  true,  false},
+			{"BoldBlockquote 3",  "Quote3",  false,  true},
+			{"Blockquote 4",  "Quote4",  false,  false},
+			{"Blockquote 5",  "Quote5",  false,  false},
+			{"ItalicBoldBlockquote 6",  "Quote6",  true,  true},
+			{"HeadingBlockquote 1",  "Quote.Heading 1",  false,  false},
+			{"ItalicHeadingBlockquote 2",  "Quote1.Heading 2",  true,  false},
+			{"BoldHeadingBlockquote 3",  "Quote2.Heading 3",  false,  true},
+			{"ItalicBoldHeadingBlockquote 4",  "Quote3.Heading 4",  true,  true},
+			{"HeadingBlockquote 5",  "Quote4.Heading 5",  false,  false},
+			{"HeadingBlockquote 6",  "Quote5.Heading 6",  false,  false},
+		};
+	}
 }

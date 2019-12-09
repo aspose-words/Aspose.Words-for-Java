@@ -56,14 +56,14 @@
 		<File project="Examples" dir="" name="ExPclSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExPdfSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExProperties" status="AUTO" />
-		<File project="Examples" dir="" name="ExPsSaveOptions" status="NEW" />
+		<File project="Examples" dir="" name="ExPsSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExRange" status="AUTO" />
 		<File project="Examples" dir="" name="ExRenameMergeFields" status="AUTO" />
 		<File project="Examples" dir="" name="ExRendering" status="AUTO" />
 		<File project="Examples" dir="" name="ExReplaceHyperlinks" status="AUTO" />
 		<File project="Examples" dir="" name="ExReportingEngine" status="AUTO" />
 		<File project="Examples" dir="" name="ExRtfLoadOptions" status="AUTO" />
-		<File project="Examples" dir="" name="ExRtfSaveOptions" status="NEW" />
+		<File project="Examples" dir="" name="ExRtfSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExSavingCallback" status="AUTO" />
 		<File project="Examples" dir="" name="ExSection" status="AUTO" />
 		<File project="Examples" dir="" name="ExShape" status="AUTO" />
@@ -74,10 +74,12 @@
 		<File project="Examples" dir="" name="ExTable" status="AUTO" />
 		<File project="Examples" dir="" name="ExTableColumn" status="AUTO" />
 		<File project="Examples" dir="" name="ExTabStopCollection" status="AUTO" />
+		<File project="Examples" dir="" name="ExThemes" status="NEW" />
 		<File project="Examples" dir="" name="ExTxtLoadOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExTxtSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExUtilityClasses" status="AUTO" />
 		<File project="Examples" dir="" name="ExVariableCollection" status="AUTO" />
+		<File project="Examples" dir="" name="ExViewOptions" status="NEW" />
 		<File project="Examples" dir="" name="ExWarningInfoCollection" status="AUTO" />
 		<File project="Examples" dir="" name="ExXamlFixedSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExXamlFlowSaveOptions" status="AUTO" />

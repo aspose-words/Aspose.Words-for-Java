@@ -11,15 +11,17 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
-import com.aspose.words.StyleCollection;
+import java.util.Iterator;
 import com.aspose.words.Style;
 import com.aspose.ms.System.msConsole;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import org.testng.Assert;
+import com.aspose.words.StyleCollection;
+import com.aspose.words.StyleType;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.words.Paragraph;
 import com.aspose.words.NodeType;
 import com.aspose.words.TabStop;
-import org.testng.Assert;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import java.awt.Color;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.ms.System.IO.MemoryStream;
@@ -30,19 +32,69 @@ import com.aspose.words.SaveFormat;
 public class ExStyles extends ApiExampleBase
 {
     @Test
-    public void getStyles() throws Exception
+    public void styles() throws Exception
     {
         //ExStart
         //ExFor:DocumentBase.Styles
+        //ExFor:Style.Document
         //ExFor:Style.Name
+        //ExFor:Style.IsHeading
+        //ExFor:Style.IsQuickStyle
+        //ExFor:Style.NextParagraphStyleName
+        //ExFor:Style.Styles
+        //ExFor:Style.Type
+        //ExFor:StyleCollection.Document
+        //ExFor:StyleCollection.GetEnumerator
         //ExSummary:Shows how to get access to the collection of styles defined in the document.
         Document doc = new Document();
-        StyleCollection styles = doc.getStyles();
+       
+        Iterator<Style> stylesEnum = doc.getStyles().iterator();
+        try /*JAVA: was using*/
+        {
+            while (stylesEnum.hasNext())
+            {
+                Style curStyle = stylesEnum.next();
+                msConsole.writeLine($"Style name:\t\"{curStyle.Name}\", of type \"{curStyle.Type}\"");
+                msConsole.writeLine($"\tSubsequent style:\t{curStyle.NextParagraphStyleName}");
+                msConsole.writeLine($"\tIs heading:\t\t\t{curStyle.IsHeading}");
+                msConsole.writeLine($"\tIs QuickStyle:\t\t{curStyle.IsQuickStyle}");
 
-        for (Style style : styles)
-            msConsole.writeLine(style.getName());
+                msAssert.areEqual(doc, curStyle.getDocument());
+            }
+        }
+        finally { if (stylesEnum != null) stylesEnum.close(); }
         //ExEnd
     }
+
+    @Test
+    public void styleCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:StyleCollection.Add(Style)
+        //ExFor:StyleCollection.Count
+        //ExFor:StyleCollection.DefaultFont
+        //ExFor:StyleCollection.DefaultParagraphFormat
+        //ExFor:StyleCollection.Item(StyleIdentifier)
+        //ExFor:StyleCollection.Item(Int32)
+        //ExSummary:Shows how to add a Style to a StyleCollection.
+        Document doc = new Document();
+
+        // New documents come with a collection of default styles that can be applied to paragraphs
+        StyleCollection styles = doc.getStyles();
+        msAssert.areEqual(4, styles.getCount());
+
+        // We can set default parameters for new styles that will be added to the collection from now on
+        styles.getDefaultFont().setName("Courier New");
+        styles.getDefaultParagraphFormat().setFirstLineIndent(15.0);
+
+        styles.add(StyleType.PARAGRAPH, "MyStyle");
+
+        // Styles within the collection can be referenced either by index or name
+        msAssert.areEqual("Courier New", styles.get(4).getFont().getName());
+        msAssert.areEqual(15.0, styles.get("MyStyle").getParagraphFormat().getFirstLineIndent());
+        //ExEnd
+    }
+
 
     @Test
     public void setAllStyles() throws Exception
@@ -61,7 +113,6 @@ public class ExStyles extends ApiExampleBase
                 style.getFont().setName("Arial");
             }
         }
-
         //ExEnd
     }
 
@@ -211,6 +262,29 @@ public class ExStyles extends ApiExampleBase
         //ExSummary:Shows how to pick a style that is defined in the document and remove it.
         Document doc = new Document();
         doc.getStyles().get("Normal").remove();
+        //ExEnd
+    }
+
+    @Test
+    public void styleAliases() throws Exception
+    {
+        //ExStart
+        //ExFor:Style.Aliases
+        //ExFor:Style.BaseStyleName
+        //ExFor:Style.Equals(Aspose.Words.Style)
+        //ExFor:Style.LinkedStyleName
+        //ExSummary:Shows how to use style aliases.
+        // Open a document that had a style inserted with commas in its name which separate the style name and aliases
+        Document doc = new Document(getMyDir() + "StyleWithAlias.docx");
+
+        // The aliases, separate from the name can be found here
+        Style style = doc.getStyles().get("MyStyle");
+        msAssert.areEqual(new String[] { "MyStyle Alias 1", "MyStyle Alias 2" }, style.getAliases());
+        msAssert.areEqual("Title", style.getBaseStyleName());
+        msAssert.areEqual("MyStyle Char", style.getLinkedStyleName());
+
+        // A style can be referenced by alias as well as name
+        Assert.assertTrue(style.equals(doc.getStyles().get("MyStyle Alias 1")));
         //ExEnd
     }
 }

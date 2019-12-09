@@ -1412,7 +1412,7 @@ public class ExTable extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (enabled = false, description = "WORDSNET-18708")
+    @Test
     public void getConditionalStylesEnumerator() throws Exception
     {
         //ExStart
