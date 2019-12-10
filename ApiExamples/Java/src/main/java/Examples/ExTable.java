@@ -1319,7 +1319,7 @@ public class ExTable extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test(enabled = false, description = "WORDSNET-18708")
+    @Test
     public void getConditionalStylesEnumerator() throws Exception {
         //ExStart
         //ExFor:ConditionalStyle.Type
@@ -1331,16 +1331,13 @@ public class ExTable extends ApiExampleBase {
 
         // Get the enumerator from the document's ConditionalStyleCollection and iterate over the styles
         Iterator<ConditionalStyle> enumerator = tableStyle.getConditionalStyles().iterator();
-        try {
-            while (enumerator.hasNext()) {
-                ConditionalStyle currentStyle = enumerator.next();
 
-                if (currentStyle != null) {
-                    System.out.println(currentStyle.getType());
-                }
+        while (enumerator.hasNext()) {
+            ConditionalStyle currentStyle = enumerator.next();
+
+            if (currentStyle != null) {
+                System.out.println(currentStyle.getType());
             }
-        } finally {
-            if (enumerator != null) enumerator.remove();
         }
         //ExEnd
     }

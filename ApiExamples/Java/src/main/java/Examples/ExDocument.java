@@ -9,15 +9,12 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import com.aspose.words.Font;
-import com.aspose.words.Shape;
 import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
 import org.apache.commons.lang.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.net.URL;
@@ -1335,22 +1332,6 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void setZoom() throws Exception {
-        //ExStart
-        //ExFor:Document.ViewOptions
-        //ExFor:ViewOptions
-        //ExFor:ViewOptions.ViewType
-        //ExFor:ViewOptions.ZoomPercent
-        //ExFor:ViewType
-        //ExSummary:The following code shows how to make sure the document is displayed at 50% zoom when opened in Microsoft Word.
-        Document doc = new Document(getMyDir() + "Document.doc");
-        doc.getViewOptions().setViewType(ViewType.PAGE_LAYOUT);
-        doc.getViewOptions().setZoomPercent(50);
-        doc.save(getArtifactsDir() + "Document.SetZoom.doc");
-        //ExEnd
-    }
-
-    @Test
     public void getDocumentVariables() throws Exception {
         //ExStart
         //ExFor:Document.Variables
@@ -1678,6 +1659,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Paragraph.IsMoveToRevision
         //ExFor:ParagraphCollection
         //ExFor:ParagraphCollection.Item(Int32)
+        //ExFor:Story.Paragraphs
         //ExSummary:Shows how to get paragraph that was moved (deleted/inserted) in Microsoft Word while change tracking was enabled.
         Document doc = new Document(getMyDir() + "Document.Revisions.docx");
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
@@ -1690,6 +1672,32 @@ public class ExDocument extends ApiExampleBase {
                 System.out.println(MessageFormat.format("The paragraph {0} has been moved (deleted).", i));
             if (paragraphs.get(i).isMoveToRevision())
                 System.out.println(MessageFormat.format("The paragraph {0} has been moved (inserted).", i));
+        }
+        //ExEnd
+    }
+
+    @Test
+    public void getRevisedPropertiesOfList() throws Exception {
+        //ExStart
+        //ExFor:RevisionsView
+        //ExFor:Document.RevisionsView
+        //ExSummary:Shows how to get revised version of list label and list level formatting in a document.
+        Document doc = new Document(getMyDir() + "GetRevisedVersionOfDocument.docx");
+        doc.updateListLabels();
+
+        // Switch to the revised version of the document
+        doc.setRevisionsView(RevisionsView.FINAL);
+
+        for (Revision revision : doc.getRevisions()) {
+            if (revision.getParentNode().getNodeType() == NodeType.PARAGRAPH) {
+                Paragraph paragraph = (Paragraph) revision.getParentNode();
+
+                if (paragraph.isListItem()) {
+                    // Print revised version of LabelString and ListLevel
+                    System.out.println(paragraph.getListLabel().getLabelString());
+                    System.out.println(paragraph.getListFormat().getListLevel());
+                }
+            }
         }
         //ExEnd
     }
@@ -1858,51 +1866,6 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
 
         stream.close();
-    }
-
-    @Test
-    public void documentThemeProperties() throws Exception {
-        //ExStart
-        //ExFor:Theme
-        //ExFor:Theme.Colors
-        //ExFor:Theme.MajorFonts
-        //ExFor:Theme.MinorFonts
-        //ExSummary:Show how to change document theme options.
-        Document doc = new Document();
-        // Get document theme and do something useful
-        Theme theme = doc.getTheme();
-
-        theme.getColors().setAccent1(Color.BLACK);
-        theme.getColors().setDark1(Color.BLUE);
-        theme.getColors().setFollowedHyperlink(Color.WHITE);
-        theme.getColors().setHyperlink(new Color(245, 245, 245));//Color Hex White Smoke
-        theme.getColors().setLight1(new Color(0, 0, 0, 0)); //There is default Color.Black
-
-        theme.getMajorFonts().setComplexScript("Arial");
-        theme.getMajorFonts().setEastAsian("");
-        theme.getMajorFonts().setLatin("Times New Roman");
-
-        theme.getMinorFonts().setComplexScript("");
-        theme.getMinorFonts().setEastAsian("Times New Roman");
-        theme.getMinorFonts().setLatin("Arial");
-        //ExEnd
-
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
-        Assert.assertEquals(doc.getTheme().getColors().getAccent1().getRGB(), Color.BLACK.getRGB());
-        Assert.assertEquals(doc.getTheme().getColors().getDark1().getRGB(), Color.BLUE.getRGB());
-        Assert.assertEquals(doc.getTheme().getColors().getFollowedHyperlink().getRGB(), Color.WHITE.getRGB());
-        Assert.assertEquals(doc.getTheme().getColors().getHyperlink().getRGB(), new Color(245, 245, 245).getRGB());
-        Assert.assertEquals(doc.getTheme().getColors().getLight1().getRGB(), Color.BLACK.getRGB());
-
-        Assert.assertEquals(doc.getTheme().getMajorFonts().getComplexScript(), "Arial");
-        Assert.assertEquals(doc.getTheme().getMajorFonts().getEastAsian(), "");
-        Assert.assertEquals(doc.getTheme().getMajorFonts().getLatin(), "Times New Roman");
-
-        Assert.assertEquals(doc.getTheme().getMinorFonts().getComplexScript(), "");
-        Assert.assertEquals(doc.getTheme().getMinorFonts().getEastAsian(), "Times New Roman");
-        Assert.assertEquals(doc.getTheme().getMinorFonts().getLatin(), "Arial");
     }
 
     @Test
@@ -2284,51 +2247,6 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void docTheme() throws Exception {
-        //ExStart
-        //ExFor:Document.Theme
-        //ExSummary:Shows what we can do with the Themes property of Document.
-        Document doc = new Document();
-
-        // When creating a blank document, Aspose Words creates a default theme object
-        Theme theme = doc.getTheme();
-
-        // These color properties correspond to the 10 color columns that you see
-        // in the "Theme colors" section in the color selector menu when changing font or shading color
-        // We can view and edit the leading color for each column, and the five different tints that
-        // make up the rest of the column will be derived automatically from each leading color
-        // Aspose Words sets the defaults to what they are in the Microsoft Word default theme
-        Assert.assertEquals(theme.getColors().getLight1(), new Color((255), (255), (255), (255)));
-        Assert.assertEquals(theme.getColors().getDark1(), new Color((0), (0), (0), (255)));
-        Assert.assertEquals(theme.getColors().getLight2(), new Color((238), (236), (225), (255)));
-        Assert.assertEquals(theme.getColors().getDark2(), new Color((31), (73), (125), (255)));
-        Assert.assertEquals(theme.getColors().getAccent1(), new Color((79), (129), (189), (255)));
-        Assert.assertEquals(theme.getColors().getAccent2(), new Color((192), (80), (77), (255)));
-        Assert.assertEquals(theme.getColors().getAccent3(), new Color((155), (187), (89), (255)));
-        Assert.assertEquals(theme.getColors().getAccent4(), new Color((128), (100), (162), (255)));
-        Assert.assertEquals(theme.getColors().getAccent5(), new Color((75), (172), (198), (255)));
-        Assert.assertEquals(theme.getColors().getAccent6(), new Color((247), (150), (70), (255)));
-
-        // Hyperlink colors
-        Assert.assertEquals(theme.getColors().getHyperlink(), new Color((0), (0), (255), (255)));
-        Assert.assertEquals(theme.getColors().getFollowedHyperlink(), new Color((128), (0), (128), (255)));
-
-        // These appear at the very top of the font selector in the "Theme Fonts" section
-        Assert.assertEquals(theme.getMajorFonts().getLatin(), "Cambria");
-        Assert.assertEquals(theme.getMinorFonts().getLatin(), "Calibri");
-
-        // Change some values to make a custom theme
-        theme.getMinorFonts().setLatin("Bodoni MT");
-        theme.getMajorFonts().setLatin("Tahoma");
-        theme.getColors().setAccent1(Color.CYAN);
-        theme.getColors().setAccent2(Color.YELLOW);
-
-        // Save the document to use our theme
-        doc.save(getArtifactsDir() + "Document.Theme.docx");
-        //ExEnd
-    }
-
-    @Test
     public void setEndnoteOptions() throws Exception {
         //ExStart
         //ExFor:Document.EndnoteOptions
@@ -2427,8 +2345,21 @@ public class ExDocument extends ApiExampleBase {
     public void docMailMergeSettings() throws Exception {
         //ExStart
         //ExFor:Document.MailMergeSettings
+        //ExFor:MailMergeCheckErrors
         //ExFor:MailMergeDataType
+        //ExFor:MailMergeDestination
         //ExFor:MailMergeMainDocumentType
+        //ExFor:MailMergeSettings
+        //ExFor:MailMergeSettings.CheckErrors
+        //ExFor:MailMergeSettings.Clone
+        //ExFor:MailMergeSettings.Destination
+        //ExFor:MailMergeSettings.DataType
+        //ExFor:MailMergeSettings.DoNotSupressBlankLines
+        //ExFor:MailMergeSettings.LinkToQuery
+        //ExFor:MailMergeSettings.MainDocumentType
+        //ExFor:MailMergeSettings.Odso
+        //ExFor:MailMergeSettings.Query
+        //ExFor:MailMergeSettings.ViewMergedData
         //ExFor:Odso
         //ExFor:Odso.Clone
         //ExFor:Odso.ColumnDelimiter
@@ -2436,10 +2367,11 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Odso.DataSourceType
         //ExFor:Odso.FirstRowContainsColumnNames
         //ExFor:OdsoDataSourceType
-        //ExSummary:Shows how to execute a mail merge with MailMergeSettings.
+        //ExSummary:Shows how to execute an Office Data Source Object mail merge with MailMergeSettings.
         // We'll create a simple document that will act as a destination for mail merge data
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
         builder.write("Dear ");
         builder.insertField("MERGEFIELD FirstName", "<FirstName>");
         builder.write(" ");
@@ -2459,11 +2391,15 @@ public class ExDocument extends ApiExampleBase {
         // Set the data source, query and other things
         MailMergeSettings mailMergeSettings = doc.getMailMergeSettings();
         mailMergeSettings.setMainDocumentType(MailMergeMainDocumentType.MAILING_LABELS);
+        mailMergeSettings.setCheckErrors(MailMergeCheckErrors.SIMULATE);
         mailMergeSettings.setDataType(MailMergeDataType.NATIVE);
         mailMergeSettings.setDataSource(getArtifactsDir() + "Document.Lines.txt");
         mailMergeSettings.setQuery("SELECT * FROM " + doc.getMailMergeSettings().getDataSource());
         mailMergeSettings.setLinkToQuery(true);
         mailMergeSettings.setViewMergedData(true);
+
+        Assert.assertEquals(mailMergeSettings.getDestination(), MailMergeDestination.DEFAULT);
+        Assert.assertFalse(mailMergeSettings.getDoNotSupressBlankLines());
 
         // Office Data Source Object settings
         Odso odso = mailMergeSettings.getOdso();
@@ -2473,8 +2409,9 @@ public class ExDocument extends ApiExampleBase {
         odso.setDataSource(getArtifactsDir() + "Document.Lines.txt");
         odso.setFirstRowContainsColumnNames(true);
 
-        // ODSO objects can also be cloned
+        // ODSO/MailMergeSettings objects can also be cloned
         Assert.assertNotSame(odso, odso.deepClone());
+        Assert.assertNotSame(mailMergeSettings, mailMergeSettings.deepClone());
 
         // The mail merge will be performed when this document is opened
         doc.save(getArtifactsDir() + "Document.MailMergeSettings.docx");
@@ -2484,18 +2421,75 @@ public class ExDocument extends ApiExampleBase {
     @Test
     public void odsoEmail() throws Exception {
         //ExStart
+        //ExFor:MailMergeSettings.ActiveRecord
+        //ExFor:MailMergeSettings.AddressFieldName
+        //ExFor:MailMergeSettings.ConnectString
+        //ExFor:MailMergeSettings.MailAsAttachment
+        //ExFor:MailMergeSettings.MailSubject
+        //ExFor:MailMergeSettings.Clear
         //ExFor:Odso.TableName
         //ExFor:Odso.UdlConnectString
         //ExSummary:Shows how to execute a mail merge while connecting to an external data source.
         Document doc = new Document(getMyDir() + "OdsoData.doc");
 
-        Odso odso = doc.getMailMergeSettings().getOdso();
+        MailMergeSettings settings = doc.getMailMergeSettings();
+
+        System.out.println(MessageFormat.format("Connection string:\n\t{0}", settings.getConnectString()));
+        System.out.println(MessageFormat.format("Mail merge docs as attachment:\n\t{0}", settings.getMailAsAttachment()));
+        System.out.println(MessageFormat.format("Mail merge doc e-mail subject:\n\t{0}", settings.getMailSubject()));
+        System.out.println(MessageFormat.format("Column that contains e-mail addresses:\n\t{0}", settings.getAddressFieldName()));
+        System.out.println(MessageFormat.format("Active record:\n\t{0}", settings.getActiveRecord()));
+
+        Odso odso = settings.getOdso();
 
         System.out.println(MessageFormat.format("File will connect to data source located in:\n\t\"{0}\"", odso.getDataSource()));
         System.out.println(MessageFormat.format("Source type:\n\t{0}", odso.getDataSourceType()));
-        System.out.println(MessageFormat.format("Connection string:\n\t{0}", odso.getUdlConnectString()));
+        System.out.println(MessageFormat.format("UDL connection string:\n\t{0}", odso.getUdlConnectString()));
         System.out.println(MessageFormat.format("Table:\n\t{0}", odso.getTableName()));
         System.out.println(MessageFormat.format("Query:\n\t{0}", doc.getMailMergeSettings().getQuery()));
+
+        // We can clear the settings, which will take place during saving
+        settings.clear();
+
+        doc.save(getArtifactsDir() + "Document.OdsoEmail.docx");
+
+        doc = new Document(getArtifactsDir() + "Document.OdsoEmail.docx");
+        Assert.assertTrue(doc.getMailMergeSettings().getConnectString().isEmpty());
+        //ExEnd
+    }
+
+    @Test
+    public void mailingLabelMerge() throws Exception {
+        //ExStart
+        //ExFor:MailMergeSettings.DataSource
+        //ExFor:MailMergeSettings.HeaderSource
+        //ExSummary:Shows how to execute a mail merge while drawing data from a header and a data file.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create a merge destination document with MERGEFIELDS that will accept data
+        builder.write("Dear ");
+        builder.insertField("MERGEFIELD FirstName", "<FirstName>");
+        builder.write(" ");
+        builder.insertField("MERGEFIELD LastName", "<LastName>");
+
+        // Configure settings to draw data and headers from other documents
+        MailMergeSettings settings = doc.getMailMergeSettings();
+
+        // The "header" document contains column names for the data in the "data" document,
+        // which will correspond to the names of our MERGEFIELDs
+        settings.setHeaderSource(getMyDir() + "MailingLabelMergeHeader.doc");
+        settings.setDataSource(getMyDir() + "MailingLabelMergeData.doc");
+
+        // Configure the rest of the MailMergeSettings object
+        settings.setQuery("SELECT * FROM " + doc.getMailMergeSettings().getDataSource());
+        settings.setMainDocumentType(MailMergeMainDocumentType.MAILING_LABELS);
+        settings.setDataType(MailMergeDataType.TEXT_FILE);
+        settings.setLinkToQuery(true);
+        settings.setViewMergedData(true);
+
+        // The mail merge will be performed when this document is opened
+        doc.save(getArtifactsDir() + "Document.MailingLabelMerge.doc");
         //ExEnd
     }
 
@@ -3211,11 +3205,19 @@ public class ExDocument extends ApiExampleBase {
         VbaProject vbaProject = doc.getVbaProject();
         Assert.assertEquals(vbaProject.getName(), "AsposeVBAtest"); //ExSkip
 
-
         VbaModuleCollection vbaModules = doc.getVbaProject().getModules();
         for (VbaModule module : vbaModules) {
             System.out.println(MessageFormat.format("Module name: {0};\nModule code:\n{1}\n", module.getName(), module.getSourceCode()));
         }
+
+        // Set new source code for VBA module
+        String oldCode = vbaModules.get(0).getSourceCode();
+        vbaModules.get(0).setSourceCode("Your VBA code...");
+
+        Assert.assertNotEquals(vbaModules.get(0).getSourceCode(), oldCode); //ExSkip
+        Assert.assertEquals(vbaModules.get(0).getSourceCode(), "Your VBA code..."); //ExSkip
+
+        vbaModules.get(0).setSourceCode(oldCode);
         //ExEnd
 
         VbaModule defaultModule = vbaModules.get(0);
@@ -3254,6 +3256,16 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
+    public void numberFormatting() throws Exception {
+        Document doc = new Document(getMyDir() + "Document.NumberFormatting.docx");
+
+        // Use OpenType to correct displaying numbers in pdf
+        doc.getLayoutOptions().setTextShaperFactory(HarfBuzzTextShaperFactory.getInstance());
+
+        doc.save(getArtifactsDir() + "Document.NumberFormatting.pdf");
+    }
+
+    @Test
     public void saveOutputParameters() throws Exception {
         //ExStart
         //ExFor:SaveOutputParameters
@@ -3270,21 +3282,40 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void wordML2003SaveOptions() throws Exception {
+    public void subdocument() throws Exception
+    {
         //ExStart
-        //ExFor:WordML2003SaveOptions
-        //ExFor:WordML2003SaveOptions.SaveFormat
-        //ExSummary:Shows how to save to a .wml document while applying save options.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        //ExFor:SubDocument
+        //ExFor:SubDocument.NodeType
+        //ExSummary:Shows how to access a master document's subdocument.
+        Document doc = new Document(getMyDir() + "SubDocumentMaster.docx");
 
-        WordML2003SaveOptions options = new WordML2003SaveOptions();
-        {
-            options.setSaveFormat(SaveFormat.WORD_ML);
-            options.setMemoryOptimization(true);
-        }
+        NodeCollection subDocuments = doc.getChildNodes(NodeType.SUB_DOCUMENT, true);
+        Assert.assertEquals(subDocuments.getCount(),1);
 
-        doc.save(getArtifactsDir() + "Document.WordML2003SaveOptions.wml", options);
+        SubDocument subDocument = (SubDocument)doc.getChildNodes(NodeType.SUB_DOCUMENT, true).get(0);
+        Assert.assertFalse(subDocument.isComposite());
         //ExEnd
+    }
+
+    @Test
+    public void epubCover() throws Exception
+    {
+        // Create a blank document and insert some text
+        Document doc = new Document();
+
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world!");
+
+        // When saving to .epub, some Microsoft Word document properties can be converted to .epub metadata
+        doc.getBuiltInDocumentProperties().setAuthor("John Doe");
+        doc.getBuiltInDocumentProperties().setTitle("My Book Title");
+
+        // The thumbnail we specify here can become the cover image
+        byte[] image = Files.readAllBytes(Paths.get(getImageDir() + "Watermark.png"));
+        doc.getBuiltInDocumentProperties().setThumbnail(image);
+
+        doc.save(getArtifactsDir() + "EpubCover.epub");
     }
 }
 

@@ -14,19 +14,66 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
+import java.text.MessageFormat;
+import java.util.Iterator;
 
 public class ExStyles extends ApiExampleBase {
     @Test
     public void getStyles() throws Exception {
         //ExStart
         //ExFor:DocumentBase.Styles
+        //ExFor:Style.Document
         //ExFor:Style.Name
+        //ExFor:Style.IsHeading
+        //ExFor:Style.IsQuickStyle
+        //ExFor:Style.NextParagraphStyleName
+        //ExFor:Style.Styles
+        //ExFor:Style.Type
+        //ExFor:StyleCollection.Document
+        //ExFor:StyleCollection.GetEnumerator
         //ExSummary:Shows how to get access to the collection of styles defined in the document.
         Document doc = new Document();
         StyleCollection styles = doc.getStyles();
 
-        for (Style style : styles)
-            System.out.println(style.getName());
+        Iterator<Style> stylesEnum = doc.getStyles().iterator();
+        while (stylesEnum.hasNext()) {
+            Style curStyle = stylesEnum.next();
+            System.out.println(MessageFormat.format("Style name:\t\"{0}\", of type \"{1}\"", curStyle.getName(), curStyle.getType()));
+            System.out.println(MessageFormat.format("\tSubsequent style:\t{0}", curStyle.getNextParagraphStyleName()));
+            System.out.println(MessageFormat.format("\tIs heading:\t\t\t{0}", curStyle.isHeading()));
+            System.out.println(MessageFormat.format("\tIs QuickStyle:\t\t{0}", curStyle.isQuickStyle()));
+
+            Assert.assertEquals(curStyle.getDocument(), doc);
+        }
+        //ExEnd
+    }
+
+    @Test
+    public void styleCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:StyleCollection.Add(Style)
+        //ExFor:StyleCollection.Count
+        //ExFor:StyleCollection.DefaultFont
+        //ExFor:StyleCollection.DefaultParagraphFormat
+        //ExFor:StyleCollection.Item(StyleIdentifier)
+        //ExFor:StyleCollection.Item(Int32)
+        //ExSummary:Shows how to add a Style to a StyleCollection.
+        Document doc = new Document();
+
+        // New documents come with a collection of default styles that can be applied to paragraphs
+        StyleCollection styles = doc.getStyles();
+        Assert.assertEquals(styles.getCount(), 4);
+
+        // We can set default parameters for new styles that will be added to the collection from now on
+        styles.getDefaultFont().setName("Courier New");
+        styles.getDefaultParagraphFormat().setFirstLineIndent(15.0);
+
+        styles.add(StyleType.PARAGRAPH, "MyStyle");
+
+        // Styles within the collection can be referenced either by index or name
+        Assert.assertEquals(styles.get(4).getFont().getName(), "Courier New");
+        Assert.assertEquals(styles.get("MyStyle").getParagraphFormat().getFirstLineIndent(), 15.0);
         //ExEnd
     }
 
@@ -183,6 +230,29 @@ public class ExStyles extends ApiExampleBase {
         //ExSummary:Shows how to pick a style that is defined in the document and remove it.
         Document doc = new Document();
         doc.getStyles().get("Normal").remove();
+        //ExEnd
+    }
+
+    @Test
+    public void styleAliases() throws Exception
+    {
+        //ExStart
+        //ExFor:Style.Aliases
+        //ExFor:Style.BaseStyleName
+        //ExFor:Style.Equals(Aspose.Words.Style)
+        //ExFor:Style.LinkedStyleName
+        //ExSummary:Shows how to use style aliases.
+        // Open a document that had a style inserted with commas in its name which separate the style name and aliases
+        Document doc = new Document(getMyDir() + "StyleWithAlias.docx");
+
+        // The aliases, separate from the name can be found here
+        Style style = doc.getStyles().get("MyStyle");
+        Assert.assertEquals(new String[] { "MyStyle Alias 1", "MyStyle Alias 2" }, style.getAliases());
+        Assert.assertEquals("Title", style.getBaseStyleName());
+        Assert.assertEquals("MyStyle Char", style.getLinkedStyleName());
+
+        // A style can be referenced by alias as well as name
+        Assert.assertTrue(style.equals(doc.getStyles().get("MyStyle Alias 1")));
         //ExEnd
     }
 }
