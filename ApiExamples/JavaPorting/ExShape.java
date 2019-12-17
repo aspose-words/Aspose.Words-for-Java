@@ -85,6 +85,7 @@ import com.aspose.ms.System.Drawing.Rectangle;
 import java.awt.Graphics2D;
 import org.testng.annotations.DataProvider;
 
+
 /// <summary>
 /// Examples using shapes in documents.
 /// </summary>
@@ -638,7 +639,6 @@ public class ExShape extends ApiExampleBase
         //ExFor:Ole.Forms2OleControlCollection
         //ExFor:Ole.Forms2OleControlCollection.Count
         //ExFor:Ole.Forms2OleControlCollection.Item(Int32)
-        //ExFor:Ole.NamespaceDoc
         //ExSummary:Shows how to access an OLE control embedded in a document and its child controls.
         // Open a document that contains a Microsoft Forms OLE control with child controls
         Document doc = new Document(getMyDir() + "Shape.Ole.ControlCollection.docm");
@@ -1435,6 +1435,68 @@ public class ExShape extends ApiExampleBase
     }
 
     @Test
+    public void createLinkBetweenTextBoxes() throws Exception
+    {
+        //ExStart
+        //ExFor:TextBox.IsValidLinkTarget(TextBox)
+        //ExFor:TextBox.Next
+        //ExFor:TextBox.Previous
+        //ExFor:TextBox.BreakForwardLink
+        //ExSummary:Shows how to work with textbox forward link
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create a few textboxes for example
+        Shape textBoxShape1 = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 100.0);
+        TextBox textBox1 = textBoxShape1.getTextBox();
+        builder.writeln();
+        
+        Shape textBoxShape2 = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 100.0);
+        TextBox textBox2 = textBoxShape2.getTextBox();
+        builder.writeln();
+        
+        Shape textBoxShape3 = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 100.0);
+        TextBox textBox3 = textBoxShape3.getTextBox();
+        builder.writeln();
+
+        Shape textBoxShape4 = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 100.0);
+        TextBox textBox4 = textBoxShape4.getTextBox();
+        
+        // Create link between textboxes if possible
+        if (textBox1.isValidLinkTarget(textBox2))
+            textBox1.setNext(textBox2);
+
+        if (textBox2.isValidLinkTarget(textBox3))
+            textBox2.setNext(textBox3);
+
+        // You can only create link on empty textbox
+        builder.moveTo(textBoxShape4.getLastParagraph());
+        builder.write("Vertical text");
+        // Thus it's not valid link target
+        Assert.assertFalse(textBox3.isValidLinkTarget(textBox4));
+        
+        if (textBox1.getNext() != null && textBox1.getPrevious() == null)
+            msConsole.writeLine("This TextBox is the head of the sequence");
+ 
+        if (textBox2.getNext() != null && textBox2.getPrevious() != null)
+            msConsole.writeLine("This TextBox is the Middle of the sequence");
+ 
+        if (textBox3.getNext() == null && textBox3.getPrevious() != null)
+        {
+            msConsole.writeLine("This TextBox is the Tail of the sequence");
+            
+            // Break the forward link between textBox2 and textBox3
+            textBox3.getPrevious().breakForwardLink();
+            // Check that link was break successfully
+            Assert.assertTrue(textBox2.getNext() == null);
+            Assert.assertTrue(textBox3.getPrevious() == null);
+        }
+
+        doc.save(getArtifactsDir() + "Shape.CreateLinkBetweenTextBoxes.docx");
+        //ExEnd
+    }
+
+    @Test
     public void getTextBoxAndChangeTextAnchor() throws Exception
     {
         //ExStart
@@ -1734,6 +1796,25 @@ public class ExShape extends ApiExampleBase
             ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
             renderer.save(getArtifactsDir() + $"Shape.ShapeRenderer {shape.Name}.png", options);
         }
+        //ExEnd
+    }
+
+    @Test
+    public void documentHasSmartArtObject() throws Exception
+    {
+        //ExStart
+        //ExFor:Shape.HasSmartArt
+        //ExSummary:Shows how to detect that Shape has a SmartArt object.
+        Document doc = new Document(getMyDir() + "Shape.SmartArt.docx");
+ 
+        int count = 0;
+        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
+        {
+            if (shape.hasSmartArt())
+                count++;
+        }
+ 
+        msConsole.writeLine("The document has {0} shapes with SmartArt.", count);
         //ExEnd
     }
 

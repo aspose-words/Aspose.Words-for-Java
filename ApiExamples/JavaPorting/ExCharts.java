@@ -13,26 +13,28 @@ import com.aspose.words.ShapeType;
 import com.aspose.words.Chart;
 import com.aspose.words.ChartTitle;
 import com.aspose.words.ChartSeries;
-import com.aspose.words.ChartDataLabel;
+import com.aspose.words.ChartDataLabelCollection;
 import com.aspose.words.ChartSeriesCollection;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.NodeType;
-import com.aspose.words.ChartAxisType;
+import com.aspose.words.ChartAxis;
 import com.aspose.words.AxisCategoryType;
 import com.aspose.words.AxisCrosses;
 import com.aspose.words.AxisTickMark;
 import com.aspose.words.AxisTickLabelPosition;
-import com.aspose.words.AxisTimeUnit;
-import com.aspose.words.AxisBuiltInUnit;
-import com.aspose.words.AxisScaleType;
-import com.aspose.words.ChartAxis;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.AxisBound;
+import com.aspose.words.AxisTimeUnit;
+import com.aspose.words.AxisBuiltInUnit;
+import com.aspose.ms.System.IO.MemoryStream;
+import com.aspose.words.SaveFormat;
+import com.aspose.words.NodeType;
+import com.aspose.words.BreakType;
 import java.util.Iterator;
+import com.aspose.words.ChartDataLabel;
 import com.aspose.words.MarkerSymbol;
 import com.aspose.words.ChartDataPoint;
+import com.aspose.words.ChartAxisType;
 import com.aspose.ms.System.msConsole;
+import com.aspose.words.AxisScaleType;
 import com.aspose.words.ChartLegend;
 import com.aspose.words.LegendPosition;
 import com.aspose.words.ParagraphAlignment;
@@ -46,12 +48,12 @@ public class ExCharts extends ApiExampleBase
     public void chartTitle() throws Exception
     {
         //ExStart
-        //ExFor:Charts.Chart
-        //ExFor:Charts.Chart.Title
-        //ExFor:Charts.ChartTitle
-        //ExFor:Charts.ChartTitle.Overlay
-        //ExFor:Charts.ChartTitle.Show
-        //ExFor:Charts.ChartTitle.Text
+        //ExFor:Chart
+        //ExFor:Chart.Title
+        //ExFor:ChartTitle
+        //ExFor:ChartTitle.Overlay
+        //ExFor:ChartTitle.Show
+        //ExFor:ChartTitle.Text
         //ExSummary:Shows how to insert a chart and change its title.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -76,49 +78,31 @@ public class ExCharts extends ApiExampleBase
     }
 
     @Test
-    public void numberFormat() throws Exception
+    public void defineNumberFormatForDataLabels() throws Exception
     {
+        //ExStart
+        //ExFor:ChartDataLabelCollection.NumberFormat
+        //ExFor:ChartNumberFormat.FormatCode
+        //ExSummary:Shows how to set number format for the data labels of the entire series.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add chart with default data.
+        // Add chart with default data
         Shape shape = builder.insertChart(ChartType.LINE, 432.0, 252.0);
-        Chart chart = shape.getChart();
-        chart.getTitle().setText("Data Labels With Different Number Format");
+        // Delete default generated series
+        shape.getChart().getSeries().clear();
+        
+        ChartSeries series =
+            shape.getChart().getSeries().add("Aspose Test Series", new String[] { "Word", "PDF", "Excel" }, new double[] { 2.5, 1.5, 3.5 });
 
-        // Delete default generated series.
-        chart.getSeries().clear();
+        ChartDataLabelCollection dataLabels = series.getDataLabels();
+        // Display chart values in the data labels, by default it is false
+        dataLabels.setShowValue(true);
+        // Set currency format for the data labels of the entire series
+        dataLabels.getNumberFormat().setFormatCode("\"$\"#,##0.00");
 
-        // Add new series
-        ChartSeries series0 =
-            chart.getSeries().add("AW Series 0", new String[] { "AW0", "AW1", "AW2" }, new double[] { 2.5, 1.5, 3.5 });
-
-        // Add DataLabel to the first point of the first series.
-        ChartDataLabel chartDataLabel0 = series0.getDataLabels().add(0);
-        chartDataLabel0.setShowValue(true);
-
-        // Set currency format code.
-        chartDataLabel0.getNumberFormat().setFormatCode("\"$\"#,##0.00");
-
-        ChartDataLabel chartDataLabel1 = series0.getDataLabels().add(1);
-        chartDataLabel1.setShowValue(true);
-
-        // Set date format code.
-        chartDataLabel1.getNumberFormat().setFormatCode("d/mm/yyyy");
-
-        ChartDataLabel chartDataLabel2 = series0.getDataLabels().add(2);
-        chartDataLabel2.setShowValue(true);
-
-        // Set percentage format code.
-        chartDataLabel2.getNumberFormat().setFormatCode("0.00%");
-
-        // Or you can set format code to be linked to a source cell,
-        // in this case NumberFormat will be reset to general and inherited from a source cell.
-        chartDataLabel2.getNumberFormat().isLinkedToSource(true);
-
-        doc.save(getArtifactsDir() + "Charts.NumberFormat.docx");
-
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "Charts.NumberFormat.docx", getGoldsDir() + "DocumentBuilder.NumberFormat Gold.docx"));
+        doc.save(getArtifactsDir() + "Charts.DefineNumberFormatForDataLabels.docx");
+        //ExEnd
     }
 
     @Test
@@ -174,97 +158,6 @@ public class ExCharts extends ApiExampleBase
             new double[] { Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 9.0 });
 
         doc.save(getArtifactsDir() + "Charts.EmptyValuesInChartData.docx");
-    }
-
-    @Test
-    public void chartDefaultValues() throws Exception
-    {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Insert chart.
-        builder.insertChart(ChartType.COLUMN_3_D, 432.0, 252.0);
-
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
-        Shape shapeNode = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-        Chart chart = shapeNode.getChart();
-
-        // Assert X axis
-        msAssert.areEqual(ChartAxisType.CATEGORY, chart.getAxisX().getType());
-        msAssert.areEqual(AxisCategoryType.AUTOMATIC, chart.getAxisX().getCategoryType());
-        msAssert.areEqual(AxisCrosses.AUTOMATIC, chart.getAxisX().getCrosses());
-        msAssert.areEqual(false, chart.getAxisX().getReverseOrder());
-        msAssert.areEqual(AxisTickMark.NONE, chart.getAxisX().getMajorTickMark());
-        msAssert.areEqual(AxisTickMark.NONE, chart.getAxisX().getMinorTickMark());
-        msAssert.areEqual(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisX().getTickLabelPosition());
-        msAssert.areEqual(1, chart.getAxisX().getMajorUnit());
-        msAssert.areEqual(true, chart.getAxisX().getMajorUnitIsAuto());
-        msAssert.areEqual(AxisTimeUnit.AUTOMATIC, chart.getAxisX().getMajorUnitScale());
-        msAssert.areEqual(0.5, chart.getAxisX().getMinorUnit());
-        msAssert.areEqual(true, chart.getAxisX().getMinorUnitIsAuto());
-        msAssert.areEqual(AxisTimeUnit.AUTOMATIC, chart.getAxisX().getMinorUnitScale());
-        msAssert.areEqual(AxisTimeUnit.AUTOMATIC, chart.getAxisX().getBaseTimeUnit());
-        msAssert.areEqual("General", chart.getAxisX().getNumberFormat().getFormatCode());
-        msAssert.areEqual(100, chart.getAxisX().getTickLabelOffset());
-        msAssert.areEqual(AxisBuiltInUnit.NONE, chart.getAxisX().getDisplayUnit().getUnit());
-        msAssert.areEqual(true, chart.getAxisX().getAxisBetweenCategories());
-        msAssert.areEqual(AxisScaleType.LINEAR, chart.getAxisX().getScaling().getType());
-        msAssert.areEqual(1, chart.getAxisX().getTickLabelSpacing());
-        msAssert.areEqual(true, chart.getAxisX().getTickLabelSpacingIsAuto());
-        msAssert.areEqual(1, chart.getAxisX().getTickMarkSpacing());
-        msAssert.areEqual(false, chart.getAxisX().getHidden());
-
-        // Assert Y axis
-        msAssert.areEqual(ChartAxisType.VALUE, chart.getAxisY().getType());
-        msAssert.areEqual(AxisCategoryType.CATEGORY, chart.getAxisY().getCategoryType());
-        msAssert.areEqual(AxisCrosses.AUTOMATIC, chart.getAxisY().getCrosses());
-        msAssert.areEqual(false, chart.getAxisY().getReverseOrder());
-        msAssert.areEqual(AxisTickMark.NONE, chart.getAxisY().getMajorTickMark());
-        msAssert.areEqual(AxisTickMark.NONE, chart.getAxisY().getMinorTickMark());
-        msAssert.areEqual(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisY().getTickLabelPosition());
-        msAssert.areEqual(1, chart.getAxisY().getMajorUnit());
-        msAssert.areEqual(true, chart.getAxisY().getMajorUnitIsAuto());
-        msAssert.areEqual(AxisTimeUnit.AUTOMATIC, chart.getAxisY().getMajorUnitScale());
-        msAssert.areEqual(0.5, chart.getAxisY().getMinorUnit());
-        msAssert.areEqual(true, chart.getAxisY().getMinorUnitIsAuto());
-        msAssert.areEqual(AxisTimeUnit.AUTOMATIC, chart.getAxisY().getMinorUnitScale());
-        msAssert.areEqual(AxisTimeUnit.AUTOMATIC, chart.getAxisY().getBaseTimeUnit());
-        msAssert.areEqual("General", chart.getAxisY().getNumberFormat().getFormatCode());
-        msAssert.areEqual(100, chart.getAxisY().getTickLabelOffset());
-        msAssert.areEqual(AxisBuiltInUnit.NONE, chart.getAxisY().getDisplayUnit().getUnit());
-        msAssert.areEqual(true, chart.getAxisY().getAxisBetweenCategories());
-        msAssert.areEqual(AxisScaleType.LINEAR, chart.getAxisY().getScaling().getType());
-        msAssert.areEqual(1, chart.getAxisY().getTickLabelSpacing());
-        msAssert.areEqual(true, chart.getAxisY().getTickLabelSpacingIsAuto());
-        msAssert.areEqual(1, chart.getAxisY().getTickMarkSpacing());
-        msAssert.areEqual(false, chart.getAxisY().getHidden());
-
-        // Assert Z axis
-        msAssert.areEqual(ChartAxisType.SERIES, chart.getAxisZ().getType());
-        msAssert.areEqual(AxisCategoryType.CATEGORY, chart.getAxisZ().getCategoryType());
-        msAssert.areEqual(AxisCrosses.AUTOMATIC, chart.getAxisZ().getCrosses());
-        msAssert.areEqual(false, chart.getAxisZ().getReverseOrder());
-        msAssert.areEqual(AxisTickMark.NONE, chart.getAxisZ().getMajorTickMark());
-        msAssert.areEqual(AxisTickMark.NONE, chart.getAxisZ().getMinorTickMark());
-        msAssert.areEqual(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisZ().getTickLabelPosition());
-        msAssert.areEqual(1, chart.getAxisZ().getMajorUnit());
-        msAssert.areEqual(true, chart.getAxisZ().getMajorUnitIsAuto());
-        msAssert.areEqual(AxisTimeUnit.AUTOMATIC, chart.getAxisZ().getMajorUnitScale());
-        msAssert.areEqual(0.5, chart.getAxisZ().getMinorUnit());
-        msAssert.areEqual(true, chart.getAxisZ().getMinorUnitIsAuto());
-        msAssert.areEqual(AxisTimeUnit.AUTOMATIC, chart.getAxisZ().getMinorUnitScale());
-        msAssert.areEqual(AxisTimeUnit.AUTOMATIC, chart.getAxisZ().getBaseTimeUnit());
-        msAssert.areEqual("", chart.getAxisZ().getNumberFormat().getFormatCode());
-        msAssert.areEqual(100, chart.getAxisZ().getTickLabelOffset());
-        msAssert.areEqual(AxisBuiltInUnit.NONE, chart.getAxisZ().getDisplayUnit().getUnit());
-        msAssert.areEqual(true, chart.getAxisZ().getAxisBetweenCategories());
-        msAssert.areEqual(AxisScaleType.LINEAR, chart.getAxisZ().getScaling().getType());
-        msAssert.areEqual(1, chart.getAxisZ().getTickLabelSpacing());
-        msAssert.areEqual(true, chart.getAxisZ().getTickLabelSpacingIsAuto());
-        msAssert.areEqual(1, chart.getAxisZ().getTickMarkSpacing());
-        msAssert.areEqual(false, chart.getAxisZ().getHidden());
     }
 
     @Test
@@ -334,7 +227,6 @@ public class ExCharts extends ApiExampleBase
         //ExEnd
 
         doc.save(getArtifactsDir() + "Charts.InsertChartUsingAxisProperties.docx");
-        doc.save(getArtifactsDir() + "Charts.InsertChartUsingAxisProperties.pdf");
     }
 
     @Test
@@ -359,10 +251,10 @@ public class ExCharts extends ApiExampleBase
         Shape shape = builder.insertChart(ChartType.LINE, 432.0, 252.0);
         Chart chart = shape.getChart();
         
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
 
-        // Fill data.
+        // Fill data
         chart.getSeries().addInternal("Aspose Test Series",
             new DateTime[]
             {
@@ -374,18 +266,18 @@ public class ExCharts extends ApiExampleBase
         ChartAxis xAxis = chart.getAxisX();
         ChartAxis yAxis = chart.getAxisY();
 
-        // Set X axis bounds.
+        // Set X axis bounds
         xAxis.getScaling().setMinimum(new AxisBound(new DateTime(2017, 11, 5).toOADate()));
         xAxis.getScaling().setMaximum(new AxisBound(new DateTime(2017, 12, 3)));
 
-        // Set major units to a week and minor units to a day.
+        // Set major units to a week and minor units to a day
         xAxis.setBaseTimeUnit(AxisTimeUnit.DAYS);
         xAxis.setMajorUnit(7.0);
         xAxis.setMinorUnit(1.0);
         xAxis.setMajorTickMark(AxisTickMark.CROSS);
         xAxis.setMinorTickMark(AxisTickMark.OUTSIDE);
 
-        // Define Y axis properties.
+        // Define Y axis properties
         yAxis.setTickLabelPosition(AxisTickLabelPosition.HIGH);
         yAxis.setMajorUnit(100.0);
         yAxis.setMinorUnit(50.0);
@@ -406,13 +298,13 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
+        // Insert chart
         Shape shape = builder.insertChart(ChartType.LINE, 432.0, 252.0);
         Chart chart = shape.getChart();
         chart.getAxisX().setHidden(true);
         chart.getAxisY().setHidden(true);
 
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
         chart.getSeries().add("AW Series 1",
             new String[] { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" },
@@ -441,18 +333,18 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
+        // Insert chart
         Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
         Chart chart = shape.getChart();
 
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
 
         chart.getSeries().add("Aspose Test Series",
             new String[] { "Word", "PDF", "Excel", "GoogleDocs", "Note" },
             new double[] { 1900000.0, 850000.0, 2100000.0, 600000.0, 1500000.0 });
 
-        // Set number format.
+        // Set number format
         chart.getAxisY().getNumberFormat().setFormatCode("#,##0");
 
         // Set this to override the above value and draw the number format from the source cell
@@ -460,7 +352,6 @@ public class ExCharts extends ApiExampleBase
         //ExEnd
 
         doc.save(getArtifactsDir() + "Charts.SetNumberFormatToChartAxis.docx");
-        doc.save(getArtifactsDir() + "Charts.SetNumberFormatToChartAxis.pdf");
     }
 
     // Note: Tests below used for verification conversion docx to pdf and the correct display.
@@ -471,11 +362,11 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
+        // Insert chart
         Shape shape = builder.insertChart(chartType, 432.0, 252.0);
         Chart chart = shape.getChart();
 
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
 
         chart.getSeries().add("Aspose Test Series",
@@ -506,11 +397,11 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
+        // Insert chart
         Shape shape = builder.insertChart(ChartType.SURFACE_3_D, 432.0, 252.0);
         Chart chart = shape.getChart();
 
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
 
         chart.getSeries().add("Aspose Test Series 1",
@@ -530,51 +421,84 @@ public class ExCharts extends ApiExampleBase
     }
 
     @Test
-    public void bubbleChart() throws Exception
+    public void workWithChartDataLabelCollection() throws Exception
     {
+        //ExStart
+        //ExFor:ChartDataLabelCollection.ShowBubbleSize
+        //ExFor:ChartDataLabelCollection.ShowCategoryName
+        //ExFor:ChartDataLabelCollection.ShowSeriesName
+        //ExFor:ChartDataLabelCollection.Separator
+        //ExFor:ChartDataLabelCollection.ShowLeaderLines
+        //ExFor:ChartDataLabelCollection.ShowLegendKey
+        //ExFor:ChartDataLabelCollection.ShowPercentage
+        //ExFor:ChartDataLabelCollection.ShowValue
+        //ExSummary:Shows how to set default values for the data labels.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
-        Shape shape = builder.insertChart(ChartType.BUBBLE, 432.0, 252.0);
-        Chart chart = shape.getChart();
+        // Insert bubble chart
+        Shape shapeWithBubbleChart = builder.insertChart(ChartType.BUBBLE, 432.0, 252.0);
+        // Clear demo data
+        shapeWithBubbleChart.getChart().getSeries().clear();
+        
+        ChartSeries bubbleChartSeries = shapeWithBubbleChart.getChart().getSeries().add("Aspose Test Series",
+            new double[] { 2.9, 3.5, 1.1, 4.0, 4.0 },
+            new double[] { 1.9, 8.5, 2.1, 6.0, 1.5 },
+            new double[] { 9.0, 4.5, 2.5, 8.0, 5.0 });
 
-        // Clear demo data.
-        chart.getSeries().clear();
+        // Set default values for the bubble chart data labels
+        ChartDataLabelCollection bubbleChartDataLabels = bubbleChartSeries.getDataLabels();
+        bubbleChartDataLabels.setShowBubbleSize(true);
+        bubbleChartDataLabels.setShowCategoryName(true);
+        bubbleChartDataLabels.setShowSeriesName(true);
+        bubbleChartDataLabels.setSeparator(" - ");
 
-        chart.getSeries().add("Aspose Test Series",
-            new double[] { 2900000.0, 350000.0, 1100000.0, 400000.0, 400000.0 },
-            new double[] { 1900000.0, 850000.0, 2100000.0, 600000.0, 1500000.0 },
-            new double[] { 900000.0, 450000.0, 2500000.0, 800000.0, 500000.0 });
+        builder.insertBreak(BreakType.PAGE_BREAK);
 
-        doc.save(getArtifactsDir() + "Charts.BubbleChart.docx");
-        doc.save(getArtifactsDir() + "Charts.BubbleChart.pdf");
+        // Insert pie chart
+        Shape shapeWithPieChart = builder.insertChart(ChartType.PIE, 432.0, 252.0);
+        // Clear demo data
+        shapeWithPieChart.getChart().getSeries().clear();
+
+        ChartSeries pieChartSeries = shapeWithPieChart.getChart().getSeries().add("Aspose Test Series",
+            new String[] { "Word", "PDF", "Excel" },
+            new double[] { 2.7, 3.2, 0.8 });
+
+        // Set default values for the pie chart data labels
+        ChartDataLabelCollection pieChartDataLabels = pieChartSeries.getDataLabels();
+        pieChartDataLabels.setShowLeaderLines(true);
+        pieChartDataLabels.setShowLegendKey(true);
+        pieChartDataLabels.setShowPercentage(true);
+        pieChartDataLabels.setShowValue(true);
+
+        doc.save(getArtifactsDir() + "Charts.WorkWithChartDataLabelCollection.docx");
+        //ExEnd
     }
 
     //ExStart
-    //ExFor:Charts.ChartSeries
-    //ExFor:Charts.ChartSeries.DataLabels
-    //ExFor:Charts.ChartSeries.DataPoints
-    //ExFor:Charts.ChartSeries.Name
-    //ExFor:Charts.ChartDataLabel
-    //ExFor:Charts.ChartDataLabel.Index
-    //ExFor:Charts.ChartDataLabel.IsVisible
-    //ExFor:Charts.ChartDataLabel.NumberFormat
-    //ExFor:Charts.ChartDataLabel.Separator
-    //ExFor:Charts.ChartDataLabel.ShowCategoryName
-    //ExFor:Charts.ChartDataLabel.ShowDataLabelsRange
-    //ExFor:Charts.ChartDataLabel.ShowLeaderLines
-    //ExFor:Charts.ChartDataLabel.ShowLegendKey
-    //ExFor:Charts.ChartDataLabel.ShowPercentage
-    //ExFor:Charts.ChartDataLabel.ShowSeriesName
-    //ExFor:Charts.ChartDataLabel.ShowValue
-    //ExFor:Charts.ChartDataLabelCollection
-    //ExFor:Charts.ChartDataLabelCollection.Add(System.Int32)
-    //ExFor:Charts.ChartDataLabelCollection.Clear
-    //ExFor:Charts.ChartDataLabelCollection.Count
-    //ExFor:Charts.ChartDataLabelCollection.GetEnumerator
-    //ExFor:Charts.ChartDataLabelCollection.Item(System.Int32)
-    //ExFor:Charts.ChartDataLabelCollection.RemoveAt(System.Int32)
+    //ExFor:ChartSeries
+    //ExFor:ChartSeries.DataLabels
+    //ExFor:ChartSeries.DataPoints
+    //ExFor:ChartSeries.Name
+    //ExFor:ChartDataLabel
+    //ExFor:ChartDataLabel.Index
+    //ExFor:ChartDataLabel.IsVisible
+    //ExFor:ChartDataLabel.NumberFormat
+    //ExFor:ChartDataLabel.Separator
+    //ExFor:ChartDataLabel.ShowCategoryName
+    //ExFor:ChartDataLabel.ShowDataLabelsRange
+    //ExFor:ChartDataLabel.ShowLeaderLines
+    //ExFor:ChartDataLabel.ShowLegendKey
+    //ExFor:ChartDataLabel.ShowPercentage
+    //ExFor:ChartDataLabel.ShowSeriesName
+    //ExFor:ChartDataLabel.ShowValue
+    //ExFor:ChartDataLabelCollection
+    //ExFor:ChartDataLabelCollection.Add(System.Int32)
+    //ExFor:ChartDataLabelCollection.Clear
+    //ExFor:ChartDataLabelCollection.Count
+    //ExFor:ChartDataLabelCollection.GetEnumerator
+    //ExFor:ChartDataLabelCollection.Item(System.Int32)
+    //ExFor:ChartDataLabelCollection.RemoveAt(System.Int32)
     //ExSummary:Shows how to apply labels to data points in a chart.
     @Test //ExSkip
     public void chartDataLabels() throws Exception
@@ -651,23 +575,23 @@ public class ExCharts extends ApiExampleBase
     //ExEnd
 
     //ExStart
-    //ExFor:Charts.ChartSeries.Smooth
-    //ExFor:Charts.ChartDataPoint
-    //ExFor:Charts.ChartDataPoint.Index
-    //ExFor:Charts.ChartDataPointCollection
-    //ExFor:Charts.ChartDataPointCollection.Add(System.Int32)
-    //ExFor:Charts.ChartDataPointCollection.Clear
-    //ExFor:Charts.ChartDataPointCollection.Count
-    //ExFor:Charts.ChartDataPointCollection.GetEnumerator
-    //ExFor:Charts.ChartDataPointCollection.Item(System.Int32)
-    //ExFor:Charts.ChartDataPointCollection.RemoveAt(System.Int32)
-    //ExFor:Charts.ChartMarker
-    //ExFor:Charts.ChartMarker.Size
-    //ExFor:Charts.ChartMarker.Symbol
-    //ExFor:Charts.IChartDataPoint
-    //ExFor:Charts.IChartDataPoint.InvertIfNegative
-    //ExFor:Charts.IChartDataPoint.Marker
-    //ExFor:Charts.MarkerSymbol
+    //ExFor:ChartSeries.Smooth
+    //ExFor:ChartDataPoint
+    //ExFor:ChartDataPoint.Index
+    //ExFor:ChartDataPointCollection
+    //ExFor:ChartDataPointCollection.Add(System.Int32)
+    //ExFor:ChartDataPointCollection.Clear
+    //ExFor:ChartDataPointCollection.Count
+    //ExFor:ChartDataPointCollection.GetEnumerator
+    //ExFor:ChartDataPointCollection.Item(System.Int32)
+    //ExFor:ChartDataPointCollection.RemoveAt(System.Int32)
+    //ExFor:ChartMarker
+    //ExFor:ChartMarker.Size
+    //ExFor:ChartMarker.Symbol
+    //ExFor:IChartDataPoint
+    //ExFor:IChartDataPoint.InvertIfNegative
+    //ExFor:IChartDataPoint.Marker
+    //ExFor:MarkerSymbol
     //ExSummary:Shows how to customize chart data points.
     @Test
     public void chartDataPoint() throws Exception
@@ -777,14 +701,14 @@ public class ExCharts extends ApiExampleBase
     }
 
     //ExStart
-    //ExFor:Charts.ChartAxis.Type
-    //ExFor:Charts.ChartAxisType
-    //ExFor:Charts.ChartType
-    //ExFor:Charts.Chart.Series
-    //ExFor:Charts.ChartSeriesCollection.Add(String,DateTime[],Double[])
-    //ExFor:Charts.ChartSeriesCollection.Add(String,Double[],Double[])
-    //ExFor:Charts.ChartSeriesCollection.Add(String,Double[],Double[],Double[])
-    //ExFor:Charts.ChartSeriesCollection.Add(String,String[],Double[])
+    //ExFor:ChartAxis.Type
+    //ExFor:ChartAxisType
+    //ExFor:ChartType
+    //ExFor:Chart.Series
+    //ExFor:ChartSeriesCollection.Add(String,DateTime[],Double[])
+    //ExFor:ChartSeriesCollection.Add(String,Double[],Double[])
+    //ExFor:ChartSeriesCollection.Add(String,Double[],Double[],Double[])
+    //ExFor:ChartSeriesCollection.Add(String,String[],Double[])
     //ExSummary:Shows an appropriate graph type for each chart series.
     @Test //ExSkip
     public void chartSeriesCollection() throws Exception
@@ -865,12 +789,12 @@ public class ExCharts extends ApiExampleBase
     public void chartSeriesCollectionModify() throws Exception
     {
         //ExStart
-        //ExFor:Charts.ChartSeriesCollection
-        //ExFor:Charts.ChartSeriesCollection.Clear
-        //ExFor:Charts.ChartSeriesCollection.Count
-        //ExFor:Charts.ChartSeriesCollection.GetEnumerator
-        //ExFor:Charts.ChartSeriesCollection.Item(Int32)
-        //ExFor:Charts.ChartSeriesCollection.RemoveAt(Int32)
+        //ExFor:ChartSeriesCollection
+        //ExFor:ChartSeriesCollection.Clear
+        //ExFor:ChartSeriesCollection.Count
+        //ExFor:ChartSeriesCollection.GetEnumerator
+        //ExFor:ChartSeriesCollection.Item(Int32)
+        //ExFor:ChartSeriesCollection.RemoveAt(Int32)
         //ExSummary:Shows how to work with a chart's data collection.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -922,10 +846,10 @@ public class ExCharts extends ApiExampleBase
     public void axisScaling() throws Exception
     {
         //ExStart
-        //ExFor:Charts.AxisScaleType
-        //ExFor:Charts.AxisScaling
-        //ExFor:Charts.AxisScaling.LogBase
-        //ExFor:Charts.AxisScaling.Type
+        //ExFor:AxisScaleType
+        //ExFor:AxisScaling
+        //ExFor:AxisScaling.LogBase
+        //ExFor:AxisScaling.Type
         //ExSummary:Shows how to set up logarithmic axis scaling.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -955,10 +879,10 @@ public class ExCharts extends ApiExampleBase
     public void axisBound() throws Exception
     {
         //ExStart
-        //ExFor:Charts.AxisBound.#ctor
-        //ExFor:Charts.AxisBound.IsAuto
-        //ExFor:Charts.AxisBound.Value
-        //ExFor:Charts.AxisBound.ValueAsDate
+        //ExFor:AxisBound.#ctor
+        //ExFor:AxisBound.IsAuto
+        //ExFor:AxisBound.Value
+        //ExFor:AxisBound.ValueAsDate
         //ExSummary:Shows how to set custom axis bounds.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1013,11 +937,11 @@ public class ExCharts extends ApiExampleBase
     public void chartLegend() throws Exception
     {
         //ExStart
-        //ExFor:Charts.Chart.Legend
-        //ExFor:Charts.ChartLegend
-        //ExFor:Charts.ChartLegend.Overlay
-        //ExFor:Charts.ChartLegend.Position
-        //ExFor:Charts.LegendPosition
+        //ExFor:Chart.Legend
+        //ExFor:ChartLegend
+        //ExFor:ChartLegend.Overlay
+        //ExFor:ChartLegend.Position
+        //ExFor:LegendPosition
         //ExSummary:Shows how to edit the appearance of a chart's legend.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1043,8 +967,8 @@ public class ExCharts extends ApiExampleBase
     public void axisCross() throws Exception
     {
         //ExStart
-        //ExFor:Charts.ChartAxis.AxisBetweenCategories
-        //ExFor:Charts.ChartAxis.CrossesAt
+        //ExFor:ChartAxis.AxisBetweenCategories
+        //ExFor:ChartAxis.CrossesAt
         //ExSummary:Shows how to get a graph axis to cross at a custom location.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1069,17 +993,17 @@ public class ExCharts extends ApiExampleBase
     public void chartAxisDisplayUnit() throws Exception
     {
         //ExStart
-        //ExFor:Charts.AxisBuiltInUnit
-        //ExFor:Charts.ChartAxis.DisplayUnit
-        //ExFor:Charts.ChartAxis.MajorUnitIsAuto
-        //ExFor:Charts.ChartAxis.MajorUnitScale
-        //ExFor:Charts.ChartAxis.MinorUnitIsAuto
-        //ExFor:Charts.ChartAxis.MinorUnitScale
-        //ExFor:Charts.ChartAxis.TickLabelSpacing
-        //ExFor:Charts.ChartAxis.TickLabelAlignment
-        //ExFor:Charts.AxisDisplayUnit
-        //ExFor:Charts.AxisDisplayUnit.CustomUnit
-        //ExFor:Charts.AxisDisplayUnit.Unit
+        //ExFor:AxisBuiltInUnit
+        //ExFor:ChartAxis.DisplayUnit
+        //ExFor:ChartAxis.MajorUnitIsAuto
+        //ExFor:ChartAxis.MajorUnitScale
+        //ExFor:ChartAxis.MinorUnitIsAuto
+        //ExFor:ChartAxis.MinorUnitScale
+        //ExFor:ChartAxis.TickLabelSpacing
+        //ExFor:ChartAxis.TickLabelAlignment
+        //ExFor:AxisDisplayUnit
+        //ExFor:AxisDisplayUnit.CustomUnit
+        //ExFor:AxisDisplayUnit.Unit
         //ExSummary:Shows how to manipulate the tick marks and displayed values of a chart axis.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

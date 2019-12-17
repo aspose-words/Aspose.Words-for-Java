@@ -141,7 +141,6 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExFor:HeaderFooterCollection.Item(HeaderFooterType)
         //ExFor:HeaderFooter
         //ExFor:HeaderFooterType
-        //ExId:RemoveFooters
         //ExSummary:Deletes all footers from all sections, but leaves headers intact.
         Document doc = new Document(getMyDir() + "HeaderFooter.RemoveFooters.doc");
 
@@ -270,9 +269,6 @@ public class ExHeaderFooter extends ApiExampleBase {
     }
     //ExEnd
 
-    //ExStart
-    //ExId:HeaderFooterPrimer
-    //ExSummary:Maybe a bit complicated example, but demonstrates many things that can be done with headers/footers.
     @Test //ExSkip
     public void headerFooterPrimer() throws Exception {
         Document doc = new Document();
@@ -405,6 +401,5 @@ public class ExHeaderFooter extends ApiExampleBase {
             section.getHeadersFooters().add(headerFooter.deepClone(true));
         }
     }
-    //ExEnd
 }
 

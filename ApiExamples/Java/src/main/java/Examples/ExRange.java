@@ -276,7 +276,6 @@ public class ExRange extends ApiExampleBase {
         //ExStart
         //ExFor:Range
         //ExFor:Range.Text
-        //ExId:RangesGetText
         //ExSummary:Shows how to get plain, unformatted text of a range.
         Document doc = new Document(getMyDir() + "Document.doc");
         String text = doc.getRange().getText();

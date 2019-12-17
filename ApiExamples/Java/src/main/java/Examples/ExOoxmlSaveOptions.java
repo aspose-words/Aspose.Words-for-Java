@@ -18,8 +18,27 @@ import java.util.Date;
 
 public class ExOoxmlSaveOptions extends ApiExampleBase {
     @Test
+    public void password() throws Exception {
+        //ExStart
+        //ExFor:OoxmlSaveOptions.Password
+        //ExSummary:Shows how to create a password protected Office Open XML document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world!");
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        saveOptions.setPassword("MyPassword");
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.Password.docx", saveOptions);
+        //ExEnd
+    }
+
+    @Test
     public void iso29500Strict() throws Exception {
         //ExStart
+        //ExFor:OoxmlSaveOptions
+        //ExFor:OoxmlSaveOptions.#ctor
+        //ExFor:OoxmlSaveOptions.SaveFormat
         //ExFor:OoxmlCompliance
         //ExFor:OoxmlSaveOptions.Compliance
         //ExFor:ShapeMarkupLanguage
@@ -44,6 +63,8 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
         saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_STRICT);
         saveOptions.setSaveFormat(SaveFormat.DOCX);
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.Iso29500Strict.docx", saveOptions);
         //ExEnd
 
         ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
@@ -100,6 +121,8 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
 
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
         saveOptions.setUpdateLastSavedTimeProperty(true);
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.UpdatingLastSavedTimeDocument.docx", saveOptions);
         //ExEnd
 
         ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
@@ -114,11 +137,12 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
     public void keepLegacyControlChars() throws Exception {
         //ExStart
         //ExFor:OoxmlSaveOptions.KeepLegacyControlChars
+        //ExFor:OoxmlSaveOptions.#ctor(SaveFormat)
         //ExSummary:Shows how to support legacy control characters when converting to .docx
         Document doc = new Document(getMyDir() + "OoxmlSaveOptions.KeepLegacyControlChars.doc");
 
         // Note that only one legacy character (ShortDateTime) is supported which declared in the "DOC" format
-        OoxmlSaveOptions so = new OoxmlSaveOptions();
+        OoxmlSaveOptions so = new OoxmlSaveOptions(SaveFormat.DOCX);
         so.setKeepLegacyControlChars(true);
 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.KeepLegacyControlChars.docx", so);

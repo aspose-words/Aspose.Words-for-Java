@@ -135,16 +135,17 @@ public class ExTable extends ApiExampleBase
         Assert.That(tables.getCount(), Is.GreaterThan(0));
     }
 
-    @Test
+    //ExStart
+    //ExFor:Node.GetAncestor(NodeType)
+    //ExFor:Node.GetAncestor(System.Type)
+    //ExFor:Table.NodeType
+    //ExFor:Cell.Tables
+    //ExFor:TableCollection
+    //ExFor:NodeCollection.Count
+    //ExSummary:Shows how to find out if a table contains another table or if the table itself is nested inside another table.
+    @Test //ExSkip
     public void calculateDepthOfNestedTables() throws Exception
     {
-        //ExStart
-        //ExFor:Node.GetAncestor(NodeType)
-        //ExFor:Table.NodeType
-        //ExFor:Cell.Tables
-        //ExFor:TableCollection
-        //ExFor:NodeCollection.Count
-        //ExSummary:Shows how to find out if a table contains another table or if the table itself is nested inside another table.
         Document doc = new Document(getMyDir() + "Table.NestedTables.doc");
         int tableIndex = 0;
 
@@ -179,16 +180,15 @@ public class ExTable extends ApiExampleBase
     {
         int depth = 0;
 
-        /*NodeType*/int type = table.getNodeType();
         // The parent of the table will be a Cell, instead attempt to find a grandparent that is of type Table
-        Node parent = table.getAncestor(type);
+        Node parent = table.getAncestor(table.getNodeType());
 
         while (parent != null)
         {
             // Every time we find a table a level up we increase the depth counter and then try to find an
             // ancestor of type table from the parent.
             depth++;
-            parent = parent.getAncestor(type);
+            parent = parent.getAncestor(Table.class);
         }
 
         return depth;
@@ -226,9 +226,6 @@ public class ExTable extends ApiExampleBase
     @Test
     public void convertTextboxToTable() throws Exception
     {
-        //ExStart
-        //ExId:TextboxToTable
-        //ExSummary:Shows how to convert a textbox to a table and retain almost identical formatting. This is useful for HTML export.
         // Open the document
         Document doc = new Document(getMyDir() + "Shape.TextBox.doc");
 
@@ -321,7 +318,6 @@ public class ExTable extends ApiExampleBase
         // Remove the empty textbox from the document.
         textBox.remove();
     }
-    //ExEnd
 
     @Test
     public void ensureTableMinimum() throws Exception
@@ -388,7 +384,6 @@ public class ExTable extends ApiExampleBase
         //ExFor:Table.SetBorder
         //ExFor:TextureIndex
         //ExFor:Table.SetShading
-        //ExId:TableBordersOutline
         //ExSummary:Shows how to apply a outline border to a table.
         Document doc = new Document(getMyDir() + "Table.EmptyTable.doc");
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -429,7 +424,6 @@ public class ExTable extends ApiExampleBase
     {
         //ExStart
         //ExFor:Table.SetBorders
-        //ExId:TableBordersAll
         //ExSummary:Shows how to build a table with all borders enabled (grid).
         Document doc = new Document(getMyDir() + "Table.EmptyTable.doc");
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -458,7 +452,6 @@ public class ExTable extends ApiExampleBase
         //ExStart
         //ExFor:RowFormat
         //ExFor:Row.RowFormat
-        //ExId:RowFormatProperties
         //ExSummary:Shows how to modify formatting of a table row.
         Document doc = new Document(getMyDir() + "Table.Document.doc");
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -487,7 +480,6 @@ public class ExTable extends ApiExampleBase
         //ExStart
         //ExFor:CellFormat
         //ExFor:Cell.CellFormat
-        //ExId:CellFormatProperties
         //ExSummary:Shows how to modify formatting of a table cell.
         Document doc = new Document(getMyDir() + "Table.Document.doc");
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -556,7 +548,6 @@ public class ExTable extends ApiExampleBase
         //ExStart
         //ExFor:Range.Replace(String, String, FindReplaceOptions)
         //ExFor:Cell
-        //ExId:ReplaceTextTable
         //ExSummary:Shows how to replace all instances of String of text in a table and cell.
         Document doc = new Document(getMyDir() + "Table.SimpleTable.doc");
 
@@ -581,9 +572,6 @@ public class ExTable extends ApiExampleBase
     @Test
     public void printTableRange() throws Exception
     {
-        //ExStart
-        //ExId:PrintTableRange
-        //ExSummary:Shows how to print the text range of a table.
         Document doc = new Document(getMyDir() + "Table.SimpleTable.doc");
 
         // Get the first table in the document.
@@ -595,11 +583,7 @@ public class ExTable extends ApiExampleBase
         // Print the plain text range of the table to the screen.
         msConsole.writeLine("Contents of the table: ");
         msConsole.writeLine(table.getRange().getText());
-        //ExEnd
-
-        //ExStart
-        //ExId:PrintRowAndCellRange
-        //ExSummary:Shows how to print the text range of row and table elements.
+        
         // Print the contents of the second row to the screen.
         msConsole.writeLine("\nContents of the row: ");
         msConsole.writeLine(table.getRows().get(1).getRange().getText());
@@ -607,8 +591,7 @@ public class ExTable extends ApiExampleBase
         // Print the contents of the last cell in the table to the screen.
         msConsole.writeLine("\nContents of the cell: ");
         msConsole.writeLine(table.getLastRow().getLastCell().getRange().getText());
-        //ExEnd
-
+        
         msAssert.areEqual("Apples\r" + ControlChar.CELL + "20\r" + ControlChar.CELL + ControlChar.CELL,
             table.getRows().get(1).getRange().getText());
         msAssert.areEqual("50\r\u0007", table.getLastRow().getLastCell().getRange().getText());
@@ -617,9 +600,6 @@ public class ExTable extends ApiExampleBase
     @Test
     public void cloneTable() throws Exception
     {
-        //ExStart
-        //ExId:CloneTable
-        //ExSummary:Shows how to make a clone of a table in the document and insert it after the original table.
         Document doc = new Document(getMyDir() + "Table.SimpleTable.doc");
 
         // Retrieve the first table in the document.
@@ -636,19 +616,14 @@ public class ExTable extends ApiExampleBase
         table.getParentNode().insertAfter(new Paragraph(doc), table);
 
         doc.save(getArtifactsDir() + "Table.CloneTableAndInsert.doc");
-        //ExEnd
-
+        
         // Verify that the table was cloned and inserted properly.
         msAssert.areEqual(2, doc.getChildNodes(NodeType.TABLE, true).getCount());
         msAssert.areEqual(table.getRange().getText(), tableClone.getRange().getText());
 
-        //ExStart
-        //ExId:CloneTableRemoveContent
-        //ExSummary:Shows how to remove all content from the cells of a cloned table.
         for (Cell cell : tableClone.getChildNodes(NodeType.CELL, true).<Cell>OfType() !!Autoporter error: Undefined expression type )
             cell.removeAllChildren();
-        //ExEnd
-
+        
         msAssert.areEqual("", msString.trim(tableClone.toString(SaveFormat.TEXT)));
     }
 
@@ -662,7 +637,6 @@ public class ExTable extends ApiExampleBase
 
         //ExStart
         //ExFor:RowFormat.AllowBreakAcrossPages
-        //ExId:RowFormatAllowBreaks
         //ExSummary:Shows how to disable rows breaking across pages for every row in a table.
         // Disable breaking across pages for all rows in the table.
         for (Row row : table.<Row>OfType() !!Autoporter error: Undefined expression type )
@@ -685,7 +659,6 @@ public class ExTable extends ApiExampleBase
 
         //ExStart
         //ExFor:Table.AllowAutoFit
-        //ExId:AllowAutoFit
         //ExSummary:Shows how to set a table to shrink or grow each cell to accommodate its contents.
         table.setAllowAutoFit(true);
         //ExEnd
@@ -706,7 +679,6 @@ public class ExTable extends ApiExampleBase
         //ExFor:Paragraph.IsInCell
         //ExFor:Cell.ParentRow
         //ExFor:Cell.Paragraphs
-        //ExId:KeepTableTogether
         //ExSummary:Shows how to set a table to stay together on the same page.
         // To keep a table from breaking across a page we need to enable KeepWithNext 
         // for every paragraph in the table except for the last paragraphs in the last 
@@ -737,7 +709,6 @@ public class ExTable extends ApiExampleBase
     {
         //ExStart
         //ExFor:Row
-        //ExId:AddClonedRowToTable
         //ExSummary:Shows how to make a clone of the last row of a table and append it to the table.
         Document doc = new Document(getMyDir() + "Table.SimpleTable.doc");
 
@@ -767,9 +738,6 @@ public class ExTable extends ApiExampleBase
     @Test
     public void fixDefaultTableWidthsInAw105() throws Exception
     {
-        //ExStart
-        //ExId:FixTablesDefaultFixedColumnWidth
-        //ExSummary:Shows how to revert the default behavior of table sizing to use column widths.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -786,15 +754,11 @@ public class ExTable extends ApiExampleBase
         table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
 
         // Continue with building your table as usual...
-        //ExEnd
     }
 
     @Test
     public void fixDefaultTableBordersIn105() throws Exception
     {
-        //ExStart
-        //ExId:FixTablesDefaultBorders
-        //ExSummary:Shows how to revert the default borders on tables back to no border lines.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -806,15 +770,11 @@ public class ExTable extends ApiExampleBase
         table.clearBorders();
 
         // Continue with building your table as usual...
-        //ExEnd
     }
 
     @Test
     public void fixDefaultTableFormattingExceptionIn105() throws Exception
     {
-        //ExStart
-        //ExId:FixTableFormattingException
-        //ExSummary:Shows how to avoid encountering an exception when applying table formatting.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -827,15 +787,11 @@ public class ExTable extends ApiExampleBase
         table.setAllowAutoFit(true);
 
         // Continue with building your table as usual...
-        //ExEnd
     }
 
     @Test
     public void fixRowFormattingNotAppliedIn105() throws Exception
     {
-        //ExStart
-        //ExId:FixRowFormattingNotApplied
-        //ExSummary:Shows how to fix row formatting not being applied to some rows.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -862,7 +818,6 @@ public class ExTable extends ApiExampleBase
         builder.getRowFormat().setHeadingFormat(false);
 
         // Continue with building your table as usual...
-        //ExEnd
     }
 
     @Test
@@ -873,7 +828,6 @@ public class ExTable extends ApiExampleBase
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         //ExStart
         //ExFor:NodeCollection.IndexOf(Node)
-        //ExId:IndexOfTable
         //ExSummary:Retrieves the index of a table in the document.
         NodeCollection allTables = doc.getChildNodes(NodeType.TABLE, true);
         int tableIndex = allTables.indexOf(table);
@@ -883,7 +837,6 @@ public class ExTable extends ApiExampleBase
         //ExStart
         //ExFor:Row
         //ExFor:CompositeNode.IndexOf
-        //ExId:IndexOfRow
         //ExSummary:Retrieves the index of a row in a table.
         int rowIndex = table.indexOf(row);
         //ExEnd
@@ -892,7 +845,6 @@ public class ExTable extends ApiExampleBase
         //ExStart
         //ExFor:Cell
         //ExFor:CompositeNode.IndexOf
-        //ExId:IndexOfCell
         //ExSummary:Retrieves the index of a cell in a row.
         int cellIndex = row.indexOf(cell);
         //ExEnd
@@ -913,7 +865,6 @@ public class ExTable extends ApiExampleBase
         //ExFor:PreferredWidthType
         //ExFor:PreferredWidth.Type
         //ExFor:PreferredWidth.Value
-        //ExId:GetPreferredWidthTypeAndValue
         //ExSummary:Retrieves the preferred width type of a table cell.
         Cell firstCell = table.getFirstRow().getFirstCell();
         /*PreferredWidthType*/int type = firstCell.getCellFormat().getPreferredWidth().getType();
@@ -938,7 +889,6 @@ public class ExTable extends ApiExampleBase
         //ExFor:CellFormat
         //ExFor:CellFormat.Shading
         //ExFor:Cell.FirstParagraph
-        //ExId:InsertTableUsingNodeConstructors
         //ExSummary:Shows how to insert a table using the constructors of nodes.
         Document doc = new Document();
 
@@ -1002,7 +952,6 @@ public class ExTable extends ApiExampleBase
     //ExFor:Table.Description
     //ExFor:Row.#ctor(DocumentBase)
     //ExFor:Cell.#ctor(DocumentBase)
-    //ExId:NestedTableNodeConstructors
     //ExSummary:Shows how to build a nested table without using DocumentBuilder.
     @Test //ExSkip
     public void nestedTablesUsingNodeConstructors() throws Exception
@@ -1069,7 +1018,6 @@ public class ExTable extends ApiExampleBase
     //ExFor:CellFormat.HorizontalMerge
     //ExFor:CellFormat.VerticalMerge
     //ExFor:CellMerge
-    //ExId:CheckCellMerge
     //ExSummary:Prints the horizontal and vertical merge type of a cell.
     @Test //ExSkip
     public void checkCellsMerged() throws Exception
@@ -1119,16 +1067,12 @@ public class ExTable extends ApiExampleBase
         // Retrieve the first table in the body of the first section.
         Table table = doc.getFirstSection().getBody().getTables().get(0);
 
-        //ExStart
-        //ExId:MergeCellRange
-        //ExSummary:Merges the range of cells between the two specified cells.
         // We want to merge the range of cells found in between these two cells.
         Cell cellStartRange = table.getRows().get(2).getCells().get(2);
         Cell cellEndRange = table.getRows().get(3).getCells().get(3);
 
         // Merge all the cells between the two specified cells into one.
         mergeCells(cellStartRange, cellEndRange);
-        //ExEnd
 
         // Save the document.
         doc.save(getArtifactsDir() + "Table.MergeCellRange.doc");
@@ -1150,9 +1094,6 @@ public class ExTable extends ApiExampleBase
         Assert.assertTrue(table.getRows().get(3).getCells().get(3).getCellFormat().getVerticalMerge() == CellMerge.PREVIOUS);
     }
 
-    //ExStart
-    //ExId:MergeCellsMethod
-    //ExSummary:A method which merges all cells of a table in the specified range of cells.
     /// <summary>
     /// Merges the range of cells found between the two specified cells both horizontally and vertically. Can span over multiple rows.
     /// </summary>
@@ -1186,7 +1127,6 @@ public class ExTable extends ApiExampleBase
             }
         }
     }
-    //ExEnd
 
     @Test
     public void combineTables() throws Exception
@@ -1198,7 +1138,6 @@ public class ExTable extends ApiExampleBase
         //ExFor:Table.Rows
         //ExFor:Table.FirstRow
         //ExFor:CellFormat.ClearFormatting
-        //ExId:CombineTables
         //ExSummary:Shows how to combine the rows from two tables into one.
         // Load the document.
         Document doc = new Document(getMyDir() + "Table.Document.doc");
@@ -1227,9 +1166,6 @@ public class ExTable extends ApiExampleBase
     @Test
     public void splitTable() throws Exception
     {
-        //ExStart
-        //ExId:SplitTableAtRow
-        //ExSummary:Shows how to split a table into two tables a specific row.
         // Load the document.
         Document doc = new Document(getMyDir() + "Table.SimpleTable.doc");
 
@@ -1257,7 +1193,6 @@ public class ExTable extends ApiExampleBase
         } while (currentRow != row);
 
         doc.save(getArtifactsDir() + "Table.SplitTable.doc");
-        //ExEnd
 
         doc = new Document(getArtifactsDir() + "Table.SplitTable.doc");
         // Test we are adding the rows in the correct order and the 
@@ -1477,7 +1412,7 @@ public class ExTable extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (enabled = false, description = "WORDSNET-18708")
+    @Test
     public void getConditionalStylesEnumerator() throws Exception
     {
         //ExStart

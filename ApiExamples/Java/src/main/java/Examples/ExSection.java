@@ -249,7 +249,6 @@ public class ExSection extends ApiExampleBase {
     public void sectionsAccessByIndex() throws Exception {
         //ExStart
         //ExFor:SectionCollection.Item(Int32)
-        //ExId:SectionsAccessByIndex
         //ExSummary:Shows how to access a section at the specified index.
         Document doc = new Document(getMyDir() + "Document.doc");
         Section section = doc.getSections().get(0);
@@ -260,7 +259,6 @@ public class ExSection extends ApiExampleBase {
     public void sectionsAddSection() throws Exception {
         //ExStart
         //ExFor:NodeCollection.Add
-        //ExId:SectionsAddSection
         //ExSummary:Shows how to add a section to the end of the document.
         Document doc = new Document(getMyDir() + "Document.doc");
         Section sectionToAdd = new Section(doc);
@@ -270,19 +268,14 @@ public class ExSection extends ApiExampleBase {
 
     @Test
     public void sectionsDeleteSection() throws Exception {
-        //ExStart
-        //ExId:SectionsDeleteSection
-        //ExSummary:Shows how to remove a section at the specified index.
         Document doc = new Document(getMyDir() + "Document.doc");
         doc.getSections().removeAt(0);
-        //ExEnd
     }
 
     @Test
     public void sectionsDeleteAllSections() throws Exception {
         //ExStart
         //ExFor:NodeCollection.Clear
-        //ExId:SectionsDeleteAllSections
         //ExSummary:Shows how to remove all sections from a document.
         Document doc = new Document(getMyDir() + "Document.doc");
         doc.getSections().clear();
@@ -294,7 +287,6 @@ public class ExSection extends ApiExampleBase {
         //ExStart
         //ExFor:Section.AppendContent
         //ExFor:Section.PrependContent
-        //ExId:SectionsAppendSectionContent
         //ExSummary:Shows how to append content of an existing section. The number of sections in the document remains the same.
         Document doc = new Document(getMyDir() + "Section.AppendContent.doc");
 
@@ -315,7 +307,6 @@ public class ExSection extends ApiExampleBase {
     public void sectionsDeleteSectionContent() throws Exception {
         //ExStart
         //ExFor:Section.ClearContent
-        //ExId:SectionsDeleteSectionContent
         //ExSummary:Shows how to delete main content of a section.
         Document doc = new Document(getMyDir() + "Document.doc");
         Section section = doc.getSections().get(0);
@@ -327,7 +318,6 @@ public class ExSection extends ApiExampleBase {
     public void sectionsDeleteHeaderFooter() throws Exception {
         //ExStart
         //ExFor:Section.ClearHeadersFooters
-        //ExId:SectionsDeleteHeaderFooter
         //ExSummary:Clears content of all headers and footers in a section.
         Document doc = new Document(getMyDir() + "Document.doc");
         Section section = doc.getSections().get(0);
@@ -348,26 +338,18 @@ public class ExSection extends ApiExampleBase {
 
     @Test
     public void sectionsCloneSection() throws Exception {
-        //ExStart
-        //ExId:SectionsCloneSection
-        //ExSummary:Shows how to create a duplicate of a particular section.
         Document doc = new Document(getMyDir() + "Document.doc");
         Section cloneSection = doc.getSections().get(0).deepClone();
-        //ExEnd
     }
 
     @Test
     public void sectionsImportSection() throws Exception {
-        //ExStart
-        //ExId:SectionsImportSection
-        //ExSummary:Shows how to copy sections between documents.
         Document srcDoc = new Document(getMyDir() + "Document.doc");
         Document dstDoc = new Document();
 
         Section sourceSection = srcDoc.getSections().get(0);
         Section newSection = (Section) dstDoc.importNode(sourceSection, true);
         dstDoc.getSections().add(newSection);
-        //ExEnd
     }
 
     @Test
@@ -375,20 +357,13 @@ public class ExSection extends ApiExampleBase {
         Document srcDoc = new Document();
         Document dstDoc = new Document();
 
-        //ExStart
-        //ExId:MigrateFrom2XImportSection
-        //ExSummary:This fragment shows how to insert a section from another document in Aspose.Words 3.0 or higher.
         Section sourceSection = srcDoc.getSections().get(0);
         Section newSection = (Section) dstDoc.importNode(sourceSection, true);
         dstDoc.getSections().add(newSection);
-        //ExEnd
     }
 
     @Test
     public void modifyPageSetupInAllSections() throws Exception {
-        //ExStart
-        //ExId:ModifyPageSetupInAllSections
-        //ExSummary:Shows how to set paper size for the whole document.
         Document doc = new Document(getMyDir() + "Section.ModifyPageSetupInAllSections.doc");
 
         // It is important to understand that a document can contain many sections and each
@@ -399,7 +374,6 @@ public class ExSection extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "Section.ModifyPageSetupInAllSections.doc");
-        //ExEnd
     }
 
     @Test

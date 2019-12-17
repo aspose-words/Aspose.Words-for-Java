@@ -14,6 +14,11 @@ import com.aspose.words.TxtLoadOptions;
 import com.aspose.words.TxtTrailingSpacesOptions;
 import com.aspose.words.TxtLeadingSpacesOptions;
 import com.aspose.words.Document;
+import com.aspose.words.DocumentDirection;
+import com.aspose.words.Paragraph;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 
 
 @Test
@@ -41,4 +46,31 @@ public class ExTxtLoadOptions extends ApiExampleBase
         doc.save(getArtifactsDir() + "TxtLoadOptions.DetectNumberingWithWhitespaces.txt");
         //ExEnd
     }
+
+    @Test (dataProvider = "detectDocumentDirectionDataProvider")
+    public void detectDocumentDirection(String documentPath, boolean isBidi) throws Exception
+    {
+        //ExStart
+        //ExFor:TxtLoadOptions.DocumentDirection
+        //ExSummary:Shows how to detect document direction automatically.
+        TxtLoadOptions loadOptions = new TxtLoadOptions();
+        loadOptions.setDocumentDirection(DocumentDirection.AUTO);
+ 
+        // Text like Hebrew/Arabic will be automatically detected as RTL
+        Document doc = new Document(getMyDir() + documentPath, loadOptions);
+        Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
+        msAssert.areEqual(isBidi, paragraph.getParagraphFormat().getBidi());
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "detectDocumentDirectionDataProvider")
+	public static Object[][] detectDocumentDirectionDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"TxtLoadOptions.Hebrew.txt",  true},
+			{"TxtLoadOptions.English.txt",  false},
+		};
+	}
 }

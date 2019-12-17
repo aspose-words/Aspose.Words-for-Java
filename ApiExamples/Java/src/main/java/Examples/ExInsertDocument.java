@@ -20,7 +20,6 @@ public class ExInsertDocument extends ApiExampleBase {
     //ExFor:NodeImporter
     //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode)
     //ExFor:NodeImporter.ImportNode(Node, Boolean)
-    //ExId:InsertDocumentMain
     //ExSummary:This is a method that inserts contents of one document at a specified location in another document.
 
     /**
@@ -68,22 +67,17 @@ public class ExInsertDocument extends ApiExampleBase {
 
     @Test
     public void insertDocumentAtBookmark() throws Exception {
-        //ExStart
-        //ExId:InsertDocumentAtBookmark
-        //ExSummary:Invokes the InsertDocument method shown above to insert a document at a bookmark.
         Document mainDoc = new Document(getMyDir() + "InsertDocument1.doc");
         Document subDoc = new Document(getMyDir() + "InsertDocument2.doc");
 
         Bookmark bookmark = mainDoc.getRange().getBookmarks().get("insertionPlace");
         insertDocument(bookmark.getBookmarkStart().getParentNode(), subDoc);
 
-        mainDoc.save(getArtifactsDir() + "InsertDocumentAtBookmark.doc");
-        //ExEnd
+        mainDoc.save(getArtifactsDir() + "InsertDocumentAtBookmark.doc");//ExEnd
     }
 
     //ExStart
     //ExFor:CompositeNode.HasChildNodes
-    //ExId:InsertDocumentAtMailMerge
     //ExSummary:Demonstrates how to use the InsertDocument method to insert a document into a merge field during mail merge.
     @Test //ExSkip
     public void insertDocumentAtMailMerge() throws Exception {
@@ -135,9 +129,6 @@ public class ExInsertDocument extends ApiExampleBase {
     }
     //ExEnd
 
-    //ExStart
-    //ExId:InsertDocumentAtMailMergeBlob
-    //ExSummary:A slight variation to the above example to load a document from a BLOB database field instead of a file.
     private class InsertDocumentAtMailMergeBlobHandler implements IFieldMergingCallback {
         /**
          * This handler makes special processing for the "Document_1" field.
@@ -172,12 +163,7 @@ public class ExInsertDocument extends ApiExampleBase {
             // Do nothing.
         }
     }
-    //ExEnd
 
-    @Test
-    public void insertDocumentAtReplaceCaller() throws Exception {
-        insertDocumentAtReplace();
-    }
 
     //ExStart
     //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
@@ -187,8 +173,8 @@ public class ExInsertDocument extends ApiExampleBase {
     //ExFor:ReplacingArgs
     //ExFor:ReplacingArgs.MatchNode
     //ExFor:FindReplaceDirection
-    //ExId:InsertDocumentAtReplace
     //ExSummary:Shows how to insert content of one document into another during a customized find and replace operation.
+    @Test //ExSkip
     public void insertDocumentAtReplace() throws Exception {
         Document mainDoc = new Document(getMyDir() + "InsertDocument1.doc");
 

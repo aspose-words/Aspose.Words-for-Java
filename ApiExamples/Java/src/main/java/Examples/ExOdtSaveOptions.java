@@ -17,6 +17,9 @@ public class ExOdtSaveOptions extends ApiExampleBase {
     @Test
     public void measureUnitOption() throws Exception {
         //ExStart
+        //ExFor:OdtSaveOptions
+        //ExFor:OdtSaveOptions.#ctor
+        //ExFor:OdtSaveOptions.IsStrictSchema11
         //ExFor:OdtSaveOptions.MeasureUnit
         //ExFor:OdtSaveMeasureUnit
         //ExSummary:Shows how to work with units of measure of document content
@@ -25,15 +28,18 @@ public class ExOdtSaveOptions extends ApiExampleBase {
         //Open Office uses centimeters, MS Office uses inches
         OdtSaveOptions saveOptions = new OdtSaveOptions();
         saveOptions.setMeasureUnit(OdtSaveMeasureUnit.INCHES);
+        saveOptions.isStrictSchema11(true);
 
-        doc.save(getArtifactsDir() + "OdtSaveOptions.MeasureUnit.odt");
+        doc.save(getArtifactsDir() + "OdtSaveOptions.MeasureUnit.odt", saveOptions);
         //ExEnd
     }
 
     @Test(dataProvider = "saveDocumentEncryptedWithAPasswordDataProvider")
     public void saveDocumentEncryptedWithAPassword(final int saveFormat) throws Exception {
         //ExStart
+        //ExFor:OdtSaveOptions.#ctor(SaveFormat)
         //ExFor:OdtSaveOptions.Password
+        //ExFor:OdtSaveOptions.SaveFormat
         //ExSummary:Shows how to encrypted your odt/ott documents with a password.
         Document doc = new Document(getMyDir() + "Document.docx");
 

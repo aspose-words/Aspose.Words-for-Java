@@ -11,7 +11,6 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
-import com.aspose.words.NodeType;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Run;
 import com.aspose.words.Node;
@@ -19,36 +18,32 @@ import org.testng.Assert;
 import com.aspose.words.CompositeNode;
 import com.aspose.ms.System.msConsole;
 import com.aspose.ms.NUnit.Framework.msAssert;
+import com.aspose.words.NodeType;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.Section;
 import com.aspose.words.Body;
 import com.aspose.words.TableCollection;
 import com.aspose.words.Table;
 import com.aspose.words.NodeList;
+import java.util.Iterator;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.ExportHeadersFootersMode;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.ms.System.Text.msStringBuilder;
+import com.aspose.BitmapPal;
+import java.awt.image.BufferedImage;
+import com.aspose.words.INodeChangingCallback;
+import com.aspose.words.NodeChangingArgs;
+import com.aspose.words.NodeChangingAction;
+import com.aspose.ms.System.msString;
+import com.aspose.words.RunCollection;
+import com.aspose.words.Shape;
 
 
 @Test
 public class ExNode extends ApiExampleBase
 {
-    @Test
-    public void useNodeType() throws Exception
-    {
-        //ExStart
-        //ExFor:NodeType
-        //ExId:UseNodeType
-        //ExSummary:The following example shows how to use the NodeType enumeration.
-        Document doc = new Document();
-
-        // Returns NodeType.Document
-        /*NodeType*/int type = doc.getNodeType();
-        //ExEnd
-    }
-
     @Test
     public void cloneCompositeNode() throws Exception
     {
@@ -78,7 +73,6 @@ public class ExNode extends ApiExampleBase
     {
         //ExStart
         //ExFor:Node.ParentNode
-        //ExId:AccessParentNode
         //ExSummary:Shows how to access the parent node.
         // Create a new empty document. It has one section.
         Document doc = new Document();
@@ -99,7 +93,6 @@ public class ExNode extends ApiExampleBase
         //ExStart
         //ExFor:Node.Document
         //ExFor:Node.ParentNode
-        //ExId:CreatingNodeRequiresDocument
         //ExSummary:Shows that when you create any node, it requires a document that will own the node.
         // Open a file from disk.
         Document doc = new Document();
@@ -134,6 +127,7 @@ public class ExNode extends ApiExampleBase
         Document doc = new Document();
         //ExStart
         //ExFor:Node
+        //ExFor:NodeType
         //ExFor:CompositeNode
         //ExFor:CompositeNode.GetChild
         //ExSummary:Shows how to extract a specific child node from a CompositeNode by using the GetChild method and passing the NodeType and index.
@@ -143,7 +137,6 @@ public class ExNode extends ApiExampleBase
         //ExStart
         //ExFor:CompositeNode.ChildNodes
         //ExFor:CompositeNode.GetEnumerator
-        //ExId:ChildNodesForEach
         //ExSummary:Shows how to enumerate immediate children of a CompositeNode using the enumerator provided by the ChildNodes collection.
         NodeCollection children = paragraph.getChildNodes();
         for (Node child : (Iterable<Node>) children)
@@ -169,7 +162,6 @@ public class ExNode extends ApiExampleBase
         //ExStart
         //ExFor:NodeCollection.Count
         //ExFor:NodeCollection.Item
-        //ExId:ChildNodesIndexer
         //ExSummary:Shows how to enumerate immediate children of a CompositeNode using indexed access.
         NodeCollection children = paragraph.getChildNodes();
         for (int i = 0; i < children.getCount(); i++)
@@ -194,7 +186,6 @@ public class ExNode extends ApiExampleBase
     //ExFor:Node.IsComposite
     //ExFor:CompositeNode.IsComposite
     //ExFor:Node.NodeTypeToString
-    //ExId:RecurseAllNodes            
     //ExSummary:Shows how to efficiently visit all direct and indirect children of a composite node.
     @Test //ExSkip
     public void recurseAllNodes() throws Exception
@@ -297,7 +288,6 @@ public class ExNode extends ApiExampleBase
         //ExFor:Table.FirstRow
         //ExFor:Table.LastRow
         //ExFor:TableCollection
-        //ExId:TypedPropertiesAccess
         //ExSummary:Demonstrates how to use typed properties to access nodes of the document tree.
         // Quick typed access to the first child Section node of the Document.
         Section section = doc.getFirstSection();
@@ -362,6 +352,8 @@ public class ExNode extends ApiExampleBase
         //ExStart
         //ExFor:CompositeNode.SelectSingleNode
         //ExFor:CompositeNode.SelectNodes
+        //ExFor:NodeList.GetEnumerator
+        //ExFor:NodeList.ToArray
         //ExSummary:Shows how to select certain nodes by using an XPath expression.
         Document doc = new Document(getMyDir() + "Table.Document.doc");
 
@@ -369,8 +361,23 @@ public class ExNode extends ApiExampleBase
         // This will return any paragraphs which are in a table.
         NodeList nodeList = doc.selectNodes("//Table//Paragraph");
 
+        // Iterate through the list with an enumerator and print the contents of every paragraph in each cell of the table
+        int index = 0;
+        Iterator<Node> e = nodeList.iterator();
+        try /*JAVA: was using*/
+        {
+            while (e.hasNext())
+            {
+                msConsole.writeLine($"Table paragraph index {index++}, contents: \"{e.Current.GetText().Trim()}\"");
+            }
+        }
+        finally { if (e != null) e.close(); }
+
         // This expression will select any paragraphs that are direct children of any body node in the document.
         nodeList = doc.selectNodes("//Body/Paragraph");
+
+        // We can treat the list as an array too
+        msAssert.areEqual(4, nodeList.toArray().length);
 
         // Use SelectSingleNode to select the first result of the same expression as above.
         Node node = doc.selectSingleNode("//Body/Paragraph");
@@ -412,16 +419,12 @@ public class ExNode extends ApiExampleBase
     @Test
     public void createAndAddParagraphNode() throws Exception
     {
-        //ExStart
-        //ExId:CreateAndAddParagraphNode
-        //ExSummary:Creates and adds a paragraph node.
         Document doc = new Document();
 
         Paragraph para = new Paragraph(doc);
 
         Section section = doc.getLastSection();
         section.getBody().appendChild(para);
-        //ExEnd
     }
 
     @Test
@@ -483,7 +486,6 @@ public class ExNode extends ApiExampleBase
         //ExFor:BookmarkEnd.NodeType
         //ExFor:GroupShape.NodeType
         //ExFor:CommentRangeStart.NodeType
-        //ExId:GetNodeTypeEnums
         //ExSummary:Shows how to retrieve the NodeType enumeration of nodes.
         Document doc = new Document(getMyDir() + "Document.doc");
 
@@ -734,4 +736,153 @@ public class ExNode extends ApiExampleBase
         } while (navigator.MoveToNext());
     }
     //ExEnd
+
+    //ExStart
+    //ExFor:NodeChangingAction
+    //ExFor:NodeChangingArgs.Action
+    //ExFor:NodeChangingArgs.NewParent
+    //ExFor:NodeChangingArgs.OldParent
+    //ExSummary:Shows how to use a NodeChangingCallback to monitor changes to the document tree as it is edited.
+    @Test //ExSkip
+    public void nodeChangingCallback() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Set the NodeChangingCallback attribute to a custom printer 
+        doc.setNodeChangingCallback(new NodeChangingPrinter());
+
+        // All node additions and removals will be printed to the console as we edit the document
+        builder.writeln("Hello world!");
+        builder.startTable();
+        builder.insertCell();
+        builder.write("Cell 1");
+        builder.insertCell();
+        builder.write("Cell 2");
+        builder.endTable();
+
+        builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Aspose.Words.gif"));
+        builder.getCurrentParagraph().getParentNode().removeAllChildren();
+    }
+
+    /// <summary>
+    /// Prints all inserted/removed nodes as well as their parent nodes
+    /// </summary>
+    private static class NodeChangingPrinter implements INodeChangingCallback
+    {
+        public void /*INodeChangingCallback.*/nodeInserting(NodeChangingArgs args)
+        {
+            msAssert.areEqual(NodeChangingAction.INSERT, args.getAction());
+            msAssert.areEqual(null, args.getOldParent());
+        }
+
+        public void /*INodeChangingCallback.*/nodeInserted(NodeChangingArgs args)
+        {
+            msAssert.areEqual(NodeChangingAction.INSERT, args.getAction());
+            Assert.assertNotNull(args.getNewParent());
+
+            msConsole.writeLine($"Inserted node:");
+            msConsole.writeLine($"\tType:\t{args.Node.NodeType}");
+
+            if (!"".equals(msString.trim(args.getNode().getText())))
+            {
+                msConsole.writeLine($"\tText:\t\"{args.Node.GetText().Trim()}\"");
+            }
+
+            msConsole.writeLine($"\tHash:\t{args.Node.GetHashCode()}");
+            msConsole.writeLine($"\tParent:\t{args.NewParent.NodeType} ({args.NewParent.GetHashCode()})");
+        }
+
+        public void /*INodeChangingCallback.*/nodeRemoving(NodeChangingArgs args)
+        {
+            msAssert.areEqual(NodeChangingAction.REMOVE, args.getAction());
+        }
+
+        public void /*INodeChangingCallback.*/nodeRemoved(NodeChangingArgs args)
+        {
+            msAssert.areEqual(NodeChangingAction.REMOVE, args.getAction());
+            Assert.assertNull(args.getNewParent());
+
+            msConsole.writeLine($"Removed node: {args.Node.NodeType} ({args.Node.GetHashCode()})");
+        }
+    }
+    //ExEnd
+
+    @Test
+    public void nodeCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:NodeCollection.Contains(Node)
+        //ExFor:NodeCollection.Insert(Int32,Node)
+        //ExFor:NodeCollection.Remove(Node)
+        //ExSummary:Shows how to work with a NodeCollection.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // The normal way to insert Runs into a document is to add text using a DocumentBuilder
+        builder.write("Run 1. ");
+        builder.write("Run 2. ");
+
+        // Every .Write() invocation creates a new Run, which is added to the parent Paragraph's RunCollection
+        RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
+        msAssert.areEqual(2, runs.getCount());
+
+        // We can insert a node into the RunCollection manually to achieve the same effect
+        Run newRun = new Run(doc, "Run 3. ");
+        runs.insert(3, newRun);
+
+        Assert.assertTrue(runs.contains(newRun));
+        msAssert.areEqual("Run 1. Run 2. Run 3.", msString.trim(doc.getText()));
+
+        // Text can also be deleted from the document by accessing individual Runs via the RunCollection and editing or removing them
+        Run run = runs.get(1);
+        runs.remove(run);
+        msAssert.areEqual("Run 1. Run 3.", msString.trim(doc.getText()));
+
+        Assert.assertNotNull(run);
+        Assert.assertFalse(runs.contains(run));
+        //ExEnd
+    }
+
+    @Test
+    public void nodeList() throws Exception
+    {
+        //ExStart
+        //ExFor:NodeList.Count
+        //ExFor:NodeList.Item(System.Int32)
+        //ExSummary:Shows how to use XPaths to navigate a NodeList.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert some nodes with a DocumentBuilder
+        builder.writeln("Hello world!");
+
+        builder.startTable();
+        builder.insertCell();
+        builder.write("Cell 1");
+        builder.insertCell();
+        builder.write("Cell 2");
+        builder.endTable();
+
+        builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Aspose.Words.gif"));
+        // Get all run nodes, of which we put 3 in the entire document
+        NodeList nodeList = doc.selectNodes("//Run");
+        msAssert.areEqual(3, nodeList.getCount());
+
+        // Using a double forward slash, select all Run nodes that are indirect descendants of a Table node,
+        // which would in this case be the runs inside the two cells we inserted
+        nodeList = doc.selectNodes("//Table//Run");
+        msAssert.areEqual(2, nodeList.getCount());
+
+        // Single forward slashes specify direct descendant relationships,
+        // of which we skipped quite a few by using double slashes
+        msAssert.areEqual(doc.selectNodes("//Table//Run"), doc.selectNodes("//Table/Row/Cell/Paragraph/Run"));
+
+        // We can access the actual nodes via a NodeList too
+        nodeList = doc.selectNodes("//Shape");
+        msAssert.areEqual(1, nodeList.getCount());
+        Shape shape = (Shape)nodeList.get(0);
+        Assert.assertTrue(shape.hasImage());
+        //ExEnd
+    }
 }

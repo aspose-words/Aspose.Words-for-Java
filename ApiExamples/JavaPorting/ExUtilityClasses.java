@@ -29,7 +29,6 @@ public class ExUtilityClasses extends ApiExampleBase
         //ExFor:ControlChar
         //ExFor:ControlChar.Cr
         //ExFor:ControlChar.CrLf
-        //ExId:UtilityClassesUseControlCharacters
         //ExSummary:Shows how to use control characters.
         // Replace "\r" control character with "\r\n"
         text = text.replace(ControlChar.CR, ControlChar.CR_LF);
@@ -41,7 +40,6 @@ public class ExUtilityClasses extends ApiExampleBase
     {
         //ExStart
         //ExFor:ConvertUtil
-        //ExId:UtilityClassesConvertBetweenMeasurementUnits
         //ExSummary:Shows how to specify page properties in inches.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

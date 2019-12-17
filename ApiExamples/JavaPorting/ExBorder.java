@@ -100,12 +100,13 @@ public class ExBorder extends ApiExampleBase
     public void equalityCountingAndVisibility() throws Exception
     {
         //ExStart
-        //ExFor:Border.Equals(System.Object)
+        //ExFor:Border.Equals(Object)
+        //ExFor:Border.Equals(Border)
         //ExFor:Border.GetHashCode
         //ExFor:Border.IsVisible
         //ExFor:BorderCollection.Count
         //ExFor:BorderCollection.Equals(BorderCollection)
-        //ExFor:BorderCollection.Item(System.Int32)
+        //ExFor:BorderCollection.Item(Int32)
         //ExSummary:Shows the equality of BorderCollections as well counting, visibility of their elements.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

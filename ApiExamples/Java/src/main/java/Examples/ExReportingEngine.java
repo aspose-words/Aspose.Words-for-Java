@@ -23,10 +23,7 @@ import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -109,6 +106,47 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class, ContractTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.TestNestedDataTable.docx");
+    }
+
+    @Test
+    public void restartingListNumberingDynamically() throws Exception {
+        Document template = new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.Java.docx");
+
+        buildReport(template, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class, ContractTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
+
+        template.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamically Gold.docx"));
+    }
+
+    @Test
+    public void restartingListNumberingDynamicallyWhileInsertingDocumentDinamically() throws Exception {
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocument()] -build>>");
+
+        DocumentTestClass doc = new DocumentTestBuilder()
+                .withDocument(new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.Java.docx")).build();
+
+        buildReport(template, new Object[]{doc, Common.getManagers()}, new String[]{"src", "Managers"}, new Class[]{ManagerTestClass.class, ContractTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
+
+        template.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically Gold.docx"));
+    }
+
+    @Test
+    public void restartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically() throws Exception {
+        Document mainTemplate = DocumentHelper.createSimpleDocument("<<doc [src] -build>>");
+        Document template1 = DocumentHelper.createSimpleDocument("<<doc [src1] -build>>");
+        Document template2 = DocumentHelper.createSimpleDocument("<<doc [src2.getDocument()] -build>>");
+
+        DocumentTestClass doc = new DocumentTestBuilder()
+                .withDocument(new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.Java.docx")).build();
+
+        buildReport(mainTemplate, new Object[]{template1, template2, doc, Common.getManagers()}, new String[]{"src", "src1", "src2", "Managers"}, new Class[]{ManagerTestClass.class, ContractTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
+
+        mainTemplate.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically Gold.docx"));
     }
 
     @Test
@@ -653,6 +691,132 @@ public class ExReportingEngine extends ApiExampleBase {
                 };
     }
 
+    @Test
+    public void xmlDataStringWithoutSchema() throws Exception {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
+
+        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "XmlData.xml");
+        buildReport(doc, dataSource, "persons");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.XmlDataString.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataString.docx",
+                getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+    }
+
+    @Test
+    public void xmlDataStreamWithoutSchema() throws Exception {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
+
+        InputStream stream = new FileInputStream(getMyDir() + "XmlData.xml");
+        try {
+            XmlDataSource dataSource = new XmlDataSource(stream);
+            buildReport(doc, dataSource, "persons");
+        } finally {
+            stream.close();
+        }
+
+        doc.save(getArtifactsDir() + "ReportingEngine.XmlDataStream.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataStream.docx",
+                getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+    }
+
+    @Test
+    public void xmlDataWithNestedElements() throws Exception {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSourceWithNestedElements.Java.docx");
+
+        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "XmlDataWithNestedElements.xml");
+        buildReport(doc, dataSource, "managers");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.XmlDataWithNestedElements.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataWithNestedElements.docx",
+                getGoldsDir() + "ReportingEngine.DataSourceWithNestedElements Gold.docx"));
+    }
+
+    @Test
+    public void jsonDataString() throws Exception {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
+
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "JsonData.json");
+        buildReport(doc, dataSource, "persons");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataString.docx",
+                getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+    }
+
+    @Test
+    public void jsonDataStream() throws Exception {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
+        InputStream stream = new FileInputStream(getMyDir() + "JsonData.json");
+        try {
+            JsonDataSource dataSource = new JsonDataSource(stream);
+            buildReport(doc, dataSource, "persons");
+        } finally {
+            stream.close();
+        }
+
+        doc.save(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx",
+                getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+    }
+
+    @Test
+    public void jsonDataWithNestedElements() throws Exception {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSourceWithNestedElements.Java.docx");
+
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "JsonDataWithNestedElements.json");
+        buildReport(doc, dataSource, "managers");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx",
+                getGoldsDir() + "ReportingEngine.DataSourceWithNestedElements Gold.docx"));
+    }
+
+    @Test
+    public void csvDataString() throws Exception {
+        Document doc = new Document(getMyDir() + "ReportingEngine.CsvData.Java.docx");
+
+        CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
+        loadOptions.setDelimiter(';');
+        loadOptions.setCommentChar('$');
+
+        CsvDataSource dataSource = new CsvDataSource(getMyDir() + "CsvData.csv", loadOptions);
+        buildReport(doc, dataSource, "persons");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.CsvDataString.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataString.docx",
+                getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
+    }
+
+    @Test
+    public void csvDataStream() throws Exception {
+        Document doc = new Document(getMyDir() + "ReportingEngine.CsvData.Java.docx");
+
+        CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
+        loadOptions.setDelimiter(';');
+        loadOptions.setCommentChar('$');
+
+        InputStream stream = new FileInputStream(getMyDir() + "CsvData.csv");
+        try {
+            CsvDataSource dataSource = new CsvDataSource(stream, loadOptions);
+            buildReport(doc, dataSource, "persons");
+        } finally {
+            stream.close();
+        }
+
+        doc.save(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx",
+                getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
+    }
+
     private static void buildReport(final Document document, final Object dataSource) throws Exception {
         ReportingEngine engine = new ReportingEngine();
         engine.buildReport(document, dataSource);
@@ -698,6 +862,18 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     private static void buildReport(final Document document, final Object dataSource, final String dataSourceName,
+                                    final Class[] knownTypes, final int reportBuildOptions) throws Exception {
+        ReportingEngine engine = new ReportingEngine();
+        engine.setOptions(reportBuildOptions);
+
+        for (Class knownType : knownTypes) {
+            engine.getKnownTypes().add(knownType);
+        }
+
+        engine.buildReport(document, dataSource, dataSourceName);
+    }
+
+    private static void buildReport(final Document document, final Object[] dataSource, final String[] dataSourceName,
                                     final Class[] knownTypes, final int reportBuildOptions) throws Exception {
         ReportingEngine engine = new ReportingEngine();
         engine.setOptions(reportBuildOptions);

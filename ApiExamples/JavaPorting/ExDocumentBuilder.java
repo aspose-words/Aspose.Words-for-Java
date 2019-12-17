@@ -88,6 +88,7 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.Style;
 import com.aspose.words.StyleType;
+import com.aspose.words.NodeCollection;
 import org.testng.annotations.DataProvider;
 
 
@@ -104,7 +105,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Font.Color
         //ExFor:Font.Underline
         //ExFor:DocumentBuilder.#ctor
-        //ExId:DocumentBuilderInsertText
         //ExSummary:Inserts formatted text using DocumentBuilder.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -133,7 +133,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:PageSetup.DifferentFirstPageHeaderFooter
         //ExFor:PageSetup.OddAndEvenPagesHeaderFooter
         //ExFor:BreakType
-        //ExId:DocumentBuilderMoveToHeaderFooter
         //ExSummary:Creates headers and footers in a document using DocumentBuilder.
         // Create a blank document.
         Document doc = new Document();
@@ -169,7 +168,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:DocumentBuilder.InsertField(String)
         //ExFor:DocumentBuilder.MoveToMergeField(String, Boolean, Boolean)
-        //ExId:DocumentBuilderInsertField
         //ExSummary:Shows how to insert merge fields and move between them.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -317,16 +315,12 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderAndSave() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderAndSave
-        //ExSummary:Shows how to create build a document using a document builder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("Hello World!");
 
         doc.save(getArtifactsDir() + "DocumentBuilderAndSave.docx");
-        //ExEnd
     }
 
     @Test
@@ -338,7 +332,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Font.Color
         //ExFor:Font.Underline
         //ExFor:Underline
-        //ExId:DocumentBuilderInsertHyperlink
         //ExSummary:Inserts a hyperlink into a document using DocumentBuilder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -438,7 +431,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:DocumentBuilder
         //ExFor:DocumentBuilder.InsertHtml(String)
-        //ExId:DocumentBuilderInsertHtml
         //ExSummary:Inserts HTML into a document. The formatting specified in the HTML is applied.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -692,7 +684,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:ParagraphFormat.StyleIdentifier
         //ExFor:DocumentBuilder.InsertBreak
         //ExFor:BreakType
-        //ExId:InsertTableOfContents
         //ExSummary:Demonstrates how to insert a Table of contents (TOC) into a document using heading styles as entries.
         // Use a blank document
         Document doc = new Document();
@@ -835,7 +826,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:TableStyleOptions
         //ExFor:Table.AutoFit
         //ExFor:AutoFitBehavior
-        //ExId:InsertTableWithTableStyle
         //ExSummary:Shows how to build a new table with a table style applied.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -895,7 +885,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:RowFormat.HeadingFormat
-        //ExId:InsertTableWithHeadingFormat
         //ExSummary:Shows how to build a table which include heading rows that repeat on subsequent pages. 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -940,7 +929,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Table.PreferredWidth
         //ExFor:PreferredWidth.FromPercent
         //ExFor:PreferredWidth
-        //ExId:TablePreferredWidth
         //ExSummary:Shows how to set a table to auto fit to 50% of the page width.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -980,7 +968,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:PreferredWidth.FromPercent
         //ExFor:PreferredWidth.GetHashCode
         //ExFor:PreferredWidth.ToString
-        //ExId:CellPreferredWidths
         //ExSummary:Shows how to set the different preferred width settings.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1029,9 +1016,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void insertTableFromHtml() throws Exception
     {
-        //ExStart
-        //ExId:InsertTableFromHtml
-        //ExSummary:Shows how to insert a table in a document from a String containing HTML tags.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1041,7 +1025,6 @@ public class ExDocumentBuilder extends ApiExampleBase
                            "<tr>" + "<td>Row 2, Cell 2</td>" + "<td>Row 2, Cell 2</td>" + "</tr>" + "</table>");
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertTableFromHtml.doc");
-        //ExEnd
 
         // Verify the table was constructed properly.
         msAssert.areEqual(1, doc.getChildNodes(NodeType.TABLE, true).getCount());
@@ -1054,7 +1037,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:Cell.FirstParagraph
-        //ExId:BuildNestedTableUsingDocumentBuilder
         //ExSummary:Shows how to insert a nested table using DocumentBuilder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1097,7 +1079,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:DocumentBuilder
         //ExFor:DocumentBuilder.Write
         //ExFor:DocumentBuilder.InsertCell
-        //ExId:BuildSimpleTable
         //ExSummary:Shows how to create a simple table using DocumentBuilder with default formatting.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1148,7 +1129,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Shading.BackgroundPatternColor
         //ExFor:DocumentBuilder.ParagraphFormat
         //ExFor:DocumentBuilder.Font
-        //ExId:BuildFormattedTable
         //ExSummary:Shows how to create a formatted table using DocumentBuilder
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1243,7 +1223,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:BorderCollection.Right
         //ExFor:BorderCollection.Top
         //ExFor:BorderCollection.Bottom
-        //ExId:TableBordersAndShading
         //ExSummary:Shows how to format table and cell with different borders and shadings
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1356,27 +1335,19 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderCtor() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderCtor
-        //ExSummary:Shows how to create a simple document using a document builder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("Hello World!");
-        //ExEnd
     }
 
     @Test
     public void documentBuilderCursorPosition() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderCursorPosition
-        //ExSummary:Shows how to access the current node in a document builder.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         Node curNode = builder.getCurrentNode();
         Paragraph curParagraph = builder.getCurrentParagraph();
-        //ExEnd
     }
 
     @Test
@@ -1385,7 +1356,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:Story.LastParagraph
         //ExFor:DocumentBuilder.MoveTo(Node)
-        //ExId:DocumentBuilderMoveToNode
         //ExSummary:Shows how to move a cursor position to a specified node.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1397,9 +1367,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderMoveToDocumentStartEnd() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderMoveToDocumentStartEnd
-        //ExSummary:Shows how to move a cursor position to the beginning or end of a document.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1408,22 +1375,17 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.moveToDocumentStart();
         builder.writeln("This is the beginning of the document.");
-        //ExEnd
     }
 
     @Test
     public void documentBuilderMoveToSection() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderMoveToSection
-        //ExSummary:Shows how to move a cursor position to the specified section.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Parameters are 0-index. Moves to third section.
         builder.moveToSection(2);
         builder.writeln("This is the 3rd section.");
-        //ExEnd
     }
 
     @Test
@@ -1431,7 +1393,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.MoveToParagraph
-        //ExId:DocumentBuilderMoveToParagraph
         //ExSummary:Shows how to move a cursor position to the specified paragraph.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1447,7 +1408,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.MoveToCell
-        //ExId:DocumentBuilderMoveToTableCell
         //ExSummary:Shows how to move a cursor position to the specified table cell.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1461,15 +1421,11 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderMoveToBookmark() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderMoveToBookmark
-        //ExSummary:Shows how to move a cursor position to a bookmark.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.moveToBookmark("CoolBookmark");
         builder.writeln("This is a very cool bookmark.");
-        //ExEnd
     }
 
     @Test
@@ -1477,7 +1433,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.MoveToBookmark(String, Boolean, Boolean)
-        //ExId:DocumentBuilderMoveToBookmarkEnd
         //ExSummary:Shows how to move a cursor position to just after the bookmark end.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1490,15 +1445,11 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderMoveToMergeField() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderMoveToMergeField
-        //ExSummary:Shows how to move the cursor to a position just beyond the specified merge field.
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.moveToMergeField("NiceMergeField");
         builder.writeln("This is a very nice merge field.");
-        //ExEnd
     }
 
     @Test
@@ -1512,7 +1463,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:ParagraphFormat.AddSpaceBetweenFarEastAndAlpha
         //ExFor:ParagraphFormat.AddSpaceBetweenFarEastAndDigit
         //ExFor:Paragraph.IsEndOfDocument
-        //ExId:DocumentBuilderInsertParagraph
         //ExSummary:Shows how to insert a paragraph into the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1560,7 +1510,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:TextOrientation
         //ExFor:Table.AutoFit
         //ExFor:AutoFitBehavior
-        //ExId:DocumentBuilderBuildTable
         //ExSummary:Shows how to build a formatted table that contains 2 rows and 2 columns.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1624,9 +1573,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderInsertBreak() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderInsertBreak
-        //ExSummary:Shows how to insert page breaks into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1637,20 +1583,15 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.insertBreak(BreakType.PAGE_BREAK);
 
         builder.writeln("This is page 3.");
-        //ExEnd
     }
 
     @Test
     public void documentBuilderInsertInlineImage() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderInsertInlineImage
-        //ExSummary:Shows how to insert an inline image at the cursor position into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.insertImage(getImageDir() + "Watermark.png");
-        //ExEnd
     }
 
     @Test
@@ -1658,7 +1599,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
-        //ExId:DocumentBuilderInsertFloatingImage
         //ExSummary:Shows how to insert a floating image from a file or URL.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1692,7 +1632,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
-        //ExId:DocumentBuilderInsertFloatingImageSourceSize
         //ExSummary:Shows how to insert a floating image from a file or URL and retain the original image size in the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1708,16 +1647,12 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderInsertBookmark() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderInsertBookmark
-        //ExSummary:Shows how to insert a bookmark into a document using a document builder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.startBookmark("FineBookmark");
         builder.writeln("This is just a fine bookmark.");
         builder.endBookmark("FineBookmark");
-        //ExEnd
     }
 
     @Test
@@ -1725,7 +1660,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertTextInput
-        //ExId:DocumentBuilderInsertTextInputFormField
         //ExSummary:Shows how to insert a text input form field into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1739,7 +1673,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertComboBox
-        //ExId:DocumentBuilderInsertComboBoxFormField
         //ExSummary:Shows how to insert a combobox form field into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1752,9 +1685,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderInsertToc() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderInsertTOC
-        //ExSummary:Shows how to insert a Table of Contents field into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1764,7 +1694,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         // The newly inserted table of contents will be initially empty.
         // It needs to be populated by updating the fields in the document.
         doc.updateFields();
-        //ExEnd
     }
 
     @Test (description = "WORDSNET-16868")
@@ -1858,9 +1787,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderSetFontFormatting() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderSetFontFormatting
-        //ExSummary:Shows how to set font formatting.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1876,7 +1802,6 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // Output formatted text
         builder.writeln("I'm a very nice formatted String.");
-        //ExEnd
     }
 
     @Test
@@ -1885,7 +1810,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:ParagraphFormat.RightIndent
         //ExFor:ParagraphFormat.LeftIndent
-        //ExId:DocumentBuilderSetParagraphFormatting
         //ExSummary:Shows how to set paragraph formatting.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1917,7 +1841,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:CellFormat.BottomPadding
         //ExFor:DocumentBuilder.StartTable
         //ExFor:DocumentBuilder.EndTable
-        //ExId:DocumentBuilderSetCellFormatting
         //ExSummary:Shows how to create a table that contains a single formatted cell.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1951,7 +1874,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Table.RightPadding
         //ExFor:Table.TopPadding
         //ExFor:Table.BottomPadding
-        //ExId:DocumentBuilderSetRowFormatting
         //ExSummary:Shows how to create a table that contains a single cell and apply row formatting.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1979,9 +1901,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderSetListFormatting() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderSetListFormatting
-        //ExSummary:Shows how to build a multilevel list.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2009,15 +1928,11 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.writeln("Item 3");
 
         builder.getListFormat().removeNumbers();
-        //ExEnd
     }
 
     @Test
     public void documentBuilderSetSectionFormatting() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderSetSectionFormatting
-        //ExSummary:Shows how to set such properties as page size and orientation for the current section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2025,7 +1940,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getPageSetup().setOrientation(Orientation.LANDSCAPE);
         builder.getPageSetup().setLeftMargin(50.0);
         builder.getPageSetup().setPaperSize(PaperSize.PAPER_10_X_14);
-        //ExEnd
     }
 
     @Test
@@ -2064,9 +1978,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void documentBuilderApplyParagraphStyle() throws Exception
     {
-        //ExStart
-        //ExId:DocumentBuilderApplyParagraphStyle
-        //ExSummary:Shows how to apply a paragraph style.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2074,7 +1985,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.TITLE);
 
         builder.write("Hello");
-        //ExEnd
     }
 
     @Test
@@ -2088,7 +1998,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:Shading.Texture
         //ExFor:Shading.BackgroundPatternColor
         //ExFor:Shading.ForegroundPatternColor
-        //ExId:DocumentBuilderApplyBordersAndShading
         //ExSummary:Shows how to apply borders and shading to a paragraph.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2746,4 +2655,308 @@ public class ExDocumentBuilder extends ApiExampleBase
         msAssert.areEqual("1.", para.getListLabel().getLabelString());
         msAssert.isTrue(paraText.startsWith("13->13"), paraText);
     }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (1)
+    public void createMarkdownDocumentWithEmphases() throws Exception
+    {
+        DocumentBuilder builder = new DocumentBuilder();
+        
+        // Bold and Italic are represented as Font.Bold and Font.Italic
+        builder.getFont().setItalic(true);
+        builder.writeln("Italic");
+        
+        // Use clear formatting if don't want to combine styles between paragraphs
+        builder.getFont().clearFormatting();
+        
+        builder.getFont().setBold(true);
+        builder.writeln("Bold");
+        
+        // Use clear formatting if don't want to combine styles between paragraphs
+        builder.getFont().clearFormatting();
+        
+        // You can also write create BoldItalic text
+        builder.getFont().setItalic(true);
+        builder.getFont().setBold(true);
+        builder.writeln("ItalicBold");
+        
+        // Markdown treats asterisks (*) and underscores (_) as indicators of emphasis
+        builder.getDocument().save(getArtifactsDir() + "MarkdownExample.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (2)
+    public void addHeadingsToMarkdownDocument() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "MarkdownExample.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.writeln("\n");
+        builder.getParagraphFormat().clearFormatting();
+        
+        // By default Heading styles in Word may have bold and italic formatting
+        // If we do not want text to be emphasized, set these properties explicitly to false
+        // Thus we can't use 'builder.Font.ClearFormatting()' because Bold/Italic will be set to true
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        // Create one heading for each level
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 1"));
+        builder.getFont().setItalic(true);
+        builder.writeln("ItalicHeading 1");
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 2"));
+        builder.writeln("Heading 2");
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 3"));
+        builder.writeln("Heading 3");
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 4"));
+        builder.writeln("Heading 4");
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 5"));
+        builder.getFont().setItalic(true);
+        builder.getFont().setBold(true);
+        builder.writeln("ItalicBoldHeading 5");
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 6"));
+        builder.getFont().setBold(true);
+        builder.writeln("BoldHeading 6");
+        
+        doc.save(getArtifactsDir() + "MarkdownExample.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (3)
+    public void addBlockquotesToMarkdownDocument() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "MarkdownExample.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.writeln("\n");
+        builder.getParagraphFormat().clearFormatting();
+        
+        // By default document stores blockquote style for the first level
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Quote"));
+        builder.writeln("Blockquote");
+        
+        // But you also can create styles for nested levels
+        Style quoteLevel2 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote1");
+        builder.getParagraphFormat().setStyle(quoteLevel2);
+        builder.writeln("Blockquote 1");
+        
+        Style quoteLevel3 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote2");
+        builder.getParagraphFormat().setStyle(quoteLevel3);
+        builder.getFont().setItalic(true);
+        builder.writeln("ItalicBlockquote 2");
+        
+        // Use clear formatting if don't want to combine styles between paragraphs
+        builder.getFont().clearFormatting();
+        
+        Style quoteLevel4 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote3");
+        builder.getParagraphFormat().setStyle(quoteLevel4);
+        builder.getFont().setBold(true);
+        builder.writeln("BoldBlockquote 3");
+        
+        // Use clear formatting if don't want to combine styles between paragraphs
+        builder.getFont().clearFormatting();
+        
+        Style quoteLevel5 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote4");
+        builder.getParagraphFormat().setStyle(quoteLevel5);
+        builder.writeln("Blockquote 4");
+        
+        Style quoteLevel6 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote5");
+        builder.getParagraphFormat().setStyle(quoteLevel6);
+        builder.writeln("Blockquote 5");
+        
+        Style quoteLevel7 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote6");
+        builder.getParagraphFormat().setStyle(quoteLevel7);
+        builder.getFont().setItalic(true);
+        builder.getFont().setBold(true);
+        builder.writeln("ItalicBoldBlockquote 6");
+        
+        doc.save(getArtifactsDir() + "MarkdownExample.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (4)
+    public void addHeadingsAsBlockquotesToMarkdownDocument() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "MarkdownExample.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.writeln("\n");
+        builder.getParagraphFormat().clearFormatting();
+        builder.writeln("\n");
+
+        // By default Heading styles in Word may have bold and italic formatting
+        // If we do not want text to be emphasized, set these properties explicitly to false
+        // Thus we can't use 'builder.Font.ClearFormatting()' because Bold/Italic will be set to true
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        Style headingQuoteLevel1 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote.Heading 1");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel1);
+        builder.writeln("HeadingBlockquote 1");
+        
+        Style headingQuoteLevel2 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote1.Heading 2");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel2);
+        builder.getFont().setItalic(true);
+        builder.writeln("ItalicHeadingBlockquote 2");
+        
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        Style headingQuoteLevel3 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote2.Heading 3");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel3);
+        builder.getFont().setBold(true);
+        builder.writeln("BoldHeadingBlockquote 3");
+        
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        Style headingQuoteLevel4 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote3.Heading 4");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel4);
+        builder.getFont().setItalic(true);
+        builder.getFont().setBold(true);
+        builder.writeln("ItalicBoldHeadingBlockquote 4");
+        
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        Style headingQuoteLevel5 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote4.Heading 5");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel5);
+        builder.writeln("HeadingBlockquote 5");
+        
+        Style headingQuoteLevel6 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote5.Heading 6");
+        builder.getParagraphFormat().setStyle(headingQuoteLevel6);
+        builder.writeln("HeadingBlockquote 6");
+        
+        doc.save(getArtifactsDir() + "MarkdownExample.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (5)
+    public void addHorizontalRuleToMarkdownDocument() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "MarkdownExample.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.writeln("\n");
+        builder.getParagraphFormat().clearFormatting();
+
+        // Insert HorizontalRule that will be present in .md file as '-----'
+        builder.insertHorizontalRule();
+ 
+        builder.getDocument().save(getArtifactsDir() + "MarkdownExample.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (enabled = false, description = "WORDSNET-19631", dataProvider = "loadMarkdownDocumentAndAssertContentDataProvider") @Order (6)
+    public void loadMarkdownDocumentAndAssertContent(String text, String styleName, boolean isItalic, boolean isBold) throws Exception
+    {
+        // Load created document from previous tests
+        Document doc = new Document(getArtifactsDir() + "MarkdownExample.md");
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+
+        for (Paragraph paragraph : (Iterable<Paragraph>) paragraphs)
+        {
+            if (paragraph.getRuns().getCount() != 0)
+            {
+                if (msString.equals(paragraph.getRuns().get(0).getText(), text))
+                {
+                    // Check that all document text has the necessary styles
+                    msAssert.areEqual(styleName, paragraph.getParagraphFormat().getStyle().getName());
+                    msAssert.areEqual(isItalic, paragraph.getRuns().get(0).getFont().getItalic());
+                    msAssert.areEqual(isBold, paragraph.getRuns().get(0).getFont().getBold());
+                }
+            }
+
+            // Check that document also has a HorizontalRule present as a shape
+            NodeCollection shapesCollection = doc.getFirstSection().getBody().getChildNodes(NodeType.SHAPE, true);
+            Shape horizontalRuleShape = (Shape) shapesCollection.get(0);
+            
+            Assert.assertTrue(shapesCollection.getCount() == 1);
+            Assert.assertTrue(horizontalRuleShape.isHorizontalRule());
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "loadMarkdownDocumentAndAssertContentDataProvider")
+	public static Object[][] loadMarkdownDocumentAndAssertContentDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"Italic",  "Normal",  true,  false},
+			{"Bold",  "Normal",  false,  true},
+			{"ItalicBold",  "Normal",  true,  true},
+			{"ItalicHeading 1",  "Heading 1",  true,  false},
+			{"Heading 2",  "Heading 2",  false,  false},
+			{"Heading 3",  "Heading 3",  false,  false},
+			{"Heading 4",  "Heading 4",  false,  false},
+			{"ItalicBoldHeading 5",  "Heading 5",  true,  true},
+			{"BoldHeading 6",  "Heading 6",  false,  true},
+			{"Blockquote",  "Quote",  false,  false},
+			{"Blockquote 1",  "Quote1",  false,  false},
+			{"ItalicBlockquote 2",  "Quote2",  true,  false},
+			{"BoldBlockquote 3",  "Quote3",  false,  true},
+			{"Blockquote 4",  "Quote4",  false,  false},
+			{"Blockquote 5",  "Quote5",  false,  false},
+			{"ItalicBoldBlockquote 6",  "Quote6",  true,  true},
+			{"HeadingBlockquote 1",  "Quote.Heading 1",  false,  false},
+			{"ItalicHeadingBlockquote 2",  "Quote1.Heading 2",  true,  false},
+			{"BoldHeadingBlockquote 3",  "Quote2.Heading 3",  false,  true},
+			{"ItalicBoldHeadingBlockquote 4",  "Quote3.Heading 4",  true,  true},
+			{"HeadingBlockquote 5",  "Quote4.Heading 5",  false,  false},
+			{"HeadingBlockquote 6",  "Quote5.Heading 6",  false,  false},
+		};
+	}
 }

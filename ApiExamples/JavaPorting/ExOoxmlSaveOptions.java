@@ -12,6 +12,7 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.words.OoxmlSaveOptions;
 import com.aspose.words.MsWordVersion;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
@@ -19,7 +20,6 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.ShapeMarkupLanguage;
-import com.aspose.words.OoxmlSaveOptions;
 import com.aspose.words.OoxmlCompliance;
 import com.aspose.words.SaveFormat;
 import com.aspose.ms.System.IO.MemoryStream;
@@ -33,9 +33,29 @@ import com.aspose.ms.System.DateTime;
 class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
 {
     @Test
+    public void password() throws Exception
+    {
+        //ExStart
+        //ExFor:OoxmlSaveOptions.Password
+        //ExSummary:Shows how to create a password protected Office Open XML document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world!");
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        saveOptions.setPassword("MyPassword");
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.Password.docx", saveOptions);
+        //ExEnd
+    }
+
+    @Test
     public void iso29500Strict() throws Exception
     {
         //ExStart
+        //ExFor:OoxmlSaveOptions
+        //ExFor:OoxmlSaveOptions.#ctor
+        //ExFor:OoxmlSaveOptions.SaveFormat
         //ExFor:OoxmlCompliance
         //ExFor:OoxmlSaveOptions.Compliance
         //ExFor:ShapeMarkupLanguage
@@ -62,6 +82,8 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
             saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_STRICT);
             saveOptions.setSaveFormat(SaveFormat.DOCX);
         }
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.Iso29500Strict.docx", saveOptions);
         //ExEnd
 
         MemoryStream dstStream = new MemoryStream();
@@ -127,6 +149,8 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         {
             saveOptions.setUpdateLastSavedTimeProperty(true);
         }
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.UpdatingLastSavedTimeDocument.docx", saveOptions);
         //ExEnd
 
         MemoryStream dstStream = new MemoryStream();
@@ -141,11 +165,12 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
     {
         //ExStart
         //ExFor:OoxmlSaveOptions.KeepLegacyControlChars
+        //ExFor:OoxmlSaveOptions.#ctor(SaveFormat)
         //ExSummary:Shows how to support legacy control characters when converting to .docx
         Document doc = new Document(getMyDir() + "OoxmlSaveOptions.KeepLegacyControlChars.doc");
  
         // Note that only one legacy character (ShortDateTime) is supported which declared in the "DOC" format
-        OoxmlSaveOptions so = new OoxmlSaveOptions();
+        OoxmlSaveOptions so = new OoxmlSaveOptions(SaveFormat.DOCX);
         so.setKeepLegacyControlChars(true);
  
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.KeepLegacyControlChars.docx", so);

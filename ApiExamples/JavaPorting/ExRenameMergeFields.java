@@ -5,10 +5,6 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-//ExStart
-//ExId:RenameMergeFields
-//ExSummary:Shows how to rename merge fields in a Word document.
-
 package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
@@ -164,5 +160,3 @@ class MergeField
 
     private static /*final*/ Regex G_REGEX = new Regex("\\s*(?<start>MERGEFIELD\\s|)(\\s|)(?<name>\\S+)\\s+");
 }
-
-//ExEnd

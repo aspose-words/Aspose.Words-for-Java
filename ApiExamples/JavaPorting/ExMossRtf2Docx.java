@@ -19,9 +19,6 @@ public /*static*/ class ExMossRtf2Docx
 	private ExMossRtf2Docx()
 	{}
 
-    //ExStart
-    //ExId:MossRtf2Docx
-    //ExSummary:Converts an RTF document to OOXML.
     public static void convertRtfToDocx(String inFileName, String outFileName) throws Exception
     {
         // Load an RTF file into Aspose.Words.
@@ -30,6 +27,4 @@ public /*static*/ class ExMossRtf2Docx
         // Save the document in the OOXML format.
         doc.save(outFileName, SaveFormat.DOCX);
     }
-
-    //ExEnd
 }

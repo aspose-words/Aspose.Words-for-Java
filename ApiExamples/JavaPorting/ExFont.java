@@ -67,6 +67,7 @@ import com.aspose.words.FileFontSource;
 import com.aspose.words.FontSourceType;
 import com.aspose.words.MemoryFontSource;
 import com.aspose.words.SystemFontSource;
+import com.aspose.ms.System.Environment;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.DefaultFontSubstitutionRule;
@@ -672,7 +673,6 @@ public class ExFont extends ApiExampleBase
         //ExFor:IWarningCallback
         //ExFor:DocumentBase.WarningCallback
         //ExFor:Fonts.FontSettings.DefaultInstance
-        //ExId:FontSubstitutionNotification
         //ExSummary:Demonstrates how to receive notifications of font substitutions by using IWarningCallback.
         // Load the document to render.
         Document doc = new Document(getMyDir() + "Document.doc");
@@ -737,7 +737,6 @@ public class ExFont extends ApiExampleBase
     //ExFor:WarningInfoCollection.Warning(WarningInfo)
     //ExFor:WarningType
     //ExFor:DocumentBase.WarningCallback
-    //ExId:FontSubstitutionWarningCallback
     //ExSummary:Shows how to implement the IWarningCallback to be notified of any font substitution during document save.
     public static class HandleDocumentWarnings implements IWarningCallback
     {
@@ -1344,7 +1343,7 @@ public class ExFont extends ApiExampleBase
         msAssert.areEqual(FontSourceType.SYSTEM_FONTS, systemFontSource.getType());
         msAssert.areEqual(0, systemFontSource.getPriority());
         
-        /*PlatformID*/int pid = Environment.OSVersion.Platform;
+        /*PlatformID*/int pid = Environment.getOSVersion().Platform;
         boolean isWindows = (pid == PlatformID.Win32NT) || (pid == PlatformID.Win32S) || (pid == PlatformID.Win32Windows) || (pid == PlatformID.WinCE);
         if (isWindows)
         {
@@ -1504,7 +1503,7 @@ public class ExFont extends ApiExampleBase
 
         // The FontConfigSubstitutionRule object works differently on Windows/non-Windows platforms
         // On Windows, it is unavailable
-        /*PlatformID*/int pid = Environment.OSVersion.Platform;
+        /*PlatformID*/int pid = Environment.getOSVersion().Platform;
         boolean isWindows = pid == PlatformID.Win32NT || pid == PlatformID.Win32S || pid == PlatformID.Win32Windows || pid == PlatformID.WinCE;
 
         if (isWindows)

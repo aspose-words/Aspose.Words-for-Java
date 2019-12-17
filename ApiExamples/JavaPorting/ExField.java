@@ -195,12 +195,7 @@ public class ExField extends ApiExampleBase
     public void updateToc() throws Exception
     {
         Document doc = new Document();
-
-        //ExStart
-        //ExId:UpdateTOC
-        //ExSummary:Shows how to completely rebuild TOC fields in the document by invoking field update.
         doc.updateFields();
-        //ExEnd
     }
 
     @Test
@@ -214,7 +209,6 @@ public class ExField extends ApiExampleBase
         //ExFor:FieldChar.IsLocked
         //ExFor:FieldChar.GetField
         //ExFor:Field.IsLocked
-        //ExId:GetField
         //ExSummary:Demonstrates how to retrieve the field class from an existing FieldStart node in the document.
         Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
 
@@ -308,16 +302,12 @@ public class ExField extends ApiExampleBase
     @Test
     public void getFieldFromFieldCollection() throws Exception
     {
-        //ExStart
-        //ExId:GetFieldFromFieldCollection
-        //ExSummary:Demonstrates how to retrieve a field using the range of a node.
         Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
 
         Field field = doc.getRange().getFields().get(0);
 
         // This should be the first field in the document - a TOC field.
         msConsole.writeLine(field.getType());
-        //ExEnd
     }
 
     @Test
@@ -346,9 +336,6 @@ public class ExField extends ApiExampleBase
     @Test
     public void insertTcField() throws Exception
     {
-        //ExStart
-        //ExId:InsertTCField
-        //ExSummary:Shows how to insert a TC field into the document using DocumentBuilder.
         // Create a blank document.
         Document doc = new Document();
 
@@ -357,7 +344,6 @@ public class ExField extends ApiExampleBase
 
         // Insert a TC field at the current document builder position.
         builder.insertField("TC \"Entry Text\" \\f t");
-        //ExEnd
     }
 
     @Test
@@ -369,9 +355,6 @@ public class ExField extends ApiExampleBase
 
         builder.insertField("MERGEFIELD Date");
 
-        //ExStart
-        //ExId:ChangeCurrentCulture
-        //ExSummary:Shows how to change the culture used in formatting fields during update.
         // Store the current culture so it can be set back once mail merge is complete.
         CultureInfo currentCulture = CurrentThread.getCurrentCulture();
         // Set to German language so dates and numbers are formatted using this culture during mail merge.
@@ -382,7 +365,6 @@ public class ExField extends ApiExampleBase
 
         // Restore the original culture.
         CurrentThread.setCurrentCulture(currentCulture);
-        //ExEnd
 
         doc.save(getArtifactsDir() + "Field.ChangeLocale.doc");
     }
@@ -392,7 +374,6 @@ public class ExField extends ApiExampleBase
     {
         //ExStart
         //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
-        //ExId:RemoveTableOfContents
         //ExSummary:Demonstrates how to remove a specified TOC from a document.
         // Open a document which contains a TOC.
         Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
@@ -407,9 +388,6 @@ public class ExField extends ApiExampleBase
     }
 
     @Test
-    //ExStart
-    //ExId:TCFieldsRangeReplace
-    //ExSummary:Shows how to find and insert a TC field at text in a document.
     public void insertTcFieldsAtText() throws Exception
     {
         Document doc = new Document();
@@ -459,8 +437,6 @@ public class ExField extends ApiExampleBase
             return ReplaceAction.SKIP;
         }
     }
-
-    //ExEnd
 
     @Test (description = "WORDSNET-16037")
     public void insertAndUpdateDirtyField() throws Exception
@@ -1800,24 +1776,24 @@ public class ExField extends ApiExampleBase
         fieldToc.setPreserveTabs(true);
         fieldToc.setUseParagraphOutlineLevel(false);
 
-        insertHeading(builder, "First entry", "Heading 1");
+        insertNewPageWithHeading(builder, "First entry", "Heading 1");
         builder.writeln("Paragraph text.");
-        insertHeading(builder, "Second entry", "Heading 1");
-        insertHeading(builder, "Third entry", "Quote");
-        insertHeading(builder, "Fourth entry", "Intense Quote");
+        insertNewPageWithHeading(builder, "Second entry", "Heading 1");
+        insertNewPageWithHeading(builder, "Third entry", "Quote");
+        insertNewPageWithHeading(builder, "Fourth entry", "Intense Quote");
 
         // These two headings will have the page numbers omitted because they are within the "2-5" range
-        insertHeading(builder, "Fifth entry", "Heading 2");
-        insertHeading(builder, "Sixth entry", "Heading 3");
+        insertNewPageWithHeading(builder, "Fifth entry", "Heading 2");
+        insertNewPageWithHeading(builder, "Sixth entry", "Heading 3");
 
         // This entry will be omitted because "Heading 4" is outside of the "1-3" range we set earlier
-        insertHeading(builder, "Seventh entry", "Heading 4");
+        insertNewPageWithHeading(builder, "Seventh entry", "Heading 4");
 
         builder.endBookmark("MyBookmark");
         builder.writeln("Paragraph text.");
 
         // This entry will be omitted because it is outside the bookmark specified by the TOC
-        insertHeading(builder, "Eighth entry", "Heading 1");
+        insertNewPageWithHeading(builder, "Eighth entry", "Heading 1");
 
         msAssert.areEqual(" TOC  \\b MyBookmark \\t \"Quote; 6; Intense Quote; 7\" \\o 1-3 \\n 2-5 \\p - \\h \\x \\w", fieldToc.getFieldCode());
 
@@ -1830,7 +1806,7 @@ public class ExField extends ApiExampleBase
     /// Start a new page and insert a paragraph of a specified style
     /// </summary>
     @Test (enabled = false)
-    public void insertHeading(DocumentBuilder builder, String captionText, String styleName)
+    public void insertNewPageWithHeading(DocumentBuilder builder, String captionText, String styleName)
     {
         builder.insertBreak(BreakType.PAGE_BREAK);
         String originalStyle = builder.getParagraphFormat().getStyleName();
@@ -2920,7 +2896,7 @@ public class ExField extends ApiExampleBase
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-
+        
         Assert.assertNull(doc.getFieldOptions().getBarcodeGenerator());
 
         // Barcodes generated in this way will be images, and we can use a custom IBarcodeGenerator implementation to generate them
@@ -4559,6 +4535,7 @@ public class ExField extends ApiExampleBase
     //ExStart
     //ExFor:FieldOptions.FieldUpdateCultureProvider
     //ExFor:IFieldUpdateCultureProvider
+    //ExFor:IFieldUpdateCultureProvider.GetCulture(string, Field)
     //ExSummary:Shows how to specifying a culture defining date/time formatting on per field basis
     @Test
     public void defineDateTimeFormatting() throws Exception
@@ -5512,6 +5489,7 @@ public class ExField extends ApiExampleBase
     public void bidiOutline() throws Exception
     {
         //ExStart
+        //ExFor:FieldBidiOutline
         //ExFor:FieldShape
         //ExFor:FieldShape.Text
         //ExFor:ParagraphFormat.Bidi

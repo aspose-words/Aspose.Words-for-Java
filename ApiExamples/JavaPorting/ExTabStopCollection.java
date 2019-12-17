@@ -13,10 +13,15 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.Paragraph;
 import com.aspose.words.NodeType;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.TabStopCollection;
 import com.aspose.words.TabStop;
-import com.aspose.words.ConvertUtil;
 import com.aspose.words.TabAlignment;
 import com.aspose.words.TabLeader;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import org.testng.Assert;
+import com.aspose.words.ParagraphCollection;
+import com.aspose.words.ConvertUtil;
 import com.aspose.ms.System.msConsole;
 
 
@@ -38,6 +43,59 @@ public class ExTabStopCollection extends ApiExampleBase
         }
 
         doc.save(getArtifactsDir() + "Document.AllTabStopsRemoved.doc");
+        //ExEnd
+    }
+
+    @Test
+    public void tabStops() throws Exception
+    {
+        //ExStart
+        //ExFor:TabStop.#ctor
+        //ExFor:TabStop.#ctor(Double)
+        //ExFor:TabStop.#ctor(Double,TabAlignment,TabLeader)
+        //ExFor:TabStop.Equals(TabStop)
+        //ExFor:TabStop.IsClear
+        //ExFor:TabStopCollection
+        //ExFor:TabStopCollection.After(Double)
+        //ExFor:TabStopCollection.Before(Double)
+        //ExFor:TabStopCollection.Count
+        //ExFor:TabStopCollection.Equals(TabStopCollection)
+        //ExFor:TabStopCollection.Equals(Object)
+        //ExFor:TabStopCollection.GetHashCode
+        //ExFor:TabStopCollection.Item(Double)
+        //ExFor:TabStopCollection.Item(Int32)
+        //ExSummary:Shows how to add tab stops to a document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Access the collection of tab stops and add some tab stops to it
+        TabStopCollection tabStops = builder.getParagraphFormat().getTabStops();
+
+        // 72 points is one "inch" on the Microsoft Word tab stop ruler
+        tabStops.add(new TabStop(72.0));
+        tabStops.add(new TabStop(432.0, TabAlignment.RIGHT, TabLeader.DASHES));
+
+        msAssert.areEqual(2, tabStops.getCount());
+        Assert.assertFalse(tabStops.get(0).isClear());
+        Assert.assertFalse(tabStops.get(0).equals(tabStops.get(1)));
+
+        builder.writeln("Start\tTab 1\tTab 2");
+
+        // Get the collection of paragraphs that we've created
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+        msAssert.areEqual(2, paragraphs.getCount());
+
+        // Each paragraph gets its own TabStopCollection which gets values from the DocumentBuilder's collection
+        msAssert.areEqual(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
+        Assert.assertNotSame(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
+        msAssert.areNotEqual(paragraphs.get(0).getParagraphFormat().getTabStops().hashCode(),
+            paragraphs.get(1).getParagraphFormat().getTabStops().hashCode());
+
+        // A TabStopCollection can point us to TabStops before and after certain positions
+        msAssert.areEqual(72.0, tabStops.before(100.0).getPosition());
+        msAssert.areEqual(432.0, tabStops.after(100.0).getPosition());
+
+        doc.save(getArtifactsDir() + "TabStopCollection.TabStops.docx");
         //ExEnd
     }
 

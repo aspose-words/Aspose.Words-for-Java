@@ -189,7 +189,6 @@ public class ExMailMergeEvent extends ApiExampleBase
     public void mailMergeAlternatingRows() throws Exception
     {
         //ExStart
-        //ExId:MailMergeAlternatingRows
         //ExFor:MailMerge.ExecuteWithRegions(DataTable)
         //ExSummary:Demonstrates how to implement custom logic in the MergeField event to apply cell formatting.
         Document doc = new Document(getMyDir() + "MailMerge.AlternatingRows.doc");
@@ -309,7 +308,6 @@ public class ExMailMergeEvent extends ApiExampleBase
         //ExFor:IFieldMergingCallback.FieldMerging
         //ExFor:IFieldMergingCallback.ImageFieldMerging
         //ExFor:ImageFieldMergingArgs.ImageStream
-        //ExId:MailMergeImageFromBlob
         //ExSummary:Shows how to insert images stored in a database BLOB field into a report.
         Document doc = new Document(getMyDir() + "MailMerge.MergeImage.doc");
 

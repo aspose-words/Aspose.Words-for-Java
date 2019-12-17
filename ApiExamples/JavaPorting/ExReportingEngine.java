@@ -21,14 +21,14 @@ import ApiExamples.TestData.TestClasses.NumericTestClass;
 import ApiExamples.TestData.TestBuilders.NumericTestBuilder;
 import com.aspose.ms.System.DateTime;
 import ApiExamples.TestData.Common;
+import ApiExamples.TestData.TestClasses.DocumentTestClass;
+import ApiExamples.TestData.TestBuilders.DocumentTestBuilder;
 import java.util.ArrayList;
 import ApiExamples.TestData.TestClasses.ColorItemTestClass;
 import ApiExamples.TestData.TestBuilders.ColorItemTestBuilder;
 import java.awt.Color;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.ReportingEngine;
-import ApiExamples.TestData.TestClasses.DocumentTestClass;
-import ApiExamples.TestData.TestBuilders.DocumentTestBuilder;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.FileAccess;
@@ -46,6 +46,10 @@ import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.ControlChar;
 import com.aspose.ms.System.msString;
 import com.aspose.words.FileFormatUtil;
+import com.aspose.words.XmlDataSource;
+import com.aspose.words.JsonDataSource;
+import com.aspose.words.CsvDataLoadOptions;
+import com.aspose.words.CsvDataSource;
 import java.lang.Class;
 import org.testng.annotations.DataProvider;
 
@@ -137,6 +141,50 @@ public class ExReportingEngine extends ApiExampleBase
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.TestNestedDataTable.docx", getGoldsDir() + "ReportingEngine.TestNestedDataTable Gold.docx"));
     }
+
+    @Test
+    public void restartingListNumberingDynamically() throws Exception
+    {
+        Document template = new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.docx");
+
+        buildReport(template, Common.getManagers(), "Managers", ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
+
+        template.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamically Gold.docx"));
+    }
+
+    @Test
+    public void restartingListNumberingDynamicallyWhileInsertingDocumentDinamically() throws Exception
+    {
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.Document] -build>>");
+        
+        DocumentTestClass doc = new DocumentTestBuilder()
+            .withDocument(new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.docx")).build();
+
+        buildReport(template, new Object[] {doc, Common.getManagers()} , new String[] {"src", "Managers"}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
+
+        template.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically Gold.docx"));
+    }
+
+    @Test
+    public void restartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically() throws Exception
+    {
+        Document mainTemplate = DocumentHelper.createSimpleDocument("<<doc [src] -build>>");
+        Document template1 = DocumentHelper.createSimpleDocument("<<doc [src1] -build>>");
+        Document template2 = DocumentHelper.createSimpleDocument("<<doc [src2.Document] -build>>");
+        
+        DocumentTestClass doc = new DocumentTestBuilder()
+            .withDocument(new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.docx")).build();
+
+        buildReport(mainTemplate, new Object[] {template1, template2, doc, Common.getManagers()} , new String[] {"src", "src1", "src2", "Managers"}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
+
+        mainTemplate.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically Gold.docx"));
+     }
 
     @Test
     public void chartTest() throws Exception
@@ -429,29 +477,35 @@ public class ExReportingEngine extends ApiExampleBase
             "Fail inserting document by bytes");
     }
 
-    @Test
-    public void insertHyperlinksDinamically() throws Exception
+    @Test (dataProvider = "insertHyperlinksDinamicallyDataProvider")
+    public void insertHyperlinksDinamically(String link) throws Exception
     {
         Document template = new Document(getMyDir() + "ReportingEngine.InsertingHyperlinks.docx");
         buildReport(template, 
             new Object[]
             {
-                "https://auckland.dynabic.com/wiki/display/org/Supported+dynamic+insertion+of+hyperlinks+for+LINQ+Reporting+Engine",
+                link, // Use URI or the name of a bookmark within the same document for a hyperlink
                 "Aspose"
             },
             new String[]
             {
-                "uri_expression", 
+                "uri_or_bookmark_expression", 
                 "display_text_expression"
             });
 
         template.save(getArtifactsDir() + "ReportingEngine.InsertHyperlinksDinamically.docx");
-
-        msAssert.isTrue(
-            DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertHyperlinksDinamically.docx",
-                getGoldsDir() + "ReportingEngine.InsertHyperlinksDinamically Gold.docx"),
-            "Fail inserting document by bytes");
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "insertHyperlinksDinamicallyDataProvider")
+	public static Object[][] insertHyperlinksDinamicallyDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"https://auckland.dynabic.com/wiki/display/org/Supported+dynamic+insertion+of+hyperlinks+for+LINQ+Reporting+Engine"},
+			{"Bookmark"},
+		};
+	}
 
     @Test
     public void withoutKnownType() throws Exception
@@ -811,9 +865,8 @@ public class ExReportingEngine extends ApiExampleBase
                     ((ClientTestClass)clients.get(2)).setLocalAddress("Wellington 6004");
                 }
         }
-        
+
         buildReport(doc, new Object[] { value1, value2, clients }, new String[] { "value1", "value2", "clients" });
-        
         doc.save(artifactPath);
 
         Assert.assertTrue(DocumentHelper.compareDocs(artifactPath, goldPath));
@@ -829,6 +882,140 @@ public class ExReportingEngine extends ApiExampleBase
 			{"Hello",  "Name",  "ReportingEngine.MergingTableCellsDynamically.NotMerged"},
 		};
 	}
+
+    @Test
+    public void xmlDataStringWithoutSchema() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.docx");
+
+        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "XmlData.xml");
+        buildReport(doc, dataSource, "persons");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.XmlDataString.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataString.docx",
+            getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+    }
+
+    @Test
+    public void xmlDataStreamWithoutSchema() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.docx");
+
+        FileStream stream = File.openRead(getMyDir() + "XmlData.xml");
+        try /*JAVA: was using*/
+        {
+            XmlDataSource dataSource = new XmlDataSource(stream);
+            buildReport(doc, dataSource, "persons");
+        }
+        finally { if (stream != null) stream.close(); }
+
+        doc.save(getArtifactsDir() + "ReportingEngine.XmlDataStream.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataStream.docx",
+            getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+    }
+
+    @Test
+    public void xmlDataWithNestedElements() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSourceWithNestedElements.docx");
+
+        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "XmlDataWithNestedElements.xml");
+        buildReport(doc, dataSource, "managers");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.XmlDataWithNestedElements.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataWithNestedElements.docx",
+            getGoldsDir() + "ReportingEngine.DataSourceWithNestedElements Gold.docx"));
+    }
+
+    @Test
+    public void jsonDataString() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.docx");
+
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "JsonData.json");
+        buildReport(doc, dataSource, "persons");
+        
+        doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataString.docx",
+            getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+    }
+
+    @Test
+    public void jsonDataStream() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.docx");
+        FileStream stream = File.openRead(getMyDir() + "JsonData.json");
+        try /*JAVA: was using*/
+        {
+            JsonDataSource dataSource = new JsonDataSource(stream);
+            buildReport(doc, dataSource, "persons");
+        }
+        finally { if (stream != null) stream.close(); }
+
+        doc.save(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx",
+            getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+    }
+
+    @Test
+    public void jsonDataWithNestedElements() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "ReportingEngine.DataSourceWithNestedElements.docx");
+
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "JsonDataWithNestedElements.json");
+        buildReport(doc, dataSource, "managers");
+        
+        doc.save(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx",
+            getGoldsDir() + "ReportingEngine.DataSourceWithNestedElements Gold.docx"));
+    }
+
+    @Test
+    public void csvDataString() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "ReportingEngine.CsvData.docx");
+        
+        CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
+        loadOptions.setDelimiter(';');
+        loadOptions.setCommentChar('$');
+
+        CsvDataSource dataSource = new CsvDataSource(getMyDir() + "CsvData.csv", loadOptions);
+        buildReport(doc, dataSource, "persons");
+        
+        doc.save(getArtifactsDir() + "ReportingEngine.CsvDataString.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataString.docx",
+            getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
+    }
+
+    @Test
+    public void csvDataStream() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "ReportingEngine.CsvData.docx");
+        
+        CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
+        loadOptions.setDelimiter(';');
+        loadOptions.setCommentChar('$');
+
+        FileStream stream = File.openRead(getMyDir() + "CsvData.csv");
+        try /*JAVA: was using*/
+        {
+            CsvDataSource dataSource = new CsvDataSource(stream, loadOptions);
+            buildReport(doc, dataSource, "persons");
+        }
+        finally { if (stream != null) stream.close(); }
+        
+        doc.save(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx",
+            getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
+    }
 
     private static void buildReport(Document document, Object dataSource, String dataSourceName,
         /*ReportBuildOptions*/int reportBuildOptions) throws Exception

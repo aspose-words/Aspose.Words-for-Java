@@ -184,16 +184,12 @@ public class ExNestedMailMergeCustom extends ApiExampleBase {
             return (!isEof());
         }
 
-        //ExStart
-        //ExId:GetChildDataSourceExample
-        //ExSummary:Shows how to get a child collection of objects by using the GetChildDataSource method in the parent class.
         public IMailMergeDataSource getChildDataSource(String tableName) {
             // Get the child collection to merge it with the region provided with tableName variable.
             if (tableName.equals("Order"))
                 return new OrderMailMergeDataSource(mCustomers.get(mRecordIndex).getOrders());
             else return null;
         }
-        //ExEnd
 
         private boolean isEof() {
             return (mRecordIndex >= mCustomers.size());
