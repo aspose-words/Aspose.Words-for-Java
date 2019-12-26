@@ -21,7 +21,6 @@ public class ExFormFields extends ApiExampleBase {
         //ExStart
         //ExFor:Range.FormFields
         //ExFor:FormFieldCollection
-        //ExId:FormFieldsGetFormFieldsCollection
         //ExSummary:Shows how to get a collection of form fields.
         Document doc = new Document(getMyDir() + "FormFields.doc");
         FormFieldCollection formFields = doc.getRange().getFormFields();
@@ -32,7 +31,6 @@ public class ExFormFields extends ApiExampleBase {
     public void formFieldsGetByName() throws Exception {
         //ExStart
         //ExFor:FormField
-        //ExId:FormFieldsGetByName
         //ExSummary:Shows how to access form fields.
         Document doc = new Document(getMyDir() + "FormFields.doc");
         FormFieldCollection documentFormFields = doc.getRange().getFormFields();
@@ -49,7 +47,6 @@ public class ExFormFields extends ApiExampleBase {
         //ExFor:FormField.Result
         //ExFor:FormField.Type
         //ExFor:FormField.Name
-        //ExId:FormFieldsWorkWithProperties
         //ExSummary:Shows how to work with form field name, type, and result.
         Document doc = new Document(getMyDir() + "FormFields.doc");
 
@@ -64,8 +61,7 @@ public class ExFormFields extends ApiExampleBase {
     public void insertAndRetrieveFormFields() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertTextInput
-        //ExId:FormFieldsInsertAndRetrieve
-        //ExSummary:Shows how to insert form fields, set options and gather them back in for use 
+        //ExSummary:Shows how to insert form fields, set options and gather them back in for use
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

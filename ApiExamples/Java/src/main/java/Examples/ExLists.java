@@ -447,14 +447,10 @@ public class ExLists extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test
-    public void outlineHeadingTemplatesCaller() throws Exception {
-        outlineHeadingTemplates();
-    }
-
     //ExStart
     //ExFor:ListTemplate
     //ExSummary:Creates a sample document that exercises all outline headings list templates.
+    @Test //ExSkip
     public void outlineHeadingTemplates() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -493,16 +489,13 @@ public class ExLists extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test
-    public void printOutAllListsCaller() throws Exception {
-        printOutAllLists();
-    }
 
     //ExStart
     //ExFor:ListCollection
     //ExFor:ListCollection.AddCopy(List)
     //ExFor:ListCollection.GetEnumerator
     //ExSummary:Enumerates through all lists defined in one document and creates a sample of those lists in another document.
+    @Test //ExSkip
     public void printOutAllLists() throws Exception {
         // You can use any of your documents to try this little program out.
         Document srcDoc = new Document(getMyDir() + "Lists.PrintOutAllLists.doc");

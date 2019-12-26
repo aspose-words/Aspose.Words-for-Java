@@ -212,4 +212,30 @@ public class ExInlineStory extends ApiExampleBase {
         doc.save(getArtifactsDir() + "InlineStory.InsertInlineStoryNodes.docx");
         //ExEnd
     }
+
+    @Test
+    public void deleteShapes() throws Exception
+    {
+        //ExStart
+        //ExFor:Story
+        //ExFor:Story.DeleteShapes
+        //ExFor:Story.StoryType
+        //ExFor:StoryType
+        //ExSummary:Shows how to clear a body of inline shapes.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Use a DocumentBuilder to insert a shape
+        // This is an inline shape, which has a parent Paragraph, which is in turn a child of the Body
+        builder.insertShape(ShapeType.CUBE, 100.0, 100.0);
+
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(),1);
+
+        // We can delete all such shapes from the Body, affecting all child Paragraphs
+        Assert.assertEquals(doc.getFirstSection().getBody().getStoryType(), StoryType.MAIN_TEXT);
+        doc.getFirstSection().getBody().deleteShapes();
+
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 0);
+        //ExEnd
+    }
 }

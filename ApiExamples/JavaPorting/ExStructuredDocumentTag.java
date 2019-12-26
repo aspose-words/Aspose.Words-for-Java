@@ -49,6 +49,9 @@ import com.aspose.words.Run;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.msString;
+import com.aspose.words.PdfSaveOptions;
+import com.aspose.words.Table;
+import com.aspose.words.Row;
 
 
 /// <summary>
@@ -893,5 +896,126 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         msAssert.areEqual(SdtType.BUILDING_BLOCK_GALLERY, buildingBlockSdt.getSdtType());
         msAssert.areEqual("Table of Contents", buildingBlockSdt.getBuildingBlockGallery());
         msAssert.areEqual("Built-in", buildingBlockSdt.getBuildingBlockCategory());
+    }
+
+    @Test
+    public void updateSdtContent() throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.UpdateSdtContent
+        //ExSummary:Shows how structured document tags can be updated while saving to .pdf.
+        Document doc = new Document();
+
+        // Insert two StructuredDocumentTags; a date and a drop down list 
+        StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.DATE, MarkupLevel.BLOCK);
+        tag.setFullDateInternal(DateTime.getNow());
+
+        doc.getFirstSection().getBody().appendChild(tag);
+
+        tag = new StructuredDocumentTag(doc, SdtType.DROP_DOWN_LIST, MarkupLevel.BLOCK);
+        tag.getListItems().add(new SdtListItem("Value 1"));
+        tag.getListItems().add(new SdtListItem("Value 2"));
+        tag.getListItems().add(new SdtListItem("Value 3"));
+        tag.getListItems().setSelectedValue(tag.getListItems().get(1));
+
+        doc.getFirstSection().getBody().appendChild(tag);
+
+        // We've selected default values for both tags
+        // We can save those values in the document without immediately updating the tags, leaving them in their default state
+        // by using a SaveOptions object with this flag set
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setUpdateSdtContent(false);
+
+        doc.save(getArtifactsDir() + "UpdateSdtContent.pdf", options);
+        //ExEnd
+    }
+
+    @Test
+    public void fillTableUsingRepeatingSectionItem() throws Exception
+    {
+        //ExStart
+        //ExFor:SdtType
+        //ExSummary:Shows how to fill the table with data contained in the XML part.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+ 
+        CustomXmlPart xmlPart = doc.getCustomXmlParts().add("Books",
+            "<books>" +
+            "<book><title>Everyday Italian</title>" +
+            "<author>Giada De Laurentiis</author></book>" +
+            "<book><title>Harry Potter</title>" +
+            "<author>J K. Rowling</author></book>" +
+            "<book><title>Learning XML</title>" +
+            "<author>Erik T. Ray</author></book>" +
+            "</books>");
+ 
+        // Create headers for data from xml content
+        Table table = builder.startTable();
+        builder.insertCell();
+        builder.write("Title");
+        builder.insertCell();
+        builder.write("Author");
+        builder.endRow();
+        builder.endTable();
+ 
+        // Create table with RepeatingSection inside
+        StructuredDocumentTag repeatingSectionSdt =
+            new StructuredDocumentTag(doc, SdtType.REPEATING_SECTION, MarkupLevel.ROW);
+        repeatingSectionSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book", "");
+        table.appendChild(repeatingSectionSdt);
+ 
+        // Add RepeatingSectionItem inside RepeatingSection and mark it as a row
+        StructuredDocumentTag repeatingSectionItemSdt =
+            new StructuredDocumentTag(doc, SdtType.REPEATING_SECTION_ITEM, MarkupLevel.ROW);
+        repeatingSectionSdt.appendChild(repeatingSectionItemSdt);
+ 
+        Row row = new Row(doc);
+        repeatingSectionItemSdt.appendChild(row);
+ 
+        // Map xml data with created table cells for book title and author
+        StructuredDocumentTag titleSdt =
+            new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.CELL);
+        titleSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book[1]/title[1]", "");
+        row.appendChild(titleSdt);
+ 
+        StructuredDocumentTag authorSdt =
+            new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.CELL);
+        authorSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book[1]/author[1]", "");
+        row.appendChild(authorSdt);
+ 
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.RepeatingSectionItem.docx");
+		//ExEnd
+    }
+
+    @Test
+    public void customXmlPart() throws Exception
+    {
+        // Obtain an XML in the form of a string
+        String xmlString = "<?xml version=\"1.0\"?>" +
+                           "<Company>" +
+                           "<Employee id=\"1\">" +
+                           "<FirstName>John</FirstName>" +
+                           "<LastName>Doe</LastName>" +
+                           "</Employee>" +
+                           "<Employee id=\"2\">" +
+                           "<FirstName>Jane</FirstName>" +
+                           "<LastName>Doe</LastName>" +
+                           "</Employee>" +
+                           "</Company>";
+
+        // Create a blank document
+        Document doc = new Document();
+
+        // Insert the full XML document as a custom document part
+        // The mapping for this part will be seen in the "XML Mapping Pane" in the "Developer" tab, if it is enabled
+        CustomXmlPart xmlPart = doc.getCustomXmlParts().add(Guid.newGuid().toString("B"), xmlString);
+
+        // None of the XML is in the document body at this point
+        // Create a StructuredDocumentTag, which will refer to a single element from the XML with an XPath
+        StructuredDocumentTag sdt = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
+        sdt.getXmlMapping().setMapping(xmlPart, "Company//Employee[@id='2']/FirstName", "");
+
+        // Add the StructuredDocumentTag to the document to display the element in the text 
+        doc.getFirstSection().getBody().appendChild(sdt);
     }
 }

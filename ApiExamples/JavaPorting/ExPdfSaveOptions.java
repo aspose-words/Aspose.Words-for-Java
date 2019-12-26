@@ -39,6 +39,12 @@ import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.DmlEffectsRenderingMode;
 import java.awt.image.BufferedImage;
 import com.aspose.BitmapPal;
+import com.aspose.words.CertificateHolder;
+import com.aspose.ms.System.DateTime;
+import com.aspose.words.PdfDigitalSignatureDetails;
+import com.aspose.words.PdfDigitalSignatureHashAlgorithm;
+import com.aspose.words.PdfDigitalSignatureTimestampSettings;
+import com.aspose.ms.System.TimeSpan;
 import org.testng.annotations.DataProvider;
 
 
@@ -188,6 +194,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     public void colorRendering() throws Exception
     {
         //ExStart
+        //ExFor:PdfSaveOptions
         //ExFor:SaveOptions.ColorMode
         //ExSummary:Shows how change image color with save options property
         // Open document with color image
@@ -223,6 +230,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     public void memoryOptimization() throws Exception
     {
         //ExStart
+        //ExFor:SaveOptions.CreateSaveOptions(SaveFormat)
         //ExFor:SaveOptions.MemoryOptimization
         //ExSummary:Shows an option to optimize memory consumption when you work with large documents.
         Document doc = new Document(getMyDir() + "SaveOptions.MemoryOptimization.doc");
@@ -506,7 +514,9 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     public void customPropertiesExport() throws Exception
     {
         //ExStart
+        //ExFor:PdfCustomPropertiesExport
         //ExFor:PdfSaveOptions.CustomPropertiesExport
+        //ExFor:SaveOptions.DmlEffectsRenderingMode
         //ExSummary:Shows how to export custom properties while saving to .pdf.
         Document doc = new Document();
 
@@ -577,6 +587,85 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         options.setPreblendImages(true);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PreblendImages.pdf", options);
+        //ExEnd
+    }
+
+    @Test
+    public void pdfDigitalSignature() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfDigitalSignatureDetails
+        //ExFor:PdfDigitalSignatureDetails.#ctor
+        //ExFor:PdfDigitalSignatureDetails.#ctor(CertificateHolder, String, String, DateTime)
+        //ExFor:PdfDigitalSignatureDetails.HashAlgorithm
+        //ExFor:PdfDigitalSignatureDetails.Location
+        //ExFor:PdfDigitalSignatureDetails.Reason
+        //ExFor:PdfDigitalSignatureDetails.SignatureDate
+        //ExFor:PdfDigitalSignatureHashAlgorithm
+        //ExFor:PdfSaveOptions.DigitalSignatureDetails
+        //ExSummary:Shows how to sign a generated PDF using Aspose.Words.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Signed PDF contents.");
+
+        // Load the certificate from disk
+        // The other constructor overloads can be used to load certificates from different locations
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+
+        // Pass the certificate and details to the save options class to sign with
+        PdfSaveOptions options = new PdfSaveOptions();
+        DateTime signingTime = DateTime.getNow();
+        options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", signingTime));
+
+        // We can use this attribute to set a different hash algorithm
+        options.getDigitalSignatureDetails().setHashAlgorithm(PdfDigitalSignatureHashAlgorithm.SHA_256);
+
+        msAssert.areEqual("Test Signing", options.getDigitalSignatureDetails().getReason());
+        msAssert.areEqual("Aspose Office", options.getDigitalSignatureDetails().getLocation());
+        msAssert.areEqual(signingTime.toUniversalTime(), options.getDigitalSignatureDetails().getSignatureDateInternal());
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
+        //ExEnd
+    }
+
+    @Test
+    public void pdfDigitalSignatureTimestamp() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfDigitalSignatureDetails.TimestampSettings
+        //ExFor:PdfDigitalSignatureTimestampSettings
+        //ExFor:PdfDigitalSignatureTimestampSettings.#ctor
+        //ExFor:PdfDigitalSignatureTimestampSettings.#ctor(String,String,String)
+        //ExFor:PdfDigitalSignatureTimestampSettings.#ctor(String,String,String,TimeSpan)
+        //ExFor:PdfDigitalSignatureTimestampSettings.Password
+        //ExFor:PdfDigitalSignatureTimestampSettings.ServerUrl
+        //ExFor:PdfDigitalSignatureTimestampSettings.Timeout
+        //ExFor:PdfDigitalSignatureTimestampSettings.UserName
+        //ExSummary:Shows how to sign a generated PDF and timestamp it using Aspose.Words.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Signed PDF contents.");
+
+        // Create a digital signature for the document that we will save
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", DateTime.getNow()));
+
+        // We can set a verified timestamp for our signature as well, with a valid timestamp authority
+        options.getDigitalSignatureDetails().setTimestampSettings(new PdfDigitalSignatureTimestampSettings("https://freetsa.org/tsr", "JohnDoe", "MyPassword"));
+
+        // The default lifespan of the timestamp is 100 seconds
+        msAssert.areEqual(100.0d, options.getDigitalSignatureDetails().getTimestampSettings().getTimeoutInternal().getTotalSeconds());
+
+        // We can set our own timeout period via the constructor
+        options.getDigitalSignatureDetails().setTimestampSettings(new PdfDigitalSignatureTimestampSettings("https://freetsa.org/tsr", "JohnDoe", "MyPassword", TimeSpan.fromMinutes(30.0)));
+
+        msAssert.areEqual(1800.0d, options.getDigitalSignatureDetails().getTimestampSettings().getTimeoutInternal().getTotalSeconds());
+        msAssert.areEqual("https://freetsa.org/tsr", options.getDigitalSignatureDetails().getTimestampSettings().getServerUrl());
+        msAssert.areEqual("JohnDoe", options.getDigitalSignatureDetails().getTimestampSettings().getUserName());
+        msAssert.areEqual("MyPassword", options.getDigitalSignatureDetails().getTimestampSettings().getPassword());
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
         //ExEnd
     }
 }

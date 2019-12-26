@@ -11,7 +11,6 @@ package Examples;
 //ExStart
 //ExFor:NodeList
 //ExFor:FieldStart
-//ExId:ReplaceHyperlinks
 //ExSummary:Finds all hyperlinks in a Word document and changes their URL and display name.
 
 import com.aspose.words.*;

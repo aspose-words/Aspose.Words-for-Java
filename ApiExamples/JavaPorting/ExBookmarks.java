@@ -37,7 +37,6 @@ public class ExBookmarks extends ApiExampleBase
         //ExFor:Bookmark.Name
         //ExFor:Bookmark.Text
         //ExFor:Range.Bookmarks
-        //ExId:BookmarksGetNameSetText
         //ExSummary:Shows how to get or set bookmark name and text.
         Document doc = new Document(getMyDir() + "Bookmark.doc");
 
@@ -97,7 +96,6 @@ public class ExBookmarks extends ApiExampleBase
         //ExFor:BookmarkCollection
         //ExFor:BookmarkCollection.Item(Int32)
         //ExFor:BookmarkCollection.Item(String)
-        //ExId:BookmarksAccess
         //ExSummary:Shows how to obtain bookmarks from a bookmark collection.
         Document doc = new Document(getMyDir() + "Bookmarks.doc");
 
@@ -136,16 +134,12 @@ public class ExBookmarks extends ApiExampleBase
     @Test
     public void bookmarksInsertBookmarkWithDocumentBuilder() throws Exception
     {
-        //ExStart
-        //ExId:BookmarksInsertBookmark
-        //ExSummary:Shows how to create a new bookmark.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.startBookmark("MyBookmark");
         builder.writeln("Text inside a bookmark.");
         builder.endBookmark("MyBookmark");
-        //ExEnd
     }
 
     @Test
@@ -245,7 +239,6 @@ public class ExBookmarks extends ApiExampleBase
 
         // Look at initial values of our bookmarks
         printAllBookmarkInfo(bookmarks);
-
         msAssert.areEqual("Bookmark 1", bookmarks.get(0).getName()); //ExSkip
         msAssert.areEqual("Text content of Bookmark 2", bookmarks.get(1).getText()); //ExSkip
         msAssert.areEqual(3, bookmarks.getCount()); //ExSkip
@@ -259,7 +252,6 @@ public class ExBookmarks extends ApiExampleBase
 
         // Look at updated values of our bookmarks
         printAllBookmarkInfo(bookmarks);
-
         msAssert.areEqual("Updated name of Bookmark 1", bookmarks.get(0).getName()); //ExSkip
         msAssert.areEqual("Updated text content of Bookmark 2", bookmarks.get(1).getText()); //ExSkip
         msAssert.areEqual(2, bookmarks.getCount()); //ExSkip

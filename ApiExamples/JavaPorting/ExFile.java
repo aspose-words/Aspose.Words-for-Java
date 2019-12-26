@@ -132,7 +132,6 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatInfo.LoadFormat
         //ExFor:FileFormatInfo.IsEncrypted
         //ExFor:FileFormatInfo.HasDigitalSignature
-        //ExId:DetectFileFormat
         //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and other features of the document.
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.doc");
         msConsole.writeLine("The document format is: " + FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
@@ -209,7 +208,6 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExStart
         //ExFor:FileFormatUtil.DetectFileFormat(String)
         //ExFor:FileFormatInfo.HasDigitalSignature
-        //ExId:DetectDocumentSignatures
         //ExSummary:Shows how to check a document for digital signatures before loading it into a Document object.
         // The path to the document which is to be processed.
         String filePath = getMyDir() + "Document.Signed.docx";
@@ -234,7 +232,6 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
     //ExFor:ImageData.ImageType
     //ExFor:ImageData.Save(String)
     //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
-    //ExId:ExtractImagesToFiles
     //ExSummary:Shows how to extract images from a document and save them as files.
     @Test //ExSkip
     public void extractImagesToFiles() throws Exception

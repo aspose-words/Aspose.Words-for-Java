@@ -45,14 +45,14 @@ public class ExSavingCallback extends ApiExampleBase {
         xpsSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
     }
 
-    @Test
+    //ExStart
+    //ExFor:IPageSavingCallback
+    //ExFor:PageSavingArgs
+    //ExFor:PageSavingArgs.PageFileName
+    //ExFor:FixedPageSaveOptions.PageSavingCallback
+    //ExSummary:Shows how separate pages are saved when a document is exported to fixed page format.
+    @Test //ExSkip
     public void pageFileNameSavingCallback() throws Exception {
-        //ExStart
-        //ExFor:IPageSavingCallback
-        //ExFor:PageSavingArgs
-        //ExFor:PageSavingArgs.PageFileName
-        //ExFor:FixedPageSaveOptions.PageSavingCallback
-        //ExSummary:Shows how separate pages are saved when a document is exported to fixed page format.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
@@ -108,13 +108,14 @@ public class ExSavingCallback extends ApiExampleBase {
     //ExFor:ImageSavingArgs
     //ExFor:ImageSavingArgs.ImageFileName
     //ExFor:HtmlSaveOptions
+    //ExFor:HtmlSaveOptions.DocumentPartSavingCallback
     //ExFor:HtmlSaveOptions.ImageSavingCallback
     //ExSummary:Shows how split a document into parts and save them.
     @Test //ExSkip
     public void documentParts() throws Exception {
         // Open a document to be converted to html
         Document doc = new Document(getMyDir() + "Rendering.doc");
-        String outFileName = "SavingCallback.DocumentParts.html";
+        String outFileName = "SavingCallback.DocumentParts.Rendering.html";
 
         // We can use an appropriate SaveOptions subclass to customize the conversion process
         HtmlSaveOptions options = new HtmlSaveOptions();
@@ -224,6 +225,9 @@ public class ExSavingCallback extends ApiExampleBase {
     //ExFor:CssSavingArgs.IsExportNeeded
     //ExFor:CssSavingArgs.KeepCssStreamOpen
     //ExFor:CssStyleSheetType
+    //ExFor:HtmlSaveOptions.CssSavingCallback
+    //ExFor:HtmlSaveOptions.CssStyleSheetFileName
+    //ExFor:HtmlSaveOptions.CssStyleSheetType
     //ExFor:ICssSavingCallback
     //ExFor:ICssSavingCallback.CssSaving(CssSavingArgs)
     //ExSummary:Shows how to work with CSS stylesheets that may be created along with Html documents.
@@ -233,16 +237,21 @@ public class ExSavingCallback extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
         // If our output document will produce a CSS stylesheet, we can use an HtmlSaveOptions to control where it is saved
-        HtmlSaveOptions htmlFixedSaveOptions = new HtmlSaveOptions();
+        HtmlSaveOptions options = new HtmlSaveOptions();
 
         // By default, a CSS stylesheet is stored inside its HTML document, but we can have it saved to a separate file
-        htmlFixedSaveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
+        options.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
 
-        // A custom ICssSavingCallback implementation can control where that stylesheet will be saved and linked to by the Html document
-        htmlFixedSaveOptions.setCssSavingCallback(new CustomCssSavingCallback(getArtifactsDir() + "Rendering.CssSavingCallback.css", true, false));
+        // We can designate a filename for our stylesheet like this
+        options.setCssStyleSheetFileName(getArtifactsDir() + "Rendering.CssSavingCallback.css");
+
+        // A custom ICssSavingCallback implementation can also control where that stylesheet will be saved and linked to by the Html document
+        // This callback will override the filename we specified above in options.CssStyleSheetFileName,
+        // but will give us more control over the saving process
+        options.setCssSavingCallback(new CustomCssSavingCallback(getArtifactsDir() + "Rendering.CssSavingCallback.css", true, false));
 
         // The CssSaving() method of our callback will be called at this stage
-        doc.save(getArtifactsDir() + "Rendering.CssSavingCallback.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "Rendering.CssSavingCallback.html", options);
     }
 
     /// <summary>

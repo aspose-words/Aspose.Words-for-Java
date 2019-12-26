@@ -8,10 +8,6 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-//ExStart
-//ExId:RenameMergeFields
-//ExSummary:Shows how to rename merge fields in a Word document.
-
 import com.aspose.words.*;
 import org.testng.annotations.Test;
 
@@ -160,5 +156,3 @@ class MergeField {
 
     private static final Pattern G_REGEX = Pattern.compile("\\s*(MERGEFIELD\\s|)(\\s|)(\\S+)\\s+");
 }
-
-//ExEnd

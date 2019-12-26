@@ -48,6 +48,8 @@ public class ExDocumentVisitor extends ApiExampleBase
 {
     //ExStart
     //ExFor:Document.Accept(DocumentVisitor)
+    //ExFor:Body.Accept(DocumentVisitor)
+    //ExFor:SubDocument.Accept(DocumentVisitor)
     //ExFor:DocumentVisitor
     //ExFor:DocumentVisitor.VisitRun(Run)
     //ExFor:DocumentVisitor.VisitDocumentEnd(Document)

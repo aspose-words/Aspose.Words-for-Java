@@ -40,7 +40,6 @@ public class ExProperties extends ApiExampleBase
         //ExFor:Document.CustomDocumentProperties
         //ExFor:BuiltInDocumentProperties
         //ExFor:CustomDocumentProperties
-        //ExId:DocumentProperties
         //ExSummary:Enumerates through all built-in and custom properties in a document.
         Document doc = new Document(getMyDir() + "Properties.doc");
 
@@ -462,7 +461,35 @@ public class ExProperties extends ApiExampleBase
             msConsole.writeLine("The document is not authorized. Authorizing...");
             doc.getCustomDocumentProperties().addInternal("AuthorizedDate", DateTime.getNow());
         }
+        //ExEnd
+    }
 
+    @Test
+    public void linkCustomDocumentPropertiesToBookmark() throws Exception
+    {
+        //ExStart
+        //ExFor:CustomDocumentProperties.AddLinkToContent(String, String)
+        //ExFor:DocumentProperty.IsLinkToContent
+        //ExFor:DocumentProperty.LinkSource
+        //ExSummary:Shows how to add linked custom document property.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.startBookmark("MyBookmark");
+        builder.writeln("Text inside a bookmark.");
+        builder.endBookmark("MyBookmark");
+
+        // Add linked to content property
+        CustomDocumentProperties customProperties = doc.getCustomDocumentProperties();
+        DocumentProperty customProperty = customProperties.addLinkToContent("Bookmark", "MyBookmark");
+
+        // Check whether the property is linked to content
+        msAssert.areEqual(true, customProperty.isLinkToContent());
+        // Get the source of the property
+        msAssert.areEqual("MyBookmark", customProperty.getLinkSource());
+        // Get the value of the property
+        msAssert.areEqual("Text inside a bookmark.\r", customProperty.getValue());
+
+        doc.save(getArtifactsDir() + "Properties.LinkCustomDocumentPropertiesToBookmark.docx");
         //ExEnd
     }
 
@@ -482,7 +509,6 @@ public class ExProperties extends ApiExampleBase
         //ExFor:Properties.DocumentPropertyCollection.IndexOf(System.String)
         //ExFor:Properties.DocumentPropertyCollection.RemoveAt(System.Int32)
         //ExFor:Properties.DocumentPropertyCollection.Remove
-        //ExId:AddCustomProperties
         //ExSummary:Shows how to add custom properties to a document.
         // Create a blank document and get its custom property collection
         Document doc = new Document();

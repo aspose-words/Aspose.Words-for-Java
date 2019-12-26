@@ -29,6 +29,7 @@ import com.aspose.words.Table;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.StoryType;
+import com.aspose.words.ShapeType;
 
 
 @Test
@@ -230,6 +231,32 @@ public class ExInlineStory extends ApiExampleBase
         msAssert.areEqual(StoryType.COMMENTS, comment.getStoryType());
 
         doc.save(getArtifactsDir() + "InlineStory.InsertInlineStoryNodes.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void deleteShapes() throws Exception
+    {
+        //ExStart
+        //ExFor:Story
+        //ExFor:Story.DeleteShapes
+        //ExFor:Story.StoryType
+        //ExFor:StoryType
+        //ExSummary:Shows how to clear a body of inline shapes.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Use a DocumentBuilder to insert a shape
+        // This is an inline shape, which has a parent Paragraph, which is in turn a child of the Body
+        builder.insertShape(ShapeType.CUBE, 100.0, 100.0);
+
+        msAssert.areEqual(1, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+
+        // We can delete all such shapes from the Body, affecting all child Paragraphs
+        msAssert.areEqual(StoryType.MAIN_TEXT, doc.getFirstSection().getBody().getStoryType());
+        doc.getFirstSection().getBody().deleteShapes();
+
+        msAssert.areEqual(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
         //ExEnd
     }
 }

@@ -59,12 +59,11 @@ import java.io.FileNotFoundException;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignature;
 import com.aspose.words.CertificateHolder;
-import com.aspose.words.PdfDigitalSignatureDetails;
-import com.aspose.ms.System.DateTime;
 import org.bouncycastle.jcajce.provider.keystore.pkcs12.PKCS12KeyStoreSpi;
 import java.util.Iterator;
 import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.words.SignOptions;
+import com.aspose.ms.System.DateTime;
 import com.aspose.words.StyleIdentifier;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,7 +75,6 @@ import com.aspose.words.ProtectionType;
 import com.aspose.words.Table;
 import com.aspose.words.Cell;
 import com.aspose.words.LoadFormat;
-import com.aspose.words.ViewType;
 import java.util.Map;
 import com.aspose.words.FootnotePosition;
 import com.aspose.words.NumberStyle;
@@ -88,14 +86,13 @@ import com.aspose.words.ComparisonTargetType;
 import com.aspose.words.CleanupOptions;
 import com.aspose.words.ShowInBalloons;
 import com.aspose.words.ParagraphCollection;
+import com.aspose.words.RevisionsView;
+import com.aspose.words.Paragraph;
 import com.aspose.words.ThumbnailGeneratingOptions;
 import com.aspose.words.TxtLoadOptions;
 import com.aspose.words.PlainTextDocument;
 import com.aspose.words.BuiltInDocumentProperties;
 import com.aspose.words.CustomDocumentProperties;
-import com.aspose.words.Theme;
-import java.awt.Color;
-import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.OoxmlCompliance;
 import com.aspose.words.SaveOptions;
 import com.aspose.words.ImageSaveOptions;
@@ -113,7 +110,9 @@ import com.aspose.words.FieldType;
 import com.aspose.words.RevisionColor;
 import com.aspose.words.MailMergeSettings;
 import com.aspose.words.MailMergeMainDocumentType;
+import com.aspose.words.MailMergeCheckErrors;
 import com.aspose.words.MailMergeDataType;
+import com.aspose.words.MailMergeDestination;
 import com.aspose.words.Odso;
 import com.aspose.words.OdsoDataSourceType;
 import com.aspose.words.OdsoFieldMapDataCollection;
@@ -140,6 +139,8 @@ import com.aspose.words.VbaProject;
 import com.aspose.words.VbaModuleCollection;
 import com.aspose.words.VbaModule;
 import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
+import com.aspose.words.SaveOutputParameters;
+import com.aspose.words.SubDocument;
 import org.testng.annotations.DataProvider;
 
 
@@ -160,7 +161,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:License
         //ExFor:License.#ctor
         //ExFor:License.SetLicense(String)
-        //ExId:LicenseFromFileNoPath
         //ExSummary:Aspose.Words will attempt to find the license file in the embedded resources or in the assembly folders.
         License license = new License();
         license.setLicense("Aspose.Words.lic");
@@ -182,7 +182,6 @@ public class ExDocument extends ApiExampleBase
         {
             //ExStart
             //ExFor:License.SetLicense(Stream)
-            //ExId:LicenseFromStream
             //ExSummary:Initializes a license from a stream.
             License license = new License();
             license.setLicenseInternal(myStream);
@@ -197,7 +196,6 @@ public class ExDocument extends ApiExampleBase
     public void documentCtor() throws Exception
     {
         //ExStart
-        //ExId:DocumentCtor
         //ExFor:Document.#ctor(Boolean)
         //ExSummary:Shows how to create a blank document. Note the blank document contains one section and one paragraph.
         Document doc = new Document();
@@ -209,7 +207,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.#ctor(String)
-        //ExId:OpenFromFile
         //ExSummary:Opens a document from a file.
         // Open a document. The file is opened read only and only for the duration of the constructor.
         Document doc = new Document(getMyDir() + "Document.doc");
@@ -217,7 +214,6 @@ public class ExDocument extends ApiExampleBase
 
         //ExStart
         //ExFor:Document.Save(String)
-        //ExId:SaveToFile
         //ExSummary:Saves a document to a file.
         doc.save(getArtifactsDir() + "Document.OpenFromFile.doc");
         //ExEnd
@@ -226,12 +222,8 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void openAndSaveToFile() throws Exception
     {
-        //ExStart
-        //ExId:OpenAndSaveToFile
-        //ExSummary:Opens a document from a file and saves it to a different format
         Document doc = new Document(getMyDir() + "Document.doc");
         doc.save(getArtifactsDir() + "Document.html");
-        //ExEnd
     }
 
     @Test
@@ -239,7 +231,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.#ctor(Stream)
-        //ExId:OpenFromStream
         //ExSummary:Opens a document from a stream.
         // Open the stream. Read only access is enough for Aspose.Words to load a document.
         Stream stream = File.openRead(getMyDir() + "Document.doc");
@@ -262,7 +253,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:LoadOptions.#ctor
         //ExFor:LoadOptions.BaseUri
         //ExFor:ShapeBase.IsImage
-        //ExId:DocumentCtor_LoadOptions
         //ExSummary:Opens an HTML document with images from a stream using a base URI.
         Document doc = new Document();
         // We are opening this HTML file:      
@@ -408,7 +398,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.#ctor(String,LoadOptions)
         //ExFor:LoadOptions
         //ExFor:LoadOptions.#ctor(String)
-        //ExId:OpenEncrypted
         //ExSummary:Loads a Microsoft Word document encrypted with a password.
         Document doc = new Document(getMyDir() + "Document.LoadEncrypted.doc", new LoadOptions("qwerty"));
         //ExEnd
@@ -637,7 +626,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:SaveFormat
         //ExSummary:Converts from DOC to HTML format.
         Document doc = new Document(getMyDir() + "Document.doc");
-
         doc.save(getArtifactsDir() + "Document.ConvertToHtml.html", SaveFormat.HTML);
         //ExEnd
     }
@@ -649,7 +637,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.Save(String)
         //ExSummary:Converts from DOC to MHTML format.
         Document doc = new Document(getMyDir() + "Document.doc");
-
         doc.save(getArtifactsDir() + "Document.ConvertToMhtml.mht");
         //ExEnd
     }
@@ -657,13 +644,9 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void convertToTxt() throws Exception
     {
-        //ExStart
-        //ExId:ExtractContentSaveAsText
-        //ExSummary:Shows how to save a document in TXT format.
         Document doc = new Document(getMyDir() + "Document.doc");
-
         doc.save(getArtifactsDir() + "Document.ConvertToTxt.txt");
-        //ExEnd
+        
     }
 
     @Test
@@ -672,10 +655,8 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document
         //ExFor:Document.Save(String)
-        //ExId:Doc2PdfSave
         //ExSummary:Converts a whole document from DOC to PDF using default options.
         Document doc = new Document(getMyDir() + "Document.doc");
-
         doc.save(getArtifactsDir() + "Document.Doc2PdfSave.pdf");
         //ExEnd
     }
@@ -685,7 +666,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.Save(Stream,SaveFormat)
-        //ExId:SaveToStream
         //ExSummary:Shows how to save a document to a stream.
         Document doc = new Document(getMyDir() + "Document.doc");
 
@@ -704,16 +684,10 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void doc2EpubSave() throws Exception
     {
-        //ExStart
-        //ExId:Doc2EpubSave
-        //ExSummary:Converts a document to EPUB using default save options.
-
         // Open an existing document from disk.
         Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
-
         // Save the document in EPUB format.
         doc.save(getArtifactsDir() + "Document.EpubConversion.epub");
-        //ExEnd
     }
 
     @Test
@@ -726,7 +700,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:HtmlSaveOptions.DocumentSplitCriteria
         //ExFor:HtmlSaveOptions.ExportDocumentProperties
         //ExFor:HtmlSaveOptions.SaveFormat
-        //ExId:Doc2EpubSaveWithOptions
+        //ExFor:SaveOptions
+        //ExFor:SaveOptions.SaveFormat
         //ExSummary:Converts a document to EPUB with save options specified.
         // Open an existing document from disk.
         Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
@@ -810,7 +785,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:HtmlSaveOptions
         //ExFor:HtmlSaveOptions.ExportTextInputFormFieldAsText
         //ExFor:HtmlSaveOptions.ImagesFolder
-        //ExId:SaveWithOptions
         //ExSummary:Shows how to set save options before saving a document to HTML.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
@@ -909,7 +883,6 @@ public class ExDocument extends ApiExampleBase
     //ExFor:NodeChangingArgs
     //ExFor:NodeChangingArgs.Node
     //ExFor:DocumentBase.NodeChangingCallback
-    //ExId:NodeChangingInDocument
     //ExSummary:Shows how to implement custom logic over node insertion in the document by changing the font of inserted HTML content.
     @Test //ExSkip
     public void testNodeChangingInDocument() throws Exception
@@ -989,9 +962,6 @@ public class ExDocument extends ApiExampleBase
     // the file not to be found.
     public void appendDocumentFromAutomation() throws Exception
     {
-        //ExStart
-        //ExId:AppendDocumentFromAutomation
-        //ExSummary:Shows how to join multiple documents together.
         // The document that the other documents will be appended to.
         Document doc = new Document();
         
@@ -1019,8 +989,6 @@ public class ExDocument extends ApiExampleBase
                 Assert.That(() => doc.getSections().get(i).getHeadersFooters().linkToPrevious(false),
                     Throws.<NullPointerException>TypeOf());
         }
-
-        //ExEnd
     }
 
     @Test
@@ -1033,7 +1001,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:DigitalSignatureCollection.Count
         //ExFor:DigitalSignatureCollection.Item(Int32)
         //ExFor:DigitalSignatureType
-        //ExId:ValidateAllDocumentSignatures
         //ExSummary:Shows how to validate all signatures in a document.
         // Load the signed document.
         Document doc = new Document(getMyDir() + "Document.DigitalSignature.docx");
@@ -1065,7 +1032,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:DigitalSignature.SignTime
         //ExFor:DigitalSignature.SignatureType
         //ExFor:DigitalSignature.Certificate
-        //ExId:ValidateIndividualSignatures
         //ExSummary:Shows how to validate each signature in a document and display basic information about the signature.
         // Load the document which contains signature.
         Document doc = new Document(getMyDir() + "Document.DigitalSignature.docx");
@@ -1091,34 +1057,6 @@ public class ExDocument extends ApiExampleBase
         Assert.assertTrue(digitalSig.getCertificateHolder().getCertificateInternal().getSubject().contains("Aspose Pty Ltd"));
         Assert.assertTrue(digitalSig.getCertificateHolder().getCertificateInternal().getIssuerName().Name != null &&
                     digitalSig.getCertificateHolder().getCertificateInternal().getIssuerName().Name.contains("VeriSign"));
-    }
-
-    @Test (description = "WORDSNET-16868")
-    public void signPdfDocument() throws Exception
-    {
-        //ExStart
-        //ExFor:PdfSaveOptions
-        //ExFor:PdfDigitalSignatureDetails
-        //ExFor:PdfSaveOptions.DigitalSignatureDetails
-        //ExFor:PdfDigitalSignatureDetails.#ctor(CertificateHolder, String, String, DateTime)
-        //ExId:SignPDFDocument
-        //ExSummary:Shows how to sign a generated PDF document using Aspose.Words.
-        // Create a simple document from scratch.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.writeln("Test Signed PDF.");
-
-        // Load the certificate from disk.
-        // The other constructor overloads can be used to load certificates from different locations.
-        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
-
-        // Pass the certificate and details to the save options class to sign with.
-        PdfSaveOptions options = new PdfSaveOptions();
-        options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", DateTime.getNow()));
-
-        // Save the document as PDF with the digital signature set.
-        doc.save(getArtifactsDir() + "Document.Signed.pdf", options);
-        //ExEnd
     }
 
     @Test
@@ -1301,19 +1239,6 @@ public class ExDocument extends ApiExampleBase
     }
 
     @Test
-    public void detachTemplate() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.AttachedTemplate
-        //ExSummary:Opens a document, makes sure it is no longer attached to a template and saves the document.
-        Document doc = new Document(getMyDir() + "Document.doc");
-
-        doc.setAttachedTemplate("");
-        doc.save(getArtifactsDir() + "Document.DetachTemplate.doc");
-        //ExEnd
-    }
-
-    @Test
     public void defaultTabStop() throws Exception
     {
         //ExStart
@@ -1336,7 +1261,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.Clone
-        //ExId:CloneDocument
         //ExSummary:Shows how to deep clone a document.
         Document doc = new Document(getMyDir() + "Document.doc");
         Document clone = doc.deepClone();
@@ -1368,7 +1292,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:FieldOptions
         //ExFor:FieldOptions.FieldUpdateCultureSource
         //ExFor:FieldUpdateCultureSource
-        //ExId:ChangeFieldUpdateCultureSource
         //ExSummary:Shows how to specify where the culture used for date formatting during field update and mail merge is chosen from.
         // Set the culture used during field update to the culture used by the field.
         doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
@@ -1388,7 +1311,6 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:CompositeNode.GetText
         //ExFor:Node.ToString(SaveFormat)
-        //ExId:NodeTxtExportDifferences
         //ExSummary:Shows the difference between calling the GetText and ToString methods on a node.
         Document doc = new Document();
 
@@ -1409,9 +1331,6 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void documentByteArray() throws Exception
     {
-        //ExStart
-        //ExId:DocumentToFromByteArray
-        //ExSummary:Shows how to convert a document object to an array of bytes and back into a document object again.
         // Load the document.
         Document doc = new Document(getMyDir() + "Document.doc");
 
@@ -1430,8 +1349,6 @@ public class ExDocument extends ApiExampleBase
 
         // Load the stream into a new document object.
         Document loadDoc = new Document(streamIn);
-        //ExEnd
-
         msAssert.areEqual(doc.getText(), loadDoc.getText());
     }
 
@@ -1440,7 +1357,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.Protect(ProtectionType,String)
-        //ExId:ProtectDocument
         //ExSummary:Shows how to protect a document.
         Document doc = new Document();
         doc.protect(ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password");
@@ -1448,7 +1364,6 @@ public class ExDocument extends ApiExampleBase
 
         //ExStart
         //ExFor:Document.Unprotect
-        //ExId:UnprotectDocument
         //ExSummary:Shows how to unprotect a document. Note that the password is not required.
         doc.unprotect();
         //ExEnd
@@ -1481,7 +1396,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.ProtectionType
-        //ExId:GetProtectionType
         //ExSummary:Shows how to get protection type currently set in the document.
         Document doc = new Document(getMyDir() + "Document.doc");
         /*ProtectionType*/int protectionType = doc.getProtectionType();
@@ -1520,7 +1434,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.UpdateTableLayout
-        //ExId:UpdateTableLayout
         //ExSummary:Shows how to update the layout of tables in a document.
         Document doc = new Document(getMyDir() + "Document.doc");
 
@@ -1553,7 +1466,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.UpdateFields
-        //ExId:UpdateFieldsInDocument
         //ExSummary:Shows how to update all fields in a document.
         Document doc = new Document(getMyDir() + "Document.doc");
         doc.updateFields();
@@ -1588,7 +1500,6 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.ExpandTableStylesToDirectFormatting
-        //ExId:TableStyleToDirectFormatting
         //ExSummary:Shows how to expand the formatting from styles onto the rows and cells of the table as direct formatting.
         Document doc = new Document(getMyDir() + "Table.TableStyle.docx");
 
@@ -1647,30 +1558,11 @@ public class ExDocument extends ApiExampleBase
     }
 
     @Test
-    public void setZoom() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.ViewOptions
-        //ExFor:ViewOptions
-        //ExFor:ViewOptions.ViewType
-        //ExFor:ViewOptions.ZoomPercent
-        //ExFor:ViewType
-        //ExId:SetZoom
-        //ExSummary:The following code shows how to make sure the document is displayed at 50% zoom when opened in Microsoft Word.
-        Document doc = new Document(getMyDir() + "Document.doc");
-        doc.getViewOptions().setViewType(ViewType.PAGE_LAYOUT);
-        doc.getViewOptions().setZoomPercent(50);
-        doc.save(getArtifactsDir() + "Document.SetZoom.doc");
-        //ExEnd
-    }
-
-    @Test
     public void getDocumentVariables() throws Exception
     {
         //ExStart
         //ExFor:Document.Variables
         //ExFor:VariableCollection
-        //ExId:GetDocumentVariables
         //ExSummary:Shows how to enumerate over document variables.
         Document doc = new Document(getMyDir() + "Document.doc");
 
@@ -2013,6 +1905,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Paragraph.IsMoveToRevision
         //ExFor:ParagraphCollection
         //ExFor:ParagraphCollection.Item(Int32)
+        //ExFor:Story.Paragraphs
         //ExSummary:Shows how to get paragraph that was moved (deleted/inserted) in Microsoft Word while change tracking was enabled.
         Document doc = new Document(getMyDir() + "Document.Revisions.docx");
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
@@ -2026,6 +1919,36 @@ public class ExDocument extends ApiExampleBase
                 msConsole.writeLine("The paragraph {0} has been moved (deleted).", i);
             if (paragraphs.get(i).isMoveToRevision())
                 msConsole.writeLine("The paragraph {0} has been moved (inserted).", i);
+        }
+        //ExEnd
+    }
+
+    @Test
+    public void getRevisedPropertiesOfList() throws Exception
+    {
+        //ExStart
+        //ExFor:RevisionsView
+        //ExFor:Document.RevisionsView
+        //ExSummary:Shows how to get revised version of list label and list level formatting in a document.
+        Document doc = new Document(getMyDir() + "GetRevisedVersionOfDocument.docx");
+        doc.updateListLabels();
+
+        // Switch to the revised version of the document
+        doc.setRevisionsView(RevisionsView.FINAL);
+
+        for (Revision revision : doc.getRevisions())
+        {
+            if (revision.getParentNode().getNodeType() == NodeType.PARAGRAPH)
+            {
+                Paragraph paragraph = (Paragraph)revision.getParentNode();
+
+                if (paragraph.isListItem())
+                {
+                    // Print revised version of LabelString and ListLevel
+                    msConsole.writeLine(paragraph.getListLabel().getLabelString());
+                    msConsole.writeLine(paragraph.getListFormat().getListLevel());
+                }
+            }
         }
         //ExEnd
     }
@@ -2191,52 +2114,6 @@ public class ExDocument extends ApiExampleBase
     }
 
     @Test
-    public void documentThemeProperties() throws Exception
-    {
-        //ExStart
-        //ExFor:Theme
-        //ExFor:Theme.Colors
-        //ExFor:Theme.MajorFonts
-        //ExFor:Theme.MinorFonts
-        //ExSummary:Show how to change document theme options.
-        Document doc = new Document();
-        // Get document theme and do something useful
-        Theme theme = doc.getTheme();
-
-        theme.getColors().setAccent1(Color.BLACK);
-        theme.getColors().setDark1(Color.BLUE);
-        theme.getColors().setFollowedHyperlink(Color.WHITE);
-        theme.getColors().setHyperlink(Color.WhiteSmoke);
-        theme.getColors().setLight1(msColor.Empty); //There is default Color.Black
-
-        theme.getMajorFonts().setComplexScript("Arial");
-        theme.getMajorFonts().setEastAsian("");
-        theme.getMajorFonts().setLatin("Times New Roman");
-
-        theme.getMinorFonts().setComplexScript("");
-        theme.getMinorFonts().setEastAsian("Times New Roman");
-        theme.getMinorFonts().setLatin("Arial");
-        //ExEnd
-
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
-        msAssert.areEqual(Color.BLACK.getRGB(), doc.getTheme().getColors().getAccent1().getRGB());
-        msAssert.areEqual(Color.BLUE.getRGB(), doc.getTheme().getColors().getDark1().getRGB());
-        msAssert.areEqual(Color.WHITE.getRGB(), doc.getTheme().getColors().getFollowedHyperlink().getRGB());
-        msAssert.areEqual(Color.WhiteSmoke.getRGB(), doc.getTheme().getColors().getHyperlink().getRGB());
-        msAssert.areEqual(Color.BLACK.getRGB(), doc.getTheme().getColors().getLight1().getRGB());
-
-        msAssert.areEqual("Arial", doc.getTheme().getMajorFonts().getComplexScript());
-        msAssert.areEqual("", doc.getTheme().getMajorFonts().getEastAsian());
-        msAssert.areEqual("Times New Roman", doc.getTheme().getMajorFonts().getLatin());
-
-        msAssert.areEqual("", doc.getTheme().getMinorFonts().getComplexScript());
-        msAssert.areEqual("Times New Roman", doc.getTheme().getMinorFonts().getEastAsian());
-        msAssert.areEqual("Arial", doc.getTheme().getMinorFonts().getLatin());
-    }
-
-    @Test
     public void ooxmlComplianceVersion() throws Exception
     {
         //ExStart
@@ -2259,18 +2136,19 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.Save(Stream, String, Saving.SaveOptions)
+        //ExFor:SaveOptions.UseAntiAliasing
+        //ExFor:SaveOptions.UseHighQualityRendering
         //ExSummary:Improve the quality of a rendered document with SaveOptions.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.getFont().setSize(60.0);
-
         builder.writeln("Some text.");
 
         SaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
+        msAssert.areEqual(false, options.getUseAntiAliasing());
 
-        options.setUseAntiAliasing(false);
-        doc.save(getArtifactsDir() + "Document.SaveOptionsLowQuality.jpg", options);
+        doc.save(getArtifactsDir() + "Document.SaveOptionsDefault.jpg", options);
 
         options.setUseAntiAliasing(true);
         options.setUseHighQualityRendering(true);
@@ -2521,7 +2399,31 @@ public class ExDocument extends ApiExampleBase
         // Any changes to the styles in this template will be propagated to those styles in the document
         doc.setAutomaticallyUpdateSyles(true);
 
-        doc.save(getArtifactsDir() + "TemplateStylesUpdating.docx");
+        doc.save(getArtifactsDir() + "Document.TemplateStylesUpdating.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void defaultTemplate() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.AttachedTemplate
+        //ExFor:SaveOptions.CreateSaveOptions(String)
+        //ExFor:SaveOptions.DefaultTemplate
+        //ExSummary:Shows how to set a default .docx document template.
+        Document doc = new Document();
+
+        // If we set this flag to true while not having a template attached to the document,
+        // there will be no effect because there is no template document to draw style changes from
+        doc.setAutomaticallyUpdateSyles(true);
+        Assert.That(doc.getAttachedTemplate(), Is.Empty);
+
+        // We can set a default template document filename in a SaveOptions object to make it apply to
+        // all documents we save with it that have no AttachedTemplate value
+        SaveOptions options = SaveOptions.createSaveOptions("Document.DefaultTemplate.docx");
+        options.setDefaultTemplate(getMyDir() + "Document.BusinessBrochureTemplate.dotx");
+
+        doc.save(getArtifactsDir() + "Document.DefaultTemplate.docx", options);
         //ExEnd
     }
 
@@ -2604,52 +2506,6 @@ public class ExDocument extends ApiExampleBase
         msAssert.areEqual(doc.getLastSection(), doc.getSections().get(1));
 
         doc.save(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
-        //ExEnd
-    }
-
-    @Test
-    public void docTheme() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.Theme
-        //ExSummary:Shows what we can do with the Themes property of Document.
-        Document doc = new Document();
-
-        // When creating a blank document, Aspose Words creates a default theme object
-        Theme theme = doc.getTheme();
-
-        // These color properties correspond to the 10 color columns that you see 
-        // in the "Theme colors" section in the color selector menu when changing font or shading color
-        // We can view and edit the leading color for each column, and the five different tints that
-        // make up the rest of the column will be derived automatically from each leading color
-        // Aspose Words sets the defaults to what they are in the Microsoft Word default theme
-        msAssert.areEqual(new Color((255), (255), (255), (255)), theme.getColors().getLight1());
-        msAssert.areEqual(new Color((0), (0), (0), (255)), theme.getColors().getDark1());
-        msAssert.areEqual(new Color((238), (236), (225), (255)), theme.getColors().getLight2());
-        msAssert.areEqual(new Color((31), (73), (125), (255)), theme.getColors().getDark2());
-        msAssert.areEqual(new Color((79), (129), (189), (255)), theme.getColors().getAccent1());
-        msAssert.areEqual(new Color((192), (80), (77), (255)), theme.getColors().getAccent2());
-        msAssert.areEqual(new Color((155), (187), (89), (255)), theme.getColors().getAccent3());
-        msAssert.areEqual(new Color((128), (100), (162), (255)), theme.getColors().getAccent4());
-        msAssert.areEqual(new Color((75), (172), (198), (255)), theme.getColors().getAccent5());
-        msAssert.areEqual(new Color((247), (150), (70), (255)), theme.getColors().getAccent6());
-
-        // Hyperlink colors
-        msAssert.areEqual(new Color((0), (0), (255), (255)), theme.getColors().getHyperlink());
-        msAssert.areEqual(new Color((128), (0), (128), (255)), theme.getColors().getFollowedHyperlink());
-
-        // These appear at the very top of the font selector in the "Theme Fonts" section
-        msAssert.areEqual("Cambria", theme.getMajorFonts().getLatin());
-        msAssert.areEqual("Calibri", theme.getMinorFonts().getLatin());
-
-        // Change some values to make a custom theme
-        theme.getMinorFonts().setLatin("Bodoni MT");
-        theme.getMajorFonts().setLatin("Tahoma");
-        theme.getColors().setAccent1(Color.CYAN);
-        theme.getColors().setAccent2(Color.YELLOW);
-
-        // Save the document to use our theme
-        doc.save(getArtifactsDir() + "Document.Theme.docx");
         //ExEnd
     }
 
@@ -2756,8 +2612,21 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.MailMergeSettings
+        //ExFor:MailMergeCheckErrors
         //ExFor:MailMergeDataType
+        //ExFor:MailMergeDestination
         //ExFor:MailMergeMainDocumentType
+        //ExFor:MailMergeSettings
+        //ExFor:MailMergeSettings.CheckErrors
+        //ExFor:MailMergeSettings.Clone
+        //ExFor:MailMergeSettings.Destination
+        //ExFor:MailMergeSettings.DataType
+        //ExFor:MailMergeSettings.DoNotSupressBlankLines
+        //ExFor:MailMergeSettings.LinkToQuery
+        //ExFor:MailMergeSettings.MainDocumentType
+        //ExFor:MailMergeSettings.Odso
+        //ExFor:MailMergeSettings.Query
+        //ExFor:MailMergeSettings.ViewMergedData
         //ExFor:Odso
         //ExFor:Odso.Clone
         //ExFor:Odso.ColumnDelimiter
@@ -2765,10 +2634,11 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Odso.DataSourceType
         //ExFor:Odso.FirstRowContainsColumnNames
         //ExFor:OdsoDataSourceType
-        //ExSummary:Shows how to execute a mail merge with MailMergeSettings.
+        //ExSummary:Shows how to execute an Office Data Source Object mail merge with MailMergeSettings.
         // We'll create a simple document that will act as a destination for mail merge data
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
         builder.write("Dear ");
         builder.insertField("MERGEFIELD FirstName", "<FirstName>");
         builder.write(" ");
@@ -2784,23 +2654,28 @@ public class ExDocument extends ApiExampleBase
         File.writeAllLines(getArtifactsDir() + "Document.Lines.txt", lines);
 
         // Set the data source, query and other things
-        MailMergeSettings mailMergeSettings = doc.getMailMergeSettings();
-        mailMergeSettings.setMainDocumentType(MailMergeMainDocumentType.MAILING_LABELS);
-        mailMergeSettings.setDataType(MailMergeDataType.NATIVE);
-        mailMergeSettings.setDataSource(getArtifactsDir() + "Document.Lines.txt");
-        mailMergeSettings.setQuery("SELECT * FROM " + doc.getMailMergeSettings().getDataSource());
-        mailMergeSettings.setLinkToQuery(true);
-        mailMergeSettings.setViewMergedData(true);
+        MailMergeSettings settings = doc.getMailMergeSettings();
+        settings.setMainDocumentType(MailMergeMainDocumentType.MAILING_LABELS);
+        settings.setCheckErrors(MailMergeCheckErrors.SIMULATE);
+        settings.setDataType(MailMergeDataType.NATIVE);
+        settings.setDataSource(getArtifactsDir() + "Document.Lines.txt");
+        settings.setQuery("SELECT * FROM " + doc.getMailMergeSettings().getDataSource());
+        settings.setLinkToQuery(true);
+        settings.setViewMergedData(true);
+
+        msAssert.areEqual(MailMergeDestination.DEFAULT, settings.getDestination());
+        Assert.assertFalse(settings.getDoNotSupressBlankLines());
 
         // Office Data Source Object settings
-        Odso odso = mailMergeSettings.getOdso();
+        Odso odso = settings.getOdso();
         odso.setDataSource(getArtifactsDir() + "Document.Lines.txt");
         odso.setDataSourceType(OdsoDataSourceType.TEXT);
         odso.setColumnDelimiter('|');
         odso.setFirstRowContainsColumnNames(true);
 
-        // ODSO objects can also be cloned
+        // ODSO/MailMergeSettings objects can also be cloned
         Assert.assertNotSame(odso, odso.deepClone());
+        Assert.assertNotSame(settings, settings.deepClone());
 
         // The mail merge will be performed when this document is opened 
         doc.save(getArtifactsDir() + "Document.MailMergeSettings.docx");
@@ -2811,18 +2686,76 @@ public class ExDocument extends ApiExampleBase
     public void odsoEmail() throws Exception
     {
         //ExStart
+        //ExFor:MailMergeSettings.ActiveRecord
+        //ExFor:MailMergeSettings.AddressFieldName
+        //ExFor:MailMergeSettings.ConnectString
+        //ExFor:MailMergeSettings.MailAsAttachment
+        //ExFor:MailMergeSettings.MailSubject
+        //ExFor:MailMergeSettings.Clear
         //ExFor:Odso.TableName
         //ExFor:Odso.UdlConnectString
         //ExSummary:Shows how to execute a mail merge while connecting to an external data source.
         Document doc = new Document(getMyDir() + "OdsoData.doc");
+
+        MailMergeSettings settings = doc.getMailMergeSettings();
+
+        msConsole.writeLine($"Connection string:\n\t{settings.ConnectString}");
+        msConsole.writeLine($"Mail merge docs as attachment:\n\t{settings.MailAsAttachment}");
+        msConsole.writeLine($"Mail merge doc e-mail subject:\n\t{settings.MailSubject}");
+        msConsole.writeLine($"Column that contains e-mail addresses:\n\t{settings.AddressFieldName}");
+        msConsole.writeLine($"Active record:\n\t{settings.ActiveRecord}");
         
-        Odso odso = doc.getMailMergeSettings().getOdso();
+        Odso odso = settings.getOdso();
         
         msConsole.writeLine($"File will connect to data source located in:\n\t\"{odso.DataSource}\"");
         msConsole.writeLine($"Source type:\n\t{odso.DataSourceType}");
-        msConsole.writeLine($"Connection string:\n\t{odso.UdlConnectString}");
+        msConsole.writeLine($"UDL connection string string:\n\t{odso.UdlConnectString}");
         msConsole.writeLine($"Table:\n\t{odso.TableName}");
         msConsole.writeLine($"Query:\n\t{doc.MailMergeSettings.Query}");
+
+        // We can clear the settings, which will take place during saving
+        settings.clear();
+
+        doc.save(getArtifactsDir() + "Document.OdsoEmail.docx");
+
+        doc = new Document(getArtifactsDir() + "Document.OdsoEmail.docx");
+        Assert.That(doc.getMailMergeSettings().getConnectString(), Is.Empty);
+        //ExEnd
+    }
+
+    @Test
+    public void mailingLabelMerge() throws Exception
+    {
+        //ExStart
+        //ExFor:MailMergeSettings.DataSource
+        //ExFor:MailMergeSettings.HeaderSource
+        //ExSummary:Shows how to execute a mail merge while drawing data from a header and a data file.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create a merge destination document with MERGEFIELDS that will accept data
+        builder.write("Dear ");
+        builder.insertField("MERGEFIELD FirstName", "<FirstName>");
+        builder.write(" ");
+        builder.insertField("MERGEFIELD LastName", "<LastName>");
+
+        // Configure settings to draw data and headers from other documents
+        MailMergeSettings settings = doc.getMailMergeSettings();
+
+        // The "header" document contains column names for the data in the "data" document,
+        // which will correspond to the names of our MERGEFIELDs
+        settings.setHeaderSource(getMyDir() + "MailingLabelMergeHeader.doc");
+        settings.setDataSource(getMyDir() + "MailingLabelMergeData.doc");
+
+        // Configure the rest of the MailMergeSettings object
+        settings.setQuery("SELECT * FROM " + doc.getMailMergeSettings().getDataSource());
+        settings.setMainDocumentType(MailMergeMainDocumentType.MAILING_LABELS);
+        settings.setDataType(MailMergeDataType.TEXT_FILE);
+        settings.setLinkToQuery(true);
+        settings.setViewMergedData(true);
+
+        // The mail merge will be performed when this document is opened 
+        doc.save(getArtifactsDir() + "Document.MailingLabelMerge.doc");
         //ExEnd
     }
 
@@ -3604,6 +3537,15 @@ public class ExDocument extends ApiExampleBase
         {
             msConsole.writeLine($"Module name: {module.Name};\nModule code:\n{module.SourceCode}\n");
         }
+
+        // Set new source code for VBA module
+        String oldCode = vbaModules.get(0).getSourceCode();
+        vbaModules.get(0).setSourceCode("Your VBA code...");
+
+        msAssert.areNotEqual(oldCode, vbaModules.get(0).getSourceCode()); //ExSkip
+        msAssert.areEqual("Your VBA code...", vbaModules.get(0).getSourceCode()); //ExSkip
+        
+        vbaModules.get(0).setSourceCode(oldCode);
         //ExEnd
 
         VbaModule defaultModule = vbaModules.get(0);
@@ -3638,7 +3580,72 @@ public class ExDocument extends ApiExampleBase
         doc.getLayoutOptions().setTextShaperFactory(HarfBuzzTextShaperFactory.getInstance());
 
         // Render the document to PDF format
-        doc.save(getArtifactsDir() + "OpenType.Document.pdf");
+        doc.save(getArtifactsDir() + "Document.OpenType.pdf");
         //ExEnd
+    }
+
+    @Test
+    public void numberFormatting() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Document.NumberFormatting.docx");
+
+        // Use OpenType to correct displaying numbers in pdf
+        doc.getLayoutOptions().setTextShaperFactory(HarfBuzzTextShaperFactory.getInstance());
+        
+        doc.save(getArtifactsDir() + "Document.NumberFormatting.pdf");
+    }
+
+    @Test
+    public void saveOutputParameters() throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOutputParameters
+        //ExFor:SaveOutputParameters.ContentType
+        //ExSummary:Shows how to verify Content-Type strings from save output parameters.
+        Document doc = new Document(getMyDir() + "Document.doc");
+
+        SaveOutputParameters parameters = doc.save(getArtifactsDir() + "Document.SaveOutputParameters.doc");
+        msAssert.areEqual("application/msword", parameters.getContentType());
+
+        parameters = doc.save(getArtifactsDir() + "Document.SaveOutputParameters.pdf");
+        msAssert.areEqual("application/pdf", parameters.getContentType());
+        //ExEnd
+    }
+
+    @Test
+    public void subdocument() throws Exception
+    {
+        //ExStart
+        //ExFor:SubDocument
+        //ExFor:SubDocument.NodeType
+        //ExSummary:Shows how to access a master document's subdocument.
+        Document doc = new Document(getMyDir() + "SubDocumentMaster.docx");
+
+        NodeCollection subDocuments = doc.getChildNodes(NodeType.SUB_DOCUMENT, true);
+        msAssert.areEqual(1, subDocuments.getCount());
+
+        SubDocument subDocument = (SubDocument)doc.getChildNodes(NodeType.SUB_DOCUMENT, true).get(0);
+        Assert.assertFalse(subDocument.isComposite());
+        //ExEnd
+    }
+
+    @Test
+    public void epubCover() throws Exception
+    {
+        // Create a blank document and insert some text
+        Document doc = new Document();
+
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world!");
+
+        // When saving to .epub, some Microsoft Word document properties can be converted to .epub metadata
+        doc.getBuiltInDocumentProperties().setAuthor("John Doe");
+        doc.getBuiltInDocumentProperties().setTitle("My Book Title");
+
+        // The thumbnail we specify here can become the cover image
+        byte[] image = com.aspose.ms.System.IO.File.readAllBytes(getImageDir() + "Watermark.png");
+        doc.getBuiltInDocumentProperties().setThumbnail(image);
+
+        doc.save(getArtifactsDir() + "EpubCover.epub");
     }
 }
