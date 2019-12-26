@@ -3,6 +3,7 @@ package com.aspose.words.examples.rendering_printing;
 import com.aspose.words.Document;
 import com.aspose.words.HeaderFooterBookmarksExportMode;
 import com.aspose.words.MetafileRenderingOptions;
+import com.aspose.words.PdfCompliance;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.examples.Utils;
 
@@ -17,6 +18,7 @@ public class WorkingWithPdfSaveOptions {
         ExportHeaderFooterBookmarks(dataDir);
         ScaleWmfFontsToMetafileSize(dataDir);
         AdditionalTextPositioning(dataDir);
+        ConversionToPDF17(dataDir);
     }
 
     public static void EscapeUriInPdf(String dataDir) throws Exception {
@@ -80,4 +82,19 @@ public class WorkingWithPdfSaveOptions {
         System.out.println("\nFile saved at " + dataDir);
     }
 
+    public static void ConversionToPDF17(String dataDir) throws Exception
+    {
+        // ExStart:ConversionToPDF17
+        // The path to the documents directory.
+        Document originalDoc = new Document(dataDir + "Document.docx");
+
+        // Provide PDFSaveOption compliance to PDF17
+        // or just convert without SaveOptions
+        PdfSaveOptions pso = new PdfSaveOptions();
+        pso.setCompliance(PdfCompliance.PDF_17);
+
+        originalDoc.save(dataDir + "Output.pdf", pso);
+        // ExEnd:ConversionToPDF17
+        System.out.println("\nFile saved at " + dataDir);
+    }
 }

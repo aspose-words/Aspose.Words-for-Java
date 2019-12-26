@@ -15,6 +15,8 @@ public class WorkingWithVbaMacros {
         CreateVbaProject(dataDir);
         ReadVbaMacros(dataDir);
         ModifyVbaMacros(dataDir);
+        CloneVbaProject(dataDir);
+        CloneVbaModule(dataDir);
 	}
 	
 	public static void CreateVbaProject(String dataDir) throws Exception
@@ -44,18 +46,21 @@ public class WorkingWithVbaMacros {
 	public static void ReadVbaMacros(String dataDir) throws Exception
     {
 		//ExStart: ReadVbaMacros
-        Document doc = new Document(dataDir + "Document.dot");
+        Document doc = new Document(dataDir + "VbaProject_out.docm");
 
         for (VbaModule module : doc.getVbaProject().getModules()) {
             System.out.println(module.getSourceCode());
         }
+        
+        doc.save(dataDir + "VbaProject_out.docm");
         //ExEnd: ReadVbaMacros
+        System.out.println("\nReading of VBA Macro is successful.");
     }
 	
 	public static void ModifyVbaMacros(String dataDir) throws Exception
     {
         //ExStart:ModifyVbaMacros
-        Document doc = new Document(dataDir + "test.docm");
+        Document doc = new Document(dataDir + "VbaProject_out.docm");
         VbaProject project = doc.getVbaProject();
 
         String newSourceCode = "Test change source code";
@@ -63,5 +68,41 @@ public class WorkingWithVbaMacros {
         // Choose a module, and set a new source code.
         project.getModules().get(0).setSourceCode(newSourceCode);
         //ExEnd:ModifyVbaMacros
+        System.out.println("\nModified successfully.");
+    }
+
+	public static void CloneVbaProject(String dataDir) throws Exception
+    {
+        //ExStart:CloneVbaProject
+        Document doc = new Document(dataDir + "VbaProject_out.docm");
+        VbaProject project = doc.getVbaProject();
+
+        Document destDoc = new Document();
+
+        // Clone the whole project.
+        destDoc.setVbaProject(doc.getVbaProject().deepClone());
+
+        destDoc.save(dataDir + "output.docm");
+        //ExEnd:CloneVbaProject
+        System.out.println("\nCloned Vba Project successfully.\nFile saved at " + dataDir);
+    }
+
+	public static void CloneVbaModule(String dataDir) throws Exception
+    {
+        //ExStart:CloneVbaModule
+		Document doc = new Document(dataDir + "VbaProject_out.docm");
+        VbaProject project = doc.getVbaProject();
+
+        Document destDoc = new Document();
+
+        destDoc.setVbaProject(new VbaProject());
+
+        // Clone a single module.
+        VbaModule copyModule = doc.getVbaProject().getModules().get("Module1").deepClone();
+        destDoc.getVbaProject().getModules().add(copyModule);
+
+        destDoc.save(dataDir + "output.docm");
+        //ExEnd:CloneVbaModule
+        System.out.println("\nCloned Vba Module successfully.\nFile saved at " + dataDir);
     }
 }
