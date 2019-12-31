@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -217,7 +217,7 @@ public class ExProperties extends ApiExampleBase
         msAssert.areEqual(1114, properties.getCharacters());
         msAssert.areEqual(1310, properties.getCharactersWithSpaces());
 
-        // Line count: Count the lines in a document and assign value to the Lines property\
+        // Line count: Count the lines in a document and assign value to the Lines property
         LineCounter lineCounter = new LineCounter(doc);
         properties.setLines(lineCounter.getLineCount());
         msAssert.areEqual(14, properties.getLines());
@@ -247,8 +247,9 @@ public class ExProperties extends ApiExampleBase
     }
 
     /// <summary>
-    /// Util class that counts the lines in a document
-    /// Upon construction, traverses the document's layout entities tree, counting entities of the "Line" type that also contain real text
+    /// Util class that counts the lines in a document.
+    /// Upon construction, traverses the document's layout entities tree,
+    /// counting entities of the "Line" type that also contain real text.
     /// </summary>
     private static class LineCounter
     {

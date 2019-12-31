@@ -15,6 +15,7 @@
 		<File project="Examples" dir="" name="ExCharts" status="AUTO" />
 		<File project="Examples" dir="" name="ExComHelper" status="AUTO" />
 		<File project="Examples" dir="" name="ExComment" status="AUTO" />
+		<File project="Examples" dir="" name="ExCompatibilityOptions" status="NEW" />
 		<File project="Examples" dir="" name="ExControlChar" status="AUTO" />
 		<File project="Examples" dir="" name="ExDigitalSignatureCollection" status="AUTO" />
 		<File project="Examples" dir="" name="ExDigitalSignatureUtil" status="AUTO" />
@@ -28,7 +29,7 @@
 		<File project="Examples" dir="" name="ExEditableRange" status="AUTO" />
 		<File project="Examples" dir="" name="ExField" status="AUTO" />
 		<File project="Examples" dir="" name="ExFile" status="AUTO" />
-		<File project="Examples" dir="" name="ExFont" status="AUTO" />
+		<File project="Examples" dir="" name="ExFont" status="EMPTY-IN-JAVA" />
 		<File project="Examples" dir="" name="ExFormFields" status="AUTO" />
 		<File project="Examples" dir="" name="ExHeaderFooter" status="AUTO" />
 		<File project="Examples" dir="" name="ExHtmlFixedSaveOptions" status="AUTO" />
@@ -74,12 +75,12 @@
 		<File project="Examples" dir="" name="ExTable" status="AUTO" />
 		<File project="Examples" dir="" name="ExTableColumn" status="AUTO" />
 		<File project="Examples" dir="" name="ExTabStopCollection" status="AUTO" />
-		<File project="Examples" dir="" name="ExThemes" status="NEW" />
+		<File project="Examples" dir="" name="ExThemes" status="AUTO" />
 		<File project="Examples" dir="" name="ExTxtLoadOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExTxtSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExUtilityClasses" status="AUTO" />
 		<File project="Examples" dir="" name="ExVariableCollection" status="AUTO" />
-		<File project="Examples" dir="" name="ExViewOptions" status="NEW" />
+		<File project="Examples" dir="" name="ExViewOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExWarningInfoCollection" status="AUTO" />
 		<File project="Examples" dir="" name="ExXamlFixedSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExXamlFlowSaveOptions" status="AUTO" />

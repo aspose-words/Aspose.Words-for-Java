@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -55,7 +55,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
     }
 
     /// <summary>
-    /// Counts and prints filenames of images while their parent document is converted to flow-form .xaml
+    /// Counts and prints filenames of images while their parent document is converted to flow-form .xaml.
     /// </summary>
     private static class ImageUriPrinter implements IImageSavingCallback
     {

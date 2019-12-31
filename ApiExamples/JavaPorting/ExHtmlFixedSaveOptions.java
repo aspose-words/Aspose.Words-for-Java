@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -119,7 +119,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         //ExFor:HtmlFixedSaveOptions.CssClassNamesPrefix
         //ExFor:HtmlFixedSaveOptions.SaveFontFaceCssSeparately
         //ExSummary:Shows how to add prefix to all class names in css file.
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
@@ -140,7 +140,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         //ExFor:HtmlFixedSaveOptions.PageHorizontalAlignment
         //ExFor:HtmlFixedPageHorizontalAlignment
         //ExSummary:Shows how to set the horizontal alignment of pages in HTML file.
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
@@ -157,7 +157,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         //ExStart
         //ExFor:HtmlFixedSaveOptions.PageMargins
         //ExSummary:Shows how to set the margins around pages in HTML file.
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
         {

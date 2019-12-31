@@ -3,31 +3,28 @@ package ApiExamples.TestData.TestBuilders;
 // ********* THIS FILE IS AUTO PORTED *********
 
 import ApiExamples.ApiExampleBase;
-import java.awt.image.BufferedImage;
 import com.aspose.ms.System.IO.Stream;
-import com.aspose.BitmapPal;
 import ApiExamples.TestData.TestClasses.ImageTestClass;
-
 
 
 public class ImageTestBuilder extends ApiExampleBase
 {
-    private BufferedImage mImage;
+    private SKBitmap mImage;
     private Stream mImageStream;
     private byte[] mImageBytes;
     private String mImageUri;
 
     public ImageTestBuilder()
     {
-        mImage = BitmapPal.loadNativeImage(getImageDir() + "Watermark.png");
+        this.mImage = SKBitmap.Decode(getImageDir() + "Watermark.png");
         mImageStream = Stream.Null;
         mImageBytes = new byte[0];
         mImageUri = "";
     }
 
-    public ImageTestBuilder withImage(BufferedImage image)
+    public ImageTestBuilder withImage(SKBitmap image)
     {
-        mImage = image;
+        this.mImage = image;
         return this;
     }
 

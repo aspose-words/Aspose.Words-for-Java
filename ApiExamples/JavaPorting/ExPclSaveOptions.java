@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -58,8 +58,8 @@ class ExPclSaveOptions !Test class should be public in Java to run, please fix .
     {
         Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
 
-        // Paper tray information is now preserved when saving document to PCL format.
-        // Following information is transferred from document's model to PCL file.
+        // Paper tray information is now preserved when saving document to PCL format
+        // Following information is transferred from document's model to PCL file
         for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
         {
             section.getPageSetup().setFirstPageTray(15);

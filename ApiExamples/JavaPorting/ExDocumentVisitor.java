@@ -222,10 +222,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         /// <param name="text"></param>
         private void indentAndAppendLine(String text)
         {
-            for (int i = 0; i < mDocTraversalDepth; i++)
-            {
-                msStringBuilder.append(mBuilder, "|  ");
-            }
+            for (int i = 0; i < mDocTraversalDepth; i++) msStringBuilder.append(mBuilder, "|  ");
 
             msStringBuilder.appendLine(mBuilder, text);
         }
@@ -496,8 +493,8 @@ public class ExDocumentVisitor extends ApiExampleBase
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitCommentStart(Comment comment)
         {
-            indentAndAppendLine(msString.format("[Comment start] For comment range ID {0}, By {1} on {2}", comment.getId(),
-                comment.getAuthor(), comment.getDateTimeInternal()));
+            indentAndAppendLine(
+                $"[Comment start] For comment range ID {comment.Id}, By {comment.Author} on {comment.DateTime}");
             mDocTraversalDepth++;
             mVisitorIsInsideComment = true;
 
@@ -645,7 +642,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     //ExStart
     //ExFor:DocumentVisitor.VisitHeaderFooterStart(HeaderFooter)
     //ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
-    //ExFor:HeaderFooter.Accept(Aspose.Words.DocumentVisitor)
+    //ExFor:HeaderFooter.Accept(DocumentVisitor)
     //ExFor:HeaderFooterCollection.ToArray
     //ExFor:Run.Accept(DocumentVisitor)
     //ExFor:Run.GetText
@@ -659,7 +656,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         // Create an object that inherits from the DocumentVisitor class
         HeaderFooterInfoPrinter visitor = new HeaderFooterInfoPrinter();
 
-        // Accepring a visitor lets it start traversing the nodes in the document, 
+        // Accepting a visitor lets it start traversing the nodes in the document, 
         // starting with the node that accepted it to then recursively visit every child
         doc.accept(visitor);
 
@@ -732,10 +729,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         /// <param name="text"></param>
         private void indentAndAppendLine(String text)
         {
-            for (int i = 0; i < mDocTraversalDepth; i++)
-            {
-                msStringBuilder.append(mBuilder, "|  ");
-            }
+            for (int i = 0; i < mDocTraversalDepth; i++) msStringBuilder.append(mBuilder, "|  ");
 
             msStringBuilder.appendLine(mBuilder, text);
         }
@@ -832,10 +826,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         /// <param name="text"></param>
         private void indentAndAppendLine(String text)
         {
-            for (int i = 0; i < mDocTraversalDepth; i++)
-            {
-                msStringBuilder.append(mBuilder, "|  ");
-            }
+            for (int i = 0; i < mDocTraversalDepth; i++) msStringBuilder.append(mBuilder, "|  ");
 
             msStringBuilder.appendLine(mBuilder, text);
         }
@@ -928,10 +919,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         /// <param name="text"></param>
         private void indentAndAppendLine(String text)
         {
-            for (int i = 0; i < mDocTraversalDepth; i++)
-            {
-                msStringBuilder.append(mBuilder, "|  ");
-            }
+            for (int i = 0; i < mDocTraversalDepth; i++) msStringBuilder.append(mBuilder, "|  ");
 
             msStringBuilder.appendLine(mBuilder, text);
         }
@@ -1026,10 +1014,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         /// <param name="text"></param>
         private void indentAndAppendLine(String text)
         {
-            for (int i = 0; i < mDocTraversalDepth; i++)
-            {
-                msStringBuilder.append(mBuilder, "|  ");
-            }
+            for (int i = 0; i < mDocTraversalDepth; i++) msStringBuilder.append(mBuilder, "|  ");
 
             msStringBuilder.appendLine(mBuilder, text);
         }
@@ -1121,10 +1106,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         /// <param name="text"></param>
         private void indentAndAppendLine(String text)
         {
-            for (int i = 0; i < mDocTraversalDepth; i++)
-            {
-                msStringBuilder.append(mBuilder, "|  ");
-            }
+            for (int i = 0; i < mDocTraversalDepth; i++) msStringBuilder.append(mBuilder, "|  ");
 
             msStringBuilder.appendLine(mBuilder, text);
         }
@@ -1149,7 +1131,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         // Create an object that inherits from the DocumentVisitor class
         StructuredDocumentTagInfoPrinter visitor = new StructuredDocumentTagInfoPrinter();
 
-        // Accepring a visitor lets it start traversing the nodes in the document, 
+        // Accepting a visitor lets it start traversing the nodes in the document, 
         // starting with the node that accepted it to then recursively visit every child
         doc.accept(visitor);
 
@@ -1215,10 +1197,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         /// <param name="text"></param>
         private void indentAndAppendLine(String text)
         {
-            for (int i = 0; i < mDocTraversalDepth; i++)
-            {
-                msStringBuilder.append(mBuilder, "|  ");
-            }
+            for (int i = 0; i < mDocTraversalDepth; i++) msStringBuilder.append(mBuilder, "|  ");
 
             msStringBuilder.appendLine(mBuilder, text);
         }

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -75,7 +75,6 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     @Test //ExSkip
     public void pageFileNameSavingCallback() throws Exception
     {
-
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
         HtmlFixedSaveOptions htmlFixedSaveOptions =
@@ -100,7 +99,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     {
         public void pageSaving(PageSavingArgs args)
         {
-            // Specify name of the output file for the current page.
+            // Specify name of the output file for the current page
             args.setPageFileName(msString.format(getArtifactsDir() + "Page_{0}.html", args.getPageIndex()));
         }
     }
@@ -149,7 +148,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     }
 
     /// <summary>
-    /// Renames saved document parts that are produced when an HTML document is saved while being split according to a criteria
+    /// Renames saved document parts that are produced when an HTML document is saved while being split according to a criteria.
     /// </summary>
     private static class SavedDocumentPartRename implements IDocumentPartSavingCallback
     {
@@ -198,7 +197,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     }
 
     /// <summary>
-    /// Renames saved images that are produced when an HTML document is saved 
+    /// Renames saved images that are produced when an HTML document is saved.
     /// </summary>
     public static class SavedImageRename implements IImageSavingCallback
     {

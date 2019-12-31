@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -156,9 +156,9 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         {
             // 'ExportListLabels.Auto' - this option uses <ul> and <ol> tags are used for list label representation if it doesn't cause formatting loss, 
-            // otherwise HTML <p> tag is used. This is also the default value.
-            // 'ExportListLabels.AsInlineText' - using this option the <p> tag is used for any list label representation.
-            // 'ExportListLabels.ByHtmlTags' - The <ul> and <ol> tags are used for list label representation. Some formatting loss is possible.
+            // otherwise HTML <p> tag is used. This is also the default value
+            // 'ExportListLabels.AsInlineText' - using this option the <p> tag is used for any list label representation
+            // 'ExportListLabels.ByHtmlTags' - The <ul> and <ol> tags are used for list label representation. Some formatting loss is possible
             saveOptions.setExportListLabels(howExportListLabels);
         }
 
@@ -217,7 +217,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     @Test
     public void roundtripInformationDefaulValue()
     {
-        //Assert that default value is true for HTML and false for MHTML and EPUB.
+        //Assert that default value is true for HTML and false for MHTML and EPUB
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         msAssert.areEqual(true, saveOptions.getExportRoundtripInformation());
 
@@ -293,92 +293,6 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 		};
 	}
 
-    @Test (dataProvider = "exportFontsDataProvider")
-    public void exportFonts(boolean exportAsBase64) throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Document.doc");
-
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-        {
-            saveOptions.setExportFontResources(true);
-            saveOptions.setExportFontsAsBase64(exportAsBase64);
-        }
-
-        switch (exportAsBase64)
-        {
-            case false:
-
-                doc.save(getArtifactsDir() + "DocumentExportFonts 1.html", saveOptions);
-                Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir(), "DocumentExportFonts 1.times.ttf",
-                    SearchOption.ALL_DIRECTORIES));
-                break;
-
-            case true:
-
-                doc.save(getArtifactsDir() + "DocumentExportFonts 2.html", saveOptions);
-                msAssert.isEmpty(Directory.getFiles(getArtifactsDir(), "DocumentExportFonts 2.times.ttf",
-                    SearchOption.ALL_DIRECTORIES));
-                break;
-        }
-    }
-
-	//JAVA-added data provider for test method
-	@DataProvider(name = "exportFontsDataProvider")
-	public static Object[][] exportFontsDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
-
-    @Test
-    public void resourceFolderPriority() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ResourceFolder.docx");
-
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-        saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
-        saveOptions.setExportFontResources(true);
-        saveOptions.setResourceFolder(getArtifactsDir() + "Resources");
-        saveOptions.setResourceFolderAlias("http://example.com/resources");
-
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolder.html", saveOptions);
-
-        String[] a = Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder.001.jpeg",
-            SearchOption.ALL_DIRECTORIES);
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder.001.jpeg", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder.002.png", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder.calibri.ttf", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder.css", SearchOption.ALL_DIRECTORIES));
-    }
-
-    @Test
-    public void resourceFolderLowPriority() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ResourceFolder.docx");
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-        {
-            saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
-            saveOptions.setExportFontResources(true);
-            saveOptions.setFontsFolder(getArtifactsDir() + "Fonts");
-            saveOptions.setImagesFolder(getArtifactsDir() + "Images");
-            saveOptions.setResourceFolder(getArtifactsDir() + "Resources");
-            saveOptions.setResourceFolderAlias("http://example.com/resources");
-        }
-
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolder.html", saveOptions);
-
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Images",
-            "HtmlSaveOptions.ResourceFolder.001.jpeg", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolder.002.png",
-            SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Fonts",
-            "HtmlSaveOptions.ResourceFolder.calibri.ttf", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder.css",
-            SearchOption.ALL_DIRECTORIES));
-    }
 
     @Test
     public void svgMetafileFormat() throws Exception
@@ -424,7 +338,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     {
         //ExStart
         //ExFor:HtmlSaveOptions.CssClassNamePrefix
-        //ExSummary: Shows how to specifies a prefix which is added to all CSS class names
+        //ExSummary: Shows how to specifies a prefix which is added to all CSS class names.
         Document doc = new Document(getMyDir() + "HtmlSaveOptions.CssClassNamePrefix.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
@@ -495,7 +409,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         {
-            // By default this option is set to 'False' and Aspose.Words writes font names as specified in the source document.
+            // By default this option is set to 'False' and Aspose.Words writes font names as specified in the source document
             saveOptions.setResolveFontNames(true); 
         }
 

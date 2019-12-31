@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -121,7 +121,7 @@ public class ExStyles extends ApiExampleBase
     {
         Document doc = new Document();
         
-        // Retrieve the style used for the first level of the TOC and change the formatting of the style.
+        // Retrieve the style used for the first level of the TOC and change the formatting of the style
         doc.getStyles().getByStyleIdentifier(StyleIdentifier.TOC_1).getFont().setBold(true);
     }
 
@@ -142,15 +142,15 @@ public class ExStyles extends ApiExampleBase
         // Iterate through all paragraphs in the document
         for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
         {
-            // Check if this paragraph is formatted using the TOC result based styles. This is any style between TOC and TOC9.
+            // Check if this paragraph is formatted using the TOC result based styles. This is any style between TOC and TOC9
             if (para.getParagraphFormat().getStyle().getStyleIdentifier() >= StyleIdentifier.TOC_1 &&
                 para.getParagraphFormat().getStyle().getStyleIdentifier() <= StyleIdentifier.TOC_9)
             {
-                // Get the first tab used in this paragraph, this should be the tab used to align the page numbers.
+                // Get the first tab used in this paragraph, this should be the tab used to align the page numbers
                 TabStop tab = para.getParagraphFormat().getTabStops().get(0);
-                // Remove the old tab from the collection.
+                // Remove the old tab from the collection
                 para.getParagraphFormat().getTabStops().removeByPosition(tab.getPosition());
-                // Insert a new tab using the same properties but at a modified position. 
+                // Insert a new tab using the same properties but at a modified position
                 // We could also change the separators used (dots) by passing a different Leader type
                 para.getParagraphFormat().getTabStops().add(tab.getPosition() - 50.0, tab.getAlignment(), tab.getLeader());
             }
@@ -169,10 +169,10 @@ public class ExStyles extends ApiExampleBase
         //ExFor:StyleCollection.AddCopy
         //ExFor:Style.Name
         //ExSummary:Demonstrates how to copy a style within the same document.
-        // The AddCopy method creates a copy of the specified style and automatically generates a new name for the style, such as "Heading 1_0".
+        // The AddCopy method creates a copy of the specified style and automatically generates a new name for the style, such as "Heading 1_0"
         Style newStyle = doc.getStyles().addCopy(doc.getStyles().get("Heading 1"));
 
-        // You can change the new style name if required as the Style.Name property is read-write.
+        // You can change the new style name if required as the Style.Name property is read-write
         newStyle.setName("My Heading 1");
         //ExEnd
 
@@ -190,13 +190,13 @@ public class ExStyles extends ApiExampleBase
         //ExStart
         //ExFor:StyleCollection.AddCopy
         //ExSummary:Demonstrates how to copy style from one document into a different document.
-        // This is the style in the source document to copy to the destination document.
+        // This is the style in the source document to copy to the destination document
         Style srcStyle = srcDoc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1);
 
-        // Change the font of the heading style to red.
+        // Change the font of the heading style to red
         srcStyle.getFont().setColor(Color.RED);
 
-        // The AddCopy method can be used to copy a style from a different document.
+        // The AddCopy method can be used to copy a style from a different document
         Style newStyle = dstDoc.getStyles().addCopy(srcStyle);
         //ExEnd
 
@@ -214,16 +214,16 @@ public class ExStyles extends ApiExampleBase
         //ExStart
         //ExFor:StyleCollection.AddCopy
         //ExSummary:Demonstrates how to copy a style from one document to another and override an existing style in the destination document.
-        // This is the style in the source document to copy to the destination document.
+        // This is the style in the source document to copy to the destination document
         Style srcStyle = srcDoc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1);
 
-        // Change the font of the heading style to red.
+        // Change the font of the heading style to red
         srcStyle.getFont().setColor(Color.RED);
 
-        // The AddCopy method can be used to copy a style to a different document.
+        // The AddCopy method can be used to copy a style to a different document
         Style newStyle = dstDoc.getStyles().addCopy(srcStyle);
 
-        // The name of the new style can be changed to the name of any existing style. Doing this will override the existing style.
+        // The name of the new style can be changed to the name of any existing style. Doing this will override the existing style
         newStyle.setName("Heading 1");
         //ExEnd
 
@@ -238,7 +238,7 @@ public class ExStyles extends ApiExampleBase
     {
         Document doc = new Document();
 
-        //Add document-wide defaults parameters
+        // Add document-wide defaults parameters
         doc.getStyles().getDefaultFont().setName("PMingLiU");
         doc.getStyles().getDefaultFont().setBold(true);
 

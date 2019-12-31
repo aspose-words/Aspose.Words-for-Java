@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -35,10 +35,10 @@ public class ExRenameMergeFields extends ApiExampleBase
     @Test //ExSkip
     public void renameMergeFields() throws Exception
     {
-        // Specify your document name here.
+        // Specify your document name here
         Document doc = new Document(getMyDir() + "RenameMergeFields.doc");
 
-        // Select all field start nodes so we can find the merge fields.
+        // Select all field start nodes so we can find the merge fields
         NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true);
         for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType() !!Autoporter error: Undefined expression type )
         {
@@ -65,7 +65,7 @@ class MergeField
 
         mFieldStart = fieldStart;
 
-        // Find the field separator node.
+        // Find the field separator node
         mFieldSeparator = findNextSibling(mFieldStart, NodeType.FIELD_SEPARATOR);
         if (mFieldSeparator == null)
             throw new IllegalStateException("Cannot find field separator.");
@@ -73,7 +73,7 @@ class MergeField
         // Find the field end node. Normally field end will always be found, but in the example document 
         // there happens to be a paragraph break included in the hyperlink and this puts the field end 
         // in the next paragraph. It will be much more complicated to handle fields which span several 
-        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes.
+        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes
         mFieldEnd = findNextSibling(mFieldSeparator, NodeType.FIELD_END);
     }
 
@@ -84,11 +84,11 @@ class MergeField
     void setName(String value)
     {
         // Merge field name is stored in the field result which is a Run 
-        // node between field separator and field end.
+        // node between field separator and field end
         Run fieldResult = (Run) mFieldSeparator.getNextSibling();
         fieldResult.setText("«{value}»");
 
-        // But sometimes the field result can consist of more than one run, delete these runs.
+        // But sometimes the field result can consist of more than one run, delete these runs
         removeSameParent(fieldResult.getNextSibling(), mFieldEnd);
 
         updateFieldCode(value);
@@ -96,14 +96,14 @@ class MergeField
 
     private void updateFieldCode(String fieldName)
     {
-        // Field code is stored in a Run node between field start and field separator.
+        // Field code is stored in a Run node between field start and field separator
         Run fieldCode = (Run) mFieldStart.getNextSibling();
         Match match = G_REGEX.match(fieldCode.getText());
 
         String newFieldCode = $" {match.Groups["start"].Value}{fieldName} ";
         fieldCode.setText(newFieldCode);
 
-        // But sometimes the field code can consist of more than one run, delete these runs.
+        // But sometimes the field code can consist of more than one run, delete these runs
         removeSameParent(fieldCode.getNextSibling(), mFieldSeparator);
     }
 
@@ -126,7 +126,7 @@ class MergeField
     /// </summary>
     private static String getTextSameParent(Node startNode, Node endNode)
     {
-        if ((endNode != null) && (startNode.getParentNode() != endNode.getParentNode()))
+        if (endNode != null && startNode.getParentNode() != endNode.getParentNode())
             throw new IllegalArgumentException("Start and end nodes are expected to have the same parent.");
 
         StringBuilder builder = new StringBuilder();
@@ -142,7 +142,7 @@ class MergeField
     /// </summary>
     private static void removeSameParent(Node startNode, Node endNode)
     {
-        if ((endNode != null) && (startNode.getParentNode() != endNode.getParentNode()))
+        if (endNode != null && startNode.getParentNode() != endNode.getParentNode())
             throw new IllegalArgumentException("Start and end nodes are expected to have the same parent.");
 
         Node curChild = startNode;

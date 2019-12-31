@@ -1,3 +1,10 @@
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+//
+// This file is part of Aspose.Words. The source code in this file
+// is only intended as a supplement to the documentation, and is provided
+// "as is", without warranty of any kind, either expressed or implied.
+//////////////////////////////////////////////////////////////////////////
+
 package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
@@ -294,7 +301,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     }
 
     /// <summary>
-    /// Insert field into the first paragraph of the current document using field type
+    /// Insert field into the first paragraph of the current document using field type.
     /// </summary>
     private static void insertFieldUsingFieldType(Document doc, /*FieldType*/int fieldType, boolean updateField, Node refNode,
         boolean isAfter, int paraIndex) throws Exception
@@ -304,7 +311,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     }
 
     /// <summary>
-    /// Insert field into the first paragraph of the current document using field code
+    /// Insert field into the first paragraph of the current document using field code.
     /// </summary>
     private static void insertFieldUsingFieldCode(Document doc, String fieldCode, Node refNode, boolean isAfter,
         int paraIndex) throws Exception
@@ -314,7 +321,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     }
 
     /// <summary>
-    /// Insert field into the first paragraph of the current document using field code and field String
+    /// Insert field into the first paragraph of the current document using field code and field String.
     /// </summary>
     private static void insertFieldUsingFieldCodeFieldString(Document doc, String fieldCode, String fieldValue,
         Node refNode, boolean isAfter, int paraIndex)

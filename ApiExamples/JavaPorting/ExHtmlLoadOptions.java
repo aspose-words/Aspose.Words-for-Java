@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -40,7 +40,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         //ExFor:HtmlLoadOptions.#ctor
         //ExFor:HtmlLoadOptions.SupportVml
         //ExFor:HtmlLoadOptions.WebRequestTimeout
-        //ExSummary:Shows how to parse HTML document with conditional comments like "<!--[if gte vml 1]>" and "<![if !vml]>"
+        //ExSummary:Shows how to parse HTML document with conditional comments like "<!--[if gte vml 1]>" and "<![if !vml]>".
         HtmlLoadOptions loadOptions = new HtmlLoadOptions();
 
         // If value is true, then we parse "<!--[if gte vml 1]>", else parse "<![if !vml]>"

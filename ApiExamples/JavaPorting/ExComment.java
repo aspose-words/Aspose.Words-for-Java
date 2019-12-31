@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -33,7 +33,6 @@ import com.aspose.ms.System.Collections.msArrayList;
 import java.util.Iterator;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
-import com.aspose.ms.System.msString;
 import com.aspose.ms.System.Text.msStringBuilder;
 
 
@@ -64,9 +63,8 @@ public class ExComment extends ApiExampleBase
 
         MemoryStream dstStream = new MemoryStream();
         try /*JAVA: was using*/
-        {
-            doc.save(dstStream, SaveFormat.DOCX);
-        }
+    	{ doc.save(dstStream, SaveFormat.DOCX);
+    	}
         finally { if (dstStream != null) dstStream.close(); }
 
         Comment docComment = (Comment) doc.getChild(NodeType.COMMENT, 0, true);
@@ -167,7 +165,7 @@ public class ExComment extends ApiExampleBase
         {
             if (!childComment.getDone())
             {
-                // Update comment reply Done mark.
+                // Update comment reply Done mark
                 childComment.setDone(true);
             }
         }
@@ -236,7 +234,7 @@ public class ExComment extends ApiExampleBase
     }
 
     /// <summary>
-    /// Extract comments from the document without replies
+    /// Extract comments from the document without replies.
     /// </summary>
     @Test (enabled = false)
     public static ArrayList<Comment> extractComments(Document doc)
@@ -353,8 +351,8 @@ public class ExComment extends ApiExampleBase
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitCommentStart(Comment comment)
         {
-            indentAndAppendLine(msString.format("[Comment start] For comment range ID {0}, By {1} on {2}", comment.getId(),
-                comment.getAuthor(), comment.getDateTimeInternal()));
+            indentAndAppendLine(
+                $"[Comment start] For comment range ID {comment.Id}, By {comment.Author} on {comment.DateTime}");
             mDocTraversalDepth++;
             mVisitorIsInsideComment = true;
 

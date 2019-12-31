@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -42,23 +42,23 @@ public class ExRange extends ApiExampleBase
         //ExFor:FindReplaceOptions.MatchCase
         //ExFor:FindReplaceOptions.FindWholeWordsOnly
         //ExSummary:Simple find and replace operation.
-        // Open the document.
+        // Open the document
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("Hello _CustomerName_,");
 
-        // Check the document contains what we are about to test.
+        // Check the document contains what we are about to test
         msConsole.writeLine(doc.getFirstSection().getBody().getParagraphs().get(0).getText());
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(false);
 
-        // Replace the text in the document.
+        // Replace the text in the document
         doc.getRange().replace("_CustomerName_", "James Bond", options);
 
-        // Save the modified document.
+        // Save the modified document
         doc.save(getArtifactsDir() + "Range.ReplaceSimple.docx");
         //ExEnd
 
@@ -139,18 +139,18 @@ public class ExRange extends ApiExampleBase
         doc.save(getArtifactsDir() + "Range.FindAndReplaceWithMetacharacters.docx");
     }
 
-    @Test
+    //ExStart
+    //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
+    //ExFor:ReplacingArgs.Replacement
+    //ExFor:IReplacingCallback
+    //ExFor:IReplacingCallback.Replacing
+    //ExFor:ReplacingArgs
+    //ExFor:DocumentBuilder.InsertHtml(String)
+    //ExSummary:Replaces text specified with regular expression with HTML.
+    @Test //ExSkip
     public void replaceWithInsertHtml() throws Exception
     {
-        //ExStart
-        //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
-        //ExFor:ReplacingArgs.Replacement
-        //ExFor:IReplacingCallback
-        //ExFor:IReplacingCallback.Replacing
-        //ExFor:ReplacingArgs
-        //ExFor:DocumentBuilder.InsertHtml(String)
-        //ExSummary:Replaces text specified with regular expression with HTML.
-        // Open the document.
+        // Open the document
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -161,7 +161,7 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replaceInternal(new Regex(" <CustomerName>,"), "", options);
 
-        // Save the modified document.
+        // Save the modified document
         doc.save(getArtifactsDir() + "Range.ReplaceWithInsertHtml.doc");
 
         msAssert.areEqual("James Bond, Hello\r\f", doc.getText()); //ExSkip
@@ -183,7 +183,7 @@ public class ExRange extends ApiExampleBase
             DocumentBuilder builder = new DocumentBuilder((Document) args.getMatchNode().getDocument());
             builder.moveTo(args.getMatchNode());
 
-            // Replace '<CustomerName>' text with a red bold name.
+            // Replace '<CustomerName>' text with a red bold name
             builder.insertHtml("<b><font color='red'>James Bond, </font></b>");
             args.setReplacement("");
 
@@ -232,7 +232,7 @@ public class ExRange extends ApiExampleBase
     }
 
     /// <summary>
-    /// Replaces arabic numbers with hexadecimal equivalents and appends the number of each replacement
+    /// Replaces arabic numbers with hexadecimal equivalents and appends the number of each replacement.
     /// </summary>
     private static class NumberHexer implements IReplacingCallback
     {
@@ -251,10 +251,9 @@ public class ExRange extends ApiExampleBase
             msConsole.writeLine($"\tReplacement:\t{args.Replacement}");
             msConsole.writeLine($"\tOffset in parent {args.MatchNode.NodeType} node:\t{args.MatchOffset}");
 
-            if (msString.isNullOrEmpty(args.GroupName))
-                msConsole.writeLine($"\tGroup index:\t{args.GroupIndex}");
-            else
-                msConsole.writeLine($"\tGroup name:\t{args.GroupName}");
+            msConsole.writeLine(msString.isNullOrEmpty(args.GroupName)
+                ? $"\tGroup index:\t{args.GroupIndex}"
+                : $"\tGroup name:\t{args.GroupName}");
 
             return ReplaceAction.REPLACE;
         }
@@ -298,13 +297,14 @@ public class ExRange extends ApiExampleBase
         // Open Word document.
         Document doc = new Document(getMyDir() + "Range.DeleteSection.doc");
 
-        // The document contains two sections. Each section has a paragraph of text.
+        // The document contains two sections
+        // Each section has a paragraph of text
         msConsole.writeLine(doc.getText());
 
-        // Delete the first section from the document.
+        // Delete the first section from the document
         doc.getSections().get(0).getRange().delete();
 
-        // Check the first section was deleted by looking at the text of the whole document again.
+        // Check the first section was deleted by looking at the text of the whole document again
         msConsole.writeLine(doc.getText());
         //ExEnd
 

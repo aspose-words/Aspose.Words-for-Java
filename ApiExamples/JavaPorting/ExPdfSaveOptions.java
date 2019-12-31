@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -21,9 +21,9 @@ import com.aspose.words.PdfCompliance;
 import com.aspose.words.PdfImageColorSpaceExportMode;
 import com.aspose.words.ColorMode;
 import com.aspose.words.SaveOptions;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.MetafileRenderingOptions;
 import com.aspose.words.MetafileRenderingMode;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningType;
@@ -37,8 +37,6 @@ import com.aspose.words.PdfZoomBehavior;
 import com.aspose.words.PdfPageMode;
 import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.DmlEffectsRenderingMode;
-import java.awt.image.BufferedImage;
-import com.aspose.BitmapPal;
 import com.aspose.words.CertificateHolder;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.PdfDigitalSignatureDetails;
@@ -59,7 +57,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExFor:ParagraphFormat.IsHeading
         //ExFor:PdfSaveOptions.OutlineOptions
         //ExFor:PdfSaveOptions.SaveFormat
-        //ExSummary:Shows how to create missing outline levels saving the document in PDF
+        //ExSummary:Shows how to create missing outline levels saving the document in PDF.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -89,15 +87,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "CreateMissingOutlineLevels.pdf", pdfSaveOptions);
         //ExEnd
-        // Bind PDF with Aspose.PDF
-        PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
-        bookmarkEditor.BindPdf(getArtifactsDir() + "CreateMissingOutlineLevels.pdf");
 
-        // Get all bookmarks from the document
-        Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();
-
-        Assert.AreEqual(11, bookmarks.Count);
-    }
+                        }
 
     @Test (groups = "SkipMono")
     public void withoutUpdateFields() throws Exception
@@ -118,15 +109,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "UpdateFields_False.pdf", pdfSaveOptions);
         //ExEnd
-        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "UpdateFields_False.pdf");
 
-        // Get text fragment by search String
-        Aspose.Pdf.Text.TextFragmentAbsorber textFragmentAbsorber = new Aspose.Pdf.Text.TextFragmentAbsorber("Page  of");
-        pdfDocument.Pages.Accept(textFragmentAbsorber);
-
-        // Assert that fields are not updated
-        Assert.AreEqual("Page  of", textFragmentAbsorber.TextFragments[1].Text);
-    }
+                        }
 
     @Test (groups = "SkipMono")
     public void withUpdateFields() throws Exception
@@ -136,15 +120,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions(); { pdfSaveOptions.setUpdateFields(true); }
 
         doc.save(getArtifactsDir() + "UpdateFields_False.pdf", pdfSaveOptions);
-        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "UpdateFields_False.pdf");
 
-        // Get text fragment by search String from PDF document
-        Aspose.Pdf.Text.TextFragmentAbsorber textFragmentAbsorber = new Aspose.Pdf.Text.TextFragmentAbsorber("Page 1 of 2");
-        pdfDocument.Pages.Accept(textFragmentAbsorber);
-
-        // Assert that fields are updated
-        Assert.AreEqual("Page 1 of 2", textFragmentAbsorber.TextFragments[1].Text);
-    }
+                        }
 
     // For assert this test you need to open "SaveOptions.PdfImageCompression PDF_A_1_B Out.pdf" and "SaveOptions.PdfImageCompression PDF_A_1_A Out.pdf" 
     // and check that header image in this documents are equal header image in the "SaveOptions.PdfImageComppression Out.pdf" 
@@ -195,13 +172,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     {
         //ExStart
         //ExFor:PdfSaveOptions
-        //ExFor:SaveOptions.ColorMode
+        //ExFor:FixedPageSaveOptions.ColorMode
         //ExSummary:Shows how change image color with save options property
         // Open document with color image
         Document doc = new Document(getMyDir() + "Rendering.doc");
         // Set grayscale mode for document
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions(); { pdfSaveOptions.setColorMode(ColorMode.GRAYSCALE); }
-
+        
         // Assert that color image in document was grey
         doc.save(getArtifactsDir() + "ColorMode.PdfGrayscaleMode.pdf", pdfSaveOptions);
         //ExEnd
@@ -220,11 +197,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfTitle.pdf", pdfSaveOptions);
         //ExEnd
-        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfTitle.pdf");
 
-        Assert.IsTrue(pdfDocument.DisplayDocTitle);
-        Assert.AreEqual("Windows bar pdf title", pdfDocument.Info.Title);
-    }
+                        }
 
     @Test
     public void memoryOptimization() throws Exception
@@ -234,8 +208,9 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExFor:SaveOptions.MemoryOptimization
         //ExSummary:Shows an option to optimize memory consumption when you work with large documents.
         Document doc = new Document(getMyDir() + "SaveOptions.MemoryOptimization.doc");
-        // When set to true it will improve document memory footprint but will add extra time to processing. 
-        // This optimization is only applied during save operation.
+        
+        // When set to true it will improve document memory footprint but will add extra time to processing
+        // This optimization is only applied during save operation
         SaveOptions saveOptions = SaveOptions.createSaveOptions(SaveFormat.PDF);
         saveOptions.setMemoryOptimization(true);
 
@@ -261,19 +236,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         builder.getDocument().save(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf", options);
         //ExEnd
 
-        Aspose.Pdf.Document pdfDocument =
-            new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf");
-
-        // Get first page
-        Aspose.Pdf.Page page = pdfDocument.Pages[1];
-        // Get the first link annotation
-        LinkAnnotation linkAnnot = (LinkAnnotation) page.Annotations[1];
-
-        JavascriptAction action = (JavascriptAction) linkAnnot.Action;
-        String uriText = action.Script;
-
-        msAssert.areEqual(result, uriText);
-    }
+                        }
 
 	//JAVA-added data provider for test method
 	@DataProvider(name = "escapeUriDataProvider")
@@ -298,7 +261,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExFor:MetafileRenderingOptions.RenderingMode
         //ExFor:IWarningCallback
         //ExFor:FixedPageSaveOptions.MetafileRenderingOptions
-        //ExSummary:Shows added fallback to bitmap rendering and changing type of warnings about unsupported metafile records
+        //ExSummary:Shows added fallback to bitmap rendering and changing type of warnings about unsupported metafile records.
         Document doc = new Document(getMyDir() + "PdfSaveOptions.HandleRasterWarnings.doc");
 
         MetafileRenderingOptions metafileRenderingOptions =
@@ -308,7 +271,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 metafileRenderingOptions.setRenderingMode(MetafileRenderingMode.VECTOR_WITH_FALLBACK);
             }
 
-        // If Aspose.Words cannot correctly render some of the metafile records to vector graphics then Aspose.Words renders this metafile to a bitmap. 
+        // If Aspose.Words cannot correctly render some of the metafile records to vector graphics then Aspose.Words renders this metafile to a bitmap
         HandleDocumentWarnings callback = new HandleDocumentWarnings();
         doc.setWarningCallback(callback);
 
@@ -317,8 +280,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.HandleRasterWarnings.pdf", saveOptions);
 
-        msAssert.areEqual(1, callback.mWarnings.getCount());
-        Assert.assertTrue(callback.mWarnings.get(0).getDescription().contains("R2_XORPEN"));
+        msAssert.areEqual(1, callback.Warnings.getCount());
+        Assert.assertTrue(callback.Warnings.get(0).getDescription().contains("R2_XORPEN"));
     }
 
     public static class HandleDocumentWarnings implements IWarningCallback
@@ -330,15 +293,16 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         /// </summary>
         public void warning(WarningInfo info)
         {
-            //For now type of warnings about unsupported metafile records changed from DataLoss/UnexpectedContent to MinorFormattingLoss.
+            // For now type of warnings about unsupported metafile records changed from
+            // DataLoss/UnexpectedContent to MinorFormattingLoss
             if (info.getWarningType() == WarningType.MINOR_FORMATTING_LOSS)
             {
                 msConsole.writeLine("Unsupported operation: " + info.getDescription());
-                mWarnings.warning(info);
+                Warnings.warning(info);
             }
         }
 
-        public WarningInfoCollection mWarnings = new WarningInfoCollection();
+        public WarningInfoCollection Warnings = new WarningInfoCollection();
     }
     //ExEnd
 
@@ -389,7 +353,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOption.HeaderFooterBookmarksExportMode.pdf", SaveFormat.PDF);
 
-        Assert.That(saveWarningCallback.mSaveWarnings.get(0).getDescription(),
+        Assert.That(saveWarningCallback.SaveWarnings.get(0).getDescription(),
             Is.EqualTo("Image can not be processed. Possibly unsupported image format."));
     }
 
@@ -400,11 +364,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             if (info.getWarningType() == WarningType.MINOR_FORMATTING_LOSS)
             {
                 msConsole.writeLine($"{info.WarningType}: {info.Description}.");
-                mSaveWarnings.warning(info);
+                SaveWarnings.warning(info);
             }
         }
 
-        WarningInfoCollection mSaveWarnings = new WarningInfoCollection();
+        WarningInfoCollection SaveWarnings = new WarningInfoCollection();
 	}
 	
 	@Test
@@ -412,13 +376,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     {
         //ExStart
         //ExFor:MetafileRenderingOptions.ScaleWmfFontsToMetafileSize
-        //ExSummary:Shows how to WMF fonts scaling according to metafile size on the page
+        //ExSummary:Shows how to WMF fonts scaling according to metafile size on the page.
         Document doc = new Document(getMyDir() + "PdfSaveOptions.FontsScaledToMetafileSize.docx");
 
         // There is a several options for this:
-        // 'True' - Aspose.Words emulates font scaling according to metafile size on the page.
-        // 'False' - Aspose.Words displays the fonts as metafile is rendered to its default size.
-        // Use 'False' option is used only when metafile is rendered as vector graphics.
+        // 'True' - Aspose.Words emulates font scaling according to metafile size on the page
+        // 'False' - Aspose.Words displays the fonts as metafile is rendered to its default size
+        // Use 'False' option is used only when metafile is rendered as vector graphics
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         saveOptions.getMetafileRenderingOptions().setScaleWmfFontsToMetafileSize(true);
 
@@ -569,17 +533,21 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExEnd
     }
 
-    @Test
-    public void preblendImages() throws Exception
+                @Test
+    public void preblendImagesNetStandard2() throws Exception
     {
         //ExStart
         //ExFor:PdfSaveOptions.PreblendImages
-        //ExSummary:Shows how to preblend images with transparent backgrounds.
+        //ExSummary:Shows how to preblend images with transparent backgrounds (.NetStandard 2.0).
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage img = BitmapPal.loadNativeImage(getImageDir() + "TransparentBG.png");
-        builder.insertImage(img);
+        SKBitmap image = SKBitmap.Decode(getImageDir() + "TransparentBG.png");
+        try /*JAVA: was using*/
+        {
+            builder.InsertImage(image);
+        }
+        finally { if (image != null) image.close(); }
 
         // Create a PdfSaveOptions object and setting this flag may change the quality and size of the output .pdf
         // because of the way some images are rendered
@@ -589,7 +557,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.PreblendImages.pdf", options);
         //ExEnd
     }
-
+    
     @Test
     public void pdfDigitalSignature() throws Exception
     {

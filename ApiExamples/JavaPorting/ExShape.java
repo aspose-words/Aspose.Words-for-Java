@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -12,27 +12,27 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.words.HeaderFooterType;
+import com.aspose.ms.System.IO.File;
 import com.aspose.words.Shape;
-import com.aspose.words.ShapeType;
-import com.aspose.BitmapPal;
-import java.awt.image.BufferedImage;
-import org.testng.Assert;
 import com.aspose.words.WrapType;
-import com.aspose.words.GroupShape;
+import com.aspose.words.RelativeHorizontalPosition;
+import com.aspose.words.RelativeVerticalPosition;
+import com.aspose.ms.System.IO.MemoryStream;
+import com.aspose.words.SaveFormat;
+import com.aspose.words.NodeType;
 import com.aspose.ms.NUnit.Framework.msAssert;
+import org.testng.Assert;
+import com.aspose.words.ShapeType;
+import com.aspose.words.GroupShape;
 import com.aspose.ms.System.Drawing.RectangleF;
 import com.aspose.ms.System.Drawing.msSize;
 import com.aspose.ms.System.Drawing.msPoint;
 import com.aspose.ms.System.Drawing.msPointF;
 import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
 import com.aspose.ms.System.msConsole;
-import com.aspose.words.RelativeHorizontalPosition;
-import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.FlipOrientation;
 import java.awt.Color;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
 import com.aspose.words.Node;
 import com.aspose.words.HorizontalAlignment;
 import com.aspose.words.VerticalAlignment;
@@ -53,7 +53,6 @@ import com.aspose.words.OfficeMath;
 import com.aspose.words.OfficeMathDisplayType;
 import com.aspose.words.OfficeMathJustification;
 import com.aspose.words.MathObjectType;
-import com.aspose.words.HeaderFooterType;
 import com.aspose.words.ShapeMarkupLanguage;
 import com.aspose.words.MsWordVersion;
 import com.aspose.words.Stroke;
@@ -61,10 +60,8 @@ import com.aspose.words.DashStyle;
 import com.aspose.words.JoinStyle;
 import com.aspose.words.EndCap;
 import com.aspose.words.ShapeLineStyle;
-import com.aspose.ms.System.IO.File;
 import com.aspose.words.OlePackage;
 import com.aspose.ms.System.msString;
-import com.aspose.ms.System.Guid;
 import com.aspose.words.OoxmlSaveOptions;
 import com.aspose.words.OoxmlCompliance;
 import com.aspose.words.DocumentVisitor;
@@ -82,7 +79,6 @@ import com.aspose.words.ShapeRenderer;
 import com.aspose.words.OfficeMathRenderer;
 import com.aspose.ms.System.Drawing.msSizeF;
 import com.aspose.ms.System.Drawing.Rectangle;
-import java.awt.Graphics2D;
 import org.testng.annotations.DataProvider;
 
 
@@ -93,48 +89,41 @@ import org.testng.annotations.DataProvider;
 public class ExShape extends ApiExampleBase
 {
     @Test
-    public void insertShape() throws Exception
+    public void aspectRatioLockedDefaultValueNetStandard2() throws Exception
     {
-        //ExStart
-        //ExFor:ShapeBase.AlternativeText
-        //ExFor:ShapeBase.Name
-        //ExFor:ShapeBase.Font
-        //ExFor:ShapeBase.CanHaveImage
-        //ExFor:ShapeBase.ParentParagraph
-        //ExFor:ShapeBase.Rotation
-        //ExSummary:Shows how to insert shapes.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a cube and set its name
-        Shape shape = builder.insertShape(ShapeType.CUBE, 150.0, 150.0);
-        shape.setName("MyCube");
+        // The best place for the watermark image is in the header or footer so it is shown on every page
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         
-        // We can also set the alt text like this
-        // This text will be found in Format AutoShape > Alt Text
-        shape.setAlternativeText("Alt text for MyCube.");
-        
-        // Insert a text box
-        shape = builder.insertShape(ShapeType.TEXT_BOX, 300.0, 50.0);
-        shape.getFont().setName("Times New Roman");
-        
-        // Move the builder into the text box and write text
-        builder.moveTo(shape.getLastParagraph());
-        builder.write("Hello world!");
+        SKManagedStream stream = new SKManagedStream(File.openRead(getImageDir() + "Watermark.png"));
+        try /*JAVA: was using*/
+        {
+            SKBitmap bitmap = SKBitmap.Decode(stream);
+            try /*JAVA: was using*/
+            {
+                // Insert a floating picture.
+                Shape shape = builder.InsertImage(bitmap);
+                shape.setWrapType(WrapType.NONE);
+                shape.setBehindText(true);
 
-        // Move the builder out of the text box back into the main document
-        builder.moveTo(shape.getParentParagraph());         
+                shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
+                shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
 
-        // Insert a shape with an image
-        shape = builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Aspose.Words.gif"));
-        Assert.assertTrue(shape.canHaveImage());
-        Assert.assertTrue(shape.hasImage());
+                // Calculate image left and top position so it appears in the centre of the page
+                shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
+                shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
 
-        // Rotate the image
-        shape.setRotation(45.0);
+                MemoryStream dstStream = new MemoryStream();
+                doc.save(dstStream, SaveFormat.DOCX);
 
-        doc.save(getArtifactsDir() + "Shape.InsertShapes.docx");
-        //ExEnd
+                shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+                msAssert.areEqual(true, shape.getAspectRatioLocked());
+            }
+            finally { if (bitmap != null) bitmap.close(); }
+        }
+        finally { if (stream != null) stream.close(); }            
     }
 
     @Test
@@ -264,11 +253,11 @@ public class ExShape extends ApiExampleBase
         //ExFor:Shape
         //ExSummary:Shows how to delete all shapes from a document.
         // Here we get all shapes from the document node, but you can do this for any smaller
-        // node too, for example delete shapes from a single section or a paragraph.
+        // node too, for example delete shapes from a single section or a paragraph
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         shapes.clear();
 
-        // There could also be group shapes, they have different node type, remove them all too.
+        // There could also be group shapes, they have different node type, remove them all too
         NodeCollection groupShapes = doc.getChildNodes(NodeType.GROUP_SHAPE, true);
         groupShapes.clear();
         //ExEnd
@@ -289,14 +278,11 @@ public class ExShape extends ApiExampleBase
 
         for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            if (shape.isInline())
-                msConsole.writeLine("Shape is inline.");
-            else
-                msConsole.writeLine("Shape is floating.");
+            msConsole.writeLine(shape.isInline() ? "Shape is inline." : "Shape is floating.");
         }
         //ExEnd
 
-        // Verify that the first shape in the document is not inline.
+        // Verify that the first shape in the document is not inline
         Assert.assertFalse(((Shape) doc.getChild(NodeType.SHAPE, 0, true)).isInline());
     }
 
@@ -311,11 +297,11 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to create line shapes and set specific location and size.
         Document doc = new Document();
 
-        // The lines will cross the whole page.
+        // The lines will cross the whole page
         float pageWidth = (float) doc.getFirstSection().getPageSetup().getPageWidth();
         float pageHeight = (float) doc.getFirstSection().getPageSetup().getPageHeight();
 
-        // This line goes from top left to bottom right by default.
+        // This line goes from top left to bottom right by default
         Shape lineA = new Shape(doc, ShapeType.LINE);
         {
             lineA.setBounds(new RectangleF(0f, 0f, pageWidth, pageHeight));
@@ -325,7 +311,7 @@ public class ExShape extends ApiExampleBase
 
         msAssert.areEqual(new RectangleF(0f, 0f, pageWidth, pageHeight), lineA.getBoundsInPointsInternal());
 
-        // This line goes from bottom left to top right because we flipped it.
+        // This line goes from bottom left to top right because we flipped it
         Shape lineB = new Shape(doc, ShapeType.LINE);
         {
             lineB.setBounds(new RectangleF(0f, 0f, pageWidth, pageHeight));
@@ -336,7 +322,7 @@ public class ExShape extends ApiExampleBase
 
         msAssert.areEqual(new RectangleF(0f, 0f, pageWidth, pageHeight), lineB.getBoundsInPointsInternal());
 
-        // Add lines to the document.
+        // Add lines to the document
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineA);
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineB);
 
@@ -360,8 +346,8 @@ public class ExShape extends ApiExampleBase
         builder.writeln();
         builder.write("Some text under the shape.");
 
-        // Create a red balloon, semitransparent.
-        // The shape is floating and its coordinates are (0,0) by default, relative to the current paragraph.
+        // Create a red balloon, semitransparent
+        // The shape is floating and its coordinates are (0,0) by default, relative to the current paragraph
         Shape shape = new Shape(builder.getDocument(), ShapeType.BALLOON);
         shape.setFillColor(Color.RED);
         shape.getFill().setOpacity(0.3);
@@ -383,7 +369,7 @@ public class ExShape extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create test shape.
+        // Create test shape
         Shape shape = new Shape(doc, ShapeType.CUBE);
         shape.setWidth(431.5);
         shape.setHeight(346.35);
@@ -413,25 +399,25 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to replace all textboxes with images.
         Document doc = new Document(getMyDir() + "Shape.ReplaceTextboxesWithImages.doc");
 
-        // This gets a live collection of all shape nodes in the document.
+        // This gets a live collection of all shape nodes in the document
         NodeCollection shapeCollection = doc.getChildNodes(NodeType.SHAPE, true);
 
         // Since we will be adding/removing nodes, it is better to copy all collection
-        // into a fixed size array, otherwise iterator will be invalidated.
+        // into a fixed size array, otherwise iterator will be invalidated
         Node[] shapes = shapeCollection.toArray();
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            // Filter out all shapes that we don't need.
+            // Filter out all shapes that we don't need
             if (((shape.getShapeType()) == (ShapeType.TEXT_BOX)))
             {
-                // Create a new shape that will replace the existing shape.
+                // Create a new shape that will replace the existing shape
                 Shape image = new Shape(doc, ShapeType.IMAGE);
 
-                // Load the image into the new shape.
+                // Load the image into the new shape
                 image.getImageData().setImage(getImageDir() + "Hammer.wmf");
 
-                // Make new shape's position to match the old shape.
+                // Make new shape's position to match the old shape
                 image.setLeft(shape.getLeft());
                 image.setTop(shape.getTop());
                 image.setWidth(shape.getWidth());
@@ -443,7 +429,7 @@ public class ExShape extends ApiExampleBase
                 image.setWrapType(shape.getWrapType());
                 image.setWrapSide(shape.getWrapSide());
 
-                // Insert new shape after the old shape and remove the old shape.
+                // Insert new shape after the old shape and remove the old shape
                 shape.getParentNode().insertAfter(image, shape);
                 shape.remove();
             }
@@ -463,37 +449,38 @@ public class ExShape extends ApiExampleBase
         //ExFor:Shape.FirstParagraph
         //ExFor:ShapeBase.WrapType
         //ExSummary:Creates a textbox with some text and different formatting options in a new document.
-        // Create a blank document.
+        // Create a blank document
         Document doc = new Document();
 
         // Create a new shape of type TextBox
         Shape textBox = new Shape(doc, ShapeType.TEXT_BOX);
 
-        // Set some settings of the textbox itself.
+        // Set some settings of the textbox itself
         // Set the wrap of the textbox to inline
         textBox.setWrapType(WrapType.NONE);
-        // Set the horizontal and vertical alignment of the text inside the shape.
+        // Set the horizontal and vertical alignment of the text inside the shape
         textBox.setHorizontalAlignment(HorizontalAlignment.CENTER);
         textBox.setVerticalAlignment(VerticalAlignment.TOP);
 
-        // Set the textbox height and width.
+        // Set the textbox height and width
         textBox.setHeight(50.0);
         textBox.setWidth(200.0);
 
         // Set the textbox in front of other shapes with a lower ZOrder
         textBox.setZOrder(2);
 
-        // Let's create a new paragraph for the textbox manually and align it in the center. Make sure we add the new nodes to the textbox as well.
+        // Let's create a new paragraph for the textbox manually and align it in the center
+        // Make sure we add the new nodes to the textbox as well
         textBox.appendChild(new Paragraph(doc));
         Paragraph para = textBox.getFirstParagraph();
         para.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
 
-        // Add some text to the paragraph.
+        // Add some text to the paragraph
         Run run = new Run(doc);
         run.setText("Content in textbox");
         para.appendChild(run);
 
-        // Append the textbox to the first paragraph in the body.
+        // Append the textbox to the first paragraph in the body
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(textBox);
 
         // Save the output
@@ -518,13 +505,13 @@ public class ExShape extends ApiExampleBase
         //ExSummary: Shows how to get ActiveX control and properties from the document.
         Document doc = new Document(getMyDir() + "Shape.ActiveXObject.docx");
 
-        //Get ActiveX control from the document 
+        // Get ActiveX control from the document 
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         OleControl oleControl = shape.getOleFormat().getOleControl();
 
         msAssert.areEqual(null, oleControl.getName());
 
-        //Get ActiveX control properties
+        // Get ActiveX control properties
         if (oleControl.isForms2OleControl())
         {
             Forms2OleControl checkBox = (Forms2OleControl) oleControl;
@@ -711,7 +698,7 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to convert specific object into image
         Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
 
-        //Get OfficeMath node from the document and render this as image (you can also do the same with the Shape node)
+        // Get OfficeMath node from the document and render this as image (you can also do the same with the Shape node)
         OfficeMath math = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, 0, true);
         math.getMathRenderer().save(getArtifactsDir() + "Shape.OfficeMath.svg", new ImageSaveOptions(SaveFormat.SVG));
         //ExEnd
@@ -804,7 +791,7 @@ public class ExShape extends ApiExampleBase
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
 
-        //Always inline
+        // Always inline
         msAssert.areEqual(OfficeMathDisplayType.INLINE, officeMath.getDisplayType());
         msAssert.areEqual(OfficeMathJustification.INLINE, officeMath.getJustification());
     }
@@ -837,7 +824,7 @@ public class ExShape extends ApiExampleBase
     {
         //ExStart
         //ExFor:ShapeBase.AspectRatioLocked
-        //ExSummary:Shows how to set "AspectRatioLocked" for the shape object
+        //ExSummary:Shows how to set "AspectRatioLocked" for the shape object.
         Document doc = new Document(getMyDir() + "Shape.ActiveXObject.docx");
 
         // Get shape object from the document and set AspectRatioLocked(it is possible to get/set AspectRatioLocked for child shapes (mimic MS Word behavior), 
@@ -865,46 +852,17 @@ public class ExShape extends ApiExampleBase
 	}
 
     @Test
-    public void aspectRatioLockedDefaultValue() throws Exception
-    {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // The best place for the watermark image is in the header or footer so it is shown on every page.
-        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        BufferedImage image = BitmapPal.loadNativeImage(getImageDir() + "Watermark.png");
-
-        // Insert a floating picture.
-        Shape shape = builder.insertImage(image);
-        shape.setWrapType(WrapType.NONE);
-        shape.setBehindText(true);
-
-        shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
-        shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
-
-        // Calculate image left and top position so it appears in the centre of the page.
-        shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
-        shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
-
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
-        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        msAssert.areEqual(true, shape.getAspectRatioLocked());
-    }
-
-    @Test
     public void markupLunguageByDefault() throws Exception
     {
         //ExStart
         //ExFor:ShapeBase.MarkupLanguage
         //ExFor:ShapeBase.SizeInPoints
-        //ExSummary:Shows how get markup language for shape object in document
+        //ExSummary:Shows how get markup language for shape object in document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertImage(getImageDir() + "dotnet-logo.png");
 
-        // Loop through all single shapes inside document.
+        // Loop through all single shapes inside document
         for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
             msAssert.areEqual(ShapeMarkupLanguage.DML, shape.getMarkupLanguage()); //ExSkip
@@ -925,7 +883,7 @@ public class ExShape extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertImage(getImageDir() + "dotnet-logo.png");
 
-        // Loop through all single shapes inside document.
+        // Loop through all single shapes inside document
         for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
             msAssert.areEqual(shapeMarkupLanguage, shape.getMarkupLanguage());
@@ -958,14 +916,14 @@ public class ExShape extends ApiExampleBase
         //ExFor:Stroke.JoinStyle
         //ExFor:Stroke.LineStyle
         //ExFor:ShapeLineStyle
-        //ExSummary:Shows how change stroke properties
+        //ExSummary:Shows how change stroke properties.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create a new shape of type Rectangle
         Shape rectangle = new Shape(doc, ShapeType.RECTANGLE);
 
-        //Change stroke properties
+        // Change stroke properties
         Stroke stroke = rectangle.getStroke();
         stroke.setOn(true);
         stroke.setWeight(5.0);
@@ -975,7 +933,7 @@ public class ExShape extends ApiExampleBase
         stroke.setEndCap(EndCap.SQUARE);
         stroke.setLineStyle(ShapeLineStyle.TRIPLE);
 
-        //Insert shape object
+        // Insert shape object
         builder.insertNode(rectangle);
         //ExEnd
 
@@ -1090,7 +1048,8 @@ public class ExShape extends ApiExampleBase
             Shape watermark = new Shape(doc, ShapeType.TEXT_PLAIN_TEXT);
             watermark.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
             watermark.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
-            watermark.isLayoutInCell(true); // False - display the shape outside of table cell, True - display the shape outside of table cell
+            // False - display the shape outside of table cell, True - display the shape outside of table cell
+            watermark.isLayoutInCell(true); 
 
             watermark.setWidth(30.0);
             watermark.setHeight(30.0);
@@ -1104,8 +1063,9 @@ public class ExShape extends ApiExampleBase
             watermark.getTextPath().setText(msString.format("{0}", num));
             watermark.getTextPath().setFontFamily("Arial");
 
-            watermark.setName(msString.format("WaterMark_{0}", Guid.newGuid()));
-            watermark.setWrapType(WrapType.NONE); // Property will take effect only if the WrapType property is set to something other than WrapType.Inline
+            watermark.setName("WaterMark_{Guid.NewGuid()}");
+            // Property will take effect only if the WrapType property is set to something other than WrapType.Inline
+            watermark.setWrapType(WrapType.NONE); 
             watermark.setBehindText(true);
 
             builder.moveTo(run);
@@ -1114,8 +1074,8 @@ public class ExShape extends ApiExampleBase
             num = num + 1;
         }
 
-        // Behaviour of MS Word on working with shapes in table cells is changed in the last versions.
-        // Adding the following line is needed to make the shape displayed in center of a page.
+        // Behaviour of MS Word on working with shapes in table cells is changed in the last versions
+        // Adding the following line is needed to make the shape displayed in center of a page
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2010);
 
         doc.save(getArtifactsDir() + "Shape.LayoutInCell.docx");
@@ -1183,7 +1143,7 @@ public class ExShape extends ApiExampleBase
     }
 
     /// <summary>
-    /// DocumentVisitor implementation that collects information about visited shapes into a StringBuilder, to be printed to the console
+    /// DocumentVisitor implementation that collects information about visited shapes into a StringBuilder, to be printed to the console.
     /// </summary>
     private static class ShapeVisitor extends DocumentVisitor
     {
@@ -1195,20 +1155,17 @@ public class ExShape extends ApiExampleBase
         }
 
         /// <summary>
-        /// Appends a line to the StringBuilder with one prepended tab character for each indent level 
+        /// Appends a line to the StringBuilder with one prepended tab character for each indent level.
         /// </summary>
         private void appendLine(String text)
         {
-            for (int i = 0; i < mTextIndentLevel; i++)
-            {
-                mStringBuilder.append('\t');
-            }
+            for (int i = 0; i < mTextIndentLevel; i++) mStringBuilder.append('\t');
 
             msStringBuilder.appendLine(mStringBuilder, text);
         }
 
         /// <summary>
-        /// Return all the text that the StringBuilder has accumulated
+        /// Return all the text that the StringBuilder has accumulated.
         /// </summary>
         public String getText()
         {
@@ -1216,7 +1173,7 @@ public class ExShape extends ApiExampleBase
         }
 
         /// <summary>
-        /// Called when the start of a Shape node is visited
+        /// Called when the start of a Shape node is visited.
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitShapeStart(Shape shape)
         {
@@ -1252,7 +1209,7 @@ public class ExShape extends ApiExampleBase
         }
 
         /// <summary>
-        /// Called when the end of a Shape node is visited
+        /// Called when the end of a Shape node is visited.
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitShapeEnd(Shape shape)
         {
@@ -1264,7 +1221,7 @@ public class ExShape extends ApiExampleBase
         }
 
         /// <summary>
-        /// Called when the start of a GroupShape node is visited
+        /// Called when the start of a GroupShape node is visited.
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitGroupShapeStart(GroupShape groupShape)
         {
@@ -1275,7 +1232,7 @@ public class ExShape extends ApiExampleBase
         }
 
         /// <summary>
-        /// Called when the end of a GroupShape node is visited
+        /// Called when the end of a GroupShape node is visited.
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitGroupShapeEnd(GroupShape groupShape)
         {
@@ -1604,9 +1561,9 @@ public class ExShape extends ApiExampleBase
     }
 
     /// <summary>
-    /// Insert a new paragraph with a WordArt shape inside it 
+    /// Insert a new paragraph with a WordArt shape inside it.
     /// </summary>
-    private Shape appendWordArt(Document doc, String text, String textFontFamily, double shapeWidth, double shapeHeight, Color wordArtFill, Color line, /*ShapeType*/int wordArtShapeType) throws Exception
+    private static Shape appendWordArt(Document doc, String text, String textFontFamily, double shapeWidth, double shapeHeight, Color wordArtFill, Color line, /*ShapeType*/int wordArtShapeType) throws Exception
     {
         // Insert a new paragraph
         Paragraph para = (Paragraph)doc.getFirstSection().getBody().appendChild(new Paragraph(doc));
@@ -1873,50 +1830,4 @@ public class ExShape extends ApiExampleBase
         msAssert.areEqual(31, bounds.getHeight());
         //ExEnd
     }
-
-    //ExStart
-    //ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
-    //ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
-    //ExFor:ShapeRenderer
-    //ExFor:ShapeRenderer.#ctor(ShapeBase)
-    //ExSummary:Shows how to render a shape with a Graphics object.
-    @Test (groups = "IgnoreOnJenkins") //ExSkip
-    public void displayShapeForm()
-    {
-        // Create a new ShapeForm instance and show it as a dialog box
-        ShapeForm shapeForm = new ShapeForm();
-        shapeForm.ShowDialog();
-    }
-
-    /// <summary>
-    /// Windows Form that renders and displays shapes from a document.
-    /// </summary>
-    private static class ShapeForm extends Form
-    {
-        protected /*override*/ void onPaint(PaintEventArgs e) throws Exception
-        {
-            // Set the size of the Form canvas
-            this.Size = msSize.ctor(1000, 800);
-
-            // Open a document and get its first shape, which is a chart
-            Document doc = new Document(getMyDir() + "Shape.VarietyOfShapes.docx");
-            Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
-
-            // Create a ShapeRenderer instance and a Graphics object
-            // The ShapeRenderer will render the shape that is passed during construction over the Graphics object
-            // Whatever is rendered on this Graphics object will be displayed on the screen inside this form
-            ShapeRenderer renderer = new ShapeRenderer(shape);
-            Graphics2D formGraphics = CreateGraphics();
-
-            // Call this method on the renderer to render the chart in the passed Graphics object,
-            // on a specified x/y coordinate and scale
-            renderer.renderToScaleInternal(formGraphics, 0f, 0f, 1.5f);
-
-            // Get another shape from the document, and render it to a specific size instead of a linear scale
-            GroupShape groupShape = (GroupShape)doc.getChild(NodeType.GROUP_SHAPE, 0, true);
-            renderer = new ShapeRenderer(groupShape);
-            renderer.renderToSize(formGraphics, 500f, 400f, 100f, 200f);
-        }
-    }
-    //ExEnd
 }

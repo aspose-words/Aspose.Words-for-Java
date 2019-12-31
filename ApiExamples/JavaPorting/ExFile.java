@@ -1,3 +1,11 @@
+//////////////////////////////////////////////////////////////////////////
+// Copyright 2001-2018 Aspose Pty Ltd. All Rights Reserved.
+//
+// This file is part of Aspose.Words. The source code in this file
+// is only intended as a supplement to the documentation, and is provided
+// "as is", without warranty of any kind, either expressed or implied.
+//////////////////////////////////////////////////////////////////////////
+
 package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
@@ -18,7 +26,6 @@ import com.aspose.ms.System.IO.Path;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import com.aspose.words.Shape;
-import com.aspose.ms.System.msString;
 
 
 @Test
@@ -29,7 +36,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
     {
         //ExStart
         //ExFor:FileCorruptedException
-        //ExSummary:Shows how to catch a FileCorruptedException
+        //ExSummary:Shows how to catch a FileCorruptedException.
         try
         {
             Document doc = new Document(getMyDir() + "Corrupted.docx");
@@ -152,34 +159,32 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:Document.OriginalFileName
         //ExFor:FileFormatInfo.LoadFormat
         //ExSummary:Shows how to use the FileFormatUtil methods to detect the format of a document without any extension and save it with the correct file extension.
-        // Load the document without a file extension into a stream and use the DetectFileFormat method to detect it's format. 
+        // Load the document without a file extension into a stream and use the DetectFileFormat method to detect it's format
         // These are both times where you might need extract the file format as it's not visible
-        FileStream
-            docStream = File.openRead(
-                getMyDir() + "Document.FileWithoutExtension"); // The file format of this document is actually ".doc"
+        // The file format of this document is actually ".doc"
+        FileStream docStream = File.openRead(getMyDir() + "Document.FileWithoutExtension");
         FileFormatInfo info = FileFormatUtil.detectFileFormat(docStream);
 
-        // Retrieve the LoadFormat of the document.
+        // Retrieve the LoadFormat of the document
         /*LoadFormat*/int loadFormat = info.getLoadFormat();
 
-        // Let's show the different methods of converting LoadFormat enumerations to SaveFormat enumerations.
+        // Let's show the different methods of converting LoadFormat enumerations to SaveFormat enumerations
         //
         // Method #1
-        // Convert the LoadFormat to a String first for working with. The String will include the leading dot in front of the extension.
+        // Convert the LoadFormat to a String first for working with. The String will include the leading dot in front of the extension
         String fileExtension = FileFormatUtil.loadFormatToExtension(loadFormat);
         // Now convert this extension into the corresponding SaveFormat enumeration
         /*SaveFormat*/int saveFormat = FileFormatUtil.extensionToSaveFormat(fileExtension);
 
         // Method #2
-        // Convert the LoadFormat enumeration directly to the SaveFormat enumeration.
+        // Convert the LoadFormat enumeration directly to the SaveFormat enumeration
         saveFormat = FileFormatUtil.loadFormatToSaveFormat(loadFormat);
 
         // Load a document from the stream.
         Document doc = new Document(docStream);
 
-        // Save the document with the original file name, " Out" and the document's file extension.
-        doc.save(
-            getArtifactsDir() + "Document.WithFileExtension" + FileFormatUtil.saveFormatToExtension(saveFormat));
+        // Save the document with the original file name, " Out" and the document's file extension
+        doc.save(getArtifactsDir() + "Document.WithFileExtension" + FileFormatUtil.saveFormatToExtension(saveFormat));
         //ExEnd
 
         msAssert.areEqual(".doc", FileFormatUtil.saveFormatToExtension(saveFormat));
@@ -191,14 +196,14 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExStart
         //ExFor:FileFormatUtil.SaveFormatToLoadFormat(SaveFormat)
         //ExSummary:Shows how to use the FileFormatUtil class and to convert a SaveFormat enumeration into the corresponding LoadFormat enumeration.
-        // Define the SaveFormat enumeration to convert.
-        /*SaveFormat*/int saveFormat = SaveFormat.HTML;
-        // Convert the SaveFormat enumeration to LoadFormat enumeration.
-        /*LoadFormat*/int loadFormat = FileFormatUtil.saveFormatToLoadFormat(saveFormat);
+        // Define the SaveFormat enumeration to convert
+        final /*SaveFormat*/int SAVE_FORMAT = SaveFormat.HTML;
+        // Convert the SaveFormat enumeration to LoadFormat enumeration
+        /*LoadFormat*/int loadFormat = FileFormatUtil.saveFormatToLoadFormat(SAVE_FORMAT);
         msConsole.writeLine("The converted LoadFormat is: " + FileFormatUtil.loadFormatToExtension(loadFormat));
         //ExEnd
 
-        msAssert.areEqual(".html", FileFormatUtil.saveFormatToExtension(saveFormat));
+        msAssert.areEqual(".html", FileFormatUtil.saveFormatToExtension(SAVE_FORMAT));
         msAssert.areEqual(".html", FileFormatUtil.loadFormatToExtension(loadFormat));
     }
 
@@ -209,7 +214,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatUtil.DetectFileFormat(String)
         //ExFor:FileFormatInfo.HasDigitalSignature
         //ExSummary:Shows how to check a document for digital signatures before loading it into a Document object.
-        // The path to the document which is to be processed.
+        // The path to the document which is to be processed
         String filePath = getMyDir() + "Document.Signed.docx";
 
         FileFormatInfo info = FileFormatUtil.detectFileFormat(filePath);
@@ -219,7 +224,6 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
                 "Document {0} has digital signatures, they will be lost if you open/save this document with Aspose.Words.",
                 Path.getFileName(filePath));
         }
-
         //ExEnd
     }
 
@@ -244,8 +248,8 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         {
             if (shape.hasImage())
             {
-                String imageFileName = msString.format("Image.ExportImages.{0}{1}", imageIndex,
-                    FileFormatUtil.imageTypeToExtension(shape.getImageData().getImageType()));
+                String imageFileName =
+                    $"Image.ExportImages.{imageIndex}{FileFormatUtil.ImageTypeToExtension(shape.ImageData.ImageType)}";
                 shape.getImageData().save(getArtifactsDir() + imageFileName);
                 imageIndex++;
             }

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -43,7 +43,7 @@ public class ExBorder extends ApiExampleBase
         //ExFor:Font
         //ExFor:DocumentBuilder.Font
         //ExFor:DocumentBuilder.Write
-        //ExSummary:Inserts a String surrounded by a border into a document.
+        //ExSummary:Shows how to insert a string surrounded by a border into a document.
         DocumentBuilder builder = new DocumentBuilder();
 
         builder.getFont().getBorder().setColor(msColor.getGreen());
@@ -62,7 +62,7 @@ public class ExBorder extends ApiExampleBase
         //ExFor:Border
         //ExFor:BorderType
         //ExFor:ParagraphFormat.Borders
-        //ExSummary:Inserts a paragraph with a top border.
+        //ExSummary:Shows how to insert a paragraph with a top border.
         DocumentBuilder builder = new DocumentBuilder();
 
         Border topBorder = builder.getParagraphFormat().getBorders().getByBorderType(BorderType.TOP);
@@ -79,19 +79,16 @@ public class ExBorder extends ApiExampleBase
     {
         //ExStart
         //ExFor:Border.ClearFormatting
-        //ExSummary:Shows how to remove borders from a paragraph one by one.
-        Document doc = new Document(getMyDir() + "Border.Borders.doc");
+        //ExSummary:Shows how to remove borders from a paragraph.
+        Document doc = new Document(getMyDir() + "Borders.doc");
+        
         DocumentBuilder builder = new DocumentBuilder(doc);
-
         BorderCollection borders = builder.getParagraphFormat().getBorders();
 
-        for (Border border : borders)
-        {
-            border.clearFormatting();
-        }
-
+        for (Border border : borders) border.clearFormatting();
+        
         builder.getCurrentParagraph().getRuns().get(0).setText("Paragraph with no border");
-
+        
         doc.save(getArtifactsDir() + "Border.NoBorder.doc");
         //ExEnd
     }
@@ -145,7 +142,6 @@ public class ExBorder extends ApiExampleBase
         {
             Assert.assertFalse(firstParaBorders.get(i).equals(secondParaBorders.get(i)));
             msAssert.areNotEqual(firstParaBorders.get(i).hashCode(), secondParaBorders.get(i).hashCode());
-
             // Changing the line style made the borders visible
             Assert.assertTrue(secondParaBorders.get(i).isVisible());
         }
