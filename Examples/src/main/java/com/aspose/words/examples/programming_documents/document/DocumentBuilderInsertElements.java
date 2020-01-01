@@ -2,6 +2,7 @@ package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.words.NodeType;
 import com.aspose.words.OlePackage;
 import com.aspose.words.Shape;
 import com.aspose.words.examples.Utils;
@@ -17,6 +18,7 @@ public class DocumentBuilderInsertElements {
         String dataDir = Utils.getDataDir(DocumentBuilderInsertElements.class);
 
         insertOleObjectwithOlePackage(dataDir);
+        GetAccessToOLEObjectRawData(dataDir);
     }
 
     public static void insertOleObjectwithOlePackage(String dataDir) throws Exception {
@@ -38,5 +40,16 @@ public class DocumentBuilderInsertElements {
 
         // ExEnd:InsertOleObjectwithOlePackage
         System.out.println("\nOleObject using DocumentBuilder inserted successfully into a document.\nFile saved at " + dataDir);
+    }
+    
+    public static void GetAccessToOLEObjectRawData(String dataDir) throws Exception
+    {
+        // ExStart:GetAccessToOLEObjectRawData
+        // Load document with OLE object.
+        Document doc = new Document(dataDir + "DocumentBuilderInsertTextInputFormField_out.doc");
+        
+        Shape oleShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        byte[] oleRawData = oleShape.getOleFormat().getRawData();
+        // ExEnd:GetAccessToOLEObjectRawData
     }
 }

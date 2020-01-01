@@ -123,4 +123,19 @@ public class WorkingWithTxt {
         doc2.save(dataDir + "output2.txt", options);
         //ExEnd:defaultLevelForListIndentation
     }
+    
+    public static void DocumentTextDirection(String dataDir) throws Exception{
+    	//ExStart: DocumentTextDirection
+    	TxtLoadOptions loadOptions = new TxtLoadOptions();
+    	loadOptions.setDocumentDirection(DocumentDirection.AUTO);
+
+    	Document doc = new Document(dataDir + "arabic.txt", loadOptions);
+
+    	Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
+    	System.out.println(paragraph.getParagraphFormat().getBidi());
+
+    	dataDir = dataDir + "DocumentDirection_out.docx";
+    	doc.save(dataDir);
+    	//ExEnd: DocumentTextDirection
+    }
 }

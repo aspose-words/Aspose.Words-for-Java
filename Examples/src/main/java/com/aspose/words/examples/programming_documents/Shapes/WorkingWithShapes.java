@@ -18,6 +18,7 @@ public class WorkingWithShapes {
         getActualShapeBoundsPoints(dataDir);
         SpecifyVerticalAnchor(dataDir);
         DetectSmartArtShape(dataDir);
+        ShapeHorizontalRuleFormat(dataDir);
     }
 
     public static void insertShapeUsingDocumentBuilder(String dataDir) throws Exception {
@@ -161,5 +162,23 @@ public class WorkingWithShapes {
 
         System.out.println("The document has " + count + " shapes with SmartArt.");
         // ExEnd:DetectSmartArtShape
+    }
+    
+    public static void ShapeHorizontalRuleFormat(String dataDir) throws Exception{
+    	// ExStart:ShapeHorizontalRuleFormat
+        DocumentBuilder builder = new DocumentBuilder();
+
+        Shape shape = builder.insertHorizontalRule();
+        HorizontalRuleFormat horizontalRuleFormat = shape.getHorizontalRuleFormat();
+
+        horizontalRuleFormat.setAlignment(HorizontalRuleAlignment.CENTER);
+        horizontalRuleFormat.setWidthPercent(70);
+        horizontalRuleFormat.setHeight(3);
+        horizontalRuleFormat.setColor(Color.BLUE);
+        horizontalRuleFormat.setNoShade(true);
+
+        builder.getDocument().save("HorizontalRuleFormat.docx");
+        // ExEnd:ShapeHorizontalRuleFormat
+        System.out.println("\nHorizontal rule format inserted into document successfully.\nFile saved at " + dataDir);
     }
 }

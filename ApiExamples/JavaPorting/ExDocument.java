@@ -727,6 +727,7 @@ public class ExDocument extends ApiExampleBase
 
             args.FontStream = 
                 new FileStream(getArtifactsDir() + msString.split(args.getOriginalFileName(), Path.DirectorySeparatorChar).Last(), FileMode.CREATE);
+
             Assert.assertFalse(args.getKeepFontStreamOpen());
 
             // We can access the source document from here also
