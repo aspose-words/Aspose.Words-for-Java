@@ -1,6 +1,7 @@
 package Examples;
 
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -34,9 +35,8 @@ public class ExTxtLoadOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (dataProvider = "detectDocumentDirectionDataProvider")
-    public void detectDocumentDirection(String documentPath, boolean isBidi) throws Exception
-    {
+    @Test(dataProvider = "detectDocumentDirectionDataProvider")
+    public void detectDocumentDirection(String documentPath, boolean isBidi) throws Exception {
         //ExStart
         //ExFor:TxtLoadOptions.DocumentDirection
         //ExSummary:Shows how to detect document direction automatically.
@@ -52,12 +52,11 @@ public class ExTxtLoadOptions extends ApiExampleBase {
 
     //JAVA-added data provider for test method
     @DataProvider(name = "detectDocumentDirectionDataProvider")
-    public static Object[][] detectDocumentDirectionDataProvider() throws Exception
-    {
+    public static Object[][] detectDocumentDirectionDataProvider() throws Exception {
         return new Object[][]
                 {
-                        {"TxtLoadOptions.Hebrew.txt",  true},
-                        {"TxtLoadOptions.English.txt",  false},
+                        {"TxtLoadOptions.Hebrew.txt", true},
+                        {"TxtLoadOptions.English.txt", false},
                 };
     }
 }

@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -109,7 +109,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
     }
 
     @Test(description = "WORDSNET-16868")
-    public void incorrectPasswordForDecrypring() throws Exception {
+    public void incorrectPasswordForDecrypting() throws Exception {
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
         Document doc = new Document(getMyDir() + "Document.Encrypted.docx", new LoadOptions("docPassword"));
@@ -120,7 +120,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         signOptions.setSignTime(new Date());
         signOptions.setDecryptionPassword("docPassword1");
 
-        // Digitally sign encrypted with "docPassword" document in the specified path.
+        // Digitally sign encrypted with "docPassword" document in the specified path
         try {
             DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, certificateHolder, signOptions);
         } catch (Exception e) {
@@ -136,7 +136,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         //ExFor:SignOptions.DecryptionPassword
         //ExFor:LoadOptions.Password
         //ExSummary:Shows how to sign encrypted document opened from a file.
-        // Create certificate holder from a file.
+        // Create certificate holder from a file
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
         SignOptions signOptions = new SignOptions();
@@ -144,20 +144,20 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         signOptions.setSignTime(new Date());
         signOptions.setDecryptionPassword("docPassword");
 
-        // Digitally sign encrypted with "docPassword" document in the specified path.
+        // Digitally sign encrypted with "docPassword" document in the specified path
         String inputFileName = getMyDir() + "Document.Encrypted.docx";
         String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
 
         DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
 
-        // Open encrypted document from a file.
+        // Open encrypted document from a file
         LoadOptions loadOptions = new LoadOptions("docPassword");
         Assert.assertEquals(loadOptions.getPassword(), signOptions.getDecryptionPassword());
 
         Document signedDoc = new Document(outputFileName, loadOptions);
         //ExEnd
 
-        // Check that encrypted document was successfully signed.
+        // Check that encrypted document was successfully signed
         DigitalSignatureCollection signatures = signedDoc.getDigitalSignatures();
         if (signatures.isValid() && (signatures.getCount() > 0)) {
             System.out.println("The document was signed successfully");
@@ -174,7 +174,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         FileInputStream streamIn = new FileInputStream(getMyDir() + "Document.Encrypted.docx");
         FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "Document.Encrypted.docx");
 
-        // Create certificate holder from a file.
+        // Create certificate holder from a file
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
         SignOptions signOptions = new SignOptions();
@@ -182,15 +182,15 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         signOptions.setSignTime(new Date());
         signOptions.setDecryptionPassword("docPassword");
 
-        // Digitally sign encrypted with "docPassword" document in the specified path.
+        // Digitally sign encrypted with "docPassword" document in the specified path
         DigitalSignatureUtil.sign(streamIn, streamOut, certificateHolder, signOptions);
         //ExEnd
 
-        // Open encrypted document from a file.
+        // Open encrypted document from a file
         InputStream streamOutIn = new FileInputStream(getArtifactsDir() + "Document.Encrypted.docx");
         Document signedDoc = new Document(streamOutIn, new LoadOptions("docPassword"));
 
-        // Check that encrypted document was successfully signed.
+        // Check that encrypted document was successfully signed
         DigitalSignatureCollection signatures = signedDoc.getDigitalSignatures();
         if (signatures.isValid() && (signatures.getCount() > 0)) {
             streamIn.close();

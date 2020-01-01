@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -215,7 +215,7 @@ public class ExBuildingBlocks extends ApiExampleBase {
         }
 
         public int visitGlossaryDocumentStart(final GlossaryDocument glossary) {
-            mBuilder.append("Glossary documnent found!\n");
+            mBuilder.append("Glossary document found!\n");
             return VisitorAction.CONTINUE;
         }
 

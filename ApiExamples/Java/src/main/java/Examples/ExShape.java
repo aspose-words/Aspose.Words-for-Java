@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1339,8 +1339,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void createLinkBetweenTextBoxes() throws Exception
-    {
+    public void createLinkBetweenTextBoxes() throws Exception {
         //ExStart
         //ExFor:TextBox.IsValidLinkTarget(TextBox)
         //ExFor:TextBox.Next
@@ -1385,8 +1384,7 @@ public class ExShape extends ApiExampleBase {
         if (textBox2.getNext() != null && textBox2.getPrevious() != null)
             System.out.println("This TextBox is the Middle of the sequence");
 
-        if (textBox3.getNext() == null && textBox3.getPrevious() != null)
-        {
+        if (textBox3.getNext() == null && textBox3.getPrevious() != null) {
             System.out.println("This TextBox is the Tail of the sequence");
 
             // Break the forward link between textBox2 and textBox3

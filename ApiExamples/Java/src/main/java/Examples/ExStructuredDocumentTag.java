@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -852,8 +852,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     }
 
     @Test
-    public void fillTableUsingRepeatingSectionItem() throws Exception
-    {
+    public void fillTableUsingRepeatingSectionItem() throws Exception {
         //ExStart
         //ExFor:SdtType
         //ExSummary:Shows how to fill the table with data contained in the XML part.
@@ -909,8 +908,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     }
 
     @Test
-    public void customXmlPart() throws Exception
-    {
+    public void customXmlPart() throws Exception {
         // Obtain an XML in the form of a string
         String xmlString = "<?xml version=\"1.0\"?>" +
                 "<Company>" +

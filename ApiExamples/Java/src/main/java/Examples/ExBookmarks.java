@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -16,233 +16,99 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 
 public class ExBookmarks extends ApiExampleBase {
-    @Test
-    public void bookmarkNameAndText() throws Exception {
-        //ExStart
-        //ExFor:Bookmark
-        //ExFor:Bookmark.Name
-        //ExFor:Bookmark.Text
-        //ExFor:Range.Bookmarks
-        //ExSummary:Shows how to get or set bookmark name and text.
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
-
-        // Use the indexer of the Bookmarks collection to obtain the desired bookmark.
-        Bookmark bookmark = doc.getRange().getBookmarks().get("MyBookmark");
-
-        // Get the name and text of the bookmark.
-        String name = bookmark.getName();
-        String text = bookmark.getText();
-
-        // Set the name and text of the bookmark.
-        bookmark.setName("RenamedBookmark");
-        bookmark.setText("This is a new bookmarked text.");
-        //ExEnd
-
-        Assert.assertEquals(name, "MyBookmark");
-        Assert.assertEquals(text, "This is a bookmarked text.");
-    }
-
-    @Test
-    public void bookmarkRemove() throws Exception {
-        //ExStart
-        //ExFor:Bookmark.Remove
-        //ExSummary:Shows how to remove a particular bookmark from a document.
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
-
-        // Use the indexer of the Bookmarks collection to obtain the desired bookmark.
-        Bookmark bookmark = doc.getRange().getBookmarks().get("MyBookmark");
-
-        // Remove the bookmark. The bookmarked text is not deleted.
-        bookmark.remove();
-        //ExEnd
-
-        // Verify that the bookmarks were removed from the document.
-        Assert.assertEquals(doc.getRange().getBookmarks().getCount(), 0);
-    }
-
-    @Test
-    public void clearBookmarks() throws Exception {
-        //ExStart
-        //ExFor:BookmarkCollection.Clear
-        //ExSummary:Shows how to remove all bookmarks from a document.
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
-        doc.getRange().getBookmarks().clear();
-        //ExEnd
-
-        // Verify that the bookmarks were removed from the document.
-        Assert.assertEquals(doc.getRange().getBookmarks().getCount(), 0);
-    }
-
-    @Test
-    public void accessBookmarks() throws Exception {
-        //ExStart
-        //ExFor:BookmarkCollection
-        //ExFor:BookmarkCollection.Item(Int32)
-        //ExFor:BookmarkCollection.Item(String)
-        //ExSummary:Shows how to obtain bookmarks from a bookmark collection.
-        Document doc = new Document(getMyDir() + "Bookmarks.doc");
-
-        // By index.
-        Bookmark bookmark1 = doc.getRange().getBookmarks().get(0);
-
-        // By name.
-        Bookmark bookmark2 = doc.getRange().getBookmarks().get("Bookmark2");
-        //ExEnd
-    }
-
-    @Test
-    public void bookmarkCollectionRemove() throws Exception {
-        //ExStart
-        //ExFor:BookmarkCollection.Remove(Bookmark)
-        //ExFor:BookmarkCollection.Remove(String)
-        //ExFor:BookmarkCollection.RemoveAt
-        //ExSummary:Demonstrates different methods of removing bookmarks from a document.
-        Document doc = new Document(getMyDir() + "Bookmarks.doc");
-
-        // Remove a particular bookmark from the document.
-        Bookmark bookmark = doc.getRange().getBookmarks().get(0);
-        doc.getRange().getBookmarks().remove(bookmark);
-
-        // Remove a bookmark by specified name.
-        doc.getRange().getBookmarks().remove("Bookmark2");
-
-        // Remove a bookmark at the specified index.
-        doc.getRange().getBookmarks().removeAt(0);
-        //ExEnd
-
-        Assert.assertEquals(doc.getRange().getBookmarks().getCount(), 0);
-    }
-
-    @Test
-    public void bookmarksInsertBookmarkWithDocumentBuilder() throws Exception {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.startBookmark("MyBookmark");
-        builder.writeln("Text inside a bookmark.");
-        builder.endBookmark("MyBookmark");
-    }
-
-    @Test
-    public void getBookmarkCount() throws Exception {
-        //ExStart
-        //ExFor:BookmarkCollection.Count
-        //ExSummary:Shows how to count the number of bookmarks in a document.
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
-
-        int count = doc.getRange().getBookmarks().getCount();
-        //ExEnd
-
-        Assert.assertEquals(count, 1);
-    }
-
-    @Test
-    public void createBookmarkWithNodes() throws Exception {
-        //ExStart
-        //ExFor:BookmarkStart
-        //ExFor:BookmarkStart.#ctor
-        //ExFor:BookmarkEnd
-        //ExFor:BookmarkEnd.#ctor
-        //ExSummary:Shows how to create a bookmark by inserting bookmark start and end nodes.
-        Document doc = new Document();
-
-        // An empty document has just one empty paragraph by default.
-        Paragraph p = doc.getFirstSection().getBody().getFirstParagraph();
-
-        p.appendChild(new Run(doc, "Text before bookmark. "));
-
-        p.appendChild(new BookmarkStart(doc, "My bookmark"));
-        p.appendChild(new Run(doc, "Text inside bookmark. "));
-        p.appendChild(new BookmarkEnd(doc, "My bookmark"));
-
-        p.appendChild(new Run(doc, "Text after bookmark."));
-
-        doc.save(getArtifactsDir() + "Bookmarks.CreateBookmarkWithNodes.doc");
-        //ExEnd
-
-        Assert.assertEquals(doc.getRange().getBookmarks().get("My bookmark").getText(), "Text inside bookmark. ");
-    }
-
-    @Test
-    public void replaceBookmarkUnderscoresWithWhitespaces() throws Exception {
-        //ExStart
-        //ExFor:Bookmark.Name
-        //ExSummary:Shows how to replace elements in bookmark name
-        Document doc = new Document(getMyDir() + "Bookmarks.Replace.docx");
-
-        Assert.assertEquals(doc.getRange().getBookmarks().get(0).getName(), "My_Bookmark"); //ExSkip
-
-        // MS Word document does not support bookmark names with whitespaces by default.
-        // If you have document which contains bookmark names with underscores, you can simply replace them to whitespaces.
-        for (Bookmark bookmark : doc.getRange().getBookmarks()) {
-            bookmark.setName(bookmark.getName().replace("_", " "));
-        }
-        //ExEnd
-
-        // Check that our replace was correct
-        Assert.assertEquals(doc.getRange().getBookmarks().get(0).getName(), "My Bookmark");
-    }
-
     //ExStart
+    //ExFor:Bookmark
+    //ExFor:Bookmark.Name
+    //ExFor:Bookmark.Text
+    //ExFor:Bookmark.Remove
     //ExFor:Bookmark.BookmarkStart
     //ExFor:Bookmark.BookmarkEnd
+    //ExFor:BookmarkStart
+    //ExFor:BookmarkStart.#ctor
+    //ExFor:BookmarkEnd
+    //ExFor:BookmarkEnd.#ctor
     //ExFor:BookmarkStart.Accept(DocumentVisitor)
     //ExFor:BookmarkEnd.Accept(DocumentVisitor)
     //ExFor:BookmarkStart.Bookmark
     //ExFor:BookmarkStart.GetText
     //ExFor:BookmarkStart.Name
     //ExFor:BookmarkEnd.Name
+    //ExFor:BookmarkCollection
+    //ExFor:BookmarkCollection.Item(Int32)
+    //ExFor:BookmarkCollection.Item(String)
+    //ExFor:BookmarkCollection.Count
+    //ExFor:BookmarkCollection.GetEnumerator
+    //ExFor:Range.Bookmarks
     //ExFor:DocumentVisitor.VisitBookmarkStart
     //ExFor:DocumentVisitor.VisitBookmarkEnd
-    //ExFor:BookmarkCollection.GetEnumerator
-    //ExSummary:Shows how add bookmarks and update their contents.
+    //ExSummary:Shows how to add bookmarks and update their contents.
     @Test //ExSkip
     public void createUpdateAndPrintBookmarks() throws Exception {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Add some bookmarks to the document
-        for (int i = 1; i < 4; i++) {
-            String bookmarkName = "Bookmark " + i;
-
-            builder.startBookmark(bookmarkName);
-            builder.write("Text content of " + bookmarkName);
-            builder.endBookmark(bookmarkName);
-        }
-
+        // Create a document with 3 bookmarks: "MyBookmark 1", "MyBookmark 2", "MyBookmark 3"
+        Document doc = createDocumentWithBookmarks();
         BookmarkCollection bookmarks = doc.getRange().getBookmarks();
+
+        // Check that we have 3 bookmarks
+        Assert.assertEquals(bookmarks.getCount(), 3);
+        Assert.assertEquals(bookmarks.get(0).getName(), "MyBookmark 1"); //ExSkip
+        Assert.assertEquals(bookmarks.get(1).getText(), "Text content of MyBookmark 2"); //ExSkip
 
         // Look at initial values of our bookmarks
         printAllBookmarkInfo(bookmarks);
 
-        Assert.assertEquals(bookmarks.get(0).getName(), "Bookmark 1"); //ExSkip
-        Assert.assertEquals(bookmarks.get(1).getText(), "Text content of Bookmark 2"); //ExSkip
-        Assert.assertEquals(bookmarks.getCount(), 3); //ExSkip
-
-        // Update some values
+        // Obtain bookmarks from a bookmark collection by index/name and update their values
         bookmarks.get(0).setName("Updated name of " + bookmarks.get(0).getName());
-        bookmarks.get(1).setText("Updated text content of " + bookmarks.get(1).getName());
+        bookmarks.get("MyBookmark 2").setText("Updated text content of " + bookmarks.get(1).getName());
+        // Remove the latest bookmark
+        // The bookmarked text is not deleted
         bookmarks.get(2).remove();
 
         bookmarks = doc.getRange().getBookmarks();
+        // Check that we have 2 bookmarks after the latest bookmark was deleted
+        Assert.assertEquals(bookmarks.getCount(), 2);
+        Assert.assertEquals(bookmarks.get(0).getName(), "Updated name of MyBookmark 1"); //ExSkip
+        Assert.assertEquals(bookmarks.get(1).getText(), "Updated text content of MyBookmark 2"); //ExSkip
 
         // Look at updated values of our bookmarks
         printAllBookmarkInfo(bookmarks);
+    }
 
-        Assert.assertEquals(bookmarks.get(0).getName(), "Updated name of Bookmark 1"); //ExSkip
-        Assert.assertEquals(bookmarks.get(1).getText(), "Updated text content of Bookmark 2"); //ExSkip
-        Assert.assertEquals(bookmarks.getCount(), 2); //ExSkip
+    /// <summary>
+    /// Create a document with bookmarks using the start and end nodes.
+    /// </summary>
+    private static Document createDocumentWithBookmarks() throws Exception {
+        DocumentBuilder builder = new DocumentBuilder();
+        Document doc = builder.getDocument();
+
+        // An empty document has just one empty paragraph by default
+        Paragraph p = doc.getFirstSection().getBody().getFirstParagraph();
+
+        // Add several bookmarks to the document
+        for (int i = 1; i <= 3; i++) {
+            String bookmarkName = "MyBookmark " + i;
+
+            p.appendChild(new Run(doc, "Text before bookmark."));
+
+            p.appendChild(new BookmarkStart(doc, bookmarkName));
+            p.appendChild(new Run(doc, "Text content of " + bookmarkName));
+            p.appendChild(new BookmarkEnd(doc, bookmarkName));
+
+            p.appendChild(new Run(doc, "Text after bookmark.\r\n"));
+        }
+
+        return builder.getDocument();
     }
 
     /// <summary>
     /// Use an iterator and a visitor to print info of every bookmark from within a document.
     /// </summary>
-    private static void printAllBookmarkInfo(final BookmarkCollection bookmarks) throws Exception {
+    private static void printAllBookmarkInfo(BookmarkCollection bookmarks) throws Exception {
         // Create a DocumentVisitor
         BookmarkInfoPrinter bookmarkVisitor = new BookmarkInfoPrinter();
 
         // Get the enumerator from the document's BookmarkCollection and iterate over the bookmarks
         Iterator<Bookmark> enumerator = bookmarks.iterator();
+
         while (enumerator.hasNext()) {
             Bookmark currentBookmark = enumerator.next();
 
@@ -261,16 +127,74 @@ public class ExBookmarks extends ApiExampleBase {
     /// Visitor that prints bookmark information to the console.
     /// </summary>
     public static class BookmarkInfoPrinter extends DocumentVisitor {
-        public int visitBookmarkStart(final BookmarkStart bookmarkStart) throws Exception {
+        public int visitBookmarkStart(BookmarkStart bookmarkStart) throws Exception {
             System.out.println(MessageFormat.format("BookmarkStart name: \"{0}\", Content: \"{1}\"", bookmarkStart.getName(),
                     bookmarkStart.getBookmark().getText()));
             return VisitorAction.CONTINUE;
         }
 
-        public int visitBookmarkEnd(final BookmarkEnd bookmarkEnd) {
+        public int visitBookmarkEnd(BookmarkEnd bookmarkEnd) {
             System.out.println(MessageFormat.format("BookmarkEnd name: \"{0}\"", bookmarkEnd.getName()));
             return VisitorAction.CONTINUE;
         }
     }
     //ExEnd
+
+    @Test
+    public void clearBookmarks() throws Exception {
+        //ExStart
+        //ExFor:BookmarkCollection.Clear
+        //ExSummary:Shows how to remove all bookmarks from a document.
+        // Open a document with 3 bookmarks: "MyBookmark1", "My_Bookmark2", "MyBookmark3"
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
+
+        // Remove all bookmarks from the document
+        // The bookmarked text is not deleted
+        doc.getRange().getBookmarks().clear();
+        //ExEnd
+
+        // Verify that the bookmarks were removed
+        Assert.assertEquals(doc.getRange().getBookmarks().getCount(), 0);
+    }
+
+    @Test
+    public void removeBookmarkFromBookmarkCollection() throws Exception {
+        //ExStart
+        //ExFor:BookmarkCollection.Remove(Bookmark)
+        //ExFor:BookmarkCollection.Remove(String)
+        //ExFor:BookmarkCollection.RemoveAt
+        //ExSummary:Shows how to remove bookmarks from a document using different methods.
+        // Open a document with 3 bookmarks: "MyBookmark1", "My_Bookmark2", "MyBookmark3"
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
+
+        // Remove a particular bookmark from the document
+        Bookmark bookmark = doc.getRange().getBookmarks().get(0);
+        doc.getRange().getBookmarks().remove(bookmark);
+
+        // Remove a bookmark by specified name
+        doc.getRange().getBookmarks().remove("My_Bookmark2");
+
+        // Remove a bookmark at the specified index
+        doc.getRange().getBookmarks().removeAt(0);
+        //ExEnd
+
+        // In docx we have additional hidden bookmark "_GoBack"
+        // When we check bookmarks count, the result will be 1 instead of 0
+        Assert.assertEquals(doc.getRange().getBookmarks().getCount(), 1);
+    }
+
+    @Test
+    public void replaceBookmarkUnderscoresWithWhitespaces() throws Exception {
+        //ExStart
+        //ExFor:Bookmark.Name
+        //ExSummary:Shows how to replace elements in bookmark name.
+        // Open a document with 3 bookmarks: "MyBookmark1", "My_Bookmark2", "MyBookmark3"
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
+        Assert.assertEquals(doc.getRange().getBookmarks().get(2).getName(), "My_Bookmark2"); //ExSkip
+
+        // MS Word document does not support bookmark names with whitespaces by default
+        // If you have document which contains bookmark names with underscores, you can simply replace them to whitespaces
+        for (Bookmark bookmark : doc.getRange().getBookmarks()) bookmark.setName(bookmark.getName().replace("_", " "));
+        //ExEnd
+    }
 }
