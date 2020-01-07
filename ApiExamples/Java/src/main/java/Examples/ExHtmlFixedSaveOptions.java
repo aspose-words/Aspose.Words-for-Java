@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -108,7 +108,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         //ExFor:HtmlFixedSaveOptions.CssClassNamesPrefix
         //ExFor:HtmlFixedSaveOptions.SaveFontFaceCssSeparately
         //ExSummary:Shows how to add prefix to all class names in css file.
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setCssClassNamesPrefix("test");
@@ -126,7 +126,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         //ExFor:HtmlFixedSaveOptions.PageHorizontalAlignment
         //ExFor:HtmlFixedPageHorizontalAlignment
         //ExSummary:Shows how to set the horizontal alignment of pages in HTML file.
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setPageHorizontalAlignment(HtmlFixedPageHorizontalAlignment.LEFT);
@@ -137,7 +137,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
 
     @Test
     public void pageMarginsException() throws Exception {
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
         try {
@@ -154,7 +154,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.PageMargins
         //ExSummary:Shows how to set the margins around pages in HTML file.
-        Document doc = new Document(getMyDir() + "Bookmark.doc");
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
         saveOptions.setPageMargins(10.0);

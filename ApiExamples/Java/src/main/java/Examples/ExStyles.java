@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -49,8 +49,7 @@ public class ExStyles extends ApiExampleBase {
     }
 
     @Test
-    public void styleCollection() throws Exception
-    {
+    public void styleCollection() throws Exception {
         //ExStart
         //ExFor:StyleCollection.Add(Style)
         //ExFor:StyleCollection.Count
@@ -234,8 +233,7 @@ public class ExStyles extends ApiExampleBase {
     }
 
     @Test
-    public void styleAliases() throws Exception
-    {
+    public void styleAliases() throws Exception {
         //ExStart
         //ExFor:Style.Aliases
         //ExFor:Style.BaseStyleName
@@ -247,7 +245,7 @@ public class ExStyles extends ApiExampleBase {
 
         // The aliases, separate from the name can be found here
         Style style = doc.getStyles().get("MyStyle");
-        Assert.assertEquals(new String[] { "MyStyle Alias 1", "MyStyle Alias 2" }, style.getAliases());
+        Assert.assertEquals(new String[]{"MyStyle Alias 1", "MyStyle Alias 2"}, style.getAliases());
         Assert.assertEquals("Title", style.getBaseStyleName());
         Assert.assertEquals("MyStyle Char", style.getLinkedStyleName());
 

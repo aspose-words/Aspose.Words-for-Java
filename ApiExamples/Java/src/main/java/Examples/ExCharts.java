@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -84,17 +84,17 @@ public class ExCharts extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add chart with default data.
+        // Add chart with default data
         Shape shape = builder.insertChart(ChartType.LINE, 432.0, 252.0);
         Chart chart = shape.getChart();
 
         ChartSeriesCollection seriesColl = chart.getSeries();
         seriesColl.clear();
 
-        // Create category names array, second category will be null.
+        // Create category names array, second category will be null
         String[] categories = {"Cat1", null, "Cat3", "Cat4", "Cat5", null};
 
-        // Adding new series with empty (double.NaN) values.
+        // Adding new series with empty (double.NaN) values
         seriesColl.add("AW Series 1", categories, new double[]{1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0});
         seriesColl.add("AW Series 2", categories, new double[]{2.0, 3.0, Double.NaN, 5.0, 6.0, 7.0});
 
@@ -116,17 +116,17 @@ public class ExCharts extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add chart with default data.
+        // Add chart with default data
         Shape shape = builder.insertChart(ChartType.LINE, 432.0, 252.0);
         Chart chart = shape.getChart();
 
         ChartSeriesCollection seriesColl = chart.getSeries();
         seriesColl.clear();
 
-        // Create category names array, second category will be null.
+        // Create category names array, second category will be null
         String[] categories = {"Cat1", null, "Cat3", "Cat4", "Cat5", null};
 
-        // Adding new series with empty (double.NaN) values.
+        // Adding new series with empty (double.NaN) values
         seriesColl.add("AW Series 1", categories, new double[]{1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0});
         seriesColl.add("AW Series 2", categories, new double[]{2.0, 3.0, Double.NaN, 5.0, 6.0, 7.0});
         seriesColl.add("AW Series 3", categories, new double[]{Double.NaN, 4.0, 5.0, Double.NaN, 7.0, 8.0});
@@ -160,11 +160,11 @@ public class ExCharts extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
+        // Insert chart
         Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
         Chart chart = shape.getChart();
 
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
         chart.getSeries().add("Aspose Test Series",
                 new String[]{"Word", "PDF", "Excel", "GoogleDocs", "Note"},
@@ -218,20 +218,20 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:Charts.AxisTickLabelPosition
         //ExFor:Charts.AxisTimeUnit
         //ExFor:Charts.ChartAxis.BaseTimeUnit
-        //ExSummary:Shows how to insert chart with date/time values
+        //ExSummary:Shows how to insert chart with date/time values.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
+        // Insert chart
         Shape shape = builder.insertChart(ChartType.LINE, 432.0, 252.0);
         Chart chart = shape.getChart();
 
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
 
         Calendar cal = Calendar.getInstance();
 
-        // Fill data.
+        // Fill data
         chart.getSeries().add("Aspose Test Series",
                 new Date[]
                         {
@@ -243,18 +243,18 @@ public class ExCharts extends ApiExampleBase {
         ChartAxis xAxis = chart.getAxisX();
         ChartAxis yAxis = chart.getAxisY();
 
-        // Set X axis bounds.
+        // Set X axis bounds
         xAxis.getScaling().setMinimum(new AxisBound(DocumentHelper.createDate(2017, 11, 5)));
         xAxis.getScaling().setMaximum(new AxisBound(DocumentHelper.createDate(2017, 12, 3)));
 
-        // Set major units to a week and minor units to a day.
+        // Set major units to a week and minor units to a day
         xAxis.setBaseTimeUnit(AxisTimeUnit.DAYS);
         xAxis.setMajorUnit(7.0);
         xAxis.setMinorUnit(1.0);
         xAxis.setMajorTickMark(AxisTickMark.CROSS);
         xAxis.setMinorTickMark(AxisTickMark.OUTSIDE);
 
-        // Define Y axis properties.
+        // Define Y axis properties
         yAxis.setTickLabelPosition(AxisTickLabelPosition.HIGH);
         yAxis.setMajorUnit(100.0);
         yAxis.setMinorUnit(50.0);
@@ -274,13 +274,13 @@ public class ExCharts extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
+        // Insert chart
         Shape shape = builder.insertChart(ChartType.LINE, 432.0, 252.0);
         Chart chart = shape.getChart();
         chart.getAxisX().setHidden(true);
         chart.getAxisY().setHidden(true);
 
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
         chart.getSeries().add("AW Series 1",
                 new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"},
@@ -308,18 +308,18 @@ public class ExCharts extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
+        // Insert chart
         Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
         Chart chart = shape.getChart();
 
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
 
         chart.getSeries().add("Aspose Test Series",
                 new String[]{"Word", "PDF", "Excel", "GoogleDocs", "Note"},
                 new double[]{1900000.0, 850000.0, 2100000.0, 600000.0, 1500000.0});
 
-        // Set number format.
+        // Set number format
         chart.getAxisY().getNumberFormat().setFormatCode("#,##0");
 
         // Set this to override the above value and draw the number format from the source cell
@@ -333,15 +333,15 @@ public class ExCharts extends ApiExampleBase {
     // Note: Tests below used for verification conversion docx to pdf and the correct display.
     // For now, the results check manually.
     @Test(dataProvider = "testDisplayChartsWithConversionDataProvider")
-    public void testDisplayChartsWithConversion(/*ChartType*/int chartType) throws Exception {
+    public void testDisplayChartsWithConversion(int chartType) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
+        // Insert chart
         Shape shape = builder.insertChart(chartType, 432.0, 252.0);
         Chart chart = shape.getChart();
 
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
 
         chart.getSeries().add("Aspose Test Series",
@@ -370,11 +370,11 @@ public class ExCharts extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert chart.
+        // Insert chart
         Shape shape = builder.insertChart(ChartType.SURFACE_3_D, 432.0, 252.0);
         Chart chart = shape.getChart();
 
-        // Clear demo data.
+        // Clear demo data
         chart.getSeries().clear();
 
         chart.getSeries().add("Aspose Test Series 1",
@@ -512,9 +512,9 @@ public class ExCharts extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Apply uniform data labels with custom number format and separator to a number (determined by labelsCount) of data points in a series
+    /// Apply uniform data labels with custom number format and separator to a number (determined by labelsCount) of data points in a series.
     /// </summary>
-    private void applyDataLabels(ChartSeries series, int labelsCount, String numberFormat, String separator) {
+    private static void applyDataLabels(ChartSeries series, int labelsCount, String numberFormat, String separator) {
         for (int i = 0; i < labelsCount; i++) {
             ChartDataLabel label = series.getDataLabels().add(i);
             Assert.assertFalse(label.isVisible());
@@ -594,7 +594,7 @@ public class ExCharts extends ApiExampleBase {
     /// <summary>
     /// Applies a number of data points to a series
     /// </summary>
-    private void applyDataPoints(ChartSeries series, int dataPointsCount, /*MarkerSymbol*/int markerSymbol, int dataPointSize) {
+    private static void applyDataPoints(ChartSeries series, int dataPointsCount, int markerSymbol, int dataPointSize) {
         for (int i = 0; i < dataPointsCount; i++) {
             ChartDataPoint point = series.getDataPoints().add(i);
             point.getMarker().setSymbol(markerSymbol);
@@ -725,7 +725,7 @@ public class ExCharts extends ApiExampleBase {
     /// <summary>
     /// Get the DocumentBuilder to insert a chart of a specified ChartType, width and height and clean out its default data
     /// </summary>
-    private Chart appendChart(DocumentBuilder builder, /*ChartType*/int chartType, double width, double height) throws Exception {
+    private static Chart appendChart(DocumentBuilder builder, /*ChartType*/int chartType, double width, double height) throws Exception {
         Shape chartShape = builder.insertChart(chartType, width, height);
         Chart chart = chartShape.getChart();
         chart.getSeries().clear();

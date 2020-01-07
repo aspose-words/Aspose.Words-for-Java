@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -432,8 +432,7 @@ public class ExProperties extends ApiExampleBase {
     }
 
     @Test
-    public void linkCustomDocumentPropertiesToBookmark() throws Exception
-    {
+    public void linkCustomDocumentPropertiesToBookmark() throws Exception {
         //ExStart
         //ExFor:CustomDocumentProperties.AddLinkToContent(String, String)
         //ExFor:DocumentProperty.IsLinkToContent

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -11,13 +11,12 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
-import org.testng.Assert;
-import com.aspose.words.ContentDisposition;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.net.System.Data.DataView;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.ms.NUnit.Framework.msAssert;
+import org.testng.Assert;
 import java.util.ArrayList;
 import com.aspose.words.MailMergeRegionInfo;
 import com.aspose.words.FieldQuote;
@@ -39,32 +38,6 @@ import org.testng.annotations.DataProvider;
 @Test
 public class ExMailMerge extends ApiExampleBase
 {
-    @Test
-    public void executeArray() throws Exception
-    {
-        HttpResponse Response = null;
-
-        //ExStart
-        //ExFor:MailMerge.Execute(String[], Object[])
-        //ExFor:ContentDisposition
-        //ExFor:Document.Save(HttpResponse,String,ContentDisposition,SaveOptions)
-        //ExSummary:Performs a simple insertion of data into merge fields and sends the document to the browser inline.
-        // Open an existing document.
-        Document doc = new Document(getMyDir() + "MailMerge.ExecuteArray.doc");
-
-        // Fill the fields in the document with user data.
-        doc.getMailMerge().execute(new String[] { "FullName", "Company", "Address", "Address2", "City" },
-            new Object[] { "James Bond", "MI5 Headquarters", "Milbank", "", "London" });
-
-        // Send the document in Word format to the client browser with an option to save to disk or open inside the current browser.
-        Assert.That(() => doc.Save(Response, "Artifacts/MailMerge.ExecuteArray.doc", ContentDisposition.INLINE, null), 
-            Throws.<NullPointerException>TypeOf()); //Thrown because HttpResponse is null in the test.
-
-        // The response will need to be closed manually to make sure that no superfluous content is added to the document after saving
-        Assert.That(() => Response.End(), 
-            Throws.<NullPointerException>TypeOf());
-        //ExEnd
-    }
 
     @Test
     public void executeDataTable() throws Exception
@@ -78,19 +51,19 @@ public class ExMailMerge extends ApiExampleBase
         //ExSummary:Executes mail merge from an ADO.NET DataTable.
         Document doc = new Document(getMyDir() + "MailMerge.ExecuteDataTable.doc");
 
-        // This example creates a table, but you would normally load table from a database. 
+        // This example creates a table, but you would normally load table from a database
         DataTable table = new DataTable("Test");
         table.getColumns().add("CustomerName");
         table.getColumns().add("Address");
         table.getRows().add(new Object[] { "Thomas Hardy", "120 Hanover Sq., London" });
         table.getRows().add(new Object[] { "Paolo Accorti", "Via Monte Bianco 34, Torino" });
 
-        // Field values from the table are inserted into the mail merge fields found in the document.
+        // Field values from the table are inserted into the mail merge fields found in the document
         doc.getMailMerge().execute(table);
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.doc");
 
-        // Open a fresh copy of our document to perform another mail merge.
+        // Open a fresh copy of our document to perform another mail merge
         doc = new Document(getMyDir() + "MailMerge.ExecuteDataTable.doc");
 
         // We can also source values for a mail merge from a single row in the table
@@ -137,171 +110,6 @@ public class ExMailMerge extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (groups = "SkipMono")
-    public void executeDataReader() throws Exception
-    {
-        //ExStart
-        //ExFor:MailMerge.Execute(IDataReader)
-        //ExSummary:Shows how to run a mail merge using data from a data reader.
-        // Create a new document and populate it with merge fields
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.write("Product:\t");
-        builder.insertField(" MERGEFIELD ProductName");
-        builder.write("\nSupplier:\t");
-        builder.insertField(" MERGEFIELD CompanyName");
-        builder.writeln();
-        builder.insertField(" MERGEFIELD QuantityPerUnit");
-        builder.write(" for $");
-        builder.insertField(" MERGEFIELD UnitPrice");
-
-        // Create a connection string which points to the "Northwind" database file in our local file system and open a connection
-        String connectionString = "Driver={Microsoft Access Driver (*.mdb)};Dbq=" + getDatabaseDir() + "Northwind.mdb";
-
-        OdbcConnection connection = new OdbcConnection();
-        try /*JAVA: was using*/
-        {
-            connection.ConnectionString = connectionString;
-            connection.Open();
-
-            // Create an SQL command that will source data for our mail merge
-            // The command has to comply to the driver we are using, which in this case is "ODBC"
-            // The names of the columns returned by this SELECT statement should correspond to the merge fields we placed above
-            OdbcCommand command = connection.CreateCommand();
-            command.CommandText = "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, {fn ROUND(Products.UnitPrice,2)} as UnitPrice\r\n                                        FROM Products \r\n                                        INNER JOIN Suppliers \r\n                                        ON Products.SupplierID = Suppliers.SupplierID";
-
-            // This will run the command and store the data in the reader
-            OdbcDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-
-            // Now we can take the data from the reader and use it in the mail merge
-            doc.getMailMerge().execute(reader);
-        }
-        finally { if (connection != null) connection.close(); }
-
-        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataReader.docx");
-        //ExEnd
-    }
-
-    //ExStart
-    //ExFor:MailMerge.ExecuteADO(Object)
-    //ExSummary:Shows how to run a mail merge with data from an ADO dataset.
-    @Test //ExSkip
-    public void executeADO() throws Exception
-    {
-        // Create a document that will be merged
-        Document doc = createSourceDocADOMailMerge();
-
-        // To work with ADO DataSets, we need to add a reference to the Microsoft ActiveX Data Objects library,
-        // which is included in the .NET distribution and stored in "adodb.dll", then create a connection
-        ADODB.Connection connection = new ADODB.Connection();
-
-        // Create a connection string which points to the "Northwind" database file in our local file system and open a connection
-        String connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
-        connection.Open(connectionString);
-
-        // Create a record set
-        ADODB.Recordset recordset = new ADODB.Recordset();
-
-        // Run an SQL command on the database we are connected to to populate our dataset
-        // The names of the columns returned here correspond to the values of the MERGEFIELDS that will accomodate our data
-        String command = "SELECT ProductName, QuantityPerUnit, UnitPrice FROM Products";
-        recordset.Open(command, connection);
-
-        // Execute the mail merge and save the document
-        doc.getMailMerge().ExecuteADO(recordset);
-        doc.save(getArtifactsDir() + "MailMerge.ExecuteADO.docx");
-    }
-
-    /// <summary>
-    /// Create a blank document and populate it with MERGEFIELDS that will accept data when a mail merge is executed
-    /// </summary>
-    private Document createSourceDocADOMailMerge() throws Exception
-    {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.write("Product:\t");
-        builder.insertField(" MERGEFIELD ProductName");
-        builder.writeln();
-        builder.insertField(" MERGEFIELD QuantityPerUnit");
-        builder.write(" for $");
-        builder.insertField(" MERGEFIELD UnitPrice");
-
-        return doc;
-    }
-    //ExEnd
-
-    //ExStart
-    //ExFor:MailMerge.ExecuteWithRegionsADO(Object,String)
-    //ExSummary:Shows how to run a mail merge with regions, compiled with data from an ADO dataset.
-    @Test
-    public void executeWithRegionsADO() throws Exception
-    {
-        // Create a document that will be merged
-        Document doc = createSourceDocADOMailMergeWithRegions();
-
-        // To work with ADO DataSets, we need to add a reference to the Microsoft ActiveX Data Objects library,
-        // which is included in the .NET distribution and stored in "adodb.dll", then create a connection
-        ADODB.Connection connection = new ADODB.Connection();
-
-        // Create a connection string which points to the "Northwind" database file in our local file system and open a connection
-        String connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
-        connection.Open(connectionString);
-
-        // Create a record set
-        ADODB.Recordset recordset = new ADODB.Recordset();
-
-        // Create an SQL query that fetches data with column names that are suitable for our first mail merge region, then populate our record set with the data
-        String command = "SELECT FirstName, LastName, City FROM Employees";
-        recordset.Open(command, connection);
-
-        // Run a mail merge on just the first region, filling its MERGEFIELDS with data from the ADO record set
-        doc.getMailMerge().ExecuteWithRegionsADO(recordset, "MergeRegion1");
-
-        // Close the record set and reopen it with data from another SQL query
-        recordset.Close();
-        command = "SELECT * FROM Customers";
-        recordset.Open(command, connection);
-
-        // Run a mail merge on the second region and save the document
-        doc.getMailMerge().ExecuteWithRegionsADO(recordset, "MergeRegion2");
-
-        doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx");
-    }
-
-    /// <summary>
-    /// Create a blank document and use MERGEFIELDS to create two sequential mail merge regions with TableStart/TableEnd tags
-    /// </summary>
-    private Document createSourceDocADOMailMergeWithRegions() throws Exception
-    {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // First mail merge region
-        builder.writeln("\tEmployees: ");
-        builder.insertField(" MERGEFIELD TableStart:MergeRegion1");
-        builder.insertField(" MERGEFIELD FirstName");
-        builder.write(", ");
-        builder.insertField(" MERGEFIELD LastName");
-        builder.write(", ");
-        builder.insertField(" MERGEFIELD City");
-        builder.insertField(" MERGEFIELD TableEnd:MergeRegion1");
-        builder.insertParagraph();
-
-        // Second mail merge region
-        builder.writeln("\tCustomers: ");
-        builder.insertField(" MERGEFIELD TableStart:MergeRegion2");
-        builder.insertField(" MERGEFIELD ContactName");
-        builder.write(", ");
-        builder.insertField(" MERGEFIELD Address");
-        builder.write(", ");
-        builder.insertField(" MERGEFIELD City");
-        builder.insertField(" MERGEFIELD TableEnd:MergeRegion2");
-
-        return doc;
-    }
-    //ExEnd
-
     //ExStart
     //ExFor:MailMerge.ExecuteWithRegions(DataSet)
     //ExSummary:Shows how to create a nested mail merge with regions with data from a data set with two related tables.
@@ -330,9 +138,11 @@ public class ExMailMerge extends ApiExampleBase
         builder.write("Quantity");
         builder.endRow();
 
-        // We have a second data table called "Orders", which has a many-to-one relationship with "Customers", related by a "CustomerID" column
+        // We have a second data table called "Orders", which has a many-to-one relationship with "Customers",
+        // related by a "CustomerID" column
         // We will start this inner mail merge region over which the "Orders" table will preside,
-        // which will iterate over the "Orders" table once for each merge of the outer "Customers" region, picking up rows with the same CustomerID value
+        // which will iterate over the "Orders" table once for each merge of the outer "Customers" region,
+        // picking up rows with the same CustomerID value
         builder.insertCell();
         builder.insertField(" MERGEFIELD TableStart:Orders");
         builder.insertField(" MERGEFIELD ItemName");
@@ -340,7 +150,8 @@ public class ExMailMerge extends ApiExampleBase
         builder.insertField(" MERGEFIELD Quantity");
 
         // End the inner region
-        // One stipulation of using regions and tables is that the opening and closing of a mail merge region must only happen over one row of a document's table  
+        // One stipulation of using regions and tables is that the opening and closing of a mail merge region must
+        // only happen over one row of a document's table  
         builder.insertField(" MERGEFIELD TableEnd:Orders");
         builder.endTable();
 
@@ -355,9 +166,9 @@ public class ExMailMerge extends ApiExampleBase
 
     /// <summary>
     /// Generates a data set which has two data tables named "Customers" and "Orders",
-    /// with a one-to-many relationship between the former and latter on the "CustomerID" column
+    /// with a one-to-many relationship between the former and latter on the "CustomerID" column.
     /// </summary>
-    private DataSet createDataSet()
+    private static DataSet createDataSet()
     {
         // Create the outer mail merge
         DataTable tableCustomers = new DataTable("Customers");
@@ -521,9 +332,9 @@ public class ExMailMerge extends ApiExampleBase
 	}
 
     /// <summary>
-    /// Return a document that contains two duplicate mail merge regions (sharing the same name in the "TableStart/End" tags)
+    /// Return a document that contains two duplicate mail merge regions (sharing the same name in the "TableStart/End" tags).
     /// </summary>
-    private Document createSourceDocMergeDuplicateRegions() throws Exception
+    private static Document createSourceDocMergeDuplicateRegions() throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -541,9 +352,9 @@ public class ExMailMerge extends ApiExampleBase
     }
 
     /// <summary>
-    /// Create a data table with one row and two columns
+    /// Create a data table with one row and two columns.
     /// </summary>
-    private DataTable createSourceTableMergeDuplicateRegions()
+    private static DataTable createSourceTableMergeDuplicateRegions()
     {
         DataTable dataTable = new DataTable("MergeRegion");
         dataTable.getColumns().add("Column1");
@@ -585,9 +396,9 @@ public class ExMailMerge extends ApiExampleBase
 	}
 
     /// <summary>
-    /// Create a document and add two tags that can accept mail merge data that are not the traditional MERGEFIELDs
+    /// Create a document and add two tags that can accept mail merge data that are not the traditional MERGEFIELDs.
     /// </summary>
-    private Document createSourceDocWithAlternativeMergeFields() throws Exception
+    private static Document createSourceDocWithAlternativeMergeFields() throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -602,9 +413,9 @@ public class ExMailMerge extends ApiExampleBase
     }
 
     /// <summary>
-    /// Create a simple data table with one column
+    /// Create a simple data table with one column.
     /// </summary>
-    private DataTable createSourceTablePreserveUnusedTags()
+    private static DataTable createSourceTablePreserveUnusedTags()
     {
         DataTable dataTable = new DataTable("MyTable");
         dataTable.getColumns().add("Column1");
@@ -650,7 +461,7 @@ public class ExMailMerge extends ApiExampleBase
     /// <summary>
     /// Create a document with a QUOTE field outside and one more inside a mail merge region called "MyTable"
     /// </summary>
-    private Document createSourceDocMergeWholeDocument() throws Exception
+    private static Document createSourceDocMergeWholeDocument() throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -676,9 +487,9 @@ public class ExMailMerge extends ApiExampleBase
     }
 
     /// <summary>
-    /// Create a simple data table that will be used in a mail merge
+    /// Create a simple data table that will be used in a mail merge.
     /// </summary>
-    private DataTable createSourceTableMergeWholeDocument()
+    private static DataTable createSourceTableMergeWholeDocument()
     {
         DataTable dataTable = new DataTable("MyTable");
         dataTable.getColumns().add("MyColumn");
@@ -711,9 +522,9 @@ public class ExMailMerge extends ApiExampleBase
     }
 
     /// <summary>
-    /// Create a document with two mail merge regions sharing one paragraph
+    /// Create a document with two mail merge regions sharing one paragraph.
     /// </summary>
-    private Document createSourceDocWithNestedMergeRegions() throws Exception
+    private static Document createSourceDocWithNestedMergeRegions() throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -733,9 +544,9 @@ public class ExMailMerge extends ApiExampleBase
     }
 
     /// <summary>
-    /// Create a data table that can populate one region during a mail merge
+    /// Create a data table that can populate one region during a mail merge.
     /// </summary>
-    private DataTable createSourceTableDataTableForOneRegion()
+    private static DataTable createSourceTableDataTableForOneRegion()
     {
         DataTable dataTable = new DataTable("MyTable");
         dataTable.getColumns().add("Column1");
@@ -931,12 +742,11 @@ public class ExMailMerge extends ApiExampleBase
 
         Iterator<Map.Entry<String, String>> enumerator = mappedDataFields.iterator();
         try /*JAVA: was using*/
-        {
+    	{
             while (enumerator.hasNext())
-            {
-                msConsole.writeLine($"Column named {enumerator.Current.Value} is mapped to MERGEFIELDs named {enumerator.Current.Key}");
-            }
-        }
+                msConsole.writeLine(
+                    $"Column named {enumerator.Current.Value} is mapped to MERGEFIELDs named {enumerator.Current.Key}");
+    	}
         finally { if (enumerator != null) enumerator.close(); }
 
         // We can also remove some or all of the elements
@@ -952,9 +762,9 @@ public class ExMailMerge extends ApiExampleBase
     }
 
     /// <summary>
-    /// Create a document with 2 MERGEFIELDs, one of which does not have a corresponding column in the data table
+    /// Create a document with 2 MERGEFIELDs, one of which does not have a corresponding column in the data table.
     /// </summary>
-    private Document createSourceDocMappedDataFields() throws Exception
+    private static Document createSourceDocMappedDataFields() throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -968,9 +778,9 @@ public class ExMailMerge extends ApiExampleBase
     }
 
     /// <summary>
-    /// Create a data table with 2 columns, one of which does not have a corresponding MERGEFIELD in our source document
+    /// Create a data table with 2 columns, one of which does not have a corresponding MERGEFIELD in our source document.
     /// </summary>
-    private DataTable createSourceTableMappedDataFields()
+    private static DataTable createSourceTableMappedDataFields()
     {
         // Create a data table that will be used in a mail merge
         DataTable dataTable = new DataTable("MyTable");
@@ -988,7 +798,7 @@ public class ExMailMerge extends ApiExampleBase
         //ExStart
         //ExFor:FieldAddressBlock
         //ExFor:FieldAddressBlock.GetFieldNames
-        //ExSummary:Shows how to get mail merge field names used by the field
+        //ExSummary:Shows how to get mail merge field names used by the field.
         Document doc = new Document(getMyDir() + "MailMerge.GetFieldNames.docx");
 
         String[] addressFieldsExpect =
@@ -1022,8 +832,8 @@ public class ExMailMerge extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (dataProvider = "mustasheTemplateSyntaxDataProvider")
-    public void mustasheTemplateSyntax(boolean restoreTags, String sectionText) throws Exception
+    @Test (dataProvider = "mustacheTemplateSyntaxDataProvider")
+    public void mustacheTemplateSyntax(boolean restoreTags, String sectionText) throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1046,14 +856,13 @@ public class ExMailMerge extends ApiExampleBase
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "mustasheTemplateSyntaxDataProvider")
-	public static Object[][] mustasheTemplateSyntaxDataProvider() throws Exception
+	@DataProvider(name = "mustacheTemplateSyntaxDataProvider")
+	public static Object[][] mustacheTemplateSyntaxDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
 			{true,  "{{ testfield1 }}value 1{{ testfield3 }}\f"},
-			{false, 
-        "\u0013MERGEFIELD \"testfield1\"\u0014«testfield1»\u0015value 1\u0013MERGEFIELD \"testfield3\"\u0014«testfield3»\u0015\f"},
+			{false,  "\u0013MERGEFIELD \"testfield1\"\u0014«testfield1»\u0015value 1\u0013MERGEFIELD \"testfield3\"\u0014«testfield3»\u0015\f"},
 		};
 	}
 
@@ -1069,13 +878,13 @@ public class ExMailMerge extends ApiExampleBase
         //ExFor:MailMergeRegionInfo.StartField
         //ExFor:MailMergeRegionInfo.EndField
         //ExFor:MailMergeRegionInfo.Level
-        //ExSummary:Shows how to get MailMergeRegionInfo and work with it
+        //ExSummary:Shows how to get MailMergeRegionInfo and work with it.
         Document doc = new Document(getMyDir() + "MailMerge.TestRegionsHierarchy.doc");
 
-        //Returns a full hierarchy of regions (with fields) available in the document.
+        // Returns a full hierarchy of regions (with fields) available in the document
         MailMergeRegionInfo regionInfo = doc.getMailMerge().getRegionsHierarchy();
 
-        //Get top regions in the document
+        // Get top regions in the document
         ArrayList<MailMergeRegionInfo> topRegions = regionInfo.getRegions();
         msAssert.areEqual(2, topRegions.size());
         msAssert.areEqual("Region1", topRegions.get(0).getName());
@@ -1083,7 +892,7 @@ public class ExMailMerge extends ApiExampleBase
         msAssert.areEqual(1, topRegions.get(0).getLevel());
         msAssert.areEqual(1, topRegions.get(1).getLevel());
 
-        //Get nested region in first top region
+        // Get nested region in first top region
         ArrayList<MailMergeRegionInfo> nestedRegions = topRegions.get(0).getRegions();
         msAssert.areEqual(2, nestedRegions.size());
         msAssert.areEqual("NestedRegion1", nestedRegions.get(0).getName());
@@ -1091,7 +900,7 @@ public class ExMailMerge extends ApiExampleBase
         msAssert.areEqual(2, nestedRegions.get(0).getLevel());
         msAssert.areEqual(2, nestedRegions.get(1).getLevel());
 
-        //Get field list in first top region
+        // Get field list in first top region
         ArrayList<Field> fieldList = topRegions.get(0).getFields();
         msAssert.areEqual(4, fieldList.size());
 
@@ -1143,10 +952,7 @@ public class ExMailMerge extends ApiExampleBase
         ArrayList<MailMergeRegionInfo> regions = doc.getMailMerge().getRegionsByName(regionName);
         msAssert.areEqual(2, regions.size());
 
-        for (MailMergeRegionInfo region : regions)
-        {
-            msAssert.areEqual(regionName, region.getName());
-        }
+        for (MailMergeRegionInfo region : regions) msAssert.areEqual(regionName, region.getName());
     }
 
 	//JAVA-added data provider for test method
@@ -1206,10 +1012,10 @@ public class ExMailMerge extends ApiExampleBase
         //ExSummary:Shows how to merge fields or regions regardless of the parent IF field's condition.
         Document doc = new Document(getMyDir() + "MailMerge.UnconditionalMergeFieldsAndRegions.docx");
 
-        // Merge fields and merge regions are merged regardless of the parent IF field's condition.
+        // Merge fields and merge regions are merged regardless of the parent IF field's condition
         doc.getMailMerge().setUnconditionalMergeFieldsAndRegions(true);
 
-        // Fill the fields in the document with user data.
+        // Fill the fields in the document with user data
         doc.getMailMerge().execute(
             new String[] { "FullName" },
             new Object[] { "James Bond" });

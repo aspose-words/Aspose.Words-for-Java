@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -48,7 +48,7 @@ public class ApiExampleBase {
      *
      * @throws Exception exception for setUnlimitedLicense()
      */
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
         setUnlimitedLicense();
 
@@ -63,7 +63,7 @@ public class ApiExampleBase {
     /**
      * Delete all dirs and files from directory for test artifacts.
      */
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void tearDown() {
         deleteDir(artifactsDirPath);
     }

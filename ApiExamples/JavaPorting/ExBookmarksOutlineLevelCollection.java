@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -90,18 +90,6 @@ public class ExBookmarksOutlineLevelCollection extends ApiExampleBase
         // We can empty this dictionary to remove the contents table
         outlineLevels.clear();
         //ExEnd
-        // Bind pdf with Aspose.Pdf
-        PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
-        bookmarkEditor.BindPdf(getArtifactsDir() + "BookmarksOutlineLevelCollection.BookmarkLevels.pdf");
 
-        // Get all bookmarks from the document
-        Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();
-
-        Assert.AreEqual(3, bookmarks.Count);
-
-        // Assert that all the bookmarks title are with whitespaces
-        Assert.AreEqual("Bookmark 1", bookmarks[0].Title);
-        Assert.AreEqual("Bookmark 2", bookmarks[1].Title);
-        Assert.AreEqual("Bookmark 3", bookmarks[2].Title);
-    }
+                        }
 }

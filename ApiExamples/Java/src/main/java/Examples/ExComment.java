@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -30,18 +30,18 @@ public class ExComment extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        //Create new comment
+        // Create new comment
         Comment newComment = new Comment(doc, "John Doe", "J.D.", new Date(System.currentTimeMillis()));
         newComment.setText("My comment.");
 
-        //Add this comment to a document node
+        // Add this comment to a document node
         builder.getCurrentParagraph().appendChild(newComment);
 
         Calendar cal = Calendar.getInstance();
         cal.set(2017, Calendar.SEPTEMBER, 25, 12, 15, 0);
         cal.getTime();
 
-        //Add comment reply
+        // Add comment reply
         newComment.addReply("John Doe", "JD", cal.getTime(), "New reply");
         //ExEnd
 
@@ -66,12 +66,12 @@ public class ExComment extends ApiExampleBase {
         //ExSummary:Shows how to get all comments with all replies.
         Document doc = new Document(getMyDir() + "Comment.Document.docx");
 
-        //Get all comment from the document
+        // Get all comment from the document
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
 
         Assert.assertEquals(comments.getCount(), 12); //ExSkip
 
-        //For all comments and replies we identify comment level and info about it
+        // For all comments and replies we identify comment level and info about it
         for (Comment comment : (Iterable<Comment>) comments) {
             if (comment.getAncestor() == null) {
                 System.out.println("This is a top-level comment\n");
@@ -137,7 +137,7 @@ public class ExComment extends ApiExampleBase {
 
         for (Comment childComment : repliesCollection) {
             if (!childComment.getDone()) {
-                // Update comment reply Done mark.
+                // Update comment reply Done mark
                 childComment.setDone(true);
             }
         }
@@ -188,7 +188,7 @@ public class ExComment extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Create a new comment
+    /// Create a new comment.
     /// </summary>
     public static Comment createComment(Document doc, String author, String initials, Date dateTime, String text) {
         Comment newComment = new Comment(doc);
@@ -203,7 +203,7 @@ public class ExComment extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Extract comments from the document without replies
+    /// Extract comments from the document without replies.
     /// </summary>
     public static ArrayList<Comment> extractComments(Document doc) {
         ArrayList<Comment> collectedComments = new ArrayList<Comment>();

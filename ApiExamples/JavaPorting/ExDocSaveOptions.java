@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -67,7 +67,7 @@ public class ExDocSaveOptions extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "DocSaveOptions.TempFolder.doc", options);
         //ExEnd
-        }
+    }
 
     @Test
     public void pictureBullets() throws Exception

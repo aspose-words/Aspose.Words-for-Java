@@ -1,3 +1,10 @@
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+//
+// This file is part of Aspose.Words. The source code in this file
+// is only intended as a supplement to the documentation, and is provided
+// "as is", without warranty of any kind, either expressed or implied.
+//////////////////////////////////////////////////////////////////////////
+
 package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
@@ -22,29 +29,29 @@ public class ExAbsolutePositionTab extends ApiExampleBase
     //ExFor:AbsolutePositionTab
     //ExFor:AbsolutePositionTab.Accept(DocumentVisitor)
     //ExFor:DocumentVisitor.VisitAbsolutePositionTab
-    //ExSummary:Shows how to use AbsolutePositionTab.
+    //ExSummary:Shows how to work with AbsolutePositionTab.
     @Test //ExSkip
     public void documentToTxt() throws Exception
     {
-        // This document contains two sentences separated by an absolute position tab.
+        // This document contains two sentences separated by an absolute position tab
         Document doc = new Document(getMyDir() + "AbsolutePositionTab.docx");
 
-        // An AbsolutePositionTab is a child node of a paragraph. 
-        // AbsolutePositionTabs get picked up when looking for nodes of the SpecialChar type.
+        // An AbsolutePositionTab is a child node of a paragraph
+        // AbsolutePositionTabs get picked up when looking for nodes of the SpecialChar type
         Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
         AbsolutePositionTab absPositionTab = (AbsolutePositionTab)para.getChild(NodeType.SPECIAL_CHAR, 0, true);
 
-        // This implementation of the DocumentVisitor pattern converts the document to plain text.
-        MyDocToTxtWriter myDocToTxtWriter = new MyDocToTxtWriter();
+        // This implementation of the DocumentVisitor pattern converts the document to plain text
+        DocToTxtWriter myDocToTxtWriter = new DocToTxtWriter();
 
-        // We can run the DocumentVisitor over the whole first paragraph.
+        // We can run the DocumentVisitor over the whole first paragraph
         para.accept(myDocToTxtWriter);
 
-        // A tab character is placed where the AbsolutePositionTab was found.
+        // A tab character is placed where the AbsolutePositionTab was found
         msAssert.areEqual("Before AbsolutePositionTab\tAfter AbsolutePositionTab", myDocToTxtWriter.getText());
 
-        // An AbsolutePositionTab can accept a DocumentVisitor by itself too.
-        myDocToTxtWriter = new MyDocToTxtWriter();
+        // An AbsolutePositionTab can accept a DocumentVisitor by itself too
+        myDocToTxtWriter = new DocToTxtWriter();
         absPositionTab.accept(myDocToTxtWriter);
 
         msAssert.areEqual("\t", myDocToTxtWriter.getText());
@@ -53,9 +60,9 @@ public class ExAbsolutePositionTab extends ApiExampleBase
     /// <summary>
     /// Visitor implementation that simply collects the Runs and AbsolutePositionTabs of a document as plain text. 
     /// </summary>
-    public static class MyDocToTxtWriter extends DocumentVisitor
+    public static class DocToTxtWriter extends DocumentVisitor
     {
-        public MyDocToTxtWriter()
+        public DocToTxtWriter()
         {
             mBuilder = new StringBuilder();
         }
@@ -66,7 +73,6 @@ public class ExAbsolutePositionTab extends ApiExampleBase
         public /*override*/ /*VisitorAction*/int visitRun(Run run)
         {
             appendText(run.getText());
-
             // Let the visitor continue visiting other nodes.
             return VisitorAction.CONTINUE;
         }
@@ -76,9 +82,8 @@ public class ExAbsolutePositionTab extends ApiExampleBase
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitAbsolutePositionTab(AbsolutePositionTab tab)
         {
-            // We'll treat the AbsolutePositionTab as a regular tab in this case.
+            // We'll treat the AbsolutePositionTab as a regular tab in this case
             msStringBuilder.append(mBuilder, "\t");
-
             return VisitorAction.CONTINUE;
         }
 

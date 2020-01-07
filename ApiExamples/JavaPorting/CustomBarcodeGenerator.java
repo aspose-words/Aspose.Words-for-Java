@@ -1,3 +1,10 @@
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+//
+// This file is part of Aspose.Words. The source code in this file
+// is only intended as a supplement to the documentation, and is provided
+// "as is", without warranty of any kind, either expressed or implied.
+//////////////////////////////////////////////////////////////////////////
+
 package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
@@ -5,7 +12,6 @@ package ApiExamples;
 import com.aspose.ms.java.collections.StringSwitchMap;
 import com.aspose.words.IBarcodeGenerator;
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import com.aspose.words.BarcodeParameters;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.EncodeTypes;
@@ -16,7 +22,7 @@ import com.aspose.ms.System.Globalization.CultureInfo;
 /// <summary>
 /// Sample of custom barcode generator implementation (with underlying Aspose.BarCode module)
 /// </summary>
-public class CustomBarcodeGenerator implements IBarcodeGenerator
+public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGenerator
 {
     /// <summary>
     /// Converts barcode image height from Word units to Aspose.BarCode units.
@@ -78,7 +84,7 @@ public class CustomBarcodeGenerator implements IBarcodeGenerator
     /// </summary>
     /// <param name="parameters"></param>
     /// <returns></returns>
-    public BufferedImage getBarcodeImage(BarcodeParameters parameters)
+    public Image getBarcodeImage(BarcodeParameters parameters)
     {
         if (parameters.getBarcodeType() == null || parameters.getBarcodeValue() == null)
             return null;
@@ -169,8 +175,9 @@ public class CustomBarcodeGenerator implements IBarcodeGenerator
 
             builder.setAutoSize(false);
         }
-
-        return builder.getBarCodeImage();
+        
+        builder.getBarCodeImage().Save(getArtifactsDir() + "GetBarcodeImage.png");
+        return Image.Decode(getArtifactsDir() + "OldBarcodeImage.png");
     }
 
     /// <summary>
@@ -178,7 +185,7 @@ public class CustomBarcodeGenerator implements IBarcodeGenerator
     /// </summary>
     /// <param name="parameters"></param>
     /// <returns></returns>
-    public BufferedImage getOldBarcodeImage(BarcodeParameters parameters)
+    public Image getOldBarcodeImage(BarcodeParameters parameters)
     {
         if (parameters.getPostalAddress() == null)
             return null;
@@ -190,7 +197,8 @@ public class CustomBarcodeGenerator implements IBarcodeGenerator
         }
 
         // Hardcode type for old-fashioned Barcode
-        return builder.getBarCodeImage();
+        builder.getBarCodeImage().Save(ApiExampleBase.getArtifactsDir() + "OldBarcodeImage.png");            
+        return Image.Decode(ApiExampleBase.getArtifactsDir() + "OldBarcodeImage.png");            
     }
 
     /// <summary>

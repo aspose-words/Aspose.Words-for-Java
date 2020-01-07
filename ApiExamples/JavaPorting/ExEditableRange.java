@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -41,13 +41,13 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         Document doc = new Document(getMyDir() + "Document.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create an EditableRange so we can remove it. Does not have to be well-formed.
+        // Create an EditableRange so we can remove it. Does not have to be well-formed
         EditableRangeStart edRange1Start = builder.startEditableRange();
         EditableRange editableRange1 = edRange1Start.getEditableRange();
         builder.writeln("Paragraph inside editable range");
         EditableRangeEnd edRange1End = builder.endEditableRange();
 
-        // Remove the range that was just made.
+        // Remove the range that was just made
         editableRange1.remove();
         //ExEnd
     }

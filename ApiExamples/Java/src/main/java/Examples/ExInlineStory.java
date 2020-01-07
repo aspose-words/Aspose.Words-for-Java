@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -214,8 +214,7 @@ public class ExInlineStory extends ApiExampleBase {
     }
 
     @Test
-    public void deleteShapes() throws Exception
-    {
+    public void deleteShapes() throws Exception {
         //ExStart
         //ExFor:Story
         //ExFor:Story.DeleteShapes
@@ -229,7 +228,7 @@ public class ExInlineStory extends ApiExampleBase {
         // This is an inline shape, which has a parent Paragraph, which is in turn a child of the Body
         builder.insertShape(ShapeType.CUBE, 100.0, 100.0);
 
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(),1);
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 1);
 
         // We can delete all such shapes from the Body, affecting all child Paragraphs
         Assert.assertEquals(doc.getFirstSection().getBody().getStoryType(), StoryType.MAIN_TEXT);

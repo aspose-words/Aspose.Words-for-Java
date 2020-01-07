@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,21 +13,12 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.SaveFormat;
-import com.aspose.words.GraphicsQualityOptions;
-import com.aspose.ms.System.Drawing.Drawing2D.SmoothingMode;
-import com.aspose.ms.System.Drawing.Text.TextRenderingHint;
-import com.aspose.ms.System.Drawing.Drawing2D.CompositingMode;
-import com.aspose.ms.System.Drawing.Drawing2D.InterpolationMode;
 import com.aspose.words.ImageColorMode;
 import com.aspose.words.ImagePixelFormat;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.TiffCompression;
 import com.aspose.words.ImageBinarizationMethod;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.BitmapPal;
-import java.awt.image.BufferedImage;
-import com.aspose.words.MetafileRenderingMode;
 
 
 @Test
@@ -67,37 +58,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         //ExEnd
     }
 
-    @Test
-    public void graphicsQuality() throws Exception
-    {
-        //ExStart
-        //ExFor:GraphicsQualityOptions
-        //ExFor:GraphicsQualityOptions.CompositingMode
-        //ExFor:GraphicsQualityOptions.CompositingQuality
-        //ExFor:GraphicsQualityOptions.InterpolationMode
-        //ExFor:GraphicsQualityOptions.StringFormat
-        //ExFor:GraphicsQualityOptions.SmoothingMode
-        //ExFor:GraphicsQualityOptions.TextRenderingHint
-        //ExFor:ImageSaveOptions.GraphicsQualityOptions
-        //ExSummary:Shows how to set render quality options when converting documents to image formats. 
-        Document doc = new Document(getMyDir() + "SaveOptions.MyriadPro.docx");
-
-        GraphicsQualityOptions qualityOptions = new GraphicsQualityOptions();
-        {
-            qualityOptions.setSmoothingMode(SmoothingMode.ANTI_ALIAS);
-            qualityOptions.setTextRenderingHint(TextRenderingHint.CLEAR_TYPE_GRID_FIT);
-            qualityOptions.setCompositingMode(CompositingMode.SOURCE_OVER);
-            qualityOptions.setCompositingQuality(CompositingQuality.HighQuality);
-            qualityOptions.setInterpolationMode(InterpolationMode.HIGH);
-            qualityOptions.setStringFormat(StringFormat.GenericTypographic);
-        }
-
-        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.JPEG);
-        saveOptions.setGraphicsQualityOptions(qualityOptions);
-
-        doc.save(getArtifactsDir() + "SaveOptions.GraphicsQuality.jpeg", saveOptions);
-        //ExEnd
-    }
 
     @Test (groups = "SkipMono")
     public void converImageColorsToBlackAndWhite() throws Exception
@@ -137,7 +97,8 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
             options.setTiffCompression(TiffCompression.CCITT_3);
             options.setImageColorMode(ImageColorMode.GRAYSCALE);
             options.setTiffBinarizationMethod(ImageBinarizationMethod.FLOYD_STEINBERG_DITHERING);
-            options.setThresholdForFloydSteinbergDithering((byte) 254); // The default value of this property is 128. The higher value, the darker image.
+            // The default value of this property is 128. The higher value, the darker image
+            options.setThresholdForFloydSteinbergDithering((byte) 254);
         }
 
         doc.save(getArtifactsDir() + "ImagesSaveOptions.ThresholdForFloydSteinbergDithering.tiff", options);
@@ -168,27 +129,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         }
 
         doc.save(getArtifactsDir() + "ImagesSaveOptions.EditImage.png", options);
-        //ExEnd
-    }
-
-    @Test
-    public void windowsMetaFile() throws Exception
-    {
-        //ExStart
-        //ExFor:ImageSaveOptions.MetafileRenderingOptions
-        //ExSummary:Shows how to set the rendering mode for Windows Metafiles. 
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Use a DocumentBuilder to insert a .wmf image into the document
-        builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Hammer.wmf"));
-
-        // For documents that contain .wmf images, when converting the documents themselves to images,
-        // we can use a ImageSaveOptions object to designate a rendering method for the .wmf images
-        ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
-        options.getMetafileRenderingOptions().setRenderingMode(MetafileRenderingMode.BITMAP);
-
-        doc.save(getArtifactsDir() + "ImagesSaveOptions.WindowsMetaFile.png", options);
         //ExEnd
     }
 }

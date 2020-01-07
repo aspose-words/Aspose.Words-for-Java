@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import com.aspose.words.IMailMergeDataSource;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.IMailMergeDataSourceRoot;
-import java.util.HashMap;
 import com.aspose.ms.System.Collections.msDictionary;
+import java.util.HashMap;
 import com.aspose.words.ref.Ref;
 
 
@@ -36,19 +36,19 @@ public class ExMailMergeCustom extends ApiExampleBase
     @Test //ExSkip
     public void mailMergeCustomDataSource() throws Exception
     {
-        // Create some data that we will use in the mail merge.
+        // Create some data that we will use in the mail merge
         CustomerList customers = new CustomerList();
         msArrayList.add(customers, new Customer("Thomas Hardy", "120 Hanover Sq., London"));
         msArrayList.add(customers, new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
 
-        // Open the template document.
+        // Open the template document
         Document doc = new Document(getMyDir() + "MailMerge.CustomDataSource.doc");
 
         // To be able to mail merge from your own data source, it must be wrapped
-        // into an object that implements the IMailMergeDataSource interface.
+        // into an object that implements the IMailMergeDataSource interface
         CustomerMailMergeDataSource customersDataSource = new CustomerMailMergeDataSource(customers);
 
-        // Now you can pass your data source into Aspose.Words.
+        // Now you can pass your data source into Aspose.Words
         doc.getMailMerge().execute(customersDataSource);
 
         doc.save(getArtifactsDir() + "MailMerge.CustomDataSource.doc");
@@ -178,9 +178,10 @@ public class ExMailMergeCustom extends ApiExampleBase
     }
 
     /// <summary>
-    /// Create document that contains consecutive mail merge regions, with names designated by the input array, for a data table of employees
+    /// Create document that contains consecutive mail merge regions, with names designated by the input array,
+    /// for a data table of employees.
     /// </summary>
-    private Document createSourceDocumentWithMailMergeRegions(String[] regions) throws Exception
+    private static Document createSourceDocumentWithMailMergeRegions(String[] regions) throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -227,29 +228,29 @@ public class ExMailMergeCustom extends ApiExampleBase
     }
 
     /// <summary>
-    /// Data source root that can be passed directly into a mail merge which can register and contain many child data sources
+    /// Data source root that can be passed directly into a mail merge which can register and contain many child data sources.
     /// These sources must all implement IMailMergeDataSource, and are registered and differentiated by a name
-    /// which corresponds to a mail merge region that will read the respective data
+    /// which corresponds to a mail merge region that will read the respective data.
     /// </summary>
     private static class DataSourceRoot implements IMailMergeDataSourceRoot
     {
-        private HashMap<String, EmployeeListMailMergeSource> sources = new HashMap<String, EmployeeListMailMergeSource>();
-
         public IMailMergeDataSource getDataSource(String tableName)
         {
-            EmployeeListMailMergeSource source = sources.get(tableName);
+            EmployeeListMailMergeSource source = mSources.get(tableName);
             source.reset();
-            return sources.get(tableName);
+            return mSources.get(tableName);
         }
 
         public void registerSource(String sourceName, EmployeeListMailMergeSource source)
         {
-            msDictionary.add(sources, sourceName, source);
+            msDictionary.add(mSources, sourceName, source);
         }
+
+        private /*final*/ HashMap<String, EmployeeListMailMergeSource> mSources = new HashMap<String, EmployeeListMailMergeSource>();
     }
 
     /// <summary>
-    /// Custom mail merge data source
+    /// Custom mail merge data source.
     /// </summary>
     private static class EmployeeListMailMergeSource implements IMailMergeDataSource
     {
@@ -297,14 +298,14 @@ public class ExMailMergeCustom extends ApiExampleBase
                     return true;
                 default:
                     // A field with this name was not found, 
-                    // return false to the Aspose.Words mail merge engine.
+                    // return false to the Aspose.Words mail merge engine
                     fieldValue.set(null);
                     return false;
             }
         }
 
         /// <summary>
-        /// Child data sources are for nested mail merges
+        /// Child data sources are for nested mail merges.
         /// </summary>
         public IMailMergeDataSource getChildDataSource(String tableName)
         {

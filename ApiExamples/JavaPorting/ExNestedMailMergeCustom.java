@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -27,24 +27,24 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
     @Test //ExSkip
     public void mailMergeCustomDataSource() throws Exception
     {
-        // Create some data that we will use in the mail merge.
+        // Create some data that we will use in the mail merge
         CustomerList customers = new CustomerList();
         msArrayList.add(customers, new Customer("Thomas Hardy", "120 Hanover Sq., London"));
         msArrayList.add(customers, new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
 
-        // Create some data for nesting in the mail merge.
+        // Create some data for nesting in the mail merge
         msArrayList.add(customers.get(0).getOrders(), new Order("Rugby World Cup Cap", 2));
         msArrayList.add(customers.get(0).getOrders(), new Order("Rugby World Cup Ball", 1));
         msArrayList.add(customers.get(1).getOrders(), new Order("Rugby World Cup Guide", 1));
 
-        // Open the template document.
+        // Open the template document
         Document doc = new Document(getMyDir() + "NestedMailMerge.CustomDataSource.doc");
 
         // To be able to mail merge from your own data source, it must be wrapped
-        // into an object that implements the IMailMergeDataSource interface.
+        // into an object that implements the IMailMergeDataSource interface
         CustomerMailMergeDataSource customersDataSource = new CustomerMailMergeDataSource(customers);
 
-        // Now you can pass your data source into Aspose.Words.
+        // Now you can pass your data source into Aspose.Words
         doc.getMailMerge().executeWithRegions(customersDataSource);
 
         doc.save(getArtifactsDir() + "NestedMailMerge.CustomDataSource.doc");
@@ -120,7 +120,7 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
         {
             mCustomers = customers;
 
-            // When the data source is initialized, it must be positioned before the first record.
+            // When the data source is initialized, it must be positioned before the first record
             mRecordIndex = -1;
         }
 
@@ -147,7 +147,7 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
                     return true;
                 default:
                     // A field with this name was not found, 
-                    // return false to the Aspose.Words mail merge engine.
+                    // return false to the Aspose.Words mail merge engine
                     fieldValue.set(null);
                     return false;
             }
@@ -168,7 +168,7 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
         {
             switch (gStringSwitchMap.of(tableName))
             {
-                // Get the child collection to merge it with the region provided with tableName variable.
+                // Get the child collection to merge it with the region provided with tableName variable
                 case /*"Order"*/2:
                     return new OrderMailMergeDataSource(mCustomers.get(mRecordIndex).getOrders());
                 default:
@@ -188,7 +188,7 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
         {
             mOrders = orders;
 
-            // When the data source is initialized, it must be positioned before the first record.
+            // When the data source is initialized, it must be positioned before the first record
             mRecordIndex = -1;
         }
 
@@ -212,7 +212,7 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
                     return true;
                 default:
                     // A field with this name was not found, 
-                    // return false to the Aspose.Words mail merge engine.
+                    // return false to the Aspose.Words mail merge engine
                     fieldValue.set(null);
                     return false;
             }
@@ -229,7 +229,9 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
             return (!isEof());
         }
 
-        // Return null because we haven't any child elements for this sort of object.
+        /// <summary>
+        /// Return null because we haven't any child elements for this sort of object.
+        /// </summary>
         public IMailMergeDataSource getChildDataSource(String tableName)
         {
             return null;

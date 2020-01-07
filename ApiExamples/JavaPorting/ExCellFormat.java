@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -110,13 +110,11 @@ public class ExCellFormat extends ApiExampleBase
 
         MemoryStream dstStream = new MemoryStream();
         try /*JAVA: was using*/
-        {
-            builder.getDocument().save(dstStream, SaveFormat.DOCX);
-        }
+    	{ builder.getDocument().save(dstStream, SaveFormat.DOCX);
+    	}
         finally { if (dstStream != null) dstStream.close(); }
 
         Table table = (Table) builder.getDocument().getChild(NodeType.TABLE, 0, true);
-
         Cell cell = table.getRows().get(0).getCells().get(0);
 
         msAssert.areEqual(5, cell.getCellFormat().getLeftPadding());

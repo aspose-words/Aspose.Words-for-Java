@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -224,7 +224,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public void colorRendering() throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions
-        //ExFor:SaveOptions.ColorMode
+        //ExFor:FixedPageSaveOptions.ColorMode
         //ExSummary:Shows how change image color with save options property
         // Open document with color image
         Document doc = new Document(getMyDir() + "Rendering.doc");

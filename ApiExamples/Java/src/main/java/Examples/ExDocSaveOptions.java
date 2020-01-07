@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -66,8 +66,7 @@ public class ExDocSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void pictureBullets() throws Exception
-    {
+    public void pictureBullets() throws Exception {
         //ExStart
         //ExFor:DocSaveOptions.SavePictureBullet
         //ExSummary:Shows how to remove PictureBullet data from the document.

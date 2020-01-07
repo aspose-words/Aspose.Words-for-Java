@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -36,11 +36,9 @@ public class ExTabStopCollection extends ApiExampleBase
         //ExSummary:Shows how to remove all tab stops from a document.
         Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
 
-        // Clear all tab stops from every paragraph.
+        // Clear all tab stops from every paragraph
         for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
-        {
             para.getParagraphFormat().getTabStops().clear();
-        }
 
         doc.save(getArtifactsDir() + "Document.AllTabStopsRemoved.doc");
         //ExEnd
@@ -109,15 +107,15 @@ public class ExTabStopCollection extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.doc");
         Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
-        // Create a TabStop object and add it to the document.
+        // Create a TabStop object and add it to the document
         TabStop tabStop = new TabStop(ConvertUtil.inchToPoint(3.0), TabAlignment.LEFT, TabLeader.DASHES);
         paragraph.getParagraphFormat().getTabStops().add(tabStop);
 
-        // Add a tab stop without explicitly creating new TabStop objects.
+        // Add a tab stop without explicitly creating new TabStop objects
         paragraph.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(100.0), TabAlignment.LEFT,
             TabLeader.DASHES);
 
-        // Add tab stops at 5 cm to all paragraphs.
+        // Add tab stops at 5 cm to all paragraphs
         for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
         {
             para.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(50.0), TabAlignment.LEFT,
@@ -182,7 +180,7 @@ public class ExTabStopCollection extends ApiExampleBase
         paragraph.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(30.0), TabAlignment.LEFT,
             TabLeader.DASHES);
 
-        // An output of -1 signifies that there is no tab stop at that position.
+        // An output of -1 signifies that there is no tab stop at that position
         msConsole.writeLine(
             paragraph.getParagraphFormat().getTabStops().getIndexByPosition(ConvertUtil.millimeterToPoint(30.0))); // 0
         msConsole.writeLine(

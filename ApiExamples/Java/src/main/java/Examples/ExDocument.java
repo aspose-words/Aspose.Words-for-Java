@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -300,38 +300,6 @@ public class ExDocument extends ApiExampleBase {
         InputStream stream = new FileInputStream(getMyDir() + "Document.LoadEncrypted.doc");
         Document doc = new Document(stream, new LoadOptions("qwerty"));
         stream.close();
-        //ExEnd
-    }
-
-    @Test
-    public void annotationsAtBlockLevel() throws Exception {
-        //ExStart
-        //ExFor:LoadOptions.AnnotationsAtBlockLevel
-        //ExFor:LoadOptions.AnnotationsAtBlockLevelAsDefault
-        //ExSummary:Shows how to place bookmark nodes on the block, cell and row levels.
-        // Any LoadOptions instances we create will have a default AnnotationsAtBlockLevel value equal to this
-        LoadOptions.setAnnotationsAtBlockLevelAsDefault(false);
-
-        LoadOptions loadOptions = new LoadOptions();
-        Assert.assertEquals(loadOptions.getAnnotationsAtBlockLevel(), LoadOptions.getAnnotationsAtBlockLevelAsDefault());
-
-        // If we want to work with annotations that transcend structures like tables, we will need to set this to true
-        loadOptions.setAnnotationsAtBlockLevel(true);
-
-        // Open a document with a structured document tag and get that tag
-        Document doc = new Document(getMyDir() + "Document.AnnotationsAtBlockLevel.docx", loadOptions);
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).get(1);
-
-        // Insert a bookmark and make it envelop our tag
-        BookmarkStart start = builder.startBookmark("MyBookmark");
-        BookmarkEnd end = builder.endBookmark("MyBookmark");
-
-        sdt.getParentNode().insertBefore(start, sdt);
-        sdt.getParentNode().insertAfter(end, sdt);
-
-        doc.save(getArtifactsDir() + "Document.AnnotationsAtBlockLevel.docx", SaveFormat.DOCX);
         //ExEnd
     }
 
@@ -1811,11 +1779,11 @@ public class ExDocument extends ApiExampleBase {
         TxtLoadOptions loadOptions = new TxtLoadOptions();
         loadOptions.setDetectNumberingWithWhitespaces(false);
 
-        PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Bookmark.docx");
-        Assert.assertEquals(plaintext.getText(), "This is a bookmarked text.\f"); //ExSkip
+        PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Bookmarks.docx");
+        Assert.assertEquals(plaintext.getText(), "First bookmark.\rSecond bookmark.\rThird bookmark.\f"); //ExSkip
 
-        plaintext = new PlainTextDocument(getMyDir() + "Bookmark.docx", loadOptions);
-        Assert.assertEquals(plaintext.getText(), "This is a bookmarked text.\f"); //ExSkip
+        plaintext = new PlainTextDocument(getMyDir() + "Bookmarks.docx", loadOptions);
+        Assert.assertEquals(plaintext.getText(), "First bookmark.\rSecond bookmark.\rThird bookmark.\f"); //ExSkip
         //ExEnd
     }
 
@@ -1824,7 +1792,7 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:PlainTextDocument.BuiltInDocumentProperties
         //ExSummary:Show how to get BuiltIn properties of plain text document.
-        PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Bookmark.docx");
+        PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Bookmarks.docx");
         BuiltInDocumentProperties builtInDocumentProperties = plaintext.getBuiltInDocumentProperties();
         //ExEnd
 
@@ -1836,7 +1804,7 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:PlainTextDocument.CustomDocumentProperties
         //ExSummary:Show how to get custom properties of plain text document.
-        PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Bookmark.docx");
+        PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Bookmarks.docx");
         CustomDocumentProperties customDocumentProperties = plaintext.getCustomDocumentProperties();
         //ExEnd
 
@@ -1852,17 +1820,17 @@ public class ExDocument extends ApiExampleBase {
         TxtLoadOptions loadOptions = new TxtLoadOptions();
         loadOptions.setDetectNumberingWithWhitespaces(false);
 
-        InputStream stream = new FileInputStream(getMyDir() + "Bookmark.docx");
+        InputStream stream = new FileInputStream(getMyDir() + "Bookmarks.docx");
 
         PlainTextDocument plaintext = new PlainTextDocument(stream);
-        Assert.assertEquals(plaintext.getText(), "This is a bookmarked text.\f"); //ExSkip
+        Assert.assertEquals(plaintext.getText(), "First bookmark.\rSecond bookmark.\rThird bookmark.\f"); //ExSkip
 
         stream.close();
 
-        stream = new FileInputStream(getMyDir() + "Bookmark.docx");
+        stream = new FileInputStream(getMyDir() + "Bookmarks.docx");
 
         plaintext = new PlainTextDocument(stream, loadOptions);
-        Assert.assertEquals(plaintext.getText(), "This is a bookmarked text.\f"); //ExSkip
+        Assert.assertEquals(plaintext.getText(), "First bookmark.\rSecond bookmark.\rThird bookmark.\f"); //ExSkip
         //ExEnd
 
         stream.close();
@@ -2163,55 +2131,6 @@ public class ExDocument extends ApiExampleBase {
         options.setDefaultTemplate(getMyDir() + "Document.BusinessBrochureTemplate.dotx");
 
         doc.save(getArtifactsDir() + "Document.DefaultTemplate.docx", options);
-        //ExEnd
-    }
-
-    @Test
-    public void compatibilityOptions() throws Exception {
-        //ExStart
-        //ExFor:Document.CompatibilityOptions
-        //ExSummary:Shows how to optimize our document for different word versions.
-        Document doc = new Document();
-        CompatibilityOptions co = doc.getCompatibilityOptions();
-
-        // Here are some default values
-        Assert.assertEquals(co.getGrowAutofit(), true);
-        Assert.assertEquals(co.getDoNotBreakWrappedTables(), false);
-        Assert.assertEquals(co.getDoNotUseEastAsianBreakRules(), false);
-        Assert.assertEquals(co.getSelectFldWithFirstOrLastChar(), false);
-        Assert.assertEquals(co.getUseWord97LineBreakRules(), false);
-        Assert.assertEquals(co.getUseWord2002TableStyleRules(), true);
-        Assert.assertEquals(co.getUseWord2010TableStyleRules(), false);
-
-        // This example covers only a small portion of all the compatibility attributes
-        // To see the entire list, in any of the output files go into File > Options > Advanced > Compatibility for...
-        doc.save(getArtifactsDir() + "DefaultCompatibility.docx");
-
-        // We can hand pick any value and change it to create a custom compatibility
-        // We can also change a bunch of values at once to suit a defined compatibility scheme with the OptimizeFor method
-        doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2010);
-
-        Assert.assertEquals(co.getGrowAutofit(), false);
-        Assert.assertEquals(co.getDoNotBreakWrappedTables(), false);
-        Assert.assertEquals(co.getDoNotUseEastAsianBreakRules(), false);
-        Assert.assertEquals(co.getSelectFldWithFirstOrLastChar(), false);
-        Assert.assertEquals(co.getUseWord97LineBreakRules(), false);
-        Assert.assertEquals(co.getUseWord2002TableStyleRules(), false);
-        Assert.assertEquals(co.getUseWord2010TableStyleRules(), true);
-
-        doc.save(getArtifactsDir() + "Optimised for Word 2010.docx");
-
-        doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2000);
-
-        Assert.assertEquals(co.getGrowAutofit(), true);
-        Assert.assertEquals(co.getDoNotBreakWrappedTables(), true);
-        Assert.assertEquals(co.getDoNotUseEastAsianBreakRules(), true);
-        Assert.assertEquals(co.getSelectFldWithFirstOrLastChar(), true);
-        Assert.assertEquals(co.getUseWord97LineBreakRules(), false);
-        Assert.assertEquals(co.getUseWord2002TableStyleRules(), true);
-        Assert.assertEquals(co.getUseWord2010TableStyleRules(), false);
-
-        doc.save(getArtifactsDir() + "Optimised for Word 2000.docx");
         //ExEnd
     }
 
@@ -3282,8 +3201,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void subdocument() throws Exception
-    {
+    public void subdocument() throws Exception {
         //ExStart
         //ExFor:SubDocument
         //ExFor:SubDocument.NodeType
@@ -3291,16 +3209,15 @@ public class ExDocument extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "SubDocumentMaster.docx");
 
         NodeCollection subDocuments = doc.getChildNodes(NodeType.SUB_DOCUMENT, true);
-        Assert.assertEquals(subDocuments.getCount(),1);
+        Assert.assertEquals(subDocuments.getCount(), 1);
 
-        SubDocument subDocument = (SubDocument)doc.getChildNodes(NodeType.SUB_DOCUMENT, true).get(0);
+        SubDocument subDocument = (SubDocument) doc.getChildNodes(NodeType.SUB_DOCUMENT, true).get(0);
         Assert.assertFalse(subDocument.isComposite());
         //ExEnd
     }
 
     @Test
-    public void epubCover() throws Exception
-    {
+    public void epubCover() throws Exception {
         // Create a blank document and insert some text
         Document doc = new Document();
 

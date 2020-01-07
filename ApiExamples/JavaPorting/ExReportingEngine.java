@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -36,7 +36,6 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.words.ShapeType;
 import ApiExamples.TestData.TestClasses.ImageTestClass;
 import ApiExamples.TestData.TestBuilders.ImageTestBuilder;
-import java.awt.image.BufferedImage;
 import com.aspose.words.DocumentBuilder;
 import ApiExamples.TestData.TestClasses.ClientTestClass;
 import com.aspose.words.NodeCollection;
@@ -424,7 +423,9 @@ public class ExReportingEngine extends ApiExampleBase
     {
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.Image]>>", ShapeType.TEXT_BOX);
-        ImageTestClass image = new ImageTestBuilder().withImage(BufferedImage.FromFile(mImage, true)).build();
+        
+                            ImageTestClass image = new ImageTestBuilder().WithImage(SKBitmap.Decode(mImage)).Build();
+                
         buildReport(template, image, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx");
 

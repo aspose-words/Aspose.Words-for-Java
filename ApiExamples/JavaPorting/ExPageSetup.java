@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -18,14 +18,11 @@ import com.aspose.words.PageSetup;
 import com.aspose.words.SectionLayoutMode;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.Document;
-import com.aspose.ms.System.Drawing.Printing.PrinterSettings;
-import com.aspose.words.Section;
 import com.aspose.words.ConvertUtil;
 import com.aspose.words.TextColumnCollection;
 import com.aspose.words.TextColumn;
 import com.aspose.words.LineNumberRestartMode;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.PageBorderDistanceFrom;
 import com.aspose.words.PageBorderAppliesTo;
 import com.aspose.words.Border;
@@ -33,6 +30,7 @@ import com.aspose.words.BorderType;
 import com.aspose.words.LineStyle;
 import java.awt.Color;
 import com.aspose.ms.System.Drawing.msColor;
+import com.aspose.words.Section;
 import com.aspose.words.NumberStyle;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.FootnotePosition;
@@ -65,12 +63,12 @@ public class ExPageSetup extends ApiExampleBase
         //ExSummary:Shows how to insert sections using DocumentBuilder, specify page setup for a section and reset page setup to defaults.
         DocumentBuilder builder = new DocumentBuilder();
 
-        // Modify the first section in the document.
+        // Modify the first section in the document
         builder.getPageSetup().setOrientation(Orientation.LANDSCAPE);
         builder.getPageSetup().setVerticalAlignment(PageVerticalAlignment.CENTER);
         builder.writeln("Section 1, landscape oriented and text vertically centered.");
 
-        // Start a new section and reset its formatting to defaults.
+        // Start a new section and reset its formatting to defaults
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.getPageSetup().clearFormatting();
         builder.writeln("Section 2, back to default Letter paper size, portrait orientation and top alignment.");
@@ -108,7 +106,7 @@ public class ExPageSetup extends ApiExampleBase
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         builder.writeln("Odd pages header.");
 
-        // Move back to the main story of the first section.
+        // Move back to the main story of the first section
         builder.moveToSection(0);
         builder.writeln("Text page 1.");
         builder.insertBreak(BreakType.PAGE_BREAK);
@@ -133,65 +131,6 @@ public class ExPageSetup extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (enabled = false, description = "Run only when the printer driver is installed")
-    public void defaultPaperTray() throws Exception
-    {
-        //ExStart
-        //ExFor:PageSetup.FirstPageTray
-        //ExFor:PageSetup.OtherPagesTray
-        //ExSummary:Changes all sections in a document to use the default paper tray of the selected printer.
-        Document doc = new Document();
-
-        // Find the printer that will be used for printing this document. In this case it is the default printer.
-        // You can define a specific printer using PrinterName.
-        PrinterSettings settings = new PrinterSettings();
-
-        // The paper tray value stored in documents is completely printer specific. This means 
-        // The code below resets all page tray values to use the current printers default tray.
-        // You can enumerate PrinterSettings.PaperSources to find the other valid paper tray values of the selected printer.
-        for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
-        {
-            section.getPageSetup().setFirstPageTray(settings.getDefaultPageSettings().PaperSource.RawKind);
-            section.getPageSetup().setOtherPagesTray(settings.getDefaultPageSettings().PaperSource.RawKind);
-        }
-
-        //ExEnd
-    }
-
-    @Test (enabled = false, description = "Run only when the printer driver is installed")
-    public void paperTrayForDifferentPaperType() throws Exception
-    {
-        //ExStart
-        //ExFor:PageSetup.FirstPageTray
-        //ExFor:PageSetup.OtherPagesTray
-        //ExSummary:Shows how to set up printing using different printer trays for different paper sizes.
-        Document doc = new Document();
-
-        // Choose the default printer to be used for printing this document.
-        PrinterSettings settings = new PrinterSettings();
-
-        // This is the tray we will use for A4 paper size. This is the first tray in the paper sources collection.
-        int printerTrayForA4 = settings.getPaperSources().get(0).RawKind;
-        // The is the tray we will use for Letter paper size. This is the second tray in the paper sources collection.
-        int printerTrayForLetter = settings.getPaperSources().get(1).RawKind;
-
-        // Set the page tray used for each section based off the paper size used in the section.
-        for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
-        {
-            if (section.getPageSetup().getPaperSize() == com.aspose.words.PaperSize.LETTER)
-            {
-                section.getPageSetup().setFirstPageTray(printerTrayForLetter);
-                section.getPageSetup().setOtherPagesTray(printerTrayForLetter);
-            }
-            else if (section.getPageSetup().getPaperSize() == com.aspose.words.PaperSize.A4)
-            {
-                section.getPageSetup().setFirstPageTray(printerTrayForA4);
-                section.getPageSetup().setOtherPagesTray(printerTrayForA4);
-            }
-        }
-
-        //ExEnd
-    }
 
     @Test
     public void pageMargins() throws Exception
@@ -239,9 +178,9 @@ public class ExPageSetup extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         TextColumnCollection columns = builder.getPageSetup().getTextColumns();
-        // Make spacing between columns wider.
+        // Make spacing between columns wider
         columns.setSpacing(100.0);
-        // This creates two columns of equal width.
+        // This creates two columns of equal width
         columns.setCount(2);
 
         builder.writeln("Text in column 1.");
@@ -266,19 +205,19 @@ public class ExPageSetup extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         TextColumnCollection columns = builder.getPageSetup().getTextColumns();
-        // Show vertical line between columns.
+        // Show vertical line between columns
         columns.setLineBetween(true);
-        // Indicate we want to create column with different widths.
+        // Indicate we want to create column with different widths
         columns.setEvenlySpaced(false);
-        // Create two columns, note they will be created with zero widths, need to set them.
+        // Create two columns, note they will be created with zero widths, need to set them
         columns.setCount(2);
 
-        // Set the first column to be narrow.
+        // Set the first column to be narrow
         TextColumn c1 = columns.get(0);
         c1.setWidth(100.0);
         c1.setSpaceAfter(20.0);
 
-        // Set the second column to take the rest of the space available on the page.
+        // Set the second column to take the rest of the space available on the page
         TextColumn c2 = columns.get(1);
         PageSetup ps = builder.getPageSetup();
         double contentWidth = ps.getPageWidth() - ps.getLeftMargin() - ps.getRightMargin();
@@ -315,7 +254,7 @@ public class ExPageSetup extends ApiExampleBase
         Assert.assertFalse(builder.getParagraphFormat().getSuppressLineNumbers());
 
         for (int i = 1; i <= 20; i++)
-            builder.writeln(msString.format("Line {0}.", i));
+            builder.writeln($"Line {i}.");
 
         builder.getDocument().save(getArtifactsDir() + "PageSetup.LineNumbers.docx");
         //ExEnd
@@ -384,24 +323,24 @@ public class ExPageSetup extends ApiExampleBase
         //ExFor:PageSetup.PageNumberStyle
         //ExFor:DocumentBuilder.InsertField(String, String)
         //ExSummary:Shows how to control page numbering per section.
-        // This document has two sections, but no page numbers yet.
+        // This document has two sections, but no page numbers yet
         Document doc = new Document(getMyDir() + "PageSetup.PageNumbering.doc");
 
-        // Use document builder to create a header with a page number field for the first section.
-        // The page number will look like "Page V".
+        // Use document builder to create a header with a page number field for the first section
+        // The page number will look like "Page V"
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.moveToSection(0);
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         builder.write("Page ");
         builder.insertField("PAGE", "");
 
-        // Set first section page numbering.
+        // Set first section page numbering
         Section section = doc.getSections().get(0);
         section.getPageSetup().setRestartPageNumbering(true);
         section.getPageSetup().setPageStartingNumber(5);
         section.getPageSetup().setPageNumberStyle(NumberStyle.UPPERCASE_ROMAN);
 
-        // Create a header for the section. 
+        // Create a header for the section
         // The page number will look like " - 10 - ".
         builder.moveToSection(1);
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
@@ -410,7 +349,7 @@ public class ExPageSetup extends ApiExampleBase
         builder.insertField("PAGE", "");
         builder.write(" - ");
 
-        // Set second section page numbering.
+        // Set second section page numbering
         section = doc.getSections().get(1);
         section.getPageSetup().setPageStartingNumber(10);
         section.getPageSetup().setRestartPageNumbering(true);
@@ -425,7 +364,7 @@ public class ExPageSetup extends ApiExampleBase
     {
         //ExStart
         //ExFor:PageSetup.FootnoteOptions
-        //ExSummary:Shows how to set options for footnotes in current section
+        //ExSummary:Shows how to set options for footnotes in current section.
         Document doc = new Document();
 
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
@@ -443,7 +382,7 @@ public class ExPageSetup extends ApiExampleBase
     {
         //ExStart
         //ExFor:PageSetup.EndnoteOptions
-        //ExSummary:Shows how to set options for endnotes in current section
+        //ExSummary:Shows how to set options for endnotes in current section.
         Document doc = new Document();
 
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
@@ -624,9 +563,9 @@ public class ExPageSetup extends ApiExampleBase
     }
 
     /// <summary>
-    /// Add a section to the end of a document, give it a body and a paragraph, then add text and an endnote to that paragraph
+    /// Add a section to the end of a document, give it a body and a paragraph, then add text and an endnote to that paragraph.
     /// </summary>
-    private void insertSection(Document doc, String sectionBodyText, String endnoteText)
+    private static void insertSection(Document doc, String sectionBodyText, String endnoteText)
     {
         Section section = new Section(doc);
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2019 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -28,7 +28,7 @@ public class ExBorderCollection extends ApiExampleBase
         //ExStart
         //ExFor:BorderCollection.GetEnumerator
         //ExSummary:Shows how to enumerate all borders in a collection.
-        Document doc = new Document(getMyDir() + "Border.Borders.doc");
+        Document doc = new Document(getMyDir() + "Borders.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         BorderCollection borders = builder.getParagraphFormat().getBorders();
@@ -56,7 +56,7 @@ public class ExBorderCollection extends ApiExampleBase
         //ExStart
         //ExFor:BorderCollection.ClearFormatting
         //ExSummary:Shows how to remove all borders from a paragraph at once.
-        Document doc = new Document(getMyDir() + "Border.Borders.doc");
+        Document doc = new Document(getMyDir() + "Borders.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
         BorderCollection borders = builder.getParagraphFormat().getBorders();
 
