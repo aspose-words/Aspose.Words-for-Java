@@ -4,6 +4,7 @@ import com.aspose.words.Document;
 import com.aspose.words.NodeType;
 import com.aspose.words.Table;
 import com.aspose.words.TextWrapping;
+import com.aspose.words.VerticalAlignment;
 import com.aspose.words.examples.Utils;
 
 
@@ -17,6 +18,7 @@ public class GetTablePosition {
 
         getTablePosition(dataDir);
         getFloatingTablePosition(dataDir);
+        setFloatingTablePosition(dataDir);
     }
 
     private static void getTablePosition(String dataDir) throws Exception {
@@ -53,6 +55,24 @@ public class GetTablePosition {
         }
 
         // ExEnd:GetFloatingTablePosition
+        System.out.println("\nTable position fetched successfully.");
+    }
+    
+    private static void setFloatingTablePosition(String dataDir) throws Exception {
+        // ExStart:SetFloatingTablePosition
+        Document doc = new Document(dataDir + "FloatingTablePosition.docx");
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
+
+        // sets absolute table horizontal position at 10pt.
+        table.setAbsoluteHorizontalDistance(10);
+
+        // sets vertical table position to center of entity specified by Table.VerticalAnchor.
+        table.setRelativeVerticalAlignment(VerticalAlignment.CENTER);
+
+        // Save the document to disk.
+        doc.save(dataDir + "Table.SetFloatingTablePosition.docx");
+
+        // ExEnd:SetFloatingTablePosition
         System.out.println("\nTable position fetched successfully.");
     }
 }
