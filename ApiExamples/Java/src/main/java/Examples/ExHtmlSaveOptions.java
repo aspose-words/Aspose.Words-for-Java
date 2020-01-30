@@ -157,16 +157,15 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Lists.PrintOutAllLists.doc");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
-        // 'ExportListLabels.Auto' - this option uses <ul> and <ol> tags are used for list label representation if it doesn't cause formatting loss,
-        // otherwise HTML <p> tag is used. This is also the default value.
-        // 'ExportListLabels.AsInlineText' - using this option the <p> tag is used for any list label representation.
-        // 'ExportListLabels.ByHtmlTags' - The <ul> and <ol> tags are used for list label representation. Some formatting loss is possible.
+        // 'ExportListLabels.Auto' - this option uses <ul> and <ol> tags are used for list label representation if it doesn't cause formatting loss, 
+        // otherwise HTML <p> tag is used. This is also the default value
+        // 'ExportListLabels.AsInlineText' - using this option the <p> tag is used for any list label representation
+        // 'ExportListLabels.ByHtmlTags' - The <ul> and <ol> tags are used for list label representation. Some formatting loss is possible
         saveOptions.setExportListLabels(howExportListLabels);
 
         doc.save(getArtifactsDir() + "Document.ExportListLabels.html", saveOptions);
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "controlListLabelsExportToHtmlDataProvider")
     public static Object[][] controlListLabelsExportToHtmlDataProvider() {
         return new Object[][]{
@@ -182,15 +181,15 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         // This option uses <ul> and <ol> tags are used for list label representation if it doesn't cause formatting loss,
-        // otherwise HTML <p> tag is used. This is also the default value.
+        // otherwise HTML <p> tag is used. This is also the default value
         saveOptions.setExportListLabels(ExportListLabels.AUTO);
         doc.save(getArtifactsDir() + "Document.ExportListLabels Auto.html", saveOptions);
 
-        // Using this option the <p> tag is used for any list label representation.
+        // Using this option the <p> tag is used for any list label representation
         saveOptions.setExportListLabels(ExportListLabels.AS_INLINE_TEXT);
         doc.save(getArtifactsDir() + "Document.ExportListLabels InlineText.html", saveOptions);
 
-        // The <ul> and <ol> tags are used for list label representation. Some formatting loss is possible.
+        // The <ul> and <ol> tags are used for list label representation. Some formatting loss is possible
         saveOptions.setExportListLabels(ExportListLabels.BY_HTML_TAGS);
         doc.save(getArtifactsDir() + "Document.ExportListLabels HtmlTags.html", saveOptions);
     }
@@ -433,7 +432,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     public void cssClassNamesPrefix() throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.CssClassNamePrefix
-        //ExSummary: Shows how to specifies a prefix which is added to all CSS class names
+        //ExSummary: Shows how to specifies a prefix which is added to all CSS class names.
         Document doc = new Document(getMyDir() + "HtmlSaveOptions.CssClassNamePrefix.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
@@ -486,7 +485,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         document.setFontSettings(fontSettings);
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
-        // By default this option is set to 'False' and Aspose.Words writes font names as specified in the source document.
+        // By default this option is set to 'False' and Aspose.Words writes font names as specified in the source document
         saveOptions.setResolveFontNames(true);
 
         document.save(getArtifactsDir() + "HtmlSaveOptions.ResolveFontNames.html", saveOptions);
@@ -517,7 +516,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         builder.getParagraphFormat().setStyle(builder.getDocument().getStyles().get("Heading 3"));
         builder.writeln("Heading #6");
 
-        // Create a HtmlSaveOptions object and set the split criteria to "HeadingParagraph", meaning that the document
+        // Create a HtmlSaveOptions object and set the split criteria to "HeadingParagraph", meaning that the document 
         // will be split into parts at the beginning of every paragraph of a "Heading" style, and each part will be saved as a separate document
         // Also, we will set the DocumentSplitHeadingLevel to 2, which will split the document only at headings that have levels from 1 to 2
         HtmlSaveOptions options = new HtmlSaveOptions();

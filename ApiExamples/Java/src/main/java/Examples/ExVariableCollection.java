@@ -26,7 +26,7 @@ public class ExVariableCollection extends ApiExampleBase {
         doc.getVariables().add("doc", "Word processing document");
         doc.getVariables().add("docx", "Word processing document");
         doc.getVariables().add("txt", "Word processing document");
-        // Duplicate values can be stored but adding a duplicate name overwrites the old one.
+        // Duplicate values can be stored but adding a duplicate name overwrites the old one
         doc.getVariables().add("txt", "Plain text file");
         doc.getVariables().add("bmp", "Image");
         doc.getVariables().add("png", "Image");

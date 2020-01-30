@@ -23,13 +23,13 @@ public class ExEditableRange extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Document.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create an EditableRange so we can remove it. Does not have to be well-formed.
+        // Create an EditableRange so we can remove it. Does not have to be well-formed
         EditableRangeStart edRange1Start = builder.startEditableRange();
         EditableRange editableRange1 = edRange1Start.getEditableRange();
         builder.writeln("Paragraph inside editable range");
         EditableRangeEnd edRange1End = builder.endEditableRange();
 
-        // Remove the range that was just made.
+        // Remove the range that was just made
         editableRange1.remove();
         //ExEnd
     }
@@ -203,7 +203,7 @@ public class ExEditableRange extends ApiExampleBase {
         //ExStart
         //ExFor:EditableRange.EditorGroup
         //ExFor:EditorType
-        //ExSummary:Shows how to add editing group for editable ranges
+        //ExSummary:Shows how to add editing group for editable ranges.
         EditableRangeStart startRange1 = builder.startEditableRange();
 
         builder.writeln("EditableRange_1_1");

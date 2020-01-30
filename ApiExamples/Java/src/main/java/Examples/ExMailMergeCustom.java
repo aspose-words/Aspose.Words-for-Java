@@ -26,19 +26,19 @@ public class ExMailMergeCustom extends ApiExampleBase {
     //ExSummary:Performs mail merge from a custom data source.
     @Test //ExSkip
     public void mailMergeCustomDataSource() throws Exception {
-        // Create some data that we will use in the mail merge.
+        // Create some data that we will use in the mail merge
         CustomerList customers = new CustomerList();
         customers.add(new Customer("Thomas Hardy", "120 Hanover Sq., London"));
         customers.add(new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
 
-        // Open the template document.
+        // Open the template document
         Document doc = new Document(getMyDir() + "MailMerge.CustomDataSource.doc");
 
         // To be able to mail merge from your own data source, it must be wrapped
-        // into an object that implements the IMailMergeDataSource interface.
+        // into an object that implements the IMailMergeDataSource interface
         CustomerMailMergeDataSource customersDataSource = new CustomerMailMergeDataSource(customers);
 
-        // Now you can pass your data source into Aspose.Words.
+        // Now you can pass your data source into Aspose.Words
         doc.getMailMerge().execute(customersDataSource);
 
         doc.save(getArtifactsDir() + "MailMerge.CustomDataSource.doc");
@@ -117,7 +117,7 @@ public class ExMailMergeCustom extends ApiExampleBase {
                 return true;
             } else {
                 // A field with this name was not found,
-                // return false to the Aspose.Words mail merge engine.
+                // return false to the Aspose.Words mail merge engine
                 fieldValue.set(null);
                 return false;
             }

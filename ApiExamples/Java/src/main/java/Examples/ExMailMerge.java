@@ -24,10 +24,10 @@ public class ExMailMerge extends ApiExampleBase {
         //ExFor:ContentDisposition
         //ExFor:Document.Save(HttpResponse,String,ContentDisposition,SaveOptions)
         //ExSummary:Performs a simple insertion of data into merge fields.
-        // Open an existing document.
+        // Open an existing document
         Document doc = new Document(getMyDir() + "MailMerge.ExecuteArray.doc");
 
-        // Fill the fields in the document with user data.
+        // Fill the fields in the document with user data
         doc.getMailMerge().execute(new String[]{"FullName", "Company", "Address", "Address2", "City"}, new Object[]{"James Bond", "MI5 Headquarters", "Milbank", "", "London"});
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteArray.doc");
@@ -45,19 +45,19 @@ public class ExMailMerge extends ApiExampleBase {
         //ExSummary:Executes mail merge from data stored in a ResultSet.
         Document doc = new Document(getMyDir() + "MailMerge.ExecuteDataTable.doc");
 
-        // This example creates a table, but you would normally load table from a database. 
+        // This example creates a table, but you would normally load table from a database
         DataTable table = new DataTable("Test");
         table.getColumns().add("CustomerName");
         table.getColumns().add("Address");
         table.getRows().add(new Object[]{"Thomas Hardy", "120 Hanover Sq., London"});
         table.getRows().add(new Object[]{"Paolo Accorti", "Via Monte Bianco 34, Torino"});
 
-        // Field values from the table are inserted into the mail merge fields found in the document.
+        // Field values from the table are inserted into the mail merge fields found in the document
         doc.getMailMerge().execute(table);
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.doc");
 
-        // Open a fresh copy of our document to perform another mail merge.
+        // Open a fresh copy of our document to perform another mail merge
         doc = new Document(getMyDir() + "MailMerge.ExecuteDataTable.doc");
 
         // We can also source values for a mail merge from a single row in the table
@@ -75,7 +75,7 @@ public class ExMailMerge extends ApiExampleBase {
         // Open the template document
         Document doc = new Document(getMyDir() + "MailingLabelsDemo.doc");
 
-        // Open the data reader.
+        // Open the data reader
         java.sql.ResultSet resultSet = executeDataTable("SELECT TOP 50 * FROM Customers ORDER BY Country, CompanyName");
         DataTable dataTable = new DataTable(resultSet, "OrderDetails");
         IDataReader dataReader = new DataTableReader(dataTable);
@@ -92,16 +92,16 @@ public class ExMailMerge extends ApiExampleBase {
         //ExStart
         //ExFor:MailMerge.ExecuteWithRegions(DataSet)
         //ExSummary:Executes a mail merge with repeatable regions from an ADO.NET DataSet.
-        // Open the document.
+        // Open the document
         // For a mail merge with repeatable regions, the document should have mail merge regions
-        // in the document designated with MERGEFIELD TableStart:MyTableName and TableEnd:MyTableName.
+        // in the document designated with MERGEFIELD TableStart:MyTableName and TableEnd:MyTableName
         Document doc = new Document(getMyDir() + "MailMerge.ExecuteWithRegions.doc");
 
         final int orderId = 10444;
 
-        // Populate tables and add them to the dataset.
+        // Populate tables and add them to the dataset
         // For a mail merge with repeatable regions, DataTable.TableName should be
-        // set to match the name of the region defined in the document.
+        // set to match the name of the region defined in the document
         DataSet dataSet = new DataSet();
 
         DataTable orderTable = getTestOrder(orderId);
@@ -111,8 +111,8 @@ public class ExMailMerge extends ApiExampleBase {
         dataSet.getTables().add(orderDetailsTable);
 
         // This looks through all mail merge regions inside the document and for each
-        // region tries to find a DataTable with a matching name inside the DataSet.
-        // If a table is found, its content is merged into the mail merge region in the document.
+        // region tries to find a DataTable with a matching name inside the DataSet
+        // If a table is found, its content is merged into the mail merge region in the document
         doc.getMailMerge().executeWithRegions(dataSet);
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsDataSet.doc");
@@ -129,10 +129,10 @@ public class ExMailMerge extends ApiExampleBase {
 
         final int orderId = 10444;
 
-        // Perform several mail merge operations populating only part of the document each time.
+        // Perform several mail merge operations populating only part of the document each time
 
-        // Use DataTable as a data source.
-        // The table name property should be set to match the name of the region defined in the document.
+        // Use DataTable as a data source
+        // The table name property should be set to match the name of the region defined in the document
         DataTable orderTable = getTestOrder(orderId);
         doc.getMailMerge().executeWithRegions(orderTable);
 
@@ -170,22 +170,22 @@ public class ExMailMerge extends ApiExampleBase {
         // Loads the driver
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 
-        // Open the database connection.
+        // Open the database connection
         String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.mdb";
 
-        // From Wikipedia: The Sun driver has a known issue with character encoding and Microsoft Access databases.
+        // From Wikipedia: The Sun driver has a known issue with character encoding and Microsoft Access databases
         // Microsoft Access may use an encoding that is not correctly translated by the driver, leading to the replacement
-        // in strings of, for example, accented characters by question marks.
+        // in strings of, for example, accented characters by question marks
         //
-        // In this case I have to set CP1252 for the european characters to come through in the data values.
+        // In this case I have to set CP1252 for the european characters to come through in the data values
         java.util.Properties props = new java.util.Properties();
         props.put("charSet", "Cp1252");
         props.put("UID", "Admin");
 
-        // DSN-less DB connection.
+        // DSN-less DB connection
         java.sql.Connection conn = java.sql.DriverManager.getConnection(connString, props);
 
-        // Create and execute a command.
+        // Create and execute a command
         java.sql.Statement statement = conn.createStatement();
         return statement.executeQuery(commandText);
     }
@@ -300,7 +300,7 @@ public class ExMailMerge extends ApiExampleBase {
         mergeFieldOption2.setFieldName("Option_2");
 
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS);
-        // The default value of the option is true which means that the behaviour was changed to mimic MS Word
+        // The default value of the option is true which means that the behavior was changed to mimic MS Word
         // If you rely on the old behavior are able to revert it by setting the option to false
         doc.getMailMerge().setCleanupParagraphsWithPunctuationMarks(isCleanupParagraphsWithPunctuationMarks);
 
@@ -341,7 +341,7 @@ public class ExMailMerge extends ApiExampleBase {
         //ExStart
         //ExFor:FieldAddressBlock
         //ExFor:FieldAddressBlock.GetFieldNames
-        //ExSummary:Shows how to get mail merge field names used by the field
+        //ExSummary:Shows how to get mail merge field names used by the field.
         Document doc = new Document(getMyDir() + "MailMerge.GetFieldNames.docx");
 
         String[] addressFieldsExpect = {"Company", "First Name", "Middle Name", "Last Name", "Suffix", "Address 1", "City", "State", "Country or Region", "Postal Code"};
@@ -413,13 +413,13 @@ public class ExMailMerge extends ApiExampleBase {
         //ExFor:MailMergeRegionInfo.StartField
         //ExFor:MailMergeRegionInfo.EndField
         //ExFor:MailMergeRegionInfo.Level
-        //ExSummary:Shows how to get MailMergeRegionInfo and work with it
+        //ExSummary:Shows how to get MailMergeRegionInfo and work with it.
         Document doc = new Document(getMyDir() + "MailMerge.TestRegionsHierarchy.doc");
 
-        //Returns a full hierarchy of regions (with fields) available in the document.
+        // Returns a full hierarchy of regions (with fields) available in the document
         MailMergeRegionInfo regionInfo = doc.getMailMerge().getRegionsHierarchy();
 
-        //Get top regions in the document
+        // Get top regions in the document
         ArrayList topRegions = regionInfo.getRegions();
         Assert.assertEquals(topRegions.size(), 2);
         Assert.assertEquals(((MailMergeRegionInfo) topRegions.get(0)).getName(), "Region1");
@@ -427,7 +427,7 @@ public class ExMailMerge extends ApiExampleBase {
         Assert.assertEquals(((MailMergeRegionInfo) topRegions.get(0)).getLevel(), 1);
         Assert.assertEquals(((MailMergeRegionInfo) topRegions.get(1)).getLevel(), 1);
 
-        //Get nested region in first top region
+        // Get nested region in first top region
         ArrayList nestedRegions = ((MailMergeRegionInfo) topRegions.get(0)).getRegions();
         Assert.assertEquals(nestedRegions.size(), 2);
         Assert.assertEquals(((MailMergeRegionInfo) nestedRegions.get(0)).getName(), "NestedRegion1");
@@ -435,7 +435,7 @@ public class ExMailMerge extends ApiExampleBase {
         Assert.assertEquals(((MailMergeRegionInfo) nestedRegions.get(0)).getLevel(), 2);
         Assert.assertEquals(((MailMergeRegionInfo) nestedRegions.get(1)).getLevel(), 2);
 
-        //Get field list in first top region
+        // Get field list in first top region
         ArrayList fieldList = ((MailMergeRegionInfo) topRegions.get(0)).getFields();
         Assert.assertEquals(fieldList.size(), 4);
 
@@ -538,10 +538,10 @@ public class ExMailMerge extends ApiExampleBase {
         //ExSummary:Shows how to merge fields or regions regardless of the parent IF field's condition.
         Document doc = new Document(getMyDir() + "MailMerge.UnconditionalMergeFieldsAndRegions.docx");
 
-        // Merge fields and merge regions are merged regardless of the parent IF field's condition.
+        // Merge fields and merge regions are merged regardless of the parent IF field's condition
         doc.getMailMerge().setUnconditionalMergeFieldsAndRegions(true);
 
-        // Fill the fields in the document with user data.
+        // Fill the fields in the document with user data
         doc.getMailMerge().execute(
                 new String[]{"FullName"},
                 new Object[]{"James Bond"});

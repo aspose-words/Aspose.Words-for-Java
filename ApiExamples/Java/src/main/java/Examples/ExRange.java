@@ -25,23 +25,23 @@ public class ExRange extends ApiExampleBase {
         //ExFor:FindReplaceOptions.MatchCase
         //ExFor:FindReplaceOptions.FindWholeWordsOnly
         //ExSummary:Simple find and replace operation.
-        // Open the document.
+        // Open the document
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("Hello _CustomerName_,");
 
-        // Check the document contains what we are about to test.
+        // Check the document contains what we are about to test
         System.out.println(doc.getFirstSection().getBody().getParagraphs().get(0).getText());
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(false);
 
-        // Replace the text in the document.
+        // Replace the text in the document
         doc.getRange().replace("_CustomerName_", "James Bond", options);
 
-        // Save the modified document.
+        // Save the modified document
         doc.save(getArtifactsDir() + "Range.ReplaceSimple.docx");
         //ExEnd
 
@@ -126,7 +126,7 @@ public class ExRange extends ApiExampleBase {
     //ExSummary:Replaces text specified with regular expression with HTML.
     @Test //ExSkip
     public void replaceWithInsertHtml() throws Exception {
-        // Open the document.
+        // Open the document
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -137,7 +137,7 @@ public class ExRange extends ApiExampleBase {
 
         doc.getRange().replace(Pattern.compile(" <CustomerName>,"), "", options);
 
-        // Save the modified document.
+        // Save the modified document
         doc.save(getArtifactsDir() + "Range.ReplaceWithInsertHtml.doc");
 
         Assert.assertEquals(doc.getText(), "James Bond, Hello\r\f"); //ExSkip
@@ -156,7 +156,7 @@ public class ExRange extends ApiExampleBase {
             DocumentBuilder builder = new DocumentBuilder((Document) e.getMatchNode().getDocument());
             builder.moveTo(e.getMatchNode());
 
-            // Replace '<CustomerName>' text with a red bold name.
+            // Replace '<CustomerName>' text with a red bold name
             builder.insertHtml("<b><font color='red'>James Bond, </font></b>");
             e.setReplacement("");
 
@@ -200,7 +200,7 @@ public class ExRange extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Replaces arabic numbers with hexadecimal equivalents and appends the number of each replacement
+    /// Replaces arabic numbers with hexadecimal equivalents and appends the number of each replacement.
     /// </summary>
     private static class NumberHexer implements IReplacingCallback {
         public int replacing(ReplacingArgs args) {
@@ -212,7 +212,7 @@ public class ExRange extends ApiExampleBase {
             // Java throws NumberFormatException both for overflow and bad format
             int number = Integer.parseInt(numberStr);
 
-            // And write it as HEX.
+            // And write it as HEX
             args.setReplacement(MessageFormat.format("0x{0} (replacement #{1})", Integer.toHexString(number), mCurrentReplacementNumber));
 
             System.out.println(MessageFormat.format("Match #{0}", mCurrentReplacementNumber));
@@ -258,13 +258,14 @@ public class ExRange extends ApiExampleBase {
         // Open Word document.
         Document doc = new Document(getMyDir() + "Range.DeleteSection.doc");
 
-        // The document contains two sections. Each section has a paragraph of text.
+        // The document contains two sections
+        // Each section has a paragraph of text
         System.out.println(doc.getText());
 
         // Delete the first section from the document.
         doc.getSections().get(0).getRange().delete();
 
-        // Check the first section was deleted by looking at the text of the whole document again.
+        // Check the first section was deleted by looking at the text of the whole document again
         System.out.println(doc.getText());
         //ExEnd
 

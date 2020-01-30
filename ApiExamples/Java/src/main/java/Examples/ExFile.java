@@ -22,7 +22,7 @@ public class ExFile extends ApiExampleBase {
     public void catchFileCorruptedException() throws Exception {
         //ExStart
         //ExFor:FileCorruptedException
-        //ExSummary:Shows how to catch a FileCorruptedException
+        //ExSummary:Shows how to catch a FileCorruptedException.
         try {
             Document doc = new Document(getMyDir() + "Corrupted.docx");
         } catch (FileCorruptedException e) {
@@ -131,31 +131,31 @@ public class ExFile extends ApiExampleBase {
         //ExFor:Document.OriginalFileName
         //ExFor:FileFormatInfo.LoadFormat
         //ExSummary:Shows how to use the FileFormatUtil methods to detect the format of a document without any extension and save it with the correct file extension.
-        // Load the document without a file extension into a stream and use the DetectFileFormat method to detect it's format. 
+        // Load the document without a file extension into a stream and use the DetectFileFormat method to detect it's format
         // These are both times where you might need extract the file format as it's not visible
         // The file format of this document is actually ".doc"
         FileInputStream docStream = new FileInputStream(getMyDir() + "Document.FileWithoutExtension");
         FileFormatInfo info = FileFormatUtil.detectFileFormat(docStream);
 
-        // Retrieve the LoadFormat of the document.
+        // Retrieve the LoadFormat of the document
         int loadFormat = info.getLoadFormat();
 
-        // Let's show the different methods of converting LoadFormat enumerations to SaveFormat enumerations.
+        // Let's show the different methods of converting LoadFormat enumerations to SaveFormat enumerations
         //
         // Method #1
-        // Convert the LoadFormat to a String first for working with. The String will include the leading dot in front of the extension.
+        // Convert the LoadFormat to a String first for working with. The String will include the leading dot in front of the extension
         String fileExtension = FileFormatUtil.loadFormatToExtension(loadFormat);
         // Now convert this extension into the corresponding SaveFormat enumeration
         int saveFormat = FileFormatUtil.extensionToSaveFormat(fileExtension);
 
         // Method #2
-        // Convert the LoadFormat enumeration directly to the SaveFormat enumeration.
+        // Convert the LoadFormat enumeration directly to the SaveFormat enumeration
         saveFormat = FileFormatUtil.loadFormatToSaveFormat(loadFormat);
 
         // Load a document from the stream.
         Document doc = new Document(docStream);
 
-        // Save the document with the original file name, " Out" and the document's file extension.
+        // Save the document with the original file name, " Out" and the document's file extension
         doc.save(getArtifactsDir() + "Document.WithFileExtension" + FileFormatUtil.saveFormatToExtension(saveFormat));
         //ExEnd
 
@@ -167,9 +167,9 @@ public class ExFile extends ApiExampleBase {
         //ExStart
         //ExFor:FileFormatUtil.SaveFormatToLoadFormat(SaveFormat)
         //ExSummary:Shows how to use the FileFormatUtil class and to convert a SaveFormat enumeration into the corresponding LoadFormat enumeration.
-        // Define the SaveFormat enumeration to convert.
+        // Define the SaveFormat enumeration to convert
         int saveFormat = SaveFormat.HTML;
-        // Convert the SaveFormat enumeration to LoadFormat enumeration.
+        // Convert the SaveFormat enumeration to LoadFormat enumeration
         int loadFormat = FileFormatUtil.saveFormatToLoadFormat(saveFormat);
         System.out.println("The converted LoadFormat is: " + FileFormatUtil.loadFormatToExtension(loadFormat));
         //ExEnd
@@ -184,7 +184,7 @@ public class ExFile extends ApiExampleBase {
         //ExFor:FileFormatUtil.DetectFileFormat(String)
         //ExFor:FileFormatInfo.HasDigitalSignature
         //ExSummary:Shows how to check a document for digital signatures before loading it into a Document object.
-        // The path to the document which is to be processed.
+        // The path to the document which is to be processed
         String filePath = getMyDir() + "Document.Signed.docx";
 
         FileFormatInfo info = FileFormatUtil.detectFileFormat(filePath);

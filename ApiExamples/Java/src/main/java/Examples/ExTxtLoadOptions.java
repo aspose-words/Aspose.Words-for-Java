@@ -25,7 +25,7 @@ public class ExTxtLoadOptions extends ApiExampleBase {
         //ExFor:TxtLeadingSpacesOptions
         //ExSummary:Shows how to load plain text as is.
         TxtLoadOptions loadOptions = new TxtLoadOptions();
-        // If it sets to true Aspose.Words insert additional periods after numbers in the content.
+        // If it sets to true Aspose.Words insert additional periods after numbers in the content
         loadOptions.setDetectNumberingWithWhitespaces(false);
         loadOptions.setTrailingSpacesOptions(TxtTrailingSpacesOptions.PRESERVE);
         loadOptions.setLeadingSpacesOptions(TxtLeadingSpacesOptions.PRESERVE);

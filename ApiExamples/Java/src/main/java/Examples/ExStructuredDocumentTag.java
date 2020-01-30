@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.UUID;
 
 /**
- * Tests that verify work with structured document tags in the document
+ * Tests that verify work with structured document tags in the document.
  */
 @Test
 public class ExStructuredDocumentTag extends ApiExampleBase {
@@ -693,8 +693,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     //ExFor:CustomXmlProperty.Name
     //ExFor:CustomXmlProperty.Value
     //ExFor:Markup.SmartTag
-    //ExFor:Markup.SmartTag.#ctor(Aspose.Words.DocumentBase)
-    //ExFor:Markup.SmartTag.Accept(Aspose.Words.DocumentVisitor)
+    //ExFor:Markup.SmartTag.#ctor(DocumentBase)
+    //ExFor:Markup.SmartTag.Accept(DocumentVisitor)
     //ExFor:Markup.SmartTag.Element
     //ExFor:Markup.SmartTag.Properties
     //ExFor:Markup.SmartTag.Uri
@@ -735,7 +735,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     }
 
     /// <summary>
-    /// DocumentVisitor implementation that prints smart tags and their contents
+    /// DocumentVisitor implementation that prints smart tags and their contents.
     /// </summary>
     private static class SmartTagVisitor extends DocumentVisitor {
         /// <summary>

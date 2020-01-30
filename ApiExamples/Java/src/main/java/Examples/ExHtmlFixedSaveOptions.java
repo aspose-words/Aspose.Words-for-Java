@@ -38,8 +38,8 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    //Note: Test doesn't contain validation result, because it's may take a lot of time for assert result
-    //For validation result, you can save the document to HTML file and check out with notepad++, that file encoding will be correctly displayed (Encoding tab in Notepad++)
+    // Note: Test doesn't contain validation result, because it's may take a lot of time for assert result
+    // For validation result, you can save the document to HTML file and check out with notepad++, that file encoding will be correctly displayed (Encoding tab in Notepad++)
     @Test
     public void exportEmbeddedObjects() throws Exception {
         //ExStart
@@ -61,8 +61,8 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    //Note: Test doesn't contain validation result, because it's may take a lot of time for assert result
-    //For validation result, you can save the document to HTML file and check out with notepad++, that file encoding will be correctly displayed (Encoding tab in Notepad++)
+    // Note: Test doesn't contain validation result, because it's may take a lot of time for assert result
+    // For validation result, you can save the document to HTML file and check out with notepad++, that file encoding will be correctly displayed (Encoding tab in Notepad++)
     @Test
     public void encodingUsingNewEncoding() throws Exception {
         Document doc = DocumentHelper.createDocumentFillWithDummyText();
@@ -230,7 +230,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Counts and prints URIs of resources contained by as they are converted to fixed .Html
+    /// Counts and prints URIs of resources contained by as they are converted to fixed .Html.
     /// </summary>
     private static class ResourceUriPrinter implements IResourceSavingCallback {
         public void resourceSaving(ResourceSavingArgs args) throws Exception {

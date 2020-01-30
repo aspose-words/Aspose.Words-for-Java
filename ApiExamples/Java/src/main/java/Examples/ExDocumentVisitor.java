@@ -568,7 +568,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExStart
     //ExFor:DocumentVisitor.VisitHeaderFooterStart(HeaderFooter)
     //ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
-    //ExFor:HeaderFooter.Accept(Aspose.Words.DocumentVisitor)
+    //ExFor:HeaderFooter.Accept(DocumentVisitor)
     //ExFor:HeaderFooterCollection.ToArray
     //ExFor:Run.Accept(DocumentVisitor)
     //ExFor:Run.GetText
@@ -581,7 +581,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Create an object that inherits from the DocumentVisitor class
         HeaderFooterInfoPrinter visitor = new HeaderFooterInfoPrinter();
 
-        // Accepring a visitor lets it start traversing the nodes in the document, 
+        // Accepting a visitor lets it start traversing the nodes in the document, 
         // starting with the node that accepted it to then recursively visit every child
         doc.accept(visitor);
 
@@ -848,7 +848,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:Math.MathObjectType
     //ExFor:Math.OfficeMath.Accept(DocumentVisitor)
     //ExFor:Math.OfficeMath.MathObjectType
-    //ExSummary:Traverse a document with a visitor that prints all offise math nodes that it encounters.
+    //ExSummary:Traverse a document with a visitor that prints all OfficeMath nodes that it encounters.
     @Test //ExSkip
     public void officeMathToText() throws Exception {
         // Open the document that has office math objects we want to print the info of
@@ -1034,7 +1034,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Create an object that inherits from the DocumentVisitor class
         StructuredDocumentTagInfoPrinter visitor = new StructuredDocumentTagInfoPrinter();
 
-        // Accepring a visitor lets it start traversing the nodes in the document, 
+        // Accepting a visitor lets it start traversing the nodes in the document, 
         // starting with the node that accepted it to then recursively visit every child
         doc.accept(visitor);
 

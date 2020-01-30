@@ -45,7 +45,7 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Counts and prints URIs of resources created during conversion to to fixed .xaml
+    /// Counts and prints URIs of resources created during conversion to to fixed .xaml.
     /// </summary>
     private static class ResourceUriPrinter implements IResourceSavingCallback {
         public void resourceSaving(ResourceSavingArgs args) throws Exception {

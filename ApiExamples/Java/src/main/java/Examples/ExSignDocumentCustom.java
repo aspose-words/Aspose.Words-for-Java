@@ -41,12 +41,12 @@ public class ExSignDocumentCustom extends ApiExampleBase {
         String certificatePath = getMyDir() + "morzal.pfx";
         String certificatePassword = "aw";
 
-        // We need to create simple list with test signers for this example.
+        // We need to create simple list with test signers for this example
         createSignPersonData();
         System.out.println("Test data successfully added!");
 
-        // Get sign person object by name of the person who must sign a document.
-        // This an example, in real use case you would return an object from a database.
+        // Get sign person object by name of the person who must sign a document
+        // This an example, in real use case you would return an object from a database
         SignPersonTestClass signPersonInfo = gSignPersonList.stream().filter(x -> x.getName() == signPersonName).findFirst().get();
 
         if (signPersonInfo != null) {
@@ -57,8 +57,8 @@ public class ExSignDocumentCustom extends ApiExampleBase {
             Assert.fail(); //ExSkip
         }
 
-        // Now do something with a signed document, for example, save it to your database.
-        // Use 'new Document(dstDocumentPath)' for loading a signed document.
+        // Now do something with a signed document, for example, save it to your database
+        // Use 'new Document(dstDocumentPath)' for loading a signed document
     }
 
     /// <summary>
@@ -67,37 +67,37 @@ public class ExSignDocumentCustom extends ApiExampleBase {
     private static void signDocument(final String srcDocumentPath, final String dstDocumentPath,
                                      final SignPersonTestClass signPersonInfo, final String certificatePath,
                                      final String certificatePassword) throws Exception {
-        // Create new document instance based on a test file that we need to sign.
+        // Create new document instance based on a test file that we need to sign
         Document document = new Document(srcDocumentPath);
         DocumentBuilder builder = new DocumentBuilder(document);
 
-        // Add info about responsible person who sign a document.
+        // Add info about responsible person who sign a document
         SignatureLineOptions signatureLineOptions = new SignatureLineOptions();
         signatureLineOptions.setSigner(signPersonInfo.getName());
         signatureLineOptions.setSignerTitle(signPersonInfo.getPosition());
 
-        // Add signature line for responsible person who sign a document.
+        // Add signature line for responsible person who sign a document
         SignatureLine signatureLine = builder.insertSignatureLine(signatureLineOptions).getSignatureLine();
         signatureLine.setId(signPersonInfo.getPersonId());
 
-        // Save a document with line signatures into temporary file for future signing.
+        // Save a document with line signatures into temporary file for future signing
         builder.getDocument().save(dstDocumentPath);
 
-        // Create holder of certificate instance based on your personal certificate.
-        // This is the test certificate generated for this example.
+        // Create holder of certificate instance based on your personal certificate
+        // This is the test certificate generated for this example
         CertificateHolder certificateHolder = CertificateHolder.create(certificatePath, certificatePassword);
 
-        // Link our signature line with personal signature.
+        // Link our signature line with personal signature
         SignOptions signOptions = new SignOptions();
         signOptions.setSignatureLineId(signPersonInfo.getPersonId());
         signOptions.setSignatureLineImage(signPersonInfo.getImage());
 
-        // Sign a document which contains signature line with personal certificate.
+        // Sign a document which contains signature line with personal certificate
         DigitalSignatureUtil.sign(dstDocumentPath, dstDocumentPath, certificateHolder, signOptions);
     }
 
     /// <summary>
-    /// Create test data that contains info about sing persons
+    /// Create test data that contains info about sing persons.
     /// </summary>
     private static void createSignPersonData() throws IOException {
         InputStream inputStream = new FileInputStream(getImageDir() + "LogoSmall.png");

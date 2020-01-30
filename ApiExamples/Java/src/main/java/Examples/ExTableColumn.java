@@ -59,20 +59,20 @@ public class ExTableColumn extends ApiExampleBase {
                 throw new IllegalArgumentException("Column must not be empty");
             }
 
-            // Create a clone of this column.
+            // Create a clone of this column
             for (Cell cell : columnCells) {
                 cell.getParentRow().insertBefore(cell.deepClone(false), cell);
             }
 
-            // This is the new column.
+            // This is the new column
             Column column = new Column(columnCells[0].getParentRow().getParentTable(), mColumnIndex);
 
-            // We want to make sure that the cells are all valid to work with (have at least one paragraph).
+            // We want to make sure that the cells are all valid to work with (have at least one paragraph)
             for (Cell cell : column.getCells()) {
                 cell.ensureMinimum();
             }
 
-            // Increase the index which this column represents since there is now one extra column infront.
+            // Increase the index which this column represents since there is now one extra column infront
             mColumnIndex++;
 
             return column;
@@ -141,14 +141,14 @@ public class ExTableColumn extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Table.Document.doc");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
-        // Get the second column in the table.
+        // Get the second column in the table
         Column column = Column.fromIndex(table, 1);
 
-        // Create a new column to the left of this column.
-        // This is the same as using the "Insert Column Before" command in Microsoft Word.
+        // Create a new column to the left of this column
+        // This is the same as using the "Insert Column Before" command in Microsoft Word
         Column newColumn = column.insertColumnBefore();
 
-        // Add some text to each of the column cells.
+        // Add some text to each of the column cells
         for (Cell cell : newColumn.getCells())
             cell.getFirstParagraph().appendChild(new Run(doc, "Column Text " + newColumn.indexOf(cell)));
 
@@ -164,10 +164,10 @@ public class ExTableColumn extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Table.Document.doc");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
-        // Get the first column in the table.
+        // Get the first column in the table
         Column column = Column.fromIndex(table, 0);
 
-        // Print the plain text of the column to the screen.
+        // Print the plain text of the column to the screen
         System.out.println(column.toTxt());
 
         Assert.assertEquals(column.toTxt(), "\r\nRow 1\r\nRow 2\r\nRow 3\r\n");

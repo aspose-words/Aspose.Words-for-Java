@@ -34,16 +34,16 @@ public class ExNode extends ApiExampleBase {
         //ExFor:Node
         //ExFor:Node.Clone
         //ExSummary:Shows how to clone composite nodes with and without their child nodes.
-        // Create a new empty document.
+        // Create a new empty document
         Document doc = new Document();
 
         // Add some text to the first paragraph
         Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
         para.appendChild(new Run(doc, "Some text"));
 
-        // Clone the paragraph and the child nodes.
+        // Clone the paragraph and the child nodes
         Node cloneWithChildren = para.deepClone(true);
-        // Only clone the paragraph and no child nodes.
+        // Only clone the paragraph and no child nodes
         Node cloneWithoutChildren = para.deepClone(false);
         //ExEnd
 
@@ -56,13 +56,13 @@ public class ExNode extends ApiExampleBase {
         //ExStart
         //ExFor:Node.ParentNode
         //ExSummary:Shows how to access the parent node.
-        // Create a new empty document. It has one section.
+        // Create a new empty document. It has one section
         Document doc = new Document();
 
-        // The section is the first child node of the document.
+        // The section is the first child node of the document
         Node section = doc.getFirstChild();
 
-        // The section's parent node is the document.
+        // The section's parent node is the document
         System.out.println("Section parent is the document: " + (doc == section.getParentNode()));
         //ExEnd
 
@@ -75,26 +75,26 @@ public class ExNode extends ApiExampleBase {
         //ExFor:Node.Document
         //ExFor:Node.ParentNode
         //ExSummary:Shows that when you create any node, it requires a document that will own the node.
-        // Open a file from disk.
+        // Open a file from disk
         Document doc = new Document();
 
-        // Creating a new node of any type requires a document passed into the constructor.
+        // Creating a new node of any type requires a document passed into the constructor
         Paragraph para = new Paragraph(doc);
 
-        // The new paragraph node does not yet have a parent.
+        // The new paragraph node does not yet have a parent
         System.out.println("Paragraph has no parent node: " + (para.getParentNode() == null));
 
-        // But the paragraph node knows its document.
+        // But the paragraph node knows its document
         System.out.println("Both nodes' documents are the same: " + (para.getDocument() == doc));
 
-        // The fact that a node always belongs to a document allows us to access and modify
-        // properties that reference the document-wide data such as styles or lists.
+        // The fact that a node always belongs to a document allows us to access and modify 
+        // properties that reference the document-wide data such as styles or lists
         para.getParagraphFormat().setStyleName("Heading 1");
 
-        // Now add the paragraph to the main text of the first section.
+        // Now add the paragraph to the main text of the first section
         doc.getFirstSection().getBody().appendChild(para);
 
-        // The paragraph node is now a child of the Body node.
+        // The paragraph node is now a child of the Body node
         System.out.println("Paragraph has a parent node: " + (para.getParentNode() != null));
         //ExEnd
 
@@ -120,9 +120,9 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Shows how to enumerate immediate children of a CompositeNode using the enumerator provided by the ChildNodes collection.
         NodeCollection children = paragraph.getChildNodes();
         for (Node child : (Iterable<Node>) children) {
-            // Paragraph may contain children of various types such as runs, shapes and so on.
+            // Paragraph may contain children of various types such as runs, shapes and so on
             if (child.getNodeType() == NodeType.RUN) {
-                // Say we found the node that we want, do something useful.
+                // Say we found the node that we want, do something useful
                 Run run = (Run) child;
                 System.out.println(run.getText());
             }
@@ -143,9 +143,9 @@ public class ExNode extends ApiExampleBase {
         for (int i = 0; i < children.getCount(); i++) {
             Node child = children.get(i);
 
-            // Paragraph may contain children of various types such as runs, shapes and so on.
+            // Paragraph may contain children of various types such as runs, shapes and so on
             if (child.getNodeType() == NodeType.RUN) {
-                // Say we found the node that we want, do something useful.
+                // Say we found the node that we want, do something useful
                 Run run = (Run) child;
                 System.out.println(run.getText());
             }
@@ -165,7 +165,7 @@ public class ExNode extends ApiExampleBase {
         // Open a document.
         Document doc = new Document(getMyDir() + "Node.RecurseAllNodes.doc");
 
-        // Invoke the recursive function that will walk the tree.
+        // Invoke the recursive function that will walk the tree
         traverseAllNodes(doc);
     }
 
@@ -175,12 +175,12 @@ public class ExNode extends ApiExampleBase {
      */
     @Test(enabled = false)
     public void traverseAllNodes(final CompositeNode parentNode) {
-        // This is the most efficient way to loop through immediate children of a node.
+        // This is the most efficient way to loop through immediate children of a node
         for (Node childNode = parentNode.getFirstChild(); childNode != null; childNode = childNode.getNextSibling()) {
-            // Do some useful work.
+            // Do some useful work
             System.out.println(Node.nodeTypeToString(childNode.getNodeType()));
 
-            // Recurse into the node if it is a composite node.
+            // Recurse into the node if it is a composite node
             if (childNode.isComposite()) {
                 traverseAllNodes((CompositeNode) childNode);
             }
@@ -196,27 +196,28 @@ public class ExNode extends ApiExampleBase {
         //ExFor:Node
         //ExFor:Node.NodeType
         //ExFor:Node.Remove
-        //ExSummary:Shows how to remove all nodes of a specific type from a composite node. In this example we remove tables from a section body.
-        // Get the section that we want to work on.
+        //ExSummary:Shows how to remove all nodes of a specific type from a composite node.
+        // In this example we remove tables from a section body
+        // Get the section that we want to work on
         Section section = doc.getSections().get(0);
         Body body = section.getBody();
 
-        // Select the first child node in the body.
+        // Select the first child node in the body
         Node curNode = body.getFirstChild();
 
         while (curNode != null) {
             // Save the pointer to the next sibling node because if the current
             // node is removed from the parent in the next step, we will have
-            // no way of finding the next node to continue the loop.
+            // no way of finding the next node to continue the loop
             Node nextNode = curNode.getNextSibling();
 
-            // A section body can contain Paragraph and Table nodes.
-            // If the node is a Table, remove it from the parent.
+            // A section body can contain Paragraph and Table nodes
+            // If the node is a Table, remove it from the parent
             if (curNode.getNodeType() == NodeType.TABLE) {
                 curNode.remove();
             }
 
-            // Continue going through child nodes until null (no more siblings) is reached.
+            // Continue going through child nodes until null (no more siblings) is reached
             curNode = nextNode;
         }
         //ExEnd
@@ -231,14 +232,15 @@ public class ExNode extends ApiExampleBase {
         //ExFor:Node.NextSibling
         //ExFor:Node.NodeTypeToString
         //ExFor:Node.NodeType
-        //ExSummary:Shows how to enumerate immediate child nodes of a composite node using NextSibling. In this example we enumerate all paragraphs of a section body.
-        // Get the section that we want to work on.
+        //ExSummary:Shows how to enumerate immediate child nodes of a composite node using NextSibling.
+        // In this example we enumerate all paragraphs of a section body
+        // Get the section that we want to work on
         Section section = doc.getSections().get(0);
         Body body = section.getBody();
 
-        // Loop starting from the first child until we reach null.
+        // Loop starting from the first child until we reach null
         for (Node node = body.getFirstChild(); node != null; node = node.getNextSibling()) {
-            // Output the types of the nodes that we come across.
+            // Output the types of the nodes that we come across
             System.out.println(Node.nodeTypeToString(node.getNodeType()));
         }
         //ExEnd
@@ -253,23 +255,23 @@ public class ExNode extends ApiExampleBase {
         //ExFor:Table.FirstRow
         //ExFor:Table.LastRow
         //ExFor:TableCollection
-        //ExSummary:Demonstrates how to use typed properties to access nodes of the document tree.
-        // Quick typed access to the first child Section node of the Document.
+        //ExSummary:Shows how to use typed properties to access nodes of the document tree.
+        // Quick typed access to the first child Section node of the Document
         Section section = doc.getFirstSection();
 
-        // Quick typed access to the Body child node of the Section.
+        // Quick typed access to the Body child node of the Section
         Body body = section.getBody();
 
-        // Quick typed access to all Table child nodes contained in the Body.
+        // Quick typed access to all Table child nodes contained in the Body
         TableCollection tables = body.getTables();
 
         for (Table table : tables) {
-            // Quick typed access to the first row of the table.
+            // Quick typed access to the first row of the table
             if (table.getFirstRow() != null) {
                 table.getFirstRow().remove();
             }
 
-            // Quick typed access to the last row of the table.
+            // Quick typed access to the last row of the table
             if (table.getLastRow() != null) {
                 table.getLastRow().remove();
             }
@@ -283,7 +285,7 @@ public class ExNode extends ApiExampleBase {
 
         //ExStart
         //ExFor:Range.UpdateFields
-        //ExSummary:Demonstrates how to update document fields in the body of the first section only.
+        //ExSummary:Shows how to update document fields in the body of the first section only.
         doc.getFirstSection().getBody().getRange().updateFields();
         //ExEnd
     }
@@ -297,14 +299,14 @@ public class ExNode extends ApiExampleBase {
         //ExFor:CompositeNode.LastChild
         //ExFor:Node.PreviousSibling
         //ExFor:CompositeNode.RemoveChild
-        //ExSummary:Demonstrates use of methods of Node and CompositeNode to remove a section before the last section in the document.
-        // Document is a CompositeNode and LastChild returns the last child node in the Document node.
-        // Since the Document can contain only Section nodes, the last child is the last section.
+        //ExSummary:Shows how to use of methods of Node and CompositeNode to remove a section before the last section in the document.
+        // Document is a CompositeNode and LastChild returns the last child node in the Document node
+        // Since the Document can contain only Section nodes, the last child is the last section
         Node lastSection = doc.getLastChild();
 
-        // Each node knows its next and previous sibling nodes.
-        // Previous sibling of a section is a section before the specified section.
-        // If the node is the first child, PreviousSibling will return null.
+        // Each node knows its next and previous sibling nodes
+        // Previous sibling of a section is a section before the specified section
+        // If the node is the first child, PreviousSibling will return null
         Node sectionBeforeLast = lastSection.getPreviousSibling();
 
         if (sectionBeforeLast != null) {
@@ -323,8 +325,8 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Shows how to select certain nodes by using an XPath expression.
         Document doc = new Document(getMyDir() + "Table.Document.doc");
 
-        // This expression will extract all paragraph nodes which are descendants of any table node in the document.
-        // This will return any paragraphs which are in a table.
+        // This expression will extract all paragraph nodes which are descendants of any table node in the document
+        // This will return any paragraphs which are in a table
         NodeList nodeList = doc.selectNodes("//Table//Paragraph");
 
         // Iterate through the list with an enumerator and print the contents of every paragraph in each cell of the table
@@ -335,13 +337,13 @@ public class ExNode extends ApiExampleBase {
             System.out.println(MessageFormat.format("Table paragraph index {0}, contents: \"{1}\"", index++, currentNode.getText().trim()));
         }
 
-        // This expression will select any paragraphs that are direct children of any body node in the document.
+        // This expression will select any paragraphs that are direct children of any body node in the document
         nodeList = doc.selectNodes("//Body/Paragraph");
 
         // We can treat the list as an array too
         Assert.assertEquals(nodeList.toArray().length, 4);
 
-        // Use SelectSingleNode to select the first result of the same expression as above.
+        // Use SelectSingleNode to select the first result of the same expression as above
         Node node = doc.selectSingleNode("//Body/Paragraph");
         //ExEnd
     }
@@ -352,18 +354,19 @@ public class ExNode extends ApiExampleBase {
         //ExFor:CompositeNode.SelectNodes
         //ExFor:CompositeNode.GetChild
         //ExSummary:Shows how to test if a node is inside a field by using an XPath expression.
-        // Let's pick a document we know has some fields in.
+        // Let's pick a document we know has some fields in
         Document doc = new Document(getMyDir() + "MailMerge.MergeImage.doc");
 
-        // Let's say we want to check if the Run below is inside a field.
+        // Let's say we want to check if the Run below is inside a field
         Run run = (Run) doc.getChild(NodeType.RUN, 5, true);
 
-        // Evaluate the XPath expression. The resulting NodeList will contain all nodes found inside a field a field (between FieldStart
-        // and FieldEnd exclusive). There can however be FieldStart and FieldEnd nodes in the list if there are nested fields
-        // in the path. Currently does not find rare fields in which the FieldCode or FieldResult spans across multiple paragraphs.
-        NodeList resultList = doc.selectNodes("//FieldStart/following-sibling::node()[following-sibling::FieldEnd]");
+        // Evaluate the XPath expression. The resulting NodeList will contain all nodes found inside a field a field (between FieldStart 
+        // and FieldEnd exclusive). There can however be FieldStart and FieldEnd nodes in the list if there are nested fields 
+        // in the path. Currently does not find rare fields in which the FieldCode or FieldResult spans across multiple paragraphs
+        NodeList resultList =
+            doc.selectNodes("//FieldStart/following-sibling::node()[following-sibling::FieldEnd]");
 
-        // Check if the specified run is one of the nodes that are inside the field.
+        // Check if the specified run is one of the nodes that are inside the field
         for (Node node : (Iterable<Node>) resultList) {
             if (node == run) {
                 System.out.println("The node is found inside a field");
@@ -390,7 +393,7 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Removes all smart tags from descendant nodes of the composite node.
         Document doc = new Document(getMyDir() + "Document.doc");
 
-        // Remove smart tags from the first paragraph in the document.
+        // Remove smart tags from the first paragraph in the document
         doc.getFirstSection().getBody().getFirstParagraph().removeSmartTags();
         //ExEnd
     }
@@ -402,13 +405,13 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Shows how to get the index of a given child node from its parent.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
-        // Get the body of the first section in the document.
+        // Get the body of the first section in the document
         Body body = doc.getFirstSection().getBody();
-        // Retrieve the index of the last paragraph in the body.
+        // Retrieve the index of the last paragraph in the body
         int index = body.getChildNodes().indexOf(body.getLastParagraph());
         //ExEnd
 
-        // Verify that the index is correct.
+        // Verify that the index is correct
         Assert.assertEquals(index, 24);
     }
 
@@ -442,17 +445,18 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Shows how to retrieve the NodeType enumeration of nodes.
         Document doc = new Document(getMyDir() + "Document.doc");
 
-        // Let's pick a node that we can't be quite sure of what type it is.
+        // Let's pick a node that we can't be quite sure of what type it is
         // In this case lets pick the first node of the first paragraph in the body of the document
         Node node = doc.getFirstSection().getBody().getFirstParagraph().getFirstChild();
         System.out.println("NodeType of first child: " + Node.nodeTypeToString(node.getNodeType()));
 
-        // This time let's pick a node that we know the type of. Create a new paragraph and a table node.
+        // This time let's pick a node that we know the type of
+        // Create a new paragraph and a table node
         Paragraph para = new Paragraph(doc);
         Table table = new Table(doc);
 
-        // Access to NodeType for typed nodes will always return their specific NodeType.
-        // i.e A paragraph node will always return NodeType.Paragraph, a table node will always return NodeType.Table.
+        // Access to NodeType for typed nodes will always return their specific NodeType
+        // i.e A paragraph node will always return NodeType.Paragraph, a table node will always return NodeType.Table
         System.out.println("NodeType of Paragraph: " + Node.nodeTypeToString(para.getNodeType()));
         System.out.println("NodeType of Table: " + Node.nodeTypeToString(table.getNodeType()));
         //ExEnd
@@ -465,10 +469,10 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Exports the content of a node to string in HTML format using default options.
         Document doc = new Document(getMyDir() + "Document.doc");
 
-        // Extract the last paragraph in the document to convert to HTML.
+        // Extract the last paragraph in the document to convert to HTML
         Node node = doc.getLastSection().getBody().getLastParagraph();
 
-        // When ToString is called using the SaveFormat overload then conversion is executed using default save options.
+        // When ToString is called using the SaveFormat overload then conversion is executed using default save options
         // When saving to HTML using default options the following settings are set:
         //   ExportImagesAsBase64 = true
         //   CssStyleSheetType = CssStyleSheetType.Inline
@@ -486,16 +490,16 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Exports the content of a node to string in HTML format using custom specified options.
         Document doc = new Document(getMyDir() + "Document.doc");
 
-        // Extract the last paragraph in the document to convert to HTML.
+        // Extract the last paragraph in the document to convert to HTML
         Node node = doc.getLastSection().getBody().getLastParagraph();
 
-        // Create an instance of HtmlSaveOptions and set a few options.
+        // Create an instance of HtmlSaveOptions and set a few options
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setExportHeadersFootersMode(ExportHeadersFootersMode.PER_SECTION);
         saveOptions.setExportRelativeFontSize(true);
 
-        // Convert the document to HTML and return as a string. Pass the instance of HtmlSaveOptions to
-        // to use the specified options during the conversion.
+        // Convert the document to HTML and return as a String. Pass the instance of HtmlSaveOptions to
+        // to use the specified options during the conversion
         String nodeAsHtml = node.toString(saveOptions);
         //ExEnd
 
@@ -509,7 +513,7 @@ public class ExNode extends ApiExampleBase {
         //ExStart
         //ExFor:ParagraphCollection.ToArray
         //ExSummary:Demonstrates typed implementations of ToArray on classes derived from NodeCollection.
-        // You can use ToArray to return a typed array of nodes.
+        // You can use ToArray to return a typed array of nodes
         Paragraph[] paras = doc.getFirstSection().getBody().getParagraphs().toArray();
         //ExEnd
 
@@ -527,10 +531,10 @@ public class ExNode extends ApiExampleBase {
         builder.writeln("The third paragraph");
         builder.writeln("The fourth paragraph");
 
-        // Hot remove allows a node to be removed from a live collection and have the enumeration continue.
+        // Hot remove allows a node to be removed from a live collection and have the enumeration continue
         for (Paragraph para : (Iterable<Paragraph>) builder.getDocument().getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true)) {
             if (para.getRange().getText().contains("third")) {
-                // Enumeration will continue even after this node is removed.
+                // Enumeration will continue even after this node is removed
                 para.remove();
             }
         }
@@ -548,7 +552,7 @@ public class ExNode extends ApiExampleBase {
         builder.writeln("The third paragraph");
         builder.writeln("The fourth paragraph");
 
-        // This causes unexpected behavior, the fourth pargraph in the collection is not visited.
+        // This causes unexpected behavior, the fourth pargraph in the collection is not visited
         for (Paragraph para : (Iterable<Paragraph>) builder.getDocument().getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true)) {
             if (para.getRange().getText().contains("third")) {
                 para.getPreviousSibling().remove();
@@ -635,7 +639,7 @@ public class ExNode extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Prints all inserted/removed nodes as well as their parent nodes
+    /// Prints all inserted/removed nodes as well as their parent nodes.
     /// </summary>
     private static class NodeChangingPrinter implements INodeChangingCallback {
         public void nodeInserting(NodeChangingArgs args) {

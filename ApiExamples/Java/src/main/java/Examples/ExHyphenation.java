@@ -57,7 +57,7 @@ public class ExHyphenation extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Associates ISO language codes with custom local system dictionary files for their respective languages
+    /// Associates ISO language codes with custom local system dictionary files for their respective languages.
     /// </summary>
     private static class CustomHyphenationDictionaryRegister implements IHyphenationCallback {
         public CustomHyphenationDictionaryRegister() {
@@ -105,7 +105,7 @@ public class ExHyphenation extends ApiExampleBase {
     public void unregisterDictionaryEx() throws Exception {
         //ExStart
         //ExFor:Hyphenation.UnregisterDictionary(String)
-        //ExSummary:Shows how to un-register a dictionary
+        //ExSummary:Shows how to un-register a dictionary.
         Document doc = new Document(getMyDir() + "Document.doc");
         Hyphenation.registerDictionary("en-US", getMyDir() + "hyph_en_US.dic");
 

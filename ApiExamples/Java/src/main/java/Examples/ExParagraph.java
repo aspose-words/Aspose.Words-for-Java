@@ -180,7 +180,7 @@ public class ExParagraph extends ApiExampleBase {
     public void getFormatRevision() throws Exception {
         //ExStart
         //ExFor:Paragraph.IsFormatRevision
-        //ExSummary:Shows how to get information about whether this object was formatted in Microsoft Word while change tracking was enabled
+        //ExSummary:Shows how to get information about whether this object was formatted in Microsoft Word while change tracking was enabled.
         Document doc = new Document(getMyDir() + "Paragraph.IsFormatRevision.docx");
 
         Paragraph firstParagraph = DocumentHelper.getParagraph(doc, 0);

@@ -199,7 +199,7 @@ public class ExProperties extends ApiExampleBase {
         Assert.assertEquals(properties.getCharacters(), 1114);
         Assert.assertEquals(properties.getCharactersWithSpaces(), 1310);
 
-        // Line count: Count the lines in a document and assign value to the Lines property\
+        // Line count: Count the lines in a document and assign value to the Lines property
         LineCounter lineCounter = new LineCounter(doc);
         properties.setLines(lineCounter.getLineCount());
         Assert.assertEquals(properties.getLines(), 14);
@@ -230,8 +230,9 @@ public class ExProperties extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Util class that counts the lines in a document
-    /// Upon construction, traverses the document's layout entities tree, counting entities of the "Line" type that also contain real text
+    /// Util class that counts the lines in a document.
+    /// Upon construction, traverses the document's layout entities tree,
+    /// counting entities of the "Line" type that also contain real text.
     /// </summary>
     private static class LineCounter {
         public LineCounter(Document doc) throws Exception {
@@ -261,7 +262,7 @@ public class ExProperties extends ApiExampleBase {
             } while (mLayoutEnumerator.moveNext());
         }
 
-        private /*final*/ LayoutEnumerator mLayoutEnumerator;
+        private LayoutEnumerator mLayoutEnumerator;
         private int mLineCount;
         private boolean mScanningLineForRealText;
     }

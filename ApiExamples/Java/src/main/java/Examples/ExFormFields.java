@@ -61,7 +61,7 @@ public class ExFormFields extends ApiExampleBase {
     public void insertAndRetrieveFormFields() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertTextInput
-        //ExSummary:Shows how to insert form fields, set options and gather them back in for use
+        //ExSummary:Shows how to insert form fields, set options and gather them back in for use.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -75,7 +75,7 @@ public class ExFormFields extends ApiExampleBase {
     public void deleteFormField() throws Exception {
         //ExStart
         //ExFor:FormField.RemoveField
-        //ExSummary:Shows how to delete complete form field
+        //ExSummary:Shows how to delete complete form field.
         Document doc = new Document(getMyDir() + "FormFields.doc");
 
         FormField formField = doc.getRange().getFormFields().get(3);

@@ -137,7 +137,7 @@ public class ExSavingCallback extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Renames saved document parts that are produced when an HTML document is saved while being split according to a criteria
+    /// Renames saved document parts that are produced when an HTML document is saved while being split according to a criteria.
     /// </summary>
     private static class SavedDocumentPartRename implements IDocumentPartSavingCallback {
         public SavedDocumentPartRename(String outFileName, int documentSplitCriteria) {
@@ -188,7 +188,7 @@ public class ExSavingCallback extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Renames saved images that are produced when an HTML document is saved
+    /// Renames saved images that are produced when an HTML document is saved.
     /// </summary>
     public static class SavedImageRename implements IImageSavingCallback {
         public SavedImageRename(String outFileName) {
@@ -255,7 +255,7 @@ public class ExSavingCallback extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Designates a filename and other parameters for the saving of a CSS stylesheet
+    /// Designates a filename and other parameters for the saving of a CSS stylesheet.
     /// </summary>
     private static class CustomCssSavingCallback implements ICssSavingCallback {
         public CustomCssSavingCallback(String cssDocFilename, boolean isExportNeeded, boolean keepCssStreamOpen) {

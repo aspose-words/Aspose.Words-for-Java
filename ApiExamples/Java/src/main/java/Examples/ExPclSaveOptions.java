@@ -49,8 +49,8 @@ public class ExPclSaveOptions extends ApiExampleBase {
     public void getPreservedPaperTrayInformation() throws Exception {
         Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
 
-        // Paper tray information is now preserved when saving document to PCL format.
-        // Following information is transferred from document's model to PCL file.
+        // Paper tray information is now preserved when saving document to PCL format
+        // Following information is transferred from document's model to PCL file
         for (Section section : doc.getSections()) {
             section.getPageSetup().setFirstPageTray(15);
             section.getPageSetup().setOtherPagesTray(12);

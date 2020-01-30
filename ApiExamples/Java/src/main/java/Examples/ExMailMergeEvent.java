@@ -34,17 +34,17 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExFor:FieldMergingArgs.Text
     //ExFor:FieldMergeField.TextBefore
     //ExSummary:Shows how to mail merge HTML data into a document.
-    // File 'MailMerge.InsertHtml.doc' has merge field named 'htmlField1' in it.
-    // File 'MailMerge.HtmlData.html' contains some valid HTML data.
-    // The same approach can be used when merging HTML data from database.
     @Test //ExSkip
     public void mailMergeInsertHtml() throws Exception {
+        // File 'MailMerge.InsertHtml.doc' has merge field named 'htmlField1' in it
+        // File 'MailMerge.HtmlData.html' contains some valid HTML data
+        // The same approach can be used when merging HTML data from database
         Document doc = new Document(getMyDir() + "MailMerge.InsertHtml.doc");
 
-        // Add a handler for the ApiExamples.Tests.MergeField event.
+        // Add a handler for the MergeField event
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldInsertHtml());
 
-        // Load some Html from file.
+        // Load some Html from file
         StringBuilder htmlText = new StringBuilder();
         BufferedReader reader = new BufferedReader(new FileReader(getMyDir() + "MailMerge.HtmlData.html"));
         String line;
@@ -53,10 +53,10 @@ public class ExMailMergeEvent extends ApiExampleBase {
             htmlText.append("\r\n");
         }
 
-        // Execute mail merge.
+        // Execute mail merge
         doc.getMailMerge().execute(new String[]{"htmlField1"}, new String[]{htmlText.toString()});
 
-        // Save resulting document with a new name.
+        // Save resulting document with a new name
         doc.save(getArtifactsDir() + "MailMerge.InsertHtml.doc");
     }
 
@@ -65,24 +65,24 @@ public class ExMailMergeEvent extends ApiExampleBase {
          * This is called when merge field is actually merged with data in the document.
          */
         public void fieldMerging(final FieldMergingArgs args) throws Exception {
-            // All merge fields that expect HTML data should be marked with some prefix, e.g. 'html'.
+            // All merge fields that expect HTML data should be marked with some prefix, e.g. 'html'
             if (args.getDocumentFieldName().startsWith("html")) {
                 FieldMergeField field = args.getField();
 
-                // Insert the text for this merge field as HTML data, using DocumentBuilder.
+                // Insert the text for this merge field as HTML data, using DocumentBuilder
                 DocumentBuilder builder = new DocumentBuilder(args.getDocument());
                 builder.moveToMergeField(args.getDocumentFieldName());
                 builder.write(field.getTextBefore());
                 builder.insertHtml((String) args.getFieldValue());
 
-                // The HTML text itself should not be inserted.
-                // We have already inserted it as an HTML.
+                // The HTML text itself should not be inserted
+                // We have already inserted it as an HTML
                 args.setText("");
             }
         }
 
         public void imageFieldMerging(final ImageFieldMergingArgs e) {
-            // Do nothing.
+            // Do nothing
         }
     }
     //ExEnd
@@ -94,19 +94,19 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExSummary:Shows how to insert checkbox form fields into a document during mail merge.
     // File 'MailMerge.InsertCheckBox.doc' is a template
     // containing the table with the following fields in it:
-    // <<TableStart:StudentCourse>> <<CourseName>> <<TableEnd:StudentCourse>>.
+    // <<TableStart:StudentCourse>> <<CourseName>> <<TableEnd:StudentCourse>>
     @Test //ExSkip
     public void mailMergeInsertCheckBox() throws Exception {
         Document doc = new Document(getMyDir() + "MailMerge.InsertCheckBox.doc");
 
-        // Add a handler for the ApiExamples.Tests.MergeField event.
+        // Add a handler for the MergeField event
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldInsertCheckBox());
 
-        // Execute mail merge with regions.
+        // Execute mail merge with regions
         DataTable dataTable = getStudentCourseDataTable();
         doc.getMailMerge().executeWithRegions(dataTable);
 
-        // Save resulting document with a new name.
+        // Save resulting document with a new name
         doc.save(getArtifactsDir() + "MailMerge.InsertCheckBox.doc");
     }
 
@@ -117,7 +117,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
          */
         public void fieldMerging(final FieldMergingArgs e) throws Exception {
             if (e.getDocumentFieldName().equals("CourseName")) {
-                // Insert the checkbox for this merge field, using DocumentBuilder.
+                // Insert the checkbox for this merge field, using DocumentBuilder
                 DocumentBuilder builder = new DocumentBuilder(e.getDocument());
                 builder.moveToMergeField(e.getFieldName());
                 builder.insertCheckBox(e.getDocumentFieldName() + Integer.toString(mCheckBoxCount), false, 0);
@@ -127,7 +127,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
         }
 
         public void imageFieldMerging(final ImageFieldMergingArgs args) {
-            // Do nothing.
+            // Do nothing
         }
 
         /**
@@ -156,10 +156,10 @@ public class ExMailMergeEvent extends ApiExampleBase {
     public void mailMergeAlternatingRows() throws Exception {
         Document doc = new Document(getMyDir() + "MailMerge.AlternatingRows.doc");
 
-        // Add a handler for the ApiExamples.Tests.MergeField event.
+        // Add a handler for the MergeField event
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldAlternatingRows());
 
-        // Execute mail merge with regions.
+        // Execute mail merge with regions
         DataTable dataTable = getSuppliersDataTable();
         doc.getMailMerge().executeWithRegions(dataTable);
 
@@ -177,15 +177,15 @@ public class ExMailMergeEvent extends ApiExampleBase {
                 mBuilder = new DocumentBuilder(args.getDocument());
             }
 
-            // This way we catch the beginning of a new row.
+            // This way we catch the beginning of a new row
             if (args.getFieldName().equals("CompanyName")) {
-                // Select the color depending on whether the row number is even or odd.
+                // Select the color depending on whether the row number is even or odd
                 Color rowColor;
                 if (isOdd(mRowIdx)) rowColor = new Color(213, 227, 235);
                 else rowColor = new Color(242, 242, 242);
 
                 // There is no way to set cell properties for the whole row at the moment,
-                // so we have to iterate over all cells in the row.
+                // so we have to iterate over all cells in the row
                 for (int colIdx = 0; colIdx < 4; colIdx++) {
                     mBuilder.moveToCell(0, mRowIdx, colIdx, 0);
                     mBuilder.getCellFormat().getShading().setBackgroundPatternColor(rowColor);
@@ -196,7 +196,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
         }
 
         public void imageFieldMerging(final ImageFieldMergingArgs args) {
-            // Do nothing.
+            // Do nothing
         }
 
         private DocumentBuilder mBuilder;
@@ -235,13 +235,13 @@ public class ExMailMergeEvent extends ApiExampleBase {
         //ExSummary:Demonstrates how to merge an image from a web address using an Image field.
         Document doc = new Document(getMyDir() + "MailMerge.MergeImageSimple.doc");
 
-        // Pass a URL which points to the image to merge into the document.
+        // Pass a URL which points to the image to merge into the document
         doc.getMailMerge().execute(new String[]{"Logo"}, new Object[]{DocumentHelper.getBytesFromStream(getAsposelogoUri().toURL().openStream())});
 
         doc.save(getArtifactsDir() + "MailMerge.MergeImageFromUrl.doc");
         //ExEnd
 
-        // Verify the image was merged into the document.
+        // Verify the image was merged into the document
         Shape logoImage = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         Assert.assertNotNull(logoImage);
         Assert.assertTrue(logoImage.hasImage());
@@ -260,28 +260,28 @@ public class ExMailMergeEvent extends ApiExampleBase {
     public void mailMergeImageFromBlob() throws Exception {
         Document doc = new Document(getMyDir() + "MailMerge.MergeImage.doc");
 
-        // Set up the event handler for image fields.
+        // Set up the event handler for image fields
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
 
         // Loads the driver
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 
-        // Open the database connection.
+        // Open the database connection
         String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.mdb";
 
-        // DSN-less DB connection.
+        // DSN-less DB connection
         java.sql.Connection conn = java.sql.DriverManager.getConnection(connString, "Admin", "");
 
-        // Create and execute a command.
+        // Create and execute a command
         java.sql.Statement statement = conn.createStatement();
         java.sql.ResultSet resultSet = statement.executeQuery("SELECT * FROM Employees");
 
         DataTable table = new DataTable(resultSet, "Employees");
 
-        // Perform mail merge.
+        // Perform mail merge
         doc.getMailMerge().executeWithRegions(table);
 
-        // Close the database.
+        // Close the database
         conn.close();
 
         doc.save(getArtifactsDir() + "MailMerge.MergeImage.doc");
@@ -289,7 +289,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
 
     private class HandleMergeImageFieldFromBlob implements IFieldMergingCallback {
         public void fieldMerging(final FieldMergingArgs args) {
-            // Do nothing.
+            // Do nothing
         }
 
         /**
@@ -297,9 +297,9 @@ public class ExMailMergeEvent extends ApiExampleBase {
          * You have a chance to return an Image object, file name or a stream that contains the image.
          */
         public void imageFieldMerging(final ImageFieldMergingArgs e) {
-            // The field value is a byte array, just cast it and create a stream on it.
+            // The field value is a byte array, just cast it and create a stream on it
             ByteArrayInputStream imageStream = new ByteArrayInputStream((byte[]) e.getFieldValue());
-            // Now the mail merge engine will retrieve the image from the stream.
+            // Now the mail merge engine will retrieve the image from the stream
             e.setImageStream(imageStream);
         }
     }

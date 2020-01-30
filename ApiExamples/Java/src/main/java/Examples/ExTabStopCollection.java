@@ -22,7 +22,7 @@ public class ExTabStopCollection extends ApiExampleBase {
         //ExSummary:Shows how to remove all tab stops from a document.
         Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
 
-        // Clear all tab stops from every paragraph.
+        // Clear all tab stops from every paragraph
         for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true)) {
             para.getParagraphFormat().getTabStops().clear();
         }
@@ -92,14 +92,14 @@ public class ExTabStopCollection extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Document.doc");
         Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
-        // Create a TabStop object and add it to the document.
+        // Create a TabStop object and add it to the document
         TabStop tabStop = new TabStop(ConvertUtil.inchToPoint(3.0), TabAlignment.LEFT, TabLeader.DASHES);
         paragraph.getParagraphFormat().getTabStops().add(tabStop);
 
-        // Add a tab stop without explicitly creating new TabStop objects.
+        // Add a tab stop without explicitly creating new TabStop objects
         paragraph.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(100.0), TabAlignment.LEFT, TabLeader.DASHES);
 
-        // Add tab stops at 5 cm to all paragraphs.
+        // Add tab stops at 5 cm to all paragraphs
         for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true)) {
             para.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(50.0), TabAlignment.LEFT, TabLeader.DASHES);
         }

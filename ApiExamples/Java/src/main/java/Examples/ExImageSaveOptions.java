@@ -37,7 +37,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "SaveOptions.MyriadPro.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.GIF);
-        //Define which page will save
+        // Define which page will save
         saveOptions.setPageIndex(0);
 
         doc.save(getArtifactsDir() + "SaveOptions.PageIndex.gif", saveOptions);
@@ -81,7 +81,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExFor:ImageSaveOptions.Clone
         //ExFor:ImageSaveOptions.ImageColorMode
         //ExFor:ImageSaveOptions.PixelFormat
-        //ExSummary:Show how to convert document images to black and white with 1 bit per pixel
+        //ExSummary:Show how to convert document images to black and white with 1 bit per pixel.
         Document doc = new Document(getMyDir() + "ImageSaveOptions.BlackAndWhite.docx");
 
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
@@ -101,14 +101,14 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExFor:ImageBinarizationMethod
         //ExFor:ImageSaveOptions.ThresholdForFloydSteinbergDithering
         //ExFor:ImageSaveOptions.TiffBinarizationMethod
-        //ExSummary: Shows how to control the threshold for TIFF binarization in the Floyd-Steinberg method
+        //ExSummary: Shows how to control the threshold for TIFF binarization in the Floyd-Steinberg method.
         Document doc = new Document(getMyDir() + "ImagesSaveOptions.ThresholdForFloydSteinbergDithering.docx");
 
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.TIFF);
         options.setTiffCompression(TiffCompression.CCITT_3);
         options.setImageColorMode(ImageColorMode.GRAYSCALE);
         options.setTiffBinarizationMethod(ImageBinarizationMethod.FLOYD_STEINBERG_DITHERING);
-        // The default value of this property is 128. The higher value, the darker image.
+            // The default value of this property is 128. The higher value, the darker image
         options.setThresholdForFloydSteinbergDithering((byte) 254);
 
         doc.save(getArtifactsDir() + "ImagesSaveOptions.ThresholdForFloydSteinbergDithering.tiff", options);
@@ -124,7 +124,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExFor:ImageSaveOptions.SaveFormat
         //ExFor:ImageSaveOptions.Scale
         //ExFor:ImageSaveOptions.VerticalResolution
-        //ExSummary:
+        //ExSummary:Shows how to edit image.
         Document doc = new Document(getMyDir() + "Rendering.doc");
 
         // When saving the document as an image, we can use an ImageSaveOptions object to edit various aspects of it

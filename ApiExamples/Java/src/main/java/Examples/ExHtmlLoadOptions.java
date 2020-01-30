@@ -22,7 +22,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         //ExFor:HtmlLoadOptions.#ctor
         //ExFor:HtmlLoadOptions.SupportVml
         //ExFor:HtmlLoadOptions.WebRequestTimeout
-        //ExSummary:Shows how to parse HTML document with conditional comments like "<!--[if gte vml 1]>" and "<![if !vml]>"
+        //ExSummary:Shows how to parse HTML document with conditional comments like "<!--[if gte vml 1]>" and "<![if !vml]>".
         HtmlLoadOptions loadOptions = new HtmlLoadOptions();
 
         // If value is true, then we parse "<!--[if gte vml 1]>", else parse "<![if !vml]>"

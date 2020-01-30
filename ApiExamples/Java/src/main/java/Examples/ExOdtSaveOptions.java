@@ -22,10 +22,10 @@ public class ExOdtSaveOptions extends ApiExampleBase {
         //ExFor:OdtSaveOptions.IsStrictSchema11
         //ExFor:OdtSaveOptions.MeasureUnit
         //ExFor:OdtSaveMeasureUnit
-        //ExSummary:Shows how to work with units of measure of document content
+        //ExSummary:Shows how to work with units of measure of document content.
         Document doc = new Document(getMyDir() + "OdtSaveOptions.MeasureUnit.docx");
 
-        //Open Office uses centimeters, MS Office uses inches
+        // Open Office uses centimeters, MS Office uses inches
         OdtSaveOptions saveOptions = new OdtSaveOptions();
         saveOptions.setMeasureUnit(OdtSaveMeasureUnit.INCHES);
         saveOptions.isStrictSchema11(true);

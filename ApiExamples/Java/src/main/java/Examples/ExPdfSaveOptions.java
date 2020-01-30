@@ -30,7 +30,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExFor:ParagraphFormat.IsHeading
         //ExFor:PdfSaveOptions.OutlineOptions
         //ExFor:PdfSaveOptions.SaveFormat
-        //ExSummary:Shows how to create missing outline levels saving the document in PDF
+        //ExSummary:Shows how to create missing outline levels saving the document in PDF.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -77,12 +77,12 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:OutlineOptions.BookmarksOutlineLevels
         //ExFor:BookmarksOutlineLevelCollection.Add(String, Int32)
-        //ExSummary:Shows how adding bookmarks outlines with whitespaces(pdf, xps)
+        //ExSummary:Shows how adding bookmarks outlines with whitespaces(pdf, xps).
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Add bookmarks with whitespaces. MS Word formats (like doc, docx) does not support bookmarks with whitespaces by default
-        // and all whitespaces in the bookmarks were replaced with underscores. If you need to use bookmarks in PDF or XPS outlines, you can use them with whitespaces.
+        // and all whitespaces in the bookmarks were replaced with underscores. If you need to use bookmarks in PDF or XPS outlines, you can use them with whitespaces
         builder.startBookmark("My Bookmark");
         builder.writeln("Text inside a bookmark.");
 
@@ -93,7 +93,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         builder.writeln("Text after Nested Bookmark.");
         builder.endBookmark("My Bookmark");
 
-        // Specify bookmarks outline level. If you are using xps format, just use XpsSaveOptions.
+        // Specify bookmarks outline level. If you are using xps format, just use XpsSaveOptions
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
         pdfSaveOptions.getOutlineOptions().getBookmarksOutlineLevels().add("My Bookmark", 1);
         pdfSaveOptions.getOutlineOptions().getBookmarksOutlineLevels().add("Nested Bookmark", 2);
@@ -124,7 +124,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:DmlRenderingMode
         //ExFor:SaveOptions.DmlRenderingMode
-        //ExSummary:Shows how to define rendering for DML shapes
+        //ExSummary:Shows how to define rendering for DML shapes.
         Document doc = DocumentHelper.createDocumentFillWithDummyText();
 
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
@@ -207,7 +207,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         PdfSaveOptions optionsA1B = new PdfSaveOptions();
         optionsA1B.setCompliance(PdfCompliance.PDF_A_1_B);
         optionsA1B.setImageCompression(PdfImageCompression.JPEG);
-        optionsA1B.setJpegQuality(50); // Use JPEG compression at 50% quality to reduce file size.
+        optionsA1B.setJpegQuality(50); // Use JPEG compression at 50% quality to reduce file size
 
         doc.save(getArtifactsDir() + "SaveOptions.PdfImageComppression PDF_A_1_B.pdf", optionsA1B);
         //ExEnd
@@ -267,9 +267,9 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExFor:SaveOptions.MemoryOptimization
         //ExSummary:Shows an option to optimize memory consumption when you work with large documents.
         Document doc = new Document(getMyDir() + "SaveOptions.MemoryOptimization.doc");
-
-        // When set to true it will improve document memory footprint but will add extra time to processing. 
-        // This optimization is only applied during save operation.
+        
+        // When set to true it will improve document memory footprint but will add extra time to processing
+        // This optimization is only applied during save operation
         SaveOptions saveOptions = SaveOptions.createSaveOptions(SaveFormat.PDF);
         saveOptions.setMemoryOptimization(true);
 
@@ -331,13 +331,13 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExFor:MetafileRenderingOptions.RenderingMode
         //ExFor:IWarningCallback
         //ExFor:FixedPageSaveOptions.MetafileRenderingOptions
-        //ExSummary:Shows added fallback to bitmap rendering and changing type of warnings about unsupported metafile records
+        //ExSummary:Shows added fallback to bitmap rendering and changing type of warnings about unsupported metafile records.
         Document doc = new Document(getMyDir() + "PdfSaveOptions.HandleRasterWarnings.doc");
 
         MetafileRenderingOptions metafileRenderingOptions = new MetafileRenderingOptions();
         metafileRenderingOptions.setEmulateRasterOperations(false);
 
-        // If Aspose.Words cannot correctly render some of the metafile records to vector graphics then Aspose.Words renders this metafile to a bitmap.
+        // If Aspose.Words cannot correctly render some of the metafile records to vector graphics then Aspose.Words renders this metafile to a bitmap
         metafileRenderingOptions.setRenderingMode(MetafileRenderingMode.VECTOR_WITH_FALLBACK);
 
         HandleDocumentWarnings callback = new HandleDocumentWarnings();
@@ -359,7 +359,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
          * load and/or document save.
          */
         public void warning(final WarningInfo info) {
-            //For now type of warnings about unsupported metafile records changed from DataLoss/UnexpectedContent to MinorFormattingLoss.
+            //For now type of warnings about unsupported metafile records changed from DataLoss/UnexpectedContent to MinorFormattingLoss
             if (info.getWarningType() == WarningType.MINOR_FORMATTING_LOSS) {
                 System.out.println("Unsupported operation: " + info.getDescription());
                 this.mWarnings.warning(info);
@@ -380,11 +380,11 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExSummary:Shows how bookmarks in headers/footers are exported to pdf.
         Document doc = new Document(getMyDir() + "PdfSaveOption.HeaderFooterBookmarksExportMode.docx");
 
-        // You can specify how bookmarks in headers/footers are exported.
+        // You can specify how bookmarks in headers/footers are exported
         // There is a several options for this:
-        // "None" - Bookmarks in headers/footers are not exported.
-        // "First" - Only bookmark in first header/footer of the section is exported.
-        // "All" - Bookmarks in all headers/footers are exported.
+        // "None" - Bookmarks in headers/footers are not exported
+        // "First" - Only bookmark in first header/footer of the section is exported
+        // "All" - Bookmarks in all headers/footers are exported
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         saveOptions.setHeaderFooterBookmarksExportMode(headerFooterBookmarksExportMode);
         saveOptions.getOutlineOptions().setDefaultBookmarksOutlineLevel(1);
@@ -431,13 +431,13 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public void fontsScaledToMetafileSize() throws Exception {
         //ExStart
         //ExFor:MetafileRenderingOptions.ScaleWmfFontsToMetafileSize
-        //ExSummary:Shows how to WMF fonts scaling according to metafile size on the page
+        //ExSummary:Shows how to WMF fonts scaling according to metafile size on the page.
         Document doc = new Document(getMyDir() + "PdfSaveOptions.FontsScaledToMetafileSize.docx");
 
         // There is a several options for this:
-        // 'True' - Aspose.Words emulates font scaling according to metafile size on the page.
-        // 'False' - Aspose.Words displays the fonts as metafile is rendered to its default size.
-        // Use 'False' option is used only when metafile is rendered as vector graphics.
+        // 'True' - Aspose.Words emulates font scaling according to metafile size on the page
+        // 'False' - Aspose.Words displays the fonts as metafile is rendered to its default size
+        // Use 'False' option is used only when metafile is rendered as vector graphics
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         saveOptions.getMetafileRenderingOptions().setScaleWmfFontsToMetafileSize(true);
 
