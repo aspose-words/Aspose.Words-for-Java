@@ -11,11 +11,11 @@ package ApiExamples;
 
 import com.aspose.ms.java.collections.StringSwitchMap;
 import org.testng.annotations.Test;
-import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.ms.System.Collections.msArrayList;
 import java.util.ArrayList;
 import com.aspose.words.IMailMergeDataSource;
-import com.aspose.words.DocumentBuilder;
 import com.aspose.words.IMailMergeDataSourceRoot;
 import com.aspose.ms.System.Collections.msDictionary;
 import java.util.HashMap;
@@ -34,15 +34,19 @@ public class ExMailMergeCustom extends ApiExampleBase
     //ExFor:MailMerge.Execute(IMailMergeDataSourceCore)
     //ExSummary:Performs mail merge from a custom data source.
     @Test //ExSkip
-    public void mailMergeCustomDataSource() throws Exception
+    public void customDataSource() throws Exception
     {
+        // Create a destination document for the mail merge
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertField(" MERGEFIELD FullName ");
+        builder.insertParagraph();
+        builder.insertField(" MERGEFIELD Address ");
+
         // Create some data that we will use in the mail merge
         CustomerList customers = new CustomerList();
         msArrayList.add(customers, new Customer("Thomas Hardy", "120 Hanover Sq., London"));
         msArrayList.add(customers, new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
-
-        // Open the template document
-        Document doc = new Document(getMyDir() + "MailMerge.CustomDataSource.doc");
 
         // To be able to mail merge from your own data source, it must be wrapped
         // into an object that implements the IMailMergeDataSource interface
@@ -51,7 +55,7 @@ public class ExMailMergeCustom extends ApiExampleBase
         // Now you can pass your data source into Aspose.Words
         doc.getMailMerge().execute(customersDataSource);
 
-        doc.save(getArtifactsDir() + "MailMerge.CustomDataSource.doc");
+        doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSource.doc");
     }
 
     /// <summary>
@@ -151,7 +155,7 @@ public class ExMailMergeCustom extends ApiExampleBase
     //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSourceRoot)
     //ExSummary:Performs mail merge from a custom data source with master-detail data.
     @Test //ExSkip
-    public void mailMergeCustomDataSourceRoot() throws Exception
+    public void customDataSourceRoot() throws Exception
     {
         // Create a document with two mail merge regions named "Washington" and "Seattle"
         Document doc = createSourceDocumentWithMailMergeRegions(new String[] { "Washington", "Seattle" });
@@ -174,7 +178,7 @@ public class ExMailMergeCustom extends ApiExampleBase
         // However, one mail merge source data root call every relevant data source and merge automatically 
         doc.getMailMerge().executeWithRegions(sourceRoot);
 
-        doc.save(getArtifactsDir() + "MailMerge.MailMergeCustomDataSourceRoot.docx");
+        doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSourceRoot.docx");
     }
 
     /// <summary>

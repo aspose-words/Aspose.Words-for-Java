@@ -210,7 +210,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         //ExStart
         //ExFor:Paragraph.IsFormatRevision
         //ExSummary:Shows how to get information about whether this object was formatted in Microsoft Word while change tracking was enabled
-        Document doc = new Document(getMyDir() + "Paragraph.IsFormatRevision.docx");
+        Document doc = new Document(getMyDir() + "Format revision.docx");
 
         Paragraph firstParagraph = DocumentHelper.getParagraph(doc, 0);
         Assert.assertTrue(firstParagraph.isFormatRevision());
@@ -239,7 +239,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         //ExFor:FrameFormat.RelativeVerticalPosition
         //ExFor:FrameFormat.VerticalDistanceFromText
         //ExSummary:Shows how to get information about formatting properties of paragraph as frame.
-        Document doc = new Document(getMyDir() + "Paragraph.Frame.docx");
+        Document doc = new Document(getMyDir() + "Paragraph frame.docx");
 
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
 
@@ -268,10 +268,10 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         {
             msAssert.areEqual(233.3, paragraphs.get(0).getFrameFormat().getWidth());
             msAssert.areEqual(138.8, paragraphs.get(0).getFrameFormat().getHeight());
-            msAssert.areEqual(21.05, paragraphs.get(0).getFrameFormat().getHorizontalPosition());
+            msAssert.areEqual(34.05, paragraphs.get(0).getFrameFormat().getHorizontalPosition());
             msAssert.areEqual(RelativeHorizontalPosition.PAGE, paragraphs.get(0).getFrameFormat().getRelativeHorizontalPosition());
             msAssert.areEqual(9, paragraphs.get(0).getFrameFormat().getHorizontalDistanceFromText());
-            msAssert.areEqual(-17.65, paragraphs.get(0).getFrameFormat().getVerticalPosition());
+            msAssert.areEqual(20.5, paragraphs.get(0).getFrameFormat().getVerticalPosition());
             msAssert.areEqual(RelativeVerticalPosition.PARAGRAPH, paragraphs.get(0).getFrameFormat().getRelativeVerticalPosition());
             msAssert.areEqual(0, paragraphs.get(0).getFrameFormat().getVerticalDistanceFromText());
         }
@@ -352,7 +352,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         // This text will be affected
         para.getRuns().add(new Run(doc, "Hello World!"));
 
-        doc.save(getArtifactsDir() + "Paragraph.DropCap.docx");
+        doc.save(getArtifactsDir() + "Paragraph.DropCapPosition.docx");
         //ExEnd
     }
 

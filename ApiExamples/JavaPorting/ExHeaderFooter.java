@@ -24,6 +24,7 @@ import com.aspose.words.SaveFormat;
 import com.aspose.words.ExportHeadersFootersMode;
 import com.aspose.words.HeaderFooterCollection;
 import com.aspose.words.FindReplaceOptions;
+import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.ReplaceAction;
@@ -57,7 +58,7 @@ public class ExHeaderFooter extends ApiExampleBase
         //ExFor:Story.AppendParagraph
         //ExSummary:Creates a header and footer using the document object model and insert them into a section.
         Document doc = new Document();
-        
+
         HeaderFooter header = new HeaderFooter(doc, HeaderFooterType.HEADER_PRIMARY);
         doc.getFirstSection().getHeadersFooters().add(header);
 
@@ -79,7 +80,7 @@ public class ExHeaderFooter extends ApiExampleBase
         msAssert.areEqual(footer, para.getParentStory());
         msAssert.areEqual(footer.getParentSection(), para.getParentSection());
         msAssert.areEqual(footer.getParentSection(), header.getParentSection());
-        
+
         doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterCreate.docx");
         //ExEnd
         doc = new Document(getArtifactsDir() + "HeaderFooter.HeaderFooterCreate.docx");
@@ -135,7 +136,7 @@ public class ExHeaderFooter extends ApiExampleBase
         // We can also choose only certain header/footer types to get linked, like the footer in this case
         // The 3rd section now won't have the same header but will have the same footer as the 2nd and 1st sections
         doc.getSections().get(2).getHeadersFooters().linkToPrevious(HeaderFooterType.FOOTER_PRIMARY, true);
-        
+
         // The first section's header/footers can't link themselves to anything because there is no previous section
         msAssert.areEqual(2, doc.getSections().get(0).getHeadersFooters().getCount());
         Assert.assertFalse(doc.getSections().get(0).getHeadersFooters().get(0).isLinkedToPrevious());
@@ -171,9 +172,8 @@ public class ExHeaderFooter extends ApiExampleBase
         //ExFor:HeaderFooterCollection
         //ExFor:HeaderFooterCollection.Item(HeaderFooterType)
         //ExFor:HeaderFooter
-        //ExFor:HeaderFooterType
         //ExSummary:Deletes all footers from all sections, but leaves headers intact.
-        Document doc = new Document(getMyDir() + "HeaderFooter.RemoveFooters.doc");
+        Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         for (Section section : doc.<Section>OfType() !!Autoporter error: Undefined expression type )
         {
@@ -190,7 +190,7 @@ public class ExHeaderFooter extends ApiExampleBase
             footer?.Remove();
         }
 
-        doc.save(getArtifactsDir() + "HeaderFooter.RemoveFooters.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.RemoveFooters.docx");
         //ExEnd
     }
 
@@ -201,7 +201,7 @@ public class ExHeaderFooter extends ApiExampleBase
         //ExFor:HtmlSaveOptions.ExportHeadersFootersMode
         //ExFor:ExportHeadersFootersMode
         //ExSummary:Demonstrates how to disable the export of headers and footers when saving to HTML based formats.
-        Document doc = new Document(getMyDir() + "HeaderFooter.RemoveFooters.doc");
+        Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         // Disables exporting headers and footers
         HtmlSaveOptions saveOptions =
@@ -226,7 +226,7 @@ public class ExHeaderFooter extends ApiExampleBase
         //ExFor:Range.Replace(String, String, FindReplaceOptions)
         //ExSummary:Shows how to replace text in the document footer.
         // Open the template document, containing obsolete copyright information in the footer
-        Document doc = new Document(getMyDir() + "HeaderFooter.ReplaceText.doc");
+        Document doc = new Document(getMyDir() + "Footer.docx");
 
         HeaderFooterCollection headersFooters = doc.getFirstSection().getHeadersFooters();
         HeaderFooter footer = headersFooters.getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
@@ -237,24 +237,24 @@ public class ExHeaderFooter extends ApiExampleBase
             options.setFindWholeWordsOnly(false);
         }
 
-        footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", "Copyright (C) 2011 by Aspose Pty Ltd.", options);
+        int currentYear = com.aspose.ms.System.DateTime.getNow().getYear();
+        footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", $"Copyright (C) {currentYear} by Aspose Pty Ltd.", options);
 
         doc.save(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
         //ExEnd
 
         // Verify that the appropriate changes were made to the output document
         doc = new Document(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
-        Assert.assertTrue(doc.getRange().getText().contains("Copyright (C) 2011 by Aspose Pty Ltd."));
+        Assert.assertTrue(doc.getRange().getText().contains($"Copyright (C) {currentYear} by Aspose Pty Ltd."));
     }
 
     //ExStart
     //ExFor:IReplacingCallback
-    //ExFor:Range.Replace(String, String, FindReplaceOptions)
     //ExSummary:Show changes for headers and footers order.
     @Test //ExSkip
     public void headerFooterOrder() throws Exception
-    {            
-        Document doc = new Document(getMyDir() + "HeaderFooter.HeaderFooterOrder.docx");
+    {
+        Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         // Assert that we use special header and footer for the first page
         // The order for this: first header\footer, even header\footer, primary header\footer
@@ -266,10 +266,10 @@ public class ExHeaderFooter extends ApiExampleBase
         doc.getRange().replaceInternal(new Regex("(header|footer)"), "", options);
 
         doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterOrder.docx");
-        
-                            msAssert.areEqual("First header\nFirst footer\nSecond header\nSecond footer\nThird header\n" +
+
+        msAssert.areEqual("First header\nFirst footer\nSecond header\nSecond footer\nThird header\n" +
             "Third footer\n", logger.getText());
-                
+
         // Prepare our string builder for assert results without "DifferentFirstPageHeaderFooter"
         logger.clearText();
 
@@ -277,10 +277,10 @@ public class ExHeaderFooter extends ApiExampleBase
         // The order for this: primary header, default header, primary footer, default footer, even header\footer
         firstPageSection.getPageSetup().setDifferentFirstPageHeaderFooter(false);
         doc.getRange().replaceInternal(new Regex("(header|footer)"), "", options);
-        
-                            msAssert.areEqual("Third header\nFirst header\nThird footer\nFirst footer\nSecond header\n" +
+
+        msAssert.areEqual("Third header\nFirst header\nThird footer\nFirst footer\nSecond header\n" +
             "Second footer\n", logger.getText());
-            }
+    }
 
     private static class ReplaceLog implements IReplacingCallback
     {
@@ -333,7 +333,7 @@ public class ExHeaderFooter extends ApiExampleBase
 
         // Insert absolutely positioned image into the top/left corner of the header
         // Distance from the top/left edges of the page is set to 10 points
-        String imageFileName = getImageDir() + "Aspose.Words.gif";
+        String imageFileName = getImageDir() + "Logo.jpg";
         builder.insertImage(imageFileName, RelativeHorizontalPosition.PAGE, 10.0, RelativeVerticalPosition.PAGE, 10.0,
             50.0, 50.0, WrapType.THROUGH);
 
@@ -424,7 +424,7 @@ public class ExHeaderFooter extends ApiExampleBase
     /// </summary>
     private static void copyHeadersFootersFromPreviousSection(Section section)
     {
-        Section previousSection = (Section) section.getPreviousSibling();
+        Section previousSection = (Section)section.getPreviousSibling();
 
         if (previousSection == null)
             return;

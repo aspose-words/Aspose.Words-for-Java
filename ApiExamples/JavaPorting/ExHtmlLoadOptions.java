@@ -49,8 +49,8 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         // Wait for a response, when loading external resources
         loadOptions.setWebRequestTimeout(1000);
 
-        Document doc = new Document(getMyDir() + "Shape.VmlAndDml.htm", loadOptions);
-        doc.save(getArtifactsDir() + "Shape.VmlAndDml.docx");
+        Document doc = new Document(getMyDir() + "Conditional comments.htm", loadOptions);
+        doc.save(getArtifactsDir() + "HtmlLoadOptions.SupportVml.docx");
         //ExEnd
     }
 
@@ -70,7 +70,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
             signOptions.setDecryptionPassword("docPassword");
         }
 
-        String inputFileName = getMyDir() + "Document.Encrypted.docx";
+        String inputFileName = getMyDir() + "Encrypted.docx";
         String outputFileName = getArtifactsDir() + "HtmlLoadOptions.EncryptedHtml.html";
         DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
 
@@ -80,7 +80,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         msAssert.areEqual(signOptions.getDecryptionPassword(), loadOptions.getPassword());
 
         Document doc = new Document(outputFileName, loadOptions);
-        msAssert.areEqual("Test signed document.", msString.trim(doc.getText()));       
+        msAssert.areEqual("Test encrypted document.", msString.trim(doc.getText()));       
         //ExEnd
     }
 
@@ -90,21 +90,18 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         //ExStart
         //ExFor:HtmlLoadOptions.#ctor(LoadFormat,String,String)
         //ExSummary:Shows how to specify a base URI when opening an html document.
-        // Create and sign an encrypted html document from an encrypted .docx
         // If we want to load an .html document which contains an image linked by a relative URI
         // while the image is in a different location, we will need to resolve the relative URI into an absolute one
         // by creating an HtmlLoadOptions and providing a base URI 
         HtmlLoadOptions loadOptions = new HtmlLoadOptions(LoadFormat.HTML, "", getImageDir());
-
-        Document doc = new Document(getMyDir() + "Document.OpenFromStreamWithBaseUri.html", loadOptions);
-
-        // The image will be displayed correctly by the output document and
-        doc.save(getArtifactsDir() + "Shape.BaseUri.docx");
+        Document doc = new Document(getMyDir() + "Missing image.html", loadOptions);
     
-        Shape imgShape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
-        Assert.assertTrue(imgShape.isImage());
+        // While the image was broken in the input .html, it was successfully found in our base URI
+        Shape imageShape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
+        Assert.assertTrue(imageShape.isImage());
 
-        imgShape.getImageData().save(getArtifactsDir() + "BaseUri.png");
+        // The image will be displayed correctly by the output document
+        doc.save(getArtifactsDir() + "HtmlLoadOptions.BaseUri.docx");
         //ExEnd
     }
 

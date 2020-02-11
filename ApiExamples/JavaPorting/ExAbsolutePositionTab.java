@@ -34,7 +34,7 @@ public class ExAbsolutePositionTab extends ApiExampleBase
     public void documentToTxt() throws Exception
     {
         // This document contains two sentences separated by an absolute position tab
-        Document doc = new Document(getMyDir() + "AbsolutePositionTab.docx");
+        Document doc = new Document(getMyDir() + "Absolute position tab.docx");
 
         // An AbsolutePositionTab is a child node of a paragraph
         // AbsolutePositionTabs get picked up when looking for nodes of the SpecialChar type

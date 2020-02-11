@@ -146,7 +146,7 @@ public class ExDocumentBase extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBase.BackgroundShapeFlatColor.docx");
 
         // Setting the image will override the flat background color with the image
-        shapeRectangle.getImageData().setImage(getImageDir() + "Watermark.png");
+        shapeRectangle.getImageData().setImage(getImageDir() + "Transparent background logo.png");
         Assert.assertTrue(doc.getBackgroundShape().hasImage());
 
         // This image is a photo with a white background
@@ -158,7 +158,7 @@ public class ExDocumentBase extends ApiExampleBase
         // Microsoft Word does not support images in background shapes, so even though we set the background as an image,
         // the output will show a light blue background like before
         // However, we can see our watermark in an output pdf
-        doc.save(getArtifactsDir() + "DocumentBase.BackgroundShapeWatermark.pdf");
+        doc.save(getArtifactsDir() + "DocumentBase.BackgroundShape.pdf");
         //ExEnd
     }
 

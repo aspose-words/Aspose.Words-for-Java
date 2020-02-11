@@ -30,7 +30,6 @@ public class ExCellFormat extends ApiExampleBase
     public void verticalMerge() throws Exception
     {
         //ExStart
-        //ExFor:DocumentBuilder.InsertCell
         //ExFor:DocumentBuilder.EndRow
         //ExFor:CellMerge
         //ExFor:CellFormat.VerticalMerge

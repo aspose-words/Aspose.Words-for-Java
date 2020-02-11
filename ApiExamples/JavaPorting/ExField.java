@@ -1,5 +1,4 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2018 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -205,11 +204,11 @@ public class ExField extends ApiExampleBase
         //ExFor:FieldChar.GetField
         //ExFor:Field.IsLocked
         //ExSummary:Demonstrates how to retrieve the field class from an existing FieldStart node in the document.
-        Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
+        Document doc = new Document(getMyDir() + "Table of contents.docx");
 
         FieldChar fieldStart = (FieldChar)doc.getChild(NodeType.FIELD_START, 0, true);
         msAssert.areEqual(FieldType.FIELD_TOC, fieldStart.getFieldType());
-        msAssert.areEqual(true, fieldStart.isDirty());
+        msAssert.areEqual(false, fieldStart.isDirty());
         msAssert.areEqual(false, fieldStart.isLocked());
 
         // Retrieve the facade object which represents the field in the document
@@ -297,7 +296,7 @@ public class ExField extends ApiExampleBase
     @Test
     public void getFieldFromFieldCollection() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
+        Document doc = new Document(getMyDir() + "Table of contents.docx");
 
         Field field = doc.getRange().getFields().get(0);
 
@@ -371,14 +370,14 @@ public class ExField extends ApiExampleBase
         //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
         //ExSummary:Demonstrates how to remove a specified TOC from a document.
         // Open a document which contains a TOC
-        Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
+        Document doc = new Document(getMyDir() + "Table of contents.docx");
 
         // Remove the first TOC from the document
         Field tocField = doc.getRange().getFields().get(0);
         tocField.remove();
 
         // Save the output
-        doc.save(getArtifactsDir() + "Document.TableOfContentsRemoveTOC.doc");
+        doc.save(getArtifactsDir() + "Field.RemoveTocFromDocument.docx");
         //ExEnd
     }
 
@@ -481,7 +480,7 @@ public class ExField extends ApiExampleBase
         //ExSummary:Shows a way to update a field ignoring the MERGEFORMAT switch.
         LoadOptions loadOptions = new LoadOptions(); { loadOptions.setPreserveIncludePictureField(true); }
 
-        Document doc = new Document(getMyDir() + "Field.UpdateFieldIgnoringMergeFormat.docx", loadOptions);
+        Document doc = new Document(getMyDir() + "Field INCLUDEPICTURE.docx", loadOptions);
 
         for (Field field : doc.getRange().getFields())
         {
@@ -489,7 +488,7 @@ public class ExField extends ApiExampleBase
             {
                 FieldIncludePicture includePicture = (FieldIncludePicture)field;
 
-                includePicture.setSourceFullName(getImageDir() + "dotnet-logo.png");
+                includePicture.setSourceFullName(getImageDir() + "Transparent background logo.png");
                 includePicture.update(true);
             }
         }
@@ -573,7 +572,7 @@ public class ExField extends ApiExampleBase
         //ExStart
         //ExFor:Document.UnlinkFields
         //ExSummary:Shows how to unlink all fields in the document.
-        Document doc = new Document(getMyDir() + "Field.UnlinkFields.docx");
+        Document doc = new Document(getMyDir() + "Linked fields.docx");
 
         doc.unlinkFields();
         //ExEnd
@@ -588,18 +587,17 @@ public class ExField extends ApiExampleBase
         //ExStart
         //ExFor:Range.UnlinkFields
         //ExSummary:Shows how to unlink all fields in range.
-        Document doc = new Document(getMyDir() + "Field.UnlinkFields.docx");
+        Document doc = new Document(getMyDir() + "Linked fields.docx");
 
         Section newSection = (Section)doc.getSections().get(0).deepClone(true);
         doc.getSections().add(newSection);
 
         doc.getSections().get(1).getRange().unlinkFields();
         //ExEnd
-
         String secWithFields = DocumentHelper.getSectionText(doc, 1);
-        msAssert.areEqual(
-            "Fields.Docx   Элементы указателя не найдены.     3.\rОшибка! Не указана последовательность.    Fields.Docx   Элементы указателя не найдены.     4.\r\r\r\r\r\f",
-            secWithFields);
+
+        Assert.assertTrue(msString.trim(secWithFields).endsWith(
+            "Fields.Docx   Элементы указателя не найдены.     3.\rОшибка! Не указана последовательность.    Fields.Docx   Элементы указателя не найдены.     4."));
     }
 
     @Test
@@ -608,20 +606,19 @@ public class ExField extends ApiExampleBase
         //ExStart
         //ExFor:Field.Unlink
         //ExSummary:Shows how to unlink specific field.
-        Document doc = new Document(getMyDir() + "Field.UnlinkFields.docx");
+        Document doc = new Document(getMyDir() + "Linked fields.docx");
         doc.getRange().getFields().get(1).unlink();
         //ExEnd
-
         String paraWithFields = DocumentHelper.getParagraphText(doc, 0);
-        msAssert.areEqual(
-            "\u0013 FILENAME  \\* Caps  \\* MERGEFORMAT \u0014Fields.Docx\u0015   Элементы указателя не найдены.     \u0013 LISTNUM  LegalDefault \u0015\r",
-            paraWithFields);
+
+        Assert.assertTrue(msString.trim(paraWithFields).endsWith(
+            "FILENAME  \\* Caps  \\* MERGEFORMAT \u0014Fields.Docx\u0015   Элементы указателя не найдены.     \u0013 LISTNUM  LegalDefault \u0015"));
     }
 
     @Test
-    public void updatePageNumbersInToc() throws Exception
+    public void updateTocPageNumbers() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Field.UpdateTocPages.docx");
+        Document doc = new Document(getMyDir() + "Field TOC.docx");
 
         Node startNode = DocumentHelper.getParagraph(doc, 2);
         Node endNode = null;
@@ -662,7 +659,7 @@ public class ExField extends ApiExampleBase
             }
         }
 
-        doc.save(getArtifactsDir() + "Field.UpdateTocPages.docx");
+        doc.save(getArtifactsDir() + "Field.UpdateTocPageNumbers.docx");
     }
 
     private static void removeSequence(Node start, Node end)
@@ -747,7 +744,7 @@ public class ExField extends ApiExampleBase
         Assert.assertFalse(dropDownItems.contains("Three and a half"));
         Assert.assertFalse(dropDownItems.contains("Four"));
 
-        doc.save(getArtifactsDir() + "Fields.DropDownItems.docx");
+        doc.save(getArtifactsDir() + "Field.DropDownItemCollection.docx");
         //ExEnd
 
         // Empty the collection
@@ -798,7 +795,7 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Fields.AskField.docx");
+        doc.save(getArtifactsDir() + "Field.ASK.docx");
 
         msAssert.areEqual(
             " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o",
@@ -870,7 +867,7 @@ public class ExField extends ApiExampleBase
 
         builder.write("This text is in a custom position.");
 
-        doc.save(getArtifactsDir() + "Field.Advance.docx");
+        doc.save(getArtifactsDir() + "Field.ADVANCE.docx");
         //ExEnd
     }
 
@@ -944,8 +941,17 @@ public class ExField extends ApiExampleBase
     @Test //ExSkip
     public void fieldCollection() throws Exception
     {
-        // Open a document that has fields
-        Document doc = new Document(getMyDir() + "Document.ContainsFields.docx");
+        // Create a new document and insert some fields
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertField(" DATE \\@ \"dddd, d MMMM yyyy\" ");
+        builder.insertField(" TIME ");
+        builder.insertField(" REVNUM ");
+        builder.insertField(" AUTHOR  \"John Doe\" ");
+        builder.insertField(" SUBJECT \"My Subject\" ");
+        builder.insertField(" QUOTE \"Hello world!\" ");
+        doc.updateFields();
 
         // Get the collection that contains all the fields in a document
         FieldCollection fields = doc.getRange().getFields();
@@ -1082,7 +1088,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" COMPARE  5 = \"2 + 3\"", field.getFieldCode());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.Compare.docx");
+        doc.save(getArtifactsDir() + "Field.COMPARE.docx");
         //ExEnd
     }
 
@@ -1131,7 +1137,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(FieldIfComparisonResult.TRUE, fieldIf.evaluateCondition());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.If.docx");
+        doc.save(getArtifactsDir() + "Field.IF.docx");
         //ExEnd
     }
 
@@ -1165,7 +1171,7 @@ public class ExField extends ApiExampleBase
             }
         }
 
-        doc.save(getArtifactsDir() + "Field.AutoNum.docx");
+        doc.save(getArtifactsDir() + "Field.AUTONUM.docx");
         //ExEnd
     }
 
@@ -1213,7 +1219,7 @@ public class ExField extends ApiExampleBase
             }
         }
 
-        doc.save(getArtifactsDir() + "Field.AutoNumLegal.docx");
+        doc.save(getArtifactsDir() + "Field.AUTONUMLGL.docx");
     }
 
     /// <summary>
@@ -1256,7 +1262,7 @@ public class ExField extends ApiExampleBase
             }
         }
 
-        doc.save(getArtifactsDir() + "Field.AutoNumOut.docx");
+        doc.save(getArtifactsDir() + "Field.AUTONUMOUT.docx");
         //ExEnd
     }
 
@@ -1300,7 +1306,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" AUTOTEXT  MyBlock", fieldAutoText.getFieldCode());
 
         // Put additional templates here
-        doc.getFieldOptions().setBuiltInTemplatesPaths(new String[] { getMyDir() + "Document.BusinessBrochureTemplate.dotx" });
+        doc.getFieldOptions().setBuiltInTemplatesPaths(new String[] { getMyDir() + "Busniess brochure.dotx" });
 
         // We can also display our building block with a GLOSSARY field
         FieldGlossary fieldGlossary = (FieldGlossary)builder.insertField(FieldType.FIELD_GLOSSARY, true);
@@ -1310,7 +1316,7 @@ public class ExField extends ApiExampleBase
 
         // The text content of our building block will be visible in the output
 		doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.AutoText.dotx");
+        doc.save(getArtifactsDir() + "Field.AUTOTEXT.dotx");
         //ExEnd
     }
 
@@ -1346,7 +1352,7 @@ public class ExField extends ApiExampleBase
                         "\\s \"Heading 1\" " +
                         "\\t \"Hover tip text for AutoTextList goes here\"", field.getFieldCode());
 
-        doc.save(getArtifactsDir() + "Field.AutoTextList.dotx");
+        doc.save(getArtifactsDir() + "Field.AUTOTEXTLIST.dotx");
     }
 
     /// <summary>
@@ -1419,7 +1425,7 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(table);
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.GreetingLine.docx");
+        doc.save(getArtifactsDir() + "Field.GREETINGLINE.docx");
         //ExEnd
     }
 
@@ -1471,8 +1477,10 @@ public class ExField extends ApiExampleBase
         fieldListNum.setListName("OutlineDefault");
         builder.writeln("Paragraph 5");
 
+        msAssert.areEqual(" LISTNUM  OutlineDefault", fieldListNum.getFieldCode());
+
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.FieldListNum.docx");
+        doc.save(getArtifactsDir() + "Field.LISTNUM.docx");
         //ExEnd
     }
 
@@ -1506,6 +1514,8 @@ public class ExField extends ApiExampleBase
         fieldMergeField.setTextBefore("Dear ");
         fieldMergeField.setTextAfter(" ");
 
+        msAssert.areEqual(" MERGEFIELD  \"Courtesy Title\" \\m \\b \"Dear \" \\f \" \"", fieldMergeField.getFieldCode());
+
         // Insert another merge field for another column
         // We don't need to use every column to perform a mail merge
         fieldMergeField = (FieldMergeField)builder.insertField(FieldType.FIELD_MERGE_FIELD, true);
@@ -1514,7 +1524,7 @@ public class ExField extends ApiExampleBase
 
         doc.updateFields();
         doc.getMailMerge().execute(table);
-        doc.save(getArtifactsDir() + "Field.MergeField.docx");
+        doc.save(getArtifactsDir() + "Field.MERGEFIELD.docx");
         //ExEnd
     }
 
@@ -1743,7 +1753,7 @@ public class ExField extends ApiExampleBase
 
         fieldToc.updatePageNumbers();
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.FieldTOC.docx");
+        doc.save(getArtifactsDir() + "Field.TOC.docx");
     }
 
     /// <summary>
@@ -1797,7 +1807,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" TOC  \\f A \\l 1-3", fieldToc.getFieldCode());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.FieldTOC.TC.docx");
+        doc.save(getArtifactsDir() + "Field.TC.docx");
     }
 
     /// <summary>
@@ -1860,7 +1870,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" SEQ  OtherSequence", fieldSeq.getFieldCode());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.TOC.SEQ.Prefix.docx");
+        doc.save(getArtifactsDir() + "Field.TOC.SEQ.docx");
     }
 
     @Test (enabled = false, description = "WORDSNET-18083") //ExSkip
@@ -1901,7 +1911,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" SEQ  MySequence \\n", fieldSeq.getFieldCode());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.TOC.SEQ.ResetNumbering.docx");
+        doc.save(getArtifactsDir() + "Field.SEQ.ResetNumbering.docx");
     }
 
     @Test (enabled = false, description = "WORDSNET-18084") //ExSkip
@@ -1944,7 +1954,7 @@ public class ExField extends ApiExampleBase
         builder.endBookmark("TOCBookmark");
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.TOC.SEQ.Bookmark.docx");
+        doc.save(getArtifactsDir() + "Field.SEQ.Bookmark.docx");
     }
 
     /// <summary>
@@ -1981,7 +1991,7 @@ public class ExField extends ApiExampleBase
         //ExFor:FieldBibliography.FormatLanguageId
         //ExSummary:Shows how to work with CITATION and BIBLIOGRAPHY fields.
         // Open a document that has bibliographical sources
-        Document doc = new Document(getMyDir() + "Document.HasBibliography.docx");
+        Document doc = new Document(getMyDir() + "Bibliography.docx");
 
         // Add text that we can cite
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2025,7 +2035,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" BIBLIOGRAPHY  \\l 1124", fieldBibliography.getFieldCode());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.Citation.docx");
+        doc.save(getArtifactsDir() + "Field.CITATION.docx");
         //ExEnd
     }
 
@@ -2059,13 +2069,13 @@ public class ExField extends ApiExampleBase
 
         // Add an INCLUDE field with document builder and import a portion of the document defined by a bookmark
         FieldInclude fieldInclude = (FieldInclude)builder.insertField(FieldType.FIELD_INCLUDE, true);
-        fieldInclude.setSourceFullName(getMyDir() + "Field.Include.Source.docx");
-        fieldInclude.setBookmarkName("Source_paragraph_2");
+        fieldInclude.setSourceFullName(getMyDir() + "Bookmarks.docx");
+        fieldInclude.setBookmarkName("MyBookmark1");
         fieldInclude.setLockFields(false);
         fieldInclude.setTextConverter("Microsoft Word");
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.Include.docx");
+        doc.save(getArtifactsDir() + "Field.INCLUDE.docx");
         //ExEnd
     }
 
@@ -2126,7 +2136,7 @@ public class ExField extends ApiExampleBase
         field.setInsertOnceOnMailMerge(true);
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.Database.docx");
+        doc.save(getArtifactsDir() + "Field.DATABASE.docx");
         //ExEnd
     }
 
@@ -2149,7 +2159,7 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         FieldIncludePicture fieldIncludePicture = (FieldIncludePicture)builder.insertField(FieldType.FIELD_INCLUDE_PICTURE, true);
-        fieldIncludePicture.setSourceFullName(getImageDir() + "Watermark.png");
+        fieldIncludePicture.setSourceFullName(getImageDir() + "Transparent background logo.png");
 
         // Here we apply the PNG32.FLT filter
         fieldIncludePicture.setGraphicFilter("PNG32");
@@ -2161,10 +2171,10 @@ public class ExField extends ApiExampleBase
         FieldImport fieldImport = (FieldImport)builder.insertField(FieldType.FIELD_IMPORT, true);
         fieldImport.setGraphicFilter("PNG32");
         fieldImport.isLinked(true);
-        fieldImport.setSourceFullName(getMyDir() + "Images\\Watermark.png");
+        fieldImport.setSourceFullName(getMyDir() + "Images\\Transparent background logo.png");
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.IncludePicture.docx");
+        doc.save(getArtifactsDir() + "Field.INCLUDEPICTURE.docx");
         //ExEnd
     }
 
@@ -2187,17 +2197,17 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Use a document builder to insert an include text field and perform an XSL transformation on an XML document
-        FieldIncludeText fieldIncludeText = createFieldIncludeText(builder, getMyDir() + "Field.IncludeText.Source.xml", false, "text/xml", "XML", "ISO-8859-1");
-        fieldIncludeText.setXslTransformation(getMyDir() + "Field.IncludeText.Source.xsl");
+        FieldIncludeText fieldIncludeText = createFieldIncludeText(builder, getMyDir() + "CD collection data.xml", false, "text/xml", "XML", "ISO-8859-1");
+        fieldIncludeText.setXslTransformation(getMyDir() + "CD collection XSL transformation.xsl");
 
         builder.writeln();
 
         // Use a document builder to insert an include text field and use an XPath to take specific elements
-        fieldIncludeText = createFieldIncludeText(builder, getMyDir() + "Field.IncludeText.Source.xml", false, "text/xml", "XML", "ISO-8859-1");
+        fieldIncludeText = createFieldIncludeText(builder, getMyDir() + "CD collection data.xml", false, "text/xml", "XML", "ISO-8859-1");
         fieldIncludeText.setNamespaceMappings("xmlns:n='myNamespace'");
         fieldIncludeText.setXPath("/catalog/cd/title");
 
-        doc.save(getArtifactsDir() + "Field.IncludeText.docx");
+        doc.save(getArtifactsDir() + "Field.INCLUDETEXT.docx");
     }
 
     /// <summary>
@@ -2236,22 +2246,22 @@ public class ExField extends ApiExampleBase
         FieldHyperlink fieldHyperlink = (FieldHyperlink)builder.insertField(FieldType.FIELD_HYPERLINK, true);
 
         // When link is clicked, open a document and place the cursor on the bookmarked location
-        fieldHyperlink.setAddress(getMyDir() + "Field.HyperlinkDestination.docx");
-        fieldHyperlink.setSubAddress("My_Bookmark");
+        fieldHyperlink.setAddress(getMyDir() + "Bookmarks.docx");
+        fieldHyperlink.setSubAddress("MyBookmark3");
         fieldHyperlink.setScreenTip("Open " + fieldHyperlink.getAddress() + " on bookmark " + fieldHyperlink.getSubAddress() + " in a new window");
 
         builder.writeln();
 
         // Open html file at a specific frame
         fieldHyperlink = (FieldHyperlink)builder.insertField(FieldType.FIELD_HYPERLINK, true);
-        fieldHyperlink.setAddress(getMyDir() + "Field.HyperlinkDestination.html");
+        fieldHyperlink.setAddress(getMyDir() + "Iframes.html");
         fieldHyperlink.setScreenTip("Open " + fieldHyperlink.getAddress());
         fieldHyperlink.setTarget("iframe_3");
         fieldHyperlink.setOpenInNewWindow(true);
         fieldHyperlink.isImageMap(false);
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.Hyperlink.docx");
+        doc.save(getArtifactsDir() + "Field.HYPERLINK.docx");
         //ExEnd
     }
 
@@ -2282,16 +2292,16 @@ public class ExField extends ApiExampleBase
         DataTable dataTable = createDataTable("Images", "ImageColumn",
             new String[]
             {
-                getImageDir() + "Aspose.Words.gif",
-                getImageDir() + "Watermark.png",
-                getImageDir() + "dotnet-logo.png"
+                getImageDir() + "Logo.jpg",
+                getImageDir() + "Transparent background logo.png",
+                getImageDir() + "Enhanced Windows MetaFile.emf"
             });
 
-        doc.getMailMerge().setFieldMergingCallback(new MergedImageResizer(450.0, 200.0, MergeFieldImageDimensionUnit.POINT));
+        doc.getMailMerge().setFieldMergingCallback(new MergedImageResizer(200.0, 200.0, MergeFieldImageDimensionUnit.POINT));
         doc.getMailMerge().execute(dataTable);
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.MergeFieldImageDimension.docx");
+        doc.save(getArtifactsDir() + "Field.MERGEFIELD.ImageDimension.docx");
     }
 
     /// <summary>
@@ -2364,16 +2374,16 @@ public class ExField extends ApiExampleBase
         DataTable dataTable = createDataTable("Images", "ImageColumn",
             new String[]
             {
-                "Aspose logo",
-                ".Net logo",
-                "Watermark"
+                "Dark logo",
+                "Transparent logo",
+                "Enhanced Windows Metafile"
             });
 
         // A custom merging callback will contain filenames that our shorthands will refer to
         doc.getMailMerge().setFieldMergingCallback(new ImageFilenameCallback());
         doc.getMailMerge().execute(dataTable);
 
-        doc.save(getArtifactsDir() + "Field.MergeFieldImages.docx");
+        doc.save(getArtifactsDir() + "Field.MERGEFIELD.Images.docx");
     }
 
     /// <summary>
@@ -2384,9 +2394,9 @@ public class ExField extends ApiExampleBase
         public ImageFilenameCallback()
         {
             mImageFilenames = new HashMap<String, String>();
-            msDictionary.add(mImageFilenames, "Aspose logo", getImageDir() + "Aspose.Words.gif");
-            msDictionary.add(mImageFilenames, ".Net logo", getImageDir() + "dotnet-logo.png");
-            msDictionary.add(mImageFilenames, "Watermark", getImageDir() + "Watermark.png");
+            msDictionary.add(mImageFilenames, "Dark logo", getImageDir() + "Logo.jpg");
+            msDictionary.add(mImageFilenames, "Transparent logo", getImageDir() + "Transparent background logo.png");
+            msDictionary.add(mImageFilenames, "Enhanced Windows Metafile", getImageDir() + "Enhanced Windows MetaFile.emf");
         }
 
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs e)
@@ -2517,7 +2527,7 @@ public class ExField extends ApiExampleBase
         builder.endBookmark(MAIN_BOOKMARK_NAME);
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.XE.docx");
+        doc.save(getArtifactsDir() + "Field.INDEX.XE.docx");
         //ExEnd
     }
 
@@ -2547,6 +2557,8 @@ public class ExField extends ApiExampleBase
         fieldBarcode.setPostalAddress("96801");
         fieldBarcode.isUSPostalAddress(true);
 
+        msAssert.areEqual(" BARCODE  96801 \\f C \\u", fieldBarcode.getFieldCode());
+
         builder.writeln();
 
         // Reference a US postal code from a bookmark
@@ -2554,8 +2566,10 @@ public class ExField extends ApiExampleBase
         fieldBarcode.setPostalAddress("BarcodeBookmark");
         fieldBarcode.isBookmark(true);
 
+        msAssert.areEqual(" BARCODE  BarcodeBookmark \\b", fieldBarcode.getFieldCode());
+
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.USAddressBarcode.docx");
+        doc.save(getArtifactsDir() + "Field.BARCODE.docx");
         //ExEnd
     }
 
@@ -2625,7 +2639,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" DISPLAYBARCODE  09312345678907 ITF14 \\c STD", field.getFieldCode());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.DisplayBarcode.docx");
+        doc.save(getArtifactsDir() + "Field.DISPLAYBARCODE.docx");
         //ExEnd
     }
 
@@ -2687,7 +2701,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual("DISPLAYBARCODE \"DEF456\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B",
             doc.getRange().getFields().get(1).getFieldCode());
 
-        doc.save(getArtifactsDir() + "Field.MergeBarcode_QR.docx");
+        doc.save(getArtifactsDir() + "Field.MERGEBARCODE.docx");
     }
 
     @Test //ExSkip
@@ -2720,7 +2734,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual("DISPLAYBARCODE \"123456789012\" EAN13 \\t \\p CASE \\x",
             doc.getRange().getFields().get(1).getFieldCode());
 
-        doc.save(getArtifactsDir() + "Field.MergeBarcode_EAN13.docx");
+        doc.save(getArtifactsDir() + "Field.MERGEBARCODE.EAN13.docx");
     }
 
     @Test //ExSkip
@@ -2751,7 +2765,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual("DISPLAYBARCODE \"67890FGHIJ\" CODE39 \\d",
             doc.getRange().getFields().get(1).getFieldCode());
 
-        doc.save(getArtifactsDir() + "Field.MergeBarcode_CODE39.docx");
+        doc.save(getArtifactsDir() + "Field.MERGEBARCODE.CODE39.docx");
     }
 
     @Test //ExSkip
@@ -2781,7 +2795,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual("DISPLAYBARCODE \"1234567891234\" ITF14 \\c STD",
             doc.getRange().getFields().get(1).getFieldCode());
 
-        doc.save(getArtifactsDir() + "Field.MergeBarcode_ITF14.docx");
+        doc.save(getArtifactsDir() + "Field.MERGEBARCODE.ITF14.docx");
     }
 
     /// <summary>
@@ -2852,18 +2866,18 @@ public class ExField extends ApiExampleBase
 
         // Insert fields containing text from another document and present them as text (see InsertLinkedObjectAs enum)
         builder.writeln("FieldLink:\n");
-        insertFieldLink(builder, insertLinkedObjectAs, "Word.Document.8", getMyDir() + "Document.doc", null, true);
+        insertFieldLink(builder, insertLinkedObjectAs, "Word.Document.8", getMyDir() + "Document.docx", null, true);
 
         builder.writeln("FieldDde:\n");
-        insertFieldDde(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Document.Spreadsheet.xlsx",
+        insertFieldDde(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Spreadsheet.xlsx",
             "Sheet1!R1C1", true, true);
 
         builder.writeln("FieldDdeAuto:\n");
-        insertFieldDdeAuto(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Document.Spreadsheet.xlsx",
+        insertFieldDdeAuto(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Spreadsheet.xlsx",
             "Sheet1!R1C1", true);
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.LinkedObjectsAsText.docx");
+        doc.save(getArtifactsDir() + "Field.LINK.DDE.DDEAUTO.docx");
     }
 
 	//JAVA-added data provider for test method
@@ -2891,15 +2905,15 @@ public class ExField extends ApiExampleBase
             "Sheet1!R2C2", true);
 
         builder.writeln("FieldDde:\n");
-        insertFieldDde(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Document.Spreadsheet.xlsx",
+        insertFieldDde(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Spreadsheet.xlsx",
             "Sheet1!R1C1", true, true);
 
         builder.writeln("FieldDdeAuto:\n");
-        insertFieldDdeAuto(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Document.Spreadsheet.xlsx",
+        insertFieldDdeAuto(builder, insertLinkedObjectAs, "Excel.Sheet", getMyDir() + "Spreadsheet.xlsx",
             "Sheet1!R1C1", true);
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.LinkedObjectsAsImage.docx");
+        doc.save(getArtifactsDir() + "Field.LINK.DDE.DDEAUTO.AsImage.docx");
     }
 
 	//JAVA-added data provider for test method
@@ -3078,6 +3092,9 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual("Default User", builder.insertField(" USERNAME ").getResult());
         msAssert.areEqual("D. U.", builder.insertField(" USERINITIALS ").getResult());
         msAssert.areEqual("One Microsoft Way", builder.insertField(" USERADDRESS ").getResult());
+
+        doc.updateFields();
+        doc.save(getArtifactsDir() + "Field.FieldOptionsCurrentUser.docx");
         //ExEnd
     }
 
@@ -3112,6 +3129,9 @@ public class ExField extends ApiExampleBase
 
         // This does not change the value in the user information object
         msAssert.areEqual("123 Main Street", doc.getFieldOptions().getCurrentUser().getAddress());
+
+        doc.updateFields();
+        doc.save(getArtifactsDir() + "Field.USERADDRESS.docx");
         //ExEnd
     }
 
@@ -3146,6 +3166,9 @@ public class ExField extends ApiExampleBase
 
         // This does not change the value in the user information object
         msAssert.areEqual("J. D.", doc.getFieldOptions().getCurrentUser().getInitials());
+
+        doc.updateFields();
+        doc.save(getArtifactsDir() + "Field.USERINITIALS.docx");
         //ExEnd
     }
 
@@ -3181,6 +3204,9 @@ public class ExField extends ApiExampleBase
 
         // This does not change the value in the user information object
         msAssert.areEqual("John Doe", doc.getFieldOptions().getCurrentUser().getName());
+
+        doc.updateFields();
+        doc.save(getArtifactsDir() + "Field.USERNAME.docx");
         //ExEnd
     }
 
@@ -3213,11 +3239,11 @@ public class ExField extends ApiExampleBase
 
         // We can override the values displayed by our FILENAME fields by setting this attribute
         Assert.assertNull(doc.getFieldOptions().getFileName());
-        doc.getFieldOptions().setFileName("Field.FileName.docx");
+        doc.getFieldOptions().setFileName("Field.FILENAME.docx");
         field.update();
 
         msAssert.areEqual(" FILENAME  \\p", field.getFieldCode());
-        msAssert.areEqual("Field.FileName.docx", field.getResult());
+        msAssert.areEqual("Field.FILENAME.docx", field.getResult());
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "" + doc.getFieldOptions().getFileName());
@@ -3274,14 +3300,14 @@ public class ExField extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        doc.getFieldOptions().setPreProcessCulture(new CultureInfo("de-DE"));
+        doc.getFieldOptions().setPreProcessCultureInternal(new CultureInfo("de-DE"));
 
         Field field = builder.insertField(" DOCPROPERTY CreateTime");
 
         // Conforming to the German culture, the date/time will be presented in the "dd.mm.yyyy hh:mm" format
         Assert.assertTrue(Regex.match(field.getResult(), "\\d{2}[.]\\d{2}[.]\\d{4} \\d{2}[:]\\d{2}").getSuccess());
 
-        doc.getFieldOptions().setPreProcessCulture(CultureInfo.getInvariantCulture());
+        doc.getFieldOptions().setPreProcessCultureInternal(CultureInfo.getInvariantCulture());
         field.update();
 
         // After switching to the invariant culture, the date/time will be presented in the "mm/dd/yyyy hh:mm" format
@@ -3325,7 +3351,7 @@ public class ExField extends ApiExampleBase
         builder.insertField("TA \\c 2 \\l \"entry 3\"");
         
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.TableOfAuthorities.Categories.docx");
+        doc.save(getArtifactsDir() + "Field.TOA.Categories.docx");
         //ExEnd
     }
 
@@ -3425,7 +3451,7 @@ public class ExField extends ApiExampleBase
         fieldStyleRef.setSuppressNonDelimiters(true);
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.FieldStyleRef.docx");
+        doc.save(getArtifactsDir() + "Field.STYLEREF.docx");
         //ExEnd
     }
 
@@ -3467,7 +3493,7 @@ public class ExField extends ApiExampleBase
         builder.writeln();
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.CreateDate.docx");
+        doc.save(getArtifactsDir() + "Field.CREATEDATE.docx");
         //ExEnd
     }
 
@@ -3508,7 +3534,7 @@ public class ExField extends ApiExampleBase
         builder.writeln();
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.SaveDate.docx");
+        doc.save(getArtifactsDir() + "Field.SAVEDATE.docx");
         //ExEnd
     }
 
@@ -3596,7 +3622,7 @@ public class ExField extends ApiExampleBase
         builder.buildAndInsert(doc.getFirstSection().getBody().appendParagraph(""));
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.FieldBuilder.docx");
+        doc.save(getArtifactsDir() + "Field.SYMBOL.docx");
         //ExEnd
     }
     
@@ -3678,6 +3704,8 @@ public class ExField extends ApiExampleBase
 
         msAssert.areEqual(" DOCVARIABLE  \"My Variable\"", fieldDocVariable.getFieldCode());
         msAssert.areEqual("My variable's value", fieldDocVariable.getResult());
+
+        doc.save(getArtifactsDir() + "Field.DOCPROPERTY.DOCVARIABLE.docx");
         //ExEnd
     }
 
@@ -3710,6 +3738,8 @@ public class ExField extends ApiExampleBase
 
         // As well as displaying a new value in our field, we also changed the value of the document property
         msAssert.areEqual("My new subject", doc.getBuiltInDocumentProperties().getSubject());
+
+        doc.save(getArtifactsDir() + "Field.SUBJECT.docx");
         //ExEnd
     }
 
@@ -3738,7 +3768,7 @@ public class ExField extends ApiExampleBase
 
         msAssert.areEqual("My overriding comment.", field.getResult());
 
-        doc.save(getArtifactsDir() + "Field.Comments.docx");
+        doc.save(getArtifactsDir() + "Field.COMMENTS.docx");
         //ExEnd
     }
     
@@ -3750,26 +3780,34 @@ public class ExField extends ApiExampleBase
         //ExFor:FieldFileSize.IsInKilobytes
         //ExFor:FieldFileSize.IsInMegabytes            
         //ExSummary:Shows how to display the file size of a document with a FILESIZE field.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.moveToDocumentEnd();
+        builder.insertParagraph();
 
         // By default, file size is displayed in bytes
         FieldFileSize field = (FieldFileSize)builder.insertField(FieldType.FIELD_FILE_SIZE, true);
         field.update();
-        msAssert.areEqual("23040", field.getResult());
+        msAssert.areEqual("10590", field.getResult());
+        builder.insertParagraph();
 
         // Set the field to display size in kilobytes
         field = (FieldFileSize)builder.insertField(FieldType.FIELD_FILE_SIZE, true);
         field.isInKilobytes(true);
         field.update();
-        msAssert.areEqual("23", field.getResult());
+        msAssert.areEqual("11", field.getResult());
+        builder.insertParagraph();
 
         // Set the field to display size in megabytes
         field = (FieldFileSize)builder.insertField(FieldType.FIELD_FILE_SIZE, true);
         field.isInMegabytes(true);
         field.update();
         msAssert.areEqual("0", field.getResult());
+        builder.insertParagraph();
+
+        // To update the values of these fields while editing in Microsoft Word,
+        // the changes first have to be saved, then the fields manually updated
+        doc.save(getArtifactsDir() + "Field.FILESIZE.docx");
         //ExEnd
     }
 
@@ -3798,7 +3836,7 @@ public class ExField extends ApiExampleBase
         builder.endBookmark(field.getLocation());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.GoToButton.docx");
+        doc.save(getArtifactsDir() + "Field.GOTOBUTTON.docx");
         //ExEnd
     }
     
@@ -3832,7 +3870,7 @@ public class ExField extends ApiExampleBase
         doc.getMailMerge().execute(new String[] { "MergeField" }, new Object[] { "" });
         
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.FillIn.docx");
+        doc.save(getArtifactsDir() + "Field.FILLIN.docx");
     }
 
     /// <summary>
@@ -3883,7 +3921,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual("New comment", field.getResult());
         msAssert.areEqual("New comment", doc.getBuiltInDocumentProperties().getComments());
 
-        doc.save(getArtifactsDir() + "Field.Info.docx");
+        doc.save(getArtifactsDir() + "Field.INFO.docx");
         //ExEnd
     }
 
@@ -3897,7 +3935,7 @@ public class ExField extends ApiExampleBase
         //ExFor:FieldMacroButton.MacroName
         //ExSummary:Shows how to use MACROBUTTON fields that enable us to run macros by clicking.
         // Open a document that contains macros
-        Document doc = new Document(getMyDir() + "Document.HasMacro.docm");
+        Document doc = new Document(getMyDir() + "Macro.docm");
         DocumentBuilder builder = new DocumentBuilder(doc);
         Assert.assertTrue(doc.hasMacros());
 
@@ -3919,7 +3957,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" MACROBUTTON  ViewZoom200 Run ViewZoom200", field.getFieldCode());
 
         // Save the document as a macro-enabled document type
-        doc.save(getArtifactsDir() + "Field.MacroButton.docm");
+        doc.save(getArtifactsDir() + "Field.MACROBUTTON.docm");
         //ExEnd
     }
     
@@ -3953,7 +3991,7 @@ public class ExField extends ApiExampleBase
         // Setting a KEYWORDS field's Text property also updates the document's keywords to our new value
         msAssert.areEqual("OverridingKeyword", doc.getBuiltInDocumentProperties().getKeywords());
 
-        doc.save(getArtifactsDir() + "Field.Keywords.docx");
+        doc.save(getArtifactsDir() + "Field.KEYWORDS.docx");
         //ExEnd
     }
 
@@ -3967,7 +4005,7 @@ public class ExField extends ApiExampleBase
         //ExFor:FieldNumWords
         //ExSummary:Shows how to use NUMCHARS, NUMWORDS, NUMPAGES and PAGE fields to track the size of our documents.
         // Open a document to which we want to add character/word/page counts
-        Document doc = new Document(getMyDir() + "Lists.PrintOutAllLists.doc");
+        Document doc = new Document(getMyDir() + "Paragraphs.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Move the document builder to the footer, where we will store our fields
@@ -3993,7 +4031,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" PAGE ", fieldPage.getFieldCode());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.Num.docx");
+        doc.save(getArtifactsDir() + "Field.NUMCHARS.NUMWORDS.NUMPAGES.PAGE.docx");
         //ExEnd
     }
 
@@ -4051,7 +4089,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" PRINTDATE  \\u", fieldPrintDate.getFieldCode());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.Print.docx");
+        doc.save(getArtifactsDir() + "Field.PRINT.PRINTDATE.docx");
         //ExEnd
     }
 
@@ -4084,7 +4122,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" QUOTE \u0013 DATE \u0014" + DateTime.getNow().getDate().toShortDateString() + "\u0015", field.getFieldCode());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.Quote.docx");
+        doc.save(getArtifactsDir() + "Field.QUOTE.docx");
         //ExEnd
     }
 
@@ -4142,7 +4180,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(" NEXT ", fieldNext.getFieldCode());
         msAssert.areEqual(" NEXTIF  5 = \"2 + 3\"", fieldNextIf.getFieldCode());
 
-        doc.save(getArtifactsDir() + "Field.Next.docx");
+        doc.save(getArtifactsDir() + "Field.NEXT.NEXTIF.docx");
     }
 
     /// <summary>
@@ -4205,7 +4243,7 @@ public class ExField extends ApiExampleBase
         insertBookmarkWithFootnote(builder, "MyBookmark2", "Contents of MyBookmark2", "Footnote from MyBookmark2");
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.NoteRef.docx");
+        doc.save(getArtifactsDir() + "Field.NOTEREF.docx");
     }
 
     /// <summary>
@@ -4268,7 +4306,7 @@ public class ExField extends ApiExampleBase
         msAssert.areEqual(field.getFieldCode(), " FOOTNOTEREF CrossRefBookmark");
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.FootnoteRef.docx");
+        doc.save(getArtifactsDir() + "Field.FOOTNOTEREF.docx");
         //ExEnd
     }
 
@@ -4309,7 +4347,7 @@ public class ExField extends ApiExampleBase
         insertAndNameBookmark(builder, "MyBookmark3");
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.PageRef.docx");
+        doc.save(getArtifactsDir() + "Field.PAGEREF.docx");
     }
 
     /// <summary>
@@ -4347,8 +4385,11 @@ public class ExField extends ApiExampleBase
     @Test
     public void defineDateTimeFormatting() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Field.UpdateDateTimeFormatting.docx");
-        
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertField(FieldType.FIELD_TIME, true);
+
         doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
         // Set a provider that return a culture object specific for each particular field
         doc.getFieldOptions().setFieldUpdateCultureProvider(new FieldUpdateCultureProvider());
@@ -4356,7 +4397,7 @@ public class ExField extends ApiExampleBase
         FieldTime fieldDate = (FieldTime) doc.getRange().getFields().get(0);
         if (fieldDate.getLocaleId() != (int) EditingLanguage.RUSSIAN)
             fieldDate.setLocaleId((int) EditingLanguage.RUSSIAN);
-        
+
         doc.save(getArtifactsDir() + "Field.UpdateDateTimeFormatting.pdf");
     }
 
@@ -4486,7 +4527,7 @@ public class ExField extends ApiExampleBase
         builder.getListFormat().getListLevel().setNumberFormat(">>> \u0002");
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.Ref.docx");
+        doc.save(getArtifactsDir() + "Field.REF.docx");
     }
 
     /// <summary>
@@ -4535,7 +4576,7 @@ public class ExField extends ApiExampleBase
         referencedDoc.save(getArtifactsDir() + "ReferencedDocument.docx");
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.RefDoc.docx");
+        doc.save(getArtifactsDir() + "Field.RD.docx");
         //ExEnd
     }
   
@@ -4881,9 +4922,9 @@ public class ExField extends ApiExampleBase
         //ExFor:FieldAddIn
         //ExSummary:Shows how to process an ADDIN field.
         // Open a document that contains an ADDIN field
-        Document doc = new Document(getMyDir() + "Field.Addin.docx");
+        Document doc = new Document(getMyDir() + "Field ADDIN.docx");
 
-        // Aspose.Words does not support inserting ADDIN fields, but they can be read
+        // Aspose.Words does not support inserting ADDIN fields, they can be read
         FieldAddIn field = (FieldAddIn)doc.getRange().getFields().get(0);
         msAssert.areEqual(" ADDIN \"My value\" ", field.getFieldCode());
         //ExEnd
@@ -5003,9 +5044,9 @@ public class ExField extends ApiExampleBase
         //ExFor:FieldFormDropDown
         //ExFor:FieldFormText
         //ExSummary:Shows how to process FORMCHECKBOX, FORMDROPDOWN and FORMTEXT fields.
-        // These fields are legacy equivalents of the FormField, and they can be read and not inserted by Aspose.Words,
+        // These fields are legacy equivalents of the FormField, and they can be read but not inserted by Aspose.Words,
         // and are inserted in Microsoft Word 2019 via the Legacy Tools menu in the Developer tab
-        Document doc = new Document(getMyDir() + "Field.FieldForms.doc");
+        Document doc = new Document(getMyDir() + "Form fields.docx");
 
         FieldFormCheckBox fieldFormCheckBox = (FieldFormCheckBox)doc.getRange().getFields().get(1);
         msAssert.areEqual(" FORMCHECKBOX \u0001", fieldFormCheckBox.getFieldCode());
@@ -5143,7 +5184,7 @@ public class ExField extends ApiExampleBase
     public void fieldPrivate() throws Exception
     {
         // Open a Corel WordPerfect document that was converted to .docx format
-        Document doc = new Document(getMyDir() + "Field.FromWpd.docx");
+        Document doc = new Document(getMyDir() + "Field PRIVATE.docx");
 
         // WordPerfect 5.x/6.x documents like the one we opened may contain PRIVATE fields
         // The PRIVATE field is a WordPerfect artifact that is preserved when a file is opened and saved in Microsoft Word
@@ -5340,7 +5381,7 @@ public class ExField extends ApiExampleBase
         //ExFor:FieldShape.Text
         //ExSummary:Shows how some older Microsoft Word fields such as SHAPE and EMBED are handled.
         // Open a document that was created in Microsoft Word 2003
-        Document doc = new Document(getMyDir() + "Field.Legacy.doc");
+        Document doc = new Document(getMyDir() + "Legacy fields.doc");
 
         // If we open the document in Word and press Alt+F9, we will see a SHAPE and an EMBED field
         // A SHAPE field is the anchor/canvas for an autoshape object with the "In line with text" wrapping style enabled
@@ -5373,7 +5414,7 @@ public class ExField extends ApiExampleBase
         //ExStart
         //ExFor:Field.DisplayResult
         //ExSummary:Shows how to get the text that represents the displayed field result.
-        Document document = new Document(getMyDir() + "Field.FieldDisplayResult.docx");
+        Document document = new Document(getMyDir() + "Various fields.docx");
  
         FieldCollection fields = document.getRange().getFields();
  

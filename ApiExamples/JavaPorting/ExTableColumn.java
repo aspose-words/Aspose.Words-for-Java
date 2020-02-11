@@ -134,24 +134,24 @@ public class ExTableColumn extends ApiExampleBase
     @Test
     public void removeColumnFromTable() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
         // Get the third column from the table and remove it
         Column column = Column.fromIndex(table, 2);
         column.remove();
         
-        doc.save(getArtifactsDir() + "Table.RemoveColumn.doc");
+        doc.save(getArtifactsDir() + "TableColumn.RemoveColumn.doc");
 
         msAssert.areEqual(16, table.getChildNodes(NodeType.CELL, true).getCount());
-        msAssert.areEqual("Cell 3 contents", msString.trim(table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT)));
-        msAssert.areEqual("Cell 3 contents", msString.trim(table.getLastRow().getCells().get(2).toString(SaveFormat.TEXT)));
+        msAssert.areEqual("Cell 7 contents", msString.trim(table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT)));
+        msAssert.areEqual("Cell 11 contents", msString.trim(table.getLastRow().getCells().get(2).toString(SaveFormat.TEXT)));
     }
 
     @Test
-    public void insertNewColumnIntoTable() throws Exception
+    public void insert() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
         // Get the second column in the table
@@ -165,7 +165,7 @@ public class ExTableColumn extends ApiExampleBase
         for (Cell cell : newColumn.getCells())
             cell.getFirstParagraph().appendChild(new Run(doc, "Column Text " + newColumn.indexOf(cell)));
         
-        doc.save(getArtifactsDir() + "Table.InsertColumn.doc");
+        doc.save(getArtifactsDir() + "TableColumn.Insert.doc");
 
         msAssert.areEqual(24, table.getChildNodes(NodeType.CELL, true).getCount());
         msAssert.areEqual("Column Text 0", msString.trim(table.getFirstRow().getCells().get(1).toString(SaveFormat.TEXT)));
@@ -175,7 +175,7 @@ public class ExTableColumn extends ApiExampleBase
     @Test
     public void tableColumnToTxt() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
         // Get the first column in the table

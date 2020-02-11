@@ -47,7 +47,7 @@ public class ExImage extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         builder.write("Image from local file: ");
-        builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        builder.insertImage(getImageDir() + "Logo.jpg");
         builder.writeln();
 
         builder.write("Image from an Internet url, automatically downloaded for you: ");
@@ -67,7 +67,7 @@ public class ExImage extends ApiExampleBase
         // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
-        Stream stream = File.openRead(getImageDir() + "Aspose.Words.gif");
+        Stream stream = File.openRead(getImageDir() + "Logo.jpg");
         try
         {
             builder.write("Image from stream: ");
@@ -85,15 +85,12 @@ public class ExImage extends ApiExampleBase
                 @Test (groups = "SkipMono")
     public void createFromImageNetStandard2() throws Exception
     {
-        //ExStart
-        //ExFor:DocumentBuilder.InsertImage(Image)
-        //ExSummary:Shows how to insert a .NET Image object into a document. The image is inserted inline and at 100% scale (.NetStandard 2.0).
         // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
         // Insert a raster image
         // SKBitmap doesn't allow to insert a metafiles
-        SKBitmap rasterImage = SKBitmap.Decode(getImageDir() + "Aspose.Words.gif");
+        SKBitmap rasterImage = SKBitmap.Decode(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
         {
             builder.write("Raster image: ");
@@ -103,7 +100,6 @@ public class ExImage extends ApiExampleBase
         finally { if (rasterImage != null) rasterImage.close(); }
 
         builder.getDocument().save(getArtifactsDir() + "Image.CreateFromImage.doc");
-        //ExEnd
     }
     
     @Test
@@ -129,7 +125,7 @@ public class ExImage extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         // By default, the image is inline
-        Shape shape = builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
 
         // Make the image float, put it behind text and center on the page
         shape.setWrapType(WrapType.NONE);
@@ -160,7 +156,7 @@ public class ExImage extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         // By default, the image is inline
-        Shape shape = builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
 
         // Make the image float, put it behind text and center on the page
         shape.setWrapType(WrapType.NONE);
@@ -198,7 +194,7 @@ public class ExImage extends ApiExampleBase
         // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
-        Shape shape = builder.insertImage(getImageDir() + "Hammer.wmf");
+        Shape shape = builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
         shape.setHRef("http://www.aspose.com/Community/Forums/75/ShowForum.aspx");
         shape.setTarget("New Window");
         shape.setScreenTip("Aspose.Words Support Forums");
@@ -221,7 +217,7 @@ public class ExImage extends ApiExampleBase
         // TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
         // please use DocumentBuilder.InsertShape methods
         Shape shape = new Shape(doc, ShapeType.IMAGE);
-        shape.getImageData().setImage(getImageDir() + "Hammer.wmf");
+        shape.getImageData().setImage(getImageDir() + "Windows MetaFile.wmf");
         shape.setWidth(100.0);
         shape.setHeight(100.0);
 
@@ -243,7 +239,7 @@ public class ExImage extends ApiExampleBase
         //ExSummary:Shows how to insert a linked image into a document. 
         DocumentBuilder builder = new DocumentBuilder();
 
-        String imageFileName = getImageDir() + "Hammer.wmf";
+        String imageFileName = getImageDir() + "Windows MetaFile.wmf";
 
         builder.write("Image linked, not stored in the document: ");
 
@@ -280,13 +276,13 @@ public class ExImage extends ApiExampleBase
     @Test
     public void deleteAllImages() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Image.SampleImages.doc");
-        msAssert.areEqual(6, doc.getChildNodes(NodeType.SHAPE, true).getCount());
-
         //ExStart
         //ExFor:Shape.HasImage
         //ExFor:Node.Remove
         //ExSummary:Shows how to delete all images from a document.
+        Document doc = new Document(getMyDir() + "Images.docx");
+        msAssert.areEqual(10, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+
         // Here we get all shapes from the document node, but you can do this for any smaller
         // node too, for example delete shapes from a single section or a paragraph
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
@@ -304,22 +300,22 @@ public class ExImage extends ApiExampleBase
         // Now we can delete shapes
         for (Shape shape : (Iterable<Shape>) shapesToDelete)
             shape.remove();
-        //ExEnd
 
         msAssert.areEqual(1, doc.getChildNodes(NodeType.SHAPE, true).getCount());
-        doc.save(getArtifactsDir() + "Image.DeleteAllImages.doc");
+        doc.save(getArtifactsDir() + "Image.DeleteAllImages.docx");
+        //ExEnd
     }
 
     @Test
     public void deleteAllImagesPreOrder() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Image.SampleImages.doc");
-        msAssert.areEqual(6, doc.getChildNodes(NodeType.SHAPE, true).getCount());
-
         //ExStart
         //ExFor:Node.NextPreOrder(Node)
         //ExFor:Node.PreviousPreOrder(Node)
         //ExSummary:Shows how to delete all images from a document using pre-order tree traversal.
+        Document doc = new Document(getMyDir() + "Images.docx");
+        msAssert.areEqual(10, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+
         Node curNode = doc;
         while (curNode != null)
         {
@@ -341,10 +337,10 @@ public class ExImage extends ApiExampleBase
 
             curNode = nextNode;
         }
-        //ExEnd
 
         msAssert.areEqual(1, doc.getChildNodes(NodeType.SHAPE, true).getCount());
-        doc.save(getArtifactsDir() + "Image.DeleteAllImagesPreOrder.doc");
+        doc.save(getArtifactsDir() + "Image.DeleteAllImagesPreOrder.docx");
+        //ExEnd
     }
 
     @Test
@@ -361,7 +357,7 @@ public class ExImage extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder();
 
         // By default, the image is inserted at 100% scale
-        Shape shape = builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
 
         // It is easy to change the shape size. In this case, make it 50% relative to the current shape size
         shape.setWidth(shape.getWidth() * 0.5);

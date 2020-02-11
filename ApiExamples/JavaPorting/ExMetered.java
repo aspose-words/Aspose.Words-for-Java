@@ -44,7 +44,7 @@ public class ExMetered extends ApiExampleBase
         msConsole.writeLine($"Consumption quantity before operation: {Metered.GetConsumptionQuantity()}");
 
         // Do something
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Print credit/usage to see how much was spent
         msConsole.writeLine($"Credit after operation: {Metered.GetConsumptionCredit()}");

@@ -87,25 +87,25 @@ public class ExInsertDocument extends ApiExampleBase
     //ExEnd
 
     @Test
-    public void insertDocumentAtBookmark() throws Exception
+    public void insertAtBookmark() throws Exception
     {
-        Document mainDoc = new Document(getMyDir() + "InsertDocument1.doc");
-        Document subDoc = new Document(getMyDir() + "InsertDocument2.doc");
+        Document mainDoc = new Document(getMyDir() + "Document insertion destination.docx");
+        Document subDoc = new Document(getMyDir() + "Document.docx");
 
         Bookmark bookmark = mainDoc.getRange().getBookmarks().get("insertionPlace");
         insertDocument(bookmark.getBookmarkStart().getParentNode(), subDoc);
 
-        mainDoc.save(getArtifactsDir() + "InsertDocumentAtBookmark.doc");
+        mainDoc.save(getArtifactsDir() + "InsertDocument.InsertAtBookmark.doc");
     }
 
     //ExStart
     //ExFor:CompositeNode.HasChildNodes
     //ExSummary:Demonstrates how to use the InsertDocument method to insert a document into a merge field during mail merge.
     @Test //ExSkip
-    public void insertDocumentAtMailMerge() throws Exception
+    public void insertAtMailMerge() throws Exception
     {
         // Open the main document
-        Document mainDoc = new Document(getMyDir() + "InsertDocument1.doc");
+        Document mainDoc = new Document(getMyDir() + "Document insertion destination.docx");
 
         // Add a handler to MergeField event
         mainDoc.getMailMerge().setFieldMergingCallback(new InsertDocumentAtMailMergeHandler());
@@ -113,9 +113,9 @@ public class ExInsertDocument extends ApiExampleBase
         // The main document has a merge field in it called "Document_1"
         // The corresponding data for this field contains fully qualified path to the document
         // that should be inserted to this field
-        mainDoc.getMailMerge().execute(new String[] { "Document_1" }, new Object[] { getMyDir() + "InsertDocument2.doc" });
+        mainDoc.getMailMerge().execute(new String[] { "Document_1" }, new Object[] { getMyDir() + "Document.docx" });
 
-        mainDoc.save(getArtifactsDir() + "InsertDocumentAtMailMerge.doc");
+        mainDoc.save(getArtifactsDir() + "InsertDocument.InsertAtMailMerge.docx");
     }
 
     private static class InsertDocumentAtMailMergeHandler implements IFieldMergingCallback
@@ -167,21 +167,21 @@ public class ExInsertDocument extends ApiExampleBase
     @Test //ExSkip
     public void insertDocumentAtReplace() throws Exception
     {
-        Document mainDoc = new Document(getMyDir() + "InsertDocument1.doc");
+        Document mainDoc = new Document(getMyDir() + "Document insertion destination.docx");
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setDirection(FindReplaceDirection.BACKWARD);
         options.setReplacingCallback(new InsertDocumentAtReplaceHandler());
 
         mainDoc.getRange().replaceInternal(new Regex("\\[MY_DOCUMENT\\]"), "", options);
-        mainDoc.save(getArtifactsDir() + "InsertDocumentAtReplace.doc");
+        mainDoc.save(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.doc");
     }
 
     private static class InsertDocumentAtReplaceHandler implements IReplacingCallback
     {
         public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs args) throws Exception
         {
-            Document subDoc = new Document(getMyDir() + "InsertDocument2.doc");
+            Document subDoc = new Document(getMyDir() + "Document.docx");
 
             // Insert a document after the paragraph, containing the match text
             Paragraph para = (Paragraph) args.getMatchNode().getParentNode();

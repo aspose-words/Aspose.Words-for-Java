@@ -192,7 +192,7 @@ public class ExPageSetup extends ApiExampleBase
     }
 
     @Test
-    public void columnsCustomWidth() throws Exception
+    public void customColumnWidth() throws Exception
     {
         //ExStart
         //ExFor:TextColumnCollection.LineBetween
@@ -227,7 +227,7 @@ public class ExPageSetup extends ApiExampleBase
         builder.insertBreak(BreakType.COLUMN_BREAK);
         builder.writeln("Wide column 2.");
 
-        builder.getDocument().save(getArtifactsDir() + "PageSetup.ColumnsCustomWidth.doc");
+        builder.getDocument().save(getArtifactsDir() + "PageSetup.CustomColumnWidth.doc");
         //ExEnd
     }
 
@@ -285,7 +285,7 @@ public class ExPageSetup extends ApiExampleBase
         border.setColor(Color.BLUE);
         border.setDistanceFromText(0.0);
 
-        doc.save(getArtifactsDir() + "PageSetup.PageBorderTop.doc");
+        doc.save(getArtifactsDir() + "PageSetup.PageBorderProperties.doc");
         //ExEnd
     }
 
@@ -324,11 +324,15 @@ public class ExPageSetup extends ApiExampleBase
         //ExFor:DocumentBuilder.InsertField(String, String)
         //ExSummary:Shows how to control page numbering per section.
         // This document has two sections, but no page numbers yet
-        Document doc = new Document(getMyDir() + "PageSetup.PageNumbering.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Section 1");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.writeln("Section 2");
 
         // Use document builder to create a header with a page number field for the first section
         // The page number will look like "Page V"
-        DocumentBuilder builder = new DocumentBuilder(doc);
         builder.moveToSection(0);
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         builder.write("Page ");
@@ -355,7 +359,7 @@ public class ExPageSetup extends ApiExampleBase
         section.getPageSetup().setRestartPageNumbering(true);
         section.getPageSetup().setPageNumberStyle(NumberStyle.ARABIC);
 
-        doc.save(getArtifactsDir() + "PageSetup.PageNumbering.doc");
+        doc.save(getArtifactsDir() + "PageSetup.PageNumbering.docx");
         //ExEnd
     }
 

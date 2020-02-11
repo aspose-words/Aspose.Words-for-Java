@@ -23,11 +23,11 @@ public class ExXpsSaveOptions extends ApiExampleBase
         //ExStart
         //ExFor:FixedPageSaveOptions.OptimizeOutput
         //ExSummary:Shows how to optimize document objects while saving to xps.
-        Document doc = new Document(getMyDir() + "XPSOutputOptimize.docx");
+        Document doc = new Document(getMyDir() + "Unoptimized document.docx");
 
-        XpsSaveOptions saveOptions = new XpsSaveOptions(); { saveOptions.setOptimizeOutput(true); }
+        XpsSaveOptions saveOptions = new XpsSaveOptions(); { saveOptions.setOptimizeOutput(false); }
 
-        doc.save(getArtifactsDir() + "XPSOutputOptimize.xps", saveOptions);
+        doc.save(getArtifactsDir() + "XpsSaveOptions.OptimizeOutputF.xps", saveOptions);
         //ExEnd
     }
 }

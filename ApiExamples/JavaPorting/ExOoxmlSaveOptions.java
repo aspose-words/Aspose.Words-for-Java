@@ -66,7 +66,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         // Set Word2003 version for document, for inserting image as VML shape
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2003);
 
-        builder.insertImage(getImageDir() + "dotnet-logo.png");
+        builder.insertImage(getImageDir() + "Transparent background logo.png");
 
         // Loop through all single shapes inside document.
         for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
@@ -130,7 +130,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
             options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
         }
 
-        doc.save(getArtifactsDir() + "RestartingDocumentList.docx", options);
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx", options);
         //ExEnd
     }
 
@@ -140,7 +140,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         //ExStart
         //ExFor:SaveOptions.UpdateLastSavedTimeProperty
         //ExSummary:Shows how to update a document time property when you want to save it.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Get last saved time
         DateTime documentTimeBeforeSave = doc.getBuiltInDocumentProperties().getLastSavedTimeInternal();
@@ -167,7 +167,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         //ExFor:OoxmlSaveOptions.KeepLegacyControlChars
         //ExFor:OoxmlSaveOptions.#ctor(SaveFormat)
         //ExSummary:Shows how to support legacy control characters when converting to .docx.
-        Document doc = new Document(getMyDir() + "OoxmlSaveOptions.KeepLegacyControlChars.doc");
+        Document doc = new Document(getMyDir() + "Legacy control character.doc");
  
         // Note that only one legacy character (ShortDateTime) is supported which declared in the "DOC" format
         OoxmlSaveOptions so = new OoxmlSaveOptions(SaveFormat.DOCX);

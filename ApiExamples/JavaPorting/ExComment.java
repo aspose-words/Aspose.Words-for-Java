@@ -84,7 +84,7 @@ public class ExComment extends ApiExampleBase
         //ExFor:Comment.Author
         //ExFor:Comment.Replies
         //ExSummary:Shows how to get all comments with all replies.
-        Document doc = new Document(getMyDir() + "Comment.Document.docx");
+        Document doc = new Document(getMyDir() + "Comments.docx");
 
         // Get all comment from the document
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
@@ -119,7 +119,7 @@ public class ExComment extends ApiExampleBase
         //ExStart
         //ExFor:Comment.RemoveAllReplies
         //ExSummary:Shows how to remove comment replies.
-        Document doc = new Document(getMyDir() + "Comment.Document.docx");
+        Document doc = new Document(getMyDir() + "Comments.docx");
 
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
         Comment comment = (Comment) comments.get(0);
@@ -135,7 +135,7 @@ public class ExComment extends ApiExampleBase
         //ExFor:Comment.RemoveReply(Comment)
         //ExFor:CommentCollection.Item(Int32)
         //ExSummary:Shows how to remove specific comment reply.
-        Document doc = new Document(getMyDir() + "Comment.Document.docx");
+        Document doc = new Document(getMyDir() + "Comments.docx");
 
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
 
@@ -154,7 +154,7 @@ public class ExComment extends ApiExampleBase
         //ExFor:Comment.Done
         //ExFor:CommentCollection
         //ExSummary:Shows how to mark comment as Done.
-        Document doc = new Document(getMyDir() + "Comment.Document.docx");
+        Document doc = new Document(getMyDir() + "Comments.docx");
 
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
         

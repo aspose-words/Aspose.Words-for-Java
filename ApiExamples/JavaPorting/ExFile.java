@@ -1,5 +1,4 @@
-//////////////////////////////////////////////////////////////////////////
-// Copyright 2001-2018 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -39,7 +38,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExSummary:Shows how to catch a FileCorruptedException.
         try
         {
-            Document doc = new Document(getMyDir() + "Corrupted.docx");
+            Document doc = new Document(getMyDir() + "Corrupted document.docx");
         }
         catch (FileCorruptedException e)
         {
@@ -57,12 +56,12 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatUtil
         //ExSummary:Shows how to detect encoding in an html file.
         // 'DetectFileFormat' not working on a non-html files
-        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.doc");
-        msAssert.areEqual(LoadFormat.DOC, info.getLoadFormat());
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
+        msAssert.areEqual(LoadFormat.DOCX, info.getLoadFormat());
         Assert.assertNull(info.getEncodingInternal());
 
         // This time the property will not be null
-        info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.LoadFormat.html");
+        info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.html");
         msAssert.areEqual(LoadFormat.HTML, info.getLoadFormat());
         Assert.assertNotNull(info.getEncodingInternal());
 
@@ -140,7 +139,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatInfo.IsEncrypted
         //ExFor:FileFormatInfo.HasDigitalSignature
         //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and other features of the document.
-        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.doc");
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
         msConsole.writeLine("The document format is: " + FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
         msConsole.writeLine("Document is encrypted: " + info.isEncrypted());
         msConsole.writeLine("Document has a digital signature: " + info.hasDigitalSignature());
@@ -148,7 +147,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
     }
 
     @Test
-    public void detectFileFormat_EnumConversions() throws Exception
+    public void saveToDetectedFileFormat() throws Exception
     {
         //ExStart
         //ExFor:FileFormatUtil.DetectFileFormat(Stream)
@@ -162,7 +161,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         // Load the document without a file extension into a stream and use the DetectFileFormat method to detect it's format
         // These are both times where you might need extract the file format as it's not visible
         // The file format of this document is actually ".doc"
-        FileStream docStream = File.openRead(getMyDir() + "Document.FileWithoutExtension");
+        FileStream docStream = File.openRead(getMyDir() + "Word document with missing file extension");
         FileFormatInfo info = FileFormatUtil.detectFileFormat(docStream);
 
         // Retrieve the LoadFormat of the document
@@ -184,7 +183,8 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         Document doc = new Document(docStream);
 
         // Save the document with the original file name, " Out" and the document's file extension
-        doc.save(getArtifactsDir() + "Document.WithFileExtension" + FileFormatUtil.saveFormatToExtension(saveFormat));
+        doc.save(
+            getArtifactsDir() + "File.SaveToDetectedFileFormat" + FileFormatUtil.saveFormatToExtension(saveFormat));
         //ExEnd
 
         msAssert.areEqual(".doc", FileFormatUtil.saveFormatToExtension(saveFormat));
@@ -215,7 +215,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatInfo.HasDigitalSignature
         //ExSummary:Shows how to check a document for digital signatures before loading it into a Document object.
         // The path to the document which is to be processed
-        String filePath = getMyDir() + "Document.Signed.docx";
+        String filePath = getMyDir() + "Digitally signed.docx";
 
         FileFormatInfo info = FileFormatUtil.detectFileFormat(filePath);
         if (info.hasDigitalSignature())
@@ -240,7 +240,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
     @Test //ExSkip
     public void extractImagesToFiles() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Image.SampleImages.doc");
+        Document doc = new Document(getMyDir() + "Images.docx");
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         int imageIndex = 0;
@@ -249,7 +249,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
             if (shape.hasImage())
             {
                 String imageFileName =
-                    $"Image.ExportImages.{imageIndex}{FileFormatUtil.ImageTypeToExtension(shape.ImageData.ImageType)}";
+                    $"File.ExtractImagesToFiles.{imageIndex}{FileFormatUtil.ImageTypeToExtension(shape.ImageData.ImageType)}";
                 shape.getImageData().save(getArtifactsDir() + imageFileName);
                 imageIndex++;
             }

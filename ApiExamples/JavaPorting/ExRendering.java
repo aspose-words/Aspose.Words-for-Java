@@ -47,24 +47,13 @@ import com.aspose.words.PdfFontEmbeddingMode;
 import com.aspose.words.PdfEncryptionDetails;
 import com.aspose.words.PdfEncryptionAlgorithm;
 import com.aspose.words.PdfPermissions;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.NumeralFormat;
 
 
 @Test
 public class ExRendering extends ApiExampleBase
 {
-    @Test
-    public void saveToPdfDefault() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.Save(String)
-        //ExSummary:Converts a whole document to PDF using default options.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
-
-        doc.save(getArtifactsDir() + "Rendering.SaveToPdfDefault.pdf");
-        //ExEnd
-    }
-
     @Test
     public void saveToPdfWithOutline() throws Exception
     {
@@ -74,7 +63,7 @@ public class ExRendering extends ApiExampleBase
         //ExFor:OutlineOptions.HeadingsOutlineLevels
         //ExFor:OutlineOptions.ExpandedOutlineLevels
         //ExSummary:Converts a whole document to PDF with three levels in the document outline.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PdfSaveOptions options = new PdfSaveOptions();
         options.getOutlineOptions().setHeadingsOutlineLevels(3);
@@ -92,7 +81,7 @@ public class ExRendering extends ApiExampleBase
         //ExFor:FixedPageSaveOptions.PageCount
         //ExFor:Document.Save(Stream, SaveOptions)
         //ExSummary:Converts just one page (third page in this example) of the document to PDF.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         Stream stream = File.create(getArtifactsDir() + "Rendering.SaveToPdfStreamOnePage.pdf");
         try /*JAVA: was using*/
@@ -115,7 +104,7 @@ public class ExRendering extends ApiExampleBase
         //ExFor:PdfSaveOptions.TextCompression
         //ExFor:PdfTextCompression
         //ExSummary:Saves a document to PDF without compression.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PdfSaveOptions options = new PdfSaveOptions();
         options.setTextCompression(PdfTextCompression.NONE);
@@ -125,16 +114,13 @@ public class ExRendering extends ApiExampleBase
     }
 
     @Test
-    public void saveAsPdf() throws Exception
+    public void pdfCustomOptions() throws Exception
     {
         //ExStart
         //ExFor:PdfSaveOptions.PreserveFormFields
-        //ExFor:Document.Save(String)
-        //ExFor:Document.Save(Stream, SaveFormat)
-        //ExFor:Document.Save(String, SaveOptions)
         //ExSummary:Shows how to save a document to the PDF format using the Save method and the PdfSaveOptions class.
         // Open the document
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Option 1: Save document to file in the PDF format with default options
         doc.save(getArtifactsDir() + "Rendering.PdfDefaultOptions.pdf");
@@ -163,12 +149,9 @@ public class ExRendering extends ApiExampleBase
         //ExFor:XpsSaveOptions.#ctor
         //ExFor:XpsSaveOptions.OutlineOptions
         //ExFor:XpsSaveOptions.SaveFormat
-        //ExFor:Document.Save(String)
-        //ExFor:Document.Save(Stream, SaveFormat)
-        //ExFor:Document.Save(String, SaveOptions)
         //ExSummary:Shows how to save a document to the XPS format in different ways.
         // Open the document
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Save document to file in the XPS format with default options
         doc.save(getArtifactsDir() + "Rendering.SaveAsXps.DefaultOptions.xps");
@@ -227,9 +210,9 @@ public class ExRendering extends ApiExampleBase
         //ExFor:Document.Save(String, SaveOptions)
         //ExSummary:Shows how to save a document to the JPEG format using the Save method and the ImageSaveOptions class.
         // Open the document
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
         // Save as a JPEG image file with default options
-        doc.save(getArtifactsDir() + "Rendering.JpegDefaultOptions.jpg");
+        doc.save(getArtifactsDir() + "Rendering.SaveAsImage.DefaultJpgOptions.jpg");
 
         // Save document to stream as a JPEG with default options
         MemoryStream docStream = new MemoryStream();
@@ -245,20 +228,16 @@ public class ExRendering extends ApiExampleBase
         imageOptions.setPageIndex(2);
         imageOptions.setPageCount(1);
         imageOptions.setJpegQuality(80);
-        doc.save(getArtifactsDir() + "Rendering.JpegCustomOptions.jpg", imageOptions);
+        doc.save(getArtifactsDir() + "Rendering.SaveAsImage.CustomJpgOptions.jpg", imageOptions);
         //ExEnd
     }
 
     @Test (groups = "SkipMono")
     public void saveToTiffDefault() throws Exception
     {
-        //ExStart
-        //ExFor:Document.Save(String)
-        //ExSummary:Converts a whole document into a multipage TIFF file using default options.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         doc.save(getArtifactsDir() + "Rendering.SaveToTiffDefault.tiff");
-        //ExEnd
     }
 
     @Test (groups = "SkipMono")
@@ -269,9 +248,8 @@ public class ExRendering extends ApiExampleBase
         //ExFor:ImageSaveOptions.TiffCompression
         //ExFor:ImageSaveOptions.PageIndex
         //ExFor:ImageSaveOptions.PageCount
-        //ExFor:Document.Save(String, SaveOptions)
         //ExSummary:Converts a page of a Word document into a TIFF image and uses the CCITT compression.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.TIFF);
         {
@@ -291,7 +269,7 @@ public class ExRendering extends ApiExampleBase
         //ExFor:ImageSaveOptions
         //ExFor:ImageSaveOptions.Resolution
         //ExSummary:Renders a page of a Word document into a PNG image at a specific resolution.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
         {
@@ -307,9 +285,10 @@ public class ExRendering extends ApiExampleBase
     public void saveToEmf() throws Exception
     {
         //ExStart
+        //ExFor:FixedPageSaveOptions
         //ExFor:Document.Save(String, SaveOptions)
         //ExSummary:Converts every page of a DOC file into a separate scalable EMF file.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.EMF); { options.setPageCount(1); }
 
@@ -325,20 +304,21 @@ public class ExRendering extends ApiExampleBase
     public void saveToImageJpegQuality() throws Exception
     {
         //ExStart
+        //ExFor:FixedPageSaveOptions.JpegQuality
         //ExFor:ImageSaveOptions
         //ExFor:ImageSaveOptions.JpegQuality
         //ExSummary:Converts a page of a Word document into JPEG images of different qualities.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.JPEG);
 
         // Try worst quality
         saveOptions.setJpegQuality(0);
-        doc.save(getArtifactsDir() + "Rendering.SaveToImageJpegQuality0.jpeg", saveOptions);
+        doc.save(getArtifactsDir() + "Rendering.SaveToImageJpegQuality.0.jpeg", saveOptions);
 
         // Try best quality
         saveOptions.setJpegQuality(100);
-        doc.save(getArtifactsDir() + "Rendering.SaveToImageJpegQuality100.jpeg", saveOptions);
+        doc.save(getArtifactsDir() + "Rendering.SaveToImageJpegQuality.100.jpeg", saveOptions);
         //ExEnd
     }
 
@@ -349,44 +329,25 @@ public class ExRendering extends ApiExampleBase
         //ExFor:ImageSaveOptions
         //ExFor:ImageSaveOptions.PaperColor
         //ExSummary:Renders a page of a Word document into an image with transparent or colored background.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions imgOptions = new ImageSaveOptions(SaveFormat.PNG);
 
         imgOptions.setPaperColor(msColor.getTransparent());
-        doc.save(getArtifactsDir() + "Rendering.SaveToImagePaperColorTransparent.png", imgOptions);
+        doc.save(getArtifactsDir() + "Rendering.SaveToImagePaperColor.Transparent.png", imgOptions);
 
         imgOptions.setPaperColor(msColor.getLightCoral());
-        doc.save(getArtifactsDir() + "Rendering.SaveToImagePaperColorCoral.png", imgOptions);
+        doc.save(getArtifactsDir() + "Rendering.SaveToImagePaperColor.Coral.png", imgOptions);
         //ExEnd
     }
 
-                @Test
-    public void saveToImageStreamNetStandard2() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.Save(Stream, SaveFormat)
-        //ExSummary:Saves a document page as a BMP image into a stream (.NetStandard 2.0).
-        Document doc = new Document(getMyDir() + "Rendering.doc");
-
-        MemoryStream stream = new MemoryStream();
-        doc.save(stream, SaveFormat.BMP);
-
-        // Rewind the stream and create a .NET image from it
-        stream.setPosition(0);
-        
-        // Read the stream back into an image
-        SkiaSharp.SKBitmap image = SkiaSharp.SKBitmap.Decode(stream);
-        //ExEnd
-    }
-
-    @Test
+        @Test
     public void renderToSizeNetStandard2() throws Exception
     {
         //ExStart
         //ExFor:Document.RenderToSize
         //ExSummary:Render to a bitmap at a specified location and size (.NetStandard 2.0).
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
         
         SKBitmap bitmap = new SKBitmap(700, 700);
         try /*JAVA: was using*/
@@ -434,11 +395,11 @@ public class ExRendering extends ApiExampleBase
                     .setStyle(SKPaintStyle.Stroke);
                     .setStrokeWidth(1);
                 });
-                
+
                 // User specifies (in world coordinates) where on the Graphics to render and what size
                 doc.RenderToSize(0, canvas, 90, 10, 50, 100);
 
-                SKFileWStream fs = new SKFileWStream(getArtifactsDir() + "Rendering.RenderToSize.png");
+                SKFileWStream fs = new SKFileWStream(getArtifactsDir() + "Rendering.RenderToSizeNetStandard2.png");
                 try /*JAVA: was using*/
                 {
                     bitmap.PeekPixels().Encode(fs, SKEncodedImageFormat.Png, 100);
@@ -458,7 +419,7 @@ public class ExRendering extends ApiExampleBase
         //ExFor:Document.RenderToScale
         //ExSummary:Renders individual pages to graphics to create one image with thumbnails of all pages (.NetStandard 2.0).
         // The user opens or builds a document
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // This defines the number of columns to display the thumbnails in
         final int THUMB_COLUMNS = 2;
@@ -511,7 +472,7 @@ public class ExRendering extends ApiExampleBase
                     });
                 }
 
-                SKFileWStream fs = new SKFileWStream(getArtifactsDir() + "Rendering.Thumbnails.png");
+                SKFileWStream fs = new SKFileWStream(getArtifactsDir() + "Rendering.CreateThumbnailsNetStandard2.png");
                 try /*JAVA: was using*/
                 {
                     bitmap.PeekPixels().Encode(fs, SKEncodedImageFormat.Png, 100);
@@ -523,7 +484,7 @@ public class ExRendering extends ApiExampleBase
         finally { if (bitmap != null) bitmap.close(); }            
         //ExEnd
     }
-    
+
     @Test
     public void updatePageLayout() throws Exception
     {
@@ -532,11 +493,11 @@ public class ExRendering extends ApiExampleBase
         //ExFor:SectionCollection.Item(Int32)
         //ExFor:Document.UpdatePageLayout
         //ExSummary:Shows when to request page layout of the document to be recalculated.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Saving a document to PDF or to image or printing for the first time will automatically
         // layout document pages and this information will be cached inside the document
-        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout1.pdf");
+        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout.1.pdf");
 
         // Modify the document in any way
         doc.getStyles().get("Normal").getFont().setSize(6.0);
@@ -547,17 +508,17 @@ public class ExRendering extends ApiExampleBase
         // you need to manually request page layout to be updated
         doc.updatePageLayout();
 
-        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout2.pdf");
+        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout.2.pdf");
         //ExEnd
     }
 
     @Test
-    public void updateFieldsBeforeRendering() throws Exception
+    public void updateFields() throws Exception
     {
         //ExStart
         //ExFor:Document.UpdateFields
         //ExSummary:Shows how to update all fields before rendering a document.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // This updates all fields in the document
         doc.updateFields();
@@ -576,7 +537,7 @@ public class ExRendering extends ApiExampleBase
         //ExFor:FontSettings
         //ExFor:FontSettings.SetFontsFolder(String, Boolean)
         //ExSummary:Demonstrates how to set the folder Aspose.Words uses to look for TrueType fonts during rendering or embedding of fonts.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Note that this setting will override any default font sources that are being searched by default
         // Now only these folders will be searched for fonts when rendering or embedding fonts
@@ -584,7 +545,7 @@ public class ExRendering extends ApiExampleBase
         // FontSettings.SetFontSources instead
         FontSettings.getDefaultInstance().setFontsFolder("C:\\MyFonts\\", false);
 
-        doc.save(getArtifactsDir() + "Rendering.SetFontsFolder.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SetTrueTypeFontsFolder.pdf");
         //ExEnd
 
         // Restore the original sources used to search for fonts
@@ -601,7 +562,7 @@ public class ExRendering extends ApiExampleBase
         //ExFor:FontSettings
         //ExFor:FontSettings.SetFontsFolders(String[], Boolean)
         //ExSummary:Demonstrates how to set Aspose.Words to look in multiple folders for TrueType fonts when rendering or embedding fonts.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Note that this setting will override any default font sources that are being searched by default
         // Now only these folders will be searched for fonts when rendering or embedding fonts
@@ -609,7 +570,7 @@ public class ExRendering extends ApiExampleBase
         // FontSettings.SetFontSources instead
         FontSettings.getDefaultInstance().setFontsFolders(new String[] { "C:\\MyFonts\\", "D:\\Misc\\Fonts\\" }, true);
 
-        doc.save(getArtifactsDir() + "Rendering.SetFontsFolders.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SetFontsFoldersMultipleFolders.pdf");
         //ExEnd
 
         // Restore the original sources used to search for fonts
@@ -627,7 +588,7 @@ public class ExRendering extends ApiExampleBase
         //ExFor:FontSettings.GetFontsSources()
         //ExFor:FontSettings.SetFontsSources()
         //ExSummary:Demonstrates how to set Aspose.Words to look for TrueType fonts in system folders as well as a custom defined folder when scanning for fonts.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Retrieve the array of environment-dependent font sources that are searched by default
         // For example this will contain a "Windows\Fonts\" source on a Windows machines
@@ -646,7 +607,7 @@ public class ExRendering extends ApiExampleBase
         // Apply the new set of font sources to use
         FontSettings.getDefaultInstance().setFontsSources(updatedFontSources);
 
-        doc.save(getArtifactsDir() + "Rendering.SetFontsFolders.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SetFontsFoldersSystemAndCustomFolder.pdf");
         //ExEnd
 
         // The first source should be a system font source
@@ -666,17 +627,17 @@ public class ExRendering extends ApiExampleBase
     public void setSpecifyFontFolder() throws Exception
     {
         FontSettings fontSettings = new FontSettings();
-        fontSettings.setFontsFolder(getMyDir() + "MyFonts\\", false);
+        fontSettings.setFontsFolder(getFontsDir(), false);
 
         // Using load options
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setFontSettings(fontSettings);
 
-        Document doc = new Document(getMyDir() + "Rendering.doc", loadOptions);
+        Document doc = new Document(getMyDir() + "Rendering.docx", loadOptions);
 
         FolderFontSource folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[0]);
 
-        msAssert.areEqual(getMyDir() + "MyFonts\\", folderSource.getFolderPath());
+        msAssert.areEqual(getFontsDir(), folderSource.getFolderPath());
         Assert.assertFalse(folderSource.getScanSubfolders());
     }
 
@@ -690,7 +651,7 @@ public class ExRendering extends ApiExampleBase
         FontSettings fontSettings = new FontSettings();
         fontSettings.getSubstitutionSettings().getTableSubstitution().setSubstitutes("Times New Roman", new String[] { "Slab", "Arvo" });
         //ExEnd
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.setFontSettings(fontSettings);
 
         MemoryStream dstStream = new MemoryStream();
@@ -710,15 +671,15 @@ public class ExRendering extends ApiExampleBase
     public void setSpecifyFontFolders() throws Exception
     {
         FontSettings fontSettings = new FontSettings();
-        fontSettings.setFontsFolders(new String[] { getMyDir() + "MyFonts\\", "C:\\Windows\\Fonts\\" }, true);
+        fontSettings.setFontsFolders(new String[] { getFontsDir(), "C:\\Windows\\Fonts\\" }, true);
 
         // Using load options
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setFontSettings(fontSettings);
-        Document doc = new Document(getMyDir() + "Rendering.doc", loadOptions);
+        Document doc = new Document(getMyDir() + "Rendering.docx", loadOptions);
 
         FolderFontSource folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[0]);
-        msAssert.areEqual(getMyDir() + "MyFonts\\", folderSource.getFolderPath());
+        msAssert.areEqual(getFontsDir(), folderSource.getFolderPath());
         Assert.assertTrue(folderSource.getScanSubfolders());
 
         folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[1]);
@@ -733,7 +694,7 @@ public class ExRendering extends ApiExampleBase
         fontSettings.getSubstitutionSettings().getTableSubstitution().setSubstitutes("Slab", new String[] { "Times New Roman", "Arial" });
         fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Arvo", new String[] { "Open Sans", "Arial" });
 
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.setFontSettings(fontSettings);
 
         MemoryStream dstStream = new MemoryStream();
@@ -752,25 +713,25 @@ public class ExRendering extends ApiExampleBase
         //ExStart
         //ExFor:DefaultFontSubstitutionRule.DefaultFontName
         //ExSummary:Demonstrates how to specify what font to substitute for a missing font during rendering.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // If the default font defined here cannot be found during rendering then the closest font on the machine is used instead
         FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial Unicode MS");
 
         // Now the set default font is used in place of any missing fonts during any rendering calls
-        doc.save(getArtifactsDir() + "Rendering.SetDefaultFont.pdf");
-        doc.save(getArtifactsDir() + "Rendering.SetDefaultFont.xps");
+        doc.save(getArtifactsDir() + "Rendering.SetDefaultFontName.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SetDefaultFontName.xps");
         //ExEnd
     }
 
     @Test
-    public void recieveFontSubstitutionUpdatePageLayout() throws Exception
+    public void updatePageLayoutWarnings() throws Exception
     {
         // Store the font sources currently used so we can restore them later
         FontSourceBase[] origFontSources = FontSettings.getDefaultInstance().getFontsSources();
 
         // Load the document to render
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
         HandleDocumentWarnings callback = new HandleDocumentWarnings();
@@ -789,7 +750,7 @@ public class ExRendering extends ApiExampleBase
         doc.updatePageLayout();
 
         // Even though the document was rendered previously, any save warnings are notified to the user during document save
-        doc.save(getArtifactsDir() + "Rendering.FontsNotificationUpdatePageLayout.pdf");
+        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayoutWarnings.pdf");
         
         Assert.That(callback.FontWarnings.getCount(), Is.GreaterThan(0));
         Assert.assertTrue(callback.FontWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
@@ -820,14 +781,14 @@ public class ExRendering extends ApiExampleBase
     }
 
     @Test
-    public void embedFullFontsInPdf() throws Exception
+    public void embedFullFonts() throws Exception
     {
         //ExStart
         //ExFor:PdfSaveOptions.#ctor
         //ExFor:PdfSaveOptions.EmbedFullFonts
         //ExSummary:Demonstrates how to set Aspose.Words to embed full fonts in the output PDF document.
         // Load the document to render
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Aspose.Words embeds full fonts by default when EmbedFullFonts is set to true
         // The property below can be changed each time a document is rendered
@@ -840,13 +801,13 @@ public class ExRendering extends ApiExampleBase
     }
 
     @Test
-    public void subsetFontsInPdf() throws Exception
+    public void subsetFonts() throws Exception
     {
         //ExStart
         //ExFor:PdfSaveOptions.EmbedFullFonts
         //ExSummary:Demonstrates how to set Aspose.Words to subset fonts in the output PDF.
         // Load the document to render
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // To subset fonts in the output PDF document, simply create new PdfSaveOptions and set EmbedFullFonts to false
         PdfSaveOptions options = new PdfSaveOptions();
@@ -859,14 +820,14 @@ public class ExRendering extends ApiExampleBase
     }
 
     @Test
-    public void disableEmbeddingStandardWindowsFonts() throws Exception
+    public void disableEmbedWindowsFonts() throws Exception
     {
         //ExStart
         //ExFor:PdfSaveOptions.FontEmbeddingMode
         //ExFor:PdfFontEmbeddingMode
         //ExSummary:Shows how to set Aspose.Words to skip embedding Arial and Times New Roman fonts into a PDF document.
         // Load the document to render
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // To disable embedding standard windows font use the PdfSaveOptions and set the EmbedStandardWindowsFonts property to false
         PdfSaveOptions options = new PdfSaveOptions();
@@ -878,25 +839,25 @@ public class ExRendering extends ApiExampleBase
     }
 
     @Test
-    public void disableEmbeddingCoreFonts() throws Exception
+    public void disableEmbedCoreFonts() throws Exception
     {
         //ExStart
         //ExFor:PdfSaveOptions.UseCoreFonts
         //ExSummary:Shows how to set Aspose.Words to avoid embedding core fonts and let the reader substitute PDF Type 1 fonts instead.
         // Load the document to render
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // To disable embedding of core fonts and substitute PDF type 1 fonts set UseCoreFonts to true
         PdfSaveOptions options = new PdfSaveOptions();
         options.setUseCoreFonts(true);
 
         // The output PDF will not be embedded with core fonts such as Arial, Times New Roman etc.
-        doc.save(getArtifactsDir() + "Rendering.DisableEmbedWindowsFonts.pdf");
+        doc.save(getArtifactsDir() + "Rendering.DisableEmbedCoreFonts.pdf");
         //ExEnd
     }
 
     @Test
-    public void setPdfEncryptionPermissions() throws Exception
+    public void encryptionPermissions() throws Exception
     {
         //ExStart
         //ExFor:PdfEncryptionDetails.#ctor
@@ -909,7 +870,7 @@ public class ExRendering extends ApiExampleBase
         //ExFor:PdfPermissions
         //ExFor:PdfEncryptionDetails
         //ExSummary:Demonstrates how to set permissions on a PDF document generated by Aspose.Words.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PdfSaveOptions saveOptions = new PdfSaveOptions();
 
@@ -925,22 +886,26 @@ public class ExRendering extends ApiExampleBase
         saveOptions.setEncryptionDetails(encryptionDetails);
 
         // Render the document to PDF format with the specified permissions
-        doc.save(getArtifactsDir() + "Rendering.SpecifyPermissions.pdf", saveOptions);
+        doc.save(getArtifactsDir() + "Rendering.EncryptionPermissions.pdf", saveOptions);
         //ExEnd
     }
 
     @Test
-    public void setPdfNumeralFormat() throws Exception
+    public void setNumeralFormat() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Rendering.NumeralFormat.doc");
         //ExStart
         //ExFor:FixedPageSaveOptions.NumeralFormat
         //ExFor:NumeralFormat
         //ExSummary:Demonstrates how to set the numeral format used when saving to PDF.
-        PdfSaveOptions options = new PdfSaveOptions();
-        options.setNumeralFormat(NumeralFormat.CONTEXT);
-        //ExEnd
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        doc.save(getArtifactsDir() + "Rendering.NumeralFormat.pdf", options);
+        builder.writeln("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 50, 100");
+
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setNumeralFormat(NumeralFormat.EASTERN_ARABIC_INDIC);
+
+        doc.save(getArtifactsDir() + "Rendering.SetNumeralFormat.pdf", options);
+        //ExEnd
     }
 }
