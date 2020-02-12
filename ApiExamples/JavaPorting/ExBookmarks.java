@@ -141,7 +141,7 @@ public class ExBookmarks extends ApiExampleBase
                     currentBookmark.getBookmarkEnd().accept(bookmarkVisitor);
 
                     // Prints a blank line
-                    msConsole.writeLine(currentBookmark.getBookmarkStart().getText());
+                    System.out.println(currentBookmark.getBookmarkStart().getText());
                 }
             }
         }

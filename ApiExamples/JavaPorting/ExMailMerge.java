@@ -753,8 +753,7 @@ public class ExMailMerge extends ApiExampleBase
         try /*JAVA: was using*/
     	{
             while (enumerator.hasNext())
-                msConsole.writeLine(
-                    $"Column named {enumerator.Current.Value} is mapped to MERGEFIELDs named {enumerator.Current.Key}");
+                System.out.println("Column named {enumerator.Current.Value} is mapped to MERGEFIELDs named {enumerator.Current.Key}");
     	}
         finally { if (enumerator != null) enumerator.close(); }
 

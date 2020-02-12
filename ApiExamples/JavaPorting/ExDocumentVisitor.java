@@ -77,7 +77,7 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
     }
 
     /// <summary>
@@ -264,7 +264,7 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
     }
 
     /// <summary>
@@ -432,7 +432,7 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
     }
 
     /// <summary>
@@ -553,7 +553,7 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
     }
 
     /// <summary>
@@ -662,7 +662,7 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
 
         // An alternative way of visiting a document's header/footers section-by-section is by accessing the collection
         // We can also turn it into an array
@@ -762,7 +762,7 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
     }
 
     /// <summary>
@@ -857,7 +857,7 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
     }
 
     /// <summary>
@@ -952,7 +952,7 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
     }
 
     /// <summary>
@@ -1044,7 +1044,7 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
     }
 
     /// <summary>
@@ -1137,7 +1137,7 @@ public class ExDocumentVisitor extends ApiExampleBase
 
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
     }
 
     /// <summary>

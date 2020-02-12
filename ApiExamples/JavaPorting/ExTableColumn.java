@@ -182,7 +182,7 @@ public class ExTableColumn extends ApiExampleBase
         Column column = Column.fromIndex(table, 0);
 
         // Print the plain text of the column to the screen
-        msConsole.writeLine(column.toTxt());
+        System.out.println(column.toTxt());
 
         msAssert.areEqual("\r\nRow 1\r\nRow 2\r\nRow 3\r\n", column.toTxt());
     }

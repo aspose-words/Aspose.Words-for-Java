@@ -84,8 +84,8 @@ public class ExSvgSaveOptions extends ApiExampleBase
         public void /*IResourceSavingCallback.*/resourceSaving(ResourceSavingArgs args)
         {
             // If we set a folder alias in the SaveOptions object, it will be printed here
-            msConsole.writeLine($"Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
-            msConsole.writeLine("\t" + args.getResourceFileUri());
+            System.out.println("Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
+            System.out.println("\t" + args.getResourceFileUri());
         }
 
         private int mSavedResourceCount;

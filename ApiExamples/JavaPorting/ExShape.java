@@ -304,7 +304,7 @@ public class ExShape extends ApiExampleBase
 
         for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            msConsole.writeLine(shape.isInline() ? "Shape is inline." : "Shape is floating.");
+            System.out.println(shape.isInline() ? "Shape is inline." : "Shape is floating.");
         }
         //ExEnd
 
@@ -407,7 +407,7 @@ public class ExShape extends ApiExampleBase
         doc.save(dstStream, SaveFormat.DOCX);
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        msConsole.writeLine("Shape text: " + shape.getTitle());
+        System.out.println("Shape text: " + shape.getTitle());
         //ExEnd
 
         msAssert.areEqual("Alt Text Title", shape.getTitle());
@@ -565,7 +565,7 @@ public class ExShape extends ApiExampleBase
             OleFormat oleFormat = ((Shape)shape).getOleFormat();
             if (oleFormat != null)
             {
-                msConsole.writeLine($"This is {(oleFormat.IsLink ? "linked" : "embedded")} object");
+                System.out.println("This is {(oleFormat.IsLink ? ");
                 byte[] oleRawData = oleFormat.getRawData();
             }
         }
@@ -915,8 +915,8 @@ public class ExShape extends ApiExampleBase
         {
             msAssert.areEqual(ShapeMarkupLanguage.DML, shape.getMarkupLanguage()); //ExSkip
 
-            msConsole.writeLine("Shape: " + shape.getMarkupLanguage());
-            msConsole.writeLine("ShapeSize: " + shape.getSizeInPointsInternal());
+            System.out.println("Shape: " + shape.getMarkupLanguage());
+            System.out.println("ShapeSize: " + shape.getSizeInPointsInternal());
         }
         //ExEnd
     }
@@ -1202,7 +1202,7 @@ public class ExShape extends ApiExampleBase
         doc.accept(shapeVisitor);
 
         // Print all the information that the visitor has collected
-        msConsole.writeLine(shapeVisitor.getText());
+        System.out.println(shapeVisitor.getText());
     }
 
     /// <summary>
@@ -1496,14 +1496,14 @@ public class ExShape extends ApiExampleBase
         Assert.assertFalse(textBox3.isValidLinkTarget(textBox4));
         
         if (textBox1.getNext() != null && textBox1.getPrevious() == null)
-            msConsole.writeLine("This TextBox is the head of the sequence");
+            System.out.println("This TextBox is the head of the sequence");
  
         if (textBox2.getNext() != null && textBox2.getPrevious() != null)
-            msConsole.writeLine("This TextBox is the Middle of the sequence");
+            System.out.println("This TextBox is the Middle of the sequence");
  
         if (textBox3.getNext() == null && textBox3.getPrevious() != null)
         {
-            msConsole.writeLine("This TextBox is the Tail of the sequence");
+            System.out.println("This TextBox is the Tail of the sequence");
             
             // Break the forward link between textBox2 and textBox3
             textBox3.getPrevious().breakForwardLink();

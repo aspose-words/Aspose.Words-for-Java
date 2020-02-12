@@ -37,7 +37,7 @@ public class ExCompatibilityOptions extends ApiExampleBase
         CompatibilityOptions options = doc.getCompatibilityOptions();
 
         // By default, the CompatibilityOptions will contain the set of values printed below
-        msConsole.writeLine("\nDefault optimization settings:");
+        System.out.println("\nDefault optimization settings:");
         printCompatibilityOptions(options);
 
         // These attributes can be accessed in the output document via File > Options > Advanced > Compatibility for...
@@ -46,11 +46,11 @@ public class ExCompatibilityOptions extends ApiExampleBase
         // We can use the OptimizeFor method to set these values automatically
         // for maximum compatibility with some Microsoft Word versions
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2010);
-        msConsole.writeLine("\nOptimized for Word 2010:");
+        System.out.println("\nOptimized for Word 2010:");
         printCompatibilityOptions(options);
 
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2000);
-        msConsole.writeLine("\nOptimized for Word 2000:");
+        System.out.println("\nOptimized for Word 2000:");
         printCompatibilityOptions(options);
     }
 
@@ -61,7 +61,7 @@ public class ExCompatibilityOptions extends ApiExampleBase
     {
         for (int i = 1; i >= 0; i--)
         {
-            msConsole.writeLine(Convert.toBoolean(i) ? "\tEnabled options:" : "\tDisabled options:");
+            System.out.println(Convert.toBoolean(i) ? "\tEnabled options:" : "\tDisabled options:");
             SortedSet<String> optionNames = new SortedSet<String>();
 
             for (PropertyDescriptor descriptor : (Iterable<PropertyDescriptor>) TypeDescriptor.GetProperties(options))
@@ -74,7 +74,7 @@ public class ExCompatibilityOptions extends ApiExampleBase
 
             for (String s : optionNames)
             {
-                msConsole.writeLine($"\t\t{s}");
+                System.out.println("\t\t{s}");
             }
         }
     }

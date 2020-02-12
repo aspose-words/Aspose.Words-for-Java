@@ -42,7 +42,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         }
         catch (FileCorruptedException e)
         {
-            msConsole.writeLine(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
         //ExEnd
@@ -84,7 +84,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         }
         catch (IllegalArgumentException e)
         {
-            msConsole.writeLine(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
         // The convertion methods only accept official IANA type names, which are all listed here:
@@ -140,9 +140,9 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatInfo.HasDigitalSignature
         //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and other features of the document.
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
-        msConsole.writeLine("The document format is: " + FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
-        msConsole.writeLine("Document is encrypted: " + info.isEncrypted());
-        msConsole.writeLine("Document has a digital signature: " + info.hasDigitalSignature());
+        System.out.println("The document format is: " + FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
+        System.out.println("Document is encrypted: " + info.isEncrypted());
+        System.out.println("Document has a digital signature: " + info.hasDigitalSignature());
         //ExEnd
     }
 
@@ -200,7 +200,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         final /*SaveFormat*/int SAVE_FORMAT = SaveFormat.HTML;
         // Convert the SaveFormat enumeration to LoadFormat enumeration
         /*LoadFormat*/int loadFormat = FileFormatUtil.saveFormatToLoadFormat(SAVE_FORMAT);
-        msConsole.writeLine("The converted LoadFormat is: " + FileFormatUtil.loadFormatToExtension(loadFormat));
+        System.out.println("The converted LoadFormat is: " + FileFormatUtil.loadFormatToExtension(loadFormat));
         //ExEnd
 
         msAssert.areEqual(".html", FileFormatUtil.saveFormatToExtension(SAVE_FORMAT));

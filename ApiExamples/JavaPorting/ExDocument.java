@@ -57,7 +57,7 @@ import com.aspose.words.StyleIdentifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import com.aspose.words.ControlChar;
-import com.aspose.ms.System.Globalization.CultureInfo;
+import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.words.FieldUpdateCultureSource;
 import com.aspose.words.ProtectionType;
@@ -477,8 +477,8 @@ public class ExDocument extends ApiExampleBase
     {
         public void warning(WarningInfo info)
         {
-            msConsole.writeLine($"WARNING: {info.WarningType}, source: {info.Source}");
-            msConsole.writeLine($"\tDescription: {info.Description}");
+            System.out.println("WARNING: {info.WarningType}, source: {info.Source}");
+            System.out.println("\tDescription: {info.Description}");
         }
     }
     //ExEnd
@@ -707,7 +707,7 @@ public class ExDocument extends ApiExampleBase
             msConsole.write($"Font:\t{args.FontFamilyName}");
             if (args.getBold()) msConsole.write(", bold");
             if (args.getItalic()) msConsole.write(", italic");
-            msConsole.writeLine($"\nSource:\t{args.OriginalFileName}, {args.OriginalFileSize} bytes\n");
+            System.out.println("\nSource:\t{args.OriginalFileName}, {args.OriginalFileSize} bytes\n");
 
             Assert.assertTrue(args.isExportNeeded());
             Assert.assertTrue(args.isSubsettingNeeded());
@@ -859,13 +859,13 @@ public class ExDocument extends ApiExampleBase
 
         if (digitalSignatureCollection.isValid())
         {
-            msConsole.writeLine("Signatures belonging to this document are valid");
+            System.out.println("Signatures belonging to this document are valid");
             msConsole.writeLine(digitalSignatureCollection.getCount());
             msConsole.writeLine(digitalSignatureCollection.get(0).getSignatureType());
         }
         else
         {
-            msConsole.writeLine("Signatures belonging to this document are NOT valid");
+            System.out.println("Signatures belonging to this document are NOT valid");
         }
         //ExEnd
     }
@@ -889,14 +889,14 @@ public class ExDocument extends ApiExampleBase
 
         for (DigitalSignature signature : doc.getDigitalSignatures())
         {
-            msConsole.writeLine("*** Signature Found ***");
-            msConsole.writeLine("Is valid: " + signature.isValid());
-            msConsole.writeLine("Reason for signing: " +
-                              signature.getComments()); // This property is available in MS Word documents only
-            msConsole.writeLine("Signature type: " + signature.getSignatureType());
-            msConsole.writeLine("Time of signing: " + signature.getSignTimeInternal());
-            msConsole.writeLine("Subject name: " + signature.getCertificateHolder().getCertificateInternal().getSubjectName());
-            msConsole.writeLine("Issuer name: " + signature.getCertificateHolder().getCertificateInternal().getIssuerName().Name);
+            System.out.println("*** Signature Found ***");
+            System.out.println("Is valid: " + signature.isValid());
+            System.out.println("Reason for signing: " +
+                                  signature.getComments()); // This property is available in MS Word documents only
+            System.out.println("Signature type: " + signature.getSignatureType());
+            System.out.println("Time of signing: " + signature.getSignTimeInternal());
+            System.out.println("Subject name: " + signature.getCertificateHolder().getCertificateInternal().getSubjectName());
+            System.out.println("Issuer name: " + signature.getCertificateHolder().getCertificateInternal().getIssuerName().Name);
             msConsole.writeLine();
         }
         //ExEnd
@@ -1088,8 +1088,8 @@ public class ExDocument extends ApiExampleBase
 
         // Make sure that English culture is set then execute mail merge using current culture for
         // date formatting
-        CultureInfo currentCulture = CurrentThread.getCurrentCulture();
-        CurrentThread.setCurrentCulture(new CultureInfo("en-US"));
+        msCultureInfo currentCulture = CurrentThread.getCurrentCulture();
+        CurrentThread.setCurrentCulture(new msCultureInfo("en-US"));
         doc.getMailMerge().execute(new String[] { "Date1" }, new Object[] { new DateTime(2011, 1, 1) });
 
         //ExStart
@@ -1124,12 +1124,12 @@ public class ExDocument extends ApiExampleBase
         builder.insertField("MERGEFIELD Field");
 
         // GetText will retrieve all field codes and special characters
-        msConsole.writeLine("GetText() Result: " + doc.getText());
+        System.out.println("GetText() Result: " + doc.getText());
 
         // ToString will export the node to the specified format. When converted to text it will not retrieve fields code 
         // or special characters, but will still contain some natural formatting characters such as paragraph markers etc. 
         // This is the same as "viewing" the document as if it was opened in a text editor
-        msConsole.writeLine("ToString() Result: " + doc.toString(SaveFormat.TEXT));
+        System.out.println("ToString() Result: " + doc.toString(SaveFormat.TEXT));
         //ExEnd
     }
 
@@ -1315,7 +1315,7 @@ public class ExDocument extends ApiExampleBase
         // First print the color of the cell shading. This should be empty as the current shading
         // is stored in the table style
         double cellShadingBefore = table.getFirstRow().getRowFormat().getHeight();
-        msConsole.writeLine("Cell shading before style expansion: " + cellShadingBefore);
+        System.out.println("Cell shading before style expansion: " + cellShadingBefore);
 
         // Expand table style formatting to direct formatting
         doc.expandTableStylesToDirectFormatting();
@@ -1323,7 +1323,7 @@ public class ExDocument extends ApiExampleBase
         // Now print the cell shading after expanding table styles. A blue background pattern color
         // should have been applied from the table style
         double cellShadingAfter = table.getFirstRow().getRowFormat().getHeight();
-        msConsole.writeLine("Cell shading after style expansion: " + cellShadingAfter);
+        System.out.println("Cell shading after style expansion: " + cellShadingAfter);
 
         doc.save(getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx");
         //ExEnd
@@ -1527,8 +1527,8 @@ public class ExDocument extends ApiExampleBase
         // If doc1 and doc2 are different, doc1 now has some revisions after the comparison, which can now be viewed and processed
         for (Revision r : doc1.getRevisions())
         {
-            msConsole.writeLine($"Revision type: {r.RevisionType}, on a node of type \"{r.ParentNode.NodeType}\"");
-            msConsole.writeLine($"\tChanged text: \"{r.ParentNode.GetText()}\"");
+            System.out.println("Revision type: {r.RevisionType}, on a node of type \"{r.ParentNode.NodeType}\"");
+            System.out.println("\tChanged text: \"{r.ParentNode.GetText()}\"");
         }
 
         // All the revisions in doc1 are differences between doc1 and doc2, so accepting them on doc1 transforms doc1 into doc2
@@ -1808,7 +1808,7 @@ public class ExDocument extends ApiExampleBase
                 if (paragraph.isListItem())
                 {
                     // Print revised version of LabelString and ListLevel
-                    msConsole.writeLine(paragraph.getListLabel().getLabelString());
+                    System.out.println(paragraph.getListLabel().getLabelString());
                     msConsole.writeLine(paragraph.getListFormat().getListLevel());
                 }
             }
@@ -2192,7 +2192,7 @@ public class ExDocument extends ApiExampleBase
         RevisionCollection revisions = doc.getRevisions();
         
         // This collection itself has a collection of revision groups, which are merged sequences of adjacent revisions
-        msConsole.writeLine($"{revisions.Groups.Count} revision groups:");
+        System.out.println("{revisions.Groups.Count} revision groups:");
 
         // We can iterate over the collection of groups and access the text that the revision concerns
         Iterator<RevisionGroup> e = revisions.getGroups().iterator();
@@ -2200,8 +2200,8 @@ public class ExDocument extends ApiExampleBase
         {
             while (e.hasNext())
             {
-                msConsole.writeLine($"\tGroup type \"{e.Current.RevisionType}\", " +
-                                  $"author: {e.Current.Author}, contents: [{e.Current.Text.Trim()}]");
+                System.out.println("\tGroup type \"{e.Current.RevisionType}\", " +
+                                      $"author: {e.Current.Author}, contents: [{e.Current.Text.Trim()}]");
             }
         }
         finally { if (e != null) e.close(); }
@@ -2209,7 +2209,7 @@ public class ExDocument extends ApiExampleBase
         // The collection of revisions is considerably larger than the condensed form we printed above,
         // depending on how many Runs the text has been segmented into during editing in Microsoft Word,
         // since each Run affected by a revision gets its own Revision object
-        msConsole.writeLine($"\n{revisions.Count} revisions:");
+        System.out.println("\n{revisions.Count} revisions:");
 
         Iterator<Revision> e1 = revisions.iterator();
         try /*JAVA: was using*/
@@ -2221,13 +2221,13 @@ public class ExDocument extends ApiExampleBase
                 // Since all other changes affect nodes, ParentNode will conversely be in use and ParentStyle will be null
                 if (e1.next().getRevisionType() == RevisionType.STYLE_DEFINITION_CHANGE)
                 {
-                    msConsole.writeLine($"\tRevision type \"{e.Current.RevisionType}\", " +
-                                      $"author: {e.Current.Author}, style: [{e.Current.ParentStyle.Name}]");
+                    System.out.println("\tRevision type \"{e.Current.RevisionType}\", " +
+                                          $"author: {e.Current.Author}, style: [{e.Current.ParentStyle.Name}]");
                 }
                 else
                 {
-                    msConsole.writeLine($"\tRevision type \"{e.Current.RevisionType}\", " +
-                                      $"author: {e.Current.Author}, contents: [{e.Current.ParentNode.GetText().Trim()}]");
+                    System.out.println("\tRevision type \"{e.Current.RevisionType}\", " +
+                                          $"author: {e.Current.Author}, contents: [{e.Current.ParentNode.GetText().Trim()}]");
                 }
             }
         }
@@ -2588,19 +2588,19 @@ public class ExDocument extends ApiExampleBase
 
         MailMergeSettings settings = doc.getMailMergeSettings();
 
-        msConsole.writeLine($"Connection string:\n\t{settings.ConnectString}");
-        msConsole.writeLine($"Mail merge docs as attachment:\n\t{settings.MailAsAttachment}");
-        msConsole.writeLine($"Mail merge doc e-mail subject:\n\t{settings.MailSubject}");
-        msConsole.writeLine($"Column that contains e-mail addresses:\n\t{settings.AddressFieldName}");
-        msConsole.writeLine($"Active record:\n\t{settings.ActiveRecord}");
+        System.out.println("Connection string:\n\t{settings.ConnectString}");
+        System.out.println("Mail merge docs as attachment:\n\t{settings.MailAsAttachment}");
+        System.out.println("Mail merge doc e-mail subject:\n\t{settings.MailSubject}");
+        System.out.println("Column that contains e-mail addresses:\n\t{settings.AddressFieldName}");
+        System.out.println("Active record:\n\t{settings.ActiveRecord}");
         
         Odso odso = settings.getOdso();
         
-        msConsole.writeLine($"File will connect to data source located in:\n\t\"{odso.DataSource}\"");
-        msConsole.writeLine($"Source type:\n\t{odso.DataSourceType}");
-        msConsole.writeLine($"UDL connection string string:\n\t{odso.UdlConnectString}");
-        msConsole.writeLine($"Table:\n\t{odso.TableName}");
-        msConsole.writeLine($"Query:\n\t{doc.MailMergeSettings.Query}");
+        System.out.println("File will connect to data source located in:\n\t\"{odso.DataSource}\"");
+        System.out.println("Source type:\n\t{odso.DataSourceType}");
+        System.out.println("UDL connection string string:\n\t{odso.UdlConnectString}");
+        System.out.println("Table:\n\t{odso.TableName}");
+        System.out.println("Query:\n\t{doc.MailMergeSettings.Query}");
 
         // We can clear the settings, which will take place during saving
         settings.clear();
@@ -2706,12 +2706,11 @@ public class ExDocument extends ApiExampleBase
 
         for (OdsoFieldMapData data : fieldMapDataCollection)
         {
-            msConsole.writeLine($"Field map data index #{index++}, type \"{data.Type}\":");
+            System.out.println("Field map data index #{index++}, type \"{data.Type}\":");
 
-            msConsole.writeLine(
-                data.getType() != OdsoFieldMappingType.NULL
-                    ? $"\tColumn named {data.Name}, number {data.Column} in the data source mapped to merge field named {data.MappedName}."
-                    : "\tNo valid column to field mapping data present.");
+            System.out.println(data.getType() != OdsoFieldMappingType.NULL
+                        ? $"\tColumn named {data.Name}, number {data.Column} in the data source mapped to merge field named {data.MappedName}."
+                        : "\tNo valid column to field mapping data present.");
 
             msAssert.areNotEqual(data, data.deepClone());
         }
@@ -2747,10 +2746,10 @@ public class ExDocument extends ApiExampleBase
 
         for (OdsoRecipientData data : odsoRecipientDataCollection)
         {
-            msConsole.writeLine($"Odso recipient data index #{index++}, will {(data.Active ? "" : "not ")}be imported upon mail merge.");
-            msConsole.writeLine($"\tColumn #{data.Column}");
-            msConsole.writeLine($"\tHash code: {data.Hash}");
-            msConsole.writeLine($"\tContents array length: {data.UniqueTag.Length}");
+            System.out.println("Odso recipient data index #{index++}, will {(data.Active ? ");
+            System.out.println("\tColumn #{data.Column}");
+            System.out.println("\tHash code: {data.Hash}");
+            System.out.println("\tContents array length: {data.UniqueTag.Length}");
 
             msAssert.areNotEqual(data, data.deepClone());
         }
@@ -2800,13 +2799,13 @@ public class ExDocument extends ApiExampleBase
             int index = 0;
             while (enumerator.hasNext())
             {
-                msConsole.writeLine($"Part index {index}:");
-                msConsole.writeLine($"\tName: {enumerator.Current.Name}");
-                msConsole.writeLine($"\tContentType: {enumerator.Current.ContentType}");
-                msConsole.writeLine($"\tRelationshipType: {enumerator.Current.RelationshipType}");
-                msConsole.writeLine(enumerator.next().isExternal()
-                    ? "\tSourced from outside the document"
-                    : $"\tSourced from within the document, length: {enumerator.Current.Data.Length} bytes");
+                System.out.println("Part index {index}:");
+                System.out.println("\tName: {enumerator.Current.Name}");
+                System.out.println("\tContentType: {enumerator.Current.ContentType}");
+                System.out.println("\tRelationshipType: {enumerator.Current.RelationshipType}");
+                System.out.println(enumerator.next().isExternal()
+                        ? "\tSourced from outside the document"
+                        : $"\tSourced from within the document, length: {enumerator.Current.Data.Length} bytes");
                 index++;
             }
         }
@@ -2950,9 +2949,9 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
 
         int localeIdFarEast = doc.getStyles().getDefaultFont().getLocaleIdFarEast();
-        msConsole.writeLine(localeIdFarEast == (int) EditingLanguage.JAPANESE
-            ? "The document either has no any FarEast language set in defaults or it was set to Japanese originally."
-            : "The document default FarEast language was set to another than Japanese language originally, so it is not overridden.");
+        System.out.println(localeIdFarEast == (int) EditingLanguage.JAPANESE
+                ? "The document either has no any FarEast language set in defaults or it was set to Japanese originally."
+                : "The document default FarEast language was set to another than Japanese language originally, so it is not overridden.");
         //ExEnd
     }
 
@@ -2969,9 +2968,9 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
 
         int localeId = doc.getStyles().getDefaultFont().getLocaleId();
-        msConsole.writeLine(localeId == (int) EditingLanguage.RUSSIAN
-            ? "The document either has no any language set in defaults or it was set to Russian originally."
-            : "The document default language was set to another than Russian language originally, so it is not overridden.");
+        System.out.println(localeId == (int) EditingLanguage.RUSSIAN
+                ? "The document either has no any language set in defaults or it was set to Russian originally."
+                : "The document default language was set to another than Russian language originally, so it is not overridden.");
         //ExEnd
     }
 
@@ -3019,7 +3018,7 @@ public class ExDocument extends ApiExampleBase
 
         for (String revisionGroupInfo : revisionGroupCollectionInsertionType)
         {
-            msConsole.writeLine(revisionGroupInfo);
+            System.out.println(revisionGroupInfo);
         }
         //ExEnd
     }
@@ -3198,10 +3197,9 @@ public class ExDocument extends ApiExampleBase
         NodeCollection nodes = doc.getChildNodes(NodeType.ANY, true);
         for (Node node : (Iterable<Node>) nodes)
         {
-            msConsole.writeLine($"->  NodeType.{node.NodeType}: ");
-            msConsole.writeLine(
-                $"\tStarts on page {layoutCollector.GetStartPageIndex(node)}, ends on page {layoutCollector.GetEndPageIndex(node)}," +
-                $" spanning {layoutCollector.GetNumPagesSpanned(node)} pages.");
+            System.out.println("->  NodeType.{node.NodeType}: ");
+            System.out.println("\tStarts on page {layoutCollector.GetStartPageIndex(node)}, ends on page {layoutCollector.GetEndPageIndex(node)}," +
+                    $" spanning {layoutCollector.GetNumPagesSpanned(node)} pages.");
         }
 
         // We can iterate over the layout entities using a LayoutEnumerator
@@ -3265,19 +3263,19 @@ public class ExDocument extends ApiExampleBase
 
         // "Visual order" means when moving through an entity's children that are broken across pages,
         // page layout takes precedence and we avoid elements in other pages and move to others on the same page
-        msConsole.writeLine("Traversing from first to last, elements between pages separated:");
+        System.out.println("Traversing from first to last, elements between pages separated:");
         traverseLayoutForward(layoutEnumerator, 1);
 
         // Our enumerator is conveniently at the end of the collection for us to go through the collection backwards
-        msConsole.writeLine("Traversing from last to first, elements between pages separated:");
+        System.out.println("Traversing from last to first, elements between pages separated:");
         traverseLayoutBackward(layoutEnumerator, 1);
 
         // "Logical order" means when moving through an entity's children that are broken across pages, 
         // node relationships take precedence
-        msConsole.writeLine("Traversing from first to last, elements between pages mixed:");
+        System.out.println("Traversing from first to last, elements between pages mixed:");
         traverseLayoutForwardLogical(layoutEnumerator, 1);
 
-        msConsole.writeLine("Traversing from last to first, elements between pages mixed:");
+        System.out.println("Traversing from last to first, elements between pages mixed:");
         traverseLayoutBackwardLogical(layoutEnumerator, 1);
     }
 
@@ -3357,16 +3355,16 @@ public class ExDocument extends ApiExampleBase
     {
         String tabs = msString.newString('\t', indent);
 
-        msConsole.writeLine(msString.equals(layoutEnumerator.getKind(), "")
-            ? $"{tabs}-> Entity type: {layoutEnumerator.Type}"
-            : $"{tabs}-> Entity type & kind: {layoutEnumerator.Type}, {layoutEnumerator.Kind}");
+        System.out.println(msString.equals(layoutEnumerator.getKind(), "")
+                ? $"{tabs}-> Entity type: {layoutEnumerator.Type}"
+                : $"{tabs}-> Entity type & kind: {layoutEnumerator.Type}, {layoutEnumerator.Kind}");
 
         if (layoutEnumerator.getType() == LayoutEntityType.SPAN)
-            msConsole.writeLine($"{tabs}   Span contents: \"{layoutEnumerator.Text}\"");
+            System.out.println("{tabs}   Span contents: \"{layoutEnumerator.Text}\"");
 
         RectangleF leRect = layoutEnumerator.getRectangleInternal();
-        msConsole.writeLine($"{tabs}   Rectangle dimensions {leRect.Width}x{leRect.Height}, X={leRect.X} Y={leRect.Y}");
-        msConsole.writeLine($"{tabs}   Page {layoutEnumerator.PageIndex}");
+        System.out.println("{tabs}   Rectangle dimensions {leRect.Width}x{leRect.Height}, X={leRect.X} Y={leRect.Y}");
+        System.out.println("{tabs}   Page {layoutEnumerator.PageIndex}");
     }
     //ExEnd
 
@@ -3494,9 +3492,9 @@ public class ExDocument extends ApiExampleBase
 
         // A VBA project inside the document is defined as a collection of VBA modules
         VbaProject vbaProject = doc.getVbaProject();
-        msConsole.writeLine(vbaProject.isSigned()
-            ? $"Project name: {vbaProject.Name} signed; Project code page: {vbaProject.CodePage}; Modules count: {vbaProject.Modules.Count()}\n"
-            : $"Project name: {vbaProject.Name} not signed; Project code page: {vbaProject.CodePage}; Modules count: {vbaProject.Modules.Count()}\n");
+        System.out.println(vbaProject.isSigned()
+                ? $"Project name: {vbaProject.Name} signed; Project code page: {vbaProject.CodePage}; Modules count: {vbaProject.Modules.Count()}\n"
+                : $"Project name: {vbaProject.Name} not signed; Project code page: {vbaProject.CodePage}; Modules count: {vbaProject.Modules.Count()}\n");
 
         msAssert.areEqual(vbaProject.getName(), "AsposeVBAtest"); //ExSkip
         Assert.AreEqual(vbaProject.getModules().Count(), 3); //ExSkip
@@ -3504,7 +3502,7 @@ public class ExDocument extends ApiExampleBase
 
         VbaModuleCollection vbaModules = doc.getVbaProject().getModules();
         for (VbaModule module : vbaModules)
-            msConsole.writeLine($"Module name: {module.Name};\nModule code:\n{module.SourceCode}\n");
+            System.out.println("Module name: {module.Name};\nModule code:\n{module.SourceCode}\n");
 
         // Set new source code for VBA module
         // You can retrieve object by integer or by name
@@ -3647,7 +3645,7 @@ public class ExDocument extends ApiExampleBase
             while (enumerator.hasNext())
             {
                 WebExtensionProperty webExtensionProperty = enumerator.next();
-                msConsole.writeLine($"Binding name: {webExtensionProperty.Name}; Binding value: {webExtensionProperty.Value}");
+                System.out.println("Binding name: {webExtensionProperty.Name}; Binding value: {webExtensionProperty.Value}");
             }
         }
         finally { if (enumerator != null) enumerator.close(); }

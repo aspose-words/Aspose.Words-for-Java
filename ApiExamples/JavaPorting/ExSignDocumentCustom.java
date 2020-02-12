@@ -50,7 +50,7 @@ public class ExSignDocumentCustom extends ApiExampleBase
 
         // We need to create simple list with test signers for this example
         createSignPersonData();
-        msConsole.writeLine("Test data successfully added!");
+        System.out.println("Test data successfully added!");
 
         // Get sign person object by name of the person who must sign a document
         // This an example, in real use case you would return an object from a database
@@ -60,11 +60,11 @@ public class ExSignDocumentCustom extends ApiExampleBase
         if (signPersonInfo != null)
         {
             signDocument(srcDocumentPath, dstDocumentPath, signPersonInfo, certificatePath, certificatePassword);
-            msConsole.writeLine("Document successfully signed!");
+            System.out.println("Document successfully signed!");
         }
         else
         {
-            msConsole.writeLine("Sign person does not exist, please check your parameters.");
+            System.out.println("Sign person does not exist, please check your parameters.");
             Assert.fail(); //ExSkip
         }
 

@@ -54,10 +54,10 @@ public class ExStyles extends ApiExampleBase
             while (stylesEnum.hasNext())
             {
                 Style curStyle = stylesEnum.next();
-                msConsole.writeLine($"Style name:\t\"{curStyle.Name}\", of type \"{curStyle.Type}\"");
-                msConsole.writeLine($"\tSubsequent style:\t{curStyle.NextParagraphStyleName}");
-                msConsole.writeLine($"\tIs heading:\t\t\t{curStyle.IsHeading}");
-                msConsole.writeLine($"\tIs QuickStyle:\t\t{curStyle.IsQuickStyle}");
+                System.out.println("Style name:\t\"{curStyle.Name}\", of type \"{curStyle.Type}\"");
+                System.out.println("\tSubsequent style:\t{curStyle.NextParagraphStyleName}");
+                System.out.println("\tIs heading:\t\t\t{curStyle.IsHeading}");
+                System.out.println("\tIs QuickStyle:\t\t{curStyle.IsQuickStyle}");
 
                 msAssert.areEqual(doc, curStyle.getDocument());
             }

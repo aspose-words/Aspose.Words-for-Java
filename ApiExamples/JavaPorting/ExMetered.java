@@ -40,15 +40,15 @@ public class ExMetered extends ApiExampleBase
         metered.setMeteredKey("MyPublicKey", "MyPrivateKey");
         
         // Print credit/usage 
-        msConsole.writeLine($"Credit before operation: {Metered.GetConsumptionCredit()}");
-        msConsole.writeLine($"Consumption quantity before operation: {Metered.GetConsumptionQuantity()}");
+        System.out.println("Credit before operation: {Metered.GetConsumptionCredit()}");
+        System.out.println("Consumption quantity before operation: {Metered.GetConsumptionQuantity()}");
 
         // Do something
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // Print credit/usage to see how much was spent
-        msConsole.writeLine($"Credit after operation: {Metered.GetConsumptionCredit()}");
-        msConsole.writeLine($"Consumption quantity after operation: {Metered.GetConsumptionQuantity()}");
+        System.out.println("Credit after operation: {Metered.GetConsumptionCredit()}");
+        System.out.println("Consumption quantity after operation: {Metered.GetConsumptionQuantity()}");
         //ExEnd
     }
 }

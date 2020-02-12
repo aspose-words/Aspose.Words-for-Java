@@ -1033,7 +1033,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.writeln("Cell at 40 points width");
 
         PreferredWidth width = builder.getCellFormat().getPreferredWidth();
-        msConsole.writeLine($"Width \"{width.GetHashCode()}\": {width.ToString()}");
+        System.out.println("Width \"{width.GetHashCode()}\": {width.ToString()}");
 
         // Insert a relative (percent) sized cell
         builder.insertCell();
@@ -1045,7 +1045,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertFalse(builder.getCellFormat().getPreferredWidth().equals(width));
 
         width = builder.getCellFormat().getPreferredWidth();
-        msConsole.writeLine($"Width \"{width.GetHashCode()}\": {width.ToString()}");
+        System.out.println("Width \"{width.GetHashCode()}\": {width.ToString()}");
 
         // Insert a auto sized cell
         builder.insertCell();
@@ -2318,19 +2318,19 @@ public class ExDocumentBuilder extends ApiExampleBase
             msConsole.writeLine("Number format invocations ({0}):", mNumberFormatInvocations.size());
             for (Object[] s : (Iterable<Object[]>) mNumberFormatInvocations)
             {
-                msConsole.writeLine("\tValue: " + s[0] + ", original format: " + s[1]);
+                System.out.println("\tValue: " + s[0] + ", original format: " + s[1]);
             }
 
             msConsole.writeLine("Date format invocations ({0}):", mDateFormatInvocations.size());
             for (Object[] s : (Iterable<Object[]>) mDateFormatInvocations)
             {
-                msConsole.writeLine("\tValue: " + s[0] + ", original format: " + s[1] + ", calendar type: " + s[2]);
+                System.out.println("\tValue: " + s[0] + ", original format: " + s[1] + ", calendar type: " + s[2]);
             }
 
             msConsole.writeLine("General format invocations ({0}):", mGeneralFormatInvocations.size());
             for (Object[] s : (Iterable<Object[]>) mGeneralFormatInvocations)
             {
-                msConsole.writeLine("\tValue: " + s[0] + ", original format: " + s[1]);
+                System.out.println("\tValue: " + s[0] + ", original format: " + s[1]);
             }
         }
 

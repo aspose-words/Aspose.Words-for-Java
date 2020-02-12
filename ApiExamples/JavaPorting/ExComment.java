@@ -96,17 +96,17 @@ public class ExComment extends ApiExampleBase
         {
             if (comment.getAncestor() == null)
             {
-                msConsole.writeLine("This is a top-level comment\n");
+                System.out.println("This is a top-level comment\n");
 
-                msConsole.writeLine("Comment author: " + comment.getAuthor());
-                msConsole.writeLine("Comment text: " + comment.getText());
+                System.out.println("Comment author: " + comment.getAuthor());
+                System.out.println("Comment text: " + comment.getText());
 
                 for (Comment commentReply : comment.getReplies().<Comment>OfType() !!Autoporter error: Undefined expression type )
                 {
-                    msConsole.writeLine("This is a comment reply\n");
+                    System.out.println("This is a comment reply\n");
 
-                    msConsole.writeLine("Comment author: " + commentReply.getAuthor());
-                    msConsole.writeLine("Comment text: " + commentReply.getText());
+                    System.out.println("Comment author: " + commentReply.getAuthor());
+                    System.out.println("Comment text: " + commentReply.getText());
                 }
             }
         }
@@ -288,7 +288,7 @@ public class ExComment extends ApiExampleBase
             }
 
             // Output of all information received
-            msConsole.writeLine(commentVisitor.getText());
+            System.out.println(commentVisitor.getText());
         }
         finally { if (enumerator != null) enumerator.close(); }
     }

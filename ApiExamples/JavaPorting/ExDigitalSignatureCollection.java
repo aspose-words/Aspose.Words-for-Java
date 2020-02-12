@@ -38,7 +38,7 @@ public class ExDigitalSignatureCollection extends ApiExampleBase
                 DigitalSignature ds = enumerator.next();
 
                 if (ds != null)
-                    msConsole.writeLine(ds.toString());
+                    System.out.println(ds.toString());
             }
         }
         finally { if (enumerator != null) enumerator.close(); }

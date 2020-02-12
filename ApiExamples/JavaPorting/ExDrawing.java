@@ -111,7 +111,7 @@ public class ExDrawing extends ApiExampleBase
         ShapeInfoPrinter printer = new ShapeInfoPrinter();
         group.accept(printer);
 
-        msConsole.writeLine(printer.getText());
+        System.out.println(printer.getText());
     }
 
     /// <summary>

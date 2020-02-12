@@ -247,19 +247,19 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         {
             if (paragraph.getFrameFormat().isFrame())
             {
-                msConsole.writeLine("Width: " + paragraph.getFrameFormat().getWidth());
-                msConsole.writeLine("Height: " + paragraph.getFrameFormat().getHeight());
-                msConsole.writeLine("HeightRule: " + paragraph.getFrameFormat().getHeightRule());
-                msConsole.writeLine("HorizontalAlignment: " + paragraph.getFrameFormat().getHorizontalAlignment());
-                msConsole.writeLine("VerticalAlignment: " + paragraph.getFrameFormat().getVerticalAlignment());
-                msConsole.writeLine("HorizontalPosition: " + paragraph.getFrameFormat().getHorizontalPosition());
-                msConsole.writeLine("RelativeHorizontalPosition: " +
-                                  paragraph.getFrameFormat().getRelativeHorizontalPosition());
-                msConsole.writeLine("HorizontalDistanceFromText: " +
-                                  paragraph.getFrameFormat().getHorizontalDistanceFromText());
-                msConsole.writeLine("VerticalPosition: " + paragraph.getFrameFormat().getVerticalPosition());
-                msConsole.writeLine("RelativeVerticalPosition: " + paragraph.getFrameFormat().getRelativeVerticalPosition());
-                msConsole.writeLine("VerticalDistanceFromText: " + paragraph.getFrameFormat().getVerticalDistanceFromText());
+                System.out.println("Width: " + paragraph.getFrameFormat().getWidth());
+                System.out.println("Height: " + paragraph.getFrameFormat().getHeight());
+                System.out.println("HeightRule: " + paragraph.getFrameFormat().getHeightRule());
+                System.out.println("HorizontalAlignment: " + paragraph.getFrameFormat().getHorizontalAlignment());
+                System.out.println("VerticalAlignment: " + paragraph.getFrameFormat().getVerticalAlignment());
+                System.out.println("HorizontalPosition: " + paragraph.getFrameFormat().getHorizontalPosition());
+                System.out.println("RelativeHorizontalPosition: " +
+                                      paragraph.getFrameFormat().getRelativeHorizontalPosition());
+                System.out.println("HorizontalDistanceFromText: " +
+                                      paragraph.getFrameFormat().getHorizontalDistanceFromText());
+                System.out.println("VerticalPosition: " + paragraph.getFrameFormat().getVerticalPosition());
+                System.out.println("RelativeVerticalPosition: " + paragraph.getFrameFormat().getRelativeVerticalPosition());
+                System.out.println("VerticalDistanceFromText: " + paragraph.getFrameFormat().getVerticalDistanceFromText());
             }
         }
         //ExEnd

@@ -97,7 +97,7 @@ public class ExTable extends ApiExampleBase
         for (int i = 0; i < tables.getCount(); i++)
         {
             // Get the index of the table node as contained in the parent node of the table
-            msConsole.writeLine($"Start of Table {i}");
+            System.out.println("Start of Table {i}");
 
             RowCollection rows = tables.get(i).getRows();
 
@@ -108,7 +108,7 @@ public class ExTable extends ApiExampleBase
             // Iterate through all rows in the table
             for (int j = 0; j < rows.getCount(); j++)
             {
-                msConsole.writeLine($"\tStart of Row {j}");
+                System.out.println("\tStart of Row {j}");
 
                 CellCollection cells = rows.get(j).getCells();
 
@@ -122,13 +122,13 @@ public class ExTable extends ApiExampleBase
                     // Get the plain text content of this cell
                     String cellText = msString.trim(cells.get(k).toString(SaveFormat.TEXT));
                     // Print the content of the cell
-                    msConsole.writeLine($"\t\tContents of Cell:{k} = \"{cellText}\"");
+                    System.out.println("\t\tContents of Cell:{k} = \"{cellText}\"");
                 }
 
-                msConsole.writeLine($"\tEnd of Row {j}");
+                System.out.println("\tEnd of Row {j}");
             }
 
-            msConsole.writeLine($"End of Table {i}\n");
+            System.out.println("End of Table {i}\n");
         }
         //ExEnd
 
@@ -597,16 +597,16 @@ public class ExTable extends ApiExampleBase
         // You can call ToString on the desired node to retrieve the plain text content
 
         // Print the plain text range of the table to the screen
-        msConsole.writeLine("Contents of the table: ");
-        msConsole.writeLine(table.getRange().getText());
+        System.out.println("Contents of the table: ");
+        System.out.println(table.getRange().getText());
         
         // Print the contents of the second row to the screen
-        msConsole.writeLine("\nContents of the row: ");
-        msConsole.writeLine(table.getRows().get(1).getRange().getText());
+        System.out.println("\nContents of the row: ");
+        System.out.println(table.getRows().get(1).getRange().getText());
 
         // Print the contents of the last cell in the table to the screen
-        msConsole.writeLine("\nContents of the cell: ");
-        msConsole.writeLine(table.getLastRow().getLastCell().getRange().getText());
+        System.out.println("\nContents of the cell: ");
+        System.out.println(table.getLastRow().getLastCell().getRange().getText());
         
         msAssert.areEqual("\u0007Column 1\u0007Column 2\u0007Column 3\u0007Column 4\u0007\u0007", table.getRows().get(1).getRange().getText());
         msAssert.areEqual("Cell 12 contents\u0007", table.getLastRow().getLastCell().getRange().getText());
@@ -1034,7 +1034,7 @@ public class ExTable extends ApiExampleBase
         {
             for (Cell cell : row.getCells().<Cell>OfType() !!Autoporter error: Undefined expression type )
             {
-                msConsole.writeLine(printCellMergeType(cell));
+                System.out.println(printCellMergeType(cell));
             }
         }
 

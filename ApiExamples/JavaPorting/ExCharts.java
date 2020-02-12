@@ -820,7 +820,7 @@ public class ExCharts extends ApiExampleBase
             // And use it to go over all the data labels in one series and change their separator
             while (enumerator.hasNext())
             {
-                msConsole.writeLine(enumerator.next().getName());
+                System.out.println(enumerator.next().getName());
             }
         }
         finally { if (enumerator != null) enumerator.close(); }

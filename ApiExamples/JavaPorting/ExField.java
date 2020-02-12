@@ -27,7 +27,7 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.FieldInfo;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.FieldUnknown;
-import com.aspose.ms.System.Globalization.CultureInfo;
+import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.FindReplaceOptions;
@@ -150,7 +150,7 @@ import com.aspose.words.FieldUpdateCultureSource;
 import com.aspose.words.FieldTime;
 import com.aspose.words.EditingLanguage;
 import com.aspose.words.IFieldUpdateCultureProvider;
-import com.aspose.ms.System.Globalization.DateTimeFormatInfo;
+import com.aspose.ms.System.Globalization.msDateTimeFormatInfo;
 import com.aspose.words.FieldRD;
 import com.aspose.words.FieldSkipIf;
 import com.aspose.words.Bookmark;
@@ -350,9 +350,9 @@ public class ExField extends ApiExampleBase
         builder.insertField("MERGEFIELD Date");
 
         // Store the current culture so it can be set back once mail merge is complete
-        CultureInfo currentCulture = CurrentThread.getCurrentCulture();
+        msCultureInfo currentCulture = CurrentThread.getCurrentCulture();
         // Set to German language so dates and numbers are formatted using this culture during mail merge
-        CurrentThread.setCurrentCulture(new CultureInfo("de-DE"));
+        CurrentThread.setCurrentCulture(new msCultureInfo("de-DE"));
 
         // Execute mail merge
         doc.getMailMerge().execute(new String[] { "Date" }, new Object[] { DateTime.getNow() });
@@ -546,7 +546,7 @@ public class ExField extends ApiExampleBase
         {
             while (generalFormatEnumerator.hasNext())
             {
-                msConsole.writeLine($"General format index {index++}: {generalFormatEnumerator.Current}");
+                System.out.println("General format index {index++}: {generalFormatEnumerator.Current}");
             }
         }
         finally { if (generalFormatEnumerator != null) generalFormatEnumerator.close(); }
@@ -733,7 +733,7 @@ public class ExField extends ApiExampleBase
             while (dropDownCollectionEnumerator.hasNext())
             {
                 String currentItem = dropDownCollectionEnumerator.next();
-                msConsole.writeLine(currentItem);
+                System.out.println(currentItem);
             }
         }
         finally { if (dropDownCollectionEnumerator != null) dropDownCollectionEnumerator.close(); }
@@ -973,13 +973,13 @@ public class ExField extends ApiExampleBase
                 }
                 else
                 {
-                    msConsole.writeLine("There are no fields in the document.");
+                    System.out.println("There are no fields in the document.");
                 }
             }
         }
         finally { if (fieldEnumerator != null) fieldEnumerator.close(); }
 
-        msConsole.writeLine(fieldVisitor.getText());
+        System.out.println(fieldVisitor.getText());
 
         // Get a field to remove itself
         fields.get(0).remove();
@@ -1613,7 +1613,7 @@ public class ExField extends ApiExampleBase
         }
         finally { if (fieldEnumerator != null) fieldEnumerator.close(); }
 
-        msConsole.writeLine(formFieldVisitor.getText());
+        System.out.println(formFieldVisitor.getText());
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.FormField.docx");
@@ -3300,14 +3300,14 @@ public class ExField extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        doc.getFieldOptions().setPreProcessCultureInternal(new CultureInfo("de-DE"));
+        doc.getFieldOptions().setPreProcessCultureInternal(new msCultureInfo("de-DE"));
 
         Field field = builder.insertField(" DOCPROPERTY CreateTime");
 
         // Conforming to the German culture, the date/time will be presented in the "dd.mm.yyyy hh:mm" format
         Assert.assertTrue(Regex.match(field.getResult(), "\\d{2}[.]\\d{2}[.]\\d{4} \\d{2}[:]\\d{2}").getSuccess());
 
-        doc.getFieldOptions().setPreProcessCultureInternal(CultureInfo.getInvariantCulture());
+        doc.getFieldOptions().setPreProcessCultureInternal(msCultureInfo.getInvariantCulture());
         field.update();
 
         // After switching to the invariant culture, the date/time will be presented in the "mm/dd/yyyy hh:mm" format
@@ -3364,7 +3364,7 @@ public class ExField extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        CurrentThread.setCurrentCulture(new CultureInfo("de-DE"));
+        CurrentThread.setCurrentCulture(new msCultureInfo("de-DE"));
         Field field = builder.insertField(" = 1234567,89 \\# $#,###,###.##");
         field.update();
 
@@ -4409,13 +4409,13 @@ public class ExField extends ApiExampleBase
         /// <summary>
         /// Returns a CultureInfo object to be used during the field's update.
         /// </summary>
-        public CultureInfo getCulture(String name, Field field)
+        public msCultureInfo getCulture(String name, Field field)
         {
             switch (gStringSwitchMap.of(name))
             {
                 case /*"ru-RU"*/0:
-                    CultureInfo culture = new CultureInfo(name, false);
-                    DateTimeFormatInfo format = culture.getDateTimeFormat();
+                    msCultureInfo culture = new msCultureInfo(name, false);
+                    msDateTimeFormatInfo format = culture.getDateTimeFormat();
                     
                     format.setMonthNames(new String[]{"месяц 1", "месяц 2", "месяц 3", "месяц 4", "месяц 5", "месяц 6", "месяц 7", "месяц 8", "месяц 9", "месяц 10", "месяц 11", "месяц 12", ""});
                     format.setMonthGenitiveNames(format.getMonthNames());
@@ -4437,7 +4437,7 @@ public class ExField extends ApiExampleBase
  
                     return culture;
                 case /*"en-US"*/1:
-                    return new CultureInfo(name, false);
+                    return new msCultureInfo(name, false);
                 default:
                     return null;
             }

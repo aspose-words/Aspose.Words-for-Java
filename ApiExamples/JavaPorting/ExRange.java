@@ -50,7 +50,7 @@ public class ExRange extends ApiExampleBase
         builder.writeln("Hello _CustomerName_,");
 
         // Check the document contains what we are about to test
-        msConsole.writeLine(doc.getFirstSection().getBody().getParagraphs().get(0).getText());
+        System.out.println(doc.getFirstSection().getBody().getParagraphs().get(0).getText());
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setMatchCase(false);
@@ -254,14 +254,14 @@ public class ExRange extends ApiExampleBase
             // And write it as HEX
             args.setReplacement("0x{number:X} (replacement #{mCurrentReplacementNumber})");
 
-            msConsole.writeLine($"Match #{mCurrentReplacementNumber}");
-            msConsole.writeLine($"\tOriginal value:\t{args.Match.Value}");
-            msConsole.writeLine($"\tReplacement:\t{args.Replacement}");
-            msConsole.writeLine($"\tOffset in parent {args.MatchNode.NodeType} node:\t{args.MatchOffset}");
+            System.out.println("Match #{mCurrentReplacementNumber}");
+            System.out.println("\tOriginal value:\t{args.Match.Value}");
+            System.out.println("\tReplacement:\t{args.Replacement}");
+            System.out.println("\tOffset in parent {args.MatchNode.NodeType} node:\t{args.MatchOffset}");
 
-            msConsole.writeLine(msString.isNullOrEmpty(args.GroupName)
-                ? $"\tGroup index:\t{args.GroupIndex}"
-                : $"\tGroup name:\t{args.GroupName}");
+            System.out.println(msString.isNullOrEmpty(args.GroupName)
+                    ? $"\tGroup index:\t{args.GroupIndex}"
+                    : $"\tGroup name:\t{args.GroupName}");
 
             return ReplaceAction.REPLACE;
         }

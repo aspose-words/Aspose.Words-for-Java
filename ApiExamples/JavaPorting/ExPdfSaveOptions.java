@@ -329,7 +329,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             // DataLoss/UnexpectedContent to MinorFormattingLoss
             if (info.getWarningType() == WarningType.MINOR_FORMATTING_LOSS)
             {
-                msConsole.writeLine("Unsupported operation: " + info.getDescription());
+                System.out.println("Unsupported operation: " + info.getDescription());
                 Warnings.warning(info);
             }
         }
@@ -395,7 +395,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         {
             if (info.getWarningType() == WarningType.MINOR_FORMATTING_LOSS)
             {
-                msConsole.writeLine($"{info.WarningType}: {info.Description}.");
+                System.out.println("{info.WarningType}: {info.Description}.");
                 SaveWarnings.warning(info);
             }
         }

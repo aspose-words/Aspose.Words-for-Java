@@ -772,7 +772,7 @@ public class ExRendering extends ApiExampleBase
             // We are only interested in fonts being substituted
             if (info.getWarningType() == WarningType.FONT_SUBSTITUTION)
             {
-                msConsole.writeLine("Font substitution: " + info.getDescription());
+                System.out.println("Font substitution: " + info.getDescription());
                 FontWarnings.warning(info); //ExSkip
             }
         }

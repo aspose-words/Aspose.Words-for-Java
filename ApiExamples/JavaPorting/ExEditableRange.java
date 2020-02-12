@@ -134,7 +134,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         editableRangeReader.reset();
         doc.accept(editableRangeReader);
 
-        msConsole.writeLine(editableRangeReader.toText());
+        System.out.println(editableRangeReader.toText());
     }
 
     /// <summary>

@@ -207,7 +207,7 @@ public class ExBuildingBlocks extends ApiExampleBase
 
         msAssert.areEqual(5, visitor.getDictionary().size());
 
-        msConsole.writeLine(visitor.getText());
+        System.out.println(visitor.getText());
 
         // We can find our new blocks in Microsoft Word via Insert > Quick Parts > Building Blocks Organizer...
         doc.save(getArtifactsDir() + "BuildingBlocks.GlossaryDocument.dotx"); 

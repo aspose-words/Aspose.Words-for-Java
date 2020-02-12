@@ -30,7 +30,7 @@ import com.aspose.words.Node;
 import com.aspose.words.NodeType;
 import com.aspose.words.HeaderFooter;
 import com.aspose.ms.System.Threading.CurrentThread;
-import com.aspose.ms.System.Globalization.CultureInfo;
+import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.SaveFormat;
 
@@ -82,7 +82,7 @@ public class ExSection extends ApiExampleBase
         builder.write("Section 2");
 
         // This shows what is in the document originally. The document has two sections
-        msConsole.writeLine(doc.getText());
+        System.out.println(doc.getText());
 
         // Delete the first section from the document
         doc.getSections().removeAt(0);
@@ -93,7 +93,7 @@ public class ExSection extends ApiExampleBase
         doc.getSections().add(newSection);
 
         // Check what the document contains after we changed it
-        msConsole.writeLine(doc.getText());
+        System.out.println(doc.getText());
         //ExEnd
 
         msAssert.areEqual("Section 2\fSection 2\f", doc.getText());
@@ -172,7 +172,7 @@ public class ExSection extends ApiExampleBase
 
         // As a matter of interest, you can retrieve text of the whole document and
         // see that \x000c is automatically appended. \x000c is the end of section character
-        msConsole.writeLine("Hello World!\f");
+        System.out.println("Hello World!\f");
 
         // Save the document
         doc.save(getArtifactsDir() + "Section.CreateFromScratch.doc");
@@ -213,7 +213,7 @@ public class ExSection extends ApiExampleBase
 
         // This shows what is in the document originally
         // The document has two sections
-        msConsole.writeLine(doc.getText());
+        System.out.println(doc.getText());
 
         // Loop through all sections in the document
         for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
@@ -230,7 +230,7 @@ public class ExSection extends ApiExampleBase
         }
 
         // Check how the content of the document looks now
-        msConsole.writeLine(doc.getText());
+        System.out.println(doc.getText());
         //ExEnd
 
         msAssert.areEqual("\f\f", doc.getText());
@@ -270,8 +270,8 @@ public class ExSection extends ApiExampleBase
                     Body body = (Body) node;
 
                     // Write the content of the main story of the section to the console
-                    msConsole.writeLine("*** Body ***");
-                    msConsole.writeLine(body.getText());
+                    System.out.println("*** Body ***");
+                    System.out.println(body.getText());
                     break;
                 }
                 case NodeType.HEADER_FOOTER:
@@ -280,9 +280,9 @@ public class ExSection extends ApiExampleBase
                     HeaderFooter headerFooter = (HeaderFooter) node;
 
                     // Write the content of the header footer to the console
-                    msConsole.writeLine("*** HeaderFooter ***");
+                    System.out.println("*** HeaderFooter ***");
                     msConsole.writeLine(headerFooter.getHeaderFooterType());
-                    msConsole.writeLine(headerFooter.getText());
+                    System.out.println(headerFooter.getText());
                     break;
                 }
                 default:
@@ -452,7 +452,7 @@ public class ExSection extends ApiExampleBase
     @Test
     public void cultureInfoPageSetupDefaults() throws Exception
     {
-        CurrentThread.setCurrentCulture(new CultureInfo("en-us"));
+        CurrentThread.setCurrentCulture(new msCultureInfo("en-us"));
 
         Document docEn = new Document();
 
@@ -467,7 +467,7 @@ public class ExSection extends ApiExampleBase
         msAssert.areEqual(36.0, sectionEn.getPageSetup().getTextColumns().getSpacing()); // 1.27 cm
 
         // Change culture and assert that the page defaults are changed
-        CurrentThread.setCurrentCulture(new CultureInfo("de-de"));
+        CurrentThread.setCurrentCulture(new msCultureInfo("de-de"));
 
         Document docDe = new Document();
 

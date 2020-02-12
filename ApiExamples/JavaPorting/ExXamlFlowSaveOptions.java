@@ -66,7 +66,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
 
         public void /*IImageSavingCallback.*/imageSaving(ImageSavingArgs args) throws Exception
         {
-            msConsole.writeLine($"Image #{++mSavedImageCount} \"{args.ImageFileName}\"");
+            System.out.println("Image #{++mSavedImageCount} \"{args.ImageFileName}\"");
 
             // If we specified a ImagesFolderAlias we will also need to redirect each stream to put its image in that folder
             args.ImageStream = new FileStream($"{mImagesFolderAlias}/{args.ImageFileName}", FileMode.CREATE);

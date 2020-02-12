@@ -377,7 +377,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             while (enumerator.hasNext())
             {
                 if (enumerator.next() != null)
-                    msConsole.writeLine($"List item: {enumerator.Current.DisplayText}, value: {enumerator.Current.Value}");
+                    System.out.println("List item: {enumerator.Current.DisplayText}, value: {enumerator.Current.Value}");
             }
         }
         finally { if (enumerator != null) enumerator.close(); }
@@ -454,8 +454,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             int index = 0;
             while (enumerator.hasNext())
             {
-                msConsole.writeLine($"XML part index {index}, ID: {enumerator.Current.Id}");
-                msConsole.writeLine($"\tContent: {Encoding.UTF8.GetString(enumerator.Current.Data)}");
+                System.out.println("XML part index {index}, ID: {enumerator.Current.Id}");
+                System.out.println("\tContent: {Encoding.UTF8.GetString(enumerator.Current.Data)}");
                 index++;
             }
         }
@@ -502,7 +502,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         String xmlPartId = Guid.newGuid().toString("B");
         String xmlPartContent = "<root><text>Text element #1</text><text>Text element #2</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
-        msConsole.writeLine(Encoding.getUTF8().getString(xmlPart.getData()));
+        System.out.println(Encoding.getUTF8().getString(xmlPart.getData()));
 
         // Create a StructuredDocumentTag that will display the contents of our CustomXmlPart in the document
         StructuredDocumentTag sdt = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
@@ -563,7 +563,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         {
             while (enumerator.hasNext())
             {
-                msConsole.writeLine(enumerator.next());
+                System.out.println(enumerator.next());
             }
         }
         finally { if (enumerator != null) enumerator.close(); }
@@ -586,7 +586,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Document doc = new Document(getMyDir() + "Custom XML part in structured document tag.docx");
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
-        msConsole.writeLine("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
+        System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
         //ExEnd
     }
 
@@ -606,7 +606,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         doc.save(dstStream, SaveFormat.DOCX);
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
-        msConsole.writeLine("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
+        System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
     }
 
     @Test
@@ -679,7 +679,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         {
             while (enumerator.hasNext())
             {
-                msConsole.writeLine($"Property name: {enumerator.Current.Name}, value: {enumerator.Current.Value}");
+                System.out.println("Property name: {enumerator.Current.Name}, value: {enumerator.Current.Value}");
                 msAssert.areEqual("", enumerator.next().getUri());
             }
         }
@@ -762,7 +762,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitSmartTagStart(SmartTag smartTag)
         {
-            msConsole.writeLine($"Smart tag type: {smartTag.Element}");
+            System.out.println("Smart tag type: {smartTag.Element}");
             return VisitorAction.CONTINUE;
         }
 
@@ -771,11 +771,11 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitSmartTagEnd(SmartTag smartTag)
         {
-            msConsole.writeLine($"\tContents: \"{smartTag.ToString(SaveFormat.Text)}\"");
+            System.out.println("\tContents: \"{smartTag.ToString(SaveFormat.Text)}\"");
 
             if (smartTag.getProperties().getCount() == 0)
             {
-                msConsole.writeLine("\tContains no properties");
+                System.out.println("\tContains no properties");
             }
             else
             {
@@ -786,7 +786,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
                 for (CustomXmlProperty cxp : smartTag.getProperties())
                     properties[index++] = $"\"{cxp.Name}\" = \"{cxp.Value}\"";
 
-                msConsole.writeLine(msString.join(", ", properties));
+                System.out.println(msString.join(", ", properties));
             }
 
             return VisitorAction.CONTINUE;

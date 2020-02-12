@@ -60,8 +60,8 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase
         public void /*IResourceSavingCallback.*/resourceSaving(ResourceSavingArgs args) throws Exception
         {
             // If we set a folder alias in the SaveOptions object, it will be printed here
-            msConsole.writeLine($"Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
-            msConsole.writeLine("\t" + args.getResourceFileUri());
+            System.out.println("Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
+            System.out.println("\t" + args.getResourceFileUri());
 
             // If we specified a ResourcesFolderAlias we will also need to redirect each stream to put its resource in that folder
             args.ResourceStream = new FileStream(args.getResourceFileUri(), FileMode.CREATE);

@@ -1012,15 +1012,15 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             args.setKeepImageStreamOpen(false);
             Assert.assertTrue(args.isImageAvailable());
 
-            msConsole.writeLine($"{args.Document.OriginalFileName.Split('\\').Last()} Image #{++mImageCount}");
+            System.out.println("{args.Document.OriginalFileName.Split('\\').Last()} Image #{++mImageCount}");
 
             LayoutCollector layoutCollector = new LayoutCollector(args.getDocument());
 
-            msConsole.writeLine($"\tOn page:\t{layoutCollector.GetStartPageIndex(args.CurrentShape)}");
-            msConsole.writeLine($"\tDimensions:\t{args.CurrentShape.Bounds.ToString()}");
-            msConsole.writeLine($"\tAlignment:\t{args.CurrentShape.VerticalAlignment}");
-            msConsole.writeLine($"\tWrap type:\t{args.CurrentShape.WrapType}");
-            msConsole.writeLine($"Output filename:\t{args.ImageFileName}\n");
+            System.out.println("\tOn page:\t{layoutCollector.GetStartPageIndex(args.CurrentShape)}");
+            System.out.println("\tDimensions:\t{args.CurrentShape.Bounds.ToString()}");
+            System.out.println("\tAlignment:\t{args.CurrentShape.VerticalAlignment}");
+            System.out.println("\tWrap type:\t{args.CurrentShape.WrapType}");
+            System.out.println("Output filename:\t{args.ImageFileName}\n");
         }
 
         private int mImageCount;

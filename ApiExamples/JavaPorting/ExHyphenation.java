@@ -89,18 +89,18 @@ public class ExHyphenation extends ApiExampleBase
 
             if (Hyphenation.isDictionaryRegistered(language))
             {
-                msConsole.writeLine(", is already registered.");
+                System.out.println(", is already registered.");
                 return;
             }
 
             if (mHyphenationDictionaryFiles.containsKey(language))
             {
                 Hyphenation.registerDictionary(language, mHyphenationDictionaryFiles.get(language));
-                msConsole.writeLine(", successfully registered.");
+                System.out.println(", successfully registered.");
                 return;
             }
 
-            msConsole.writeLine(", no respective dictionary file known by this Callback.");
+            System.out.println(", no respective dictionary file known by this Callback.");
         }
 
         private /*final*/ HashMap<String, String> mHyphenationDictionaryFiles;
