@@ -20,12 +20,12 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:ImageSaveOptions.UseGdiEmfRenderer
         //ExSummary:Shows how to save metafiles directly without using GDI+ to EMF.
-        Document doc = new Document(getMyDir() + "SaveOptions.MyriadPro.docx");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EMF);
         saveOptions.setUseGdiEmfRenderer(false);
 
-        doc.save(getArtifactsDir() + "SaveOptions.UseGdiEmfRenderer.docx", saveOptions);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.UseGdiEmfRenderer.docx", saveOptions);
         //ExEnd
     }
 
@@ -34,13 +34,13 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:ImageSaveOptions.PageIndex
         //ExSummary:Shows how to save specific document page as image file.
-        Document doc = new Document(getMyDir() + "SaveOptions.MyriadPro.docx");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.GIF);
         // Define which page will save
         saveOptions.setPageIndex(0);
 
-        doc.save(getArtifactsDir() + "SaveOptions.PageIndex.gif", saveOptions);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.SaveIntoGif.gif", saveOptions);
         //ExEnd
     }
 
@@ -74,15 +74,15 @@ public class ExImageSaveOptions extends ApiExampleBase {
     }
 
     @Test(groups = "SkipMono")
-    public void converImageColorsToBlackAndWhite() throws Exception {
+    public void blackAndWhite() throws Exception {
         //ExStart
         //ExFor:ImageColorMode
         //ExFor:ImagePixelFormat
         //ExFor:ImageSaveOptions.Clone
         //ExFor:ImageSaveOptions.ImageColorMode
         //ExFor:ImageSaveOptions.PixelFormat
-        //ExSummary:Show how to convert document images to black and white with 1 bit per pixel.
-        Document doc = new Document(getMyDir() + "ImageSaveOptions.BlackAndWhite.docx");
+        //ExSummary:Show how to convert document images to black and white with 1 bit per pixel
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setImageColorMode(ImageColorMode.BLACK_AND_WHITE);
@@ -96,22 +96,22 @@ public class ExImageSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void thresholdForFloydSteinbergDithering() throws Exception {
+    public void floydSteinbergDithering() throws Exception {
         //ExStart
         //ExFor:ImageBinarizationMethod
         //ExFor:ImageSaveOptions.ThresholdForFloydSteinbergDithering
         //ExFor:ImageSaveOptions.TiffBinarizationMethod
         //ExSummary: Shows how to control the threshold for TIFF binarization in the Floyd-Steinberg method.
-        Document doc = new Document(getMyDir() + "ImagesSaveOptions.ThresholdForFloydSteinbergDithering.docx");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.TIFF);
         options.setTiffCompression(TiffCompression.CCITT_3);
         options.setImageColorMode(ImageColorMode.GRAYSCALE);
         options.setTiffBinarizationMethod(ImageBinarizationMethod.FLOYD_STEINBERG_DITHERING);
-            // The default value of this property is 128. The higher value, the darker image
+        // The default value of this property is 128. The higher value, the darker image
         options.setThresholdForFloydSteinbergDithering((byte) 254);
 
-        doc.save(getArtifactsDir() + "ImagesSaveOptions.ThresholdForFloydSteinbergDithering.tiff", options);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff", options);
         //ExEnd
     }
 
@@ -150,7 +150,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Use a DocumentBuilder to insert a .wmf image into the document
-        builder.insertImage(getImageDir() + "Hammer.wmf");
+        builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
 
         // For documents that contain .wmf images, when converting the documents themselves to images,
         // we can use a ImageSaveOptions object to designate a rendering method for the .wmf images

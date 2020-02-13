@@ -141,6 +141,39 @@ public class ExBookmarks extends ApiExampleBase {
     //ExEnd
 
     @Test
+    public void tableColumnBookmarks() throws Exception {
+        //ExStart
+        //ExFor:Bookmark.IsColumn
+        //ExFor:Bookmark.FirstColumn
+        //ExFor:Bookmark.LastColumn
+        //ExSummary:Shows how to get information about table column bookmark.
+        Document doc = new Document(getMyDir() + "TableColumnBookmark.doc");
+        for (Bookmark bookmark : doc.getRange().getBookmarks()) {
+            System.out.println(MessageFormat.format("Bookmark: {0}{1}", bookmark.getName(), bookmark.isColumn() ? " (Column)" : ""));
+            if (bookmark.isColumn()) {
+                Row row = (Row) bookmark.getBookmarkStart().getAncestor(NodeType.ROW);
+                if (row != null && bookmark.getFirstColumn() < row.getCells().getCount()) {
+                    // Print text from the first and last cells containing in bookmark
+                    System.out.println(row.getCells().get(bookmark.getFirstColumn()).getText().trim());
+                    System.out.println(row.getCells().get(bookmark.getLastColumn()).getText().trim());
+                }
+            }
+        }
+        //ExEnd
+
+        Bookmark firstTableColumnBookmark = doc.getRange().getBookmarks().get("FirstTableColumnBookmark");
+        Bookmark secondTableColumnBookmark = doc.getRange().getBookmarks().get("SecondTableColumnBookmark");
+
+        Assert.assertTrue(firstTableColumnBookmark.isColumn());
+        Assert.assertEquals(firstTableColumnBookmark.getFirstColumn(), 1);
+        Assert.assertEquals(firstTableColumnBookmark.getLastColumn(), 3);
+
+        Assert.assertTrue(secondTableColumnBookmark.isColumn());
+        Assert.assertEquals(secondTableColumnBookmark.getFirstColumn(), 0);
+        Assert.assertEquals(secondTableColumnBookmark.getLastColumn(), 3);
+    }
+
+    @Test
     public void clearBookmarks() throws Exception {
         //ExStart
         //ExFor:BookmarkCollection.Clear
@@ -190,7 +223,7 @@ public class ExBookmarks extends ApiExampleBase {
         //ExSummary:Shows how to replace elements in bookmark name.
         // Open a document with 3 bookmarks: "MyBookmark1", "My_Bookmark2", "MyBookmark3"
         Document doc = new Document(getMyDir() + "Bookmarks.docx");
-        Assert.assertEquals(doc.getRange().getBookmarks().get(2).getName(), "My_Bookmark2"); //ExSkip
+        Assert.assertEquals(doc.getRange().getBookmarks().get(2).getName(), "MyBookmark3"); //ExSkip
 
         // MS Word document does not support bookmark names with whitespaces by default
         // If you have document which contains bookmark names with underscores, you can simply replace them to whitespaces

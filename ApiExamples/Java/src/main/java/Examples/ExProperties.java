@@ -12,8 +12,6 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -29,8 +27,7 @@ public class ExProperties extends ApiExampleBase {
         //ExFor:BuiltInDocumentProperties
         //ExFor:CustomDocumentProperties
         //ExSummary:Enumerates through all built-in and custom properties in a document.
-        String fileName = getMyDir() + "Properties.doc";
-        Document doc = new Document(fileName);
+        Document doc = new Document(getMyDir() + "Properties.docx");
 
         System.out.println(MessageFormat.format("1. Document name: {0}", doc.getOriginalFileName()));
 
@@ -54,10 +51,9 @@ public class ExProperties extends ApiExampleBase {
         //ExFor:DocumentProperty.Value
         //ExFor:DocumentProperty.Type
         //ExSummary:Enumerates through all built-in and custom properties in a document using indexed access.
-        String fileName = getMyDir() + "Properties.doc";
-        Document doc = new Document(fileName);
+        Document doc = new Document(getMyDir() + "Properties.docx");
 
-        System.out.println(MessageFormat.format("1. Document name: {0}", fileName));
+        System.out.println(MessageFormat.format("1. Document name: {0}", doc.getOriginalFileName()));
 
         System.out.println("2. Built-in Properties");
         for (int i = 0; i < doc.getBuiltInDocumentProperties().getCount(); i++) {
@@ -79,7 +75,7 @@ public class ExProperties extends ApiExampleBase {
         //ExFor:BuiltInDocumentProperties.Item(String)
         //ExFor:DocumentProperty.ToString
         //ExSummary:Retrieves a built-in document property by name.
-        Document doc = new Document(getMyDir() + "Properties.doc");
+        Document doc = new Document(getMyDir() + "Properties.docx");
 
         DocumentProperty docProperty = doc.getBuiltInDocumentProperties().get("Keywords");
         System.out.println(docProperty.toString());
@@ -87,7 +83,7 @@ public class ExProperties extends ApiExampleBase {
     }
 
     @Test
-    public void builtInPropertiesDirectAccess() throws Exception {
+    public void description() throws Exception {
         //ExStart
         //ExFor:BuiltInDocumentProperties.Author
         //ExFor:BuiltInDocumentProperties.Category
@@ -136,7 +132,7 @@ public class ExProperties extends ApiExampleBase {
         //ExFor:BuiltInDocumentProperties.Version
         //ExSummary:Shows how to work with document properties in the "Origin" category.
         // Open a document
-        Document doc = new Document(getMyDir() + "Properties.doc");
+        Document doc = new Document(getMyDir() + "Properties.docx");
 
         // The properties we will work with are members of the BuiltInDocumentProperties attribute
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
@@ -179,7 +175,7 @@ public class ExProperties extends ApiExampleBase {
     @Test //ExSkip
     public void content() throws Exception {
         // Open a document with a couple paragraphs of content
-        Document doc = new Document(getMyDir() + "Properties.Content.docx");
+        Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // The properties we will work with are members of the BuiltInDocumentProperties attribute
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
@@ -191,30 +187,29 @@ public class ExProperties extends ApiExampleBase {
         // Also, these values can also be viewed in Microsoft Word by navigating File > Properties > Advanced Properties > Statistics
         // Page count: The PageCount attribute shows the page count in real time and its value can be assigned to the Pages property
         properties.setPages(doc.getPageCount());
-        Assert.assertEquals(properties.getPages(), 2);
+        Assert.assertEquals(6, properties.getPages());
 
         // Word count: The UpdateWordCount() automatically assigns the real time word/character counts to the respective built in properties
         doc.updateWordCount();
-        Assert.assertEquals(properties.getWords(), 198);
-        Assert.assertEquals(properties.getCharacters(), 1114);
-        Assert.assertEquals(properties.getCharactersWithSpaces(), 1310);
+        Assert.assertEquals(1035, properties.getWords());
+        Assert.assertEquals(6026, properties.getCharacters());
+        Assert.assertEquals(7041, properties.getCharactersWithSpaces());
 
         // Line count: Count the lines in a document and assign value to the Lines property
         LineCounter lineCounter = new LineCounter(doc);
         properties.setLines(lineCounter.getLineCount());
-        Assert.assertEquals(properties.getLines(), 14);
+        Assert.assertEquals(properties.getLines(), 142);
 
         // Paragraph count: Assign the size of the count of child Paragraph-nodes to the Paragraphs built in property
         properties.setParagraphs(doc.getChildNodes(NodeType.PARAGRAPH, true).getCount());
-        Assert.assertEquals(properties.getParagraphs(), 2);
+        Assert.assertEquals(29, properties.getParagraphs());
 
-        // Bytes: Use a stream to find out the real file size of our document and assign it to the Property
-        OutputStream stream = new FileOutputStream(getArtifactsDir() + "Properties.Content.docx");
-        doc.save(stream, SaveFormat.DOCX);
+        // Check the real file size of our document
+        Assert.assertEquals(20310, properties.getBytes());
 
         // Template: The Template attribute can reflect the filename of the attached template document
-        doc.setAttachedTemplate(getMyDir() + "Document.BusinessBrochureTemplate.dot");
-        Assert.assertEquals(properties.getTemplate(), "Normal");
+        doc.setAttachedTemplate(getMyDir() + "Busniess brochure.dotx");
+        Assert.assertEquals("Normal", properties.getTemplate());
         properties.setTemplate(doc.getAttachedTemplate());
 
         // Content status: This is a descriptive field
@@ -283,7 +278,7 @@ public class ExProperties extends ApiExampleBase {
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
         // Load an image from our file system into a byte array
-        byte[] thumbnailBytes = Files.readAllBytes(Paths.get(getImageDir() + "Aspose.Words.gif"));
+        byte[] thumbnailBytes = Files.readAllBytes(Paths.get(getImageDir() + "Logo.jpg"));
 
         // Set the value of the Thumbnail property to the array from above
         properties.setThumbnail(thumbnailBytes);
@@ -332,7 +327,7 @@ public class ExProperties extends ApiExampleBase {
         //ExFor:Properties.BuiltInDocumentProperties.TitlesOfParts
         //ExSummary:Shows the relationship between HeadingPairs and TitlesOfParts properties.
         // Open a document that contains entries in the HeadingPairs/TitlesOfParts properties
-        Document doc = new Document(getMyDir() + "Properties.HeadingPairs.docx");
+        Document doc = new Document(getMyDir() + "Heading pairs and titles of parts.docx");
 
         // We can find the combined values of these collections in File > Properties > Advanced Properties > Contents tab
 
@@ -419,7 +414,7 @@ public class ExProperties extends ApiExampleBase {
         //ExFor:CustomDocumentProperties.Add(String,DateTime)
         //ExFor:DocumentProperty.ToDateTime
         //ExSummary:Retrieves a custom document property by name.
-        Document doc = new Document(getMyDir() + "Properties.doc");
+        Document doc = new Document(getMyDir() + "Properties.docx");
 
         DocumentProperty docProperty = doc.getCustomDocumentProperties().get("Authorized Date");
 
@@ -534,7 +529,7 @@ public class ExProperties extends ApiExampleBase {
         //ExFor:DocumentProperty.ToDateTime
         //ExFor:PropertyType
         //ExSummary:Retrieves the types and values of the custom document properties.
-        Document doc = new Document(getMyDir() + "Properties.doc");
+        Document doc = new Document(getMyDir() + "Properties.docx");
 
         for (DocumentProperty docProperty : doc.getCustomDocumentProperties()) {
             System.out.println(docProperty.getName());
@@ -569,4 +564,3 @@ public class ExProperties extends ApiExampleBase {
         //ExEnd
     }
 }
-

@@ -62,7 +62,7 @@ public class ExRange extends ApiExampleBase {
 
         doc.getRange().replace("sad", "bad", options);
 
-        doc.save(getArtifactsDir() + "ReplaceWithString.docx");
+        doc.save(getArtifactsDir() + "Range.ReplaceWithString.docx");
     }
 
     @Test
@@ -70,15 +70,19 @@ public class ExRange extends ApiExampleBase {
         //ExStart
         //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
         //ExSummary:Shows how to replace all occurrences of words "sad" or "mad" to "bad".
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("sad mad bad");
+
+        Assert.assertEquals("sad mad bad", doc.getText().trim());
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(false);
 
         doc.getRange().replace(Pattern.compile("[s|m]ad"), "bad", options);
+        Assert.assertEquals("bad bad bad", doc.getText().trim());
         //ExEnd
-        doc.save(getArtifactsDir() + "ReplaceWithRegex.docx");
     }
 
     @Test
@@ -103,14 +107,18 @@ public class ExRange extends ApiExampleBase {
     public void findAndReplaceWithPreserveMetaCharacters() throws Exception {
         //ExStart
         //ExFor:FindReplaceOptions.PreserveMetaCharacters
-        //ExSummary:Shows how to preserved meta-characters that beginning with "&".
-        Document doc = new Document(getMyDir() + "Range.FindAndReplaceWithPreserveMetaCharacters.docx");
+        //ExSummary:Shows how to preserved meta-characters that begin with "&".
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("one");
+        builder.writeln("two");
+        builder.writeln("three");
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setFindWholeWordsOnly(true);
         options.setPreserveMetaCharacters(true);
 
-        doc.getRange().replace("sad", "&ldquo; some text &rdquo;", options);
+        doc.getRange().replace("two", "&ldquo; four &rdquo;", options);
         //ExEnd
 
         doc.save(getArtifactsDir() + "Range.FindAndReplaceWithMetacharacters.docx");
@@ -122,7 +130,6 @@ public class ExRange extends ApiExampleBase {
     //ExFor:IReplacingCallback
     //ExFor:IReplacingCallback.Replacing
     //ExFor:ReplacingArgs
-    //ExFor:DocumentBuilder.InsertHtml(String)
     //ExSummary:Replaces text specified with regular expression with HTML.
     @Test //ExSkip
     public void replaceWithInsertHtml() throws Exception {
@@ -255,21 +262,23 @@ public class ExRange extends ApiExampleBase {
         //ExFor:Node.Range
         //ExFor:Range.Delete
         //ExSummary:Shows how to delete all characters of a range.
-        // Open Word document.
-        Document doc = new Document(getMyDir() + "Range.DeleteSection.doc");
+        // Insert two sections into a blank document
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // The document contains two sections
-        // Each section has a paragraph of text
-        System.out.println(doc.getText());
+        builder.write("Section 1. ");
+        builder.insertBreak(BreakType.SECTION_BREAK_CONTINUOUS);
+        builder.write("Section 2.");
 
-        // Delete the first section from the document.
+        // Verify the whole text of the document
+        Assert.assertEquals("Section 1. \fSection 2.", doc.getText().trim());
+
+        // Delete the first section from the document
         doc.getSections().get(0).getRange().delete();
 
         // Check the first section was deleted by looking at the text of the whole document again
-        System.out.println(doc.getText());
+        Assert.assertEquals("Section 2.", doc.getText().trim());
         //ExEnd
-
-        Assert.assertEquals(doc.getText(), "Hello2\f");
     }
 
     @Test
@@ -278,7 +287,7 @@ public class ExRange extends ApiExampleBase {
         //ExFor:Range
         //ExFor:Range.Text
         //ExSummary:Shows how to get plain, unformatted text of a range.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         String text = doc.getRange().getText();
         //ExEnd
     }

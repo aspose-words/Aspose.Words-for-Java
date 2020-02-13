@@ -15,24 +15,23 @@ import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class ExHtmlSaveOptions extends ApiExampleBase {
-    // For assert this test you need to open HTML docs and they shouldn't have negative left margins
     @Test(dataProvider = "exportPageMarginsDataProvider")
     public void exportPageMargins(final int saveFormat) throws Exception {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportPageMargins.docx");
+        Document doc = new Document(getMyDir() + "TextBoxes.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setSaveFormat(saveFormat);
         saveOptions.setExportPageMargins(true);
 
-        save(doc, "HtmlSaveOptions.ExportPageMargins." + SaveFormat.toString(saveFormat).toLowerCase(), saveFormat, saveOptions);
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins" + FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "exportPageMarginsDataProvider")
     public static Object[][] exportPageMarginsDataProvider() {
         return new Object[][]{
@@ -44,32 +43,14 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
     @Test(dataProvider = "exportOfficeMathDataProvider")
     public void exportOfficeMath(final int saveFormat, final int outputMode) throws Exception {
-        Document doc = new Document(getMyDir() + "OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setOfficeMathOutputMode(outputMode);
 
-        save(doc, "HtmlSaveOptions.ExportToHtmlUsingImage." + SaveFormat.toString(saveFormat).toLowerCase(), saveFormat, saveOptions);
-
-        switch (saveFormat) {
-            case SaveFormat.HTML:
-                DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExportToHtmlUsingImage." + SaveFormat.toString(saveFormat).toLowerCase(),
-                        "<img src=\"HtmlSaveOptions.ExportToHtmlUsingImage.001.png\" width=\"49\" height=\"19\" alt=\"\" style=\"vertical-align:middle; -aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />");
-                return;
-
-            case SaveFormat.MHTML:
-                DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExportToHtmlUsingImage." + SaveFormat.toString(saveFormat).toLowerCase(),
-                        "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>A</mi><mo>=</mo><mi>π</mi><msup><mrow><mi>r</mi></mrow><mrow><mn>2</mn></mrow></msup></math>");
-                return;
-
-            case SaveFormat.EPUB:
-                DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExportToHtmlUsingImage." + SaveFormat.toString(saveFormat).toLowerCase(),
-                        "<span style=\"font-family:\'Cambria Math\'\">A=π</span><span style=\"font-family:\'Cambria Math\'\">r</span><span style=\"font-family:\'Cambria Math\'\">2</span>");
-                return;
-        }
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportOfficeMath" + FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "exportOfficeMathDataProvider")
     public static Object[][] exportOfficeMathDataProvider() {
         return new Object[][]{
@@ -79,15 +60,20 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test(dataProvider = "exportTextBoxAsSvgDataProvider")
-    public void exportTextBoxAsSvg(final int saveFormat, final boolean textBoxAsSvg) throws Exception {
+    public void exportTextBoxAsSvg(final int saveFormat, final boolean isTextBoxAsSvg) throws Exception {
         ArrayList<String> dirFiles;
 
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportTextBoxAsSvg.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-        saveOptions.setExportTextBoxAsSvg(textBoxAsSvg);
+        Shape textbox = builder.insertShape(ShapeType.TEXT_BOX, 300.0, 100.0);
+        builder.moveTo(textbox.getFirstParagraph());
+        builder.write("Hello world!");
 
-        save(doc, "HtmlSaveOptions.ExportTextBoxAsSvg." + SaveFormat.toString(saveFormat).toLowerCase(), saveFormat, saveOptions);
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions(saveFormat);
+        saveOptions.setExportTextBoxAsSvg(isTextBoxAsSvg);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportTextBoxAsSvg" + FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
 
         switch (saveFormat) {
             case SaveFormat.HTML:
@@ -105,12 +91,11 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
             case SaveFormat.MHTML:
 
                 dirFiles = directoryGetFiles(getArtifactsDir() + "", "HtmlSaveOptions.ExportTextBoxAsSvg.001.png");
-                Assert.assertFalse(dirFiles.isEmpty());
+                Assert.assertTrue(dirFiles.isEmpty());
                 return;
         }
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "exportTextBoxAsSvgDataProvider")
     public static Object[][] exportTextBoxAsSvgDataProvider() throws Exception {
         return new Object[][]{
@@ -136,25 +121,17 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         return dirFiles;
     }
 
-    private static Document save(final Document inputDoc, final String outputDocPath, final int saveFormat, final SaveOptions saveOptions) throws Exception {
-        switch (saveFormat) {
-            case SaveFormat.HTML:
-                inputDoc.save(getArtifactsDir() + outputDocPath, saveOptions);
-                return inputDoc;
-            case SaveFormat.MHTML:
-                inputDoc.save(getArtifactsDir() + outputDocPath, saveOptions);
-                return inputDoc;
-            case SaveFormat.EPUB:
-                inputDoc.save(getArtifactsDir() + outputDocPath, saveOptions);
-                return inputDoc;
-        }
+    @Test(dataProvider = "controlListLabelsExportDataProvider")
+    public void controlListLabelsExport(final int howExportListLabels) throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        return inputDoc;
-    }
-
-    @Test(dataProvider = "controlListLabelsExportToHtmlDataProvider")
-    public void controlListLabelsExportToHtml(final int howExportListLabels) throws Exception {
-        Document doc = new Document(getMyDir() + "Lists.PrintOutAllLists.doc");
+        List bulletedList = doc.getLists().add(ListTemplate.BULLET_DEFAULT);
+        builder.getListFormat().setList(bulletedList);
+        builder.getParagraphFormat().setLeftIndent(72.0);
+        builder.writeln("Bulleted list item 1.");
+        builder.writeln("Bulleted list item 2.");
+        builder.getParagraphFormat().clearFormatting();
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         // 'ExportListLabels.Auto' - this option uses <ul> and <ol> tags are used for list label representation if it doesn't cause formatting loss, 
@@ -163,11 +140,11 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // 'ExportListLabels.ByHtmlTags' - The <ul> and <ol> tags are used for list label representation. Some formatting loss is possible
         saveOptions.setExportListLabels(howExportListLabels);
 
-        doc.save(getArtifactsDir() + "Document.ExportListLabels.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ControlListLabelsExport.html", saveOptions);
     }
 
-    @DataProvider(name = "controlListLabelsExportToHtmlDataProvider")
-    public static Object[][] controlListLabelsExportToHtmlDataProvider() {
+    @DataProvider(name = "controlListLabelsExportDataProvider")
+    public static Object[][] controlListLabelsExportDataProvider() {
         return new Object[][]{
                 {ExportListLabels.AUTO},
                 {ExportListLabels.AS_INLINE_TEXT},
@@ -175,28 +152,9 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         };
     }
 
-    @Test
-    public void controlListLabelsExportToHtml() throws Exception {
-        Document doc = new Document(getMyDir() + "Lists.PrintOutAllLists.doc");
-
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
-        // This option uses <ul> and <ol> tags are used for list label representation if it doesn't cause formatting loss,
-        // otherwise HTML <p> tag is used. This is also the default value
-        saveOptions.setExportListLabels(ExportListLabels.AUTO);
-        doc.save(getArtifactsDir() + "Document.ExportListLabels Auto.html", saveOptions);
-
-        // Using this option the <p> tag is used for any list label representation
-        saveOptions.setExportListLabels(ExportListLabels.AS_INLINE_TEXT);
-        doc.save(getArtifactsDir() + "Document.ExportListLabels InlineText.html", saveOptions);
-
-        // The <ul> and <ol> tags are used for list label representation. Some formatting loss is possible
-        saveOptions.setExportListLabels(ExportListLabels.BY_HTML_TAGS);
-        doc.save(getArtifactsDir() + "Document.ExportListLabels HtmlTags.html", saveOptions);
-    }
-
     @Test(dataProvider = "exportUrlForLinkedImageDataProvider")
-    public void exportUrlForLinkedImage(final boolean export) throws Exception {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportUrlForLinkedImage.docx");
+    public void exportUrlForLinkedImage(boolean export) throws Exception {
+        Document doc = new Document(getMyDir() + "Linked image.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setExportOriginalUrlForLinkedImages(export);
@@ -212,7 +170,6 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         }
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "exportUrlForLinkedImageDataProvider")
     public static Object[][] exportUrlForLinkedImageDataProvider() {
         return new Object[][]{
@@ -221,31 +178,15 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         };
     }
 
-    @Test(enabled = false, description = "Bug, css styles starting with -aw, even if ExportRoundtripInformation is false", dataProvider = "exportRoundtripInformationDataProvider")
-    public void exportRoundtripInformation(final boolean valueHtml) throws Exception {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportPageMargins.docx");
-
+    @Test
+    public void exportRoundtripInformation() throws Exception {
+        Document doc = new Document(getMyDir() + "TextBoxes.docx");
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-        saveOptions.setExportRoundtripInformation(valueHtml);
-
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.RoundtripInformation.html");
-
-        if (valueHtml) {
-            DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.RoundtripInformation.html",
-                    "<img src=\"HtmlSaveOptions.RoundtripInformation.003.png\" width=\"226\" height=\"132\" alt=\"\" style=\"margin-top:-53.74pt; margin-left:-26.75pt; -aw-left-pos:-26.25pt; -aw-rel-hpos:column; -aw-rel-vpos:page; -aw-top-pos:41.25pt; -aw-wrap-type:none; position:absolute\" /></span><span style=\"height:0pt; display:block; position:absolute; z-index:1\"><img src=\"HtmlSaveOptions.RoundtripInformation.002.png\" width=\"227\" height=\"132\" alt=\"\" style=\"margin-top:74.51pt; margin-left:-23pt; -aw-left-pos:-22.5pt; -aw-rel-hpos:column; -aw-rel-vpos:page; -aw-top-pos:169.5pt; -aw-wrap-type:none; position:absolute\" /></span><span style=\"height:0pt; display:block; position:absolute; z-index:2\"><img src=\"HtmlSaveOptions.RoundtripInformation.001.png\" width=\"227\" height=\"132\" alt=\"\" style=\"margin-top:199.01pt; margin-left:-23pt; -aw-left-pos:-22.5pt; -aw-rel-hpos:column; -aw-rel-vpos:page; -aw-top-pos:294pt; -aw-wrap-type:none; position:absolute\" />");
-        } else {
-            DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.RoundtripInformation.html",
-                    "<img src=\"HtmlSaveOptions.RoundtripInformation.003.png\" width=\"226\" height=\"132\" alt=\"\" style=\"margin-top:-53.74pt; margin-left:-26.75pt; -aw-left-pos:-26.25pt; -aw-rel-hpos:column; -aw-rel-vpos:page; -aw-top-pos:41.25pt; -aw-wrap-type:none; position:absolute\" /></span><span style=\"height:0pt; display:block; position:absolute; z-index:1\"><img src=\"HtmlSaveOptions.RoundtripInformation.002.png\" width=\"227\" height=\"132\" alt=\"\" style=\"margin-top:74.51pt; margin-left:-23pt; -aw-left-pos:-22.5pt; -aw-rel-hpos:column; -aw-rel-vpos:page; -aw-top-pos:169.5pt; -aw-wrap-type:none; position:absolute\" /></span><span style=\"height:0pt; display:block; position:absolute; z-index:2\"><img src=\"HtmlSaveOptions.RoundtripInformation.001.png\" width=\"227\" height=\"132\" alt=\"\" style=\"margin-top:199.01pt; margin-left:-23pt; -aw-left-pos:-22.5pt; -aw-rel-hpos:column; -aw-rel-vpos:page; -aw-top-pos:294pt; -aw-wrap-type:none; position:absolute\" />");
+        {
+            saveOptions.setExportRoundtripInformation(true);
         }
-    }
 
-    //JAVA-added data provider for test method
-    @DataProvider(name = "exportRoundtripInformationDataProvider")
-    public static Object[][] exportRoundtripInformationDataProvider() {
-        return new Object[][]{
-                {true},
-                {false}
-        };
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.RoundtripInformation.html", saveOptions);
     }
 
     @Test
@@ -262,8 +203,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void configForSavingExternalResources() throws Exception {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportPageMargins.docx");
+    public void externalResourceSavingConfig() throws Exception {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
@@ -271,23 +212,37 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         saveOptions.setResourceFolder("Resources");
         saveOptions.setResourceFolderAlias("https://www.aspose.com/");
 
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins Out.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExternalResourceSavingConfig.html", saveOptions);
 
-        ArrayList<String> imageFiles = directoryGetFiles(getArtifactsDir() + "Resources\\", "*.png");
-        Assert.assertEquals(imageFiles.size(), 3);
+        ArrayList<String> imageFiles = directoryGetFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.png");
+        Assert.assertEquals(imageFiles.size(), 8);
 
-        ArrayList<String> fontFiles = directoryGetFiles(getArtifactsDir() + "Resources\\", "*.ttf");
-        Assert.assertEquals(fontFiles.size(), 1);
+        ArrayList<String> fontFiles = directoryGetFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.ttf");
+        Assert.assertEquals(fontFiles.size(), 10);
 
-        ArrayList<String> cssFiles = directoryGetFiles(getArtifactsDir() + "Resources\\", "*.css");
+        ArrayList<String> cssFiles = directoryGetFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.css");
         Assert.assertEquals(cssFiles.size(), 1);
 
-        DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins Out.html", "<link href=\"https://www.aspose.com/HtmlSaveOptions.ExportPageMargins Out.css\"");
+        DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExternalResourceSavingConfig.html", "<link href=\"https://www.aspose.com/HtmlSaveOptions.ExternalResourceSavingConfig.css\"");
+    }
+
+    private static String[] getFiles(final String path, final String searchPattern) {
+        final Pattern re = Pattern.compile(searchPattern.replace("*", ".*").replace("?", ".?"));
+        String[] filenames = new File(path).list(new FilenameFilter() {
+            @Override
+            public boolean accept(final File dir, final String name) {
+                return new File(dir, name).isFile() && re.matcher(name).matches();
+            }
+        });
+        for (int i = 0; i < filenames.length; i++) {
+            filenames[i] = path + filenames[i];
+        }
+        return filenames;
     }
 
     @Test
     public void convertFontsAsBase64() throws Exception {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportPageMargins.docx");
+        Document doc = new Document(getMyDir() + "TextBoxes.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
@@ -295,7 +250,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         saveOptions.setExportFontResources(true);
         saveOptions.setExportFontsAsBase64(true);
 
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins Out.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ConvertFontsAsBase64.html", saveOptions);
     }
 
     @Test(dataProvider = "html5SupportDataProvider")
@@ -304,9 +259,10 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setHtmlVersion(htmlVersion);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.Html5Support.html", saveOptions);
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "html5SupportDataProvider")
     public static Object[][] html5SupportDataProvider() throws Exception {
         return new Object[][]{
@@ -317,7 +273,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
     @Test(dataProvider = "exportFontsDataProvider")
     public void exportFonts(final boolean exportAsBase64) throws Exception {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setExportFontResources(true);
@@ -361,7 +317,6 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.002.png").isEmpty());
         Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.calibri.ttf").isEmpty());
         Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.css").isEmpty());
-
     }
 
     @Test
@@ -395,7 +350,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setMetafileFormat(HtmlMetafileFormat.SVG);
 
-        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.MetafileFormat.html", saveOptions);
+        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.SvgMetafileFormat.html", saveOptions);
     }
 
     @Test
@@ -409,7 +364,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setMetafileFormat(HtmlMetafileFormat.PNG);
 
-        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.MetafileFormat.html", saveOptions);
+        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.PngMetafileFormat.html", saveOptions);
     }
 
     @Test
@@ -425,20 +380,21 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setMetafileFormat(HtmlMetafileFormat.EMF_OR_WMF);
 
-        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.MetafileFormat.html", saveOptions);
+        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.EmfOrWmfMetafileFormat.html", saveOptions);
     }
 
     @Test
     public void cssClassNamesPrefix() throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.CssClassNamePrefix
-        //ExSummary: Shows how to specifies a prefix which is added to all CSS class names.
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.CssClassNamePrefix.docx");
+        //ExSummary:Shows how to specifies a prefix which is added to all CSS class names.
+        Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setCssStyleSheetType(CssStyleSheetType.EMBEDDED);
         saveOptions.setCssClassNamePrefix("aspose-");
 
+        // The prefix will be found before CSS element names in the embedded stylesheet
         doc.save(getArtifactsDir() + "HtmlSaveOptions.CssClassNamePrefix.html", saveOptions);
         //ExEnd
     }
@@ -451,7 +407,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
     @Test
     public void cssClassNamesNullPrefix() throws Exception {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.CssClassNamePrefix.docx");
+        Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setCssStyleSheetType(CssStyleSheetType.EMBEDDED);
@@ -462,7 +418,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
     @Test
     public void contentIdScheme() throws Exception {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ContentIdScheme.docx");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.MHTML);
         saveOptions.setPrettyFormat(true);
@@ -476,7 +432,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:HtmlSaveOptions.ResolveFontNames
         //ExSummary:Shows how to resolve all font names before writing them to HTML.
-        Document document = new Document(getMyDir() + "HtmlSaveOptions.ResolveFontNames.docx");
+        Document document = new Document(getMyDir() + "Missing font.docx");
 
         FontSettings fontSettings = new FontSettings();
         fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
@@ -532,6 +488,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     @Test
     public void negativeIndent() throws Exception {
         //ExStart
+        //ExFor:HtmlElementSizeOutputMode
         //ExFor:HtmlSaveOptions.AllowNegativeIndent
         //ExFor:HtmlSaveOptions.TableWidthOutputMode
         //ExSummary:Shows how to preserve negative indents in the output .html.
@@ -569,7 +526,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExFor:HtmlSaveOptions.ResourceFolder
         //ExFor:HtmlSaveOptions.ResourceFolderAlias
         //ExSummary:Shows how to set folders and folder aliases for externally saved resources when saving to html.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions options = new HtmlSaveOptions();
         {
@@ -596,8 +553,9 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExFor:HtmlSaveOptions.#ctor(SaveFormat)
         //ExFor:HtmlSaveOptions.ExportXhtmlTransitional
         //ExFor:HtmlSaveOptions.HtmlVersion
+        //ExFor:HtmlVersion
         //ExSummary:Shows how to set a saved .html document to a specific version.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Save the document to a .html file of the XHTML 1.0 Transitional standard
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
@@ -651,7 +609,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportCidUrlsForMhtmlResources
         //ExSummary:Shows how to enable content IDs for output MHTML documents.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Setting this flag will replace "Content-Location" tags with "Content-ID" tags for each resource from the input document
         // The file names that were next to each "Content-Location" tag are re-purposed as content IDs
@@ -693,7 +651,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExFor:HtmlSaveOptions.ExportFontsAsBase64
         //ExFor:HtmlSaveOptions.ExportImagesAsBase64
         //ExSummary:Shows how to save a .html document with resources embedded inside it.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // By default, when converting a document with images to .html, resources such as images will be linked to in external files
         // We can set these flags to embed resources inside the output .html instead, cutting down on the amount of files created during the conversion
@@ -740,6 +698,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     @Test
     public void list() throws Exception {
         //ExStart
+        //ExFor:ExportListLabels
         //ExFor:HtmlSaveOptions.ExportListLabels
         //ExSummary:Shows how to export an indented list to .html as plain text.
         Document doc = new Document();
@@ -882,7 +841,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportRoundtripInformation
         //ExSummary:Shows how to preserve hidden elements when converting to .html.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // When converting a document to .html, some elements such as hidden bookmarks, original shape positions,
         // or footnotes will be either removed or converted to plain text and effectively be lost
@@ -965,6 +924,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     @Test
     public void metafileFormat() throws Exception {
         //ExStart
+        //ExFor:HtmlMetafileFormat
         //ExFor:HtmlSaveOptions.MetafileFormat
         //ExSummary:Shows how to set a meta file in a different format.
         // Create a document from an html string
@@ -986,10 +946,11 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     @Test
     public void officeMathOutputMode() throws Exception {
         //ExStart
+        //ExFor:HtmlOfficeMathOutputMode
         //ExFor:HtmlSaveOptions.OfficeMathOutputMode
         //ExSummary:Shows how to control the way how OfficeMath objects are exported to .html.
         // Open a document that contains OfficeMath objects
-        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         // Create a HtmlSaveOptions object and configure it to export OfficeMath objects as images
         HtmlSaveOptions options = new HtmlSaveOptions();
@@ -1005,7 +966,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExFor:HtmlSaveOptions.ScaleImageToShapeSize
         //ExSummary:Shows how to disable the scaling of images to their parent shape dimensions when saving to .html.
         // Open a document which contains shapes with images
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // By default, images inside shapes get scaled to the size of their shapes while the document gets
         // converted to .html, reducing image file size
@@ -1028,7 +989,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     @Test //ExSkip
     public void imageSavingCallback() throws Exception {
         // Open a document which contains shapes with images
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Create a HtmlSaveOptions object with a custom image saving callback that will print image information
         HtmlSaveOptions options = new HtmlSaveOptions();
@@ -1038,7 +999,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Prints information of all images that are about to be saved from within a document to image files
+    /// Prints information of all images that are about to be saved from within a document to image files.
     /// </summary>
     private static class ImageShapePrinter implements IImageSavingCallback {
         public void imageSaving(ImageSavingArgs args) throws Exception {

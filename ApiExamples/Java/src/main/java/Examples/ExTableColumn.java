@@ -122,23 +122,25 @@ public class ExTableColumn extends ApiExampleBase {
 
     @Test
     public void removeColumnFromTable() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
         // Get the third column from the table and remove it.
         Column column = Column.fromIndex(table, 2);
         column.remove();
 
+        doc.save(getArtifactsDir() + "TableColumn.RemoveColumn.doc");
+
         doc.save(getArtifactsDir() + "Table.RemoveColumn.doc");
 
         Assert.assertEquals(table.getChildNodes(NodeType.CELL, true).getCount(), 16);
-        Assert.assertEquals(table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT).trim(), "Cell 3 contents");
-        Assert.assertEquals(table.getLastRow().getCells().get(2).toString(SaveFormat.TEXT).trim(), "Cell 3 contents");
+        Assert.assertEquals(table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT).trim(), "Cell 7 contents");
+        Assert.assertEquals(table.getLastRow().getCells().get(2).toString(SaveFormat.TEXT).trim(), "Cell 11 contents");
     }
 
     @Test
-    public void insertNewColumnIntoTable() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+    public void insert() throws Exception {
+        Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
         // Get the second column in the table
@@ -152,6 +154,8 @@ public class ExTableColumn extends ApiExampleBase {
         for (Cell cell : newColumn.getCells())
             cell.getFirstParagraph().appendChild(new Run(doc, "Column Text " + newColumn.indexOf(cell)));
 
+        doc.save(getArtifactsDir() + "TableColumn.Insert.doc");
+
         doc.save(getArtifactsDir() + "Table.InsertColumn.doc");
 
         Assert.assertEquals(table.getChildNodes(NodeType.CELL, true).getCount(), 24);
@@ -161,7 +165,7 @@ public class ExTableColumn extends ApiExampleBase {
 
     @Test
     public void tableColumnToTxt() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
         // Get the first column in the table

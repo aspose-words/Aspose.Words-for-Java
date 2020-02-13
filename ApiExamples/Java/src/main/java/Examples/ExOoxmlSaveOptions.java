@@ -49,12 +49,10 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         // Set Word2003 version for document, for inserting image as VML shape
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2003);
 
-        builder.insertImage(getImageDir() + "dotnet-logo.png");
-
-        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+        builder.insertImage(getImageDir() + "Transparent background logo.png");
 
         // Loop through all single shapes inside document
-        for (Shape shape : (Iterable<Shape>) shapes) {
+        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
             System.out.println(shape.getMarkupLanguage());
             Assert.assertEquals(shape.getMarkupLanguage(), ShapeMarkupLanguage.VML); //ExSkip
         }
@@ -71,10 +69,8 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
         doc.save(dstStream, saveOptions);
 
-        shapes = doc.getChildNodes(NodeType.SHAPE, true);
-
         // Assert that image have drawingML markup language
-        for (Shape shape : (Iterable<Shape>) shapes) {
+        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
             Assert.assertEquals(shape.getMarkupLanguage(), ShapeMarkupLanguage.DML);
         }
     }
@@ -106,7 +102,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         OoxmlSaveOptions options = new OoxmlSaveOptions();
         options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
 
-        doc.save(getArtifactsDir() + "RestartingDocumentList.docx", options);
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx", options);
         //ExEnd
     }
 
@@ -115,7 +111,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:SaveOptions.UpdateLastSavedTimeProperty
         //ExSummary:Shows how to update a document time property when you want to save it.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Get last saved time
         Date documentTimeBeforeSave = doc.getBuiltInDocumentProperties().getLastSavedTime();
@@ -140,7 +136,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         //ExFor:OoxmlSaveOptions.KeepLegacyControlChars
         //ExFor:OoxmlSaveOptions.#ctor(SaveFormat)
         //ExSummary:Shows how to support legacy control characters when converting to .docx.
-        Document doc = new Document(getMyDir() + "OoxmlSaveOptions.KeepLegacyControlChars.doc");
+        Document doc = new Document(getMyDir() + "Legacy control character.doc");
 
         // Note that only one legacy character (ShortDateTime) is supported which declared in the "DOC" format
         OoxmlSaveOptions so = new OoxmlSaveOptions(SaveFormat.DOCX);

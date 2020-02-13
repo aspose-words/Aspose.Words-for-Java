@@ -46,7 +46,7 @@ public class ExUtilityClasses extends ApiExampleBase {
     }
 
     @Test
-    public void millimeterToPointEx() throws Exception {
+    public void millimeterToPoint() throws Exception {
         //ExStart
         //ExFor:ConvertUtil.MillimeterToPoint
         //ExSummary:Shows how to specify page properties in millimeters.
@@ -62,12 +62,12 @@ public class ExUtilityClasses extends ApiExampleBase {
         pageSetup.setFooterDistance(ConvertUtil.millimeterToPoint(5.0));
 
         builder.writeln("Hello world.");
-        builder.getDocument().save(getArtifactsDir() + "PageSetup.PageMargins.doc");
+        builder.getDocument().save(getArtifactsDir() + "UtilityClasses.MillimeterToPoint.doc");
         //ExEnd
     }
 
     @Test
-    public void pointToInchEx() throws Exception {
+    public void pointToInch() throws Exception {
         //ExStart
         //ExFor:ConvertUtil.PointToInch
         //ExSummary:Shows how to convert points to inches.
@@ -82,7 +82,7 @@ public class ExUtilityClasses extends ApiExampleBase {
     }
 
     @Test
-    public void pixelToPointEx() throws Exception {
+    public void pixelToPoint() throws Exception {
         //ExStart
         //ExFor:ConvertUtil.PixelToPoint(double)
         //ExFor:ConvertUtil.PixelToPoint(double, double)
@@ -99,7 +99,7 @@ public class ExUtilityClasses extends ApiExampleBase {
         pageSetupNoDpi.setFooterDistance(ConvertUtil.pixelToPoint(20.0));
 
         builder.writeln("Hello world.");
-        builder.getDocument().save(getArtifactsDir() + "PageSetup.PageMargins.DefaultResolution.doc");
+        builder.getDocument().save(getArtifactsDir() + "UtilityClasses.PixelToPoint.DefaultResolution.doc");
 
         final double myDpi = 150.0;
 
@@ -111,12 +111,12 @@ public class ExUtilityClasses extends ApiExampleBase {
         pageSetupWithDpi.setHeaderDistance(ConvertUtil.pixelToPoint(20.0, myDpi));
         pageSetupWithDpi.setFooterDistance(ConvertUtil.pixelToPoint(20.0, myDpi));
 
-        builder.getDocument().save(getArtifactsDir() + "PageSetup.PageMargins.CustomResolution.doc");
+        builder.getDocument().save(getArtifactsDir() + "UtilityClasses.PixelToPoint.CustomResolution.doc");
         //ExEnd
     }
 
     @Test
-    public void pointToPixelEx() throws Exception {
+    public void pointToPixel() throws Exception {
         //ExStart
         //ExFor:ConvertUtil.PointToPixel(double)
         //ExFor:ConvertUtil.PointToPixel(double, double)
@@ -136,7 +136,7 @@ public class ExUtilityClasses extends ApiExampleBase {
     }
 
     @Test
-    public void pixelToNewDpiEx() throws Exception {
+    public void pixelToNewDpi() throws Exception {
         //ExStart
         //ExFor:ConvertUtil.PixelToNewDpi
         //ExSummary:Shows how to check how an amount of pixels changes when the dpi is changed.

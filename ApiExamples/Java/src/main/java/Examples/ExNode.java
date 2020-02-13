@@ -162,8 +162,8 @@ public class ExNode extends ApiExampleBase {
     //ExSummary:Shows how to efficiently visit all direct and indirect children of a composite node.
     @Test //ExSkip
     public void recurseAllNodes() throws Exception {
-        // Open a document.
-        Document doc = new Document(getMyDir() + "Node.RecurseAllNodes.doc");
+        // Open a document
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Invoke the recursive function that will walk the tree
         traverseAllNodes(doc);
@@ -316,14 +316,14 @@ public class ExNode extends ApiExampleBase {
     }
 
     @Test
-    public void compositeNodeSelectNodes() throws Exception {
+    public void compositeNode_SelectNodes() throws Exception {
         //ExStart
         //ExFor:CompositeNode.SelectSingleNode
         //ExFor:CompositeNode.SelectNodes
         //ExFor:NodeList.GetEnumerator
         //ExFor:NodeList.ToArray
         //ExSummary:Shows how to select certain nodes by using an XPath expression.
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
         // This expression will extract all paragraph nodes which are descendants of any table node in the document
         // This will return any paragraphs which are in a table
@@ -355,7 +355,7 @@ public class ExNode extends ApiExampleBase {
         //ExFor:CompositeNode.GetChild
         //ExSummary:Shows how to test if a node is inside a field by using an XPath expression.
         // Let's pick a document we know has some fields in
-        Document doc = new Document(getMyDir() + "MailMerge.MergeImage.doc");
+        Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");
 
         // Let's say we want to check if the Run below is inside a field
         Run run = (Run) doc.getChild(NodeType.RUN, 5, true);
@@ -364,7 +364,7 @@ public class ExNode extends ApiExampleBase {
         // and FieldEnd exclusive). There can however be FieldStart and FieldEnd nodes in the list if there are nested fields 
         // in the path. Currently does not find rare fields in which the FieldCode or FieldResult spans across multiple paragraphs
         NodeList resultList =
-            doc.selectNodes("//FieldStart/following-sibling::node()[following-sibling::FieldEnd]");
+                doc.selectNodes("//FieldStart/following-sibling::node()[following-sibling::FieldEnd]");
 
         // Check if the specified run is one of the nodes that are inside the field
         for (Node node : (Iterable<Node>) resultList) {
@@ -391,7 +391,7 @@ public class ExNode extends ApiExampleBase {
         //ExStart
         //ExFor:CompositeNode.RemoveSmartTags
         //ExSummary:Removes all smart tags from descendant nodes of the composite node.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Remove smart tags from the first paragraph in the document
         doc.getFirstSection().getBody().getFirstParagraph().removeSmartTags();
@@ -403,7 +403,7 @@ public class ExNode extends ApiExampleBase {
         //ExStart
         //ExFor:CompositeNode.IndexOf
         //ExSummary:Shows how to get the index of a given child node from its parent.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Get the body of the first section in the document
         Body body = doc.getFirstSection().getBody();
@@ -443,7 +443,7 @@ public class ExNode extends ApiExampleBase {
         //ExFor:GroupShape.NodeType
         //ExFor:CommentRangeStart.NodeType
         //ExSummary:Shows how to retrieve the NodeType enumeration of nodes.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Let's pick a node that we can't be quite sure of what type it is
         // In this case lets pick the first node of the first paragraph in the body of the document
@@ -466,8 +466,8 @@ public class ExNode extends ApiExampleBase {
     public void convertNodeToHtmlWithDefaultOptions() throws Exception {
         //ExStart
         //ExFor:Node.ToString(SaveFormat)
-        //ExSummary:Exports the content of a node to string in HTML format using default options.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        //ExSummary:Exports the content of a node to String in HTML format using default options.
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Extract the last paragraph in the document to convert to HTML
         Node node = doc.getLastSection().getBody().getLastParagraph();
@@ -480,15 +480,15 @@ public class ExNode extends ApiExampleBase {
         String nodeAsHtml = node.toString(SaveFormat.HTML);
         //ExEnd
 
-        Assert.assertEquals(nodeAsHtml, "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>");
+        Assert.assertEquals(nodeAsHtml, "<p style=\"margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>");
     }
 
     @Test
     public void convertNodeToHtmlWithSaveOptions() throws Exception {
         //ExStart
         //ExFor:Node.ToString(SaveOptions)
-        //ExSummary:Exports the content of a node to string in HTML format using custom specified options.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        //ExSummary:Exports the content of a node to String in HTML format using custom specified options.
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Extract the last paragraph in the document to convert to HTML
         Node node = doc.getLastSection().getBody().getLastParagraph();
@@ -503,7 +503,7 @@ public class ExNode extends ApiExampleBase {
         String nodeAsHtml = node.toString(saveOptions);
         //ExEnd
 
-        Assert.assertEquals(nodeAsHtml, "<p style=\"margin-top:0pt; margin-bottom:0pt\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>");
+        Assert.assertEquals(nodeAsHtml, "<p style=\"margin-top:0pt; margin-bottom:10pt; line-height:115%\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>");
     }
 
     @Test
@@ -634,7 +634,7 @@ public class ExNode extends ApiExampleBase {
         builder.write("Cell 2");
         builder.endTable();
 
-        builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        builder.insertImage(getImageDir() + "Logo.jpg");
         builder.getCurrentParagraph().getParentNode().removeAllChildren();
     }
 
@@ -729,7 +729,7 @@ public class ExNode extends ApiExampleBase {
         builder.write("Cell 2");
         builder.endTable();
 
-        builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        builder.insertImage(getImageDir() + "Logo.jpg");
         // Get all run nodes, of which we put 3 in the entire document
         NodeList nodeList = doc.selectNodes("//Run");
         Assert.assertEquals(nodeList.getCount(), 3);

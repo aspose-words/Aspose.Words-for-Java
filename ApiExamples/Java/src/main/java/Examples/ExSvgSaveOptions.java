@@ -34,7 +34,7 @@ public class ExSvgSaveOptions extends ApiExampleBase {
             options.setTextOutputMode(SvgTextOutputMode.USE_PLACED_GLYPHS);
         }
 
-        doc.save(getArtifactsDir() + "SaveLikeImage.svg", options);
+        doc.save(getArtifactsDir() + "SvgSaveOptions.SaveLikeImage.svg", options);
         //ExEnd
     }
 
@@ -49,7 +49,7 @@ public class ExSvgSaveOptions extends ApiExampleBase {
     @Test //ExSkip
     public void svgResourceFolder() throws Exception {
         // Open a document which contains images
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         SvgSaveOptions options = new SvgSaveOptions();
         {
@@ -64,7 +64,7 @@ public class ExSvgSaveOptions extends ApiExampleBase {
 
         new File(options.getResourcesFolderAlias()).mkdir();
 
-        doc.save(getArtifactsDir() + "SvgResourceFolder.svg", options);
+        doc.save(getArtifactsDir() + "SvgSaveOptions.SvgResourceFolder.svg", options);
     }
 
     /// <summary>

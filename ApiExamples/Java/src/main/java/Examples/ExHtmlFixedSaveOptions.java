@@ -26,15 +26,14 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         //ExFor:HtmlFixedSaveOptions.Encoding
         //ExSummary:Shows how to set encoding while exporting to HTML.
         Document doc = new Document();
-
         DocumentBuilder builder = new DocumentBuilder(doc);
+
         builder.writeln("Hello World!");
 
-        // Encoding the document
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setEncoding(Charset.forName("US-ASCII"));
 
-        doc.save(getArtifactsDir() + "UseEncoding.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.UseEncoding.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
@@ -51,13 +50,12 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         Document doc = DocumentHelper.createDocumentFillWithDummyText();
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
-        htmlFixedSaveOptions.setEncoding(Charset.forName("US-ASCII"));
         htmlFixedSaveOptions.setExportEmbeddedCss(true);
         htmlFixedSaveOptions.setExportEmbeddedFonts(true);
         htmlFixedSaveOptions.setExportEmbeddedImages(true);
         htmlFixedSaveOptions.setExportEmbeddedSvg(true);
 
-        doc.save(getArtifactsDir() + "ExportEmbeddedObjects.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedObjects.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
@@ -98,7 +96,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setExportFormFields(true);
 
-        doc.save(getArtifactsDir() + "ExportFormFiels.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportFormFields.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
@@ -114,10 +112,10 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         htmlFixedSaveOptions.setCssClassNamesPrefix("test");
         htmlFixedSaveOptions.setSaveFontFaceCssSeparately(true);
 
-        doc.save(getArtifactsDir() + "cssPrefix_Out.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix.html", htmlFixedSaveOptions);
         //ExEnd
 
-        DocumentHelper.findTextInFile(getArtifactsDir() + "cssPrefix_Out\\styles.css", "test");
+        DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix/styles.css", "test");
     }
 
     @Test
@@ -131,7 +129,21 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setPageHorizontalAlignment(HtmlFixedPageHorizontalAlignment.LEFT);
 
-        doc.save(getArtifactsDir() + "HtmlFixedPageHorizontalAlignment.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.HorizontalAlignment.html", htmlFixedSaveOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void pageMargins() throws Exception {
+        //ExStart
+        //ExFor:HtmlFixedSaveOptions.PageMargins
+        //ExSummary:Shows how to set the margins around pages in HTML file.
+        Document doc = new Document(getMyDir() + "Bookmarks.docx");
+
+        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
+        saveOptions.setPageMargins(10.0);
+
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.PageMargins.html", saveOptions);
         //ExEnd
     }
 
@@ -146,31 +158,40 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
             Assert.assertTrue(e instanceof IllegalArgumentException);
         }
 
-        doc.save(getArtifactsDir() + "HtmlFixedPageMargins.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.PageMargins.html", saveOptions);
     }
 
     @Test
-    public void pageMargins() throws Exception {
+    public void optimizeGraphicsOutput() throws Exception {
         //ExStart
-        //ExFor:HtmlFixedSaveOptions.PageMargins
-        //ExSummary:Shows how to set the margins around pages in HTML file.
-        Document doc = new Document(getMyDir() + "Bookmarks.docx");
+        //ExFor:FixedPageSaveOptions.OptimizeOutput
+        //ExFor:HtmlFixedSaveOptions.OptimizeOutput
+        //ExSummary:Shows how to optimize document objects while saving to html.
+        Document doc = new Document(getMyDir() + "Unoptimized content.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
-        saveOptions.setPageMargins(10.0);
+        saveOptions.setOptimizeOutput(true);
 
-        doc.save(getArtifactsDir() + "HtmlFixedPageMargins.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
         //ExEnd
     }
 
     //ExStart
+    //ExFor:ExportFontFormat
+    //ExFor:HtmlFixedSaveOptions.FontFormat
     //ExFor:HtmlFixedSaveOptions.UseTargetMachineFonts
     //ExFor:IResourceSavingCallback
     //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
-    //ExSummary: Shows how used target machine fonts to display the document.
+    //ExFor:ResourceSavingArgs
+    //ExFor:ResourceSavingArgs.Document
+    //ExFor:ResourceSavingArgs.KeepResourceStreamOpen
+    //ExFor:ResourceSavingArgs.ResourceFileName
+    //ExFor:ResourceSavingArgs.ResourceFileUri
+    //ExFor:ResourceSavingArgs.ResourceStream
+    //ExSummary:Shows how used target machine fonts to display the document.
     @Test //ExSkip
     public void usingMachineFonts() throws Exception {
-        Document doc = new Document(getMyDir() + "Font.DisappearingBulletPoints.doc");
+        Document doc = new Document(getMyDir() + "Bullet points with alternative font.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
         saveOptions.setUseTargetMachineFonts(true);
@@ -178,14 +199,18 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         saveOptions.setExportEmbeddedFonts(false);
         saveOptions.setResourceSavingCallback(new ResourceSavingCallback());
 
-        doc.save(getArtifactsDir() + "UseMachineFonts.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.UsingMachineFonts.html", saveOptions);
     }
 
     private static class ResourceSavingCallback implements IResourceSavingCallback {
         /**
          * Called when Aspose.Words saves an external resource to fixed page HTML or SVG.
          */
-        public void resourceSaving(final ResourceSavingArgs args) throws Exception {
+        public void resourceSaving(final ResourceSavingArgs args) {
+            System.out.println(MessageFormat.format("Original document URI:\t{0}", args.getDocument().getOriginalFileName()));
+            System.out.println(MessageFormat.format("Resource being saved:\t{0}", args.getResourceFileName()));
+            System.out.println(MessageFormat.format("Full uri after saving:\t{0}", args.getResourceFileUri()));
+
             args.setResourceStream(new ByteArrayOutputStream());
             args.setKeepResourceStreamOpen(true);
 
@@ -205,12 +230,13 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     //ExFor:HtmlFixedSaveOptions.ResourceSavingCallback
     //ExFor:HtmlFixedSaveOptions.ResourcesFolder
     //ExFor:HtmlFixedSaveOptions.ResourcesFolderAlias
+    //ExFor:HtmlFixedSaveOptions.SaveFormat
     //ExFor:HtmlFixedSaveOptions.ShowPageBorder
     //ExSummary:Shows how to print the URIs of linked resources created during conversion of a document to fixed-form .html.
     @Test //ExSkip
     public void htmlFixedResourceFolder() throws Exception {
         // Open a document which contains images
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlFixedSaveOptions options = new HtmlFixedSaveOptions();
         {
@@ -226,7 +252,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         // We must ensure the folder exists before the streams can put their resources into it
         new File(options.getResourcesFolderAlias()).mkdir();
 
-        doc.save(getArtifactsDir() + "HtmlFixedResourceFolder.html", options);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.HtmlFixedResourceFolder.html", options);
     }
 
     /// <summary>

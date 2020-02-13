@@ -225,5 +225,4 @@ class Hyperlink
         "\"" // one closing apostrophe
     );
 }
-
 //ExEnd

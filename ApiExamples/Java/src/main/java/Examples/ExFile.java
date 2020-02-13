@@ -24,7 +24,7 @@ public class ExFile extends ApiExampleBase {
         //ExFor:FileCorruptedException
         //ExSummary:Shows how to catch a FileCorruptedException.
         try {
-            Document doc = new Document(getMyDir() + "Corrupted.docx");
+            Document doc = new Document(getMyDir() + "Corrupted document.docx");
         } catch (FileCorruptedException e) {
             System.out.println(e.getMessage());
         }
@@ -39,12 +39,12 @@ public class ExFile extends ApiExampleBase {
         //ExFor:FileFormatUtil
         //ExSummary:Shows how to detect encoding in an html file.
         // 'DetectFileFormat' not working on a non-html files
-        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.doc");
-        Assert.assertEquals(info.getLoadFormat(), LoadFormat.DOC);
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.DOCX);
         Assert.assertNull(info.getEncoding());
 
         // This time the property will not be null
-        info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.LoadFormat.html");
+        info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.html");
         Assert.assertEquals(info.getLoadFormat(), LoadFormat.HTML);
         Assert.assertNotNull(info.getEncoding());
 
@@ -113,7 +113,7 @@ public class ExFile extends ApiExampleBase {
         //ExFor:FileFormatInfo.IsEncrypted
         //ExFor:FileFormatInfo.HasDigitalSignature
         //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and other features of the document.
-        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.doc");
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
         System.out.println("The document format is: " + FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
         System.out.println("Document is encrypted: " + info.isEncrypted());
         System.out.println("Document has a digital signature: " + info.hasDigitalSignature());
@@ -134,7 +134,7 @@ public class ExFile extends ApiExampleBase {
         // Load the document without a file extension into a stream and use the DetectFileFormat method to detect it's format
         // These are both times where you might need extract the file format as it's not visible
         // The file format of this document is actually ".doc"
-        FileInputStream docStream = new FileInputStream(getMyDir() + "Document.FileWithoutExtension");
+        FileInputStream docStream = new FileInputStream(getMyDir() + "Word document with missing file extension");
         FileFormatInfo info = FileFormatUtil.detectFileFormat(docStream);
 
         // Retrieve the LoadFormat of the document
@@ -156,7 +156,7 @@ public class ExFile extends ApiExampleBase {
         Document doc = new Document(docStream);
 
         // Save the document with the original file name, " Out" and the document's file extension
-        doc.save(getArtifactsDir() + "Document.WithFileExtension" + FileFormatUtil.saveFormatToExtension(saveFormat));
+        doc.save(getArtifactsDir() + "File.SaveToDetectedFileFormat" + FileFormatUtil.saveFormatToExtension(saveFormat));
         //ExEnd
 
         Assert.assertEquals(FileFormatUtil.saveFormatToExtension(saveFormat), ".doc");
@@ -185,7 +185,7 @@ public class ExFile extends ApiExampleBase {
         //ExFor:FileFormatInfo.HasDigitalSignature
         //ExSummary:Shows how to check a document for digital signatures before loading it into a Document object.
         // The path to the document which is to be processed
-        String filePath = getMyDir() + "Document.Signed.docx";
+        String filePath = getMyDir() + "Digitally signed.docx";
 
         FileFormatInfo info = FileFormatUtil.detectFileFormat(filePath);
         if (info.hasDigitalSignature()) {
@@ -206,13 +206,13 @@ public class ExFile extends ApiExampleBase {
     //ExSummary:Shows how to extract images from a document and save them as files.
     @Test //ExSkip
     public void extractImagesToFiles() throws Exception {
-        Document doc = new Document(getMyDir() + "Image.SampleImages.doc");
+        Document doc = new Document(getMyDir() + "Images.docx");
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         int imageIndex = 0;
         for (Shape shape : (Iterable<Shape>) shapes) {
             if (shape.hasImage()) {
-                String imageFileName = MessageFormat.format("Image.ExportImages.{0}{1}", imageIndex,
+                String imageFileName = MessageFormat.format("File.ExtractImagesToFiles.{0}{1}", imageIndex,
                         FileFormatUtil.imageTypeToExtension(shape.getImageData().getImageType()));
                 shape.getImageData().save(getArtifactsDir() + imageFileName);
                 imageIndex++;

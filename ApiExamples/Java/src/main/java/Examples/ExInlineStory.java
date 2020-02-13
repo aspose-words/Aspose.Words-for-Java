@@ -125,7 +125,7 @@ public class ExInlineStory extends ApiExampleBase {
         //ExFor:InlineStory.IsMoveToRevision
         //ExSummary:Shows how to process revision-related properties of InlineStory nodes.
         // Open a document that has revisions from changes being tracked
-        Document doc = new Document(getMyDir() + "InlineStory.Revisions.docx");
+        Document doc = new Document(getMyDir() + "Revision footnotes.docx");
         Assert.assertTrue(doc.hasRevisions());
 
         // Get a collection of all footnotes from the document

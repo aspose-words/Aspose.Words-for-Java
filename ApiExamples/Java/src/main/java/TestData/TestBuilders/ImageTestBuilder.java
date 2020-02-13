@@ -24,7 +24,7 @@ public class ImageTestBuilder extends ApiExampleBase {
 
     public ImageTestBuilder() throws Exception {
 
-        mImage = ImageIO.read(new File(getImageDir() + "Watermark.png"));
+        mImage = ImageIO.read(new File(getImageDir() + "Transparent background logo.png"));
 
         mImageStream = null;
         mImageBytes = new byte[0];

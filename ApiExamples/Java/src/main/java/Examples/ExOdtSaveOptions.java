@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 public class ExOdtSaveOptions extends ApiExampleBase {
     @Test
-    public void measureUnitOption() throws Exception {
+    public void measureUnit() throws Exception {
         //ExStart
         //ExFor:OdtSaveOptions
         //ExFor:OdtSaveOptions.#ctor
@@ -23,7 +23,7 @@ public class ExOdtSaveOptions extends ApiExampleBase {
         //ExFor:OdtSaveOptions.MeasureUnit
         //ExFor:OdtSaveMeasureUnit
         //ExSummary:Shows how to work with units of measure of document content.
-        Document doc = new Document(getMyDir() + "OdtSaveOptions.MeasureUnit.docx");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Open Office uses centimeters, MS Office uses inches
         OdtSaveOptions saveOptions = new OdtSaveOptions();
@@ -34,8 +34,8 @@ public class ExOdtSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test(dataProvider = "saveDocumentEncryptedWithAPasswordDataProvider")
-    public void saveDocumentEncryptedWithAPassword(final int saveFormat) throws Exception {
+    @Test(dataProvider = "encryptDataProvider")
+    public void encrypt(final int saveFormat) throws Exception {
         //ExStart
         //ExFor:OdtSaveOptions.#ctor(SaveFormat)
         //ExFor:OdtSaveOptions.Password
@@ -47,20 +47,19 @@ public class ExOdtSaveOptions extends ApiExampleBase {
         saveOptions.setPassword("@sposeEncrypted_1145");
 
         // Saving document using password property of OdtSaveOptions
-        doc.save(getArtifactsDir() + "OdtSaveOptions.SaveDocumentEncryptedWithAPassword"
-                + FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
+        doc.save(getArtifactsDir() + "OdtSaveOptions.Encrypt" +
+                FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
         //ExEnd
 
         // Check that all documents are encrypted with a password
         FileFormatInfo docInfo = FileFormatUtil.detectFileFormat(
-                getArtifactsDir() + "OdtSaveOptions.SaveDocumentEncryptedWithAPassword"
-                        + FileFormatUtil.saveFormatToExtension(saveFormat));
+                getArtifactsDir() + "OdtSaveOptions.Encrypt" +
+                        FileFormatUtil.saveFormatToExtension(saveFormat));
         Assert.assertTrue(docInfo.isEncrypted());
     }
 
-    //JAVA-added data provider for test method
-    @DataProvider(name = "saveDocumentEncryptedWithAPasswordDataProvider")
-    public static Object[][] saveDocumentEncryptedWithAPasswordDataProvider() {
+    @DataProvider(name = "encryptDataProvider")
+    public static Object[][] encryptDataProvider() throws Exception {
         return new Object[][]
                 {
                         {SaveFormat.ODT},
@@ -68,13 +67,13 @@ public class ExOdtSaveOptions extends ApiExampleBase {
                 };
     }
 
-    @Test(dataProvider = "workWithDocumentEncryptedWithAPasswordDataProvider")
-    public void workWithDocumentEncryptedWithAPassword(final int saveFormat) throws Exception {
+    @Test(dataProvider = "workWithEncryptedDocumentDataProvider")
+    public void workWithEncryptedDocument(final int saveFormat) throws Exception {
         //ExStart
         //ExFor:OdtSaveOptions.#ctor(String)
-        //ExSummary:Shows how to load and change odt/ott encrypted document
-        Document doc = new Document(getMyDir() + "OdtSaveOptions.LoadDocumentEncryptedWithAPassword"
-                + FileFormatUtil.saveFormatToExtension(saveFormat),
+        //ExSummary:Shows how to load and change odt/ott encrypted document.
+        Document doc = new Document(getMyDir() + "Encrypted" +
+                FileFormatUtil.saveFormatToExtension(saveFormat),
                 new LoadOptions("@sposeEncrypted_1145"));
 
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -82,20 +81,20 @@ public class ExOdtSaveOptions extends ApiExampleBase {
         builder.writeln("Encrypted document after changes.");
 
         // Saving document using new instance of OdtSaveOptions
-        doc.save(getArtifactsDir() + "OdtSaveOptions.LoadDocumentEncryptedWithAPassword"
-                + FileFormatUtil.saveFormatToExtension(saveFormat), new OdtSaveOptions("@sposeEncrypted_1145"));
+        doc.save(getArtifactsDir() + "OdtSaveOptions.WorkWithEncryptedDocument" +
+                FileFormatUtil.saveFormatToExtension(saveFormat), new OdtSaveOptions("@sposeEncrypted_1145"));
         //ExEnd
 
         // Check that document is still encrypted with a password
         FileFormatInfo docInfo = FileFormatUtil.detectFileFormat(
-                getArtifactsDir() + "OdtSaveOptions.LoadDocumentEncryptedWithAPassword"
-                        + FileFormatUtil.saveFormatToExtension(saveFormat));
+                getArtifactsDir() + "OdtSaveOptions.WorkWithEncryptedDocument" +
+                        FileFormatUtil.saveFormatToExtension(saveFormat));
         Assert.assertTrue(docInfo.isEncrypted());
     }
 
     //JAVA-added data provider for test method
-    @DataProvider(name = "workWithDocumentEncryptedWithAPasswordDataProvider")
-    public static Object[][] workWithDocumentEncryptedWithAPasswordDataProvider() {
+    @DataProvider(name = "workWithEncryptedDocumentDataProvider")
+    public static Object[][] workWithEncryptedDocumentDataProvider() {
         return new Object[][]
                 {
                         {SaveFormat.ODT},

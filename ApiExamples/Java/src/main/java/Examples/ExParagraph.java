@@ -181,7 +181,7 @@ public class ExParagraph extends ApiExampleBase {
         //ExStart
         //ExFor:Paragraph.IsFormatRevision
         //ExSummary:Shows how to get information about whether this object was formatted in Microsoft Word while change tracking was enabled.
-        Document doc = new Document(getMyDir() + "Paragraph.IsFormatRevision.docx");
+        Document doc = new Document(getMyDir() + "Format revision.docx");
 
         Paragraph firstParagraph = DocumentHelper.getParagraph(doc, 0);
         Assert.assertTrue(firstParagraph.isFormatRevision());
@@ -209,7 +209,7 @@ public class ExParagraph extends ApiExampleBase {
         //ExFor:FrameFormat.RelativeVerticalPosition
         //ExFor:FrameFormat.VerticalDistanceFromText
         //ExSummary:Shows how to get information about formatting properties of paragraph as frame.
-        Document doc = new Document(getMyDir() + "Paragraph.Frame.docx");
+        Document doc = new Document(getMyDir() + "Paragraph frame.docx");
 
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
 
@@ -233,10 +233,10 @@ public class ExParagraph extends ApiExampleBase {
         if (paragraphs.get(0).getFrameFormat().isFrame()) {
             Assert.assertEquals(paragraphs.get(0).getFrameFormat().getWidth(), 233.3);
             Assert.assertEquals(paragraphs.get(0).getFrameFormat().getHeight(), 138.8);
-            Assert.assertEquals(paragraphs.get(0).getFrameFormat().getHorizontalPosition(), 21.05);
+            Assert.assertEquals(paragraphs.get(0).getFrameFormat().getHorizontalPosition(), 34.05);
             Assert.assertEquals(paragraphs.get(0).getFrameFormat().getRelativeHorizontalPosition(), RelativeHorizontalPosition.PAGE);
             Assert.assertEquals(paragraphs.get(0).getFrameFormat().getHorizontalDistanceFromText(), 9.0);
-            Assert.assertEquals(paragraphs.get(0).getFrameFormat().getVerticalPosition(), -17.65);
+            Assert.assertEquals(paragraphs.get(0).getFrameFormat().getVerticalPosition(), 20.5);
             Assert.assertEquals(paragraphs.get(0).getFrameFormat().getRelativeVerticalPosition(), RelativeVerticalPosition.PARAGRAPH);
             Assert.assertEquals(paragraphs.get(0).getFrameFormat().getVerticalDistanceFromText(), 0.0);
         } else {

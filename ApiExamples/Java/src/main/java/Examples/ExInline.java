@@ -33,7 +33,7 @@ public class ExInline extends ApiExampleBase {
         //ExFor:RunCollection.Item(Int32)
         //ExFor:RunCollection.ToArray
         //ExSummary:Shows how to process revision-related properties of Inline nodes.
-        Document doc = new Document(getMyDir() + "Inline.Revisions.docx");
+        Document doc = new Document(getMyDir() + "Revision runs.docx");
 
         // This document has 6 revisions
         Assert.assertEquals(doc.getRevisions().getCount(), 6);

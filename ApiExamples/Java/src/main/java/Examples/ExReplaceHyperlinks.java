@@ -28,9 +28,9 @@ public class ExReplaceHyperlinks extends ApiExampleBase {
      * Finds all hyperlinks in a Word document and changes their URL and display name.
      */
     @Test //ExSkip
-    public void replaceHyperlinks() throws Exception {
+    public void fields() throws Exception {
         // Specify your document name here
-        Document doc = new Document(getMyDir() + "ReplaceHyperlinks.doc");
+        Document doc = new Document(getMyDir() + "Hyperlinks.docx");
 
         // Hyperlinks in a Word documents are fields, select all field start nodes so we can find the hyperlinks
         NodeList fieldStarts = doc.selectNodes("//FieldStart");
@@ -49,7 +49,7 @@ public class ExReplaceHyperlinks extends ApiExampleBase {
             }
         }
 
-        doc.save(getArtifactsDir() + "ReplaceHyperlinks.doc");
+        doc.save(getArtifactsDir() + "ReplaceHyperlinks.Fields.docx");
     }
 
     private static final String NEW_URL = "http://www.aspose.com";
@@ -206,13 +206,12 @@ class Hyperlink {
 
     private static Pattern G_REGEX = Pattern.compile(
             "\\S+" +             // one or more non spaces HYPERLINK or other word in other languages
-            "\\s+" +             // one or more spaces
-            "(?:\"\"\\s+)?" +    // non capturing optional "" and one or more spaces, found in one of the customers files
-            "(\\\\l\\s+)?" +     // optional \l flag followed by one or more spaces
-            "\"" +               // one apostrophe
-            "([^\"]+)" +         // one or more chars except apostrophe (hyperlink target)
-            "\""                 // one closing apostrophe
+                    "\\s+" +             // one or more spaces
+                    "(?:\"\"\\s+)?" +    // non capturing optional "" and one or more spaces, found in one of the customers files
+                    "(\\\\l\\s+)?" +     // optional \l flag followed by one or more spaces
+                    "\"" +               // one apostrophe
+                    "([^\"]+)" +         // one or more chars except apostrophe (hyperlink target)
+                    "\""                 // one closing apostrophe
     );
 }
-
 //ExEnd

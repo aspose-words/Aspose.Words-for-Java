@@ -27,7 +27,7 @@ public class ExViewOptions extends ApiExampleBase {
         //ExFor:ViewOptions.ZoomPercent
         //ExFor:ViewType
         //ExSummary:Shows how to make sure the document is displayed at 50% zoom when opened in Microsoft Word.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // We can set the zoom factor to a percentage
         doc.getViewOptions().setViewType(ViewType.PAGE_LAYOUT);
@@ -95,7 +95,7 @@ public class ExViewOptions extends ApiExampleBase {
         //ExFor:WordML2003SaveOptions
         //ExFor:WordML2003SaveOptions.SaveFormat
         //ExSummary:Shows how to save to a .wml document while applying save options.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         WordML2003SaveOptions options = new WordML2003SaveOptions();
         {

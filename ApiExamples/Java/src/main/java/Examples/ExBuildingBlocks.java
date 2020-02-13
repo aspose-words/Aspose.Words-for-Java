@@ -85,7 +85,7 @@ public class ExBuildingBlocks extends ApiExampleBase {
         doc.appendChild(doc.importNode(customBlock.getFirstSection(), true));
 
         // Or we can find it in Microsoft Word's Building Blocks Organizer and place it manually
-        doc.save(getArtifactsDir() + "BuildingBlocks.BuildingBlock.dotx");
+        doc.save(getArtifactsDir() + "BuildingBlocks.BuildingBlockFields.dotx");
     }
 
     /// <summary>

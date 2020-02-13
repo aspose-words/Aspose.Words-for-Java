@@ -88,7 +88,7 @@ public class ExControlChar extends ApiExampleBase {
         builder.write("Text at end of column 1." + ControlChar.COLUMN_BREAK + "Text at beginning of column 2.");
 
         // Save document to see the characters we added
-        doc.save(getArtifactsDir() + "ControlChar.Misc.docx");
+        doc.save(getArtifactsDir() + "ControlChar.InsertControlChars.docx");
 
         // There are char and string counterparts for most characters
         Assert.assertEquals(ControlChar.CELL.toCharArray()[0], ControlChar.CELL_CHAR);

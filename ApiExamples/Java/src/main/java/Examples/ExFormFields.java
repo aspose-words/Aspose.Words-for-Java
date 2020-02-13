@@ -22,7 +22,7 @@ public class ExFormFields extends ApiExampleBase {
         //ExFor:Range.FormFields
         //ExFor:FormFieldCollection
         //ExSummary:Shows how to get a collection of form fields.
-        Document doc = new Document(getMyDir() + "FormFields.doc");
+        Document doc = new Document(getMyDir() + "Form fields.docx");
         FormFieldCollection formFields = doc.getRange().getFormFields();
         //ExEnd
     }
@@ -32,7 +32,7 @@ public class ExFormFields extends ApiExampleBase {
         //ExStart
         //ExFor:FormField
         //ExSummary:Shows how to access form fields.
-        Document doc = new Document(getMyDir() + "FormFields.doc");
+        Document doc = new Document(getMyDir() + "Form fields.docx");
         FormFieldCollection documentFormFields = doc.getRange().getFormFields();
 
         FormField formField1 = documentFormFields.get(3);
@@ -48,7 +48,7 @@ public class ExFormFields extends ApiExampleBase {
         //ExFor:FormField.Type
         //ExFor:FormField.Name
         //ExSummary:Shows how to work with form field name, type, and result.
-        Document doc = new Document(getMyDir() + "FormFields.doc");
+        Document doc = new Document(getMyDir() + "Form fields.docx");
 
         FormField formField = doc.getRange().getFormFields().get(3);
 
@@ -76,7 +76,7 @@ public class ExFormFields extends ApiExampleBase {
         //ExStart
         //ExFor:FormField.RemoveField
         //ExSummary:Shows how to delete complete form field.
-        Document doc = new Document(getMyDir() + "FormFields.doc");
+        Document doc = new Document(getMyDir() + "Form fields.docx");
 
         FormField formField = doc.getRange().getFormFields().get(3);
         formField.removeField();

@@ -120,10 +120,9 @@ public class ExDrawing extends ApiExampleBase {
         //ExStart
         //ExFor:Stroke.Color2
         //ExFor:Stroke.ImageBytes
-        //ExSummary:Shows how to process shape stroke features from older versions of Microsoft Word.
+        //ExSummary:Shows how to process shape stroke features.
         // Open a document which contains a rectangle with a thick, two-tone-patterned outline
-        // These features cannot be recreated in new versions of Microsoft Word, so we will open an older .doc file
-        Document doc = new Document(getMyDir() + "Shape.StrokePattern.doc");
+        Document doc = new Document(getMyDir() + "Shape stroke pattern border.docx");
 
         // Get the first shape's stroke
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
@@ -272,12 +271,12 @@ public class ExDrawing extends ApiExampleBase {
     @Test //ExSkip
     public void getDataFromImage() throws Exception {
 
-        Document imgSourceDoc = new Document(getMyDir() + "Image.SampleImages.doc");
+        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
         // Images are stored as shapes
-        // Get into the document's shape collection to verify that it contains 6 images
+        // Get into the document's shape collection to verify that it contains 10 images
         NodeCollection shapes = imgSourceDoc.getChildNodes(NodeType.SHAPE, true);
-        Assert.assertEquals(shapes.getCount(), 6);
+        Assert.assertEquals(shapes.getCount(), 10);
 
         Shape imageShape = (Shape) shapes.get(0);
 
@@ -289,7 +288,7 @@ public class ExDrawing extends ApiExampleBase {
         InputStream imgStream = imageShape.getImageData().toStream();
 
         try {
-            File imageFile = new File(getArtifactsDir() + "MyImg.png");
+            File imageFile = new File(getArtifactsDir() + "Drawing.GetDataFromImage.png");
             imageFile.createNewFile();
             copyInputStreamToFile(imgStream, imageFile);
         } finally {
@@ -320,12 +319,12 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:ImageData.ToImage
         //ExFor:ImageData.Save(Stream)
         //ExSummary:Shows how to save all the images from a document to the file system.
-        Document imgSourceDoc = new Document(getMyDir() + "Image.SampleImages.doc");
+        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
         // Images are stored as shapes
         // Get into the document's shape collection to verify that it contains 6 images
         NodeCollection shapes = imgSourceDoc.getChildNodes(NodeType.SHAPE, true);
-        Assert.assertEquals(shapes.getCount(), 6);
+        Assert.assertEquals(shapes.getCount(), 10);
 
         // Go over all of the document's shapes
         // If a shape contains image data, save the image in the local file system
@@ -363,7 +362,7 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:ImageData.Title
         //ExSummary:Shows how to edit images using the ImageData attribute.
         // Open a document that contains images
-        Document imgSourceDoc = new Document(getMyDir() + "Image.SampleImages.doc");
+        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
         Shape sourceShape = (Shape) imgSourceDoc.getChildNodes(NodeType.SHAPE, true).get(0);
 
@@ -416,7 +415,7 @@ public class ExDrawing extends ApiExampleBase {
         importedShape.getImageData().setCropTop(0.3d);
         importedShape.getImageData().setCropRight(0.3d);
 
-        dstDoc.save(getArtifactsDir() + "ImageData.EditedImages.docx");
+        dstDoc.save(getArtifactsDir() + "Drawing.ImageData.docx");
         //ExEnd
     }
 
@@ -429,7 +428,7 @@ public class ExDrawing extends ApiExampleBase {
         Document doc = new Document();
 
         // We can get an image from a file, set it as the image of a shape and append it to a paragraph
-        BufferedImage srcImage = ImageIO.read(new File(getImageDir() + "Aspose.Words.gif"));
+        BufferedImage srcImage = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
 
         Shape imgShape = new Shape(doc, ShapeType.IMAGE);
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
@@ -437,7 +436,7 @@ public class ExDrawing extends ApiExampleBase {
         srcImage.flush();
 
         // We can also open an image file using a stream and set its contents as a shape's image
-        InputStream stream = new FileInputStream(getImageDir() + "Aspose.Words.gif");
+        InputStream stream = new FileInputStream(getImageDir() + "Logo.jpg");
         try {
             imgShape = new Shape(doc, ShapeType.IMAGE);
             doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
@@ -463,14 +462,14 @@ public class ExDrawing extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a shape into the document which contains an image taken from our local file system
-        Shape shape = builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
 
         // If the shape contains an image, its ImageData property will be valid, and it will contain an ImageSize object
         ImageSize imageSize = shape.getImageData().getImageSize();
 
         // The ImageSize object contains raw information about the image within the shape
-        Assert.assertEquals(imageSize.getHeightPixels(), 200);
-        Assert.assertEquals(imageSize.getWidthPixels(), 200);
+        Assert.assertEquals(imageSize.getHeightPixels(), 400);
+        Assert.assertEquals(imageSize.getWidthPixels(), 400);
 
         final double delta = 0.05;
         Assert.assertEquals(imageSize.getHorizontalResolution(), 95.98d, delta);
@@ -483,7 +482,7 @@ public class ExDrawing extends ApiExampleBase {
         shape.setWidth(imageSize.getWidthPoints() * 2.0);
         shape.setHeight(imageSize.getHeightPoints() * 2.0);
 
-        doc.save(getArtifactsDir() + "Image.ImageSize.docx");
+        doc.save(getArtifactsDir() + "Drawing.ImageSize.docx");
         //ExEnd
     }
 }

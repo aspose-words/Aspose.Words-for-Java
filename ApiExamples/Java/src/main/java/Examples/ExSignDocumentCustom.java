@@ -34,10 +34,10 @@ public class ExSignDocumentCustom extends ApiExampleBase {
     //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
     //ExSummary:Demonstrates how to add new signature line to the document and sign it with personal signature using SignatureLineId.
     @Test(description = "WORDSNET-16868") //ExSkip
-    public static void signSignatureLineUsingSignatureLineId() throws Exception {
+    public static void sign() throws Exception {
         String signPersonName = "Ron Williams";
         String srcDocumentPath = getMyDir() + "Document.docx";
-        String dstDocumentPath = getArtifactsDir() + "Document.Signed.docx";
+        String dstDocumentPath = getArtifactsDir() + "SignDocumentCustom.Sign.docx";
         String certificatePath = getMyDir() + "morzal.pfx";
         String certificatePassword = "aw";
 

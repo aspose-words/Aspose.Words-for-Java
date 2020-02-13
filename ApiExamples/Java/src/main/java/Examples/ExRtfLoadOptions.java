@@ -24,7 +24,7 @@ public class ExRtfLoadOptions extends ApiExampleBase {
         RtfLoadOptions loadOptions = new RtfLoadOptions();
         loadOptions.setRecognizeUtf8Text(true);
 
-        Document doc = new Document(getMyDir() + "RtfLoadOptions.RecognizeUtf8Text.rtf", loadOptions);
+        Document doc = new Document(getMyDir() + "UTF-8 characters.rtf", loadOptions);
         doc.save(getArtifactsDir() + "RtfLoadOptions.RecognizeUtf8Text.rtf");
         //ExEnd
     }

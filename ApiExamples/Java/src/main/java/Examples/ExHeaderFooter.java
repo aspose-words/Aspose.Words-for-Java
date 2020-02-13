@@ -13,11 +13,13 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.MessageFormat;
+import java.util.Calendar;
 import java.util.regex.Pattern;
 
 public class ExHeaderFooter extends ApiExampleBase {
     @Test
-    public void createFooter() throws Exception {
+    public void headerFooterCreate() throws Exception {
         //ExStart
         //ExFor:HeaderFooter
         //ExFor:HeaderFooter.#ctor(DocumentBase, HeaderFooterType)
@@ -53,10 +55,10 @@ public class ExHeaderFooter extends ApiExampleBase {
         Assert.assertEquals(para.getParentSection(), footer.getParentSection());
         Assert.assertEquals(header.getParentSection(), footer.getParentSection());
 
-        doc.save(getArtifactsDir() + "HeaderFooter.CreateFooter.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterCreate.docx");
         //ExEnd
+        doc = new Document(getArtifactsDir() + "HeaderFooter.HeaderFooterCreate.docx");
 
-        doc = new Document(getArtifactsDir() + "HeaderFooter.CreateFooter.doc");
         Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getRange().getText().contains("My header"));
         Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getRange().getText().contains("My footer"));
     }
@@ -140,9 +142,8 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExFor:HeaderFooterCollection
         //ExFor:HeaderFooterCollection.Item(HeaderFooterType)
         //ExFor:HeaderFooter
-        //ExFor:HeaderFooterType
         //ExSummary:Deletes all footers from all sections, but leaves headers intact.
-        Document doc = new Document(getMyDir() + "HeaderFooter.RemoveFooters.doc");
+        Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         for (Section section : doc.getSections()) {
             // Up to three different footers are possible in a section (for first, even and odd pages)
@@ -166,7 +167,7 @@ public class ExHeaderFooter extends ApiExampleBase {
             }
         }
 
-        doc.save(getArtifactsDir() + "HeaderFooter.RemoveFooters.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.RemoveFooters.docx");
         //ExEnd
     }
 
@@ -176,7 +177,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExFor:HtmlSaveOptions.ExportHeadersFootersMode
         //ExFor:ExportHeadersFootersMode
         //ExSummary:Demonstrates how to disable the export of headers and footers when saving to HTML based formats.
-        Document doc = new Document(getMyDir() + "HeaderFooter.RemoveFooters.doc");
+        Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         // Disables exporting headers and footers
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
@@ -200,7 +201,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExFor:Range.Replace(String, String, FindReplaceOptions)
         //ExSummary:Shows how to replace text in the document footer.
         // Open the template document, containing obsolete copyright information in the footer
-        Document doc = new Document(getMyDir() + "HeaderFooter.ReplaceText.doc");
+        Document doc = new Document(getMyDir() + "Footer.docx");
 
         HeaderFooterCollection headersFooters = doc.getFirstSection().getHeadersFooters();
         HeaderFooter footer = headersFooters.getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
@@ -209,23 +210,23 @@ public class ExHeaderFooter extends ApiExampleBase {
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(false);
 
-        footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", "Copyright (C) 2011 by Aspose Pty Ltd.", options);
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", MessageFormat.format("Copyright (C) {0} by Aspose Pty Ltd.", currentYear), options);
 
         doc.save(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
         //ExEnd
 
         // Verify that the appropriate changes were made to the output document
         doc = new Document(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
-        Assert.assertTrue(doc.getRange().getText().contains("Copyright (C) 2011 by Aspose Pty Ltd."));
+        Assert.assertTrue(doc.getRange().getText().contains(MessageFormat.format("Copyright (C) {0} by Aspose Pty Ltd.", currentYear)));
     }
 
-    @Test
+    //ExStart
+    //ExFor:IReplacingCallback
+    //ExSummary:Show changes for headers and footers order.
+    @Test //ExSkip
     public void headerFooterOrder() throws Exception {
-        //ExStart
-        //ExFor:IReplacingCallback
-        //ExFor:Range.Replace(String, String, FindReplaceOptions)
-        //ExSummary:Show changes for headers and footers order.
-        Document doc = new Document(getMyDir() + "HeaderFooter.HeaderFooterOrder.docx");
+        Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         // Assert that we use special header and footer for the first page
         // The order for this: first header\footer, even header\footer, primary header\footer
@@ -237,6 +238,8 @@ public class ExHeaderFooter extends ApiExampleBase {
         options.setReplacingCallback(logger);
 
         doc.getRange().replace(Pattern.compile("(header|footer)"), "", options);
+
+        doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterOrder.docx");
 
         Assert.assertEquals(logger.getText(), "First header\r\nFirst footer\r\nSecond header\r\nSecond footer\r\nThird header\r\n" + "Third footer\r\n");
 
@@ -300,7 +303,7 @@ public class ExHeaderFooter extends ApiExampleBase {
 
         // Insert absolutely positioned image into the top/left corner of the header
         // Distance from the top/left edges of the page is set to 10 points
-        String imageFileName = getImageDir() + "Aspose.Words.gif";
+        String imageFileName = getImageDir() + "Logo.jpg";
         builder.insertImage(imageFileName, RelativeHorizontalPosition.PAGE, 10, RelativeVerticalPosition.PAGE, 10, 50, 50, WrapType.THROUGH);
 
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);

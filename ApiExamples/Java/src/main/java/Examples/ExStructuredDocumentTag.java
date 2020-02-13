@@ -30,7 +30,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExStart
         //ExFor:StructuredDocumentTag.SdtType
         //ExSummary:Shows how to get type of structured document tag.
-        Document doc = new Document(getMyDir() + "TestRepeatingSection.docx");
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
         NodeCollection sdTags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
 
@@ -68,7 +68,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         sdtPlainText.setStyle(quoteStyle);
 
         StructuredDocumentTag sdtRichText = new StructuredDocumentTag(doc, SdtType.RICH_TEXT, MarkupLevel.INLINE);
-        sdtRichText.setStyleName("Quote"); // Second method to apply specific style to an SDT control
+        // Second method to apply specific style to an SDT control
+        sdtRichText.setStyleName("Quote");
 
         // Insert content controls into the document
         builder.insertNode(sdtPlainText);
@@ -218,7 +219,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         // We can remove the tag while keeping its contents where they were in the Paragraph by calling RemoveSelfOnly()
         tagClone.removeSelfOnly();
 
-        doc.save(getArtifactsDir() + "SDT.PlainText.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.PlainText.docx");
         //ExEnd
     }
 
@@ -251,7 +252,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         builder.write("\nTemporary checkbox: ");
         builder.insertNode(tag);
 
-        doc.save(getArtifactsDir() + "SDT.IsTemporary.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.IsTemporary.docx");
         //ExEnd
     }
 
@@ -297,7 +298,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertNode(tag);
 
-        doc.save(getArtifactsDir() + "SDT.PlaceholderBuildingBlock.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.PlaceholderBuildingBlock.docx");
         //ExEnd
     }
 
@@ -329,7 +330,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         builder.write("This StructuredDocumentTag cannot be deleted but its contents can be edited: ");
         builder.insertNode(tag);
 
-        doc.save(getArtifactsDir() + "SDT.Lock.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.Lock.docx");
         //ExEnd
     }
 
@@ -391,7 +392,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         // Make sure to update the SelectedValue's index if it ever ends up out of bounds before saving the document
         listItems.setSelectedValue(listItems.get(1));
 
-        doc.save(getArtifactsDir() + "SDT.ListItemCollection.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.ListItemCollection.docx");
 
         // We can clear the whole collection at once too
         listItems.clear();
@@ -476,10 +477,10 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         doc.getFirstSection().getBody().appendChild(sdt);
 
-        doc.save(getArtifactsDir() + "SDT.CustomXml.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx");
         //ExEnd
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "SDT.CustomXml.docx", getGoldsDir() + "SDT.CustomXml Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx", getGoldsDir() + "StructuredDocumentTag.CustomXml Gold.docx"));
     }
 
     @Test
@@ -515,7 +516,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         // Add the StructuredDocumentTag to the document to display the content from our CustomXmlPart
         doc.getFirstSection().getBody().appendChild(sdt);
-        doc.save(getArtifactsDir() + "SDT.XmlMapping.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.XmlMapping.docx");
         //ExEnd
     }
 
@@ -572,7 +573,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExStart
         //ExFor:XmlMapping.StoreItemId
         //ExSummary:Shows how to get special id of your xml part.
-        Document doc = new Document(getMyDir() + "SDT.CustomXml.docx");
+        Document doc = new Document(getMyDir() + "Custom XML part in structured document tag.docx");
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
         System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
@@ -602,7 +603,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExStart
         //ExFor:StructuredDocumentTag.Clear
         //ExSummary:Shows how to delete content of StructuredDocumentTag elements.
-        Document doc = new Document(getMyDir() + "TestRepeatingSection.docx");
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
         NodeCollection sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
         Assert.assertNotNull(sdts);
@@ -637,7 +638,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExFor:CustomXmlPropertyCollection.RemoveAt(Int32)
         //ExSummary:Shows how to work with smart tag properties to get in depth information about smart tags.
         // Open a document that contains smart tags and their collection
-        Document doc = new Document(getMyDir() + "SmartTags.doc");
+        Document doc = new Document(getMyDir() + "Smart tags.doc");
 
         // Smart tags are an older Microsoft Word feature that can automatically detect and tag
         // any parts of the text that it registers as commonly used information objects such as names, addresses, stock tickers, dates etc
@@ -774,7 +775,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
     @Test
     public void accessToBuildingBlockPropertiesFromDocPartObjSdt() throws Exception {
-        Document doc = new Document(getMyDir() + "StructuredDocumentTag.BuildingBlocks.docx");
+        Document doc = new Document(getMyDir() + "Structured document tags with building blocks.docx");
 
         StructuredDocumentTag docPartObjSdt =
                 (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
@@ -785,7 +786,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
     @Test(expectedExceptions = IllegalStateException.class)
     public void accessToBuildingBlockPropertiesFromPlainTextSdt() throws Exception {
-        Document doc = new Document(getMyDir() + "StructuredDocumentTag.BuildingBlocks.docx");
+        Document doc = new Document(getMyDir() + "Structured document tags with building blocks.docx");
 
         StructuredDocumentTag plainTextSdt =
                 (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
@@ -795,7 +796,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     }
 
     @Test
-    public void accessToBuildingBlockPropertiesFromBuildingBlockGallerySdtType() throws Exception {
+    public void buildingBlockCategories() throws Exception {
         //ExStart
         //ExFor:StructuredDocumentTag.BuildingBlockCategory
         //ExFor:StructuredDocumentTag.BuildingBlockGallery
@@ -809,9 +810,9 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         doc.getFirstSection().getBody().appendChild(buildingBlockSdt);
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.BuildingBlockCategories.docx");
         //ExEnd
+
         buildingBlockSdt =
                 (StructuredDocumentTag) doc.getFirstSection().getBody().getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
 
@@ -847,7 +848,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         PdfSaveOptions options = new PdfSaveOptions();
         options.setUpdateSdtContent(false);
 
-        doc.save(getArtifactsDir() + "UpdateSdtContent.pdf", options);
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf", options);
         //ExEnd
     }
 

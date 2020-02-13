@@ -124,7 +124,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Document.#ctor(Stream)
         //ExSummary:Opens a document from a stream.
         // Open the stream. Read only access is enough for Aspose.Words to load a document.
-        InputStream stream = new FileInputStream(getMyDir() + "Document.doc");
+        InputStream stream = new FileInputStream(getMyDir() + "Document.docx");
 
         // Load the entire document into memory
         Document doc = new Document(stream);
@@ -766,7 +766,7 @@ public class ExDocument extends ApiExampleBase {
         //ExSummary:Shows how to append a document to the end of another document.
         // The document that the content will be appended to
         Document dstDoc = new Document(getMyDir() + "Document.doc");
-        
+
         // The document to append
         Document srcDoc = new Document(getMyDir() + "DocumentBuilder.doc");
 
@@ -1772,11 +1772,11 @@ public class ExDocument extends ApiExampleBase {
         TxtLoadOptions loadOptions = new TxtLoadOptions();
         loadOptions.setDetectNumberingWithWhitespaces(false);
 
-        PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Bookmarks.docx");
-        Assert.assertEquals(plaintext.getText(), "First bookmark.\rSecond bookmark.\rThird bookmark.\f"); //ExSkip
+        PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Document.docx");
+        Assert.assertEquals(plaintext.getText().trim(), "Hello World!"); //ExSkip
 
-        plaintext = new PlainTextDocument(getMyDir() + "Bookmarks.docx", loadOptions);
-        Assert.assertEquals(plaintext.getText(), "First bookmark.\rSecond bookmark.\rThird bookmark.\f"); //ExSkip
+        plaintext = new PlainTextDocument(getMyDir() + "Document.docx", loadOptions);
+        Assert.assertEquals(plaintext.getText().trim(), "Hello World!"); //ExSkip
         //ExEnd
     }
 
@@ -1813,17 +1813,17 @@ public class ExDocument extends ApiExampleBase {
         TxtLoadOptions loadOptions = new TxtLoadOptions();
         loadOptions.setDetectNumberingWithWhitespaces(false);
 
-        InputStream stream = new FileInputStream(getMyDir() + "Bookmarks.docx");
+        InputStream stream = new FileInputStream(getMyDir() + "Document.docx");
 
         PlainTextDocument plaintext = new PlainTextDocument(stream);
-        Assert.assertEquals(plaintext.getText(), "First bookmark.\rSecond bookmark.\rThird bookmark.\f"); //ExSkip
+        Assert.assertEquals(plaintext.getText().trim(), "Hello World!"); //ExSkip
 
         stream.close();
 
-        stream = new FileInputStream(getMyDir() + "Bookmarks.docx");
+        stream = new FileInputStream(getMyDir() + "Document.docx");
 
         plaintext = new PlainTextDocument(stream, loadOptions);
-        Assert.assertEquals(plaintext.getText(), "First bookmark.\rSecond bookmark.\rThird bookmark.\f"); //ExSkip
+        Assert.assertEquals(plaintext.getText().trim(), "Hello World!"); //ExSkip
         //ExEnd
 
         stream.close();
@@ -2082,7 +2082,7 @@ public class ExDocument extends ApiExampleBase {
     @Test
     public void autoUpdateStyles() throws Exception {
         //ExStart
-        //ExFor:Document.AutomaticallyUpdateSyles
+        //ExFor:Document.AutomaticallyUpdateStyles
         //ExSummary:Shows how to update a document's styles based on its template.
         Document doc = new Document();
 
@@ -2098,7 +2098,7 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertTrue(doc.getAttachedTemplate().endsWith("Document.BusinessBrochureTemplate.dotx"));
 
         // Any changes to the styles in this template will be propagated to those styles in the document
-        doc.setAutomaticallyUpdateSyles(true);
+        doc.setAutomaticallyUpdateStyles(true);
 
         doc.save(getArtifactsDir() + "Document.TemplateStylesUpdating.docx");
         //ExEnd
@@ -2115,7 +2115,7 @@ public class ExDocument extends ApiExampleBase {
 
         // If we set this flag to true while not having a template attached to the document,
         // there will be no effect because there is no template document to draw style changes from
-        doc.setAutomaticallyUpdateSyles(true);
+        doc.setAutomaticallyUpdateStyles(true);
         Assert.assertTrue(doc.getAttachedTemplate().isEmpty());
 
         // We can set a default template document filename in a SaveOptions object to make it apply to

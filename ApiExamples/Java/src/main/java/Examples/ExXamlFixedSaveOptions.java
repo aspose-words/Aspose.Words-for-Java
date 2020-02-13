@@ -25,9 +25,9 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
     //ExFor:XamlFixedSaveOptions.SaveFormat
     //ExSummary:Shows how to print the URIs of linked resources created during conversion of a document to fixed-form .xaml.
     @Test //ExSkip
-    public void xamlFixedResourceFolder() throws Exception {
+    public void resourceFolder() throws Exception {
         // Open a document which contains resources
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         XamlFixedSaveOptions options = new XamlFixedSaveOptions();
         {
@@ -41,7 +41,7 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
         // We must ensure the folder exists before the streams can put their resources into it
         new File(options.getResourcesFolderAlias()).mkdir();
 
-        doc.save(getArtifactsDir() + "XamlFixedResourceFolder.xaml", options);
+        doc.save(getArtifactsDir() + "XamlFixedSaveOptions.ResourceFolder.xaml", options);
     }
 
     /// <summary>

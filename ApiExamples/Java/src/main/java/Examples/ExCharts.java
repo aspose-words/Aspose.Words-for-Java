@@ -137,7 +137,7 @@ public class ExCharts extends ApiExampleBase {
     }
 
     @Test
-    public void insertChartUsingAxisProperties() throws Exception {
+    public void axisProperties() throws Exception {
         //ExStart
         //ExFor:ChartAxis
         //ExFor:ChartAxis.CategoryType
@@ -201,12 +201,11 @@ public class ExCharts extends ApiExampleBase {
         yAxis.setTickLabelPosition(AxisTickLabelPosition.NEXT_TO_AXIS);
         //ExEnd
 
-        doc.save(getArtifactsDir() + "Charts.InsertChartUsingAxisProperties.docx");
-        doc.save(getArtifactsDir() + "Charts.InsertChartUsingAxisProperties.pdf");
+        doc.save(getArtifactsDir() + "Charts.AxisProperties.docx");
     }
 
     @Test
-    public void insertChartWithDateTimeValues() throws Exception {
+    public void dateTimeValues() throws Exception {
         //ExStart
         //ExFor:AxisBound
         //ExFor:AxisBound.#ctor(Double)
@@ -262,7 +261,7 @@ public class ExCharts extends ApiExampleBase {
         yAxis.getScaling().setMinimum(new AxisBound(100.0));
         yAxis.getScaling().setMaximum(new AxisBound(700.0));
 
-        doc.save(getArtifactsDir() + "Charts.ChartAxisProperties.docx");
+        doc.save(getArtifactsDir() + "Charts.DateTimeValues.docx");
         //ExEnd
     }
 
@@ -327,7 +326,6 @@ public class ExCharts extends ApiExampleBase {
         //ExEnd
 
         doc.save(getArtifactsDir() + "Charts.SetNumberFormatToChartAxis.docx");
-        doc.save(getArtifactsDir() + "Charts.SetNumberFormatToChartAxis.pdf");
     }
 
     // Note: Tests below used for verification conversion docx to pdf and the correct display.
@@ -394,7 +392,7 @@ public class ExCharts extends ApiExampleBase {
     }
 
     @Test
-    public void workWithChartDataLabelCollection() throws Exception {
+    public void chartDataLabelCollection() throws Exception {
         //ExStart
         //ExFor:ChartDataLabelCollection.ShowBubbleSize
         //ExFor:ChartDataLabelCollection.ShowCategoryName
@@ -443,7 +441,7 @@ public class ExCharts extends ApiExampleBase {
         pieChartDataLabels.setShowPercentage(true);
         pieChartDataLabels.setShowValue(true);
 
-        doc.save(getArtifactsDir() + "Charts.WorkWithChartDataLabelCollection.docx");
+        doc.save(getArtifactsDir() + "Charts.ChartDataLabelCollection.docx");
         //ExEnd
     }
 

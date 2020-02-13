@@ -2608,7 +2608,8 @@ public class ExField extends ApiExampleBase {
     //ExFor:FieldDdeAuto.SourceFullName
     //ExFor:FieldDdeAuto.SourceItem
     //ExSummary:Shows how to insert linked objects as LINK, DDE and DDEAUTO fields and present them within the document in different ways.
-    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsTextDataProvider") //ExSkip
+    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsTextDataProvider")
+    //ExSkip
     public void fieldLinkedObjectsAsText(final int insertLinkedObjectAs) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2641,7 +2642,8 @@ public class ExField extends ApiExampleBase {
                 };
     }
 
-    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider") //ExSkip
+    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider")
+    //ExSkip
     public void fieldLinkedObjectsAsImage(final int insertLinkedObjectAs) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3515,13 +3517,13 @@ public class ExField extends ApiExampleBase {
         // By default, file size is displayed in bytes
         FieldFileSize field = (FieldFileSize) builder.insertField(FieldType.FIELD_FILE_SIZE, true);
         field.update();
-        Assert.assertEquals(field.getResult(), "23040");
+        Assert.assertEquals(field.getResult(), "19968");
 
         // Set the field to display size in kilobytes
         field = (FieldFileSize) builder.insertField(FieldType.FIELD_FILE_SIZE, true);
         field.isInKilobytes(true);
         field.update();
-        Assert.assertEquals(field.getResult(), "23");
+        Assert.assertEquals(field.getResult(), "20");
 
         // Set the field to display size in megabytes
         field = (FieldFileSize) builder.insertField(FieldType.FIELD_FILE_SIZE, true);
