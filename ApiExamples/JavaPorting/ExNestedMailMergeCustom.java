@@ -11,8 +11,9 @@ package ApiExamples;
 
 import com.aspose.ms.java.collections.StringSwitchMap;
 import org.testng.annotations.Test;
-import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.ms.System.Collections.msArrayList;
 import java.util.ArrayList;
 import com.aspose.words.IMailMergeDataSource;
 import com.aspose.words.ref.Ref;
@@ -25,8 +26,15 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
     //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSource)
     //ExSummary:Performs mail merge with regions from a custom data source.
     @Test //ExSkip
-    public void mailMergeCustomDataSource() throws Exception
+    public void customDataSource() throws Exception
     {
+        // Create a destination document for the mail merge
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertField(" MERGEFIELD FullName ");
+        builder.insertParagraph();
+        builder.insertField(" MERGEFIELD Address ");
+
         // Create some data that we will use in the mail merge
         CustomerList customers = new CustomerList();
         msArrayList.add(customers, new Customer("Thomas Hardy", "120 Hanover Sq., London"));
@@ -37,9 +45,6 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
         msArrayList.add(customers.get(0).getOrders(), new Order("Rugby World Cup Ball", 1));
         msArrayList.add(customers.get(1).getOrders(), new Order("Rugby World Cup Guide", 1));
 
-        // Open the template document
-        Document doc = new Document(getMyDir() + "NestedMailMerge.CustomDataSource.doc");
-
         // To be able to mail merge from your own data source, it must be wrapped
         // into an object that implements the IMailMergeDataSource interface
         CustomerMailMergeDataSource customersDataSource = new CustomerMailMergeDataSource(customers);
@@ -47,7 +52,7 @@ public class ExNestedMailMergeCustom extends ApiExampleBase
         // Now you can pass your data source into Aspose.Words
         doc.getMailMerge().executeWithRegions(customersDataSource);
 
-        doc.save(getArtifactsDir() + "NestedMailMerge.CustomDataSource.doc");
+        doc.save(getArtifactsDir() + "NestedMailMergeCustom.CustomDataSource.doc");
     }
 
     /// <summary>

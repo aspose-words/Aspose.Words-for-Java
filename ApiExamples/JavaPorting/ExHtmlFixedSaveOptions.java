@@ -20,11 +20,11 @@ import org.testng.Assert;
 import com.aspose.words.ExportFontFormat;
 import com.aspose.words.IResourceSavingCallback;
 import com.aspose.words.ResourceSavingArgs;
+import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.words.SaveFormat;
 import com.aspose.ms.System.IO.Directory;
-import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 
@@ -48,14 +48,14 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             htmlFixedSaveOptions.setEncoding(new ASCIIEncoding());
         }
 
-        doc.save(getArtifactsDir() + "UseEncoding.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.UseEncoding.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
     // Note: Test doesn't contain validation result, because it's may take a lot of time for assert result
     // For validation result, you can save the document to HTML file and check out with notepad++, that file encoding will be correctly displayed (Encoding tab in Notepad++)
     @Test
-    public void encodingUsingGetEncoding() throws Exception
+    public void getEncoding() throws Exception
     {
         Document doc = DocumentHelper.createDocumentFillWithDummyText();
 
@@ -64,7 +64,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             htmlFixedSaveOptions.setEncoding(Encoding.getEncoding("utf-16"));
         }
 
-        doc.save(getArtifactsDir() + "EncodingUsingGetEncoding.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.GetEncoding.html", htmlFixedSaveOptions);
     }
 
     // Note: Test doesn't contain validation result, because it's may take a lot of time for assert result
@@ -88,7 +88,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             htmlFixedSaveOptions.setExportEmbeddedSvg(true);
         }
 
-        doc.save(getArtifactsDir() + "ExportEmbeddedObjects.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedObjects.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
@@ -108,7 +108,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             htmlFixedSaveOptions.setExportFormFields(true);
         }
 
-        doc.save(getArtifactsDir() + "ExportFormFields.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportFormFields.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
@@ -127,10 +127,10 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             htmlFixedSaveOptions.setSaveFontFaceCssSeparately(true);
         }
 
-        doc.save(getArtifactsDir() + "cssPrefix_Out.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix.html", htmlFixedSaveOptions);
         //ExEnd
 
-        DocumentHelper.findTextInFile(getArtifactsDir() + "cssPrefix_Out/styles.css", "test");
+        DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix/styles.css", "test");
     }
 
     @Test
@@ -147,7 +147,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             htmlFixedSaveOptions.setPageHorizontalAlignment(HtmlFixedPageHorizontalAlignment.LEFT);
         }
 
-        doc.save(getArtifactsDir() + "HtmlFixedPageHorizontalAlignment.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.HorizontalAlignment.html", htmlFixedSaveOptions);
         //ExEnd
     }
 
@@ -164,7 +164,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             saveOptions.setPageMargins(10.0);
         }
 
-        doc.save(getArtifactsDir() + "HtmlFixedPageMargins.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.PageMargins.html", saveOptions);
         //ExEnd
     }
 
@@ -180,24 +180,33 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
     {
         //ExStart
         //ExFor:FixedPageSaveOptions.OptimizeOutput
+        //ExFor:HtmlFixedSaveOptions.OptimizeOutput
         //ExSummary:Shows how to optimize document objects while saving to html.
-        Document doc = new Document(getMyDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.doc");
+        Document doc = new Document(getMyDir() + "Unoptimized content.docx");
 
-        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions(); { saveOptions.setOptimizeOutput(false); }
+        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions(); { saveOptions.setOptimizeOutput(true); }
 
-        doc.save(getArtifactsDir() + "HtmlFixedPageMargins.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
         //ExEnd
     }
 
     //ExStart
+    //ExFor:ExportFontFormat
+    //ExFor:HtmlFixedSaveOptions.FontFormat
     //ExFor:HtmlFixedSaveOptions.UseTargetMachineFonts
     //ExFor:IResourceSavingCallback
     //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
-    //ExSummary: Shows how used target machine fonts to display the document.
+    //ExFor:ResourceSavingArgs
+    //ExFor:ResourceSavingArgs.Document
+    //ExFor:ResourceSavingArgs.KeepResourceStreamOpen
+    //ExFor:ResourceSavingArgs.ResourceFileName
+    //ExFor:ResourceSavingArgs.ResourceFileUri
+    //ExFor:ResourceSavingArgs.ResourceStream
+    //ExSummary:Shows how used target machine fonts to display the document.
     @Test //ExSkip
     public void usingMachineFonts() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Font.DisappearingBulletPoints.doc");
+        Document doc = new Document(getMyDir() + "Bullet points with alternative font.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
         {
@@ -207,7 +216,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             saveOptions.setResourceSavingCallback(new ResourceSavingCallback());
         }
 
-        doc.save(getArtifactsDir() + "UseMachineFonts.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.UsingMachineFonts.html", saveOptions);
     }
 
     private static class ResourceSavingCallback implements IResourceSavingCallback
@@ -217,6 +226,10 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         /// </summary>
         public void resourceSaving(ResourceSavingArgs args) throws Exception
         {
+            System.out.println("Original document URI:\t{args.Document.OriginalFileName}");
+            System.out.println("Resource being saved:\t{args.ResourceFileName}");
+            System.out.println("Full uri after saving:\t{args.ResourceFileUri}");
+
             args.ResourceStream = new MemoryStream();
             args.setKeepResourceStreamOpen(true);
 
@@ -240,13 +253,14 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
     //ExFor:HtmlFixedSaveOptions.ResourceSavingCallback
     //ExFor:HtmlFixedSaveOptions.ResourcesFolder
     //ExFor:HtmlFixedSaveOptions.ResourcesFolderAlias
+    //ExFor:HtmlFixedSaveOptions.SaveFormat
     //ExFor:HtmlFixedSaveOptions.ShowPageBorder
     //ExSummary:Shows how to print the URIs of linked resources created during conversion of a document to fixed-form .html.
     @Test //ExSkip
     public void htmlFixedResourceFolder() throws Exception
     {
         // Open a document which contains images
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlFixedSaveOptions options = new HtmlFixedSaveOptions();
         {
@@ -262,7 +276,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         // We must ensure the folder exists before the streams can put their resources into it
         Directory.createDirectory(options.getResourcesFolderAlias());
 
-        doc.save(getArtifactsDir() + "HtmlFixedResourceFolder.html", options);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.HtmlFixedResourceFolder.html", options);
     }
 
     /// <summary>
@@ -273,7 +287,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         public void /*IResourceSavingCallback.*/resourceSaving(ResourceSavingArgs args) throws Exception
         {
             // If we set a folder alias in the SaveOptions object, it will be printed here
-            msConsole.writeLine($"Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
+            System.out.println("Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
 
             String extension = Path.getExtension(args.getResourceFileName());
             switch (gStringSwitchMap.of(extension))
@@ -287,7 +301,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
                     break;
                 }
             }
-            msConsole.writeLine("\t" + args.getResourceFileUri());
+            System.out.println("\t" + args.getResourceFileUri());
 
             // If we specified a ResourcesFolderAlias we will also need to redirect each stream to put its resource in that folder
             args.ResourceStream = new FileStream(args.getResourceFileUri(), FileMode.CREATE);

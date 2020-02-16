@@ -63,7 +63,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:StructuredDocumentTag.SdtType
         //ExSummary:Shows how to get type of structured document tag.
-        Document doc = new Document(getMyDir() + "TestRepeatingSection.docx");
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
         NodeCollection sdTags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
 
@@ -207,7 +207,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // We can remove the tag while keeping its contents where they were in the Paragraph by calling RemoveSelfOnly()
         tagClone.removeSelfOnly();
 
-        doc.save(getArtifactsDir() + "SDT.PlainText.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.PlainText.docx");
         //ExEnd
     }
 
@@ -241,7 +241,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         builder.write("\nTemporary checkbox: ");
         builder.insertNode(tag);
 
-        doc.save(getArtifactsDir() + "SDT.IsTemporary.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.IsTemporary.docx");
         //ExEnd
     }
 
@@ -288,7 +288,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertNode(tag);
 
-        doc.save(getArtifactsDir() + "SDT.PlaceholderBuildingBlock.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.PlaceholderBuildingBlock.docx");
         //ExEnd
     }
 
@@ -321,7 +321,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         builder.write("This StructuredDocumentTag cannot be deleted but its contents can be edited: ");
         builder.insertNode(tag);
 
-        doc.save(getArtifactsDir() + "SDT.Lock.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.Lock.docx");
         //ExEnd
     }
 
@@ -377,7 +377,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             while (enumerator.hasNext())
             {
                 if (enumerator.next() != null)
-                    msConsole.writeLine($"List item: {enumerator.Current.DisplayText}, value: {enumerator.Current.Value}");
+                    System.out.println("List item: {enumerator.Current.DisplayText}, value: {enumerator.Current.Value}");
             }
         }
         finally { if (enumerator != null) enumerator.close(); }
@@ -389,7 +389,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // Make sure to update the SelectedValue's index if it ever ends up out of bounds before saving the document
         listItems.setSelectedValue(listItems.get(1));
        
-        doc.save(getArtifactsDir() + "SDT.ListItemCollection.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.ListItemCollection.docx");
 
         // We can clear the whole collection at once too
         listItems.clear();
@@ -454,8 +454,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             int index = 0;
             while (enumerator.hasNext())
             {
-                msConsole.writeLine($"XML part index {index}, ID: {enumerator.Current.Id}");
-                msConsole.writeLine($"\tContent: {Encoding.UTF8.GetString(enumerator.Current.Data)}");
+                System.out.println("XML part index {index}, ID: {enumerator.Current.Id}");
+                System.out.println("\tContent: {Encoding.UTF8.GetString(enumerator.Current.Data)}");
                 index++;
             }
         }
@@ -479,10 +479,10 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc.getFirstSection().getBody().appendChild(sdt);
 
-        doc.save(getArtifactsDir() + "SDT.CustomXml.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx");
         //ExEnd
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "SDT.CustomXml.docx", getGoldsDir() + "SDT.CustomXml Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx", getGoldsDir() + "StructuredDocumentTag.CustomXml Gold.docx"));
     }
 
     @Test
@@ -502,7 +502,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         String xmlPartId = Guid.newGuid().toString("B");
         String xmlPartContent = "<root><text>Text element #1</text><text>Text element #2</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
-        msConsole.writeLine(Encoding.getUTF8().getString(xmlPart.getData()));
+        System.out.println(Encoding.getUTF8().getString(xmlPart.getData()));
 
         // Create a StructuredDocumentTag that will display the contents of our CustomXmlPart in the document
         StructuredDocumentTag sdt = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
@@ -519,7 +519,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         // Add the StructuredDocumentTag to the document to display the content from our CustomXmlPart
         doc.getFirstSection().getBody().appendChild(sdt);
-        doc.save(getArtifactsDir() + "SDT.XmlMapping.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.XmlMapping.docx");
         //ExEnd
     }
 
@@ -563,7 +563,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         {
             while (enumerator.hasNext())
             {
-                msConsole.writeLine(enumerator.next());
+                System.out.println(enumerator.next());
             }
         }
         finally { if (enumerator != null) enumerator.close(); }
@@ -583,10 +583,10 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:XmlMapping.StoreItemId
         //ExSummary:Shows how to get special id of your xml part.
-        Document doc = new Document(getMyDir() + "SDT.CustomXml.docx");
+        Document doc = new Document(getMyDir() + "Custom XML part in structured document tag.docx");
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
-        msConsole.writeLine("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
+        System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
         //ExEnd
     }
 
@@ -606,7 +606,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         doc.save(dstStream, SaveFormat.DOCX);
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
-        msConsole.writeLine("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
+        System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
     }
 
     @Test
@@ -615,7 +615,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:StructuredDocumentTag.Clear
         //ExSummary:Shows how to delete content of StructuredDocumentTag elements.
-        Document doc = new Document(getMyDir() + "TestRepeatingSection.docx");
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
         NodeCollection sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
         Assert.assertNotNull(sdts);
@@ -655,7 +655,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:CustomXmlPropertyCollection.RemoveAt(Int32)
         //ExSummary:Shows how to work with smart tag properties to get in depth information about smart tags.
         // Open a document that contains smart tags and their collection
-        Document doc = new Document(getMyDir() + "SmartTags.doc");
+        Document doc = new Document(getMyDir() + "Smart tags.doc");
 
         // Smart tags are an older Microsoft Word feature that can automatically detect and tag
         // any parts of the text that it registers as commonly used information objects such as names, addresses, stock tickers, dates etc
@@ -679,7 +679,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         {
             while (enumerator.hasNext())
             {
-                msConsole.writeLine($"Property name: {enumerator.Current.Name}, value: {enumerator.Current.Value}");
+                System.out.println("Property name: {enumerator.Current.Name}, value: {enumerator.Current.Value}");
                 msAssert.areEqual("", enumerator.next().getUri());
             }
         }
@@ -762,7 +762,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitSmartTagStart(SmartTag smartTag)
         {
-            msConsole.writeLine($"Smart tag type: {smartTag.Element}");
+            System.out.println("Smart tag type: {smartTag.Element}");
             return VisitorAction.CONTINUE;
         }
 
@@ -771,11 +771,11 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitSmartTagEnd(SmartTag smartTag)
         {
-            msConsole.writeLine($"\tContents: \"{smartTag.ToString(SaveFormat.Text)}\"");
+            System.out.println("\tContents: \"{smartTag.ToString(SaveFormat.Text)}\"");
 
             if (smartTag.getProperties().getCount() == 0)
             {
-                msConsole.writeLine("\tContains no properties");
+                System.out.println("\tContains no properties");
             }
             else
             {
@@ -786,7 +786,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
                 for (CustomXmlProperty cxp : smartTag.getProperties())
                     properties[index++] = $"\"{cxp.Name}\" = \"{cxp.Value}\"";
 
-                msConsole.writeLine(msString.join(", ", properties));
+                System.out.println(msString.join(", ", properties));
             }
 
             return VisitorAction.CONTINUE;
@@ -797,7 +797,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     @Test
     public void accessToBuildingBlockPropertiesFromDocPartObjSdt() throws Exception
     {
-        Document doc = new Document(getMyDir() + "StructuredDocumentTag.BuildingBlocks.docx");
+        Document doc = new Document(getMyDir() + "Structured document tags with building blocks.docx");
 
         StructuredDocumentTag docPartObjSdt =
             (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
@@ -809,7 +809,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     @Test
     public void accessToBuildingBlockPropertiesFromPlainTextSdt() throws Exception
     {
-        Document doc = new Document(getMyDir() + "StructuredDocumentTag.BuildingBlocks.docx");
+        Document doc = new Document(getMyDir() + "Structured document tags with building blocks.docx");
 
         StructuredDocumentTag plainTextSdt =
             (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
@@ -875,7 +875,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         PdfSaveOptions options = new PdfSaveOptions();
         options.setUpdateSdtContent(false);
 
-        doc.save(getArtifactsDir() + "UpdateSdtContent.pdf", options);
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf", options);
         //ExEnd
     }
 

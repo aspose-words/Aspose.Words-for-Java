@@ -25,12 +25,12 @@ public class ExTxtLoadOptions extends ApiExampleBase {
         //ExFor:TxtLeadingSpacesOptions
         //ExSummary:Shows how to load plain text as is.
         TxtLoadOptions loadOptions = new TxtLoadOptions();
-        // If it sets to true Aspose.Words insert additional periods after numbers in the content.
+        // If it sets to true Aspose.Words insert additional periods after numbers in the content
         loadOptions.setDetectNumberingWithWhitespaces(false);
         loadOptions.setTrailingSpacesOptions(TxtTrailingSpacesOptions.PRESERVE);
         loadOptions.setLeadingSpacesOptions(TxtLeadingSpacesOptions.PRESERVE);
 
-        Document doc = new Document(getMyDir() + "TxtLoadOptions.DetectNumberingWithWhitespaces.txt", loadOptions);
+        Document doc = new Document(getMyDir() + "Numbers and whitespaces.txt", loadOptions);
         doc.save(getArtifactsDir() + "TxtLoadOptions.DetectNumberingWithWhitespaces.txt");
         //ExEnd
     }
@@ -55,8 +55,8 @@ public class ExTxtLoadOptions extends ApiExampleBase {
     public static Object[][] detectDocumentDirectionDataProvider() throws Exception {
         return new Object[][]
                 {
-                        {"TxtLoadOptions.Hebrew.txt", true},
-                        {"TxtLoadOptions.English.txt", false},
+                        {"Hebrew text.txt", true},
+                        {"English text.txt", false},
                 };
     }
 }

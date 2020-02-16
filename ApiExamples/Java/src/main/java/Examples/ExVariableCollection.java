@@ -17,16 +17,16 @@ import java.util.Map;
 
 public class ExVariableCollection extends ApiExampleBase {
     @Test
-    public void addEx() throws Exception {
+    public void add() throws Exception {
         //ExStart
         //ExFor:VariableCollection.Add
         //ExSummary:Shows how to create document variables and add them to a document's variable collection.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.getVariables().add("doc", "Word processing document");
         doc.getVariables().add("docx", "Word processing document");
         doc.getVariables().add("txt", "Word processing document");
-        // Duplicate values can be stored but adding a duplicate name overwrites the old one.
+        // Duplicate values can be stored but adding a duplicate name overwrites the old one
         doc.getVariables().add("txt", "Plain text file");
         doc.getVariables().add("bmp", "Image");
         doc.getVariables().add("png", "Image");
@@ -39,7 +39,7 @@ public class ExVariableCollection extends ApiExampleBase {
         //ExFor:VariableCollection.Clear
         //ExFor:VariableCollection.Count
         //ExSummary:Shows how to clear all document variables from a document.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.getVariables().add("doc", "Word processing document");
         doc.getVariables().add("docx", "Word processing document");
@@ -57,7 +57,7 @@ public class ExVariableCollection extends ApiExampleBase {
         //ExStart
         //ExFor:VariableCollection.Contains
         //ExSummary:Shows how to check if a collection of document variables contains a key.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.getVariables().add("doc", "Word processing document");
 
@@ -71,7 +71,7 @@ public class ExVariableCollection extends ApiExampleBase {
         //ExStart
         //ExFor:VariableCollection.GetEnumerator
         //ExSummary:Shows how to obtain an enumerator from a collection of document variables and use it.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.getVariables().add("doc", "Word processing document");
         doc.getVariables().add("docx", "Word processing document");
@@ -93,7 +93,7 @@ public class ExVariableCollection extends ApiExampleBase {
         //ExStart
         //ExFor:VariableCollection.IndexOfKey
         //ExSummary:Shows how to get the index of a key.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.getVariables().add("doc", "Word processing document");
         doc.getVariables().add("docx", "Word processing document");
@@ -111,7 +111,7 @@ public class ExVariableCollection extends ApiExampleBase {
         //ExStart
         //ExFor:VariableCollection.Remove
         //ExSummary:Shows how to remove an element from a document's variable collection by key.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.getVariables().add("doc", "Word processing document");
         doc.getVariables().add("docx", "Word processing document");

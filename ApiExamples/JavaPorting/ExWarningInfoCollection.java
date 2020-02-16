@@ -34,7 +34,7 @@ public class ExWarningInfoCollection extends ApiExampleBase
             while (enumerator.hasNext())
             {
                 WarningInfo wi = enumerator.next();
-                if (wi != null) msConsole.writeLine(wi.getDescription());
+                if (wi != null) System.out.println(wi.getDescription());
             }
 
             wic.clear();

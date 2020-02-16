@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2017 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -46,10 +46,9 @@ public class ExDrawing extends ApiExampleBase
         //ExStart
         //ExFor:Stroke.Color2
         //ExFor:Stroke.ImageBytes
-        //ExSummary:Shows how to process shape stroke features from older versions of Microsoft Word.
+        //ExSummary:Shows how to process shape stroke features.
         // Open a document which contains a rectangle with a thick, two-tone-patterned outline
-        // These features cannot be recreated in new versions of Microsoft Word, so we will open an older .doc file
-        Document doc = new Document(getMyDir() + "Shape.StrokePattern.doc");
+        Document doc = new Document(getMyDir() + "Shape stroke pattern border.docx");
 
         // Get the first shape's stroke
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
@@ -112,7 +111,7 @@ public class ExDrawing extends ApiExampleBase
         ShapeInfoPrinter printer = new ShapeInfoPrinter();
         group.accept(printer);
 
-        msConsole.writeLine(printer.getText());
+        System.out.println(printer.getText());
     }
 
     /// <summary>
@@ -163,7 +162,7 @@ public class ExDrawing extends ApiExampleBase
     //ExEnd
 
     @Test
-    public void textBoxTextLayout() throws Exception
+    public void textBox() throws Exception
     {
         //ExStart
         //ExFor:Drawing.LayoutFlow
@@ -196,12 +195,12 @@ public class ExDrawing extends ApiExampleBase
         //ExFor:ImageData.ToByteArray
         //ExFor:ImageData.ToStream
         //ExSummary:Shows how to access raw image data in a shape's ImageData object.
-        Document imgSourceDoc = new Document(getMyDir() + "Image.SampleImages.doc");
+        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
         // Images are stored as shapes
-        // Get into the document's shape collection to verify that it contains 6 images
+        // Get into the document's shape collection to verify that it contains 10 images
         ArrayList<Shape> shapes = imgSourceDoc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().ToList();
-        msAssert.areEqual(6, shapes.size());
+        msAssert.areEqual(10, shapes.size());
 
         // ToByteArray() returns the value of the ImageBytes property
         msAssert.areEqual(shapes.get(0).getImageData().getImageBytes(), shapes.get(0).getImageData().toByteArray());
@@ -211,7 +210,7 @@ public class ExDrawing extends ApiExampleBase
         Stream imgStream = shapes.get(0).getImageData().toStreamInternal();
         try /*JAVA: was using*/
         {
-            FileStream outStream = new FileStream(getArtifactsDir() + "MyImg.png", FileMode.CREATE_NEW);
+            FileStream outStream = new FileStream(getArtifactsDir() + "Drawing.GetDataFromImage.png", FileMode.CREATE);
             try /*JAVA: was using*/
             {
                 imgStream.copyTo(outStream);
@@ -241,7 +240,7 @@ public class ExDrawing extends ApiExampleBase
         //ExFor:ImageData.Title
         //ExSummary:Shows how to edit images using the ImageData attribute.
         // Open a document that contains images
-        Document imgSourceDoc = new Document(getMyDir() + "Image.SampleImages.doc");
+        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
         Shape sourceShape = (Shape)imgSourceDoc.getChildNodes(NodeType.SHAPE, true).get(0);
         
@@ -294,7 +293,7 @@ public class ExDrawing extends ApiExampleBase
         importedShape.getImageData().setCropTop(0.3d);
         importedShape.getImageData().setCropRight(0.3d);
 
-        dstDoc.save(getArtifactsDir() + "ImageData.EditedImages.docx");
+        dstDoc.save(getArtifactsDir() + "Drawing.ImageData.docx");
         //ExEnd
     }
 
@@ -311,14 +310,14 @@ public class ExDrawing extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a shape into the document which contains an image taken from our local file system
-        Shape shape = builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
 
         // If the shape contains an image, its ImageData property will be valid, and it will contain an ImageSize object
         ImageSize imageSize = shape.getImageData().getImageSize(); 
 
         // The ImageSize object contains raw information about the image within the shape
-        msAssert.areEqual(200, imageSize.getHeightPixels());
-        msAssert.areEqual(200, imageSize.getWidthPixels());
+        msAssert.areEqual(400, imageSize.getHeightPixels());
+        msAssert.areEqual(400, imageSize.getWidthPixels());
 
 		final double DELTA = 0.05;
         Assert.assertEquals(95.98d, imageSize.getHorizontalResolution(), DELTA);
@@ -331,7 +330,7 @@ public class ExDrawing extends ApiExampleBase
         shape.setWidth(imageSize.getWidthPoints() * 2.0);
         shape.setHeight(imageSize.getHeightPoints() * 2.0);
 
-        doc.save(getArtifactsDir() + "Image.ImageSize.docx");
+        doc.save(getArtifactsDir() + "Drawing.ImageSize.docx");
         //ExEnd
     }
 }

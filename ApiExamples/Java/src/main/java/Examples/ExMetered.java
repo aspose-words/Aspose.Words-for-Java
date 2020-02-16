@@ -39,7 +39,7 @@ public class ExMetered extends ApiExampleBase {
         System.out.println(MessageFormat.format("Consumption quantity before operation: {0}", Metered.getConsumptionQuantity()));
 
         // Do something
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Print credit/usage to see how much was spent
         System.out.println(MessageFormat.format("Credit after operation: {0}", Metered.getConsumptionCredit()));

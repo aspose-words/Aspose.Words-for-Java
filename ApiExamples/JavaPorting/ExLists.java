@@ -39,8 +39,6 @@ import com.aspose.words.ListLabel;
 @Test
 public class ExLists extends ApiExampleBase
 {
-    private /*final*/ String mImage = getImageDir() + "Test_636_852.gif";
-
     @Test
     public void applyDefaultBulletsAndNumbers() throws Exception
     {
@@ -285,7 +283,6 @@ public class ExLists extends ApiExampleBase
         //ExFor:ListCollection.AddCopy(List)
         //ExFor:ListLevel.StartAt
         //ExFor:ListTemplate
-        //ExFor:ListFormat.List
         //ExSummary:Shows how to restart numbering in a list by copying a list.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -348,10 +345,10 @@ public class ExLists extends ApiExampleBase
         List list1 = listStyle.getList();
 
         // Check some basic rules about the list that defines a list style
-        msConsole.writeLine("IsListStyleDefinition: " + list1.isListStyleDefinition());
-        msConsole.writeLine("IsListStyleReference: " + list1.isListStyleReference());
-        msConsole.writeLine("IsMultiLevel: " + list1.isMultiLevel());
-        msConsole.writeLine("List style has been set: " + (listStyle == list1.getStyle()));
+        System.out.println("IsListStyleDefinition: " + list1.isListStyleDefinition());
+        System.out.println("IsListStyleReference: " + list1.isListStyleReference());
+        System.out.println("IsMultiLevel: " + list1.isMultiLevel());
+        System.out.println("List style has been set: " + (listStyle == list1.getStyle()));
 
         // Modify formatting of the list style to our liking
         for (int i = 0; i < list1.getListLevels().getCount(); i++)
@@ -371,9 +368,9 @@ public class ExLists extends ApiExampleBase
         List list2 = doc.getLists().add(listStyle);
 
         // Check some basic rules about the list that references a list style
-        msConsole.writeLine("IsListStyleDefinition: " + list2.isListStyleDefinition());
-        msConsole.writeLine("IsListStyleReference: " + list2.isListStyleReference());
-        msConsole.writeLine("List Style has been set: " + (listStyle == list2.getStyle()));
+        System.out.println("IsListStyleDefinition: " + list2.isListStyleDefinition());
+        System.out.println("IsListStyleReference: " + list2.isListStyleReference());
+        System.out.println("List Style has been set: " + (listStyle == list2.getStyle()));
 
         // Apply the list that references the list style
         builder.getListFormat().setList(list2);
@@ -421,8 +418,8 @@ public class ExLists extends ApiExampleBase
         {
             if (para.getListFormat().isListItem())
             {
-                msConsole.writeLine($"*** A paragraph belongs to list {para.ListFormat.List.ListId}");
-                msConsole.writeLine(para.getText());
+                System.out.println("*** A paragraph belongs to list {para.ListFormat.List.ListId}");
+                System.out.println(para.getText());
             }
         }
         //ExEnd
@@ -434,7 +431,6 @@ public class ExLists extends ApiExampleBase
         Document doc = new Document();
 
         //ExStart
-        //ExFor:Paragraph.ListFormat
         //ExFor:ListFormat.RemoveNumbers
         //ExSummary:Removes bullets and numbering from all paragraphs in the main text of a section.
         Body body = doc.getFirstSection().getBody();
@@ -451,8 +447,6 @@ public class ExLists extends ApiExampleBase
         doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
         //ExStart
-        //ExFor:Paragraph.ListFormat
-        //ExFor:ListFormat.List
         //ExFor:ListFormat.ListLevelNumber
         //ExFor:ListCollection.Item(Int32)
         //ExSummary:Applies list formatting of an existing list to a collection of paragraphs.
@@ -472,7 +466,6 @@ public class ExLists extends ApiExampleBase
         Document doc = new Document();
 
         //ExStart
-        //ExFor:Paragraph.ListFormat
         //ExFor:ListFormat.ListLevelNumber
         //ExFor:ListCollection.Add(ListTemplate)
         //ExSummary:Creates new list formatting and applies it to a collection of paragraphs.
@@ -540,8 +533,8 @@ public class ExLists extends ApiExampleBase
     @Test //ExSkip
     public void printOutAllLists() throws Exception
     {
-        // You can use any of your documents to try this little program out
-        Document srcDoc = new Document(getMyDir() + "Lists.PrintOutAllLists.doc");
+        // Open a document that contains lists
+        Document srcDoc = new Document(getMyDir() + "Rendering.docx");
 
         // This will be the sample document we product
         Document dstDoc = new Document();
@@ -587,15 +580,15 @@ public class ExLists extends ApiExampleBase
 
         ListCollection lists = doc.getLists();
         // All of these should be equal
-        msConsole.writeLine("ListCollection document is doc: " + (doc == lists.getDocument()));
-        msConsole.writeLine("Starting list count: " + lists.getCount());
+        System.out.println("ListCollection document is doc: " + (doc == lists.getDocument()));
+        System.out.println("Starting list count: " + lists.getCount());
 
         List list = lists.add(ListTemplate.BULLET_DEFAULT);
-        msConsole.writeLine("List document is doc: " + (list.getDocument() == doc));
-        msConsole.writeLine("List count after adding list: " + lists.getCount());
-        msConsole.writeLine("Is the first document list: " + (lists.get(0).equals(list)));
-        msConsole.writeLine("ListId: " + list.getListId());
-        msConsole.writeLine("List is the same by ListId: " + (lists.getListByListId(1).equals(list)));
+        System.out.println("List document is doc: " + (list.getDocument() == doc));
+        System.out.println("List count after adding list: " + lists.getCount());
+        System.out.println("Is the first document list: " + (lists.get(0).equals(list)));
+        System.out.println("ListId: " + list.getListId());
+        System.out.println("List is the same by ListId: " + (lists.getListByListId(1).equals(list)));
         //ExEnd
 
         // Verify these properties
@@ -734,7 +727,7 @@ public class ExLists extends ApiExampleBase
         //ExFor:ListLabel.LabelValue
         //ExFor:ListLabel.LabelString
         //ExSummary:Shows how to extract the label of each paragraph in a list as a value or a String.
-        Document doc = new Document(getMyDir() + "Lists.PrintOutAllLists.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.updateListLabels();
         int listParaCount = 1;
 
@@ -749,15 +742,15 @@ public class ExLists extends ApiExampleBase
                 // This is the text we get when actually getting when we output this node to text format
                 // The list labels are not included in this text output. Trim any paragraph formatting characters
                 String paragraphText = msString.trim(paragraph.toString(SaveFormat.TEXT));
-                msConsole.writeLine("Exported Text: " + paragraphText);
+                System.out.println("Exported Text: " + paragraphText);
 
                 ListLabel label = paragraph.getListLabel();
                 // This gets the position of the paragraph in current level of the list. If we have a list with multiple level then this
                 // will tell us what position it is on that particular level
-                msConsole.writeLine("Numerical Id: " + label.getLabelValue());
+                System.out.println("Numerical Id: " + label.getLabelValue());
 
                 // Combine them together to include the list label with the text in the output
-                msConsole.writeLine("List label combined with text: " + label.getLabelString() + " " + paragraphText);
+                System.out.println("List label combined with text: " + label.getLabelString() + " " + paragraphText);
 
                 listParaCount++;
             }
@@ -781,14 +774,24 @@ public class ExLists extends ApiExampleBase
         list.getListLevels().get(0).createPictureBullet();
 
         // Set your own picture bullet image through the ImageData
-        list.getListLevels().get(0).getImageData().setImage(mImage);
+        list.getListLevels().get(0).getImageData().setImage(getImageDir() + "Logo icon.ico");
 
         Assert.assertTrue(list.getListLevels().get(0).getImageData().hasImage());
+
+        // Create a list, configure its bullets to use our image and add two list items
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.getListFormat().setList(list);
+        builder.writeln("Hello world!");
+        builder.write("Hello again!");
+
+        doc.save(getArtifactsDir() + "Lists.CreatePictureBullet.docx");
 
         // Delete picture bullet
         list.getListLevels().get(0).deletePictureBullet();
 
         Assert.assertNull(list.getListLevels().get(0).getImageData());
+
         //ExEnd
     }
 }

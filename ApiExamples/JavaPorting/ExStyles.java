@@ -54,10 +54,10 @@ public class ExStyles extends ApiExampleBase
             while (stylesEnum.hasNext())
             {
                 Style curStyle = stylesEnum.next();
-                msConsole.writeLine($"Style name:\t\"{curStyle.Name}\", of type \"{curStyle.Type}\"");
-                msConsole.writeLine($"\tSubsequent style:\t{curStyle.NextParagraphStyleName}");
-                msConsole.writeLine($"\tIs heading:\t\t\t{curStyle.IsHeading}");
-                msConsole.writeLine($"\tIs QuickStyle:\t\t{curStyle.IsQuickStyle}");
+                System.out.println("Style name:\t\"{curStyle.Name}\", of type \"{curStyle.Type}\"");
+                System.out.println("\tSubsequent style:\t{curStyle.NextParagraphStyleName}");
+                System.out.println("\tIs heading:\t\t\t{curStyle.IsHeading}");
+                System.out.println("\tIs QuickStyle:\t\t{curStyle.IsQuickStyle}");
 
                 msAssert.areEqual(doc, curStyle.getDocument());
             }
@@ -137,7 +137,7 @@ public class ExStyles extends ApiExampleBase
         //ExFor:TabStop.Position
         //ExFor:TabStop.Leader
         //ExSummary:Shows how to modify the position of the right tab stop in TOC related paragraphs.
-        Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
+        Document doc = new Document(getMyDir() + "Table of contents.docx");
 
         // Iterate through all paragraphs in the document
         for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
@@ -156,14 +156,14 @@ public class ExStyles extends ApiExampleBase
             }
         }
 
-        doc.save(getArtifactsDir() + "Document.TableOfContentsTabStops.doc");
+        doc.save(getArtifactsDir() + "Styles.ChangeTocsTabStops.docx");
         //ExEnd
     }
 
     @Test
     public void copyStyleSameDocument() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         //ExStart
         //ExFor:StyleCollection.AddCopy
@@ -275,7 +275,7 @@ public class ExStyles extends ApiExampleBase
         //ExFor:Style.LinkedStyleName
         //ExSummary:Shows how to use style aliases.
         // Open a document that had a style inserted with commas in its name which separate the style name and aliases
-        Document doc = new Document(getMyDir() + "StyleWithAlias.docx");
+        Document doc = new Document(getMyDir() + "Style with alias.docx");
 
         // The aliases, separate from the name can be found here
         Style style = doc.getStyles().get("MyStyle");

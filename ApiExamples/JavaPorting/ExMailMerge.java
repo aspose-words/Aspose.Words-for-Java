@@ -11,8 +11,8 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
-import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataView;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.ms.NUnit.Framework.msAssert;
@@ -32,6 +32,7 @@ import com.aspose.words.FieldGreetingLine;
 import com.aspose.words.Field;
 import com.aspose.words.IMailMergeCallback;
 import com.aspose.words.net.System.Data.DataRow;
+import com.aspose.words.FieldIf;
 import org.testng.annotations.DataProvider;
 
 
@@ -49,7 +50,11 @@ public class ExMailMerge extends ApiExampleBase
         //ExFor:MailMerge.Execute(DataRow)
         //ExFor:Document.MailMerge
         //ExSummary:Executes mail merge from an ADO.NET DataTable.
-        Document doc = new Document(getMyDir() + "MailMerge.ExecuteDataTable.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertField(" MERGEFIELD CustomerName ");
+        builder.insertParagraph();
+        builder.insertField(" MERGEFIELD Address ");
 
         // This example creates a table, but you would normally load table from a database
         DataTable table = new DataTable("Test");
@@ -63,8 +68,12 @@ public class ExMailMerge extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.doc");
 
-        // Open a fresh copy of our document to perform another mail merge
-        doc = new Document(getMyDir() + "MailMerge.ExecuteDataTable.doc");
+        // Create a copy of our document to perform another mail merge
+        doc = new Document();
+        builder = new DocumentBuilder(doc);
+        builder.insertField(" MERGEFIELD CustomerName ");
+        builder.insertParagraph();
+        builder.insertField(" MERGEFIELD Address ");
 
         // We can also source values for a mail merge from a single row in the table
         doc.getMailMerge().execute(table.getRows().get(1));
@@ -667,7 +676,7 @@ public class ExMailMerge extends ApiExampleBase
 
         doc.getMailMerge().execute(new String[] { "Option_1", "Option_2" }, new Object[] { null, null });
 
-        doc.save(getArtifactsDir() + "RemoveColonBetweenEmptyMergeFields.docx");
+        doc.save(getArtifactsDir() + "MailMerge.RemoveColonBetweenEmptyMergeFields.docx");
         //ExEnd
 
         msAssert.areEqual(resultText, doc.getText());
@@ -744,8 +753,7 @@ public class ExMailMerge extends ApiExampleBase
         try /*JAVA: was using*/
     	{
             while (enumerator.hasNext())
-                msConsole.writeLine(
-                    $"Column named {enumerator.Current.Value} is mapped to MERGEFIELDs named {enumerator.Current.Key}");
+                System.out.println("Column named {enumerator.Current.Value} is mapped to MERGEFIELDs named {enumerator.Current.Key}");
     	}
         finally { if (enumerator != null) enumerator.close(); }
 
@@ -799,7 +807,7 @@ public class ExMailMerge extends ApiExampleBase
         //ExFor:FieldAddressBlock
         //ExFor:FieldAddressBlock.GetFieldNames
         //ExSummary:Shows how to get mail merge field names used by the field.
-        Document doc = new Document(getMyDir() + "MailMerge.GetFieldNames.docx");
+        Document doc = new Document(getMyDir() + "Field ADDRESSBLOCK.docx");
 
         String[] addressFieldsExpect =
         {
@@ -879,7 +887,7 @@ public class ExMailMerge extends ApiExampleBase
         //ExFor:MailMergeRegionInfo.EndField
         //ExFor:MailMergeRegionInfo.Level
         //ExSummary:Shows how to get MailMergeRegionInfo and work with it.
-        Document doc = new Document(getMyDir() + "MailMerge.TestRegionsHierarchy.doc");
+        Document doc = new Document(getMyDir() + "Mail merge regions.docx");
 
         // Returns a full hierarchy of regions (with fields) available in the document
         MailMergeRegionInfo regionInfo = doc.getMailMerge().getRegionsHierarchy();
@@ -944,41 +952,46 @@ public class ExMailMerge extends ApiExampleBase
     }
     //ExEnd
 
-    @Test (dataProvider = "getRegionsByNameDataProvider")
-    public void getRegionsByName(String regionName) throws Exception
+    @Test
+    public void getRegionsByName() throws Exception
     {
-        Document doc = new Document(getMyDir() + "MailMerge.RegionsByName.doc");
+        Document doc = new Document(getMyDir() + "Mail merge regions.docx");
 
-        ArrayList<MailMergeRegionInfo> regions = doc.getMailMerge().getRegionsByName(regionName);
-        msAssert.areEqual(2, regions.size());
+        ArrayList<MailMergeRegionInfo> regions = doc.getMailMerge().getRegionsByName("Region1");
+        msAssert.areEqual(1, doc.getMailMerge().getRegionsByName("Region1").size());
+        for (MailMergeRegionInfo region : regions) msAssert.areEqual("Region1", region.getName());
 
-        for (MailMergeRegionInfo region : regions) msAssert.areEqual(regionName, region.getName());
+        regions = doc.getMailMerge().getRegionsByName("Region2");
+        msAssert.areEqual(1, doc.getMailMerge().getRegionsByName("Region2").size());
+        for (MailMergeRegionInfo region : regions) msAssert.areEqual("Region2", region.getName());
+
+        regions = doc.getMailMerge().getRegionsByName("NestedRegion1");
+        msAssert.areEqual(2, doc.getMailMerge().getRegionsByName("NestedRegion1").size());
+        for (MailMergeRegionInfo region : regions) msAssert.areEqual("NestedRegion1", region.getName());
     }
-
-	//JAVA-added data provider for test method
-	@DataProvider(name = "getRegionsByNameDataProvider")
-	public static Object[][] getRegionsByNameDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{"Region1"},
-			{"NestedRegion1"},
-		};
-	}
 
     @Test
     public void cleanupOptions() throws Exception
     {
-        Document doc = new Document(getMyDir() + "MailMerge.CleanUp.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.startTable();
+        builder.insertCell();
+        builder.insertField(" MERGEFIELD  TableStart:StudentCourse ");
+        builder.insertCell();
+        builder.insertField(" MERGEFIELD  CourseName ");
+        builder.insertCell();
+        builder.insertField(" MERGEFIELD  TableEnd:StudentCourse ");
+        builder.endTable();
 
         DataTable data = getDataTable();
 
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_EMPTY_TABLE_ROWS);
         doc.getMailMerge().executeWithRegions(data);
 
-        doc.save(getArtifactsDir() + "MailMerge.CleanUp.docx");
+        doc.save(getArtifactsDir() + "MailMerge.CleanupOptions.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "MailMerge.CleanUp.docx", getGoldsDir() + "MailMerge.CleanUp Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "MailMerge.CleanupOptions.docx", getGoldsDir() + "MailMerge.CleanupOptions Gold.docx"));
     }
 
     /// <summary>
@@ -1010,16 +1023,25 @@ public class ExMailMerge extends ApiExampleBase
         //ExStart
         //ExFor:MailMerge.UnconditionalMergeFieldsAndRegions
         //ExSummary:Shows how to merge fields or regions regardless of the parent IF field's condition.
-        Document doc = new Document(getMyDir() + "MailMerge.UnconditionalMergeFieldsAndRegions.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Merge fields and merge regions are merged regardless of the parent IF field's condition
+        // Insert a MERGEFIELD nested inside an IF field
+        // Since the statement of the IF field is false, the result of the inner MERGEFIELD will not be displayed
+        // and the MERGEFIELD will not receive any data during a mail merge
+        FieldIf fieldIf = (FieldIf)builder.insertField(" IF 1 = 2 ");
+        builder.moveTo(fieldIf.getSeparator());
+        builder.insertField(" MERGEFIELD  FullName ");
+
+        // We can still count MERGEFIELDs inside false-statement IF fields if we set this flag to true
         doc.getMailMerge().setUnconditionalMergeFieldsAndRegions(true);
 
-        // Fill the fields in the document with user data
+        // Execute the mail merge
         doc.getMailMerge().execute(
             new String[] { "FullName" },
             new Object[] { "James Bond" });
 
+        // The result will not be visible in the document because the IF field is false, but the inner MERGEFIELD did indeed receive data
         doc.save(getArtifactsDir() + "MailMerge.UnconditionalMergeFieldsAndRegions.docx");
         //ExEnd
     }

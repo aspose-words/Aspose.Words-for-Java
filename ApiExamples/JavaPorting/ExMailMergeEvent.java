@@ -11,8 +11,6 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
-import com.aspose.ms.System.IO.StreamReader;
-import com.aspose.ms.System.IO.File;
 import com.aspose.words.IFieldMergingCallback;
 import com.aspose.words.FieldMergingArgs;
 import com.aspose.words.FieldMergeField;
@@ -45,26 +43,20 @@ public class ExMailMergeEvent extends ApiExampleBase
     //ExFor:FieldMergeField.TextBefore
     //ExSummary:Shows how to mail merge HTML data into a document.
     @Test //ExSkip
-    public void mailMergeInsertHtml() throws Exception
+    public void insertHtml() throws Exception
     {
-        // File 'MailMerge.InsertHtml.doc' has merge field named 'htmlField1' in it
-        // File 'MailMerge.HtmlData.html' contains some valid HTML data
-        // The same approach can be used when merging HTML data from database
-        Document doc = new Document(getMyDir() + "MailMerge.InsertHtml.doc");
+        Document doc = new Document(getMyDir() + "Field MERGEFIELD.docx");
 
         // Add a handler for the MergeField event
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldInsertHtml());
 
-        // Load some HTML from file
-        StreamReader sr = File.openText(getMyDir() + "MailMerge.HtmlData.html");
-        String htmltext = sr.readToEnd();
-        sr.close();
+        final String HTML = "<html>\r\n                    <h1>Hello world!</h1>\r\n            </html>";
 
         // Execute mail merge
-        doc.getMailMerge().execute(new String[] { "htmlField1" }, new Object[] { htmltext });
+        doc.getMailMerge().execute(new String[] { "htmlField1" }, new Object[] { HTML });
 
         // Save resulting document with a new name
-        doc.save(getArtifactsDir() + "MailMerge.InsertHtml.doc");
+        doc.save(getArtifactsDir() + "MailMergeEvent.InsertHtml.docx");
     }
 
     private static class HandleMergeFieldInsertHtml implements IFieldMergingCallback
@@ -98,6 +90,7 @@ public class ExMailMergeEvent extends ApiExampleBase
     }
     //ExEnd
 
+
     //ExStart
     //ExFor:DocumentBuilder.MoveToMergeField(String)
     //ExFor:FieldMergingArgsBase.FieldName
@@ -105,12 +98,18 @@ public class ExMailMergeEvent extends ApiExampleBase
     //ExFor:FieldMergingArgsBase.RecordIndex
     //ExSummary:Shows how to insert checkbox form fields into a document during mail merge.
     @Test //ExSkip
-    public void mailMergeInsertCheckBox() throws Exception
+    public void insertCheckBox() throws Exception
     {
-        // File 'MailMerge.InsertCheckBox.doc' is a template
-        // containing the table with the following fields in it:
-        // <<TableStart:StudentCourse>> <<CourseName>> <<TableEnd:StudentCourse>>
-        Document doc = new Document(getMyDir() + "MailMerge.InsertCheckBox.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.startTable();
+        builder.insertCell();
+        builder.insertField(" MERGEFIELD  TableStart:StudentCourse ");
+        builder.insertCell();
+        builder.insertField(" MERGEFIELD  CourseName ");
+        builder.insertCell();
+        builder.insertField(" MERGEFIELD  TableEnd:StudentCourse ");
+        builder.endTable();
 
         // Add a handler for the MergeField event
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldInsertCheckBox());
@@ -120,7 +119,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         doc.getMailMerge().executeWithRegions(dataTable);
 
         // Save resulting document with a new name
-        doc.save(getArtifactsDir() + "MailMerge.InsertCheckBox.doc");
+        doc.save(getArtifactsDir() + "MailMergeEvent.InsertCheckBox.doc");
     }
 
     private static class HandleMergeFieldInsertCheckBox implements IFieldMergingCallback
@@ -186,9 +185,9 @@ public class ExMailMergeEvent extends ApiExampleBase
     //ExFor:MailMerge.ExecuteWithRegions(DataTable)
     //ExSummary:Demonstrates how to implement custom logic in the MergeField event to apply cell formatting.
     @Test //ExSkip
-    public void mailMergeAlternatingRows() throws Exception
+    public void alternatingRows() throws Exception
     {
-        Document doc = new Document(getMyDir() + "MailMerge.AlternatingRows.doc");
+        Document doc = new Document(getMyDir() + "Mail merge destination - Northwind suppliers.docx");
 
         // Add a handler for the MergeField event
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldAlternatingRows());
@@ -197,7 +196,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         DataTable dataTable = getSuppliersDataTable();
         doc.getMailMerge().executeWithRegions(dataTable);
 
-        doc.save(getArtifactsDir() + "MailMerge.AlternatingRows.doc");
+        doc.save(getArtifactsDir() + "MailMergeEvent.AlternatingRows.docx");
     }
 
     private static class HandleMergeFieldAlternatingRows implements IFieldMergingCallback
@@ -270,18 +269,20 @@ public class ExMailMergeEvent extends ApiExampleBase
     //ExEnd
 
     @Test
-    public void mailMergeImageFromUrl() throws Exception
+    public void imageFromUrl() throws Exception
     {
         //ExStart
         //ExFor:MailMerge.Execute(String[], Object[])
         //ExSummary:Demonstrates how to merge an image from a web address using an Image field.
-        Document doc = new Document(getMyDir() + "MailMerge.MergeImageSimple.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertField("MERGEFIELD  Image:Logo ");
 
         // Pass a URL which points to the image to merge into the document
         doc.getMailMerge().execute(new String[] { "Logo" },
             new Object[] { getAsposeLogoUrl() });
 
-        doc.save(getArtifactsDir() + "MailMerge.MergeImageFromUrl.doc");
+        doc.save(getArtifactsDir() + "MailMergeEvent.ImageFromUrl.doc");
         //ExEnd
 
         // Verify the image was merged into the document

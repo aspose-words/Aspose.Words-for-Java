@@ -11,6 +11,7 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import com.aspose.words.FieldStart;
@@ -33,12 +34,20 @@ public class ExRenameMergeFields extends ApiExampleBase
     /// Finds all merge fields in a Word document and changes their names.
     /// </summary>
     @Test //ExSkip
-    public void renameMergeFields() throws Exception
+    public void rename() throws Exception
     {
-        // Specify your document name here
-        Document doc = new Document(getMyDir() + "RenameMergeFields.doc");
+        // Create a blank document and insert MERGEFIELDs
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Select all field start nodes so we can find the merge fields
+        builder.write("Dear ");
+        builder.insertField("MERGEFIELD  FirstName ");
+        builder.write(" ");
+        builder.insertField("MERGEFIELD  LastName ");
+        builder.writeln(",");
+        builder.insertField("MERGEFIELD  CustomGreeting ");
+
+        // Select all field start nodes so we can find the MERGEFIELDs
         NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true);
         for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType() !!Autoporter error: Undefined expression type )
         {
@@ -49,7 +58,7 @@ public class ExRenameMergeFields extends ApiExampleBase
             }
         }
 
-        doc.save(getArtifactsDir() + "RenameMergeFields.doc");
+        doc.save(getArtifactsDir() + "RenameMergeFields.Rename.docx");
     }
 }
 

@@ -28,7 +28,7 @@ public class ExInlineStory extends ApiExampleBase {
         //ExFor:FootnoteType
         //ExFor:Footnote.#ctor
         //ExSummary:Shows how to add a footnote to a paragraph in the document and set its marker.
-        // Create a new document and append some text that we will reference with a footnote.
+        // Create a new document and append some text that we will reference with a footnote
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("Main body text.");
@@ -125,7 +125,7 @@ public class ExInlineStory extends ApiExampleBase {
         //ExFor:InlineStory.IsMoveToRevision
         //ExSummary:Shows how to process revision-related properties of InlineStory nodes.
         // Open a document that has revisions from changes being tracked
-        Document doc = new Document(getMyDir() + "InlineStory.Revisions.docx");
+        Document doc = new Document(getMyDir() + "Revision footnotes.docx");
         Assert.assertTrue(doc.hasRevisions());
 
         // Get a collection of all footnotes from the document

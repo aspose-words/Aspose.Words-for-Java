@@ -16,7 +16,7 @@ import java.util.Iterator;
 
 public class ExWarningInfoCollection extends ApiExampleBase {
     @Test
-    public void getEnumeratorEx() {
+    public void getEnumerator() {
         //ExStart
         //ExFor:WarningInfoCollection.GetEnumerator
         //ExFor:WarningInfoCollection.Clear

@@ -47,25 +47,29 @@ public class ExSavingCallback extends ApiExampleBase {
 
     //ExStart
     //ExFor:IPageSavingCallback
+    //ExFor:IPageSavingCallback.PageSaving(PageSavingArgs)
     //ExFor:PageSavingArgs
     //ExFor:PageSavingArgs.PageFileName
+    //ExFor:PageSavingArgs.KeepPageStreamOpen
+    //ExFor:PageSavingArgs.PageIndex
+    //ExFor:PageSavingArgs.PageStream
     //ExFor:FixedPageSaveOptions.PageSavingCallback
     //ExSummary:Shows how separate pages are saved when a document is exported to fixed page format.
-    @Test //ExSkip
-    public void pageFileNameSavingCallback() throws Exception {
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+    @Test(enabled = false) //ExSkip
+    public void pageFileName() throws Exception {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         htmlFixedSaveOptions.setPageIndex(0);
         htmlFixedSaveOptions.setPageCount(doc.getPageCount());
         htmlFixedSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
 
-        doc.save(getArtifactsDir() + "Rendering.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "SavingCallback.PageFileName.html", htmlFixedSaveOptions);
 
-        String[] filePaths = getFiles(getArtifactsDir() + "", "Page_*.html");
+        String[] filePaths = getFiles(getArtifactsDir() + "", "SavingCallback.PageFileName.Page_*.html");
 
         for (int i = 0; i < doc.getPageCount(); i++) {
-            String file = MessageFormat.format(getArtifactsDir() + "Page_{0}.html", i);
+            String file = MessageFormat.format(getArtifactsDir() + "SavingCallback.PageFileName.Page_{0}.html", i);
             Assert.assertEquals(file, filePaths[i]); //ExSkip
         }
     }
@@ -114,7 +118,7 @@ public class ExSavingCallback extends ApiExampleBase {
     @Test //ExSkip
     public void documentParts() throws Exception {
         // Open a document to be converted to html
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
         String outFileName = "SavingCallback.DocumentParts.Rendering.html";
 
         // We can use an appropriate SaveOptions subclass to customize the conversion process
@@ -137,7 +141,7 @@ public class ExSavingCallback extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Renames saved document parts that are produced when an HTML document is saved while being split according to a criteria
+    /// Renames saved document parts that are produced when an HTML document is saved while being split according to a criteria.
     /// </summary>
     private static class SavedDocumentPartRename implements IDocumentPartSavingCallback {
         public SavedDocumentPartRename(String outFileName, int documentSplitCriteria) {
@@ -146,7 +150,7 @@ public class ExSavingCallback extends ApiExampleBase {
         }
 
         public void documentPartSaving(DocumentPartSavingArgs args) throws Exception {
-            Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.doc"));
+            Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.docx"));
 
             String partType = "";
 
@@ -188,7 +192,7 @@ public class ExSavingCallback extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Renames saved images that are produced when an HTML document is saved
+    /// Renames saved images that are produced when an HTML document is saved.
     /// </summary>
     public static class SavedImageRename implements IImageSavingCallback {
         public SavedImageRename(String outFileName) {
@@ -234,7 +238,7 @@ public class ExSavingCallback extends ApiExampleBase {
     @Test //ExSkip
     public void cssSavingCallback() throws Exception {
         // Open a document to be converted to html
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // If our output document will produce a CSS stylesheet, we can use an HtmlSaveOptions to control where it is saved
         HtmlSaveOptions options = new HtmlSaveOptions();
@@ -243,19 +247,19 @@ public class ExSavingCallback extends ApiExampleBase {
         options.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
 
         // We can designate a filename for our stylesheet like this
-        options.setCssStyleSheetFileName(getArtifactsDir() + "Rendering.CssSavingCallback.css");
+        options.setCssStyleSheetFileName(getArtifactsDir() + "SavingCallback.CssSavingCallback.css");
 
         // A custom ICssSavingCallback implementation can also control where that stylesheet will be saved and linked to by the Html document
         // This callback will override the filename we specified above in options.CssStyleSheetFileName,
         // but will give us more control over the saving process
-        options.setCssSavingCallback(new CustomCssSavingCallback(getArtifactsDir() + "Rendering.CssSavingCallback.css", true, false));
+        options.setCssSavingCallback(new CustomCssSavingCallback(getArtifactsDir() + "SavingCallback.CssSavingCallback.css", true, false));
 
         // The CssSaving() method of our callback will be called at this stage
-        doc.save(getArtifactsDir() + "Rendering.CssSavingCallback.html", options);
+        doc.save(getArtifactsDir() + "SavingCallback.CssSavingCallback.html", options);
     }
 
     /// <summary>
-    /// Designates a filename and other parameters for the saving of a CSS stylesheet
+    /// Designates a filename and other parameters for the saving of a CSS stylesheet.
     /// </summary>
     private static class CustomCssSavingCallback implements ICssSavingCallback {
         public CustomCssSavingCallback(String cssDocFilename, boolean isExportNeeded, boolean keepCssStreamOpen) {
@@ -273,7 +277,7 @@ public class ExSavingCallback extends ApiExampleBase {
             args.setKeepCssStreamOpen(mKeepCssStreamOpen);
 
             // We can also access the original document here like this
-            Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.doc"));
+            Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.docx"));
         }
 
         private String mCssTextFileName;

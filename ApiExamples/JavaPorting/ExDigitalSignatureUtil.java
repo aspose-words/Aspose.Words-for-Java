@@ -10,43 +10,46 @@ package ApiExamples;
 // ********* THIS FILE IS AUTO PORTED *********
 
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
+import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignatureUtil;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import org.testng.Assert;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
-import com.aspose.words.DigitalSignatureCollection;
-import org.testng.Assert;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.SignOptions;
 import com.aspose.ms.System.DateTime;
+import com.aspose.words.Document;
 import com.aspose.words.LoadOptions;
 import com.aspose.words.IncorrectPasswordException;
-import com.aspose.ms.NUnit.Framework.msAssert;
 
 
 @Test
 public class ExDigitalSignatureUtil extends ApiExampleBase
 {
     @Test
-    public void removeAllSignatures() throws Exception
+    public void loadAndRemove() throws Exception
     {
         //ExStart
         //ExFor:DigitalSignatureUtil
+        //ExFor:DigitalSignatureUtil.LoadSignatures(String)
+        //ExFor:DigitalSignatureUtil.LoadSignatures(Stream)
         //ExFor:DigitalSignatureUtil.RemoveAllSignatures(Stream, Stream)
         //ExFor:DigitalSignatureUtil.RemoveAllSignatures(String, String)
-        //ExSummary:Shows how to remove every signature from a document.
-        // Remove all signatures from the document using string parameters
-        Document doc = new Document(getMyDir() + "Document.DigitalSignature.docx");
-        String outFileName = getArtifactsDir() + "Document.NoSignatures.FromString.docx";
+        //ExSummary:Shows how to load and remove digital signatures from a digitally signed document.
+        // Load digital signatures via filename string to verify that the document is signed
+        DigitalSignatureCollection digitalSignatures = DigitalSignatureUtil.loadSignatures(getMyDir() + "Digitally signed.docx");
+        msAssert.areEqual(1, digitalSignatures.getCount());
 
-        DigitalSignatureUtil.removeAllSignatures(doc.getOriginalFileName(), outFileName);
+        // Re-save the document to an output filename with all digital signatures removed
+        DigitalSignatureUtil.removeAllSignatures(getMyDir() + "Digitally signed.docx", getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx");
 
         // Remove all signatures from the document using stream parameters
-        Stream streamIn = new FileStream(getMyDir() + "Document.DigitalSignature.docx", FileMode.OPEN);
+        Stream streamIn = new FileStream(getMyDir() + "Digitally signed.docx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
-            Stream streamOut = new FileStream(getArtifactsDir() + "Document.NoSignatures.FromStream.docx", FileMode.CREATE);
+            Stream streamOut = new FileStream(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx", FileMode.CREATE);
             try /*JAVA: was using*/
             {
                 DigitalSignatureUtil.removeAllSignaturesInternal(streamIn, streamOut);
@@ -54,28 +57,19 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
             finally { if (streamOut != null) streamOut.close(); } 
         }
         finally { if (streamIn != null) streamIn.close(); }
+
+        // We can also load a document's digital signatures via stream, which we will do to verify that all signatures have been removed
+        Stream stream = new FileStream(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx", FileMode.OPEN);
+        try /*JAVA: was using*/
+        {
+            digitalSignatures = DigitalSignatureUtil.loadSignaturesInternal(stream);
+        }
+        finally { if (stream != null) stream.close(); }
+
+        msAssert.areEqual(0, digitalSignatures.getCount());
         //ExEnd
     }
-
-    @Test
-    public void loadSignatures() throws Exception
-    {
-        //ExStart
-        //ExFor:DigitalSignatureUtil.LoadSignatures(Stream)
-        //ExFor:DigitalSignatureUtil.LoadSignatures(String)
-        //ExSummary:Shows how to load all existing signatures from a document.
-        // Load all signatures from the document using string parameters
-        DigitalSignatureCollection digitalSignatures = DigitalSignatureUtil.loadSignatures(getMyDir() + "Document.DigitalSignature.docx");
-        Assert.assertNotNull(digitalSignatures);
-        
-        // Load all signatures from the document using stream parameters
-        Stream stream = new FileStream(getMyDir() + "Document.DigitalSignature.docx", FileMode.OPEN);
-        digitalSignatures = DigitalSignatureUtil.loadSignaturesInternal(stream);
-        //ExEnd
-
-        stream.close();
-    }
-
+    
     @Test (description = "WORDSNET-16868")
     public void signDocument() throws Exception
     {
@@ -90,10 +84,10 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
 
         SignOptions signOptions = new SignOptions(); { signOptions.setComments("My comment"); signOptions.setSignTime(DateTime.getNow()); }
 
-        Stream streamIn = new FileStream(getMyDir() + "Document.DigitalSignature.docx", FileMode.OPEN);
+        Stream streamIn = new FileStream(getMyDir() + "Digitally signed.docx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
-            Stream streamOut = new FileStream(getArtifactsDir() + "Document.DigitalSignature.docx", FileMode.OPEN_OR_CREATE);
+            Stream streamOut = new FileStream(getArtifactsDir() + "DigitalSignatureUtil.SignDocument.docx", FileMode.OPEN_OR_CREATE);
             try /*JAVA: was using*/
             {
                 DigitalSignatureUtil.signInternal(streamIn, streamOut, certificateHolder, signOptions);
@@ -109,8 +103,8 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
     {
         CertificateHolder ch = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
-        Document doc = new Document(getMyDir() + "TestRepeatingSection.docx");
-        String outputFileName = getArtifactsDir() + "TestRepeatingSection.Signed.doc";
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+        String outputFileName = getArtifactsDir() + "DigitalSignatureUtil.SignDocumentObfuscationBug.doc";
 
         SignOptions signOptions = new SignOptions(); { signOptions.setComments("Comment"); signOptions.setSignTime(DateTime.getNow()); }
 
@@ -118,12 +112,12 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
     }
 
     @Test (description = "WORDSNET-16868")
-    public void incorrectPasswordForDecrypting() throws Exception
+    public void incorrectDecryptionPassword() throws Exception
     {
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
-        Document doc = new Document(getMyDir() + "Document.Encrypted.docx", new LoadOptions("docPassword"));
-        String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
+        Document doc = new Document(getMyDir() + "Encrypted.docx", new LoadOptions("docPassword"));
+        String outputFileName = getArtifactsDir() + "DigitalSignatureUtil.IncorrectDecryptionPassword.docx";
 
         SignOptions signOptions = new SignOptions();
         {
@@ -139,7 +133,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
     }
 
     @Test (description = "WORDSNET-16868")
-    public void signDocumentWithDecryptionPassword() throws Exception
+    public void decryptionPassword() throws Exception
     {
         //ExStart
         //ExFor:CertificateHolder
@@ -157,8 +151,8 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         }
 
         // Digitally sign encrypted with "docPassword" document in the specified path
-        String inputFileName = getMyDir() + "Document.Encrypted.docx";
-        String outputFileName = getArtifactsDir() + "Document.Encrypted.docx";
+        String inputFileName = getMyDir() + "Encrypted.docx";
+        String outputFileName = getArtifactsDir() + "DigitalSignatureUtil.DecryptionPassword.docx";
 
         DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
         //ExEnd
@@ -195,8 +189,8 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
     @Test
     public void noCertificateForSign() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.DigitalSignature.docx");
-        String outputFileName = getArtifactsDir() + "Document.DigitalSignature.docx";
+        Document doc = new Document(getMyDir() + "Digitally signed.docx");
+        String outputFileName = getArtifactsDir() + "DigitalSignatureUtil.NoCertificateForSign.docx";
 
         SignOptions signOptions = new SignOptions();
         {

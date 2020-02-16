@@ -38,7 +38,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         //ExStart
         //ExFor:EditableRange.Remove
         //ExSummary:Shows how to remove an editable range from a document.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create an EditableRange so we can remove it. Does not have to be well-formed
@@ -75,7 +75,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
     @Test //ExSkip
     public void createEditableRanges() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Start an editable range
@@ -134,7 +134,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         editableRangeReader.reset();
         doc.accept(editableRangeReader);
 
-        msConsole.writeLine(editableRangeReader.toText());
+        System.out.println(editableRangeReader.toText());
     }
 
     /// <summary>

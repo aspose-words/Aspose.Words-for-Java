@@ -55,7 +55,7 @@ public class ExUtilityClasses extends ApiExampleBase
     }
 
     @Test
-    public void millimeterToPointEx() throws Exception
+    public void millimeterToPoint() throws Exception
     {
         //ExStart
         //ExFor:ConvertUtil.MillimeterToPoint
@@ -72,7 +72,7 @@ public class ExUtilityClasses extends ApiExampleBase
         pageSetup.setFooterDistance(ConvertUtil.millimeterToPoint(5.0));
 
         builder.writeln("Hello world.");
-        builder.getDocument().save(getArtifactsDir() + "PageSetup.PageMargins.doc");
+        builder.getDocument().save(getArtifactsDir() + "UtilityClasses.MillimeterToPoint.doc");
         //ExEnd
     }
 
@@ -94,7 +94,7 @@ public class ExUtilityClasses extends ApiExampleBase
     }
 
     @Test
-    public void pixelToPointEx() throws Exception
+    public void pixelToPoint() throws Exception
     {
         //ExStart
         //ExFor:ConvertUtil.PixelToPoint(double)
@@ -112,7 +112,7 @@ public class ExUtilityClasses extends ApiExampleBase
         pageSetupNoDpi.setFooterDistance(ConvertUtil.pixelToPoint(20.0));
 
         builder.writeln("Hello world.");
-        builder.getDocument().save(getArtifactsDir() + "PageSetup.PageMargins.DefaultResolution.doc");
+        builder.getDocument().save(getArtifactsDir() + "UtilityClasses.PixelToPoint.DefaultResolution.doc");
 
         double myDpi = 150.0;
 
@@ -124,7 +124,7 @@ public class ExUtilityClasses extends ApiExampleBase
         pageSetupWithDpi.setHeaderDistance(ConvertUtil.pixelToPoint(20.0, myDpi));
         pageSetupWithDpi.setFooterDistance(ConvertUtil.pixelToPoint(20.0, myDpi));
 
-        builder.getDocument().save(getArtifactsDir() + "PageSetup.PageMargins.CustomResolution.doc");
+        builder.getDocument().save(getArtifactsDir() + "UtilityClasses.PixelToPoint.CustomResolution.doc");
         //ExEnd
     }
 

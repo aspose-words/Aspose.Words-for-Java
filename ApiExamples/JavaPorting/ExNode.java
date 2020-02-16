@@ -79,7 +79,7 @@ public class ExNode extends ApiExampleBase
         Node section = doc.getFirstChild();
 
         // The section's parent node is the document
-        msConsole.writeLine("Section parent is the document: " + (doc == section.getParentNode()));
+        System.out.println("Section parent is the document: " + (doc == section.getParentNode()));
         //ExEnd
 
         msAssert.areEqual(doc, section.getParentNode());
@@ -99,10 +99,10 @@ public class ExNode extends ApiExampleBase
         Paragraph para = new Paragraph(doc);
 
         // The new paragraph node does not yet have a parent
-        msConsole.writeLine("Paragraph has no parent node: " + (para.getParentNode() == null));
+        System.out.println("Paragraph has no parent node: " + (para.getParentNode() == null));
 
         // But the paragraph node knows its document
-        msConsole.writeLine("Both nodes' documents are the same: " + (para.getDocument() == doc));
+        System.out.println("Both nodes' documents are the same: " + (para.getDocument() == doc));
 
         // The fact that a node always belongs to a document allows us to access and modify 
         // properties that reference the document-wide data such as styles or lists
@@ -112,7 +112,7 @@ public class ExNode extends ApiExampleBase
         doc.getFirstSection().getBody().appendChild(para);
 
         // The paragraph node is now a child of the Body node
-        msConsole.writeLine("Paragraph has a parent node: " + (para.getParentNode() != null));
+        System.out.println("Paragraph has a parent node: " + (para.getParentNode() != null));
         //ExEnd
 
         msAssert.areEqual(doc, para.getDocument());
@@ -144,7 +144,7 @@ public class ExNode extends ApiExampleBase
             {
                 // Say we found the node that we want, do something useful
                 Run run = (Run) child;
-                msConsole.writeLine(run.getText());
+                System.out.println(run.getText());
             }
         }
 
@@ -171,7 +171,7 @@ public class ExNode extends ApiExampleBase
             {
                 // Say we found the node that we want, do something useful
                 Run run = (Run) child;
-                msConsole.writeLine(run.getText());
+                System.out.println(run.getText());
             }
         }
 
@@ -189,7 +189,7 @@ public class ExNode extends ApiExampleBase
     public void recurseAllNodes() throws Exception
     {
         // Open a document
-        Document doc = new Document(getMyDir() + "Node.RecurseAllNodes.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Invoke the recursive function that will walk the tree
         traverseAllNodes(doc);
@@ -206,7 +206,7 @@ public class ExNode extends ApiExampleBase
         for (Node childNode = parentNode.getFirstChild(); childNode != null; childNode = childNode.getNextSibling())
         {
             // Do some useful work
-            msConsole.writeLine(Node.nodeTypeToString(childNode.getNodeType()));
+            System.out.println(Node.nodeTypeToString(childNode.getNodeType()));
 
             // Recurse into the node if it is a composite node
             if (childNode.isComposite())
@@ -272,7 +272,7 @@ public class ExNode extends ApiExampleBase
         for (Node node = body.getFirstChild(); node != null; node = node.getNextSibling())
         {
             // Output the types of the nodes that we come across
-            msConsole.writeLine(Node.nodeTypeToString(node.getNodeType()));
+            System.out.println(Node.nodeTypeToString(node.getNodeType()));
         }
 
         //ExEnd
@@ -354,7 +354,7 @@ public class ExNode extends ApiExampleBase
         //ExFor:NodeList.GetEnumerator
         //ExFor:NodeList.ToArray
         //ExSummary:Shows how to select certain nodes by using an XPath expression.
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
         // This expression will extract all paragraph nodes which are descendants of any table node in the document
         // This will return any paragraphs which are in a table
@@ -367,7 +367,7 @@ public class ExNode extends ApiExampleBase
         {
             while (e.hasNext())
             {
-                msConsole.writeLine($"Table paragraph index {index++}, contents: \"{e.Current.GetText().Trim()}\"");
+                System.out.println("Table paragraph index {index++}, contents: \"{e.Current.GetText().Trim()}\"");
             }
         }
         finally { if (e != null) e.close(); }
@@ -391,7 +391,7 @@ public class ExNode extends ApiExampleBase
         //ExFor:CompositeNode.GetChild
         //ExSummary:Shows how to test if a node is inside a field by using an XPath expression.
         // Let's pick a document we know has some fields in
-        Document doc = new Document(getMyDir() + "MailMerge.MergeImage.doc");
+        Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");
 
         // Let's say we want to check if the Run below is inside a field
         Run run = (Run) doc.getChild(NodeType.RUN, 5, true);
@@ -407,7 +407,7 @@ public class ExNode extends ApiExampleBase
         {
             if (node == run)
             {
-                msConsole.writeLine("The node is found inside a field");
+                System.out.println("The node is found inside a field");
                 break;
             }
         }
@@ -431,7 +431,7 @@ public class ExNode extends ApiExampleBase
         //ExStart
         //ExFor:CompositeNode.RemoveSmartTags
         //ExSummary:Removes all smart tags from descendant nodes of the composite node.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Remove smart tags from the first paragraph in the document
         doc.getFirstSection().getBody().getFirstParagraph().removeSmartTags();
@@ -444,7 +444,7 @@ public class ExNode extends ApiExampleBase
         //ExStart
         //ExFor:CompositeNode.IndexOf
         //ExSummary:Shows how to get the index of a given child node from its parent.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Get the body of the first section in the document
         Body body = doc.getFirstSection().getBody();
@@ -485,12 +485,12 @@ public class ExNode extends ApiExampleBase
         //ExFor:GroupShape.NodeType
         //ExFor:CommentRangeStart.NodeType
         //ExSummary:Shows how to retrieve the NodeType enumeration of nodes.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Let's pick a node that we can't be quite sure of what type it is
         // In this case lets pick the first node of the first paragraph in the body of the document
         Node node = doc.getFirstSection().getBody().getFirstParagraph().getFirstChild();
-        msConsole.writeLine("NodeType of first child: " + Node.nodeTypeToString(node.getNodeType()));
+        System.out.println("NodeType of first child: " + Node.nodeTypeToString(node.getNodeType()));
 
         // This time let's pick a node that we know the type of
         // Create a new paragraph and a table node
@@ -499,8 +499,8 @@ public class ExNode extends ApiExampleBase
 
         // Access to NodeType for typed nodes will always return their specific NodeType
         // i.e A paragraph node will always return NodeType.Paragraph, a table node will always return NodeType.Table
-        msConsole.writeLine("NodeType of Paragraph: " + Node.nodeTypeToString(para.getNodeType()));
-        msConsole.writeLine("NodeType of Table: " + Node.nodeTypeToString(table.getNodeType()));
+        System.out.println("NodeType of Paragraph: " + Node.nodeTypeToString(para.getNodeType()));
+        System.out.println("NodeType of Table: " + Node.nodeTypeToString(table.getNodeType()));
         //ExEnd
     }
 
@@ -510,7 +510,7 @@ public class ExNode extends ApiExampleBase
         //ExStart
         //ExFor:Node.ToString(SaveFormat)
         //ExSummary:Exports the content of a node to String in HTML format using default options.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Extract the last paragraph in the document to convert to HTML
         Node node = doc.getLastSection().getBody().getLastParagraph();
@@ -524,7 +524,7 @@ public class ExNode extends ApiExampleBase
         //ExEnd
 
         msAssert.areEqual(
-            "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>",
+            "<p style=\"margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>",
             nodeAsHtml);
     }
 
@@ -534,7 +534,7 @@ public class ExNode extends ApiExampleBase
         //ExStart
         //ExFor:Node.ToString(SaveOptions)
         //ExSummary:Exports the content of a node to String in HTML format using custom specified options.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         // Extract the last paragraph in the document to convert to HTML
         Node node = doc.getLastSection().getBody().getLastParagraph();
@@ -552,7 +552,7 @@ public class ExNode extends ApiExampleBase
         //ExEnd
 
         msAssert.areEqual(
-            "<p style=\"margin-top:0pt; margin-bottom:0pt\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>",
+            "<p style=\"margin-top:0pt; margin-bottom:8pt; line-height:108%\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>",
             nodeAsHtml);
     }
 
@@ -759,7 +759,7 @@ public class ExNode extends ApiExampleBase
         builder.write("Cell 2");
         builder.endTable();
 
-                            SKBitmap image = SKBitmap.Decode(getImageDir() + "Aspose.Words.gif");
+                            SKBitmap image = SKBitmap.Decode(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
     	{
             builder.InsertImage(image);
@@ -785,16 +785,16 @@ public class ExNode extends ApiExampleBase
             msAssert.areEqual(NodeChangingAction.INSERT, args.getAction());
             Assert.assertNotNull(args.getNewParent());
 
-            msConsole.writeLine($"Inserted node:");
-            msConsole.writeLine($"\tType:\t{args.Node.NodeType}");
+            System.out.println("Inserted node:");
+            System.out.println("\tType:\t{args.Node.NodeType}");
 
             if (!"".equals(msString.trim(args.getNode().getText())))
             {
-                msConsole.writeLine($"\tText:\t\"{args.Node.GetText().Trim()}\"");
+                System.out.println("\tText:\t\"{args.Node.GetText().Trim()}\"");
             }
 
-            msConsole.writeLine($"\tHash:\t{args.Node.GetHashCode()}");
-            msConsole.writeLine($"\tParent:\t{args.NewParent.NodeType} ({args.NewParent.GetHashCode()})");
+            System.out.println("\tHash:\t{args.Node.GetHashCode()}");
+            System.out.println("\tParent:\t{args.NewParent.NodeType} ({args.NewParent.GetHashCode()})");
         }
 
         public void /*INodeChangingCallback.*/nodeRemoving(NodeChangingArgs args)
@@ -807,7 +807,7 @@ public class ExNode extends ApiExampleBase
             msAssert.areEqual(NodeChangingAction.REMOVE, args.getAction());
             Assert.assertNull(args.getNewParent());
 
-            msConsole.writeLine($"Removed node: {args.Node.NodeType} ({args.Node.GetHashCode()})");
+            System.out.println("Removed node: {args.Node.NodeType} ({args.Node.GetHashCode()})");
         }
     }
     //ExEnd
@@ -868,7 +868,7 @@ public class ExNode extends ApiExampleBase
         builder.write("Cell 2");
         builder.endTable();
 
-                            SKBitmap image = SKBitmap.Decode(getImageDir() + "Aspose.Words.gif");
+                            SKBitmap image = SKBitmap.Decode(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
     	{
             builder.InsertImage(image);

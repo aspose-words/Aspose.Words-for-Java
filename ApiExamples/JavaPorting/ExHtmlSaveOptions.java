@@ -15,24 +15,24 @@ import com.aspose.words.Document;
 import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.FileFormatUtil;
 import com.aspose.words.HtmlOfficeMathOutputMode;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.Shape;
+import com.aspose.words.ShapeType;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.ms.System.IO.SearchOption;
 import org.testng.Assert;
 import com.aspose.words.ExportListLabels;
+import com.aspose.words.List;
+import com.aspose.words.ListTemplate;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.CssStyleSheetType;
 import com.aspose.words.HtmlVersion;
-import com.aspose.words.DocumentBuilder;
 import com.aspose.words.HtmlMetafileFormat;
 import com.aspose.words.FontSettings;
 import com.aspose.words.DocumentSplitCriteria;
 import com.aspose.words.Table;
 import com.aspose.words.PreferredWidth;
 import com.aspose.words.HtmlElementSizeOutputMode;
-import com.aspose.words.List;
-import com.aspose.words.ListTemplate;
-import com.aspose.words.Shape;
-import com.aspose.words.ShapeType;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.WrapType;
@@ -56,7 +56,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     @Test (dataProvider = "exportPageMarginsDataProvider")
     public void exportPageMargins(/*SaveFormat*/int saveFormat) throws Exception
     {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportPageMargins.docx");
+        Document doc = new Document(getMyDir() + "TextBoxes.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         {
@@ -82,12 +82,12 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     @Test (dataProvider = "exportOfficeMathDataProvider")
     public void exportOfficeMath(/*SaveFormat*/int saveFormat, /*HtmlOfficeMathOutputMode*/int outputMode) throws Exception
     {
-        Document doc = new Document(getMyDir() + "OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setOfficeMathOutputMode(outputMode);
 
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportToHtmlUsingImage" + FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportOfficeMath" + FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
     }
 
 	//JAVA-added data provider for test method
@@ -107,7 +107,12 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     {
         String[] dirFiles;
 
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportTextBoxAsSvg.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape textbox = builder.insertShape(ShapeType.TEXT_BOX, 300.0, 100.0);
+        builder.moveTo(textbox.getFirstParagraph());
+        builder.write("Hello world!");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(saveFormat);
         saveOptions.setExportTextBoxAsSvg(isTextBoxAsSvg);
@@ -148,10 +153,18 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 		};
 	}
 
-    @Test (dataProvider = "controlListLabelsExportToHtmlDataProvider")
-    public void controlListLabelsExportToHtml(/*ExportListLabels*/int howExportListLabels) throws Exception
+    @Test (dataProvider = "controlListLabelsExportDataProvider")
+    public void controlListLabelsExport(/*ExportListLabels*/int howExportListLabels) throws Exception
     {
-        Document doc = new Document(getMyDir() + "Lists.PrintOutAllLists.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        List bulletedList = doc.getLists().add(ListTemplate.BULLET_DEFAULT);
+        builder.getListFormat().setList(bulletedList);
+        builder.getParagraphFormat().setLeftIndent(72.0);
+        builder.writeln("Bulleted list item 1.");
+        builder.writeln("Bulleted list item 2.");
+        builder.getParagraphFormat().clearFormatting();
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         {
@@ -162,12 +175,12 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             saveOptions.setExportListLabels(howExportListLabels);
         }
 
-        doc.save(getArtifactsDir() + "Document.ExportListLabels.html", saveOptions);
+        doc.save(getArtifactsDir() + $"HtmlSaveOptions.ControlListLabelsExport.html", saveOptions);
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "controlListLabelsExportToHtmlDataProvider")
-	public static Object[][] controlListLabelsExportToHtmlDataProvider() throws Exception
+	@DataProvider(name = "controlListLabelsExportDataProvider")
+	public static Object[][] controlListLabelsExportDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -180,7 +193,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     @Test (dataProvider = "exportUrlForLinkedImageDataProvider")
     public void exportUrlForLinkedImage(boolean export) throws Exception
     {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportUrlForLinkedImage.docx");
+        Document doc = new Document(getMyDir() + "Linked image.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setExportOriginalUrlForLinkedImages(export); }
 
@@ -208,7 +221,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     @Test
     public void exportRoundtripInformation() throws Exception
     {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportPageMargins.docx");
+        Document doc = new Document(getMyDir() + "TextBoxes.docx");
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setExportRoundtripInformation(true); }
         
         doc.save(getArtifactsDir() + "HtmlSaveOptions.RoundtripInformation.html", saveOptions);
@@ -229,9 +242,9 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     }
 
     @Test
-    public void configForSavingExternalResources() throws Exception
+    public void externalResourceSavingConfig() throws Exception
     {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportPageMargins.docx");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         {
@@ -241,24 +254,24 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             saveOptions.setResourceFolderAlias("https://www.aspose.com/");
         }
 
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExternalResourceSavingConfig.html", saveOptions);
 
-        String[] imageFiles = Directory.getFiles(getArtifactsDir() + "Resources/", "*.png", SearchOption.ALL_DIRECTORIES);
-        msAssert.areEqual(3, imageFiles.length);
+        String[] imageFiles = Directory.getFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.png", SearchOption.ALL_DIRECTORIES);
+        msAssert.areEqual(8, imageFiles.length);
 
-        String[] fontFiles = Directory.getFiles(getArtifactsDir() + "Resources/", "*.ttf", SearchOption.ALL_DIRECTORIES);
-        msAssert.areEqual(1, fontFiles.length);
+        String[] fontFiles = Directory.getFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.ttf", SearchOption.ALL_DIRECTORIES);
+        msAssert.areEqual(10, fontFiles.length);
 
-        String[] cssFiles = Directory.getFiles(getArtifactsDir() + "Resources/", "*.css", SearchOption.ALL_DIRECTORIES);
+        String[] cssFiles = Directory.getFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.css", SearchOption.ALL_DIRECTORIES);
         msAssert.areEqual(1, cssFiles.length);
 
-        DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins.html", "<link href=\"https://www.aspose.com/HtmlSaveOptions.ExportPageMargins.css\"");
+        DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExternalResourceSavingConfig.html", "<link href=\"https://www.aspose.com/HtmlSaveOptions.ExternalResourceSavingConfig.css\"");
     }
 
     @Test
     public void convertFontsAsBase64() throws Exception
     {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ExportPageMargins.docx");
+        Document doc = new Document(getMyDir() + "TextBoxes.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
@@ -266,13 +279,13 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         saveOptions.setExportFontResources(true);
         saveOptions.setExportFontsAsBase64(true);
         
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ConvertFontsAsBase64.html", saveOptions);
 	}
 
     @Test (dataProvider = "html5SupportDataProvider")
     public void html5Support(/*HtmlVersion*/int htmlVersion) throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         {
@@ -303,7 +316,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         builder.insertHtml(
             "<svg height='210' width='500'>\r\n                    <polygon points='100,10 40,198 190,78 10,78 160,198' \r\n                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />\r\n                  </svg> ");
 
-        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.MetafileFormat.html",
+        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.SvgMetafileFormat.html",
             new HtmlSaveOptions(); { .setMetafileFormat(HtmlMetafileFormat.PNG); });
     }
 
@@ -316,7 +329,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         builder.insertHtml(
             "<svg height='210' width='500'>\r\n                    <polygon points='100,10 40,198 190,78 10,78 160,198' \r\n                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />\r\n                  </svg> ");
 
-        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.MetafileFormat.html",
+        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.PngMetafileFormat.html",
             new HtmlSaveOptions(); { .setMetafileFormat(HtmlMetafileFormat.PNG); });
     }
 
@@ -329,7 +342,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         builder.insertHtml(
             "<img src=\"data:image/png;base64,\r\n                    iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP\r\n                    C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA\r\n                    AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J\r\n                    REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq\r\n                    ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0\r\n                    vr4MkhoXe0rZigAAAABJRU5ErkJggg==\" alt=\"Red dot\" />");
 
-        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.MetafileFormat.html",
+        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.EmfOrWmfMetafileFormat.html",
             new HtmlSaveOptions(); { .setMetafileFormat(HtmlMetafileFormat.EMF_OR_WMF); });
     }
 
@@ -338,8 +351,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     {
         //ExStart
         //ExFor:HtmlSaveOptions.CssClassNamePrefix
-        //ExSummary: Shows how to specifies a prefix which is added to all CSS class names.
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.CssClassNamePrefix.docx");
+        //ExSummary:Shows how to specifies a prefix which is added to all CSS class names.
+        Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         {
@@ -347,6 +360,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             saveOptions.setCssClassNamePrefix("aspose-");
         }
 
+        // The prefix will be found before CSS element names in the embedded stylesheet
         doc.save(getArtifactsDir() + "HtmlSaveOptions.CssClassNamePrefix.html", saveOptions);
         //ExEnd
     }
@@ -362,7 +376,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     @Test
     public void cssClassNamesNullPrefix() throws Exception
     {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.CssClassNamePrefix.docx");
+        Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         {
@@ -376,7 +390,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     @Test
     public void contentIdScheme() throws Exception
     {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ContentIdScheme.docx");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.MHTML);
         {
@@ -393,7 +407,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExStart
         //ExFor:HtmlSaveOptions.ResolveFontNames
         //ExSummary:Shows how to resolve all font names before writing them to HTML.
-        Document document = new Document(getMyDir() + "HtmlSaveOptions.ResolveFontNames.docx");
+        Document document = new Document(getMyDir() + "Missing font.docx");
 
         FontSettings fontSettings = new FontSettings();
         {
@@ -459,6 +473,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void negativeIndent() throws Exception
     {
         //ExStart
+        //ExFor:HtmlElementSizeOutputMode
         //ExFor:HtmlSaveOptions.AllowNegativeIndent
         //ExFor:HtmlSaveOptions.TableWidthOutputMode
         //ExSummary:Shows how to preserve negative indents in the output .html.
@@ -481,7 +496,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         options.setTableWidthOutputMode(HtmlElementSizeOutputMode.RELATIVE_ONLY);
 
         // The first cell with "Cell 1" will not be visible in the output 
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.AllowNegativeIndent.html", options);
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.NegativeIndent.html", options);
         //ExEnd
     }
 
@@ -497,7 +512,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExFor:HtmlSaveOptions.ResourceFolder
         //ExFor:HtmlSaveOptions.ResourceFolderAlias
         //ExSummary:Shows how to set folders and folder aliases for externally saved resources when saving to html.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions options = new HtmlSaveOptions();
         {
@@ -525,8 +540,9 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExFor:HtmlSaveOptions.#ctor(SaveFormat)
         //ExFor:HtmlSaveOptions.ExportXhtmlTransitional
         //ExFor:HtmlSaveOptions.HtmlVersion
+        //ExFor:HtmlVersion
         //ExSummary:Shows how to set a saved .html document to a specific version.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Save the document to a .html file of the XHTML 1.0 Transitional standard
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
@@ -582,7 +598,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExStart
         //ExFor:HtmlSaveOptions.ExportCidUrlsForMhtmlResources
         //ExSummary:Shows how to enable content IDs for output MHTML documents.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Setting this flag will replace "Content-Location" tags with "Content-ID" tags for each resource from the input document
         // The file names that were next to each "Content-Location" tag are re-purposed as content IDs
@@ -626,7 +642,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExFor:HtmlSaveOptions.ExportFontsAsBase64
         //ExFor:HtmlSaveOptions.ExportImagesAsBase64
         //ExSummary:Shows how to save a .html document with resources embedded inside it.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // By default, when converting a document with images to .html, resources such as images will be linked to in external files
         // We can set these flags to embed resources inside the output .html instead, cutting down on the amount of files created during the conversion
@@ -675,6 +691,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void list() throws Exception
     {
         //ExStart
+        //ExFor:ExportListLabels
         //ExFor:HtmlSaveOptions.ExportListLabels
         //ExSummary:Shows how to export an indented list to .html as plain text.
         Document doc = new Document();
@@ -822,7 +839,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExStart
         //ExFor:HtmlSaveOptions.ExportRoundtripInformation
         //ExSummary:Shows how to preserve hidden elements when converting to .html.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // When converting a document to .html, some elements such as hidden bookmarks, original shape positions,
         // or footnotes will be either removed or converted to plain text and effectively be lost
@@ -908,6 +925,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void metafileFormat() throws Exception
     {
         //ExStart
+        //ExFor:HtmlMetafileFormat
         //ExFor:HtmlSaveOptions.MetafileFormat
         //ExSummary:Shows how to set a meta file in a different format.
         // Create a document from an html string
@@ -930,10 +948,11 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void officeMathOutputMode() throws Exception
     {
         //ExStart
+        //ExFor:HtmlOfficeMathOutputMode
         //ExFor:HtmlSaveOptions.OfficeMathOutputMode
         //ExSummary:Shows how to control the way how OfficeMath objects are exported to .html.
         // Open a document that contains OfficeMath objects
-        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         // Create a HtmlSaveOptions object and configure it to export OfficeMath objects as images
         HtmlSaveOptions options = new HtmlSaveOptions();
@@ -950,7 +969,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExFor:HtmlSaveOptions.ScaleImageToShapeSize
         //ExSummary:Shows how to disable the scaling of images to their parent shape dimensions when saving to .html.
         // Open a document which contains shapes with images
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // By default, images inside shapes get scaled to the size of their shapes while the document gets 
         // converted to .html, reducing image file size
@@ -974,7 +993,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void imageSavingCallback() throws Exception
     {
         // Open a document which contains shapes with images
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Create a HtmlSaveOptions object with a custom image saving callback that will print image information
         HtmlSaveOptions options = new HtmlSaveOptions();
@@ -993,15 +1012,15 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             args.setKeepImageStreamOpen(false);
             Assert.assertTrue(args.isImageAvailable());
 
-            msConsole.writeLine($"{args.Document.OriginalFileName.Split('\\').Last()} Image #{++mImageCount}");
+            System.out.println("{args.Document.OriginalFileName.Split('\\').Last()} Image #{++mImageCount}");
 
             LayoutCollector layoutCollector = new LayoutCollector(args.getDocument());
 
-            msConsole.writeLine($"\tOn page:\t{layoutCollector.GetStartPageIndex(args.CurrentShape)}");
-            msConsole.writeLine($"\tDimensions:\t{args.CurrentShape.Bounds.ToString()}");
-            msConsole.writeLine($"\tAlignment:\t{args.CurrentShape.VerticalAlignment}");
-            msConsole.writeLine($"\tWrap type:\t{args.CurrentShape.WrapType}");
-            msConsole.writeLine($"Output filename:\t{args.ImageFileName}\n");
+            System.out.println("\tOn page:\t{layoutCollector.GetStartPageIndex(args.CurrentShape)}");
+            System.out.println("\tDimensions:\t{args.CurrentShape.Bounds.ToString()}");
+            System.out.println("\tAlignment:\t{args.CurrentShape.VerticalAlignment}");
+            System.out.println("\tWrap type:\t{args.CurrentShape.WrapType}");
+            System.out.println("Output filename:\t{args.ImageFileName}\n");
         }
 
         private int mImageCount;

@@ -37,7 +37,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExSummary:Inserts formatted text using DocumentBuilder.
         DocumentBuilder builder = new DocumentBuilder();
 
-        // Specify font formatting before adding text.
+        // Specify font formatting before adding text
         Font font = builder.getFont();
         font.setSize(16);
         font.setBold(true);
@@ -62,15 +62,15 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExFor:PageSetup.OddAndEvenPagesHeaderFooter
         //ExFor:BreakType
         //ExSummary:Creates headers and footers in a document using DocumentBuilder.
-        // Create a blank document.
+        // Create a blank document
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Specify that we want headers and footers different for first, even and odd pages.
+        // Specify that we want headers and footers different for first, even and odd pages
         builder.getPageSetup().setDifferentFirstPageHeaderFooter(true);
         builder.getPageSetup().setOddAndEvenPagesHeaderFooter(true);
 
-        // Create the headers.
+        // Create the headers
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
         builder.write("Header First");
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_EVEN);
@@ -78,7 +78,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         builder.write("Header Odd");
 
-        // Create three pages in the document.
+        // Create three pages in the document
         builder.moveToSection(0);
         builder.writeln("Page1");
         builder.insertBreak(BreakType.PAGE_BREAK);
@@ -128,26 +128,26 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a simple Date field into the document.
+        // Insert a simple Date field into the document
         // When we insert a field through the DocumentBuilder class we can get the
-        // special Field object which contains information about the field.
+        // special Field object which contains information about the field
         Field dateField = builder.insertField("DATE \\* MERGEFORMAT");
 
-        // Update this particular field in the document so we can get the FieldResult.
+        // Update this particular field in the document so we can get the FieldResult
         dateField.update();
 
-        // Display some information from this field.
+        // Display some information from this field
         // The field result is where the last evaluated value is stored. This is what is displayed in the document
-        // When field codes are not showing.
+        // When field codes are not showing
         System.out.println(MessageFormat.format("FieldResult: {0}", dateField.getResult()));
 
-        // Display the field code which defines the behaviour of the field. This can been seen in Microsoft Word by pressing ALT+F9.
+        // Display the field code which defines the behavior of the field. This can been seen in Microsoft Word by pressing ALT+F9
         System.out.println(MessageFormat.format("FieldCode: {0}", dateField.getFieldCode()));
 
         // The field type defines what type of field in the Document this is. In this case the type is "FieldDate"
         System.out.println(MessageFormat.format("FieldType: {0}", dateField.getType()));
 
-        // Finally let's completely remove the field from the document. This can easily be done by invoking the Remove method on the object.
+        // Finally let's completely remove the field from the document. This can easily be done by invoking the Remove method on the object
         dateField.remove();
         //ExEnd
     }
@@ -192,7 +192,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExStart
         //ExFor:Field.GetFieldCode
         //ExFor:Field.GetFieldCode(bool)
-        //ExSummary:Shows how to get text between field start and field separator (or field end if there is no separator)
+        //ExSummary:Shows how to get text between field start and field separator (or field end if there is no separator).
         Document doc = new Document(getMyDir() + "Field.FieldCode.docx");
 
         for (Field field : doc.getRange().getFields()) {
@@ -246,13 +246,13 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         builder.write("Please make sure to visit ");
 
-        // Specify font formatting for the hyperlink.
+        // Specify font formatting for the hyperlink
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setUnderline(Underline.SINGLE);
         // Insert the link.
         builder.insertHyperlink("Aspose Website", "http://www.aspose.com", false);
 
-        // Revert to default formatting.
+        // Revert to default formatting
         builder.getFont().clearFormatting();
 
         builder.write(" for more information.");
@@ -271,22 +271,22 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Set up font formatting and write text that goes before the hyperlink.
+        // Set up font formatting and write text that goes before the hyperlink
         builder.getFont().setName("Arial");
         builder.getFont().setSize(24);
         builder.getFont().setBold(true);
         builder.write("To go to an important location, click ");
 
-        // Save the font formatting so we use different formatting for hyperlink and restore old formatting later.
+        // Save the font formatting so we use different formatting for hyperlink and restore old formatting later
         builder.pushFont();
 
-        // Set new font formatting for the hyperlink and insert the hyperlink.
-        // The "Hyperlink" style is a Microsoft Word built-in style so we don't have to worry to
-        // create it, it will be created automatically if it does not yet exist in the document.
+        // Set new font formatting for the hyperlink and insert the hyperlink
+        // The "Hyperlink" style is a Microsoft Word built-in style so we don't have to worry to 
+        // create it, it will be created automatically if it does not yet exist in the document
         builder.getFont().setStyleIdentifier(StyleIdentifier.HYPERLINK);
         builder.insertHyperlink("here", "http://www.google.com", false);
 
-        // Restore the formatting that was before the hyperlink.
+        // Restore the formatting that was before the hyperlink
         builder.popFont();
 
         builder.writeln(". We hope you enjoyed the example.");
@@ -310,12 +310,12 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // The best place for the watermark image is in the header or footer so it is shown on every page.
+        // The best place for the watermark image is in the header or footer so it is shown on every page
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
 
         BufferedImage image = ImageIO.read(new File(getImageDir() + "Watermark.png"));
 
-        // Insert a floating picture.
+        // Insert a floating picture
         Shape shape = builder.insertImage(image);
         shape.setWrapType(WrapType.NONE);
         shape.setBehindText(true);
@@ -323,7 +323,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
         shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
 
-        // Calculate image left and top position so it appears in the center of the page.
+        // Calculate image left and top position so it appears in the center of the page
         shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2);
         shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2);
 
@@ -406,19 +406,19 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExSummary:Builds a sample form to fill.
         DocumentBuilder builder = new DocumentBuilder();
 
-        // Insert a text form field for input a name.
+        // Insert a text form field for input a name
         builder.insertTextInput("", TextFormFieldType.REGULAR, "", "Enter your name here", 30);
 
-        // Insert two blank lines.
+        // Insert two blank lines
         builder.writeln("");
         builder.writeln("");
 
         String[] items = new String[]{"-- Select your favorite footwear --", "Sneakers", "Oxfords", "Flip-flops", "Other", "I prefer to be barefoot"};
 
-        // Insert a combo box to select a footwear type.
+        // Insert a combo box to select a footwear type
         builder.insertComboBox("", items, 0);
 
-        // Insert two blank lines.
+        // Insert 2 blank lines
         builder.writeln("");
         builder.writeln("");
 
@@ -431,7 +431,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExStart
         //ExFor:DocumentBuilder.InsertCheckBox(string, bool, bool, int)
         //ExFor:DocumentBuilder.InsertCheckBox(String, bool, int)
-        //ExSummary:Shows how to insert checkboxes to the document
+        //ExSummary:Shows how to insert checkboxes to the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -443,31 +443,31 @@ public class ExDocumentBuilder extends ApiExampleBase {
         ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
         doc.save(dstStream, SaveFormat.DOCX);
 
-        //Get checkboxes from the document
+        // Get checkboxes from the document
         FormFieldCollection formFields = doc.getRange().getFormFields();
 
-        //Check that is the right checkbox
+        // Check that is the right checkbox
         Assert.assertEquals(formFields.get(0).getName(), "");
 
-        //Assert that parameters sets correctly
+        // Assert that parameters sets correctly
         Assert.assertEquals(formFields.get(0).getChecked(), false);
         Assert.assertEquals(formFields.get(0).getDefault(), false);
         Assert.assertEquals(formFields.get(0).getCheckBoxSize(), 10);
 
-        //Check that is the right checkbox
+        // Check that is the right checkbox
         // Please pay attention that MS Word allows strings with at most 20 characters
         Assert.assertEquals(formFields.get(1).getName(), "CheckBox_Default");
 
-        //Assert that parameters sets correctly
+        // Assert that parameters sets correctly
         Assert.assertEquals(true, formFields.get(1).getChecked());
         Assert.assertEquals(true, formFields.get(1).getDefault());
         Assert.assertEquals(50, formFields.get(1).getCheckBoxSize());
 
-        //Check that is the right checkbox
+        // Check that is the right checkbox
         // Please pay attention that MS Word allows strings with at most 20 characters
         Assert.assertEquals(formFields.get(2).getName(), "CheckBox_OnlyCheckedValue");
 
-        //Assert that parameters sets correctly
+        // Assert that parameters sets correctly
         Assert.assertEquals(formFields.get(2).getChecked(), true);
         Assert.assertEquals(formFields.get(2).getDefault(), true);
         Assert.assertEquals(formFields.get(2).getCheckBoxSize(), 100);
@@ -479,7 +479,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        //Assert that empty String name working correctly
+        // Assert that empty String name working correctly
         builder.insertCheckBox("", true, false, 1);
         builder.insertCheckBox("", false, 1);
     }
@@ -499,7 +499,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "DocumentBuilder.WorkingWithNodes.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Move to a bookmark and delete the parent paragraph.
+        // Move to a bookmark and delete the parent paragraph
         builder.moveToBookmark("ParaToDelete");
         builder.getCurrentParagraph().remove();
 
@@ -507,13 +507,13 @@ public class ExDocumentBuilder extends ApiExampleBase {
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(true);
 
-        // Move to a particular paragraph's run and replace all occurrences of "bad" with "good" within this run.
+        // Move to a particular paragraph's run and replace all occurrences of "bad" with "good" within this run
         builder.moveTo(doc.getLastSection().getBody().getParagraphs().get(0).getRuns().get(0));
         Assert.assertTrue(builder.isAtStartOfParagraph());
         Assert.assertFalse(builder.isAtEndOfParagraph());
         builder.getCurrentNode().getRange().replace("bad", "good", options);
 
-        // Mark the beginning of the document.
+        // Mark the beginning of the document
         builder.moveToDocumentStart();
         builder.writeln("Start of document.");
 
@@ -529,7 +529,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertFalse(builder.isAtStartOfParagraph());
         Assert.assertTrue(builder.isAtEndOfParagraph());
 
-        // Mark the ending of the document.
+        // Mark the ending of the document
         builder.moveToDocumentEnd();
         builder.writeln("End of document.");
 
@@ -575,13 +575,13 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExSummary:Demonstrates how to insert a Table of contents (TOC) into a document using heading styles as entries.
         // Use a blank document
         Document doc = new Document();
-        // Create a document builder to insert content with into document.
+        // Create a document builder to insert content with into document
         DocumentBuilder builder = new DocumentBuilder(doc);
-        // Insert a table of contents at the beginning of the document.
+        // Insert a table of contents at the beginning of the document
         builder.insertTableOfContents("\\o \"1-3\" \\h \\z \\u");
-        // Start the actual document content on the second page.
+        // Start the actual document content on the second page
         builder.insertBreak(BreakType.PAGE_BREAK);
-        // Build a document with complex structure by applying different heading styles thus creating TOC entries.
+        // Build a document with complex structure by applying different heading styles thus creating TOC entries
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);
 
         builder.writeln("Heading 1");
@@ -611,7 +611,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.writeln("Heading 3.2");
         builder.writeln("Heading 3.3");
 
-        // Call the method below to update the TOC.
+        // Call the method below to update the TOC
         doc.updateFields();
         //ExEnd
 
@@ -646,12 +646,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExSummary:Shows how to build a nice bordered table.
         DocumentBuilder builder = new DocumentBuilder();
 
-        // Start building a table.
+        // Start building a table
         builder.startTable();
 
         // Set the appropriate paragraph, cell, and row formatting. The formatting properties are preserved
-        // until they are explicitly modified so there's no need to set them for each row or cell.
-
+        // until they are explicitly modified so there's no need to set them for each row or cell
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
 
         builder.getCellFormat().clearFormatting();
@@ -675,7 +674,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         builder.endRow();
 
-        // Remove the shading (clear background).
+        // Remove the shading (clear background)
         builder.getCellFormat().getShading().clearFormatting();
 
         builder.insertCell();
@@ -688,8 +687,8 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         builder.insertCell();
 
-        // Make the row height bigger so that a vertically oriented text could fit into cells.
-        builder.getRowFormat().setHeight(150);
+        // Make the row height bigger so that a vertically oriented text could fit into cells
+        builder.getRowFormat().setHeight(150.0);
         builder.getCellFormat().setOrientation(TextOrientation.UPWARD);
         builder.write("Row 3, Col 1");
 
@@ -718,16 +717,16 @@ public class ExDocumentBuilder extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         Table table = builder.startTable();
-        // We must insert at least one row first before setting any table formatting.
+        // We must insert at least one row first before setting any table formatting
         builder.insertCell();
-        // Set the table style used based of the unique style identifier.
-        // Note that not all table styles are available when saving as .doc format.
+        // Set the table style used based of the unique style identifier
+        // Note that not all table styles are available when saving as .doc format
         table.setStyleIdentifier(StyleIdentifier.MEDIUM_SHADING_1_ACCENT_1);
-        // Apply which features should be formatted by the style.
+        // Apply which features should be formatted by the style
         table.setStyleOptions(TableStyleOptions.FIRST_COLUMN | TableStyleOptions.ROW_BANDS | TableStyleOptions.FIRST_ROW);
         table.autoFit(AutoFitBehavior.AUTO_FIT_TO_CONTENTS);
 
-        // Continue with building the table as normal.
+        // Continue with building the table as normal
         builder.writeln("Item");
         builder.getCellFormat().setRightPadding(40);
         builder.insertCell();
@@ -755,7 +754,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.save(getArtifactsDir() + "DocumentBuilder.SetTableStyle.docx");
         //ExEnd
 
-        // Verify that the style was set by expanding to direct formatting.
+        // Verify that the style was set by expanding to direct formatting
         doc.expandTableStylesToDirectFormatting();
         Assert.assertEquals(table.getStyle().getName(), "Medium Shading 1 Accent 1");
         Assert.assertEquals(table.getStyleOptions(), TableStyleOptions.FIRST_COLUMN | TableStyleOptions.ROW_BANDS | TableStyleOptions.FIRST_ROW);
@@ -787,7 +786,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.getCellFormat().setWidth(50);
         builder.getParagraphFormat().clearFormatting();
 
-        // Insert some content so the table is long enough to continue onto the next page.
+        // Insert some content so the table is long enough to continue onto the next page
         for (int i = 0; i < 50; i++) {
             builder.insertCell();
             builder.getRowFormat().setHeadingFormat(false);
@@ -815,7 +814,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a table with a width that takes up half the page width.
+        // Insert a table with a width that takes up half the page width
         Table table = builder.startTable();
 
         // Insert a few cells
@@ -832,7 +831,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Table.PreferredWidth.doc");
         //ExEnd
 
-        // Verify the correct settings were applied.
+        // Verify the correct settings were applied
         Assert.assertEquals(table.getPreferredWidth().getType(), PreferredWidthType.PERCENT);
         Assert.assertEquals(table.getPreferredWidth().getValue(), 50.0);
     }
@@ -853,10 +852,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a table row made up of three cells which have different preferred widths.
+        // Insert a table row made up of three cells which have different preferred widths
         Table table = builder.startTable();
 
-        // Insert an absolute sized cell.
+        // Insert an absolute sized cell
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPoints(40));
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.RED);
@@ -865,7 +864,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         PreferredWidth width = builder.getCellFormat().getPreferredWidth();
         System.out.println(MessageFormat.format("Width \"{0}\": {1}", width.hashCode(), width.toString()));
 
-        // Insert a relative (percent) sized cell.
+        // Insert a relative (percent) sized cell
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(20));
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.BLUE);
@@ -887,7 +886,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Table.CellPreferredWidths.docx");
         //ExEnd
 
-        // Verify the correct settings were applied.
+        // Verify the correct settings were applied
         Assert.assertEquals(table.getFirstRow().getFirstCell().getCellFormat().getPreferredWidth().getType(), PreferredWidthType.POINTS);
         Assert.assertEquals(table.getFirstRow().getCells().get(1).getCellFormat().getPreferredWidth().getType(), PreferredWidthType.PERCENT);
         Assert.assertEquals(table.getFirstRow().getCells().get(2).getCellFormat().getPreferredWidth().getType(), PreferredWidthType.AUTO);
@@ -899,12 +898,12 @@ public class ExDocumentBuilder extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert the table from HTML. Note that AutoFitSettings does not apply to tables
-        // inserted from HTML.
+        // inserted from HTML
         builder.insertHtml("<table>" + "<tr>" + "<td>Row 1, Cell 1</td>" + "<td>Row 1, Cell 2</td>" + "</tr>" + "<tr>" + "<td>Row 2, Cell 2</td>" + "<td>Row 2, Cell 2</td>" + "</tr>" + "</table>");
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertTableFromHtml.doc");
 
-        // Verify the table was constructed properly.
+        // Verify the table was constructed properly
         Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 1);
         Assert.assertEquals(doc.getChildNodes(NodeType.ROW, true).getCount(), 2);
         Assert.assertEquals(doc.getChildNodes(NodeType.CELL, true).getCount(), 4);
@@ -918,7 +917,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Build the outer table.
+        // Build the outer table
         Cell cell = builder.insertCell();
         builder.writeln("Outer Table Cell 1");
 
@@ -926,13 +925,13 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.writeln("Outer Table Cell 2");
 
         // This call is important in order to create a nested table within the first table
-        // Without this call the cells inserted below will be appended to the outer table.
+        // Without this call the cells inserted below will be appended to the outer table
         builder.endTable();
 
-        // Move to the first cell of the outer table.
+        // Move to the first cell of the outer table
         builder.moveTo(cell.getFirstParagraph());
 
-        // Build the inner table.
+        // Build the inner table
         builder.insertCell();
         builder.writeln("Inner Table Cell 1");
         builder.insertCell();
@@ -959,7 +958,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // We call this method to start building the table.
+        // We call this method to start building the table
         builder.startTable();
         builder.insertCell();
         builder.write("Row 1, Cell 1 Content.");
@@ -967,10 +966,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
         // Build the second cell
         builder.insertCell();
         builder.write("Row 1, Cell 2 Content.");
-        // Call the following method to end the row and start a new row.
+        // Call the following method to end the row and start a new row
         builder.endRow();
 
-        // Build the first cell of the second row.
+        // Build the first cell of the second row
         builder.insertCell();
         builder.write("Row 2, Cell 1 Content");
 
@@ -979,14 +978,14 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.write("Row 2, Cell 2 Content.");
         builder.endRow();
 
-        // Signal that we have finished building the table.
+        // Signal that we have finished building the table
         builder.endTable();
 
-        // Save the document to disk.
+        // Save the document to disk
         doc.save(getArtifactsDir() + "DocumentBuilder.CreateSimpleTable.doc");
         //ExEnd
 
-        // Verify that the cell count of the table is four.
+        // Verify that the cell count of the table is four
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         Assert.assertNotNull(table);
         Assert.assertEquals(table.getChildNodes(NodeType.CELL, true).getCount(), 4);
@@ -1004,24 +1003,24 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExFor:Shading.BackgroundPatternColor
         //ExFor:DocumentBuilder.ParagraphFormat
         //ExFor:DocumentBuilder.Font
-        //ExSummary:Shows how to create a formatted table using DocumentBuilder
+        //ExSummary:Shows how to create a formatted table using DocumentBuilder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         Table table = builder.startTable();
 
-        // Make the header row.
+        // Make the header row
         builder.insertCell();
 
-        // Set the left indent for the table. Table wide formatting must be applied after
-        // at least one row is present in the table.
+        // Set the left indent for the table. Table wide formatting must be applied after 
+        // at least one row is present in the table
         table.setLeftIndent(20.0);
 
-        // Set height and define the height rule for the header row.
+        // Set height and define the height rule for the header row
         builder.getRowFormat().setHeight(40.0);
         builder.getRowFormat().setHeightRule(HeightRule.AT_LEAST);
 
-        // Some special features for the header row.
+        // Some special features for the header row
         builder.getCellFormat().getShading().setBackgroundPatternColor(new Color(198, 217, 241));
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
         builder.getFont().setSize(16);
@@ -1031,7 +1030,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.getCellFormat().setWidth(100.0);
         builder.write("Header Row,\n Cell 1");
 
-        // We don't need to specify the width of this cell because it's inherited from the previous cell.
+        // We don't need to specify the width of this cell because it's inherited from the previous cell
         builder.insertCell();
         builder.write("Header Row,\n Cell 2");
 
@@ -1040,7 +1039,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.write("Header Row,\n Cell 3");
         builder.endRow();
 
-        // Set features for the other rows and cells.
+        // Set features for the other rows and cells
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.WHITE);
         builder.getCellFormat().setWidth(100.0);
         builder.getCellFormat().setVerticalAlignment(CellVerticalAlignment.CENTER);
@@ -1049,11 +1048,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.getRowFormat().setHeight(30.0);
         builder.getRowFormat().setHeightRule(HeightRule.AUTO);
         builder.insertCell();
-        // Reset font formatting.
+        // Reset font formatting
         builder.getFont().setSize(12);
         builder.getFont().setBold(false);
 
-        // Build the other cells.
+        // Build the other cells
         builder.write("Row 1, Cell 1 Content");
         builder.insertCell();
         builder.write("Row 1, Cell 2 Content");
@@ -1079,7 +1078,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.save(getArtifactsDir() + "DocumentBuilder.CreateFormattedTable.doc");
         //ExEnd
 
-        // Verify that the cell style is different compared to default.
+        // Verify that the cell style is different compared to default
         Assert.assertNotSame(table.getLeftIndent(), 0.0);
         Assert.assertNotSame(table.getFirstRow().getRowFormat().getHeightRule(), HeightRule.AUTO);
         Assert.assertNotSame(table.getFirstRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getRGB(), 0);
@@ -1096,35 +1095,35 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExFor:BorderCollection.Right
         //ExFor:BorderCollection.Top
         //ExFor:BorderCollection.Bottom
-        //ExSummary:Shows how to format table and cell with different borders and shadings
+        //ExSummary:Shows how to format table and cell with different borders and shadings.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         Table table = builder.startTable();
         builder.insertCell();
 
-        // Set the borders for the entire table.
+        // Set the borders for the entire table
         table.setBorders(LineStyle.SINGLE, 2.0, Color.BLACK);
-        // Set the cell shading for this cell.
+        // Set the cell shading for this cell
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.RED);
         builder.writeln("Cell #1");
 
         builder.insertCell();
-        // Specify a different cell shading for the second cell.
+        // Specify a different cell shading for the second cell
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.GREEN);
         builder.writeln("Cell #2");
 
-        // End this row.
+        // End this row
         builder.endRow();
 
-        // Clear the cell formatting from previous operations.
+        // Clear the cell formatting from previous operations
         builder.getCellFormat().clearFormatting();
 
-        // Create the second row.
+        // Create the second row
         builder.insertCell();
 
         // Create larger borders for the first cell of this row. This will be different
-        // compared to the borders set for the table.
+        // compared to the borders set for the table
         builder.getCellFormat().getBorders().getLeft().setLineWidth(4.0);
         builder.getCellFormat().getBorders().getRight().setLineWidth(4.0);
         builder.getCellFormat().getBorders().getTop().setLineWidth(4.0);
@@ -1132,14 +1131,14 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.writeln("Cell #3");
 
         builder.insertCell();
-        // Clear the cell formatting from the previous cell.
+        // Clear the cell formatting from the previous cell
         builder.getCellFormat().clearFormatting();
         builder.writeln("Cell #4");
 
         doc.save(getArtifactsDir() + "Table.SetBordersAndShading.doc");
         //ExEnd
 
-        // Verify the table was created correctly.
+        // Verify the table was created correctly
         Assert.assertEquals(table.getFirstRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getRGB(), Color.RED.getRGB());
         Assert.assertEquals(table.getFirstRow().getCells().get(1).getCellFormat().getShading().getBackgroundPatternColor().getRGB(), Color.GREEN.getRGB());
         Assert.assertEquals(table.getFirstRow().getCells().get(1).getCellFormat().getShading().getBackgroundPatternColor().getRGB(), Color.GREEN.getRGB());
@@ -1184,12 +1183,12 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         builder.writeln("Some other text");
 
-        // Specify font formatting for the hyperlink.
+        // Specify font formatting for the hyperlink
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setUnderline(Underline.SINGLE);
 
-        // Insert hyperlink.
-        // Switch \o is used to provide hyperlink tip text.
+        // Insert hyperlink
+        // Switch \o is used to provide hyperlink tip text
         builder.insertHyperlink("ApiExamples.Tests.Hyperlink Text", "Bookmark1\" \\o \"ApiExamples.Tests.Hyperlink Tip", true);
 
         // Clear hyperlink formatting.
@@ -1245,7 +1244,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Parameters are 0-index. Moves to third section.
+        // Parameters are 0-index. Moves to third section
         builder.moveToSection(2);
         builder.writeln("This is the 3rd section.");
     }
@@ -1258,7 +1257,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Parameters are 0-index. Moves to third paragraph.
+        // Parameters are 0-index. Moves to third paragraph
         builder.moveToParagraph(2, 0);
         builder.writeln("This is the 3rd paragraph.");
         //ExEnd
@@ -1272,7 +1271,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "DocumentBuilder.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // All parameters are 0-index. Moves to the 2nd table, 3rd row, 5th cell.
+        // All parameters are 0-index. Moves to the 2nd table, 3rd row, 5th cell
         builder.moveToCell(1, 2, 4, 0);
         builder.writeln("Hello World!");
         //ExEnd
@@ -1373,7 +1372,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         // Insert a cell
         builder.insertCell();
-        // Use fixed column widths.
+        // Use fixed column widths
         table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
 
         builder.getCellFormat().setVerticalAlignment(CellVerticalAlignment.CENTER);
@@ -1470,7 +1469,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertImageFromUrl.doc");
         //ExEnd
 
-        // Verify that the image was inserted into the document.
+        // Verify that the image was inserted into the document
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         Assert.assertNotNull(shape);
         Assert.assertTrue(shape.hasImage());
@@ -1484,7 +1483,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Pass a negative value to the width and height values to specify using the size of the source image.
+        // Pass a negative value to the width and height values to specify using the size of the source image
         builder.insertImage(getImageDir() + "LogoSmall.png", RelativeHorizontalPosition.MARGIN, 200.0, RelativeVerticalPosition.MARGIN, 100.0, -1, -1, WrapType.SQUARE);
         //ExEnd
 
@@ -1531,11 +1530,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a table of contents at the beginning of the document.
+        // Insert a table of contents at the beginning of the document
         builder.insertTableOfContents("\\o \"1-3\" \\h \\z \\u");
 
-        // The newly inserted table of contents will be initially empty.
-        // It needs to be populated by updating the fields in the document.
+        // The newly inserted table of contents will be initially empty
+        // It needs to be populated by updating the fields in the document
         doc.updateFields();
     }
 
@@ -1550,7 +1549,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExFor:SignatureLineOptions.AllowComments
         //ExFor:DocumentBuilder.InsertSignatureLine(SignatureLineOptions)
         //ExFor:SignOptions.ProviderId
-        //ExSummary:Shows how to sign document with personal certificate and specific signatire line.
+        //ExSummary:Shows how to sign document with personal certificate and specific signature line.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1716,7 +1715,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         RowFormat rowFormat = builder.getRowFormat();
         rowFormat.setHeight(100);
         rowFormat.setHeightRule(HeightRule.EXACTLY);
-        // These formatting properties are set on the table and are applied to all rows in the table.
+        // These formatting properties are set on the table and are applied to all rows in the table
         table.setLeftPadding(30);
         table.setRightPadding(30);
         table.setTopPadding(30);
@@ -1853,7 +1852,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "DocumentBuilder.DocWithTable.doc");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Delete the first row of the first table in the document.
+        // Delete the first row of the first table in the document
         builder.deleteRow(0, 0);
         //ExEnd
     }
@@ -2005,7 +2004,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void insertFieldFieldType() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertField(FieldType, Boolean)
-        //ExSummary:Shows how to insert a field into a document using FieldType
+        //ExSummary:Shows how to insert a field into a document using FieldType.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2119,11 +2118,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void insertVideoWithUrl() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, Double, Double)
-        //ExSummary:Show how to insert online video into a document using video url
+        //ExSummary:Show how to insert online video into a document using video url.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Pass direct url from youtu.be.
+        // Pass direct url from youtu.be
         String url = "https://youtu.be/t_1LYZ102RA";
 
         double width = 360.0;
@@ -2281,7 +2280,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void builderInsertStyleSeparator() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertStyleSeparator
-        //ExSummary:Shows how to use and separate multiple styles in a paragraph
+        //ExSummary:Shows how to use and separate multiple styles in a paragraph.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2315,12 +2314,12 @@ public class ExDocumentBuilder extends ApiExampleBase {
         paraStyle.getFont().setSize(8.0);
         paraStyle.getFont().setName("Arial");
 
-        // Append text with "Heading 1" style.
+        // Append text with "Heading 1" style
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);
         builder.write("Heading 1");
         builder.insertStyleSeparator();
 
-        // Append text with another style.
+        // Append text with another style
         builder.getParagraphFormat().setStyleName(paraStyle.getName());
         builder.write("This is text with some other formatting ");
         //ExEnd
@@ -2337,11 +2336,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
         paraStyle.getFont().setSize(8.0);
         paraStyle.getFont().setName("Arial");
 
-        // Append text with "Heading 1" style.
+        // Append text with "Heading 1" style
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);
         builder.write("Heading 1");
 
-        // Append text with another style.
+        // Append text with another style
         builder.getParagraphFormat().setStyleName(paraStyle.getName());
         builder.write("This is text with some other formatting ");
 
@@ -2370,7 +2369,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         // When SmartStyleBehavior is enabled,
         // a source style will be expanded into a direct attributes inside a destination document,
-        // if KeepSourceFormatting importing mode is used.
+        // if KeepSourceFormatting importing mode is used
         builder.insertDocument(sourceDoc1, ImportFormatMode.KEEP_SOURCE_FORMATTING, importFormatOptions);
 
         builder.moveToDocumentEnd();
@@ -2378,7 +2377,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         // When SmartStyleBehavior is disabled,
         // a source style will be expanded only if it is numbered.
-        // Existing destination attributes will not be overridden, including lists.
+        // Existing destination attributes will not be overridden, including lists
         builder.insertDocument(sourceDoc2, ImportFormatMode.USE_DESTINATION_STYLES);
 
         destDoc.save(getArtifactsDir() + "DocumentBuilder.SmartStyleBehavior.ResultDocument.docx");
@@ -2395,7 +2394,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         ImportFormatOptions options = new ImportFormatOptions();
         // Specify that if numbering clashes in source and destination documents
-        // then a numbering from the source document will be used.
+        // then a numbering from the source document will be used
         options.setKeepSourceNumbering(true);
         dstDoc.appendDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES, options);
         dstDoc.updateListLabels();

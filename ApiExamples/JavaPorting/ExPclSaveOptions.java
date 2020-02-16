@@ -12,6 +12,7 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.PclSaveOptions;
+import com.aspose.words.SaveFormat;
 import com.aspose.words.Section;
 
 
@@ -23,16 +24,18 @@ class ExPclSaveOptions !Test class should be public in Java to run, please fix .
     {
         //ExStart
         //ExFor:PclSaveOptions
+        //ExFor:PclSaveOptions.SaveFormat
         //ExFor:PclSaveOptions.RasterizeTransformedElements
         //ExSummary:Shows how rasterized or not transformed elements before saving.
-        Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PclSaveOptions saveOptions = new PclSaveOptions();
         {
+            saveOptions.setSaveFormat(SaveFormat.PCL);
             saveOptions.setRasterizeTransformedElements(true);
         }
 
-        doc.save(getArtifactsDir() + "Document.EpubConversion.pcl", saveOptions);
+        doc.save(getArtifactsDir() + "PclSaveOptions.RasterizeElements.pcl", saveOptions);
         //ExEnd
     }
 
@@ -43,20 +46,20 @@ class ExPclSaveOptions !Test class should be public in Java to run, please fix .
         //ExFor:PclSaveOptions.AddPrinterFont(string, string)
         //ExFor:PclSaveOptions.FallbackFontName
         //ExSummary:Shows how to add information about font that is uploaded to the printer and set the font that will be used if no expected font is found in printer and built-in fonts collections.
-        Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PclSaveOptions saveOptions = new PclSaveOptions();
         saveOptions.addPrinterFont("Courier", "Courier");
         saveOptions.setFallbackFontName("Times New Roman");
 
-        doc.save(getArtifactsDir() + "Document.EpubConversion.pcl", saveOptions);
+        doc.save(getArtifactsDir() + "PclSaveOptions.SetPrinterFont.pcl", saveOptions);
         //ExEnd
     }
 
     @Test (enabled = false, description = "This test is manual check that PaperTray information are preserved in pcl document.")
     public void getPreservedPaperTrayInformation() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.EpubConversion.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Paper tray information is now preserved when saving document to PCL format
         // Following information is transferred from document's model to PCL file
@@ -66,6 +69,6 @@ class ExPclSaveOptions !Test class should be public in Java to run, please fix .
             section.getPageSetup().setOtherPagesTray(12);
         }
 
-        doc.save(getArtifactsDir() + "Document.EpubConversion.pcl");
+        doc.save(getArtifactsDir() + "PclSaveOptions.GetPreservedPaperTrayInformation.pcl");
     }
 }

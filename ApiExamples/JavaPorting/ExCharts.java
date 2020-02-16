@@ -168,7 +168,7 @@ public class ExCharts extends ApiExampleBase
     }
 
     @Test
-    public void insertChartUsingAxisProperties() throws Exception
+    public void axisProperties() throws Exception
     {
         //ExStart
         //ExFor:ChartAxis
@@ -233,11 +233,11 @@ public class ExCharts extends ApiExampleBase
         yAxis.setTickLabelPosition(AxisTickLabelPosition.NEXT_TO_AXIS);
         //ExEnd
 
-        doc.save(getArtifactsDir() + "Charts.InsertChartUsingAxisProperties.docx");
+        doc.save(getArtifactsDir() + "Charts.AxisProperties.docx");
     }
 
     @Test
-    public void insertChartWithDateTimeValues() throws Exception
+    public void dateTimeValues() throws Exception
     {
         //ExStart
         //ExFor:AxisBound
@@ -292,7 +292,7 @@ public class ExCharts extends ApiExampleBase
         yAxis.getScaling().setMinimum(new AxisBound(100.0));
         yAxis.getScaling().setMaximum(new AxisBound(700.0));
 
-        doc.save(getArtifactsDir() + "Charts.ChartAxisProperties.docx");
+        doc.save(getArtifactsDir() + "Charts.DateTimeValues.docx");
         //ExEnd
     }
 
@@ -428,7 +428,7 @@ public class ExCharts extends ApiExampleBase
     }
 
     @Test
-    public void workWithChartDataLabelCollection() throws Exception
+    public void chartDataLabelCollection() throws Exception
     {
         //ExStart
         //ExFor:ChartDataLabelCollection.ShowBubbleSize
@@ -478,7 +478,7 @@ public class ExCharts extends ApiExampleBase
         pieChartDataLabels.setShowPercentage(true);
         pieChartDataLabels.setShowValue(true);
 
-        doc.save(getArtifactsDir() + "Charts.WorkWithChartDataLabelCollection.docx");
+        doc.save(getArtifactsDir() + "Charts.ChartDataLabelCollection.docx");
         //ExEnd
     }
 
@@ -820,7 +820,7 @@ public class ExCharts extends ApiExampleBase
             // And use it to go over all the data labels in one series and change their separator
             while (enumerator.hasNext())
             {
-                msConsole.writeLine(enumerator.next().getName());
+                System.out.println(enumerator.next().getName());
             }
         }
         finally { if (enumerator != null) enumerator.close(); }

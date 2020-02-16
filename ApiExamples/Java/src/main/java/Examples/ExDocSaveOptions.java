@@ -50,7 +50,7 @@ public class ExDocSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:SaveOptions.TempFolder
         //ExSummary:Shows how to save a document using temporary files.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // We can use a SaveOptions object to set the saving method of a document from a MemoryStream to temporary files
         // While saving, the files will briefly pop up in the folder we set as the TempFolder attribute below
@@ -70,14 +70,14 @@ public class ExDocSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:DocSaveOptions.SavePictureBullet
         //ExSummary:Shows how to remove PictureBullet data from the document.
-        Document doc = new Document(getMyDir() + "Document.PictureBullets.docx");
+        Document doc = new Document(getMyDir() + "Image bullet points.docx");
 
         // Word 97 cannot work correctly with PictureBullet data
         // To remove PictureBullet data, set the option to "false"
         DocSaveOptions saveOptions = new DocSaveOptions(SaveFormat.DOC);
         saveOptions.setSavePictureBullet(false);
 
-        doc.save(getArtifactsDir() + "Document.PictureBullets.doc", saveOptions);
+        doc.save(getArtifactsDir() + "DocSaveOptions.PictureBullets.doc", saveOptions);
         //ExEnd
     }
 }

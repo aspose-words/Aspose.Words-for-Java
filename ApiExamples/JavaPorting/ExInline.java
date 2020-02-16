@@ -38,7 +38,7 @@ class ExInline !Test class should be public in Java to run, please fix .Net sour
         //ExFor:RunCollection.Item(Int32)
         //ExFor:RunCollection.ToArray
         //ExSummary:Shows how to process revision-related properties of Inline nodes.
-        Document doc = new Document(getMyDir() + "Inline.Revisions.docx");
+        Document doc = new Document(getMyDir() + "Revision runs.docx");
 
         // This document has 6 revisions
         msAssert.areEqual(6, doc.getRevisions().getCount());

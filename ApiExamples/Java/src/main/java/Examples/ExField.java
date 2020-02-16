@@ -59,13 +59,13 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(fieldStart.isDirty(), true);
         Assert.assertEquals(fieldStart.isLocked(), false);
 
-        // Retrieve the facade object which represents the field in the document.
+        // Retrieve the facade object which represents the field in the document
         Field field = fieldStart.getField();
 
         Assert.assertEquals(false, field.isLocked());
         Assert.assertEquals(" TOC \\o \"1-3\" \\h \\z \\u ", field.getFieldCode());
 
-        // This updates only this field in the document.
+        // This updates only this field in the document
         field.update();
         //ExEnd
     }
@@ -76,7 +76,7 @@ public class ExField extends ApiExampleBase {
         //ExFor:FieldBuilder.#ctor(FieldType)
         //ExFor:FieldBuilder.BuildAndInsert(Inline)
         //ExFor:FieldRevNum
-        //ExSummary:Builds and inserts a field into the document before the specified inline node
+        //ExSummary:Builds and inserts a field into the document before the specified inline node.
         Document doc = new Document();
         Run run = DocumentHelper.insertNewRun(doc, " Hello World!", 0);
 
@@ -143,7 +143,7 @@ public class ExField extends ApiExampleBase {
 
         Field field = doc.getRange().getFields().get(0);
 
-        // This should be the first field in the document - a TOC field.
+        // This should be the first field in the document - a TOC field
         System.out.println(field.getType());
     }
 
@@ -172,32 +172,32 @@ public class ExField extends ApiExampleBase {
 
     @Test
     public void insertTCField() throws Exception {
-        // Create a blank document.
+        // Create a blank document
         Document doc = new Document();
 
-        // Create a document builder to insert content with.
+        // Create a document builder to insert content with
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a TC field at the current document builder position.
+        // Insert a TC field at the current document builder position
         builder.insertField("TC \"Entry Text\" \\f t");
     }
 
     @Test
     public void changeLocale() throws Exception {
-        // Create a blank document.
+        // Create a blank document
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertField("MERGEFIELD Date");
 
-        // Store the current culture so it can be set back once mail merge is complete.
+        // Store the current culture so it can be set back once mail merge is complete
         Locale currentCulture = Locale.getDefault();
-        // Set to German language so dates and numbers are formatted using this culture during mail merge.
+        // Set to German language so dates and numbers are formatted using this culture during mail merge
         Locale.setDefault(new Locale("de", "DE"));
 
         // Execute mail merge
         doc.getMailMerge().execute(new String[]{"Date"}, new Object[]{new Date()});
 
-        // Restore the original culture.
+        // Restore the original culture
         Locale.setDefault(currentCulture);
 
         doc.save(getArtifactsDir() + "Field.ChangeLocale.doc");
@@ -208,14 +208,14 @@ public class ExField extends ApiExampleBase {
     //ExSummary:Demonstrates how to remove a specified TOC from a document.
     @Test //ExSkip
     public void removeTOCFromDocument() throws Exception {
-        // Open a document which contains a TOC.
+        // Open a document which contains a TOC
         Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
 
-        // Remove the first TOC from the document.
+        // Remove the first TOC from the document
         Field tocField = doc.getRange().getFields().get(0);
         tocField.remove();
 
-        // Save the output.
+        // Save the output
         doc.save(getArtifactsDir() + "Document.TableOfContentsRemoveTOC.doc");
     }
     //ExEnd
@@ -227,12 +227,12 @@ public class ExField extends ApiExampleBase {
         FindReplaceOptions options = new FindReplaceOptions();
         options.setReplacingCallback(new InsertTCFieldHandler("Chapter 1", "\\l 1"));
 
-        // Insert a TC field which displays "Chapter 1" just before the text "The Beginning" in the document.
+        // Insert a TC field which displays "Chapter 1" just before the text "The Beginning" in the document
         doc.getRange().replace(Pattern.compile("The Beginning"), "", options);
     }
 
     public class InsertTCFieldHandler implements IReplacingCallback {
-        // Store the text and switches to be used for the TC fields.
+        // Store the text and switches to be used for the TC fields
         private String mFieldText;
         private String mFieldSwitches;
 
@@ -252,13 +252,13 @@ public class ExField extends ApiExampleBase {
         }
 
         public int replacing(final ReplacingArgs args) throws Exception {
-            // Create a builder to insert the field.
+            // Create a builder to insert the field
             DocumentBuilder builder = new DocumentBuilder((Document) args.getMatchNode().getDocument());
-            // Move to the first node of the match.
+            // Move to the first node of the match
             builder.moveTo(args.getMatchNode());
 
             // If the user specified text to be used in the field as display text then use that, otherwise use the
-            // match string as the display text.
+            // match string as the display text
             String insertText;
 
             if (!(mFieldText == null || "".equals(mFieldText))) {
@@ -267,10 +267,10 @@ public class ExField extends ApiExampleBase {
                 insertText = args.getMatch().group();
             }
 
-            // Insert the TC field before this node using the specified string as the display text and user defined switches.
+            // Insert the TC field before this node using the specified string as the display text and user defined switches
             builder.insertField(MessageFormat.format("TC \"{0}\" {1}", insertText, mFieldSwitches));
 
-            // We have done what we want so skip replacement.
+            // We have done what we want so skip replacement
             return ReplaceAction.SKIP;
         }
     }
@@ -280,7 +280,7 @@ public class ExField extends ApiExampleBase {
         //ExStart
         //ExFor:Field.IsDirty
         //ExFor:LoadOptions.UpdateDirtyFields
-        //ExSummary:Shows how to use special property for updating field result
+        //ExSummary:Shows how to use special property for updating field result.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -362,7 +362,7 @@ public class ExField extends ApiExampleBase {
         //ExStart
         //ExFor:Field.Update(bool)
         //ExFor:LoadOptions.PreserveIncludePictureField
-        //ExSummary:Shows a way to update a field ignoring the MERGEFORMAT switch
+        //ExSummary:Shows a way to update a field ignoring the MERGEFORMAT switch.
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setPreserveIncludePictureField(true);
 
@@ -397,7 +397,7 @@ public class ExField extends ApiExampleBase {
         //ExFor:GeneralFormatCollection.Remove(GeneralFormat)
         //ExFor:GeneralFormatCollection.RemoveAt(Int32)
         //ExFor:GeneralFormatCollection.GetEnumerator
-        //ExSummary:Shows how to formatting fields
+        //ExSummary:Shows how to format fields.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -447,7 +447,7 @@ public class ExField extends ApiExampleBase {
     public void unlinkAllFieldsInDocument() throws Exception {
         //ExStart
         //ExFor:Document.UnlinkFields
-        //ExSummary:Shows how to unlink all fields in the document
+        //ExSummary:Shows how to unlink all fields in the document.
         Document doc = new Document(getMyDir() + "Field.UnlinkFields.docx");
 
         doc.unlinkFields();
@@ -461,7 +461,7 @@ public class ExField extends ApiExampleBase {
     public void unlinkAllFieldsInRange() throws Exception {
         //ExStart
         //ExFor:Range.UnlinkFields
-        //ExSummary:Shows how to unlink all fields in range
+        //ExSummary:Shows how to unlink all fields in range.
         Document doc = new Document(getMyDir() + "Field.UnlinkFields.docx");
 
         Section newSection = doc.getSections().get(0).deepClone();
@@ -478,7 +478,7 @@ public class ExField extends ApiExampleBase {
     public void unlinkSingleField() throws Exception {
         //ExStart
         //ExFor:Field.Unlink
-        //ExSummary:Shows how to unlink specific field
+        //ExSummary:Shows how to unlink specific field.
         Document doc = new Document(getMyDir() + "Field.UnlinkFields.docx");
 
         doc.getRange().getFields().get(1).unlink();
@@ -498,7 +498,7 @@ public class ExField extends ApiExampleBase {
         NodeCollection paragraphCollection = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
         for (Paragraph para : (Iterable<Paragraph>) paragraphCollection) {
-            // Check all runs in the paragraph for the first page breaks.
+            // Check all runs in the paragraph for the first page breaks
             for (Run run : para.getRuns()) {
                 if (run.getText().contains(ControlChar.PAGE_BREAK)) {
                     endNode = run;
@@ -531,10 +531,10 @@ public class ExField extends ApiExampleBase {
     private void removeSequence(final Node start, final Node end) {
         Node curNode = start.nextPreOrder(start.getDocument());
         while (curNode != null && !curNode.equals(end)) {
-            //Move to next node
+            // Move to next node
             Node nextNode = curNode.nextPreOrder(start.getDocument());
 
-            //Check whether current contains end node
+            // Check whether current contains end node
             if (curNode.isComposite()) {
                 CompositeNode curComposite = (CompositeNode) curNode;
                 if (!curComposite.getChildNodes(NodeType.ANY, true).contains(end) && !curComposite.getChildNodes(NodeType.ANY, true).contains(start)) {
@@ -665,7 +665,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// IFieldUserPromptRespondent implementation that appends a line to the default response of an ASK field during a mail merge
+    /// IFieldUserPromptRespondent implementation that appends a line to the default response of an ASK field during a mail merge.
     /// </summary>
     private static class MyPromptRespondent implements IFieldUserPromptRespondent {
         public String respond(final String promptText, final String defaultResponse) {
@@ -838,7 +838,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Document visitor implementation that prints field info
+    /// Document visitor implementation that prints field info.
     /// </summary>
     public static class FieldVisitor extends DocumentVisitor {
         public FieldVisitor() {
@@ -1006,7 +1006,7 @@ public class ExField extends ApiExampleBase {
     //ExFor:FieldAutoNumLgl
     //ExFor:FieldAutoNumLgl.RemoveTrailingPeriod
     //ExFor:FieldAutoNumLgl.SeparatorCharacter
-    //ExSummary:Shows how to organize a document using autonum legal fields
+    //ExSummary:Shows how to organize a document using autonum legal fields.
     @Test //ExSkip
     public void fieldAutoNumLgl() throws Exception {
         Document doc = new Document();
@@ -1048,7 +1048,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Get a document builder to insert a clause numbered by an autonum legal field
+    /// Get a document builder to insert a clause numbered by an autonum legal field.
     /// </summary>
     private void insertNumberedClause(final DocumentBuilder builder, final String heading, final String contents, final int headingStyle) throws Exception {
         // This legal field will automatically number our clauses, taking heading style level into account
@@ -1174,7 +1174,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Create an AutoText entry and add it to a glossary document
+    /// Create an AutoText entry and add it to a glossary document.
     /// </summary>
     private static void appendAutoTextEntry(final GlossaryDocument glossaryDoc, final String name, final String contents) {
         // Create building block and set it up as an auto text entry
@@ -1552,7 +1552,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Start a new page and insert a paragraph of a specified style
+    /// Start a new page and insert a paragraph of a specified style.
     /// </summary>
     @Test(enabled = false)
     public void insertNewPageWithHeading(final DocumentBuilder builder, final String captionText, final String styleName) {
@@ -1604,7 +1604,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Insert a table of contents entry via a document builder
+    /// Insert a table of contents entry via a document builder.
     /// </summary>
     @Test(enabled = false)
     public void insertTocEntry(final DocumentBuilder builder, final String text, final String typeIdentifier, final String entryLevel) throws Exception {
@@ -1747,7 +1747,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Insert a sequence field with preceding text and a specified sequence identifier
+    /// Insert a sequence field with preceding text and a specified sequence identifier.
     /// </summary>
     @Test(enabled = false)
     public FieldSeq insertSeqField(final DocumentBuilder builder, final String textBefore, final String textAfter, final String sequenceIdentifier) throws Exception {
@@ -1993,7 +1993,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Use a document builder to insert an INCLUDETEXT field and set its properties
+    /// Use a document builder to insert an INCLUDETEXT field and set its properties.
     /// </summary>
     @Test(enabled = false)
     public FieldIncludeText createFieldIncludeText(final DocumentBuilder builder, final String sourceFullName,
@@ -2086,7 +2086,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Creates a data table with a single column
+    /// Creates a data table with a single column.
     /// </summary>
     private DataTable createDataTable(final String tableName, final String columnName, final String[] columnContents) {
         DataTable dataTable = new DataTable(tableName);
@@ -2102,7 +2102,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Sets the size of all mail merged images to one defined width and height
+    /// Sets the size of all mail merged images to one defined width and height.
     /// </summary>
     private static class MergedImageResizer implements IFieldMergingCallback {
         public MergedImageResizer(final double imageWidth, final double imageHeight, final int unit) {
@@ -2161,7 +2161,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Image merging callback that pairs image shorthand names with filenames
+    /// Image merging callback that pairs image shorthand names with filenames.
     /// </summary>
     private static class ImageFilenameCallback implements IFieldMergingCallback {
         public ImageFilenameCallback() {
@@ -2548,7 +2548,7 @@ public class ExField extends ApiExampleBase {
 
     /// <summary>
     /// Creates a DataTable named by dataTableName, adds a column for every element in columnNames
-    /// and fills rows with data from dataSet
+    /// and fills rows with data from dataSet.
     /// </summary>
     @Test(enabled = false)
     public DataTable createTable(final String dataTableName, final String[] columnNames, final Object[][] dataSet) {
@@ -2614,7 +2614,7 @@ public class ExField extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert fields containing text from another document and present them as text (see InsertLinkedObjectAs enum).
+        // Insert fields containing text from another document and present them as text (see InsertLinkedObjectAs enum)
         builder.writeln("FieldLink:\n");
         insertFieldLink(builder, insertLinkedObjectAs, "Word.Document.8", getMyDir() + "Document.doc",
                 null, true);
@@ -2631,7 +2631,6 @@ public class ExField extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Field.LinkedObjectsAsText.docx");
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "fieldLinkedObjectsAsTextDataProvider")
     public static Object[][] fieldLinkedObjectsAsTextDataProvider() {
         return new Object[][]
@@ -2666,7 +2665,6 @@ public class ExField extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Field.LinkedObjectsAsImage.docx");
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "fieldLinkedObjectsAsImageDataProvider")
     public static Object[][] fieldLinkedObjectsAsImageDataProvider() {
         return new Object[][]
@@ -2677,7 +2675,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Use a document builder to insert a LINK field and set its properties according to parameters
+    /// Use a document builder to insert a LINK field and set its properties according to parameters.
     /// </summary>
     private void insertFieldLink(final DocumentBuilder builder, final int insertLinkedObjectAs,
                                  final String progId, final String sourceFullName, final String sourceItem,
@@ -2714,7 +2712,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Use a document builder to insert a DDE field and set its properties according to parameters
+    /// Use a document builder to insert a DDE field and set its properties according to parameters.
     /// </summary>
     private void insertFieldDde(final DocumentBuilder builder, final int insertLinkedObjectAs, final String progId,
                                 final String sourceFullName, final String sourceItem, final boolean isLinked,
@@ -2752,7 +2750,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Use a document builder to insert a DDEAUTO field and set its properties according to parameters
+    /// Use a document builder to insert a DDEAUTO field and set its properties according to parameters.
     /// </summary>
     private void insertFieldDdeAuto(final DocumentBuilder builder, final int insertLinkedObjectAs,
                                     final String progId, final String sourceFullName, final String sourceItem,
@@ -3519,13 +3517,13 @@ public class ExField extends ApiExampleBase {
         // By default, file size is displayed in bytes
         FieldFileSize field = (FieldFileSize) builder.insertField(FieldType.FIELD_FILE_SIZE, true);
         field.update();
-        Assert.assertEquals(field.getResult(), "23040");
+        Assert.assertEquals(field.getResult(), "19968");
 
         // Set the field to display size in kilobytes
         field = (FieldFileSize) builder.insertField(FieldType.FIELD_FILE_SIZE, true);
         field.isInKilobytes(true);
         field.update();
-        Assert.assertEquals(field.getResult(), "23");
+        Assert.assertEquals(field.getResult(), "20");
 
         // Set the field to display size in megabytes
         field = (FieldFileSize) builder.insertField(FieldType.FIELD_FILE_SIZE, true);
@@ -3596,7 +3594,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// IFieldUserPromptRespondent implementation that appends a line to the default response of an FILLIN field during a mail merge
+    /// IFieldUserPromptRespondent implementation that appends a line to the default response of an FILLIN field during a mail merge.
     /// </summary>
     private static class PromptRespondent implements IFieldUserPromptRespondent {
         public String respond(final String promptText, final String defaultResponse) {
@@ -3900,7 +3898,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Uses a document builder to insert merge fields for a data table that has "Courtesy Title", "First Name" and "Last Name" columns
+    /// Uses a document builder to insert merge fields for a data table that has "Courtesy Title", "First Name" and "Last Name" columns.
     /// </summary>
     @Test(enabled = false)
     public void insertMergeFields(final DocumentBuilder builder, final String firstFieldTextBefore) throws Exception {
@@ -3911,7 +3909,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Uses a document builder to insert a merge field
+    /// Uses a document builder to insert a merge field.
     /// </summary>
     @Test(enabled = false)
     public void insertMergeField(final DocumentBuilder builder, final String fieldName, final String textBefore, final String textAfter) throws Exception {
@@ -3960,7 +3958,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Uses a document builder to insert a NOTEREF field and sets its attributes
+    /// Uses a document builder to insert a NOTEREF field and sets its attributes.
     /// </summary>
     private FieldNoteRef insertFieldNoteRef(final DocumentBuilder builder, final String bookmarkName, final boolean insertHyperlink,
                                             final boolean insertRelativePosition, final boolean insertReferenceMark,
@@ -3978,7 +3976,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Uses a document builder to insert a named bookmark with a footnote at the end
+    /// Uses a document builder to insert a named bookmark with a footnote at the end.
     /// </summary>
     private void insertBookmarkWithFootnote(final DocumentBuilder builder, final String bookmarkName,
                                             final String bookmarkText, final String footnoteText) {
@@ -3994,7 +3992,7 @@ public class ExField extends ApiExampleBase {
     public void footnoteRef() throws Exception {
         //ExStart
         //ExFor:FieldFootnoteRef
-        //ExSummary:Shows how to cross-reference footnotes with the FOOTNOTEREF field
+        //ExSummary:Shows how to cross-reference footnotes with the FOOTNOTEREF field.
         // Create a blank document and a document builder for it
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -4009,7 +4007,6 @@ public class ExField extends ApiExampleBase {
         builder.write("CrossReference: ");
 
         // Insert a FOOTNOTEREF field, which lets us reference a footnote more than once while re-using the same footnote marker
-        //Field field = builder.insertField(" ftnref ");
         FieldFootnoteRef field = (FieldFootnoteRef) builder.insertField(FieldType.FIELD_FOOTNOTE_REF, true);
 
         // Get this field to reference a bookmark
@@ -4064,7 +4061,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Uses a document builder to insert a PAGEREF field and sets its attributes
+    /// Uses a document builder to insert a PAGEREF field and sets its attributes.
     /// </summary>
     private FieldPageRef insertFieldPageRef(final DocumentBuilder builder, final String bookmarkName, final boolean insertHyperlink,
                                             final boolean insertRelativePosition, final String textBefore) throws Exception {
@@ -4080,7 +4077,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Uses a document builder to insert a named bookmark
+    /// Uses a document builder to insert a named bookmark.
     /// </summary>
     private void insertAndNameBookmark(final DocumentBuilder builder, final String bookmarkName) {
         builder.startBookmark(bookmarkName);
@@ -4174,7 +4171,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Get the document builder to insert a REF field, reference a bookmark with it, and add text before and after
+    /// Get the document builder to insert a REF field, reference a bookmark with it, and add text before and after.
     /// </summary>
     private FieldRef insertFieldRef(final DocumentBuilder builder, final String bookmarkName,
                                     final String textBefore, final String textAfter) throws Exception {
@@ -4229,7 +4226,7 @@ public class ExField extends ApiExampleBase {
         //ExFor:FieldSkipIf.ComparisonOperator
         //ExFor:FieldSkipIf.LeftExpression
         //ExFor:FieldSkipIf.RightExpression
-        //ExSummary:Shows how to skip pages in a mail merge using the SKIPIF field
+        //ExSummary:Shows how to skip pages in a mail merge using the SKIPIF field.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -4330,7 +4327,7 @@ public class ExField extends ApiExampleBase {
         //ExFor:FieldSymbol.IsAnsi
         //ExFor:FieldSymbol.IsShiftJis
         //ExFor:FieldSymbol.IsUnicode
-        //ExSummary:Shows how to use the SYMBOL field
+        //ExSummary:Shows how to use the SYMBOL field.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -4536,7 +4533,7 @@ public class ExField extends ApiExampleBase {
 
     /// <summary>
     /// Get a builder to insert a TA field, specifying its long citation and category,
-    /// then insert a page break and return the field we created
+    /// then insert a page break and return the field we created.
     /// </summary>
     private FieldTA insertToaEntry(final DocumentBuilder builder, final String entryCategory, final String longCitation) throws Exception {
         FieldTA field = (FieldTA) builder.insertField(FieldType.FIELD_TOA_ENTRY, false);
@@ -4653,7 +4650,7 @@ public class ExField extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Use a document builder to insert an EQ field, set its arguments and start a new paragraph
+    /// Use a document builder to insert an EQ field, set its arguments and start a new paragraph.
     /// </summary>
     private FieldEQ insertFieldEQ(final DocumentBuilder builder, final String args) throws Exception {
         FieldEQ field = (FieldEQ) builder.insertField(FieldType.FIELD_EQUATION, true);

@@ -23,12 +23,12 @@ public class ExCharts extends ApiExampleBase {
     @Test
     public void chartTitle() throws Exception {
         //ExStart
-        //ExFor:Charts.Chart
-        //ExFor:Charts.Chart.Title
-        //ExFor:Charts.ChartTitle
-        //ExFor:Charts.ChartTitle.Overlay
-        //ExFor:Charts.ChartTitle.Show
-        //ExFor:Charts.ChartTitle.Text
+        //ExFor:Chart
+        //ExFor:Chart.Title
+        //ExFor:ChartTitle
+        //ExFor:ChartTitle.Overlay
+        //ExFor:ChartTitle.Show
+        //ExFor:ChartTitle.Text
         //ExSummary:Shows how to insert a chart and change its title.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -137,7 +137,7 @@ public class ExCharts extends ApiExampleBase {
     }
 
     @Test
-    public void insertChartUsingAxisProperties() throws Exception {
+    public void axisProperties() throws Exception {
         //ExStart
         //ExFor:ChartAxis
         //ExFor:ChartAxis.CategoryType
@@ -151,11 +151,11 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:ChartAxis.TickLabelPosition
         //ExFor:ChartAxis.TickLabelSpacingIsAuto
         //ExFor:ChartAxis.TickMarkSpacing
-        //ExFor:Charts.AxisCategoryType
-        //ExFor:Charts.AxisCrosses
-        //ExFor:Charts.Chart.AxisX
-        //ExFor:Charts.Chart.AxisY
-        //ExFor:Charts.Chart.AxisZ
+        //ExFor:AxisCategoryType
+        //ExFor:AxisCrosses
+        //ExFor:Chart.AxisX
+        //ExFor:Chart.AxisY
+        //ExFor:Chart.AxisZ
         //ExSummary:Shows how to insert chart using the axis options for detailed configuration.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -201,12 +201,11 @@ public class ExCharts extends ApiExampleBase {
         yAxis.setTickLabelPosition(AxisTickLabelPosition.NEXT_TO_AXIS);
         //ExEnd
 
-        doc.save(getArtifactsDir() + "Charts.InsertChartUsingAxisProperties.docx");
-        doc.save(getArtifactsDir() + "Charts.InsertChartUsingAxisProperties.pdf");
+        doc.save(getArtifactsDir() + "Charts.AxisProperties.docx");
     }
 
     @Test
-    public void insertChartWithDateTimeValues() throws Exception {
+    public void dateTimeValues() throws Exception {
         //ExStart
         //ExFor:AxisBound
         //ExFor:AxisBound.#ctor(Double)
@@ -214,10 +213,10 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:AxisScaling.Minimum
         //ExFor:AxisScaling.Maximum
         //ExFor:ChartAxis.Scaling
-        //ExFor:Charts.AxisTickMark
-        //ExFor:Charts.AxisTickLabelPosition
-        //ExFor:Charts.AxisTimeUnit
-        //ExFor:Charts.ChartAxis.BaseTimeUnit
+        //ExFor:AxisTickMark
+        //ExFor:AxisTickLabelPosition
+        //ExFor:AxisTimeUnit
+        //ExFor:ChartAxis.BaseTimeUnit
         //ExSummary:Shows how to insert chart with date/time values.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -262,7 +261,7 @@ public class ExCharts extends ApiExampleBase {
         yAxis.getScaling().setMinimum(new AxisBound(100.0));
         yAxis.getScaling().setMaximum(new AxisBound(700.0));
 
-        doc.save(getArtifactsDir() + "Charts.ChartAxisProperties.docx");
+        doc.save(getArtifactsDir() + "Charts.DateTimeValues.docx");
         //ExEnd
     }
 
@@ -327,7 +326,6 @@ public class ExCharts extends ApiExampleBase {
         //ExEnd
 
         doc.save(getArtifactsDir() + "Charts.SetNumberFormatToChartAxis.docx");
-        doc.save(getArtifactsDir() + "Charts.SetNumberFormatToChartAxis.pdf");
     }
 
     // Note: Tests below used for verification conversion docx to pdf and the correct display.
@@ -394,7 +392,7 @@ public class ExCharts extends ApiExampleBase {
     }
 
     @Test
-    public void workWithChartDataLabelCollection() throws Exception {
+    public void chartDataLabelCollection() throws Exception {
         //ExStart
         //ExFor:ChartDataLabelCollection.ShowBubbleSize
         //ExFor:ChartDataLabelCollection.ShowCategoryName
@@ -443,7 +441,7 @@ public class ExCharts extends ApiExampleBase {
         pieChartDataLabels.setShowPercentage(true);
         pieChartDataLabels.setShowValue(true);
 
-        doc.save(getArtifactsDir() + "Charts.WorkWithChartDataLabelCollection.docx");
+        doc.save(getArtifactsDir() + "Charts.ChartDataLabelCollection.docx");
         //ExEnd
     }
 
@@ -792,10 +790,10 @@ public class ExCharts extends ApiExampleBase {
     @Test
     public void axisScaling() throws Exception {
         //ExStart
-        //ExFor:Charts.AxisScaleType
-        //ExFor:Charts.AxisScaling
-        //ExFor:Charts.AxisScaling.LogBase
-        //ExFor:Charts.AxisScaling.Type
+        //ExFor:AxisScaleType
+        //ExFor:AxisScaling
+        //ExFor:AxisScaling.LogBase
+        //ExFor:AxisScaling.Type
         //ExSummary:Shows how to set up logarithmic axis scaling.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -824,10 +822,10 @@ public class ExCharts extends ApiExampleBase {
     @Test
     public void axisBound() throws Exception {
         //ExStart
-        //ExFor:Charts.AxisBound.#ctor
-        //ExFor:Charts.AxisBound.IsAuto
-        //ExFor:Charts.AxisBound.Value
-        //ExFor:Charts.AxisBound.ValueAsDate
+        //ExFor:AxisBound.#ctor
+        //ExFor:AxisBound.IsAuto
+        //ExFor:AxisBound.Value
+        //ExFor:AxisBound.ValueAsDate
         //ExSummary:Shows how to set custom axis bounds.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -881,11 +879,11 @@ public class ExCharts extends ApiExampleBase {
     @Test
     public void chartLegend() throws Exception {
         //ExStart
-        //ExFor:Charts.Chart.Legend
-        //ExFor:Charts.ChartLegend
-        //ExFor:Charts.ChartLegend.Overlay
-        //ExFor:Charts.ChartLegend.Position
-        //ExFor:Charts.LegendPosition
+        //ExFor:Chart.Legend
+        //ExFor:ChartLegend
+        //ExFor:ChartLegend.Overlay
+        //ExFor:ChartLegend.Position
+        //ExFor:LegendPosition
         //ExSummary:Shows how to edit the appearance of a chart's legend.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -910,8 +908,8 @@ public class ExCharts extends ApiExampleBase {
     @Test
     public void axisCross() throws Exception {
         //ExStart
-        //ExFor:Charts.ChartAxis.AxisBetweenCategories
-        //ExFor:Charts.ChartAxis.CrossesAt
+        //ExFor:ChartAxis.AxisBetweenCategories
+        //ExFor:ChartAxis.CrossesAt
         //ExSummary:Shows how to get a graph axis to cross at a custom location.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -935,17 +933,17 @@ public class ExCharts extends ApiExampleBase {
     @Test
     public void chartAxisDisplayUnit() throws Exception {
         //ExStart
-        //ExFor:Charts.AxisBuiltInUnit
-        //ExFor:Charts.ChartAxis.DisplayUnit
-        //ExFor:Charts.ChartAxis.MajorUnitIsAuto
-        //ExFor:Charts.ChartAxis.MajorUnitScale
-        //ExFor:Charts.ChartAxis.MinorUnitIsAuto
-        //ExFor:Charts.ChartAxis.MinorUnitScale
-        //ExFor:Charts.ChartAxis.TickLabelSpacing
-        //ExFor:Charts.ChartAxis.TickLabelAlignment
-        //ExFor:Charts.AxisDisplayUnit
-        //ExFor:Charts.AxisDisplayUnit.CustomUnit
-        //ExFor:Charts.AxisDisplayUnit.Unit
+        //ExFor:AxisBuiltInUnit
+        //ExFor:ChartAxis.DisplayUnit
+        //ExFor:ChartAxis.MajorUnitIsAuto
+        //ExFor:ChartAxis.MajorUnitScale
+        //ExFor:ChartAxis.MinorUnitIsAuto
+        //ExFor:ChartAxis.MinorUnitScale
+        //ExFor:ChartAxis.TickLabelSpacing
+        //ExFor:ChartAxis.TickLabelAlignment
+        //ExFor:AxisDisplayUnit
+        //ExFor:AxisDisplayUnit.CustomUnit
+        //ExFor:AxisDisplayUnit.Unit
         //ExSummary:Shows how to manipulate the tick marks and displayed values of a chart axis.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

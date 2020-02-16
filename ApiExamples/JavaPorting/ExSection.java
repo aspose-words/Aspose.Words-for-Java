@@ -25,11 +25,12 @@ import com.aspose.words.Paragraph;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.Run;
 import java.awt.Color;
+import com.aspose.words.HeaderFooterType;
 import com.aspose.words.Node;
 import com.aspose.words.NodeType;
 import com.aspose.words.HeaderFooter;
 import com.aspose.ms.System.Threading.CurrentThread;
-import com.aspose.ms.System.Globalization.CultureInfo;
+import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.SaveFormat;
 
@@ -73,11 +74,15 @@ public class ExSection extends ApiExampleBase
         //ExFor:SectionCollection
         //ExFor:NodeCollection.RemoveAt(Int32)
         //ExSummary:Shows how to add/remove sections in a document.
-        // Open the document
-        Document doc = new Document(getMyDir() + "Section.AddRemove.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Section 1");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.write("Section 2");
 
         // This shows what is in the document originally. The document has two sections
-        msConsole.writeLine(doc.getText());
+        System.out.println(doc.getText());
 
         // Delete the first section from the document
         doc.getSections().removeAt(0);
@@ -88,10 +93,10 @@ public class ExSection extends ApiExampleBase
         doc.getSections().add(newSection);
 
         // Check what the document contains after we changed it
-        msConsole.writeLine(doc.getText());
+        System.out.println(doc.getText());
         //ExEnd
 
-        msAssert.areEqual("Hello2\fHello2\f", doc.getText());
+        msAssert.areEqual("Section 2\fSection 2\f", doc.getText());
     }
 
     @Test
@@ -167,7 +172,7 @@ public class ExSection extends ApiExampleBase
 
         // As a matter of interest, you can retrieve text of the whole document and
         // see that \x000c is automatically appended. \x000c is the end of section character
-        msConsole.writeLine("Hello World!\f");
+        System.out.println("Hello World!\f");
 
         // Save the document
         doc.save(getArtifactsDir() + "Section.CreateFromScratch.doc");
@@ -199,11 +204,16 @@ public class ExSection extends ApiExampleBase
         //ExFor:Body.EnsureMinimum
         //ExSummary:Clears main text from all sections from the document leaving the sections themselves.
         // Open a document
-        Document doc = new Document(getMyDir() + "Section.BodyEnsureMinimum.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Section 1");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.write("Section 2");
 
         // This shows what is in the document originally
         // The document has two sections
-        msConsole.writeLine(doc.getText());
+        System.out.println(doc.getText());
 
         // Loop through all sections in the document
         for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
@@ -220,7 +230,7 @@ public class ExSection extends ApiExampleBase
         }
 
         // Check how the content of the document looks now
-        msConsole.writeLine(doc.getText());
+        System.out.println(doc.getText());
         //ExEnd
 
         msAssert.areEqual("\f\f", doc.getText());
@@ -235,7 +245,14 @@ public class ExSection extends ApiExampleBase
         //ExFor:Document.FirstSection
         //ExSummary:Shows how you can enumerate through children of a composite node and detect types of the children nodes.
         // Open a document
-        Document doc = new Document(getMyDir() + "Section.BodyNodeType.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Section 1");
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.write("Primary header");
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        builder.write("Primary footer");
 
         // Get the first section in the document
         Section section = doc.getFirstSection();
@@ -253,8 +270,8 @@ public class ExSection extends ApiExampleBase
                     Body body = (Body) node;
 
                     // Write the content of the main story of the section to the console
-                    msConsole.writeLine("*** Body ***");
-                    msConsole.writeLine(body.getText());
+                    System.out.println("*** Body ***");
+                    System.out.println(body.getText());
                     break;
                 }
                 case NodeType.HEADER_FOOTER:
@@ -263,9 +280,9 @@ public class ExSection extends ApiExampleBase
                     HeaderFooter headerFooter = (HeaderFooter) node;
 
                     // Write the content of the header footer to the console
-                    msConsole.writeLine("*** HeaderFooter ***");
+                    System.out.println("*** HeaderFooter ***");
                     msConsole.writeLine(headerFooter.getHeaderFooterType());
-                    msConsole.writeLine(headerFooter.getText());
+                    System.out.println(headerFooter.getText());
                     break;
                 }
                 default:
@@ -285,7 +302,7 @@ public class ExSection extends ApiExampleBase
         //ExStart
         //ExFor:SectionCollection.Item(Int32)
         //ExSummary:Shows how to access a section at the specified index.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Section section = doc.getSections().get(0);
         //ExEnd
     }
@@ -296,7 +313,7 @@ public class ExSection extends ApiExampleBase
         //ExStart
         //ExFor:NodeCollection.Add
         //ExSummary:Shows how to add a section to the end of the document.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Section sectionToAdd = new Section(doc);
         doc.getSections().add(sectionToAdd);
         //ExEnd
@@ -305,7 +322,7 @@ public class ExSection extends ApiExampleBase
     @Test
     public void sectionsDeleteSection() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         doc.getSections().removeAt(0);
     }
 
@@ -315,7 +332,7 @@ public class ExSection extends ApiExampleBase
         //ExStart
         //ExFor:NodeCollection.Clear
         //ExSummary:Shows how to remove all sections from a document.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         doc.getSections().clear();
         //ExEnd
     }
@@ -327,7 +344,14 @@ public class ExSection extends ApiExampleBase
         //ExFor:Section.AppendContent
         //ExFor:Section.PrependContent
         //ExSummary:Shows how to append content of an existing section. The number of sections in the document remains the same.
-        Document doc = new Document(getMyDir() + "Section.AppendContent.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Section 1");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.write("Section 2");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.write("Section 3");
 
         // This is the section that we will append and prepend to
         Section section = doc.getSections().get(2);
@@ -348,7 +372,7 @@ public class ExSection extends ApiExampleBase
         //ExStart
         //ExFor:Section.ClearContent
         //ExSummary:Shows how to delete main content of a section.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Section section = doc.getSections().get(0);
         section.clearContent();
         //ExEnd
@@ -360,7 +384,7 @@ public class ExSection extends ApiExampleBase
         //ExStart
         //ExFor:Section.ClearHeadersFooters
         //ExSummary:Clears content of all headers and footers in a section.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Section section = doc.getSections().get(0);
         section.clearHeadersFooters();
         //ExEnd
@@ -372,7 +396,7 @@ public class ExSection extends ApiExampleBase
         //ExStart
         //ExFor:Section.DeleteHeaderFooterShapes
         //ExSummary:Removes all images and shapes from all headers footers in a section.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Section section = doc.getSections().get(0);
         section.deleteHeaderFooterShapes();
         //ExEnd
@@ -381,14 +405,14 @@ public class ExSection extends ApiExampleBase
     @Test
     public void sectionsCloneSection() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Section cloneSection = doc.getSections().get(0).deepClone();
     }
 
     @Test
     public void sectionsImportSection() throws Exception
     {
-        Document srcDoc = new Document(getMyDir() + "Document.doc");
+        Document srcDoc = new Document(getMyDir() + "Document.docx");
         Document dstDoc = new Document();
 
         Section sourceSection = srcDoc.getSections().get(0);
@@ -410,7 +434,12 @@ public class ExSection extends ApiExampleBase
     @Test
     public void modifyPageSetupInAllSections() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Section.ModifyPageSetupInAllSections.doc");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Section 1");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.write("Section 2");
 
         // It is important to understand that a document can contain many sections and each
         // section has its own page setup. In this case we want to modify them all
@@ -423,7 +452,7 @@ public class ExSection extends ApiExampleBase
     @Test
     public void cultureInfoPageSetupDefaults() throws Exception
     {
-        CurrentThread.setCurrentCulture(new CultureInfo("en-us"));
+        CurrentThread.setCurrentCulture(new msCultureInfo("en-us"));
 
         Document docEn = new Document();
 
@@ -438,7 +467,7 @@ public class ExSection extends ApiExampleBase
         msAssert.areEqual(36.0, sectionEn.getPageSetup().getTextColumns().getSpacing()); // 1.27 cm
 
         // Change culture and assert that the page defaults are changed
-        CurrentThread.setCurrentCulture(new CultureInfo("de-de"));
+        CurrentThread.setCurrentCulture(new msCultureInfo("de-de"));
 
         Document docDe = new Document();
 

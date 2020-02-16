@@ -34,10 +34,10 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
     //ExFor:XamlFlowSaveOptions.SaveFormat
     //ExSummary:Shows how to print the filenames of linked images created during conversion of a document to flow-form .xaml.
     @Test //ExSkip
-    public void xamlFlowImageFolder() throws Exception
+    public void imageFolder() throws Exception
     {
         // Open a document which contains images
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         XamlFlowSaveOptions options = new XamlFlowSaveOptions();
         {
@@ -51,7 +51,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
         // We must ensure the folder exists before the streams can put their images into it
         Directory.createDirectory(options.getImagesFolderAlias());
 
-        doc.save(getArtifactsDir() + "XamlFlowImageFolder.xaml", options);
+        doc.save(getArtifactsDir() + "XamlFlowSaveOptions.ImageFolder.xaml", options);
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
 
         public void /*IImageSavingCallback.*/imageSaving(ImageSavingArgs args) throws Exception
         {
-            msConsole.writeLine($"Image #{++mSavedImageCount} \"{args.ImageFileName}\"");
+            System.out.println("Image #{++mSavedImageCount} \"{args.ImageFileName}\"");
 
             // If we specified a ImagesFolderAlias we will also need to redirect each stream to put its image in that folder
             args.ImageStream = new FileStream($"{mImagesFolderAlias}/{args.ImageFileName}", FileMode.CREATE);

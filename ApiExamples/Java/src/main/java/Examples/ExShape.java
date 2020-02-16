@@ -74,7 +74,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void shapeCoords() throws Exception {
+    public void coordinates() throws Exception {
         //ExStart
         //ExFor:ShapeBase.DistanceBottom
         //ExFor:ShapeBase.DistanceLeft
@@ -106,7 +106,7 @@ public class ExShape extends ApiExampleBase {
             builder.write("text ");
         }
 
-        doc.save(getArtifactsDir() + "Shape.ShapeCoords.docx");
+        doc.save(getArtifactsDir() + "Shape.Coordinates.docx");
         //ExEnd
     }
 
@@ -190,24 +190,49 @@ public class ExShape extends ApiExampleBase {
 
     @Test
     public void deleteAllShapes() throws Exception {
-        Document doc = new Document(getMyDir() + "Shape.DeleteAllShapes.doc");
-
         //ExStart
         //ExFor:Shape
         //ExSummary:Shows how to delete all shapes from a document.
         // Here we get all shapes from the document node, but you can do this for any smaller
-        // node too, for example delete shapes from a single section or a paragraph.
+        // node too, for example delete shapes from a single section or a paragraph
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert 2 shapes
+        builder.insertShape(ShapeType.RECTANGLE, 400.0, 200.0);
+        builder.insertShape(ShapeType.STAR, 300.0, 300.0);
+
+        // Insert a GroupShape with an inner shape
+        GroupShape group = new GroupShape(doc);
+        group.setBounds(new Rectangle2D.Float(100f, 50f, 200f, 100f));
+        group.setCoordOrigin(new Point(-1000, -500));
+
+        Shape subShape = new Shape(doc, ShapeType.CUBE);
+        subShape.setWidth(500.0);
+        subShape.setHeight(700.0);
+        subShape.setLeft(0.0);
+        subShape.setTop(0.0);
+        group.appendChild(subShape);
+        builder.insertNode(group);
+
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 3);
+        Assert.assertEquals(doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount(), 1);
+
+        // Delete all Shape nodes
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         shapes.clear();
 
-        // There could also be group shapes, they have different node type, remove them all too.
+        // The GroupShape node is still present even though there are no sub Shapes
+        Assert.assertEquals(doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount(), 1);
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 0);
+
+        // GroupShapes also have to be deleted manually
         NodeCollection groupShapes = doc.getChildNodes(NodeType.GROUP_SHAPE, true);
         groupShapes.clear();
-        //ExEnd
 
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 0);
         Assert.assertEquals(doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount(), 0);
-        doc.save(getArtifactsDir() + "Shape.DeleteAllShapes.doc");
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 0);
+        //ExEnd
     }
 
     @Test
@@ -215,7 +240,7 @@ public class ExShape extends ApiExampleBase {
         //ExStart
         //ExFor:ShapeBase.IsInline
         //ExSummary:Shows how to test if a shape in the document is inline or floating.
-        Document doc = new Document(getMyDir() + "Shape.DeleteAllShapes.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
             if (shape.isInline()) System.out.println("Shape is inline.");
@@ -223,7 +248,7 @@ public class ExShape extends ApiExampleBase {
         }
         //ExEnd
 
-        // Verify that the first shape in the document is not inline.
+        // Verify that the first shape in the document is not inline
         Assert.assertFalse(((Shape) doc.getChild(NodeType.SHAPE, 0, true)).isInline());
     }
 
@@ -237,11 +262,11 @@ public class ExShape extends ApiExampleBase {
         //ExSummary:Shows how to create line shapes and set specific location and size.
         Document doc = new Document();
 
-        // The lines will cross the whole page.
+        // The lines will cross the whole page
         float pageWidth = (float) doc.getFirstSection().getPageSetup().getPageWidth();
         float pageHeight = (float) doc.getFirstSection().getPageSetup().getPageHeight();
 
-        // This line goes from top left to bottom right by default.
+        // This line goes from top left to bottom right by default
         Shape lineA = new Shape(doc, ShapeType.LINE);
         lineA.setBounds(new Rectangle2D.Float(0, 0, pageWidth, pageHeight));
         lineA.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
@@ -250,7 +275,7 @@ public class ExShape extends ApiExampleBase {
 
         Assert.assertEquals(lineA.getBoundsInPoints(), new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight));
 
-        // This line goes from bottom left to top right because we flipped it.
+        // This line goes from bottom left to top right because we flipped it
         Shape lineB = new Shape(doc, ShapeType.LINE);
         lineB.setBounds(new Rectangle2D.Float(0, 0, pageWidth, pageHeight));
         lineB.setFlipOrientation(FlipOrientation.HORIZONTAL);
@@ -259,7 +284,7 @@ public class ExShape extends ApiExampleBase {
 
         Assert.assertEquals(new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight), lineB.getBoundsInPoints());
 
-        // Add lines to the document.
+        // Add lines to the document
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineB);
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineA);
 
@@ -282,8 +307,8 @@ public class ExShape extends ApiExampleBase {
         builder.writeln();
         builder.write("Some text under the shape.");
 
-        // Create a red balloon, semitransparent.
-        // The shape is floating and its coordinates are (0,0) by default, relative to the current paragraph.
+        // Create a red balloon, semitransparent
+        // The shape is floating and its coordinates are (0,0) by default, relative to the current paragraph
         Shape shape = new Shape(builder.getDocument(), ShapeType.BALLOON);
         shape.setFillColor(Color.RED);
         shape.getFill().setOpacity(0.3);
@@ -304,7 +329,7 @@ public class ExShape extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create test shape.
+        // Create test shape
         Shape shape = new Shape(doc, ShapeType.CUBE);
         shape.setWidth(431.5);
         shape.setHeight(346.35);
@@ -331,26 +356,26 @@ public class ExShape extends ApiExampleBase {
         //ExFor:CompositeNode.InsertAfter(Node, Node)
         //ExFor:NodeCollection.ToArray
         //ExSummary:Shows how to replace all textboxes with images.
-        Document doc = new Document(getMyDir() + "Shape.ReplaceTextboxesWithImages.doc");
+        Document doc = new Document(getMyDir() + "Textboxes in drawing canvas.docx");
 
-        // This gets a live collection of all shape nodes in the document.
+        // This gets a live collection of all shape nodes in the document
         NodeCollection shapeCollection = doc.getChildNodes(NodeType.SHAPE, true);
 
         // Since we will be adding/removing nodes, it is better to copy all collection
-        // into a fixed size array, otherwise iterator will be invalidated.
+        // into a fixed size array, otherwise iterator will be invalidated
         Node[] shapes = shapeCollection.toArray();
 
         for (Node node : shapes) {
             Shape shape = (Shape) node;
-            // Filter out all shapes that we don't need.
+            // Filter out all shapes that we don't need
             if (shape.getShapeType() == ShapeType.TEXT_BOX) {
-                // Create a new shape that will replace the existing shape.
+                // Create a new shape that will replace the existing shape
                 Shape image = new Shape(doc, ShapeType.IMAGE);
 
-                // Load the image into the new shape.
-                image.getImageData().setImage(getImageDir() + "Hammer.wmf");
+                // Load the image into the new shape
+                image.getImageData().setImage(getImageDir() + "Windows MetaFile.wmf");
 
-                // Make new shape's position to match the old shape.
+                // Make new shape's position to match the old shape
                 image.setLeft(shape.getLeft());
                 image.setTop(shape.getTop());
                 image.setWidth(shape.getWidth());
@@ -362,7 +387,7 @@ public class ExShape extends ApiExampleBase {
                 image.setWrapType(shape.getWrapType());
                 image.setWrapSide(shape.getWrapSide());
 
-                // Insert new shape after the old shape and remove the old shape.
+                // Insert new shape after the old shape and remove the old shape
                 shape.getParentNode().insertAfter(image, shape);
                 shape.remove();
             }
@@ -381,37 +406,38 @@ public class ExShape extends ApiExampleBase {
         //ExFor:Shape.FirstParagraph
         //ExFor:ShapeBase.WrapType
         //ExSummary:Creates a textbox with some text and different formatting options in a new document.
-        // Create a blank document.
+        // Create a blank document
         Document doc = new Document();
 
         // Create a new shape of type TextBox
         Shape textBox = new Shape(doc, ShapeType.TEXT_BOX);
 
-        // Set some settings of the textbox itself.
+        // Set some settings of the textbox itself
         // Set the wrap of the textbox to inline
         textBox.setWrapType(WrapType.NONE);
-        // Set the horizontal and vertical alignment of the text inside the shape.
+        // Set the horizontal and vertical alignment of the text inside the shape
         textBox.setHorizontalAlignment(HorizontalAlignment.CENTER);
         textBox.setVerticalAlignment(VerticalAlignment.TOP);
 
-        // Set the textbox height and width.
+        // Set the textbox height and width
         textBox.setHeight(50);
         textBox.setWidth(200);
 
         // Set the textbox in front of other shapes with a lower ZOrder
         textBox.setZOrder(2);
 
-        // Let's create a new paragraph for the textbox manually and align it in the center. Make sure we add the new nodes to the textbox as well.
+        // Let's create a new paragraph for the textbox manually and align it in the center
+        // Make sure we add the new nodes to the textbox as well
         textBox.appendChild(new Paragraph(doc));
         Paragraph para = textBox.getFirstParagraph();
         para.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
 
-        // Add some text to the paragraph.
+        // Add some text to the paragraph
         Run run = new Run(doc);
         run.setText("Content in textbox");
         para.appendChild(run);
 
-        // Append the textbox to the first paragraph in the body.
+        // Append the textbox to the first paragraph in the body
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(textBox);
 
         // Save the output
@@ -432,8 +458,8 @@ public class ExShape extends ApiExampleBase {
         //ExFor:Forms2OleControl.Enabled
         //ExFor:Forms2OleControl.Type
         //ExFor:Forms2OleControl.ChildNodes
-        //ExSummary: Shows how to get ActiveX control and properties from the document.
-        Document doc = new Document(getMyDir() + "Shape.ActiveXObject.docx");
+        //ExSummary:Shows how to get ActiveX control and properties from the document.
+        Document doc = new Document(getMyDir() + "ActiveX controls.docx");
 
         // Get ActiveX control from the document
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
@@ -454,6 +480,25 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
+    public void getOleObjectRawData() throws Exception {
+        //ExStart
+        //ExFor:OleFormat.GetRawData
+        //ExSummary:Shows how to get access to OLE object raw data.
+        // The document contains linked and embedded objects
+        Document doc = new Document(getMyDir() + "OLE objects.docx");
+
+        for (Node shape : (Iterable<Node>) doc.getChildNodes(NodeType.SHAPE, true)) {
+            // Get access to OLE data
+            OleFormat oleFormat = ((Shape) shape).getOleFormat();
+            if (oleFormat != null) {
+                System.out.println("This is {(oleFormat.IsLink ? ");
+                byte[] oleRawData = oleFormat.getRawData();
+            }
+        }
+        //ExEnd
+    }
+
+    @Test
     public void oleControl() throws Exception {
         //ExStart
         //ExFor:OleFormat
@@ -464,7 +509,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:OleFormat.Save(String)
         //ExFor:OleFormat.SuggestedExtension
         //ExSummary:Shows how to extract embedded OLE objects into files.
-        Document doc = new Document(getMyDir() + "Shape.Ole.Spreadsheet.docm");
+        Document doc = new Document(getMyDir() + "OLE spreadsheet.docm");
 
         // The first shape will contain an OLE object
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
@@ -490,7 +535,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void oleLinked() throws Exception {
+    public void oleLinks() throws Exception {
         //ExStart
         //ExFor:OleFormat.IconCaption
         //ExFor:OleFormat.GetOleEntry(String)
@@ -503,10 +548,10 @@ public class ExShape extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Embed a Microsoft Visio drawing as an OLE object into the document
-        builder.insertOleObject(getImageDir() + "visio2010.vsd", "Package", false, false, null);
+        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", false, false, null);
 
         // Insert a link to the file in the local file system and display it as an icon
-        builder.insertOleObject(getImageDir() + "visio2010.vsd", "Package", true, true, null);
+        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", true, true, null);
 
         // Both the OLE objects are stored within shapes
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
@@ -525,7 +570,7 @@ public class ExShape extends ApiExampleBase {
         Assert.assertEquals(oleFormat.getOleIcon(), true);
 
         // Get the name or the source file and verify that the whole file is linked
-        Assert.assertTrue(oleFormat.getSourceFullName().endsWith("Images" + File.separatorChar + "visio2010.vsd"));
+        Assert.assertTrue(oleFormat.getSourceFullName().endsWith("Images" + File.separatorChar + "Microsoft Visio drawing.vsd"));
         Assert.assertEquals(oleFormat.getSourceItem(), "");
         Assert.assertEquals(oleFormat.getIconCaption(), "Packager");
 
@@ -546,7 +591,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:Ole.Forms2OleControlCollection.Item(Int32)
         //ExSummary:Shows how to access an OLE control embedded in a document and its child controls.
         // Open a document that contains a Microsoft Forms OLE control with child controls
-        Document doc = new Document(getMyDir() + "Shape.Ole.ControlCollection.docm");
+        Document doc = new Document(getMyDir() + "OLE ActiveX controls.docm");
 
         // Get the shape that contains the control
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
@@ -577,53 +622,22 @@ public class ExShape extends ApiExampleBase {
         //ExStart
         //ExFor:OleFormat.SuggestedFileName
         //ExSummary:Shows how to get suggested file name from the object.
-        Document doc = new Document(getMyDir() + "Shape.SuggestedFileName.rtf");
+        Document doc = new Document(getMyDir() + "OLE shape.rtf");
 
         // Gets the file name suggested for the current embedded object if you want to save it into a file
         Shape oleShape = (Shape) doc.getFirstSection().getBody().getChild(NodeType.SHAPE, 0, true);
         String suggestedFileName = oleShape.getOleFormat().getSuggestedFileName();
-        //ExEnd
 
         Assert.assertEquals(suggestedFileName, "CSV.csv");
+        //ExEnd
     }
 
     @Test
     public void objectDidNotHaveSuggestedFileName() throws Exception {
-        Document doc = new Document(getMyDir() + "Shape.ActiveXObject.docx");
+        Document doc = new Document(getMyDir() + "ActiveX controls.docx");
 
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         Assert.assertEquals(shape.getOleFormat().getSuggestedFileName(), "");
-    }
-
-    @Test
-    public void getOpaqueBoundsInPixels() throws Exception {
-        Document doc = new Document(getMyDir() + "Shape.TextBox.doc");
-
-        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-
-        ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
-
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        ShapeRenderer renderer = shape.getShapeRenderer();
-        renderer.save(stream, imageOptions);
-
-        shape.remove();
-
-        // Check that the opaque bounds and bounds have default values
-        Assert.assertEquals(renderer.getOpaqueBoundsInPixels(imageOptions.getScale(), imageOptions.getVerticalResolution()).getWidth(), 250.0);
-        Assert.assertEquals(renderer.getOpaqueBoundsInPixels(imageOptions.getScale(), imageOptions.getHorizontalResolution()).getHeight(), 52.0);
-
-        Assert.assertEquals(renderer.getBoundsInPixels(imageOptions.getScale(), imageOptions.getVerticalResolution()).getWidth(), 250.0);
-        Assert.assertEquals(renderer.getBoundsInPixels(imageOptions.getScale(), imageOptions.getHorizontalResolution()).getHeight(), 52.0);
-
-        Assert.assertEquals(renderer.getOpaqueBoundsInPixels(imageOptions.getScale(), imageOptions.getHorizontalResolution()).getWidth(), 250.0);
-        Assert.assertEquals(renderer.getOpaqueBoundsInPixels(imageOptions.getScale(), imageOptions.getHorizontalResolution()).getHeight(), 52.0);
-
-        Assert.assertEquals(renderer.getBoundsInPixels(imageOptions.getScale(), imageOptions.getVerticalResolution()).getWidth(), 250.0);
-        Assert.assertEquals(renderer.getBoundsInPixels(imageOptions.getScale(), imageOptions.getVerticalResolution()).getHeight(), 52.0);
-
-        Assert.assertEquals((float) renderer.getOpaqueBoundsInPoints().getWidth(), (float) 187.85);
-        Assert.assertEquals((float) renderer.getOpaqueBoundsInPoints().getHeight(), (float) 39.25);
     }
 
     @Test
@@ -634,24 +648,23 @@ public class ExShape extends ApiExampleBase {
         Assert.assertEquals(imageOptions.getVerticalResolution(), (float) 96.0);
     }
 
-    //For assert result of the test you need to open "Shape.OfficeMath.svg" and check that OfficeMath node is there
     @Test
     public void saveShapeObjectAsImage() throws Exception {
         //ExStart
         //ExFor:OfficeMath.GetMathRenderer
         //ExFor:NodeRendererBase.Save(String, ImageSaveOptions)
         //ExSummary:Shows how to convert specific object into image
-        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
-        //Get OfficeMath node from the document and render this as image (you can also do the same with the Shape node)
+        // Get OfficeMath node from the document and render this as image (you can also do the same with the Shape node)
         OfficeMath math = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
-        math.getMathRenderer().save(getArtifactsDir() + "Shape.OfficeMath.svg", new ImageSaveOptions(SaveFormat.SVG));
+        math.getMathRenderer().save(getArtifactsDir() + "Shape.SaveShapeObjectAsImage.svg", new ImageSaveOptions(SaveFormat.SVG));
         //ExEnd
     }
 
     @Test
     public void officeMathDisplayException() throws Exception {
-        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);
@@ -664,7 +677,7 @@ public class ExShape extends ApiExampleBase {
 
     @Test
     public void officeMathDefaultValue() throws Exception {
-        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
 
@@ -684,7 +697,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:OfficeMathDisplayType
         //ExFor:OfficeMathJustification
         //ExSummary:Shows how to set office math display formatting.
-        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
 
@@ -703,12 +716,11 @@ public class ExShape extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Shape.OfficeMath.docx");
         //ExEnd
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "Shape.OfficeMath.docx", getGoldsDir() + "Shape.OfficeMath Gold.docx"));
     }
 
     @Test
     public void cannotBeSetDisplayWithInlineJustification() throws Exception {
-        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);
@@ -721,7 +733,7 @@ public class ExShape extends ApiExampleBase {
 
     @Test
     public void cannotBeSetInlineDisplayWithJustification() throws Exception {
-        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
         officeMath.setDisplayType(OfficeMathDisplayType.INLINE);
@@ -735,18 +747,18 @@ public class ExShape extends ApiExampleBase {
 
     @Test
     public void officeMathDisplayNestedObjects() throws Exception {
-        Document doc = new Document(getMyDir() + "Shape.NestedOfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
 
-        //Always inline
-        Assert.assertEquals(officeMath.getDisplayType(), OfficeMathDisplayType.INLINE);
-        Assert.assertEquals(officeMath.getJustification(), OfficeMathJustification.INLINE);
+        // Always inline
+        Assert.assertEquals(officeMath.getDisplayType(), OfficeMathDisplayType.DISPLAY);
+        Assert.assertEquals(officeMath.getJustification(), OfficeMathJustification.CENTER);
     }
 
     @Test(dataProvider = "workWithMathObjectTypeDataProvider")
     public void workWithMathObjectType(final int index, final int objectType) throws Exception {
-        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, index, true);
         Assert.assertEquals(officeMath.getMathObjectType(), objectType);
@@ -769,8 +781,8 @@ public class ExShape extends ApiExampleBase {
     public void aspectRatioLocked(final boolean isLocked) throws Exception {
         //ExStart
         //ExFor:ShapeBase.AspectRatioLocked
-        //ExSummary:Shows how to set "AspectRatioLocked" for the shape object
-        Document doc = new Document(getMyDir() + "Shape.ActiveXObject.docx");
+        //ExSummary:Shows how to set "AspectRatioLocked" for the shape object.
+        Document doc = new Document(getMyDir() + "ActiveX controls.docx");
 
         // Get shape object from the document and set AspectRatioLocked(it is possible to get/set AspectRatioLocked for child shapes (mimic MS Word behavior), 
         // but AspectRatioLocked has effect only for top level shapes!)
@@ -804,7 +816,7 @@ public class ExShape extends ApiExampleBase {
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
 
         // Insert a floating picture.
-        Shape shape = builder.insertImage(getImageDir() + "Watermark.png");
+        Shape shape = builder.insertImage(getImageDir() + "Transparent background logo.png");
         shape.setWrapType(WrapType.NONE);
         shape.setBehindText(true);
 
@@ -827,13 +839,13 @@ public class ExShape extends ApiExampleBase {
         //ExStart
         //ExFor:ShapeBase.MarkupLanguage
         //ExFor:ShapeBase.SizeInPoints
-        //ExSummary:Shows how get markup language for shape object in document
+        //ExSummary:Shows how get markup language for shape object in document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Shape image = builder.insertImage(getImageDir() + "dotnet-logo.png");
+        Shape image = builder.insertImage(getImageDir() + "Transparent background logo.png");
 
-        // Loop through all single shapes inside document.
+        // Loop through all single shapes inside document
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
             Assert.assertEquals(shape.getMarkupLanguage(), ShapeMarkupLanguage.DML);
 
@@ -846,13 +858,12 @@ public class ExShape extends ApiExampleBase {
     @Test(dataProvider = "markupLunguageForDifferentMsWordVersionsDataProvider")
     public void markupLunguageForDifferentMsWordVersions(final int msWordVersion, final byte shapeMarkupLanguage) throws Exception {
         Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
         doc.getCompatibilityOptions().optimizeFor(msWordVersion);
 
-        builder.insertImage(getImageDir() + "dotnet-logo.png");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertImage(getImageDir() + "Transparent background logo.png");
 
-        // Loop through all single shapes inside document.
+        // Loop through all single shapes inside document
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
             Assert.assertEquals(shape.getMarkupLanguage(), shapeMarkupLanguage);
         }
@@ -882,14 +893,14 @@ public class ExShape extends ApiExampleBase {
         //ExFor:Stroke.JoinStyle
         //ExFor:Stroke.LineStyle
         //ExFor:ShapeLineStyle
-        //ExSummary:Shows how change stroke properties
+        //ExSummary:Shows how change stroke properties.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create a new shape of type Rectangle
         Shape rectangle = new Shape(doc, ShapeType.RECTANGLE);
 
-        //Change stroke properties
+        // Change stroke properties
         Stroke stroke = rectangle.getStroke();
         stroke.setOn(true);
         stroke.setWeight(5.0);
@@ -899,7 +910,7 @@ public class ExShape extends ApiExampleBase {
         stroke.setEndCap(EndCap.SQUARE);
         stroke.setLineStyle(ShapeLineStyle.TRIPLE);
 
-        //Insert shape object
+        // Insert shape object
         builder.insertNode(rectangle);
         //ExEnd
 
@@ -926,7 +937,7 @@ public class ExShape extends ApiExampleBase {
 
         builder.insertOleObject("http://www.aspose.com", "htmlfile", true, false, null);
 
-        doc.save(getArtifactsDir() + "Document.InsertedOleObject.docx");
+        doc.save(getArtifactsDir() + "Shape.InsertOleObjectAsHtmlFile.docx");
     }
 
     @Test(description = "WORDSNET-16085")
@@ -972,18 +983,19 @@ public class ExShape extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Shape oleObject = builder.insertOleObject(getMyDir() + "Document.Spreadsheet.xlsx", false, false, null);
-        Shape oleObjectAsOlePackage = builder.insertOleObject(getMyDir() + "Document.Spreadsheet.xlsx", "Excel.Sheet", false, false, null);
+        Shape oleObject = builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, null);
+        Shape oleObjectAsOlePackage = builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, false, null);
 
         Assert.assertEquals(oleObject.getOleFormat().getOlePackage(), null);
         Assert.assertEquals(oleObjectAsOlePackage.getOleFormat().getOlePackage().getClass(), OlePackage.class);
     }
 
     @Test
-    public void replaceRelativeSizeToAbsolute() throws Exception {
-        Document doc = new Document(getMyDir() + "Shape.ShapeSize.docx");
+    public void resize() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 200.0, 300.0);
 
         // Change shape size and rotation
         shape.setHeight(300.0);
@@ -994,13 +1006,25 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void displayTheShapeIntoATableCell() throws Exception {
+    public void layoutInTableCell() throws Exception {
         //ExStart
         //ExFor:ShapeBase.IsLayoutInCell
         //ExFor:MsWordVersion
         //ExSummary:Shows how to display the shape, inside a table or outside of it.
-        Document doc = new Document(getMyDir() + "Shape.LayoutInCell.docx");
+        Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.startTable();
+        builder.getRowFormat().setHeight(100.0);
+        builder.getRowFormat().setHeightRule(HeightRule.EXACTLY);
+
+        for (int i = 0; i < 31; i++) {
+            if (i != 0 && i % 7 == 0) builder.endRow();
+            builder.insertCell();
+            builder.write("Cell contents");
+        }
+
+        builder.endTable();
 
         NodeCollection runs = doc.getChildNodes(NodeType.RUN, true);
         int num = 1;
@@ -1009,7 +1033,8 @@ public class ExShape extends ApiExampleBase {
             Shape watermark = new Shape(doc, ShapeType.TEXT_PLAIN_TEXT);
             watermark.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
             watermark.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
-            watermark.isLayoutInCell(true); // False - display the shape outside of table cell, True - display the shape outside of table cell
+            // False - display the shape outside of table cell, True - display the shape outside of table cell
+            watermark.isLayoutInCell(true);
 
             watermark.setWidth(30.0);
             watermark.setHeight(30.0);
@@ -1034,11 +1059,11 @@ public class ExShape extends ApiExampleBase {
             num = num + 1;
         }
 
-        // Behaviour of MS Word on working with shapes in table cells is changed in the last versions.
-        // Adding the following line is needed to make the shape displayed in center of a page.
+        // Behaviour of MS Word on working with shapes in table cells is changed in the last versions
+        // Adding the following line is needed to make the shape displayed in center of a page
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2010);
 
-        doc.save(getArtifactsDir() + "Shape.LayoutInCell.docx");
+        doc.save(getArtifactsDir() + "Shape.LayoutInTableCell.docx");
         //ExEnd
     }
 
@@ -1069,7 +1094,7 @@ public class ExShape extends ApiExampleBase {
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
         saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
 
-        doc.save(getArtifactsDir() + "RotatedShape.docx", saveOptions);
+        doc.save(getArtifactsDir() + "Shape.ShapeInsertion.docx", saveOptions);
         //ExEnd
     }
 
@@ -1090,7 +1115,7 @@ public class ExShape extends ApiExampleBase {
     @Test //ExSkip
     public void visitShapes() throws Exception {
         // Open a document that contains shapes
-        Document doc = new Document(getMyDir() + "Shape.Revisions.docx");
+        Document doc = new Document(getMyDir() + "Revision shape.docx");
 
         // Create a ShapeVisitor and get the document to accept it
         ShapeVisitor shapeVisitor = new ShapeVisitor();
@@ -1101,7 +1126,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     /// <summary>
-    /// DocumentVisitor implementation that collects information about visited shapes into a StringBuilder, to be printed to the console
+    /// DocumentVisitor implementation that collects information about visited shapes into a StringBuilder, to be printed to the console.
     /// </summary>
     private static class ShapeVisitor extends DocumentVisitor {
         public ShapeVisitor() {
@@ -1111,7 +1136,7 @@ public class ExShape extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Appends a line to the StringBuilder with one prepended tab character for each indent level
+        /// Appends a line to the StringBuilder with one prepended tab character for each indent level.
         /// </summary>
         private void appendLine(String text) {
             for (int i = 0; i < mTextIndentLevel; i++) {
@@ -1122,14 +1147,14 @@ public class ExShape extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Return all the text that the StringBuilder has accumulated
+        /// Return all the text that the StringBuilder has accumulated.
         /// </summary>
         public String getText() {
             return MessageFormat.format("Shapes visited: {0}\n{1}", mShapesVisited, mStringBuilder);
         }
 
         /// <summary>
-        /// Called when the start of a Shape node is visited
+        /// Called when the start of a Shape node is visited.
         /// </summary>
         public int visitShapeStart(Shape shape) {
             appendLine(MessageFormat.format("Shape found: {0}", shape.getShapeType()));
@@ -1162,7 +1187,7 @@ public class ExShape extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the end of a Shape node is visited
+        /// Called when the end of a Shape node is visited.
         /// </summary>
         public int visitShapeEnd(Shape shape) {
             mTextIndentLevel--;
@@ -1173,7 +1198,7 @@ public class ExShape extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the start of a GroupShape node is visited
+        /// Called when the start of a GroupShape node is visited.
         /// </summary>
         public int visitGroupShapeStart(GroupShape groupShape) {
             appendLine(MessageFormat.format("Shape group found: {0}", groupShape.getShapeType()));
@@ -1183,7 +1208,7 @@ public class ExShape extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the end of a GroupShape node is visited
+        /// Called when the end of a GroupShape node is visited.
         /// </summary>
         public int visitGroupShapeEnd(GroupShape groupShape) {
             mTextIndentLevel--;
@@ -1254,7 +1279,7 @@ public class ExShape extends ApiExampleBase {
         // The object may be valid, but the signature itself isn't until it is signed
         Assert.assertFalse(signatureLine.isValid());
 
-        doc.save(getArtifactsDir() + "Drawing.SignatureLine.docx");
+        doc.save(getArtifactsDir() + "Shape.SignatureLine.docx");
         //ExEnd
     }
 
@@ -1315,12 +1340,12 @@ public class ExShape extends ApiExampleBase {
         builder.moveTo(textBoxShape.getLastParagraph());
         builder.write("Text placed according to textbox margins");
 
-        doc.save(getArtifactsDir() + "Drawing.TextBox.docx");
+        doc.save(getArtifactsDir() + "Shape.TextBox.docx");
         //ExEnd
     }
 
     @Test
-    public void createNewTextBoxAndChangeTextAnchor() throws Exception {
+    public void textBoxShapeType() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1335,7 +1360,7 @@ public class ExShape extends ApiExampleBase {
         builder.moveTo(textBoxShape.getLastParagraph());
         builder.write("Text placed bottom");
 
-        doc.save(getArtifactsDir() + "Shape.CreateNewTextBoxAndChangeAnchor.docx");
+        doc.save(getArtifactsDir() + "Shape.TextBoxShapeType.docx");
     }
 
     @Test
@@ -1404,11 +1429,14 @@ public class ExShape extends ApiExampleBase {
         //ExFor:TextBoxAnchor
         //ExFor:TextBox.VerticalAnchor
         //ExSummary:Shows how to change text position inside textbox shape.
-        Document doc = new Document(getMyDir() + "Shape.GetTextBoxAndChangeAnchor.docx");
-        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Shape textbox = (Shape) shapes.get(0);
-        textbox.getTextBox().setVerticalAnchor(TextBoxAnchor.BOTTOM);
+        Shape textBox = builder.insertShape(ShapeType.TEXT_BOX, 200.0, 200.0);
+        textBox.getTextBox().setVerticalAnchor(TextBoxAnchor.BOTTOM);
+
+        builder.moveTo(textBox.getFirstParagraph());
+        builder.write("Textbox contents");
 
         doc.save(getArtifactsDir() + "Shape.GetTextBoxAndChangeAnchor.docx");
         //ExEnd
@@ -1500,11 +1528,11 @@ public class ExShape extends ApiExampleBase {
         shape.getTextPath().setSize(24.0);
         shape.getTextPath().setTextPathAlignment(TextPathAlignment.RIGHT);
 
-        doc.save(getArtifactsDir() + "Drawing.TextPath.docx");
+        doc.save(getArtifactsDir() + "Shape.InsertTextPaths.docx");
     }
 
     /// <summary>
-    /// Insert a new paragraph with a WordArt shape inside it
+    /// Insert a new paragraph with a WordArt shape inside it.
     /// </summary>
     private Shape appendWordArt(Document doc, String text, String textFontFamily, double shapeWidth, double shapeHeight, Color wordArtFill, Color line, int wordArtShapeType) throws Exception {
         // Insert a new paragraph
@@ -1589,7 +1617,7 @@ public class ExShape extends ApiExampleBase {
         // A move revision is when we, while changes are tracked, cut(not copy)-and-paste or highlight and drag text from one place to another
         // If inline shapes are caught up in the text movement, they will count as move revisions as well
         // Moving a floating shape will not count as a move revision
-        Document doc = new Document(getMyDir() + "Shape.Revisions.docx");
+        Document doc = new Document(getMyDir() + "Revision shape.docx");
 
         // The document has one shape that was moved, but shape move revisions will have two instances of that shape
         // One will be the shape at its arrival destination and the other will be the shape at its original location
@@ -1617,7 +1645,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:ShapeBase.BoundsWithEffects
         //ExSummary:Shows how to check how a shape's bounds are affected by shape effects.
         // Open a document that contains two shapes and get its shape collection
-        Document doc = new Document(getMyDir() + "Shape.AdjustWithEffects.docx");
+        Document doc = new Document(getMyDir() + "Shape shadow effect.docx");
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         Assert.assertEquals(shapes.getCount(), 2);
 
@@ -1685,7 +1713,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:NodeRendererBase.Save(Stream, ImageSaveOptions)
         //ExSummary:Shows how to export shapes to files in the local file system using a shape renderer.
         // Open a document that contains shapes and get its shape collection
-        Document doc = new Document(getMyDir() + "Shape.VarietyOfShapes.docx");
+        Document doc = new Document(getMyDir() + "Various shapes.docx");
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         Assert.assertEquals(7, shapes.getCount());
 
@@ -1694,8 +1722,25 @@ public class ExShape extends ApiExampleBase {
         for (Shape shape : (Iterable<Shape>) shapes) {
             ShapeRenderer renderer = shape.getShapeRenderer();
             ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
-            renderer.save(getArtifactsDir() + MessageFormat.format("Shape.ShapeRenderer {0}.png", shape.getName()), options);
+            renderer.save(getArtifactsDir() + MessageFormat.format("Shape.RenderAllShapes.{0}.png", shape.getName()), options);
         }
+        //ExEnd
+    }
+
+    @Test
+    public void documentHasSmartArtObject() throws Exception {
+        //ExStart
+        //ExFor:Shape.HasSmartArt
+        //ExSummary:Shows how to detect that Shape has a SmartArt object.
+        Document doc = new Document(getMyDir() + "SmartArt.docx");
+
+        int count = 0;
+        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
+            if (shape.hasSmartArt())
+                count++;
+        }
+
+        System.out.println(MessageFormat.format("The document has {0} shapes with SmartArt.", count));
         //ExEnd
     }
 
@@ -1716,7 +1761,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:OfficeMathRenderer.#ctor(Math.OfficeMath)
         //ExSummary:Shows how to measure and scale shapes.
         // Open a document that contains an OfficeMath object
-        Document doc = new Document(getMyDir() + "Shape.OfficeMath.docx");
+        Document doc = new Document(getMyDir() + "Office math.docx");
 
         // Create a renderer for the OfficeMath object
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);

@@ -16,7 +16,7 @@ public class ImageTestBuilder extends ApiExampleBase
 
     public ImageTestBuilder()
     {
-        this.mImage = SKBitmap.Decode(getImageDir() + "Watermark.png");
+        this.mImage = SKBitmap.Decode(getImageDir() + "Transparent background logo.png");
         mImageStream = Stream.Null;
         mImageBytes = new byte[0];
         mImageUri = "";

@@ -35,7 +35,7 @@ import java.util.List;
 
 @Test
 public class ExReportingEngine extends ApiExampleBase {
-    private String mImage = getImageDir() + "Test_636_852.gif";
+    private String mImage = getImageDir() + "Logo.jpg";
     private String mDocument = getMyDir() + "ReportingEngine.TestDataTable.Java.docx";
 
     @Test
@@ -120,7 +120,7 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void restartingListNumberingDynamicallyWhileInsertingDocumentDinamically() throws Exception {
+    public void restartingListNumberingDynamicallyWhileInsertingDocumentDynamically() throws Exception {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocument()] -build>>");
 
         DocumentTestClass doc = new DocumentTestBuilder()
@@ -128,13 +128,13 @@ public class ExReportingEngine extends ApiExampleBase {
 
         buildReport(template, new Object[]{doc, Common.getManagers()}, new String[]{"src", "Managers"}, new Class[]{ManagerTestClass.class, ContractTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
-        template.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically Gold.docx"));
     }
 
     @Test
-    public void restartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically() throws Exception {
+    public void restartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDynamically() throws Exception {
         Document mainTemplate = DocumentHelper.createSimpleDocument("<<doc [src] -build>>");
         Document template1 = DocumentHelper.createSimpleDocument("<<doc [src1] -build>>");
         Document template2 = DocumentHelper.createSimpleDocument("<<doc [src2.getDocument()] -build>>");
@@ -144,9 +144,9 @@ public class ExReportingEngine extends ApiExampleBase {
 
         buildReport(mainTemplate, new Object[]{template1, template2, doc, Common.getManagers()}, new String[]{"src", "src1", "src2", "Managers"}, new Class[]{ManagerTestClass.class, ContractTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
-        mainTemplate.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically.docx");
+        mainTemplate.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDynamically.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically Gold.docx"));
     }
 
     @Test
@@ -169,16 +169,16 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void setChartSeriesColorsDynamically() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.SetChartSeriesColorDinamically.Java.docx");
+        Document doc = new Document(getMyDir() + "ReportingEngine.SetChartSeriesColorDynamically.Java.docx");
 
         buildReport(doc, Common.getManagers(), "managers", new Class[]{ManagerTestClass.class});
 
-        doc.save(getArtifactsDir() + "ReportingEngine.SetChartSeriesColorDinamically.docx");
+        doc.save(getArtifactsDir() + "ReportingEngine.SetChartSeriesColorDynamically.docx");
     }
 
     @Test
     public void setPointColorsDynamically() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.SetPointColorDinamically.Java.docx");
+        Document doc = new Document(getMyDir() + "ReportingEngine.SetPointColorDynamically.Java.docx");
 
         List<ColorItemTestClass> colors = new ArrayList<>();
         colors.add(new ColorItemTestBuilder().withColorCodeAndValues("Black", Color.BLACK.getRGB(), 1.0, 2.5, 3.5).build());
@@ -189,7 +189,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
         buildReport(doc, colors, "colorItems", new Class[]{ColorItemTestClass.class});
 
-        doc.save(getArtifactsDir() + "ReportingEngine.SetPointColorDinamically.docx");
+        doc.save(getArtifactsDir() + "ReportingEngine.SetPointColorDynamically.docx");
     }
 
     @Test
@@ -266,7 +266,7 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void insertDocumentDinamicallyWithAdditionalTemplateChecking() throws Exception {
+    public void insertDocumentDynamicallyWithAdditionalTemplateChecking() throws Exception {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocument()] -build>>");
 
         DocumentTestClass doc = new DocumentTestBuilder()
@@ -274,87 +274,87 @@ public class ExReportingEngine extends ApiExampleBase {
 
         buildReport(template, new Object[]{doc, Common.getContracts()}, new String[]{"src", "Contracts"}, new Class[]{ContractTestClass.class});
         template.save(
-                getArtifactsDir() + "ReportingEngine.InsertDocumentDinamicallyWithAdditionalTemplateChecking.docx");
+                getArtifactsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking.docx");
     }
 
     @Test
-    public void insertDocumentDinamically() throws Exception {
+    public void insertDocumentDynamically() throws Exception {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocument()]>>");
 
         DocumentTestClass doc = new DocumentTestBuilder()
                 .withDocument(new Document(mDocument)).build();
 
         buildReport(template, doc, "src");
-        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
     }
 
     @Test
-    public void insertDocumentDinamicallyByStream() throws Exception {
+    public void insertDocumentDynamicallyByStream() throws Exception {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocumentStream()]>>");
 
         DocumentTestClass docStream = new DocumentTestBuilder()
                 .withDocumentStream(new FileInputStream(mDocument)).build();
 
         buildReport(template, docStream, "src");
-        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
     }
 
     @Test
-    public void insertDocumentDinamicallyByBytes() throws Exception {
+    public void insertDocumentDynamicallyByBytes() throws Exception {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocumentBytes()]>>");
 
         DocumentTestClass docBytes = new DocumentTestBuilder()
                 .withDocumentBytes(Files.readAllBytes(Paths.get(mDocument))).build();
 
         buildReport(template, docBytes, "src");
-        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
     }
 
     @Test
-    public void insertDocumentDinamicallyByUri() throws Exception {
+    public void insertDocumentDynamicallyByUri() throws Exception {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocumentUri()]>>");
 
         DocumentTestClass docUri = new DocumentTestBuilder()
                 .withDocumentUri("http://www.snee.com/xml/xslt/sample.doc").build();
 
         buildReport(template, docUri, "src");
-        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
     }
 
     @Test
-    public void insertImageDinamically() throws Exception {
+    public void insertImageDynamically() throws Exception {
         Document template =
                 DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImage()]>>", ShapeType.TEXT_BOX);
 
         ImageTestClass image = new ImageTestBuilder().withImage(ImageIO.read(new File(mImage))).build();
         buildReport(template, image, "src");
 
-        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
     }
 
     @Test
-    public void insertImageDinamicallyByStream() throws Exception {
+    public void insertImageDynamicallyByStream() throws Exception {
         Document template =
                 DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImageStream()]>>", ShapeType.TEXT_BOX);
         ImageTestClass imageStream = new ImageTestBuilder()
                 .withImageStream(new FileInputStream(mImage)).build();
 
         buildReport(template, imageStream, "src");
-        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
     }
 
     @Test
-    public void insertImageDinamicallyByBytes() throws Exception {
+    public void insertImageDynamicallyByBytes() throws Exception {
         Document template =
                 DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImageBytes()]>>", ShapeType.TEXT_BOX);
         ImageTestClass imageBytes = new ImageTestBuilder().withImageBytes(Files.readAllBytes(Paths.get(mImage))).build();
 
         buildReport(template, imageBytes, "src");
-        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
     }
 
     @Test
-    public void insertImageDinamicallyByUri() throws Exception {
+    public void insertImageDynamicallyByUri() throws Exception {
         Document template =
                 DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImageUri()]>>", ShapeType.TEXT_BOX);
         ImageTestClass imageUri = new ImageTestBuilder()
@@ -363,11 +363,11 @@ public class ExReportingEngine extends ApiExampleBase {
                 .build();
 
         buildReport(template, imageUri, "src");
-        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
     }
 
     @Test
-    public void insertHyperlinksDinamically() throws Exception {
+    public void insertHyperlinksDynamically() throws Exception {
         Document template = new Document(getMyDir() + "ReportingEngine.InsertingHyperlinks.Java.docx");
         buildReport(template,
                 new Object[]
@@ -381,7 +381,7 @@ public class ExReportingEngine extends ApiExampleBase {
                                 "display_text_expression"
                         });
 
-        template.save(getArtifactsDir() + "ReportingEngine.InsertHyperlinksDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertHyperlinksDynamically.docx");
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
@@ -580,8 +580,8 @@ public class ExReportingEngine extends ApiExampleBase {
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
             // Assert that textbox size are equal image size
-            Assert.assertEquals(shape.getHeight(), 431.5);
-            Assert.assertEquals(shape.getWidth(), 322.11);
+            Assert.assertEquals(shape.getHeight(), 300.0);
+            Assert.assertEquals(shape.getWidth(), 300.0);
         }
     }
 

@@ -22,7 +22,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         //ExFor:HtmlLoadOptions.#ctor
         //ExFor:HtmlLoadOptions.SupportVml
         //ExFor:HtmlLoadOptions.WebRequestTimeout
-        //ExSummary:Shows how to parse HTML document with conditional comments like "<!--[if gte vml 1]>" and "<![if !vml]>"
+        //ExSummary:Shows how to parse HTML document with conditional comments like "<!--[if gte vml 1]>" and "<![if !vml]>".
         HtmlLoadOptions loadOptions = new HtmlLoadOptions();
 
         // If value is true, then we parse "<!--[if gte vml 1]>", else parse "<![if !vml]>"
@@ -30,8 +30,8 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         // Wait for a response, when loading external resources
         loadOptions.setWebRequestTimeout(1000);
 
-        Document doc = new Document(getMyDir() + "Shape.VmlAndDml.htm", loadOptions);
-        doc.save(getArtifactsDir() + "Shape.VmlAndDml.docx");
+        Document doc = new Document(getMyDir() + "Conditional comments.htm", loadOptions);
+        doc.save(getArtifactsDir() + "HtmlLoadOptions.SupportVml.docx");
         //ExEnd
     }
 
@@ -69,35 +69,26 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         //ExStart
         //ExFor:HtmlLoadOptions.#ctor(LoadFormat,String,String)
         //ExSummary:Shows how to specify a base URI when opening an html document.
-        // Create and sign an encrypted html document from an encrypted .docx
         // If we want to load an .html document which contains an image linked by a relative URI
         // while the image is in a different location, we will need to resolve the relative URI into an absolute one
         // by creating an HtmlLoadOptions and providing a base URI
         HtmlLoadOptions loadOptions = new HtmlLoadOptions(LoadFormat.HTML, "", getImageDir());
+        Document doc = new Document(getMyDir() + "Missing image.html", loadOptions);
 
-        Document doc = new Document(getMyDir() + "Document.OpenFromStreamWithBaseUri.html", loadOptions);
+        // While the image was broken in the input .html, it was successfully found in our base URI
+        Shape imageShape = (Shape) doc.getChildNodes(NodeType.SHAPE, true).get(0);
+        Assert.assertTrue(imageShape.isImage());
 
-        // The image will be displayed correctly by the output document and
-        doc.save(getArtifactsDir() + "Shape.BaseUri.docx");
-
-        Shape imgShape = (Shape) doc.getChildNodes(NodeType.SHAPE, true).get(0);
-        Assert.assertTrue(imgShape.isImage());
-
-        imgShape.getImageData().save(getArtifactsDir() + "BaseUri.png");
+        // The image will be displayed correctly by the output document
+        doc.save(getArtifactsDir() + "HtmlLoadOptions.BaseUri.docx");
         //ExEnd
-    }
-
-    @Test
-    public void webRequestTimeoutDefaultValue() {
-        HtmlLoadOptions loadOptions = new HtmlLoadOptions();
-        Assert.assertEquals(loadOptions.getWebRequestTimeout(), 100000);
     }
 
     @Test
     public void getSelectAsSdt() throws Exception {
         //ExStart
         //ExFor:HtmlLoadOptions.PreferredControlType
-        //ExSummary:Shows how to set preffered type of document nodes that will represent imported <input> and <select> elements.
+        //ExSummary:Shows how to set preferred type of document nodes that will represent imported <input> and <select> elements.
         final String html = "\r\n<html>\r\n<select name='ComboBox' size='1'>\r\n"
                 + "<option value='val1'>item1</option>\r\n<option value='val2'></option>\r\n</select>\r\n</html>\r\n";
 

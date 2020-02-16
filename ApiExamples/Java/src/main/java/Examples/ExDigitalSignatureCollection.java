@@ -21,7 +21,8 @@ public class ExDigitalSignatureCollection extends ApiExampleBase {
         //ExStart
         //ExFor:DigitalSignatureCollection.GetEnumerator
         //ExSummary:Shows how to load and enumerate all digital signatures of a document.
-        DigitalSignatureCollection digitalSignatures = DigitalSignatureUtil.loadSignatures(getMyDir() + "Document.DigitalSignature.docx");
+        DigitalSignatureCollection digitalSignatures =
+                DigitalSignatureUtil.loadSignatures(getMyDir() + "Digitally signed.docx");
 
         Iterator<DigitalSignature> enumerator = digitalSignatures.iterator();
         while (enumerator.hasNext()) {

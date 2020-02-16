@@ -13,11 +13,13 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.MessageFormat;
+import java.util.Calendar;
 import java.util.regex.Pattern;
 
 public class ExHeaderFooter extends ApiExampleBase {
     @Test
-    public void createFooter() throws Exception {
+    public void headerFooterCreate() throws Exception {
         //ExStart
         //ExFor:HeaderFooter
         //ExFor:HeaderFooter.#ctor(DocumentBase, HeaderFooterType)
@@ -28,13 +30,13 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExFor:Paragraph.ParentSection
         //ExFor:Paragraph.ParentStory
         //ExFor:Story.AppendParagraph
-        //ExSummary:Creates a footer using the document object model and inserts it into a section.
+        //ExSummary:Creates a header and footer using the document object model and insert them into a section.
         Document doc = new Document();
 
         HeaderFooter header = new HeaderFooter(doc, HeaderFooterType.HEADER_PRIMARY);
         doc.getFirstSection().getHeadersFooters().add(header);
 
-        // Add a paragraph with text to the footer.
+        // Add a paragraph with text to the footer
         Paragraph para = header.appendParagraph("My header");
 
         Assert.assertTrue(header.isHeader());
@@ -43,7 +45,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         HeaderFooter footer = new HeaderFooter(doc, HeaderFooterType.FOOTER_PRIMARY);
         doc.getFirstSection().getHeadersFooters().add(footer);
 
-        // Add a paragraph with text to the footer.
+        // Add a paragraph with text to the footer
         para = footer.appendParagraph("My footer");
 
         Assert.assertFalse(footer.isHeader());
@@ -53,10 +55,10 @@ public class ExHeaderFooter extends ApiExampleBase {
         Assert.assertEquals(para.getParentSection(), footer.getParentSection());
         Assert.assertEquals(header.getParentSection(), footer.getParentSection());
 
-        doc.save(getArtifactsDir() + "HeaderFooter.CreateFooter.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterCreate.docx");
         //ExEnd
+        doc = new Document(getArtifactsDir() + "HeaderFooter.HeaderFooterCreate.docx");
 
-        doc = new Document(getArtifactsDir() + "HeaderFooter.CreateFooter.doc");
         Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getRange().getText().contains("My header"));
         Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getRange().getText().contains("My footer"));
     }
@@ -140,13 +142,12 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExFor:HeaderFooterCollection
         //ExFor:HeaderFooterCollection.Item(HeaderFooterType)
         //ExFor:HeaderFooter
-        //ExFor:HeaderFooterType
         //ExSummary:Deletes all footers from all sections, but leaves headers intact.
-        Document doc = new Document(getMyDir() + "HeaderFooter.RemoveFooters.doc");
+        Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         for (Section section : doc.getSections()) {
-            // Up to three different footers are possible in a section (for first, even and odd pages).
-            // We check and delete all of them.
+            // Up to three different footers are possible in a section (for first, even and odd pages)
+            // We check and delete all of them
             HeaderFooter footer;
 
             footer = section.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_FIRST);
@@ -154,7 +155,7 @@ public class ExHeaderFooter extends ApiExampleBase {
                 footer.remove();
             }
 
-            // Primary footer is the footer used for odd pages.
+            // Primary footer is the footer used for odd pages
             footer = section.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
             if (footer != null) {
                 footer.remove();
@@ -166,7 +167,7 @@ public class ExHeaderFooter extends ApiExampleBase {
             }
         }
 
-        doc.save(getArtifactsDir() + "HeaderFooter.RemoveFooters.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.RemoveFooters.docx");
         //ExEnd
     }
 
@@ -176,16 +177,16 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExFor:HtmlSaveOptions.ExportHeadersFootersMode
         //ExFor:ExportHeadersFootersMode
         //ExSummary:Demonstrates how to disable the export of headers and footers when saving to HTML based formats.
-        Document doc = new Document(getMyDir() + "HeaderFooter.RemoveFooters.doc");
+        Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
-        // Disables exporting headers and footers.
+        // Disables exporting headers and footers
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         saveOptions.setExportHeadersFootersMode(ExportHeadersFootersMode.NONE);
 
         doc.save(getArtifactsDir() + "HeaderFooter.DisableHeadersFooters.html", saveOptions);
         //ExEnd
 
-        // Verify that the output document is correct.
+        // Verify that the output document is correct
         doc = new Document(getArtifactsDir() + "HeaderFooter.DisableHeadersFooters.html");
         Assert.assertFalse(doc.getRange().getText().contains("DYNAMIC TEMPLATE"));
     }
@@ -199,8 +200,8 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExFor:HeaderFooter
         //ExFor:Range.Replace(String, String, FindReplaceOptions)
         //ExSummary:Shows how to replace text in the document footer.
-        // Open the template document, containing obsolete copyright information in the footer.
-        Document doc = new Document(getMyDir() + "HeaderFooter.ReplaceText.doc");
+        // Open the template document, containing obsolete copyright information in the footer
+        Document doc = new Document(getMyDir() + "Footer.docx");
 
         HeaderFooterCollection headersFooters = doc.getFirstSection().getHeadersFooters();
         HeaderFooter footer = headersFooters.getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
@@ -209,26 +210,26 @@ public class ExHeaderFooter extends ApiExampleBase {
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(false);
 
-        footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", "Copyright (C) 2011 by Aspose Pty Ltd.", options);
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", MessageFormat.format("Copyright (C) {0} by Aspose Pty Ltd.", currentYear), options);
 
         doc.save(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
         //ExEnd
 
-        // Verify that the appropriate changes were made to the output document.
+        // Verify that the appropriate changes were made to the output document
         doc = new Document(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
-        Assert.assertTrue(doc.getRange().getText().contains("Copyright (C) 2011 by Aspose Pty Ltd."));
+        Assert.assertTrue(doc.getRange().getText().contains(MessageFormat.format("Copyright (C) {0} by Aspose Pty Ltd.", currentYear)));
     }
 
-    @Test
+    //ExStart
+    //ExFor:IReplacingCallback
+    //ExSummary:Show changes for headers and footers order.
+    @Test //ExSkip
     public void headerFooterOrder() throws Exception {
-        //ExStart
-        //ExFor:IReplacingCallback
-        //ExFor:Range.Replace(String, String, FindReplaceOptions)
-        //ExSummary: Show changes for headers and footers order
-        Document doc = new Document(getMyDir() + "HeaderFooter.HeaderFooterOrder.docx");
+        Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
-        //Assert that we use special header and footer for the first page
-        //The order for this: first header\footer, even header\footer, primary header\footer
+        // Assert that we use special header and footer for the first page
+        // The order for this: first header\footer, even header\footer, primary header\footer
         Section firstPageSection = doc.getFirstSection();
         Assert.assertEquals(firstPageSection.getPageSetup().getDifferentFirstPageHeaderFooter(), true);
 
@@ -238,13 +239,15 @@ public class ExHeaderFooter extends ApiExampleBase {
 
         doc.getRange().replace(Pattern.compile("(header|footer)"), "", options);
 
+        doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterOrder.docx");
+
         Assert.assertEquals(logger.getText(), "First header\r\nFirst footer\r\nSecond header\r\nSecond footer\r\nThird header\r\n" + "Third footer\r\n");
 
-        //Prepare our string builder for assert results without "DifferentFirstPageHeaderFooter"
+        // Prepare our string builder for assert results without "DifferentFirstPageHeaderFooter"
         logger.clearText();
 
-        //Remove special first page
-        //The order for this: primary header, default header, primary footer, default footer, even header\footer
+        // Remove special first page
+        // The order for this: primary header, default header, primary footer, default footer, even header\footer
         firstPageSection.getPageSetup().setDifferentFirstPageHeaderFooter(false);
 
         doc.getRange().replace(Pattern.compile("(header|footer)"), "", options);
@@ -277,111 +280,111 @@ public class ExHeaderFooter extends ApiExampleBase {
         Section currentSection = builder.getCurrentSection();
         PageSetup pageSetup = currentSection.getPageSetup();
 
-        // Specify if we want headers/footers of the first page to be different from other pages.
+        // Specify if we want headers/footers of the first page to be different from other pages
         // You can also use PageSetup.OddAndEvenPagesHeaderFooter property to specify
-        // different headers/footers for odd and even pages.
+        // different headers/footers for odd and even pages
         pageSetup.setDifferentFirstPageHeaderFooter(true);
 
-        // --- Create header for the first page. ---
+        // --- Create header for the first page ---
         pageSetup.setHeaderDistance(20);
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
 
-        // Set font properties for header text.
+        // Set font properties for header text
         builder.getFont().setName("Arial");
         builder.getFont().setBold(true);
         builder.getFont().setSize(14);
-        // Specify header title for the first page.
+        // Specify header title for the first page
         builder.write("Aspose.Words Header/Footer Creation Primer - Title Page.");
 
-        // --- Create header for pages other than first. ---
+        // --- Create header for pages other than first ---
         pageSetup.setHeaderDistance(20);
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
 
-        // Insert absolutely positioned image into the top/left corner of the header.
-        // Distance from the top/left edges of the page is set to 10 points.
-        String imageFileName = getImageDir() + "Aspose.Words.gif";
+        // Insert absolutely positioned image into the top/left corner of the header
+        // Distance from the top/left edges of the page is set to 10 points
+        String imageFileName = getImageDir() + "Logo.jpg";
         builder.insertImage(imageFileName, RelativeHorizontalPosition.PAGE, 10, RelativeVerticalPosition.PAGE, 10, 50, 50, WrapType.THROUGH);
 
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
-        // Specify another header title for other pages.
+        // Specify another header title for other pages
         builder.write("Aspose.Words Header/Footer Creation Primer.");
 
-        // --- Create footer for pages other than first. ---
+        // --- Create footer for pages other than first ---
         builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
 
         // We use table with two cells to make one part of the text on the line (with page numbering)
-        // to be aligned left, and the other part of the text (with copyright) to be aligned right.
+        // to be aligned left, and the other part of the text (with copyright) to be aligned right
         builder.startTable();
 
-        // Clear table borders.
+        // Clear table borders
         builder.getCellFormat().clearFormatting();
 
         builder.insertCell();
 
-        // Set first cell to 1/3 of the page width.
+        // Set first cell to 1/3 of the page width
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 / 3));
 
-        // Insert page numbering text here.
-        // It uses PAGE and NUMPAGES fields to auto calculate current page number and total number of pages.
+        // Insert page numbering text here
+        // It uses PAGE and NUMPAGES fields to auto calculate current page number and total number of pages
         builder.write("Page ");
         builder.insertField("PAGE", "");
         builder.write(" of ");
         builder.insertField("NUMPAGES", "");
 
-        // Align this text to the left.
+        // Align this text to the left
         builder.getCurrentParagraph().getParagraphFormat().setAlignment(ParagraphAlignment.LEFT);
 
         builder.insertCell();
-        // Set the second cell to 2/3 of the page width.
+        // Set the second cell to 2/3 of the page width
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
 
         builder.write("(C) 2001 Aspose Pty Ltd. All rights reserved.");
 
-        // Align this text to the right.
+        // Align this text to the right
         builder.getCurrentParagraph().getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
 
         builder.endRow();
         builder.endTable();
 
         builder.moveToDocumentEnd();
-        // Make page break to create a second page on which the primary headers/footers will be seen.
+        // Make page break to create a second page on which the primary headers/footers will be seen
         builder.insertBreak(BreakType.PAGE_BREAK);
 
-        // Make section break to create a third page with different page orientation.
+        // Make section break to create a third page with different page orientation
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
 
-        // Get the new section and its page setup.
+        // Get the new section and its page setup
         currentSection = builder.getCurrentSection();
         pageSetup = currentSection.getPageSetup();
 
-        // Set page orientation of the new section to landscape.
+        // Set page orientation of the new section to landscape
         pageSetup.setOrientation(Orientation.LANDSCAPE);
 
-        // This section does not need different first page header/footer.
+        // This section does not need different first page header/footer
         // We need only one title page in the document and the header/footer for this page
         // has already been defined in the previous section
         pageSetup.setDifferentFirstPageHeaderFooter(false);
 
-        // This section displays headers/footers from the previous section by default.
-        // Call currentSection.HeadersFooters.LinkToPrevious(false) to cancel this.
-        // Page width is different for the new section and therefore we need to set
-        // a different cell widths for a footer table.
+        // This section displays headers/footers from the previous section by default
+        // Call currentSection.HeadersFooters.LinkToPrevious(false) to cancel this
+        // Page width is different for the new section and therefore we need to set 
+        // a different cell widths for a footer table
         currentSection.getHeadersFooters().linkToPrevious(false);
 
-        // If we want to use the already existing header/footer set for this section
+        // If we want to use the already existing header/footer set for this section 
         // but with some minor modifications then it may be expedient to copy headers/footers
-        // from the previous section and apply the necessary modifications where we want them.
+        // from the previous section and apply the necessary modifications where we want them
         copyHeadersFootersFromPreviousSection(currentSection);
 
-        // Find the footer that we want to change.
+        // Find the footer that we want to change
         HeaderFooter primaryFooter = currentSection.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
 
         Row row = primaryFooter.getTables().get(0).getFirstRow();
         row.getFirstCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 / 3));
         row.getLastCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
 
-        // Save the resulting document.
+        // Save the resulting document
         doc.save(getArtifactsDir() + "HeaderFooter.Primer.doc");
     }
 

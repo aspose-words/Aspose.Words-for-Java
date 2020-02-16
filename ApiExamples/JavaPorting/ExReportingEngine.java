@@ -56,8 +56,8 @@ import org.testng.annotations.DataProvider;
 @Test
 public class ExReportingEngine extends ApiExampleBase
 {
-    private /*final*/ String mImage = getImageDir() + "Test_636_852.gif";
-    private /*final*/ String mDocument = getMyDir() + "ReportingEngine.TestDataTable.docx";
+    private /*final*/ String mImage = getImageDir() + "Logo.jpg";
+    private /*final*/ String mDocument = getMyDir() + "Reporting engine template - Data table.docx";
 
     @Test
     public void simpleCase() throws Exception
@@ -106,9 +106,9 @@ public class ExReportingEngine extends ApiExampleBase
     }
 
     @Test
-    public void dataTableTest() throws Exception
+    public void testDataTable() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestDataTable.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Data table.docx");
 
         buildReport(doc, Common.getContracts(), "Contracts");
 
@@ -118,9 +118,9 @@ public class ExReportingEngine extends ApiExampleBase
     }
 
     @Test
-    public void progressiveTotal() throws Exception
+    public void total() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.Total.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Total.docx");
 
         buildReport(doc, Common.getContracts(), "Contracts");
 
@@ -130,9 +130,9 @@ public class ExReportingEngine extends ApiExampleBase
     }
 
     @Test
-    public void nestedDataTableTest() throws Exception
+    public void testNestedDataTable() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestNestedDataTable.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Nested data table.docx");
 
         buildReport(doc, Common.getManagers(), "Managers");
 
@@ -144,7 +144,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void restartingListNumberingDynamically() throws Exception
     {
-        Document template = new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.docx");
+        Document template = new Document(getMyDir() + "Reporting engine template - List numbering.docx");
 
         buildReport(template, Common.getManagers(), "Managers", ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
@@ -154,41 +154,41 @@ public class ExReportingEngine extends ApiExampleBase
     }
 
     @Test
-    public void restartingListNumberingDynamicallyWhileInsertingDocumentDinamically() throws Exception
+    public void restartingListNumberingDynamicallyWhileInsertingDocumentDynamically() throws Exception
     {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.Document] -build>>");
         
         DocumentTestClass doc = new DocumentTestBuilder()
-            .withDocument(new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.docx")).build();
+            .withDocument(new Document(getMyDir() + "Reporting engine template - List numbering.docx")).build();
 
         buildReport(template, new Object[] {doc, Common.getManagers()} , new String[] {"src", "Managers"}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
-        template.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically Gold.docx"));
     }
 
     @Test
-    public void restartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically() throws Exception
+    public void restartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDynamically() throws Exception
     {
         Document mainTemplate = DocumentHelper.createSimpleDocument("<<doc [src] -build>>");
         Document template1 = DocumentHelper.createSimpleDocument("<<doc [src1] -build>>");
         Document template2 = DocumentHelper.createSimpleDocument("<<doc [src2.Document] -build>>");
         
         DocumentTestClass doc = new DocumentTestBuilder()
-            .withDocument(new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.docx")).build();
+            .withDocument(new Document(getMyDir() + "Reporting engine template - List numbering.docx")).build();
 
         buildReport(mainTemplate, new Object[] {template1, template2, doc, Common.getManagers()} , new String[] {"src", "src1", "src2", "Managers"}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
-        mainTemplate.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically.docx");
+        mainTemplate.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDynamically.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDinamically Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically Gold.docx"));
      }
 
     @Test
     public void chartTest() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestChart.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart.docx");
 
         buildReport(doc, Common.getManagers(), "managers");
 
@@ -200,7 +200,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void bubbleChartTest() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestBubbleChart.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Bubble chart.docx");
 
         buildReport(doc, Common.getManagers(), "managers");
 
@@ -212,19 +212,19 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void setChartSeriesColorsDynamically() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.SetChartSeriesColorDinamically.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series color.docx");
 
         buildReport(doc, Common.getManagers(), "managers");
 
-        doc.save(getArtifactsDir() + "ReportingEngine.SetChartSeriesColorDinamically.docx");
+        doc.save(getArtifactsDir() + "ReportingEngine.SetChartSeriesColorDynamically.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetChartSeriesColorDinamically.docx", getGoldsDir() + "ReportingEngine.SetChartSeriesColorDinamically Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetChartSeriesColorDynamically.docx", getGoldsDir() + "ReportingEngine.SetChartSeriesColorDynamically Gold.docx"));
     }
 
     @Test
     public void setPointColorsDynamically() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.SetPointColorDinamically.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Point color.docx");
 
         ArrayList<ColorItemTestClass> colors = new ArrayList<ColorItemTestClass>();
         {
@@ -238,15 +238,15 @@ public class ExReportingEngine extends ApiExampleBase
 
         buildReport(doc, colors, "colorItems", new Class[] { ColorItemTestClass.class });
 
-        doc.save(getArtifactsDir() + "ReportingEngine.SetPointColorDinamically.docx");
+        doc.save(getArtifactsDir() + "ReportingEngine.SetPointColorDynamically.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetPointColorDinamically.docx", getGoldsDir() + "ReportingEngine.SetPointColorDinamically Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetPointColorDynamically.docx", getGoldsDir() + "ReportingEngine.SetPointColorDynamically Gold.docx"));
     }
 
     @Test
     public void conditionalExpressionForLeaveChartSeries() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestRemoveChartSeries.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
 
         doc.save(getArtifactsDir() + "ReportingEngine.TestLeaveChartSeries.docx");
 
@@ -256,7 +256,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void conditionalExpressionForRemoveChartSeries() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestRemoveChartSeries.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
 
         doc.save(getArtifactsDir() + "ReportingEngine.TestRemoveChartSeries.docx");
 
@@ -266,7 +266,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void indexOf() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestIndexOf.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Index of.docx");
 
         buildReport(doc, Common.getManagers(), "Managers");
 
@@ -279,7 +279,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void ifElse() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.IfElse.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - If-else.docx");
 
         buildReport(doc, Common.getManagers(), "m");
 
@@ -292,7 +292,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void ifElseWithoutData() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.IfElse.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - If-else.docx");
 
         buildReport(doc, Common.getEmptyManagers(), "m");
 
@@ -305,7 +305,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void extensionMethods() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.ExtensionMethods.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Extension methods.docx");
 
         buildReport(doc, Common.getManagers(), "Managers");
 
@@ -317,7 +317,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void operators() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.Operators.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Operators.docx");
 
         NumericTestClass testData = new NumericTestBuilder().withValuesAndLogical(1, 2.0, 3, null, true).build();
 
@@ -333,7 +333,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void contextualObjectMemberAccess() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.ContextualObjectMemberAccess.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Contextual object member access.docx");
 
         buildReport(doc, Common.getManagers(), "Managers");
 
@@ -343,41 +343,41 @@ public class ExReportingEngine extends ApiExampleBase
     }
 
     @Test
-    public void insertDocumentDinamicallyWithAdditionalTemplateChecking() throws Exception
+    public void insertDocumentDynamicallyWithAdditionalTemplateChecking() throws Exception
     {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.Document] -build>>");
 
         DocumentTestClass doc = new DocumentTestBuilder()
-            .withDocument(new Document(getMyDir() + "ReportingEngine.TestDataTable.docx")).build();
+            .withDocument(new Document(getMyDir() + "Reporting engine template - Data table.docx")).build();
 
         buildReport(template, new Object[] { doc, Common.getContracts() }, new String[] { "src", "Contracts" }, 
             ReportBuildOptions.NONE);
         template.save(
-            getArtifactsDir() + "ReportingEngine.InsertDocumentDinamicallyWithAdditionalTemplateChecking.docx");
+            getArtifactsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking.docx");
 
         msAssert.isTrue(
             DocumentHelper.compareDocs(
-                getArtifactsDir() + "ReportingEngine.InsertDocumentDinamicallyWithAdditionalTemplateChecking.docx",
-                getGoldsDir() + "ReportingEngine.InsertDocumentDinamicallyWithAdditionalTemplateChecking Gold.docx"),
+                getArtifactsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking.docx",
+                getGoldsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking Gold.docx"),
             "Fail inserting document by document");
     }
 
     @Test
-    public void insertDocumentDinamically() throws Exception
+    public void insertDocumentDynamically() throws Exception
     {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.Document]>>");
 
         DocumentTestClass doc = new DocumentTestBuilder()
-            .withDocument(new Document(getMyDir() + "ReportingEngine.TestDataTable.docx")).build();
+            .withDocument(new Document(getMyDir() + "Reporting engine template - Data table.docx")).build();
 
         buildReport(template, doc, "src", ReportBuildOptions.NONE);
-        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by document");
+        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by document");
     }
 
     @Test
-    public void insertDocumentDinamicallyByStream() throws Exception
+    public void insertDocumentDynamicallyByStream() throws Exception
     {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.DocumentStream]>>");
 
@@ -385,27 +385,27 @@ public class ExReportingEngine extends ApiExampleBase
             .withDocumentStream(new FileStream(mDocument, FileMode.OPEN, FileAccess.READ)).build();
 
         buildReport(template, docStream, "src", ReportBuildOptions.NONE);
-        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by stream");
+        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by stream");
     }
 
     @Test
-    public void insertDocumentDinamicallyByBytes() throws Exception
+    public void insertDocumentDynamicallyByBytes() throws Exception
     {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.DocumentBytes]>>");
 
         DocumentTestClass docBytes = new DocumentTestBuilder()
-            .withDocumentBytes(File.readAllBytes(getMyDir() + "ReportingEngine.TestDataTable.docx")).build();
+            .withDocumentBytes(File.readAllBytes(getMyDir() + "Reporting engine template - Data table.docx")).build();
 
         buildReport(template, docBytes, "src", ReportBuildOptions.NONE);
-        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
     }
 
     @Test
-    public void insertDocumentDinamicallyByUri() throws Exception
+    public void insertDocumentDynamicallyByUri() throws Exception
     {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.DocumentUri]>>");
 
@@ -413,13 +413,13 @@ public class ExReportingEngine extends ApiExampleBase
             .withDocumentUri("http://www.snee.com/xml/xslt/sample.doc").build();
 
         buildReport(template, docUri, "src", ReportBuildOptions.NONE);
-        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDinamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDinamically(uri) Gold.docx"), "Fail inserting document by uri");
+        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(uri) Gold.docx"), "Fail inserting document by uri");
     }
 
     @Test
-    public void insertImageDinamically() throws Exception
+    public void insertImageDynamically() throws Exception
     {
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.Image]>>", ShapeType.TEXT_BOX);
@@ -427,13 +427,13 @@ public class ExReportingEngine extends ApiExampleBase
                             ImageTestClass image = new ImageTestBuilder().WithImage(SKBitmap.Decode(mImage)).Build();
                 
         buildReport(template, image, "src", ReportBuildOptions.NONE);
-        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
     }
 
     @Test
-    public void insertImageDinamicallyByStream() throws Exception
+    public void insertImageDynamicallyByStream() throws Exception
     {
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.ImageStream]>>", ShapeType.TEXT_BOX);
@@ -441,26 +441,26 @@ public class ExReportingEngine extends ApiExampleBase
             .withImageStream(new FileStream(mImage, FileMode.OPEN, FileAccess.READ)).build();
 
         buildReport(template, imageStream, "src", ReportBuildOptions.NONE);
-        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
     }
 
     @Test
-    public void insertImageDinamicallyByBytes() throws Exception
+    public void insertImageDynamicallyByBytes() throws Exception
     {
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.ImageBytes]>>", ShapeType.TEXT_BOX);
         ImageTestClass imageBytes = new ImageTestBuilder().withImageBytes(File.readAllBytes(mImage)).build();
 
         buildReport(template, imageBytes, "src", ReportBuildOptions.NONE);
-        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
-        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDinamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
+        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx", getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by bytes");
     }
 
     @Test
-    public void insertImageDinamicallyByUri() throws Exception
+    public void insertImageDynamicallyByUri() throws Exception
     {
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.ImageUri]>>", ShapeType.TEXT_BOX);
@@ -470,18 +470,18 @@ public class ExReportingEngine extends ApiExampleBase
             .build();
 
         buildReport(template, imageUri, "src", ReportBuildOptions.NONE);
-        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
         msAssert.isTrue(
-            DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDinamically.docx",
-                getGoldsDir() + "ReportingEngine.InsertImageDinamically(uri) Gold.docx"),
+            DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx",
+                getGoldsDir() + "ReportingEngine.InsertImageDynamically(uri) Gold.docx"),
             "Fail inserting document by bytes");
     }
 
-    @Test (dataProvider = "insertHyperlinksDinamicallyDataProvider")
-    public void insertHyperlinksDinamically(String link) throws Exception
+    @Test (dataProvider = "insertHyperlinksDynamicallyDataProvider")
+    public void insertHyperlinksDynamically(String link) throws Exception
     {
-        Document template = new Document(getMyDir() + "ReportingEngine.InsertingHyperlinks.docx");
+        Document template = new Document(getMyDir() + "Reporting engine template - Inserting hyperlinks.docx");
         buildReport(template, 
             new Object[]
             {
@@ -494,12 +494,12 @@ public class ExReportingEngine extends ApiExampleBase
                 "display_text_expression"
             });
 
-        template.save(getArtifactsDir() + "ReportingEngine.InsertHyperlinksDinamically.docx");
+        template.save(getArtifactsDir() + "ReportingEngine.InsertHyperlinksDynamically.docx");
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "insertHyperlinksDinamicallyDataProvider")
-	public static Object[][] insertHyperlinksDinamicallyDataProvider() throws Exception
+	@DataProvider(name = "insertHyperlinksDynamicallyDataProvider")
+	public static Object[][] insertHyperlinksDynamicallyDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -507,6 +507,19 @@ public class ExReportingEngine extends ApiExampleBase
 			{"Bookmark"},
 		};
 	}
+
+    @Test
+    public void insertBookmarksDynamically() throws Exception
+    {
+        Document doc =
+            DocumentHelper.createSimpleDocument(
+                "<<bookmark [bookmark_expression]>><<foreach [m in Contracts]>><<[m.Client.Name]>><</foreach>><</bookmark>>");
+
+        buildReport(doc, new Object[] { "BookmarkOne", Common.getContracts() },
+            new String[] { "bookmark_expression", "Contracts" });
+
+        doc.save(getArtifactsDir() + "ReportingEngine.InsertBookmarksDynamically.docx");
+    }
 
     @Test
     public void withoutKnownType() throws Exception
@@ -542,7 +555,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void workWithSingleColumnTableRow() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.SingleColumnTableRow.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Table row.docx");
         buildReport(doc, Common.getManagers(), "Managers");
 
         doc.save(getArtifactsDir() + "ReportingEngine.SingleColumnTableRow.docx");
@@ -551,7 +564,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void workWithSingleColumnTableRowGreedy() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.SingleColumnTableRowGreedy.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Table row greedy.docx");
         buildReport(doc, Common.getManagers(), "Managers");
 
         doc.save(getArtifactsDir() + "ReportingEngine.SingleColumnTableRowGreedy.docx");
@@ -560,7 +573,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void tableRowConditionalBlocks() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TableRowConditionalBlocks.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Table row conditional blocks.docx");
 
         ArrayList<ClientTestClass> clients = new ArrayList<ClientTestClass>();
         {
@@ -592,7 +605,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void ifGreedy() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.IfGreedy.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - If greedy.docx");
 
         AsposeData obj = new AsposeData();
         {
@@ -727,8 +740,8 @@ public class ExReportingEngine extends ApiExampleBase
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
             // Assert that textbox size are equal image size
-            msAssert.areEqual(346.35, shape.getHeight());
-            msAssert.areEqual(258.54, shape.getWidth());
+            msAssert.areEqual(300.0d, shape.getHeight());
+            msAssert.areEqual(300.0d, shape.getWidth());
         }
 
         dstStream.dispose();
@@ -792,7 +805,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void setBackgroundColor() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.BackColor.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Background color.docx");
 
         ArrayList<ColorItemTestClass> colors = new ArrayList<ColorItemTestClass>();
         {
@@ -812,7 +825,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void doNotRemoveEmptyParagraphs() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.RemoveEmptyParagraphs.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Remove empty paragraphs.docx");
 
         buildReport(doc, Common.getManagers(), "Managers");
 
@@ -825,7 +838,7 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void removeEmptyParagraphs() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.RemoveEmptyParagraphs.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Remove empty paragraphs.docx");
 
         buildReport(doc, Common.getManagers(), "Managers", ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
@@ -843,7 +856,7 @@ public class ExReportingEngine extends ApiExampleBase
         String goldPath = getGoldsDir() + resultDocumentName + " Gold" +
                           FileFormatUtil.saveFormatToExtension(SaveFormat.DOCX);
         
-        Document doc = new Document(getMyDir() + "ReportingEngine.MergingTableCellsDynamically.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Merging table cells dynamically.docx");
 
         ArrayList<ClientTestClass> clients = new ArrayList<ClientTestClass>();
         {
@@ -887,9 +900,9 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void xmlDataStringWithoutSchema() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
 
-        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "XmlData.xml");
+        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "List of people.xml");
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.XmlDataString.docx");
@@ -901,9 +914,9 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void xmlDataStreamWithoutSchema() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
 
-        FileStream stream = File.openRead(getMyDir() + "XmlData.xml");
+        FileStream stream = File.openRead(getMyDir() + "List of people.xml");
         try /*JAVA: was using*/
         {
             XmlDataSource dataSource = new XmlDataSource(stream);
@@ -920,9 +933,9 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void xmlDataWithNestedElements() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSourceWithNestedElements.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Data destination with nested elements.docx");
 
-        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "XmlDataWithNestedElements.xml");
+        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "Nested elements.xml");
         buildReport(doc, dataSource, "managers");
 
         doc.save(getArtifactsDir() + "ReportingEngine.XmlDataWithNestedElements.docx");
@@ -934,9 +947,9 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void jsonDataString() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
 
-        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "JsonData.json");
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json");
         buildReport(doc, dataSource, "persons");
         
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
@@ -948,8 +961,8 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void jsonDataStream() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.docx");
-        FileStream stream = File.openRead(getMyDir() + "JsonData.json");
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
+        FileStream stream = File.openRead(getMyDir() + "List of people.json");
         try /*JAVA: was using*/
         {
             JsonDataSource dataSource = new JsonDataSource(stream);
@@ -966,9 +979,9 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void jsonDataWithNestedElements() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSourceWithNestedElements.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Data destination with nested elements.docx");
 
-        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "JsonDataWithNestedElements.json");
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "Nested elements.json");
         buildReport(doc, dataSource, "managers");
         
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx");
@@ -980,13 +993,13 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void csvDataString() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.CsvData.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination.docx");
         
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
         loadOptions.setCommentChar('$');
 
-        CsvDataSource dataSource = new CsvDataSource(getMyDir() + "CsvData.csv", loadOptions);
+        CsvDataSource dataSource = new CsvDataSource(getMyDir() + "List of people.csv", loadOptions);
         buildReport(doc, dataSource, "persons");
         
         doc.save(getArtifactsDir() + "ReportingEngine.CsvDataString.docx");
@@ -998,13 +1011,13 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void csvDataStream() throws Exception
     {
-        Document doc = new Document(getMyDir() + "ReportingEngine.CsvData.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination.docx");
         
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
         loadOptions.setCommentChar('$');
 
-        FileStream stream = File.openRead(getMyDir() + "CsvData.csv");
+        FileStream stream = File.openRead(getMyDir() + "List of people.csv");
         try /*JAVA: was using*/
         {
             CsvDataSource dataSource = new CsvDataSource(stream, loadOptions);

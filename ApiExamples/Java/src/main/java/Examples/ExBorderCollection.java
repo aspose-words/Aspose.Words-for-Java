@@ -20,7 +20,7 @@ public class ExBorderCollection extends ApiExampleBase {
         //ExStart
         //ExFor:BorderCollection.GetEnumerator
         //ExSummary:Shows how to enumerate all borders in a collection.
-        Document doc = new Document(getMyDir() + "Borders.doc");
+        Document doc = new Document(getMyDir() + "Borders.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         BorderCollection borders = builder.getParagraphFormat().getBorders();
@@ -33,7 +33,7 @@ public class ExBorderCollection extends ApiExampleBase {
             b.setLineStyle(LineStyle.DOUBLE);
         }
 
-        doc.save(getArtifactsDir() + "Border.ChangedColourBorder.doc");
+        doc.save(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.doc");
         //ExEnd
     }
 
@@ -42,7 +42,7 @@ public class ExBorderCollection extends ApiExampleBase {
         //ExStart
         //ExFor:BorderCollection.ClearFormatting
         //ExSummary:Shows how to remove all borders from a paragraph at once.
-        Document doc = new Document(getMyDir() + "Borders.doc");
+        Document doc = new Document(getMyDir() + "Borders.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
         BorderCollection borders = builder.getParagraphFormat().getBorders();
 

@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.MessageFormat;
-import java.util.Iterator;
 
 /**
  * Examples using tables in documents.
@@ -38,11 +37,11 @@ public class ExTable extends ApiExampleBase {
         //ExFor:TableCollection.Item(System.Int32)
         //ExFor:TableCollection.ToArray
         //ExSummary:Shows how to iterate through all tables in the document and display the content from each cell.
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
         // Here we get all tables from the Document node. You can do this for any other composite node
         // which can contain block level nodes. For example you can retrieve tables from header or from a cell
-        // containing another table (nested tables).
+        // containing another table (nested tables)
         TableCollection tables = doc.getFirstSection().getBody().getTables();
 
         // We can make a new array to clone all of the tables in the collection
@@ -96,15 +95,15 @@ public class ExTable extends ApiExampleBase {
     //ExSummary:Shows how to find out if a table contains another table or if the table itself is nested inside another table.
     @Test //ExSkip
     public void calculateDepthOfNestedTables() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.NestedTables.doc");
+        Document doc = new Document(getMyDir() + "Nested tables.docx");
         int tableIndex = 0;
 
         for (Table table : (Iterable<Table>) doc.getChildNodes(NodeType.TABLE, true)) {
-            // First lets find if any cells in the table have tables themselves as children.
+            // First lets find if any cells in the table have tables themselves as children
             int count = getChildTableCount(table);
             System.out.println(MessageFormat.format("Table #{0} has {1} tables directly within its cells", tableIndex, count));
 
-            // Now let's try the other way around, lets try find if the table is nested inside another table and at what depth.
+            // Now let's try the other way around, lets try find if the table is nested inside another table and at what depth
             int tableDepth = getNestedDepthOfTable(table);
 
             if (tableDepth > 0) {
@@ -134,7 +133,7 @@ public class ExTable extends ApiExampleBase {
 
         while (parent != null) {
             // Every time we find a table a level up we increase the depth counter and then try to find an
-            // ancestor of type table from the parent.
+            // ancestor of type table from the parent
             depth++;
             parent = parent.getAncestor(Table.class);
         }
@@ -168,14 +167,21 @@ public class ExTable extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test //ExSkip
-    public void convertTextboxToTable() throws Exception {
-        // Open the document
-        Document doc = new Document(getMyDir() + "Shape.Textbox.doc");
+    @Test
+    public void convertTextBoxToTable() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Convert all shape nodes which contain child nodes.
+        // Insert a text box
+        Shape textBox = builder.insertShape(ShapeType.TEXT_BOX, 300.0, 50.0);
+
+        // Move the builder into the text box and write text
+        builder.moveTo(textBox.getLastParagraph());
+        builder.write("Hello world!");
+
+        // Convert all shape nodes which contain child nodes
         // We convert the collection to an array as static "snapshot" because the original textboxes will be removed after conversion which will
-        // invalidate the enumerator.
+        // invalidate the enumerator
         Node[] nodes = doc.getChildNodes(NodeType.SHAPE, true).toArray();
         for (Node node : nodes) {
             Shape shape = (Shape) node;
@@ -202,38 +208,38 @@ public class ExTable extends ApiExampleBase {
         Document doc = (Document) textBox.getDocument();
         Section section = (Section) textBox.getAncestor(NodeType.SECTION);
 
-        // Create a table to replace the textbox and transfer the same content and formatting.
+        // Create a table to replace the textbox and transfer the same content and formatting
         Table table = new Table(doc);
-        // Ensure that the table contains a row and a cell.
+        // Ensure that the table contains a row and a cell
         table.ensureMinimum();
-        // Use fixed column widths.
+        // Use fixed column widths
         table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
 
         // A shape is inline level (within a paragraph) where a table can only be block level so insert the table
-        // after the paragraph which contains the shape.
+        // after the paragraph which contains the shape
         Node shapeParent = textBox.getParentNode();
         shapeParent.getParentNode().insertAfter(table, shapeParent);
 
-        // If the textbox is not inline then try to match the shape's left position using the table's left indent.
+        // If the textbox is not inline then try to match the shape's left position using the table's left indent
         if (!textBox.isInline() && textBox.getLeft() < section.getPageSetup().getPageWidth()) {
             table.setLeftIndent(textBox.getLeft());
         }
 
-        // We are only using one cell to replicate a textbox so we can make use of the FirstRow and FirstCell property.
-        // Carry over borders and shading.
+        // We are only using one cell to replicate a textbox so we can make use of the FirstRow and FirstCell property
+        // Carry over borders and shading
         Row firstRow = table.getFirstRow();
         Cell firstCell = firstRow.getFirstCell();
         firstCell.getCellFormat().getBorders().setColor(textBox.getStrokeColor());
         firstCell.getCellFormat().getBorders().setLineWidth(textBox.getStrokeWeight());
         firstCell.getCellFormat().getShading().setBackgroundPatternColor(textBox.getFill().getColor());
 
-        // Transfer the same height and width of the textbox to the table.
+        // Transfer the same height and width of the textbox to the table
         firstRow.getRowFormat().setHeightRule(HeightRule.EXACTLY);
         firstRow.getRowFormat().setHeight(textBox.getHeight());
         firstCell.getCellFormat().setWidth(textBox.getWidth());
         table.setAllowAutoFit(false);
 
-        // Replicate the textbox's horizontal alignment.
+        // Replicate the textbox's horizontal alignment
         int horizontalAlignment;
         switch (textBox.getHorizontalAlignment()) {
             case HorizontalAlignment.LEFT:
@@ -246,7 +252,7 @@ public class ExTable extends ApiExampleBase {
                 horizontalAlignment = TableAlignment.RIGHT;
                 break;
             default:
-                // Most other options are left by default.
+                // Most other options are left by default
                 horizontalAlignment = TableAlignment.LEFT;
                 break;
         }
@@ -259,7 +265,7 @@ public class ExTable extends ApiExampleBase {
             table.getFirstRow().getFirstCell().appendChild(node);
         }
 
-        // Remove the empty textbox from the document.
+        // Remove the empty textbox from the document
         textBox.remove();
     }
 
@@ -270,11 +276,11 @@ public class ExTable extends ApiExampleBase {
         //ExSummary:Shows how to ensure a table node is valid.
         Document doc = new Document();
 
-        // Create a new table and add it to the document.
+        // Create a new table and add it to the document
         Table table = new Table(doc);
         doc.getFirstSection().getBody().appendChild(table);
 
-        // Ensure the table is valid (has at least one row with one cell).
+        // Ensure the table is valid (has at least one row with one cell)
         table.ensureMinimum();
         //ExEnd
     }
@@ -286,15 +292,15 @@ public class ExTable extends ApiExampleBase {
         //ExSummary:Shows how to ensure a row node is valid.
         Document doc = new Document();
 
-        // Create a new table and add it to the document.
+        // Create a new table and add it to the document
         Table table = new Table(doc);
         doc.getFirstSection().getBody().appendChild(table);
 
-        // Create a new row and add it to the table.
+        // Create a new row and add it to the table
         Row row = new Row(doc);
         table.appendChild(row);
 
-        // Ensure the row is valid (has at least one cell).
+        // Ensure the row is valid (has at least one cell)
         row.ensureMinimum();
         //ExEnd
     }
@@ -304,18 +310,18 @@ public class ExTable extends ApiExampleBase {
         //ExStart
         //ExFor:Cell.EnsureMinimum
         //ExSummary:Shows how to ensure a cell node is valid.
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
-        // Gets the first cell in the document.
+        // Gets the first cell in the document
         Cell cell = (Cell) doc.getChild(NodeType.CELL, 0, true);
 
-        // Ensure the cell is valid (the last child is a paragraph).
+        // Ensure the cell is valid (the last child is a paragraph)
         cell.ensureMinimum();
         //ExEnd
     }
 
     @Test
-    public void setTableBordersOutline() throws Exception {
+    public void setOutlineBorders() throws Exception {
         //ExStart
         //ExFor:Table.Alignment
         //ExFor:TableAlignment
@@ -325,30 +331,30 @@ public class ExTable extends ApiExampleBase {
         //ExFor:TextureIndex
         //ExFor:Table.SetShading
         //ExSummary:Shows how to apply a outline border to a table.
-        Document doc = new Document(getMyDir() + "Table.EmptyTable.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        // Align the table to the center of the page.
+        // Align the table to the center of the page
         table.setAlignment(TableAlignment.CENTER);
 
-        // Clear any existing borders and shading from the table.
+        // Clear any existing borders and shading from the table
         table.clearBorders();
         table.clearShading();
 
-        // Set a green border around the table but not inside.
+        // Set a green border around the table but not inside
         table.setBorder(BorderType.LEFT, LineStyle.SINGLE, 1.5, Color.GREEN, true);
         table.setBorder(BorderType.RIGHT, LineStyle.SINGLE, 1.5, Color.GREEN, true);
         table.setBorder(BorderType.TOP, LineStyle.SINGLE, 1.5, Color.GREEN, true);
         table.setBorder(BorderType.BOTTOM, LineStyle.SINGLE, 1.5, Color.GREEN, true);
 
-        // Fill the cells with a light green solid color.
+        // Fill the cells with a light green solid color
         table.setShading(TextureIndex.TEXTURE_SOLID, Color.GREEN, Color.GREEN);
 
-        doc.save(getArtifactsDir() + "Table.SetOutlineBorders.doc");
+        doc.save(getArtifactsDir() + "Table.SetOutlineBorders.docx");
         //ExEnd
 
-        // Verify the borders were set correctly.
-        doc = new Document(getArtifactsDir() + "Table.SetOutlineBorders.doc");
+        // Verify the borders were set correctly
+        doc = new Document(getArtifactsDir() + "Table.SetOutlineBorders.docx");
         Assert.assertEquals(table.getAlignment(), TableAlignment.CENTER);
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB(), Color.GREEN.getRGB());
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getRight().getColor().getRGB(), Color.GREEN.getRGB());
@@ -360,23 +366,23 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void setTableBordersAll() throws Exception {
+    public void setTableBorders() throws Exception {
         //ExStart
         //ExFor:Table.SetBorders
         //ExSummary:Shows how to build a table with all borders enabled (grid).
-        Document doc = new Document(getMyDir() + "Table.EmptyTable.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        // Clear any existing borders from the table.
+        // Clear any existing borders from the table
         table.clearBorders();
 
-        // Set a green border around and inside the table.
+        // Set a green border around and inside the table
         table.setBorders(LineStyle.SINGLE, 1.5, Color.GREEN);
 
         doc.save(getArtifactsDir() + "Table.SetAllBorders.doc");
         //ExEnd
 
-        // Verify the borders were set correctly.
+        // Verify the borders were set correctly
         doc = new Document(getArtifactsDir() + "Table.SetAllBorders.doc");
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getLeft().getColor().getRGB(), Color.GREEN.getRGB());
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB(), Color.GREEN.getRGB());
@@ -387,18 +393,18 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void rowFormatProperties() throws Exception {
+    public void rowFormat() throws Exception {
         //ExStart
         //ExFor:RowFormat
         //ExFor:Row.RowFormat
         //ExSummary:Shows how to modify formatting of a table row.
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        // Retrieve the first row in the table.
+        // Retrieve the first row in the table
         Row firstRow = table.getFirstRow();
 
-        // Modify some row level properties.
+        // Modify some row level properties
         firstRow.getRowFormat().getBorders().setLineStyle(LineStyle.NONE);
         firstRow.getRowFormat().setHeightRule(HeightRule.AUTO);
         firstRow.getRowFormat().setAllowBreakAcrossPages(true);
@@ -414,18 +420,18 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void cellFormatProperties() throws Exception {
+    public void cellFormat() throws Exception {
         //ExStart
         //ExFor:CellFormat
         //ExFor:Cell.CellFormat
         //ExSummary:Shows how to modify formatting of a table cell.
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        // Retrieve the first cell in the table.
+        // Retrieve the first cell in the table
         Cell firstCell = table.getFirstRow().getFirstCell();
 
-        // Modify some row level properties.
+        // Modify some row level properties
         firstCell.getCellFormat().setWidth(30); // in points
         firstCell.getCellFormat().setOrientation(TextOrientation.DOWNWARD);
         firstCell.getCellFormat().getShading().setForegroundPatternColor(Color.GREEN);
@@ -448,29 +454,28 @@ public class ExTable extends ApiExampleBase {
         //ExFor:Table.DistanceRight
         //ExFor:Table.DistanceTop
         //ExSummary:Shows the minimum distance operations between table boundaries and text.
-        Document doc = new Document(getMyDir() + "Table.Distance.docx");
+        Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        Assert.assertEquals(table.getDistanceTop(), 11.35d);
-        Assert.assertEquals(table.getDistanceBottom(), 26.35d);
-        Assert.assertEquals(table.getDistanceLeft(), 9.05d);
-        Assert.assertEquals(table.getDistanceRight(), 22.7d);
+        Assert.assertEquals(table.getDistanceTop(), 25.9d);
+        Assert.assertEquals(table.getDistanceBottom(), 25.9d);
+        Assert.assertEquals(table.getDistanceLeft(), 17.3d);
+        Assert.assertEquals(table.getDistanceRight(), 17.3d);
         //ExEnd
     }
 
     @Test
-    public void removeBordersFromAllCells() throws Exception {
+    public void clearBorders() throws Exception {
         //ExStart
-        //ExFor:Table
         //ExFor:Table.ClearBorders
         //ExSummary:Shows how to remove all borders from a table.
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
-        // Remove all borders from the first table in the document.
+        // Remove all borders from the first table in the document
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        // Clear the borders all cells in the table.
+        // Clear the borders all cells in the table
         table.clearBorders();
 
         doc.save(getArtifactsDir() + "Table.ClearBorders.doc");
@@ -478,23 +483,33 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void replaceTextInTable() throws Exception {
+    public void replaceCellText() throws Exception {
         //ExStart
         //ExFor:Range.Replace(String, String, FindReplaceOptions)
-        //ExFor:Cell
-        //ExSummary:Shows how to replace all instances of string of text in a table and cell.
-        Document doc = new Document(getMyDir() + "Table.SimpleTable.doc");
+        //ExSummary:Shows how to replace all instances of String of text in a table and cell.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Get the first table in the document.
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        // Create a table and give it conditional styling on border colors based on the row being the first or last
+        Table table = builder.startTable();
+        builder.insertCell();
+        builder.write("Carrots");
+        builder.insertCell();
+        builder.write("30");
+        builder.endRow();
+        builder.insertCell();
+        builder.write("Potatoes");
+        builder.insertCell();
+        builder.write("50");
+        builder.endTable();
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setMatchCase(true);
         options.setFindWholeWordsOnly(true);
 
-        // Replace any instances of our string in the entire table.
+        // Replace any instances of our String in the entire table
         table.getRange().replace("Carrots", "Eggs", options);
-        // Replace any instances of our string in the last cell of the table only.
+        // Replace any instances of our String in the last cell of the table only
         table.getLastRow().getLastCell().getRange().replace("50", "20", options);
 
         doc.save(getArtifactsDir() + "Table.ReplaceCellText.doc");
@@ -503,25 +518,25 @@ public class ExTable extends ApiExampleBase {
         Assert.assertEquals(table.getLastRow().getLastCell().toString(SaveFormat.TEXT).trim(), "20");
     }
 
-    @Test
+    @Test (enabled = false)
     public void printTableRange() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.SimpleTable.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
-        // Get the first table in the document.
+        // Get the first table in the document
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        // The range text will include control characters such as "\a" for a cell.
-        // You can call ToString on the desired node to retrieve the plain text content.
+        // The range text will include control characters such as "\a" for a cell
+        // You can call ToString on the desired node to retrieve the plain text content
 
-        // Print the plain text range of the table to the screen.
+        // Print the plain text range of the table to the screen
         System.out.println("Contents of the table: ");
         System.out.println(table.getRange().getText());
 
-        // Print the contents of the second row to the screen.
+        // Print the contents of the second row to the screen
         System.out.println("\nContents of the row: ");
         System.out.println(table.getRows().get(1).getRange().getText());
 
-        // Print the contents of the last cell in the table to the screen.
+        // Print the contents of the last cell in the table to the screen
         System.out.println("\nContents of the cell: ");
         System.out.println(table.getLastRow().getLastCell().getRange().getText());
 
@@ -531,25 +546,25 @@ public class ExTable extends ApiExampleBase {
 
     @Test
     public void cloneTable() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.SimpleTable.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
-        // Retrieve the first table in the document.
+        // Retrieve the first table in the document
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        // Create a clone of the table.
+        // Create a clone of the table
         Table tableClone = (Table) table.deepClone(true);
 
         // Insert the cloned table into the document after the original
         table.getParentNode().insertAfter(tableClone, table);
 
         // Insert an empty paragraph between the two tables or else they will be combined into one
-        // upon save. This has to do with document validation.
+        // upon save. This has to do with document validation
         table.getParentNode().insertAfter(new Paragraph(doc), table);
 
         doc.save(getArtifactsDir() + "Table.CloneTableAndInsert.doc");
 
-        // Verify that the table was cloned and inserted properly.
-        Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 2);
+        // Verify that the table was cloned and inserted properly
+        Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 3);
         Assert.assertEquals(tableClone.getRange().getText(), table.getRange().getText());
 
         for (Cell cell : (Iterable<Cell>) tableClone.getChildNodes(NodeType.CELL, true)) {
@@ -560,22 +575,22 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void rowFormatDisableBreakAcrossPages() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.TableAcrossPage.doc");
+    public void disableBreakAcrossPages() throws Exception {
+        //ExStart
+        //ExFor:RowFormat.AllowBreakAcrossPages
+        //ExSummary:Shows how to disable rows breaking across pages for every row in a table.
+        // Disable breaking across pages for all rows in the table
+        Document doc = new Document(getMyDir() + "Table spanning two pages.docx");
 
         // Retrieve the first table in the document.
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        //ExStart
-        //ExFor:RowFormat.AllowBreakAcrossPages
-        //ExSummary:Shows how to disable rows breaking across pages for every row in a table.
-        // Disable breaking across pages for all rows in the table.
         for (Row row : table) {
             row.getRowFormat().setAllowBreakAcrossPages(false);
         }
-        //ExEnd
 
-        doc.save(getArtifactsDir() + "Table.DisableBreakAcrossPages.doc");
+        doc.save(getArtifactsDir() + "Table.DisableBreakAcrossPages.docx");
+        //ExEnd
 
         Assert.assertFalse(table.getFirstRow().getRowFormat().getAllowBreakAcrossPages());
         Assert.assertFalse(table.getLastRow().getRowFormat().getAllowBreakAcrossPages());
@@ -597,9 +612,9 @@ public class ExTable extends ApiExampleBase {
 
     @Test
     public void keepTableTogether() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.TableAcrossPage.doc");
+        Document doc = new Document(getMyDir() + "Table spanning two pages.docx");
 
-        // Retrieve the first table in the document.
+        // Retrieve the first table in the document
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
         //ExStart
@@ -612,7 +627,7 @@ public class ExTable extends ApiExampleBase {
         //ExSummary:Shows how to set a table to stay together on the same page.
         // To keep a table from breaking across a page we need to enable KeepWithNext
         // for every paragraph in the table except for the last paragraphs in the last
-        // row of the table.
+        // row of the table
         for (Cell cell : (Iterable<Cell>) table.getChildNodes(NodeType.CELL, true)) {
             for (Paragraph para : cell.getParagraphs()) {
                 // Every paragraph that's inside a cell will have this flag set
@@ -627,7 +642,7 @@ public class ExTable extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Table.KeepTableTogether.doc");
 
-        // Verify the correct paragraphs were set properly.
+        // Verify the correct paragraphs were set properly
         for (Paragraph para : (Iterable<Paragraph>) table.getChildNodes(NodeType.PARAGRAPH, true)) {
             if (para.isEndOfCell() && ((Cell) para.getParentNode()).getParentRow().isLastRow()) {
                 Assert.assertFalse(para.getParagraphFormat().getKeepWithNext());
@@ -642,47 +657,47 @@ public class ExTable extends ApiExampleBase {
         //ExStart
         //ExFor:Row
         //ExSummary:Shows how to make a clone of the last row of a table and append it to the table.
-        Document doc = new Document(getMyDir() + "Table.SimpleTable.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
-        // Retrieve the first table in the document.
+        // Retrieve the first table in the document
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        // Clone the last row in the table.
+        // Clone the last row in the table
         Row clonedRow = (Row) table.getLastRow().deepClone(true);
 
         // Remove all content from the cloned row's cells. This makes the row ready for
-        // new content to be inserted into.
+        // new content to be inserted into
         for (Cell cell : clonedRow.getCells()) {
             cell.removeAllChildren();
         }
 
-        // Add the row to the end of the table.
+        // Add the row to the end of the table
         table.appendChild(clonedRow);
 
         doc.save(getArtifactsDir() + "Table.AddCloneRowToTable.doc");
         //ExEnd
 
-        // Verify that the row was cloned and appended properly.
-        Assert.assertEquals(table.getRows().getCount(), 5);
+        // Verify that the row was cloned and appended properly
+        Assert.assertEquals(table.getRows().getCount(), 6);
         Assert.assertEquals(table.getLastRow().toString(SaveFormat.TEXT).trim(), "");
-        Assert.assertEquals(table.getLastRow().getCells().getCount(), 2);
+        Assert.assertEquals(table.getLastRow().getCells().getCount(), 5);
     }
 
     @Test
-    public void fixDefaultTableWidthsInAW105() throws Exception {
+    public void fixDefaultTableWidthsInAw105() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Keep a reference to the table being built.
+        // Keep a reference to the table being built
         Table table = builder.startTable();
 
-        // Apply some formatting.
+        // Apply some formatting
         builder.getCellFormat().setWidth(100);
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.RED);
 
         builder.insertCell();
         // This will cause the table to be structured using column widths as in previous versions
-        // instead of fitted to the page width like in the newer versions.
+        // instead of fitted to the page width like in the newer versions
         table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
 
         // Continue with building your table as usual...
@@ -693,11 +708,11 @@ public class ExTable extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Keep a reference to the table being built.
+        // Keep a reference to the table being built
         Table table = builder.startTable();
 
         builder.insertCell();
-        // Clear all borders to match the defaults used in previous versions.
+        // Clear all borders to match the defaults used in previous versions
         table.clearBorders();
 
         // Continue with building your table as usual...
@@ -708,12 +723,12 @@ public class ExTable extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Keep a reference to the table being built.
+        // Keep a reference to the table being built
         Table table = builder.startTable();
 
-        // We must first insert a new cell which in turn inserts a row into the table.
+        // We must first insert a new cell which in turn inserts a row into the table
         builder.insertCell();
-        // Once a row exists in our table we can apply table wide formatting.
+        // Once a row exists in our table we can apply table wide formatting
         table.setAllowAutoFit(true);
 
         // Continue with building your table as usual...
@@ -726,7 +741,7 @@ public class ExTable extends ApiExampleBase {
 
         builder.startTable();
 
-        // For the first row this will be set correctly.
+        // For the first row this will be set correctly
         builder.getRowFormat().setHeadingFormat(true);
 
         builder.insertCell();
@@ -734,16 +749,16 @@ public class ExTable extends ApiExampleBase {
         builder.insertCell();
         builder.writeln("Text");
 
-        // End the first row.
+        // End the first row
         builder.endRow();
 
-        // Here we would normally define some other row formatting, such as disabling the
-        // heading format. However at the moment this will be ignored and the value from the
-        // first row reapplied to the row.
+        // Here we would normally define some other row formatting, such as disabling the 
+        // heading format. However at the moment this will be ignored and the value from the 
+        // first row reapplied to the row
 
         builder.insertCell();
 
-        // Instead make sure to specify the row formatting for the second row here.
+        // Instead make sure to specify the row formatting for the second row here
         builder.getRowFormat().setHeadingFormat(false);
 
         // Continue with building your table as usual...
@@ -751,7 +766,7 @@ public class ExTable extends ApiExampleBase {
 
     @Test
     public void getIndexOfTableElements() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         //ExStart
@@ -784,7 +799,7 @@ public class ExTable extends ApiExampleBase {
 
     @Test
     public void getPreferredWidthTypeAndValue() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
         // Find the first table in the document
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -803,14 +818,12 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void insertTableUsingNodeConstructors() throws Exception {
+    public void insertTableUsingNodes() throws Exception {
         //ExStart
-        //ExFor:Table
         //ExFor:Table.AllowCellSpacing
         //ExFor:Row
         //ExFor:Row.RowFormat
         //ExFor:RowFormat
-        //ExFor:Cell
         //ExFor:Cell.CellFormat
         //ExFor:CellFormat
         //ExFor:CellFormat.Shading
@@ -820,22 +833,22 @@ public class ExTable extends ApiExampleBase {
 
         // We start by creating the table object. Note how we must pass the document object
         // to the constructor of each node. This is because every node we create must belong
-        // to some document.
+        // to some document
         Table table = new Table(doc);
-        // Add the table to the document.
+        // Add the table to the document
         doc.getFirstSection().getBody().appendChild(table);
 
         // Here we could call EnsureMinimum to create the rows and cells for us. This method is used
         // to ensure that the specified node is valid, in this case a valid table should have at least one
-        // row and one cell, therefore this method creates them for us.
+        // row and one cell, therefore this method creates them for us
 
         // Instead we will handle creating the row and table ourselves. This would be the best way to do this
-        // if we were creating a table inside an algorithm for example.
+        // if we were creating a table inside an algorithm for example
         Row row = new Row(doc);
         row.getRowFormat().setAllowBreakAcrossPages(true);
         table.appendChild(row);
 
-        // We can now apply any auto fit settings.
+        // We can now apply any auto fit settings
         table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
 
         // Create a cell and add it to the row
@@ -843,15 +856,15 @@ public class ExTable extends ApiExampleBase {
         cell.getCellFormat().getShading().setBackgroundPatternColor(Color.BLUE);
         cell.getCellFormat().setWidth(80);
 
-        // Add a paragraph to the cell as well as a new run with some text.
+        // Add a paragraph to the cell as well as a new run with some text
         cell.appendChild(new Paragraph(doc));
         cell.getFirstParagraph().appendChild(new Run(doc, "Row 1, Cell 1 Text"));
 
-        // Add the cell to the row.
+        // Add the cell to the row
         row.appendChild(cell);
 
-        // We would then repeat the process for the other cells and rows in the table.
-        // We can also speed things up by cloning existing cells and rows.
+        // We would then repeat the process for the other cells and rows in the table
+        // We can also speed things up by cloning existing cells and rows
         row.appendChild(cell.deepClone(false));
         row.getLastCell().appendChild(new Paragraph(doc));
         row.getLastCell().getFirstParagraph().appendChild(new Run(doc, "Row 1, Cell 2 Text"));
@@ -879,17 +892,17 @@ public class ExTable extends ApiExampleBase {
     //ExFor:Cell.#ctor(DocumentBase)
     //ExSummary:Shows how to build a nested table without using DocumentBuilder.
     @Test //ExSkip
-    public void nestedTablesUsingNodeConstructors() throws Exception {
+    public void createNestedTable() throws Exception {
         Document doc = new Document();
 
-        // Create the outer table with three rows and four columns.
+        // Create the outer table with three rows and four columns
         Table outerTable = createTable(doc, 3, 4, "Outer Table");
-        // Add it to the document body.
+        // Add it to the document body
         doc.getFirstSection().getBody().appendChild(outerTable);
 
-        // Create another table with two rows and two columns.
+        // Create another table with two rows and two columns
         Table innerTable = createTable(doc, 2, 2, "Inner Table");
-        // Add this table to the first cell of the outer table.
+        // Add this table to the first cell of the outer table
         outerTable.getFirstRow().getFirstCell().appendChild(innerTable);
 
         doc.save(getArtifactsDir() + "Table.CreateNestedTable.doc");
@@ -908,19 +921,19 @@ public class ExTable extends ApiExampleBase {
     private Table createTable(final Document doc, final int rowCount, final int cellCount, final String cellText) throws Exception {
         Table table = new Table(doc);
 
-        // Create the specified number of rows.
+        // Create the specified number of rows
         for (int rowId = 1; rowId <= rowCount; rowId++) {
             Row row = new Row(doc);
             table.appendChild(row);
 
-            // Create the specified number of cells for each row.
+            // Create the specified number of cells for each row
             for (int cellId = 1; cellId <= cellCount; cellId++) {
                 Cell cell = new Cell(doc);
                 row.appendChild(cell);
-                // Add a blank paragraph to the cell.
+                // Add a blank paragraph to the cell
                 cell.appendChild(new Paragraph(doc));
 
-                // Add the text.
+                // Add the text
                 cell.getFirstParagraph().appendChild(new Run(doc, cellText));
             }
         }
@@ -942,9 +955,9 @@ public class ExTable extends ApiExampleBase {
     //ExSummary:Prints the horizontal and vertical merge type of a cell.
     @Test //ExSkip
     public void checkCellsMerged() throws Exception {
-        Document doc = new Document(getMyDir() + "Table.MergedCells.doc");
+        Document doc = new Document(getMyDir() + "Table with merged cells.docx");
 
-        // Retrieve the first table in the document.
+        // Retrieve the first table in the document
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
         for (Row row : table.getRows()) {
@@ -953,7 +966,7 @@ public class ExTable extends ApiExampleBase {
             }
         }
 
-        Assert.assertEquals(printCellMergeType(table.getFirstRow().getFirstCell()), "The cell at R1, C1 is horizontally merged."); //ExSkip
+        Assert.assertEquals(printCellMergeType(table.getFirstRow().getFirstCell()), "The cell at R1, C1 is vertically merged"); //ExSkip
     }
 
     public String printCellMergeType(final Cell cell) {
@@ -976,19 +989,19 @@ public class ExTable extends ApiExampleBase {
     @Test
     public void mergeCellRange() throws Exception {
         // Open the document
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
-        // Retrieve the first table in the body of the first section.
+        // Retrieve the first table in the body of the first section
         Table table = doc.getFirstSection().getBody().getTables().get(0);
 
-        // We want to merge the range of cells found in between these two cells.
+        // We want to merge the range of cells found in between these two cells
         Cell cellStartRange = table.getRows().get(2).getCells().get(2);
         Cell cellEndRange = table.getRows().get(3).getCells().get(3);
 
-        // Merge all the cells between the two specified cells into one.
+        // Merge all the cells between the two specified cells into one
         mergeCells(cellStartRange, cellEndRange);
 
-        // Save the document.
+        // Save the document
         doc.save(getArtifactsDir() + "Table.MergeCellRange.doc");
 
         // Verify the cells were merged
@@ -1012,12 +1025,13 @@ public class ExTable extends ApiExampleBase {
     public static void mergeCells(final Cell startCell, final Cell endCell) {
         Table parentTable = startCell.getParentRow().getParentTable();
 
-        // Find the row and cell indices for the start and end cell.
+        // Find the row and cell indices for the start and end cell
         Point startCellPos = new Point(startCell.getParentRow().indexOf(startCell),
                 parentTable.indexOf(startCell.getParentRow()));
         Point endCellPos = new Point(endCell.getParentRow().indexOf(endCell),
                 parentTable.indexOf(endCell.getParentRow()));
-        // Create the range of cells to be merged based off these indices. Inverse each index if the end cell if before the start cell.
+        // Create the range of cells to be merged based off these indices
+        // Inverse each index if the end cell if before the start cell
         Rectangle mergeRange = new Rectangle(
                 Math.min(startCellPos.x, endCellPos.x),
                 Math.min(startCellPos.y, endCellPos.y),
@@ -1028,7 +1042,7 @@ public class ExTable extends ApiExampleBase {
             for (Cell cell : row.getCells()) {
                 Point currentPos = new Point(row.indexOf(cell), parentTable.indexOf(row));
 
-                // Check if the current cell is inside our merge range then merge it.
+                // Check if the current cell is inside our merge range then merge it
                 if (mergeRange.contains(currentPos)) {
                     if (currentPos.x == mergeRange.x) {
                         cell.getCellFormat().setHorizontalMerge(CellMerge.FIRST);
@@ -1049,27 +1063,26 @@ public class ExTable extends ApiExampleBase {
     @Test
     public void combineTables() throws Exception {
         //ExStart
-        //ExFor:Table
         //ExFor:Cell.CellFormat
         //ExFor:CellFormat.Borders
         //ExFor:Table.Rows
         //ExFor:Table.FirstRow
         //ExFor:CellFormat.ClearFormatting
         //ExSummary:Shows how to combine the rows from two tables into one.
-        // Load the document.
-        Document doc = new Document(getMyDir() + "Table.Document.doc");
+        // Load the document
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
-        // Get the first and second table in the document.
-        // The rows from the second table will be appended to the end of the first table.
+        // Get the first and second table in the document
+        // The rows from the second table will be appended to the end of the first table
         Table firstTable = (Table) doc.getChild(NodeType.TABLE, 0, true);
         Table secondTable = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
-        // Append all rows from the current table to the next.
-        // Due to the design of tables even tables with different cell count and widths can be joined into one table.
+        // Append all rows from the current table to the next
+        // Due to the design of tables even tables with different cell count and widths can be joined into one table
         while (secondTable.hasChildNodes())
             firstTable.getRows().add(secondTable.getFirstRow());
 
-        // Remove the empty table container.
+        // Remove the empty table container
         secondTable.remove();
 
         doc.save(getArtifactsDir() + "Table.CombineTables.doc");
@@ -1082,22 +1095,22 @@ public class ExTable extends ApiExampleBase {
 
     @Test
     public void splitTable() throws Exception {
-        // Load the document.
-        Document doc = new Document(getMyDir() + "Table.SimpleTable.doc");
+        // Load the document
+        Document doc = new Document(getMyDir() + "Tables.docx");
 
-        // Get the first table in the document.
+        // Get the first table in the document
         Table firstTable = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        // We will split the table at the third row (inclusive).
+        // We will split the table at the third row (inclusive)
         Row row = firstTable.getRows().get(2);
 
-        // Create a new container for the split table.
+        // Create a new container for the split table
         Table table = (Table) firstTable.deepClone(false);
 
-        // Insert the container after the original.
+        // Insert the container after the original
         firstTable.getParentNode().insertAfter(table, firstTable);
 
-        // Add a buffer paragraph to ensure the tables stay apart.
+        // Add a buffer paragraph to ensure the tables stay apart
         firstTable.getParentNode().insertAfter(new Paragraph(doc), firstTable);
 
         Row currentRow;
@@ -1111,12 +1124,12 @@ public class ExTable extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "Table.SplitTable.doc");
         // Test we are adding the rows in the correct order and the
-        // selected row was also moved.
+        // selected row was also moved
         Assert.assertEquals(table.getFirstRow(), row);
 
         Assert.assertEquals(firstTable.getRows().getCount(), 2);
-        Assert.assertEquals(table.getRows().getCount(), 2);
-        Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 2);
+        Assert.assertEquals(table.getRows().getCount(), 3);
+        Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 3);
     }
 
     @Test
@@ -1143,30 +1156,59 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void floatingTableProperties() throws Exception {
+    public void getFloatingTableProperties() throws Exception {
         //ExStart
-        //ExFor:Table.RelativeHorizontalAlignment
-        //ExFor:Table.RelativeVerticalAlignment
         //ExFor:Table.HorizontalAnchor
         //ExFor:Table.VerticalAnchor
-        //ExFor:Table.AbsoluteHorizontalDistance
-        //ExFor:Table.AbsoluteVerticalDistance
         //ExFor:Table.AllowOverlap
         //ExFor:ShapeBase.AllowOverlap
-        //ExSummary:Shows how get properties for floating tables
-        Document doc = new Document(getMyDir() + "Table.Distance.docx");
+        //ExSummary:Shows how get properties for floating tables.
+        Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
         if (table.getTextWrapping() == TextWrapping.AROUND) {
-            Assert.assertEquals(table.getRelativeHorizontalAlignment(), HorizontalAlignment.DEFAULT);
+            Assert.assertEquals(table.getRelativeHorizontalAlignment(), HorizontalAlignment.CENTER);
             Assert.assertEquals(table.getRelativeVerticalAlignment(), VerticalAlignment.DEFAULT);
             Assert.assertEquals(table.getHorizontalAnchor(), RelativeHorizontalPosition.MARGIN);
             Assert.assertEquals(table.getVerticalAnchor(), RelativeVerticalPosition.PARAGRAPH);
             Assert.assertEquals(table.getAbsoluteHorizontalDistance(), 0.0);
-            Assert.assertEquals(table.getAbsoluteVerticalDistance(), 4.8);
-            Assert.assertEquals(table.getAllowOverlap(), true);
+            Assert.assertEquals(table.getAbsoluteVerticalDistance(), 56.15);
+            Assert.assertEquals(table.getAllowOverlap(), false);
         }
+        //ExEnd
+    }
+
+    @Test
+    public void changeFloatingTableProperties() throws Exception {
+        //ExStart
+        //ExFor:Table.RelativeHorizontalAlignment
+        //ExFor:Table.RelativeVerticalAlignment
+        //ExFor:Table.AbsoluteHorizontalDistance
+        //ExFor:Table.AbsoluteVerticalDistance
+        //ExSummary:Shows how get/set properties for floating tables.
+        Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
+
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table.setAbsoluteHorizontalDistance(10.0);
+        table.setAbsoluteVerticalDistance(15.0);
+
+        // Check that absolute distance was set correct
+        Assert.assertEquals(table.getAbsoluteHorizontalDistance(), 10.0);
+        Assert.assertEquals(table.getAbsoluteVerticalDistance(), 15.0);
+
+        // Setting RelativeHorizontalAlignment will reset AbsoluteHorizontalDistance to default value and vice versa,
+        // the same is for vertical positioning
+        table.setRelativeVerticalAlignment(VerticalAlignment.TOP);
+        table.setRelativeHorizontalAlignment(HorizontalAlignment.CENTER);
+
+        // Check that AbsoluteHorizontalDistance and AbsoluteVerticalDistance are reset 
+        Assert.assertEquals(table.getAbsoluteHorizontalDistance(), 0.0);
+        Assert.assertEquals(table.getAbsoluteVerticalDistance(), 0.0);
+        Assert.assertEquals(table.getRelativeVerticalAlignment(), VerticalAlignment.TOP);
+        Assert.assertEquals(table.getRelativeHorizontalAlignment(), HorizontalAlignment.CENTER);
+
+        doc.save(getArtifactsDir() + "Table.ChangeFloatingTableProperties.docx");
         //ExEnd
     }
 
@@ -1253,6 +1295,8 @@ public class ExTable extends ApiExampleBase {
         //ExFor:ConditionalStyle.RightPadding
         //ExFor:ConditionalStyle.TopPadding
         //ExFor:ConditionalStyle.Font
+        //ExFor:ConditionalStyle.Type
+        //ExFor:ConditionalStyleCollection.GetEnumerator
         //ExFor:ConditionalStyleCollection.FirstRow
         //ExFor:ConditionalStyleCollection.LastRow
         //ExFor:ConditionalStyleCollection.LastColumn
@@ -1273,7 +1317,21 @@ public class ExTable extends ApiExampleBase {
         //ExFor:ConditionalStyleType
         //ExFor:TableStyle.ConditionalStyles
         //ExSummary:Shows how to work with certain area styles of a table.
-        Document doc = new Document(getMyDir() + "Table.ConditionalStyles.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create a table, which we will partially style
+        Table table = builder.startTable();
+        builder.insertCell();
+        builder.write("Cell 1, to be formatted");
+        builder.insertCell();
+        builder.write("Cell 2, to be formatted");
+        builder.endRow();
+        builder.insertCell();
+        builder.write("Cell 3, to be left unformatted");
+        builder.insertCell();
+        builder.write("Cell 4, to be left unformatted");
+        builder.endTable();
 
         TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
         // There is a different ways how to get conditional styles:
@@ -1296,7 +1354,7 @@ public class ExTable extends ApiExampleBase {
         System.out.println(tableStyle.getConditionalStyles().getCount());
         System.out.println(tableStyle.getConditionalStyles().get(0).getType());
 
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         table.setStyle(tableStyle);
 
         doc.save(getArtifactsDir() + "Table.WorkWithTableConditionalStyles.docx");
@@ -1309,36 +1367,29 @@ public class ExTable extends ApiExampleBase {
         //ExFor:ConditionalStyle.ClearFormatting
         //ExFor:ConditionalStyleCollection.ClearFormatting
         //ExSummary:Shows how to reset all table styles.
-        Document doc = new Document(getMyDir() + "Table.ConditionalStyles.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create a table and give it conditional styling on border colors based on the row being the first or last
+        builder.startTable();
+        builder.insertCell();
+        builder.write("First row");
+        builder.endRow();
+        builder.insertCell();
+        builder.write("Last row");
+        builder.endTable();
 
         TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
+        tableStyle.getConditionalStyles().getFirstRow().getBorders().setColor(Color.RED);
+        tableStyle.getConditionalStyles().getLastRow().getBorders().setColor(Color.BLUE);
+
         // You can reset styles from the specific table area
         tableStyle.getConditionalStyles().get(0).clearFormatting();
+        Assert.assertEquals(tableStyle.getConditionalStyles().getFirstRow().getBorders().getColor().getRGB(), 0);
+
         // Or clear all table styles
         tableStyle.getConditionalStyles().clearFormatting();
-        //ExEnd
-    }
-
-    @Test
-    public void getConditionalStylesEnumerator() throws Exception {
-        //ExStart
-        //ExFor:ConditionalStyle.Type
-        //ExFor:ConditionalStyleCollection.GetEnumerator
-        //ExSummary:Shows how to enumerate all table styles in a collection.
-        Document doc = new Document(getMyDir() + "Table.ConditionalStyles.docx");
-
-        TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
-
-        // Get the enumerator from the document's ConditionalStyleCollection and iterate over the styles
-        Iterator<ConditionalStyle> enumerator = tableStyle.getConditionalStyles().iterator();
-
-        while (enumerator.hasNext()) {
-            ConditionalStyle currentStyle = enumerator.next();
-
-            if (currentStyle != null) {
-                System.out.println(currentStyle.getType());
-            }
-        }
+        Assert.assertEquals(tableStyle.getConditionalStyles().getLastRow().getBorders().getColor().getRGB(), 0);
         //ExEnd
     }
 
@@ -1348,7 +1399,20 @@ public class ExTable extends ApiExampleBase {
         //ExFor:TableStyle.ColumnStripe
         //ExFor:TableStyle.RowStripe
         //ExSummary:Shows how to work with odd/even row/column styles.
-        Document doc = new Document(getMyDir() + "Table.ConditionalStyles.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create a table and give it conditional styling on border colors based on row number parity
+        builder.startTable();
+        builder.insertCell();
+        builder.write("Odd row");
+        builder.endRow();
+        builder.insertCell();
+        builder.write("Even row");
+        builder.endRow();
+        builder.insertCell();
+        builder.write("Odd row");
+        builder.endTable();
 
         TableStyle tableStyle = (TableStyle) doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
         tableStyle.getBorders().setColor(Color.BLACK);
@@ -1372,7 +1436,7 @@ public class ExTable extends ApiExampleBase {
         //ExStart
         //ExFor:Table.ConvertToHorizontallyMergedCells
         //ExSummary:Shows how to convert cells horizontally merged by width to cells merged by CellFormat.HorizontalMerge.
-        Document doc = new Document(getMyDir() + "Table.ConvertToHorizontallyMergedCells.docx");
+        Document doc = new Document(getMyDir() + "Table with merged cells.docx");
 
         // MS Word does not write merge flags anymore, they define merged cells by its width
         // So AW by default define only 5 cells in a row and all of it didn't have horizontal merge flag

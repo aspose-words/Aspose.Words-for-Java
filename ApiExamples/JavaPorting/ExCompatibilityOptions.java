@@ -30,27 +30,27 @@ public class ExCompatibilityOptions extends ApiExampleBase
     //ExFor:Document.CompatibilityOptions
     //ExSummary:Shows how to optimize document for different word versions.
     @Test //ExSkip
-    public void compatibilityOptionsOptimizeFor() throws Exception
+    public void optimizeFor() throws Exception
     {
         // Create a blank document and get its CompatibilityOptions object
         Document doc = new Document();
         CompatibilityOptions options = doc.getCompatibilityOptions();
 
         // By default, the CompatibilityOptions will contain the set of values printed below
-        msConsole.writeLine("\nDefault optimization settings:");
+        System.out.println("\nDefault optimization settings:");
         printCompatibilityOptions(options);
 
         // These attributes can be accessed in the output document via File > Options > Advanced > Compatibility for...
-        doc.save(getArtifactsDir() + "DefaultCompatibility.docx");
+        doc.save(getArtifactsDir() + "CompatibilityOptions.OptimizeFor.DefaultSettings.docx");
 
         // We can use the OptimizeFor method to set these values automatically
         // for maximum compatibility with some Microsoft Word versions
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2010);
-        msConsole.writeLine("\nOptimized for Word 2010:");
+        System.out.println("\nOptimized for Word 2010:");
         printCompatibilityOptions(options);
 
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2000);
-        msConsole.writeLine("\nOptimized for Word 2000:");
+        System.out.println("\nOptimized for Word 2000:");
         printCompatibilityOptions(options);
     }
 
@@ -61,7 +61,7 @@ public class ExCompatibilityOptions extends ApiExampleBase
     {
         for (int i = 1; i >= 0; i--)
         {
-            msConsole.writeLine(Convert.toBoolean(i) ? "\tEnabled options:" : "\tDisabled options:");
+            System.out.println(Convert.toBoolean(i) ? "\tEnabled options:" : "\tDisabled options:");
             SortedSet<String> optionNames = new SortedSet<String>();
 
             for (PropertyDescriptor descriptor : (Iterable<PropertyDescriptor>) TypeDescriptor.GetProperties(options))
@@ -74,14 +74,14 @@ public class ExCompatibilityOptions extends ApiExampleBase
 
             for (String s : optionNames)
             {
-                msConsole.writeLine($"\t\t{s}");
+                System.out.println("\t\t{s}");
             }
         }
     }
     //ExEnd
 
     @Test
-    public void compatibilityOptionsTable() throws Exception
+    public void tables() throws Exception
     {
         Document doc = new Document();
 
@@ -108,11 +108,11 @@ public class ExCompatibilityOptions extends ApiExampleBase
         msAssert.areEqual(false, compatibilityOptions.getUseWord2010TableStyleRules());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
-        doc.save(getArtifactsDir() + "CompatibilityOptionsTable.docx");
+        doc.save(getArtifactsDir() + "CompatibilityOptions.Tables.docx");
     }
 
     @Test
-    public void compatibilityOptionsBreaks() throws Exception
+    public void breaks() throws Exception
     {
         Document doc = new Document();
 
@@ -127,11 +127,11 @@ public class ExCompatibilityOptions extends ApiExampleBase
         msAssert.areEqual(false, compatibilityOptions.getUseWord97LineBreakRules());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
-        doc.save(getArtifactsDir() + "CompatibilityOptionsBreaks.docx");
+        doc.save(getArtifactsDir() + "CompatibilityOptions.Breaks.docx");
     }
 
     @Test
-    public void compatibilityOptionsSpacing() throws Exception
+    public void spacing() throws Exception
     {
         Document doc = new Document();
 
@@ -152,11 +152,11 @@ public class ExCompatibilityOptions extends ApiExampleBase
         msAssert.areEqual(false, compatibilityOptions.getUlTrailSpace());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
-        doc.save(getArtifactsDir() + "CompatibilityOptionsSpacing.docx");
+        doc.save(getArtifactsDir() + "CompatibilityOptions.Spacing.docx");
     }
 
     @Test
-    public void compatibilityOptionsWordPerfect() throws Exception
+    public void wordPerfect() throws Exception
     {
         Document doc = new Document();
 
@@ -170,11 +170,11 @@ public class ExCompatibilityOptions extends ApiExampleBase
         msAssert.areEqual(false, compatibilityOptions.getWrapTrailSpaces());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
-        doc.save(getArtifactsDir() + "CompatibilityOptionsWordPerfect.docx");
+        doc.save(getArtifactsDir() + "CompatibilityOptions.WordPerfect.docx");
     }
 
     @Test
-    public void compatibilityOptionsAlignment() throws Exception
+    public void alignment() throws Exception
     {
         Document doc = new Document();
         
@@ -187,11 +187,11 @@ public class ExCompatibilityOptions extends ApiExampleBase
         msAssert.areEqual(false, compatibilityOptions.getNoTabHangInd());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
-        doc.save(getArtifactsDir() + "CompatibilityOptionsAlignment.docx");
+        doc.save(getArtifactsDir() + "CompatibilityOptions.Alignment.docx");
     }
 
     @Test
-    public void compatibilityOptionsLegacy() throws Exception
+    public void legacy() throws Exception
     {
         Document doc = new Document();
 
@@ -205,11 +205,11 @@ public class ExCompatibilityOptions extends ApiExampleBase
         msAssert.areEqual(false, compatibilityOptions.getUICompat97To2003());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
-        doc.save(getArtifactsDir() + "CompatibilityOptionsLegacy.docx");
+        doc.save(getArtifactsDir() + "CompatibilityOptions.Legacy.docx");
     }
 
     @Test
-    public void compatibilityOptionsList() throws Exception
+    public void list() throws Exception
     {
         Document doc = new Document();
 
@@ -220,11 +220,11 @@ public class ExCompatibilityOptions extends ApiExampleBase
         msAssert.areEqual(true, compatibilityOptions.getUseNormalStyleForList());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
-        doc.save(getArtifactsDir() + "CompatibilityOptionsList.docx");
+        doc.save(getArtifactsDir() + "CompatibilityOptions.List.docx");
     }
 
     @Test
-    public void compatibilityOptionsMisc() throws Exception
+    public void misc() throws Exception
     {
         Document doc = new Document();
 
@@ -248,6 +248,6 @@ public class ExCompatibilityOptions extends ApiExampleBase
         msAssert.areEqual(false, compatibilityOptions.getUsePrinterMetrics());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
-        doc.save(getArtifactsDir() + "CompatibilityOptionsMisc.docx");
+        doc.save(getArtifactsDir() + "CompatibilityOptions.Misc.docx");
     }
 }

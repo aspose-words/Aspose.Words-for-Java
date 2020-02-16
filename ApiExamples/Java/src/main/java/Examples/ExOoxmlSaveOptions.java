@@ -42,24 +42,23 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         //ExFor:OoxmlCompliance
         //ExFor:OoxmlSaveOptions.Compliance
         //ExFor:ShapeMarkupLanguage
-        //ExSummary:Shows conversion VML shapes to DML using ISO/IEC 29500:2008 Strict compliance level
+        //ExSummary:Shows conversion VML shapes to DML using ISO/IEC 29500:2008 Strict compliance level.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        //Set Word2003 version for document, for inserting image as VML shape
+        // Set Word2003 version for document, for inserting image as VML shape
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2003);
 
-        builder.insertImage(getImageDir() + "dotnet-logo.png");
+        builder.insertImage(getImageDir() + "Transparent background logo.png");
 
-        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
-
-        // Loop through all single shapes inside document.
-        for (Shape shape : (Iterable<Shape>) shapes) {
+        // Loop through all single shapes inside document
+        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
             System.out.println(shape.getMarkupLanguage());
             Assert.assertEquals(shape.getMarkupLanguage(), ShapeMarkupLanguage.VML); //ExSkip
         }
 
-        //Iso29500_2008 does not allow VML shapes, so you need to use OoxmlCompliance.Iso29500_2008_Strict for converting VML to DML shapes
+        // Iso29500_2008 does not allow VML shapes
+        // You need to use OoxmlCompliance.Iso29500_2008_Strict for converting VML to DML shapes
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
         saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_STRICT);
         saveOptions.setSaveFormat(SaveFormat.DOCX);
@@ -70,10 +69,8 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
         doc.save(dstStream, saveOptions);
 
-        shapes = doc.getChildNodes(NodeType.SHAPE, true);
-
-        //Assert that image have drawingML markup language
-        for (Shape shape : (Iterable<Shape>) shapes) {
+        // Assert that image have drawingML markup language
+        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
             Assert.assertEquals(shape.getMarkupLanguage(), ShapeMarkupLanguage.DML);
         }
     }
@@ -87,7 +84,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
         List list = doc.getLists().get(0);
-        // Set true to specify that the list has to be restarted at each section.
+        // Set true to specify that the list has to be restarted at each section
         list.isRestartAtEachSection(true);
 
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -95,7 +92,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
 
         for (int i = 1; i <= 45; i++) {
             builder.write(MessageFormat.format("List Item {0}\n", i));
-            // Insert section break.
+            // Insert section break
             if (i == 15 || i == 30) {
                 builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
             }
@@ -105,7 +102,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         OoxmlSaveOptions options = new OoxmlSaveOptions();
         options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
 
-        doc.save(getArtifactsDir() + "RestartingDocumentList.docx", options);
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx", options);
         //ExEnd
     }
 
@@ -113,10 +110,10 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
     public void updatingLastSavedTimeDocument() throws Exception {
         //ExStart
         //ExFor:SaveOptions.UpdateLastSavedTimeProperty
-        //ExSummary:Shows how to update a document time property when you want to save it
-        Document doc = new Document(getMyDir() + "Document.doc");
+        //ExSummary:Shows how to update a document time property when you want to save it.
+        Document doc = new Document(getMyDir() + "Document.docx");
 
-        //Get last saved time
+        // Get last saved time
         Date documentTimeBeforeSave = doc.getBuiltInDocumentProperties().getLastSavedTime();
 
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
@@ -138,8 +135,8 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:OoxmlSaveOptions.KeepLegacyControlChars
         //ExFor:OoxmlSaveOptions.#ctor(SaveFormat)
-        //ExSummary:Shows how to support legacy control characters when converting to .docx
-        Document doc = new Document(getMyDir() + "OoxmlSaveOptions.KeepLegacyControlChars.doc");
+        //ExSummary:Shows how to support legacy control characters when converting to .docx.
+        Document doc = new Document(getMyDir() + "Legacy control character.doc");
 
         // Note that only one legacy character (ShortDateTime) is supported which declared in the "DOC" format
         OoxmlSaveOptions so = new OoxmlSaveOptions(SaveFormat.DOCX);

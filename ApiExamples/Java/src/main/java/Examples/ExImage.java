@@ -28,18 +28,18 @@ public class ExImage extends ApiExampleBase {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(String)
         //ExSummary:Shows how to inserts an image from a URL. The image is inserted inline and at 100% scale.
-        // This creates a builder and also an empty document inside the builder.
+        // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
         builder.write("Image from local file: ");
-        builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        builder.insertImage(getImageDir() + "Logo.jpg");
         builder.writeln();
 
         builder.write("Image from an Internet url, automatically downloaded for you: ");
         builder.insertImage(getAsposelogoUri().toURL().toString());
         builder.writeln();
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromUrl.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromUrl.docx");
         //ExEnd
     }
 
@@ -48,10 +48,10 @@ public class ExImage extends ApiExampleBase {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(Stream)
         //ExSummary:Shows how to insert an image from a stream. The image is inserted inline and at 100% scale.
-        // This creates a builder and also an empty document inside the builder.
+        // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
-        InputStream stream = new FileInputStream(getImageDir() + "Aspose.Words.gif");
+        InputStream stream = new FileInputStream(getImageDir() + "Logo.jpg");
         try {
             builder.write("Image from stream: ");
             builder.insertImage(stream);
@@ -59,7 +59,7 @@ public class ExImage extends ApiExampleBase {
             stream.close();
         }
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromStream.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromStream.docx");
         //ExEnd
     }
 
@@ -68,21 +68,21 @@ public class ExImage extends ApiExampleBase {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(Image)
         //ExSummary:Shows how to insert a .NET Image object into a document. The image is inserted inline and at 100% scale.
-        // This creates a builder and also an empty document inside the builder.
+        // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
-        // Insert a raster image.
-        BufferedImage rasterImage = ImageIO.read(new File(getImageDir() + "Aspose.Words.gif"));
+        // Insert a raster image
+        BufferedImage rasterImage = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
         builder.write("Raster image: ");
         builder.insertImage(rasterImage);
         builder.writeln();
 
-        // Aspose.Words allows to insert a metafile too, but on Java you should specify a filename or a stream, not a BufferedImage.
+        // Aspose.Words allows to insert a metafile too, but on Java you should specify a filename or a stream, not a BufferedImage
         builder.write("Metafile: ");
-        builder.insertImage(getImageDir() + "Hammer.wmf");
+        builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
         builder.writeln();
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromImage.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromImage.docx");
         //ExEnd
     }
 
@@ -104,13 +104,13 @@ public class ExImage extends ApiExampleBase {
         //ExFor:HorizontalAlignment
         //ExFor:VerticalAlignment
         //ExSummary:Shows how to insert a floating image in the middle of a page.
-        // This creates a builder and also an empty document inside the builder.
+        // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
-        // By default, the image is inline.
-        Shape shape = builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        // By default, the image is inline
+        Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
 
-        // Make the image float, put it behind text and center on the page.
+        // Make the image float, put it behind text and center on the page
         shape.setWrapType(WrapType.NONE);
         shape.setBehindText(true);
         shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
@@ -118,7 +118,7 @@ public class ExImage extends ApiExampleBase {
         shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
         shape.setVerticalAlignment(VerticalAlignment.CENTER);
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPageCenter.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPageCenter.docx");
         //ExEnd
     }
 
@@ -134,34 +134,34 @@ public class ExImage extends ApiExampleBase {
         //ExFor:DocumentBuilder.CurrentSection
         //ExFor:PageSetup.PageWidth
         //ExSummary:Shows how to insert a floating image and specify its position and size.
-        // This creates a builder and also an empty document inside the builder.
+        // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
-        // By default, the image is inline.
-        Shape shape = builder.insertImage(getImageDir() + "Hammer.wmf");
+        // By default, the image is inline
+        Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
 
-        // Make the image float, put it behind text and center on the page.
+        // Make the image float, put it behind text and center on the page
         shape.setWrapType(WrapType.NONE);
 
-        // Make position relative to the page.
+        // Make position relative to the page
         shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
         shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
 
-        // Make the shape occupy a band 50 points high at the very top of the page.
-        shape.setLeft(0);
-        shape.setTop(0);
-        shape.setWidth(builder.getCurrentSection().getPageSetup().getPageWidth());
-        shape.setHeight(50);
+        // Set the shape's coordinates, from the top left corner of the page
+        shape.setLeft(100.0);
+        shape.setTop(80.0);
+
+        // Set the shape's height
+        shape.setHeight(125.0);
 
         // The width will be scaled to the height and the dimensions of the real image
-        final double delta = 0.05;
-        Assert.assertEquals(shape.getWidth(), 50.85d, delta);
+        Assert.assertEquals(shape.getWidth(), 125.0);
 
         // The Bottom and Right members contain the locations of the bottom and right edges of the image
         Assert.assertEquals(shape.getBottom(), shape.getTop() + shape.getHeight());
         Assert.assertEquals(shape.getRight(), shape.getLeft() + shape.getWidth());
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPositionSize.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPositionSize.docx");
         //ExEnd
     }
 
@@ -172,15 +172,15 @@ public class ExImage extends ApiExampleBase {
         //ExFor:ShapeBase.ScreenTip
         //ExFor:ShapeBase.Target
         //ExSummary:Shows how to insert an image with a hyperlink.
-        // This creates a builder and also an empty document inside the builder.
+        // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
-        Shape shape = builder.insertImage(getImageDir() + "Hammer.wmf");
+        Shape shape = builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
         shape.setHRef("http://www.aspose.com/Community/Forums/75/ShowForum.aspx");
         shape.setTarget("New Window");
         shape.setScreenTip("Aspose.Words Support Forums");
 
-        builder.getDocument().save(getArtifactsDir() + "Image.InsertImageWithHyperlink.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.InsertImageWithHyperlink.docx");
         //ExEnd
     }
 
@@ -197,9 +197,9 @@ public class ExImage extends ApiExampleBase {
         // TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
         // please use DocumentBuilder.InsertShape methods
         Shape shape = new Shape(doc, ShapeType.IMAGE);
-        shape.getImageData().setImage(getImageDir() + "Hammer.wmf");
-        shape.setWidth(100);
-        shape.setHeight(100);
+        shape.getImageData().setImage(getImageDir() + "Windows MetaFile.wmf");
+        shape.setWidth(100.0);
+        shape.setHeight(100.0);
 
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(shape);
 
@@ -218,7 +218,7 @@ public class ExImage extends ApiExampleBase {
         //ExSummary:Shows how to insert a linked image into a document.
         DocumentBuilder builder = new DocumentBuilder();
 
-        String imageFileName = getImageDir() + "Hammer.wmf";
+        String imageFileName = getImageDir() + "Windows MetaFile.wmf";
 
         builder.write("Image linked, not stored in the document: ");
 
@@ -254,28 +254,28 @@ public class ExImage extends ApiExampleBase {
 
     @Test
     public void deleteAllImages() throws Exception {
-        Document doc = new Document(getMyDir() + "Image.SampleImages.doc");
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 6);
-
         //ExStart
         //ExFor:Shape.HasImage
         //ExFor:Node.Remove
         //ExSummary:Shows how to delete all images from a document.
+        Document doc = new Document(getMyDir() + "Images.docx");
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 10);
+
         // Here we get all shapes from the document node, but you can do this for any smaller
-        // node too, for example delete shapes from a single section or a paragraph.
+        // node too, for example delete shapes from a single section or a paragraph
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
-        // We cannot delete shape nodes while we enumerate through the collection.
-        // One solution is to add nodes that we want to delete to a temporary array and delete afterwards.
+        // We cannot delete shape nodes while we enumerate through the collection
+        // One solution is to add nodes that we want to delete to a temporary array and delete afterwards
         ArrayList shapesToDelete = new ArrayList();
         for (Shape shape : (Iterable<Shape>) shapes) {
-            // Several shape types can have an image including image shapes and OLE objects.
+            // Several shape types can have an image including image shapes and OLE objects
             if (shape.hasImage()) {
                 shapesToDelete.add(shape);
             }
         }
 
-        // Now we can delete shapes.
+        // Now we can delete shapes
         for (Shape shape : (Iterable<Shape>) shapesToDelete) {
             shape.remove();
         }
@@ -287,13 +287,13 @@ public class ExImage extends ApiExampleBase {
 
     @Test
     public void deleteAllImagesPreOrder() throws Exception {
-        Document doc = new Document(getMyDir() + "Image.SampleImages.doc");
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 6);
-
         //ExStart
         //ExFor:Node.NextPreOrder(Node)
         //ExFor:Node.PreviousPreOrder(Node)
         //ExSummary:Shows how to delete all images from a document using pre-order tree traversal.
+        Document doc = new Document(getMyDir() + "Images.docx");
+        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 10);
+
         Node curNode = doc;
         while (curNode != null) {
             Node nextNode = curNode.nextPreOrder(doc);
@@ -305,7 +305,7 @@ public class ExImage extends ApiExampleBase {
             if (curNode.getNodeType() == NodeType.SHAPE) {
                 Shape shape = (Shape) curNode;
 
-                // Several shape types can have an image including image shapes and OLE objects.
+                // Several shape types can have an image including image shapes and OLE objects
                 if (shape.hasImage()) {
                     shape.remove();
                 }
@@ -331,14 +331,14 @@ public class ExImage extends ApiExampleBase {
         //ExSummary:Shows how to resize an image shape.
         DocumentBuilder builder = new DocumentBuilder();
 
-        // By default, the image is inserted at 100% scale.
-        Shape shape = builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        // By default, the image is inserted at 100% scale
+        Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
 
-        // It is easy to change the shape size. In this case, make it 50% relative to the current shape size.
+        // It is easy to change the shape size. In this case, make it 50% relative to the current shape size
         shape.setWidth(shape.getWidth() * 0.5);
         shape.setHeight(shape.getHeight() * 0.5);
 
-        // However, we can also go back to the original image size and scale from there, say 110%.
+        // However, we can also go back to the original image size and scale from there, say 110%
         ImageSize imageSize = shape.getImageData().getImageSize();
         shape.setWidth(imageSize.getWidthPoints() * 1.1);
         shape.setHeight(imageSize.getHeightPoints() * 1.1);

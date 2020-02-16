@@ -22,11 +22,19 @@ public class ExRenameMergeFields extends ApiExampleBase {
      * Finds all merge fields in a Word document and changes their names.
      */
     @Test //ExSkip
-    public void renameMergeFields() throws Exception {
-        // Specify your document name here.
-        Document doc = new Document(getMyDir() + "RenameMergeFields.doc");
+    public void rename() throws Exception {
+        // Create a blank document and insert MERGEFIELDs
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Select all field start nodes so we can find the merge fields.
+        builder.write("Dear ");
+        builder.insertField("MERGEFIELD  FirstName ");
+        builder.write(" ");
+        builder.insertField("MERGEFIELD  LastName ");
+        builder.writeln(",");
+        builder.insertField("MERGEFIELD  CustomGreeting ");
+
+        // Select all field start nodes so we can find the MERGEFIELDs
         NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true);
         for (FieldStart fieldStart : (Iterable<FieldStart>) fieldStarts) {
             if (fieldStart.getFieldType() == FieldType.FIELD_MERGE_FIELD) {
@@ -35,7 +43,7 @@ public class ExRenameMergeFields extends ApiExampleBase {
             }
         }
 
-        doc.save(getArtifactsDir() + "RenameMergeFields.doc");
+        doc.save(getArtifactsDir() + "RenameMergeFields.Rename.docx");
     }
 }
 
@@ -54,16 +62,16 @@ class MergeField {
 
         mFieldStart = fieldStart;
 
-        // Find the field separator node.
+        // Find the field separator node
         mFieldSeparator = findNextSibling(mFieldStart, NodeType.FIELD_SEPARATOR);
         if (mFieldSeparator == null) {
             throw new IllegalStateException("Cannot find field separator.");
         }
 
-        // Find the field end node. Normally field end will always be found, but in the example document
-        // there happens to be a paragraph break included in the hyperlink and this puts the field end
-        // in the next paragraph. It will be much more complicated to handle fields which span several
-        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes.
+        // Find the field end node. Normally field end will always be found, but in the example document 
+        // there happens to be a paragraph break included in the hyperlink and this puts the field end 
+        // in the next paragraph. It will be much more complicated to handle fields which span several 
+        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes
         mFieldEnd = findNextSibling(mFieldSeparator, NodeType.FIELD_END);
     }
 
@@ -83,18 +91,18 @@ class MergeField {
 
     void setName(final String value) throws Exception {
         // Merge field name is stored in the field result which is a Run
-        // node between field separator and field end.
+        // node between field separator and field end
         Run fieldResult = (Run) mFieldSeparator.getNextSibling();
         fieldResult.setText(java.text.MessageFormat.format("«{0}»", value));
 
-        // But sometimes the field result can consist of more than one run, delete these runs.
+        // But sometimes the field result can consist of more than one run, delete these runs
         removeSameParent(fieldResult.getNextSibling(), mFieldEnd);
 
         updateFieldCode(value);
     }
 
     private void updateFieldCode(final String fieldName) throws Exception {
-        // Field code is stored in a Run node between field start and field separator.
+        // Field code is stored in a Run node between field start and field separator
         Run fieldCode = (Run) mFieldStart.getNextSibling();
         Matcher matcher = G_REGEX.matcher(fieldCode.getText());
 
@@ -103,7 +111,7 @@ class MergeField {
         String newFieldCode = java.text.MessageFormat.format(" {0}{1} ", matcher.group(1).toString(), fieldName);
         fieldCode.setText(newFieldCode);
 
-        // But sometimes the field code can consist of more than one run, delete these runs.
+        // But sometimes the field code can consist of more than one run, delete these runs
         removeSameParent(fieldCode.getNextSibling(), mFieldSeparator);
     }
 

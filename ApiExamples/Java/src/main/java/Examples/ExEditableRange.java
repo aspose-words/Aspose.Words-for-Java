@@ -20,16 +20,16 @@ public class ExEditableRange extends ApiExampleBase {
         //ExStart
         //ExFor:EditableRange.Remove
         //ExSummary:Shows how to remove an editable range from a document.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create an EditableRange so we can remove it. Does not have to be well-formed.
+        // Create an EditableRange so we can remove it. Does not have to be well-formed
         EditableRangeStart edRange1Start = builder.startEditableRange();
         EditableRange editableRange1 = edRange1Start.getEditableRange();
         builder.writeln("Paragraph inside editable range");
         EditableRangeEnd edRange1End = builder.endEditableRange();
 
-        // Remove the range that was just made.
+        // Remove the range that was just made
         editableRange1.remove();
         //ExEnd
     }
@@ -56,7 +56,7 @@ public class ExEditableRange extends ApiExampleBase {
     //ExSummary:Shows how to start and end an editable range.
     @Test //ExSkip
     public void createEditableRanges() throws Exception {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Start an editable range
@@ -97,7 +97,7 @@ public class ExEditableRange extends ApiExampleBase {
         Assert.assertEquals(editableRange2.getId(), edRange2End.getEditableRangeStart().getEditableRange().getId());
 
         // If the editable range was found in a document, it will probably have something in the single user property
-        // But if we make one programmatically, the property is null by default
+        // But if we make one programmatically, the property is empty by default
         Assert.assertEquals(editableRange1.getSingleUser(), "");
 
         // We have to set it ourselves if we want the ranges to belong to somebody
@@ -203,7 +203,7 @@ public class ExEditableRange extends ApiExampleBase {
         //ExStart
         //ExFor:EditableRange.EditorGroup
         //ExFor:EditorType
-        //ExSummary:Shows how to add editing group for editable ranges
+        //ExSummary:Shows how to add editing group for editable ranges.
         EditableRangeStart startRange1 = builder.startEditableRange();
 
         builder.writeln("EditableRange_1_1");

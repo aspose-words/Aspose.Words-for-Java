@@ -16,18 +16,18 @@ import java.text.MessageFormat;
 
 public class ExTabStopCollection extends ApiExampleBase {
     @Test
-    public void clearEx() throws Exception {
+    public void clearAll() throws Exception {
         //ExStart
         //ExFor:TabStopCollection.Clear
         //ExSummary:Shows how to remove all tab stops from a document.
-        Document doc = new Document(getMyDir() + "Document.TableOfContents.doc");
+        Document doc = new Document(getMyDir() + "Table of contents.docx");
 
-        // Clear all tab stops from every paragraph.
+        // Clear all tab stops from every paragraph
         for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true)) {
             para.getParagraphFormat().getTabStops().clear();
         }
 
-        doc.save(getArtifactsDir() + "Document.AllTabStopsRemoved.doc");
+        doc.save(getArtifactsDir() + "TabStopCollection.ClearAll.docx");
         //ExEnd
     }
 
@@ -84,36 +84,36 @@ public class ExTabStopCollection extends ApiExampleBase {
     }
 
     @Test
-    public void addEx() throws Exception {
+    public void addTabStops() throws Exception {
         //ExStart
         //ExFor:TabStopCollection.Add(TabStop)
         //ExFor:TabStopCollection.Add(Double, TabAlignment, TabLeader)
         //ExSummary:Shows how to create tab stops and add them to a document.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
-        // Create a TabStop object and add it to the document.
+        // Create a TabStop object and add it to the document
         TabStop tabStop = new TabStop(ConvertUtil.inchToPoint(3.0), TabAlignment.LEFT, TabLeader.DASHES);
         paragraph.getParagraphFormat().getTabStops().add(tabStop);
 
-        // Add a tab stop without explicitly creating new TabStop objects.
+        // Add a tab stop without explicitly creating new TabStop objects
         paragraph.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(100.0), TabAlignment.LEFT, TabLeader.DASHES);
 
-        // Add tab stops at 5 cm to all paragraphs.
+        // Add tab stops at 5 cm to all paragraphs
         for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true)) {
             para.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(50.0), TabAlignment.LEFT, TabLeader.DASHES);
         }
 
-        doc.save(getArtifactsDir() + "Document.AddedTabStops.doc");
+        doc.save(getArtifactsDir() + "TabStopCollection.AddTabStops.doc");
         //ExEnd
     }
 
     @Test
-    public void removeByIndexEx() throws Exception {
+    public void removeByIndex() throws Exception {
         //ExStart
         //ExFor:TabStopCollection.RemoveByIndex
         //ExSummary:Shows how to select a tab stop in a document by its index and remove it.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         paragraph.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(30.0), TabAlignment.LEFT, TabLeader.DASHES);
@@ -124,7 +124,7 @@ public class ExTabStopCollection extends ApiExampleBase {
 
         System.out.println(paragraph.getParagraphFormat().getTabStops().getCount());
 
-        doc.save(getArtifactsDir() + "Document.RemovedTabStopsByIndex.doc");
+        doc.save(getArtifactsDir() + "TabStopCollection.RemoveByIndex.doc");
         //ExEnd
     }
 
@@ -133,7 +133,7 @@ public class ExTabStopCollection extends ApiExampleBase {
         //ExStart
         //ExFor:TabStopCollection.GetPositionByIndex
         //ExSummary:Shows how to find a tab stop by it's index and get its position.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         paragraph.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(30.0), TabAlignment.LEFT, TabLeader.DASHES);
@@ -148,7 +148,7 @@ public class ExTabStopCollection extends ApiExampleBase {
         //ExStart
         //ExFor:TabStopCollection.GetIndexByPosition
         //ExSummary:Shows how to look up a position to see if a tab stop exists there, and if so, obtain its index.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         paragraph.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(30.0), TabAlignment.LEFT, TabLeader.DASHES);

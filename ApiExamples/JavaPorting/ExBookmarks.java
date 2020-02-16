@@ -24,6 +24,9 @@ import com.aspose.words.Bookmark;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
+import com.aspose.words.NodeType;
+import com.aspose.words.Row;
+import com.aspose.words.ControlChar;
 
 
 @Test
@@ -61,7 +64,7 @@ public class ExBookmarks extends ApiExampleBase
         // Create a document with 3 bookmarks: "MyBookmark 1", "MyBookmark 2", "MyBookmark 3"
         Document doc = createDocumentWithBookmarks();
         BookmarkCollection bookmarks = doc.getRange().getBookmarks();
-        
+
         // Check that we have 3 bookmarks
         msAssert.areEqual(3, bookmarks.getCount());
         msAssert.areEqual("MyBookmark 1", bookmarks.get(0).getName()); //ExSkip
@@ -77,7 +80,7 @@ public class ExBookmarks extends ApiExampleBase
         // The bookmarked text is not deleted
         bookmarks.get(2).remove();
 
-        bookmarks = doc.getRange().getBookmarks();            
+        bookmarks = doc.getRange().getBookmarks();
         // Check that we have 2 bookmarks after the latest bookmark was deleted
         msAssert.areEqual(2, bookmarks.getCount());
         msAssert.areEqual("Updated name of MyBookmark 1", bookmarks.get(0).getName()); //ExSkip
@@ -138,7 +141,7 @@ public class ExBookmarks extends ApiExampleBase
                     currentBookmark.getBookmarkEnd().accept(bookmarkVisitor);
 
                     // Prints a blank line
-                    msConsole.writeLine(currentBookmark.getBookmarkStart().getText());
+                    System.out.println(currentBookmark.getBookmarkStart().getText());
                 }
             }
         }
@@ -166,6 +169,43 @@ public class ExBookmarks extends ApiExampleBase
     //ExEnd
 
     @Test
+    public void tableColumnBookmarks() throws Exception
+    {
+        //ExStart
+        //ExFor:Bookmark.IsColumn
+        //ExFor:Bookmark.FirstColumn
+        //ExFor:Bookmark.LastColumn
+        //ExSummary:Shows how to get information about table column bookmark.
+        Document doc = new Document(getMyDir() + "TableColumnBookmark.doc");
+        for (Bookmark bookmark : doc.getRange().getBookmarks())
+        {
+            msConsole.writeLine("Bookmark: {0}{1}", bookmark.getName(), bookmark.isColumn() ? " (Column)" : "");
+            if (bookmark.isColumn())
+            {
+                if (bookmark.getBookmarkStart().getAncestor(NodeType.ROW) instanceof Row row &&
+                    bookmark.FirstColumn < row.Cells.Count)
+                {
+                    // Print text from the first and last cells containing in bookmark
+                    msConsole.WriteLine(row.Cells[bookmark.getFirstColumn()].GetText().TrimEnd(ControlChar.CELL_CHAR));
+                    msConsole.WriteLine(row.Cells[bookmark.getLastColumn()].GetText().TrimEnd(ControlChar.CELL_CHAR));
+                }
+            }
+        }
+        //ExEnd
+
+        Bookmark firstTableColumnBookmark = doc.getRange().getBookmarks().get("FirstTableColumnBookmark");
+        Bookmark secondTableColumnBookmark = doc.getRange().getBookmarks().get("SecondTableColumnBookmark");
+
+        Assert.assertTrue(firstTableColumnBookmark.isColumn());
+        msAssert.areEqual(1, firstTableColumnBookmark.getFirstColumn());
+        msAssert.areEqual(3, firstTableColumnBookmark.getLastColumn());
+
+        Assert.assertTrue(secondTableColumnBookmark.isColumn());
+        msAssert.areEqual(0, secondTableColumnBookmark.getFirstColumn());
+        msAssert.areEqual(3, secondTableColumnBookmark.getLastColumn());
+    }
+
+    @Test
     public void clearBookmarks() throws Exception
     {
         //ExStart
@@ -173,7 +213,7 @@ public class ExBookmarks extends ApiExampleBase
         //ExSummary:Shows how to remove all bookmarks from a document.
         // Open a document with 3 bookmarks: "MyBookmark1", "My_Bookmark2", "MyBookmark3"
         Document doc = new Document(getMyDir() + "Bookmarks.docx");
-        
+
         // Remove all bookmarks from the document
         // The bookmarked text is not deleted
         doc.getRange().getBookmarks().clear();
@@ -218,7 +258,7 @@ public class ExBookmarks extends ApiExampleBase
         //ExSummary:Shows how to replace elements in bookmark name
         // Open a document with 3 bookmarks: "MyBookmark1", "My_Bookmark2", "MyBookmark3"
         Document doc = new Document(getMyDir() + "Bookmarks.docx");
-        msAssert.areEqual("My_Bookmark2", doc.getRange().getBookmarks().get(2).getName()); //ExSkip
+        msAssert.areEqual("MyBookmark3", doc.getRange().getBookmarks().get(2).getName()); //ExSkip
 
         // MS Word document does not support bookmark names with whitespaces by default
         // If you have document which contains bookmark names with underscores, you can simply replace them to whitespaces

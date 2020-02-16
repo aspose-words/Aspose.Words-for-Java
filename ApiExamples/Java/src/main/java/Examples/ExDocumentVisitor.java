@@ -35,7 +35,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     @Test //ExSkip
     public void docStructureToText() throws Exception {
         // Open the document that has nodes we want to print the info of
-        Document doc = new Document(getMyDir() + "DocumentVisitor.Destination.docx");
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
 
         // Create an object that inherits from the DocumentVisitor class
         DocStructurePrinter visitor = new DocStructurePrinter();
@@ -209,7 +209,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     @Test //ExSkip
     public void tableToText() throws Exception {
         // Open the document that has tables we want to print the info of
-        Document doc = new Document(getMyDir() + "DocumentVisitor.Destination.docx");
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
 
         // Create an object that inherits from the DocumentVisitor class
         TableInfoPrinter visitor = new TableInfoPrinter();
@@ -363,7 +363,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     @Test //ExSkip
     public void commentsToText() throws Exception {
         // Open the document that has comments/comment ranges we want to print the info of
-        Document doc = new Document(getMyDir() + "DocumentVisitor.Destination.docx");
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
 
         // Create an object that inherits from the DocumentVisitor class
         CommentInfoPrinter visitor = new CommentInfoPrinter();
@@ -475,7 +475,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     @Test //ExSkip
     public void fieldToText() throws Exception {
         // Open the document that has fields that we want to print the info of
-        Document doc = new Document(getMyDir() + "DocumentVisitor.Destination.docx");
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
 
         // Create an object that inherits from the DocumentVisitor class
         FieldInfoPrinter visitor = new FieldInfoPrinter();
@@ -568,7 +568,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExStart
     //ExFor:DocumentVisitor.VisitHeaderFooterStart(HeaderFooter)
     //ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
-    //ExFor:HeaderFooter.Accept(Aspose.Words.DocumentVisitor)
+    //ExFor:HeaderFooter.Accept(DocumentVisitor)
     //ExFor:HeaderFooterCollection.ToArray
     //ExFor:Run.Accept(DocumentVisitor)
     //ExFor:Run.GetText
@@ -576,12 +576,12 @@ public class ExDocumentVisitor extends ApiExampleBase {
     @Test //ExSkip
     public void headerFooterToText() throws Exception {
         // Open the document that has headers and/or footers we want to print the info of
-        Document doc = new Document(getMyDir() + "DocumentVisitor.Destination.docx");
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
 
         // Create an object that inherits from the DocumentVisitor class
         HeaderFooterInfoPrinter visitor = new HeaderFooterInfoPrinter();
 
-        // Accepring a visitor lets it start traversing the nodes in the document, 
+        // Accepting a visitor lets it start traversing the nodes in the document, 
         // starting with the node that accepted it to then recursively visit every child
         doc.accept(visitor);
 
@@ -667,7 +667,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     @Test //ExSkip
     public void editableRangeToText() throws Exception {
         // Open the document that has editable ranges we want to print the info of
-        Document doc = new Document(getMyDir() + "DocumentVisitor.Destination.docx");
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
 
         // Create an object that inherits from the DocumentVisitor class
         EditableRangeInfoPrinter visitor = new EditableRangeInfoPrinter();
@@ -761,7 +761,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     @Test //ExSkip
     public void footnoteToText() throws Exception {
         // Open the document that has footnotes we want to print the info of
-        Document doc = new Document(getMyDir() + "DocumentVisitor.Destination.docx");
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
 
         // Create an object that inherits from the DocumentVisitor class
         FootnoteInfoPrinter visitor = new FootnoteInfoPrinter();
@@ -848,11 +848,11 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:Math.MathObjectType
     //ExFor:Math.OfficeMath.Accept(DocumentVisitor)
     //ExFor:Math.OfficeMath.MathObjectType
-    //ExSummary:Traverse a document with a visitor that prints all offise math nodes that it encounters.
+    //ExSummary:Traverse a document with a visitor that prints all OfficeMath nodes that it encounters.
     @Test //ExSkip
     public void officeMathToText() throws Exception {
         // Open the document that has office math objects we want to print the info of
-        Document doc = new Document(getMyDir() + "DocumentVisitor.Destination.docx");
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
 
         // Create an object that inherits from the DocumentVisitor class
         OfficeMathInfoPrinter visitor = new OfficeMathInfoPrinter();
@@ -940,7 +940,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     @Test //ExSkip
     public void smartTagToText() throws Exception {
         // Open the document that has smart tags we want to print the info of
-        Document doc = new Document(getMyDir() + "DocumentVisitor.SmartTag.docx");
+        Document doc = new Document(getMyDir() + "Smart tags.doc");
 
         // Create an object that inherits from the DocumentVisitor class
         SmartTagInfoPrinter visitor = new SmartTagInfoPrinter();
@@ -1029,12 +1029,12 @@ public class ExDocumentVisitor extends ApiExampleBase {
     @Test //ExSkip
     public void structuredDocumentTagToText() throws Exception {
         // Open the document that has structured document tags we want to print the info of
-        Document doc = new Document(getMyDir() + "DocumentVisitor.Destination.docx");
+        Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
 
         // Create an object that inherits from the DocumentVisitor class
         StructuredDocumentTagInfoPrinter visitor = new StructuredDocumentTagInfoPrinter();
 
-        // Accepring a visitor lets it start traversing the nodes in the document, 
+        // Accepting a visitor lets it start traversing the nodes in the document, 
         // starting with the node that accepted it to then recursively visit every child
         doc.accept(visitor);
 

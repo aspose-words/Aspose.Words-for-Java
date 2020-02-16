@@ -34,7 +34,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Stream stream = File.openRead(getImageDir() + "Aspose.Words.gif");
+        Stream stream = File.openRead(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
         {
             builder.writeln("Inserted image from stream: ");
@@ -49,7 +49,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         }
         finally { if (stream != null) stream.close(); }
 
-        doc.save(getArtifactsDir() + "InsertImageFromStream.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromStream.docx");
         //ExEnd
     }
 
@@ -65,32 +65,31 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("\nInserted image from string: ");
-        builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        builder.insertImage(getImageDir() + "Logo.jpg");
 
         builder.writeln("\nInserted image from string with a custom size: ");
-        builder.insertImage(getImageDir() + "Aspose.Words.gif", ConvertUtil.pixelToPoint(250.0),
+        builder.insertImage(getImageDir() + "Logo.jpg", ConvertUtil.pixelToPoint(250.0),
             ConvertUtil.pixelToPoint(144.0));
 
         builder.writeln("\nInserted image from string using relative positions: ");
-        builder.insertImage(getImageDir() + "Aspose.Words.gif", RelativeHorizontalPosition.MARGIN, 100.0, 
+        builder.insertImage(getImageDir() + "Logo.jpg", RelativeHorizontalPosition.MARGIN, 100.0, 
             RelativeVerticalPosition.MARGIN, 100.0, 200.0, 100.0, WrapType.SQUARE);
 
-        doc.save(getArtifactsDir() + "InsertImageFromString.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromString.docx");
         //ExEnd
     }
 
-                @Test
+        @Test
     public void insertImageFromImageClassNetStandard2() throws Exception
     {
         //ExStart
-        //ExFor:DocumentBuilder.InsertImage(Image)
         //ExFor:DocumentBuilder.InsertImage(Image, Double, Double)
         //ExFor:DocumentBuilder.InsertImage(Image, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
         //ExSummary:Shows different solutions of how to import an image into a document from Image class (.NetStandard 2.0).
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        SKBitmap bitmap = SKBitmap.Decode(getImageDir() + "Aspose.Words.gif");
+        SKBitmap bitmap = SKBitmap.Decode(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
         {
             builder.writeln("\nInserted image from Image class: ");
@@ -105,7 +104,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         }
         finally { if (bitmap != null) bitmap.close(); }
 
-        doc.save(getArtifactsDir() + "InsertImageFromImageClass.NetStandard2.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromImageClassNetStandard2.docx");
         //ExEnd
     }
 
@@ -120,7 +119,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        SKBitmap bitmap = SKBitmap.Decode(getImageDir() + "Aspose.Words.gif");
+        SKBitmap bitmap = SKBitmap.Decode(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
         {
             SKImage image = SKImage.FromBitmap(bitmap);
@@ -147,7 +146,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         }
         finally { if (bitmap != null) bitmap.close(); }
         
-        doc.save(getArtifactsDir() + "InsertImageFromByteArray.NetStandard2.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromByteArrayNetStandard2.docx");
         //ExEnd
     }
-    }
+}

@@ -16,7 +16,7 @@ import com.aspose.words.BarcodeParameters;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.CodeLocation;
-import com.aspose.ms.System.Globalization.CultureInfo;
+import com.aspose.ms.System.Globalization.msCultureInfo;
 
 
 /// <summary>
@@ -209,7 +209,7 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
     /// </summary>
     public static int tryParseInt(String s)
     {
-        return double.TryParse(s, NumberStyles.Integer, CultureInfo.getInvariantCulture(), /*out*/ double temp)
+        return double.TryParse(s, NumberStyles.Integer, msCultureInfo.getInvariantCulture(), /*out*/ double temp)
             ? CastDoubleToInt(temp)
             : Integer.MIN_VALUE;
     }
@@ -229,7 +229,7 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
     /// </summary>
     public static int tryParseHex(String s)
     {
-        return int.TryParse(s, NumberStyles.HexNumber, CultureInfo.getInvariantCulture(), /*out*/ int result)
+        return int.TryParse(s, NumberStyles.HexNumber, msCultureInfo.getInvariantCulture(), /*out*/ int result)
             ? result
             : Integer.MIN_VALUE;
     }

@@ -97,7 +97,7 @@ class DocumentHelper extends ApiExampleBase
 
                 if (line.contains(expression))
                 {
-                    msConsole.writeLine(line);
+                    System.out.println(line);
                     Assert.Pass();
                 }
                 else

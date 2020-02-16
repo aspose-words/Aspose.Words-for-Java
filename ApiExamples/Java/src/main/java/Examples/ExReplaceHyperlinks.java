@@ -28,28 +28,28 @@ public class ExReplaceHyperlinks extends ApiExampleBase {
      * Finds all hyperlinks in a Word document and changes their URL and display name.
      */
     @Test //ExSkip
-    public void replaceHyperlinks() throws Exception {
-        // Specify your document name here.
-        Document doc = new Document(getMyDir() + "ReplaceHyperlinks.doc");
+    public void fields() throws Exception {
+        // Specify your document name here
+        Document doc = new Document(getMyDir() + "Hyperlinks.docx");
 
-        // Hyperlinks in a Word documents are fields, select all field start nodes so we can find the hyperlinks.
+        // Hyperlinks in a Word documents are fields, select all field start nodes so we can find the hyperlinks
         NodeList fieldStarts = doc.selectNodes("//FieldStart");
         for (FieldStart fieldStart : (Iterable<FieldStart>) fieldStarts) {
             if (fieldStart.getFieldType() == FieldType.FIELD_HYPERLINK) {
-                // The field is a hyperlink field, use the "facade" class to help to deal with the field.
+                // The field is a hyperlink field, use the "facade" class to help to deal with the field
                 Hyperlink hyperlink = new Hyperlink(fieldStart);
 
-                // Some hyperlinks can be local (links to bookmarks inside the document), ignore these.
+                // Some hyperlinks can be local (links to bookmarks inside the document), ignore these
                 if (hyperlink.isLocal()) continue;
 
-                // The ApiExamples.Tests.Examples.Hyperlink class allows to set the target URL and the display name
-                // of the link easily by setting the properties.
+                // The Hyperlink class allows to set the target URL and the display name 
+                // of the link easily by setting the properties
                 hyperlink.setTarget(NEW_URL);
                 hyperlink.setName(NEW_NAME);
             }
         }
 
-        doc.save(getArtifactsDir() + "ReplaceHyperlinks.doc");
+        doc.save(getArtifactsDir() + "ReplaceHyperlinks.Fields.docx");
     }
 
     private static final String NEW_URL = "http://www.aspose.com";
@@ -85,19 +85,19 @@ class Hyperlink {
 
         mFieldStart = fieldStart;
 
-        // Find the field separator node.
+        // Find the field separator node
         mFieldSeparator = findNextSibling(mFieldStart, NodeType.FIELD_SEPARATOR);
         if (mFieldSeparator == null) {
             throw new IllegalStateException("Cannot find field separator.");
         }
 
-        // Find the field end node. Normally field end will always be found, but in the example document
-        // there happens to be a paragraph break included in the hyperlink and this puts the field end
-        // in the next paragraph. It will be much more complicated to handle fields which span several
-        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes.
+        // Find the field end node. Normally field end will always be found, but in the example document 
+        // there happens to be a paragraph break included in the hyperlink and this puts the field end 
+        // in the next paragraph. It will be much more complicated to handle fields which span several 
+        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes
         mFieldEnd = findNextSibling(mFieldSeparator, NodeType.FIELD_END);
 
-        // Field code looks something like [ HYPERLINK "http:\\www.myurl.com" ], but it can consist of several runs.
+        // Field code looks something like [ HYPERLINK "http:\\www.myurl.com" ], but it can consist of several runs
         String fieldCode = getTextSameParent(mFieldStart.getNextSibling(), mFieldSeparator);
         Matcher matcher = G_REGEX.matcher(fieldCode.trim());
         matcher.find();
@@ -113,12 +113,12 @@ class Hyperlink {
     }
 
     void setName(final String value) throws Exception {
-        // ApiExamples.Tests.Examples.Hyperlink display name is stored in the field result which is a Run
-        // node between field separator and field end.
+        // Hyperlink display name is stored in the field result which is a Run 
+        // node between field separator and field end
         Run fieldResult = (Run) mFieldSeparator.getNextSibling();
         fieldResult.setText(value);
 
-        // But sometimes the field result can consist of more than one run, delete these runs.
+        // But sometimes the field result can consist of more than one run, delete these runs
         removeSameParent(fieldResult.getNextSibling(), mFieldEnd);
     }
 
@@ -135,7 +135,7 @@ class Hyperlink {
     }
 
     /**
-     * True if the hyperlink's target is a bookmark inside the document. False if the hyperlink is a url.
+     * True if the hyperlinks target is a bookmark inside the document. False if the hyperlink is a url.
      */
     boolean isLocal() {
         return mIsLocal;
@@ -147,11 +147,11 @@ class Hyperlink {
     }
 
     private void updateFieldCode() throws Exception {
-        // Field code is stored in a Run node between field start and field separator.
+        // Field code is stored in a Run node between field start and field separator
         Run fieldCode = (Run) mFieldStart.getNextSibling();
         fieldCode.setText(java.text.MessageFormat.format("HYPERLINK {0}\"{1}\"", ((mIsLocal) ? "\\l " : ""), mTarget));
 
-        // But sometimes the field code can consist of more than one run, delete these runs.
+        // But sometimes the field code can consist of more than one run, delete these runs
         removeSameParent(fieldCode.getNextSibling(), mFieldSeparator);
     }
 
@@ -204,17 +204,14 @@ class Hyperlink {
     private boolean mIsLocal;
     private String mTarget;
 
-    /**
-     * RK I am notoriously bad at regexes. It seems I don't understand their way of thinking.
-     */
-    private static final Pattern G_REGEX = Pattern.compile("\\S+" +            // one or more non spaces HYPERLINK or other word in other languages
-            "\\s+" +            // one or more spaces
-            "(?:\"\"\\s+)?" +    // non capturing optional "" and one or more spaces, found in one of the customers files.
-            "(\\\\l\\s+)?" +    // optional \l flag followed by one or more spaces
-            "\"" +                // one apostrophe
-            "([^\"]+)" +        // one or more chars except apostrophe (hyperlink target)
-            "\""                // one closing apostrophe
+    private static Pattern G_REGEX = Pattern.compile(
+            "\\S+" +             // one or more non spaces HYPERLINK or other word in other languages
+                    "\\s+" +             // one or more spaces
+                    "(?:\"\"\\s+)?" +    // non capturing optional "" and one or more spaces, found in one of the customers files
+                    "(\\\\l\\s+)?" +     // optional \l flag followed by one or more spaces
+                    "\"" +               // one apostrophe
+                    "([^\"]+)" +         // one or more chars except apostrophe (hyperlink target)
+                    "\""                 // one closing apostrophe
     );
 }
-
 //ExEnd

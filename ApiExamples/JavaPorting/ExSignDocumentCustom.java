@@ -40,17 +40,17 @@ public class ExSignDocumentCustom extends ApiExampleBase
     //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
     //ExSummary:Demonstrates how to add new signature line to the document and sign it with personal signature using SignatureLineId.
     @Test (description = "WORDSNET-16868") //ExSkip
-    public static void signSignatureLineUsingSignatureLineId() throws Exception
+    public static void sign() throws Exception
     {
         String signPersonName = "Ron Williams";
         String srcDocumentPath = getMyDir() + "Document.docx";
-        String dstDocumentPath = getArtifactsDir() + "Document.Signed.docx";
+        String dstDocumentPath = getArtifactsDir() + "SignDocumentCustom.Sign.docx";
         String certificatePath = getMyDir() + "morzal.pfx";
         String certificatePassword = "aw";
 
         // We need to create simple list with test signers for this example
         createSignPersonData();
-        msConsole.writeLine("Test data successfully added!");
+        System.out.println("Test data successfully added!");
 
         // Get sign person object by name of the person who must sign a document
         // This an example, in real use case you would return an object from a database
@@ -60,11 +60,11 @@ public class ExSignDocumentCustom extends ApiExampleBase
         if (signPersonInfo != null)
         {
             signDocument(srcDocumentPath, dstDocumentPath, signPersonInfo, certificatePath, certificatePassword);
-            msConsole.writeLine("Document successfully signed!");
+            System.out.println("Document successfully signed!");
         }
         else
         {
-            msConsole.writeLine("Sign person does not exist, please check your parameters.");
+            System.out.println("Sign person does not exist, please check your parameters.");
             Assert.fail(); //ExSkip
         }
 
@@ -117,10 +117,10 @@ public class ExSignDocumentCustom extends ApiExampleBase
         gSignPersonList = new ArrayList<SignPersonTestClass>();
         {
                                         gSignPersonList.add(new SignPersonTestClass(Guid.newGuid(), "Ron Williams", "Chief Executive Officer", 
-                SkiaSharp.SKBitmap.Decode(getImageDir() + "LogoSmall.png").Bytes));
+                SkiaSharp.SKBitmap.Decode(getImageDir() + "Logo.jpg").Bytes));
                         
                                         gSignPersonList.add(new SignPersonTestClass(Guid.newGuid(), "Stephen Morse", "Head of Compliance", 
-                SkiaSharp.SKBitmap.Decode(getImageDir() + "LogoSmall.png").Bytes));
+                SkiaSharp.SKBitmap.Decode(getImageDir() + "Logo.jpg").Bytes));
                     }
     }
 

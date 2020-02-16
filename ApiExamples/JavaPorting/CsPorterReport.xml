@@ -15,7 +15,7 @@
 		<File project="Examples" dir="" name="ExCharts" status="AUTO" />
 		<File project="Examples" dir="" name="ExComHelper" status="AUTO" />
 		<File project="Examples" dir="" name="ExComment" status="AUTO" />
-		<File project="Examples" dir="" name="ExCompatibilityOptions" status="NEW" />
+		<File project="Examples" dir="" name="ExCompatibilityOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExControlChar" status="AUTO" />
 		<File project="Examples" dir="" name="ExDigitalSignatureCollection" status="AUTO" />
 		<File project="Examples" dir="" name="ExDigitalSignatureUtil" status="AUTO" />

@@ -32,10 +32,10 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase
     //ExFor:XamlFixedSaveOptions.SaveFormat
     //ExSummary:Shows how to print the URIs of linked resources created during conversion of a document to fixed-form .xaml.
     @Test //ExSkip
-    public void xamlFixedResourceFolder() throws Exception
+    public void resourceFolder() throws Exception
     {
         // Open a document which contains resources
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         XamlFixedSaveOptions options = new XamlFixedSaveOptions();
         {
@@ -49,7 +49,7 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase
         // We must ensure the folder exists before the streams can put their resources into it
         Directory.createDirectory(options.getResourcesFolderAlias());
 
-        doc.save(getArtifactsDir() + "XamlFixedResourceFolder.xaml", options);
+        doc.save(getArtifactsDir() + "XamlFixedSaveOptions.ResourceFolder.xaml", options);
     }
 
     /// <summary>
@@ -60,8 +60,8 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase
         public void /*IResourceSavingCallback.*/resourceSaving(ResourceSavingArgs args) throws Exception
         {
             // If we set a folder alias in the SaveOptions object, it will be printed here
-            msConsole.writeLine($"Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
-            msConsole.writeLine("\t" + args.getResourceFileUri());
+            System.out.println("Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
+            System.out.println("\t" + args.getResourceFileUri());
 
             // If we specified a ResourcesFolderAlias we will also need to redirect each stream to put its resource in that folder
             args.ResourceStream = new FileStream(args.getResourceFileUri(), FileMode.CREATE);

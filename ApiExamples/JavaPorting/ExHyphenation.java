@@ -52,7 +52,7 @@ public class ExHyphenation extends ApiExampleBase
         msAssert.areEqual(0, warningInfoCollection.getCount());
 
         // Open a document with a German locale that might not get automatically hyphenated by Microsoft Word an english machine
-        Document doc = new Document(getMyDir() + "RandomGermanWords.doc");
+        Document doc = new Document(getMyDir() + "Unhyphenated German text.docx");
 
         // To hyphenate that document upon saving, we need a hyphenation dictionary for the "de-CH" language code
         // This callback will handle the automatic request for that dictionary 
@@ -89,18 +89,18 @@ public class ExHyphenation extends ApiExampleBase
 
             if (Hyphenation.isDictionaryRegistered(language))
             {
-                msConsole.writeLine(", is already registered.");
+                System.out.println(", is already registered.");
                 return;
             }
 
             if (mHyphenationDictionaryFiles.containsKey(language))
             {
                 Hyphenation.registerDictionary(language, mHyphenationDictionaryFiles.get(language));
-                msConsole.writeLine(", successfully registered.");
+                System.out.println(", successfully registered.");
                 return;
             }
 
-            msConsole.writeLine(", no respective dictionary file known by this Callback.");
+            System.out.println(", no respective dictionary file known by this Callback.");
         }
 
         private /*final*/ HashMap<String, String> mHyphenationDictionaryFiles;
@@ -108,12 +108,12 @@ public class ExHyphenation extends ApiExampleBase
     //ExEnd
 
     @Test
-    public void isDictionaryRegisteredEx() throws Exception
+    public void isDictionaryRegistered() throws Exception
     {
         //ExStart
         //ExFor:Hyphenation.IsDictionaryRegistered(String)
         //ExSummary:Shows how to open check if some dictionary is registered.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Hyphenation.registerDictionary("en-US", getMyDir() + "hyph_en_US.dic");
 
         msAssert.areEqual(true, Hyphenation.isDictionaryRegistered("en-US"));
@@ -121,12 +121,12 @@ public class ExHyphenation extends ApiExampleBase
     }
 
     @Test
-    public void unregisteredDictionaryEx() throws Exception
+    public void unregisteredDictionary() throws Exception
     {
         //ExStart
         //ExFor:Hyphenation.UnregisterDictionary(String)
         //ExSummary:Shows how to un-register a dictionary.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
         Hyphenation.registerDictionary("en-US", getMyDir() + "hyph_en_US.dic");
 
         Hyphenation.unregisterDictionary("en-US");

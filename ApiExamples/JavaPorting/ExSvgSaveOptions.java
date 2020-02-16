@@ -42,7 +42,7 @@ public class ExSvgSaveOptions extends ApiExampleBase
             options.setTextOutputMode(SvgTextOutputMode.USE_PLACED_GLYPHS);
         }
 
-        doc.save(getArtifactsDir() + "SaveLikeImage.svg", options);
+        doc.save(getArtifactsDir() + "SvgSaveOptions.SaveLikeImage.svg", options);
         //ExEnd
     }
 
@@ -58,7 +58,7 @@ public class ExSvgSaveOptions extends ApiExampleBase
     public void svgResourceFolder() throws Exception
     {
         // Open a document which contains images
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         SvgSaveOptions options = new SvgSaveOptions();
         {
@@ -73,7 +73,7 @@ public class ExSvgSaveOptions extends ApiExampleBase
 
         Directory.createDirectory(options.getResourcesFolderAlias());
 
-        doc.save(getArtifactsDir() + "SvgResourceFolder.svg", options);
+        doc.save(getArtifactsDir() + "SvgSaveOptions.SvgResourceFolder.svg", options);
     }
 
     /// <summary>
@@ -84,8 +84,8 @@ public class ExSvgSaveOptions extends ApiExampleBase
         public void /*IResourceSavingCallback.*/resourceSaving(ResourceSavingArgs args)
         {
             // If we set a folder alias in the SaveOptions object, it will be printed here
-            msConsole.writeLine($"Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
-            msConsole.writeLine("\t" + args.getResourceFileUri());
+            System.out.println("Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
+            System.out.println("\t" + args.getResourceFileUri());
         }
 
         private int mSavedResourceCount;
