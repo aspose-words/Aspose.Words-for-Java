@@ -348,20 +348,21 @@ public class ExDocument extends ApiExampleBase {
         //ExSummary:Shows how to emulate the loading procedure of a specific Microsoft Word version during document loading.
         // Create a new LoadOptions object, which will load documents according to MS Word 2007 specification by default
         LoadOptions loadOptions = new LoadOptions();
-        Assert.assertEquals(loadOptions.getMswVersion(), MsWordVersion.WORD_2007);
+        Assert.assertEquals(loadOptions.getMswVersion(), MsWordVersion.WORD_2019);
+
+        Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
+        Assert.assertEquals(12.95, doc.getStyles().getDefaultParagraphFormat().getLineSpacing(), 0.005f);
+
+        // We can change the loading version like this, to Microsoft Word 2007
+        loadOptions.setMswVersion(MsWordVersion.WORD_2007);
 
         // This document is missing the default paragraph format style,
         // so when it is opened with either Microsoft Word or Aspose Words, that default style will be regenerated,
         // and will show up in the Styles collection, with values according to Microsoft Word 2007 specifications
-        Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
+        doc = new Document(getMyDir() + "Document.docx", loadOptions);
         Assert.assertEquals(13.8, doc.getStyles().getDefaultParagraphFormat().getLineSpacing(), 0.005f);
 
-        // We can change the loading version like this, to Microsoft Word 2016
-        loadOptions.setMswVersion(MsWordVersion.WORD_2016);
 
-        // The generated default style now has a different spacing, which will impact the appearance of our document
-        doc = new Document(getMyDir() + "Document.docx", loadOptions);
-        Assert.assertEquals(12.95, doc.getStyles().getDefaultParagraphFormat().getLineSpacing(), 0.005f);
         //ExEnd
     }
 

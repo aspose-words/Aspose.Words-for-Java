@@ -480,7 +480,7 @@ public class ExNode extends ApiExampleBase {
         String nodeAsHtml = node.toString(SaveFormat.HTML);
         //ExEnd
 
-        Assert.assertEquals(nodeAsHtml, "<p style=\"margin-top:0pt; margin-bottom:10pt; line-height:115%; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>");
+        Assert.assertEquals(nodeAsHtml, "<p style=\"margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>");
     }
 
     @Test
@@ -503,7 +503,7 @@ public class ExNode extends ApiExampleBase {
         String nodeAsHtml = node.toString(saveOptions);
         //ExEnd
 
-        Assert.assertEquals(nodeAsHtml, "<p style=\"margin-top:0pt; margin-bottom:10pt; line-height:115%\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>");
+        Assert.assertEquals(nodeAsHtml, "<p style=\"margin-top:0pt; margin-bottom:8pt; line-height:108%\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>");
     }
 
     @Test
