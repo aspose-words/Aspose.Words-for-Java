@@ -12,6 +12,7 @@ public class Load_Options {
         loadAndSaveEncryptedODT(dataDir);
         verifyODTdocument(dataDir);
         convertShapeToOfficeMath(dataDir);
+        setMSWordVersion(dataDir);
     }
 
     public static void loadOptionsUpdateDirtyFields(String dataDir) throws Exception {
@@ -53,5 +54,16 @@ public class Load_Options {
         //Save the document into DOCX
         doc.save(dataDir + "ConvertShapeToOfficeMath_out.docx", SaveFormat.DOCX);
         // ExEnd:ConvertShapeToOfficeMath
+    }
+    
+    public static void setMSWordVersion(String dataDir) throws Exception 
+    {
+        // ExStart:SetMSWordVersion  
+        LoadOptions loadOptions = new LoadOptions();
+        loadOptions.setMswVersion(MsWordVersion.WORD_2003);
+        Document doc = new Document(dataDir + "document.doc", loadOptions);
+
+        doc.save(dataDir + "Word2003_out.docx");
+        // ExEnd:SetMSWordVersion  
     }
 }
