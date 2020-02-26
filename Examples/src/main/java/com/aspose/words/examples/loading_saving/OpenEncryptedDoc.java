@@ -4,12 +4,12 @@ import com.aspose.words.Document;
 import com.aspose.words.LoadOptions;
 import com.aspose.words.examples.Utils;
 
-public class LoadEncryptedDoc {
+public class OpenEncryptedDoc {
     public static void main(String[] args) throws Exception {
 
         //ExStart:LoadEncryptedDoc
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(LoadEncryptedDoc.class);
+        String dataDir = Utils.getDataDir(OpenEncryptedDoc.class);
 
         // Load the encrypted document from the absolute path on disk.
         Document doc = new Document(dataDir + "LoadEncrypted.docx", new LoadOptions("aspose"));

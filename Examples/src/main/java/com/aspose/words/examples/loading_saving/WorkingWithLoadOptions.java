@@ -3,10 +3,10 @@ package com.aspose.words.examples.loading_saving;
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
-public class Load_Options {
+public class WorkingWithLoadOptions {
     public static void main(String[] args) throws Exception {
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(Load_Options.class);
+        String dataDir = Utils.getDataDir(WorkingWithLoadOptions.class);
 
         loadOptionsUpdateDirtyFields(dataDir);
         loadAndSaveEncryptedODT(dataDir);
