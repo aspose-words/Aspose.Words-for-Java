@@ -2375,8 +2375,7 @@ public class ExField extends ApiExampleBase
             new String[]
             {
                 "Dark logo",
-                "Transparent logo",
-                "Enhanced Windows Metafile"
+                "Transparent logo"
             });
 
         // A custom merging callback will contain filenames that our shorthands will refer to
@@ -2396,7 +2395,6 @@ public class ExField extends ApiExampleBase
             mImageFilenames = new HashMap<String, String>();
             msDictionary.add(mImageFilenames, "Dark logo", getImageDir() + "Logo.jpg");
             msDictionary.add(mImageFilenames, "Transparent logo", getImageDir() + "Transparent background logo.png");
-            msDictionary.add(mImageFilenames, "Enhanced Windows Metafile", getImageDir() + "Enhanced Windows MetaFile.emf");
         }
 
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs e)

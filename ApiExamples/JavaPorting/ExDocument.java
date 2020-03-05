@@ -882,7 +882,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:DigitalSignature.Comments
         //ExFor:DigitalSignature.SignTime
         //ExFor:DigitalSignature.SignatureType
-        //ExFor:DigitalSignature.Certificate
         //ExSummary:Shows how to validate each signature in a document and display basic information about the signature.
         // Load the document which contains signature
         Document doc = new Document(getMyDir() + "Digitally signed.docx");
@@ -3559,7 +3558,7 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:BaseWebExtensionCollection`1.Add(`0)
-        //ExFor:TaskPane.#ctor
+        //ExFor:TaskPane
         //ExFor:TaskPane.DockState
         //ExFor:TaskPane.IsVisible
         //ExFor:TaskPane.Width
