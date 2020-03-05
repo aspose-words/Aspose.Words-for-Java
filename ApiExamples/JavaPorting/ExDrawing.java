@@ -11,15 +11,33 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Shape;
-import com.aspose.words.NodeType;
-import com.aspose.words.Stroke;
+import com.aspose.words.ShapeType;
+import java.awt.Color;
+import com.aspose.words.ArrowType;
+import com.aspose.words.ArrowLength;
+import com.aspose.words.ArrowWidth;
+import com.aspose.words.DashStyle;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
-import java.awt.Color;
+import com.aspose.words.JoinStyle;
+import com.aspose.words.EndCap;
+import com.aspose.ms.System.Drawing.msColor;
+import com.aspose.words.FlipOrientation;
+import com.aspose.ms.System.IO.MemoryStream;
+import java.awt.image.BufferedImage;
+import com.aspose.words.ImageType;
+import java.util.ArrayList;
+import com.aspose.words.NodeType;
+import com.aspose.words.ImageData;
+import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.File;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.ShapeType;
+import com.aspose.BitmapPal;
+import com.aspose.ms.System.IO.Stream;
+import com.aspose.ms.System.IO.FileMode;
+import com.aspose.ms.System.IO.FileAccess;
+import com.aspose.words.Stroke;
 import com.aspose.words.GroupShape;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentVisitor;
@@ -27,19 +45,211 @@ import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.LayoutFlow;
 import com.aspose.words.Paragraph;
-import java.util.ArrayList;
-import com.aspose.ms.System.IO.Stream;
-import com.aspose.ms.System.IO.FileStream;
-import com.aspose.ms.System.IO.FileMode;
-import com.aspose.words.ImageData;
-import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.ImageSize;
 
 
 @Test
 public class ExDrawing extends ApiExampleBase
 {
-            
+        @Test
+    public void variousShapes() throws Exception
+    {
+        //ExStart
+        //ExFor:Drawing.ArrowLength
+        //ExFor:Drawing.ArrowType
+        //ExFor:Drawing.ArrowWidth
+        //ExFor:Drawing.DashStyle
+        //ExFor:Drawing.EndCap
+        //ExFor:Drawing.Fill.Color
+        //ExFor:Drawing.Fill.ImageBytes
+        //ExFor:Drawing.Fill.On
+        //ExFor:Drawing.JoinStyle
+        //ExFor:Shape.Stroke
+        //ExFor:Stroke.Color
+        //ExFor:Stroke.StartArrowLength
+        //ExFor:Stroke.StartArrowType
+        //ExFor:Stroke.StartArrowWidth
+        //ExFor:Stroke.EndArrowLength
+        //ExFor:Stroke.EndArrowWidth
+        //ExFor:Stroke.DashStyle
+        //ExFor:Stroke.EndArrowType
+        //ExFor:Stroke.EndCap
+        //ExFor:Stroke.Opacity
+        //ExSummary:Shows to create a variety of shapes.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Draw a dotted horizontal half-transparent red line with an arrow on the left end and a diamond on the other
+        Shape arrow = new Shape(doc, ShapeType.LINE);
+        arrow.setWidth(200.0);
+        arrow.getStroke().setColor(Color.RED);
+        arrow.getStroke().setStartArrowType(ArrowType.ARROW);
+        arrow.getStroke().setStartArrowLength(ArrowLength.LONG);
+        arrow.getStroke().setStartArrowWidth(ArrowWidth.WIDE);
+        arrow.getStroke().setEndArrowType(ArrowType.DIAMOND);
+        arrow.getStroke().setEndArrowLength(ArrowLength.LONG);
+        arrow.getStroke().setEndArrowWidth(ArrowWidth.WIDE);
+        arrow.getStroke().setDashStyle(DashStyle.DASH);
+        arrow.getStroke().setOpacity(0.5);
+
+        msAssert.areEqual(JoinStyle.MITER, arrow.getStroke().getJoinStyle());
+
+        builder.insertNode(arrow);
+
+        // Draw a thick black diagonal line with rounded ends
+        Shape line = new Shape(doc, ShapeType.LINE);
+        line.setTop(40.0);
+        line.setWidth(200.0);
+        line.setHeight(20.0);
+        line.setStrokeWeight(5.0);
+        line.getStroke().setEndCap(EndCap.ROUND);
+
+        builder.insertNode(line);
+
+        // Draw an arrow with a green fill
+        Shape filledInArrow = new Shape(doc, ShapeType.ARROW);
+        filledInArrow.setWidth(200.0);
+        filledInArrow.setHeight(40.0);
+        filledInArrow.setTop(100.0);
+        filledInArrow.getFill().setColor(msColor.getGreen());
+        filledInArrow.getFill().setOn(true);
+
+        builder.insertNode(filledInArrow);
+
+        // Draw an arrow filled in with the Aspose logo and flip its orientation
+        Shape filledInArrowImg = new Shape(doc, ShapeType.ARROW);
+        filledInArrowImg.setWidth(200.0);
+        filledInArrowImg.setHeight(40.0);
+        filledInArrowImg.setTop(160.0);
+        filledInArrowImg.setFlipOrientation(FlipOrientation.BOTH);
+
+        WebClient webClient = new WebClient();
+        try /*JAVA: was using*/
+        {
+            byte[] imageBytes = webClient.DownloadData(getAsposeLogoUrl());
+
+            MemoryStream stream = new MemoryStream(imageBytes);
+            try /*JAVA: was using*/
+            {
+                BufferedImage image = BufferedImage.FromStream(stream);
+                // When we flipped the orientation of our arrow, the image content was flipped too
+                // If we want it to be displayed the right side up, we have to reverse the arrow flip on the image
+                image.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+
+                filledInArrowImg.getImageData().setImage(image);
+                filledInArrowImg.getStroke().setJoinStyle(JoinStyle.ROUND);
+
+                builder.insertNode(filledInArrowImg);
+            }
+            finally { if (stream != null) stream.close(); }
+        }
+        finally { if (webClient != null) webClient.close(); }
+
+        doc.save(getArtifactsDir() + "Drawing.VariousShapes.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void typeOfImage() throws Exception
+    {
+        //ExStart
+        //ExFor:Drawing.ImageType
+        //ExSummary:Shows how to add an image to a shape and check its type.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        WebClient webClient = new WebClient();
+        try /*JAVA: was using*/
+        {
+            byte[] imageBytes = webClient.DownloadData(getAsposeLogoUrl());
+
+            MemoryStream stream = new MemoryStream(imageBytes);
+            try /*JAVA: was using*/
+            {
+                BufferedImage image = BufferedImage.FromStream(stream);
+
+                // The image started off as an animated .gif but it gets converted to a .png since there cannot be animated images in documents
+                Shape imgShape = builder.insertImage(image);
+                msAssert.areEqual(ImageType.PNG, imgShape.getImageData().getImageType());
+            }
+            finally { if (stream != null) stream.close(); }
+        }
+        finally { if (webClient != null) webClient.close(); }
+        //ExEnd
+    }
+
+    @Test
+    public void saveAllImages() throws Exception
+    {
+        //ExStart
+        //ExFor:ImageData.HasImage
+        //ExFor:ImageData.ToImage
+        //ExFor:ImageData.Save(Stream)
+        //ExSummary:Shows how to save all the images from a document to the file system.
+        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
+
+        // Images are stored as shapes
+        // Get into the document's shape collection to verify that it contains 10 images
+        ArrayList<Shape> shapes = imgSourceDoc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().ToList();
+        msAssert.areEqual(10, shapes.size());
+
+        // We will use an ImageFormatConverter to determine an image's file extension
+        ImageFormatConverter formatConverter = new ImageFormatConverter();
+
+        // Go over all of the document's shapes
+        // If a shape contains image data, save the image in the local file system
+        for (int i = 0; i < shapes.size(); i++)
+        {
+            ImageData imageData = shapes.get(i).getImageData();
+
+            if (imageData.hasImage())
+            {
+                ImageFormat format = imageData.toImage().RawFormat;
+                String fileExtension = formatConverter.ConvertToString(format);
+
+                FileStream fileStream = File.create(getArtifactsDir() + $"Drawing.SaveAllImages.{i}.{fileExtension}");
+                try /*JAVA: was using*/
+                {
+                    imageData.save(fileStream);
+                }
+                finally { if (fileStream != null) fileStream.close(); }
+            }
+        }
+        //ExEnd
+    }
+
+    @Test
+    public void importImage() throws Exception
+    {
+        //ExStart
+        //ExFor:ImageData.SetImage(Image)
+        //ExFor:ImageData.SetImage(Stream)
+        //ExSummary:Shows two ways of importing images from the local file system into a document.
+        Document doc = new Document();
+
+        // We can get an image from a file, set it as the image of a shape and append it to a paragraph
+        BufferedImage srcImage = BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg");
+
+        Shape imgShape = new Shape(doc, ShapeType.IMAGE);
+        doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
+        imgShape.getImageData().setImage(srcImage);
+        srcImage.flush();
+
+        // We can also open an image file using a stream and set its contents as a shape's image 
+        Stream stream = new FileStream(getImageDir() + "Logo.jpg", FileMode.OPEN, FileAccess.READ);
+        try /*JAVA: was using*/
+        {
+            imgShape = new Shape(doc, ShapeType.IMAGE);
+            doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
+            imgShape.getImageData().setImage(stream);
+            imgShape.setLeft(150.0f);
+        }
+        finally { if (stream != null) stream.close(); }
+
+        doc.save(getArtifactsDir() + "Drawing.ImportImage.docx");
+        //ExEnd
+    }
+    
     @Test
     public void strokePattern() throws Exception
     {

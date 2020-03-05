@@ -268,7 +268,7 @@ public class ExHeaderFooter extends ApiExampleBase
         doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterOrder.docx");
 
         msAssert.areEqual("First header\nFirst footer\nSecond header\nSecond footer\nThird header\n" +
-            "Third footer\n", logger.getText());
+            "Third footer\n", logger.getText().replace("\r", ""));
 
         // Prepare our string builder for assert results without "DifferentFirstPageHeaderFooter"
         logger.clearText();
@@ -279,7 +279,7 @@ public class ExHeaderFooter extends ApiExampleBase
         doc.getRange().replaceInternal(new Regex("(header|footer)"), "", options);
 
         msAssert.areEqual("Third header\nFirst header\nThird footer\nFirst footer\nSecond header\n" +
-            "Second footer\n", logger.getText());
+            "Second footer\n", logger.getText().replace("\r", ""));
     }
 
     private static class ReplaceLog implements IReplacingCallback

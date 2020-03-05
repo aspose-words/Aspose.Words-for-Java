@@ -23,6 +23,8 @@ import com.aspose.words.net.System.Data.DataRow;
 import java.awt.Color;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
+import com.aspose.words.net.System.Data.IDataReader;
+import com.aspose.ms.System.IO.MemoryStream;
 
 
 @Test
@@ -291,4 +293,59 @@ public class ExMailMergeEvent extends ApiExampleBase
         Assert.assertTrue(logoImage.hasImage());
     }
 
+        //ExStart
+    //ExFor:MailMerge.FieldMergingCallback
+    //ExFor:MailMerge.ExecuteWithRegions(IDataReader,String)
+    //ExFor:IFieldMergingCallback
+    //ExFor:ImageFieldMergingArgs
+    //ExFor:IFieldMergingCallback.FieldMerging
+    //ExFor:IFieldMergingCallback.ImageFieldMerging
+    //ExFor:ImageFieldMergingArgs.ImageStream
+    //ExSummary:Shows how to insert images stored in a database BLOB field into a report.
+    @Test (groups = "SkipMono") //ExSkip
+    public void imageFromBlob() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");
+
+        // Set up the event handler for image fields
+        doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
+
+        // Open a database connection
+        String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
+        OleDbConnection conn = new OleDbConnection(connString);
+        conn.Open();
+
+        // Open the data reader. It needs to be in the normal mode that reads all record at once
+        OleDbCommand cmd = new OleDbCommand("SELECT * FROM Employees", conn);
+        IDataReader dataReader = cmd.ExecuteReader();
+
+        // Perform mail merge
+        doc.getMailMerge().executeWithRegions(dataReader, "Employees");
+
+        // Close the database
+        conn.Close();
+
+        doc.save(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx");
     }
+
+    private static class HandleMergeImageFieldFromBlob implements IFieldMergingCallback
+    {
+        public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args)
+        {
+            // Do nothing
+        }
+
+        /// <summary>
+        /// This is called when mail merge engine encounters Image:XXX merge field in the document.
+        /// You have a chance to return an Image object, file name or a stream that contains the image.
+        /// </summary>
+        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs e) throws Exception
+        {
+            // The field value is a byte array, just cast it and create a stream on it
+            MemoryStream imageStream = new MemoryStream((byte[])e.getFieldValue());
+            // Now the mail merge engine will retrieve the image from the stream
+            e.setImageStreamInternal(imageStream);
+        }
+    }
+    //ExEnd
+}

@@ -25,6 +25,10 @@ import com.aspose.words.MarkupLevel;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.Node;
+import com.aspose.ms.System.Globalization.msCultureInfo;
+import com.aspose.words.SdtDateStorageFormat;
+import com.aspose.words.SdtCalendarType;
+import com.aspose.ms.System.DateTime;
 import java.awt.Color;
 import com.aspose.words.GlossaryDocument;
 import com.aspose.words.BuildingBlock;
@@ -45,7 +49,6 @@ import com.aspose.words.Run;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.msString;
-import com.aspose.ms.System.DateTime;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.Table;
 import com.aspose.words.Row;
@@ -151,6 +154,52 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.That(sdt.getXmlMapping().getStoreItemId(), Is.Empty); //Assert that this sdt has no StoreItemId
     }
 
+    @Test
+    public void date() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTag.CalendarType
+        //ExFor:StructuredDocumentTag.DateDisplayFormat
+        //ExFor:StructuredDocumentTag.DateDisplayLocale
+        //ExFor:StructuredDocumentTag.DateStorageFormat
+        //ExFor:StructuredDocumentTag.FullDate
+        //ExSummary:Shows how to prompt the user to enter a date with a StructuredDocumentTag.
+        // Create a new document
+        Document doc = new Document();
+
+        // Insert a StructuredDocumentTag that prompts the user to enter a date
+        // In Microsoft Word, this element is known as a "Date picker content control"
+        // When we click on the arrow on the right end of this tag in Microsoft Word,
+        // we will see a pop up in the form of a clickable calendar
+        // We can use that popup to select a date that will be displayed by the tag 
+        StructuredDocumentTag sdtDate = new StructuredDocumentTag(doc, SdtType.DATE, MarkupLevel.INLINE);
+
+        // This attribute sets the language that the calendar will be displayed in,
+        // which in this case will be Saudi Arabian Arabic
+        sdtDate.setDateDisplayLocale(msCultureInfo.getCultureInfo("ar-SA").getLCID());
+
+        // We can set the format with which to display the date like this
+        // The locale we set above will be carried over to the displayed date
+        sdtDate.setDateDisplayFormat("dd MMMM, yyyy");
+
+        // Select how the data will be stored in the document
+        sdtDate.setDateStorageFormat(SdtDateStorageFormat.DATE_TIME);
+
+        // Set the calendar type that will be used to select and display the date
+        sdtDate.setCalendarType(SdtCalendarType.HIJRI);
+
+        // Before a date is chosen, the tag will display the text "Click here to enter a date."
+        // We can set a default date to display by setting this variable
+        // We must convert the date to the appropriate calendar ourselves
+        sdtDate.setFullDateInternal(new DateTime(1440, 10, 20));
+
+        // Insert the StructuredDocumentTag into the document with a DocumentBuilder and save the document
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertNode(sdtDate);
+
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.Date.docx");
+        //ExEnd
+    }
 
     @Test
     public void plainText() throws Exception

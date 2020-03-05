@@ -38,6 +38,9 @@ import com.aspose.words.ReplacingArgs;
 import com.aspose.ms.System.msString;
 import com.aspose.words.LoadOptions;
 import com.aspose.words.FieldArgumentBuilder;
+import com.aspose.barcode.License;
+import com.aspose.words.BarcodeParameters;
+import java.awt.image.BufferedImage;
 import com.aspose.words.FieldIncludePicture;
 import com.aspose.words.FieldFormat;
 import com.aspose.words.GeneralFormat;
@@ -103,6 +106,7 @@ import com.aspose.words.ImageFieldMergingArgs;
 import com.aspose.words.MergeFieldImageDimension;
 import java.util.HashMap;
 import com.aspose.ms.System.Collections.msDictionary;
+import com.aspose.BitmapPal;
 import com.aspose.words.FieldIndex;
 import com.aspose.words.FieldXE;
 import com.aspose.words.FieldBarcode;
@@ -120,6 +124,7 @@ import com.aspose.words.ToaCategories;
 import com.aspose.words.List;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.FieldStyleRef;
+import com.aspose.words.FieldDate;
 import com.aspose.words.FieldCreateDate;
 import com.aspose.words.FieldSaveDate;
 import com.aspose.words.FieldAuthor;
@@ -470,6 +475,140 @@ public class ExField extends ApiExampleBase
                 .addArgument(10).addArgument(20.0).buildAndInsert(run), Throws.<IllegalArgumentException>TypeOf());
     }
 
+    @Test
+    public void barCodeWord2Pdf() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Field BARCODE.docx");
+
+        // Set custom barcode generator
+        doc.getFieldOptions().setBarcodeGenerator(new CustomBarcodeGenerator());
+
+        doc.save(getArtifactsDir() + "Field.BarCodeWord2Pdf.pdf");
+
+        BarCodeReader barCode = barCodeReaderPdf(getArtifactsDir() + "Field.BarCodeWord2Pdf.pdf");
+        msAssert.areEqual("QR", barCode.GetCodeType().toString());
+    }
+
+    private BarCodeReader barCodeReaderPdf(String filename) throws Exception
+    {
+        // Set license for Aspose.BarCode
+        License licenceBarCode = new License();
+        licenceBarCode.setLicense(getLicenseDir() + "Aspose.Total.lic");
+
+        // Bind the pdf document
+        Aspose.Pdf.Facades.PdfExtractor pdfExtractor = new Aspose.Pdf.Facades.PdfExtractor();
+        pdfExtractor.BindPdf(filename);
+
+        // Set page range for image extraction
+        pdfExtractor.StartPage = 1;
+        pdfExtractor.EndPage = 1;
+
+        pdfExtractor.ExtractImage();
+
+        // Save image to stream
+        MemoryStream imageStream = new MemoryStream();
+        pdfExtractor.GetNextImage(imageStream);
+        imageStream.setPosition(0);
+
+        // Recognize the barcode from the image stream above
+        BarCodeReader barcodeReader = new BarCodeReader(imageStream, DecodeType.QR);
+        while (barcodeReader.Read())
+            System.out.println("Codetext found: " + barcodeReader.GetCodeText() + ", Symbology: " + barcodeReader.GetCodeType());
+
+        // Close the reader
+        barcodeReader.Close();
+
+        return barcodeReader;
+    }
+
+    //ExStart
+    //ExFor:BarcodeParameters
+    //ExFor:BarcodeParameters.AddStartStopChar
+    //ExFor:BarcodeParameters.BackgroundColor
+    //ExFor:BarcodeParameters.BarcodeType
+    //ExFor:BarcodeParameters.BarcodeValue
+    //ExFor:BarcodeParameters.CaseCodeStyle
+    //ExFor:BarcodeParameters.DisplayText
+    //ExFor:BarcodeParameters.ErrorCorrectionLevel
+    //ExFor:BarcodeParameters.FacingIdentificationMark
+    //ExFor:BarcodeParameters.FixCheckDigit
+    //ExFor:BarcodeParameters.ForegroundColor
+    //ExFor:BarcodeParameters.IsBookmark
+    //ExFor:BarcodeParameters.IsUSPostalAddress
+    //ExFor:BarcodeParameters.PosCodeStyle
+    //ExFor:BarcodeParameters.PostalAddress
+    //ExFor:BarcodeParameters.ScalingFactor
+    //ExFor:BarcodeParameters.SymbolHeight
+    //ExFor:BarcodeParameters.SymbolRotation
+    //ExFor:IBarcodeGenerator
+    //ExFor:IBarcodeGenerator.GetBarcodeImage(BarcodeParameters)
+    //ExFor:IBarcodeGenerator.GetOldBarcodeImage(BarcodeParameters)
+    //ExFor:FieldOptions.BarcodeGenerator
+    //ExSummary:Shows how to create barcode images using a barcode generator.
+    @Test //ExSkip
+    public void barcodeGenerator() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        Assert.assertNull(doc.getFieldOptions().getBarcodeGenerator());
+
+        // Barcodes generated in this way will be images, and we can use a custom IBarcodeGenerator implementation to generate them
+        doc.getFieldOptions().setBarcodeGenerator(new CustomBarcodeGenerator());
+
+        // Configure barcode parameters for a QR barcode
+        BarcodeParameters barcodeParameters = new BarcodeParameters();
+        barcodeParameters.setBarcodeType("QR");
+        barcodeParameters.setBarcodeValue("ABC123");
+        barcodeParameters.setBackgroundColor("0xF8BD69");
+        barcodeParameters.setForegroundColor("0xB5413B");
+        barcodeParameters.setErrorCorrectionLevel("3");
+        barcodeParameters.setScalingFactor("250");
+        barcodeParameters.setSymbolHeight("1000");
+        barcodeParameters.setSymbolRotation("0");
+
+        // Save the generated barcode image to the file system
+        BufferedImage img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        img.Save(getArtifactsDir() + "Field.BarcodeGenerator.QR.jpg");
+
+        // Insert the image into the document
+        builder.insertImage(img);
+
+        // Configure barcode parameters for a EAN13 barcode
+        barcodeParameters = new BarcodeParameters();
+        barcodeParameters.setBarcodeType("EAN13");
+        barcodeParameters.setBarcodeValue("501234567890");
+        barcodeParameters.setDisplayText(true);
+        barcodeParameters.setPosCodeStyle("CASE");
+        barcodeParameters.setFixCheckDigit(true);
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        img.Save(getArtifactsDir() + "Field.BarcodeGenerator.EAN13.jpg");
+        builder.insertImage(img);
+
+        // Configure barcode parameters for a CODE39 barcode
+        barcodeParameters = new BarcodeParameters();
+        barcodeParameters.setBarcodeType("CODE39");
+        barcodeParameters.setBarcodeValue("12345ABCDE");
+        barcodeParameters.setAddStartStopChar(true);
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        img.Save(getArtifactsDir() + "Field.BarcodeGenerator.CODE39.jpg");
+        builder.insertImage(img);
+
+        // Configure barcode parameters for an ITF14 barcode
+        barcodeParameters = new BarcodeParameters();
+        barcodeParameters.setBarcodeType("ITF14");
+        barcodeParameters.setBarcodeValue("09312345678907");
+        barcodeParameters.setCaseCodeStyle("STD");
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        img.Save(getArtifactsDir() + "Field.BarcodeGenerator.ITF14.jpg");
+        builder.insertImage(img);
+
+        doc.save(getArtifactsDir() + "Field.BarcodeGenerator.docx");
+    }
+    //ExEnd
     //For assert result of the test you need to open document and check that image are added correct and without truncated inside frame
     @Test
     public void updateFieldIgnoringMergeFormat() throws Exception
@@ -2406,9 +2545,8 @@ public class ExField extends ApiExampleBase
         {
             if (mImageFilenames.containsKey(e.getFieldValue().toString()))
             {
-                                                    e.setImage(SKBitmap.Decode(mImageFilenames.get(e.getFieldValue().toString())));
-                e.setImageFileName(mImageFilenames.get(e.getFieldValue().toString()));
-                            }
+                                e.setImage(BitmapPal.loadNativeImage(mImageFilenames.get(e.getFieldValue().toString())));
+                                                }
             
             Assert.assertNotNull(e.getImage());
         }
@@ -3453,6 +3591,49 @@ public class ExField extends ApiExampleBase
         //ExEnd
     }
 
+    @Test
+    public void fieldDate() throws Exception
+    {
+        //ExStart
+        //ExFor:FieldDate
+        //ExFor:FieldDate.UseLunarCalendar
+        //ExFor:FieldDate.UseSakaEraCalendar
+        //ExFor:FieldDate.UseUmAlQuraCalendar
+        //ExFor:FieldDate.UseLastFormat
+        //ExSummary:Shows how to insert DATE fields with different kinds of calendars.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // One way of putting dates into our documents is inserting DATE fields with document builder
+        FieldDate fieldDate = (FieldDate)builder.insertField(FieldType.FIELD_DATE, true);
+
+        // Set the field's date to the current date of the Islamic Lunar Calendar
+        fieldDate.setUseLunarCalendar(true);
+        msAssert.areEqual(" DATE  \\h", fieldDate.getFieldCode());
+        builder.writeln();
+
+        // Insert a date field with the current date of the Umm al-Qura calendar
+        fieldDate = (FieldDate)builder.insertField(FieldType.FIELD_DATE, true);
+        fieldDate.setUseUmAlQuraCalendar(true);
+        msAssert.areEqual(" DATE  \\u", fieldDate.getFieldCode());
+        builder.writeln();
+
+        // Insert a date field with the current date of the Indian national calendar
+        fieldDate = (FieldDate)builder.insertField(FieldType.FIELD_DATE, true);
+        fieldDate.setUseSakaEraCalendar(true);
+        msAssert.areEqual(" DATE  \\s", fieldDate.getFieldCode());
+        builder.writeln();
+
+        // Insert a date field with the current date of the calendar used in the (Insert > Date and Time) dialog box
+        fieldDate = (FieldDate)builder.insertField(FieldType.FIELD_DATE, true);
+        fieldDate.setUseLastFormat(true);
+        msAssert.areEqual(" DATE  \\l", fieldDate.getFieldCode());
+        builder.writeln();
+
+        doc.updateFields();
+        doc.save(getArtifactsDir() + "Field.DATE.docx");
+        //ExEnd
+    }
 
     @Test (enabled = false, description = "WORDSNET-17669")
     public void fieldCreateDate() throws Exception

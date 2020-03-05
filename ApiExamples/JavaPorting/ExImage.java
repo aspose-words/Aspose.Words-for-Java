@@ -13,6 +13,8 @@ import org.testng.annotations.Test;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.ms.System.IO.File;
+import java.awt.image.BufferedImage;
+import com.aspose.BitmapPal;
 import com.aspose.words.Shape;
 import com.aspose.words.WrapType;
 import com.aspose.words.RelativeHorizontalPosition;
@@ -82,26 +84,41 @@ public class ExImage extends ApiExampleBase
         //ExEnd
     }
 
-                @Test (groups = "SkipMono")
-    public void createFromImageNetStandard2() throws Exception
+        @Test (groups = "SkipMono")
+    public void createFromImage() throws Exception
     {
         // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
         // Insert a raster image
-        // SKBitmap doesn't allow to insert a metafiles
-        SKBitmap rasterImage = SKBitmap.Decode(getImageDir() + "Logo.jpg");
-        try /*JAVA: was using*/
+        BufferedImage rasterImage = BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg");
+        try
         {
             builder.write("Raster image: ");
-            builder.InsertImage(rasterImage);
+            builder.insertImage(rasterImage);
             builder.writeln();
         }
-        finally { if (rasterImage != null) rasterImage.close(); }
+        finally
+        {
+            rasterImage.flush();
+        }
+
+        // Aspose.Words allows to insert a metafile too
+        BufferedImage metafile = BitmapPal.loadNativeImage(getImageDir() + "Windows MetaFile.wmf");
+        try
+        {
+            builder.write("Metafile: ");
+            builder.insertImage(metafile);
+            builder.writeln();
+        }
+        finally
+        {
+            metafile.flush();
+        }
 
         builder.getDocument().save(getArtifactsDir() + "Image.CreateFromImage.doc");
     }
-    
+            
     @Test
     public void createFloatingPageCenter() throws Exception
     {

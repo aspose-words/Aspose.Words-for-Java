@@ -12,21 +12,24 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
-import com.aspose.words.HeaderFooterType;
-import com.aspose.ms.System.IO.File;
 import com.aspose.words.Shape;
+import com.aspose.words.ShapeType;
+import com.aspose.BitmapPal;
+import java.awt.image.BufferedImage;
+import org.testng.Assert;
+import com.aspose.ms.System.Drawing.msSize;
+import com.aspose.words.NodeType;
+import com.aspose.words.ShapeRenderer;
+import java.awt.Graphics2D;
+import com.aspose.words.GroupShape;
+import com.aspose.words.HeaderFooterType;
 import com.aspose.words.WrapType;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.SaveFormat;
-import com.aspose.words.NodeType;
 import com.aspose.ms.NUnit.Framework.msAssert;
-import org.testng.Assert;
-import com.aspose.words.ShapeType;
-import com.aspose.words.GroupShape;
 import com.aspose.ms.System.Drawing.RectangleF;
-import com.aspose.ms.System.Drawing.msSize;
 import com.aspose.ms.System.Drawing.msPoint;
 import com.aspose.ms.System.Drawing.msPointF;
 import com.aspose.words.NodeCollection;
@@ -60,6 +63,7 @@ import com.aspose.words.DashStyle;
 import com.aspose.words.JoinStyle;
 import com.aspose.words.EndCap;
 import com.aspose.words.ShapeLineStyle;
+import com.aspose.ms.System.IO.File;
 import com.aspose.words.OlePackage;
 import com.aspose.words.HeightRule;
 import com.aspose.ms.System.msString;
@@ -76,7 +80,6 @@ import com.aspose.words.TextBoxWrapMode;
 import com.aspose.words.TextBoxAnchor;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.TextPathAlignment;
-import com.aspose.words.ShapeRenderer;
 import com.aspose.words.OfficeMathRenderer;
 import com.aspose.ms.System.Drawing.msSizeF;
 import com.aspose.ms.System.Drawing.Rectangle;
@@ -90,41 +93,123 @@ import org.testng.annotations.DataProvider;
 public class ExShape extends ApiExampleBase
 {
     @Test
-    public void aspectRatioLockedDefaultValueNetStandard2() throws Exception
+    public void insert() throws Exception
+    {
+        //ExStart
+        //ExFor:ShapeBase.AlternativeText
+        //ExFor:ShapeBase.Name
+        //ExFor:ShapeBase.Font
+        //ExFor:ShapeBase.CanHaveImage
+        //ExFor:ShapeBase.ParentParagraph
+        //ExFor:ShapeBase.Rotation
+        //ExSummary:Shows how to insert shapes.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a cube and set its name
+        Shape shape = builder.insertShape(ShapeType.CUBE, 150.0, 150.0);
+        shape.setName("MyCube");
+        
+        // We can also set the alt text like this
+        // This text will be found in Format AutoShape > Alt Text
+        shape.setAlternativeText("Alt text for MyCube.");
+        
+        // Insert a text box
+        shape = builder.insertShape(ShapeType.TEXT_BOX, 300.0, 50.0);
+        shape.getFont().setName("Times New Roman");
+        
+        // Move the builder into the text box and write text
+        builder.moveTo(shape.getLastParagraph());
+        builder.write("Hello world!");
+
+        // Move the builder out of the text box back into the main document
+        builder.moveTo(shape.getParentParagraph());         
+
+        // Insert a shape with an image
+        shape = builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"));
+        Assert.assertTrue(shape.canHaveImage());
+        Assert.assertTrue(shape.hasImage());
+
+        // Rotate the image
+        shape.setRotation(45.0);
+
+        doc.save(getArtifactsDir() + "Shape.Insert.docx");
+        //ExEnd
+    }
+
+    //ExStart
+    //ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
+    //ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
+    //ExFor:ShapeRenderer
+    //ExFor:ShapeRenderer.#ctor(ShapeBase)
+    //ExSummary:Shows how to render a shape with a Graphics object.
+    @Test (groups = "IgnoreOnJenkins") //ExSkip
+    public void displayShapeForm()
+    {
+        // Create a new ShapeForm instance and show it as a dialog box
+        ShapeForm shapeForm = new ShapeForm();
+        shapeForm.ShowDialog();
+    }
+
+    /// <summary>
+    /// Windows Form that renders and displays shapes from a document.
+    /// </summary>
+    private static class ShapeForm extends Form
+    {
+        protected /*override*/ void onPaint(PaintEventArgs e) throws Exception
+        {
+            // Set the size of the Form canvas
+            /*Size*/long = msSize.ctor(1000, 800);
+
+            // Open a document and get its first shape, which is a chart
+            Document doc = new Document(getMyDir() + "Various shapes.docx");
+            Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+
+            // Create a ShapeRenderer instance and a Graphics object
+            // The ShapeRenderer will render the shape that is passed during construction over the Graphics object
+            // Whatever is rendered on this Graphics object will be displayed on the screen inside this form
+            ShapeRenderer renderer = new ShapeRenderer(shape);
+            Graphics2D formGraphics = CreateGraphics();
+
+            // Call this method on the renderer to render the chart in the passed Graphics object,
+            // on a specified x/y coordinate and scale
+            renderer.renderToScaleInternal(formGraphics, 0f, 0f, 1.5f);
+
+            // Get another shape from the document, and render it to a specific size instead of a linear scale
+            GroupShape groupShape = (GroupShape)doc.getChild(NodeType.GROUP_SHAPE, 0, true);
+            renderer = new ShapeRenderer(groupShape);
+            renderer.renderToSize(formGraphics, 500f, 400f, 100f, 200f);
+        }
+    }
+    //ExEnd
+
+    @Test
+    public void aspectRatioLockedDefaultValue() throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // The best place for the watermark image is in the header or footer so it is shown on every page
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        
-        SKManagedStream stream = new SKManagedStream(File.openRead(getImageDir() + "Transparent background logo.png"));
-        try /*JAVA: was using*/
-        {
-            SKBitmap bitmap = SKBitmap.Decode(stream);
-            try /*JAVA: was using*/
-            {
-                // Insert a floating picture.
-                Shape shape = builder.InsertImage(bitmap);
-                shape.setWrapType(WrapType.NONE);
-                shape.setBehindText(true);
+        BufferedImage image = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
 
-                shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
-                shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
+        // Insert a floating picture
+        Shape shape = builder.insertImage(image);
+        shape.setWrapType(WrapType.NONE);
+        shape.setBehindText(true);
 
-                // Calculate image left and top position so it appears in the centre of the page
-                shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
-                shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
+        shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
+        shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
 
-                MemoryStream dstStream = new MemoryStream();
-                doc.save(dstStream, SaveFormat.DOCX);
+        // Calculate image left and top position so it appears in the centre of the page
+        shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
+        shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
 
-                shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-                msAssert.areEqual(true, shape.getAspectRatioLocked());
-            }
-            finally { if (bitmap != null) bitmap.close(); }
-        }
-        finally { if (stream != null) stream.close(); }            
+        MemoryStream dstStream = new MemoryStream();
+        doc.save(dstStream, SaveFormat.DOCX);
+
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        msAssert.areEqual(true, shape.getAspectRatioLocked());            
     }
 
     @Test

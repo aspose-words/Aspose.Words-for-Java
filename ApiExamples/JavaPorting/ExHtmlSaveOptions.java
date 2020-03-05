@@ -306,6 +306,92 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 		};
 	}
 
+    @Test (dataProvider = "exportFontsDataProvider")
+    public void exportFonts(boolean exportAsBase64) throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        {
+            saveOptions.setExportFontResources(true);
+            saveOptions.setExportFontsAsBase64(exportAsBase64);
+        }
+
+        switch (exportAsBase64)
+        {
+            case false:
+
+                doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportFonts.False.html", saveOptions);
+                Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir(), "HtmlSaveOptions.ExportFonts.False.times.ttf",
+                    SearchOption.ALL_DIRECTORIES));
+                break;
+
+            case true:
+
+                doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportFonts.True.html", saveOptions);
+                msAssert.isEmpty(Directory.getFiles(getArtifactsDir(), "HtmlSaveOptions.ExportFonts.True.times.ttf",
+                    SearchOption.ALL_DIRECTORIES));
+                break;
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "exportFontsDataProvider")
+	public static Object[][] exportFontsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test
+    public void resourceFolderPriority() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
+        saveOptions.setExportFontResources(true);
+        saveOptions.setResourceFolder(getArtifactsDir() + "Resources");
+        saveOptions.setResourceFolderAlias("http://example.com/resources");
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderPriority.html", saveOptions);
+
+        String[] a = Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.jpeg",
+            SearchOption.ALL_DIRECTORIES);
+        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.png", SearchOption.ALL_DIRECTORIES));
+        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.002.png", SearchOption.ALL_DIRECTORIES));
+        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
+        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.css", SearchOption.ALL_DIRECTORIES));
+    }
+
+    @Test
+    public void resourceFolderLowPriority() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        {
+            saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
+            saveOptions.setExportFontResources(true);
+            saveOptions.setFontsFolder(getArtifactsDir() + "Fonts");
+            saveOptions.setImagesFolder(getArtifactsDir() + "Images");
+            saveOptions.setResourceFolder(getArtifactsDir() + "Resources");
+            saveOptions.setResourceFolderAlias("http://example.com/resources");
+        }
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderLowPriority.html", saveOptions);
+
+        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Images",
+            "HtmlSaveOptions.ResourceFolderLowPriority.001.png", SearchOption.ALL_DIRECTORIES));
+        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.002.png",
+            SearchOption.ALL_DIRECTORIES));
+        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Fonts",
+            "HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
+        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderLowPriority.css",
+            SearchOption.ALL_DIRECTORIES));
+    }
 
     @Test
     public void svgMetafileFormat() throws Exception
