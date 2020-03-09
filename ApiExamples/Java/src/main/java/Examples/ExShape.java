@@ -15,10 +15,12 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,7 +32,8 @@ import java.util.UUID;
  */
 public class ExShape extends ApiExampleBase {
     @Test
-    public void insertShape() throws Exception {
+    public void insert() throws Exception
+    {
         //ExStart
         //ExFor:ShapeBase.AlternativeText
         //ExFor:ShapeBase.Name
@@ -62,19 +65,49 @@ public class ExShape extends ApiExampleBase {
         builder.moveTo(shape.getParentParagraph());
 
         // Insert a shape with an image
-        shape = builder.insertImage(getImageDir() + "Aspose.Words.gif");
+        shape = builder.insertImage(getImageDir() + "Logo.jpg");
         Assert.assertTrue(shape.canHaveImage());
         Assert.assertTrue(shape.hasImage());
 
         // Rotate the image
         shape.setRotation(45.0);
 
-        doc.save(getArtifactsDir() + "Shape.InsertShapes.docx");
+        doc.save(getArtifactsDir() + "Shape.Insert.docx");
         //ExEnd
     }
 
     @Test
-    public void coordinates() throws Exception {
+    public void aspectRatioLockedDefaultValue() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // The best place for the watermark image is in the header or footer so it is shown on every page
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        BufferedImage image = ImageIO.read(new File(getImageDir() + "Transparent background logo.png"));
+
+        // Insert a floating picture
+        Shape shape = builder.insertImage(image);
+        shape.setWrapType(WrapType.NONE);
+        shape.setBehindText(true);
+
+        shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
+        shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
+
+        // Calculate image left and top position so it appears in the centre of the page
+        shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
+        shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
+
+        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
+        doc.save(dstStream, SaveFormat.DOCX);
+
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        Assert.assertEquals(true, shape.getAspectRatioLocked());
+    }
+
+    @Test
+    public void coordinates() throws Exception
+    {
         //ExStart
         //ExFor:ShapeBase.DistanceBottom
         //ExFor:ShapeBase.DistanceLeft
@@ -250,46 +283,6 @@ public class ExShape extends ApiExampleBase {
 
         // Verify that the first shape in the document is not inline
         Assert.assertFalse(((Shape) doc.getChild(NodeType.SHAPE, 0, true)).isInline());
-    }
-
-    @Test
-    public void lineFlipOrientation() throws Exception {
-        //ExStart
-        //ExFor:ShapeBase.Bounds
-        //ExFor:ShapeBase.BoundsInPoints
-        //ExFor:ShapeBase.FlipOrientation
-        //ExFor:FlipOrientation
-        //ExSummary:Shows how to create line shapes and set specific location and size.
-        Document doc = new Document();
-
-        // The lines will cross the whole page
-        float pageWidth = (float) doc.getFirstSection().getPageSetup().getPageWidth();
-        float pageHeight = (float) doc.getFirstSection().getPageSetup().getPageHeight();
-
-        // This line goes from top left to bottom right by default
-        Shape lineA = new Shape(doc, ShapeType.LINE);
-        lineA.setBounds(new Rectangle2D.Float(0, 0, pageWidth, pageHeight));
-        lineA.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
-        lineA.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineA);
-
-        Assert.assertEquals(lineA.getBoundsInPoints(), new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight));
-
-        // This line goes from bottom left to top right because we flipped it
-        Shape lineB = new Shape(doc, ShapeType.LINE);
-        lineB.setBounds(new Rectangle2D.Float(0, 0, pageWidth, pageHeight));
-        lineB.setFlipOrientation(FlipOrientation.HORIZONTAL);
-        lineB.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
-        lineB.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
-
-        Assert.assertEquals(new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight), lineB.getBoundsInPoints());
-
-        // Add lines to the document
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineB);
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineA);
-
-        doc.save(getArtifactsDir() + "Shape.LineFlipOrientation.doc");
-        //ExEnd
     }
 
     @Test
@@ -653,7 +646,7 @@ public class ExShape extends ApiExampleBase {
         //ExStart
         //ExFor:OfficeMath.GetMathRenderer
         //ExFor:NodeRendererBase.Save(String, ImageSaveOptions)
-        //ExSummary:Shows how to convert specific object into image
+        //ExSummary:Shows how to convert specific object into image.
         Document doc = new Document(getMyDir() + "Office math.docx");
 
         // Get OfficeMath node from the document and render this as image (you can also do the same with the Shape node)
@@ -686,7 +679,8 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void officeMathDisplayGold() throws Exception {
+    public void officeMath() throws Exception
+    {
         //ExStart
         //ExFor:OfficeMath
         //ExFor:OfficeMath.DisplayType
@@ -808,42 +802,15 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void aspectRatioLockedDefaultValue() throws Exception {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // The best place for the watermark image is in the header or footer so it is shown on every page.
-        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-
-        // Insert a floating picture.
-        Shape shape = builder.insertImage(getImageDir() + "Transparent background logo.png");
-        shape.setWrapType(WrapType.NONE);
-        shape.setBehindText(true);
-
-        shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
-        shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
-
-        // Calculate image left and top position so it appears in the centre of the page.
-        shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
-        shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
-
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
-        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        Assert.assertEquals(shape.getAspectRatioLocked(), true);
-    }
-
-    @Test
-    public void markupLunguageByDefault() throws Exception {
+    public void markupLunguageByDefault() throws Exception
+    {
         //ExStart
         //ExFor:ShapeBase.MarkupLanguage
         //ExFor:ShapeBase.SizeInPoints
         //ExSummary:Shows how get markup language for shape object in document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-
-        Shape image = builder.insertImage(getImageDir() + "Transparent background logo.png");
+        builder.insertImage(getImageDir() + "Transparent background logo.png");
 
         // Loop through all single shapes inside document
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
@@ -1790,56 +1757,12 @@ public class ExShape extends ApiExampleBase {
 
         // The opaque bounds may vary here also
         bounds = renderer.getOpaqueBoundsInPixels(1.0f, 96.0f);
-        Assert.assertEquals(bounds.getWidth(), 156.0);
-        Assert.assertEquals(bounds.getHeight(), 20.0);
+        Assert.assertEquals(156.0, bounds.getWidth());
+        Assert.assertEquals(20.0, bounds.getHeight());
 
         bounds = renderer.getOpaqueBoundsInPixels(1.0f, 96.0f, 150.0f);
-        Assert.assertEquals(bounds.getWidth(), 156.0);
-        Assert.assertEquals(bounds.getHeight(), 31.0);
-        //ExEnd
-    }
-
-    //ExStart
-    //ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
-    //ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
-    //ExFor:ShapeRenderer
-    //ExFor:ShapeRenderer.#ctor(ShapeBase)
-    //ExSummary:Shows how to render a shape with a Graphics object.
-    public static class JFrameGraphics extends JPanel {
-        public void paint(Graphics graphics) {
-            try {
-                // Open a document and get its first shape, which is a chart
-                Document doc = new Document(getMyDir() + "Shape.VarietyOfShapes.docx");
-
-                Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
-
-                // Create a ShapeRenderer instance and a Graphics object
-                // The ShapeRenderer will render the shape that is passed during construction over the Graphics object
-                // Whatever is rendered on this Graphics object will be displayed on the screen inside this form
-                ShapeRenderer renderer = new ShapeRenderer(shape);
-
-                // Call this method on the renderer to render the chart in the passed Graphics object,
-                // on a specified x/y coordinate and scale
-                renderer.renderToScale((Graphics2D) graphics, 0f, 0f, 1.5f);
-
-                // Get another shape from the document, and render it to a specific size instead of a linear scale
-                GroupShape groupShape = (GroupShape) doc.getChild(NodeType.GROUP_SHAPE, 0, true);
-                renderer = new ShapeRenderer(groupShape);
-                renderer.renderToSize((Graphics2D) graphics, 500f, 400f, 100f, 200f);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public static void main(String[] args) {
-            // Create windows form for present shapes
-            JFrame frame = new JFrame("Aspose example");
-            frame.getContentPane().add(new JFrameGraphics());
-            frame.setSize(1000, 800);
-            frame.setVisible(true);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setResizable(false);
-        }
+        Assert.assertEquals(156.0, bounds.getWidth());
+        Assert.assertEquals(31.0, bounds.getHeight());
         //ExEnd
     }
 }

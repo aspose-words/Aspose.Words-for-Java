@@ -39,7 +39,7 @@ public class ExImage extends ApiExampleBase {
         builder.insertImage(getAsposelogoUri().toURL().toString());
         builder.writeln();
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromUrl.docx");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromUrl.doc");
         //ExEnd
     }
 
@@ -59,15 +59,13 @@ public class ExImage extends ApiExampleBase {
             stream.close();
         }
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromStream.docx");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromStream.doc");
         //ExEnd
     }
 
-    @Test
-    public void createFromImage() throws Exception {
-        //ExStart
-        //ExFor:DocumentBuilder.InsertImage(Image)
-        //ExSummary:Shows how to insert a .NET Image object into a document. The image is inserted inline and at 100% scale.
+    @Test (groups = "SkipMono")
+    public void createFromImage() throws Exception
+    {
         // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -77,13 +75,12 @@ public class ExImage extends ApiExampleBase {
         builder.insertImage(rasterImage);
         builder.writeln();
 
-        // Aspose.Words allows to insert a metafile too, but on Java you should specify a filename or a stream, not a BufferedImage
+        // Aspose.Words allows to insert a metafile too
         builder.write("Metafile: ");
         builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
         builder.writeln();
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromImage.docx");
-        //ExEnd
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromImage.doc");
     }
 
     @Test
@@ -118,7 +115,7 @@ public class ExImage extends ApiExampleBase {
         shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
         shape.setVerticalAlignment(VerticalAlignment.CENTER);
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPageCenter.docx");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPageCenter.doc");
         //ExEnd
     }
 
@@ -180,7 +177,7 @@ public class ExImage extends ApiExampleBase {
         shape.setTarget("New Window");
         shape.setScreenTip("Aspose.Words Support Forums");
 
-        builder.getDocument().save(getArtifactsDir() + "Image.InsertImageWithHyperlink.docx");
+        builder.getDocument().save(getArtifactsDir() + "Image.InsertImageWithHyperlink.doc");
         //ExEnd
     }
 
@@ -279,10 +276,10 @@ public class ExImage extends ApiExampleBase {
         for (Shape shape : (Iterable<Shape>) shapesToDelete) {
             shape.remove();
         }
-        //ExEnd
 
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 1);
-        doc.save(getArtifactsDir() + "Image.DeleteAllImages.doc");
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+        doc.save(getArtifactsDir() + "Image.DeleteAllImages.docx");
+        //ExEnd
     }
 
     @Test
@@ -313,10 +310,10 @@ public class ExImage extends ApiExampleBase {
 
             curNode = nextNode;
         }
-        //ExEnd
 
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 1);
-        doc.save(getArtifactsDir() + "Image.DeleteAllImagesPreOrder.doc");
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+        doc.save(getArtifactsDir() + "Image.DeleteAllImagesPreOrder.docx");
+        //ExEnd
     }
 
     @Test

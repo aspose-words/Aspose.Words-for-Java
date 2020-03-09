@@ -33,8 +33,7 @@ public class ExStyles extends ApiExampleBase {
         //ExFor:StyleCollection.GetEnumerator
         //ExSummary:Shows how to get access to the collection of styles defined in the document.
         Document doc = new Document();
-        StyleCollection styles = doc.getStyles();
-
+       
         Iterator<Style> stylesEnum = doc.getStyles().iterator();
         while (stylesEnum.hasNext()) {
             Style curStyle = stylesEnum.next();

@@ -695,7 +695,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void xmlDataStringWithoutSchema() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
 
-        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "XmlData.xml");
+        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "List of people.xml");
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.XmlDataString.docx");
@@ -708,7 +708,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void xmlDataStreamWithoutSchema() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
 
-        InputStream stream = new FileInputStream(getMyDir() + "XmlData.xml");
+        InputStream stream = new FileInputStream(getMyDir() + "List of people.xml");
         try {
             XmlDataSource dataSource = new XmlDataSource(stream);
             buildReport(doc, dataSource, "persons");
@@ -726,7 +726,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void xmlDataWithNestedElements() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.DataSourceWithNestedElements.Java.docx");
 
-        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "XmlDataWithNestedElements.xml");
+        XmlDataSource dataSource = new XmlDataSource(getMyDir() + "Nested elements.xml");
         buildReport(doc, dataSource, "managers");
 
         doc.save(getArtifactsDir() + "ReportingEngine.XmlDataWithNestedElements.docx");
@@ -739,7 +739,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void jsonDataString() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
 
-        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "JsonData.json");
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json");
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
@@ -751,7 +751,7 @@ public class ExReportingEngine extends ApiExampleBase {
     @Test
     public void jsonDataStream() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
-        InputStream stream = new FileInputStream(getMyDir() + "JsonData.json");
+        InputStream stream = new FileInputStream(getMyDir() + "List of people.json");
         try {
             JsonDataSource dataSource = new JsonDataSource(stream);
             buildReport(doc, dataSource, "persons");
@@ -769,7 +769,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void jsonDataWithNestedElements() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.DataSourceWithNestedElements.Java.docx");
 
-        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "JsonDataWithNestedElements.json");
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "Nested elements.json");
         buildReport(doc, dataSource, "managers");
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx");
@@ -786,7 +786,7 @@ public class ExReportingEngine extends ApiExampleBase {
         loadOptions.setDelimiter(';');
         loadOptions.setCommentChar('$');
 
-        CsvDataSource dataSource = new CsvDataSource(getMyDir() + "CsvData.csv", loadOptions);
+        CsvDataSource dataSource = new CsvDataSource(getMyDir() + "List of people.csv", loadOptions);
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.CsvDataString.docx");
@@ -803,7 +803,7 @@ public class ExReportingEngine extends ApiExampleBase {
         loadOptions.setDelimiter(';');
         loadOptions.setCommentChar('$');
 
-        InputStream stream = new FileInputStream(getMyDir() + "CsvData.csv");
+        InputStream stream = new FileInputStream(getMyDir() + "List of people.csv");
         try {
             CsvDataSource dataSource = new CsvDataSource(stream, loadOptions);
             buildReport(doc, dataSource, "persons");

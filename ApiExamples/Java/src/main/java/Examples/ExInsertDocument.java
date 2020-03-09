@@ -31,7 +31,7 @@ public class ExInsertDocument extends ApiExampleBase {
      * @param srcDoc          The document to insert.
      */
     public static void insertDocument(Node insertAfterNode, final Document srcDoc) {
-        // Make sure that the node is either a paragraph or table.
+        // Make sure that the node is either a paragraph or table
         if ((insertAfterNode.getNodeType() != NodeType.PARAGRAPH) & (insertAfterNode.getNodeType() != NodeType.TABLE)) {
             throw new IllegalArgumentException("The destination node should be either a paragraph or table.");
         }
@@ -128,43 +128,7 @@ public class ExInsertDocument extends ApiExampleBase {
         }
     }
     //ExEnd
-
-    private class InsertDocumentAtMailMergeBlobHandler implements IFieldMergingCallback {
-        /**
-         * This handler makes special processing for the "Document_1" field.
-         * The field value contains the path to load the document.
-         * We load the document and insert it into the current merge field.
-         */
-        public void fieldMerging(final FieldMergingArgs args) throws Exception {
-            if ("Document_1".equals(args.getDocumentFieldName())) {
-                // Use document builder to navigate to the merge field with the specified name
-                DocumentBuilder builder = new DocumentBuilder(args.getDocument());
-                builder.moveToMergeField(args.getDocumentFieldName());
-
-                // Load the document from the blob field
-                ByteArrayInputStream inStream = new ByteArrayInputStream((byte[]) args.getFieldValue());
-                Document subDoc = new Document(inStream);
-                inStream.close();
-
-                // Insert the document
-                insertDocument(builder.getCurrentParagraph(), subDoc);
-
-                // The paragraph that contained the merge field might be empty now and you probably want to delete it
-                if (!builder.getCurrentParagraph().hasChildNodes()) {
-                    builder.getCurrentParagraph().remove();
-                }
-
-                // Indicate to the mail merge engine that we have inserted what we wanted
-                args.setText(null);
-            }
-        }
-
-        public void imageFieldMerging(final ImageFieldMergingArgs args) {
-            // Do nothing
-        }
-    }
-
-
+    
     //ExStart
     //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
     //ExFor:IReplacingCallback
@@ -202,4 +166,3 @@ public class ExInsertDocument extends ApiExampleBase {
     }
     //ExEnd
 }
-

@@ -84,7 +84,6 @@ public class ExTable extends ApiExampleBase {
         Assert.assertTrue(tables.getCount() > 0);
     }
 
-
     //ExStart
     //ExFor:Node.GetAncestor(NodeType)
     //ExFor:Node.GetAncestor(System.Type)
@@ -561,8 +560,8 @@ public class ExTable extends ApiExampleBase {
         // upon save. This has to do with document validation
         table.getParentNode().insertAfter(new Paragraph(doc), table);
 
-        doc.save(getArtifactsDir() + "Table.CloneTableAndInsert.doc");
-
+        doc.save(getArtifactsDir() + "Table.CloneTable.doc");
+        
         // Verify that the table was cloned and inserted properly
         Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 3);
         Assert.assertEquals(tableClone.getRange().getText(), table.getRange().getText());
@@ -582,7 +581,7 @@ public class ExTable extends ApiExampleBase {
         // Disable breaking across pages for all rows in the table
         Document doc = new Document(getMyDir() + "Table spanning two pages.docx");
 
-        // Retrieve the first table in the document.
+        // Retrieve the first table in the document
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
         for (Row row : table) {
@@ -774,21 +773,11 @@ public class ExTable extends ApiExampleBase {
         //ExSummary:Retrieves the index of a table in the document.
         NodeCollection allTables = doc.getChildNodes(NodeType.TABLE, true);
         int tableIndex = allTables.indexOf(table);
-        //ExEnd
 
         Row row = table.getRows().get(2);
-        //ExStart
-        //ExFor:Row
-        //ExFor:CompositeNode.IndexOf
-        //ExSummary:Retrieves the index of a row in a table.
         int rowIndex = table.indexOf(row);
-        //ExEnd
 
         Cell cell = row.getLastCell();
-        //ExStart
-        //ExFor:Cell
-        //ExFor:CompositeNode.IndexOf
-        //ExSummary:Retrieves the index of a cell in a row.
         int cellIndex = row.indexOf(cell);
         //ExEnd
 
@@ -1237,7 +1226,7 @@ public class ExTable extends ApiExampleBase {
         builder.insertCell();
         builder.write("Name");
         builder.insertCell();
-        builder.write("مرحبًا");
+        builder.write("??????");
         builder.endRow();
         builder.insertCell();
         builder.insertCell();

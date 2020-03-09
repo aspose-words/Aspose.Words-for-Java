@@ -100,7 +100,7 @@ public class ExSignDocumentCustom extends ApiExampleBase {
     /// Create test data that contains info about sing persons.
     /// </summary>
     private static void createSignPersonData() throws IOException {
-        InputStream inputStream = new FileInputStream(getImageDir() + "LogoSmall.png");
+        InputStream inputStream = new FileInputStream(getImageDir() + "Logo.jpg");
 
         gSignPersonList = new ArrayList<>();
         gSignPersonList.add(new SignPersonTestClass(UUID.randomUUID(), "Ron Williams", "Chief Executive Officer",

@@ -185,12 +185,8 @@ public class ExEditableRange extends ApiExampleBase {
 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        //Is not valid structure for the current document
-        try {
-            builder.endEditableRange();
-        } catch (Exception e) {
-            Assert.assertTrue(e instanceof IllegalStateException);
-        }
+        // Checking that isn't valid structure for the current document
+        Assert.assertThrows(IllegalStateException.class, () -> builder.endEditableRange());
 
         builder.startEditableRange();
     }

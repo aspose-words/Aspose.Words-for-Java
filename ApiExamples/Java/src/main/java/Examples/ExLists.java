@@ -315,10 +315,10 @@ public class ExLists extends ApiExampleBase {
         List list1 = listStyle.getList();
 
         // Check some basic rules about the list that defines a list style
-        System.out.println("IsListStyleDefinition: " + list1.isListStyleDefinition()); // Will be true
-        System.out.println("IsListStyleReference: " + list1.isListStyleReference()); // Will be false
-        System.out.println("IsMultiLevel: " + list1.isMultiLevel()); // Will be true
-        System.out.println("List style has been set: " + (listStyle == list1.getStyle())); // Are equal
+        System.out.println("IsListStyleDefinition: " + list1.isListStyleDefinition());
+        System.out.println("IsListStyleReference: " + list1.isListStyleReference());
+        System.out.println("IsMultiLevel: " + list1.isMultiLevel());
+        System.out.println("List style has been set: " + (listStyle == list1.getStyle()));
 
         // Modify formatting of the list style to our liking
         for (int i = 0; i < list1.getListLevels().getCount(); i++) {
@@ -337,9 +337,9 @@ public class ExLists extends ApiExampleBase {
         List list2 = doc.getLists().add(listStyle);
 
         // Check some basic rules about the list that references a list style
-        System.out.println("IsListStyleDefinition: " + list2.isListStyleDefinition()); // Will be false
-        System.out.println("IsListStyleReference: " + list2.isListStyleReference()); // Will be true
-        System.out.println("List Style has been set: " + (listStyle == list2.getStyle())); // Are equal
+        System.out.println("IsListStyleDefinition: " + list2.isListStyleDefinition());
+        System.out.println("IsListStyleReference: " + list2.isListStyleReference());
+        System.out.println("List Style has been set: " + (listStyle == list2.getStyle()));
 
         // Apply the list that references the list style
         builder.getListFormat().setList(list2);
@@ -402,7 +402,6 @@ public class ExLists extends ApiExampleBase {
 
         for (Paragraph paragraph : body.getParagraphs())
             paragraph.getListFormat().removeNumbers();
-
         //ExEnd
     }
 
@@ -738,4 +737,3 @@ public class ExLists extends ApiExampleBase {
         //ExEnd
     }
 }
-

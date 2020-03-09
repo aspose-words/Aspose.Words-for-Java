@@ -272,8 +272,9 @@ public class ExHeaderFooter extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test //ExSkip
-    public void headerFooterPrimer() throws Exception {
+    @Test
+    public void primer() throws Exception
+    {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -405,4 +406,3 @@ public class ExHeaderFooter extends ApiExampleBase {
         }
     }
 }
-

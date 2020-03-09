@@ -190,8 +190,9 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void roundtripInformationDefaulValue() {
-        // Assert that default value is true for HTML and false for MHTML and EPUB.
+    public void roundtripInformationDefaulValue()
+    {
+        //Assert that default value is true for HTML and false for MHTML and EPUB
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         Assert.assertEquals(saveOptions.getExportRoundtripInformation(), true);
 
@@ -279,22 +280,20 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         saveOptions.setExportFontResources(true);
         saveOptions.setExportFontsAsBase64(exportAsBase64);
 
-        if (!exportAsBase64) {
-            doc.save(getArtifactsDir() + "DocumentExportFonts Out 1.html", saveOptions);
-            // Verify that the font has been added to the folder
-            Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "", "DocumentExportFonts Out 1.times.ttf").isEmpty());
+        if (exportAsBase64 == false) {
+            doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportFonts.False.html", saveOptions);
+            Assert.assertFalse(directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportFonts.False.times.ttf").isEmpty());
 
-        } else {
-            doc.save(getArtifactsDir() + "DocumentExportFonts Out 2.html", saveOptions);
-            // Verify that the font is not added to the folder
-            Assert.assertTrue(directoryGetFiles(getArtifactsDir() + "", "DocumentExportFonts Out 2.times.ttf").isEmpty());
+        } else if (exportAsBase64 == true) {
+            doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportFonts.True.html", saveOptions);
+            Assert.assertTrue(directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportFonts.True.times.ttf").isEmpty());
 
         }
     }
 
     //JAVA-added data provider for test method
     @DataProvider(name = "exportFontsDataProvider")
-    public static Object[][] exportFontsDataProvider() throws Exception {
+    public static Object[][] exportFontsDataProvider() {
         return new Object[][]{
                 {false},
                 {true}
@@ -302,8 +301,9 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void resourceFolderPriority() throws Exception {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ResourceFolder.docx");
+    public void resourceFolderPriority() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
@@ -311,18 +311,18 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         saveOptions.setResourceFolder(getArtifactsDir() + "Resources");
         saveOptions.setResourceFolderAlias("http://example.com/resources");
 
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolder Out.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderPriority.html", saveOptions);
 
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.001.jpeg").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.002.png").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.calibri.ttf").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.css").isEmpty());
+        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.png").isEmpty());
+        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.002.png").isEmpty());
+        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.arial.ttf").isEmpty());
+        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.css").isEmpty());
     }
 
     @Test
-    public void resourceFolderLowPriority() throws Exception {
-        Document doc = new Document(getMyDir() + "HtmlSaveOptions.ResourceFolder.docx");
-
+    public void resourceFolderLowPriority() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
         saveOptions.setExportFontResources(true);
@@ -331,12 +331,12 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         saveOptions.setResourceFolder(getArtifactsDir() + "Resources");
         saveOptions.setResourceFolderAlias("http://example.com/resources");
 
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolder Out.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderLowPriority.html", saveOptions);
 
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolder Out.001.jpeg").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolder Out.002.png").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Fonts", "HtmlSaveOptions.ResourceFolder Out.calibri.ttf").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolder Out.css").isEmpty());
+        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.001.png").isEmpty());
+        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.002.png").isEmpty());
+        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Fonts", "HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf").isEmpty());
+        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderLowPriority.css").isEmpty());
     }
 
     @Test
@@ -436,7 +436,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         FontSettings fontSettings = new FontSettings();
         fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
-        fontSettings.getSubstitutionSettings().getFontConfigSubstitution().setEnabled(false);
+        fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setEnabled(true);
 
         document.setFontSettings(fontSettings);
 
@@ -510,8 +510,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         options.setAllowNegativeIndent(true);
         options.setTableWidthOutputMode(HtmlElementSizeOutputMode.RELATIVE_ONLY);
 
-        // The first cell with "Cell 1" will not be visible in the output
-        doc.save(getArtifactsDir() + "HtmlSaveOptions.AllowNegativeIndent.html", options);
+        // The first cell with "Cell 1" will not be visible in the output 
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.NegativeIndent.html", options);
         //ExEnd
     }
 
@@ -679,7 +679,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         builder.writeln("Hello world!");
 
         builder.getFont().setLocaleId(1049); // ru-RU
-        builder.write("Привет, мир!");
+        builder.write("??????, ???!");
 
         // Normally, when saving a document with more than one proofing language to .html,
         // only the text content is preserved with no traces of any other languages

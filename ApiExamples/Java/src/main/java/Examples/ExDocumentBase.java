@@ -203,7 +203,7 @@ public class ExDocumentBase extends ApiExampleBase {
 
                 // We can find and add an image any way we like, as long as args.SetData() is called with some image byte array as a parameter
                 if ("My Watermark".equals(args.getOriginalUri())) {
-                    InputStream imageStream = new FileInputStream(getImageDir() + "Watermark.png");
+                    InputStream imageStream = new FileInputStream(getImageDir() + "Transparent background logo.png");
                     args.setData(DocumentHelper.getBytesFromStream(imageStream));
 
                     return ResourceLoadingAction.USER_PROVIDED;

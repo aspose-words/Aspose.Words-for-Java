@@ -78,7 +78,6 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
     @Test
     public void insertImageFromImageClass() throws Exception {
         //ExStart
-        //ExFor:DocumentBuilder.InsertImage(Image)
         //ExFor:DocumentBuilder.InsertImage(Image, Double, Double)
         //ExFor:DocumentBuilder.InsertImage(Image, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
         //ExSummary:Shows different solutions of how to import an image into a document from Image class.
@@ -97,7 +96,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         builder.insertImage(image, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN,
                 100.0, 200.0, 100.0, WrapType.SQUARE);
 
-        doc.save(getArtifactsDir() + "InsertImageFromImageClass.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromImageClass.docx");
         //ExEnd
     }
 
@@ -123,7 +122,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         builder.insertImage(imageByteArray, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN,
                 100.0, 200.0, 100.0, WrapType.SQUARE);
 
-        doc.save(getArtifactsDir() + "InsertImageFromByteArray.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromByteArray.docx");
         //ExEnd
     }
 }
