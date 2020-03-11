@@ -39,7 +39,7 @@ public class ExImage extends ApiExampleBase {
         builder.insertImage(getAsposelogoUri().toURL().toString());
         builder.writeln();
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromUrl.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromUrl.docx");
         //ExEnd
     }
 
@@ -59,7 +59,7 @@ public class ExImage extends ApiExampleBase {
             stream.close();
         }
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromStream.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromStream.docx");
         //ExEnd
     }
 
@@ -115,7 +115,7 @@ public class ExImage extends ApiExampleBase {
         shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
         shape.setVerticalAlignment(VerticalAlignment.CENTER);
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPageCenter.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.CreateFloatingPageCenter.docx");
         //ExEnd
     }
 
@@ -177,7 +177,7 @@ public class ExImage extends ApiExampleBase {
         shape.setTarget("New Window");
         shape.setScreenTip("Aspose.Words Support Forums");
 
-        builder.getDocument().save(getArtifactsDir() + "Image.InsertImageWithHyperlink.doc");
+        builder.getDocument().save(getArtifactsDir() + "Image.InsertImageWithHyperlink.docx");
         //ExEnd
     }
 

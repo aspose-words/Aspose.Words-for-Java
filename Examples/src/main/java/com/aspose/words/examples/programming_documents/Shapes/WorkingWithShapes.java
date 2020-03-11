@@ -19,6 +19,7 @@ public class WorkingWithShapes {
         SpecifyVerticalAnchor(dataDir);
         DetectSmartArtShape(dataDir);
         ShapeHorizontalRuleFormat(dataDir);
+        InsertOLEObjectAsIcon(dataDir);
     }
 
     public static void insertShapeUsingDocumentBuilder(String dataDir) throws Exception {
@@ -180,5 +181,19 @@ public class WorkingWithShapes {
         builder.getDocument().save("HorizontalRuleFormat.docx");
         // ExEnd:ShapeHorizontalRuleFormat
         System.out.println("\nHorizontal rule format inserted into document successfully.\nFile saved at " + dataDir);
+    }
+
+    public static void InsertOLEObjectAsIcon(String dataDir) throws Exception
+    {
+        // ExStart:InsertOLEObjectAsIcon
+        Document doc = new Document();
+
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        Shape shape = builder.insertOleObjectAsIcon(dataDir + "embedded.xlsx", false, dataDir + "icon.ico", "My embedded file");
+
+        doc.save(dataDir + "EmbeddeWithIcon_out.docx");
+
+        System.out.println("The document has been saved with OLE Object as an Icon.");
+        // ExEnd:InsertOLEObjectAsIcon
     }
 }

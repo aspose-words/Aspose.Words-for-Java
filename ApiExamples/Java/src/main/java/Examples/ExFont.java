@@ -597,7 +597,7 @@ public class ExFont extends ApiExampleBase {
 
         Assert.assertTrue(callback.mFontWarnings.getCount() > 0);
         Assert.assertTrue(callback.mFontWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
-        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
+        Assert.assertTrue(callback.mFontWarnings.get(1).getDescription().equals("Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
 
         // Restore default fonts
         FontSettings.getDefaultInstance().setFontsSources(origFontSources);

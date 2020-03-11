@@ -2925,7 +2925,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Bulleted lists are represented using paragraph numbering
         builder.getListFormat().applyBulletDefault();
         // There can be 3 types of bulleted lists
-        // The only diff in a numbering format of the very first level are: ‘-’, ‘+’ or ‘*’ respectively
+        // The only diff in a numbering format of the very first level are: �?-’, �?+’ or �?*’ respectively
         builder.getListFormat().getList().getListLevels().get(0).setNumberFormat("-");
         
         builder.writeln("Item 1");
