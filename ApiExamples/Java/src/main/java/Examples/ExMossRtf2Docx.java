@@ -13,11 +13,10 @@ import com.aspose.words.SaveFormat;
 
 public class ExMossRtf2Docx {
     public static void convertRtfToDocx(final String inFileName, final String outFileName) throws Exception {
-        // Load an RTF file into Aspose.Words.
+        // Load an RTF file into Aspose.Words
         Document doc = new Document(inFileName);
 
-        // Save the document in the OOXML format.
+        // Save the document in the OOXML format
         doc.save(outFileName, SaveFormat.DOCX);
     }
 }
-

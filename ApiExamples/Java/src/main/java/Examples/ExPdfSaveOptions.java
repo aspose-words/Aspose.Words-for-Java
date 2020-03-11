@@ -563,7 +563,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         PdfSaveOptions options = new PdfSaveOptions();
         options.setPreblendImages(true);
 
-        doc.save(getArtifactsDir() + "PdfSaveOptions.PreblendImages.pdf", options);
+        doc.save(getArtifactsDir() + "PdfSaveOptions.PreblendImagest.pdf", options);
         //ExEnd
     }
 

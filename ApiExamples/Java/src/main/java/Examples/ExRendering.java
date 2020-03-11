@@ -9,6 +9,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import javafx.print.PaperSource;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -212,7 +213,6 @@ public class ExRendering extends ApiExampleBase {
         //ExFor:ImageSaveOptions.TiffCompression
         //ExFor:ImageSaveOptions.PageIndex
         //ExFor:ImageSaveOptions.PageCount
-        //ExFor:Document.Save(String, SaveOptions)
         //ExSummary:Converts a page of a Word document into a TIFF image and uses the CCITT compression.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
@@ -317,175 +317,12 @@ public class ExRendering extends ApiExampleBase {
     }
 
     @Test
-    public void updatePageLayout() throws Exception {
-        //ExStart
-        //ExFor:StyleCollection.Item(String)
-        //ExFor:SectionCollection.Item(Int32)
-        //ExFor:Document.UpdatePageLayout
-        //ExSummary:Shows when to request page layout of the document to be recalculated.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
-
-        // Saving a document to PDF or to image or printing for the first time will automatically
-        // layout document pages and this information will be cached inside the document
-        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout.1.pdf");
-
-        // Modify the document in any way
-        doc.getStyles().get("Normal").getFont().setSize(6);
-        doc.getSections().get(0).getPageSetup().setOrientation(com.aspose.words.Orientation.LANDSCAPE);
-
-        // In the current version of Aspose.Words, modifying the document does not automatically rebuild
-        // the cached page layout. If you want to save to PDF or render a modified document again,
-        // you need to manually request page layout to be updated
-        doc.updatePageLayout();
-
-        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout.2.pdf");
-        //ExEnd
-    }
-
-    @Test
-    public void updateFieldsBeforeRendering() throws Exception {
-        //ExStart
-        //ExFor:Document.UpdateFields
-        //ExSummary:Shows how to update all fields before rendering a document.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
-
-        // This updates all fields in the document
-        doc.updateFields();
-
-        doc.save(getArtifactsDir() + "Rendering.UpdateFields.pdf");
-        //ExEnd
-    }
-
-    @Test(enabled = false, description = "Run only when the printer driver is installed")
-    public void print() throws Exception {
-        //ExStart
-        //ExFor:Document.Print
-        //ExSummary:Prints the whole document to the default printer.
-        Document doc = new Document(getMyDir() + "Document.docx");
-
-        doc.print();
-        //ExEnd
-    }
-
-    @Test(enabled = false, description = "Run only when the printer driver is installed")
-    public void printToNamedPrinter() throws Exception {
-        //ExStart
-        //ExFor:Document.Print(String)
-        //ExSummary:Prints the whole document to a specified printer.
-        Document doc = new Document(getMyDir() + "Document.docx");
-
-        doc.print("KONICA MINOLTA magicolor 2400W");
-        //ExEnd
-    }
-
-    @Test(enabled = false, description = "Run only when the printer driver is installed")
-    public void printRange() throws Exception {
-        //ExStart
-        //ExFor:Document.Print(PrinterSettings)
-        //ExSummary:Prints a range of pages.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
-
-        AttributeSet printerSettings = new HashAttributeSet();
-        // Page numbers in printer settings are 1-based
-        printerSettings.add(new PageRanges(1, 3));
-
-        doc.print(printerSettings);
-        //ExEnd
-    }
-
-    @Test(enabled = false, description = "Run only when the printer driver is installed")
-    public void printRangeWithDocumentName() throws Exception {
-        //ExStart
-        //ExFor:Document.Print(PrinterSettings, String)
-        //ExSummary:Prints a range of pages along with the name of the document.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
-
-        AttributeSet printerSettings = new HashAttributeSet();
-        // Page numbers in printer settings are 1-based
-        printerSettings.add(new PageRanges(1, 3));
-
-        doc.print(printerSettings, "My Print Document.doc");
-        //ExEnd
-    }
-
-    @Test(enabled = false, description = "Run only when the printer driver is installed")
-    public void printWithPrintDialog() throws Exception {
-        //ExStart
-        //ExFor:AsposeWordsPrintDocument.#ctor(Document)
-        //ExFor:AsposeWordsPrintDocument.CachePrinterSettings
-        //ExSummary:Shows the standard Java print dialog that allows selecting the printer and the specified page range to print the document with.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
-
-        PrinterJob pj = PrinterJob.getPrinterJob();
-
-        // Initialize the Print Dialog with the number of pages in the document
-        PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
-        attributes.add(new PageRanges(1, doc.getPageCount()));
-
-        // Returns true if the user accepts the print dialog
-        if (!pj.printDialog(attributes)) return;
-
-        // Create the Aspose.Words' implementation of the Java Pageable interface
-        AsposeWordsPrintDocument awPrintDoc = new AsposeWordsPrintDocument(doc);
-
-        // Pass the document to the printer
-        pj.setPageable(awPrintDoc);
-
-        // Print the document with the user specified print settings
-        pj.print(attributes);
-        //ExEnd
-    }
-
-    @Test
-    public void renderToScale() throws Exception {
-        //ExStart
-        //ExFor:Document.RenderToScale
-        //ExFor:Document.GetPageInfo
-        //ExFor:PageInfo
-        //ExFor:PageInfo.GetSizeInPixels(Single, Single)
-        //ExSummary:Renders a page of a Word document into a BufferedImage using a specified zoom factor.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
-
-        PageInfo pageInfo = doc.getPageInfo(0);
-
-        // Let's say we want the image at 50% zoom
-        final float myScale = 0.50f;
-
-        // Let's say we want the image at this resolution
-        final float myResolution = 200.0f;
-
-        Dimension pageSize = pageInfo.getSizeInPixels(myScale, myResolution);
-
-        BufferedImage img = new BufferedImage((int) pageSize.getWidth(), (int) pageSize.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D gr = img.createGraphics();
-
-        try {
-            // You can apply various settings to the Graphics object
-            gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-            // Fill the page background
-            gr.setPaint(Color.black);
-
-            // Render the page using the zoom
-            doc.renderToScale(0, gr, 0, 0, myScale);
-        } finally {
-            if (gr != null) {
-                gr.dispose();
-            }
-        }
-
-        ImageIO.write(img, "PNG", new File(getArtifactsDir() + "Rendering.RenderToScale.png"));
-        //ExEnd
-    }
-
-    @Test
     public void renderToSize() throws Exception {
         //ExStart
         //ExFor:Document.RenderToSize
         //ExSummary:Render to a BufferedImage at a specified location and size.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        // Bitmap bmp = new Bitmap(700, 700);
         BufferedImage img = new BufferedImage(700, 700, BufferedImage.TYPE_INT_ARGB);
         // User has some sort of a Graphics object
         // In this case created from a bitmap
@@ -519,7 +356,8 @@ public class ExRendering extends ApiExampleBase {
     }
 
     @Test
-    public void createThumbnails() throws Exception {
+    public void thumbnails() throws Exception
+    {
         //ExStart
         //ExFor:Document.RenderToScale
         //ExSummary:Renders individual pages to graphics to create one image with thumbnails of all pages.
@@ -584,13 +422,13 @@ public class ExRendering extends ApiExampleBase {
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:PageInfo.Landscape
-    //ExFor:PageInfo.HeightInPoints
-    //ExFor:PageInfo.WidthInPoints
-    //ExSummary:Shows how to implement your own Pageable document to completely customize printing of Aspose.Words documents.
-    @Test(enabled = false, description = "Run only when the printer driver is installed") //ExSkip
-    public void customPrint() throws Exception {
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void customPrint() throws Exception
+    {
+        //ExStart
+        //ExFor:PageInfo.GetDotNetPaperSize
+        //ExFor:PageInfo.Landscape
+        //ExSummary:Shows how to implement your own .NET PrintDocument to completely customize printing of Aspose.Words documents.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Create an instance of our own Pageable document
@@ -688,49 +526,69 @@ public class ExRendering extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test(enabled = false, description = "Run only when the printer driver is installed")
-    public void printPageInfo() throws Exception {
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void print() throws Exception
+    {
         //ExStart
-        //ExFor:PageInfo
-        //ExFor:PageInfo.GetSizeInPixels(Single, Single, Single)
-        //ExFor:PageInfo.HeightInPoints
-        //ExFor:PageInfo.Landscape
-        //ExFor:PageInfo.PaperSize
-        //ExFor:PageInfo.PaperTray
-        //ExFor:PageInfo.SizeInPoints
-        //ExFor:PageInfo.WidthInPoints
-        //ExSummary:Shows how to print page size and orientation information for every page in a Word document.
+        //ExFor:Document.Print
+        //ExSummary:Prints the whole document to the default printer.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        doc.print();
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printToNamedPrinter() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.Print(String)
+        //ExSummary:Prints the whole document to a specified printer.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        doc.print("KONICA MINOLTA magicolor 2400W");
+        //ExEnd
+    }
+
+    @Test
+    public void updatePageLayout() throws Exception
+    {
+        //ExStart
+        //ExFor:StyleCollection.Item(String)
+        //ExFor:SectionCollection.Item(Int32)
+        //ExFor:Document.UpdatePageLayout
+        //ExSummary:Shows when to request page layout of the document to be recalculated.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        // The first section has 2 pages
-        // We will assign a different printer paper tray to each one, whose number will match a kind of paper source
-        // These sources and their Kinds will vary depending on the installed printer driver
-        // Choose the default printer to be used for printing this document
-        PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
-        Media[] trays = (Media[]) printService.getSupportedAttributeValues(Media.class, null, null);
+        // Saving a document to PDF or to image or printing for the first time will automatically
+        // layout document pages and this information will be cached inside the document
+        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout.1.pdf");
 
-        doc.getFirstSection().getPageSetup().setFirstPageTray(trays[0].getValue());
-        doc.getFirstSection().getPageSetup().setOtherPagesTray(trays[1].getValue());
+        // Modify the document in any way
+        doc.getStyles().get("Normal").getFont().setSize(6.0);
+        doc.getSections().get(0).getPageSetup().setOrientation(com.aspose.words.Orientation.LANDSCAPE);
 
-        System.out.println(MessageFormat.format("Document \"{0}\" contains {1} pages.", doc.getOriginalFileName(), doc.getPageCount()));
+        // In the current version of Aspose.Words, modifying the document does not automatically rebuild 
+        // the cached page layout. If you want to save to PDF or render a modified document again,
+        // you need to manually request page layout to be updated
+        doc.updatePageLayout();
 
-        float scale = 1.0f;
-        float dpi = 96f;
-
-        for (int i = 0; i < doc.getPageCount(); i++) {
-            // Each page has a PageInfo object, whose index is the respective page's number
-            PageInfo pageInfo = doc.getPageInfo(i);
-
-            // Print the page's orientation and dimensions
-            System.out.println(MessageFormat.format("Page {0}:", i++));
-            System.out.println(MessageFormat.format("\tOrientation:\t{0}", (pageInfo.getLandscape() ? "Landscape" : "Portrait")));
-            System.out.println(MessageFormat.format("\tPaper size:\t\t{0} ({1:F0}x{2:F0}pt)", pageInfo.getPaperSize(), pageInfo.getWidthInPoints(), pageInfo.getHeightInPoints()));
-            System.out.println(MessageFormat.format("\tSize in points:\t{0}", pageInfo.getSizeInPoints()));
-            System.out.println(MessageFormat.format("\tSize in pixels:\t{0} at {1}% scale, {2} dpi", pageInfo.getSizeInPixels(1.0f, 96), scale * 100, dpi));
-
-            // Paper source tray information
-            System.out.println(MessageFormat.format("\tTray:\t{0}", pageInfo.getPaperTray()));
+        doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout.2.pdf");
+        //ExEnd
         }
+
+    @Test
+    public void updateFields() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.UpdateFields
+        //ExSummary:Shows how to update all fields before rendering a document.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        // This updates all fields in the document
+        doc.updateFields();
+
+        doc.save(getArtifactsDir() + "Rendering.UpdateFields.pdf");
         //ExEnd
     }
 
@@ -814,7 +672,6 @@ public class ExRendering extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Rendering.SetFontsFoldersSystemAndCustomFolder.pdf");
         //ExEnd
 
-        // Verify that font sources are set correctly
         // The first source should be a system font source
         Assert.assertTrue(FontSettings.getDefaultInstance().getFontsSources()[0] instanceof SystemFontSource);
         // The second source should be our folder font source
@@ -831,17 +688,17 @@ public class ExRendering extends ApiExampleBase {
     @Test
     public void setSpecifyFontFolder() throws Exception {
         FontSettings fontSettings = new FontSettings();
-        fontSettings.setFontsFolder(getMyDir() + "MyFonts\\", false);
+        fontSettings.setFontsFolder(getFontsDir(), false);
 
         // Using load options
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setFontSettings(fontSettings);
 
-        Document doc = new Document(getMyDir() + "Rendering.doc", loadOptions);
+        Document doc = new Document(getMyDir() + "Rendering.docx", loadOptions);
 
         FolderFontSource folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[0]);
 
-        Assert.assertEquals(folderSource.getFolderPath(), getMyDir() + "MyFonts\\");
+        Assert.assertEquals(getFontsDir(), folderSource.getFolderPath());
         Assert.assertFalse(folderSource.getScanSubfolders());
     }
 
@@ -854,7 +711,7 @@ public class ExRendering extends ApiExampleBase {
         FontSettings fontSettings = new FontSettings();
         fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Times New Roman", "Slab", "Arvo");
         //ExEnd
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.setFontSettings(fontSettings);
 
         ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
@@ -873,7 +730,7 @@ public class ExRendering extends ApiExampleBase {
     @Test
     public void setSpecifyFontFolders() throws Exception {
         FontSettings fontSettings = new FontSettings();
-        fontSettings.setFontsFolders(new String[]{getMyDir() + "MyFonts\\", "C:\\Windows\\Fonts\\"}, true);
+        fontSettings.setFontsFolders(new String[]{getFontsDir(), "C:\\Windows\\Fonts\\"}, true);
 
         // Using load options
         LoadOptions loadOptions = new LoadOptions();
@@ -881,7 +738,7 @@ public class ExRendering extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Rendering.docx", loadOptions);
 
         FolderFontSource folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[0]);
-        Assert.assertEquals(folderSource.getFolderPath(), getMyDir() + "MyFonts\\");
+        Assert.assertEquals(folderSource.getFolderPath(), getFontsDir());
         Assert.assertTrue(folderSource.getScanSubfolders());
 
         folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[1]);
@@ -895,7 +752,7 @@ public class ExRendering extends ApiExampleBase {
         fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Slab", "Times New Roman", "Arial");
         fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Arvo", "Open Sans", "Arial");
 
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.setFontSettings(fontSettings);
 
         ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
@@ -933,7 +790,7 @@ public class ExRendering extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
-        ExFont.HandleDocumentWarnings callback = new ExFont.HandleDocumentWarnings();
+        HandleDocumentWarnings callback = new HandleDocumentWarnings();
         doc.setWarningCallback(callback);
 
         // We can choose the default font to use in the case of any missing fonts
@@ -951,9 +808,9 @@ public class ExRendering extends ApiExampleBase {
         // Even though the document was rendered previously, any save warnings are notified to the user during document save
         doc.save(getArtifactsDir() + "Rendering.UpdatePageLayoutWarnings.pdf");
 
-        Assert.assertTrue(callback.mFontWarnings.getCount() > 0);
-        Assert.assertTrue(callback.mFontWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
-        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().contains("has not been found"));
+        Assert.assertTrue(callback.FontWarnings.getCount() > 0);
+        Assert.assertTrue(callback.FontWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
+        Assert.assertTrue(callback.FontWarnings.get(0).getDescription().contains("has not been found"));
 
         // Restore default fonts
         FontSettings.getDefaultInstance().setFontsSources(origFontSources);

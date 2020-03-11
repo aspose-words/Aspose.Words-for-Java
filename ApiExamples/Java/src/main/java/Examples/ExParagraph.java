@@ -31,7 +31,6 @@ public class ExParagraph extends ApiExampleBase {
         //ExSummary:Shows how to insert fields in different ways.
         // Create a blank document and get its first paragraph
         Document doc = new Document();
-
         Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
 
         // Choose a field by FieldType, append it to the end of the paragraph and update it
@@ -262,6 +261,36 @@ public class ExParagraph extends ApiExampleBase {
         //ExEnd
     }
 
+    /// <summary>
+    /// Insert field into the first paragraph of the current document using field type.
+    /// </summary>
+    private static void insertFieldUsingFieldType(Document doc, /*FieldType*/int fieldType, boolean updateField, Node refNode,
+        boolean isAfter, int paraIndex) throws Exception
+    {
+        Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
+        para.insertField(fieldType, updateField, refNode, isAfter);
+    }
+
+    /// <summary>
+    /// Insert field into the first paragraph of the current document using field code.
+    /// </summary>
+    private static void insertFieldUsingFieldCode(Document doc, String fieldCode, Node refNode, boolean isAfter,
+        int paraIndex) throws Exception
+    {
+        Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
+        para.insertField(fieldCode, refNode, isAfter);
+    }
+
+    /// <summary>
+    /// Insert field into the first paragraph of the current document using field code and field String.
+    /// </summary>
+    private static void insertFieldUsingFieldCodeFieldString(Document doc, String fieldCode, String fieldValue,
+        Node refNode, boolean isAfter, int paraIndex)
+    {
+        Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
+        para.insertField(fieldCode, fieldValue, refNode, isAfter);
+    }
+
     @Test
     public void dropCapPosition() throws Exception {
         //ExStart
@@ -283,35 +312,8 @@ public class ExParagraph extends ApiExampleBase {
         // This text will be affected
         para.getRuns().add(new Run(doc, "Hello World!"));
 
-        doc.save(getArtifactsDir() + "Paragraph.DropCap.docx");
+        doc.save(getArtifactsDir() + "Paragraph.DropCapPosition.docx");
         //ExEnd
-    }
-
-    /**
-     * Insert field into the first paragraph of the current document using field type
-     */
-    private static void insertFieldUsingFieldType(final Document doc, final int fieldType, final boolean updateField,
-                                                  final Node refNode, final boolean isAfter, final int paraIndex) throws Exception {
-        Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
-        para.insertField(fieldType, updateField, refNode, isAfter);
-    }
-
-    /**
-     * Insert field into the first paragraph of the current document using field code
-     */
-    private static void insertFieldUsingFieldCode(final Document doc, final String fieldCode, final Node refNode,
-                                                  final boolean isAfter, final int paraIndex) throws Exception {
-        Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
-        para.insertField(fieldCode, refNode, isAfter);
-    }
-
-    /**
-     * Insert field into the first paragraph of the current document using field code and field String
-     */
-    private static void insertFieldUsingFieldCodeFieldString(final Document doc, final String fieldCode,
-                                                             final String fieldValue, final Node refNode, final boolean isAfter, int paraIndex) {
-        Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
-        para.insertField(fieldCode, fieldValue, refNode, isAfter);
     }
 
     @Test

@@ -12,6 +12,7 @@ package ApiExamples;
 import com.aspose.ms.java.collections.StringSwitchMap;
 import com.aspose.words.IBarcodeGenerator;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import com.aspose.words.BarcodeParameters;
 import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.EncodeTypes;
@@ -84,7 +85,7 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
     /// </summary>
     /// <param name="parameters"></param>
     /// <returns></returns>
-    public Image getBarcodeImage(BarcodeParameters parameters)
+    public BufferedImage getBarcodeImage(BarcodeParameters parameters)
     {
         if (parameters.getBarcodeType() == null || parameters.getBarcodeValue() == null)
             return null;
@@ -176,8 +177,7 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
             builder.setAutoSize(false);
         }
         
-        builder.getBarCodeImage().Save(getArtifactsDir() + "GetBarcodeImage.png");
-        return Image.Decode(getArtifactsDir() + "OldBarcodeImage.png");
+        return builder.getBarCodeImage();            
     }
 
     /// <summary>
@@ -185,7 +185,7 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
     /// </summary>
     /// <param name="parameters"></param>
     /// <returns></returns>
-    public Image getOldBarcodeImage(BarcodeParameters parameters)
+    public BufferedImage getOldBarcodeImage(BarcodeParameters parameters)
     {
         if (parameters.getPostalAddress() == null)
             return null;
@@ -197,8 +197,7 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
         }
 
         // Hardcode type for old-fashioned Barcode
-        builder.getBarCodeImage().Save(ApiExampleBase.getArtifactsDir() + "OldBarcodeImage.png");            
-        return Image.Decode(ApiExampleBase.getArtifactsDir() + "OldBarcodeImage.png");            
+        return builder.getBarCodeImage();
     }
 
     /// <summary>

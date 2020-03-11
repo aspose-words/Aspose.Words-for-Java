@@ -36,6 +36,7 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.words.ShapeType;
 import ApiExamples.TestData.TestClasses.ImageTestClass;
 import ApiExamples.TestData.TestBuilders.ImageTestBuilder;
+import java.awt.image.BufferedImage;
 import com.aspose.words.DocumentBuilder;
 import ApiExamples.TestData.TestClasses.ClientTestClass;
 import com.aspose.words.NodeCollection;
@@ -424,8 +425,8 @@ public class ExReportingEngine extends ApiExampleBase
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.Image]>>", ShapeType.TEXT_BOX);
         
-                            ImageTestClass image = new ImageTestBuilder().WithImage(SKBitmap.Decode(mImage)).Build();
-                
+                ImageTestClass image = new ImageTestBuilder().withImage(BufferedImage.FromFile(mImage, true)).build();
+                            
         buildReport(template, image, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 

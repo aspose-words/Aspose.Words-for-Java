@@ -18,6 +18,8 @@ import com.aspose.words.PageSetup;
 import com.aspose.words.SectionLayoutMode;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.Document;
+import com.aspose.ms.System.Drawing.Printing.PrinterSettings;
+import com.aspose.words.Section;
 import com.aspose.words.ConvertUtil;
 import com.aspose.words.TextColumnCollection;
 import com.aspose.words.TextColumn;
@@ -30,7 +32,6 @@ import com.aspose.words.BorderType;
 import com.aspose.words.LineStyle;
 import java.awt.Color;
 import com.aspose.ms.System.Drawing.msColor;
-import com.aspose.words.Section;
 import com.aspose.words.NumberStyle;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.FootnotePosition;
@@ -131,6 +132,68 @@ public class ExPageSetup extends ApiExampleBase
         //ExEnd
     }
 
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void defaultPaperTray() throws Exception
+    {
+        //ExStart
+        //ExFor:PageSetup.FirstPageTray
+        //ExFor:PageSetup.OtherPagesTray
+        //ExSummary:Changes all sections in a document to use the default paper tray of the selected printer.
+        Document doc = new Document();
+
+        // Find the printer that will be used for printing this document
+        // In this case it is the default printer
+        // You can define a specific printer using PrinterName
+        PrinterSettings settings = new PrinterSettings();
+
+        // The paper tray value stored in documents is completely printer specific
+        // This means the code below resets all page tray values to use the current printers default tray
+        // You can enumerate PrinterSettings.PaperSources to find the other valid paper tray values of the selected printer
+        for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
+        {
+            section.getPageSetup().setFirstPageTray(settings.getDefaultPageSettings().PaperSource.RawKind);
+            section.getPageSetup().setOtherPagesTray(settings.getDefaultPageSettings().PaperSource.RawKind);
+        }
+
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void paperTrayForDifferentPaperType() throws Exception
+    {
+        //ExStart
+        //ExFor:PageSetup.FirstPageTray
+        //ExFor:PageSetup.OtherPagesTray
+        //ExSummary:Shows how to set up printing using different printer trays for different paper sizes.
+        Document doc = new Document();
+
+        // Choose the default printer to be used for printing this document
+        PrinterSettings settings = new PrinterSettings();
+
+        // This is the tray we will use for A4 paper size
+        // This is the first tray in the paper sources collection
+        int printerTrayForA4 = settings.getPaperSources().get(0).RawKind;
+        // The is the tray we will use for Letter paper size
+        // This is the second tray in the paper sources collection
+        int printerTrayForLetter = settings.getPaperSources().get(1).RawKind;
+
+        // Set the page tray used for each section based off the paper size used in the section
+        for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
+        {
+            if (section.getPageSetup().getPaperSize() == com.aspose.words.PaperSize.LETTER)
+            {
+                section.getPageSetup().setFirstPageTray(printerTrayForLetter);
+                section.getPageSetup().setOtherPagesTray(printerTrayForLetter);
+            }
+            else if (section.getPageSetup().getPaperSize() == com.aspose.words.PaperSize.A4)
+            {
+                section.getPageSetup().setFirstPageTray(printerTrayForA4);
+                section.getPageSetup().setOtherPagesTray(printerTrayForA4);
+            }
+        }
+
+        //ExEnd
+    }
 
     @Test
     public void pageMargins() throws Exception

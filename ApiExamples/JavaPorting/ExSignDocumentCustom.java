@@ -20,8 +20,11 @@ import com.aspose.words.SignatureLine;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.SignOptions;
 import com.aspose.words.DigitalSignatureUtil;
+import java.awt.image.BufferedImage;
+import com.aspose.ms.System.IO.MemoryStream;
 import java.util.ArrayList;
 import com.aspose.ms.System.Guid;
+import com.aspose.BitmapPal;
 
 
 /// <summary>
@@ -108,20 +111,33 @@ public class ExSignDocumentCustom extends ApiExampleBase
         DigitalSignatureUtil.sign(dstDocumentPath, dstDocumentPath, certificateHolder, signOptions);
     }
 
-            
+        /// <summary>
+    /// Converting image file to bytes array.
+    /// </summary>
+    private static byte[] imageToByteArray(BufferedImage imageIn) throws Exception
+    {
+        MemoryStream ms = new MemoryStream();
+        try /*JAVA: was using*/
+        {
+            imageIn.Save(ms, ImageFormat.Png);
+            return ms.toArray();
+        }
+        finally { if (ms != null) ms.close(); }
+    }
+    
     /// <summary>
     /// Create test data that contains info about sing persons
     /// </summary>
-    private static void createSignPersonData()
+    private static void createSignPersonData() throws Exception
     {
         gSignPersonList = new ArrayList<SignPersonTestClass>();
         {
-                                        gSignPersonList.add(new SignPersonTestClass(Guid.newGuid(), "Ron Williams", "Chief Executive Officer", 
-                SkiaSharp.SKBitmap.Decode(getImageDir() + "Logo.jpg").Bytes));
-                        
-                                        gSignPersonList.add(new SignPersonTestClass(Guid.newGuid(), "Stephen Morse", "Head of Compliance", 
-                SkiaSharp.SKBitmap.Decode(getImageDir() + "Logo.jpg").Bytes));
-                    }
+                        gSignPersonList.add(new SignPersonTestClass(Guid.newGuid(), "Ron Williams", "Chief Executive Officer",
+                imageToByteArray(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"))));
+                                        
+                        gSignPersonList.add(new SignPersonTestClass(Guid.newGuid(), "Stephen Morse", "Head of Compliance",
+                imageToByteArray(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"))));
+                                    }
     }
 
     private static ArrayList<SignPersonTestClass> gSignPersonList;

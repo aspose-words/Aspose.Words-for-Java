@@ -10,12 +10,27 @@ package ApiExamples;
 // ********* THIS FILE IS AUTO PORTED *********
 
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.ms.System.IO.Stream;
+import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.File;
+import com.aspose.words.License;
+import com.aspose.ms.System.IO.Stream;
+import com.aspose.words.Document;
+import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
+import com.aspose.words.LoadOptions;
+import com.aspose.words.IResourceLoadingCallback;
+import com.aspose.words.ResourceLoadingAction;
+import com.aspose.words.ResourceLoadingArgs;
+import com.aspose.words.ResourceType;
+import com.aspose.ms.System.msConsole;
+import java.awt.image.BufferedImage;
+import com.aspose.BitmapPal;
+import com.aspose.words.CertificateHolder;
+import com.aspose.ms.System.IO.FileStream;
+import com.aspose.ms.System.IO.FileMode;
+import org.bouncycastle.jcajce.provider.keystore.pkcs12.PKCS12KeyStoreSpi;
+import java.util.Iterator;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
-import com.aspose.words.LoadOptions;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 import com.aspose.words.ConvertUtil;
@@ -29,17 +44,13 @@ import com.aspose.words.FontSettings;
 import com.aspose.words.MsWordVersion;
 import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfo;
-import com.aspose.ms.System.msConsole;
 import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.DocumentSplitCriteria;
 import com.aspose.words.PdfSaveOptions;
-import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.IFontSavingCallback;
 import com.aspose.words.FontSavingArgs;
 import com.aspose.ms.System.msString;
-import com.aspose.ms.System.IO.FileStream;
-import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Run;
 import com.aspose.words.INodeChangingCallback;
@@ -49,7 +60,6 @@ import com.aspose.words.ImportFormatMode;
 import java.io.FileNotFoundException;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignature;
-import com.aspose.words.CertificateHolder;
 import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.words.SignOptions;
 import com.aspose.ms.System.DateTime;
@@ -95,7 +105,6 @@ import com.aspose.words.StyleType;
 import com.aspose.words.ListTemplate;
 import com.aspose.words.RevisionType;
 import com.aspose.words.RevisionCollection;
-import java.util.Iterator;
 import com.aspose.words.RevisionGroup;
 import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.HeaderFooter;
@@ -153,7 +162,169 @@ import org.testng.annotations.DataProvider;
 @Test
 public class ExDocument extends ApiExampleBase
 {
+    @Test
+    public void licenseFromFileNoPath() throws Exception
+    {
+        // This is where the test license is on my development machine.
+        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Words.lic");
 
+        // Copy a license to the bin folder so the example can execute.
+        String dstFileName = Path.combine(getAssemblyDir(), "Aspose.Words.lic");
+        File.copy(testLicenseFileName, dstFileName);
+
+        //ExStart
+        //ExFor:License
+        //ExFor:License.#ctor
+        //ExFor:License.SetLicense(String)
+        //ExSummary:Aspose.Words will attempt to find the license file in the embedded resources or in the assembly folders.
+        License license = new License();
+        license.setLicense("Aspose.Words.lic");
+        //ExEnd
+
+        // Cleanup by removing the license
+        license.setLicense("");
+        File.delete(dstFileName);
+    }
+
+    @Test
+    public void licenseFromStream() throws Exception
+    {
+        // This is where the test license is on my development machine
+        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Words.lic");
+
+        Stream myStream = File.openRead(testLicenseFileName);
+        try
+        {
+            //ExStart
+            //ExFor:License.SetLicense(Stream)
+            //ExSummary:Initializes a license from a stream.
+            License license = new License();
+            license.setLicenseInternal(myStream);
+            //ExEnd
+        }
+        finally
+        {
+            myStream.close();
+        }
+    }
+
+    @Test
+    public void openType() throws Exception
+    {
+        //ExStart
+        //ExFor:LayoutOptions.TextShaperFactory
+        //ExSummary:Shows how to support OpenType features using HarfBuzz text shaping engine.
+        // Open a document
+        Document doc = new Document(getMyDir() + "OpenType text shaping.docx");
+
+        // Please note that text shaping is only performed when exporting to PDF or XPS formats now
+
+        // Aspose.Words is capable of using text shaper objects provided externally
+        // A text shaper represents a font and computes shaping information for a text
+        // A document typically refers to multiple fonts thus a text shaper factory is necessary
+        // When text shaper factory is set, layout starts to use OpenType features
+        // An Instance property returns static BasicTextShaperCache object wrapping HarfBuzzTextShaperFactory
+        doc.getLayoutOptions().setTextShaperFactory(HarfBuzzTextShaperFactory.getInstance());
+
+        // Render the document to PDF format
+        doc.save(getArtifactsDir() + "Document.OpenType.pdf");
+        //ExEnd
+    }
+
+    //ExStart
+    //ExFor:LoadOptions.ResourceLoadingCallback
+    //ExSummary:Shows how to handle external resources in Html documents during loading.
+    @Test //ExSkip
+    public void loadOptionsCallback() throws Exception
+    {
+        // Create a new LoadOptions object and set its ResourceLoadingCallback attribute
+        // as an instance of our IResourceLoadingCallback implementation 
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setResourceLoadingCallback(new HtmlLinkedResourceLoadingCallback()); }
+
+        // When we open an Html document, external resources such as references to CSS stylesheet files and external images
+        // will be handled in a custom manner by the loading callback as the document is loaded
+        Document doc = new Document(getMyDir() + "Images.html", loadOptions);
+        doc.save(getArtifactsDir() + "Document.LoadOptionsCallback.pdf");
+    }
+
+    /// <summary>
+    /// Resource loading callback that, upon encountering external resources,
+    /// acknowledges CSS style sheets and replaces all images with a substitute.
+    /// </summary>
+    private static class HtmlLinkedResourceLoadingCallback implements IResourceLoadingCallback
+    {
+        public /*ResourceLoadingAction*/int resourceLoading(ResourceLoadingArgs args)
+        {
+            switch (args.getResourceType())
+            {
+                case ResourceType.CSS_STYLE_SHEET:
+                    System.out.println("External CSS Stylesheet found upon loading: {args.OriginalUri}");
+                    return ResourceLoadingAction.DEFAULT;
+                case ResourceType.IMAGE:
+                    System.out.println("External Image found upon loading: {args.OriginalUri}");
+
+                    final String NEW_IMAGE_FILENAME = "Logo.jpg";
+                    System.out.println("\tImage will be substituted with: {newImageFilename}");
+
+                    BufferedImage newImage = BitmapPal.loadNativeImage(getImageDir() + NEW_IMAGE_FILENAME);
+
+                    ImageConverter converter = new ImageConverter();
+                    byte[] imageBytes = (byte[])converter.ConvertTo(newImage, byte[].class);
+                    args.setData(imageBytes);
+
+                    return ResourceLoadingAction.USER_PROVIDED;
+
+            }
+            return ResourceLoadingAction.DEFAULT;
+        }
+    }
+    //ExEnd
+
+    @Test
+    public void certificateHolderCreate() throws Exception
+    {
+        //ExStart
+        //ExFor:CertificateHolder.Create(Byte[], SecureString)
+        //ExFor:CertificateHolder.Create(Byte[], String)
+        //ExFor:CertificateHolder.Create(String, String, String)
+        //ExSummary:Shows how to create CertificateHolder objects.
+        // 1: Load a PKCS #12 file into a byte array and apply its password to create the CertificateHolder
+        byte[] certBytes = File.readAllBytes(getMyDir() + "morzal.pfx");
+        CertificateHolder.create(certBytes, "aw");
+
+        // 2: Pass a SecureString which contains the password instead of a normal string
+        SecureString password = new NetworkCredential("", "aw").SecurePassword;
+        // JAVA-deleted Create(): Java hasn't SecureString analog: 1) it should be low-level-platform-dependent, but 2) can't be absolutely safe.
+
+        // 3: If the certificate has private keys corresponding to aliases, we can use the aliases to fetch their respective keys
+        // First, we'll check for valid aliases like this
+        FileStream certStream = new FileStream(getMyDir() + "morzal.pfx", FileMode.OPEN);
+        try /*JAVA: was using*/
+        {
+            PKCS12KeyStoreSpi.BCPKCS12KeyStore pkcs12Store = new PKCS12KeyStoreSpi.BCPKCS12KeyStore(certStream, "aw".toCharArray());
+            Iterator enumerator = pkcs12Store.getAliases().iterator();
+
+            while (enumerator.hasNext())
+            {
+                if (enumerator.next() != null)
+                {
+                    String currentAlias = enumerator.next().toString();
+                    if (pkcs12Store.isKeyEntry(currentAlias) && pkcs12Store.getKey(currentAlias).Key.isPrivate())
+                    {
+                        System.out.println("Valid alias found: {enumerator.Current}");
+                    }
+                }
+            }
+        }
+        finally { if (certStream != null) certStream.close(); }
+
+        // For this file, we'll use an alias found above
+        CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", "c20be521-11ea-4976-81ed-865fbbfc9f24");
+
+        // If we leave the alias null, then the first possible alias that retrieves a private key will be used
+        CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
+        //ExEnd
+    }
 
     @Test
     public void documentCtor() throws Exception
@@ -882,7 +1053,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:DigitalSignature.Comments
         //ExFor:DigitalSignature.SignTime
         //ExFor:DigitalSignature.SignatureType
-        //ExFor:DigitalSignature.Certificate
         //ExSummary:Shows how to validate each signature in a document and display basic information about the signature.
         // Load the document which contains signature
         Document doc = new Document(getMyDir() + "Digitally signed.docx");
@@ -3559,7 +3729,7 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:BaseWebExtensionCollection`1.Add(`0)
-        //ExFor:TaskPane.#ctor
+        //ExFor:TaskPane
         //ExFor:TaskPane.DockState
         //ExFor:TaskPane.IsVisible
         //ExFor:TaskPane.Width

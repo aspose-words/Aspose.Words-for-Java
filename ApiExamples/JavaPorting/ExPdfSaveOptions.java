@@ -38,6 +38,8 @@ import com.aspose.words.PdfPageMode;
 import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.DmlEffectsRenderingMode;
 import com.aspose.words.DmlRenderingMode;
+import java.awt.image.BufferedImage;
+import com.aspose.BitmapPal;
 import com.aspose.words.CertificateHolder;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.PdfDigitalSignatureDetails;
@@ -569,27 +571,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
         @Test
-    public void preblendImagesNetStandard2() throws Exception
+    public void preblendImages() throws Exception
     {
         //ExStart
         //ExFor:PdfSaveOptions.PreblendImages
-        //ExSummary:Shows how to preblend images with transparent backgrounds (.NetStandard 2.0).
+        //ExSummary:Shows how to preblend images with transparent backgrounds.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        SKBitmap image = SKBitmap.Decode(getImageDir() + "Transparent background logo.png");
-        try /*JAVA: was using*/
-        {
-            builder.InsertImage(image);
-        }
-        finally { if (image != null) image.close(); }
+        BufferedImage img = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
+        builder.insertImage(img);
 
         // Create a PdfSaveOptions object and setting this flag may change the quality and size of the output .pdf
         // because of the way some images are rendered
         PdfSaveOptions options = new PdfSaveOptions();
         options.setPreblendImages(true);
 
-        doc.save(getArtifactsDir() + "PdfSaveOptions.PreblendImagesNetStandard2.pdf", options);
+        doc.save(getArtifactsDir() + "PdfSaveOptions.PreblendImagest.pdf", options);
         //ExEnd
     }
 
