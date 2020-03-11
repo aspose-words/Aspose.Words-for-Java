@@ -27,9 +27,17 @@ import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.TiffCompression;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import com.aspose.ms.System.Drawing.Text.TextRenderingHint;
 import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.Drawing.msSize;
 import com.aspose.ms.System.Drawing.msSizeF;
+import com.aspose.words.AsposeWordsPrintDocument;
+import com.aspose.words.PageInfo;
+import com.aspose.ms.System.Drawing.Printing.PrinterSettings;
+import com.aspose.words.PrinterSettingsContainer;
+import com.aspose.ms.System.msString;
 import com.aspose.words.FontSourceBase;
 import com.aspose.words.FontSettings;
 import java.util.ArrayList;
@@ -342,82 +350,96 @@ public class ExRendering extends ApiExampleBase
     }
 
         @Test
-    public void renderToSizeNetStandard2() throws Exception
+    public void saveToImageStream() throws Exception
     {
         //ExStart
-        //ExFor:Document.RenderToSize
-        //ExSummary:Render to a bitmap at a specified location and size (.NetStandard 2.0).
+        //ExFor:Document.Save(Stream, SaveFormat)
+        //ExSummary:Saves a document page as a BMP image into a stream.
         Document doc = new Document(getMyDir() + "Rendering.docx");
-        
-        SKBitmap bitmap = new SKBitmap(700, 700);
+
+        MemoryStream stream = new MemoryStream();
+        doc.save(stream, SaveFormat.BMP);
+
+        // Rewind the stream and create a .NET image from it
+        stream.setPosition(0);
+
+        // Read the stream back into an image
+        BufferedImage image = BufferedImage.FromStream(stream);
         try /*JAVA: was using*/
         {
-            // User has some sort of a Graphics object. In this case created from a bitmap
-            SKCanvas canvas = new SKCanvas(bitmap);
-            try /*JAVA: was using*/
-            {
-                // Apply scale transform
-                canvas.Scale(70);
-
-                // The output should be offset 0.5" from the edge and rotated
-                canvas.Translate(0.5f, 0.5f);
-                canvas.RotateDegrees(10);
-
-                // This is our test rectangle
-                SKRect rect = new SKRect(0f, 0f, 3f, 3f);
-                canvas.DrawRect(rect, new SKPaint();
-                {
-                    .setColor(SKColors.Black);
-                    .setStyle(SKPaintStyle.Stroke);
-                    .setStrokeWidth(3f / 72f);
-                });
-
-                // User specifies (in world coordinates) where on the Graphics to render and what size
-                float returnedScale = doc.RenderToSize(0, canvas, 0f, 0f, 3f, 3f);
-
-                msConsole.writeLine("The image was rendered at {0:P0} zoom.", returnedScale);
-
-                // One more example, this time in millimeters
-                canvas.ResetMatrix();
-
-                // Apply scale transform
-                canvas.Scale(5);
-
-                // Move the origin 10mm 
-                canvas.Translate(10, 10);
-
-                // This is our test rectangle
-                rect = new SKRect(0, 0, 50, 100);
-                rect.Offset(90, 10);
-                canvas.DrawRect(rect, new SKPaint();
-                {
-                    .setColor(SKColors.Black);
-                    .setStyle(SKPaintStyle.Stroke);
-                    .setStrokeWidth(1);
-                });
-
-                // User specifies (in world coordinates) where on the Graphics to render and what size
-                doc.RenderToSize(0, canvas, 90, 10, 50, 100);
-
-                SKFileWStream fs = new SKFileWStream(getArtifactsDir() + "Rendering.RenderToSizeNetStandard2.png");
-                try /*JAVA: was using*/
-                {
-                    bitmap.PeekPixels().Encode(fs, SKEncodedImageFormat.Png, 100);
-                }
-                finally { if (fs != null) fs.close(); }
-            }
-            finally { if (canvas != null) canvas.close(); }
+            // ...Do something
         }
-        finally { if (bitmap != null) bitmap.close(); }            
+        finally { if (image != null) image.flush(); }
         //ExEnd
     }
 
     @Test
-    public void createThumbnailsNetStandard2() throws Exception
+    public void renderToSize() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.RenderToSize
+        //ExSummary:Render to a bitmap at a specified location and size.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+        
+        BufferedImage bmp = new BufferedImage(700, 700);
+        try /*JAVA: was using*/
+        {
+            // User has some sort of a Graphics object. In this case created from a bitmap
+            Graphics2D gr = Graphics2D.FromImage(bmp);
+            try /*JAVA: was using*/
+            {
+                // The user can specify any options on the Graphics object including
+                // transform, anti-aliasing, page units, etc.
+                gr.TextRenderingHint = TextRenderingHint.ANTI_ALIAS_GRID_FIT;
+
+                // Let's say we want to fit the page into a 3" x 3" square on the screen so use inches as units
+                gr.PageUnit = GraphicsUnit.Inch;
+
+                // The output should be offset 0.5" from the edge and rotated
+                gr.TranslateTransform(0.5f, 0.5f);
+                gr.RotateTransform(10f);
+
+                // This is our test rectangle
+                gr.DrawRectangle(new Pen(Color.BLACK, 3f / 72f), 0f, 0f, 3f, 3f);
+
+                // User specifies (in world coordinates) where on the Graphics to render and what size
+                float returnedScale = doc.renderToSize(0, gr, 0f, 0f, 3f, 3f);
+
+                // This is the calculated scale factor to fit 297mm into 3"
+                msConsole.writeLine("The image was rendered at {0:P0} zoom.", returnedScale);
+
+                // One more example, this time in millimeters
+                gr.PageUnit = GraphicsUnit.Millimeter;
+
+                gr.ResetTransform();
+
+                // Move the origin 10mm 
+                gr.TranslateTransform(10f, 10f);
+
+                // Apply both scale transform and page scale for fun
+                gr.ScaleTransform(0.5f, 0.5f);
+                gr.PageScale = 2f;
+
+                // This is our test rectangle
+                gr.DrawRectangle(new Pen(Color.BLACK, 1f), 90, 10, 50, 100);
+
+                // User specifies (in world coordinates) where on the Graphics to render and what size
+                doc.renderToSize(1, gr, 90f, 10f, 50f, 100f);
+
+                bmp.Save(getArtifactsDir() + "Rendering.RenderToSize.png");
+            }
+            finally { if (gr != null) gr.close(); }
+        }
+        finally { if (bmp != null) bmp.close(); }
+        //ExEnd
+    }
+
+    @Test
+    public void thumbnails() throws Exception
     {
         //ExStart
         //ExFor:Document.RenderToScale
-        //ExSummary:Renders individual pages to graphics to create one image with thumbnails of all pages (.NetStandard 2.0).
+        //ExSummary:Renders individual pages to graphics to create one image with thumbnails of all pages.
         // The user opens or builds a document
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
@@ -440,17 +462,19 @@ public class ExRendering extends ApiExampleBase
         // Calculate the size of the image that will contain all the thumbnails
         int imgWidth = msSize.getWidth(thumbSize) * THUMB_COLUMNS;
         int imgHeight = msSize.getHeight(thumbSize) * thumbRows;
-
-        SKBitmap bitmap = new SKBitmap(imgWidth, imgHeight);
+        
+        BufferedImage img = new BufferedImage(imgWidth, imgHeight);
         try /*JAVA: was using*/
         {
             // The user has to provides a Graphics object to draw on
             // The Graphics object can be created from a bitmap, from a metafile, printer or window
-            SKCanvas canvas = new SKCanvas(bitmap);
+            Graphics2D gr = Graphics2D.FromImage(img);
             try /*JAVA: was using*/
             {
+                gr.TextRenderingHint = TextRenderingHint.ANTI_ALIAS_GRID_FIT;
+
                 // Fill the "paper" with white, otherwise it will be transparent
-                canvas.Clear(SKColors.White);
+                gr.FillRectangle(new SolidBrush(Color.WHITE), 0, 0, imgWidth, imgHeight);
 
                 for (int pageIndex = 0; pageIndex < doc.getPageCount(); pageIndex++)
                 {
@@ -460,28 +484,309 @@ public class ExRendering extends ApiExampleBase
                     float thumbLeft = columnIdx * msSize.getWidth(thumbSize);
                     float thumbTop = rowIdx * msSize.getHeight(thumbSize);
 
-                    /*SizeF*/long size = doc.RenderToScale(pageIndex, canvas, thumbLeft, thumbTop, SCALE);
+                    /*SizeF*/long size = doc.renderToScaleInternal(pageIndex, gr, thumbLeft, thumbTop, SCALE);
 
                     // Draw the page rectangle
-                    SKRect rect = new SKRect(0, 0, msSizeF.getWidth(size), msSizeF.getHeight(size));
-                    rect.Offset(thumbLeft, thumbTop);
-                    canvas.DrawRect(rect, new SKPaint();
-                    {
-                        .setColor(SKColors.Black);
-                        .setStyle(SKPaintStyle.Stroke);
-                    });
+                    gr.DrawRectangle(Pens.Black, thumbLeft, thumbTop, msSizeF.getWidth(size), msSizeF.getHeight(size));
                 }
 
-                SKFileWStream fs = new SKFileWStream(getArtifactsDir() + "Rendering.CreateThumbnailsNetStandard2.png");
-                try /*JAVA: was using*/
-                {
-                    bitmap.PeekPixels().Encode(fs, SKEncodedImageFormat.Png, 100);
-                }
-                finally { if (fs != null) fs.close(); }
+                img.Save(getArtifactsDir() + "Rendering.Thumbnails.png");
             }
-            finally { if (canvas != null) canvas.close(); }
+            finally { if (gr != null) gr.close(); }
         }
-        finally { if (bitmap != null) bitmap.close(); }            
+        finally { if (img != null) img.close(); }
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void customPrint() throws Exception
+    {
+        //ExStart
+        //ExFor:PageInfo.GetDotNetPaperSize
+        //ExFor:PageInfo.Landscape
+        //ExSummary:Shows how to implement your own .NET PrintDocument to completely customize printing of Aspose.Words documents.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        // Create an instance of our own PrintDocument
+        MyPrintDocument printDoc = new MyPrintDocument(doc);
+        // Specify the page range to print
+        printDoc.getPrinterSettings().setPrintRange(PrintRange.SomePages);
+        printDoc.getPrinterSettings().setFromPage(1);
+        printDoc.getPrinterSettings().setToPage(1);
+
+        // Print our document.
+        printDoc.print();
+    }
+
+    /// <summary>
+    /// The way to print in the .NET Framework is to implement a class derived from PrintDocument.
+    /// This class is an example on how to implement custom printing of an Aspose.Words document.
+    /// It selects an appropriate paper size, orientation and paper tray when printing.
+    /// </summary>
+    public static class MyPrintDocument extends PrintDocument
+    {
+        public MyPrintDocument(Document document)
+        {
+            mDocument = document;
+        }
+
+        /// <summary>
+        /// Called before the printing starts. 
+        /// </summary>
+        protected /*override*/ void onBeginPrint(PrintEventArgs e) throws Exception
+        {
+            super.onBeginPrint(e);
+
+            // Initialize the range of pages to be printed according to the user selection
+            switch (getPrinterSettings().getPrintRange())
+            {
+                case PrintRange.AllPages:
+                    mCurrentPage = 1;
+                    mPageTo = mDocument.getPageCount();
+                    break;
+                case PrintRange.SomePages:
+                    mCurrentPage = getPrinterSettings().getFromPage();
+                    mPageTo = getPrinterSettings().getToPage();
+                    break;
+                default:
+                    throw new IllegalStateException("Unsupported print range.");
+            }
+        }
+
+        /// <summary>
+        /// Called before each page is printed. 
+        /// </summary>
+        protected /*override*/ void onQueryPageSettings(QueryPageSettingsEventArgs e) throws Exception
+        {
+            super.onQueryPageSettings(e);
+
+            // A single Word document can have multiple sections that specify pages with different sizes, 
+            // orientation and paper trays. This code is called by the .NET printing framework before 
+            // each page is printed and we get a chance to specify how the page is to be printed
+            PageInfo pageInfo = mDocument.getPageInfo(mCurrentPage - 1);
+            e.PageSettings.PaperSize = pageInfo.GetDotNetPaperSize(getPrinterSettings().getPaperSizes());
+            // MS Word stores the paper source (printer tray) for each section as a printer-specfic value
+            // To obtain the correct tray value you will need to use the RawKindValue returned
+            // by .NET for your printer
+            e.PageSettings.PaperSource.RawKind = pageInfo.getPaperTray();
+            e.PageSettings.Landscape = pageInfo.getLandscape();
+        }
+
+        /// <summary>
+        /// Called for each page to render it for printing. 
+        /// </summary>
+        protected /*override*/ void onPrintPage(PrintPageEventArgs e) throws Exception
+        {
+            super.onPrintPage(e);
+
+            // Aspose.Words rendering engine creates a page that is drawn from the 0,0 of the paper,
+            // but there is some hard margin in the printer and the .NET printing framework
+            // renders from there. We need to offset by that hard margin
+
+            // In .NET 1.1 the hard margin is not available programmatically, lets hardcode to about 4mm
+            float hardOffsetX = 20f;
+            float hardOffsetY = 20f;
+
+            // This is in .NET 2.0 only. Uncomment when needed
+            // float hardOffsetX = e.PageSettings.HardMarginX;
+            // float hardOffsetY = e.PageSettings.HardMarginY;
+
+            int pageIndex = mCurrentPage - 1;
+            mDocument.renderToScaleInternal(mCurrentPage, e.Graphics, -hardOffsetX, -hardOffsetY, 1.0f);
+
+            mCurrentPage++;
+            e.HasMorePages = (mCurrentPage <= mPageTo);
+        }
+
+        private /*final*/ Document mDocument;
+        private int mCurrentPage;
+        private int mPageTo;
+    }
+    //ExEnd
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printPageInfo() throws Exception
+    {
+        //ExStart
+        //ExFor:PageInfo
+        //ExFor:PageInfo.GetSizeInPixels(Single, Single, Single)
+        //ExFor:PageInfo.GetSpecifiedPrinterPaperSource(PaperSourceCollection, PaperSource)
+        //ExFor:PageInfo.HeightInPoints
+        //ExFor:PageInfo.Landscape
+        //ExFor:PageInfo.PaperSize
+        //ExFor:PageInfo.PaperTray
+        //ExFor:PageInfo.SizeInPoints
+        //ExFor:PageInfo.WidthInPoints
+        //ExSummary:Shows how to print page size and orientation information for every page in a Word document.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        // The first section has 2 pages
+        // We will assign a different printer paper tray to each one, whose number will match a kind of paper source
+        // These sources and their Kinds will vary depending on the installed printer driver
+        PrinterSettings.PaperSourceCollection paperSources = new PrinterSettings().getPaperSources();
+
+        doc.getFirstSection().getPageSetup().setFirstPageTray(paperSources.get(0).RawKind);
+        doc.getFirstSection().getPageSetup().setOtherPagesTray(paperSources.get(1).RawKind);
+
+        msConsole.writeLine("Document \"{0}\" contains {1} pages.", doc.getOriginalFileName(), doc.getPageCount());
+
+        float scale = 1.0f;
+        float dpi = 96f;
+
+        for (int i = 0; i < doc.getPageCount(); i++)
+        {
+            // Each page has a PageInfo object, whose index is the respective page's number
+            PageInfo pageInfo = doc.getPageInfo(i);
+
+            // Print the page's orientation and dimensions
+            System.out.println("Page {i + 1}:");
+            System.out.println("\tOrientation:\t{(pageInfo.Landscape ? ");
+            System.out.println("\tPaper size:\t\t{pageInfo.PaperSize} ({pageInfo.WidthInPoints:F0}x{pageInfo.HeightInPoints:F0}pt)");
+            System.out.println("\tSize in points:\t{pageInfo.SizeInPoints}");
+            System.out.println("\tSize in pixels:\t{pageInfo.GetSizeInPixels(1.0f, 96)} at {scale * 100}% scale, {dpi} dpi");
+
+            // Paper source tray information
+            System.out.println("\tTray:\t{pageInfo.PaperTray}");
+            PaperSource source = pageInfo.GetSpecifiedPrinterPaperSource(paperSources, paperSources.get(0));
+            System.out.println("\tSuitable print source:\t{source.SourceName}, kind: {source.Kind}");
+        }
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printerSettingsContainer()
+    {
+        //ExStart
+        //ExFor:PrinterSettingsContainer
+        //ExFor:PrinterSettingsContainer.#ctor(PrinterSettings)
+        //ExFor:PrinterSettingsContainer.DefaultPageSettingsPaperSource
+        //ExFor:PrinterSettingsContainer.PaperSizes
+        //ExFor:PrinterSettingsContainer.PaperSources
+        //ExSummary:Shows how to access and list your printer's paper sources and sizes.
+        // The PrinterSettingsContainer contains a PrinterSettings object,
+        // which contains unique data for different printer drivers
+        PrinterSettingsContainer container = new PrinterSettingsContainer(new PrinterSettings());
+
+        // You can find the printer's list of paper sources here
+        System.out.println("{container.PaperSources.Count} printer paper sources:");
+        for (PaperSource paperSource : (Iterable<PaperSource>) container.getPaperSources())
+        {
+            boolean isDefault = msString.equals(container.getDefaultPageSettingsPaperSource().SourceName, paperSource.SourceName);
+            msConsole.WriteLine($"\t{paperSource.SourceName}, " +
+                              $"RawKind: {paperSource.RawKind} {(isDefault ? "(Default)" : "")}");
+        }
+
+        // You can find the list of PaperSizes that can be sent to the printer here
+        // Both the PrinterSource and PrinterSize contain a "RawKind" attribute,
+        // which equates to a paper type listed on the PaperSourceKind enum
+        // If the list of PaperSources contains a PaperSource with the same RawKind as that of the page being printed,
+        // the page will be printed by the paper source and on the appropriate paper size by the printer
+        // Otherwise, the printer will default to the source designated by DefaultPageSettingsPaperSource 
+        System.out.println("{container.PaperSizes.Count} paper sizes:");
+        for (PaperSize paperSize : (Iterable<PaperSize>) container.getPaperSizes())
+        {
+            System.out.println("\t{paperSize}, RawKind: {paperSize.RawKind}");
+        }
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void print() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.Print
+        //ExSummary:Prints the whole document to the default printer.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        doc.print();
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printToNamedPrinter() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.Print(String)
+        //ExSummary:Prints the whole document to a specified printer.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        doc.print("KONICA MINOLTA magicolor 2400W");
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printRange() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.Print(PrinterSettings)
+        //ExSummary:Prints a range of pages.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        PrinterSettings printerSettings = new PrinterSettings();
+        // Page numbers in the .NET printing framework are 1-based
+        printerSettings.setFromPage(1);
+        printerSettings.setToPage(3);
+
+        doc.printInternal(printerSettings);
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printRangeWithDocumentName() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.Print(PrinterSettings, String)
+        //ExSummary:Prints a range of pages along with the name of the document.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        PrinterSettings printerSettings = new PrinterSettings();
+        // Page numbers in the .NET printing framework are 1-based
+        printerSettings.setFromPage(1);
+        printerSettings.setToPage(3);
+
+        doc.printInternal(printerSettings, "Rendering.PrintRangeWithDocumentName.doc");
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void previewAndPrint() throws Exception
+    {
+        //ExStart
+        //ExFor:AsposeWordsPrintDocument.#ctor(Document)
+        //ExFor:AsposeWordsPrintDocument.CachePrinterSettings
+        //ExSummary:Shows the Print dialog that allows selecting the printer and page range to print with. Then brings up the print preview from which you can preview the document and choose to print or close.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        PrintPreviewDialog previewDlg = new PrintPreviewDialog();
+        // Show non-modal first is a hack for the print preview form to show on top
+        previewDlg.Show();
+
+        // Initialize the Print Dialog with the number of pages in the document
+        PrintDialog printDlg = new PrintDialog();
+        printDlg.AllowSomePages = true;
+        printDlg.PrinterSettings.MinimumPage = 1;
+        printDlg.PrinterSettings.MaximumPage = doc.getPageCount();
+        printDlg.PrinterSettings.FromPage = 1;
+        printDlg.PrinterSettings.ToPage = doc.getPageCount();
+
+        if (!printDlg.ShowDialog().Equals(DialogResult.OK))
+            return;
+
+        // Create the Aspose.Words' implementation of the .NET print document 
+        // and pass the printer settings from the dialog to the print document
+        // Use 'CachePrinterSettings' to reduce time of first call of Print() method
+        AsposeWordsPrintDocument awPrintDoc = new AsposeWordsPrintDocument(doc);
+        awPrintDoc.setPrinterSettings(printDlg.PrinterSettings);
+        awPrintDoc.cachePrinterSettings();
+
+        // Hide and invalidate preview is a hack for print preview to show on top
+        previewDlg.Hide();
+        previewDlg.PrintPreviewControl.InvalidatePreview();
+
+        // Pass the Aspose.Words' print document to the .NET Print Preview dialog
+        previewDlg.Document = awPrintDoc;
+
+        previewDlg.ShowDialog();
         //ExEnd
     }
 

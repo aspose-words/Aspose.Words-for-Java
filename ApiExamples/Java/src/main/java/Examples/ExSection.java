@@ -455,4 +455,3 @@ public class ExSection extends ApiExampleBase {
         Assert.assertEquals(sectionDeAfter.getPageSetup().getTextColumns().getSpacing(), 35.4); // 1.25 cm
     }
 }
-

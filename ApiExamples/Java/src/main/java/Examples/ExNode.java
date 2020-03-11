@@ -15,19 +15,10 @@ import org.testng.annotations.Test;
 import java.text.MessageFormat;
 import java.util.Iterator;
 
-public class ExNode extends ApiExampleBase {
-    @Test
-    public void useNodeType() throws Exception {
-        //ExStart
-        //ExFor:NodeType
-        //ExSummary:The following example shows how to use the NodeType enumeration.
-        Document doc = new Document();
 
-        // Returns NodeType.Document
-        int type = doc.getNodeType();
-        //ExEnd
-    }
-
+@Test
+public class ExNode extends ApiExampleBase
+{
     @Test
     public void cloneCompositeNode() throws Exception {
         //ExStart
@@ -751,4 +742,3 @@ public class ExNode extends ApiExampleBase {
         //ExEnd
     }
 }
-

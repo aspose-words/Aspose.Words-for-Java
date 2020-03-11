@@ -55,8 +55,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExFor:GraphicsQualityOptions.SmoothingMode
         //ExFor:GraphicsQualityOptions.TextRenderingHint
         //ExFor:ImageSaveOptions.GraphicsQualityOptions
-        //ExSummary:Shows how to set render quality options when converting documents to image formats.
-        Document doc = new Document(getMyDir() + "SaveOptions.MyriadPro.docx");
+        //ExSummary:Shows how to set render quality options when converting documents to image formats. 
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         GraphicsQualityOptions qualityOptions = new GraphicsQualityOptions();
         qualityOptions.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // SmoothingMode
@@ -69,7 +69,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.JPEG);
         saveOptions.setGraphicsQualityOptions(qualityOptions);
 
-        doc.save(getArtifactsDir() + "SaveOptions.GraphicsQuality.jpeg", saveOptions);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpeg", saveOptions);
         //ExEnd
     }
 
@@ -125,7 +125,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExFor:ImageSaveOptions.Scale
         //ExFor:ImageSaveOptions.VerticalResolution
         //ExSummary:Shows how to edit image.
-        Document doc = new Document(getMyDir() + "Rendering.doc");
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // When saving the document as an image, we can use an ImageSaveOptions object to edit various aspects of it
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
@@ -137,27 +137,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
             options.setScale(96f / 72f);           // Default at 1.0 for normal scale, can be used to negate resolution impact in image size
         }
 
-        doc.save(getArtifactsDir() + "ImagesSaveOptions.EditImage.png", options);
-        //ExEnd
-    }
-
-    @Test
-    public void windowsMetaFile() throws Exception {
-        //ExStart
-        //ExFor:ImageSaveOptions.MetafileRenderingOptions
-        //ExSummary:Shows how to set the rendering mode for Windows Metafiles.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Use a DocumentBuilder to insert a .wmf image into the document
-        builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
-
-        // For documents that contain .wmf images, when converting the documents themselves to images,
-        // we can use a ImageSaveOptions object to designate a rendering method for the .wmf images
-        ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
-        options.getMetafileRenderingOptions().setRenderingMode(MetafileRenderingMode.BITMAP);
-
-        doc.save(getArtifactsDir() + "ImagesSaveOptions.WindowsMetaFile.png", options);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.EditImage.png", options);
         //ExEnd
     }
 }

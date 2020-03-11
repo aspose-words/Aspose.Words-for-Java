@@ -24,7 +24,8 @@ import java.text.MessageFormat;
 @Test
 public class ExDrawing extends ApiExampleBase {
     @Test
-    public void drawingVariousShapes() throws Exception {
+    public void variousShapes() throws Exception
+    {
         //ExStart
         //ExFor:Drawing.ArrowLength
         //ExFor:Drawing.ArrowType
@@ -112,6 +113,38 @@ public class ExDrawing extends ApiExampleBase {
         filledInArrowImg.getStroke().setJoinStyle(JoinStyle.ROUND);
 
         doc.save(getArtifactsDir() + "Drawing.VariousShapes.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void importImage() throws Exception
+    {
+        //ExStart
+        //ExFor:ImageData.SetImage(Image)
+        //ExFor:ImageData.SetImage(Stream)
+        //ExSummary:Shows two ways of importing images from the local file system into a document.
+        Document doc = new Document();
+
+        // We can get an image from a file, set it as the image of a shape and append it to a paragraph
+        BufferedImage srcImage = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
+
+        Shape imgShape = new Shape(doc, ShapeType.IMAGE);
+        doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
+        imgShape.getImageData().setImage(srcImage);
+        srcImage.flush();
+
+        // We can also open an image file using a stream and set its contents as a shape's image 
+        InputStream stream = new FileInputStream(getImageDir() + "Logo.jpg");
+        try /*JAVA: was using*/
+        {
+            imgShape = new Shape(doc, ShapeType.IMAGE);
+            doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
+            imgShape.getImageData().setImage(stream);
+            imgShape.setLeft(150.0f);
+        }
+        finally { if (stream != null) stream.close(); }
+
+        doc.save(getArtifactsDir() + "Drawing.ImportImage.docx");
         //ExEnd
     }
 
@@ -225,23 +258,8 @@ public class ExDrawing extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void typeOfImage() throws Exception {
-        //ExStart
-        //ExFor:Drawing.ImageType
-        //ExSummary:Shows how to add an image to a shape and check its type
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        BufferedImage image = ImageIO.read(getAsposelogoUri().toURL().openStream());
-
-        // The image started off as an animated .gif but it gets converted to a .png since there cannot be animated images in documents
-        Shape imgShape = builder.insertImage(image);
-        Assert.assertEquals(imgShape.getImageData().getImageType(), ImageType.PNG);
-        //ExEnd
-    }
-
-    @Test
-    public void textBoxTextLayout() throws Exception {
+    public void textBox() throws Exception
+    {
         //ExStart
         //ExFor:Drawing.LayoutFlow
         //ExSummary:Shows how to add text to a textbox and change its orientation
@@ -263,14 +281,14 @@ public class ExDrawing extends ApiExampleBase {
         //ExEnd
     }
 
+    @Test
+    public void getDataFromImage() throws Exception
+    {
     //ExStart
     //ExFor:ImageData.ImageBytes
     //ExFor:ImageData.ToByteArray
     //ExFor:ImageData.ToStream
     //ExSummary:Shows how to access raw image data in a shape's ImageData object.
-    @Test //ExSkip
-    public void getDataFromImage() throws Exception {
-
         Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
         // Images are stored as shapes
@@ -311,38 +329,6 @@ public class ExDrawing extends ApiExampleBase {
         }
     }
     //ExEnd
-
-    @Test
-    public void saveAllImages() throws Exception {
-        //ExStart
-        //ExFor:ImageData.HasImage
-        //ExFor:ImageData.ToImage
-        //ExFor:ImageData.Save(Stream)
-        //ExSummary:Shows how to save all the images from a document to the file system.
-        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
-
-        // Images are stored as shapes
-        // Get into the document's shape collection to verify that it contains 6 images
-        NodeCollection shapes = imgSourceDoc.getChildNodes(NodeType.SHAPE, true);
-        Assert.assertEquals(shapes.getCount(), 10);
-
-        // Go over all of the document's shapes
-        // If a shape contains image data, save the image in the local file system
-        for (int i = 0; i < shapes.getCount(); i++) {
-            Shape imageShape = (Shape) shapes.get(i);
-            ImageData imageData = imageShape.getImageData();
-
-            if (imageData.hasImage()) {
-                OutputStream fileStream = new FileOutputStream(getArtifactsDir() + MessageFormat.format("Image from shape {0}.jpeg", i));
-                try {
-                    imageData.save(fileStream);
-                } finally {
-                    if (fileStream != null) fileStream.close();
-                }
-            }
-        }
-        //ExEnd
-    }
 
     @Test
     public void imageData() throws Exception {
@@ -420,38 +406,8 @@ public class ExDrawing extends ApiExampleBase {
     }
 
     @Test
-    public void importImage() throws Exception {
-        //ExStart
-        //ExFor:ImageData.SetImage(Image)
-        //ExFor:ImageData.SetImage(Stream)
-        //ExSummary:Shows two ways of importing images from the local file system into a document.
-        Document doc = new Document();
-
-        // We can get an image from a file, set it as the image of a shape and append it to a paragraph
-        BufferedImage srcImage = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
-
-        Shape imgShape = new Shape(doc, ShapeType.IMAGE);
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
-        imgShape.getImageData().setImage(srcImage);
-        srcImage.flush();
-
-        // We can also open an image file using a stream and set its contents as a shape's image
-        InputStream stream = new FileInputStream(getImageDir() + "Logo.jpg");
-        try {
-            imgShape = new Shape(doc, ShapeType.IMAGE);
-            doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
-            imgShape.getImageData().setImage(stream);
-            imgShape.setLeft(150.0f);
-        } finally {
-            if (stream != null) stream.close();
-        }
-
-        doc.save(getArtifactsDir() + "ImageData.ImportedImage.docx");
-        //ExEnd
-    }
-
-    @Test
-    public void imageSize() throws Exception {
+    public void imageSize() throws Exception
+    {
         //ExStart
         //ExFor:ImageSize.HeightPixels
         //ExFor:ImageSize.HorizontalResolution

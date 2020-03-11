@@ -161,7 +161,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertNode(sdtDate);
 
-        doc.save(getArtifactsDir() + "SDT.Date.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.Date.docx");
         //ExEnd
     }
 

@@ -67,20 +67,11 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         String outputFileName = getArtifactsDir() + "DigitalSignatureUtil.SignDocument.docx";
 
         SignOptions signOptions = new SignOptions();
-        signOptions.setComments("My comment");
+        signOptions.setComments("Encrypted");
         signOptions.setSignTime(new Date());
 
         DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, certificateHolder, signOptions);
-
-        // By stream:
-        InputStream streamIn = new FileInputStream(getMyDir() + "Digitally signed.docx");
-        OutputStream streamOut = new FileOutputStream(getArtifactsDir() + "DigitalSignatureUtil.SignDocument.docx");
-
-        DigitalSignatureUtil.sign(streamIn, streamOut, certificateHolder, signOptions);
         //ExEnd
-
-        streamIn.close();
-        streamOut.close();
     }
 
     @Test(description = "WORDSNET-13036, WORDSNET-16868")
@@ -155,19 +146,19 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         }
     }
 
-    @Test(enabled = false, description = "Need to additional analysis")
+    @Test
     public void singInputStreamDocumentWithPasswordDecrypring() throws Exception {
         //ExStart
         //ExFor:DigitalSignatureUtil.Sign(Stream, Stream, CertificateHolder, SignOptions)
         //ExSummary:Shows how to sign encrypted document opened from a stream.
-        FileInputStream streamIn = new FileInputStream(getMyDir() + "Document.Encrypted.docx");
-        FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "Document.Encrypted.docx");
+        FileInputStream streamIn = new FileInputStream(getMyDir() + "Digitally signed.docx");
+        FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "DigitalSignatureUtil.SignDocument.docx");
 
         // Create certificate holder from a file
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
         SignOptions signOptions = new SignOptions();
-        signOptions.setComments("Comment");
+        signOptions.setComments("Encrypted");
         signOptions.setSignTime(new Date());
         signOptions.setDecryptionPassword("docPassword");
 
@@ -176,7 +167,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         //ExEnd
 
         // Open encrypted document from a file
-        InputStream streamOutIn = new FileInputStream(getArtifactsDir() + "Document.Encrypted.docx");
+        InputStream streamOutIn = new FileInputStream(getArtifactsDir() + "DigitalSignatureUtil.SignDocument.docx");
         Document signedDoc = new Document(streamOutIn, new LoadOptions("docPassword"));
 
         // Check that encrypted document was successfully signed

@@ -27,22 +27,22 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
         // An AbsolutePositionTab is a child node of a paragraph
         // AbsolutePositionTabs get picked up when looking for nodes of the SpecialChar type
         Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
-        AbsolutePositionTab absPositionTab = (AbsolutePositionTab) para.getChild(NodeType.SPECIAL_CHAR, 0, true);
+        AbsolutePositionTab absPositionTab = (AbsolutePositionTab)para.getChild(NodeType.SPECIAL_CHAR, 0, true);
 
         // This implementation of the DocumentVisitor pattern converts the document to plain text
-        DocToTxtWriter docToTxtWriter = new DocToTxtWriter();
+        DocToTxtWriter myDocToTxtWriter = new DocToTxtWriter();
 
         // We can run the DocumentVisitor over the whole first paragraph
-        para.accept(docToTxtWriter);
+        para.accept(myDocToTxtWriter);
 
         // A tab character is placed where the AbsolutePositionTab was found
-        Assert.assertEquals(docToTxtWriter.getText(), "Before AbsolutePositionTab\tAfter AbsolutePositionTab");
+        Assert.assertEquals(myDocToTxtWriter.getText(), "Before AbsolutePositionTab\tAfter AbsolutePositionTab");
 
         // An AbsolutePositionTab can accept a DocumentVisitor by itself too
-        docToTxtWriter = new DocToTxtWriter();
-        absPositionTab.accept(docToTxtWriter);
+        myDocToTxtWriter = new DocToTxtWriter();
+        absPositionTab.accept(myDocToTxtWriter);
 
-        Assert.assertEquals(docToTxtWriter.getText(), "\t");
+        Assert.assertEquals(myDocToTxtWriter.getText(), "\t");
     }
 
     /// <summary>

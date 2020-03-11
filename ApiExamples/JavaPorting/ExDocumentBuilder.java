@@ -30,6 +30,8 @@ import com.aspose.words.NodeType;
 import com.aspose.words.FieldType;
 import com.aspose.words.FieldIf;
 import com.aspose.words.StyleIdentifier;
+import java.awt.image.BufferedImage;
+import com.aspose.BitmapPal;
 import com.aspose.words.WrapType;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
@@ -87,9 +89,9 @@ import com.aspose.words.StoryType;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.FileMode;
-import java.awt.image.BufferedImage;
 import com.aspose.words.Style;
 import com.aspose.words.StyleType;
+import com.aspose.words.NodeCollection;
 import org.testng.annotations.DataProvider;
 
 
@@ -415,7 +417,7 @@ public class ExDocumentBuilder extends ApiExampleBase
     }
 
         @Test
-    public void insertWatermarkNetStandard2() throws Exception
+    public void insertWatermark() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.MoveToHeaderFooter
@@ -425,56 +427,54 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:WrapType
         //ExFor:RelativeHorizontalPosition
         //ExFor:RelativeVerticalPosition
-        //ExSummary:Inserts a watermark image into a document using DocumentBuilder (.NetStandard 2.0).
+        //ExSummary:Inserts a watermark image into a document using DocumentBuilder.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // The best place for the watermark image is in the header or footer so it is shown on every page
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
 
-        SKBitmap image = SKBitmap.Decode(getImageDir() + "Transparent background logo.png");
-        try /*JAVA: was using*/
-        {
-            // Insert a floating picture
-            Shape shape = builder.InsertImage(image);
-            shape.setWrapType(WrapType.NONE);
-            shape.setBehindText(true);
+        BufferedImage image = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
 
-            shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
-            shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
+        // Insert a floating picture
+        Shape shape = builder.insertImage(image);
+        shape.setWrapType(WrapType.NONE);
+        shape.setBehindText(true);
 
-            // Calculate image left and top position so it appears in the center of the page
-            shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
-            shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
-        }
-        finally { if (image != null) image.close(); }
+        shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
+        shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
 
-        doc.save(getArtifactsDir() + "DocumentBuilder.InsertWatermarkNetStandard2.doc");
+        // Calculate image left and top position so it appears in the center of the page
+        shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
+        shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
+
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertWatermark.doc");
         //ExEnd
     }
 
     @Test
-    public void insertOleObjectNetStandard2() throws Exception
+    public void insertOleObject() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOleObject(String, Boolean, Boolean, Image)
         //ExFor:DocumentBuilder.InsertOleObject(String, String, Boolean, Boolean, Image)
-        //ExSummary:Shows how to insert an OLE object into a document (.NetStandard 2.0).
+        //ExFor:DocumentBuilder.InsertOleObjectAsIcon(String, Boolean, String, String)
+        //ExSummary:Shows how to insert an OLE object into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        SKBitmap representingImage = SKBitmap.Decode(getImageDir() + "Logo.jpg");
-        try /*JAVA: was using*/
-        {
-            // OleObject
-            builder.InsertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, representingImage);
-            // OleObject with ProgId
-            builder.InsertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, false,
-                representingImage);
-        }
-        finally { if (representingImage != null) representingImage.close(); }
+        BufferedImage representingImage = BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg");
 
-        doc.save(getArtifactsDir() + "DocumentBuilder.InsertOleObjectNetStandard2.docx");
+        // Insert ole object
+        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, representingImage);
+        // Insert ole object with ProgId
+        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
+        // Insert ole object as Icon
+        // There is one limitation for now: the maximum size of the icon must be 32x32 for the correct display
+        builder.insertOleObjectAsIcon(getMyDir() + "Spreadsheet.xlsx", false, getImageDir() + "Logo icon.ico",
+            "Caption (can not be null)");
+
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertOleObject.docx");
         //ExEnd
     }
 
@@ -2628,4 +2628,444 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
     }
 
+        /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (1)
+    public void markdownDocumentEmphases() throws Exception
+    {
+        DocumentBuilder builder = new DocumentBuilder();
+        
+        // Bold and Italic are represented as Font.Bold and Font.Italic
+        builder.getFont().setItalic(true);
+        builder.writeln("This text will be italic");
+        
+        // Use clear formatting if don't want to combine styles between paragraphs
+        builder.getFont().clearFormatting();
+        
+        builder.getFont().setBold(true);
+        builder.writeln("This text will be bold");
+        
+        builder.getFont().clearFormatting();
+        
+        // You can also write create BoldItalic text
+        builder.getFont().setItalic(true);
+        builder.write("You ");
+        builder.getFont().setBold(true);
+        builder.write("can");
+        builder.getFont().setBold(false);
+        builder.writeln(" combine them");
+
+        builder.getFont().clearFormatting();
+
+        builder.getFont().setStrikeThrough(true);
+        builder.writeln("This text will be strikethrough");
+        
+        // Markdown treats asterisks (*), underscores (_) and tilde (~) as indicators of emphasis
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (2)
+    public void markdownDocumentInlineCode() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.getParagraphFormat().clearFormatting();
+        builder.writeln("\n");
+        
+        // Style with name that starts from word InlineCode, followed by optional dot (.) and number of backticks (`)
+        // If number of backticks is missed, then one backtick will be used by default
+        Style inlineCode1BackTicks = doc.getStyles().add(StyleType.CHARACTER, "InlineCode");
+        builder.getFont().setStyle(inlineCode1BackTicks);
+        builder.writeln("Text with InlineCode style with one backtick");
+        
+        // Use optional dot (.) and number of backticks (`)
+        // There will be 3 backticks
+        Style inlineCode3BackTicks = doc.getStyles().add(StyleType.CHARACTER, "InlineCode.3");
+        builder.getFont().setStyle(inlineCode3BackTicks);
+        builder.writeln("Text with InlineCode style with 3 backticks");
+
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown", description = "WORDSNET-19850") @Order (3)
+    public void markdownDocumentHeadings() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.getParagraphFormat().clearFormatting();
+        builder.writeln("\n");
+        
+        // By default Heading styles in Word may have bold and italic formatting
+        // If we do not want text to be emphasized, set these properties explicitly to false
+        // Thus we can't use 'builder.Font.ClearFormatting()' because Bold/Italic will be set to true
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+        
+        // Create for one heading for each level
+        builder.getParagraphFormat().setStyleName("Heading 1");
+        builder.getFont().setItalic(true);
+        builder.writeln("This is an italic H1 tag");
+
+        // Reset our styles from the previous paragraph to not combine styles between paragraphs
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        // Structure-enhanced text heading can be added through style inheritance
+        Style setextHeading1 = doc.getStyles().add(StyleType.PARAGRAPH, "SetextHeading1");
+        builder.getParagraphFormat().setStyle(setextHeading1);
+        doc.getStyles().get("SetextHeading1").setBaseStyleName("Heading 1");
+        builder.writeln("SetextHeading 1");
+        
+        builder.getParagraphFormat().setStyleName("Heading 2");
+        builder.writeln("This is an H2 tag");
+
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        Style setextHeading2 = doc.getStyles().add(StyleType.PARAGRAPH, "SetextHeading2");
+        builder.getParagraphFormat().setStyle(setextHeading2);
+        doc.getStyles().get("SetextHeading2").setBaseStyleName("Heading 2");
+        builder.writeln("SetextHeading 2");
+        
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 3"));
+        builder.writeln("This is an H3 tag");
+        
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 4"));
+        builder.getFont().setBold(true);
+        builder.writeln("This is an bold H4 tag");
+        
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 5"));
+        builder.getFont().setItalic(true);
+        builder.getFont().setBold(true);
+        builder.writeln("This is an italic and bold H5 tag");
+        
+        builder.getFont().setBold(false);
+        builder.getFont().setItalic(false);
+
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 6"));
+        builder.writeln("This is an H6 tag");
+        
+        doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (4)
+    public void markdownDocumentBlockquotes() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.getParagraphFormat().clearFormatting();
+        builder.writeln("\n");
+
+        // By default document stores blockquote style for the first level
+        builder.getParagraphFormat().setStyleName("Quote");
+        builder.writeln("Blockquote");
+        
+        // Create styles for nested levels through style inheritance
+        Style quoteLevel2 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote1");
+        builder.getParagraphFormat().setStyle(quoteLevel2);
+        doc.getStyles().get("Quote1").setBaseStyleName("Quote");
+        builder.writeln("1. Nested blockquote");
+        
+        Style quoteLevel3 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote2");
+        builder.getParagraphFormat().setStyle(quoteLevel3);
+        doc.getStyles().get("Quote2").setBaseStyleName("Quote1");
+        builder.getFont().setItalic(true);
+        builder.writeln("2. Nested italic blockquote");
+        
+        Style quoteLevel4 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote3");
+        builder.getParagraphFormat().setStyle(quoteLevel4);
+        doc.getStyles().get("Quote3").setBaseStyleName("Quote2");
+        builder.getFont().setItalic(false);
+        builder.getFont().setBold(true);
+        builder.writeln("3. Nested bold blockquote");
+        
+        Style quoteLevel5 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote4");
+        builder.getParagraphFormat().setStyle(quoteLevel5);
+        doc.getStyles().get("Quote4").setBaseStyleName("Quote3");
+        builder.getFont().setBold(false);
+        builder.writeln("4. Nested blockquote");
+        
+        Style quoteLevel6 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote5");
+        builder.getParagraphFormat().setStyle(quoteLevel6);
+        doc.getStyles().get("Quote5").setBaseStyleName("Quote4");
+        builder.writeln("5. Nested blockquote");
+        
+        Style quoteLevel7 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote6");
+        builder.getParagraphFormat().setStyle(quoteLevel7);
+        doc.getStyles().get("Quote6").setBaseStyleName("Quote5");
+        builder.getFont().setItalic(true);
+        builder.getFont().setBold(true);
+        builder.writeln("6. Nested italic bold blockquote");
+        
+        doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (5)
+    public void markdownDocumentIndentedCode() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.writeln("\n");
+        builder.getParagraphFormat().clearFormatting();
+        builder.writeln("\n");
+
+        Style indentedCode = doc.getStyles().add(StyleType.PARAGRAPH, "IndentedCode");
+        builder.getParagraphFormat().setStyle(indentedCode);
+        builder.writeln("This is an indented code");
+        
+        doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (6)
+    public void markdownDocumentFencedCode() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.writeln("\n");
+        builder.getParagraphFormat().clearFormatting();
+        builder.writeln("\n");
+
+        Style fencedCode = doc.getStyles().add(StyleType.PARAGRAPH, "FencedCode");
+        builder.getParagraphFormat().setStyle(fencedCode);
+        builder.writeln("This is a fenced code");
+
+        Style fencedCodeWithInfo = doc.getStyles().add(StyleType.PARAGRAPH, "FencedCode.C#");
+        builder.getParagraphFormat().setStyle(fencedCodeWithInfo);
+        builder.writeln("This is a fenced code with info string");
+
+        doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (7)
+    public void markdownDocumentHorizontalRule() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.getParagraphFormat().clearFormatting();
+        builder.writeln("\n");
+
+        // Insert HorizontalRule that will be present in .md file as '-----'
+        builder.insertHorizontalRule();
+ 
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file
+    /// That's why we need order for them 
+    /// </summary>
+    @Test (groups = "SkipTearDown") @Order (8)
+    public void markdownDocumentBulletedList() throws Exception
+    {
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Prepare our created document for further work
+        // And clear paragraph formatting not to use the previous styles
+        builder.moveToDocumentEnd();
+        builder.getParagraphFormat().clearFormatting();
+        builder.writeln("\n");
+
+        // Bulleted lists are represented using paragraph numbering
+        builder.getListFormat().applyBulletDefault();
+        // There can be 3 types of bulleted lists
+        // The only diff in a numbering format of the very first level are: â€?-â€™, â€?+â€™ or â€?*â€™ respectively
+        builder.getListFormat().getList().getListLevels().get(0).setNumberFormat("-");
+        
+        builder.writeln("Item 1");
+        builder.writeln("Item 2");
+        builder.getListFormat().listIndent();
+        builder.writeln("Item 2a");
+        builder.writeln("Item 2b");
+ 
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+    }
+
+    /// <summary>
+    /// All markdown tests work with the same file.
+    /// That's why we need order for them.
+    /// </summary>
+    @Test (dataProvider = "loadMarkdownDocumentAndAssertContentDataProvider") @Order (9)
+    public void loadMarkdownDocumentAndAssertContent(String text, String styleName, boolean isItalic, boolean isBold) throws Exception
+    {
+        // Load created document from previous tests
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+        
+        for (Paragraph paragraph : (Iterable<Paragraph>) paragraphs)
+        {
+            if (paragraph.getRuns().getCount() != 0)
+            {
+                // Check that all document text has the necessary styles
+                if (msString.equals(paragraph.getRuns().get(0).getText(), text) && !text.contains("InlineCode"))
+                {
+                    msAssert.areEqual(styleName, paragraph.getParagraphFormat().getStyle().getName());
+                    msAssert.areEqual(isItalic, paragraph.getRuns().get(0).getFont().getItalic());
+                    msAssert.areEqual(isBold, paragraph.getRuns().get(0).getFont().getBold());
+                }
+                else if (msString.equals(paragraph.getRuns().get(0).getText(), text) && text.contains("InlineCode"))
+                {
+                    msAssert.areEqual(styleName, paragraph.getRuns().get(0).getFont().getStyleName());
+                }
             }
+
+            // Check that document also has a HorizontalRule present as a shape
+            NodeCollection shapesCollection = doc.getFirstSection().getBody().getChildNodes(NodeType.SHAPE, true);
+            Shape horizontalRuleShape = (Shape) shapesCollection.get(0);
+            
+            Assert.assertTrue(shapesCollection.getCount() == 1);
+            Assert.assertTrue(horizontalRuleShape.isHorizontalRule());
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "loadMarkdownDocumentAndAssertContentDataProvider")
+	public static Object[][] loadMarkdownDocumentAndAssertContentDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"Italic",  "Normal",  true,  false},
+			{"Bold",  "Normal",  false,  true},
+			{"ItalicBold",  "Normal",  true,  true},
+			{"Text with InlineCode style with one backtick",  "InlineCode",  false,  false},
+			{"Text with InlineCode style with 3 backticks",  "InlineCode.3",  false,  false},
+			{"This is an italic H1 tag",  "Heading 1",  true,  false},
+			{"SetextHeading 1",  "SetextHeading1",  false,  false},
+			{"This is an H2 tag",  "Heading 2",  false,  false},
+			{"SetextHeading 2",  "SetextHeading2",  false,  false},
+			{"This is an H3 tag",  "Heading 3",  false,  false},
+			{"This is an bold H4 tag",  "Heading 4",  false,  true},
+			{"This is an italic and bold H5 tag",  "Heading 5",  true,  true},
+			{"This is an H6 tag",  "Heading 6",  false,  false},
+			{"Blockquote",  "Quote",  false,  false},
+			{"1. Nested blockquote",  "Quote1",  false,  false},
+			{"2. Nested italic blockquote",  "Quote2",  true,  false},
+			{"3. Nested bold blockquote",  "Quote3",  false,  true},
+			{"4. Nested blockquote",  "Quote4",  false,  false},
+			{"5. Nested blockquote",  "Quote5",  false,  false},
+			{"6. Nested italic bold blockquote",  "Quote6",  true,  true},
+			{"This is an indented code",  "IndentedCode",  false,  false},
+			{"This is a fenced code",  "FencedCode",  false,  false},
+			{"This is a fenced code with info string",  "FencedCode.C#",  false,  false},
+			{"Item 1",  "Normal",  false,  false},
+		};
+	}
+
+    @Test
+    public void insertOnlineVideo() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertOnlineVideo(String, String, Byte[], Double, Double)
+        //ExFor:DocumentBuilder.InsertOnlineVideo(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
+        //ExFor:DocumentBuilder.InsertOnlineVideo(String, String, Byte[], RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
+        //ExSummary:Show how to insert online video into a document using html code.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Visible url
+        String vimeoVideoUrl = "https://vimeo.com/52477838";
+
+        // Embed Html code
+        String vimeoEmbedCode =
+            "<iframe src=\"https://player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+
+        // This video will have an automatically generated thumbnail, and we are setting the size according to its 16:9 aspect ratio
+        builder.writeln("Video with an automatically generated thumbnail at the top left corner of the page:");
+        builder.insertOnlineVideo(vimeoVideoUrl, RelativeHorizontalPosition.LEFT_MARGIN, 0.0,
+            RelativeVerticalPosition.TOP_MARGIN, 0.0, 320.0, 180.0, WrapType.SQUARE);
+        builder.insertBreak(BreakType.PAGE_BREAK);
+
+        // We can get an image to use as a custom thumbnail
+        WebClient webClient = new WebClient();
+        try /*JAVA: was using*/
+        {
+            byte[] imageBytes = webClient.DownloadData(getAsposeLogoUrl());
+
+            MemoryStream stream = new MemoryStream(imageBytes);
+            try /*JAVA: was using*/
+            {
+                BufferedImage image = BufferedImage.FromStream(stream);
+                try /*JAVA: was using*/
+                {
+                    // This puts the video where we are with our document builder, with a custom thumbnail and size depending on the size of the image
+                    builder.writeln("Custom thumbnail at document builder's cursor:");
+                    builder.insertOnlineVideo(vimeoVideoUrl, vimeoEmbedCode, imageBytes, image.getWidth(), image.getHeight());
+                    builder.insertBreak(BreakType.PAGE_BREAK);
+
+                    // We can put the video at the bottom right edge of the page too, but we'll have to take the page margins into account 
+                    double left = builder.getPageSetup().getRightMargin() - image.getWidth();
+                    double top = builder.getPageSetup().getBottomMargin() - image.getHeight();
+
+                    // Here we use a custom thumbnail and relative positioning to put it and the bottom right of tha page
+                    builder.writeln("Bottom right of page with custom thumbnail:");
+
+                    builder.insertOnlineVideo(vimeoVideoUrl, vimeoEmbedCode, imageBytes,
+                        RelativeHorizontalPosition.RIGHT_MARGIN, left, RelativeVerticalPosition.BOTTOM_MARGIN, top,
+                        image.getWidth(), image.getHeight(), WrapType.SQUARE);
+                }
+                finally { if (image != null) image.flush(); }
+            }
+            finally { if (stream != null) stream.close(); }
+        }
+        finally { if (webClient != null) webClient.close(); }
+
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideo.docx");
+        //ExEnd
+    }
+    }

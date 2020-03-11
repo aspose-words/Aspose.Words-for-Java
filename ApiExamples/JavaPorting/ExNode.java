@@ -31,6 +31,8 @@ import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.ExportHeadersFootersMode;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.ms.System.Text.msStringBuilder;
+import com.aspose.BitmapPal;
+import java.awt.image.BufferedImage;
 import com.aspose.words.INodeChangingCallback;
 import com.aspose.words.NodeChangingArgs;
 import com.aspose.words.NodeChangingAction;
@@ -759,13 +761,8 @@ public class ExNode extends ApiExampleBase
         builder.write("Cell 2");
         builder.endTable();
 
-                            SKBitmap image = SKBitmap.Decode(getImageDir() + "Logo.jpg");
-        try /*JAVA: was using*/
-    	{
-            builder.InsertImage(image);
-    	}
-        finally { if (image != null) image.close(); }
-        
+                builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"));
+                    
         builder.getCurrentParagraph().getParentNode().removeAllChildren();
     }
 
@@ -868,13 +865,8 @@ public class ExNode extends ApiExampleBase
         builder.write("Cell 2");
         builder.endTable();
 
-                            SKBitmap image = SKBitmap.Decode(getImageDir() + "Logo.jpg");
-        try /*JAVA: was using*/
-    	{
-            builder.InsertImage(image);
-    	}
-        finally { if (image != null) image.close(); }
-        
+                builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"));
+                    
         // Get all run nodes, of which we put 3 in the entire document
         NodeList nodeList = doc.selectNodes("//Run");
         msAssert.areEqual(3, nodeList.getCount());

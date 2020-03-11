@@ -27,6 +27,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
 
         // If value is true, then we parse "<!--[if gte vml 1]>", else parse "<![if !vml]>"
         loadOptions.setSupportVml(true);
+
         // Wait for a response, when loading external resources
         loadOptions.setWebRequestTimeout(1000);
 
@@ -50,7 +51,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
             signOptions.setDecryptionPassword("docPassword");
         }
 
-        String inputFileName = getMyDir() + "Document.Encrypted.docx";
+        String inputFileName = getMyDir() + "Encrypted.docx";
         String outputFileName = getArtifactsDir() + "HtmlLoadOptions.EncryptedHtml.html";
         DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
 
@@ -60,7 +61,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         Assert.assertEquals(loadOptions.getPassword(), signOptions.getDecryptionPassword());
 
         Document doc = new Document(outputFileName, loadOptions);
-        Assert.assertEquals(doc.getText().trim(), "Test signed document.");
+        Assert.assertEquals(doc.getText().trim(), "Test encrypted document.");
         //ExEnd
     }
 

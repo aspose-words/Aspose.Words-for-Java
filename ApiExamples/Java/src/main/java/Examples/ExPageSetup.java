@@ -102,30 +102,6 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test(enabled = false, description = "Run only when the printer driver is installed")
-    public void defaultPaperTray() throws Exception {
-        //ExStart
-        //ExFor:PageSetup.FirstPageTray
-        //ExFor:PageSetup.OtherPagesTray
-        //ExSummary:Changes all sections in a document to use the default paper tray of the selected printer.
-        Document doc = new Document();
-
-        // Find the printer that will be used for printing this document. In this case it is the default printer
-        // You can define a specific printer by using PrintServiceLookup.lookupPrintServices
-        PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
-        Media defaultTray = (Media) printService.getDefaultAttributeValue(Media.class);
-
-        // The paper tray value stored in documents is completely printer specific. This means
-        // The code below resets all page tray values to use the current printers default tray
-        // You can enumerate getSupportedAttributeValues for Media type to find the other valid
-        // paper tray values of the selected printer
-        for (Section section : doc.getSections()) {
-            section.getPageSetup().setFirstPageTray(defaultTray.getValue());
-            section.getPageSetup().setOtherPagesTray(defaultTray.getValue());
-        }
-        //ExEnd
-    }
-
-    @Test(enabled = false, description = "Run only when the printer driver is installed")
     public void paperTrayForDifferentPaperType() throws Exception {
         //ExStart
         //ExFor:PageSetup.FirstPageTray
@@ -137,9 +113,11 @@ public class ExPageSetup extends ApiExampleBase {
         PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
         Media[] trays = (Media[]) printService.getSupportedAttributeValues(Media.class, null, null);
 
-        // This is the tray we will use for A4 paper size. This is the first tray in the media set
+        // This is the tray we will use for A4 paper size
+        // This is the first tray in the media set
         int printerTrayForA4 = trays[0].getValue();
-        // This is the tray we will use Letter paper size. This is the second tray in the media set
+        // This is the tray we will use Letter paper size
+        // This is the second tray in the media set
         int printerTrayForLetter = trays[1].getValue();
 
         // Set the tray used for each section based off the paper size used in the section

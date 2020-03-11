@@ -12,11 +12,12 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
+import org.testng.Assert;
+import com.aspose.words.ContentDisposition;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataView;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.ms.NUnit.Framework.msAssert;
-import org.testng.Assert;
 import java.util.ArrayList;
 import com.aspose.words.MailMergeRegionInfo;
 import com.aspose.words.FieldQuote;
@@ -39,6 +40,205 @@ import org.testng.annotations.DataProvider;
 @Test
 public class ExMailMerge extends ApiExampleBase
 {
+    @Test
+    public void executeArray() throws Exception
+    {
+        HttpResponse response = null;
+
+        //ExStart
+        //ExFor:MailMerge.Execute(String[], Object[])
+        //ExFor:ContentDisposition
+        //ExFor:Document.Save(HttpResponse,String,ContentDisposition,SaveOptions)
+        //ExSummary:Performs a simple insertion of data into merge fields and sends the document to the browser inline.
+        // Open an existing document
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertField(" MERGEFIELD FullName ");
+        builder.insertParagraph();
+        builder.insertField(" MERGEFIELD Company ");
+        builder.insertParagraph();
+        builder.insertField(" MERGEFIELD Address ");
+        builder.insertParagraph();
+        builder.insertField(" MERGEFIELD City ");
+
+        // Fill the fields in the document with user data
+        doc.getMailMerge().execute(new String[] { "FullName", "Company", "Address", "City" },
+            new Object[] { "James Bond", "MI5 Headquarters", "Milbank", "London" });
+
+        // Send the document in Word format to the client browser with an option to save to disk or open inside the current browser
+        Assert.That(() => doc.Save(response, "Artifacts/MailMerge.ExecuteArray.doc", ContentDisposition.INLINE, null), 
+            Throws.<NullPointerException>TypeOf()); //Thrown because HttpResponse is null in the test.
+
+        // The response will need to be closed manually to make sure that no superfluous content is added to the document after saving
+        Assert.That(() => response.End(), Throws.<NullPointerException>TypeOf());
+        //ExEnd
+    }
+
+    @Test (groups = "SkipMono")
+    public void executeDataReader() throws Exception
+    {
+        //ExStart
+        //ExFor:MailMerge.Execute(IDataReader)
+        //ExSummary:Shows how to run a mail merge using data from a data reader.
+        // Create a new document and populate it with merge fields
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.write("Product:\t");
+        builder.insertField(" MERGEFIELD ProductName");
+        builder.write("\nSupplier:\t");
+        builder.insertField(" MERGEFIELD CompanyName");
+        builder.writeln();
+        builder.insertField(" MERGEFIELD QuantityPerUnit");
+        builder.write(" for $");
+        builder.insertField(" MERGEFIELD UnitPrice");
+
+        // Create a connection string which points to the "Northwind" database file in our local file system and open a connection
+        String connectionString = "Driver={Microsoft Access Driver (*.mdb)};Dbq=" + getDatabaseDir() + "Northwind.mdb";
+
+        OdbcConnection connection = new OdbcConnection();
+        try /*JAVA: was using*/
+        {
+            connection.ConnectionString = connectionString;
+            connection.Open();
+
+            // Create an SQL command that will source data for our mail merge
+            // The command has to comply to the driver we are using, which in this case is "ODBC"
+            // The names of the columns returned by this SELECT statement should correspond to the merge fields we placed above
+            OdbcCommand command = connection.CreateCommand();
+            command.CommandText = "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, {fn ROUND(Products.UnitPrice,2)} as UnitPrice\r\n                                        FROM Products \r\n                                        INNER JOIN Suppliers \r\n                                        ON Products.SupplierID = Suppliers.SupplierID";
+
+            // This will run the command and store the data in the reader
+            OdbcDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+            // Now we can take the data from the reader and use it in the mail merge
+            doc.getMailMerge().execute(reader);
+        }
+        finally { if (connection != null) connection.close(); }
+
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataReader.docx");
+        //ExEnd
+    }
+
+    //ExStart
+    //ExFor:MailMerge.ExecuteADO(Object)
+    //ExSummary:Shows how to run a mail merge with data from an ADO dataset.
+    @Test //ExSkip
+    public void executeADO() throws Exception
+    {
+        // Create a document that will be merged
+        Document doc = createSourceDocADOMailMerge();
+
+        // To work with ADO DataSets, we need to add a reference to the Microsoft ActiveX Data Objects library,
+        // which is included in the .NET distribution and stored in "adodb.dll", then create a connection
+        ADODB.Connection connection = new ADODB.Connection();
+
+        // Create a connection string which points to the "Northwind" database file in our local file system and open a connection
+        String connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
+        connection.Open(connectionString);
+
+        // Create a record set
+        ADODB.Recordset recordset = new ADODB.Recordset();
+
+        // Run an SQL command on the database we are connected to to populate our dataset
+        // The names of the columns returned here correspond to the values of the MERGEFIELDS that will accomodate our data
+        String command = "SELECT ProductName, QuantityPerUnit, UnitPrice FROM Products";
+        recordset.Open(command, connection);
+
+        // Execute the mail merge and save the document
+        doc.getMailMerge().ExecuteADO(recordset);
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteADO.docx");
+    }
+
+    /// <summary>
+    /// Create a blank document and populate it with MERGEFIELDS that will accept data when a mail merge is executed.
+    /// </summary>
+    private static Document createSourceDocADOMailMerge() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Product:\t");
+        builder.insertField(" MERGEFIELD ProductName");
+        builder.writeln();
+        builder.insertField(" MERGEFIELD QuantityPerUnit");
+        builder.write(" for $");
+        builder.insertField(" MERGEFIELD UnitPrice");
+
+        return doc;
+    }
+    //ExEnd
+
+    //ExStart
+    //ExFor:MailMerge.ExecuteWithRegionsADO(Object,String)
+    //ExSummary:Shows how to run a mail merge with regions, compiled with data from an ADO dataset.
+    @Test
+    public void executeWithRegionsADO() throws Exception
+    {
+        // Create a document that will be merged
+        Document doc = createSourceDocADOMailMergeWithRegions();
+
+        // To work with ADO DataSets, we need to add a reference to the Microsoft ActiveX Data Objects library,
+        // which is included in the .NET distribution and stored in "adodb.dll", then create a connection
+        ADODB.Connection connection = new ADODB.Connection();
+
+        // Create a connection string which points to the "Northwind" database file in our local file system and open a connection
+        String connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
+        connection.Open(connectionString);
+
+        // Create a record set
+        ADODB.Recordset recordset = new ADODB.Recordset();
+
+        // Create an SQL query that fetches data with column names that are suitable for our first mail merge region,
+        // then populate our record set with the data
+        String command = "SELECT FirstName, LastName, City FROM Employees";
+        recordset.Open(command, connection);
+
+        // Run a mail merge on just the first region, filling its MERGEFIELDS with data from the ADO record set
+        doc.getMailMerge().ExecuteWithRegionsADO(recordset, "MergeRegion1");
+
+        // Close the record set and reopen it with data from another SQL query
+        recordset.Close();
+        command = "SELECT * FROM Customers";
+        recordset.Open(command, connection);
+
+        // Run a mail merge on the second region and save the document
+        doc.getMailMerge().ExecuteWithRegionsADO(recordset, "MergeRegion2");
+
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx");
+    }
+
+    /// <summary>
+    /// Create a blank document and use MERGEFIELDS to create two sequential mail merge regions with TableStart/TableEnd tags
+    /// </summary>
+    private static Document createSourceDocADOMailMergeWithRegions() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // First mail merge region
+        builder.writeln("\tEmployees: ");
+        builder.insertField(" MERGEFIELD TableStart:MergeRegion1");
+        builder.insertField(" MERGEFIELD FirstName");
+        builder.write(", ");
+        builder.insertField(" MERGEFIELD LastName");
+        builder.write(", ");
+        builder.insertField(" MERGEFIELD City");
+        builder.insertField(" MERGEFIELD TableEnd:MergeRegion1");
+        builder.insertParagraph();
+
+        // Second mail merge region
+        builder.writeln("\tCustomers: ");
+        builder.insertField(" MERGEFIELD TableStart:MergeRegion2");
+        builder.insertField(" MERGEFIELD ContactName");
+        builder.write(", ");
+        builder.insertField(" MERGEFIELD Address");
+        builder.write(", ");
+        builder.insertField(" MERGEFIELD City");
+        builder.insertField(" MERGEFIELD TableEnd:MergeRegion2");
+
+        return doc;
+    }
+    //ExEnd
 
     @Test
     public void executeDataTable() throws Exception
