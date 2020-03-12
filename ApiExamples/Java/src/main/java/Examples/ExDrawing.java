@@ -8,6 +8,7 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.pdf.internal.html.rendering.image.ImageFormat;
 import com.aspose.words.*;
 import com.aspose.words.Shape;
 import com.aspose.words.Stroke;
@@ -15,17 +16,20 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 @Test
 public class ExDrawing extends ApiExampleBase {
     @Test
-    public void variousShapes() throws Exception
-    {
+    public void variousShapes() throws Exception {
         //ExStart
         //ExFor:Drawing.ArrowLength
         //ExFor:Drawing.ArrowType
@@ -109,10 +113,66 @@ public class ExDrawing extends ApiExampleBase {
 
         filledInArrowImg.getImageData().setImage(image);
         builder.insertNode(filledInArrowImg);
+    }
 
-        filledInArrowImg.getStroke().setJoinStyle(JoinStyle.ROUND);
+    @Test
+    public void typeOfImage() throws Exception
+    {
+        //ExStart
+        //ExFor:Drawing.ImageType
+        //ExSummary:Shows how to add an image to a shape and check its type.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        doc.save(getArtifactsDir() + "Drawing.VariousShapes.docx");
+        BufferedImage image = ImageIO.read(getAsposelogoUri().toURL().openStream());
+
+        // The image started off as an animated .gif but it gets converted to a .png since there cannot be animated images in documents
+        Shape imgShape = builder.insertImage(image);
+        Assert.assertEquals(imgShape.getImageData().getImageType(), ImageType.PNG);
+        //ExEnd
+    }
+
+    @Test
+    public void saveAllImages() throws Exception
+    {
+        //ExStart
+        //ExFor:ImageData.HasImage
+        //ExFor:ImageData.ToImage
+        //ExFor:ImageData.Save(Stream)
+        //ExSummary:Shows how to save all the images from a document to the file system.
+        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
+
+        // Images are stored as shapes
+        // Get into the document's shape collection to verify that it contains 10 images
+        NodeCollection shapes = imgSourceDoc.getChildNodes(NodeType.SHAPE, true);
+        Assert.assertEquals(shapes.getCount(), 10);
+
+        // Go over all of the document's shapes
+        // If a shape contains image data, save the image in the local file system
+        for (int i = 0; i < shapes.getCount(); i++) {
+            Shape shape = (Shape) shapes.get(i);
+            ImageData imageData = shape.getImageData();
+
+            if (imageData.hasImage()) {
+                InputStream format = imageData.toStream();
+
+                // We will use an ImageReader to determine an image's file extension
+                ImageInputStream iis = ImageIO.createImageInputStream(format);
+                Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
+
+                while (imageReaders.hasNext()) {
+                    ImageReader reader = imageReaders.next();
+                    String fileExtension = reader.getFormatName();
+
+                    OutputStream fileStream = new FileOutputStream(getArtifactsDir() + MessageFormat.format("Drawing.SaveAllImages.{0}.{1}", i, fileExtension));
+                    try
+                    {
+                        imageData.save(fileStream);
+                    }
+                    finally { if (fileStream != null) fileStream.close(); }
+                }
+            }
+        }
         //ExEnd
     }
 
