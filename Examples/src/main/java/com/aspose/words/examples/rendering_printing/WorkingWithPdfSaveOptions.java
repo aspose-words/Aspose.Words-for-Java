@@ -19,6 +19,7 @@ public class WorkingWithPdfSaveOptions {
         ScaleWmfFontsToMetafileSize(dataDir);
         AdditionalTextPositioning(dataDir);
         ConversionToPDF17(dataDir);
+        UpdateIfLastPrinted(dataDir);
     }
 
     public static void EscapeUriInPdf(String dataDir) throws Exception {
@@ -96,5 +97,18 @@ public class WorkingWithPdfSaveOptions {
         originalDoc.save(dataDir + "Output.pdf", pso);
         // ExEnd:ConversionToPDF17
         System.out.println("\nFile saved at " + dataDir);
+    }
+    
+    public static void UpdateIfLastPrinted(String dataDir) throws Exception
+    {
+    	// ExStart:UpdateIfLastPrinted        
+        // Open a document
+        Document doc = new Document(dataDir + "Rendering.doc");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setUpdateLastPrintedProperty(false);
+
+        doc.save(dataDir + "PdfSaveOptions.UpdateIfLastPrinted.pdf", saveOptions);
+        // ExEnd:UpdateIfLastPrinted
     }
 }
