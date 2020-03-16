@@ -423,108 +423,40 @@ public class ExRendering extends ApiExampleBase {
     }
 
     @Test (enabled = false, description = "Run only when the printer driver is installed")
-    public void customPrint() throws Exception
+    public void printPageInfo() throws Exception
     {
         //ExStart
-        //ExFor:PageInfo.GetDotNetPaperSize
+        //ExFor:PageInfo
+        //ExFor:PageInfo.GetSizeInPixels(Single, Single, Single)
+        //ExFor:PageInfo.HeightInPoints
         //ExFor:PageInfo.Landscape
-        //ExSummary:Shows how to implement your own .NET PrintDocument to completely customize printing of Aspose.Words documents.
+        //ExFor:PageInfo.PaperSize
+        //ExFor:PageInfo.PaperTray
+        //ExFor:PageInfo.SizeInPoints
+        //ExFor:PageInfo.WidthInPoints
+        //ExSummary:Shows how to print page size and orientation information for every page in a Word document.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        // Create an instance of our own Pageable document
-        MyPrintDocument printDoc = new MyPrintDocument(doc, 2, 6);
+        System.out.println(MessageFormat.format("Document \"{0}\" contains {1} pages.", doc.getOriginalFileName(), doc.getPageCount()));
 
-        // Print with the default printer
-        PrinterJob pj = PrinterJob.getPrinterJob();
+        float scale = 1.0f;
+        float dpi = 96f;
 
-        // Set our custom class as the print target
-        pj.setPageable(printDoc);
+        for (int i = 0; i < doc.getPageCount(); i++)
+        {
+            // Each page has a PageInfo object, whose index is the respective page's number
+            PageInfo pageInfo = doc.getPageInfo(i);
 
-        // Print the document to the default printer
-        pj.print();
+            // Print the page's orientation and dimensions
+            System.out.println(MessageFormat.format("Page {0}:", i + 1));
+            System.out.println(MessageFormat.format("\tOrientation:\t{0}", pageInfo.getLandscape() ? "Landscape" : "Portrait"));
+            System.out.println(MessageFormat.format("\tPaper size:\t\t{0} ({1}x{2}pt)", pageInfo.getPaperSize(), pageInfo.getWidthInPoints(), pageInfo.getHeightInPoints()));
+            System.out.println(MessageFormat.format("\tSize in points:\t{0}", pageInfo.getSizeInPoints()));
+            System.out.println(MessageFormat.format("\tSize in pixels:\t{0} at {1}% scale, {2} dpi", pageInfo.getSizeInPixels(1.0f, 96), scale * 100, dpi));
+            System.out.println(MessageFormat.format("\tTray:\t{0}", pageInfo.getPaperTray()));
+        }
+        //ExEnd
     }
-
-    /**
-     * The way to print in Java is to implement a class which implements Printable and Pageable. The latter
-     * allows for different pages to have different page size and orientation.
-     * <p>
-     * This class is an example on how to implement custom printing of an Aspose.Words document.
-     * It selects an appropriate paper size, orientation when printing.
-     */
-    public class MyPrintDocument implements Pageable, Printable {
-        public MyPrintDocument(final Document document) throws Exception {
-            this(document, 1, document.getPageCount());
-        }
-
-        public MyPrintDocument(final Document document, final int fromPage, final int toPage) {
-            mDocument = document;
-            mFromPage = fromPage;
-            mToPage = toPage;
-        }
-
-        /**
-         * This is called by the Print API to retrieve the number of pages that are expected
-         * to be printed.
-         */
-        public int getNumberOfPages() {
-            return (mToPage - mFromPage) + 1;
-        }
-
-        /**
-         * This is called by the Print API to retrieve the page format of the given page.
-         */
-        public PageFormat getPageFormat(final int pageIndex) {
-
-            PageFormat format = new PageFormat();
-            Paper paper = new Paper();
-
-            try {
-                // Retrieve the page info of the requested page. The pageIndex starts at 0 and is the first page to print.
-                // We calculate the real page to print based on the start page
-                PageInfo info = mDocument.getPageInfo(pageIndex + mFromPage - 1);
-
-                // Set the page orientation as landscape or portrait based off the document page
-                boolean isLandscape = info.getLandscape();
-                format.setOrientation(isLandscape ? PageFormat.LANDSCAPE : PageFormat.PORTRAIT);
-
-                // Set some margins for the printable area of the page
-                paper.setImageableArea(1.0, 1.0, paper.getWidth() - 2, paper.getHeight() - 2);
-            } catch (Exception e) {
-                // If there are any errors then use the default paper size
-            }
-
-            format.setPaper(paper);
-
-            return format;
-        }
-
-        /**
-         * Called for each page to be printed. We must supply an object which will handle the printing of the
-         * specified page. In our case it's our class will always handle this.
-         */
-        public Printable getPrintable(final int pageIndex) {
-            return this;
-        }
-
-        /**
-         * Called when the specified page is to be printed. The page is rendered onto the supplied graphics object.
-         */
-        public int print(final Graphics g, final PageFormat pf, final int pageIndex) {
-            try {
-                mDocument.renderToScale(pageIndex + mFromPage - 1, (Graphics2D) g, (int) pf.getImageableX(), (int) pf.getImageableY(), 1.0f);
-            } catch (Exception e) {
-                // If there are any problems with rendering the document or when the given index is out of bounds we arrive here
-                // We return Printable.NO_SUCH_PAGE is returned so that printing finishes here
-                return Printable.NO_SUCH_PAGE;
-            }
-            return Printable.PAGE_EXISTS;
-        }
-
-        private Document mDocument;
-        private int mFromPage;
-        private int mToPage;
-    }
-    //ExEnd
 
     @Test (enabled = false, description = "Run only when the printer driver is installed")
     public void print() throws Exception
@@ -533,7 +465,6 @@ public class ExRendering extends ApiExampleBase {
         //ExFor:Document.Print
         //ExSummary:Prints the whole document to the default printer.
         Document doc = new Document(getMyDir() + "Document.docx");
-
         doc.print();
         //ExEnd
     }
@@ -545,8 +476,37 @@ public class ExRendering extends ApiExampleBase {
         //ExFor:Document.Print(String)
         //ExSummary:Prints the whole document to a specified printer.
         Document doc = new Document(getMyDir() + "Document.docx");
-
         doc.print("KONICA MINOLTA magicolor 2400W");
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printRange() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.Print(PrinterSettings)
+        //ExSummary:Prints a range of pages.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        PrintRequestAttributeSet printAttribute = new HashPrintRequestAttributeSet();
+        printAttribute.add(new PageRanges(1, 3));
+
+        doc.print(printAttribute);
+        //ExEnd
+    }
+
+    @Test (enabled = false, description = "Run only when the printer driver is installed")
+    public void printRangeWithDocumentName() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.Print(PrinterSettings, String)
+        //ExSummary:Prints a range of pages along with the name of the document.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        PrintRequestAttributeSet printAttribute = new HashPrintRequestAttributeSet();
+        printAttribute.add(new PageRanges(1, 3));
+
+        doc.print(printAttribute, "Rendering.PrintRangeWithDocumentName.docx");
         //ExEnd
     }
 
