@@ -265,8 +265,7 @@ public class ExParagraph extends ApiExampleBase {
     /// Insert field into the first paragraph of the current document using field type.
     /// </summary>
     private static void insertFieldUsingFieldType(Document doc, /*FieldType*/int fieldType, boolean updateField, Node refNode,
-        boolean isAfter, int paraIndex) throws Exception
-    {
+                                                  boolean isAfter, int paraIndex) throws Exception {
         Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
         para.insertField(fieldType, updateField, refNode, isAfter);
     }
@@ -275,8 +274,7 @@ public class ExParagraph extends ApiExampleBase {
     /// Insert field into the first paragraph of the current document using field code.
     /// </summary>
     private static void insertFieldUsingFieldCode(Document doc, String fieldCode, Node refNode, boolean isAfter,
-        int paraIndex) throws Exception
-    {
+                                                  int paraIndex) throws Exception {
         Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
         para.insertField(fieldCode, refNode, isAfter);
     }
@@ -285,8 +283,7 @@ public class ExParagraph extends ApiExampleBase {
     /// Insert field into the first paragraph of the current document using field code and field String.
     /// </summary>
     private static void insertFieldUsingFieldCodeFieldString(Document doc, String fieldCode, String fieldValue,
-        Node refNode, boolean isAfter, int paraIndex)
-    {
+                                                             Node refNode, boolean isAfter, int paraIndex) {
         Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
         para.insertField(fieldCode, fieldValue, refNode, isAfter);
     }

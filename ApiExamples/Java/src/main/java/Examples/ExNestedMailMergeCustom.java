@@ -17,14 +17,12 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 
 @Test
-public class ExNestedMailMergeCustom extends ApiExampleBase
-{
+public class ExNestedMailMergeCustom extends ApiExampleBase {
     //ExStart
     //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSource)
     //ExSummary:Performs mail merge with regions from a custom data source.
     @Test //ExSkip
-    public void customDataSource() throws Exception
-    {
+    public void customDataSource() throws Exception {
         // Create a destination document for the mail merge
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

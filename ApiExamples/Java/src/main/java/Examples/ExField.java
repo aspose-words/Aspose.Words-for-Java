@@ -15,6 +15,7 @@ import com.aspose.words.net.System.Data.DataColumn;
 import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Globalization.CultureInfo;
+import com.aspose.words.net.System.Globalization.DateTimeFormatInfo;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -22,7 +23,6 @@ import org.testng.annotations.Test;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +40,35 @@ public class ExField extends ApiExampleBase {
     public void updateTOC() throws Exception {
         Document doc = new Document();
         doc.updateFields();
+    }
+
+    @Test
+    public void getFieldFromDocument() throws Exception {
+        //ExStart
+        //ExFor:FieldType
+        //ExFor:FieldChar
+        //ExFor:FieldChar.FieldType
+        //ExFor:FieldChar.IsDirty
+        //ExFor:FieldChar.IsLocked
+        //ExFor:FieldChar.GetField
+        //ExFor:Field.IsLocked
+        //ExSummary:Demonstrates how to retrieve the field class from an existing FieldStart node in the document.
+        Document doc = new Document(getMyDir() + "Table of contents.docx");
+
+        FieldChar fieldStart = (FieldChar) doc.getChild(NodeType.FIELD_START, 0, true);
+        Assert.assertEquals(fieldStart.getFieldType(), FieldType.FIELD_TOC);
+        Assert.assertEquals(fieldStart.isDirty(), false);
+        Assert.assertEquals(fieldStart.isLocked(), false);
+
+        // Retrieve the facade object which represents the field in the document
+        Field field = fieldStart.getField();
+
+        Assert.assertEquals(field.isLocked(), false);
+        Assert.assertEquals(field.getFieldCode(), " TOC \\o \"1-3\" \\h \\z \\u ");
+
+        // This updates only this field in the document
+        field.update();
+        //ExEnd
     }
 
     @Test
@@ -110,8 +139,7 @@ public class ExField extends ApiExampleBase {
     }
 
     @Test
-    public void getFieldFromFieldCollection() throws Exception
-    {
+    public void getFieldFromFieldCollection() throws Exception {
         Document doc = new Document(getMyDir() + "Table of contents.docx");
 
         Field field = doc.getRange().getFields().get(0);
@@ -144,8 +172,7 @@ public class ExField extends ApiExampleBase {
     }
 
     @Test
-    public void insertTcField() throws Exception
-    {
+    public void insertTcField() throws Exception {
         // Create a blank document
         Document doc = new Document();
 
@@ -178,8 +205,7 @@ public class ExField extends ApiExampleBase {
     }
 
     @Test
-    public void removeTocFromDocument() throws Exception
-    {
+    public void removeTocFromDocument() throws Exception {
         //ExStart
         //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
         //ExSummary:Demonstrates how to remove a specified TOC from a document.
@@ -196,8 +222,7 @@ public class ExField extends ApiExampleBase {
     }
 
     @Test
-    public void insertTcFieldsAtText() throws Exception
-    {
+    public void insertTcFieldsAtText() throws Exception {
         Document doc = new Document();
 
         FindReplaceOptions options = new FindReplaceOptions();
@@ -207,8 +232,7 @@ public class ExField extends ApiExampleBase {
         doc.getRange().replace(Pattern.compile("The Beginning"), "", options);
     }
 
-    private static class InsertTcFieldHandler implements IReplacingCallback
-    {
+    private static class InsertTcFieldHandler implements IReplacingCallback {
         // Store the text and switches to be used for the TC fields
         private String mFieldText;
         private String mFieldSwitches;
@@ -216,8 +240,7 @@ public class ExField extends ApiExampleBase {
         /// <summary>
         /// The display text and switches to use for each TC field. Display name can be an empty String or null.
         /// </summary>
-        public InsertTcFieldHandler(String text, String switches)
-        {
+        public InsertTcFieldHandler(String text, String switches) {
             mFieldText = text;
             mFieldSwitches = switches;
         }
@@ -246,9 +269,8 @@ public class ExField extends ApiExampleBase {
         }
     }
 
-    @Test (description = "WORDSNET-16037")
-    public void insertAndUpdateDirtyField() throws Exception
-    {
+    @Test(description = "WORDSNET-16037")
+    public void insertAndUpdateDirtyField() throws Exception {
         //ExStart
         //ExFor:Field.IsDirty
         //ExFor:LoadOptions.UpdateDirtyFields
@@ -258,9 +280,9 @@ public class ExField extends ApiExampleBase {
 
         Field fieldToc = builder.insertTableOfContents("\\o \"1-3\" \\h \\z \\u");
         fieldToc.isDirty(true);
-        
+
         doc.save(getArtifactsDir() + "Field.insertAndUpdateDirtyField.docx");
-        
+
         Assert.assertTrue(doc.getRange().getFields().get(0).isDirty());
 
         LoadOptions loadOptions = new LoadOptions();
@@ -271,8 +293,7 @@ public class ExField extends ApiExampleBase {
     }
 
     @Test
-    public void insertFieldWithFieldBuilderException() throws Exception
-    {
+    public void insertFieldWithFieldBuilderException() throws Exception {
         Document doc = new Document();
 
         // Add some text into the paragraph
@@ -289,6 +310,94 @@ public class ExField extends ApiExampleBase {
                 .addArgument(10).addArgument(20.0).buildAndInsert(run));
     }
 
+    //ExStart
+    //ExFor:BarcodeParameters
+    //ExFor:BarcodeParameters.AddStartStopChar
+    //ExFor:BarcodeParameters.BackgroundColor
+    //ExFor:BarcodeParameters.BarcodeType
+    //ExFor:BarcodeParameters.BarcodeValue
+    //ExFor:BarcodeParameters.CaseCodeStyle
+    //ExFor:BarcodeParameters.DisplayText
+    //ExFor:BarcodeParameters.ErrorCorrectionLevel
+    //ExFor:BarcodeParameters.FacingIdentificationMark
+    //ExFor:BarcodeParameters.FixCheckDigit
+    //ExFor:BarcodeParameters.ForegroundColor
+    //ExFor:BarcodeParameters.IsBookmark
+    //ExFor:BarcodeParameters.IsUSPostalAddress
+    //ExFor:BarcodeParameters.PosCodeStyle
+    //ExFor:BarcodeParameters.PostalAddress
+    //ExFor:BarcodeParameters.ScalingFactor
+    //ExFor:BarcodeParameters.SymbolHeight
+    //ExFor:BarcodeParameters.SymbolRotation
+    //ExFor:IBarcodeGenerator
+    //ExFor:IBarcodeGenerator.GetBarcodeImage(BarcodeParameters)
+    //ExFor:IBarcodeGenerator.GetOldBarcodeImage(BarcodeParameters)
+    //ExFor:FieldOptions.BarcodeGenerator
+    //ExSummary:Shows how to create barcode images using a barcode generator.
+    @Test //ExSkip
+    public void barcodeGenerator() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Assert.assertNull(doc.getFieldOptions().getBarcodeGenerator());
+
+        // Barcodes generated in this way will be images, and we can use a custom IBarcodeGenerator implementation to generate them
+        doc.getFieldOptions().setBarcodeGenerator(new CustomBarcodeGenerator());
+
+        // Configure barcode parameters for a QR barcode
+        BarcodeParameters barcodeParameters = new BarcodeParameters();
+        barcodeParameters.setBarcodeType("QR");
+        barcodeParameters.setBarcodeValue("ABC123");
+        barcodeParameters.setBackgroundColor("0xF8BD69");
+        barcodeParameters.setForegroundColor("0xB5413B");
+        barcodeParameters.setErrorCorrectionLevel("3");
+        barcodeParameters.setScalingFactor("250");
+        barcodeParameters.setSymbolHeight("1000");
+        barcodeParameters.setSymbolRotation("0");
+
+        // Save the generated barcode image to the file system
+        BufferedImage img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        ImageIO.write(img, "jpg", new File(getArtifactsDir() + "Field.BarcodeGenerator.QR.jpg"));
+
+        // Insert the image into the document
+        builder.insertImage(img);
+
+        // Configure barcode parameters for a EAN13 barcode
+        barcodeParameters = new BarcodeParameters();
+        barcodeParameters.setBarcodeType("EAN13");
+        barcodeParameters.setBarcodeValue("501234567890");
+        barcodeParameters.setDisplayText(true);
+        barcodeParameters.setPosCodeStyle("CASE");
+        barcodeParameters.setFixCheckDigit(true);
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        ImageIO.write(img, "jpg", new File(getArtifactsDir() + "Field.BarcodeGenerator.EAN13.jpg"));
+        builder.insertImage(img);
+
+        // Configure barcode parameters for a CODE39 barcode
+        barcodeParameters = new BarcodeParameters();
+        barcodeParameters.setBarcodeType("CODE39");
+        barcodeParameters.setBarcodeValue("12345ABCDE");
+        barcodeParameters.setAddStartStopChar(true);
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        ImageIO.write(img, "jpg", new File(getArtifactsDir() + "Field.BarcodeGenerator.CODE39.jpg"));
+        builder.insertImage(img);
+
+        // Configure barcode parameters for an ITF14 barcode
+        barcodeParameters = new BarcodeParameters();
+        barcodeParameters.setBarcodeType("ITF14");
+        barcodeParameters.setBarcodeValue("09312345678907");
+        barcodeParameters.setCaseCodeStyle("STD");
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        ImageIO.write(img, "jpg", new File(getArtifactsDir() + "Field.BarcodeGenerator.ITF14.jpg"));
+        builder.insertImage(img);
+
+        doc.save(getArtifactsDir() + "Field.BarcodeGenerator.docx");
+    }
+    //ExEnd
+
     //For assert result of the test you need to open document and check that image are added correct and without truncated inside frame
     @Test
     public void updateFieldIgnoringMergeFormat() throws Exception {
@@ -296,7 +405,10 @@ public class ExField extends ApiExampleBase {
         //ExFor:Field.Update(bool)
         //ExFor:LoadOptions.PreserveIncludePictureField
         //ExSummary:Shows a way to update a field ignoring the MERGEFORMAT switch.
-        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setPreserveIncludePictureField(true); }
+        LoadOptions loadOptions = new LoadOptions();
+        {
+            loadOptions.setPreserveIncludePictureField(true);
+        }
 
         Document doc = new Document(getMyDir() + "Field INCLUDEPICTURE.docx", loadOptions);
 
@@ -417,6 +529,68 @@ public class ExField extends ApiExampleBase {
 
         String paraWithFields = DocumentHelper.getParagraphText(doc, 0);
         Assert.assertEquals(paraWithFields, "\u0013 FILENAME  \\* Caps  \\* MERGEFORMAT \u0014Fields.Docx\u0015   Элементы указателя не найдены.     \u0013 LISTNUM  LegalDefault \u0015\r");
+    }
+
+    @Test
+    public void updateTocPageNumbers() throws Exception {
+        Document doc = new Document(getMyDir() + "Field TOC.docx");
+
+        Node startNode = DocumentHelper.getParagraph(doc, 2);
+        Node endNode = null;
+
+        NodeCollection paragraphCollection = doc.getChildNodes(NodeType.PARAGRAPH, true);
+
+        for (Paragraph para : (Iterable<Paragraph>) paragraphCollection) {
+            // Check all runs in the paragraph for the first page breaks
+            for (Run run : para.getRuns()) {
+                if (run.getText().contains(ControlChar.PAGE_BREAK)) {
+                    endNode = run;
+                    break;
+                }
+            }
+        }
+
+        if (startNode != null && endNode != null) {
+            removeSequence(startNode, endNode);
+
+            startNode.remove();
+            endNode.remove();
+        }
+
+        NodeCollection fStart = doc.getChildNodes(NodeType.FIELD_START, true);
+
+        for (FieldStart field : (Iterable<FieldStart>) fStart) {
+            int fType = field.getFieldType();
+            if (fType == FieldType.FIELD_TOC) {
+                Paragraph para = (Paragraph) field.getAncestor(NodeType.PARAGRAPH);
+                para.getRange().updateFields();
+                break;
+            }
+        }
+
+        doc.save(getArtifactsDir() + "Field.UpdateTocPageNumbers.docx");
+    }
+
+    private static void removeSequence(Node start, Node end) {
+        Node curNode = start.nextPreOrder(start.getDocument());
+        while (curNode != null && !curNode.equals(end)) {
+            // Move to next node
+            Node nextNode = curNode.nextPreOrder(start.getDocument());
+
+            // Check whether current contains end node
+            if (curNode.isComposite()) {
+                CompositeNode curComposite = (CompositeNode) curNode;
+                if (!curComposite.getChildNodes(NodeType.ANY, true).contains(end) &&
+                        !curComposite.getChildNodes(NodeType.ANY, true).contains(start)) {
+                    nextNode = curNode.getNextSibling();
+                    curNode.remove();
+                }
+            } else {
+                curNode.remove();
+            }
+
+            curNode = nextNode;
+        }
     }
 
     @Test
@@ -660,8 +834,7 @@ public class ExField extends ApiExampleBase {
     //ExFor:Field.Start
     //ExSummary:Shows how to work with a document's field collection.
     @Test //ExSkip
-    public void fieldCollection() throws Exception
-    {
+    public void fieldCollection() throws Exception {
         // Create a new document and insert some fields
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1006,7 +1179,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(fieldAutoText.getFieldCode(), " AUTOTEXT  MyBlock");
 
         // Put additional templates here
-        doc.getFieldOptions().setBuiltInTemplatesPaths(new String[] { getMyDir() + "Busniess brochure.dotx" });
+        doc.getFieldOptions().setBuiltInTemplatesPaths(new String[]{getMyDir() + "Busniess brochure.dotx"});
 
         // We can also display our building block with a GLOSSARY field
         FieldGlossary fieldGlossary = (FieldGlossary) builder.insertField(FieldType.FIELD_GLOSSARY, true);
@@ -1039,7 +1212,8 @@ public class ExField extends ApiExampleBase {
         // Insert an auto text list using a document builder and change its properties
         DocumentBuilder builder = new DocumentBuilder(doc);
         FieldAutoTextList field = (FieldAutoTextList) builder.insertField(FieldType.FIELD_AUTO_TEXT_LIST, true);
-        field.setEntryName("Right click here to pick an AutoText block"); // This is the text that will be visible in the document
+        // This is the text that will be visible in the document
+        field.setEntryName("Right click here to pick an AutoText block");
         field.setListStyle("Heading 1");
         field.setScreenTip("Hover tip text for AutoTextList goes here");
 
@@ -1172,6 +1346,8 @@ public class ExField extends ApiExampleBase {
         fieldListNum.setListName("OutlineDefault");
         builder.writeln("Paragraph 5");
 
+        Assert.assertEquals(" LISTNUM  OutlineDefault", fieldListNum.getFieldCode());
+
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.LISTNUM.docx");
         //ExEnd
@@ -1205,6 +1381,8 @@ public class ExField extends ApiExampleBase {
         fieldMergeField.isVerticalFormatting(false);
         fieldMergeField.setTextBefore("Dear ");
         fieldMergeField.setTextAfter(" ");
+
+        Assert.assertEquals(" MERGEFIELD  \"Courtesy Title\" \\m \\b \"Dear \" \\f \" \"", fieldMergeField.getFieldCode());
 
         // Insert another merge field for another column
         // We don't need to use every column to perform a mail merge
@@ -1735,7 +1913,7 @@ public class ExField extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Add an INCLUDE field with document builder and import a portion of the document defined by a bookmark
-        FieldInclude fieldInclude = (FieldInclude)builder.insertField(FieldType.FIELD_INCLUDE, true);
+        FieldInclude fieldInclude = (FieldInclude) builder.insertField(FieldType.FIELD_INCLUDE, true);
         fieldInclude.setSourceFullName(getMyDir() + "Bookmarks.docx");
         fieldInclude.setBookmarkName("MyBookmark1");
         fieldInclude.setLockFields(false);
@@ -1823,7 +2001,7 @@ public class ExField extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        FieldIncludePicture fieldIncludePicture = (FieldIncludePicture)builder.insertField(FieldType.FIELD_INCLUDE_PICTURE, true);
+        FieldIncludePicture fieldIncludePicture = (FieldIncludePicture) builder.insertField(FieldType.FIELD_INCLUDE_PICTURE, true);
         fieldIncludePicture.setSourceFullName(getImageDir() + "Transparent background logo.png");
 
         // Here we apply the PNG32.FLT filter
@@ -1917,7 +2095,7 @@ public class ExField extends ApiExampleBase {
         builder.writeln();
 
         // Open html file at a specific frame
-        fieldHyperlink = (FieldHyperlink)builder.insertField(FieldType.FIELD_HYPERLINK, true);
+        fieldHyperlink = (FieldHyperlink) builder.insertField(FieldType.FIELD_HYPERLINK, true);
         fieldHyperlink.setAddress(getMyDir() + "Iframes.html");
         fieldHyperlink.setScreenTip("Open " + fieldHyperlink.getAddress());
         fieldHyperlink.setTarget("iframe_3");
@@ -1942,7 +2120,7 @@ public class ExField extends ApiExampleBase {
     //ExFor:ImageFieldMergingArgs.ImageWidth
     //ExFor:ImageFieldMergingArgs.ImageHeight
     //ExSummary:Shows how to set the dimensions of merged images.
-    @Test
+    @Test //ExSkip
     public void mergeFieldImageDimension() throws Exception {
         Document doc = new Document();
 
@@ -1955,9 +2133,9 @@ public class ExField extends ApiExampleBase {
         DataTable dataTable = createDataTable("Images", "ImageColumn",
                 new String[]
                         {
-                getImageDir() + "Logo.jpg",
-                getImageDir() + "Transparent background logo.png",
-                getImageDir() + "Enhanced Windows MetaFile.emf"
+                                getImageDir() + "Logo.jpg",
+                                getImageDir() + "Transparent background logo.png",
+                                getImageDir() + "Enhanced Windows MetaFile.emf"
                         });
 
         doc.getMailMerge().setFieldMergingCallback(new MergedImageResizer(450.0, 200.0, MergeFieldImageDimensionUnit.POINT));
@@ -2030,8 +2208,8 @@ public class ExField extends ApiExampleBase {
         DataTable dataTable = createDataTable("Images", "ImageColumn",
                 new String[]
                         {
-                "Dark logo",
-                "Transparent logo"
+                                "Dark logo",
+                                "Transparent logo"
                         });
 
         // A custom merging callback will contain filenames that our shorthands will refer to
@@ -2288,12 +2466,161 @@ public class ExField extends ApiExampleBase {
         //ExEnd
     }
 
+    //ExStart
+    //ExFor:FieldMergeBarcode
+    //ExFor:FieldMergeBarcode.AddStartStopChar
+    //ExFor:FieldMergeBarcode.BackgroundColor
+    //ExFor:FieldMergeBarcode.BarcodeType
+    //ExFor:FieldMergeBarcode.BarcodeValue
+    //ExFor:FieldMergeBarcode.CaseCodeStyle
+    //ExFor:FieldMergeBarcode.DisplayText
+    //ExFor:FieldMergeBarcode.ErrorCorrectionLevel
+    //ExFor:FieldMergeBarcode.FixCheckDigit
+    //ExFor:FieldMergeBarcode.ForegroundColor
+    //ExFor:FieldMergeBarcode.PosCodeStyle
+    //ExFor:FieldMergeBarcode.ScalingFactor
+    //ExFor:FieldMergeBarcode.SymbolHeight
+    //ExFor:FieldMergeBarcode.SymbolRotation
+    //ExSummary:Shows how to use MERGEBARCODE fields to integrate barcodes into mail merge operations.
+    @Test //ExSkip
+    public void fieldMergeBarcode_QR() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a QR code
+        FieldMergeBarcode field = (FieldMergeBarcode) builder.insertField(FieldType.FIELD_MERGE_BARCODE, true);
+        field.setBarcodeType("QR");
+
+        // In a DISPLAYBARCODE field, the BarcodeValue attribute decides what value the barcode will display
+        // However in our MERGEBARCODE fields, it has the same function as the FieldName attribute of a MERGEFIELD
+        field.setBarcodeValue("MyQRCode");
+        field.setBackgroundColor("0xF8BD69");
+        field.setForegroundColor("0xB5413B");
+        field.setErrorCorrectionLevel("3");
+        field.setScalingFactor("250");
+        field.setSymbolHeight("1000");
+        field.setSymbolRotation("0");
+
+        Assert.assertEquals(field.getFieldCode(), " MERGEBARCODE  MyQRCode QR \\b 0xF8BD69 \\f 0xB5413B \\q 3 \\s 250 \\h 1000 \\r 0");
+        builder.writeln();
+
+        // Create a data source for our mail merge
+        // This source is a data table, whose column names correspond to the FieldName attributes of MERGEFIELD fields
+        // as well as BarcodeValue attributes of DISPLAYBARCODE fields
+        DataTable table = createTable("Barcodes", new String[]{"MyQRCode"},
+                new String[][]{{"ABC123"}, {"DEF456"}});
+
+        // During the mail merge, all our MERGEBARCODE fields will be converted into DISPLAYBARCODE fields,
+        // with values from the data table rows deposited into corresponding BarcodeValue attributes
+        doc.getMailMerge().execute(table);
+
+        doc.save(getArtifactsDir() + "Field.MERGEBARCODE.docx");
+
+        Assert.assertEquals(doc.getRange().getFields().get(0).getType(), FieldType.FIELD_DISPLAY_BARCODE);
+        Assert.assertEquals(doc.getRange().getFields().get(1).getType(), FieldType.FIELD_DISPLAY_BARCODE);
+
+        Assert.assertEquals(doc.getRange().getFields().get(0).getFieldCode(), "DISPLAYBARCODE \"ABC123\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B");
+        Assert.assertEquals(doc.getRange().getFields().get(1).getFieldCode(), "DISPLAYBARCODE \"DEF456\" QR \\q 3 \\s 250 \\h 1000 \\r 0 \\b 0xF8BD69 \\f 0xB5413B");
+
+        doc.save(getArtifactsDir() + "Field.MERGEBARCODE.docx");
+    }
+
+    @Test //ExSkip
+    public void fieldMergeBarcode_EAN13() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a EAN13 barcode
+        FieldMergeBarcode field = (FieldMergeBarcode) builder.insertField(FieldType.FIELD_MERGE_BARCODE, true);
+        field.setBarcodeType("EAN13");
+        field.setBarcodeValue("MyEAN13Barcode");
+        field.setDisplayText(true);
+        field.setPosCodeStyle("CASE");
+        field.setFixCheckDigit(true);
+
+        Assert.assertEquals(" MERGEBARCODE  MyEAN13Barcode EAN13 \\t \\p CASE \\x", field.getFieldCode());
+        builder.writeln();
+
+        DataTable table = createTable("Barcodes", new String[]{"MyEAN13Barcode"},
+                new String[][]{{"501234567890"}, {"123456789012"}});
+
+        doc.getMailMerge().execute(table);
+
+        Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
+        Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
+
+        Assert.assertEquals("DISPLAYBARCODE \"501234567890\" EAN13 \\t \\p CASE \\x",
+                doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"123456789012\" EAN13 \\t \\p CASE \\x",
+                doc.getRange().getFields().get(1).getFieldCode());
+
+        doc.save(getArtifactsDir() + "Field.MERGEBARCODE.EAN13.docx");
+    }
+
+    @Test //ExSkip
+    public void fieldMergeBarcode_CODE39() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a CODE39 barcode
+        FieldMergeBarcode field = (FieldMergeBarcode) builder.insertField(FieldType.FIELD_MERGE_BARCODE, true);
+        field.setBarcodeType("CODE39");
+        field.setBarcodeValue("MyCODE39Barcode");
+        field.setAddStartStopChar(true);
+
+        Assert.assertEquals(" MERGEBARCODE  MyCODE39Barcode CODE39 \\d", field.getFieldCode());
+        builder.writeln();
+
+        DataTable table = createTable("Barcodes", new String[]{"MyCODE39Barcode"},
+                new String[][]{{"12345ABCDE"}, {"67890FGHIJ"}});
+
+        doc.getMailMerge().execute(table);
+
+        Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
+        Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
+
+        Assert.assertEquals("DISPLAYBARCODE \"12345ABCDE\" CODE39 \\d",
+                doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"67890FGHIJ\" CODE39 \\d",
+                doc.getRange().getFields().get(1).getFieldCode());
+
+        doc.save(getArtifactsDir() + "Field.MERGEBARCODE.CODE39.docx");
+    }
+
+    @Test //ExSkip
+    public void fieldMergeBarcode_ITF14() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a ITF14 barcode
+        FieldMergeBarcode field = (FieldMergeBarcode) builder.insertField(FieldType.FIELD_MERGE_BARCODE, true);
+        field.setBarcodeType("ITF14");
+        field.setBarcodeValue("MyITF14Barcode");
+        field.setCaseCodeStyle("STD");
+
+        Assert.assertEquals(" MERGEBARCODE  MyITF14Barcode ITF14 \\c STD", field.getFieldCode());
+
+        DataTable table = createTable("Barcodes", new String[]{"MyITF14Barcode"},
+                new String[][]{{"09312345678907"}, {"1234567891234"}});
+
+        doc.getMailMerge().execute(table);
+
+        Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(0).getType());
+        Assert.assertEquals(FieldType.FIELD_DISPLAY_BARCODE, doc.getRange().getFields().get(1).getType());
+
+        Assert.assertEquals("DISPLAYBARCODE \"09312345678907\" ITF14 \\c STD",
+                doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals("DISPLAYBARCODE \"1234567891234\" ITF14 \\c STD",
+                doc.getRange().getFields().get(1).getFieldCode());
+
+        doc.save(getArtifactsDir() + "Field.MERGEBARCODE.ITF14.docx");
+    }
+
     /// <summary>
     /// Creates a DataTable named by dataTableName, adds a column for every element in columnNames
     /// and fills rows with data from dataSet.
     /// </summary>
-    @Test(enabled = false)
-    public DataTable createTable(final String dataTableName, final String[] columnNames, final Object[][] dataSet) {
+    public DataTable createTable(final String dataTableName, final String[] columnNames, final String[][] dataSet) {
         if (!new String(dataTableName).equals("") || columnNames.length != 0) {
             DataTable table = new DataTable(dataTableName);
 
@@ -2301,7 +2628,7 @@ public class ExField extends ApiExampleBase {
                 table.getColumns().add(columnName);
             }
 
-            for (Object data : dataSet) {
+            for (String[] data : dataSet) {
                 table.getRows().add(data);
             }
 
@@ -2310,6 +2637,7 @@ public class ExField extends ApiExampleBase {
 
         throw new IllegalArgumentException("DataTable name and Column name must be declared.");
     }
+    //ExEnd
 
     //ExStart
     //ExFor:FieldLink
@@ -2349,7 +2677,8 @@ public class ExField extends ApiExampleBase {
     //ExFor:FieldDdeAuto.SourceFullName
     //ExFor:FieldDdeAuto.SourceItem
     //ExSummary:Shows how to insert linked objects as LINK, DDE and DDEAUTO fields and present them within the document in different ways.
-    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsTextDataProvider") //ExSkip
+    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsTextDataProvider")
+    //ExSkip
     public void fieldLinkedObjectsAsText(final int insertLinkedObjectAs) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2381,7 +2710,8 @@ public class ExField extends ApiExampleBase {
                 };
     }
 
-    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider") //ExSkip
+    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider")
+    //ExSkip
     public void fieldLinkedObjectsAsImage(final int insertLinkedObjectAs) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2607,6 +2937,9 @@ public class ExField extends ApiExampleBase {
 
         // This does not change the value in the user information object
         Assert.assertEquals(doc.getFieldOptions().getCurrentUser().getAddress(), "123 Main Street");
+
+        doc.updateFields();
+        doc.save(getArtifactsDir() + "Field.USERADDRESS.docx");
         //ExEnd
     }
 
@@ -2640,6 +2973,9 @@ public class ExField extends ApiExampleBase {
 
         // This does not change the value in the user information object
         Assert.assertEquals(doc.getFieldOptions().getCurrentUser().getInitials(), "J. D.");
+
+        doc.updateFields();
+        doc.save(getArtifactsDir() + "Field.USERINITIALS.docx");
         //ExEnd
     }
 
@@ -2674,6 +3010,9 @@ public class ExField extends ApiExampleBase {
 
         // This does not change the value in the user information object
         Assert.assertEquals(doc.getFieldOptions().getCurrentUser().getName(), "John Doe");
+
+        doc.updateFields();
+        doc.save(getArtifactsDir() + "Field.USERNAME.docx");
         //ExEnd
     }
 
@@ -2728,7 +3067,7 @@ public class ExField extends ApiExampleBase {
         doc.getFieldOptions().isBidiTextSupportedOnUpdate(true);
 
         // Use a document builder to insert a field which contains right-to-left text
-        FormField comboBox = builder.insertComboBox("MyComboBox", new String[]{ "?????????", "???????????", "???????????", "??????????", "?????????" }, 0);
+        FormField comboBox = builder.insertComboBox("MyComboBox", new String[]{"עֶשְׂרִים", "שְׁלוֹשִׁים", "אַרְבָּעִים", "חֲמִשִּׁים", "שִׁשִּׁים"}, 0);
         comboBox.setCalculateOnExit(true);
 
         doc.updateFields();
@@ -2752,6 +3091,29 @@ public class ExField extends ApiExampleBase {
         field.update();
 
         Assert.assertEquals("$5", field.getResult());
+        //ExEnd
+    }
+
+    @Test
+    public void fieldOptionsPreProcessCulture() throws Exception {
+        //ExStart
+        //ExFor:FieldOptions.PreProcessCulture
+        //ExSummary:Shows how to set the preprocess culture.
+        Document doc = new Document(getMyDir() + "Document.docx");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        doc.getFieldOptions().setPreProcessCulture(new CultureInfo("de-DE"));
+
+        Field field = builder.insertField(" DOCPROPERTY CreateTime");
+
+        // Conforming to the German culture, the date/time will be presented in the "dd.mm.yyyy hh:mm" format
+        Assert.assertTrue(field.getResult().matches("\\d{2}[.]\\d{2}[.]\\d{4} \\d{2}[:]\\d{2}"));
+
+        doc.getFieldOptions().setPreProcessCulture(new CultureInfo(""));
+        field.update();
+
+        // After switching to the invariant culture, the date/time will be presented in the "mm/dd/yyyy hh:mm" format
+        Assert.assertTrue(field.getResult().matches("\\d{2}[/]\\d{2}[/]\\d{4} \\d{2}[:]\\d{2}"));
         //ExEnd
     }
 
@@ -3840,6 +4202,70 @@ public class ExField extends ApiExampleBase {
     //ExEnd
 
     //ExStart
+    //ExFor:FieldOptions.FieldUpdateCultureProvider
+    //ExFor:IFieldUpdateCultureProvider
+    //ExFor:IFieldUpdateCultureProvider.GetCulture(string, Field)
+    //ExSummary:Shows how to specifying a culture defining date/time formatting on per field basis
+    @Test
+    public void defineDateTimeFormatting() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertField(FieldType.FIELD_TIME, true);
+
+        doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
+        // Set a provider that return a culture object specific for each particular field
+        doc.getFieldOptions().setFieldUpdateCultureProvider(new FieldUpdateCultureProvider());
+
+        FieldTime fieldDate = (FieldTime) doc.getRange().getFields().get(0);
+        if (fieldDate.getLocaleId() != EditingLanguage.RUSSIAN)
+            fieldDate.setLocaleId(EditingLanguage.RUSSIAN);
+
+        doc.save(getArtifactsDir() + "Field.UpdateDateTimeFormatting.pdf");
+    }
+
+    /// <summary>
+    /// Provides a CultureInfo object that should be used during the update of a particular field.
+    /// </summary>
+    private static class FieldUpdateCultureProvider implements IFieldUpdateCultureProvider {
+        /// <summary>
+        /// Returns a CultureInfo object to be used during the field's update.
+        /// </summary>
+        public CultureInfo getCulture(String name, Field field) {
+            switch (name) {
+                case "ru-RU":
+                    CultureInfo culture = new CultureInfo(name);
+                    DateTimeFormatInfo format = culture.getDateTimeFormat();
+
+                    format.setMonthNames(new String[]{"месяц 1", "месяц 2", "месяц 3", "месяц 4", "месяц 5", "месяц 6", "месяц 7", "месяц 8", "месяц 9", "месяц 10", "месяц 11", "месяц 12", ""});
+                    format.setMonthGenitiveNames(format.getMonthNames());
+                    format.setAbbreviatedMonthNames(new String[]{"мес 1", "мес 2", "мес 3", "мес 4", "мес 5", "мес 6", "мес 7", "мес 8", "мес 9", "мес 10", "мес 11", "мес 12", ""});
+                    format.setAbbreviatedMonthGenitiveNames(format.getAbbreviatedMonthNames());
+
+                    format.setDayNames(new String[]{"день недели 7", "день недели 1", "день недели 2", "день недели 3", "день недели 4", "день недели 5", "день недели 6"});
+                    format.setAbbreviatedDayNames(new String[]{"день 7", "день 1", "день 2", "день 3", "день 4", "день 5", "день 6"});
+                    format.setShortestDayNames(new String[]{"д7", "д1", "д2", "д3", "д4", "д5", "д6"});
+
+                    format.setAMDesignator("До полудня");
+                    format.setPMDesignator("После полудня");
+
+                    final String PATTERN = "yyyy MM (MMMM) dd (dddd) hh:mm:ss tt";
+                    format.setLongDatePattern(PATTERN);
+                    format.setLongTimePattern(PATTERN);
+                    format.setShortDatePattern(PATTERN);
+                    format.setShortTimePattern(PATTERN);
+
+                    return culture;
+                case "en-US":
+                    return new CultureInfo(name);
+                default:
+                    return null;
+            }
+        }
+    }
+    //ExEnd
+
+    //ExStart
     //ExFor:FieldRef
     //ExFor:FieldRef.BookmarkName
     //ExFor:FieldRef.IncludeNoteOrComment
@@ -4405,9 +4831,8 @@ public class ExField extends ApiExampleBase {
     /// <summary>
     /// Use a document builder to insert an EQ field, set its arguments and start a new paragraph.
     /// </summary>
-    private static FieldEQ insertFieldEq(DocumentBuilder builder, String args) throws Exception
-    {
-        FieldEQ field = (FieldEQ)builder.insertField(FieldType.FIELD_EQUATION, true);
+    private static FieldEQ insertFieldEq(DocumentBuilder builder, String args) throws Exception {
+        FieldEQ field = (FieldEQ) builder.insertField(FieldType.FIELD_EQUATION, true);
         builder.moveTo(field.getSeparator());
         builder.write(args);
         builder.moveTo(field.getStart().getParentNode());
@@ -4778,7 +5203,7 @@ public class ExField extends ApiExampleBase {
         //ExFor:Field.DisplayResult
         //ExSummary:Shows how to get the text that represents the displayed field result.
         Document document = new Document(getMyDir() + "Various fields.docx");
- 
+
         FieldCollection fields = document.getRange().getFields();
 
         Assert.assertEquals(fields.get(0).getDisplayResult(), "111");

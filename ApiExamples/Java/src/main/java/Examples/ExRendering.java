@@ -9,23 +9,16 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import javafx.print.PaperSource;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.HashAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.Media;
 import javax.print.attribute.standard.PageRanges;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.awt.print.*;
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -356,8 +349,7 @@ public class ExRendering extends ApiExampleBase {
     }
 
     @Test
-    public void thumbnails() throws Exception
-    {
+    public void thumbnails() throws Exception {
         //ExStart
         //ExFor:Document.RenderToScale
         //ExSummary:Renders individual pages to graphics to create one image with thumbnails of all pages.
@@ -422,9 +414,8 @@ public class ExRendering extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (enabled = false, description = "Run only when the printer driver is installed")
-    public void printPageInfo() throws Exception
-    {
+    @Test(enabled = false, description = "Run only when the printer driver is installed")
+    public void printPageInfo() throws Exception {
         //ExStart
         //ExFor:PageInfo
         //ExFor:PageInfo.GetSizeInPixels(Single, Single, Single)
@@ -442,8 +433,7 @@ public class ExRendering extends ApiExampleBase {
         float scale = 1.0f;
         float dpi = 96f;
 
-        for (int i = 0; i < doc.getPageCount(); i++)
-        {
+        for (int i = 0; i < doc.getPageCount(); i++) {
             // Each page has a PageInfo object, whose index is the respective page's number
             PageInfo pageInfo = doc.getPageInfo(i);
 
@@ -458,9 +448,8 @@ public class ExRendering extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (enabled = false, description = "Run only when the printer driver is installed")
-    public void print() throws Exception
-    {
+    @Test(enabled = false, description = "Run only when the printer driver is installed")
+    public void print() throws Exception {
         //ExStart
         //ExFor:Document.Print
         //ExSummary:Prints the whole document to the default printer.
@@ -469,9 +458,8 @@ public class ExRendering extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (enabled = false, description = "Run only when the printer driver is installed")
-    public void printToNamedPrinter() throws Exception
-    {
+    @Test(enabled = false, description = "Run only when the printer driver is installed")
+    public void printToNamedPrinter() throws Exception {
         //ExStart
         //ExFor:Document.Print(String)
         //ExSummary:Prints the whole document to a specified printer.
@@ -480,9 +468,8 @@ public class ExRendering extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (enabled = false, description = "Run only when the printer driver is installed")
-    public void printRange() throws Exception
-    {
+    @Test(enabled = false, description = "Run only when the printer driver is installed")
+    public void printRange() throws Exception {
         //ExStart
         //ExFor:Document.Print(PrinterSettings)
         //ExSummary:Prints a range of pages.
@@ -495,9 +482,8 @@ public class ExRendering extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (enabled = false, description = "Run only when the printer driver is installed")
-    public void printRangeWithDocumentName() throws Exception
-    {
+    @Test(enabled = false, description = "Run only when the printer driver is installed")
+    public void printRangeWithDocumentName() throws Exception {
         //ExStart
         //ExFor:Document.Print(PrinterSettings, String)
         //ExSummary:Prints a range of pages along with the name of the document.
@@ -511,8 +497,7 @@ public class ExRendering extends ApiExampleBase {
     }
 
     @Test
-    public void updatePageLayout() throws Exception
-    {
+    public void updatePageLayout() throws Exception {
         //ExStart
         //ExFor:StyleCollection.Item(String)
         //ExFor:SectionCollection.Item(Int32)
@@ -535,11 +520,10 @@ public class ExRendering extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Rendering.UpdatePageLayout.2.pdf");
         //ExEnd
-        }
+    }
 
     @Test
-    public void updateFields() throws Exception
-    {
+    public void updateFields() throws Exception {
         //ExStart
         //ExFor:Document.UpdateFields
         //ExSummary:Shows how to update all fields before rendering a document.

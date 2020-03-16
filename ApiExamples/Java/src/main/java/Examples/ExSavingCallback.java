@@ -13,12 +13,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.regex.Pattern;
 
 public class ExSavingCallback extends ApiExampleBase {
     //ExStart

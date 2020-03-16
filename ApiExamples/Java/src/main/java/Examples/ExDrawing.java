@@ -8,7 +8,6 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.pdf.internal.html.rendering.image.ImageFormat;
 import com.aspose.words.*;
 import com.aspose.words.Shape;
 import com.aspose.words.Stroke;
@@ -23,7 +22,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 @Test
@@ -116,8 +114,7 @@ public class ExDrawing extends ApiExampleBase {
     }
 
     @Test
-    public void typeOfImage() throws Exception
-    {
+    public void typeOfImage() throws Exception {
         //ExStart
         //ExFor:Drawing.ImageType
         //ExSummary:Shows how to add an image to a shape and check its type.
@@ -133,8 +130,7 @@ public class ExDrawing extends ApiExampleBase {
     }
 
     @Test
-    public void saveAllImages() throws Exception
-    {
+    public void saveAllImages() throws Exception {
         //ExStart
         //ExFor:ImageData.HasImage
         //ExFor:ImageData.ToImage
@@ -165,11 +161,11 @@ public class ExDrawing extends ApiExampleBase {
                     String fileExtension = reader.getFormatName();
 
                     OutputStream fileStream = new FileOutputStream(getArtifactsDir() + MessageFormat.format("Drawing.SaveAllImages.{0}.{1}", i, fileExtension));
-                    try
-                    {
+                    try {
                         imageData.save(fileStream);
+                    } finally {
+                        if (fileStream != null) fileStream.close();
                     }
-                    finally { if (fileStream != null) fileStream.close(); }
                 }
             }
         }
@@ -177,8 +173,7 @@ public class ExDrawing extends ApiExampleBase {
     }
 
     @Test
-    public void importImage() throws Exception
-    {
+    public void importImage() throws Exception {
         //ExStart
         //ExFor:ImageData.SetImage(Image)
         //ExFor:ImageData.SetImage(Stream)
@@ -195,14 +190,14 @@ public class ExDrawing extends ApiExampleBase {
 
         // We can also open an image file using a stream and set its contents as a shape's image 
         InputStream stream = new FileInputStream(getImageDir() + "Logo.jpg");
-        try /*JAVA: was using*/
-        {
+        try /*JAVA: was using*/ {
             imgShape = new Shape(doc, ShapeType.IMAGE);
             doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
             imgShape.getImageData().setImage(stream);
             imgShape.setLeft(150.0f);
+        } finally {
+            if (stream != null) stream.close();
         }
-        finally { if (stream != null) stream.close(); }
 
         doc.save(getArtifactsDir() + "Drawing.ImportImage.docx");
         //ExEnd
@@ -318,8 +313,7 @@ public class ExDrawing extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void textBox() throws Exception
-    {
+    public void textBox() throws Exception {
         //ExStart
         //ExFor:Drawing.LayoutFlow
         //ExSummary:Shows how to add text to a textbox and change its orientation
@@ -342,13 +336,12 @@ public class ExDrawing extends ApiExampleBase {
     }
 
     @Test
-    public void getDataFromImage() throws Exception
-    {
-    //ExStart
-    //ExFor:ImageData.ImageBytes
-    //ExFor:ImageData.ToByteArray
-    //ExFor:ImageData.ToStream
-    //ExSummary:Shows how to access raw image data in a shape's ImageData object.
+    public void getDataFromImage() throws Exception {
+        //ExStart
+        //ExFor:ImageData.ImageBytes
+        //ExFor:ImageData.ToByteArray
+        //ExFor:ImageData.ToStream
+        //ExSummary:Shows how to access raw image data in a shape's ImageData object.
         Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
         // Images are stored as shapes
@@ -466,8 +459,7 @@ public class ExDrawing extends ApiExampleBase {
     }
 
     @Test
-    public void imageSize() throws Exception
-    {
+    public void imageSize() throws Exception {
         //ExStart
         //ExFor:ImageSize.HeightPixels
         //ExFor:ImageSize.HorizontalResolution

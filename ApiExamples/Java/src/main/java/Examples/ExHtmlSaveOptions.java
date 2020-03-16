@@ -190,8 +190,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void roundtripInformationDefaulValue()
-    {
+    public void roundtripInformationDefaulValue() {
         //Assert that default value is true for HTML and false for MHTML and EPUB
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         Assert.assertEquals(saveOptions.getExportRoundtripInformation(), true);
@@ -301,8 +300,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void resourceFolderPriority() throws Exception
-    {
+    public void resourceFolderPriority() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
@@ -320,8 +318,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void resourceFolderLowPriority() throws Exception
-    {
+    public void resourceFolderLowPriority() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);

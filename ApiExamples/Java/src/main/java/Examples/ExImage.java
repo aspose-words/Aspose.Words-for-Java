@@ -63,9 +63,8 @@ public class ExImage extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (groups = "SkipMono")
-    public void createFromImage() throws Exception
-    {
+    @Test(groups = "SkipMono")
+    public void createFromImage() throws Exception {
         // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 

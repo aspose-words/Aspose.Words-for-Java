@@ -517,7 +517,7 @@ public class ExTable extends ApiExampleBase {
         Assert.assertEquals(table.getLastRow().getLastCell().toString(SaveFormat.TEXT).trim(), "20");
     }
 
-    @Test (enabled = false)
+    @Test(enabled = false)
     public void printTableRange() throws Exception {
         Document doc = new Document(getMyDir() + "Tables.docx");
 
@@ -561,7 +561,7 @@ public class ExTable extends ApiExampleBase {
         table.getParentNode().insertAfter(new Paragraph(doc), table);
 
         doc.save(getArtifactsDir() + "Table.CloneTable.doc");
-        
+
         // Verify that the table was cloned and inserted properly
         Assert.assertEquals(doc.getChildNodes(NodeType.TABLE, true).getCount(), 3);
         Assert.assertEquals(tableClone.getRange().getText(), table.getRange().getText());

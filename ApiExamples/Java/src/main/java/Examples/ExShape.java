@@ -16,7 +16,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -32,8 +31,7 @@ import java.util.UUID;
  */
 public class ExShape extends ApiExampleBase {
     @Test
-    public void insert() throws Exception
-    {
+    public void insert() throws Exception {
         //ExStart
         //ExFor:ShapeBase.AlternativeText
         //ExFor:ShapeBase.Name
@@ -77,8 +75,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void aspectRatioLockedDefaultValue() throws Exception
-    {
+    public void aspectRatioLockedDefaultValue() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -106,8 +103,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void coordinates() throws Exception
-    {
+    public void coordinates() throws Exception {
         //ExStart
         //ExFor:ShapeBase.DistanceBottom
         //ExFor:ShapeBase.DistanceLeft
@@ -679,8 +675,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void officeMath() throws Exception
-    {
+    public void officeMath() throws Exception {
         //ExStart
         //ExFor:OfficeMath
         //ExFor:OfficeMath.DisplayType
@@ -802,8 +797,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void markupLunguageByDefault() throws Exception
-    {
+    public void markupLunguageByDefault() throws Exception {
         //ExStart
         //ExFor:ShapeBase.MarkupLanguage
         //ExFor:ShapeBase.SizeInPoints
