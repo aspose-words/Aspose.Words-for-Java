@@ -14,8 +14,10 @@ import org.testng.Assert;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  * Functions for operations with document and content.
@@ -344,5 +346,21 @@ public final class DocumentHelper {
         SimpleDateFormat formatter = new SimpleDateFormat(
                 "dd/MM/yyyy");
         return formatter.parse(formatter.format(date));
+    }
+
+    static ArrayList<String> directoryGetFiles(final String dirname, final String filenamePattern) {
+        File dirFile = new File(dirname);
+        Pattern re = Pattern.compile(filenamePattern.replace("*", ".*").replace("?", ".?"));
+        ArrayList<String> dirFiles = new ArrayList<>();
+        for (File file : dirFile.listFiles()) {
+            if (file.isDirectory()) {
+                dirFiles.addAll(directoryGetFiles(file.getPath(), filenamePattern));
+            } else {
+                if (re.matcher(file.getName()).matches()) {
+                    dirFiles.add(file.getPath());
+                }
+            }
+        }
+        return dirFiles;
     }
 }

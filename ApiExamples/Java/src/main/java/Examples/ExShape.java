@@ -282,6 +282,49 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
+    public void lineFlipOrientation() throws Exception {
+        //ExStart
+        //ExFor:ShapeBase.Bounds
+        //ExFor:ShapeBase.BoundsInPoints
+        //ExFor:ShapeBase.FlipOrientation
+        //ExFor:FlipOrientation
+        //ExSummary:Shows how to create line shapes and set specific location and size.
+        Document doc = new Document();
+
+        // The lines will cross the whole page
+        float pageWidth = (float) doc.getFirstSection().getPageSetup().getPageWidth();
+        float pageHeight = (float) doc.getFirstSection().getPageSetup().getPageHeight();
+
+        // This line goes from top left to bottom right by default
+        Shape lineA = new Shape(doc, ShapeType.LINE);
+        {
+            lineA.setBounds(new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight));
+            lineA.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
+            lineA.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
+        }
+
+        Assert.assertEquals(new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight), lineA.getBoundsInPoints());
+
+        // This line goes from bottom left to top right because we flipped it
+        Shape lineB = new Shape(doc, ShapeType.LINE);
+        {
+            lineB.setBounds(new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight));
+            lineB.setFlipOrientation(FlipOrientation.HORIZONTAL);
+            lineB.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
+            lineB.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
+        }
+
+        Assert.assertEquals(new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight), lineB.getBoundsInPoints());
+
+        // Add lines to the document
+        doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineA);
+        doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineB);
+
+        doc.save(getArtifactsDir() + "Shape.LineFlipOrientation.doc");
+        //ExEnd
+    }
+
+    @Test
     public void fill() throws Exception {
         //ExStart
         //ExFor:Shape.Fill

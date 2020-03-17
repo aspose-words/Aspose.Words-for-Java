@@ -2277,7 +2277,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @DataProvider(name = "useLegacyOrderDataProvider")
-    public static Object[][] useLegacyOrderDataProvider() throws Exception {
+    public static Object[][] useLegacyOrderDataProvider() {
         return new Object[][]
                 {
                         {true},
@@ -2293,11 +2293,10 @@ public class ExDocument extends ApiExampleBase {
             return ReplaceAction.REPLACE;
         }
 
-        public ArrayList<String> getMatches() {
-            return mMatches;
-        }
+        public ArrayList<String> getMatches() { //ExSkip
+            return mMatches; //ExSkip
+        } //ExSkip
 
-        ; //ExSkip
         private ArrayList<String> mMatches = new ArrayList<>(); //ExSkip
     }
     //ExEnd

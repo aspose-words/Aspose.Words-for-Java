@@ -14,11 +14,10 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FilenameFilter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
+
+import static Examples.DocumentHelper.directoryGetFiles;
 
 public class ExHtmlSaveOptions extends ApiExampleBase {
     @Test(dataProvider = "exportPageMarginsDataProvider")
@@ -103,22 +102,6 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                 {SaveFormat.EPUB, true},
                 {SaveFormat.MHTML, false}
         };
-    }
-
-    private ArrayList<String> directoryGetFiles(final String dirname, final String filenamePattern) {
-        File dirFile = new File(dirname);
-        Pattern re = Pattern.compile(filenamePattern.replace("*", ".*").replace("?", ".?"));
-        ArrayList<String> dirFiles = new ArrayList<>();
-        for (File file : dirFile.listFiles()) {
-            if (file.isDirectory()) {
-                dirFiles.addAll(directoryGetFiles(file.getPath(), filenamePattern));
-            } else {
-                if (re.matcher(file.getName()).matches()) {
-                    dirFiles.add(file.getPath());
-                }
-            }
-        }
-        return dirFiles;
     }
 
     @Test(dataProvider = "controlListLabelsExportDataProvider")
@@ -224,20 +207,6 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         Assert.assertEquals(cssFiles.size(), 1);
 
         DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExternalResourceSavingConfig.html", "<link href=\"https://www.aspose.com/HtmlSaveOptions.ExternalResourceSavingConfig.css\"");
-    }
-
-    private static String[] getFiles(final String path, final String searchPattern) {
-        final Pattern re = Pattern.compile(searchPattern.replace("*", ".*").replace("?", ".?"));
-        String[] filenames = new File(path).list(new FilenameFilter() {
-            @Override
-            public boolean accept(final File dir, final String name) {
-                return new File(dir, name).isFile() && re.matcher(name).matches();
-            }
-        });
-        for (int i = 0; i < filenames.length; i++) {
-            filenames[i] = path + filenames[i];
-        }
-        return filenames;
     }
 
     @Test

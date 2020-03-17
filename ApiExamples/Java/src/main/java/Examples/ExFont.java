@@ -1578,4 +1578,14 @@ public class ExFont extends ApiExampleBase {
         Assert.assertTrue(runs.get(4).getFont().hasDmlEffect(TextDmlEffect.FILL));
         //ExEnd
     }
+
+    @Test
+    public void checkScanUserFontsFolder() {
+        // On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
+        // or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user
+        SystemFontSource systemFontSource = new SystemFontSource();
+        Assert.assertNotNull(systemFontSource.getAvailableFonts().stream().
+                        filter((x) -> x.getFilePath().contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")).findFirst(),
+                "Fonts did not install to the user font folder");
+    }
 }
