@@ -23,9 +23,11 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.security.KeyStore;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.apache.commons.lang.CharEncoding.UTF_8;
 
@@ -153,6 +155,48 @@ public class ExDocument extends ApiExampleBase {
         }
     }
     //ExEnd
+
+    @Test
+    public void certificateHolderCreate() throws Exception {
+        //ExStart
+        //ExFor:CertificateHolder.Create(String, String)
+        //ExFor:CertificateHolder.Create(Byte[], String)
+        //ExFor:CertificateHolder.Create(String, String, String)
+        //ExSummary:Shows how to create CertificateHolder objects.
+        // 1: Load a PKCS #12 file into a byte array and apply its password to create the CertificateHolder
+        byte[] certBytes = DocumentHelper.getBytesFromStream(new FileInputStream(getMyDir() + "morzal.pfx"));
+        CertificateHolder.create(certBytes, "aw");
+
+        // 2: Load a PKCS #12 file and apply its password to create the CertificateHolder
+        CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+
+        // 3: If the certificate has private keys corresponding to aliases, we can use the aliases to fetch their respective keys
+        // First, we'll check for valid aliases like this
+        InputStream certStream = new FileInputStream(getMyDir() + "morzal.pfx");
+        try {
+            KeyStore store = KeyStore.getInstance("PKCS12");
+            store.load(certStream, "aw".toCharArray());
+
+            Enumeration<String> aliasNames = store.aliases();
+
+            while (aliasNames.hasMoreElements()) {
+                String currentAlias = aliasNames.nextElement().toString();
+                // The data format for private keys defined by the PKCS #8 standard
+                if (store.isKeyEntry(currentAlias) && store.getKey(currentAlias, "aw".toCharArray()).getFormat().equals("PKCS#8")) {
+                    System.out.println(MessageFormat.format("Valid alias found: {0}", currentAlias));
+                }
+            }
+        } finally {
+            if (certStream != null) certStream.close();
+        }
+
+        // For this file, we'll use an alias found above
+        CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", "c20be521-11ea-4976-81ed-865fbbfc9f24");
+
+        // If we leave the alias null, then the first possible alias that retrieves a private key will be used
+        CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
+        //ExEnd
+    }
 
     @Test
     public void documentCtor() throws Exception {
@@ -2201,6 +2245,73 @@ public class ExDocument extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Document.Sections.docx");
         //ExEnd
+    }
+
+    //ExStart
+    //ExFor:FindReplaceOptions.UseLegacyOrder
+    //ExSummary:Shows how to include text box analyzing, during replacing text.
+    @Test(dataProvider = "useLegacyOrderDataProvider") //ExSkip
+    public void useLegacyOrder(boolean isUseLegacyOrder) throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert 3 tags to appear in sequential order, the second of which will be inside a text box
+        builder.writeln("[tag 1]");
+        Shape textBox = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 50.0);
+        builder.writeln("[tag 3]");
+
+        builder.moveTo(textBox.getFirstParagraph());
+        builder.write("[tag 2]");
+
+        UseLegacyOrderReplacingCallback callback = new UseLegacyOrderReplacingCallback();
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setReplacingCallback(callback);
+
+        // Use this option if want to search text sequentially from top to bottom considering the text boxes
+        options.setUseLegacyOrder(isUseLegacyOrder);
+
+        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+        doc.getRange().replace(pattern, "", options);
+
+        checkUseLegacyOrderResults(isUseLegacyOrder, callback); //ExSkip
+    }
+
+    @DataProvider(name = "useLegacyOrderDataProvider")
+    public static Object[][] useLegacyOrderDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {true},
+                        {false},
+                };
+    }
+
+    private static class UseLegacyOrderReplacingCallback implements IReplacingCallback {
+        public int replacing(ReplacingArgs e) {
+            mMatches.add(e.getMatch().group()); //ExSkip
+
+            System.out.println(e.getMatch().group());
+            return ReplaceAction.REPLACE;
+        }
+
+        public ArrayList<String> getMatches() {
+            return mMatches;
+        }
+
+        ; //ExSkip
+        private ArrayList<String> mMatches = new ArrayList<>(); //ExSkip
+    }
+    //ExEnd
+
+    private static void checkUseLegacyOrderResults(boolean isUseLegacyOrder, UseLegacyOrderReplacingCallback callback) {
+        if (isUseLegacyOrder) {
+            Assert.assertEquals(callback.getMatches().get(0), "[tag 1]");
+            Assert.assertEquals(callback.getMatches().get(1), "[tag 2]");
+            Assert.assertEquals(callback.getMatches().get(2), "[tag 3]");
+        } else {
+            Assert.assertEquals(callback.getMatches().get(0), "[tag 1]");
+            Assert.assertEquals(callback.getMatches().get(1), "[tag 3]");
+            Assert.assertEquals(callback.getMatches().get(2), "[tag 2]");
+        }
     }
 
     @Test
