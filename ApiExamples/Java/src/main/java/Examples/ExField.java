@@ -4346,7 +4346,7 @@ public class ExField extends ApiExampleBase {
         builder.getListFormat().getListLevel().setNumberFormat(">>> \u0002");
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.Ref.docx");
+        doc.save(getArtifactsDir() + "Field.REF.docx");
     }
 
     /// <summary>
@@ -5143,13 +5143,13 @@ public class ExField extends ApiExampleBase {
         // The following field will display ".1", the RTL equivalent of list number "1."
         FieldBidiOutline field = (FieldBidiOutline) builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
         Assert.assertEquals(field.getFieldCode(), " BIDIOUTLINE ");
-        builder.writeln("????�");
+        builder.writeln("שלום");
 
         // Add two more BIDIOUTLINE fields, which will be automatically numbered ".2" and ".3"
         builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
-        builder.writeln("????�");
+        builder.writeln("שלום");
         builder.insertField(FieldType.FIELD_BIDI_OUTLINE, true);
-        builder.writeln("????�");
+        builder.writeln("שלום");
 
         // Set the horizontal text alignment for every paragraph in the document to RTL
         for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true)) {

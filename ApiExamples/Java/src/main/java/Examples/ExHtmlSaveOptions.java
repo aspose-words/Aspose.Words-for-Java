@@ -224,7 +224,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
     @Test(dataProvider = "html5SupportDataProvider")
     public void html5Support(final int htmlVersion) throws Exception {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setHtmlVersion(htmlVersion);

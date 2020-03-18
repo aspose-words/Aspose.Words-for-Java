@@ -52,6 +52,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     @Test
     public void headersAndFooters() throws Exception {
         //ExStart
+        //ExFor:DocumentBuilder
         //ExFor:DocumentBuilder.#ctor(Document)
         //ExFor:DocumentBuilder.MoveToHeaderFooter
         //ExFor:DocumentBuilder.MoveToSection
@@ -675,6 +676,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void insertTable() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder
+        //ExFor:DocumentBuilder.Write
         //ExFor:DocumentBuilder.StartTable
         //ExFor:DocumentBuilder.InsertCell
         //ExFor:DocumentBuilder.EndRow
@@ -1179,7 +1181,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.getCellFormat().clearFormatting();
         builder.writeln("Cell #4");
 
-        doc.save(getArtifactsDir() + "Table.SetBordersAndShading.doc");
+        doc.save(getArtifactsDir() + "DocumentBuilder.TableBordersAndShading.doc");
         //ExEnd
 
         // Verify the table was created correctly
@@ -2399,7 +2401,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     /// All markdown tests work with the same file
     /// That's why we need order for them 
     /// </summary>
-    @Test(groups = "SkipTearDown", priority = 1)
+    @Test(priority = 1)
     public void markdownDocumentEmphases() throws Exception {
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -2436,7 +2438,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     /// All markdown tests work with the same file
     /// That's why we need order for them 
     /// </summary>
-    @Test(groups = "SkipTearDown", priority = 2)
+    @Test(priority = 2)
     public void markdownDocumentInlineCode() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2466,7 +2468,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     /// All markdown tests work with the same file
     /// That's why we need order for them 
     /// </summary>
-    @Test(groups = "SkipTearDown", description = "WORDSNET-19850", priority = 3)
+    @Test(description = "WORDSNET-19850", priority = 3)
     public void markdownDocumentHeadings() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2540,7 +2542,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     /// All markdown tests work with the same file
     /// That's why we need order for them 
     /// </summary>
-    @Test(groups = "SkipTearDown", priority = 4)
+    @Test(priority = 4)
     public void markdownDocumentBlockquotes() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2599,7 +2601,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     /// All markdown tests work with the same file
     /// That's why we need order for them 
     /// </summary>
-    @Test(groups = "SkipTearDown", priority = 5)
+    @Test(priority = 5)
     public void markdownDocumentIndentedCode() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2622,7 +2624,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     /// All markdown tests work with the same file
     /// That's why we need order for them 
     /// </summary>
-    @Test(groups = "SkipTearDown", priority = 6)
+    @Test(priority = 6)
     public void markdownDocumentFencedCode() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2649,7 +2651,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     /// All markdown tests work with the same file
     /// That's why we need order for them 
     /// </summary>
-    @Test(groups = "SkipTearDown", priority = 7)
+    @Test(priority = 7)
     public void markdownDocumentHorizontalRule() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2670,7 +2672,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     /// All markdown tests work with the same file
     /// That's why we need order for them 
     /// </summary>
-    @Test(groups = "SkipTearDown", priority = 8)
+    @Test(priority = 8)
     public void markdownDocumentBulletedList() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);

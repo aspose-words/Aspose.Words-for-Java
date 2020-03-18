@@ -142,7 +142,7 @@ public class ExFont extends ApiExampleBase {
 
     @Test(dataProvider = "workWithEmbeddedFontsDataProvider")
     public void workWithEmbeddedFonts(final boolean embedTrueTypeFonts, final boolean embedSystemFonts, final boolean saveSubsetFonts) throws Exception {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         FontInfoCollection fontInfos = doc.getFontInfos();
         fontInfos.setEmbedTrueTypeFonts(embedTrueTypeFonts);
@@ -337,7 +337,7 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Font.LocaleId
         //ExSummary:Shows how to specify the language of a text run so Microsoft Word can use a proper spell checker.
         // Create a run of text that contains Russian text
-        Run run = new Run(doc, "??????");
+        Run run = new Run(doc, "Привет");
 
         // Specify the locale so Microsoft Word recognizes this text as Russian
         // For the list of locale identifiers see https://docs.microsoft.com/en-us/deployoffice/office2016/language-identifiers-and-optionstate-id-values-in-office-2016
@@ -426,7 +426,7 @@ public class ExFont extends ApiExampleBase {
         builder.getFont().setLocaleIdBi(1025);
 
         // Insert some Arabic text
-        builder.writeln("??????");
+        builder.writeln("مرحبًا");
 
         builder.getDocument().save(getArtifactsDir() + "Font.Bidi.doc");
         //ExEnd
@@ -450,7 +450,7 @@ public class ExFont extends ApiExampleBase {
         builder.getFont().setLocaleIdFarEast(2052);
 
         // Insert some Chinese text
-        builder.writeln("????");
+        builder.writeln("你好世界");
 
         builder.getDocument().save(getArtifactsDir() + "Font.FarEast.doc");
         //ExEnd
@@ -470,7 +470,7 @@ public class ExFont extends ApiExampleBase {
         builder.getFont().setNameAscii("Arial");
         builder.getFont().setNameOther("Times New Roman");
 
-        builder.writeln("Hello, ??????");
+        builder.writeln("Hello, Привет");
 
         builder.getDocument().save(getArtifactsDir() + "Font.Names.doc");
         //ExEnd

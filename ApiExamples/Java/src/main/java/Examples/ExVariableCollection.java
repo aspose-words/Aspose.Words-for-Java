@@ -129,7 +129,7 @@ public class ExVariableCollection extends ApiExampleBase {
         //ExStart
         //ExFor:VariableCollection.RemoveAt
         //ExSummary:Shows how to remove an element from a document's variable collection by index.
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.getVariables().add("doc", "Word processing document");
         doc.getVariables().add("docx", "Word processing document");

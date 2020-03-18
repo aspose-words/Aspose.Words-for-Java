@@ -111,6 +111,8 @@ public class ExDrawing extends ApiExampleBase {
 
         filledInArrowImg.getImageData().setImage(image);
         builder.insertNode(filledInArrowImg);
+
+        doc.save(getArtifactsDir() + "Drawing.VariousShapes.docx");
         //ExEnd
     }
 

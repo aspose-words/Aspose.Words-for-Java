@@ -3277,7 +3277,77 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void readMacrosFromDocument() throws Exception {
+    public void createNewVbaProject() throws Exception
+    {
+        //ExStart
+        //ExFor:VbaProject.#ctor
+        //ExFor:VbaProject.Name
+        //ExFor:VbaModule.#ctor
+        //ExFor:VbaModule.Name
+        //ExFor:VbaModule.Type
+        //ExFor:VbaModule.SourceCode
+        //ExFor:VbaModuleCollection.Add(VbaModule)
+        //ExFor:VbaModuleType
+        //ExSummary:Shows how to create a VbaProject from a scratch for using macros.
+        Document doc = new Document();
+
+        // Create a new VBA project
+        VbaProject project = new VbaProject();
+        project.setName("Aspose.Project");
+        doc.setVbaProject(project);
+
+        // Create a new module and specify a macro source code
+        VbaModule module = new VbaModule();
+        module.setName("Aspose.Module");
+        // VbaModuleType values:
+        // procedural module - A collection of subroutines and functions
+        // ------
+        // document module - A type of VBA project item that specifies a module for embedded macros and programmatic access
+        // operations that are associated with a document
+        // ------
+        // class module - A module that contains the definition for a new object. Each instance of a class creates
+        // a new object, and procedures that are defined in the module become properties and methods of the object
+        // ------
+        // designer module - A VBA module that extends the methods and properties of an ActiveX control that has been
+        // registered with the project
+        module.setType(VbaModuleType.PROCEDURAL_MODULE);
+        module.setSourceCode("New source code");
+
+        // Add module to the VBA project
+        doc.getVbaProject().getModules().add(module);
+
+        doc.save(getArtifactsDir() + "Document.CreateVBAMacros.docm");
+        //ExEnd
+    }
+
+    @Test
+    public void cloneVbaProject() throws Exception
+    {
+        //ExStart
+        //ExFor:VbaProject.Clone
+        //ExFor:VbaModule.Clone
+        //ExSummary:Shows how to deep clone VbaProject and VbaModule.
+        Document doc = new Document(getMyDir() + "VBA project.docm");
+        Document destDoc = new Document();
+
+        // Clone VbaProject to the document
+        VbaProject copyVbaProject = doc.getVbaProject().deepClone();
+        destDoc.setVbaProject(copyVbaProject);
+
+        // In destination document we already have "Module1", because he was cloned with VbaProject
+        // Therefore need to remove it before cloning
+        VbaModule oldVbaModule = destDoc.getVbaProject().getModules().get("Module1");
+        VbaModule copyVbaModule = doc.getVbaProject().getModules().get("Module1").deepClone();
+        destDoc.getVbaProject().getModules().remove(oldVbaModule);
+        destDoc.getVbaProject().getModules().add(copyVbaModule);
+
+        destDoc.save(getArtifactsDir() + "Document.CloneVbaProject.docm");
+        //ExEnd
+    }
+
+    @Test
+    public void readMacrosFromExistingDocument() throws Exception
+    {
         //ExStart
         //ExFor:Document.VbaProject
         //ExFor:VbaProject
