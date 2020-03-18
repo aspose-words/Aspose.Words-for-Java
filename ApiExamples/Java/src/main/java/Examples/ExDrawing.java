@@ -111,6 +111,7 @@ public class ExDrawing extends ApiExampleBase {
 
         filledInArrowImg.getImageData().setImage(image);
         builder.insertNode(filledInArrowImg);
+        //ExEnd
     }
 
     @Test
