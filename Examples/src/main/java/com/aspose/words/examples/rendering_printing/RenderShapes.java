@@ -22,278 +22,321 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 public class RenderShapes {
-    public static void main(String[] args) throws Exception {
-        //ExStart:Main
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(RenderShapes.class);
+	public static void main(String[] args) throws Exception {
+		// ExStart:Main
+		// The path to the documents directory.
+		String dataDir = Utils.getDataDir(RenderShapes.class);
 
-        // Load the documents which store the shapes we want to render.
-        Document doc = new Document(dataDir + "TestFile.doc");
-        Document doc2 = new Document(dataDir + "TestFile.docx");
+		// Load the documents which store the shapes we want to render.
+		Document doc = new Document(dataDir + "TestFile.doc");
+		Document doc2 = new Document(dataDir + "TestFile.docx");
 
-        // Retrieve the target shape from the document. In our sample document this is the first shape.
-        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        Shape drawingML = (Shape) doc2.getChild(NodeType.SHAPE, 0, true);
+		// Retrieve the target shape from the document. In our sample document this is
+		// the first shape.
+		Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+		Shape drawingML = (Shape) doc2.getChild(NodeType.SHAPE, 0, true);
 
-        // Test rendering of different types of nodes.
-        RenderShapeToDisk(dataDir, shape);
-        RenderShapeToStream(dataDir, shape);
-        RenderShapeToGraphics(dataDir, shape);
-        RenderDrawingMLToDisk(dataDir, drawingML);
-        RenderCellToImage(dataDir, doc);
-        RenderRowToImage(dataDir, doc);
-        RenderParagraphToImage(dataDir, doc);
-        FindShapeSizes(shape);
-        //ExEnd:Main
-    }
+		// Test rendering of different types of nodes.
+		RenderShapeToDisk(dataDir, shape);
+		RenderShapeToStream(dataDir, shape);
+		RenderShapeToGraphics(dataDir, shape);
+		RenderDrawingMLToDisk(dataDir, drawingML);
+		RenderCellToImage(dataDir, doc);
+		RenderRowToImage(dataDir, doc);
+		RenderParagraphToImage(dataDir, doc);
+		FindShapeSizes(shape);
+		RenderShapeImage(dataDir, shape);
+		// ExEnd:Main
+	}
 
-    //ExStart:RenderShapeToDisk
-    public static void RenderShapeToDisk(String dataDir, Shape shape) throws Exception {
-        ShapeRenderer r = shape.getShapeRenderer();
+	public static void RenderShapeToDisk(String dataDir, Shape shape) throws Exception {
+		// ExStart:RenderShapeToDisk
+		// For complete examples and data files, please go to
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 
-        // Define custom options which control how the image is rendered. Render the shape to the JPEG raster format.
-        ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
+		ShapeRenderer r = shape.getShapeRenderer();
 
-        imageOptions.setScale(1.5f);
+		// Define custom options which control how the image is rendered. Render the
+		// shape to the JPEG raster format.
+		ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.EMF);
 
-        // Save the rendered image to disk.
-        r.save(dataDir + "TestFile.RenderToDisk Out.jpg", imageOptions);
+		imageOptions.setScale(1.5f);
 
-        System.out.println("Shape rendered to disk successfully.");
-    }
-    //ExEnd:RenderShapeToDisk
+		// Save the rendered image to disk.
+		r.save(dataDir + "TestFile.RenderToDisk_Out.emf", imageOptions);
+		// ExEnd:RenderShapeToDisk
+		System.out.println("Shape rendered to disk successfully.");
+	}
 
-    //ExStart:RenderShapeToStream
-    public static void RenderShapeToStream(String dataDir, Shape shape) throws Exception {
-        ShapeRenderer r = new ShapeRenderer(shape);
+	public static void RenderShapeToStream(String dataDir, Shape shape) throws Exception {
+		// ExStart:RenderShapeToStream
+		// For complete examples and data files, please go to
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 
-        // Define custom options which control how the image is rendered. Render the shape to the vector format EMF.
-        ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.PNG) {
-        };
+		ShapeRenderer r = new ShapeRenderer(shape);
 
-        // Output the image in gray scale
-        imageOptions.setImageColorMode(ImageColorMode.GRAYSCALE);
+		// Define custom options which control how the image is rendered. Render the
+		// shape to the vector format EMF.
+		ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
 
-        // Reduce the brightness a bit (default is 0.5f).
-        imageOptions.setImageBrightness(0.45f);
+		// Output the image in gray scale
+		imageOptions.setImageColorMode(ImageColorMode.GRAYSCALE);
 
+		// Reduce the brightness a bit (default is 0.5f).
+		imageOptions.setImageBrightness(0.45f);
 
-        FileOutputStream stream = new FileOutputStream(dataDir + "TestFile.RenderToStream Out.jpg");
+		FileOutputStream stream = new FileOutputStream(dataDir + "TestFile.RenderToStream_Out.jpg");
 
-        // Save the rendered image to the stream using different options.
-        r.save(stream, imageOptions);
+		// Save the rendered image to the stream using different options.
+		r.save(stream, imageOptions);
+		// ExEnd:RenderShapeToStream
+		System.out.println("Shape rendered to stream successfully.");
+	}
 
-        System.out.println("Shape rendered to stream successfully.");
-    }
-    //ExEnd:RenderShapeToStream
+	public static void RenderDrawingMLToDisk(String dataDir, Shape drawingML) throws Exception {
+		// ExStart:RenderDrawingMLToDisk
+		// For complete examples and data files, please go to
+		// https://github.com/aspose-words/Aspose.Words-for-Java
+		// Save the DrawingML image to disk in JPEG format and using default options.
+		drawingML.getShapeRenderer().save(dataDir + "TestFile.RenderDrawingML Out.jpg", null);
+		// ExEnd:RenderDrawingMLToDisk
+		System.out.println("Shape rendered to disk successfully.");
+	}
 
-    //ExStart:RenderDrawingMLToDisk
-    public static void RenderDrawingMLToDisk(String dataDir, Shape drawingML) throws Exception {
-        // Save the DrawingML image to disk in JPEG format and using default options.
-        drawingML.getShapeRenderer().save(dataDir + "TestFile.RenderDrawingML Out.jpg", null);
+	public static void RenderShapeToGraphics(String dataDir, Shape shape) throws Exception {
+		// ExStart:RenderShapeToGraphics
+		// For complete examples and data files, please go to
+		// https://github.com/aspose-words/Aspose.Words-for-Java
+		// The shape renderer is retrieved using this method. This is made into a
+		// separate object from the shape as it internally
+		// caches the rendered shape.
+		ShapeRenderer r = shape.getShapeRenderer();
 
-        System.out.println("Shape rendered to disk successfully.");
-    }
-    //ExEnd:RenderDrawingMLToDisk
+		// Find the size that the shape will be rendered to at the specified scale and
+		// resolution.
+		Dimension shapeSizeInPixels = r.getSizeInPixels(1.0f, 96.0f);
 
-    //ExStart:RenderShapeToGraphics
-    public static void RenderShapeToGraphics(String dataDir, Shape shape) throws Exception {
-        // The shape renderer is retrieved using this method. This is made into a separate object from the shape as it internally
-        // caches the rendered shape.
-        ShapeRenderer r = shape.getShapeRenderer();
+		// Rotating the shape may result in clipping as the image canvas is too small.
+		// Find the longest side
+		// and make sure that the graphics canvas is large enough to compensate for
+		// this.
+		int maxSide = Math.max(shapeSizeInPixels.width, shapeSizeInPixels.height);
 
-        // Find the size that the shape will be rendered to at the specified scale and resolution.
-        Dimension shapeSizeInPixels = r.getSizeInPixels(1.0f, 96.0f);
+		BufferedImage image = new BufferedImage((int) (maxSide * 1.25), (int) (maxSide * 1.25),
+				BufferedImage.TYPE_INT_ARGB);
 
-        // Rotating the shape may result in clipping as the image canvas is too small. Find the longest side
-        // and make sure that the graphics canvas is large enough to compensate for this.
-        int maxSide = Math.max(shapeSizeInPixels.width, shapeSizeInPixels.height);
+		// Rendering to a graphics object means we can specify settings and
+		// transformations to be applied to
+		// the shape that is rendered. In our case we will rotate the rendered shape.
+		Graphics2D gr = (Graphics2D) image.getGraphics();
 
-        BufferedImage image = new BufferedImage((int) (maxSide * 1.25), (int) (maxSide * 1.25), BufferedImage.TYPE_INT_ARGB);
+		// Clear the shape with the background color of the document.
+		gr.setBackground(shape.getDocument().getPageColor());
+		gr.clearRect(0, 0, image.getWidth(), image.getHeight());
+		// Center the rotation using translation method below
+		gr.translate(image.getWidth() / 8, image.getHeight() / 2);
+		// Rotate the image by 45 degrees.
+		gr.rotate(45 * Math.PI / 180);
+		// Undo the translation.
+		gr.translate(-image.getWidth() / 8, -image.getHeight() / 2);
 
-        // Rendering to a graphics object means we can specify settings and transformations to be applied to
-        // the shape that is rendered. In our case we will rotate the rendered shape.
-        Graphics2D gr = (Graphics2D) image.getGraphics();
+		// Render the shape onto the graphics object.
+		r.renderToSize(gr, 0, 0, shapeSizeInPixels.width, shapeSizeInPixels.height);
 
+		ImageIO.write(image, "png", new File(dataDir + "TestFile.RenderToGraphics_out.png"));
 
-        // Clear the shape with the background color of the document.
-        gr.setBackground(shape.getDocument().getPageColor());
-        gr.clearRect(0, 0, image.getWidth(), image.getHeight());
-        // Center the rotation using translation method below
-        gr.translate(image.getWidth() / 8, image.getHeight() / 2);
-        // Rotate the image by 45 degrees.
-        gr.rotate(45 * Math.PI / 180);
-        // Undo the translation.
-        gr.translate(-image.getWidth() / 8, -image.getHeight() / 2);
+		gr.dispose();
+		// ExEnd:RenderShapeToGraphics
+		System.out.println("Shape rendered to Graphics successfully.");
+	}
 
-        // Render the shape onto the graphics object.
-        r.renderToSize(gr, 0, 0, shapeSizeInPixels.width, shapeSizeInPixels.height);
+	// ExStart:RenderCellToImage
+	public static void RenderCellToImage(String dataDir, Document doc) throws Exception {
+		// For complete examples and data files, please go to
+		// https://github.com/aspose-words/Aspose.Words-for-Java
+		Cell cell = (Cell) doc.getChild(NodeType.CELL, 2, true); // The third cell in the first table.
+		RenderNode(cell, dataDir + "TestFile.RenderCell Out.png", null);
 
-        ImageIO.write(image, "png", new File(dataDir + "TestFile.RenderToGraphics.png"));
+		System.out.println("Cell rendered to image successfully.");
+	}
+	// ExEnd:RenderCellToImage
 
-        gr.dispose();
+	// ExStart:RenderRowToImage
+	public static void RenderRowToImage(String dataDir, Document doc) throws Exception {
+		// For complete examples and data files, please go to
+		// https://github.com/aspose-words/Aspose.Words-for-Java
+		Row row = (Row) doc.getChild(NodeType.ROW, 0, true); // The first row in the first table.
+		RenderNode(row, dataDir + "TestFile.RenderRow Out.png", null);
 
-        System.out.println("Shape rendered to Graphics successfully.");
-    }
-    //ExEnd:RenderShapeToGraphics
+		System.out.println("Row rendered to image successfully.");
+	}
+	// ExEnd:RenderRowToImage
 
-    //ExStart:RenderCellToImage
-    public static void RenderCellToImage(String dataDir, Document doc) throws Exception {
-        Cell cell = (Cell) doc.getChild(NodeType.CELL, 2, true); // The third cell in the first table.
-        RenderNode(cell, dataDir + "TestFile.RenderCell Out.png", null);
+	// ExStart:RenderParagraphToImage
+	public static void RenderParagraphToImage(String dataDir, Document doc) throws Exception {
+		// For complete examples and data files, please go to
+		// https://github.com/aspose-words/Aspose.Words-for-Java
+		Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+		Paragraph paragraph = shape.getLastParagraph();
 
-        System.out.println("Cell rendered to image successfully.");
-    }
-    //ExEnd:RenderCellToImage
+		// Save the node with a light pink background.
+		ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
+		options.setPaperColor(new Color(255, 182, 193));
 
-    //ExStart:RenderRowToImage
-    public static void RenderRowToImage(String dataDir, Document doc) throws Exception {
-        Row row = (Row) doc.getChild(NodeType.ROW, 0, true); // The first row in the first table.
-        RenderNode(row, dataDir + "TestFile.RenderRow Out.png", null);
+		RenderNode(paragraph, dataDir + "TestFile.RenderParagraph Out.png", options);
 
-        System.out.println("Row rendered to image successfully.");
-    }
-    //ExEnd:RenderRowToImage
+		System.out.println("Paragraph rendered to image successfully.");
+	}
+	// ExEnd:RenderParagraphToImage
 
-    //ExStart:RenderParagraphToImage
-    public static void RenderParagraphToImage(String dataDir, Document doc) throws Exception {
-        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        Paragraph paragraph = shape.getLastParagraph();
+	public static void FindShapeSizes(Shape shape) throws Exception {
+		// ExStart:FindShapeSizes
+		// For complete examples and data files, please go to
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 
-        // Save the node with a light pink background.
-        ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
-        options.setPaperColor(new Color(255, 182, 193));
+		Point2D.Float shapeSizeInDocument = shape.getShapeRenderer().getSizeInPoints();
+		float width = shapeSizeInDocument.x; // The width of the shape.
+		float height = shapeSizeInDocument.y; // The height of the shape.
+		Dimension shapeRenderedSize = shape.getShapeRenderer().getSizeInPixels(1.0f, 96.0f);
 
-        RenderNode(paragraph, dataDir + "TestFile.RenderParagraph Out.png", options);
+		BufferedImage image = new BufferedImage(shapeRenderedSize.width, shapeRenderedSize.height,
+				BufferedImage.TYPE_INT_RGB);
 
-        System.out.println("Paragraph rendered to image successfully.");
-    }
-    //ExEnd:RenderParagraphToImage
+		Graphics gr = image.getGraphics();
 
-    //ExStart:FindShapeSizes
-    public static void FindShapeSizes(Shape shape) throws Exception {
-        Point2D.Float shapeSizeInDocument = shape.getShapeRenderer().getSizeInPoints();
-        float width = shapeSizeInDocument.x; // The width of the shape.
-        float height = shapeSizeInDocument.y; // The height of the shape.
-        Dimension shapeRenderedSize = shape.getShapeRenderer().getSizeInPixels(1.0f, 96.0f);
+		// Render shape onto the graphics object using the RenderToScale or RenderToSize
+		// methods of ShapeRenderer class.
 
-        BufferedImage image = new BufferedImage(shapeRenderedSize.width, shapeRenderedSize.height, BufferedImage.TYPE_INT_RGB);
+		gr.dispose();
+		// ExEnd:FindShapeSizes
+	}
 
-        Graphics gr = image.getGraphics();
+	// ExStart:RenderNode
+	/// <summary>
+	/// Renders any node in a document to the path specified using the image save
+	// options.
+	/// </summary>
+	/// <param name="node">The node to render.</param>
+	/// <param name="path">The path to save the rendered image to.</param>
+	/// <param name="imageOptions">The image options to use during rendering. This
+	// can be null.</param>
+	public static void RenderNode(Node node, String filePath, ImageSaveOptions imageOptions) throws Exception {
+		// Run some argument checks.
+		if (node == null)
+			throw new IllegalArgumentException("Node cannot be null");
 
-        // Render shape onto the graphics object using the RenderToScale or RenderToSize methods of ShapeRenderer class.
+		// If no image options are supplied, create default options.
+		if (imageOptions == null)
+			imageOptions = new ImageSaveOptions(
+					FileFormatUtil.extensionToSaveFormat((filePath.split("\\.")[filePath.split("\\.").length - 1])));
 
-        gr.dispose();
+		// Store the paper color to be used on the final image and change to
+		// transparent.
+		// This will cause any content around the rendered node to be removed later on.
+		Color savePaperColor = imageOptions.getPaperColor();
+		// imageOptions.PaperColor = Color.Transparent;
+		imageOptions.setPaperColor(new Color(0, 0, 0, 0));
+		// There a bug which affects the cache of a cloned node. To avoid this we
+		// instead clone the entire document including all nodes,
+		// find the matching node in the cloned document and render that instead.
+		Document doc = (Document) node.getDocument().deepClone(true);
+		node = doc.getChild(NodeType.ANY, node.getDocument().getChildNodes(NodeType.ANY, true).indexOf(node), true);
 
-    }
-    //ExEnd:FindShapeSizes
+		// Create a temporary shape to store the target node in. This shape will be
+		// rendered to retrieve
+		// the rendered content of the node.
+		Shape shape = new Shape(doc, ShapeType.TEXT_BOX);
+		Section parentSection = (Section) node.getAncestor(NodeType.SECTION);
 
-    //ExStart:RenderNode
-    /// <summary>
-    /// Renders any node in a document to the path specified using the image save options.
-    /// </summary>
-    /// <param name="node">The node to render.</param>
-    /// <param name="path">The path to save the rendered image to.</param>
-    /// <param name="imageOptions">The image options to use during rendering. This can be null.</param>
-    public static void RenderNode(Node node, String filePath, ImageSaveOptions imageOptions) throws Exception {
-        // Run some argument checks.
-        if (node == null)
-            throw new IllegalArgumentException("Node cannot be null");
+		// Assume that the node cannot be larger than the page in size.
+		shape.setWidth(parentSection.getPageSetup().getPageWidth());
+		shape.setHeight(parentSection.getPageSetup().getPageHeight());
+		shape.setFillColor(new Color(0, 0, 0, 0)); // We must make the shape and paper color transparent.
 
-        // If no image options are supplied, create default options.
-        if (imageOptions == null)
-            imageOptions = new ImageSaveOptions(FileFormatUtil.extensionToSaveFormat((filePath.split("\\.")[filePath.split("\\.").length - 1])));
+		// Don't draw a surrounding line on the shape.
+		shape.setStroked(false);
 
-        // Store the paper color to be used on the final image and change to transparent.
-        // This will cause any content around the rendered node to be removed later on.
-        Color savePaperColor = imageOptions.getPaperColor();
-        //imageOptions.PaperColor = Color.Transparent;
-        imageOptions.setPaperColor(new Color(0, 0, 0, 0));
-        // There a bug which affects the cache of a cloned node. To avoid this we instead clone the entire document including all nodes,
-        // find the matching node in the cloned document and render that instead.
-        Document doc = (Document) node.getDocument().deepClone(true);
-        node = doc.getChild(NodeType.ANY, node.getDocument().getChildNodes(NodeType.ANY, true).indexOf(node), true);
+		// Move up through the DOM until we find node which is suitable to insert into a
+		// Shape (a node with a parent can contain paragraph, tables the same as a
+		// shape).
+		// Each parent node is cloned on the way up so even a descendant node passed to
+		// this method can be rendered.
+		// Since we are working with the actual nodes of the document we need to clone
+		// the target node into the temporary shape.
+		Node currentNode = node;
+		while (!(currentNode.getParentNode() instanceof InlineStory || currentNode.getParentNode() instanceof Story
+				|| currentNode.getParentNode() instanceof ShapeBase)) {
+			CompositeNode parent = (CompositeNode) currentNode.getParentNode().deepClone(false);
+			currentNode = currentNode.getParentNode();
+			parent.appendChild(node.deepClone(true));
+			node = parent; // Store this new node to be inserted into the shape.
+		}
 
-        // Create a temporary shape to store the target node in. This shape will be rendered to retrieve
-        // the rendered content of the node.
-        Shape shape = new Shape(doc, ShapeType.TEXT_BOX);
-        Section parentSection = (Section) node.getAncestor(NodeType.SECTION);
+		// We must add the shape to the document tree to have it rendered.
+		shape.appendChild(node.deepClone(true));
+		parentSection.getBody().getFirstParagraph().appendChild(shape);
 
-        // Assume that the node cannot be larger than the page in size.
-        shape.setWidth(parentSection.getPageSetup().getPageWidth());
-        shape.setHeight(parentSection.getPageSetup().getPageHeight());
-        shape.setFillColor(new Color(0, 0, 0, 0)); // We must make the shape and paper color transparent.
+		// Render the shape to stream so we can take advantage of the effects of the
+		// ImageSaveOptions class.
+		// Retrieve the rendered image and remove the shape from the document.
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		shape.getShapeRenderer().save(stream, imageOptions);
+		shape.remove();
 
-        // Don't draw a surrounding line on the shape.
-        shape.setStroked(false);
+		// Load the image into a new bitmap.
+		BufferedImage renderedImage = ImageIO.read(new ByteArrayInputStream(stream.toByteArray()));
 
-        // Move up through the DOM until we find node which is suitable to insert into a Shape (a node with a parent can contain paragraph, tables the same as a shape).
-        // Each parent node is cloned on the way up so even a descendant node passed to this method can be rendered.
-        // Since we are working with the actual nodes of the document we need to clone the target node into the temporary shape.
-        Node currentNode = node;
-        while (!(currentNode.getParentNode() instanceof InlineStory
-                || currentNode.getParentNode() instanceof Story
-                || currentNode.getParentNode() instanceof ShapeBase)) {
-            CompositeNode parent = (CompositeNode) currentNode.getParentNode().deepClone(false);
-            currentNode = currentNode.getParentNode();
-            parent.appendChild(node.deepClone(true));
-            node = parent; // Store this new node to be inserted into the shape.
-        }
+		// Extract the actual content of the image by cropping transparent space around
+		// the rendered shape.
+		Rectangle cropRectangle = FindBoundingBoxAroundNode(renderedImage);
 
-        // We must add the shape to the document tree to have it rendered.
-        shape.appendChild(node.deepClone(true));
-        parentSection.getBody().getFirstParagraph().appendChild(shape);
+		BufferedImage croppedImage = new BufferedImage(cropRectangle.width, cropRectangle.height,
+				BufferedImage.TYPE_INT_RGB);
 
-        // Render the shape to stream so we can take advantage of the effects of the ImageSaveOptions class.
-        // Retrieve the rendered image and remove the shape from the document.
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        shape.getShapeRenderer().save(stream, imageOptions);
-        shape.remove();
+		// Create the final image with the proper background color.
+		Graphics2D g = croppedImage.createGraphics();
+		g.setBackground(savePaperColor);
+		g.clearRect(0, 0, croppedImage.getWidth(), croppedImage.getHeight());
+		g.drawImage(renderedImage, 0, 0, croppedImage.getWidth(), croppedImage.getHeight(), cropRectangle.x,
+				cropRectangle.y, cropRectangle.x + cropRectangle.width, cropRectangle.y + cropRectangle.height, null);
 
-        // Load the image into a new bitmap.
-        BufferedImage renderedImage = ImageIO.read(new ByteArrayInputStream(stream.toByteArray()));
+		ImageIO.write(croppedImage, "png", new File(filePath));
+	}
+	// ExEnd:RenderNode
 
-        // Extract the actual content of the image by cropping transparent space around
-        // the rendered shape.
-        Rectangle cropRectangle = FindBoundingBoxAroundNode(renderedImage);
+	// ExStart:FindBoundingBoxAroundNode
+	/// <summary>
+	/// Finds the minimum bounding box around non-transparent pixels in a Bitmap.
+	/// </summary>
+	public static Rectangle FindBoundingBoxAroundNode(BufferedImage originalBitmap) {
+		Point min = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		Point max = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
-        BufferedImage croppedImage = new BufferedImage(cropRectangle.width, cropRectangle.height, BufferedImage.TYPE_INT_RGB);
+		for (int x = 0; x < originalBitmap.getWidth(); ++x) {
+			for (int y = 0; y < originalBitmap.getHeight(); ++y) {
+				// For each pixel that is not transparent calculate the bounding box around it.
+				if (originalBitmap.getRGB(x, y) != 0) {
+					min.x = Math.min(x, min.x);
+					min.y = Math.min(y, min.y);
+					max.x = Math.max(x, max.x);
+					max.y = Math.max(y, max.y);
+				}
+			}
+		}
 
-        // Create the final image with the proper background color.
-        Graphics2D g = croppedImage.createGraphics();
-        g.setBackground(savePaperColor);
-        g.clearRect(0, 0, croppedImage.getWidth(), croppedImage.getHeight());
-        g.drawImage(renderedImage,
-                0, 0, croppedImage.getWidth(), croppedImage.getHeight(),
-                cropRectangle.x, cropRectangle.y, cropRectangle.x + cropRectangle.width, cropRectangle.y + cropRectangle.height,
-                null);
+		// Add one pixel to the width and height to avoid clipping.
+		return new Rectangle(min.x, min.y, (max.x - min.x) + 1, (max.y - min.y) + 1);
+	}
+	// ExEnd:FindBoundingBoxAroundNode
 
-        ImageIO.write(croppedImage, "png", new File(filePath));
-    }
-    //ExEnd:RenderNode
+	public static void RenderShapeImage(String dataDir, Shape shape) throws Exception {
+		// ExStart:RenderShapeImage
+		// For complete examples and data files, please go to
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 
-    //ExStart:FindBoundingBoxAroundNode
-    /// <summary>
-    /// Finds the minimum bounding box around non-transparent pixels in a Bitmap.
-    /// </summary>
-    public static Rectangle FindBoundingBoxAroundNode(BufferedImage originalBitmap) {
-        Point min = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        Point max = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
-
-        for (int x = 0; x < originalBitmap.getWidth(); ++x) {
-            for (int y = 0; y < originalBitmap.getHeight(); ++y) {
-                // For each pixel that is not transparent calculate the bounding box around it.
-                if (originalBitmap.getRGB(x, y) != 0) {
-                    min.x = Math.min(x, min.x);
-                    min.y = Math.min(y, min.y);
-                    max.x = Math.max(x, max.x);
-                    max.y = Math.max(y, max.y);
-                }
-            }
-        }
-
-        // Add one pixel to the width and height to avoid clipping.
-        return new Rectangle(min.x, min.y, (max.x - min.x) + 1, (max.y - min.y) + 1);
-    }
-    //ExEnd:FindBoundingBoxAroundNode
+		dataDir = dataDir + "TestFile.RenderShape_out.jpg";
+		// Save the Shape image to disk in JPEG format and using default options.
+		shape.getShapeRenderer().save(dataDir, null);
+		// ExEnd:RenderShapeImage
+	}
 }
