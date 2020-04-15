@@ -248,7 +248,7 @@ class DocumentHelper extends ApiExampleBase
     /// <param name="builder">
     /// The builder.
     /// </param>
-    static void insertToc(DocumentBuilder builder)
+    static void insertToc(DocumentBuilder builder) throws Exception
     {
         // Creating TOC entries
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);

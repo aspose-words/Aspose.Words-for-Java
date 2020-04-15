@@ -1899,7 +1899,7 @@ public class ExField extends ApiExampleBase
     /// Start a new page and insert a paragraph of a specified style.
     /// </summary>
     @Test (enabled = false)
-    public void insertNewPageWithHeading(DocumentBuilder builder, String captionText, String styleName)
+    public void insertNewPageWithHeading(DocumentBuilder builder, String captionText, String styleName) throws Exception
     {
         builder.insertBreak(BreakType.PAGE_BREAK);
         String originalStyle = builder.getParagraphFormat().getStyleName();
@@ -4445,7 +4445,7 @@ public class ExField extends ApiExampleBase
     /// <summary>
     /// Uses a document builder to insert a named bookmark with a footnote at the end.
     /// </summary>
-    private static void insertBookmarkWithFootnote(DocumentBuilder builder, String bookmarkName, String bookmarkText, String footnoteText)
+    private static void insertBookmarkWithFootnote(DocumentBuilder builder, String bookmarkName, String bookmarkText, String footnoteText) throws Exception
     {
         builder.startBookmark(bookmarkName);
         builder.write(bookmarkText);

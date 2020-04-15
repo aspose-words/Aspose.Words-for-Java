@@ -506,7 +506,7 @@ public class ExLists extends ApiExampleBase
         builder.getDocument().save(getArtifactsDir() + "Lists.OutlineHeadingTemplates.doc");
     }
 
-    private static void addOutlineHeadingParagraphs(DocumentBuilder builder, List list, String title)
+    private static void addOutlineHeadingParagraphs(DocumentBuilder builder, List list, String title) throws Exception
     {
         builder.getParagraphFormat().clearFormatting();
         builder.writeln(title);
@@ -550,7 +550,7 @@ public class ExLists extends ApiExampleBase
         dstDoc.save(getArtifactsDir() + "Lists.PrintOutAllLists.doc");
     }
 
-    private static void addListSample(DocumentBuilder builder, List list)
+    private static void addListSample(DocumentBuilder builder, List list) throws Exception
     {
         builder.writeln("Sample formatting of list with ListId:" + list.getListId());
         builder.getListFormat().setList(list);

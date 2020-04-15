@@ -632,7 +632,7 @@ public class ExPageSetup extends ApiExampleBase
     /// <summary>
     /// Add a section to the end of a document, give it a body and a paragraph, then add text and an endnote to that paragraph.
     /// </summary>
-    private static void insertSection(Document doc, String sectionBodyText, String endnoteText)
+    private static void insertSection(Document doc, String sectionBodyText, String endnoteText) throws Exception
     {
         Section section = new Section(doc);
 
