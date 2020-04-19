@@ -222,7 +222,7 @@ public class ExComment extends ApiExampleBase
     /// Create a new comment
     /// </summary>
     @Test (enabled = false)
-    public static Comment createComment(Document doc, String author, String initials, DateTime dateTime, String text) throws Exception
+    public static Comment createComment(Document doc, String author, String initials, DateTime dateTime, String text)
     {
         Comment newComment = new Comment(doc);
         {
