@@ -11,7 +11,6 @@ package Examples;
 import com.aspose.words.*;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayInputStream;
 import java.util.regex.Pattern;
 
 public class ExInsertDocument extends ApiExampleBase {
@@ -128,7 +127,7 @@ public class ExInsertDocument extends ApiExampleBase {
         }
     }
     //ExEnd
-    
+
     //ExStart
     //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
     //ExFor:IReplacingCallback

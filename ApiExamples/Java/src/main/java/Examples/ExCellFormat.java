@@ -103,6 +103,6 @@ public class ExCellFormat extends ApiExampleBase {
         Assert.assertEquals(cell.getCellFormat().getLeftPadding(), 5.0);
         Assert.assertEquals(cell.getCellFormat().getTopPadding(), 10.0);
         Assert.assertEquals(cell.getCellFormat().getRightPadding(), 40.0);
-        Assert.assertEquals(cell.getCellFormat().getBottomPadding(), 50.0);        
+        Assert.assertEquals(cell.getCellFormat().getBottomPadding(), 50.0);
     }
 }

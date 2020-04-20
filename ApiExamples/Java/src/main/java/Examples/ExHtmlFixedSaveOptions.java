@@ -40,7 +40,21 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     // Note: Test doesn't contain validation result, because it's may take a lot of time for assert result
     // For validation result, you can save the document to HTML file and check out with notepad++, that file encoding will be correctly displayed (Encoding tab in Notepad++)
     @Test
-    public void exportEmbeddedObjects() throws Exception {
+    public void getEncoding() throws Exception
+    {
+        Document doc = DocumentHelper.createDocumentFillWithDummyText();
+
+        HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
+        htmlFixedSaveOptions.setEncoding(Charset.forName("utf-16"));
+
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.GetEncoding.html", htmlFixedSaveOptions);
+    }
+
+    // Note: Test doesn't contain validation result, because it's may take a lot of time for assert result
+    // For validation result, you can save the document to HTML file and check out with notepad++, that file encoding will be correctly displayed (Encoding tab in Notepad++)
+    @Test
+    public void exportEmbeddedObjects() throws Exception
+    {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportEmbeddedCss
         //ExFor:HtmlFixedSaveOptions.ExportEmbeddedFonts
@@ -60,8 +74,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void exportFormFields() throws Exception
-    {
+    public void exportFormFields() throws Exception {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportFormFields
         //ExSummary:Show how to exporting form fields from a document into HTML file.
@@ -78,8 +91,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void addCssClassNamesPrefix() throws Exception
-    {
+    public void addCssClassNamesPrefix() throws Exception {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.CssClassNamesPrefix
         //ExFor:HtmlFixedSaveOptions.SaveFontFaceCssSeparately
@@ -126,8 +138,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void pageMarginsException()
-    {
+    public void pageMarginsException() {
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
         Assert.assertThrows(IllegalArgumentException.class, () -> saveOptions.setPageMargins(-1));
     }

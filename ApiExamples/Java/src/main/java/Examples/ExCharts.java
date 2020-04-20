@@ -501,10 +501,10 @@ public class ExCharts extends ApiExampleBase {
         }
 
         // If the chart looks too busy, we can remove data labels one by one
-        chart.getSeries().get(1).getDataLabels().removeAt(2);
+        chart.getSeries().get(1).getDataLabels().get(2).clearFormat();
 
         // We can also clear an entire data label collection for one whole series
-        chart.getSeries().get(2).getDataLabels().clear();
+        chart.getSeries().get(2).getDataLabels().clearFormat();
 
         doc.save(getArtifactsDir() + "Charts.ChartDataLabels.docx");
     }
@@ -514,7 +514,8 @@ public class ExCharts extends ApiExampleBase {
     /// </summary>
     private static void applyDataLabels(ChartSeries series, int labelsCount, String numberFormat, String separator) {
         for (int i = 0; i < labelsCount; i++) {
-            ChartDataLabel label = series.getDataLabels().add(i);
+            series.hasDataLabels(true);
+            ChartDataLabel label = series.getDataLabels().get(i);
             Assert.assertFalse(label.isVisible());
 
             // Edit the appearance of the new data label
@@ -643,7 +644,8 @@ public class ExCharts extends ApiExampleBase {
 
         // Apply a data label to each bubble that displays the size of its bubble
         for (int i = 0; i < 3; i++) {
-            ChartDataLabel cdl = chart.getSeries().get(0).getDataLabels().add(i);
+            chart.getSeries().get(0).hasDataLabels(true);
+            ChartDataLabel cdl = chart.getSeries().get(0).getDataLabels().get(i);
             cdl.setShowBubbleSize(true);
         }
 

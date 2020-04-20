@@ -16,7 +16,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -32,8 +31,7 @@ import java.util.UUID;
  */
 public class ExShape extends ApiExampleBase {
     @Test
-    public void insert() throws Exception
-    {
+    public void insert() throws Exception {
         //ExStart
         //ExFor:ShapeBase.AlternativeText
         //ExFor:ShapeBase.Name
@@ -77,8 +75,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void aspectRatioLockedDefaultValue() throws Exception
-    {
+    public void aspectRatioLockedDefaultValue() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -106,8 +103,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void coordinates() throws Exception
-    {
+    public void coordinates() throws Exception {
         //ExStart
         //ExFor:ShapeBase.DistanceBottom
         //ExFor:ShapeBase.DistanceLeft
@@ -283,6 +279,49 @@ public class ExShape extends ApiExampleBase {
 
         // Verify that the first shape in the document is not inline
         Assert.assertFalse(((Shape) doc.getChild(NodeType.SHAPE, 0, true)).isInline());
+    }
+
+    @Test
+    public void lineFlipOrientation() throws Exception {
+        //ExStart
+        //ExFor:ShapeBase.Bounds
+        //ExFor:ShapeBase.BoundsInPoints
+        //ExFor:ShapeBase.FlipOrientation
+        //ExFor:FlipOrientation
+        //ExSummary:Shows how to create line shapes and set specific location and size.
+        Document doc = new Document();
+
+        // The lines will cross the whole page
+        float pageWidth = (float) doc.getFirstSection().getPageSetup().getPageWidth();
+        float pageHeight = (float) doc.getFirstSection().getPageSetup().getPageHeight();
+
+        // This line goes from top left to bottom right by default
+        Shape lineA = new Shape(doc, ShapeType.LINE);
+        {
+            lineA.setBounds(new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight));
+            lineA.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
+            lineA.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
+        }
+
+        Assert.assertEquals(new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight), lineA.getBoundsInPoints());
+
+        // This line goes from bottom left to top right because we flipped it
+        Shape lineB = new Shape(doc, ShapeType.LINE);
+        {
+            lineB.setBounds(new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight));
+            lineB.setFlipOrientation(FlipOrientation.HORIZONTAL);
+            lineB.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
+            lineB.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
+        }
+
+        Assert.assertEquals(new Rectangle2D.Float(0f, 0f, pageWidth, pageHeight), lineB.getBoundsInPoints());
+
+        // Add lines to the document
+        doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineA);
+        doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineB);
+
+        doc.save(getArtifactsDir() + "Shape.LineFlipOrientation.doc");
+        //ExEnd
     }
 
     @Test
@@ -679,8 +718,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void officeMath() throws Exception
-    {
+    public void officeMath() throws Exception {
         //ExStart
         //ExFor:OfficeMath
         //ExFor:OfficeMath.DisplayType
@@ -802,8 +840,7 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void markupLunguageByDefault() throws Exception
-    {
+    public void markupLunguageByDefault() throws Exception {
         //ExStart
         //ExFor:ShapeBase.MarkupLanguage
         //ExFor:ShapeBase.SizeInPoints

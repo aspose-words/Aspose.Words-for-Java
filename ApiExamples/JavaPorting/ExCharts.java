@@ -544,10 +544,10 @@ public class ExCharts extends ApiExampleBase
         finally { if (enumerator != null) enumerator.close(); }
 
         // If the chart looks too busy, we can remove data labels one by one
-        chart.getSeries().get(1).getDataLabels().removeAt(2);
+        chart.getSeries().get(1).getDataLabels().get(2).clearFormat();
 
         // We can also clear an entire data label collection for one whole series
-        chart.getSeries().get(2).getDataLabels().clear();
+        chart.getSeries().get(2).getDataLabels().clearFormat();
 
         doc.save(getArtifactsDir() + "Charts.ChartDataLabels.docx");
     }
@@ -559,24 +559,24 @@ public class ExCharts extends ApiExampleBase
     {
         for (int i = 0; i < labelsCount; i++)
         {
-            ChartDataLabel label = series.getDataLabels().add(i);
-            Assert.assertFalse(label.isVisible());
+            series.hasDataLabels(true);
+            Assert.assertFalse(series.getDataLabels().get(i).isVisible());
 
             // Edit the appearance of the new data label
-            label.setShowCategoryName(true);
-            label.setShowSeriesName(true);
-            label.setShowValue(true);
-            label.setShowLeaderLines(true);
-            label.setShowLegendKey(true);
-            label.setShowPercentage(false);
-            Assert.assertFalse(label.getShowDataLabelsRange());
+            series.getDataLabels().get(i).setShowCategoryName(true);
+            series.getDataLabels().get(i).setShowSeriesName(true);
+            series.getDataLabels().get(i).setShowValue(true);
+            series.getDataLabels().get(i).setShowLeaderLines(true);
+            series.getDataLabels().get(i).setShowLegendKey(true);
+            series.getDataLabels().get(i).setShowPercentage(false);
+            Assert.assertFalse(series.getDataLabels().get(i).getShowDataLabelsRange());
 
             // Apply number format and separator
-            label.getNumberFormat().setFormatCode(numberFormat);
-            label.setSeparator(separator);
+            series.getDataLabels().get(i).getNumberFormat().setFormatCode(numberFormat);
+            series.getDataLabels().get(i).setSeparator(separator);
 
             // The label automatically becomes visible
-            Assert.assertTrue(label.isVisible());
+            Assert.assertTrue(series.getDataLabels().get(i).isVisible());
         }
     }
     //ExEnd
@@ -697,8 +697,8 @@ public class ExCharts extends ApiExampleBase
         // Apply a data label to each bubble that displays the size of its bubble
         for (int i = 0; i < 3; i++)
         {
-            ChartDataLabel cdl = chart.getSeries().get(0).getDataLabels().add(i);
-            cdl.setShowBubbleSize(true);
+            chart.getSeries().get(0).hasDataLabels(true);
+            chart.getSeries().get(0).getDataLabels().get(i).setShowBubbleSize(true);
         }
         
         doc.save(getArtifactsDir() + "Charts.Bubble3D.docx");

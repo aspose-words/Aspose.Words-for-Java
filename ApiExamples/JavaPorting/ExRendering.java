@@ -697,7 +697,6 @@ public class ExRendering extends ApiExampleBase
         //ExFor:Document.Print
         //ExSummary:Prints the whole document to the default printer.
         Document doc = new Document(getMyDir() + "Document.docx");
-
         doc.print();
         //ExEnd
     }
@@ -709,7 +708,6 @@ public class ExRendering extends ApiExampleBase
         //ExFor:Document.Print(String)
         //ExSummary:Prints the whole document to a specified printer.
         Document doc = new Document(getMyDir() + "Document.docx");
-
         doc.print("KONICA MINOLTA magicolor 2400W");
         //ExEnd
     }
@@ -724,6 +722,7 @@ public class ExRendering extends ApiExampleBase
 
         PrinterSettings printerSettings = new PrinterSettings();
         // Page numbers in the .NET printing framework are 1-based
+        printerSettings.setPrintRange(PrintRange.SomePages);
         printerSettings.setFromPage(1);
         printerSettings.setToPage(3);
 
@@ -741,10 +740,11 @@ public class ExRendering extends ApiExampleBase
 
         PrinterSettings printerSettings = new PrinterSettings();
         // Page numbers in the .NET printing framework are 1-based
+        printerSettings.setPrintRange(PrintRange.SomePages);
         printerSettings.setFromPage(1);
         printerSettings.setToPage(3);
 
-        doc.printInternal(printerSettings, "Rendering.PrintRangeWithDocumentName.doc");
+        doc.printInternal(printerSettings, "Rendering.PrintRangeWithDocumentName.docx");
         //ExEnd
     }
 
@@ -764,12 +764,12 @@ public class ExRendering extends ApiExampleBase
         // Initialize the Print Dialog with the number of pages in the document
         PrintDialog printDlg = new PrintDialog();
         printDlg.AllowSomePages = true;
-        printDlg.PrinterSettings.MinimumPage = 1;
-        printDlg.PrinterSettings.MaximumPage = doc.getPageCount();
-        printDlg.PrinterSettings.FromPage = 1;
-        printDlg.PrinterSettings.ToPage = doc.getPageCount();
+        printDlg.PrinterSettings.setMinimumPage(1);
+        printDlg.PrinterSettings.setMaximumPage(doc.getPageCount());
+        printDlg.PrinterSettings.setFromPage(1);
+        printDlg.PrinterSettings.setToPage(doc.getPageCount());
 
-        if (!printDlg.ShowDialog().Equals(DialogResult.OK))
+        if (!((printDlg.ShowDialog()) == (DialogResult.OK)))
             return;
 
         // Create the Aspose.Words' implementation of the .NET print document 

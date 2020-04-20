@@ -15,17 +15,19 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.MessageFormat;
+import java.util.Iterator;
 
 @Test
 public class ExDrawing extends ApiExampleBase {
     @Test
-    public void variousShapes() throws Exception
-    {
+    public void variousShapes() throws Exception {
         //ExStart
         //ExFor:Drawing.ArrowLength
         //ExFor:Drawing.ArrowType
@@ -110,15 +112,71 @@ public class ExDrawing extends ApiExampleBase {
         filledInArrowImg.getImageData().setImage(image);
         builder.insertNode(filledInArrowImg);
 
-        filledInArrowImg.getStroke().setJoinStyle(JoinStyle.ROUND);
-
         doc.save(getArtifactsDir() + "Drawing.VariousShapes.docx");
         //ExEnd
     }
 
     @Test
-    public void importImage() throws Exception
-    {
+    public void typeOfImage() throws Exception {
+        //ExStart
+        //ExFor:Drawing.ImageType
+        //ExSummary:Shows how to add an image to a shape and check its type.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        BufferedImage image = ImageIO.read(getAsposelogoUri().toURL().openStream());
+
+        // The image started off as an animated .gif but it gets converted to a .png since there cannot be animated images in documents
+        Shape imgShape = builder.insertImage(image);
+        Assert.assertEquals(imgShape.getImageData().getImageType(), ImageType.PNG);
+        //ExEnd
+    }
+
+    @Test
+    public void saveAllImages() throws Exception {
+        //ExStart
+        //ExFor:ImageData.HasImage
+        //ExFor:ImageData.ToImage
+        //ExFor:ImageData.Save(Stream)
+        //ExSummary:Shows how to save all the images from a document to the file system.
+        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
+
+        // Images are stored as shapes
+        // Get into the document's shape collection to verify that it contains 10 images
+        NodeCollection shapes = imgSourceDoc.getChildNodes(NodeType.SHAPE, true);
+        Assert.assertEquals(shapes.getCount(), 10);
+
+        // Go over all of the document's shapes
+        // If a shape contains image data, save the image in the local file system
+        for (int i = 0; i < shapes.getCount(); i++) {
+            Shape shape = (Shape) shapes.get(i);
+            ImageData imageData = shape.getImageData();
+
+            if (imageData.hasImage()) {
+                InputStream format = imageData.toStream();
+
+                // We will use an ImageReader to determine an image's file extension
+                ImageInputStream iis = ImageIO.createImageInputStream(format);
+                Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
+
+                while (imageReaders.hasNext()) {
+                    ImageReader reader = imageReaders.next();
+                    String fileExtension = reader.getFormatName();
+
+                    OutputStream fileStream = new FileOutputStream(getArtifactsDir() + MessageFormat.format("Drawing.SaveAllImages.{0}.{1}", i, fileExtension));
+                    try {
+                        imageData.save(fileStream);
+                    } finally {
+                        if (fileStream != null) fileStream.close();
+                    }
+                }
+            }
+        }
+        //ExEnd
+    }
+
+    @Test
+    public void importImage() throws Exception {
         //ExStart
         //ExFor:ImageData.SetImage(Image)
         //ExFor:ImageData.SetImage(Stream)
@@ -135,14 +193,14 @@ public class ExDrawing extends ApiExampleBase {
 
         // We can also open an image file using a stream and set its contents as a shape's image 
         InputStream stream = new FileInputStream(getImageDir() + "Logo.jpg");
-        try /*JAVA: was using*/
-        {
+        try /*JAVA: was using*/ {
             imgShape = new Shape(doc, ShapeType.IMAGE);
             doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
             imgShape.getImageData().setImage(stream);
             imgShape.setLeft(150.0f);
+        } finally {
+            if (stream != null) stream.close();
         }
-        finally { if (stream != null) stream.close(); }
 
         doc.save(getArtifactsDir() + "Drawing.ImportImage.docx");
         //ExEnd
@@ -258,8 +316,7 @@ public class ExDrawing extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void textBox() throws Exception
-    {
+    public void textBox() throws Exception {
         //ExStart
         //ExFor:Drawing.LayoutFlow
         //ExSummary:Shows how to add text to a textbox and change its orientation
@@ -282,13 +339,12 @@ public class ExDrawing extends ApiExampleBase {
     }
 
     @Test
-    public void getDataFromImage() throws Exception
-    {
-    //ExStart
-    //ExFor:ImageData.ImageBytes
-    //ExFor:ImageData.ToByteArray
-    //ExFor:ImageData.ToStream
-    //ExSummary:Shows how to access raw image data in a shape's ImageData object.
+    public void getDataFromImage() throws Exception {
+        //ExStart
+        //ExFor:ImageData.ImageBytes
+        //ExFor:ImageData.ToByteArray
+        //ExFor:ImageData.ToStream
+        //ExSummary:Shows how to access raw image data in a shape's ImageData object.
         Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
         // Images are stored as shapes
@@ -406,8 +462,7 @@ public class ExDrawing extends ApiExampleBase {
     }
 
     @Test
-    public void imageSize() throws Exception
-    {
+    public void imageSize() throws Exception {
         //ExStart
         //ExFor:ImageSize.HeightPixels
         //ExFor:ImageSize.HorizontalResolution

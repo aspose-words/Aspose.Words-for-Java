@@ -17,8 +17,7 @@ import java.util.Iterator;
 
 
 @Test
-public class ExNode extends ApiExampleBase
-{
+public class ExNode extends ApiExampleBase {
     @Test
     public void cloneCompositeNode() throws Exception {
         //ExStart

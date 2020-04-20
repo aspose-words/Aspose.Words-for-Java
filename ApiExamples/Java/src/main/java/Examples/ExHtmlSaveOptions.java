@@ -14,11 +14,10 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FilenameFilter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
+
+import static Examples.DocumentHelper.directoryGetFiles;
 
 public class ExHtmlSaveOptions extends ApiExampleBase {
     @Test(dataProvider = "exportPageMarginsDataProvider")
@@ -105,22 +104,6 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         };
     }
 
-    private ArrayList<String> directoryGetFiles(final String dirname, final String filenamePattern) {
-        File dirFile = new File(dirname);
-        Pattern re = Pattern.compile(filenamePattern.replace("*", ".*").replace("?", ".?"));
-        ArrayList<String> dirFiles = new ArrayList<>();
-        for (File file : dirFile.listFiles()) {
-            if (file.isDirectory()) {
-                dirFiles.addAll(directoryGetFiles(file.getPath(), filenamePattern));
-            } else {
-                if (re.matcher(file.getName()).matches()) {
-                    dirFiles.add(file.getPath());
-                }
-            }
-        }
-        return dirFiles;
-    }
-
     @Test(dataProvider = "controlListLabelsExportDataProvider")
     public void controlListLabelsExport(final int howExportListLabels) throws Exception {
         Document doc = new Document();
@@ -190,8 +173,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void roundtripInformationDefaulValue()
-    {
+    public void roundtripInformationDefaulValue() {
         //Assert that default value is true for HTML and false for MHTML and EPUB
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         Assert.assertEquals(saveOptions.getExportRoundtripInformation(), true);
@@ -227,20 +209,6 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExternalResourceSavingConfig.html", "<link href=\"https://www.aspose.com/HtmlSaveOptions.ExternalResourceSavingConfig.css\"");
     }
 
-    private static String[] getFiles(final String path, final String searchPattern) {
-        final Pattern re = Pattern.compile(searchPattern.replace("*", ".*").replace("?", ".?"));
-        String[] filenames = new File(path).list(new FilenameFilter() {
-            @Override
-            public boolean accept(final File dir, final String name) {
-                return new File(dir, name).isFile() && re.matcher(name).matches();
-            }
-        });
-        for (int i = 0; i < filenames.length; i++) {
-            filenames[i] = path + filenames[i];
-        }
-        return filenames;
-    }
-
     @Test
     public void convertFontsAsBase64() throws Exception {
         Document doc = new Document(getMyDir() + "TextBoxes.docx");
@@ -256,7 +224,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
     @Test(dataProvider = "html5SupportDataProvider")
     public void html5Support(final int htmlVersion) throws Exception {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setHtmlVersion(htmlVersion);
@@ -301,8 +269,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void resourceFolderPriority() throws Exception
-    {
+    public void resourceFolderPriority() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
@@ -320,8 +287,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void resourceFolderLowPriority() throws Exception
-    {
+    public void resourceFolderLowPriority() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);

@@ -27,7 +27,7 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
         // An AbsolutePositionTab is a child node of a paragraph
         // AbsolutePositionTabs get picked up when looking for nodes of the SpecialChar type
         Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
-        AbsolutePositionTab absPositionTab = (AbsolutePositionTab)para.getChild(NodeType.SPECIAL_CHAR, 0, true);
+        AbsolutePositionTab absPositionTab = (AbsolutePositionTab) para.getChild(NodeType.SPECIAL_CHAR, 0, true);
 
         // This implementation of the DocumentVisitor pattern converts the document to plain text
         DocToTxtWriter myDocToTxtWriter = new DocToTxtWriter();

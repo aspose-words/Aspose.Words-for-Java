@@ -12,10 +12,15 @@ import com.aspose.words.*;
 import org.testng.Assert;
 
 import java.io.*;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
+
+import static Examples.ApiExampleBase.getDatabaseDir;
 
 /**
  * Functions for operations with document and content.
@@ -344,5 +349,49 @@ public final class DocumentHelper {
         SimpleDateFormat formatter = new SimpleDateFormat(
                 "dd/MM/yyyy");
         return formatter.parse(formatter.format(date));
+    }
+
+    static ArrayList<String> directoryGetFiles(final String dirname, final String filenamePattern) {
+        File dirFile = new File(dirname);
+        Pattern re = Pattern.compile(filenamePattern.replace("*", ".*").replace("?", ".?"));
+        ArrayList<String> dirFiles = new ArrayList<>();
+        for (File file : dirFile.listFiles()) {
+            if (file.isDirectory()) {
+                dirFiles.addAll(directoryGetFiles(file.getPath(), filenamePattern));
+            } else {
+                if (re.matcher(file.getName()).matches()) {
+                    dirFiles.add(file.getPath());
+                }
+            }
+        }
+        return dirFiles;
+    }
+
+    /**
+     * Utility function that creates a connection, command,
+     * executes the command and return the result in a DataTable.
+     */
+    static ResultSet executeDataTable(final String commandText) throws Exception {
+        // Loads the driver
+        Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+
+        // Open the database connection
+        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.mdb";
+
+        // From Wikipedia: The Sun driver has a known issue with character encoding and Microsoft Access databases
+        // Microsoft Access may use an encoding that is not correctly translated by the driver, leading to the replacement
+        // in strings of, for example, accented characters by question marks
+        //
+        // In this case I have to set CP1252 for the european characters to come through in the data values
+        java.util.Properties props = new java.util.Properties();
+        props.put("charSet", "Cp1252");
+        props.put("UID", "Admin");
+
+        // DSN-less DB connection
+        java.sql.Connection conn = java.sql.DriverManager.getConnection(connString, props);
+
+        // Create and execute a command
+        java.sql.Statement statement = conn.createStatement();
+        return statement.executeQuery(commandText);
     }
 }

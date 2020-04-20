@@ -23,6 +23,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.security.KeyStore;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -89,8 +90,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void openType() throws Exception
-    {
+    public void openType() throws Exception {
         //ExStart
         //ExFor:LayoutOptions.TextShaperFactory
         //ExSummary:Shows how to support OpenType features using HarfBuzz text shaping engine.
@@ -115,11 +115,13 @@ public class ExDocument extends ApiExampleBase {
     //ExFor:LoadOptions.ResourceLoadingCallback
     //ExSummary:Shows how to handle external resources in Html documents during loading.
     @Test //ExSkip
-    public void loadOptionsCallback() throws Exception
-    {
+    public void loadOptionsCallback() throws Exception {
         // Create a new LoadOptions object and set its ResourceLoadingCallback attribute
         // as an instance of our IResourceLoadingCallback implementation 
-        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setResourceLoadingCallback(new HtmlLinkedResourceLoadingCallback()); }
+        LoadOptions loadOptions = new LoadOptions();
+        {
+            loadOptions.setResourceLoadingCallback(new HtmlLinkedResourceLoadingCallback());
+        }
 
         // When we open an Html document, external resources such as references to CSS stylesheet files and external images
         // will be handled in a custom manner by the loading callback as the document is loaded
@@ -131,11 +133,9 @@ public class ExDocument extends ApiExampleBase {
     /// Resource loading callback that, upon encountering external resources,
     /// acknowledges CSS style sheets and replaces all images with a substitute.
     /// </summary>
-    private static class HtmlLinkedResourceLoadingCallback implements IResourceLoadingCallback
-    {
+    private static class HtmlLinkedResourceLoadingCallback implements IResourceLoadingCallback {
         public int resourceLoading(ResourceLoadingArgs args) throws IOException {
-            switch (args.getResourceType())
-            {
+            switch (args.getResourceType()) {
                 case ResourceType.CSS_STYLE_SHEET:
                     System.out.println("External CSS Stylesheet found upon loading: {args.OriginalUri}");
                     return ResourceLoadingAction.DEFAULT;
@@ -157,8 +157,49 @@ public class ExDocument extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void documentCtor() throws Exception
-    {
+    public void certificateHolderCreate() throws Exception {
+        //ExStart
+        //ExFor:CertificateHolder.Create(String, String)
+        //ExFor:CertificateHolder.Create(Byte[], String)
+        //ExFor:CertificateHolder.Create(String, String, String)
+        //ExSummary:Shows how to create CertificateHolder objects.
+        // 1: Load a PKCS #12 file into a byte array and apply its password to create the CertificateHolder
+        byte[] certBytes = DocumentHelper.getBytesFromStream(new FileInputStream(getMyDir() + "morzal.pfx"));
+        CertificateHolder.create(certBytes, "aw");
+
+        // 2: Load a PKCS #12 file and apply its password to create the CertificateHolder
+        CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+
+        // 3: If the certificate has private keys corresponding to aliases, we can use the aliases to fetch their respective keys
+        // First, we'll check for valid aliases like this
+        InputStream certStream = new FileInputStream(getMyDir() + "morzal.pfx");
+        try {
+            KeyStore store = KeyStore.getInstance("PKCS12");
+            store.load(certStream, "aw".toCharArray());
+
+            Enumeration<String> aliasNames = store.aliases();
+
+            while (aliasNames.hasMoreElements()) {
+                String currentAlias = aliasNames.nextElement().toString();
+                // The data format for private keys defined by the PKCS #8 standard
+                if (store.isKeyEntry(currentAlias) && store.getKey(currentAlias, "aw".toCharArray()).getFormat().equals("PKCS#8")) {
+                    System.out.println(MessageFormat.format("Valid alias found: {0}", currentAlias));
+                }
+            }
+        } finally {
+            if (certStream != null) certStream.close();
+        }
+
+        // For this file, we'll use an alias found above
+        CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", "c20be521-11ea-4976-81ed-865fbbfc9f24");
+
+        // If we leave the alias null, then the first possible alias that retrieves a private key will be used
+        CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
+        //ExEnd
+    }
+
+    @Test
+    public void documentCtor() throws Exception {
         //ExStart
         //ExFor:Document.#ctor(Boolean)
         //ExSummary:Shows how to create a blank document. Note the blank document contains one section and one paragraph.
@@ -167,8 +208,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void convertToPdf() throws Exception
-    {
+    public void convertToPdf() throws Exception {
         //ExStart
         //ExFor:Document.#ctor(String)
         //ExFor:Document.Save(String)
@@ -182,8 +222,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void openAndSaveToFile() throws Exception
-    {
+    public void openAndSaveToFile() throws Exception {
         Document doc = new Document(getMyDir() + "Document.docx");
         doc.save(getArtifactsDir() + "Document.OpenAndSaveToFile.html");
     }
@@ -333,8 +372,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void loadEncrypted() throws Exception
-    {
+    public void loadEncrypted() throws Exception {
         //ExStart
         //ExFor:Document.#ctor(Stream,LoadOptions)
         //ExFor:Document.#ctor(String,LoadOptions)
@@ -342,7 +380,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:LoadOptions.#ctor(String)
         //ExSummary:Shows how to load a Microsoft Word document encrypted with a password.
         // Trying to open a password-encrypted document the normal way will cause an exception to be thrown
-        Assert.assertThrows(IncorrectPasswordException.class, () ->  new Document(getMyDir() + "Encrypted.docx"));
+        Assert.assertThrows(IncorrectPasswordException.class, () -> new Document(getMyDir() + "Encrypted.docx"));
 
         // To open it and access its contents, we need to open it using the correct password
         // The password is delivered via a LoadOptions object, after being passed to it's constructor
@@ -352,11 +390,11 @@ public class ExDocument extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Encrypted.docx", options);
 
         InputStream stream = new FileInputStream(getMyDir() + "Encrypted.docx");
-        try
-        {
+        try {
             doc = new Document(stream, options);
+        } finally {
+            if (stream != null) stream.close();
         }
-        finally { if (stream != null) stream.close(); }
         //ExEnd
     }
 
@@ -375,8 +413,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void loadOptionsFontSettings() throws Exception
-    {
+    public void loadOptionsFontSettings() throws Exception {
         //ExStart
         //ExFor:LoadOptions.FontSettings
         //ExSummary:Shows how to set font settings and apply them during the loading of a document.
@@ -460,22 +497,19 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void convertToMhtml() throws Exception
-    {
+    public void convertToMhtml() throws Exception {
         Document doc = new Document(getMyDir() + "Document.docx");
         doc.save(getArtifactsDir() + "Document.ConvertToMhtml.mht");
     }
 
     @Test
-    public void convertToTxt() throws Exception
-    {
+    public void convertToTxt() throws Exception {
         Document doc = new Document(getMyDir() + "Document.docx");
         doc.save(getArtifactsDir() + "Document.ConvertToTxt.txt");
     }
 
     @Test
-    public void saveToStream() throws Exception
-    {
+    public void saveToStream() throws Exception {
         //ExStart
         //ExFor:Document.Save(Stream,SaveFormat)
         //ExSummary:Shows how to save a document to a stream.
@@ -500,8 +534,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void doc2EpubSaveOptions() throws Exception
-    {
+    public void doc2EpubSaveOptions() throws Exception {
         //ExStart
         //ExFor:DocumentSplitCriteria
         //ExFor:HtmlSaveOptions
@@ -641,8 +674,7 @@ public class ExDocument extends ApiExampleBase {
     //ExFor:FontSavingArgs.OriginalFileSize
     //ExSummary:Shows how to define custom logic for handling font exporting when saving to HTML based formats.
     @Test //ExSkip
-    public void saveHtmlExportFonts() throws Exception
-    {
+    public void saveHtmlExportFonts() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Set the option to export font resources
@@ -691,8 +723,7 @@ public class ExDocument extends ApiExampleBase {
     //ExFor:DocumentBase.NodeChangingCallback
     //ExSummary:Shows how to implement custom logic over node insertion in the document by changing the font of inserted HTML content.
     @Test //ExSkip
-    public void fontChangeViaCallback() throws Exception
-    {
+    public void fontChangeViaCallback() throws Exception {
         // Create a blank document object
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -743,7 +774,7 @@ public class ExDocument extends ApiExampleBase {
         //ExSummary:Shows how to append a document to the end of another document.
         // The document that the content will be appended to
         Document dstDoc = new Document(getMyDir() + "Document.docx");
-        
+
         // The document to append
         Document srcDoc = new Document(getMyDir() + "Paragraphs.docx");
 
@@ -835,7 +866,7 @@ public class ExDocument extends ApiExampleBase {
             System.out.println("*** Signature Found ***");
             System.out.println("Is valid: " + signature.isValid());
             System.out.println("Reason for signing: " +
-                                  signature.getComments()); // This property is available in MS Word documents only
+                    signature.getComments()); // This property is available in MS Word documents only
             System.out.println("Signature type: " + signature.getSignatureType());
             System.out.println("Time of signing: " + signature.getSignTime());
             System.out.println("Subject name: " + signature.getSubjectName());
@@ -853,8 +884,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void digitalSignatureSign() throws Exception
-    {
+    public void digitalSignatureSign() throws Exception {
         //ExStart
         //ExFor:DigitalSignature.CertificateHolder
         //ExFor:DigitalSignature.IssuerName
@@ -878,25 +908,25 @@ public class ExDocument extends ApiExampleBase {
         signOptions.setSignTime(new Date());
 
         DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "Document.Signed.1.docx",
-            certificateHolder, signOptions);
+                certificateHolder, signOptions);
 
         // 2: Create a stream for the input file and one for the output and create a file, signed with the CertificateHolder, at the file system location determine
         InputStream inDoc = new FileInputStream(getMyDir() + "Document.docx");
-        try
-        {
+        try {
             OutputStream outDoc = new FileOutputStream(getArtifactsDir() + "Document.Signed.2.docx");
-            try
-            {
+            try {
                 DigitalSignatureUtil.sign(inDoc, outDoc, certificateHolder);
+            } finally {
+                if (outDoc != null) outDoc.close();
             }
-            finally { if (outDoc != null) outDoc.close(); }
+        } finally {
+            if (inDoc != null) inDoc.close();
         }
-        finally { if (inDoc != null) inDoc.close(); }
 
         // Verify that our documents are signed
         Document signedDoc = new Document(getArtifactsDir() + "Document.Signed.1.docx");
         Assert.assertTrue(FileFormatUtil.detectFileFormat(getArtifactsDir() + "Document.Signed.1.docx").hasDigitalSignature());
-        Assert.assertEquals(1,signedDoc.getDigitalSignatures().getCount());
+        Assert.assertEquals(1, signedDoc.getDigitalSignatures().getCount());
         Assert.assertTrue(signedDoc.getDigitalSignatures().get(0).isValid());
 
         signedDoc = new Document(getArtifactsDir() + "Document.Signed.2.docx");
@@ -911,8 +941,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void appendAllDocumentsInFolder() throws Exception
-    {
+    public void appendAllDocumentsInFolder() throws Exception {
         String path = getArtifactsDir() + "Document.AppendAllDocumentsInFolder.doc";
 
         // Delete the file that was created by the previous run as I don't want to append it again
@@ -989,8 +1018,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void defaultTabStop() throws Exception
-    {
+    public void defaultTabStop() throws Exception {
         //ExStart
         //ExFor:Document.DefaultTabStop
         //ExFor:ControlChar.Tab
@@ -1311,9 +1339,8 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (description = "WORDSNET-16099")
-    public void footnoteColumns() throws Exception
-    {
+    @Test(description = "WORDSNET-16099")
+    public void footnoteColumns() throws Exception {
         //ExStart
         //ExFor:FootnoteOptions
         //ExFor:FootnoteOptions.Columns
@@ -1426,8 +1453,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void compare() throws Exception
-    {
+    public void compare() throws Exception {
         //ExStart
         //ExFor:Document.Compare(Document, String, DateTime)
         //ExFor:RevisionCollection.AcceptAll
@@ -1446,8 +1472,7 @@ public class ExDocument extends ApiExampleBase {
         }
 
         // If doc1 and doc2 are different, doc1 now has some revisions after the comparison, which can now be viewed and processed
-        for (Revision r : doc1.getRevisions())
-        {
+        for (Revision r : doc1.getRevisions()) {
             System.out.println("Revision type: {r.RevisionType}, on a node of type \"{r.ParentNode.NodeType}\"");
             System.out.println("\tChanged text: \"{r.ParentNode.GetText()}\"");
         }
@@ -1461,8 +1486,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void compareDocumentWithRevisions() throws Exception
-    {
+    public void compareDocumentWithRevisions() throws Exception {
         Document doc1 = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc1);
         builder.writeln("Hello world! This text is not a revision.");
@@ -1477,8 +1501,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void compareOptions() throws Exception
-    {
+    public void compareOptions() throws Exception {
         //ExStart
         //ExFor:CompareOptions
         //ExFor:CompareOptions.IgnoreFormatting
@@ -1528,31 +1551,31 @@ public class ExDocument extends ApiExampleBase {
         builder.writeln("Original header contents.");
 
         // Create a clone of our document, which we will edit and later compare to the original
-        Document docEdited = (Document)docOriginal.deepClone(true);
+        Document docEdited = (Document) docOriginal.deepClone(true);
         Paragraph firstParagraph = docEdited.getFirstSection().getBody().getFirstParagraph();
 
         // Change the formatting of the first paragraph, change casing of original characters and add text
         firstParagraph.getRuns().get(0).setText("hello world! this is the first paragraph, after editing.");
         firstParagraph.getParagraphFormat().setStyle(docEdited.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1));
-        
+
         // Edit the footnote
-        Footnote footnote = (Footnote)docEdited.getChild(NodeType.FOOTNOTE, 0, true);
+        Footnote footnote = (Footnote) docEdited.getChild(NodeType.FOOTNOTE, 0, true);
         footnote.getFirstParagraph().getRuns().get(1).setText("Edited endnote text.");
 
         // Edit the table
-        Table table = (Table)docEdited.getChild(NodeType.TABLE, 0, true);
+        Table table = (Table) docEdited.getChild(NodeType.TABLE, 0, true);
         table.getFirstRow().getCells().get(1).getFirstParagraph().getRuns().get(0).setText("Edited Cell 2 contents");
 
         // Edit the textbox
-        textBox = (Shape)docEdited.getChild(NodeType.SHAPE, 0, true);
+        textBox = (Shape) docEdited.getChild(NodeType.SHAPE, 0, true);
         textBox.getFirstParagraph().getRuns().get(0).setText("Edited textbox contents");
 
         // Edit the DATE field
-        FieldDate fieldDate = (FieldDate)docEdited.getRange().getFields().get(0);
+        FieldDate fieldDate = (FieldDate) docEdited.getRange().getFields().get(0);
         fieldDate.setUseLunarCalendar(true);
 
         // Edit the comment
-        Comment comment = (Comment)docEdited.getChild(NodeType.COMMENT, 0, true);
+        Comment comment = (Comment) docEdited.getChild(NodeType.COMMENT, 0, true);
         comment.getFirstParagraph().getRuns().get(0).setText("Edited comment.");
 
         // Edit the header
@@ -1579,8 +1602,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void removeExternalSchemaReferences() throws Exception
-    {
+    public void removeExternalSchemaReferences() throws Exception {
         //ExStart
         //ExFor:Document.RemoveExternalSchemaReferences
         //ExSummary:Shows how to remove all external XML schema references from a document. 
@@ -1645,8 +1667,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void showRevisionBalloons() throws Exception
-    {
+    public void showRevisionBalloons() throws Exception {
         //ExStart
         //ExFor:RevisionOptions.ShowInBalloons
         //ExSummary:Shows how render tracking changes in balloons.
@@ -1790,7 +1811,7 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(doc.getHyphenationOptions().getHyphenateCaps(), true);
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "Document.HyphenationOptions.docx",
-            getGoldsDir() + "Document.HyphenationOptions Gold.docx"));
+                getGoldsDir() + "Document.HyphenationOptions Gold.docx"));
     }
 
     @Test
@@ -1915,8 +1936,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void imageSaveOptions() throws Exception
-    {
+    public void imageSaveOptions() throws Exception {
         //ExStart
         //ExFor:Document.Save(Stream, String, Saving.SaveOptions)
         //ExFor:SaveOptions.UseAntiAliasing
@@ -2227,6 +2247,72 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
     }
 
+    //ExStart
+    //ExFor:FindReplaceOptions.UseLegacyOrder
+    //ExSummary:Shows how to include text box analyzing, during replacing text.
+    @Test(dataProvider = "useLegacyOrderDataProvider") //ExSkip
+    public void useLegacyOrder(boolean isUseLegacyOrder) throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert 3 tags to appear in sequential order, the second of which will be inside a text box
+        builder.writeln("[tag 1]");
+        Shape textBox = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 50.0);
+        builder.writeln("[tag 3]");
+
+        builder.moveTo(textBox.getFirstParagraph());
+        builder.write("[tag 2]");
+
+        UseLegacyOrderReplacingCallback callback = new UseLegacyOrderReplacingCallback();
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setReplacingCallback(callback);
+
+        // Use this option if want to search text sequentially from top to bottom considering the text boxes
+        options.setUseLegacyOrder(isUseLegacyOrder);
+
+        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+        doc.getRange().replace(pattern, "", options);
+
+        checkUseLegacyOrderResults(isUseLegacyOrder, callback); //ExSkip
+    }
+
+    @DataProvider(name = "useLegacyOrderDataProvider")
+    public static Object[][] useLegacyOrderDataProvider() {
+        return new Object[][]
+                {
+                        {true},
+                        {false},
+                };
+    }
+
+    private static class UseLegacyOrderReplacingCallback implements IReplacingCallback {
+        public int replacing(ReplacingArgs e) {
+            mMatches.add(e.getMatch().group()); //ExSkip
+
+            System.out.println(e.getMatch().group());
+            return ReplaceAction.REPLACE;
+        }
+
+        public ArrayList<String> getMatches() { //ExSkip
+            return mMatches; //ExSkip
+        } //ExSkip
+
+        private ArrayList<String> mMatches = new ArrayList<>(); //ExSkip
+    }
+    //ExEnd
+
+    private static void checkUseLegacyOrderResults(boolean isUseLegacyOrder, UseLegacyOrderReplacingCallback callback) {
+        if (isUseLegacyOrder) {
+            Assert.assertEquals(callback.getMatches().get(0), "[tag 1]");
+            Assert.assertEquals(callback.getMatches().get(1), "[tag 2]");
+            Assert.assertEquals(callback.getMatches().get(2), "[tag 3]");
+        } else {
+            Assert.assertEquals(callback.getMatches().get(0), "[tag 1]");
+            Assert.assertEquals(callback.getMatches().get(1), "[tag 3]");
+            Assert.assertEquals(callback.getMatches().get(2), "[tag 2]");
+        }
+    }
+
     @Test
     public void setEndnoteOptions() throws Exception {
         //ExStart
@@ -2282,8 +2368,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void layoutOptions() throws Exception
-    {
+    public void layoutOptions() throws Exception {
         //ExStart
         //ExFor:Document.LayoutOptions
         //ExFor:LayoutOptions
@@ -2324,8 +2409,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void mailMergeSettings() throws Exception
-    {
+    public void mailMergeSettings() throws Exception {
         //ExStart
         //ExFor:Document.MailMergeSettings
         //ExFor:MailMergeCheckErrors
@@ -2367,7 +2451,7 @@ public class ExDocument extends ApiExampleBase {
         // The delimiter character is selected in the ODSO settings of mail merge settings
         String[] lines = {"FirstName|LastName|Message",
                 "John|Doe|Hello! This message was created with Aspose Words mail merge."};
-        
+
         String dataSrcFilename = getArtifactsDir() + "Document.MailMergeSettings.DataSource.txt";
         Files.write(Paths.get(dataSrcFilename),
                 (lines + System.lineSeparator()).getBytes(UTF_8),
@@ -2670,8 +2754,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void shadeFormData() throws Exception
-    {
+    public void shadeFormData() throws Exception {
         //ExStart
         //ExFor:Document.ShadeFormData
         //ExSummary:Shows how to apply gray shading to bookmarks.
@@ -2684,7 +2767,7 @@ public class ExDocument extends ApiExampleBase {
         builder.write("Text before bookmark. ");
 
         builder.insertTextInput("My bookmark", TextFormFieldType.REGULAR, "",
-            "If gray form field shading is turned on, this is the text that will have a gray background.", 0);
+                "If gray form field shading is turned on, this is the text that will have a gray background.", 0);
 
         // We can turn the grey shading off so the bookmarked text will blend in with the other text
         doc.setShadeFormData(false);
@@ -2693,8 +2776,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void versionsCount() throws Exception
-    {
+    public void versionsCount() throws Exception {
         //ExStart
         //ExFor:Document.VersionsCount
         //ExSummary:Shows how to count how many previous versions a document has.
@@ -2710,7 +2792,7 @@ public class ExDocument extends ApiExampleBase {
         // We can use this property to see how many there are
         Assert.assertEquals(doc.getVersionsCount(), 4);
 
-        doc.save(getArtifactsDir() + "Document.VersionsCount.docx");      
+        doc.save(getArtifactsDir() + "Document.VersionsCount.docx");
         doc = new Document(getArtifactsDir() + "Document.VersionsCount.docx");
 
         // If we save and open the document, the versions are lost
@@ -2719,8 +2801,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void writeProtection() throws Exception
-    {
+    public void writeProtection() throws Exception {
         //ExStart
         //ExFor:Document.WriteProtection
         //ExFor:WriteProtection
@@ -2768,7 +2849,7 @@ public class ExDocument extends ApiExampleBase {
         //ExSummary:Shows how to set up language preferences that will be used when document is loading.
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.getLanguagePreferences().addEditingLanguage(EditingLanguage.JAPANESE);
-        
+
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
 
         int localeIdFarEast = doc.getStyles().getDefaultFont().getLocaleIdFarEast();
@@ -2861,15 +2942,14 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void hideComments() throws Exception
-    {
+    public void hideComments() throws Exception {
         //ExStart
         //ExFor:LayoutOptions.ShowComments
         //ExSummary:Shows how to show or hide comments in PDF document.
         Document doc = new Document(getMyDir() + "Comments.docx");
-        
+
         doc.getLayoutOptions().setShowComments(false);
-        
+
         doc.save(getArtifactsDir() + "Document.HideComments.pdf");
         //ExEnd
     }
@@ -2936,8 +3016,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void copyTemplateStylesViaDocument() throws Exception
-    {
+    public void copyTemplateStylesViaDocument() throws Exception {
         //ExStart
         //ExFor:Document.CopyStylesFromTemplate(Document)
         //ExSummary:Shows how to copies styles from the template to a document via Document.
@@ -2951,13 +3030,12 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void copyTemplateStylesViaString() throws Exception
-    {
+    public void copyTemplateStylesViaString() throws Exception {
         //ExStart
         //ExFor:Document.CopyStylesFromTemplate(String)
         //ExSummary:Shows how to copies styles from the template to a document via string.
         String templatePath = getMyDir() + "Rendering.docx";
-        
+
         Document target = new Document(getMyDir() + "Document.docx");
         target.copyStylesFromTemplate(templatePath);
 
@@ -3179,7 +3257,7 @@ public class ExDocument extends ApiExampleBase {
         //ExSummary:Shows how to change metafiles compression in a document while saving.
         // Open a document that contains a Microsoft Equation 3.0 mathematical formula
         Document doc = new Document(getMyDir() + "Microsoft equation object.docx");
-        
+
         // Large metafiles are always compressed when exporting a document in Aspose.Words, but small metafiles are not
         // compressed for performance reason. Some other document editors, such as LibreOffice, cannot read uncompressed
         // metafiles. The following option 'AlwaysCompressMetafiles' was introduced to choose appropriate behavior
@@ -3199,7 +3277,77 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void readMacrosFromDocument() throws Exception {
+    public void createNewVbaProject() throws Exception
+    {
+        //ExStart
+        //ExFor:VbaProject.#ctor
+        //ExFor:VbaProject.Name
+        //ExFor:VbaModule.#ctor
+        //ExFor:VbaModule.Name
+        //ExFor:VbaModule.Type
+        //ExFor:VbaModule.SourceCode
+        //ExFor:VbaModuleCollection.Add(VbaModule)
+        //ExFor:VbaModuleType
+        //ExSummary:Shows how to create a VbaProject from a scratch for using macros.
+        Document doc = new Document();
+
+        // Create a new VBA project
+        VbaProject project = new VbaProject();
+        project.setName("Aspose.Project");
+        doc.setVbaProject(project);
+
+        // Create a new module and specify a macro source code
+        VbaModule module = new VbaModule();
+        module.setName("Aspose.Module");
+        // VbaModuleType values:
+        // procedural module - A collection of subroutines and functions
+        // ------
+        // document module - A type of VBA project item that specifies a module for embedded macros and programmatic access
+        // operations that are associated with a document
+        // ------
+        // class module - A module that contains the definition for a new object. Each instance of a class creates
+        // a new object, and procedures that are defined in the module become properties and methods of the object
+        // ------
+        // designer module - A VBA module that extends the methods and properties of an ActiveX control that has been
+        // registered with the project
+        module.setType(VbaModuleType.PROCEDURAL_MODULE);
+        module.setSourceCode("New source code");
+
+        // Add module to the VBA project
+        doc.getVbaProject().getModules().add(module);
+
+        doc.save(getArtifactsDir() + "Document.CreateVBAMacros.docm");
+        //ExEnd
+    }
+
+    @Test
+    public void cloneVbaProject() throws Exception
+    {
+        //ExStart
+        //ExFor:VbaProject.Clone
+        //ExFor:VbaModule.Clone
+        //ExSummary:Shows how to deep clone VbaProject and VbaModule.
+        Document doc = new Document(getMyDir() + "VBA project.docm");
+        Document destDoc = new Document();
+
+        // Clone VbaProject to the document
+        VbaProject copyVbaProject = doc.getVbaProject().deepClone();
+        destDoc.setVbaProject(copyVbaProject);
+
+        // In destination document we already have "Module1", because he was cloned with VbaProject
+        // Therefore need to remove it before cloning
+        VbaModule oldVbaModule = destDoc.getVbaProject().getModules().get("Module1");
+        VbaModule copyVbaModule = doc.getVbaProject().getModules().get("Module1").deepClone();
+        destDoc.getVbaProject().getModules().remove(oldVbaModule);
+        destDoc.getVbaProject().getModules().add(copyVbaModule);
+
+        destDoc.save(getArtifactsDir() + "Document.CloneVbaProject.docm");
+        //ExEnd
+    }
+
+    @Test
+    public void readMacrosFromExistingDocument() throws Exception
+    {
         //ExStart
         //ExFor:Document.VbaProject
         //ExFor:VbaProject
@@ -3248,8 +3396,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void saveOutputParameters() throws Exception
-    {
+    public void saveOutputParameters() throws Exception {
         //ExStart
         //ExFor:SaveOutputParameters
         //ExFor:SaveOutputParameters.ContentType
@@ -3267,8 +3414,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void subdocument() throws Exception
-    {
+    public void subdocument() throws Exception {
         //ExStart
         //ExFor:SubDocument
         //ExFor:SubDocument.NodeType
@@ -3278,14 +3424,13 @@ public class ExDocument extends ApiExampleBase {
         NodeCollection subDocuments = doc.getChildNodes(NodeType.SUB_DOCUMENT, true);
         Assert.assertEquals(1, subDocuments.getCount());
 
-        SubDocument subDocument = (SubDocument)doc.getChildNodes(NodeType.SUB_DOCUMENT, true).get(0);
+        SubDocument subDocument = (SubDocument) doc.getChildNodes(NodeType.SUB_DOCUMENT, true).get(0);
         Assert.assertFalse(subDocument.isComposite());
         //ExEnd
     }
 
     @Test
-    public void createWebExtension() throws Exception
-    {
+    public void createWebExtension() throws Exception {
         //ExStart
         //ExFor:BaseWebExtensionCollection`1.Add(`0)
         //ExFor:TaskPane
@@ -3346,8 +3491,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void getWebExtensionInfo() throws Exception
-    {
+    public void getWebExtensionInfo() throws Exception {
         //ExStart
         //ExFor:BaseWebExtensionCollection`1
         //ExFor:BaseWebExtensionCollection`1.Add(`0)
@@ -3369,15 +3513,14 @@ public class ExDocument extends ApiExampleBase {
         // Enumerate all WebExtensionProperty in a collection
         WebExtensionPropertyCollection webExtensionPropertyCollection = doc.getWebExtensionTaskPanes().get(0).getWebExtension().getProperties();
         Iterator<WebExtensionProperty> enumerator = webExtensionPropertyCollection.iterator();
-        try
-        {
-            while (enumerator.hasNext())
-            {
+        try {
+            while (enumerator.hasNext()) {
                 WebExtensionProperty webExtensionProperty = enumerator.next();
                 System.out.println("Binding name: {webExtensionProperty.Name}; Binding value: {webExtensionProperty.Value}");
             }
+        } finally {
+            if (enumerator != null) enumerator.remove();
         }
-        finally { if (enumerator != null) enumerator.remove(); }
 
         // Delete specific taskpane from the collection
         doc.getWebExtensionTaskPanes().remove(1);

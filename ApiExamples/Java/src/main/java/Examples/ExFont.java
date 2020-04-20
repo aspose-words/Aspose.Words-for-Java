@@ -18,9 +18,7 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -144,7 +142,7 @@ public class ExFont extends ApiExampleBase {
 
     @Test(dataProvider = "workWithEmbeddedFontsDataProvider")
     public void workWithEmbeddedFonts(final boolean embedTrueTypeFonts, final boolean embedSystemFonts, final boolean saveSubsetFonts) throws Exception {
-        Document doc = new Document(getMyDir() + "Document.doc");
+        Document doc = new Document(getMyDir() + "Document.docx");
 
         FontInfoCollection fontInfos = doc.getFontInfos();
         fontInfos.setEmbedTrueTypeFonts(embedTrueTypeFonts);
@@ -339,7 +337,7 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Font.LocaleId
         //ExSummary:Shows how to specify the language of a text run so Microsoft Word can use a proper spell checker.
         // Create a run of text that contains Russian text
-        Run run = new Run(doc, "??????");
+        Run run = new Run(doc, "Привет");
 
         // Specify the locale so Microsoft Word recognizes this text as Russian
         // For the list of locale identifiers see https://docs.microsoft.com/en-us/deployoffice/office2016/language-identifiers-and-optionstate-id-values-in-office-2016
@@ -428,7 +426,7 @@ public class ExFont extends ApiExampleBase {
         builder.getFont().setLocaleIdBi(1025);
 
         // Insert some Arabic text
-        builder.writeln("??????");
+        builder.writeln("مرحبًا");
 
         builder.getDocument().save(getArtifactsDir() + "Font.Bidi.doc");
         //ExEnd
@@ -452,7 +450,7 @@ public class ExFont extends ApiExampleBase {
         builder.getFont().setLocaleIdFarEast(2052);
 
         // Insert some Chinese text
-        builder.writeln("????");
+        builder.writeln("你好世界");
 
         builder.getDocument().save(getArtifactsDir() + "Font.FarEast.doc");
         //ExEnd
@@ -472,15 +470,14 @@ public class ExFont extends ApiExampleBase {
         builder.getFont().setNameAscii("Arial");
         builder.getFont().setNameOther("Times New Roman");
 
-        builder.writeln("Hello, ??????");
+        builder.writeln("Hello, Привет");
 
         builder.getDocument().save(getArtifactsDir() + "Font.Names.doc");
         //ExEnd
     }
 
     @Test
-    public void changeStyle() throws Exception
-    {
+    public void changeStyle() throws Exception {
         //ExStart
         //ExFor:Font.StyleName
         //ExFor:Font.StyleIdentifier
@@ -496,10 +493,9 @@ public class ExFont extends ApiExampleBase {
         builder.writeln("Text originally in \"Intense Emphasis\" style");
 
         NodeCollection runs = doc.getChildNodes(NodeType.RUN, true);
-   
+
         // Loop through every run node
-        for (Run run : (Iterable<Run>) runs)
-        {
+        for (Run run : (Iterable<Run>) runs) {
             // If the run's text is of the "Emphasis" style, referenced by name, change the style to "Strong"
             if (run.getFont().getStyleName().equals("Emphasis"))
                 run.getFont().setStyleName("Strong");
@@ -507,15 +503,14 @@ public class ExFont extends ApiExampleBase {
             // If the run's text style is "Intense Emphasis", change it to "Strong" also, but this time reference using a StyleIdentifier
             if (((run.getFont().getStyleIdentifier()) == (StyleIdentifier.INTENSE_EMPHASIS)))
                 run.getFont().setStyleIdentifier(StyleIdentifier.STRONG);
-            }
+        }
 
         doc.save(getArtifactsDir() + "Font.ChangeStyle.docx");
         //ExEnd
     }
 
     @Test
-    public void style() throws Exception
-    {
+    public void style() throws Exception {
         //ExStart
         //ExFor:Font.Style
         //ExFor:Style.BuiltIn
@@ -655,8 +650,7 @@ public class ExFont extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void enableFontSubstitution() throws Exception
-    {
+    public void enableFontSubstitution() throws Exception {
         //ExStart
         //ExFor:Fonts.FontInfoSubstitutionRule
         //ExFor:Fonts.FontSubstitutionSettings.FontInfoSubstitution
@@ -687,8 +681,7 @@ public class ExFont extends ApiExampleBase {
     }
 
     @Test
-    public void disableFontSubstitution() throws Exception
-    {
+    public void disableFontSubstitution() throws Exception {
         Document doc = new Document(getMyDir() + "Missing font.docx");
 
         // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
@@ -713,9 +706,8 @@ public class ExFont extends ApiExampleBase {
         }
     }
 
-    @Test (groups = "SkipMono")
-    public void substitutionWarnings() throws Exception
-    {
+    @Test(groups = "SkipMono")
+    public void substitutionWarnings() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
@@ -726,19 +718,18 @@ public class ExFont extends ApiExampleBase {
         fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
         fontSettings.setFontsFolder(getFontsDir(), false);
         fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Arial", "Arvo", "Slab");
-        
+
         doc.setFontSettings(fontSettings);
         doc.save(getArtifactsDir() + "Font.SubstitutionWarnings.pdf");
 
         Assert.assertEquals("Font \'Arial\' has not been found. Using \'Arvo\' font instead. Reason: table substitution.",
-            callback.mFontWarnings.get(0).getDescription());
+                callback.mFontWarnings.get(0).getDescription());
         Assert.assertEquals("Font \'Times New Roman\' has not been found. Using \'M+ 2m\' font instead. Reason: font info substitution.",
-            callback.mFontWarnings.get(1).getDescription());
+                callback.mFontWarnings.get(1).getDescription());
     }
 
     @Test
-    public void substitutionWarningsClosestMatch() throws Exception
-    {
+    public void substitutionWarningsClosestMatch() throws Exception {
         Document doc = new Document(getMyDir() + "Bullet points with alternative font.docx");
 
         // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
@@ -1072,7 +1063,7 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Fonts.FontInfoCollection.GetEnumerator
         //ExSummary:Shows how to get information about each font in a document.
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         // We can iterate over all the fonts with an enumerator
         Iterator fontCollectionEnumerator = doc.getFontInfos().iterator();
         // Print detailed information about each font to the console
@@ -1258,7 +1249,7 @@ public class ExFont extends ApiExampleBase {
         //ExFor:FontFallbackSettings.Save(String)
         //ExSummary:Shows how to load and save font fallback settings from file.
         Document doc = new Document(getMyDir() + "Rendering.docx");
-        
+
         // By default fallback settings are initialized with predefined settings which mimics the Microsoft Word fallback
         FontSettings fontSettings = new FontSettings();
         fontSettings.getFallbackSettings().load(getMyDir() + "Font fallback rules.xml");
@@ -1286,19 +1277,20 @@ public class ExFont extends ApiExampleBase {
             fontSettings.getFallbackSettings().load(fontFallbackStream);
 
             doc.setFontSettings(fontSettings);
-            }
-        finally { if (fontFallbackStream != null) fontFallbackStream.close(); }
+        } finally {
+            if (fontFallbackStream != null) fontFallbackStream.close();
+        }
 
         doc.save(getArtifactsDir() + "Font.LoadFontFallbackSettingsFromStream.pdf");
 
         // Saves font fallback setting by stream
         InputStream fontFallbackStream1 =
-            new FileInputStream(getArtifactsDir() + "FallbackSettings.xml");
-        try
-        {
+                new FileInputStream(getArtifactsDir() + "FallbackSettings.xml");
+        try {
             doc.getFontSettings().getFallbackSettings().save(fontFallbackStream1);
+        } finally {
+            if (fontFallbackStream1 != null) fontFallbackStream1.close();
         }
-        finally { if (fontFallbackStream1 != null) fontFallbackStream1.close(); }
         //ExEnd
     }
 
@@ -1434,7 +1426,7 @@ public class ExFont extends ApiExampleBase {
 
         // Set our fonts to be sourced exclusively from the "MyFonts" folder
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), false);
-        fontSettings.setFontsSources(new FontSourceBase[] { folderFontSource });
+        fontSettings.setFontsSources(new FontSourceBase[]{folderFontSource});
 
         // Calling BuildAutomatic() will generate a fallback scheme that distributes accessible fonts across as many unicode character codes as possible
         // In our case, it only has access to the handful of fonts inside the "MyFonts" folder
@@ -1492,7 +1484,7 @@ public class ExFont extends ApiExampleBase {
 
         // If we select fonts exclusively from our own folder, we will need a custom substitution table
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), false);
-        fontSettings.setFontsSources(new FontSourceBase[] { folderFontSource });
+        fontSettings.setFontsSources(new FontSourceBase[]{folderFontSource});
 
         // There are two ways of loading a substitution table from a file in the local file system
         // 1: Loading from a stream
@@ -1576,7 +1568,7 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Font.HasDmlEffect(TextDmlEffect)
         //ExSummary:Shows how to checks if particular Dml text effect is applied.
         Document doc = new Document(getMyDir() + "DrawingML text effects.docx");
-        
+
         RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
 
         Assert.assertTrue(runs.get(0).getFont().hasDmlEffect(TextDmlEffect.SHADOW));
@@ -1585,5 +1577,15 @@ public class ExFont extends ApiExampleBase {
         Assert.assertTrue(runs.get(3).getFont().hasDmlEffect(TextDmlEffect.EFFECT_3_D));
         Assert.assertTrue(runs.get(4).getFont().hasDmlEffect(TextDmlEffect.FILL));
         //ExEnd
+    }
+
+    @Test
+    public void checkScanUserFontsFolder() {
+        // On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
+        // or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user
+        SystemFontSource systemFontSource = new SystemFontSource();
+        Assert.assertNotNull(systemFontSource.getAvailableFonts().stream().
+                        filter((x) -> x.getFilePath().contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")).findFirst(),
+                "Fonts did not install to the user font folder");
     }
 }

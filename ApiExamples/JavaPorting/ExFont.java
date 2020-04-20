@@ -1796,7 +1796,7 @@ public class ExFont extends ApiExampleBase
     }
     //ExEnd
 
-    @Test (enabled = false, description = "WORDSNET-19907")
+    @Test (groups = "IgnoreOnJenkins")
     public void checkScanUserFontsFolder()
     {
         // On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
