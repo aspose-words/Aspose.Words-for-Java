@@ -1,5 +1,6 @@
 package com.aspose.words.examples.rendering_printing;
 
+import com.aspose.words.Dml3DEffectsRenderingMode;
 import com.aspose.words.Document;
 import com.aspose.words.HeaderFooterBookmarksExportMode;
 import com.aspose.words.MetafileRenderingOptions;
@@ -8,6 +9,7 @@ import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.PdfImageColorSpaceExportMode;
 import com.aspose.words.PdfImageCompression;
 import com.aspose.words.PdfSaveOptions;
+import com.aspose.words.SaveOptions;
 import com.aspose.words.examples.Utils;
 
 public class WorkingWithPdfSaveOptions {
@@ -28,11 +30,14 @@ public class WorkingWithPdfSaveOptions {
 		CustomPropertiesExport(dataDir);
 		SaveToPdfWithOutline(dataDir);
 		DownsamplingImages(dataDir);
+		EffectsRendering(dataDir);
+		SetImageInterpolation(dataDir);
 	}
 
 	public static void EscapeUriInPdf(String dataDir) throws Exception {
 		// ExStart:EscapeUriInPdf
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// The path to the documents directory.
 		Document doc = new Document(dataDir + "EscapeUri.docx");
 
@@ -47,7 +52,8 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void ExportHeaderFooterBookmarks(String dataDir) throws Exception {
 		// ExStart:ExportHeaderFooterBookmarks
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// The path to the documents directory.
 		Document doc = new Document(dataDir + "TestFile.docx");
 
@@ -63,7 +69,8 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void ScaleWmfFontsToMetafileSize(String dataDir) throws Exception {
 		// ExStart:ScaleWmfFontsToMetafileSize
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// The path to the documents directory.
 		Document doc = new Document(dataDir + "MetafileRendering.docx");
 
@@ -83,7 +90,8 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void AdditionalTextPositioning(String dataDir) throws Exception {
 		// ExStart:AdditionalTextPositioning
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// The path to the documents directory.
 		Document doc = new Document(dataDir + "TestFile.docx");
 
@@ -98,7 +106,8 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void ConversionToPDF17(String dataDir) throws Exception {
 		// ExStart:ConversionToPDF17
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// The path to the documents directory.
 		Document originalDoc = new Document(dataDir + "Document.docx");
 
@@ -114,7 +123,8 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void UpdateIfLastPrinted(String dataDir) throws Exception {
 		// ExStart:UpdateIfLastPrinted
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a document
 		Document doc = new Document(dataDir + "Rendering.doc");
 
@@ -127,7 +137,8 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void PdfImageComppression(String dataDir) throws Exception {
 		// ExStart:PdfImageComppression
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a document
 		Document doc = new Document(dataDir + "SaveOptions.PdfImageCompression.rtf");
 
@@ -150,7 +161,8 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void ExportDocumentStructure(String dataDir) throws Exception {
 		// ExStart:ExportDocumentStructure
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a document
 		Document doc = new Document(dataDir + "Paragraphs.docx");
 
@@ -169,7 +181,8 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void CustomPropertiesExport(String dataDir) throws Exception {
 		// ExStart:CustomPropertiesExport
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a document
 		Document doc = new Document();
 
@@ -189,7 +202,8 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void SaveToPdfWithOutline(String dataDir) throws Exception {
 		// ExStart:SaveToPdfWithOutline
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a document
 		Document doc = new Document(dataDir + "Rendering.doc");
 
@@ -204,7 +218,8 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void DownsamplingImages(String dataDir) throws Exception {
 		// ExStart:DownsamplingImages
-		// For complete examples and data files, please go to // https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to //
+		// https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a document
 		Document doc = new Document(dataDir + "Rendering.doc");
 
@@ -224,5 +239,28 @@ public class WorkingWithPdfSaveOptions {
 		doc.save(dataDir + "PdfSaveOptions.DownsampleOptions.pdf", options);
 		// ExEnd:DownsamplingImages
 		System.out.println("\nFile saved at " + dataDir);
+	}
+
+	public static void EffectsRendering(String dataDir) throws Exception {
+		// ExStart:EffectsRendering
+		// Open a document
+		Document doc = new Document(dataDir + "Rendering.doc");
+
+		SaveOptions saveOptions = new PdfSaveOptions();
+		saveOptions.setDml3DEffectsRenderingMode(Dml3DEffectsRenderingMode.ADVANCED);
+
+		doc.save(dataDir, saveOptions);
+		// ExEnd:EffectsRendering
+	}
+
+	public static void SetImageInterpolation(String dataDir) throws Exception {
+		// ExStart:SetImageInterpolation
+		Document doc = new Document(dataDir);
+
+		PdfSaveOptions saveOptions = new PdfSaveOptions();
+		saveOptions.setInterpolateImages(true);
+
+		doc.save(dataDir, saveOptions);
+		// ExEnd:SetImageInterpolation
 	}
 }

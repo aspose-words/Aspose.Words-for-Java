@@ -16,29 +16,25 @@ public class WorkWithChartDataLabelOfASingleChartSeries {
         // Get first series.
         ChartSeries series0 = shape.getChart().getSeries().get(0);
 
-        ChartDataLabelCollection dataLabelCollection = series0.getDataLabels();
-
-        // Add data label to the first and second point of the first series.
-        ChartDataLabel chartDataLabel00 = dataLabelCollection.add(0);
-        ChartDataLabel chartDataLabel01 = dataLabelCollection.add(1);
+        series0.hasDataLabels(true);
 
         // Set properties.
-        chartDataLabel00.setShowLegendKey(true);
+        series0.getDataLabels().setShowLegendKey(true);
 
         // By default, when you add data labels to the data points in a pie chart, leader lines are displayed for data labels that are
         // positioned far outside the end of data points. Leader lines create a visual connection between a data label and its
         // corresponding data point.
-        chartDataLabel00.setShowLeaderLines(true);
+        series0.getDataLabels().setShowLeaderLines(true);
 
-        chartDataLabel00.setShowCategoryName(false);
-        chartDataLabel00.setShowPercentage(false);
-        chartDataLabel00.setShowSeriesName(true);
-        chartDataLabel00.setShowValue(true);
-        chartDataLabel00.setSeparator("/");
+        series0.getDataLabels().setShowCategoryName(false);
+        series0.getDataLabels().setShowPercentage(false);
+        series0.getDataLabels().setShowSeriesName(true);
+        series0.getDataLabels().setShowValue(true);
+        series0.getDataLabels().setSeparator("/");
 
-        chartDataLabel01.setShowValue(true);
+        series0.getDataLabels().setShowValue(true);
 
-        doc.save(dataDir + "ChartDataLabelOfASingleChartSeries_out.docx");
+		doc.save(dataDir + "ChartDataLabelOfASingleChartSeries_out.docx");
         //ExEnd:WorkWithChartDataLabelOfASingleChartSeries
     }
 
