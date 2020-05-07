@@ -17,15 +17,15 @@ public class DocumentTestClass
     public byte[] getDocumentBytes() { return mDocumentBytes; }; public void setDocumentBytes(byte[] value) { mDocumentBytes = value; };
 
     private byte[] mDocumentBytes;
-    public String getDocumentUri() { return mDocumentUri; }; public void setDocumentUri(String value) { mDocumentUri = value; };
+    public String getDocumentString() { return mDocumentString; }; public void setDocumentString(String value) { mDocumentString = value; };
 
-    private String mDocumentUri;
+    private String mDocumentString;
 
-    public DocumentTestClass(Document doc, Stream docStream, byte[] docBytes, String docUri)
+    public DocumentTestClass(Document doc, Stream docStream, byte[] docBytes, String docString)
     {
         setDocument(doc);
         setDocumentStream(docStream);
         setDocumentBytes(docBytes);
-        setDocumentUri(docUri);
+        setDocumentString(docString);
     }
 }

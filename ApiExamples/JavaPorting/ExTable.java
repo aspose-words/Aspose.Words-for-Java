@@ -12,7 +12,6 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.TableCollection;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.RowCollection;
@@ -38,6 +37,7 @@ import com.aspose.words.LineStyle;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.TextureIndex;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.TextOrientation;
 import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.Paragraph;
@@ -91,7 +91,7 @@ public class ExTable extends ApiExampleBase
         TableCollection tables = doc.getFirstSection().getBody().getTables();
 
         // We can make a new array to clone all of the tables in the collection
-        msAssert.areEqual(2, tables.toArray().length);
+        Assert.assertEquals(2, tables.toArray().length);
 
         // Iterate through all tables in the document
         for (int i = 0; i < tables.getCount(); i++)
@@ -102,7 +102,7 @@ public class ExTable extends ApiExampleBase
             RowCollection rows = tables.get(i).getRows();
 
             // RowCollections can be cloned into arrays
-            msAssert.areEqual(rows, rows.toArray());
+            Assert.assertEquals(rows, rows.toArray());
             Assert.assertNotSame(rows, rows.toArray());
 
             // Iterate through all rows in the table
@@ -113,7 +113,7 @@ public class ExTable extends ApiExampleBase
                 CellCollection cells = rows.get(j).getCells();
 
                 // RowCollections can also be cloned into arrays 
-                msAssert.areEqual(cells, cells.toArray());
+                Assert.assertEquals(cells, cells.toArray());
                 Assert.assertNotSame(cells, cells.toArray());
 
                 // Iterate through all cells in the row
@@ -415,14 +415,14 @@ public class ExTable extends ApiExampleBase
         //ExEnd
 
         // Verify the borders were set correctly
-        msAssert.areEqual(TableAlignment.CENTER, table.getAlignment());
-        msAssert.areEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB());
-        msAssert.areEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getLeft().getColor().getRGB());
-        msAssert.areEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getRight().getColor().getRGB());
-        msAssert.areEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getBottom().getColor().getRGB());
+        Assert.assertEquals(TableAlignment.CENTER, table.getAlignment());
+        Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getLeft().getColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getRight().getColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getBottom().getColor().getRGB());
         msAssert.areNotEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getHorizontal().getColor().getRGB());
         msAssert.areNotEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getVertical().getColor().getRGB());
-        msAssert.areEqual(msColor.getLightGreen().getRGB(),
+        Assert.assertEquals(msColor.getLightGreen().getRGB(),
             table.getFirstRow().getFirstCell().getCellFormat().getShading().getForegroundPatternColor().getRGB());
     }
 
@@ -445,12 +445,12 @@ public class ExTable extends ApiExampleBase
         //ExEnd
 
         // Verify the borders were set correctly
-        msAssert.areEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB());
-        msAssert.areEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getLeft().getColor().getRGB());
-        msAssert.areEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getRight().getColor().getRGB());
-        msAssert.areEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getBottom().getColor().getRGB());
-        msAssert.areEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getHorizontal().getColor().getRGB());
-        msAssert.areEqual(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getVertical().getColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getLeft().getColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getRight().getColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getBottom().getColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getHorizontal().getColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getVertical().getColor().getRGB());
     }
 
     @Test
@@ -476,8 +476,8 @@ public class ExTable extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Table.RowFormat.doc");
         table = (Table)doc.getChild(NodeType.TABLE, 0, true);
-        msAssert.areEqual(LineStyle.NONE, table.getFirstRow().getRowFormat().getBorders().getLineStyle());
-        msAssert.areEqual(HeightRule.AUTO, table.getFirstRow().getRowFormat().getHeightRule());
+        Assert.assertEquals(LineStyle.NONE, table.getFirstRow().getRowFormat().getBorders().getLineStyle());
+        Assert.assertEquals(HeightRule.AUTO, table.getFirstRow().getRowFormat().getHeightRule());
         Assert.assertTrue(table.getFirstRow().getRowFormat().getAllowBreakAcrossPages());
     }
 
@@ -504,9 +504,9 @@ public class ExTable extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Table.CellFormat.doc");
         table = (Table)doc.getChild(NodeType.TABLE, 0, true);
-        msAssert.areEqual(30, table.getFirstRow().getFirstCell().getCellFormat().getWidth());
-        msAssert.areEqual(TextOrientation.DOWNWARD, table.getFirstRow().getFirstCell().getCellFormat().getOrientation());
-        msAssert.areEqual(msColor.getLightGreen().getRGB(),
+        Assert.assertEquals(30, table.getFirstRow().getFirstCell().getCellFormat().getWidth());
+        Assert.assertEquals(TextOrientation.DOWNWARD, table.getFirstRow().getFirstCell().getCellFormat().getOrientation());
+        Assert.assertEquals(msColor.getLightGreen().getRGB(),
             table.getFirstRow().getFirstCell().getCellFormat().getShading().getForegroundPatternColor().getRGB());
     }
 
@@ -523,10 +523,10 @@ public class ExTable extends ApiExampleBase
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        msAssert.areEqual(25.9d, table.getDistanceTop());
-        msAssert.areEqual(25.9d, table.getDistanceBottom());
-        msAssert.areEqual(17.3d, table.getDistanceLeft());
-        msAssert.areEqual(17.3d, table.getDistanceRight());
+        Assert.assertEquals(25.9d, table.getDistanceTop());
+        Assert.assertEquals(25.9d, table.getDistanceBottom());
+        Assert.assertEquals(17.3d, table.getDistanceLeft());
+        Assert.assertEquals(17.3d, table.getDistanceRight());
         //ExEnd
     }
 
@@ -582,7 +582,7 @@ public class ExTable extends ApiExampleBase
         doc.save(getArtifactsDir() + "Table.ReplaceCellText.doc");
         //ExEnd
 
-        msAssert.areEqual("20", msString.trim(table.getLastRow().getLastCell().toString(SaveFormat.TEXT)));
+        Assert.assertEquals("20", msString.trim(table.getLastRow().getLastCell().toString(SaveFormat.TEXT)));
     }
 
     @Test
@@ -608,8 +608,8 @@ public class ExTable extends ApiExampleBase
         System.out.println("\nContents of the cell: ");
         System.out.println(table.getLastRow().getLastCell().getRange().getText());
         
-        msAssert.areEqual("\u0007Column 1\u0007Column 2\u0007Column 3\u0007Column 4\u0007\u0007", table.getRows().get(1).getRange().getText());
-        msAssert.areEqual("Cell 12 contents\u0007", table.getLastRow().getLastCell().getRange().getText());
+        Assert.assertEquals("\u0007Column 1\u0007Column 2\u0007Column 3\u0007Column 4\u0007\u0007", table.getRows().get(1).getRange().getText());
+        Assert.assertEquals("Cell 12 contents\u0007", table.getLastRow().getLastCell().getRange().getText());
     }
 
     @Test
@@ -633,13 +633,13 @@ public class ExTable extends ApiExampleBase
         doc.save(getArtifactsDir() + "Table.CloneTable.doc");
         
         // Verify that the table was cloned and inserted properly
-        msAssert.areEqual(3, doc.getChildNodes(NodeType.TABLE, true).getCount());
-        msAssert.areEqual(table.getRange().getText(), tableClone.getRange().getText());
+        Assert.assertEquals(3, doc.getChildNodes(NodeType.TABLE, true).getCount());
+        Assert.assertEquals(table.getRange().getText(), tableClone.getRange().getText());
 
         for (Cell cell : tableClone.getChildNodes(NodeType.CELL, true).<Cell>OfType() !!Autoporter error: Undefined expression type )
             cell.removeAllChildren();
         
-        msAssert.areEqual("", msString.trim(tableClone.toString(SaveFormat.TEXT)));
+        Assert.assertEquals("", msString.trim(tableClone.toString(SaveFormat.TEXT)));
     }
 
     @Test
@@ -745,9 +745,9 @@ public class ExTable extends ApiExampleBase
         //ExEnd
 
         // Verify that the row was cloned and appended properly
-        msAssert.areEqual(6, table.getRows().getCount());
-        msAssert.areEqual("", msString.trim(table.getLastRow().toString(SaveFormat.TEXT)));
-        msAssert.areEqual(5, table.getLastRow().getCells().getCount());
+        Assert.assertEquals(6, table.getRows().getCount());
+        Assert.assertEquals("", msString.trim(table.getLastRow().toString(SaveFormat.TEXT)));
+        Assert.assertEquals(5, table.getLastRow().getCells().getCount());
     }
 
     @Test
@@ -854,9 +854,9 @@ public class ExTable extends ApiExampleBase
         int cellIndex = row.indexOf(cell);
         //ExEnd
 
-        msAssert.areEqual(0, tableIndex);
-        msAssert.areEqual(2, rowIndex);
-        msAssert.areEqual(4, cellIndex);
+        Assert.assertEquals(0, tableIndex);
+        Assert.assertEquals(2, rowIndex);
+        Assert.assertEquals(4, cellIndex);
     }
 
     @Test
@@ -876,8 +876,8 @@ public class ExTable extends ApiExampleBase
         double value = firstCell.getCellFormat().getPreferredWidth().getValue();
         //ExEnd
 
-        msAssert.areEqual(PreferredWidthType.PERCENT, type);
-        msAssert.areEqual(11.16, value);
+        Assert.assertEquals(PreferredWidthType.PERCENT, type);
+        Assert.assertEquals(11.16, value);
     }
 
     @Test
@@ -939,10 +939,10 @@ public class ExTable extends ApiExampleBase
         doc.save(getArtifactsDir() + "Table.InsertTableUsingNodes.doc");
         //ExEnd
 
-        msAssert.areEqual(1, doc.getChildNodes(NodeType.TABLE, true).getCount());
-        msAssert.areEqual(1, doc.getChildNodes(NodeType.ROW, true).getCount());
-        msAssert.areEqual(2, doc.getChildNodes(NodeType.CELL, true).getCount());
-        msAssert.areEqual("Row 1, Cell 1 Text\r\nRow 1, Cell 2 Text",
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.TABLE, true).getCount());
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.ROW, true).getCount());
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.CELL, true).getCount());
+        Assert.assertEquals("Row 1, Cell 1 Text\r\nRow 1, Cell 2 Text",
             msString.trim(doc.getFirstSection().getBody().getTables().get(0).toString(SaveFormat.TEXT)));
     }
 
@@ -973,12 +973,12 @@ public class ExTable extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Table.CreateNestedTable.doc");
 
-        msAssert.areEqual(2, doc.getChildNodes(NodeType.TABLE, true).getCount()); // ExSkip
-        msAssert.areEqual(1, outerTable.getFirstRow().getFirstCell().getTables().getCount()); //ExSkip
-        msAssert.areEqual(16, outerTable.getChildNodes(NodeType.CELL, true).getCount()); //ExSkip
-        msAssert.areEqual(4, innerTable.getChildNodes(NodeType.CELL, true).getCount()); //ExSkip
-        msAssert.areEqual("Aspose table title", innerTable.getTitle()); //ExSkip
-        msAssert.areEqual("Aspose table description", innerTable.getDescription()); //ExSkip
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.TABLE, true).getCount()); // ExSkip
+        Assert.assertEquals(1, outerTable.getFirstRow().getFirstCell().getTables().getCount()); //ExSkip
+        Assert.assertEquals(16, outerTable.getChildNodes(NodeType.CELL, true).getCount()); //ExSkip
+        Assert.assertEquals(4, innerTable.getChildNodes(NodeType.CELL, true).getCount()); //ExSkip
+        Assert.assertEquals("Aspose table title", innerTable.getTitle()); //ExSkip
+        Assert.assertEquals("Aspose table description", innerTable.getDescription()); //ExSkip
     }
 
     /// <summary>
@@ -1038,7 +1038,7 @@ public class ExTable extends ApiExampleBase
             }
         }
 
-        msAssert.areEqual("The cell at R1, C1 is vertically merged",
+        Assert.assertEquals("The cell at R1, C1 is vertically merged",
             printCellMergeType(table.getFirstRow().getFirstCell())); //ExSkip
     }
 
@@ -1088,7 +1088,7 @@ public class ExTable extends ApiExampleBase
                 mergedCellsCount++;
         }
 
-        msAssert.areEqual(4, mergedCellsCount);
+        Assert.assertEquals(4, mergedCellsCount);
         Assert.assertTrue(table.getRows().get(2).getCells().get(2).getCellFormat().getHorizontalMerge() == CellMerge.FIRST);
         Assert.assertTrue(table.getRows().get(2).getCells().get(2).getCellFormat().getVerticalMerge() == CellMerge.FIRST);
         Assert.assertTrue(table.getRows().get(3).getCells().get(3).getCellFormat().getHorizontalMerge() == CellMerge.PREVIOUS);
@@ -1139,6 +1139,7 @@ public class ExTable extends ApiExampleBase
         //ExFor:Table.Rows
         //ExFor:Table.FirstRow
         //ExFor:CellFormat.ClearFormatting
+        //ExFor:CompositeNode.HasChildNodes
         //ExSummary:Shows how to combine the rows from two tables into one.
         // Load the document
         Document doc = new Document(getMyDir() + "Tables.docx");
@@ -1159,9 +1160,9 @@ public class ExTable extends ApiExampleBase
         doc.save(getArtifactsDir() + "Table.CombineTables.doc");
         //ExEnd
 
-        msAssert.areEqual(1, doc.getChildNodes(NodeType.TABLE, true).getCount());
-        msAssert.areEqual(9, doc.getFirstSection().getBody().getTables().get(0).getRows().getCount());
-        msAssert.areEqual(42, doc.getFirstSection().getBody().getTables().get(0).getChildNodes(NodeType.CELL, true).getCount());
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.TABLE, true).getCount());
+        Assert.assertEquals(9, doc.getFirstSection().getBody().getTables().get(0).getRows().getCount());
+        Assert.assertEquals(42, doc.getFirstSection().getBody().getTables().get(0).getChildNodes(NodeType.CELL, true).getCount());
     }
 
     @Test
@@ -1198,11 +1199,11 @@ public class ExTable extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Table.SplitTable.doc");
         // Test we are adding the rows in the correct order and the 
         // selected row was also moved
-        msAssert.areEqual(row, table.getFirstRow());
+        Assert.assertEquals(row, table.getFirstRow());
 
-        msAssert.areEqual(2, firstTable.getRows().getCount());
-        msAssert.areEqual(3, table.getRows().getCount());
-        msAssert.areEqual(3, doc.getChildNodes(NodeType.TABLE, true).getCount());
+        Assert.assertEquals(2, firstTable.getRows().getCount());
+        Assert.assertEquals(3, table.getRows().getCount());
+        Assert.assertEquals(3, doc.getChildNodes(NodeType.TABLE, true).getCount());
     }
 
     @Test
@@ -1219,13 +1220,13 @@ public class ExTable extends ApiExampleBase
 
         if (table.getTextWrapping() == TextWrapping.AROUND)
         {
-            msAssert.areEqual(HorizontalAlignment.DEFAULT, table.getRelativeHorizontalAlignment());
-            msAssert.areEqual(VerticalAlignment.DEFAULT, table.getRelativeVerticalAlignment());
-            msAssert.areEqual(RelativeHorizontalPosition.COLUMN, table.getHorizontalAnchor());
-            msAssert.areEqual(RelativeVerticalPosition.MARGIN, table.getVerticalAnchor());
-            msAssert.areEqual(0, table.getAbsoluteHorizontalDistance());
-            msAssert.areEqual(0, table.getAbsoluteVerticalDistance());
-            msAssert.areEqual(true, table.getAllowOverlap());
+            Assert.assertEquals(HorizontalAlignment.DEFAULT, table.getRelativeHorizontalAlignment());
+            Assert.assertEquals(VerticalAlignment.DEFAULT, table.getRelativeVerticalAlignment());
+            Assert.assertEquals(RelativeHorizontalPosition.COLUMN, table.getHorizontalAnchor());
+            Assert.assertEquals(RelativeVerticalPosition.MARGIN, table.getVerticalAnchor());
+            Assert.assertEquals(0, table.getAbsoluteHorizontalDistance());
+            Assert.assertEquals(0, table.getAbsoluteVerticalDistance());
+            Assert.assertEquals(true, table.getAllowOverlap());
         }
         //ExEnd
     }
@@ -1245,9 +1246,9 @@ public class ExTable extends ApiExampleBase
 
         if (table.getTextWrapping() == TextWrapping.AROUND)
         {
-            msAssert.areEqual(RelativeHorizontalPosition.MARGIN, table.getHorizontalAnchor());
-            msAssert.areEqual(RelativeVerticalPosition.PARAGRAPH, table.getVerticalAnchor());
-            msAssert.areEqual(false, table.getAllowOverlap());
+            Assert.assertEquals(RelativeHorizontalPosition.MARGIN, table.getHorizontalAnchor());
+            Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, table.getVerticalAnchor());
+            Assert.assertEquals(false, table.getAllowOverlap());
         }
         //ExEnd
     }
@@ -1268,8 +1269,8 @@ public class ExTable extends ApiExampleBase
         table.setAbsoluteVerticalDistance(15.0);
 
         // Check that absolute distance was set correct
-        msAssert.areEqual(10, table.getAbsoluteHorizontalDistance());
-        msAssert.areEqual(15, table.getAbsoluteVerticalDistance());
+        Assert.assertEquals(10, table.getAbsoluteHorizontalDistance());
+        Assert.assertEquals(15, table.getAbsoluteVerticalDistance());
 
         // Setting RelativeHorizontalAlignment will reset AbsoluteHorizontalDistance to default value and vice versa,
         // the same is for vertical positioning
@@ -1277,10 +1278,10 @@ public class ExTable extends ApiExampleBase
         table.setRelativeHorizontalAlignment(HorizontalAlignment.CENTER);
         
         // Check that AbsoluteHorizontalDistance and AbsoluteVerticalDistance are reset 
-        msAssert.areEqual(0, table.getAbsoluteHorizontalDistance());
-        msAssert.areEqual(0, table.getAbsoluteVerticalDistance());
-        msAssert.areEqual(VerticalAlignment.TOP, table.getRelativeVerticalAlignment());
-        msAssert.areEqual(HorizontalAlignment.CENTER, table.getRelativeHorizontalAlignment());
+        Assert.assertEquals(0, table.getAbsoluteHorizontalDistance());
+        Assert.assertEquals(0, table.getAbsoluteVerticalDistance());
+        Assert.assertEquals(VerticalAlignment.TOP, table.getRelativeVerticalAlignment());
+        Assert.assertEquals(HorizontalAlignment.CENTER, table.getRelativeHorizontalAlignment());
 
         doc.save(getArtifactsDir() + "Table.ChangeFloatingTableProperties.docx");
         //ExEnd
@@ -1333,9 +1334,9 @@ public class ExTable extends ApiExampleBase
         table.setStyle(tableStyle);
 
         // Some Table attributes are linked to style variables
-        msAssert.areEqual(true, table.getBidi());
-        msAssert.areEqual(5.0, table.getCellSpacing());
-        msAssert.areEqual("MyTableStyle1", table.getStyleName());
+        Assert.assertEquals(true, table.getBidi());
+        Assert.assertEquals(5.0, table.getCellSpacing());
+        Assert.assertEquals("MyTableStyle1", table.getStyleName());
 
         doc.save(getArtifactsDir() + "Table.TableStyleCreation.docx");
         //ExEnd
@@ -1417,7 +1418,7 @@ public class ExTable extends ApiExampleBase
         // by index
         tableStyle.getConditionalStyles().get(0).getBorders().setColor(Color.BLACK);
         tableStyle.getConditionalStyles().get(0).getBorders().setLineStyle(LineStyle.DOT_DASH);
-        msAssert.areEqual(ConditionalStyleType.FIRST_ROW, tableStyle.getConditionalStyles().get(0).getType());
+        Assert.assertEquals(ConditionalStyleType.FIRST_ROW, tableStyle.getConditionalStyles().get(0).getType());
         // directly from ConditionalStyleCollection
         tableStyle.getConditionalStyles().getFirstRow().getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
         // To see this in Word document select Total Row checkbox in Design Tab
@@ -1472,11 +1473,11 @@ public class ExTable extends ApiExampleBase
 
         // You can reset styles from the specific table area
         tableStyle.getConditionalStyles().get(0).clearFormatting();
-        msAssert.areEqual(msColor.Empty, tableStyle.getConditionalStyles().getFirstRow().getBorders().getColor());
+        Assert.assertEquals(msColor.Empty, tableStyle.getConditionalStyles().getFirstRow().getBorders().getColor());
 
         // Or clear all table styles
         tableStyle.getConditionalStyles().clearFormatting();
-        msAssert.areEqual(msColor.Empty, tableStyle.getConditionalStyles().getLastRow().getBorders().getColor());
+        Assert.assertEquals(msColor.Empty, tableStyle.getConditionalStyles().getLastRow().getBorders().getColor());
         //ExEnd
     }
 
@@ -1531,22 +1532,22 @@ public class ExTable extends ApiExampleBase
         // So AW by default define only 5 cells in a row and all of it didn't have horizontal merge flag
         Table table = doc.getFirstSection().getBody().getTables().get(0);
         Row row = table.getRows().get(0);
-        msAssert.areEqual(5, row.getCells().getCount());
+        Assert.assertEquals(5, row.getCells().getCount());
 
         // To resolve this inconvenience, we have added new public method to convert cells which are horizontally merged
         // by its width to the cell horizontally merged by flags. Thus now we have 7 cells and some of them have
         // horizontal merge value
         table.convertToHorizontallyMergedCells();
         row = table.getRows().get(0);
-        msAssert.areEqual(7, row.getCells().getCount());
+        Assert.assertEquals(7, row.getCells().getCount());
 
-        msAssert.areEqual(CellMerge.NONE, row.getCells().get(0).getCellFormat().getHorizontalMerge());
-        msAssert.areEqual(CellMerge.FIRST, row.getCells().get(1).getCellFormat().getHorizontalMerge());
-        msAssert.areEqual(CellMerge.PREVIOUS, row.getCells().get(2).getCellFormat().getHorizontalMerge());
-        msAssert.areEqual(CellMerge.NONE, row.getCells().get(3).getCellFormat().getHorizontalMerge());
-        msAssert.areEqual(CellMerge.FIRST, row.getCells().get(4).getCellFormat().getHorizontalMerge());
-        msAssert.areEqual(CellMerge.PREVIOUS, row.getCells().get(5).getCellFormat().getHorizontalMerge());
-        msAssert.areEqual(CellMerge.NONE, row.getCells().get(6).getCellFormat().getHorizontalMerge());
+        Assert.assertEquals(CellMerge.NONE, row.getCells().get(0).getCellFormat().getHorizontalMerge());
+        Assert.assertEquals(CellMerge.FIRST, row.getCells().get(1).getCellFormat().getHorizontalMerge());
+        Assert.assertEquals(CellMerge.PREVIOUS, row.getCells().get(2).getCellFormat().getHorizontalMerge());
+        Assert.assertEquals(CellMerge.NONE, row.getCells().get(3).getCellFormat().getHorizontalMerge());
+        Assert.assertEquals(CellMerge.FIRST, row.getCells().get(4).getCellFormat().getHorizontalMerge());
+        Assert.assertEquals(CellMerge.PREVIOUS, row.getCells().get(5).getCellFormat().getHorizontalMerge());
+        Assert.assertEquals(CellMerge.NONE, row.getCells().get(6).getCellFormat().getHorizontalMerge());
         //ExEnd
     }
 }

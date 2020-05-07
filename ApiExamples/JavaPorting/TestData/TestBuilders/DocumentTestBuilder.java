@@ -13,14 +13,14 @@ public class DocumentTestBuilder extends ApiExampleBase
     private Document mDocument;
     private Stream mDocumentStream;
     private byte[] mDocumentBytes;
-    private String mDocumentUri;
+    private String mDocumentString;
 
     public DocumentTestBuilder() throws Exception
     {
         mDocument = new Document();
         mDocumentStream = Stream.Null;
         mDocumentBytes = new byte[0];
-        mDocumentUri = "";
+        mDocumentString = "";
     }
 
     public DocumentTestBuilder withDocument(Document doc)
@@ -41,14 +41,14 @@ public class DocumentTestBuilder extends ApiExampleBase
         return this;
     }
 
-    public DocumentTestBuilder withDocumentUri(String docUri)
+    public DocumentTestBuilder withDocumentString(String docString)
     {
-        mDocumentUri = docUri;
+        mDocumentString = docString;
         return this;
     }
 
     public DocumentTestClass build()
     {
-        return new DocumentTestClass(mDocument, mDocumentStream, mDocumentBytes, mDocumentUri);
+        return new DocumentTestClass(mDocument, mDocumentStream, mDocumentBytes, mDocumentString);
     }
 }

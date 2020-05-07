@@ -12,7 +12,6 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.BookmarkCollection;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Paragraph;
@@ -64,11 +63,9 @@ public class ExBookmarks extends ApiExampleBase
         // Create a document with 3 bookmarks: "MyBookmark 1", "MyBookmark 2", "MyBookmark 3"
         Document doc = createDocumentWithBookmarks();
         BookmarkCollection bookmarks = doc.getRange().getBookmarks();
-
-        // Check that we have 3 bookmarks
-        msAssert.areEqual(3, bookmarks.getCount());
-        msAssert.areEqual("MyBookmark 1", bookmarks.get(0).getName()); //ExSkip
-        msAssert.areEqual("Text content of MyBookmark 2", bookmarks.get(1).getText()); //ExSkip
+        Assert.assertEquals(3, bookmarks.getCount()); //ExSkip
+        Assert.assertEquals("MyBookmark 1", bookmarks.get(0).getName()); //ExSkip
+        Assert.assertEquals("Text content of MyBookmark 2", bookmarks.get(1).getText()); //ExSkip
 
         // Look at initial values of our bookmarks
         printAllBookmarkInfo(bookmarks);
@@ -82,9 +79,9 @@ public class ExBookmarks extends ApiExampleBase
 
         bookmarks = doc.getRange().getBookmarks();
         // Check that we have 2 bookmarks after the latest bookmark was deleted
-        msAssert.areEqual(2, bookmarks.getCount());
-        msAssert.areEqual("Updated name of MyBookmark 1", bookmarks.get(0).getName()); //ExSkip
-        msAssert.areEqual("Updated text content of MyBookmark 2", bookmarks.get(1).getText()); //ExSkip
+        Assert.assertEquals(2, bookmarks.getCount());
+        Assert.assertEquals("Updated name of MyBookmark 1", bookmarks.get(0).getName()); //ExSkip
+        Assert.assertEquals("Updated text content of MyBookmark 2", bookmarks.get(1).getText()); //ExSkip
 
         // Look at updated values of our bookmarks
         printAllBookmarkInfo(bookmarks);
@@ -197,12 +194,12 @@ public class ExBookmarks extends ApiExampleBase
         Bookmark secondTableColumnBookmark = doc.getRange().getBookmarks().get("SecondTableColumnBookmark");
 
         Assert.assertTrue(firstTableColumnBookmark.isColumn());
-        msAssert.areEqual(1, firstTableColumnBookmark.getFirstColumn());
-        msAssert.areEqual(3, firstTableColumnBookmark.getLastColumn());
+        Assert.assertEquals(1, firstTableColumnBookmark.getFirstColumn());
+        Assert.assertEquals(3, firstTableColumnBookmark.getLastColumn());
 
         Assert.assertTrue(secondTableColumnBookmark.isColumn());
-        msAssert.areEqual(0, secondTableColumnBookmark.getFirstColumn());
-        msAssert.areEqual(3, secondTableColumnBookmark.getLastColumn());
+        Assert.assertEquals(0, secondTableColumnBookmark.getFirstColumn());
+        Assert.assertEquals(3, secondTableColumnBookmark.getLastColumn());
     }
 
     @Test
@@ -220,7 +217,7 @@ public class ExBookmarks extends ApiExampleBase
         //ExEnd
 
         // Verify that the bookmarks were removed
-        msAssert.areEqual(0, doc.getRange().getBookmarks().getCount());
+        Assert.assertEquals(0, doc.getRange().getBookmarks().getCount());
     }
 
     @Test
@@ -247,7 +244,7 @@ public class ExBookmarks extends ApiExampleBase
 
         // In docx we have additional hidden bookmark "_GoBack"
         // When we check bookmarks count, the result will be 1 instead of 0
-        msAssert.areEqual(1, doc.getRange().getBookmarks().getCount());
+        Assert.assertEquals(1, doc.getRange().getBookmarks().getCount());
     }
 
     @Test
@@ -258,7 +255,7 @@ public class ExBookmarks extends ApiExampleBase
         //ExSummary:Shows how to replace elements in bookmark name
         // Open a document with 3 bookmarks: "MyBookmark1", "My_Bookmark2", "MyBookmark3"
         Document doc = new Document(getMyDir() + "Bookmarks.docx");
-        msAssert.areEqual("MyBookmark3", doc.getRange().getBookmarks().get(2).getName()); //ExSkip
+        Assert.assertEquals("MyBookmark3", doc.getRange().getBookmarks().get(2).getName()); //ExSkip
 
         // MS Word document does not support bookmark names with whitespaces by default
         // If you have document which contains bookmark names with underscores, you can simply replace them to whitespaces

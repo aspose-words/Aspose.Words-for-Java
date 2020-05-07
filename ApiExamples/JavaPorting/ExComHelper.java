@@ -12,8 +12,8 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.ComHelper;
 import com.aspose.words.Document;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
+import com.aspose.ms.System.msString;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 
@@ -37,14 +37,14 @@ public class ExComHelper extends ApiExampleBase
         // There are two ways of using a ComHelper to open a document
         // 1: Using a filename
         Document doc = comHelper.open(getMyDir() + "Document.docx");
-        msAssert.areEqual("Hello World!\f", doc.getText());
+        Assert.assertEquals("Hello World!", msString.trim(doc.getText()));
 
         // 2: Using a Stream
         FileStream stream = new FileStream(getMyDir() + "Document.docx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
             doc = comHelper.open(stream);
-            msAssert.areEqual("Hello World!\f", doc.getText());
+            Assert.assertEquals("Hello World!", msString.trim(doc.getText()));
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd

@@ -29,28 +29,32 @@ import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import org.bouncycastle.jcajce.provider.keystore.pkcs12.PKCS12KeyStoreSpi;
 import java.util.Iterator;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
+import com.aspose.ms.System.msString;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 import com.aspose.words.ConvertUtil;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.IncorrectPasswordException;
-import com.aspose.words.SaveFormat;
 import com.aspose.words.FileFormatInfo;
 import com.aspose.words.FileFormatUtil;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import com.aspose.words.SaveFormat;
 import com.aspose.words.FontSettings;
 import com.aspose.words.MsWordVersion;
-import com.aspose.words.IWarningCallback;
+import java.util.ArrayList;
 import com.aspose.words.WarningInfo;
+import com.aspose.words.IWarningCallback;
+import com.aspose.ms.System.Collections.msArrayList;
+import com.aspose.words.WarningType;
+import com.aspose.words.WarningSource;
 import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.DocumentSplitCriteria;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.IFontSavingCallback;
 import com.aspose.words.FontSavingArgs;
-import com.aspose.ms.System.msString;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Run;
 import com.aspose.words.INodeChangingCallback;
@@ -58,42 +62,46 @@ import com.aspose.words.NodeChangingArgs;
 import com.aspose.words.Font;
 import com.aspose.words.ImportFormatMode;
 import java.io.FileNotFoundException;
-import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignature;
 import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.words.SignOptions;
 import com.aspose.ms.System.DateTime;
+import com.aspose.words.DigitalSignatureCollection;
+import com.aspose.words.DigitalSignatureType;
 import com.aspose.words.StyleIdentifier;
-import java.util.ArrayList;
 import java.util.Collections;
 import com.aspose.words.ControlChar;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.words.FieldUpdateCultureSource;
 import com.aspose.words.ProtectionType;
+import com.aspose.words.NodeCollection;
+import com.aspose.words.TxtSaveOptions;
 import com.aspose.words.Table;
-import com.aspose.words.Cell;
-import com.aspose.words.LoadFormat;
-import java.util.Map;
+import com.aspose.words.BreakType;
+import com.aspose.words.FootnoteType;
 import com.aspose.words.FootnotePosition;
 import com.aspose.words.NumberStyle;
 import com.aspose.words.FootnoteNumberingRule;
+import com.aspose.words.Footnote;
 import com.aspose.words.EndnotePosition;
 import com.aspose.words.Revision;
-import com.aspose.words.FootnoteType;
 import com.aspose.words.ShapeType;
 import com.aspose.words.Comment;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.Paragraph;
-import com.aspose.words.Footnote;
 import com.aspose.words.FieldDate;
 import com.aspose.words.CompareOptions;
 import com.aspose.words.ComparisonTargetType;
+import com.aspose.words.Node;
+import com.aspose.words.StyleType;
+import com.aspose.words.List;
 import com.aspose.words.CleanupOptions;
 import com.aspose.words.ShowInBalloons;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.RevisionsView;
 import com.aspose.words.ThumbnailGeneratingOptions;
+import com.aspose.ms.System.Drawing.msSize;
 import com.aspose.words.TxtLoadOptions;
 import com.aspose.words.PlainTextDocument;
 import com.aspose.words.BuiltInDocumentProperties;
@@ -101,7 +109,6 @@ import com.aspose.words.CustomDocumentProperties;
 import com.aspose.words.OoxmlCompliance;
 import com.aspose.words.SaveOptions;
 import com.aspose.words.ImageSaveOptions;
-import com.aspose.words.StyleType;
 import com.aspose.words.ListTemplate;
 import com.aspose.words.RevisionType;
 import com.aspose.words.RevisionCollection;
@@ -112,9 +119,9 @@ import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.ReplaceAction;
 import com.aspose.words.ReplacingArgs;
-import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.Field;
 import com.aspose.words.FieldType;
+import com.aspose.words.LayoutOptions;
 import com.aspose.words.RevisionColor;
 import com.aspose.words.MailMergeSettings;
 import com.aspose.words.MailMergeMainDocumentType;
@@ -129,20 +136,19 @@ import com.aspose.words.OdsoFieldMappingType;
 import com.aspose.words.OdsoRecipientDataCollection;
 import com.aspose.words.OdsoRecipientData;
 import com.aspose.words.CustomPart;
+import com.aspose.words.CustomPartCollection;
 import com.aspose.words.TextFormFieldType;
 import com.aspose.words.EditingLanguage;
 import com.aspose.words.RevisionOptions;
 import com.aspose.words.RevisionTextEffect;
 import com.aspose.words.LayoutCollector;
-import com.aspose.words.BreakType;
 import com.aspose.words.Section;
 import com.aspose.words.Body;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.Node;
 import com.aspose.words.LayoutEnumerator;
 import com.aspose.words.LayoutEntityType;
 import com.aspose.ms.System.Drawing.RectangleF;
 import com.aspose.words.DocSaveOptions;
+import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.words.VbaProject;
 import com.aspose.words.VbaModule;
 import com.aspose.words.VbaModuleType;
@@ -151,6 +157,7 @@ import com.aspose.words.SaveOutputParameters;
 import com.aspose.words.SubDocument;
 import com.aspose.words.TaskPane;
 import com.aspose.words.TaskPaneDockState;
+import com.aspose.words.WebExtension;
 import com.aspose.words.WebExtensionStoreType;
 import com.aspose.words.WebExtensionProperty;
 import com.aspose.words.WebExtensionBinding;
@@ -197,7 +204,7 @@ public class ExDocument extends ApiExampleBase
         {
             //ExStart
             //ExFor:License.SetLicense(Stream)
-            //ExSummary:Initializes a license from a stream.
+            //ExSummary:Shows how to initialize a license from a stream.
             License license = new License();
             license.setLicenseInternal(myStream);
             //ExEnd
@@ -208,7 +215,7 @@ public class ExDocument extends ApiExampleBase
         }
     }
 
-    @Test
+    @Test (groups = "IgnoreOnJenkins")
     public void openType() throws Exception
     {
         //ExStart
@@ -239,8 +246,9 @@ public class ExDocument extends ApiExampleBase
     {
         // Create a new LoadOptions object and set its ResourceLoadingCallback attribute
         // as an instance of our IResourceLoadingCallback implementation 
-        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setResourceLoadingCallback(new HtmlLinkedResourceLoadingCallback()); }
-
+        LoadOptions loadOptions = new LoadOptions();
+        loadOptions.setResourceLoadingCallback(new HtmlLinkedResourceLoadingCallback());
+        
         // When we open an Html document, external resources such as references to CSS stylesheet files and external images
         // will be handled in a custom manner by the loading callback as the document is loaded
         Document doc = new Document(getMyDir() + "Images.html", loadOptions);
@@ -273,8 +281,8 @@ public class ExDocument extends ApiExampleBase
                     args.setData(imageBytes);
 
                     return ResourceLoadingAction.USER_PROVIDED;
-
             }
+
             return ResourceLoadingAction.DEFAULT;
         }
     }
@@ -288,15 +296,15 @@ public class ExDocument extends ApiExampleBase
         //ExFor:CertificateHolder.Create(Byte[], String)
         //ExFor:CertificateHolder.Create(String, String, String)
         //ExSummary:Shows how to create CertificateHolder objects.
-        // 1: Load a PKCS #12 file into a byte array and apply its password to create the CertificateHolder
+        // Load a PKCS #12 file into a byte array and apply its password to create the CertificateHolder
         byte[] certBytes = File.readAllBytes(getMyDir() + "morzal.pfx");
         CertificateHolder.create(certBytes, "aw");
 
-        // 2: Pass a SecureString which contains the password instead of a normal string
+        // Pass a SecureString which contains the password instead of a normal string
         SecureString password = new NetworkCredential("", "aw").SecurePassword;
         // JAVA-deleted Create(): Java hasn't SecureString analog: 1) it should be low-level-platform-dependent, but 2) can't be absolutely safe.
 
-        // 3: If the certificate has private keys corresponding to aliases, we can use the aliases to fetch their respective keys
+        // If the certificate has private keys corresponding to aliases, we can use the aliases to fetch their respective keys
         // First, we'll check for valid aliases like this
         FileStream certStream = new FileStream(getMyDir() + "morzal.pfx", FileMode.OPEN);
         try /*JAVA: was using*/
@@ -326,13 +334,20 @@ public class ExDocument extends ApiExampleBase
         //ExEnd
     }
 
+
     @Test
     public void documentCtor() throws Exception
     {
         //ExStart
         //ExFor:Document.#ctor(Boolean)
-        //ExSummary:Shows how to create a blank document. Note the blank document contains one section and one paragraph.
+        //ExSummary:Shows how to create a blank document.
+        // Create a blank document, which will contain a section, body and paragraph by default
         Document doc = new Document();
+
+        // Create a document object from an existing document in the local file system
+        doc = new Document(getMyDir() + "Document.docx");
+
+        Assert.assertEquals("Hello World!", msString.trim(doc.getFirstSection().getBody().getFirstParagraph().getText()));
         //ExEnd
     }
 
@@ -363,49 +378,47 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.#ctor(Stream)
-        //ExSummary:Opens a document from a stream.
+        //ExSummary:Shows how to open a document from a stream.
         // Open the stream. Read only access is enough for Aspose.Words to load a document.
         Stream stream = File.openRead(getMyDir() + "Document.docx");
         try /*JAVA: was using*/
         {
-            // Load the entire document into memory.
+            // Load the entire document into memory and read its contents
             Document doc = new Document(stream);
-            msAssert.areEqual("Hello World!\f", doc.getText()); //ExSkip
+
+            Assert.assertEquals("Hello World!", msString.trim(doc.getText()));
         }
         finally { if (stream != null) stream.close(); }
-        // ... do something with the document
         //ExEnd
     }
 
     @Test
     public void openFromStreamWithBaseUri() throws Exception
     {
+        Document doc;
+
         //ExStart
         //ExFor:Document.#ctor(Stream,LoadOptions)
         //ExFor:LoadOptions.#ctor
         //ExFor:LoadOptions.BaseUri
-        //ExFor:ShapeBase.IsImage
-        //ExSummary:Opens an HTML document with images from a stream using a base URI.
-        Document doc = new Document();
-        String fileName = getMyDir() + "Document.html";
-
+        //ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
         // Open the stream
-        Stream stream = File.openRead(fileName);
+        Stream stream = File.openRead(getMyDir() + "Document.html");
         try /*JAVA: was using*/
         {
-            // Open the document. Note the Document constructor detects HTML format automatically
             // Pass the URI of the base folder so any images with relative URIs in the HTML document can be found
+            // Note the Document constructor detects HTML format automatically
             LoadOptions loadOptions = new LoadOptions();
             loadOptions.setBaseUri(getImageDir());
 
             doc = new Document(stream, loadOptions);
         }
         finally { if (stream != null) stream.close(); }
+        //ExEnd
 
         // Save in the DOC format
         doc.save(getArtifactsDir() + "Document.OpenFromStreamWithBaseUri.doc");
-        //ExEnd
-
+        
         // Lets make sure the image was imported successfully into a Shape node
         // Get the first shape node in the document
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
@@ -421,9 +434,10 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.#ctor(Stream)
-        //ExSummary:Retrieves a document from a URL and saves it to disk in a different format.
+        //ExSummary:Shows how to retrieve a document from a URL and saves it to disk in a different format.
         // This is the URL address pointing to where to find the document
-        final String URL = "https://is.gd/URJluZ";
+        final String URL = "https://omextemplates.content.office.net/support/templates/en-us/tf16402488.dotx";
+
         // The easiest way to load our document from the internet is make use of the 
         // System.Net.WebClient class. Create an instance of it and pass the URL
         // to download from.
@@ -432,6 +446,7 @@ public class ExDocument extends ApiExampleBase
         {
             // Download the bytes from the location referenced by the URL
             byte[] dataBytes = webClient.DownloadData(URL);
+            Assert.That(dataBytes, Is.Not.Empty); //ExSkip
 
             // Wrap the bytes representing the document in memory into a MemoryStream object
             MemoryStream byteStream = new MemoryStream(dataBytes);
@@ -441,8 +456,9 @@ public class ExDocument extends ApiExampleBase
                 // The file format of the passed data is inferred from the content of the bytes itself
                 // You can load any document format supported by Aspose.Words in the same way
                 Document doc = new Document(byteStream);
+                Assert.assertTrue(doc.getText().contains("First Name last name")); //ExSkip
 
-                // Convert the document to any format supported by Aspose.Words
+                // Convert the document to any format supported by Aspose.Words and save
                 doc.save(getArtifactsDir() + "Document.OpenDocumentFromWeb.docx");
             }
             finally { if (byteStream != null) byteStream.close(); }
@@ -461,7 +477,7 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows how to insert the HTML contents from a web page into a new document.
         // The url of the page to load 
         final String URL = "http://www.aspose.com/";
-
+        
         // Create a WebClient object to easily extract the HTML from the page
         WebClient client = new WebClient();
         String pageSource = client.DownloadString(URL);
@@ -471,7 +487,7 @@ public class ExDocument extends ApiExampleBase
         Encoding encoding = client.Encoding;
         byte[] pageBytes = encoding.getBytes(pageSource);
 
-        // Load the HTML into a stream.
+        // Load the HTML into a stream
         MemoryStream stream = new MemoryStream(pageBytes);
         try /*JAVA: was using*/
         {
@@ -481,9 +497,8 @@ public class ExDocument extends ApiExampleBase
             // Load the HTML document from stream and pass the LoadOptions object
             Document doc = new Document(stream, options);
 
-            // Save the document to disk
-            // The extension of the filename can be changed to save the document into other formats. e.g PDF, DOCX, ODT, RTF.
-            doc.save(getArtifactsDir() + "Document.InsertHtmlFromWebPage.doc");
+            // Save the document to the local file system while converting it to .docx
+            doc.save(getArtifactsDir() + "Document.InsertHtmlFromWebPage.docx");
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
@@ -496,12 +511,14 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.#ctor(String,LoadOptions)
         //ExFor:LoadOptions.LoadFormat
         //ExFor:LoadFormat
-        //ExSummary:Explicitly loads a document as HTML without automatic file format detection.
+        //ExSummary:Shows how to load a document as HTML without automatic file format detection.
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setLoadFormat(com.aspose.words.LoadFormat.HTML);
 
         Document doc = new Document(getMyDir() + "Document.html", loadOptions);
         //ExEnd
+
+        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
     }
 
     @Test
@@ -513,43 +530,62 @@ public class ExDocument extends ApiExampleBase
         //ExFor:LoadOptions
         //ExFor:LoadOptions.#ctor(String)
         //ExSummary:Shows how to load a Microsoft Word document encrypted with a password.
-        Document doc;
-
-        // Trying to open a password-encrypted document the normal way will cause an exception to be thrown
-        Assert.<IncorrectPasswordException>Throws(() =>
-        {
-            doc = new Document(getMyDir() + "Encrypted.docx");
-        });
-
-        // To open it and access its contents, we need to open it using the correct password
-        // The password is delivered via a LoadOptions object, after being passed to it's constructor
+        // If we try open an encrypted document without the password, an IncorrectPasswordException will be thrown
+        // We can construct a LoadOptions object with the correct encryption password
         LoadOptions options = new LoadOptions("docPassword");
 
-        // We can now open the document either by filename or stream
-        doc = new Document(getMyDir() + "Encrypted.docx", options);
+        // Then, we can use that object as a parameter when opening an encrypted document
+        Document doc = new Document(getMyDir() + "Encrypted.docx", options);
+        Assert.assertEquals("Test encrypted document.", msString.trim(doc.getText())); //ExSkip
 
         Stream stream = File.openRead(getMyDir() + "Encrypted.docx");
         try /*JAVA: was using*/
         {
             doc = new Document(stream, options);
+            Assert.assertEquals("Test encrypted document.", msString.trim(doc.getText())); //ExSkip
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
+
+        Assert.<IncorrectPasswordException>Throws(() => doc = new Document(getMyDir() + "Encrypted.docx"));
     }
 
-    @Test
-    public void convertShapeToOfficeMath() throws Exception
+    @Test (dataProvider = "convertShapeToOfficeMathDataProvider")
+    public void convertShapeToOfficeMath(boolean isConvertShapeToOfficeMath) throws Exception
     {
         //ExStart
         //ExFor:LoadOptions.ConvertShapeToOfficeMath
         //ExSummary:Shows how to convert shapes with EquationXML to Office Math objects.
-        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setConvertShapeToOfficeMath(false); }
-
+        LoadOptions loadOptions = new LoadOptions();
+        // Use 'true/false' values to convert shapes with EquationXML to Office Math objects or not
+        loadOptions.setConvertShapeToOfficeMath(isConvertShapeToOfficeMath);
+        
         // Specify load option to convert math shapes to office math objects on loading stage
         Document doc = new Document(getMyDir() + "Math shapes.docx", loadOptions);
-        doc.save(getArtifactsDir() + "Document.ConvertShapeToOfficeMath.docx", SaveFormat.DOCX);
         //ExEnd
+
+        if (isConvertShapeToOfficeMath)
+        {
+            Assert.assertEquals(16, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+            Assert.assertEquals(34, doc.getChildNodes(NodeType.OFFICE_MATH, true).getCount());
+        }
+        else
+        {
+            Assert.assertEquals(24, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+            Assert.assertEquals(0, doc.getChildNodes(NodeType.OFFICE_MATH, true).getCount());
+        }
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "convertShapeToOfficeMathDataProvider")
+	public static Object[][] convertShapeToOfficeMathDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
 
     @Test
     public void loadOptionsEncoding() throws Exception
@@ -560,17 +596,14 @@ public class ExDocument extends ApiExampleBase
         // Get the file format info of a file in our local file system
         FileFormatInfo fileFormatInfo = FileFormatUtil.detectFileFormat(getMyDir() + "Encoded in UTF-7.txt");
 
-        // One of the aspects of a document that the FileFormatUtil can pick up is the text encoding
-        // This automatically takes place every time we open a document programmatically
-        // Occasionally, due to the text content in the document as well as the lack of an encoding declaration,
-        // the encoding of a document may be ambiguous 
-        // In this case, while we know that our document is in UTF-7, the file encoding detector doesn't
+        // A FileFormatInfo object can detect the encoding of the text content in a file, but in some cases it may be ambiguous
+        // We know that the above file is encoded in UTF-7, but the text could be valid in others
         msAssert.areNotEqual(Encoding.getUTF7(), fileFormatInfo.getEncodingInternal());
 
         // If we open the document normally, the wrong encoding will be applied,
         // and the content of the document will not be represented correctly
         Document doc = new Document(getMyDir() + "Encoded in UTF-7.txt");
-        msAssert.areEqual("Hello world+ACE-\r\n\r\n", doc.toString(SaveFormat.TEXT));
+        Assert.assertEquals("Hello world+ACE-\r\n\r\n", doc.toString(SaveFormat.TEXT));
 
         // In these cases we can set the Encoding attribute in a LoadOptions object
         // to override the automatically chosen encoding with the one we know to be correct
@@ -578,7 +611,7 @@ public class ExDocument extends ApiExampleBase
         doc = new Document(getMyDir() + "Encoded in UTF-7.txt", loadOptions);
 
         // This will give us the correct text
-        msAssert.areEqual("Hello world!\r\n\r\n", doc.toString(SaveFormat.TEXT));
+        Assert.assertEquals("Hello world!\r\n\r\n", doc.toString(SaveFormat.TEXT));
         //ExEnd
     }
 
@@ -594,7 +627,8 @@ public class ExDocument extends ApiExampleBase
         fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Times New Roman", "Arvo");
 
         // Set that FontSettings object as a member of a newly created LoadOptions object
-        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setFontSettings(fontSettings); }
+        LoadOptions loadOptions = new LoadOptions();
+        loadOptions.setFontSettings(fontSettings);
 
         // We can now open a document while also passing the LoadOptions object into the constructor so the font substitution occurs upon loading
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
@@ -612,7 +646,7 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows how to emulate the loading procedure of a specific Microsoft Word version during document loading.
         // Create a new LoadOptions object, which will load documents according to MS Word 2019 specification by default
         LoadOptions loadOptions = new LoadOptions();
-        msAssert.areEqual(MsWordVersion.WORD_2019, loadOptions.getMswVersion());
+        Assert.assertEquals(MsWordVersion.WORD_2019, loadOptions.getMswVersion());
 
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
         Assert.assertEquals(12.95, doc.getStyles().getDefaultParagraphFormat().getLineSpacing(), 0.005f);
@@ -630,15 +664,20 @@ public class ExDocument extends ApiExampleBase
 
     //ExStart
     //ExFor:LoadOptions.WarningCallback
-    //ExSummary:Shows how to print warnings that occur during document loading.
+    //ExSummary:Shows how to print and store warnings that occur during document loading.
     @Test //ExSkip
     public void loadOptionsWarningCallback() throws Exception
     {
         // Create a new LoadOptions object and set its WarningCallback attribute as an instance of our IWarningCallback implementation 
-        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setWarningCallback(new DocumentLoadingWarningCallback()); }
+        LoadOptions loadOptions = new LoadOptions();
+        loadOptions.setWarningCallback(new DocumentLoadingWarningCallback());
 
-        // Minor warnings that might not prevent the effective loading of the document will now be printed
+        // Warnings that occur during loading of the document will now be printed and stored
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
+
+        ArrayList<WarningInfo> warnings = ((DocumentLoadingWarningCallback)loadOptions.getWarningCallback()).getWarnings();
+        Assert.assertEquals(3, warnings.size());
+        testLoadOptionsWarningCallback(warnings); //ExSkip
     }
 
     /// <summary>
@@ -648,11 +687,35 @@ public class ExDocument extends ApiExampleBase
     {
         public void warning(WarningInfo info)
         {
-            System.out.println("WARNING: {info.WarningType}, source: {info.Source}");
+            System.out.println("Warning: {info.WarningType}");
+            System.out.println("\tSource: {info.Source}");
             System.out.println("\tDescription: {info.Description}");
+            msArrayList.add(mWarnings, info);
         }
+
+        public ArrayList<WarningInfo> getWarnings()
+        {
+            return mWarnings;
+        }
+
+        private /*final*/ ArrayList<WarningInfo> mWarnings = new ArrayList<WarningInfo>();
     }
     //ExEnd
+
+    private static void testLoadOptionsWarningCallback(ArrayList<WarningInfo> warnings)
+    {
+        Assert.assertEquals(WarningType.UNEXPECTED_CONTENT, warnings.get(0).getWarningType());
+        Assert.assertEquals(WarningSource.DOCX, warnings.get(0).getSource());
+        Assert.assertEquals("3F01", warnings.get(0).getDescription());
+
+        Assert.assertEquals(WarningType.MINOR_FORMATTING_LOSS, warnings.get(1).getWarningType());
+        Assert.assertEquals(WarningSource.DOCX, warnings.get(1).getSource());
+        Assert.assertEquals("Import of element 'shapedefaults' is not supported in Docx format by Aspose.Words.", warnings.get(1).getDescription()); 
+
+        Assert.assertEquals(WarningType.MINOR_FORMATTING_LOSS, warnings.get(2).getWarningType()); 
+        Assert.assertEquals(WarningSource.DOCX, warnings.get(2).getSource());
+        Assert.assertEquals("Import of element 'extraClrSchemeLst' is not supported in Docx format by Aspose.Words.", warnings.get(2).getDescription()); 
+    }
 
     @Test
     public void convertToHtml() throws Exception
@@ -660,7 +723,7 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.Save(String,SaveFormat)
         //ExFor:SaveFormat
-        //ExSummary:Converts from DOCX to HTML format.
+        //ExSummary:Shows how to convert from DOCX to HTML format.
         Document doc = new Document(getMyDir() + "Document.docx");
         doc.save(getArtifactsDir() + "Document.ConvertToHtml.html", SaveFormat.HTML);
         //ExEnd
@@ -696,6 +759,7 @@ public class ExDocument extends ApiExampleBase
 
             // Rewind the stream position back to zero so it is ready for next reader
             dstStream.setPosition(0);
+            Assert.assertEquals("Hello World!", msString.trim(new Document(dstStream).getText())); //ExSkip
         }
         finally { if (dstStream != null) dstStream.close(); }
         //ExEnd
@@ -724,15 +788,14 @@ public class ExDocument extends ApiExampleBase
         //ExFor:HtmlSaveOptions.SaveFormat
         //ExFor:SaveOptions
         //ExFor:SaveOptions.SaveFormat
-        //ExSummary:Converts a document to EPUB with save options specified.
+        //ExSummary:Shows how to convert a document to EPUB with save options specified.
         // Open an existing document from disk
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Create a new instance of HtmlSaveOptions. This object allows us to set options that control
         // how the output document is saved
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-
-        // Specify the desired encoding.
+        // Specify the desired encoding
         saveOptions.setEncodingInternal(Encoding.getUTF8());
 
         // Specify at what elements to split the internal HTML at. This creates a new HTML within the EPUB 
@@ -764,41 +827,63 @@ public class ExDocument extends ApiExampleBase
         // Open a document that contains images 
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
+        doc.save(getArtifactsDir() + "Document.DownsampleOptions.Default.pdf");
+
         // If we want to convert the document to .pdf, we can use a SaveOptions implementation to customize the saving process
         PdfSaveOptions options = new PdfSaveOptions();
 
         // This conversion will downsample images by default
         Assert.assertTrue(options.getDownsampleOptions().getDownsampleImages());
-        msAssert.areEqual(220, options.getDownsampleOptions().getResolution());
+        Assert.assertEquals(220, options.getDownsampleOptions().getResolution());
 
         // We can set the output resolution to a different value
         // The first two images in the input document will be affected by this
         options.getDownsampleOptions().setResolution(36);
 
         // We can set a minimum threshold for downsampling 
-        // This value will prevent the second image in the input document from being downsampled
+        // This value will prevent some images in the input document from being downsampled
         options.getDownsampleOptions().setResolutionThreshold(128);
 
-        doc.save(getArtifactsDir() + "Document.DownsampleOptions.pdf", options);
+        doc.save(getArtifactsDir() + "Document.DownsampleOptions.LowerThreshold.pdf", options);
         //ExEnd
     }
 
-    @Test
-    public void saveHtmlPrettyFormat() throws Exception
+    @Test (dataProvider = "saveHtmlPrettyFormatDataProvider")
+    public void saveHtmlPrettyFormat(boolean isPrettyFormat) throws Exception
     {
         //ExStart
         //ExFor:SaveOptions.PrettyFormat
         //ExSummary:Shows how to pass an option to export HTML tags in a well spaced, human readable format.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        HtmlSaveOptions htmlOptions = new HtmlSaveOptions(SaveFormat.HTML);
         // Enabling the PrettyFormat setting will export HTML in an indented format that is easy to read
         // If this is setting is false (by default) then the HTML tags will be exported in condensed form with no indentation
-        htmlOptions.setPrettyFormat(true);
+        HtmlSaveOptions htmlOptions = new HtmlSaveOptions(SaveFormat.HTML);
+        htmlOptions.setPrettyFormat(isPrettyFormat);
 
         doc.save(getArtifactsDir() + "Document.SaveHtmlPrettyFormat.html", htmlOptions);
         //ExEnd
+
+        String html = File.readAllText(getArtifactsDir() + "Document.SaveHtmlPrettyFormat.html");
+
+        // Enabling HtmlSaveOptions.PrettyFormat places tabs and newlines in places where it would improve the readability of html source
+        Assert.assertTrue(isPrettyFormat
+            ? html.startsWith(
+                "<html>\r\n\t<head>\r\n\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n\t\t")
+            : html.startsWith(
+                "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />"));
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "saveHtmlPrettyFormatDataProvider")
+	public static Object[][] saveHtmlPrettyFormatDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
 
     @Test
     public void saveHtmlWithOptions() throws Exception
@@ -830,7 +915,7 @@ public class ExDocument extends ApiExampleBase
         // Verify the images were saved to the correct location
         Assert.assertTrue(File.exists(getArtifactsDir() + "Document.SaveHtmlWithOptions.html"));
 
-        msAssert.areEqual(9, Directory.getFiles(imagesDir).length);
+        Assert.assertEquals(9, Directory.getFiles(imagesDir).length);
 
         Directory.delete(imagesDir, true);
     }
@@ -858,13 +943,14 @@ public class ExDocument extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        // Set the option to export font resources
+        // Set the option to export font resources and create and pass the object which implements the handler methods
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
         options.setExportFontResources(true);
-        // Create and pass the object which implements the handler methods
         options.setFontSavingCallback(new HandleFontSaving());
-
+        
+        // The fonts from the input document will now be exported as .ttf files and saved alongside the output document
         doc.save(getArtifactsDir() + "Document.SaveHtmlExportFonts.html", options);
+        Assert.assertEquals(10, Object[].FindAll(Directory.getFiles(getArtifactsDir()), s => s.endsWith(".ttf")).length); //ExSkip
     }
 
     /// <summary>
@@ -909,7 +995,6 @@ public class ExDocument extends ApiExampleBase
     @Test //ExSkip
     public void fontChangeViaCallback() throws Exception
     {
-        // Create a blank document object
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -919,12 +1004,11 @@ public class ExDocument extends ApiExampleBase
         // Insert sample HTML content
         builder.insertHtml("<p>Hello World</p>");
 
-        doc.save(getArtifactsDir() + "Document.FontChangeViaCallback.doc");
-
-        // Check that the inserted content has the correct formatting
-        Run run = (Run) doc.getChild(NodeType.RUN, 0, true);
-        msAssert.areEqual(24.0, run.getFont().getSize());
-        msAssert.areEqual("Arial", run.getFont().getName());
+        doc.save(getArtifactsDir() + "Document.FontChangeViaCallback.docx");
+        doc = new Document(getArtifactsDir() + "Document.FontChangeViaCallback.docx"); //ExSkip
+        Run run = (Run)doc.getChild(NodeType.RUN, 0, true); //ExSkip
+        Assert.assertEquals(24.0, run.getFont().getSize()); //ExSkip
+        Assert.assertEquals("Arial", run.getFont().getName()); //ExSkip
     }
 
     public static class HandleNodeChangingFontChanger implements INodeChangingCallback
@@ -965,18 +1049,26 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.AppendDocument(Document, ImportFormatMode)
         //ExSummary:Shows how to append a document to the end of another document.
         // The document that the content will be appended to
-        Document dstDoc = new Document(getMyDir() + "Document.docx");
-        
+        Document dstDoc = new Document();
+        dstDoc.getFirstSection().getBody().appendParagraph("Destination document text. ");
+
         // The document to append
-        Document srcDoc = new Document(getMyDir() + "Paragraphs.docx");
+        Document srcDoc = new Document();
+        srcDoc.getFirstSection().getBody().appendParagraph("Source document text. ");
 
         // Append the source document to the destination document
         // Pass format mode to retain the original formatting of the source document when importing it
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
+        Assert.assertEquals(2, dstDoc.getSections().getCount()); //ExSkip
 
         // Save the document
         dstDoc.save(getArtifactsDir() + "Document.AppendDocument.docx");
         //ExEnd
+
+        String outDocText = new Document(getArtifactsDir() + "Document.AppendDocument.docx").getText();
+
+        Assert.assertTrue(outDocText.startsWith(dstDoc.getText()));
+        Assert.assertTrue(outDocText.endsWith(srcDoc.getText()));
     }
 
     @Test
@@ -1013,34 +1105,6 @@ public class ExDocument extends ApiExampleBase
         }
     }
 
-    @Test
-    public void validateAllDocumentSignatures() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.DigitalSignatures
-        //ExFor:DigitalSignatureCollection
-        //ExFor:DigitalSignatureCollection.IsValid
-        //ExFor:DigitalSignatureCollection.Count
-        //ExFor:DigitalSignatureCollection.Item(Int32)
-        //ExFor:DigitalSignatureType
-        //ExSummary:Shows how to validate all signatures in a document.
-        // Load the signed document
-        Document doc = new Document(getMyDir() + "Digitally signed.docx");
-        DigitalSignatureCollection digitalSignatureCollection = doc.getDigitalSignatures();
-
-        if (digitalSignatureCollection.isValid())
-        {
-            System.out.println("Signatures belonging to this document are valid");
-            msConsole.writeLine(digitalSignatureCollection.getCount());
-            msConsole.writeLine(digitalSignatureCollection.get(0).getSignatureType());
-        }
-        else
-        {
-            System.out.println("Signatures belonging to this document are NOT valid");
-        }
-        //ExEnd
-    }
-
     @Test (enabled = false, description = "WORDSXAND-132")
     public void validateIndividualDocumentSignatures() throws Exception
     {
@@ -1061,8 +1125,8 @@ public class ExDocument extends ApiExampleBase
         {
             System.out.println("*** Signature Found ***");
             System.out.println("Is valid: " + signature.isValid());
-            System.out.println("Reason for signing: " +
-                                  signature.getComments()); // This property is available in MS Word documents only
+            // This property is available in MS Word documents only
+            System.out.println("Reason for signing: " + signature.getComments()); 
             System.out.println("Signature type: " + signature.getSignatureType());
             System.out.println("Time of signing: " + signature.getSignTimeInternal());
             System.out.println("Subject name: " + signature.getCertificateHolder().getCertificateInternal().getSubjectName());
@@ -1071,45 +1135,52 @@ public class ExDocument extends ApiExampleBase
         }
         //ExEnd
 
+        Assert.assertEquals(1, doc.getDigitalSignatures().getCount());
+
         DigitalSignature digitalSig = doc.getDigitalSignatures().get(0);
+
         Assert.assertTrue(digitalSig.isValid());
-        msAssert.areEqual("Test Sign", digitalSig.getComments());
-        msAssert.areEqual("XmlDsig", DigitalSignatureType.toString(digitalSig.getSignatureType()));
+        Assert.assertEquals("Test Sign", digitalSig.getComments());
+        Assert.assertEquals("XmlDsig", DigitalSignatureType.toString(digitalSig.getSignatureType()));
         Assert.assertTrue(digitalSig.getCertificateHolder().getCertificateInternal().getSubject().contains("Aspose Pty Ltd"));
         Assert.assertTrue(digitalSig.getCertificateHolder().getCertificateInternal().getIssuerName().Name != null &&
                     digitalSig.getCertificateHolder().getCertificateInternal().getIssuerName().Name.contains("VeriSign"));
     }
 
     @Test
-    public void digitalSignatureSign() throws Exception
+    public void digitalSignature() throws Exception
     {
         //ExStart
         //ExFor:DigitalSignature.CertificateHolder
         //ExFor:DigitalSignature.IssuerName
         //ExFor:DigitalSignature.SubjectName
+        //ExFor:DigitalSignatureCollection
+        //ExFor:DigitalSignatureCollection.IsValid
+        //ExFor:DigitalSignatureCollection.Count
+        //ExFor:DigitalSignatureCollection.Item(Int32)
         //ExFor:DigitalSignatureUtil.Sign(Stream, Stream, CertificateHolder)
         //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder)
+        //ExFor:DigitalSignatureType
+        //ExFor:Document.DigitalSignatures
         //ExSummary:Shows how to sign documents with X.509 certificates.
-        // Open an unsigned document
-        Document unSignedDoc = new Document(getMyDir() + "Document.docx");
-
-        // Verify that it isn't signed
+        // Verify that a document isn't signed
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx").hasDigitalSignature());
-        msAssert.areEqual(0, unSignedDoc.getDigitalSignatures().getCount());
 
         // Create a CertificateHolder object from a PKCS #12 file, which we will use to sign the document
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
 
         // There are 2 ways of saving a signed copy of a document to the local file system
         // 1: Designate unsigned input and signed output files by filename and sign with the passed CertificateHolder 
-        DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "Document.Signed.1.docx", 
+        DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "Document.DigitalSignature.docx", 
             certificateHolder, new SignOptions(); { .setSignTime(DateTime.getNow()); } );
+
+        Assert.assertTrue(FileFormatUtil.detectFileFormat(getArtifactsDir() + "Document.DigitalSignature.docx").hasDigitalSignature());
 
         // 2: Create a stream for the input file and one for the output and create a file, signed with the CertificateHolder, at the file system location determine
         FileStream inDoc = new FileStream(getMyDir() + "Document.docx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
-            FileStream outDoc = new FileStream(getArtifactsDir() + "Document.Signed.2.docx", FileMode.CREATE);
+            FileStream outDoc = new FileStream(getArtifactsDir() + "Document.DigitalSignature.docx", FileMode.CREATE);
             try /*JAVA: was using*/
             {
                 DigitalSignatureUtil.signInternal(inDoc, outDoc, certificateHolder);
@@ -1118,20 +1189,18 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (inDoc != null) inDoc.close(); }
 
-        // Verify that our documents are signed
-        Document signedDoc = new Document(getArtifactsDir() + "Document.Signed.1.docx");
-        Assert.assertTrue(FileFormatUtil.detectFileFormat(getArtifactsDir() + "Document.Signed.1.docx").hasDigitalSignature());
-        msAssert.areEqual(1,signedDoc.getDigitalSignatures().getCount());
-        Assert.assertTrue(signedDoc.getDigitalSignatures().get(0).isValid());
+        Assert.assertTrue(FileFormatUtil.detectFileFormat(getArtifactsDir() + "Document.DigitalSignature.docx").hasDigitalSignature());
 
-        signedDoc = new Document(getArtifactsDir() + "Document.Signed.2.docx");
-        Assert.assertTrue(FileFormatUtil.detectFileFormat(getArtifactsDir() + "Document.Signed.2.docx").hasDigitalSignature());
-        msAssert.areEqual(1, signedDoc.getDigitalSignatures().getCount());
-        Assert.assertTrue(signedDoc.getDigitalSignatures().get(0).isValid());
+        // Open the signed document and get its digital signature collection
+        Document signedDoc = new Document(getArtifactsDir() + "Document.DigitalSignature.docx");
+        DigitalSignatureCollection digitalSignatureCollection = signedDoc.getDigitalSignatures();
 
-        // These digital signatures will have some of the properties from the X.509 certificate from the .pfx file we used
-        msAssert.areEqual("CN=Morzal.Me", signedDoc.getDigitalSignatures().get(0).getIssuerName());
-        msAssert.areEqual("CN=Morzal.Me", signedDoc.getDigitalSignatures().get(0).getSubjectName());
+        // Verify that all of the document's digital signatures are valid and check their details
+        Assert.assertTrue(digitalSignatureCollection.isValid());
+        Assert.assertEquals(1, digitalSignatureCollection.getCount());
+        Assert.assertEquals(DigitalSignatureType.XML_DSIG, digitalSignatureCollection.get(0).getSignatureType());
+        Assert.assertEquals("CN=Morzal.Me", signedDoc.getDigitalSignatures().get(0).getIssuerName());
+        Assert.assertEquals("CN=Morzal.Me", signedDoc.getDigitalSignatures().get(0).getSubjectName());
         //ExEnd
     }
 
@@ -1161,8 +1230,12 @@ public class ExDocument extends ApiExampleBase
         // In this case we add the optional parameter to include the search only for files with the ".doc" extension
         ArrayList files = new ArrayList(Directory.getFiles(getMyDir(), "*.doc")
             .Where(file => file.EndsWith(".doc", StringComparison.CurrentCultureIgnoreCase)).ToArray());
+        Assert.assertEquals(7, files.size()); //ExSkip
+
         // The list of files may come in any order, let's sort the files by name so the documents are enumerated alphabetically
         Collections.sort(files);
+        Assert.assertEquals(5, baseDoc.getStyles().getCount()); //ExSkip
+        Assert.assertEquals(1, baseDoc.getSections().getCount()); //ExSkip
 
         // Iterate through every file in the directory and append each one to the end of the template document
         for (String fileName : (Iterable<String>) files)
@@ -1180,6 +1253,9 @@ public class ExDocument extends ApiExampleBase
         // Save the combined document to disk
         baseDoc.save(path);
         //ExEnd
+
+        Assert.assertEquals(7, baseDoc.getStyles().getCount());
+        Assert.assertEquals(8, baseDoc.getSections().getCount());
     }
 
     @Test
@@ -1188,29 +1264,20 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.JoinRunsWithSameFormatting
         //ExSummary:Shows how to join runs in a document to reduce unneeded runs.
-        // Let's load this particular document. It contains a lot of content that has been edited many times
-        // This means the document will most likely contain a large number of runs with duplicate formatting
+        // Open a document which contains adjacent runs of text with identical formatting
+        // This can, for example, occur if we edit one paragraph many times
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        // This is for illustration purposes only, remember how many run nodes we had in the original document
-        int runsBefore = doc.getChildNodes(NodeType.RUN, true).getCount();
+        // Get the number of runs our document contains
+        Assert.assertEquals(317, doc.getChildNodes(NodeType.RUN, true).getCount());
 
-        // Join runs with the same formatting. This is useful to speed up processing and may also reduce redundant
-        // tags when exporting to HTML which will reduce the output file size
-        int joinCount = doc.joinRunsWithSameFormatting();
+        // We can merge all nearby runs with the same formatting to reduce that number by calling JoinRunsWithSameFormatting()
+        // This method will also notify us of the number of run joins that took place
+        Assert.assertEquals(121, doc.joinRunsWithSameFormatting());
 
-        // This is for illustration purposes only, see how many runs are left after joining
-        int runsAfter = doc.getChildNodes(NodeType.RUN, true).getCount();
-
-        msConsole.writeLine("Number of runs before: {0}, after: {1}, joins: {2}", runsBefore, runsAfter, joinCount);
-
-        // Save the optimized document to disk
-        doc.save(getArtifactsDir() + "Document.JoinRunsWithSameFormatting.html");
+        // Get the number of runs after joining, which, together with the number of joins should add up to the original number of runs
+        Assert.assertEquals(196, doc.getChildNodes(NodeType.RUN, true).getCount());
         //ExEnd
-
-        // Verify that runs were joined in the document
-        Assert.That(runsAfter, Is.LessThan(runsBefore));
-        msAssert.areNotEqual(0, joinCount);
     }
 
     @Test
@@ -1220,8 +1287,9 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.DefaultTabStop
         //ExFor:ControlChar.Tab
         //ExFor:ControlChar.TabChar
-        //ExSummary:Changes default tab positions for the document and inserts text with some tab characters.
-        DocumentBuilder builder = new DocumentBuilder();
+        //ExSummary:Shows how to change default tab positions for the document and inserts text with some tab characters.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Set default tab stop to 72 points (1 inch)
         builder.getDocument().setDefaultTabStop(72.0);
@@ -1229,6 +1297,9 @@ public class ExDocument extends ApiExampleBase
         builder.writeln("Hello" + ControlChar.TAB + "World!");
         builder.writeln("Hello" + ControlChar.TAB_CHAR + "World!");
         //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+        Assert.assertEquals(72, doc.getDefaultTabStop());
     }
 
     @Test
@@ -1239,45 +1310,46 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows how to deep clone a document.
         Document doc = new Document(getMyDir() + "Document.docx");
         Document clone = doc.deepClone();
+
+        msAssert.areNotEqual(doc, clone);
         //ExEnd
     }
 
     @Test
     public void changeFieldUpdateCultureSource() throws Exception
     {
-        // We will test this functionality creating a document with two fields with date formatting
-        // field where the set language is different than the current culture, e.g German
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Insert content with German locale
-        builder.getFont().setLocaleId(1031);
-        builder.insertField("MERGEFIELD Date1 \\@ \"dddd, d MMMM yyyy\"");
-        builder.write(" - ");
-        builder.insertField("MERGEFIELD Date2 \\@ \"dddd, d MMMM yyyy\"");
-
-        // Make sure that English culture is set then execute mail merge using current culture for
-        // date formatting
-        msCultureInfo currentCulture = CurrentThread.getCurrentCulture();
-        CurrentThread.setCurrentCulture(new msCultureInfo("en-US"));
-        doc.getMailMerge().execute(new String[] { "Date1" }, new Object[] { new DateTime(2011, 1, 1) });
-
         //ExStart
         //ExFor:Document.FieldOptions
         //ExFor:FieldOptions
         //ExFor:FieldOptions.FieldUpdateCultureSource
         //ExFor:FieldUpdateCultureSource
         //ExSummary:Shows how to specify where the culture used for date formatting during field update and mail merge is chosen from.
-        // Set the culture used during field update to the culture used by the field
-        doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
-        doc.getMailMerge().execute(new String[] { "Date2" }, new Object[] { new DateTime(2011, 1, 1) });
-        //ExEnd
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Verify the field update behavior is correct
-        msAssert.areEqual("Saturday, 1 January 2011 - Samstag, 1 Januar 2011", msString.trim(doc.getRange().getText()));
+        // Insert two merge fields with German locale
+        builder.getFont().setLocaleId(1031);
+        builder.insertField("MERGEFIELD Date1 \\@ \"dddd, d MMMM yyyy\"");
+        builder.write(" - ");
+        builder.insertField("MERGEFIELD Date2 \\@ \"dddd, d MMMM yyyy\"");
+
+        // Store the current culture in a variable and explicitly set it to US English
+        msCultureInfo currentCulture = CurrentThread.getCurrentCulture();
+        CurrentThread.setCurrentCulture(new msCultureInfo("en-US"));
+
+        // Execute a mail merge for the first MERGEFIELD using the current culture (US English) for date formatting
+        doc.getMailMerge().execute(new String[] { "Date1" }, new Object[] { new DateTime(2020, 1, 1) });
+
+        // Execute a mail merge for the second MERGEFIELD using the field's culture (German) for date formatting
+        doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
+        doc.getMailMerge().execute(new String[] { "Date2" }, new Object[] { new DateTime(2020, 1, 1) });
+
+        // The first MERGEFIELD has received a date formatted in English, while the second one is in German
+        Assert.assertEquals("Wednesday, 1 January 2020 - Mittwoch, 1 Januar 2020", msString.trim(doc.getRange().getText()));
 
         // Restore the original culture
         CurrentThread.setCurrentCulture(currentCulture);
+        //ExEnd
     }
 
     @Test
@@ -1289,24 +1361,22 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows the difference between calling the GetText and ToString methods on a node.
         Document doc = new Document();
 
-        // Enter a dummy field into the document
+        // Enter a field into the document
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertField("MERGEFIELD Field");
 
         // GetText will retrieve all field codes and special characters
-        System.out.println("GetText() Result: " + doc.getText());
+        Assert.assertEquals("\u0013MERGEFIELD Field\u0014«Field»\u0015\f", doc.getText());
 
-        // ToString will export the node to the specified format. When converted to text it will not retrieve fields code 
-        // or special characters, but will still contain some natural formatting characters such as paragraph markers etc. 
-        // This is the same as "viewing" the document as if it was opened in a text editor
-        System.out.println("ToString() Result: " + doc.toString(SaveFormat.TEXT));
+        // ToString will give us the plaintext version of the document in the save format we put into the parameter
+        Assert.assertEquals("«Field»\r\n", doc.toString(SaveFormat.TEXT));
         //ExEnd
     }
 
     @Test
     public void documentByteArray() throws Exception
     {
-        // Load the document.
+        // Load the document
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // Create a new memory stream
@@ -1317,63 +1387,51 @@ public class ExDocument extends ApiExampleBase
         // Convert the document to byte form
         byte[] docBytes = streamOut.toArray();
 
-        // The bytes are now ready to be stored/transmitted
-
-        // Now reverse the steps to load the bytes back into a document object
+        // We can load the bytes back into a document object
         MemoryStream streamIn = new MemoryStream(docBytes);
 
         // Load the stream into a new document object
         Document loadDoc = new Document(streamIn);
-        msAssert.areEqual(doc.getText(), loadDoc.getText());
+        Assert.assertEquals(doc.getText(), loadDoc.getText());
     }
 
     @Test
-    public void protectUnprotectDocument() throws Exception
+    public void protect() throws Exception
     {
         //ExStart
         //ExFor:Document.Protect(ProtectionType,String)
-        //ExSummary:Shows how to protect a document.
-        Document doc = new Document();
-        doc.protect(ProtectionType.ALLOW_ONLY_FORM_FIELDS, "password");
-        //ExEnd
-
-        //ExStart
-        //ExFor:Document.Unprotect
-        //ExSummary:Shows how to unprotect a document. Note that the password is not required.
-        doc.unprotect();
-        //ExEnd
-
-        //ExStart
-        //ExFor:Document.Unprotect(String)
-        //ExSummary:Shows how to unprotect a document using a password.
-        doc.unprotect("password");
-        //ExEnd
-    }
-
-    @Test
-    public void passwordVerification() throws Exception
-    {
-        //ExStart
-        //ExFor:WriteProtection.SetPassword(String)
-        //ExSummary:Sets the write protection password for the document.
-        Document doc = new Document();
-        doc.getWriteProtection().setPassword("pwd");
-        //ExEnd
-
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
-        Assert.assertTrue(doc.getWriteProtection().validatePassword("pwd"));
-    }
-
-    @Test
-    public void getProtectionType() throws Exception
-    {
-        //ExStart
         //ExFor:Document.ProtectionType
-        //ExSummary:Shows how to get protection type currently set in the document.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        /*ProtectionType*/int protectionType = doc.getProtectionType();
+        //ExFor:Document.Unprotect
+        //ExFor:Document.Unprotect(String)
+        //ExSummary:Shows how to protect a document.
+        // Create a new document and protect it with a password
+        Document doc = new Document();
+        doc.protect(ProtectionType.READ_ONLY, "password");
+        Assert.assertEquals(ProtectionType.READ_ONLY, doc.getProtectionType());
+
+        // If we open this document with Microsoft Word and wish to edit it, 
+        // we will first need to stop the protection, which can only be done with the password
+        doc.save(getArtifactsDir() + "Document.Protect.docx");
+
+        // Note that the protection only applies to Microsoft Word users opening out document
+        // The document can still be opened and edited programmatically without a password, despite its protection status
+        // Encryption offers a more robust option for protecting document content
+        Document protectedDoc = new Document(getArtifactsDir() + "Document.Protect.docx");
+        Assert.assertEquals(ProtectionType.READ_ONLY, protectedDoc.getProtectionType());
+
+        DocumentBuilder builder = new DocumentBuilder(protectedDoc);
+        builder.writeln("Text added to a protected document.");
+        Assert.assertEquals("Text added to a protected document.", msString.trim(protectedDoc.getRange().getText())); //ExSkip
+
+        // Documents can have protection removed either with no password, or with the correct password
+        doc.unprotect();
+        Assert.assertEquals(ProtectionType.NO_PROTECTION, doc.getProtectionType());
+
+        doc.protect(ProtectionType.READ_ONLY, "newPassword");
+        doc.unprotect("wrongPassword"); //ExSkip
+        Assert.assertEquals(ProtectionType.READ_ONLY, doc.getProtectionType()); //ExSkip
+        doc.unprotect("newPassword");
+        Assert.assertEquals(ProtectionType.NO_PROTECTION, doc.getProtectionType());
         //ExEnd
     }
 
@@ -1383,14 +1441,29 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.EnsureMinimum
         //ExSummary:Shows how to ensure the Document is valid (has the minimum nodes required to be valid).
-        // Create a blank document then remove all nodes from it, the result will be a completely empty document
         Document doc = new Document();
-        doc.removeAllChildren();
 
-        // Ensure that the document is valid. Since the document has no nodes this method will create an empty section
-        // and add an empty paragraph to make it valid.
+        // Every blank document that we create will contain
+        // the minimal set nodes requited for editing; a Section, Body and Paragraph
+        Assert.assertEquals(3, doc.getChildNodes(NodeType.ANY, true).getCount());
+
+        // We can remove every node from the document with RemoveAllChildren()
+        doc.removeAllChildren();
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.ANY, true).getCount());
+
+        // EnsureMinimum() can ensure that the document has at least those three nodes
         doc.ensureMinimum();
+        Assert.assertEquals(3, doc.getChildNodes(NodeType.ANY, true).getCount());
         //ExEnd
+
+        NodeCollection nodes = doc.getChildNodes(NodeType.ANY, true);
+
+        Assert.assertEquals(NodeType.SECTION, nodes.get(0).getNodeType());
+        Assert.assertEquals(NodeType.BODY, nodes.get(1).getNodeType());
+        Assert.assertEquals(NodeType.PARAGRAPH, nodes.get(2).getNodeType());
+
+        Assert.assertTrue(nodes.get(1).getParentNode() == nodes.get(0));
+        Assert.assertTrue(nodes.get(2).getParentNode() == nodes.get(1));
     }
 
     @Test
@@ -1399,8 +1472,17 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.RemoveMacros
         //ExSummary:Shows how to remove all macros from a document.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        // Open a document that contains a VBA project and macros
+        Document doc = new Document(getMyDir() + "Macro.docm");
+
+        Assert.assertTrue(doc.hasMacros());
+        Assert.assertEquals("Project", doc.getVbaProject().getName()); //ExSkip
+
+        // We can strip the document of this content by calling this method
         doc.removeMacros();
+
+        Assert.assertFalse(doc.hasMacros());
+        Assert.assertNull(doc.getVbaProject()); //ExSkip
         //ExEnd
     }
 
@@ -1410,12 +1492,31 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.UpdateTableLayout
         //ExSummary:Shows how to update the layout of tables in a document.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        // Create a new document and insert a table
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Normally this method is not necessary to call, as cell and table widths are maintained automatically
-        // This method may need to be called when exporting to PDF in rare cases when the table layout appears
-        // incorrectly in the rendered output
+        builder.insertCell();
+        builder.write("Cell 1");
+        builder.insertCell();
+        builder.write("Cell 2");
+        builder.insertCell();
+        builder.write("Cell 3");
+
+        // Create a SaveOptions object to prepare this document to be saved to .txt
+        TxtSaveOptions options = new TxtSaveOptions();
+        options.setPreserveTableLayout(true);
+    
+        // Previewing the appearance of the document in .txt form shows that the table will not be represented accurately
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true); //ExSkip
+        Assert.assertEquals(0.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth()); //ExSkip
+        Assert.assertEquals("CCC\r\neee\r\nlll\r\nlll\r\n   \r\n123\r\n\r\n", doc.toString(options));
+
+        // We can call UpdateTableLayout() to fix some of these issues
         doc.updateTableLayout();
+
+        Assert.assertEquals(155.65d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth()); //ExSkip
+        Assert.assertEquals("Cell 1             Cell 2             Cell 3\r\n\r\n", doc.toString(options));
         //ExEnd
     }
 
@@ -1425,25 +1526,23 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.PageCount
         //ExSummary:Shows how to invoke page layout and retrieve the number of pages in the document.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // This invokes page layout which builds the document in memory so note that with large documents this
-        // property can take time. After invoking this property, any rendering operation e.g rendering to PDF or image
-        // will be instantaneous
-        int pageCount = doc.getPageCount();
-        //ExEnd
+        // Insert text spanning 3 pages
+        builder.write("Page 1");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.write("Page 2");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.write("Page 3");
 
-        msAssert.areEqual(1, pageCount);
-    }
+        // Get the page count
+        Assert.assertEquals(3, doc.getPageCount());
 
-    @Test
-    public void updateFields() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.UpdateFields
-        //ExSummary:Shows how to update all fields in a document.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        doc.updateFields();
+        // Getting the PageCount property invoked the document's page layout to calculate the value
+        // This operation will not need to be re-done when rendering the document to a save format like .pdf,
+        // which can save time with larger documents
+        doc.save(getArtifactsDir() + "Document.GetPageCount.pdf");
         //ExEnd
     }
 
@@ -1452,21 +1551,40 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.UpdateWordCount()
+        //ExFor:Document.UpdateWordCount(Boolean)
         //ExFor:BuiltInDocumentProperties.Characters
         //ExFor:BuiltInDocumentProperties.Words
         //ExFor:BuiltInDocumentProperties.Paragraphs
+        //ExFor:BuiltInDocumentProperties.Lines
         //ExSummary:Shows how to update all list labels in a document.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        // Add a paragraph of text to the document
+        builder.writeln("Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                        "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+        builder.write("Ut enim ad minim veniam, " +
+                        "quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
 
-        // Some work should be done here that changes the document's content
+        // Document metrics are not tracked in code in real time
+        Assert.assertEquals(0, doc.getBuiltInDocumentProperties().getCharacters());
+        Assert.assertEquals(0, doc.getBuiltInDocumentProperties().getWords());
+        Assert.assertEquals(1, doc.getBuiltInDocumentProperties().getParagraphs());
+        Assert.assertEquals(1, doc.getBuiltInDocumentProperties().getLines());
 
-        // Update the word, character and paragraph count of the document
+        // We will need to call this method to update them
         doc.updateWordCount();
 
-        // Display the updated document properties
-        msConsole.writeLine("Characters: {0}", doc.getBuiltInDocumentProperties().getCharacters());
-        msConsole.writeLine("Words: {0}", doc.getBuiltInDocumentProperties().getWords());
-        msConsole.writeLine("Paragraphs: {0}", doc.getBuiltInDocumentProperties().getParagraphs());
+        // Check the values of the properties
+        Assert.assertEquals(196, doc.getBuiltInDocumentProperties().getCharacters());
+        Assert.assertEquals(36, doc.getBuiltInDocumentProperties().getWords());
+        Assert.assertEquals(2, doc.getBuiltInDocumentProperties().getParagraphs());
+        Assert.assertEquals(1, doc.getBuiltInDocumentProperties().getLines());
+
+        // To also get the line count as it would appear in Microsoft Word,
+        // we will need to pass "true" to UpdateWordCount()
+        doc.updateWordCount(true);
+        Assert.assertEquals(4, doc.getBuiltInDocumentProperties().getLines());
         //ExEnd
     }
 
@@ -1477,11 +1595,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.ExpandTableStylesToDirectFormatting
         //ExSummary:Shows how to expand the formatting from styles onto the rows and cells of the table as direct formatting.
         Document doc = new Document(getMyDir() + "Tables.docx");
-
-        // Get the first cell of the first table in the document
+        
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
-        Cell firstCell = table.getFirstRow().getFirstCell();
-
         // First print the color of the cell shading. This should be empty as the current shading
         // is stored in the table style
         double cellShadingBefore = table.getFirstRow().getRowFormat().getHeight();
@@ -1498,8 +1613,8 @@ public class ExDocument extends ApiExampleBase
         doc.save(getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx");
         //ExEnd
 
-        msAssert.areEqual(0.0d, cellShadingBefore);
-        msAssert.areEqual(0.0d, cellShadingAfter);
+        Assert.assertEquals(0.0d, cellShadingBefore);
+        Assert.assertEquals(0.0d, cellShadingAfter);
     }
 
     @Test
@@ -1512,43 +1627,10 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // This property will return the full path and file name where the document was loaded from
-        String originalFilePath = doc.getOriginalFileName();
-        // Let's get just the file name from the full path
-        String originalFileName = Path.getFileName(originalFilePath);
+        Assert.assertEquals(getMyDir() + "Document.docx", doc.getOriginalFileName());
 
         // This is the original LoadFormat of the document
-        /*LoadFormat*/int loadFormat = doc.getOriginalLoadFormat();
-        //ExEnd
-    }
-
-    @Test
-    public void removeSmartTagsFromDocument() throws Exception
-    {
-        //ExStart
-        //ExFor:CompositeNode.RemoveSmartTags
-        //ExSummary:Shows how to remove all smart tags from a document.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        doc.removeSmartTags();
-        //ExEnd
-    }
-
-    @Test
-    public void getDocumentVariables() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.Variables
-        //ExFor:VariableCollection
-        //ExSummary:Shows how to enumerate over document variables.
-        Document doc = new Document(getMyDir() + "Document.docx");
-
-        for (Map.Entry<String, String> entry : doc.getVariables())
-        {
-            String name = entry.getKey();
-            String value = entry.getValue();
-
-            // Do something useful
-            msConsole.writeLine("Name: {0}, Value: {1}", name, value);
-        }
+        Assert.assertEquals(com.aspose.words.LoadFormat.DOCX, doc.getOriginalLoadFormat());
         //ExEnd
     }
 
@@ -1560,8 +1642,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:FootnoteOptions.Columns
         //ExSummary:Shows how to set the number of columns with which the footnotes area is formatted.
         Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
-
-        msAssert.areEqual(0, doc.getFootnoteOptions().getColumns()); //ExSkip
+        Assert.assertEquals(0, doc.getFootnoteOptions().getColumns()); //ExSkip
 
         // Let's change number of columns for footnotes on page. If columns value is 0 than footnotes area
         // is formatted with a number of columns based on the number of columns on the displayed page
@@ -1572,107 +1653,98 @@ public class ExDocument extends ApiExampleBase
         // Assert that number of columns gets correct
         doc = new Document(getArtifactsDir() + "Document.FootnoteColumns.docx");
 
-        msAssert.areEqual(2, doc.getFirstSection().getPageSetup().getFootnoteOptions().getColumns());
+        Assert.assertEquals(2, doc.getFirstSection().getPageSetup().getFootnoteOptions().getColumns());
     }
 
     @Test
-    public void setFootnotePosition() throws Exception
+    public void footnotes() throws Exception
     {
         //ExStart
-        //ExFor:FootnoteOptions.Position
-        //ExFor:FootnotePosition
-        //ExSummary:Shows how to define footnote position in the document.
-        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
-
-        doc.getFootnoteOptions().setPosition(FootnotePosition.BENEATH_TEXT);
-        //ExEnd
-    }
-
-    @Test
-    public void setFootnoteNumberFormat() throws Exception
-    {
-        //ExStart
+        //ExFor:FootnoteOptions
         //ExFor:FootnoteOptions.NumberStyle
-        //ExSummary:Shows how to define numbering format for footnotes in the document.
-        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
-
-        doc.getFootnoteOptions().setNumberStyle(NumberStyle.ARABIC_1);
-        //ExEnd
-    }
-
-    @Test
-    public void setFootnoteRestartNumbering() throws Exception
-    {
-        //ExStart
+        //ExFor:FootnoteOptions.Position
         //ExFor:FootnoteOptions.RestartRule
-        //ExFor:FootnoteNumberingRule
-        //ExSummary:Shows how to define when automatic numbering for footnotes restarts in the document.
-        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
-
-        doc.getFootnoteOptions().setRestartRule(FootnoteNumberingRule.RESTART_PAGE);
-        //ExEnd
-    }
-
-    @Test
-    public void setFootnoteStartingNumber() throws Exception
-    {
-        //ExStart
         //ExFor:FootnoteOptions.StartNumber
-        //ExSummary:Shows how to define the starting number or character for the first automatically numbered footnotes.
-        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
+        //ExFor:FootnoteNumberingRule
+        //ExFor:FootnotePosition
+        //ExSummary:Shows how to insert footnotes and edit their appearance.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // Insert 3 paragraphs with a footnote at the end of each one
+        builder.write("Text 1. ");
+        builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote 1");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.write("Text 2. ");
+        builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote 2");
+        builder.write("Text 3. ");
+        builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote 3", "Custom reference mark");
+
+        // Edit the numbering and positioning of footnotes 
+        doc.getFootnoteOptions().setPosition(FootnotePosition.BENEATH_TEXT);
+        doc.getFootnoteOptions().setNumberStyle(NumberStyle.UPPERCASE_ROMAN);
+        doc.getFootnoteOptions().setRestartRule(FootnoteNumberingRule.CONTINUOUS);
         doc.getFootnoteOptions().setStartNumber(1);
+
+        doc.save(getArtifactsDir() + "Document.Footnotes.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Document.Footnotes.docx");
+
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "", 
+            "Footnote 1", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "", 
+            "Footnote 2", (Footnote)doc.getChild(NodeType.FOOTNOTE, 1, true));
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, false, "Custom reference mark", 
+            "Custom reference mark Footnote 3", (Footnote)doc.getChild(NodeType.FOOTNOTE, 2, true));
     }
 
     @Test
-    public void setEndnotePosition() throws Exception
+    public void endnotes() throws Exception
     {
         //ExStart
+        //ExFor:Document.EndnoteOptions
         //ExFor:EndnoteOptions
-        //ExFor:EndnoteOptions.Position
-        //ExFor:EndnotePosition
-        //ExSummary:Shows how to define endnote position in the document.
-        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
-
-        doc.getEndnoteOptions().setPosition(EndnotePosition.END_OF_SECTION);
-        //ExEnd
-    }
-
-    @Test
-    public void setEndnoteNumberFormat() throws Exception
-    {
-        //ExStart
         //ExFor:EndnoteOptions.NumberStyle
-        //ExSummary:Shows how to define numbering format for endnotes in the document.
-        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
-
-        doc.getEndnoteOptions().setNumberStyle(NumberStyle.ARABIC_1);
-        //ExEnd
-    }
-
-    @Test
-    public void setEndnoteRestartNumbering() throws Exception
-    {
-        //ExStart
+        //ExFor:EndnoteOptions.Position
         //ExFor:EndnoteOptions.RestartRule
-        //ExSummary:Shows how to define when automatic numbering for endnotes restarts in the document.
-        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
-
-        doc.getEndnoteOptions().setRestartRule(FootnoteNumberingRule.RESTART_PAGE);
-        //ExEnd
-    }
-
-    @Test
-    public void setEndnoteStartingNumber() throws Exception
-    {
-        //ExStart
         //ExFor:EndnoteOptions.StartNumber
-        //ExSummary:Shows how to define the starting number or character for the first automatically numbered endnotes.
-        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
+        //ExFor:EndnotePosition
+        //ExSummary:Shows how to insert endnotes and edit their appearance.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // Insert 3 paragraphs with an endnote at the end of each one
+        builder.write("Text 1. ");
+        builder.insertFootnote(FootnoteType.ENDNOTE, "Endnote 1");
+        builder.write("Text 2. ");
+        builder.insertFootnote(FootnoteType.ENDNOTE, "Endnote 2");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.write("Text 3. ");
+        builder.insertFootnote(FootnoteType.ENDNOTE, "Endnote 3", "Custom reference mark");
+
+        Assert.assertEquals(1, doc.getEndnoteOptions().getStartNumber()); //ExSkip
+        Assert.assertEquals(EndnotePosition.END_OF_DOCUMENT, doc.getEndnoteOptions().getPosition()); //ExSkip
+        Assert.assertEquals(NumberStyle.LOWERCASE_ROMAN, doc.getEndnoteOptions().getNumberStyle()); //ExSkip
+        Assert.assertEquals(FootnoteNumberingRule.DEFAULT, doc.getEndnoteOptions().getRestartRule()); //ExSkip
+        
+        // Edit the numbering and positioning of endnotes
+        doc.getEndnoteOptions().setPosition(EndnotePosition.END_OF_DOCUMENT);
+        doc.getEndnoteOptions().setNumberStyle(NumberStyle.UPPERCASE_ROMAN);
+        doc.getEndnoteOptions().setRestartRule(FootnoteNumberingRule.CONTINUOUS);
         doc.getEndnoteOptions().setStartNumber(1);
+
+        doc.save(getArtifactsDir() + "Document.Endnotes.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Document.Endnotes.docx");
+
+        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
+            "Endnote 1", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
+            "Endnote 2", (Footnote)doc.getChild(NodeType.FOOTNOTE, 1, true));
+        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, false, "Custom reference mark",
+            "Custom reference mark Endnote 3", (Footnote)doc.getChild(NodeType.FOOTNOTE, 2, true));
     }
 
     @Test
@@ -1695,6 +1767,7 @@ public class ExDocument extends ApiExampleBase
             doc1.compareInternal(doc2, "authorName", DateTime.getNow());
 
         // If doc1 and doc2 are different, doc1 now has some revisions after the comparison, which can now be viewed and processed
+        Assert.assertEquals(2, doc1.getRevisions().getCount()); //ExSkip
         for (Revision r : doc1.getRevisions())
         {
             System.out.println("Revision type: {r.RevisionType}, on a node of type \"{r.ParentNode.NodeType}\"");
@@ -1707,6 +1780,10 @@ public class ExDocument extends ApiExampleBase
         // doc1, when saved, now resembles doc2
         doc1.save(getArtifactsDir() + "Document.Compare.docx");
         //ExEnd
+
+        doc1 = new Document(getArtifactsDir() + "Document.Compare.docx");
+        Assert.assertEquals(0, doc1.getRevisions().getCount());
+        Assert.assertEquals(msString.trim(doc2.getText()), msString.trim(doc1.getText()));
     }
 
     @Test
@@ -1813,21 +1890,59 @@ public class ExDocument extends ApiExampleBase
         // We can compare with a CompareOptions object, which can suppress changes done to certain types of objects within the original document
         // from registering as revisions after the comparison by setting some of these members to "true"
         CompareOptions compareOptions = new CompareOptions();
-        {
-            compareOptions.setIgnoreFormatting(false);
-            compareOptions.setIgnoreCaseChanges(false);
-            compareOptions.setIgnoreComments(false);
-            compareOptions.setIgnoreTables(false);
-            compareOptions.setIgnoreFields(false);
-            compareOptions.setIgnoreFootnotes(false);
-            compareOptions.setIgnoreTextboxes(false);
-            compareOptions.setIgnoreHeadersAndFooters(false);
-            compareOptions.setTarget(ComparisonTargetType.NEW);
-        }
+        compareOptions.setIgnoreFormatting(false);
+        compareOptions.setIgnoreCaseChanges(false);
+        compareOptions.setIgnoreComments(false);
+        compareOptions.setIgnoreTables(false);
+        compareOptions.setIgnoreFields(false);
+        compareOptions.setIgnoreFootnotes(false);
+        compareOptions.setIgnoreTextboxes(false);
+        compareOptions.setIgnoreHeadersAndFooters(false);
+        compareOptions.setTarget(ComparisonTargetType.NEW);
 
         docOriginal.compareInternal(docEdited, "John Doe", DateTime.getNow(), compareOptions);
         docOriginal.save(getArtifactsDir() + "Document.CompareOptions.docx");
         //ExEnd
+
+        docOriginal = new Document(getArtifactsDir() + "Document.CompareOptions.docx");
+
+        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
+            "OriginalEdited endnote text.", (Footnote)docOriginal.getChild(NodeType.FOOTNOTE, 0, true));
+
+        // If we set compareOptions to ignore certain types of changes,
+        // then revisions done on those types of nodes will not appear in the output document
+        // We can tell what kind of node a revision was done on by looking at the NodeType of the revision's parent nodes
+        Assert.AreNotEqual(compareOptions.getIgnoreFormatting(),
+            docOriginal.getRevisions().Any(rev => rev.RevisionType == RevisionType.FormatChange));
+        Assert.AreNotEqual(compareOptions.getIgnoreCaseChanges(),
+            docOriginal.getRevisions().Any(s => s.ParentNode.GetText().Contains("hello")));
+        Assert.AreNotEqual(compareOptions.getIgnoreComments(),
+            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.Comment)));
+        Assert.AreNotEqual(compareOptions.getIgnoreTables(),
+            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.Table)));
+        Assert.AreNotEqual(compareOptions.getIgnoreFields(),
+            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.FieldStart)));
+        Assert.AreNotEqual(compareOptions.getIgnoreFootnotes(),
+            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.Footnote)));
+        Assert.AreNotEqual(compareOptions.getIgnoreTextboxes(),
+            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.Shape)));
+        Assert.AreNotEqual(compareOptions.getIgnoreHeadersAndFooters(),
+            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.HeaderFooter)));
+    }
+
+    /// <summary>
+    /// Returns true if the passed revision has a parent node with the type specified by parentType
+    /// </summary>
+    private boolean hasParentOfType(Revision revision, /*NodeType*/int parentType)
+    {
+        Node n = revision.getParentNode();
+        while (n.getParentNode() != null)
+        {
+            if (n.getNodeType() == parentType) return true;
+            n = n.getParentNode();
+        }
+
+        return false;
     }
 
     @Test
@@ -1836,7 +1951,8 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.RemoveExternalSchemaReferences
         //ExSummary:Shows how to remove all external XML schema references from a document. 
-        Document doc = new Document(getMyDir() + "Document.docx");
+        Document doc = new Document(getMyDir() + "External XML schema.docx");
+
         doc.removeExternalSchemaReferences();
         //ExEnd
     }
@@ -1850,11 +1966,44 @@ public class ExDocument extends ApiExampleBase
         //ExFor:CleanupOptions.UnusedLists
         //ExFor:CleanupOptions.UnusedStyles
         //ExSummary:Shows how to remove all unused styles and lists from a document. 
-        Document doc = new Document(getMyDir() + "Document.docx");
+        Document doc = new Document();
+        Assert.assertEquals(4, doc.getStyles().getCount()); //ExSkip
+
+        // Insert some styles into a blank document
+        doc.getStyles().add(StyleType.LIST, "MyListStyle1");
+        doc.getStyles().add(StyleType.LIST, "MyListStyle2");
+        doc.getStyles().add(StyleType.CHARACTER, "MyParagraphStyle1");
+        doc.getStyles().add(StyleType.CHARACTER, "MyParagraphStyle2");
+
+        // Combined with the built in styles, the document now has 8 styles in total,
+        // but all 4 of the ones we added count as unused
+        Assert.assertEquals(8, doc.getStyles().getCount());
+
+        // A character style counts as used when the document contains text in that style
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.getFont().setStyle(doc.getStyles().get("MyParagraphStyle1"));
+        builder.writeln("Hello world!");
+
+        // A list style is also "used" when there is a list that uses it
+        List list = doc.getLists().add(doc.getStyles().get("MyListStyle1"));
+        builder.getListFormat().setList(list);
+        builder.writeln("Item 1");
+        builder.writeln("Item 2");
+
+        // The Cleanup() method, when configured with a CleanupOptions object, can target unused styles and remove them
+        CleanupOptions cleanupOptions = new CleanupOptions();
+        cleanupOptions.setUnusedLists(true);
+        cleanupOptions.setUnusedStyles(true);
         
-        CleanupOptions cleanupOptions = new CleanupOptions(); { cleanupOptions.setUnusedLists(true); cleanupOptions.setUnusedStyles(true); }
+        // We've added 4 styles and used 2 of them, so the other two will be removed when this method is called
         doc.cleanup(cleanupOptions);
+        Assert.assertEquals(6, doc.getStyles().getCount());
         //ExEnd
+
+        doc.getFirstSection().getBody().removeAllChildren();
+        doc.cleanup(cleanupOptions);
+
+        Assert.assertEquals(4, doc.getStyles().getCount());
     }
 
     @Test
@@ -1869,29 +2018,29 @@ public class ExDocument extends ApiExampleBase
 
         // This text will appear as normal text in the document and no revisions will be counted
         doc.getFirstSection().getBody().getFirstParagraph().getRuns().add(new Run(doc, "Hello world!"));
-        msConsole.writeLine(doc.getRevisions().getCount()); // 0
+        Assert.assertEquals(0, doc.getRevisions().getCount());
 
         doc.startTrackRevisions("Author");
 
-        // This text will appear as a revision. 
+        // This text will appear as a revision
         // We did not specify a time while calling StartTrackRevisions(), so the date/time that's noted
         // on the revision will be the real time when StartTrackRevisions() executes
         doc.getFirstSection().getBody().appendParagraph("Hello again!");
-        msConsole.writeLine(doc.getRevisions().getCount()); // 2
+        Assert.assertEquals(2, doc.getRevisions().getCount());
 
         // Stopping the tracking of revisions makes this text appear as normal text
         // Revisions are not counted when the document is changed
         doc.stopTrackRevisions();
         doc.getFirstSection().getBody().appendParagraph("Hello again!");
-        msConsole.writeLine(doc.getRevisions().getCount()); // 2
+        Assert.assertEquals(2, doc.getRevisions().getCount());
 
         // Specifying some date/time will apply that date/time to all subsequent revisions until StopTrackRevisions() is called
         // Note that placing values such as DateTime.MinValue as an argument will create revisions that do not have a date/time at all
         doc.startTrackRevisionsInternal("Author", new DateTime(1970, 1, 1));
         doc.getFirstSection().getBody().appendParagraph("Hello again!");
-        msConsole.writeLine(doc.getRevisions().getCount());
+        Assert.assertEquals(4, doc.getRevisions().getCount());
 
-        doc.save(getArtifactsDir() + "Document.StartTrackRevisions.doc");
+        doc.save(getArtifactsDir() + "Document.StartTrackRevisions.docx");
         //ExEnd
     }
 
@@ -1923,10 +2072,12 @@ public class ExDocument extends ApiExampleBase
         // Start tracking and make some revisions
         doc.startTrackRevisions("Author");
         doc.getFirstSection().getBody().appendParagraph("Hello world!");
+        Assert.assertEquals(2, doc.getRevisions().getCount()); //ExSkip
 
         // Revisions will now show up as normal text in the output document
         doc.acceptAllRevisions();
-        doc.save(getArtifactsDir() + "Document.AcceptAllRevisions.doc");
+        doc.save(getArtifactsDir() + "Document.AcceptAllRevisions.docx");
+        Assert.assertEquals(0, doc.getRevisions().getCount()); //ExSKip
         //ExEnd
     }
 
@@ -1941,11 +2092,11 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Story.Paragraphs
         //ExSummary:Shows how to get paragraph that was moved (deleted/inserted) in Microsoft Word while change tracking was enabled.
         Document doc = new Document(getMyDir() + "Revisions.docx");
-        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
 
         // There are two sets of move revisions in this document
         // One moves a small part of a paragraph, while the other moves a whole paragraph
         // Paragraph.IsMoveFromRevision/IsMoveToRevision will only be true if a whole paragraph is moved, as in the latter case
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
         for (int i = 0; i < paragraphs.getCount(); i++)
         {
             if (paragraphs.get(i).isMoveFromRevision())
@@ -1954,6 +2105,11 @@ public class ExDocument extends ApiExampleBase
                 msConsole.writeLine("The paragraph {0} has been moved (inserted).", i);
         }
         //ExEnd
+
+        Assert.AreEqual(11, doc.getRevisions().Count());
+        Assert.AreEqual(6, doc.getRevisions().Count(r => r.RevisionType == RevisionType.Moving));
+        Assert.AreEqual(1, paragraphs.Count(p => ((Paragraph)p).IsMoveFromRevision));
+        Assert.AreEqual(1, paragraphs.Count(p => ((Paragraph)p).IsMoveToRevision));
     }
 
     @Test
@@ -1984,6 +2140,16 @@ public class ExDocument extends ApiExampleBase
             }
         }
         //ExEnd
+
+        Assert.assertEquals("", ((Paragraph)doc.getRevisions().get(0).getParentNode()).getListLabel().getLabelString());
+        Assert.assertEquals("1.", ((Paragraph)doc.getRevisions().get(1).getParentNode()).getListLabel().getLabelString());
+        Assert.assertEquals("a.", ((Paragraph)doc.getRevisions().get(3).getParentNode()).getListLabel().getLabelString());
+
+        doc.setRevisionsView(RevisionsView.ORIGINAL);
+
+        Assert.assertEquals("1.", ((Paragraph)doc.getRevisions().get(0).getParentNode()).getListLabel().getLabelString());
+        Assert.assertEquals("a.", ((Paragraph)doc.getRevisions().get(1).getParentNode()).getListLabel().getLabelString());
+        Assert.assertEquals("", ((Paragraph)doc.getRevisions().get(3).getParentNode()).getListLabel().getLabelString());
     }
 
     @Test
@@ -1996,18 +2162,26 @@ public class ExDocument extends ApiExampleBase
         //ExFor:ThumbnailGeneratingOptions.GenerateFromFirstPage
         //ExFor:ThumbnailGeneratingOptions.ThumbnailSize
         //ExSummary:Shows how to update a document's thumbnail.
-        Document doc = new Document();
+        Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        // Update document's thumbnail the default way
+        // If we aren't setting the thumbnail via built in document properties,
+        // we can set the first page of the document to be the thumbnail in an output .epub like this
         doc.updateThumbnail();
+        doc.save(getArtifactsDir() + "Document.UpdateThumbnail.FirstPage.epub");
 
-        // Review/change thumbnail options and then update document's thumbnail
-        ThumbnailGeneratingOptions tgo = new ThumbnailGeneratingOptions();
+        // Another way is to use the first image shape found in the document as the thumbnail
+        // Insert an image with a builder that we want to use as a thumbnail
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertImage(getImageDir() + "Logo.jpg");
 
-        msConsole.writeLine("Thumbnail size: {0}", tgo.getThumbnailSizeInternal());
-        tgo.setGenerateFromFirstPage(true);
+        ThumbnailGeneratingOptions options = new ThumbnailGeneratingOptions();
+        Assert.assertEquals(msSize.ctor(600, 900), options.getThumbnailSizeInternal()); //ExSKip
+        Assert.assertTrue(options.getGenerateFromFirstPage()); //ExSkip
+        options.setThumbnailSizeInternal(msSize.ctor(400, 400));
+        options.setGenerateFromFirstPage(false);
 
-        doc.updateThumbnail(tgo);
+        doc.updateThumbnail(options);
+        doc.save(getArtifactsDir() + "Document.UpdateThumbnail.FirstImage.epub");
         //ExEnd
     }
 
@@ -2044,10 +2218,10 @@ public class ExDocument extends ApiExampleBase
         doc.save(getArtifactsDir() + "Document.HyphenationOptions.docx");
         //ExEnd
 
-        msAssert.areEqual(true, doc.getHyphenationOptions().getAutoHyphenation());
-        msAssert.areEqual(2, doc.getHyphenationOptions().getConsecutiveHyphenLimit());
-        msAssert.areEqual(720, doc.getHyphenationOptions().getHyphenationZone());
-        msAssert.areEqual(true, doc.getHyphenationOptions().getHyphenateCaps());
+        Assert.assertEquals(true, doc.getHyphenationOptions().getAutoHyphenation());
+        Assert.assertEquals(2, doc.getHyphenationOptions().getConsecutiveHyphenLimit());
+        Assert.assertEquals(720, doc.getHyphenationOptions().getHyphenationZone());
+        Assert.assertEquals(true, doc.getHyphenationOptions().getHyphenateCaps());
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "Document.HyphenationOptions.docx",
             getGoldsDir() + "Document.HyphenationOptions Gold.docx"));
@@ -2057,14 +2231,12 @@ public class ExDocument extends ApiExampleBase
     public void hyphenationOptionsDefaultValues() throws Exception
     {
         Document doc = new Document();
+        doc = DocumentHelper.saveOpen(doc);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
-        msAssert.areEqual(false, doc.getHyphenationOptions().getAutoHyphenation());
-        msAssert.areEqual(0, doc.getHyphenationOptions().getConsecutiveHyphenLimit());
-        msAssert.areEqual(360, doc.getHyphenationOptions().getHyphenationZone()); // 0.25 inch
-        msAssert.areEqual(true, doc.getHyphenationOptions().getHyphenateCaps());
+        Assert.assertEquals(false, doc.getHyphenationOptions().getAutoHyphenation());
+        Assert.assertEquals(0, doc.getHyphenationOptions().getConsecutiveHyphenLimit());
+        Assert.assertEquals(360, doc.getHyphenationOptions().getHyphenationZone()); // 0.25 inch
+        Assert.assertEquals(true, doc.getHyphenationOptions().getHyphenateCaps());
     }
 
     @Test
@@ -2088,14 +2260,14 @@ public class ExDocument extends ApiExampleBase
         //ExFor:PlainTextDocument.#ctor(String)
         //ExFor:PlainTextDocument.#ctor(String, LoadOptions)
         //ExFor:PlainTextDocument.Text
-        //ExSummary:Show how to simply extract text from a document.
+        //ExSummary:Shows how to simply extract text from a document.
         TxtLoadOptions loadOptions = new TxtLoadOptions(); { loadOptions.setDetectNumberingWithWhitespaces(false); }
 
         PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Document.docx");
-        msAssert.areEqual("Hello World!", msString.trim(plaintext.getText())); //ExSkip 
+        Assert.assertEquals("Hello World!", msString.trim(plaintext.getText())); //ExSkip 
 
         plaintext = new PlainTextDocument(getMyDir() + "Document.docx", loadOptions);
-        msAssert.areEqual("Hello World!", msString.trim(plaintext.getText())); //ExSkip
+        Assert.assertEquals("Hello World!", msString.trim(plaintext.getText())); //ExSkip
         //ExEnd
     }
 
@@ -2104,12 +2276,12 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:PlainTextDocument.BuiltInDocumentProperties
-        //ExSummary:Show how to get BuiltIn properties of plain text document.
+        //ExSummary:Shows how to get BuiltIn properties of plain text document.
         PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Bookmarks.docx");
         BuiltInDocumentProperties builtInDocumentProperties = plaintext.getBuiltInDocumentProperties();
         //ExEnd
 
-        msAssert.areEqual("Aspose", builtInDocumentProperties.getCompany());
+        Assert.assertEquals("Aspose", builtInDocumentProperties.getCompany());
     }
 
     @Test
@@ -2117,7 +2289,7 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:PlainTextDocument.CustomDocumentProperties
-        //ExSummary:Show how to get custom properties of plain text document.
+        //ExSummary:Shows how to get custom properties of plain text document.
         PlainTextDocument plaintext = new PlainTextDocument(getMyDir() + "Bookmarks.docx");
         CustomDocumentProperties customDocumentProperties = plaintext.getCustomDocumentProperties();
         //ExEnd
@@ -2131,19 +2303,21 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:PlainTextDocument.#ctor(Stream)
         //ExFor:PlainTextDocument.#ctor(Stream, LoadOptions)
-        //ExSummary:Show how to simply extract text from a stream.
-        TxtLoadOptions loadOptions = new TxtLoadOptions(); { loadOptions.setDetectNumberingWithWhitespaces(false); }
+        //ExSummary:Shows how to simply extract text from a stream.
+        TxtLoadOptions loadOptions = new TxtLoadOptions();
+        loadOptions.setDetectNumberingWithWhitespaces(false);
 
         Stream stream = new FileStream(getMyDir() + "Document.docx", FileMode.OPEN);
+        try /*JAVA: was using*/
+        {
+            PlainTextDocument plaintext = new PlainTextDocument(stream);
+            Assert.assertEquals("Hello World!", msString.trim(plaintext.getText())); //ExSkip
 
-        PlainTextDocument plaintext = new PlainTextDocument(stream);
-        msAssert.areEqual("Hello World!", msString.trim(plaintext.getText())); //ExSkip
-
-        plaintext = new PlainTextDocument(stream, loadOptions);
-        msAssert.areEqual("Hello World!", msString.trim(plaintext.getText())); //ExSkip
+            plaintext = new PlainTextDocument(stream, loadOptions);
+            Assert.assertEquals("Hello World!", msString.trim(plaintext.getText())); //ExSkip
+        }
+        finally { if (stream != null) stream.close(); }
         //ExEnd
-
-        stream.close();
     }
 
     @Test
@@ -2156,32 +2330,33 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.doc");
 
         /*OoxmlCompliance*/int compliance = doc.getCompliance();
-        msAssert.areEqual(compliance, OoxmlCompliance.ECMA_376_2006);
+        Assert.assertEquals(compliance, OoxmlCompliance.ECMA_376_2006);
 
         // Open a DOCX which should have a newer one
         doc = new Document(getMyDir() + "Document.docx");
         compliance = doc.getCompliance();
 
-        msAssert.areEqual(compliance, OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
+        Assert.assertEquals(compliance, OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
         //ExEnd
     }
 
-    @Test
+    @Test (enabled = false, description = "WORDSNET-20342")
     public void imageSaveOptions() throws Exception
     {
         //ExStart
         //ExFor:Document.Save(Stream, String, Saving.SaveOptions)
         //ExFor:SaveOptions.UseAntiAliasing
         //ExFor:SaveOptions.UseHighQualityRendering
-        //ExSummary:Improve the quality of a rendered document with SaveOptions.
-        Document doc = new Document();
+        //ExSummary:Shows how to improve the quality of a rendered document with SaveOptions.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.getFont().setSize(60.0);
         builder.writeln("Some text.");
 
         SaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
-        msAssert.areEqual(false, options.getUseAntiAliasing());
+        Assert.assertFalse(options.getUseAntiAliasing()); //ExSkip
+        Assert.assertFalse(options.getUseHighQualityRendering()); //ExSkip
 
         doc.save(getArtifactsDir() + "Document.ImageSaveOptions.Default.jpg", options);
 
@@ -2190,40 +2365,9 @@ public class ExDocument extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Document.ImageSaveOptions.HighQuality.jpg", options);
         //ExEnd
-    }
 
-    @Test
-    public void wordCountUpdate() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.UpdateWordCount(Boolean)
-        //ExSummary:Shows how to keep track of the word count.
-        // Create an empty document
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.writeln("This is the first line.");
-        builder.writeln("This is the second line.");
-        builder.writeln("These three lines contain eighteen words in total.");
-
-        // The fields that keep track of how many lines and words a document has are not automatically updated
-        // An empty document has one paragraph by default, which contains one empty line
-        msAssert.areEqual(0, doc.getBuiltInDocumentProperties().getWords());
-        msAssert.areEqual(1, doc.getBuiltInDocumentProperties().getLines());
-
-        // To update them we have to use this method
-        // The default constructor updates just the word count
-        doc.updateWordCount();
-
-        msAssert.areEqual(18, doc.getBuiltInDocumentProperties().getWords());
-        msAssert.areEqual(1, doc.getBuiltInDocumentProperties().getLines());
-
-        // If we want to update the line count as well, we have to use this overload
-        doc.updateWordCount(true);
-
-        msAssert.areEqual(18, doc.getBuiltInDocumentProperties().getWords());
-        msAssert.areEqual(3, doc.getBuiltInDocumentProperties().getLines());
-        //ExEnd
+        TestUtil.verifyImage(794, 1122, getArtifactsDir() + "Document.ImageSaveOptions.Default.jpg");
+        TestUtil.verifyImage(794, 1122, getArtifactsDir() + "Document.ImageSaveOptions.HighQuality.jpg");
     }
 
     @Test
@@ -2236,39 +2380,37 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Brand new documents have 4 styles and 0 lists by default
-        msAssert.areEqual(4, doc.getStyles().getCount());
-        msAssert.areEqual(0, doc.getLists().getCount());
-
-        // We will add one style and one list and mark them as "used" by applying them to the builder 
+        // Add two styles and apply them to the builder's formats, marking them as "used" 
         builder.getParagraphFormat().setStyle(doc.getStyles().add(StyleType.PARAGRAPH, "My Used Style"));
         builder.getListFormat().setList(doc.getLists().add(ListTemplate.BULLET_DIAMONDS));
 
-        // These items were added to their respective collections
-        msAssert.areEqual(5, doc.getStyles().getCount());
-        msAssert.areEqual(1, doc.getLists().getCount());
-
-        // doc.Cleanup() removes all unused styles and lists
-        doc.cleanup();
-
-        // It currently has no effect because the 2 items we added plus the original 4 styles are all used
-        msAssert.areEqual(5, doc.getStyles().getCount());
-        msAssert.areEqual(1, doc.getLists().getCount());
-
-        // These two items will be added but will not associated with any part of the document
+        // And two more styles and leave them unused by not applying them to anything
         doc.getStyles().add(StyleType.PARAGRAPH, "My Unused Style");
         doc.getLists().add(ListTemplate.NUMBER_ARABIC_DOT);
-
-        // They also get stored in the document and are ready to be used
-        msAssert.areEqual(6, doc.getStyles().getCount());
-        msAssert.areEqual(2, doc.getLists().getCount());
+        Assert.assertNotNull(doc.getStyles().get("My Used Style")); //ExSkip
+        Assert.assertNotNull(doc.getStyles().get("My Unused Style")); //ExSkip
+        Assert.IsTrue(doc.getLists().Any(l => l.ListLevels[0].NumberStyle == NumberStyle.Bullet)); //ExSkip
+        Assert.IsTrue(doc.getLists().Any(l => l.ListLevels[0].NumberStyle == NumberStyle.Arabic)); //ExSkip
 
         doc.cleanup();
 
-        // Since we didn't apply them anywhere, the two unused items are removed by doc.Cleanup()
-        msAssert.areEqual(5, doc.getStyles().getCount());
-        msAssert.areEqual(1, doc.getLists().getCount());
+        // The used styles are still in the document
+        Assert.assertNotNull(doc.getStyles().get("My Used Style"));
+        Assert.IsTrue(doc.getLists().Any(l => l.ListLevels[0].NumberStyle == NumberStyle.Bullet));
+
+        // The unused styles have been removed
+        Assert.assertNull(doc.getStyles().get("My Unused Style"));
+        Assert.IsFalse(doc.getLists().Any(l => l.ListLevels[0].NumberStyle == NumberStyle.Arabic));
         //ExEnd
+
+        Assert.assertEquals(5, doc.getStyles().getCount()); 
+        Assert.assertEquals(1, doc.getLists().getCount());
+
+        doc.removeAllChildren();
+        doc.cleanup();
+
+        Assert.assertEquals(4, doc.getStyles().getCount());
+        Assert.assertEquals(0, doc.getLists().getCount());
     }
 
     @Test
@@ -2285,6 +2427,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:RevisionCollection
         //ExFor:RevisionCollection.Item(Int32)
         //ExFor:RevisionCollection.Count
+        //ExFor:RevisionType
         //ExFor:Document.HasRevisions
         //ExFor:Document.TrackRevisions
         //ExFor:Document.Revisions
@@ -2306,44 +2449,36 @@ public class ExDocument extends ApiExampleBase
 
         // As well as nodes in the document, revisions get referenced in this collection
         Assert.assertTrue(doc.hasRevisions());
-        msAssert.areEqual(1, doc.getRevisions().getCount());
+        Assert.assertEquals(1, doc.getRevisions().getCount());
 
         Revision revision = doc.getRevisions().get(0);
-        msAssert.areEqual("John Doe", revision.getAuthor());
-        msAssert.areEqual("This is revision #1. ", revision.getParentNode().getText());
-        msAssert.areEqual(RevisionType.INSERTION, revision.getRevisionType());
-        msAssert.areEqual(revision.getDateTimeInternal().getDate(), DateTime.getNow().getDate());
-        msAssert.areEqual(doc.getRevisions().getGroups().get(0), revision.getGroup());
+        Assert.assertEquals("John Doe", revision.getAuthor());
+        Assert.assertEquals("This is revision #1. ", revision.getParentNode().getText());
+        Assert.assertEquals(RevisionType.INSERTION, revision.getRevisionType());
+        Assert.assertEquals(revision.getDateTimeInternal().getDate(), DateTime.getNow().getDate());
+        Assert.assertEquals(doc.getRevisions().getGroups().get(0), revision.getGroup());
 
         // Deleting content also counts as a revision
         // The most recent revisions are put at the start of the collection
         doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).remove();
-        msAssert.areEqual(RevisionType.DELETION, doc.getRevisions().get(0).getRevisionType());
-        msAssert.areEqual(2, doc.getRevisions().getCount());
+        Assert.assertEquals(RevisionType.DELETION, doc.getRevisions().get(0).getRevisionType());
+        Assert.assertEquals(2, doc.getRevisions().getCount());
 
         // Insert revisions are treated as document text by the GetText() method before they are accepted,
         // since they are still nodes with text and are in the body
-        msAssert.areEqual("This does not count as a revision. This is revision #1.", msString.trim(doc.getText()));
+        Assert.assertEquals("This does not count as a revision. This is revision #1.", msString.trim(doc.getText()));
 
         // Accepting the deletion revision will assimilate it into the paragraph text and remove it from the collection
         doc.getRevisions().get(0).accept();
-        msAssert.areEqual(1, doc.getRevisions().getCount());
+        Assert.assertEquals(1, doc.getRevisions().getCount());
 
         // Once the delete revision is accepted, the nodes that it concerns are removed and their text will not show up here
-        msAssert.areEqual("This is revision #1.", msString.trim(doc.getText()));
+        Assert.assertEquals("This is revision #1.", msString.trim(doc.getText()));
 
         // The second insertion revision is now at index 0, which we can reject to ignore and discard it
         doc.getRevisions().get(0).reject();
-        msAssert.areEqual(0, doc.getRevisions().getCount());
-        msAssert.areEqual("", msString.trim(doc.getText()));
-
-        // This takes us back to not counting changes as revisions
-        doc.stopTrackRevisions();
-
-        builder.writeln("This also does not count as a revision.");
-        msAssert.areEqual(0, doc.getRevisions().getCount());
-
-        doc.save(getArtifactsDir() + "Revisions.docx");
+        Assert.assertEquals(0, doc.getRevisions().getCount());
+        Assert.assertEquals("", msString.trim(doc.getText()));
         //ExEnd
     }
 
@@ -2362,6 +2497,7 @@ public class ExDocument extends ApiExampleBase
         RevisionCollection revisions = doc.getRevisions();
         
         // This collection itself has a collection of revision groups, which are merged sequences of adjacent revisions
+        Assert.assertEquals(7, revisions.getGroups().getCount()); //ExSkip
         System.out.println("{revisions.Groups.Count} revision groups:");
 
         // We can iterate over the collection of groups and access the text that the revision concerns
@@ -2379,6 +2515,7 @@ public class ExDocument extends ApiExampleBase
         // The collection of revisions is considerably larger than the condensed form we printed above,
         // depending on how many Runs the text has been segmented into during editing in Microsoft Word,
         // since each Run affected by a revision gets its own Revision object
+        Assert.assertEquals(11, revisions.getCount()); //ExSkip
         System.out.println("\n{revisions.Count} revisions:");
 
         Iterator<Revision> e1 = revisions.iterator();
@@ -2407,9 +2544,7 @@ public class ExDocument extends ApiExampleBase
         // the changes must be accepted/rejected by the revisions themselves, the RevisionCollection, or the document
         // In this case we will reject all revisions via the collection, reverting the document to its original form, which we will then save
         revisions.rejectAll();
-        msAssert.areEqual(0, revisions.getCount());
-
-        doc.save(getArtifactsDir() + "Document.RevisionCollection.docx");
+        Assert.assertEquals(0, revisions.getCount()); 
         //ExEnd
     }
 
@@ -2423,20 +2558,24 @@ public class ExDocument extends ApiExampleBase
 
         // Empty Microsoft Word documents by default come with an attached template called "Normal.dotm"
         // There is no default template for Aspose Words documents
-        msAssert.areEqual("", doc.getAttachedTemplate());
+        Assert.assertEquals("", doc.getAttachedTemplate());
 
         // For AutomaticallyUpdateStyles to have any effect, we need a document with a template
         // We can make a document with word and open it
         // Or we can attach a template from our file system, as below
-        doc.setAttachedTemplate(getMyDir() + "Busniess brochure.dotx");
-
-        Assert.assertTrue(doc.getAttachedTemplate().endsWith("Busniess brochure.dotx"));
+        doc.setAttachedTemplate(getMyDir() + "Business brochure.dotx");
 
         // Any changes to the styles in this template will be propagated to those styles in the document
         doc.setAutomaticallyUpdateStyles(true);
 
         doc.save(getArtifactsDir() + "Document.AutomaticallyUpdateStyles.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Document.AutomaticallyUpdateStyles.docx");
+
+        Assert.assertTrue(doc.getAutomaticallyUpdateStyles());
+        Assert.assertEquals(getMyDir() + "Business brochure.dotx", doc.getAttachedTemplate());
+        Assert.assertTrue(File.exists(doc.getAttachedTemplate()));
     }
 
     @Test
@@ -2457,7 +2596,8 @@ public class ExDocument extends ApiExampleBase
         // We can set a default template document filename in a SaveOptions object to make it apply to
         // all documents we save with it that have no AttachedTemplate value
         SaveOptions options = SaveOptions.createSaveOptions("Document.DefaultTemplate.docx");
-        options.setDefaultTemplate(getMyDir() + "Busniess brochure.dotx");
+        options.setDefaultTemplate(getMyDir() + "Business brochure.dotx");
+        Assert.assertTrue(File.exists(options.getDefaultTemplate())); //ExSkip
 
         doc.save(getArtifactsDir() + "Document.DefaultTemplate.docx", options);
         //ExEnd
@@ -2471,27 +2611,34 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows how to edit the last section of a document.
         // Open the template document, containing obsolete copyright information in the footer
         Document doc = new Document(getMyDir() + "Footer.docx");
-
-        // We have a document with 2 sections, this way FirstSection and LastSection are not the same
-        msAssert.areEqual(2, doc.getSections().getCount());
-
-        String newCopyrightInformation = $"Copyright (C) {DateTime.Now.Year} by Aspose Pty Ltd.";
-        FindReplaceOptions findReplaceOptions =
-            new FindReplaceOptions(); { findReplaceOptions.setMatchCase(false); findReplaceOptions.setFindWholeWordsOnly(false); }
-
-        // Access the first and the last sections
+        
+        // Create a new copyright information string to replace an older one with
+        int currentYear = DateTime.getNow().getYear();
+        String newCopyrightInformation = $"Copyright (C) {currentYear} by Aspose Pty Ltd.";
+        
+        FindReplaceOptions findReplaceOptions = new FindReplaceOptions();
+        findReplaceOptions.setMatchCase(false);
+        findReplaceOptions.setFindWholeWordsOnly(false);
+        
+        // Each section has its own set of headers/footers,
+        // so the text in each one has to be replaced individually if we want the entire document to be affected
         HeaderFooter firstSectionFooter = doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
         firstSectionFooter.getRange().replace("(C) 2006 Aspose Pty Ltd.", newCopyrightInformation, findReplaceOptions);
 
         HeaderFooter lastSectionFooter = doc.getLastSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
         lastSectionFooter.getRange().replace("(C) 2006 Aspose Pty Ltd.", newCopyrightInformation, findReplaceOptions);
 
-        // Sections are also accessible via an array
-        msAssert.areEqual(doc.getFirstSection(), doc.getSections().get(0));
-        msAssert.areEqual(doc.getLastSection(), doc.getSections().get(1));
-
         doc.save(getArtifactsDir() + "Document.Sections.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Document.Sections.docx");
+        Assert.assertEquals(doc.getFirstSection(), doc.getSections().get(0));
+        Assert.assertEquals(doc.getLastSection(), doc.getSections().get(1));
+
+        Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().contains($"Copyright (C) {currentYear} by Aspose Pty Ltd."));
+        Assert.assertTrue(doc.getLastSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().contains($"Copyright (C) {currentYear} by Aspose Pty Ltd."));
+        Assert.assertFalse(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().contains("(C) 2006 Aspose Pty Ltd."));
+        Assert.assertFalse(doc.getLastSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().contains("(C) 2006 Aspose Pty Ltd."));
     }
 
     //ExStart
@@ -2519,8 +2666,10 @@ public class ExDocument extends ApiExampleBase
         options.setUseLegacyOrder(isUseLegacyOrder);
  
         doc.getRange().replaceInternal(new Regex("\\[(.*?)\\]"), "", options);
-
         checkUseLegacyOrderResults(isUseLegacyOrder, callback); //ExSkip
+
+        for (String match : ((UseLegacyOrderReplacingCallback)options.getReplacingCallback()).getMatches())
+            System.out.println(match);
     }
 
 	//JAVA-added data provider for test method
@@ -2538,47 +2687,22 @@ public class ExDocument extends ApiExampleBase
     {
         public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs e)
         {
-            msArrayList.add(getMatches(), e.getMatchInternal().getValue()); //ExSkip
-
-            msConsole.write(e.getMatchInternal().getValue());
+            msArrayList.add(getMatches(), e.getMatchInternal().getValue()); 
             return ReplaceAction.REPLACE;
         }
 
         public ArrayList<String> getMatches() { return mMatches; };
 
-        private ArrayList<String> mMatches; = /*new*/ ArrayList<String>list(); //ExSkip
+        private ArrayList<String> mMatches; = /*new*/ ArrayList<String>list();
     }
     //ExEnd
 
     private static void checkUseLegacyOrderResults(boolean isUseLegacyOrder, UseLegacyOrderReplacingCallback callback)
     {
-        if (isUseLegacyOrder)
-        {
-            msAssert.areEqual("[tag 1]", callback.getMatches().get(0));
-            msAssert.areEqual("[tag 2]", callback.getMatches().get(1));
-            msAssert.areEqual("[tag 3]", callback.getMatches().get(2));
-        }
-        else
-        {
-            msAssert.areEqual("[tag 1]", callback.getMatches().get(0));
-            msAssert.areEqual("[tag 3]", callback.getMatches().get(1));
-            msAssert.areEqual("[tag 2]", callback.getMatches().get(2));
-        }
-    }
-
-    @Test
-    public void setEndnoteOptions() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.EndnoteOptions
-        //ExSummary:Shows how access a document's endnote options and see some of its default values.
-        Document doc = new Document();
-
-        msAssert.areEqual(1, doc.getEndnoteOptions().getStartNumber());
-        msAssert.areEqual(EndnotePosition.END_OF_DOCUMENT, doc.getEndnoteOptions().getPosition());
-        msAssert.areEqual(NumberStyle.LOWERCASE_ROMAN, doc.getEndnoteOptions().getNumberStyle());
-        msAssert.areEqual(FootnoteNumberingRule.DEFAULT, doc.getEndnoteOptions().getRestartRule());
-        //ExEnd
+        Assert.assertEquals(
+            isUseLegacyOrder
+                ? new ArrayList<String>(); { .add("[tag 1]"); .add("[tag 2]"); .add("[tag 3]"); }
+                : new ArrayList<String>(); { .add("[tag 1]"); .add("[tag 3]"); .add("[tag 2]"); }, callback.getMatches());
     }
 
     @Test
@@ -2590,35 +2714,32 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // We'll add a date field
+        // Add a date field
         Field field = builder.insertField("DATE", null);
 
-        // The FieldDate field type corresponds to the "DATE" field so our field's type property gets automatically set to it
-        msAssert.areEqual(FieldType.FIELD_DATE, field.getType());
-        msAssert.areEqual(1, doc.getRange().getFields().getCount());
+        // Based on the field code we entered above, the type of the field has been set to "FieldDate"
+        Assert.assertEquals(FieldType.FIELD_DATE, field.getType());
 
         // We can manually access the content of the field we added and change it
-        Run fieldText = (Run) doc.getFirstSection().getBody().getFirstParagraph().getChildNodes(NodeType.RUN, true).get(0);
-        msAssert.areEqual("DATE", fieldText.getText());
+        Run fieldText = (Run)doc.getFirstSection().getBody().getFirstParagraph().getChildNodes(NodeType.RUN, true).get(0);
+        Assert.assertEquals("DATE", fieldText.getText()); //ExSkip
         fieldText.setText("PAGE");
 
         // We changed the text to "PAGE" but the field's type property did not update accordingly
-        msAssert.areEqual("PAGE", fieldText.getText());
-        msAssert.areNotEqual(FieldType.FIELD_PAGE, field.getType());
+        Assert.assertEquals("PAGE", fieldText.getText());
+        Assert.assertEquals(FieldType.FIELD_DATE, field.getType());
+        Assert.assertEquals(FieldType.FIELD_DATE, field.getStart().getFieldType()); //ExSkip
+        Assert.assertEquals(FieldType.FIELD_DATE, field.getSeparator().getFieldType()); //ExSkip
+        Assert.assertEquals(FieldType.FIELD_DATE, field.getEnd().getFieldType()); //ExSkip
 
-        // The type of the field as well as its components is still "FieldDate"
-        msAssert.areEqual(FieldType.FIELD_DATE, field.getType());
-        msAssert.areEqual(FieldType.FIELD_DATE, field.getStart().getFieldType());
-        msAssert.areEqual(FieldType.FIELD_DATE, field.getSeparator().getFieldType());
-        msAssert.areEqual(FieldType.FIELD_DATE, field.getEnd().getFieldType());
-
+        // After running this method the type of the field, as well as its FieldStart,
+        // FieldSeparator and FieldEnd nodes to "FieldPage", which matches the text "PAGE"
         doc.normalizeFieldTypes();
 
-        // After running this method the type changes everywhere to "FieldPage", which matches the text "PAGE"
-        msAssert.areEqual(FieldType.FIELD_PAGE, field.getType());
-        msAssert.areEqual(FieldType.FIELD_PAGE, field.getStart().getFieldType());
-        msAssert.areEqual(FieldType.FIELD_PAGE, field.getSeparator().getFieldType());
-        msAssert.areEqual(FieldType.FIELD_PAGE, field.getEnd().getFieldType());
+        Assert.assertEquals(FieldType.FIELD_PAGE, field.getType());
+        Assert.assertEquals(FieldType.FIELD_PAGE, field.getStart().getFieldType()); //ExSkip
+        Assert.assertEquals(FieldType.FIELD_PAGE, field.getSeparator().getFieldType()); //ExSkip
+        Assert.assertEquals(FieldType.FIELD_PAGE, field.getEnd().getFieldType()); //ExSkip
         //ExEnd
     }
 
@@ -2637,14 +2758,16 @@ public class ExDocument extends ApiExampleBase
         //ExFor:RevisionOptions.ShowRevisionBars
         //ExSummary:Shows how to set a document's layout options.
         Document doc = new Document();
-
-        Assert.assertFalse(doc.getLayoutOptions().getShowHiddenText());
-        Assert.assertFalse(doc.getLayoutOptions().getShowParagraphMarks());
+        LayoutOptions options = doc.getLayoutOptions();
+        Assert.assertFalse(options.getShowHiddenText()); //ExSkip
+        Assert.assertFalse(options.getShowParagraphMarks()); //ExSkip
 
         // The appearance of revisions can be controlled from the layout options property
         doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
-        doc.getLayoutOptions().getRevisionOptions().setInsertedTextColor(RevisionColor.BRIGHT_GREEN);
-        doc.getLayoutOptions().getRevisionOptions().setShowRevisionBars(false);
+        Assert.assertEquals(RevisionColor.BY_AUTHOR, options.getRevisionOptions().getInsertedTextColor()); //ExSkip
+        Assert.assertTrue(options.getRevisionOptions().getShowRevisionBars()); //ExSkip
+        options.getRevisionOptions().setInsertedTextColor(RevisionColor.BRIGHT_GREEN);
+        options.getRevisionOptions().setShowRevisionBars(false);
 
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln(
@@ -2658,7 +2781,11 @@ public class ExDocument extends ApiExampleBase
         builder.writeln(
             "This text is hidden. It will only show up in the output if we allow it to via doc.LayoutOptions.");
 
-        doc.getLayoutOptions().setShowHiddenText(true);
+        options.setShowHiddenText(true);
+
+        // This option is equivalent to enabling paragraph marks in Microsoft Word via Home > paragraph > Show Paragraph Marks,
+        // and can be used to display these features in a .pdf
+        options.setShowParagraphMarks(true);
 
         doc.save(getArtifactsDir() + "Document.LayoutOptions.pdf");
         //ExEnd
@@ -2722,7 +2849,7 @@ public class ExDocument extends ApiExampleBase
         settings.setLinkToQuery(true);
         settings.setViewMergedData(true);
 
-        msAssert.areEqual(MailMergeDestination.DEFAULT, settings.getDestination());
+        Assert.assertEquals(MailMergeDestination.DEFAULT, settings.getDestination());
         Assert.assertFalse(settings.getDoNotSupressBlankLines());
 
         // Office Data Source Object settings
@@ -2739,6 +2866,23 @@ public class ExDocument extends ApiExampleBase
         // The mail merge will be performed when this document is opened 
         doc.save(getArtifactsDir() + "Document.MailMergeSettings.docx");
         //ExEnd
+
+        settings = new Document(getArtifactsDir() + "Document.MailMergeSettings.docx").getMailMergeSettings();
+
+        Assert.assertEquals(MailMergeMainDocumentType.MAILING_LABELS, settings.getMainDocumentType());
+        Assert.assertEquals(MailMergeCheckErrors.SIMULATE, settings.getCheckErrors());
+        Assert.assertEquals(MailMergeDataType.NATIVE, settings.getDataType());
+        Assert.assertEquals(getArtifactsDir() + "Document.MailMergeSettings.DataSource.txt", settings.getDataSource());
+        Assert.assertEquals("SELECT * FROM " + doc.getMailMergeSettings().getDataSource(), settings.getQuery());
+        Assert.assertTrue(settings.getLinkToQuery());
+        Assert.assertTrue(settings.getViewMergedData());
+
+        odso = settings.getOdso();
+        Assert.assertEquals(getArtifactsDir() + "Document.MailMergeSettings.DataSource.txt", odso.getDataSource());
+        Assert.assertEquals(OdsoDataSourceType.TEXT, odso.getDataSourceType());
+        Assert.assertEquals('|', odso.getColumnDelimiter());
+        Assert.assertTrue(odso.getFirstRowContainsColumnNames());
+
     }
 
     @Test
@@ -2755,7 +2899,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Odso.UdlConnectString
         //ExSummary:Shows how to execute a mail merge while connecting to an external data source.
         Document doc = new Document(getMyDir() + "Odso data.docx");
-
+        testOdsoEmail(doc); //ExSkip
         MailMergeSettings settings = doc.getMailMergeSettings();
 
         System.out.println("Connection string:\n\t{settings.ConnectString}");
@@ -2765,10 +2909,10 @@ public class ExDocument extends ApiExampleBase
         System.out.println("Active record:\n\t{settings.ActiveRecord}");
         
         Odso odso = settings.getOdso();
-        
+
         System.out.println("File will connect to data source located in:\n\t\"{odso.DataSource}\"");
         System.out.println("Source type:\n\t{odso.DataSourceType}");
-        System.out.println("UDL connection string string:\n\t{odso.UdlConnectString}");
+        System.out.println("UDL connection string:\n\t{odso.UdlConnectString}");
         System.out.println("Table:\n\t{odso.TableName}");
         System.out.println("Query:\n\t{doc.MailMergeSettings.Query}");
 
@@ -2776,10 +2920,28 @@ public class ExDocument extends ApiExampleBase
         settings.clear();
 
         doc.save(getArtifactsDir() + "Document.OdsoEmail.docx");
+        //ExEnd
 
         doc = new Document(getArtifactsDir() + "Document.OdsoEmail.docx");
         Assert.That(doc.getMailMergeSettings().getConnectString(), Is.Empty);
-        //ExEnd
+    }
+
+    private void testOdsoEmail(Document doc)
+    {
+        MailMergeSettings settings = doc.getMailMergeSettings();
+
+        Assert.assertFalse(settings.getMailAsAttachment());
+        Assert.assertEquals("test subject", settings.getMailSubject());
+        Assert.assertEquals("Email_Address", settings.getAddressFieldName());
+        Assert.assertEquals(66, settings.getActiveRecord());
+        Assert.assertEquals("SELECT * FROM `Contacts` ", settings.getQuery());
+
+        Odso odso = settings.getOdso();
+
+        Assert.assertEquals(settings.getConnectString(), odso.getUdlConnectString());
+        Assert.assertEquals("Personal Folders|", odso.getDataSource());
+        Assert.assertEquals(OdsoDataSourceType.EMAIL, odso.getDataSourceType());
+        Assert.assertEquals("Contacts", odso.getTableName());
     }
 
     @Test
@@ -2834,7 +2996,7 @@ public class ExDocument extends ApiExampleBase
         settings.setDataSource(getArtifactsDir() + "Document.MailingLabelMerge.Data.docx");
 
         // Configure the rest of the MailMergeSettings object
-        settings.setQuery("SELECT * FROM " + doc.getMailMergeSettings().getDataSource());
+        settings.setQuery("SELECT * FROM " + settings.getDataSource());
         settings.setMainDocumentType(MailMergeMainDocumentType.MAILING_LABELS);
         settings.setDataType(MailMergeDataType.TEXT_FILE);
         settings.setLinkToQuery(true);
@@ -2843,6 +3005,28 @@ public class ExDocument extends ApiExampleBase
         // The mail merge will be performed when this document is opened 
         doc.save(getArtifactsDir() + "Document.MailingLabelMerge.docx");
         //ExEnd
+
+        Assert.assertEquals("FirstName\u0007LastName\u0007\u0007", 
+            msString.trim(new Document(getArtifactsDir() + "Document.MailingLabelMerge.Header.docx").
+                getChild(NodeType.TABLE, 0, true).getText()));
+
+        Assert.assertEquals("John\u0007Doe\u0007\u0007",
+            msString.trim(new Document(getArtifactsDir() + "Document.MailingLabelMerge.Data.docx").
+                getChild(NodeType.TABLE, 0, true).getText()));
+
+        doc = new Document(getArtifactsDir() + "Document.MailingLabelMerge.docx");
+
+        Assert.assertEquals(2, doc.getRange().getFields().getCount());
+
+        settings = doc.getMailMergeSettings();
+
+        Assert.assertEquals(getArtifactsDir() + "Document.MailingLabelMerge.Header.docx", settings.getHeaderSource());
+        Assert.assertEquals(getArtifactsDir() + "Document.MailingLabelMerge.Data.docx", settings.getDataSource());
+        Assert.assertEquals("SELECT * FROM " + settings.getDataSource(), settings.getQuery());
+        Assert.assertEquals(MailMergeMainDocumentType.MAILING_LABELS, settings.getMainDocumentType());
+        Assert.assertEquals(MailMergeDataType.TEXT_FILE, settings.getDataType());
+        Assert.assertTrue(settings.getLinkToQuery());
+        Assert.assertTrue(settings.getViewMergedData());
     }
 
     @Test
@@ -2869,21 +3053,32 @@ public class ExDocument extends ApiExampleBase
 
         // This collection defines how columns from an external data source will be mapped to predefined MERGEFIELD,
         // ADDRESSBLOCK and GREETINGLINE fields during a mail merge
-        OdsoFieldMapDataCollection fieldMapDataCollection = doc.getMailMergeSettings().getOdso().getFieldMapDatas();
+        OdsoFieldMapDataCollection dataCollection = doc.getMailMergeSettings().getOdso().getFieldMapDatas();
+        Assert.assertEquals(30, dataCollection.getCount());
 
-        msAssert.areEqual(30, fieldMapDataCollection.getCount());
-        int index = 0;
-
-        for (OdsoFieldMapData data : fieldMapDataCollection)
+        Iterator<OdsoFieldMapData> enumerator = dataCollection.iterator();
+        try /*JAVA: was using*/
         {
-            System.out.println("Field map data index #{index++}, type \"{data.Type}\":");
+            int index = 0;
+            while (enumerator.hasNext())
+            {
+                System.out.println("Field map data index {index++}, type \"{enumerator.Current.Type}\":");
 
-            System.out.println(data.getType() != OdsoFieldMappingType.NULL
-                        ? $"\tColumn named {data.Name}, number {data.Column} in the data source mapped to merge field named {data.MappedName}."
-                        : "\tNo valid column to field mapping data present.");
-
-            msAssert.areNotEqual(data, data.deepClone());
+                System.out.println(enumerator.next().getType() != OdsoFieldMappingType.NULL
+                            ? $"\tColumn \"{enumerator.Current.Name}\", number {enumerator.Current.Column} mapped to merge field \"{enumerator.Current.MappedName}\"."
+                            : "\tNo valid column to field mapping data present.");
+            }
         }
+        finally { if (enumerator != null) enumerator.close(); }
+
+        // Elements of the collection can be cloned
+        msAssert.areNotEqual(dataCollection.get(0), dataCollection.get(0).deepClone());
+
+        // The collection can have individual entries removed or be cleared like this
+        dataCollection.removeAt(0);
+        Assert.assertEquals(29, dataCollection.getCount()); //ExSkip
+        dataCollection.clear();
+        Assert.assertEquals(0, dataCollection.getCount()); //ExSkip
         //ExEnd
     }
 
@@ -2909,20 +3104,32 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Odso data.docx");
 
         // Records in this collection that do not have the "Active" flag set to true will be excluded from the mail merge
-        OdsoRecipientDataCollection odsoRecipientDataCollection = doc.getMailMergeSettings().getOdso().getRecipientDatas();
+        OdsoRecipientDataCollection dataCollection = doc.getMailMergeSettings().getOdso().getRecipientDatas();
 
-        msAssert.areEqual(70, odsoRecipientDataCollection.getCount());
-        int index = 0;
+        Assert.assertEquals(70, dataCollection.getCount());
 
-        for (OdsoRecipientData data : odsoRecipientDataCollection)
+        Iterator<OdsoRecipientData> enumerator = dataCollection.iterator();
+        try /*JAVA: was using*/
         {
-            System.out.println("Odso recipient data index #{index++}, will {(data.Active ? ");
-            System.out.println("\tColumn #{data.Column}");
-            System.out.println("\tHash code: {data.Hash}");
-            System.out.println("\tContents array length: {data.UniqueTag.Length}");
-
-            msAssert.areNotEqual(data, data.deepClone());
+            int index = 0;
+            while (enumerator.hasNext())
+            {
+                System.out.println("Odso recipient data index {index++} will {(enumerator.Current.Active ? ");
+                System.out.println("\tColumn #{enumerator.Current.Column}");
+                System.out.println("\tHash code: {enumerator.Current.Hash}");
+                System.out.println("\tContents array length: {enumerator.Current.UniqueTag.Length}");
+            }
         }
+        finally { if (enumerator != null) enumerator.close(); }
+
+        // Elements of the collection can be cloned
+        msAssert.areNotEqual(dataCollection.get(0), dataCollection.get(0).deepClone());
+
+        // The collection can have individual entries removed or be cleared like this
+        dataCollection.removeAt(0);
+        Assert.assertEquals(69, dataCollection.getCount()); //ExSkip
+        dataCollection.clear();
+        Assert.assertEquals(0, dataCollection.getCount()); //ExSkip
         //ExEnd
     }
 
@@ -2952,15 +3159,13 @@ public class ExDocument extends ApiExampleBase
         // Not to be confused with Custom XML data which is represented by CustomXmlParts
         // This part is internal, meaning it is contained inside the OOXML package
         Document doc = new Document(getMyDir() + "Custom parts OOXML package.docx");
-        msAssert.areEqual(2, doc.getPackageCustomParts().getCount());
 
         // Clone the second part
         CustomPart clonedPart = doc.getPackageCustomParts().get(1).deepClone();
 
         // Add the clone to the collection
         doc.getPackageCustomParts().add(clonedPart);
-        
-        msAssert.areEqual(3, doc.getPackageCustomParts().getCount());
+        testDocPackageCustomParts(doc.getPackageCustomParts()); //ExSkip
 
         // Use an enumerator to print information about the contents of each part 
         Iterator<CustomPart> enumerator = doc.getPackageCustomParts().iterator();
@@ -2981,38 +3186,36 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (enumerator != null) enumerator.close(); }
 
-        testCustomPartRead(doc); //ExSkip
-
-        // Delete parts one at a time based on index
+        // The parts collection can have individual entries removed or be cleared like this
         doc.getPackageCustomParts().removeAt(2);
-        msAssert.areEqual(2, doc.getPackageCustomParts().getCount());
-
-        // Delete all parts
+        Assert.assertEquals(2, doc.getPackageCustomParts().getCount()); //ExSkip
         doc.getPackageCustomParts().clear();
-        msAssert.areEqual(0, doc.getPackageCustomParts().getCount());
+        Assert.assertEquals(0, doc.getPackageCustomParts().getCount()); //ExSkip
         //ExEnd
     }
 
-    private static void testCustomPartRead(Document docWithCustomParts)
+    private static void testDocPackageCustomParts(CustomPartCollection parts)
     {
-        msAssert.areEqual("/payload/payload_on_package.test", docWithCustomParts.getPackageCustomParts().get(0).getName()); 
-        msAssert.areEqual("mytest/somedata", docWithCustomParts.getPackageCustomParts().get(0).getContentType()); 
-        msAssert.areEqual("http://mytest.payload.internal", docWithCustomParts.getPackageCustomParts().get(0).getRelationshipType()); 
-        msAssert.areEqual(false, docWithCustomParts.getPackageCustomParts().get(0).isExternal()); 
-        msAssert.areEqual(18, docWithCustomParts.getPackageCustomParts().get(0).getData().length); 
+        Assert.assertEquals(3, parts.getCount());
+
+        Assert.assertEquals("/payload/payload_on_package.test", parts.get(0).getName()); 
+        Assert.assertEquals("mytest/somedata", parts.get(0).getContentType()); 
+        Assert.assertEquals("http://mytest.payload.internal", parts.get(0).getRelationshipType()); 
+        Assert.assertEquals(false, parts.get(0).isExternal()); 
+        Assert.assertEquals(18, parts.get(0).getData().length); 
 
         // This part is external and its content is sourced from outside the document
-        msAssert.areEqual("http://www.aspose.com/Images/aspose-logo.jpg", docWithCustomParts.getPackageCustomParts().get(1).getName()); 
-        msAssert.areEqual("", docWithCustomParts.getPackageCustomParts().get(1).getContentType()); 
-        msAssert.areEqual("http://mytest.payload.external", docWithCustomParts.getPackageCustomParts().get(1).getRelationshipType()); 
-        msAssert.areEqual(true, docWithCustomParts.getPackageCustomParts().get(1).isExternal()); 
-        msAssert.areEqual(0, docWithCustomParts.getPackageCustomParts().get(1).getData().length); 
+        Assert.assertEquals("http://www.aspose.com/Images/aspose-logo.jpg", parts.get(1).getName()); 
+        Assert.assertEquals("", parts.get(1).getContentType()); 
+        Assert.assertEquals("http://mytest.payload.external", parts.get(1).getRelationshipType()); 
+        Assert.assertEquals(true, parts.get(1).isExternal()); 
+        Assert.assertEquals(0, parts.get(1).getData().length); 
 
-        msAssert.areEqual("http://www.aspose.com/Images/aspose-logo.jpg", docWithCustomParts.getPackageCustomParts().get(2).getName()); 
-        msAssert.areEqual("", docWithCustomParts.getPackageCustomParts().get(2).getContentType()); 
-        msAssert.areEqual("http://mytest.payload.external", docWithCustomParts.getPackageCustomParts().get(2).getRelationshipType()); 
-        msAssert.areEqual(true, docWithCustomParts.getPackageCustomParts().get(2).isExternal()); 
-        msAssert.areEqual(0, docWithCustomParts.getPackageCustomParts().get(2).getData().length); 
+        Assert.assertEquals("http://www.aspose.com/Images/aspose-logo.jpg", parts.get(2).getName()); 
+        Assert.assertEquals("", parts.get(2).getContentType()); 
+        Assert.assertEquals("http://mytest.payload.external", parts.get(2).getRelationshipType()); 
+        Assert.assertEquals(true, parts.get(2).isExternal()); 
+        Assert.assertEquals(0, parts.get(2).getData().length); 
     }
 
     @Test
@@ -3036,6 +3239,9 @@ public class ExDocument extends ApiExampleBase
         doc.setShadeFormData(false);
         doc.save(getArtifactsDir() + "Document.ShadeFormData.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Document.ShadeFormData.docx");
+        Assert.assertFalse(doc.getShadeFormData());
     }
 
     @Test
@@ -3044,24 +3250,18 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.VersionsCount
         //ExSummary:Shows how to count how many previous versions a document has.
-        Document doc = new Document();
-
-        // No versions are in the document by default
-        // We also can't add any since they are not supported
-        msAssert.areEqual(0, doc.getVersionsCount());
-
-        // Let's open a document with versions
-        doc = new Document(getMyDir() + "Versions.doc");
+        // Document versions are not supported but we can open an older document that has them
+        Document doc = new Document(getMyDir() + "Versions.doc");
 
         // We can use this property to see how many there are
-        msAssert.areEqual(4, doc.getVersionsCount());
+        // If we save and open the document, they will be lost
+        Assert.assertEquals(4, doc.getVersionsCount());
+        //ExEnd
 
         doc.save(getArtifactsDir() + "Document.VersionsCount.docx");      
         doc = new Document(getArtifactsDir() + "Document.VersionsCount.docx");
 
-        // If we save and open the document, the versions are lost
-        msAssert.areEqual(0, doc.getVersionsCount());
-        //ExEnd
+        Assert.assertEquals(0, doc.getVersionsCount());
     }
 
     @Test
@@ -3072,36 +3272,44 @@ public class ExDocument extends ApiExampleBase
         //ExFor:WriteProtection
         //ExFor:WriteProtection.IsWriteProtected
         //ExFor:WriteProtection.ReadOnlyRecommended
+        //ExFor:WriteProtection.SetPassword(String)
         //ExFor:WriteProtection.ValidatePassword(String)
         //ExSummary:Shows how to protect a document with a password.
         Document doc = new Document();
-        Assert.assertFalse(doc.getWriteProtection().isWriteProtected());
-        Assert.assertFalse(doc.getWriteProtection().getReadOnlyRecommended());
+        Assert.assertFalse(doc.getWriteProtection().isWriteProtected()); //ExSkip
+        Assert.assertFalse(doc.getWriteProtection().getReadOnlyRecommended()); //ExSkip
 
-        // Enter a password that's 15 or less characters long
-        doc.getWriteProtection().setPassword("docpassword123");
+        // Enter a password that's up to 15 characters long
+        doc.getWriteProtection().setPassword("MyPassword");
+
         Assert.assertTrue(doc.getWriteProtection().isWriteProtected());
+        Assert.assertTrue(doc.getWriteProtection().validatePassword("MyPassword"));
 
-        Assert.assertFalse(doc.getWriteProtection().validatePassword("wrongpassword"));
+        // This flag applies to RTF documents and will be ignored by Microsoft Word
+        doc.getWriteProtection().setReadOnlyRecommended(true);
 
         DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.writeln("We can still edit the document at this stage.");
+        builder.writeln("Write protection does not prevent us from editing the document programmatically.");
 
         // Save the document
         // Without the password, we can only read this document in Microsoft Word
         // With the password, we can read and write
         doc.save(getArtifactsDir() + "Document.WriteProtection.docx");
-
-        // Re-open our document
-        Document docProtected = new Document(getArtifactsDir() + "Document.WriteProtection.docx");
-        DocumentBuilder docProtectedBuilder = new DocumentBuilder(docProtected);
-        docProtectedBuilder.moveToDocumentEnd();
-
-        // We can programmatically edit this document without using our password
-        // However, if we wish to edit it in Microsoft Word, we will need the password to open it
-        Assert.assertTrue(docProtected.getWriteProtection().isWriteProtected());
-        docProtectedBuilder.writeln("Writing text in a protected document.");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Document.WriteProtection.docx");
+
+        Assert.assertTrue(doc.getWriteProtection().isWriteProtected());
+        Assert.assertTrue(doc.getWriteProtection().getReadOnlyRecommended());
+        Assert.assertTrue(doc.getWriteProtection().validatePassword("MyPassword"));
+        Assert.assertFalse(doc.getWriteProtection().validatePassword("wrongpassword"));
+
+        builder = new DocumentBuilder(doc);
+        builder.moveToDocumentEnd();
+        builder.writeln("Writing text in a protected document.");
+
+        Assert.assertEquals("Write protection does not prevent us from editing the document programmatically." +
+                        "\rWriting text in a protected document.", msString.trim(doc.getText()));
     }
     
     @Test
@@ -3115,14 +3323,20 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows how to set up language preferences that will be used when document is loading
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.getLanguagePreferences().addEditingLanguage(EditingLanguage.JAPANESE);
-        
-        Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
+
+        Document doc = new Document(getMyDir() + "No default editing language.docx", loadOptions);
 
         int localeIdFarEast = doc.getStyles().getDefaultFont().getLocaleIdFarEast();
-        System.out.println(localeIdFarEast == (int) EditingLanguage.JAPANESE
+        System.out.println(localeIdFarEast == (int)EditingLanguage.JAPANESE
                 ? "The document either has no any FarEast language set in defaults or it was set to Japanese originally."
                 : "The document default FarEast language was set to another than Japanese language originally, so it is not overridden.");
         //ExEnd
+
+        Assert.assertEquals((int)EditingLanguage.JAPANESE, doc.getStyles().getDefaultFont().getLocaleIdFarEast());
+
+        doc = new Document(getMyDir() + "No default editing language.docx");
+
+        Assert.assertEquals((int)EditingLanguage.ENGLISH_US, doc.getStyles().getDefaultFont().getLocaleIdFarEast());
     }
 
     @Test
@@ -3132,18 +3346,23 @@ public class ExDocument extends ApiExampleBase
         //ExFor:LanguagePreferences.DefaultEditingLanguage
         //ExSummary:Shows how to set language as default
         LoadOptions loadOptions = new LoadOptions();
-        // You can set language which only
         loadOptions.getLanguagePreferences().setDefaultEditingLanguage(EditingLanguage.RUSSIAN);
 
-        Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
+        Document doc = new Document(getMyDir() + "No default editing language.docx", loadOptions);
 
         int localeId = doc.getStyles().getDefaultFont().getLocaleId();
-        System.out.println(localeId == (int) EditingLanguage.RUSSIAN
+        System.out.println(localeId == (int)EditingLanguage.RUSSIAN
                 ? "The document either has no any language set in defaults or it was set to Russian originally."
                 : "The document default language was set to another than Russian language originally, so it is not overridden.");
         //ExEnd
-    }
 
+        Assert.assertEquals((int)EditingLanguage.RUSSIAN, doc.getStyles().getDefaultFont().getLocaleId());
+        
+        doc = new Document(getMyDir() + "No default editing language.docx");
+        
+        Assert.assertEquals((int)EditingLanguage.ENGLISH_US, doc.getStyles().getDefaultFont().getLocaleId());
+    }
+    
     @Test
     public void getInfoAboutRevisionsInRevisionGroups() throws Exception
     {
@@ -3154,16 +3373,15 @@ public class ExDocument extends ApiExampleBase
         //ExFor:RevisionGroup.Text
         //ExFor:RevisionGroupCollection
         //ExFor:RevisionGroupCollection.Count
-        //ExSummary:Shows how to get info about a set of revisions in document.
+        //ExSummary:Shows how to get info about a group of revisions in document.
         Document doc = new Document(getMyDir() + "Revisions.docx");
-
-        msConsole.writeLine("Revision groups count: {0}\n", doc.getRevisions().getGroups().getCount());
+        
+        Assert.assertEquals(7, doc.getRevisions().getGroups().getCount());
 
         // Get info about all of revisions in document
         for (RevisionGroup group : doc.getRevisions().getGroups())
         {
-            msConsole.writeLine("Revision author: {0}; Revision type: {1} \nRevision text: {2}", group.getAuthor(),
-                group.getRevisionType(), group.getRevisionType());
+            System.out.println("Revision author: {group.Author}; Revision type: {group.RevisionType} \n\tRevision text: {group.Text}");
         }
         //ExEnd
     }
@@ -3174,23 +3392,17 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:RevisionGroupCollection
         //ExFor:RevisionGroupCollection.Item(Int32)
-        //ExFor:RevisionType
-        //ExSummary:Shows how to get a set of revisions in document.
+        //ExSummary:Shows how to get a group of revisions in document.
         Document doc = new Document(getMyDir() + "Revisions.docx");
 
         // Get revision group by index
-        RevisionGroup revisionGroup = doc.getRevisions().getGroups().get(1);
-
-        // Get info about specific revision groups sorted by RevisionType
-        Iterable<String> revisionGroupCollectionInsertionType =
-            doc.getRevisions().getGroups().Where(p => p.RevisionType == RevisionType.Insertion).Select(p =>
-                $"Revision type: {p.RevisionType.ToString()},\nRevision author: {p.Author},\nRevision text: {p.Text}.\n");
-
-        for (String revisionGroupInfo : revisionGroupCollectionInsertionType)
-        {
-            System.out.println(revisionGroupInfo);
-        }
+        RevisionGroup revisionGroup = doc.getRevisions().getGroups().get(0);
         //ExEnd
+
+        // Check revision group details
+        Assert.assertEquals(RevisionType.DELETION, revisionGroup.getRevisionType());
+        Assert.assertEquals("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ", 
+            revisionGroup.getText());
     }
 
     @Test
@@ -3199,17 +3411,21 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.RemovePersonalInformation
         //ExSummary:Shows how to get or set a flag to remove all user information upon saving the MS Word document.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        {
-            // If flag sets to 'true' that MS Word will remove all user information from comments, revisions and
-            // document properties upon saving the document. In MS Word 2013 and 2016 you can see this using
-            // File -> Options -> Trust Center -> Trust Center Settings -> Privacy Options -> then the
-            // checkbox "Remove personal information from file properties on save"
-            doc.setRemovePersonalInformation(true);
-        }
+        Document doc = new Document(getMyDir() + "Revisions.docx");
+        // If flag sets to 'true' that MS Word will remove all user information from comments, revisions and
+        // document properties upon saving the document. In MS Word 2013 and 2016 you can see this using
+        // File -> Options -> Trust Center -> Trust Center Settings -> Privacy Options -> then the
+        // checkbox "Remove personal information from file properties on save"
+        doc.setRemovePersonalInformation(true);
         
+        // Personal information will not be removed at this time
+        // This will happen when we open this document in Microsoft Word and save it manually
+        // Once noticeable change will be the revisions losing their author names
         doc.save(getArtifactsDir() + "Document.RemovePersonalInformation.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Document.RemovePersonalInformation.docx");
+        Assert.assertTrue(doc.getRemovePersonalInformation());
     }
 
     @Test
@@ -3219,15 +3435,16 @@ public class ExDocument extends ApiExampleBase
         //ExFor:LayoutOptions.ShowComments
         //ExSummary:Shows how to show or hide comments in PDF document.
         Document doc = new Document(getMyDir() + "Comments.docx");
-        
         doc.getLayoutOptions().setShowComments(false);
         
         doc.save(getArtifactsDir() + "Document.HideComments.pdf");
         //ExEnd
+
+        Assert.assertFalse(doc.getLayoutOptions().getShowComments());
     }
 
     @Test
-    public void showRevisionsInBalloons() throws Exception
+    public void revisionOptions() throws Exception
     {
         //ExStart
         //ExFor:ShowInBalloons
@@ -3247,15 +3464,11 @@ public class ExDocument extends ApiExampleBase
         //ExFor:RevisionOptions.ShowOriginalRevision
         //ExFor:RevisionOptions.ShowRevisionMarks
         //ExFor:RevisionTextEffect
-        //ExSummary:Show how to render revisions in the balloons and edit their appearance.
+        //ExSummary:Shows how to edit appearance of revisions.
         Document doc = new Document(getMyDir() + "Revisions.docx");
 
         // Get the RevisionOptions object that controls the appearance of revisions
         RevisionOptions revisionOptions = doc.getLayoutOptions().getRevisionOptions();
-
-        // Get movement, deletion, formatting revisions and comments to show up in green balloons on the right side of the page
-        revisionOptions.setShowInBalloons(ShowInBalloons.FORMAT);
-        revisionOptions.setCommentColor(RevisionColor.BRIGHT_GREEN);
 
         // Render text inserted while revisions were being tracked in italic green
         revisionOptions.setInsertedTextColor(RevisionColor.GREEN);
@@ -3284,7 +3497,12 @@ public class ExDocument extends ApiExampleBase
         revisionOptions.setShowOriginalRevision(true);
         revisionOptions.setShowRevisionMarks(true);
 
-        doc.save(getArtifactsDir() + "Document.ShowRevisionsInBalloons.pdf");
+        // Get movement, deletion, formatting revisions and comments to show up in green balloons on the right side of the page
+        revisionOptions.setShowInBalloons(ShowInBalloons.FORMAT);
+        revisionOptions.setCommentColor(RevisionColor.BRIGHT_GREEN);
+
+        // These features are only applicable to formats such as .pdf or .jpg
+        doc.save(getArtifactsDir() + "Document.RevisionOptions.pdf");
         //ExEnd
     }
 
@@ -3295,11 +3513,13 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.CopyStylesFromTemplate(Document)
         //ExSummary:Shows how to copies styles from the template to a document via Document.
         Document template = new Document(getMyDir() + "Rendering.docx");
-
         Document target = new Document(getMyDir() + "Document.docx");
-        target.copyStylesFromTemplate(template);
 
-        target.save(getArtifactsDir() + "Document.CopyTemplateStylesViaDocument.docx");
+        Assert.assertEquals(18, template.getStyles().getCount()); //ExSkip
+        Assert.assertEquals(4, target.getStyles().getCount()); //ExSkip
+
+        target.copyStylesFromTemplate(template);
+        Assert.assertEquals(18, target.getStyles().getCount()); //ExSkip
         //ExEnd
     }
 
@@ -3309,12 +3529,11 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.CopyStylesFromTemplate(String)
         //ExSummary:Shows how to copies styles from the template to a document via string.
-        String templatePath = getMyDir() + "Rendering.docx";
-        
         Document target = new Document(getMyDir() + "Document.docx");
-        target.copyStylesFromTemplate(templatePath);
+        Assert.assertEquals(4, target.getStyles().getCount()); //ExSkip
 
-        target.save(getArtifactsDir() + "Document.CopyTemplateStylesViaString.docx");
+        target.copyStylesFromTemplate(getMyDir() + "Rendering.docx");
+        Assert.assertEquals(18, target.getStyles().getCount()); //ExSkip
         //ExEnd
     }
 
@@ -3340,8 +3559,8 @@ public class ExDocument extends ApiExampleBase
         LayoutCollector layoutCollector = new LayoutCollector(doc);
 
         // The document itself is a node that contains everything, which currently spans 0 pages
-        msAssert.areEqual(doc, layoutCollector.getDocument());
-        msAssert.areEqual(0, layoutCollector.getNumPagesSpanned(doc));
+        Assert.assertEquals(doc, layoutCollector.getDocument());
+        Assert.assertEquals(0, layoutCollector.getNumPagesSpanned(doc));
 
         // Populate the document with sections and page breaks
         builder.write("Section 1");
@@ -3355,13 +3574,13 @@ public class ExDocument extends ApiExampleBase
         builder.insertBreak(BreakType.PAGE_BREAK);
 
         // The collected layout data won't automatically keep up with the real document contents
-        msAssert.areEqual(0, layoutCollector.getNumPagesSpanned(doc));
+        Assert.assertEquals(0, layoutCollector.getNumPagesSpanned(doc));
 
         // After we clear the layout collection and update it, the layout entity collection will be populated with up-to-date information about our nodes
         // The page span for the document now shows 5, which is what we would expect after placing 4 page breaks
         layoutCollector.clear();
         doc.updatePageLayout();
-        msAssert.areEqual(5, layoutCollector.getNumPagesSpanned(doc));
+        Assert.assertEquals(5, layoutCollector.getNumPagesSpanned(doc));
 
         // We can also see the start/end pages of any other node, and their overall page spans
         NodeCollection nodes = doc.getChildNodes(NodeType.ANY, true);
@@ -3374,13 +3593,13 @@ public class ExDocument extends ApiExampleBase
 
         // We can iterate over the layout entities using a LayoutEnumerator
         LayoutEnumerator layoutEnumerator = new LayoutEnumerator(doc);
-        msAssert.areEqual(LayoutEntityType.PAGE, layoutEnumerator.getType());
+        Assert.assertEquals(LayoutEntityType.PAGE, layoutEnumerator.getType());
 
         // The LayoutEnumerator can traverse the collection of layout entities like a tree
         // We can also point it to any node's corresponding layout entity like this
         layoutEnumerator.setCurrent(layoutCollector.getEntity(doc.getChild(NodeType.PARAGRAPH, 1, true)));
-        msAssert.areEqual(LayoutEntityType.SPAN, layoutEnumerator.getType());
-        msAssert.areEqual("¶", layoutEnumerator.getText());
+        Assert.assertEquals(LayoutEntityType.SPAN, layoutEnumerator.getType());
+        Assert.assertEquals("¶", layoutEnumerator.getText());
         //ExEnd
     }
 
@@ -3403,7 +3622,7 @@ public class ExDocument extends ApiExampleBase
     //ExFor:Layout.LayoutEnumerator.Reset
     //ExFor:Layout.LayoutEnumerator.Text
     //ExFor:Layout.LayoutEnumerator.Type
-    //ExSummary:Demonstrates ways of traversing a document's layout entities.
+    //ExSummary:Shows ways of traversing a document's layout entities.
     @Test //ExSkip
     public void layoutEnumerator() throws Exception
     {
@@ -3412,21 +3631,13 @@ public class ExDocument extends ApiExampleBase
         // They are defined visually by the rectangular space that they occupy in the document
         Document doc = new Document(getMyDir() + "Layout entities.docx");
 
-        // Create an enumerator that can traverse these entities
+        // Create an enumerator that can traverse these entities like a tree
         LayoutEnumerator layoutEnumerator = new LayoutEnumerator(doc);
-        msAssert.areEqual(doc, layoutEnumerator.getDocument());
+        Assert.assertEquals(doc, layoutEnumerator.getDocument());
 
-        // The enumerator points to the first element on the first page and can be traversed like a tree
-        layoutEnumerator.moveFirstChild();
-        layoutEnumerator.moveFirstChild();
-        layoutEnumerator.moveLastChild();
-        layoutEnumerator.movePrevious();
-        msAssert.areEqual(LayoutEntityType.SPAN, layoutEnumerator.getType());
-        msAssert.areEqual("000", layoutEnumerator.getText());
-
-        // Only spans can contain text
-        layoutEnumerator.moveParent(LayoutEntityType.PAGE);
-        msAssert.areEqual(LayoutEntityType.PAGE, layoutEnumerator.getType());
+        layoutEnumerator.moveParent(LayoutEntityType.PAGE); 
+        Assert.assertEquals(LayoutEntityType.PAGE, layoutEnumerator.getType());
+        Assert.<IllegalStateException>Throws(() => System.out.println(layoutEnumerator.getText()));
 
         // We can call this method to make sure that the enumerator points to the very first entity before we go through it forwards
         layoutEnumerator.reset();
@@ -3529,6 +3740,7 @@ public class ExDocument extends ApiExampleBase
                 ? $"{tabs}-> Entity type: {layoutEnumerator.Type}"
                 : $"{tabs}-> Entity type & kind: {layoutEnumerator.Type}, {layoutEnumerator.Kind}");
 
+        // Only spans can contain text
         if (layoutEnumerator.getType() == LayoutEntityType.SPAN)
             System.out.println("{tabs}   Span contents: \"{layoutEnumerator.Text}\"");
 
@@ -3538,8 +3750,8 @@ public class ExDocument extends ApiExampleBase
     }
     //ExEnd
 
-    @Test (dataProvider = "alwaysCompressMetafilesDataProvider")
-    public void alwaysCompressMetafiles(boolean isAlwaysCompressMetafiles) throws Exception
+    @Test
+    public void alwaysCompressMetafiles() throws Exception
     {
         //ExStart
         //ExFor:DocSaveOptions.AlwaysCompressMetafiles
@@ -3552,23 +3764,19 @@ public class ExDocument extends ApiExampleBase
         // metafiles. The following option 'AlwaysCompressMetafiles' was introduced to choose appropriate behavior
         DocSaveOptions saveOptions = new DocSaveOptions();
         // False - small metafiles are not compressed for performance reason
-        // True - all metafiles are compressed regardless of its size
-        saveOptions.setAlwaysCompressMetafiles(isAlwaysCompressMetafiles);
+        saveOptions.setAlwaysCompressMetafiles(false);
         
-        doc.save(getArtifactsDir() + "Document.AlwaysCompressMetafiles.doc", saveOptions);
+        doc.save(getArtifactsDir() + "Document.AlwaysCompressMetafiles.False.docx", saveOptions);
+
+        // True - all metafiles are compressed regardless of its size
+        saveOptions.setAlwaysCompressMetafiles(true);
+
+        doc.save(getArtifactsDir() + "Document.AlwaysCompressMetafiles.True.docx", saveOptions);
+
+        Assert.assertTrue(new FileInfo(getArtifactsDir() + "Document.AlwaysCompressMetafiles.True.docx").getLength() <
+                    new FileInfo(getArtifactsDir() + "Document.AlwaysCompressMetafiles.False.docx").getLength());
         //ExEnd
     }
-
-	//JAVA-added data provider for test method
-	@DataProvider(name = "alwaysCompressMetafilesDataProvider")
-	public static Object[][] alwaysCompressMetafilesDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
 
     @Test
     public void createNewVbaProject() throws Exception
@@ -3612,6 +3820,22 @@ public class ExDocument extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Document.CreateVBAMacros.docm");
         //ExEnd
+
+        project = new Document(getArtifactsDir() + "Document.CreateVBAMacros.docm").getVbaProject();
+
+        Assert.assertEquals("Aspose.Project", project.getName());
+
+        VbaModuleCollection modules = doc.getVbaProject().getModules();
+
+        Assert.assertEquals(2, modules.getCount());
+
+        Assert.assertEquals("ThisDocument", modules.get(0).getName());
+        Assert.assertEquals(VbaModuleType.DOCUMENT_MODULE, modules.get(0).getType());
+        Assert.assertNull(modules.get(0).getSourceCode());
+
+        Assert.assertEquals("Aspose.Module", modules.get(1).getName());
+        Assert.assertEquals(VbaModuleType.PROCEDURAL_MODULE, modules.get(1).getType());
+        Assert.assertEquals("New source code", modules.get(1).getSourceCode());
     }
 
     @Test
@@ -3637,6 +3861,20 @@ public class ExDocument extends ApiExampleBase
 
         destDoc.save(getArtifactsDir() + "Document.CloneVbaProject.docm");
         //ExEnd
+
+        VbaProject originalVbaProject = new Document(getArtifactsDir() + "Document.CloneVbaProject.docm").getVbaProject();
+
+        Assert.assertEquals(copyVbaProject.getName(), originalVbaProject.getName());
+        Assert.assertEquals(copyVbaProject.getCodePage(), originalVbaProject.getCodePage());
+        Assert.assertEquals(copyVbaProject.isSigned(), originalVbaProject.isSigned());
+        Assert.assertEquals(copyVbaProject.getModules().getCount(), originalVbaProject.getModules().getCount());
+
+        for (int i = 0; i < originalVbaProject.getModules().getCount(); i++)
+        {
+            Assert.assertEquals(copyVbaProject.getModules().get(i).getName(), originalVbaProject.getModules().get(i).getName());
+            Assert.assertEquals(copyVbaProject.getModules().get(i).getType(), originalVbaProject.getModules().get(i).getType());
+            Assert.assertEquals(copyVbaProject.getModules().get(i).getSourceCode(), originalVbaProject.getModules().get(i).getSourceCode());
+        }
     }
 
     @Test
@@ -3644,33 +3882,33 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.VbaProject
-        //ExFor:VbaProject
         //ExFor:VbaModuleCollection
         //ExFor:VbaModuleCollection.Count
+        //ExFor:VbaModuleCollection.Item(System.Int32)
+        //ExFor:VbaModuleCollection.Item(System.String)
+        //ExFor:VbaModuleCollection.Remove
         //ExFor:VbaModule
+        //ExFor:VbaModule.Name
+        //ExFor:VbaModule.SourceCode
+        //ExFor:VbaProject
         //ExFor:VbaProject.Name
         //ExFor:VbaProject.Modules
         //ExFor:VbaProject.CodePage
         //ExFor:VbaProject.IsSigned
-        //ExFor:VbaModule.Name
-        //ExFor:VbaModule.SourceCode
-        //ExFor:VbaModuleCollection.Item(System.Int32)
-        //ExFor:VbaModuleCollection.Item(System.String)
-        //ExFor:VbaModuleCollection.Remove
         //ExSummary:Shows how to get access to VBA project information in the document.
         Document doc = new Document(getMyDir() + "VBA project.docm");
 
         // A VBA project inside the document is defined as a collection of VBA modules
         VbaProject vbaProject = doc.getVbaProject();
+        Assert.assertTrue(vbaProject.isSigned()); //ExSkip
         System.out.println(vbaProject.isSigned()
                 ? $"Project name: {vbaProject.Name} signed; Project code page: {vbaProject.CodePage}; Modules count: {vbaProject.Modules.Count()}\n"
                 : $"Project name: {vbaProject.Name} not signed; Project code page: {vbaProject.CodePage}; Modules count: {vbaProject.Modules.Count()}\n");
 
-        msAssert.areEqual(vbaProject.getName(), "AsposeVBAtest"); //ExSkip
-        Assert.AreEqual(vbaProject.getModules().Count(), 3); //ExSkip
-        Assert.assertTrue(vbaProject.isSigned()); //ExSkip
+        VbaModuleCollection vbaModules = doc.getVbaProject().getModules(); 
 
-        VbaModuleCollection vbaModules = doc.getVbaProject().getModules();
+        Assert.AreEqual(vbaModules.Count(), 3);
+
         for (VbaModule module : vbaModules)
             System.out.println("Module name: {module.Name};\nModule code:\n{module.SourceCode}\n");
 
@@ -3683,9 +3921,16 @@ public class ExDocument extends ApiExampleBase
         vbaModules.remove(vbaModules.get(2));
         //ExEnd
 
-        msAssert.areEqual("Your VBA code...", vbaModules.get(0).getSourceCode());
-        msAssert.areEqual("Your VBA code...", vbaModules.get(1).getSourceCode());
-        Assert.That(() => vbaModules.get(2), Throws.<IllegalArgumentException>TypeOf());
+        Assert.assertEquals("AsposeVBAtest", vbaProject.getName());
+        Assert.AreEqual(2, vbaProject.getModules().Count());
+        Assert.assertEquals(1251, vbaProject.getCodePage());
+        Assert.assertFalse(vbaProject.isSigned());
+
+        Assert.assertEquals("ThisDocument", vbaModules.get(0).getName());
+        Assert.assertEquals("Your VBA code...", vbaModules.get(0).getSourceCode());
+
+        Assert.assertEquals("Module1", vbaModules.get(1).getName());
+        Assert.assertEquals("Your VBA code...", vbaModules.get(1).getSourceCode());
     }
 
     @Test
@@ -3699,16 +3944,16 @@ public class ExDocument extends ApiExampleBase
 
         // Save the document as a .doc and check parameters
         SaveOutputParameters parameters = doc.save(getArtifactsDir() + "Document.SaveOutputParameters.doc");
-        msAssert.areEqual("application/msword", parameters.getContentType());
+        Assert.assertEquals("application/msword", parameters.getContentType());
 
         // A .docx or a .pdf will have different parameters
         parameters = doc.save(getArtifactsDir() + "Document.SaveOutputParameters.pdf");
-        msAssert.areEqual("application/pdf", parameters.getContentType());
+        Assert.assertEquals("application/pdf", parameters.getContentType());
         //ExEnd
     }
 
     @Test
-    public void subdocument() throws Exception
+    public void subDocument() throws Exception
     {
         //ExStart
         //ExFor:SubDocument
@@ -3717,9 +3962,11 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Master document.docx");
 
         NodeCollection subDocuments = doc.getChildNodes(NodeType.SUB_DOCUMENT, true);
-        msAssert.areEqual(1, subDocuments.getCount());
+        Assert.assertEquals(1, subDocuments.getCount()); //ExSkip
 
-        SubDocument subDocument = (SubDocument)doc.getChildNodes(NodeType.SUB_DOCUMENT, true).get(0);
+        SubDocument subDocument = (SubDocument)subDocuments.get(0);
+
+        // The SubDocument object itself does not contain the documents of the subdocument and only serves as a reference
         Assert.assertFalse(subDocument.isComposite());
         //ExEnd
     }
@@ -3765,25 +4012,53 @@ public class ExDocument extends ApiExampleBase
         myScriptTaskPane.isVisible(true);
         myScriptTaskPane.setWidth(300.0);
         myScriptTaskPane.isLocked(true);
-        // Use this option if you have several taskpanes
+        // Use this option if you have several task panes
         myScriptTaskPane.setRow(1);
 
         // Add "MyScript Math Sample" add-in which will be displayed inside task pane
+        WebExtension webExtension = myScriptTaskPane.getWebExtension();
+
         // Application Id from store
-        myScriptTaskPane.getWebExtension().getReference().setId("WA104380646");
+        webExtension.getReference().setId("WA104380646");
         // The current version of the application used
-        myScriptTaskPane.getWebExtension().getReference().setVersion("1.0.0.0");
+        webExtension.getReference().setVersion("1.0.0.0");
         // Type of marketplace
-        myScriptTaskPane.getWebExtension().getReference().setStoreType(WebExtensionStoreType.OMEX);
+        webExtension.getReference().setStoreType(WebExtensionStoreType.OMEX);
         // Marketplace based on your locale
-        myScriptTaskPane.getWebExtension().getReference().setStore("en-us");
-        myScriptTaskPane.getWebExtension().getProperties().add(new WebExtensionProperty("MyScript", "MyScript Math Sample"));
-        myScriptTaskPane.getWebExtension().getBindings().add(new WebExtensionBinding("Binding1", WebExtensionBindingType.TEXT, "104380646"));
+        webExtension.getReference().setStore(msCultureInfo.getCurrentCulture().getName());
+
+        webExtension.getProperties().add(new WebExtensionProperty("MyScript", "MyScript Math Sample"));
+        webExtension.getBindings().add(new WebExtensionBinding("MyScript", WebExtensionBindingType.TEXT, "104380646"));
+
         // Use this option if you need to block web extension from any action
-        myScriptTaskPane.getWebExtension().isFrozen(false);
+        webExtension.isFrozen(false);
 
         doc.save(getArtifactsDir() + "Document.WebExtension.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Document.WebExtension.docx");
+        myScriptTaskPane = doc.getWebExtensionTaskPanes().get(0);
+
+        Assert.assertEquals(TaskPaneDockState.RIGHT, myScriptTaskPane.getDockState());
+        Assert.assertTrue(myScriptTaskPane.isVisible());
+        Assert.assertEquals(300.0d, myScriptTaskPane.getWidth());
+        Assert.assertTrue(myScriptTaskPane.isLocked());
+        Assert.assertEquals(1, myScriptTaskPane.getRow());
+        webExtension = myScriptTaskPane.getWebExtension();
+
+        Assert.assertEquals("WA104380646", webExtension.getReference().getId());
+        Assert.assertEquals("1.0.0.0", webExtension.getReference().getVersion());
+        Assert.assertEquals(WebExtensionStoreType.OMEX, webExtension.getReference().getStoreType());
+        Assert.assertEquals(msCultureInfo.getCurrentCulture().getName(), webExtension.getReference().getStore());
+
+        Assert.assertEquals("MyScript", webExtension.getProperties().get(0).getName());
+        Assert.assertEquals("MyScript Math Sample", webExtension.getProperties().get(0).getValue());
+
+        Assert.assertEquals("MyScript", webExtension.getBindings().get(0).getId());
+        Assert.assertEquals(WebExtensionBindingType.TEXT, webExtension.getBindings().get(0).getBindingType());
+        Assert.assertEquals("104380646", webExtension.getBindings().get(0).getAppRef());
+
+        Assert.assertFalse(webExtension.isFrozen());
     }
 
     @Test
@@ -3799,13 +4074,12 @@ public class ExDocument extends ApiExampleBase
         //ExFor:BaseWebExtensionCollection`1.Item(Int32)
         //ExSummary:Shows how to work with web extension collections.
         Document doc = new Document(getMyDir() + "Web extension.docx");
-
-        msAssert.areEqual(1, doc.getWebExtensionTaskPanes().getCount());
+        Assert.assertEquals(1, doc.getWebExtensionTaskPanes().getCount()); //ExSkip
 
         // Add new taskpane to the collection
         TaskPane newTaskPane = new TaskPane();
         doc.getWebExtensionTaskPanes().add(newTaskPane);
-        msAssert.areEqual(2, doc.getWebExtensionTaskPanes().getCount());
+        Assert.assertEquals(2, doc.getWebExtensionTaskPanes().getCount()); //ExSkip
 
         // Enumerate all WebExtensionProperty in a collection
         WebExtensionPropertyCollection webExtensionPropertyCollection = doc.getWebExtensionTaskPanes().get(0).getWebExtension().getProperties();
@@ -3820,22 +4094,18 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (enumerator != null) enumerator.close(); }
 
-        // Delete specific taskpane from the collection
+        // We can remove task panes one by one or clear the entire collection
         doc.getWebExtensionTaskPanes().remove(1);
-        msAssert.areEqual(1, doc.getWebExtensionTaskPanes().getCount()); //ExSkip
-
-        // Or remove all items from the collection
+        Assert.assertEquals(1, doc.getWebExtensionTaskPanes().getCount()); //ExSkip
         doc.getWebExtensionTaskPanes().clear();
-        msAssert.areEqual(0, doc.getWebExtensionTaskPanes().getCount()); //ExSkip
+        Assert.assertEquals(0, doc.getWebExtensionTaskPanes().getCount()); //ExSkip
         //ExEnd
 	}
 
 	@Test
     public void epubCover() throws Exception
     {
-        // Create a blank document and insert some text
         Document doc = new Document();
-
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Hello world!");
 

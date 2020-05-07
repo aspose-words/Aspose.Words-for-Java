@@ -16,7 +16,6 @@ import com.aspose.words.TxtLeadingSpacesOptions;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentDirection;
 import com.aspose.words.Paragraph;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 
@@ -59,7 +58,7 @@ public class ExTxtLoadOptions extends ApiExampleBase
         // Text like Hebrew/Arabic will be automatically detected as RTL
         Document doc = new Document(getMyDir() + documentPath, loadOptions);
         Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
-        msAssert.areEqual(isBidi, paragraph.getParagraphFormat().getBidi());
+        Assert.assertEquals(isBidi, paragraph.getParagraphFormat().getBidi());
         //ExEnd
     }
 

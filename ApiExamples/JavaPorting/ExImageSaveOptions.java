@@ -34,37 +34,38 @@ import com.aspose.words.ImageBinarizationMethod;
 class ExImageSaveOptions !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
 {
     @Test
-    public void useGdiEmfRenderer() throws Exception
+    public void renderer() throws Exception
     {
         //ExStart
         //ExFor:ImageSaveOptions.UseGdiEmfRenderer
         //ExSummary:Shows how to save metafiles directly without using GDI+ to EMF.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
+        Document doc = new Document(getMyDir() + "Images.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EMF);
-        {
-            saveOptions.setUseGdiEmfRenderer(false);
-        }
+        saveOptions.setUseGdiEmfRenderer(true);
 
-        doc.save(getArtifactsDir() + "ImageSaveOptions.UseGdiEmfRenderer.docx", saveOptions);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.Renderer.emf", saveOptions);
         //ExEnd
-    }
+                TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.Renderer.emf");
+            }
 
     @Test
-    public void saveIntoGif() throws Exception
+    public void saveSinglePage() throws Exception
     {
         //ExStart
         //ExFor:ImageSaveOptions.PageIndex
         //ExSummary:Shows how to save specific document page as image file.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
+        // For formats that can only save one page at a time,
+        // the SaveOptions object can determine which page gets saved
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.GIF);
-        {
-            saveOptions.setPageIndex(1); // Define which page will save
-        }
+        saveOptions.setPageIndex(1);
 
-        doc.save(getArtifactsDir() + "ImageSaveOptions.SaveIntoGif.gif", saveOptions);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.SaveSinglePage.gif", saveOptions);
         //ExEnd
+
+        TestUtil.verifyImage(794, 1123, getArtifactsDir() + "ImageSaveOptions.SaveSinglePage.gif");
     }
 
     @Test
@@ -95,8 +96,10 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.JPEG);
         saveOptions.setGraphicsQualityOptions(qualityOptions);
 
-        doc.save(getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpeg", saveOptions);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpg", saveOptions);
         //ExEnd
+
+        TestUtil.verifyImage(794, 1122, getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpg");
     }
 
     @Test
@@ -111,13 +114,15 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         // Use a DocumentBuilder to insert a .wmf image into the document
         builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Windows MetaFile.wmf"));
 
-        // For documents that contain .wmf images, when converting the documents themselves to images,
-        // we can use a ImageSaveOptions object to designate a rendering method for the .wmf images
+        // Save the document as an image while setting different metafile rendering modes,
+        // which will be applied to the image we inserted
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
-        options.getMetafileRenderingOptions().setRenderingMode(MetafileRenderingMode.BITMAP);
+        options.getMetafileRenderingOptions().setRenderingMode(MetafileRenderingMode.VECTOR);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.WindowsMetaFile.png", options);
         //ExEnd
+
+        TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.WindowsMetaFile.png");
     }
 
     @Test (groups = "SkipMono")
@@ -141,6 +146,8 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.BlackAndWhite.png", imageSaveOptions);
         //ExEnd
+
+        TestUtil.verifyImage(794, 1123, getArtifactsDir() + "ImageSaveOptions.BlackAndWhite.png");
     }
 
     @Test
@@ -164,7 +171,8 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff", options);
         //ExEnd
-    }
+        
+                        }
 
     @Test
     public void editImage() throws Exception
@@ -191,5 +199,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.EditImage.png", options);
         //ExEnd
+
+        TestUtil.verifyImage(794, 1123, getArtifactsDir() + "ImageSaveOptions.EditImage.png");
     }
 }

@@ -12,7 +12,6 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignatureUtil;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.ms.System.IO.FileStream;
@@ -20,6 +19,8 @@ import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.SignOptions;
 import com.aspose.ms.System.DateTime;
+import com.aspose.words.DigitalSignature;
+import com.aspose.words.DigitalSignatureType;
 import com.aspose.words.Document;
 import com.aspose.words.LoadOptions;
 import com.aspose.words.IncorrectPasswordException;
@@ -40,7 +41,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         //ExSummary:Shows how to load and remove digital signatures from a digitally signed document.
         // Load digital signatures via filename string to verify that the document is signed
         DigitalSignatureCollection digitalSignatures = DigitalSignatureUtil.loadSignatures(getMyDir() + "Digitally signed.docx");
-        msAssert.areEqual(1, digitalSignatures.getCount());
+        Assert.assertEquals(1, digitalSignatures.getCount());
 
         // Re-save the document to an output filename with all digital signatures removed
         DigitalSignatureUtil.removeAllSignatures(getMyDir() + "Digitally signed.docx", getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx");
@@ -63,10 +64,9 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         try /*JAVA: was using*/
         {
             digitalSignatures = DigitalSignatureUtil.loadSignaturesInternal(stream);
+            Assert.assertEquals(0, digitalSignatures.getCount());
         }
         finally { if (stream != null) stream.close(); }
-
-        msAssert.areEqual(0, digitalSignatures.getCount());
         //ExEnd
     }
     
@@ -96,6 +96,21 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd
+
+        Stream stream = new FileStream(getArtifactsDir() + "DigitalSignatureUtil.SignDocument.docx", FileMode.OPEN);
+        try /*JAVA: was using*/
+        {
+            DigitalSignatureCollection digitalSignatures = DigitalSignatureUtil.loadSignaturesInternal(stream);
+            Assert.assertEquals(1, digitalSignatures.getCount());
+
+            DigitalSignature signature = digitalSignatures.get(0);
+
+            Assert.assertTrue(signature.isValid());
+            Assert.assertEquals(DigitalSignatureType.XML_DSIG, signature.getSignatureType());
+            Assert.assertEquals(signOptions.getSignTimeInternal().toString(), signature.getSignTimeInternal().toString());
+            Assert.assertEquals("My comment", signature.getComments());
+        }
+        finally { if (stream != null) stream.close(); }
     }
 
     @Test (description = "WORDSNET-13036, WORDSNET-16868")
@@ -159,17 +174,14 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
 
         // Open encrypted document from a file
         LoadOptions loadOptions = new LoadOptions("docPassword");
-        msAssert.areEqual(signOptions.getDecryptionPassword(),loadOptions.getPassword());
-
-        Document signedDoc = new Document(outputFileName, loadOptions);
+        Assert.assertEquals(signOptions.getDecryptionPassword(),loadOptions.getPassword());
 
         // Check that encrypted document was successfully signed
+        Document signedDoc = new Document(outputFileName, loadOptions);
         DigitalSignatureCollection signatures = signedDoc.getDigitalSignatures();
-        if (signatures.isValid() && (signatures.getCount() > 0))
-        {
-            //The document was signed successfully
-            Assert.Pass();
-        }
+
+        Assert.assertEquals(1, signatures.getCount());
+        Assert.assertTrue(signatures.isValid());
     }
 
     @Test

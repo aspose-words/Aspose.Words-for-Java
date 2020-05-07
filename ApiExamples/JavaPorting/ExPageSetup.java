@@ -39,7 +39,6 @@ import com.aspose.words.FootnoteNumberingRule;
 import com.aspose.words.EndnotePosition;
 import com.aspose.words.MultiplePagesType;
 import com.aspose.words.Body;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Paragraph;
 import com.aspose.words.FootnoteType;
 
@@ -641,12 +640,12 @@ public class ExPageSetup extends ApiExampleBase
         Body body = new Body(doc);
         section.appendChild(body);
 
-        msAssert.areEqual(section, body.getParentNode());
+        Assert.assertEquals(section, body.getParentNode());
 
         Paragraph para = new Paragraph(doc);
         body.appendChild(para);
 
-        msAssert.areEqual(body, para.getParentNode());
+        Assert.assertEquals(body, para.getParentNode());
 
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.moveTo(para);

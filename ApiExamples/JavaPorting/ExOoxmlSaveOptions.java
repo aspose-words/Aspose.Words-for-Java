@@ -17,16 +17,15 @@ import com.aspose.words.MsWordVersion;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 import com.aspose.ms.System.msConsole;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.ShapeMarkupLanguage;
 import com.aspose.words.OoxmlCompliance;
 import com.aspose.words.SaveFormat;
-import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.ListTemplate;
 import com.aspose.words.List;
 import com.aspose.words.BreakType;
 import com.aspose.ms.System.DateTime;
+import com.aspose.ms.NUnit.Framework.msAssert;
 
 
 @Test
@@ -72,7 +71,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
             msConsole.writeLine(shape.getMarkupLanguage());
-            msAssert.areEqual(ShapeMarkupLanguage.VML, shape.getMarkupLanguage()); //ExSkip
+            Assert.assertEquals(ShapeMarkupLanguage.VML, shape.getMarkupLanguage()); //ExSkip
         }
 
         // Iso29500_2008 does not allow VML shapes
@@ -86,13 +85,12 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.Iso29500Strict.docx", saveOptions);
         //ExEnd
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, saveOptions);
+        doc = DocumentHelper.saveOpen(doc);
 
         // Assert that image have drawingML markup language
         for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            msAssert.areEqual(ShapeMarkupLanguage.DML, shape.getMarkupLanguage());
+            Assert.assertEquals(ShapeMarkupLanguage.DML, shape.getMarkupLanguage());
         }
     }
 
@@ -153,8 +151,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.UpdatingLastSavedTimeDocument.docx", saveOptions);
         //ExEnd
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, saveOptions);
+        doc = DocumentHelper.saveOpen(doc);
 
         DateTime documentTimeAfterSave = doc.getBuiltInDocumentProperties().getLastSavedTimeInternal();
         msAssert.areNotEqual(documentTimeBeforeSave, documentTimeAfterSave);

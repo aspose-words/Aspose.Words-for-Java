@@ -12,7 +12,6 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.Theme;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.ThemeColors;
 import java.awt.Color;
@@ -58,10 +57,10 @@ public class ExThemes extends ApiExampleBase
         theme.getMajorFonts().setLatin("Courier New");
         theme.getMinorFonts().setLatin("Agency FB");
 
-        msAssert.areEqual("", theme.getMajorFonts().getComplexScript());
-        msAssert.areEqual("", theme.getMajorFonts().getEastAsian());
-        msAssert.areEqual("", theme.getMinorFonts().getComplexScript());
-        msAssert.areEqual("", theme.getMinorFonts().getEastAsian());
+        Assert.assertEquals("", theme.getMajorFonts().getComplexScript());
+        Assert.assertEquals("", theme.getMajorFonts().getEastAsian());
+        Assert.assertEquals("", theme.getMinorFonts().getComplexScript());
+        Assert.assertEquals("", theme.getMinorFonts().getEastAsian());
 
         // This collection of colors corresponds to the color palette from Microsoft Word which appears when changing shading or font color 
         ThemeColors colors = theme.getColors();
@@ -87,18 +86,18 @@ public class ExThemes extends ApiExampleBase
         //ExEnd
         doc = new Document(getArtifactsDir() + "Themes.CustomColorsAndFonts.docx");
 
-        msAssert.areEqual(Color.OrangeRed.getRGB(), doc.getTheme().getColors().getAccent1().getRGB());
-        msAssert.areEqual(Color.MidnightBlue.getRGB(), doc.getTheme().getColors().getDark1().getRGB());
-        msAssert.areEqual(Color.Gray.getRGB(), doc.getTheme().getColors().getFollowedHyperlink().getRGB());
-        msAssert.areEqual(Color.BLACK.getRGB(), doc.getTheme().getColors().getHyperlink().getRGB());
-        msAssert.areEqual(Color.PaleGreen.getRGB(), doc.getTheme().getColors().getLight1().getRGB());
+        Assert.assertEquals(Color.OrangeRed.getRGB(), doc.getTheme().getColors().getAccent1().getRGB());
+        Assert.assertEquals(Color.MidnightBlue.getRGB(), doc.getTheme().getColors().getDark1().getRGB());
+        Assert.assertEquals(Color.Gray.getRGB(), doc.getTheme().getColors().getFollowedHyperlink().getRGB());
+        Assert.assertEquals(Color.BLACK.getRGB(), doc.getTheme().getColors().getHyperlink().getRGB());
+        Assert.assertEquals(Color.PaleGreen.getRGB(), doc.getTheme().getColors().getLight1().getRGB());
 
-        msAssert.areEqual("", doc.getTheme().getMajorFonts().getComplexScript());
-        msAssert.areEqual("", doc.getTheme().getMajorFonts().getEastAsian());
-        msAssert.areEqual("Courier New", doc.getTheme().getMajorFonts().getLatin());
+        Assert.assertEquals("", doc.getTheme().getMajorFonts().getComplexScript());
+        Assert.assertEquals("", doc.getTheme().getMajorFonts().getEastAsian());
+        Assert.assertEquals("Courier New", doc.getTheme().getMajorFonts().getLatin());
 
-        msAssert.areEqual("", doc.getTheme().getMinorFonts().getComplexScript());
-        msAssert.areEqual("", doc.getTheme().getMinorFonts().getEastAsian());
-        msAssert.areEqual("Agency FB", doc.getTheme().getMinorFonts().getLatin());
+        Assert.assertEquals("", doc.getTheme().getMinorFonts().getComplexScript());
+        Assert.assertEquals("", doc.getTheme().getMinorFonts().getEastAsian());
+        Assert.assertEquals("Agency FB", doc.getTheme().getMinorFonts().getLatin());
     }
 }

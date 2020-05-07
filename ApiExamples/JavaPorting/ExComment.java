@@ -14,10 +14,7 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Comment;
 import com.aspose.ms.System.DateTime;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
 import com.aspose.words.NodeType;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.NodeCollection;
 import com.aspose.ms.System.msConsole;
@@ -61,19 +58,14 @@ public class ExComment extends ApiExampleBase
         newComment.addReplyInternal("John Doe", "JD", new DateTime(2017, 9, 25, 12, 15, 0), "New reply");
         //ExEnd
 
-        MemoryStream dstStream = new MemoryStream();
-        try /*JAVA: was using*/
-    	{ doc.save(dstStream, SaveFormat.DOCX);
-    	}
-        finally { if (dstStream != null) dstStream.close(); }
+        doc = DocumentHelper.saveOpen(doc);
+        Comment docComment = (Comment)doc.getChild(NodeType.COMMENT, 0, true);
 
-        Comment docComment = (Comment) doc.getChild(NodeType.COMMENT, 0, true);
+        Assert.assertEquals(1, docComment.getCount());
+        Assert.assertEquals(1, newComment.getReplies().getCount());
 
-        msAssert.areEqual(1, docComment.getCount());
-        msAssert.areEqual(1, newComment.getReplies().getCount());
-
-        msAssert.areEqual("\u0005My comment.\r", docComment.getText());
-        msAssert.areEqual("\u0005New reply\r", docComment.getReplies().get(0).getText());
+        Assert.assertEquals("\u0005My comment.\r", docComment.getText());
+        Assert.assertEquals("\u0005New reply\r", docComment.getReplies().get(0).getText());
     }
 
     @Test
@@ -83,30 +75,28 @@ public class ExComment extends ApiExampleBase
         //ExFor:Comment.Ancestor
         //ExFor:Comment.Author
         //ExFor:Comment.Replies
+        //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
         //ExSummary:Shows how to get all comments with all replies.
         Document doc = new Document(getMyDir() + "Comments.docx");
 
         // Get all comment from the document
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
-
-        msAssert.areEqual(12, comments.getCount()); //ExSkip
+        Assert.assertEquals(12, comments.getCount()); //ExSkip
 
         // For all comments and replies we identify comment level and info about it
         for (Comment comment : comments.<Comment>OfType() !!Autoporter error: Undefined expression type )
         {
             if (comment.getAncestor() == null)
             {
-                System.out.println("This is a top-level comment\n");
-
+                System.out.println("\nThis is a top-level comment");
                 System.out.println("Comment author: " + comment.getAuthor());
                 System.out.println("Comment text: " + comment.getText());
 
                 for (Comment commentReply : comment.getReplies().<Comment>OfType() !!Autoporter error: Undefined expression type )
                 {
-                    System.out.println("This is a comment reply\n");
-
-                    System.out.println("Comment author: " + commentReply.getAuthor());
-                    System.out.println("Comment text: " + commentReply.getText());
+                    System.out.println("\n\tThis is a comment reply");
+                    System.out.println("\tReply author: " + commentReply.getAuthor());
+                    System.out.println("\tReply text: " + commentReply.getText());
                 }
             }
         }
@@ -122,9 +112,11 @@ public class ExComment extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Comments.docx");
 
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
-        Comment comment = (Comment) comments.get(0);
+        Comment comment = (Comment)comments.get(0);
+        Assert.AreEqual(2, comment.getReplies().Count()); //ExSkip
 
         comment.removeAllReplies();
+        Assert.AreEqual(0, comment.getReplies().Count()); //ExSkip
         //ExEnd
     }
 
@@ -139,11 +131,13 @@ public class ExComment extends ApiExampleBase
 
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
 
-        Comment parentComment = (Comment) comments.get(0);
+        Comment parentComment = (Comment)comments.get(0);
         CommentCollection repliesCollection = parentComment.getReplies();
+        Assert.AreEqual(2, parentComment.getReplies().Count()); //ExSkip
 
         // Remove the first reply to comment
         parentComment.removeReply(repliesCollection.get(0));
+        Assert.AreEqual(1, parentComment.getReplies().Count()); //ExSkip
         //ExEnd
     }
 
@@ -157,8 +151,8 @@ public class ExComment extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Comments.docx");
 
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
-        
-        Comment comment = (Comment) comments.get(0);
+
+        Comment comment = (Comment)comments.get(0);
         CommentCollection repliesCollection = comment.getReplies();
 
         for (Comment childComment : (Iterable<Comment>) repliesCollection)
@@ -170,6 +164,15 @@ public class ExComment extends ApiExampleBase
             }
         }
         //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+        comment = (Comment)doc.getChildNodes(NodeType.COMMENT, true).get(0);
+        repliesCollection = comment.getReplies();
+
+        for (Comment childComment : (Iterable<Comment>) repliesCollection)
+        {
+            Assert.assertTrue(childComment.getDone());
+        }
     }
     
     //ExStart

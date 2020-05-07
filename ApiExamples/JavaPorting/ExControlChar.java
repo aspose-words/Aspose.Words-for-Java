@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.ControlChar;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
 import com.aspose.words.Section;
@@ -70,21 +69,21 @@ public class ExControlChar extends ApiExampleBase
 
         // This adds a new line and starts a new paragraph
         // Same value as ControlChar.Lf
-        msAssert.areEqual(1, doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount());
+        Assert.assertEquals(1, doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount());
         builder.write("Before line feed." + ControlChar.LINE_FEED + "After line feed.");
-        msAssert.areEqual(2, doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount());
+        Assert.assertEquals(2, doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount());
 
         // The line feed character has two versions
-        msAssert.areEqual(ControlChar.LINE_FEED, ControlChar.LF);
+        Assert.assertEquals(ControlChar.LINE_FEED, ControlChar.LF);
 
         // Add a paragraph break, also adding a new paragraph
         builder.write("Before paragraph break." + ControlChar.PARAGRAPH_BREAK + "After paragraph break.");
-        msAssert.areEqual(3, doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount());
+        Assert.assertEquals(3, doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount());
 
         // Add a section break. Note that this does not make a new section or paragraph
-        msAssert.areEqual(1, doc.getSections().getCount());
+        Assert.assertEquals(1, doc.getSections().getCount());
         builder.write("Before section break." + ControlChar.SECTION_BREAK + "After section break.");
-        msAssert.areEqual(1, doc.getSections().getCount());
+        Assert.assertEquals(1, doc.getSections().getCount());
 
         // A page break is the same value as a section break
         builder.write("Before page break." + ControlChar.PAGE_BREAK + "After page break.");
@@ -101,15 +100,15 @@ public class ExControlChar extends ApiExampleBase
         doc.save(getArtifactsDir() + "ControlChar.InsertControlChars.docx");
 
         // There are char and string counterparts for most characters
-        msAssert.areEqual(Convert.toChar(ControlChar.CELL), ControlChar.CELL_CHAR);
-        msAssert.areEqual(Convert.toChar(ControlChar.NON_BREAKING_SPACE), ControlChar.NON_BREAKING_SPACE_CHAR);
-        msAssert.areEqual(Convert.toChar(ControlChar.TAB), ControlChar.TAB_CHAR);
-        msAssert.areEqual(Convert.toChar(ControlChar.LINE_BREAK), ControlChar.LINE_BREAK_CHAR);
-        msAssert.areEqual(Convert.toChar(ControlChar.LINE_FEED), ControlChar.LINE_FEED_CHAR);
-        msAssert.areEqual(Convert.toChar(ControlChar.PARAGRAPH_BREAK), ControlChar.PARAGRAPH_BREAK_CHAR);
-        msAssert.areEqual(Convert.toChar(ControlChar.SECTION_BREAK), ControlChar.SECTION_BREAK_CHAR);
-        msAssert.areEqual(Convert.toChar(ControlChar.PAGE_BREAK), ControlChar.SECTION_BREAK_CHAR);
-        msAssert.areEqual(Convert.toChar(ControlChar.COLUMN_BREAK), ControlChar.COLUMN_BREAK_CHAR);
+        Assert.assertEquals(Convert.toChar(ControlChar.CELL), ControlChar.CELL_CHAR);
+        Assert.assertEquals(Convert.toChar(ControlChar.NON_BREAKING_SPACE), ControlChar.NON_BREAKING_SPACE_CHAR);
+        Assert.assertEquals(Convert.toChar(ControlChar.TAB), ControlChar.TAB_CHAR);
+        Assert.assertEquals(Convert.toChar(ControlChar.LINE_BREAK), ControlChar.LINE_BREAK_CHAR);
+        Assert.assertEquals(Convert.toChar(ControlChar.LINE_FEED), ControlChar.LINE_FEED_CHAR);
+        Assert.assertEquals(Convert.toChar(ControlChar.PARAGRAPH_BREAK), ControlChar.PARAGRAPH_BREAK_CHAR);
+        Assert.assertEquals(Convert.toChar(ControlChar.SECTION_BREAK), ControlChar.SECTION_BREAK_CHAR);
+        Assert.assertEquals(Convert.toChar(ControlChar.PAGE_BREAK), ControlChar.SECTION_BREAK_CHAR);
+        Assert.assertEquals(Convert.toChar(ControlChar.COLUMN_BREAK), ControlChar.COLUMN_BREAK_CHAR);
         //ExEnd
     }
 }

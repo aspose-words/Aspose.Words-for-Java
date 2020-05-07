@@ -17,15 +17,15 @@ public class ImageTestClass
     public byte[] getImageBytes() { return mImageBytes; }; public void setImageBytes(byte[] value) { mImageBytes = value; };
 
     private byte[] mImageBytes;
-    public String getImageUri() { return mImageUri; }; public void setImageUri(String value) { mImageUri = value; };
+    public String getImageString() { return mImageString; }; public void setImageString(String value) { mImageString = value; };
 
-    private String mImageUri;
+    private String mImageString;
 
-    public ImageTestClass(BufferedImage image, Stream imageStream, byte[] imageBytes, String imageUri)
+    public ImageTestClass(BufferedImage image, Stream imageStream, byte[] imageBytes, String imageString)
     {
         setImage(image);
         setImageStream(imageStream);
         setImageBytes(imageBytes);
-        setImageUri(imageUri);
+        setImageString(imageString);
     }
 }

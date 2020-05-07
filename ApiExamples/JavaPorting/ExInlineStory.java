@@ -15,7 +15,6 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Footnote;
 import com.aspose.words.FootnoteType;
 import org.testng.Assert;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.msString;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.NodeType;
@@ -48,9 +47,10 @@ public class ExInlineStory extends ApiExampleBase
         //ExFor:FootnoteType
         //ExFor:Footnote.#ctor
         //ExSummary:Shows how to add a footnote to a paragraph in the document and set its marker.
-        // Create a new document and append some text that we will reference with a footnote
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Add text that will be referenced by a footnote
         builder.write("Main body text.");
 
         // Add a footnote and give it text, which will appear at the bottom of the page
@@ -66,7 +66,7 @@ public class ExInlineStory extends ApiExampleBase
         builder.write(" More text added by a DocumentBuilder.");
         builder.moveToDocumentEnd();
 
-        msAssert.areEqual("Footnote text. More text added by a DocumentBuilder.", msString.trim(footnote.getParagraphs().get(0).toString(SaveFormat.TEXT)));
+        Assert.assertEquals("Footnote text. More text added by a DocumentBuilder.", msString.trim(footnote.getParagraphs().get(0).toString(SaveFormat.TEXT)));
 
         builder.write(" More main body text.");
         footnote = builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote text.");
@@ -83,8 +83,14 @@ public class ExInlineStory extends ApiExampleBase
         doc.save(getArtifactsDir() + "InlineStory.AddFootnote.docx");
         //ExEnd
 
-        msAssert.areEqual("Footnote text. More text added by a DocumentBuilder.",
-            msString.trim(doc.getChildNodes(NodeType.FOOTNOTE, true).get(0).toString(SaveFormat.TEXT)));
+        doc = new Document(getArtifactsDir() + "InlineStory.AddFootnote.docx");
+
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "", 
+            "Footnote text. More text added by a DocumentBuilder.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, false, "RefMark", 
+            "Footnote text.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 1, true));
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "", 
+            "Footnote text.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 2, true));
     }
 
     @Test
@@ -93,7 +99,6 @@ public class ExInlineStory extends ApiExampleBase
         //ExStart
         //ExFor:Footnote.FootnoteType
         //ExSummary:Demonstrates the difference between footnotes and endnotes.
-        // Create a document and a corresponding document builder
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -109,11 +114,18 @@ public class ExInlineStory extends ApiExampleBase
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
 
-        msAssert.areEqual(FootnoteType.FOOTNOTE, footnote.getFootnoteType());
-        msAssert.areEqual(FootnoteType.ENDNOTE, endnote.getFootnoteType());
+        Assert.assertEquals(FootnoteType.FOOTNOTE, footnote.getFootnoteType());
+        Assert.assertEquals(FootnoteType.ENDNOTE, endnote.getFootnoteType());
 
         doc.save(getArtifactsDir() + "InlineStory.FootnoteEndnote.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "InlineStory.FootnoteEndnote.docx");
+
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
+            "Footnote text, will appear at the bottom of the page that contains the referenced text.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
+            "Endnote text, will appear at the very end of the document.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 1, true));
     }
 
     @Test
@@ -134,9 +146,17 @@ public class ExInlineStory extends ApiExampleBase
         builder.getCurrentParagraph().appendChild(comment);
         comment.getParagraphs().add(new Paragraph(doc));
         comment.getFirstParagraph().getRuns().add(new Run(doc, "Comment text."));
+
+        doc.save(getArtifactsDir() + "InlineStory.AddComment.docx");
         //ExEnd
 
-        msAssert.areEqual("Comment text.\r", (doc.getChildNodes(NodeType.COMMENT, true).get(0)).getText());
+        doc = new Document(getArtifactsDir() + "InlineStory.AddComment.docx");
+        comment = (Comment)doc.getChild(NodeType.COMMENT, 0, true);
+        
+        Assert.assertEquals("Comment text.\r", comment.getText());
+        Assert.assertEquals("Amy Lee", comment.getAuthor());
+        Assert.assertEquals("AL", comment.getInitial());
+        Assert.assertEquals(DateTime.getToday(), comment.getDateTimeInternal());
     }
 
     @Test
@@ -147,14 +167,14 @@ public class ExInlineStory extends ApiExampleBase
         //ExFor:InlineStory.IsInsertRevision
         //ExFor:InlineStory.IsMoveFromRevision
         //ExFor:InlineStory.IsMoveToRevision
-        //ExSummary:Shows how to process revision-related properties of InlineStory nodes.
+        //ExSummary:Shows how to view revision-related properties of InlineStory nodes.
         // Open a document that has revisions from changes being tracked
         Document doc = new Document(getMyDir() + "Revision footnotes.docx");
         Assert.assertTrue(doc.hasRevisions());
 
         // Get a collection of all footnotes from the document
         ArrayList<Footnote> footnotes = doc.getChildNodes(NodeType.FOOTNOTE, true).<Footnote>Cast().ToList();
-        msAssert.areEqual(5, footnotes.size());
+        Assert.assertEquals(5, footnotes.size());
 
         // If a node was inserted in Microsoft Word while changes were being tracked, this flag will be set to true
         Assert.assertTrue(footnotes.get(2).isInsertRevision());
@@ -185,7 +205,6 @@ public class ExInlineStory extends ApiExampleBase
         //ExFor:InlineStory.StoryType
         //ExFor:InlineStory.Tables
         //ExSummary:Shows how to insert InlineStory nodes.
-        // Create a new document and insert a blank footnote
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         Footnote footnote = builder.insertFootnote(FootnoteType.FOOTNOTE, null);
@@ -197,41 +216,54 @@ public class ExInlineStory extends ApiExampleBase
         // We can place a table inside a footnote, which will make it appear at the footer of the referencing page
         Assert.That(footnote.getTables(), Is.Empty);
         footnote.appendChild(table);
-        msAssert.areEqual(1, footnote.getTables().getCount());
-        msAssert.areEqual(NodeType.TABLE, footnote.getLastChild().getNodeType());
+        Assert.assertEquals(1, footnote.getTables().getCount());
+        Assert.assertEquals(NodeType.TABLE, footnote.getLastChild().getNodeType());
 
         // An InlineStory has an "EnsureMinimum()" method as well, but in this case it makes sure the last child of the node is a paragraph,
         // so we can click and write text easily in Microsoft Word
         footnote.ensureMinimum();
-        msAssert.areEqual(NodeType.PARAGRAPH, footnote.getLastChild().getNodeType());
+        Assert.assertEquals(NodeType.PARAGRAPH, footnote.getLastChild().getNodeType());
 
         // Edit the appearance of the anchor, which is the small superscript number in the main text that points to the footnote
         footnote.getFont().setName("Arial");
         footnote.getFont().setColor(msColor.getGreen());
 
         // All inline story nodes have their own respective story types
-        msAssert.areEqual(StoryType.FOOTNOTES, footnote.getStoryType());
+        Assert.assertEquals(StoryType.FOOTNOTES, footnote.getStoryType());
 
         // A comment is another type of inline story
         Comment comment = (Comment)builder.getCurrentParagraph().appendChild(new Comment(doc, "John Doe", "J. D.", DateTime.getNow()));
 
         // The parent paragraph of an inline story node will be the one from the main document body
-        msAssert.areEqual(doc.getFirstSection().getBody().getFirstParagraph(), comment.getParentParagraph());
+        Assert.assertEquals(doc.getFirstSection().getBody().getFirstParagraph(), comment.getParentParagraph());
 
         // However, the last paragraph is the one from the comment text contents, which will be outside the main document body in a speech bubble
         // A comment won't have any child nodes by default, so we can apply the EnsureMinimum() method to place a paragraph here as well
         Assert.assertNull(comment.getLastParagraph());
         comment.ensureMinimum();
-        msAssert.areEqual(NodeType.PARAGRAPH, comment.getLastChild().getNodeType());
+        Assert.assertEquals(NodeType.PARAGRAPH, comment.getLastChild().getNodeType());
 
         // Once we have a paragraph, we can move the builder do it and write our comment
         builder.moveTo(comment.getLastParagraph());
-        builder.write("My comment");
+        builder.write("My comment.");
 
-        msAssert.areEqual(StoryType.COMMENTS, comment.getStoryType());
+        Assert.assertEquals(StoryType.COMMENTS, comment.getStoryType());
 
         doc.save(getArtifactsDir() + "InlineStory.InsertInlineStoryNodes.docx");
         //ExEnd
+        
+        doc = new Document(getArtifactsDir() + "InlineStory.InsertInlineStoryNodes.docx");
+
+        footnote = (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true);
+
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "", "", 
+            (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+        Assert.assertEquals("Arial", footnote.getFont().getName());
+        Assert.assertEquals(msColor.getGreen().getRGB(), footnote.getFont().getColor().getRGB());
+
+        comment = (Comment)doc.getChild(NodeType.COMMENT, 0, true);
+
+        Assert.assertEquals("My comment.", msString.trim(comment.toString(SaveFormat.TEXT)));
     }
 
     @Test
@@ -250,13 +282,13 @@ public class ExInlineStory extends ApiExampleBase
         // This is an inline shape, which has a parent Paragraph, which is in turn a child of the Body
         builder.insertShape(ShapeType.CUBE, 100.0, 100.0);
 
-        msAssert.areEqual(1, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.SHAPE, true).getCount());
 
         // We can delete all such shapes from the Body, affecting all child Paragraphs
-        msAssert.areEqual(StoryType.MAIN_TEXT, doc.getFirstSection().getBody().getStoryType());
+        Assert.assertEquals(StoryType.MAIN_TEXT, doc.getFirstSection().getBody().getStoryType());
         doc.getFirstSection().getBody().deleteShapes();
 
-        msAssert.areEqual(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
         //ExEnd
     }
 }

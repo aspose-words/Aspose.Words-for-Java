@@ -11,7 +11,6 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.Run;
 import com.aspose.words.Paragraph;
@@ -37,11 +36,11 @@ class ExInline !Test class should be public in Java to run, please fix .Net sour
         //ExFor:RunCollection
         //ExFor:RunCollection.Item(Int32)
         //ExFor:RunCollection.ToArray
-        //ExSummary:Shows how to process revision-related properties of Inline nodes.
+        //ExSummary:Shows how to view revision-related properties of Inline nodes.
         Document doc = new Document(getMyDir() + "Revision runs.docx");
 
         // This document has 6 revisions
-        msAssert.areEqual(6, doc.getRevisions().getCount());
+        Assert.assertEquals(6, doc.getRevisions().getCount());
 
         // The parent node of a revision is the run that the revision concerns, which is an Inline node
         Run run = (Run)doc.getRevisions().get(0).getParentNode();
@@ -50,7 +49,7 @@ class ExInline !Test class should be public in Java to run, please fix .Net sour
         Paragraph firstParagraph = run.getParentParagraph();
         RunCollection runs = firstParagraph.getRuns();
 
-        msAssert.areEqual(6, runs.toArray().length);
+        Assert.assertEquals(6, runs.toArray().length);
 
         // The text in the run at index #2 was typed after revisions were tracked, so it will count as an insert revision
         // The font was changed, so it will also be a format revision

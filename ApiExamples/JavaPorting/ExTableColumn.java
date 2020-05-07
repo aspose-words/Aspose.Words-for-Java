@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import com.aspose.words.Row;
 import com.aspose.words.Document;
 import com.aspose.words.NodeType;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.ms.System.msString;
 import com.aspose.words.Run;
@@ -143,9 +142,9 @@ public class ExTableColumn extends ApiExampleBase
         
         doc.save(getArtifactsDir() + "TableColumn.RemoveColumn.doc");
 
-        msAssert.areEqual(16, table.getChildNodes(NodeType.CELL, true).getCount());
-        msAssert.areEqual("Cell 7 contents", msString.trim(table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT)));
-        msAssert.areEqual("Cell 11 contents", msString.trim(table.getLastRow().getCells().get(2).toString(SaveFormat.TEXT)));
+        Assert.assertEquals(16, table.getChildNodes(NodeType.CELL, true).getCount());
+        Assert.assertEquals("Cell 7 contents", msString.trim(table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT)));
+        Assert.assertEquals("Cell 11 contents", msString.trim(table.getLastRow().getCells().get(2).toString(SaveFormat.TEXT)));
     }
 
     @Test
@@ -167,9 +166,9 @@ public class ExTableColumn extends ApiExampleBase
         
         doc.save(getArtifactsDir() + "TableColumn.Insert.doc");
 
-        msAssert.areEqual(24, table.getChildNodes(NodeType.CELL, true).getCount());
-        msAssert.areEqual("Column Text 0", msString.trim(table.getFirstRow().getCells().get(1).toString(SaveFormat.TEXT)));
-        msAssert.areEqual("Column Text 3", msString.trim(table.getLastRow().getCells().get(1).toString(SaveFormat.TEXT)));
+        Assert.assertEquals(24, table.getChildNodes(NodeType.CELL, true).getCount());
+        Assert.assertEquals("Column Text 0", msString.trim(table.getFirstRow().getCells().get(1).toString(SaveFormat.TEXT)));
+        Assert.assertEquals("Column Text 3", msString.trim(table.getLastRow().getCells().get(1).toString(SaveFormat.TEXT)));
     }
 
     @Test
@@ -184,6 +183,6 @@ public class ExTableColumn extends ApiExampleBase
         // Print the plain text of the column to the screen
         System.out.println(column.toTxt());
 
-        msAssert.areEqual("\r\nRow 1\r\nRow 2\r\nRow 3\r\n", column.toTxt());
+        Assert.assertEquals("\r\nRow 1\r\nRow 2\r\nRow 3\r\n", column.toTxt());
     }
 }

@@ -14,7 +14,6 @@ import com.aspose.words.Document;
 import com.aspose.words.Paragraph;
 import com.aspose.words.AbsolutePositionTab;
 import com.aspose.words.NodeType;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
@@ -48,13 +47,13 @@ public class ExAbsolutePositionTab extends ApiExampleBase
         para.accept(myDocToTxtWriter);
 
         // A tab character is placed where the AbsolutePositionTab was found
-        msAssert.areEqual("Before AbsolutePositionTab\tAfter AbsolutePositionTab", myDocToTxtWriter.getText());
+        Assert.assertEquals("Before AbsolutePositionTab\tAfter AbsolutePositionTab", myDocToTxtWriter.getText());
 
         // An AbsolutePositionTab can accept a DocumentVisitor by itself too
         myDocToTxtWriter = new DocToTxtWriter();
         absPositionTab.accept(myDocToTxtWriter);
 
-        msAssert.areEqual("\t", myDocToTxtWriter.getText());
+        Assert.assertEquals("\t", myDocToTxtWriter.getText());
     }
 
     /// <summary>

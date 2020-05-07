@@ -13,14 +13,13 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.CellMerge;
-import com.aspose.words.HeightRule;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
 import com.aspose.words.Table;
 import com.aspose.words.NodeType;
-import com.aspose.words.Cell;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
+import com.aspose.ms.System.msString;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import com.aspose.words.HeightRule;
+import com.aspose.words.Cell;
 
 
 @Test
@@ -55,7 +54,19 @@ public class ExCellFormat extends ApiExampleBase
         builder.write("Text in another cell");
         builder.endRow();
         builder.endTable();
+
+        doc.save(getArtifactsDir() + "CellFormat.VerticalMerge.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "CellFormat.VerticalMerge.docx");
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Assert.assertEquals(CellMerge.FIRST, table.getRows().get(0).getCells().get(0).getCellFormat().getVerticalMerge());
+        Assert.assertEquals(CellMerge.PREVIOUS, table.getRows().get(1).getCells().get(0).getCellFormat().getVerticalMerge());
+
+        // After the merge both cells still exist, and the one with the VerticalMerge set to "First" overlaps both of them 
+        // and only that cell contains the shared text
+        Assert.assertEquals("Text in merged cells.", msString.trim(table.getRows().get(0).getCells().get(0).getText(), '\u0007'));
+        msAssert.areNotEqual(table.getRows().get(0).getCells().get(0).getText(), table.getRows().get(1).getCells().get(0).getText());
     }
 
     @Test
@@ -85,7 +96,20 @@ public class ExCellFormat extends ApiExampleBase
         builder.write("Text in another cell.");
         builder.endRow();
         builder.endTable();
+
+        doc.save(getArtifactsDir() + "CellFormat.HorizontalMerge.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "CellFormat.HorizontalMerge.docx");
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+
+        // Compared to the vertical merge, where both cells are still present, 
+        // the horizontal merge actually removes cells with a HorizontalMerge set to "Previous" if overlapped by ones with "First"
+        // Thus the first row that we inserted two cells into now has one, which is a normal cell with a HorizontalMerge of "None"
+        Assert.assertEquals(1, table.getRows().get(0).getCells().getCount());
+        Assert.assertEquals(CellMerge.NONE, table.getRows().get(0).getCells().get(0).getCellFormat().getHorizontalMerge());
+
+        Assert.assertEquals("Text in merged cells.", msString.trim(table.getRows().get(0).getCells().get(0).getText(), '\u0007'));
     }
 
     @Test
@@ -107,18 +131,14 @@ public class ExCellFormat extends ApiExampleBase
         builder.write("Row 1, Col 1");
         //ExEnd
 
-        MemoryStream dstStream = new MemoryStream();
-        try /*JAVA: was using*/
-    	{ builder.getDocument().save(dstStream, SaveFormat.DOCX);
-    	}
-        finally { if (dstStream != null) dstStream.close(); }
+        Document doc = DocumentHelper.saveOpen(builder.getDocument());
 
-        Table table = (Table) builder.getDocument().getChild(NodeType.TABLE, 0, true);
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
         Cell cell = table.getRows().get(0).getCells().get(0);
 
-        msAssert.areEqual(5, cell.getCellFormat().getLeftPadding());
-        msAssert.areEqual(10, cell.getCellFormat().getTopPadding());
-        msAssert.areEqual(40, cell.getCellFormat().getRightPadding());
-        msAssert.areEqual(50, cell.getCellFormat().getBottomPadding());
+        Assert.assertEquals(5, cell.getCellFormat().getLeftPadding());
+        Assert.assertEquals(10, cell.getCellFormat().getTopPadding());
+        Assert.assertEquals(40, cell.getCellFormat().getRightPadding());
+        Assert.assertEquals(50, cell.getCellFormat().getBottomPadding());
     }
 }

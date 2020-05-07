@@ -14,7 +14,6 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.BookmarksOutlineLevelCollection;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 
 
@@ -68,11 +67,11 @@ public class ExBookmarksOutlineLevelCollection extends ApiExampleBase
         outlineLevels.add("Bookmark 2", 2);
         outlineLevels.add("Bookmark 3", 3);
 
-        msAssert.areEqual(3, outlineLevels.getCount());
+        Assert.assertEquals(3, outlineLevels.getCount());
         Assert.assertTrue(outlineLevels.contains("Bookmark 1"));
-        msAssert.areEqual(1, outlineLevels.get(0));
-        msAssert.areEqual(2, outlineLevels.get("Bookmark 2"));
-        msAssert.areEqual(2, outlineLevels.indexOfKey("Bookmark 3"));
+        Assert.assertEquals(1, outlineLevels.get(0));
+        Assert.assertEquals(2, outlineLevels.get("Bookmark 2"));
+        Assert.assertEquals(2, outlineLevels.indexOfKey("Bookmark 3"));
 
         // We can remove two elements so that only the outline level designation for "Bookmark 1" is left
         outlineLevels.removeAt(2);

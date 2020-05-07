@@ -17,7 +17,6 @@ import com.aspose.words.ContentDisposition;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataView;
 import com.aspose.words.net.System.Data.DataSet;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import java.util.ArrayList;
 import com.aspose.words.MailMergeRegionInfo;
 import com.aspose.words.FieldQuote;
@@ -475,8 +474,8 @@ public class ExMailMerge extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // These tags, which go inside MERGEFIELDs, denote the strings that signify the starts and ends of mail merge regions 
-        msAssert.areEqual("TableStart", doc.getMailMerge().getRegionStartTag());
-        msAssert.areEqual("TableEnd", doc.getMailMerge().getRegionEndTag());
+        Assert.assertEquals("TableStart", doc.getMailMerge().getRegionStartTag());
+        Assert.assertEquals("TableEnd", doc.getMailMerge().getRegionEndTag());
 
         // By using these tags, we will start and end a "MailMergeRegion1", which will contain MERGEFIELDs for two columns
         builder.insertField(" MERGEFIELD TableStart:MailMergeRegion1");
@@ -487,12 +486,12 @@ public class ExMailMerge extends ApiExampleBase
 
         // We can keep track of merge regions and their columns by looking at these collections
         ArrayList<MailMergeRegionInfo> regions = doc.getMailMerge().getRegionsByName("MailMergeRegion1");
-        msAssert.areEqual(1, regions.size());
-        msAssert.areEqual("MailMergeRegion1", regions.get(0).getName());
+        Assert.assertEquals(1, regions.size());
+        Assert.assertEquals("MailMergeRegion1", regions.get(0).getName());
 
         String[] mergeFieldNames = doc.getMailMerge().getFieldNamesForRegion("MailMergeRegion1");
-        msAssert.areEqual("Column1", mergeFieldNames[0]);
-        msAssert.areEqual("Column2", mergeFieldNames[1]);
+        Assert.assertEquals("Column1", mergeFieldNames[0]);
+        Assert.assertEquals("Column2", mergeFieldNames[1]);
 
         // Insert a region with the same name as an existing region, which will make it a duplicate
         builder.insertParagraph(); // A single row/paragraph cannot be shared by multiple regions
@@ -502,10 +501,10 @@ public class ExMailMerge extends ApiExampleBase
 
         // Regions that share the same name are still accounted for and can be accessed by index
         regions = doc.getMailMerge().getRegionsByName("MailMergeRegion1");
-        msAssert.areEqual(2, regions.size());
+        Assert.assertEquals(2, regions.size());
 
         mergeFieldNames = doc.getMailMerge().getFieldNamesForRegion("MailMergeRegion1", 1);
-        msAssert.areEqual("Column3", mergeFieldNames[0]);
+        Assert.assertEquals("Column3", mergeFieldNames[0]);
         //ExEnd
     }
 
@@ -780,7 +779,7 @@ public class ExMailMerge extends ApiExampleBase
         doc.getMailMerge().setTrimWhitespaces(true);
         doc.getMailMerge().execute(new String[] { "field" }, new Object[] { " first line\rsecond line\rthird line " });
 
-        msAssert.areEqual("first line\rsecond line\rthird line\f", doc.getText());
+        Assert.assertEquals("first line\rsecond line\rthird line\f", doc.getText());
         //ExEnd
     }
 
@@ -879,7 +878,7 @@ public class ExMailMerge extends ApiExampleBase
         doc.save(getArtifactsDir() + "MailMerge.RemoveColonBetweenEmptyMergeFields.docx");
         //ExEnd
 
-        msAssert.areEqual(resultText, doc.getText());
+        Assert.assertEquals(resultText, doc.getText());
     }
 
 	//JAVA-added data provider for test method
@@ -939,7 +938,7 @@ public class ExMailMerge extends ApiExampleBase
         mappedDataFields.add("Column3", "Column2");
 
         // The MERGEFIELD name is the "key" to the respective data source column name "value"
-        msAssert.areEqual("DataSourceColumnName", mappedDataFields.get("MergeFieldName"));
+        Assert.assertEquals("DataSourceColumnName", mappedDataFields.get("MergeFieldName"));
         Assert.assertTrue(mappedDataFields.containsKey("MergeFieldName"));
         Assert.assertTrue(mappedDataFields.containsValue("DataSourceColumnName"));
 
@@ -947,7 +946,7 @@ public class ExMailMerge extends ApiExampleBase
         doc.getMailMerge().execute(dataTable);
 
         // We can count and iterate over the mapped columns/fields
-        msAssert.areEqual(2, mappedDataFields.getCount());
+        Assert.assertEquals(2, mappedDataFields.getCount());
 
         Iterator<Map.Entry<String, String>> enumerator = mappedDataFields.iterator();
         try /*JAVA: was using*/
@@ -963,7 +962,7 @@ public class ExMailMerge extends ApiExampleBase
         Assert.assertFalse(mappedDataFields.containsValue("DataSourceColumnName"));
 
         mappedDataFields.clear();
-        msAssert.areEqual(0, mappedDataFields.getCount());
+        Assert.assertEquals(0, mappedDataFields.getCount());
 
         // Removing the mapped key/value pairs has no effect on the document because the merge was already done with them in place
         doc.save(getArtifactsDir() + "MailMerge.MappedDataFieldCollection.docx");
@@ -1007,7 +1006,7 @@ public class ExMailMerge extends ApiExampleBase
         //ExFor:FieldAddressBlock
         //ExFor:FieldAddressBlock.GetFieldNames
         //ExSummary:Shows how to get mail merge field names used by the field.
-        Document doc = new Document(getMyDir() + "Field ADDRESSBLOCK.docx");
+        Document doc = new Document(getMyDir() + "Field sample - ADDRESSBLOCK.docx");
 
         String[] addressFieldsExpect =
         {
@@ -1019,14 +1018,14 @@ public class ExMailMerge extends ApiExampleBase
         String[] addressBlockFieldNames = addressBlockField.getFieldNames();
         //ExEnd
 
-        msAssert.areEqual(addressFieldsExpect, addressBlockFieldNames);
+        Assert.assertEquals(addressFieldsExpect, addressBlockFieldNames);
 
         String[] greetingFieldsExpect = { "Courtesy Title", "Last Name" };
 
         FieldGreetingLine greetingLineField = (FieldGreetingLine) doc.getRange().getFields().get(1);
         String[] greetingLineFieldNames = greetingLineField.getFieldNames();
 
-        msAssert.areEqual(greetingFieldsExpect, greetingLineFieldNames);
+        Assert.assertEquals(greetingFieldsExpect, greetingLineFieldNames);
     }
 
     @Test
@@ -1040,8 +1039,11 @@ public class ExMailMerge extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (dataProvider = "mustacheTemplateSyntaxDataProvider")
-    public void mustacheTemplateSyntax(boolean restoreTags, String sectionText) throws Exception
+    /// <summary>
+    /// Without TestCaseSource/TestCase because of some strange behavior when using long data.
+    /// </summary>
+    @Test
+    public void mustacheTemplateSyntaxTrue() throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1050,7 +1052,7 @@ public class ExMailMerge extends ApiExampleBase
         builder.write("{{ testfield3 }}");
 
         doc.getMailMerge().setUseNonMergeFields(true);
-        doc.getMailMerge().setPreserveUnusedTags(restoreTags);
+        doc.getMailMerge().setPreserveUnusedTags(true);
 
         DataTable table = new DataTable("Test");
         table.getColumns().add("testfield2");
@@ -1060,19 +1062,31 @@ public class ExMailMerge extends ApiExampleBase
 
         String paraText = DocumentHelper.getParagraphText(doc, 0);
 
-        msAssert.areEqual(sectionText, paraText);
+        Assert.assertEquals("{{ testfield1 }}value 1{{ testfield3 }}\f", paraText);
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "mustacheTemplateSyntaxDataProvider")
-	public static Object[][] mustacheTemplateSyntaxDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{true,  "{{ testfield1 }}value 1{{ testfield3 }}\f"},
-			{false,  "\u0013MERGEFIELD \"testfield1\"\u0014«testfield1»\u0015value 1\u0013MERGEFIELD \"testfield3\"\u0014«testfield3»\u0015\f"},
-		};
-	}
+    @Test
+    public void mustacheTemplateSyntaxFalse() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.write("{{ testfield1 }}");
+        builder.write("{{ testfield2 }}");
+        builder.write("{{ testfield3 }}");
+
+        doc.getMailMerge().setUseNonMergeFields(true);
+        doc.getMailMerge().setPreserveUnusedTags(false);
+
+        DataTable table = new DataTable("Test");
+        table.getColumns().add("testfield2");
+        table.getRows().add("value 1");
+
+        doc.getMailMerge().execute(table);
+
+        String paraText = DocumentHelper.getParagraphText(doc, 0);
+
+        Assert.assertEquals("\u0013MERGEFIELD \"testfield1\"\u0014«testfield1»\u0015value 1\u0013MERGEFIELD \"testfield3\"\u0014«testfield3»\u0015\f", paraText);
+    }
 
     @Test
     public void testMailMergeGetRegionsHierarchy() throws Exception
@@ -1094,29 +1108,29 @@ public class ExMailMerge extends ApiExampleBase
 
         // Get top regions in the document
         ArrayList<MailMergeRegionInfo> topRegions = regionInfo.getRegions();
-        msAssert.areEqual(2, topRegions.size());
-        msAssert.areEqual("Region1", topRegions.get(0).getName());
-        msAssert.areEqual("Region2", topRegions.get(1).getName());
-        msAssert.areEqual(1, topRegions.get(0).getLevel());
-        msAssert.areEqual(1, topRegions.get(1).getLevel());
+        Assert.assertEquals(2, topRegions.size());
+        Assert.assertEquals("Region1", topRegions.get(0).getName());
+        Assert.assertEquals("Region2", topRegions.get(1).getName());
+        Assert.assertEquals(1, topRegions.get(0).getLevel());
+        Assert.assertEquals(1, topRegions.get(1).getLevel());
 
         // Get nested region in first top region
         ArrayList<MailMergeRegionInfo> nestedRegions = topRegions.get(0).getRegions();
-        msAssert.areEqual(2, nestedRegions.size());
-        msAssert.areEqual("NestedRegion1", nestedRegions.get(0).getName());
-        msAssert.areEqual("NestedRegion2", nestedRegions.get(1).getName());
-        msAssert.areEqual(2, nestedRegions.get(0).getLevel());
-        msAssert.areEqual(2, nestedRegions.get(1).getLevel());
+        Assert.assertEquals(2, nestedRegions.size());
+        Assert.assertEquals("NestedRegion1", nestedRegions.get(0).getName());
+        Assert.assertEquals("NestedRegion2", nestedRegions.get(1).getName());
+        Assert.assertEquals(2, nestedRegions.get(0).getLevel());
+        Assert.assertEquals(2, nestedRegions.get(1).getLevel());
 
         // Get field list in first top region
         ArrayList<Field> fieldList = topRegions.get(0).getFields();
-        msAssert.areEqual(4, fieldList.size());
+        Assert.assertEquals(4, fieldList.size());
 
         FieldMergeField startFieldMergeField = nestedRegions.get(0).getStartField();
-        msAssert.areEqual("TableStart:NestedRegion1", startFieldMergeField.getFieldName());
+        Assert.assertEquals("TableStart:NestedRegion1", startFieldMergeField.getFieldName());
 
         FieldMergeField endFieldMergeField = nestedRegions.get(0).getEndField();
-        msAssert.areEqual("TableEnd:NestedRegion1", endFieldMergeField.getFieldName());
+        Assert.assertEquals("TableEnd:NestedRegion1", endFieldMergeField.getFieldName());
         //ExEnd
     }
 
@@ -1136,7 +1150,7 @@ public class ExMailMerge extends ApiExampleBase
 
         document.getMailMerge().execute(new String[0], new Object[0]);
 
-        msAssert.areEqual(1, mailMergeCallbackStub.getTagsReplacedCounter());
+        Assert.assertEquals(1, mailMergeCallbackStub.getTagsReplacedCounter());
     }
 
     private static class MailMergeCallbackStub implements IMailMergeCallback
@@ -1158,16 +1172,16 @@ public class ExMailMerge extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Mail merge regions.docx");
 
         ArrayList<MailMergeRegionInfo> regions = doc.getMailMerge().getRegionsByName("Region1");
-        msAssert.areEqual(1, doc.getMailMerge().getRegionsByName("Region1").size());
-        for (MailMergeRegionInfo region : regions) msAssert.areEqual("Region1", region.getName());
+        Assert.assertEquals(1, doc.getMailMerge().getRegionsByName("Region1").size());
+        for (MailMergeRegionInfo region : regions) Assert.assertEquals("Region1", region.getName());
 
         regions = doc.getMailMerge().getRegionsByName("Region2");
-        msAssert.areEqual(1, doc.getMailMerge().getRegionsByName("Region2").size());
-        for (MailMergeRegionInfo region : regions) msAssert.areEqual("Region2", region.getName());
+        Assert.assertEquals(1, doc.getMailMerge().getRegionsByName("Region2").size());
+        for (MailMergeRegionInfo region : regions) Assert.assertEquals("Region2", region.getName());
 
         regions = doc.getMailMerge().getRegionsByName("NestedRegion1");
-        msAssert.areEqual(2, doc.getMailMerge().getRegionsByName("NestedRegion1").size());
-        for (MailMergeRegionInfo region : regions) msAssert.areEqual("NestedRegion1", region.getName());
+        Assert.assertEquals(2, doc.getMailMerge().getRegionsByName("NestedRegion1").size());
+        for (MailMergeRegionInfo region : regions) Assert.assertEquals("NestedRegion1", region.getName());
     }
 
     @Test

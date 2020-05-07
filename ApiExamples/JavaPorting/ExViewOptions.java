@@ -12,7 +12,6 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.ViewType;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.ZoomType;
 import com.aspose.ms.System.IO.MemoryStream;
@@ -45,7 +44,7 @@ public class ExViewOptions extends ApiExampleBase
         doc.getViewOptions().setZoomPercent(50);
 
         // Or we can set the ZoomType to a different value to avoid using percentages 
-        msAssert.areEqual(ZoomType.NONE, doc.getViewOptions().getZoomType());
+        Assert.assertEquals(ZoomType.NONE, doc.getViewOptions().getZoomType());
 
         doc.save(getArtifactsDir() + "ViewOptions.SetZoom.doc");
         //ExEnd

@@ -24,11 +24,13 @@ import org.testng.Assert;
 import com.aspose.words.ExportListLabels;
 import com.aspose.words.List;
 import com.aspose.words.ListTemplate;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.CssStyleSheetType;
 import com.aspose.words.HtmlVersion;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.HtmlMetafileFormat;
 import com.aspose.words.FontSettings;
+import com.aspose.ms.System.IO.File;
+import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.DocumentSplitCriteria;
 import com.aspose.words.Table;
 import com.aspose.words.PreferredWidth;
@@ -232,13 +234,13 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     {
         //Assert that default value is true for HTML and false for MHTML and EPUB
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
-        msAssert.areEqual(true, saveOptions.getExportRoundtripInformation());
+        Assert.assertEquals(true, saveOptions.getExportRoundtripInformation());
 
         saveOptions = new HtmlSaveOptions(SaveFormat.MHTML);
-        msAssert.areEqual(false, saveOptions.getExportRoundtripInformation());
+        Assert.assertEquals(false, saveOptions.getExportRoundtripInformation());
 
         saveOptions = new HtmlSaveOptions(SaveFormat.EPUB);
-        msAssert.areEqual(false, saveOptions.getExportRoundtripInformation());
+        Assert.assertEquals(false, saveOptions.getExportRoundtripInformation());
     }
 
     @Test
@@ -257,13 +259,13 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExternalResourceSavingConfig.html", saveOptions);
 
         String[] imageFiles = Directory.getFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.png", SearchOption.ALL_DIRECTORIES);
-        msAssert.areEqual(8, imageFiles.length);
+        Assert.assertEquals(8, imageFiles.length);
 
         String[] fontFiles = Directory.getFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.ttf", SearchOption.ALL_DIRECTORIES);
-        msAssert.areEqual(10, fontFiles.length);
+        Assert.assertEquals(10, fontFiles.length);
 
         String[] cssFiles = Directory.getFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.css", SearchOption.ALL_DIRECTORIES);
-        msAssert.areEqual(1, cssFiles.length);
+        Assert.assertEquals(1, cssFiles.length);
 
         DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExternalResourceSavingConfig.html", "<link href=\"https://www.aspose.com/HtmlSaveOptions.ExternalResourceSavingConfig.css\"");
     }
@@ -443,7 +445,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         {
             saveOptions.setCssStyleSheetType(CssStyleSheetType.EMBEDDED);
-            saveOptions.setCssClassNamePrefix("aspose-");
+            saveOptions.setCssClassNamePrefix("myprefix-");
         }
 
         // The prefix will be found before CSS element names in the embedded stylesheet
@@ -514,9 +516,11 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         }
 
         document.save(getArtifactsDir() + "HtmlSaveOptions.ResolveFontNames.html", saveOptions);
-        //ExEnd
 
-        DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ResolveFontNames.html", "<span style=\"font-family:Arial\">");
+        String outDocContents = File.readAllText(getArtifactsDir() + "HtmlSaveOptions.ResolveFontNames.html");
+
+        Assert.assertTrue(Regex.match(outDocContents, "<span style=\"font-family:Arial\">").getSuccess());
+        //ExEnd
     }
 
     @Test

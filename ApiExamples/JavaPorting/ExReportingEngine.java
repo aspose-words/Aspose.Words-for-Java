@@ -13,9 +13,6 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import ApiExamples.TestData.TestClasses.MessageTestClass;
 import com.aspose.words.ReportBuildOptions;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import ApiExamples.TestData.TestClasses.NumericTestClass;
 import ApiExamples.TestData.TestBuilders.NumericTestBuilder;
@@ -29,6 +26,7 @@ import ApiExamples.TestData.TestBuilders.ColorItemTestBuilder;
 import java.awt.Color;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.ReportingEngine;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.FileAccess;
@@ -46,6 +44,7 @@ import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.ControlChar;
 import com.aspose.ms.System.msString;
 import com.aspose.words.FileFormatUtil;
+import com.aspose.words.SaveFormat;
 import com.aspose.words.XmlDataSource;
 import com.aspose.words.JsonDataSource;
 import com.aspose.words.CsvDataLoadOptions;
@@ -68,10 +67,9 @@ public class ExReportingEngine extends ApiExampleBase
         MessageTestClass sender = new MessageTestClass("LINQ Reporting Engine", "Hello World");
         buildReport(doc, sender, "s", ReportBuildOptions.INLINE_ERROR_MESSAGES);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
-        msAssert.areEqual("LINQ Reporting Engine says: Hello World\f", doc.getText());
+        Assert.assertEquals("LINQ Reporting Engine says: Hello World\f", doc.getText());
     }
 
     @Test
@@ -83,10 +81,9 @@ public class ExReportingEngine extends ApiExampleBase
         MessageTestClass sender = new MessageTestClass("LINQ Reporting Engine", "hello world");
         buildReport(doc, sender, "s");
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
-        msAssert.areEqual("linq reporting engine says: HELLO WORLD, Hello World, Hello world\f", doc.getText());
+        Assert.assertEquals("linq reporting engine says: HELLO WORLD, Hello World, Hello world\f", doc.getText());
     }
 
     @Test
@@ -100,10 +97,9 @@ public class ExReportingEngine extends ApiExampleBase
             .withValuesAndDate(1, 2.2, 200, null, DateTime.parse("10.09.2016 10:00:00")).build();
         buildReport(doc, sender, "s");
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
-        msAssert.areEqual("A : ii, 200th, FIRST, Two, C8, - 200 -\f", doc.getText());
+        Assert.assertEquals("A : ii, 200th, FIRST, Two, C8, - 200 -\f", doc.getText());
     }
 
     @Test
@@ -271,10 +267,9 @@ public class ExReportingEngine extends ApiExampleBase
 
         buildReport(doc, Common.getManagers(), "Managers");
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
-        msAssert.areEqual("The names are: John Smith, Tony Anderson, July James\f", doc.getText());
+        Assert.assertEquals("The names are: John Smith, Tony Anderson, July James\f", doc.getText());
     }
 
     @Test
@@ -284,10 +279,9 @@ public class ExReportingEngine extends ApiExampleBase
 
         buildReport(doc, Common.getManagers(), "m");
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
-        msAssert.areEqual("You have chosen 3 item(s).\f", doc.getText());
+        Assert.assertEquals("You have chosen 3 item(s).\f", doc.getText());
     }
 
     @Test
@@ -297,10 +291,9 @@ public class ExReportingEngine extends ApiExampleBase
 
         buildReport(doc, Common.getEmptyManagers(), "m");
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
-        msAssert.areEqual("You have chosen no items.\f", doc.getText());
+        Assert.assertEquals("You have chosen no items.\f", doc.getText());
     }
 
     @Test
@@ -408,15 +401,29 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void insertDocumentDynamicallyByUri() throws Exception
     {
-        Document template = DocumentHelper.createSimpleDocument("<<doc [src.DocumentUri]>>");
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.DocumentString]>>");
 
         DocumentTestClass docUri = new DocumentTestBuilder()
-            .withDocumentUri("http://www.snee.com/xml/xslt/sample.doc").build();
+            .withDocumentString("http://www.snee.com/xml/xslt/sample.doc").build();
 
         buildReport(template, docUri, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
         msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(uri) Gold.docx"), "Fail inserting document by uri");
+    }
+
+    @Test
+    public void insertDocumentDynamicallyByBase64() throws Exception
+    {
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.DocumentString]>>");
+        String base64Template = File.readAllText(getMyDir() + "Reporting engine template - Data table (base64).txt");
+
+        DocumentTestClass docBase64 = new DocumentTestBuilder().withDocumentString(base64Template).build();
+
+        buildReport(template, docBase64, "src", ReportBuildOptions.NONE);
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
+
+        msAssert.isTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.InsertDocumentDynamically(stream,doc,bytes) Gold.docx"), "Fail inserting document by uri");
     }
 
     @Test
@@ -464,9 +471,9 @@ public class ExReportingEngine extends ApiExampleBase
     public void insertImageDynamicallyByUri() throws Exception
     {
         Document template =
-            DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.ImageUri]>>", ShapeType.TEXT_BOX);
+            DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.ImageString]>>", ShapeType.TEXT_BOX);
         ImageTestClass imageUri = new ImageTestBuilder()
-            .withImageUri(
+            .withImageString(
                 "http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png")
             .build();
 
@@ -477,6 +484,39 @@ public class ExReportingEngine extends ApiExampleBase
             DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx",
                 getGoldsDir() + "ReportingEngine.InsertImageDynamically(uri) Gold.docx"),
             "Fail inserting document by bytes");
+    }
+
+    @Test
+    public void insertImageDynamicallyByBase64() throws Exception
+    {
+        Document template =
+            DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.ImageString]>>", ShapeType.TEXT_BOX);
+        String base64Template = File.readAllText(getMyDir() + "Reporting engine template - base64 image.txt");
+
+        ImageTestClass imageBase64 = new ImageTestBuilder().withImageString(base64Template).build();
+
+        buildReport(template, imageBase64, "src", ReportBuildOptions.NONE);
+        template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
+
+        msAssert.isTrue(
+            DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx",
+                getGoldsDir() + "ReportingEngine.InsertImageDynamically(stream,doc,bytes) Gold.docx"),
+            "Fail inserting document by bytes");
+
+    }
+    
+    @Test
+    public void dynamicStretchingImageWithinTextBox() throws Exception
+    {
+        Document template = new Document(getMyDir() + "Reporting engine template - Dynamic stretching.docx");
+        
+        ImageTestClass image = new ImageTestBuilder().withImage(BufferedImage.FromFile(mImage, true)).build();
+        buildReport(template, image, "src", ReportBuildOptions.NONE);
+        template.save(getArtifactsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox.docx");
+
+        Assert.assertTrue(
+            DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox.docx",
+                getGoldsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox Gold.docx"));
     }
 
     @Test (dataProvider = "insertHyperlinksDynamicallyDataProvider")
@@ -551,6 +591,15 @@ public class ExReportingEngine extends ApiExampleBase
         doc.save(getArtifactsDir() + "ReportingEngine.KnownTypes.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.KnownTypes.docx", getGoldsDir() + "ReportingEngine.KnownTypes Gold.docx"));
+    }
+
+    @Test
+    public void workWithContentControls() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - CheckBox Content Control.docx");
+        buildReport(doc, Common.getManagers(), "Managers");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.WorkWithContentControls.docx");
     }
 
     @Test
@@ -639,10 +688,8 @@ public class ExReportingEngine extends ApiExampleBase
             .withImageStream(new FileStream(mImage, FileMode.OPEN, FileAccess.READ)).build();
         buildReport(doc, imageStream, "src", ReportBuildOptions.NONE);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
-        doc = new Document(dstStream);
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
@@ -652,10 +699,8 @@ public class ExReportingEngine extends ApiExampleBase
 
             // Assert that width is keeped and height is changed
             msAssert.areNotEqual(346.35, shape.getHeight());
-            msAssert.areEqual(431.5, shape.getWidth());
+            Assert.assertEquals(431.5, shape.getWidth());
         }
-
-        dstStream.dispose();
     }
 
     @Test
@@ -669,10 +714,8 @@ public class ExReportingEngine extends ApiExampleBase
             .withImageStream(new FileStream(mImage, FileMode.OPEN, FileAccess.READ)).build();
         buildReport(doc, imageStream, "src", ReportBuildOptions.NONE);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
-        doc = new Document(dstStream);
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
@@ -682,10 +725,8 @@ public class ExReportingEngine extends ApiExampleBase
 
             // Assert that height is keeped and width is changed
             msAssert.areNotEqual(431.5, shape.getWidth());
-            msAssert.areEqual(346.35, shape.getHeight());
+            Assert.assertEquals(346.35, shape.getHeight());
         }
-
-        dstStream.dispose();
     }
 
     @Test
@@ -699,10 +740,8 @@ public class ExReportingEngine extends ApiExampleBase
             .withImageStream(new FileStream(mImage, FileMode.OPEN, FileAccess.READ)).build();
         buildReport(doc, imageStream, "src", ReportBuildOptions.NONE);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
-        doc = new Document(dstStream);
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
@@ -714,8 +753,6 @@ public class ExReportingEngine extends ApiExampleBase
             msAssert.areNotEqual(346.35, shape.getHeight());
             msAssert.areNotEqual(431.5, shape.getWidth());
         }
-
-        dstStream.dispose();
     }
 
     @Test
@@ -729,10 +766,8 @@ public class ExReportingEngine extends ApiExampleBase
             .withImageStream(new FileStream(mImage, FileMode.OPEN, FileAccess.READ)).build();
         buildReport(doc, imageStream, "src", ReportBuildOptions.NONE);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
-        doc = new Document(dstStream);
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
@@ -741,11 +776,9 @@ public class ExReportingEngine extends ApiExampleBase
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
             // Assert that textbox size are equal image size
-            msAssert.areEqual(300.0d, shape.getHeight());
-            msAssert.areEqual(300.0d, shape.getWidth());
+            Assert.assertEquals(300.0d, shape.getHeight());
+            Assert.assertEquals(300.0d, shape.getWidth());
         }
-
-        dstStream.dispose();
     }
 
     @Test
@@ -774,7 +807,7 @@ public class ExReportingEngine extends ApiExampleBase
         buildReport(builder.getDocument(), new DataSet(), "", ReportBuildOptions.ALLOW_MISSING_MEMBERS);
 
         //Assert that build report success with "ReportBuildOptions.AllowMissingMembers"
-        msAssert.areEqual(ControlChar.PARAGRAPH_BREAK + ControlChar.PARAGRAPH_BREAK + ControlChar.SECTION_BREAK,
+        Assert.assertEquals(ControlChar.PARAGRAPH_BREAK + ControlChar.PARAGRAPH_BREAK + ControlChar.SECTION_BREAK,
             builder.getDocument().getText());
     }
 

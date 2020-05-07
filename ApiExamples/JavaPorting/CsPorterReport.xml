@@ -28,6 +28,7 @@
 		<File project="Examples" dir="" name="ExDrawing" status="AUTO" />
 		<File project="Examples" dir="" name="ExEditableRange" status="AUTO" />
 		<File project="Examples" dir="" name="ExField" status="AUTO" />
+		<File project="Examples" dir="" name="ExFieldOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExFile" status="AUTO" />
 		<File project="Examples" dir="" name="ExFont" status="EMPTY-IN-JAVA" />
 		<File project="Examples" dir="" name="ExFormFields" status="AUTO" />
@@ -40,7 +41,6 @@
 		<File project="Examples" dir="" name="ExImageSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExInline" status="AUTO" />
 		<File project="Examples" dir="" name="ExInlineStory" status="AUTO" />
-		<File project="Examples" dir="" name="ExInsertDocument" status="AUTO" />
 		<File project="Examples" dir="" name="ExLists" status="AUTO" />
 		<File project="Examples" dir="" name="ExMailMerge" status="AUTO" />
 		<File project="Examples" dir="" name="ExMailMergeCustom" status="AUTO" />
@@ -50,6 +50,7 @@
 		<File project="Examples" dir="" name="ExMossRtf2Docx" status="AUTO" />
 		<File project="Examples" dir="" name="ExNestedMailMergeCustom" status="AUTO" />
 		<File project="Examples" dir="" name="ExNode" status="AUTO" />
+		<File project="Examples" dir="" name="ExNodeImporter" status="AUTO" />
 		<File project="Examples" dir="" name="ExOdtSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExOoxmlSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExPageSetup" status="AUTO" />
@@ -85,7 +86,6 @@
 		<File project="Examples" dir="" name="ExXamlFixedSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExXamlFlowSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExXpsSaveOptions" status="AUTO" />
-		<File project="Examples" dir="Properties" name="AssemblyInfo" status="EMPTY-IN-JAVA" />
 		<File project="Examples" dir="TestData" name="Common" status="AUTO" />
 		<File project="Examples" dir="TestData\TestBuilders" name="ColorItemTestBuilder" status="AUTO" />
 		<File project="Examples" dir="TestData\TestBuilders" name="DocumentTestBuilder" status="AUTO" />
@@ -100,6 +100,7 @@
 		<File project="Examples" dir="TestData\TestClasses" name="MessageTestClass" status="AUTO" />
 		<File project="Examples" dir="TestData\TestClasses" name="NumericTestClass" status="AUTO" />
 		<File project="Examples" dir="TestData\TestClasses" name="SignPersonTestClass" status="AUTO" />
+		<File project="Examples" dir="" name="TestUtil" status="AUTO" />
 	</Files>
 	<Resources />
 </CsPorterReport>

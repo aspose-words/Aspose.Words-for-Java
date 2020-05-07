@@ -13,14 +13,13 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.GlossaryDocument;
 import com.aspose.words.BuildingBlock;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.BuildingBlockType;
 import com.aspose.words.BuildingBlockGallery;
 import com.aspose.words.BuildingBlockBehavior;
+import com.aspose.ms.System.Guid;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
-import com.aspose.ms.System.Guid;
 import com.aspose.words.Section;
 import com.aspose.words.Body;
 import com.aspose.words.Paragraph;
@@ -57,7 +56,7 @@ public class ExBuildingBlocks extends ApiExampleBase
     {
         Document doc = new Document();
 
-        // BuildingBlocks live inside the glossary document
+        // BuildingBlocks are stored inside the glossary document
         // If you're making a document from scratch, the glossary document must also be manually created
         GlossaryDocument glossaryDoc = new GlossaryDocument();
         doc.setGlossaryDocument(glossaryDoc);
@@ -68,16 +67,16 @@ public class ExBuildingBlocks extends ApiExampleBase
         
         // Put in in the document's glossary document
         glossaryDoc.appendChild(block);
-        msAssert.areEqual(1, glossaryDoc.getCount());
+        Assert.assertEquals(1, glossaryDoc.getCount());
 
         // All GUIDs are this value by default
-        msAssert.areEqual("00000000-0000-0000-0000-000000000000", block.getGuidInternal().toString());
+        Assert.assertEquals("00000000-0000-0000-0000-000000000000", block.getGuidInternal().toString());
 
         // In Microsoft Word, we can use these attributes to find blocks in Insert > Quick Parts > Building Blocks Organizer  
-        msAssert.areEqual("(Empty Category)", block.getCategory());
-        msAssert.areEqual(BuildingBlockType.NONE, block.getType());
-        msAssert.areEqual(BuildingBlockGallery.ALL, block.getGallery());
-        msAssert.areEqual(BuildingBlockBehavior.CONTENT, block.getBehavior());
+        Assert.assertEquals("(Empty Category)", block.getCategory());
+        Assert.assertEquals(BuildingBlockType.NONE, block.getType());
+        Assert.assertEquals(BuildingBlockGallery.ALL, block.getGallery());
+        Assert.assertEquals(BuildingBlockBehavior.CONTENT, block.getBehavior());
 
         // If we want to use our building block as an AutoText quick part, we need to give it some text and change some properties
         // All the necessary preparation will be done in a custom document visitor that we will accept
@@ -89,15 +88,13 @@ public class ExBuildingBlocks extends ApiExampleBase
             "My custom building blocks", "Custom Block");
 
         // Our block contains one section which now contains our text
-        msAssert.areEqual("Text inside " + customBlock.getName() + '\f',
-            customBlock.getFirstSection().getBody().getFirstParagraph().getText());
-        msAssert.areEqual(customBlock.getFirstSection(), customBlock.getLastSection());
-
-        msAssert.areNotEqual("00000000-0000-0000-0000-000000000000", customBlock.getGuidInternal().toString());
-        msAssert.areEqual("My custom building blocks", customBlock.getCategory());
-        msAssert.areEqual(BuildingBlockType.NONE, customBlock.getType());
-        msAssert.areEqual(BuildingBlockGallery.QUICK_PARTS, customBlock.getGallery());
-        msAssert.areEqual(BuildingBlockBehavior.PARAGRAPH, customBlock.getBehavior());
+        Assert.assertEquals($"Text inside {customBlock.Name}\f", customBlock.getFirstSection().getBody().getFirstParagraph().getText());
+        Assert.assertEquals(customBlock.getFirstSection(), customBlock.getLastSection());
+        Assert.DoesNotThrow(() => Guid.parse(customBlock.getGuidInternal().toString())); //ExSkip
+        Assert.assertEquals("My custom building blocks", customBlock.getCategory()); //ExSkip
+        Assert.assertEquals(BuildingBlockType.NONE, customBlock.getType()); //ExSkip
+        Assert.assertEquals(BuildingBlockGallery.QUICK_PARTS, customBlock.getGallery()); //ExSkip
+        Assert.assertEquals(BuildingBlockBehavior.PARAGRAPH, customBlock.getBehavior()); //ExSkip
 
         // Then we can insert it into the document as a new section
         doc.appendChild(doc.importNode(customBlock.getFirstSection(), true));
@@ -183,29 +180,21 @@ public class ExBuildingBlocks extends ApiExampleBase
         glossaryDoc.appendChild(new BuildingBlock(glossaryDoc); { .setName("Block 4"); });
         glossaryDoc.appendChild(new BuildingBlock(glossaryDoc); { .setName("Block 5"); });
 
-        msAssert.areEqual(5, glossaryDoc.getBuildingBlocks().getCount());
+        Assert.assertEquals(5, glossaryDoc.getBuildingBlocks().getCount());
 
         doc.setGlossaryDocument(glossaryDoc);
 
         // There is a different ways how to get created building blocks
-        msAssert.areEqual("Block 1", glossaryDoc.getFirstBuildingBlock().getName());
-        msAssert.areEqual("Block 2", glossaryDoc.getBuildingBlocks().get(1).getName());
-        msAssert.areEqual("Block 3", glossaryDoc.getBuildingBlocks().toArray()[2].getName());
-        msAssert.areEqual("Block 5", glossaryDoc.getLastBuildingBlock().getName());
+        Assert.assertEquals("Block 1", glossaryDoc.getFirstBuildingBlock().getName());
+        Assert.assertEquals("Block 2", glossaryDoc.getBuildingBlocks().get(1).getName());
+        Assert.assertEquals("Block 3", glossaryDoc.getBuildingBlocks().toArray()[2].getName());
+        Assert.assertEquals("Block 4", glossaryDoc.getBuildingBlock(BuildingBlockGallery.ALL, "(Empty Category)", "Block 4").getName());
+        Assert.assertEquals("Block 5", glossaryDoc.getLastBuildingBlock().getName());
 
-        // Get a block by gallery, category and name
-        BuildingBlock block4 =
-            glossaryDoc.getBuildingBlock(BuildingBlockGallery.ALL, "(Empty Category)", "Block 4");
-
-        // All GUIDs are the same by default
-        msAssert.areEqual("00000000-0000-0000-0000-000000000000", block4.getGuidInternal().toString());
-
-        // To be able to uniquely identify blocks by GUID, each GUID must be unique
-        // We will do that using a custom visitor
+        // We will do that using a custom visitor, which also will give every BuildingBlock in the GlossaryDocument a unique GUID
         GlossaryDocVisitor visitor = new GlossaryDocVisitor();
         glossaryDoc.accept(visitor);
-
-        msAssert.areEqual(5, visitor.getDictionary().size());
+        Assert.assertEquals(5, visitor.getDictionary().size()); //ExSkip
 
         System.out.println(visitor.getText());
 
@@ -249,6 +238,7 @@ public class ExBuildingBlocks extends ApiExampleBase
 
         public /*override*/ /*VisitorAction*/int visitBuildingBlockStart(BuildingBlock block)
         {
+            Assert.assertEquals("00000000-0000-0000-0000-000000000000", block.getGuidInternal().toString()); //ExSkip
             block.setGuidInternal(Guid.newGuid());
             msDictionary.add(mBlocksByGuid, block.getGuidInternal(), block);
             return VisitorAction.CONTINUE;

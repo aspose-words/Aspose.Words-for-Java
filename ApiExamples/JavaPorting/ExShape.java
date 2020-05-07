@@ -26,9 +26,6 @@ import com.aspose.words.HeaderFooterType;
 import com.aspose.words.WrapType;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.Drawing.RectangleF;
 import com.aspose.ms.System.Drawing.msPoint;
 import com.aspose.ms.System.Drawing.msPointF;
@@ -50,8 +47,10 @@ import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import java.util.ArrayList;
 import com.aspose.ms.System.IO.Path;
+import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.Forms2OleControlCollection;
 import com.aspose.words.ImageSaveOptions;
+import com.aspose.words.SaveFormat;
 import com.aspose.words.OfficeMath;
 import com.aspose.words.OfficeMathDisplayType;
 import com.aspose.words.OfficeMathJustification;
@@ -159,7 +158,7 @@ public class ExShape extends ApiExampleBase
         protected /*override*/ void onPaint(PaintEventArgs e) throws Exception
         {
             // Set the size of the Form canvas
-            Size = msSize.ctor(1000, 800);
+            /*Size*/long = msSize.ctor(1000, 800);
 
             // Open a document and get its first shape, which is a chart
             Document doc = new Document(getMyDir() + "Various shapes.docx");
@@ -205,11 +204,10 @@ public class ExShape extends ApiExampleBase
         shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
         shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        msAssert.areEqual(true, shape.getAspectRatioLocked());            
+        Assert.assertEquals(true, shape.getAspectRatioLocked());            
     }
 
     @Test
@@ -270,7 +268,7 @@ public class ExShape extends ApiExampleBase
         Assert.assertTrue(group.isTopLevel());
 
         // And it is a floating shape too, so we can set its coordinates independently of the text
-        msAssert.areEqual(WrapType.NONE, group.getWrapType());
+        Assert.assertEquals(WrapType.NONE, group.getWrapType());
 
         // Make it a floating shape
         group.setWrapType(WrapType.NONE);
@@ -316,7 +314,7 @@ public class ExShape extends ApiExampleBase
         subShape.setTop(500.0);
 
         // The offset between this child shape and parent group can be seen here
-        msAssert.areEqual(msPointF.ctor(1000f, 500f), subShape.localToParentInternal(msPointF.ctor(0f, 0f)));
+        Assert.assertEquals(msPointF.ctor(1000f, 500f), subShape.localToParentInternal(msPointF.ctor(0f, 0f)));
 
         // Add the triangle to the group
         group.appendChild(subShape);
@@ -359,23 +357,23 @@ public class ExShape extends ApiExampleBase
         group.appendChild(subShape);
         builder.insertNode(group);
 
-        msAssert.areEqual(3, doc.getChildNodes(NodeType.SHAPE, true).getCount());
-        msAssert.areEqual(1, doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount());
+        Assert.assertEquals(3, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount());
 
         // Delete all Shape nodes
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         shapes.clear();
 
         // The GroupShape node is still present even though there are no sub Shapes
-        msAssert.areEqual(1, doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount());
-        msAssert.areEqual(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount());
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
 
         // GroupShapes also have to be deleted manually
         NodeCollection groupShapes = doc.getChildNodes(NodeType.GROUP_SHAPE, true);
         groupShapes.clear();
 
-        msAssert.areEqual(0, doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount());
-        msAssert.areEqual(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount());
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
         //ExEnd
     }
 
@@ -420,7 +418,7 @@ public class ExShape extends ApiExampleBase
             lineA.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
         }
 
-        msAssert.areEqual(new RectangleF(0f, 0f, pageWidth, pageHeight), lineA.getBoundsInPointsInternal());
+        Assert.assertEquals(new RectangleF(0f, 0f, pageWidth, pageHeight), lineA.getBoundsInPointsInternal());
 
         // This line goes from bottom left to top right because we flipped it
         Shape lineB = new Shape(doc, ShapeType.LINE);
@@ -431,7 +429,7 @@ public class ExShape extends ApiExampleBase
             lineB.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
         }
 
-        msAssert.areEqual(new RectangleF(0f, 0f, pageWidth, pageHeight), lineB.getBoundsInPointsInternal());
+        Assert.assertEquals(new RectangleF(0f, 0f, pageWidth, pageHeight), lineB.getBoundsInPointsInternal());
 
         // Add lines to the document
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineA);
@@ -487,15 +485,10 @@ public class ExShape extends ApiExampleBase
         shape.setTitle("Alt Text Title");
 
         builder.insertNode(shape);
-
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
-        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        System.out.println("Shape text: " + shape.getTitle());
         //ExEnd
 
-        msAssert.areEqual("Alt Text Title", shape.getTitle());
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Assert.assertEquals("Alt Text Title", shape.getTitle());
     }
 
     @Test
@@ -560,7 +553,6 @@ public class ExShape extends ApiExampleBase
         //ExFor:Shape.FirstParagraph
         //ExFor:ShapeBase.WrapType
         //ExSummary:Creates a textbox with some text and different formatting options in a new document.
-        // Create a blank document
         Document doc = new Document();
 
         // Create a new shape of type TextBox
@@ -620,17 +612,17 @@ public class ExShape extends ApiExampleBase
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         OleControl oleControl = shape.getOleFormat().getOleControl();
 
-        msAssert.areEqual(null, oleControl.getName());
+        Assert.assertEquals(null, oleControl.getName());
 
         // Get ActiveX control properties
         if (oleControl.isForms2OleControl())
         {
             Forms2OleControl checkBox = (Forms2OleControl) oleControl;
-            msAssert.areEqual("Первый", checkBox.getCaption());
-            msAssert.areEqual("0", checkBox.getValue());
-            msAssert.areEqual(true, checkBox.getEnabled());
-            msAssert.areEqual(Forms2OleControlType.CHECK_BOX, checkBox.getType());
-            msAssert.areEqual(null, checkBox.getChildNodes());
+            Assert.assertEquals("Первый", checkBox.getCaption());
+            Assert.assertEquals("0", checkBox.getValue());
+            Assert.assertEquals(true, checkBox.getEnabled());
+            Assert.assertEquals(Forms2OleControlType.CHECK_BOX, checkBox.getType());
+            Assert.assertEquals(null, checkBox.getChildNodes());
         }
         //ExEnd
     }
@@ -676,14 +668,14 @@ public class ExShape extends ApiExampleBase
 
         // This object is a Microsoft Excel spreadsheet
         OleFormat oleFormat = shape.getOleFormat();
-        msAssert.areEqual("Excel.Sheet.12", oleFormat.getProgId());
+        Assert.assertEquals("Excel.Sheet.12", oleFormat.getProgId());
 
         // Our object is neither auto updating nor locked from updates
         Assert.assertFalse(oleFormat.getAutoUpdate());
-        msAssert.areEqual(false, oleFormat.isLocked());
+        Assert.assertEquals(false, oleFormat.isLocked());
 
         // If we want to extract the OLE object by saving it into our local file system, this property can tell us the relevant file extension
-        msAssert.areEqual(".xlsx", oleFormat.getSuggestedExtension());
+        Assert.assertEquals(".xlsx", oleFormat.getSuggestedExtension());
 
         // We can save it via a stream
         FileStream fs = new FileStream(getArtifactsDir() + "OLE spreadsheet extracted via stream" + oleFormat.getSuggestedExtension(), FileMode.CREATE);
@@ -720,23 +712,23 @@ public class ExShape extends ApiExampleBase
         
         // Both the OLE objects are stored within shapes
         ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().ToList();
-        msAssert.areEqual(2, shapes.size());
+        Assert.assertEquals(2, shapes.size());
 
         // If the shape is an OLE object, it will have a valid OleFormat property
         // We can use it check if it is linked or displayed as an icon, among other things
         OleFormat oleFormat = shapes.get(0).getOleFormat();
-        msAssert.areEqual(false, oleFormat.isLink());
-        msAssert.areEqual(false, oleFormat.getOleIcon());
+        Assert.assertEquals(false, oleFormat.isLink());
+        Assert.assertEquals(false, oleFormat.getOleIcon());
 
         oleFormat = shapes.get(1).getOleFormat();
-        msAssert.areEqual(true, oleFormat.isLink());
-        msAssert.areEqual(true, oleFormat.getOleIcon());
+        Assert.assertEquals(true, oleFormat.isLink());
+        Assert.assertEquals(true, oleFormat.getOleIcon());
 
         // Get the name or the source file and verify that the whole file is linked
         Assert.assertTrue(oleFormat.getSourceFullName().endsWith("Images" + Path.DirectorySeparatorChar + "Microsoft Visio drawing.vsd"));
-        msAssert.areEqual("", oleFormat.getSourceItem());
+        Assert.assertEquals("", oleFormat.getSourceItem());
 
-        msAssert.areEqual("Packager", oleFormat.getIconCaption());
+        Assert.assertEquals("Packager", oleFormat.getIconCaption());
 
         doc.save(getArtifactsDir() + "Shape.OleLinks.docx");
 
@@ -745,7 +737,7 @@ public class ExShape extends ApiExampleBase
         try /*JAVA: was using*/
         {
             byte[] oleEntryBytes = stream.toArray();
-            msAssert.areEqual(76, oleEntryBytes.length);
+            Assert.assertEquals(76, oleEntryBytes.length);
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
@@ -766,7 +758,7 @@ public class ExShape extends ApiExampleBase
         // Get the shape that contains the control
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        msAssert.areEqual("6e182020-f460-11ce-9bcd-00aa00608e01", shape.getOleFormat().getClsidInternal().toString());
+        Assert.assertEquals("6e182020-f460-11ce-9bcd-00aa00608e01", shape.getOleFormat().getClsidInternal().toString());
 
         Forms2OleControl oleControl = (Forms2OleControl)shape.getOleFormat().getOleControl();
 
@@ -774,16 +766,16 @@ public class ExShape extends ApiExampleBase
         Forms2OleControlCollection oleControlCollection = oleControl.getChildNodes();
 
         // In this case, the child controls are 3 option buttons
-        msAssert.areEqual(3, oleControlCollection.getCount());
+        Assert.assertEquals(3, oleControlCollection.getCount());
 
-        msAssert.areEqual("C#", oleControlCollection.get(0).getCaption());
-        msAssert.areEqual("1", oleControlCollection.get(0).getValue());
+        Assert.assertEquals("C#", oleControlCollection.get(0).getCaption());
+        Assert.assertEquals("1", oleControlCollection.get(0).getValue());
 
-        msAssert.areEqual("Visual Basic", oleControlCollection.get(1).getCaption());
-        msAssert.areEqual("0", oleControlCollection.get(1).getValue());
+        Assert.assertEquals("Visual Basic", oleControlCollection.get(1).getCaption());
+        Assert.assertEquals("0", oleControlCollection.get(1).getValue());
 
-        msAssert.areEqual("Delphi", oleControlCollection.get(2).getCaption());
-        msAssert.areEqual("0", oleControlCollection.get(2).getValue());
+        Assert.assertEquals("Delphi", oleControlCollection.get(2).getCaption());
+        Assert.assertEquals("0", oleControlCollection.get(2).getValue());
         //ExEnd
     }
 
@@ -799,7 +791,7 @@ public class ExShape extends ApiExampleBase
         Shape oleShape = (Shape) doc.getFirstSection().getBody().getChild(NodeType.SHAPE, 0, true);
         String suggestedFileName = oleShape.getOleFormat().getSuggestedFileName();
 
-        msAssert.areEqual("CSV.csv", suggestedFileName);
+        Assert.assertEquals("CSV.csv", suggestedFileName);
         //ExEnd
     }
 
@@ -817,8 +809,8 @@ public class ExShape extends ApiExampleBase
     {
         ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
 
-        msAssert.areEqual(96, imageOptions.getHorizontalResolution());
-        msAssert.areEqual(96, imageOptions.getVerticalResolution());
+        Assert.assertEquals(96, imageOptions.getHorizontalResolution());
+        Assert.assertEquals(96, imageOptions.getVerticalResolution());
     }
 
     //For assert result of the test you need to open "Shape.OfficeMath.svg" and check that OfficeMath node is there
@@ -856,8 +848,8 @@ public class ExShape extends ApiExampleBase
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 6, true);
 
-        msAssert.areEqual(OfficeMathDisplayType.INLINE, officeMath.getDisplayType());
-        msAssert.areEqual(OfficeMathJustification.INLINE, officeMath.getJustification());
+        Assert.assertEquals(OfficeMathDisplayType.INLINE, officeMath.getDisplayType());
+        Assert.assertEquals(OfficeMathJustification.INLINE, officeMath.getJustification());
     }
 
     @Test
@@ -879,9 +871,9 @@ public class ExShape extends ApiExampleBase
 
         // OfficeMath nodes that are children of other OfficeMath nodes are always inline
         // The node we are working with is a base node, so its location and display type can be changed
-        msAssert.areEqual(MathObjectType.O_MATH_PARA, officeMath.getMathObjectType());
-        msAssert.areEqual(NodeType.OFFICE_MATH, officeMath.getNodeType());
-        msAssert.areEqual(officeMath.getParentNode(), officeMath.getParentParagraph());
+        Assert.assertEquals(MathObjectType.O_MATH_PARA, officeMath.getMathObjectType());
+        Assert.assertEquals(NodeType.OFFICE_MATH, officeMath.getNodeType());
+        Assert.assertEquals(officeMath.getParentNode(), officeMath.getParentParagraph());
 
         // Used by OOXML and WML formats
         Assert.assertNull(officeMath.getEquationXmlEncodingInternal());
@@ -925,8 +917,8 @@ public class ExShape extends ApiExampleBase
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
 
         // Always inline
-        msAssert.areEqual(OfficeMathDisplayType.DISPLAY, officeMath.getDisplayType());
-        msAssert.areEqual(OfficeMathJustification.CENTER, officeMath.getJustification());
+        Assert.assertEquals(OfficeMathDisplayType.DISPLAY, officeMath.getDisplayType());
+        Assert.assertEquals(OfficeMathJustification.CENTER, officeMath.getJustification());
     }
 
     @Test (dataProvider = "workWithMathObjectTypeDataProvider")
@@ -935,7 +927,7 @@ public class ExShape extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Office math.docx");
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, index, true);
-        msAssert.areEqual(objectType, officeMath.getMathObjectType());
+        Assert.assertEquals(objectType, officeMath.getMathObjectType());
     }
 
 	//JAVA-added data provider for test method
@@ -966,11 +958,9 @@ public class ExShape extends ApiExampleBase
         shape.setAspectRatioLocked(isLocked);
         //ExEnd
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
+        doc = DocumentHelper.saveOpen(doc);
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        msAssert.areEqual(isLocked, shape.getAspectRatioLocked());
+        Assert.assertEquals(isLocked, shape.getAspectRatioLocked());
     }
 
 	//JAVA-added data provider for test method
@@ -998,7 +988,7 @@ public class ExShape extends ApiExampleBase
         // Loop through all single shapes inside document
         for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            msAssert.areEqual(ShapeMarkupLanguage.DML, shape.getMarkupLanguage()); //ExSkip
+            Assert.assertEquals(ShapeMarkupLanguage.DML, shape.getMarkupLanguage()); //ExSkip
 
             System.out.println("Shape: " + shape.getMarkupLanguage());
             System.out.println("ShapeSize: " + shape.getSizeInPointsInternal());
@@ -1019,7 +1009,7 @@ public class ExShape extends ApiExampleBase
         // Loop through all single shapes inside document
         for (Shape shape : doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            msAssert.areEqual(shapeMarkupLanguage, shape.getMarkupLanguage());
+            Assert.assertEquals(shapeMarkupLanguage, shape.getMarkupLanguage());
         }
     }
 
@@ -1070,20 +1060,18 @@ public class ExShape extends ApiExampleBase
         builder.insertNode(rectangle);
         //ExEnd
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
+        doc = DocumentHelper.saveOpen(doc);
         rectangle = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         Stroke strokeAfter = rectangle.getStroke();
 
-        msAssert.areEqual(true, strokeAfter.getOn());
-        msAssert.areEqual(5, strokeAfter.getWeight());
-        msAssert.areEqual(Color.RED.getRGB(), strokeAfter.getColor().getRGB());
-        msAssert.areEqual(DashStyle.SHORT_DASH_DOT_DOT, strokeAfter.getDashStyle());
-        msAssert.areEqual(JoinStyle.MITER, strokeAfter.getJoinStyle());
-        msAssert.areEqual(EndCap.SQUARE, strokeAfter.getEndCap());
-        msAssert.areEqual(ShapeLineStyle.TRIPLE, strokeAfter.getLineStyle());
+        Assert.assertEquals(true, strokeAfter.getOn());
+        Assert.assertEquals(5, strokeAfter.getWeight());
+        Assert.assertEquals(Color.RED.getRGB(), strokeAfter.getColor().getRGB());
+        Assert.assertEquals(DashStyle.SHORT_DASH_DOT_DOT, strokeAfter.getDashStyle());
+        Assert.assertEquals(JoinStyle.MITER, strokeAfter.getJoinStyle());
+        Assert.assertEquals(EndCap.SQUARE, strokeAfter.getEndCap());
+        Assert.assertEquals(ShapeLineStyle.TRIPLE, strokeAfter.getLineStyle());
     }
 
     @Test (description = "WORDSNET-16067")
@@ -1130,8 +1118,8 @@ public class ExShape extends ApiExampleBase
         Shape getShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         OlePackage getOlePackage = getShape.getOleFormat().getOlePackage();
 
-        msAssert.areEqual("Cat FileName.zip", getOlePackage.getFileName());
-        msAssert.areEqual("Cat DisplayName.zip", getOlePackage.getDisplayName());
+        Assert.assertEquals("Cat FileName.zip", getOlePackage.getFileName());
+        Assert.assertEquals("Cat DisplayName.zip", getOlePackage.getDisplayName());
     }
 
     @Test
@@ -1144,8 +1132,8 @@ public class ExShape extends ApiExampleBase
         Shape oleObjectAsOlePackage =
             builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, false, null);
 
-        msAssert.areEqual(null, oleObject.getOleFormat().getOlePackage());
-        msAssert.areEqual(OlePackage.class, oleObjectAsOlePackage.getOleFormat().getOlePackage().getClass());
+        Assert.assertEquals(null, oleObject.getOleFormat().getOlePackage());
+        Assert.assertEquals(OlePackage.class, oleObjectAsOlePackage.getOleFormat().getOlePackage().getClass());
     }
 
     @Test
@@ -1338,7 +1326,7 @@ public class ExShape extends ApiExampleBase
 
             if (shape.getStroked())
             {
-                msAssert.areEqual(shape.getStroke().getColor(), shape.getStrokeColor());
+                Assert.assertEquals(shape.getStroke().getColor(), shape.getStrokeColor());
                 appendLine($"Stroke colors: {shape.Stroke.Color}, {shape.Stroke.Color2}");
                 appendLine($"Stroke weight: {shape.StrokeWeight}");
 
@@ -1438,10 +1426,10 @@ public class ExShape extends ApiExampleBase
         // The SignatureLine object is a member of the shape that contains it
         SignatureLine signatureLine = shape.getSignatureLine();
 
-        msAssert.areEqual("john.doe@management.com", signatureLine.getEmail());
-        msAssert.areEqual("John Doe", signatureLine.getSigner());
-        msAssert.areEqual("Senior Manager", signatureLine.getSignerTitle());
-        msAssert.areEqual("Please sign here", signatureLine.getInstructions());
+        Assert.assertEquals("john.doe@management.com", signatureLine.getEmail());
+        Assert.assertEquals("John Doe", signatureLine.getSigner());
+        Assert.assertEquals("Senior Manager", signatureLine.getSignerTitle());
+        Assert.assertEquals("Please sign here", signatureLine.getInstructions());
         Assert.assertTrue(signatureLine.getShowDate());
 
         Assert.assertTrue(signatureLine.getAllowComments());
@@ -1666,9 +1654,9 @@ public class ExShape extends ApiExampleBase
         Assert.assertFalse(shape.getTextPath().getTrim());
         Assert.assertFalse(shape.getTextPath().getSmallCaps());
 
-        msAssert.areEqual(36.0, shape.getTextPath().getSize());
-        msAssert.areEqual("Bold & Italic", shape.getTextPath().getText());
-        msAssert.areEqual(ShapeType.TEXT_PLAIN_TEXT, shape.getShapeType());
+        Assert.assertEquals(36.0, shape.getTextPath().getSize());
+        Assert.assertEquals("Bold & Italic", shape.getTextPath().getText());
+        Assert.assertEquals(ShapeType.TEXT_PLAIN_TEXT, shape.getShapeType());
 
         // Toggle whether or not to display text
         shape = appendWordArt(doc, "On set to true", "Calibri", 150.0, 24.0, Color.YELLOW, Color.RED, ShapeType.TEXT_PLAIN_TEXT);
@@ -1771,17 +1759,17 @@ public class ExShape extends ApiExampleBase
 
         // Get the document's shape collection which includes just the two shapes we added
         ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().ToList();
-        msAssert.areEqual(2, shapes.size());
+        Assert.assertEquals(2, shapes.size());
 
         // Remove the first shape
         shapes.get(0).remove();
 
         // Because we removed that shape while changes were being tracked, the shape counts as a delete revision
-        msAssert.areEqual(ShapeType.CUBE, shapes.get(0).getShapeType());
+        Assert.assertEquals(ShapeType.CUBE, shapes.get(0).getShapeType());
         Assert.assertTrue(shapes.get(0).isDeleteRevision());
 
         // And we inserted another shape while tracking changes, so that shape will count as an insert revision
-        msAssert.areEqual(ShapeType.SUN, shapes.get(1).getShapeType());
+        Assert.assertEquals(ShapeType.SUN, shapes.get(1).getShapeType());
         Assert.assertTrue(shapes.get(1).isInsertRevision());
         //ExEnd
     }
@@ -1802,7 +1790,7 @@ public class ExShape extends ApiExampleBase
         // The document has one shape that was moved, but shape move revisions will have two instances of that shape
         // One will be the shape at its arrival destination and the other will be the shape at its original location
         ArrayList<Shape> nc = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().ToList();
-        msAssert.areEqual(2, nc.size());
+        Assert.assertEquals(2, nc.size());
 
         // This is the move to revision, also the shape at its arrival destination
         Assert.assertFalse(nc.get(0).isMoveFromRevision());
@@ -1824,16 +1812,16 @@ public class ExShape extends ApiExampleBase
         // Open a document that contains two shapes and get its shape collection
         Document doc = new Document(getMyDir() + "Shape shadow effect.docx");
         ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().ToList();
-        msAssert.areEqual(2, shapes.size());
+        Assert.assertEquals(2, shapes.size());
 
         // The two shapes are identical in terms of dimensions and shape type
-        msAssert.areEqual(shapes.get(0).getWidth(), shapes.get(1).getWidth());
-        msAssert.areEqual(shapes.get(0).getHeight(), shapes.get(1).getHeight());
-        msAssert.areEqual(shapes.get(0).getShapeType(), shapes.get(1).getShapeType());
+        Assert.assertEquals(shapes.get(0).getWidth(), shapes.get(1).getWidth());
+        Assert.assertEquals(shapes.get(0).getHeight(), shapes.get(1).getHeight());
+        Assert.assertEquals(shapes.get(0).getShapeType(), shapes.get(1).getShapeType());
 
         // However, the first shape has no effects, while the second one has a shadow and thick outline
-        msAssert.areEqual(0.0, shapes.get(0).getStrokeWeight());
-        msAssert.areEqual(20.0, shapes.get(1).getStrokeWeight());
+        Assert.assertEquals(0.0, shapes.get(0).getStrokeWeight());
+        Assert.assertEquals(20.0, shapes.get(1).getStrokeWeight());
         Assert.assertFalse(shapes.get(0).getShadowEnabled());
         Assert.assertTrue(shapes.get(1).getShadowEnabled());
 
@@ -1852,16 +1840,16 @@ public class ExShape extends ApiExampleBase
         RectangleF rectangleFOut = shape.adjustWithEffectsInternal(rectangleF);
 
         // Since the shape has no border-changing effects, its boundary dimensions are unaffected
-        msAssert.areEqual(200, rectangleFOut.getX());
-        msAssert.areEqual(200, rectangleFOut.getY());
-        msAssert.areEqual(1000, rectangleFOut.getWidth());
-        msAssert.areEqual(1000, rectangleFOut.getHeight());
+        Assert.assertEquals(200, rectangleFOut.getX());
+        Assert.assertEquals(200, rectangleFOut.getY());
+        Assert.assertEquals(1000, rectangleFOut.getWidth());
+        Assert.assertEquals(1000, rectangleFOut.getHeight());
 
         // The final extent of the first shape, in points
-        msAssert.areEqual(0, shape.getBoundsWithEffectsInternal().getX());
-        msAssert.areEqual(0, shape.getBoundsWithEffectsInternal().getY());
-        msAssert.areEqual(147, shape.getBoundsWithEffectsInternal().getWidth());
-        msAssert.areEqual(147, shape.getBoundsWithEffectsInternal().getHeight());
+        Assert.assertEquals(0, shape.getBoundsWithEffectsInternal().getX());
+        Assert.assertEquals(0, shape.getBoundsWithEffectsInternal().getY());
+        Assert.assertEquals(147, shape.getBoundsWithEffectsInternal().getWidth());
+        Assert.assertEquals(147, shape.getBoundsWithEffectsInternal().getHeight());
 
         // Do the same with the second shape
         shape = shapes.get(1);
@@ -1869,18 +1857,18 @@ public class ExShape extends ApiExampleBase
         rectangleFOut = shape.adjustWithEffectsInternal(rectangleF);
         
         // The shape's x/y coordinates (top left corner location) have been pushed back by the thick outline
-        msAssert.areEqual(171.5, rectangleFOut.getX());
-        msAssert.areEqual(167, rectangleFOut.getY());
+        Assert.assertEquals(171.5, rectangleFOut.getX());
+        Assert.assertEquals(167, rectangleFOut.getY());
 
         // The width and height were also affected by the outline and shadow
-        msAssert.areEqual(1045, rectangleFOut.getWidth());
-        msAssert.areEqual(1132, rectangleFOut.getHeight());
+        Assert.assertEquals(1045, rectangleFOut.getWidth());
+        Assert.assertEquals(1132, rectangleFOut.getHeight());
 
         // These values are also affected by effects
-        msAssert.areEqual(-28.5, shape.getBoundsWithEffectsInternal().getX());
-        msAssert.areEqual(-33, shape.getBoundsWithEffectsInternal().getY());
-        msAssert.areEqual(192, shape.getBoundsWithEffectsInternal().getWidth());
-        msAssert.areEqual(279, shape.getBoundsWithEffectsInternal().getHeight());
+        Assert.assertEquals(-28.5, shape.getBoundsWithEffectsInternal().getX());
+        Assert.assertEquals(-33, shape.getBoundsWithEffectsInternal().getY());
+        Assert.assertEquals(192, shape.getBoundsWithEffectsInternal().getWidth());
+        Assert.assertEquals(279, shape.getBoundsWithEffectsInternal().getHeight());
         //ExEnd
     }
 
@@ -1894,7 +1882,7 @@ public class ExShape extends ApiExampleBase
         // Open a document that contains shapes and get its shape collection
         Document doc = new Document(getMyDir() + "Various shapes.docx");
         ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().ToList();
-        msAssert.areEqual(7, shapes.size());
+        Assert.assertEquals(7, shapes.size());
 
         // There are 7 shapes in the document, with one group shape with 2 child shapes
         // The child shapes will be rendered but their parent group shape will be skipped, so we will see 6 output files
@@ -1963,22 +1951,22 @@ public class ExShape extends ApiExampleBase
 
         // Get the shape size in pixels, with linear scaling to a specific DPI
         Rectangle bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f);
-        msAssert.areEqual(156, bounds.getWidth());
-        msAssert.areEqual(18, bounds.getHeight());
+        Assert.assertEquals(156, bounds.getWidth());
+        Assert.assertEquals(18, bounds.getHeight());
 
         // Get the shape size in pixels, but with a different DPI for the horizontal and vertical dimensions
         bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f, 150.0f);
-        msAssert.areEqual(156, bounds.getWidth());
-        msAssert.areEqual(27, bounds.getHeight());
+        Assert.assertEquals(156, bounds.getWidth());
+        Assert.assertEquals(27, bounds.getHeight());
 
         // The opaque bounds may vary here also
         bounds = renderer.getOpaqueBoundsInPixelsInternal(1.0f, 96.0f);
-        msAssert.areEqual(156, bounds.getWidth());
-        msAssert.areEqual(20, bounds.getHeight());
+        Assert.assertEquals(156, bounds.getWidth());
+        Assert.assertEquals(20, bounds.getHeight());
 
         bounds = renderer.getOpaqueBoundsInPixelsInternal(1.0f, 96.0f, 150.0f);
-        msAssert.areEqual(156, bounds.getWidth());
-        msAssert.areEqual(31, bounds.getHeight());
+        Assert.assertEquals(156, bounds.getWidth());
+        Assert.assertEquals(31, bounds.getHeight());
         //ExEnd
     }
 }

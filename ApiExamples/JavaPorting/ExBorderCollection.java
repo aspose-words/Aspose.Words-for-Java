@@ -17,6 +17,8 @@ import java.util.Iterator;
 import com.aspose.words.Border;
 import java.awt.Color;
 import com.aspose.words.LineStyle;
+import org.testng.Assert;
+import com.aspose.ms.System.Drawing.msColor;
 
 
 @Test
@@ -46,8 +48,16 @@ public class ExBorderCollection extends ApiExampleBase
         }
         finally { if (enumerator != null) enumerator.close(); }
 
-        doc.save(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.doc");                                                    
+        doc.save(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.docx");
+
+        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders())
+        {
+            Assert.assertEquals(Color.RoyalBlue.getRGB(), border.getColor().getRGB());
+            Assert.assertEquals(LineStyle.DOUBLE, border.getLineStyle());
+        }
     }
 
     @Test
@@ -61,6 +71,16 @@ public class ExBorderCollection extends ApiExampleBase
         BorderCollection borders = builder.getParagraphFormat().getBorders();
 
         borders.clearFormatting();
+
+        doc.save(getArtifactsDir() + "BorderCollection.RemoveAllBorders.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "BorderCollection.RemoveAllBorders.docx");
+
+        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders())
+        {
+            Assert.assertEquals(msColor.Empty.getRGB(), border.getColor().getRGB());
+            Assert.assertEquals(LineStyle.NONE, border.getLineStyle());
+        }
     }
 }

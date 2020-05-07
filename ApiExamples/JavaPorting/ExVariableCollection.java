@@ -11,9 +11,10 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import org.testng.Assert;
+import java.util.Map;
 import com.aspose.ms.System.msConsole;
 import java.util.Iterator;
-import java.util.Map;
 
 
 @Test
@@ -41,10 +42,12 @@ public class ExVariableCollection extends ApiExampleBase
     public void clearEx() throws Exception
     {
         //ExStart
+        //ExFor:Document.Variables
+        //ExFor:VariableCollection
         //ExFor:VariableCollection.Clear
         //ExFor:VariableCollection.Count
         //ExSummary:Shows how to clear all document variables from a document.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        Document doc = new Document();
 
         doc.getVariables().add("doc", "Word processing document");
         doc.getVariables().add("docx", "Word processing document");
@@ -52,8 +55,16 @@ public class ExVariableCollection extends ApiExampleBase
         doc.getVariables().add("bmp", "Image");
         doc.getVariables().add("png", "Image");
 
+        // Documents don't contain variables by default, so only the ones we added are in the collection
+        Assert.assertEquals(5, doc.getVariables().getCount());
+
+        // Print each variable
+        for (Map.Entry<String, String> entry : doc.getVariables())
+            System.out.println("Name: {entry.Key}, Value: {entry.Value}");
+        
+        // We can empty the collection like this
         doc.getVariables().clear();
-        msConsole.writeLine(doc.getVariables().getCount()); // 0
+        Assert.assertEquals(0, doc.getVariables().getCount());
         //ExEnd
     }
 

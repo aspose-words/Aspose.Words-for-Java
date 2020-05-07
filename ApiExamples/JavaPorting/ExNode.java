@@ -17,7 +17,6 @@ import com.aspose.words.Node;
 import org.testng.Assert;
 import com.aspose.words.CompositeNode;
 import com.aspose.ms.System.msConsole;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.NodeType;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.Section;
@@ -51,10 +50,7 @@ public class ExNode extends ApiExampleBase
         //ExFor:Node
         //ExFor:Node.Clone
         //ExSummary:Shows how to clone composite nodes with and without their child nodes.
-        // Create a new empty document
         Document doc = new Document();
-
-        // Add some text to the first paragraph
         Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
         para.appendChild(new Run(doc, "Some text"));
 
@@ -74,17 +70,16 @@ public class ExNode extends ApiExampleBase
         //ExStart
         //ExFor:Node.ParentNode
         //ExSummary:Shows how to access the parent node.
-        // Create a new empty document. It has one section
         Document doc = new Document();
 
-        // The section is the first child node of the document
+        // A newly created document has one section
         Node section = doc.getFirstChild();
 
         // The section's parent node is the document
         System.out.println("Section parent is the document: " + (doc == section.getParentNode()));
         //ExEnd
 
-        msAssert.areEqual(doc, section.getParentNode());
+        Assert.assertEquals(doc, section.getParentNode());
     }
 
     @Test
@@ -117,7 +112,7 @@ public class ExNode extends ApiExampleBase
         System.out.println("Paragraph has a parent node: " + (para.getParentNode() != null));
         //ExEnd
 
-        msAssert.areEqual(doc, para.getDocument());
+        Assert.assertEquals(doc, para.getDocument());
         Assert.assertNotNull(para.getParentNode());
     }
 
@@ -378,7 +373,7 @@ public class ExNode extends ApiExampleBase
         nodeList = doc.selectNodes("//Body/Paragraph");
 
         // We can treat the list as an array too
-        msAssert.areEqual(4, nodeList.toArray().length);
+        Assert.assertEquals(4, nodeList.toArray().length);
 
         // Use SelectSingleNode to select the first result of the same expression as above
         Node node = doc.selectSingleNode("//Body/Paragraph");
@@ -455,7 +450,7 @@ public class ExNode extends ApiExampleBase
         //ExEnd
 
         // Verify that the index is correct
-        msAssert.areEqual(24, index);
+        Assert.assertEquals(24, index);
     }
 
     @Test
@@ -525,7 +520,7 @@ public class ExNode extends ApiExampleBase
         String nodeAsHtml = node.toString(SaveFormat.HTML);
         //ExEnd
 
-        msAssert.areEqual(
+        Assert.assertEquals(
             "<p style=\"margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:12pt\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>",
             nodeAsHtml);
     }
@@ -553,7 +548,7 @@ public class ExNode extends ApiExampleBase
         String nodeAsHtml = node.toString(saveOptions);
         //ExEnd
 
-        msAssert.areEqual(
+        Assert.assertEquals(
             "<p style=\"margin-top:0pt; margin-bottom:8pt; line-height:108%\"><span style=\"font-family:'Times New Roman'\">Hello World!</span></p>",
             nodeAsHtml);
     }
@@ -633,11 +628,12 @@ public class ExNode extends ApiExampleBase
         //ExFor:CompositeNode.InsertBefore(Node, Node)
         //ExFor:CompositeNode.PrependChild(Node) 
         //ExFor:Paragraph.GetText
+        //ExFor:Run
         //ExSummary:Shows how to add, update and delete child nodes from within a CompositeNode.
         Document doc = new Document();
 
         // An empty document has one paragraph by default
-        msAssert.areEqual(1, doc.getFirstSection().getBody().getParagraphs().getCount());
+        Assert.assertEquals(1, doc.getFirstSection().getBody().getParagraphs().getCount());
 
         // A paragraph is a composite node because it can contain runs, which are another type of node
         Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
@@ -650,7 +646,7 @@ public class ExNode extends ApiExampleBase
         Run run3 = new Run(doc, "Run 3. ");
 
         // We initialized them but not in our paragraph yet
-        msAssert.areEqual("Initial text. " + (char) 12, paragraph.getText());
+        Assert.assertEquals("Initial text. " + (char) 12, paragraph.getText());
 
         // Insert run2 before initial paragraph text. This will be at the start of the paragraph
         paragraph.insertBefore(run2, paragraphText);
@@ -661,15 +657,15 @@ public class ExNode extends ApiExampleBase
         // Insert run1 before every other child node. run2 was the start of the paragraph, now it will be run1
         paragraph.prependChild(run1);
 
-        msAssert.areEqual("Run 1. Run 2. Initial text. Run 3. " + (char) 12, paragraph.getText());
-        msAssert.areEqual(4, paragraph.getChildNodes(NodeType.ANY, true).getCount());
+        Assert.assertEquals("Run 1. Run 2. Initial text. Run 3. " + (char) 12, paragraph.getText());
+        Assert.assertEquals(4, paragraph.getChildNodes(NodeType.ANY, true).getCount());
 
         // Access the child node collection and update/delete children
         ((Run) paragraph.getChildNodes(NodeType.RUN, true).get(1)).setText("Updated run 2. ");
         paragraph.getChildNodes(NodeType.RUN, true).remove(paragraphText);
 
-        msAssert.areEqual("Run 1. Updated run 2. Run 3. " + (char) 12, paragraph.getText());
-        msAssert.areEqual(3, paragraph.getChildNodes(NodeType.ANY, true).getCount());
+        Assert.assertEquals("Run 1. Updated run 2. Run 3. " + (char) 12, paragraph.getText());
+        Assert.assertEquals(3, paragraph.getChildNodes(NodeType.ANY, true).getCount());
         //ExEnd
     }
 
@@ -679,7 +675,6 @@ public class ExNode extends ApiExampleBase
     @Test //ExSkip
     public void nodeXPathNavigator() throws Exception
     {
-        // Create a blank document
         Document doc = new Document();
 
         // A document is a composite node so we can make a navigator straight away
@@ -688,9 +683,9 @@ public class ExNode extends ApiExampleBase
         // Our root is the document node with 1 child, which is the first section
         if (navigator != null)
         {
-            msAssert.areEqual("Document", navigator.Name);
-            msAssert.areEqual(false, navigator.MoveToNext());
-            msAssert.areEqual(1, navigator.SelectChildren(XPathNodeType.All).Count);
+            Assert.assertEquals("Document", navigator.Name);
+            Assert.assertEquals(false, navigator.MoveToNext());
+            Assert.assertEquals(1, navigator.SelectChildren(XPathNodeType.All).Count);
 
             // The document tree has the document, first section, body and first paragraph as nodes, with each being an only child of the previous
             // We can add a few more to give the tree some branches for the navigator to traverse
@@ -773,13 +768,13 @@ public class ExNode extends ApiExampleBase
     {
         public void /*INodeChangingCallback.*/nodeInserting(NodeChangingArgs args)
         {
-            msAssert.areEqual(NodeChangingAction.INSERT, args.getAction());
-            msAssert.areEqual(null, args.getOldParent());
+            Assert.assertEquals(NodeChangingAction.INSERT, args.getAction());
+            Assert.assertEquals(null, args.getOldParent());
         }
 
         public void /*INodeChangingCallback.*/nodeInserted(NodeChangingArgs args)
         {
-            msAssert.areEqual(NodeChangingAction.INSERT, args.getAction());
+            Assert.assertEquals(NodeChangingAction.INSERT, args.getAction());
             Assert.assertNotNull(args.getNewParent());
 
             System.out.println("Inserted node:");
@@ -796,12 +791,12 @@ public class ExNode extends ApiExampleBase
 
         public void /*INodeChangingCallback.*/nodeRemoving(NodeChangingArgs args)
         {
-            msAssert.areEqual(NodeChangingAction.REMOVE, args.getAction());
+            Assert.assertEquals(NodeChangingAction.REMOVE, args.getAction());
         }
 
         public void /*INodeChangingCallback.*/nodeRemoved(NodeChangingArgs args)
         {
-            msAssert.areEqual(NodeChangingAction.REMOVE, args.getAction());
+            Assert.assertEquals(NodeChangingAction.REMOVE, args.getAction());
             Assert.assertNull(args.getNewParent());
 
             System.out.println("Removed node: {args.Node.NodeType} ({args.Node.GetHashCode()})");
@@ -826,19 +821,19 @@ public class ExNode extends ApiExampleBase
 
         // Every .Write() invocation creates a new Run, which is added to the parent Paragraph's RunCollection
         RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
-        msAssert.areEqual(2, runs.getCount());
+        Assert.assertEquals(2, runs.getCount());
 
         // We can insert a node into the RunCollection manually to achieve the same effect
         Run newRun = new Run(doc, "Run 3. ");
         runs.insert(3, newRun);
 
         Assert.assertTrue(runs.contains(newRun));
-        msAssert.areEqual("Run 1. Run 2. Run 3.", msString.trim(doc.getText()));
+        Assert.assertEquals("Run 1. Run 2. Run 3.", msString.trim(doc.getText()));
 
         // Text can also be deleted from the document by accessing individual Runs via the RunCollection and editing or removing them
         Run run = runs.get(1);
         runs.remove(run);
-        msAssert.areEqual("Run 1. Run 3.", msString.trim(doc.getText()));
+        Assert.assertEquals("Run 1. Run 3.", msString.trim(doc.getText()));
 
         Assert.assertNotNull(run);
         Assert.assertFalse(runs.contains(run));
@@ -869,20 +864,20 @@ public class ExNode extends ApiExampleBase
                     
         // Get all run nodes, of which we put 3 in the entire document
         NodeList nodeList = doc.selectNodes("//Run");
-        msAssert.areEqual(3, nodeList.getCount());
+        Assert.assertEquals(3, nodeList.getCount());
 
         // Using a double forward slash, select all Run nodes that are indirect descendants of a Table node,
         // which would in this case be the runs inside the two cells we inserted
         nodeList = doc.selectNodes("//Table//Run");
-        msAssert.areEqual(2, nodeList.getCount());
+        Assert.assertEquals(2, nodeList.getCount());
 
         // Single forward slashes specify direct descendant relationships,
         // of which we skipped quite a few by using double slashes
-        msAssert.areEqual(doc.selectNodes("//Table//Run"), doc.selectNodes("//Table/Row/Cell/Paragraph/Run"));
+        Assert.assertEquals(doc.selectNodes("//Table//Run"), doc.selectNodes("//Table/Row/Cell/Paragraph/Run"));
 
         // We can access the actual nodes via a NodeList too
         nodeList = doc.selectNodes("//Shape");
-        msAssert.areEqual(1, nodeList.getCount());
+        Assert.assertEquals(1, nodeList.getCount());
         Shape shape = (Shape)nodeList.get(0);
         Assert.assertTrue(shape.hasImage());
         //ExEnd
