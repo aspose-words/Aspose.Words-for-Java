@@ -134,15 +134,12 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         LoadOptions loadOptions = new LoadOptions("docPassword");
         Assert.assertEquals(loadOptions.getPassword(), signOptions.getDecryptionPassword());
 
-        Document signedDoc = new Document(outputFileName, loadOptions);
-
         // Check that encrypted document was successfully signed
+        Document signedDoc = new Document(outputFileName, loadOptions);
         DigitalSignatureCollection signatures = signedDoc.getDigitalSignatures();
-        if (signatures.isValid() && (signatures.getCount() > 0)) {
-            System.out.println("The document was signed successfully");
-        } else {
-            Assert.fail();
-        }
+
+        Assert.assertEquals(1, signatures.getCount());
+        Assert.assertTrue(signatures.isValid());
     }
 
     @Test
@@ -167,17 +164,17 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
 
         // Open encrypted document from a file
         InputStream streamOutIn = new FileInputStream(getArtifactsDir() + "DigitalSignatureUtil.SignDocument.docx");
-        Document signedDoc = new Document(streamOutIn, new LoadOptions("docPassword"));
+        try {
+            DigitalSignatureCollection digitalSignatures = DigitalSignatureUtil.loadSignatures(streamOutIn);
+            Assert.assertEquals(1, digitalSignatures.getCount());
 
-        // Check that encrypted document was successfully signed
-        DigitalSignatureCollection signatures = signedDoc.getDigitalSignatures();
-        if (signatures.isValid() && (signatures.getCount() > 0)) {
-            streamIn.close();
-            streamOut.close();
-            streamOutIn.close();
-            System.out.println("The document was signed successfully");
-        } else {
-            Assert.fail();
+            DigitalSignature signature = digitalSignatures.get(0);
+
+            Assert.assertTrue(signature.isValid());
+            Assert.assertEquals(DigitalSignatureType.XML_DSIG, signature.getSignatureType());
+            Assert.assertEquals("Encrypted", signature.getComments());
+        } finally {
+            if (streamOutIn != null) streamOutIn.close();
         }
     }
 
@@ -188,11 +185,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         signOptions.setSignTime(new Date());
         signOptions.setDecryptionPassword("");
 
-        try {
-            DigitalSignatureUtil.sign("", "", null, signOptions);
-        } catch (Exception e) {
-            Assert.assertTrue(e instanceof IllegalArgumentException);
-        }
+        Assert.assertThrows(IllegalArgumentException.class, () -> DigitalSignatureUtil.sign("", "", null, signOptions));
     }
 
     @Test
@@ -205,10 +198,6 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         signOptions.setSignTime(new Date());
         signOptions.setDecryptionPassword("docPassword");
 
-        try {
-            DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, null, signOptions);
-        } catch (Exception e) {
-            Assert.assertTrue(e instanceof NullPointerException);
-        }
+        Assert.assertThrows(NullPointerException.class, () -> DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, null, signOptions));
     }
 }

@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import static Examples.ApiExampleBase.getDatabaseDir;
@@ -393,5 +394,22 @@ public final class DocumentHelper {
         // Create and execute a command
         java.sql.Statement statement = conn.createStatement();
         return statement.executeQuery(commandText);
+    }
+
+    /// <summary>
+    /// Save the document to a stream, immediately re-open it and return the newly opened version
+    /// </summary>
+    /// <remarks>
+    /// Used for testing how document features are preserved after saving/loading
+    /// </remarks>
+    /// <param name="doc">The document we wish to re-open</param>
+    static Document saveOpen(Document doc) throws Exception {
+        ByteArrayOutputStream docStream = new ByteArrayOutputStream();
+        try {
+            doc.save(docStream, new OoxmlSaveOptions(SaveFormat.DOCX));
+            return new Document(new ByteArrayInputStream(docStream.toByteArray()));
+        } finally {
+            if (docStream != null) docStream.close();
+        }
     }
 }

@@ -28,14 +28,24 @@ public class ExBorder extends ApiExampleBase {
         //ExFor:DocumentBuilder.Font
         //ExFor:DocumentBuilder.Write(String)
         //ExSummary:Shows how to insert a string surrounded by a border into a document.
-        DocumentBuilder builder = new DocumentBuilder();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.getFont().getBorder().setColor(Color.GREEN);
         builder.getFont().getBorder().setLineWidth(2.5);
         builder.getFont().getBorder().setLineStyle(LineStyle.DASH_DOT_STROKER);
 
-        builder.write("run of text in a green border");
+        builder.write("Text surrounded by green border.");
+
+        doc.save(getArtifactsDir() + "Border.FontBorder.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Border.FontBorder.docx");
+        Border border = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getFont().getBorder();
+
+        Assert.assertEquals(Color.GREEN.getRGB(), border.getColor().getRGB());
+        Assert.assertEquals(2.5d, border.getLineWidth());
+        Assert.assertEquals(LineStyle.DASH_DOT_STROKER, border.getLineStyle());
     }
 
     @Test
@@ -46,15 +56,25 @@ public class ExBorder extends ApiExampleBase {
         //ExFor:BorderType
         //ExFor:ParagraphFormat.Borders
         //ExSummary:Shows how to insert a paragraph with a top border.
-        DocumentBuilder builder = new DocumentBuilder();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         Border topBorder = builder.getParagraphFormat().getBorders().getByBorderType(BorderType.TOP);
         topBorder.setColor(Color.RED);
         topBorder.setLineStyle(LineStyle.DASH_SMALL_GAP);
         topBorder.setLineWidth(4);
 
-        builder.writeln("Hello World!");
+        builder.writeln("Text with a red top border.");
+
+        doc.save(getArtifactsDir() + "Border.ParagraphTopBorder.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Border.ParagraphTopBorder.docx");
+        Border border = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders().getByBorderType(BorderType.TOP);
+
+        Assert.assertEquals(Color.RED.getRGB(), border.getColor().getRGB());
+        Assert.assertEquals(4.0d, border.getLineWidth());
+        Assert.assertEquals(LineStyle.DASH_SMALL_GAP, border.getLineStyle());
     }
 
     @Test
@@ -63,9 +83,13 @@ public class ExBorder extends ApiExampleBase {
         //ExFor:Border.ClearFormatting
         //ExSummary:Shows how to remove borders from a paragraph.
         Document doc = new Document(getMyDir() + "Borders.docx");
-        DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // Get the first paragraph's collection of borders
+        DocumentBuilder builder = new DocumentBuilder(doc);
         BorderCollection borders = builder.getParagraphFormat().getBorders();
+        Assert.assertEquals(Color.RED.getRGB(), borders.get(0).getColor().getRGB()); //ExSkip
+        Assert.assertEquals(3.0d, borders.get(0).getLineWidth()); // ExSkip
+        Assert.assertEquals(LineStyle.SINGLE, borders.get(0).getLineStyle()); // ExSkip
 
         for (Border border : borders) {
             border.clearFormatting();
@@ -73,8 +97,17 @@ public class ExBorder extends ApiExampleBase {
 
         builder.getCurrentParagraph().getRuns().get(0).setText("Paragraph with no border");
 
-        doc.save(getArtifactsDir() + "Border.NoBorder.doc");
+        doc.save(getArtifactsDir() + "Border.ClearFormatting.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Border.ClearFormatting.docx");
+
+        for (Border testBorder : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders())
+        {
+            Assert.assertEquals(0, testBorder.getColor().getRGB());
+            Assert.assertEquals(0.0d, testBorder.getLineWidth());
+            Assert.assertEquals(LineStyle.NONE, testBorder.getLineStyle());
+        }
     }
 
     @Test
@@ -111,13 +144,12 @@ public class ExBorder extends ApiExampleBase {
         }
 
         // Each border in the second paragraph collection becomes no longer the same as its counterpart from the first paragraph collection
-        // There are always 6 elements in a border collection, and changing all of them will make the second collection completely different from the first
-        secondParaBorders.getByBorderType(BorderType.LEFT).setLineStyle(LineStyle.DOT_DASH);
-        secondParaBorders.getByBorderType(BorderType.RIGHT).setLineStyle(LineStyle.DOT_DASH);
-        secondParaBorders.getByBorderType(BorderType.TOP).setLineStyle(LineStyle.DOT_DASH);
-        secondParaBorders.getByBorderType(BorderType.BOTTOM).setLineStyle(LineStyle.DOT_DASH);
-        secondParaBorders.getByBorderType(BorderType.VERTICAL).setLineStyle(LineStyle.DOT_DASH);
-        secondParaBorders.getByBorderType(BorderType.HORIZONTAL).setLineStyle(LineStyle.DOT_DASH);
+        // Change all the elements in the second collection to make it completely different from the first
+        Assert.assertEquals(6, secondParaBorders.getCount()); // ExSkip
+        for (Border border : secondParaBorders)
+        {
+            border.setLineStyle(LineStyle.DOT_DASH);
+        }
 
         // Now the BorderCollections both have their own elements
         for (int i = 0; i < firstParaBorders.getCount(); i++) {
@@ -127,7 +159,18 @@ public class ExBorder extends ApiExampleBase {
             // Changing the line style made the borders visible
             Assert.assertTrue(secondParaBorders.get(i).isVisible());
         }
+
+        doc.save(getArtifactsDir() + "Border.EqualityCountingAndVisibility.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Border.EqualityCountingAndVisibility.docx");
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+
+        for (Border testBorder : paragraphs.get(0).getParagraphFormat().getBorders())
+            Assert.assertEquals(LineStyle.NONE, testBorder.getLineStyle());
+
+        for (Border testBorder : paragraphs.get(1).getParagraphFormat().getBorders())
+            Assert.assertEquals(LineStyle.DOT_DASH, testBorder.getLineStyle());
     }
 
     @Test
@@ -189,7 +232,26 @@ public class ExBorder extends ApiExampleBase {
             table.appendChild(row);
         }
 
-        doc.save(getArtifactsDir() + "Border.HorizontalAndVerticalBorders.docx");
+        doc.save(getArtifactsDir() + "Border.VerticalAndHorizontalBorders.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Border.VerticalAndHorizontalBorders.docx");
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+
+        Assert.assertEquals(LineStyle.DASH_SMALL_GAP, paragraphs.get(0).getParagraphFormat().getBorders().getByBorderType(BorderType.HORIZONTAL).getLineStyle());
+        Assert.assertEquals(LineStyle.DASH_SMALL_GAP, paragraphs.get(1).getParagraphFormat().getBorders().getByBorderType(BorderType.HORIZONTAL).getLineStyle());
+
+        Table outTable = (Table)doc.getChild(NodeType.TABLE, 0, true);
+
+        for (Row row : (Iterable<Row>) outTable.getChildNodes(NodeType.ROW, true))
+        {
+            Assert.assertEquals(Color.RED.getRGB(), row.getRowFormat().getBorders().getHorizontal().getColor().getRGB());
+            Assert.assertEquals(LineStyle.DOT, row.getRowFormat().getBorders().getHorizontal().getLineStyle());
+            Assert.assertEquals(2.0d, row.getRowFormat().getBorders().getHorizontal().getLineWidth());
+
+            Assert.assertEquals(Color.BLUE.getRGB(), row.getRowFormat().getBorders().getVertical().getColor().getRGB());
+            Assert.assertEquals(LineStyle.DOT, row.getRowFormat().getBorders().getVertical().getLineStyle());
+            Assert.assertEquals(2.0d, row.getRowFormat().getBorders().getVertical().getLineWidth());
+        }
     }
 }

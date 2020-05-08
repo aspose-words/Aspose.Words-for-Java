@@ -20,8 +20,8 @@ public class ExBuildVersion extends ApiExampleBase {
         //ExFor:BuildVersionInfo
         //ExFor:BuildVersionInfo.Product
         //ExFor:BuildVersionInfo.Version
-        //ExSummary:Shows how to use BuildVersionInfo to obtain information about this product.
-        System.out.println(MessageFormat.format("I am currently using {0}, version number {1}.", BuildVersionInfo.getProduct(), BuildVersionInfo.getVersion()));
+        //ExSummary:Shows how to use BuildVersionInfo to display version information about this product.
+        System.out.println("I am currently using %(BuildVersionInfo.Product), version number %(BuildVersionInfo.Version)!");
         //ExEnd
     }
 }

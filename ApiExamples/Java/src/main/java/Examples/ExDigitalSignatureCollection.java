@@ -10,9 +10,13 @@ package Examples;
 
 import com.aspose.words.DigitalSignature;
 import com.aspose.words.DigitalSignatureCollection;
+import com.aspose.words.DigitalSignatureType;
 import com.aspose.words.DigitalSignatureUtil;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Iterator;
 
 public class ExDigitalSignatureCollection extends ApiExampleBase {
@@ -33,5 +37,26 @@ public class ExDigitalSignatureCollection extends ApiExampleBase {
                 System.out.println(ds.toString());
         }
         //ExEnd
+
+        Assert.assertEquals(1, digitalSignatures.getCount());
+
+        DigitalSignature signature = digitalSignatures.get(0);
+
+        Assert.assertTrue(signature.isValid());
+        Assert.assertEquals(DigitalSignatureType.XML_DSIG, signature.getSignatureType());
+        Assert.assertEquals("Test Sign", signature.getComments());
+
+        Assert.assertEquals("CN=VeriSign Class 3 Code Signing 2009-2 CA, " +
+            "OU=Terms of use at https://www.verisign.com/rpa (c)09, " +
+            "OU=VeriSign Trust Network, " +
+            "O=\"VeriSign, Inc.\", " +
+            "C=US", signature.getIssuerName());
+
+        Assert.assertEquals("CN=Aspose Pty Ltd, " +
+            "OU=Digital ID Class 3 - Microsoft Software Validation v2, " +
+            "O=Aspose Pty Ltd, " +
+            "L=Lane Cove, " +
+            "S=New South Wales, " +
+            "C=AU", signature.getSubjectName());
     }
 }

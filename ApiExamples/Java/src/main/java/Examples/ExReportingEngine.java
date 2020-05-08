@@ -312,10 +312,10 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void insertDocumentDynamicallyByUri() throws Exception {
-        Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocumentUri()]>>");
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocumentString()]>>");
 
         DocumentTestClass docUri = new DocumentTestBuilder()
-                .withDocumentUri("http://www.snee.com/xml/xslt/sample.doc").build();
+                .withDocumentString("http://www.snee.com/xml/xslt/sample.doc").build();
 
         buildReport(template, docUri, "src");
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
@@ -356,9 +356,9 @@ public class ExReportingEngine extends ApiExampleBase {
     @Test
     public void insertImageDynamicallyByUri() throws Exception {
         Document template =
-                DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImageUri()]>>", ShapeType.TEXT_BOX);
+                DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImageString()]>>", ShapeType.TEXT_BOX);
         ImageTestClass imageUri = new ImageTestBuilder()
-                .withImageUri(
+                .withImageString(
                         "http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png")
                 .build();
 

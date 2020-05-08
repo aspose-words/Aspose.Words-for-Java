@@ -8,13 +8,17 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.DocSaveOptions;
-import com.aspose.words.Document;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.SaveFormat;
+import com.aspose.words.*;
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Test
 public class ExDocSaveOptions extends ApiExampleBase {
@@ -28,8 +32,8 @@ public class ExDocSaveOptions extends ApiExampleBase {
         //ExFor:DocSaveOptions.SaveFormat
         //ExFor:DocSaveOptions.SaveRoutingSlip
         //ExSummary:Shows how to set save options for classic Microsoft Word document versions.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
+        AtomicReference<Document> doc = new AtomicReference<>(new Document());
+        DocumentBuilder builder = new DocumentBuilder(doc.get());
         builder.write("Hello world!");
 
         // DocSaveOptions only applies to Doc and Dot save formats
@@ -41,8 +45,15 @@ public class ExDocSaveOptions extends ApiExampleBase {
         // If the document contains a routing slip, we can preserve it while saving by setting this flag to true
         options.setSaveRoutingSlip(true);
 
-        doc.save(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", options);
+        doc.get().save(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", options);
         //ExEnd
+
+        Assert.assertThrows(IncorrectPasswordException.class, () -> doc.set(new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc")));
+
+        LoadOptions loadOptions = new LoadOptions("MyPassword");
+        doc.set(new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", loadOptions));
+
+        Assert.assertEquals("Hello world!", doc.get().getText().trim());
     }
 
     @Test
@@ -71,6 +82,7 @@ public class ExDocSaveOptions extends ApiExampleBase {
         //ExFor:DocSaveOptions.SavePictureBullet
         //ExSummary:Shows how to remove PictureBullet data from the document.
         Document doc = new Document(getMyDir() + "Image bullet points.docx");
+        Assert.assertNotNull(doc.getLists().get(0).getListLevels().get(0).getImageData()); //ExSkip
 
         // Word 97 cannot work correctly with PictureBullet data
         // To remove PictureBullet data, set the option to "false"
@@ -79,5 +91,31 @@ public class ExDocSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "DocSaveOptions.PictureBullets.doc", saveOptions);
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocSaveOptions.PictureBullets.doc");
+
+        Assert.assertNull(doc.getLists().get(0).getListLevels().get(0).getImageData());
+    }
+
+    @Test(dataProvider = "updateLastPrintedPropertyDataProvider")
+    public void updateLastPrintedProperty(boolean isUpdateLastPrintedProperty) throws Exception {
+        //ExStart
+        //ExFor:SaveOptions.UpdateLastPrintedProperty
+        //ExSummary:Shows how to update BuiltInDocumentProperties.LastPrinted property before saving.
+        Document doc = new Document();
+
+        // Aspose.Words update BuiltInDocumentProperties.LastPrinted property by default
+        DocSaveOptions saveOptions = new DocSaveOptions();
+        saveOptions.setUpdateLastPrintedProperty(isUpdateLastPrintedProperty);
+
+        doc.save(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.docx", saveOptions);
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.docx");
+    }
+
+    @DataProvider(name = "updateLastPrintedPropertyDataProvider")
+    public static Object[][] updateLastPrintedPropertyDataProvider() {
+        return new Object[][] { {true}, {false} };
     }
 }

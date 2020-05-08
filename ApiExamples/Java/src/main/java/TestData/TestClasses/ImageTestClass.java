@@ -15,16 +15,16 @@ public class ImageTestClass {
     private BufferedImage mImage;
     private FileInputStream mImageStream;
     private byte[] mImageBytes;
-    private String mImageUri;
+    private String mImageString;
 
     public ImageTestClass() {
     }
 
-    public ImageTestClass(final BufferedImage image, final FileInputStream imageStream, final byte[] imageBytes, final String imageUri) {
+    public ImageTestClass(final BufferedImage image, final FileInputStream imageStream, final byte[] imageBytes, final String imageString) {
         setImage(image);
         setImageStream(imageStream);
         setImageBytes(imageBytes);
-        setImageUri(imageUri);
+        setImageString(imageString);
     }
 
     public void setImage(final BufferedImage value) {
@@ -39,8 +39,8 @@ public class ImageTestClass {
         mImageBytes = value;
     }
 
-    public void setImageUri(final String value) {
-        mImageUri = value;
+    public void setImageString(final String value) {
+        mImageString = value;
     }
 
     public BufferedImage getImage() {
@@ -55,7 +55,7 @@ public class ImageTestClass {
         return mImageBytes;
     }
 
-    public String getImageUri() {
-        return mImageUri;
+    public String getImageString() {
+        return mImageString;
     }
 }
