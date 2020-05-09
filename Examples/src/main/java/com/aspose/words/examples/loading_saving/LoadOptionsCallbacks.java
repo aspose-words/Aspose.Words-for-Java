@@ -28,8 +28,7 @@ public class LoadOptionsCallbacks {
 
 	public static void LoadOptionsWarningCallback(String dataDir) throws Exception {
 		// ExStart: LoadOptionsWarningCallback
-		// For complete examples and data files, please go to
-		// https://github.com/aspose-words/Aspose.Words-for-Java
+		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Create a new LoadOptions object and set its WarningCallback property.
 		LoadOptions loadOptions = new LoadOptions();
 		loadOptions.setWarningCallback(new DocumentLoadingWarningCallback());
@@ -39,6 +38,7 @@ public class LoadOptionsCallbacks {
 	}
 
 	// ExStart: DocumentLoadingWarningCallback
+	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 	private static class DocumentLoadingWarningCallback implements IWarningCallback {
 		public void warning(WarningInfo info) {
 			// Prints warnings and their details as they arise during document loading.
@@ -50,6 +50,7 @@ public class LoadOptionsCallbacks {
 
 	public static void LoadOptionsResourceLoadingCallback(String dataDir) throws Exception {
 		// ExStart:LoadOptionsResourceLoadingCallback
+		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Create a new LoadOptions object and set its ResourceLoadingCallback attribute
 		// as an instance of our IResourceLoadingCallback implementation
 		LoadOptions loadOptions = new LoadOptions();
@@ -65,8 +66,7 @@ public class LoadOptionsCallbacks {
 	}
 
 	// ExStart: HtmlLinkedResourceLoadingCallback
-	// For complete examples and data files, please go to
-	// https://github.com/aspose-words/Aspose.Words-for-.NET
+	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 	private static class HtmlLinkedResourceLoadingCallback implements IResourceLoadingCallback {
 		public int resourceLoading(ResourceLoadingArgs args) throws Exception {
 			switch (args.getResourceType()) {

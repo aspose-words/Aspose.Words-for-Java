@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 public class CheckFormatCompatibility {
 	public static void main(String[] args) throws Exception {
 		// ExStart:CheckFormatCompatibility
+		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// The path to the documents directory.
 		String dataDir = Utils.getDataDir(CheckFormatCompatibility.class);
 
