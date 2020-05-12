@@ -14,10 +14,10 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.FindReplaceOptions;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
+import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
+import com.aspose.ms.System.msString;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.ReplaceAction;
 import com.aspose.words.ReplacingArgs;
@@ -27,13 +27,18 @@ import com.aspose.words.FindReplaceDirection;
 import com.aspose.ms.System.Convert;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.BreakType;
+import com.aspose.words.Paragraph;
+import com.aspose.words.Node;
+import com.aspose.words.NodeType;
+import com.aspose.words.CompositeNode;
+import com.aspose.words.NodeImporter;
+import com.aspose.words.ImportFormatMode;
+import com.aspose.words.Section;
 
 
 @Test
 public class ExRange extends ApiExampleBase
 {
-    //>>>>>>>> #region  Replace 
-
     @Test
     public void replaceSimple() throws Exception
     {
@@ -63,7 +68,99 @@ public class ExRange extends ApiExampleBase
         doc.save(getArtifactsDir() + "Range.ReplaceSimple.docx");
         //ExEnd
 
-        msAssert.areEqual("Hello James Bond,\r\f", doc.getText());
+        Assert.assertEquals("Hello James Bond,\r\f", doc.getText());
+    }
+
+    @Test
+    public void ignoreDeleted() throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreDeleted
+        //ExSummary:Shows how to ignore text inside delete revisions.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+ 
+        // Insert non-revised text
+        builder.writeln("Deleted");
+        builder.write("Text");
+ 
+        // Remove first paragraph with tracking revisions
+        doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
+        doc.getFirstSection().getBody().getFirstParagraph().remove();
+        doc.stopTrackRevisions();
+ 
+        Regex regex = new Regex("e");
+        FindReplaceOptions options = new FindReplaceOptions();
+ 
+        // Replace 'e' in document ignoring deleted text
+        options.setIgnoreDeleted(true);
+        doc.getRange().replaceInternal(regex, "*", options);
+        Assert.assertEquals(doc.getText(), "Deleted\rT*xt\f");
+        
+        // Replace 'e' in document NOT ignoring deleted text
+        options.setIgnoreDeleted(false);
+        doc.getRange().replaceInternal(regex, "*", options);
+        Assert.assertEquals(doc.getText(), "D*l*t*d\rT*xt\f");
+        //ExEnd
+    }
+
+    @Test
+    public void ignoreInserted() throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreInserted
+        //ExSummary:Shows how to ignore text inside insert revisions.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+ 
+        // Insert text with tracking revisions
+        doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
+        builder.writeln("Inserted");
+        doc.stopTrackRevisions();
+ 
+        // Insert non-revised text
+        builder.write("Text");
+ 
+        Regex regex = new Regex("e");
+        FindReplaceOptions options = new FindReplaceOptions();
+ 
+        // Replace 'e' in document ignoring inserted text
+        options.setIgnoreInserted(true);
+        doc.getRange().replaceInternal(regex, "*", options);
+        Assert.assertEquals(doc.getText(), "Inserted\rT*xt\f");
+        
+        // Replace 'e' in document NOT ignoring inserted text
+        options.setIgnoreInserted(false);
+        doc.getRange().replaceInternal(regex, "*", options);
+        Assert.assertEquals(doc.getText(), "Ins*rt*d\rT*xt\f");
+        //ExEnd
+    }
+
+    @Test
+    public void ignoreFields() throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreFields
+        //ExSummary:Shows how to ignore text inside fields.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+ 
+        // Insert field with text inside
+        builder.insertField("INCLUDETEXT", "Text in field");
+ 
+        Regex regex = new Regex("e");
+        FindReplaceOptions options = new FindReplaceOptions();
+ 
+        // Replace 'e' in document ignoring text inside field
+        options.setIgnoreFields(true);
+        doc.getRange().replaceInternal(regex, "*", options);
+        Assert.assertEquals(doc.getText(), "\u0013INCLUDETEXT\u0014Text in field\u0015\f");
+        
+        // Replace 'e' in document NOT ignoring text inside field
+        options.setIgnoreFields(false);
+        doc.getRange().replaceInternal(regex, "*", options);
+        Assert.assertEquals(doc.getText(), "\u0013INCLUDETEXT\u0014T*xt in fi*ld\u0015\f");
+        //ExEnd
     }
 
     @Test
@@ -94,7 +191,7 @@ public class ExRange extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("sad mad bad");
 
-        msAssert.areEqual("sad mad bad", msString.trim(doc.getText()));
+        Assert.assertEquals("sad mad bad", msString.trim(doc.getText()));
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setMatchCase(false);
@@ -102,50 +199,8 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replaceInternal(new Regex("[s|m]ad"), "bad", options);
 
-        msAssert.areEqual("bad bad bad", msString.trim(doc.getText()));
+        Assert.assertEquals("bad bad bad", msString.trim(doc.getText()));
         //ExEnd
-    }
-
-    // Note: Need more info from dev.
-    @Test
-    public void replaceWithoutPreserveMetaCharacters() throws Exception
-    {
-        final String TEXT = "some text";
-        final String REPLACE_WITH_TEXT = "&ldquo;";
-
-        Document doc = new Document();
-
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.write(TEXT);
-
-        FindReplaceOptions options = new FindReplaceOptions();
-        options.setPreserveMetaCharacters(false);
-
-        doc.getRange().replace(TEXT, REPLACE_WITH_TEXT, options);
-
-        msAssert.areEqual("\u000bdquo;\f", doc.getText());
-    }
-
-    @Test
-    public void findAndReplaceWithPreserveMetaCharacters() throws Exception
-    {
-        //ExStart
-        //ExFor:FindReplaceOptions.PreserveMetaCharacters
-        //ExSummary:Shows how to preserved meta-characters that begin with "&".
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.writeln("one");
-        builder.writeln("two");
-        builder.writeln("three");
-
-        FindReplaceOptions options = new FindReplaceOptions();
-        options.setFindWholeWordsOnly(true);
-        options.setPreserveMetaCharacters(true);
-
-        doc.getRange().replace("two", "&ldquo; four &rdquo;", options);
-        //ExEnd
-
-        doc.save(getArtifactsDir() + "Range.FindAndReplaceWithMetacharacters.docx");
     }
 
     //ExStart
@@ -172,7 +227,7 @@ public class ExRange extends ApiExampleBase
         // Save the modified document
         doc.save(getArtifactsDir() + "Range.ReplaceWithInsertHtml.doc");
 
-        msAssert.areEqual("James Bond, Hello\r\f", doc.getText()); //ExSkip
+        Assert.assertEquals("James Bond, Hello\r\f", doc.getText()); //ExSkip
     }
 
     private static class ReplaceWithHtmlEvaluator implements IReplacingCallback
@@ -234,7 +289,7 @@ public class ExRange extends ApiExampleBase
         options.setDirection(FindReplaceDirection.BACKWARD);
 
         int count = doc.getRange().replaceInternal(new Regex("[0-9]+"), "", options);
-        msAssert.areEqual(4, count);
+        Assert.assertEquals(4, count);
 
         doc.save(getArtifactsDir() + "Range.ReplaceNumbersAsHex.docx");
     }
@@ -270,8 +325,6 @@ public class ExRange extends ApiExampleBase
     }
     //ExEnd
 
-    //<<<<<<<< #endregion 
-
     @Test
     public void applyParagraphFormat() throws Exception
     {
@@ -289,7 +342,7 @@ public class ExRange extends ApiExampleBase
         options.getApplyParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
 
         int count = doc.getRange().replace(".&p", "!&p", options);
-        msAssert.areEqual(2, count);
+        Assert.assertEquals(2, count);
 
         doc.save(getArtifactsDir() + "Range.ApplyParagraphFormat.docx");
         //ExEnd
@@ -311,13 +364,13 @@ public class ExRange extends ApiExampleBase
         builder.write("Section 2.");
 
         // Verify the whole text of the document
-        msAssert.areEqual("Section 1. \fSection 2.", msString.trim(doc.getText()));
+        Assert.assertEquals("Section 1. \fSection 2.", msString.trim(doc.getText()));
 
         // Delete the first section from the document
         doc.getSections().get(0).getRange().delete();
 
         // Check the first section was deleted by looking at the text of the whole document again
-        msAssert.areEqual("Section 2.", msString.trim(doc.getText()));
+        Assert.assertEquals("Section 2.", msString.trim(doc.getText()));
         //ExEnd
     }
 
@@ -332,4 +385,94 @@ public class ExRange extends ApiExampleBase
         String text = doc.getRange().getText();
         //ExEnd
     }
+
+    //ExStart
+    //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
+    //ExFor:IReplacingCallback
+    //ExFor:ReplaceAction
+    //ExFor:IReplacingCallback.Replacing
+    //ExFor:ReplacingArgs
+    //ExFor:ReplacingArgs.MatchNode
+    //ExFor:FindReplaceDirection
+    //ExSummary:Shows how to insert content of one document into another during a customized find and replace operation.
+    @Test //ExSkip
+    public void insertDocumentAtReplace() throws Exception
+    {
+        Document mainDoc = new Document(getMyDir() + "Document insertion destination.docx");
+
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setDirection(FindReplaceDirection.BACKWARD);
+        options.setReplacingCallback(new InsertDocumentAtReplaceHandler());
+
+        mainDoc.getRange().replaceInternal(new Regex("\\[MY_DOCUMENT\\]"), "", options);
+        mainDoc.save(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx");
+        testInsertDocumentAtReplace(new Document(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx")); //ExSkip
+    }
+
+    private static class InsertDocumentAtReplaceHandler implements IReplacingCallback
+    {
+        public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs args) throws Exception
+        {
+            Document subDoc = new Document(getMyDir() + "Document.docx");
+
+            // Insert a document after the paragraph, containing the match text
+            Paragraph para = (Paragraph)args.getMatchNode().getParentNode();
+            insertDocument(para, subDoc);
+
+            // Remove the paragraph with the match text
+            para.remove();
+
+            return ReplaceAction.SKIP;
+        }
+    }
+
+    /// <summary>
+    /// Inserts content of the external document after the specified node.
+    /// </summary>
+    static void insertDocument(Node insertionDestination, Document docToInsert)
+    {
+        // Make sure that the node is either a paragraph or table
+        if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE)))
+        {
+            // We will be inserting into the parent of the destination paragraph
+            CompositeNode dstStory = insertionDestination.getParentNode();
+
+            // This object will be translating styles and lists during the import
+            NodeImporter importer =
+                new NodeImporter(docToInsert, insertionDestination.getDocument(), ImportFormatMode.KEEP_SOURCE_FORMATTING);
+
+            // Loop through all block level nodes in the body of the section
+            for (Section srcSection : docToInsert.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
+                for (Node srcNode : (Iterable<Node>) srcSection.getBody())
+                {
+                    // Let's skip the node if it is a last empty paragraph in a section
+                    if (((srcNode.getNodeType()) == (NodeType.PARAGRAPH)))
+                    {
+                        Paragraph para = (Paragraph)srcNode;
+                        if (para.isEndOfSection() && !para.hasChildNodes())
+                            continue;
+                    }
+
+                    // This creates a clone of the node, suitable for insertion into the destination document
+                    Node newNode = importer.importNode(srcNode, true);
+
+                    // Insert new node after the reference node
+                    dstStory.insertAfter(newNode, insertionDestination);
+                    insertionDestination = newNode;
+                }
+        }
+        else
+        {
+            throw new IllegalArgumentException("The destination node should be either a paragraph or table.");
+        }
+    }
+    //ExEnd
+
+    private void testInsertDocumentAtReplace(Document doc)
+    {
+        Assert.assertEquals("1) At text that can be identified by regex:\rHello World!\r" +
+                        "2) At a MERGEFIELD:\r\u0013 MERGEFIELD  Document_1  \\* MERGEFORMAT \u0014«Document_1»\u0015\r" +
+                        "3) At a bookmark:", msString.trim(doc.getFirstSection().getBody().getText()));
+    }
+
 }

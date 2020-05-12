@@ -9,26 +9,25 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
+import com.aspose.ms.ms;
 import org.testng.annotations.Test;
-import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import org.testng.Assert;
+import com.aspose.words.NumberStyle;
 import com.aspose.words.ListTemplate;
 import com.aspose.words.List;
 import com.aspose.words.StyleIdentifier;
-import org.testng.Assert;
 import com.aspose.words.ListLevel;
 import java.awt.Color;
-import com.aspose.words.NumberStyle;
 import com.aspose.words.ListLevelAlignment;
 import com.aspose.words.ListTrailingCharacter;
 import com.aspose.words.Style;
 import com.aspose.words.StyleType;
-import com.aspose.ms.System.msConsole;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import com.aspose.words.Paragraph;
-import com.aspose.words.Body;
+import com.aspose.ms.System.msConsole;
 import com.aspose.words.BreakType;
 import com.aspose.words.ListCollection;
 import com.aspose.ms.System.msString;
@@ -49,8 +48,10 @@ public class ExLists extends ApiExampleBase
         //ExFor:ListFormat.ListIndent
         //ExFor:ListFormat.ListOutdent
         //ExFor:ListFormat.RemoveNumbers
+        //ExFor:ListFormat.ListLevelNumber
         //ExSummary:Shows how to apply default bulleted or numbered list formatting to paragraphs when using DocumentBuilder.
-        DocumentBuilder builder = new DocumentBuilder();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("Aspose.Words allows:");
         builder.writeln();
@@ -59,14 +60,22 @@ public class ExLists extends ApiExampleBase
         builder.getListFormat().applyNumberDefault();
         builder.writeln("Opening documents from different formats:");
 
+        Assert.assertEquals(0, builder.getListFormat().getListLevelNumber());
+
         // Go to second list level, add more text
         builder.getListFormat().listIndent();
+
+        Assert.assertEquals(1, builder.getListFormat().getListLevelNumber());
+
         builder.writeln("DOC");
         builder.writeln("PDF");
         builder.writeln("HTML");
 
         // Outdent to the first list level
         builder.getListFormat().listOutdent();
+
+        Assert.assertEquals(0, builder.getListFormat().getListLevelNumber());
+
         builder.writeln("Processing documents");
         builder.writeln("Saving documents in different formats:");
 
@@ -100,8 +109,14 @@ public class ExLists extends ApiExampleBase
         // End the bulleted list
         builder.getListFormat().removeNumbers();
 
-        builder.getDocument().save(getArtifactsDir() + "Lists.ApplyDefaultBulletsAndNumbers.doc");
+        doc.save(getArtifactsDir() + "Lists.ApplyDefaultBulletsAndNumbers.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Lists.ApplyDefaultBulletsAndNumbers.docx");
+
+        TestUtil.verifyListLevel("\u0000.", 18.0d, NumberStyle.ARABIC, doc.getLists().get(0).getListLevels().get(0));
+        TestUtil.verifyListLevel("\u0001.", 54.0d, NumberStyle.LOWERCASE_LETTER, doc.getLists().get(0).getListLevels().get(1));
+        TestUtil.verifyListLevel("\uf0b7", 18.0d, NumberStyle.BULLET, doc.getLists().get(1).getListLevels().get(0));
     }
 
     @Test
@@ -124,7 +139,7 @@ public class ExLists extends ApiExampleBase
         // apply it to the current paragraph in the document builder
         builder.getListFormat().setList(doc.getLists().add(ListTemplate.NUMBER_ARABIC_DOT));
 
-        // There are 9 levels in this list, lets try them all
+        // Insert text at each of the 9 indent levels
         for (int i = 0; i < 9; i++)
         {
             builder.getListFormat().setListLevelNumber(i);
@@ -135,7 +150,6 @@ public class ExLists extends ApiExampleBase
         // and apply it to the current paragraph in the document builder
         builder.getListFormat().setList(doc.getLists().add(ListTemplate.BULLET_DIAMONDS));
 
-        // There are 9 levels in this list, lets try them all
         for (int i = 0; i < 9; i++)
         {
             builder.getListFormat().setListLevelNumber(i);
@@ -145,8 +159,12 @@ public class ExLists extends ApiExampleBase
         // This is a way to stop list formatting
         builder.getListFormat().setList(null);
 
-        builder.getDocument().save(getArtifactsDir() + "Lists.SpecifyListLevel.doc");
+        doc.save(getArtifactsDir() + "Lists.SpecifyListLevel.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Lists.SpecifyListLevel.docx");
+
+        TestUtil.verifyListLevel("\u0000.", 18.0d, NumberStyle.ARABIC, doc.getLists().get(0).getListLevels().get(0));
     }
 
     @Test
@@ -200,6 +218,12 @@ public class ExLists extends ApiExampleBase
 
         builder.getDocument().save(getArtifactsDir() + "Lists.NestedLists.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Lists.NestedLists.docx");
+
+        TestUtil.verifyListLevel("\u0000)", 0.0d, NumberStyle.ARABIC, doc.getLists().get(0).getListLevels().get(0));
+        TestUtil.verifyListLevel("\u0000.", 18.0d, NumberStyle.ARABIC, doc.getLists().get(1).getListLevels().get(0));
+        TestUtil.verifyListLevel("\uf0b7", 18.0d, NumberStyle.BULLET, doc.getLists().get(2).getListLevels().get(0));
     }
 
     @Test
@@ -208,6 +232,7 @@ public class ExLists extends ApiExampleBase
         //ExStart
         //ExFor:List
         //ExFor:List.ListLevels
+        //ExFor:ListFormat.ListLevel
         //ExFor:ListLevelCollection
         //ExFor:ListLevelCollection.Item
         //ExFor:ListLevel
@@ -230,27 +255,27 @@ public class ExLists extends ApiExampleBase
         List list = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
         // Completely customize one list level
-        ListLevel level1 = list.getListLevels().get(0);
-        level1.getFont().setColor(Color.RED);
-        level1.getFont().setSize(24.0);
-        level1.setNumberStyle(NumberStyle.ORDINAL_TEXT);
-        level1.setStartAt(21);
-        level1.setNumberFormat("\u0000");
+        ListLevel listLevel = list.getListLevels().get(0);
+        listLevel.getFont().setColor(Color.RED);
+        listLevel.getFont().setSize(24.0);
+        listLevel.setNumberStyle(NumberStyle.ORDINAL_TEXT);
+        listLevel.setStartAt(21);
+        listLevel.setNumberFormat("\u0000");
 
-        level1.setNumberPosition(-36);
-        level1.setTextPosition(144.0);
-        level1.setTabPosition(144.0);
+        listLevel.setNumberPosition(-36);
+        listLevel.setTextPosition(144.0);
+        listLevel.setTabPosition(144.0);
 
-        // Completely customize yet another list level
-        ListLevel level2 = list.getListLevels().get(1);
-        level2.setAlignment(ListLevelAlignment.RIGHT);
-        level2.setNumberStyle(NumberStyle.BULLET);
-        level2.getFont().setName("Wingdings");
-        level2.getFont().setColor(Color.BLUE);
-        level2.getFont().setSize(24.0);
-        level2.setNumberFormat("\uf0af"); // A bullet that looks like some sort of a star
-        level2.setTrailingCharacter(ListTrailingCharacter.SPACE);
-        level2.setNumberPosition(144.0);
+        // Customize another list level
+        listLevel = list.getListLevels().get(1);
+        listLevel.setAlignment(ListLevelAlignment.RIGHT);
+        listLevel.setNumberStyle(NumberStyle.BULLET);
+        listLevel.getFont().setName("Wingdings");
+        listLevel.getFont().setColor(Color.BLUE);
+        listLevel.getFont().setSize(24.0);
+        listLevel.setNumberFormat("\uf0af"); // A bullet that looks like a star
+        listLevel.setTrailingCharacter(ListTrailingCharacter.SPACE);
+        listLevel.setNumberPosition(144.0);
 
         // Now add some text that uses the list that we created
         // It does not matter when to customize the list - before or after adding the paragraphs
@@ -269,8 +294,25 @@ public class ExLists extends ApiExampleBase
 
         builder.getListFormat().removeNumbers();
 
-        builder.getDocument().save(getArtifactsDir() + "Lists.CreateCustomList.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.CreateCustomList.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Lists.CreateCustomList.docx");
+
+        listLevel = doc.getLists().get(0).getListLevels().get(0);
+
+        TestUtil.verifyListLevel("\u0000", -36.0d, NumberStyle.ORDINAL_TEXT, listLevel);
+        Assert.assertEquals(Color.RED.getRGB(), listLevel.getFont().getColor().getRGB());
+        Assert.assertEquals(24.0d, listLevel.getFont().getSize());
+        Assert.assertEquals(21, listLevel.getStartAt());
+
+        listLevel = doc.getLists().get(0).getListLevels().get(1);
+
+        TestUtil.verifyListLevel("\uf0af", 144.0d, NumberStyle.BULLET, listLevel);
+        Assert.assertEquals(Color.BLUE.getRGB(), listLevel.getFont().getColor().getRGB());
+        Assert.assertEquals(24.0d, listLevel.getFont().getSize());
+        Assert.assertEquals(1, listLevel.getStartAt());
+        Assert.assertEquals(ListTrailingCharacter.SPACE, listLevel.getTrailingCharacter());
     }
 
     @Test
@@ -314,8 +356,22 @@ public class ExLists extends ApiExampleBase
         builder.writeln("Item 2");
         builder.getListFormat().removeNumbers();
 
-        builder.getDocument().save(getArtifactsDir() + "Lists.RestartNumberingUsingListCopy.doc");
+        doc.save(getArtifactsDir() + "Lists.RestartNumberingUsingListCopy.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Lists.RestartNumberingUsingListCopy.docx");
+
+        list1 = doc.getLists().get(0);
+        TestUtil.verifyListLevel("\u0000)", 18.0d, NumberStyle.ARABIC, list1.getListLevels().get(0));
+        Assert.assertEquals(Color.RED.getRGB(), list1.getListLevels().get(0).getFont().getColor().getRGB());
+        Assert.assertEquals(10.0d, list1.getListLevels().get(0).getFont().getSize());
+        Assert.assertEquals(1, list1.getListLevels().get(0).getStartAt());
+
+        list2 = doc.getLists().get(1);
+        TestUtil.verifyListLevel("\u0000)", 18.0d, NumberStyle.ARABIC, list2.getListLevels().get(0));
+        Assert.assertEquals(Color.RED.getRGB(), list2.getListLevels().get(0).getFont().getColor().getRGB());
+        Assert.assertEquals(10.0d, list2.getListLevels().get(0).getFont().getSize());
+        Assert.assertEquals(10, list2.getListLevels().get(0).getStartAt());
     }
 
     @Test
@@ -345,15 +401,14 @@ public class ExLists extends ApiExampleBase
         List list1 = listStyle.getList();
 
         // Check some basic rules about the list that defines a list style
-        System.out.println("IsListStyleDefinition: " + list1.isListStyleDefinition());
-        System.out.println("IsListStyleReference: " + list1.isListStyleReference());
-        System.out.println("IsMultiLevel: " + list1.isMultiLevel());
-        System.out.println("List style has been set: " + (listStyle == list1.getStyle()));
+        Assert.assertTrue(list1.isListStyleDefinition());
+        Assert.assertFalse(list1.isListStyleReference());
+        Assert.assertTrue(list1.isMultiLevel());
+        Assert.assertEquals(listStyle, list1.getStyle());
 
         // Modify formatting of the list style to our liking
-        for (int i = 0; i < list1.getListLevels().getCount(); i++)
+        for (ListLevel level : list1.getListLevels())
         {
-            ListLevel level = list1.getListLevels().get(i);
             level.getFont().setName("Verdana");
             level.getFont().setColor(Color.BLUE);
             level.getFont().setBold(true);
@@ -368,9 +423,9 @@ public class ExLists extends ApiExampleBase
         List list2 = doc.getLists().add(listStyle);
 
         // Check some basic rules about the list that references a list style
-        System.out.println("IsListStyleDefinition: " + list2.isListStyleDefinition());
-        System.out.println("IsListStyleReference: " + list2.isListStyleReference());
-        System.out.println("List Style has been set: " + (listStyle == list2.getStyle()));
+        Assert.assertFalse(list2.isListStyleDefinition());
+        Assert.assertTrue(list2.isListStyleReference());
+        Assert.assertEquals(listStyle, list2.getStyle());
 
         // Apply the list that references the list style
         builder.getListFormat().setList(list2);
@@ -387,102 +442,175 @@ public class ExLists extends ApiExampleBase
         builder.writeln("Item 2");
         builder.getListFormat().removeNumbers();
 
-        builder.getDocument().save(getArtifactsDir() + "Lists.CreateAndUseListStyle.doc");
+        builder.getDocument().save(getArtifactsDir() + "Lists.CreateAndUseListStyle.docx");
         //ExEnd
 
-        // Verify properties of list 1
+        doc = new Document(getArtifactsDir() + "Lists.CreateAndUseListStyle.docx");
+
+        list1 = doc.getLists().get(0);
+
+        TestUtil.verifyListLevel("\u0000.", 18.0d, NumberStyle.ARABIC, list1.getListLevels().get(0));
         Assert.assertTrue(list1.isListStyleDefinition());
         Assert.assertFalse(list1.isListStyleReference());
         Assert.assertTrue(list1.isMultiLevel());
-        msAssert.areEqual(listStyle, list1.getStyle());
+        Assert.assertEquals(Color.BLUE.getRGB(), list1.getListLevels().get(0).getFont().getColor().getRGB());
+        Assert.assertEquals("Verdana", list1.getListLevels().get(0).getFont().getName());
+        Assert.assertTrue(list1.getListLevels().get(0).getFont().getBold());
 
-        // Verify properties of list 2
+        list2 = doc.getLists().get(1);
+
+        TestUtil.verifyListLevel("\u0000.", 18.0d, NumberStyle.ARABIC, list2.getListLevels().get(0));
         Assert.assertFalse(list2.isListStyleDefinition());
         Assert.assertTrue(list2.isListStyleReference());
-        msAssert.areEqual(listStyle, list2.getStyle());
+        Assert.assertTrue(list2.isMultiLevel());
+
+        list3 = doc.getLists().get(2);
+
+        TestUtil.verifyListLevel("\u0000.", 18.0d, NumberStyle.ARABIC, list3.getListLevels().get(0));
+        Assert.assertFalse(list3.isListStyleDefinition());
+        Assert.assertTrue(list3.isListStyleReference());
+        Assert.assertTrue(list3.isMultiLevel());
     }
 
     @Test
     public void detectBulletedParagraphs() throws Exception
     {
-        Document doc = new Document();
-
         //ExStart
         //ExFor:Paragraph.ListFormat
         //ExFor:ListFormat.IsListItem
         //ExFor:CompositeNode.GetText
         //ExFor:List.ListId
-        //ExSummary:Finds and outputs all paragraphs in a document that are bulleted or numbered.
+        //ExSummary:Shows how to output all paragraphs in a document that are bulleted or numbered.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.getListFormat().applyNumberDefault();
+        builder.writeln("Numbered list item 1");
+        builder.writeln("Numbered list item 2");
+        builder.writeln("Numbered list item 3");
+        builder.getListFormat().removeNumbers();
+
+        builder.getListFormat().applyBulletDefault();
+        builder.writeln("Bulleted list item 1");
+        builder.writeln("Bulleted list item 2");
+        builder.writeln("Bulleted list item 3");
+        builder.getListFormat().removeNumbers();
+
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
-        for (Paragraph para : paras.<Paragraph>OfType() !!Autoporter error: Undefined expression type )
-        {
-            if (para.getListFormat().isListItem())
-            {
-                System.out.println("*** A paragraph belongs to list {para.ListFormat.List.ListId}");
-                System.out.println(para.getText());
-            }
+
+        for (Paragraph para : paras.<Paragraph>OfType().Where(p => p.ListFormat.IsListItem) !!Autoporter error: Undefined expression type )
+        { 
+            System.out.println("This paragraph belongs to list ID# {para.ListFormat.List.ListId}, number style \"{para.ListFormat.ListLevel.NumberStyle}\"");
+            System.out.println("\t\"{para.GetText().Trim()}\"");
         }
         //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+        paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
+
+        Assert.AreEqual(6, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
     }
 
     @Test
     public void removeBulletsFromParagraphs() throws Exception
     {
-        Document doc = new Document();
-
         //ExStart
         //ExFor:ListFormat.RemoveNumbers
-        //ExSummary:Removes bullets and numbering from all paragraphs in the main text of a section.
-        Body body = doc.getFirstSection().getBody();
+        //ExSummary:Shows how to remove bullets and numbering from all paragraphs in the main text of a section.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        for (Paragraph paragraph : body.getParagraphs().<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        builder.getListFormat().applyNumberDefault();
+        builder.writeln("Numbered list item 1");
+        builder.writeln("Numbered list item 2");
+        builder.writeln("Numbered list item 3");
+        builder.getListFormat().removeNumbers();
+
+        NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
+
+        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+
+        for (Paragraph paragraph : (Iterable<Paragraph>) paras)
             paragraph.getListFormat().removeNumbers();
+
+        Assert.AreEqual(0, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
         //ExEnd
     }
 
     @Test
     public void applyExistingListToParagraphs() throws Exception
     {
-        Document doc = new Document();
-        doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
-
         //ExStart
-        //ExFor:ListFormat.ListLevelNumber
         //ExFor:ListCollection.Item(Int32)
-        //ExSummary:Applies list formatting of an existing list to a collection of paragraphs.
-        Body body = doc.getFirstSection().getBody();
+        //ExSummary:Shows how to apply list formatting of an existing list to a collection of paragraphs.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Paragraph 1");
+        builder.writeln("Paragraph 2");
+        builder.write("Paragraph 3");
+
+        NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
+
+        Assert.AreEqual(0, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+
+        doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
         List list = doc.getLists().get(0);
-        for (Paragraph paragraph : body.getParagraphs().<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+
+        for (Paragraph paragraph : paras.<Paragraph>OfType() !!Autoporter error: Undefined expression type )
         {
             paragraph.getListFormat().setList(list);
             paragraph.getListFormat().setListLevelNumber(2);
         }
+
+        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
         //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+        paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
+
+        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.ListLevelNumber == 2));
     }
 
     @Test
     public void applyNewListToParagraphs() throws Exception
     {
-        Document doc = new Document();
-
         //ExStart
-        //ExFor:ListFormat.ListLevelNumber
         //ExFor:ListCollection.Add(ListTemplate)
-        //ExSummary:Creates new list formatting and applies it to a collection of paragraphs.
+        //ExSummary:Shows how to create a list by applying a new list format to a collection of paragraphs.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Paragraph 1");
+        builder.writeln("Paragraph 2");
+        builder.write("Paragraph 3");
+
+        NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
+
+        Assert.AreEqual(0, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+
         List list = doc.getLists().add(ListTemplate.NUMBER_UPPERCASE_LETTER_DOT);
 
-        Body body = doc.getFirstSection().getBody();
-        for (Paragraph paragraph : body.getParagraphs().<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph paragraph : paras.<Paragraph>OfType() !!Autoporter error: Undefined expression type )
         {
             paragraph.getListFormat().setList(list);
             paragraph.getListFormat().setListLevelNumber(1);
         }
+
+        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
         //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+        paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
+
+        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
+        Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.ListLevelNumber == 1));
     }
 
     //ExStart
     //ExFor:ListTemplate
-    //ExSummary:Creates a sample document that exercises all outline headings list templates.
+    //ExSummary:Shows how to create a document that demonstrates all outline headings list templates.
     @Test //ExSkip
     public void outlineHeadingTemplates() throws Exception
     {
@@ -490,20 +618,21 @@ public class ExLists extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         List list = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_ARTICLE_SECTION);
-        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline 1");
+        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline - \"Article Section\"");
 
         list = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_LEGAL);
-        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline 2");
+        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline - \"Legal\"");
 
         builder.insertBreak(BreakType.PAGE_BREAK);
 
         list = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_NUMBERS);
-        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline 3");
+        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline - \"Numbers\"");
 
         list = doc.getLists().add(ListTemplate.OUTLINE_HEADINGS_CHAPTER);
-        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline 4");
+        addOutlineHeadingParagraphs(builder, list, "Aspose.Words Outline - \"Chapters\"");
 
-        builder.getDocument().save(getArtifactsDir() + "Lists.OutlineHeadingTemplates.doc");
+        doc.save(getArtifactsDir() + "Lists.OutlineHeadingTemplates.docx");
+        testOutlineHeadingTemplates(new Document(getArtifactsDir() + "Lists.OutlineHeadingTemplates.docx")); //ExSkip
     }
 
     private static void addOutlineHeadingParagraphs(DocumentBuilder builder, List list, String title)
@@ -525,11 +654,62 @@ public class ExLists extends ApiExampleBase
     }
     //ExEnd
 
+    private void testOutlineHeadingTemplates(Document doc)
+    {
+        List list = doc.getLists().get(0); // Article section list template
+
+        TestUtil.verifyListLevel("Article \u0000.", 0.0d, NumberStyle.UPPERCASE_ROMAN, list.getListLevels().get(0));
+        TestUtil.verifyListLevel("Section \u0000.\u0001", 0.0d, NumberStyle.LEADING_ZERO, list.getListLevels().get(1));
+        TestUtil.verifyListLevel("(\u0002)", 14.4d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(2));
+        TestUtil.verifyListLevel("(\u0003)", 36.0d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(3));
+        TestUtil.verifyListLevel("\u0004)", 28.8d, NumberStyle.ARABIC, list.getListLevels().get(4));
+        TestUtil.verifyListLevel("\u0005)", 36.0d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(5));
+        TestUtil.verifyListLevel("\u0006)", 50.4d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(6));
+        TestUtil.verifyListLevel("\u0007.", 50.4d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(7));
+        TestUtil.verifyListLevel("\b.", 72.0d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(8));
+
+        list = doc.getLists().get(1); // Legal list template
+
+        TestUtil.verifyListLevel("\u0000", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(0));
+        TestUtil.verifyListLevel("\u0000.\u0001", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(1));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(2));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(3));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(4));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(5));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(6));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\u0007", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(7));
+        TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\u0007.\b", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(8));
+
+        list = doc.getLists().get(2); // Numbered list template
+
+        TestUtil.verifyListLevel("\u0000.", 0.0d, NumberStyle.UPPERCASE_ROMAN, list.getListLevels().get(0));
+        TestUtil.verifyListLevel("\u0001.", 36.0d, NumberStyle.UPPERCASE_LETTER, list.getListLevels().get(1));
+        TestUtil.verifyListLevel("\u0002.", 72.0d, NumberStyle.ARABIC, list.getListLevels().get(2));
+        TestUtil.verifyListLevel("\u0003)", 108.0d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(3));
+        TestUtil.verifyListLevel("(\u0004)", 144.0d, NumberStyle.ARABIC, list.getListLevels().get(4));
+        TestUtil.verifyListLevel("(\u0005)", 180.0d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(5));
+        TestUtil.verifyListLevel("(\u0006)", 216.0d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(6));
+        TestUtil.verifyListLevel("(\u0007)", 252.0d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(7));
+        TestUtil.verifyListLevel("(\b)", 288.0d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(8));
+
+        list = doc.getLists().get(3); // Chapter list template
+
+        TestUtil.verifyListLevel("Chapter \u0000", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(0));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(1));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(2));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(3));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(4));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(5));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(6));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(7));
+        TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(8));
+    }
+
     //ExStart
     //ExFor:ListCollection
     //ExFor:ListCollection.AddCopy(List)
     //ExFor:ListCollection.GetEnumerator
-    //ExSummary:Enumerates through all lists defined in one document and creates a sample of those lists in another document.
+    //ExSummary:Shows how to enumerate through all lists defined in one document and creates a sample of those lists in another document.
     @Test //ExSkip
     public void printOutAllLists() throws Exception
     {
@@ -547,7 +727,8 @@ public class ExLists extends ApiExampleBase
             addListSample(builder, dstList);
         }
 
-        dstDoc.save(getArtifactsDir() + "Lists.PrintOutAllLists.doc");
+        dstDoc.save(getArtifactsDir() + "Lists.PrintOutAllLists.docx");
+        testPrintOutAllLists(srcDoc, new Document(getArtifactsDir() + "Lists.PrintOutAllLists.docx")); //ExSkip
     }
 
     private static void addListSample(DocumentBuilder builder, List list)
@@ -565,6 +746,18 @@ public class ExLists extends ApiExampleBase
     }
     //ExEnd		
 
+    private void testPrintOutAllLists(Document listSourceDoc, Document outDoc)
+    {
+        for (List list : outDoc.getLists())
+            for (int i = 0; i < list.getListLevels().getCount(); i++)
+            {
+                ListLevel expectedListLevel = listSourceDoc.getLists().First(l => l.ListId == list.ListId).ListLevels[i];
+                Assert.assertEquals(expectedListLevel.getNumberFormat(), list.getListLevels().get(i).getNumberFormat());
+                Assert.assertEquals(expectedListLevel.getNumberPosition(), list.getListLevels().get(i).getNumberPosition());
+                Assert.assertEquals(expectedListLevel.getNumberStyle(), list.getListLevels().get(i).getNumberStyle());
+            }
+    }
+
     @Test
     public void listDocument() throws Exception
     {
@@ -575,52 +768,32 @@ public class ExLists extends ApiExampleBase
         //ExFor:ListCollection.GetListByListId
         //ExFor:List.Document
         //ExFor:List.ListId
-        //ExSummary:Illustrates the owner document properties of lists.
+        //ExSummary:Shows how to verify owner document properties of lists.
         Document doc = new Document();
 
         ListCollection lists = doc.getLists();
-        // All of these should be equal
-        System.out.println("ListCollection document is doc: " + (doc == lists.getDocument()));
-        System.out.println("Starting list count: " + lists.getCount());
+
+        Assert.assertEquals(doc, lists.getDocument());
 
         List list = lists.add(ListTemplate.BULLET_DEFAULT);
-        System.out.println("List document is doc: " + (list.getDocument() == doc));
-        System.out.println("List count after adding list: " + lists.getCount());
+
+        Assert.assertEquals(doc, list.getDocument());
+
+        System.out.println("Current list count: " + lists.getCount());
         System.out.println("Is the first document list: " + (lists.get(0).equals(list)));
         System.out.println("ListId: " + list.getListId());
         System.out.println("List is the same by ListId: " + (lists.getListByListId(1).equals(list)));
         //ExEnd
 
-        // Verify these properties
-        msAssert.areEqual(doc, lists.getDocument());
-        msAssert.areEqual(doc, list.getDocument());
-        msAssert.areEqual(1, lists.getCount());
-        msAssert.areEqual(list, lists.get(0));
-        msAssert.areEqual(1, list.getListId());
-        msAssert.areEqual(list, lists.getListByListId(1));
+        doc = DocumentHelper.saveOpen(doc);
+        lists = doc.getLists();
+        
+        Assert.assertEquals(doc, lists.getDocument());
+        Assert.assertEquals(1, lists.getCount());
+        Assert.assertEquals(1, lists.get(0).getListId());
+        Assert.assertEquals(lists.get(0), lists.getListByListId(1));
     }
-
-    @Test
-    public void listFormatListLevel() throws Exception
-    {
-        //ExStart
-        //ExFor:ListFormat.ListLevel
-        //ExSummary:Shows how to modify list formatting of the current list level.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Create and apply list formatting to the current paragraph
-        builder.getListFormat().setList(doc.getLists().add(ListTemplate.NUMBER_DEFAULT));
-
-        // Modify formatting of the current (first) list level
-        builder.getListFormat().getListLevel().getFont().setBold(true);
-
-        builder.writeln("Item 1");
-        builder.writeln("Item 2");
-        builder.getListFormat().removeNumbers();
-        //ExEnd
-    }
-
+    
     @Test
     public void createListRestartAfterHigher() throws Exception
     {
@@ -674,46 +847,24 @@ public class ExLists extends ApiExampleBase
 
         builder.getListFormat().removeNumbers();
 
-        builder.getDocument().save(getArtifactsDir() + "Lists.CreateListRestartAfterHigher.doc");
+        doc.save(getArtifactsDir() + "Lists.CreateListRestartAfterHigher.docx");
         //ExEnd
-    }
 
-    @Test
-    public void paragraphStyleBulleted() throws Exception
-    {
-        //ExStart
-        //ExFor:StyleCollection
-        //ExFor:DocumentBase.Styles
-        //ExFor:Style
-        //ExFor:Font
-        //ExFor:Style.Font
-        //ExFor:Style.ParagraphFormat
-        //ExFor:Style.ListFormat
-        //ExFor:ParagraphFormat.Style
-        //ExSummary:Shows how to create and use a paragraph style with list formatting.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
+        doc = new Document(getArtifactsDir() + "Lists.CreateListRestartAfterHigher.docx");
 
-        // Create a paragraph style and specify some formatting for it
-        Style style = doc.getStyles().add(StyleType.PARAGRAPH, "MyStyle1");
-        style.getFont().setSize(24.0);
-        style.getFont().setName("Verdana");
-        style.getParagraphFormat().setSpaceAfter(12.0);
+        ListLevel listLevel = doc.getLists().get(0).getListLevels().get(0);
 
-        // Create a list and make sure the paragraphs that use this style will use this list
-        style.getListFormat().setList(doc.getLists().add(ListTemplate.BULLET_DEFAULT));
-        style.getListFormat().setListLevelNumber(0);
+        TestUtil.verifyListLevel("Appendix \u0000", 18.0d, NumberStyle.UPPERCASE_LETTER, listLevel);
+        Assert.assertFalse(listLevel.isLegal());
+        Assert.assertEquals(-1, listLevel.getRestartAfterLevel());
+        Assert.assertEquals("Heading 1", listLevel.getLinkedStyle().getName());
 
-        // Apply the paragraph style to the current paragraph in the document and add some text
-        builder.getParagraphFormat().setStyle(style);
-        builder.writeln("Hello World: MyStyle1, bulleted.");
+        listLevel = doc.getLists().get(0).getListLevels().get(1);
 
-        // Change to a paragraph style that has no list formatting
-        builder.getParagraphFormat().setStyle(doc.getStyles().get("Normal"));
-        builder.writeln("Hello World: Normal.");
-
-        builder.getDocument().save(getArtifactsDir() + "Lists.ParagraphStyleBulleted.doc");
-        //ExEnd
+        TestUtil.verifyListLevel("Section (\u0000.\u0001)", 54.0d, NumberStyle.LEADING_ZERO, listLevel);
+        Assert.assertTrue(listLevel.isLegal());
+        Assert.assertEquals(0, listLevel.getRestartAfterLevel());
+        Assert.assertNull(listLevel.getLinkedStyle());
     }
 
     @Test
@@ -729,33 +880,31 @@ public class ExLists extends ApiExampleBase
         //ExSummary:Shows how to extract the label of each paragraph in a list as a value or a String.
         Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.updateListLabels();
-        int listParaCount = 1;
 
-        for (Paragraph paragraph : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
+
+        // Find if we have the paragraph list. In our document our list uses plain arabic numbers,
+        // which start at three and ends at six
+        for (Paragraph paragraph : paras.<Paragraph>OfType().Where(p => p.ListFormat.IsListItem) !!Autoporter error: Undefined expression type )
         {
-            // Find if we have the paragraph list. In our document our list uses plain arabic numbers,
-            // which start at three and ends at six
-            if (paragraph.getListFormat().isListItem())
-            {
-                msConsole.writeLine("Paragraph #{0}", listParaCount);
+            System.out.println("List item paragraph #{paras.IndexOf(paragraph)}");
 
-                // This is the text we get when actually getting when we output this node to text format
-                // The list labels are not included in this text output. Trim any paragraph formatting characters
-                String paragraphText = msString.trim(paragraph.toString(SaveFormat.TEXT));
-                System.out.println("Exported Text: " + paragraphText);
+            // This is the text we get when actually getting when we output this node to text format
+            // The list labels are not included in this text output. Trim any paragraph formatting characters
+            String paragraphText = msString.trim(paragraph.toString(SaveFormat.TEXT));
+            System.out.println("\tExported Text: {paragraphText}");
 
-                ListLabel label = paragraph.getListLabel();
-                // This gets the position of the paragraph in current level of the list. If we have a list with multiple level then this
-                // will tell us what position it is on that particular level
-                System.out.println("Numerical Id: " + label.getLabelValue());
+            ListLabel label = paragraph.getListLabel();
+            // This gets the position of the paragraph in current level of the list. If we have a list with multiple level then this
+            // will tell us what position it is on that particular level
+            System.out.println("\tNumerical Id: {label.LabelValue}");
 
-                // Combine them together to include the list label with the text in the output
-                System.out.println("List label combined with text: " + label.getLabelString() + " " + paragraphText);
-
-                listParaCount++;
-            }
+            // Combine them together to include the list label with the text in the output
+            System.out.println("\tList label combined with text: {label.LabelString} {paragraphText}");
         }
         //ExEnd
+
+        Assert.AreEqual(10, paras.<Paragraph>OfType().Count(p => p.ListFormat.IsListItem));
     }
 
     @Test
@@ -791,7 +940,10 @@ public class ExLists extends ApiExampleBase
         list.getListLevels().get(0).deletePictureBullet();
 
         Assert.assertNull(list.getListLevels().get(0).getImageData());
-
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Lists.CreatePictureBullet.docx");
+
+        Assert.assertTrue(doc.getLists().get(0).getListLevels().get(0).getImageData().hasImage());
     }
 }

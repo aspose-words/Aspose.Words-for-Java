@@ -14,7 +14,6 @@ import com.aspose.words.Document;
 import com.aspose.words.Paragraph;
 import com.aspose.words.FieldType;
 import com.aspose.words.Run;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.msString;
@@ -88,7 +87,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCode(doc, " AUTHOR ", null, false, 1);
 
-        msAssert.areEqual("\u0013 AUTHOR \u0014Test Author\u0015Hello World!\r",
+        Assert.assertEquals("\u0013 AUTHOR \u0014Test Author\u0015Hello World!\r",
             DocumentHelper.getParagraphText(doc, 1));
     }
 
@@ -101,7 +100,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCode(doc, " DATE ", null, true, 1);
 
-        msAssert.areEqual(msString.format("Hello World!\u0013 DATE \u0014{0}\u0015\r", date),
+        Assert.assertEquals(msString.format("Hello World!\u0013 DATE \u0014{0}\u0015\r", date),
             DocumentHelper.getParagraphText(doc, 1));
     }
 
@@ -112,7 +111,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldType(doc, FieldType.FIELD_AUTHOR, false, null, false, 1);
 
-        msAssert.areEqual("\u0013 AUTHOR \u0014\u0015Hello World!\r", DocumentHelper.getParagraphText(doc, 1));
+        Assert.assertEquals("\u0013 AUTHOR \u0014\u0015Hello World!\r", DocumentHelper.getParagraphText(doc, 1));
     }
 
     @Test
@@ -122,7 +121,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldType(doc, FieldType.FIELD_AUTHOR, false, null, true, 1);
 
-        msAssert.areEqual("Hello World!\u0013 AUTHOR \u0014\u0015\r", DocumentHelper.getParagraphText(doc, 1));
+        Assert.assertEquals("Hello World!\u0013 AUTHOR \u0014\u0015\r", DocumentHelper.getParagraphText(doc, 1));
     }
 
     @Test
@@ -132,7 +131,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldType(doc, FieldType.FIELD_LIST_NUM, true, null, false, 1);
 
-        msAssert.areEqual("\u0013 LISTNUM \u0015Hello World!\r", DocumentHelper.getParagraphText(doc, 1));
+        Assert.assertEquals("\u0013 LISTNUM \u0015Hello World!\r", DocumentHelper.getParagraphText(doc, 1));
     }
 
     @Test
@@ -143,7 +142,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCodeFieldString(doc, " AUTHOR ", null, null, false, 1);
 
-        msAssert.areEqual("\u0013 AUTHOR \u0014\u0015Hello World!\r", DocumentHelper.getParagraphText(doc, 1));
+        Assert.assertEquals("\u0013 AUTHOR \u0014\u0015Hello World!\r", DocumentHelper.getParagraphText(doc, 1));
     }
 
     @Test
@@ -153,7 +152,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCodeFieldString(doc, " AUTHOR ", null, null, true, 1);
 
-        msAssert.areEqual("Hello World!\u0013 AUTHOR \u0014\u0015\r", DocumentHelper.getParagraphText(doc, 1));
+        Assert.assertEquals("Hello World!\u0013 AUTHOR \u0014\u0015\r", DocumentHelper.getParagraphText(doc, 1));
     }
 
     @Test
@@ -166,7 +165,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCodeFieldString(doc, " AUTHOR ", "Test Field Value", run, false, 1);
 
-        msAssert.areEqual("Hello World!\u0013 AUTHOR \u0014Test Field Value\u0015 Hello World!\r",
+        Assert.assertEquals("Hello World!\u0013 AUTHOR \u0014Test Field Value\u0015 Hello World!\r",
             DocumentHelper.getParagraphText(doc, 1));
     }
 
@@ -180,7 +179,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCodeFieldString(doc, " AUTHOR ", "", run, true, 1);
 
-        msAssert.areEqual("Hello World! Hello World!\u0013 AUTHOR \u0014\u0015\r",
+        Assert.assertEquals("Hello World! Hello World!\u0013 AUTHOR \u0014\u0015\r",
             DocumentHelper.getParagraphText(doc, 1));
     }
 
@@ -191,7 +190,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldType(doc, FieldType.FIELD_AUTHOR, false, null, false, 1);
 
-        msAssert.areEqual("\u0013 AUTHOR \u0014\u0015\f", DocumentHelper.getParagraphText(doc, 1));
+        Assert.assertEquals("\u0013 AUTHOR \u0014\u0015\f", DocumentHelper.getParagraphText(doc, 1));
     }
 
     @Test (description = "WORDSNET-12397")
@@ -201,7 +200,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldType(doc, FieldType.FIELD_AUTHOR, true, null, false, 0);
 
-        msAssert.areEqual("\u0013 AUTHOR \u0014Test Author\u0015\r", DocumentHelper.getParagraphText(doc, 0));
+        Assert.assertEquals("\u0013 AUTHOR \u0014Test Author\u0015\r", DocumentHelper.getParagraphText(doc, 0));
     }
 
     @Test
@@ -266,14 +265,14 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         if (paragraphs.get(0).getFrameFormat().isFrame())
         {
-            msAssert.areEqual(233.3, paragraphs.get(0).getFrameFormat().getWidth());
-            msAssert.areEqual(138.8, paragraphs.get(0).getFrameFormat().getHeight());
-            msAssert.areEqual(34.05, paragraphs.get(0).getFrameFormat().getHorizontalPosition());
-            msAssert.areEqual(RelativeHorizontalPosition.PAGE, paragraphs.get(0).getFrameFormat().getRelativeHorizontalPosition());
-            msAssert.areEqual(9, paragraphs.get(0).getFrameFormat().getHorizontalDistanceFromText());
-            msAssert.areEqual(20.5, paragraphs.get(0).getFrameFormat().getVerticalPosition());
-            msAssert.areEqual(RelativeVerticalPosition.PARAGRAPH, paragraphs.get(0).getFrameFormat().getRelativeVerticalPosition());
-            msAssert.areEqual(0, paragraphs.get(0).getFrameFormat().getVerticalDistanceFromText());
+            Assert.assertEquals(233.3, paragraphs.get(0).getFrameFormat().getWidth());
+            Assert.assertEquals(138.8, paragraphs.get(0).getFrameFormat().getHeight());
+            Assert.assertEquals(34.05, paragraphs.get(0).getFrameFormat().getHorizontalPosition());
+            Assert.assertEquals(RelativeHorizontalPosition.PAGE, paragraphs.get(0).getFrameFormat().getRelativeHorizontalPosition());
+            Assert.assertEquals(9, paragraphs.get(0).getFrameFormat().getHorizontalDistanceFromText());
+            Assert.assertEquals(20.5, paragraphs.get(0).getFrameFormat().getVerticalPosition());
+            Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, paragraphs.get(0).getFrameFormat().getRelativeVerticalPosition());
+            Assert.assertEquals(0, paragraphs.get(0).getFrameFormat().getVerticalDistanceFromText());
         }
         else
         {
@@ -336,14 +335,13 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         //ExStart
         //ExFor:DropCapPosition
         //ExSummary:Shows how to set the position of a drop cap.
-        // Create a blank document
         Document doc = new Document();
 
         // Every paragraph has its own drop cap setting
         Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
 
         // By default, it is "none", for no drop caps
-        msAssert.areEqual(com.aspose.words.DropCapPosition.NONE, para.getParagraphFormat().getDropCapPosition());
+        Assert.assertEquals(com.aspose.words.DropCapPosition.NONE, para.getParagraphFormat().getDropCapPosition());
 
         // Move the first capital to outside the text margin
         para.getParagraphFormat().setDropCapPosition(com.aspose.words.DropCapPosition.MARGIN);
@@ -382,18 +380,18 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         // Get the document's paragraph collection and remove a paragraph
         ParagraphCollection paragraphs = body.getParagraphs();
-        msAssert.areEqual(4, paragraphs.getCount());
+        Assert.assertEquals(4, paragraphs.getCount());
         para = paragraphs.get(2);
         para.remove();
 
         // Since we are tracking revisions, the paragraph still exists in the document, will have the "IsDeleteRevision" set
         // and will be displayed as a revision in Microsoft Word, until we accept or reject all revisions
-        msAssert.areEqual(4, paragraphs.getCount());
+        Assert.assertEquals(4, paragraphs.getCount());
         Assert.assertTrue(para.isDeleteRevision());
 
         // The delete revision paragraph is removed once we accept changes
         doc.acceptAllRevisions();
-        msAssert.areEqual(3, paragraphs.getCount());
+        Assert.assertEquals(3, paragraphs.getCount());
         Assert.That(para, Is.Empty);
         //ExEnd
     }
@@ -446,7 +444,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         // If there are no tab stops in this collection, while we are in this paragraph
         // the cursor will jump 36 points each time we press the Tab key in Microsoft Word
-        msAssert.areEqual(0, para.getEffectiveTabStops().length);
+        Assert.assertEquals(0, para.getEffectiveTabStops().length);
 
         // We can add custom tab stops in Microsoft Word if we enable the ruler via the view tab
         // Each unit on that ruler is two default tab stops, which is 72 points
@@ -456,7 +454,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         para.getParagraphFormat().getTabStops().add(360.0, TabAlignment.RIGHT, TabLeader.LINE);
 
         // These tab stops are added to this collection, and can also be seen by enabling the ruler mentioned above
-        msAssert.areEqual(3, para.getEffectiveTabStops().length);
+        Assert.assertEquals(3, para.getEffectiveTabStops().length);
 
         // Add a Run with tab characters that will snap the text to our TabStop positions and save the document
         para.appendChild(new Run(doc, "\tTab 1\tTab 2\tTab 3"));
@@ -483,7 +481,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         // The Paragraph may look like it's in once piece in Microsoft Word,
         // but under the surface it is fragmented into several Runs, which leaves room for optimization
         Paragraph para = builder.getCurrentParagraph();
-        msAssert.areEqual(4, para.getRuns().getCount());
+        Assert.assertEquals(4, para.getRuns().getCount());
 
         // Change the style of the last run to something different from the first three
         para.getRuns().get(3).getFont().setStyleIdentifier(StyleIdentifier.EMPHASIS);
@@ -491,12 +489,12 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         // We can run the JoinRunsWithSameFormatting() method to merge similar Runs
         // This method also returns the number of joins that occured during the merge
         // Two merges occured to combine Runs 1-3, while Run 4 was left out because it has an incompatible style
-        msAssert.areEqual(2, para.joinRunsWithSameFormatting());
+        Assert.assertEquals(2, para.joinRunsWithSameFormatting());
 
         // The paragraph has been simplified to two runs
-        msAssert.areEqual(2, para.getRuns().getCount());
-        msAssert.areEqual("Run 1. Run 2. Run 3. ", para.getRuns().get(0).getText());
-        msAssert.areEqual("Run 4. ", para.getRuns().get(1).getText());
+        Assert.assertEquals(2, para.getRuns().getCount());
+        Assert.assertEquals("Run 1. Run 2. Run 3. ", para.getRuns().get(0).getText());
+        Assert.assertEquals("Run 4. ", para.getRuns().get(1).getText());
         //ExEnd
     }
 

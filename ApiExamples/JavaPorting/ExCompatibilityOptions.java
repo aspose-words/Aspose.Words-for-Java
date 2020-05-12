@@ -16,7 +16,6 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.MsWordVersion;
 import com.aspose.ms.System.Convert;
 import java.lang.Class;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 
 
@@ -88,24 +87,24 @@ public class ExCompatibilityOptions extends ApiExampleBase
         CompatibilityOptions compatibilityOptions = doc.getCompatibilityOptions();
         compatibilityOptions.optimizeFor(MsWordVersion.WORD_2002);
 
-        msAssert.areEqual(false, compatibilityOptions.getAdjustLineHeightInTable());
-        msAssert.areEqual(false, compatibilityOptions.getAlignTablesRowByRow());
-        msAssert.areEqual(true, compatibilityOptions.getAllowSpaceOfSameStyleInTable());
-        msAssert.areEqual(true, compatibilityOptions.getDoNotAutofitConstrainedTables());
-        msAssert.areEqual(true, compatibilityOptions.getDoNotBreakConstrainedForcedTable());
-        msAssert.areEqual(false, compatibilityOptions.getDoNotBreakWrappedTables());
-        msAssert.areEqual(false, compatibilityOptions.getDoNotSnapToGridInCell());
-        msAssert.areEqual(false, compatibilityOptions.getDoNotUseHTMLParagraphAutoSpacing());
-        msAssert.areEqual(true, compatibilityOptions.getDoNotVertAlignCellWithSp());
-        msAssert.areEqual(false, compatibilityOptions.getForgetLastTabAlignment());
-        msAssert.areEqual(true, compatibilityOptions.getGrowAutofit());
-        msAssert.areEqual(false, compatibilityOptions.getLayoutRawTableWidth());
-        msAssert.areEqual(false, compatibilityOptions.getLayoutTableRowsApart());
-        msAssert.areEqual(false, compatibilityOptions.getNoColumnBalance());
-        msAssert.areEqual(false, compatibilityOptions.getOverrideTableStyleFontSizeAndJustification());
-        msAssert.areEqual(false, compatibilityOptions.getUseSingleBorderforContiguousCells());
-        msAssert.areEqual(true, compatibilityOptions.getUseWord2002TableStyleRules());
-        msAssert.areEqual(false, compatibilityOptions.getUseWord2010TableStyleRules());
+        Assert.assertEquals(false, compatibilityOptions.getAdjustLineHeightInTable());
+        Assert.assertEquals(false, compatibilityOptions.getAlignTablesRowByRow());
+        Assert.assertEquals(true, compatibilityOptions.getAllowSpaceOfSameStyleInTable());
+        Assert.assertEquals(true, compatibilityOptions.getDoNotAutofitConstrainedTables());
+        Assert.assertEquals(true, compatibilityOptions.getDoNotBreakConstrainedForcedTable());
+        Assert.assertEquals(false, compatibilityOptions.getDoNotBreakWrappedTables());
+        Assert.assertEquals(false, compatibilityOptions.getDoNotSnapToGridInCell());
+        Assert.assertEquals(false, compatibilityOptions.getDoNotUseHTMLParagraphAutoSpacing());
+        Assert.assertEquals(true, compatibilityOptions.getDoNotVertAlignCellWithSp());
+        Assert.assertEquals(false, compatibilityOptions.getForgetLastTabAlignment());
+        Assert.assertEquals(true, compatibilityOptions.getGrowAutofit());
+        Assert.assertEquals(false, compatibilityOptions.getLayoutRawTableWidth());
+        Assert.assertEquals(false, compatibilityOptions.getLayoutTableRowsApart());
+        Assert.assertEquals(false, compatibilityOptions.getNoColumnBalance());
+        Assert.assertEquals(false, compatibilityOptions.getOverrideTableStyleFontSizeAndJustification());
+        Assert.assertEquals(false, compatibilityOptions.getUseSingleBorderforContiguousCells());
+        Assert.assertEquals(true, compatibilityOptions.getUseWord2002TableStyleRules());
+        Assert.assertEquals(false, compatibilityOptions.getUseWord2010TableStyleRules());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
         doc.save(getArtifactsDir() + "CompatibilityOptions.Tables.docx");
@@ -119,12 +118,12 @@ public class ExCompatibilityOptions extends ApiExampleBase
         CompatibilityOptions compatibilityOptions = doc.getCompatibilityOptions();
         compatibilityOptions.optimizeFor(MsWordVersion.WORD_2000);
 
-        msAssert.areEqual(false, compatibilityOptions.getApplyBreakingRules());
-        msAssert.areEqual(true, compatibilityOptions.getDoNotUseEastAsianBreakRules());
-        msAssert.areEqual(false, compatibilityOptions.getShowBreaksInFrames());
-        msAssert.areEqual(true, compatibilityOptions.getSplitPgBreakAndParaMark());
-        msAssert.areEqual(true, compatibilityOptions.getUseAltKinsokuLineBreakRules());
-        msAssert.areEqual(false, compatibilityOptions.getUseWord97LineBreakRules());
+        Assert.assertEquals(false, compatibilityOptions.getApplyBreakingRules());
+        Assert.assertEquals(true, compatibilityOptions.getDoNotUseEastAsianBreakRules());
+        Assert.assertEquals(false, compatibilityOptions.getShowBreaksInFrames());
+        Assert.assertEquals(true, compatibilityOptions.getSplitPgBreakAndParaMark());
+        Assert.assertEquals(true, compatibilityOptions.getUseAltKinsokuLineBreakRules());
+        Assert.assertEquals(false, compatibilityOptions.getUseWord97LineBreakRules());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
         doc.save(getArtifactsDir() + "CompatibilityOptions.Breaks.docx");
@@ -138,18 +137,18 @@ public class ExCompatibilityOptions extends ApiExampleBase
         CompatibilityOptions compatibilityOptions = doc.getCompatibilityOptions();
         compatibilityOptions.optimizeFor(MsWordVersion.WORD_2000);
 
-        msAssert.areEqual(false, compatibilityOptions.getAutoSpaceLikeWord95());
-        msAssert.areEqual(true, compatibilityOptions.getDisplayHangulFixedWidth());
-        msAssert.areEqual(false, compatibilityOptions.getNoExtraLineSpacing());
-        msAssert.areEqual(false, compatibilityOptions.getNoLeading());
-        msAssert.areEqual(false, compatibilityOptions.getNoSpaceRaiseLower());
-        msAssert.areEqual(false, compatibilityOptions.getSpaceForUL());
-        msAssert.areEqual(false, compatibilityOptions.getSpacingInWholePoints());
-        msAssert.areEqual(false, compatibilityOptions.getSuppressBottomSpacing());
-        msAssert.areEqual(false, compatibilityOptions.getSuppressSpBfAfterPgBrk());
-        msAssert.areEqual(false, compatibilityOptions.getSuppressSpacingAtTopOfPage());
-        msAssert.areEqual(false, compatibilityOptions.getSuppressTopSpacing());
-        msAssert.areEqual(false, compatibilityOptions.getUlTrailSpace());
+        Assert.assertEquals(false, compatibilityOptions.getAutoSpaceLikeWord95());
+        Assert.assertEquals(true, compatibilityOptions.getDisplayHangulFixedWidth());
+        Assert.assertEquals(false, compatibilityOptions.getNoExtraLineSpacing());
+        Assert.assertEquals(false, compatibilityOptions.getNoLeading());
+        Assert.assertEquals(false, compatibilityOptions.getNoSpaceRaiseLower());
+        Assert.assertEquals(false, compatibilityOptions.getSpaceForUL());
+        Assert.assertEquals(false, compatibilityOptions.getSpacingInWholePoints());
+        Assert.assertEquals(false, compatibilityOptions.getSuppressBottomSpacing());
+        Assert.assertEquals(false, compatibilityOptions.getSuppressSpBfAfterPgBrk());
+        Assert.assertEquals(false, compatibilityOptions.getSuppressSpacingAtTopOfPage());
+        Assert.assertEquals(false, compatibilityOptions.getSuppressTopSpacing());
+        Assert.assertEquals(false, compatibilityOptions.getUlTrailSpace());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
         doc.save(getArtifactsDir() + "CompatibilityOptions.Spacing.docx");
@@ -163,11 +162,11 @@ public class ExCompatibilityOptions extends ApiExampleBase
         CompatibilityOptions compatibilityOptions = doc.getCompatibilityOptions();
         compatibilityOptions.optimizeFor(MsWordVersion.WORD_2000);
 
-        msAssert.areEqual(false, compatibilityOptions.getSuppressTopSpacingWP());
-        msAssert.areEqual(false, compatibilityOptions.getTruncateFontHeightsLikeWP6());
-        msAssert.areEqual(false, compatibilityOptions.getWPJustification());
-        msAssert.areEqual(false, compatibilityOptions.getWPSpaceWidth());
-        msAssert.areEqual(false, compatibilityOptions.getWrapTrailSpaces());
+        Assert.assertEquals(false, compatibilityOptions.getSuppressTopSpacingWP());
+        Assert.assertEquals(false, compatibilityOptions.getTruncateFontHeightsLikeWP6());
+        Assert.assertEquals(false, compatibilityOptions.getWPJustification());
+        Assert.assertEquals(false, compatibilityOptions.getWPSpaceWidth());
+        Assert.assertEquals(false, compatibilityOptions.getWrapTrailSpaces());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
         doc.save(getArtifactsDir() + "CompatibilityOptions.WordPerfect.docx");
@@ -181,10 +180,10 @@ public class ExCompatibilityOptions extends ApiExampleBase
         CompatibilityOptions compatibilityOptions = doc.getCompatibilityOptions();
         compatibilityOptions.optimizeFor(MsWordVersion.WORD_2000);
 
-        msAssert.areEqual(true, compatibilityOptions.getCachedColBalance());
-        msAssert.areEqual(true, compatibilityOptions.getDoNotVertAlignInTxbx());
-        msAssert.areEqual(true, compatibilityOptions.getDoNotWrapTextWithPunct());
-        msAssert.areEqual(false, compatibilityOptions.getNoTabHangInd());
+        Assert.assertEquals(true, compatibilityOptions.getCachedColBalance());
+        Assert.assertEquals(true, compatibilityOptions.getDoNotVertAlignInTxbx());
+        Assert.assertEquals(true, compatibilityOptions.getDoNotWrapTextWithPunct());
+        Assert.assertEquals(false, compatibilityOptions.getNoTabHangInd());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
         doc.save(getArtifactsDir() + "CompatibilityOptions.Alignment.docx");
@@ -198,11 +197,11 @@ public class ExCompatibilityOptions extends ApiExampleBase
         CompatibilityOptions compatibilityOptions = doc.getCompatibilityOptions();
         compatibilityOptions.optimizeFor(MsWordVersion.WORD_2000);
 
-        msAssert.areEqual(false, compatibilityOptions.getFootnoteLayoutLikeWW8());
-        msAssert.areEqual(false, compatibilityOptions.getLineWrapLikeWord6());
-        msAssert.areEqual(false, compatibilityOptions.getMWSmallCaps());
-        msAssert.areEqual(false, compatibilityOptions.getShapeLayoutLikeWW8());
-        msAssert.areEqual(false, compatibilityOptions.getUICompat97To2003());
+        Assert.assertEquals(false, compatibilityOptions.getFootnoteLayoutLikeWW8());
+        Assert.assertEquals(false, compatibilityOptions.getLineWrapLikeWord6());
+        Assert.assertEquals(false, compatibilityOptions.getMWSmallCaps());
+        Assert.assertEquals(false, compatibilityOptions.getShapeLayoutLikeWW8());
+        Assert.assertEquals(false, compatibilityOptions.getUICompat97To2003());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
         doc.save(getArtifactsDir() + "CompatibilityOptions.Legacy.docx");
@@ -216,8 +215,8 @@ public class ExCompatibilityOptions extends ApiExampleBase
         CompatibilityOptions compatibilityOptions = doc.getCompatibilityOptions();
         compatibilityOptions.optimizeFor(MsWordVersion.WORD_2000);
 
-        msAssert.areEqual(true, compatibilityOptions.getUnderlineTabInNumList());
-        msAssert.areEqual(true, compatibilityOptions.getUseNormalStyleForList());
+        Assert.assertEquals(true, compatibilityOptions.getUnderlineTabInNumList());
+        Assert.assertEquals(true, compatibilityOptions.getUseNormalStyleForList());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
         doc.save(getArtifactsDir() + "CompatibilityOptions.List.docx");
@@ -231,21 +230,21 @@ public class ExCompatibilityOptions extends ApiExampleBase
         CompatibilityOptions compatibilityOptions = doc.getCompatibilityOptions();
         compatibilityOptions.optimizeFor(MsWordVersion.WORD_2000);
 
-        msAssert.areEqual(false, compatibilityOptions.getBalanceSingleByteDoubleByteWidth());
-        msAssert.areEqual(false, compatibilityOptions.getConvMailMergeEsc());
-        msAssert.areEqual(false, compatibilityOptions.getDoNotExpandShiftReturn());
-        msAssert.areEqual(false, compatibilityOptions.getDoNotLeaveBackslashAlone());
-        msAssert.areEqual(false, compatibilityOptions.getDoNotSuppressParagraphBorders());
-        msAssert.areEqual(true, compatibilityOptions.getDoNotUseIndentAsNumberingTabStop());
-        msAssert.areEqual(false, compatibilityOptions.getPrintBodyTextBeforeHeader());
-        msAssert.areEqual(false, compatibilityOptions.getPrintColBlack());
-        msAssert.areEqual(true, compatibilityOptions.getSelectFldWithFirstOrLastChar());
-        msAssert.areEqual(false, compatibilityOptions.getSubFontBySize());
-        msAssert.areEqual(false, compatibilityOptions.getSwapBordersFacingPgs());
-        msAssert.areEqual(false, compatibilityOptions.getTransparentMetafiles());
-        msAssert.areEqual(true, compatibilityOptions.getUseAnsiKerningPairs());
-        msAssert.areEqual(false, compatibilityOptions.getUseFELayout());
-        msAssert.areEqual(false, compatibilityOptions.getUsePrinterMetrics());
+        Assert.assertEquals(false, compatibilityOptions.getBalanceSingleByteDoubleByteWidth());
+        Assert.assertEquals(false, compatibilityOptions.getConvMailMergeEsc());
+        Assert.assertEquals(false, compatibilityOptions.getDoNotExpandShiftReturn());
+        Assert.assertEquals(false, compatibilityOptions.getDoNotLeaveBackslashAlone());
+        Assert.assertEquals(false, compatibilityOptions.getDoNotSuppressParagraphBorders());
+        Assert.assertEquals(true, compatibilityOptions.getDoNotUseIndentAsNumberingTabStop());
+        Assert.assertEquals(false, compatibilityOptions.getPrintBodyTextBeforeHeader());
+        Assert.assertEquals(false, compatibilityOptions.getPrintColBlack());
+        Assert.assertEquals(true, compatibilityOptions.getSelectFldWithFirstOrLastChar());
+        Assert.assertEquals(false, compatibilityOptions.getSubFontBySize());
+        Assert.assertEquals(false, compatibilityOptions.getSwapBordersFacingPgs());
+        Assert.assertEquals(false, compatibilityOptions.getTransparentMetafiles());
+        Assert.assertEquals(true, compatibilityOptions.getUseAnsiKerningPairs());
+        Assert.assertEquals(false, compatibilityOptions.getUseFELayout());
+        Assert.assertEquals(false, compatibilityOptions.getUsePrinterMetrics());
 
         // These options will become available in File > Options > Advanced > Compatibility Options in the output document
         doc.save(getArtifactsDir() + "CompatibilityOptions.Misc.docx");

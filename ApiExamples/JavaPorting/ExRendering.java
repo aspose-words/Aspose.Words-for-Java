@@ -45,7 +45,6 @@ import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.FolderFontSource;
 import org.testng.Assert;
 import com.aspose.words.SystemFontSource;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.LoadOptions;
 import com.aspose.words.WarningType;
 import com.aspose.words.IWarningCallback;
@@ -818,21 +817,6 @@ public class ExRendering extends ApiExampleBase
     }
 
     @Test
-    public void updateFields() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.UpdateFields
-        //ExSummary:Shows how to update all fields before rendering a document.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
-
-        // This updates all fields in the document
-        doc.updateFields();
-
-        doc.save(getArtifactsDir() + "Rendering.UpdateFields.pdf");
-        //ExEnd
-    }
-
-    @Test
     public void setTrueTypeFontsFolder() throws Exception
     {
         // Store the font sources currently used so we can restore them later
@@ -921,7 +905,7 @@ public class ExRendering extends ApiExampleBase
         Assert.That(FontSettings.getDefaultInstance().getFontsSources()[1], Is.InstanceOf(FolderFontSource.class)); 
         
         FolderFontSource folderSource = ((FolderFontSource) FontSettings.getDefaultInstance().getFontsSources()[1]);
-        msAssert.areEqual("C:\\MyFonts\\", folderSource.getFolderPath());
+        Assert.assertEquals("C:\\MyFonts\\", folderSource.getFolderPath());
         Assert.assertTrue(folderSource.getScanSubfolders());
 
         // Restore the original sources used to search for fonts
@@ -942,7 +926,7 @@ public class ExRendering extends ApiExampleBase
 
         FolderFontSource folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[0]);
 
-        msAssert.areEqual(getFontsDir(), folderSource.getFolderPath());
+        Assert.assertEquals(getFontsDir(), folderSource.getFolderPath());
         Assert.assertFalse(folderSource.getScanSubfolders());
     }
 
@@ -959,17 +943,14 @@ public class ExRendering extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.setFontSettings(fontSettings);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
         // Check that font source are default
         FontSourceBase[] fontSource = doc.getFontSettings().getFontsSources();
-        msAssert.areEqual("SystemFonts", FontSourceType.toString(fontSource[0].getType()));
+        Assert.assertEquals("SystemFonts", FontSourceType.toString(fontSource[0].getType()));
 
-        msAssert.areEqual("Times New Roman", doc.getFontSettings().getSubstitutionSettings().getDefaultFontSubstitution().getDefaultFontName());
+        Assert.assertEquals("Times New Roman", doc.getFontSettings().getSubstitutionSettings().getDefaultFontSubstitution().getDefaultFontName());
 
         String[] alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Times New Roman").ToArray();
-        msAssert.areEqual(new String[] { "Slab", "Arvo" }, alternativeFonts);
+        Assert.assertEquals(new String[] { "Slab", "Arvo" }, alternativeFonts);
     }
 
     @Test
@@ -984,11 +965,11 @@ public class ExRendering extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Rendering.docx", loadOptions);
 
         FolderFontSource folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[0]);
-        msAssert.areEqual(getFontsDir(), folderSource.getFolderPath());
+        Assert.assertEquals(getFontsDir(), folderSource.getFolderPath());
         Assert.assertTrue(folderSource.getScanSubfolders());
 
         folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[1]);
-        msAssert.areEqual("C:\\Windows\\Fonts\\", folderSource.getFolderPath());
+        Assert.assertEquals("C:\\Windows\\Fonts\\", folderSource.getFolderPath());
         Assert.assertTrue(folderSource.getScanSubfolders());
     }
 
@@ -1002,14 +983,11 @@ public class ExRendering extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.setFontSettings(fontSettings);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
         String[] alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Slab").ToArray();
-        msAssert.areEqual(new String[] { "Times New Roman", "Arial" }, alternativeFonts);
+        Assert.assertEquals(new String[] { "Times New Roman", "Arial" }, alternativeFonts);
 
         alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Arvo").ToArray();
-        msAssert.areEqual(new String[] { "Open Sans", "Arial" }, alternativeFonts);
+        Assert.assertEquals(new String[] { "Open Sans", "Arial" }, alternativeFonts);
     }
 
     @Test

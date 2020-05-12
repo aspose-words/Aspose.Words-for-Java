@@ -9,6 +9,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
@@ -27,14 +28,21 @@ public class ExBorderCollection extends ApiExampleBase {
 
         Iterator<Border> enumerator = borders.iterator();
         while (enumerator.hasNext()) {
-            // Do something useful.
+            // Do something useful
             Border b = enumerator.next();
-            b.setColor(new Color(65, 105, 225));//RoyalBlue
+            b.setColor(new Color(65, 105, 225)); // RoyalBlue
             b.setLineStyle(LineStyle.DOUBLE);
         }
 
-        doc.save(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.doc");
+        doc.save(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.docx");
+
+        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders()) {
+            Assert.assertEquals(new Color(65, 105, 225).getRGB(), border.getColor().getRGB());
+            Assert.assertEquals(LineStyle.DOUBLE, border.getLineStyle());
+        }
     }
 
     @Test
@@ -47,6 +55,15 @@ public class ExBorderCollection extends ApiExampleBase {
         BorderCollection borders = builder.getParagraphFormat().getBorders();
 
         borders.clearFormatting();
+
+        doc.save(getArtifactsDir() + "BorderCollection.RemoveAllBorders.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "BorderCollection.RemoveAllBorders.docx");
+
+        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders()) {
+            Assert.assertEquals(0, border.getColor().getRGB());
+            Assert.assertEquals(LineStyle.NONE, border.getLineStyle());
+        }
     }
 }

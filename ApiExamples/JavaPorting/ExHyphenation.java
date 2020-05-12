@@ -10,14 +10,13 @@ package ApiExamples;
 // ********* THIS FILE IS AUTO PORTED *********
 
 import org.testng.annotations.Test;
-import com.aspose.words.WarningInfoCollection;
 import com.aspose.words.Hyphenation;
+import org.testng.Assert;
+import com.aspose.words.Document;
+import com.aspose.words.WarningInfoCollection;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
-import com.aspose.ms.NUnit.Framework.msAssert;
-import org.testng.Assert;
-import com.aspose.words.Document;
 import com.aspose.words.WarningType;
 import com.aspose.words.WarningSource;
 import com.aspose.words.IHyphenationCallback;
@@ -28,6 +27,37 @@ import com.aspose.ms.System.msConsole;
 @Test
 public class ExHyphenation extends ApiExampleBase
 {
+    @Test
+    public void dictionary() throws Exception
+    {
+        //ExStart
+        //ExFor:Hyphenation.IsDictionaryRegistered(String)
+        //ExFor:Hyphenation.RegisterDictionary(String, String)
+        //ExFor:Hyphenation.UnregisterDictionary(String)
+        //ExSummary:Shows how to perform and verify hyphenation dictionary registration.
+        // Register a dictionary file from the local file system to the "de-CH" locale
+        Hyphenation.registerDictionary("de-CH", getMyDir() + "hyph_de_CH.dic");
+
+        // This method can be used to verify that a language has a matching registered hyphenation dictionary
+        Assert.assertTrue(Hyphenation.isDictionaryRegistered("de-CH"));
+
+        // The dictionary file contains a long list of words in a specified language, and in this case it is German
+        // These words define a set of rules for hyphenating text (splitting words across lines)
+        // If we open a document with text of a language matching that of a registered dictionary,
+        // that dictionary's hyphenation rules will be applied and visible upon saving
+        Document doc = new Document(getMyDir() + "German text.docx");
+        doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Registered.pdf");
+
+        // We can also un-register a dictionary to disable these effects on any documents opened after the operation
+        Hyphenation.unregisterDictionary("de-CH");
+
+        Assert.assertFalse(Hyphenation.isDictionaryRegistered("de-CH"));
+
+        doc = new Document(getMyDir() + "German text.docx");
+        doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Unregistered.pdf");
+        //ExEnd
+    }
+
     //ExStart
     //ExFor:Hyphenation
     //ExFor:Hyphenation.Callback
@@ -49,10 +79,10 @@ public class ExHyphenation extends ApiExampleBase
         Hyphenation.registerDictionaryInternal("en-US", dictionaryStream);
 
         // No warnings detected
-        msAssert.areEqual(0, warningInfoCollection.getCount());
+        Assert.assertEquals(0, warningInfoCollection.getCount());
 
         // Open a document with a German locale that might not get automatically hyphenated by Microsoft Word an english machine
-        Document doc = new Document(getMyDir() + "Unhyphenated German text.docx");
+        Document doc = new Document(getMyDir() + "German text.docx");
 
         // To hyphenate that document upon saving, we need a hyphenation dictionary for the "de-CH" language code
         // This callback will handle the automatic request for that dictionary 
@@ -62,10 +92,10 @@ public class ExHyphenation extends ApiExampleBase
         doc.save(getArtifactsDir() + "Hyphenation.RegisterDictionary.pdf");
 
         // This dictionary contains two identical patterns, which will trigger a warning
-        msAssert.areEqual(1, warningInfoCollection.getCount());
-        msAssert.areEqual(WarningType.MINOR_FORMATTING_LOSS, warningInfoCollection.get(0).getWarningType());
-        msAssert.areEqual(WarningSource.LAYOUT, warningInfoCollection.get(0).getSource());
-        msAssert.areEqual("Hyphenation dictionary contains duplicate patterns. The only first found pattern will be used. " +
+        Assert.assertEquals(1, warningInfoCollection.getCount());
+        Assert.assertEquals(WarningType.MINOR_FORMATTING_LOSS, warningInfoCollection.get(0).getWarningType());
+        Assert.assertEquals(WarningSource.LAYOUT, warningInfoCollection.get(0).getSource());
+        Assert.assertEquals("Hyphenation dictionary contains duplicate patterns. The only first found pattern will be used. " +
                         "Content can be wrapped differently.", warningInfoCollection.get(0).getDescription());
     }
 
@@ -106,32 +136,4 @@ public class ExHyphenation extends ApiExampleBase
         private /*final*/ HashMap<String, String> mHyphenationDictionaryFiles;
     }
     //ExEnd
-
-    @Test
-    public void isDictionaryRegistered() throws Exception
-    {
-        //ExStart
-        //ExFor:Hyphenation.IsDictionaryRegistered(String)
-        //ExSummary:Shows how to open check if some dictionary is registered.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        Hyphenation.registerDictionary("en-US", getMyDir() + "hyph_en_US.dic");
-
-        msAssert.areEqual(true, Hyphenation.isDictionaryRegistered("en-US"));
-        //ExEnd
-    }
-
-    @Test
-    public void unregisteredDictionary() throws Exception
-    {
-        //ExStart
-        //ExFor:Hyphenation.UnregisterDictionary(String)
-        //ExSummary:Shows how to un-register a dictionary.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        Hyphenation.registerDictionary("en-US", getMyDir() + "hyph_en_US.dic");
-
-        Hyphenation.unregisterDictionary("en-US");
-
-        msAssert.areEqual(false, Hyphenation.isDictionaryRegistered("en-US"));
-        //ExEnd
-    }
 }

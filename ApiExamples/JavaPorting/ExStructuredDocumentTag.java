@@ -15,15 +15,12 @@ import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import com.aspose.words.StructuredDocumentTag;
 import com.aspose.ms.System.msConsole;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.SdtType;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Style;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.words.MarkupLevel;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
 import com.aspose.words.Node;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.words.SdtDateStorageFormat;
@@ -77,10 +74,10 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExEnd
 
         StructuredDocumentTag sdTagRepeatingSection = (StructuredDocumentTag) sdTags.get(0);
-        msAssert.areEqual(SdtType.REPEATING_SECTION, sdTagRepeatingSection.getSdtType());
+        Assert.assertEquals(SdtType.REPEATING_SECTION, sdTagRepeatingSection.getSdtType());
 
         StructuredDocumentTag sdTagRichText = (StructuredDocumentTag) sdTags.get(2);
-        msAssert.areEqual(SdtType.RICH_TEXT, sdTagRichText.getSdtType());
+        Assert.assertEquals(SdtType.RICH_TEXT, sdTagRichText.getSdtType());
     }
 
     @Test
@@ -110,11 +107,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         builder.insertNode(sdtPlainText);
         builder.insertNode(sdtRichText);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
         // We can get a collection of StructuredDocumentTags by looking for the document's child nodes of this NodeType
-        msAssert.areEqual(NodeType.STRUCTURED_DOCUMENT_TAG, sdtPlainText.getNodeType());
+        Assert.assertEquals(NodeType.STRUCTURED_DOCUMENT_TAG, sdtPlainText.getNodeType());
 
         NodeCollection tags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
 
@@ -122,8 +116,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         {
             StructuredDocumentTag sdt = (StructuredDocumentTag) node;
             // If style was not defined before, style should be "Default Paragraph Font"
-            msAssert.areEqual(StyleIdentifier.QUOTE, sdt.getStyle().getStyleIdentifier());
-            msAssert.areEqual("Quote", sdt.getStyleName());
+            Assert.assertEquals(StyleIdentifier.QUOTE, sdt.getStyle().getStyleIdentifier());
+            Assert.assertEquals("Quote", sdt.getStyleName());
         }
         //ExEnd
     }
@@ -144,13 +138,13 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // Insert content control into the document
         builder.insertNode(sdtCheckBox);
         //ExEnd
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+
+        doc = DocumentHelper.saveOpen(doc);
 
         NodeCollection sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) sdts.get(0);
-        msAssert.areEqual(true, sdt.getChecked());
+        Assert.assertEquals(true, sdt.getChecked());
         Assert.That(sdt.getXmlMapping().getStoreItemId(), Is.Empty); //Assert that this sdt has no StoreItemId
     }
 
@@ -325,7 +319,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         // If PlaceholderName refers to an existing block in the parent document's GlossaryDocument,
         // the BuildingBlock will be automatically found and assigned to the Placeholder attribute
-        msAssert.areEqual(substituteBlock, tag.getPlaceholder());
+        Assert.assertEquals(substituteBlock, tag.getPlaceholder());
 
         // Setting this to true will register the text inside the StructuredDocumentTag as placeholder text
         // This means that, in Microsoft Word, all the text contents of the StructuredDocumentTag will be highlighted with one click,
@@ -405,7 +399,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // Each SdtListItem has text that will be displayed when the drop down list is opened, and also a value
         // When we initialize with one string, we are providing just the value
         // Accordingly, value is passed as DisplayText and will consequently be displayed on the screen
-        msAssert.areEqual(listItems.get(0).getDisplayText(), listItems.get(0).getValue());
+        Assert.assertEquals(listItems.get(0).getDisplayText(), listItems.get(0).getValue());
 
         // Add 3 more SdtListItems with non-empty strings passed to DisplayText
         listItems.add(new SdtListItem("Item 2", "Value 2"));
@@ -414,10 +408,10 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         // We can obtain a count of the SdtListItems and also set the drop down list's SelectedValue attribute to
         // automatically have one of them pre-selected when we open the document in Microsoft Word
-        msAssert.areEqual(4, listItems.getCount());
+        Assert.assertEquals(4, listItems.getCount());
         listItems.setSelectedValue(listItems.get(3));
 
-        msAssert.areEqual("Value 4", listItems.getSelectedValue().getValue());
+        Assert.assertEquals("Value 4", listItems.getSelectedValue().getValue());
 
         // We can enumerate over the collection and print each element
         Iterator<SdtListItem> enumerator = listItems.iterator();
@@ -433,7 +427,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         // We can also remove elements one at a time
         listItems.removeAt(3);
-        msAssert.areEqual(3, listItems.getCount());
+        Assert.assertEquals(3, listItems.getCount());
 
         // Make sure to update the SelectedValue's index if it ever ends up out of bounds before saving the document
         listItems.setSelectedValue(listItems.get(1));
@@ -442,7 +436,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         // We can clear the whole collection at once too
         listItems.clear();
-        msAssert.areEqual(0, listItems.getCount());
+        Assert.assertEquals(0, listItems.getCount());
         //ExEnd
     }
 
@@ -479,12 +473,12 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
 
         // The data we entered resides in these variables
-        msAssert.areEqual(Encoding.getASCII().getBytes(xmlPartContent), xmlPart.getData());
-        msAssert.areEqual(xmlPartId, xmlPart.getId());
+        Assert.assertEquals(Encoding.getASCII().getBytes(xmlPartContent), xmlPart.getData());
+        Assert.assertEquals(xmlPartId, xmlPart.getId());
 
         // XML parts can be referenced by collection index or GUID
-        msAssert.areEqual(xmlPart, doc.getCustomXmlParts().get(0));
-        msAssert.areEqual(xmlPart, doc.getCustomXmlParts().getById(xmlPartId));
+        Assert.assertEquals(xmlPart, doc.getCustomXmlParts().get(0));
+        Assert.assertEquals(xmlPart, doc.getCustomXmlParts().getById(xmlPartId));
 
         // Once the part is created, we can add XML schema associations like this
         xmlPart.getSchemas().add("http://www.w3.org/2001/XMLSchema");
@@ -494,7 +488,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         xmlPartClone.setId(Guid.newGuid().toString("B"));
         doc.getCustomXmlParts().add(xmlPartClone);
 
-        msAssert.areEqual(2, doc.getCustomXmlParts().getCount());
+        Assert.assertEquals(2, doc.getCustomXmlParts().getCount());
 
         // Iterate through collection with an enumerator and print the contents of each part
         Iterator<CustomXmlPart> enumerator = doc.getCustomXmlParts().iterator();
@@ -513,7 +507,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // XML parts can be removed by index
         doc.getCustomXmlParts().removeAt(1);
 
-        msAssert.areEqual(1, doc.getCustomXmlParts().getCount());
+        Assert.assertEquals(1, doc.getCustomXmlParts().getCount());
 
         // The XML part collection itself can be cloned also
         CustomXmlPartCollection customXmlParts = doc.getCustomXmlParts().deepClone();
@@ -562,9 +556,9 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         sdt.getXmlMapping().setMapping(xmlPart, "/root[1]/text[2]", "xmlns:ns='http://www.w3.org/2001/XMLSchema'");
 
         Assert.assertTrue(sdt.getXmlMapping().isMapped());
-        msAssert.areEqual(xmlPart, sdt.getXmlMapping().getCustomXmlPart());
-        msAssert.areEqual("/root[1]/text[2]", sdt.getXmlMapping().getXPath());
-        msAssert.areEqual("xmlns:ns='http://www.w3.org/2001/XMLSchema'", sdt.getXmlMapping().getPrefixMappings());
+        Assert.assertEquals(xmlPart, sdt.getXmlMapping().getCustomXmlPart());
+        Assert.assertEquals("/root[1]/text[2]", sdt.getXmlMapping().getXPath());
+        Assert.assertEquals("xmlns:ns='http://www.w3.org/2001/XMLSchema'", sdt.getXmlMapping().getPrefixMappings());
 
         // Add the StructuredDocumentTag to the document to display the content from our CustomXmlPart
         doc.getFirstSection().getBody().appendChild(sdt);
@@ -603,8 +597,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         schemas.add("http://www.w3.org/2001/XMLSchema-instance");
         schemas.add("http://schemas.microsoft.com/office/2006/metadata/contentType");
         
-        msAssert.areEqual(3, schemas.getCount());
-        msAssert.areEqual(2, schemas.indexOf(("http://schemas.microsoft.com/office/2006/metadata/contentType")));
+        Assert.assertEquals(3, schemas.getCount());
+        Assert.assertEquals(2, schemas.indexOf(("http://schemas.microsoft.com/office/2006/metadata/contentType")));
 
         // We can iterate over the collection with an enumerator
         Iterator<String> enumerator = schemas.iterator();
@@ -622,7 +616,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         schemas.remove("http://www.w3.org/2001/XMLSchema");
         schemas.clear();
 
-        msAssert.areEqual(0, schemas.getCount());
+        Assert.assertEquals(0, schemas.getCount());
         //ExEnd
     }
 
@@ -650,9 +644,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         // Insert content control into the document
         builder.insertNode(sdtCheckBox);
-        
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+
+        doc = DocumentHelper.saveOpen(doc);
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
         System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
@@ -675,15 +668,14 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         }
 
         //ExEnd
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
 
+        doc = DocumentHelper.saveOpen(doc);
         sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
 
-        msAssert.areEqual(
+        Assert.assertEquals(
             "Enter any content that you want to repeat, including other content controls. You can also insert this control around table rows in order to repeat parts of a table.\r",
             sdts.get(0).getText());
-        msAssert.areEqual("Click here to enter text.\f", sdts.get(2).getText());
+        Assert.assertEquals("Click here to enter text.\f", sdts.get(2).getText());
     }
 
     @Test
@@ -711,7 +703,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // In Word 2003, smart tags can be turned on in Tools > AutoCorrect options... > SmartTags tab
         // In our input document there are three objects that were registered as smart tags, but since they can be nested, we have 8 in this collection
         NodeCollection smartTags = doc.getChildNodes(NodeType.SMART_TAG, true);
-        msAssert.areEqual(8, smartTags.getCount());
+        Assert.assertEquals(8, smartTags.getCount());
 
         // The last smart tag is of the "Date" type, which we will retrieve here
         SmartTag smartTag = (SmartTag)smartTags.get(7);
@@ -721,7 +713,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         CustomXmlPropertyCollection properties = smartTag.getProperties();
 
         // We can enumerate over the collection and print the aforementioned properties to the console
-        msAssert.areEqual(4, properties.getCount());
+        Assert.assertEquals(4, properties.getCount());
 
         Iterator<CustomXmlProperty> enumerator = properties.iterator();
         try /*JAVA: was using*/
@@ -729,24 +721,24 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             while (enumerator.hasNext())
             {
                 System.out.println("Property name: {enumerator.Current.Name}, value: {enumerator.Current.Value}");
-                msAssert.areEqual("", enumerator.next().getUri());
+                Assert.assertEquals("", enumerator.next().getUri());
             }
         }
         finally { if (enumerator != null) enumerator.close(); }
         
         // We can also access the elements in various ways, including as a key-value pair
         Assert.assertTrue(properties.contains("Day"));
-        msAssert.areEqual("22", properties.get("Day").getValue());
-        msAssert.areEqual("2003", properties.get(2).getValue());
-        msAssert.areEqual(1, properties.indexOfKey("Month"));
+        Assert.assertEquals("22", properties.get("Day").getValue());
+        Assert.assertEquals("2003", properties.get(2).getValue());
+        Assert.assertEquals(1, properties.indexOfKey("Month"));
 
         // We can also remove elements by name, index or clear the collection entirely
         properties.removeAt(3);
         properties.remove("Year");
-        msAssert.areEqual(2, (properties.getCount()));
+        Assert.assertEquals(2, (properties.getCount()));
 
         properties.clear();
-        msAssert.areEqual(0, (properties.getCount()));
+        Assert.assertEquals(0, (properties.getCount()));
 
         // We can remove the entire smart tag like this
         smartTag.remove();
@@ -754,6 +746,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     }
 
     //ExStart
+    //ExFor:CompositeNode.RemoveSmartTags
     //ExFor:CustomXmlProperty
     //ExFor:CustomXmlProperty.#ctor(String,String,String)
     //ExFor:CustomXmlProperty.Name
@@ -798,7 +791,13 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // Print all the smart tags in our document with a document visitor
         doc.accept(new SmartTagVisitor());
 
-        doc.save(getArtifactsDir() + "StructuredDocumentTag.SmartTags.docx");
+        // SmartTags are supported by older versions of microsoft Word
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.SmartTags.doc");
+
+        // We can strip a document of all its smart tags with RemoveSmartTags()
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.SMART_TAG, true).getCount());
+        doc.removeSmartTags();
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.SMART_TAG, true).getCount());
     }
 
     /// <summary>
@@ -851,8 +850,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         StructuredDocumentTag docPartObjSdt =
             (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
 
-        msAssert.areEqual(SdtType.DOC_PART_OBJ, docPartObjSdt.getSdtType());
-        msAssert.areEqual("Table of Contents", docPartObjSdt.getBuildingBlockGallery());
+        Assert.assertEquals(SdtType.DOC_PART_OBJ, docPartObjSdt.getSdtType());
+        Assert.assertEquals("Table of Contents", docPartObjSdt.getBuildingBlockGallery());
     }
 
     @Test
@@ -863,7 +862,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         StructuredDocumentTag plainTextSdt =
             (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
 
-        msAssert.areEqual(SdtType.PLAIN_TEXT, plainTextSdt.getSdtType());
+        Assert.assertEquals(SdtType.PLAIN_TEXT, plainTextSdt.getSdtType());
         Assert.That(() => plainTextSdt.getBuildingBlockGallery(), Throws.<IllegalStateException>TypeOf(),
             "BuildingBlockType is only accessible for BuildingBlockGallery SDT type.");
     }
@@ -891,9 +890,9 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         buildingBlockSdt =
             (StructuredDocumentTag) doc.getFirstSection().getBody().getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
 
-        msAssert.areEqual(SdtType.BUILDING_BLOCK_GALLERY, buildingBlockSdt.getSdtType());
-        msAssert.areEqual("Table of Contents", buildingBlockSdt.getBuildingBlockGallery());
-        msAssert.areEqual("Built-in", buildingBlockSdt.getBuildingBlockCategory());
+        Assert.assertEquals(SdtType.BUILDING_BLOCK_GALLERY, buildingBlockSdt.getSdtType());
+        Assert.assertEquals("Table of Contents", buildingBlockSdt.getBuildingBlockGallery());
+        Assert.assertEquals("Built-in", buildingBlockSdt.getBuildingBlockCategory());
     }
 
     @Test
@@ -1001,7 +1000,6 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
                            "</Employee>" +
                            "</Company>";
 
-        // Create a blank document
         Document doc = new Document();
 
         // Insert the full XML document as a custom document part

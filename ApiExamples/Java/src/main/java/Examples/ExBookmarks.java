@@ -47,9 +47,7 @@ public class ExBookmarks extends ApiExampleBase {
         // Create a document with 3 bookmarks: "MyBookmark 1", "MyBookmark 2", "MyBookmark 3"
         Document doc = createDocumentWithBookmarks();
         BookmarkCollection bookmarks = doc.getRange().getBookmarks();
-
-        // Check that we have 3 bookmarks
-        Assert.assertEquals(bookmarks.getCount(), 3);
+        Assert.assertEquals(bookmarks.getCount(), 3); //ExSkip
         Assert.assertEquals(bookmarks.get(0).getName(), "MyBookmark 1"); //ExSkip
         Assert.assertEquals(bookmarks.get(1).getText(), "Text content of MyBookmark 2"); //ExSkip
 

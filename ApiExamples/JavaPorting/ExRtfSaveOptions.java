@@ -16,7 +16,6 @@ import com.aspose.words.SaveFormat;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import com.aspose.words.Shape;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.ImageType;
 
@@ -59,7 +58,7 @@ public class ExRtfSaveOptions extends ApiExampleBase
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
         Shape shapeWithJpg = (Shape)shapes.get(0);
-        msAssert.areEqual(ImageType.JPEG, shapeWithJpg.getImageData().getImageType());
+        Assert.assertEquals(ImageType.JPEG, shapeWithJpg.getImageData().getImageType());
 
         RtfSaveOptions rtfSaveOptions = new RtfSaveOptions();
         rtfSaveOptions.setSaveImagesAsWmf(true);
@@ -69,7 +68,7 @@ public class ExRtfSaveOptions extends ApiExampleBase
 
         shapes = doc.getChildNodes(NodeType.SHAPE, true);
         Shape shapeWithWmf = (Shape)shapes.get(0);
-        msAssert.areEqual(ImageType.WMF, shapeWithWmf.getImageData().getImageType());
+        Assert.assertEquals(ImageType.WMF, shapeWithWmf.getImageData().getImageType());
         //ExEnd
     }
 }

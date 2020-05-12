@@ -12,6 +12,7 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -39,7 +40,7 @@ public class ExBuildingBlocks extends ApiExampleBase {
     public void buildingBlockFields() throws Exception {
         Document doc = new Document();
 
-        // BuildingBlocks live inside the glossary document
+        // BuildingBlocks are stored inside the glossary document
         // If you're making a document from scratch, the glossary document must also be manually created
         GlossaryDocument glossaryDoc = new GlossaryDocument();
         doc.setGlossaryDocument(glossaryDoc);
@@ -71,15 +72,12 @@ public class ExBuildingBlocks extends ApiExampleBase {
                 "My custom building blocks", "Custom Block");
 
         // Our block contains one section which now contains our text
-        Assert.assertEquals(customBlock.getFirstSection().getBody().getFirstParagraph().getText(),
-                "Text inside " + customBlock.getName() + '\f');
-        Assert.assertEquals(customBlock.getLastSection(), customBlock.getFirstSection());
-
-        Assert.assertNotEquals(customBlock.getGuid().toString(), "00000000-0000-0000-0000-000000000000");
-        Assert.assertEquals(customBlock.getCategory(), "My custom building blocks");
-        Assert.assertEquals(customBlock.getType(), BuildingBlockType.NONE);
-        Assert.assertEquals(customBlock.getGallery(), BuildingBlockGallery.QUICK_PARTS);
-        Assert.assertEquals(customBlock.getBehavior(), BuildingBlockBehavior.PARAGRAPH);
+        Assert.assertEquals(MessageFormat.format("Text inside {0}\f", customBlock.getName()), customBlock.getFirstSection().getBody().getFirstParagraph().getText());
+        Assert.assertEquals(customBlock.getFirstSection(), customBlock.getLastSection());
+        Assert.assertEquals("My custom building blocks", customBlock.getCategory()); //ExSkip
+        Assert.assertEquals(BuildingBlockType.NONE, customBlock.getType()); //ExSkip
+        Assert.assertEquals(BuildingBlockGallery.QUICK_PARTS, customBlock.getGallery()); //ExSkip
+        Assert.assertEquals(BuildingBlockBehavior.PARAGRAPH, customBlock.getBehavior()); //ExSkip
 
         // Then we can insert it into the document as a new section
         doc.appendChild(doc.importNode(customBlock.getFirstSection(), true));
@@ -165,24 +163,16 @@ public class ExBuildingBlocks extends ApiExampleBase {
         doc.setGlossaryDocument(glossaryDoc);
 
         // There is a different ways how to get created building blocks
-        Assert.assertEquals(glossaryDoc.getFirstBuildingBlock().getName(), "Block 1");
-        Assert.assertEquals(glossaryDoc.getBuildingBlocks().get(1).getName(), "Block 2");
-        Assert.assertEquals(glossaryDoc.getBuildingBlocks().toArray()[2].getName(), "Block 3");
-        Assert.assertEquals(glossaryDoc.getLastBuildingBlock().getName(), "Block 5");
+        Assert.assertEquals("Block 1", glossaryDoc.getFirstBuildingBlock().getName());
+        Assert.assertEquals("Block 2", glossaryDoc.getBuildingBlocks().get(1).getName());
+        Assert.assertEquals("Block 3", glossaryDoc.getBuildingBlocks().toArray()[2].getName());
+        Assert.assertEquals("Block 4", glossaryDoc.getBuildingBlock(BuildingBlockGallery.ALL, "(Empty Category)", "Block 4").getName());
+        Assert.assertEquals("Block 5", glossaryDoc.getLastBuildingBlock().getName());
 
-        // Get a block by gallery, category and name
-        BuildingBlock block4 =
-                glossaryDoc.getBuildingBlock(BuildingBlockGallery.ALL, "(Empty Category)", "Block 4");
-
-        // All GUIDs are the same by default
-        Assert.assertEquals(block4.getGuid().toString(), "00000000-0000-0000-0000-000000000000");
-
-        // To be able to uniquely identify blocks by GUID, each GUID must be unique
-        // We will do that using a custom visitor
+        // We will do that using a custom visitor, which also will give every BuildingBlock in the GlossaryDocument a unique GUID
         GlossaryDocVisitor visitor = new GlossaryDocVisitor();
         glossaryDoc.accept(visitor);
-
-        Assert.assertEquals(visitor.getDictionary().size(), 5);
+        Assert.assertEquals(5, visitor.getDictionary().size()); //ExSkip
 
         System.out.println(visitor.getText());
 
@@ -226,6 +216,7 @@ public class ExBuildingBlocks extends ApiExampleBase {
         }
 
         public int visitBuildingBlockStart(final BuildingBlock block) {
+            Assert.assertEquals("00000000-0000-0000-0000-000000000000", block.getGuid().toString()); //ExSkip
             block.setGuid(UUID.randomUUID());
             mBlocksByGuid.put(block.getGuid(), block);
             return VisitorAction.CONTINUE;

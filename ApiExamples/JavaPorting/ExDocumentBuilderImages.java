@@ -18,6 +18,10 @@ import com.aspose.words.ConvertUtil;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.WrapType;
+import com.aspose.words.Shape;
+import com.aspose.words.NodeType;
+import org.testng.Assert;
+import com.aspose.words.ImageType;
 import java.awt.image.BufferedImage;
 import com.aspose.BitmapPal;
 import com.aspose.ms.System.IO.MemoryStream;
@@ -54,6 +58,53 @@ public class ExDocumentBuilderImages extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromStream.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromStream.docx");
+
+        Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(300.0d, imageShape.getHeight());
+        Assert.assertEquals(300.0d, imageShape.getWidth());
+        Assert.assertEquals(0.0d, imageShape.getLeft());
+        Assert.assertEquals(0.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.INLINE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.JPEG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints());
+
+        imageShape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+
+        Assert.assertEquals(108.0d, imageShape.getHeight());
+        Assert.assertEquals(187.5d, imageShape.getWidth());
+        Assert.assertEquals(0.0d, imageShape.getLeft());
+        Assert.assertEquals(0.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.INLINE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.JPEG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints());
+
+        imageShape = (Shape)doc.getChild(NodeType.SHAPE, 2, true);
+
+        Assert.assertEquals(100.0d, imageShape.getHeight());
+        Assert.assertEquals(200.0d, imageShape.getWidth());
+        Assert.assertEquals(100.0d, imageShape.getLeft());
+        Assert.assertEquals(100.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.SQUARE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.MARGIN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.MARGIN, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.JPEG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints());
     }
 
     @Test
@@ -71,15 +122,62 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         builder.insertImage(getImageDir() + "Logo.jpg");
 
         builder.writeln("\nInserted image from string with a custom size: ");
-        builder.insertImage(getImageDir() + "Logo.jpg", ConvertUtil.pixelToPoint(250.0),
+        builder.insertImage(getImageDir() + "Transparent background logo.png", ConvertUtil.pixelToPoint(250.0),
             ConvertUtil.pixelToPoint(144.0));
 
         builder.writeln("\nInserted image from string using relative positions: ");
-        builder.insertImage(getImageDir() + "Logo.jpg", RelativeHorizontalPosition.MARGIN, 100.0, 
+        builder.insertImage(getImageDir() + "Windows Metafile.wmf", RelativeHorizontalPosition.MARGIN, 100.0, 
             RelativeVerticalPosition.MARGIN, 100.0, 200.0, 100.0, WrapType.SQUARE);
 
         doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromString.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromString.docx");
+
+        Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(300.0d, imageShape.getHeight());
+        Assert.assertEquals(300.0d, imageShape.getWidth());
+        Assert.assertEquals(0.0d, imageShape.getLeft());
+        Assert.assertEquals(0.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.INLINE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.JPEG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints());
+
+        imageShape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+
+        Assert.assertEquals(108.0d, imageShape.getHeight());
+        Assert.assertEquals(187.5d, imageShape.getWidth());
+        Assert.assertEquals(0.0d, imageShape.getLeft());
+        Assert.assertEquals(0.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.INLINE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.PNG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints());
+
+        imageShape = (Shape)doc.getChild(NodeType.SHAPE, 2, true);
+
+        Assert.assertEquals(100.0d, imageShape.getHeight());
+        Assert.assertEquals(200.0d, imageShape.getWidth());
+        Assert.assertEquals(100.0d, imageShape.getLeft());
+        Assert.assertEquals(100.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.SQUARE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.MARGIN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.MARGIN, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(1600, 1600, ImageType.WMF, imageShape);
+        Assert.assertEquals(400.0d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(400.0d, imageShape.getImageData().getImageSize().getWidthPoints());
     }
 
         @Test
@@ -106,6 +204,53 @@ public class ExDocumentBuilderImages extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromImageClass.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromImageClass.docx");
+
+        Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(300.0d, imageShape.getHeight());
+        Assert.assertEquals(300.0d, imageShape.getWidth());
+        Assert.assertEquals(0.0d, imageShape.getLeft());
+        Assert.assertEquals(0.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.INLINE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.JPEG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints());
+
+        imageShape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+
+        Assert.assertEquals(108.0d, imageShape.getHeight());
+        Assert.assertEquals(187.5d, imageShape.getWidth());
+        Assert.assertEquals(0.0d, imageShape.getLeft());
+        Assert.assertEquals(0.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.INLINE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.JPEG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints());
+
+        imageShape = (Shape)doc.getChild(NodeType.SHAPE, 2, true);
+
+        Assert.assertEquals(100.0d, imageShape.getHeight());
+        Assert.assertEquals(200.0d, imageShape.getWidth());
+        Assert.assertEquals(100.0d, imageShape.getLeft());
+        Assert.assertEquals(100.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.SQUARE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.MARGIN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.MARGIN, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.JPEG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints());
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints());
     }
 
     @Test
@@ -141,5 +286,52 @@ public class ExDocumentBuilderImages extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromByteArray.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromByteArray.docx");
+
+        Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(300.0d, imageShape.getHeight(), 0.1d);
+        Assert.assertEquals(300.0d, imageShape.getWidth(), 0.1d);
+        Assert.assertEquals(0.0d, imageShape.getLeft());
+        Assert.assertEquals(0.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.INLINE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.PNG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 0.1d);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 0.1d);
+
+        imageShape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+
+        Assert.assertEquals(108.0d, imageShape.getHeight());
+        Assert.assertEquals(187.5d, imageShape.getWidth());
+        Assert.assertEquals(0.0d, imageShape.getLeft());
+        Assert.assertEquals(0.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.INLINE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.PNG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 0.1d);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 0.1d);
+
+        imageShape = (Shape)doc.getChild(NodeType.SHAPE, 2, true);
+
+        Assert.assertEquals(100.0d, imageShape.getHeight());
+        Assert.assertEquals(200.0d, imageShape.getWidth());
+        Assert.assertEquals(100.0d, imageShape.getLeft());
+        Assert.assertEquals(100.0d, imageShape.getTop());
+
+        Assert.assertEquals(WrapType.SQUARE, imageShape.getWrapType());
+        Assert.assertEquals(RelativeHorizontalPosition.MARGIN, imageShape.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.MARGIN, imageShape.getRelativeVerticalPosition());
+
+        TestUtil.verifyImage(400, 400, ImageType.PNG, imageShape);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 0.1d);
+        Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 0.1d);
     }
 }

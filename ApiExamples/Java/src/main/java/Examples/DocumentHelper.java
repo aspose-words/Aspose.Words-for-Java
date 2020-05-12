@@ -394,4 +394,21 @@ public final class DocumentHelper {
         java.sql.Statement statement = conn.createStatement();
         return statement.executeQuery(commandText);
     }
+
+    /// <summary>
+    /// Save the document to a stream, immediately re-open it and return the newly opened version
+    /// </summary>
+    /// <remarks>
+    /// Used for testing how document features are preserved after saving/loading
+    /// </remarks>
+    /// <param name="doc">The document we wish to re-open</param>
+    static Document saveOpen(Document doc) throws Exception {
+        ByteArrayOutputStream docStream = new ByteArrayOutputStream();
+        try {
+            doc.save(docStream, new OoxmlSaveOptions(SaveFormat.DOCX));
+            return new Document(new ByteArrayInputStream(docStream.toByteArray()));
+        } finally {
+            if (docStream != null) docStream.close();
+        }
+    }
 }

@@ -14,15 +14,16 @@ import com.aspose.words.Document;
 import com.aspose.words.GlossaryDocument;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
+import org.testng.Assert;
 import com.aspose.words.Run;
 import com.aspose.ms.NUnit.Framework.msAssert;
-import org.testng.Assert;
 import com.aspose.words.Section;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.Style;
 import com.aspose.words.StyleType;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.ImportFormatMode;
+import com.aspose.ms.System.msString;
 import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
 import com.aspose.words.NodeType;
@@ -63,6 +64,9 @@ public class ExDocumentBase extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "DocumentBase.SetPageColor.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocumentBase.SetPageColor.docx");
+        Assert.assertEquals(msColor.getLightGray().getRGB(), doc.getPageColor().getRGB());
     }
 
     @Test
@@ -76,31 +80,29 @@ public class ExDocumentBase extends ApiExampleBase
 
         // Add text to both documents
         src.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(src, "Source document first paragraph text."));
-        dst.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(dst,
-            "Destination document first paragraph text."));
+        dst.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(dst, "Destination document first paragraph text."));
 
-        // If we want to add the section from doc2 to doc1, we can't just append them like this:
-        // dst.AppendChild(src.FirstSection);
-        // Uncommenting that line throws an exception because doc2's first section belongs to doc2,
-        // but each node in a document must belong to the document
+        // In order for a child node to be successfully appended to another node in a document,
+        // both nodes must have the same parent document, or an exception is thrown
         msAssert.areNotEqual(dst, src.getFirstSection().getDocument());
+        Assert.<IllegalArgumentException>Throws(() => { dst.appendChild(src.getFirstSection()); });
 
-        // We can create a new node that belongs to the destination document
+        // For that reason, we can't just append a section of the source document to the destination document using Node.AppendChild()
+        // Document.ImportNode() lets us get around this by creating a clone of a node and sets its parent to the calling document
         Section importedSection = (Section)dst.importNode(src.getFirstSection(), true);
-
-        // It has the same content but it is not the same node nor do they have the same owner
-        msAssert.areNotEqual(importedSection, src.getFirstSection());
-        msAssert.areNotEqual(importedSection.getDocument(), src.getFirstSection().getDocument());
-        msAssert.areEqual(importedSection.getBody().getFirstParagraph().getText(),
-            src.getFirstSection().getBody().getFirstParagraph().getText());
 
         // Now it is ready to be placed in the document
         dst.appendChild(importedSection);
 
-        // Our document does indeed contain both the original and imported section
-        msAssert.areEqual("Destination document first paragraph text.\r\nSource document first paragraph text.\r\n",
+        // Our document now contains both the original and imported section
+        Assert.assertEquals("Destination document first paragraph text.\r\nSource document first paragraph text.\r\n",
             dst.toString(SaveFormat.TEXT));
         //ExEnd
+
+        msAssert.areNotEqual(importedSection, src.getFirstSection());
+        msAssert.areNotEqual(importedSection.getDocument(), src.getFirstSection().getDocument());
+        Assert.assertEquals(importedSection.getBody().getFirstParagraph().getText(),
+            src.getFirstSection().getBody().getFirstParagraph().getText());
     }
 
     @Test
@@ -109,27 +111,35 @@ public class ExDocumentBase extends ApiExampleBase
         //ExStart
         //ExFor:DocumentBase.ImportNode(Node, System.Boolean, ImportFormatMode)
         //ExSummary:Shows how to import node from source document to destination document with specific options.
-        // Create two documents with two styles that aren't the same but have the same name
+        // Create two documents with two styles that differ in font but have the same name
         Document src = new Document();
         Style srcStyle = src.getStyles().add(StyleType.CHARACTER, "My style");
+        srcStyle.getFont().setName("Courier New");
         DocumentBuilder srcBuilder = new DocumentBuilder(src);
         srcBuilder.getFont().setStyle(srcStyle);
         srcBuilder.writeln("Source document text.");
 
         Document dst = new Document();
         Style dstStyle = dst.getStyles().add(StyleType.CHARACTER, "My style");
-        dstStyle.getFont().setBold(true);
+        dstStyle.getFont().setName("Calibri");
         DocumentBuilder dstBuilder = new DocumentBuilder(dst);
         dstBuilder.getFont().setStyle(dstStyle);
-        srcBuilder.writeln("Destination document text.");
+        dstBuilder.writeln("Destination document text.");
 
-        dst.importNode(src.getFirstSection(), true, ImportFormatMode.USE_DESTINATION_STYLES);
+        // Import the Section from the destination document into the source document, causing a style name collision
+        // If we use destination styles then the imported source text with the same style name as destination text
+        // will adopt the destination style 
+        Section importedSection = (Section)dst.importNode(src.getFirstSection(), true, ImportFormatMode.USE_DESTINATION_STYLES);
+        Assert.assertEquals("Source document text.", msString.trim(importedSection.getBody().getParagraphs().get(0).getRuns().get(0).getText())); //ExSkip
+        Assert.assertNull(dst.getStyles().get("My style_0")); //ExSkip
+        Assert.assertEquals(dstStyle.getFont().getName(), importedSection.getBody().getFirstParagraph().getRuns().get(0).getFont().getName());
+        Assert.assertEquals(dstStyle.getName(), importedSection.getBody().getFirstParagraph().getRuns().get(0).getFont().getStyleName());
 
-        Assert.assertNull(dst.getStyles().get("My style_0"));
-
+        // If we use ImportFormatMode.KeepDifferentStyles,
+        // the source style is preserved and the naming clash is resolved by adding a suffix 
         dst.importNode(src.getFirstSection(), true, ImportFormatMode.KEEP_DIFFERENT_STYLES);
-
-        Assert.assertNotNull(dst.getStyles().get("My style_0"));
+        Assert.assertEquals(dstStyle.getFont().getName(), dst.getStyles().get("My style").getFont().getName());
+        Assert.assertEquals(srcStyle.getFont().getName(), dst.getStyles().get("My style_0").getFont().getName());
         //ExEnd
     }
 
@@ -167,6 +177,9 @@ public class ExDocumentBase extends ApiExampleBase
         // However, we can see our watermark in an output pdf
         doc.save(getArtifactsDir() + "DocumentBase.BackgroundShape.pdf");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocumentBase.BackgroundShapeFlatColor.docx");
+        Assert.assertEquals(java.awt.Color.LightBlue.getRGB(), doc.getBackgroundShape().getFillColor().getRGB());
     }
 
         //ExStart
@@ -185,10 +198,6 @@ public class ExDocumentBase extends ApiExampleBase
     {
         Document doc = new Document();
 
-        // Images belong to NodeType.Shape
-        // There are none in a blank document
-        msAssert.areEqual(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
-
         // Enable our custom image loading
         doc.setResourceLoadingCallback(new ImageNameHandler());
 
@@ -200,9 +209,11 @@ public class ExDocumentBase extends ApiExampleBase
         builder.insertImage("Aspose Logo");
         builder.insertImage("My Watermark");
 
-        msAssert.areEqual(3, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+        // Images belong to Shape objects, which are placed and scaled in the document
+        Assert.assertEquals(3, doc.getChildNodes(NodeType.SHAPE, true).getCount());
 
         doc.save(getArtifactsDir() + "DocumentBase.ResourceLoadingCallback.docx");
+        testResourceLoadingCallback(new Document(getArtifactsDir() + "DocumentBase.ResourceLoadingCallback.docx")); //ExSkip
     }
 
     private static class ImageNameHandler implements IResourceLoadingCallback
@@ -257,4 +268,13 @@ public class ExDocumentBase extends ApiExampleBase
         }
     }
     //ExEnd
+
+    private void testResourceLoadingCallback(Document doc) throws Exception
+    {
+        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
+        {
+            Assert.assertTrue(shape.hasImage());
+            Assert.IsNotEmpty(shape.getImageData().getImageBytes());
+        }
+    }
     }

@@ -14,8 +14,8 @@ import TestData.TestBuilders.DocumentTestBuilder;
 import TestData.TestBuilders.ImageTestBuilder;
 import TestData.TestBuilders.NumericTestBuilder;
 import TestData.TestClasses.*;
-import com.aspose.words.*;
 import com.aspose.words.Shape;
+import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataSet;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -30,7 +30,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.List;
 
 @Test
@@ -312,10 +311,10 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void insertDocumentDynamicallyByUri() throws Exception {
-        Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocumentUri()]>>");
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocumentString()]>>");
 
         DocumentTestClass docUri = new DocumentTestBuilder()
-                .withDocumentUri("http://www.snee.com/xml/xslt/sample.doc").build();
+                .withDocumentString("http://www.snee.com/xml/xslt/sample.doc").build();
 
         buildReport(template, docUri, "src");
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
@@ -356,9 +355,9 @@ public class ExReportingEngine extends ApiExampleBase {
     @Test
     public void insertImageDynamicallyByUri() throws Exception {
         Document template =
-                DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImageUri()]>>", ShapeType.TEXT_BOX);
+                DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImageString()]>>", ShapeType.TEXT_BOX);
         ImageTestClass imageUri = new ImageTestBuilder()
-                .withImageUri(
+                .withImageString(
                         "http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png")
                 .build();
 

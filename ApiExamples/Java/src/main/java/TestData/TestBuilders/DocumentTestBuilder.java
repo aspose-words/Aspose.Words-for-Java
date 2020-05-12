@@ -17,13 +17,13 @@ public class DocumentTestBuilder {
     private Document mDocument;
     private FileInputStream mDocumentStream;
     private byte[] mDocumentBytes;
-    private String mDocumentUri;
+    private String mDocumentString;
 
     public DocumentTestBuilder() throws Exception {
         mDocument = new Document();
         mDocumentStream = null;
         mDocumentBytes = new byte[0];
-        mDocumentUri = "";
+        mDocumentString = "";
     }
 
     public DocumentTestBuilder withDocument(final Document doc) {
@@ -41,12 +41,12 @@ public class DocumentTestBuilder {
         return this;
     }
 
-    public DocumentTestBuilder withDocumentUri(final String docUri) {
-        mDocumentUri = docUri;
+    public DocumentTestBuilder withDocumentString(final String docUri) {
+        mDocumentString = docUri;
         return this;
     }
 
     public DocumentTestClass build() {
-        return new DocumentTestClass(mDocument, mDocumentStream, mDocumentBytes, mDocumentUri);
+        return new DocumentTestClass(mDocument, mDocumentStream, mDocumentBytes, mDocumentString);
     }
 }

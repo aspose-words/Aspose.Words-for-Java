@@ -16,7 +16,6 @@ import com.aspose.words.BreakType;
 import com.aspose.words.ProtectionType;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.Section;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.SectionStart;
 import com.aspose.words.PaperSize;
@@ -31,8 +30,6 @@ import com.aspose.words.NodeType;
 import com.aspose.words.HeaderFooter;
 import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.ms.System.Globalization.msCultureInfo;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
 
 
 @Test
@@ -46,7 +43,6 @@ public class ExSection extends ApiExampleBase
         //ExFor:ProtectionType
         //ExFor:Section.ProtectedForForms
         //ExSummary:Protects a section so only editing in form fields is possible.
-        // Create a blank document
         Document doc = new Document();
 
         // Insert two sections with some text
@@ -96,7 +92,7 @@ public class ExSection extends ApiExampleBase
         System.out.println(doc.getText());
         //ExEnd
 
-        msAssert.areEqual("Section 2\fSection 2\f", doc.getText());
+        Assert.assertEquals("Section 2\fSection 2\f", doc.getText());
     }
 
     @Test
@@ -127,16 +123,15 @@ public class ExSection extends ApiExampleBase
         //ExFor:Run.Text
         //ExFor:Inline.Font
         //ExSummary:Creates a simple document from scratch using the Aspose.Words object model.
-        // Create an "empty" document. Note that like in Microsoft Word, 
-        // the empty document has one section, body and one paragraph in it
         Document doc = new Document();
 
-        // This truly makes the document empty. No sections (not possible in Microsoft Word)
+        // A newly created blank document still comes one section, one body and one paragraph
+        // Calling this method will remove all those nodes to completely empty the document
         doc.removeAllChildren();
 
-        // Create a new section node
-        // Note that the section has not yet been added to the document, 
-        // but we have to specify the parent document
+        // This document now has no composite nodes that content can be added to
+        // If we wish to edit it, we will need to repopulate its node collection,
+        // which we will start to do with by creating a new Section node
         Section section = new Section(doc);
 
         // Append the section to the document
@@ -175,10 +170,10 @@ public class ExSection extends ApiExampleBase
         System.out.println("Hello World!\f");
 
         // Save the document
-        doc.save(getArtifactsDir() + "Section.CreateFromScratch.doc");
+        doc.save(getArtifactsDir() + "Section.CreateFromScratch.docx");
         //ExEnd
 
-        msAssert.areEqual("Hello World!\f", doc.getText());
+        Assert.assertEquals("Hello World!\f", doc.getText());
     }
 
     @Test
@@ -187,7 +182,6 @@ public class ExSection extends ApiExampleBase
         //ExStart
         //ExFor:Section.EnsureMinimum
         //ExSummary:Ensures that a section is valid.
-        // Create a blank document
         Document doc = new Document();
         Section section = doc.getFirstSection();
 
@@ -233,7 +227,7 @@ public class ExSection extends ApiExampleBase
         System.out.println(doc.getText());
         //ExEnd
 
-        msAssert.areEqual("\f\f", doc.getText());
+        Assert.assertEquals("\f\f", doc.getText());
     }
 
     @Test
@@ -458,13 +452,13 @@ public class ExSection extends ApiExampleBase
 
         // Assert that page defaults comply current culture info
         Section sectionEn = docEn.getSections().get(0);
-        msAssert.areEqual(72.0, sectionEn.getPageSetup().getLeftMargin()); // 2.54 cm         
-        msAssert.areEqual(72.0, sectionEn.getPageSetup().getRightMargin()); // 2.54 cm
-        msAssert.areEqual(72.0, sectionEn.getPageSetup().getTopMargin()); // 2.54 cm
-        msAssert.areEqual(72.0, sectionEn.getPageSetup().getBottomMargin()); // 2.54 cm
-        msAssert.areEqual(36.0, sectionEn.getPageSetup().getHeaderDistance()); // 1.27 cm
-        msAssert.areEqual(36.0, sectionEn.getPageSetup().getFooterDistance()); // 1.27 cm
-        msAssert.areEqual(36.0, sectionEn.getPageSetup().getTextColumns().getSpacing()); // 1.27 cm
+        Assert.assertEquals(72.0, sectionEn.getPageSetup().getLeftMargin()); // 2.54 cm         
+        Assert.assertEquals(72.0, sectionEn.getPageSetup().getRightMargin()); // 2.54 cm
+        Assert.assertEquals(72.0, sectionEn.getPageSetup().getTopMargin()); // 2.54 cm
+        Assert.assertEquals(72.0, sectionEn.getPageSetup().getBottomMargin()); // 2.54 cm
+        Assert.assertEquals(36.0, sectionEn.getPageSetup().getHeaderDistance()); // 1.27 cm
+        Assert.assertEquals(36.0, sectionEn.getPageSetup().getFooterDistance()); // 1.27 cm
+        Assert.assertEquals(36.0, sectionEn.getPageSetup().getTextColumns().getSpacing()); // 1.27 cm
 
         // Change culture and assert that the page defaults are changed
         CurrentThread.setCurrentCulture(new msCultureInfo("de-de"));
@@ -472,13 +466,13 @@ public class ExSection extends ApiExampleBase
         Document docDe = new Document();
 
         Section sectionDe = docDe.getSections().get(0);
-        msAssert.areEqual(70.85, sectionDe.getPageSetup().getLeftMargin()); // 2.5 cm         
-        msAssert.areEqual(70.85, sectionDe.getPageSetup().getRightMargin()); // 2.5 cm
-        msAssert.areEqual(70.85, sectionDe.getPageSetup().getTopMargin()); // 2.5 cm
-        msAssert.areEqual(56.7, sectionDe.getPageSetup().getBottomMargin()); // 2 cm
-        msAssert.areEqual(35.4, sectionDe.getPageSetup().getHeaderDistance()); // 1.25 cm
-        msAssert.areEqual(35.4, sectionDe.getPageSetup().getFooterDistance()); // 1.25 cm
-        msAssert.areEqual(35.4, sectionDe.getPageSetup().getTextColumns().getSpacing()); // 1.25 cm
+        Assert.assertEquals(70.85, sectionDe.getPageSetup().getLeftMargin()); // 2.5 cm         
+        Assert.assertEquals(70.85, sectionDe.getPageSetup().getRightMargin()); // 2.5 cm
+        Assert.assertEquals(70.85, sectionDe.getPageSetup().getTopMargin()); // 2.5 cm
+        Assert.assertEquals(56.7, sectionDe.getPageSetup().getBottomMargin()); // 2 cm
+        Assert.assertEquals(35.4, sectionDe.getPageSetup().getHeaderDistance()); // 1.25 cm
+        Assert.assertEquals(35.4, sectionDe.getPageSetup().getFooterDistance()); // 1.25 cm
+        Assert.assertEquals(35.4, sectionDe.getPageSetup().getTextColumns().getSpacing()); // 1.25 cm
 
         // Change page defaults
         sectionDe.getPageSetup().setLeftMargin(90.0); // 3.17 cm
@@ -489,16 +483,15 @@ public class ExSection extends ApiExampleBase
         sectionDe.getPageSetup().setFooterDistance(35.4); // 1.25 cm
         sectionDe.getPageSetup().getTextColumns().setSpacing(35.4); // 1.25 cm
 
-        MemoryStream dstStream = new MemoryStream();
-        docDe.save(dstStream, SaveFormat.DOCX);
+        docDe = DocumentHelper.saveOpen(docDe);
 
         Section sectionDeAfter = docDe.getSections().get(0);
-        msAssert.areEqual(90.0, sectionDeAfter.getPageSetup().getLeftMargin()); // 3.17 cm         
-        msAssert.areEqual(90.0, sectionDeAfter.getPageSetup().getRightMargin()); // 3.17 cm
-        msAssert.areEqual(72.0, sectionDeAfter.getPageSetup().getTopMargin()); // 2.54 cm
-        msAssert.areEqual(72.0, sectionDeAfter.getPageSetup().getBottomMargin()); // 2.54 cm
-        msAssert.areEqual(35.4, sectionDeAfter.getPageSetup().getHeaderDistance()); // 1.25 cm
-        msAssert.areEqual(35.4, sectionDeAfter.getPageSetup().getFooterDistance()); // 1.25 cm
-        msAssert.areEqual(35.4, sectionDeAfter.getPageSetup().getTextColumns().getSpacing()); // 1.25 cm
+        Assert.assertEquals(90.0, sectionDeAfter.getPageSetup().getLeftMargin()); // 3.17 cm         
+        Assert.assertEquals(90.0, sectionDeAfter.getPageSetup().getRightMargin()); // 3.17 cm
+        Assert.assertEquals(72.0, sectionDeAfter.getPageSetup().getTopMargin()); // 2.54 cm
+        Assert.assertEquals(72.0, sectionDeAfter.getPageSetup().getBottomMargin()); // 2.54 cm
+        Assert.assertEquals(35.4, sectionDeAfter.getPageSetup().getHeaderDistance()); // 1.25 cm
+        Assert.assertEquals(35.4, sectionDeAfter.getPageSetup().getFooterDistance()); // 1.25 cm
+        Assert.assertEquals(35.4, sectionDeAfter.getPageSetup().getTextColumns().getSpacing()); // 1.25 cm
     }
 }

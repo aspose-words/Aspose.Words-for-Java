@@ -15,7 +15,6 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.EditableRangeStart;
 import com.aspose.words.EditableRange;
 import com.aspose.words.EditableRangeEnd;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
 import com.aspose.ms.System.msConsole;
@@ -23,10 +22,8 @@ import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.Run;
-import com.aspose.words.EditorType;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
 import com.aspose.words.NodeCollection;
+import com.aspose.words.EditorType;
 
 
 @Test
@@ -46,10 +43,17 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         EditableRange editableRange1 = edRange1Start.getEditableRange();
         builder.writeln("Paragraph inside editable range");
         EditableRangeEnd edRange1End = builder.endEditableRange();
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true).getCount()); //ExSkip
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.EDITABLE_RANGE_END, true).getCount()); //ExSkip
+        Assert.assertEquals(0, edRange1Start.getEditableRange().getId()); //ExSkip
+        Assert.assertEquals("", edRange1Start.getEditableRange().getSingleUser()); //ExSkip
 
         // Remove the range that was just made
         editableRange1.remove();
         //ExEnd
+
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true).getCount());
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.EDITABLE_RANGE_END, true).getCount());
     }
 
     //ExStart
@@ -98,26 +102,26 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         EditableRangeEnd edRange2End = builder.endEditableRange(edRange2Start);
 
         // Editable range starts and ends have their own respective node types
-        msAssert.areEqual(NodeType.EDITABLE_RANGE_START, edRange1Start.getNodeType());
-        msAssert.areEqual(NodeType.EDITABLE_RANGE_END, edRange1End.getNodeType());
+        Assert.assertEquals(NodeType.EDITABLE_RANGE_START, edRange1Start.getNodeType());
+        Assert.assertEquals(NodeType.EDITABLE_RANGE_END, edRange1End.getNodeType());
 
         // Editable range IDs are unique and set automatically
-        msAssert.areEqual(0, editableRange1.getId());
-        msAssert.areEqual(1, editableRange2.getId());
+        Assert.assertEquals(0, editableRange1.getId());
+        Assert.assertEquals(1, editableRange2.getId());
 
         // Editable range starts and ends always belong to a range
-        msAssert.areEqual(edRange1Start, editableRange1.getEditableRangeStart());
-        msAssert.areEqual(edRange1End, editableRange1.getEditableRangeEnd());
+        Assert.assertEquals(edRange1Start, editableRange1.getEditableRangeStart());
+        Assert.assertEquals(edRange1End, editableRange1.getEditableRangeEnd());
 
         // They also inherit the ID of the entire editable range that they belong to
-        msAssert.areEqual(editableRange1.getId(), edRange1Start.getId());
-        msAssert.areEqual(editableRange1.getId(), edRange1End.getId());
-        msAssert.areEqual(editableRange2.getId(), edRange2Start.getEditableRange().getId());
-        msAssert.areEqual(editableRange2.getId(), edRange2End.getEditableRangeStart().getEditableRange().getId());
+        Assert.assertEquals(editableRange1.getId(), edRange1Start.getId());
+        Assert.assertEquals(editableRange1.getId(), edRange1End.getId());
+        Assert.assertEquals(editableRange2.getId(), edRange2Start.getEditableRange().getId());
+        Assert.assertEquals(editableRange2.getId(), edRange2End.getEditableRangeStart().getEditableRange().getId());
 
         // If the editable range was found in a document, it will probably have something in the single user property
         // But if we make one programmatically, the property is empty by default
-        msAssert.areEqual("", editableRange1.getSingleUser());
+        Assert.assertEquals("", editableRange1.getSingleUser());
 
         // We have to set it ourselves if we want the ranges to belong to somebody
         editableRange1.setSingleUser("john.doe@myoffice.com");
@@ -135,6 +139,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         doc.accept(editableRangeReader);
 
         System.out.println(editableRangeReader.toText());
+        testCreateEditableRanges(doc, editableRangeReader); //ExSkip
     }
 
     /// <summary>
@@ -203,6 +208,31 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
     }
     //ExEnd
 
+    private void testCreateEditableRanges(Document doc, EditableRangeInfoPrinter visitor)
+    {
+        NodeCollection editableRangeStarts = doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true);
+
+        Assert.assertEquals(2, editableRangeStarts.getCount());
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.EDITABLE_RANGE_END, true).getCount());
+
+        EditableRange range = ((EditableRangeStart)editableRangeStarts.get(0)).getEditableRange();
+
+        Assert.assertEquals(0, range.getId());
+        Assert.assertEquals("john.doe@myoffice.com", range.getSingleUser());
+        Assert.assertEquals(EditorType.UNSPECIFIED, range.getEditorGroup());
+
+        range = ((EditableRangeStart)editableRangeStarts.get(1)).getEditableRange();
+
+        Assert.assertEquals(1, range.getId());
+        Assert.assertEquals("jane.doe@myoffice.com", range.getSingleUser());
+        Assert.assertEquals(EditorType.UNSPECIFIED, range.getEditorGroup());
+
+        String visitorText = visitor.toText();
+
+        Assert.assertTrue(visitorText.contains("Paragraph inside first editable range"));
+        Assert.assertTrue(visitorText.contains("Paragraph inside second editable range"));
+    }
+
     @Test
     public void incorrectStructureException() throws Exception
     {
@@ -235,14 +265,13 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         startRange1.getEditableRange().setEditorGroup(EditorType.EVERYONE);
         //ExEnd
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
         // Assert that it's not valid structure and editable ranges aren't added to the current document
         NodeCollection startNodes = doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true);
-        msAssert.areEqual(0, startNodes.getCount());
+        Assert.assertEquals(0, startNodes.getCount());
 
         NodeCollection endNodes = doc.getChildNodes(NodeType.EDITABLE_RANGE_END, true);
-        msAssert.areEqual(0, endNodes.getCount());
+        Assert.assertEquals(0, endNodes.getCount());
     }
 }

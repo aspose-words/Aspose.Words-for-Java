@@ -9,14 +9,15 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
 import com.aspose.ms.System.IO.Directory;
-import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import com.aspose.ms.System.msConsole;
 import java.lang.Class;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.License;
+import com.aspose.barcode.License;
 import com.aspose.ms.System.msUri;
 
 
@@ -25,8 +26,8 @@ import com.aspose.ms.System.msUri;
 /// </summary>
 public class ApiExampleBase
 {
-    @BeforeMethod (alwaysRun = true)
-    public void setUp() throws Exception
+    @OneTimeSetUp
+    public void oneTimeSetUp() throws Exception
     {
         if (checkForSkipMono() && isRunningOnMono())
         {
@@ -43,8 +44,14 @@ public class ApiExampleBase
             Directory.createDirectory(getArtifactsDir());
     }
 
-    @AfterMethod (alwaysRun = true)
-    public void tearDown() throws Exception
+    @BeforeMethod (alwaysRun = true)
+    public void setUp()
+    {
+        System.out.println("Clr: {RuntimeInformation.FrameworkDescription}\n");
+    }
+
+    @OneTimeTearDown
+    public void oneTimeTearDown() throws Exception
     {
         if (!checkForSkipTearDown())
         {
@@ -93,7 +100,7 @@ public class ApiExampleBase
     static void setUnlimitedLicense() throws Exception
     {
         // This is where the test license is on my development machine.
-        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Words.lic");
+        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Total.lic");
 
         if (File.exists(testLicenseFileName))
         {
@@ -101,8 +108,14 @@ public class ApiExampleBase
             // You don't have to specify full path as shown here. You can specify just the 
             // file name if you copy the license file into the same folder as your application
             // binaries or you add the license to your project as an embedded resource.
-            License license = new License();
-            license.setLicense(testLicenseFileName);
+            License wordsLicense = new License();
+            wordsLicense.setLicense(testLicenseFileName);
+
+            Aspose.Pdf.License pdfLicense = new Aspose.Pdf.License();
+            pdfLicense.SetLicense(testLicenseFileName);
+
+            License barcodeLicense = new License();
+            barcodeLicense.setLicense(testLicenseFileName);
         }
     }
 

@@ -14,7 +14,14 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.DocSaveOptions;
 import com.aspose.words.SaveFormat;
+import org.testng.Assert;
+import com.aspose.words.IncorrectPasswordException;
+import com.aspose.words.LoadOptions;
+import com.aspose.ms.System.msString;
 import com.aspose.ms.System.IO.Directory;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import com.aspose.ms.System.DateTime;
+import org.testng.annotations.DataProvider;
 
 
 @Test
@@ -44,8 +51,15 @@ public class ExDocSaveOptions extends ApiExampleBase
         // If the document contains a routing slip, we can preserve it while saving by setting this flag to true
         options.setSaveRoutingSlip(true);
 
-        doc.save(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", options);          
+        doc.save(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", options);
         //ExEnd
+
+        Assert.<IncorrectPasswordException>Throws(() => doc = new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc"));
+
+        LoadOptions loadOptions = new LoadOptions("MyPassword");
+        doc = new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", loadOptions);
+
+        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
     }
 
     @Test
@@ -76,6 +90,7 @@ public class ExDocSaveOptions extends ApiExampleBase
         //ExFor:DocSaveOptions.SavePictureBullet
         //ExSummary:Shows how to remove PictureBullet data from the document.
         Document doc = new Document(getMyDir() + "Image bullet points.docx");
+        Assert.assertNotNull(doc.getLists().get(0).getListLevels().get(0).getImageData()); //ExSkip
 
         // Word 97 cannot work correctly with PictureBullet data
         // To remove PictureBullet data, set the option to "false"
@@ -84,5 +99,40 @@ public class ExDocSaveOptions extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "DocSaveOptions.PictureBullets.doc", saveOptions);
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocSaveOptions.PictureBullets.doc");
+
+        Assert.assertNull(doc.getLists().get(0).getListLevels().get(0).getImageData());
     }
+
+    @Test (dataProvider = "updateLastPrintedPropertyDataProvider")
+    public void updateLastPrintedProperty(boolean isUpdateLastPrintedProperty) throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.UpdateLastPrintedProperty
+        //ExSummary:Shows how to update BuiltInDocumentProperties.LastPrinted property before saving.
+        Document doc = new Document();
+
+        // Aspose.Words update BuiltInDocumentProperties.LastPrinted property by default
+        DocSaveOptions saveOptions = new DocSaveOptions();
+        saveOptions.setUpdateLastPrintedProperty(isUpdateLastPrintedProperty);
+
+        doc.save(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.docx", saveOptions);
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.docx");
+
+        msAssert.areNotEqual(isUpdateLastPrintedProperty, DateTime.equals(DateTime.parse("1/1/0001 00:00:00"), doc.getBuiltInDocumentProperties().getLastPrintedInternal().getDate()));
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "updateLastPrintedPropertyDataProvider")
+	public static Object[][] updateLastPrintedPropertyDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
 }

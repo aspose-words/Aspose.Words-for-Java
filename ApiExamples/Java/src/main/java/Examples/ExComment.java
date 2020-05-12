@@ -12,7 +12,6 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,16 +44,14 @@ public class ExComment extends ApiExampleBase {
         newComment.addReply("John Doe", "JD", cal.getTime(), "New reply");
         //ExEnd
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
+        doc = DocumentHelper.saveOpen(doc);
         Comment docComment = (Comment) doc.getChild(NodeType.COMMENT, 0, true);
 
-        Assert.assertEquals(docComment.getCount(), 1);
-        Assert.assertEquals(newComment.getReplies().getCount(), 1);
+        Assert.assertEquals(1, docComment.getCount());
+        Assert.assertEquals(1, newComment.getReplies().getCount());
 
-        Assert.assertEquals(docComment.getText(), "\u0005My comment.\r");
-        Assert.assertEquals(docComment.getReplies().get(0).getText(), "\u0005New reply\r");
+        Assert.assertEquals("\u0005My comment.\r", docComment.getText());
+        Assert.assertEquals("\u0005New reply\r", docComment.getReplies().get(0).getText());
     }
 
     @Test
@@ -63,6 +60,7 @@ public class ExComment extends ApiExampleBase {
         //ExFor:Comment.Ancestor
         //ExFor:Comment.Author
         //ExFor:Comment.Replies
+        //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
         //ExSummary:Shows how to get all comments with all replies.
         Document doc = new Document(getMyDir() + "Comments.docx");
 
@@ -74,16 +72,14 @@ public class ExComment extends ApiExampleBase {
         // For all comments and replies we identify comment level and info about it
         for (Comment comment : (Iterable<Comment>) comments) {
             if (comment.getAncestor() == null) {
-                System.out.println("This is a top-level comment\n");
-
-                System.out.println(MessageFormat.format("Comment author: ", comment.getAuthor()));
+                System.out.println("\nThis is a top-level comment");
+                System.out.println("Comment author: " + comment.getAuthor());
                 System.out.println("Comment text: " + comment.getText());
 
                 for (Comment commentReply : comment.getReplies()) {
-                    System.out.println("This is a comment reply\n");
-
-                    System.out.println(MessageFormat.format("Comment author: ", commentReply.getAuthor()));
-                    System.out.println(MessageFormat.format("Comment text: ", commentReply.getText()));
+                    System.out.println("\n\tThis is a comment reply");
+                    System.out.println("\tReply author: " + commentReply.getAuthor());
+                    System.out.println("\tReply text: " + commentReply.getText());
                 }
             }
         }
@@ -99,8 +95,10 @@ public class ExComment extends ApiExampleBase {
 
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
         Comment comment = (Comment) comments.get(0);
+        Assert.assertEquals(2, comment.getReplies().getCount()); //ExSkip
 
         comment.removeAllReplies();
+        Assert.assertEquals(0, comment.getReplies().getCount()); //ExSkip
         //ExEnd
     }
 
@@ -116,9 +114,11 @@ public class ExComment extends ApiExampleBase {
 
         Comment parentComment = (Comment) comments.get(0);
         CommentCollection repliesCollection = parentComment.getReplies();
+        Assert.assertEquals(2, parentComment.getReplies().getCount()); //ExSkip
 
         // Remove the first reply to comment
         parentComment.removeReply(repliesCollection.get(0));
+        Assert.assertEquals(1, parentComment.getReplies().getCount()); //ExSkip
         //ExEnd
     }
 
@@ -142,6 +142,14 @@ public class ExComment extends ApiExampleBase {
             }
         }
         //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+        comment = (Comment) doc.getChildNodes(NodeType.COMMENT, true).get(0);
+        repliesCollection = comment.getReplies();
+
+        for (Comment childComment : (Iterable<Comment>) repliesCollection) {
+            Assert.assertTrue(childComment.getDone());
+        }
     }
 
     //ExStart
@@ -192,11 +200,10 @@ public class ExComment extends ApiExampleBase {
     /// </summary>
     public static Comment createComment(Document doc, String author, String initials, Date dateTime, String text) {
         Comment newComment = new Comment(doc);
-        {
-            newComment.setAuthor(author);
-            newComment.setInitial(initials);
-            newComment.setDateTime(dateTime);
-        }
+
+        newComment.setAuthor(author);
+        newComment.setInitial(initials);
+        newComment.setDateTime(dateTime);
         newComment.setText(text);
 
         return newComment;
@@ -206,7 +213,7 @@ public class ExComment extends ApiExampleBase {
     /// Extract comments from the document without replies.
     /// </summary>
     public static ArrayList<Comment> extractComments(Document doc) {
-        ArrayList<Comment> collectedComments = new ArrayList<Comment>();
+        ArrayList<Comment> collectedComments = new ArrayList<>();
 
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
 

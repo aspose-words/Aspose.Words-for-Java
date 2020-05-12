@@ -14,11 +14,11 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Shape;
 import com.aspose.words.ChartType;
-import com.aspose.ms.NUnit.Framework.msAssert;
-import org.testng.Assert;
-import com.aspose.words.ShapeType;
 import com.aspose.words.Chart;
 import com.aspose.words.ChartTitle;
+import com.aspose.words.NodeType;
+import org.testng.Assert;
+import com.aspose.words.ShapeType;
 import com.aspose.words.ChartSeries;
 import com.aspose.words.ChartDataLabelCollection;
 import com.aspose.words.ChartSeriesCollection;
@@ -31,9 +31,6 @@ import com.aspose.ms.System.DateTime;
 import com.aspose.words.AxisBound;
 import com.aspose.words.AxisTimeUnit;
 import com.aspose.words.AxisBuiltInUnit;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.NodeType;
 import com.aspose.words.BreakType;
 import java.util.Iterator;
 import com.aspose.words.ChartDataLabel;
@@ -68,9 +65,6 @@ public class ExCharts extends ApiExampleBase
         // Use a document builder to insert a bar chart
         Shape chartShape = builder.insertChart(ChartType.BAR, 400.0, 300.0);
 
-        msAssert.areEqual(ShapeType.NON_PRIMITIVE, chartShape.getShapeType());
-        Assert.assertTrue(chartShape.hasChart());
-
         // Get the chart object from the containing shape
         Chart chart = chartShape.getChart();
         
@@ -82,6 +76,18 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.ChartTitle.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.ChartTitle.docx");
+        chartShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(ShapeType.NON_PRIMITIVE, chartShape.getShapeType());
+        Assert.assertTrue(chartShape.hasChart());
+
+        title = chartShape.getChart().getTitle();
+
+        Assert.assertEquals("MyChart", title.getText());
+        Assert.assertTrue(title.getOverlay());
+        Assert.assertTrue(title.getShow());
     }
 
     @Test
@@ -110,6 +116,11 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.DefineNumberFormatForDataLabels.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.DefineNumberFormatForDataLabels.docx");
+        series = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0);
+
+        Assert.assertEquals("", series.getDataLabels().getNumberFormat().getFormatCode());
     }
 
     @Test
@@ -215,8 +226,8 @@ public class ExCharts extends ApiExampleBase
         xAxis.setReverseOrder(false);
         xAxis.setMajorTickMark(AxisTickMark.INSIDE);
         xAxis.setMinorTickMark(AxisTickMark.CROSS);
-        xAxis.setMajorUnit(10.0);
-        xAxis.setMinorUnit(15.0);
+        xAxis.setMajorUnit(10.0d);
+        xAxis.setMinorUnit(15.0d);
         xAxis.setTickLabelOffset(50);
         xAxis.setTickLabelPosition(AxisTickLabelPosition.LOW);
         xAxis.setTickLabelSpacingIsAuto(false);
@@ -228,12 +239,36 @@ public class ExCharts extends ApiExampleBase
         yAxis.setReverseOrder(true);
         yAxis.setMajorTickMark(AxisTickMark.INSIDE);
         yAxis.setMinorTickMark(AxisTickMark.CROSS);
-        yAxis.setMajorUnit(100.0);
-        yAxis.setMinorUnit(20.0);
+        yAxis.setMajorUnit(100.0d);
+        yAxis.setMinorUnit(20.0d);
         yAxis.setTickLabelPosition(AxisTickLabelPosition.NEXT_TO_AXIS);
-        //ExEnd
 
         doc.save(getArtifactsDir() + "Charts.AxisProperties.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.AxisProperties.docx");
+        chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
+
+        Assert.assertEquals(AxisCategoryType.CATEGORY, chart.getAxisX().getCategoryType());
+        Assert.assertEquals(AxisCrosses.MINIMUM, chart.getAxisX().getCrosses());
+        Assert.assertFalse(chart.getAxisX().getReverseOrder());
+        Assert.assertEquals(AxisTickMark.INSIDE, chart.getAxisX().getMajorTickMark());
+        Assert.assertEquals(AxisTickMark.CROSS, chart.getAxisX().getMinorTickMark());
+        Assert.assertEquals(1.0d, chart.getAxisX().getMajorUnit());
+        Assert.assertEquals(0.5d, chart.getAxisX().getMinorUnit());
+        Assert.assertEquals(50, chart.getAxisX().getTickLabelOffset());
+        Assert.assertEquals(AxisTickLabelPosition.LOW, chart.getAxisX().getTickLabelPosition());
+        Assert.assertFalse(chart.getAxisX().getTickLabelSpacingIsAuto());
+        Assert.assertEquals(1, chart.getAxisX().getTickMarkSpacing());
+
+        Assert.assertEquals(AxisCategoryType.CATEGORY, chart.getAxisY().getCategoryType());
+        Assert.assertEquals(AxisCrosses.MAXIMUM, chart.getAxisY().getCrosses());
+        Assert.assertTrue(chart.getAxisY().getReverseOrder());
+        Assert.assertEquals(AxisTickMark.INSIDE, chart.getAxisY().getMajorTickMark());
+        Assert.assertEquals(AxisTickMark.CROSS, chart.getAxisY().getMinorTickMark());
+        Assert.assertEquals(100.0d, chart.getAxisY().getMajorUnit());
+        Assert.assertEquals(20.0d, chart.getAxisY().getMinorUnit());
+        Assert.assertEquals(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisY().getTickLabelPosition());
     }
 
     @Test
@@ -279,21 +314,39 @@ public class ExCharts extends ApiExampleBase
 
         // Set major units to a week and minor units to a day
         xAxis.setBaseTimeUnit(AxisTimeUnit.DAYS);
-        xAxis.setMajorUnit(7.0);
-        xAxis.setMinorUnit(1.0);
+        xAxis.setMajorUnit(7.0d);
+        xAxis.setMinorUnit(1.0d);
         xAxis.setMajorTickMark(AxisTickMark.CROSS);
         xAxis.setMinorTickMark(AxisTickMark.OUTSIDE);
 
         // Define Y axis properties
         yAxis.setTickLabelPosition(AxisTickLabelPosition.HIGH);
-        yAxis.setMajorUnit(100.0);
-        yAxis.setMinorUnit(50.0);
+        yAxis.setMajorUnit(100.0d);
+        yAxis.setMinorUnit(50.0d);
         yAxis.getDisplayUnit().setUnit(AxisBuiltInUnit.HUNDREDS);
         yAxis.getScaling().setMinimum(new AxisBound(100.0));
         yAxis.getScaling().setMaximum(new AxisBound(700.0));
 
         doc.save(getArtifactsDir() + "Charts.DateTimeValues.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.DateTimeValues.docx");
+        chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
+
+        Assert.assertEquals(new AxisBound(new DateTime(2017, 11, 5).toOADate()), chart.getAxisX().getScaling().getMinimum());
+        Assert.assertEquals(new AxisBound(new DateTime(2017, 12, 3)), chart.getAxisX().getScaling().getMaximum());
+        Assert.assertEquals(AxisTimeUnit.DAYS, chart.getAxisX().getBaseTimeUnit());
+        Assert.assertEquals(7.0d, chart.getAxisX().getMajorUnit());
+        Assert.assertEquals(1.0d, chart.getAxisX().getMinorUnit());
+        Assert.assertEquals(AxisTickMark.CROSS, chart.getAxisX().getMajorTickMark());
+        Assert.assertEquals(AxisTickMark.OUTSIDE, chart.getAxisX().getMinorTickMark());
+
+        Assert.assertEquals(AxisTickLabelPosition.HIGH, chart.getAxisY().getTickLabelPosition());
+        Assert.assertEquals(100.0d, chart.getAxisY().getMajorUnit());
+        Assert.assertEquals(50.0d, chart.getAxisY().getMinorUnit());
+        Assert.assertEquals(AxisBuiltInUnit.HUNDREDS, chart.getAxisY().getDisplayUnit().getUnit());
+        Assert.assertEquals(new AxisBound(100.0), chart.getAxisY().getScaling().getMinimum());
+        Assert.assertEquals(new AxisBound(700.0), chart.getAxisY().getScaling().getMaximum());
     }
 
     @Test
@@ -301,13 +354,15 @@ public class ExCharts extends ApiExampleBase
     {
         //ExStart
         //ExFor:ChartAxis.Hidden
-        //ExSummary:Shows how to hide chart axises.
+        //ExSummary:Shows how to hide chart axes.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert chart
         Shape shape = builder.insertChart(ChartType.LINE, 432.0, 252.0);
         Chart chart = shape.getChart();
+
+        // Hide both the X and Y axes
         chart.getAxisX().setHidden(true);
         chart.getAxisY().setHidden(true);
 
@@ -317,15 +372,14 @@ public class ExCharts extends ApiExampleBase
             new String[] { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" },
             new double[] { 1.2, 0.3, 2.1, 2.9, 4.2 });
 
-        MemoryStream stream = new MemoryStream();
-        doc.save(stream, SaveFormat.DOCX);
-
-        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-        chart = shape.getChart();
-
-        msAssert.areEqual(true, chart.getAxisX().getHidden());
-        msAssert.areEqual(true, chart.getAxisY().getHidden());
+        doc.save(getArtifactsDir() + "Charts.HideChartAxis.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.HideChartAxis.docx");
+        chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
+
+        Assert.assertTrue(chart.getAxisX().getHidden());
+        Assert.assertTrue(chart.getAxisY().getHidden());
     }
 
     @Test
@@ -344,21 +398,25 @@ public class ExCharts extends ApiExampleBase
         Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
         Chart chart = shape.getChart();
 
-        // Clear demo data
+        // Clear demo data and replace it with a new custom chart series
         chart.getSeries().clear();
-
         chart.getSeries().add("Aspose Test Series",
             new String[] { "Word", "PDF", "Excel", "GoogleDocs", "Note" },
-            new double[] { 1900000.0, 850000.0, 2100000.0, 600000.0, 1500000.0 });
+            new double[] { 1900000.0d, 850000.0d, 2100000.0d, 600000.0d, 1500000.0d });
 
         // Set number format
         chart.getAxisY().getNumberFormat().setFormatCode("#,##0");
 
         // Set this to override the above value and draw the number format from the source cell
         Assert.assertFalse(chart.getAxisY().getNumberFormat().isLinkedToSource());
-        //ExEnd
 
         doc.save(getArtifactsDir() + "Charts.SetNumberFormatToChartAxis.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.SetNumberFormatToChartAxis.docx");
+        chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
+
+        Assert.assertEquals("#,##0", chart.getAxisY().getNumberFormat().getFormatCode());
     }
 
     // Note: Tests below used for verification conversion docx to pdf and the correct display.
@@ -444,11 +502,11 @@ public class ExCharts extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert bubble chart
-        Shape shapeWithBubbleChart = builder.insertChart(ChartType.BUBBLE, 432.0, 252.0);
+        Chart chart = builder.insertChart(ChartType.BUBBLE, 432.0, 252.0).getChart();
         // Clear demo data
-        shapeWithBubbleChart.getChart().getSeries().clear();
+        chart.getSeries().clear();
         
-        ChartSeries bubbleChartSeries = shapeWithBubbleChart.getChart().getSeries().add("Aspose Test Series",
+        ChartSeries bubbleChartSeries = chart.getSeries().add("Aspose Test Series",
             new double[] { 2.9, 3.5, 1.1, 4.0, 4.0 },
             new double[] { 1.9, 8.5, 2.1, 6.0, 1.5 },
             new double[] { 9.0, 4.5, 2.5, 8.0, 5.0 });
@@ -480,6 +538,21 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.ChartDataLabelCollection.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.ChartDataLabelCollection.docx");
+        bubbleChartDataLabels = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0).getDataLabels();
+
+        Assert.assertFalse(bubbleChartDataLabels.getShowBubbleSize());
+        Assert.assertFalse(bubbleChartDataLabels.getShowCategoryName());
+        Assert.assertFalse(bubbleChartDataLabels.getShowSeriesName());
+        Assert.assertEquals(",", bubbleChartDataLabels.getSeparator());
+
+        pieChartDataLabels = ((Shape)doc.getChild(NodeType.SHAPE, 1, true)).getChart().getSeries().get(0).getDataLabels();
+
+        Assert.assertFalse(pieChartDataLabels.getShowLeaderLines());
+        Assert.assertFalse(pieChartDataLabels.getShowLegendKey());
+        Assert.assertFalse(pieChartDataLabels.getShowPercentage());
+        Assert.assertFalse(pieChartDataLabels.getShowValue());
     }
 
     //ExStart
@@ -520,14 +593,14 @@ public class ExCharts extends ApiExampleBase
         Chart chart = chartShape.getChart();
 
         // The chart already contains demo data comprised of 3 series each with 4 categories
-        msAssert.areEqual(3, chart.getSeries().getCount());
-        msAssert.areEqual("Series 1", chart.getSeries().get(0).getName());
+        Assert.assertEquals(3, chart.getSeries().getCount());
+        Assert.assertEquals("Series 1", chart.getSeries().get(0).getName());
 
         // Apply data labels to every series in the graph
         for (ChartSeries series : chart.getSeries())
         {
             applyDataLabels(series, 4, "000.0", ", ");
-            msAssert.areEqual(4, series.getDataLabels().getCount());
+            Assert.assertEquals(4, series.getDataLabels().getCount());
         }
 
         // Get the enumerator for a data label collection
@@ -537,7 +610,7 @@ public class ExCharts extends ApiExampleBase
             // And use it to go over all the data labels in one series and change their separator
             while (enumerator.hasNext())
             {
-                msAssert.areEqual(", ", enumerator.next().getSeparator());
+                Assert.assertEquals(", ", enumerator.next().getSeparator());
                 enumerator.next().setSeparator(" & ");
             }
         }
@@ -649,7 +722,7 @@ public class ExCharts extends ApiExampleBase
             point.getMarker().setSymbol(markerSymbol);
             point.getMarker().setSize(dataPointSize);
 
-            msAssert.areEqual(i, point.getIndex());
+            Assert.assertEquals(i, point.getIndex());
         }
     }
     //ExEnd
@@ -676,6 +749,12 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.PieChartExplosion.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.PieChartExplosion.docx");
+        ChartSeries series = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0);
+
+        Assert.assertEquals(10, series.getDataPoints().get(0).getExplosion());
+        Assert.assertEquals(40, series.getDataPoints().get(1).getExplosion());
     }
 
     @Test
@@ -684,7 +763,7 @@ public class ExCharts extends ApiExampleBase
         //ExStart
         //ExFor:Charts.ChartDataLabel.ShowBubbleSize
         //ExFor:Charts.IChartDataPoint.Bubble3D
-        //ExSummary:Demonstrates bubble chart-exclusive features.
+        //ExSummary:Shows how to use 3D effects with bubble charts.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -703,6 +782,14 @@ public class ExCharts extends ApiExampleBase
         
         doc.save(getArtifactsDir() + "Charts.Bubble3D.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.Bubble3D.docx");
+        ChartSeries series = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0);
+
+        for (int i = 0; i < 3; i++)
+        {
+            Assert.assertTrue(series.getDataLabels().get(i).getShowBubbleSize());
+        }
     }
 
     //ExStart
@@ -714,7 +801,7 @@ public class ExCharts extends ApiExampleBase
     //ExFor:ChartSeriesCollection.Add(String,Double[],Double[])
     //ExFor:ChartSeriesCollection.Add(String,Double[],Double[],Double[])
     //ExFor:ChartSeriesCollection.Add(String,String[],Double[])
-    //ExSummary:Shows an appropriate graph type for each chart series.
+    //ExSummary:Shows how to pick an appropriate graph type for a chart series.
     @Test //ExSkip
     public void chartSeriesCollection() throws Exception
     {
@@ -735,8 +822,8 @@ public class ExCharts extends ApiExampleBase
         chart.getSeries().add("Series 2", categories, new double[] { 64.2, 79.5, 94.0 });
 
         // Categories are distributed along the X-axis while values are distributed along the Y-axis
-        msAssert.areEqual(ChartAxisType.CATEGORY, chart.getAxisX().getType());
-        msAssert.areEqual(ChartAxisType.VALUE, chart.getAxisY().getType());
+        Assert.assertEquals(ChartAxisType.CATEGORY, chart.getAxisX().getType());
+        Assert.assertEquals(ChartAxisType.VALUE, chart.getAxisY().getType());
 
         // 2: Each series will have a collection of dates with a corresponding value for each date
         // Area, radar and stock charts are some of the appropriate chart types for this
@@ -763,8 +850,8 @@ public class ExCharts extends ApiExampleBase
         chart.getSeries().add("Series 2", new double[] { 2.6, 7.3, 4.5, 6.6, 2.1, 9.3, 0.7, 3.3 }, new double[] { 7.1, 6.6, 3.5, 7.8, 7.7, 9.5, 1.3, 4.6 });
 
         // Both axes are value axes in this case
-        msAssert.areEqual(ChartAxisType.VALUE, chart.getAxisX().getType());
-        msAssert.areEqual(ChartAxisType.VALUE, chart.getAxisY().getType());
+        Assert.assertEquals(ChartAxisType.VALUE, chart.getAxisX().getType());
+        Assert.assertEquals(ChartAxisType.VALUE, chart.getAxisY().getType());
 
         // 4: Each series will be built from three data arrays, used for bubble charts
         chart = appendChart(builder, ChartType.BUBBLE, 300.0, 300.0);
@@ -784,7 +871,7 @@ public class ExCharts extends ApiExampleBase
         Chart chart = chartShape.getChart();
         chart.getSeries().clear();
 
-        msAssert.areEqual(0, chart.getSeries().getCount());
+        Assert.assertEquals(0, chart.getSeries().getCount());
 
         return chart;
     }
@@ -811,7 +898,7 @@ public class ExCharts extends ApiExampleBase
         // All charts come with demo data
         // This column chart currently has 3 series with 4 categories, which means 4 clusters, 3 columns in each
         ChartSeriesCollection chartData = chart.getSeries();
-        msAssert.areEqual(3, chartData.getCount());
+        Assert.assertEquals(3, chartData.getCount()); //ExSkip
 
         // Iterate through the series with an enumerator and print their names
         Iterator<ChartSeries> enumerator = chart.getSeries().iterator();
@@ -829,21 +916,18 @@ public class ExCharts extends ApiExampleBase
         // We will match the existing category/series names in the demo data and add a 4th column to each column cluster
         String[] categories = { "Category 1", "Category 2", "Category 3", "Category 4" };
         chart.getSeries().add("Series 4", categories, new double[] { 4.4, 7.0, 3.5, 2.1 });
-
-        msAssert.areEqual(4, chartData.getCount());
-        msAssert.areEqual("Series 4", chartData.get(3).getName());
+        Assert.assertEquals(4, chartData.getCount()); //ExSkip
+        Assert.assertEquals("Series 4", chartData.get(3).getName()); //ExSkip
 
         // We can remove series by index
         chartData.removeAt(2);
-
-        msAssert.areEqual(3, chartData.getCount());
-        msAssert.areEqual("Series 4", chartData.get(2).getName());
+        Assert.assertEquals(3, chartData.getCount()); //ExSkip
+        Assert.assertEquals("Series 4", chartData.get(2).getName()); //ExSkip
 
         // We can also remove out all the series
         // This leaves us with an empty graph and is a convenient way of wiping out demo data
         chartData.clear();
-
-        msAssert.areEqual(0, chartData.getCount());
+        Assert.assertEquals(0, chartData.getCount()); //ExSkip
         //ExEnd
     }
 
@@ -868,16 +952,21 @@ public class ExCharts extends ApiExampleBase
         chart.getSeries().add("Series 1", new double[] { 1.0, 2.0, 3.0, 4.0, 5.0 }, new double[] { 1.0, 20.0, 400.0, 8000.0, 160000.0 });
 
         // The scaling of the X axis is linear by default, which means it will display "0, 1, 2, 3..."
-        msAssert.areEqual(AxisScaleType.LINEAR, chart.getAxisX().getScaling().getType());
-
-        // Linear axis scaling is suitable for our X-values, but not our erratic Y-values 
+        // Linear axis scaling is suitable for our X-values, but our Y-values call for a logarithmic scale to be represented accurately on a graph 
         // We can set the scaling of the Y-axis to Logarithmic with a base of 20
         // The Y-axis will now display "1, 20, 400, 8000...", which is ideal for accurate representation of this set of Y-values
         chart.getAxisY().getScaling().setType(AxisScaleType.LOGARITHMIC);
-        chart.getAxisY().getScaling().setLogBase(20.0);
+        chart.getAxisY().getScaling().setLogBase(20.0d);
 
         doc.save(getArtifactsDir() + "Charts.AxisScaling.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.AxisScaling.docx");
+        chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
+
+        Assert.assertEquals(AxisScaleType.LINEAR, chart.getAxisX().getScaling().getType());
+        Assert.assertEquals(AxisScaleType.LOGARITHMIC, chart.getAxisY().getScaling().getType());
+        Assert.assertEquals(20.0d, chart.getAxisY().getScaling().getLogBase());
     }
 
     @Test
@@ -936,6 +1025,25 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.AxisBound.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.AxisBound.docx");
+        chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
+
+        Assert.assertFalse(chart.getAxisX().getScaling().getMinimum().isAuto());
+        Assert.assertEquals(0.0d, chart.getAxisX().getScaling().getMinimum().getValue());
+        Assert.assertEquals(10.0d, chart.getAxisX().getScaling().getMaximum().getValue());
+
+        Assert.assertFalse(chart.getAxisY().getScaling().getMinimum().isAuto());
+        Assert.assertEquals(0.0d, chart.getAxisY().getScaling().getMinimum().getValue());
+        Assert.assertEquals(10.0d, chart.getAxisY().getScaling().getMaximum().getValue());
+
+        chart = ((Shape)doc.getChild(NodeType.SHAPE, 1, true)).getChart();
+
+        Assert.assertFalse(chart.getAxisX().getScaling().getMinimum().isAuto());
+        Assert.assertEquals(new AxisBound(new DateTime(1980, 1, 1)), chart.getAxisX().getScaling().getMinimum());
+        Assert.assertEquals(new AxisBound(new DateTime(1990, 1, 1)), chart.getAxisX().getScaling().getMaximum());
+
+        Assert.assertTrue(chart.getAxisY().getScaling().getMinimum().isAuto());
     }
 
     @Test
@@ -952,11 +1060,10 @@ public class ExCharts extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a line graph
-        Shape chartShape = builder.insertChart(ChartType.LINE, 450.0, 300.0);
-        Chart chart = chartShape.getChart();
+        Shape shape = builder.insertChart(ChartType.LINE, 450.0, 300.0);
 
         // Get its legend
-        ChartLegend legend = chart.getLegend();
+        ChartLegend legend = shape.getChart().getLegend();
 
         // By default, other elements of a chart will not overlap with its legend
         Assert.assertFalse(legend.getOverlay());
@@ -966,6 +1073,13 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.ChartLegend.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.ChartLegend.docx");
+
+        legend = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getLegend();
+
+        Assert.assertFalse(legend.getOverlay());
+        Assert.assertEquals(LegendPosition.TOP_RIGHT, legend.getPosition());
     }
 
     @Test
@@ -992,6 +1106,13 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.AxisCross.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.AxisCross.docx");
+        axis = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getAxisX();
+
+        Assert.assertTrue(axis.getAxisBetweenCategories());
+        Assert.assertEquals(AxisCrosses.CUSTOM, axis.getCrosses());
+        Assert.assertEquals(3.0, axis.getCrossesAt());
     }
 
     @Test
@@ -1022,8 +1143,8 @@ public class ExCharts extends ApiExampleBase
         axis.setMajorTickMark(AxisTickMark.OUTSIDE);
         axis.setMinorTickMark(AxisTickMark.OUTSIDE);
 
-        axis.setMajorUnit(10.0);
-        axis.setMinorUnit(1.0);
+        axis.setMajorUnit(10.0d);
+        axis.setMinorUnit(1.0d);
 
         // Stretch out the bounds of the axis out to show 3 major ticks and 27 minor ticks
         axis.getScaling().setMinimum(new AxisBound(-10));
@@ -1045,13 +1166,42 @@ public class ExCharts extends ApiExampleBase
 
         // Get the axis to display values, but in millions
         axis.getDisplayUnit().setUnit(AxisBuiltInUnit.MILLIONS);
+        Assert.assertEquals(AxisBuiltInUnit.MILLIONS, axis.getDisplayUnit().getUnit()); //ExSkip
 
         // Besides the built-in axis units we can choose from,
         // we can also set the axis to display values in some custom denomination, using the following attribute
         // The statement below is equivalent to the one above
         axis.getDisplayUnit().setCustomUnit(1000000.0);
+        Assert.assertEquals(AxisBuiltInUnit.CUSTOM, axis.getDisplayUnit().getUnit()); //ExSkip
 
         doc.save(getArtifactsDir() + "Charts.ChartAxisDisplayUnit.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Charts.ChartAxisDisplayUnit.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(450.0d, shape.getWidth());
+        Assert.assertEquals(250.0d, shape.getHeight());
+
+        axis = shape.getChart().getAxisX();
+
+        Assert.assertEquals(AxisTickMark.INSIDE, axis.getMajorTickMark());
+        Assert.assertEquals(AxisTickMark.INSIDE, axis.getMinorTickMark());
+        Assert.assertEquals(10.0d, axis.getMajorUnit());
+        Assert.assertEquals(-10.0d, axis.getScaling().getMinimum().getValue());
+        Assert.assertEquals(30.0d, axis.getScaling().getMaximum().getValue());
+        Assert.assertEquals(1, axis.getTickLabelSpacing());
+        Assert.assertEquals(ParagraphAlignment.RIGHT, axis.getTickLabelAlignment());
+        Assert.assertEquals(AxisBuiltInUnit.CUSTOM, axis.getDisplayUnit().getUnit());
+        Assert.assertEquals(1000000.0d, axis.getDisplayUnit().getCustomUnit());
+
+        axis = shape.getChart().getAxisY();
+
+        Assert.assertEquals(AxisTickMark.OUTSIDE, axis.getMajorTickMark());
+        Assert.assertEquals(AxisTickMark.OUTSIDE, axis.getMinorTickMark());
+        Assert.assertEquals(10.0d, axis.getMajorUnit());
+        Assert.assertEquals(1.0d, axis.getMinorUnit());
+        Assert.assertEquals(-10.0d, axis.getScaling().getMinimum().getValue());
+        Assert.assertEquals(20.0d, axis.getScaling().getMaximum().getValue());
     }
 }

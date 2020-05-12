@@ -75,14 +75,20 @@ public class ApiExampleBase {
      */
     private static void setUnlimitedLicense() throws Exception {
         // This is where the test license is on my development machine.
-        String testLicenseFileName = getLicenseDir() + "Aspose.Words.Java.lic";
+        String testLicenseFileName = getLicenseDir() + "Aspose.Total.Java.lic";
         if (new File(testLicenseFileName).exists()) {
             // This shows how to use an Aspose.Words license when you have purchased one.
             // You don't have to specify full path as shown here. You can specify just the
             // file name if you copy the license file into the same folder as your application
             // binaries or you add the license to your project as an embedded resource.
-            License license = new License();
-            license.setLicense(testLicenseFileName);
+            License wordsLicense = new License();
+            wordsLicense.setLicense(testLicenseFileName);
+
+            com.aspose.pdf.License pdfLicense = new com.aspose.pdf.License();
+            pdfLicense.setLicense(testLicenseFileName);
+
+            com.aspose.barcode.License barcodeLicense = new com.aspose.barcode.License();
+            barcodeLicense.setLicense(testLicenseFileName);
         }
     }
 

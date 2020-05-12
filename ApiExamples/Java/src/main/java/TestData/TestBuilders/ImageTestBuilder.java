@@ -20,7 +20,7 @@ public class ImageTestBuilder extends ApiExampleBase {
     private BufferedImage mImage;
     private FileInputStream mImageStream;
     private byte[] mImageBytes;
-    private String mImageUri;
+    private String mImageString;
 
     public ImageTestBuilder() throws Exception {
 
@@ -28,7 +28,7 @@ public class ImageTestBuilder extends ApiExampleBase {
 
         mImageStream = null;
         mImageBytes = new byte[0];
-        mImageUri = "";
+        mImageString = "";
     }
 
     public ImageTestBuilder withImage(final BufferedImage image) {
@@ -46,12 +46,12 @@ public class ImageTestBuilder extends ApiExampleBase {
         return this;
     }
 
-    public ImageTestBuilder withImageUri(final String imageUri) {
-        mImageUri = imageUri;
+    public ImageTestBuilder withImageString(final String imageString) {
+        mImageString = imageString;
         return this;
     }
 
     public ImageTestClass build() {
-        return new ImageTestClass(mImage, mImageStream, mImageBytes, mImageUri);
+        return new ImageTestClass(mImage, mImageStream, mImageBytes, mImageString);
     }
 }

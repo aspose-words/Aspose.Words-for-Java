@@ -23,6 +23,9 @@ import com.aspose.words.Run;
 import com.aspose.words.Table;
 import com.aspose.words.AutoFitBehavior;
 import com.aspose.words.StyleIdentifier;
+import com.aspose.ms.System.IO.MemoryStream;
+import com.aspose.words.OoxmlSaveOptions;
+import com.aspose.words.SaveFormat;
 
 
 /// <summary>
@@ -290,5 +293,23 @@ class DocumentHelper extends ApiExampleBase
     static Paragraph getParagraph(Document doc, int paraIndex)
     {
         return doc.getFirstSection().getBody().getParagraphs().get(paraIndex);
+    }
+
+    /// <summary>
+    /// Save the document to a stream, immediately re-open it and return the newly opened version
+    /// </summary>
+    /// <remarks>
+    /// Used for testing how document features are preserved after saving/loading
+    /// </remarks>
+    /// <param name="doc">The document we wish to re-open</param>
+    static Document saveOpen(Document doc) throws Exception
+    {
+        MemoryStream docStream = new MemoryStream();
+        try /*JAVA: was using*/
+        {
+            doc.save(docStream, new OoxmlSaveOptions(SaveFormat.DOCX));
+            return new Document(docStream);
+        }
+        finally { if (docStream != null) docStream.close(); }
     }
 }

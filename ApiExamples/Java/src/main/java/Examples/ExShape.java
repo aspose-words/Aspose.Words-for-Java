@@ -8,9 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.*;
 import com.aspose.words.Shape;
 import com.aspose.words.Stroke;
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -559,7 +559,11 @@ public class ExShape extends ApiExampleBase {
 
         // We can save it via a stream
         OutputStream stream = new FileOutputStream(getArtifactsDir() + "OLE spreadsheet extracted via stream" + oleFormat.getSuggestedExtension());
-        oleFormat.save(stream);
+        try {
+            oleFormat.save(stream);
+        } finally {
+            if (stream != null) stream.close();
+        }
 
         // We can also save it directly to a file
         oleFormat.save(getArtifactsDir() + "OLE spreadsheet saved directly" + oleFormat.getSuggestedExtension());
@@ -1685,8 +1689,8 @@ public class ExShape extends ApiExampleBase {
         Assert.assertEquals(rectangleFOut.getHeight(), 1000.0);
 
         // The final extent of the first shape, in points
-        Assert.assertEquals(firstShape.getBoundsWithEffects().getX(), -0.0);
-        Assert.assertEquals(firstShape.getBoundsWithEffects().getY(), -0.0);
+        Assert.assertEquals(firstShape.getBoundsWithEffects().getX(), 0.0);
+        Assert.assertEquals(firstShape.getBoundsWithEffects().getY(), 0.0);
         Assert.assertEquals(firstShape.getBoundsWithEffects().getWidth(), 147.0);
         Assert.assertEquals(firstShape.getBoundsWithEffects().getHeight(), 147.0);
 

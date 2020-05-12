@@ -28,8 +28,7 @@ public class ExMailMergeCustom extends ApiExampleBase {
     //ExFor:MailMerge.Execute(IMailMergeDataSourceCore)
     //ExSummary:Performs mail merge from a custom data source.
     @Test //ExSkip
-    public void customDataSource() throws Exception
-    {
+    public void customDataSource() throws Exception {
         // Create a destination document for the mail merge
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -159,10 +158,9 @@ public class ExMailMergeCustom extends ApiExampleBase {
     //ExFor:MailMerge.ExecuteWithRegions(IMailMergeDataSourceRoot)
     //ExSummary:Performs mail merge from a custom data source with master-detail data.
     @Test //ExSkip
-    public void customDataSourceRoot() throws Exception
-    {
+    public void customDataSourceRoot() throws Exception {
         // Create a document with two mail merge regions named "Washington" and "Seattle"
-        Document doc = createSourceDocumentWithMailMergeRegions(new String[] { "Washington", "Seattle" });
+        Document doc = createSourceDocumentWithMailMergeRegions(new String[]{"Washington", "Seattle"});
 
         // Create two data sources
         EmployeeList employeesWashingtonBranch = new EmployeeList();
@@ -189,13 +187,11 @@ public class ExMailMergeCustom extends ApiExampleBase {
     /// Create document that contains consecutive mail merge regions, with names designated by the input array,
     /// for a data table of employees.
     /// </summary>
-    private static Document createSourceDocumentWithMailMergeRegions(String[] regions) throws Exception
-    {
+    private static Document createSourceDocumentWithMailMergeRegions(String[] regions) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        for (String s : regions)
-        {
+        for (String s : regions) {
             builder.writeln("\n" + s + " branch: ");
             builder.insertField(" MERGEFIELD TableStart:" + s);
             builder.insertField(" MERGEFIELD FullName");
@@ -210,29 +206,40 @@ public class ExMailMergeCustom extends ApiExampleBase {
     /// <summary>
     /// An example of a "data entity" class in your application.
     /// </summary>
-    private static class Employee
-    {
-        public Employee(String aFullName, String aDepartment)
-        {
+    private static class Employee {
+        public Employee(String aFullName, String aDepartment) {
             mFullName = aFullName;
             mDepartment = aDepartment;
         }
 
-        public String getFullName() { return mFullName; };
+        public String getFullName() {
+            return mFullName;
+        }
 
-        private  String mFullName;
-        public String getDepartment() { return mDepartment; };
+        ;
 
-        private  String mDepartment;
+        private String mFullName;
+
+        public String getDepartment() {
+            return mDepartment;
+        }
+
+        ;
+
+        private String mDepartment;
     }
 
     /// <summary>
     /// An example of a typed collection that contains your "data" objects.
     /// </summary>
-    private static class EmployeeList extends ArrayList
-    {
-        public Employee get(int index) { return (Employee)super.get(index); }
-        public void set(int index, Employee value) { super.set(index, value); }
+    private static class EmployeeList extends ArrayList {
+        public Employee get(int index) {
+            return (Employee) super.get(index);
+        }
+
+        public void set(int index, Employee value) {
+            super.set(index, value);
+        }
     }
 
     /// <summary>
@@ -240,17 +247,14 @@ public class ExMailMergeCustom extends ApiExampleBase {
     /// These sources must all implement IMailMergeDataSource, and are registered and differentiated by a name
     /// which corresponds to a mail merge region that will read the respective data.
     /// </summary>
-    private static class DataSourceRoot implements IMailMergeDataSourceRoot
-    {
-        public IMailMergeDataSource getDataSource(String tableName)
-        {
+    private static class DataSourceRoot implements IMailMergeDataSourceRoot {
+        public IMailMergeDataSource getDataSource(String tableName) {
             EmployeeListMailMergeSource source = mSources.get(tableName);
             source.reset();
             return mSources.get(tableName);
         }
 
-        public void registerSource(String sourceName, EmployeeListMailMergeSource source)
-        {
+        public void registerSource(String sourceName, EmployeeListMailMergeSource source) {
             mSources.put(sourceName, source);
         }
 
@@ -260,10 +264,8 @@ public class ExMailMergeCustom extends ApiExampleBase {
     /// <summary>
     /// Custom mail merge data source.
     /// </summary>
-    private static class EmployeeListMailMergeSource implements IMailMergeDataSource
-    {
-        public EmployeeListMailMergeSource(EmployeeList employees)
-        {
+    private static class EmployeeListMailMergeSource implements IMailMergeDataSource {
+        public EmployeeListMailMergeSource(EmployeeList employees) {
             mEmployees = employees;
             mRecordIndex = -1;
         }
@@ -271,33 +273,33 @@ public class ExMailMergeCustom extends ApiExampleBase {
         /// <summary>
         /// A standard implementation for moving to a next record in a collection.
         /// </summary>
-        public boolean moveNext()
-        {
+        public boolean moveNext() {
             if (!isEof())
                 mRecordIndex++;
 
             return (!isEof());
         }
 
-        private boolean isEof() { return (mRecordIndex >= mEmployees.size()); }
+        private boolean isEof() {
+            return (mRecordIndex >= mEmployees.size());
+        }
 
-        public void reset()
-        {
+        public void reset() {
             mRecordIndex = -1;
         }
 
         /// <summary>
         /// The name of the data source. Used by Aspose.Words only when executing mail merge with repeatable regions.
         /// </summary>
-        public String getTableName() { return "Employees"; }
+        public String getTableName() {
+            return "Employees";
+        }
 
         /// <summary>
         /// Aspose.Words calls this method to get a value for every data field.
         /// </summary>
-        public boolean getValue(String fieldName, Ref<Object> fieldValue)
-        {
-            switch (fieldName)
-            {
+        public boolean getValue(String fieldName, Ref<Object> fieldValue) {
+            switch (fieldName) {
                 case "FullName":
                     fieldValue.set(mEmployees.get(mRecordIndex).getFullName());
                     return true;
@@ -315,8 +317,7 @@ public class ExMailMergeCustom extends ApiExampleBase {
         /// <summary>
         /// Child data sources are for nested mail merges.
         /// </summary>
-        public IMailMergeDataSource getChildDataSource(String tableName)
-        {
+        public IMailMergeDataSource getChildDataSource(String tableName) {
             throw new UnsupportedOperationException();
         }
 

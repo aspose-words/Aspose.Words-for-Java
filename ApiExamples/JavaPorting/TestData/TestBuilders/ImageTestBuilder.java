@@ -14,14 +14,14 @@ public class ImageTestBuilder extends ApiExampleBase
     private BufferedImage mImage;
     private Stream mImageStream;
     private byte[] mImageBytes;
-    private String mImageUri;
+    private String mImageString;
 
     public ImageTestBuilder()
     {
         mImage = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");            
         mImageStream = Stream.Null;
         mImageBytes = new byte[0];
-        mImageUri = "";
+        mImageString = "";
     }
 
     public ImageTestBuilder withImage(BufferedImage image)
@@ -42,14 +42,14 @@ public class ImageTestBuilder extends ApiExampleBase
         return this;
     }
 
-    public ImageTestBuilder withImageUri(String imageUri)
+    public ImageTestBuilder withImageString(String imageString)
     {
-        mImageUri = imageUri;
+        mImageString = imageString;
         return this;
     }
 
     public ImageTestClass build()
     {
-        return new ImageTestClass(mImage, mImageStream, mImageBytes, mImageUri);
+        return new ImageTestClass(mImage, mImageStream, mImageBytes, mImageString);
     }
 }

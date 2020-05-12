@@ -9,6 +9,7 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
+import com.aspose.ms.java.collections.StringSwitchMap;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.IFieldMergingCallback;
@@ -16,9 +17,9 @@ import com.aspose.words.FieldMergingArgs;
 import com.aspose.words.FieldMergeField;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.ImageFieldMergingArgs;
-import com.aspose.words.net.System.Data.DataTable;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
+import com.aspose.ms.System.msString;
+import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataRow;
 import java.awt.Color;
 import com.aspose.words.Shape;
@@ -39,7 +40,6 @@ public class ExMailMergeEvent extends ApiExampleBase
     //ExFor:FieldMergingArgsBase.Field
     //ExFor:FieldMergingArgsBase.DocumentFieldName
     //ExFor:FieldMergingArgsBase.Document
-    //ExFor:FieldMergingArgsBase.FieldValue
     //ExFor:IFieldMergingCallback.FieldMerging
     //ExFor:FieldMergingArgs.Text
     //ExFor:FieldMergeField.TextBefore
@@ -47,7 +47,7 @@ public class ExMailMergeEvent extends ApiExampleBase
     @Test //ExSkip
     public void insertHtml() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Field MERGEFIELD.docx");
+        Document doc = new Document(getMyDir() + "Field sample - MERGEFIELD.docx");
 
         // Add a handler for the MergeField event
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldInsertHtml());
@@ -92,6 +92,59 @@ public class ExMailMergeEvent extends ApiExampleBase
     }
     //ExEnd
 
+    //ExStart
+    //ExFor:FieldMergingArgsBase.FieldValue
+    //ExSummary:Shows how to use data source value of the field.
+    @Test //ExSkip
+    public void fieldFormats() throws Exception
+    {
+        DocumentBuilder builder = new DocumentBuilder();
+        builder.insertField("MERGEFIELD TextField \\* Caps", null);
+        builder.insertField("MERGEFIELD TextField2 \\* Upper", null);
+        builder.insertField("MERGEFIELD NumericField \\# 0.0", null);
+
+        builder.getDocument().getMailMerge().setFieldMergingCallback(new FieldValueMergingCallback());
+
+        builder.getDocument().getMailMerge().execute(
+            new String[] { "TextField", "TextField2", "NumericField" },
+            new Object[] { "Original value", "Original value", 15.34 });
+
+        Assert.assertEquals(
+            "New ValueNew value from e.Text43.2",
+            msString.trim(builder.getDocument().getText()));
+    }
+
+    private static class FieldValueMergingCallback implements IFieldMergingCallback
+    {
+        /// <summary>
+        /// This is called when merge field is actually merged with data in the document.
+        /// </summary>
+        public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs e)
+        {
+            switch (gStringSwitchMap.of(e.getFieldName()))
+            {
+                case /*"TextField"*/0:
+                    Assert.assertEquals("Original value", e.getFieldValue());
+                    e.setFieldValue("New value");
+                    break;
+                case /*"TextField2"*/1:
+                    Assert.assertEquals("Original value", e.getFieldValue());
+                    e.setText("New value from e.Text");   // Should suppress e.FieldValue and ignore format
+                    e.setFieldValue("new value");
+                    break;
+                case /*"NumericField"*/2:
+                    Assert.assertEquals(15.34, e.getFieldValue());
+                    e.setFieldValue(43.236);
+                    break;
+            }
+        }
+
+        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs e)
+        {
+            // Do nothing
+        }
+    }
+    //ExEnd
 
     //ExStart
     //ExFor:DocumentBuilder.MoveToMergeField(String)
@@ -135,7 +188,7 @@ public class ExMailMergeEvent extends ApiExampleBase
             if (args.getDocumentFieldName().equals("CourseName"))
             {
                 // The name of the table that we are merging can be found here
-                msAssert.areEqual("StudentCourse", args.getTableName());
+                Assert.assertEquals("StudentCourse", args.getTableName());
 
                 // Insert the checkbox for this merge field, using DocumentBuilder
                 DocumentBuilder builder = new DocumentBuilder(args.getDocument());
@@ -146,7 +199,7 @@ public class ExMailMergeEvent extends ApiExampleBase
                 String fieldValue = args.getFieldValue().toString();
 
                 // In this case, for every record index 'n', the corresponding field value is "Course n"
-                msAssert.areEqual(char.GetNumericValue(fieldValue.charAt(7)), args.getRecordIndex());
+                Assert.assertEquals(char.GetNumericValue(fieldValue.charAt(7)), args.getRecordIndex());
 
                 builder.write(fieldValue);
                 mCheckBoxCount++;
@@ -293,7 +346,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         Assert.assertTrue(logoImage.hasImage());
     }
 
-        //ExStart
+    //ExStart
     //ExFor:MailMerge.FieldMergingCallback
     //ExFor:MailMerge.ExecuteWithRegions(IDataReader,String)
     //ExFor:IFieldMergingCallback
@@ -311,7 +364,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
 
         // Open a database connection
-        String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
+        String connString = $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={DatabaseDir + "Northwind.mdb"};";
         OleDbConnection conn = new OleDbConnection(connString);
         conn.Open();
 
@@ -347,5 +400,14 @@ public class ExMailMergeEvent extends ApiExampleBase
             e.setImageStreamInternal(imageStream);
         }
     }
+
+	//JAVA-added for string switch emulation
+	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
+	(
+		"TextField",
+		"TextField2",
+		"NumericField"
+	);
+
     //ExEnd
 }

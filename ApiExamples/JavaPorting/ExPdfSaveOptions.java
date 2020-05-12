@@ -23,7 +23,6 @@ import com.aspose.words.ColorMode;
 import com.aspose.words.SaveOptions;
 import com.aspose.words.MetafileRenderingOptions;
 import com.aspose.words.MetafileRenderingMode;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningType;
@@ -314,7 +313,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.HandleBinaryRasterWarnings.pdf", saveOptions);
 
-        msAssert.areEqual(1, callback.Warnings.getCount());
+        Assert.assertEquals(1, callback.Warnings.getCount());
         Assert.assertTrue(callback.Warnings.get(0).getDescription().contains("R2_XORPEN"));
     }
 
@@ -570,7 +569,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExEnd
     }
 
-        @Test
+    @Test
     public void preblendImages() throws Exception
     {
         //ExStart
@@ -621,9 +620,9 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // We can use this attribute to set a different hash algorithm
         options.getDigitalSignatureDetails().setHashAlgorithm(PdfDigitalSignatureHashAlgorithm.SHA_256);
 
-        msAssert.areEqual("Test Signing", options.getDigitalSignatureDetails().getReason());
-        msAssert.areEqual("Aspose Office", options.getDigitalSignatureDetails().getLocation());
-        msAssert.areEqual(signingTime.toUniversalTime(), options.getDigitalSignatureDetails().getSignatureDateInternal());
+        Assert.assertEquals("Test Signing", options.getDigitalSignatureDetails().getReason());
+        Assert.assertEquals("Aspose Office", options.getDigitalSignatureDetails().getLocation());
+        Assert.assertEquals(signingTime.toUniversalTime(), options.getDigitalSignatureDetails().getSignatureDateInternal());
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
         //ExEnd
@@ -656,15 +655,15 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         options.getDigitalSignatureDetails().setTimestampSettings(new PdfDigitalSignatureTimestampSettings("https://freetsa.org/tsr", "JohnDoe", "MyPassword"));
 
         // The default lifespan of the timestamp is 100 seconds
-        msAssert.areEqual(100.0d, options.getDigitalSignatureDetails().getTimestampSettings().getTimeoutInternal().getTotalSeconds());
+        Assert.assertEquals(100.0d, options.getDigitalSignatureDetails().getTimestampSettings().getTimeoutInternal().getTotalSeconds());
 
         // We can set our own timeout period via the constructor
         options.getDigitalSignatureDetails().setTimestampSettings(new PdfDigitalSignatureTimestampSettings("https://freetsa.org/tsr", "JohnDoe", "MyPassword", TimeSpan.fromMinutes(30.0)));
 
-        msAssert.areEqual(1800.0d, options.getDigitalSignatureDetails().getTimestampSettings().getTimeoutInternal().getTotalSeconds());
-        msAssert.areEqual("https://freetsa.org/tsr", options.getDigitalSignatureDetails().getTimestampSettings().getServerUrl());
-        msAssert.areEqual("JohnDoe", options.getDigitalSignatureDetails().getTimestampSettings().getUserName());
-        msAssert.areEqual("MyPassword", options.getDigitalSignatureDetails().getTimestampSettings().getPassword());
+        Assert.assertEquals(1800.0d, options.getDigitalSignatureDetails().getTimestampSettings().getTimeoutInternal().getTotalSeconds());
+        Assert.assertEquals("https://freetsa.org/tsr", options.getDigitalSignatureDetails().getTimestampSettings().getServerUrl());
+        Assert.assertEquals("JohnDoe", options.getDigitalSignatureDetails().getTimestampSettings().getUserName());
+        Assert.assertEquals("MyPassword", options.getDigitalSignatureDetails().getTimestampSettings().getPassword());
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
         //ExEnd

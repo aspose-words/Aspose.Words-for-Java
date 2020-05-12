@@ -8,8 +8,8 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.*;
 import com.aspose.words.Shape;
+import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.net.System.Data.DataTable;
 import org.testng.Assert;
@@ -36,8 +36,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExFor:FieldMergeField.TextBefore
     //ExSummary:Shows how to mail merge HTML data into a document.
     @Test //ExSkip
-    public void insertHtml() throws Exception
-    {
+    public void insertHtml() throws Exception {
         Document doc = new Document(getMyDir() + "Field MERGEFIELD.docx");
 
         // Add a handler for the MergeField event
@@ -65,8 +64,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
          */
         public void fieldMerging(final FieldMergingArgs args) throws Exception {
             // All merge fields that expect HTML data should be marked with some prefix, e.g. 'html'
-            if (args.getDocumentFieldName().startsWith("html") && args.getField().getFieldCode().contains("\\b"))
-            {
+            if (args.getDocumentFieldName().startsWith("html") && args.getField().getFieldCode().contains("\\b")) {
                 FieldMergeField field = args.getField();
 
                 // Insert the text for this merge field as HTML data, using DocumentBuilder
@@ -94,8 +92,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExFor:FieldMergingArgsBase.RecordIndex
     //ExSummary:Shows how to insert checkbox form fields into a document during mail merge.
     @Test //ExSkip
-    public void insertCheckBox() throws Exception
-    {
+    public void insertCheckBox() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.startTable();
@@ -173,8 +170,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExFor:MailMerge.ExecuteWithRegions(DataTable)
     //ExSummary:Demonstrates how to implement custom logic in the MergeField event to apply cell formatting.
     @Test //ExSkip
-    public void alternatingRows() throws Exception
-    {
+    public void alternatingRows() throws Exception {
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind suppliers.docx");
 
         // Add a handler for the MergeField event
@@ -251,8 +247,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void imageFromUrl() throws Exception
-    {
+    public void imageFromUrl() throws Exception {
         //ExStart
         //ExFor:MailMerge.Execute(String[], Object[])
         //ExSummary:Demonstrates how to merge an image from a web address using an Image field.
@@ -281,9 +276,8 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExFor:IFieldMergingCallback.ImageFieldMerging
     //ExFor:ImageFieldMergingArgs.ImageStream
     //ExSummary:Shows how to insert images stored in a database BLOB field into a report.
-    @Test (groups = "SkipMono") //ExSkip
-    public void imageFromBlob() throws Exception
-    {
+    @Test(groups = "SkipMono") //ExSkip
+    public void imageFromBlob() throws Exception {
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");
 
         // Set up the event handler for image fields

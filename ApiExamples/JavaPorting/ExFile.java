@@ -15,16 +15,20 @@ import com.aspose.words.FileCorruptedException;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.FileFormatInfo;
 import com.aspose.words.FileFormatUtil;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.LoadFormat;
 import com.aspose.words.SaveFormat;
+import com.aspose.words.OdtSaveOptions;
+import com.aspose.words.CertificateHolder;
+import com.aspose.words.DigitalSignatureUtil;
+import com.aspose.words.SignOptions;
+import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.File;
-import com.aspose.ms.System.IO.Path;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import com.aspose.words.Shape;
+import com.aspose.ms.System.IO.Directory;
 
 
 @Test
@@ -44,7 +48,6 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         {
             System.out.println(e.getMessage());
         }
-
         //ExEnd
     }
 
@@ -57,16 +60,13 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExSummary:Shows how to detect encoding in an html file.
         // 'DetectFileFormat' not working on a non-html files
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
-        msAssert.areEqual(LoadFormat.DOCX, info.getLoadFormat());
+        Assert.assertEquals(LoadFormat.DOCX, info.getLoadFormat());
         Assert.assertNull(info.getEncodingInternal());
 
         // This time the property will not be null
         info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.html");
-        msAssert.areEqual(LoadFormat.HTML, info.getLoadFormat());
+        Assert.assertEquals(LoadFormat.HTML, info.getLoadFormat());
         Assert.assertNotNull(info.getEncodingInternal());
-
-        // It now has some more useful information
-        msAssert.areEqual("iso-8859-1", info.getEncodingInternal().getBodyName());
         //ExEnd
     }
 
@@ -80,7 +80,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         // Trying to search for a SaveFormat with a simple string will not work
         try
         {
-            msAssert.areEqual(SaveFormat.JPEG, FileFormatUtil.contentTypeToSaveFormat("jpeg"));
+            Assert.assertEquals(SaveFormat.JPEG, FileFormatUtil.contentTypeToSaveFormat("jpeg"));
         }
         catch (IllegalArgumentException e)
         {
@@ -94,55 +94,94 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
 
         // File types that can be saved to but not opened as documents will not have corresponding load formats
         // Attempting to convert them to load formats will raise an exception
-        msAssert.areEqual(SaveFormat.JPEG, FileFormatUtil.contentTypeToSaveFormat("image/jpeg"));
-        msAssert.areEqual(SaveFormat.PNG, FileFormatUtil.contentTypeToSaveFormat("image/png"));
-        msAssert.areEqual(SaveFormat.TIFF, FileFormatUtil.contentTypeToSaveFormat("image/tiff"));
-        msAssert.areEqual(SaveFormat.GIF, FileFormatUtil.contentTypeToSaveFormat("image/gif"));
-        msAssert.areEqual(SaveFormat.EMF, FileFormatUtil.contentTypeToSaveFormat("image/x-emf"));
-        msAssert.areEqual(SaveFormat.XPS, FileFormatUtil.contentTypeToSaveFormat("application/vnd.ms-xpsdocument"));
-        msAssert.areEqual(SaveFormat.PDF, FileFormatUtil.contentTypeToSaveFormat("application/pdf"));
-        msAssert.areEqual(SaveFormat.SVG, FileFormatUtil.contentTypeToSaveFormat("image/svg+xml"));
-        msAssert.areEqual(SaveFormat.EPUB, FileFormatUtil.contentTypeToSaveFormat("application/epub+zip"));
+        Assert.assertEquals(SaveFormat.JPEG, FileFormatUtil.contentTypeToSaveFormat("image/jpeg"));
+        Assert.assertEquals(SaveFormat.PNG, FileFormatUtil.contentTypeToSaveFormat("image/png"));
+        Assert.assertEquals(SaveFormat.TIFF, FileFormatUtil.contentTypeToSaveFormat("image/tiff"));
+        Assert.assertEquals(SaveFormat.GIF, FileFormatUtil.contentTypeToSaveFormat("image/gif"));
+        Assert.assertEquals(SaveFormat.EMF, FileFormatUtil.contentTypeToSaveFormat("image/x-emf"));
+        Assert.assertEquals(SaveFormat.XPS, FileFormatUtil.contentTypeToSaveFormat("application/vnd.ms-xpsdocument"));
+        Assert.assertEquals(SaveFormat.PDF, FileFormatUtil.contentTypeToSaveFormat("application/pdf"));
+        Assert.assertEquals(SaveFormat.SVG, FileFormatUtil.contentTypeToSaveFormat("image/svg+xml"));
+        Assert.assertEquals(SaveFormat.EPUB, FileFormatUtil.contentTypeToSaveFormat("application/epub+zip"));
 
         // File types that can both be loaded and saved have corresponding load and save formats
-        msAssert.areEqual(LoadFormat.DOC, FileFormatUtil.contentTypeToLoadFormat("application/msword"));
-        msAssert.areEqual(SaveFormat.DOC, FileFormatUtil.contentTypeToSaveFormat("application/msword"));
+        Assert.assertEquals(LoadFormat.DOC, FileFormatUtil.contentTypeToLoadFormat("application/msword"));
+        Assert.assertEquals(SaveFormat.DOC, FileFormatUtil.contentTypeToSaveFormat("application/msword"));
 
-        msAssert.areEqual(LoadFormat.DOCX,
+        Assert.assertEquals(LoadFormat.DOCX,
             FileFormatUtil.contentTypeToLoadFormat(
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
-        msAssert.areEqual(SaveFormat.DOCX,
+        Assert.assertEquals(SaveFormat.DOCX,
             FileFormatUtil.contentTypeToSaveFormat(
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
 
-        msAssert.areEqual(LoadFormat.TEXT, FileFormatUtil.contentTypeToLoadFormat("text/plain"));
-        msAssert.areEqual(SaveFormat.TEXT, FileFormatUtil.contentTypeToSaveFormat("text/plain"));
+        Assert.assertEquals(LoadFormat.TEXT, FileFormatUtil.contentTypeToLoadFormat("text/plain"));
+        Assert.assertEquals(SaveFormat.TEXT, FileFormatUtil.contentTypeToSaveFormat("text/plain"));
 
-        msAssert.areEqual(LoadFormat.RTF, FileFormatUtil.contentTypeToLoadFormat("application/rtf"));
-        msAssert.areEqual(SaveFormat.RTF, FileFormatUtil.contentTypeToSaveFormat("application/rtf"));
+        Assert.assertEquals(LoadFormat.RTF, FileFormatUtil.contentTypeToLoadFormat("application/rtf"));
+        Assert.assertEquals(SaveFormat.RTF, FileFormatUtil.contentTypeToSaveFormat("application/rtf"));
 
-        msAssert.areEqual(LoadFormat.HTML, FileFormatUtil.contentTypeToLoadFormat("text/html"));
-        msAssert.areEqual(SaveFormat.HTML, FileFormatUtil.contentTypeToSaveFormat("text/html"));
+        Assert.assertEquals(LoadFormat.HTML, FileFormatUtil.contentTypeToLoadFormat("text/html"));
+        Assert.assertEquals(SaveFormat.HTML, FileFormatUtil.contentTypeToSaveFormat("text/html"));
 
-        msAssert.areEqual(LoadFormat.MHTML, FileFormatUtil.contentTypeToLoadFormat("multipart/related"));
-        msAssert.areEqual(SaveFormat.MHTML, FileFormatUtil.contentTypeToSaveFormat("multipart/related"));
+        Assert.assertEquals(LoadFormat.MHTML, FileFormatUtil.contentTypeToLoadFormat("multipart/related"));
+        Assert.assertEquals(SaveFormat.MHTML, FileFormatUtil.contentTypeToSaveFormat("multipart/related"));
         //ExEnd
     }
 
     @Test
-    public void detectFileFormat() throws Exception
+    public void detectDocumentEncryption() throws Exception
     {
         //ExStart
         //ExFor:FileFormatUtil.DetectFileFormat(String)
         //ExFor:FileFormatInfo
         //ExFor:FileFormatInfo.LoadFormat
         //ExFor:FileFormatInfo.IsEncrypted
+        //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and encryption.
+        Document doc = new Document();
+
+        // Save it as an encrypted .odt
+        OdtSaveOptions saveOptions = new OdtSaveOptions(SaveFormat.ODT);
+        saveOptions.setPassword("MyPassword");
+
+        doc.save(getArtifactsDir() + "File.DetectDocumentEncryption.odt", saveOptions);
+        
+        // Create a FileFormatInfo object for this document
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getArtifactsDir() + "File.DetectDocumentEncryption.odt");
+
+        // Verify the file type of our document and its encryption status
+        Assert.assertEquals(".odt", FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
+        Assert.assertTrue(info.isEncrypted());
+        //ExEnd
+    }
+
+    @Test
+    public void detectDigitalSignatures() throws Exception
+    {
+        //ExStart
+        //ExFor:FileFormatUtil.DetectFileFormat(String)
+        //ExFor:FileFormatInfo
+        //ExFor:FileFormatInfo.LoadFormat
         //ExFor:FileFormatInfo.HasDigitalSignature
-        //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and other features of the document.
+        //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and presence of digital signatures.
+        // Use a FileFormatInfo instance to verify that a document is not digitally signed
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
-        System.out.println("The document format is: " + FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
-        System.out.println("Document is encrypted: " + info.isEncrypted());
-        System.out.println("Document has a digital signature: " + info.hasDigitalSignature());
+
+        Assert.assertEquals(".docx", FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
+        Assert.assertFalse(info.hasDigitalSignature());
+
+        // Sign the document
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
+        DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "File.DetectDigitalSignatures.docx",
+            certificateHolder, new SignOptions(); { .setSignTime(DateTime.getNow()); });
+
+        // Use a new FileFormatInstance to confirm that it is signed
+        info = FileFormatUtil.detectFileFormat(getArtifactsDir() + "File.DetectDigitalSignatures.docx");
+
+        Assert.assertTrue(info.hasDigitalSignature());
+
+        // The signatures can then be accessed like this
+        Assert.assertEquals(1, DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "File.DetectDigitalSignatures.docx").getCount());
         //ExEnd
     }
 
@@ -187,7 +226,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
             getArtifactsDir() + "File.SaveToDetectedFileFormat" + FileFormatUtil.saveFormatToExtension(saveFormat));
         //ExEnd
 
-        msAssert.areEqual(".doc", FileFormatUtil.saveFormatToExtension(saveFormat));
+        Assert.assertEquals(".doc", FileFormatUtil.saveFormatToExtension(saveFormat));
     }
 
     @Test
@@ -203,46 +242,29 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         System.out.println("The converted LoadFormat is: " + FileFormatUtil.loadFormatToExtension(loadFormat));
         //ExEnd
 
-        msAssert.areEqual(".html", FileFormatUtil.saveFormatToExtension(SAVE_FORMAT));
-        msAssert.areEqual(".html", FileFormatUtil.loadFormatToExtension(loadFormat));
+        Assert.assertEquals(".html", FileFormatUtil.saveFormatToExtension(SAVE_FORMAT));
+        Assert.assertEquals(".html", FileFormatUtil.loadFormatToExtension(loadFormat));
     }
+
 
     @Test
-    public void detectDocumentSignatures() throws Exception
-    {
-        //ExStart
-        //ExFor:FileFormatUtil.DetectFileFormat(String)
-        //ExFor:FileFormatInfo.HasDigitalSignature
-        //ExSummary:Shows how to check a document for digital signatures before loading it into a Document object.
-        // The path to the document which is to be processed
-        String filePath = getMyDir() + "Digitally signed.docx";
-
-        FileFormatInfo info = FileFormatUtil.detectFileFormat(filePath);
-        if (info.hasDigitalSignature())
-        {
-            msConsole.writeLine(
-                "Document {0} has digital signatures, they will be lost if you open/save this document with Aspose.Words.",
-                Path.getFileName(filePath));
-        }
-        //ExEnd
-    }
-
-    //ExStart
-    //ExFor:Shape
-    //ExFor:Shape.ImageData
-    //ExFor:Shape.HasImage
-    //ExFor:ImageData
-    //ExFor:FileFormatUtil.ImageTypeToExtension(ImageType)
-    //ExFor:ImageData.ImageType
-    //ExFor:ImageData.Save(String)
-    //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
-    //ExSummary:Shows how to extract images from a document and save them as files.
-    @Test //ExSkip
     public void extractImagesToFiles() throws Exception
     {
+        //ExStart
+        //ExFor:Shape
+        //ExFor:Shape.ImageData
+        //ExFor:Shape.HasImage
+        //ExFor:ImageData
+        //ExFor:FileFormatUtil.ImageTypeToExtension(ImageType)
+        //ExFor:ImageData.ImageType
+        //ExFor:ImageData.Save(String)
+        //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
+        //ExSummary:Shows how to extract images from a document and save them as files.
         Document doc = new Document(getMyDir() + "Images.docx");
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+        Assert.AreEqual(9, shapes.Count(s => ((Shape)s).HasImage));
+
         int imageIndex = 0;
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
@@ -254,6 +276,9 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
                 imageIndex++;
             }
         }
+        //ExEnd
+
+        Assert.AreEqual(9,Directory.getFiles(getArtifactsDir()).
+            Count(s => Regex.IsMatch(s, "^.+\\.(jpeg|png|emf|wmf)$") && s.StartsWith(ArtifactsDir + "File.ExtractImagesToFiles")));
     }
-    //ExEnd
 }

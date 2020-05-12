@@ -16,16 +16,16 @@ public class DocumentTestClass {
     private Document mDocument;
     private FileInputStream mDocumentStream;
     private byte[] mDocumentBytes;
-    private String mDocumentUri;
+    private String mDocumentString;
 
     public DocumentTestClass() {
     }
 
-    public DocumentTestClass(final Document doc, final FileInputStream docStream, final byte[] docBytes, final String docUri) {
+    public DocumentTestClass(final Document doc, final FileInputStream docStream, final byte[] docBytes, final String docString) {
         setDocument(doc);
         setDocumentStream(docStream);
         setDocumentBytes(docBytes);
-        setDocumentUri(docUri);
+        setDocumentString(docString);
     }
 
     public void setDocument(final Document value) {
@@ -40,8 +40,8 @@ public class DocumentTestClass {
         mDocumentBytes = value;
     }
 
-    public void setDocumentUri(final String value) {
-        mDocumentUri = value;
+    public void setDocumentString(final String value) {
+        mDocumentString = value;
     }
 
     public Document getDocument() {
@@ -56,7 +56,7 @@ public class DocumentTestClass {
         return mDocumentBytes;
     }
 
-    public String getDocumentUri() {
-        return mDocumentUri;
+    public String getDocumentString() {
+        return mDocumentString;
     }
 }

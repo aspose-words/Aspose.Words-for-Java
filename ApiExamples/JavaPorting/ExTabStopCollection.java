@@ -18,7 +18,6 @@ import com.aspose.words.TabStopCollection;
 import com.aspose.words.TabStop;
 import com.aspose.words.TabAlignment;
 import com.aspose.words.TabLeader;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.ConvertUtil;
@@ -73,7 +72,7 @@ public class ExTabStopCollection extends ApiExampleBase
         tabStops.add(new TabStop(72.0));
         tabStops.add(new TabStop(432.0, TabAlignment.RIGHT, TabLeader.DASHES));
 
-        msAssert.areEqual(2, tabStops.getCount());
+        Assert.assertEquals(2, tabStops.getCount());
         Assert.assertFalse(tabStops.get(0).isClear());
         Assert.assertFalse(tabStops.get(0).equals(tabStops.get(1)));
 
@@ -81,17 +80,15 @@ public class ExTabStopCollection extends ApiExampleBase
 
         // Get the collection of paragraphs that we've created
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
-        msAssert.areEqual(2, paragraphs.getCount());
+        Assert.assertEquals(2, paragraphs.getCount());
 
         // Each paragraph gets its own TabStopCollection which gets values from the DocumentBuilder's collection
-        msAssert.areEqual(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
+        Assert.assertEquals(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
         Assert.assertNotSame(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
-        msAssert.areNotEqual(paragraphs.get(0).getParagraphFormat().getTabStops().hashCode(),
-            paragraphs.get(1).getParagraphFormat().getTabStops().hashCode());
 
         // A TabStopCollection can point us to TabStops before and after certain positions
-        msAssert.areEqual(72.0, tabStops.before(100.0).getPosition());
-        msAssert.areEqual(432.0, tabStops.after(100.0).getPosition());
+        Assert.assertEquals(72.0, tabStops.before(100.0).getPosition());
+        Assert.assertEquals(432.0, tabStops.after(100.0).getPosition());
 
         doc.save(getArtifactsDir() + "TabStopCollection.TabStops.docx");
         //ExEnd

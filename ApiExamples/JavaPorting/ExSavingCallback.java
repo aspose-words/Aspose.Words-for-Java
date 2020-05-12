@@ -20,7 +20,6 @@ import com.aspose.words.XamlFixedSaveOptions;
 import com.aspose.words.XpsSaveOptions;
 import com.aspose.words.Document;
 import com.aspose.ms.System.IO.Directory;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.IPageSavingCallback;
 import com.aspose.words.PageSavingArgs;
@@ -91,7 +90,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
         for (int i = 0; i < doc.getPageCount(); i++)
         {
             String file = $"{ArtifactsDir}SavingCallback.PageFileName.Page_{i}.html";
-            msAssert.areEqual(file, filePaths[i]);//ExSkip
+            Assert.assertEquals(file, filePaths[i]);//ExSkip
         }
     }
 

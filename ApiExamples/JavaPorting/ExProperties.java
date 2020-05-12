@@ -15,7 +15,6 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentProperty;
 import com.aspose.words.BuiltInDocumentProperties;
 import com.aspose.ms.System.DateTime;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
 import com.aspose.words.LayoutEnumerator;
@@ -71,16 +70,14 @@ public class ExProperties extends ApiExampleBase
         msConsole.writeLine("1. Document name: {0}", doc.getOriginalFileName());
 
         System.out.println("2. Built-in Properties");
-        for (int i = 0; i < doc.getBuiltInDocumentProperties().getCount(); i++)
+        for (DocumentProperty docProperty : (Iterable<DocumentProperty>) doc.getBuiltInDocumentProperties())
         {
-            DocumentProperty docProperty = doc.getBuiltInDocumentProperties().get(i);
             msConsole.writeLine("{0}({1}) : {2}", docProperty.getName(), docProperty.getType(), docProperty.getValue());
         }
 
         System.out.println("3. Custom Properties");
-        for (int i = 0; i < doc.getCustomDocumentProperties().getCount(); i++)
+        for (DocumentProperty docProperty : (Iterable<DocumentProperty>) doc.getCustomDocumentProperties())
         {
-            DocumentProperty docProperty = doc.getCustomDocumentProperties().get(i);
             msConsole.writeLine("{0}({1}) : {2}", docProperty.getName(), docProperty.getType(), docProperty.getValue());
         }
         //ExEnd
@@ -112,7 +109,6 @@ public class ExProperties extends ApiExampleBase
         //ExFor:BuiltInDocumentProperties.Subject
         //ExFor:BuiltInDocumentProperties.Title
         //ExSummary:Shows how to work with document properties in the "Description" category.
-        // Create a blank document 
         Document doc = new Document();
 
         // The properties we will work with are members of the BuiltInDocumentProperties attribute
@@ -209,36 +205,36 @@ public class ExProperties extends ApiExampleBase
         // Also, these values can also be viewed in Microsoft Word by navigating File > Properties > Advanced Properties > Statistics
         // Page count: The PageCount attribute shows the page count in real time and its value can be assigned to the Pages property
         properties.setPages(doc.getPageCount());
-        msAssert.areEqual(6, properties.getPages());
+        Assert.assertEquals(6, properties.getPages());
 
         // Word count: The UpdateWordCount() automatically assigns the real time word/character counts to the respective built in properties
         doc.updateWordCount();
-        msAssert.areEqual(1035, properties.getWords());
-        msAssert.areEqual(6026, properties.getCharacters());
-        msAssert.areEqual(7041, properties.getCharactersWithSpaces());
+        Assert.assertEquals(1035, properties.getWords());
+        Assert.assertEquals(6026, properties.getCharacters());
+        Assert.assertEquals(7041, properties.getCharactersWithSpaces());
 
         // Line count: Count the lines in a document and assign value to the Lines property
         LineCounter lineCounter = new LineCounter(doc);
         properties.setLines(lineCounter.getLineCount());
-        msAssert.areEqual(142, properties.getLines());
+        Assert.assertEquals(142, properties.getLines());
 
         // Paragraph count: Assign the size of the count of child Paragraph-nodes to the Paragraphs built in property
         properties.setParagraphs(doc.getChildNodes(NodeType.PARAGRAPH, true).getCount());
-        msAssert.areEqual(29, properties.getParagraphs());
+        Assert.assertEquals(29, properties.getParagraphs());
 
         // Check the real file size of our document
-        msAssert.areEqual(20310, properties.getBytes());
+        Assert.assertEquals(20310, properties.getBytes());
 
         // Template: The Template attribute can reflect the filename of the attached template document
         doc.setAttachedTemplate(getMyDir() + "Busniess brochure.dotx");
-        msAssert.areEqual("Normal", properties.getTemplate());          
+        Assert.assertEquals("Normal", properties.getTemplate());          
         properties.setTemplate(doc.getAttachedTemplate());
 
         // Content status: This is a descriptive field
         properties.setContentStatus("Draft");
 
         // Content type: Upon saving, any value we assign to this field will be overwritten by the MIME type of the output save format
-        msAssert.areEqual("", properties.getContentType());
+        Assert.assertEquals("", properties.getContentType());
 
         // If the document contains links and they are all up to date, we can set this to true
         Assert.assertFalse(properties.getLinksUpToDate());
@@ -373,26 +369,26 @@ public class ExProperties extends ApiExampleBase
         //ExEnd
 
         // There are 6 array elements designating 3 heading/part count pairs
-        msAssert.areEqual(6, headingPairs.length);
-        msAssert.areEqual("Title", headingPairs[0].toString());
-        msAssert.areEqual("1", headingPairs[1].toString());
-        msAssert.areEqual("Heading 1", headingPairs[2].toString());
-        msAssert.areEqual("5", headingPairs[3].toString());
-        msAssert.areEqual("Heading 2", headingPairs[4].toString());
-        msAssert.areEqual("2", headingPairs[5].toString());
+        Assert.assertEquals(6, headingPairs.length);
+        Assert.assertEquals("Title", headingPairs[0].toString());
+        Assert.assertEquals("1", headingPairs[1].toString());
+        Assert.assertEquals("Heading 1", headingPairs[2].toString());
+        Assert.assertEquals("5", headingPairs[3].toString());
+        Assert.assertEquals("Heading 2", headingPairs[4].toString());
+        Assert.assertEquals("2", headingPairs[5].toString());
 
-        msAssert.areEqual(8, titlesOfParts.length);
+        Assert.assertEquals(8, titlesOfParts.length);
         // "Title"
-        msAssert.areEqual("", titlesOfParts[0]);
+        Assert.assertEquals("", titlesOfParts[0]);
         // "Heading 1"
-        msAssert.areEqual("Part1", titlesOfParts[1]);
-        msAssert.areEqual("Part2", titlesOfParts[2]);
-        msAssert.areEqual("Part3", titlesOfParts[3]);
-        msAssert.areEqual("Part4", titlesOfParts[4]);
-        msAssert.areEqual("Part5", titlesOfParts[5]);
+        Assert.assertEquals("Part1", titlesOfParts[1]);
+        Assert.assertEquals("Part2", titlesOfParts[2]);
+        Assert.assertEquals("Part3", titlesOfParts[3]);
+        Assert.assertEquals("Part4", titlesOfParts[4]);
+        Assert.assertEquals("Part5", titlesOfParts[5]);
         // "Heading 2"
-        msAssert.areEqual("Part6", titlesOfParts[6]);
-        msAssert.areEqual("Part7", titlesOfParts[7]);
+        Assert.assertEquals("Part6", titlesOfParts[6]);
+        Assert.assertEquals("Part7", titlesOfParts[7]);
     }
 
     @Test
@@ -406,14 +402,14 @@ public class ExProperties extends ApiExampleBase
         Document doc = new Document();
 
         // The "Security" property serves as a description of the security level of a document
-        msAssert.areEqual(DocumentSecurity.NONE, doc.getBuiltInDocumentProperties().getSecurity());
+        Assert.assertEquals(DocumentSecurity.NONE, doc.getBuiltInDocumentProperties().getSecurity());
 
         // Upon saving a document after setting its security level, Aspose automatically updates this property to the appropriate value
         doc.getWriteProtection().setReadOnlyRecommended(true);
         doc.save(getArtifactsDir() + "Properties.Security.ReadOnlyRecommended.docx");
 
         // We can open a document and glance at its security level like this
-        msAssert.areEqual(DocumentSecurity.READ_ONLY_RECOMMENDED, 
+        Assert.assertEquals(DocumentSecurity.READ_ONLY_RECOMMENDED, 
             new Document(getArtifactsDir() + "Properties.Security.ReadOnlyRecommended.docx").getBuiltInDocumentProperties().getSecurity());
 
         // Create a new document and set it to Write-Protected
@@ -426,7 +422,7 @@ public class ExProperties extends ApiExampleBase
         doc.save(getArtifactsDir() + "Properties.Security.ReadOnlyEnforced.docx");
         
         // This document's security level counts as "ReadOnlyEnforced" 
-        msAssert.areEqual(DocumentSecurity.READ_ONLY_ENFORCED,
+        Assert.assertEquals(DocumentSecurity.READ_ONLY_ENFORCED,
             new Document(getArtifactsDir() + "Properties.Security.ReadOnlyEnforced.docx").getBuiltInDocumentProperties().getSecurity());
 
         // Since this is still a descriptive property, we can protect a document and pick a suitable value ourselves
@@ -436,7 +432,7 @@ public class ExProperties extends ApiExampleBase
         doc.getBuiltInDocumentProperties().setSecurity(DocumentSecurity.READ_ONLY_EXCEPT_ANNOTATIONS);
         doc.save(getArtifactsDir() + "Properties.Security.ReadOnlyExceptAnnotations.docx");
 
-        msAssert.areEqual(DocumentSecurity.READ_ONLY_EXCEPT_ANNOTATIONS,
+        Assert.assertEquals(DocumentSecurity.READ_ONLY_EXCEPT_ANNOTATIONS,
             new Document(getArtifactsDir() + "Properties.Security.ReadOnlyExceptAnnotations.docx").getBuiltInDocumentProperties().getSecurity());
         //ExEnd
     }
@@ -484,11 +480,11 @@ public class ExProperties extends ApiExampleBase
         DocumentProperty customProperty = customProperties.addLinkToContent("Bookmark", "MyBookmark");
 
         // Check whether the property is linked to content
-        msAssert.areEqual(true, customProperty.isLinkToContent());
+        Assert.assertEquals(true, customProperty.isLinkToContent());
         // Get the source of the property
-        msAssert.areEqual("MyBookmark", customProperty.getLinkSource());
+        Assert.assertEquals("MyBookmark", customProperty.getLinkSource());
         // Get the value of the property
-        msAssert.areEqual("Text inside a bookmark.\r", customProperty.getValue());
+        Assert.assertEquals("Text inside a bookmark.\r", customProperty.getValue());
 
         doc.save(getArtifactsDir() + "Properties.LinkCustomDocumentPropertiesToBookmark.docx");
         //ExEnd
@@ -516,7 +512,7 @@ public class ExProperties extends ApiExampleBase
         CustomDocumentProperties properties = doc.getCustomDocumentProperties();
 
         // The collection will be empty by default
-        msAssert.areEqual(0, properties.getCount());
+        Assert.assertEquals(0, properties.getCount());
 
         // We can populate it with key/value pairs with a variety of value types
         properties.add("Authorized", true);
@@ -526,8 +522,8 @@ public class ExProperties extends ApiExampleBase
         properties.add("Authorized Amount", 123.45);
 
         // Custom properties are automatically sorted in alphabetic order
-        msAssert.areEqual(1, properties.indexOf("Authorized Amount"));
-        msAssert.areEqual(5, properties.getCount());
+        Assert.assertEquals(1, properties.indexOf("Authorized Amount"));
+        Assert.assertEquals(5, properties.getCount());
 
         // Enumerate and print all custom properties
         Iterator<DocumentProperty> enumerator = properties.iterator();
@@ -546,15 +542,15 @@ public class ExProperties extends ApiExampleBase
         // We can remove elements from the property collection by index or by name
         properties.removeAt(1);
         Assert.assertFalse(properties.contains("Authorized Amount"));
-        msAssert.areEqual(4, properties.getCount());
+        Assert.assertEquals(4, properties.getCount());
 
         properties.remove("Authorized Revision");
         Assert.assertFalse(properties.contains("Authorized Revision"));
-        msAssert.areEqual(3, properties.getCount());
+        Assert.assertEquals(3, properties.getCount());
 
         // We can also empty the entire custom property collection at once
         properties.clear();
-        msAssert.areEqual(0, properties.getCount());
+        Assert.assertEquals(0, properties.getCount());
         //ExEnd
     }
 

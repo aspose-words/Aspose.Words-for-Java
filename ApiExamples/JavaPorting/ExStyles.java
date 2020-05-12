@@ -14,7 +14,6 @@ import com.aspose.words.Document;
 import java.util.Iterator;
 import com.aspose.words.Style;
 import com.aspose.ms.System.msConsole;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.Assert;
 import com.aspose.words.StyleCollection;
 import com.aspose.words.StyleType;
@@ -24,8 +23,8 @@ import com.aspose.words.NodeType;
 import com.aspose.words.TabStop;
 import java.awt.Color;
 import com.aspose.words.ParagraphAlignment;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.words.SaveFormat;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.ListTemplate;
 
 
 @Test
@@ -59,7 +58,7 @@ public class ExStyles extends ApiExampleBase
                 System.out.println("\tIs heading:\t\t\t{curStyle.IsHeading}");
                 System.out.println("\tIs QuickStyle:\t\t{curStyle.IsQuickStyle}");
 
-                msAssert.areEqual(doc, curStyle.getDocument());
+                Assert.assertEquals(doc, curStyle.getDocument());
             }
         }
         finally { if (stylesEnum != null) stylesEnum.close(); }
@@ -81,7 +80,7 @@ public class ExStyles extends ApiExampleBase
 
         // New documents come with a collection of default styles that can be applied to paragraphs
         StyleCollection styles = doc.getStyles();
-        msAssert.areEqual(4, styles.getCount());
+        Assert.assertEquals(4, styles.getCount());
 
         // We can set default parameters for new styles that will be added to the collection from now on
         styles.getDefaultFont().setName("Courier New");
@@ -90,8 +89,8 @@ public class ExStyles extends ApiExampleBase
         styles.add(StyleType.PARAGRAPH, "MyStyle");
 
         // Styles within the collection can be referenced either by index or name
-        msAssert.areEqual("Courier New", styles.get(4).getFont().getName());
-        msAssert.areEqual(15.0, styles.get("MyStyle").getParagraphFormat().getFirstLineIndent());
+        Assert.assertEquals("Courier New", styles.get(4).getFont().getName());
+        Assert.assertEquals(15.0, styles.get("MyStyle").getParagraphFormat().getFirstLineIndent());
         //ExEnd
     }
 
@@ -177,8 +176,8 @@ public class ExStyles extends ApiExampleBase
         //ExEnd
 
         Assert.assertNotNull(newStyle);
-        msAssert.areEqual("My Heading 1", newStyle.getName());
-        msAssert.areEqual(doc.getStyles().get("Heading 1").getType(), newStyle.getType());
+        Assert.assertEquals("My Heading 1", newStyle.getName());
+        Assert.assertEquals(doc.getStyles().get("Heading 1").getType(), newStyle.getType());
     }
 
     @Test
@@ -201,8 +200,8 @@ public class ExStyles extends ApiExampleBase
         //ExEnd
 
         Assert.assertNotNull(newStyle);
-        msAssert.areEqual("Heading 1", newStyle.getName());
-        msAssert.areEqual(Color.RED.getRGB(), newStyle.getFont().getColor().getRGB());
+        Assert.assertEquals("Heading 1", newStyle.getName());
+        Assert.assertEquals(Color.RED.getRGB(), newStyle.getFont().getColor().getRGB());
     }
 
     @Test
@@ -228,9 +227,9 @@ public class ExStyles extends ApiExampleBase
         //ExEnd
 
         Assert.assertNotNull(newStyle);
-        msAssert.areEqual("Heading 1", newStyle.getName());
+        Assert.assertEquals("Heading 1", newStyle.getName());
         Assert.assertNull(dstDoc.getStyles().get("Heading 1_0"));
-        msAssert.areEqual(Color.RED.getRGB(), newStyle.getFont().getColor().getRGB());
+        Assert.assertEquals(Color.RED.getRGB(), newStyle.getFont().getColor().getRGB());
     }
 
     @Test
@@ -245,13 +244,59 @@ public class ExStyles extends ApiExampleBase
         doc.getStyles().getDefaultParagraphFormat().setSpaceAfter(20.0);
         doc.getStyles().getDefaultParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
 
-        MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.RTF);
+        doc = DocumentHelper.saveOpen(doc);
 
         Assert.assertTrue(doc.getStyles().getDefaultFont().getBold());
-        msAssert.areEqual("PMingLiU", doc.getStyles().getDefaultFont().getName());
-        msAssert.areEqual(20, doc.getStyles().getDefaultParagraphFormat().getSpaceAfter());
-        msAssert.areEqual(ParagraphAlignment.RIGHT, doc.getStyles().getDefaultParagraphFormat().getAlignment());
+        Assert.assertEquals("PMingLiU", doc.getStyles().getDefaultFont().getName());
+        Assert.assertEquals(20, doc.getStyles().getDefaultParagraphFormat().getSpaceAfter());
+        Assert.assertEquals(ParagraphAlignment.RIGHT, doc.getStyles().getDefaultParagraphFormat().getAlignment());
+    }
+
+    @Test
+    public void paragraphStyleBulleted() throws Exception
+    {
+        //ExStart
+        //ExFor:StyleCollection
+        //ExFor:DocumentBase.Styles
+        //ExFor:Style
+        //ExFor:Font
+        //ExFor:Style.Font
+        //ExFor:Style.ParagraphFormat
+        //ExFor:Style.ListFormat
+        //ExFor:ParagraphFormat.Style
+        //ExSummary:Shows how to create and use a paragraph style with list formatting.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create a paragraph style and specify some formatting for it
+        Style style = doc.getStyles().add(StyleType.PARAGRAPH, "MyStyle1");
+        style.getFont().setSize(24.0);
+        style.getFont().setName("Verdana");
+        style.getParagraphFormat().setSpaceAfter(12.0);
+
+        // Create a list and make sure the paragraphs that use this style will use this list
+        style.getListFormat().setList(doc.getLists().add(ListTemplate.BULLET_DEFAULT));
+        style.getListFormat().setListLevelNumber(0);
+
+        // Apply the paragraph style to the current paragraph in the document and add some text
+        builder.getParagraphFormat().setStyle(style);
+        builder.writeln("Hello World: MyStyle1, bulleted.");
+
+        // Change to a paragraph style that has no list formatting
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Normal"));
+        builder.writeln("Hello World: Normal.");
+
+        builder.getDocument().save(getArtifactsDir() + "Styles.ParagraphStyleBulleted.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Styles.ParagraphStyleBulleted.docx");
+
+        style = doc.getStyles().get("MyStyle1");
+
+        Assert.assertEquals("MyStyle1", style.getName());
+        Assert.assertEquals(24, style.getFont().getSize());
+        Assert.assertEquals("Verdana", style.getFont().getName());
+        Assert.assertEquals(12.0d, style.getParagraphFormat().getSpaceAfter());
     }
 
     @Test
@@ -279,9 +324,9 @@ public class ExStyles extends ApiExampleBase
 
         // The aliases, separate from the name can be found here
         Style style = doc.getStyles().get("MyStyle");
-        msAssert.areEqual(new String[] { "MyStyle Alias 1", "MyStyle Alias 2" }, style.getAliases());
-        msAssert.areEqual("Title", style.getBaseStyleName());
-        msAssert.areEqual("MyStyle Char", style.getLinkedStyleName());
+        Assert.assertEquals(new String[] { "MyStyle Alias 1", "MyStyle Alias 2" }, style.getAliases());
+        Assert.assertEquals("Title", style.getBaseStyleName());
+        Assert.assertEquals("MyStyle Char", style.getLinkedStyleName());
 
         // A style can be referenced by alias as well as name
         Assert.assertTrue(style.equals(doc.getStyles().get("MyStyle Alias 1")));
