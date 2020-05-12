@@ -158,7 +158,7 @@ public class ExShape extends ApiExampleBase
         protected /*override*/ void onPaint(PaintEventArgs e) throws Exception
         {
             // Set the size of the Form canvas
-            /*Size*/long = msSize.ctor(1000, 800);
+            Size = msSize.ctor(1000, 800);
 
             // Open a document and get its first shape, which is a chart
             Document doc = new Document(getMyDir() + "Various shapes.docx");

@@ -10,22 +10,22 @@ import com.aspose.words.examples.Utils;
  * Created by Home on 6/12/2017.
  */
 public class LoadAndSaveHtmlFormFieldasContentControlinDOCX {
-    // The path to the documents directory.
-    private static final String dataDir = Utils.getDataDir(LoadAndSaveHtmlFormFieldasContentControlinDOCX.class);
+	// The path to the documents directory.
+	private static final String dataDir = Utils.getDataDir(LoadAndSaveHtmlFormFieldasContentControlinDOCX.class);
 
-    public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 
-        //ExStart:LoadAndSaveHtmlFormFieldasContentControlinDOCX
-        HtmlLoadOptions lo = new HtmlLoadOptions();
-        lo.setPreferredControlType(HtmlControlType.STRUCTURED_DOCUMENT_TAG);
+		// ExStart:LoadAndSaveHtmlFormFieldasContentControlinDOCX
+		HtmlLoadOptions lo = new HtmlLoadOptions();
+		lo.setPreferredControlType(HtmlControlType.STRUCTURED_DOCUMENT_TAG);
 
-        //Load the HTML document
-        Document doc = new Document(dataDir + "input.html", lo);
+		// Load the HTML document
+		Document doc = new Document(dataDir + "input.html", lo);
 
-        //Save the HTML document as DOCX
-        doc.save(dataDir + "output.docx", SaveFormat.DOCX);
-        //ExEnd:LoadAndSaveHtmlFormFieldasContentControlinDOCX
-        System.out.println("Html form fields are exported as content control successfully.");
-    }
+		// Save the HTML document as DOCX
+		doc.save(dataDir + "output.docx", SaveFormat.DOCX);
+		// ExEnd:LoadAndSaveHtmlFormFieldasContentControlinDOCX
+		System.out.println("Html form fields are exported as content control successfully.");
+	}
 
 }

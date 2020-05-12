@@ -126,7 +126,7 @@ public class ExDocument extends ApiExampleBase {
         // as an instance of our IResourceLoadingCallback implementation 
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setResourceLoadingCallback(new HtmlLinkedResourceLoadingCallback());
-        
+
         // When we open an Html document, external resources such as references to CSS stylesheet files and external images
         // will be handled in a custom manner by the loading callback as the document is loaded
         Document doc = new Document(getMyDir() + "Images.html", loadOptions);
@@ -1418,9 +1418,8 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (description = "WORDSNET-16099")
-    public void footnoteColumns() throws Exception
-    {
+    @Test(description = "WORDSNET-16099")
+    public void footnoteColumns() throws Exception {
         //ExStart
         //ExFor:FootnoteOptions
         //ExFor:FootnoteOptions.Columns
@@ -1531,8 +1530,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void compare() throws Exception
-    {
+    public void compare() throws Exception {
         //ExStart
         //ExFor:Document.Compare(Document, String, DateTime)
         //ExFor:RevisionCollection.AcceptAll
@@ -2957,7 +2955,7 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(4, doc.getVersionsCount());
         //ExEnd
 
-        doc.save(getArtifactsDir() + "Document.VersionsCount.docx");      
+        doc.save(getArtifactsDir() + "Document.VersionsCount.docx");
         doc = new Document(getArtifactsDir() + "Document.VersionsCount.docx");
 
         Assert.assertEquals(0, doc.getVersionsCount());
