@@ -13,8 +13,6 @@ import org.apache.commons.lang.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayOutputStream;
-
 public class ExCellFormat extends ApiExampleBase {
     @Test
     public void verticalMerge() throws Exception {
@@ -49,7 +47,7 @@ public class ExCellFormat extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "CellFormat.VerticalMerge.docx");
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         Assert.assertEquals(CellMerge.FIRST, table.getRows().get(0).getCells().get(0).getCellFormat().getVerticalMerge());
         Assert.assertEquals(CellMerge.PREVIOUS, table.getRows().get(1).getCells().get(0).getCellFormat().getVerticalMerge());
 
@@ -90,7 +88,7 @@ public class ExCellFormat extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "CellFormat.HorizontalMerge.docx");
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
         // Compared to the vertical merge, where both cells are still present, 
         // the horizontal merge actually removes cells with a HorizontalMerge set to "Previous" if overlapped by ones with "First"
@@ -121,7 +119,7 @@ public class ExCellFormat extends ApiExampleBase {
 
         Document doc = DocumentHelper.saveOpen(builder.getDocument());
 
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         Cell cell = table.getRows().get(0).getCells().get(0);
 
         Assert.assertEquals(cell.getCellFormat().getLeftPadding(), 5.0);

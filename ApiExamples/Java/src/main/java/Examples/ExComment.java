@@ -12,7 +12,6 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,7 +45,7 @@ public class ExComment extends ApiExampleBase {
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
-        Comment docComment = (Comment)doc.getChild(NodeType.COMMENT, 0, true);
+        Comment docComment = (Comment) doc.getChild(NodeType.COMMENT, 0, true);
 
         Assert.assertEquals(1, docComment.getCount());
         Assert.assertEquals(1, newComment.getReplies().getCount());
@@ -77,8 +76,7 @@ public class ExComment extends ApiExampleBase {
                 System.out.println("Comment author: " + comment.getAuthor());
                 System.out.println("Comment text: " + comment.getText());
 
-                for (Comment commentReply : comment.getReplies())
-                {
+                for (Comment commentReply : comment.getReplies()) {
                     System.out.println("\n\tThis is a comment reply");
                     System.out.println("\tReply author: " + commentReply.getAuthor());
                     System.out.println("\tReply text: " + commentReply.getText());
@@ -96,7 +94,7 @@ public class ExComment extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Comments.docx");
 
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
-        Comment comment = (Comment)comments.get(0);
+        Comment comment = (Comment) comments.get(0);
         Assert.assertEquals(2, comment.getReplies().getCount()); //ExSkip
 
         comment.removeAllReplies();
@@ -114,7 +112,7 @@ public class ExComment extends ApiExampleBase {
 
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
 
-        Comment parentComment = (Comment)comments.get(0);
+        Comment parentComment = (Comment) comments.get(0);
         CommentCollection repliesCollection = parentComment.getReplies();
         Assert.assertEquals(2, parentComment.getReplies().getCount()); //ExSkip
 
@@ -146,11 +144,10 @@ public class ExComment extends ApiExampleBase {
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
-        comment = (Comment)doc.getChildNodes(NodeType.COMMENT, true).get(0);
+        comment = (Comment) doc.getChildNodes(NodeType.COMMENT, true).get(0);
         repliesCollection = comment.getReplies();
 
-        for (Comment childComment : (Iterable<Comment>) repliesCollection)
-        {
+        for (Comment childComment : (Iterable<Comment>) repliesCollection) {
             Assert.assertTrue(childComment.getDone());
         }
     }

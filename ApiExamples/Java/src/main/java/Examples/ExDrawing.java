@@ -8,9 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.*;
 import com.aspose.words.Shape;
 import com.aspose.words.Stroke;
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -193,7 +193,7 @@ public class ExDrawing extends ApiExampleBase {
 
         // We can also open an image file using a stream and set its contents as a shape's image 
         InputStream stream = new FileInputStream(getImageDir() + "Logo.jpg");
-        try /*JAVA: was using*/ {
+        try {
             imgShape = new Shape(doc, ShapeType.IMAGE);
             doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
             imgShape.getImageData().setImage(stream);

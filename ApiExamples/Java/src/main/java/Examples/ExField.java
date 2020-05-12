@@ -8,9 +8,9 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.*;
 import com.aspose.words.List;
 import com.aspose.words.Shape;
+import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataColumn;
 import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.net.System.Data.DataTable;

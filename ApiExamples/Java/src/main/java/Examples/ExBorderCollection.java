@@ -39,8 +39,7 @@ public class ExBorderCollection extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.docx");
 
-        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders())
-        {
+        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders()) {
             Assert.assertEquals(new Color(65, 105, 225).getRGB(), border.getColor().getRGB());
             Assert.assertEquals(LineStyle.DOUBLE, border.getLineStyle());
         }
@@ -62,8 +61,7 @@ public class ExBorderCollection extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "BorderCollection.RemoveAllBorders.docx");
 
-        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders())
-        {
+        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders()) {
             Assert.assertEquals(0, border.getColor().getRGB());
             Assert.assertEquals(LineStyle.NONE, border.getLineStyle());
         }

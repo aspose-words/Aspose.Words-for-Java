@@ -8,8 +8,8 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.*;
 import com.aspose.words.Shape;
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -70,7 +70,7 @@ public class ExDocumentBase extends ApiExampleBase {
 
         // For that reason, we can't just append a section of the source document to the destination document using Node.AppendChild()
         // Document.ImportNode() lets us get around this by creating a clone of a node and sets its parent to the calling document
-        Section importedSection = (Section)dst.importNode(src.getFirstSection(), true);
+        Section importedSection = (Section) dst.importNode(src.getFirstSection(), true);
 
         // Now it is ready to be placed in the document
         dst.appendChild(importedSection);
@@ -83,7 +83,7 @@ public class ExDocumentBase extends ApiExampleBase {
         Assert.assertNotEquals(importedSection, src.getFirstSection());
         Assert.assertNotEquals(importedSection.getDocument(), src.getFirstSection().getDocument());
         Assert.assertEquals(importedSection.getBody().getFirstParagraph().getText(),
-            src.getFirstSection().getBody().getFirstParagraph().getText());
+                src.getFirstSection().getBody().getFirstParagraph().getText());
     }
 
     @Test
@@ -109,7 +109,7 @@ public class ExDocumentBase extends ApiExampleBase {
         // Import the Section from the destination document into the source document, causing a style name collision
         // If we use destination styles then the imported source text with the same style name as destination text
         // will adopt the destination style 
-        Section importedSection = (Section)dst.importNode(src.getFirstSection(), true, ImportFormatMode.USE_DESTINATION_STYLES);
+        Section importedSection = (Section) dst.importNode(src.getFirstSection(), true, ImportFormatMode.USE_DESTINATION_STYLES);
         Assert.assertEquals("Source document text.", importedSection.getBody().getParagraphs().get(0).getRuns().get(0).getText().trim()); //ExSkip
         Assert.assertNull(dst.getStyles().get("My style_0")); //ExSkip
         Assert.assertEquals(dstStyle.getFont().getName(), importedSection.getBody().getFirstParagraph().getRuns().get(0).getFont().getName());
@@ -226,12 +226,10 @@ public class ExDocumentBase extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testResourceLoadingCallback(Document doc) throws Exception
-    {
-        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
-        {
+    private void testResourceLoadingCallback(Document doc) throws Exception {
+        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
             Assert.assertTrue(shape.hasImage());
             Assert.assertNotEquals(shape.getImageData().getImageBytes(), new byte[0]);
         }
     }
-    }
+}

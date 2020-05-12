@@ -102,8 +102,7 @@ public class ExBorder extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "Border.ClearFormatting.docx");
 
-        for (Border testBorder : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders())
-        {
+        for (Border testBorder : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders()) {
             Assert.assertEquals(0, testBorder.getColor().getRGB());
             Assert.assertEquals(0.0d, testBorder.getLineWidth());
             Assert.assertEquals(LineStyle.NONE, testBorder.getLineStyle());
@@ -146,8 +145,7 @@ public class ExBorder extends ApiExampleBase {
         // Each border in the second paragraph collection becomes no longer the same as its counterpart from the first paragraph collection
         // Change all the elements in the second collection to make it completely different from the first
         Assert.assertEquals(6, secondParaBorders.getCount()); // ExSkip
-        for (Border border : secondParaBorders)
-        {
+        for (Border border : secondParaBorders) {
             border.setLineStyle(LineStyle.DOT_DASH);
         }
 
@@ -241,10 +239,9 @@ public class ExBorder extends ApiExampleBase {
         Assert.assertEquals(LineStyle.DASH_SMALL_GAP, paragraphs.get(0).getParagraphFormat().getBorders().getByBorderType(BorderType.HORIZONTAL).getLineStyle());
         Assert.assertEquals(LineStyle.DASH_SMALL_GAP, paragraphs.get(1).getParagraphFormat().getBorders().getByBorderType(BorderType.HORIZONTAL).getLineStyle());
 
-        Table outTable = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table outTable = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
-        for (Row row : (Iterable<Row>) outTable.getChildNodes(NodeType.ROW, true))
-        {
+        for (Row row : (Iterable<Row>) outTable.getChildNodes(NodeType.ROW, true)) {
             Assert.assertEquals(Color.RED.getRGB(), row.getRowFormat().getBorders().getHorizontal().getColor().getRGB());
             Assert.assertEquals(LineStyle.DOT, row.getRowFormat().getBorders().getHorizontal().getLineStyle());
             Assert.assertEquals(2.0d, row.getRowFormat().getBorders().getHorizontal().getLineWidth());

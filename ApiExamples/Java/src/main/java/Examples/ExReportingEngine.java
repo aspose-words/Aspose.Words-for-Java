@@ -14,8 +14,8 @@ import TestData.TestBuilders.DocumentTestBuilder;
 import TestData.TestBuilders.ImageTestBuilder;
 import TestData.TestBuilders.NumericTestBuilder;
 import TestData.TestClasses.*;
-import com.aspose.words.*;
 import com.aspose.words.Shape;
+import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataSet;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -30,7 +30,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.List;
 
 @Test

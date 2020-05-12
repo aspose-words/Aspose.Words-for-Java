@@ -8,10 +8,7 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.BuildVersionInfo;
 import org.testng.annotations.Test;
-
-import java.text.MessageFormat;
 
 public class ExBuildVersion extends ApiExampleBase {
     @Test

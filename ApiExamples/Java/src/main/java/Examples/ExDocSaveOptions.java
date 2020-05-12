@@ -14,10 +14,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Test
@@ -116,6 +112,6 @@ public class ExDocSaveOptions extends ApiExampleBase {
 
     @DataProvider(name = "updateLastPrintedPropertyDataProvider")
     public static Object[][] updateLastPrintedPropertyDataProvider() {
-        return new Object[][] { {true}, {false} };
+        return new Object[][]{{true}, {false}};
     }
 }
