@@ -21,7 +21,7 @@ public class SpecifyLoadOptions {
 		convertShapeToOfficeMath(dataDir);
 		SetTempFolder(dataDir);
 		LoadOptionsEncoding(dataDir);
-		
+
 	}
 
 	public static void loadOptionsUpdateDirtyFields(String dataDir) throws Exception {
@@ -73,7 +73,7 @@ public class SpecifyLoadOptions {
 		// Specify load option to specify MS Word version
 		LoadOptions loadOptions = new LoadOptions();
 		loadOptions.setMswVersion(MsWordVersion.WORD_2003);
-		
+
 		Document doc = new Document(dataDir + "document.doc", loadOptions);
 		doc.save(dataDir + "Word2003_out.docx");
 		// ExEnd:SetMSWordVersion
@@ -89,16 +89,16 @@ public class SpecifyLoadOptions {
 		Document doc = new Document(dataDir + "document.doc", lo);
 		// ExEnd:SetTempFolder
 	}
-	
-	public static void LoadOptionsEncoding(String dataDir) throws Exception
-    {
-        // ExStart:LoadOptionsEncoding
+
+	public static void LoadOptionsEncoding(String dataDir) throws Exception {
+		// ExStart:LoadOptionsEncoding
 		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
-        // Set the Encoding attribute in a LoadOptions object to override the automatically chosen encoding with the one we know to be correct
-        LoadOptions loadOptions = new LoadOptions();
-        loadOptions.setEncoding(java.nio.charset.Charset.forName("UTF-8"));
-        
-        Document doc = new Document(dataDir + "Encoded in UTF-8.txt", loadOptions);
-        // ExEnd:LoadOptionsEncoding
-    }
+		// Set the Encoding attribute in a LoadOptions object to override the
+		// automatically chosen encoding with the one we know to be correct
+		LoadOptions loadOptions = new LoadOptions();
+		loadOptions.setEncoding(java.nio.charset.Charset.forName("UTF-8"));
+
+		Document doc = new Document(dataDir + "Encoded in UTF-8.txt", loadOptions);
+		// ExEnd:LoadOptionsEncoding
+	}
 }

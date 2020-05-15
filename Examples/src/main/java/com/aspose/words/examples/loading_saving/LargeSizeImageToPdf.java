@@ -15,7 +15,7 @@ public class LargeSizeImageToPdf {
 
         //ExStart:LargeSizeImageToPdf
         // The path to the documents directory.
-        String dataDir = Utils.getDataDir(ImageToPdf.class);
+        String dataDir = Utils.getDataDir(ConvertToPDF.class);
 
         convertImageToPdf(dataDir + "Test.jpg", dataDir + "TestJpg_out_.pdf");
         convertImageToPdf(dataDir + "Test.png", dataDir + "TestPng_out_.pdf");
