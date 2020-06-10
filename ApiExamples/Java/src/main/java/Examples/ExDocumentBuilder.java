@@ -776,7 +776,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.getCellFormat().clearFormatting();
         builder.getCellFormat().setWidth(150.0);
         builder.getCellFormat().setVerticalAlignment(CellVerticalAlignment.CENTER);
-        builder.getCellFormat().getShading().setBackgroundPatternColor(new Color(173, 255, 47)); //"green-yellow"
+        builder.getCellFormat().getShading().setBackgroundPatternColor(Color.GREEN);
         builder.getCellFormat().setWrapText(false);
         builder.getCellFormat().setFitText(true);
 
@@ -784,7 +784,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.getRowFormat().setHeightRule(HeightRule.EXACTLY);
         builder.getRowFormat().setHeight(50.0);
         builder.getRowFormat().getBorders().setLineStyle(LineStyle.ENGRAVE_3_D);
-        builder.getRowFormat().getBorders().setColor(new Color(255, 165, 0)); // "orange"
+        builder.getRowFormat().getBorders().setColor(Color.ORANGE);
 
         builder.insertCell();
         builder.write("Row 1, Col 1");
@@ -834,7 +834,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals(Color.ORANGE.getRGB(), table.getRows().get(0).getRowFormat().getBorders().getColor().getRGB());
 
         for (Cell c : (Iterable<Cell>) table.getRows().get(0).getCells()) {
-            Assert.assertEquals(150, c.getCellFormat().getWidth());
+            Assert.assertEquals(150.0, c.getCellFormat().getWidth());
             Assert.assertEquals(CellVerticalAlignment.CENTER, c.getCellFormat().getVerticalAlignment());
             Assert.assertEquals(Color.GREEN.getRGB(), c.getCellFormat().getShading().getBackgroundPatternColor().getRGB());
             Assert.assertFalse(c.getCellFormat().getWrapText());
@@ -843,27 +843,27 @@ public class ExDocumentBuilder extends ApiExampleBase {
             Assert.assertEquals(ParagraphAlignment.CENTER, c.getFirstParagraph().getParagraphFormat().getAlignment());
         }
 
-        Assert.assertEquals("Row 2, Col 1\u0007", table.getRows().get(1).getCells().get(0).getText().trim());
-        Assert.assertEquals("Row 2, Col 2\u0007", table.getRows().get(1).getCells().get(1).getText().trim());
+        Assert.assertEquals("Row 2, Col 1", table.getRows().get(1).getCells().get(0).getText().trim());
+        Assert.assertEquals("Row 2, Col 2", table.getRows().get(1).getCells().get(1).getText().trim());
 
 
         for (Cell c : (Iterable<Cell>) table.getRows().get(1).getCells()) {
-            Assert.assertEquals(150, c.getCellFormat().getWidth());
+            Assert.assertEquals(150.0, c.getCellFormat().getWidth());
             Assert.assertEquals(CellVerticalAlignment.CENTER, c.getCellFormat().getVerticalAlignment());
-            Assert.assertEquals(null, c.getCellFormat().getShading().getBackgroundPatternColor().getRGB());
+            Assert.assertEquals(0, c.getCellFormat().getShading().getBackgroundPatternColor().getRGB());
             Assert.assertFalse(c.getCellFormat().getWrapText());
             Assert.assertTrue(c.getCellFormat().getFitText());
 
             Assert.assertEquals(ParagraphAlignment.CENTER, c.getFirstParagraph().getParagraphFormat().getAlignment());
         }
 
-        Assert.assertEquals(150, table.getRows().get(2).getRowFormat().getHeight());
+        Assert.assertEquals(150.0, table.getRows().get(2).getRowFormat().getHeight());
 
-        Assert.assertEquals("Row 3, Col 1\u0007", table.getRows().get(2).getCells().get(0).getText().trim());
+        Assert.assertEquals("Row 3, Col 1", table.getRows().get(2).getCells().get(0).getText().trim());
         Assert.assertEquals(TextOrientation.UPWARD, table.getRows().get(2).getCells().get(0).getCellFormat().getOrientation());
         Assert.assertEquals(ParagraphAlignment.CENTER, table.getRows().get(2).getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
 
-        Assert.assertEquals("Row 3, Col 2\u0007", table.getRows().get(2).getCells().get(1).getText().trim());
+        Assert.assertEquals("Row 3, Col 2", table.getRows().get(2).getCells().get(1).getText().trim());
         Assert.assertEquals(TextOrientation.DOWNWARD, table.getRows().get(2).getCells().get(1).getCellFormat().getOrientation());
         Assert.assertEquals(ParagraphAlignment.CENTER, table.getRows().get(2).getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
     }
@@ -1869,7 +1869,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.updateFields();
     }
 
-    @Test(description = "WORDSNET-16868")
+    @Test(enabled = false, description = "WORDSNET-16868, WORDSJAVA-2406")
     public void signatureLineProviderId() throws Exception {
         //ExStart
         //ExFor:SignatureLine.ProviderId
@@ -1883,6 +1883,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExSummary:Shows how to sign document with personal certificate and specific signature line.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+        Date currentDate = new Date();
 
         SignatureLineOptions signatureLineOptions = new SignatureLineOptions();
 
@@ -1903,7 +1904,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         signOptions.setSignatureLineId(signatureLine.getId());
         signOptions.setProviderId(signatureLine.getProviderId());
         signOptions.setComments("Document was signed by vderyushev");
-        signOptions.setSignTime(new Date());
+        signOptions.setSignTime(currentDate);
 
         CertificateHolder certHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
@@ -1931,7 +1932,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals(1, signatures.getCount());
         Assert.assertTrue(signatures.get(0).isValid());
         Assert.assertEquals("Document was signed by vderyushev", signatures.get(0).getComments());
-        Assert.assertEquals(new Date(), signatures.get(0).getSignTime());
+        Assert.assertEquals(currentDate, signatures.get(0).getSignTime());
         Assert.assertEquals("CN=Morzal.Me", signatures.get(0).getIssuerName());
         Assert.assertEquals(DigitalSignatureType.XML_DSIG, signatures.get(0).getSignatureType());
     }
@@ -2369,7 +2370,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test(dataProvider = "ignoreTextBoxesDataProvider")
+    @Test(enabled = false, dataProvider = "ignoreTextBoxesDataProvider")
     public void ignoreTextBoxes(boolean isIgnoreTextBoxes) throws Exception {
         //ExStart
         //ExFor:ImportFormatOptions.IgnoreTextBoxes
