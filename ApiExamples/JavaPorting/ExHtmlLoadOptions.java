@@ -61,9 +61,9 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
         if (doSupportVml)
-            TestUtil.verifyImage(400, 400, ImageType.JPEG, imageShape);
+            TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
         else
-            TestUtil.verifyImage(400, 400, ImageType.PNG, imageShape);
+            TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imageShape);
         //ExEnd
     }
 

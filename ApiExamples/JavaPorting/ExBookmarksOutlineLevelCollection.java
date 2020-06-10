@@ -90,5 +90,18 @@ public class ExBookmarksOutlineLevelCollection extends ApiExampleBase
         outlineLevels.clear();
         //ExEnd
 
-                        }
+                // Bind pdf with Aspose.Pdf
+        PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
+        bookmarkEditor.BindPdf(getArtifactsDir() + "BookmarksOutlineLevelCollection.BookmarkLevels.pdf");
+
+        // Get all bookmarks from the document
+        Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();
+
+        Assert.AreEqual(3, bookmarks.Count);
+
+        // Assert that all the bookmarks title are with whitespaces
+        Assert.AreEqual("Bookmark 1", bookmarks[0].Title);
+        Assert.AreEqual("Bookmark 2", bookmarks[1].Title);
+        Assert.AreEqual("Bookmark 3", bookmarks[2].Title);            
+            }
 }

@@ -99,7 +99,6 @@ public class ExRendering extends ApiExampleBase
             doc.save(stream, options);
         }
         finally { if (stream != null) stream.close(); }
-
         //ExEnd
     }
 

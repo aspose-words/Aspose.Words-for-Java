@@ -29,7 +29,13 @@ import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import org.bouncycastle.jcajce.provider.keystore.pkcs12.PKCS12KeyStoreSpi;
 import java.util.Iterator;
+import com.aspose.words.FileFormatInfo;
+import com.aspose.words.FileFormatUtil;
 import org.testng.Assert;
+import com.aspose.words.PdfSaveOptions;
+import com.aspose.words.PdfEncryptionDetails;
+import com.aspose.words.PdfEncryptionAlgorithm;
+import com.aspose.words.PdfLoadOptions;
 import com.aspose.ms.System.msString;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
@@ -37,8 +43,6 @@ import com.aspose.words.ConvertUtil;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.IncorrectPasswordException;
-import com.aspose.words.FileFormatInfo;
-import com.aspose.words.FileFormatUtil;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.FontSettings;
@@ -51,7 +55,6 @@ import com.aspose.words.WarningType;
 import com.aspose.words.WarningSource;
 import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.DocumentSplitCriteria;
-import com.aspose.words.PdfSaveOptions;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.IFontSavingCallback;
 import com.aspose.words.FontSavingArgs;
@@ -98,7 +101,6 @@ import com.aspose.words.StyleType;
 import com.aspose.words.List;
 import com.aspose.words.CleanupOptions;
 import com.aspose.words.ShowInBalloons;
-import com.aspose.words.ParagraphCollection;
 import com.aspose.words.RevisionsView;
 import com.aspose.words.ThumbnailGeneratingOptions;
 import com.aspose.ms.System.Drawing.msSize;
@@ -173,10 +175,10 @@ public class ExDocument extends ApiExampleBase
     public void licenseFromFileNoPath() throws Exception
     {
         // This is where the test license is on my development machine.
-        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Words.lic");
+        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Words.NET.lic");
 
         // Copy a license to the bin folder so the example can execute.
-        String dstFileName = Path.combine(getAssemblyDir(), "Aspose.Words.lic");
+        String dstFileName = Path.combine(getAssemblyDir(), "Aspose.Words.NET.lic");
         File.copy(testLicenseFileName, dstFileName);
 
         //ExStart
@@ -185,7 +187,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:License.SetLicense(String)
         //ExSummary:Aspose.Words will attempt to find the license file in the embedded resources or in the assembly folders.
         License license = new License();
-        license.setLicense("Aspose.Words.lic");
+        license.setLicense("Aspose.Words.NET.lic");
         //ExEnd
 
         // Cleanup by removing the license
@@ -197,7 +199,7 @@ public class ExDocument extends ApiExampleBase
     public void licenseFromStream() throws Exception
     {
         // This is where the test license is on my development machine
-        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Words.lic");
+        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Words.NET.lic");
 
         Stream myStream = File.openRead(testLicenseFileName);
         try
@@ -334,6 +336,31 @@ public class ExDocument extends ApiExampleBase
         //ExEnd
     }
 
+    @Test
+    public void pdf2Word() throws Exception
+    {
+        // Check that PDF document format detects correctly
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Pdf Document.pdf");
+        Assert.assertEquals(info.getLoadFormat(), com.aspose.words.LoadFormat.PDF);
+
+        // Check that PDF document opens correctly
+        Document doc = new Document(getMyDir() + "Pdf Document.pdf");
+        Assert.assertEquals(
+            "Heading 1\rHeading 1.1.1.1 Heading 1.1.1.2\rHeading 1.1.1.1.1.1.1.1.1 Heading 1.1.1.1.1.1.1.1.2\f",
+            doc.getRange().getText());
+
+        // Check that protected PDF document opens correctly
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setEncryptionDetails(new PdfEncryptionDetails("Aspose", null, PdfEncryptionAlgorithm.RC_4_40));
+
+        doc.save(getArtifactsDir() + "Document.PdfDocumentEncrypted.pdf", saveOptions);
+
+        PdfLoadOptions loadOptions = new PdfLoadOptions();
+        loadOptions.setPassword("Aspose");
+        loadOptions.setLoadFormat(com.aspose.words.LoadFormat.PDF);
+
+        doc = new Document(getArtifactsDir() + "Document.PdfDocumentEncrypted.pdf", loadOptions);
+    }
 
     @Test
     public void documentCtor() throws Exception
@@ -603,7 +630,7 @@ public class ExDocument extends ApiExampleBase
         // If we open the document normally, the wrong encoding will be applied,
         // and the content of the document will not be represented correctly
         Document doc = new Document(getMyDir() + "Encoded in UTF-7.txt");
-        Assert.assertEquals("Hello world+ACE-\r\n\r\n", doc.toString(SaveFormat.TEXT));
+        Assert.assertEquals("Hello world+ACE-", msString.trim(doc.toString(SaveFormat.TEXT)));
 
         // In these cases we can set the Encoding attribute in a LoadOptions object
         // to override the automatically chosen encoding with the one we know to be correct
@@ -611,7 +638,7 @@ public class ExDocument extends ApiExampleBase
         doc = new Document(getMyDir() + "Encoded in UTF-7.txt", loadOptions);
 
         // This will give us the correct text
-        Assert.assertEquals("Hello world!\r\n\r\n", doc.toString(SaveFormat.TEXT));
+        Assert.assertEquals("Hello world!", msString.trim(doc.toString(SaveFormat.TEXT)));
         //ExEnd
     }
 
@@ -1515,9 +1542,10 @@ public class ExDocument extends ApiExampleBase
         // We can call UpdateTableLayout() to fix some of these issues
         doc.updateTableLayout();
 
-        Assert.assertEquals(155.65d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth()); //ExSkip
         Assert.assertEquals("Cell 1             Cell 2             Cell 3\r\n\r\n", doc.toString(options));
         //ExEnd
+
+        Assert.assertEquals(156.45d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth());
     }
 
     @Test
@@ -1592,11 +1620,12 @@ public class ExDocument extends ApiExampleBase
     public void tableStyleToDirectFormatting() throws Exception
     {
         //ExStart
+        //ExFor:CompositeNode.GetChild
         //ExFor:Document.ExpandTableStylesToDirectFormatting
         //ExSummary:Shows how to expand the formatting from styles onto the rows and cells of the table as direct formatting.
         Document doc = new Document(getMyDir() + "Tables.docx");
-        
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+
         // First print the color of the cell shading. This should be empty as the current shading
         // is stored in the table style
         double cellShadingBefore = table.getFirstRow().getRowFormat().getHeight();
@@ -2079,37 +2108,6 @@ public class ExDocument extends ApiExampleBase
         doc.save(getArtifactsDir() + "Document.AcceptAllRevisions.docx");
         Assert.assertEquals(0, doc.getRevisions().getCount()); //ExSKip
         //ExEnd
-    }
-
-    @Test
-    public void revisionHistory() throws Exception
-    {
-        //ExStart
-        //ExFor:Paragraph.IsMoveFromRevision
-        //ExFor:Paragraph.IsMoveToRevision
-        //ExFor:ParagraphCollection
-        //ExFor:ParagraphCollection.Item(Int32)
-        //ExFor:Story.Paragraphs
-        //ExSummary:Shows how to get paragraph that was moved (deleted/inserted) in Microsoft Word while change tracking was enabled.
-        Document doc = new Document(getMyDir() + "Revisions.docx");
-
-        // There are two sets of move revisions in this document
-        // One moves a small part of a paragraph, while the other moves a whole paragraph
-        // Paragraph.IsMoveFromRevision/IsMoveToRevision will only be true if a whole paragraph is moved, as in the latter case
-        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
-        for (int i = 0; i < paragraphs.getCount(); i++)
-        {
-            if (paragraphs.get(i).isMoveFromRevision())
-                msConsole.writeLine("The paragraph {0} has been moved (deleted).", i);
-            if (paragraphs.get(i).isMoveToRevision())
-                msConsole.writeLine("The paragraph {0} has been moved (inserted).", i);
-        }
-        //ExEnd
-
-        Assert.AreEqual(11, doc.getRevisions().Count());
-        Assert.AreEqual(6, doc.getRevisions().Count(r => r.RevisionType == RevisionType.Moving));
-        Assert.AreEqual(1, paragraphs.Count(p => ((Paragraph)p).IsMoveFromRevision));
-        Assert.AreEqual(1, paragraphs.Count(p => ((Paragraph)p).IsMoveToRevision));
     }
 
     @Test
@@ -2693,7 +2691,7 @@ public class ExDocument extends ApiExampleBase
 
         public ArrayList<String> getMatches() { return mMatches; };
 
-        private ArrayList<String> mMatches; = /*new*/ ArrayList<String>list();
+        private ArrayList<String> mMatches; = /*new*/ArrayList<String>list();
     }
     //ExEnd
 
@@ -2882,7 +2880,6 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(OdsoDataSourceType.TEXT, odso.getDataSourceType());
         Assert.assertEquals('|', odso.getColumnDelimiter());
         Assert.assertTrue(odso.getFirstRowContainsColumnNames());
-
     }
 
     @Test

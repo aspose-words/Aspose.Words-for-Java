@@ -65,7 +65,7 @@ public class ExImage extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Image.CreateImageDirectly.docx");
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(1600, 1600, ImageType.WMF, shape);
+        TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
         Assert.assertEquals(100.0d, shape.getHeight());
         Assert.assertEquals(100.0d, shape.getWidth());
     }
@@ -94,8 +94,8 @@ public class ExImage extends ApiExampleBase
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
         Assert.assertEquals(2, shapes.getCount());
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, (Shape)shapes.get(0));
-        TestUtil.verifyImage(320, 320, ImageType.PNG, (Shape)shapes.get(1));
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape)shapes.get(0));
+        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, (Shape)shapes.get(1));
     }
 
     @Test
@@ -120,7 +120,7 @@ public class ExImage extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Image.CreateFromStream.docx");
 
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0));
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0));
     }
 
         @Test (groups = "SkipMono")
@@ -191,7 +191,7 @@ public class ExImage extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Image.CreateFloatingPageCenter.docx");
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals(WrapType.NONE, shape.getWrapType());
         Assert.assertTrue(shape.getBehindText());
         Assert.assertEquals(RelativeHorizontalPosition.PAGE, shape.getRelativeHorizontalPosition());
@@ -246,7 +246,7 @@ public class ExImage extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Image.CreateFloatingPositionSize.docx");
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals(WrapType.NONE, shape.getWrapType());
         Assert.assertEquals(RelativeHorizontalPosition.PAGE, shape.getRelativeHorizontalPosition());
         Assert.assertEquals(RelativeVerticalPosition.PAGE, shape.getRelativeVerticalPosition());
@@ -281,7 +281,7 @@ public class ExImage extends ApiExampleBase
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
         TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
-        TestUtil.verifyImage(1600, 1600, ImageType.WMF, shape);
+        TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
         Assert.assertEquals("New Window", shape.getTarget());
         Assert.assertEquals("Aspose.Words Support Forums", shape.getScreenTip());
     }
@@ -336,19 +336,19 @@ public class ExImage extends ApiExampleBase
 
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(0, 0, ImageType.WMF, shape);
+        TestUtil.verifyImageInShape(0, 0, ImageType.WMF, shape);
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
         Assert.assertEquals(imageFileName, shape.getImageData().getSourceFullName());
 
         shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImage(1600, 1600, ImageType.WMF, shape);
+        TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
         Assert.assertEquals(imageFileName, shape.getImageData().getSourceFullName());
 
         shape = (Shape)doc.getChild(NodeType.SHAPE, 2, true);
 
-        TestUtil.verifyImage(1600, 1600, ImageType.WMF, shape);
+        TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
         Assert.assertEquals("", shape.getImageData().getSourceFullName());
     }

@@ -98,20 +98,21 @@ public class ExMailMergeEvent extends ApiExampleBase
     @Test //ExSkip
     public void fieldFormats() throws Exception
     {
-        DocumentBuilder builder = new DocumentBuilder();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertField("MERGEFIELD TextField \\* Caps", null);
+        builder.write(", ");
         builder.insertField("MERGEFIELD TextField2 \\* Upper", null);
+        builder.write(", ");
         builder.insertField("MERGEFIELD NumericField \\# 0.0", null);
 
         builder.getDocument().getMailMerge().setFieldMergingCallback(new FieldValueMergingCallback());
 
         builder.getDocument().getMailMerge().execute(
             new String[] { "TextField", "TextField2", "NumericField" },
-            new Object[] { "Original value", "Original value", 15.34 });
+            new Object[] { "Original value", "Original value", 10 });
 
-        Assert.assertEquals(
-            "New ValueNew value from e.Text43.2",
-            msString.trim(builder.getDocument().getText()));
+        Assert.assertEquals("New Value, New value from FieldMergingArgs, 20.0", msString.trim(doc.getText()));
     }
 
     private static class FieldValueMergingCallback implements IFieldMergingCallback
@@ -129,12 +130,12 @@ public class ExMailMergeEvent extends ApiExampleBase
                     break;
                 case /*"TextField2"*/1:
                     Assert.assertEquals("Original value", e.getFieldValue());
-                    e.setText("New value from e.Text");   // Should suppress e.FieldValue and ignore format
+                    e.setText("New value from FieldMergingArgs");   // Should suppress e.FieldValue and ignore format
                     e.setFieldValue("new value");
                     break;
                 case /*"NumericField"*/2:
-                    Assert.assertEquals(15.34, e.getFieldValue());
-                    e.setFieldValue(43.236);
+                    Assert.assertEquals(10.0d, e.getFieldValue());
+                    e.setFieldValue(20);
                     break;
             }
         }
@@ -157,6 +158,7 @@ public class ExMailMergeEvent extends ApiExampleBase
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
         builder.startTable();
         builder.insertCell();
         builder.insertField(" MERGEFIELD  TableStart:StudentCourse ");
@@ -174,7 +176,8 @@ public class ExMailMergeEvent extends ApiExampleBase
         doc.getMailMerge().executeWithRegions(dataTable);
 
         // Save resulting document with a new name
-        doc.save(getArtifactsDir() + "MailMergeEvent.InsertCheckBox.doc");
+        doc.save(getArtifactsDir() + "MailMergeEvent.InsertCheckBox.docx");
+        TestUtil.mailMergeMatchesDataTable(dataTable, new Document(getArtifactsDir() + "MailMergeEvent.InsertCheckBox.docx"), false); //ExSkip
     }
 
     private static class HandleMergeFieldInsertCheckBox implements IFieldMergingCallback
@@ -252,6 +255,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         doc.getMailMerge().executeWithRegions(dataTable);
 
         doc.save(getArtifactsDir() + "MailMergeEvent.AlternatingRows.docx");
+        TestUtil.mailMergeMatchesDataTable(dataTable, new Document(getArtifactsDir() + "MailMergeEvent.AlternatingRows.docx"), false); //ExSkip
     }
 
     private static class HandleMergeFieldAlternatingRows implements IFieldMergingCallback
@@ -365,20 +369,24 @@ public class ExMailMergeEvent extends ApiExampleBase
 
         // Open a database connection
         String connString = $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={DatabaseDir + "Northwind.mdb"};";
+        String query = "SELECT FirstName, LastName, Title, Address, City, Region, Country, PhotoBLOB FROM Employees";
+
         OleDbConnection conn = new OleDbConnection(connString);
-        conn.Open();
+        try /*JAVA: was using*/
+        {
+            conn.Open();
 
-        // Open the data reader. It needs to be in the normal mode that reads all record at once
-        OleDbCommand cmd = new OleDbCommand("SELECT * FROM Employees", conn);
-        IDataReader dataReader = cmd.ExecuteReader();
+            // Open the data reader. It needs to be in the normal mode that reads all record at once
+            OleDbCommand cmd = new OleDbCommand(query, conn);
+            IDataReader dataReader = cmd.ExecuteReader();
 
-        // Perform mail merge
-        doc.getMailMerge().executeWithRegions(dataReader, "Employees");
-
-        // Close the database
-        conn.Close();
+            // Perform mail merge
+            doc.getMailMerge().executeWithRegions(dataReader, "Employees");
+        }
+        finally { if (conn != null) conn.close(); }
 
         doc.save(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx");
+        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.mdb", query, new Document(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx"), false); //ExSkip
     }
 
     private static class HandleMergeImageFieldFromBlob implements IFieldMergingCallback

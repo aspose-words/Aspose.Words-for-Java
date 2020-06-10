@@ -25,8 +25,8 @@ import org.testng.annotations.DataProvider;
 @Test
 class ExOdtSaveOptions !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
 {
-    @Test
-    public void measureUnit() throws Exception
+    @Test (dataProvider = "measureUnitDataProvider")
+    public void measureUnit(boolean doExportToOdt11Specs) throws Exception
     {
         //ExStart
         //ExFor:OdtSaveOptions
@@ -40,13 +40,35 @@ class ExOdtSaveOptions !Test class should be public in Java to run, please fix .
         // Open Office uses centimeters, MS Office uses inches
         OdtSaveOptions saveOptions = new OdtSaveOptions();
         {
-            saveOptions.setMeasureUnit(OdtSaveMeasureUnit.INCHES);
-            saveOptions.isStrictSchema11(true);
+            saveOptions.setMeasureUnit(OdtSaveMeasureUnit.CENTIMETERS);
+            saveOptions.isStrictSchema11(doExportToOdt11Specs);
         }
 
         doc.save(getArtifactsDir() + "OdtSaveOptions.MeasureUnit.odt", saveOptions);
         //ExEnd
+
+        if (doExportToOdt11Specs)
+            TestUtil.docPackageFileContainsString("<text:span text:style-name=\"T118_1\" >Combobox<text:s/></text:span>", 
+                getArtifactsDir() + "OdtSaveOptions.MeasureUnit.odt", "content.xml");
+        else
+            TestUtil.docPackageFileContainsString("<text:span text:style-name=\"T118_1\" >Combobox<text:s/></text:span>" +
+                                          "<text:span text:style-name=\"T118_2\" >" +
+                                          "<text:drop-down><text:label text:value=\"Line 1\" ></text:label>" +
+                                          "<text:label text:value=\"Line 2\" ></text:label>" +
+                                          "<text:label text:value=\"Line 3\" ></text:label>Line 2</text:drop-down></text:span>", 
+                                          getArtifactsDir() + "OdtSaveOptions.MeasureUnit.odt", "content.xml");
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "measureUnitDataProvider")
+	public static Object[][] measureUnitDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 
     @Test (dataProvider = "encryptDataProvider")
     public void encrypt(/*SaveFormat*/int saveFormat) throws Exception
@@ -67,9 +89,8 @@ class ExOdtSaveOptions !Test class should be public in Java to run, please fix .
         //ExEnd
 
         // Check that all documents are encrypted with a password
-        FileFormatInfo docInfo = FileFormatUtil.detectFileFormat(
-            getArtifactsDir() + "OdtSaveOptions.Encrypt" +
-            FileFormatUtil.saveFormatToExtension(saveFormat));
+        FileFormatInfo docInfo = 
+            FileFormatUtil.detectFileFormat(getArtifactsDir() + "OdtSaveOptions.Encrypt" + FileFormatUtil.saveFormatToExtension(saveFormat));
         Assert.assertTrue(docInfo.isEncrypted());
     }
 
@@ -104,9 +125,8 @@ class ExOdtSaveOptions !Test class should be public in Java to run, please fix .
         //ExEnd
 
         // Check that document is still encrypted with a password
-        FileFormatInfo docInfo = FileFormatUtil.detectFileFormat(
-            getArtifactsDir() + "OdtSaveOptions.WorkWithEncryptedDocument" +
-            FileFormatUtil.saveFormatToExtension(saveFormat));
+        FileFormatInfo docInfo = 
+            FileFormatUtil.detectFileFormat(getArtifactsDir() + "OdtSaveOptions.WorkWithEncryptedDocument" + FileFormatUtil.saveFormatToExtension(saveFormat));
         Assert.assertTrue(docInfo.isEncrypted());
     }
 

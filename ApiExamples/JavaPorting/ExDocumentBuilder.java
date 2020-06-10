@@ -57,8 +57,6 @@ import com.aspose.words.PreferredWidthType;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.ConvertUtil;
 import com.aspose.words.Section;
-import com.aspose.words.ParagraphFormat;
-import com.aspose.words.Paragraph;
 import com.aspose.words.SignatureLineOptions;
 import com.aspose.words.SignatureLine;
 import com.aspose.ms.System.Guid;
@@ -68,6 +66,8 @@ import com.aspose.words.CertificateHolder;
 import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignatureType;
+import com.aspose.words.ParagraphFormat;
+import com.aspose.words.Paragraph;
 import com.aspose.words.CellFormat;
 import com.aspose.words.RowFormat;
 import com.aspose.words.Orientation;
@@ -408,7 +408,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertWatermark.docx");
         shape = (Shape)doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.PNG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, shape);
         Assert.assertEquals(WrapType.NONE, shape.getWrapType());
         Assert.assertTrue(shape.getBehindText());
         Assert.assertEquals(RelativeHorizontalPosition.PAGE, shape.getRelativeHorizontalPosition());
@@ -1700,63 +1700,6 @@ public class ExDocumentBuilder extends ApiExampleBase
     }
 
     @Test
-    public void documentBuilderInsertParagraph() throws Exception
-    {
-        //ExStart
-        //ExFor:DocumentBuilder.InsertParagraph
-        //ExFor:ParagraphFormat.FirstLineIndent
-        //ExFor:ParagraphFormat.Alignment
-        //ExFor:ParagraphFormat.KeepTogether
-        //ExFor:ParagraphFormat.AddSpaceBetweenFarEastAndAlpha
-        //ExFor:ParagraphFormat.AddSpaceBetweenFarEastAndDigit
-        //ExFor:Paragraph.IsEndOfDocument
-        //ExSummary:Shows how to insert a paragraph into the document.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Specify font formatting
-        Font font = builder.getFont();
-        font.setSize(16.0);
-        font.setBold(true);
-        font.setColor(Color.BLUE);
-        font.setName("Arial");
-        font.setUnderline(Underline.DASH);
-
-        // Specify paragraph formatting
-        ParagraphFormat paragraphFormat = builder.getParagraphFormat();
-        paragraphFormat.setFirstLineIndent(8.0);
-        paragraphFormat.setAlignment(ParagraphAlignment.JUSTIFY);
-        paragraphFormat.setAddSpaceBetweenFarEastAndAlpha(true);
-        paragraphFormat.setAddSpaceBetweenFarEastAndDigit(true);
-        paragraphFormat.setKeepTogether(true);
-
-        // Using Writeln() ends the paragraph after writing and makes a new one, while Write() stays on the same paragraph
-        builder.writeln("A whole paragraph.");
-
-        // We can use this flag to ensure that we're at the end of the document
-        Assert.assertTrue(builder.getCurrentParagraph().isEndOfDocument());
-        //ExEnd
-
-        doc = DocumentHelper.saveOpen(doc);
-        Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
-
-        Assert.assertEquals(8, paragraph.getParagraphFormat().getFirstLineIndent());
-        Assert.assertEquals(ParagraphAlignment.JUSTIFY, paragraph.getParagraphFormat().getAlignment());
-        Assert.assertTrue(paragraph.getParagraphFormat().getAddSpaceBetweenFarEastAndAlpha());
-        Assert.assertTrue(paragraph.getParagraphFormat().getAddSpaceBetweenFarEastAndDigit());
-        Assert.assertTrue(paragraph.getParagraphFormat().getKeepTogether());
-        Assert.assertEquals("A whole paragraph.", msString.trim(paragraph.getText()));
-
-        Font runFont = paragraph.getRuns().get(0).getFont();
-
-        Assert.assertEquals(16.0d, runFont.getSize());
-        Assert.assertTrue(runFont.getBold());
-        Assert.assertEquals(Color.BLUE.getRGB(), runFont.getColor().getRGB());
-        Assert.assertEquals("Arial", runFont.getName());
-        Assert.assertEquals(Underline.DASH, runFont.getUnderline());
-    }
-
-    @Test
     public void documentBuilderBuildTable() throws Exception
     {
         //ExStart
@@ -1894,7 +1837,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
         Shape image = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.PNG, image);
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, image);
         Assert.assertEquals(100.0d, image.getLeft());
         Assert.assertEquals(100.0d, image.getTop());
         Assert.assertEquals(200.0d, image.getWidth());
@@ -1937,11 +1880,11 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
         Shape image = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, image);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, image);
         Assert.assertEquals(200.0d, image.getLeft());
         Assert.assertEquals(100.0d, image.getTop());
-        Assert.assertEquals(268.0d, image.getWidth());
-        Assert.assertEquals(268.0d, image.getHeight());
+        Assert.assertEquals(270.3d, image.getWidth());
+        Assert.assertEquals(270.3d, image.getHeight());
         Assert.assertEquals(WrapType.SQUARE, image.getWrapType());
         Assert.assertEquals(RelativeHorizontalPosition.MARGIN, image.getRelativeHorizontalPosition());
         Assert.assertEquals(RelativeVerticalPosition.MARGIN, image.getRelativeVerticalPosition());
@@ -2899,7 +2842,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertVideoWithUrl.docx");
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(480, 360, ImageType.JPEG, shape);
+        TestUtil.verifyImageInShape(480, 360, ImageType.JPEG, shape);
         TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
 
         Assert.assertEquals(360.0d, shape.getWidth());
@@ -3580,7 +3523,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideo.docx");
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(640, 360, ImageType.JPEG, shape);
+        TestUtil.verifyImageInShape(640, 360, ImageType.JPEG, shape);
 
         Assert.assertEquals(320.0d, shape.getWidth());
         Assert.assertEquals(180.0d, shape.getHeight());
@@ -3594,7 +3537,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImage(320, 320, ImageType.PNG, shape);
+        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, shape);
         Assert.assertEquals(320.0d, shape.getWidth());
         Assert.assertEquals(320.0d, shape.getHeight());
         Assert.assertEquals(0.0d, shape.getLeft());
