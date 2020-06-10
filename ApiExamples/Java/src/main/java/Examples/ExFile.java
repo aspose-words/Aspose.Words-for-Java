@@ -13,11 +13,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
-import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 @Test
 public class ExFile extends ApiExampleBase {
+
     @Test
     public void catchFileCorruptedException() throws Exception {
         //ExStart
@@ -28,7 +30,6 @@ public class ExFile extends ApiExampleBase {
         } catch (FileCorruptedException e) {
             System.out.println(e.getMessage());
         }
-
         //ExEnd
     }
 
@@ -45,11 +46,8 @@ public class ExFile extends ApiExampleBase {
 
         // This time the property will not be null
         info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.html");
-        Assert.assertEquals(info.getLoadFormat(), LoadFormat.HTML);
+        Assert.assertEquals(LoadFormat.HTML, info.getLoadFormat());
         Assert.assertNotNull(info.getEncoding());
-
-        // It now has some more useful information
-        Assert.assertEquals(info.getEncoding().displayName(), "windows-1252");
         //ExEnd
     }
 
@@ -105,23 +103,64 @@ public class ExFile extends ApiExampleBase {
     }
 
     @Test
-    public void detectFileFormat() throws Exception {
+    public void detectDocumentEncryption() throws Exception {
         //ExStart
         //ExFor:FileFormatUtil.DetectFileFormat(String)
         //ExFor:FileFormatInfo
         //ExFor:FileFormatInfo.LoadFormat
         //ExFor:FileFormatInfo.IsEncrypted
-        //ExFor:FileFormatInfo.HasDigitalSignature
-        //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and other features of the document.
-        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
-        System.out.println("The document format is: " + FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
-        System.out.println("Document is encrypted: " + info.isEncrypted());
-        System.out.println("Document has a digital signature: " + info.hasDigitalSignature());
+        //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and encryption.
+        Document doc = new Document();
+
+        // Save it as an encrypted .odt
+        OdtSaveOptions saveOptions = new OdtSaveOptions(SaveFormat.ODT);
+        saveOptions.setPassword("MyPassword");
+
+        doc.save(getArtifactsDir() + "File.DetectDocumentEncryption.odt", saveOptions);
+
+        // Create a FileFormatInfo object for this document
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getArtifactsDir() + "File.DetectDocumentEncryption.odt");
+
+        // Verify the file type of our document and its encryption status
+        Assert.assertEquals(".odt", FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
+        Assert.assertTrue(info.isEncrypted());
         //ExEnd
     }
 
     @Test
-    public void detectFileFormatEnumConversions() throws Exception {
+    public void detectDigitalSignatures() throws Exception {
+        //ExStart
+        //ExFor:FileFormatUtil.DetectFileFormat(String)
+        //ExFor:FileFormatInfo
+        //ExFor:FileFormatInfo.LoadFormat
+        //ExFor:FileFormatInfo.HasDigitalSignature
+        //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and presence of digital signatures.
+        // Use a FileFormatInfo instance to verify that a document is not digitally signed
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
+
+        Assert.assertEquals(".docx", FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
+        Assert.assertFalse(info.hasDigitalSignature());
+
+        SignOptions signOptions = new SignOptions();
+        signOptions.setSignTime(new Date());
+
+        // Sign the document
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
+        DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "File.DetectDigitalSignatures.docx",
+                certificateHolder, signOptions);
+
+        // Use a new FileFormatInstance to confirm that it is signed
+        info = FileFormatUtil.detectFileFormat(getArtifactsDir() + "File.DetectDigitalSignatures.docx");
+
+        Assert.assertTrue(info.hasDigitalSignature());
+
+        // The signatures can then be accessed like this
+        Assert.assertEquals(1, DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "File.DetectDigitalSignatures.docx").getCount());
+        //ExEnd
+    }
+
+    @Test
+    public void saveToDetectedFileFormat() throws Exception {
         //ExStart
         //ExFor:FileFormatUtil.DetectFileFormat(Stream)
         //ExFor:FileFormatUtil.LoadFormatToExtension(LoadFormat)
@@ -163,7 +202,7 @@ public class ExFile extends ApiExampleBase {
     }
 
     @Test
-    public void detectFileFormatSaveFormatToLoadFormat() {
+    public void detectFileFormat_SaveFormatToLoadFormat() {
         //ExStart
         //ExFor:FileFormatUtil.SaveFormatToLoadFormat(SaveFormat)
         //ExSummary:Shows how to use the FileFormatUtil class and to convert a SaveFormat enumeration into the corresponding LoadFormat enumeration.
@@ -179,36 +218,21 @@ public class ExFile extends ApiExampleBase {
     }
 
     @Test
-    public void detectDocumentSignatures() throws Exception {
-        //ExStart
-        //ExFor:FileFormatUtil.DetectFileFormat(String)
-        //ExFor:FileFormatInfo.HasDigitalSignature
-        //ExSummary:Shows how to check a document for digital signatures before loading it into a Document object.
-        // The path to the document which is to be processed
-        String filePath = getMyDir() + "Digitally signed.docx";
-
-        FileFormatInfo info = FileFormatUtil.detectFileFormat(filePath);
-        if (info.hasDigitalSignature()) {
-            System.out.println("Document " + Paths.get(filePath) + " has digital signatures, they will be lost if you open/save this document with Aspose.Words.");
-        }
-        //ExEnd
-    }
-
-    //ExStart
-    //ExFor:Shape
-    //ExFor:Shape.ImageData
-    //ExFor:Shape.HasImage
-    //ExFor:ImageData
-    //ExFor:FileFormatUtil.ImageTypeToExtension(ImageType)
-    //ExFor:ImageData.ImageType
-    //ExFor:ImageData.Save(String)
-    //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
-    //ExSummary:Shows how to extract images from a document and save them as files.
-    @Test //ExSkip
     public void extractImagesToFiles() throws Exception {
+        //ExStart
+        //ExFor:Shape
+        //ExFor:Shape.ImageData
+        //ExFor:Shape.HasImage
+        //ExFor:ImageData
+        //ExFor:FileFormatUtil.ImageTypeToExtension(ImageType)
+        //ExFor:ImageData.ImageType
+        //ExFor:ImageData.Save(String)
+        //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
+        //ExSummary:Shows how to extract images from a document and save them as files.
         Document doc = new Document(getMyDir() + "Images.docx");
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+
         int imageIndex = 0;
         for (Shape shape : (Iterable<Shape>) shapes) {
             if (shape.hasImage()) {
@@ -218,6 +242,13 @@ public class ExFile extends ApiExampleBase {
                 imageIndex++;
             }
         }
+
+        Assert.assertEquals(9, imageIndex);
+        //ExEnd
+
+        ArrayList<String> dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir(), "^.+\\.(jpeg|png|emf|wmf)$");
+        long imagesCount = dirFiles.stream().filter(s -> s.startsWith(getArtifactsDir() + "File.ExtractImagesToFiles")).count();
+
+        Assert.assertEquals(9, imagesCount);
     }
-    //ExEnd
 }

@@ -411,4 +411,49 @@ public final class DocumentHelper {
             if (docStream != null) docStream.close();
         }
     }
+
+    static int getListItemCount(NodeCollection paragraphs) {
+        int listItemCount = 0;
+
+        for (Paragraph para : (Iterable<Paragraph>) paragraphs) {
+            if (para.getListFormat().isListItem()) {
+                listItemCount++;
+            }
+        }
+
+        return listItemCount;
+    }
+
+    static int getListLevelNumberCount(NodeCollection paragraphs, int listLevelNumber) {
+        int listLevelNumberCount = 0;
+
+        for (Paragraph para : (Iterable<Paragraph>) paragraphs) {
+            if (para.getListFormat().getListLevelNumber() == listLevelNumber) {
+                listLevelNumberCount++;
+            }
+        }
+
+        return listLevelNumberCount;
+    }
+
+    static int getFieldsCount(FieldCollection fields, int fieldType) {
+        int fieldsCount = 0;
+
+        for (Field field : fields) {
+            if (field.getType() == fieldType) {
+                fieldsCount++;
+            }
+        }
+
+        return fieldsCount;
+    }
+
+    static Object getField(FieldCollection fields, int fieldType) {
+        for (Field field : fields) {
+            if (field.getType() == fieldType)
+                return field;
+        }
+
+        return null;
+    }
 }

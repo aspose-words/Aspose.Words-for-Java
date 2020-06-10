@@ -95,8 +95,7 @@ public class ExShape extends ApiExampleBase {
         shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
         shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         Assert.assertEquals(true, shape.getAspectRatioLocked());
@@ -368,15 +367,10 @@ public class ExShape extends ApiExampleBase {
         shape.setTitle("Alt Text Title");
 
         builder.insertNode(shape);
-
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
-        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        System.out.println("Shape text: " + shape.getTitle());
         //ExEnd
 
-        Assert.assertEquals(shape.getTitle(), "Alt Text Title");
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        Assert.assertEquals("Alt Text Title", shape.getTitle());
     }
 
     @Test
@@ -438,7 +432,6 @@ public class ExShape extends ApiExampleBase {
         //ExFor:Shape.FirstParagraph
         //ExFor:ShapeBase.WrapType
         //ExSummary:Creates a textbox with some text and different formatting options in a new document.
-        // Create a blank document
         Document doc = new Document();
 
         // Create a new shape of type TextBox
@@ -452,8 +445,8 @@ public class ExShape extends ApiExampleBase {
         textBox.setVerticalAlignment(VerticalAlignment.TOP);
 
         // Set the textbox height and width
-        textBox.setHeight(50);
-        textBox.setWidth(200);
+        textBox.setHeight(50.0);
+        textBox.setWidth(200.0);
 
         // Set the textbox in front of other shapes with a lower ZOrder
         textBox.setZOrder(2);
@@ -704,11 +697,8 @@ public class ExShape extends ApiExampleBase {
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);
-        try {
-            officeMath.setJustification(OfficeMathJustification.INLINE);
-        } catch (Exception e) {
-            Assert.assertTrue(e instanceof IllegalArgumentException);
-        }
+
+        Assert.assertThrows(IllegalArgumentException.class, () -> officeMath.setJustification(OfficeMathJustification.INLINE));
     }
 
     @Test
@@ -760,11 +750,8 @@ public class ExShape extends ApiExampleBase {
 
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);
-        try {
-            officeMath.setJustification(OfficeMathJustification.INLINE);
-        } catch (Exception e) {
-            Assert.assertTrue(e instanceof IllegalArgumentException);
-        }
+
+        Assert.assertThrows(IllegalArgumentException.class, () -> officeMath.setJustification(OfficeMathJustification.INLINE));
     }
 
     @Test
@@ -774,11 +761,7 @@ public class ExShape extends ApiExampleBase {
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
         officeMath.setDisplayType(OfficeMathDisplayType.INLINE);
 
-        try {
-            officeMath.setJustification(OfficeMathJustification.CENTER);
-        } catch (Exception e) {
-            Assert.assertTrue(e instanceof IllegalArgumentException);
-        }
+        Assert.assertThrows(IllegalArgumentException.class, () -> officeMath.setJustification(OfficeMathJustification.CENTER));
     }
 
     @Test
@@ -826,9 +809,7 @@ public class ExShape extends ApiExampleBase {
         shape.setAspectRatioLocked(isLocked);
         //ExEnd
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
+        doc = DocumentHelper.saveOpen(doc);
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         Assert.assertEquals(shape.getAspectRatioLocked(), isLocked);
     }
@@ -922,9 +903,7 @@ public class ExShape extends ApiExampleBase {
         builder.insertNode(rectangle);
         //ExEnd
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
+        doc = DocumentHelper.saveOpen(doc);
         rectangle = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         Stroke strokeAfter = rectangle.getStroke();

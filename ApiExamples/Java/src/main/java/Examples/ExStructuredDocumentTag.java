@@ -13,7 +13,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
-import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,10 +39,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExEnd
 
         StructuredDocumentTag sdTagRepeatingSection = (StructuredDocumentTag) sdTags.get(0);
-        Assert.assertEquals(sdTagRepeatingSection.getSdtType(), SdtType.REPEATING_SECTION);
-
-        StructuredDocumentTag sdTagRepeatingSectionItem = (StructuredDocumentTag) sdTags.get(1);
-        Assert.assertEquals(sdTagRepeatingSectionItem.getSdtType(), SdtType.REPEATING_SECTION_ITEM);
+        Assert.assertEquals(SdtType.REPEATING_SECTION, sdTagRepeatingSection.getSdtType());
 
         StructuredDocumentTag sdTagRichText = (StructuredDocumentTag) sdTags.get(2);
         Assert.assertEquals(sdTagRichText.getSdtType(), SdtType.RICH_TEXT);
@@ -75,9 +71,6 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         builder.insertNode(sdtPlainText);
         builder.insertNode(sdtRichText);
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
-
         // We can get a collection of StructuredDocumentTags by looking for the document's child nodes of this NodeType
         Assert.assertEquals(sdtPlainText.getNodeType(), NodeType.STRUCTURED_DOCUMENT_TAG);
 
@@ -106,8 +99,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         // Insert content control into the document
         builder.insertNode(sdtCheckBox);
         //ExEnd
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+
+        doc = DocumentHelper.saveOpen(doc);
 
         NodeCollection sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
 
@@ -591,8 +584,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         // Insert content control into the document
         builder.insertNode(sdtCheckBox);
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
         System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
@@ -612,9 +604,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
             sdt.clear();
         }
         //ExEnd
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
 
+        doc = DocumentHelper.saveOpen(doc);
         sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
 
         Assert.assertEquals(sdts.get(0).getText(), "Enter any content that you want to repeat, including other content controls. You can also insert this control around table rows in order to repeat parts of a table.\r");
@@ -689,6 +680,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     }
 
     //ExStart
+    //ExFor:CompositeNode.RemoveSmartTags
     //ExFor:CustomXmlProperty
     //ExFor:CustomXmlProperty.#ctor(String,String,String)
     //ExFor:CustomXmlProperty.Name
@@ -732,7 +724,13 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         // Print all the smart tags in our document with a document visitor
         doc.accept(new SmartTagVisitor());
 
-        doc.save(getArtifactsDir() + "StructuredDocumentTag.SmartTags.docx");
+        // SmartTags are supported by older versions of microsoft Word
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.SmartTags.doc");
+
+        // We can strip a document of all its smart tags with RemoveSmartTags()
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.SMART_TAG, true).getCount());
+        doc.removeSmartTags();
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.SMART_TAG, true).getCount());
     }
 
     /// <summary>
@@ -923,7 +921,6 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
                 "</Employee>" +
                 "</Company>";
 
-        // Create a blank document
         Document doc = new Document();
 
         // Insert the full XML document as a custom document part

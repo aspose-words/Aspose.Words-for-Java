@@ -9,28 +9,32 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
-import static Examples.DocumentHelper.directoryGetFiles;
-
-public class ExHtmlSaveOptions extends ApiExampleBase {
+@Test
+class ExHtmlSaveOptions extends ApiExampleBase {
     @Test(dataProvider = "exportPageMarginsDataProvider")
-    public void exportPageMargins(final int saveFormat) throws Exception {
+    public void exportPageMargins(/*SaveFormat*/int saveFormat) throws Exception {
         Document doc = new Document(getMyDir() + "TextBoxes.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-        saveOptions.setSaveFormat(saveFormat);
-        saveOptions.setExportPageMargins(true);
+        {
+            saveOptions.setSaveFormat(saveFormat);
+            saveOptions.setExportPageMargins(true);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins" + FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
     }
 
+    //JAVA-added data provider for test method
     @DataProvider(name = "exportPageMarginsDataProvider")
     public static Object[][] exportPageMarginsDataProvider() {
         return new Object[][]{
@@ -77,19 +81,19 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         switch (saveFormat) {
             case SaveFormat.HTML:
 
-                dirFiles = directoryGetFiles(getArtifactsDir() + "", "HtmlSaveOptions.ExportTextBoxAsSvg.001.png");
+                dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir() + "", "HtmlSaveOptions.ExportTextBoxAsSvg.001.png");
                 Assert.assertTrue(dirFiles.isEmpty());
                 return;
 
             case SaveFormat.EPUB:
 
-                dirFiles = directoryGetFiles(getArtifactsDir() + "", "HtmlSaveOptions.ExportTextBoxAsSvg.001.png");
+                dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir() + "", "HtmlSaveOptions.ExportTextBoxAsSvg.001.png");
                 Assert.assertTrue(dirFiles.isEmpty());
                 return;
 
             case SaveFormat.MHTML:
 
-                dirFiles = directoryGetFiles(getArtifactsDir() + "", "HtmlSaveOptions.ExportTextBoxAsSvg.001.png");
+                dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir() + "", "HtmlSaveOptions.ExportTextBoxAsSvg.001.png");
                 Assert.assertTrue(dirFiles.isEmpty());
                 return;
         }
@@ -144,7 +148,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportUrlForLinkedImage.html", saveOptions);
 
-        ArrayList<String> dirFiles = directoryGetFiles(getArtifactsDir() + "", "HtmlSaveOptions.ExportUrlForLinkedImage.001.png");
+        ArrayList<String> dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir() + "", "HtmlSaveOptions.ExportUrlForLinkedImage.001.png");
 
         if (dirFiles.size() == 0) {
             DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExportUrlForLinkedImage.html", "<img src=\"http://www.aspose.com/images/aspose-logo.gif\"");
@@ -197,13 +201,13 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExternalResourceSavingConfig.html", saveOptions);
 
-        ArrayList<String> imageFiles = directoryGetFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.png");
+        ArrayList<String> imageFiles = DocumentHelper.directoryGetFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.png");
         Assert.assertEquals(imageFiles.size(), 8);
 
-        ArrayList<String> fontFiles = directoryGetFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.ttf");
+        ArrayList<String> fontFiles = DocumentHelper.directoryGetFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.ttf");
         Assert.assertEquals(fontFiles.size(), 10);
 
-        ArrayList<String> cssFiles = directoryGetFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.css");
+        ArrayList<String> cssFiles = DocumentHelper.directoryGetFiles(getArtifactsDir() + "Resources/", "HtmlSaveOptions.ExternalResourceSavingConfig*.css");
         Assert.assertEquals(cssFiles.size(), 1);
 
         DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExternalResourceSavingConfig.html", "<link href=\"https://www.aspose.com/HtmlSaveOptions.ExternalResourceSavingConfig.css\"");
@@ -250,11 +254,11 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         if (exportAsBase64 == false) {
             doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportFonts.False.html", saveOptions);
-            Assert.assertFalse(directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportFonts.False.times.ttf").isEmpty());
+            Assert.assertFalse(DocumentHelper.directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportFonts.False.times.ttf").isEmpty());
 
         } else if (exportAsBase64 == true) {
             doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportFonts.True.html", saveOptions);
-            Assert.assertTrue(directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportFonts.True.times.ttf").isEmpty());
+            Assert.assertTrue(DocumentHelper.directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportFonts.True.times.ttf").isEmpty());
 
         }
     }
@@ -280,10 +284,10 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderPriority.html", saveOptions);
 
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.png").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.002.png").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.arial.ttf").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.css").isEmpty());
+        Assert.assertFalse(DocumentHelper.directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.png").isEmpty());
+        Assert.assertFalse(DocumentHelper.directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.002.png").isEmpty());
+        Assert.assertFalse(DocumentHelper.directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.arial.ttf").isEmpty());
+        Assert.assertFalse(DocumentHelper.directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.css").isEmpty());
     }
 
     @Test
@@ -299,10 +303,10 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderLowPriority.html", saveOptions);
 
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.001.png").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.002.png").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Fonts", "HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf").isEmpty());
-        Assert.assertFalse(directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderLowPriority.css").isEmpty());
+        Assert.assertFalse(DocumentHelper.directoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.001.png").isEmpty());
+        Assert.assertFalse(DocumentHelper.directoryGetFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.002.png").isEmpty());
+        Assert.assertFalse(DocumentHelper.directoryGetFiles(getArtifactsDir() + "Fonts", "HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf").isEmpty());
+        Assert.assertFalse(DocumentHelper.directoryGetFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderLowPriority.css").isEmpty());
     }
 
     @Test
@@ -365,10 +369,10 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void cssClassNamesNotValidPrefix() {
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
-        saveOptions.setCssClassNamePrefix("@%-");
+        Assert.assertThrows(IllegalArgumentException.class, () -> saveOptions.setCssClassNamePrefix("@%-"));
     }
 
     @Test
@@ -411,9 +415,11 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         saveOptions.setResolveFontNames(true);
 
         document.save(getArtifactsDir() + "HtmlSaveOptions.ResolveFontNames.html", saveOptions);
-        //ExEnd
 
-        DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ResolveFontNames.html", "<span style=\"font-family:Arial\">");
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.ResolveFontNames.html"), "utf-8");
+
+        Assert.assertTrue(outDocContents.matches("<span style=\"font-family:Arial\">"));
+        //ExEnd
     }
 
     @Test
@@ -645,7 +651,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         builder.writeln("Hello world!");
 
         builder.getFont().setLocaleId(1049); // ru-RU
-        builder.write("??????, ???!");
+        builder.write("Привет, мир!");
 
         // Normally, when saving a document with more than one proofing language to .html,
         // only the text content is preserved with no traces of any other languages

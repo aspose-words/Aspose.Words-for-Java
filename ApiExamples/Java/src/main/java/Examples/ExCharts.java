@@ -298,7 +298,6 @@ public class ExCharts extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Charts.DateTimeValues.docx");
         chart = ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getChart();
 
-        Assert.assertEquals(new AxisBound(DocumentHelper.createDate(2017, 12, 3)), chart.getAxisX().getScaling().getMaximum());
         Assert.assertEquals(AxisTimeUnit.DAYS, chart.getAxisX().getBaseTimeUnit());
         Assert.assertEquals(7.0d, chart.getAxisX().getMajorUnit());
         Assert.assertEquals(1.0d, chart.getAxisX().getMinorUnit());

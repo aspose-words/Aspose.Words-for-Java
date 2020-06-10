@@ -13,6 +13,7 @@ import com.aspose.words.List;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
 import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
+import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.testng.Assert;
@@ -32,7 +33,6 @@ import java.security.KeyStore;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 import static org.apache.commons.lang.CharEncoding.UTF_8;
@@ -63,8 +63,8 @@ public class ExDocument extends ApiExampleBase {
         // Copy a license to the bin folder so the examples can execute
         // The directory must be specified one level up because the class file will be in a subfolder according
         // to the package name, but the licensing code looks at the "root" folder of the jar only
-        File licFile = new File(ExDocument.class.getResource("").toURI().resolve("Aspose.Words.Java.lic"));
-        copyFile(new File(getLicenseDir() + "Aspose.Words.Java.lic"), licFile);
+        File licFile = new File(ExDocument.class.getResource("").toURI().resolve("Aspose.Total.Java.lic"));
+        copyFile(new File(getLicenseDir() + "Aspose.Total.Java.lic"), licFile);
 
         //ExStart
         //ExFor:License
@@ -82,7 +82,7 @@ public class ExDocument extends ApiExampleBase {
 
     @Test
     public void licenseFromStream() throws Exception {
-        InputStream myStream = new FileInputStream(getLicenseDir() + "Aspose.Words.Java.lic");
+        InputStream myStream = new FileInputStream(getLicenseDir() + "Aspose.Total.Java.lic");
         try {
             //ExStart
             //ExFor:License.SetLicense(Stream)
@@ -394,19 +394,20 @@ public class ExDocument extends ApiExampleBase {
         LoadOptions options = new LoadOptions("docPassword");
 
         // Then, we can use that object as a parameter when opening an encrypted document
-        AtomicReference<Document> doc = new AtomicReference<>(new Document(getMyDir() + "Encrypted.docx", options));
-        Assert.assertEquals("Test encrypted document.", doc.get().getText().trim()); //ExSkip
+        Document doc = new Document(getMyDir() + "Encrypted.docx", options);
+        Assert.assertEquals("Test encrypted document.", doc.getText().trim()); //ExSkip
+        Assert.assertEquals("Test encrypted document.", doc.getText().trim()); //ExSkip
 
         InputStream stream = new FileInputStream(getMyDir() + "Encrypted.docx");
         try {
-            doc.set(new Document(stream, options));
-            Assert.assertEquals("Test encrypted document.", doc.get().getText().trim()); //ExSkip
+            doc = new Document(stream, options);
+            Assert.assertEquals("Test encrypted document.", doc.getText().trim()); //ExSkip
         } finally {
             if (stream != null) stream.close();
         }
         //ExEnd
 
-        Assert.assertThrows(IncorrectPasswordException.class, () -> doc.set(new Document(getMyDir() + "Encrypted.docx")));
+        Assert.assertThrows(IncorrectPasswordException.class, () -> new Document(getMyDir() + "Encrypted.docx"));
     }
 
     @Test(dataProvider = "convertShapeToOfficeMathDataProvider")
@@ -423,11 +424,11 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
 
         if (isConvertShapeToOfficeMath) {
-            Assert.assertEquals(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
-            Assert.assertEquals(20, doc.getChildNodes(NodeType.OFFICE_MATH, true).getCount());
+            Assert.assertEquals(16, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+            Assert.assertEquals(34, doc.getChildNodes(NodeType.OFFICE_MATH, true).getCount());
         } else {
-            Assert.assertEquals(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
-            Assert.assertEquals(20, doc.getChildNodes(NodeType.OFFICE_MATH, true).getCount());
+            Assert.assertEquals(24, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+            Assert.assertEquals(0, doc.getChildNodes(NodeType.OFFICE_MATH, true).getCount());
         }
     }
 
@@ -755,6 +756,7 @@ public class ExDocument extends ApiExampleBase {
 
         // The fonts from the input document will now be exported as .ttf files and saved alongside the output document
         doc.save(getArtifactsDir() + "Document.SaveHtmlExportFonts.html", options);
+        Assert.assertEquals(10, DocumentHelper.directoryGetFiles(getArtifactsDir(), "*").stream().filter(s -> s.endsWith(".ttf")).count()); //ExSkip
     }
 
     /// <summary>
@@ -1040,6 +1042,9 @@ public class ExDocument extends ApiExampleBase {
         // Save the combined document to disk
         baseDoc.save(path);
         //ExEnd
+
+        Assert.assertEquals(19, baseDoc.getStyles().getCount());
+        Assert.assertEquals(23, baseDoc.getSections().getCount());
     }
 
     @Test
@@ -1670,12 +1675,24 @@ public class ExDocument extends ApiExampleBase {
 
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
                 "OriginalEdited endnote text.", (Footnote) docOriginal.getChild(NodeType.FOOTNOTE, 0, true));
+
+        // If we set compareOptions to ignore certain types of changes,
+        // then revisions done on those types of nodes will not appear in the output document
+        // We can tell what kind of node a revision was done on by looking at the NodeType of the revision's parent nodes
+        Assert.assertNotEquals(compareOptions.getIgnoreFormatting(), IterableUtils.matchesAny(docOriginal.getRevisions(), r -> r.getRevisionType() == RevisionType.FORMAT_CHANGE));
+        Assert.assertNotEquals(compareOptions.getIgnoreCaseChanges(), IterableUtils.matchesAny(docOriginal.getRevisions(), r -> r.getParentNode().getText().contains("hello")));
+        Assert.assertNotEquals(compareOptions.getIgnoreComments(), IterableUtils.matchesAny(docOriginal.getRevisions(), r -> hasParentOfType(r, NodeType.COMMENT)));
+        Assert.assertNotEquals(compareOptions.getIgnoreTables(), IterableUtils.matchesAny(docOriginal.getRevisions(), r -> hasParentOfType(r, NodeType.TABLE)));
+        Assert.assertNotEquals(compareOptions.getIgnoreFields(), IterableUtils.matchesAny(docOriginal.getRevisions(), r -> hasParentOfType(r, NodeType.FIELD_START)));
+        Assert.assertNotEquals(compareOptions.getIgnoreFootnotes(), IterableUtils.matchesAny(docOriginal.getRevisions(), r -> hasParentOfType(r, NodeType.FOOTNOTE)));
+        Assert.assertNotEquals(compareOptions.getIgnoreTextboxes(), IterableUtils.matchesAny(docOriginal.getRevisions(), r -> hasParentOfType(r, NodeType.SHAPE)));
+        Assert.assertNotEquals(compareOptions.getIgnoreHeadersAndFooters(), IterableUtils.matchesAny(docOriginal.getRevisions(), r -> hasParentOfType(r, NodeType.HEADER_FOOTER)));
     }
 
     /// <summary>
     /// Returns true if the passed revision has a parent node with the type specified by parentType
     /// </summary>
-    private boolean hasParentOfType(Revision revision, /*NodeType*/int parentType) {
+    private boolean hasParentOfType(Revision revision, int parentType) {
         Node n = revision.getParentNode();
         while (n.getParentNode() != null) {
             if (n.getNodeType() == parentType) return true;
@@ -1840,6 +1857,9 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
 
         Assert.assertEquals(11, doc.getRevisions().getCount());
+        Assert.assertEquals(6, IterableUtils.countMatches(doc.getRevisions(), s -> s.getRevisionType() == RevisionType.MOVING));
+        Assert.assertEquals(1, IterableUtils.countMatches(paragraphs, s -> s.isMoveFromRevision()));
+        Assert.assertEquals(1, IterableUtils.countMatches(paragraphs, s -> s.isMoveToRevision()));
     }
 
     @Test
@@ -2020,6 +2040,7 @@ public class ExDocument extends ApiExampleBase {
     public void extractPlainTextFromStream() throws Exception {
         //ExStart
         //ExFor:PlainTextDocument.#ctor(Stream)
+        //ExFor:PlainTextDocument.#ctor(Stream, LoadOptions)
         //ExSummary:Shows how to simply extract text from a stream.
         TxtLoadOptions loadOptions = new TxtLoadOptions();
         loadOptions.setDetectNumberingWithWhitespaces(false);
@@ -2100,14 +2121,18 @@ public class ExDocument extends ApiExampleBase {
         doc.getLists().add(ListTemplate.NUMBER_ARABIC_DOT);
         Assert.assertNotNull(doc.getStyles().get("My Used Style")); //ExSkip
         Assert.assertNotNull(doc.getStyles().get("My Unused Style")); //ExSkip
+        Assert.assertTrue(IterableUtils.matchesAny(doc.getLists(), l -> l.getListLevels().get(0).getNumberStyle() == NumberStyle.BULLET)); //ExSkip
+        Assert.assertTrue(IterableUtils.matchesAny(doc.getLists(), l -> l.getListLevels().get(0).getNumberStyle() == NumberStyle.ARABIC)); //ExSkip
 
         doc.cleanup();
 
         // The used styles are still in the document
         Assert.assertNotNull(doc.getStyles().get("My Used Style"));
+        Assert.assertTrue(IterableUtils.matchesAny(doc.getLists(), l -> l.getListLevels().get(0).getNumberStyle() == NumberStyle.BULLET));
 
         // The unused styles have been removed
         Assert.assertNull(doc.getStyles().get("My Unused Style"));
+        Assert.assertFalse(IterableUtils.matchesAny(doc.getLists(), l -> l.getListLevels().get(0).getNumberStyle() == NumberStyle.ARABIC));
         //ExEnd
 
         Assert.assertEquals(5, doc.getStyles().getCount());
@@ -2307,7 +2332,7 @@ public class ExDocument extends ApiExampleBase {
 
         // Create a new copyright information string to replace an older one with
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        String newCopyrightInformation = "Copyright (C) %(currentYear) by Aspose Pty Ltd.";
+        String newCopyrightInformation = MessageFormat.format("Copyright (C) {0} by Aspose Pty Ltd.", currentYear);
 
         FindReplaceOptions findReplaceOptions = new FindReplaceOptions();
         findReplaceOptions.setMatchCase(false);
@@ -2328,6 +2353,8 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(doc.getFirstSection(), doc.getSections().get(0));
         Assert.assertEquals(doc.getLastSection(), doc.getSections().get(1));
 
+        Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().contains(MessageFormat.format("Copyright (C) {0} by Aspose Pty Ltd.", currentYear)));
+        Assert.assertTrue(doc.getLastSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().contains(MessageFormat.format("Copyright (C) {0} by Aspose Pty Ltd.", currentYear)));
         Assert.assertFalse(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().contains("(C) 2006 Aspose Pty Ltd."));
         Assert.assertFalse(doc.getLastSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().contains("(C) 2006 Aspose Pty Ltd."));
     }

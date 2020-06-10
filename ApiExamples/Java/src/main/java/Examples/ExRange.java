@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class ExRange extends ApiExampleBase {
@@ -49,6 +50,91 @@ public class ExRange extends ApiExampleBase {
     }
 
     @Test
+    public void ignoreDeleted() throws Exception {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreDeleted
+        //ExSummary:Shows how to ignore text inside delete revisions.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert non-revised text
+        builder.writeln("Deleted");
+        builder.write("Text");
+
+        // Remove first paragraph with tracking revisions
+        doc.startTrackRevisions("John Doe", new Date());
+        doc.getFirstSection().getBody().getFirstParagraph().remove();
+        doc.stopTrackRevisions();
+
+        FindReplaceOptions options = new FindReplaceOptions();
+
+        // Replace 'e' in document ignoring deleted text
+        options.setIgnoreDeleted(true);
+        doc.getRange().replace("e", "*", options);
+        Assert.assertEquals(doc.getText(), "Deleted\rT*xt\f");
+
+        // Replace 'e' in document NOT ignoring deleted text
+        options.setIgnoreDeleted(false);
+        doc.getRange().replace("e", "*", options);
+        Assert.assertEquals(doc.getText(), "D*l*t*d\rT*xt\f");
+        //ExEnd
+    }
+
+    @Test
+    public void ignoreInserted() throws Exception {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreInserted
+        //ExSummary:Shows how to ignore text inside insert revisions.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert text with tracking revisions
+        doc.startTrackRevisions("John Doe", new Date());
+        builder.writeln("Inserted");
+        doc.stopTrackRevisions();
+
+        // Insert non-revised text
+        builder.write("Text");
+
+        FindReplaceOptions options = new FindReplaceOptions();
+
+        // Replace 'e' in document ignoring inserted text
+        options.setIgnoreInserted(true);
+        doc.getRange().replace("e", "*", options);
+        Assert.assertEquals(doc.getText(), "Inserted\rT*xt\f");
+
+        // Replace 'e' in document NOT ignoring inserted text
+        options.setIgnoreInserted(false);
+        doc.getRange().replace("e", "*", options);
+        Assert.assertEquals(doc.getText(), "Ins*rt*d\rT*xt\f");
+        //ExEnd
+    }
+
+    @Test(enabled = true, description = "WORDSJAVA-2407")
+    public void ignoreFields() throws Exception {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreFields
+        //ExSummary:Shows how to ignore text inside fields.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        // Insert field with text inside
+        builder.insertField("INCLUDETEXT", "Text in field");
+
+        FindReplaceOptions options = new FindReplaceOptions();
+        // Replace 'e' in document ignoring text inside field
+        options.setIgnoreFields(true);
+
+        doc.getRange().replace(Pattern.compile("e"), "*", options);
+        Assert.assertEquals(doc.getText(), "\u0013INCLUDETEXT\u0014Text in field\u0015\f");
+
+        // Replace 'e' in document NOT ignoring text inside field
+        options.setIgnoreFields(false);
+        doc.getRange().replace(Pattern.compile("e"), "*", options);
+        Assert.assertEquals(doc.getText(), "\u0013INCLUDETEXT\u0014T*xt in fi*ld\u0015\f");
+        //ExEnd
+    }
+
+    @Test
     public void replaceWithString() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -81,47 +167,9 @@ public class ExRange extends ApiExampleBase {
         options.setFindWholeWordsOnly(false);
 
         doc.getRange().replace(Pattern.compile("[s|m]ad"), "bad", options);
+
         Assert.assertEquals("bad bad bad", doc.getText().trim());
         //ExEnd
-    }
-
-    @Test
-    public void replaceWithoutPreserveMetaCharacters() throws Exception {
-        final String text = "some text";
-        final String replaceWithText = "&ldquo;";
-
-        Document doc = new Document();
-
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.write(text);
-
-        FindReplaceOptions options = new FindReplaceOptions();
-        options.setPreserveMetaCharacters(false);
-
-        doc.getRange().replace(text, replaceWithText, options);
-
-        Assert.assertEquals("\u000bdquo;\f", doc.getText());
-    }
-
-    @Test
-    public void findAndReplaceWithPreserveMetaCharacters() throws Exception {
-        //ExStart
-        //ExFor:FindReplaceOptions.PreserveMetaCharacters
-        //ExSummary:Shows how to preserved meta-characters that begin with "&".
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.writeln("one");
-        builder.writeln("two");
-        builder.writeln("three");
-
-        FindReplaceOptions options = new FindReplaceOptions();
-        options.setFindWholeWordsOnly(true);
-        options.setPreserveMetaCharacters(true);
-
-        doc.getRange().replace("two", "&ldquo; four &rdquo;", options);
-        //ExEnd
-
-        doc.save(getArtifactsDir() + "Range.FindAndReplaceWithMetacharacters.docx");
     }
 
     //ExStart
@@ -291,4 +339,84 @@ public class ExRange extends ApiExampleBase {
         String text = doc.getRange().getText();
         //ExEnd
     }
+
+    //ExStart
+    //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
+    //ExFor:IReplacingCallback
+    //ExFor:ReplaceAction
+    //ExFor:IReplacingCallback.Replacing
+    //ExFor:ReplacingArgs
+    //ExFor:ReplacingArgs.MatchNode
+    //ExFor:FindReplaceDirection
+    //ExSummary:Shows how to insert content of one document into another during a customized find and replace operation.
+    @Test //ExSkip
+    public void insertDocumentAtReplace() throws Exception {
+        Document mainDoc = new Document(getMyDir() + "Document insertion destination.docx");
+
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setDirection(FindReplaceDirection.BACKWARD);
+        options.setReplacingCallback(new InsertDocumentAtReplaceHandler());
+
+        mainDoc.getRange().replace("[MY_DOCUMENT]", "", options);
+        mainDoc.save(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx");
+        testInsertDocumentAtReplace(new Document(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx")); //ExSkip
+    }
+
+    private static class InsertDocumentAtReplaceHandler implements IReplacingCallback {
+        public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs args) throws Exception {
+            Document subDoc = new Document(getMyDir() + "Document.docx");
+
+            // Insert a document after the paragraph, containing the match text
+            Paragraph para = (Paragraph) args.getMatchNode().getParentNode();
+            insertDocument(para, subDoc);
+
+            // Remove the paragraph with the match text
+            para.remove();
+
+            return ReplaceAction.SKIP;
+        }
+    }
+
+    /// <summary>
+    /// Inserts content of the external document after the specified node.
+    /// </summary>
+    static void insertDocument(Node insertionDestination, Document docToInsert) {
+        // Make sure that the node is either a paragraph or table
+        if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE))) {
+            // We will be inserting into the parent of the destination paragraph
+            CompositeNode dstStory = insertionDestination.getParentNode();
+
+            // This object will be translating styles and lists during the import
+            NodeImporter importer =
+                    new NodeImporter(docToInsert, insertionDestination.getDocument(), ImportFormatMode.KEEP_SOURCE_FORMATTING);
+
+            // Loop through all block level nodes in the body of the section
+            for (Section srcSection : docToInsert.getSections())
+                for (Node srcNode : srcSection.getBody()) {
+                    // Let's skip the node if it is a last empty paragraph in a section
+                    if (((srcNode.getNodeType()) == (NodeType.PARAGRAPH))) {
+                        Paragraph para = (Paragraph) srcNode;
+                        if (para.isEndOfSection() && !para.hasChildNodes())
+                            continue;
+                    }
+
+                    // This creates a clone of the node, suitable for insertion into the destination document
+                    Node newNode = importer.importNode(srcNode, true);
+
+                    // Insert new node after the reference node
+                    dstStory.insertAfter(newNode, insertionDestination);
+                    insertionDestination = newNode;
+                }
+        } else {
+            throw new IllegalArgumentException("The destination node should be either a paragraph or table.");
+        }
+    }
+    //ExEnd
+
+    private void testInsertDocumentAtReplace(Document doc) {
+        Assert.assertEquals("1) At text that can be identified by regex:\rHello World!\r" +
+                "2) At a MERGEFIELD:\r\u0013 MERGEFIELD  Document_1  \\* MERGEFORMAT \u0014«Document_1»\u0015\r" +
+                "3) At a bookmark:", doc.getFirstSection().getBody().getText().trim());
+    }
+
 }

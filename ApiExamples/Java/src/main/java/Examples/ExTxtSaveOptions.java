@@ -133,7 +133,7 @@ public class ExTxtSaveOptions extends ApiExampleBase {
         // Create a new document and add some text from outside the ASCII character set
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.writeln("À È Ì Ò Ù.");
+        builder.writeln("Ã€ Ãˆ ÃŒ Ã’ Ã™.");
 
         // We can use a SaveOptions object to make sure the encoding we save the .txt document in supports our content
         TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
@@ -148,7 +148,7 @@ public class ExTxtSaveOptions extends ApiExampleBase {
     @Test
     public void appearance() throws Exception {
         //ExStart
-        //ExFor:TxtSaveOptionsBase.PreserveTableLayout
+        //ExFor:TxtSaveOptions.PreserveTableLayout
         //ExFor:TxtSaveOptions.SimplifyListLabels
         //ExSummary:Shows how to change the appearance of tables and lists during conversion to a txt document output.
         // Open a document with a table

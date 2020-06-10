@@ -61,8 +61,8 @@ public class ExBorder extends ApiExampleBase {
 
         Border topBorder = builder.getParagraphFormat().getBorders().getByBorderType(BorderType.TOP);
         topBorder.setColor(Color.RED);
+        topBorder.setLineWidth(4.0d);
         topBorder.setLineStyle(LineStyle.DASH_SMALL_GAP);
-        topBorder.setLineWidth(4);
 
         builder.writeln("Text with a red top border.");
 
@@ -211,12 +211,12 @@ public class ExBorder extends ApiExampleBase {
             // Vertical borders are ones between rows in a table
             rowBorders.getHorizontal().setColor(Color.RED);
             rowBorders.getHorizontal().setLineStyle(LineStyle.DOT);
-            rowBorders.getHorizontal().setLineWidth(2.0);
+            rowBorders.getHorizontal().setLineWidth(2.0d);
 
             // Vertical borders are ones between cells in a table
             rowBorders.getVertical().setColor(Color.BLUE);
             rowBorders.getVertical().setLineStyle(LineStyle.DOT);
-            rowBorders.getVertical().setLineWidth(2.0);
+            rowBorders.getVertical().setLineWidth(2.0d);
 
             // A blue dotted vertical border will appear between cells
             // A red dotted border will appear between rows

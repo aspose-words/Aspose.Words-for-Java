@@ -12,20 +12,23 @@ package Examples;
 import com.aspose.words.Font;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
+import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
@@ -43,7 +46,6 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Run.#ctor(DocumentBase,String)
         //ExFor:Story.FirstParagraph
         //ExSummary:Shows how to add a formatted run of text to a document using the object model.
-        // Create an empty document. It contains one empty paragraph
         Document doc = new Document();
 
         // Create a new run of text
@@ -52,13 +54,22 @@ public class ExFont extends ApiExampleBase {
         // Specify character formatting for the run of text
         Font f = run.getFont();
         f.setName("Courier New");
-        f.setSize(36);
+        f.setSize(36.0);
         f.setHighlightColor(Color.YELLOW);
 
         // Append the run of text to the end of the first paragraph
         // in the body of the first section of the document
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(run);
         //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+
+        Assert.assertEquals("Hello", run.getText().trim());
+        Assert.assertEquals("Courier New", run.getFont().getName());
+        Assert.assertEquals(36.0, run.getFont().getSize());
+        Assert.assertEquals(Color.YELLOW.getRGB(), run.getFont().getHighlightColor().getRGB());
+
     }
 
     @Test
@@ -67,10 +78,7 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Font.AllCaps
         //ExFor:Font.SmallCaps
         //ExSummary:Shows how to use all capitals and small capitals character formatting properties.
-        // Create an empty document. It contains one empty paragraph
         Document doc = new Document();
-
-        // Get the paragraph from the document, we will be adding runs of text to it
         Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         Run run = new Run(doc, "All capitals");
@@ -80,7 +88,20 @@ public class ExFont extends ApiExampleBase {
         run = new Run(doc, "SMALL CAPITALS");
         run.getFont().setSmallCaps(true);
         para.appendChild(run);
+
+        doc.save(getArtifactsDir() + "Font.Caps.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Caps.docx");
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+
+        Assert.assertEquals("All capitals", run.getText().trim());
+        Assert.assertTrue(run.getFont().getAllCaps());
+
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(1);
+
+        Assert.assertEquals("SMALL CAPITALS", run.getText().trim());
+        Assert.assertTrue(run.getFont().getSmallCaps());
     }
 
     @Test
@@ -91,12 +112,13 @@ public class ExFont extends ApiExampleBase {
         //ExFor:FontInfo
         //ExFor:FontInfo.Name
         //ExFor:FontInfo.IsTrueType
-        //ExSummary:Shows how to gather the details of what fonts are present in a document.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        //ExSummary:Shows how to print the details of what fonts are present in a document.
+        Document doc = new Document(getMyDir() + "Embedded font.docx");
 
         FontInfoCollection fonts = doc.getFontInfos();
-        int fontIndex = 1;
+        Assert.assertEquals(5, fonts.getCount()); //ExSkip
 
+        int fontIndex = 0;
         // The fonts info extracted from this document does not necessarily mean that the fonts themselves are
         // used in the document. If a font is present but not used then most likely they were referenced at some time
         // and then removed from the Document
@@ -138,6 +160,13 @@ public class ExFont extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Font.FontInfoCollection.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.FontInfoCollection.docx");
+        fontInfos = doc.getFontInfos();
+
+        Assert.assertTrue(fontInfos.getEmbedTrueTypeFonts());
+        Assert.assertFalse(fontInfos.getEmbedSystemFonts());
+        Assert.assertFalse(fontInfos.getSaveSubsetFonts());
     }
 
     @Test(dataProvider = "workWithEmbeddedFontsDataProvider")
@@ -171,10 +200,7 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Font.StrikeThrough
         //ExFor:Font.DoubleStrikeThrough
         //ExSummary:Shows how to use strike-through character formatting properties.
-        // Create an empty document. It contains one empty paragraph
         Document doc = new Document();
-
-        // Get the paragraph from the document, we will be adding runs of text to it
         Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         Run run = new Run(doc, "Double strike through text");
@@ -184,7 +210,20 @@ public class ExFont extends ApiExampleBase {
         run = new Run(doc, "Single strike through text");
         run.getFont().setStrikeThrough(true);
         para.appendChild(run);
+
+        doc.save(getArtifactsDir() + "Font.StrikeThrough.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.StrikeThrough.docx");
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+
+        Assert.assertEquals("Double strike through text", run.getText().trim());
+        Assert.assertTrue(run.getFont().getDoubleStrikeThrough());
+
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(1);
+
+        Assert.assertEquals("Single strike through text", run.getText().trim());
+        Assert.assertTrue(run.getFont().getStrikeThrough());
     }
 
     @Test
@@ -194,15 +233,12 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Font.Subscript
         //ExFor:Font.Superscript
         //ExSummary:Shows how to use subscript, superscript, complex script, text effects, and baseline text position properties.
-        // Create an empty document. It contains one empty paragraph
         Document doc = new Document();
-
-        // Get the paragraph from the document, we will be adding runs of text to it
         Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         // Add a run of text that is raised 5 points above the baseline
         Run run = new Run(doc, "Raised text");
-        run.getFont().setPosition(5);
+        run.getFont().setPosition(5.0);
         para.appendChild(run);
 
         // Add a run of normal text
@@ -218,7 +254,25 @@ public class ExFont extends ApiExampleBase {
         run = new Run(doc, "Superscript");
         run.getFont().setSuperscript(true);
         para.appendChild(run);
+
+        doc.save(getArtifactsDir() + "Font.PositionSubscript.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.PositionSubscript.docx");
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+
+        Assert.assertEquals("Raised text", run.getText().trim());
+        Assert.assertEquals(5.0, run.getFont().getPosition());
+
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(2);
+
+        Assert.assertEquals("Subscript", run.getText().trim());
+        Assert.assertTrue(run.getFont().getSubscript());
+
+        run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(3);
+
+        Assert.assertEquals("Superscript", run.getText().trim());
+        Assert.assertTrue(run.getFont().getSuperscript());
     }
 
     @Test
@@ -227,157 +281,319 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Font.Scaling
         //ExFor:Font.Spacing
         //ExSummary:Shows how to use character scaling and spacing properties.
-        // Create an empty document. It contains one empty paragraph
         Document doc = new Document();
-
-        // Get the paragraph from the document, we will be adding runs of text to it
-        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Add a run of text with characters 150% width of normal characters
-        Run run = new Run(doc, "Wide characters");
-        run.getFont().setScaling(150);
-        para.appendChild(run);
+        builder.getFont().setScaling(150);
+        builder.writeln("Wide characters");
 
         // Add a run of text with extra 1pt space between characters
-        run = new Run(doc, "Expanded by 1pt");
-        run.getFont().setSpacing(1);
-        para.appendChild(run);
+        builder.getFont().setSpacing(1.0);
+        builder.writeln("Expanded by 1pt");
 
         // Add a run of text with space between characters reduced by 1pt
-        run = new Run(doc, "Condensed by 1pt");
-        run.getFont().setSpacing(-1);
-        para.appendChild(run);
+        builder.getFont().setSpacing(-1);
+        builder.writeln("Condensed by 1pt");
+
+        doc.save(getArtifactsDir() + "Font.ScalingSpacing.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.ScalingSpacing.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("Wide characters", run.getText().trim());
+        Assert.assertEquals(150, run.getFont().getScaling());
+
+        run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
+
+        Assert.assertEquals("Expanded by 1pt", run.getText().trim());
+        Assert.assertEquals(1.0, run.getFont().getSpacing());
+
+        run = doc.getFirstSection().getBody().getParagraphs().get(2).getRuns().get(0);
+
+        Assert.assertEquals("Condensed by 1pt", run.getText().trim());
+        Assert.assertEquals(-1.0, run.getFont().getSpacing());
     }
 
     @Test
-    public void embossItalic() throws Exception {
+    public void italic() throws Exception {
+        //ExStart
+        //ExFor:Font.Italic
+        //ExSummary:Shows how to italicize a run of text.
         Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.getFont().setSize(36.0);
+        builder.getFont().setItalic(true);
+
+        builder.writeln("Hello world!");
+
+        doc.save(getArtifactsDir() + "Font.Italic.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Italic.docx");
+        Run run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
+
+        Assert.assertEquals("Hello world!", run.getText().trim());
+        Assert.assertTrue(run.getFont().getItalic());
+    }
+
+    @Test
+    public void engraveEmboss() throws Exception {
         //ExStart
         //ExFor:Font.Emboss
-        //ExFor:Font.Italic
-        //ExSummary:Shows how to create a run of formatted text.
-        Run run = new Run(doc, "Hello");
-        run.getFont().setEmboss(true);
-        run.getFont().setItalic(true);
-        //ExEnd
-    }
-
-    @Test
-    public void engrave() throws Exception {
-        Document doc = new Document();
-        //ExStart
         //ExFor:Font.Engrave
-        //ExSummary:Shows how to create a run of text formatted as engraved.
-        Run run = new Run(doc, "Hello");
-        run.getFont().setEngrave(true);
+        //ExSummary:Shows the difference between embossing and engraving text via font formatting.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.getFont().setSize(36.0);
+        builder.getFont().setColor(Color.WHITE);
+        builder.getFont().setEngrave(true);
+
+        builder.writeln("This text is engraved.");
+
+        builder.getFont().setEngrave(false);
+        builder.getFont().setEmboss(true);
+
+        builder.writeln("This text is embossed.");
+
+        doc.save(getArtifactsDir() + "Font.EngraveEmboss.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.EngraveEmboss.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("This text is engraved.", run.getText().trim());
+        Assert.assertTrue(run.getFont().getEngrave());
+        Assert.assertFalse(run.getFont().getEmboss());
+
+        run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
+
+        Assert.assertEquals("This text is embossed.", run.getText().trim());
+        Assert.assertFalse(run.getFont().getEngrave());
+        Assert.assertTrue(run.getFont().getEmboss());
     }
 
     @Test
     public void shadow() throws Exception {
-        Document doc = new Document();
         //ExStart
         //ExFor:Font.Shadow
         //ExSummary:Shows how to create a run of text formatted with a shadow.
-        Run run = new Run(doc, "Hello");
-        run.getFont().setShadow(true);
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.getFont().setSize(36.0);
+        builder.getFont().setShadow(true);
+
+        builder.writeln("This text has a shadow.");
+
+        doc.save(getArtifactsDir() + "Font.Shadow.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Shadow.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("This text has a shadow.", run.getText().trim());
+        Assert.assertTrue(run.getFont().getShadow());
     }
 
     @Test
     public void outline() throws Exception {
-        Document doc = new Document();
         //ExStart
         //ExFor:Font.Outline
         //ExSummary:Shows how to create a run of text formatted as outline.
-        Run run = new Run(doc, "Hello");
-        run.getFont().setOutline(true);
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.getFont().setSize(36.0);
+        builder.getFont().setOutline(true);
+
+        builder.writeln("This text has an outline.");
+
+        doc.save(getArtifactsDir() + "Font.Outline.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Outline.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("This text has an outline.", run.getText().trim());
+        Assert.assertTrue(run.getFont().getOutline());
     }
 
     @Test
     public void hidden() throws Exception {
-        Document doc = new Document();
         //ExStart
         //ExFor:Font.Hidden
         //ExSummary:Shows how to create a hidden run of text.
-        Run run = new Run(doc, "Hello");
-        run.getFont().setHidden(true);
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.getFont().setSize(36.0);
+        builder.getFont().setHidden(true);
+
+        // With the Hidden flag set to true, we can add text that will be present but invisible in the document
+        // It is not recommended to use this as a way of hiding sensitive information as the text is still easily reachable
+        builder.writeln("This text won't be visible in the document.");
+
+        doc.save(getArtifactsDir() + "Font.Hidden.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Hidden.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("This text won't be visible in the document.", run.getText().trim());
+        Assert.assertTrue(run.getFont().getHidden());
     }
 
     @Test
     public void kerning() throws Exception {
-        Document doc = new Document();
         //ExStart
         //ExFor:Font.Kerning
         //ExSummary:Shows how to specify the font size at which kerning starts.
-        Run run = new Run(doc, "Hello");
-        run.getFont().setKerning(24);
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.getFont().setName("Arial Black");
+
+        // Set the font's kerning size threshold and font size 
+        builder.getFont().setKerning(24.0);
+        builder.getFont().setSize(18.0);
+
+        // The font size falls below the kerning threshold so kerning will not be applied
+        builder.writeln("TALLY. (Kerning not applied)");
+
+        // If we add runs of text with a document builder's writing methods,
+        // the Font attributes of any new runs will inherit the values from the Font attributes of the previous runs
+        // The font size is still 18, and we will change the kerning threshold to a value below that
+        builder.getFont().setKerning(12.0);
+
+        // Kerning has now been applied to this run
+        builder.writeln("TALLY. (Kerning applied)");
+
+        doc.save(getArtifactsDir() + "Font.Kerning.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Kerning.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("TALLY. (Kerning not applied)", run.getText().trim());
+        Assert.assertEquals(24.0, run.getFont().getKerning());
+        Assert.assertEquals(18.0, run.getFont().getSize());
+
+        run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
+
+        Assert.assertEquals("TALLY. (Kerning applied)", run.getText().trim());
+        Assert.assertEquals(12.0, run.getFont().getKerning());
+        Assert.assertEquals(18.0, run.getFont().getSize());
     }
 
     @Test
     public void noProofing() throws Exception {
-        Document doc = new Document();
         //ExStart
         //ExFor:Font.NoProofing
         //ExSummary:Shows how to specify that the run of text is not to be spell checked by Microsoft Word.
-        Run run = new Run(doc, "Hello");
-        run.getFont().setNoProofing(true);
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.getFont().setNoProofing(true);
+
+        builder.writeln("Proofing has been disabled for this run, so these spelking errrs will not display red lines underneath.");
+
+        doc.save(getArtifactsDir() + "Font.NoProofing.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.NoProofing.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("Proofing has been disabled for this run, so these spelking errrs will not display red lines underneath.", run.getText().trim());
+        Assert.assertTrue(run.getFont().getNoProofing());
     }
 
     @Test
     public void localeId() throws Exception {
-        Document doc = new Document();
-
         //ExStart
         //ExFor:Font.LocaleId
         //ExSummary:Shows how to specify the language of a text run so Microsoft Word can use a proper spell checker.
-        // Create a run of text that contains Russian text
-        Run run = new Run(doc, "Привет");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Specify the locale so Microsoft Word recognizes this text as Russian
-        // For the list of locale identifiers see https://docs.microsoft.com/en-us/deployoffice/office2016/language-identifiers-and-optionstate-id-values-in-office-2016
-        run.getFont().setLocaleId(1049);
+        builder.getFont().setLocaleId(1049);
+        builder.writeln("Привет!");
+
+        doc.save(getArtifactsDir() + "Font.LocaleId.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.LocaleId.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("Привет!", run.getText().trim());
+        Assert.assertEquals(1049, run.getFont().getLocaleId());
     }
 
     @Test
     public void underlines() throws Exception {
-        Document doc = new Document();
         //ExStart
         //ExFor:Font.Underline
         //ExFor:Font.UnderlineColor
         //ExSummary:Shows how use the underline character formatting properties.
-        Run run = new Run(doc, "Hello");
-        run.getFont().setUnderline(Underline.DOTTED);
-        run.getFont().setUnderlineColor(Color.RED);
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Set an underline color and style
+        builder.getFont().setUnderline(Underline.DOTTED);
+        builder.getFont().setUnderlineColor(Color.RED);
+
+        builder.writeln("Underlined text.");
+
+        doc.save(getArtifactsDir() + "Font.Underlines.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Underlines.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("Underlined text.", run.getText().trim());
+        Assert.assertEquals(Underline.DOTTED, run.getFont().getUnderline());
+        Assert.assertEquals(Color.RED.getRGB(), run.getFont().getUnderlineColor().getRGB());
     }
 
     @Test
     public void complexScript() throws Exception {
-        Document doc = new Document();
         //ExStart
         //ExFor:Font.ComplexScript
         //ExSummary:Shows how to make a run that's always treated as complex script.
-        Run run = new Run(doc, "Complex script");
-        run.getFont().setComplexScript(true);
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.getFont().setComplexScript(true);
+
+        builder.writeln("Text treated as complex script.");
+
+        doc.save(getArtifactsDir() + "Font.ComplexScript.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.ComplexScript.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("Text treated as complex script.", run.getText().trim());
+        Assert.assertTrue(run.getFont().getComplexScript());
     }
 
     @Test
     public void sparklingText() throws Exception {
-        Document doc = new Document();
         //ExStart
         //ExFor:Font.TextEffect
         //ExSummary:Shows how to apply a visual effect to a run.
-        Run run = new Run(doc, "Text with effect");
-        run.getFont().setTextEffect(TextEffect.SPARKLE_TEXT);
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.getFont().setSize(36.0);
+        builder.getFont().setTextEffect(TextEffect.SPARKLE_TEXT);
+
+        builder.writeln("Text with a sparkle effect.");
+
+        // Font animation effects are only visible in older versions of Microsoft Word
+        doc.save(getArtifactsDir() + "Font.SparklingText.doc");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.SparklingText.doc");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("Text with a sparkle effect.", run.getText().trim());
+        Assert.assertEquals(TextEffect.SPARKLE_TEXT, run.getFont().getTextEffect());
     }
 
     @Test
@@ -385,17 +601,30 @@ public class ExFont extends ApiExampleBase {
         //ExStart
         //ExFor:Font.Shading
         //ExSummary:Shows how to apply shading for a run of text.
-        DocumentBuilder builder = new DocumentBuilder();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         Shading shd = builder.getFont().getShading();
-        shd.setTexture(TextureIndex.TEXTURE_DIAGONAL_CROSS);
-        shd.setBackgroundPatternColor(Color.BLUE);
-        shd.setForegroundPatternColor(new Color(138, 43, 226)); // Violet-blue
+        shd.setTexture(TextureIndex.TEXTURE_DIAGONAL_UP);
+        shd.setBackgroundPatternColor(Color.RED);
+        shd.setForegroundPatternColor(Color.BLUE);
 
         builder.getFont().setColor(Color.WHITE);
 
-        builder.writeln("White text on a blue background with texture.");
+        builder.writeln("White text on an orange background with texture.");
+
+        doc.save(getArtifactsDir() + "Font.Shading.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Shading.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("White text on an orange background with texture.", run.getText().trim());
+        Assert.assertEquals(Color.WHITE.getRGB(), run.getFont().getColor().getRGB());
+
+        Assert.assertEquals(TextureIndex.TEXTURE_DIAGONAL_UP, run.getFont().getShading().getTexture());
+        Assert.assertEquals(Color.RED.getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
+        Assert.assertEquals(Color.BLUE.getRGB(), run.getFont().getShading().getForegroundPatternColor().getRGB());
     }
 
     @Test
@@ -408,28 +637,39 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Font.BoldBi
         //ExFor:Font.LocaleIdBi
         //ExSummary:Shows how to insert and format right-to-left text.
-        DocumentBuilder builder = new DocumentBuilder();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Signal to Microsoft Word that this run of text contains right-to-left text
         builder.getFont().setBidi(true);
 
         // Specify the font and font size to be used for the right-to-left text
         builder.getFont().setNameBi("Andalus");
-        builder.getFont().setSizeBi(48);
+        builder.getFont().setSizeBi(48.0);
 
         // Specify that the right-to-left text in this run is bold and italic
         builder.getFont().setItalicBi(true);
         builder.getFont().setBoldBi(true);
 
         // Specify the locale so Microsoft Word recognizes this text as Arabic - Saudi Arabia
-        // For the list of locale identifiers see https://docs.microsoft.com/en-us/deployoffice/office2016/language-identifiers-and-optionstate-id-values-in-office-2016
         builder.getFont().setLocaleIdBi(1025);
 
         // Insert some Arabic text
         builder.writeln("مرحبًا");
 
-        builder.getDocument().save(getArtifactsDir() + "Font.Bidi.doc");
+        doc.save(getArtifactsDir() + "Font.Bidi.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Bidi.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("مرحبًا", run.getText().trim());
+        Assert.assertEquals(1033, run.getFont().getLocaleId());
+        Assert.assertTrue(run.getFont().getBidi());
+        Assert.assertEquals(48.0, run.getFont().getSizeBi());
+        Assert.assertEquals("Andalus", run.getFont().getNameBi());
+        Assert.assertTrue(run.getFont().getItalicBi());
+        Assert.assertTrue(run.getFont().getBoldBi());
     }
 
     @Test
@@ -437,23 +677,28 @@ public class ExFont extends ApiExampleBase {
         //ExStart
         //ExFor:Font.NameFarEast
         //ExFor:Font.LocaleIdFarEast
-        //ExSummary:Shows how to insert and format text in Chinese or any other Far East language.
-        DocumentBuilder builder = new DocumentBuilder();
+        //ExSummary:Shows how to insert and format text in a Far East language.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.getFont().setSize(48);
-
-        // Specify the font name. Make sure it the font has the glyphs that you want to display
+        // Specify the font name
         builder.getFont().setNameFarEast("SimSun");
 
         // Specify the locale so Microsoft Word recognizes this text as Chinese
-        // For the list of locale identifiers see https://docs.microsoft.com/en-us/deployoffice/office2016/language-identifiers-and-optionstate-id-values-in-office-2016
         builder.getFont().setLocaleIdFarEast(2052);
 
         // Insert some Chinese text
         builder.writeln("你好世界");
 
-        builder.getDocument().save(getArtifactsDir() + "Font.FarEast.doc");
+        doc.save(getArtifactsDir() + "Font.FarEast.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.FarEast.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("你好世界", run.getText().trim());
+        Assert.assertEquals(2052, run.getFont().getLocaleIdFarEast());
+        Assert.assertEquals("SimSun", run.getFont().getNameFarEast());
     }
 
     @Test
@@ -461,19 +706,34 @@ public class ExFont extends ApiExampleBase {
         //ExStart
         //ExFor:Font.NameAscii
         //ExFor:Font.NameOther
-        //ExSummary:A pretty unusual example of how Microsoft Word can combine two different fonts in one run.
-        DocumentBuilder builder = new DocumentBuilder();
+        //ExSummary:Shows how Microsoft Word can combine two different fonts in one run.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // This tells Microsoft Word to use Arial for characters 0..127 and
-        // Times New Roman for characters 128..255
-        // Looks like a pretty strange case to me, but it is possible
-        builder.getFont().setNameAscii("Arial");
-        builder.getFont().setNameOther("Times New Roman");
+        // Specify a font to use for all characters that fall within the ASCII character set
+        builder.getFont().setNameAscii("Calibri");
 
+        // Specify a font to use for all other characters
+        // This font should have a glyph for every other required character code
+        builder.getFont().setNameOther("Courier New");
+
+        // The builder's font is the ASCII font
+        Assert.assertEquals("Calibri", builder.getFont().getName());
+
+        // Insert a run with one word consisting of ASCII characters, and one word with all characters outside that range
+        // This will create a run with two fonts
         builder.writeln("Hello, Привет");
 
-        builder.getDocument().save(getArtifactsDir() + "Font.Names.doc");
+        doc.save(getArtifactsDir() + "Font.Names.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Names.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("Hello, Привет", run.getText().trim());
+        Assert.assertEquals("Calibri", run.getFont().getName());
+        Assert.assertEquals("Calibri", run.getFont().getNameAscii());
+        Assert.assertEquals("Courier New", run.getFont().getNameOther());
     }
 
     @Test
@@ -507,6 +767,19 @@ public class ExFont extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Font.ChangeStyle.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.ChangeStyle.docx");
+        Run docRun = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("Text originally in \"Emphasis\" style", docRun.getText().trim());
+        Assert.assertEquals(StyleIdentifier.STRONG, docRun.getFont().getStyleIdentifier());
+        Assert.assertEquals("Strong", docRun.getFont().getStyleName());
+
+        docRun = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
+
+        Assert.assertEquals("Text originally in \"Intense Emphasis\" style", docRun.getText().trim());
+        Assert.assertEquals(StyleIdentifier.STRONG, docRun.getFont().getStyleIdentifier());
+        Assert.assertEquals("Strong", docRun.getFont().getStyleName());
     }
 
     @Test
@@ -515,54 +788,43 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Font.Style
         //ExFor:Style.BuiltIn
         //ExSummary:Applies double underline to all runs in a document that are formatted with custom character styles.
-        Document doc = new Document(getMyDir() + "Custom style.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Select all run nodes in the document
-        NodeCollection runs = doc.getChildNodes(NodeType.RUN, true);
+        // Insert a custom style
+        Style style = doc.getStyles().add(StyleType.CHARACTER, "MyStyle");
+        style.getFont().setColor(Color.RED);
+        style.getFont().setName("Courier New");
 
-        // Loop through every run node
-        for (Run run : (Iterable<Run>) runs) {
+        // Set the style of the current paragraph to our custom style
+        // This will apply to only the text after the style separator
+        builder.getFont().setStyleName("MyStyle");
+        builder.write("This text is in a custom style.");
+
+        // Iterate through every run node and apply underlines to the run if its style is not a built in style,
+        // like the one we added
+        for (Run run : doc.getFirstSection().getBody().getParagraphs().get(0).getRuns()) {
             Style charStyle = run.getFont().getStyle();
             // If the style of the run is not a built-in character style, apply double underline
             if (!charStyle.getBuiltIn()) {
                 run.getFont().setUnderline(Underline.DOUBLE);
             }
-        }
 
-        doc.save(getArtifactsDir() + "Font.Style.doc");
-        //ExEnd
+            doc.save(getArtifactsDir() + "Font.Style.docx");
+            //ExEnd
+
+            doc = new Document(getArtifactsDir() + "Font.Style.docx");
+            Run docRun = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+            Assert.assertEquals("This text is in a custom style.", docRun.getText().trim());
+            Assert.assertEquals("MyStyle", docRun.getFont().getStyleName());
+            Assert.assertFalse(docRun.getFont().getStyle().getBuiltIn());
+            Assert.assertEquals(Underline.DOUBLE, docRun.getFont().getUnderline());
+        }
     }
 
     @Test
-    public void getAllFonts() throws Exception {
-        //ExStart
-        //ExFor:Run
-        //ExSummary:Gets all fonts used in a document.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
-
-        // Select all runs in the document
-        NodeCollection runs = doc.getChildNodes(NodeType.RUN, true);
-
-        // Use a hashtable so we will keep only unique font names
-        HashMap fontNames = new HashMap();
-
-        for (Run run : (Iterable<Run>) runs) {
-            // This adds an entry into the hashmap
-            // The key is the font name. The value is null, we don't need the value
-            fontNames.put(run.getFont().getName(), null);
-        }
-
-        // There are two fonts used in this document
-        System.out.println("Font Count: " + fontNames.size());
-        //ExEnd
-
-        // Verify the font count is correct
-        Assert.assertEquals(fontNames.size(), 6);
-
-    }
-
-    @Test
-    public void recieveFontSubstitutionNotification() throws Exception {
+    public void substitutionNotification() throws Exception {
         // Store the font sources currently used so we can restore them later
         FontSourceBase[] origFontSources = FontSettings.getDefaultInstance().getFontsSources();
 
@@ -745,20 +1007,38 @@ public class ExFont extends ApiExampleBase {
     public void setFontAutoColor() throws Exception {
         //ExStart
         //ExFor:Font.AutoColor
-        //ExSummary:Shows how calculated color of the text (black or white) to be used for 'auto color'.
-        Run run = new Run(new Document());
+        //ExSummary:Shows how calculated color of the text (black or white) to be used for 'auto color'
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Remove direct color, so it can be calculated automatically with Font.AutoColor
-        run.getFont().setColor(new Color(0, 0, 0, 0));
+        builder.getFont().setColor(new Color(0, 0, 0, 0));
 
         // When we set black color for background, autocolor for font must be white
-        run.getFont().getShading().setBackgroundPatternColor(Color.BLACK);
-        Assert.assertEquals(run.getFont().getAutoColor(), Color.WHITE);
+        builder.getFont().getShading().setBackgroundPatternColor(Color.BLACK);
+
+        builder.writeln("The text color automatically chosen for this run is white.");
 
         // When we set white color for background, autocolor for font must be black
-        run.getFont().getShading().setBackgroundPatternColor(Color.WHITE);
-        Assert.assertEquals(run.getFont().getAutoColor(), Color.BLACK);
+        builder.getFont().getShading().setBackgroundPatternColor(Color.WHITE);
+
+        builder.writeln("The text color automatically chosen for this run is black.");
+
+        doc.save(getArtifactsDir() + "Font.SetFontAutoColor.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.SetFontAutoColor.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("The text color automatically chosen for this run is white.", run.getText().trim());
+        Assert.assertEquals(0, run.getFont().getColor().getRGB());
+        Assert.assertEquals(Color.BLACK.getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
+
+        run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
+
+        Assert.assertEquals("The text color automatically chosen for this run is black.", run.getText().trim());
+        Assert.assertEquals(0, run.getFont().getColor().getRGB());
+        Assert.assertEquals(Color.WHITE.getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
     }
 
     //ExStart
@@ -783,6 +1063,8 @@ public class ExFont extends ApiExampleBase {
     public void removeHiddenContentFromDocument() throws Exception {
         // Open the document we want to remove hidden content from
         Document doc = new Document(getMyDir() + "Hidden content.docx");
+        Assert.assertEquals(26, doc.getChildNodes(NodeType.PARAGRAPH, true).getCount()); //ExSkip
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.TABLE, true).getCount()); //ExSkip
 
         // Create an object that inherits from the DocumentVisitor class
         RemoveHiddenContentVisitor hiddenContentRemover = new RemoveHiddenContentVisitor();
@@ -802,10 +1084,8 @@ public class ExFont extends ApiExampleBase {
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         table.accept(hiddenContentRemover);
 
-        doc.save(getArtifactsDir() + "Font.RemoveHiddenContentFromDocument.doc");
-
-        Assert.assertEquals(20, doc.getChildNodes(NodeType.PARAGRAPH, true).getCount()); //ExSkip
-        Assert.assertEquals(1, doc.getChildNodes(NodeType.TABLE, true).getCount()); //ExSkip
+        doc.save(getArtifactsDir() + "Font.RemoveHiddenContentFromDocument.docx");
+        testRemoveHiddenContent(new Document(getArtifactsDir() + "Font.RemoveHiddenContentFromDocument.docx")); //ExSkip
     }
 
     /**
@@ -817,7 +1097,7 @@ public class ExFont extends ApiExampleBase {
          */
         public int visitFieldStart(final FieldStart fieldStart) throws Exception {
             // If this node is hidden, then remove it
-            if (isHidden(fieldStart)) {
+            if (fieldStart.getFont().getHidden()) {
                 fieldStart.remove();
             }
 
@@ -828,7 +1108,7 @@ public class ExFont extends ApiExampleBase {
          * Called when a FieldEnd node is encountered in the document.
          */
         public int visitFieldEnd(final FieldEnd fieldEnd) throws Exception {
-            if (isHidden(fieldEnd)) {
+            if (fieldEnd.getFont().getHidden()) {
                 fieldEnd.remove();
             }
 
@@ -839,7 +1119,7 @@ public class ExFont extends ApiExampleBase {
          * Called when a FieldSeparator node is encountered in the document.
          */
         public int visitFieldSeparator(final FieldSeparator fieldSeparator) throws Exception {
-            if (isHidden(fieldSeparator)) {
+            if (fieldSeparator.getFont().getHidden()) {
                 fieldSeparator.remove();
             }
 
@@ -850,7 +1130,7 @@ public class ExFont extends ApiExampleBase {
          * Called when a Run node is encountered in the document.
          */
         public int visitRun(final Run run) throws Exception {
-            if (isHidden(run)) {
+            if (run.getFont().getHidden()) {
                 run.remove();
             }
 
@@ -861,7 +1141,7 @@ public class ExFont extends ApiExampleBase {
          * Called when a Paragraph node is encountered in the document.
          */
         public int visitParagraphStart(final Paragraph paragraph) throws Exception {
-            if (isHidden(paragraph)) {
+            if (paragraph.getParagraphBreakFont().getHidden()) {
                 paragraph.remove();
             }
 
@@ -872,7 +1152,7 @@ public class ExFont extends ApiExampleBase {
          * Called when a FormField is encountered in the document.
          */
         public int visitFormField(final FormField field) throws Exception {
-            if (isHidden(field)) {
+            if (field.getFont().getHidden()) {
                 field.remove();
             }
 
@@ -883,7 +1163,7 @@ public class ExFont extends ApiExampleBase {
          * Called when a GroupShape is encountered in the document.
          */
         public int visitGroupShapeStart(final GroupShape groupShape) throws Exception {
-            if (isHidden(groupShape)) {
+            if (groupShape.getFont().getHidden()) {
                 groupShape.remove();
             }
 
@@ -894,7 +1174,7 @@ public class ExFont extends ApiExampleBase {
          * Called when a Shape is encountered in the document.
          */
         public int visitShapeStart(final Shape shape) throws Exception {
-            if (isHidden(shape)) {
+            if (shape.getFont().getHidden()) {
                 shape.remove();
             }
 
@@ -905,7 +1185,7 @@ public class ExFont extends ApiExampleBase {
          * Called when a Comment is encountered in the document.
          */
         public int visitCommentStart(final Comment comment) throws Exception {
-            if (isHidden(comment)) {
+            if (comment.getFont().getHidden()) {
                 comment.remove();
             }
 
@@ -916,7 +1196,7 @@ public class ExFont extends ApiExampleBase {
          * Called when a Footnote is encountered in the document.
          */
         public int visitFootnoteStart(final Footnote footnote) throws Exception {
-            if (isHidden(footnote)) {
+            if (footnote.getFont().getHidden()) {
                 footnote.remove();
             }
 
@@ -963,46 +1243,62 @@ public class ExFont extends ApiExampleBase {
 
             return VisitorAction.CONTINUE;
         }
+        //ExEnd
+    }
 
-        /**
-         * Called when a SpecialCharacter is encountered in the document.
-         */
-        public int visitSpecialChar(final SpecialChar character) throws Exception {
-            if (isHidden(character)) {
-                character.remove();
+    private void testRemoveHiddenContent(Document doc) {
+        Assert.assertEquals(20, doc.getChildNodes(NodeType.PARAGRAPH, true).getCount()); //ExSkip
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.TABLE, true).getCount()); //ExSkip
+
+        for (Node node : (Iterable<Node>) doc.getChildNodes(NodeType.ANY, true)) {
+            switch (node.getText()) {
+                case "FieldStart":
+                    FieldStart fieldStart = (FieldStart) node;
+                    Assert.assertFalse(fieldStart.getFont().getHidden());
+                    break;
+                case "FieldEnd":
+                    FieldEnd fieldEnd = (FieldEnd) node;
+                    Assert.assertFalse(fieldEnd.getFont().getHidden());
+                    break;
+                case "FieldSeparator":
+                    FieldSeparator fieldSeparator = (FieldSeparator) node;
+                    Assert.assertFalse(fieldSeparator.getFont().getHidden());
+                    break;
+                case "Run":
+                    Run run = (Run) node;
+                    Assert.assertFalse(run.getFont().getHidden());
+                    break;
+                case "Paragraph":
+                    Paragraph paragraph = (Paragraph) node;
+                    Assert.assertFalse(paragraph.getParagraphBreakFont().getHidden());
+                    break;
+                case "FormField":
+                    FormField formField = (FormField) node;
+                    Assert.assertFalse(formField.getFont().getHidden());
+                    break;
+                case "GroupShape":
+                    GroupShape groupShape = (GroupShape) node;
+                    Assert.assertFalse(groupShape.getFont().getHidden());
+                    break;
+                case "Shape":
+                    Shape shape = (Shape) node;
+                    Assert.assertFalse(shape.getFont().getHidden());
+                    break;
+                case "Comment":
+                    Comment comment = (Comment) node;
+                    Assert.assertFalse(comment.getFont().getHidden());
+                    break;
+                case "Footnote":
+                    Footnote footnote = (Footnote) node;
+                    Assert.assertFalse(footnote.getFont().getHidden());
+                    break;
+                case "SpecialChar":
+                    SpecialChar specialChar = (SpecialChar) node;
+                    Assert.assertFalse(specialChar.getFont().getHidden());
+                    break;
             }
-
-            return VisitorAction.CONTINUE;
-        }
-
-        /**
-         * Returns true if the node passed is set as hidden, returns false if it is visible.
-         */
-        private boolean isHidden(final Node node) {
-            if (node instanceof Inline) {
-                // If the node is Inline then cast it to retrieve the Font property which contains the hidden property
-                Inline currentNode = (Inline) node;
-                return currentNode.getFont().getHidden();
-            } else if (node.getNodeType() == NodeType.PARAGRAPH) {
-                // If the node is a paragraph cast it to retrieve the ParagraphBreakFont which contains the hidden property
-                Paragraph para = (Paragraph) node;
-                return para.getParagraphBreakFont().getHidden();
-            } else if (node instanceof ShapeBase) {
-                // Node is a shape or groupshape
-                ShapeBase shape = (ShapeBase) node;
-                return shape.getFont().getHidden();
-            } else if (node instanceof InlineStory) {
-                // Node is a comment or footnote
-                InlineStory inlineStory = (InlineStory) node;
-                return inlineStory.getFont().getHidden();
-            }
-
-            // A node that is passed to this method which does not contain a hidden property will end up here
-            // By default nodes are not hidden so return false
-            return false;
         }
     }
-    //ExEnd
 
     @Test
     public void blankDocumentFonts() throws Exception {
@@ -1010,13 +1306,15 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Fonts.FontInfoCollection.Contains(String)
         //ExFor:Fonts.FontInfoCollection.Count
         //ExSummary:Shows info about the fonts that are present in the blank document.
-        // Create a new document
         Document doc = new Document();
+
         // A blank document comes with 3 fonts
-        Assert.assertEquals(doc.getFontInfos().getCount(), 3);
-        Assert.assertEquals(doc.getFontInfos().contains("Times New Roman"), true);
-        Assert.assertEquals(doc.getFontInfos().contains("Symbol"), true);
-        Assert.assertEquals(doc.getFontInfos().contains("Arial"), true);
+        Assert.assertEquals(3, doc.getFontInfos().getCount());
+
+        // Their names can be looked up like this
+        Assert.assertEquals("Times New Roman", doc.getFontInfos().get(0).getName());
+        Assert.assertEquals("Symbol", doc.getFontInfos().get(1).getName());
+        Assert.assertEquals("Arial", doc.getFontInfos().get(2).getName());
         //ExEnd
     }
 
@@ -1177,9 +1475,8 @@ public class ExFont extends ApiExampleBase {
         // Add that font source to our document
         doc.getFontSettings().setFontsSources(new FontSourceBase[]{memoryFontSource});
 
-        Assert.assertEquals(memoryFontSource.getFontData().length, 52208);
-        Assert.assertEquals(memoryFontSource.getType(), FontSourceType.MEMORY_FONT);
-        Assert.assertEquals(memoryFontSource.getPriority(), 0);
+        Assert.assertEquals(FontSourceType.MEMORY_FONT, memoryFontSource.getType());
+        Assert.assertEquals(0, memoryFontSource.getPriority());
         //ExEnd
     }
 
@@ -1227,18 +1524,16 @@ public class ExFont extends ApiExampleBase {
         Assert.assertTrue(doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").toString().contains("Calibri"));
 
         // Alternatively, we could add a folder font source in which the corresponding folder contains the font
-        FolderFontSource folderFontSource = new FolderFontSource(getMyDir() + "MyFonts", false);
+        FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), false);
         doc.getFontSettings().setFontsSources(new FontSourceBase[]{systemFontSource, folderFontSource});
-        Assert.assertEquals(doc.getFontSettings().getFontsSources().length, 2);
+        Assert.assertEquals(2, doc.getFontSettings().getFontsSources().length);
 
         // Resetting the font sources still leaves us with the system font source as well as our substitutes
         doc.getFontSettings().resetFontSources();
 
-        Assert.assertEquals(doc.getFontSettings().getFontsSources().length, 1);
-        Assert.assertEquals(doc.getFontSettings().getFontsSources()[0].getType(), FontSourceType.SYSTEM_FONTS);
-
-        substituteSize = StreamSupport.stream(doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").spliterator(), false).count();
-        Assert.assertEquals(substituteSize, 1);
+        Assert.assertEquals(1, doc.getFontSettings().getFontsSources().length);
+        Assert.assertEquals(FontSourceType.SYSTEM_FONTS, doc.getFontSettings().getFontsSources()[0].getType());
+        Assert.assertEquals(1, IterableUtils.size(doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular")));
         //ExEnd
     }
 
@@ -1300,9 +1595,11 @@ public class ExFont extends ApiExampleBase {
         //ExFor:FontFallbackSettings.LoadNotoFallbackSettings
         //ExSummary:Shows how to add predefined font fallback settings for Google Noto fonts.
         FontSettings fontSettings = new FontSettings();
+
         // These are free fonts licensed under SIL OFL
         // They can be downloaded from https://www.google.com/get/noto/#sans-lgc
         fontSettings.setFontsFolder(getFontsDir() + "Noto", false);
+
         // Note that only Sans style Noto fonts with regular weight are used in the predefined settings
         // Some of the Noto fonts uses advanced typography features
         // Advanced typography is currently not supported by AW and these fonts may be rendered inaccurately
@@ -1328,12 +1625,12 @@ public class ExFont extends ApiExampleBase {
         doc.setFontSettings(fontSettings);
 
         // Get the default substitution rule within FontSettings, which will be enabled by default and will substitute all missing fonts with "Times New Roman"
-        DefaultFontSubstitutionRule defaultRule = fontSettings.getSubstitutionSettings().getDefaultFontSubstitution();
-        Assert.assertTrue(defaultRule.getEnabled());
-        Assert.assertEquals(defaultRule.getDefaultFontName(), "Times New Roman");
+        DefaultFontSubstitutionRule defaultFontSubstitutionRule = fontSettings.getSubstitutionSettings().getDefaultFontSubstitution();
+        Assert.assertTrue(defaultFontSubstitutionRule.getEnabled());
+        Assert.assertEquals("Times New Roman", defaultFontSubstitutionRule.getDefaultFontName());
 
         // Set the default font substitute to "Courier New"
-        defaultRule.setDefaultFontName("Courier New");
+        defaultFontSubstitutionRule.setDefaultFontName("Courier New");
 
         // Using a document builder, add some text in a font that we don't have to see the substitution take place,
         // and render the result in a PDF
@@ -1344,6 +1641,8 @@ public class ExFont extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Font.DefaultFontSubstitutionRule.pdf");
         //ExEnd
+
+        Assert.assertEquals("Courier New", defaultFontSubstitutionRule.getDefaultFontName());
     }
 
     @Test
@@ -1465,6 +1764,45 @@ public class ExFont extends ApiExampleBase {
     }
 
     @Test
+    public void tableSubstitutionRule() throws Exception {
+        //ExStart
+        //ExFor:Fonts.TableSubstitutionRule
+        //ExFor:Fonts.TableSubstitutionRule.LoadLinuxSettings
+        //ExFor:Fonts.TableSubstitutionRule.LoadWindowsSettings
+        //ExFor:Fonts.TableSubstitutionRule.Save(System.IO.Stream)
+        //ExFor:Fonts.TableSubstitutionRule.Save(System.String)
+        //ExSummary:Shows how to access font substitution tables for Windows and Linux.
+        // Create a blank document and a new FontSettings object
+        Document doc = new Document();
+        FontSettings fontSettings = new FontSettings();
+        doc.setFontSettings(fontSettings);
+
+        // Create a new table substitution rule and load the default Windows font substitution table
+        TableSubstitutionRule tableSubstitutionRule = fontSettings.getSubstitutionSettings().getTableSubstitution();
+        tableSubstitutionRule.loadWindowsSettings();
+
+        // In Windows, the default substitute for the "Times New Roman CE" font is "Times New Roman"
+        Assert.assertEquals(Arrays.asList(new String[]{"Times New Roman"}), tableSubstitutionRule.getSubstitutes("Times New Roman CE"));
+
+        // We can save the table for viewing in the form of an XML document
+        tableSubstitutionRule.save(getArtifactsDir() + "Font.TableSubstitutionRule.Windows.xml");
+
+        // Linux has its own substitution table
+        // If "FreeSerif" is unavailable to substitute for "Times New Roman CE", we then look for "Liberation Serif", and so on
+        tableSubstitutionRule.loadLinuxSettings();
+        Assert.assertEquals(Arrays.asList(new String[]{"FreeSerif", "Liberation Serif", "DejaVu Serif"}), tableSubstitutionRule.getSubstitutes("Times New Roman CE"));
+
+        // Save the Linux substitution table using a stream
+        OutputStream fileStream = new FileOutputStream(getArtifactsDir() + "Font.TableSubstitutionRule.Linux.xml");
+        try /*JAVA: was using*/ {
+            tableSubstitutionRule.save(fileStream);
+        } finally {
+            if (fileStream != null) fileStream.close();
+        }
+        //ExEnd
+    }
+
+    @Test
     public void tableSubstitutionRuleCustom() throws Exception {
         //ExStart
         //ExFor:Fonts.FontSubstitutionSettings.TableSubstitution
@@ -1533,32 +1871,38 @@ public class ExFont extends ApiExampleBase {
     public void resolveFontsBeforeLoadingDocument() throws Exception {
         //ExStart
         //ExFor:LoadOptions.FontSettings
-        //ExSummary:Shows how to resolve fonts before loading HTML and SVG documents.
-        FontSettings fontSettings = new FontSettings();
-        TableSubstitutionRule substitutionRule = fontSettings.getSubstitutionSettings().getTableSubstitution();
-        // If "HaettenSchweiler" is not installed on the local machine,
-        // it is still considered available, because it is substituted with "Comic Sans MS"
-        substitutionRule.addSubstitutes("HaettenSchweiler", new String[]{"Comic Sans MS"});
-
+        //ExSummary:Shows how to designate font substitutes during loading.
         LoadOptions loadOptions = new LoadOptions();
-        loadOptions.setFontSettings(fontSettings);
-        // The same for SVG document
-        Document doc = new Document(getMyDir() + "Document.html", loadOptions);
+        loadOptions.setFontSettings(new FontSettings());
+
+        // Set a font substitution rule for a LoadOptions object that replaces a font that's not installed in our system with one that is
+        TableSubstitutionRule substitutionRule = loadOptions.getFontSettings().getSubstitutionSettings().getTableSubstitution();
+        substitutionRule.addSubstitutes("MissingFont", new String[]{"Comic Sans MS"});
+
+        // If we pass that object while loading a document, any text with the "MissingFont" font will change to "Comic Sans MS"
+        Document doc = new Document(getMyDir() + "Missing font.html", loadOptions);
+
+        // At this point such text will still be in "MissingFont", and font substitution will be carried out once we save
+        Assert.assertEquals("MissingFont", doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getFont().getName());
+
+        doc.save(getArtifactsDir() + "Font.ResolveFontsBeforeLoadingDocument.pdf");
         //ExEnd
     }
 
     @Test
-    public void getFontLeading() throws Exception {
+    public void lineSpacing() throws Exception {
         //ExStart
         //ExFor:Font.LineSpacing
         //ExSummary:Shows how to get line spacing of current font (in points).
-        DocumentBuilder builder = new DocumentBuilder(new Document());
-        builder.getFont().setName("Calibri");
-        builder.writeln("qText");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Obtain line spacing
-        Font font = builder.getDocument().getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getFont();
-        System.out.println(MessageFormat.format("lineSpacing = {0}", font.getLineSpacing()));
+        // Set different fonts for the DocumentBuilder and verify their line spacing
+        builder.getFont().setName("Calibri");
+        Assert.assertEquals(13.7d, builder.getFont().getLineSpacing(), 1);
+
+        builder.getFont().setName("Times New Roman");
+        Assert.assertEquals(13.7d, builder.getFont().getLineSpacing(),1);
         //ExEnd
     }
 
@@ -1579,7 +1923,7 @@ public class ExFont extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test
+    @Test(groups = "IgnoreOnJenkins")
     public void checkScanUserFontsFolder() {
         // On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
         // or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user

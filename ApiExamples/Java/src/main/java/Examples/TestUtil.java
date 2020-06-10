@@ -90,23 +90,6 @@ class TestUtil {
     }
 
     /// <summary>
-    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
-    /// </summary>
-    /// <remarks>
-    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
-    /// </remarks>
-    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
-    /// <param name="webAddress">URL where the request will be sent.</param>
-    static void verifyWebResponseStatusCode(int expectedHttpStatusCode, String webAddress) throws IOException {
-        URL url = new URL(webAddress);
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        urlConnection.connect();
-        urlConnection.setRequestMethod("HEAD");
-
-        Assert.assertEquals(expectedHttpStatusCode, urlConnection.getResponseCode());
-    }
-
-    /// <summary>
     /// Checks whether a filename points to a valid image with specified dimensions.
     /// </summary>
     /// <remarks>

@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeClass;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Locale;
 
 /**
  * Provides common infrastructure for all API examples that are implemented as unit tests.
@@ -50,6 +51,7 @@ public class ApiExampleBase {
      */
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
+        Locale.setDefault(Locale.US);
         setUnlimitedLicense();
 
         if (!artifactsDirPath.exists()) {
@@ -154,8 +156,6 @@ public class ApiExampleBase {
     static String getFontsDir() {
         return G_FONTS_DIR;
     }
-
-    ;
 
     /**
      * Gets the path to the codebase directory.

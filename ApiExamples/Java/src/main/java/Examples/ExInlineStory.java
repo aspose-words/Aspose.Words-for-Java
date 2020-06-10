@@ -28,9 +28,10 @@ public class ExInlineStory extends ApiExampleBase {
         //ExFor:FootnoteType
         //ExFor:Footnote.#ctor
         //ExSummary:Shows how to add a footnote to a paragraph in the document and set its marker.
-        // Create a new document and append some text that we will reference with a footnote
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Add text that will be referenced by a footnote
         builder.write("Main body text.");
 
         // Add a footnote and give it text, which will appear at the bottom of the page
@@ -63,7 +64,14 @@ public class ExInlineStory extends ApiExampleBase {
         doc.save(getArtifactsDir() + "InlineStory.AddFootnote.docx");
         //ExEnd
 
-        Assert.assertEquals(doc.getChildNodes(NodeType.FOOTNOTE, true).get(0).toString(SaveFormat.TEXT).trim(), "Footnote text. More text added by a DocumentBuilder.");
+        doc = new Document(getArtifactsDir() + "InlineStory.AddFootnote.docx");
+
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
+                "Footnote text. More text added by a DocumentBuilder.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, false, "RefMark",
+                "Footnote text.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 1, true));
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
+                "Footnote text.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 2, true));
     }
 
     @Test
@@ -71,7 +79,6 @@ public class ExInlineStory extends ApiExampleBase {
         //ExStart
         //ExFor:Footnote.FootnoteType
         //ExSummary:Demonstrates the difference between footnotes and endnotes.
-        // Create a document and a corresponding document builder
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -92,9 +99,16 @@ public class ExInlineStory extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "InlineStory.FootnoteEndnote.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "InlineStory.FootnoteEndnote.docx");
+
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
+                "Footnote text, will appear at the bottom of the page that contains the referenced text.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
+        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
+                "Endnote text, will appear at the very end of the document.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 1, true));
     }
 
-    @Test
+    @Test (enabled = false, description = "WORDSJAVA-2406")
     public void addComment() throws Exception {
         //ExStart
         //ExFor:Comment
@@ -107,13 +121,23 @@ public class ExInlineStory extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("Some text is added.");
 
-        Comment comment = new Comment(doc, "Amy Lee", "AL", new Date());
+        Date currentDate  = new Date();
+
+        Comment comment = new Comment(doc, "Amy Lee", "AL", currentDate);
         builder.getCurrentParagraph().appendChild(comment);
         comment.getParagraphs().add(new Paragraph(doc));
         comment.getFirstParagraph().getRuns().add(new Run(doc, "Comment text."));
+
+        doc.save(getArtifactsDir() + "InlineStory.AddComment.docx");
         //ExEnd
 
-        Assert.assertEquals((doc.getChildNodes(NodeType.COMMENT, true).get(0)).getText(), "Comment text.\r");
+        doc = new Document(getArtifactsDir() + "InlineStory.AddComment.docx");
+        comment = (Comment) doc.getChild(NodeType.COMMENT, 0, true);
+
+        Assert.assertEquals("Comment text.\r", comment.getText());
+        Assert.assertEquals("Amy Lee", comment.getAuthor());
+        Assert.assertEquals("AL", comment.getInitial());
+        Assert.assertEquals(currentDate, comment.getDateTime());
     }
 
     @Test
@@ -123,7 +147,7 @@ public class ExInlineStory extends ApiExampleBase {
         //ExFor:InlineStory.IsInsertRevision
         //ExFor:InlineStory.IsMoveFromRevision
         //ExFor:InlineStory.IsMoveToRevision
-        //ExSummary:Shows how to process revision-related properties of InlineStory nodes.
+        //ExSummary:Shows how to view revision-related properties of InlineStory nodes.
         // Open a document that has revisions from changes being tracked
         Document doc = new Document(getMyDir() + "Revision footnotes.docx");
         Assert.assertTrue(doc.hasRevisions());
@@ -164,7 +188,6 @@ public class ExInlineStory extends ApiExampleBase {
         //ExFor:InlineStory.StoryType
         //ExFor:InlineStory.Tables
         //ExSummary:Shows how to insert InlineStory nodes.
-        // Create a new document and insert a blank footnote
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         Footnote footnote = builder.insertFootnote(FootnoteType.FOOTNOTE, null);
@@ -205,12 +228,25 @@ public class ExInlineStory extends ApiExampleBase {
 
         // Once we have a paragraph, we can move the builder do it and write our comment
         builder.moveTo(comment.getLastParagraph());
-        builder.write("My comment");
+        builder.write("My comment.");
 
         Assert.assertEquals(comment.getStoryType(), StoryType.COMMENTS);
 
         doc.save(getArtifactsDir() + "InlineStory.InsertInlineStoryNodes.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "InlineStory.InsertInlineStoryNodes.docx");
+
+        footnote = (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true);
+
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "", "",
+                (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
+        Assert.assertEquals("Arial", footnote.getFont().getName());
+        Assert.assertEquals(Color.GREEN.getRGB(), footnote.getFont().getColor().getRGB());
+
+        comment = (Comment) doc.getChild(NodeType.COMMENT, 0, true);
+
+        Assert.assertEquals("My comment.", comment.toString(SaveFormat.TEXT).trim());
     }
 
     @Test

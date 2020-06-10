@@ -523,22 +523,8 @@ public class ExRendering extends ApiExampleBase {
     }
 
     @Test
-    public void updateFields() throws Exception {
-        //ExStart
-        //ExFor:Document.UpdateFields
-        //ExSummary:Shows how to update all fields before rendering a document.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
-
-        // This updates all fields in the document
-        doc.updateFields();
-
-        doc.save(getArtifactsDir() + "Rendering.UpdateFields.pdf");
-        //ExEnd
-    }
-
-    @Test
     public void setTrueTypeFontsFolder() throws Exception {
-        // Store the font sources currently used so we can restore them later. 
+        // Store the font sources currently used so we can restore them later
         FontSourceBase[] fontSources = FontSettings.getDefaultInstance().getFontsSources();
 
         //ExStart
@@ -657,9 +643,6 @@ public class ExRendering extends ApiExampleBase {
         //ExEnd
         Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.setFontSettings(fontSettings);
-
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
 
         // Check that font source are default
         FontSourceBase[] fontSource = doc.getFontSettings().getFontsSources();

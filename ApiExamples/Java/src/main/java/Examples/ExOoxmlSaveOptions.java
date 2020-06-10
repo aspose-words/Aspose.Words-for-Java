@@ -66,8 +66,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.Iso29500Strict.docx", saveOptions);
         //ExEnd
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, saveOptions);
+        doc = DocumentHelper.saveOpen(doc);
 
         // Assert that image have drawingML markup language
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {

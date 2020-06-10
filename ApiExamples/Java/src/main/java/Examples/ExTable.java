@@ -54,17 +54,11 @@ public class ExTable extends ApiExampleBase {
 
             RowCollection rows = tables.get(i).getRows();
 
-            // RowCollections can be cloned into arrays
-            Assert.assertNotSame(rows, rows.toArray());
-
             // Iterate through all rows in the table
             for (int j = 0; j < rows.getCount(); j++) {
                 System.out.println(MessageFormat.format("\tStart of Row {0}", j));
 
                 CellCollection cells = rows.get(j).getCells();
-
-                // RowCollections can also be cloned into arrays
-                Assert.assertNotSame(cells, cells.toArray());
 
                 // Iterate through all cells in the row
                 for (int k = 0; k < cells.getCount(); k++) {
@@ -353,7 +347,6 @@ public class ExTable extends ApiExampleBase {
         //ExEnd
 
         // Verify the borders were set correctly
-        doc = new Document(getArtifactsDir() + "Table.SetOutlineBorders.docx");
         Assert.assertEquals(table.getAlignment(), TableAlignment.CENTER);
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB(), Color.GREEN.getRGB());
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getRight().getColor().getRGB(), Color.GREEN.getRGB());
@@ -382,7 +375,6 @@ public class ExTable extends ApiExampleBase {
         //ExEnd
 
         // Verify the borders were set correctly
-        doc = new Document(getArtifactsDir() + "Table.SetAllBorders.doc");
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getLeft().getColor().getRGB(), Color.GREEN.getRGB());
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB(), Color.GREEN.getRGB());
         Assert.assertEquals(table.getFirstRow().getRowFormat().getBorders().getRight().getColor().getRGB(), Color.GREEN.getRGB());
@@ -1057,6 +1049,7 @@ public class ExTable extends ApiExampleBase {
         //ExFor:Table.Rows
         //ExFor:Table.FirstRow
         //ExFor:CellFormat.ClearFormatting
+        //ExFor:CompositeNode.HasChildNodes
         //ExSummary:Shows how to combine the rows from two tables into one.
         // Load the document
         Document doc = new Document(getMyDir() + "Tables.docx");
@@ -1226,7 +1219,7 @@ public class ExTable extends ApiExampleBase {
         builder.insertCell();
         builder.write("Name");
         builder.insertCell();
-        builder.write("??????");
+        builder.write("مرحبًا");
         builder.endRow();
         builder.insertCell();
         builder.insertCell();

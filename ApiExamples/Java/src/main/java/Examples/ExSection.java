@@ -13,7 +13,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
-import java.io.ByteArrayOutputStream;
 
 public class ExSection extends ApiExampleBase {
     @Test
@@ -23,7 +22,6 @@ public class ExSection extends ApiExampleBase {
         //ExFor:ProtectionType
         //ExFor:Section.ProtectedForForms
         //ExSummary:Protects a section so only editing in form fields is possible.
-        // Create a blank document
         Document doc = new Document();
 
         // Insert two sections with some text
@@ -102,16 +100,15 @@ public class ExSection extends ApiExampleBase {
         //ExFor:Run.Text
         //ExFor:Inline.Font
         //ExSummary:Creates a simple document from scratch using the Aspose.Words object model.
-        // Create an "empty" document. Note that like in Microsoft Word, 
-        // the empty document has one section, body and one paragraph in it
         Document doc = new Document();
 
-        // This truly makes the document empty. No sections (not possible in Microsoft Word)
+        // A newly created blank document still comes one section, one body and one paragraph
+        // Calling this method will remove all those nodes to completely empty the document
         doc.removeAllChildren();
 
-        // Create a new section node
-        // Note that the section has not yet been added to the document, 
-        // but we have to specify the parent document
+        // This document now has no composite nodes that content can be added to
+        // If we wish to edit it, we will need to repopulate its node collection,
+        // which we will start to do with by creating a new Section node
         Section section = new Section(doc);
 
         // Append the section to the document
@@ -147,10 +144,10 @@ public class ExSection extends ApiExampleBase {
 
         // As a matter of interest, you can retrieve text of the whole document and
         // see that \x000c is automatically appended. \x000c is the end of section character
-        System.out.println(doc.getText());
+        System.out.println("Hello World!\f");
 
         // Save the document
-        doc.save(getArtifactsDir() + "Section.CreateFromScratch.doc");
+        doc.save(getArtifactsDir() + "Section.CreateFromScratch.docx");
         //ExEnd
 
         Assert.assertEquals(doc.getText(), "Hello World!\f");
@@ -161,7 +158,6 @@ public class ExSection extends ApiExampleBase {
         //ExStart
         //ExFor:Section.EnsureMinimum
         //ExSummary:Ensures that a section is valid.
-        // Create a blank document
         Document doc = new Document();
         Section section = doc.getFirstSection();
 
@@ -442,8 +438,7 @@ public class ExSection extends ApiExampleBase {
         sectionDe.getPageSetup().setFooterDistance(35.4); // 1.25 cm
         sectionDe.getPageSetup().getTextColumns().setSpacing(35.4); // 1.25 cm
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        docDe.save(dstStream, SaveFormat.DOCX);
+        docDe = DocumentHelper.saveOpen(docDe);
 
         Section sectionDeAfter = docDe.getSections().get(0);
         Assert.assertEquals(sectionDeAfter.getPageSetup().getLeftMargin(), 90.0); // 3.17 cm         
