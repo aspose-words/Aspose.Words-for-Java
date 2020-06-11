@@ -18,7 +18,7 @@ public class ExNodeImporter extends ApiExampleBase {
     //ExFor:NodeImporter
     //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode)
     //ExFor:NodeImporter.ImportNode(Node, Boolean)
-    //ExSummary:This is a method that inserts contents of one document at a bookmark in another document.
+    //ExSummary:Shows how to insert the contents of one document to a bookmark in another document.
     @Test
     public void insertAtBookmark() throws Exception {
         Document mainDoc = new Document(getMyDir() + "Document insertion destination.docx");

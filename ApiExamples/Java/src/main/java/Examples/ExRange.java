@@ -9,11 +9,13 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -46,7 +48,9 @@ public class ExRange extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Range.ReplaceSimple.docx");
         //ExEnd
 
-        Assert.assertEquals(doc.getText(), "Hello James Bond,\r\f");
+        doc = new Document(getArtifactsDir() + "Range.ReplaceSimple.docx");
+
+        Assert.assertEquals("Hello James Bond,", doc.getText().trim());
     }
 
     @Test
@@ -117,10 +121,12 @@ public class ExRange extends ApiExampleBase {
         //ExSummary:Shows how to ignore text inside fields.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+ 
         // Insert field with text inside
         builder.insertField("INCLUDETEXT", "Text in field");
 
         FindReplaceOptions options = new FindReplaceOptions();
+ 
         // Replace 'e' in document ignoring text inside field
         options.setIgnoreFields(true);
 
@@ -135,7 +141,33 @@ public class ExRange extends ApiExampleBase {
     }
 
     @Test
-    public void replaceWithString() throws Exception {
+    public void updateFieldsInRange() throws Exception
+    {
+        //ExStart
+        //ExFor:Range.UpdateFields
+        //ExSummary:Shows how to update document fields in the body of the first section only.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a field that will display the value in the document's body text
+        FieldDocProperty field = (FieldDocProperty)builder.insertField(" DOCPROPERTY Category");
+
+        // Set the value of the property that should be displayed by the field
+        doc.getBuiltInDocumentProperties().setCategory("MyCategory");
+
+        // Some field types need to be explicitly updated before they can display their expected values
+        Assert.assertEquals("", field.getResult());
+
+        // Update all the fields in the first section of the document, which includes the field we just inserted
+        doc.getFirstSection().getRange().updateFields();
+
+        Assert.assertEquals("MyCategory", field.getResult());
+        //ExEnd
+    }
+
+    @Test
+    public void replaceWithString() throws Exception
+    {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -193,9 +225,8 @@ public class ExRange extends ApiExampleBase {
         doc.getRange().replace(Pattern.compile(" <CustomerName>,"), "", options);
 
         // Save the modified document
-        doc.save(getArtifactsDir() + "Range.ReplaceWithInsertHtml.doc");
-
-        Assert.assertEquals(doc.getText(), "James Bond, Hello\r\f"); //ExSkip
+        doc.save(getArtifactsDir() + "Range.ReplaceWithInsertHtml.docx");
+        Assert.assertEquals("James Bond, Hello\r\f", new Document(getArtifactsDir() + "Range.ReplaceWithInsertHtml.docx").getText()); //ExSkip
     }
 
     private class ReplaceWithHtmlEvaluator implements IReplacingCallback {
@@ -245,13 +276,16 @@ public class ExRange extends ApiExampleBase {
         // Apply an IReplacingCallback to make the replacement to convert integers into hex equivalents
         // and also to count replacements in the order they take place
         options.setReplacingCallback(new NumberHexer());
+
         // By default, text is searched for replacements front to back, but we can change it to go the other way
         options.setDirection(FindReplaceDirection.BACKWARD);
 
         int count = doc.getRange().replace(Pattern.compile("[0-9]+"), "", options);
-        Assert.assertEquals(count, 4);
 
-        doc.save(getArtifactsDir() + "Range.ReplaceNumbersAsHex.docx");
+        Assert.assertEquals(4, count);
+        Assert.assertEquals("There are few numbers that should be converted to HEX and highlighted:" +
+                " 0x7b (replacement #4), 0x1c8 (replacement #3), 0x315 (replacement #2) and 0x43e3 (replacement #1).",
+                doc.getText().trim());
     }
 
     /// <summary>
@@ -302,6 +336,12 @@ public class ExRange extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Range.ApplyParagraphFormat.docx");
         //ExEnd
+
+        ParagraphCollection paragraphs = new Document(getArtifactsDir() + "Range.ApplyParagraphFormat.docx").getFirstSection().getBody().getParagraphs();
+
+        Assert.assertEquals(ParagraphAlignment.RIGHT, paragraphs.get(0).getParagraphFormat().getAlignment());
+        Assert.assertEquals(ParagraphAlignment.LEFT, paragraphs.get(1).getParagraphFormat().getAlignment());
+        Assert.assertEquals(ParagraphAlignment.RIGHT, paragraphs.get(2).getParagraphFormat().getAlignment());
     }
 
     @Test
@@ -335,8 +375,12 @@ public class ExRange extends ApiExampleBase {
         //ExFor:Range
         //ExFor:Range.Text
         //ExSummary:Shows how to get plain, unformatted text of a range.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        String text = doc.getRange().getText();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Hello world!");
+
+        Assert.assertEquals("Hello world!", doc.getRange().getText().trim());
         //ExEnd
     }
 

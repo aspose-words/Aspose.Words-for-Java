@@ -25,10 +25,11 @@ public class ExMailMerge extends ApiExampleBase {
     public void executeArray() throws Exception {
         //ExStart
         //ExFor:MailMerge.Execute(String[], Object[])
-        //ExSummary:Performs a simple insertion of data into merge fields.
-        // Open an existing document
+        //ExFor:ContentDisposition
+        //ExSummary:Performs a simple insertion of data into merge fields and sends the document to the browser inline.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
         builder.insertField(" MERGEFIELD FullName ");
         builder.insertParagraph();
         builder.insertField(" MERGEFIELD Company ");
@@ -38,9 +39,13 @@ public class ExMailMerge extends ApiExampleBase {
         builder.insertField(" MERGEFIELD City ");
 
         // Fill the fields in the document with user data
-        doc.getMailMerge().execute(new String[]{"FullName", "Company", "Address", "City"},
-                new Object[]{"James Bond", "MI5 Headquarters", "Milbank", "London"});
+        doc.getMailMerge().execute(new String[] { "FullName", "Company", "Address", "City" },
+            new Object[] { "James Bond", "MI5 Headquarters", "Milbank", "London" });
         //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+
+        TestUtil.mailMergeMatchesArray(new String[][] { new String[] {"James Bond", "MI5 Headquarters", "Milbank", "London"} }, doc, true);
     }
 
     @Test
@@ -51,6 +56,7 @@ public class ExMailMerge extends ApiExampleBase {
         // Create a new document and populate it with merge fields
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
         builder.write("Product:\t");
         builder.insertField(" MERGEFIELD ProductName");
         builder.write("\nSupplier:\t");
@@ -102,7 +108,7 @@ public class ExMailMerge extends ApiExampleBase {
         // Field values from the table are inserted into the mail merge fields found in the document
         doc.getMailMerge().execute(table);
 
-        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.doc");
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.docx");
 
         // Create a copy of our document to perform another mail merge
         doc = new Document();
@@ -114,7 +120,7 @@ public class ExMailMerge extends ApiExampleBase {
         // We can also source values for a mail merge from a single row in the table
         doc.getMailMerge().execute(table.getRows().get(1));
 
-        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.OneRow.doc");
+        doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.OneRow.docx");
         //ExEnd
     }
 
@@ -208,6 +214,7 @@ public class ExMailMerge extends ApiExampleBase {
     public void executeWithRegionsConcurrent() throws Exception {
         //ExStart
         //ExFor:MailMerge.ExecuteWithRegions(DataTable)
+        //ExFor:MailMerge.ExecuteWithRegions(DataView)
         //ExSummary:Shows how to use regions to execute two separate mail merges in one document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -311,8 +318,8 @@ public class ExMailMerge extends ApiExampleBase {
         // To get both regions merged we would have to execute the mail merge twice, on a table of the same name
         // If this is set to true, both regions will be affected by the merge
         doc.getMailMerge().setMergeDuplicateRegions(isMergeDuplicateRegions);
-        doc.getMailMerge().executeWithRegions(dataTable);
 
+        doc.getMailMerge().executeWithRegions(dataTable);
         doc.save(getArtifactsDir() + "MailMerge.MergeDuplicateRegions.docx");
     }
 
@@ -356,12 +363,13 @@ public class ExMailMerge extends ApiExampleBase {
         return dataTable;
     }
     //ExEnd
-
+    
     //ExStart
     //ExFor:MailMerge.PreserveUnusedTags
-    //ExSummary:Shows how to preserve the appearance of alternative mail merge tags that go unused during a mail merge.
-    @Test(dataProvider = "preserveUnusedTagsDataProvider") //ExSkip
-    public void preserveUnusedTags(boolean preserveUnusedTags) throws Exception {
+    //ExSummary:Shows how to preserve the appearance of alternative mail merge tags that go unused during a mail merge. 
+    @Test (dataProvider = "preserveUnusedTagsDataProvider") //ExSkip
+    public void preserveUnusedTags(boolean doPreserveUnusedTags) throws Exception
+    {
         // Create a document and table that we will merge
         Document doc = createSourceDocWithAlternativeMergeFields();
         DataTable dataTable = createSourceTablePreserveUnusedTags();
@@ -369,10 +377,12 @@ public class ExMailMerge extends ApiExampleBase {
         // By default, alternative merge tags that can't receive data because the data source has no columns with their name
         // are converted to and left on display as MERGEFIELDs after the mail merge
         // We can preserve their original appearance setting this attribute to true
-        doc.getMailMerge().setPreserveUnusedTags(preserveUnusedTags);
+        doc.getMailMerge().setPreserveUnusedTags(doPreserveUnusedTags);
         doc.getMailMerge().execute(dataTable);
 
         doc.save(getArtifactsDir() + "MailMerge.PreserveUnusedTags.docx");
+
+        Assert.assertEquals(doc.getText().contains("{{ Column2 }}"), doPreserveUnusedTags);
     }
 
     @DataProvider(name = "preserveUnusedTagsDataProvider")
@@ -415,22 +425,26 @@ public class ExMailMerge extends ApiExampleBase {
     //ExStart
     //ExFor:MailMerge.MergeWholeDocument
     //ExSummary:Shows the relationship between mail merges with regions and field updating.
-    @Test(dataProvider = "mergeWholeDocumentDataProvider") //ExSkip
-    public void mergeWholeDocument(boolean isMergeWholeDocument) throws Exception {
+    @Test (dataProvider = "mergeWholeDocumentDataProvider") //ExSkip
+    public void mergeWholeDocument(boolean doMergeWholeDocument) throws Exception
+    {
         // Create a document and data table that will both be merged
         Document doc = createSourceDocMergeWholeDocument();
         DataTable dataTable = createSourceTableMergeWholeDocument();
 
         // A regular mail merge will update all fields in the document as part of the procedure,
         // which will happen if this property is set to true
-        // Otherwise, a mail merge with regions will only update fields inside of the designated mail merge region
-        doc.getMailMerge().setMergeWholeDocument(isMergeWholeDocument);
+        // Otherwise, a mail merge with regions will only update fields
+        // within a mail merge region which matches the name of the DataTable
+        doc.getMailMerge().setMergeWholeDocument(doMergeWholeDocument);
         doc.getMailMerge().executeWithRegions(dataTable);
 
         // If true, all fields in the document will be updated upon merging
         // In this case that property is false, so the first QUOTE field will not be updated and will not show a value,
         // but the second one inside the region designated by the data table name will show the correct value
         doc.save(getArtifactsDir() + "MailMerge.MergeWholeDocument.docx");
+
+        Assert.assertEquals(doMergeWholeDocument, doc.getText().contains("This QUOTE field is outside of the \"MyTable\" merge region."));
     }
 
     @DataProvider(name = "mergeWholeDocumentDataProvider")
@@ -493,6 +507,7 @@ public class ExMailMerge extends ApiExampleBase {
         // By default, a paragraph can belong to no more than one mail merge region
         // Our document breaks this rule so executing a mail merge with regions now will cause an exception to be thrown
         Assert.assertTrue(doc.getMailMerge().getUseWholeParagraphAsRegion());
+        Assert.assertThrows(IllegalStateException.class, () -> doc.getMailMerge().executeWithRegions(dataTable));
 
         // If we set this variable to false, paragraphs and mail merge regions are independent so we can safely run our mail merge
         doc.getMailMerge().setUseWholeParagraphAsRegion(false);
@@ -536,22 +551,37 @@ public class ExMailMerge extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test
-    public void trimWhiteSpaces() throws Exception {
+    @Test (dataProvider = "trimWhiteSpacesDataProvider")
+    public void trimWhiteSpaces(boolean doTrimWhitespaces) throws Exception
+    {
         //ExStart
         //ExFor:MailMerge.TrimWhitespaces
         //ExSummary:Shows how to trimmed whitespaces from mail merge values.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertField("MERGEFIELD field", null);
+        builder.insertField("MERGEFIELD myMergeField", null);
 
-        doc.getMailMerge().setTrimWhitespaces(true);
-        doc.getMailMerge().execute(new String[]{"field"}, new Object[]{" first line\rsecond line\rthird line "});
+        doc.getMailMerge().setTrimWhitespaces(doTrimWhitespaces);
+        doc.getMailMerge().execute(new String[] { "myMergeField" }, new Object[] { "\t hello world! " });
 
-        Assert.assertEquals(doc.getText(), "first line\rsecond line\rthird line\f");
+        if (doTrimWhitespaces)
+            Assert.assertEquals("hello world!\f", doc.getText());
+        else
+            Assert.assertEquals("\t hello world! \f", doc.getText());
         //ExEnd
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "trimWhiteSpacesDataProvider")
+	public static Object[][] trimWhiteSpacesDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 
     @Test
     public void mailMergeGetFieldNames() throws Exception {
@@ -766,7 +796,7 @@ public class ExMailMerge extends ApiExampleBase {
         //ExFor:FieldAddressBlock
         //ExFor:FieldAddressBlock.GetFieldNames
         //ExSummary:Shows how to get mail merge field names used by the field.
-        Document doc = new Document(getMyDir() + "Field ADDRESSBLOCK.docx");
+        Document doc = new Document(getMyDir() + "Field sample - ADDRESSBLOCK.docx");
 
         String[] addressFieldsExpect = {"Company", "First Name", "Middle Name", "Last Name", "Suffix", "Address 1", "City", "State", "Country or Region", "Postal Code"};
 
@@ -794,8 +824,12 @@ public class ExMailMerge extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test(dataProvider = "mustacheTemplateSyntaxDataProvider")
-    public void mustacheTemplateSyntax(final boolean restoreTags, final String sectionText) throws Exception {
+    /// <summary>
+    /// Without TestCaseSource/TestCase because of some strange behavior when using long data.
+    /// </summary>
+    @Test
+    public void mustacheTemplateSyntaxTrue() throws Exception
+    {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("{{ testfield1 }}");
@@ -803,7 +837,7 @@ public class ExMailMerge extends ApiExampleBase {
         builder.write("{{ testfield3 }}");
 
         doc.getMailMerge().setUseNonMergeFields(true);
-        doc.getMailMerge().setPreserveUnusedTags(restoreTags);
+        doc.getMailMerge().setPreserveUnusedTags(true);
 
         DataTable table = new DataTable("Test");
         table.getColumns().add("testfield2");
@@ -813,17 +847,30 @@ public class ExMailMerge extends ApiExampleBase {
 
         String paraText = DocumentHelper.getParagraphText(doc, 0);
 
-        Assert.assertEquals(sectionText, paraText);
+        Assert.assertEquals("{{ testfield1 }}value 1{{ testfield3 }}\f", paraText);
     }
 
-    //JAVA-added data provider for test method
-    @DataProvider(name = "mustacheTemplateSyntaxDataProvider")
-    public static Object[][] mustacheTemplateSyntaxDataProvider() {
-        return new Object[][]
+    @Test
+    public void mustacheTemplateSyntaxFalse() throws Exception
                 {
-                        {true, "{{ testfield1 }}value 1{{ testfield3 }}\f"},
-                        {false, "\u0013MERGEFIELD \"testfield1\"\u0014«testfield1»\u0015value 1\u0013MERGEFIELD \"testfield3\"\u0014«testfield3»\u0015\f"},
-                };
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.write("{{ testfield1 }}");
+        builder.write("{{ testfield2 }}");
+        builder.write("{{ testfield3 }}");
+
+        doc.getMailMerge().setUseNonMergeFields(true);
+        doc.getMailMerge().setPreserveUnusedTags(false);
+
+        DataTable table = new DataTable("Test");
+        table.getColumns().add("testfield2");
+        table.getRows().add("value 1");
+
+        doc.getMailMerge().execute(table);
+
+        String paraText = DocumentHelper.getParagraphText(doc, 0);
+
+        Assert.assertEquals("\u0013MERGEFIELD \"testfield1\"\u0014«testfield1»\u0015value 1\u0013MERGEFIELD \"testfield3\"\u0014«testfield3»\u0015\f", paraText);
     }
 
     @Test
@@ -966,8 +1013,9 @@ public class ExMailMerge extends ApiExampleBase {
         return dataTable;
     }
 
-    @Test
-    public void unconditionalMergeFieldsAndRegions() throws Exception {
+    @Test (dataProvider = "unconditionalMergeFieldsAndRegionsDataProvider")
+    public void unconditionalMergeFieldsAndRegions(boolean doCountAllMergeFields) throws Exception
+    {
         //ExStart
         //ExFor:MailMerge.UnconditionalMergeFieldsAndRegions
         //ExSummary:Shows how to merge fields or regions regardless of the parent IF field's condition.
@@ -982,15 +1030,33 @@ public class ExMailMerge extends ApiExampleBase {
         builder.insertField(" MERGEFIELD  FullName ");
 
         // We can still count MERGEFIELDs inside false-statement IF fields if we set this flag to true
-        doc.getMailMerge().setUnconditionalMergeFieldsAndRegions(true);
+        doc.getMailMerge().setUnconditionalMergeFieldsAndRegions(doCountAllMergeFields);
+
+        DataTable dataTable = new DataTable();
+        dataTable.getColumns().add("FullName");
+        dataTable.getRows().add("James Bond");
 
         // Execute the mail merge
-        doc.getMailMerge().execute(
-                new String[]{"FullName"},
-                new Object[]{"James Bond"});
+        doc.getMailMerge().execute(dataTable);
 
         // The result will not be visible in the document because the IF field is false, but the inner MERGEFIELD did indeed receive data
         doc.save(getArtifactsDir() + "MailMerge.UnconditionalMergeFieldsAndRegions.docx");
+
+        if (doCountAllMergeFields)
+            Assert.assertEquals("IF 1 = 2 \"James Bond\"", doc.getText().trim());
+        else
+            Assert.assertEquals("IF 1 = 2 \u0013 MERGEFIELD  FullName \u0014«FullName»", doc.getText().trim());
         //ExEnd
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "unconditionalMergeFieldsAndRegionsDataProvider")
+	public static Object[][] unconditionalMergeFieldsAndRegionsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 }

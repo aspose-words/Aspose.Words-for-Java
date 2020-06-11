@@ -203,7 +203,34 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void documentCtor() throws Exception {
+    public void pdf2Word() throws Exception
+    {
+        // Check that PDF document format detects correctly
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Pdf Document.pdf");
+        Assert.assertEquals(info.getLoadFormat(), com.aspose.words.LoadFormat.PDF);
+
+        // Check that PDF document opens correctly
+        Document doc = new Document(getMyDir() + "Pdf Document.pdf");
+        Assert.assertEquals(
+            "Heading 1\rHeading 1.1.1.1 Heading 1.1.1.2\rHeading 1.1.1.1.1.1.1.1.1 Heading 1.1.1.1.1.1.1.1.2\f",
+            doc.getRange().getText());
+
+        // Check that protected PDF document opens correctly
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setEncryptionDetails(new PdfEncryptionDetails("Aspose", null, PdfEncryptionAlgorithm.RC_4_40));
+
+        doc.save(getArtifactsDir() + "Document.PdfDocumentEncrypted.pdf", saveOptions);
+
+        PdfLoadOptions loadOptions = new PdfLoadOptions();
+        loadOptions.setPassword("Aspose");
+        loadOptions.setLoadFormat(com.aspose.words.LoadFormat.PDF);
+
+        doc = new Document(getArtifactsDir() + "Document.PdfDocumentEncrypted.pdf", loadOptions);
+    }
+
+    @Test
+    public void documentCtor() throws Exception
+    {
         //ExStart
         //ExFor:Document.#ctor(Boolean)
         //ExSummary:Shows how to create a blank document.
@@ -258,6 +285,8 @@ public class ExDocument extends ApiExampleBase {
 
     @Test
     public void openFromStreamWithBaseUri() throws Exception {
+        Document doc;
+
         //ExStart
         //ExFor:Document.#ctor(Stream,LoadOptions)
         //ExFor:LoadOptions.#ctor
@@ -265,8 +294,7 @@ public class ExDocument extends ApiExampleBase {
         //ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
         // Open the stream
         InputStream stream = new FileInputStream(getMyDir() + "Document.html");
-        Document doc;
-
+        
         try {
             // Pass the URI of the base folder so any images with relative URIs in the HTML document can be found
             // Note the Document constructor detects HTML format automatically
@@ -1294,9 +1322,10 @@ public class ExDocument extends ApiExampleBase {
         // We can call UpdateTableLayout() to fix some of these issues
         doc.updateTableLayout();
 
-        Assert.assertEquals(155.65d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth()); //ExSkip
         Assert.assertEquals("Cell 1             Cell 2             Cell 3\r\n\r\n", doc.toString(options));
         //ExEnd
+
+        Assert.assertEquals(156.45d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth());
     }
 
     @Test
@@ -1368,11 +1397,12 @@ public class ExDocument extends ApiExampleBase {
     @Test
     public void tableStyleToDirectFormatting() throws Exception {
         //ExStart
+        //ExFor:CompositeNode.GetChild
         //ExFor:Document.ExpandTableStylesToDirectFormatting
         //ExSummary:Shows how to expand the formatting from styles onto the rows and cells of the table as direct formatting.
         Document doc = new Document(getMyDir() + "Tables.docx");
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
 
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         // First print the color of the cell shading. This should be empty as the current shading
         // is stored in the table style
         double cellShadingBefore = table.getFirstRow().getRowFormat().getHeight();
@@ -1834,36 +1864,8 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void revisionHistory() throws Exception {
-        //ExStart
-        //ExFor:Paragraph.IsMoveFromRevision
-        //ExFor:Paragraph.IsMoveToRevision
-        //ExFor:ParagraphCollection
-        //ExFor:ParagraphCollection.Item(Int32)
-        //ExFor:Story.Paragraphs
-        //ExSummary:Shows how to get paragraph that was moved (deleted/inserted) in Microsoft Word while change tracking was enabled.
-        Document doc = new Document(getMyDir() + "Revisions.docx");
-
-        // There are two sets of move revisions in this document
-        // One moves a small part of a paragraph, while the other moves a whole paragraph
-        // Paragraph.IsMoveFromRevision/IsMoveToRevision will only be true if a whole paragraph is moved, as in the latter case
-        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
-        for (int i = 0; i < paragraphs.getCount(); i++) {
-            if (paragraphs.get(i).isMoveFromRevision())
-                System.out.println(MessageFormat.format("The paragraph {0} has been moved (deleted).", i));
-            if (paragraphs.get(i).isMoveToRevision())
-                System.out.println(MessageFormat.format("The paragraph {0} has been moved (inserted).", i));
-        }
-        //ExEnd
-
-        Assert.assertEquals(11, doc.getRevisions().getCount());
-        Assert.assertEquals(6, IterableUtils.countMatches(doc.getRevisions(), s -> s.getRevisionType() == RevisionType.MOVING));
-        Assert.assertEquals(1, IterableUtils.countMatches(paragraphs, s -> s.isMoveFromRevision()));
-        Assert.assertEquals(1, IterableUtils.countMatches(paragraphs, s -> s.isMoveToRevision()));
-    }
-
-    @Test
-    public void getRevisedPropertiesOfList() throws Exception {
+    public void getRevisedPropertiesOfList() throws Exception
+    {
         //ExStart
         //ExFor:RevisionsView
         //ExFor:Document.RevisionsView

@@ -995,7 +995,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(
                 " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o",
                 fieldAsk.getFieldCode());
-        testFieldAsk(doc); //ExSkip
+        testFieldAsk(table, doc); //ExSkip
     }
 
     /// <summary>
@@ -1008,7 +1008,8 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testFieldAsk(Document doc) throws Exception {
+    private void testFieldAsk(DataTable dataTable, Document doc) throws Exception
+    {
         doc = DocumentHelper.saveOpen(doc);
 
         FieldRef fieldRef = (FieldRef) DocumentHelper.getField(doc.getRange().getFields(), FieldType.FIELD_REF);
@@ -1434,7 +1435,7 @@ public class ExField extends ApiExampleBase {
     //ExFor:FieldAutoNumLgl
     //ExFor:FieldAutoNumLgl.RemoveTrailingPeriod
     //ExFor:FieldAutoNumLgl.SeparatorCharacter
-    //ExSummary:Shows how to organize a document using autonum legal fields.
+    //ExSummary:Shows how to organize a document using AUTONUMLGL fields.
     @Test //ExSkip
     public void fieldAutoNumLgl() throws Exception {
         Document doc = new Document();
@@ -2725,19 +2726,19 @@ public class ExField extends ApiExampleBase {
 
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals(200.0d, shape.getWidth());
         Assert.assertEquals(200.0d, shape.getHeight());
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.PNG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, shape);
         Assert.assertEquals(200.0d, shape.getWidth());
         Assert.assertEquals(200.0d, shape.getHeight());
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 2, true);
 
-        TestUtil.verifyImage(534, 534, ImageType.EMF, shape);
+        TestUtil.verifyImageInShape(534, 534, ImageType.EMF, shape);
         Assert.assertEquals(200.0d, shape.getWidth());
         Assert.assertEquals(200.0d, shape.getHeight());
     }
@@ -2750,13 +2751,13 @@ public class ExField extends ApiExampleBase {
 
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals(300.0d, shape.getWidth());
         Assert.assertEquals(300.0d, shape.getHeight());
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.PNG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, shape);
         Assert.assertEquals(300.0d, shape.getWidth());
         Assert.assertEquals(300.0d, shape.getHeight());
     }
@@ -3914,8 +3915,7 @@ public class ExField extends ApiExampleBase {
                 };
     }
 
-    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider")
-    //ExSkip
+    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider") //ExSkip
     public void fieldLinkedObjectsAsImage(/*InsertLinkedObjectAs*/int insertLinkedObjectAs) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -4421,8 +4421,9 @@ public class ExField extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test
-    public void fieldSaveDate() throws Exception {
+    @Test (enabled = false, description = "WORDSNET-17669")
+    public void fieldSaveDate() throws Exception
+    {
         //ExStart
         //ExFor:FieldSaveDate
         //ExFor:FieldSaveDate.UseLunarCalendar

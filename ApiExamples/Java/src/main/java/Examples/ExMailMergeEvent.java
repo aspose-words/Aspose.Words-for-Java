@@ -36,23 +36,17 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExFor:FieldMergeField.TextBefore
     //ExSummary:Shows how to mail merge HTML data into a document.
     @Test //ExSkip
-    public void insertHtml() throws Exception {
-        Document doc = new Document(getMyDir() + "Field MERGEFIELD.docx");
+    public void insertHtml() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Field sample - MERGEFIELD.docx");
 
         // Add a handler for the MergeField event
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldInsertHtml());
 
-        // Load some Html from file
-        StringBuilder htmlText = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new FileReader(getMyDir() + "MailMerge.HtmlData.html"));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            htmlText.append(line);
-            htmlText.append("\r\n");
-        }
+        final String htmlText = "<html>\r\n<h1>Hello world!</h1>\r\n</html>";
 
         // Execute mail merge
-        doc.getMailMerge().execute(new String[]{"htmlField1"}, new String[]{htmlText.toString()});
+        doc.getMailMerge().execute(new String[]{"htmlField1"}, new String[]{htmlText});
 
         // Save resulting document with a new name
         doc.save(getArtifactsDir() + "MailMergeEvent.InsertHtml.docx");
@@ -79,7 +73,63 @@ public class ExMailMergeEvent extends ApiExampleBase {
             }
         }
 
-        public void imageFieldMerging(final ImageFieldMergingArgs args) {
+        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs args)
+        {
+            // Do nothing
+        }
+    }
+    //ExEnd
+
+    //ExStart
+    //ExFor:FieldMergingArgsBase.FieldValue
+    //ExSummary:Shows how to use data source value of the field.
+    @Test //ExSkip
+    public void fieldFormats() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertField("MERGEFIELD TextField \\* Caps", null);
+        builder.write(", ");
+        builder.insertField("MERGEFIELD TextField2 \\* Upper", null);
+        builder.write(", ");
+        builder.insertField("MERGEFIELD NumericField \\# 0.0", null);
+
+        builder.getDocument().getMailMerge().setFieldMergingCallback(new FieldValueMergingCallback());
+
+        builder.getDocument().getMailMerge().execute(
+            new String[] { "TextField", "TextField2", "NumericField" },
+            new Object[] { "Original value", "Original value", 10 });
+
+        Assert.assertEquals("New Value, New value from FieldMergingArgs, 20.0", doc.getText().trim());
+    }
+
+    private static class FieldValueMergingCallback implements IFieldMergingCallback
+    {
+        /// <summary>
+        /// This is called when merge field is actually merged with data in the document.
+        /// </summary>
+        public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs e)
+        {
+            switch (e.getFieldName())
+            {
+                case "TextField":
+                    Assert.assertEquals("Original value", e.getFieldValue());
+                    e.setFieldValue("New value");
+                    break;
+                case "TextField2":
+                    Assert.assertEquals("Original value", e.getFieldValue());
+                    e.setText("New value from FieldMergingArgs");   // Should suppress e.FieldValue and ignore format
+                    e.setFieldValue("new value");
+                    break;
+                case "NumericField":
+                    Assert.assertEquals(10, e.getFieldValue());
+                    e.setFieldValue(20);
+                    break;
+            }
+        }
+
+        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs e)
+        {
             // Do nothing
         }
     }
@@ -95,6 +145,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
     public void insertCheckBox() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
         builder.startTable();
         builder.insertCell();
         builder.insertField(" MERGEFIELD  TableStart:StudentCourse ");
@@ -112,7 +163,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
         doc.getMailMerge().executeWithRegions(dataTable);
 
         // Save resulting document with a new name
-        doc.save(getArtifactsDir() + "MailMergeEvent.InsertCheckBox.doc");
+        doc.save(getArtifactsDir() + "MailMergeEvent.InsertCheckBox.docx");
     }
 
     private class HandleMergeFieldInsertCheckBox implements IFieldMergingCallback {
@@ -242,6 +293,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
             datarow.set(0, "Company " + Integer.toString(i));
             datarow.set(1, "Contact " + Integer.toString(i));
         }
+
         return dataTable;
     }
     //ExEnd

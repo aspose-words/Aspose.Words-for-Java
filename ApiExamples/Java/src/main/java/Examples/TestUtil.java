@@ -8,58 +8,68 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.net.System.Data.DataTable;
 import org.testng.Assert;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 class TestUtil {
     /// <summary>
-    /// Checks whether values of a field's attributes are equal to their expected values.
+    /// Checks whether a file at a specified filename contains a valid image with specified dimensions.
     /// </summary>
     /// <remarks>
-    /// Best used when there are many fields closely being tested and should be avoided if a field has a long field code/result.
+    /// Serves as a way to check that an image file is valid and nonempty without looking up its file size.
     /// </remarks>
-    /// <param name="expectedType">The FieldType that we expect the field to have.</param>
-    /// <param name="expectedFieldCode">The expected output value of GetFieldCode() being called on the field.</param>
-    /// <param name="expectedResult">The field's expected result, which will be the value displayed by it in the document.</param>
-    /// <param name="field">The field that's being tested.</param>
-    static void verifyField(int expectedType, String expectedFieldCode, String expectedResult, Field field) {
-        Assert.assertEquals(expectedType, field.getType());
-        Assert.assertEquals(expectedFieldCode, field.getFieldCode(true));
-        Assert.assertEquals(expectedResult, field.getResult());
+    /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
+    /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
+    /// <param name="filename">Local file system filename of the image file.</param>
+    static void verifyImage(int expectedWidth, int expectedHeight, String filename) throws Exception {
+        FileInputStream fileStream = new FileInputStream(filename);
+
+        try {
+            verifyImage(expectedWidth, expectedHeight, fileStream);
+        } finally {
+            if (fileStream != null) fileStream.close();
+        }
     }
 
     /// <summary>
-    /// Checks whether a field contains another complete field as a sibling within its nodes.
+    /// Checks whether a stream contains a valid image with specified dimensions.
     /// </summary>
     /// <remarks>
-    /// If two fields have the same immediate parent node and therefore their nodes are siblings,
-    /// the FieldStart of the outer field appears before the FieldStart of the inner node,
-    /// and the FieldEnd of the outer node appears after the FieldEnd of the inner node,
-    /// then the inner field is considered to be nested within the outer field. 
+    /// Serves as a way to check that an image file is valid and nonempty without looking up its file size.
     /// </remarks>
-    /// <param name="innerField">The field that we expect to be fully within outerField.</param>
-    /// <param name="outerField">The field that we to contain innerField.</param>
-    static void fieldsAreNested(Field innerField, Field outerField) {
-        CompositeNode innerFieldParent = innerField.getStart().getParentNode();
+    /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
+    /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
+    /// <param name="imageStream">Stream that contains the image.</param>
+    static void verifyImage(int expectedWidth, int expectedHeight, FileInputStream imageStream) throws IOException {
+        BufferedImage image = ImageIO.read(imageStream);
 
-        Assert.assertTrue(innerFieldParent == outerField.getStart().getParentNode());
-        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getStart()) > innerFieldParent.getChildNodes().indexOf(outerField.getStart()));
-        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getEnd()) < innerFieldParent.getChildNodes().indexOf(outerField.getEnd()));
+        try {
+            Assert.assertEquals(expectedWidth, image.getWidth());
+            Assert.assertEquals(expectedHeight, image.getHeight());
+        } finally {
+            if (image != null) image.flush();
+        }
     }
 
     /// <summary>
     /// Checks whether an SQL query performed on a database file stored in the local file system
-    /// produces a result that resembles an input Aspose.Words Table.
+    /// produces a result that resembles the contents of an Aspose.Words table.
     /// </summary>
     /// <param name="expectedResult">Expected result of the SQL query in the form of an Aspose.Words table.</param>
     /// <param name="dbFilename">Local system filename of a database file.</param>
@@ -90,28 +100,70 @@ class TestUtil {
     }
 
     /// <summary>
-    /// Checks whether a filename points to a valid image with specified dimensions.
+    /// Checks whether a document produced during a mail merge contains every element of an array of arrays of strings.
     /// </summary>
     /// <remarks>
-    /// Serves as a way to check that an image file is valid and nonempty without looking up its file size.
+    /// Only suitable for rectangular arrays.
     /// </remarks>
-    /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
-    /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
-    /// <param name="filename">Local file system filename of the image file.</param>
-    static void verifyImage(int expectedWidth, int expectedHeight, String filename) throws IOException {
+    /// <param name="expectedResult">Values from the mail merge data source that we expect the document to contain.</param>
+    /// <param name="doc">Document created during a mail merge.</param>
+    /// <param name="onePagePerRow">True if the mail merge produced a document with one page per row in the data source.</param>
+    static void mailMergeMatchesArray(String[][] expectedResult, Document doc, boolean onePagePerRow) {
         try {
-            BufferedImage image = ImageIO.read(new File(filename));
-            try {
-                Assert.assertEquals(expectedWidth, image.getWidth());
-                Assert.assertEquals(expectedHeight, image.getHeight());
-            } finally {
-                if (image != null) image.flush();
+            if (onePagePerRow) {
+                String[] docTextByPages = doc.getText().trim().split(ControlChar.PAGE_BREAK);
+
+                for (int i = 0; i < expectedResult.length; i++)
+                    for (int j = 0; j < expectedResult[0].length; j++)
+                        if (!docTextByPages[i].contains(expectedResult[i][j]))
+                            throw new IllegalArgumentException(expectedResult[i][j]);
+            } else {
+                String docText = doc.getText();
+
+                for (int i = 0; i < expectedResult.length; i++)
+                    for (int j = 0; j < expectedResult[0].length; j++)
+                        if (!docText.contains(expectedResult[i][j]))
+                            throw new IllegalArgumentException(expectedResult[i][j]);
+
             }
-
-
-        } catch (IndexOutOfBoundsException e) {
-            Assert.fail(MessageFormat.format("No valid image in this location:\n{0}", filename));
+        } catch (IllegalArgumentException e) {
+            Assert.fail(MessageFormat.format("String \"{0}\" not found in {1}.", e.getMessage(), (doc.getOriginalFileName() == null ? "a /*virtual*/ document" : doc.getOriginalFileName().split(File.separator + File.separator))));
         }
+    }
+
+    /// <summary>
+    /// Checks whether values of attributes of a field with a type not related to date/time are equal to expected values.
+    /// </summary>
+    /// <remarks>
+    /// Best used when there are many fields closely being tested and should be avoided if a field has a long field code/result.
+    /// </remarks>
+    /// <param name="expectedType">The FieldType that we expect the field to have.</param>
+    /// <param name="expectedFieldCode">The expected output value of GetFieldCode() being called on the field.</param>
+    /// <param name="expectedResult">The field's expected result, which will be the value displayed by it in the document.</param>
+    /// <param name="field">The field that's being tested.</param>
+    static void verifyField(/*FieldType*/int expectedType, String expectedFieldCode, String expectedResult, Field field) {
+        Assert.assertEquals(expectedType, field.getType());
+        Assert.assertEquals(expectedFieldCode, field.getFieldCode(true));
+        Assert.assertEquals(expectedResult, field.getResult());
+    }
+
+    /// <summary>
+    /// Checks whether a field contains another complete field as a sibling within its nodes.
+    /// </summary>
+    /// <remarks>
+    /// If two fields have the same immediate parent node and therefore their nodes are siblings,
+    /// the FieldStart of the outer field appears before the FieldStart of the inner node,
+    /// and the FieldEnd of the outer node appears after the FieldEnd of the inner node,
+    /// then the inner field is considered to be nested within the outer field. 
+    /// </remarks>
+    /// <param name="innerField">The field that we expect to be fully within outerField.</param>
+    /// <param name="outerField">The field that we to contain innerField.</param>
+    static void fieldsAreNested(Field innerField, Field outerField) {
+        CompositeNode innerFieldParent = innerField.getStart().getParentNode();
+
+        Assert.assertTrue(innerFieldParent == outerField.getStart().getParentNode());
+        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getStart()) > innerFieldParent.getChildNodes().indexOf(outerField.getStart()));
+        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getEnd()) < innerFieldParent.getChildNodes().indexOf(outerField.getEnd()));
     }
 
     /// <summary>
@@ -124,7 +176,7 @@ class TestUtil {
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
     /// <param name="expectedImageType">Expected format of the image.</param>
     /// <param name="imageShape">Shape that contains the image.</param>
-    static void verifyImage(int expectedWidth, int expectedHeight, /*ImageType*/int expectedImageType, Shape imageShape) throws Exception {
+    static void verifyImageInShape(int expectedWidth, int expectedHeight, /*ImageType*/int expectedImageType, Shape imageShape) throws Exception {
         Assert.assertTrue(imageShape.hasImage());
         Assert.assertEquals(expectedImageType, imageShape.getImageData().getImageType());
         Assert.assertEquals(expectedWidth, imageShape.getImageData().getImageSize().getWidthPixels());
@@ -160,6 +212,21 @@ class TestUtil {
         Assert.assertEquals(expectedListFormat, listLevel.getNumberFormat());
         Assert.assertEquals(expectedNumberPosition, listLevel.getNumberPosition());
         Assert.assertEquals(expectedNumberStyle, listLevel.getNumberStyle());
+    }
+
+    /// <summary>
+    /// Checks whether values of a tab stop's attributes are equal to their expected values.
+    /// </summary>
+    /// <param name="expectedPosition">Expected position on the tab stop ruler, in points.</param>
+    /// <param name="expectedTabAlignment">Expected position where the position is measured from </param>
+    /// <param name="expectedTabLeader">Expected characters that pad the space between the start and end of the tab whitespace.</param>
+    /// <param name="isClear">Whether or no this tab stop clears any tab stops.</param>
+    /// <param name="tabStop">Tab stop that's being tested.</param>
+    static void verifyTabStop(double expectedPosition, /*TabAlignment*/int expectedTabAlignment, /*TabLeader*/int expectedTabLeader, boolean isClear, TabStop tabStop) {
+        Assert.assertEquals(expectedPosition, tabStop.getPosition());
+        Assert.assertEquals(expectedTabAlignment, tabStop.getAlignment());
+        Assert.assertEquals(expectedTabLeader, tabStop.getLeader());
+        Assert.assertEquals(isClear, tabStop.isClear());
     }
 }
 

@@ -40,9 +40,9 @@ class ExHtmlLoadOptions extends ApiExampleBase {
         Shape imageShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         if (doSupportVml)
-            TestUtil.verifyImage(400, 400, ImageType.JPEG, imageShape);
+            TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
         else
-            TestUtil.verifyImage(400, 400, ImageType.PNG, imageShape);
+            TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imageShape);
         //ExEnd
     }
 

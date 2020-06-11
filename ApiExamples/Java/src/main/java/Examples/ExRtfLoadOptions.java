@@ -10,22 +10,35 @@ package Examples;
 
 import com.aspose.words.Document;
 import com.aspose.words.RtfLoadOptions;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @Test
-public class ExRtfLoadOptions extends ApiExampleBase {
-    @Test
-    public void recognizeUtf8Text() throws Exception {
+public class ExRtfLoadOptions extends ApiExampleBase
+{
+    @Test (dataProvider = "recognizeUtf8TextDataProvider")
+    public void recognizeUtf8Text(boolean doRecognizeUtb8Text) throws Exception
+    {
         //ExStart
         //ExFor:RtfLoadOptions
         //ExFor:RtfLoadOptions.#ctor
         //ExFor:RtfLoadOptions.RecognizeUtf8Text
         //ExSummary:Shows how to detect UTF8 characters during import.
         RtfLoadOptions loadOptions = new RtfLoadOptions();
-        loadOptions.setRecognizeUtf8Text(true);
+        loadOptions.setRecognizeUtf8Text(doRecognizeUtb8Text);
 
         Document doc = new Document(getMyDir() + "UTF-8 characters.rtf", loadOptions);
-        doc.save(getArtifactsDir() + "RtfLoadOptions.RecognizeUtf8Text.rtf");
         //ExEnd
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "recognizeUtf8TextDataProvider")
+	public static Object[][] recognizeUtf8TextDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 }

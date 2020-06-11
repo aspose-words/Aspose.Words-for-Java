@@ -8,12 +8,14 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.words.CurrentThreadSettings;
 import com.aspose.words.License;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.io.File;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Locale;
 
 /**
@@ -51,7 +53,7 @@ public class ApiExampleBase {
      */
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-        Locale.setDefault(Locale.US);
+        CurrentThreadSettings.setLocale(Locale.US);
         setUnlimitedLicense();
 
         if (!artifactsDirPath.exists()) {

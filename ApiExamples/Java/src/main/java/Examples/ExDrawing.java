@@ -274,16 +274,16 @@ public class ExDrawing extends ApiExampleBase {
 
         imgShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.PNG, imgShape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imgShape);
         Assert.assertEquals(0.0d, imgShape.getLeft());
         Assert.assertEquals(0.0d, imgShape.getTop());
         Assert.assertEquals(300.0d, imgShape.getHeight(), 1);
         Assert.assertEquals(300.0d, imgShape.getWidth(), 1);
-        TestUtil.verifyImage(400, 400, ImageType.PNG, imgShape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imgShape);
 
         imgShape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, imgShape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imgShape);
         Assert.assertEquals(150.0d, imgShape.getLeft());
         Assert.assertEquals(0.0d, imgShape.getTop());
         Assert.assertEquals(300.0d, imgShape.getHeight(), 1);
@@ -564,7 +564,7 @@ public class ExDrawing extends ApiExampleBase {
         imgSourceDoc = new Document(getArtifactsDir() + "Drawing.ImageData.docx");
         sourceShape = (Shape) imgSourceDoc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(2467, 1500, ImageType.JPEG, sourceShape);
+        TestUtil.verifyImageInShape(2467, 1500, ImageType.JPEG, sourceShape);
         Assert.assertEquals("Imported Image", sourceShape.getImageData().getTitle());
         Assert.assertEquals(0.8d, sourceShape.getImageData().getBrightness(), 0.1d);
         Assert.assertEquals(1.0d, sourceShape.getImageData().getContrast(), 0.1d);
@@ -572,12 +572,12 @@ public class ExDrawing extends ApiExampleBase {
 
         sourceShape = (Shape) imgSourceDoc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImage(2467, 1500, ImageType.JPEG, sourceShape);
+        TestUtil.verifyImageInShape(2467, 1500, ImageType.JPEG, sourceShape);
         Assert.assertTrue(sourceShape.getImageData().getGrayScale());
 
         sourceShape = (Shape) imgSourceDoc.getChild(NodeType.SHAPE, 2, true);
 
-        TestUtil.verifyImage(2467, 1500, ImageType.JPEG, sourceShape);
+        TestUtil.verifyImageInShape(2467, 1500, ImageType.JPEG, sourceShape);
         Assert.assertTrue(sourceShape.getImageData().getBiLevel());
         Assert.assertEquals(0.3d, sourceShape.getImageData().getCropBottom(), 0.1d);
         Assert.assertEquals(0.3d, sourceShape.getImageData().getCropLeft(), 0.1d);
@@ -623,7 +623,7 @@ public class ExDrawing extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Drawing.ImageSize.docx");
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals(600.0d, shape.getWidth());
         Assert.assertEquals(600.0d, shape.getHeight());
 

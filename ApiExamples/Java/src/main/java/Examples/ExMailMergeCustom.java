@@ -48,7 +48,8 @@ public class ExMailMergeCustom extends ApiExampleBase {
         // Now you can pass your data source into Aspose.Words
         doc.getMailMerge().execute(customersDataSource);
 
-        doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSource.doc");
+        doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSource.docx");
+        testCustomDataSource(customers, new Document(getArtifactsDir() + "MailMergeCustom.CustomDataSource.docx")); //ExSkip
     }
 
     /**
@@ -151,6 +152,16 @@ public class ExMailMergeCustom extends ApiExampleBase {
         private int mRecordIndex;
     }
     //ExEnd
+
+    private void testCustomDataSource(CustomerList customerList, Document doc)
+    {
+        String[][] mergeData = new String[customerList.size()][];
+
+        for (int i = 0; i < customerList.size(); i++)
+            mergeData[i] = new String[] { customerList.get(i).getFullName(), customerList.get(i).getAddress() };
+
+        TestUtil.mailMergeMatchesArray(mergeData, doc, true);
+    }
 
     //ExStart
     //ExFor:IMailMergeDataSourceRoot
@@ -325,5 +336,6 @@ public class ExMailMergeCustom extends ApiExampleBase {
         private int mRecordIndex;
     }
     //ExEnd
+
 }
 
