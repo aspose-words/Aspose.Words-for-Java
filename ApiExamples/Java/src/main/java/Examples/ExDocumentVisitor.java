@@ -714,13 +714,13 @@ public class ExDocumentVisitor extends ApiExampleBase {
     private void testHeaderFooterToText(HeaderFooterInfoPrinter visitor) {
         String visitorText = visitor.getText();
 
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}}", HeaderFooterType.HEADER_PRIMARY)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.HEADER_PRIMARY)));
         Assert.assertTrue(visitorText.contains("[HeaderFooter end]"));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}}", HeaderFooterType.HEADER_FIRST)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}}", HeaderFooterType.HEADER_EVEN)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}}", HeaderFooterType.FOOTER_PRIMARY)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}}", HeaderFooterType.FOOTER_FIRST)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}}", HeaderFooterType.FOOTER_EVEN)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.HEADER_FIRST)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.HEADER_EVEN)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.FOOTER_PRIMARY)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.FOOTER_FIRST)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.FOOTER_EVEN)));
         Assert.assertTrue(visitorText.contains("[Run]"));
     }
 
@@ -1019,14 +1019,14 @@ public class ExDocumentVisitor extends ApiExampleBase {
     private void testOfficeMathToText(OfficeMathInfoPrinter visitor) {
         String visitorText = visitor.getText();
 
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}}", MathObjectType.O_MATH_PARA)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}}", MathObjectType.O_MATH)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}}", MathObjectType.ARGUMENT)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}}", MathObjectType.SUPERCRIPT)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}}", MathObjectType.SUPERSCRIPT_PART)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}}", MathObjectType.FRACTION)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}}", MathObjectType.NUMERATOR)));
-        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}}", MathObjectType.DENOMINATOR)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.O_MATH_PARA)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.O_MATH)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.ARGUMENT)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.SUPERCRIPT)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.SUPERSCRIPT_PART)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.FRACTION)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.NUMERATOR)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.DENOMINATOR)));
         Assert.assertTrue(visitorText.contains("[OfficeMath end]"));
         Assert.assertTrue(visitorText.contains("[Run]"));
     }

@@ -216,7 +216,7 @@ public class ExFormFields extends ApiExampleBase {
             switch (formField.getType()) {
                 case FieldType.FIELD_FORM_DROP_DOWN:
                     appendLine("\tDrop down items count: " + formField.getDropDownItems().getCount() + ", default selected item index: " + formField.getDropDownSelectedIndex());
-                    appendLine("\tDrop down items: " + ", ".join((CharSequence) formField.getDropDownItems()));
+                    appendLine("\tDrop down items: " + String.join(", ", formField.getDropDownItems()));
                     break;
                 case FieldType.FIELD_FORM_CHECK_BOX:
                     appendLine("\tCheckbox size: " + formField.getCheckBoxSize());
@@ -263,7 +263,7 @@ public class ExFormFields extends ApiExampleBase {
         Assert.assertEquals(3, formFields.getCount());
 
         Assert.assertEquals(FieldType.FIELD_FORM_DROP_DOWN, formFields.get(0).getType());
-        Assert.assertEquals(new String[]{"One", "Two", "Three"}, formFields.get(0).getDropDownItems());
+        Assert.assertEquals("One, Two, Three", String.join(", ",formFields.get(0).getDropDownItems()));
         Assert.assertTrue(formFields.get(0).getCalculateOnExit());
         Assert.assertEquals(0, formFields.get(0).getDropDownSelectedIndex());
         Assert.assertTrue(formFields.get(0).getEnabled());
