@@ -1,6 +1,4 @@
 
-
-
 /*
  * Copyright 2001-2014 Aspose Pty Ltd. All Rights Reserved.
  *
@@ -16,26 +14,25 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.PageSetup;
 import com.aspose.words.examples.Utils;
 
-
 public class ConvertBetweenMeasurementUnits {
-    public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 
-        //ExStart:ConvertBetweenMeasurementUnits
-        // The path to the documents directory.
-        String dataDir = Utils.getDataDir(ConvertBetweenMeasurementUnits.class);
+		// ExStart:ConvertBetweenMeasurementUnits
+		// The path to the documents directory.
+		String dataDir = Utils.getDataDir(ConvertBetweenMeasurementUnits.class);
 
-        // Open the document.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        PageSetup pageSetup = builder.getPageSetup();
-        pageSetup.setTopMargin(ConvertUtil.inchToPoint(1.0));
-        pageSetup.setBottomMargin(ConvertUtil.inchToPoint(1.0));
-        pageSetup.setLeftMargin(ConvertUtil.inchToPoint(1.5));
-        pageSetup.setRightMargin(ConvertUtil.inchToPoint(1.5));
-        pageSetup.setHeaderDistance(ConvertUtil.inchToPoint(0.2));
-        pageSetup.setFooterDistance(ConvertUtil.inchToPoint(0.2));
-        doc.save(dataDir + "output.doc");
-        //ExEnd:ConvertBetweenMeasurementUnits
+		// Open the document.
+		Document doc = new Document();
+		DocumentBuilder builder = new DocumentBuilder(doc);
+		PageSetup pageSetup = builder.getPageSetup();
+		pageSetup.setTopMargin(ConvertUtil.inchToPoint(1.0));
+		pageSetup.setBottomMargin(ConvertUtil.inchToPoint(1.0));
+		pageSetup.setLeftMargin(ConvertUtil.inchToPoint(1.5));
+		pageSetup.setRightMargin(ConvertUtil.inchToPoint(1.5));
+		pageSetup.setHeaderDistance(ConvertUtil.inchToPoint(0.2));
+		pageSetup.setFooterDistance(ConvertUtil.inchToPoint(0.2));
+		doc.save(dataDir + "output.doc");
+		// ExEnd:ConvertBetweenMeasurementUnits
 
-    }
+	}
 }

@@ -1,4 +1,4 @@
-package com.aspose.words.examples.programming_documents.styles;
+package com.aspose.words.examples.programming_documents.document;
 
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
