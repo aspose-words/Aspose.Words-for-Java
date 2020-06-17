@@ -10,6 +10,7 @@ package Examples;
 
 import com.aspose.words.*;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -26,10 +27,19 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Hello world!");
 
+        // Create a SaveOptions object with a password and save our document with it
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
         saveOptions.setPassword("MyPassword");
 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.Password.docx", saveOptions);
+
+        // This document cannot be opened like a normal document
+        Assert.assertThrows(IncorrectPasswordException.class, () -> new Document(getArtifactsDir() + "OoxmlSaveOptions.Password.docx"));
+
+        // We can open the document and access its contents by passing the correct password to a LoadOptions object
+        doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.Password.docx", new LoadOptions("MyPassword"));
+
+        Assert.assertEquals("Hello world!", doc.getText().trim());
         //ExEnd
     }
 
@@ -48,14 +58,9 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
 
         // Set Word2003 version for document, for inserting image as VML shape
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2003);
-
         builder.insertImage(getImageDir() + "Transparent background logo.png");
 
-        // Loop through all single shapes inside document
-        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
-            System.out.println(shape.getMarkupLanguage());
-            Assert.assertEquals(shape.getMarkupLanguage(), ShapeMarkupLanguage.VML); //ExSkip
-        }
+        Assert.assertEquals(ShapeMarkupLanguage.VML, ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getMarkupLanguage());
 
         // Iso29500_2008 does not allow VML shapes
         // You need to use OoxmlCompliance.Iso29500_2008_Strict for converting VML to DML shapes
@@ -64,46 +69,61 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         saveOptions.setSaveFormat(SaveFormat.DOCX);
 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.Iso29500Strict.docx", saveOptions);
+
+        // The markup language of our shape has changed according to the compliance type 
+        doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.Iso29500Strict.docx");
+        
+        Assert.assertEquals(ShapeMarkupLanguage.DML, ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getMarkupLanguage());
         //ExEnd
-
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, saveOptions);
-
-        // Assert that image have drawingML markup language
-        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true)) {
-            Assert.assertEquals(shape.getMarkupLanguage(), ShapeMarkupLanguage.DML);
-        }
     }
 
-    @Test
-    public void restartingDocumentList() throws Exception {
+    @Test (dataProvider = "restartingDocumentListDataProvider")
+    public void restartingDocumentList(boolean doRestartListAtEachSection) throws Exception
+    {
         //ExStart
         //ExFor:List.IsRestartAtEachSection
         //ExSummary:Shows how to specify that the list has to be restarted at each section.
         Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
         doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
         List list = doc.getLists().get(0);
+
         // Set true to specify that the list has to be restarted at each section
-        list.isRestartAtEachSection(true);
-
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.getListFormat().setList(list);
-
-        for (int i = 1; i <= 45; i++) {
-            builder.write(MessageFormat.format("List Item {0}\n", i));
-            // Insert section break
-            if (i == 15 || i == 30) {
-                builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
-            }
-        }
+        list.isRestartAtEachSection(doRestartListAtEachSection);
 
         // IsRestartAtEachSection will be written only if compliance is higher then OoxmlComplianceCore.Ecma376
         OoxmlSaveOptions options = new OoxmlSaveOptions();
-        options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
+        {
+            options.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
+        }
+
+        builder.getListFormat().setList(list);
+
+        builder.writeln("List item 1");
+        builder.writeln("List item 2");
+                builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.writeln("List item 3");
+        builder.writeln("List item 4");
 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx", options);
         //ExEnd
+        
+        doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx");
+
+        Assert.assertEquals(doRestartListAtEachSection, doc.getLists().get(0).isRestartAtEachSection());
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "restartingDocumentListDataProvider")
+	public static Object[][] restartingDocumentListDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
     }
 
     @Test
@@ -122,27 +142,45 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.UpdatingLastSavedTimeDocument.docx", saveOptions);
         //ExEnd
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, saveOptions);
-
+        doc = DocumentHelper.saveOpen(doc);
         Date documentTimeAfterSave = doc.getBuiltInDocumentProperties().getLastSavedTime();
 
-        Assert.assertFalse(documentTimeBeforeSave == documentTimeAfterSave);
+        Assert.assertTrue(documentTimeBeforeSave.compareTo(documentTimeAfterSave) < 0);
     }
 
-    @Test
-    public void keepLegacyControlChars() throws Exception {
+    @Test (dataProvider = "keepLegacyControlCharsDataProvider")
+    public void keepLegacyControlChars(boolean doKeepLegacyControlChars) throws Exception
+    {
         //ExStart
         //ExFor:OoxmlSaveOptions.KeepLegacyControlChars
         //ExFor:OoxmlSaveOptions.#ctor(SaveFormat)
         //ExSummary:Shows how to support legacy control characters when converting to .docx.
         Document doc = new Document(getMyDir() + "Legacy control character.doc");
-
+ 
         // Note that only one legacy character (ShortDateTime) is supported which declared in the "DOC" format
         OoxmlSaveOptions so = new OoxmlSaveOptions(SaveFormat.DOCX);
-        so.setKeepLegacyControlChars(true);
-
+        so.setKeepLegacyControlChars(doKeepLegacyControlChars);
+ 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.KeepLegacyControlChars.docx", so);
+
+        // Open the saved document and verify results
+        doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.KeepLegacyControlChars.docx");
+
+        if (doKeepLegacyControlChars)
+            Assert.assertEquals("\u0013date \\@ \"M/d/yyyy\"\u0014\u0015\f", doc.getFirstSection().getBody().getText());
+        else
+            Assert.assertEquals("\u001e\f", doc.getFirstSection().getBody().getText());
         //ExEnd
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "keepLegacyControlCharsDataProvider")
+	public static Object[][] keepLegacyControlCharsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 }

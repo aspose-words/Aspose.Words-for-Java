@@ -9,6 +9,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.Document;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.text.MessageFormat;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class ExVariableCollection extends ApiExampleBase {
     @Test
-    public void add() throws Exception {
+    public void addEx() throws Exception {
         //ExStart
         //ExFor:VariableCollection.Add
         //ExSummary:Shows how to create document variables and add them to a document's variable collection.
@@ -36,10 +37,12 @@ public class ExVariableCollection extends ApiExampleBase {
     @Test
     public void clearEx() throws Exception {
         //ExStart
+        //ExFor:Document.Variables
+        //ExFor:VariableCollection
         //ExFor:VariableCollection.Clear
         //ExFor:VariableCollection.Count
         //ExSummary:Shows how to clear all document variables from a document.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        Document doc = new Document();
 
         doc.getVariables().add("doc", "Word processing document");
         doc.getVariables().add("docx", "Word processing document");
@@ -47,8 +50,16 @@ public class ExVariableCollection extends ApiExampleBase {
         doc.getVariables().add("bmp", "Image");
         doc.getVariables().add("png", "Image");
 
+        // Documents don't contain variables by default, so only the ones we added are in the collection
+        Assert.assertEquals(5, doc.getVariables().getCount());
+
+        // Print each variable
+        for (Map.Entry<String, String> entry : doc.getVariables())
+            System.out.println("Name: {entry.Key}, Value: {entry.Value}");
+
+        // We can empty the collection like this
         doc.getVariables().clear();
-        System.out.println(doc.getVariables().getCount()); // 0
+        Assert.assertEquals(0, doc.getVariables().getCount());
         //ExEnd
     }
 
@@ -67,7 +78,7 @@ public class ExVariableCollection extends ApiExampleBase {
     }
 
     @Test
-    public void getIteratorEx() throws Exception {
+    public void iterator() throws Exception {
         //ExStart
         //ExFor:VariableCollection.GetEnumerator
         //ExSummary:Shows how to obtain an enumerator from a collection of document variables and use it.

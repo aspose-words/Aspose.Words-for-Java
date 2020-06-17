@@ -15,21 +15,24 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.FindReplaceOptions;
 import org.testng.Assert;
+import com.aspose.ms.System.msString;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
-import com.aspose.ms.System.msString;
+import com.aspose.words.FieldDocProperty;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.ReplaceAction;
 import com.aspose.words.ReplacingArgs;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.FindReplaceDirection;
+import com.aspose.words.NodeType;
+import com.aspose.words.Run;
 import com.aspose.ms.System.Convert;
 import com.aspose.words.ParagraphAlignment;
+import com.aspose.words.ParagraphCollection;
 import com.aspose.words.BreakType;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Node;
-import com.aspose.words.NodeType;
 import com.aspose.words.CompositeNode;
 import com.aspose.words.NodeImporter;
 import com.aspose.words.ImportFormatMode;
@@ -68,7 +71,9 @@ public class ExRange extends ApiExampleBase
         doc.save(getArtifactsDir() + "Range.ReplaceSimple.docx");
         //ExEnd
 
-        Assert.assertEquals("Hello James Bond,\r\f", doc.getText());
+        doc = new Document(getArtifactsDir() + "Range.ReplaceSimple.docx");
+
+        Assert.assertEquals("Hello James Bond,", msString.trim(doc.getText()));
     }
 
     @Test
@@ -92,15 +97,17 @@ public class ExRange extends ApiExampleBase
         Regex regex = new Regex("e");
         FindReplaceOptions options = new FindReplaceOptions();
  
-        // Replace 'e' in document ignoring deleted text
+        // Replace 'e' in document while ignoring deleted text
         options.setIgnoreDeleted(true);
         doc.getRange().replaceInternal(regex, "*", options);
-        Assert.assertEquals(doc.getText(), "Deleted\rT*xt\f");
+
+        Assert.assertEquals(msString.trim(doc.getText()), "Deleted\rT*xt");
         
-        // Replace 'e' in document NOT ignoring deleted text
+        // Replace 'e' in document while not ignoring deleted text
         options.setIgnoreDeleted(false);
         doc.getRange().replaceInternal(regex, "*", options);
-        Assert.assertEquals(doc.getText(), "D*l*t*d\rT*xt\f");
+
+        Assert.assertEquals(msString.trim(doc.getText()), "D*l*t*d\rT*xt");
         //ExEnd
     }
 
@@ -124,15 +131,17 @@ public class ExRange extends ApiExampleBase
         Regex regex = new Regex("e");
         FindReplaceOptions options = new FindReplaceOptions();
  
-        // Replace 'e' in document ignoring inserted text
+        // Replace 'e' in document while ignoring inserted text
         options.setIgnoreInserted(true);
         doc.getRange().replaceInternal(regex, "*", options);
-        Assert.assertEquals(doc.getText(), "Inserted\rT*xt\f");
+
+        Assert.assertEquals(msString.trim(doc.getText()), "Inserted\rT*xt");
         
-        // Replace 'e' in document NOT ignoring inserted text
+        // Replace 'e' in document while not ignoring inserted text
         options.setIgnoreInserted(false);
         doc.getRange().replaceInternal(regex, "*", options);
-        Assert.assertEquals(doc.getText(), "Ins*rt*d\rT*xt\f");
+
+        Assert.assertEquals(msString.trim(doc.getText()), "Ins*rt*d\rT*xt");
         //ExEnd
     }
 
@@ -160,6 +169,31 @@ public class ExRange extends ApiExampleBase
         options.setIgnoreFields(false);
         doc.getRange().replaceInternal(regex, "*", options);
         Assert.assertEquals(doc.getText(), "\u0013INCLUDETEXT\u0014T*xt in fi*ld\u0015\f");
+        //ExEnd
+    }
+
+    @Test
+    public void updateFieldsInRange() throws Exception
+    {
+        //ExStart
+        //ExFor:Range.UpdateFields
+        //ExSummary:Shows how to update document fields in the body of the first section only.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a field that will display the value in the document's body text
+        FieldDocProperty field = (FieldDocProperty)builder.insertField(" DOCPROPERTY Category");
+
+        // Set the value of the property that should be displayed by the field
+        doc.getBuiltInDocumentProperties().setCategory("MyCategory");
+
+        // Some field types need to be explicitly updated before they can display their expected values
+        Assert.assertEquals("", field.getResult());
+
+        // Update all the fields in the first section of the document, which includes the field we just inserted
+        doc.getFirstSection().getRange().updateFields();
+
+        Assert.assertEquals("MyCategory", field.getResult());
         //ExEnd
     }
 
@@ -194,8 +228,10 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals("sad mad bad", msString.trim(doc.getText()));
 
         FindReplaceOptions options = new FindReplaceOptions();
-        options.setMatchCase(false);
-        options.setFindWholeWordsOnly(false);
+        {
+            options.setMatchCase(false);
+            options.setFindWholeWordsOnly(false);
+        }
 
         doc.getRange().replaceInternal(new Regex("[s|m]ad"), "bad", options);
 
@@ -220,30 +256,20 @@ public class ExRange extends ApiExampleBase
         builder.writeln("Hello <CustomerName>,");
 
         FindReplaceOptions options = new FindReplaceOptions();
-        options.setReplacingCallback(new ReplaceWithHtmlEvaluator(options));
+        options.setReplacingCallback(new ReplaceWithHtmlEvaluator());
 
         doc.getRange().replaceInternal(new Regex(" <CustomerName>,"), "", options);
 
         // Save the modified document
-        doc.save(getArtifactsDir() + "Range.ReplaceWithInsertHtml.doc");
-
-        Assert.assertEquals("James Bond, Hello\r\f", doc.getText()); //ExSkip
+        doc.save(getArtifactsDir() + "Range.ReplaceWithInsertHtml.docx");
+        Assert.assertEquals("James Bond, Hello\r\f", new Document(getArtifactsDir() + "Range.ReplaceWithInsertHtml.docx").getText()); //ExSkip
     }
 
     private static class ReplaceWithHtmlEvaluator implements IReplacingCallback
     {
-        ReplaceWithHtmlEvaluator(FindReplaceOptions options)
-        {
-            mOptions = options;
-        }
-
-        /// <summary>
-        /// NOTE: This is a simplistic method that will only work well when the match
-        /// starts at the beginning of a run.
-        /// </summary>
         public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs args) throws Exception
         {
-            DocumentBuilder builder = new DocumentBuilder((Document) args.getMatchNode().getDocument());
+            DocumentBuilder builder = new DocumentBuilder((Document)args.getMatchNode().getDocument());
             builder.moveTo(args.getMatchNode());
 
             // Replace '<CustomerName>' text with a red bold name
@@ -252,8 +278,6 @@ public class ExRange extends ApiExampleBase
 
             return ReplaceAction.REPLACE;
         }
-
-        private /*final*/ FindReplaceOptions mOptions;
     }
     //ExEnd
 
@@ -273,8 +297,8 @@ public class ExRange extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.getFont().setName("Arial");
-        builder.write(
-            "There are few numbers that should be converted to HEX and highlighted: 123, 456, 789 and 17379.");
+        builder.writeln("Numbers that will be converted to hexadecimal and highlighted:\n" +
+                        "123, 456, 789 and 17379.");
 
         FindReplaceOptions options = new FindReplaceOptions();
 
@@ -289,9 +313,11 @@ public class ExRange extends ApiExampleBase
         options.setDirection(FindReplaceDirection.BACKWARD);
 
         int count = doc.getRange().replaceInternal(new Regex("[0-9]+"), "", options);
-        Assert.assertEquals(4, count);
 
-        doc.save(getArtifactsDir() + "Range.ReplaceNumbersAsHex.docx");
+        Assert.assertEquals(4, count);
+        Assert.assertEquals("Numbers that will be converted to hexadecimal and highlighted:\r" +
+                        "0x7B, 0x1C8, 0x315 and 0x43E3.", msString.trim(doc.getText()));
+        Assert.AreEqual(4, doc.getChildNodes(NodeType.RUN, true).<Run>OfType().Count(r => r.Font.HighlightColor.ToArgb() == Color.LightGray.ToArgb()));
     }
 
     /// <summary>
@@ -307,7 +333,7 @@ public class ExRange extends ApiExampleBase
             int number = Convert.toInt32(args.getMatchInternal().getValue());
 
             // And write it as HEX
-            args.setReplacement("0x{number:X} (replacement #{mCurrentReplacementNumber})");
+            args.setReplacement("0x{number:X}");
 
             System.out.println("Match #{mCurrentReplacementNumber}");
             System.out.println("\tOriginal value:\t{args.Match.Value}");
@@ -346,6 +372,12 @@ public class ExRange extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Range.ApplyParagraphFormat.docx");
         //ExEnd
+
+        ParagraphCollection paragraphs = new Document(getArtifactsDir() + "Range.ApplyParagraphFormat.docx").getFirstSection().getBody().getParagraphs();
+
+        Assert.assertEquals(ParagraphAlignment.RIGHT, paragraphs.get(0).getParagraphFormat().getAlignment());
+        Assert.assertEquals(ParagraphAlignment.LEFT, paragraphs.get(1).getParagraphFormat().getAlignment());
+        Assert.assertEquals(ParagraphAlignment.RIGHT, paragraphs.get(2).getParagraphFormat().getAlignment());
     }
 
     @Test
@@ -381,8 +413,12 @@ public class ExRange extends ApiExampleBase
         //ExFor:Range
         //ExFor:Range.Text
         //ExSummary:Shows how to get plain, unformatted text of a range.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        String text = doc.getRange().getText();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Hello world!");
+
+        Assert.assertEquals("Hello world!", msString.trim(doc.getRange().getText()));
         //ExEnd
     }
 
@@ -474,5 +510,4 @@ public class ExRange extends ApiExampleBase
                         "2) At a MERGEFIELD:\r\u0013 MERGEFIELD  Document_1  \\* MERGEFORMAT \u0014«Document_1»\u0015\r" +
                         "3) At a bookmark:", msString.trim(doc.getFirstSection().getBody().getText()));
     }
-
 }

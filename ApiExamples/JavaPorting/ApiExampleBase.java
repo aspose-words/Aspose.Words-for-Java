@@ -9,6 +9,8 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
+import com.aspose.ms.System.Threading.CurrentThread;
+import com.aspose.ms.System.Globalization.msCultureInfo;
 import org.testng.Assert;
 import com.aspose.ms.System.IO.Directory;
 import org.testng.annotations.BeforeMethod;
@@ -29,6 +31,8 @@ public class ApiExampleBase
     @OneTimeSetUp
     public void oneTimeSetUp() throws Exception
     {
+        CurrentThread.setCurrentCulture(msCultureInfo.getInvariantCulture());
+
         if (checkForSkipMono() && isRunningOnMono())
         {
             return /* "Test skipped on mono" */;
@@ -100,7 +104,7 @@ public class ApiExampleBase
     static void setUnlimitedLicense() throws Exception
     {
         // This is where the test license is on my development machine.
-        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Total.lic");
+        String testLicenseFileName = Path.combine(getLicenseDir(), "Aspose.Total.NET.lic");
 
         if (File.exists(testLicenseFileName))
         {

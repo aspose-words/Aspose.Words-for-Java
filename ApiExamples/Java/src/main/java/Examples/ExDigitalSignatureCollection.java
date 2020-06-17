@@ -15,6 +15,7 @@ import com.aspose.words.DigitalSignatureUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
 public class ExDigitalSignatureCollection extends ApiExampleBase {
@@ -43,6 +44,9 @@ public class ExDigitalSignatureCollection extends ApiExampleBase {
         Assert.assertTrue(signature.isValid());
         Assert.assertEquals(DigitalSignatureType.XML_DSIG, signature.getSignatureType());
         Assert.assertEquals("Test Sign", signature.getComments());
+
+        Assert.assertEquals(signature.getIssuerName(), signature.getIssuerName());
+        Assert.assertEquals(signature.getSubjectName(), signature.getSubjectName());
 
         Assert.assertEquals("CN=VeriSign Class 3 Code Signing 2009-2 CA, " +
                 "OU=Terms of use at https://www.verisign.com/rpa (c)09, " +

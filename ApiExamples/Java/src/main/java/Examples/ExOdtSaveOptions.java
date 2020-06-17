@@ -13,9 +13,13 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class ExOdtSaveOptions extends ApiExampleBase {
-    @Test
-    public void measureUnit() throws Exception {
+
+@Test
+class ExOdtSaveOptions extends ApiExampleBase
+{
+    @Test (dataProvider = "measureUnitDataProvider")
+    public void measureUnit(boolean doExportToOdt11Specs) throws Exception
+    {
         //ExStart
         //ExFor:OdtSaveOptions
         //ExFor:OdtSaveOptions.#ctor
@@ -27,15 +31,29 @@ public class ExOdtSaveOptions extends ApiExampleBase {
 
         // Open Office uses centimeters, MS Office uses inches
         OdtSaveOptions saveOptions = new OdtSaveOptions();
-        saveOptions.setMeasureUnit(OdtSaveMeasureUnit.INCHES);
-        saveOptions.isStrictSchema11(true);
+        {
+            saveOptions.setMeasureUnit(OdtSaveMeasureUnit.CENTIMETERS);
+            saveOptions.isStrictSchema11(doExportToOdt11Specs);
+        }
 
         doc.save(getArtifactsDir() + "OdtSaveOptions.MeasureUnit.odt", saveOptions);
         //ExEnd
     }
 
-    @Test(dataProvider = "encryptDataProvider")
-    public void encrypt(final int saveFormat) throws Exception {
+	//JAVA-added data provider for test method
+	@DataProvider(name = "measureUnitDataProvider")
+	public static Object[][] measureUnitDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "encryptDataProvider")
+    public void encrypt(/*SaveFormat*/int saveFormat) throws Exception
+    {
         //ExStart
         //ExFor:OdtSaveOptions.#ctor(SaveFormat)
         //ExFor:OdtSaveOptions.Password

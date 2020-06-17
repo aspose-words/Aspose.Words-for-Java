@@ -10,11 +10,13 @@ package Examples;
 
 
 import com.aspose.words.*;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.text.MessageFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class ExHeaderFooter extends ApiExampleBase {
@@ -57,6 +59,7 @@ public class ExHeaderFooter extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterCreate.docx");
         //ExEnd
+
         doc = new Document(getArtifactsDir() + "HeaderFooter.HeaderFooterCreate.docx");
 
         Assert.assertTrue(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getRange().getText().contains("My header"));
@@ -97,9 +100,9 @@ public class ExHeaderFooter extends ApiExampleBase {
 
         // However, the underlying headers/footers in the respective header/footer collections of the sections still remain different
         // Linking just overrides the existing headers/footers from the latter section
-        Assert.assertEquals(doc.getSections().get(1).getHeadersFooters().get(0).getHeaderFooterType(), doc.getSections().get(0).getHeadersFooters().get(0).getHeaderFooterType());
-        Assert.assertNotEquals(doc.getSections().get(1).getHeadersFooters().get(0).getParentSection(), doc.getSections().get(0).getHeadersFooters().get(0).getParentSection());
-        Assert.assertNotEquals(doc.getSections().get(1).getHeadersFooters().get(0).getText(), doc.getSections().get(0).getHeadersFooters().get(0).getText());
+        Assert.assertEquals(doc.getSections().get(0).getHeadersFooters().get(0).getHeaderFooterType(), doc.getSections().get(1).getHeadersFooters().get(0).getHeaderFooterType());
+        Assert.assertNotEquals(doc.getSections().get(0).getHeadersFooters().get(0).getParentSection(), doc.getSections().get(1).getHeadersFooters().get(0).getParentSection());
+        Assert.assertNotEquals(doc.getSections().get(0).getHeadersFooters().get(0).getText(), doc.getSections().get(1).getHeadersFooters().get(0).getText());
 
         // Likewise, unlinking headers/footers makes them not appear
         doc.getSections().get(2).getHeadersFooters().linkToPrevious(false);
@@ -109,30 +112,31 @@ public class ExHeaderFooter extends ApiExampleBase {
         doc.getSections().get(2).getHeadersFooters().linkToPrevious(HeaderFooterType.FOOTER_PRIMARY, true);
 
         // The first section's header/footers can't link themselves to anything because there is no previous section
-        Assert.assertEquals(doc.getSections().get(0).getHeadersFooters().getCount(), 2);
-        Assert.assertFalse(doc.getSections().get(0).getHeadersFooters().get(0).isLinkedToPrevious());
-        Assert.assertFalse(doc.getSections().get(0).getHeadersFooters().get(1).isLinkedToPrevious());
+        Assert.assertEquals(2, doc.getSections().get(0).getHeadersFooters().getCount());
+        Assert.assertEquals(0, IterableUtils.countMatches(doc.getSections().get(0).getHeadersFooters(), s -> s.isLinkedToPrevious()));
 
         // All of the second section's header/footers are linked to those of the first
-        Assert.assertEquals(doc.getSections().get(1).getHeadersFooters().getCount(), 6);
-        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(0).isLinkedToPrevious());
-        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(1).isLinkedToPrevious());
-        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(2).isLinkedToPrevious());
-        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(3).isLinkedToPrevious());
-        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(4).isLinkedToPrevious());
-        Assert.assertTrue(doc.getSections().get(1).getHeadersFooters().get(5).isLinkedToPrevious());
+        Assert.assertEquals(6, doc.getSections().get(1).getHeadersFooters().getCount());
+        Assert.assertEquals(6, IterableUtils.countMatches(doc.getSections().get(1).getHeadersFooters(), s -> s.isLinkedToPrevious()));
 
         // In the third section, only the footer we explicitly linked is linked to that of the second, and consequently the first section
-        Assert.assertEquals(doc.getSections().get(2).getHeadersFooters().getCount(), 6);
-        Assert.assertFalse(doc.getSections().get(2).getHeadersFooters().get(0).isLinkedToPrevious());
-        Assert.assertFalse(doc.getSections().get(2).getHeadersFooters().get(1).isLinkedToPrevious());
-        Assert.assertFalse(doc.getSections().get(2).getHeadersFooters().get(2).isLinkedToPrevious());
+        Assert.assertEquals(6, doc.getSections().get(2).getHeadersFooters().getCount());
+        Assert.assertEquals(1, IterableUtils.countMatches(doc.getSections().get(2).getHeadersFooters(), s -> s.isLinkedToPrevious()));
         Assert.assertTrue(doc.getSections().get(2).getHeadersFooters().get(3).isLinkedToPrevious());
-        Assert.assertFalse(doc.getSections().get(2).getHeadersFooters().get(4).isLinkedToPrevious());
-        Assert.assertFalse(doc.getSections().get(2).getHeadersFooters().get(5).isLinkedToPrevious());
 
         doc.save(getArtifactsDir() + "HeaderFooter.HeaderFooterLink.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "HeaderFooter.HeaderFooterLink.docx");
+
+        Assert.assertEquals(2, doc.getSections().get(0).getHeadersFooters().getCount());
+        Assert.assertEquals(0, IterableUtils.countMatches(doc.getSections().get(0).getHeadersFooters(), s -> s.isLinkedToPrevious()));
+
+        Assert.assertEquals(0, doc.getSections().get(1).getHeadersFooters().getCount());
+        Assert.assertEquals(0, IterableUtils.countMatches(doc.getSections().get(1).getHeadersFooters(), s -> s.isLinkedToPrevious()));
+
+        Assert.assertEquals(5, doc.getSections().get(2).getHeadersFooters().getCount());
+        Assert.assertEquals(0, IterableUtils.countMatches(doc.getSections().get(2).getHeadersFooters(), s -> s.isLinkedToPrevious()));
     }
 
     @Test
@@ -165,10 +169,20 @@ public class ExHeaderFooter extends ApiExampleBase {
             if (footer != null) {
                 footer.remove();
             }
+
+            // All footers have been removed from the section's HeaderFooter collection,
+            // so every remaining node is a header and has the "IsHeader" flag set to true 
+            Assert.assertEquals(0, IterableUtils.countMatches(section.getHeadersFooters(), s -> !s.isHeader()));
         }
 
         doc.save(getArtifactsDir() + "HeaderFooter.RemoveFooters.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "HeaderFooter.RemoveFooters.docx");
+
+        Assert.assertEquals(1, doc.getSections().getCount());
+        Assert.assertEquals(0, IterableUtils.countMatches(doc.getFirstSection().getHeadersFooters(), s -> !s.isHeader()));
+        Assert.assertEquals(3, IterableUtils.countMatches(doc.getFirstSection().getHeadersFooters(), s -> s.isHeader()));
     }
 
     @Test
@@ -179,16 +193,25 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExSummary:Demonstrates how to disable the export of headers and footers when saving to HTML based formats.
         Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
-        // Disables exporting headers and footers
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
-        saveOptions.setExportHeadersFootersMode(ExportHeadersFootersMode.NONE);
+        // This document contains headers and footers, whose text contents can be looked up like this
+        Assert.assertEquals("First header", doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_FIRST).getText().trim());
+
+        // Formats such as html do not have a pre-defined equivalent for Microsoft Word headers/footers
+        // If we convert a document with headers and/or footers to html, they will be assimilated into body text
+        // We can use a SaveOptions object to omit headers/footers while converting to html
+        HtmlSaveOptions saveOptions =
+                new HtmlSaveOptions(SaveFormat.HTML);
+        {
+            saveOptions.setExportHeadersFootersMode(ExportHeadersFootersMode.NONE);
+        }
 
         doc.save(getArtifactsDir() + "HeaderFooter.DisableHeadersFooters.html", saveOptions);
-        //ExEnd
 
-        // Verify that the output document is correct
+        // Open our saved document and verify that it does not contain the header's text
         doc = new Document(getArtifactsDir() + "HeaderFooter.DisableHeadersFooters.html");
-        Assert.assertFalse(doc.getRange().getText().contains("DYNAMIC TEMPLATE"));
+
+        Assert.assertFalse(doc.getRange().getText().contains("First header"));
+        //ExEnd
     }
 
     @Test
@@ -210,14 +233,13 @@ public class ExHeaderFooter extends ApiExampleBase {
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(false);
 
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentYear = new Date().getYear();
         footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", MessageFormat.format("Copyright (C) {0} by Aspose Pty Ltd.", currentYear), options);
 
-        doc.save(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.ReplaceText.docx");
         //ExEnd
 
-        // Verify that the appropriate changes were made to the output document
-        doc = new Document(getArtifactsDir() + "HeaderFooter.ReplaceText.doc");
+        doc = new Document(getArtifactsDir() + "HeaderFooter.ReplaceText.docx");
         Assert.assertTrue(doc.getRange().getText().contains(MessageFormat.format("Copyright (C) {0} by Aspose Pty Ltd.", currentYear)));
     }
 
@@ -286,25 +308,26 @@ public class ExHeaderFooter extends ApiExampleBase {
         pageSetup.setDifferentFirstPageHeaderFooter(true);
 
         // --- Create header for the first page ---
-        pageSetup.setHeaderDistance(20);
+        pageSetup.setHeaderDistance(20.0);
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
 
         // Set font properties for header text
         builder.getFont().setName("Arial");
         builder.getFont().setBold(true);
-        builder.getFont().setSize(14);
+        builder.getFont().setSize(14.0);
         // Specify header title for the first page
         builder.write("Aspose.Words Header/Footer Creation Primer - Title Page.");
 
         // --- Create header for pages other than first ---
-        pageSetup.setHeaderDistance(20);
+        pageSetup.setHeaderDistance(20.0);
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
 
         // Insert absolutely positioned image into the top/left corner of the header
         // Distance from the top/left edges of the page is set to 10 points
         String imageFileName = getImageDir() + "Logo.jpg";
-        builder.insertImage(imageFileName, RelativeHorizontalPosition.PAGE, 10, RelativeVerticalPosition.PAGE, 10, 50, 50, WrapType.THROUGH);
+        builder.insertImage(imageFileName, RelativeHorizontalPosition.PAGE, 10.0, RelativeVerticalPosition.PAGE, 10.0,
+                50.0, 50.0, WrapType.THROUGH);
 
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
         // Specify another header title for other pages
@@ -323,7 +346,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         builder.insertCell();
 
         // Set first cell to 1/3 of the page width
-        builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 / 3));
+        builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100.0F / 3f));
 
         // Insert page numbering text here
         // It uses PAGE and NUMPAGES fields to auto calculate current page number and total number of pages
@@ -337,7 +360,7 @@ public class ExHeaderFooter extends ApiExampleBase {
 
         builder.insertCell();
         // Set the second cell to 2/3 of the page width
-        builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
+        builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100.0F * 2f / 3f));
 
         builder.write("(C) 2001 Aspose Pty Ltd. All rights reserved.");
 
@@ -381,11 +404,11 @@ public class ExHeaderFooter extends ApiExampleBase {
         HeaderFooter primaryFooter = currentSection.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
 
         Row row = primaryFooter.getTables().get(0).getFirstRow();
-        row.getFirstCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 / 3));
-        row.getLastCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
+        row.getFirstCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100.0F / 3f));
+        row.getLastCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100.0F * 2f / 3f));
 
         // Save the resulting document
-        doc.save(getArtifactsDir() + "HeaderFooter.Primer.doc");
+        doc.save(getArtifactsDir() + "HeaderFooter.Primer.docx");
     }
 
     /**

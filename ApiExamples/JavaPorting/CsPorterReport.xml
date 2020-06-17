@@ -48,7 +48,7 @@
 		<File project="Examples" dir="" name="ExMetered" status="AUTO" />
 		<File project="Examples" dir="" name="ExMossDoc2Pdf" status="AUTO" />
 		<File project="Examples" dir="" name="ExMossRtf2Docx" status="AUTO" />
-		<File project="Examples" dir="" name="ExNestedMailMergeCustom" status="AUTO" />
+		<File project="Examples" dir="" name="ExNestedMailMergeCustom" status="DELETED-IN-DOTNET" />
 		<File project="Examples" dir="" name="ExNode" status="AUTO" />
 		<File project="Examples" dir="" name="ExNodeImporter" status="AUTO" />
 		<File project="Examples" dir="" name="ExOdtSaveOptions" status="AUTO" />

@@ -12,8 +12,6 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayOutputStream;
-
 public class ExEditableRange extends ApiExampleBase {
     @Test
     public void removesEditableRange() throws Exception {
@@ -28,10 +26,17 @@ public class ExEditableRange extends ApiExampleBase {
         EditableRange editableRange1 = edRange1Start.getEditableRange();
         builder.writeln("Paragraph inside editable range");
         EditableRangeEnd edRange1End = builder.endEditableRange();
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true).getCount()); //ExSkip
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.EDITABLE_RANGE_END, true).getCount()); //ExSkip
+        Assert.assertEquals(0, edRange1Start.getEditableRange().getId()); //ExSkip
+        Assert.assertEquals("", edRange1Start.getEditableRange().getSingleUser()); //ExSkip
 
         // Remove the range that was just made
         editableRange1.remove();
         //ExEnd
+
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true).getCount());
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.EDITABLE_RANGE_END, true).getCount());
     }
 
     //ExStart
@@ -116,6 +121,7 @@ public class ExEditableRange extends ApiExampleBase {
         doc.accept(editableRangeReader);
 
         System.out.println(editableRangeReader.toText());
+        testCreateEditableRanges(doc, editableRangeReader); //ExSkip
     }
 
     /// <summary>
@@ -179,6 +185,30 @@ public class ExEditableRange extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testCreateEditableRanges(Document doc, EditableRangeInfoPrinter visitor) {
+        NodeCollection editableRangeStarts = doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true);
+
+        Assert.assertEquals(2, editableRangeStarts.getCount());
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.EDITABLE_RANGE_END, true).getCount());
+
+        EditableRange range = ((EditableRangeStart) editableRangeStarts.get(0)).getEditableRange();
+
+        Assert.assertEquals(0, range.getId());
+        Assert.assertEquals("john.doe@myoffice.com", range.getSingleUser());
+        Assert.assertEquals(EditorType.UNSPECIFIED, range.getEditorGroup());
+
+        range = ((EditableRangeStart) editableRangeStarts.get(1)).getEditableRange();
+
+        Assert.assertEquals(1, range.getId());
+        Assert.assertEquals("jane.doe@myoffice.com", range.getSingleUser());
+        Assert.assertEquals(EditorType.UNSPECIFIED, range.getEditorGroup());
+
+        String visitorText = visitor.toText();
+
+        Assert.assertTrue(visitorText.contains("Paragraph inside first editable range"));
+        Assert.assertTrue(visitorText.contains("Paragraph inside second editable range"));
+    }
+
     @Test
     public void incorrectStructureException() throws Exception {
         Document doc = new Document();
@@ -209,8 +239,7 @@ public class ExEditableRange extends ApiExampleBase {
         startRange1.getEditableRange().setEditorGroup(EditorType.EVERYONE);
         //ExEnd
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.DOCX);
+        doc = DocumentHelper.saveOpen(doc);
 
         // Assert that it's not valid structure and editable ranges aren't added to the current document
         NodeCollection startNodes = doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true);

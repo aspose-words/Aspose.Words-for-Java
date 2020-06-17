@@ -13,7 +13,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
-import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.Iterator;
 
@@ -213,13 +212,58 @@ public class ExStyles extends ApiExampleBase {
         doc.getStyles().getDefaultParagraphFormat().setSpaceAfter(20.0);
         doc.getStyles().getDefaultParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
 
-        ByteArrayOutputStream dstStream = new ByteArrayOutputStream();
-        doc.save(dstStream, SaveFormat.RTF);
+        doc = DocumentHelper.saveOpen(doc);
 
         Assert.assertTrue(doc.getStyles().getDefaultFont().getBold());
-        Assert.assertEquals(doc.getStyles().getDefaultFont().getName(), "PMingLiU");
-        Assert.assertEquals(doc.getStyles().getDefaultParagraphFormat().getSpaceAfter(), 20.0);
-        Assert.assertEquals(doc.getStyles().getDefaultParagraphFormat().getAlignment(), ParagraphAlignment.RIGHT);
+        Assert.assertEquals("PMingLiU", doc.getStyles().getDefaultFont().getName());
+        Assert.assertEquals(20.0, doc.getStyles().getDefaultParagraphFormat().getSpaceAfter());
+        Assert.assertEquals(ParagraphAlignment.RIGHT, doc.getStyles().getDefaultParagraphFormat().getAlignment());
+    }
+
+    @Test
+    public void paragraphStyleBulleted() throws Exception {
+        //ExStart
+        //ExFor:StyleCollection
+        //ExFor:DocumentBase.Styles
+        //ExFor:Style
+        //ExFor:Font
+        //ExFor:Style.Font
+        //ExFor:Style.ParagraphFormat
+        //ExFor:Style.ListFormat
+        //ExFor:ParagraphFormat.Style
+        //ExSummary:Shows how to create and use a paragraph style with list formatting.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create a paragraph style and specify some formatting for it
+        Style style = doc.getStyles().add(StyleType.PARAGRAPH, "MyStyle1");
+        style.getFont().setSize(24.0);
+        style.getFont().setName("Verdana");
+        style.getParagraphFormat().setSpaceAfter(12.0);
+
+        // Create a list and make sure the paragraphs that use this style will use this list
+        style.getListFormat().setList(doc.getLists().add(ListTemplate.BULLET_DEFAULT));
+        style.getListFormat().setListLevelNumber(0);
+
+        // Apply the paragraph style to the current paragraph in the document and add some text
+        builder.getParagraphFormat().setStyle(style);
+        builder.writeln("Hello World: MyStyle1, bulleted.");
+
+        // Change to a paragraph style that has no list formatting
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("Normal"));
+        builder.writeln("Hello World: Normal.");
+
+        builder.getDocument().save(getArtifactsDir() + "Styles.ParagraphStyleBulleted.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Styles.ParagraphStyleBulleted.docx");
+
+        style = doc.getStyles().get("MyStyle1");
+
+        Assert.assertEquals("MyStyle1", style.getName());
+        Assert.assertEquals(24.0, style.getFont().getSize());
+        Assert.assertEquals("Verdana", style.getFont().getName());
+        Assert.assertEquals(12.0d, style.getParagraphFormat().getSpaceAfter());
     }
 
     @Test

@@ -13,9 +13,41 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 
+@Test
 public class ExHyphenation extends ApiExampleBase {
+    @Test
+    public void dictionary() throws Exception {
+        //ExStart
+        //ExFor:Hyphenation.IsDictionaryRegistered(String)
+        //ExFor:Hyphenation.RegisterDictionary(String, String)
+        //ExFor:Hyphenation.UnregisterDictionary(String)
+        //ExSummary:Shows how to perform and verify hyphenation dictionary registration.
+        // Register a dictionary file from the local file system to the "de-CH" locale
+        Hyphenation.registerDictionary("de-CH", getMyDir() + "hyph_de_CH.dic");
+
+        // This method can be used to verify that a language has a matching registered hyphenation dictionary
+        Assert.assertTrue(Hyphenation.isDictionaryRegistered("de-CH"));
+
+        // The dictionary file contains a long list of words in a specified language, and in this case it is German
+        // These words define a set of rules for hyphenating text (splitting words across lines)
+        // If we open a document with text of a language matching that of a registered dictionary,
+        // that dictionary's hyphenation rules will be applied and visible upon saving
+        Document doc = new Document(getMyDir() + "German text.docx");
+        doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Registered.pdf");
+
+        // We can also un-register a dictionary to disable these effects on any documents opened after the operation
+        Hyphenation.unregisterDictionary("de-CH");
+
+        Assert.assertFalse(Hyphenation.isDictionaryRegistered("de-CH"));
+
+        doc = new Document(getMyDir() + "German text.docx");
+        doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Unregistered.pdf");
+        //ExEnd
+    }
+
     //ExStart
     //ExFor:Hyphenation
     //ExFor:Hyphenation.Callback
@@ -32,10 +64,10 @@ public class ExHyphenation extends ApiExampleBase {
         Hyphenation.setWarningCallback(warningInfoCollection);
 
         // Register an English (US) hyphenation dictionary by stream
-        FileInputStream dictionaryStream = new FileInputStream(getMyDir() + "hyph_en_US.dic");
+        InputStream dictionaryStream = new FileInputStream(getMyDir() + "hyph_en_US.dic");
         Hyphenation.registerDictionary("en-US", dictionaryStream);
 
-        // No warnings detected
+        // No warnings detectedß
         Assert.assertEquals(warningInfoCollection.getCount(), 0);
 
         // Open a document with a German locale that might not get automatically hyphenated by Microsoft Word an english machine
@@ -88,30 +120,4 @@ public class ExHyphenation extends ApiExampleBase {
         private HashMap<String, String> mHyphenationDictionaryFiles;
     }
     //ExEnd
-
-    @Test
-    public void isDictionaryRegistered() throws Exception {
-        //ExStart
-        //ExFor:Hyphenation.IsDictionaryRegistered(String)
-        //ExSummary:Shows how to open check if some dictionary is registered.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        Hyphenation.registerDictionary("en-US", getMyDir() + "hyph_en_US.dic");
-
-        Assert.assertTrue(Hyphenation.isDictionaryRegistered("en-US"));
-        //ExEnd
-    }
-
-    @Test
-    public void unregisteredDictionary() throws Exception {
-        //ExStart
-        //ExFor:Hyphenation.UnregisterDictionary(String)
-        //ExSummary:Shows how to un-register a dictionary.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        Hyphenation.registerDictionary("en-US", getMyDir() + "hyph_en_US.dic");
-
-        Hyphenation.unregisterDictionary("en-US");
-
-        Assert.assertFalse(Hyphenation.isDictionaryRegistered("en-US"));
-        //ExEnd
-    }
 }

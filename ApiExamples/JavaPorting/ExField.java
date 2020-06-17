@@ -51,7 +51,6 @@ import com.aspose.words.FieldIncludePicture;
 import com.aspose.words.FieldFormat;
 import com.aspose.words.GeneralFormat;
 import java.util.Iterator;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Section;
 import com.aspose.words.Node;
 import com.aspose.words.NodeCollection;
@@ -647,7 +646,7 @@ public class ExField extends ApiExampleBase
     {
         // Set license for Aspose.BarCode
         License licenceBarCode = new License();
-        licenceBarCode.setLicense(getLicenseDir() + "Aspose.Total.lic");
+        licenceBarCode.setLicense(getLicenseDir() + "Aspose.Total.NET.lic");
 
         // Bind the pdf document
         Aspose.Pdf.Facades.PdfExtractor pdfExtractor = new Aspose.Pdf.Facades.PdfExtractor();
@@ -977,7 +976,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("dddd, MMMM dd, yyyy", doc.getRange().getFields().get(1).getFormat().getDateTimeFormat());
         Assert.assertEquals(DateTime.getToday(), DateTime.parse(doc.getRange().getFields().get(1).getResult()));
 
-        msAssert.isEmpty(doc.getRange().getFields().get(2).getFormat().getGeneralFormats());
+        Assert.That(doc.getRange().getFields().get(2).getFormat().getGeneralFormats(), Is.Empty);
         Assert.assertEquals("58", doc.getRange().getFields().get(2).getResult());
 
     }
@@ -1232,7 +1231,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(
             " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o",
             fieldAsk.getFieldCode());
-        testFieldAsk(doc); //ExSkip
+        testFieldAsk(table, doc); //ExSkip
     }
 
     /// <summary>
@@ -1247,7 +1246,7 @@ public class ExField extends ApiExampleBase
     }
     //ExEnd
 
-    private void testFieldAsk(Document doc) throws Exception
+    private void testFieldAsk(DataTable dataTable, Document doc) throws Exception
     {
         doc = DocumentHelper.saveOpen(doc);
 
@@ -1264,6 +1263,8 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("Please provide a response for this ASK field", fieldAsk.getPromptText());
         Assert.assertEquals("Response from within the field.", fieldAsk.getDefaultResponse());
         Assert.assertEquals(true, fieldAsk.getPromptOnceOnMailMerge());
+
+        TestUtil.mailMergeMatchesDataTable(dataTable, doc, true);
     }
 
     @Test
@@ -1842,7 +1843,7 @@ public class ExField extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Field.AUTOTEXT.dotx");
         
-        msAssert.isEmpty(doc.getFieldOptions().getBuiltInTemplatesPaths());
+        Assert.That(doc.getFieldOptions().getBuiltInTemplatesPaths(), Is.Empty);
 
         fieldAutoText = (FieldAutoText)doc.getRange().getFields().get(0);
 
@@ -1986,7 +1987,7 @@ public class ExField extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Field.GREETINGLINE.docx");
 
-        msAssert.isEmpty(doc.getRange().getFields());
+        Assert.That(doc.getRange().getFields(), Is.Empty);
         Assert.assertEquals("Dear Mr. Doe,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
                         "\fDear Mrs. Cardholder,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
                         "\fDear Sir or Madam,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!", 
@@ -2136,7 +2137,7 @@ public class ExField extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Field.MERGEFIELD.docx");
 
-        msAssert.isEmpty(doc.getRange().getFields());
+        Assert.That(doc.getRange().getFields(), Is.Empty);
         Assert.assertEquals("Dear Mr. Doe:\fDear Mrs. Cardholder:", msString.trim(doc.getText()));
     }
 
@@ -2823,7 +2824,7 @@ public class ExField extends ApiExampleBase
 
         // We can do the same thing with an IMPORT field
         FieldImport fieldImport = (FieldImport)builder.insertField(FieldType.FIELD_IMPORT, true);
-        fieldImport.setSourceFullName(getMyDir() + "Images\\Transparent background logo.png");
+        fieldImport.setSourceFullName(getImageDir() + "Transparent background logo.png");
         fieldImport.setGraphicFilter("PNG32");
         fieldImport.isLinked(true);
 
@@ -2839,7 +2840,7 @@ public class ExField extends ApiExampleBase
         Assert.assertTrue(fieldIncludePicture.getResizeHorizontally());
         Assert.assertTrue(fieldIncludePicture.getResizeVertically());
 
-        Assert.assertEquals(getMyDir() + "Images\\Transparent background logo.png", fieldImport.getSourceFullName());
+        Assert.assertEquals(getImageDir() + "Transparent background logo.png", fieldImport.getSourceFullName());
         Assert.assertEquals("PNG32", fieldImport.getGraphicFilter());
         Assert.assertTrue(fieldImport.isLinked());
         
@@ -3128,19 +3129,19 @@ public class ExField extends ApiExampleBase
 
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals(200.0d, shape.getWidth());
         Assert.assertEquals(200.0d, shape.getHeight());
 
         shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.PNG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, shape);
         Assert.assertEquals(200.0d, shape.getWidth());
         Assert.assertEquals(200.0d, shape.getHeight());
 
         shape = (Shape)doc.getChild(NodeType.SHAPE, 2, true);
 
-        TestUtil.verifyImage(534, 534, ImageType.EMF, shape);
+        TestUtil.verifyImageInShape(534, 534, ImageType.EMF, shape);
         Assert.assertEquals(200.0d, shape.getWidth());
         Assert.assertEquals(200.0d, shape.getHeight());
     }
@@ -3214,13 +3215,13 @@ public class ExField extends ApiExampleBase
 
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.JPEG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals(300.0d, shape.getWidth());
         Assert.assertEquals(300.0d, shape.getHeight());
 
         shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImage(400, 400, ImageType.PNG, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, shape);
         Assert.assertEquals(300.0d, shape.getWidth());
         Assert.assertEquals(300.0d, shape.getHeight());
     }
@@ -5211,7 +5212,7 @@ public class ExField extends ApiExampleBase
         builder.writeln();
 
         // While the set of a document's properties is fixed, we can add, name and define our own values in the variables collection
-        msAssert.isEmpty(doc.getVariables());
+        Assert.That(doc.getVariables(), Is.Empty);
         doc.getVariables().add("My variable", "My variable's value");
 
         // We can access a variable using its name and display it with a DOCVARIABLE field
@@ -5371,16 +5372,12 @@ public class ExField extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Field.FILESIZE.docx");
 
-        Assert.assertEquals(8723, doc.getBuiltInDocumentProperties().getBytes());
-
         field = (FieldFileSize)doc.getRange().getFields().get(0);
 
         TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE ", "10590", field);
 
         // These fields will need to be updated to produce an accurate result
         doc.updateFields();
-
-        Assert.assertEquals("8723", field.getResult());
 
         field = (FieldFileSize)doc.getRange().getFields().get(1);
 

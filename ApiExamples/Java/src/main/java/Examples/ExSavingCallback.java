@@ -16,8 +16,84 @@ import org.testng.annotations.Test;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
-public class ExSavingCallback extends ApiExampleBase {
+
+@Test
+class ExSavingCallback extends ApiExampleBase {
+    @Test
+    public void checkThatAllMethodsArePresent() {
+        HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
+        htmlFixedSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+
+        ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
+        imageSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+
+        PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
+        pdfSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+
+        PsSaveOptions psSaveOptions = new PsSaveOptions();
+        psSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+
+        SvgSaveOptions svgSaveOptions = new SvgSaveOptions();
+        svgSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+
+        XamlFixedSaveOptions xamlFixedSaveOptions = new XamlFixedSaveOptions();
+        xamlFixedSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+
+        XpsSaveOptions xpsSaveOptions = new XpsSaveOptions();
+        xpsSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+    }
+
+    //ExStart
+    //ExFor:IPageSavingCallback
+    //ExFor:IPageSavingCallback.PageSaving(PageSavingArgs)
+    //ExFor:PageSavingArgs
+    //ExFor:PageSavingArgs.PageFileName
+    //ExFor:PageSavingArgs.KeepPageStreamOpen
+    //ExFor:PageSavingArgs.PageIndex
+    //ExFor:PageSavingArgs.PageStream
+    //ExFor:FixedPageSaveOptions.PageSavingCallback
+    //ExSummary:Shows how separate pages are saved when a document is exported to fixed page format.
+    @Test //ExSkip
+    public void pageFileName() throws Exception {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        HtmlFixedSaveOptions htmlFixedSaveOptions =
+                new HtmlFixedSaveOptions();
+        {
+            htmlFixedSaveOptions.setPageIndex(0);
+            htmlFixedSaveOptions.setPageCount(doc.getPageCount());
+        }
+        htmlFixedSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+
+        doc.save(getArtifactsDir() + "SavingCallback.PageFileName.html", htmlFixedSaveOptions);
+
+        ArrayList<String> filePaths = DocumentHelper.directoryGetFiles(getArtifactsDir(), "SavingCallback.PageFileName.Page_*.html");
+
+        for (int i = 0; i < doc.getPageCount(); i++) {
+            String file = getArtifactsDir() + MessageFormat.format("SavingCallback.PageFileName.Page_{0}.html", i);
+            Assert.assertEquals(file, filePaths.get(i)); //ExSkip
+        }
+    }
+
+    /// <summary>
+    /// Custom PageFileName is specified.
+    /// </summary>
+    private static class CustomPageFileNamePageSavingCallback implements IPageSavingCallback {
+        public void pageSaving(PageSavingArgs args) throws Exception {
+            String outFileName = getArtifactsDir() + MessageFormat.format("SavingCallback.PageFileName.Page_{0}.html", args.getPageIndex());
+
+            // Specify name of the output file for the current page either in this 
+            args.setPageFileName(outFileName);
+
+            // ..or by setting up a custom stream
+            args.setPageStream(new FileOutputStream(outFileName));
+            Assert.assertFalse(args.getKeepPageStreamOpen());
+        }
+    }
+    //ExEnd
+
     //ExStart
     //ExFor:DocumentPartSavingArgs
     //ExFor:DocumentPartSavingArgs.Document

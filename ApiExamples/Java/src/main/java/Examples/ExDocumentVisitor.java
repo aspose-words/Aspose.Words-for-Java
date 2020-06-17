@@ -47,6 +47,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
+        testDocStructureToText(visitor); //ExSkip
     }
 
     /// <summary>
@@ -189,6 +190,21 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testDocStructureToText(DocStructurePrinter visitor) {
+        String visitorText = visitor.getText();
+
+        Assert.assertTrue(visitorText.contains("[Document start]"));
+        Assert.assertTrue(visitorText.contains("[Document end]"));
+        Assert.assertTrue(visitorText.contains("[Section start]"));
+        Assert.assertTrue(visitorText.contains("[Section end]"));
+        Assert.assertTrue(visitorText.contains("[Body start]"));
+        Assert.assertTrue(visitorText.contains("[Body end]"));
+        Assert.assertTrue(visitorText.contains("[Paragraph start]"));
+        Assert.assertTrue(visitorText.contains("[Paragraph end]"));
+        Assert.assertTrue(visitorText.contains("[Run]"));
+        Assert.assertTrue(visitorText.contains("[SubDocument]"));
+    }
+
     //ExStart
     //ExFor:Cell.Accept(DocumentVisitor)
     //ExFor:Cell.IsFirstCell
@@ -221,6 +237,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
+        testTableToText(visitor); //ExSkip
     }
 
     /// <summary>
@@ -354,6 +371,18 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testTableToText(TableInfoPrinter visitor) {
+        String visitorText = visitor.getText();
+
+        Assert.assertTrue(visitorText.contains("[Table start]"));
+        Assert.assertTrue(visitorText.contains("[Table end]"));
+        Assert.assertTrue(visitorText.contains("[Row start]"));
+        Assert.assertTrue(visitorText.contains("[Row end]"));
+        Assert.assertTrue(visitorText.contains("[Cell start]"));
+        Assert.assertTrue(visitorText.contains("[Cell end]"));
+        Assert.assertTrue(visitorText.contains("[Run]"));
+    }
+
     //ExStart
     //ExFor:DocumentVisitor.VisitCommentStart(Comment)
     //ExFor:DocumentVisitor.VisitCommentEnd(Comment)
@@ -375,6 +404,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
+        testCommentsToText(visitor); //ExSkip
     }
 
     /// <summary>
@@ -467,6 +497,16 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testCommentsToText(CommentInfoPrinter visitor) {
+        String visitorText = visitor.getText();
+
+        Assert.assertTrue(visitorText.contains("[Comment range start]"));
+        Assert.assertTrue(visitorText.contains("[Comment range end]"));
+        Assert.assertTrue(visitorText.contains("[Comment start]"));
+        Assert.assertTrue(visitorText.contains("[Comment end]"));
+        Assert.assertTrue(visitorText.contains("[Run]"));
+    }
+
     //ExStart
     //ExFor:DocumentVisitor.VisitFieldStart
     //ExFor:DocumentVisitor.VisitFieldEnd
@@ -487,6 +527,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
+        testFieldToText(visitor); //ExSkip
     }
 
     /// <summary>
@@ -565,6 +606,15 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testFieldToText(FieldInfoPrinter visitor) {
+        String visitorText = visitor.getText();
+
+        Assert.assertTrue(visitorText.contains("[Field start]"));
+        Assert.assertTrue(visitorText.contains("[Field end]"));
+        Assert.assertTrue(visitorText.contains("[FieldSeparator]"));
+        Assert.assertTrue(visitorText.contains("[Run]"));
+    }
+
     //ExStart
     //ExFor:DocumentVisitor.VisitHeaderFooterStart(HeaderFooter)
     //ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
@@ -592,7 +642,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // An alternative way of visiting a document's header/footers section-by-section is by accessing the collection
         // We can also turn it into an array
         HeaderFooter[] headerFooters = doc.getFirstSection().getHeadersFooters().toArray();
-        Assert.assertEquals(headerFooters.length, 6);
+        Assert.assertEquals(3, headerFooters.length);
+        testHeaderFooterToText(visitor); //ExSkip
     }
 
     /// <summary>
@@ -660,6 +711,19 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testHeaderFooterToText(HeaderFooterInfoPrinter visitor) {
+        String visitorText = visitor.getText();
+
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.HEADER_PRIMARY)));
+        Assert.assertTrue(visitorText.contains("[HeaderFooter end]"));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.HEADER_FIRST)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.HEADER_EVEN)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.FOOTER_PRIMARY)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.FOOTER_FIRST)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.FOOTER_EVEN)));
+        Assert.assertTrue(visitorText.contains("[Run]"));
+    }
+
     //ExStart
     //ExFor:DocumentVisitor.VisitEditableRangeEnd(EditableRangeEnd)
     //ExFor:DocumentVisitor.VisitEditableRangeStart(EditableRangeStart)
@@ -682,6 +746,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
+        testEditableRangeToText(visitor); //ExSkip
     }
 
     /// <summary>
@@ -753,6 +818,14 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testEditableRangeToText(EditableRangeInfoPrinter visitor) {
+        String visitorText = visitor.getText();
+
+        Assert.assertTrue(visitorText.contains("[EditableRange start]"));
+        Assert.assertTrue(visitorText.contains("[EditableRange end]"));
+        Assert.assertTrue(visitorText.contains("[Run]"));
+    }
+
     //ExStart
     //ExFor:DocumentVisitor.VisitFootnoteEnd(Footnote)
     //ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
@@ -773,6 +846,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
+        testFootnoteToText(visitor); //ExSkip
     }
 
     /// <summary>
@@ -842,6 +916,14 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testFootnoteToText(FootnoteInfoPrinter visitor) {
+        String visitorText = visitor.getText();
+
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[Footnote start] Type: {0}", FootnoteType.FOOTNOTE)));
+        Assert.assertTrue(visitorText.contains("[Footnote end]"));
+        Assert.assertTrue(visitorText.contains("[Run]"));
+    }
+
     //ExStart
     //ExFor:DocumentVisitor.VisitOfficeMathEnd(Math.OfficeMath)
     //ExFor:DocumentVisitor.VisitOfficeMathStart(Math.OfficeMath)
@@ -864,6 +946,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
+        testOfficeMathToText(visitor); //ExSkip
     }
 
     /// <summary>
@@ -933,6 +1016,21 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testOfficeMathToText(OfficeMathInfoPrinter visitor) {
+        String visitorText = visitor.getText();
+
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.O_MATH_PARA)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.O_MATH)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.ARGUMENT)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.SUPERCRIPT)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.SUPERSCRIPT_PART)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.FRACTION)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.NUMERATOR)));
+        Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.DENOMINATOR)));
+        Assert.assertTrue(visitorText.contains("[OfficeMath end]"));
+        Assert.assertTrue(visitorText.contains("[Run]"));
+    }
+
     //ExStart
     //ExFor:DocumentVisitor.VisitSmartTagEnd(Markup.SmartTag)
     //ExFor:DocumentVisitor.VisitSmartTagStart(Markup.SmartTag)
@@ -952,6 +1050,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
+        testSmartTagToText(visitor); //ExEnd
     }
 
     /// <summary>
@@ -1021,6 +1120,21 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testSmartTagToText(SmartTagInfoPrinter visitor) {
+        String visitorText = visitor.getText();
+
+        Assert.assertTrue(visitorText.contains("[SmartTag start] Name: address"));
+        Assert.assertTrue(visitorText.contains("[SmartTag start] Name: Street"));
+        Assert.assertTrue(visitorText.contains("[SmartTag start] Name: PersonName"));
+        Assert.assertTrue(visitorText.contains("[SmartTag start] Name: title"));
+        Assert.assertTrue(visitorText.contains("[SmartTag start] Name: GivenName"));
+        Assert.assertTrue(visitorText.contains("[SmartTag start] Name: Sn"));
+        Assert.assertTrue(visitorText.contains("[SmartTag start] Name: stockticker"));
+        Assert.assertTrue(visitorText.contains("[SmartTag start] Name: date"));
+        Assert.assertTrue(visitorText.contains("[SmartTag end]"));
+        Assert.assertTrue(visitorText.contains("[Run]"));
+    }
+
     //ExStart
     //ExFor:StructuredDocumentTag.Accept(DocumentVisitor)
     //ExFor:DocumentVisitor.VisitStructuredDocumentTagEnd(Markup.StructuredDocumentTag)
@@ -1041,6 +1155,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         // Once the visiting is complete, we can retrieve the result of the operation,
         // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
+        testStructuredDocumentTagToText(visitor); //ExSkip
     }
 
     /// <summary>
@@ -1107,4 +1222,11 @@ public class ExDocumentVisitor extends ApiExampleBase {
         private StringBuilder mBuilder;
     }
     //ExEnd
+
+    private void testStructuredDocumentTagToText(StructuredDocumentTagInfoPrinter visitor) {
+        String visitorText = visitor.getText();
+
+        Assert.assertTrue(visitorText.contains("[StructuredDocumentTag start]"));
+        Assert.assertTrue(visitorText.contains("[StructuredDocumentTag end]"));
+    }
 }

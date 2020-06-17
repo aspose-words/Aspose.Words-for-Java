@@ -51,7 +51,7 @@ public /*static*/ class ExMossDoc2Pdf
 
             parseCommandLine(args);
 
-            // Uncomment the code below when you have purchased a licenses for Aspose.Words.
+            // Uncomment the code below when you have purchased a license for Aspose.Words.
             //
             // You need to deploy the license in the same folder as your 
             // executable, alternatively you can add the license file as an 

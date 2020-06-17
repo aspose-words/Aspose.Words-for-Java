@@ -15,11 +15,12 @@ import org.testng.annotations.Test;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 
 public class ExDigitalSignatureUtil extends ApiExampleBase {
     @Test
-    public void removeAllSignatures() throws Exception {
+    public void loadAndRemove() throws Exception {
         //ExStart
         //ExFor:DigitalSignatureUtil
         //ExFor:DigitalSignatureUtil.LoadSignatures(String)
@@ -35,19 +36,27 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         DigitalSignatureUtil.removeAllSignatures(getMyDir() + "Digitally signed.docx", getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx");
 
         // Remove all signatures from the document using stream parameters
-        FileInputStream streamIn = new FileInputStream(getMyDir() + "Digitally signed.docx");
-        FileOutputStream streamOut = new FileOutputStream(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx");
-        DigitalSignatureUtil.removeAllSignatures(streamIn, streamOut);
+        InputStream streamIn = new FileInputStream(getMyDir() + "Digitally signed.docx");
+        try {
+            OutputStream streamOut = new FileOutputStream(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx");
+            try {
+                DigitalSignatureUtil.removeAllSignatures(streamIn, streamOut);
+            } finally {
+                if (streamOut != null) streamOut.close();
+            }
+        } finally {
+            if (streamIn != null) streamIn.close();
+        }
 
         // We can also load a document's digital signatures via stream, which we will do to verify that all signatures have been removed
-        streamIn = new FileInputStream(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx");
-        digitalSignatures = DigitalSignatureUtil.loadSignatures(streamIn);
-
-        Assert.assertEquals(digitalSignatures.getCount(), 0);
+        InputStream stream = new FileInputStream(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx");
+        try /*JAVA: was using*/ {
+            digitalSignatures = DigitalSignatureUtil.loadSignatures(stream);
+            Assert.assertEquals(0, digitalSignatures.getCount());
+        } finally {
+            if (stream != null) stream.close();
+        }
         //ExEnd
-
-        streamIn.close();
-        streamOut.close();
     }
 
     @Test(description = "WORDSNET-16868")

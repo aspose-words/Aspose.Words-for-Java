@@ -11,6 +11,7 @@ package Examples;
 import com.aspose.words.Shape;
 import com.aspose.words.Stroke;
 import com.aspose.words.*;
+import org.apache.commons.io.FilenameUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -22,7 +23,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
+
+import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
 
 @Test
 public class ExDrawing extends ApiExampleBase {
@@ -114,6 +118,50 @@ public class ExDrawing extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Drawing.VariousShapes.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Drawing.VariousShapes.docx");
+
+        Assert.assertEquals(4, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+
+        arrow = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(ShapeType.LINE, arrow.getShapeType());
+        Assert.assertEquals(200.0d, arrow.getWidth());
+        Assert.assertEquals(Color.RED.getRGB(), arrow.getStroke().getColor().getRGB());
+        Assert.assertEquals(ArrowType.ARROW, arrow.getStroke().getStartArrowType());
+        Assert.assertEquals(ArrowLength.LONG, arrow.getStroke().getStartArrowLength());
+        Assert.assertEquals(ArrowWidth.WIDE, arrow.getStroke().getStartArrowWidth());
+        Assert.assertEquals(ArrowType.DIAMOND, arrow.getStroke().getEndArrowType());
+        Assert.assertEquals(ArrowLength.LONG, arrow.getStroke().getEndArrowLength());
+        Assert.assertEquals(ArrowWidth.WIDE, arrow.getStroke().getEndArrowWidth());
+        Assert.assertEquals(DashStyle.DASH, arrow.getStroke().getDashStyle());
+        Assert.assertEquals(0.5d, arrow.getStroke().getOpacity());
+
+        line = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
+
+        Assert.assertEquals(ShapeType.LINE, line.getShapeType());
+        Assert.assertEquals(40.0d, line.getTop());
+        Assert.assertEquals(200.0d, line.getWidth());
+        Assert.assertEquals(20.0d, line.getHeight());
+        Assert.assertEquals(5.0d, line.getStrokeWeight());
+        Assert.assertEquals(EndCap.ROUND, line.getStroke().getEndCap());
+
+        filledInArrow = (Shape) doc.getChild(NodeType.SHAPE, 2, true);
+
+        Assert.assertEquals(ShapeType.ARROW, filledInArrow.getShapeType());
+        Assert.assertEquals(200.0d, filledInArrow.getWidth());
+        Assert.assertEquals(40.0d, filledInArrow.getHeight());
+        Assert.assertEquals(100.0d, filledInArrow.getTop());
+        Assert.assertEquals(Color.GREEN.getRGB(), filledInArrow.getFill().getColor().getRGB());
+        Assert.assertTrue(filledInArrow.getFill().getOn());
+
+        filledInArrowImg = (Shape) doc.getChild(NodeType.SHAPE, 3, true);
+
+        Assert.assertEquals(ShapeType.ARROW, filledInArrowImg.getShapeType());
+        Assert.assertEquals(200.0d, filledInArrowImg.getWidth());
+        Assert.assertEquals(40.0d, filledInArrowImg.getHeight());
+        Assert.assertEquals(160.0d, filledInArrowImg.getTop());
+        Assert.assertEquals(FlipOrientation.BOTH, filledInArrowImg.getFlipOrientation());
     }
 
     @Test
@@ -173,6 +221,21 @@ public class ExDrawing extends ApiExampleBase {
             }
         }
         //ExEnd
+
+        ArrayList<String> imageFileNames = DocumentHelper.directoryGetFiles(getArtifactsDir(), "Drawing.SaveAllImages.*");
+
+        TestUtil.verifyImage(2467, 1500, imageFileNames.get(0));
+        Assert.assertEquals("JPEG", FilenameUtils.getExtension(imageFileNames.get(0)));
+        TestUtil.verifyImage(400, 400, imageFileNames.get(1));
+        Assert.assertEquals("png", FilenameUtils.getExtension(imageFileNames.get(1)));
+        TestUtil.verifyImage(1260, 660, imageFileNames.get(2));
+        Assert.assertEquals("JPEG", FilenameUtils.getExtension(imageFileNames.get(2)));
+        TestUtil.verifyImage(1125, 1500, imageFileNames.get(3));
+        Assert.assertEquals("JPEG", FilenameUtils.getExtension(imageFileNames.get(3)));
+        TestUtil.verifyImage(1027, 1500, imageFileNames.get(4));
+        Assert.assertEquals("JPEG", FilenameUtils.getExtension(imageFileNames.get(4)));
+        TestUtil.verifyImage(1200, 1500, imageFileNames.get(5));
+        Assert.assertEquals("JPEG", FilenameUtils.getExtension(imageFileNames.get(5)));
     }
 
     @Test
@@ -204,6 +267,27 @@ public class ExDrawing extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Drawing.ImportImage.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Drawing.ImportImage.docx");
+
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.SHAPE, true).getCount());
+
+        imgShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imgShape);
+        Assert.assertEquals(0.0d, imgShape.getLeft());
+        Assert.assertEquals(0.0d, imgShape.getTop());
+        Assert.assertEquals(300.0d, imgShape.getHeight(), 1);
+        Assert.assertEquals(300.0d, imgShape.getWidth(), 1);
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imgShape);
+
+        imgShape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
+
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imgShape);
+        Assert.assertEquals(150.0d, imgShape.getLeft());
+        Assert.assertEquals(0.0d, imgShape.getTop());
+        Assert.assertEquals(300.0d, imgShape.getHeight(), 1);
+        Assert.assertEquals(300.0d, imgShape.getWidth(), 1);
     }
 
     @Test
@@ -230,6 +314,8 @@ public class ExDrawing extends ApiExampleBase {
         BufferedImage bImage = ImageIO.read(imageInputStream);
         ImageIO.write(bImage, "png", new File(getArtifactsDir() + "Drawing.StrokePattern.png"));
         //ExEnd
+
+        TestUtil.verifyImage(8, 8, getArtifactsDir() + "Drawing.StrokePattern.png");
     }
 
     //ExStart
@@ -273,6 +359,7 @@ public class ExDrawing extends ApiExampleBase {
         group.accept(printer);
 
         System.out.println(printer.getText());
+        testGroupShapes(doc); //ExSkip
     }
 
     /// <summary>
@@ -315,6 +402,27 @@ public class ExDrawing extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testGroupShapes(Document doc) throws Exception {
+        doc = DocumentHelper.saveOpen(doc);
+        GroupShape shapes = (GroupShape) doc.getChild(NodeType.GROUP_SHAPE, 0, true);
+
+        Assert.assertEquals(2, shapes.getChildNodes().getCount());
+
+        Shape shape = (Shape) shapes.getChildNodes().get(0);
+
+        Assert.assertEquals(ShapeType.BALLOON, shape.getShapeType());
+        Assert.assertEquals(200.0d, shape.getWidth());
+        Assert.assertEquals(200.0d, shape.getHeight());
+        Assert.assertEquals(Color.RED.getRGB(), shape.getStrokeColor().getRGB());
+
+        shape = (Shape) shapes.getChildNodes().get(1);
+
+        Assert.assertEquals(ShapeType.CUBE, shape.getShapeType());
+        Assert.assertEquals(100.0d, shape.getWidth());
+        Assert.assertEquals(100.0d, shape.getHeight());
+        Assert.assertEquals(Color.BLUE.getRGB(), shape.getStrokeColor().getRGB());
+    }
+
     @Test
     public void textBox() throws Exception {
         //ExStart
@@ -336,6 +444,15 @@ public class ExDrawing extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Drawing.TextBox.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Drawing.TextBox.docx");
+        textbox = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(ShapeType.TEXT_BOX, textbox.getShapeType());
+        Assert.assertEquals(100.0d, textbox.getWidth());
+        Assert.assertEquals(100.0d, textbox.getHeight());
+        Assert.assertEquals(LayoutFlow.BOTTOM_TO_TOP, textbox.getTextBox().getLayoutFlow());
+        Assert.assertEquals("This text is flipped 90 degrees to the left.", textbox.getText().trim());
     }
 
     @Test
@@ -346,20 +463,17 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:ImageData.ToStream
         //ExSummary:Shows how to access raw image data in a shape's ImageData object.
         Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
+        Assert.assertEquals(10, imgSourceDoc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSkip
 
-        // Images are stored as shapes
-        // Get into the document's shape collection to verify that it contains 10 images
-        NodeCollection shapes = imgSourceDoc.getChildNodes(NodeType.SHAPE, true);
-        Assert.assertEquals(shapes.getCount(), 10);
-
-        Shape imageShape = (Shape) shapes.get(0);
+        // Get a shape from the document that contains an image
+        Shape imgShape = (Shape) imgSourceDoc.getChild(NodeType.SHAPE, 0, true);
 
         // ToByteArray() returns the value of the ImageBytes property
-        Assert.assertEquals(imageShape.getImageData().getImageBytes(), imageShape.getImageData().toByteArray());
+        Assert.assertEquals(imgShape.getImageData().getImageBytes(), imgShape.getImageData().toByteArray());
 
         // Put the shape's image data into a stream
         // Then, put the image data from that stream into another stream which creates an image file in the local file system
-        InputStream imgStream = imageShape.getImageData().toStream();
+        InputStream imgStream = imgShape.getImageData().toStream();
 
         try {
             File imageFile = new File(getArtifactsDir() + "Drawing.GetDataFromImage.png");
@@ -368,23 +482,10 @@ public class ExDrawing extends ApiExampleBase {
         } finally {
             if (imgStream != null) imgStream.close();
         }
-    }
+        //ExEnd
 
-    private void copyInputStreamToFile(InputStream in, File file) {
-        try {
-            OutputStream out = new FileOutputStream(file);
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-            out.close();
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        TestUtil.verifyImage(2467, 1500, getArtifactsDir() + "Drawing.GetDataFromImage.png");
     }
-    //ExEnd
 
     @Test
     public void imageData() throws Exception {
@@ -459,6 +560,29 @@ public class ExDrawing extends ApiExampleBase {
 
         dstDoc.save(getArtifactsDir() + "Drawing.ImageData.docx");
         //ExEnd
+
+        imgSourceDoc = new Document(getArtifactsDir() + "Drawing.ImageData.docx");
+        sourceShape = (Shape) imgSourceDoc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyImageInShape(2467, 1500, ImageType.JPEG, sourceShape);
+        Assert.assertEquals("Imported Image", sourceShape.getImageData().getTitle());
+        Assert.assertEquals(0.8d, sourceShape.getImageData().getBrightness(), 0.1d);
+        Assert.assertEquals(1.0d, sourceShape.getImageData().getContrast(), 0.1d);
+        Assert.assertEquals(Color.WHITE.getRGB(), sourceShape.getImageData().getChromaKey().getRGB());
+
+        sourceShape = (Shape) imgSourceDoc.getChild(NodeType.SHAPE, 1, true);
+
+        TestUtil.verifyImageInShape(2467, 1500, ImageType.JPEG, sourceShape);
+        Assert.assertTrue(sourceShape.getImageData().getGrayScale());
+
+        sourceShape = (Shape) imgSourceDoc.getChild(NodeType.SHAPE, 2, true);
+
+        TestUtil.verifyImageInShape(2467, 1500, ImageType.JPEG, sourceShape);
+        Assert.assertTrue(sourceShape.getImageData().getBiLevel());
+        Assert.assertEquals(0.3d, sourceShape.getImageData().getCropBottom(), 0.1d);
+        Assert.assertEquals(0.3d, sourceShape.getImageData().getCropLeft(), 0.1d);
+        Assert.assertEquals(0.3d, sourceShape.getImageData().getCropTop(), 0.1d);
+        Assert.assertEquals(0.3d, sourceShape.getImageData().getCropRight(), 0.1d);
     }
 
     @Test
@@ -495,5 +619,19 @@ public class ExDrawing extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Drawing.ImageSize.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Drawing.ImageSize.docx");
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
+        Assert.assertEquals(600.0d, shape.getWidth());
+        Assert.assertEquals(600.0d, shape.getHeight());
+
+        imageSize = shape.getImageData().getImageSize();
+
+        Assert.assertEquals(400, imageSize.getHeightPixels());
+        Assert.assertEquals(400, imageSize.getWidthPixels());
+        Assert.assertEquals(95.98d, imageSize.getHorizontalResolution(), 0.5);
+        Assert.assertEquals(95.98d, imageSize.getVerticalResolution(), 0.5);
     }
 }

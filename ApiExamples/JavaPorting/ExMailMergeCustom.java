@@ -19,6 +19,7 @@ import com.aspose.words.IMailMergeDataSource;
 import com.aspose.words.IMailMergeDataSourceRoot;
 import com.aspose.ms.System.Collections.msDictionary;
 import java.util.HashMap;
+import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.ref.Ref;
 
 
@@ -50,12 +51,13 @@ public class ExMailMergeCustom extends ApiExampleBase
 
         // To be able to mail merge from your own data source, it must be wrapped
         // into an object that implements the IMailMergeDataSource interface
-        CustomerMailMergeDataSource customersDataSource = new CustomerMailMergeDataSource(customers);
+        CustomerMailMergeDataSource dataSource = new CustomerMailMergeDataSource(customers);
 
         // Now you can pass your data source into Aspose.Words
-        doc.getMailMerge().execute(customersDataSource);
+        doc.getMailMerge().execute(dataSource);
 
-        doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSource.doc");
+        doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSource.docx");
+        testCustomDataSource(customers, new Document(getArtifactsDir() + "MailMergeCustom.CustomDataSource.docx")); //ExSkip
     }
 
     /// <summary>
@@ -134,7 +136,7 @@ public class ExMailMergeCustom extends ApiExampleBase
             if (!isEof())
                 mRecordIndex++;
 
-            return (!isEof());
+            return !isEof();
         }
 
         public IMailMergeDataSource getChildDataSource(String tableName)
@@ -149,6 +151,16 @@ public class ExMailMergeCustom extends ApiExampleBase
     }
     //ExEnd
 
+    private void testCustomDataSource(CustomerList customerList, Document doc)
+    {
+        String[][] mergeData = new String[customerList.size()][];
+
+        for (int i = 0; i < customerList.size(); i++)
+            mergeData[i] = new String[] { customerList.get(i).getFullName(), customerList.get(i).getAddress() };
+
+        TestUtil.mailMergeMatchesArray(mergeData, doc, true);
+    }
+
     //ExStart
     //ExFor:IMailMergeDataSourceRoot
     //ExFor:IMailMergeDataSourceRoot.GetDataSource(String)
@@ -158,7 +170,8 @@ public class ExMailMergeCustom extends ApiExampleBase
     public void customDataSourceRoot() throws Exception
     {
         // Create a document with two mail merge regions named "Washington" and "Seattle"
-        Document doc = createSourceDocumentWithMailMergeRegions(new String[] { "Washington", "Seattle" });
+        String[] mailMergeRegions = { "Vancouver", "Seattle" };
+        Document doc = createSourceDocumentWithMailMergeRegions(mailMergeRegions);
 
         // Create two data sources
         EmployeeList employeesWashingtonBranch = new EmployeeList();
@@ -171,14 +184,15 @@ public class ExMailMergeCustom extends ApiExampleBase
 
         // Register our data sources by name in a data source root
         DataSourceRoot sourceRoot = new DataSourceRoot();
-        sourceRoot.registerSource("Washington", new EmployeeListMailMergeSource(employeesWashingtonBranch));
-        sourceRoot.registerSource("Seattle", new EmployeeListMailMergeSource(employeesSeattleBranch));
+        sourceRoot.registerSource(mailMergeRegions[0], new EmployeeListMailMergeSource(employeesWashingtonBranch));
+        sourceRoot.registerSource(mailMergeRegions[1], new EmployeeListMailMergeSource(employeesSeattleBranch));
 
         // Since we have consecutive mail merge regions, we would normally have to perform two mail merges
         // However, one mail merge source data root call every relevant data source and merge automatically 
         doc.getMailMerge().executeWithRegions(sourceRoot);
 
         doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSourceRoot.docx");
+        testCustomDataSourceRoot(mailMergeRegions, sourceRoot, new Document(getArtifactsDir() + "MailMergeCustom.CustomDataSourceRoot.docx")); //ExSkip
     }
 
     /// <summary>
@@ -272,7 +286,7 @@ public class ExMailMergeCustom extends ApiExampleBase
             if (!isEof())
                 mRecordIndex++;
 
-            return (!isEof());
+            return !isEof();
         }
 
         private boolean isEof() { return (mRecordIndex >= mEmployees.size()); }
@@ -319,6 +333,28 @@ public class ExMailMergeCustom extends ApiExampleBase
         private /*final*/ EmployeeList mEmployees;
         private int mRecordIndex;
     }
+    //ExEnd
+
+    private void testCustomDataSourceRoot(String[] registeredSources, DataSourceRoot sourceRoot, Document doc)
+    {
+        DataTable dataTable = new DataTable();
+        dataTable.getColumns().add("FullName");
+        dataTable.getColumns().add("Department");
+
+        for (int i = 0; i < registeredSources.length; i++)
+        {
+            EmployeeListMailMergeSource source = (EmployeeListMailMergeSource)sourceRoot.getDataSource(registeredSources[i]);
+            while (source.moveNext())
+            {
+                source.GetValue("FullName", /*out*/ Object fullName);
+                source.GetValue("Department", /*out*/ Object department);
+
+                dataTable.getRows().Add( { fullName, department });
+            }
+        }
+
+        TestUtil.mailMergeMatchesDataTable(dataTable, doc, false);
+    }
 
 	//JAVA-added for string switch emulation
 	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
@@ -328,5 +364,4 @@ public class ExMailMergeCustom extends ApiExampleBase
 		"Department"
 	);
 
-    //ExEnd
 }

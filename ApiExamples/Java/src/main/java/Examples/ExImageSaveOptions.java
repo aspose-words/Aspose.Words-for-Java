@@ -20,28 +20,31 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:ImageSaveOptions.UseGdiEmfRenderer
         //ExSummary:Shows how to save metafiles directly without using GDI+ to EMF.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
+        Document doc = new Document(getMyDir() + "Images.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EMF);
-        saveOptions.setUseGdiEmfRenderer(false);
+        saveOptions.setUseGdiEmfRenderer(true);
 
-        doc.save(getArtifactsDir() + "ImageSaveOptions.UseGdiEmfRenderer.docx", saveOptions);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.Renderer.emf", saveOptions);
         //ExEnd
     }
 
     @Test
-    public void saveIntoGif() throws Exception {
+    public void saveSinglePage() throws Exception {
         //ExStart
         //ExFor:ImageSaveOptions.PageIndex
         //ExSummary:Shows how to save specific document page as image file.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
+        // For formats that can only save one page at a time,
+        // the SaveOptions object can determine which page gets saved
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.GIF);
-        // Define which page will save
-        saveOptions.setPageIndex(0);
+        saveOptions.setPageIndex(1);
 
-        doc.save(getArtifactsDir() + "ImageSaveOptions.SaveIntoGif.gif", saveOptions);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.SaveSinglePage.gif", saveOptions);
         //ExEnd
+
+        TestUtil.verifyImage(794, 1123, getArtifactsDir() + "ImageSaveOptions.SaveSinglePage.gif");
     }
 
     @Test
@@ -69,8 +72,32 @@ public class ExImageSaveOptions extends ApiExampleBase {
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.JPEG);
         saveOptions.setGraphicsQualityOptions(qualityOptions);
 
-        doc.save(getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpeg", saveOptions);
+        doc.save(getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpg", saveOptions);
         //ExEnd
+
+        TestUtil.verifyImage(794, 1122, getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpg");
+    }
+
+    @Test
+    public void windowsMetaFile() throws Exception {
+        //ExStart
+        //ExFor:ImageSaveOptions.MetafileRenderingOptions
+        //ExSummary:Shows how to set the rendering mode for Windows Metafiles. 
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Use a DocumentBuilder to insert a .wmf image into the document
+        builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
+
+        // Save the document as an image while setting different metafile rendering modes,
+        // which will be applied to the image we inserted
+        ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
+        options.getMetafileRenderingOptions().setRenderingMode(MetafileRenderingMode.VECTOR);
+
+        doc.save(getArtifactsDir() + "ImageSaveOptions.WindowsMetaFile.png", options);
+        //ExEnd
+
+        TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.WindowsMetaFile.png");
     }
 
     @Test(groups = "SkipMono")
@@ -93,6 +120,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.BlackAndWhite.png", imageSaveOptions);
         //ExEnd
+
+        TestUtil.verifyImage(794, 1123, getArtifactsDir() + "ImageSaveOptions.BlackAndWhite.png");
     }
 
     @Test
@@ -139,5 +168,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.EditImage.png", options);
         //ExEnd
+
+        TestUtil.verifyImage(794, 1123, getArtifactsDir() + "ImageSaveOptions.EditImage.png");
     }
 }

@@ -172,7 +172,8 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         doc.save(getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff", options);
         //ExEnd
         
-                        }
+                TestUtil.verifyImage(794, 1123, getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff");
+            }
 
     @Test
     public void editImage() throws Exception

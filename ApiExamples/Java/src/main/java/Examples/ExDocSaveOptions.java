@@ -14,7 +14,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.concurrent.atomic.AtomicReference;
+import java.text.SimpleDateFormat;
 
 @Test
 public class ExDocSaveOptions extends ApiExampleBase {
@@ -28,8 +28,8 @@ public class ExDocSaveOptions extends ApiExampleBase {
         //ExFor:DocSaveOptions.SaveFormat
         //ExFor:DocSaveOptions.SaveRoutingSlip
         //ExSummary:Shows how to set save options for classic Microsoft Word document versions.
-        AtomicReference<Document> doc = new AtomicReference<>(new Document());
-        DocumentBuilder builder = new DocumentBuilder(doc.get());
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("Hello world!");
 
         // DocSaveOptions only applies to Doc and Dot save formats
@@ -41,15 +41,15 @@ public class ExDocSaveOptions extends ApiExampleBase {
         // If the document contains a routing slip, we can preserve it while saving by setting this flag to true
         options.setSaveRoutingSlip(true);
 
-        doc.get().save(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", options);
+        doc.save(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", options);
         //ExEnd
 
-        Assert.assertThrows(IncorrectPasswordException.class, () -> doc.set(new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc")));
+        Assert.assertThrows(IncorrectPasswordException.class, () -> new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc"));
 
         LoadOptions loadOptions = new LoadOptions("MyPassword");
-        doc.set(new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", loadOptions));
+        doc = new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", loadOptions);
 
-        Assert.assertEquals("Hello world!", doc.get().getText().trim());
+        Assert.assertEquals("Hello world!", doc.getText().trim());
     }
 
     @Test
@@ -106,8 +106,6 @@ public class ExDocSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.docx", saveOptions);
         //ExEnd
-
-        doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.docx");
     }
 
     @DataProvider(name = "updateLastPrintedPropertyDataProvider")
