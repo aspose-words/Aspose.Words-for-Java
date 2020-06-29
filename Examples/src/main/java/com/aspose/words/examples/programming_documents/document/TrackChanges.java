@@ -17,7 +17,7 @@ public class TrackChanges {
 	}
 
 	private static void acceptRevisions(String dataDir) throws Exception {
-		// ExStart:TrackChanges
+		// ExStart:AcceptAllRevisions
 		Document doc = new Document(dataDir + "Document.doc");
 
 		// Start tracking and make some revisions.
