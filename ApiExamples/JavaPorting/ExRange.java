@@ -37,6 +37,7 @@ import com.aspose.words.CompositeNode;
 import com.aspose.words.NodeImporter;
 import com.aspose.words.ImportFormatMode;
 import com.aspose.words.Section;
+import org.testng.annotations.DataProvider;
 
 
 @Test
@@ -51,7 +52,6 @@ public class ExRange extends ApiExampleBase
         //ExFor:FindReplaceOptions.MatchCase
         //ExFor:FindReplaceOptions.FindWholeWordsOnly
         //ExSummary:Simple find and replace operation.
-        // Open the document
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -64,10 +64,8 @@ public class ExRange extends ApiExampleBase
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(false);
 
-        // Replace the text in the document
         doc.getRange().replace("_CustomerName_", "James Bond", options);
 
-        // Save the modified document
         doc.save(getArtifactsDir() + "Range.ReplaceSimple.docx");
         //ExEnd
 
@@ -76,8 +74,8 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals("Hello James Bond,", msString.trim(doc.getText()));
     }
 
-    @Test
-    public void ignoreDeleted() throws Exception
+    @Test (dataProvider = "ignoreDeletedDataProvider")
+    public void ignoreDeleted(boolean isIgnoreDeleted) throws Exception
     {
         //ExStart
         //ExFor:FindReplaceOptions.IgnoreDeleted
@@ -97,22 +95,27 @@ public class ExRange extends ApiExampleBase
         Regex regex = new Regex("e");
         FindReplaceOptions options = new FindReplaceOptions();
  
-        // Replace 'e' in document while ignoring deleted text
-        options.setIgnoreDeleted(true);
+        // Replace 'e' in document while ignoring/not ignoring deleted text
+        options.setIgnoreDeleted(isIgnoreDeleted);
         doc.getRange().replaceInternal(regex, "*", options);
 
-        Assert.assertEquals(msString.trim(doc.getText()), "Deleted\rT*xt");
-        
-        // Replace 'e' in document while not ignoring deleted text
-        options.setIgnoreDeleted(false);
-        doc.getRange().replaceInternal(regex, "*", options);
-
-        Assert.assertEquals(msString.trim(doc.getText()), "D*l*t*d\rT*xt");
+        Assert.assertEquals(msString.trim(doc.getText()), isIgnoreDeleted ? "Deleted\rT*xt" : "D*l*t*d\rT*xt");
         //ExEnd
     }
 
-    @Test
-    public void ignoreInserted() throws Exception
+	//JAVA-added data provider for test method
+	@DataProvider(name = "ignoreDeletedDataProvider")
+	public static Object[][] ignoreDeletedDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test (dataProvider = "ignoreInsertedDataProvider")
+    public void ignoreInserted(boolean isIgnoreInserted) throws Exception
     {
         //ExStart
         //ExFor:FindReplaceOptions.IgnoreInserted
@@ -131,22 +134,27 @@ public class ExRange extends ApiExampleBase
         Regex regex = new Regex("e");
         FindReplaceOptions options = new FindReplaceOptions();
  
-        // Replace 'e' in document while ignoring inserted text
-        options.setIgnoreInserted(true);
+        // Replace 'e' in document while ignoring/not ignoring inserted text
+        options.setIgnoreInserted(isIgnoreInserted);
         doc.getRange().replaceInternal(regex, "*", options);
 
-        Assert.assertEquals(msString.trim(doc.getText()), "Inserted\rT*xt");
-        
-        // Replace 'e' in document while not ignoring inserted text
-        options.setIgnoreInserted(false);
-        doc.getRange().replaceInternal(regex, "*", options);
-
-        Assert.assertEquals(msString.trim(doc.getText()), "Ins*rt*d\rT*xt");
+        Assert.assertEquals(msString.trim(doc.getText()), isIgnoreInserted ? "Inserted\rT*xt" : "Ins*rt*d\rT*xt");
         //ExEnd
     }
 
-    @Test
-    public void ignoreFields() throws Exception
+	//JAVA-added data provider for test method
+	@DataProvider(name = "ignoreInsertedDataProvider")
+	public static Object[][] ignoreInsertedDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test (dataProvider = "ignoreFieldsDataProvider")
+    public void ignoreFields(boolean isIgnoreFields) throws Exception
     {
         //ExStart
         //ExFor:FindReplaceOptions.IgnoreFields
@@ -159,18 +167,28 @@ public class ExRange extends ApiExampleBase
  
         Regex regex = new Regex("e");
         FindReplaceOptions options = new FindReplaceOptions();
- 
-        // Replace 'e' in document ignoring text inside field
-        options.setIgnoreFields(true);
-        doc.getRange().replaceInternal(regex, "*", options);
-        Assert.assertEquals(doc.getText(), "\u0013INCLUDETEXT\u0014Text in field\u0015\f");
+        // Replace 'e' in document ignoring/not ignoring text inside field
+        options.setIgnoreFields(isIgnoreFields);
         
-        // Replace 'e' in document NOT ignoring text inside field
-        options.setIgnoreFields(false);
         doc.getRange().replaceInternal(regex, "*", options);
-        Assert.assertEquals(doc.getText(), "\u0013INCLUDETEXT\u0014T*xt in fi*ld\u0015\f");
+
+        Assert.assertEquals(doc.getText(),
+            isIgnoreFields
+                ? "\u0013INCLUDETEXT\u0014Text in field\u0015\f"
+                : "\u0013INCLUDETEXT\u0014T*xt in fi*ld\u0015\f");
         //ExEnd
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "ignoreFieldsDataProvider")
+	public static Object[][] ignoreFieldsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
 
     @Test
     public void updateFieldsInRange() throws Exception
@@ -262,7 +280,8 @@ public class ExRange extends ApiExampleBase
 
         // Save the modified document
         doc.save(getArtifactsDir() + "Range.ReplaceWithInsertHtml.docx");
-        Assert.assertEquals("James Bond, Hello\r\f", new Document(getArtifactsDir() + "Range.ReplaceWithInsertHtml.docx").getText()); //ExSkip
+        Assert.assertEquals("James Bond, Hello\r\f",
+            new Document(getArtifactsDir() + "Range.ReplaceWithInsertHtml.docx").getText()); //ExSkip
     }
 
     private static class ReplaceWithHtmlEvaluator implements IReplacingCallback
@@ -301,14 +320,11 @@ public class ExRange extends ApiExampleBase
                         "123, 456, 789 and 17379.");
 
         FindReplaceOptions options = new FindReplaceOptions();
-
         // Highlight newly inserted content with a color
         options.getApplyFont().setHighlightColor(msColor.getLightGray());
-
         // Apply an IReplacingCallback to make the replacement to convert integers into hex equivalents
         // and also to count replacements in the order they take place
         options.setReplacingCallback(new NumberHexer());
-
         // By default, text is searched for replacements front to back, but we can change it to go the other way
         options.setDirection(FindReplaceDirection.BACKWARD);
 
@@ -317,7 +333,9 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals(4, count);
         Assert.assertEquals("Numbers that will be converted to hexadecimal and highlighted:\r" +
                         "0x7B, 0x1C8, 0x315 and 0x43E3.", msString.trim(doc.getText()));
-        Assert.AreEqual(4, doc.getChildNodes(NodeType.RUN, true).<Run>OfType().Count(r => r.Font.HighlightColor.ToArgb() == Color.LightGray.ToArgb()));
+        Assert.AreEqual(4,
+            doc.getChildNodes(NodeType.RUN, true).<Run>OfType()
+                .Count(r => r.Font.HighlightColor.ToArgb() == Color.LightGray.ToArgb()));
     }
 
     /// <summary>
@@ -442,6 +460,7 @@ public class ExRange extends ApiExampleBase
 
         mainDoc.getRange().replaceInternal(new Regex("\\[MY_DOCUMENT\\]"), "", options);
         mainDoc.save(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx");
+
         testInsertDocumentAtReplace(new Document(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx")); //ExSkip
     }
 

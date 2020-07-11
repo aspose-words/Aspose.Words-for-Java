@@ -84,6 +84,7 @@ public class ExThemes extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Themes.CustomColorsAndFonts.docx");
         //ExEnd
+
         doc = new Document(getArtifactsDir() + "Themes.CustomColorsAndFonts.docx");
 
         Assert.assertEquals(Color.OrangeRed.getRGB(), doc.getTheme().getColors().getAccent1().getRGB());

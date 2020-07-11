@@ -12,8 +12,9 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
-import com.aspose.words.ControlChar;
 import org.testng.Assert;
+import com.aspose.ms.System.msString;
+import com.aspose.words.ControlChar;
 import com.aspose.words.NodeType;
 import com.aspose.words.Section;
 import com.aspose.ms.System.Convert;
@@ -23,11 +24,34 @@ import com.aspose.ms.System.Convert;
 public class ExControlChar extends ApiExampleBase
 {
     @Test
+    public void carriageReturn() throws Exception
+    {
+        //ExStart
+        //ExFor:ControlChar
+        //ExFor:ControlChar.Cr
+        //ExSummary:Shows how to use control characters.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert paragraphs with text with DocumentBuilder
+        builder.writeln("Hello world!");
+        builder.writeln("Hello again!");
+
+        // The entire document, when in string form, will display some structural features such as breaks with control characters
+        Assert.assertEquals($"Hello world!{ControlChar.Cr}Hello again!{ControlChar.Cr}{ControlChar.PageBreak}", doc.getText());
+
+        // Some of them can be trimmed out
+        Assert.assertEquals($"Hello world!{ControlChar.Cr}Hello again!", msString.trim(doc.getText()));
+        //ExEnd
+    }
+
+    @Test
     public void insertControlChars() throws Exception
     {
         //ExStart
         //ExFor:ControlChar.Cell
         //ExFor:ControlChar.ColumnBreak
+        //ExFor:ControlChar.CrLf
         //ExFor:ControlChar.Lf
         //ExFor:ControlChar.LineBreak
         //ExFor:ControlChar.LineFeed
@@ -72,6 +96,9 @@ public class ExControlChar extends ApiExampleBase
         Assert.assertEquals(1, doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount());
         builder.write("Before line feed." + ControlChar.LINE_FEED + "After line feed.");
         Assert.assertEquals(2, doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount());
+
+        // Carriage returns and line feeds can be represented together by one character
+        Assert.assertEquals(ControlChar.CR_LF, ControlChar.CR + ControlChar.LF);
 
         // The line feed character has two versions
         Assert.assertEquals(ControlChar.LINE_FEED, ControlChar.LF);

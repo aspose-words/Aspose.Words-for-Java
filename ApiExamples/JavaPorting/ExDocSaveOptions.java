@@ -122,7 +122,8 @@ public class ExDocSaveOptions extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.docx");
 
-        msAssert.areNotEqual(isUpdateLastPrintedProperty, DateTime.equals(DateTime.parse("1/1/0001 00:00:00"), doc.getBuiltInDocumentProperties().getLastPrintedInternal().getDate()));
+        msAssert.areNotEqual(isUpdateLastPrintedProperty,
+            DateTime.equals(DateTime.parse("1/1/0001 00:00:00"), doc.getBuiltInDocumentProperties().getLastPrintedInternal().getDate()));
     }
 
 	//JAVA-added data provider for test method

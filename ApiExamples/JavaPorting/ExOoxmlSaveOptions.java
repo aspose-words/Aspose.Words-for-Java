@@ -27,6 +27,12 @@ import com.aspose.words.ListTemplate;
 import com.aspose.words.List;
 import com.aspose.words.BreakType;
 import com.aspose.ms.System.DateTime;
+import com.aspose.words.CompressionLevel;
+import com.aspose.ms.System.IO.MemoryStream;
+import com.aspose.ms.System.IO.FileStream;
+import com.aspose.ms.System.IO.File;
+import com.aspose.ms.System.IO.FileMode;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.annotations.DataProvider;
 
 
@@ -205,4 +211,73 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
 			{true},
 		};
 	}
+
+    @Test
+    public void documentCompression() throws Exception
+    {
+        //ExStart
+        //ExFor:OoxmlSaveOptions.CompressionLevel
+        //ExFor:CompressionLevel
+        //ExSummary:Shows how to specify the compression level used to save the OOXML document.
+        Document doc = new Document(getMyDir() + "Document.docx");
+        
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
+        // DOCX and DOTX files are internally a ZIP-archive, this property controls
+        // the compression level of the archive
+        // Note, that FlatOpc file is not a ZIP-archive, therefore, this property does
+        // not affect the FlatOpc files
+        // Aspose.Words uses CompressionLevel.Normal by default, but MS Word uses
+        // CompressionLevel.SuperFast by default
+        saveOptions.setCompressionLevel(CompressionLevel.SUPER_FAST);
+        
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.out.docx", saveOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void documentCompression_CheckFileSignatures() throws Exception
+    {
+        /*CompressionLevel*/int[] compressionLevels = {
+            CompressionLevel.MAXIMUM,
+            CompressionLevel.NORMAL,
+            CompressionLevel.FAST,
+            CompressionLevel.SUPER_FAST
+        };
+
+        String[] fileSignatures = new String[]
+        {
+            "50 4B 03 04 14 00 08 08 08 00 ",
+            "50 4B 03 04 14 00 08 08 08 00 ",
+            "50 4B 03 04 14 00 08 08 08 00 ",
+            "50 4B 03 04 14 00 08 08 08 00 "
+        };
+
+        Document doc = new Document();
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
+
+        long prevFileSize = 0;
+        for (int i = 0; i < fileSignatures.length; i++)
+        {
+            saveOptions.setCompressionLevel(compressionLevels[i]);
+            doc.save(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression_CheckFileSignatures.docx", saveOptions);
+
+            MemoryStream stream = new MemoryStream();
+            try /*JAVA: was using*/
+        	{
+            FileStream outputFileStream = File.open(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression_CheckFileSignatures.docx", FileMode.OPEN);
+            try /*JAVA: was using*/
+            {
+                long fileSize = outputFileStream.getLength();
+                msAssert.less(prevFileSize, fileSize);
+
+                TestUtil.copyStream(outputFileStream, stream);
+                Assert.assertEquals(fileSignatures[i], TestUtil.dumpArray(stream.toArray(), 0, 10));
+
+                prevFileSize = fileSize;
+            }
+            finally { if (outputFileStream != null) outputFileStream.close(); }
+        	}
+            finally { if (stream != null) stream.close(); }
+        }
+    }
 }

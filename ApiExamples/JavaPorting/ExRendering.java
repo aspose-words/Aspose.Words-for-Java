@@ -242,7 +242,6 @@ public class ExRendering extends ApiExampleBase
     public void saveToTiffDefault() throws Exception
     {
         Document doc = new Document(getMyDir() + "Rendering.docx");
-
         doc.save(getArtifactsDir() + "Rendering.SaveToTiffDefault.tiff");
     }
 
@@ -1078,7 +1077,7 @@ public class ExRendering extends ApiExampleBase
         options.setEmbedFullFonts(true);
 
         // The output PDF will be embedded with all fonts found in the document
-        doc.save(getArtifactsDir() + "Rendering.EmbedFullFonts.pdf");
+        doc.save(getArtifactsDir() + "Rendering.EmbedFullFonts.pdf", options);
         //ExEnd
     }
 
@@ -1097,7 +1096,7 @@ public class ExRendering extends ApiExampleBase
 
         // The output PDF will contain subsets of the fonts in the document
         // Only the glyphs used in the document are included in the PDF fonts
-        doc.save(getArtifactsDir() + "Rendering.SubsetFonts.pdf");
+        doc.save(getArtifactsDir() + "Rendering.SubsetFonts.pdf", options);
         //ExEnd
     }
 
@@ -1116,7 +1115,7 @@ public class ExRendering extends ApiExampleBase
         options.setFontEmbeddingMode(PdfFontEmbeddingMode.EMBED_NONE);
 
         // The output PDF will be saved without embedding standard windows fonts
-        doc.save(getArtifactsDir() + "Rendering.DisableEmbedWindowsFonts.pdf");
+        doc.save(getArtifactsDir() + "Rendering.DisableEmbedWindowsFonts.pdf", options);
         //ExEnd
     }
 
@@ -1134,7 +1133,7 @@ public class ExRendering extends ApiExampleBase
         options.setUseCoreFonts(true);
 
         // The output PDF will not be embedded with core fonts such as Arial, Times New Roman etc.
-        doc.save(getArtifactsDir() + "Rendering.DisableEmbedCoreFonts.pdf");
+        doc.save(getArtifactsDir() + "Rendering.DisableEmbedCoreFonts.pdf", options);
         //ExEnd
     }
 

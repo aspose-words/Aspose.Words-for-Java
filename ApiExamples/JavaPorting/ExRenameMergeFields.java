@@ -16,7 +16,6 @@ import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import com.aspose.words.FieldStart;
 import com.aspose.words.FieldType;
-import com.aspose.ms.System.msString;
 import com.aspose.words.Run;
 import com.aspose.ms.System.Text.RegularExpressions.Match;
 import com.aspose.words.Node;
@@ -54,7 +53,7 @@ public class ExRenameMergeFields extends ApiExampleBase
             if (((fieldStart.getFieldType()) == (FieldType.FIELD_MERGE_FIELD)))
             {
                 MergeField mergeField = new MergeField(fieldStart);
-                mergeField.setName(mergeField.getName() + "_Renamed");
+                mergeField.(mergeField.getName() + "_Renamed");
             }
         }
 
@@ -89,18 +88,21 @@ class MergeField
     /// <summary>
     /// Gets or sets the name of the merge field.
     /// </summary>
-    String getName() { return msString.trim(getTextSameParent(mFieldSeparator.getNextSibling(), mFieldEnd), '«', '»'); }
-    void setName(String value)
-    {
-        // Merge field name is stored in the field result which is a Run 
-        // node between field separator and field end
-        Run fieldResult = (Run) mFieldSeparator.getNextSibling();
-        fieldResult.setText("«{value}»");
+    String getName() { return mName; }
 
-        // But sometimes the field result can consist of more than one run, delete these runs
-        removeSameParent(fieldResult.getNextSibling(), mFieldEnd);
+    private String mName; => GetTextSameParent(mFieldSeparator.NextSibling, mFieldEnd).Trim('«', '»');
+        set
+        {
+            // Merge field name is stored in the field result which is a Run 
+            // node between field separator and field end
+            Run fieldResult = (Run) mFieldSeparator.NextSibling;
+            fieldResult.Text = $"«{value}»";
 
-        updateFieldCode(value);
+            // But sometimes the field result can consist of more than one run, delete these runs
+            RemoveSameParent(fieldResult.NextSibling, mFieldEnd);
+
+            UpdateFieldCode(value);
+        }
     }
 
     private void updateFieldCode(String fieldName)

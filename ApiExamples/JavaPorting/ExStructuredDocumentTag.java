@@ -11,16 +11,16 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
+import java.util.ArrayList;
 import com.aspose.words.StructuredDocumentTag;
-import com.aspose.ms.System.msConsole;
+import com.aspose.words.NodeType;
 import org.testng.Assert;
 import com.aspose.words.SdtType;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Style;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.words.MarkupLevel;
+import com.aspose.words.NodeCollection;
 import com.aspose.words.Node;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.words.SdtDateStorageFormat;
@@ -34,21 +34,19 @@ import com.aspose.words.Body;
 import com.aspose.words.SdtListItemCollection;
 import com.aspose.words.SdtListItem;
 import java.util.Iterator;
+import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.Guid;
 import com.aspose.words.CustomXmlPart;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.CustomXmlPartCollection;
-import com.aspose.words.CustomXmlSchemaCollection;
-import com.aspose.words.SmartTag;
-import com.aspose.words.CustomXmlPropertyCollection;
-import com.aspose.words.CustomXmlProperty;
-import com.aspose.words.Run;
-import com.aspose.words.DocumentVisitor;
-import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.msString;
+import com.aspose.words.CustomXmlSchemaCollection;
+import com.aspose.words.Run;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.Table;
 import com.aspose.words.Row;
+import com.aspose.words.ref.Ref;
+import org.testng.annotations.DataProvider;
 
 
 /// <summary>
@@ -65,19 +63,12 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExSummary:Shows how to get type of structured document tag.
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
-        NodeCollection sdTags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
+        ArrayList<StructuredDocumentTag> sdTags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).<StructuredDocumentTag>OfType().ToList();
 
-        for (StructuredDocumentTag sdTag : sdTags.<StructuredDocumentTag>OfType() !!Autoporter error: Undefined expression type )
-        {
-            msConsole.writeLine("Type of this SDT is: {0}", sdTag.getSdtType());
-        }
+        Assert.assertEquals(SdtType.REPEATING_SECTION, sdTags.get(0).getSdtType());
+        Assert.assertEquals(SdtType.REPEATING_SECTION_ITEM, sdTags.get(1).getSdtType());
+        Assert.assertEquals(SdtType.RICH_TEXT, sdTags.get(2).getSdtType());
         //ExEnd
-
-        StructuredDocumentTag sdTagRepeatingSection = (StructuredDocumentTag) sdTags.get(0);
-        Assert.assertEquals(SdtType.REPEATING_SECTION, sdTagRepeatingSection.getSdtType());
-
-        StructuredDocumentTag sdTagRichText = (StructuredDocumentTag) sdTags.get(2);
-        Assert.assertEquals(SdtType.RICH_TEXT, sdTagRichText.getSdtType());
     }
 
     @Test
@@ -114,7 +105,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         for (Node node : (Iterable<Node>) tags)
         {
-            StructuredDocumentTag sdt = (StructuredDocumentTag) node;
+            StructuredDocumentTag sdt = (StructuredDocumentTag)node;
             // If style was not defined before, style should be "Default Paragraph Font"
             Assert.assertEquals(StyleIdentifier.QUOTE, sdt.getStyle().getStyleIdentifier());
             Assert.assertEquals("Quote", sdt.getStyleName());
@@ -252,6 +243,17 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.PlainText.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.PlainText.docx");
+        tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+
+        Assert.assertEquals("My plain text", tag.getTitle());
+        Assert.assertEquals(Color.MAGENTA.getRGB(), tag.getColor().getRGB());
+        Assert.assertEquals("MyPlainTextSDT", tag.getTag());
+        Assert.That(tag.getId(), Is.Positive);
+        Assert.assertEquals("Arial", tag.getContentsFont().getName());
+        Assert.assertEquals("Arial Black", tag.getEndCharacterFont().getName());
+        Assert.assertTrue(tag.getMultiline());
     }
 
     @Test
@@ -260,7 +262,6 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:StructuredDocumentTag.IsTemporary
         //ExSummary:Demonstrates the effects of making a StructuredDocumentTag temporary.
-        // Create a new Document
         Document doc = new Document();
 
         // Insert a plain text StructuredDocumentTag, which will prompt the user to enter text
@@ -286,6 +287,10 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.IsTemporary.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.IsTemporary.docx");
+
+        Assert.AreEqual(2, doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).Count(sdt => ((StructuredDocumentTag)sdt).IsTemporary));
     }
 
     @Test
@@ -333,6 +338,15 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.PlaceholderBuildingBlock.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.PlaceholderBuildingBlock.docx");
+        tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        substituteBlock = (BuildingBlock)doc.getGlossaryDocument().getChild(NodeType.BUILDING_BLOCK, 0, true);
+
+        Assert.assertEquals("Custom Placeholder", substituteBlock.getName());
+        Assert.assertTrue(tag.isShowingPlaceholderText());
+        Assert.assertEquals(substituteBlock, tag.getPlaceholder());
+        Assert.assertEquals(substituteBlock.getName(), tag.getPlaceholderName());
     }
 
     @Test
@@ -366,6 +380,17 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.Lock.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.Lock.docx");
+        tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+
+        Assert.assertTrue(tag.getLockContents());
+        Assert.assertFalse(tag.getLockContentControl());
+
+        tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
+
+        Assert.assertFalse(tag.getLockContents());
+        Assert.assertTrue(tag.getLockContentControl());
     }
 
     @Test
@@ -469,10 +494,10 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // Once the "Developer" tab in Mircosoft Word is enabled,
         // we can find elements from this collection as well as a couple defaults in the "XML Mapping Pane" 
         String xmlPartId = Guid.newGuid().toString("B");
-        String xmlPartContent = "<root><text>Hello, World!</text></root>";
+        String xmlPartContent = "<root><text>Hello world!</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
 
-        // The data we entered resides in these variables
+        // The data we entered is stored in these attributes
         Assert.assertEquals(Encoding.getASCII().getBytes(xmlPartContent), xmlPart.getData());
         Assert.assertEquals(xmlPartId, xmlPart.getId());
 
@@ -517,15 +542,29 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         // Create a StructuredDocumentTag that will display the contents of our part,
         // insert it into the document and save the document
-        StructuredDocumentTag sdt = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
-        sdt.getXmlMapping().setMapping(xmlPart, "/root[1]/text[1]", "");
+        StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
+        tag.getXmlMapping().setMapping(xmlPart, "/root[1]/text[1]", "");
 
-        doc.getFirstSection().getBody().appendChild(sdt);
+        doc.getFirstSection().getBody().appendChild(tag);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx");
         //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx", getGoldsDir() + "StructuredDocumentTag.CustomXml Gold.docx"));
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx");
+        xmlPart = doc.getCustomXmlParts().get(0);
+
+        Ref<Guid> referenceToGuid = new Ref<Guid>(Guid);
+        Assert.True(Guid.TryParse(xmlPart.getId(), /*out*/ referenceToGuid temp));
+        Guid = referenceToGuid.get();
+        Assert.assertEquals("<root><text>Hello world!</text></root>", Encoding.getUTF8().getString(xmlPart.getData()));
+        Assert.assertEquals("http://www.w3.org/2001/XMLSchema", xmlPart.getSchemas().get(0));
+
+        tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        Assert.assertEquals("Hello world!", msString.trim(tag.getText()));
+        Assert.assertEquals("/root[1]/text[1]", tag.getXmlMapping().getXPath());
+        Assert.assertEquals("", tag.getXmlMapping().getPrefixMappings());
     }
 
     @Test
@@ -548,22 +587,35 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         System.out.println(Encoding.getUTF8().getString(xmlPart.getData()));
 
         // Create a StructuredDocumentTag that will display the contents of our CustomXmlPart in the document
-        StructuredDocumentTag sdt = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
+        StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
 
         // If we set a mapping for our StructuredDocumentTag,
         // it will only display a part of the CustomXmlPart that the XPath points to
         // This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart
-        sdt.getXmlMapping().setMapping(xmlPart, "/root[1]/text[2]", "xmlns:ns='http://www.w3.org/2001/XMLSchema'");
+        tag.getXmlMapping().setMapping(xmlPart, "/root[1]/text[2]", "xmlns:ns='http://www.w3.org/2001/XMLSchema'");
 
-        Assert.assertTrue(sdt.getXmlMapping().isMapped());
-        Assert.assertEquals(xmlPart, sdt.getXmlMapping().getCustomXmlPart());
-        Assert.assertEquals("/root[1]/text[2]", sdt.getXmlMapping().getXPath());
-        Assert.assertEquals("xmlns:ns='http://www.w3.org/2001/XMLSchema'", sdt.getXmlMapping().getPrefixMappings());
+        Assert.assertTrue(tag.getXmlMapping().isMapped());
+        Assert.assertEquals(xmlPart, tag.getXmlMapping().getCustomXmlPart());
+        Assert.assertEquals("/root[1]/text[2]", tag.getXmlMapping().getXPath());
+        Assert.assertEquals("xmlns:ns='http://www.w3.org/2001/XMLSchema'", tag.getXmlMapping().getPrefixMappings());
 
         // Add the StructuredDocumentTag to the document to display the content from our CustomXmlPart
-        doc.getFirstSection().getBody().appendChild(sdt);
+        doc.getFirstSection().getBody().appendChild(tag);
         doc.save(getArtifactsDir() + "StructuredDocumentTag.XmlMapping.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.XmlMapping.docx");
+        xmlPart = doc.getCustomXmlParts().get(0);
+
+        Ref<Guid> referenceToGuid = new Ref<Guid>(Guid);
+        Assert.True(Guid.TryParse(xmlPart.getId(), /*out*/ referenceToGuid temp));
+        Guid = referenceToGuid.get();
+        Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>", Encoding.getUTF8().getString(xmlPart.getData()));
+
+        tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        Assert.assertEquals("Text element #2", msString.trim(tag.getText()));
+        Assert.assertEquals("/root[1]/text[2]", tag.getXmlMapping().getXPath());
+        Assert.assertEquals("xmlns:ns='http://www.w3.org/2001/XMLSchema'", tag.getXmlMapping().getPrefixMappings());
     }
 
     @Test
@@ -628,8 +680,9 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExSummary:Shows how to get special id of your xml part.
         Document doc = new Document(getMyDir() + "Custom XML part in structured document tag.docx");
 
-        StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
-        System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
+        // Structured document tags have IDs in the form of Guids
+        StructuredDocumentTag tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        Assert.assertEquals("{F3029283-4FF8-4DD2-9F31-395F19ACEE85}", tag.getXmlMapping().getStoreItemId());
         //ExEnd
     }
 
@@ -657,190 +710,45 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:StructuredDocumentTag.Clear
         //ExSummary:Shows how to delete content of StructuredDocumentTag elements.
-        Document doc = new Document(getMyDir() + "Structured document tags.docx");
-
-        NodeCollection sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
-        Assert.assertNotNull(sdts);
-
-        for (StructuredDocumentTag sdt : sdts.<StructuredDocumentTag>OfType() !!Autoporter error: Undefined expression type )
-        {
-            sdt.clear();
-        }
-
-        //ExEnd
-
-        doc = DocumentHelper.saveOpen(doc);
-        sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
-
-        Assert.assertEquals(
-            "Enter any content that you want to repeat, including other content controls. You can also insert this control around table rows in order to repeat parts of a table.\r",
-            sdts.get(0).getText());
-        Assert.assertEquals("Click here to enter text.\f", sdts.get(2).getText());
-    }
-
-    @Test
-    public void smartTagProperties() throws Exception
-    {
-        //ExStart
-        //ExFor:CustomXmlProperty.Uri
-        //ExFor:CustomXmlPropertyCollection
-        //ExFor:CustomXmlPropertyCollection.Add(CustomXmlProperty)
-        //ExFor:CustomXmlPropertyCollection.Clear
-        //ExFor:CustomXmlPropertyCollection.Contains(String)
-        //ExFor:CustomXmlPropertyCollection.Count
-        //ExFor:CustomXmlPropertyCollection.GetEnumerator
-        //ExFor:CustomXmlPropertyCollection.IndexOfKey(String)
-        //ExFor:CustomXmlPropertyCollection.Item(Int32)
-        //ExFor:CustomXmlPropertyCollection.Item(String)
-        //ExFor:CustomXmlPropertyCollection.Remove(String)
-        //ExFor:CustomXmlPropertyCollection.RemoveAt(Int32)
-        //ExSummary:Shows how to work with smart tag properties to get in depth information about smart tags.
-        // Open a document that contains smart tags and their collection
-        Document doc = new Document(getMyDir() + "Smart tags.doc");
-
-        // Smart tags are an older Microsoft Word feature that can automatically detect and tag
-        // any parts of the text that it registers as commonly used information objects such as names, addresses, stock tickers, dates etc
-        // In Word 2003, smart tags can be turned on in Tools > AutoCorrect options... > SmartTags tab
-        // In our input document there are three objects that were registered as smart tags, but since they can be nested, we have 8 in this collection
-        NodeCollection smartTags = doc.getChildNodes(NodeType.SMART_TAG, true);
-        Assert.assertEquals(8, smartTags.getCount());
-
-        // The last smart tag is of the "Date" type, which we will retrieve here
-        SmartTag smartTag = (SmartTag)smartTags.get(7);
-
-        // The Properties attribute, for some smart tags, elaborates on the text object that Word picked up as a smart tag
-        // In the case of our "Date" smart tag, its properties will let us know the year, month and day within the smart tag
-        CustomXmlPropertyCollection properties = smartTag.getProperties();
-
-        // We can enumerate over the collection and print the aforementioned properties to the console
-        Assert.assertEquals(4, properties.getCount());
-
-        Iterator<CustomXmlProperty> enumerator = properties.iterator();
-        try /*JAVA: was using*/
-        {
-            while (enumerator.hasNext())
-            {
-                System.out.println("Property name: {enumerator.Current.Name}, value: {enumerator.Current.Value}");
-                Assert.assertEquals("", enumerator.next().getUri());
-            }
-        }
-        finally { if (enumerator != null) enumerator.close(); }
-        
-        // We can also access the elements in various ways, including as a key-value pair
-        Assert.assertTrue(properties.contains("Day"));
-        Assert.assertEquals("22", properties.get("Day").getValue());
-        Assert.assertEquals("2003", properties.get(2).getValue());
-        Assert.assertEquals(1, properties.indexOfKey("Month"));
-
-        // We can also remove elements by name, index or clear the collection entirely
-        properties.removeAt(3);
-        properties.remove("Year");
-        Assert.assertEquals(2, (properties.getCount()));
-
-        properties.clear();
-        Assert.assertEquals(0, (properties.getCount()));
-
-        // We can remove the entire smart tag like this
-        smartTag.remove();
-        //ExEnd
-    }
-
-    //ExStart
-    //ExFor:CompositeNode.RemoveSmartTags
-    //ExFor:CustomXmlProperty
-    //ExFor:CustomXmlProperty.#ctor(String,String,String)
-    //ExFor:CustomXmlProperty.Name
-    //ExFor:CustomXmlProperty.Value
-    //ExFor:Markup.SmartTag
-    //ExFor:Markup.SmartTag.#ctor(Aspose.Words.DocumentBase)
-    //ExFor:Markup.SmartTag.Accept(Aspose.Words.DocumentVisitor)
-    //ExFor:Markup.SmartTag.Element
-    //ExFor:Markup.SmartTag.Properties
-    //ExFor:Markup.SmartTag.Uri
-    //ExSummary:Shows how to create smart tags.
-    @Test //ExSkip
-    public void smartTags() throws Exception
-    {
         Document doc = new Document();
-        SmartTag smartTag = new SmartTag(doc);
-        smartTag.setElement("date");
 
-        // Specify a date and set smart tag properties accordingly
-        smartTag.appendChild(new Run(doc, "May 29, 2019"));
+        // Create a plain text structured document tag and append it to the document
+        StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
+        doc.getFirstSection().getBody().appendChild(tag);
 
-        smartTag.getProperties().add(new CustomXmlProperty("Day", "", "29"));
-        smartTag.getProperties().add(new CustomXmlProperty("Month", "", "5"));
-        smartTag.getProperties().add(new CustomXmlProperty("Year", "", "2019"));
+        // This structured document tag, which is in the form of a text box, already displays placeholder text
+        Assert.assertEquals("Click here to enter text.", msString.trim(tag.getText()));
+        Assert.assertTrue(tag.isShowingPlaceholderText());
 
-        // Set the smart tag's uri to the default
-        smartTag.setUri("urn:schemas-microsoft-com:office:smarttags");
+        // Create a building block that 
+        GlossaryDocument glossaryDoc = doc.getGlossaryDocument();
+        BuildingBlock substituteBlock = new BuildingBlock(glossaryDoc);
+        substituteBlock.setName("My placeholder");
+        substituteBlock.appendChild(new Section(glossaryDoc));
+        substituteBlock.getFirstSection().ensureMinimum();
+        substituteBlock.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(glossaryDoc, "Custom placeholder text."));
+        glossaryDoc.appendChild(substituteBlock);
 
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(smartTag);
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(doc, " is a date. "));
+        // Set the tag's placeholder to the building block
+        tag.setPlaceholderName("My placeholder");
 
-        // Create and add one more smart tag, this time for a financial symbol
-        smartTag = new SmartTag(doc);
-        smartTag.setElement("stockticker");
-        smartTag.setUri("urn:schemas-microsoft-com:office:smarttags");
+        Assert.assertEquals("Custom placeholder text.", msString.trim(tag.getText()));
+        Assert.assertTrue(tag.isShowingPlaceholderText());
 
-        smartTag.appendChild(new Run(doc, "MSFT"));
+        // Edit the text of the structured document tag and disable showing of placeholder text
+        Run run = (Run)tag.getChild(NodeType.RUN, 0, true);
+        run.setText("New text.");
+        tag.isShowingPlaceholderText(false);
 
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(smartTag);
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(doc, " is a stock ticker."));
+        Assert.assertEquals("New text.", msString.trim(tag.getText()));
 
-        // Print all the smart tags in our document with a document visitor
-        doc.accept(new SmartTagVisitor());
+        tag.clear();
 
-        // SmartTags are supported by older versions of microsoft Word
-        doc.save(getArtifactsDir() + "StructuredDocumentTag.SmartTags.doc");
-
-        // We can strip a document of all its smart tags with RemoveSmartTags()
-        Assert.assertEquals(2, doc.getChildNodes(NodeType.SMART_TAG, true).getCount());
-        doc.removeSmartTags();
-        Assert.assertEquals(0, doc.getChildNodes(NodeType.SMART_TAG, true).getCount());
+        // Clearing a PlainText tag reverts these changes
+        Assert.assertTrue(tag.isShowingPlaceholderText());
+        Assert.assertEquals("Custom placeholder text.", msString.trim(tag.getText()));
+        //ExEnd
     }
-
-    /// <summary>
-    /// DocumentVisitor implementation that prints smart tags and their contents
-    /// </summary>
-    private static class SmartTagVisitor extends DocumentVisitor
-    {
-        /// <summary>
-        /// Called when a SmartTag node is encountered in the document.
-        /// </summary>
-        public /*override*/ /*VisitorAction*/int visitSmartTagStart(SmartTag smartTag)
-        {
-            System.out.println("Smart tag type: {smartTag.Element}");
-            return VisitorAction.CONTINUE;
-        }
-
-        /// <summary>
-        /// Called when the visiting of a SmartTag node is ended.
-        /// </summary>
-        public /*override*/ /*VisitorAction*/int visitSmartTagEnd(SmartTag smartTag)
-        {
-            System.out.println("\tContents: \"{smartTag.ToString(SaveFormat.Text)}\"");
-
-            if (smartTag.getProperties().getCount() == 0)
-            {
-                System.out.println("\tContains no properties");
-            }
-            else
-            {
-                msConsole.write("\tProperties: ");
-                String[] properties = new String[smartTag.getProperties().getCount()];
-                int index = 0;         
-                
-                for (CustomXmlProperty cxp : smartTag.getProperties())
-                    properties[index++] = $"\"{cxp.Name}\" = \"{cxp.Value}\"";
-
-                System.out.println(msString.join(", ", properties));
-            }
-
-            return VisitorAction.CONTINUE;
-        }
-    }
-    //ExEnd
 
     @Test
     public void accessToBuildingBlockPropertiesFromDocPartObjSdt() throws Exception
@@ -887,6 +795,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.BuildingBlockCategories.docx");
         //ExEnd
+
         buildingBlockSdt =
             (StructuredDocumentTag) doc.getFirstSection().getBody().getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
 
@@ -895,8 +804,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("Built-in", buildingBlockSdt.getBuildingBlockCategory());
     }
 
-    @Test
-    public void updateSdtContent() throws Exception
+    @Test (dataProvider = "updateSdtContentDataProvider")
+    public void updateSdtContent(boolean updateSdtContent) throws Exception
     {
         //ExStart
         //ExFor:SaveOptions.UpdateSdtContent
@@ -921,11 +830,29 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // We can save those values in the document without immediately updating the tags, leaving them in their default state
         // by using a SaveOptions object with this flag set
         PdfSaveOptions options = new PdfSaveOptions();
-        options.setUpdateSdtContent(false);
+        options.setUpdateSdtContent(updateSdtContent);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf", options);
         //ExEnd
+
+        Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
+        TextAbsorber textAbsorber = new TextAbsorber();
+        textAbsorber.Visit(pdfDoc);
+
+        Assert.AreEqual(updateSdtContent ? "Value 2" : "Click here to enter a date.\r\nChoose an item.",
+            textAbsorber.Text);
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "updateSdtContentDataProvider")
+	public static Object[][] updateSdtContentDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 
     @Test
     public void fillTableUsingRepeatingSectionItem() throws Exception
@@ -941,7 +868,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             "<book><title>Everyday Italian</title>" +
             "<author>Giada De Laurentiis</author></book>" +
             "<book><title>Harry Potter</title>" +
-            "<author>J K. Rowling</author></book>" +
+            "<author>J. K. Rowling</author></book>" +
             "<book><title>Learning XML</title>" +
             "<author>Erik T. Ray</author></book>" +
             "</books>");
@@ -982,6 +909,26 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
  
         doc.save(getArtifactsDir() + "StructuredDocumentTag.RepeatingSectionItem.docx");
 		//ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.RepeatingSectionItem.docx");
+        ArrayList<StructuredDocumentTag> tags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).<StructuredDocumentTag>OfType().ToList();
+
+        Assert.assertEquals("/books[1]/book", tags.get(0).getXmlMapping().getXPath());
+        Assert.assertEquals("", tags.get(0).getXmlMapping().getPrefixMappings());
+
+        Assert.assertEquals("", tags.get(1).getXmlMapping().getXPath());
+        Assert.assertEquals("", tags.get(1).getXmlMapping().getPrefixMappings());
+
+        Assert.assertEquals("/books[1]/book[1]/title[1]", tags.get(2).getXmlMapping().getXPath());
+        Assert.assertEquals("", tags.get(2).getXmlMapping().getPrefixMappings());
+
+        Assert.assertEquals("/books[1]/book[1]/author[1]", tags.get(3).getXmlMapping().getXPath());
+        Assert.assertEquals("", tags.get(3).getXmlMapping().getPrefixMappings());
+
+        Assert.assertEquals("Title\u0007Author\u0007\u0007" +
+                        "Everyday Italian\u0007Giada De Laurentiis\u0007\u0007" +
+                        "Harry Potter\u0007J. K. Rowling\u0007\u0007" +
+                        "Learning XML\u0007Erik T. Ray\u0007\u0007", msString.trim(doc.getChild(NodeType.TABLE, 0, true).getText()));
     }
 
     @Test

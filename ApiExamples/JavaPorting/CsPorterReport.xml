@@ -48,7 +48,6 @@
 		<File project="Examples" dir="" name="ExMetered" status="AUTO" />
 		<File project="Examples" dir="" name="ExMossDoc2Pdf" status="AUTO" />
 		<File project="Examples" dir="" name="ExMossRtf2Docx" status="AUTO" />
-		<File project="Examples" dir="" name="ExNestedMailMergeCustom" status="DELETED-IN-DOTNET" />
 		<File project="Examples" dir="" name="ExNode" status="AUTO" />
 		<File project="Examples" dir="" name="ExNodeImporter" status="AUTO" />
 		<File project="Examples" dir="" name="ExOdtSaveOptions" status="AUTO" />
@@ -75,14 +74,15 @@
 		<File project="Examples" dir="" name="ExSvgSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExTable" status="AUTO" />
 		<File project="Examples" dir="" name="ExTableColumn" status="AUTO" />
-		<File project="Examples" dir="" name="ExTabStopCollection" status="AUTO" />
+		<File project="Examples" dir="" name="ExTabStop" status="NEW" />
+		<File project="Examples" dir="" name="ExTabStopCollection" status="DELETED-IN-DOTNET" />
 		<File project="Examples" dir="" name="ExThemes" status="AUTO" />
 		<File project="Examples" dir="" name="ExTxtLoadOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExTxtSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExUtilityClasses" status="AUTO" />
 		<File project="Examples" dir="" name="ExVariableCollection" status="AUTO" />
 		<File project="Examples" dir="" name="ExViewOptions" status="AUTO" />
-		<File project="Examples" dir="" name="ExWarningInfoCollection" status="AUTO" />
+		<File project="Examples" dir="" name="ExWarningInfoCollection" status="DELETED-IN-DOTNET" />
 		<File project="Examples" dir="" name="ExXamlFixedSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExXamlFlowSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExXpsSaveOptions" status="AUTO" />

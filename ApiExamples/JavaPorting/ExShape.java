@@ -17,8 +17,10 @@ import com.aspose.words.ShapeType;
 import com.aspose.BitmapPal;
 import java.awt.image.BufferedImage;
 import org.testng.Assert;
-import com.aspose.ms.System.Drawing.msSize;
+import java.util.ArrayList;
 import com.aspose.words.NodeType;
+import com.aspose.ms.System.msString;
+import com.aspose.ms.System.Drawing.msSize;
 import com.aspose.words.ShapeRenderer;
 import java.awt.Graphics2D;
 import com.aspose.words.GroupShape;
@@ -34,6 +36,7 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.FlipOrientation;
 import java.awt.Color;
 import com.aspose.words.Node;
+import com.aspose.words.WrapSide;
 import com.aspose.words.HorizontalAlignment;
 import com.aspose.words.VerticalAlignment;
 import com.aspose.words.Paragraph;
@@ -45,7 +48,7 @@ import com.aspose.words.Forms2OleControlType;
 import com.aspose.words.OleFormat;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
-import java.util.ArrayList;
+import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.Forms2OleControlCollection;
@@ -65,7 +68,6 @@ import com.aspose.words.ShapeLineStyle;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.OlePackage;
 import com.aspose.words.HeightRule;
-import com.aspose.ms.System.msString;
 import com.aspose.words.OoxmlSaveOptions;
 import com.aspose.words.OoxmlCompliance;
 import com.aspose.words.DocumentVisitor;
@@ -130,10 +132,25 @@ public class ExShape extends ApiExampleBase
         Assert.assertTrue(shape.hasImage());
 
         // Rotate the image
-        shape.setRotation(45.0);
+        shape.setRotation(45.0d);
 
         doc.save(getArtifactsDir() + "Shape.Insert.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.Insert.docx");
+        ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToList();
+        
+        TestUtil.verifyShape(ShapeType.CUBE, "MyCube", 150.0d, 150.0d, 0.0, 0.0, shapes.get(0));
+        Assert.assertEquals("Alt text for MyCube.", shapes.get(0).getAlternativeText());
+        Assert.assertEquals("Times New Roman", shapes.get(0).getFont().getName());
+
+        TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100004", 300.0d, 50.0d, 0.0, 0.0, shapes.get(1));
+        Assert.assertEquals("Hello world!", msString.trim(shapes.get(1).getLastParagraph().getText()));
+
+        TestUtil.verifyShape(ShapeType.IMAGE, "", 300.0d, 300.0d, 0.0, 0.0, shapes.get(2));
+        Assert.assertTrue(shapes.get(2).canHaveImage());
+        Assert.assertTrue(shapes.get(2).hasImage());
+        Assert.assertEquals(45.0d, shapes.get(2).getRotation());
     }
 
     //ExStart
@@ -233,20 +250,29 @@ public class ExShape extends ApiExampleBase
         shape.setDistanceRight(40.0);
 
         // Move the shape closer to the centre of the page
-        shape.setLeft(100.0);
-        shape.setTop(100.0);
+        shape.setTop(75.0);
+        shape.setLeft(150.0);
 
         // Rotate the shape
         shape.setRotation(60.0);
 
-        // Add text that the shape will push out of the way
-        for (int i = 0; i < 500; i++)
-        {
-            builder.write("text ");
-        }
+        // Add text that will wrap around the shape
+        builder.getFont().setSize(24.0d);
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+                      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
 
         doc.save(getArtifactsDir() + "Shape.Coordinates.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.Coordinates.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyShape(ShapeType.RECTANGLE, "Rectangle 100002", 150.0d, 150.0d, 75.0d, 150.0d, shape);
+        Assert.assertEquals(40.0d, shape.getDistanceBottom());
+        Assert.assertEquals(40.0d, shape.getDistanceLeft());
+        Assert.assertEquals(40.0d, shape.getDistanceRight());
+        Assert.assertEquals(40.0d, shape.getDistanceTop());
+        Assert.assertEquals(60.0d, shape.getRotation());
     }
 
     @Test
@@ -262,16 +288,12 @@ public class ExShape extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Every GroupShape is top level
         GroupShape group = new GroupShape(doc);
+
+        // Every GroupShape by default is a top level floating shape
         Assert.assertTrue(group.isGroup());
         Assert.assertTrue(group.isTopLevel());
-
-        // And it is a floating shape too, so we can set its coordinates independently of the text
         Assert.assertEquals(WrapType.NONE, group.getWrapType());
-
-        // Make it a floating shape
-        group.setWrapType(WrapType.NONE);
 
         // Top level shapes can have this property changed
         group.setAnchorLocked(true);
@@ -326,12 +348,28 @@ public class ExShape extends ApiExampleBase
         builder.insertNode(group);
         doc.save(getArtifactsDir() + "Shape.InsertGroupShape.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.InsertGroupShape.docx");
+        group = (GroupShape)doc.getChild(NodeType.GROUP_SHAPE, 0, true);
+
+        Assert.assertTrue(group.getAnchorLocked());
+        Assert.assertEquals(new RectangleF(100f, 50f, 200f, 100f), group.getBoundsInternal());
+        Assert.assertEquals(msSize.ctor(2000, 1000), group.getCoordSizeInternal());
+        Assert.assertEquals(msPoint.ctor(-1000, -500), group.getCoordOriginInternal());
+
+        subShape = (Shape)group.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyShape(ShapeType.RECTANGLE, "", 500.0d, 700.0d, 0.0d, 0.0d, subShape);
+
+        subShape = (Shape)group.getChild(NodeType.SHAPE, 1, true);
+
+        TestUtil.verifyShape(ShapeType.TRIANGLE, "", 400.0d, 400.0d, 500.0d, 1000.0d, subShape);
+        Assert.assertEquals(msPointF.ctor(1000f, 500f), subShape.localToParentInternal(msPointF.ctor(0f, 0f)));
     }
 
     @Test
     public void deleteAllShapes() throws Exception
     {
-
         //ExStart
         //ExFor:Shape
         //ExSummary:Shows how to delete all shapes from a document.
@@ -391,8 +429,9 @@ public class ExShape extends ApiExampleBase
         }
         //ExEnd
 
-        // Verify that the first shape in the document is not inline
-        Assert.assertFalse(((Shape) doc.getChild(NodeType.SHAPE, 0, true)).isInline());
+        doc = DocumentHelper.saveOpen(doc);
+
+        Assert.assertFalse(((Shape)doc.getChild(NodeType.SHAPE, 0, true)).isInline());
     }
 
     @Test
@@ -435,8 +474,23 @@ public class ExShape extends ApiExampleBase
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineA);
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(lineB);
 
-        doc.save(getArtifactsDir() + "Shape.LineFlipOrientation.doc");
+        doc.save(getArtifactsDir() + "Shape.LineFlipOrientation.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.LineFlipOrientation.docx");
+        lineA = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(new RectangleF(0f, 0f, pageWidth, pageHeight), lineA.getBoundsInPointsInternal());
+        Assert.assertEquals(FlipOrientation.NONE, lineA.getFlipOrientation());
+        Assert.assertEquals(RelativeHorizontalPosition.PAGE, lineA.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PAGE, lineA.getRelativeVerticalPosition());
+
+        lineB = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(new RectangleF(0f, 0f, pageWidth, pageHeight), lineB.getBoundsInPointsInternal());
+        Assert.assertEquals(FlipOrientation.NONE, lineB.getFlipOrientation());
+        Assert.assertEquals(RelativeHorizontalPosition.PAGE, lineB.getRelativeHorizontalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PAGE, lineB.getRelativeVerticalPosition());
     }
 
     @Test
@@ -448,7 +502,8 @@ public class ExShape extends ApiExampleBase
         //ExFor:Fill
         //ExFor:Fill.Opacity
         //ExSummary:Demonstrates how to create shapes with fill.
-        DocumentBuilder builder = new DocumentBuilder();
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln();
         builder.writeln();
@@ -465,12 +520,19 @@ public class ExShape extends ApiExampleBase
         shape.setTop(-100);
         builder.insertNode(shape);
 
-        builder.getDocument().save(getArtifactsDir() + "Shape.Fill.doc");
+        doc.save(getArtifactsDir() + "Shape.Fill.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.Fill.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyShape(ShapeType.BALLOON, "", 100.0d, 100.0d, -100.0d, 0.0d, shape);
+        Assert.assertEquals(Color.RED.getRGB(), shape.getFillColor().getRGB());
+        Assert.assertEquals(0.3d, shape.getFill().getOpacity(), 0.01d);
     }
 
     @Test
-    public void getShapeAltTextTitle() throws Exception
+    public void title() throws Exception
     {
         //ExStart
         //ExFor:ShapeBase.Title
@@ -480,15 +542,17 @@ public class ExShape extends ApiExampleBase
 
         // Create test shape
         Shape shape = new Shape(doc, ShapeType.CUBE);
-        shape.setWidth(431.5);
-        shape.setHeight(346.35);
-        shape.setTitle("Alt Text Title");
-
+        shape.setWidth(200.0);
+        shape.setHeight(200.0);
+        shape.setTitle("My cube");
+        
         builder.insertNode(shape);
         //ExEnd
 
+        doc = DocumentHelper.saveOpen(doc);
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-        Assert.assertEquals("Alt Text Title", shape.getTitle());
+
+        TestUtil.verifyShape(ShapeType.CUBE, "", 200.0d, 200.0d, 0.0d, 0.0d, shape);
     }
 
     @Test
@@ -539,8 +603,13 @@ public class ExShape extends ApiExampleBase
             }
         }
 
-        doc.save(getArtifactsDir() + "Shape.ReplaceTextboxesWithImages.doc");
+        doc.save(getArtifactsDir() + "Shape.ReplaceTextboxesWithImages.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.ReplaceTextboxesWithImages.docx");
+        Shape outShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(WrapSide.BOTH, outShape.getWrapSide());
     }
 
     @Test
@@ -552,7 +621,7 @@ public class ExShape extends ApiExampleBase
         //ExFor:Story.FirstParagraph
         //ExFor:Shape.FirstParagraph
         //ExFor:ShapeBase.WrapType
-        //ExSummary:Creates a textbox with some text and different formatting options in a new document.
+        //ExSummary:Shows how to create a textbox with some text and different formatting options in a new document.
         Document doc = new Document();
 
         // Create a new shape of type TextBox
@@ -580,15 +649,24 @@ public class ExShape extends ApiExampleBase
 
         // Add some text to the paragraph
         Run run = new Run(doc);
-        run.setText("Content in textbox");
+        run.setText("Hello world!");
         para.appendChild(run);
 
         // Append the textbox to the first paragraph in the body
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(textBox);
 
-        // Save the output
-        doc.save(getArtifactsDir() + "Shape.CreateTextBox.doc");
+        doc.save(getArtifactsDir() + "Shape.CreateTextBox.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.CreateTextBox.docx");
+        textBox = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyShape(ShapeType.TEXT_BOX, "", 200.0d, 50.0d, 0.0d, 0.0d, textBox);
+        Assert.assertEquals(WrapType.NONE, textBox.getWrapType());
+        Assert.assertEquals(HorizontalAlignment.CENTER, textBox.getHorizontalAlignment());
+        Assert.assertEquals(VerticalAlignment.TOP, textBox.getVerticalAlignment());
+        Assert.assertEquals(0, textBox.getZOrder());
+        Assert.assertEquals("Hello world!", msString.trim(textBox.getText()));
     }
 
     @Test
@@ -633,7 +711,7 @@ public class ExShape extends ApiExampleBase
         //ExStart
         //ExFor:OleFormat.GetRawData
         //ExSummary:Shows how to get access to OLE object raw data.
-        // The document contains linked and embedded objects
+        // Open a document that contains OLE objects
         Document doc = new Document(getMyDir() + "OLE objects.docx");
 
         for (Node shape : (Iterable<Node>) doc.getChildNodes(NodeType.SHAPE, true))
@@ -644,6 +722,7 @@ public class ExShape extends ApiExampleBase
             {
                 System.out.println("This is {(oleFormat.IsLink ? ");
                 byte[] oleRawData = oleFormat.getRawData();
+                Assert.assertEquals(24576, oleRawData.length); //ExSkip
             }
         }
         //ExEnd
@@ -688,6 +767,9 @@ public class ExShape extends ApiExampleBase
         // We can also save it directly to a file
         oleFormat.save(getArtifactsDir() + "OLE spreadsheet saved directly" + oleFormat.getSuggestedExtension());
         //ExEnd
+
+        Assert.assertEquals(8300.0, new FileInfo(getArtifactsDir() + "OLE spreadsheet extracted via stream.xlsx").getLength(), TestUtil.getFileInfoLengthDelta());
+        Assert.assertEquals(8300.0, new FileInfo(getArtifactsDir() + "OLE spreadsheet saved directly.xlsx").getLength(), TestUtil.getFileInfoLengthDelta());
     }
 
     @Test
@@ -813,7 +895,6 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(96, imageOptions.getVerticalResolution());
     }
 
-    //For assert result of the test you need to open "Shape.OfficeMath.svg" and check that OfficeMath node is there
     @Test
     public void saveShapeObjectAsImage() throws Exception
     {
@@ -825,8 +906,10 @@ public class ExShape extends ApiExampleBase
 
         // Get OfficeMath node from the document and render this as image (you can also do the same with the Shape node)
         OfficeMath math = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, 0, true);
-        math.getMathRenderer().save(getArtifactsDir() + "Shape.SaveShapeObjectAsImage.svg", new ImageSaveOptions(SaveFormat.SVG));
+        math.getMathRenderer().save(getArtifactsDir() + "Shape.SaveShapeObjectAsImage.png", new ImageSaveOptions(SaveFormat.PNG));
         //ExEnd
+        
+        TestUtil.verifyImage(159, 18, getArtifactsDir() + "Shape.SaveShapeObjectAsImage.png");
     }
 
     @Test
@@ -884,6 +967,7 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.OfficeMath.docx");
         //ExEnd
+
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "Shape.OfficeMath.docx", getGoldsDir() + "Shape.OfficeMath Gold.docx"));
     }
 
@@ -960,6 +1044,7 @@ public class ExShape extends ApiExampleBase
 
         doc = DocumentHelper.saveOpen(doc);
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+
         Assert.assertEquals(isLocked, shape.getAspectRatioLocked());
     }
 
@@ -1062,7 +1147,6 @@ public class ExShape extends ApiExampleBase
 
         doc = DocumentHelper.saveOpen(doc);
         rectangle = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-
         Stroke strokeAfter = rectangle.getStroke();
 
         Assert.assertEquals(true, strokeAfter.getOn());
@@ -1115,7 +1199,7 @@ public class ExShape extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Shape.InsertOlePackage.docx");
 
-        Shape getShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        Shape getShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
         OlePackage getOlePackage = getShape.getOleFormat().getOlePackage();
 
         Assert.assertEquals("Cat FileName.zip", getOlePackage.getFileName());
@@ -1143,7 +1227,6 @@ public class ExShape extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         Shape shape = builder.insertShape(ShapeType.RECTANGLE, 200.0, 300.0);
-
         // Change shape size and rotation
         shape.setHeight(300.0);
         shape.setWidth(500.0);
@@ -1159,7 +1242,6 @@ public class ExShape extends ApiExampleBase
         //ExFor:ShapeBase.IsLayoutInCell
         //ExFor:MsWordVersion
         //ExSummary:Shows how to display the shape, inside a table or outside of it.
-        //Document doc = new Document(MyDir + "Shape.LayoutInCell.docx");
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1199,15 +1281,13 @@ public class ExShape extends ApiExampleBase
             watermark.getTextPath().setText(msString.format("{0}", num));
             watermark.getTextPath().setFontFamily("Arial");
 
-            watermark.setName("WaterMark_{Guid.NewGuid()}");
+            watermark.setName("Watermark_{num++}");
             // Property will take effect only if the WrapType property is set to something other than WrapType.Inline
             watermark.setWrapType(WrapType.NONE); 
             watermark.setBehindText(true);
 
             builder.moveTo(run);
             builder.insertNode(watermark);
-
-            num = num + 1;
         }
 
         // Behaviour of MS Word on working with shapes in table cells is changed in the last versions
@@ -1216,6 +1296,14 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.LayoutInTableCell.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.LayoutInTableCell.docx");
+        ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().ToList();
+
+        Assert.assertEquals(31, shapes.size());
+
+        for (Shape shape : shapes)
+            TestUtil.verifyShape(ShapeType.TEXT_PLAIN_TEXT, $"Watermark_{shapes.IndexOf(shape) + 1}", 30.0d, 30.0d, 0.0d, 0.0d, shape);
     }
 
     @Test
@@ -1248,6 +1336,12 @@ public class ExShape extends ApiExampleBase
         
         doc.save(getArtifactsDir() + "Shape.ShapeInsertion.docx", saveOptions);
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.ShapeInsertion.docx");
+        ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().ToList();
+
+        TestUtil.verifyShape(ShapeType.TOP_CORNERS_ROUNDED, "TopCornersRounded 100002", 50.0d, 50.0d, 100.0d, 100.0d, shapes.get(0));
+        TestUtil.verifyShape(ShapeType.DIAGONAL_CORNERS_ROUNDED, "DiagonalCornersRounded 100004", 50.0d, 50.0d, 0.0d, 0.0d, shapes.get(1));
     }
 
     //ExStart
@@ -1269,7 +1363,8 @@ public class ExShape extends ApiExampleBase
     {
         // Open a document that contains shapes
         Document doc = new Document(getMyDir() + "Revision shape.docx");
-        
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSKip
+
         // Create a ShapeVisitor and get the document to accept it
         ShapeVisitor shapeVisitor = new ShapeVisitor();
         doc.accept(shapeVisitor);
@@ -1431,7 +1526,6 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals("Senior Manager", signatureLine.getSignerTitle());
         Assert.assertEquals("Please sign here", signatureLine.getInstructions());
         Assert.assertTrue(signatureLine.getShowDate());
-
         Assert.assertTrue(signatureLine.getAllowComments());
         Assert.assertTrue(signatureLine.getDefaultInstructions());
 
@@ -1443,6 +1537,24 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.SignatureLine.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.SignatureLine.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyShape(ShapeType.IMAGE, "", 192.75d, 96.75d, -60.0d, -170.0d, shape);
+        Assert.assertTrue(shape.isSignatureLine());
+
+        signatureLine = shape.getSignatureLine();
+
+        Assert.assertEquals("john.doe@management.com", signatureLine.getEmail());
+        Assert.assertEquals("John Doe", signatureLine.getSigner());
+        Assert.assertEquals("Senior Manager", signatureLine.getSignerTitle());
+        Assert.assertEquals("Please sign here", signatureLine.getInstructions());
+        Assert.assertTrue(signatureLine.getShowDate());
+        Assert.assertTrue(signatureLine.getAllowComments());
+        Assert.assertTrue(signatureLine.getDefaultInstructions());
+        Assert.assertFalse(signatureLine.isSigned());
+        Assert.assertFalse(signatureLine.isValid());
     }
 
     @Test
@@ -1505,6 +1617,21 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.TextBox.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.TextBox.docx");
+        ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToList();
+
+        TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100002", 150.0d, 100.0d, 0.0d, 0.0d, shapes.get(0));
+        TestUtil.verifyTextBox(LayoutFlow.TOP_TO_BOTTOM_IDEOGRAPHIC, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, shapes.get(0).getTextBox());
+        Assert.assertEquals("Vertical text", msString.trim(shapes.get(0).getText()));
+
+        TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100004", 150.0d, 100.0d, 0.0d, 0.0d, shapes.get(1));
+        TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, true, TextBoxWrapMode.NONE, 3.6d, 3.6d, 7.2d, 7.2d, shapes.get(1).getTextBox());
+        Assert.assertEquals("Text fit tightly inside textbox", msString.trim(shapes.get(1).getText()));
+
+        TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100006", 100.0d, 100.0d, 0.0d, 0.0d, shapes.get(2));
+        TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 15.0d, 15.0d, 15.0d, 15.0d, shapes.get(2).getTextBox());
+        Assert.assertEquals("Text placed according to textbox margins", msString.trim(shapes.get(2).getText()));
     }
 
     @Test
@@ -1518,7 +1645,7 @@ public class ExShape extends ApiExampleBase
 
         Shape textBoxShape = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 100.0);
         // Not all formats are compatible with this one
-        // For most of incompatible formats AW generated a warnings on save, so use doc.WarningCallback to check it.
+        // For most of incompatible formats AW generated a warnings on save, so use doc.WarningCallback to check it
         textBoxShape.getTextBox().setVerticalAnchor(TextBoxAnchor.BOTTOM);
         
         builder.moveTo(textBoxShape.getLastParagraph());
@@ -1572,11 +1699,11 @@ public class ExShape extends ApiExampleBase
             System.out.println("This TextBox is the head of the sequence");
  
         if (textBox2.getNext() != null && textBox2.getPrevious() != null)
-            System.out.println("This TextBox is the Middle of the sequence");
+            System.out.println("This TextBox is the middle of the sequence");
  
         if (textBox3.getNext() == null && textBox3.getPrevious() != null)
         {
-            System.out.println("This TextBox is the Tail of the sequence");
+            System.out.println("This TextBox is the tail of the sequence");
             
             // Break the forward link between textBox2 and textBox3
             textBox3.getPrevious().breakForwardLink();
@@ -1587,6 +1714,25 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.CreateLinkBetweenTextBoxes.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.CreateLinkBetweenTextBoxes.docx");
+        ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToList();
+
+        TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100002", 100.0d, 100.0d, 0.0d, 0.0d, shapes.get(0));
+        TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, shapes.get(0).getTextBox());
+        Assert.assertEquals("", msString.trim(shapes.get(0).getText()));
+
+        TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100004", 100.0d, 100.0d, 0.0d, 0.0d, shapes.get(1));
+        TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, shapes.get(1).getTextBox());
+        Assert.assertEquals("", msString.trim(shapes.get(1).getText()));
+
+        TestUtil.verifyShape(ShapeType.RECTANGLE, "TextBox 100006", 100.0d, 100.0d, 0.0d, 0.0d, shapes.get(2));
+        TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, shapes.get(2).getTextBox());
+        Assert.assertEquals("", msString.trim(shapes.get(2).getText()));
+
+        TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100008", 100.0d, 100.0d, 0.0d, 0.0d, shapes.get(3));
+        TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, shapes.get(3).getTextBox());
+        Assert.assertEquals("Vertical text", msString.trim(shapes.get(3).getText()));
     }
 
     @Test
@@ -1607,6 +1753,13 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.GetTextBoxAndChangeAnchor.docx");
         //ExEnd
+        
+        doc = new Document(getArtifactsDir() + "Shape.GetTextBoxAndChangeAnchor.docx");
+        textBox = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100002", 200.0d, 200.0d, 0.0d, 0.0d, textBox);
+        TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, textBox.getTextBox());
+        Assert.assertEquals("Textbox contents", msString.trim(textBox.getText()));
     }
 
     //ExStart
@@ -1659,10 +1812,10 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(ShapeType.TEXT_PLAIN_TEXT, shape.getShapeType());
 
         // Toggle whether or not to display text
-        shape = appendWordArt(doc, "On set to true", "Calibri", 150.0, 24.0, Color.YELLOW, Color.RED, ShapeType.TEXT_PLAIN_TEXT);
+        shape = appendWordArt(doc, "On set to true", "Calibri", 150.0, 24.0, Color.YELLOW, Color.Purple, ShapeType.TEXT_PLAIN_TEXT);
         shape.getTextPath().setOn(true);
 
-        shape = appendWordArt(doc, "On set to false", "Calibri", 150.0, 24.0, Color.YELLOW, Color.RED, ShapeType.TEXT_PLAIN_TEXT);
+        shape = appendWordArt(doc, "On set to false", "Calibri", 150.0, 24.0, Color.YELLOW, Color.Purple, ShapeType.TEXT_PLAIN_TEXT);
         shape.getTextPath().setOn(false);
 
         // Apply kerning
@@ -1697,6 +1850,7 @@ public class ExShape extends ApiExampleBase
         shape.getTextPath().setTextPathAlignment(TextPathAlignment.RIGHT);
 
         doc.save(getArtifactsDir() + "Shape.InsertTextPaths.docx");
+        testInsertTextPaths(getArtifactsDir() + "Shape.InsertTextPaths.docx"); //ExSkip
     }
 
     /// <summary>
@@ -1729,6 +1883,46 @@ public class ExShape extends ApiExampleBase
         return shape;
     }
     //ExEnd
+
+    private void testInsertTextPaths(String filename) throws Exception
+    {
+        Document doc = new Document(filename);
+        ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToList();
+
+        TestUtil.verifyShape(ShapeType.TEXT_PLAIN_TEXT, "", 240.0, 24.0, 0.0d, 0.0d, shapes.get(0));
+        Assert.assertTrue(shapes.get(0).getTextPath().getBold());
+        Assert.assertTrue(shapes.get(0).getTextPath().getItalic());
+
+        TestUtil.verifyShape(ShapeType.TEXT_PLAIN_TEXT, "", 150.0, 24.0, 0.0d, 0.0d, shapes.get(1));
+        Assert.assertTrue(shapes.get(1).getTextPath().getOn());
+
+        TestUtil.verifyShape(ShapeType.TEXT_PLAIN_TEXT, "", 150.0, 24.0, 0.0d, 0.0d, shapes.get(2));
+        Assert.assertFalse(shapes.get(2).getTextPath().getOn());
+
+        TestUtil.verifyShape(ShapeType.TEXT_PLAIN_TEXT, "", 90.0, 24.0, 0.0d, 0.0d, shapes.get(3));
+        Assert.assertTrue(shapes.get(3).getTextPath().getKerning());
+
+        TestUtil.verifyShape(ShapeType.TEXT_PLAIN_TEXT, "", 100.0, 24.0, 0.0d, 0.0d, shapes.get(4));
+        Assert.assertFalse(shapes.get(4).getTextPath().getKerning());
+
+        TestUtil.verifyShape(ShapeType.TEXT_CASCADE_DOWN, "", 120.0, 24.0, 0.0d, 0.0d, shapes.get(5));
+        Assert.assertEquals(0.1d, shapes.get(5).getTextPath().getSpacing(), 0.01d);
+
+        TestUtil.verifyShape(ShapeType.TEXT_WAVE, "", 200.0, 36.0, 0.0d, 0.0d, shapes.get(6));
+        Assert.assertTrue(shapes.get(6).getTextPath().getRotateLetters());
+
+        TestUtil.verifyShape(ShapeType.TEXT_SLANT_UP, "", 300.0, 24.0, 0.0d, 0.0d, shapes.get(7));
+        Assert.assertTrue(shapes.get(7).getTextPath().getSameLetterHeights());
+
+        TestUtil.verifyShape(ShapeType.TEXT_PLAIN_TEXT, "", 160.0, 24.0, 0.0d, 0.0d, shapes.get(8));
+        Assert.assertTrue(shapes.get(8).getTextPath().getFitShape());
+        Assert.assertEquals(24.0d, shapes.get(8).getTextPath().getSize());
+
+        TestUtil.verifyShape(ShapeType.TEXT_PLAIN_TEXT, "", 160.0, 24.0, 0.0d, 0.0d, shapes.get(9));
+        Assert.assertFalse(shapes.get(9).getTextPath().getFitShape());
+        Assert.assertEquals(24.0d, shapes.get(9).getTextPath().getSize());
+        Assert.assertEquals(TextPathAlignment.RIGHT, shapes.get(9).getTextPath().getTextPathAlignment());
+    }
 
     @Test
     public void shapeRevision() throws Exception
@@ -1903,15 +2097,12 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to detect that Shape has a SmartArt object.
         Document doc = new Document(getMyDir() + "SmartArt.docx");
  
-        int count = 0;
-        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
-        {
-            if (shape.hasSmartArt())
-                count++;
-        }
- 
+        int count = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().Count(shape => shape.HasSmartArt);
+
         msConsole.writeLine("The document has {0} shapes with SmartArt.", count);
         //ExEnd
+
+        Assert.assertEquals(2, count);
     }
 
     @Test
@@ -1939,34 +2130,34 @@ public class ExShape extends ApiExampleBase
         OfficeMathRenderer renderer = new OfficeMathRenderer(officeMath);
 
         // We can measure the size of the image that the OfficeMath object will create when we render it
-        Assert.assertEquals(117.0f, msSizeF.getWidth(renderer.getSizeInPointsInternal()), 0.1f);
-        Assert.assertEquals(12.9f, msSizeF.getHeight(renderer.getSizeInPointsInternal()), 0.1f);
+        Assert.assertEquals(119.0f, msSizeF.getWidth(renderer.getSizeInPointsInternal()), 0.2f);
+        Assert.assertEquals(13.0f, msSizeF.getHeight(renderer.getSizeInPointsInternal()), 0.1f);
 
-        Assert.assertEquals(117.0f, renderer.getBoundsInPointsInternal().getWidth(), 0.1f);
-        Assert.assertEquals(12.9f, renderer.getBoundsInPointsInternal().getHeight(), 0.1f);
+        Assert.assertEquals(119.0f, renderer.getBoundsInPointsInternal().getWidth(), 0.2f);
+        Assert.assertEquals(13.0f, renderer.getBoundsInPointsInternal().getHeight(), 0.1f);
 
         // Shapes with transparent parts may return different values here
-        Assert.assertEquals(117.0f, renderer.getOpaqueBoundsInPointsInternal().getWidth(), 0.1f);
-        Assert.assertEquals(14.7f, renderer.getOpaqueBoundsInPointsInternal().getHeight(), 0.1f);
+        Assert.assertEquals(119.0f, renderer.getOpaqueBoundsInPointsInternal().getWidth(), 0.2f);
+        Assert.assertEquals(14.2f, renderer.getOpaqueBoundsInPointsInternal().getHeight(), 0.1f);
 
         // Get the shape size in pixels, with linear scaling to a specific DPI
         Rectangle bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f);
-        Assert.assertEquals(156, bounds.getWidth());
+        Assert.assertEquals(159, bounds.getWidth());
         Assert.assertEquals(18, bounds.getHeight());
 
         // Get the shape size in pixels, but with a different DPI for the horizontal and vertical dimensions
         bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f, 150.0f);
-        Assert.assertEquals(156, bounds.getWidth());
-        Assert.assertEquals(27, bounds.getHeight());
+        Assert.assertEquals(159, bounds.getWidth());
+        Assert.assertEquals(28, bounds.getHeight());
 
         // The opaque bounds may vary here also
         bounds = renderer.getOpaqueBoundsInPixelsInternal(1.0f, 96.0f);
-        Assert.assertEquals(156, bounds.getWidth());
-        Assert.assertEquals(20, bounds.getHeight());
+        Assert.assertEquals(159, bounds.getWidth());
+        Assert.assertEquals(18, bounds.getHeight());
 
         bounds = renderer.getOpaqueBoundsInPixelsInternal(1.0f, 96.0f, 150.0f);
-        Assert.assertEquals(156, bounds.getWidth());
-        Assert.assertEquals(31, bounds.getHeight());
+        Assert.assertEquals(159, bounds.getWidth());
+        Assert.assertEquals(30, bounds.getHeight());
         //ExEnd
     }
 }
