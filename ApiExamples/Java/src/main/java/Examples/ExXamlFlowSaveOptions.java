@@ -9,11 +9,13 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 @Test
 public class ExXamlFlowSaveOptions extends ApiExampleBase {
@@ -31,12 +33,14 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
         // Open a document which contains images
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
+        ImageUriPrinter callback = new ImageUriPrinter(getArtifactsDir() + "XamlFlowImageFolderAlias");
+
         XamlFlowSaveOptions options = new XamlFlowSaveOptions();
         {
             options.setSaveFormat(SaveFormat.XAML_FLOW);
             options.setImagesFolder(getArtifactsDir() + "XamlFlowImageFolder");
             options.setImagesFolderAlias(getArtifactsDir() + "XamlFlowImageFolderAlias");
-            options.setImageSavingCallback(new ImageUriPrinter(getArtifactsDir() + "XamlFlowImageFolderAlias"));
+            options.setImageSavingCallback(callback);
         }
 
         // A folder specified by ImagesFolderAlias will contain the images instead of ImagesFolder
@@ -44,6 +48,10 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
         new File(options.getImagesFolderAlias()).mkdir();
 
         doc.save(getArtifactsDir() + "XamlFlowSaveOptions.ImageFolder.xaml", options);
+
+        for (String resource : callback.getResources())
+            System.out.println("{callback.ImagesFolderAlias}/{resource}");
+        testImageFolder(callback); //ExSkip
     }
 
     /// <summary>
@@ -52,18 +60,31 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
     private static class ImageUriPrinter implements IImageSavingCallback {
         public ImageUriPrinter(String imagesFolderAlias) {
             mImagesFolderAlias = imagesFolderAlias;
+            mResources = new ArrayList<String>();
         }
 
-        public void imageSaving(ImageSavingArgs args) throws Exception {
-            System.out.println(MessageFormat.format("Image #{0} \"{1}\"", ++mSavedImageCount, args.getImageFileName()));
+        public void imageSaving(ImageSavingArgs args) throws Exception
+        {
+            getResources().add(args.getImageFileName());
 
             // If we specified a ImagesFolderAlias we will also need to redirect each stream to put its image in that folder
             args.setImageStream(new FileOutputStream(MessageFormat.format("{0}/{1}", mImagesFolderAlias, args.getImageFileName())));
             args.setKeepImageStreamOpen(false);
         }
 
-        private int mSavedImageCount;
+        public String getImagesFolderAlias() { return mImagesFolderAlias; };
+
         private String mImagesFolderAlias;
+        public ArrayList<String> getResources() { return mResources; };
+
+        private ArrayList<String> mResources;
     }
     //ExEnd
+
+    private void testImageFolder(ImageUriPrinter callback) throws Exception
+    {
+        Assert.assertEquals(9, callback.getResources().size());
+        for (String resource : callback.getResources())
+            Assert.assertTrue(new File(MessageFormat.format("{0}/{1}", callback.getImagesFolderAlias(), resource)).exists());
+    }
 }

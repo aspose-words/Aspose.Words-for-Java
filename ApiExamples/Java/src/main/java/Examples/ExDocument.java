@@ -20,6 +20,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
@@ -200,32 +201,6 @@ public class ExDocument extends ApiExampleBase {
         // If we leave the alias null, then the first possible alias that retrieves a private key will be used
         CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
         //ExEnd
-    }
-
-    @Test
-    public void pdf2Word() throws Exception
-    {
-        // Check that PDF document format detects correctly
-        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Pdf Document.pdf");
-        Assert.assertEquals(info.getLoadFormat(), com.aspose.words.LoadFormat.PDF);
-
-        // Check that PDF document opens correctly
-        Document doc = new Document(getMyDir() + "Pdf Document.pdf");
-        Assert.assertEquals(
-            "Heading 1\rHeading 1.1.1.1 Heading 1.1.1.2\rHeading 1.1.1.1.1.1.1.1.1 Heading 1.1.1.1.1.1.1.1.2\f",
-            doc.getRange().getText());
-
-        // Check that protected PDF document opens correctly
-        PdfSaveOptions saveOptions = new PdfSaveOptions();
-        saveOptions.setEncryptionDetails(new PdfEncryptionDetails("Aspose", null, PdfEncryptionAlgorithm.RC_4_40));
-
-        doc.save(getArtifactsDir() + "Document.PdfDocumentEncrypted.pdf", saveOptions);
-
-        PdfLoadOptions loadOptions = new PdfLoadOptions();
-        loadOptions.setPassword("Aspose");
-        loadOptions.setLoadFormat(com.aspose.words.LoadFormat.PDF);
-
-        doc = new Document(getArtifactsDir() + "Document.PdfDocumentEncrypted.pdf", loadOptions);
     }
 
     @Test
@@ -565,7 +540,25 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void convertToHtml() throws Exception {
+    public void tempFolder() throws Exception
+    {
+        //ExStart
+        //ExFor:LoadOptions.TempFolder
+        //ExSummary:Shows how to load a document using temporary files.
+        // Note that such an approach can reduce memory usage but degrades speed
+        LoadOptions loadOptions = new LoadOptions();
+        loadOptions.setTempFolder("C:\\TempFolder\\");
+        
+        // Ensure that the directory exists and load
+        new File(loadOptions.getTempFolder()).mkdir();
+         
+        Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void convertToHtml() throws Exception
+    {
         //ExStart
         //ExFor:Document.Save(String,SaveFormat)
         //ExFor:SaveFormat
@@ -1325,7 +1318,7 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals("Cell 1             Cell 2             Cell 3\r\n\r\n", doc.toString(options));
         //ExEnd
 
-        Assert.assertEquals(156.45d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth());
+        Assert.assertEquals(155.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth(), 2f);
     }
 
     @Test
@@ -1792,7 +1785,24 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void startTrackRevisions() throws Exception {
+    public void removeDuplicateStyles() throws Exception
+    {
+        //ExStart
+        //ExFor:CleanupOptions.DuplicateStyle
+        //ExSummary:Shows how to remove duplicated styles from the document.
+        Document doc = new Document(getMyDir() + "Document.docx");
+        
+        CleanupOptions options = new CleanupOptions();
+        options.setDuplicateStyle(true);
+ 
+        doc.cleanup(options);
+        doc.save(getArtifactsDir() + "Document.RemoveDuplicateStyles.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void startTrackRevisions() throws Exception
+    {
         //ExStart
         //ExFor:Document.StartTrackRevisions(String)
         //ExFor:Document.StartTrackRevisions(String, DateTime)
@@ -2425,6 +2435,29 @@ public class ExDocument extends ApiExampleBase {
             Assert.assertEquals(callback.getMatches().get(1), "[tag 3]");
             Assert.assertEquals(callback.getMatches().get(2), "[tag 2]");
         }
+    }
+
+    @Test
+    public void useSubstitutions() throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.UseSubstitutions
+        //ExSummary:Shows how to recognize and use substitutions within replacement patterns.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+         
+        // Write some text
+        builder.write("Jason give money to Paul.");
+         
+        Pattern regex = Pattern.compile("([A-z]+) give money to ([A-z]+).");
+         
+        // Replace text using substitutions
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setUseSubstitutions(true);
+        doc.getRange().replace(regex, "$2 take money from $1.", options);
+        
+        Assert.assertEquals(doc.getText().trim(), "Paul take money from Jason.");
+        //ExEnd
     }
 
     @Test
@@ -3791,4 +3824,187 @@ public class ExDocument extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Document.EpubCover.epub");
     }
+    
+    @Test
+    public void workWithWatermark() throws Exception
+    {
+        //ExStart
+        //ExFor:Watermark.SetText(String)
+        //ExFor:Watermark.SetText(String, TextWatermarkOptions)
+        //ExFor:Watermark.SetImage(Image, ImageWatermarkOptions)
+        //ExFor:Watermark.Remove
+        //ExFor:TextWatermarkOptions.FontFamily
+        //ExFor:TextWatermarkOptions.FontSize
+        //ExFor:TextWatermarkOptions.Color
+        //ExFor:TextWatermarkOptions.Layout
+        //ExFor:TextWatermarkOptions.IsSemitrasparent
+        //ExFor:ImageWatermarkOptions.Scale
+        //ExFor:ImageWatermarkOptions.IsWashout
+        //ExFor:WatermarkLayout
+        //ExFor:WatermarkType
+        //ExSummary:Shows how to create and remove watermarks in the document.
+        Document doc = new Document();
+
+        doc.getWatermark().setText("Aspose Watermark");
+        
+        TextWatermarkOptions textWatermarkOptions = new TextWatermarkOptions();
+        textWatermarkOptions.setFontFamily("Arial");
+        textWatermarkOptions.setFontSize(36f);
+        textWatermarkOptions.setColor(Color.BLACK);
+        textWatermarkOptions.setLayout(WatermarkLayout.HORIZONTAL);
+        textWatermarkOptions.isSemitrasparent(false);
+
+        doc.getWatermark().setText("Aspose Watermark", textWatermarkOptions);
+
+        ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions();
+        imageWatermarkOptions.setScale(5.0);
+        imageWatermarkOptions.isWashout(false);
+        
+        doc.getWatermark().setImage(ImageIO.read(new File(getImageDir() + "Logo.jpg")), imageWatermarkOptions);
+        if (doc.getWatermark().getType() == WatermarkType.TEXT)
+            doc.getWatermark().remove();
+        //ExEnd
+    }
+
+    @Test
+    public void hideGrammarErrors() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.ShowGrammaticalErrors
+        //ExFor:Document.ShowSpellingErrors
+        //ExSummary:Shows how to hide grammar errors in the document.
+        Document doc = new Document(getMyDir() + "Document.docx");
+        
+        doc.setShowGrammaticalErrors(true);
+        doc.setShowSpellingErrors(false);
+        
+        doc.save(getArtifactsDir() + "Document.HideGrammarErrors.docx");
+        //ExEnd
+    }
+
+    //ExStart
+    //ExFor:IPageLayoutCallback
+    //ExFor:IPageLayoutCallback.Notify(PageLayoutCallbackArgs)
+    //ExFor:PageLayoutCallbackArgs.Event
+    //ExFor:PageLayoutCallbackArgs.Document
+    //ExFor:PageLayoutCallbackArgs.PageIndex
+    //ExFor:PageLayoutEvent
+    //ExSummary:Shows how to track layout/rendering progress with layout callback.
+    @Test
+    public void pageLayoutCallback() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Document.docx");
+        
+        doc.getLayoutOptions().setCallback(new RenderPageLayoutCallback());
+        doc.updatePageLayout();
+    }
+
+    private static class RenderPageLayoutCallback implements IPageLayoutCallback
+    {
+        public void notify(PageLayoutCallbackArgs a) throws Exception
+        {
+            switch (a.getEvent())
+            {
+                case PageLayoutEvent.PART_REFLOW_FINISHED:
+                    notifyPartFinished(a);
+                    break;
+            }
+        }
+
+        private void notifyPartFinished(PageLayoutCallbackArgs a) throws Exception
+        {
+            System.out.println("Part at page {a.PageIndex + 1} reflow");
+            renderPage(a, a.getPageIndex());
+        }
+
+        private void renderPage(PageLayoutCallbackArgs a, int pageIndex) throws Exception
+        {
+            ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.PNG);
+            saveOptions.setPageIndex(pageIndex);
+            saveOptions.setPageCount(1);
+
+            OutputStream stream = new FileOutputStream(getArtifactsDir() + MessageFormat.format("PageLayoutCallback.page-{0} {1}.png", pageIndex + 1, ++mNum));
+            try
+        	{
+                a.getDocument().save(stream, saveOptions);
+        	}
+            finally { if (stream != null) stream.close(); }
+        }
+
+        private int mNum;
+    }
+    //ExEnd
+
+    @Test (dataProvider = "granularityCompareOptionDataProvider")
+    public void granularityCompareOption(/*Granularity*/int granularity) throws Exception
+    {
+        //ExStart
+        //ExFor:CompareOptions.Granularity
+        //ExFor:Granularity
+        //ExSummary:Shows to specify comparison granularity.
+        Document docA = new Document();
+        DocumentBuilder builderA = new DocumentBuilder(docA);
+        builderA.writeln("Alpha Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+
+        Document docB = new Document();
+        DocumentBuilder builderB = new DocumentBuilder(docB);
+        builderB.writeln("Lorems ipsum dolor sit amet consectetur - \"adipiscing\" elit");
+ 
+        // Specify whether changes are tracked by character ('Granularity.CharLevel') or by word ('Granularity.WordLevel')
+        CompareOptions compareOptions = new CompareOptions();
+        compareOptions.setGranularity(granularity);
+ 
+        docA.compare(docB, "author", new Date(), compareOptions);
+
+        // Revision groups contain all of our text changes
+        RevisionGroupCollection groups = docA.getRevisions().getGroups();
+        Assert.assertEquals(5, groups.getCount());
+        //ExEnd
+
+        if (granularity == Granularity.CHAR_LEVEL)
+        {
+            Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
+            Assert.assertEquals("Alpha ", groups.get(0).getText());
+
+            Assert.assertEquals(RevisionType.DELETION, groups.get(1).getRevisionType());
+            Assert.assertEquals(",", groups.get(1).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(2).getRevisionType());
+            Assert.assertEquals("s", groups.get(2).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(3).getRevisionType());
+            Assert.assertEquals("- \"", groups.get(3).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(4).getRevisionType());
+            Assert.assertEquals("\"", groups.get(4).getText());
+        }
+        else
+        {
+            Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
+            Assert.assertEquals("Alpha Lorem ", groups.get(0).getText());
+
+            Assert.assertEquals(RevisionType.DELETION, groups.get(1).getRevisionType());
+            Assert.assertEquals(",", groups.get(1).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(2).getRevisionType());
+            Assert.assertEquals("Lorems ", groups.get(2).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(3).getRevisionType());
+            Assert.assertEquals("- \"", groups.get(3).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(4).getRevisionType());
+            Assert.assertEquals("\"", groups.get(4).getText());   
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "granularityCompareOptionDataProvider")
+	public static Object[][] granularityCompareOptionDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{Granularity.CHAR_LEVEL},
+			{Granularity.WORD_LEVEL},
+		};
+	}
 }

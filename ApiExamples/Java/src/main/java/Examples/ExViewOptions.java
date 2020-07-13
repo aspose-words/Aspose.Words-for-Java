@@ -9,10 +9,13 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 
 
 @Test
@@ -34,10 +37,16 @@ public class ExViewOptions extends ApiExampleBase {
         doc.getViewOptions().setZoomPercent(50);
 
         // Or we can set the ZoomType to a different value to avoid using percentages 
-        Assert.assertEquals(doc.getViewOptions().getZoomType(), ZoomType.NONE);
+        Assert.assertEquals(ZoomType.NONE, doc.getViewOptions().getZoomType());
 
-        doc.save(getArtifactsDir() + "ViewOptions.SetZoom.doc");
+        doc.save(getArtifactsDir() + "ViewOptions.SetZoom.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "ViewOptions.SetZoom.docx");
+
+        Assert.assertEquals(ViewType.PAGE_LAYOUT, doc.getViewOptions().getViewType());
+        Assert.assertEquals(50, doc.getViewOptions().getZoomPercent());
+        Assert.assertEquals(ZoomType.NONE, doc.getViewOptions().getZoomType());
     }
 
     @Test
@@ -45,8 +54,8 @@ public class ExViewOptions extends ApiExampleBase {
         //ExStart
         //ExFor:ViewOptions.DisplayBackgroundShape
         //ExSummary:Shows how to hide/display document background images in view options.
-        // Create a new document from an html string
-        final String HTML = "\r\n<html>\r\n<body style='background-color: blue'>\r\n<p>Hello world!</p>\r\n</body>\r\n</html>";
+        // Create a new document from an html string with a flat background color
+        final String HTML = "<html>\r\n<body style='background-color: blue'>\r\n<p>Hello world!</p>\r\n</body>\r\n</html>";
 
         Document doc = new Document(new ByteArrayInputStream(HTML.getBytes()));
 
@@ -56,6 +65,10 @@ public class ExViewOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ViewOptions.DisplayBackgroundShape.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "ViewOptions.DisplayBackgroundShape.docx");
+
+        Assert.assertFalse(doc.getViewOptions().getDisplayBackgroundShape());
     }
 
     @Test
@@ -84,12 +97,17 @@ public class ExViewOptions extends ApiExampleBase {
         // to give the document's main body content some flow by setting this flag
         doc.getViewOptions().setDoNotDisplayPageBoundaries(true);
 
-        doc.save(getArtifactsDir() + "ViewOptions.DisplayPageBoundaries.doc");
+        doc.save(getArtifactsDir() + "ViewOptions.DisplayPageBoundaries.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "ViewOptions.DisplayPageBoundaries.docx");
+
+        Assert.assertTrue(doc.getViewOptions().getDoNotDisplayPageBoundaries());
     }
 
-    @Test
-    public void formsDesign() throws Exception {
+    @Test (dataProvider = "formsDesignDataProvider")
+    public void formsDesign(boolean useFormsDesign) throws Exception
+    {
         //ExStart
         //ExFor:ViewOptions.FormsDesign
         //ExFor:WordML2003SaveOptions
@@ -105,9 +123,20 @@ public class ExViewOptions extends ApiExampleBase {
         }
 
         // Enables forms design mode in WordML documents
-        doc.getViewOptions().setFormsDesign(true);
+        doc.getViewOptions().setFormsDesign(useFormsDesign);
 
         doc.save(getArtifactsDir() + "ViewOptions.FormsDesign.xml", options);
         //ExEnd
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "formsDesignDataProvider")
+	public static Object[][] formsDesignDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 }

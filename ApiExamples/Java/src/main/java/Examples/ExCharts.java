@@ -35,9 +35,6 @@ public class ExCharts extends ApiExampleBase {
         // Use a document builder to insert a bar chart
         Shape chartShape = builder.insertChart(ChartType.BAR, 400.0, 300.0);
 
-        Assert.assertEquals(chartShape.getShapeType(), ShapeType.NON_PRIMITIVE);
-        Assert.assertTrue(chartShape.hasChart());
-
         // Get the chart object from the containing shape
         Chart chart = chartShape.getChart();
 
@@ -380,10 +377,9 @@ public class ExCharts extends ApiExampleBase {
         Assert.assertEquals("#,##0", chart.getAxisY().getNumberFormat().getFormatCode());
     }
 
-    // Note: Tests below used for verification conversion docx to pdf and the correct display.
-    // For now, the results check manually.
-    @Test(dataProvider = "testDisplayChartsWithConversionDataProvider")
-    public void testDisplayChartsWithConversion(int chartType) throws Exception {
+    @Test (dataProvider = "testDisplayChartsWithConversionDataProvider")
+    public void testDisplayChartsWithConversion(int chartType) throws Exception
+    {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -529,6 +525,7 @@ public class ExCharts extends ApiExampleBase {
     //ExFor:ChartDataLabel.ShowPercentage
     //ExFor:ChartDataLabel.ShowSeriesName
     //ExFor:ChartDataLabel.ShowValue
+    //ExFor:ChartDataLabel.IsHidden
     //ExFor:ChartDataLabelCollection
     //ExFor:ChartDataLabelCollection.Add(System.Int32)
     //ExFor:ChartDataLabelCollection.Clear
@@ -592,6 +589,7 @@ public class ExCharts extends ApiExampleBase {
             label.setShowLeaderLines(true);
             label.setShowLegendKey(true);
             label.setShowPercentage(false);
+            label.isHidden(false);
             Assert.assertFalse(label.getShowDataLabelsRange());
 
             // Apply number format and separator
@@ -600,6 +598,7 @@ public class ExCharts extends ApiExampleBase {
 
             // The label automatically becomes visible
             Assert.assertTrue(label.isVisible());
+            Assert.assertFalse(label.isHidden());
         }
     }
     //ExEnd

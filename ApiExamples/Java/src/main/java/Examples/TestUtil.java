@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -228,5 +229,46 @@ class TestUtil {
         Assert.assertEquals(expectedTabLeader, tabStop.getLeader());
         Assert.assertEquals(isClear, tabStop.isClear());
     }
+
+    /// <summary>
+    /// Checks whether values of a shape's attributes are equal to their expected values.
+    /// </summary>
+    /// <remarks>
+    /// All dimension measurements are in points.
+    /// </remarks>
+    static void verifyShape(/*ShapeType*/int expectedShapeType, String expectedName, double expectedWidth, double expectedHeight, double expectedTop, double expectedLeft, Shape shape) {
+
+        Assert.assertEquals(expectedShapeType, shape.getShapeType());
+        Assert.assertEquals(expectedName, shape.getName());
+        Assert.assertEquals(expectedWidth, shape.getWidth());
+        Assert.assertEquals(expectedHeight, shape.getHeight());
+        Assert.assertEquals(expectedTop, shape.getTop());
+        Assert.assertEquals(expectedLeft, shape.getLeft());
+    }
+
+    /// <summary>
+    /// Checks whether values of attributes of a textbox are equal to their expected values.
+    /// </summary>
+    /// <remarks>
+    /// All dimension measurements are in points.
+    /// </remarks>
+    static void verifyTextBox(/*LayoutFlow*/int expectedLayoutFlow, boolean expectedFitShapeToText, /*TextBoxWrapMode*/int expectedTextBoxWrapMode, double marginTop, double marginBottom, double marginLeft, double marginRight, TextBox textBox) {
+        Assert.assertEquals(expectedLayoutFlow, textBox.getLayoutFlow());
+        Assert.assertEquals(expectedFitShapeToText, textBox.getFitShapeToText());
+        Assert.assertEquals(expectedTextBoxWrapMode, textBox.getTextBoxWrapMode());
+        Assert.assertEquals(marginTop, textBox.getInternalMarginTop());
+        Assert.assertEquals(marginBottom, textBox.getInternalMarginBottom());
+        Assert.assertEquals(marginLeft, textBox.getInternalMarginLeft());
+        Assert.assertEquals(marginRight, textBox.getInternalMarginRight());
+    }
+
+    /// <summary>
+    /// Margin of error, in bytes, for file size comparisons which take system-to-system variance of metadata size into account.
+    /// </summary>
+    static int getFileInfoLengthDelta() {
+        return mFileInfoLengthDelta;
+    }
+
+    private static int mFileInfoLengthDelta = 200;
 }
 

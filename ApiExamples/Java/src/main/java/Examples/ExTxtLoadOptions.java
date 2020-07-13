@@ -9,54 +9,34 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.FileInputStream;
+
 @Test
-public class ExTxtLoadOptions extends ApiExampleBase {
+public class ExTxtLoadOptions extends ApiExampleBase
+{
     @Test
-    public void detectNumberingWithWhitespaces() throws Exception {
-        //ExStart
-        //ExFor:TxtLoadOptions.DetectNumberingWithWhitespaces
-        //ExFor:TxtLoadOptions.TrailingSpacesOptions
-        //ExFor:TxtLoadOptions.LeadingSpacesOptions
-        //ExFor:TxtTrailingSpacesOptions
-        //ExFor:TxtLeadingSpacesOptions
-        //ExSummary:Shows how to load plain text as is.
-        TxtLoadOptions loadOptions = new TxtLoadOptions();
-        // If it sets to true Aspose.Words insert additional periods after numbers in the content
-        loadOptions.setDetectNumberingWithWhitespaces(false);
-        loadOptions.setTrailingSpacesOptions(TxtTrailingSpacesOptions.PRESERVE);
-        loadOptions.setLeadingSpacesOptions(TxtLeadingSpacesOptions.PRESERVE);
-
-        Document doc = new Document(getMyDir() + "Numbers and whitespaces.txt", loadOptions);
-        doc.save(getArtifactsDir() + "TxtLoadOptions.DetectNumberingWithWhitespaces.txt");
-        //ExEnd
-    }
-
-    @Test(dataProvider = "detectDocumentDirectionDataProvider")
-    public void detectDocumentDirection(String documentPath, boolean isBidi) throws Exception {
+    public void detectDocumentDirection() throws Exception
+    {
         //ExStart
         //ExFor:TxtLoadOptions.DocumentDirection
         //ExSummary:Shows how to detect document direction automatically.
+        // Create a LoadOptions object and configure it to detect text direction automatically upon loading
         TxtLoadOptions loadOptions = new TxtLoadOptions();
         loadOptions.setDocumentDirection(DocumentDirection.AUTO);
-
+ 
         // Text like Hebrew/Arabic will be automatically detected as RTL
-        Document doc = new Document(getMyDir() + documentPath, loadOptions);
-        Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
-        Assert.assertEquals(paragraph.getParagraphFormat().getBidi(), isBidi);
-        //ExEnd
-    }
+        Document doc = new Document(getMyDir() + "Hebrew text.txt", loadOptions);
 
-    //JAVA-added data provider for test method
-    @DataProvider(name = "detectDocumentDirectionDataProvider")
-    public static Object[][] detectDocumentDirectionDataProvider() throws Exception {
-        return new Object[][]
-                {
-                        {"Hebrew text.txt", true},
-                        {"English text.txt", false},
-                };
+        Assert.assertTrue(doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBidi());
+
+        doc = new Document(getMyDir() + "English text.txt", loadOptions);
+
+        Assert.assertFalse(doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBidi());
+        //ExEnd
     }
 }

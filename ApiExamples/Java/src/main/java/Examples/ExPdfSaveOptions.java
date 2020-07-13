@@ -22,9 +22,13 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ExPdfSaveOptions extends ApiExampleBase {
@@ -721,6 +725,25 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 		};
 	}
 
+    @Test
+    public void interpolateImages() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.InterpolateImages
+        //ExSummary:Shows how to improve the quality of an image in the rendered documents.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        BufferedImage img = ImageIO.read(new File(getImageDir() + "Transparent background logo.png"));
+        builder.insertImage(img);
+        
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setInterpolateImages(true);
+        
+        doc.save(getArtifactsDir() + "PdfSaveOptions.InterpolateImages.pdf", saveOptions);
+        //ExEnd
+    }
+
 
     @Test
     public void pdfDigitalSignature() throws Exception {
@@ -827,5 +850,36 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 			{EmfPlusDualRenderingMode.EMF_PLUS},
 			{EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK},
 		};
+    }
+
+    @Test (groups = "SkipMono")
+    public void dml3DEffectsRenderingModeTest() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "DrawingML shape 3D effects.docx");
+        
+        RenderCallback warningCallback = new RenderCallback();
+        doc.setWarningCallback(warningCallback);
+        
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setDml3DEffectsRenderingMode(Dml3DEffectsRenderingMode.ADVANCED);
+        
+        doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
+
+        Assert.assertEquals(warningCallback.Count(), 43);
+    }
+
+    public static class RenderCallback implements IWarningCallback
+    {
+        public void warning(WarningInfo info)
+        {
+            System.out.println(MessageFormat.format("{0}: {1}.", info.getWarningType(), info.getDescription()));
+            mWarnings.add(info);
+        }
+
+        public int Count() {
+            return mWarnings.size();
+        }
+
+        private static ArrayList<WarningInfo> mWarnings = new ArrayList<>();
     }
 }

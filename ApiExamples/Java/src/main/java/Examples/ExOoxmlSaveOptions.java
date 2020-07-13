@@ -14,6 +14,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Date;
 
@@ -183,4 +185,26 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
 			{true},
 		};
 	}
+
+    @Test
+    public void documentCompression() throws Exception
+    {
+        //ExStart
+        //ExFor:OoxmlSaveOptions.CompressionLevel
+        //ExFor:CompressionLevel
+        //ExSummary:Shows how to specify the compression level used to save the OOXML document.
+        Document doc = new Document(getMyDir() + "Document.docx");
+        
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
+        // DOCX and DOTX files are internally a ZIP-archive, this property controls
+        // the compression level of the archive
+        // Note, that FlatOpc file is not a ZIP-archive, therefore, this property does
+        // not affect the FlatOpc files
+        // Aspose.Words uses CompressionLevel.Normal by default, but MS Word uses
+        // CompressionLevel.SuperFast by default
+        saveOptions.setCompressionLevel(CompressionLevel.SUPER_FAST);
+        
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.out.docx", saveOptions);
+        //ExEnd
+    }
 }

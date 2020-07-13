@@ -28,7 +28,6 @@ public class ExRange extends ApiExampleBase {
         //ExFor:FindReplaceOptions.MatchCase
         //ExFor:FindReplaceOptions.FindWholeWordsOnly
         //ExSummary:Simple find and replace operation.
-        // Open the document
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -41,10 +40,8 @@ public class ExRange extends ApiExampleBase {
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(false);
 
-        // Replace the text in the document
         doc.getRange().replace("_CustomerName_", "James Bond", options);
 
-        // Save the modified document
         doc.save(getArtifactsDir() + "Range.ReplaceSimple.docx");
         //ExEnd
 
