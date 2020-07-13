@@ -18,8 +18,7 @@ import java.util.Iterator;
 
 public class ExStyles extends ApiExampleBase {
     @Test
-    public void styles() throws Exception
-    {
+    public void styles() throws Exception {
         //ExStart
         //ExFor:DocumentBase.Styles
         //ExFor:Style.Document
@@ -33,7 +32,7 @@ public class ExStyles extends ApiExampleBase {
         //ExFor:StyleCollection.GetEnumerator
         //ExSummary:Shows how to access a document's style collection.
         Document doc = new Document();
-       
+
         // A blank document comes with 4 styles by default
         Assert.assertEquals(4, doc.getStyles().getCount());
 
@@ -51,8 +50,7 @@ public class ExStyles extends ApiExampleBase {
     }
 
     @Test
-    public void createStyle() throws Exception
-    {
+    public void createStyle() throws Exception {
         //ExStart
         //ExFor:Style.Font
         //ExFor:Style
@@ -115,10 +113,9 @@ public class ExStyles extends ApiExampleBase {
     }
 
     @Test
-    public void changeStyleOfTocLevel() throws Exception
-    {
+    public void changeStyleOfTocLevel() throws Exception {
         Document doc = new Document();
-        
+
         // Retrieve the style used for the first level of the TOC and change the formatting of the style
         doc.getStyles().getByStyleIdentifier(StyleIdentifier.TOC_1).getFont().setBold(true);
     }
@@ -157,8 +154,7 @@ public class ExStyles extends ApiExampleBase {
 
         for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
             if (para.getParagraphFormat().getStyle().getStyleIdentifier() >= StyleIdentifier.TOC_1 &&
-                para.getParagraphFormat().getStyle().getStyleIdentifier() <= StyleIdentifier.TOC_9)
-            {
+                    para.getParagraphFormat().getStyle().getStyleIdentifier() <= StyleIdentifier.TOC_9) {
                 TabStop tabStop = para.getEffectiveTabStops()[0];
                 Assert.assertEquals(400.8d, tabStop.getPosition());
                 Assert.assertEquals(TabAlignment.RIGHT, tabStop.getAlignment());
@@ -167,8 +163,7 @@ public class ExStyles extends ApiExampleBase {
     }
 
     @Test
-    public void copyStyleSameDocument() throws Exception
-    {
+    public void copyStyleSameDocument() throws Exception {
         //ExStart
         //ExFor:StyleCollection.AddCopy
         //ExFor:Style.Name
@@ -187,8 +182,7 @@ public class ExStyles extends ApiExampleBase {
     }
 
     @Test
-    public void copyStyleDifferentDocument() throws Exception
-    {
+    public void copyStyleDifferentDocument() throws Exception {
         //ExStart
         //ExFor:StyleCollection.AddCopy
         //ExSummary:Shows how to import a style from one document into a different document.
@@ -228,8 +222,7 @@ public class ExStyles extends ApiExampleBase {
     }
 
     @Test
-    public void paragraphStyleBulletedList() throws Exception
-    {
+    public void paragraphStyleBulletedList() throws Exception {
         //ExStart
         //ExFor:StyleCollection
         //ExFor:DocumentBase.Styles
@@ -275,8 +268,7 @@ public class ExStyles extends ApiExampleBase {
     }
 
     @Test
-    public void styleAliases() throws Exception
-    {
+    public void styleAliases() throws Exception {
         //ExStart
         //ExFor:Style.Aliases
         //ExFor:Style.BaseStyleName
@@ -287,7 +279,7 @@ public class ExStyles extends ApiExampleBase {
 
         // If a style's name has multiple values separated by commas, each one is considered to be a separate alias
         Style style = doc.getStyles().get("MyStyle");
-        Assert.assertEquals(new String[] { "MyStyle Alias 1", "MyStyle Alias 2" }, style.getAliases());
+        Assert.assertEquals(new String[]{"MyStyle Alias 1", "MyStyle Alias 2"}, style.getAliases());
         Assert.assertEquals("Title", style.getBaseStyleName());
         Assert.assertEquals("MyStyle Char", style.getLinkedStyleName());
 

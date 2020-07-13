@@ -377,9 +377,8 @@ public class ExCharts extends ApiExampleBase {
         Assert.assertEquals("#,##0", chart.getAxisY().getNumberFormat().getFormatCode());
     }
 
-    @Test (dataProvider = "testDisplayChartsWithConversionDataProvider")
-    public void testDisplayChartsWithConversion(int chartType) throws Exception
-    {
+    @Test(dataProvider = "testDisplayChartsWithConversionDataProvider")
+    public void testDisplayChartsWithConversion(int chartType) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

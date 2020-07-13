@@ -28,7 +28,6 @@ import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
@@ -938,15 +937,13 @@ public class ExFont extends ApiExampleBase {
         Assert.assertNull(substitutionWarningHandler.FontWarnings);
     }
 
-    public static class HandleDocumentSubstitutionWarnings implements IWarningCallback
-    {
+    public static class HandleDocumentSubstitutionWarnings implements IWarningCallback {
         /// <summary>
         /// Our callback only needs to implement the "Warning" method. This method is called whenever there is a
         /// potential issue during document processing. The callback can be set to listen for warnings generated during document
         /// load and/or document save.
         /// </summary>
-        public void warning(WarningInfo info)
-        {
+        public void warning(WarningInfo info) {
             // We are only interested in fonts being substituted
             if (info.getWarningType() == WarningType.FONT_SUBSTITUTION)
                 FontWarnings.warning(info);
@@ -1219,8 +1216,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a SpecialCharacter is encountered in the document.
         /// </summary>
-        public /*override*/ /*VisitorAction*/int visitSpecialChar(SpecialChar specialChar)
-        {
+        public /*override*/ /*VisitorAction*/int visitSpecialChar(SpecialChar specialChar) {
             if (specialChar.getFont().getHidden())
                 specialChar.remove();
 
@@ -1929,7 +1925,7 @@ public class ExFont extends ApiExampleBase {
         Assert.assertEquals(13.7d, builder.getFont().getLineSpacing(), 1);
 
         builder.getFont().setName("Times New Roman");
-        Assert.assertEquals(13.7d, builder.getFont().getLineSpacing(),1);
+        Assert.assertEquals(13.7d, builder.getFont().getLineSpacing(), 1);
         //ExEnd
     }
 

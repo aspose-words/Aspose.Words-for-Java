@@ -14,7 +14,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 
 @Test
 public class ExDocSaveOptions extends ApiExampleBase {

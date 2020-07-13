@@ -7,31 +7,20 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.Paragraph;
-import com.aspose.words.NodeType;
-import com.aspose.words.TabStop;
-import com.aspose.words.ConvertUtil;
-import com.aspose.words.TabAlignment;
-import com.aspose.words.TabLeader;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.TabStopCollection;
+import com.aspose.words.*;
 import org.testng.Assert;
-import com.aspose.words.ParagraphCollection;
+import org.testng.annotations.Test;
 
 @Test
-public class ExTabStop extends ApiExampleBase
-{
+public class ExTabStop extends ApiExampleBase {
     @Test
-    public void addTabStops() throws Exception
-    {
+    public void addTabStops() throws Exception {
         //ExStart
         //ExFor:TabStopCollection.Add(TabStop)
         //ExFor:TabStopCollection.Add(Double, TabAlignment, TabLeader)
         //ExSummary:Shows how to add tab stops to a document and set their positions.
         Document doc = new Document();
-        Paragraph paragraph = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 0, true);
+        Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         // Create a TabStop object and add it to the document
         TabStop tabStop = new TabStop(ConvertUtil.inchToPoint(3.0), TabAlignment.LEFT, TabLeader.DASHES);
@@ -39,13 +28,12 @@ public class ExTabStop extends ApiExampleBase
 
         // Add a tab stop without explicitly creating new TabStop objects
         paragraph.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(100.0), TabAlignment.LEFT,
-            TabLeader.DASHES);
+                TabLeader.DASHES);
 
         // Add tab stops at 5 cm to all paragraphs
-        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
-        {
+        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true)) {
             para.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(50.0), TabAlignment.LEFT,
-                TabLeader.DASHES);
+                    TabLeader.DASHES);
         }
 
         // Insert text with tabs that demonstrate the tab stops
@@ -64,8 +52,7 @@ public class ExTabStop extends ApiExampleBase
     }
 
     @Test
-    public void tabStopCollection() throws Exception
-    {
+    public void tabStopCollection() throws Exception {
         //ExStart
         //ExFor:TabStop.#ctor
         //ExFor:TabStop.#ctor(Double)
@@ -133,8 +120,7 @@ public class ExTabStop extends ApiExampleBase
     }
 
     @Test
-    public void removeByIndex() throws Exception
-    {
+    public void removeByIndex() throws Exception {
         //ExStart
         //ExFor:TabStopCollection.RemoveByIndex
         //ExSummary:Shows how to select a tab stop in a document by its index and remove it.
@@ -160,8 +146,7 @@ public class ExTabStop extends ApiExampleBase
     }
 
     @Test
-    public void getPositionByIndex() throws Exception
-    {
+    public void getPositionByIndex() throws Exception {
         //ExStart
         //ExFor:TabStopCollection.GetPositionByIndex
         //ExSummary:Shows how to find a tab stop by it's index and get its position.
@@ -177,8 +162,7 @@ public class ExTabStop extends ApiExampleBase
     }
 
     @Test
-    public void getIndexByPosition() throws Exception
-    {
+    public void getIndexByPosition() throws Exception {
         //ExStart
         //ExFor:TabStopCollection.GetIndexByPosition
         //ExSummary:Shows how to look up a position to see if a tab stop exists there, and if so, obtain its index.

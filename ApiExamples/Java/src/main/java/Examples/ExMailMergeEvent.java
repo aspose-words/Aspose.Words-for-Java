@@ -16,9 +16,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.FileReader;
 
 public class ExMailMergeEvent extends ApiExampleBase {
     //ExStart
@@ -36,8 +34,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExFor:FieldMergeField.TextBefore
     //ExSummary:Shows how to mail merge HTML data into a document.
     @Test //ExSkip
-    public void insertHtml() throws Exception
-    {
+    public void insertHtml() throws Exception {
         Document doc = new Document(getMyDir() + "Field sample - MERGEFIELD.docx");
 
         // Add a handler for the MergeField event
@@ -73,8 +70,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
             }
         }
 
-        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs args)
-        {
+        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs args) {
             // Do nothing
         }
     }
@@ -84,8 +80,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExFor:FieldMergingArgsBase.FieldValue
     //ExSummary:Shows how to use data source value of the field.
     @Test //ExSkip
-    public void fieldFormats() throws Exception
-    {
+    public void fieldFormats() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertField("MERGEFIELD TextField \\* Caps", null);
@@ -97,21 +92,18 @@ public class ExMailMergeEvent extends ApiExampleBase {
         builder.getDocument().getMailMerge().setFieldMergingCallback(new FieldValueMergingCallback());
 
         builder.getDocument().getMailMerge().execute(
-            new String[] { "TextField", "TextField2", "NumericField" },
-            new Object[] { "Original value", "Original value", 10 });
+                new String[]{"TextField", "TextField2", "NumericField"},
+                new Object[]{"Original value", "Original value", 10});
 
         Assert.assertEquals("New Value, New value from FieldMergingArgs, 20.0", doc.getText().trim());
     }
 
-    private static class FieldValueMergingCallback implements IFieldMergingCallback
-    {
+    private static class FieldValueMergingCallback implements IFieldMergingCallback {
         /// <summary>
         /// This is called when merge field is actually merged with data in the document.
         /// </summary>
-        public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs e)
-        {
-            switch (e.getFieldName())
-            {
+        public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs e) {
+            switch (e.getFieldName()) {
                 case "TextField":
                     Assert.assertEquals("Original value", e.getFieldValue());
                     e.setFieldValue("New value");
@@ -128,8 +120,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
             }
         }
 
-        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs e)
-        {
+        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs e) {
             // Do nothing
         }
     }

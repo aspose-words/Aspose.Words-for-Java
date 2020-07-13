@@ -184,8 +184,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void compositeNodeChildren() throws Exception
-    {
+    public void compositeNodeChildren() throws Exception {
         //ExStart
         //ExFor:CompositeNode.Count
         //ExFor:CompositeNode.GetChildNodes(NodeType[], Boolean)
@@ -226,7 +225,7 @@ public class ExParagraph extends ApiExampleBase {
         Assert.assertEquals(4, paragraph.getChildNodes(NodeType.ANY, true).getCount());
 
         // Access the child node collection and update/delete children
-        ((Run)paragraph.getChildNodes(NodeType.RUN, true).get(1)).setText("Updated run 2. ");
+        ((Run) paragraph.getChildNodes(NodeType.RUN, true).get(1)).setText("Updated run 2. ");
         paragraph.getChildNodes(NodeType.RUN, true).remove(paragraphText);
 
         Assert.assertEquals("Run 1. Updated run 2. Run 3.", paragraph.getText().trim());
@@ -235,8 +234,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void revisionHistory() throws Exception
-    {
+    public void revisionHistory() throws Exception {
         //ExStart
         //ExFor:Paragraph.IsMoveFromRevision
         //ExFor:Paragraph.IsMoveToRevision
@@ -250,8 +248,7 @@ public class ExParagraph extends ApiExampleBase {
         // One moves a small part of a paragraph, while the other moves a whole paragraph
         // Paragraph.IsMoveFromRevision/IsMoveToRevision will only be true if a whole paragraph is moved, as in the latter case
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
-        for (int i = 0; i < paragraphs.getCount(); i++)
-        {
+        for (int i = 0; i < paragraphs.getCount(); i++) {
             if (paragraphs.get(i).isMoveFromRevision())
                 System.out.println(MessageFormat.format("The paragraph {0} has been moved (deleted).", i));
             if (paragraphs.get(i).isMoveToRevision())
@@ -266,8 +263,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void getFormatRevision() throws Exception
-    {
+    public void getFormatRevision() throws Exception {
         //ExStart
         //ExFor:Paragraph.IsFormatRevision
         //ExSummary:Shows how to get information about whether this object was formatted in Microsoft Word while change tracking was enabled.
@@ -359,8 +355,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void isRevision() throws Exception
-    {
+    public void isRevision() throws Exception {
         //ExStart
         //ExFor:Paragraph.IsDeleteRevision
         //ExFor:Paragraph.IsInsertRevision
@@ -437,8 +432,8 @@ public class ExParagraph extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "Paragraph.BreakIsStyleSeparator.docx");
 
-        TestUtil.verifyField(FieldType.FIELD_TOC, "TOC \\o \\h \\z \\u", 
-            "\u0013 HYPERLINK \\l \"_Toc256000000\" \u0014Heading 1. Will appear in the TOC.\t\u0013 PAGEREF _Toc256000000 \\h \u00142\u0015\u0015\r", doc.getRange().getFields().get(0));
+        TestUtil.verifyField(FieldType.FIELD_TOC, "TOC \\o \\h \\z \\u",
+                "\u0013 HYPERLINK \\l \"_Toc256000000\" \u0014Heading 1. Will appear in the TOC.\t\u0013 PAGEREF _Toc256000000 \\h \u00142\u0015\u0015\r", doc.getRange().getFields().get(0));
         Assert.assertFalse(doc.getFirstSection().getBody().getFirstParagraph().getBreakIsStyleSeparator());
     }
 
@@ -515,8 +510,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void lineSpacing() throws Exception
-    {
+    public void lineSpacing() throws Exception {
         //ExStart
         //ExFor:ParagraphFormat.LineSpacing
         //ExFor:ParagraphFormat.LineSpacingRule
@@ -555,8 +549,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void paragraphSpacing() throws Exception
-    {
+    public void paragraphSpacing() throws Exception {
         //ExStart
         //ExFor:ParagraphFormat.NoSpaceBetweenParagraphsOfSameStyle
         //ExFor:ParagraphFormat.SpaceAfter
@@ -585,8 +578,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void outlineLevel() throws Exception
-    {
+    public void outlineLevel() throws Exception {
         //ExStart
         //ExFor:ParagraphFormat.OutlineLevel
         //ExSummary:Shows how to set paragraph outline levels to create collapsible text.
@@ -618,8 +610,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void pageBreakBefore() throws Exception
-    {
+    public void pageBreakBefore() throws Exception {
         //ExStart
         //ExFor:ParagraphFormat.PageBreakBefore
         //ExSummary:Shows how to force a page break before each paragraph.
@@ -638,8 +629,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void widowControl() throws Exception
-    {
+    public void widowControl() throws Exception {
         //ExStart
         //ExFor:ParagraphFormat.WidowControl
         //ExSummary:Shows how to enable widow/orphan control for a paragraph.
@@ -649,7 +639,7 @@ public class ExParagraph extends ApiExampleBase {
         // Insert text that will not fit on one page, with one line spilling into page 2
         builder.getFont().setSize(68.0);
         builder.writeln("Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
 
         // This line is referred to as an "Orphan",
         // and a line left behind on the end of the previous page is likewise called a "Widow"
@@ -664,8 +654,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void linesToDrop() throws Exception
-    {
+    public void linesToDrop() throws Exception {
         //ExStart
         //ExFor:ParagraphFormat.LinesToDrop
         //ExSummary:Shows how to set the size of the drop cap text.
@@ -686,8 +675,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void paragraphSpacingAndIndents() throws Exception
-    {
+    public void paragraphSpacingAndIndents() throws Exception {
         //ExStart
         //ExFor:ParagraphFormat.CharacterUnitLeftIndent
         //ExFor:ParagraphFormat.CharacterUnitRightIndent
@@ -698,7 +686,7 @@ public class ExParagraph extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         ParagraphFormat format = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat();
-        
+
         Assert.assertEquals(format.getLeftIndent(), 0.0d); //ExSkip
         Assert.assertEquals(format.getRightIndent(), 0.0d); //ExSkip
         Assert.assertEquals(format.getFirstLineIndent(), 0.0d); //ExSkip
@@ -717,33 +705,32 @@ public class ExParagraph extends ApiExampleBase {
         format.setLineUnitAfter(10.9);
 
         builder.writeln("Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                        "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
         builder.write("测试文档测试文档测试文档测试文档测试文档测试文档测试文档测试文档测试" +
-                          "文档测试文档测试文档测试文档测试文档测试文档测试文档测试文档测试文档测试文档");
+                "文档测试文档测试文档测试文档测试文档测试文档测试文档测试文档测试文档测试文档");
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
         format = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat();
-        
+
         Assert.assertEquals(format.getCharacterUnitLeftIndent(), 10.0d);
         Assert.assertEquals(format.getLeftIndent(), 120.0d);
-        
+
         Assert.assertEquals(format.getCharacterUnitRightIndent(), -5.5d);
         Assert.assertEquals(format.getRightIndent(), -66.0d);
-        
+
         Assert.assertEquals(format.getCharacterUnitFirstLineIndent(), 20.3d);
         Assert.assertEquals(format.getFirstLineIndent(), 243.59d, 0.1d);
-        
+
         Assert.assertEquals(format.getLineUnitBefore(), 5.1d, 0.1d);
         Assert.assertEquals(format.getSpaceBefore(), 61.1d, 0.1d);
-        
+
         Assert.assertEquals(format.getLineUnitAfter(), 10.9d);
         Assert.assertEquals(format.getSpaceAfter(), 130.8d, 0.1d);
     }
 
     @Test
-    public void snapToGrid() throws Exception
-    {
+    public void snapToGrid() throws Exception {
         //ExStart
         //ExFor:ParagraphFormat.SnapToGrid
         //ExSummary:Shows how to work with extremely wide spacing in the document.
@@ -752,10 +739,10 @@ public class ExParagraph extends ApiExampleBase {
         // Set 'SnapToGrid' to true if need optimize the layout when typing in Asian characters
         // Use 'SnapToGrid' for the whole paragraph
         par.getParagraphFormat().setSnapToGrid(true);
-        
+
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
-                        "tempor incididunt ut labore et dolore magna aliqua.");
+                "tempor incididunt ut labore et dolore magna aliqua.");
         // Use 'SnapToGrid' for the specific run
         par.getRuns().get(0).getFont().setSnapToGrid(true);
 

@@ -15,11 +15,9 @@ import org.testng.annotations.Test;
 import java.text.MessageFormat;
 
 @Test
-public class ExControlChar extends ApiExampleBase
-{
+public class ExControlChar extends ApiExampleBase {
     @Test
-    public void carriageReturn() throws Exception
-    {
+    public void carriageReturn() throws Exception {
         //ExStart
         //ExFor:ControlChar
         //ExFor:ControlChar.Cr

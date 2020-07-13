@@ -153,12 +153,11 @@ public class ExMailMergeCustom extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testCustomDataSource(CustomerList customerList, Document doc)
-    {
+    private void testCustomDataSource(CustomerList customerList, Document doc) {
         String[][] mergeData = new String[customerList.size()][];
 
         for (int i = 0; i < customerList.size(); i++)
-            mergeData[i] = new String[] { customerList.get(i).getFullName(), customerList.get(i).getAddress() };
+            mergeData[i] = new String[]{customerList.get(i).getFullName(), customerList.get(i).getAddress()};
 
         TestUtil.mailMergeMatchesArray(mergeData, doc, true);
     }

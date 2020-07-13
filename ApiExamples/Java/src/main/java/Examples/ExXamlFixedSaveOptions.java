@@ -9,7 +9,6 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -54,15 +53,12 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
     /// <summary>
     /// Counts and prints URIs of resources created during conversion to to fixed .xaml.
     /// </summary>
-    private static class ResourceUriPrinter implements IResourceSavingCallback
-    {
-        public ResourceUriPrinter()
-        {
+    private static class ResourceUriPrinter implements IResourceSavingCallback {
+        public ResourceUriPrinter() {
             mResources = new ArrayList<String>();
         }
 
-        public void resourceSaving(ResourceSavingArgs args) throws Exception
-        {
+        public void resourceSaving(ResourceSavingArgs args) throws Exception {
             // If we set a folder alias in the SaveOptions object, it will be stored here
             getResources().add(MessageFormat.format("Resource \"{0}\"\n\t{1}", args.getResourceFileName(), args.getResourceFileUri()));
 
@@ -71,7 +67,11 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
             args.setKeepResourceStreamOpen(false);
         }
 
-        public ArrayList<String> getResources() { return mResources; };
+        public ArrayList<String> getResources() {
+            return mResources;
+        }
+
+        ;
 
         private ArrayList<String> mResources;
     }

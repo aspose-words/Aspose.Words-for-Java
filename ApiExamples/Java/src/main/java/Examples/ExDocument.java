@@ -204,8 +204,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void documentCtor() throws Exception
-    {
+    public void documentCtor() throws Exception {
         //ExStart
         //ExFor:Document.#ctor(Boolean)
         //ExSummary:Shows how to create a blank document.
@@ -269,7 +268,7 @@ public class ExDocument extends ApiExampleBase {
         //ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
         // Open the stream
         InputStream stream = new FileInputStream(getMyDir() + "Document.html");
-        
+
         try {
             // Pass the URI of the base folder so any images with relative URIs in the HTML document can be found
             // Note the Document constructor detects HTML format automatically
@@ -540,25 +539,23 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void tempFolder() throws Exception
-    {
+    public void tempFolder() throws Exception {
         //ExStart
         //ExFor:LoadOptions.TempFolder
         //ExSummary:Shows how to load a document using temporary files.
         // Note that such an approach can reduce memory usage but degrades speed
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setTempFolder("C:\\TempFolder\\");
-        
+
         // Ensure that the directory exists and load
         new File(loadOptions.getTempFolder()).mkdir();
-         
+
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
         //ExEnd
     }
 
     @Test
-    public void convertToHtml() throws Exception
-    {
+    public void convertToHtml() throws Exception {
         //ExStart
         //ExFor:Document.Save(String,SaveFormat)
         //ExFor:SaveFormat
@@ -1394,7 +1391,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Document.ExpandTableStylesToDirectFormatting
         //ExSummary:Shows how to expand the formatting from styles onto the rows and cells of the table as direct formatting.
         Document doc = new Document(getMyDir() + "Tables.docx");
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
         // First print the color of the cell shading. This should be empty as the current shading
         // is stored in the table style
@@ -1785,24 +1782,22 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void removeDuplicateStyles() throws Exception
-    {
+    public void removeDuplicateStyles() throws Exception {
         //ExStart
         //ExFor:CleanupOptions.DuplicateStyle
         //ExSummary:Shows how to remove duplicated styles from the document.
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         CleanupOptions options = new CleanupOptions();
         options.setDuplicateStyle(true);
- 
+
         doc.cleanup(options);
         doc.save(getArtifactsDir() + "Document.RemoveDuplicateStyles.docx");
         //ExEnd
     }
 
     @Test
-    public void startTrackRevisions() throws Exception
-    {
+    public void startTrackRevisions() throws Exception {
         //ExStart
         //ExFor:Document.StartTrackRevisions(String)
         //ExFor:Document.StartTrackRevisions(String, DateTime)
@@ -1874,8 +1869,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void getRevisedPropertiesOfList() throws Exception
-    {
+    public void getRevisedPropertiesOfList() throws Exception {
         //ExStart
         //ExFor:RevisionsView
         //ExFor:Document.RevisionsView
@@ -2438,24 +2432,23 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void useSubstitutions() throws Exception
-    {
+    public void useSubstitutions() throws Exception {
         //ExStart
         //ExFor:FindReplaceOptions.UseSubstitutions
         //ExSummary:Shows how to recognize and use substitutions within replacement patterns.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-         
+
         // Write some text
         builder.write("Jason give money to Paul.");
-         
+
         Pattern regex = Pattern.compile("([A-z]+) give money to ([A-z]+).");
-         
+
         // Replace text using substitutions
         FindReplaceOptions options = new FindReplaceOptions();
         options.setUseSubstitutions(true);
         doc.getRange().replace(regex, "$2 take money from $1.", options);
-        
+
         Assert.assertEquals(doc.getText().trim(), "Paul take money from Jason.");
         //ExEnd
     }
@@ -3824,10 +3817,9 @@ public class ExDocument extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Document.EpubCover.epub");
     }
-    
+
     @Test
-    public void workWithWatermark() throws Exception
-    {
+    public void workWithWatermark() throws Exception {
         //ExStart
         //ExFor:Watermark.SetText(String)
         //ExFor:Watermark.SetText(String, TextWatermarkOptions)
@@ -3846,7 +3838,7 @@ public class ExDocument extends ApiExampleBase {
         Document doc = new Document();
 
         doc.getWatermark().setText("Aspose Watermark");
-        
+
         TextWatermarkOptions textWatermarkOptions = new TextWatermarkOptions();
         textWatermarkOptions.setFontFamily("Arial");
         textWatermarkOptions.setFontSize(36f);
@@ -3859,7 +3851,7 @@ public class ExDocument extends ApiExampleBase {
         ImageWatermarkOptions imageWatermarkOptions = new ImageWatermarkOptions();
         imageWatermarkOptions.setScale(5.0);
         imageWatermarkOptions.isWashout(false);
-        
+
         doc.getWatermark().setImage(ImageIO.read(new File(getImageDir() + "Logo.jpg")), imageWatermarkOptions);
         if (doc.getWatermark().getType() == WatermarkType.TEXT)
             doc.getWatermark().remove();
@@ -3867,17 +3859,16 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void hideGrammarErrors() throws Exception
-    {
+    public void hideGrammarErrors() throws Exception {
         //ExStart
         //ExFor:Document.ShowGrammaticalErrors
         //ExFor:Document.ShowSpellingErrors
         //ExSummary:Shows how to hide grammar errors in the document.
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         doc.setShowGrammaticalErrors(true);
         doc.setShowSpellingErrors(false);
-        
+
         doc.save(getArtifactsDir() + "Document.HideGrammarErrors.docx");
         //ExEnd
     }
@@ -3891,53 +3882,46 @@ public class ExDocument extends ApiExampleBase {
     //ExFor:PageLayoutEvent
     //ExSummary:Shows how to track layout/rendering progress with layout callback.
     @Test
-    public void pageLayoutCallback() throws Exception
-    {
+    public void pageLayoutCallback() throws Exception {
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         doc.getLayoutOptions().setCallback(new RenderPageLayoutCallback());
         doc.updatePageLayout();
     }
 
-    private static class RenderPageLayoutCallback implements IPageLayoutCallback
-    {
-        public void notify(PageLayoutCallbackArgs a) throws Exception
-        {
-            switch (a.getEvent())
-            {
+    private static class RenderPageLayoutCallback implements IPageLayoutCallback {
+        public void notify(PageLayoutCallbackArgs a) throws Exception {
+            switch (a.getEvent()) {
                 case PageLayoutEvent.PART_REFLOW_FINISHED:
                     notifyPartFinished(a);
                     break;
             }
         }
 
-        private void notifyPartFinished(PageLayoutCallbackArgs a) throws Exception
-        {
+        private void notifyPartFinished(PageLayoutCallbackArgs a) throws Exception {
             System.out.println("Part at page {a.PageIndex + 1} reflow");
             renderPage(a, a.getPageIndex());
         }
 
-        private void renderPage(PageLayoutCallbackArgs a, int pageIndex) throws Exception
-        {
+        private void renderPage(PageLayoutCallbackArgs a, int pageIndex) throws Exception {
             ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.PNG);
             saveOptions.setPageIndex(pageIndex);
             saveOptions.setPageCount(1);
 
             OutputStream stream = new FileOutputStream(getArtifactsDir() + MessageFormat.format("PageLayoutCallback.page-{0} {1}.png", pageIndex + 1, ++mNum));
-            try
-        	{
+            try {
                 a.getDocument().save(stream, saveOptions);
-        	}
-            finally { if (stream != null) stream.close(); }
+            } finally {
+                if (stream != null) stream.close();
+            }
         }
 
         private int mNum;
     }
     //ExEnd
 
-    @Test (dataProvider = "granularityCompareOptionDataProvider")
-    public void granularityCompareOption(/*Granularity*/int granularity) throws Exception
-    {
+    @Test(dataProvider = "granularityCompareOptionDataProvider")
+    public void granularityCompareOption(/*Granularity*/int granularity) throws Exception {
         //ExStart
         //ExFor:CompareOptions.Granularity
         //ExFor:Granularity
@@ -3949,11 +3933,11 @@ public class ExDocument extends ApiExampleBase {
         Document docB = new Document();
         DocumentBuilder builderB = new DocumentBuilder(docB);
         builderB.writeln("Lorems ipsum dolor sit amet consectetur - \"adipiscing\" elit");
- 
+
         // Specify whether changes are tracked by character ('Granularity.CharLevel') or by word ('Granularity.WordLevel')
         CompareOptions compareOptions = new CompareOptions();
         compareOptions.setGranularity(granularity);
- 
+
         docA.compare(docB, "author", new Date(), compareOptions);
 
         // Revision groups contain all of our text changes
@@ -3961,8 +3945,7 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(5, groups.getCount());
         //ExEnd
 
-        if (granularity == Granularity.CHAR_LEVEL)
-        {
+        if (granularity == Granularity.CHAR_LEVEL) {
             Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
             Assert.assertEquals("Alpha ", groups.get(0).getText());
 
@@ -3977,9 +3960,7 @@ public class ExDocument extends ApiExampleBase {
 
             Assert.assertEquals(RevisionType.INSERTION, groups.get(4).getRevisionType());
             Assert.assertEquals("\"", groups.get(4).getText());
-        }
-        else
-        {
+        } else {
             Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
             Assert.assertEquals("Alpha Lorem ", groups.get(0).getText());
 
@@ -3993,18 +3974,17 @@ public class ExDocument extends ApiExampleBase {
             Assert.assertEquals("- \"", groups.get(3).getText());
 
             Assert.assertEquals(RevisionType.INSERTION, groups.get(4).getRevisionType());
-            Assert.assertEquals("\"", groups.get(4).getText());   
+            Assert.assertEquals("\"", groups.get(4).getText());
         }
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "granularityCompareOptionDataProvider")
-	public static Object[][] granularityCompareOptionDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{Granularity.CHAR_LEVEL},
-			{Granularity.WORD_LEVEL},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "granularityCompareOptionDataProvider")
+    public static Object[][] granularityCompareOptionDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {Granularity.CHAR_LEVEL},
+                        {Granularity.WORD_LEVEL},
+                };
+    }
 }

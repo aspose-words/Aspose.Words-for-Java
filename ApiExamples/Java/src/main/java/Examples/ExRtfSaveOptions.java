@@ -13,11 +13,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @Test
-public class ExRtfSaveOptions extends ApiExampleBase
-{
-    @Test (dataProvider = "exportImagesDataProvider")
-    public void exportImages(boolean doExportImagesForOldReaders) throws Exception
-    {
+public class ExRtfSaveOptions extends ApiExampleBase {
+    @Test(dataProvider = "exportImagesDataProvider")
+    public void exportImages(boolean doExportImagesForOldReaders) throws Exception {
         //ExStart
         //ExFor:RtfSaveOptions
         //ExFor:RtfSaveOptions.ExportCompactSize
@@ -38,15 +36,14 @@ public class ExRtfSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "exportImagesDataProvider")
-	public static Object[][] exportImagesDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "exportImagesDataProvider")
+    public static Object[][] exportImagesDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test

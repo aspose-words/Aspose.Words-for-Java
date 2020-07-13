@@ -8,7 +8,6 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.net.System.Data.DataTable;
 import org.testng.Assert;
 
@@ -17,16 +16,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 class TestUtil {
     /// <summary>

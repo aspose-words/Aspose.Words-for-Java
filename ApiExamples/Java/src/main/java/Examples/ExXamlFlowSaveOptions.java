@@ -63,8 +63,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
             mResources = new ArrayList<String>();
         }
 
-        public void imageSaving(ImageSavingArgs args) throws Exception
-        {
+        public void imageSaving(ImageSavingArgs args) throws Exception {
             getResources().add(args.getImageFileName());
 
             // If we specified a ImagesFolderAlias we will also need to redirect each stream to put its image in that folder
@@ -72,17 +71,25 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
             args.setKeepImageStreamOpen(false);
         }
 
-        public String getImagesFolderAlias() { return mImagesFolderAlias; };
+        public String getImagesFolderAlias() {
+            return mImagesFolderAlias;
+        }
+
+        ;
 
         private String mImagesFolderAlias;
-        public ArrayList<String> getResources() { return mResources; };
+
+        public ArrayList<String> getResources() {
+            return mResources;
+        }
+
+        ;
 
         private ArrayList<String> mResources;
     }
     //ExEnd
 
-    private void testImageFolder(ImageUriPrinter callback) throws Exception
-    {
+    private void testImageFolder(ImageUriPrinter callback) throws Exception {
         Assert.assertEquals(9, callback.getResources().size());
         for (String resource : callback.getResources())
             Assert.assertTrue(new File(MessageFormat.format("{0}/{1}", callback.getImagesFolderAlias(), resource)).exists());

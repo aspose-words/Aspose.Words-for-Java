@@ -16,7 +16,10 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.UUID;
 
 /**
  * Tests that verify work with structured document tags in the document.
@@ -192,7 +195,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.PlainText.docx");
-        tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
 
         Assert.assertEquals("My plain text", tag.getTitle());
         Assert.assertEquals(Color.MAGENTA.getRGB(), tag.getColor().getRGB());
@@ -281,8 +284,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.PlaceholderBuildingBlock.docx");
-        tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
-        substituteBlock = (BuildingBlock)doc.getGlossaryDocument().getChild(NodeType.BUILDING_BLOCK, 0, true);
+        tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        substituteBlock = (BuildingBlock) doc.getGlossaryDocument().getChild(NodeType.BUILDING_BLOCK, 0, true);
 
         Assert.assertEquals("Custom Placeholder", substituteBlock.getName());
         Assert.assertTrue(tag.isShowingPlaceholderText());
@@ -322,12 +325,12 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.Lock.docx");
-        tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
 
         Assert.assertTrue(tag.getLockContents());
         Assert.assertFalse(tag.getLockContentControl());
 
-        tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
+        tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
 
         Assert.assertFalse(tag.getLockContents());
         Assert.assertTrue(tag.getLockContentControl());
@@ -626,7 +629,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Assert.assertTrue(tag.isShowingPlaceholderText());
 
         // Edit the text of the structured document tag and disable showing of placeholder text
-        Run run = (Run)tag.getChild(NodeType.RUN, 0, true);
+        Run run = (Run) tag.getChild(NodeType.RUN, 0, true);
         run.setText("New text.");
         tag.isShowingPlaceholderText(false);
 
@@ -652,8 +655,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     }
 
     @Test
-    public void accessToBuildingBlockPropertiesFromPlainTextSdt() throws Exception
-    {
+    public void accessToBuildingBlockPropertiesFromPlainTextSdt() throws Exception {
         Document doc = new Document(getMyDir() + "Structured document tags with building blocks.docx");
 
         StructuredDocumentTag plainTextSdt =
@@ -689,9 +691,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Assert.assertEquals("Built-in", buildingBlockSdt.getBuildingBlockCategory());
     }
 
-    @Test (dataProvider = "updateSdtContentDataProvider")
-    public void updateSdtContent(boolean updateSdtContent) throws Exception
-    {
+    @Test(dataProvider = "updateSdtContentDataProvider")
+    public void updateSdtContent(boolean updateSdtContent) throws Exception {
         //ExStart
         //ExFor:SaveOptions.UpdateSdtContent
         //ExSummary:Shows how structured document tags can be updated while saving to .pdf.
@@ -727,15 +728,14 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Assert.assertEquals(updateSdtContent ? "Value 2" : "Click here to enter a date.\r\nChoose an item.", textAbsorber.getText());
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "updateSdtContentDataProvider")
-	public static Object[][] updateSdtContentDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "updateSdtContentDataProvider")
+    public static Object[][] updateSdtContentDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test

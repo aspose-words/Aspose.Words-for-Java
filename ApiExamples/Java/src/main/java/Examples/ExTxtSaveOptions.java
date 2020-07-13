@@ -9,20 +9,16 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.omg.IOP.Encoding;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 @Test
-public class ExTxtSaveOptions extends ApiExampleBase
-{
-    @Test (dataProvider = "pageBreaksDataProvider")
-    public void pageBreaks(boolean forcePageBreaks) throws Exception
-    {
+public class ExTxtSaveOptions extends ApiExampleBase {
+    @Test(dataProvider = "pageBreaksDataProvider")
+    public void pageBreaks(boolean forcePageBreaks) throws Exception {
         //ExStart
         //ExFor:TxtSaveOptionsBase.ForcePageBreaks
         //ExSummary:Shows how to specify whether the page breaks should be preserved during export.
@@ -37,10 +33,13 @@ public class ExTxtSaveOptions extends ApiExampleBase
 
         // If ForcePageBreaks is set to true then the output document will have form feed characters in place of page breaks
         // Otherwise, they will be line breaks
-        TxtSaveOptions saveOptions = new TxtSaveOptions(); { saveOptions.setForcePageBreaks(forcePageBreaks); }
+        TxtSaveOptions saveOptions = new TxtSaveOptions();
+        {
+            saveOptions.setForcePageBreaks(forcePageBreaks);
+        }
 
         doc.save(getArtifactsDir() + "TxtSaveOptions.PageBreaks.txt", saveOptions);
-        
+
         // If we load the document using Aspose.Words again, the page breaks will be preserved/lost depending on ForcePageBreaks
         doc = new Document(getArtifactsDir() + "TxtSaveOptions.PageBreaks.txt");
 
@@ -48,20 +47,18 @@ public class ExTxtSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "pageBreaksDataProvider")
-	public static Object[][] pageBreaksDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "pageBreaksDataProvider")
+    public static Object[][] pageBreaksDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
-    @Test (dataProvider = "addBidiMarksDataProvider")
-    public void addBidiMarks(boolean addBidiMarks) throws Exception
-    {
+    @Test(dataProvider = "addBidiMarksDataProvider")
+    public void addBidiMarks(boolean addBidiMarks) throws Exception {
         //ExStart
         //ExFor:TxtSaveOptions.AddBidiMarks
         //ExSummary:Shows how to insert Unicode Character 'RIGHT-TO-LEFT MARK' (U+200F) before each bi-directional Run in text.
@@ -83,20 +80,18 @@ public class ExTxtSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "addBidiMarksDataProvider")
-	public static Object[][] addBidiMarksDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "addBidiMarksDataProvider")
+    public static Object[][] addBidiMarksDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "exportHeadersFootersDataProvider")
-    public void exportHeadersFooters(/*TxtExportHeadersFootersMode*/int txtExportHeadersFootersMode) throws Exception
-    {
+    @Test(dataProvider = "exportHeadersFootersDataProvider")
+    public void exportHeadersFooters(/*TxtExportHeadersFootersMode*/int txtExportHeadersFootersMode) throws Exception {
         //ExStart
         //ExFor:TxtSaveOptionsBase.ExportHeadersFootersMode
         //ExFor:TxtExportHeadersFootersMode
@@ -119,28 +114,30 @@ public class ExTxtSaveOptions extends ApiExampleBase
         builder.writeln("Page 1");
         builder.insertBreak(BreakType.PAGE_BREAK);
         builder.writeln("Page 2");
-        builder.insertBreak(BreakType.PAGE_BREAK); 
+        builder.insertBreak(BreakType.PAGE_BREAK);
         builder.write("Page 3");
 
         // Three values are available in TxtExportHeadersFootersMode enum:
         // "None" - No headers and footers are exported
         // "AllAtEnd" - All headers and footers are placed after all section bodies at the very end of a document
         // "PrimaryOnly" - Only primary headers and footers are exported at the beginning and end of each section (default value)
-        TxtSaveOptions saveOptions = new TxtSaveOptions(); { saveOptions.setExportHeadersFootersMode(txtExportHeadersFootersMode); }
-        
+        TxtSaveOptions saveOptions = new TxtSaveOptions();
+        {
+            saveOptions.setExportHeadersFootersMode(txtExportHeadersFootersMode);
+        }
+
         doc.save(getArtifactsDir() + "TxtSaveOptions.ExportHeadersFooters.txt", saveOptions);
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
+    //JAVA-added data provider for test method
     @DataProvider(name = "exportHeadersFootersDataProvider")
-	public static Object[][] exportHeadersFootersDataProvider() throws Exception
-	{
+    public static Object[][] exportHeadersFootersDataProvider() throws Exception {
         return new Object[][]
                 {
                         {TxtExportHeadersFootersMode.ALL_AT_END},
                         {TxtExportHeadersFootersMode.PRIMARY_ONLY},
-			{TxtExportHeadersFootersMode.NONE},
+                        {TxtExportHeadersFootersMode.NONE},
                 };
     }
 
@@ -160,7 +157,7 @@ public class ExTxtSaveOptions extends ApiExampleBase
         builder.writeln("Item 1");
         builder.getListFormat().listIndent();
         builder.writeln("Item 2");
-        builder.getListFormat().listIndent(); 
+        builder.getListFormat().listIndent();
         builder.write("Item 3");
 
         // Microsoft Word list objects get lost when converting to plaintext
@@ -174,9 +171,8 @@ public class ExTxtSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (dataProvider = "simplifyListLabelsDataProvider")
-    public void simplifyListLabels(boolean simplifyListLabels) throws Exception
-    {
+    @Test(dataProvider = "simplifyListLabelsDataProvider")
+    public void simplifyListLabels(boolean simplifyListLabels) throws Exception {
         //ExStart
         //ExFor:TxtSaveOptions.SimplifyListLabels
         //ExSummary:Shows how to change the appearance of lists when converting to plaintext.
@@ -197,22 +193,24 @@ public class ExTxtSaveOptions extends ApiExampleBase
 
         // The SimplifyListLabels flag will convert some list symbols
         // into ASCII characters such as *, o, +, > etc, depending on list level
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions(); { txtSaveOptions.setSimplifyListLabels(simplifyListLabels); }
+        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
+        {
+            txtSaveOptions.setSimplifyListLabels(simplifyListLabels);
+        }
 
         doc.save(getArtifactsDir() + "TxtSaveOptions.SimplifyListLabels.txt", txtSaveOptions);
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "simplifyListLabelsDataProvider")
-	public static Object[][] simplifyListLabelsDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "simplifyListLabelsDataProvider")
+    public static Object[][] simplifyListLabelsDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     @Test
     public void paragraphBreak() throws Exception {
@@ -231,8 +229,12 @@ public class ExTxtSaveOptions extends ApiExampleBase
         builder.write("Paragraph 3.");
 
         // When saved to plain text, the paragraphs we created can be separated by a custom string
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions(); { txtSaveOptions.setSaveFormat(SaveFormat.TEXT); txtSaveOptions.setParagraphBreak(" End of paragraph.\n\n\t"); }
-        
+        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
+        {
+            txtSaveOptions.setSaveFormat(SaveFormat.TEXT);
+            txtSaveOptions.setParagraphBreak(" End of paragraph.\n\n\t");
+        }
+
         doc.save(getArtifactsDir() + "TxtSaveOptions.ParagraphBreak.txt", txtSaveOptions);
         //ExEnd
     }
@@ -258,9 +260,8 @@ public class ExTxtSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (dataProvider = "tableLayoutDataProvider")
-    public void tableLayout(boolean preserveTableLayout) throws Exception
-    {
+    @Test(dataProvider = "tableLayoutDataProvider")
+    public void tableLayout(boolean preserveTableLayout) throws Exception {
         //ExStart
         //ExFor:TxtSaveOptions.PreserveTableLayout
         //ExSummary:Shows how to preserve the layout of tables when converting to plaintext.
@@ -282,20 +283,22 @@ public class ExTxtSaveOptions extends ApiExampleBase
 
         // Tables, with their borders and widths do not translate to plaintext
         // However, we can configure a SaveOptions object to arrange table contents to preserve some of the table's appearance
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions(); { txtSaveOptions.setPreserveTableLayout(preserveTableLayout); }
+        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
+        {
+            txtSaveOptions.setPreserveTableLayout(preserveTableLayout);
+        }
 
         doc.save(getArtifactsDir() + "TxtSaveOptions.TableLayout.txt", txtSaveOptions);
         //ExEnd
-        }
+    }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "tableLayoutDataProvider")
-	public static Object[][] tableLayoutDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "tableLayoutDataProvider")
+    public static Object[][] tableLayoutDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 }

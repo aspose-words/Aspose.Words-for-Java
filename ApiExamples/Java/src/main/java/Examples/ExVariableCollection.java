@@ -12,13 +12,8 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.text.MessageFormat;
-import java.util.Iterator;
-import java.util.Map;
-
 @Test
-public class ExVariableCollection extends ApiExampleBase
-{
+public class ExVariableCollection extends ApiExampleBase {
     @Test
     public void primer() throws Exception {
         //ExStart

@@ -8,27 +8,23 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.*;
-import org.apache.commons.collections4.IterableUtils;
+import com.aspose.words.Document;
+import com.aspose.words.DocumentDirection;
+import com.aspose.words.TxtLoadOptions;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.FileInputStream;
-
 @Test
-public class ExTxtLoadOptions extends ApiExampleBase
-{
+public class ExTxtLoadOptions extends ApiExampleBase {
     @Test
-    public void detectDocumentDirection() throws Exception
-    {
+    public void detectDocumentDirection() throws Exception {
         //ExStart
         //ExFor:TxtLoadOptions.DocumentDirection
         //ExSummary:Shows how to detect document direction automatically.
         // Create a LoadOptions object and configure it to detect text direction automatically upon loading
         TxtLoadOptions loadOptions = new TxtLoadOptions();
         loadOptions.setDocumentDirection(DocumentDirection.AUTO);
- 
+
         // Text like Hebrew/Arabic will be automatically detected as RTL
         Document doc = new Document(getMyDir() + "Hebrew text.txt", loadOptions);
 

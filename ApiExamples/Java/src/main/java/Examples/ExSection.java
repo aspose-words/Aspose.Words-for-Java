@@ -8,8 +8,8 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.*;
 import com.aspose.words.Shape;
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -161,7 +161,7 @@ public class ExSection extends ApiExampleBase {
         //ExFor:SectionCollection.Item(Int32)
         //ExSummary:Shows how to prepare a new section node for editing.
         Document doc = new Document();
-        
+
         // A blank document comes with a section, which has a body, which in turn has a paragraph,
         // so we can edit the document by adding children to the paragraph like shapes or runs of text
         Assert.assertEquals(2, doc.getSections().get(0).getChildNodes(NodeType.ANY, true).getCount());
@@ -268,8 +268,7 @@ public class ExSection extends ApiExampleBase {
     }
 
     @Test
-    public void sectionsDeleteAllSections() throws Exception
-    {
+    public void sectionsDeleteAllSections() throws Exception {
         //ExStart
         //ExFor:NodeCollection.Clear
         //ExSummary:Shows how to remove all sections from a document.
@@ -280,7 +279,7 @@ public class ExSection extends ApiExampleBase {
         Assert.assertEquals(5, doc.getSections().get(0).getChildNodes(NodeType.ANY, true).getCount());
 
         doc.getSections().clear();
-        
+
         // Clearing the section collection effectively empties the document
         Assert.assertEquals("", doc.getText());
         Assert.assertEquals(0, doc.getSections().getCount());
@@ -314,10 +313,10 @@ public class ExSection extends ApiExampleBase {
         section.appendContent(sectionToAppend);
 
         Assert.assertEquals("Section 1" + ControlChar.SECTION_BREAK +
-                        "Section 2" + ControlChar.SECTION_BREAK +
-                        "Section 1" + ControlChar.PARAGRAPH_BREAK +
-                        "Section 3" + ControlChar.PARAGRAPH_BREAK +
-                        "Section 2" + ControlChar.SECTION_BREAK, doc.getText());
+                "Section 2" + ControlChar.SECTION_BREAK +
+                "Section 1" + ControlChar.PARAGRAPH_BREAK +
+                "Section 3" + ControlChar.PARAGRAPH_BREAK +
+                "Section 2" + ControlChar.SECTION_BREAK, doc.getText());
         //ExEnd
     }
 

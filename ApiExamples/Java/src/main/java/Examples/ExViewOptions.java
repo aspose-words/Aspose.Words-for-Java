@@ -9,13 +9,11 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 
 
 @Test
@@ -105,9 +103,8 @@ public class ExViewOptions extends ApiExampleBase {
         Assert.assertTrue(doc.getViewOptions().getDoNotDisplayPageBoundaries());
     }
 
-    @Test (dataProvider = "formsDesignDataProvider")
-    public void formsDesign(boolean useFormsDesign) throws Exception
-    {
+    @Test(dataProvider = "formsDesignDataProvider")
+    public void formsDesign(boolean useFormsDesign) throws Exception {
         //ExStart
         //ExFor:ViewOptions.FormsDesign
         //ExFor:WordML2003SaveOptions
@@ -129,14 +126,13 @@ public class ExViewOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "formsDesignDataProvider")
-	public static Object[][] formsDesignDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "formsDesignDataProvider")
+    public static Object[][] formsDesignDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 }

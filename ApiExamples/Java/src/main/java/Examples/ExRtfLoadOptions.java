@@ -14,11 +14,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @Test
-public class ExRtfLoadOptions extends ApiExampleBase
-{
-    @Test (dataProvider = "recognizeUtf8TextDataProvider")
-    public void recognizeUtf8Text(boolean doRecognizeUtb8Text) throws Exception
-    {
+public class ExRtfLoadOptions extends ApiExampleBase {
+    @Test(dataProvider = "recognizeUtf8TextDataProvider")
+    public void recognizeUtf8Text(boolean doRecognizeUtb8Text) throws Exception {
         //ExStart
         //ExFor:RtfLoadOptions
         //ExFor:RtfLoadOptions.#ctor
@@ -31,14 +29,13 @@ public class ExRtfLoadOptions extends ApiExampleBase
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "recognizeUtf8TextDataProvider")
-	public static Object[][] recognizeUtf8TextDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "recognizeUtf8TextDataProvider")
+    public static Object[][] recognizeUtf8TextDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 }

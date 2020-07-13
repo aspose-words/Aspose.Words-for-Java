@@ -108,8 +108,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void setSectionStart() throws Exception
-    {
+    public void setSectionStart() throws Exception {
         //ExStart
         //ExFor:SectionStart
         //ExFor:PageSetup.SectionStart
@@ -181,15 +180,11 @@ public class ExPageSetup extends ApiExampleBase {
         }
         //ExEnd
 
-        for (Section section : DocumentHelper.saveOpen(doc).getSections())
-        {
-            if (section.getPageSetup().getPaperSize() == com.aspose.words.PaperSize.LETTER)
-            {
+        for (Section section : DocumentHelper.saveOpen(doc).getSections()) {
+            if (section.getPageSetup().getPaperSize() == com.aspose.words.PaperSize.LETTER) {
                 Assert.assertEquals(printerTrayForLetter, section.getPageSetup().getFirstPageTray());
                 Assert.assertEquals(printerTrayForLetter, section.getPageSetup().getOtherPagesTray());
-            }
-            else if (section.getPageSetup().getPaperSize() == com.aspose.words.PaperSize.A4)
-            {
+            } else if (section.getPageSetup().getPaperSize() == com.aspose.words.PaperSize.A4) {
                 Assert.assertEquals(printerTrayForA4, section.getPageSetup().getFirstPageTray());
                 Assert.assertEquals(printerTrayForA4, section.getPageSetup().getOtherPagesTray());
             }
@@ -433,8 +428,7 @@ public class ExPageSetup extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "PageSetup.PageBorders.docx");
         pageSetup = doc.getFirstSection().getPageSetup();
 
-        for (Border border : pageSetup.getBorders())
-        {
+        for (Border border : pageSetup.getBorders()) {
             Assert.assertEquals(LineStyle.DOUBLE_WAVE, border.getLineStyle());
             Assert.assertEquals(2.0d, border.getLineWidth());
             Assert.assertEquals(Color.GREEN.getRGB(), border.getColor().getRGB());
@@ -504,8 +498,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void footnoteOptions() throws Exception
-    {
+    public void footnoteOptions() throws Exception {
         //ExStart
         //ExFor:PageSetup.EndnoteOptions
         //ExFor:PageSetup.FootnoteOptions
@@ -581,8 +574,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void pageBorder() throws Exception
-    {
+    public void pageBorder() throws Exception {
         //ExStart
         //ExFor:PageSetup.BorderSurroundsFooter
         //ExFor:PageSetup.BorderSurroundsHeader
@@ -691,8 +683,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void sectionTextOrientation() throws Exception
-    {
+    public void sectionTextOrientation() throws Exception {
         //ExStart
         //ExFor:PageSetup.TextOrientation
         //ExSummary:Shows how to set text orientation.
@@ -766,8 +757,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
     //ExEnd
 
-    private static void testSuppressEndnotes(Document doc)
-    {
+    private static void testSuppressEndnotes(Document doc) {
         PageSetup pageSetup = doc.getSections().get(1).getPageSetup();
 
         Assert.assertTrue(pageSetup.getSuppressEndnotes());

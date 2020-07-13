@@ -39,13 +39,13 @@ public class ExMailMerge extends ApiExampleBase {
         builder.insertField(" MERGEFIELD City ");
 
         // Fill the fields in the document with user data
-        doc.getMailMerge().execute(new String[] { "FullName", "Company", "Address", "City" },
-            new Object[] { "James Bond", "MI5 Headquarters", "Milbank", "London" });
+        doc.getMailMerge().execute(new String[]{"FullName", "Company", "Address", "City"},
+                new Object[]{"James Bond", "MI5 Headquarters", "Milbank", "London"});
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
 
-        TestUtil.mailMergeMatchesArray(new String[][] { new String[] {"James Bond", "MI5 Headquarters", "Milbank", "London"} }, doc, true);
+        TestUtil.mailMergeMatchesArray(new String[][]{new String[]{"James Bond", "MI5 Headquarters", "Milbank", "London"}}, doc, true);
     }
 
     @Test
@@ -363,13 +363,12 @@ public class ExMailMerge extends ApiExampleBase {
         return dataTable;
     }
     //ExEnd
-    
+
     //ExStart
     //ExFor:MailMerge.PreserveUnusedTags
     //ExSummary:Shows how to preserve the appearance of alternative mail merge tags that go unused during a mail merge. 
-    @Test (dataProvider = "preserveUnusedTagsDataProvider") //ExSkip
-    public void preserveUnusedTags(boolean doPreserveUnusedTags) throws Exception
-    {
+    @Test(dataProvider = "preserveUnusedTagsDataProvider") //ExSkip
+    public void preserveUnusedTags(boolean doPreserveUnusedTags) throws Exception {
         // Create a document and table that we will merge
         Document doc = createSourceDocWithAlternativeMergeFields();
         DataTable dataTable = createSourceTablePreserveUnusedTags();
@@ -425,9 +424,8 @@ public class ExMailMerge extends ApiExampleBase {
     //ExStart
     //ExFor:MailMerge.MergeWholeDocument
     //ExSummary:Shows the relationship between mail merges with regions and field updating.
-    @Test (dataProvider = "mergeWholeDocumentDataProvider") //ExSkip
-    public void mergeWholeDocument(boolean doMergeWholeDocument) throws Exception
-    {
+    @Test(dataProvider = "mergeWholeDocumentDataProvider") //ExSkip
+    public void mergeWholeDocument(boolean doMergeWholeDocument) throws Exception {
         // Create a document and data table that will both be merged
         Document doc = createSourceDocMergeWholeDocument();
         DataTable dataTable = createSourceTableMergeWholeDocument();
@@ -551,9 +549,8 @@ public class ExMailMerge extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test (dataProvider = "trimWhiteSpacesDataProvider")
-    public void trimWhiteSpaces(boolean doTrimWhitespaces) throws Exception
-    {
+    @Test(dataProvider = "trimWhiteSpacesDataProvider")
+    public void trimWhiteSpaces(boolean doTrimWhitespaces) throws Exception {
         //ExStart
         //ExFor:MailMerge.TrimWhitespaces
         //ExSummary:Shows how to trimmed whitespaces from mail merge values.
@@ -563,7 +560,7 @@ public class ExMailMerge extends ApiExampleBase {
         builder.insertField("MERGEFIELD myMergeField", null);
 
         doc.getMailMerge().setTrimWhitespaces(doTrimWhitespaces);
-        doc.getMailMerge().execute(new String[] { "myMergeField" }, new Object[] { "\t hello world! " });
+        doc.getMailMerge().execute(new String[]{"myMergeField"}, new Object[]{"\t hello world! "});
 
         if (doTrimWhitespaces)
             Assert.assertEquals("hello world!\f", doc.getText());
@@ -572,16 +569,15 @@ public class ExMailMerge extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "trimWhiteSpacesDataProvider")
-	public static Object[][] trimWhiteSpacesDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "trimWhiteSpacesDataProvider")
+    public static Object[][] trimWhiteSpacesDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     @Test
     public void mailMergeGetFieldNames() throws Exception {
@@ -828,8 +824,7 @@ public class ExMailMerge extends ApiExampleBase {
     /// Without TestCaseSource/TestCase because of some strange behavior when using long data.
     /// </summary>
     @Test
-    public void mustacheTemplateSyntaxTrue() throws Exception
-    {
+    public void mustacheTemplateSyntaxTrue() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("{{ testfield1 }}");
@@ -851,8 +846,7 @@ public class ExMailMerge extends ApiExampleBase {
     }
 
     @Test
-    public void mustacheTemplateSyntaxFalse() throws Exception
-                {
+    public void mustacheTemplateSyntaxFalse() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("{{ testfield1 }}");
@@ -1013,9 +1007,8 @@ public class ExMailMerge extends ApiExampleBase {
         return dataTable;
     }
 
-    @Test (dataProvider = "unconditionalMergeFieldsAndRegionsDataProvider")
-    public void unconditionalMergeFieldsAndRegions(boolean doCountAllMergeFields) throws Exception
-    {
+    @Test(dataProvider = "unconditionalMergeFieldsAndRegionsDataProvider")
+    public void unconditionalMergeFieldsAndRegions(boolean doCountAllMergeFields) throws Exception {
         //ExStart
         //ExFor:MailMerge.UnconditionalMergeFieldsAndRegions
         //ExSummary:Shows how to merge fields or regions regardless of the parent IF field's condition.
@@ -1049,14 +1042,13 @@ public class ExMailMerge extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "unconditionalMergeFieldsAndRegionsDataProvider")
-	public static Object[][] unconditionalMergeFieldsAndRegionsDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "unconditionalMergeFieldsAndRegionsDataProvider")
+    public static Object[][] unconditionalMergeFieldsAndRegionsDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 }
