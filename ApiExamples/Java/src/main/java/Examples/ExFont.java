@@ -898,10 +898,6 @@ public class ExFont extends ApiExampleBase {
     //ExSummary:Shows how to set the property for finding the closest match font among the available font sources instead missing font.
     @Test
     public void enableFontSubstitution() throws Exception {
-        //ExStart
-        //ExFor:Fonts.FontInfoSubstitutionRule
-        //ExFor:Fonts.FontSubstitutionSettings.FontInfoSubstitution
-        //ExSummary:Shows how to set the property for finding the closest match font among the available font sources instead missing font.
         Document doc = new Document(getMyDir() + "Missing font.docx");
 
         // Assign a custom warning callback

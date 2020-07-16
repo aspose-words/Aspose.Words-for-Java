@@ -1827,6 +1827,7 @@ public class ExShape extends ApiExampleBase {
         }
 
         Assert.assertEquals(2, count);
+        //ExEnd
     }
 
     @Test
