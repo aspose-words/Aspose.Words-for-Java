@@ -15,6 +15,7 @@ public class WorkingWithMarkdownFeatures {
 		ReadMarkdownDocument(dataDir);
 		SaveAsMD(dataDir);
 		ExportIntoMarkdownWithTableContentAlignment(dataDir);
+		UseWarningSourceMarkdown(dataDir);
 	}
 
 	private static void MarkdownDocumentWithEmphases(String dataDir) throws Exception {
@@ -178,5 +179,21 @@ public class WorkingWithMarkdownFeatures {
 		saveOptions.setTableContentAlignment(TableContentAlignment.AUTO);
 		builder.getDocument().save(dataDir + "auto.md", saveOptions);
 		// ExEnd: ExportIntoMarkdownWithTableContentAlignment
+	}
+	
+	public static void UseWarningSourceMarkdown(String dataDir) throws Exception {
+		// ExStart: UseWarningSourceMarkdown
+		Document doc = new Document(dataDir + "input.docx");
+
+		WarningInfoCollection warnings = new WarningInfoCollection();
+		doc.setWarningCallback(warnings);
+		doc.save(dataDir + "output.md");
+
+		for (WarningInfo warningInfo : warnings)
+		{
+		    if (warningInfo.getSource() == WarningSource.MARKDOWN)
+		        System.out.println(warningInfo.getDescription());
+		}
+		// ExEnd: UseWarningSourceMarkdown
 	}
 }
