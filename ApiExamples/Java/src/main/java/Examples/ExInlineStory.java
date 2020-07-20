@@ -108,7 +108,7 @@ public class ExInlineStory extends ApiExampleBase {
                 "Endnote text, will appear at the very end of the document.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 1, true));
     }
 
-    @Test (enabled = false, description = "WORDSJAVA-2406")
+    @Test(enabled = false, description = "WORDSJAVA-2406")
     public void addComment() throws Exception {
         //ExStart
         //ExFor:Comment
@@ -121,7 +121,7 @@ public class ExInlineStory extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("Some text is added.");
 
-        Date currentDate  = new Date();
+        Date currentDate = new Date();
 
         Comment comment = new Comment(doc, "Amy Lee", "AL", currentDate);
         builder.getCurrentParagraph().appendChild(comment);

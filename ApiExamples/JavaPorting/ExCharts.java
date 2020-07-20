@@ -419,8 +419,6 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals("#,##0", chart.getAxisY().getNumberFormat().getFormatCode());
     }
 
-    // Note: Tests below used for verification conversion docx to pdf and the correct display.
-    // For now, the results check manually.
     @Test (dataProvider = "testDisplayChartsWithConversionDataProvider")
     public void testDisplayChartsWithConversion(/*ChartType*/int chartType) throws Exception
     {
@@ -572,6 +570,7 @@ public class ExCharts extends ApiExampleBase
     //ExFor:ChartDataLabel.ShowPercentage
     //ExFor:ChartDataLabel.ShowSeriesName
     //ExFor:ChartDataLabel.ShowValue
+    //ExFor:ChartDataLabel.IsHidden
     //ExFor:ChartDataLabelCollection
     //ExFor:ChartDataLabelCollection.Add(System.Int32)
     //ExFor:ChartDataLabelCollection.Clear
@@ -642,6 +641,7 @@ public class ExCharts extends ApiExampleBase
             series.getDataLabels().get(i).setShowLeaderLines(true);
             series.getDataLabels().get(i).setShowLegendKey(true);
             series.getDataLabels().get(i).setShowPercentage(false);
+            series.getDataLabels().get(i).isHidden(false);
             Assert.assertFalse(series.getDataLabels().get(i).getShowDataLabelsRange());
 
             // Apply number format and separator
@@ -650,6 +650,7 @@ public class ExCharts extends ApiExampleBase
 
             // The label automatically becomes visible
             Assert.assertTrue(series.getDataLabels().get(i).isVisible());
+            Assert.assertFalse(series.getDataLabels().get(i).isHidden());
         }
     }
     //ExEnd

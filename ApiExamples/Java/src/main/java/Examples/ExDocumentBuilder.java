@@ -11,7 +11,6 @@ package Examples;
 import com.aspose.words.Font;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
-import org.apache.commons.collections4.CollectionUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -25,10 +24,11 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.UUID;
 
 public class ExDocumentBuilder extends ApiExampleBase {
     @Test
@@ -527,8 +527,8 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals(TextFormFieldType.REGULAR, formField.getTextInputType());
         Assert.assertEquals("-- Select your favorite footwear --", formField.getResult());
         Assert.assertEquals(0, formField.getDropDownSelectedIndex());
-        Assert.assertEquals(Arrays.asList(new String[] { "-- Select your favorite footwear --", "Sneakers", "Oxfords", "Flip-flops", "Other",
-            "I prefer to be barefoot" }), formField.getDropDownItems());
+        Assert.assertEquals(Arrays.asList(new String[]{"-- Select your favorite footwear --", "Sneakers", "Oxfords", "Flip-flops", "Other",
+                "I prefer to be barefoot"}), formField.getDropDownItems());
     }
 
     @Test
@@ -1573,8 +1573,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     }
 
     @Test
-    public void documentBuilderBuildTable() throws Exception
-    {
+    public void documentBuilderBuildTable() throws Exception {
         //ExStart
         //ExFor:Table
         //ExFor:DocumentBuilder.StartTable
@@ -1798,7 +1797,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertTrue(formField.getEnabled());
         Assert.assertEquals("DropDown", formField.getName());
         Assert.assertEquals(0, formField.getDropDownSelectedIndex());
-        Assert.assertEquals(Arrays.asList(new String[] { "One", "Two", "Three" }), formField.getDropDownItems());
+        Assert.assertEquals(Arrays.asList(new String[]{"One", "Two", "Three"}), formField.getDropDownItems());
         Assert.assertEquals(FieldType.FIELD_FORM_DROP_DOWN, formField.getType());
     }
 

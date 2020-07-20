@@ -11,160 +11,90 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import com.aspose.words.VariableCollection;
 import org.testng.Assert;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.FieldDocVariable;
+import com.aspose.words.FieldType;
+import java.util.Iterator;
 import java.util.Map;
 import com.aspose.ms.System.msConsole;
-import java.util.Iterator;
 
 
 @Test
 public class ExVariableCollection extends ApiExampleBase
 {
     @Test
-    public void addEx() throws Exception
-    {
-        //ExStart
-        //ExFor:VariableCollection.Add
-        //ExSummary:Shows how to create document variables and add them to a document's variable collection.
-        Document doc = new Document(getMyDir() + "Document.docx");
-
-        doc.getVariables().add("doc", "Word processing document");
-        doc.getVariables().add("docx", "Word processing document");
-        doc.getVariables().add("txt", "Word processing document");
-        // Duplicate values can be stored but adding a duplicate name overwrites the old one
-        doc.getVariables().add("txt", "Plain text file");
-        doc.getVariables().add("bmp", "Image");
-        doc.getVariables().add("png", "Image");
-        //ExEnd
-    }
-
-    @Test
-    public void clearEx() throws Exception
+    public void primer() throws Exception
     {
         //ExStart
         //ExFor:Document.Variables
         //ExFor:VariableCollection
+        //ExFor:VariableCollection.Add
         //ExFor:VariableCollection.Clear
-        //ExFor:VariableCollection.Count
-        //ExSummary:Shows how to clear all document variables from a document.
-        Document doc = new Document();
-
-        doc.getVariables().add("doc", "Word processing document");
-        doc.getVariables().add("docx", "Word processing document");
-        doc.getVariables().add("txt", "Plain text file");
-        doc.getVariables().add("bmp", "Image");
-        doc.getVariables().add("png", "Image");
-
-        // Documents don't contain variables by default, so only the ones we added are in the collection
-        Assert.assertEquals(5, doc.getVariables().getCount());
-
-        // Print each variable
-        for (Map.Entry<String, String> entry : doc.getVariables())
-            System.out.println("Name: {entry.Key}, Value: {entry.Value}");
-        
-        // We can empty the collection like this
-        doc.getVariables().clear();
-        Assert.assertEquals(0, doc.getVariables().getCount());
-        //ExEnd
-    }
-
-    @Test
-    public void containsEx() throws Exception
-    {
-        //ExStart
         //ExFor:VariableCollection.Contains
-        //ExSummary:Shows how to check if a collection of document variables contains a key.
-        Document doc = new Document(getMyDir() + "Document.docx");
-
-        doc.getVariables().add("doc", "Word processing document");
-
-        msConsole.writeLine(doc.getVariables().contains("doc")); // True
-        msConsole.writeLine(doc.getVariables().contains("Word processing document")); // False
-        //ExEnd
-    }
-
-    @Test
-    public void iterator()
-    {
-        //ExStart
+        //ExFor:VariableCollection.Count
         //ExFor:VariableCollection.GetEnumerator
-        //ExSummary:Shows how to obtain an enumerator from a collection of document variables and use it.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        //ExFor:VariableCollection.IndexOfKey
+        //ExFor:VariableCollection.Remove
+        //ExFor:VariableCollection.RemoveAt
+        //ExSummary:Shows how to work with a document's variable collection.
+        Document doc = new Document();
+        VariableCollection variables = doc.getVariables();
 
-        doc.getVariables().add("doc", "Word processing document");
-        doc.getVariables().add("docx", "Word processing document");
-        doc.getVariables().add("txt", "Plain text file");
-        doc.getVariables().add("bmp", "Image");
-        doc.getVariables().add("png", "Image");
+        // Documents have a variable collection to which name/value pairs can be added
+        variables.add("Home address", "123 Main St.");
+        variables.add("City", "London");
+        variables.add("Bedrooms", "3");
 
+        Assert.assertEquals(3, variables.getCount());
+
+        // Variables can be referenced and have their values presented in the document by DOCVARIABLE fields
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        FieldDocVariable field = (FieldDocVariable)builder.insertField(FieldType.FIELD_DOC_VARIABLE, true);
+        field.setVariableName("Home address");
+        field.update();
+
+        Assert.assertEquals("123 Main St.", field.getResult());
+
+        // Assigning values to existing keys will update them
+        variables.add("Home address", "456 Queen St.");
+
+        // DOCVARIABLE fields also need to be updated in order to show an accurate up to date value
+        field.update();
+
+        Assert.assertEquals("456 Queen St.", field.getResult());
+
+        // The existence of variables can be looked up either by name or value like this
+        Assert.assertTrue(variables.contains("City"));
+        Assert.True(variables.Any(v => v.Value == "London"));
+
+        // Variables are automatically sorted in alphabetical order
+        Assert.assertEquals(0, variables.indexOfKey("Bedrooms"));
+        Assert.assertEquals(1, variables.indexOfKey("City"));
+        Assert.assertEquals(2, variables.indexOfKey("Home address"));
+
+        // Enumerate over the collection of variables
         Iterator<Map.Entry<String, String>> enumerator = doc.getVariables().iterator();
         try /*JAVA: was using*/
-        {
+    	{
             while (enumerator.hasNext())
-            {
-                Map.Entry<String, String> de = enumerator.next();
-                msConsole.writeLine("Name: {0}, Value: {1}", de.getKey(), de.getValue());
-            }
-        }
+                System.out.println("Name: {enumerator.Current.Key}, Value: {enumerator.Current.Value}");
+    	}
         finally { if (enumerator != null) enumerator.close(); }
-        //ExEnd
-    }
 
-    @Test
-    public void indexOfKeyEx() throws Exception
-    {
-        //ExStart
-        //ExFor:VariableCollection.IndexOfKey
-        //ExSummary:Shows how to get the index of a key.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        // Variables can be removed either by name or index, or the entire collection can be cleared at once
+        variables.remove("City");
 
-        doc.getVariables().add("doc", "Word processing document");
-        doc.getVariables().add("docx", "Word processing document");
-        doc.getVariables().add("txt", "Plain text file");
-        doc.getVariables().add("bmp", "Image");
-        doc.getVariables().add("png", "Image");
+        Assert.assertFalse(variables.contains("City"));
 
-        msConsole.writeLine(doc.getVariables().indexOfKey("bmp")); // 0
-        msConsole.writeLine(doc.getVariables().indexOfKey("txt")); // 4
-        //ExEnd
-    }
+        variables.removeAt(1);
 
-    @Test
-    public void removeEx() throws Exception
-    {
-        //ExStart
-        //ExFor:VariableCollection.Remove
-        //ExSummary:Shows how to remove an element from a document's variable collection by key.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        Assert.assertFalse(variables.contains("Home address"));
 
-        doc.getVariables().add("doc", "Word processing document");
-        doc.getVariables().add("docx", "Word processing document");
-        doc.getVariables().add("txt", "Plain text file");
-        doc.getVariables().add("bmp", "Image");
-        doc.getVariables().add("png", "Image");
+        variables.clear();
 
-        doc.getVariables().remove("bmp");
-        msConsole.writeLine(doc.getVariables().getCount()); // 4
-        //ExEnd
-    }
-
-    @Test
-    public void removeAtEx() throws Exception
-    {
-        //ExStart
-        //ExFor:VariableCollection.RemoveAt
-        //ExSummary:Shows how to remove an element from a document's variable collection by index.
-        Document doc = new Document(getMyDir() + "Document.docx");
-
-        doc.getVariables().add("doc", "Word processing document");
-        doc.getVariables().add("docx", "Word processing document");
-        doc.getVariables().add("txt", "Plain text file");
-        doc.getVariables().add("bmp", "Image");
-        doc.getVariables().add("png", "Image");
-
-        int index = doc.getVariables().indexOfKey("bmp");
-        doc.getVariables().removeAt(index);
-        msConsole.writeLine(doc.getVariables().getCount()); // 4
+        Assert.That(variables, Is.Empty);
         //ExEnd
     }
 }

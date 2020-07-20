@@ -10,52 +10,63 @@ package ApiExamples;
 // ********* THIS FILE IS AUTO PORTED *********
 
 import org.testng.annotations.Test;
-import com.aspose.words.ControlChar;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.PageSetup;
 import com.aspose.words.ConvertUtil;
-import com.aspose.ms.System.msConsole;
+import org.testng.Assert;
 
 
 @Test
 public class ExUtilityClasses extends ApiExampleBase
 {
     @Test
-    public void utilityClassesUseControlCharacters()
-    {
-        String text = "test\r";
-        //ExStart
-        //ExFor:ControlChar
-        //ExFor:ControlChar.Cr
-        //ExFor:ControlChar.CrLf
-        //ExSummary:Shows how to use control characters.
-        // Replace "\r" control character with "\r\n"
-        text = text.replace(ControlChar.CR, ControlChar.CR_LF);
-        //ExEnd
-    }
-
-    @Test
-    public void utilityClassesConvertBetweenMeasurementUnits() throws Exception
+    public void pointsAndInches() throws Exception
     {
         //ExStart
         //ExFor:ConvertUtil
+        //ExFor:ConvertUtil.PointToInch
+        //ExFor:ConvertUtil.InchToPoint
         //ExSummary:Shows how to specify page properties in inches.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // The distance between text and page boundaries is defined in Page Setup, in points
+        // We can also use ConvertUtil to use a more familiar measurement unit like inches to points when defining boundaries
         PageSetup pageSetup = builder.getPageSetup();
         pageSetup.setTopMargin(ConvertUtil.inchToPoint(1.0));
-        pageSetup.setBottomMargin(ConvertUtil.inchToPoint(1.0));
-        pageSetup.setLeftMargin(ConvertUtil.inchToPoint(1.5));
+        pageSetup.setBottomMargin(ConvertUtil.inchToPoint(2.0));
+        pageSetup.setLeftMargin(ConvertUtil.inchToPoint(2.5));
         pageSetup.setRightMargin(ConvertUtil.inchToPoint(1.5));
-        pageSetup.setHeaderDistance(ConvertUtil.inchToPoint(0.2));
-        pageSetup.setFooterDistance(ConvertUtil.inchToPoint(0.2));
+
+        // An inch is 72 points
+        Assert.assertEquals(72.0d, ConvertUtil.inchToPoint(1.0));
+        Assert.assertEquals(1.0d, ConvertUtil.pointToInch(72.0));
+
+        // Add content to demonstrate these changes
+        builder.writeln($"This Text is {pageSetup.LeftMargin} points/{ConvertUtil.PointToInch(pageSetup.LeftMargin)} inches from the left, " +
+                        $"{pageSetup.RightMargin} points/{ConvertUtil.PointToInch(pageSetup.RightMargin)} inches from the right, " +
+                        $"{pageSetup.TopMargin} points/{ConvertUtil.PointToInch(pageSetup.TopMargin)} inches from the top, " +
+                        $"and {pageSetup.BottomMargin} points/{ConvertUtil.PointToInch(pageSetup.BottomMargin)} inches from the bottom of the page.");
+
+        doc.save(getArtifactsDir() + "UtilityClasses.PointsAndInches.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "UtilityClasses.PointsAndInches.docx");
+        pageSetup = doc.getFirstSection().getPageSetup();
+
+        Assert.assertEquals(72.0d, pageSetup.getTopMargin(), 0.01d);
+        Assert.assertEquals(1.0d, ConvertUtil.pointToInch(pageSetup.getTopMargin()), 0.01d);
+        Assert.assertEquals(144.0d, pageSetup.getBottomMargin(), 0.01d);
+        Assert.assertEquals(2.0d, ConvertUtil.pointToInch(pageSetup.getBottomMargin()), 0.01d);
+        Assert.assertEquals(180.0d, pageSetup.getLeftMargin(), 0.01d);
+        Assert.assertEquals(2.5d, ConvertUtil.pointToInch(pageSetup.getLeftMargin()), 0.01d);
+        Assert.assertEquals(108.0d, pageSetup.getRightMargin(), 0.01d);
+        Assert.assertEquals(1.5d, ConvertUtil.pointToInch(pageSetup.getRightMargin()), 0.01d);
     }
 
     @Test
-    public void millimeterToPoint() throws Exception
+    public void pointsAndMillimeters() throws Exception
     {
         //ExStart
         //ExFor:ConvertUtil.MillimeterToPoint
@@ -63,110 +74,124 @@ public class ExUtilityClasses extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // The distance between text and page boundaries is defined in Page Setup, in points
+        // We can also use ConvertUtil to use a more familiar measurement unit like millimeters to points when defining boundaries
         PageSetup pageSetup = builder.getPageSetup();
-        pageSetup.setTopMargin(ConvertUtil.millimeterToPoint(25.0));
-        pageSetup.setBottomMargin(ConvertUtil.millimeterToPoint(25.0));
-        pageSetup.setLeftMargin(ConvertUtil.millimeterToPoint(37.5));
-        pageSetup.setRightMargin(ConvertUtil.millimeterToPoint(37.5));
-        pageSetup.setHeaderDistance(ConvertUtil.millimeterToPoint(5.0));
-        pageSetup.setFooterDistance(ConvertUtil.millimeterToPoint(5.0));
+        pageSetup.setTopMargin(ConvertUtil.millimeterToPoint(30.0));
+        pageSetup.setBottomMargin(ConvertUtil.millimeterToPoint(50.0));
+        pageSetup.setLeftMargin(ConvertUtil.millimeterToPoint(80.0));
+        pageSetup.setRightMargin(ConvertUtil.millimeterToPoint(40.0));
 
-        builder.writeln("Hello world.");
-        builder.getDocument().save(getArtifactsDir() + "UtilityClasses.MillimeterToPoint.doc");
+        // A centimeter is approximately 28.3 points
+        Assert.assertEquals(28.34d, ConvertUtil.millimeterToPoint(10.0), 0.01d);
+
+        // Add content to demonstrate these changes
+        builder.writeln($"This Text is {pageSetup.LeftMargin} points from the left, " +
+                        $"{pageSetup.RightMargin} points from the right, " +
+                        $"{pageSetup.TopMargin} points from the top, " +
+                        $"and {pageSetup.BottomMargin} points from the bottom of the page.");
+
+        doc.save(getArtifactsDir() + "UtilityClasses.PointsAndMillimeters.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "UtilityClasses.PointsAndMillimeters.docx");
+        pageSetup = doc.getFirstSection().getPageSetup();
+
+        Assert.assertEquals(85.05d, pageSetup.getTopMargin(), 0.01d);
+        Assert.assertEquals(141.75d, pageSetup.getBottomMargin(), 0.01d);
+        Assert.assertEquals(226.75d, pageSetup.getLeftMargin(), 0.01d);
+        Assert.assertEquals(113.4d, pageSetup.getRightMargin(), 0.01d);
     }
 
     @Test
-    public void pointToInchEx() throws Exception
-    {
-        //ExStart
-        //ExFor:ConvertUtil.PointToInch
-        //ExSummary:Shows how to convert points to inches.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        PageSetup pageSetup = builder.getPageSetup();
-        pageSetup.setTopMargin(ConvertUtil.inchToPoint(2.0));
-
-        msConsole.writeLine("The size of my top margin is {0} points, or {1} inches.", pageSetup.getTopMargin(),
-            ConvertUtil.pointToInch(pageSetup.getTopMargin()));
-        //ExEnd
-    }
-
-    @Test
-    public void pixelToPoint() throws Exception
+    public void pointsAndPixels() throws Exception
     {
         //ExStart
         //ExFor:ConvertUtil.PixelToPoint(double)
-        //ExFor:ConvertUtil.PixelToPoint(double, double)
-        //ExSummary:Shows how to specify page properties in pixels with default and custom resolution.
+        //ExFor:ConvertUtil.PointToPixel(double)
+        //ExSummary:Shows how to specify page properties in pixels.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        PageSetup pageSetupNoDpi = builder.getPageSetup();
-        pageSetupNoDpi.setTopMargin(ConvertUtil.pixelToPoint(100.0));
-        pageSetupNoDpi.setBottomMargin(ConvertUtil.pixelToPoint(100.0));
-        pageSetupNoDpi.setLeftMargin(ConvertUtil.pixelToPoint(150.0));
-        pageSetupNoDpi.setRightMargin(ConvertUtil.pixelToPoint(150.0));
-        pageSetupNoDpi.setHeaderDistance(ConvertUtil.pixelToPoint(20.0));
-        pageSetupNoDpi.setFooterDistance(ConvertUtil.pixelToPoint(20.0));
+        // The distance between text and page boundaries is defined in Page Setup, in points
+        // We can also use ConvertUtil to use pixels when defining boundaries
+        PageSetup pageSetup = builder.getPageSetup();
+        pageSetup.setTopMargin(ConvertUtil.pixelToPoint(100.0));
+        pageSetup.setBottomMargin(ConvertUtil.pixelToPoint(200.0));
+        pageSetup.setLeftMargin(ConvertUtil.pixelToPoint(225.0));
+        pageSetup.setRightMargin(ConvertUtil.pixelToPoint(125.0));
 
-        builder.writeln("Hello world.");
-        builder.getDocument().save(getArtifactsDir() + "UtilityClasses.PixelToPoint.DefaultResolution.doc");
+        // A pixel is 0.75 points
+        Assert.assertEquals(0.75d, ConvertUtil.pixelToPoint(1.0));
+        Assert.assertEquals(1.0d, ConvertUtil.pointToPixel(0.75));
 
-        double myDpi = 150.0;
+        // The default DPI value used is 96
+        Assert.assertEquals(0.75d, ConvertUtil.pixelToPoint(1.0, 96.0));
 
-        PageSetup pageSetupWithDpi = builder.getPageSetup();
-        pageSetupWithDpi.setTopMargin(ConvertUtil.pixelToPoint(100.0, myDpi));
-        pageSetupWithDpi.setBottomMargin(ConvertUtil.pixelToPoint(100.0, myDpi));
-        pageSetupWithDpi.setLeftMargin(ConvertUtil.pixelToPoint(150.0, myDpi));
-        pageSetupWithDpi.setRightMargin(ConvertUtil.pixelToPoint(150.0, myDpi));
-        pageSetupWithDpi.setHeaderDistance(ConvertUtil.pixelToPoint(20.0, myDpi));
-        pageSetupWithDpi.setFooterDistance(ConvertUtil.pixelToPoint(20.0, myDpi));
+        // Add content to demonstrate these changes
+        builder.writeln($"This Text is {pageSetup.LeftMargin} points/{ConvertUtil.PointToPixel(pageSetup.LeftMargin)} pixels from the left, " +
+                        $"{pageSetup.RightMargin} points/{ConvertUtil.PointToPixel(pageSetup.RightMargin)} pixels from the right, " +
+                        $"{pageSetup.TopMargin} points/{ConvertUtil.PointToPixel(pageSetup.TopMargin)} pixels from the top, " +
+                        $"and {pageSetup.BottomMargin} points/{ConvertUtil.PointToPixel(pageSetup.BottomMargin)} pixels from the bottom of the page.");
 
-        builder.getDocument().save(getArtifactsDir() + "UtilityClasses.PixelToPoint.CustomResolution.doc");
+        doc.save(getArtifactsDir() + "UtilityClasses.PointsAndPixels.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "UtilityClasses.PointsAndPixels.docx");
+        pageSetup = doc.getFirstSection().getPageSetup();
+
+        Assert.assertEquals(75.0d, pageSetup.getTopMargin(), 0.01d);
+        Assert.assertEquals(100.0d, ConvertUtil.pointToPixel(pageSetup.getTopMargin()), 0.01d);
+        Assert.assertEquals(150.0d, pageSetup.getBottomMargin(), 0.01d);
+        Assert.assertEquals(200.0d, ConvertUtil.pointToPixel(pageSetup.getBottomMargin()), 0.01d);
+        Assert.assertEquals(168.75d, pageSetup.getLeftMargin(), 0.01d);
+        Assert.assertEquals(225.0d, ConvertUtil.pointToPixel(pageSetup.getLeftMargin()), 0.01d);
+        Assert.assertEquals(93.75d, pageSetup.getRightMargin(), 0.01d);
+        Assert.assertEquals(125.0d, ConvertUtil.pointToPixel(pageSetup.getRightMargin()), 0.01d);
     }
 
     @Test
-    public void pointToPixelEx() throws Exception
+    public void pointsAndPixelsDpi() throws Exception
     {
         //ExStart
-        //ExFor:ConvertUtil.PointToPixel(double)
+        //ExFor:ConvertUtil.PixelToNewDpi
+        //ExFor:ConvertUtil.PixelToPoint(double, double)
         //ExFor:ConvertUtil.PointToPixel(double, double)
         //ExSummary:Shows how to use convert points to pixels with default and custom resolution.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        PageSetup pageSetup = builder.getPageSetup();
-        pageSetup.setTopMargin(ConvertUtil.pixelToPoint(2.0));
-
+        // Define a custom pixel resolution
         double myDpi = 192.0;
 
-        msConsole.writeLine("The size of my top margin is {0} points, or {1} pixels with default resolution.",
-            pageSetup.getTopMargin(), ConvertUtil.pointToPixel(pageSetup.getTopMargin()));
-
-        msConsole.writeLine("The size of my top margin is {0} points, or {1} pixels with custom resolution.",
-            pageSetup.getTopMargin(), ConvertUtil.pointToPixel(pageSetup.getTopMargin(), myDpi));
-        //ExEnd
-    }
-
-    @Test
-    public void pixelToNewDpiEx() throws Exception
-    {
-        //ExStart
-        //ExFor:ConvertUtil.PixelToNewDpi
-        //ExSummary:Shows how to check how an amount of pixels changes when the dpi is changed.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
         PageSetup pageSetup = builder.getPageSetup();
-        pageSetup.setTopMargin(72.0);
-        double oldDpi = 92.0;
-        double newDpi = 192.0;
+        pageSetup.setTopMargin(ConvertUtil.pixelToPoint(100.0, myDpi));
+        Assert.assertEquals(37.5d, pageSetup.getTopMargin(), 0.01d);
 
-        msConsole.writeLine("{0} pixels at {1} dpi becomes {2} pixels at {3} dpi.", pageSetup.getTopMargin(), oldDpi,
-            ConvertUtil.pixelToNewDpi(pageSetup.getTopMargin(), oldDpi, newDpi), newDpi);
+        // At the default DPI of 96, a pixel is 0.75 points
+        Assert.assertEquals(0.75d, ConvertUtil.pixelToPoint(1.0));
+
+        builder.writeln($"This Text is {pageSetup.TopMargin} points/{ConvertUtil.PointToPixel(pageSetup.TopMargin, myDpi)} " +
+                        $"pixels (at a DPI of {myDpi}) from the top of the page.");
+
+        // Set a new DPI and adjust the top margin value accordingly
+        double newDpi = 300.0;
+        pageSetup.setTopMargin(ConvertUtil.pixelToNewDpi(pageSetup.getTopMargin(), myDpi, newDpi));
+        Assert.assertEquals(59.0d, pageSetup.getTopMargin(), 0.01d);
+
+        builder.writeln($"At a DPI of {newDpi}, the text is now {pageSetup.TopMargin} points/{ConvertUtil.PointToPixel(pageSetup.TopMargin, myDpi)} " +
+                        "pixels from the top of the page.");
+
+        doc.save(getArtifactsDir() + "UtilityClasses.PointsAndPixelsDpi.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "UtilityClasses.PointsAndPixelsDpi.docx");
+        pageSetup = doc.getFirstSection().getPageSetup();
+
+        Assert.assertEquals(59.0d, pageSetup.getTopMargin(), 0.01d);
+        Assert.assertEquals(78.66, ConvertUtil.pointToPixel(pageSetup.getTopMargin()), 0.01d);
+        Assert.assertEquals(157.33, ConvertUtil.pointToPixel(pageSetup.getTopMargin(), myDpi), 0.01d);
+        Assert.assertEquals(133.33d, ConvertUtil.pointToPixel(100.0), 0.01d);
+        Assert.assertEquals(266.66d, ConvertUtil.pointToPixel(100.0, myDpi), 0.01d);
     }
 }

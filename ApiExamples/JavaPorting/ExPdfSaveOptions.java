@@ -53,6 +53,9 @@ import com.aspose.words.FileFormatUtil;
 import com.aspose.words.PdfDigitalSignatureTimestampSettings;
 import com.aspose.ms.System.TimeSpan;
 import com.aspose.words.EmfPlusDualRenderingMode;
+import com.aspose.words.Dml3DEffectsRenderingMode;
+import com.aspose.words.WarningSource;
+import java.util.ArrayList;
 import org.testng.annotations.DataProvider;
 
 
@@ -1054,6 +1057,25 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         finally { if (stream != null) stream.close(); }
     }
 
+    @Test
+    public void interpolateImages() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.InterpolateImages
+        //ExSummary:Shows how to improve the quality of an image in the rendered documents.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        BufferedImage img = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
+        builder.insertImage(img);
+        
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setInterpolateImages(true);
+        
+        doc.save(getArtifactsDir() + "PdfSaveOptions.InterpolateImages.pdf", saveOptions);
+        //ExEnd
+    }
+
 
     @Test
     public void pdfDigitalSignature() throws Exception
@@ -1193,4 +1215,45 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 			{EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK},
 		};
 	}
+
+    @Test (groups = "SkipMono")
+    public void dml3DEffectsRenderingModeTest() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "DrawingML shape 3D effects.docx");
+        
+        RenderCallback warningCallback = new RenderCallback();
+        doc.setWarningCallback(warningCallback);
+        
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setDml3DEffectsRenderingMode(Dml3DEffectsRenderingMode.ADVANCED);
+        
+        doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
+
+        Assert.AreEqual(warningCallback.Count, 43);
+    }
+
+    public static class RenderCallback implements IWarningCallback
+    {
+        public void warning(WarningInfo info)
+        {
+            System.out.println("{info.WarningType}: {info.Description}.");
+            mWarnings.Add(info);
+        }
+
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
+            mWarnings.Clear();
+        }
+
+        public int Count => private mWarnings.CountmWarnings;
+
+        /// <summary>
+        /// Returns true if a warning with the specified properties has been generated.
+        /// </summary>
+        public boolean contains(/*WarningSource*/int source, /*WarningType*/int type, String description)
+        {
+            return mWarnings.Any(warning => warning.Source == source && warning.WarningType == type && warning.Description == description);
+        }
+
+        private /*final*/ ArrayList<WarningInfo> mWarnings = new ArrayList<WarningInfo>();
+    }
 }

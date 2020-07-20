@@ -28,7 +28,6 @@ import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
@@ -837,7 +836,7 @@ public class ExFont extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
-        HandleDocumentWarnings callback = new HandleDocumentWarnings();
+        ExRendering.HandleDocumentWarnings callback = new ExRendering.HandleDocumentWarnings();
         doc.setWarningCallback(callback);
 
         // We can choose the default font to use in the case of any missing fonts
@@ -852,9 +851,9 @@ public class ExFont extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Font.SubstitutionNotification.pdf");
         //ExEnd
 
-        Assert.assertTrue(callback.mFontWarnings.getCount() > 0);
-        Assert.assertTrue(callback.mFontWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
-        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
+        Assert.assertTrue(callback.FontWarnings.getCount() > 0);
+        Assert.assertTrue(callback.FontWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
+        Assert.assertTrue(callback.FontWarnings.get(0).getDescription().equals("Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
 
         // Restore default fonts
         FontSettings.getDefaultInstance().setFontsSources(origFontSources);
@@ -883,6 +882,8 @@ public class ExFont extends ApiExampleBase {
     }
 
     //ExStart
+    //ExFor:Fonts.FontInfoSubstitutionRule
+    //ExFor:Fonts.FontSubstitutionSettings.FontInfoSubstitution
     //ExFor:IWarningCallback
     //ExFor:IWarningCallback.Warning(WarningInfo)
     //ExFor:WarningInfo
@@ -890,64 +891,66 @@ public class ExFont extends ApiExampleBase {
     //ExFor:WarningInfo.WarningType
     //ExFor:WarningInfoCollection
     //ExFor:WarningInfoCollection.Warning(WarningInfo)
+    //ExFor:WarningInfoCollection.GetEnumerator
+    //ExFor:WarningInfoCollection.Clear
     //ExFor:WarningType
     //ExFor:DocumentBase.WarningCallback
-    //ExSummary:Shows how to implement the IWarningCallback to be notified of any font substitution during document save.
-    public static class HandleDocumentWarnings implements IWarningCallback {
-        /**
-         * Our callback only needs to implement the "Warning" method. This method is called whenever there is a
-         * potential issue during document processing. The callback can be set to listen for warnings generated during document
-         * load and/or document save.
-         */
-        public void warning(final WarningInfo info) {
-            // We are only interested in fonts being substituted
-            if (info.getWarningType() == WarningType.FONT_SUBSTITUTION) {
-                System.out.println("Font substitution: " + info.getDescription());
-                mFontWarnings.warning(info); //ExSkip
-            }
-        }
-
-        public WarningInfoCollection mFontWarnings = new WarningInfoCollection(); //ExSkip
-    }
-    //ExEnd
-
+    //ExSummary:Shows how to set the property for finding the closest match font among the available font sources instead missing font.
     @Test
     public void enableFontSubstitution() throws Exception {
-        //ExStart
-        //ExFor:Fonts.FontInfoSubstitutionRule
-        //ExFor:Fonts.FontSubstitutionSettings.FontInfoSubstitution
-        //ExSummary:Shows how to set the property for finding the closest match font among the available font sources instead missing font.
         Document doc = new Document(getMyDir() + "Missing font.docx");
 
-        // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
-        HandleDocumentWarnings callback = new HandleDocumentWarnings();
-        doc.setWarningCallback(callback);
+        // Assign a custom warning callback
+        HandleDocumentSubstitutionWarnings substitutionWarningHandler = new HandleDocumentSubstitutionWarnings();
+        doc.setWarningCallback(substitutionWarningHandler);
 
+        // Set a default font name and enable font substitution
         FontSettings fontSettings = new FontSettings();
         fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
         fontSettings.getSubstitutionSettings().getFontInfoSubstitution().setEnabled(true);
-        //ExEnd
 
+        // When saving the document with the missing font, we should get a warning
         doc.setFontSettings(fontSettings);
         doc.save(getArtifactsDir() + "Font.EnableFontSubstitution.pdf");
 
-        Pattern pattern = Pattern.compile("Font \'28 Days Later\' has not been found. Using (.*) font instead. Reason: alternative name from document.");
+        // List all warnings using an enumerator
+        Iterator<WarningInfo> warnings = substitutionWarningHandler.FontWarnings.iterator();
+        while (warnings.hasNext())
+            System.out.println(warnings.next().getDescription());
 
-        for (WarningInfo fontWarning : callback.mFontWarnings) {
-            Matcher match = pattern.matcher(fontWarning.getDescription());
-            if (!match.matches()) {
-                Assert.fail();
-                break;
-            }
-        }
+        // Warnings are stored in this format
+        Assert.assertEquals(WarningSource.LAYOUT, substitutionWarningHandler.FontWarnings.get(0).getSource());
+        Assert.assertEquals("Font '28 Days Later' has not been found. Using 'Calibri' font instead. Reason: alternative name from document.",
+                substitutionWarningHandler.FontWarnings.get(0).getDescription());
+
+        // The warning info collection can also be cleared like this
+        substitutionWarningHandler.FontWarnings.clear();
+
+        Assert.assertEquals(substitutionWarningHandler.FontWarnings.getCount(), 0);
     }
+
+    public static class HandleDocumentSubstitutionWarnings implements IWarningCallback {
+        /// <summary>
+        /// Our callback only needs to implement the "Warning" method. This method is called whenever there is a
+        /// potential issue during document processing. The callback can be set to listen for warnings generated during document
+        /// load and/or document save.
+        /// </summary>
+        public void warning(WarningInfo info) {
+            // We are only interested in fonts being substituted
+            if (info.getWarningType() == WarningType.FONT_SUBSTITUTION)
+                FontWarnings.warning(info);
+        }
+
+        public WarningInfoCollection FontWarnings = new WarningInfoCollection();
+    }
+    //ExEnd
 
     @Test
     public void disableFontSubstitution() throws Exception {
         Document doc = new Document(getMyDir() + "Missing font.docx");
 
         // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
-        HandleDocumentWarnings callback = new HandleDocumentWarnings();
+        HandleDocumentSubstitutionWarnings callback = new HandleDocumentSubstitutionWarnings();
         doc.setWarningCallback(callback);
 
         FontSettings fontSettings = new FontSettings();
@@ -959,7 +962,7 @@ public class ExFont extends ApiExampleBase {
 
         Pattern pattern = Pattern.compile("Font '28 Days Later' has not been found. Using (.*) font instead. Reason: alternative name from document.");
 
-        for (WarningInfo fontWarning : callback.mFontWarnings) {
+        for (WarningInfo fontWarning : callback.FontWarnings) {
             Matcher match = pattern.matcher(fontWarning.getDescription());
             if (!match.matches()) {
                 Assert.fail();
@@ -973,7 +976,7 @@ public class ExFont extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
-        HandleDocumentWarnings callback = new HandleDocumentWarnings();
+        HandleDocumentSubstitutionWarnings callback = new HandleDocumentSubstitutionWarnings();
         doc.setWarningCallback(callback);
 
         FontSettings fontSettings = new FontSettings();
@@ -985,9 +988,9 @@ public class ExFont extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Font.SubstitutionWarnings.pdf");
 
         Assert.assertEquals("Font \'Arial\' has not been found. Using \'Arvo\' font instead. Reason: table substitution.",
-                callback.mFontWarnings.get(0).getDescription());
+                callback.FontWarnings.get(0).getDescription());
         Assert.assertEquals("Font \'Times New Roman\' has not been found. Using \'M+ 2m\' font instead. Reason: font info substitution.",
-                callback.mFontWarnings.get(1).getDescription());
+                callback.FontWarnings.get(1).getDescription());
     }
 
     @Test
@@ -995,12 +998,12 @@ public class ExFont extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Bullet points with alternative font.docx");
 
         // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
-        HandleDocumentWarnings callback = new HandleDocumentWarnings();
+        HandleDocumentSubstitutionWarnings callback = new HandleDocumentSubstitutionWarnings();
         doc.setWarningCallback(callback);
 
         doc.save(getArtifactsDir() + "Font.SubstitutionWarningsClosestMatch.pdf");
 
-        Assert.assertTrue(callback.mFontWarnings.get(0).getDescription().equals("Font 'SymbolPS' has not been found. Using 'Wingdings' font instead. Reason: font info substitution."));
+        Assert.assertTrue(callback.FontWarnings.get(0).getDescription().equals("Font 'SymbolPS' has not been found. Using 'Wingdings' font instead. Reason: font info substitution."));
     }
 
     @Test
@@ -1085,7 +1088,6 @@ public class ExFont extends ApiExampleBase {
         table.accept(hiddenContentRemover);
 
         doc.save(getArtifactsDir() + "Font.RemoveHiddenContentFromDocument.docx");
-        testRemoveHiddenContent(new Document(getArtifactsDir() + "Font.RemoveHiddenContentFromDocument.docx")); //ExSkip
     }
 
     /**
@@ -1199,6 +1201,16 @@ public class ExFont extends ApiExampleBase {
             if (footnote.getFont().getHidden()) {
                 footnote.remove();
             }
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a SpecialCharacter is encountered in the document.
+        /// </summary>
+        public /*override*/ /*VisitorAction*/int visitSpecialChar(SpecialChar specialChar) {
+            if (specialChar.getFont().getHidden())
+                specialChar.remove();
 
             return VisitorAction.CONTINUE;
         }
@@ -1324,6 +1336,7 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Fonts.EmbeddedFontFormat
         //ExFor:Fonts.EmbeddedFontStyle
         //ExFor:Fonts.FontInfo.GetEmbeddedFont(EmbeddedFontFormat,EmbeddedFontStyle)
+        //ExFor:Fonts.FontInfo.GetEmbeddedFontAsOpenType(EmbeddedFontStyle)
         //ExFor:Fonts.FontInfoCollection.Item(Int32)
         //ExFor:Fonts.FontInfoCollection.Item(String)
         //ExSummary:Shows how to extract embedded font from a document.
@@ -1345,6 +1358,8 @@ public class ExFont extends ApiExampleBase {
 
         Assert.assertNull(doc.getFontInfos().get("Alte DIN 1451 Mittelschrift").getEmbeddedFont(EmbeddedFontFormat.OPEN_TYPE, EmbeddedFontStyle.REGULAR));
         Assert.assertNotNull(doc.getFontInfos().get("Alte DIN 1451 Mittelschrift").getEmbeddedFont(EmbeddedFontFormat.EMBEDDED_OPEN_TYPE, EmbeddedFontStyle.REGULAR));
+        // Also, we can convert embedded OpenType format, which comes from .doc documents, to OpenType
+        Assert.assertNotNull(doc.getFontInfos().get("Alte DIN 1451 Mittelschrift").getEmbeddedFontAsOpenType(EmbeddedFontStyle.REGULAR));
         //ExEnd
     }
 
@@ -1579,12 +1594,12 @@ public class ExFont extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Font.LoadFontFallbackSettingsFromStream.pdf");
 
         // Saves font fallback setting by stream
-        InputStream fontFallbackStream1 =
-                new FileInputStream(getArtifactsDir() + "FallbackSettings.xml");
+        OutputStream fontFallbackStreamOut =
+                new FileOutputStream(getArtifactsDir() + "FallbackSettings.xml");
         try {
-            doc.getFontSettings().getFallbackSettings().save(fontFallbackStream1);
+            doc.getFontSettings().getFallbackSettings().save(fontFallbackStreamOut);
         } finally {
-            if (fontFallbackStream1 != null) fontFallbackStream1.close();
+            if (fontFallbackStreamOut != null) fontFallbackStreamOut.close();
         }
         //ExEnd
     }
@@ -1902,7 +1917,7 @@ public class ExFont extends ApiExampleBase {
         Assert.assertEquals(13.7d, builder.getFont().getLineSpacing(), 1);
 
         builder.getFont().setName("Times New Roman");
-        Assert.assertEquals(13.7d, builder.getFont().getLineSpacing(),1);
+        Assert.assertEquals(13.7d, builder.getFont().getLineSpacing(), 1);
         //ExEnd
     }
 

@@ -12,19 +12,16 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Iterator;
 
 public class ExProperties extends ApiExampleBase {
     @Test
-    public void builtIn() throws Exception
-    {
+    public void builtIn() throws Exception {
         //ExStart
         //ExFor:BuiltInDocumentProperties
         //ExFor:Document.BuiltInDocumentProperties
@@ -42,8 +39,7 @@ public class ExProperties extends ApiExampleBase {
         // The majority of metadata, such as author name, file size,
         // word/page counts can be found in the built in properties collection like this
         System.out.println("Built-in Properties:");
-        for (DocumentProperty docProperty : doc.getBuiltInDocumentProperties())
-        {
+        for (DocumentProperty docProperty : doc.getBuiltInDocumentProperties()) {
             System.out.println(docProperty.getName());
             System.out.println(MessageFormat.format("\tType:\t{0}", docProperty.getType()));
         }
@@ -53,8 +49,7 @@ public class ExProperties extends ApiExampleBase {
     }
 
     @Test
-    public void custom() throws Exception
-    {
+    public void custom() throws Exception {
         //ExStart
         //ExFor:BuiltInDocumentProperties.Item(String)
         //ExFor:CustomDocumentProperties
@@ -74,8 +69,7 @@ public class ExProperties extends ApiExampleBase {
 
         // Iterate over all the custom document properties
         System.out.println("Custom Properties:");
-        for (DocumentProperty customDocumentProperty : (Iterable<DocumentProperty>) doc.getCustomDocumentProperties())
-        {
+        for (DocumentProperty customDocumentProperty : (Iterable<DocumentProperty>) doc.getCustomDocumentProperties()) {
             System.out.println(customDocumentProperty.getName());
             System.out.println("\tType:\t{customDocumentProperty.Type}");
             System.out.println("\tValue:\t\"{customDocumentProperty.Value}\"");
@@ -285,8 +279,7 @@ public class ExProperties extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testContent(Document doc)
-    {
+    private void testContent(Document doc) {
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
         Assert.assertEquals(6, properties.getPages());
@@ -331,11 +324,11 @@ public class ExProperties extends ApiExampleBase {
         //ExEnd
 
         FileInputStream imgStream = new FileInputStream(getArtifactsDir() + "Properties.Thumbnail.gif");
-        try
-        {
+        try {
             TestUtil.verifyImage(400, 400, imgStream);
+        } finally {
+            if (imgStream != null) imgStream.close();
         }
-        finally { if (imgStream != null) imgStream.close(); }
     }
 
     @Test
@@ -396,8 +389,7 @@ public class ExProperties extends ApiExampleBase {
 
         int headingPairsIndex = 0;
         int titlesOfPartsIndex = 0;
-        while (headingPairsIndex < headingPairs.length)
-        {
+        while (headingPairsIndex < headingPairs.length) {
             System.out.println(MessageFormat.format("Parts for {0}:", headingPairs[headingPairsIndex++]));
             int partsCount = Integer.valueOf((Integer) headingPairs[headingPairsIndex++]);
 

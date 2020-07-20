@@ -35,10 +35,14 @@ import com.aspose.words.Footnote;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.NumberStyle;
 import com.aspose.words.ListLevel;
+import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.TabAlignment;
 import com.aspose.words.TabLeader;
 import com.aspose.words.TabStop;
-import com.aspose.words.ref.Ref;
+import com.aspose.words.ShapeType;
+import com.aspose.words.LayoutFlow;
+import com.aspose.words.TextBoxWrapMode;
+import com.aspose.words.TextBox;
 
 
 class TestUtil
@@ -76,21 +80,24 @@ class TestUtil
                 BufferedImage image = BufferedImage.FromStream(imageStream);
         try /*JAVA: was using*/
                             {
-            Assert.assertEquals(expectedWidth, image.getWidth());
-            Assert.assertEquals(expectedHeight, image.getHeight());
-        }
+                        Assert.Multiple(() =>
+            {
+                Assert.assertEquals(expectedWidth, image.getWidth());
+                Assert.assertEquals(expectedHeight, image.getHeight());
+            });
+                                    }
         finally { if (image != null) image.flush(); }
     }
 
-    /// <summary>
-    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
-    /// </summary>
-    /// <remarks>
-    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
-    /// </remarks>
-    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
-    /// <param name="webAddress">URL where the request will be sent.</param>
-    static void verifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
+        /// <summary>
+        /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
+        /// </summary>
+        /// <remarks>
+        /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
+        /// </remarks>
+        /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
+        /// <param name="webAddress">URL where the request will be sent.</param>
+        static void verifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
     {
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(webAddress);
         request.Method = "HEAD";
@@ -347,10 +354,13 @@ class TestUtil
     /// <param name="field">The field that's being tested.</param>
     static void verifyField(/*FieldType*/int expectedType, String expectedFieldCode, String expectedResult, Field field)
     {
-        Assert.assertEquals(expectedType, field.getType());
-        Assert.assertEquals(expectedFieldCode, field.getFieldCode(true));
-        Assert.assertEquals(expectedResult, field.getResult());
-    }
+                Assert.Multiple(() =>
+        {
+            Assert.assertEquals(expectedType, field.getType());
+            Assert.assertEquals(expectedFieldCode, field.getFieldCode(true));
+            Assert.assertEquals(expectedResult, field.getResult());
+        });
+                        }
 
     /// <summary>
     /// Checks whether values of attributes of a field with a type related to date/time are equal to expected values.
@@ -366,17 +376,20 @@ class TestUtil
     /// <param name="delta">Margin of error for expectedResult.</param>
     static void verifyField(/*FieldType*/int expectedType, String expectedFieldCode, DateTime expectedResult, Field field, TimeSpan delta)
     {
-        Assert.assertEquals(expectedType, field.getType());
-        Assert.assertEquals(expectedFieldCode, field.getFieldCode(true));
-        Ref<DateTime> referenceToDateTime = new Ref<DateTime>(DateTime);
-        Assert.True(DateTime.TryParse(field.getResult(), /*out*/ referenceToDateTime actual));
-        DateTime = referenceToDateTime.get();
+                Assert.Multiple(() =>
+        {
+            Assert.AreEqual(expectedType, field.Type);
+            Assert.AreEqual(expectedFieldCode, field.GetFieldCode(true));
+            referenceToDateTime.set(DateTime);
+            Assert.True(DateTime.TryParse(field.Result, /*out*/ referenceToDateTime actual));
+            DateTime = referenceToDateTime.get();
 
-        if (field.getType() == FieldType.FIELD_TIME)
-            VerifyDate(expectedResult, actual, delta);
-        else
-            VerifyDate(expectedResult.getDate(), actual, delta);
-    }
+            if (field.Type == FieldType.FieldTime)
+                VerifyDate(expectedResult, actual, delta);
+            else
+                VerifyDate(expectedResult.Date, actual, delta);
+        });
+                        }
 
     /// <summary>
     /// Checks whether a DateTime matches an expected value, with a margin of error.
@@ -421,11 +434,14 @@ class TestUtil
     /// <param name="imageShape">Shape that contains the image.</param>
     static void verifyImageInShape(int expectedWidth, int expectedHeight, /*ImageType*/int expectedImageType, Shape imageShape) throws Exception
     {
-        Assert.assertTrue(imageShape.hasImage());
-        Assert.assertEquals(expectedImageType, imageShape.getImageData().getImageType());
-        Assert.assertEquals(expectedWidth, imageShape.getImageData().getImageSize().getWidthPixels());
-        Assert.assertEquals(expectedHeight, imageShape.getImageData().getImageSize().getHeightPixels());
-    }
+                Assert.Multiple(() =>
+        {
+            Assert.assertTrue(imageShape.hasImage());
+            Assert.assertEquals(expectedImageType, imageShape.getImageData().getImageType());
+            Assert.assertEquals(expectedWidth, imageShape.getImageData().getImageSize().getWidthPixels());
+            Assert.assertEquals(expectedHeight, imageShape.getImageData().getImageSize().getHeightPixels());
+        });
+                        }
 
     /// <summary>
     /// Checks whether values of a footnote's attributes are equal to their expected values.
@@ -437,11 +453,14 @@ class TestUtil
     /// <param name="footnote">Footnote node in question.</param>
     static void verifyFootnote(/*FootnoteType*/int expectedFootnoteType, boolean expectedIsAuto, String expectedReferenceMark, String expectedContents, Footnote footnote) throws Exception
     {
-        Assert.assertEquals(expectedFootnoteType, footnote.getFootnoteType());
-        Assert.assertEquals(expectedIsAuto, footnote.isAuto());
-        Assert.assertEquals(expectedReferenceMark, footnote.getReferenceMark());
-        Assert.assertEquals(expectedContents, msString.trim(footnote.toString(SaveFormat.TEXT)));
-    }
+                Assert.Multiple(() =>
+        {
+            Assert.assertEquals(expectedFootnoteType, footnote.getFootnoteType());
+            Assert.assertEquals(expectedIsAuto, footnote.isAuto());
+            Assert.assertEquals(expectedReferenceMark, footnote.getReferenceMark());
+            Assert.assertEquals(expectedContents, msString.trim(footnote.toString(SaveFormat.TEXT)));
+        });
+                        }
 
     /// <summary>
     /// Checks whether values of a list level's attributes are equal to their expected values.
@@ -455,9 +474,53 @@ class TestUtil
     /// <param name="listLevel">List level in question.</param>
     static void verifyListLevel(String expectedListFormat, double expectedNumberPosition, /*NumberStyle*/int expectedNumberStyle, ListLevel listLevel)
     {
-        Assert.assertEquals(expectedListFormat, listLevel.getNumberFormat());
-        Assert.assertEquals(expectedNumberPosition, listLevel.getNumberPosition());
-        Assert.assertEquals(expectedNumberStyle, listLevel.getNumberStyle());
+                Assert.Multiple(() =>
+        {
+            Assert.assertEquals(expectedListFormat, listLevel.getNumberFormat());
+            Assert.assertEquals(expectedNumberPosition, listLevel.getNumberPosition());
+            Assert.assertEquals(expectedNumberStyle, listLevel.getNumberStyle());
+        });
+                        }
+    
+    /// <summary>
+    /// Copies from the current position in src stream till the end.
+    /// Copies into the current position in dst stream.
+    /// </summary>
+    static void copyStream(Stream srcStream, Stream dstStream) throws Exception
+    {
+        if (srcStream == null)
+            throw new NullPointerException("srcStream");
+        if (dstStream == null)
+            throw new NullPointerException("dstStream");
+
+        byte[] buf = new byte[65536];
+        while (true)
+        {
+            int bytesRead = srcStream.read(buf, 0, buf.length);
+            // Read returns 0 when reached end of stream
+            // Checking for negative too to make it conceptually close to Java
+            if (bytesRead <= 0)
+                break;
+            dstStream.write(buf, 0, bytesRead);
+        }
+    }
+    
+    /// <summary>
+    /// Dumps byte array into a string.
+    /// </summary>
+    public static String dumpArray(byte[] data, int start, int count)
+    {
+        if (data == null)
+            return "Null";
+
+        StringBuilder builder = new StringBuilder();
+        while (count > 0)
+        {
+            msStringBuilder.appendFormat(builder, "{0:X2} ", (data[start] & 0xFF));
+            start++;
+            count--;
+        }
+        return builder.toString();
     }
 
     /// <summary>
@@ -470,10 +533,59 @@ class TestUtil
     /// <param name="tabStop">Tab stop that's being tested.</param>
     static void verifyTabStop(double expectedPosition, /*TabAlignment*/int expectedTabAlignment, /*TabLeader*/int expectedTabLeader, boolean isClear, TabStop tabStop)
     {
-        Assert.assertEquals(expectedPosition, tabStop.getPosition());
-        Assert.assertEquals(expectedTabAlignment, tabStop.getAlignment());
-        Assert.assertEquals(expectedTabLeader, tabStop.getLeader());
-        Assert.assertEquals(isClear, tabStop.isClear());
-    }
+                Assert.Multiple(() =>
+        {
+            Assert.assertEquals(expectedPosition, tabStop.getPosition());
+            Assert.assertEquals(expectedTabAlignment, tabStop.getAlignment());
+            Assert.assertEquals(expectedTabLeader, tabStop.getLeader());
+            Assert.assertEquals(isClear, tabStop.isClear());
+        });
+                        }
+
+    /// <summary>
+    /// Checks whether values of a shape's attributes are equal to their expected values.
+    /// </summary>
+    /// <remarks>
+    /// All dimension measurements are in points.
+    /// </remarks>
+    static void verifyShape(/*ShapeType*/int expectedShapeType, String expectedName, double expectedWidth, double expectedHeight, double expectedTop, double expectedLeft, Shape shape)
+    {
+                Assert.Multiple(() =>
+        {
+            Assert.assertEquals(expectedShapeType, shape.getShapeType());
+            Assert.assertEquals(expectedName, shape.getName());
+            Assert.assertEquals(expectedWidth, shape.getWidth());
+            Assert.assertEquals(expectedHeight, shape.getHeight());
+            Assert.assertEquals(expectedTop, shape.getTop());
+            Assert.assertEquals(expectedLeft, shape.getLeft());
+        });
+                        }
+
+    /// <summary>
+    /// Checks whether values of attributes of a textbox are equal to their expected values.
+    /// </summary>
+    /// <remarks>
+    /// All dimension measurements are in points.
+    /// </remarks>
+    static void verifyTextBox(/*LayoutFlow*/int expectedLayoutFlow, boolean expectedFitShapeToText, /*TextBoxWrapMode*/int expectedTextBoxWrapMode, double marginTop, double marginBottom, double marginLeft, double marginRight, TextBox textBox)
+    {
+                Assert.Multiple(() =>
+        {
+            Assert.assertEquals(expectedLayoutFlow, textBox.getLayoutFlow());
+            Assert.assertEquals(expectedFitShapeToText, textBox.getFitShapeToText());
+            Assert.assertEquals(expectedTextBoxWrapMode, textBox.getTextBoxWrapMode());
+            Assert.assertEquals(marginTop, textBox.getInternalMarginTop());
+            Assert.assertEquals(marginBottom, textBox.getInternalMarginBottom());
+            Assert.assertEquals(marginLeft, textBox.getInternalMarginLeft());
+            Assert.assertEquals(marginRight, textBox.getInternalMarginRight());
+        });
+                        }
+
+    /// <summary>
+    /// Margin of error, in bytes, for file size comparisons which take system-to-system variance of metadata size into account.
+    /// </summary>
+    static int getFileInfoLengthDelta() { return mFileInfoLengthDelta; };
+
+    private static  int mFileInfoLengthDelta; = 200;
 }
 

@@ -31,13 +31,13 @@ public class ExNode extends ApiExampleBase {
         // Clone the paragraph and the child nodes
         Node cloneWithChildren = para.deepClone(true);
 
-        Assert.assertTrue(((CompositeNode)cloneWithChildren).hasChildNodes());
+        Assert.assertTrue(((CompositeNode) cloneWithChildren).hasChildNodes());
         Assert.assertEquals("Hello world!", cloneWithChildren.getText().trim());
 
         // Clone the paragraph without its clild nodes
         Node cloneWithoutChildren = para.deepClone(false);
 
-        Assert.assertFalse(((CompositeNode)cloneWithoutChildren).hasChildNodes());
+        Assert.assertFalse(((CompositeNode) cloneWithoutChildren).hasChildNodes());
         Assert.assertEquals("", cloneWithoutChildren.getText().trim());
         //ExEnd
     }
@@ -98,8 +98,7 @@ public class ExNode extends ApiExampleBase {
     }
 
     @Test
-    public void enumerateChildNodes() throws Exception
-    {
+    public void enumerateChildNodes() throws Exception {
         //ExStart
         //ExFor:Node
         //ExFor:NodeType
@@ -110,17 +109,16 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Shows how to enumerate immediate children of a CompositeNode using the enumerator provided by the ChildNodes collection.
         Document doc = new Document();
 
-        Paragraph paragraph = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 0, true);
+        Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
         paragraph.appendChild(new Run(doc, "Hello world!"));
         paragraph.appendChild(new Run(doc, " Hello again!"));
 
         NodeCollection children = paragraph.getChildNodes();
 
-            // Paragraph may contain children of various types such as runs, shapes and so on
+        // Paragraph may contain children of various types such as runs, shapes and so on
         for (Node child : (Iterable<Node>) children)
-            if (((child.getNodeType()) == (NodeType.RUN)))
-            {
-                Run run = (Run)child;
+            if (((child.getNodeType()) == (NodeType.RUN))) {
+                Run run = (Run) child;
                 System.out.println(run.getText());
             }
         //ExEnd
@@ -131,26 +129,23 @@ public class ExNode extends ApiExampleBase {
     }
 
     @Test
-    public void indexChildNodes() throws Exception
-    {
+    public void indexChildNodes() throws Exception {
         //ExStart
         //ExFor:NodeCollection.Count
         //ExFor:NodeCollection.Item
         //ExSummary:Shows how to enumerate immediate children of a CompositeNode using indexed access.
         Document doc = new Document();
-        Paragraph paragraph = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 0, true);
+        Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
         paragraph.appendChild(new Run(doc, "Hello world!"));
 
         NodeCollection children = paragraph.getChildNodes();
 
-        for (int i = 0; i < children.getCount(); i++)
-        {
+        for (int i = 0; i < children.getCount(); i++) {
             Node child = children.get(i);
 
             // Paragraph may contain children of various types such as runs, shapes and so on
-            if (((child.getNodeType()) == (NodeType.RUN)))
-            {
-                Run run = (Run)child;
+            if (((child.getNodeType()) == (NodeType.RUN))) {
+                Run run = (Run) child;
                 System.out.println(run.getText());
             }
         }
@@ -191,8 +186,7 @@ public class ExNode extends ApiExampleBase {
     //ExFor:CommentRangeStart.NodeType
     //ExSummary:Shows how to efficiently visit all direct and indirect children of a composite node.
     @Test //ExSkip
-    public void recurseAllNodes() throws Exception
-    {
+    public void recurseAllNodes() throws Exception {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // Any node that can contain child nodes, such as the document itself, is composite
@@ -205,26 +199,19 @@ public class ExNode extends ApiExampleBase {
     /// <summary>
     /// Recursively traverses a node tree while printing the type of each node with an indent depending on depth as well as the contents of all inline nodes.
     /// </summary>
-    @Test (enabled = false)
-    public void traverseAllNodes(CompositeNode parentNode, int depth)
-    {
+    @Test(enabled = false)
+    public void traverseAllNodes(CompositeNode parentNode, int depth) {
         // Loop through immediate children of a node
-        for (Node childNode = parentNode.getFirstChild(); childNode != null; childNode = childNode.getNextSibling())
-        {
+        for (Node childNode = parentNode.getFirstChild(); childNode != null; childNode = childNode.getNextSibling()) {
             System.out.println(MessageFormat.format("{0}{1}", String.format("	", depth), Node.nodeTypeToString(childNode.getNodeType())));
 
             // Recurse into the node if it is a composite node
-            if (childNode.isComposite())
-            {
+            if (childNode.isComposite()) {
                 System.out.println();
-                traverseAllNodes((CompositeNode)childNode, depth + 1);
-            }
-            else if (childNode instanceof Inline)
-            {
+                traverseAllNodes((CompositeNode) childNode, depth + 1);
+            } else if (childNode instanceof Inline) {
                 System.out.println(" - \"{childNode.GetText().Trim()}\"");
-            }
-            else
-            {
+            } else {
                 System.out.println();
             }
         }
@@ -264,8 +251,7 @@ public class ExNode extends ApiExampleBase {
     }
 
     @Test
-    public void enumNextSibling() throws Exception
-    {
+    public void enumNextSibling() throws Exception {
         //ExStart
         //ExFor:CompositeNode.FirstChild
         //ExFor:Node.NextSibling
@@ -275,8 +261,7 @@ public class ExNode extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // Loop starting from the first child until we reach null
-        for (Node node = doc.getFirstSection().getBody().getFirstChild(); node != null; node = node.getNextSibling())
-        {
+        for (Node node = doc.getFirstSection().getBody().getFirstChild(); node != null; node = node.getNextSibling()) {
             // Output the types of the nodes that we come across
             System.out.println(Node.nodeTypeToString(node.getNodeType()));
         }
@@ -284,8 +269,7 @@ public class ExNode extends ApiExampleBase {
     }
 
     @Test
-    public void typedAccess() throws Exception
-    {
+    public void typedAccess() throws Exception {
         //ExStart
         //ExFor:Story.Tables
         //ExFor:Table.FirstRow
@@ -319,8 +303,7 @@ public class ExNode extends ApiExampleBase {
     }
 
     @Test
-    public void removeChild() throws Exception
-    {
+    public void removeChild() throws Exception {
         //ExStart
         //ExFor:CompositeNode.LastChild
         //ExFor:Node.PreviousSibling
@@ -335,8 +318,8 @@ public class ExNode extends ApiExampleBase {
         builder.writeln("Section 2 text.");
 
         // Both sections are siblings of each other
-        Section lastSection = (Section)doc.getLastChild();
-        Section firstSection = (Section)lastSection.getPreviousSibling();
+        Section lastSection = (Section) doc.getLastChild();
+        Section firstSection = (Section) lastSection.getPreviousSibling();
 
         // Remove a section based on its sibling relationship with another section
         if (lastSection.getPreviousSibling() != null)
@@ -348,8 +331,7 @@ public class ExNode extends ApiExampleBase {
     }
 
     @Test
-    public void selectCompositeNodes() throws Exception
-    {
+    public void selectCompositeNodes() throws Exception {
         //ExStart
         //ExFor:CompositeNode.SelectSingleNode
         //ExFor:CompositeNode.SelectNodes
@@ -385,8 +367,7 @@ public class ExNode extends ApiExampleBase {
     }
 
     @Test
-    public void testNodeIsInsideField() throws Exception
-    {
+    public void testNodeIsInsideField() throws Exception {
         //ExStart:
         //ExFor:CompositeNode.SelectNodes
         //ExSummary:Shows how to test if a node is inside a field by using an XPath expression.
@@ -444,8 +425,7 @@ public class ExNode extends ApiExampleBase {
     }
 
     @Test
-    public void convertNodeToHtmlWithDefaultOptions() throws Exception
-    {
+    public void convertNodeToHtmlWithDefaultOptions() throws Exception {
         //ExStart
         //ExFor:Node.ToString(SaveFormat)
         //ExFor:Node.ToString(SaveOptions)
@@ -457,22 +437,21 @@ public class ExNode extends ApiExampleBase {
 
         // When ToString is called using the html SaveFormat overload then the node is converted directly to html
         Assert.assertEquals("<p style=\"margin-top:0pt; margin-bottom:8pt; line-height:108%; font-size:12pt\">" +
-                        "<span style=\"font-family:'Times New Roman'\">Hello World!</span>" +
-                        "</p>", node.toString(SaveFormat.HTML));
+                "<span style=\"font-family:'Times New Roman'\">Hello World!</span>" +
+                "</p>", node.toString(SaveFormat.HTML));
 
         // We can also modify the result of this conversion using a SaveOptions object
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setExportRelativeFontSize(true);
 
         Assert.assertEquals("<p style=\"margin-top:0pt; margin-bottom:8pt; line-height:108%\">" +
-                        "<span style=\"font-family:'Times New Roman'\">Hello World!</span>" +
-                        "</p>", node.toString(saveOptions));
+                "<span style=\"font-family:'Times New Roman'\">Hello World!</span>" +
+                "</p>", node.toString(saveOptions));
         //ExEnd
     }
 
     @Test
-    public void typedNodeCollectionToArray() throws Exception
-    {
+    public void typedNodeCollectionToArray() throws Exception {
         //ExStart
         //ExFor:ParagraphCollection.ToArray
         //ExSummary:Shows how to create an array from a NodeCollection.
@@ -492,7 +471,7 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Shows how to use "hot remove" to remove a node during enumeration.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         builder.writeln("The first paragraph");
         builder.writeln("The second paragraph");
         builder.writeln("The third paragraph");
@@ -502,7 +481,7 @@ public class ExNode extends ApiExampleBase {
         for (Paragraph para : doc.getFirstSection().getBody().getParagraphs().toArray())
             if (para.getRange().getText().contains("third"))
                 para.remove();
-        
+
         Assert.assertFalse(doc.getText().contains("The third paragraph"));
         //ExEnd
     }

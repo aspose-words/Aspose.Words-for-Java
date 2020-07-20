@@ -203,10 +203,10 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         String[] dirFiles = Directory.getFiles(getArtifactsDir(), "HtmlSaveOptions.ExportUrlForLinkedImage.001.png", SearchOption.ALL_DIRECTORIES);
 
-        if (dirFiles.length == 0)
-            DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExportUrlForLinkedImage.html", "<img src=\"http://www.aspose.com/images/aspose-logo.gif\"");
-        else
-            DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExportUrlForLinkedImage.html", "<img src=\"HtmlSaveOptions.ExportUrlForLinkedImage.001.png\"");
+        DocumentHelper.findTextInFile(getArtifactsDir() + "HtmlSaveOptions.ExportUrlForLinkedImage.html",
+            dirFiles.length == 0
+                ? "<img src=\"http://www.aspose.com/images/aspose-logo.gif\""
+                : "<img src=\"HtmlSaveOptions.ExportUrlForLinkedImage.001.png\"");
     }
 
 	//JAVA-added data provider for test method

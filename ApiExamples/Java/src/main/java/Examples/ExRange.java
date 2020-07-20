@@ -9,13 +9,11 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -28,7 +26,6 @@ public class ExRange extends ApiExampleBase {
         //ExFor:FindReplaceOptions.MatchCase
         //ExFor:FindReplaceOptions.FindWholeWordsOnly
         //ExSummary:Simple find and replace operation.
-        // Open the document
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -41,10 +38,8 @@ public class ExRange extends ApiExampleBase {
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(false);
 
-        // Replace the text in the document
         doc.getRange().replace("_CustomerName_", "James Bond", options);
 
-        // Save the modified document
         doc.save(getArtifactsDir() + "Range.ReplaceSimple.docx");
         //ExEnd
 
@@ -121,12 +116,12 @@ public class ExRange extends ApiExampleBase {
         //ExSummary:Shows how to ignore text inside fields.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
- 
+
         // Insert field with text inside
         builder.insertField("INCLUDETEXT", "Text in field");
 
         FindReplaceOptions options = new FindReplaceOptions();
- 
+
         // Replace 'e' in document ignoring text inside field
         options.setIgnoreFields(true);
 
@@ -141,8 +136,7 @@ public class ExRange extends ApiExampleBase {
     }
 
     @Test
-    public void updateFieldsInRange() throws Exception
-    {
+    public void updateFieldsInRange() throws Exception {
         //ExStart
         //ExFor:Range.UpdateFields
         //ExSummary:Shows how to update document fields in the body of the first section only.
@@ -150,7 +144,7 @@ public class ExRange extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a field that will display the value in the document's body text
-        FieldDocProperty field = (FieldDocProperty)builder.insertField(" DOCPROPERTY Category");
+        FieldDocProperty field = (FieldDocProperty) builder.insertField(" DOCPROPERTY Category");
 
         // Set the value of the property that should be displayed by the field
         doc.getBuiltInDocumentProperties().setCategory("MyCategory");
@@ -166,8 +160,7 @@ public class ExRange extends ApiExampleBase {
     }
 
     @Test
-    public void replaceWithString() throws Exception
-    {
+    public void replaceWithString() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -284,7 +277,7 @@ public class ExRange extends ApiExampleBase {
 
         Assert.assertEquals(4, count);
         Assert.assertEquals("There are few numbers that should be converted to HEX and highlighted:" +
-                " 0x7b (replacement #4), 0x1c8 (replacement #3), 0x315 (replacement #2) and 0x43e3 (replacement #1).",
+                        " 0x7b (replacement #4), 0x1c8 (replacement #3), 0x315 (replacement #2) and 0x43e3 (replacement #1).",
                 doc.getText().trim());
     }
 

@@ -12,13 +12,37 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.MessageFormat;
+
 @Test
 public class ExControlChar extends ApiExampleBase {
+    @Test
+    public void carriageReturn() throws Exception {
+        //ExStart
+        //ExFor:ControlChar
+        //ExFor:ControlChar.Cr
+        //ExSummary:Shows how to use control characters.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert paragraphs with text with DocumentBuilder
+        builder.writeln("Hello world!");
+        builder.writeln("Hello again!");
+
+        // The entire document, when in string form, will display some structural features such as breaks with control characters
+        Assert.assertEquals(MessageFormat.format("Hello world!{0}Hello again!{1}{2}", ControlChar.CR, ControlChar.CR, ControlChar.PAGE_BREAK), doc.getText());
+
+        // Some of them can be trimmed out
+        Assert.assertEquals(MessageFormat.format("Hello world!{0}Hello again!", ControlChar.CR), doc.getText().trim());
+        //ExEnd
+    }
+
     @Test
     public void insertControlChars() throws Exception {
         //ExStart
         //ExFor:ControlChar.Cell
         //ExFor:ControlChar.ColumnBreak
+        //ExFor:ControlChar.CrLf
         //ExFor:ControlChar.Lf
         //ExFor:ControlChar.LineBreak
         //ExFor:ControlChar.LineFeed
@@ -62,7 +86,10 @@ public class ExControlChar extends ApiExampleBase {
         // Same value as ControlChar.Lf
         Assert.assertEquals(doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount(), 1);
         builder.write("Before line feed." + ControlChar.LINE_FEED + "After line feed.");
-        Assert.assertEquals(doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount(), 2);
+        Assert.assertEquals(2, doc.getFirstSection().getBody().getChildNodes(NodeType.PARAGRAPH, true).getCount());
+
+        // Carriage returns and line feeds can be represented together by one character
+        Assert.assertEquals(ControlChar.CR_LF, ControlChar.CR + ControlChar.LF);
 
         // The line feed character has two versions
         Assert.assertEquals(ControlChar.LINE_FEED, ControlChar.LF);

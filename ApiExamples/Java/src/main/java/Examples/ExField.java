@@ -22,14 +22,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class ExField extends ApiExampleBase {
@@ -1008,8 +1009,7 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testFieldAsk(DataTable dataTable, Document doc) throws Exception
-    {
+    private void testFieldAsk(DataTable dataTable, Document doc) throws Exception {
         doc = DocumentHelper.saveOpen(doc);
 
         FieldRef fieldRef = (FieldRef) DocumentHelper.getField(doc.getRange().getFields(), FieldType.FIELD_REF);
@@ -3915,7 +3915,8 @@ public class ExField extends ApiExampleBase {
                 };
     }
 
-    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider") //ExSkip
+    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider")
+    //ExSkip
     public void fieldLinkedObjectsAsImage(/*InsertLinkedObjectAs*/int insertLinkedObjectAs) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -4421,9 +4422,8 @@ public class ExField extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (enabled = false, description = "WORDSNET-17669")
-    public void fieldSaveDate() throws Exception
-    {
+    @Test(enabled = false, description = "WORDSNET-17669")
+    public void fieldSaveDate() throws Exception {
         //ExStart
         //ExFor:FieldSaveDate
         //ExFor:FieldSaveDate.UseLunarCalendar
@@ -4843,7 +4843,7 @@ public class ExField extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "Field.FILESIZE.docx");
 
-        Assert.assertEquals(8899, doc.getBuiltInDocumentProperties().getBytes());
+        Assert.assertEquals(8901, doc.getBuiltInDocumentProperties().getBytes());
 
         field = (FieldFileSize) doc.getRange().getFields().get(0);
 
@@ -4852,7 +4852,7 @@ public class ExField extends ApiExampleBase {
         // These fields will need to be updated to produce an accurate result
         doc.updateFields();
 
-        Assert.assertEquals("8899", field.getResult());
+        Assert.assertEquals("8901", field.getResult());
 
         field = (FieldFileSize) doc.getRange().getFields().get(1);
 

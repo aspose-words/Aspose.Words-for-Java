@@ -263,7 +263,7 @@ public class ExFormFields extends ApiExampleBase {
         Assert.assertEquals(3, formFields.getCount());
 
         Assert.assertEquals(FieldType.FIELD_FORM_DROP_DOWN, formFields.get(0).getType());
-        Assert.assertEquals("One, Two, Three", String.join(", ",formFields.get(0).getDropDownItems()));
+        Assert.assertEquals("One, Two, Three", String.join(", ", formFields.get(0).getDropDownItems()));
         Assert.assertTrue(formFields.get(0).getCalculateOnExit());
         Assert.assertEquals(0, formFields.get(0).getDropDownSelectedIndex());
         Assert.assertTrue(formFields.get(0).getEnabled());

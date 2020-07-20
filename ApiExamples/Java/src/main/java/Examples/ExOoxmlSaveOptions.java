@@ -13,8 +13,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.text.MessageFormat;
 import java.util.Date;
 
 public class ExOoxmlSaveOptions extends ApiExampleBase {
@@ -60,7 +58,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2003);
         builder.insertImage(getImageDir() + "Transparent background logo.png");
 
-        Assert.assertEquals(ShapeMarkupLanguage.VML, ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getMarkupLanguage());
+        Assert.assertEquals(ShapeMarkupLanguage.VML, ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getMarkupLanguage());
 
         // Iso29500_2008 does not allow VML shapes
         // You need to use OoxmlCompliance.Iso29500_2008_Strict for converting VML to DML shapes
@@ -72,14 +70,13 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
 
         // The markup language of our shape has changed according to the compliance type 
         doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.Iso29500Strict.docx");
-        
-        Assert.assertEquals(ShapeMarkupLanguage.DML, ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getMarkupLanguage());
+
+        Assert.assertEquals(ShapeMarkupLanguage.DML, ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getMarkupLanguage());
         //ExEnd
     }
 
-    @Test (dataProvider = "restartingDocumentListDataProvider")
-    public void restartingDocumentList(boolean doRestartListAtEachSection) throws Exception
-    {
+    @Test(dataProvider = "restartingDocumentListDataProvider")
+    public void restartingDocumentList(boolean doRestartListAtEachSection) throws Exception {
         //ExStart
         //ExFor:List.IsRestartAtEachSection
         //ExSummary:Shows how to specify that the list has to be restarted at each section.
@@ -103,27 +100,26 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
 
         builder.writeln("List item 1");
         builder.writeln("List item 2");
-                builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.writeln("List item 3");
         builder.writeln("List item 4");
 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx", options);
         //ExEnd
-        
+
         doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx");
 
         Assert.assertEquals(doRestartListAtEachSection, doc.getLists().get(0).isRestartAtEachSection());
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "restartingDocumentListDataProvider")
-	public static Object[][] restartingDocumentListDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "restartingDocumentListDataProvider")
+    public static Object[][] restartingDocumentListDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test
@@ -148,19 +144,18 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         Assert.assertTrue(documentTimeBeforeSave.compareTo(documentTimeAfterSave) < 0);
     }
 
-    @Test (dataProvider = "keepLegacyControlCharsDataProvider")
-    public void keepLegacyControlChars(boolean doKeepLegacyControlChars) throws Exception
-    {
+    @Test(dataProvider = "keepLegacyControlCharsDataProvider")
+    public void keepLegacyControlChars(boolean doKeepLegacyControlChars) throws Exception {
         //ExStart
         //ExFor:OoxmlSaveOptions.KeepLegacyControlChars
         //ExFor:OoxmlSaveOptions.#ctor(SaveFormat)
         //ExSummary:Shows how to support legacy control characters when converting to .docx.
         Document doc = new Document(getMyDir() + "Legacy control character.doc");
- 
+
         // Note that only one legacy character (ShortDateTime) is supported which declared in the "DOC" format
         OoxmlSaveOptions so = new OoxmlSaveOptions(SaveFormat.DOCX);
         so.setKeepLegacyControlChars(doKeepLegacyControlChars);
- 
+
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.KeepLegacyControlChars.docx", so);
 
         // Open the saved document and verify results
@@ -173,14 +168,34 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "keepLegacyControlCharsDataProvider")
-	public static Object[][] keepLegacyControlCharsDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "keepLegacyControlCharsDataProvider")
+    public static Object[][] keepLegacyControlCharsDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
+
+    @Test
+    public void documentCompression() throws Exception {
+        //ExStart
+        //ExFor:OoxmlSaveOptions.CompressionLevel
+        //ExFor:CompressionLevel
+        //ExSummary:Shows how to specify the compression level used to save the OOXML document.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
+        // DOCX and DOTX files are internally a ZIP-archive, this property controls
+        // the compression level of the archive
+        // Note, that FlatOpc file is not a ZIP-archive, therefore, this property does
+        // not affect the FlatOpc files
+        // Aspose.Words uses CompressionLevel.Normal by default, but MS Word uses
+        // CompressionLevel.SuperFast by default
+        saveOptions.setCompressionLevel(CompressionLevel.SUPER_FAST);
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.out.docx", saveOptions);
+        //ExEnd
+    }
 }

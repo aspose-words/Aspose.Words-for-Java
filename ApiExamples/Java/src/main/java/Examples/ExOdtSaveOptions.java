@@ -15,11 +15,9 @@ import org.testng.annotations.Test;
 
 
 @Test
-class ExOdtSaveOptions extends ApiExampleBase
-{
-    @Test (dataProvider = "measureUnitDataProvider")
-    public void measureUnit(boolean doExportToOdt11Specs) throws Exception
-    {
+class ExOdtSaveOptions extends ApiExampleBase {
+    @Test(dataProvider = "measureUnitDataProvider")
+    public void measureUnit(boolean doExportToOdt11Specs) throws Exception {
         //ExStart
         //ExFor:OdtSaveOptions
         //ExFor:OdtSaveOptions.#ctor
@@ -40,20 +38,18 @@ class ExOdtSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "measureUnitDataProvider")
-	public static Object[][] measureUnitDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "measureUnitDataProvider")
+    public static Object[][] measureUnitDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "encryptDataProvider")
-    public void encrypt(/*SaveFormat*/int saveFormat) throws Exception
-    {
+    @Test(dataProvider = "encryptDataProvider")
+    public void encrypt(/*SaveFormat*/int saveFormat) throws Exception {
         //ExStart
         //ExFor:OdtSaveOptions.#ctor(SaveFormat)
         //ExFor:OdtSaveOptions.Password

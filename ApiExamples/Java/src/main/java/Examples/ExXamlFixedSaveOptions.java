@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 @Test
 public class ExXamlFixedSaveOptions extends ApiExampleBase {
@@ -29,12 +30,14 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
         // Open a document which contains resources
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
+        ResourceUriPrinter callback = new ResourceUriPrinter();
+
         XamlFixedSaveOptions options = new XamlFixedSaveOptions();
         {
             options.setSaveFormat(SaveFormat.XAML_FIXED);
             options.setResourcesFolder(getArtifactsDir() + "XamlFixedResourceFolder");
             options.setResourcesFolderAlias(getArtifactsDir() + "XamlFixedFolderAlias");
-            options.setResourceSavingCallback(new ResourceUriPrinter());
+            options.setResourceSavingCallback(callback);
         }
 
         // A folder specified by ResourcesFolderAlias will contain the resources instead of ResourcesFolder
@@ -42,23 +45,35 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
         new File(options.getResourcesFolderAlias()).mkdir();
 
         doc.save(getArtifactsDir() + "XamlFixedSaveOptions.ResourceFolder.xaml", options);
+
+        for (String resource : callback.getResources())
+            System.out.println(resource);
     }
 
     /// <summary>
     /// Counts and prints URIs of resources created during conversion to to fixed .xaml.
     /// </summary>
     private static class ResourceUriPrinter implements IResourceSavingCallback {
+        public ResourceUriPrinter() {
+            mResources = new ArrayList<String>();
+        }
+
         public void resourceSaving(ResourceSavingArgs args) throws Exception {
-            // If we set a folder alias in the SaveOptions object, it will be printed here
-            System.out.println(MessageFormat.format("Resource #{0} \"{1}\"", ++mSavedResourceCount, args.getResourceFileName()));
-            System.out.println("\t" + args.getResourceFileUri());
+            // If we set a folder alias in the SaveOptions object, it will be stored here
+            getResources().add(MessageFormat.format("Resource \"{0}\"\n\t{1}", args.getResourceFileName(), args.getResourceFileUri()));
 
             // If we specified a ResourcesFolderAlias we will also need to redirect each stream to put its resource in that folder
-            args.setResourceStream(new FileOutputStream(new File(args.getResourceFileUri())));
+            args.setResourceStream(new FileOutputStream(args.getResourceFileUri()));
             args.setKeepResourceStreamOpen(false);
         }
 
-        private int mSavedResourceCount;
+        public ArrayList<String> getResources() {
+            return mResources;
+        }
+
+        ;
+
+        private ArrayList<String> mResources;
     }
     //ExEnd
 }

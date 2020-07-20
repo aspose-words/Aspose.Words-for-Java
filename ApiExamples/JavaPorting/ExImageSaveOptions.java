@@ -185,7 +185,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         //ExFor:ImageSaveOptions.SaveFormat
         //ExFor:ImageSaveOptions.Scale
         //ExFor:ImageSaveOptions.VerticalResolution
-        //ExSummary:
+        //ExSummary:Shows how to edit image.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // When saving the document as an image, we can use an ImageSaveOptions object to edit various aspects of it

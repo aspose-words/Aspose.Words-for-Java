@@ -8,8 +8,10 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.pdf.TextAbsorber;
 import com.aspose.words.*;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.*;
@@ -24,27 +26,6 @@ import java.util.UUID;
  */
 @Test
 public class ExStructuredDocumentTag extends ApiExampleBase {
-    @Test
-    public void repeatingSection() throws Exception {
-        //ExStart
-        //ExFor:StructuredDocumentTag.SdtType
-        //ExSummary:Shows how to get type of structured document tag.
-        Document doc = new Document(getMyDir() + "Structured document tags.docx");
-
-        NodeCollection sdTags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
-
-        for (StructuredDocumentTag sdTag : (Iterable<StructuredDocumentTag>) sdTags) {
-            System.out.println(MessageFormat.format("Type of this SDT is: {0}", sdTag.getSdtType()));
-        }
-        //ExEnd
-
-        StructuredDocumentTag sdTagRepeatingSection = (StructuredDocumentTag) sdTags.get(0);
-        Assert.assertEquals(SdtType.REPEATING_SECTION, sdTagRepeatingSection.getSdtType());
-
-        StructuredDocumentTag sdTagRichText = (StructuredDocumentTag) sdTags.get(2);
-        Assert.assertEquals(sdTagRichText.getSdtType(), SdtType.RICH_TEXT);
-    }
-
     @Test
     public void setSpecificStyleToSdt() throws Exception {
         //ExStart
@@ -105,9 +86,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         NodeCollection sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) sdts.get(0);
-        Assert.assertEquals(sdt.getChecked(), true);
-        // Assert that this sdt has no StoreItemId
-        Assert.assertTrue(sdt.getXmlMapping().getStoreItemId().isEmpty());
+        Assert.assertEquals(true, sdt.getChecked());
     }
 
     @Test
@@ -214,6 +193,16 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.PlainText.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.PlainText.docx");
+        tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+
+        Assert.assertEquals("My plain text", tag.getTitle());
+        Assert.assertEquals(Color.MAGENTA.getRGB(), tag.getColor().getRGB());
+        Assert.assertEquals("MyPlainTextSDT", tag.getTag());
+        Assert.assertEquals("Arial", tag.getContentsFont().getName());
+        Assert.assertEquals("Arial Black", tag.getEndCharacterFont().getName());
+        Assert.assertTrue(tag.getMultiline());
     }
 
     @Test
@@ -293,6 +282,15 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.PlaceholderBuildingBlock.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.PlaceholderBuildingBlock.docx");
+        tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        substituteBlock = (BuildingBlock) doc.getGlossaryDocument().getChild(NodeType.BUILDING_BLOCK, 0, true);
+
+        Assert.assertEquals("Custom Placeholder", substituteBlock.getName());
+        Assert.assertTrue(tag.isShowingPlaceholderText());
+        Assert.assertEquals(substituteBlock, tag.getPlaceholder());
+        Assert.assertEquals(substituteBlock.getName(), tag.getPlaceholderName());
     }
 
     @Test
@@ -325,6 +323,17 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.Lock.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.Lock.docx");
+        tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+
+        Assert.assertTrue(tag.getLockContents());
+        Assert.assertFalse(tag.getLockContentControl());
+
+        tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
+
+        Assert.assertFalse(tag.getLockContents());
+        Assert.assertTrue(tag.getLockContentControl());
     }
 
     @Test
@@ -472,8 +481,6 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx");
         //ExEnd
-
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx", getGoldsDir() + "StructuredDocumentTag.CustomXml Gold.docx"));
     }
 
     @Test
@@ -568,8 +575,9 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExSummary:Shows how to get special id of your xml part.
         Document doc = new Document(getMyDir() + "Custom XML part in structured document tag.docx");
 
-        StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
-        System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
+        // Structured document tags have IDs in the form of Guids
+        StructuredDocumentTag tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        Assert.assertEquals("{F3029283-4FF8-4DD2-9F31-395F19ACEE85}", tag.getXmlMapping().getStoreItemId());
         //ExEnd
     }
 
@@ -595,181 +603,45 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExStart
         //ExFor:StructuredDocumentTag.Clear
         //ExSummary:Shows how to delete content of StructuredDocumentTag elements.
-        Document doc = new Document(getMyDir() + "Structured document tags.docx");
-
-        NodeCollection sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
-        Assert.assertNotNull(sdts);
-
-        for (StructuredDocumentTag sdt : (Iterable<StructuredDocumentTag>) sdts) {
-            sdt.clear();
-        }
-        //ExEnd
-
-        doc = DocumentHelper.saveOpen(doc);
-        sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
-
-        Assert.assertEquals(sdts.get(0).getText(), "Enter any content that you want to repeat, including other content controls. You can also insert this control around table rows in order to repeat parts of a table.\r");
-        Assert.assertEquals(sdts.get(2).getText(), "Click here to enter text.\f");
-    }
-
-    @Test
-    public void smartTagProperties() throws Exception {
-        //ExStart
-        //ExFor:CustomXmlProperty.Uri
-        //ExFor:CustomXmlPropertyCollection
-        //ExFor:CustomXmlPropertyCollection.Add(CustomXmlProperty)
-        //ExFor:CustomXmlPropertyCollection.Clear
-        //ExFor:CustomXmlPropertyCollection.Contains(String)
-        //ExFor:CustomXmlPropertyCollection.Count
-        //ExFor:CustomXmlPropertyCollection.GetEnumerator
-        //ExFor:CustomXmlPropertyCollection.IndexOfKey(String)
-        //ExFor:CustomXmlPropertyCollection.Item(Int32)
-        //ExFor:CustomXmlPropertyCollection.Item(String)
-        //ExFor:CustomXmlPropertyCollection.Remove(String)
-        //ExFor:CustomXmlPropertyCollection.RemoveAt(Int32)
-        //ExSummary:Shows how to work with smart tag properties to get in depth information about smart tags.
-        // Open a document that contains smart tags and their collection
-        Document doc = new Document(getMyDir() + "Smart tags.doc");
-
-        // Smart tags are an older Microsoft Word feature that can automatically detect and tag
-        // any parts of the text that it registers as commonly used information objects such as names, addresses, stock tickers, dates etc
-        // In Word 2003, smart tags can be turned on in Tools > AutoCorrect options... > SmartTags tab
-        // In our input document there are three objects that were registered as smart tags, but since they can be nested, we have 8 in this collection
-        NodeCollection smartTags = doc.getChildNodes(NodeType.SMART_TAG, true);
-        Assert.assertEquals(smartTags.getCount(), 8);
-
-        // The last smart tag is of the "Date" type, which we will retrieve here
-        SmartTag smartTag = (SmartTag) smartTags.get(7);
-
-        // The Properties attribute, for some smart tags, elaborates on the text object that Word picked up as a smart tag
-        // In the case of our "Date" smart tag, its properties will let us know the year, month and day within the smart tag
-        CustomXmlPropertyCollection properties = smartTag.getProperties();
-
-        // We can enumerate over the collection and print the aforementioned properties to the console
-        Assert.assertEquals(properties.getCount(), 4);
-
-        Iterator<CustomXmlProperty> enumerator = properties.iterator();
-        try {
-            while (enumerator.hasNext()) {
-                CustomXmlProperty customXmlProperty = enumerator.next();
-
-                System.out.println(MessageFormat.format("Property name: {0}, value: {1}", customXmlProperty.getName(), customXmlProperty.getValue()));
-                Assert.assertEquals(enumerator.next().getUri(), "");
-            }
-        } finally {
-            if (enumerator != null) enumerator.remove();
-        }
-
-        // We can also access the elements in various ways, including as a key-value pair
-        Assert.assertTrue(properties.contains("Day"));
-        Assert.assertEquals(properties.get("Day").getValue(), "22");
-        Assert.assertEquals(properties.get(2).getValue(), "2003");
-        Assert.assertEquals(properties.indexOfKey("Month"), 1);
-
-        // We can also remove elements by name, index or clear the collection entirely
-        properties.removeAt(3);
-        properties.remove("Year");
-        Assert.assertEquals((properties.getCount()), 2);
-
-        properties.clear();
-        Assert.assertEquals((properties.getCount()), 0);
-
-        // We can remove the entire smart tag like this
-        smartTag.remove();
-        //ExEnd
-    }
-
-    //ExStart
-    //ExFor:CompositeNode.RemoveSmartTags
-    //ExFor:CustomXmlProperty
-    //ExFor:CustomXmlProperty.#ctor(String,String,String)
-    //ExFor:CustomXmlProperty.Name
-    //ExFor:CustomXmlProperty.Value
-    //ExFor:Markup.SmartTag
-    //ExFor:Markup.SmartTag.#ctor(DocumentBase)
-    //ExFor:Markup.SmartTag.Accept(DocumentVisitor)
-    //ExFor:Markup.SmartTag.Element
-    //ExFor:Markup.SmartTag.Properties
-    //ExFor:Markup.SmartTag.Uri
-    //ExSummary:Shows how to create smart tags.
-    @Test //ExSkip
-    public void smartTags() throws Exception {
         Document doc = new Document();
-        SmartTag smartTag = new SmartTag(doc);
-        smartTag.setElement("date");
 
-        // Specify a date and set smart tag properties accordingly
-        smartTag.appendChild(new Run(doc, "May 29, 2019"));
+        // Create a plain text structured document tag and append it to the document
+        StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
+        doc.getFirstSection().getBody().appendChild(tag);
 
-        smartTag.getProperties().add(new CustomXmlProperty("Day", "", "29"));
-        smartTag.getProperties().add(new CustomXmlProperty("Month", "", "5"));
-        smartTag.getProperties().add(new CustomXmlProperty("Year", "", "2019"));
+        // This structured document tag, which is in the form of a text box, already displays placeholder text
+        Assert.assertEquals("Click here to enter text.", tag.getText().trim());
+        Assert.assertTrue(tag.isShowingPlaceholderText());
 
-        // Set the smart tag's uri to the default
-        smartTag.setUri("urn:schemas-microsoft-com:office:smarttags");
+        // Create a building block that 
+        GlossaryDocument glossaryDoc = doc.getGlossaryDocument();
+        BuildingBlock substituteBlock = new BuildingBlock(glossaryDoc);
+        substituteBlock.setName("My placeholder");
+        substituteBlock.appendChild(new Section(glossaryDoc));
+        substituteBlock.getFirstSection().ensureMinimum();
+        substituteBlock.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(glossaryDoc, "Custom placeholder text."));
+        glossaryDoc.appendChild(substituteBlock);
 
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(smartTag);
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(doc, " is a date. "));
+        // Set the tag's placeholder to the building block
+        tag.setPlaceholderName("My placeholder");
 
-        // Create and add one more smart tag, this time for a financial symbol
-        smartTag = new SmartTag(doc);
-        smartTag.setElement("stockticker");
-        smartTag.setUri("urn:schemas-microsoft-com:office:smarttags");
+        Assert.assertEquals("Custom placeholder text.", tag.getText().trim());
+        Assert.assertTrue(tag.isShowingPlaceholderText());
 
-        smartTag.appendChild(new Run(doc, "MSFT"));
+        // Edit the text of the structured document tag and disable showing of placeholder text
+        Run run = (Run) tag.getChild(NodeType.RUN, 0, true);
+        run.setText("New text.");
+        tag.isShowingPlaceholderText(false);
 
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(smartTag);
-        doc.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(doc, " is a stock ticker."));
+        Assert.assertEquals("New text.", tag.getText().trim());
 
-        // Print all the smart tags in our document with a document visitor
-        doc.accept(new SmartTagVisitor());
+        tag.clear();
 
-        // SmartTags are supported by older versions of microsoft Word
-        doc.save(getArtifactsDir() + "StructuredDocumentTag.SmartTags.doc");
-
-        // We can strip a document of all its smart tags with RemoveSmartTags()
-        Assert.assertEquals(2, doc.getChildNodes(NodeType.SMART_TAG, true).getCount());
-        doc.removeSmartTags();
-        Assert.assertEquals(0, doc.getChildNodes(NodeType.SMART_TAG, true).getCount());
+        // Clearing a PlainText tag reverts these changes
+        Assert.assertTrue(tag.isShowingPlaceholderText());
+        Assert.assertEquals("Custom placeholder text.", tag.getText().trim());
+        //ExEnd
     }
-
-    /// <summary>
-    /// DocumentVisitor implementation that prints smart tags and their contents.
-    /// </summary>
-    private static class SmartTagVisitor extends DocumentVisitor {
-        /// <summary>
-        /// Called when a SmartTag node is encountered in the document.
-        /// </summary>
-        public int visitSmartTagStart(SmartTag smartTag) {
-            System.out.println(MessageFormat.format("Smart tag type: {0}", smartTag.getElement()));
-            return VisitorAction.CONTINUE;
-        }
-
-        /// <summary>
-        /// Called when the visiting of a SmartTag node is ended.
-        /// </summary>
-        public int visitSmartTagEnd(SmartTag smartTag) throws Exception {
-            System.out.println(MessageFormat.format("\tContents: \"{0}\"", smartTag.toString(SaveFormat.TEXT)));
-
-            if (smartTag.getProperties().getCount() == 0) {
-                System.out.println("\tContains no properties");
-
-            } else {
-                System.out.println("\tProperties: ");
-                String[] properties = new String[smartTag.getProperties().getCount()];
-                int index = 0;
-
-                for (CustomXmlProperty cxp : smartTag.getProperties()) {
-                    properties[index++] = MessageFormat.format("\"{0}\" = \"{1}\"", cxp.getName(), cxp.getValue());
-                }
-
-                System.out.println(String.join(", ", properties));
-            }
-
-            return VisitorAction.CONTINUE;
-        }
-    }
-    //ExEnd
 
     @Test
     public void accessToBuildingBlockPropertiesFromDocPartObjSdt() throws Exception {
@@ -782,15 +654,15 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Assert.assertEquals(docPartObjSdt.getBuildingBlockGallery(), "Table of Contents");
     }
 
-    @Test(expectedExceptions = IllegalStateException.class)
+    @Test
     public void accessToBuildingBlockPropertiesFromPlainTextSdt() throws Exception {
         Document doc = new Document(getMyDir() + "Structured document tags with building blocks.docx");
 
         StructuredDocumentTag plainTextSdt =
                 (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
-        Assert.assertEquals(plainTextSdt.getSdtType(), SdtType.PLAIN_TEXT);
 
-        plainTextSdt.getBuildingBlockGallery();
+        Assert.assertEquals(SdtType.PLAIN_TEXT, plainTextSdt.getSdtType());
+        Assert.assertThrows(IllegalStateException.class, () -> plainTextSdt.getBuildingBlockGallery());
     }
 
     @Test
@@ -819,8 +691,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Assert.assertEquals("Built-in", buildingBlockSdt.getBuildingBlockCategory());
     }
 
-    @Test
-    public void updateSdtContent() throws Exception {
+    @Test(dataProvider = "updateSdtContentDataProvider")
+    public void updateSdtContent(boolean updateSdtContent) throws Exception {
         //ExStart
         //ExFor:SaveOptions.UpdateSdtContent
         //ExSummary:Shows how structured document tags can be updated while saving to .pdf.
@@ -844,10 +716,27 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         // We can save those values in the document without immediately updating the tags, leaving them in their default state
         // by using a SaveOptions object with this flag set
         PdfSaveOptions options = new PdfSaveOptions();
-        options.setUpdateSdtContent(false);
+        options.setUpdateSdtContent(updateSdtContent);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf", options);
         //ExEnd
+
+        com.aspose.pdf.Document pdfDoc = new com.aspose.pdf.Document(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
+        TextAbsorber textAbsorber = new TextAbsorber();
+        textAbsorber.visit(pdfDoc);
+
+        Assert.assertEquals(updateSdtContent ? "Value 2" : "Click here to enter a date.\r\nChoose an item.", textAbsorber.getText());
+        pdfDoc.close();
+    }
+
+    //JAVA-added data provider for test method
+    @DataProvider(name = "updateSdtContentDataProvider")
+    public static Object[][] updateSdtContentDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test

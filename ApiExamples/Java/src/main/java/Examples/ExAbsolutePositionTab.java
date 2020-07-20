@@ -18,7 +18,7 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
     //ExFor:AbsolutePositionTab
     //ExFor:AbsolutePositionTab.Accept(DocumentVisitor)
     //ExFor:DocumentVisitor.VisitAbsolutePositionTab
-    //ExSummary:Shows how to work with AbsolutePositionTab.
+    //ExSummary:Shows how to work with absolute position tabs.
     @Test //ExSkip
     public void documentToTxt() throws Exception {
         // This document contains two sentences separated by an absolute position tab

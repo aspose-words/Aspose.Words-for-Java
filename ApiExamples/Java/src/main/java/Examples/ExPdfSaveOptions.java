@@ -8,23 +8,20 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.pdf.*;
+import com.aspose.pdf.TableAbsorber;
+import com.aspose.pdf.TextFragmentAbsorber;
 import com.aspose.pdf.facades.Bookmarks;
 import com.aspose.pdf.facades.PdfBookmarkEditor;
 import com.aspose.words.*;
-import com.aspose.words.Document;
-import com.aspose.words.PdfSaveOptions;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.SaveOptions;
-import com.aspose.words.WarningInfo;
-import com.aspose.words.WarningType;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ExPdfSaveOptions extends ApiExampleBase {
@@ -119,7 +116,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         pdfDoc.close();
     }
 
-    @Test (groups = "SkipMono", dataProvider = "updateFieldsDataProvider")
+    @Test(groups = "SkipMono", dataProvider = "updateFieldsDataProvider")
     public void updateFields(boolean doUpdateFields) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.Clone
@@ -158,15 +155,14 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         pdfDocument.close();
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "updateFieldsDataProvider")
-	public static Object[][] updateFieldsDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "updateFieldsDataProvider")
+    public static Object[][] updateFieldsDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test
@@ -185,7 +181,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
         pdfSaveOptions.setImageCompression(PdfImageCompression.JPEG);
         pdfSaveOptions.getDownsampleOptions().setDownsampleImages(false);
-    
+
         doc.save(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf", pdfSaveOptions);
 
         PdfSaveOptions pdfSaveOptionsA1B = new PdfSaveOptions();
@@ -195,7 +191,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         // Use JPEG compression at 50% quality to reduce file size
         pdfSaveOptionsA1B.setJpegQuality(100);
         pdfSaveOptionsA1B.setImageColorSpaceExportMode(PdfImageColorSpaceExportMode.SIMPLE_CMYK);
-        
+
         doc.save(getArtifactsDir() + "PdfSaveOptions.ImageCompression.PDF_A_1_B.pdf", pdfSaveOptionsA1B);
 
         PdfSaveOptions pdfSaveOptionsA1A = new PdfSaveOptions();
@@ -203,7 +199,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         pdfSaveOptionsA1A.setExportDocumentStructure(true);
         pdfSaveOptionsA1A.setImageCompression(PdfImageCompression.JPEG);
         pdfSaveOptionsA1A.getDownsampleOptions().setDownsampleImages(false);
-        
+
         doc.save(getArtifactsDir() + "PdfSaveOptions.ImageCompression.PDF_A_1_A.pdf", pdfSaveOptionsA1A);
         //ExEnd
     }
@@ -218,8 +214,11 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Images.docx");
 
         // Configure PdfSaveOptions to save every image in the input document in greyscale during conversion
-        PdfSaveOptions pdfSaveOptions = new PdfSaveOptions(); { pdfSaveOptions.setColorMode(ColorMode.GRAYSCALE); }
-        
+        PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
+        {
+            pdfSaveOptions.setColorMode(ColorMode.GRAYSCALE);
+        }
+
         doc.save(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf", pdfSaveOptions);
         //ExEnd
     }
@@ -285,17 +284,16 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 };
     }
 
-        //ExStart
-        //ExFor:MetafileRenderingMode
-        //ExFor:MetafileRenderingOptions
-        //ExFor:MetafileRenderingOptions.EmulateRasterOperations
-        //ExFor:MetafileRenderingOptions.RenderingMode
-        //ExFor:IWarningCallback
-        //ExFor:FixedPageSaveOptions.MetafileRenderingOptions
-        //ExSummary:Shows added fallback to bitmap rendering and changing type of warnings about unsupported metafile records.
-    @Test (groups = "SkipMono") //ExSkip
-    public void handleBinaryRasterWarnings() throws Exception
-    {
+    //ExStart
+    //ExFor:MetafileRenderingMode
+    //ExFor:MetafileRenderingOptions
+    //ExFor:MetafileRenderingOptions.EmulateRasterOperations
+    //ExFor:MetafileRenderingOptions.RenderingMode
+    //ExFor:IWarningCallback
+    //ExFor:FixedPageSaveOptions.MetafileRenderingOptions
+    //ExSummary:Shows added fallback to bitmap rendering and changing type of warnings about unsupported metafile records.
+    @Test(groups = "SkipMono") //ExSkip
+    public void handleBinaryRasterWarnings() throws Exception {
         Document doc = new Document(getMyDir() + "WMF with image.docx");
 
         MetafileRenderingOptions metafileRenderingOptions = new MetafileRenderingOptions();
@@ -393,10 +391,9 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         WarningInfoCollection mSaveWarnings = new WarningInfoCollection();
     }
-	
-	@Test (dataProvider = "fontsScaledToMetafileSizeDataProvider")
-    public void fontsScaledToMetafileSize(boolean doScaleWmfFonts) throws Exception
-    {
+
+    @Test(dataProvider = "fontsScaledToMetafileSizeDataProvider")
+    public void fontsScaledToMetafileSize(boolean doScaleWmfFonts) throws Exception {
         //ExStart
         //ExFor:MetafileRenderingOptions.ScaleWmfFontsToMetafileSize
         //ExSummary:Shows how to WMF fonts scaling according to metafile size on the page.
@@ -413,20 +410,18 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "fontsScaledToMetafileSizeDataProvider")
-	public static Object[][] fontsScaledToMetafileSizeDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "fontsScaledToMetafileSizeDataProvider")
+    public static Object[][] fontsScaledToMetafileSizeDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "additionalTextPositioningDataProvider")
-    public void additionalTextPositioning(boolean applyAdditionalTextPositioning) throws Exception
-    {
+    @Test(dataProvider = "additionalTextPositioningDataProvider")
+    public void additionalTextPositioning(boolean applyAdditionalTextPositioning) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.AdditionalTextPositioning
         //ExSummary:Show how to write additional text positioning operators.
@@ -437,25 +432,24 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         {
             saveOptions.setAdditionalTextPositioning(applyAdditionalTextPositioning);
-        saveOptions.setTextCompression(PdfTextCompression.NONE);
+            saveOptions.setTextCompression(PdfTextCompression.NONE);
         }
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf", saveOptions);
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "additionalTextPositioningDataProvider")
-	public static Object[][] additionalTextPositioningDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "additionalTextPositioningDataProvider")
+    public static Object[][] additionalTextPositioningDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "saveAsPdfBookFoldDataProvider")
+    @Test(dataProvider = "saveAsPdfBookFoldDataProvider")
     public void saveAsPdfBookFold(boolean doRenderTextAsBookfold) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.UseBookFoldPrintingSettings
@@ -477,15 +471,14 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "saveAsPdfBookFoldDataProvider")
-	public static Object[][] saveAsPdfBookFoldDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "saveAsPdfBookFoldDataProvider")
+    public static Object[][] saveAsPdfBookFoldDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test
@@ -509,9 +502,8 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (dataProvider = "pageModeDataProvider")
-    public void pageMode(/*PdfPageMode*/int pageMode) throws Exception
-    {
+    @Test(dataProvider = "pageModeDataProvider")
+    public void pageMode(/*PdfPageMode*/int pageMode) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.PageMode
         //ExFor:PdfPageMode
@@ -525,23 +517,21 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "pageModeDataProvider")
-	public static Object[][] pageModeDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{PdfPageMode.FULL_SCREEN},
-			{PdfPageMode.USE_THUMBS},
-			{PdfPageMode.USE_OC},
-			{PdfPageMode.USE_OUTLINES},
-			{PdfPageMode.USE_NONE},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "pageModeDataProvider")
+    public static Object[][] pageModeDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {PdfPageMode.FULL_SCREEN},
+                        {PdfPageMode.USE_THUMBS},
+                        {PdfPageMode.USE_OC},
+                        {PdfPageMode.USE_OUTLINES},
+                        {PdfPageMode.USE_NONE},
+                };
+    }
 
-    @Test (dataProvider = "noteHyperlinksDataProvider")
-    public void noteHyperlinks(boolean doCreateHyperlinks) throws Exception
-    {
+    @Test(dataProvider = "noteHyperlinksDataProvider")
+    public void noteHyperlinks(boolean doCreateHyperlinks) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.CreateNoteHyperlinks
         //ExSummary:Shows how to make footnotes and endnotes work like hyperlinks.
@@ -558,20 +548,18 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "noteHyperlinksDataProvider")
-	public static Object[][] noteHyperlinksDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "noteHyperlinksDataProvider")
+    public static Object[][] noteHyperlinksDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "customPropertiesExportDataProvider")
-    public void customPropertiesExport(/*PdfCustomPropertiesExport*/int pdfCustomPropertiesExportMode) throws Exception
-    {
+    @Test(dataProvider = "customPropertiesExportDataProvider")
+    public void customPropertiesExport(/*PdfCustomPropertiesExport*/int pdfCustomPropertiesExportMode) throws Exception {
         //ExStart
         //ExFor:PdfCustomPropertiesExport
         //ExFor:PdfSaveOptions.CustomPropertiesExport
@@ -590,19 +578,18 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "customPropertiesExportDataProvider")
-	public static Object[][] customPropertiesExportDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{PdfCustomPropertiesExport.NONE},
-			{PdfCustomPropertiesExport.STANDARD},
-			{PdfCustomPropertiesExport.METADATA},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "customPropertiesExportDataProvider")
+    public static Object[][] customPropertiesExportDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {PdfCustomPropertiesExport.NONE},
+                        {PdfCustomPropertiesExport.STANDARD},
+                        {PdfCustomPropertiesExport.METADATA},
+                };
     }
 
-    @Test (dataProvider = "drawingMLEffectsDataProvider")
+    @Test(dataProvider = "drawingMLEffectsDataProvider")
     public void drawingMLEffects(/*DmlEffectsRenderingMode*/int effectsRenderingMode) throws Exception {
         //ExStart
         //ExFor:DmlRenderingMode
@@ -622,21 +609,19 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "drawingMLEffectsDataProvider")
-	public static Object[][] drawingMLEffectsDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{DmlEffectsRenderingMode.NONE},
-			{DmlEffectsRenderingMode.SIMPLIFIED},
-			{DmlEffectsRenderingMode.FINE},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "drawingMLEffectsDataProvider")
+    public static Object[][] drawingMLEffectsDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {DmlEffectsRenderingMode.NONE},
+                        {DmlEffectsRenderingMode.SIMPLIFIED},
+                        {DmlEffectsRenderingMode.FINE},
+                };
+    }
 
-    @Test (dataProvider = "drawingMLFallbackDataProvider")
-    public void drawingMLFallback(/*DmlRenderingMode*/int dmlRenderingMode) throws Exception
-    {
+    @Test(dataProvider = "drawingMLFallbackDataProvider")
+    public void drawingMLFallback(/*DmlRenderingMode*/int dmlRenderingMode) throws Exception {
         //ExStart
         //ExFor:DmlRenderingMode
         //ExFor:SaveOptions.DmlRenderingMode
@@ -650,20 +635,18 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "drawingMLFallbackDataProvider")
-	public static Object[][] drawingMLFallbackDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{DmlRenderingMode.FALLBACK},
-			{DmlRenderingMode.DRAWING_ML},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "drawingMLFallbackDataProvider")
+    public static Object[][] drawingMLFallbackDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {DmlRenderingMode.FALLBACK},
+                        {DmlRenderingMode.DRAWING_ML},
+                };
     }
 
-    @Test (dataProvider = "exportDocumentStructureDataProvider")
-    public void exportDocumentStructure(boolean doExportStructure) throws Exception
-    {
+    @Test(dataProvider = "exportDocumentStructureDataProvider")
+    public void exportDocumentStructure(boolean doExportStructure) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.ExportDocumentStructure
         //ExSummary:Shows how to convert a .docx to .pdf while preserving the document structure.
@@ -679,20 +662,18 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "exportDocumentStructureDataProvider")
-	public static Object[][] exportDocumentStructureDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "exportDocumentStructureDataProvider")
+    public static Object[][] exportDocumentStructureDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
-    @Test (dataProvider = "preblendImagesDataProvider")
-    public void preblendImages(boolean doPreblendImages) throws Exception
-    {
+    @Test(dataProvider = "preblendImagesDataProvider")
+    public void preblendImages(boolean doPreblendImages) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.PreblendImages
         //ExSummary:Shows how to preblend images with transparent backgrounds.
@@ -710,16 +691,33 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "preblendImagesDataProvider")
-	public static Object[][] preblendImagesDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "preblendImagesDataProvider")
+    public static Object[][] preblendImagesDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
+
+    @Test
+    public void interpolateImages() throws Exception {
+        //ExStart
+        //ExFor:PdfSaveOptions.InterpolateImages
+        //ExSummary:Shows how to improve the quality of an image in the rendered documents.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        BufferedImage img = ImageIO.read(new File(getImageDir() + "Transparent background logo.png"));
+        builder.insertImage(img);
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setInterpolateImages(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.InterpolateImages.pdf", saveOptions);
+        //ExEnd
+    }
 
 
     @Test
@@ -759,7 +757,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (enabled = false)
+    @Test(enabled = false)
     public void pdfDigitalSignatureTimestamp() throws Exception {
         //ExStart
         //ExFor:PdfDigitalSignatureDetails.TimestampSettings
@@ -799,9 +797,8 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (dataProvider = "renderMetafileDataProvider")
-    public void renderMetafile(/*EmfPlusDualRenderingMode*/int renderingMode) throws Exception
-    {
+    @Test(dataProvider = "renderMetafileDataProvider")
+    public void renderMetafile(/*EmfPlusDualRenderingMode*/int renderingMode) throws Exception {
         //ExStart
         //ExFor:EmfPlusDualRenderingMode
         //ExFor:MetafileRenderingOptions.EmfPlusDualRenderingMode
@@ -817,15 +814,42 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "renderMetafileDataProvider")
-	public static Object[][] renderMetafileDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{EmfPlusDualRenderingMode.EMF},
-			{EmfPlusDualRenderingMode.EMF_PLUS},
-			{EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "renderMetafileDataProvider")
+    public static Object[][] renderMetafileDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {EmfPlusDualRenderingMode.EMF},
+                        {EmfPlusDualRenderingMode.EMF_PLUS},
+                        {EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK},
+                };
+    }
+
+    @Test(groups = "SkipMono")
+    public void dml3DEffectsRenderingModeTest() throws Exception {
+        Document doc = new Document(getMyDir() + "DrawingML shape 3D effects.docx");
+
+        RenderCallback warningCallback = new RenderCallback();
+        doc.setWarningCallback(warningCallback);
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setDml3DEffectsRenderingMode(Dml3DEffectsRenderingMode.ADVANCED);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
+
+        Assert.assertEquals(warningCallback.Count(), 43);
+    }
+
+    public static class RenderCallback implements IWarningCallback {
+        public void warning(WarningInfo info) {
+            System.out.println(MessageFormat.format("{0}: {1}.", info.getWarningType(), info.getDescription()));
+            mWarnings.add(info);
+        }
+
+        public int Count() {
+            return mWarnings.size();
+        }
+
+        private static ArrayList<WarningInfo> mWarnings = new ArrayList<>();
     }
 }
