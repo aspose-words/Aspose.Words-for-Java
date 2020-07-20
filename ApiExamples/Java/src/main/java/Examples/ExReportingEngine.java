@@ -191,7 +191,7 @@ public class ExReportingEngine extends ApiExampleBase {
         doc.save(getArtifactsDir() + "ReportingEngine.SetPointColorDynamically.docx");
     }
 
-    @Test
+    @Test(enabled = false, description = "WORDSNET-20810")
     public void conditionalExpressionRemoveChartSeries() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.TestRemoveChartSeries.Java.docx");
 

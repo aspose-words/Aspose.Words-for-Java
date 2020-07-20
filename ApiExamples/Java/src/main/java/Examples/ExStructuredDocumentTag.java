@@ -726,6 +726,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         textAbsorber.visit(pdfDoc);
 
         Assert.assertEquals(updateSdtContent ? "Value 2" : "Click here to enter a date.\r\nChoose an item.", textAbsorber.getText());
+        pdfDoc.close();
     }
 
     //JAVA-added data provider for test method

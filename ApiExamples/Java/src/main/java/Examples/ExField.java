@@ -4843,7 +4843,7 @@ public class ExField extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "Field.FILESIZE.docx");
 
-        Assert.assertEquals(8899, doc.getBuiltInDocumentProperties().getBytes());
+        Assert.assertEquals(8901, doc.getBuiltInDocumentProperties().getBytes());
 
         field = (FieldFileSize) doc.getRange().getFields().get(0);
 
@@ -4852,7 +4852,7 @@ public class ExField extends ApiExampleBase {
         // These fields will need to be updated to produce an accurate result
         doc.updateFields();
 
-        Assert.assertEquals("8899", field.getResult());
+        Assert.assertEquals("8901", field.getResult());
 
         field = (FieldFileSize) doc.getRange().getFields().get(1);
 

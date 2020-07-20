@@ -915,12 +915,8 @@ public class ExFont extends ApiExampleBase {
 
         // List all warnings using an enumerator
         Iterator<WarningInfo> warnings = substitutionWarningHandler.FontWarnings.iterator();
-        try /*JAVA: was using*/ {
-            while (warnings.hasNext())
-                System.out.println(warnings.next().getDescription());
-        } finally {
-            if (warnings != null) warnings.remove();
-        }
+        while (warnings.hasNext())
+            System.out.println(warnings.next().getDescription());
 
         // Warnings are stored in this format
         Assert.assertEquals(WarningSource.LAYOUT, substitutionWarningHandler.FontWarnings.get(0).getSource());
@@ -930,7 +926,7 @@ public class ExFont extends ApiExampleBase {
         // The warning info collection can also be cleared like this
         substitutionWarningHandler.FontWarnings.clear();
 
-        Assert.assertNull(substitutionWarningHandler.FontWarnings);
+        Assert.assertEquals(substitutionWarningHandler.FontWarnings.getCount(), 0);
     }
 
     public static class HandleDocumentSubstitutionWarnings implements IWarningCallback {
@@ -1598,12 +1594,12 @@ public class ExFont extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Font.LoadFontFallbackSettingsFromStream.pdf");
 
         // Saves font fallback setting by stream
-        InputStream fontFallbackStream1 =
-                new FileInputStream(getArtifactsDir() + "FallbackSettings.xml");
+        OutputStream fontFallbackStreamOut =
+                new FileOutputStream(getArtifactsDir() + "FallbackSettings.xml");
         try {
-            doc.getFontSettings().getFallbackSettings().save(fontFallbackStream1);
+            doc.getFontSettings().getFallbackSettings().save(fontFallbackStreamOut);
         } finally {
-            if (fontFallbackStream1 != null) fontFallbackStream1.close();
+            if (fontFallbackStreamOut != null) fontFallbackStreamOut.close();
         }
         //ExEnd
     }

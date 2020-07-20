@@ -46,9 +46,9 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.UseEncoding.html", htmlFixedSaveOptions);
         //ExEnd
 
-        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.UseEncoding.html"), "utf-8");
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.UseEncoding.html"), "US-ASCII");
 
-        Assert.assertTrue(outDocContents.contains("content=\"text/html; charset=us-ascii\""));
+        Assert.assertTrue(outDocContents.contains("content=\"text/html; charset=US-ASCII\""));
     }
 
     // Note: Test doesn't contain validation result, because it's may take a lot of time for assert result

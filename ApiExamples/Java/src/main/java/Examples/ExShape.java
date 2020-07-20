@@ -752,7 +752,7 @@ public class ExShape extends ApiExampleBase {
         math.getMathRenderer().save(getArtifactsDir() + "Shape.SaveShapeObjectAsImage.png", new ImageSaveOptions(SaveFormat.PNG));
         //ExEnd
 
-        TestUtil.verifyImage(156, 18, getArtifactsDir() + "Shape.SaveShapeObjectAsImage.png");
+        TestUtil.verifyImage(159, 18, getArtifactsDir() + "Shape.SaveShapeObjectAsImage.png");
     }
 
     @Test
@@ -1854,34 +1854,34 @@ public class ExShape extends ApiExampleBase {
         OfficeMathRenderer renderer = new OfficeMathRenderer(officeMath);
 
         // We can measure the size of the image that the OfficeMath object will create when we render it
-        Assert.assertEquals(renderer.getSizeInPoints().getX(), 117.0, 0.1);
-        Assert.assertEquals(renderer.getSizeInPoints().getY(), 12.9, 0.1);
+        Assert.assertEquals(renderer.getSizeInPoints().getX(), 119.0, 0.2);
+        Assert.assertEquals(renderer.getSizeInPoints().getY(), 13.0, 0.1);
 
-        Assert.assertEquals(renderer.getBoundsInPoints().getWidth(), 117.0, 0.1);
-        Assert.assertEquals(renderer.getBoundsInPoints().getHeight(), 12.9, 0.1);
+        Assert.assertEquals(renderer.getBoundsInPoints().getWidth(), 119.0, 0.2);
+        Assert.assertEquals(renderer.getBoundsInPoints().getHeight(), 13.0, 0.1);
 
         // Shapes with transparent parts may return different values here
-        Assert.assertEquals(renderer.getOpaqueBoundsInPoints().getWidth(), 117.0, 0.1);
-        Assert.assertEquals(renderer.getOpaqueBoundsInPoints().getHeight(), 14.7, 0.1);
+        Assert.assertEquals(renderer.getOpaqueBoundsInPoints().getWidth(), 119.0, 0.2);
+        Assert.assertEquals(renderer.getOpaqueBoundsInPoints().getHeight(), 14.2, 0.1);
 
         // Get the shape size in pixels, with linear scaling to a specific DPI
         Rectangle bounds = renderer.getBoundsInPixels(1.0f, 96.0f);
-        Assert.assertEquals(bounds.getWidth(), 156.0);
+        Assert.assertEquals(bounds.getWidth(), 159.0);
         Assert.assertEquals(bounds.getHeight(), 18.0);
 
         // Get the shape size in pixels, but with a different DPI for the horizontal and vertical dimensions
         bounds = renderer.getBoundsInPixels(1.0f, 96.0f, 150.0f);
-        Assert.assertEquals(bounds.getWidth(), 156.0);
-        Assert.assertEquals(bounds.getHeight(), 27.0);
+        Assert.assertEquals(bounds.getWidth(), 159.0);
+        Assert.assertEquals(bounds.getHeight(), 28.0);
 
         // The opaque bounds may vary here also
         bounds = renderer.getOpaqueBoundsInPixels(1.0f, 96.0f);
-        Assert.assertEquals(156.0, bounds.getWidth());
-        Assert.assertEquals(20.0, bounds.getHeight());
+        Assert.assertEquals(159.0, bounds.getWidth());
+        Assert.assertEquals(18.0, bounds.getHeight());
 
         bounds = renderer.getOpaqueBoundsInPixels(1.0f, 96.0f, 150.0f);
-        Assert.assertEquals(156.0, bounds.getWidth());
-        Assert.assertEquals(31.0, bounds.getHeight());
+        Assert.assertEquals(159.0, bounds.getWidth());
+        Assert.assertEquals(30.0, bounds.getHeight());
         //ExEnd
     }
 }
