@@ -5,22 +5,21 @@ import com.aspose.words.examples.Utils;
 
 import java.util.Date;
 
-@SuppressWarnings("unchecked")
 public class AddComments {
-    public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 
-        //ExStart:AddComments
-        String dataDir = Utils.getDataDir(AddComments.class);
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.write("Some text is added.");
+		// ExStart:AddComments
+		String dataDir = Utils.getDataDir(AddComments.class);
 
-        Comment comment = new Comment(doc, "Awais Hafeez", "AH", new Date());
-        builder.getCurrentParagraph().appendChild(comment);
-        comment.getParagraphs().add(new Paragraph(doc));
-        comment.getFirstParagraph().getRuns().add(new Run(doc, "Comment text."));
-        doc.save(dataDir + "output.doc");
-        //ExEnd:AddComments
+		Document doc = new Document();
+		DocumentBuilder builder = new DocumentBuilder(doc);
+		builder.write("Some text is added.");
 
-    }
+		Comment comment = new Comment(doc, "Awais Hafeez", "AH", new Date());
+		builder.getCurrentParagraph().appendChild(comment);
+		comment.getParagraphs().add(new Paragraph(doc));
+		comment.getFirstParagraph().getRuns().add(new Run(doc, "Comment text."));
+		doc.save(dataDir + "output.doc");
+		// ExEnd:AddComments
+	}
 }

@@ -22,7 +22,6 @@ public class ReplaceHtmlTextWithMeta_Characters {
 
         FindReplaceOptions findReplaceOptions = new FindReplaceOptions();
         findReplaceOptions.setReplacingCallback(new FindAndInsertHtml());
-        findReplaceOptions.setPreserveMetaCharacters(true);
 
         doc.getRange().replace("{PLACEHOLDER}", html, findReplaceOptions);
 

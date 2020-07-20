@@ -51,7 +51,7 @@ public class InsertDocumentIntoAnotherDocument {
     }
 
     public static void insertDocumentAtReplace() throws Exception {
-        //ExStart:insertDocumentAtReplace
+        //ExStart: insertDocumentAtReplace
         Document mainDoc = new Document(dataDir + "InsertDocument1.doc");
 
         FindReplaceOptions opts = new FindReplaceOptions();
@@ -60,7 +60,7 @@ public class InsertDocumentIntoAnotherDocument {
 
         mainDoc.getRange().replace(Pattern.compile("\\[MY_DOCUMENT\\]"), "", opts);
         mainDoc.save(dataDir + "InsertDocumentAtReplace_out.doc");
-        //ExStart:insertDocumentAtReplace
+        //ExEnd: insertDocumentAtReplace
     }
 
     //ExStart:InsertDocumentAtReplaceHandler

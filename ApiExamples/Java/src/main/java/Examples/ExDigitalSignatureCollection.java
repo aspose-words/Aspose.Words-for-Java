@@ -15,6 +15,7 @@ import com.aspose.words.DigitalSignatureUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
 public class ExDigitalSignatureCollection extends ApiExampleBase {

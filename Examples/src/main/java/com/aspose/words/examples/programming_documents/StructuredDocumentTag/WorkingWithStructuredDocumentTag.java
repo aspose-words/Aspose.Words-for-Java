@@ -2,6 +2,8 @@ package com.aspose.words.examples.programming_documents.StructuredDocumentTag;
 
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
+import com.aspose.words.List;
+import com.aspose.words.StructuredDocumentTagRangeStart;
 
 import java.awt.*;
 
@@ -13,6 +15,7 @@ public class WorkingWithStructuredDocumentTag {
         setContentControlColor(dataDir);
         setContentControlStyle(dataDir);
         CreatingTableRepeatingSectionMappedToCustomXmlPart(dataDir);
+        MultiSectionSDT(dataDir);
     }
 
     public static void setContentControlColor(String dataDir) throws Exception {
@@ -91,5 +94,15 @@ public class WorkingWithStructuredDocumentTag {
         doc.save(dataDir + "Document.docx");
         // ExEnd:CreatingTableRepeatingSectionMappedToCustomXmlPart
         System.out.println("\nCreation of a Table Repeating Section Mapped To a Custom Xml Part is successfull.");
+    }
+    
+    public static void MultiSectionSDT(String dataDir) throws Exception {
+    	// ExStart:MultiSectionSDT
+    	Document doc = new Document(dataDir + "input.docx");
+    	NodeCollection<StructuredDocumentTagRangeStart> tags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true);
+
+    	for (StructuredDocumentTagRangeStart tag : tags)
+    	    System.out.println(tag.getTitle());
+    	// ExEnd:MultiSectionSDT
     }
 }

@@ -11,6 +11,7 @@ public class WorkingWithImportFormatOptions {
         SmartStyleBehavior(dataDir);
         KeepSourceNumbering(dataDir);
         IgnoreTextBoxes(dataDir);
+        IgnoreHeaderFooter(dataDir);
     }
 
     public static void SmartStyleBehavior(String dataDir) throws Exception {
@@ -67,5 +68,18 @@ public class WorkingWithImportFormatOptions {
 
         dstDoc.save(dataDir + "output.docx");
         // ExEnd:IgnoreTextBoxes
+    }
+    
+    public static void IgnoreHeaderFooter(String dataDir) throws Exception {
+        // ExStart:IgnoreHeaderFooter
+    	Document srcDocument = new Document(dataDir + "source.docx");
+    	Document dstDocument = new Document(dataDir + "destination.docx");
+
+    	ImportFormatOptions importFormatOptions = new ImportFormatOptions();
+    	importFormatOptions.setIgnoreHeaderFooter(false);
+
+    	dstDocument.appendDocument(srcDocument, ImportFormatMode.KEEP_SOURCE_FORMATTING, importFormatOptions);
+    	dstDocument.save(dataDir + "IgnoreHeaderFooter_out.docx");
+        // ExEnd:IgnoreHeaderFooter
     }
 }
