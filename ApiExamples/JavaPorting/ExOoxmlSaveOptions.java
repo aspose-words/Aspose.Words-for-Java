@@ -32,7 +32,6 @@ import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.FileMode;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.annotations.DataProvider;
 
 
@@ -235,7 +234,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
     }
 
     @Test
-    public void documentCompression_CheckFileSignatures() throws Exception
+    public void checkFileSignatures() throws Exception
     {
         /*CompressionLevel*/int[] compressionLevels = {
             CompressionLevel.MAXIMUM,
@@ -259,16 +258,16 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         for (int i = 0; i < fileSignatures.length; i++)
         {
             saveOptions.setCompressionLevel(compressionLevels[i]);
-            doc.save(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression_CheckFileSignatures.docx", saveOptions);
+            doc.save(getArtifactsDir() + "OoxmlSaveOptions.CheckFileSignatures.docx", saveOptions);
 
             MemoryStream stream = new MemoryStream();
             try /*JAVA: was using*/
         	{
-            FileStream outputFileStream = File.open(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression_CheckFileSignatures.docx", FileMode.OPEN);
+            FileStream outputFileStream = File.open(getArtifactsDir() + "OoxmlSaveOptions.CheckFileSignatures.docx", FileMode.OPEN);
             try /*JAVA: was using*/
             {
                 long fileSize = outputFileStream.getLength();
-                msAssert.less(prevFileSize, fileSize);
+                Assert.That(prevFileSize < fileSize);
 
                 TestUtil.copyStream(outputFileStream, stream);
                 Assert.assertEquals(fileSignatures[i], TestUtil.dumpArray(stream.toArray(), 0, 10));

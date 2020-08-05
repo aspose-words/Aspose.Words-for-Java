@@ -117,7 +117,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         // A timeout like this will also accumulate warnings that can be picked up by a WarningCallback implementation
         Assert.assertEquals(WarningSource.HTML, warningCallback.warnings().get(0).getSource());
         Assert.assertEquals(WarningType.DATA_LOSS, warningCallback.warnings().get(0).getWarningType());
-        Assert.assertEquals($"The resource \'{AsposeLogoUrl}\' couldn't be loaded.", warningCallback.warnings().get(0).getDescription());
+        Assert.assertEquals($"Couldn't load a resource from \'{AsposeLogoUrl}\'.", warningCallback.warnings().get(0).getDescription());
 
         Assert.assertEquals(WarningSource.HTML, warningCallback.warnings().get(1).getSource());
         Assert.assertEquals(WarningType.DATA_LOSS, warningCallback.warnings().get(1).getWarningType());
