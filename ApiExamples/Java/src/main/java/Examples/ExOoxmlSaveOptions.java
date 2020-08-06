@@ -198,4 +198,30 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.out.docx", saveOptions);
         //ExEnd
     }
+
+    @Test
+    public void checkFileSignatures() throws Exception {
+        int[] compressionLevels = {
+                CompressionLevel.MAXIMUM,
+                CompressionLevel.NORMAL,
+                CompressionLevel.FAST,
+                CompressionLevel.SUPER_FAST
+        };
+
+        String[] fileSignatures = new String[]
+                {
+                        "50 4B 03 04 14 00 08 08 08 00 ",
+                        "50 4B 03 04 14 00 08 08 08 00 ",
+                        "50 4B 03 04 14 00 08 08 08 00 ",
+                        "50 4B 03 04 14 00 08 08 08 00 "
+                };
+
+        Document doc = new Document();
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
+
+        for (int i = 0; i < fileSignatures.length; i++) {
+            saveOptions.setCompressionLevel(compressionLevels[i]);
+            doc.save(getArtifactsDir() + "OoxmlSaveOptions.CheckFileSignatures.docx", saveOptions);
+        }
+    }
 }

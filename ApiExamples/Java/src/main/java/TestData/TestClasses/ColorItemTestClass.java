@@ -8,7 +8,7 @@ package TestData.TestClasses;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ColorItemTestClass {
     private String mName;

@@ -11,10 +11,10 @@ package TestData.TestBuilders;
 import Examples.ApiExampleBase;
 import TestData.TestClasses.ImageTestClass;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import javax.imageio.ImageIO;
 
 public class ImageTestBuilder extends ApiExampleBase {
     private BufferedImage mImage;
