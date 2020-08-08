@@ -45,6 +45,9 @@ import com.aspose.words.DmlRenderingMode;
 import java.awt.image.BufferedImage;
 import com.aspose.BitmapPal;
 import com.aspose.ms.System.IO.MemoryStream;
+import com.aspose.words.Dml3DEffectsRenderingMode;
+import com.aspose.words.WarningSource;
+import java.util.ArrayList;
 import com.aspose.words.CertificateHolder;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.PdfDigitalSignatureDetails;
@@ -53,9 +56,6 @@ import com.aspose.words.FileFormatUtil;
 import com.aspose.words.PdfDigitalSignatureTimestampSettings;
 import com.aspose.ms.System.TimeSpan;
 import com.aspose.words.EmfPlusDualRenderingMode;
-import com.aspose.words.Dml3DEffectsRenderingMode;
-import com.aspose.words.WarningSource;
-import java.util.ArrayList;
 import org.testng.annotations.DataProvider;
 
 
@@ -1076,6 +1076,43 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExEnd
     }
 
+    @Test (groups = "SkipMono")
+    public void dml3DEffectsRenderingModeTest() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "DrawingML shape 3D effects.docx");
+        
+        RenderCallback warningCallback = new RenderCallback();
+        doc.setWarningCallback(warningCallback);
+        
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setDml3DEffectsRenderingMode(Dml3DEffectsRenderingMode.ADVANCED);
+        
+        doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
+
+        Assert.AreEqual(43, warningCallback.Count);
+    }
+
+    public static class RenderCallback implements IWarningCallback
+    {
+        public void warning(WarningInfo info)
+        {
+            System.out.println("{info.WarningType}: {info.Description}.");
+            mWarnings.Add(info);
+        }
+
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!private mWarnings.CountmWarnings;
+
+        /// <summary>
+        /// Returns true if a warning with the specified properties has been generated.
+        /// </summary>
+        public boolean contains(/*WarningSource*/int source, /*WarningType*/int type, String description)
+        {
+            return mWarnings.Any(warning => warning.Source == source && warning.WarningType == type && warning.Description == description);
+        }
+
+        private /*final*/ ArrayList<WarningInfo> mWarnings = new ArrayList<WarningInfo>();
+    }
+
 
     @Test
     public void pdfDigitalSignature() throws Exception
@@ -1215,45 +1252,4 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 			{EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK},
 		};
 	}
-
-    @Test (groups = "SkipMono")
-    public void dml3DEffectsRenderingModeTest() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "DrawingML shape 3D effects.docx");
-        
-        RenderCallback warningCallback = new RenderCallback();
-        doc.setWarningCallback(warningCallback);
-        
-        PdfSaveOptions saveOptions = new PdfSaveOptions();
-        saveOptions.setDml3DEffectsRenderingMode(Dml3DEffectsRenderingMode.ADVANCED);
-        
-        doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
-
-        Assert.AreEqual(warningCallback.Count, 43);
-    }
-
-    public static class RenderCallback implements IWarningCallback
-    {
-        public void warning(WarningInfo info)
-        {
-            System.out.println("{info.WarningType}: {info.Description}.");
-            mWarnings.Add(info);
-        }
-
-         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
-            mWarnings.Clear();
-        }
-
-        public int Count => private mWarnings.CountmWarnings;
-
-        /// <summary>
-        /// Returns true if a warning with the specified properties has been generated.
-        /// </summary>
-        public boolean contains(/*WarningSource*/int source, /*WarningType*/int type, String description)
-        {
-            return mWarnings.Any(warning => warning.Source == source && warning.WarningType == type && warning.Description == description);
-        }
-
-        private /*final*/ ArrayList<WarningInfo> mWarnings = new ArrayList<WarningInfo>();
-    }
 }

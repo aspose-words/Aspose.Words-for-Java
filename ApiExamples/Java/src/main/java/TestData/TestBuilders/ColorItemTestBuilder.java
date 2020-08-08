@@ -10,7 +10,7 @@ package TestData.TestBuilders;
 
 import TestData.TestClasses.ColorItemTestClass;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ColorItemTestBuilder {
     private String mName;

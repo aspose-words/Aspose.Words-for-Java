@@ -244,16 +244,22 @@ public class ExReportingEngine extends ApiExampleBase
     public void conditionalExpressionForLeaveChartSeries() throws Exception
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
+        
+        int condition = 3;
+        buildReport(doc, new Object[] { Common.getManagers(), condition }, new String[] { "managers", "condition" });
 
         doc.save(getArtifactsDir() + "ReportingEngine.TestLeaveChartSeries.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.TestLeaveChartSeries.docx", getGoldsDir() + "ReportingEngine.TestLeaveChartSeries Gold.docx"));
     }
 
-    @Test
+    @Test (enabled = false, description = "WORDSNET-20810")
     public void conditionalExpressionForRemoveChartSeries() throws Exception
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
+        
+        int condition = 2;
+        buildReport(doc, new Object[] { Common.getManagers(), condition }, new String[] { "managers", "condition" });
 
         doc.save(getArtifactsDir() + "ReportingEngine.TestRemoveChartSeries.docx");
 

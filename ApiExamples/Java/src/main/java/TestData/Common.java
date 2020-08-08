@@ -132,7 +132,7 @@ public class Common {
         return new ArrayList<>();
     }
 
-    public static ArrayList<ManagerTestClass> getManagers(){
+    public static ArrayList<ManagerTestClass> getManagers() {
         return managers;
     }
 

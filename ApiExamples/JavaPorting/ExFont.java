@@ -1873,8 +1873,8 @@ public class ExFont extends ApiExampleBase
 
         org.w3c.dom.NodeList rules = fallbackSettingsDoc.SelectNodes("//aw:FontFallbackSettings/aw:FallbackTable/aw:Rule", manager);
 
-        Assert.assertEquals("0C00-0C7F", rules.item(3).getAttributes().getNamedItem("Ranges").getNodeValue());
-        Assert.assertEquals("Vani", rules.item(3).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
+        Assert.assertEquals("0C00-0C7F", rules.item(5).getAttributes().getNamedItem("Ranges").getNodeValue());
+        Assert.assertEquals("Vani", rules.item(5).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
     }
 
     @Test
