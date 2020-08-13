@@ -27,14 +27,14 @@ Directory | Description
 </li>
 	<li>The resources folder in the Examples/src folder contains input files used in the examples. It is mandatory that you download this folder along with the examples project.</li>
 </ul>
-<p>Please find more details on how to run the examples <a title="How to Run the Examples" href="https://docs.aspose.com/display/wordsjava/How+to+Run+the+Examples">here</a>.</p>
+<p>Please find more details on how to run the examples <a title="How to Run the Examples" href="https://docs.aspose.com/words/java/how-to-run-the-examples/">here</a>.</p>
 
 ## Resources
 
 + **Website:** [www.aspose.com](https://www.aspose.com)
 + **Product Home:** [Aspose.Words for Java](https://products.aspose.com/words/java)
 + **Download:** [Download Aspose.Words for Java](https://repository.aspose.com/repo/com/aspose/aspose-words/)
-+ **Documentation:** [Aspose.Words for Java Documentation](https://docs.aspose.com//display/wordsjava/Home)
++ **Documentation:** [Aspose.Words for Java Documentation](https://docs.aspose.com/words/java/)
 + **Free Support Forum:** [Aspose.Words for .NET Free Support Forum](https://forum.aspose.com/c/words)
 + **Paid Support Helpdesk:** [Aspose.Words for .NET Paid Support Helpdesk](https://helpdesk.aspose.com/)
 + **Blog:** [Aspose.Words for Java Blog](https://blog.aspose.com/category/aspose-products/aspose-words-product-family/)
