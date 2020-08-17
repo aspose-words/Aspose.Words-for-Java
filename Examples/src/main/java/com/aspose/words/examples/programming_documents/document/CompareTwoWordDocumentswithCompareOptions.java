@@ -14,8 +14,8 @@ public class CompareTwoWordDocumentswithCompareOptions {
 		// ExStart:CompareTwoWordDocumentswithCompareOptions
 		String dataDir = Utils.getDataDir(CompareTwoWordDocumentswithCompareOptions.class);
 
-		com.aspose.words.Document docA = new com.aspose.words.Document(dataDir + "DocumentA.doc");
-		com.aspose.words.Document docB = new com.aspose.words.Document(dataDir + "DocumentB.doc");
+		com.aspose.words.Document docA = new com.aspose.words.Document(dataDir + "TestFile.docx");
+		com.aspose.words.Document docB = new com.aspose.words.Document(dataDir + "TestFile2.docx");
 
 		com.aspose.words.CompareOptions options = new com.aspose.words.CompareOptions();
 		options.setIgnoreFormatting(true);
@@ -27,6 +27,7 @@ public class CompareTwoWordDocumentswithCompareOptions {
 		options.setIgnoreTextboxes(true);
 		options.setIgnoreFootnotes(true);
 
+		
 		// DocA now contains changes as revisions.
 		docA.compare(docB, "user", new Date(), options);
 		if (docA.getRevisions().getCount() == 0)
