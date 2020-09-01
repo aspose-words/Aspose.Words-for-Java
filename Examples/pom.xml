@@ -55,13 +55,13 @@
 		<dependency>
 			<groupId>com.aspose</groupId>
 			<artifactId>aspose-barcode</artifactId>
-			<version>20.6</version>
+			<version>20.8</version>
 			<classifier>jdk17</classifier>
 		</dependency>
 		<dependency>
 			<groupId>com.aspose</groupId>
 			<artifactId>aspose-pdf</artifactId>
-			<version>20.4</version>
+			<version>20.6</version>
 			<classifier>jdk17</classifier>
 		</dependency>
 		<dependency>
