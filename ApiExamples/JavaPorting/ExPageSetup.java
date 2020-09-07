@@ -159,7 +159,7 @@ public class ExPageSetup extends ApiExampleBase
         builder.writeln("This text is in section 2.");
 
         // Section break types determine how a new section gets split from the previous section
-        // By inserting a "SectionBreakNewPage" type section break, we've set this section's SectionStart value to "NewPage" 
+        // By inserting a "SectionBreakNewPage" type section break, we have set this section's SectionStart value to "NewPage" 
         Assert.assertEquals(SectionStart.NEW_PAGE, doc.getSections().get(1).getPageSetup().getSectionStart());
 
         // Insert a new column section the same way
@@ -194,7 +194,7 @@ public class ExPageSetup extends ApiExampleBase
         Document doc = new Document();
 
         // Find the printer that will be used for printing this document
-        // In this case it is the default printer
+        // In this case, it is the default printer
         // You can define a specific printer using PrinterName
         PrinterSettings settings = new PrinterSettings();
 
@@ -414,7 +414,7 @@ public class ExPageSetup extends ApiExampleBase
         pageSetup.setLineNumberRestartMode(LineNumberRestartMode.RESTART_PAGE);
         pageSetup.setLineNumberDistanceFromText(50.0d);
 
-        // LineNumberCountBy is set to 3, so every line that's a multiple of 3
+        // LineNumberCountBy is set to 3, so every line whose number is a multiple of 3
         // will display that line number to the left of the text
         for (int i = 1; i <= 25; i++)
             builder.writeln($"Line {i}.");
@@ -679,7 +679,7 @@ public class ExPageSetup extends ApiExampleBase
         pageSetup.getBorders().setLineStyle(LineStyle.DOUBLE);
         pageSetup.getBorders().setColor(Color.BLUE);
 
-        // By default, page borders don't surround headers and footers
+        // By default, page borders do not surround headers and footers
         // We can change that by setting these flags
         pageSetup.setBorderSurroundsFooter(true);
         pageSetup.setBorderSurroundsHeader(true);
@@ -754,7 +754,7 @@ public class ExPageSetup extends ApiExampleBase
         }
 
         // Set the number of sheets that will be used by the printer to create the booklet
-        // After being printed on both sides, the sheets can be stacked and folded down the centre
+        // After being printed on both sides, the sheets can be stacked and folded down the middle
         // The contents that we placed in such a way that they will be in order once the booklet is folded
         // We can only specify the number of sheets in multiples of 4
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();

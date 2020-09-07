@@ -206,7 +206,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         // Retrieve the LoadFormat of the document
         /*LoadFormat*/int loadFormat = info.getLoadFormat();
 
-        // Let's show the different methods of converting LoadFormat enumerations to SaveFormat enumerations
+        // There are two methods of converting LoadFormat enumerations to SaveFormat enumerations
         //
         // Method #1
         // Convert the LoadFormat to a String first for working with. The String will include the leading dot in front of the extension

@@ -21,8 +21,8 @@ import com.aspose.words.SignOptions;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.DigitalSignature;
 import com.aspose.words.DigitalSignatureType;
-import com.aspose.words.Document;
 import com.aspose.words.LoadOptions;
+import com.aspose.words.Document;
 import com.aspose.words.IncorrectPasswordException;
 
 
@@ -30,23 +30,48 @@ import com.aspose.words.IncorrectPasswordException;
 public class ExDigitalSignatureUtil extends ApiExampleBase
 {
     @Test
-    public void loadAndRemove() throws Exception
+    public void load() throws Exception
     {
         //ExStart
         //ExFor:DigitalSignatureUtil
         //ExFor:DigitalSignatureUtil.LoadSignatures(String)
         //ExFor:DigitalSignatureUtil.LoadSignatures(Stream)
-        //ExFor:DigitalSignatureUtil.RemoveAllSignatures(Stream, Stream)
-        //ExFor:DigitalSignatureUtil.RemoveAllSignatures(String, String)
-        //ExSummary:Shows how to load and remove digital signatures from a digitally signed document.
-        // Load digital signatures via filename string to verify that the document is signed
-        DigitalSignatureCollection digitalSignatures = DigitalSignatureUtil.loadSignatures(getMyDir() + "Digitally signed.docx");
+        //ExSummary:Shows how to load signatures from a digitally signed document.
+        // There are two ways of loading a signed document's collection of digital signatures using the DigitalSignatureUtil class.
+        // 1 -  Load from a document from a local file system filename:
+        DigitalSignatureCollection digitalSignatures = 
+            DigitalSignatureUtil.loadSignatures(getMyDir() + "Digitally signed.docx");
+
+        // If this collection is nonempty, then we can verify that the document is digitally signed.
         Assert.assertEquals(1, digitalSignatures.getCount());
 
-        // Re-save the document to an output filename with all digital signatures removed
-        DigitalSignatureUtil.removeAllSignatures(getMyDir() + "Digitally signed.docx", getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx");
+        // 2 -  Load from a document from a FileStream.
+        Stream stream = new FileStream(getMyDir() + "Digitally signed.docx", FileMode.OPEN);
+        try /*JAVA: was using*/
+        {
+            digitalSignatures = DigitalSignatureUtil.loadSignaturesInternal(stream);
+            Assert.assertEquals(1, digitalSignatures.getCount());
+        }
+        finally { if (stream != null) stream.close(); }
+        //ExEnd
+    }
 
-        // Remove all signatures from the document using stream parameters
+    @Test
+    public void remove() throws Exception
+    {
+        //ExStart
+        //ExFor:DigitalSignatureUtil
+        //ExFor:DigitalSignatureUtil.LoadSignatures(String)
+        //ExFor:DigitalSignatureUtil.RemoveAllSignatures(Stream, Stream)
+        //ExFor:DigitalSignatureUtil.RemoveAllSignatures(String, String)
+        //ExSummary:Shows how to remove digital signatures from a digitally signed document.
+        // There are two ways of using the DigitalSignatureUtil class to remove digital signatures
+        // from a signed document by saving an unsigned copy of it somewhere else in the local file system.
+        // 1 - Determine the locations of both the signed document and the unsigned copy by filename strings:
+        DigitalSignatureUtil.removeAllSignatures(getMyDir() + "Digitally signed.docx",
+            getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx");
+
+        // 2 - Determine the locations of both the signed document and the unsigned copy by file streams:
         Stream streamIn = new FileStream(getMyDir() + "Digitally signed.docx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
@@ -55,21 +80,16 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
             {
                 DigitalSignatureUtil.removeAllSignaturesInternal(streamIn, streamOut);
             }
-            finally { if (streamOut != null) streamOut.close(); } 
+            finally { if (streamOut != null) streamOut.close(); }
         }
         finally { if (streamIn != null) streamIn.close(); }
 
-        // We can also load a document's digital signatures via stream, which we will do to verify that all signatures have been removed
-        Stream stream = new FileStream(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx", FileMode.OPEN);
-        try /*JAVA: was using*/
-        {
-            digitalSignatures = DigitalSignatureUtil.loadSignaturesInternal(stream);
-            Assert.assertEquals(0, digitalSignatures.getCount());
-        }
-        finally { if (stream != null) stream.close(); }
+        // Verify that both our output documents have no digital signatures.
+        Assert.That(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx"), Is.Empty);
+        Assert.That(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx"), Is.Empty);
         //ExEnd
     }
-    
+
     @Test (description = "WORDSNET-16868")
     public void signDocument() throws Exception
     {
@@ -79,12 +99,20 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         //ExFor:DigitalSignatureUtil.Sign(Stream, Stream, CertificateHolder, SignOptions)
         //ExFor:SignOptions.Comments
         //ExFor:SignOptions.SignTime
-        //ExSummary:Shows how to sign documents using certificate holder and sign options.
+        //ExSummary:Shows how to digitally sign documents.
+        // Create an X.509 certificate from a PKCS#12 store, which should contain a private key.
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
-        SignOptions signOptions = new SignOptions(); { signOptions.setComments("My comment"); signOptions.setSignTime(DateTime.getNow()); }
+        // Create a comment and date which will be applied with our new digital signature.
+        SignOptions signOptions = new SignOptions();
+        {
+            signOptions.setComments("My comment"); 
+            signOptions.setSignTime(DateTime.getNow());
+        }
 
-        Stream streamIn = new FileStream(getMyDir() + "Digitally signed.docx", FileMode.OPEN);
+        // Take an unsigned document from the local file system via a file stream,
+        // then create a signed copy of it determined by the filename of the output file stream.
+        Stream streamIn = new FileStream(getMyDir() + "Document.docx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
             Stream streamOut = new FileStream(getArtifactsDir() + "DigitalSignatureUtil.SignDocument.docx", FileMode.OPEN_OR_CREATE);
@@ -111,6 +139,44 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
             Assert.assertEquals("My comment", signature.getComments());
         }
         finally { if (stream != null) stream.close(); }
+    }
+
+    @Test (description = "WORDSNET-16868")
+    public void decryptionPassword() throws Exception
+    {
+        //ExStart
+        //ExFor:CertificateHolder
+        //ExFor:SignOptions.DecryptionPassword
+        //ExFor:LoadOptions.Password
+        //ExSummary:Shows how to sign encrypted document file.
+        // Create an X.509 certificate from a PKCS#12 store, which should contain a private key.
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+
+        // Create a comment, date, and decryption password which will be applied with our new digital signature.
+        SignOptions signOptions = new SignOptions();
+        {
+            signOptions.setComments("Comment");
+            signOptions.setSignTime(DateTime.getNow());
+            signOptions.setDecryptionPassword("docPassword");
+        }
+
+        // Set a local system filename for the unsigned input document, and an output filename for its new digitally signed copy.
+        String inputFileName = getMyDir() + "Encrypted.docx";
+        String outputFileName = getArtifactsDir() + "DigitalSignatureUtil.DecryptionPassword.docx";
+
+        DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
+        //ExEnd
+
+        // Open encrypted document from a file.
+        LoadOptions loadOptions = new LoadOptions("docPassword");
+        Assert.assertEquals(signOptions.getDecryptionPassword(), loadOptions.getPassword());
+
+        // Check that encrypted document was successfully signed.
+        Document signedDoc = new Document(outputFileName, loadOptions);
+        DigitalSignatureCollection signatures = signedDoc.getDigitalSignatures();
+
+        Assert.assertEquals(1, signatures.getCount());
+        Assert.assertTrue(signatures.isValid());
     }
 
     @Test (description = "WORDSNET-13036, WORDSNET-16868")
@@ -141,47 +207,9 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
             signOptions.setDecryptionPassword("docPassword1");
         }
 
-        // Digitally sign encrypted with "docPassword" document in the specified path
         Assert.That(
-            new TestDelegate(() => DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, certificateHolder, signOptions)),
+            () => DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, certificateHolder, signOptions),
             Throws.<IncorrectPasswordException>TypeOf(), "The document password is incorrect.");
-    }
-
-    @Test (description = "WORDSNET-16868")
-    public void decryptionPassword() throws Exception
-    {
-        //ExStart
-        //ExFor:CertificateHolder
-        //ExFor:SignOptions.DecryptionPassword
-        //ExFor:LoadOptions.Password
-        //ExSummary:Shows how to sign encrypted document file.
-        // Create certificate holder from a file
-        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
-
-        SignOptions signOptions = new SignOptions();
-        {
-            signOptions.setComments("Comment");
-            signOptions.setSignTime(DateTime.getNow());
-            signOptions.setDecryptionPassword("docPassword");
-        }
-
-        // Digitally sign encrypted with "docPassword" document in the specified path
-        String inputFileName = getMyDir() + "Encrypted.docx";
-        String outputFileName = getArtifactsDir() + "DigitalSignatureUtil.DecryptionPassword.docx";
-
-        DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
-        //ExEnd
-
-        // Open encrypted document from a file
-        LoadOptions loadOptions = new LoadOptions("docPassword");
-        Assert.assertEquals(signOptions.getDecryptionPassword(),loadOptions.getPassword());
-
-        // Check that encrypted document was successfully signed
-        Document signedDoc = new Document(outputFileName, loadOptions);
-        DigitalSignatureCollection signatures = signedDoc.getDigitalSignatures();
-
-        Assert.assertEquals(1, signatures.getCount());
-        Assert.assertTrue(signatures.isValid());
     }
 
     @Test

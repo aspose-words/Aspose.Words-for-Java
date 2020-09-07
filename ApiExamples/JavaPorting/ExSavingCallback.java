@@ -85,7 +85,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
 
         doc.save($"{ArtifactsDir}SavingCallback.PageFileName.html", htmlFixedSaveOptions);
 
-        String[] filePaths = Directory.getFiles(getArtifactsDir(), "SavingCallback.PageFileName.Page_*.html");
+        String[] filePaths = Directory.getFiles(getArtifactsDir()).Where(s => s.StartsWith(ArtifactsDir + "SavingCallback.PageFileName.Page_")).OrderBy(s => s).ToArray();
 
         for (int i = 0; i < doc.getPageCount(); i++)
         {
@@ -156,7 +156,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     }
 
     /// <summary>
-    /// Renames saved document parts that are produced when an HTML document is saved while being split according to a criteria.
+    /// Renames saved document parts that are produced when an HTML document is saved while being split according to a DocumentSplitCriteria.
     /// </summary>
     private static class SavedDocumentPartRename implements IDocumentPartSavingCallback
     {

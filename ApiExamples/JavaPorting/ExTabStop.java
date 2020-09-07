@@ -103,7 +103,7 @@ public class ExTabStop extends ApiExampleBase
         // Every "tab" character takes the builder's cursor to the next tab stop
         builder.writeln("Start\tTab 1\tTab 2");
 
-        // Get the collection of paragraphs that we've created
+        // Get the collection of paragraphs that we have created
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
         Assert.assertEquals(2, paragraphs.getCount());
 

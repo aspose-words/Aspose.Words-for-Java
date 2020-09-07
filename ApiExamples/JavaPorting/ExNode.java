@@ -61,7 +61,7 @@ public class ExNode extends ApiExampleBase
         Assert.assertTrue(((CompositeNode)cloneWithChildren).hasChildNodes());
         Assert.assertEquals("Hello world!", msString.trim(cloneWithChildren.getText()));
 
-        // Clone the paragraph without its clild nodes
+        // Clone the paragraph without its child nodes
         Node cloneWithoutChildren = para.deepClone(false);
 
         Assert.assertFalse(((CompositeNode)cloneWithoutChildren).hasChildNodes());
@@ -403,7 +403,7 @@ public class ExNode extends ApiExampleBase
     	}
         finally { if (e != null) e.close(); }
 
-        // This expression will select any paragraphs that are direct children of any body node in the document
+        // This expression will select any paragraphs that are direct children of any Body node in the document
         nodeList = doc.selectNodes("//Body/Paragraph");
 
         // We can treat the list as an array too

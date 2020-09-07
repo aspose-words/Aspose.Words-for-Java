@@ -53,8 +53,8 @@ public class ExProperties extends ApiExampleBase
         // Some information about the document is stored in member attributes, and can be accessed like this
         System.out.println("Document filename:\n\t \"{doc.OriginalFileName}\"");
 
-        // The majority of metadata, such as author name, file size,
-        // word/page counts can be found in the built in properties collection like this
+        // Most of the document's metadata, such as author name, file size,
+        // word/page counts can be found in the built-in properties collection like this
         System.out.println("Built-in Properties:");
         for (DocumentProperty docProperty : (Iterable<DocumentProperty>) doc.getBuiltInDocumentProperties())
         {
@@ -89,10 +89,10 @@ public class ExProperties extends ApiExampleBase
         //ExSummary:Shows how to work with custom document properties.
         Document doc = new Document(getMyDir() + "Properties.docx");
 
-        // A document's built in properties contains a set of predetermined keys
+        // A document's built-in properties contain a set of predetermined keys
         // with values such as the author's name or document's word count
         // We can add our own keys and values to a custom properties collection also
-        // Before we add a custom property, we need to make sure that one with the same name doesn't already exist
+        // Before we add a custom property, we need to make sure that one with the same name does not already exist
         Assert.assertEquals("Value of custom document property", doc.getCustomDocumentProperties().get("CustomProperty").toString());
 
         doc.getCustomDocumentProperties().add("CustomProperty2", "Value of custom document property #2");
@@ -329,6 +329,7 @@ public class ExProperties extends ApiExampleBase
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
         Assert.assertEquals(6, properties.getPages());
+
         Assert.assertEquals(1035, properties.getWords());
         Assert.assertEquals(6026, properties.getCharacters());
         Assert.assertEquals(7041, properties.getCharactersWithSpaces());
@@ -353,7 +354,7 @@ public class ExProperties extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Hello world!");
 
-        // The thumbnail property resides in a document's built in properties, but is used exclusively by Epub e-book documents
+        // The thumbnail property resides in a document's built-in properties, but is used exclusively by Epub e-book documents
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
         // Load an image from our file system into a byte array
@@ -391,7 +392,7 @@ public class ExProperties extends ApiExampleBase
         // Insert a relative hyperlink to "Document.docx", which will open that document when clicked on
         builder.insertHyperlink("Relative hyperlink", "Document.docx", false);
 
-        // If we don't have a "Document.docx" in the same folder as the document we are about to save, we will end up with a broken link
+        // If we do not have a "Document.docx" in the same folder as the document we are about to save, we will end up with a broken link
         Assert.assertFalse(File.exists(getArtifactsDir() + "Document.docx"));
         doc.save(getArtifactsDir() + "Properties.HyperlinkBase.BrokenLink.docx");
 

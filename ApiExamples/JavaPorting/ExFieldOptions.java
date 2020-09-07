@@ -253,7 +253,7 @@ public class ExFieldOptions extends ApiExampleBase
         builder.insertField("TOA \\c 2 \\h", null);
         builder.insertBreak(BreakType.PAGE_BREAK);
 
-        // Insert table of authorities entries across 2 categories
+        // Insert TOA entries across 2 categories
         builder.insertField("TA \\c 2 \\l \"entry 1\"");
         builder.insertBreak(BreakType.PAGE_BREAK);
         builder.insertField("TA \\c 1 \\l \"entry 2\"");
@@ -318,7 +318,8 @@ public class ExFieldOptions extends ApiExampleBase
         builder.insertField(FieldType.FIELD_TIME, true);
 
         doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
-        // Set a provider that return a culture object specific for each particular field
+
+        // Set a provider that returns a culture object specific for each field
         doc.getFieldOptions().setFieldUpdateCultureProvider(new FieldUpdateCultureProvider());
 
         FieldTime fieldDate = (FieldTime)doc.getRange().getFields().get(0);

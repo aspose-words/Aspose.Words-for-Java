@@ -41,9 +41,9 @@ import com.aspose.ms.System.IO.Directory;
 import java.util.Iterator;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningSource;
+import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfoCollection;
-import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.ms.System.Text.RegularExpressions.Match;
 import com.aspose.words.Table;
 import com.aspose.words.DocumentVisitor;
@@ -699,7 +699,7 @@ public class ExFont extends ApiExampleBase
         Assert.assertEquals(msColor.getDarkBlue().getRGB(), run.getFont().getShading().getForegroundPatternColor().getRGB());
     }
 
-    @Test
+    @Test (groups = "SkipMono")
     public void bidi() throws Exception
     {
         //ExStart
@@ -922,7 +922,7 @@ public class ExFont extends ApiExampleBase
         // We can choose the default font to use in the case of any missing fonts
         FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
 
-        // For testing we will set Aspose.Words to look for fonts only in a folder which doesn't exist. Since Aspose.Words won't
+        // For testing we will set Aspose.Words to look for fonts only in a folder which does not exist. Since Aspose.Words won't
         // find any fonts in the specified directory, then during rendering the fonts in the document will be substituted with the default 
         // font specified under FontSettings.DefaultFontName. We can pick up on this substitution using our callback
         FontSettings.getDefaultInstance().setFontsFolder("", false);
@@ -993,7 +993,7 @@ public class ExFont extends ApiExampleBase
 
         // Set a default font name and enable font substitution
         FontSettings fontSettings = new FontSettings();
-        fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial"); ;
+        fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
         fontSettings.getSubstitutionSettings().getFontInfoSubstitution().setEnabled(true);
 
         // When saving the document with the missing font, we should get a warning
@@ -1003,16 +1003,16 @@ public class ExFont extends ApiExampleBase
         // List all warnings using an enumerator
         Iterator<WarningInfo> warnings = substitutionWarningHandler.FontWarnings.iterator();
         try /*JAVA: was using*/
-    	{ 
-            while (warnings.hasNext()) 
+    	{
+            while (warnings.hasNext())
                 System.out.println(warnings.next().getDescription());
     	}
         finally { if (warnings != null) warnings.close(); }
 
         // Warnings are stored in this format
         Assert.assertEquals(WarningSource.LAYOUT, substitutionWarningHandler.FontWarnings.get(0).getSource());
-        Assert.assertEquals("Font '28 Days Later' has not been found. Using 'Calibri' font instead. Reason: alternative name from document.", 
-            substitutionWarningHandler.FontWarnings.get(0).getDescription());
+        Assert.assertTrue(new Regex("Font '28 Days Later' has not been found. Using (.*) font instead. Reason: alternative name from document.")
+                .match(substitutionWarningHandler.FontWarnings.get(0).getDescription()).getSuccess());
 
         // The warning info collection can also be cleared like this
         substitutionWarningHandler.FontWarnings.clear();
@@ -1067,7 +1067,7 @@ public class ExFont extends ApiExampleBase
         }
     }
 
-    @Test (groups = "SkipMono")
+    @Test
     public void substitutionWarnings() throws Exception
     {
         Document doc = new Document(getMyDir() + "Rendering.docx");
@@ -1172,10 +1172,6 @@ public class ExFont extends ApiExampleBase
 
         // Create an object that inherits from the DocumentVisitor class
         RemoveHiddenContentVisitor hiddenContentRemover = new RemoveHiddenContentVisitor();
-
-        // This is the well known Visitor pattern. Get the model to accept a visitor
-        // The model will iterate through itself by calling the corresponding methods
-        // on the visitor object (this is called visiting)
 
         // We can run it over the entire the document like so
         doc.accept(hiddenContentRemover);
@@ -1323,10 +1319,10 @@ public class ExFont extends ApiExampleBase
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitTableEnd(Table table)
         {
-            // At the moment there is no way to tell if a particular Table/Row/Cell is hidden. 
+            // Currently there is no way to tell if a particular Table/Row/Cell is hidden. 
             // Instead, if the content of a table is hidden, then all inline child nodes of the table should be 
             // hidden and thus removed by previous visits as well. This will result in the container being empty
-            // so if this is the case we know to remove the table node.
+            // If this is the case, we know to remove the table node.
             //
             // Note that a table which is not hidden but simply has no content will not be affected by this algorithm,
             // as technically they are not completely empty (for example a properly formed Cell will have at least 
@@ -1618,7 +1614,7 @@ public class ExFont extends ApiExampleBase
         // Create a font settings object for our document
         doc.setFontSettings(new FontSettings());
 
-        // By default we always start with a system font source
+        // By default, we always start with a system font source
         Assert.assertEquals(1, doc.getFontSettings().getFontsSources().length);
 
         SystemFontSource systemFontSource = (SystemFontSource)doc.getFontSettings().getFontsSources()[0];
@@ -1638,7 +1634,7 @@ public class ExFont extends ApiExampleBase
             System.out.println(systemFontFolder);
         }
 
-        // Set a font that exists in the windows fonts directory as a substitute for one that doesn't
+        // Set a font that exists in the Windows Fonts directory as a substitute for one that doesn't
         doc.getFontSettings().getSubstitutionSettings().getFontInfoSubstitution().setEnabled(true);
         doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().addSubstitutes("Kreon-Regular", new String[] { "Calibri" });
 
@@ -1668,7 +1664,7 @@ public class ExFont extends ApiExampleBase
         //ExSummary:Shows how to load and save font fallback settings from file.
         Document doc = new Document(getMyDir() + "Rendering.docx");
         
-        // By default fallback settings are initialized with predefined settings which mimics the Microsoft Word fallback
+        // By default, fallback settings are initialized with predefined settings which mimics the Microsoft Word fallback
         FontSettings fontSettings = new FontSettings();
         fontSettings.getFallbackSettings().load(getMyDir() + "Font fallback rules.xml");
 
@@ -1689,7 +1685,7 @@ public class ExFont extends ApiExampleBase
         //ExSummary:Shows how to load and save font fallback settings from stream.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        // By default fallback settings are initialized with predefined settings which mimics the Microsoft Word fallback
+        // By default, fallback settings are initialized with predefined settings which mimics the Microsoft Word fallback
         FileStream fontFallbackStream = new FileStream(getMyDir() + "Font fallback rules.xml", FileMode.OPEN);
         try /*JAVA: was using*/
         {
@@ -1783,7 +1779,7 @@ public class ExFont extends ApiExampleBase
         // Set the default font substitute to "Courier New"
         defaultFontSubstitutionRule.setDefaultFontName("Courier New");
 
-        // Using a document builder, add some text in a font that we don't have to see the substitution take place,
+        // Using a document builder, add some text in a font that we do not have to see the substitution take place,
         // and render the result in a PDF
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1828,7 +1824,7 @@ public class ExFont extends ApiExampleBase
         // On Linux/Mac, we will have access and will be able to perform operations
         if (isLinuxOrMac)
         {
-            Assert.assertTrue(fontConfigSubstitution.getEnabled());
+            Assert.assertFalse(fontConfigSubstitution.getEnabled());
             Assert.assertTrue(fontConfigSubstitution.isFontConfigAvailable());
 
             fontConfigSubstitution.resetCache();
@@ -1852,7 +1848,7 @@ public class ExFont extends ApiExampleBase
 
         // Save the default fallback font scheme in an XML document
         // For example, one of the elements has a value of "0C00-0C7F" for Range and a corresponding "Vani" value for FallbackFonts
-        // This means that if the font we are using does not have symbols for the 0x0C00-0x0C7F unicode block,
+        // This means that if the font we are using does not have symbols for the 0x0C00-0x0C7F Unicode block,
         // the symbols from the "Vani" font will be used as a substitute
         fontFallbackSettings.save(getArtifactsDir() + "Font.FallbackSettings.Default.xml");
 
@@ -1884,7 +1880,7 @@ public class ExFont extends ApiExampleBase
         //ExFor:Fonts.FontSettings.FallbackSettings
         //ExFor:Fonts.FontFallbackSettings
         //ExFor:Fonts.FontFallbackSettings.BuildAutomatic
-        //ExSummary:Shows how to distribute fallback fonts across unicode character code ranges.
+        //ExSummary:Shows how to distribute fallback fonts across Unicode character code ranges.
         Document doc = new Document();
 
         // Create a FontSettings object for our document and get its FallbackSettings attribute
@@ -1896,28 +1892,28 @@ public class ExFont extends ApiExampleBase
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), false);
         fontSettings.setFontsSources(new FontSourceBase[] { folderFontSource });
 
-        // Calling BuildAutomatic() will generate a fallback scheme that distributes accessible fonts across as many unicode character codes as possible
+        // Calling BuildAutomatic() will generate a fallback scheme that distributes accessible fonts across as many Unicode character codes as possible
         // In our case, it only has access to the handful of fonts inside the "MyFonts" folder
         fontFallbackSettings.buildAutomatic();
         fontFallbackSettings.save(getArtifactsDir() + "Font.FallbackSettingsCustom.BuildAutomatic.xml");
 
         // We can also load a custom substitution scheme from a file like this
-        // This scheme applies the "Arvo" font across the "0000-00ff" unicode blocks, the "Squarish Sans CT" font across "0100-024f",
+        // This scheme applies the "Arvo" font across the "0000-00ff" Unicode blocks, the "Squarish Sans CT" font across "0100-024f",
         // and the "M+ 2m" font in every place that none of the other fonts cover
         fontFallbackSettings.load(getMyDir() + "Custom font fallback settings.xml");
 
-        // Create a document builder and set its font to one that doesn't exist in any of our sources
+        // Create a document builder and set its font to one that does not exist in any of our sources
         // In doing that we will rely completely on our font fallback scheme to render text
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.getFont().setName("Missing Font");
 
-        // Type out every unicode character from 0x0021 to 0x052F, with descriptive lines dividing unicode blocks we defined in our custom font fallback scheme
+        // Type out every Unicode character from 0x0021 to 0x052F, with descriptive lines dividing Unicode blocks we defined in our custom font fallback scheme
         for (int i = 0x0021; i < 0x0530; i++)
         {
             switch (i)
             {
                 case 0x0021:
-                    builder.writeln("\n\n0x0021 - 0x00FF: \nBasic Latin/Latin-1 Supplement unicode blocks in \"Arvo\" font:");
+                    builder.writeln("\n\n0x0021 - 0x00FF: \nBasic Latin/Latin-1 Supplement Unicode blocks in \"Arvo\" font:");
                     break;
                 case 0x0100:
                     builder.writeln("\n\n0x0100 - 0x024F: \nLatin Extended A/B blocks, mostly in \"Squarish Sans CT\" font:");
@@ -2098,7 +2094,7 @@ public class ExFont extends ApiExampleBase
         //ExEnd
     }
     
-    @Test
+    @Test (groups = "SkipMono")
     public void lineSpacing() throws Exception
     {
         //ExStart

@@ -187,7 +187,7 @@ public class ExShape extends ApiExampleBase
             ShapeRenderer renderer = new ShapeRenderer(shape);
             Graphics2D formGraphics = CreateGraphics();
 
-            // Call this method on the renderer to render the chart in the passed Graphics object,
+            // Call this method on the renderer to render the chart in the Graphics object,
             // on a specified x/y coordinate and scale
             renderer.renderToScaleInternal(formGraphics, 0f, 0f, 1.5f);
 
@@ -217,7 +217,7 @@ public class ExShape extends ApiExampleBase
         shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
         shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
 
-        // Calculate image left and top position so it appears in the centre of the page
+        // Calculate image left and top position so it appears in the center of the page
         shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
         shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
 
@@ -310,7 +310,7 @@ public class ExShape extends ApiExampleBase
         // If we insert a child shape and set its distance from the left to 2000 and the distance from the top to 1000,
         // its origin will be at the bottom right corner of the shape group
         // We can offset the coordinate origin by setting the CoordOrigin attribute
-        // In this instance, we move the origin to the centre of the shape group
+        // In this instance, we move the origin to the center of the shape group
         group.setCoordOriginInternal(msPoint.ctor(-1000, -500));
         
         // Populate the shape group with child shapes
@@ -319,7 +319,7 @@ public class ExShape extends ApiExampleBase
         subShape.setWidth(500.0);
         subShape.setHeight(700.0);
 
-        // Place its top left corner at the parent group's coordinate origin, which is currently at its centre
+        // Place its top left corner at the parent group's coordinate origin, which is currently at its center
         subShape.setLeft(0.0);
         subShape.setTop(0.0);
 
@@ -406,7 +406,7 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(1, doc.getChildNodes(NodeType.GROUP_SHAPE, true).getCount());
         Assert.assertEquals(0, doc.getChildNodes(NodeType.SHAPE, true).getCount());
 
-        // GroupShapes also have to be deleted manually
+        // GroupShapes must also be deleted manually
         NodeCollection groupShapes = doc.getChildNodes(NodeType.GROUP_SHAPE, true);
         groupShapes.clear();
 
@@ -511,7 +511,7 @@ public class ExShape extends ApiExampleBase
         builder.write("Some text under the shape.");
 
         // Create a red balloon, semitransparent
-        // The shape is floating and its coordinates are (0,0) by default, relative to the current paragraph
+        // The shape is floating, and its coordinates are (0,0) by default, relative to the current paragraph
         Shape shape = new Shape(builder.getDocument(), ShapeType.BALLOON);
         shape.setFillColor(Color.RED);
         shape.getFill().setOpacity(0.3);
@@ -576,7 +576,7 @@ public class ExShape extends ApiExampleBase
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            // Filter out all shapes that we don't need
+            // Filter out all shapes of a certain type
             if (((shape.getShapeType()) == (ShapeType.TEXT_BOX)))
             {
                 // Create a new shape that will replace the existing shape
@@ -641,7 +641,7 @@ public class ExShape extends ApiExampleBase
         // Set the textbox in front of other shapes with a lower ZOrder
         textBox.setZOrder(2);
 
-        // Let's create a new paragraph for the textbox manually and align it in the center
+        // Create a new paragraph for the textbox manually and align it in the center
         // Make sure we add the new nodes to the textbox as well
         textBox.appendChild(new Paragraph(doc));
         Paragraph para = textBox.getFirstParagraph();
@@ -814,7 +814,7 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.OleLinks.docx");
 
-        // We can get a stream with the OLE data entry, if the object has this
+        // If the object has OLE data, we can access it in the form of a stream
         MemoryStream stream = oleFormat.getOleEntryInternal("\u0001CompObj");
         try /*JAVA: was using*/
         {
@@ -908,8 +908,11 @@ public class ExShape extends ApiExampleBase
         OfficeMath math = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, 0, true);
         math.getMathRenderer().save(getArtifactsDir() + "Shape.SaveShapeObjectAsImage.png", new ImageSaveOptions(SaveFormat.PNG));
         //ExEnd
-        
-        TestUtil.verifyImage(159, 18, getArtifactsDir() + "Shape.SaveShapeObjectAsImage.png");
+
+        if (!isRunningOnMono())
+            TestUtil.verifyImage(159, 18, getArtifactsDir() + "Shape.SaveShapeObjectAsImage.png");
+        else
+            TestUtil.verifyImage(147, 26, getArtifactsDir() + "Shape.SaveShapeObjectAsImage.png");
     }
 
     @Test
@@ -1036,8 +1039,8 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to set "AspectRatioLocked" for the shape object.
         Document doc = new Document(getMyDir() + "ActiveX controls.docx");
 
-        // Get shape object from the document and set AspectRatioLocked(it is possible to get/set AspectRatioLocked for child shapes (mimic MS Word behavior), 
-        // but AspectRatioLocked has effect only for top level shapes!)
+        // Get shape object from the document and set AspectRatioLocked,
+        // which is affects only top level shapes, to mimic Microsoft Word behavior
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         shape.setAspectRatioLocked(isLocked);
         //ExEnd
@@ -1290,7 +1293,7 @@ public class ExShape extends ApiExampleBase
             builder.insertNode(watermark);
         }
 
-        // Behaviour of MS Word on working with shapes in table cells is changed in the last versions
+        // Behavior of Microsoft Word on working with shapes in table cells is changed in the last versions
         // Adding the following line is needed to make the shape displayed in center of a page
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2010);
 
@@ -1514,7 +1517,7 @@ public class ExShape extends ApiExampleBase
 
         // Insert the signature line, applying our SignatureLineOptions
         // We can control where the signature line will appear on the page using a combination of left/top indents and margin-relative positions
-        // Since we're placing the signature line at the bottom right of the page, we will need to use negative indents to move it into view 
+        // Since we are placing the signature line at the bottom right of the page, we will need to use negative indents to move it into view 
         Shape shape = builder.insertSignatureLine(options, RelativeHorizontalPosition.RIGHT_MARGIN, -170.0, RelativeVerticalPosition.BOTTOM_MARGIN, -60.0, WrapType.NONE);
         Assert.assertTrue(shape.isSignatureLine());
 
@@ -1689,10 +1692,11 @@ public class ExShape extends ApiExampleBase
         if (textBox2.isValidLinkTarget(textBox3))
             textBox2.setNext(textBox3);
 
-        // You can only create link on empty textbox
+        // You can only create a link on an empty textbox
         builder.moveTo(textBoxShape4.getLastParagraph());
         builder.write("Vertical text");
-        // Thus it's not valid link target
+
+        // Thus, this textbox is not a valid link target
         Assert.assertFalse(textBox3.isValidLinkTarget(textBox4));
         
         if (textBox1.getNext() != null && textBox1.getPrevious() == null)
@@ -1811,8 +1815,8 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals("Bold & Italic", shape.getTextPath().getText());
         Assert.assertEquals(ShapeType.TEXT_PLAIN_TEXT, shape.getShapeType());
 
-        // Toggle whether or not to display text
-        shape = appendWordArt(doc, "On set to true", "Calibri", 150.0, 24.0, Color.YELLOW, Color.Purple, ShapeType.TEXT_PLAIN_TEXT);
+        // Toggle whether to display text
+        shape = appendWordArt(doc, "On set to true", "Calibri", 150.0, 24.0, Color.YELLOW, Color.RED, ShapeType.TEXT_PLAIN_TEXT);
         shape.getTextPath().setOn(true);
 
         shape = appendWordArt(doc, "On set to false", "Calibri", 150.0, 24.0, Color.YELLOW, Color.Purple, ShapeType.TEXT_PLAIN_TEXT);
@@ -2030,7 +2034,7 @@ public class ExShape extends ApiExampleBase
         // Create a RectangleF object, which represents a rectangle, which we could potentially use as the coordinates and bounds for a shape
         RectangleF rectangleF = new RectangleF(200f, 200f, 1000f, 1000f);
 
-        // Run this method to get the size of the rectangle adjusted for all of our shape's effects
+        // Run this method to get the size of the rectangle adjusted for all our shape's effects
         RectangleF rectangleFOut = shape.adjustWithEffectsInternal(rectangleF);
 
         // Since the shape has no border-changing effects, its boundary dimensions are unaffected
@@ -2105,7 +2109,7 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(2, count);
     }
 
-    @Test
+    @Test (groups = "SkipMono")
     public void officeMathRenderer() throws Exception
     {
         //ExStart

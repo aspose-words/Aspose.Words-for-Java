@@ -126,7 +126,6 @@ public class ExImage extends ApiExampleBase
         @Test (groups = "SkipMono")
     public void createFromImage() throws Exception
     {
-        // This creates a builder and also an empty document inside the builder
         DocumentBuilder builder = new DocumentBuilder();
 
         // Insert a raster image
@@ -338,19 +337,19 @@ public class ExImage extends ApiExampleBase
 
         TestUtil.verifyImageInShape(0, 0, ImageType.WMF, shape);
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
-        Assert.assertEquals(imageFileName, shape.getImageData().getSourceFullName());
+        Assert.assertEquals(imageFileName, shape.getImageData().getSourceFullName().replace("%20", " "));
 
         shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
         TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
-        Assert.assertEquals(imageFileName, shape.getImageData().getSourceFullName());
+        Assert.assertEquals(imageFileName, shape.getImageData().getSourceFullName().replace("%20", " "));
 
         shape = (Shape)doc.getChild(NodeType.SHAPE, 2, true);
 
         TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
-        Assert.assertEquals("", shape.getImageData().getSourceFullName());
+        Assert.assertEquals("", shape.getImageData().getSourceFullName().replace("%20", " "));
     }
 
     @Test

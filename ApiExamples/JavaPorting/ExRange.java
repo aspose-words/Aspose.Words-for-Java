@@ -31,6 +31,10 @@ import com.aspose.ms.System.Convert;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.BreakType;
+import com.aspose.words.Shape;
+import com.aspose.words.ShapeType;
+import java.util.ArrayList;
+import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Node;
 import com.aspose.words.CompositeNode;
@@ -322,8 +326,9 @@ public class ExRange extends ApiExampleBase
         FindReplaceOptions options = new FindReplaceOptions();
         // Highlight newly inserted content with a color
         options.getApplyFont().setHighlightColor(msColor.getLightGray());
-        // Apply an IReplacingCallback to make the replacement to convert integers into hex equivalents
-        // and also to count replacements in the order they take place
+
+        // Apply an IReplacingCallback to make the replacement to convert integers into hex equivalents,
+        // and then to count replacements in the order they take place
         options.setReplacingCallback(new NumberHexer());
         // By default, text is searched for replacements front to back, but we can change it to go the other way
         options.setDirection(FindReplaceDirection.BACKWARD);
@@ -339,7 +344,7 @@ public class ExRange extends ApiExampleBase
     }
 
     /// <summary>
-    /// Replaces arabic numbers with hexadecimal equivalents and appends the number of each replacement.
+    /// Replaces Arabic numbers with hexadecimal equivalents and appends the number of each replacement.
     /// </summary>
     private static class NumberHexer implements IReplacingCallback
     {
@@ -440,6 +445,93 @@ public class ExRange extends ApiExampleBase
         //ExEnd
     }
 
+    @Test (dataProvider = "useLegacyOrderDataProvider")
+    //ExStart
+    //ExFor:FindReplaceOptions.UseLegacyOrder
+    //ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation.
+    public void useLegacyOrder(boolean isUseLegacyOrder) throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert three runs which can be used as tags, with the second placed inside a text box.
+        builder.writeln("[tag 1]");
+        Shape textBox = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 50.0);
+        builder.writeln("[tag 3]");
+        builder.moveTo(textBox.getFirstParagraph());
+        builder.write("[tag 2]");
+
+        FindReplaceOptions options = new FindReplaceOptions();
+        TextReplacementTracker callback = new TextReplacementTracker();
+        options.setReplacingCallback(callback);
+
+        // When a text replacement is performed, all of the runs of a document have their contents searched
+        // for every instance of the string that we wish to replace.
+        // This flag can change the search priority of runs inside text boxes.
+        options.setUseLegacyOrder(isUseLegacyOrder);
+
+        doc.getRange().replaceInternal(new Regex("\\[tag \\d*\\]"), "", options);
+
+        // Using legacy order goes through all runs of a range in sequential order.
+        // Not using legacy order goes through runs within text boxes after all runs outside of text boxes have been searched.
+        Assert.assertEquals(isUseLegacyOrder ?
+            new ArrayList<String>(); { .add("[tag 1]"); .add("[tag 2]"); .add("[tag 3]"); } :
+            new ArrayList<String>(); { .add("[tag 1]"); .add("[tag 3]"); .add("[tag 2]"); }, callback.getMatches());
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "useLegacyOrderDataProvider")
+	public static Object[][] useLegacyOrderDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    /// <summary>
+    /// Creates a list of string matches from a regex-based text find-and-replacement operation
+    /// in the order that they are encountered.
+    /// </summary>
+    private static class TextReplacementTracker implements IReplacingCallback
+    {
+        public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs e)
+        {
+            msArrayList.add(getMatches(), e.getMatchInternal().getValue());
+            return ReplaceAction.REPLACE;
+        }
+
+        public ArrayList<String> getMatches() { return mMatches; };
+
+        private ArrayList<String> mMatches; = /*new*/ ArrayList<String>list();
+    }
+    //ExEnd
+
+    @Test
+    public void useSubstitutions() throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.UseSubstitutions
+        //ExSummary:Shows how to replace text with substitutions.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("John sold a car to Paul.");
+        builder.writeln("Jane sold a house to Joe.");
+
+        // Perform a find-and-replace operation on a range's text contents
+        // while preserving some elements from the replaced text using substitutions.
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setUseSubstitutions(true);
+
+        Regex regex = new Regex("([A-z]+) sold a ([A-z]+) to ([A-z]+)");
+        doc.getRange().replaceInternal(regex, "$3 bought a $2 from $1", options);
+
+        Assert.assertEquals(doc.getText(), "Paul bought a car from John.\rJoe bought a house from Jane.\r\f");
+        //ExEnd
+    }
+
     //ExStart
     //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
     //ExFor:IReplacingCallback
@@ -500,7 +592,7 @@ public class ExRange extends ApiExampleBase
             for (Section srcSection : docToInsert.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
                 for (Node srcNode : (Iterable<Node>) srcSection.getBody())
                 {
-                    // Let's skip the node if it is a last empty paragraph in a section
+                    // Skip the node if it is a last empty paragraph in a section
                     if (((srcNode.getNodeType()) == (NodeType.PARAGRAPH)))
                     {
                         Paragraph para = (Paragraph)srcNode;

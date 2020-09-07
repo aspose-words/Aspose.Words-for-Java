@@ -45,13 +45,13 @@ import com.aspose.words.TextBoxWrapMode;
 import com.aspose.words.TextBox;
 
 
-class TestUtil
+class TestUtil extends ApiExampleBase
 {
     /// <summary>
     /// Checks whether a file at a specified filename contains a valid image with specified dimensions.
     /// </summary>
     /// <remarks>
-    /// Serves as a way to check that an image file is valid and nonempty without looking up its file size.
+    /// Serves to check that an image file is valid and nonempty without looking up its file size.
     /// </remarks>
     /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
@@ -70,7 +70,7 @@ class TestUtil
     /// Checks whether a stream contains a valid image with specified dimensions.
     /// </summary>
     /// <remarks>
-    /// Serves as a way to check that an image file is valid and nonempty without looking up its file size.
+    /// Serves to check that an image file is valid and nonempty without looking up its file size.
     /// </remarks>
     /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
@@ -82,8 +82,8 @@ class TestUtil
                             {
                         Assert.Multiple(() =>
             {
-                Assert.assertEquals(expectedWidth, image.getWidth());
-                Assert.assertEquals(expectedHeight, image.getHeight());
+                Assert.assertEquals(expectedWidth, image.getWidth(), 1.0);
+                Assert.assertEquals(expectedHeight, image.getHeight(), 1.0);
             });
                                     }
         finally { if (image != null) image.flush(); }
@@ -308,12 +308,15 @@ class TestUtil
     /// <param name="filename">Local system filename of a file which, when read from the beginning, should contain the string.</param>
     static void fileContainsString(String expected, String filename) throws Exception
     {
-        Stream stream = new FileStream(filename, FileMode.OPEN);
-        try /*JAVA: was using*/
+        if (!isRunningOnMono())
         {
-            streamContainsString(expected, stream);
+            Stream stream = new FileStream(filename, FileMode.OPEN);
+            try /*JAVA: was using*/
+            {
+                streamContainsString(expected, stream);
+            }
+            finally { if (stream != null) stream.close(); }
         }
-        finally { if (stream != null) stream.close(); }
     }
 
     /// <summary>
@@ -426,7 +429,7 @@ class TestUtil
     /// Checks whether a shape contains a valid image with specified dimensions.
     /// </summary>
     /// <remarks>
-    /// Serves as a way to check that an image file is valid and nonempty without looking up its data length.
+    /// Serves to check that an image file is valid and nonempty without looking up its data length.
     /// </remarks>
     /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>

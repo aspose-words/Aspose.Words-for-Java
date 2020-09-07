@@ -703,7 +703,7 @@ public class ExReportingEngine extends ApiExampleBase
             // Assert that the image is really insert in textbox 
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
-            // Assert that width is keeped and height is changed
+            // Assert that the width is preserved, and the height is changed
             msAssert.areNotEqual(346.35, shape.getHeight());
             Assert.assertEquals(431.5, shape.getWidth());
         }
@@ -726,10 +726,9 @@ public class ExReportingEngine extends ApiExampleBase
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            // Assert that the image is really insert in textbox and 
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
-            // Assert that height is keeped and width is changed
+            // Assert that the height is preserved, and the width is changed
             msAssert.areNotEqual(431.5, shape.getWidth());
             Assert.assertEquals(346.35, shape.getHeight());
         }
@@ -752,10 +751,9 @@ public class ExReportingEngine extends ApiExampleBase
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            // Assert that the image is really insert in textbox 
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
-            // Assert that height is changed and width is changed
+            // Assert that the height and the width are changed
             msAssert.areNotEqual(346.35, shape.getHeight());
             msAssert.areNotEqual(431.5, shape.getWidth());
         }
@@ -778,7 +776,6 @@ public class ExReportingEngine extends ApiExampleBase
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            // Assert that the image is really insert in textbox 
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
             // Assert that textbox size are equal image size

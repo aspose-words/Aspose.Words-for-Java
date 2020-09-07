@@ -14,20 +14,15 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Comment;
 import com.aspose.ms.System.DateTime;
-import com.aspose.words.NodeType;
 import org.testng.Assert;
+import com.aspose.words.NodeType;
 import com.aspose.words.NodeCollection;
 import com.aspose.ms.System.msConsole;
-import com.aspose.words.CommentCollection;
-import com.aspose.words.Section;
-import com.aspose.words.Body;
+import com.aspose.ms.System.msString;
 import com.aspose.words.Paragraph;
 import com.aspose.words.CommentRangeStart;
 import com.aspose.words.Run;
 import com.aspose.words.CommentRangeEnd;
-import java.util.ArrayList;
-import com.aspose.ms.System.Collections.msArrayList;
-import java.util.Iterator;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.Text.msStringBuilder;
@@ -43,62 +38,69 @@ public class ExComment extends ApiExampleBase
         //ExFor:Comment
         //ExFor:Comment.SetText(String)
         //ExFor:Comment.AddReply(String, String, DateTime, String)
-        //ExSummary:Shows how to add a comment with a reply to a document.
+        //ExSummary:Shows how to add a comment to a document, and then reply to it.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create new comment
-        Comment newComment = new Comment(doc, "John Doe", "J.D.", DateTime.getNow());
-        newComment.setText("My comment.");
+        Comment comment = new Comment(doc, "John Doe", "J.D.", DateTime.getNow());
+        comment.setText("My comment.");
         
-        // Add this comment to a document node
-        builder.getCurrentParagraph().appendChild(newComment);
+        // Place the comment at a node in the document's body.
+        // This comment will show up at the location of its paragraph,
+        // outside the right side margin of the page, and with a dotted line connecting it to its paragraph.
+        builder.getCurrentParagraph().appendChild(comment);
 
-        // Add comment reply
-        newComment.addReplyInternal("John Doe", "JD", new DateTime(2017, 9, 25, 12, 15, 0), "New reply");
+        // Add a reply, which will show up under its parent comment.
+        comment.addReplyInternal("Joe Bloggs", "J.B.", DateTime.getNow(), "New reply");
+
+        // Comments and replies are both Comment nodes.
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.COMMENT, true).getCount());
+
+        // Comments that do not reply to other comments are "top-level", and have no ancestor.
+        Assert.assertNull(comment.getAncestor());
+
+        // Replies have an ancestor top-level comment.
+        Assert.assertEquals(comment, comment.getReplies().get(0).getAncestor());
+
+        doc.save(getArtifactsDir() + "Comment.AddCommentWithReply.docx");
         //ExEnd
 
-        doc = DocumentHelper.saveOpen(doc);
+        doc = new Document(getArtifactsDir() + "Comment.AddCommentWithReply.docx");
         Comment docComment = (Comment)doc.getChild(NodeType.COMMENT, 0, true);
 
         Assert.assertEquals(1, docComment.getCount());
-        Assert.assertEquals(1, newComment.getReplies().getCount());
+        Assert.assertEquals(1, comment.getReplies().getCount());
 
         Assert.assertEquals("\u0005My comment.\r", docComment.getText());
         Assert.assertEquals("\u0005New reply\r", docComment.getReplies().get(0).getText());
     }
 
     @Test
-    public void getAllCommentsAndReplies() throws Exception
+    public void printAllComments() throws Exception
     {
         //ExStart
         //ExFor:Comment.Ancestor
         //ExFor:Comment.Author
         //ExFor:Comment.Replies
         //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
-        //ExSummary:Shows how to get all comments with all replies.
+        //ExSummary:Shows how to print all of a document's comments and their replies.
         Document doc = new Document(getMyDir() + "Comments.docx");
 
-        // Get all comment from the document
         NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
         Assert.assertEquals(12, comments.getCount()); //ExSkip
 
-        // For all comments and replies we identify comment level and info about it
-        for (Comment comment : comments.<Comment>OfType() !!Autoporter error: Undefined expression type )
+        // If a comment has no ancestor, it is a "top-level" comment as opposed to a reply-type comment.
+        // Print all top-level comments along with their replies, if there are any.
+        for (Comment comment : comments.<Comment>OfType().Where(c => c.Ancestor == null) !!Autoporter error: Undefined expression type )
         {
-            if (comment.getAncestor() == null)
+            System.out.println("Top-level comment:");
+            System.out.println("\t\"{comment.GetText().Trim()}\", by {comment.Author}");
+            System.out.println("Has {comment.Replies.Count} replies");
+            for (Comment commentReply : (Iterable<Comment>) comment.getReplies())
             {
-                System.out.println("\nThis is a top-level comment");
-                System.out.println("Comment author: " + comment.getAuthor());
-                System.out.println("Comment text: " + comment.getText());
-
-                for (Comment commentReply : comment.getReplies().<Comment>OfType() !!Autoporter error: Undefined expression type )
-                {
-                    System.out.println("\n\tThis is a comment reply");
-                    System.out.println("\tReply author: " + commentReply.getAuthor());
-                    System.out.println("\tReply text: " + commentReply.getText());
-                }
+                System.out.println("\t\"{commentReply.GetText().Trim()}\", by {commentReply.Author}");
             }
+            msConsole.writeLine();
         }
         //ExEnd
     }
@@ -108,71 +110,72 @@ public class ExComment extends ApiExampleBase
     {
         //ExStart
         //ExFor:Comment.RemoveAllReplies
-        //ExSummary:Shows how to remove comment replies.
-        Document doc = new Document(getMyDir() + "Comments.docx");
-
-        NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
-        Comment comment = (Comment)comments.get(0);
-        Assert.AreEqual(2, comment.getReplies().Count()); //ExSkip
-
-        comment.removeAllReplies();
-        Assert.AreEqual(0, comment.getReplies().Count()); //ExSkip
-        //ExEnd
-    }
-
-    @Test
-    public void removeCommentReply() throws Exception
-    {
-        //ExStart
         //ExFor:Comment.RemoveReply(Comment)
         //ExFor:CommentCollection.Item(Int32)
-        //ExSummary:Shows how to remove specific comment reply.
-        Document doc = new Document(getMyDir() + "Comments.docx");
+        //ExSummary:Shows how to remove comment replies.
+        Document doc = new Document();
 
-        NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
+        Comment comment = new Comment(doc, "John Doe", "J.D.", DateTime.getNow());
+        comment.setText("My comment.");
 
-        Comment parentComment = (Comment)comments.get(0);
-        CommentCollection repliesCollection = parentComment.getReplies();
-        Assert.AreEqual(2, parentComment.getReplies().Count()); //ExSkip
+        doc.getFirstSection().getBody().getFirstParagraph().appendChild(comment);
+        
+        comment.addReplyInternal("Joe Bloggs", "J.B.", DateTime.getNow(), "New reply");
+        comment.addReplyInternal("Joe Bloggs", "J.B.", DateTime.getNow(), "Another reply");
 
-        // Remove the first reply to comment
-        parentComment.removeReply(repliesCollection.get(0));
-        Assert.AreEqual(1, parentComment.getReplies().Count()); //ExSkip
+        Assert.AreEqual(2, comment.getReplies().Count()); 
+
+        // We can remove replies from a comment individually.
+        comment.removeReply(comment.getReplies().get(0));
+
+        Assert.AreEqual(1, comment.getReplies().Count());
+
+        // We can also remove all of a comment's replies at once with this method.
+        comment.removeAllReplies();
+
+        Assert.AreEqual(0, comment.getReplies().Count()); 
         //ExEnd
     }
 
     @Test
-    public void markCommentRepliesDone() throws Exception
+    public void done() throws Exception
     {
         //ExStart
         //ExFor:Comment.Done
         //ExFor:CommentCollection
-        //ExSummary:Shows how to mark comment as Done.
-        Document doc = new Document(getMyDir() + "Comments.docx");
+        //ExSummary:Shows how to mark a comment as "done".
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Helo world!");
 
-        NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
+        // Insert a comment to point out an error. 
+        Comment comment = new Comment(doc, "John Doe", "J.D.", DateTime.getNow());
+        comment.setText("Fix the spelling error!");
+        doc.getFirstSection().getBody().getFirstParagraph().appendChild(comment);
 
-        Comment comment = (Comment)comments.get(0);
-        CommentCollection repliesCollection = comment.getReplies();
+        // Comments have a "Done" flag, which by default, is false. 
+        // If a comment suggests that a we make a change within the document,
+        // we can apply the change, and then also use that flag to indicate the correction.
+        Assert.assertFalse(comment.getDone());
 
-        for (Comment childComment : (Iterable<Comment>) repliesCollection)
-        {
-            if (!childComment.getDone())
-            {
-                // Update comment reply Done mark
-                childComment.setDone(true);
-            }
-        }
+        doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).setText("Hello world!");
+        comment.setDone(true);
+
+        // Comments that are "done" will differentiate themselves
+        // from ones that are not "done" with a faded text color.
+        comment = new Comment(doc, "John Doe", "J.D.", DateTime.getNow());
+        comment.setText("Add text to this paragraph.");
+        builder.getCurrentParagraph().appendChild(comment);
+
+        doc.save(getArtifactsDir() + "Comment.Done.docx");
         //ExEnd
 
-        doc = DocumentHelper.saveOpen(doc);
+        doc = new Document(getArtifactsDir() + "Comment.Done.docx");
         comment = (Comment)doc.getChildNodes(NodeType.COMMENT, true).get(0);
-        repliesCollection = comment.getReplies();
 
-        for (Comment childComment : (Iterable<Comment>) repliesCollection)
-        {
-            Assert.assertTrue(childComment.getDone());
-        }
+        Assert.assertTrue(comment.getDone());
+        Assert.assertEquals("\u0005Fix the spelling error!", msString.trim(comment.getText()));
+        Assert.assertEquals("Hello world!", doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText());
     }
     
     //ExStart
@@ -190,114 +193,65 @@ public class ExComment extends ApiExampleBase
     //ExFor:CommentRangeStart.#ctor(DocumentBase,Int32)
     //ExFor:CommentRangeStart.Accept(DocumentVisitor)
     //ExFor:CommentRangeStart.Id
-    //ExSummary:Shows how to create comments with replies and get all interested info.
+    //ExSummary:Shows how print the contents of all comments and their comment ranges using a document visitor.
     @Test //ExSkip
     public void createCommentsAndPrintAllInfo() throws Exception
     {
         Document doc = new Document();
-        doc.removeAllChildren();
-
-        Section sect = (Section)doc.appendChild(new Section(doc));
-        Body body = (Body)sect.appendChild(new Body(doc));
-
-        // Create a commented text with several comment replies
-        for (int i = 0; i <= 10; i++)
-        {
-            Comment newComment = createComment(doc, "VDeryushev", "VD", DateTime.getNow(), "My test comment " + i);
-
-            Paragraph para = (Paragraph)body.appendChild(new Paragraph(doc));
-            para.appendChild(new CommentRangeStart(doc, newComment.getId()));
-            para.appendChild(new Run(doc, "Commented text " + i));
-            para.appendChild(new CommentRangeEnd(doc, newComment.getId()));
-            para.appendChild(newComment);
-            
-            for (int y = 0; y <= 2; y++)
-            {
-                newComment.addReplyInternal("John Doe", "JD", DateTime.getNow(), "New reply " + y);
-            }
-        }
-
-        // Look at information of our comments
-        printAllCommentInfo(extractComments(doc));
-    }
-
-    /// <summary>
-    /// Create a new comment
-    /// </summary>
-    @Test (enabled = false)
-    public static Comment createComment(Document doc, String author, String initials, DateTime dateTime, String text)
-    {
+        
         Comment newComment = new Comment(doc);
         {
-            newComment.setAuthor(author); newComment.setInitial(initials); newComment.setDateTime(dateTime);
+            newComment.setAuthor("VDeryushev");
+            newComment.setInitial("VD");
+            newComment.setDateTime(DateTime.getNow());
         }
-        newComment.setText(text);
 
-        return newComment;
-    }
+        newComment.setText("Comment regarding text.");
 
-    /// <summary>
-    /// Extract comments from the document without replies.
-    /// </summary>
-    @Test (enabled = false)
-    public static ArrayList<Comment> extractComments(Document doc)
-    {
-        ArrayList<Comment> collectedComments = new ArrayList<Comment>();
+        // Add text to the document, warp it in a comment range, and then add your comment.
+        Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
+        para.appendChild(new CommentRangeStart(doc, newComment.getId()));
+        para.appendChild(new Run(doc, "Commented text."));
+        para.appendChild(new CommentRangeEnd(doc, newComment.getId()));
+        para.appendChild(newComment); 
         
-        NodeCollection comments = doc.getChildNodes(NodeType.COMMENT, true);
+        // Add two replies to the comment.
+        newComment.addReplyInternal("John Doe", "JD", DateTime.getNow(), "New reply.");
+        newComment.addReplyInternal("John Doe", "JD", DateTime.getNow(), "Another reply.");
 
-        for (Comment comment : (Iterable<Comment>) comments)
-        {
-            // All replies have ancestor, so we will add this check
-            if (comment.getAncestor() == null)
-            {
-                msArrayList.add(collectedComments, comment);
-            }
-        }
-
-        return collectedComments;
+        printAllCommentInfo(doc.getChildNodes(NodeType.COMMENT, true));
     }
-
+    
     /// <summary>
-    /// Use an iterator and a visitor to print info of every comment from within a document.
+    /// Iterates over every top-level comment and prints its comment range, contents, and replies.
     /// </summary>
-    private static void printAllCommentInfo(ArrayList<Comment> comments) throws Exception
+    private static void printAllCommentInfo(NodeCollection comments) throws Exception
     {
-        // Create an object that inherits from the DocumentVisitor class
         CommentInfoPrinter commentVisitor = new CommentInfoPrinter();
 
-        // Get the enumerator from the document's comment collection and iterate over the comments
-        Iterator<Comment> enumerator = comments.iterator();
-        try /*JAVA: was using*/
+        // Iterate over all top level comments. Unlike reply-type comments, top-level comments have no ancestor.
+        for (Comment comment : comments.Where(c => ((Comment)c).Ancestor == null) !!Autoporter error: Undefined expression type )
         {
-            while (enumerator.hasNext())
-            {
-                Comment currentComment = enumerator.next();
+            // First, visit the start of the comment range.
+            CommentRangeStart commentRangeStart = (CommentRangeStart)comment.getPreviousSibling().getPreviousSibling().getPreviousSibling();
+            commentRangeStart.accept(commentVisitor);
 
-                // Accept our DocumentVisitor it to print information about our comments
-                if (currentComment != null)
-                {
-                    // Get CommentRangeStart from our current comment and construct its information
-                    CommentRangeStart commentRangeStart = (CommentRangeStart)currentComment.getPreviousSibling().getPreviousSibling().getPreviousSibling();
-                    commentRangeStart.accept(commentVisitor);
+            // Then, visit the comment, and any replies that it may have.
+            comment.accept(commentVisitor);
 
-                    // Construct current comment information
-                    currentComment.accept(commentVisitor);
-                    
-                    // Get CommentRangeEnd from our current comment and construct its information
-                    CommentRangeEnd commentRangeEnd = (CommentRangeEnd)currentComment.getPreviousSibling();
-                    commentRangeEnd.accept(commentVisitor);
-                }
-            }
+            for (Comment reply : (Iterable<Comment>) comment.getReplies())
+                reply.accept(commentVisitor);
 
-            // Output of all information received
+            // Finally, visit the end of the comment range, and then print the visitor's text contents.
+            CommentRangeEnd commentRangeEnd = (CommentRangeEnd)comment.getPreviousSibling();
+            commentRangeEnd.accept(commentVisitor);
+
             System.out.println(commentVisitor.getText());
         }
-        finally { if (enumerator != null) enumerator.close(); }
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about and contents of comments and comment ranges encountered in the document.
+    /// Prints information and contents of all comments and comment ranges encountered in the document.
     /// </summary>
     public static class CommentInfoPrinter extends DocumentVisitor
     {
@@ -358,6 +312,7 @@ public class ExComment extends ApiExampleBase
                 $"[Comment start] For comment range ID {comment.Id}, By {comment.Author} on {comment.DateTime}");
             mDocTraversalDepth++;
             mVisitorIsInsideComment = true;
+
 
             return VisitorAction.CONTINUE;
         }

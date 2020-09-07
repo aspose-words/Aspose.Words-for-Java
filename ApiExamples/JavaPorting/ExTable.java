@@ -20,6 +20,7 @@ import com.aspose.words.NodeType;
 import org.testng.Assert;
 import com.aspose.ms.System.msString;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.words.PreferredWidth;
 import com.aspose.words.RowFormat;
 import com.aspose.words.BorderType;
 import java.awt.Color;
@@ -47,7 +48,6 @@ import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.TextOrientation;
 import com.aspose.words.Border;
 import com.aspose.words.FindReplaceOptions;
-import com.aspose.words.PreferredWidth;
 import com.aspose.words.PreferredWidthType;
 import com.aspose.words.CellMerge;
 import com.aspose.ms.System.Drawing.msPoint;
@@ -112,6 +112,45 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(1, table.getRows().getCount());
         Assert.assertEquals(1, table.getFirstRow().getCells().getCount());
         Assert.assertEquals("Hello world!\u0007\u0007", msString.trim(table.getText()));
+    }
+
+    @Test
+    public void padding() throws Exception
+    {
+        //ExStart
+        //ExFor:Table.LeftPadding
+        //ExFor:Table.RightPadding
+        //ExFor:Table.TopPadding
+        //ExFor:Table.BottomPadding
+        //ExSummary:Shows how to configure content padding in a table.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Table table = builder.startTable();
+        builder.insertCell();
+        builder.write("Row 1, cell 1.");
+        builder.insertCell();
+        builder.write("Row 1, cell 2.");
+        builder.endTable();
+        
+        // For every cell in the table, set the distance between its contents, and each of its borders. 
+        // Text will be wrapped to maintain this minimum padding distance.
+        table.setLeftPadding(30.0);
+        table.setRightPadding(60.0);
+        table.setTopPadding(10.0);
+        table.setBottomPadding(90.0);
+        table.setPreferredWidth(PreferredWidth.fromPoints(250.0));
+
+        doc.save(getArtifactsDir() + "DocumentBuilder.SetRowFormatting.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocumentBuilder.SetRowFormatting.docx");
+        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+
+        Assert.assertEquals(30.0d, table.getLeftPadding());
+        Assert.assertEquals(60.0d, table.getRightPadding());
+        Assert.assertEquals(10.0d, table.getTopPadding());
+        Assert.assertEquals(90.0d, table.getBottomPadding());
     }
 
     @Test
@@ -188,11 +227,11 @@ public class ExTable extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         // Here we get all tables from the Document node. You can do this for any other composite node
-        // which can contain block level nodes. For example you can retrieve tables from header or from a cell
+        // which can contain block level nodes. For example, you can retrieve tables from header or from a cell
         // containing another table (nested tables)
         TableCollection tables = doc.getFirstSection().getBody().getTables();
 
-        // We can make a new array to clone all of the tables in the collection
+        // We can make a new array to clone all the tables in the collection
         Assert.assertEquals(2, tables.toArray().length);
 
         // Iterate through all tables in the document
@@ -252,12 +291,14 @@ public class ExTable extends ApiExampleBase
 
         for (int i = 0; i < tables.getCount(); i++)
         {
-            // First lets find if any cells in the table have tables themselves as children
-            int count = getChildTableCount((Table)tables.get(i));
+            Table table = (Table)tables.get(i);
+
+            // Find out if any cells in the table have tables themselves as children
+            int count = getChildTableCount(table);
             msConsole.writeLine("Table #{0} has {1} tables directly within its cells", i, count);
 
-            // Now let's try the other way around, lets try find if the table is nested inside another table and at what depth
-            int tableDepth = getNestedDepthOfTable((Table)tables.get(i));
+            // We can also do the opposite; finding out if the table is nested inside another table and at what depth
+            int tableDepth = getNestedDepthOfTable(table);
 
             if (tableDepth > 0)
                 msConsole.writeLine("Table #{0} is nested inside another table at depth of {1}", i,
@@ -284,7 +325,7 @@ public class ExTable extends ApiExampleBase
 
         while (parent != null)
         {
-            // Every time we find a table a level up we increase the depth counter and then try to find an
+            // Every time we find a table a level up, we increase the depth counter and then try to find an
             // ancestor of type table from the parent
             depth++;
             parent = parent.getAncestor(Table.class);
@@ -351,8 +392,7 @@ public class ExTable extends ApiExampleBase
 
     /// <summary>
     /// Converts a textbox to a table by copying the same content and formatting.
-    /// Currently export to HTML will render the textbox as an image which looses any text functionality.
-    /// This is useful to convert textboxes in order to retain proper text.
+    /// Currently export to HTML will render the textbox as an image which loses any text functionality.
     /// </summary>
     /// <param name="textBox">The textbox shape to convert to a table</param>
     private static void convertTextboxToTable(Shape textBox) throws Exception
@@ -852,19 +892,19 @@ public class ExTable extends ApiExampleBase
         if (allowAutoFit)
         {
             TestUtil.fileContainsString(
-                "<td style=\"width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">",
+                "<td style=\"width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single\">",
                 getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
             TestUtil.fileContainsString(
-                "<td style=\"border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">",
+                "<td style=\"border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single\">",
                 getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
         }
         else
         {
             TestUtil.fileContainsString(
-                "<td style=\"width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">",
+                "<td style=\"width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single\">",
                 getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
             TestUtil.fileContainsString(
-                "<td style=\"width:7.2pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">",
+                "<td style=\"width:7.2pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single\">",
                 getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
         }
     }
@@ -966,7 +1006,7 @@ public class ExTable extends ApiExampleBase
 
         // We must first insert a new cell which in turn inserts a row into the table
         builder.insertCell();
-        // Once a row exists in our table we can apply table wide formatting
+        // Once a row exists in our table, we can apply table wide formatting
         table.setAllowAutoFit(true);
 
         // Continue with building your table as usual...
@@ -991,10 +1031,8 @@ public class ExTable extends ApiExampleBase
         // End the first row
         builder.endRow();
 
-        // Here we would normally define some other row formatting, such as disabling the 
-        // heading format. However at the moment this will be ignored and the value from the 
-        // first row reapplied to the row
-
+        // Here we could define some other row formatting, such as disabling the heading format.
+        // However, this will be ignored and the value from the first row reapplied to the row
         builder.insertCell();
 
         // Instead make sure to specify the row formatting for the second row here
@@ -1076,9 +1114,9 @@ public class ExTable extends ApiExampleBase
 
         TestUtil.fileContainsString(
             allowCellSpacing
-                ? "<td style=\"border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">"
+                ? "<td style=\"border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border:0.5pt single\">"
                 : "<td style=\"border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; " +
-                  "padding-right:5.03pt; padding-left:5.03pt; vertical-align:top\">",
+                  "padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single\">",
             getArtifactsDir() + "Table.AllowCellSpacing.html");
     }
 
@@ -1150,7 +1188,7 @@ public class ExTable extends ApiExampleBase
         }
 
         // You can add title and description to your table only when added at least one row to the table first
-        // This properties are meaningful for ISO / IEC 29500 compliant DOCX documents(see the OoxmlCompliance class)
+        // This properties are meaningful for ISO / IEC 29500 compliant .docx documents(see the OoxmlCompliance class)
         // When saved to pre-ISO/IEC 29500 formats, the properties are ignored
         table.setTitle("Aspose table title");
         table.setDescription("Aspose table description");
@@ -1839,15 +1877,15 @@ public class ExTable extends ApiExampleBase
         //ExSummary:Shows how to convert cells horizontally merged by width to cells merged by CellFormat.HorizontalMerge.
         Document doc = new Document(getMyDir() + "Table with merged cells.docx");
 
-        // MS Word does not write merge flags anymore, they define merged cells by its width
-        // So AW by default define only 5 cells in a row and all of it didn't have horizontal merge flag
+        // Microsoft Word does not write merge flags anymore; merged cells are defined by width instead.
+        // So Aspose.Words by default defines only 5 cells in a row, and none of them have the horizontal merge flag.
         Table table = doc.getFirstSection().getBody().getTables().get(0);
         Row row = table.getRows().get(0);
         Assert.assertEquals(5, row.getCells().getCount());
 
-        // To resolve this inconvenience, we have added new public method to convert cells which are horizontally merged
-        // by its width to the cell horizontally merged by flags. Thus now we have 7 cells and some of them have
-        // horizontal merge value
+        // There is a public method to convert cells which are horizontally merged
+        // by its width to the cell horizontally merged by flags.
+        // Thus, we have 7 cells and some of them have horizontal merge value
         table.convertToHorizontallyMergedCells();
         row = table.getRows().get(0);
         Assert.assertEquals(7, row.getCells().getCount());

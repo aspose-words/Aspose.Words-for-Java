@@ -32,17 +32,17 @@ public class ExXpsSaveOptions extends ApiExampleBase
         XpsSaveOptions saveOptions = new XpsSaveOptions(); { saveOptions.setOptimizeOutput(optimizeOutput); }
 
         doc.save(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps", saveOptions);
+        //ExEnd
 
         // The input document had adjacent runs with the same formatting, which, if output optimization was enabled,
         // have been combined to save space
         FileInfo outFileInfo = new FileInfo(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps");
 
         if (optimizeOutput)
-            Assert.assertTrue(outFileInfo.getLength() < 45000);
+            Assert.assertTrue(outFileInfo.getLength() < 51000);
         else
             Assert.assertTrue(outFileInfo.getLength() > 60000);
-        //ExEnd
-
+        
         TestUtil.docPackageFileContainsString(
             optimizeOutput
                 ? "Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" " +
