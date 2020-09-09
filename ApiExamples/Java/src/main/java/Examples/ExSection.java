@@ -79,7 +79,47 @@ public class ExSection extends ApiExampleBase {
     }
 
     @Test
-    public void createFromScratch() throws Exception {
+    public void firstAndLast() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.FirstSection
+        //ExFor:Document.LastSection
+        //ExSummary:Shows how to create a new section with a document builder.
+        Document doc = new Document();
+
+        // A blank document contains one section by default,
+        // in order for us to be able to edit it straight away.
+        Assert.assertEquals(1, doc.getSections().getCount());
+
+        // Use a document builder to add text, and then to create a new section by inserting a section break.
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world!");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+
+        Assert.assertEquals(2, doc.getSections().getCount());
+
+        // Each section is a subdivision of the document that has its own page setup settings.
+        // We can split up the text in the second section into two columns without affecting the first section in any way.
+        doc.getLastSection().getPageSetup().getTextColumns().setCount(2);
+        builder.writeln("Column 1.");
+        builder.insertBreak(BreakType.COLUMN_BREAK);
+        builder.writeln("Column 2.");
+
+        Assert.assertEquals(1, doc.getFirstSection().getPageSetup().getTextColumns().getCount());
+        Assert.assertEquals(2, doc.getLastSection().getPageSetup().getTextColumns().getCount());
+
+        doc.save(getArtifactsDir() + "Section.Create.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Section.Create.docx");
+
+        Assert.assertEquals(1, doc.getFirstSection().getPageSetup().getTextColumns().getCount());
+        Assert.assertEquals(2, doc.getLastSection().getPageSetup().getTextColumns().getCount());
+    }
+
+    @Test
+    public void createFromScratch() throws Exception
+    {
         //ExStart
         //ExFor:Node.GetText
         //ExFor:CompositeNode.RemoveAllChildren
@@ -123,13 +163,12 @@ public class ExSection extends ApiExampleBase {
         section.getPageSetup().setSectionStart(SectionStart.NEW_PAGE);
         section.getPageSetup().setPaperSize(PaperSize.LETTER);
 
-        // The section that we created is empty, lets populate it. The section needs at least the Body node
+        // A section needs a body, which will contain all other nodes that can be edited
         Body body = new Body(doc);
         section.appendChild(body);
 
         // The body needs to have at least one paragraph
-        // Note that the paragraph has not yet been added to the document, 
-        // but we have to specify the parent document
+        // Note that the paragraph has not yet been added to the document, but we have to specify the parent document
         // The parent document is needed so the paragraph can correctly work
         // with styles and other document-wide information
         Paragraph para = new Paragraph(doc);
@@ -139,9 +178,7 @@ public class ExSection extends ApiExampleBase {
         para.getParagraphFormat().setStyleName("Heading 1");
         para.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
 
-        // So far we have one empty paragraph in the document
-        // The document is valid and can be saved, but lets add some text before saving
-        // Create a new run of text and add it to our paragraph
+        // Now we can begin adding content to the document
         Run run = new Run(doc);
         run.setText("Hello World!");
         run.getFont().setColor(Color.RED);

@@ -205,6 +205,37 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
+    public void downsampleOptions() throws Exception
+    {
+        //ExStart
+        //ExFor:DownsampleOptions
+        //ExFor:DownsampleOptions.DownsampleImages
+        //ExFor:DownsampleOptions.Resolution
+        //ExFor:DownsampleOptions.ResolutionThreshold
+        //ExFor:PdfSaveOptions.DownsampleOptions
+        //ExSummary:Shows how to change the resolution of images in output pdf documents.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        // Create a SaveOptions object, verify its default image downsampling settings,
+        // and then convert the document to .pdf with it.
+        PdfSaveOptions options = new PdfSaveOptions();
+
+        Assert.assertTrue(options.getDownsampleOptions().getDownsampleImages());
+        Assert.assertEquals(220, options.getDownsampleOptions().getResolution());
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.Default.pdf", options);
+
+        // Set the output resolution to a lower value, then set a downsampling resolution threshold
+        // which will prevent any images with a resolution of less than 128 from being downsampled.
+        options.getDownsampleOptions().setResolution(36);
+        options.getDownsampleOptions().setResolutionThreshold(128);
+
+        // Only the first two images from the document will be downsampled at this stage.
+        doc.save(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.LowerResolution.pdf", options);
+        //ExEnd
+    }
+
+    @Test
     public void colorRendering() throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions

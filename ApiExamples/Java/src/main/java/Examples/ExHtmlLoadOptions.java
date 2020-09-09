@@ -152,11 +152,16 @@ class ExHtmlLoadOptions extends ApiExampleBase {
     public void baseUri() throws Exception {
         //ExStart
         //ExFor:HtmlLoadOptions.#ctor(LoadFormat,String,String)
+        //ExFor:LoadOptions.LoadFormat
+        //ExFor:LoadFormat
         //ExSummary:Shows how to specify a base URI when opening an html document.
         // If we want to load an .html document which contains an image linked by a relative URI
         // while the image is in a different location, we will need to resolve the relative URI into an absolute one
         // by creating an HtmlLoadOptions and providing a base URI
         HtmlLoadOptions loadOptions = new HtmlLoadOptions(LoadFormat.HTML, "", getImageDir());
+
+        Assert.assertEquals(LoadFormat.HTML, loadOptions.getLoadFormat());
+
         Document doc = new Document(getMyDir() + "Missing image.html", loadOptions);
 
         // While the image was broken in the input .html, it was successfully found in our base URI

@@ -533,7 +533,7 @@ public class ExDrawing extends ApiExampleBase {
         imageData.setBrightness(0.8d);
         imageData.setContrast(1.0d);
 
-        // Our image will have a lot of white now that we've changed the brightness and contrast like that
+        // Our image will have a lot of white now that we have changed the brightness and contrast like that
         // We can treat white as transparent with the following attribute
         imageData.setChromaKey(Color.WHITE);
 

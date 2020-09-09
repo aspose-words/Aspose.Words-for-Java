@@ -51,12 +51,12 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
 
         return new Color((color >> 16), ((color & 0xFF00) >> 8), (color & 0xFF));
 
-        // Backword conversion -
+        // Backward conversion -
         //return string.Format("0x{0,6:X6}", mControl.ForeColor.ToArgb() & 0xFFFFFF);
     }
 
     /// <summary>
-    /// Converts bar code scaling factor from percents to float.
+    /// Converts bar code scaling factor from percent to float.
     /// </summary>
     /// <param name="scalingFactor"></param>
     /// <returns></returns>

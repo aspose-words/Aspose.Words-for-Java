@@ -64,7 +64,47 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void rowCellFormat() throws Exception {
+    public void padding() throws Exception
+    {
+        //ExStart
+        //ExFor:Table.LeftPadding
+        //ExFor:Table.RightPadding
+        //ExFor:Table.TopPadding
+        //ExFor:Table.BottomPadding
+        //ExSummary:Shows how to configure content padding in a table.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Table table = builder.startTable();
+        builder.insertCell();
+        builder.write("Row 1, cell 1.");
+        builder.insertCell();
+        builder.write("Row 1, cell 2.");
+        builder.endTable();
+        
+        // For every cell in the table, set the distance between its contents, and each of its borders. 
+        // Text will be wrapped to maintain this minimum padding distance.
+        table.setLeftPadding(30.0);
+        table.setRightPadding(60.0);
+        table.setTopPadding(10.0);
+        table.setBottomPadding(90.0);
+        table.setPreferredWidth(PreferredWidth.fromPoints(250.0));
+
+        doc.save(getArtifactsDir() + "DocumentBuilder.SetRowFormatting.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocumentBuilder.SetRowFormatting.docx");
+        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+
+        Assert.assertEquals(30.0d, table.getLeftPadding());
+        Assert.assertEquals(60.0d, table.getRightPadding());
+        Assert.assertEquals(10.0d, table.getTopPadding());
+        Assert.assertEquals(90.0d, table.getBottomPadding());
+    }
+
+    @Test
+    public void rowCellFormat() throws Exception
+    {
         //ExStart
         //ExFor:Row.RowFormat
         //ExFor:RowFormat

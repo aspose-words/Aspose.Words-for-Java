@@ -31,59 +31,50 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitParagraphStart(Paragraph)
     //ExFor:DocumentVisitor.VisitParagraphEnd(Paragraph)
     //ExFor:DocumentVisitor.VisitSubDocument(SubDocument)
-    //ExSummary:Traverse a document with a visitor that prints all structure nodes that it encounters.
+    //ExSummary:Shows how to use a document visitor to print a document's node structure.
     @Test //ExSkip
     public void docStructureToText() throws Exception {
-        // Open the document that has nodes we want to print the info of
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
-
-        // Create an object that inherits from the DocumentVisitor class
         DocStructurePrinter visitor = new DocStructurePrinter();
 
-        // Accepting a visitor lets it start traversing the nodes in the document,
-        // starting with the node that accepted it to then recursively visit every child
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all of the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
-        // Once the visiting is complete, we can retrieve the result of the operation,
-        // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
         testDocStructureToText(visitor); //ExSkip
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about sections, bodies, paragraphs and runs encountered in the document.
+    /// Traverses a node's tree of child nodes, and creates a map of this tree in the form of a string.
     /// </summary>
     public static class DocStructurePrinter extends DocumentVisitor {
         public DocStructurePrinter() {
-            mBuilder = new StringBuilder();
+            mAcceptingNodeChildTree = new StringBuilder();
         }
 
-        /// <summary>
-        /// Gets the plain text of the document that was accumulated by the visitor.
-        /// </summary>
         public String getText() {
-            return mBuilder.toString();
+            return mAcceptingNodeChildTree.toString();
         }
 
         /// <summary>
         /// Called when a Document node is encountered.
         /// </summary>
-        public int visitDocumentStart(final Document doc) {
+        public int visitDocumentStart(Document doc) {
             int childNodeCount = doc.getChildNodes(NodeType.ANY, true).getCount();
 
-            // A Document node is at the root of every document, so if we let a document accept a visitor, this will be the first visitor action to be carried out
             indentAndAppendLine("[Document start] Child nodes: " + childNodeCount);
             mDocTraversalDepth++;
 
-            // Let the visitor continue visiting other nodes
+            // Allow the visitor to continue visiting other nodes.
             return VisitorAction.CONTINUE;
         }
 
         /// <summary>
-        /// Called when the visiting of a Document is ended.
+        /// Called after all the child nodes of a Document node have been visited.
         /// </summary>
-        public int visitDocumentEnd(final Document doc) {
-            // If we let a document accept a visitor, this will be the last visitor action to be carried out
+        public int visitDocumentEnd(Document doc) {
             mDocTraversalDepth--;
             indentAndAppendLine("[Document end]");
 
@@ -105,7 +96,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a Section node is ended.
+        /// Called after all the child nodes of a Section node have been visited.
         /// </summary>
         public int visitSectionEnd(final Section section) {
             mDocTraversalDepth--;
@@ -126,7 +117,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a Body node is ended.
+        /// Called after all the child nodes of a Body node have been visited.
         /// </summary>
         public int visitBodyEnd(final Body body) {
             mDocTraversalDepth--;
@@ -146,7 +137,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a Paragraph node is ended.
+        /// Called after all the child nodes of a Paragraph node have been visited.
         /// </summary>
         public int visitParagraphEnd(final Paragraph paragraph) {
             mDocTraversalDepth--;
@@ -179,14 +170,14 @@ public class ExDocumentVisitor extends ApiExampleBase {
         /// <param name="text"></param>
         private void indentAndAppendLine(final String text) {
             for (int i = 0; i < mDocTraversalDepth; i++) {
-                mBuilder.append("|  ");
+                mAcceptingNodeChildTree.append("|  ");
             }
 
-            mBuilder.append(text + "\r\n");
+            mAcceptingNodeChildTree.append(text + "\r\n");
         }
 
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private StringBuilder mAcceptingNodeChildTree;
     }
     //ExEnd
 
@@ -221,50 +212,41 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:Row.IsFirstRow
     //ExFor:Row.LastCell
     //ExFor:Row.ParentTable
-    //ExSummary:Traverse a document with a visitor that prints all tables that it encounters.
+    //ExSummary:Shows how to print the node structure of every table in a document.
     @Test //ExSkip
     public void tableToText() throws Exception {
-        // Open the document that has tables we want to print the info of
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
+        TableStructurePrinter visitor = new TableStructurePrinter();
 
-        // Create an object that inherits from the DocumentVisitor class
-        TableInfoPrinter visitor = new TableInfoPrinter();
-
-        // Accepting a visitor lets it start traversing the nodes in the document, 
-        // starting with the node that accepted it to then recursively visit every child
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all of the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
-        // Once the visiting is complete, we can retrieve the result of the operation,
-        // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
         testTableToText(visitor); //ExSkip
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about and contents of all tables encountered in the document.
+    /// Traverses a node's non-binary tree of child nodes.
+    /// Creates a map in the form of a string of all encountered Table nodes and their children.
     /// </summary>
-    public static class TableInfoPrinter extends DocumentVisitor {
-        public TableInfoPrinter() {
-            mBuilder = new StringBuilder();
+    public static class TableStructurePrinter extends DocumentVisitor {
+        public TableStructurePrinter() {
+            mVisitedTables = new StringBuilder();
             mVisitorIsInsideTable = false;
         }
 
-        /// <summary>
-        /// Gets the plain text of the document that was accumulated by the visitor.
-        /// </summary>
         public String getText() {
-            return mBuilder.toString();
+            return mVisitedTables.toString();
         }
 
         /// <summary>
         /// Called when a Run node is encountered in the document.
+        /// Runs that are not within tables are not recorded.
         /// </summary>
-        public int visitRun(final Run run) {
-            // We want to print the contents of runs, but only if they consist of text from cells
-            // So we are only interested in runs that are children of table nodes
-            if (mVisitorIsInsideTable) {
-                indentAndAppendLine("[Run] \"" + run.getText() + "\"");
-            }
+        public /*override*/ /*VisitorAction*/int visitRun(Run run) {
+            if (mVisitorIsInsideTable) indentAndAppendLine("[Run] \"" + run.getText() + "\"");
 
             return VisitorAction.CONTINUE;
         }
@@ -289,7 +271,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a Table node is ended.
+        /// Called after all the child nodes of a Table node have been visited.
         /// </summary>
         public int visitTableEnd(final Table table) {
             mDocTraversalDepth--;
@@ -318,7 +300,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a Row node is ended.
+        /// Called after all the child nodes of a Row node have been visited.
         /// </summary>
         public int visitRowEnd(final Row row) {
             mDocTraversalDepth--;
@@ -345,7 +327,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a Cell node is ended in the document.
+        /// Called after all the child nodes of a Cell node have been visited.
         /// </summary>
         public int visitCellEnd(final Cell cell) {
             mDocTraversalDepth--;
@@ -354,24 +336,25 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree.
+        /// Append a line to the StringBuilder, and indent it depending on how deep the visitor is
+        /// into the current table's tree of child nodes.
         /// </summary>
         /// <param name="text"></param>
         private void indentAndAppendLine(final String text) {
             for (int i = 0; i < mDocTraversalDepth; i++) {
-                mBuilder.append("|  ");
+                mVisitedTables.append("|  ");
             }
 
-            mBuilder.append(text + "\r\n");
+            mVisitedTables.append(text + "\r\n");
         }
 
         private boolean mVisitorIsInsideTable;
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private /*final*/ StringBuilder mVisitedTables;
     }
     //ExEnd
 
-    private void testTableToText(TableInfoPrinter visitor) {
+    private void testTableToText(TableStructurePrinter visitor) {
         String visitorText = visitor.getText();
 
         Assert.assertTrue(visitorText.contains("[Table start]"));
@@ -388,43 +371,38 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitCommentEnd(Comment)
     //ExFor:DocumentVisitor.VisitCommentRangeEnd(CommentRangeEnd)
     //ExFor:DocumentVisitor.VisitCommentRangeStart(CommentRangeStart)
-    //ExSummary:Traverse a document with a visitor that prints all comment nodes that it encounters.
+    //ExSummary:Shows how to print the node structure of every comment and comment range in a document.
     @Test //ExSkip
     public void commentsToText() throws Exception {
-        // Open the document that has comments/comment ranges we want to print the info of
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
+        CommentStructurePrinter visitor = new CommentStructurePrinter();
 
-        // Create an object that inherits from the DocumentVisitor class
-        CommentInfoPrinter visitor = new CommentInfoPrinter();
-
-        // Accepting a visitor lets it start traversing the nodes in the document, 
-        // starting with the node that accepted it to then recursively visit every child
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all of the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
-        // Once the visiting is complete, we can retrieve the result of the operation,
-        // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
         testCommentsToText(visitor); //ExSkip
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about and contents of comments and comment ranges encountered in the document.
+    /// Traverses a node's non-binary tree of child nodes.
+    /// Creates a map in the form of a string of all encountered Comment/CommentRange nodes and their children.
     /// </summary>
-    public static class CommentInfoPrinter extends DocumentVisitor {
-        public CommentInfoPrinter() {
+    public static class CommentStructurePrinter extends DocumentVisitor {
+        public CommentStructurePrinter() {
             mBuilder = new StringBuilder();
             mVisitorIsInsideComment = false;
         }
 
-        /// <summary>
-        /// Gets the plain text of the document that was accumulated by the visitor.
-        /// </summary>
         public String getText() {
             return mBuilder.toString();
         }
 
         /// <summary>
         /// Called when a Run node is encountered in the document.
+        /// A Run is only recorded if it is a child of a Comment or CommentRange node.
         /// </summary>
         public int visitRun(final Run run) {
             if (mVisitorIsInsideComment) {
@@ -469,7 +447,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a Comment node is ended in the document.
+        /// Called after all the child nodes of a Comment node have been visited.
         /// </summary>
         public int visitCommentEnd(final Comment comment) {
             mDocTraversalDepth--;
@@ -480,7 +458,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree.
+        /// Append a line to the StringBuilder, and indent it depending on how deep the visitor is
+        /// into a comment/comment range's tree of child nodes.
         /// </summary>
         /// <param name="text"></param>
         private void indentAndAppendLine(final String text) {
@@ -497,7 +476,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testCommentsToText(CommentInfoPrinter visitor) {
+    private void testCommentsToText(CommentStructurePrinter visitor) {
         String visitorText = visitor.getText();
 
         Assert.assertTrue(visitorText.contains("[Comment range start]"));
@@ -511,37 +490,31 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitFieldStart
     //ExFor:DocumentVisitor.VisitFieldEnd
     //ExFor:DocumentVisitor.VisitFieldSeparator
-    //ExSummary:Traverse a document with a visitor that prints all fields that it encounters.
+    //ExSummary:Shows how to print the node structure of every field in a document.
     @Test //ExSkip
     public void fieldToText() throws Exception {
-        // Open the document that has fields that we want to print the info of
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
+        FieldStructurePrinter visitor = new FieldStructurePrinter();
 
-        // Create an object that inherits from the DocumentVisitor class
-        FieldInfoPrinter visitor = new FieldInfoPrinter();
-
-        // Accepting a visitor lets it start traversing the nodes in the document, 
-        // starting with the node that accepted it to then recursively visit every child
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all of the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
-        // Once the visiting is complete, we can retrieve the result of the operation,
-        // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
         testFieldToText(visitor); //ExSkip
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about fields encountered in the document.
+    /// Traverses a node's non-binary tree of child nodes.
+    /// Creates a map in the form of a string of all encountered Field nodes and their children.
     /// </summary>
-    public static class FieldInfoPrinter extends DocumentVisitor {
-        public FieldInfoPrinter() {
+    public static class FieldStructurePrinter extends DocumentVisitor {
+        public FieldStructurePrinter() {
             mBuilder = new StringBuilder();
             mVisitorIsInsideField = false;
         }
 
-        /// <summary>
-        /// Gets the plain text of the document that was accumulated by the visitor.
-        /// </summary>
         public String getText() {
             return mBuilder.toString();
         }
@@ -589,7 +562,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree.
+        /// Append a line to the StringBuilder, and indent it depending on how deep the visitor is
+        /// into the field's tree of child nodes.
         /// </summary>
         /// <param name="text"></param>
         private void indentAndAppendLine(final String text) {
@@ -606,7 +580,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testFieldToText(FieldInfoPrinter visitor) {
+    private void testFieldToText(FieldStructurePrinter visitor) {
         String visitorText = visitor.getText();
 
         Assert.assertTrue(visitorText.contains("[Field start]"));
@@ -622,42 +596,35 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:HeaderFooterCollection.ToArray
     //ExFor:Run.Accept(DocumentVisitor)
     //ExFor:Run.GetText
-    //ExSummary:Traverse a document with a visitor that prints all header/footer nodes that it encounters.
+    //ExSummary:Shows how to print the node structure of every header and footer in a document.
     @Test //ExSkip
     public void headerFooterToText() throws Exception {
-        // Open the document that has headers and/or footers we want to print the info of
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
+        HeaderFooterStructurePrinter visitor = new HeaderFooterStructurePrinter();
 
-        // Create an object that inherits from the DocumentVisitor class
-        HeaderFooterInfoPrinter visitor = new HeaderFooterInfoPrinter();
-
-        // Accepting a visitor lets it start traversing the nodes in the document, 
-        // starting with the node that accepted it to then recursively visit every child
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all of the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
-        // Once the visiting is complete, we can retrieve the result of the operation,
-        // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
 
-        // An alternative way of visiting a document's header/footers section-by-section is by accessing the collection
-        // We can also turn it into an array
+        // An alternative way of accessing a document's header/footers section-by-section is by accessing the collection.
         HeaderFooter[] headerFooters = doc.getFirstSection().getHeadersFooters().toArray();
         Assert.assertEquals(3, headerFooters.length);
         testHeaderFooterToText(visitor); //ExSkip
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about HeaderFooter nodes encountered in the document.
+    /// Traverses a node's non-binary tree of child nodes.
+    /// Creates a map in the form of a string of all encountered HeaderFooter nodes and their children.
     /// </summary>
-    public static class HeaderFooterInfoPrinter extends DocumentVisitor {
-        public HeaderFooterInfoPrinter() {
+    public static class HeaderFooterStructurePrinter extends DocumentVisitor {
+        public HeaderFooterStructurePrinter() {
             mBuilder = new StringBuilder();
             mVisitorIsInsideHeaderFooter = false;
         }
 
-        /// <summary>
-        /// Gets the plain text of the document that was accumulated by the visitor.
-        /// </summary>
         public String getText() {
             return mBuilder.toString();
         }
@@ -683,7 +650,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a HeaderFooter node is ended.
+        /// Called after all the child nodes of a HeaderFooter node have been visited.
         /// </summary>
         public int visitHeaderFooterEnd(final HeaderFooter headerFooter) {
             mDocTraversalDepth--;
@@ -694,7 +661,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree.
+        /// Append a line to the StringBuilder, and indent it depending on how deep the visitor is into the document tree.
         /// </summary>
         /// <param name="text"></param>
         private void indentAndAppendLine(final String text) {
@@ -711,7 +678,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testHeaderFooterToText(HeaderFooterInfoPrinter visitor) {
+    private void testHeaderFooterToText(HeaderFooterStructurePrinter visitor) {
         String visitorText = visitor.getText();
 
         Assert.assertTrue(visitorText.contains(MessageFormat.format("[HeaderFooter start] HeaderFooterType: {0}", HeaderFooterType.HEADER_PRIMARY)));
@@ -727,33 +694,27 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExStart
     //ExFor:DocumentVisitor.VisitEditableRangeEnd(EditableRangeEnd)
     //ExFor:DocumentVisitor.VisitEditableRangeStart(EditableRangeStart)
-    //ExSummary:Traverse a document with a visitor that prints all editable ranges that it encounters.
+    //ExSummary:Shows how to print the node structure of every editable range in a document.
     @Test //ExSkip
     public void editableRangeToText() throws Exception {
-        // Open the document that has editable ranges we want to print the info of
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
+        EditableRangeStructurePrinter visitor = new EditableRangeStructurePrinter();
 
-        // Create an object that inherits from the DocumentVisitor class
-        EditableRangeInfoPrinter visitor = new EditableRangeInfoPrinter();
-
-        // Accepting a visitor lets it start traversing the nodes in the document, 
-        // starting with the node that accepted it to then recursively visit every child
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all of the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
-        Paragraph p = new Paragraph(doc);
-        p.appendChild(new Run(doc, "Paragraph with editable range text."));
-
-        // Once the visiting is complete, we can retrieve the result of the operation,
-        // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
         testEditableRangeToText(visitor); //ExSkip
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about editable ranges encountered in the document.
+    /// Traverses a node's non-binary tree of child nodes.
+    /// Creates a map in the form of a string of all encountered EditableRange nodes and their children.
     /// </summary>
-    public static class EditableRangeInfoPrinter extends DocumentVisitor {
-        public EditableRangeInfoPrinter() {
+    public static class EditableRangeStructurePrinter extends DocumentVisitor {
+        public EditableRangeStructurePrinter() {
             mBuilder = new StringBuilder();
             mVisitorIsInsideEditableRange = false;
         }
@@ -818,7 +779,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testEditableRangeToText(EditableRangeInfoPrinter visitor) {
+    private void testEditableRangeToText(EditableRangeStructurePrinter visitor) {
         String visitorText = visitor.getText();
 
         Assert.assertTrue(visitorText.contains("[EditableRange start]"));
@@ -830,30 +791,27 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitFootnoteEnd(Footnote)
     //ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
     //ExFor:Footnote.Accept(DocumentVisitor)
-    //ExSummary:Traverse a document with a visitor that prints all footnotes that it encounters.
+    //ExSummary:Shows how to print the node structure of every footnote in a document.
     @Test //ExSkip
     public void footnoteToText() throws Exception {
-        // Open the document that has footnotes we want to print the info of
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
+        FootnoteStructurePrinter visitor = new FootnoteStructurePrinter();
 
-        // Create an object that inherits from the DocumentVisitor class
-        FootnoteInfoPrinter visitor = new FootnoteInfoPrinter();
-
-        // Accepting a visitor lets it start traversing the nodes in the document, 
-        // starting with the node that accepted it to then recursively visit every child
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all of the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
-        // Once the visiting is complete, we can retrieve the result of the operation,
-        // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
         testFootnoteToText(visitor); //ExSkip
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about footnotes encountered in the document.
+    /// Traverses a node's non-binary tree of child nodes.
+    /// Creates a map in the form of a string of all encountered Footnote nodes and their children.
     /// </summary>
-    public static class FootnoteInfoPrinter extends DocumentVisitor {
-        public FootnoteInfoPrinter() {
+    public static class FootnoteStructurePrinter extends DocumentVisitor {
+        public FootnoteStructurePrinter() {
             mBuilder = new StringBuilder();
             mVisitorIsInsideFootnote = false;
         }
@@ -877,7 +835,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a Footnote node is ended.
+        /// Called after all the child nodes of a Footnote node have been visited.
         /// </summary>
         public int visitFootnoteEnd(final Footnote footnote) {
             mDocTraversalDepth--;
@@ -916,7 +874,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testFootnoteToText(FootnoteInfoPrinter visitor) {
+    private void testFootnoteToText(FootnoteStructurePrinter visitor) {
         String visitorText = visitor.getText();
 
         Assert.assertTrue(visitorText.contains(MessageFormat.format("[Footnote start] Type: {0}", FootnoteType.FOOTNOTE)));
@@ -930,30 +888,27 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:Math.MathObjectType
     //ExFor:Math.OfficeMath.Accept(DocumentVisitor)
     //ExFor:Math.OfficeMath.MathObjectType
-    //ExSummary:Traverse a document with a visitor that prints all OfficeMath nodes that it encounters.
+    //ExSummary:Shows how to print the node structure of every office math node in a document.
     @Test //ExSkip
     public void officeMathToText() throws Exception {
-        // Open the document that has office math objects we want to print the info of
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
+        OfficeMathStructurePrinter visitor = new OfficeMathStructurePrinter();
 
-        // Create an object that inherits from the DocumentVisitor class
-        OfficeMathInfoPrinter visitor = new OfficeMathInfoPrinter();
-
-        // Accepting a visitor lets it start traversing the nodes in the document, 
-        // starting with the node that accepted it to then recursively visit every child
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all of the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
-        // Once the visiting is complete, we can retrieve the result of the operation,
-        // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
         testOfficeMathToText(visitor); //ExSkip
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about office math objects encountered in the document.
+    /// Traverses a node's non-binary tree of child nodes.
+    /// Creates a map in the form of a string of all encountered OfficeMath nodes and their children.
     /// </summary>
-    public static class OfficeMathInfoPrinter extends DocumentVisitor {
-        public OfficeMathInfoPrinter() {
+    public static class OfficeMathStructurePrinter extends DocumentVisitor {
+        public OfficeMathStructurePrinter() {
             mBuilder = new StringBuilder();
             mVisitorIsInsideOfficeMath = false;
         }
@@ -988,7 +943,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a OfficeMath node is ended.
+        /// Called after all the child nodes of an OfficeMath node have been visited.
         /// </summary>
         public int visitOfficeMathEnd(final OfficeMath officeMath) {
             mDocTraversalDepth--;
@@ -1016,7 +971,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testOfficeMathToText(OfficeMathInfoPrinter visitor) {
+    private void testOfficeMathToText(OfficeMathStructurePrinter visitor) {
         String visitorText = visitor.getText();
 
         Assert.assertTrue(visitorText.contains(MessageFormat.format("[OfficeMath start] Math object type: {0}", MathObjectType.O_MATH_PARA)));
@@ -1034,30 +989,27 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExStart
     //ExFor:DocumentVisitor.VisitSmartTagEnd(Markup.SmartTag)
     //ExFor:DocumentVisitor.VisitSmartTagStart(Markup.SmartTag)
-    //ExSummary:Traverse a document with a visitor that prints all smart tag nodes that it encounters.
+    //ExSummary:Shows how to print the node structure of every smart tag in a document.
     @Test //ExSkip
     public void smartTagToText() throws Exception {
-        // Open the document that has smart tags we want to print the info of
         Document doc = new Document(getMyDir() + "Smart tags.doc");
+        SmartTagStructurePrinter visitor = new SmartTagStructurePrinter();
 
-        // Create an object that inherits from the DocumentVisitor class
-        SmartTagInfoPrinter visitor = new SmartTagInfoPrinter();
-
-        // Accepting a visitor lets it start traversing the nodes in the document, 
-        // starting with the node that accepted it to then recursively visit every child
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all of the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
-        // Once the visiting is complete, we can retrieve the result of the operation,
-        // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
         testSmartTagToText(visitor); //ExEnd
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about smart tags encountered in the document.
+    /// Traverses a node's non-binary tree of child nodes.
+    /// Creates a map in the form of a string of all encountered SmartTag nodes and their children.
     /// </summary>
-    public static class SmartTagInfoPrinter extends DocumentVisitor {
-        public SmartTagInfoPrinter() {
+    public static class SmartTagStructurePrinter extends DocumentVisitor {
+        public SmartTagStructurePrinter() {
             mBuilder = new StringBuilder();
             mVisitorIsInsideSmartTag = false;
         }
@@ -1092,7 +1044,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a SmartTag node is ended.
+        /// Called after all the child nodes of a SmartTag node have been visited.
         /// </summary>
         public int visitSmartTagEnd(final SmartTag smartTag) {
             mDocTraversalDepth--;
@@ -1120,7 +1072,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testSmartTagToText(SmartTagInfoPrinter visitor) {
+    private void testSmartTagToText(SmartTagStructurePrinter visitor) {
         String visitorText = visitor.getText();
 
         Assert.assertTrue(visitorText.contains("[SmartTag start] Name: address"));
@@ -1139,30 +1091,27 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:StructuredDocumentTag.Accept(DocumentVisitor)
     //ExFor:DocumentVisitor.VisitStructuredDocumentTagEnd(Markup.StructuredDocumentTag)
     //ExFor:DocumentVisitor.VisitStructuredDocumentTagStart(Markup.StructuredDocumentTag)
-    //ExSummary:Traverse a document with a visitor that prints all structured document tag nodes that it encounters.
+    //ExSummary:Shows how to print the node structure of every structured document tag in a document.
     @Test //ExSkip
     public void structuredDocumentTagToText() throws Exception {
-        // Open the document that has structured document tags we want to print the info of
         Document doc = new Document(getMyDir() + "DocumentVisitor-compatible features.docx");
+        StructuredDocumentTagNodePrinter visitor = new StructuredDocumentTagNodePrinter();
 
-        // Create an object that inherits from the DocumentVisitor class
-        StructuredDocumentTagInfoPrinter visitor = new StructuredDocumentTagInfoPrinter();
-
-        // Accepting a visitor lets it start traversing the nodes in the document, 
-        // starting with the node that accepted it to then recursively visit every child
+        // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
+        // and then traverses all of the node's children in a depth-first manner.
+        // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
-        // Once the visiting is complete, we can retrieve the result of the operation,
-        // that in this example, has accumulated in the visitor
         System.out.println(visitor.getText());
         testStructuredDocumentTagToText(visitor); //ExSkip
     }
 
     /// <summary>
-    /// This Visitor implementation prints information about structured document tags encountered in the document.
+    /// Traverses a node's non-binary tree of child nodes.
+    /// Creates a map in the form of a string of all encountered StructuredDocumentTag nodes and their children.
     /// </summary>
-    public static class StructuredDocumentTagInfoPrinter extends DocumentVisitor {
-        public StructuredDocumentTagInfoPrinter() {
+    public static class StructuredDocumentTagNodePrinter extends DocumentVisitor {
+        public StructuredDocumentTagNodePrinter() {
             mBuilder = new StringBuilder();
             mVisitorIsInsideStructuredDocumentTag = false;
         }
@@ -1196,7 +1145,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Called when the visiting of a StructuredDocumentTag node is ended.
+        /// Called after all the child nodes of a StructuredDocumentTag node have been visited.
         /// </summary>
         public int visitStructuredDocumentTagEnd(final StructuredDocumentTag sdt) {
             mDocTraversalDepth--;
@@ -1223,7 +1172,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testStructuredDocumentTagToText(StructuredDocumentTagInfoPrinter visitor) {
+    private void testStructuredDocumentTagToText(StructuredDocumentTagNodePrinter visitor) {
         String visitorText = visitor.getText();
 
         Assert.assertTrue(visitorText.contains("[StructuredDocumentTag start]"));
