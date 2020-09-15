@@ -9,11 +9,14 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import com.aspose.words.Shape;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -374,6 +377,29 @@ public class ExRange extends ApiExampleBase {
         builder.write("Hello world!");
 
         Assert.assertEquals("Hello world!", doc.getRange().getText().trim());
+        //ExEnd
+    }
+
+    @Test (enabled = false)
+    public void useSubstitutions() throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.UseSubstitutions
+        //ExSummary:Shows how to replace text with substitutions.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("John sold a car to Paul.");
+        builder.writeln("Jane sold a house to Joe.");
+
+        // Perform a find-and-replace operation on a range's text contents
+        // while preserving some elements from the replaced text using substitutions.
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setUseSubstitutions(true);
+
+        doc.getRange().replace("[a-zA-Z] sold a [a-zA-Z] to [a-zA-Z]", "$3 bought a $2 from $1", options);
+
+        Assert.assertEquals(doc.getText(), "Paul bought a car from John.\rJoe bought a house from Jane.\r\f");
         //ExEnd
     }
 

@@ -12,7 +12,37 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
-public class ExNodeImporter extends ApiExampleBase {
+public class ExNodeImporter extends ApiExampleBase
+{
+    @Test
+    public void keepSourceNumbering() throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.KeepSourceNumbering
+        //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how the numbering will be imported when it clashes in source and destination documents.
+        // Open a document with a custom list numbering scheme and clone it
+        // Since both have the same numbering format, the formats will clash if we import one document into the other
+        Document srcDoc = new Document(getMyDir() + "Custom list numbering.docx");
+        Document dstDoc = srcDoc.deepClone();
+
+        // Both documents have the same numbering in their lists, but if we set this flag to false and then import one document into the other
+        // the numbering of the imported source document will continue from where it ends in the destination document
+        ImportFormatOptions importFormatOptions = new ImportFormatOptions();
+        importFormatOptions.setKeepSourceNumbering(false);
+
+        NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_DIFFERENT_STYLES, importFormatOptions);
+        for (Paragraph paragraph : (Iterable<Paragraph>) srcDoc.getFirstSection().getBody().getParagraphs())
+        {
+            Node importedNode = importer.importNode(paragraph, true);
+            dstDoc.getFirstSection().getBody().appendChild(importedNode);
+        }
+
+        dstDoc.updateListLabels();
+        dstDoc.save(getArtifactsDir() + "NodeImporter.KeepSourceNumbering.docx");
+        //ExEnd
+    }
+
     //ExStart
     //ExFor:Paragraph.IsEndOfSection
     //ExFor:NodeImporter
@@ -27,8 +57,8 @@ public class ExNodeImporter extends ApiExampleBase {
         Bookmark bookmark = mainDoc.getRange().getBookmarks().get("insertionPlace");
         insertDocument(bookmark.getBookmarkStart().getParentNode(), docToInsert);
 
-        mainDoc.save(getArtifactsDir() + "InsertDocument.InsertAtBookmark.docx");
-        testInsertAtBookmark(new Document(getArtifactsDir() + "InsertDocument.InsertAtBookmark.docx")); //ExSkip
+        mainDoc.save(getArtifactsDir() + "NodeImporter.InsertAtBookmark.docx");
+        testInsertAtBookmark(new Document(getArtifactsDir() + "NodeImporter.InsertAtBookmark.docx")); //ExSkip
     }
 
     /// <summary>
@@ -86,8 +116,8 @@ public class ExNodeImporter extends ApiExampleBase {
         // that should be inserted to this field
         mainDoc.getMailMerge().execute(new String[]{"Document_1"}, new Object[]{getMyDir() + "Document.docx"});
 
-        mainDoc.save(getArtifactsDir() + "InsertDocument.InsertAtMailMerge.docx");
-        testInsertAtMailMerge(new Document(getArtifactsDir() + "InsertDocument.InsertAtMailMerge.docx")); //ExSkip
+        mainDoc.save(getArtifactsDir() + "NodeImporter.InsertAtMailMerge.docx");
+        testInsertAtMailMerge(new Document(getArtifactsDir() + "NodeImporter.InsertAtMailMerge.docx")); //ExSkip
     }
 
     private static class InsertDocumentAtMailMergeHandler implements IFieldMergingCallback {

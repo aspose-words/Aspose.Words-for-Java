@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -248,8 +249,10 @@ class ExHtmlSaveOptions extends ApiExampleBase {
     public void exportFonts(final boolean exportAsBase64) throws Exception {
         Document doc = new Document(getMyDir() + "Document.docx");
 
+        String fontsFolder = getArtifactsDir() + "HtmlSaveOptions.ExportFonts.Resources";
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setExportFontResources(true);
+            saveOptions.setFontsFolder(fontsFolder);
         saveOptions.setExportFontsAsBase64(exportAsBase64);
 
         if (exportAsBase64 == false) {
@@ -571,8 +574,42 @@ class ExHtmlSaveOptions extends ApiExampleBase {
         // but our output epub will only place level 1 and 2 headings in the table of contents
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.EPUB);
         options.setEpubNavigationMapLevel(2);
-
+        
         doc.save(getArtifactsDir() + "HtmlSaveOptions.EpubHeadings.epub", options);
+        //ExEnd
+    }
+
+    @Test
+    public void doc2EpubSaveOptions() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentSplitCriteria
+        //ExFor:HtmlSaveOptions
+        //ExFor:HtmlSaveOptions.#ctor
+        //ExFor:HtmlSaveOptions.Encoding
+        //ExFor:HtmlSaveOptions.DocumentSplitCriteria
+        //ExFor:HtmlSaveOptions.ExportDocumentProperties
+        //ExFor:HtmlSaveOptions.SaveFormat
+        //ExFor:SaveOptions
+        //ExFor:SaveOptions.SaveFormat
+        //ExSummary:Shows how to specify saving options while converting a document to .epub.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        // Specify encoding for a document that we will save with a SaveOptions object.
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setSaveFormat(SaveFormat.EPUB);
+        saveOptions.setEncoding(StandardCharsets.UTF_8);
+
+        // By default, an output .epub document will have all the contents in one HTML part.
+        // A split criteria allows us to segment the document into several HTML parts.
+        // We will set the criteria to split the document at heading paragraphs.
+        // This is useful for readers which cannot read HTML files greater than a certain size.
+        saveOptions.setDocumentSplitCriteria(DocumentSplitCriteria.HEADING_PARAGRAPH);
+
+        // Specify that we want to export document properties.
+        saveOptions.setExportDocumentProperties(true);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.Doc2EpubSaveOptions.epub", saveOptions);
         //ExEnd
     }
 
@@ -882,10 +919,12 @@ class ExHtmlSaveOptions extends ApiExampleBase {
         // When saving to .html, font subsetting fully applies by default, meaning that when we export fonts with our file,
         // the symbols not used by our document are not represented by the exported fonts, which cuts down file size dramatically
         // Font files of a file size larger than FontResourcesSubsettingSizeThreshold get subsetted, so a value of 0 will apply default full subsetting
-        // Setting the value to something large will fully suppress subsetting, saving some very large font files that cover every glyph
+        // Setting the value to something large will fully suppress subsetting, which could result in large font files that cover every glyph
+        String fontsFolder = getArtifactsDir() + "HtmlSaveOptions.FontSubsetting.Fonts";
         HtmlSaveOptions options = new HtmlSaveOptions();
         {
             options.setExportFontResources(true);
+            options.setFontsFolder(fontsFolder);
             options.setFontResourcesSubsettingSizeThreshold(Integer.MAX_VALUE);
         }
 
@@ -949,6 +988,39 @@ class ExHtmlSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.html", options);
         //ExEnd
+    }
+
+    @Test
+    public void imageFolder() throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlSaveOptions
+        //ExFor:HtmlSaveOptions.ExportTextInputFormFieldAsText
+        //ExFor:HtmlSaveOptions.ImagesFolder
+        //ExSummary:Shows how to specify the folder for storing linked images after saving to .html.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        // Set a directory where images will be saved to, then ensure that it exists, and is empty.
+        File imagesDir = new File(getArtifactsDir() + "SaveHtmlWithOptions");
+
+
+        if (imagesDir.exists())
+            imagesDir.delete();
+
+        imagesDir.mkdir();
+
+        // Set an option to export form fields as plain text instead of HTML input elements.
+        HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
+        options.setExportTextInputFormFieldAsText(true);
+        options.setImagesFolder(imagesDir.getPath());
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.SaveHtmlWithOptions.html", options);
+        //ExEnd
+
+        Assert.assertTrue(new File(getArtifactsDir() + "HtmlSaveOptions.SaveHtmlWithOptions.html").exists());
+        Assert.assertEquals(9, imagesDir.length());
+
+        imagesDir.delete();
     }
 
     //ExStart

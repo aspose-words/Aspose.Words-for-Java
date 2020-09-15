@@ -70,8 +70,8 @@ public class ExHyphenation extends ApiExampleBase {
         // No warnings detectedß
         Assert.assertEquals(warningInfoCollection.getCount(), 0);
 
-        // Open a document with a German locale that might not get automatically hyphenated by Microsoft Word an english machine
-        Document doc = new Document(getMyDir() + "Unhyphenated German text.docx");
+        // Open a document with a German locale that might not get automatically hyphenated by Microsoft Word on an English machine
+        Document doc = new Document(getMyDir() + "German text.docx");
 
         // To hyphenate that document upon saving, we need a hyphenation dictionary for the "de-CH" language code
         // This callback will handle the automatic request for that dictionary

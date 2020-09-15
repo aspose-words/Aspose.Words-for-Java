@@ -397,7 +397,7 @@ public class ExLists extends ApiExampleBase
         Style listStyle = doc.getStyles().add(StyleType.LIST, "MyListStyle");
 
         // This list defines the formatting of the list style
-        // Note this list can not be used directly to apply formatting to paragraphs (see below)
+        // Note that this list can not be used directly to apply formatting to paragraphs (see below)
         List list1 = listStyle.getList();
 
         // Check some basic rules about the list that defines a list style
@@ -818,8 +818,9 @@ public class ExLists extends ApiExampleBase
         // Level 2 labels will be "Section (1.01)" and restarting after Level 2 item appears
         list.getListLevels().get(1).setNumberFormat("Section (\u0000.\u0001)");
         list.getListLevels().get(1).setNumberStyle(NumberStyle.LEADING_ZERO);
-        // Notice the higher level uses UppercaseLetter numbering, but we want arabic number
-        // of the higher levels to appear in this level, therefore set this property
+
+        // Note that the higher level uses UppercaseLetter numbering
+        // We can set this property to use Arabic numbers for the higher list levels
         list.getListLevels().get(1).isLegal(true);
         list.getListLevels().get(1).setRestartAfterLevel(0);
 
@@ -883,7 +884,7 @@ public class ExLists extends ApiExampleBase
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        // Find if we have the paragraph list. In our document our list uses plain arabic numbers,
+        // Find if we have the paragraph list. In our document our list uses plain Arabic numbers,
         // which start at three and ends at six
         for (Paragraph paragraph : paras.<Paragraph>OfType().Where(p => p.ListFormat.IsListItem) !!Autoporter error: Undefined expression type )
         {
@@ -895,8 +896,9 @@ public class ExLists extends ApiExampleBase
             System.out.println("\tExported Text: {paragraphText}");
 
             ListLabel label = paragraph.getListLabel();
-            // This gets the position of the paragraph in current level of the list. If we have a list with multiple level then this
-            // will tell us what position it is on that particular level
+
+            // This gets the position of the paragraph in current level of the list. If we have a list with multiple levels,
+            // this will tell us what position it is on that level
             System.out.println("\tNumerical Id: {label.LabelValue}");
 
             // Combine them together to include the list label with the text in the output

@@ -1,3 +1,5 @@
+package Examples;
+
 // Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
@@ -5,17 +7,10 @@
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-package ApiExamples;
-
-// ********* THIS FILE IS AUTO PORTED *********
-
-import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.XpsSaveOptions;
-import com.aspose.ms.System.IO.FileInfo;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-
+import org.testng.annotations.Test;
 
 @Test
 public class ExXpsSaveOptions extends ApiExampleBase
@@ -33,25 +28,8 @@ public class ExXpsSaveOptions extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps", saveOptions);
         //ExEnd
-
-        // The input document had adjacent runs with the same formatting, which, if output optimization was enabled,
-        // have been combined to save space
-        FileInfo outFileInfo = new FileInfo(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps");
-
-        if (optimizeOutput)
-            Assert.assertTrue(outFileInfo.getLength() < 51000);
-        else
-            Assert.assertTrue(outFileInfo.getLength() > 60000);
-        
-        TestUtil.docPackageFileContainsString(
-            optimizeOutput
-                ? "Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" " +
-                  "UnicodeString=\"This document contains complex content which can be optimized to save space when \""
-                : "<Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" UnicodeString=\"This\"",
-            getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps", "1.fpage");
     }
 
-	//JAVA-added data provider for test method
 	@DataProvider(name = "optimizeOutputDataProvider")
 	public static Object[][] optimizeOutputDataProvider() throws Exception
 	{

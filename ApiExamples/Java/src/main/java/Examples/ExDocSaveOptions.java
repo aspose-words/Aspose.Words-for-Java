@@ -14,6 +14,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
 
 @Test
 public class ExDocSaveOptions extends ApiExampleBase {
@@ -26,48 +28,53 @@ public class ExDocSaveOptions extends ApiExampleBase {
         //ExFor:DocSaveOptions.Password
         //ExFor:DocSaveOptions.SaveFormat
         //ExFor:DocSaveOptions.SaveRoutingSlip
-        //ExSummary:Shows how to set save options for classic Microsoft Word document versions.
+        //ExSummary:Shows how to set save options for older Microsoft Word formats.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("Hello world!");
 
-        // DocSaveOptions only applies to Doc and Dot save formats
         DocSaveOptions options = new DocSaveOptions(SaveFormat.DOC);
 
-        // Set a password with which the document will be encrypted, and which will be required to open it
+        // Set a password which will protect the loading of the document by Microsoft Word or Aspose.Words.
+        // Note that this does not encrypt the contents of the document in any way.
         options.setPassword("MyPassword");
 
-        // If the document contains a routing slip, we can preserve it while saving by setting this flag to true
+        // If the document contains a routing slip, we can preserve it while saving by setting this flag to true.
         options.setSaveRoutingSlip(true);
 
         doc.save(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", options);
-        //ExEnd
 
+        // To be able to load the document,
+        // we will need to apply the password we specified in the DocSaveOptions object in a LoadOptions object.
         Assert.assertThrows(IncorrectPasswordException.class, () -> new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc"));
 
         LoadOptions loadOptions = new LoadOptions("MyPassword");
         doc = new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", loadOptions);
 
         Assert.assertEquals("Hello world!", doc.getText().trim());
+        //ExEnd
     }
 
     @Test
     public void tempFolder() throws Exception {
         //ExStart
         //ExFor:SaveOptions.TempFolder
-        //ExSummary:Shows how to save a document using temporary files.
+        //ExSummary:Shows how to use the hard drive instead of memory when saving a document.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        // We can use a SaveOptions object to set the saving method of a document from a MemoryStream to temporary files
-        // While saving, the files will briefly pop up in the folder we set as the TempFolder attribute below
-        // Doing this will free up space in the memory that the stream would usually occupy
+        // When we save a document, various elements are temporarily stored in memory as the save operation is taking place.
+        // We can use this option to use a temporary folder in the local file system instead,
+        // which will reduce our application's memory overhead.
         DocSaveOptions options = new DocSaveOptions();
         options.setTempFolder(getArtifactsDir() + "TempFiles");
 
-        // Ensure that the directory exists and save
+        // The specified temporary folder must exist in the local file system before the save operation.
         new File(options.getTempFolder()).mkdir();
 
         doc.save(getArtifactsDir() + "DocSaveOptions.TempFolder.doc", options);
+
+        // The folder will persist with no residual contents from the load operation.
+        Assert.assertEquals(new File(options.getTempFolder()).listFiles().length, 0);
         //ExEnd
     }
 
@@ -75,12 +82,13 @@ public class ExDocSaveOptions extends ApiExampleBase {
     public void pictureBullets() throws Exception {
         //ExStart
         //ExFor:DocSaveOptions.SavePictureBullet
-        //ExSummary:Shows how to remove PictureBullet data from the document.
+        //ExSummary:Shows how to omit PictureBullet data from the document when saving.
         Document doc = new Document(getMyDir() + "Image bullet points.docx");
         Assert.assertNotNull(doc.getLists().get(0).getListLevels().get(0).getImageData()); //ExSkip
 
-        // Word 97 cannot work correctly with PictureBullet data
-        // To remove PictureBullet data, set the option to "false"
+        // Some word processors, such as Microsoft Word 97, are incompatible with PictureBullet data.
+        // By setting a flag in the SaveOptions object,
+        // we can convert all image bullet points to ordinary bullet points while saving.
         DocSaveOptions saveOptions = new DocSaveOptions(SaveFormat.DOC);
         saveOptions.setSavePictureBullet(false);
 
@@ -96,19 +104,61 @@ public class ExDocSaveOptions extends ApiExampleBase {
     public void updateLastPrintedProperty(boolean isUpdateLastPrintedProperty) throws Exception {
         //ExStart
         //ExFor:SaveOptions.UpdateLastPrintedProperty
-        //ExSummary:Shows how to update BuiltInDocumentProperties.LastPrinted property before saving.
+        //ExSummary:Shows how to update a document's "Last printed" property when saving.
         Document doc = new Document();
 
-        // Aspose.Words update BuiltInDocumentProperties.LastPrinted property by default
+        // This flag determines whether the last printed date, which is a built-in property, is updated.
+        // If so, then the date of the document's most recent save operation
+        // with this SaveOptions object passed as a parameter is used as the print date.
         DocSaveOptions saveOptions = new DocSaveOptions();
         saveOptions.setUpdateLastPrintedProperty(isUpdateLastPrintedProperty);
 
-        doc.save(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.docx", saveOptions);
+        // In Microsoft Word 2003, this property can be found via File -> Properties -> Statistics -> Printed.
+        // It can also be displayed in the document's body by using a PRINTDATE field.
+        doc.save(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.doc", saveOptions);
+
+        // Open the saved document, then verify the value of the property.
+        doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.doc");
+
+        Assert.assertNotEquals(Calendar.getInstance().getTime(), doc.getBuiltInDocumentProperties().getLastPrinted());
         //ExEnd
     }
 
     @DataProvider(name = "updateLastPrintedPropertyDataProvider")
-    public static Object[][] updateLastPrintedPropertyDataProvider() {
-        return new Object[][]{{true}, {false}};
+	public static Object[][] updateLastPrintedPropertyDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test (dataProvider = "alwaysCompressMetafilesDataProvider")
+    public void alwaysCompressMetafiles(boolean compressAllMetafiles) throws Exception
+    {
+        //ExStart
+        //ExFor:DocSaveOptions.AlwaysCompressMetafiles
+        //ExSummary:Shows how to change metafiles compression in a document while saving.
+        // Open a document that contains a Microsoft Equation 3.0 formula.
+        Document doc = new Document(getMyDir() + "Microsoft equation object.docx");
+
+        // When we save a document, smaller metafiles are not compressed for performance reasons.
+        // We can set a flag in a SaveOptions object to compress every metafile when saving.
+        // Some editors such as LibreOffice cannot read uncompressed metafiles.
+        DocSaveOptions saveOptions = new DocSaveOptions();
+        saveOptions.setAlwaysCompressMetafiles(compressAllMetafiles);
+
+        doc.save(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx", saveOptions);
+        //ExEnd
+    }
+
+	@DataProvider(name = "alwaysCompressMetafilesDataProvider")
+	public static Object[][] alwaysCompressMetafilesDataProvider() {
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
     }
 }

@@ -42,7 +42,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         Document doc = new Document(getMyDir() + "Images.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EMF);
-        saveOptions.setUseGdiEmfRenderer(true);
+        saveOptions.setUseGdiEmfRenderer(false);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.Renderer.emf", saveOptions);
         //ExEnd
@@ -102,7 +102,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         TestUtil.verifyImage(794, 1122, getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpg");
     }
 
-    @Test
+    @Test (groups = "SkipMono")
     public void windowsMetaFile() throws Exception
     {
         //ExStart
@@ -118,14 +118,14 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         // which will be applied to the image we inserted
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
         options.getMetafileRenderingOptions().setRenderingMode(MetafileRenderingMode.VECTOR);
-
+        
         doc.save(getArtifactsDir() + "ImageSaveOptions.WindowsMetaFile.png", options);
         //ExEnd
 
         TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.WindowsMetaFile.png");
     }
 
-    @Test (groups = "SkipMono")
+    @Test
     public void blackAndWhite() throws Exception
     {
         //ExStart
@@ -150,7 +150,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         TestUtil.verifyImage(794, 1123, getArtifactsDir() + "ImageSaveOptions.BlackAndWhite.png");
     }
 
-    @Test
+    @Test (groups = "SkipMono")
     public void floydSteinbergDithering() throws Exception
     {
         //ExStart

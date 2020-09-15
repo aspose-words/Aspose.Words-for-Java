@@ -92,7 +92,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         // Create "PdfSaveOptions" with some mandatory parameters
         // "HeadingsOutlineLevels" specifies how many levels of headings to include in the document outline
-        // "CreateMissingOutlineLevels" determining whether or not to create missing heading levels
+        // "CreateMissingOutlineLevels" determining whether to create missing heading levels
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
         pdfSaveOptions.getOutlineOptions().setHeadingsOutlineLevels(9);
         pdfSaveOptions.getOutlineOptions().setCreateMissingOutlineLevels(true);
@@ -131,7 +131,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         builder.write("Cell 1");
         builder.endTable();
 
-        // Create a PdfSaveOptions object that, when saving to .pdf with it, creates entries in the document outline for all headings levels 1-9,
+        // Create a PdfSaveOptions object that, when saving to .pdf with it, creates entries in the document outline for heading levels 1-9,
         // and make sure headings inside tables are registered by the outline also
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
         pdfSaveOptions.getOutlineOptions().setHeadingsOutlineLevels(9);
@@ -152,7 +152,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Assert.AreEqual("Cell 1", tableAbsorber.TableList[0].RowList[1].CellList[0].TextFragments[1].Text);
             }
 
-    @Test (groups = "SkipMono", dataProvider = "updateFieldsDataProvider")
+    @Test (dataProvider = "updateFieldsDataProvider")
     public void updateFields(boolean doUpdateFields) throws Exception
     {
         //ExStart
@@ -266,6 +266,37 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             TestUtil.verifyImage(2467, 1500, pdfDocImageStream);
         }
         finally { if (pdfDocImageStream != null) pdfDocImageStream.close(); }
+    }
+
+    @Test
+    public void downsampleOptions() throws Exception
+    {
+        //ExStart
+        //ExFor:DownsampleOptions
+        //ExFor:DownsampleOptions.DownsampleImages
+        //ExFor:DownsampleOptions.Resolution
+        //ExFor:DownsampleOptions.ResolutionThreshold
+        //ExFor:PdfSaveOptions.DownsampleOptions
+        //ExSummary:Shows how to change the resolution of images in output pdf documents.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        // Create a SaveOptions object, verify its default image downsampling settings,
+        // and then convert the document to .pdf with it.
+        PdfSaveOptions options = new PdfSaveOptions();
+
+        Assert.assertTrue(options.getDownsampleOptions().getDownsampleImages());
+        Assert.assertEquals(220, options.getDownsampleOptions().getResolution());
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.Default.pdf", options);
+
+        // Set the output resolution to a lower value, then set a downsampling resolution threshold
+        // which will prevent any images with a resolution of less than 128 from being downsampled.
+        options.getDownsampleOptions().setResolution(36);
+        options.getDownsampleOptions().setResolutionThreshold(128);
+
+        // Only the first two images from the document will be downsampled at this stage.
+        doc.save(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.LowerResolution.pdf", options);
+        //ExEnd
     }
 
     @Test
@@ -418,7 +449,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         /// </summary>
         public void warning(WarningInfo info)
         {
-            // For now type of warnings about unsupported metafile records changed from
+            // For now, type of warnings about unsupported metafile records changed from
             // DataLoss/UnexpectedContent to MinorFormattingLoss
             if (info.getWarningType() == WarningType.MINOR_FORMATTING_LOSS)
             {
@@ -633,8 +664,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         PdfSaveOptions options = new PdfSaveOptions();
         options.setUseBookFoldPrintingSettings(doRenderTextAsBookfold);
 
-        // In order to make a booklet, we will need to print this document, stack the pages
-        // in the order they come out of the printer and then fold down the middle
+        // Once we print this document, we can turn it into a booklet by stacking the pages
+        // in the order they come out of the printer and then folding down the middle
         doc.save(getArtifactsDir() + "PdfSaveOptions.SaveAsPdfBookFold.pdf", options);
         //ExEnd
 
@@ -776,26 +807,27 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         if (doCreateHyperlinks)
         {
-            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [157.80099487 720.90106201 159.35600281 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 677 0]>>", 
+            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [157.80099487 720.90106201 159.35600281 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 677 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
-            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [202.16900635 720.90106201 206.06201172 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 79 0]>>", 
+            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [202.16900635 720.90106201 206.06201172 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 79 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
-            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [212.23199463 699.2510376 215.34199524 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 654 0]>>", 
+            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [212.23199463 699.2510376 215.34199524 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 654 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
-            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [258.15499878 699.2510376 262.04800415 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 68 0]>>", 
+            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [258.15499878 699.2510376 262.04800415 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 68 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
-            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [85.05000305 68.19905853 88.66500092 79.69805908]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 202 733 0]>>", 
+            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [85.05000305 68.19905853 88.66500092 79.69805908]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 202 733 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
-            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [85.05000305 56.70005798 88.66500092 68.19905853]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 258 711 0]>>", 
+            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [85.05000305 56.70005798 88.66500092 68.19905853]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 258 711 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
-            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [85.05000305 666.10205078 86.4940033 677.60107422]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 157 733 0]>>", 
+            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [85.05000305 666.10205078 86.4940033 677.60107422]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 157 733 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
-            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [85.05000305 643.10406494 87.93800354 654.60308838]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 212 711 0]>>", 
+            TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect [85.05000305 643.10406494 87.93800354 654.60308838]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 212 711 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
         }
         else
         {
-            Assert.<AssertionError>Throws(() => TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect", getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf"));
+            if (!isRunningOnMono())
+                Assert.<AssertionError>Throws(() => TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect", getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf"));
         }
     }
 
@@ -819,7 +851,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExSummary:Shows how to export custom properties while saving to .pdf.
         Document doc = new Document();
 
-        // Add a custom document property that doesn't use the name of some built in properties
+        // Add a custom document property that does not use the name of some built in properties
         doc.getCustomDocumentProperties().add("Company", "My value");
         
         // Configure the PdfSaveOptions like this will display the properties
@@ -833,10 +865,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (pdfCustomPropertiesExportMode)
         {
             case PdfCustomPropertiesExport.NONE:
-                Assert.<AssertionError>Throws(() => TestUtil.fileContainsString(doc.getCustomDocumentProperties().get(0).getName(), 
-                    getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf"));
-                Assert.<AssertionError>Throws(() => TestUtil.fileContainsString("<</Type /Metadata/Subtype /XML/Length 8 0 R/Filter /FlateDecode>>", 
-                    getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf"));
+                if (!isRunningOnMono())
+                {
+                    Assert.<AssertionError>Throws(() => TestUtil.fileContainsString(doc.getCustomDocumentProperties().get(0).getName(),
+                        getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf"));
+                    Assert.<AssertionError>Throws(() => TestUtil.fileContainsString("<</Type /Metadata/Subtype /XML/Length 8 0 R/Filter /FlateDecode>>",
+                        getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf"));
+                }
                 break;
             case PdfCustomPropertiesExport.STANDARD:
                 TestUtil.fileContainsString(doc.getCustomDocumentProperties().get(0).getName(), getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
@@ -966,8 +1001,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // Create a PdfSaveOptions object and configure it to preserve the logical structure that's in the input document
-        // The file size will be increased and the structure will be visible in the "Content" navigation pane
-        // of Adobe Acrobat Pro
+        // The file size will be increased, and the structure will be visible in the "Content" navigation pane of Adobe Acrobat Pro
         PdfSaveOptions options = new PdfSaveOptions();
         options.setExportDocumentStructure(doExportStructure);
 

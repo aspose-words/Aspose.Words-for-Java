@@ -64,7 +64,7 @@ public class ExMailMergeEvent extends ApiExampleBase
     private static class HandleMergeFieldInsertHtml implements IFieldMergingCallback
     {
         /// <summary>
-        /// This is called when merge field is actually merged with data in the document.
+        /// This is called when merge field is merged with data in the document.
         /// </summary>
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args) throws Exception
         {
@@ -118,7 +118,7 @@ public class ExMailMergeEvent extends ApiExampleBase
     private static class FieldValueMergingCallback implements IFieldMergingCallback
     {
         /// <summary>
-        /// This is called when merge field is actually merged with data in the document.
+        /// This is called when merge field is merged with data in the document.
         /// </summary>
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs e)
         {
@@ -276,8 +276,7 @@ public class ExMailMergeEvent extends ApiExampleBase
                 // Select the color depending on whether the row number is even or odd
                 Color rowColor = isOdd(mRowIdx) ? new Color((213), (227), (235)) : new Color((242), (242), (242));
 
-                // There is no way to set cell properties for the whole row at the moment,
-                // so we have to iterate over all cells in the row
+                // Set properties for each cell in the row
                 for (int colIdx = 0; colIdx < 4; colIdx++)
                 {
                     mBuilder.moveToCell(0, mRowIdx, colIdx, 0);
@@ -359,7 +358,7 @@ public class ExMailMergeEvent extends ApiExampleBase
     //ExFor:IFieldMergingCallback.ImageFieldMerging
     //ExFor:ImageFieldMergingArgs.ImageStream
     //ExSummary:Shows how to insert images stored in a database BLOB field into a report.
-    @Test (groups = "SkipMono") //ExSkip
+    @Test (groups = "SkipMono") //ExSkip        
     public void imageFromBlob() throws Exception
     {
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");

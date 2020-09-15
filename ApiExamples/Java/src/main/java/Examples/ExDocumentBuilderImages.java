@@ -15,10 +15,7 @@ import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 
 @Test
 public class ExDocumentBuilderImages extends ApiExampleBase {
@@ -28,7 +25,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         //ExFor:DocumentBuilder.InsertImage(Stream)
         //ExFor:DocumentBuilder.InsertImage(Stream, Double, Double)
         //ExFor:DocumentBuilder.InsertImage(Stream, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
-        //ExSummary:Shows different solutions of how to import an image into a document from a stream.
+        //ExSummary:Shows how to insert an image from a stream into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -37,24 +34,22 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         IOUtils.copy(new FileInputStream(getImageDir() + "Logo.jpg"), byteArrayOutputStream);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
 
-        try {
-            builder.writeln("Inserted image from stream: ");
-            builder.insertImage(byteArrayInputStream);
+        // Below are three ways of inserting an image from a stream:
+        // 1 -  Inline shape with a default size based on the image's original dimensions:
+        builder.insertImage(byteArrayInputStream);
 
-            byteArrayInputStream.reset();
-            builder.writeln("\nInserted image from stream with a custom size: ");
-            builder.insertImage(byteArrayInputStream, ConvertUtil.pixelToPoint(250.0), ConvertUtil.pixelToPoint(144.0));
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        byteArrayInputStream.reset();
 
-            byteArrayInputStream.reset();
-            builder.writeln("\nInserted image from stream using relative positions: ");
-            builder.insertImage(byteArrayInputStream, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN,
-                    100.0, 200.0, 100.0, WrapType.SQUARE);
-        } finally {
-            if (byteArrayInputStream != null && byteArrayOutputStream != null) {
-                byteArrayInputStream.close();
-                byteArrayOutputStream.close();
-            }
-        }
+        // 2 -  Inline shape with custom dimensions:
+        builder.insertImage(byteArrayInputStream, ConvertUtil.pixelToPoint(250.0), ConvertUtil.pixelToPoint(144.0));
+
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        byteArrayInputStream.reset();
+
+        // 3 -  Floating shape with custom dimensions:
+        builder.insertImage(byteArrayInputStream, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN,
+                100.0, 200.0, 100.0, WrapType.SQUARE);
 
         doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromStream.docx");
         //ExEnd
@@ -108,30 +103,36 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
     }
 
     @Test
-    public void insertImageFromString() throws Exception {
+    public void insertImageFromFilename() throws Exception
+    {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(String)
         //ExFor:DocumentBuilder.InsertImage(String, Double, Double)
         //ExFor:DocumentBuilder.InsertImage(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
-        //ExSummary:Shows different solutions of how to import an image into a document from a string.
+        //ExSummary:Shows how to insert an image from the local file system into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.writeln("\nInserted image from string: ");
+        // Below are three ways of inserting an image from a local system filename:
+        // 1 -  Inline shape with a default size based on the image's original dimensions:
         builder.insertImage(getImageDir() + "Logo.jpg");
 
-        builder.writeln("\nInserted image from string with a custom size: ");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+
+        // 2 -  Inline shape with custom dimensions:
         builder.insertImage(getImageDir() + "Transparent background logo.png", ConvertUtil.pixelToPoint(250.0),
                 ConvertUtil.pixelToPoint(144.0));
 
-        builder.writeln("\nInserted image from string using relative positions: ");
-        builder.insertImage(getImageDir() + "Windows Metafile.wmf", RelativeHorizontalPosition.MARGIN, 100.0,
+        builder.insertBreak(BreakType.PAGE_BREAK);
+
+        // 3 -  Floating shape with custom dimensions:
+        builder.insertImage(getImageDir() + "Windows MetaFile.wmf", RelativeHorizontalPosition.MARGIN, 100.0, 
                 RelativeVerticalPosition.MARGIN, 100.0, 200.0, 100.0, WrapType.SQUARE);
 
-        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromString.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromFilename.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromString.docx");
+        doc = new Document(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromFilename.docx");
 
         Shape imageShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
@@ -180,30 +181,36 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
     }
 
     @Test
-    public void insertImageFromImageClass() throws Exception {
+    public void insertImageFromImageObject() throws Exception
+    {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(Image, Double, Double)
         //ExFor:DocumentBuilder.InsertImage(Image, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
-        //ExSummary:Shows different solutions of how to import an image into a document from Image class.
+        //ExSummary:Shows how to insert an image from an object into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         BufferedImage image = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
 
-        builder.writeln("\nInserted image from Image class: ");
+        // Below are three ways of inserting an image from an Image object instance:
+        // 1 -  Inline shape with a default size based on the image's original dimensions:
         builder.insertImage(image);
 
-        builder.writeln("\nInserted image from Image class with a custom size: ");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+
+        // 2 -  Inline shape with custom dimensions:
         builder.insertImage(image, ConvertUtil.pixelToPoint(250.0), ConvertUtil.pixelToPoint(144.0));
 
-        builder.writeln("\nInserted image from Image class using relative positions: ");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+
+        // 3 -  Floating shape with custom dimensions:
         builder.insertImage(image, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN,
                 100.0, 200.0, 100.0, WrapType.SQUARE);
 
-        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromImageClass.docx");
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromImageObject.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromImageClass.docx");
+        doc = new Document(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromImageObject.docx");
 
         Shape imageShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
@@ -257,19 +264,24 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         //ExFor:DocumentBuilder.InsertImage(Byte[])
         //ExFor:DocumentBuilder.InsertImage(Byte[], Double, Double)
         //ExFor:DocumentBuilder.InsertImage(Byte[], RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
-        //ExSummary:Shows different solutions of how to import an image into a document from a byte array.
+        //ExSummary:Shows how to insert an image from a byte array into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         byte[] imageByteArray = DocumentHelper.getBytesFromStream(new FileInputStream(getImageDir() + "Logo.jpg"));
 
-        builder.writeln("\nInserted image from byte array: ");
+        // Below are three ways of inserting an image from a byte array:
+        // 1 -  Inline shape with a default size based on the image's original dimensions:
         builder.insertImage(imageByteArray);
 
-        builder.writeln("\nInserted image from byte array with a custom size: ");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+
+        // 2 -  Inline shape with custom dimensions:
         builder.insertImage(imageByteArray, ConvertUtil.pixelToPoint(250.0), ConvertUtil.pixelToPoint(144.0));
 
-        builder.writeln("\nInserted image from byte array using relative positions: ");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+
+        // 3 -  Floating shape with custom dimensions:
         builder.insertImage(imageByteArray, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN,
                 100.0, 200.0, 100.0, WrapType.SQUARE);
 

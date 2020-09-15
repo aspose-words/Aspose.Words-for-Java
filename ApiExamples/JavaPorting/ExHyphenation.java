@@ -41,7 +41,7 @@ public class ExHyphenation extends ApiExampleBase
         // This method can be used to verify that a language has a matching registered hyphenation dictionary
         Assert.assertTrue(Hyphenation.isDictionaryRegistered("de-CH"));
 
-        // The dictionary file contains a long list of words in a specified language, and in this case it is German
+        // The dictionary file contains a long list of words in a specified language, which is German in this case
         // These words define a set of rules for hyphenating text (splitting words across lines)
         // If we open a document with text of a language matching that of a registered dictionary,
         // that dictionary's hyphenation rules will be applied and visible upon saving
@@ -81,7 +81,7 @@ public class ExHyphenation extends ApiExampleBase
         // No warnings detected
         Assert.assertEquals(0, warningInfoCollection.getCount());
 
-        // Open a document with a German locale that might not get automatically hyphenated by Microsoft Word an english machine
+        // Open a document with a German locale that might not get automatically hyphenated by Microsoft Word on an English machine
         Document doc = new Document(getMyDir() + "German text.docx");
 
         // To hyphenate that document upon saving, we need a hyphenation dictionary for the "de-CH" language code

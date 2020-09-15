@@ -20,26 +20,32 @@ public class ExCellFormat extends ApiExampleBase {
         //ExFor:DocumentBuilder.EndRow
         //ExFor:CellMerge
         //ExFor:CellFormat.VerticalMerge
-        //ExSummary:Creates a table with two columns with cells merged vertically in the first column.
+        //ExSummary:Shows how to merge table cells vertically.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // Insert a cell into the first column of the first row.
+        // This cell will be the first in a range of vertically merged cells.
         builder.insertCell();
         builder.getCellFormat().setVerticalMerge(CellMerge.FIRST);
         builder.write("Text in merged cells.");
 
+        // Insert a cell into the second column of the first row, then end the row.
+        // Also, configure the builder to disable vertical merging in created cells.
         builder.insertCell();
         builder.getCellFormat().setVerticalMerge(CellMerge.NONE);
-        builder.write("Text in one cell");
+        builder.write("Text in unmerged cell.");
         builder.endRow();
 
+        // Insert a cell into the first column of the second row. 
+        // Instead of adding text contents, we will merge this cell with the first cell that we added directly above.
         builder.insertCell();
-        // This cell is vertically merged to the cell above and should be empty.
         builder.getCellFormat().setVerticalMerge(CellMerge.PREVIOUS);
 
+        // Insert another independent cell in the second column of the second row, and end the table.
         builder.insertCell();
         builder.getCellFormat().setVerticalMerge(CellMerge.NONE);
-        builder.write("Text in another cell");
+        builder.write("Text in unmerged cell.");
         builder.endRow();
         builder.endTable();
 
@@ -47,12 +53,10 @@ public class ExCellFormat extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "CellFormat.VerticalMerge.docx");
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+
         Assert.assertEquals(CellMerge.FIRST, table.getRows().get(0).getCells().get(0).getCellFormat().getVerticalMerge());
         Assert.assertEquals(CellMerge.PREVIOUS, table.getRows().get(1).getCells().get(0).getCellFormat().getVerticalMerge());
-
-        // After the merge both cells still exist, and the one with the VerticalMerge set to "First" overlaps both of them 
-        // and only that cell contains the shared text
         Assert.assertEquals("Text in merged cells.", StringUtils.strip(table.getRows().get(0).getCells().get(0).getText(), String.valueOf('\u0007')));
         Assert.assertNotEquals(table.getRows().get(0).getCells().get(0).getText(), table.getRows().get(1).getCells().get(0).getText());
     }
@@ -62,25 +66,28 @@ public class ExCellFormat extends ApiExampleBase {
         //ExStart
         //ExFor:CellMerge
         //ExFor:CellFormat.HorizontalMerge
-        //ExSummary:Creates a table with two rows with cells in the first row horizontally merged.
+        //ExSummary:Shows how to merge table cells horizontally.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // Insert a cell into the first column of the first row.
+        // This cell will be the first in a range of horizontally merged cells.
         builder.insertCell();
         builder.getCellFormat().setHorizontalMerge(CellMerge.FIRST);
         builder.write("Text in merged cells.");
 
+        // Insert a cell into the second column of the first row. Instead of adding text contents,
+        // we will merge this cell with the first cell that we added directly to the left, and end the row afterward.
         builder.insertCell();
-        // This cell is merged to the previous and should be empty.
         builder.getCellFormat().setHorizontalMerge(CellMerge.PREVIOUS);
         builder.endRow();
 
-        builder.insertCell();
+        // Insert two more unmerged cells to the second row.
         builder.getCellFormat().setHorizontalMerge(CellMerge.NONE);
-        builder.write("Text in one cell.");
-
         builder.insertCell();
-        builder.write("Text in another cell.");
+        builder.write("Text in unmerged cell.");
+        builder.insertCell();
+        builder.write("Text in unmerged cell.");
         builder.endRow();
         builder.endTable();
 
@@ -88,11 +95,8 @@ public class ExCellFormat extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "CellFormat.HorizontalMerge.docx");
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
 
-        // Compared to the vertical merge, where both cells are still present, 
-        // the horizontal merge actually removes cells with a HorizontalMerge set to "Previous" if overlapped by ones with "First"
-        // Thus the first row that we inserted two cells into now has one, which is a normal cell with a HorizontalMerge of "None"
         Assert.assertEquals(1, table.getRows().get(0).getCells().getCount());
         Assert.assertEquals(CellMerge.NONE, table.getRows().get(0).getCells().get(0).getCellFormat().getHorizontalMerge());
 
@@ -100,24 +104,28 @@ public class ExCellFormat extends ApiExampleBase {
     }
 
     @Test
-    public void setCellPaddings() throws Exception {
+    public void padding() throws Exception
+    {
         //ExStart
         //ExFor:CellFormat.SetPaddings
-        //ExSummary:Shows how to set paddings to a table cell.
-        DocumentBuilder builder = new DocumentBuilder();
+        //ExSummary:Shows how to pad the contents of a cell with whitespace.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.startTable();
-        builder.getCellFormat().setWidth(300.0);
+        // Set a padding distance (in points) between the border and the text contents
+        // of each table cell we create with the document builder. 
         builder.getCellFormat().setPaddings(5.0, 10.0, 40.0, 50.0);
 
-        builder.getRowFormat().setHeightRule(HeightRule.EXACTLY);
-        builder.getRowFormat().setHeight(50.0);
-
+        // Create a table with a cell, and add contents which will be padded by whitespace.
+        builder.startTable();
         builder.insertCell();
-        builder.write("Row 1, Col 1");
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+                      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
+
+        doc.save(getArtifactsDir() + "CellFormat.Padding.docx");
         //ExEnd
 
-        Document doc = DocumentHelper.saveOpen(builder.getDocument());
+        doc = new Document(getArtifactsDir() + "CellFormat.Padding.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         Cell cell = table.getRows().get(0).getCells().get(0);

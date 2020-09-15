@@ -130,7 +130,7 @@ class Hyperlink
     }
 
     /// <summary>
-    /// Gets or sets the target url or bookmark name of the hyperlink.
+    /// Gets or sets the target URL or bookmark name of the hyperlink.
     /// </summary>
     String getTarget()
     {
@@ -143,7 +143,7 @@ class Hyperlink
     }
 
     /// <summary>
-    /// True if the hyperlinks target is a bookmark inside the document. False if the hyperlink is a url.
+    /// True if the hyperlinks target is a bookmark inside the document. False if the hyperlink is a URL.
     /// </summary>
     boolean isLocal() { return mIsLocal; }
     void isLocal(boolean value)

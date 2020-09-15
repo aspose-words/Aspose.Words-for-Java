@@ -30,20 +30,20 @@ public class ExComHelper extends ApiExampleBase
         //ExFor:ComHelper.Open(Stream)
         //ExFor:ComHelper.Open(String)
         //ExSummary:Shows how to open documents using the ComHelper class.
-        // If you need to open a document within a COM application,
-        // you will need to do so using the ComHelper class as instead of the Document constructor
+        // The ComHelper class allows us to load documents from within COM clients.
         ComHelper comHelper = new ComHelper();
 
-        // There are two ways of using a ComHelper to open a document
-        // 1: Using a filename
+        // 1 -  Using a local system filename:
         Document doc = comHelper.open(getMyDir() + "Document.docx");
+
         Assert.assertEquals("Hello World!", msString.trim(doc.getText()));
 
-        // 2: Using a Stream
+        // 2 -  From a stream:
         FileStream stream = new FileStream(getMyDir() + "Document.docx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
             doc = comHelper.open(stream);
+
             Assert.assertEquals("Hello World!", msString.trim(doc.getText()));
         }
         finally { if (stream != null) stream.close(); }

@@ -61,7 +61,7 @@ public class ExTableColumn extends ApiExampleBase
         }
 
         /// <summary>
-        /// Inserts a brand new column before this column into the table.
+        /// Inserts a new column before this column into the table.
         /// </summary>
         public Column insertColumnBefore()
         {
@@ -81,7 +81,7 @@ public class ExTableColumn extends ApiExampleBase
             for (Cell cell : column.getCells())
                 cell.ensureMinimum();
 
-            // Increase the index which this column represents since there is now one extra column infront
+            // Increase the index which this column represents since there is a new column in front of it
             mColumnIndex++;
 
             return column;

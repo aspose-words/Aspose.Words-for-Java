@@ -18,38 +18,35 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
     //ExFor:AbsolutePositionTab
     //ExFor:AbsolutePositionTab.Accept(DocumentVisitor)
     //ExFor:DocumentVisitor.VisitAbsolutePositionTab
-    //ExSummary:Shows how to work with absolute position tabs.
+    //ExSummary:Shows how to process absolute position tab characters with a document visitor.
     @Test //ExSkip
-    public void documentToTxt() throws Exception {
-        // This document contains two sentences separated by an absolute position tab
+    public void documentToTxt() throws Exception
+    {
         Document doc = new Document(getMyDir() + "Absolute position tab.docx");
 
-        // An AbsolutePositionTab is a child node of a paragraph
-        // AbsolutePositionTabs get picked up when looking for nodes of the SpecialChar type
-        Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
-        AbsolutePositionTab absPositionTab = (AbsolutePositionTab) para.getChild(NodeType.SPECIAL_CHAR, 0, true);
+        // Extract the text contents of our document by accepting this custom document visitor.
+        DocTextExtractor myDocTextExtractor = new DocTextExtractor();
+        doc.getFirstSection().getBody().accept(myDocTextExtractor);
 
-        // This implementation of the DocumentVisitor pattern converts the document to plain text
-        DocToTxtWriter myDocToTxtWriter = new DocToTxtWriter();
+        // The absolute position tab, which has no equivalent in string form, has been explicitly converted to a tab character.
+        Assert.assertEquals("Before AbsolutePositionTab\tAfter AbsolutePositionTab", myDocTextExtractor.getText());
 
-        // We can run the DocumentVisitor over the whole first paragraph
-        para.accept(myDocToTxtWriter);
+        // An AbsolutePositionTab can accept a DocumentVisitor by itself too.
+        AbsolutePositionTab absPositionTab = (AbsolutePositionTab)doc.getFirstSection().getBody().getFirstParagraph().getChild(NodeType.SPECIAL_CHAR, 0, true);
 
-        // A tab character is placed where the AbsolutePositionTab was found
-        Assert.assertEquals(myDocToTxtWriter.getText(), "Before AbsolutePositionTab\tAfter AbsolutePositionTab");
+        myDocTextExtractor = new DocTextExtractor();
+        absPositionTab.accept(myDocTextExtractor);
 
-        // An AbsolutePositionTab can accept a DocumentVisitor by itself too
-        myDocToTxtWriter = new DocToTxtWriter();
-        absPositionTab.accept(myDocToTxtWriter);
-
-        Assert.assertEquals(myDocToTxtWriter.getText(), "\t");
+        Assert.assertEquals("\t", myDocTextExtractor.getText());
     }
 
     /// <summary>
-    /// Visitor implementation that simply collects the Runs and AbsolutePositionTabs of a document as plain text.
+    /// Collects the text contents of all runs in the visited document, and represents all absolute tab characters as ordinary tabs.
     /// </summary>
-    public static class DocToTxtWriter extends DocumentVisitor {
-        public DocToTxtWriter() {
+    public static class DocTextExtractor extends DocumentVisitor
+    {
+        public DocTextExtractor()
+        {
             mBuilder = new StringBuilder();
         }
 
@@ -58,8 +55,6 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
         /// </summary>
         public int visitRun(final Run run) {
             appendText(run.getText());
-
-            // Let the visitor continue visiting other nodes
             return VisitorAction.CONTINUE;
         }
 
@@ -67,7 +62,6 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
         /// Called when an AbsolutePositionTab node is encountered in the document.
         /// </summary>
         public int visitAbsolutePositionTab(final AbsolutePositionTab tab) {
-            // We'll treat the AbsolutePositionTab as a regular tab in this case
             mBuilder.append("\t");
 
             return VisitorAction.CONTINUE;
@@ -81,7 +75,7 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
         }
 
         /// <summary>
-        /// Gets the plain text of the document that was accumulated by the visitor.
+        /// Plain text of the document that was accumulated by the visitor.
         /// </summary>
         public String getText() {
             return mBuilder.toString();

@@ -36,12 +36,10 @@ public class ExBookmarksOutlineLevelCollection extends ApiExampleBase
         //ExFor:BookmarksOutlineLevelCollection.RemoveAt(System.Int32)
         //ExFor:OutlineOptions.BookmarksOutlineLevels
         //ExSummary:Shows how to set outline levels for bookmarks.
-        // Open a blank document, create a DocumentBuilder, and use the builder to add some text wrapped inside bookmarks
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Note that whitespaces in bookmark names will be converted into underscores when saved to Microsoft Word formats
-        // such as .doc and .docx, but will be preserved in other formats like .pdf or .xps
+        // Insert a bookmark with another bookmark nested inside it.
         builder.startBookmark("Bookmark 1");
         builder.writeln("Text inside Bookmark 1.");
 
@@ -52,14 +50,14 @@ public class ExBookmarksOutlineLevelCollection extends ApiExampleBase
         builder.writeln("Text inside Bookmark 1.");
         builder.endBookmark("Bookmark 1");
 
+        // Insert another bookmark.
         builder.startBookmark("Bookmark 3");
         builder.writeln("Text inside Bookmark 3.");
         builder.endBookmark("Bookmark 3");
 
-        // We can specify outline levels for our bookmarks so that they show up in the table of contents and are indented by an amount
-        // of space proportional to the indent level in a SaveOptions object
-        // Some pdf/xps readers such as Google Chrome also allow the collapsing of all higher level bookmarks by adjacent lower level bookmarks
-        // This feature applies to .pdf or .xps file formats, so only their respective SaveOptions subclasses will support it
+        // When saving to .pdf, bookmarks can be accessed via a drop-down menu and used as anchors by most readers.
+        // Bookmarks can also have numeric values for outline levels,
+        // enabling lower level outline entries to hide higher-level child entries when collapsed in the reader.
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
         BookmarksOutlineLevelCollection outlineLevels = pdfSaveOptions.getOutlineOptions().getBookmarksOutlineLevels();
 
@@ -73,33 +71,27 @@ public class ExBookmarksOutlineLevelCollection extends ApiExampleBase
         Assert.assertEquals(2, outlineLevels.get("Bookmark 2"));
         Assert.assertEquals(2, outlineLevels.indexOfKey("Bookmark 3"));
 
-        // We can remove two elements so that only the outline level designation for "Bookmark 1" is left
+        // We can remove two elements so that only the outline level designation for "Bookmark 1" is left.
         outlineLevels.removeAt(2);
         outlineLevels.remove("Bookmark 2");
 
-        // We have 9 bookmark levels to work with, and bookmark levels are also sorted in ascending order,
-        // and get numbered in succession along that order
-        // Practically this means that our three levels "1, 5, 9", will be seen as "1, 2, 3" in the output
+        // There are nine outline levels. Their numbering will be optimized during the save operation.
+        // In this case, levels "5" and "9" will become "2" and "3".
         outlineLevels.add("Bookmark 2", 5);
         outlineLevels.add("Bookmark 3", 9);
 
-        // Save the document as a .pdf and find links to the bookmarks and their outline levels
         doc.save(getArtifactsDir() + "BookmarksOutlineLevelCollection.BookmarkLevels.pdf", pdfSaveOptions);
 
-        // We can empty this dictionary to remove the contents table
+        // Emptying this collection will preserve the bookmarks and put them all on the same outline level.
         outlineLevels.clear();
         //ExEnd
 
-                // Bind pdf with Aspose.Pdf
-        PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
+                PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
         bookmarkEditor.BindPdf(getArtifactsDir() + "BookmarksOutlineLevelCollection.BookmarkLevels.pdf");
 
-        // Get all bookmarks from the document
         Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();
 
         Assert.AreEqual(3, bookmarks.Count);
-
-        // Assert that all the bookmarks title are with whitespaces
         Assert.AreEqual("Bookmark 1", bookmarks[0].Title);
         Assert.AreEqual("Bookmark 2", bookmarks[1].Title);
         Assert.AreEqual("Bookmark 3", bookmarks[2].Title);            

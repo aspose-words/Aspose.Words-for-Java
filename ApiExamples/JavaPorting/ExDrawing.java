@@ -266,9 +266,9 @@ public class ExDrawing extends ApiExampleBase
         finally { if (enumerator != null) enumerator.close(); }
         //ExEnd
 
-        String[] imageFileNames = Directory.getFiles(getArtifactsDir()).Where(s => s.StartsWith(ArtifactsDir + "Drawing.SaveAllImages.")).ToArray();
+        String[] imageFileNames = Directory.getFiles(getArtifactsDir()).Where(s => s.StartsWith(ArtifactsDir + "Drawing.SaveAllImages.")).OrderBy(s => s).ToArray();
         ArrayList<FileInfo> fileInfos = imageFileNames.Select(s => new FileInfo(s)).ToList();
-
+        
         TestUtil.verifyImage(2467, 1500, fileInfos.get(0).getFullName());
         Assert.assertEquals(".Jpeg", fileInfos.get(0).Extension);
         TestUtil.verifyImage(400, 400, fileInfos.get(1).getFullName());
@@ -604,7 +604,7 @@ public class ExDrawing extends ApiExampleBase
         imageData.setBrightness(0.8d);
         imageData.setContrast(1.0d);
 
-        // Our image will have a lot of white now that we've changed the brightness and contrast like that
+        // Our image will have a lot of white now that we have changed the brightness and contrast like that
         // We can treat white as transparent with the following attribute
         imageData.setChromaKey(Color.WHITE);
 

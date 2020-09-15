@@ -139,7 +139,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.That(sdt.getXmlMapping().getStoreItemId(), Is.Empty); //Assert that this sdt has no StoreItemId
     }
 
-    @Test
+    @Test (groups = "SkipMono")
     public void date() throws Exception
     {
         //ExStart
@@ -222,7 +222,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         tag.getContentsFont().setName("Arial");
 
         // Set the font for the text at the end of the StructuredDocumentTag
-        // Any text that's typed in the document body after moving out of the tag with arrow keys will keep this font
+        // Any text that is typed in the document body after moving out of the tag with arrow keys will keep this font
         tag.getEndCharacterFont().setName("Arial Black");
 
         // By default, this is false and pressing enter while inside a StructuredDocumentTag does nothing
@@ -269,7 +269,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.INLINE);
 
         // If we set its Temporary attribute to true, as soon as we start typing,
-        // the tag will disappear and its contents will be assimilated into the parent Paragraph
+        // the tag will disappear, and its contents will be assimilated into the parent Paragraph
         tag.isTemporary(true);
 
         // Insert the StructuredDocumentTag with a DocumentBuilder
@@ -308,7 +308,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.INLINE);
 
         // We can substitute that default placeholder with a custom phrase, which will be drawn from a BuildingBlock
-        // First we will need to create the BuildingBlock, give it content and add it to the GlossaryDocument
+        // First, we will need to create the BuildingBlock, give it content and add it to the GlossaryDocument
         GlossaryDocument glossaryDoc = doc.getGlossaryDocument();
 
         BuildingBlock substituteBlock = new BuildingBlock(glossaryDoc);
@@ -412,16 +412,16 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:SdtListItemCollection.SelectedValue
         //ExFor:StructuredDocumentTag.ListItems
         //ExSummary:Shows how to work with StructuredDocumentTag nodes of the DropDownList type.
-        // Create a blank document and insert a StructuredDocumentTag that will contain a drop down list
+        // Create a blank document and insert a StructuredDocumentTag that will contain a drop-down list
         Document doc = new Document();
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.DROP_DOWN_LIST, MarkupLevel.BLOCK);
         doc.getFirstSection().getBody().appendChild(tag);
 
-        // A drop down list needs elements, each of which will be a SdtListItem
+        // A drop-down list needs elements, each of which will be a SdtListItem
         SdtListItemCollection listItems = tag.getListItems();
         listItems.add(new SdtListItem("Value 1"));
 
-        // Each SdtListItem has text that will be displayed when the drop down list is opened, and also a value
+        // Each SdtListItem has text that will be displayed when the drop-down list is opened, and also a value
         // When we initialize with one string, we are providing just the value
         // Accordingly, value is passed as DisplayText and will consequently be displayed on the screen
         Assert.assertEquals(listItems.get(0).getDisplayText(), listItems.get(0).getValue());
@@ -431,7 +431,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         listItems.add(new SdtListItem("Item 3", "Value 3"));
         listItems.add(new SdtListItem("Item 4", "Value 4"));
 
-        // We can obtain a count of the SdtListItems and also set the drop down list's SelectedValue attribute to
+        // We can obtain a count of the SdtListItems and also set the drop-down list's SelectedValue attribute to
         // automatically have one of them pre-selected when we open the document in Microsoft Word
         Assert.assertEquals(4, listItems.getCount());
         listItems.setSelectedValue(listItems.get(3));
@@ -491,7 +491,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Document doc = new Document();
 
         // Construct an XML part that contains data and add it to the document's collection
-        // Once the "Developer" tab in Mircosoft Word is enabled,
+        // Once the "Developer" tab in Microsoft Word is enabled,
         // we can find elements from this collection as well as a couple defaults in the "XML Mapping Pane" 
         String xmlPartId = Guid.newGuid().toString("B");
         String xmlPartContent = "<root><text>Hello world!</text></root>";
@@ -644,7 +644,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // and perform other collection-related operations on the list of schemas for this part
         xmlPart.getSchemas().add("http://www.w3.org/2001/XMLSchema");
 
-        // Collections can be cloned and elements can be added
+        // Collections can be cloned, and elements can be added
         CustomXmlSchemaCollection schemas = xmlPart.getSchemas().deepClone();
         schemas.add("http://www.w3.org/2001/XMLSchema-instance");
         schemas.add("http://schemas.microsoft.com/office/2006/metadata/contentType");
@@ -812,7 +812,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExSummary:Shows how structured document tags can be updated while saving to .pdf.
         Document doc = new Document();
 
-        // Insert two StructuredDocumentTags; a date and a drop down list 
+        // Insert two StructuredDocumentTags; a date and a drop-down list 
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.DATE, MarkupLevel.BLOCK);
         tag.setFullDateInternal(DateTime.getNow());
 
@@ -839,7 +839,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.Visit(pdfDoc);
 
-        Assert.AreEqual(updateSdtContent ? "Value 2" : "Click here to enter a date.\r\nChoose an item.",
+        Assert.AreEqual(updateSdtContent ? "Value 2" : $"Click here to enter a date.{Environment.NewLine}Choose an item.",
             textAbsorber.Text);
     }
 

@@ -35,13 +35,8 @@ import java.util.regex.Pattern;
 
 public class ExField extends ApiExampleBase {
     @Test
-    public void updateTOC() throws Exception {
-        Document doc = new Document();
-        doc.updateFields();
-    }
-
-    @Test
-    public void getFieldFromDocument() throws Exception {
+    public void getFieldFromDocument() throws Exception
+    {
         //ExStart
         //ExFor:FieldType
         //ExFor:FieldChar
@@ -69,8 +64,8 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(false, field.isLocked());
         Assert.assertEquals(" DATE  \\@ \"dddd, MMMM dd, yyyy\"", field.getFieldCode());
 
-        // This updates only this field in the document
-        field.update();
+        // Update the field to show the current date
+        field.update();         
         //ExEnd
     }
 

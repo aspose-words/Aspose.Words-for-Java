@@ -11,9 +11,9 @@ package ApiExamples;
 
 import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.ms.System.Globalization.msCultureInfo;
-import org.testng.Assert;
 import com.aspose.ms.System.IO.Directory;
 import org.testng.annotations.BeforeMethod;
+import org.testng.Assert;
 import com.aspose.ms.System.msConsole;
 import java.lang.Class;
 import com.aspose.ms.System.IO.Path;
@@ -32,59 +32,33 @@ public class ApiExampleBase
     public void oneTimeSetUp() throws Exception
     {
         CurrentThread.setCurrentCulture(msCultureInfo.getInvariantCulture());
-
-        if (checkForSkipMono() && isRunningOnMono())
-        {
-            return /* "Test skipped on mono" */;
-        }
-
-        if (!checkForSkipSetUp())
-        {
-            setUnlimitedLicense();
-        }
+        
+        setUnlimitedLicense();
 
         if (!Directory.exists(getArtifactsDir()))
-            //Create new empty directory
             Directory.createDirectory(getArtifactsDir());
     }
 
     @BeforeMethod (alwaysRun = true)
     public void setUp()
     {
+        if (checkForSkipMono() && isRunningOnMono())
+        {
+            return /* "Test skipped on mono" */;
+        }
+
         System.out.println("Clr: {RuntimeInformation.FrameworkDescription}\n");
     }
 
     @OneTimeTearDown
     public void oneTimeTearDown() throws Exception
     {
-        if (!checkForSkipTearDown())
-        {
-            if (Directory.exists(getArtifactsDir()))
-                //Delete all dirs and files from directory
-                Directory.delete(getArtifactsDir(), true);
-        }
+        if (Directory.exists(getArtifactsDir()))
+            Directory.delete(getArtifactsDir(), true);
     }
 
     /// <summary>
-    /// Checks when we need to skip precondition before test.
-    /// </summary>
-    private static boolean checkForSkipSetUp()
-    {
-        boolean skipSetup = TestContext.CurrentContext.Test.Properties.("Category").Contains("SkipSetup");
-        return skipSetup;
-    }
-
-    /// <summary>
-    /// Checks when we need to skip post-condition after test.
-    /// </summary>
-    private static boolean checkForSkipTearDown()
-    {
-        boolean skipSetup = TestContext.CurrentContext.Test.Properties.("Category").Contains("SkipTearDown");
-        return skipSetup;
-    }
-
-    /// <summary>
-    /// Checks when we need to skip post-condition after test.
+    /// Checks when we need to ignore test on mono.
     /// </summary>
     private static boolean checkForSkipMono()
     {
@@ -97,9 +71,9 @@ public class ApiExampleBase
     /// Workaround for .netcore.
     /// </summary>
     /// <returns>True if being executed in Mono, false otherwise.</returns>
-    public static boolean isRunningOnMono() {
+    static boolean isRunningOnMono() {
         return Class.GetType("Mono.Runtime") != null;
-    }
+    }        
 
     static void setUnlimitedLicense() throws Exception
     {
@@ -209,7 +183,7 @@ public class ApiExampleBase
     private static  String mFontsDir;
 
     /// <summary>
-    /// Gets the url of the Aspose logo.
+    /// Gets the URL of the Aspose logo.
     /// </summary>
     static String getAsposeLogoUrl() { return mAsposeLogoUrl; };
 

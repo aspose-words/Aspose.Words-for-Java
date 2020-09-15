@@ -21,6 +21,7 @@ import com.aspose.words.TxtExportHeadersFootersMode;
 import com.aspose.words.HeaderFooter;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.SaveFormat;
+import com.aspose.words.Table;
 import org.testng.annotations.DataProvider;
 
 
@@ -336,8 +337,8 @@ public class ExTxtSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (dataProvider = "tableLayoutDataProvider")
-    public void tableLayout(boolean preserveTableLayout) throws Exception
+    @Test (dataProvider = "preserveTableLayoutDataProvider")
+    public void preserveTableLayout(boolean preserveTableLayout) throws Exception
     {
         //ExStart
         //ExFor:TxtSaveOptions.PreserveTableLayout
@@ -362,9 +363,9 @@ public class ExTxtSaveOptions extends ApiExampleBase
         // However, we can configure a SaveOptions object to arrange table contents to preserve some of the table's appearance
         TxtSaveOptions txtSaveOptions = new TxtSaveOptions(); { txtSaveOptions.setPreserveTableLayout(preserveTableLayout); }
 
-        doc.save(getArtifactsDir() + "TxtSaveOptions.TableLayout.txt", txtSaveOptions);
+        doc.save(getArtifactsDir() + "TxtSaveOptions.PreserveTableLayout.txt", txtSaveOptions);
 
-        String docText = File.readAllText(getArtifactsDir() + "TxtSaveOptions.TableLayout.txt");
+        String docText = File.readAllText(getArtifactsDir() + "TxtSaveOptions.PreserveTableLayout.txt");
 
         if (preserveTableLayout)
             Assert.assertEquals("Row 1, cell 1                Row 1, cell 2\r\n" +
@@ -378,8 +379,8 @@ public class ExTxtSaveOptions extends ApiExampleBase
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "tableLayoutDataProvider")
-	public static Object[][] tableLayoutDataProvider() throws Exception
+	@DataProvider(name = "preserveTableLayoutDataProvider")
+	public static Object[][] preserveTableLayoutDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -387,4 +388,38 @@ public class ExTxtSaveOptions extends ApiExampleBase
 			{true},
 		};
 	}
+
+    @Test
+    public void updateTableLayout() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.UpdateTableLayout
+        //ExSummary:Shows how to preserve a table's layout when saving to .txt.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Table table = builder.startTable();
+        builder.insertCell();
+        builder.write("Cell 1");
+        builder.insertCell();
+        builder.write("Cell 2");
+        builder.insertCell();
+        builder.write("Cell 3");
+        builder.endTable();
+
+        // Create a SaveOptions object to prepare this document to be saved to .txt.
+        TxtSaveOptions options = new TxtSaveOptions();
+        options.setPreserveTableLayout(true);
+
+        // Previewing the appearance of the document in .txt form shows that the table will not be represented accurately.
+        Assert.assertEquals(0.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth());
+        Assert.assertEquals("CCC\r\neee\r\nlll\r\nlll\r\n   \r\n123\r\n\r\n", doc.toString(options));
+
+        // We can call UpdateTableLayout() to fix some of these issues.
+        doc.updateTableLayout();
+
+        Assert.assertEquals("Cell 1             Cell 2             Cell 3\r\n\r\n", doc.toString(options));
+        Assert.assertEquals(155.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth(), 2f);
+        //ExEnd
+    }
 }

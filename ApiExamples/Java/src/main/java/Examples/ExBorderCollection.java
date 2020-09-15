@@ -20,28 +20,34 @@ public class ExBorderCollection extends ApiExampleBase {
     public void getBordersEnumerator() throws Exception {
         //ExStart
         //ExFor:BorderCollection.GetEnumerator
-        //ExSummary:Shows how to enumerate all borders in a collection.
-        Document doc = new Document(getMyDir() + "Borders.docx");
+        //ExSummary:Shows how to iterate over and edit all of the borders in a paragraph format object.
+        Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // Configure the builder's paragraph format settings to create a green wave border on all sides.
         BorderCollection borders = builder.getParagraphFormat().getBorders();
 
         Iterator<Border> enumerator = borders.iterator();
         while (enumerator.hasNext()) {
-            // Do something useful
-            Border b = enumerator.next();
-            b.setColor(new Color(65, 105, 225)); // RoyalBlue
-            b.setLineStyle(LineStyle.DOUBLE);
+                Border border = enumerator.next();
+                border.setColor(Color.green);
+                border.setLineStyle(LineStyle.WAVE);
+                border.setLineWidth(3.0);
         }
+
+        // Insert a paragraph. Our border settings will determine the appearance of its border.
+        builder.writeln("Hello world!");
 
         doc.save(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.docx");
 
-        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders()) {
-            Assert.assertEquals(new Color(65, 105, 225).getRGB(), border.getColor().getRGB());
-            Assert.assertEquals(LineStyle.DOUBLE, border.getLineStyle());
+        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders())
+        {
+            Assert.assertEquals(Color.green.getRGB(), border.getColor().getRGB());
+            Assert.assertEquals(LineStyle.WAVE, border.getLineStyle());
+            Assert.assertEquals(3.0d, border.getLineWidth());
         }
     }
 
@@ -49,13 +55,29 @@ public class ExBorderCollection extends ApiExampleBase {
     public void removeAllBorders() throws Exception {
         //ExStart
         //ExFor:BorderCollection.ClearFormatting
-        //ExSummary:Shows how to remove all borders from a paragraph at once.
+        //ExSummary:Shows how to remove all borders from all paragraphs in a document.
         Document doc = new Document(getMyDir() + "Borders.docx");
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        BorderCollection borders = builder.getParagraphFormat().getBorders();
 
-        borders.clearFormatting();
+        // The first paragraph of this document has visible borders with these settings.
+        BorderCollection firstParagraphBorders = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders();
 
+        Assert.assertEquals(Color.RED.getRGB(), firstParagraphBorders.getColor().getRGB());
+        Assert.assertEquals(LineStyle.SINGLE, firstParagraphBorders.getLineStyle());
+        Assert.assertEquals(3.0d, firstParagraphBorders.getLineWidth());
+
+        // Apply the ClearFormatting method to each paragraph to remove all of its borders.
+        for (Paragraph paragraph : (Iterable<Paragraph>) doc.getFirstSection().getBody().getParagraphs())
+        {
+            paragraph.getParagraphFormat().getBorders().clearFormatting();
+
+            for (Border border : paragraph.getParagraphFormat().getBorders())
+            {
+                Assert.assertEquals(0, border.getColor().getRGB());
+                Assert.assertEquals(LineStyle.NONE, border.getLineStyle());
+                Assert.assertEquals(0.0d, border.getLineWidth());
+            }
+        }
+        
         doc.save(getArtifactsDir() + "BorderCollection.RemoveAllBorders.docx");
         //ExEnd
 
@@ -64,6 +86,7 @@ public class ExBorderCollection extends ApiExampleBase {
         for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders()) {
             Assert.assertEquals(0, border.getColor().getRGB());
             Assert.assertEquals(LineStyle.NONE, border.getLineStyle());
+            Assert.assertEquals(0.0d, border.getLineWidth());
         }
     }
 }

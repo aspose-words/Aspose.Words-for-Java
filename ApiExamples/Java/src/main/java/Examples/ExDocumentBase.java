@@ -8,6 +8,8 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.pdf.ColorType;
+import com.aspose.pdf.XImage;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
 import org.testng.Assert;
@@ -26,12 +28,15 @@ public class ExDocumentBase extends ApiExampleBase {
     public void constructor() throws Exception {
         //ExStart
         //ExFor:DocumentBase
-        //ExSummary:Shows how to initialize the subclasses of DocumentBase. 
-        // DocumentBase is the abstract base class for the Document and GlossaryDocument classes
+        //ExSummary:Shows how to initialize the subclasses of DocumentBase.
         Document doc = new Document();
+
+        Assert.assertEquals(DocumentBase.class, doc.getClass().getSuperclass());
 
         GlossaryDocument glossaryDoc = new GlossaryDocument();
         doc.setGlossaryDocument(glossaryDoc);
+
+        Assert.assertEquals(DocumentBase.class, glossaryDoc.getClass().getSuperclass());
         //ExEnd
     }
 
@@ -39,8 +44,10 @@ public class ExDocumentBase extends ApiExampleBase {
     public void setPageColor() throws Exception {
         //ExStart
         //ExFor:DocumentBase.PageColor
-        //ExSummary:Shows how to set the page color.
+        //ExSummary:Shows how to set the background color for all pages of a document.
         Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world!");
 
         doc.setPageColor(Color.lightGray);
 
@@ -55,35 +62,37 @@ public class ExDocumentBase extends ApiExampleBase {
     public void importNode() throws Exception {
         //ExStart
         //ExFor:DocumentBase.ImportNode(Node, Boolean)
-        //ExSummary:Shows how to import node from source document to destination document.
-        Document src = new Document();
-        Document dst = new Document();
+        //ExSummary:Shows how to import a node from one document to another.
+        Document srcDoc = new Document();
+        Document dstDoc = new Document();
 
-        // Add text to both documents
-        src.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(src, "Source document first paragraph text."));
-        dst.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(dst, "Destination document first paragraph text."));
+        srcDoc.getFirstSection().getBody().getFirstParagraph().appendChild(
+            new Run(srcDoc, "Source document first paragraph text."));
+        dstDoc.getFirstSection().getBody().getFirstParagraph().appendChild(
+            new Run(dstDoc, "Destination document first paragraph text."));
 
-        // In order for a child node to be successfully appended to another node in a document,
-        // both nodes must have the same parent document, or an exception is thrown
-        Assert.assertNotEquals(dst, src.getFirstSection().getDocument());
-        Assert.assertThrows(IllegalArgumentException.class, () -> dst.appendChild(src.getFirstSection()));
+        // Every node has a parent document, which is the document that contains the node.
+        // Inserting a node into a document that the node does not belong to will throw an exception.
+        Assert.assertNotEquals(dstDoc, srcDoc.getFirstSection().getDocument());
+        Assert.assertThrows(IllegalArgumentException.class, () -> dstDoc.appendChild(srcDoc.getFirstSection()));
 
-        // For that reason, we can't just append a section of the source document to the destination document using Node.AppendChild()
-        // Document.ImportNode() lets us get around this by creating a clone of a node and sets its parent to the calling document
-        Section importedSection = (Section) dst.importNode(src.getFirstSection(), true);
+        // Use the ImportNode method to create a copy of a node, which will have the document
+        // that called the ImportNode method set as its new owner document.
+        Section importedSection = (Section)dstDoc.importNode(srcDoc.getFirstSection(), true);
 
-        // Now it is ready to be placed in the document
-        dst.appendChild(importedSection);
+        Assert.assertEquals(dstDoc, importedSection.getDocument());
 
-        // Our document now contains both the original and imported section
+        // We can now insert the node into the document.
+        dstDoc.appendChild(importedSection);
+
         Assert.assertEquals("Destination document first paragraph text.\r\nSource document first paragraph text.\r\n",
-                dst.toString(SaveFormat.TEXT));
+            dstDoc.toString(SaveFormat.TEXT));
         //ExEnd
 
-        Assert.assertNotEquals(importedSection, src.getFirstSection());
-        Assert.assertNotEquals(importedSection.getDocument(), src.getFirstSection().getDocument());
+        Assert.assertNotEquals(importedSection, srcDoc.getFirstSection());
+        Assert.assertNotEquals(importedSection.getDocument(), srcDoc.getFirstSection().getDocument());
         Assert.assertEquals(importedSection.getBody().getFirstParagraph().getText(),
-                src.getFirstSection().getBody().getFirstParagraph().getText());
+            srcDoc.getFirstSection().getBody().getFirstParagraph().getText());
     }
 
     @Test
@@ -91,35 +100,36 @@ public class ExDocumentBase extends ApiExampleBase {
         //ExStart
         //ExFor:DocumentBase.ImportNode(Node, System.Boolean, ImportFormatMode)
         //ExSummary:Shows how to import node from source document to destination document with specific options.
-        // Create two documents with two styles that differ in font but have the same name
-        Document src = new Document();
-        Style srcStyle = src.getStyles().add(StyleType.CHARACTER, "My style");
+        // Create two documents, and add a character style to each document.
+        // Configure the styles to have the same name, but different text formatting.
+        Document srcDoc = new Document();
+        Style srcStyle = srcDoc.getStyles().add(StyleType.CHARACTER, "My style");
         srcStyle.getFont().setName("Courier New");
-        DocumentBuilder srcBuilder = new DocumentBuilder(src);
+        DocumentBuilder srcBuilder = new DocumentBuilder(srcDoc);
         srcBuilder.getFont().setStyle(srcStyle);
         srcBuilder.writeln("Source document text.");
 
-        Document dst = new Document();
-        Style dstStyle = dst.getStyles().add(StyleType.CHARACTER, "My style");
+        Document dstDoc = new Document();
+        Style dstStyle = dstDoc.getStyles().add(StyleType.CHARACTER, "My style");
         dstStyle.getFont().setName("Calibri");
-        DocumentBuilder dstBuilder = new DocumentBuilder(dst);
+        DocumentBuilder dstBuilder = new DocumentBuilder(dstDoc);
         dstBuilder.getFont().setStyle(dstStyle);
         dstBuilder.writeln("Destination document text.");
 
-        // Import the Section from the destination document into the source document, causing a style name collision
-        // If we use destination styles then the imported source text with the same style name as destination text
-        // will adopt the destination style 
-        Section importedSection = (Section) dst.importNode(src.getFirstSection(), true, ImportFormatMode.USE_DESTINATION_STYLES);
+        // Import the Section from the destination document into the source document, causing a style name collision.
+        // If we use destination styles, then the imported source text with the same style name
+        // as destination text will adopt the destination style.
+        Section importedSection = (Section)dstDoc.importNode(srcDoc.getFirstSection(), true, ImportFormatMode.USE_DESTINATION_STYLES);
         Assert.assertEquals("Source document text.", importedSection.getBody().getParagraphs().get(0).getRuns().get(0).getText().trim()); //ExSkip
-        Assert.assertNull(dst.getStyles().get("My style_0")); //ExSkip
+        Assert.assertNull(dstDoc.getStyles().get("My style_0")); //ExSkip
         Assert.assertEquals(dstStyle.getFont().getName(), importedSection.getBody().getFirstParagraph().getRuns().get(0).getFont().getName());
         Assert.assertEquals(dstStyle.getName(), importedSection.getBody().getFirstParagraph().getRuns().get(0).getFont().getStyleName());
 
-        // If we use ImportFormatMode.KeepDifferentStyles,
-        // the source style is preserved and the naming clash is resolved by adding a suffix 
-        dst.importNode(src.getFirstSection(), true, ImportFormatMode.KEEP_DIFFERENT_STYLES);
-        Assert.assertEquals(dstStyle.getFont().getName(), dst.getStyles().get("My style").getFont().getName());
-        Assert.assertEquals(srcStyle.getFont().getName(), dst.getStyles().get("My style_0").getFont().getName());
+        // If we use ImportFormatMode.KeepDifferentStyles, the source style is preserved,
+        // and the naming clash resolves by adding a suffix.
+        dstDoc.importNode(srcDoc.getFirstSection(), true, ImportFormatMode.KEEP_DIFFERENT_STYLES);
+        Assert.assertEquals(dstStyle.getFont().getName(), dstDoc.getStyles().get("My style").getFont().getName());
+        Assert.assertEquals(srcStyle.getFont().getName(), dstDoc.getStyles().get("My style_0").getFont().getName());
         //ExEnd
     }
 
@@ -127,38 +137,50 @@ public class ExDocumentBase extends ApiExampleBase {
     public void backgroundShape() throws Exception {
         //ExStart
         //ExFor:DocumentBase.BackgroundShape
-        //ExSummary:Shows how to set the background shape of a document.
+        //ExSummary:Shows how to set a background shape for every page of a document.
         Document doc = new Document();
+
         Assert.assertNull(doc.getBackgroundShape());
 
-        // A background shape can only be a rectangle
-        // We will set the color of this rectangle to light blue
+        // The only shape type that we can use as a background is a rectangle.
         Shape shapeRectangle = new Shape(doc, ShapeType.RECTANGLE);
+
+        // There are two ways of using this shape as a page background.
+        // 1 -  A flat color:
+        shapeRectangle.setFillColor(Color.BLUE);
         doc.setBackgroundShape(shapeRectangle);
 
-        // This rectangle covers the entire page in the output document
-        // We can also do this by setting doc.PageColor
-        shapeRectangle.setFillColor(Color.blue);
-        doc.save(getArtifactsDir() + "DocumentBase.BackgroundShapeFlatColor.docx");
+        doc.save(getArtifactsDir() + "DocumentBase.BackgroundShape.FlatColor.docx");
 
-        // Setting the image will override the flat background color with the image
+        // 2 -  An image:
+        shapeRectangle = new Shape(doc, ShapeType.RECTANGLE);
         shapeRectangle.getImageData().setImage(getImageDir() + "Transparent background logo.png");
-        Assert.assertTrue(doc.getBackgroundShape().hasImage());
 
-        // This image is a photo with a white background
-        // To make it suitable as a watermark, we will need to do some image processing
-        // The default values for these variables are 0.5, so here we are lowering the contrast and increasing the brightness
+        // Adjust the image's appearance to make it more suitable as a watermark.
         shapeRectangle.getImageData().setContrast(0.2);
         shapeRectangle.getImageData().setBrightness(0.7);
 
-        // Microsoft Word does not support images in background shapes, so even though we set the background as an image,
-        // the output will show a light blue background like before
-        // However, we can see our watermark in an output pdf
-        doc.save(getArtifactsDir() + "DocumentBase.BackgroundShape.pdf");
+        doc.setBackgroundShape(shapeRectangle);
+
+        Assert.assertTrue(doc.getBackgroundShape().hasImage());
+
+        // Microsoft Word does not support shapes with images as backgrounds,
+        // but we can still see these backgrounds in other save formats such as .pdf.
+        doc.save(getArtifactsDir() + "DocumentBase.BackgroundShape.Image.pdf");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "DocumentBase.BackgroundShapeFlatColor.docx");
-        Assert.assertEquals(Color.blue.getRGB(), doc.getBackgroundShape().getFillColor().getRGB());
+        doc = new Document(getArtifactsDir() + "DocumentBase.BackgroundShape.FlatColor.docx");
+
+        Assert.assertEquals(Color.BLUE.getRGB(), doc.getBackgroundShape().getFillColor().getRGB());
+
+        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "DocumentBase.BackgroundShape.Image.pdf");
+        XImage pdfDocImage = pdfDocument.getPages().get_Item(1).getResources().getImages().get_Item(1);
+
+        Assert.assertEquals(400, pdfDocImage.getWidth());
+        Assert.assertEquals(400, pdfDocImage.getHeight());
+        Assert.assertEquals(ColorType.Rgb, pdfDocImage.getColorType());
+
+        pdfDocument.close();
     }
 
     //ExStart
@@ -171,48 +193,49 @@ public class ExDocumentBase extends ApiExampleBase {
     //ExFor:ResourceLoadingArgs.ResourceType
     //ExFor:ResourceLoadingArgs.SetData(Byte[])
     //ExFor:ResourceType
-    //ExSummary:Shows how to process inserted resources differently.
+    //ExSummary:Shows how to customize the process of loading external resources into a document.
     @Test //ExSkip
-    public void resourceLoadingCallback() throws Exception {
+    public void resourceLoadingCallback() throws Exception
+    {
         Document doc = new Document();
-
-        // Enable our custom image loading
         doc.setResourceLoadingCallback(new ImageNameHandler());
 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // We usually insert images as a uri or byte array, but there are many other possibilities with ResourceLoadingCallback
-        // In this case we are referencing images with simple names and keep the image fetching logic somewhere else
-        builder.insertImage("Google Logo");
-        builder.insertImage("Aspose Logo");
-        builder.insertImage("My Watermark");
+        // Images usually are inserted using a URI, or a byte array.
+        // Every instance of a resource load will call our callback's ResourceLoading method.
+        builder.insertImage("Google logo");
+        builder.insertImage("Aspose logo");
+        builder.insertImage("Watermark");
 
-        // Images belong to Shape objects, which are placed and scaled in the document
         Assert.assertEquals(3, doc.getChildNodes(NodeType.SHAPE, true).getCount());
 
         doc.save(getArtifactsDir() + "DocumentBase.ResourceLoadingCallback.docx");
         testResourceLoadingCallback(new Document(getArtifactsDir() + "DocumentBase.ResourceLoadingCallback.docx")); //ExSkip
     }
 
+    /// <summary>
+    /// Allows us to load images into a document using predefined shorthands, as opposed to URIs.
+    /// This will separate image loading logic from the rest of the document construction.
+    /// </summary>
     private static class ImageNameHandler implements IResourceLoadingCallback {
         public int resourceLoading(final ResourceLoadingArgs args) throws URISyntaxException, IOException {
             if (args.getResourceType() == ResourceType.IMAGE) {
-                // builder.InsertImage expects a uri so inputs like "Google Logo" would normally trigger a FileNotFoundException
-                // We can still process those inputs and find an image any way we like, as long as an image byte array is passed to args.SetData()
-                if ("Google Logo".equals(args.getOriginalUri())) {
+                // If this callback encounters one of the image shorthands while loading an image,
+            // it will apply unique logic for each defined shorthand instead of treating it as a URI.
+                if ("Google logo".equals(args.getOriginalUri())) {
                     args.setData(DocumentHelper.getBytesFromStream(new URI("http://www.google.com/images/logos/ps_logo2.png").toURL().openStream()));
-                    // We need this return statement any time a resource is loaded in a custom manner
+                    
                     return ResourceLoadingAction.USER_PROVIDED;
                 }
 
-                if ("Aspose Logo".equals(args.getOriginalUri())) {
+                if ("Aspose logo".equals(args.getOriginalUri())) {
                     args.setData(DocumentHelper.getBytesFromStream(getAsposelogoUri().toURL().openStream()));
 
                     return ResourceLoadingAction.USER_PROVIDED;
                 }
 
-                // We can find and add an image any way we like, as long as args.SetData() is called with some image byte array as a parameter
-                if ("My Watermark".equals(args.getOriginalUri())) {
+                if ("Watermark".equals(args.getOriginalUri())) {
                     InputStream imageStream = new FileInputStream(getImageDir() + "Transparent background logo.png");
                     args.setData(DocumentHelper.getBytesFromStream(imageStream));
 
@@ -220,7 +243,6 @@ public class ExDocumentBase extends ApiExampleBase {
                 }
             }
 
-            // All other resources such as documents, CSS stylesheets and images passed as uris are handled as they were normally
             return ResourceLoadingAction.DEFAULT;
         }
     }

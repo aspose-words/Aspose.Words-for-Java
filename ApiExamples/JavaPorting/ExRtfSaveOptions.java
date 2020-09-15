@@ -53,8 +53,11 @@ public class ExRtfSaveOptions extends ApiExampleBase
         }
         else
         {
-            Assert.<AssertionError>Throws(() => TestUtil.fileContainsString("nonshppict", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf"));
-            Assert.<AssertionError>Throws(() => TestUtil.fileContainsString("shprslt", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf"));
+            if (!isRunningOnMono())
+            {
+                Assert.<AssertionError>Throws(() => TestUtil.fileContainsString("nonshppict", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf"));
+                Assert.<AssertionError>Throws(() => TestUtil.fileContainsString("shprslt", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf"));
+            }
         }
     }
 
@@ -69,7 +72,7 @@ public class ExRtfSaveOptions extends ApiExampleBase
 		};
 	}
 
-    @Test
+    @Test (groups = "SkipMono")
     public void saveImagesAsWmf() throws Exception
     {
         //ExStart

@@ -19,13 +19,10 @@ import com.aspose.words.Border;
 import org.testng.Assert;
 import com.aspose.words.BorderType;
 import com.aspose.words.BorderCollection;
-import com.aspose.words.Run;
-import com.aspose.words.Paragraph;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.Table;
 import com.aspose.words.Row;
-import com.aspose.words.Cell;
 import com.aspose.words.NodeType;
 
 
@@ -101,19 +98,28 @@ public class ExBorder extends ApiExampleBase
     {
         //ExStart
         //ExFor:Border.ClearFormatting
+        //ExFor:Border.IsVisible
         //ExSummary:Shows how to remove borders from a paragraph.
         Document doc = new Document(getMyDir() + "Borders.docx");
 
-        // Get the first paragraph's collection of borders
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        BorderCollection borders = builder.getParagraphFormat().getBorders();
-        Assert.assertEquals(Color.RED.getRGB(), borders.get(0).getColor().getRGB()); //ExSkip
-        Assert.assertEquals(3.0d, borders.get(0).getLineWidth()); // ExSkip
-        Assert.assertEquals(LineStyle.SINGLE, borders.get(0).getLineStyle()); // ExSkip
+        // Each paragraph has an individual set of borders.
+        // We can access the settings for the appearance of these borders via the paragraph format object.
+        BorderCollection borders = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders();
 
-        for (Border border : borders) border.clearFormatting();
+        Assert.assertEquals(Color.RED.getRGB(), borders.get(0).getColor().getRGB());
+        Assert.assertEquals(3.0d, borders.get(0).getLineWidth());
+        Assert.assertEquals(LineStyle.SINGLE, borders.get(0).getLineStyle());
+        Assert.assertTrue(borders.get(0).isVisible());
 
-        builder.getCurrentParagraph().getRuns().get(0).setText("Paragraph with no border");
+        // We can remove a border at once by running the ClearFormatting method. 
+        // Running this method on every border of a paragraph will remove all of its borders.
+        for (Border border : borders)
+            border.clearFormatting();
+
+        Assert.assertEquals(msColor.Empty.getRGB(), borders.get(0).getColor().getRGB());
+        Assert.assertEquals(0.0d, borders.get(0).getLineWidth());
+        Assert.assertEquals(LineStyle.NONE, borders.get(0).getLineStyle());
+        Assert.assertFalse(borders.get(0).isVisible());
 
         doc.save(getArtifactsDir() + "Border.ClearFormatting.docx");
         //ExEnd
@@ -129,61 +135,53 @@ public class ExBorder extends ApiExampleBase
     }
 
     @Test
-    public void equalityCountingAndVisibility() throws Exception
+    public void sharedElements() throws Exception
     {
         //ExStart
         //ExFor:Border.Equals(Object)
         //ExFor:Border.Equals(Border)
         //ExFor:Border.GetHashCode
-        //ExFor:Border.IsVisible
         //ExFor:BorderCollection.Count
         //ExFor:BorderCollection.Equals(BorderCollection)
         //ExFor:BorderCollection.Item(Int32)
-        //ExSummary:Shows the equality of BorderCollections as well counting, visibility of their elements.
+        //ExSummary:Shows how border collections can share elements.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.getCurrentParagraph().appendChild(new Run(doc, "Paragraph 1."));
 
-        Paragraph firstParagraph = doc.getFirstSection().getBody().getFirstParagraph();
-        BorderCollection firstParaBorders = firstParagraph.getParagraphFormat().getBorders();
+        builder.writeln("Paragraph 1.");
+        builder.write("Paragraph 2.");
 
-        builder.insertParagraph();
-        builder.getCurrentParagraph().appendChild(new Run(doc, "Paragraph 2."));
+        // Since both paragraphs were created with the same border configuration,
+        // the border collections of the two paragraphs share the same elements.
+        BorderCollection firstParagraphBorders = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders();
+        BorderCollection secondParagraphBorders = builder.getCurrentParagraph().getParagraphFormat().getBorders();
+        Assert.assertEquals(6, firstParagraphBorders.getCount()); //ExSkip
 
-        Paragraph secondParagraph = builder.getCurrentParagraph();
-        BorderCollection secondParaBorders = secondParagraph.getParagraphFormat().getBorders();
-
-        // Two paragraphs have two different BorderCollections, but share the elements that are in from the first paragraph
-        for (int i = 0; i < firstParaBorders.getCount(); i++)
+        for (int i = 0; i < firstParagraphBorders.getCount(); i++)
         {
-            Assert.assertTrue(firstParaBorders.get(i).equals(secondParaBorders.get(i)));
-            Assert.assertEquals(firstParaBorders.get(i).hashCode(), secondParaBorders.get(i).hashCode());
-
-            // Borders are invisible by default
-            Assert.assertFalse(firstParaBorders.get(i).isVisible());
+            Assert.assertTrue(firstParagraphBorders.get(i).equals(secondParagraphBorders.get(i)));
+            Assert.assertEquals(firstParagraphBorders.get(i).hashCode(), secondParagraphBorders.get(i).hashCode());
+            Assert.assertFalse(firstParagraphBorders.get(i).isVisible());
         }
 
-        // Each border in the second paragraph collection becomes no longer the same as its counterpart from the first paragraph collection
-        // Change all the elements in the second collection to make it completely different from the first
-        Assert.assertEquals(6, secondParaBorders.getCount()); // ExSkip
-        for (Border border : secondParaBorders)
-        {
+        for (Border border : secondParagraphBorders)
             border.setLineStyle(LineStyle.DOT_DASH);
-        }
 
-        // Now the BorderCollections both have their own elements
-        for (int i = 0; i < firstParaBorders.getCount(); i++)
+        // After changing the line style of the borders in just the second paragraph,
+        // the border collections no longer share the same elements.
+        for (int i = 0; i < firstParagraphBorders.getCount(); i++)
         {
-            Assert.assertFalse(firstParaBorders.get(i).equals(secondParaBorders.get(i)));
-            msAssert.areNotEqual(firstParaBorders.get(i).hashCode(), secondParaBorders.get(i).hashCode());
-            // Changing the line style made the borders visible
-            Assert.assertTrue(secondParaBorders.get(i).isVisible());
+            Assert.assertFalse(firstParagraphBorders.get(i).equals(secondParagraphBorders.get(i)));
+            msAssert.areNotEqual(firstParagraphBorders.get(i).hashCode(), secondParagraphBorders.get(i).hashCode());
+
+            // Changing the appearance of an empty border makes it visible.
+            Assert.assertTrue(secondParagraphBorders.get(i).isVisible());
         }
 
-        doc.save(getArtifactsDir() + "Border.EqualityCountingAndVisibility.docx");
+        doc.save(getArtifactsDir() + "Border.SharedElements.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "Border.EqualityCountingAndVisibility.docx");
+        doc = new Document(getArtifactsDir() + "Border.SharedElements.docx");
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
 
         for (Border testBorder : paragraphs.get(0).getParagraphFormat().getBorders())
@@ -194,78 +192,87 @@ public class ExBorder extends ApiExampleBase
     }
 
     @Test
-    public void verticalAndHorizontalBorders() throws Exception
+    public void horizontalBorders() throws Exception
+    {
+        //ExStart
+        //ExFor:BorderCollection.Horizontal
+        //ExSummary:Shows how to apply settings to horizontal borders to a paragraph's format.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create a red horizontal border for the paragraph. Any paragraphs created afterwards will inherit these border settings.
+        BorderCollection borders = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders();
+        borders.getHorizontal().setColor(Color.RED);
+        borders.getHorizontal().setLineStyle(LineStyle.DASH_SMALL_GAP);
+        borders.getHorizontal().setLineWidth(3.0);
+
+        // Write text to the document without creating a new paragraph afterward.
+        // Since there is no paragraph underneath, the horizontal border will not be visible.
+        builder.write("Paragraph above horizontal border.");
+
+        // Once we add a second paragraph, the border of the first paragraph will become visible.
+        builder.insertParagraph();
+        builder.write("Paragraph below horizontal border.");
+
+        doc.save(getArtifactsDir() + "Border.HorizontalBorders.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Border.HorizontalBorders.docx");
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+
+        Assert.assertEquals(LineStyle.DASH_SMALL_GAP, paragraphs.get(0).getParagraphFormat().getBorders().getByBorderType(BorderType.HORIZONTAL).getLineStyle());
+        Assert.assertEquals(LineStyle.DASH_SMALL_GAP, paragraphs.get(1).getParagraphFormat().getBorders().getByBorderType(BorderType.HORIZONTAL).getLineStyle());
+    }
+
+    @Test
+    public void verticalBorders() throws Exception
     {
         //ExStart
         //ExFor:BorderCollection.Horizontal
         //ExFor:BorderCollection.Vertical
         //ExFor:Cell.LastParagraph
-        //ExSummary:Shows the difference between the Horizontal and Vertical properties of BorderCollection.
+        //ExSummary:Shows how to apply settings to vertical borders to a table row's format.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // A BorderCollection is one of a Paragraph's formatting properties
-        Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
-        BorderCollection paragraphBorders = paragraph.getParagraphFormat().getBorders();
-
-        // paragraphBorders belongs to the first paragraph, but these changes will apply to subsequently created paragraphs
-        paragraphBorders.getHorizontal().setColor(Color.RED);
-        paragraphBorders.getHorizontal().setLineStyle(LineStyle.DASH_SMALL_GAP);
-        paragraphBorders.getHorizontal().setLineWidth(3.0);
-
-        // Horizontal borders only appear under a paragraph if there's another paragraph under it
-        // Right now the first paragraph has no borders
-        builder.getCurrentParagraph().appendChild(new Run(doc, "Paragraph above horizontal border."));
-
-        // Now the first paragraph will have a red dashed line border under it
-        // This new second paragraph can have a border too, but only if we add another paragraph underneath it
-        builder.insertParagraph();
-        builder.getCurrentParagraph().appendChild(new Run(doc, "Paragraph below horizontal border."));
-
-        // A table makes use of both vertical and horizontal properties of BorderCollection
-        // Both these properties can only affect the inner borders of a table
-        Table table = new Table(doc);
-        doc.getFirstSection().getBody().appendChild(table);
+        // Create a table with red and blue inner borders.
+        Table table = builder.startTable();
 
         for (int i = 0; i < 3; i++)
         {
-            Row row = new Row(doc);
-            BorderCollection rowBorders = row.getRowFormat().getBorders();
+            builder.insertCell();
+            builder.write($"Row {i + 1}, Column 1");
+            builder.insertCell();
+            builder.write($"Row {i + 1}, Column 2");
 
-            // Vertical borders are ones between rows in a table
-            rowBorders.getHorizontal().setColor(Color.RED);
-            rowBorders.getHorizontal().setLineStyle(LineStyle.DOT);
-            rowBorders.getHorizontal().setLineWidth(2.0d);
+            Row row = builder.endRow();
+            BorderCollection borders = row.getRowFormat().getBorders();
 
-            // Vertical borders are ones between cells in a table
-            rowBorders.getVertical().setColor(Color.BLUE);
-            rowBorders.getVertical().setLineStyle(LineStyle.DOT);
-            rowBorders.getVertical().setLineWidth(2.0d);
+            // Adjust the appearance of borders that will appear between rows.
+            borders.getHorizontal().setColor(Color.RED);
+            borders.getHorizontal().setLineStyle(LineStyle.DOT);
+            borders.getHorizontal().setLineWidth(2.0d);
 
-            // A blue dotted vertical border will appear between cells
-            // A red dotted border will appear between rows
-            row.appendChild(new Cell(doc));
-            row.getLastCell().appendChild(new Paragraph(doc));
-            row.getLastCell().getFirstParagraph().appendChild(new Run(doc, "Vertical border to the right."));
-
-            row.appendChild(new Cell(doc));
-            row.getLastCell().appendChild(new Paragraph(doc));
-            row.getLastCell().getLastParagraph().appendChild(new Run(doc, "Vertical border to the left."));
-            table.appendChild(row);
+            // Adjust the appearance of borders that will appear between cells.
+            borders.getVertical().setColor(Color.BLUE);
+            borders.getVertical().setLineStyle(LineStyle.DOT);
+            borders.getVertical().setLineWidth(2.0d);
         }
 
-        doc.save(getArtifactsDir() + "Border.VerticalAndHorizontalBorders.docx");
+        // A row format's border settings are separate from those of the cell paragraph.
+        Border border = table.getFirstRow().getFirstCell().getLastParagraph().getParagraphFormat().getBorders().getVertical();
+
+        Assert.assertEquals(msColor.Empty.getRGB(), border.getColor().getRGB());
+        Assert.assertEquals(0.0d, border.getLineWidth());
+        Assert.assertEquals(LineStyle.NONE, border.getLineStyle());
+
+        doc.save(getArtifactsDir() + "Border.VerticalBorders.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "Border.VerticalAndHorizontalBorders.docx");
-        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+        doc = new Document(getArtifactsDir() + "Border.VerticalBorders.docx");
+        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
 
-        Assert.assertEquals(LineStyle.DASH_SMALL_GAP, paragraphs.get(0).getParagraphFormat().getBorders().getByBorderType(BorderType.HORIZONTAL).getLineStyle());
-        Assert.assertEquals(LineStyle.DASH_SMALL_GAP, paragraphs.get(1).getParagraphFormat().getBorders().getByBorderType(BorderType.HORIZONTAL).getLineStyle());
-
-        Table outTable = (Table)doc.getChild(NodeType.TABLE, 0, true);
-
-        for (Row row : (Iterable<Row>) outTable.getChildNodes(NodeType.ROW, true))
+        for (Row row : (Iterable<Row>) table.getChildNodes(NodeType.ROW, true))
         {
             Assert.assertEquals(Color.RED.getRGB(), row.getRowFormat().getBorders().getHorizontal().getColor().getRGB());
             Assert.assertEquals(LineStyle.DOT, row.getRowFormat().getBorders().getHorizontal().getLineStyle());

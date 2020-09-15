@@ -15,9 +15,94 @@ import org.testng.annotations.Test;
 import java.awt.*;
 import java.util.Date;
 
-public class ExInlineStory extends ApiExampleBase {
+@Test
+public class ExInlineStory extends ApiExampleBase
+{
     @Test
-    public void addFootnote() throws Exception {
+    public void footnotes() throws Exception
+    {
+        //ExStart
+        //ExFor:FootnoteOptions
+        //ExFor:FootnoteOptions.NumberStyle
+        //ExFor:FootnoteOptions.Position
+        //ExFor:FootnoteOptions.RestartRule
+        //ExFor:FootnoteOptions.StartNumber
+        //ExFor:FootnoteNumberingRule
+        //ExFor:FootnotePosition
+        //ExSummary:Shows how to insert footnotes, and modify their appearance.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Text 1. ");
+        builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote 1");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.write("Text 2. ");
+        builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote 2");
+        builder.write("Text 3. ");
+        builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote 3", "Custom reference mark");
+
+        doc.getFootnoteOptions().setPosition(FootnotePosition.BENEATH_TEXT);
+        doc.getFootnoteOptions().setNumberStyle(NumberStyle.UPPERCASE_ROMAN);
+        doc.getFootnoteOptions().setRestartRule(FootnoteNumberingRule.CONTINUOUS);
+        doc.getFootnoteOptions().setStartNumber(1);
+
+        doc.save(getArtifactsDir() + "InlineStory.Footnotes.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "InlineStory.Footnotes.docx");
+
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
+            "Footnote 1", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
+            "Footnote 2", (Footnote)doc.getChild(NodeType.FOOTNOTE, 1, true));
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, false, "Custom reference mark",
+            "Custom reference mark Footnote 3", (Footnote)doc.getChild(NodeType.FOOTNOTE, 2, true));
+    }
+
+    @Test
+    public void endnotes() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.EndnoteOptions
+        //ExFor:EndnoteOptions
+        //ExFor:EndnoteOptions.NumberStyle
+        //ExFor:EndnoteOptions.Position
+        //ExFor:EndnoteOptions.RestartRule
+        //ExFor:EndnoteOptions.StartNumber
+        //ExFor:EndnotePosition
+        //ExSummary:Shows how to insert endnotes, and modify their appearance.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Text 1. ");
+        builder.insertFootnote(FootnoteType.ENDNOTE, "Endnote 1");
+        builder.write("Text 2. ");
+        builder.insertFootnote(FootnoteType.ENDNOTE, "Endnote 2");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.write("Text 3. ");
+        builder.insertFootnote(FootnoteType.ENDNOTE, "Endnote 3", "Custom reference mark");
+        
+        doc.getEndnoteOptions().setPosition(EndnotePosition.END_OF_DOCUMENT);
+        doc.getEndnoteOptions().setNumberStyle(NumberStyle.UPPERCASE_ROMAN);
+        doc.getEndnoteOptions().setRestartRule(FootnoteNumberingRule.CONTINUOUS);
+        doc.getEndnoteOptions().setStartNumber(1);
+
+        doc.save(getArtifactsDir() + "InlineStory.Endnotes.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "InlineStory.Endnotes.docx");
+
+        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
+            "Endnote 1", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
+            "Endnote 2", (Footnote)doc.getChild(NodeType.FOOTNOTE, 1, true));
+        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, false, "Custom reference mark",
+            "Custom reference mark Endnote 3", (Footnote)doc.getChild(NodeType.FOOTNOTE, 2, true));
+    }
+
+    @Test
+    public void addFootnote() throws Exception
+    {
         //ExStart
         //ExFor:Footnote
         //ExFor:Footnote.IsAuto

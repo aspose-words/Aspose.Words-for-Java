@@ -34,6 +34,25 @@ import com.aspose.words.IMailMergeCallback;
 import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.FieldIf;
 import com.aspose.ms.System.msString;
+import com.aspose.ms.System.IO.File;
+import com.aspose.words.MailMergeSettings;
+import com.aspose.words.MailMergeMainDocumentType;
+import com.aspose.words.MailMergeCheckErrors;
+import com.aspose.words.MailMergeDataType;
+import com.aspose.words.MailMergeDestination;
+import com.aspose.words.Odso;
+import com.aspose.words.OdsoDataSourceType;
+import com.aspose.words.NodeType;
+import com.aspose.words.OdsoFieldMapDataCollection;
+import com.aspose.words.OdsoFieldMapData;
+import com.aspose.words.OdsoFieldMappingType;
+import com.aspose.ms.NUnit.Framework.msAssert;
+import com.aspose.words.OdsoRecipientDataCollection;
+import com.aspose.words.OdsoRecipientData;
+import com.aspose.ms.System.Globalization.msCultureInfo;
+import com.aspose.ms.System.Threading.CurrentThread;
+import com.aspose.ms.System.DateTime;
+import com.aspose.words.FieldUpdateCultureSource;
 import org.testng.annotations.DataProvider;
 
 
@@ -107,7 +126,6 @@ public class ExMailMerge extends ApiExampleBase
             connection.Open();
 
             // Create an SQL command that will source data for our mail merge
-            // The command has to comply to the driver we are using, which in this case is "ODBC"
             // The names of the columns returned by this SELECT statement should correspond to the merge fields we placed above
             OdbcCommand command = connection.CreateCommand();
             command.CommandText = query;
@@ -131,7 +149,7 @@ public class ExMailMerge extends ApiExampleBase
     //ExStart
     //ExFor:MailMerge.ExecuteADO(Object)
     //ExSummary:Shows how to run a mail merge with data from an ADO dataset.
-    @Test //ExSkip
+    @Test (groups = "SkipMono") //ExSkip
     public void executeADO() throws Exception
     {
         // Create a document that will be merged
@@ -148,8 +166,8 @@ public class ExMailMerge extends ApiExampleBase
         // Create a record set
         ADODB.Recordset recordset = new ADODB.Recordset();
 
-        // Run an SQL command on the database we are connected to to populate our dataset
-        // The names of the columns returned here correspond to the values of the MERGEFIELDS that will accomodate our data
+        // Populate our DataSrt by running an SQL command on the database we are connected to
+        // The names of the columns returned here correspond to the values of the MERGEFIELDS that will accommodate our data
         String command = "SELECT ProductName, QuantityPerUnit, UnitPrice FROM Products";
         recordset.Open(command, connection);
 
@@ -181,7 +199,7 @@ public class ExMailMerge extends ApiExampleBase
     //ExStart
     //ExFor:MailMerge.ExecuteWithRegionsADO(Object,String)
     //ExSummary:Shows how to run a mail merge with regions, compiled with data from an ADO dataset.
-    @Test
+    @Test (groups = "SkipMono") //ExSkip
     public void executeWithRegionsADO() throws Exception
     {
         // Create a document that will be merged
@@ -395,8 +413,7 @@ public class ExMailMerge extends ApiExampleBase
     }
 
     /// <summary>
-    /// Generates a data set which has two data tables named "Customers" and "Orders",
-    /// with a one-to-many relationship between the former and latter on the "CustomerID" column.
+    /// Generates a data set which has two data tables named "Customers" and "Orders", with a one-to-many relationship on the "CustomerID" column.
     /// </summary>
     private static DataSet createDataSet()
     {
@@ -454,7 +471,7 @@ public class ExMailMerge extends ApiExampleBase
         builder.insertField(" MERGEFIELD Name");
         builder.insertField(" MERGEFIELD TableEnd:Fruit");
 
-        // Create two data tables that aren't linked or related in any way which we still want in the same document
+        // Create two data tables that are not linked or related in any way which we still want in the same document
         DataTable tableCities = new DataTable("Cities");
         tableCities.getColumns().add("Name");
         tableCities.getRows().add(new Object[] { "Washington" });
@@ -624,7 +641,7 @@ public class ExMailMerge extends ApiExampleBase
         Document doc = createSourceDocWithAlternativeMergeFields();
         DataTable dataTable = createSourceTablePreserveUnusedTags();
 
-        // By default, alternative merge tags that can't receive data because the data source has no columns with their name
+        // By default, alternative merge tags that cannot receive data because the data source has no columns with their name
         // are converted to and left on display as MERGEFIELDs after the mail merge
         // We can preserve their original appearance setting this attribute to true
         doc.getMailMerge().setPreserveUnusedTags(doPreserveUnusedTags);
@@ -925,8 +942,8 @@ public class ExMailMerge extends ApiExampleBase
         mergeFieldOption2.setFieldName("Option_2");
 
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS);
-        // The default value of the option is true which means that the behaviour was changed to mimic MS Word
-        // If you rely on the old behavior are able to revert it by setting the option to false
+        // The default value of the option is true which means that the behavior was changed to mimic MS Word
+        // We can revert to the old behavior by setting the option to false
         doc.getMailMerge().setCleanupParagraphsWithPunctuationMarks(isCleanupParagraphsWithPunctuationMarks);
 
         doc.getMailMerge().execute(new String[] { "Option_1", "Option_2" }, new Object[] { null, null });
@@ -980,8 +997,8 @@ public class ExMailMerge extends ApiExampleBase
         // Create a document and table that we will merge
         Document doc = createSourceDocMappedDataFields();
         DataTable dataTable = createSourceTableMappedDataFields();
-        
-        // We have a column "Column2" in the data table that doesn't have a respective MERGEFIELD in the document
+
+        // We have a column "Column2" in the data table that does not have a respective MERGEFIELD in the document
         // Also, we have a MERGEFIELD named "Column3" that does not exist as a column in the data source
         // If data from "Column2" is suitable for the "Column3" MERGEFIELD,
         // we can map that column name to the MERGEFIELD in the "MappedDataFields" key/value pair
@@ -1304,7 +1321,7 @@ public class ExMailMerge extends ApiExampleBase
         builder.moveTo(fieldIf.getSeparator());
         builder.insertField(" MERGEFIELD  FullName ");
 
-        // We can still count MERGEFIELDs inside false-statement IF fields if we set this flag to true
+        // We can still count MERGEFIELDs inside IF fields with false statements if we set this flag to true
         doc.getMailMerge().setUnconditionalMergeFieldsAndRegions(doCountAllMergeFields);
 
         DataTable dataTable = new DataTable();
@@ -1334,4 +1351,382 @@ public class ExMailMerge extends ApiExampleBase
 			{true},
 		};
 	}
+
+    @Test
+    public void mailMergeSettings() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.MailMergeSettings
+        //ExFor:MailMergeCheckErrors
+        //ExFor:MailMergeDataType
+        //ExFor:MailMergeDestination
+        //ExFor:MailMergeMainDocumentType
+        //ExFor:MailMergeSettings
+        //ExFor:MailMergeSettings.CheckErrors
+        //ExFor:MailMergeSettings.Clone
+        //ExFor:MailMergeSettings.Destination
+        //ExFor:MailMergeSettings.DataType
+        //ExFor:MailMergeSettings.DoNotSupressBlankLines
+        //ExFor:MailMergeSettings.LinkToQuery
+        //ExFor:MailMergeSettings.MainDocumentType
+        //ExFor:MailMergeSettings.Odso
+        //ExFor:MailMergeSettings.Query
+        //ExFor:MailMergeSettings.ViewMergedData
+        //ExFor:Odso
+        //ExFor:Odso.Clone
+        //ExFor:Odso.ColumnDelimiter
+        //ExFor:Odso.DataSource
+        //ExFor:Odso.DataSourceType
+        //ExFor:Odso.FirstRowContainsColumnNames
+        //ExFor:OdsoDataSourceType
+        //ExSummary:Shows how to execute an Office Data Source Object mail merge with MailMergeSettings.
+        // We'll create a simple document that will act as a destination for mail merge data
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Dear ");
+        builder.insertField("MERGEFIELD FirstName", "<FirstName>");
+        builder.write(" ");
+        builder.insertField("MERGEFIELD LastName", "<LastName>");
+        builder.writeln(": ");
+        builder.insertField("MERGEFIELD Message", "<Message>");
+
+        // We will use an ASCII file as a data source
+        // We can use any character we want as a delimiter, in this case we'll choose '|'
+        // The delimiter character is selected in the ODSO settings of mail merge settings
+        String[] lines = { "FirstName|LastName|Message",
+            "John|Doe|Hello! This message was created with Aspose Words mail merge." };
+        String dataSrcFilename = getArtifactsDir() + "MailMerge.MailMergeSettings.DataSource.txt";
+
+        File.writeAllLines(dataSrcFilename, lines);
+
+        // Set the data source, query and other things
+        MailMergeSettings settings = doc.getMailMergeSettings();
+        settings.setMainDocumentType(MailMergeMainDocumentType.MAILING_LABELS);
+        settings.setCheckErrors(MailMergeCheckErrors.SIMULATE);
+        settings.setDataType(MailMergeDataType.NATIVE);
+        settings.setDataSource(dataSrcFilename);
+        settings.setQuery("SELECT * FROM " + doc.getMailMergeSettings().getDataSource());
+        settings.setLinkToQuery(true);
+        settings.setViewMergedData(true);
+
+        Assert.assertEquals(MailMergeDestination.DEFAULT, settings.getDestination());
+        Assert.assertFalse(settings.getDoNotSupressBlankLines());
+
+        // Office Data Source Object settings
+        Odso odso = settings.getOdso();
+        odso.setDataSource(dataSrcFilename);
+        odso.setDataSourceType(OdsoDataSourceType.TEXT);
+        odso.setColumnDelimiter('|');
+        odso.setFirstRowContainsColumnNames(true);
+
+        // ODSO/MailMergeSettings objects can also be cloned
+        Assert.assertNotSame(odso, odso.deepClone());
+        Assert.assertNotSame(settings, settings.deepClone());
+
+        // The mail merge will be performed when this document is opened 
+        doc.save(getArtifactsDir() + "MailMerge.MailMergeSettings.docx");
+        //ExEnd
+
+        settings = new Document(getArtifactsDir() + "MailMerge.MailMergeSettings.docx").getMailMergeSettings();
+
+        Assert.assertEquals(MailMergeMainDocumentType.MAILING_LABELS, settings.getMainDocumentType());
+        Assert.assertEquals(MailMergeCheckErrors.SIMULATE, settings.getCheckErrors());
+        Assert.assertEquals(MailMergeDataType.NATIVE, settings.getDataType());
+        Assert.assertEquals(getArtifactsDir() + "MailMerge.MailMergeSettings.DataSource.txt", settings.getDataSource());
+        Assert.assertEquals("SELECT * FROM " + doc.getMailMergeSettings().getDataSource(), settings.getQuery());
+        Assert.assertTrue(settings.getLinkToQuery());
+        Assert.assertTrue(settings.getViewMergedData());
+
+        odso = settings.getOdso();
+        Assert.assertEquals(getArtifactsDir() + "MailMerge.MailMergeSettings.DataSource.txt", odso.getDataSource());
+        Assert.assertEquals(OdsoDataSourceType.TEXT, odso.getDataSourceType());
+        Assert.assertEquals('|', odso.getColumnDelimiter());
+        Assert.assertTrue(odso.getFirstRowContainsColumnNames());
+    }
+
+    @Test
+    public void odsoEmail() throws Exception
+    {
+        //ExStart
+        //ExFor:MailMergeSettings.ActiveRecord
+        //ExFor:MailMergeSettings.AddressFieldName
+        //ExFor:MailMergeSettings.ConnectString
+        //ExFor:MailMergeSettings.MailAsAttachment
+        //ExFor:MailMergeSettings.MailSubject
+        //ExFor:MailMergeSettings.Clear
+        //ExFor:Odso.TableName
+        //ExFor:Odso.UdlConnectString
+        //ExSummary:Shows how to execute a mail merge while connecting to an external data source.
+        Document doc = new Document(getMyDir() + "Odso data.docx");
+        testOdsoEmail(doc); //ExSkip
+        MailMergeSettings settings = doc.getMailMergeSettings();
+
+        System.out.println("Connection string:\n\t{settings.ConnectString}");
+        System.out.println("Mail merge docs as attachment:\n\t{settings.MailAsAttachment}");
+        System.out.println("Mail merge doc e-mail subject:\n\t{settings.MailSubject}");
+        System.out.println("Column that contains e-mail addresses:\n\t{settings.AddressFieldName}");
+        System.out.println("Active record:\n\t{settings.ActiveRecord}");
+
+        Odso odso = settings.getOdso();
+
+        System.out.println("File will connect to data source located in:\n\t\"{odso.DataSource}\"");
+        System.out.println("Source type:\n\t{odso.DataSourceType}");
+        System.out.println("UDL connection string:\n\t{odso.UdlConnectString}");
+        System.out.println("Table:\n\t{odso.TableName}");
+        System.out.println("Query:\n\t{doc.MailMergeSettings.Query}");
+
+        // We can clear the settings, which will take place during saving
+        settings.clear();
+
+        doc.save(getArtifactsDir() + "MailMerge.OdsoEmail.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "MailMerge.OdsoEmail.docx");
+        Assert.That(doc.getMailMergeSettings().getConnectString(), Is.Empty);
+    }
+
+    private void testOdsoEmail(Document doc)
+    {
+        MailMergeSettings settings = doc.getMailMergeSettings();
+
+        Assert.assertFalse(settings.getMailAsAttachment());
+        Assert.assertEquals("test subject", settings.getMailSubject());
+        Assert.assertEquals("Email_Address", settings.getAddressFieldName());
+        Assert.assertEquals(66, settings.getActiveRecord());
+        Assert.assertEquals("SELECT * FROM `Contacts` ", settings.getQuery());
+
+        Odso odso = settings.getOdso();
+
+        Assert.assertEquals(settings.getConnectString(), odso.getUdlConnectString());
+        Assert.assertEquals("Personal Folders|", odso.getDataSource());
+        Assert.assertEquals(OdsoDataSourceType.EMAIL, odso.getDataSourceType());
+        Assert.assertEquals("Contacts", odso.getTableName());
+    }
+
+    @Test
+    public void mailingLabelMerge() throws Exception
+    {
+        //ExStart
+        //ExFor:MailMergeSettings.DataSource
+        //ExFor:MailMergeSettings.HeaderSource
+        //ExSummary:Shows how to execute a mail merge while drawing data from a header and a data file.
+        // Create a mailing label merge header file, which will consist of a table with one row 
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.startTable();
+        builder.insertCell();
+        builder.write("FirstName");
+        builder.insertCell();
+        builder.write("LastName");
+        builder.endTable();
+
+        doc.save(getArtifactsDir() + "MailMerge.MailingLabelMerge.Header.docx");
+
+        // Create a mailing label merge date file, which will consist of a table with one row and the same amount of columns as 
+        // the header table, which will determine the names for these columns
+        doc = new Document();
+        builder = new DocumentBuilder(doc);
+
+        builder.startTable();
+        builder.insertCell();
+        builder.write("John");
+        builder.insertCell();
+        builder.write("Doe");
+        builder.endTable();
+
+        doc.save(getArtifactsDir() + "MailMerge.MailingLabelMerge.Data.docx");
+
+        // Create a merge destination document with MERGEFIELDS that will accept data
+        doc = new Document();
+        builder = new DocumentBuilder(doc);
+
+        builder.write("Dear ");
+        builder.insertField("MERGEFIELD FirstName", "<FirstName>");
+        builder.write(" ");
+        builder.insertField("MERGEFIELD LastName", "<LastName>");
+
+        // Configure settings to draw data and headers from other documents
+        MailMergeSettings settings = doc.getMailMergeSettings();
+
+        // The "header" document contains column names for the data in the "data" document,
+        // which will correspond to the names of our MERGEFIELDs
+        settings.setHeaderSource(getArtifactsDir() + "MailMerge.MailingLabelMerge.Header.docx");
+        settings.setDataSource(getArtifactsDir() + "MailMerge.MailingLabelMerge.Data.docx");
+
+        // Configure the rest of the MailMergeSettings object
+        settings.setQuery("SELECT * FROM " + settings.getDataSource());
+        settings.setMainDocumentType(MailMergeMainDocumentType.MAILING_LABELS);
+        settings.setDataType(MailMergeDataType.TEXT_FILE);
+        settings.setLinkToQuery(true);
+        settings.setViewMergedData(true);
+
+        // The mail merge will be performed when this document is opened 
+        doc.save(getArtifactsDir() + "MailMerge.MailingLabelMerge.docx");
+        //ExEnd
+
+        Assert.assertEquals("FirstName\u0007LastName\u0007\u0007",
+            msString.trim(new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.Header.docx").
+                getChild(NodeType.TABLE, 0, true).getText()));
+
+        Assert.assertEquals("John\u0007Doe\u0007\u0007",
+            msString.trim(new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.Data.docx").
+                getChild(NodeType.TABLE, 0, true).getText()));
+
+        doc = new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.docx");
+
+        Assert.assertEquals(2, doc.getRange().getFields().getCount());
+
+        settings = doc.getMailMergeSettings();
+
+        Assert.assertEquals(getArtifactsDir() + "MailMerge.MailingLabelMerge.Header.docx", settings.getHeaderSource());
+        Assert.assertEquals(getArtifactsDir() + "MailMerge.MailingLabelMerge.Data.docx", settings.getDataSource());
+        Assert.assertEquals("SELECT * FROM " + settings.getDataSource(), settings.getQuery());
+        Assert.assertEquals(MailMergeMainDocumentType.MAILING_LABELS, settings.getMainDocumentType());
+        Assert.assertEquals(MailMergeDataType.TEXT_FILE, settings.getDataType());
+        Assert.assertTrue(settings.getLinkToQuery());
+        Assert.assertTrue(settings.getViewMergedData());
+    }
+
+    @Test
+    public void odsoFieldMapDataCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:Odso.FieldMapDatas
+        //ExFor:OdsoFieldMapData
+        //ExFor:OdsoFieldMapData.Clone
+        //ExFor:OdsoFieldMapData.Column
+        //ExFor:OdsoFieldMapData.MappedName
+        //ExFor:OdsoFieldMapData.Name
+        //ExFor:OdsoFieldMapData.Type
+        //ExFor:OdsoFieldMapDataCollection
+        //ExFor:OdsoFieldMapDataCollection.Add(OdsoFieldMapData)
+        //ExFor:OdsoFieldMapDataCollection.Clear
+        //ExFor:OdsoFieldMapDataCollection.Count
+        //ExFor:OdsoFieldMapDataCollection.GetEnumerator
+        //ExFor:OdsoFieldMapDataCollection.Item(Int32)
+        //ExFor:OdsoFieldMapDataCollection.RemoveAt(Int32)
+        //ExFor:OdsoFieldMappingType
+        //ExSummary:Shows how to access the collection of data that maps data source columns to merge fields.
+        Document doc = new Document(getMyDir() + "Odso data.docx");
+
+        // This collection defines how columns from an external data source will be mapped to predefined MERGEFIELD,
+        // ADDRESSBLOCK and GREETINGLINE fields during a mail merge
+        OdsoFieldMapDataCollection dataCollection = doc.getMailMergeSettings().getOdso().getFieldMapDatas();
+        Assert.assertEquals(30, dataCollection.getCount());
+
+        Iterator<OdsoFieldMapData> enumerator = dataCollection.iterator();
+        try /*JAVA: was using*/
+        {
+            int index = 0;
+            while (enumerator.hasNext())
+            {
+                System.out.println("Field map data index {index++}, type \"{enumerator.Current.Type}\":");
+
+                System.out.println(enumerator.next().getType() != OdsoFieldMappingType.NULL
+                            ? $"\tColumn \"{enumerator.Current.Name}\", number {enumerator.Current.Column} mapped to merge field \"{enumerator.Current.MappedName}\"."
+                            : "\tNo valid column to field mapping data present.");
+            }
+        }
+        finally { if (enumerator != null) enumerator.close(); }
+
+        // Elements of the collection can be cloned
+        msAssert.areNotEqual(dataCollection.get(0), dataCollection.get(0).deepClone());
+
+        // The collection can have individual entries removed or be cleared like this
+        dataCollection.removeAt(0);
+        Assert.assertEquals(29, dataCollection.getCount()); //ExSkip
+        dataCollection.clear();
+        Assert.assertEquals(0, dataCollection.getCount()); //ExSkip
+        //ExEnd
+    }
+
+    @Test
+    public void odsoRecipientDataCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:Odso.RecipientDatas
+        //ExFor:OdsoRecipientData
+        //ExFor:OdsoRecipientData.Active
+        //ExFor:OdsoRecipientData.Clone
+        //ExFor:OdsoRecipientData.Column
+        //ExFor:OdsoRecipientData.Hash
+        //ExFor:OdsoRecipientData.UniqueTag
+        //ExFor:OdsoRecipientDataCollection
+        //ExFor:OdsoRecipientDataCollection.Add(OdsoRecipientData)
+        //ExFor:OdsoRecipientDataCollection.Clear
+        //ExFor:OdsoRecipientDataCollection.Count
+        //ExFor:OdsoRecipientDataCollection.GetEnumerator
+        //ExFor:OdsoRecipientDataCollection.Item(Int32)
+        //ExFor:OdsoRecipientDataCollection.RemoveAt(Int32)
+        //ExSummary:Shows how to access the collection of data that designates merge data source records to be excluded from a merge.
+        Document doc = new Document(getMyDir() + "Odso data.docx");
+
+        // Records in this collection that do not have the "Active" flag set to true will be excluded from the mail merge
+        OdsoRecipientDataCollection dataCollection = doc.getMailMergeSettings().getOdso().getRecipientDatas();
+
+        Assert.assertEquals(70, dataCollection.getCount());
+
+        Iterator<OdsoRecipientData> enumerator = dataCollection.iterator();
+        try /*JAVA: was using*/
+        {
+            int index = 0;
+            while (enumerator.hasNext())
+            {
+                System.out.println("Odso recipient data index {index++} will {(enumerator.Current.Active ? ");
+                System.out.println("\tColumn #{enumerator.Current.Column}");
+                System.out.println("\tHash code: {enumerator.Current.Hash}");
+                System.out.println("\tContents array length: {enumerator.Current.UniqueTag.Length}");
+            }
+        }
+        finally { if (enumerator != null) enumerator.close(); }
+
+        // Elements of the collection can be cloned
+        msAssert.areNotEqual(dataCollection.get(0), dataCollection.get(0).deepClone());
+
+        // The collection can have individual entries removed or be cleared like this
+        dataCollection.removeAt(0);
+        Assert.assertEquals(69, dataCollection.getCount()); //ExSkip
+        dataCollection.clear();
+        Assert.assertEquals(0, dataCollection.getCount()); //ExSkip
+        //ExEnd
+    }
+
+    @Test
+    public void changeFieldUpdateCultureSource() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.FieldOptions
+        //ExFor:FieldOptions
+        //ExFor:FieldOptions.FieldUpdateCultureSource
+        //ExFor:FieldUpdateCultureSource
+        //ExSummary:Shows how to specify where the culture used for date formatting during a field update or mail merge is sourced from.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert two merge fields with German locale.
+        builder.getFont().setLocaleId(1031);
+        builder.insertField("MERGEFIELD Date1 \\@ \"dddd, d MMMM yyyy\"");
+        builder.write(" - ");
+        builder.insertField("MERGEFIELD Date2 \\@ \"dddd, d MMMM yyyy\"");
+
+        // Set the current culture to US English after preserving its original value in a variable.
+        msCultureInfo currentCulture = CurrentThread.getCurrentCulture();
+        CurrentThread.setCurrentCulture(new msCultureInfo("en-US"));
+
+        // This merge will use the current thread's culture to format the date, which will be US English.
+        doc.getMailMerge().execute(new String[] { "Date1" }, new Object[] { new DateTime(2020, 1, 1) });
+
+        // Configure the next merge to source its culture value from the field code. The value of that culture will be German.
+        doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
+        doc.getMailMerge().execute(new String[] { "Date2" }, new Object[] { new DateTime(2020, 1, 1) });
+
+        // The first merge result contains a date formatted in English, while the second one is in German.
+        Assert.assertEquals("Wednesday, 1 January 2020 - Mittwoch, 1 Januar 2020", msString.trim(doc.getRange().getText()));
+
+        // Restore the original culture.
+        CurrentThread.setCurrentCulture(currentCulture);
+        //ExEnd
+    }
 }
