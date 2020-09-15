@@ -179,6 +179,8 @@ public class ExDocumentBase extends ApiExampleBase {
         Assert.assertEquals(400, pdfDocImage.getWidth());
         Assert.assertEquals(400, pdfDocImage.getHeight());
         Assert.assertEquals(ColorType.Rgb, pdfDocImage.getColorType());
+
+        pdfDocument.close();
     }
 
     //ExStart

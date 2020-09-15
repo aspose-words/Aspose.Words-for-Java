@@ -1534,6 +1534,8 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(showHiddenText
                 ? MessageFormat.format("This text is not hidden.{0}This text is hidden.", System.lineSeparator())
                 : "This text is not hidden.", textAbsorber.getText());
+
+        pdfDoc.close();
     }
 
 	//JAVA-added data provider for test method
@@ -1576,6 +1578,8 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(showParagraphMarks ?
                 MessageFormat.format("Hello world!¶{0}Hello again!¶{1}¶", System.lineSeparator(), System.lineSeparator()) :
                 MessageFormat.format("Hello world!{0}Hello again!", System.lineSeparator()), textAbsorber.getText());
+
+        pdfDoc.close();
     }
 
 	//JAVA-added data provider for test method
@@ -1838,6 +1842,8 @@ public class ExDocument extends ApiExampleBase
             showComments
                 ? "Hello world!                                                                    Commented [J.D.1]:  My comment."
                 : "Hello world!", textAbsorber.getText());
+
+        pdfDoc.close();
     }
 
 	@DataProvider(name = "showCommentsDataProvider")
