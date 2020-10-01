@@ -9,7 +9,7 @@ import com.aspose.words.examples.Utils;
 public class HandleMailMergeSwitches {
     public static void main(String[] args) throws Exception {
         // The path to the documents directory.
-        String dataDir = Utils.getSharedDataDir(ExecuteSimpleMailMerge.class) + "MailMerge/";
+        String dataDir = Utils.getSharedDataDir(HandleMailMergeSwitches.class) + "MailMerge/";
 
         // Open an existing document.
         Document doc = new Document(dataDir + "MailMergeSwitches.docx");

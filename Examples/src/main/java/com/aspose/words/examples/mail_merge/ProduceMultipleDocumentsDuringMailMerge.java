@@ -7,7 +7,7 @@ import java.sql.*;
 import java.text.MessageFormat;
 import java.util.Hashtable;
 
-//ExStart:
+//ExStart: ProduceMultipleDocumentsDuringMailMerge
 public class ProduceMultipleDocumentsDuringMailMerge {
 
     private static final String dataDir = Utils.getSharedDataDir(ProduceMultipleDocumentsDuringMailMerge.class) + "MailMerge/";
@@ -40,6 +40,7 @@ public class ProduceMultipleDocumentsDuringMailMerge {
 
             // Save the document.
             dstDoc.save(MessageFormat.format(dataDir + "TestFile Out {0}.doc", counter++));
+            System.out.println("Counter : ");
         }
     }
 
@@ -82,4 +83,4 @@ public class ProduceMultipleDocumentsDuringMailMerge {
         return statement.executeQuery(query);
     }
 }
-//ExEnd:
+//ExEnd: ProduceMultipleDocumentsDuringMailMerge
