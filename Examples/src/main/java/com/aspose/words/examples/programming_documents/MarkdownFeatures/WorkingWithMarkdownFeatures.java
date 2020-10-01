@@ -13,7 +13,6 @@ public class WorkingWithMarkdownFeatures {
 		MarkdownDocumentWithBlockQuotes(dataDir);
 		MarkdownDocumentWithHorizontalRule(dataDir);
 		ReadMarkdownDocument(dataDir);
-		SaveAsMD(dataDir);
 		ExportIntoMarkdownWithTableContentAlignment(dataDir);
 		UseWarningSourceMarkdown(dataDir);
 	}
