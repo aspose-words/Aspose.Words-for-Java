@@ -5339,7 +5339,7 @@ public class ExField extends ApiExampleBase
         // Open a document and verify its file size
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        Assert.assertEquals(10590, doc.getBuiltInDocumentProperties().getBytes());
+        Assert.assertEquals(16222, doc.getBuiltInDocumentProperties().getBytes());
 
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.moveToDocumentEnd();
@@ -5350,7 +5350,7 @@ public class ExField extends ApiExampleBase
         field.update();
 
         Assert.assertEquals(" FILESIZE ", field.getFieldCode());
-        Assert.assertEquals("10590", field.getResult());
+        Assert.assertEquals("16222", field.getResult());
 
         // Set the field to display size in kilobytes
         builder.insertParagraph();
@@ -5359,7 +5359,7 @@ public class ExField extends ApiExampleBase
         field.update();
 
         Assert.assertEquals(" FILESIZE  \\k", field.getFieldCode());
-        Assert.assertEquals("11", field.getResult());
+        Assert.assertEquals("16", field.getResult());
 
         // Set the field to display size in megabytes
         builder.insertParagraph();
@@ -5379,14 +5379,14 @@ public class ExField extends ApiExampleBase
 
         field = (FieldFileSize)doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE ", "10590", field);
+        TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE ", "16222", field);
 
         // These fields will need to be updated to produce an accurate result
         doc.updateFields();
 
         field = (FieldFileSize)doc.getRange().getFields().get(1);
 
-        TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE  \\k", "9", field);
+        TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE  \\k", "13", field);
         Assert.assertTrue(field.isInKilobytes());
 
         field = (FieldFileSize)doc.getRange().getFields().get(2);

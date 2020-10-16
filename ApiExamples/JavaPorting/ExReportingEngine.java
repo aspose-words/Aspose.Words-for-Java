@@ -46,7 +46,9 @@ import com.aspose.ms.System.msString;
 import com.aspose.words.FileFormatUtil;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.XmlDataSource;
+import com.aspose.words.JsonDataLoadOptions;
 import com.aspose.words.JsonDataSource;
+import com.aspose.words.JsonSimpleValueParseMode;
 import com.aspose.words.CsvDataLoadOptions;
 import com.aspose.words.CsvDataSource;
 import java.lang.Class;
@@ -984,25 +986,44 @@ public class ExReportingEngine extends ApiExampleBase
     @Test
     public void jsonDataString() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination.docx");
 
-        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json");
+        JsonDataLoadOptions options = new JsonDataLoadOptions();
+        options.setExactDateTimeParseFormat("MM/dd/yyyy");
+
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json", options);
         buildReport(doc, dataSource, "persons");
         
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataString.docx",
-            getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+            getGoldsDir() + "ReportingEngine.JsonDataString Gold.docx"));
+    }
+
+    @Test
+    public void jsonDataStringException() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination.docx");
+
+        JsonDataLoadOptions options = new JsonDataLoadOptions();
+        options.setSimpleValueParseMode(JsonSimpleValueParseMode.STRICT);
+        
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json", options);
+        Assert.<IllegalStateException>Throws(() => buildReport(doc, dataSource, "persons"));
     }
 
     @Test
     public void jsonDataStream() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination.docx");
+        
+        JsonDataLoadOptions options = new JsonDataLoadOptions();
+        options.setExactDateTimeParseFormat("MM/dd/yyyy");
+        
         FileStream stream = File.openRead(getMyDir() + "List of people.json");
         try /*JAVA: was using*/
         {
-            JsonDataSource dataSource = new JsonDataSource(stream);
+            JsonDataSource dataSource = new JsonDataSource(stream, options);
             buildReport(doc, dataSource, "persons");
         }
         finally { if (stream != null) stream.close(); }
@@ -1010,7 +1031,7 @@ public class ExReportingEngine extends ApiExampleBase
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx",
-            getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
+            getGoldsDir() + "ReportingEngine.JsonDataString Gold.docx"));
     }
 
     @Test
