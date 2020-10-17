@@ -2697,6 +2697,40 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals(Color.RED.getRGB(), dstDoc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getFont().getColor().getRGB());
     }
 
+    @Test
+    public void emphasesWarningSourceMarkdown() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Emphases markdown warning.docx");
+
+        WarningInfoCollection warnings = new WarningInfoCollection();
+        doc.setWarningCallback(warnings);
+        doc.save(getArtifactsDir() + "DocumentBuilder.EmphasesWarningSourceMarkdown.md");
+
+        for (WarningInfo warningInfo : warnings)
+        {
+            if (warningInfo.getSource() == WarningSource.MARKDOWN)
+                Assert.assertEquals("The (*, 0:11) cannot be properly written into Markdown.", warningInfo.getDescription());
+        }
+    }
+
+    @Test
+    public void doNotIgnoreHeaderFooter() throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.IgnoreHeaderFooter
+        //ExSummary:Shows how to specifies ignoring or not source formatting of headers/footers content.
+        Document dstDoc = new Document(getMyDir() + "Document.docx");
+        Document srcDoc = new Document(getMyDir() + "Header and footer types.docx");
+
+        ImportFormatOptions importFormatOptions = new ImportFormatOptions();
+        importFormatOptions.setIgnoreHeaderFooter(false);
+
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, importFormatOptions);
+
+        dstDoc.save(getArtifactsDir() + "DocumentBuilder.DoNotIgnoreHeaderFooter.docx");
+        //ExEnd
+    }
+
     /// <summary>
     /// All markdown tests work with the same file. That's why we need order for them.
     /// </summary>
@@ -3048,6 +3082,67 @@ public class ExDocumentBuilder extends ApiExampleBase {
                         {"This is a fenced code", "FencedCode", false, false},
                         {"This is a fenced code with info string", "FencedCode.C#", false, false},
                         {"Item 1", "Normal", false, false},
+                };
+    }
+
+    @Test (dataProvider = "markdownDocumentTableContentAlignmentDataProvider")
+    public void markdownDocumentTableContentAlignment(int tableContentAlignment) throws Exception
+    {
+        DocumentBuilder builder = new DocumentBuilder();
+
+        builder.insertCell();
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
+        builder.write("Cell1");
+        builder.insertCell();
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+        builder.write("Cell2");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setTableContentAlignment(tableContentAlignment);
+
+        builder.getDocument().save(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md", saveOptions);
+
+        Document doc = new Document(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md");
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+
+        switch (tableContentAlignment)
+        {
+            case TableContentAlignment.AUTO:
+                Assert.assertEquals(ParagraphAlignment.RIGHT,
+                        table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.CENTER,
+                        table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                break;
+            case TableContentAlignment.LEFT:
+                Assert.assertEquals(ParagraphAlignment.LEFT,
+                        table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.LEFT,
+                        table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                break;
+            case TableContentAlignment.CENTER:
+                Assert.assertEquals(ParagraphAlignment.CENTER,
+                        table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.CENTER,
+                        table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                break;
+            case TableContentAlignment.RIGHT:
+                Assert.assertEquals(ParagraphAlignment.RIGHT,
+                        table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.RIGHT,
+                        table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                break;
+        }
+    }
+
+    @DataProvider(name = "markdownDocumentTableContentAlignmentDataProvider")
+    public static Object[][] markdownDocumentTableContentAlignmentDataProvider() throws Exception
+    {
+        return new Object[][]
+                {
+                        {TableContentAlignment.LEFT},
+                        {TableContentAlignment.RIGHT},
+                        {TableContentAlignment.CENTER},
+                        {TableContentAlignment.AUTO},
                 };
     }
 

@@ -69,7 +69,7 @@ public class ExDocument extends ApiExampleBase
         InputStream stream = new FileInputStream(getMyDir() + "Document.docx");
         try {
             Document doc = new Document(stream);
-            Assert.assertEquals("Hello World!", doc.getText().trim());
+            Assert.assertEquals("Hello World!\\r\\rHello Word!\\r\\r\\rHello World!", doc.getText().trim());
         } finally {
             if (stream != null) stream.close();
         }
@@ -313,7 +313,7 @@ public class ExDocument extends ApiExampleBase
             ByteArrayInputStream byteStream = new ByteArrayInputStream(dataBytes);
 
             // Verify that the stream contains the document.
-            Assert.assertEquals("Hello World!", new Document(byteStream).getText().trim());
+            Assert.assertEquals("Hello World!\\r\\rHello Word!\\r\\r\\rHello World!", new Document(byteStream).getText().trim());
         } finally {
             if (dstStream != null) dstStream.close();
         }
