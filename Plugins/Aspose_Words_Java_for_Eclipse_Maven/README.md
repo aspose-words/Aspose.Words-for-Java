@@ -25,7 +25,7 @@ The plugin provides following features to work with [Aspose.Words for Java](http
 
 ### Other Features
 
-*   Supports latest **Eclipse Mars.1 (4.5.1)** version
+*   Supports **Eclipse Mars.1 (4.5.1)** and later versions
 *   Compatible with **Mac**, **Linux Flavors** and **Windows**
 *   Native IDE user experience
 *   Open Source

@@ -45,9 +45,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import com.aspose.words.maven.artifacts.Metadata;
 import com.aspose.words.maven.artifacts.ObjectFactory;
+
 
 public class AsposeMavenProjectManager {
 
@@ -314,19 +316,31 @@ public class AsposeMavenProjectManager {
 	 */
 	public Metadata getProductMavenDependency(String productMavenRepositoryUrl) {
 		final String mavenMetaDataFileName = "maven-metadata.xml";
-		Metadata data = null;
+		Metadata data = new Metadata();
 
 		try {
 			String productMavenInfo;
-			productMavenInfo = readURLContents(productMavenRepositoryUrl + mavenMetaDataFileName);
-			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
-			Unmarshaller unmarshaller;
-			unmarshaller = jaxbContext.createUnmarshaller();
-
-			data = (Metadata) unmarshaller.unmarshal(new StreamSource(new StringReader(productMavenInfo)));
-
+			productMavenInfo = readURLContents(productMavenRepositoryUrl + mavenMetaDataFileName);						
+			 
+			DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			Document doc = dBuilder.parse(new InputSource(new StringReader(productMavenInfo)));			
+			XPath xPath = XPathFactory.newInstance().newXPath();															
+			String groupId = XPathFactory.newInstance().newXPath().compile("//metadata/groupId").evaluate(doc);
+			String artifactId = XPathFactory.newInstance().newXPath().compile("//metadata/artifactId").evaluate(doc);
+			String version = XPathFactory.newInstance().newXPath().compile("//metadata/version").evaluate(doc);
+			String latest = XPathFactory.newInstance().newXPath().compile("//metadata/versioning/latest").evaluate(doc);	 			
+			
+			data.setArtifactId(artifactId);
+			data.setGroupId(groupId);
+			data.setVersion(version);
+			
+			Metadata.Versioning ver = new Metadata.Versioning();
+			ver.setLatest(latest);
+			data.setVersioning(ver);
+			
 			String remoteArtifactFile = productMavenRepositoryUrl + data.getVersioning().getLatest() + "/"
 					+ data.getArtifactId() + "-" + data.getVersioning().getLatest();
+			
 
 			if (!remoteFileExists(remoteArtifactFile + ".jar")) {
 				AsposeConstants.println("Not Exists");
@@ -334,7 +348,7 @@ public class AsposeMavenProjectManager {
 			} else {
 				AsposeConstants.println("Exists");
 			}
-		} catch (IOException | JAXBException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			data = null;
 		}

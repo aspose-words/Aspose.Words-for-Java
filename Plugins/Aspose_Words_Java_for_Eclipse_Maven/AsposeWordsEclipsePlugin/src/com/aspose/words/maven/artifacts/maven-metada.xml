@@ -2,16 +2,16 @@
 <metadata>
     <groupId>com.aspose</groupId>
     <artifactId>aspose-words</artifactId>
-    <version>14.5.0</version>
+    <version>16.1.0</version>
     <versioning>
-        <latest>14.8.0</latest>
-        <release>14.8.0</release>
+        <latest>16.4.0</latest>
+        <release>16.4.0</release>
         <versions>
-            <version>14.5.0</version>
-            <version>14.6.0</version>
-            <version>14.7.0</version>
-            <version>14.8.0</version>
+            <version>16.1.0</version>
+            <version>16.2.0</version>
+            <version>16.3.0</version>
+            <version>16.4.0</version>
         </versions>
-        <lastUpdated>20140924084136</lastUpdated>
+        <lastUpdated>20200924084136</lastUpdated>
     </versioning>
 </metadata>

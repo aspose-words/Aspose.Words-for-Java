@@ -92,7 +92,7 @@ public class AsposeConstants {
     /**
      *
      */
-    public static final String ASPOSE_MAVEN_REPOSITORY = "http://maven.aspose.com";
+    public static final String ASPOSE_MAVEN_REPOSITORY = "https://repository.aspose.com";
 
     /**
      *

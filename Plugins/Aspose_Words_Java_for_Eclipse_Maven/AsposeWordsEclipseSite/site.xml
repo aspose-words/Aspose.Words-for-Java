@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="Aspose.Words Java for Eclipse (Maven) - Eclipse Update Site" url="http://cdn.aspose.com/marketplace/eclipse/java/maven/asposewords/">
+   <description name="Aspose.Words Java for Eclipse (Maven) - Eclipse Update Site" url="https://repository.aspose.com/list/plugins/aspose-words/eclipse/words-maven/20.10/site.xml">
       Aspose.Words Maven Project wizard creates Maven Project for using
 Aspose.Words for Java API within Eclipse IDE.
 Aspose.Words for Java is an advanced class library for Java that
@@ -16,7 +16,7 @@ Aspose Cloud Maven Repository.
 The wizard also gives you option to download the Code Examples
 to use Aspose.Words for Java API.
    </description>
-   <feature url="features/com.aspose.words.java.maven_1.0.0.3.jar" id="com.aspose.words.java.maven" version="1.0.0.3">
+   <feature url="features/com.aspose.words.java.maven_20.10.0.jar" id="com.aspose.words.java.maven" version="20.10">
       <category name="com.aspose.words.java.maven.category"/>
    </feature>
    <category-def name="com.aspose.words.java.maven.category" label="Aspose.Words Java for Eclipse (Maven)"/>

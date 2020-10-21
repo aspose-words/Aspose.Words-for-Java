@@ -23,9 +23,9 @@ package com.aspose.words.maven.utils;
  */
 public class AsposeWordsJavaAPI extends AsposeJavaAPI {
 
-    private final String _name = AsposeConstants.API_NAME;
-    private final String _mavenRepositoryURL = "http://maven.aspose.com/repository/ext-release-local/com/aspose/aspose-words/";
-    private final String _remoteExamplesRepository = "https://github.com/asposewords/Aspose_Words_Java";
+    private final String _name = AsposeConstants.API_NAME;    
+    private final String _mavenRepositoryURL = "https://repository.aspose.com/repo/com/aspose/aspose-words/";
+    private final String _remoteExamplesRepository = "https://github.com/aspose-words/Aspose.Words-for-Java";
 
     /**
      * @return the _name
