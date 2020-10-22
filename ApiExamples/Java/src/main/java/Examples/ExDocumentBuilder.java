@@ -346,8 +346,8 @@ public class ExDocumentBuilder extends ApiExampleBase {
     @Test
     public void insertOleObject() throws Exception {
         //ExStart
-        //ExFor:DocumentBuilder.InsertOleObject(String, Boolean, Boolean, Image)
-        //ExFor:DocumentBuilder.InsertOleObject(String, String, Boolean, Boolean, Image)
+        //ExFor:DocumentBuilder.InsertOleObject(String, Boolean, Boolean, Stream)
+        //ExFor:DocumentBuilder.InsertOleObject(String, String, Boolean, Boolean, Stream)
         //ExFor:DocumentBuilder.InsertOleObjectAsIcon(String, Boolean, String, String)
         //ExSummary:Shows how to insert an OLE object into a document.
         Document doc = new Document();
@@ -2557,7 +2557,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void insertOleObjects() throws Exception
     {
         //ExStart
-        //ExFor:DocumentBuilder.InsertOleObject(Stream, String, Boolean, Image)
+        //ExFor:DocumentBuilder.InsertOleObject(Stream, String, Boolean, Stream)
         //ExSummary:Shows how to use document builder to embed OLE objects in a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
