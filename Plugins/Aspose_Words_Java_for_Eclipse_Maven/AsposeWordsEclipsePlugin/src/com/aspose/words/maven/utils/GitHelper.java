@@ -14,6 +14,7 @@ import java.io.File;
  * @author Adeel Ilyas
  *
  */
+@SuppressWarnings("restriction")
 public class GitHelper {
 
     /**
@@ -22,7 +23,7 @@ public class GitHelper {
      * @param remotePath
      * @throws Exception
      */
-    public static void updateRepository(String localPath, String remotePath) throws Exception {
+	public static void updateRepository(String localPath, String remotePath) throws Exception {
         Repository localRepo;
         try {
             localRepo = new FileRepository(localPath + "/.git");
@@ -54,7 +55,7 @@ public class GitHelper {
      * @param remotePath
      * @throws Exception
      */
-    public static void syncRepository(String localPath, String remotePath) throws Exception {
+	public static void syncRepository(String localPath, String remotePath) throws Exception {
         Repository localRepo;
         try {
             localRepo = new FileRepository(localPath + "/.git");

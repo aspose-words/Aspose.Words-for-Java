@@ -3,12 +3,18 @@ package com.aspose.words.examples.mail_merge;
 import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
 import com.aspose.words.net.System.Data.DataTable;
+import com.aspose.words.MailMergeRegionInfo;
+import com.sun.tools.javac.util.Assert;
+import java.util.*;  
 
 public class ExecuteMailMergeWithRegions {
-    //ExStart:
+
     private static final String dataDir = Utils.getSharedDataDir(ExecuteMailMergeWithRegions.class) + "MailMerge/";
 
     public static void main(String[] args) throws Exception {
+    	
+    	GetRegionsByName();
+    	
         Document doc = new Document(dataDir + "MailMerge.ExecuteWithRegions.doc");
 
         int orderId = 10444;
@@ -68,5 +74,23 @@ public class ExecuteMailMergeWithRegions {
         java.sql.Statement statement = conn.createStatement();
         return statement.executeQuery(commandText);
     }
-    //ExEnd:
+
+    private static void GetRegionsByName() throws Exception {
+    	//ExStart: GetRegionsByName
+    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
+    	Document doc = new Document(dataDir + "Mail merge regions.docx");
+
+    	List<MailMergeRegionInfo> regions = doc.getMailMerge().getRegionsByName("Region1");
+    	for (MailMergeRegionInfo region : regions)
+    		System.out.println(region.getName());
+
+    	regions = doc.getMailMerge().getRegionsByName("Region2");
+    	for (MailMergeRegionInfo region : regions)
+    		System.out.println(region.getName());
+
+    	regions = doc.getMailMerge().getRegionsByName("NestedRegion1");
+    	for (MailMergeRegionInfo region : regions)
+    		System.out.println(region.getName());
+    	//ExEnd: GetRegionsByName
+    }
 }

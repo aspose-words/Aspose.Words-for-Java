@@ -2,9 +2,7 @@ package com.aspose.words.examples.mail_merge;
 
 import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import com.aspose.words.net.System.Data.DataSet;
 //ExStart:
 
 /**
@@ -15,27 +13,29 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class XMLMailMerge {
 
-    private static final String dataDir = Utils.getSharedDataDir(XMLMailMerge.class) + "MailMerge/";
-
     public static void main(String[] args) throws Exception {
+    	//ExStart: XMLMailMerge
+    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
+    	// The path to the documents directory.
+    	String dataDir = Utils.getSharedDataDir(XMLMailMerge.class) + "MailMerge/";
 
-        // Use DocumentBuilder from the javax.xml.parsers package and Document class from the org.w3c.dom package to read
-        // the XML data file and store it in memory.
-        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        // Parse the XML data.
-        org.w3c.dom.Document xmlData = db.parse(dataDir + "Customers.xml");
+    	// Create the Dataset and read the XML.
+    	DataSet customersDs = new DataSet();
+    	customersDs.readXml(dataDir + "Customers.xml");
 
-        // Open a template document.
-        Document doc = new Document(dataDir + "TestFile.doc");
+    	String fileName = "TestFile XML.doc";
+    	// Open a template document.
+    	Document doc = new Document(dataDir + fileName);
 
-        // Note that this class also works with a single repeatable region (and any nested regions).
-        // To merge multiple regions at the same time from a single XML data source, use the XmlMailMergeDataSet class.
-        // e.g doc.getMailMerge().executeWithRegions(new XmlMailMergeDataSet(xmlData));
-        doc.getMailMerge().execute(new XmlMailMergeDataTable(xmlData, "customer"));
+    	// Execute mail merge to fill the template with data from XML using DataTable.
+    	// Note that this class also works with a single repeatable region (and any nested regions).
+    	// To merge multiple regions at the same time from a single XML data source, use the XmlMailMergeDataSet class.
+    	// e.g doc.getMailMerge().executeWithRegions(new XmlMailMergeDataSet(xmlData));
+    	doc.getMailMerge().execute(customersDs.getTables().get("Customer"));
 
-        // Save the output document.
-        doc.save(dataDir + "TestFile Out.doc");
-
+    	// Save the output document.
+    	doc.save(dataDir + fileName);
+    	//ExEnd: XMLMailMerge
         System.out.println("Mail merge performed successfully.");
     }
 }

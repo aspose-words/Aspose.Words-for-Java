@@ -3,8 +3,6 @@ package com.aspose.words.examples.mail_merge;
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
-//ExStart:
-
 /**
  * This sample shows how to insert check boxes and text input form fields during mail merge into a document.
  */
@@ -13,6 +11,7 @@ public class MailMergeFormFields {
      * The main entry point for the application.
      */
     public static void main(String[] args) throws Exception {
+    	// ExStart:MailMergeFormFields
         // The path to the documents directory.
         String dataDir = Utils.getDataDir(MailMergeFormFields.class);
 
@@ -33,10 +32,11 @@ public class MailMergeFormFields {
 
         // Save the finished document.
         doc.save(dataDir + "Template Out.doc");
-
+        // ExEnd:MailMergeFormFields
         System.out.println("Mail merge performed successfully.");
     }
 
+    // ExStart:HandleMergeField
     private static class HandleMergeField implements IFieldMergingCallback {
         /**
          * This handler is called for every mail merge field found in the document,
@@ -70,11 +70,15 @@ public class MailMergeFormFields {
             }
         }
 
+        //ExStart:ImageFieldMerging
         public void imageFieldMerging(ImageFieldMergingArgs args) throws Exception {
-            // Do nothing.
+        	args.setImageFileName("Image.png");
+            args.setImageWidth(new MergeFieldImageDimension(200, MergeFieldImageDimensionUnit.POINT));
+            args.setImageHeight(new MergeFieldImageDimension(200, MergeFieldImageDimensionUnit.PERCENT));
         }
-
+        //ExEnd:ImageFieldMerging
+        
         private DocumentBuilder mBuilder;
     }
+    // ExEnd:HandleMergeField
 }
-//ExEnd:
