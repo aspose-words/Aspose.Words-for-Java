@@ -357,11 +357,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
         // Double clicking these shapes will launch the application, and then use it to open the linked object.
         // There are three ways of using the InsertOleObject method to insert these shapes and configure their appearance.
         // 1 -  Image taken from the local file system:
-        BufferedImage representingImage = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
-        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, representingImage);
+        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, new FileInputStream(getImageDir() + "Logo.jpg"));
 
         // 2 -  Icon based on the application that will open the object:
-        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
+        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, new FileInputStream(getImageDir() + "Logo.jpg"));
 
         // 3 -  Image icon that's 32 x 32 pixels or smaller from the local file system, with a custom caption:
         builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", false, getImageDir() + "Logo icon.ico",
@@ -2332,7 +2331,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Assert.assertThrows(IllegalArgumentException.class, () -> builder.insertOleObject("", "checkbox", false, true, null));
+        Assert.assertThrows(RuntimeException.class, () -> builder.insertOleObject("", "checkbox", false, true, null));
     }
 
     @Test
@@ -2565,10 +2564,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
         // Insert a Microsoft Excel spreadsheet from the local file system
         // into the document while keeping its default appearance.
         InputStream spreadsheetStream = new FileInputStream(getMyDir() + "Spreadsheet.xlsx");
+        InputStream representingImage = new FileInputStream(getImageDir() + "Logo.jpg");
         try
         {
         builder.writeln("Spreadsheet Ole object:");
-            builder.insertOleObject(spreadsheetStream, "OleObject.xlsx", false, null);
+            builder.insertOleObject(spreadsheetStream, "OleObject.xlsx", false, representingImage);
         }
         finally { if (spreadsheetStream != null) spreadsheetStream.close(); }
 
