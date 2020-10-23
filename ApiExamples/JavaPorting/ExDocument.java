@@ -52,6 +52,7 @@ import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignatureType;
 import com.aspose.words.StyleIdentifier;
+import java.util.ArrayList;
 import com.aspose.words.ControlChar;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ProtectionType;
@@ -159,7 +160,7 @@ public class ExDocument extends ApiExampleBase
         {
             Document doc = new Document(stream);
 
-            Assert.assertEquals("Hello World!", msString.trim(doc.getText()));
+            Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
@@ -431,7 +432,7 @@ public class ExDocument extends ApiExampleBase
             doc.save(dstStream, SaveFormat.DOCX);
 
             // Verify that the stream contains the document.
-            Assert.assertEquals("Hello World!", msString.trim(new Document(dstStream).getText()));
+            Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(new Document(dstStream).getText()));
         }
         finally { if (dstStream != null) dstStream.close(); }
         //ExEnd
@@ -694,7 +695,8 @@ public class ExDocument extends ApiExampleBase
 
         // Append all unencrypted documents with the .doc extension
         // from our local file system directory to the base document.
-        for (String fileName : Directory.getFiles(getMyDir(), "*.doc"))
+        ArrayList<String> docFiles = Directory.getFiles(getMyDir(), "*.doc").Where(item => item.EndsWith(".doc")).ToList();
+        for (String fileName : docFiles)
         {
             FileFormatInfo info = FileFormatUtil.detectFileFormat(fileName);
             if (info.isEncrypted())
@@ -1872,10 +1874,6 @@ public class ExDocument extends ApiExampleBase
         doc.setShadeFormData(useGreyShading);
         doc.save(getArtifactsDir() + "Document.ShadeFormData.docx");
         //ExEnd
-
-        doc = new Document(getArtifactsDir() + "Document.ShadeFormData.docx");
-
-        Assert.assertEquals(useGreyShading, doc.getShadeFormData());
     }
 
 	//JAVA-added data provider for test method
@@ -2044,7 +2042,7 @@ public class ExDocument extends ApiExampleBase
         Document target = new Document(getMyDir() + "Document.docx");
 
         Assert.assertEquals(18, template.getStyles().getCount()); //ExSkip
-        Assert.assertEquals(4, target.getStyles().getCount()); //ExSkip
+        Assert.assertEquals(8, target.getStyles().getCount()); //ExSkip
 
         target.copyStylesFromTemplate(template);
         Assert.assertEquals(18, target.getStyles().getCount()); //ExSkip

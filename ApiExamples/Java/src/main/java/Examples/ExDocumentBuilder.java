@@ -346,8 +346,8 @@ public class ExDocumentBuilder extends ApiExampleBase {
     @Test
     public void insertOleObject() throws Exception {
         //ExStart
-        //ExFor:DocumentBuilder.InsertOleObject(String, Boolean, Boolean, Image)
-        //ExFor:DocumentBuilder.InsertOleObject(String, String, Boolean, Boolean, Image)
+        //ExFor:DocumentBuilder.InsertOleObject(String, Boolean, Boolean, Stream)
+        //ExFor:DocumentBuilder.InsertOleObject(String, String, Boolean, Boolean, Stream)
         //ExFor:DocumentBuilder.InsertOleObjectAsIcon(String, Boolean, String, String)
         //ExSummary:Shows how to insert an OLE object into a document.
         Document doc = new Document();
@@ -357,11 +357,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
         // Double clicking these shapes will launch the application, and then use it to open the linked object.
         // There are three ways of using the InsertOleObject method to insert these shapes and configure their appearance.
         // 1 -  Image taken from the local file system:
-        BufferedImage representingImage = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
-        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, representingImage);
+        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, new FileInputStream(getImageDir() + "Logo.jpg"));
 
         // 2 -  Icon based on the application that will open the object:
-        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
+        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, new FileInputStream(getImageDir() + "Logo.jpg"));
 
         // 3 -  Image icon that's 32 x 32 pixels or smaller from the local file system, with a custom caption:
         builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", false, getImageDir() + "Logo icon.ico",
@@ -2332,7 +2331,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Assert.assertThrows(IllegalArgumentException.class, () -> builder.insertOleObject("", "checkbox", false, true, null));
+        Assert.assertThrows(RuntimeException.class, () -> builder.insertOleObject("", "checkbox", false, true, null));
     }
 
     @Test
@@ -2557,7 +2556,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void insertOleObjects() throws Exception
     {
         //ExStart
-        //ExFor:DocumentBuilder.InsertOleObject(Stream, String, Boolean, Image)
+        //ExFor:DocumentBuilder.InsertOleObject(Stream, String, Boolean, Stream)
         //ExSummary:Shows how to use document builder to embed OLE objects in a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2565,10 +2564,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
         // Insert a Microsoft Excel spreadsheet from the local file system
         // into the document while keeping its default appearance.
         InputStream spreadsheetStream = new FileInputStream(getMyDir() + "Spreadsheet.xlsx");
+        InputStream representingImage = new FileInputStream(getImageDir() + "Logo.jpg");
         try
         {
         builder.writeln("Spreadsheet Ole object:");
-            builder.insertOleObject(spreadsheetStream, "OleObject.xlsx", false, null);
+            builder.insertOleObject(spreadsheetStream, "OleObject.xlsx", false, representingImage);
         }
         finally { if (spreadsheetStream != null) spreadsheetStream.close(); }
 
@@ -2695,6 +2695,40 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals(14.0, dstDoc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getFont().getSize());
         Assert.assertEquals("Courier New", dstDoc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getFont().getName());
         Assert.assertEquals(Color.RED.getRGB(), dstDoc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getFont().getColor().getRGB());
+    }
+
+    @Test
+    public void emphasesWarningSourceMarkdown() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Emphases markdown warning.docx");
+
+        WarningInfoCollection warnings = new WarningInfoCollection();
+        doc.setWarningCallback(warnings);
+        doc.save(getArtifactsDir() + "DocumentBuilder.EmphasesWarningSourceMarkdown.md");
+
+        for (WarningInfo warningInfo : warnings)
+        {
+            if (warningInfo.getSource() == WarningSource.MARKDOWN)
+                Assert.assertEquals("The (*, 0:11) cannot be properly written into Markdown.", warningInfo.getDescription());
+        }
+    }
+
+    @Test
+    public void doNotIgnoreHeaderFooter() throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.IgnoreHeaderFooter
+        //ExSummary:Shows how to specifies ignoring or not source formatting of headers/footers content.
+        Document dstDoc = new Document(getMyDir() + "Document.docx");
+        Document srcDoc = new Document(getMyDir() + "Header and footer types.docx");
+
+        ImportFormatOptions importFormatOptions = new ImportFormatOptions();
+        importFormatOptions.setIgnoreHeaderFooter(false);
+
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, importFormatOptions);
+
+        dstDoc.save(getArtifactsDir() + "DocumentBuilder.DoNotIgnoreHeaderFooter.docx");
+        //ExEnd
     }
 
     /// <summary>
@@ -3048,6 +3082,67 @@ public class ExDocumentBuilder extends ApiExampleBase {
                         {"This is a fenced code", "FencedCode", false, false},
                         {"This is a fenced code with info string", "FencedCode.C#", false, false},
                         {"Item 1", "Normal", false, false},
+                };
+    }
+
+    @Test (dataProvider = "markdownDocumentTableContentAlignmentDataProvider")
+    public void markdownDocumentTableContentAlignment(int tableContentAlignment) throws Exception
+    {
+        DocumentBuilder builder = new DocumentBuilder();
+
+        builder.insertCell();
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
+        builder.write("Cell1");
+        builder.insertCell();
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+        builder.write("Cell2");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setTableContentAlignment(tableContentAlignment);
+
+        builder.getDocument().save(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md", saveOptions);
+
+        Document doc = new Document(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md");
+        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+
+        switch (tableContentAlignment)
+        {
+            case TableContentAlignment.AUTO:
+                Assert.assertEquals(ParagraphAlignment.RIGHT,
+                        table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.CENTER,
+                        table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                break;
+            case TableContentAlignment.LEFT:
+                Assert.assertEquals(ParagraphAlignment.LEFT,
+                        table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.LEFT,
+                        table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                break;
+            case TableContentAlignment.CENTER:
+                Assert.assertEquals(ParagraphAlignment.CENTER,
+                        table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.CENTER,
+                        table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                break;
+            case TableContentAlignment.RIGHT:
+                Assert.assertEquals(ParagraphAlignment.RIGHT,
+                        table.getFirstRow().getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
+                Assert.assertEquals(ParagraphAlignment.RIGHT,
+                        table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
+                break;
+        }
+    }
+
+    @DataProvider(name = "markdownDocumentTableContentAlignmentDataProvider")
+    public static Object[][] markdownDocumentTableContentAlignmentDataProvider() throws Exception
+    {
+        return new Object[][]
+                {
+                        {TableContentAlignment.LEFT},
+                        {TableContentAlignment.RIGHT},
+                        {TableContentAlignment.CENTER},
+                        {TableContentAlignment.AUTO},
                 };
     }
 

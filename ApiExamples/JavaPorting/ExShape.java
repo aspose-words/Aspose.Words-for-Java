@@ -787,10 +787,10 @@ public class ExShape extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Embed a Microsoft Visio drawing as an OLE object into the document
-        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", false, false, null);
+        builder.insertOleObjectInternal(getImageDir() + "Microsoft Visio drawing.vsd", "Package", false, false, null);
 
         // Insert a link to the file in the local file system and display it as an icon
-        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", true, true, null);
+        builder.insertOleObjectInternal(getImageDir() + "Microsoft Visio drawing.vsd", "Package", true, true, null);
         
         // Both the OLE objects are stored within shapes
         ArrayList<Shape> shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().ToList();
@@ -1167,7 +1167,7 @@ public class ExShape extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertOleObject("http://www.aspose.com", "htmlfile", true, false, null);
+        builder.insertOleObjectInternal("http://www.aspose.com", "htmlfile", true, false, null);
 
         doc.save(getArtifactsDir() + "Shape.InsertOleObjectAsHtmlFile.docx");
     }
@@ -1215,9 +1215,9 @@ public class ExShape extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Shape oleObject = builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, null);
+        Shape oleObject = builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", false, false, null);
         Shape oleObjectAsOlePackage =
-            builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, false, null);
+            builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, false, null);
 
         Assert.assertEquals(null, oleObject.getOleFormat().getOlePackage());
         Assert.assertEquals(OlePackage.class, oleObjectAsOlePackage.getOleFormat().getOlePackage().getClass());

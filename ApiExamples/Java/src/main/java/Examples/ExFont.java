@@ -1947,4 +1947,38 @@ public class ExFont extends ApiExampleBase {
                         filter((x) -> x.getFilePath().contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")).findFirst(),
                 "Fonts did not install to the user font folder");
     }
+
+    @Test (dataProvider = "setEmphasisMarkDataProvider")
+    public void setEmphasisMark(int emphasisMark) throws Exception
+    {
+        //ExStart
+        //ExFor:EmphasisMark
+        //ExFor:Font.EmphasisMark
+        //ExSummary:Shows how to add additional character rendered above/below the glyph-character.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Possible types of emphasis mark:
+        // https://docs.microsoft.com/en-us/dotnet/api/microsoft.office.interop.word.wdemphasismark?view=word-pia
+        builder.getFont().setEmphasisMark(emphasisMark);
+
+        builder.write("Emphasis text");
+        builder.writeln();
+        builder.getFont().clearFormatting();
+        builder.write("Simple text");
+
+        builder.getDocument().save(getArtifactsDir() + "Fonts.SetEmphasisMark.docx");
+        //ExEnd
+    }
+
+    @DataProvider(name = "setEmphasisMarkDataProvider")
+    public static Object[][] setEmphasisMarkDataProvider() {
+        return new Object[][]
+                {
+                        {EmphasisMark.NONE},
+                        {EmphasisMark.OVER_COMMA},
+                        {EmphasisMark.OVER_SOLID_CIRCLE},
+                        {EmphasisMark.OVER_WHITE_CIRCLE},
+                        {EmphasisMark.UNDER_SOLID_CIRCLE},
+                };
+    }
 }

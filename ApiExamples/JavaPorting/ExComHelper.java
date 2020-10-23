@@ -36,7 +36,7 @@ public class ExComHelper extends ApiExampleBase
         // 1 -  Using a local system filename:
         Document doc = comHelper.open(getMyDir() + "Document.docx");
 
-        Assert.assertEquals("Hello World!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
 
         // 2 -  From a stream:
         FileStream stream = new FileStream(getMyDir() + "Document.docx", FileMode.OPEN);
@@ -44,7 +44,7 @@ public class ExComHelper extends ApiExampleBase
         {
             doc = comHelper.open(stream);
 
-            Assert.assertEquals("Hello World!", msString.trim(doc.getText()));
+            Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd

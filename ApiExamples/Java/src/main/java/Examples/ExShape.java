@@ -639,10 +639,10 @@ public class ExShape extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Embed a Microsoft Visio drawing as an OLE object into the document
-        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", false, false, null);
+        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", false, false, new FileInputStream(getImageDir() + "Logo.jpg"));
 
         // Insert a link to the file in the local file system and display it as an icon
-        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", true, true, null);
+        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", true, true, new FileInputStream(getImageDir() + "Logo.jpg"));
 
         // Both the OLE objects are stored within shapes
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
@@ -663,7 +663,7 @@ public class ExShape extends ApiExampleBase {
         // Get the name or the source file and verify that the whole file is linked
         Assert.assertTrue(oleFormat.getSourceFullName().endsWith("Images" + File.separatorChar + "Microsoft Visio drawing.vsd"));
         Assert.assertEquals(oleFormat.getSourceItem(), "");
-        Assert.assertEquals(oleFormat.getIconCaption(), "Packager");
+        Assert.assertEquals(oleFormat.getIconCaption(), "Microsoft Visio drawing.vsd");
 
         doc.save(getArtifactsDir() + "Shape.OleLinks.docx");
 
@@ -987,7 +987,8 @@ public class ExShape extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertOleObject("http://www.aspose.com", "htmlfile", true, false, null);
+        InputStream representingImage = new FileInputStream(getImageDir() + "Logo.jpg");
+        builder.insertOleObject("http://www.aspose.com", "htmlfile", true, false, representingImage);
 
         doc.save(getArtifactsDir() + "Shape.InsertOleObjectAsHtmlFile.docx");
     }
@@ -1006,8 +1007,9 @@ public class ExShape extends ApiExampleBase {
         byte[] zipFileBytes = Files.readAllBytes(Paths.get(getDatabaseDir() + "cat001.zip"));
 
         InputStream stream = new ByteArrayInputStream(zipFileBytes);
+        InputStream representingImage = new FileInputStream(getImageDir() + "Logo.jpg");
         try {
-            Shape shape = builder.insertOleObject(stream, "Package", true, null);
+            Shape shape = builder.insertOleObject(stream, "Package", true, representingImage);
 
             OlePackage setOlePackage = shape.getOleFormat().getOlePackage();
             setOlePackage.setFileName("Cat FileName.zip");
@@ -1035,8 +1037,8 @@ public class ExShape extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Shape oleObject = builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, null);
-        Shape oleObjectAsOlePackage = builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, false, null);
+        Shape oleObject = builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, new FileInputStream(getImageDir() + "Logo.jpg"));
+        Shape oleObjectAsOlePackage = builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, false, new FileInputStream(getImageDir() + "Logo.jpg"));
 
         Assert.assertEquals(oleObject.getOleFormat().getOlePackage(), null);
         Assert.assertEquals(oleObjectAsOlePackage.getOleFormat().getOlePackage().getClass(), OlePackage.class);

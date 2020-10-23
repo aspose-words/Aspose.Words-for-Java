@@ -81,6 +81,7 @@ import com.aspose.words.RunCollection;
 import com.aspose.words.TextDmlEffect;
 import com.aspose.words.StreamFontSource;
 import com.aspose.ms.System.IO.Stream;
+import com.aspose.words.EmphasisMark;
 import org.testng.annotations.DataProvider;
 
 
@@ -2170,5 +2171,41 @@ public class ExFont extends ApiExampleBase
                 .FirstOrDefault(x => x.FilePath.Contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")),
             "Fonts did not install to the user font folder");
     }
+
+    @Test (dataProvider = "setEmphasisMarkDataProvider")
+    public void setEmphasisMark(/*EmphasisMark*/int emphasisMark) throws Exception
+    {
+        //ExStart
+        //ExFor:EmphasisMark
+        //ExFor:Font.EmphasisMark
+        //ExSummary:Shows how to add additional character rendered above/below the glyph-character.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Possible types of emphasis mark:
+        // https://docs.microsoft.com/en-us/dotnet/api/microsoft.office.interop.word.wdemphasismark?view=word-pia
+        builder.getFont().setEmphasisMark(emphasisMark); 
+        
+        builder.write("Emphasis text");
+        builder.writeln();
+        builder.getFont().clearFormatting();
+        builder.write("Simple text");
+ 
+        builder.getDocument().save(getArtifactsDir() + "Fonts.SetEmphasisMark.docx");
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "setEmphasisMarkDataProvider")
+	public static Object[][] setEmphasisMarkDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{EmphasisMark.NONE},
+			{EmphasisMark.OVER_COMMA},
+			{EmphasisMark.OVER_SOLID_CIRCLE},
+			{EmphasisMark.OVER_WHITE_CIRCLE},
+			{EmphasisMark.UNDER_SOLID_CIRCLE},
+		};
+	}
 }
 

@@ -34,6 +34,8 @@ import com.aspose.words.IMailMergeCallback;
 import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.FieldIf;
 import com.aspose.ms.System.msString;
+import com.aspose.words.SectionStart;
+import com.aspose.words.Section;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.MailMergeSettings;
 import com.aspose.words.MailMergeMainDocumentType;
@@ -1349,6 +1351,46 @@ public class ExMailMerge extends ApiExampleBase
 		{
 			{false},
 			{true},
+		};
+	}
+
+    @Test (dataProvider = "retainFirstSectionStartDataProvider")
+    public void retainFirstSectionStart(boolean isRetainFirstSectionStart, /*SectionStart*/int sectionStart, /*SectionStart*/int expected) throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        builder.insertField(" MERGEFIELD  FullName ");
+
+        doc.getFirstSection().getPageSetup().setSectionStart(sectionStart);
+        doc.getMailMerge().setRetainFirstSectionStart(isRetainFirstSectionStart);
+
+        DataTable dataTable = new DataTable();
+        dataTable.getColumns().add("FullName");
+        dataTable.getRows().add("James Bond");
+
+        doc.getMailMerge().execute(dataTable);
+
+        for (Section section : (Iterable<Section>) doc.getSections())
+            Assert.assertEquals(expected, section.getPageSetup().getSectionStart());
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "retainFirstSectionStartDataProvider")
+	public static Object[][] retainFirstSectionStartDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true,  SectionStart.CONTINUOUS,  SectionStart.CONTINUOUS},
+			{true,  SectionStart.NEW_COLUMN,  SectionStart.NEW_COLUMN},
+			{true,  SectionStart.NEW_PAGE,  SectionStart.NEW_PAGE},
+			{true,  SectionStart.EVEN_PAGE,  SectionStart.EVEN_PAGE},
+			{true,  SectionStart.ODD_PAGE,  SectionStart.ODD_PAGE},
+			{false,  SectionStart.CONTINUOUS,  SectionStart.NEW_PAGE},
+			{false,  SectionStart.NEW_COLUMN,  SectionStart.NEW_PAGE},
+			{false,  SectionStart.NEW_PAGE,  SectionStart.NEW_PAGE},
+			{false,  SectionStart.EVEN_PAGE,  SectionStart.EVEN_PAGE},
+			{false,  SectionStart.ODD_PAGE,  SectionStart.ODD_PAGE},
 		};
 	}
 

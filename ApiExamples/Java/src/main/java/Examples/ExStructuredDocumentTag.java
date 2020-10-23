@@ -824,4 +824,49 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         // Add the StructuredDocumentTag to the document to display the element in the text
         doc.getFirstSection().getBody().appendChild(sdt);
     }
+
+    @Test
+    public void multiSectionTags() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTagRangeStart
+        //ExFor:StructuredDocumentTagRangeStart.Id
+        //ExFor:StructuredDocumentTagRangeStart.Title
+        //ExFor:StructuredDocumentTagRangeStart.IsShowingPlaceholderText
+        //ExFor:StructuredDocumentTagRangeStart.LockContentControl
+        //ExFor:StructuredDocumentTagRangeStart.LockContents
+        //ExFor:StructuredDocumentTagRangeStart.Level
+        //ExFor:StructuredDocumentTagRangeStart.RangeEnd
+        //ExFor:StructuredDocumentTagRangeStart.SdtType
+        //ExFor:StructuredDocumentTagRangeStart.Tag
+        //ExFor:StructuredDocumentTagRangeEnd
+        //ExFor:StructuredDocumentTagRangeEnd.Id
+        //ExSummary:Shows how to get multi-section structured document tags properties.
+        Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
+
+        // Note that these nodes can be a child of NodeType.Body node only and all properties of these nodes are read-only.
+        StructuredDocumentTagRangeStart rangeStartTag = (StructuredDocumentTagRangeStart) doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true).get(0);
+        StructuredDocumentTagRangeEnd rangeEndTag = (StructuredDocumentTagRangeEnd) doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, true).get(0);
+
+        Assert.assertEquals(rangeStartTag.getId(), rangeEndTag.getId()); //ExSkip
+        Assert.assertEquals(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, rangeStartTag.getNodeType()); //ExSkip
+        Assert.assertEquals(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, rangeEndTag.getNodeType()); //ExSkip
+
+        System.out.println("StructuredDocumentTagRangeStart values:");
+        System.out.println("\t|Id: {rangeStartTag.Id}");
+        System.out.println("\t|Title: {rangeStartTag.Title}");
+        System.out.println("\t|IsShowingPlaceholderText: {rangeStartTag.IsShowingPlaceholderText}");
+        System.out.println("\t|LockContentControl: {rangeStartTag.LockContentControl}");
+        System.out.println("\t|LockContents: {rangeStartTag.LockContents}");
+        System.out.println("\t|Level: {rangeStartTag.Level}");
+        System.out.println("\t|NodeType: {rangeStartTag.NodeType}");
+        System.out.println("\t|RangeEnd: {rangeStartTag.RangeEnd}");
+        System.out.println("\t|SdtType: {rangeStartTag.SdtType}");
+        System.out.println("\t|Tag: {rangeStartTag.Tag}\n");
+
+        System.out.println("StructuredDocumentTagRangeEnd values:");
+        System.out.println("\t|Id: {rangeEndTag.Id}");
+        System.out.println("\t|NodeType: {rangeEndTag.NodeType}");
+        //ExEnd
+    }
 }
