@@ -8,12 +8,10 @@ import com.sun.tools.javac.util.Assert;
 import java.util.*;  
 
 public class ExecuteMailMergeWithRegions {
-
+	//ExStart: ExecuteMailMergeWithRegions
     private static final String dataDir = Utils.getSharedDataDir(ExecuteMailMergeWithRegions.class) + "MailMerge/";
 
     public static void main(String[] args) throws Exception {
-    	
-    	GetRegionsByName();
     	
         Document doc = new Document(dataDir + "MailMerge.ExecuteWithRegions.doc");
 
@@ -74,6 +72,7 @@ public class ExecuteMailMergeWithRegions {
         java.sql.Statement statement = conn.createStatement();
         return statement.executeQuery(commandText);
     }
+    //ExEnd: ExecuteMailMergeWithRegions
 
     private static void GetRegionsByName() throws Exception {
     	//ExStart: GetRegionsByName
