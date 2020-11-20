@@ -20,6 +20,7 @@ public class WorkingWithShapes {
         DetectSmartArtShape(dataDir);
         ShapeHorizontalRuleFormat(dataDir);
         InsertOLEObjectAsIcon(dataDir);
+        UpdateSmartArtDrawing(dataDir);
     }
 
     public static void insertShapeUsingDocumentBuilder(String dataDir) throws Exception {
@@ -195,5 +196,17 @@ public class WorkingWithShapes {
 
         System.out.println("The document has been saved with OLE Object as an Icon.");
         // ExEnd:InsertOLEObjectAsIcon
+    }
+    
+    public static void UpdateSmartArtDrawing(String dataDir) throws Exception
+    {
+        Document doc = new Document(dataDir + "SmartArt.docx");
+
+        // ExStart:UpdateSmartArtDrawing
+        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+        for (Shape shape : (Iterable<Shape>) shapes)
+            if(shape.hasSmartArt())
+                shape.updateSmartArtDrawing();
+        // ExEnd:UpdateSmartArtDrawing
     }
 }
