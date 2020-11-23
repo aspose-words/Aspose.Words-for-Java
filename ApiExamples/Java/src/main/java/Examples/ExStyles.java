@@ -262,7 +262,7 @@ public class ExStyles extends ApiExampleBase {
         style = doc.getStyles().get("MyStyle1");
 
         Assert.assertEquals("MyStyle1", style.getName());
-        Assert.assertEquals(24, style.getFont().getSize());
+        Assert.assertEquals(24.0, style.getFont().getSize());
         Assert.assertEquals("Verdana", style.getFont().getName());
         Assert.assertEquals(12.0d, style.getParagraphFormat().getSpaceAfter());
     }

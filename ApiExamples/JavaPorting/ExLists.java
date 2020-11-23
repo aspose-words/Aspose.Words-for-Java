@@ -909,7 +909,7 @@ public class ExLists extends ApiExampleBase
         Assert.AreEqual(10, paras.<Paragraph>OfType().Count(p => p.ListFormat.IsListItem));
     }
 
-    @Test
+    @Test (groups = "IgnoreOnJenkins")
     public void createPictureBullet() throws Exception
     {
         //ExStart

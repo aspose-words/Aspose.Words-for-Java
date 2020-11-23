@@ -2100,7 +2100,7 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals("WA104380646", webExtension.getReference().getId());
         Assert.assertEquals("1.0.0.0", webExtension.getReference().getVersion());
         Assert.assertEquals(WebExtensionStoreType.OMEX, webExtension.getReference().getStoreType());
-        Assert.assertEquals(Locale.getDefault().getDisplayName(), webExtension.getReference().getStore());
+        Assert.assertEquals("English (United States)", webExtension.getReference().getStore());
 
         Assert.assertEquals("MyScript", webExtension.getProperties().get(0).getName());
         Assert.assertEquals("MyScript Math Sample", webExtension.getProperties().get(0).getValue());

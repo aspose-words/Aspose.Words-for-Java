@@ -299,7 +299,7 @@ public class ExDocument extends ApiExampleBase
         //ExEnd
     }
 
-    @Test
+    @Test (groups = "IgnoreOnJenkins")
     public void insertHtmlFromWebPage() throws Exception
     {
         //ExStart

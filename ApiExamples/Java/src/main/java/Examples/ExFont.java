@@ -1523,7 +1523,7 @@ public class ExFont extends ApiExampleBase {
         Assert.assertEquals(systemFontSource.getPriority(), 0);
 
         if (System.getProperty("os.name").startsWith("Windows")) {
-            Assert.assertEquals(SystemFontSource.getSystemFontFolders(), new String[]{"C:\\WINDOWS\\Fonts"});
+            Assert.assertEquals(SystemFontSource.getSystemFontFolders(), new String[]{"C:\\Windows\\Fonts"});
         }
 
         for (String systemFontFolder : SystemFontSource.getSystemFontFolders()) {
