@@ -8,7 +8,7 @@
 //ExStart
 //ExFor:NodeList
 //ExFor:FieldStart
-//ExSummary:Finds all hyperlinks in a Word document and changes their URL and display name.
+//ExSummary:Shows how to find all hyperlinks in a Word document, and then change their URLs and display names.
 package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
@@ -27,38 +27,31 @@ import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 
 
-/// <summary>
-/// Shows how to replace hyperlinks in a Word document.
-/// </summary>
 @Test //ExSkip
 public class ExReplaceHyperlinks extends ApiExampleBase
 {
-    /// <summary>
-    /// Finds all hyperlinks in a Word document and changes their URL and display name.
-    /// </summary>
     @Test //ExSkip
     public void fields() throws Exception
     {
-        // Specify your document name here
         Document doc = new Document(getMyDir() + "Hyperlinks.docx");
 
-        // Hyperlinks in a Word documents are fields, select all field start nodes so we can find the hyperlinks
+        // Hyperlinks in a Word documents are fields. To begin looking for hyperlinks, we must first find all the fields.
+        // Use the "SelectNodes" method to find all the fields in the document via an XPath.
         NodeList fieldStarts = doc.selectNodes("//FieldStart");
+
         for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType() !!Autoporter error: Undefined expression type )
         {
             if (((fieldStart.getFieldType()) == (FieldType.FIELD_HYPERLINK)))
             {
-                // The field is a hyperlink field, use the "facade" class to help to deal with the field
                 Hyperlink hyperlink = new Hyperlink(fieldStart);
 
-                // Some hyperlinks can be local (links to bookmarks inside the document), ignore these
+                // Hyperlinks that link to bookmarks do not have URLs.
                 if (hyperlink.isLocal())
                     continue;
 
-                // The Hyperlink class allows to set the target URL and the display name 
-                // of the link easily by setting the properties
-                hyperlink.setTarget(NEW_URL);
-                hyperlink.setName(NEW_NAME);
+                // Give each URL hyperlink a new URL and name.
+                hyperlink.(NEW_URL);
+                hyperlink.(NEW_NAME);
             }
         }
 
@@ -70,20 +63,19 @@ public class ExReplaceHyperlinks extends ApiExampleBase
 }
 
 /// <summary>
-/// This "facade" class makes it easier to work with a hyperlink field in a Word document. 
-/// 
-/// A hyperlink is represented by a HYPERLINK field in a Word document. A field in Aspose.Words 
-/// consists of several nodes and it might be difficult to work with all those nodes directly. 
-/// Note this is a simple implementation and will work only if the hyperlink code and name 
-/// each consist of one Run only.
+/// HYPERLINK fields contain and display hyperlinks in the document body. A field in Aspose.Words 
+/// consists of several nodes, and it might be difficult to work with all those nodes directly. 
+/// This implementation will work only if the hyperlink code and name each consist of only one Run node.
+///
+/// The node structure for fields is as follows:
 /// 
 /// [FieldStart][Run - field code][FieldSeparator][Run - field result][FieldEnd]
 /// 
-/// The field code contains a String in one of these formats:
+/// Below are two example field codes of HYPERLINK fields:
 /// HYPERLINK "url"
 /// HYPERLINK \l "bookmark name"
 /// 
-/// The field result contains text that is displayed to the user.
+/// A field's "Result" property contains text that the field displays in the document body to the user.
 /// </summary>
 class Hyperlink
 {
@@ -96,69 +88,77 @@ class Hyperlink
 
         mFieldStart = fieldStart;
 
-        // Find the field separator node
+        // Find the field separator node.
         mFieldSeparator = findNextSibling(mFieldStart, NodeType.FIELD_SEPARATOR);
         if (mFieldSeparator == null)
             throw new IllegalStateException("Cannot find field separator.");
 
-        // Find the field end node. Normally field end will always be found, but in the example document 
-        // there happens to be a paragraph break included in the hyperlink and this puts the field end 
+        // Normally, we can always find the field's end node, but the example document 
+        // contains a paragraph break inside a hyperlink, which puts the field end 
         // in the next paragraph. It will be much more complicated to handle fields which span several 
-        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes
+        // paragraphs correctly. In this case allowing field end to be null is enough.
         mFieldEnd = findNextSibling(mFieldSeparator, NodeType.FIELD_END);
 
-        // Field code looks something like [ HYPERLINK "http:\\www.myurl.com" ], but it can consist of several runs
+        // Field code looks something like "HYPERLINK "http:\\www.myurl.com"", but it can consist of several runs.
         String fieldCode = getTextSameParent(mFieldStart.getNextSibling(), mFieldSeparator);
         Match match = G_REGEX.match(msString.trim(fieldCode));
-        mIsLocal = match.getGroups().get(1).getLength() > 0; //The link is local if \l is present in the field code
+
+        // The hyperlink is local if \l is present in the field code.
+        mIsLocal = match.getGroups().get(1).getLength() > 0; 
         mTarget = match.getGroups().get(2).getValue();
     }
 
     /// <summary>
     /// Gets or sets the display name of the hyperlink.
     /// </summary>
-    String getName() { return getTextSameParent(mFieldSeparator, mFieldEnd); }
-    void setName(String value)
-    {
-        // Hyperlink display name is stored in the field result which is a Run 
-        // node between field separator and field end
-        Run fieldResult = (Run) mFieldSeparator.getNextSibling();
-        fieldResult.setText(value);
+    String getName() { return mName; }
 
-        // But sometimes the field result can consist of more than one run, delete these runs
-        removeSameParent(fieldResult.getNextSibling(), mFieldEnd);
+    private String mName; => GetTextSameParent(mFieldSeparator, mFieldEnd); 
+        set
+        {
+            // Hyperlink display name is stored in the field result, which is a Run 
+            // node between field separator and field end.
+            Run fieldResult = (Run) mFieldSeparator.NextSibling;
+            fieldResult.Text = value;
+
+            // If the field result consists of more than one run, delete these runs.
+            RemoveSameParent(fieldResult.NextSibling, mFieldEnd);
+        }
     }
 
     /// <summary>
     /// Gets or sets the target URL or bookmark name of the hyperlink.
     /// </summary>
-    String getTarget()
-    {
-        return mTarget;
-    }
-    void setTarget(String value)
-    {
-        mTarget = value;
-        updateFieldCode();
+    String getTarget() { return mTarget; }
+
+    private String mTarget; => mTarget;
+        set
+        {
+            mTarget = value;
+            UpdateFieldCode();
+        }
     }
 
     /// <summary>
     /// True if the hyperlinks target is a bookmark inside the document. False if the hyperlink is a URL.
     /// </summary>
     boolean isLocal() { return mIsLocal; }
-    void isLocal(boolean value)
-    {
-        mIsLocal = value;
-        updateFieldCode();
+
+    private boolean mIsLocal; => mIsLocal; 
+        set
+        {
+            mIsLocal = value;
+            UpdateFieldCode();
+        }
     }
 
     private void updateFieldCode()
     {
-        // Field code is stored in a Run node between field start and field separator
+        // A field's field code is in a Run node between the field's start node and field separator.
         Run fieldCode = (Run) mFieldStart.getNextSibling();
         fieldCode.setText(msString.format("HYPERLINK {0}\"{1}\"", ((mIsLocal) ? "\\l " : ""), mTarget));
 
-        // But sometimes the field code can consist of more than one run, delete these runs
+        // If the field code consists of more than one run, delete these runs.
         removeSameParent(fieldCode.getNextSibling(), mFieldSeparator);
     }
 
@@ -193,7 +193,7 @@ class Hyperlink
 
     /// <summary>
     /// Removes nodes from start up to but not including the end node.
-    /// Start and end are assumed to have the same parent.
+    /// Assumes that the start and end nodes have the same parent.
     /// </summary>
     private static void removeSameParent(Node startNode, Node endNode)
     {
@@ -216,13 +216,13 @@ class Hyperlink
     private String mTarget;
 
     private static /*final*/ Regex G_REGEX = new Regex(
-        "\\S+" + // one or more non spaces HYPERLINK or other word in other languages
-        "\\s+" + // one or more spaces
-        "(?:\"\"\\s+)?" + // non capturing optional "" and one or more spaces, found in one of the customers files.
-        "(\\\\l\\s+)?" + // optional \l flag followed by one or more spaces
-        "\"" + // one apostrophe	
-        "([^\"]+)" + // one or more chars except apostrophe (hyperlink target)
-        "\"" // one closing apostrophe
+        "\\S+" + // One or more non spaces HYPERLINK or other word in other languages.
+        "\\s+" + // One or more spaces.
+        "(?:\"\"\\s+)?" + // Non-capturing optional "" and one or more spaces.
+        "(\\\\l\\s+)?" + // Optional \l flag followed by one or more spaces.
+        "\"" + // One apostrophe.	
+        "([^\"]+)" + // One or more characters, excluding the apostrophe (hyperlink target).
+        "\"" // One closing apostrophe.
     );
 }
 

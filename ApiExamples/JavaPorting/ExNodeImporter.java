@@ -16,37 +16,44 @@ import com.aspose.words.NodeImporter;
 import com.aspose.words.ImportFormatMode;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Node;
+import org.testng.Assert;
+import com.aspose.ms.System.msString;
+import com.aspose.words.SaveFormat;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Bookmark;
 import com.aspose.words.NodeType;
 import com.aspose.words.CompositeNode;
 import com.aspose.words.Section;
-import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.IFieldMergingCallback;
 import com.aspose.words.FieldMergingArgs;
-import com.aspose.words.DocumentBuilder;
 import com.aspose.words.ImageFieldMergingArgs;
+import org.testng.annotations.DataProvider;
 
 
 @Test
 public class ExNodeImporter extends ApiExampleBase
 {
-    @Test
-    public void keepSourceNumbering() throws Exception
+    @Test (dataProvider = "keepSourceNumberingDataProvider")
+    public void keepSourceNumbering(boolean keepSourceNumbering) throws Exception
     {
         //ExStart
         //ExFor:ImportFormatOptions.KeepSourceNumbering
         //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode, ImportFormatOptions)
-        //ExSummary:Shows how the numbering will be imported when it clashes in source and destination documents.
-        // Open a document with a custom list numbering scheme and clone it
-        // Since both have the same numbering format, the formats will clash if we import one document into the other
+        //ExSummary:Shows how to resolve list numbering clashes in source and destination documents.
+        // Open a document with a custom list numbering scheme, and then clone it.
+        // Since both have the same numbering format, the formats will clash if we import one document into the other.
         Document srcDoc = new Document(getMyDir() + "Custom list numbering.docx");
         Document dstDoc = srcDoc.deepClone();
 
-        // Both documents have the same numbering in their lists, but if we set this flag to false and then import one document into the other
-        // the numbering of the imported source document will continue from where it ends in the destination document
+        // When we import the document's clone into the original and then append it,
+        // then the two lists with the same list format will join together.
+        // If we set the "KeepSourceNumbering" flag to "false", then the list from the document clone
+        // that we append to the original will carry on the numbering of the list we append it to.
+        // This will effectively merge the two lists into one.
+        // If we set the "KeepSourceNumbering" flag to "true", then the document clone
+        // list will preserve its original numbering, making the two lists appear as separate lists. 
         ImportFormatOptions importFormatOptions = new ImportFormatOptions();
-        importFormatOptions.setKeepSourceNumbering(false);
+        importFormatOptions.setKeepSourceNumbering(keepSourceNumbering);
 
         NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_DIFFERENT_STYLES, importFormatOptions);
         for (Paragraph paragraph : (Iterable<Paragraph>) srcDoc.getFirstSection().getBody().getParagraphs())
@@ -56,9 +63,44 @@ public class ExNodeImporter extends ApiExampleBase
         }
 
         dstDoc.updateListLabels();
-        dstDoc.save(getArtifactsDir() + "NodeImporter.KeepSourceNumbering.docx");
+
+        if (keepSourceNumbering)
+        {
+            Assert.assertEquals(
+                "6. Item 1\r\n" +
+                "7. Item 2 \r\n" +
+                "8. Item 3\r\n" +
+                "9. Item 4\r\n" +
+                "6. Item 1\r\n" +
+                "7. Item 2 \r\n" +
+                "8. Item 3\r\n" +
+                "9. Item 4", msString.trim(dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT)));
+        }
+        else
+        {
+            Assert.assertEquals(
+                "6. Item 1\r\n" +
+                "7. Item 2 \r\n" +
+                "8. Item 3\r\n" +
+                "9. Item 4\r\n" +
+                "10. Item 1\r\n" +
+                "11. Item 2 \r\n" +
+                "12. Item 3\r\n" +
+                "13. Item 4", msString.trim(dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT)));
+        }
         //ExEnd
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "keepSourceNumberingDataProvider")
+	public static Object[][] keepSourceNumberingDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 
     //ExStart
     //ExFor:Paragraph.IsEndOfSection
@@ -69,36 +111,44 @@ public class ExNodeImporter extends ApiExampleBase
     @Test
     public void insertAtBookmark() throws Exception
     {
-        Document mainDoc = new Document(getMyDir() + "Document insertion destination.docx");
-        Document docToInsert = new Document(getMyDir() + "Document.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Bookmark bookmark = mainDoc.getRange().getBookmarks().get("insertionPlace");
+        builder.startBookmark("InsertionPoint");
+        builder.write("We will insert a document here: ");
+        builder.endBookmark("InsertionPoint");
+
+        Document docToInsert = new Document();
+        builder = new DocumentBuilder(docToInsert);
+
+        builder.write("Hello world!");
+
+        docToInsert.save(getArtifactsDir() + "NodeImporter.InsertAtMergeField.docx");
+
+        Bookmark bookmark = doc.getRange().getBookmarks().get("InsertionPoint");
         insertDocument(bookmark.getBookmarkStart().getParentNode(), docToInsert);
 
-        mainDoc.save(getArtifactsDir() + "NodeImporter.InsertAtBookmark.docx");
-        testInsertAtBookmark(new Document(getArtifactsDir() + "NodeImporter.InsertAtBookmark.docx")); //ExSkip
+        Assert.assertEquals("We will insert a document here: " +
+                        "\rHello world!", msString.trim(doc.getText()));
     }
 
     /// <summary>
-    /// Inserts content of the external document after the specified node.
+    /// Inserts the contents of a document after the specified node.
     /// </summary>
     static void insertDocument(Node insertionDestination, Document docToInsert)
     {
-        // Make sure that the node is either a paragraph or table
         if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE)))
         {
-            // We will be inserting into the parent of the destination paragraph
-            CompositeNode dstStory = insertionDestination.getParentNode();
+            CompositeNode destinationParent = insertionDestination.getParentNode();
 
-            // This object will be translating styles and lists during the import
             NodeImporter importer =
                 new NodeImporter(docToInsert, insertionDestination.getDocument(), ImportFormatMode.KEEP_SOURCE_FORMATTING);
 
-            // Loop through all block level nodes in the body of the section
+            // Loop through all block-level nodes in the section's body,
+            // then clone and insert every node that is not the last empty paragraph of a section.
             for (Section srcSection : docToInsert.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
                 for (Node srcNode : (Iterable<Node>) srcSection.getBody())
                 {
-                    // Skip the node if it is a last empty paragraph in a section
                     if (((srcNode.getNodeType()) == (NodeType.PARAGRAPH)))
                     {
                         Paragraph para = (Paragraph)srcNode;
@@ -106,11 +156,9 @@ public class ExNodeImporter extends ApiExampleBase
                             continue;
                     }
 
-                    // This creates a clone of the node, suitable for insertion into the destination document
                     Node newNode = importer.importNode(srcNode, true);
 
-                    // Insert new node after the reference node
-                    dstStory.insertAfter(newNode, insertionDestination);
+                    destinationParent.insertAfter(newNode, insertionDestination);
                     insertionDestination = newNode;
                 }
         }
@@ -120,72 +168,61 @@ public class ExNodeImporter extends ApiExampleBase
         }
     }
     //ExEnd
-    
-    private void testInsertAtBookmark(Document doc)
-    {
-        Assert.assertEquals("1) At text that can be identified by regex:\r[MY_DOCUMENT]\r" +
-                        "2) At a MERGEFIELD:\r\u0013 MERGEFIELD  Document_1  \\* MERGEFORMAT \u0014«Document_1»\u0015\r" +
-                        "3) At a bookmark:\r\rHello World!", msString.trim(doc.getFirstSection().getBody().getText()));
-    }
 
     @Test
-    public void insertAtMailMerge() throws Exception
+    public void insertAtMergeField() throws Exception
     {
-        // Open the main document
-        Document mainDoc = new Document(getMyDir() + "Document insertion destination.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.write("A document will appear here: ");
+        builder.insertField(" MERGEFIELD Document_1 ");
 
-        // Add a handler to MergeField event
-        mainDoc.getMailMerge().setFieldMergingCallback(new InsertDocumentAtMailMergeHandler());
+        Document subDoc = new Document();
+        builder = new DocumentBuilder(subDoc);
+        builder.write("Hello world!");
 
-        // The main document has a merge field in it called "Document_1"
-        // The corresponding data for this field contains fully qualified path to the document
-        // that should be inserted to this field
-        mainDoc.getMailMerge().execute(new String[] { "Document_1" }, new Object[] { getMyDir() + "Document.docx" });
+        subDoc.save(getArtifactsDir() + "NodeImporter.InsertAtMergeField.docx");
 
-        mainDoc.save(getArtifactsDir() + "NodeImporter.InsertAtMailMerge.docx");
-        testInsertAtMailMerge(new Document(getArtifactsDir() + "NodeImporter.InsertAtMailMerge.docx")); //ExSkip
+        doc.getMailMerge().setFieldMergingCallback(new InsertDocumentAtMailMergeHandler());
+
+        // The main document has a merge field in it called "Document_1".
+        // Execute a mail merge using a data source that contains a local system filename
+        // of the document that we wish to insert into the MERGEFIELD.
+        doc.getMailMerge().execute(new String[] { "Document_1" },
+            new Object[] { getArtifactsDir() + "NodeImporter.InsertAtMergeField.docx" });
+
+        Assert.assertEquals("A document will appear here: \r" +
+                        "Hello world!", msString.trim(doc.getText()));
     }
 
+    /// <summary>
+    /// If the mail merge encounters a MERGEFIELD with a specified name,
+    /// this handler treats the current value of a mail merge data source as a local system filename of a document.
+    /// The handler will insert the document in its entirety into the MERGEFIELD instead of the current merge value.
+    /// </summary>
     private static class InsertDocumentAtMailMergeHandler implements IFieldMergingCallback
     {
-        /// <summary>
-        /// This handler makes special processing for the "Document_1" field.
-        /// The field value contains the path to load the document. 
-        /// We load the document and insert it into the current merge field.
-        /// </summary>
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args) throws Exception
         {
             if ("Document_1".equals(args.getDocumentFieldName()))
             {
-                // Use document builder to navigate to the merge field with the specified name
                 DocumentBuilder builder = new DocumentBuilder(args.getDocument());
                 builder.moveToMergeField(args.getDocumentFieldName());
 
-                // The name of the document to load and insert is stored in the field value
                 Document subDoc = new Document((String)args.getFieldValue());
 
-                // Insert the document
                 insertDocument(builder.getCurrentParagraph(), subDoc);
 
-                // The paragraph that contained the merge field might be empty now and you probably want to delete it
                 if (!builder.getCurrentParagraph().hasChildNodes())
                     builder.getCurrentParagraph().remove();
 
-                // Indicate to the mail merge engine that we have inserted what we wanted
                 args.setText(null);
             }
         }
 
         public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs args)
         {
-            // Do nothing
+            // Do nothing.
         }
-    }
-
-    private void testInsertAtMailMerge(Document doc)
-    {
-        Assert.assertEquals("1) At text that can be identified by regex:\r[MY_DOCUMENT]\r" +
-                        "2) At a MERGEFIELD:\rHello World!\r" +
-                        "3) At a bookmark:", msString.trim(doc.getFirstSection().getBody().getText()));
     }
 }

@@ -26,16 +26,15 @@ import com.aspose.ms.System.Text.RegularExpressions.Regex;
 /// <summary>
 /// Shows how to rename merge fields in a Word document.
 /// </summary>
-@Test //ExSkip
+@Test
 public class ExRenameMergeFields extends ApiExampleBase
 {
     /// <summary>
     /// Finds all merge fields in a Word document and changes their names.
     /// </summary>
-    @Test //ExSkip
+    @Test
     public void rename() throws Exception
     {
-        // Create a blank document and insert MERGEFIELDs
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -46,7 +45,7 @@ public class ExRenameMergeFields extends ApiExampleBase
         builder.writeln(",");
         builder.insertField("MERGEFIELD  CustomGreeting ");
 
-        // Select all field start nodes so we can find the MERGEFIELDs
+        // Select all field start nodes so we can find the MERGEFIELDs.
         NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true);
         for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType() !!Autoporter error: Undefined expression type )
         {
@@ -73,7 +72,7 @@ class MergeField
 
         mFieldStart = fieldStart;
 
-        // Find the field separator node
+        // Find the field separator node.
         mFieldSeparator = findNextSibling(mFieldStart, NodeType.FIELD_SEPARATOR);
         if (mFieldSeparator == null)
             throw new IllegalStateException("Cannot find field separator.");
@@ -81,7 +80,7 @@ class MergeField
         // Find the field end node. Normally field end will always be found, but in the example document 
         // there happens to be a paragraph break included in the hyperlink and this puts the field end 
         // in the next paragraph. It will be much more complicated to handle fields which span several 
-        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes
+        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes.
         mFieldEnd = findNextSibling(mFieldSeparator, NodeType.FIELD_END);
     }
 
@@ -94,11 +93,11 @@ class MergeField
         set
         {
             // Merge field name is stored in the field result which is a Run 
-            // node between field separator and field end
+            // node between field separator and field end.
             Run fieldResult = (Run) mFieldSeparator.NextSibling;
             fieldResult.Text = $"«{value}»";
 
-            // But sometimes the field result can consist of more than one run, delete these runs
+            // But sometimes the field result can consist of more than one run, delete these runs.
             RemoveSameParent(fieldResult.NextSibling, mFieldEnd);
 
             UpdateFieldCode(value);
@@ -107,14 +106,14 @@ class MergeField
 
     private void updateFieldCode(String fieldName)
     {
-        // Field code is stored in a Run node between field start and field separator
+        // Field code is stored in a Run node between field start and field separator.
         Run fieldCode = (Run) mFieldStart.getNextSibling();
         Match match = G_REGEX.match(fieldCode.getText());
 
         String newFieldCode = $" {match.Groups["start"].Value}{fieldName} ";
         fieldCode.setText(newFieldCode);
 
-        // But sometimes the field code can consist of more than one run, delete these runs
+        // But sometimes the field code can consist of more than one run, delete these runs.
         removeSameParent(fieldCode.getNextSibling(), mFieldSeparator);
     }
 

@@ -33,27 +33,23 @@ public class ExMailMergeCustom extends ApiExampleBase
     //ExFor:IMailMergeDataSource.GetValue
     //ExFor:IMailMergeDataSource.GetChildDataSource
     //ExFor:MailMerge.Execute(IMailMergeDataSourceCore)
-    //ExSummary:Performs mail merge from a custom data source.
+    //ExSummary:Shows how to execute a mail merge with a data source in the form of a custom object.
     @Test //ExSkip
     public void customDataSource() throws Exception
     {
-        // Create a destination document for the mail merge
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertField(" MERGEFIELD FullName ");
         builder.insertParagraph();
         builder.insertField(" MERGEFIELD Address ");
 
-        // Create some data that we will use in the mail merge
         CustomerList customers = new CustomerList();
         msArrayList.add(customers, new Customer("Thomas Hardy", "120 Hanover Sq., London"));
         msArrayList.add(customers, new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
 
-        // To be able to mail merge from your own data source, it must be wrapped
-        // into an object that implements the IMailMergeDataSource interface
+        // To use a custom object as a data source, it must implement the IMailMergeDataSource interface. 
         CustomerMailMergeDataSource dataSource = new CustomerMailMergeDataSource(customers);
 
-        // Now you can pass your data source into Aspose.Words
         doc.getMailMerge().execute(dataSource);
 
         doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSource.docx");
@@ -98,7 +94,7 @@ public class ExMailMergeCustom extends ApiExampleBase
         {
             mCustomers = customers;
 
-            // When the data source is initialized, it must be positioned before the first record.
+            // When we initialize the data source, its position must be before the first record.
             mRecordIndex = -1;
         }
 
@@ -121,8 +117,8 @@ public class ExMailMergeCustom extends ApiExampleBase
                     fieldValue.set(mCustomers.get(mRecordIndex).getAddress());
                     return true;
                 default:
-                    // A field with this name was not found, 
-                    // return false to the Aspose.Words mail merge engine.
+                    // Return "false" to the Aspose.Words mail merge engine to signify
+                    // that we could not find a field with this name.
                     fieldValue.set(null);
                     return false;
             }
@@ -169,11 +165,11 @@ public class ExMailMergeCustom extends ApiExampleBase
     @Test //ExSkip
     public void customDataSourceRoot() throws Exception
     {
-        // Create a document with two mail merge regions named "Washington" and "Seattle"
+        // Create a document with two mail merge regions named "Washington" and "Seattle".
         String[] mailMergeRegions = { "Vancouver", "Seattle" };
         Document doc = createSourceDocumentWithMailMergeRegions(mailMergeRegions);
 
-        // Create two data sources
+        // Create two data sources for the mail merge.
         EmployeeList employeesWashingtonBranch = new EmployeeList();
         msArrayList.add(employeesWashingtonBranch, new Employee("John Doe", "Sales"));
         msArrayList.add(employeesWashingtonBranch, new Employee("Jane Doe", "Management"));
@@ -182,13 +178,16 @@ public class ExMailMergeCustom extends ApiExampleBase
         msArrayList.add(employeesSeattleBranch, new Employee("John Cardholder", "Management"));
         msArrayList.add(employeesSeattleBranch, new Employee("Joe Bloggs", "Sales"));
 
-        // Register our data sources by name in a data source root
+        // Register our data sources by name in a data source root.
+        //  If we are about to use this data source root in a mail merge with regions,
+        // each source's registered name must match the name of an existing mail merge region in the mail merge source document.
         DataSourceRoot sourceRoot = new DataSourceRoot();
         sourceRoot.registerSource(mailMergeRegions[0], new EmployeeListMailMergeSource(employeesWashingtonBranch));
         sourceRoot.registerSource(mailMergeRegions[1], new EmployeeListMailMergeSource(employeesSeattleBranch));
 
-        // Since we have consecutive mail merge regions, we would normally have to perform two mail merges
-        // However, one mail merge source with a data root can fill in multiple regions as long as the root contains tables with corresponding names/column names 
+        // Since we have consecutive mail merge regions, we would normally have to perform two mail merges.
+        // However, one mail merge source with a data root can fill in multiple regions
+        // as long as the root contains tables with corresponding names/column names.
         doc.getMailMerge().executeWithRegions(sourceRoot);
 
         doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSourceRoot.docx");
@@ -196,7 +195,7 @@ public class ExMailMergeCustom extends ApiExampleBase
     }
 
     /// <summary>
-    /// Create document that contains consecutive mail merge regions, with names designated by the input array,
+    /// Create a document that contains consecutive mail merge regions, with names designated by the input array,
     /// for a data table of employees.
     /// </summary>
     private static Document createSourceDocumentWithMailMergeRegions(String[] regions) throws Exception
@@ -315,8 +314,8 @@ public class ExMailMergeCustom extends ApiExampleBase
                     fieldValue.set(mEmployees.get(mRecordIndex).getDepartment());
                     return true;
                 default:
-                    // A field with this name was not found, 
-                    // return false to the Aspose.Words mail merge engine
+                    // Return "false" to the Aspose.Words mail merge engine to signify
+                    // that we could not find a field with this name.
                     fieldValue.set(null);
                     return false;
             }

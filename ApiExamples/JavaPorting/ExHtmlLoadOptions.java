@@ -12,10 +12,10 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.HtmlLoadOptions;
 import com.aspose.words.Document;
+import org.testng.Assert;
+import com.aspose.words.ImageType;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
-import com.aspose.words.ImageType;
-import org.testng.Assert;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.WarningSource;
@@ -41,30 +41,35 @@ import org.testng.annotations.DataProvider;
 class ExHtmlLoadOptions !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
 {
     @Test (dataProvider = "supportVmlDataProvider")
-    public void supportVml(boolean doSupportVml) throws Exception
+    public void supportVml(boolean supportVml) throws Exception
     {
         //ExStart
         //ExFor:HtmlLoadOptions.#ctor
         //ExFor:HtmlLoadOptions.SupportVml
-        //ExSummary:Shows how to support VML while parsing a document.
+        //ExSummary:Shows how to support conditional comments while loading an HTML document.
         HtmlLoadOptions loadOptions = new HtmlLoadOptions();
 
-        // If value is true, then we take VML code into account while parsing the loaded document
-        loadOptions.setSupportVml(doSupportVml);
+        // If the value is true, then we take VML code into account while parsing the loaded document.
+        loadOptions.setSupportVml(supportVml);
 
-        // This document contains an image within "<!--[if gte vml 1]>" tags, and another different image within "<![if !vml]>" tags
-        // Upon loading the document, only the contents of the first tag will be shown if VML is enabled,
-        // and only the contents of the second tag will be shown otherwise
+        // This document contains a JPEG image within "<!--[if gte vml 1]>" tags,
+        // and a different PNG image within "<![if !vml]>" tags.
+        // If we set the "SupportVml" flag to "true", then Aspose.Words will load the JPEG.
+        // If we set this flag to "false", then Aspose.Words will only load the PNG.
         Document doc = new Document(getMyDir() + "VML conditional.htm", loadOptions);
 
-        // Only one of the two unique images will be loaded, depending on the value of loadOptions.SupportVml
+        if (supportVml)
+            Assert.assertEquals(ImageType.JPEG, ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getImageData().getImageType());
+        else
+            Assert.assertEquals(ImageType.PNG, ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getImageData().getImageType());
+        //ExEnd
+
         Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        if (doSupportVml)
+        if (supportVml)
             TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
         else
             TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imageShape);
-        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -80,23 +85,23 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
 
     //ExStart
     //ExFor:HtmlLoadOptions.WebRequestTimeout
-    //ExSummary:Shows how to set a time limit for web requests that will occur when loading an html document which links external resources.
+    //ExSummary:Shows how to set a time limit for web requests when loading a document with external resources linked by URLs.
     @Test //ExSkip
     public void webRequestTimeout() throws Exception
     {
-        // Create a new HtmlLoadOptions object and verify its timeout threshold for a web request
+        // Create a new HtmlLoadOptions object, and verify its timeout threshold for a web request.
         HtmlLoadOptions options = new HtmlLoadOptions();
 
         // When loading an Html document with resources externally linked by a web address URL,
-        // web requests that fetch these resources that fail to complete within this time limit will be aborted
+        // Aspose.Words will abort web requests that fail to fetch the resources within this time limit, in milliseconds.
         Assert.assertEquals(100000, options.getWebRequestTimeout());
 
-        // Set a WarningCallback that will record all warnings that occur during loading
+        // Set a WarningCallback that will record all warnings that occur during loading.
         ListDocumentWarnings warningCallback = new ListDocumentWarnings();
         options.setWarningCallback(warningCallback);
 
-        // Load such a document and verify that a shape with image data has been created,
-        // provided the request to get that image took place within the timeout limit
+        // Load such a document, and verify that a shape with image data has been created.
+        // This linked image will require a web request to load, which will have to complete within our time limit.
         String html = $"\r\n                <html>\r\n                    <img src=\"{AsposeLogoUrl}\" alt=\"Aspose logo\" style=\"width:400px;height:400px;\">\r\n                </html>\r\n            ";
 
         Document doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(html)), options);
@@ -105,16 +110,16 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         Assert.assertEquals(7498, imageShape.getImageData().getImageBytes().length);
         Assert.assertEquals(0, warningCallback.warnings().size());
 
-        // Set an unreasonable timeout limit and load the document again
+        // Set an unreasonable timeout limit, and try load the document again.
         options.setWebRequestTimeout(0);
         doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(html)), options);
 
-        // If a request fails to complete within the timeout limit, a shape with image data will still be produced
-        // However, the image will be the red 'x' that commonly signifies missing images
+        // A web request that fails to obtain an image within the time limit will still produce an image.
+        // However, the image will be the red 'x' that commonly signifies missing images.
         imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
         Assert.assertEquals(924, imageShape.getImageData().getImageBytes().length);
 
-        // A timeout like this will also accumulate warnings that can be picked up by a WarningCallback implementation
+        // We can also configure a custom callback to pick up any warnings from timed out web requests.
         Assert.assertEquals(WarningSource.HTML, warningCallback.warnings().get(0).getSource());
         Assert.assertEquals(WarningType.DATA_LOSS, warningCallback.warnings().get(0).getWarningType());
         Assert.assertEquals($"Couldn't load a resource from \'{AsposeLogoUrl}\'.", warningCallback.warnings().get(0).getDescription());
@@ -149,8 +154,8 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     {
         //ExStart
         //ExFor:HtmlLoadOptions.#ctor(String)
-        //ExSummary:Shows how to encrypt an Html document and then open it using a password.
-        // Create and sign an encrypted html document from an encrypted .docx
+        //ExSummary:Shows how to encrypt an Html document, and then open it using a password.
+        // Create and sign an encrypted HTML document from an encrypted .docx.
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
         SignOptions signOptions = new SignOptions();
@@ -164,12 +169,14 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         String outputFileName = getArtifactsDir() + "HtmlLoadOptions.EncryptedHtml.html";
         DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
 
-        // This .html document will need a password to be decrypted, opened and have its contents accessed
-        // The password is specified by HtmlLoadOptions.Password
+        // To load and read this document, we will need to pass its decryption
+        // password using a HtmlLoadOptions object.
         HtmlLoadOptions loadOptions = new HtmlLoadOptions("docPassword");
+
         Assert.assertEquals(signOptions.getDecryptionPassword(), loadOptions.getPassword());
 
         Document doc = new Document(outputFileName, loadOptions);
+
         Assert.assertEquals("Test encrypted document.", msString.trim(doc.getText()));       
         //ExEnd
     }
@@ -182,22 +189,26 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         //ExFor:LoadOptions.LoadFormat
         //ExFor:LoadFormat
         //ExSummary:Shows how to specify a base URI when opening an html document.
-        // If we want to load an .html document which contains an image linked by a relative URI
-        // while the image is in a different location, we will need to resolve the relative URI into an absolute one
-        // by creating an HtmlLoadOptions and providing a base URI 
+        // Suppose we want to load an .html document that contains an image linked by a relative URI
+        // while the image is in a different location. In that case, we will need to resolve the relative URI into an absolute one.
+        // We can provide a base URI using an HtmlLoadOptions object. 
         HtmlLoadOptions loadOptions = new HtmlLoadOptions(LoadFormat.HTML, "", getImageDir());
 
         Assert.assertEquals(LoadFormat.HTML, loadOptions.getLoadFormat());
 
         Document doc = new Document(getMyDir() + "Missing image.html", loadOptions);
-    
-        // While the image was broken in the input .html, it was successfully found in our base URI
+
+        // While the image was broken in the input .html, our custom base URI helped us repair the link.
         Shape imageShape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
         Assert.assertTrue(imageShape.isImage());
 
-        // The image will be displayed correctly by the output document
+        // This output document will display the image that was missing.
         doc.save(getArtifactsDir() + "HtmlLoadOptions.BaseUri.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "HtmlLoadOptions.BaseUri.docx");
+
+        Assert.assertTrue(((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getImageData().getImageBytes().length > 0);
     }
 
     @Test
@@ -228,8 +239,8 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     {
         final String HTML = "\r\n                <html>\r\n                    <input type='text' value='Input value text' />\r\n                </html>\r\n            ";
 
-        // By default, "HtmlLoadOptions.PreferredControlType" value is "HtmlControlType.FormField"
-        // So, we do not set this value
+        // By default, "HtmlLoadOptions.PreferredControlType" value is "HtmlControlType.FormField".
+        // So, we do not set this value.
         HtmlLoadOptions htmlLoadOptions = new HtmlLoadOptions();
 
         Document doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(HTML)), htmlLoadOptions);
