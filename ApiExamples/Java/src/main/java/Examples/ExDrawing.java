@@ -11,6 +11,7 @@ package Examples;
 import com.aspose.words.Shape;
 import com.aspose.words.Stroke;
 import com.aspose.words.*;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -57,7 +58,9 @@ public class ExDrawing extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Draw a dotted horizontal half-transparent red line with an arrow on the left end and a diamond on the other
+        // Below are four examples of shapes that we can insert into our documents.
+        // 1 -  Dotted, horizontal, half-transparent red line
+        // with an arrow on the left end and a diamond on the right end:
         Shape arrow = new Shape(doc, ShapeType.LINE);
         arrow.setWidth(200.0);
         arrow.getStroke().setColor(Color.RED);
@@ -74,7 +77,7 @@ public class ExDrawing extends ApiExampleBase {
 
         builder.insertNode(arrow);
 
-        // Draw a thick black diagonal line with rounded ends
+        // 2 -  Thick black diagonal line with rounded ends:
         Shape line = new Shape(doc, ShapeType.LINE);
         line.setTop(40.0);
         line.setWidth(200.0);
@@ -84,7 +87,7 @@ public class ExDrawing extends ApiExampleBase {
 
         builder.insertNode(line);
 
-        // Draw an arrow with a green fill
+        // 3 -  Arrow with a green fill:
         Shape filledInArrow = new Shape(doc, ShapeType.ARROW);
         filledInArrow.setWidth(200.0);
         filledInArrow.setHeight(40.0);
@@ -94,7 +97,7 @@ public class ExDrawing extends ApiExampleBase {
 
         builder.insertNode(filledInArrow);
 
-        // Draw an arrow filled in with the Aspose logo and flip its orientation
+        // 4 -  Arrow with a flipped orientation filled in with the Aspose logo:
         Shape filledInArrowImg = new Shape(doc, ShapeType.ARROW);
         filledInArrowImg.setWidth(200.0);
         filledInArrowImg.setHeight(40.0);
@@ -104,8 +107,8 @@ public class ExDrawing extends ApiExampleBase {
         BufferedImage image = ImageIO.read(getAsposelogoUri().toURL().openStream());
         Graphics2D graphics2D = image.createGraphics();
 
-        // When we flipped the orientation of our arrow, the image content was flipped too
-        // If we want it to be displayed the right side up, we have to reverse the arrow flip on the image
+        // When we flip the orientation of our arrow, we also flip the image that the arrow contains.
+                // Flip the image the other way to cancel this out before getting the shape to display it.
         AffineTransform at = new AffineTransform();
         at.concatenate(AffineTransform.getScaleInstance(1, -1));
         at.concatenate(AffineTransform.getTranslateInstance(0, -image.getHeight()));
@@ -174,7 +177,7 @@ public class ExDrawing extends ApiExampleBase {
 
         BufferedImage image = ImageIO.read(getAsposelogoUri().toURL().openStream());
 
-        // The image started off as an animated .gif but it gets converted to a .png since there cannot be animated images in documents
+        // The image in the URL is a .gif. Inserting it into a document converts it into a .png.
         Shape imgShape = builder.insertImage(image);
         Assert.assertEquals(imgShape.getImageData().getImageType(), ImageType.PNG);
         //ExEnd
@@ -186,16 +189,14 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:ImageData.HasImage
         //ExFor:ImageData.ToImage
         //ExFor:ImageData.Save(Stream)
-        //ExSummary:Shows how to save all the images from a document to the file system.
+        //ExSummary:Shows how to save all images from a document to the file system.
         Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
-        // Images are stored as shapes
-        // Get into the document's shape collection to verify that it contains 10 images
+        // Shapes with the "HasImage" flag set store and display all of the document's images.
         NodeCollection shapes = imgSourceDoc.getChildNodes(NodeType.SHAPE, true);
         Assert.assertEquals(shapes.getCount(), 10);
 
-        // Go over all of the document's shapes
-        // If a shape contains image data, save the image in the local file system
+        // Go through each shape and save its image.
         for (int i = 0; i < shapes.getCount(); i++) {
             Shape shape = (Shape) shapes.get(i);
             ImageData imageData = shape.getImageData();
@@ -243,18 +244,21 @@ public class ExDrawing extends ApiExampleBase {
         //ExStart
         //ExFor:ImageData.SetImage(Image)
         //ExFor:ImageData.SetImage(Stream)
-        //ExSummary:Shows two ways of importing images from the local file system into a document.
+        //ExSummary:Shows how to display images from the local file system in a document.
         Document doc = new Document();
 
-        // We can get an image from a file, set it as the image of a shape and append it to a paragraph
+        // Below are two ways of getting an image from a file in the local file system.
+        // 1 -  Create an image object from an image file:
         BufferedImage srcImage = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
 
+        // To display an image in a document, we will need to create a shape
+        // which will contain an image, and then append it to the document's body.
         Shape imgShape = new Shape(doc, ShapeType.IMAGE);
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(imgShape);
         imgShape.getImageData().setImage(srcImage);
         srcImage.flush();
 
-        // We can also open an image file using a stream and set its contents as a shape's image 
+        // 2 -  Open an image file from the local file system using a stream:
         InputStream stream = new FileInputStream(getImageDir() + "Logo.jpg");
         try {
             imgShape = new Shape(doc, ShapeType.IMAGE);
@@ -296,23 +300,17 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:Stroke.Color2
         //ExFor:Stroke.ImageBytes
         //ExSummary:Shows how to process shape stroke features.
-        // Open a document which contains a rectangle with a thick, two-tone-patterned outline
         Document doc = new Document(getMyDir() + "Shape stroke pattern border.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Stroke stroke = shape.getStroke();
 
-        // Get the first shape's stroke
-        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        Stroke s = shape.getStroke();
+        // Strokes can have two colors, which are used to create a pattern defined by two-tone image data.
+        // Strokes with a single color do not use the Color2 attribute.
+        Assert.assertEquals(new Color((128), (0), (0), (255)), stroke.getColor());
+        Assert.assertEquals(new Color((255), (255), (0), (255)), stroke.getColor2());
 
-        // Every stroke will have a Color attribute, but only strokes from older Word versions have a Color2 attribute,
-        // since the two-tone pattern line feature which requires the Color2 attribute is no longer supported
-        Assert.assertEquals(s.getColor(), new Color((128), (0), (0), (255)));
-        Assert.assertEquals(s.getColor2(), new Color((255), (255), (0), (255)));
-
-        // This attribute contains the image data for the pattern, which we can save to our local file system
-        Assert.assertNotNull(s.getImageBytes());
-        ByteArrayInputStream imageInputStream = new ByteArrayInputStream(s.getImageBytes());
-        BufferedImage bImage = ImageIO.read(imageInputStream);
-        ImageIO.write(bImage, "png", new File(getArtifactsDir() + "Drawing.StrokePattern.png"));
+        Assert.assertNotNull(stroke.getImageBytes());
+        FileUtils.writeByteArrayToFile(new File(getArtifactsDir() + "Drawing.StrokePattern.png"), stroke.getImageBytes());
         //ExEnd
 
         TestUtil.verifyImage(8, 8, getArtifactsDir() + "Drawing.StrokePattern.png");
@@ -329,15 +327,15 @@ public class ExDrawing extends ApiExampleBase {
     //ExFor:Drawing.GroupShape.Accept(DocumentVisitor)
     //ExFor:ShapeBase.IsGroup
     //ExFor:ShapeBase.ShapeType
-    //ExSummary:Shows how to create a group of shapes, and let it accept a visitor
+    //ExSummary:Shows how to create a group of shapes, and print its contents using a document visitor.
     @Test //ExSkip
     public void groupOfShapes() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // If you need to create "NonPrimitive" shapes, like SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
+        
+        // If you need to create "NonPrimitive" shapes, such as SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
         // TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
-        // please use DocumentBuilder.InsertShape methods
+        // please use DocumentBuilder.InsertShape methods.
         Shape balloon = new Shape(doc, ShapeType.BALLOON);
         balloon.setWidth(200.0);
         balloon.setHeight(200.0);
@@ -363,7 +361,7 @@ public class ExDrawing extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Visitor that prints shape group contents information to the console.
+    /// Prints the contents of a visited shape group to the console.
     /// </summary>
     public static class ShapeInfoPrinter extends DocumentVisitor {
         public ShapeInfoPrinter() {
@@ -427,7 +425,7 @@ public class ExDrawing extends ApiExampleBase {
     public void textBox() throws Exception {
         //ExStart
         //ExFor:Drawing.LayoutFlow
-        //ExSummary:Shows how to add text to a textbox and change its orientation
+        //ExSummary:Shows how to add text to a text box, and change its orientation
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -461,18 +459,18 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:ImageData.ImageBytes
         //ExFor:ImageData.ToByteArray
         //ExFor:ImageData.ToStream
-        //ExSummary:Shows how to access raw image data in a shape's ImageData object.
+        //ExSummary:Shows how to create an image file from a shape's raw image data.
         Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
         Assert.assertEquals(10, imgSourceDoc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSkip
 
-        // Get a shape from the document that contains an image
-        Shape imgShape = (Shape) imgSourceDoc.getChild(NodeType.SHAPE, 0, true);
+        Shape imgShape = (Shape)imgSourceDoc.getChild(NodeType.SHAPE, 0, true);
 
-        // ToByteArray() returns the value of the ImageBytes property
+        Assert.assertTrue(imgShape.hasImage());
+
+        // ToByteArray() returns the array stored in the ImageBytes property.
         Assert.assertEquals(imgShape.getImageData().getImageBytes(), imgShape.getImageData().toByteArray());
 
-        // Put the shape's image data into a stream
-        // Then, put the image data from that stream into another stream which creates an image file in the local file system
+        // Save the shape's image data to an image file in the local file system.
         InputStream imgStream = imgShape.getImageData().toStream();
 
         try {
@@ -503,56 +501,55 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:ImageData.IsLink
         //ExFor:ImageData.IsLinkOnly
         //ExFor:ImageData.Title
-        //ExSummary:Shows how to edit images using the ImageData attribute.
-        // Open a document that contains images
+        //ExSummary:Shows how to edit a shape's image data.
         Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
         Shape sourceShape = (Shape) imgSourceDoc.getChildNodes(NodeType.SHAPE, true).get(0);
 
         Document dstDoc = new Document();
 
-        // Import a shape from the source document and append it to the first paragraph, effectively cloning it
-        Shape importedShape = (Shape) dstDoc.importNode(sourceShape, true);
+        // Import a shape from the source document, and append it to the first paragraph.
+        Shape importedShape = (Shape)dstDoc.importNode(sourceShape, true);
         dstDoc.getFirstSection().getBody().getFirstParagraph().appendChild(importedShape);
 
-        // Get the ImageData of the imported shape
+        // The imported shape contains an image. We can access the image's attributes and raw data via the ImageData object.
         ImageData imageData = importedShape.getImageData();
         imageData.setTitle("Imported Image");
 
-        // If an image appears to have no borders, its ImageData object will still have them, but in an unspecified color
+        Assert.assertTrue(imageData.hasImage());
+
+        // If an image has no borders, its ImageData object will define the border color as empty.
         Assert.assertEquals(imageData.getBorders().getCount(), 4);
         Assert.assertEquals(imageData.getBorders().get(0).getColor(), new Color(0, true));
 
-        Assert.assertTrue(imageData.hasImage());
-
-        // This image is not linked to a shape or to an image in the file system
+        // This image does not link to another shape or image file in the local file system.
         Assert.assertFalse(imageData.isLink());
         Assert.assertFalse(imageData.isLinkOnly());
 
-        // Brightness and contrast are defined on a 0-1 scale, with 0.5 being the default value
+        // The "Brightness" and "Contrast" properties define image brightness and contrast
+        // on a 0-1 scale, with the default value at 0.5.
         imageData.setBrightness(0.8d);
         imageData.setContrast(1.0d);
 
-        // Our image will have a lot of white now that we have changed the brightness and contrast like that
-        // We can treat white as transparent with the following attribute
+        // The above brightness and contrast values have created an image with a lot of white.
+        // We can select a color with the ChromaKey attribute to replace with transparency, such as white.
         imageData.setChromaKey(Color.WHITE);
 
-        // Import the source shape again, set it to black and white
+        // Import the source shape again, and set the image to monochrome.
         importedShape = (Shape) dstDoc.importNode(sourceShape, true);
         dstDoc.getFirstSection().getBody().getFirstParagraph().appendChild(importedShape);
 
         importedShape.getImageData().setGrayScale(true);
 
-        // Import the source shape again to create a third image, and set it to BiLevel
-        // Unlike greyscale, which preserves the brightness of the original colors,
-        // BiLevel sets every pixel to either black or white, whichever is closer to the original color
-        importedShape = (Shape) dstDoc.importNode(sourceShape, true);
+        // Import the source shape again to create a third image, and set it to BiLevel.
+        // BiLevel sets every pixel to either black or white, whichever is closer to the original color.
+        importedShape = (Shape)dstDoc.importNode(sourceShape, true);
         dstDoc.getFirstSection().getBody().getFirstParagraph().appendChild(importedShape);
 
         importedShape.getImageData().setBiLevel(true);
 
-        // Cropping is determined on a 0-1 scale
-        // Cropping a side by 0.3 will crop 30% of the image out at that side
+        // Cropping is determined on a 0-1 scale. Cropping a side by 0.3
+        // will crop 30% of the image out at the cropped side.
         importedShape.getImageData().setCropBottom(0.3d);
         importedShape.getImageData().setCropLeft(0.3d);
         importedShape.getImageData().setCropTop(0.3d);
@@ -592,17 +589,18 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:ImageSize.HorizontalResolution
         //ExFor:ImageSize.VerticalResolution
         //ExFor:ImageSize.WidthPixels
-        //ExSummary:Shows how to access and use a shape's ImageSize property.
+        //ExSummary:Shows how to read the attributes of an image in a shape.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a shape into the document which contains an image taken from our local file system
+        // Insert a shape into the document which contains an image taken from our local file system.
         Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
 
-        // If the shape contains an image, its ImageData property will be valid, and it will contain an ImageSize object
-        ImageSize imageSize = shape.getImageData().getImageSize();
+        // If the shape contains an image, its ImageData property will be valid,
+        // and it will contain an ImageSize object.
+        ImageSize imageSize = shape.getImageData().getImageSize(); 
 
-        // The ImageSize object contains raw information about the image within the shape
+        // The ImageSize object contains read-only information about the image within the shape.
         Assert.assertEquals(imageSize.getHeightPixels(), 400);
         Assert.assertEquals(imageSize.getWidthPixels(), 400);
 
@@ -610,10 +608,7 @@ public class ExDrawing extends ApiExampleBase {
         Assert.assertEquals(imageSize.getHorizontalResolution(), 95.98d, delta);
         Assert.assertEquals(imageSize.getVerticalResolution(), 95.98d, delta);
 
-        // These values are read-only
-        // If we want to transform the image, we need to change the size of the shape that contains it
-        // We can still use values within ImageSize as a reference
-        // In the example below, we will get the shape to display the image in twice its original size
+        // We can base the size of the shape on the size of its image to avoid stretching the image.
         shape.setWidth(imageSize.getWidthPoints() * 2.0);
         shape.setHeight(imageSize.getHeightPoints() * 2.0);
 

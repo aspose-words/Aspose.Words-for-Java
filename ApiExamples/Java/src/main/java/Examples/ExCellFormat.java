@@ -53,7 +53,7 @@ public class ExCellFormat extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "CellFormat.VerticalMerge.docx");
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(CellMerge.FIRST, table.getRows().get(0).getCells().get(0).getCellFormat().getVerticalMerge());
         Assert.assertEquals(CellMerge.PREVIOUS, table.getRows().get(1).getCells().get(0).getCellFormat().getVerticalMerge());
@@ -95,7 +95,7 @@ public class ExCellFormat extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "CellFormat.HorizontalMerge.docx");
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(1, table.getRows().get(0).getCells().getCount());
         Assert.assertEquals(CellMerge.NONE, table.getRows().get(0).getCells().get(0).getCellFormat().getHorizontalMerge());
@@ -127,7 +127,7 @@ public class ExCellFormat extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "CellFormat.Padding.docx");
 
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
         Cell cell = table.getRows().get(0).getCells().get(0);
 
         Assert.assertEquals(cell.getCellFormat().getLeftPadding(), 5.0);

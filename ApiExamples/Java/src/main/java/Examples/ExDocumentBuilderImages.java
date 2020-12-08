@@ -34,7 +34,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         IOUtils.copy(new FileInputStream(getImageDir() + "Logo.jpg"), byteArrayOutputStream);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
 
-        // Below are three ways of inserting an image from a stream:
+        // Below are three ways of inserting an image from a stream.
         // 1 -  Inline shape with a default size based on the image's original dimensions:
         builder.insertImage(byteArrayInputStream);
 
@@ -113,7 +113,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Below are three ways of inserting an image from a local system filename:
+        // Below are three ways of inserting an image from a local system filename.
         // 1 -  Inline shape with a default size based on the image's original dimensions:
         builder.insertImage(getImageDir() + "Logo.jpg");
 
@@ -184,6 +184,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
     public void insertImageFromImageObject() throws Exception
     {
         //ExStart
+        //ExFor:DocumentBuilder.InsertImage(Image)
         //ExFor:DocumentBuilder.InsertImage(Image, Double, Double)
         //ExFor:DocumentBuilder.InsertImage(Image, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
         //ExSummary:Shows how to insert an image from an object into a document.

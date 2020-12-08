@@ -40,14 +40,14 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.#ctor(String,LoadOptions)
         //ExSummary:Shows how to create and load documents.
         // There are two ways of creating a Document object using Aspose.Words.
-        // 1 -  Create a blank document.
+        // 1 -  Create a blank document:
         Document doc = new Document();
 
         // New Document objects by default come with a section, body, and paragraph;
         // the minimal set of nodes required to begin editing.
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(doc, "Hello world!"));
 
-        // 2 -  Load a document that exists in the local file system.
+        // 2 -  Load a document that exists in the local file system:
         doc = new Document(getMyDir() + "Document.docx");
 
         // Loaded documents will have contents that we can access and edit.
@@ -69,7 +69,7 @@ public class ExDocument extends ApiExampleBase
         InputStream stream = new FileInputStream(getMyDir() + "Document.docx");
         try {
             Document doc = new Document(stream);
-            Assert.assertEquals("Hello World!", doc.getText().trim());
+            Assert.assertEquals("Hello World!", doc.getFirstSection().getBody().getText().trim());
         } finally {
             if (stream != null) stream.close();
         }
@@ -313,7 +313,7 @@ public class ExDocument extends ApiExampleBase
             ByteArrayInputStream byteStream = new ByteArrayInputStream(dataBytes);
 
             // Verify that the stream contains the document.
-            Assert.assertEquals("Hello World!", new Document(byteStream).getText().trim());
+            Assert.assertEquals("Hello World!", new Document(byteStream).getFirstSection().getBody().getText().trim());
         } finally {
             if (dstStream != null) dstStream.close();
         }
@@ -1088,6 +1088,37 @@ public class ExDocument extends ApiExampleBase
         return false;
     }
 
+    @Test (dataProvider = "ignoreDmlUniqueIdDataProvider")
+    public void ignoreDmlUniqueId(boolean isIgnoreDmlUniqueId) throws Exception
+    {
+        //ExStart
+        //ExFor:CompareOptions.IgnoreDmlUniqueId
+        //ExSummary:Shows how to compare documents ignoring DML unique ID.
+        Document docA = new Document(getMyDir() + "DML unique ID original.docx");
+        Document docB = new Document(getMyDir() + "DML unique ID compare.docx");
+ 
+        // By default, Aspose.Words do not ignore DML's unique ID, and the revisions count was 2.
+        // If we are ignoring DML's unique ID, and revisions count were 0.
+        CompareOptions compareOptions = new CompareOptions();
+        compareOptions.setIgnoreDmlUniqueId(isIgnoreDmlUniqueId);
+ 
+        docA.compare(docB, "Aspose.Words", new Date(), compareOptions);
+
+        Assert.assertEquals(isIgnoreDmlUniqueId ? 0 : 2, docA.getRevisions().getCount());
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "ignoreDmlUniqueIdDataProvider")
+	public static Object[][] ignoreDmlUniqueIdDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
     @Test
     public void removeExternalSchemaReferences() throws Exception {
         //ExStart
@@ -1594,6 +1625,33 @@ public class ExDocument extends ApiExampleBase
     }
 
     @Test
+    public void updatePageLayout() throws Exception
+    {
+        //ExStart
+        //ExFor:StyleCollection.Item(String)
+        //ExFor:SectionCollection.Item(Int32)
+        //ExFor:Document.UpdatePageLayout
+        //ExSummary:Shows when to recalculate the page layout of the document.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        // Saving a document to PDF, to an image, or printing for the first time will automatically
+        // cache the layout of the document within its pages.
+        doc.save(getArtifactsDir() + "Document.UpdatePageLayout.1.pdf");
+
+        // Modify the document in some way.
+        doc.getStyles().get("Normal").getFont().setSize(6.0);
+        doc.getSections().get(0).getPageSetup().setOrientation(com.aspose.words.Orientation.LANDSCAPE);
+
+        // In the current version of Aspose.Words, modifying the document does not automatically rebuild 
+        // the cached page layout. If we wish for the cached layout
+        // to stay up-to-date, we will need to update it manually.
+        doc.updatePageLayout();
+
+        doc.save(getArtifactsDir() + "Document.UpdatePageLayout.2.pdf");
+        //ExEnd
+    }
+
+    @Test
     public void docPackageCustomParts() throws Exception
     {
         //ExStart
@@ -1865,7 +1923,7 @@ public class ExDocument extends ApiExampleBase
         Document target = new Document(getMyDir() + "Document.docx");
 
         Assert.assertEquals(18, template.getStyles().getCount()); //ExSkip
-        Assert.assertEquals(4, target.getStyles().getCount()); //ExSkip
+        Assert.assertEquals(8, target.getStyles().getCount()); //ExSkip
 
         target.copyStylesFromTemplate(template);
         Assert.assertEquals(18, target.getStyles().getCount()); //ExSkip
@@ -2159,7 +2217,8 @@ public class ExDocument extends ApiExampleBase
     }
 
     @Test
-    public void workWithWatermark() throws Exception {
+    public void textWatermark() throws Exception
+    {
         //ExStart
         //ExFor:Watermark.SetText(String)
         //ExFor:Watermark.SetText(String, TextWatermarkOptions)
@@ -2332,5 +2391,36 @@ public class ExDocument extends ApiExampleBase
                         {Granularity.CHAR_LEVEL},
                         {Granularity.WORD_LEVEL},
                 };
+    }
+
+    @Test
+    public void ignorePrinterMetrics() throws Exception
+    {
+        //ExStart
+        //ExFor:LayoutOptions.IgnorePrinterMetrics
+        //ExSummary:Shows how to ignore 'Use printer metrics to lay out document' option.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        doc.getLayoutOptions().setIgnorePrinterMetrics(false);
+
+        doc.save(getArtifactsDir() + "Document.IgnorePrinterMetrics.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void extractPages() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.ExtractPages
+        //ExSummary:Shows how to get specified range of pages from the document.
+        Document doc = new Document(getMyDir() + "Layout entities.docx");
+
+        doc = doc.extractPages(0, 2);
+
+        doc.save(getArtifactsDir() + "Document.ExtractPages.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Document.ExtractPages.docx");
+        Assert.assertEquals(doc.getPageCount(), 2);
     }
 }

@@ -35,7 +35,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         // If this collection is nonempty, then we can verify that the document is digitally signed.
         Assert.assertEquals(1, digitalSignatures.getCount());
 
-        // 2 -  Load from a document from a FileStream.
+        // 2 -  Load from a document from a FileStream:
         InputStream stream = new FileInputStream(getMyDir() + "Digitally signed.docx");
         try
         {

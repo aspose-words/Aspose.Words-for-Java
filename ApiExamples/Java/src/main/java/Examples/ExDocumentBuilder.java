@@ -307,7 +307,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExFor:DocumentBuilder.MoveToHeaderFooter
         //ExFor:PageSetup.PageWidth
         //ExFor:PageSetup.PageHeight
-        //ExFor:DocumentBuilder.InsertImage(Image)
         //ExFor:WrapType
         //ExFor:RelativeHorizontalPosition
         //ExFor:RelativeVerticalPosition
@@ -1005,7 +1004,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertTableSetHeadingRow.docx");
-        table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertTrue(table.getFirstRow().getRowFormat().getHeadingFormat());
         Assert.assertTrue(table.getRows().get(1).getRowFormat().getHeadingFormat());
@@ -1036,7 +1035,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertTableWithPreferredWidth.docx");
-        table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(PreferredWidthType.PERCENT, table.getPreferredWidth().getType());
         Assert.assertEquals(50.0, table.getPreferredWidth().getValue());
@@ -1060,13 +1059,13 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Table table = builder.startTable();
 
         // There are two ways of applying the PreferredWidth class to table cells.
-        // 1 -  Set an absolute preferred width based on points.
+        // 1 -  Set an absolute preferred width based on points:
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPoints(40.0));
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.YELLOW);
         builder.writeln(MessageFormat.format("Cell with a width of {0}.", builder.getCellFormat().getPreferredWidth()));
 
-        // 2 -  Set a relative preferred width based on percent of the table's width.
+        // 2 -  Set a relative preferred width based on percent of the table's width:
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(20.0));
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.BLUE);
@@ -1091,8 +1090,8 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals(100.0d, PreferredWidth.fromPoints(100.0).getValue());
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertCellsWithPreferredWidths.docx");
-        table = (Table) doc.getChild(NodeType.TABLE, 0, true);
-
+        table = doc.getFirstSection().getBody().getTables().get(0);
+        
         Assert.assertEquals(PreferredWidthType.POINTS, table.getFirstRow().getCells().get(0).getCellFormat().getPreferredWidth().getType());
         Assert.assertEquals(40.0d, table.getFirstRow().getCells().get(0).getCellFormat().getPreferredWidth().getValue());
         Assert.assertEquals("Cell with a width of 800.", table.getFirstRow().getCells().get(0).getText().trim());
@@ -1189,7 +1188,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.CreateTable.docx");
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(4, table.getChildNodes(NodeType.CELL, true).getCount());
 
@@ -1264,7 +1263,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.CreateFormattedTable.docx");
-        table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(20.0d, table.getLeftIndent());
 
@@ -1332,7 +1331,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.TableBordersAndShading.docx");
-        table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         for (Cell c : (Iterable<Cell>) table.getFirstRow())
         {
@@ -1528,7 +1527,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.MoveToCell.docx");
 
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals("Column 2, cell 2.", table.getRows().get(1).getCells().get(1).getText().trim());
     }
@@ -1637,7 +1636,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.BuildTable.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(2, table.getRows().getCount());
         Assert.assertEquals(2, table.getRows().get(0).getCells().getCount());
@@ -1665,7 +1664,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void tableCellVerticalRotatedFarEastTextOrientation() throws Exception {
         Document doc = new Document(getMyDir() + "Rotated cell text.docx");
 
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
         Cell cell = table.getFirstRow().getFirstCell();
 
         Assert.assertEquals(cell.getCellFormat().getOrientation(), TextOrientation.VERTICAL_ROTATED_FAR_EAST);
@@ -2010,7 +2009,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.SetCellFormatting.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(157.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth());
         Assert.assertEquals(5.4d, table.getFirstRow().getCells().get(0).getCellFormat().getLeftPadding());
@@ -2064,7 +2063,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.SetRowFormatting.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(0.0d, table.getRows().get(0).getRowFormat().getHeight());
         Assert.assertEquals(HeightRule.AUTO, table.getRows().get(0).getRowFormat().getHeightRule());

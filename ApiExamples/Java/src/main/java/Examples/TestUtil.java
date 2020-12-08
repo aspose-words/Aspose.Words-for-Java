@@ -24,7 +24,7 @@ class TestUtil {
     /// Checks whether a file at a specified filename contains a valid image with specified dimensions.
     /// </summary>
     /// <remarks>
-    /// Serves as a way to check that an image file is valid and nonempty without looking up its file size.
+    /// Serves to check that an image file is valid and nonempty without looking up its file size.
     /// </remarks>
     /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
@@ -43,7 +43,7 @@ class TestUtil {
     /// Checks whether a stream contains a valid image with specified dimensions.
     /// </summary>
     /// <remarks>
-    /// Serves as a way to check that an image file is valid and nonempty without looking up its file size.
+    /// Serves to check that an image file is valid and nonempty without looking up its file size.
     /// </remarks>
     /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
@@ -243,7 +243,7 @@ class TestUtil {
     /// <remarks>
     /// All dimension measurements are in points.
     /// </remarks>
-    static void verifyTextBox(/*LayoutFlow*/int expectedLayoutFlow, boolean expectedFitShapeToText, /*TextBoxWrapMode*/int expectedTextBoxWrapMode, double marginTop, double marginBottom, double marginLeft, double marginRight, TextBox textBox) {
+    static void verifyTextBox(int expectedLayoutFlow, boolean expectedFitShapeToText, int expectedTextBoxWrapMode, double marginTop, double marginBottom, double marginLeft, double marginRight, TextBox textBox) {
         Assert.assertEquals(expectedLayoutFlow, textBox.getLayoutFlow());
         Assert.assertEquals(expectedFitShapeToText, textBox.getFitShapeToText());
         Assert.assertEquals(expectedTextBoxWrapMode, textBox.getTextBoxWrapMode());
@@ -254,12 +254,13 @@ class TestUtil {
     }
 
     /// <summary>
-    /// Margin of error, in bytes, for file size comparisons which take system-to-system variance of metadata size into account.
+    /// Checks whether values of attributes of an editable range are equal to their expected values.
     /// </summary>
-    static int getFileInfoLengthDelta() {
-        return mFileInfoLengthDelta;
+    static void verifyEditableRange(int expectedId, String expectedEditorUser, int expectedEditorGroup, EditableRange editableRange)
+    {
+        Assert.assertEquals(expectedId, editableRange.getId());
+        Assert.assertEquals(expectedEditorUser, editableRange.getSingleUser());
+        Assert.assertEquals(expectedEditorGroup, editableRange.getEditorGroup());
     }
-
-    private static int mFileInfoLengthDelta = 200;
 }
 

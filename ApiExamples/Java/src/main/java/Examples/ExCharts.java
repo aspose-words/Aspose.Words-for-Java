@@ -488,7 +488,7 @@ public class ExCharts extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add a bubble chart, and then clear its demo data series to start with a clean chart.
+        // Add a pie chart, and then clear its demo data series to start with a clean chart.
         Chart chart = builder.insertChart(ChartType.PIE, 500.0, 300.0).getChart();
         chart.getSeries().clear();
 
