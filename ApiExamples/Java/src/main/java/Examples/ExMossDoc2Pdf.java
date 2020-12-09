@@ -25,14 +25,13 @@ public class ExMossDoc2Pdf {
     /**
      * The main entry point for the application.
      */
-    public static void main(final String[] args) throws Exception {
+    public static void mossDoc2Pdf(final String[] args) throws Exception {
         // Although SharePoint passes "-log <filename>" to us and we are
-        // supposed to log there, for the sake of simplicity, we will use 
-        // our own hard coded path to the log file.
+        // supposed to log there, we will use our hardcoded path to the log file for the sake of simplicity.
         // 
         // Make sure there are permissions to write into this folder.
         // The document converter will be called under the document 
-        // conversion account (not sure what name), so for testing purposes 
+        // conversion account (not sure what name), so for testing purposes, 
         // I would give the Users group write permissions into this folder.
         OutputStream os = new FileOutputStream("C:\\Aspose2Pdf\\log.txt", true);
         gLog = new OutputStreamWriter(os, "UTF-8");

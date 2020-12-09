@@ -32,35 +32,52 @@ public class ExInline extends ApiExampleBase {
         //ExFor:RunCollection
         //ExFor:RunCollection.Item(Int32)
         //ExFor:RunCollection.ToArray
-        //ExSummary:Shows how to view revision-related properties of Inline nodes.
+        //ExSummary:Shows how to determine the revision type of an inline node.
         Document doc = new Document(getMyDir() + "Revision runs.docx");
 
-        // This document has 6 revisions
-        Assert.assertEquals(doc.getRevisions().getCount(), 6);
+        // When we edit the document while the "Track Changes" option, found in via Review -> Tracking,
+        // is turned on in Microsoft Word, the changes we apply count as revisions.
+        // When editing a document using Aspose.Words, we can begin tracking revisions by
+        // invoking the document's "StartTrackRevisions" method, and stop tracking by using the "StopTrackRevisions" method.
+        // We can either accept revisions to assimilate them into the document
+        // or reject them to change the proposed change effectively.
+        Assert.assertEquals(6, doc.getRevisions().getCount());
 
-        // The parent node of a revision is the run that the revision concerns, which is an Inline node
-        Run run = (Run) doc.getRevisions().get(0).getParentNode();
+        // The parent node of a revision is the run that the revision concerns. A Run is an Inline node.
+        Run run = (Run)doc.getRevisions().get(0).getParentNode();
 
-        // Get the parent paragraph
         Paragraph firstParagraph = run.getParentParagraph();
         RunCollection runs = firstParagraph.getRuns();
 
         Assert.assertEquals(runs.getCount(), 6);
 
-        // The text in the run at index #2 was typed after revisions were tracked, so it will count as an insert revision
-        // The font was changed, so it will also be a format revision
+        // Below are five types of revisions that can flag an Inline node.
+        // 1 -  An "insert" revision:
+        // This revision occurs when we insert text while tracking changes.
         Assert.assertTrue(runs.get(2).isInsertRevision());
+
+        // 2 -  A "format" revision:
+        // This revision occurs when we change the formatting of text while tracking changes.
         Assert.assertTrue(runs.get(2).isFormatRevision());
 
-        // If one node was moved from one place to another while changes were tracked,
-        // the node will be placed at the departure location as a "move to revision",
-        // and a "move from revision" node will be left behind at the origin, in case we want to reject changes
-        // Highlighting text and dragging it to another place with the mouse and cut-and-pasting (but not copy-pasting) both count as "move revisions"
-        // The node with the "IsMoveToRevision" flag is the arrival of the move operation, and the node with the "IsMoveFromRevision" flag is the departure point
-        Assert.assertTrue(runs.get(1).isMoveToRevision());
+        // 3 -  A "move from" revision:
+        // When we highlight text in Microsoft Word, and then drag it to a different place in the document
+        // while tracking changes, two revisions appear.
+        // The "move from" revision is a copy of the text originally before we moved it.
         Assert.assertTrue(runs.get(4).isMoveFromRevision());
 
-        // If an Inline node gets deleted while changes are being tracked, it will leave behind a node with the IsDeleteRevision flag set to true until changes are accepted
+        // 4 -  A "move to" revision:
+        // The "move to" revision is the text that we moved in its new position in the document.
+        // "Move from" and "move to" revisions appear in pairs for every move revision we carry out.
+        // Accepting a move revision deletes the "move from" revision and its text,
+        // and keeps the text from the "move to" revision.
+        // Rejecting a move revision conversely keeps the "move from" revision and deletes the "move to" revision.
+        Assert.assertTrue(runs.get(1).isMoveToRevision());
+
+        // 5 -  A "delete" revision:
+        // This revision occurs when we delete text while tracking changes. When we delete text like this,
+        // it will stay in the document as a revision until we either accept the revision,
+        // which will delete the text for good, or reject the revision, which will keep the text we deleted where it was.
         Assert.assertTrue(runs.get(5).isDeleteRevision());
         //ExEnd
     }
