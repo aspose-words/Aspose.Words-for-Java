@@ -71,9 +71,7 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
             return mResources;
         }
 
-        ;
-
-        private ArrayList<String> mResources;
+        private final ArrayList<String> mResources;
     }
     //ExEnd
 }

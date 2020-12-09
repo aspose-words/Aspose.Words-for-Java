@@ -8,64 +8,74 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-
 import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.util.Iterator;
-
 
 @Test
 public class ExFormFields extends ApiExampleBase {
     @Test
-    public void formFieldsWorkWithProperties() throws Exception {
+    public void create() throws Exception {
         //ExStart
         //ExFor:FormField
         //ExFor:FormField.Result
         //ExFor:FormField.Type
         //ExFor:FormField.Name
-        //ExSummary:Shows how to work with form field name, type, and result.
+        //ExSummary:Shows how to insert a combo box.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Use a DocumentBuilder to insert a combo box form field
-        FormField comboBox = builder.insertComboBox("MyComboBox", new String[]{"One", "Two", "Three"}, 0);
+        builder.write("Please select a fruit: ");
 
-        // Verify some of our form field's attributes
+        // Insert a combo box which will allow a user to choose an option from a collection of strings.
+        FormField comboBox = builder.insertComboBox("MyComboBox", new String[]{"Apple", "Banana", "Cherry"}, 0);
+
         Assert.assertEquals("MyComboBox", comboBox.getName());
         Assert.assertEquals(FieldType.FIELD_FORM_DROP_DOWN, comboBox.getType());
-        Assert.assertEquals("One", comboBox.getResult());
+        Assert.assertEquals("Apple", comboBox.getResult());
+
+        // The form field will appear in the form of a "select" html tag.
+        doc.save(getArtifactsDir() + "FormFields.Create.html");
         //ExEnd
 
-        doc = DocumentHelper.saveOpen(doc);
+        doc = new Document(getArtifactsDir() + "FormFields.Create.html");
         comboBox = doc.getRange().getFormFields().get(0);
 
         Assert.assertEquals("MyComboBox", comboBox.getName());
         Assert.assertEquals(FieldType.FIELD_FORM_DROP_DOWN, comboBox.getType());
-        Assert.assertEquals("One", comboBox.getResult());
+        Assert.assertEquals("Apple", comboBox.getResult());
     }
 
     @Test
-    public void insertAndRetrieveFormFields() throws Exception {
+    public void textInput() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertTextInput
-        //ExSummary:Shows how to insert form fields, set options and gather them back in for use.
+        //ExSummary:Shows how to insert a text input form field.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a text input field. The unique name of this field is "TextInput1", the other parameters define
-        // what type of FormField it is, the format of the text, the field result and the maximum text length (0 = no limit)
-        builder.insertTextInput("TextInput1", TextFormFieldType.REGULAR, "", "", 0);
+        builder.write("Please enter text here: ");
+
+        // Insert a text input field, which will allow the user to click it and enter text.
+        // Assign some placeholder text that the user may overwrite and pass
+        // a maximum text length of 0 to apply no limit on the form field's contents.
+        builder.insertTextInput("TextInput1", TextFormFieldType.REGULAR, "", "Placeholder text", 0);
+
+        // The form field will appear in the form of an "input" html tag, with a type of "text".
+        doc.save(getArtifactsDir() + "FormFields.TextInput.html");
         //ExEnd
 
-        doc = DocumentHelper.saveOpen(doc);
+        doc = new Document(getArtifactsDir() + "FormFields.TextInput.html");
+
         FormField textInput = doc.getRange().getFormFields().get(0);
 
         Assert.assertEquals("TextInput1", textInput.getName());
         Assert.assertEquals(TextFormFieldType.REGULAR, textInput.getTextInputType());
         Assert.assertEquals("", textInput.getTextInputFormat());
-        Assert.assertEquals("", textInput.getResult());
+        Assert.assertEquals("Placeholder text", textInput.getResult());
         Assert.assertEquals(0, textInput.getMaxLength());
     }
 
@@ -73,7 +83,7 @@ public class ExFormFields extends ApiExampleBase {
     public void deleteFormField() throws Exception {
         //ExStart
         //ExFor:FormField.RemoveField
-        //ExSummary:Shows how to delete complete form field.
+        //ExSummary:Shows how to delete a form field.
         Document doc = new Document(getMyDir() + "Form fields.docx");
 
         FormField formField = doc.getRange().getFormFields().get(3);
@@ -97,13 +107,38 @@ public class ExFormFields extends ApiExampleBase {
         doc = DocumentHelper.saveOpen(doc);
 
         BookmarkCollection bookmarkBeforeDeleteFormField = doc.getRange().getBookmarks();
-        Assert.assertEquals(bookmarkBeforeDeleteFormField.get(0).getName(), "MyBookmark");
+        Assert.assertEquals("MyBookmark", bookmarkBeforeDeleteFormField.get(0).getName());
 
         FormField formField = doc.getRange().getFormFields().get(0);
         formField.removeField();
 
         BookmarkCollection bookmarkAfterDeleteFormField = doc.getRange().getBookmarks();
         Assert.assertEquals("MyBookmark", bookmarkAfterDeleteFormField.get(0).getName());
+    }
+
+    @Test
+    public void formFieldFontFormatting() throws Exception {
+        //ExStart
+        //ExFor:FormField
+        //ExSummary:Shows how to formatting the entire FormField, including the field value.
+        Document doc = new Document(getMyDir() + "Form fields.docx");
+
+        FormField formField = doc.getRange().getFormFields().get(0);
+        formField.getFont().setBold(true);
+        formField.getFont().setSize(24.0);
+        formField.getFont().setColor(Color.RED);
+
+        formField.setResult("Aspose.FormField");
+
+        doc = DocumentHelper.saveOpen(doc);
+
+        Run formFieldRun = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(1);
+
+        Assert.assertEquals("Aspose.FormField", formFieldRun.getText());
+        Assert.assertEquals(true, formFieldRun.getFont().getBold());
+        Assert.assertEquals(24.0, formFieldRun.getFont().getSize());
+        Assert.assertEquals(Color.RED.getRGB(), formFieldRun.getFont().getColor().getRGB());
+        //ExEnd
     }
 
     //ExStart
@@ -136,20 +171,24 @@ public class ExFormFields extends ApiExampleBase {
     //ExFor:FormFieldCollection.Remove(String)
     //ExFor:FormFieldCollection.RemoveAt(Int32)
     //ExFor:Range.FormFields
-    //ExSummary:Shows how insert different kinds of form fields into a document and process them with a visitor implementation.
+    //ExSummary:Shows how insert different kinds of form fields into a document, and process them with using a document visitor implementation.
     @Test //ExSkip
-    public void formField() throws Exception {
+    public void visitor() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Use a document builder to insert a combo box
+        // Use a document builder to insert a combo box.
+        builder.write("Choose a value from this combo box: ");
         FormField comboBox = builder.insertComboBox("MyComboBox", new String[]{"One", "Two", "Three"}, 0);
         comboBox.setCalculateOnExit(true);
         Assert.assertEquals(3, comboBox.getDropDownItems().getCount());
         Assert.assertEquals(0, comboBox.getDropDownSelectedIndex());
         Assert.assertTrue(comboBox.getEnabled());
 
-        // Use a document builder to insert a check box
+        builder.insertBreak(BreakType.PARAGRAPH_BREAK);
+
+        // Use a document builder to insert a check box.
+        builder.write("Click this check box to tick/untick it: ");
         FormField checkBox = builder.insertCheckBox("MyCheckBox", false, 50);
         checkBox.isCheckBoxExactSize(true);
         checkBox.setHelpText("Right click to check this box");
@@ -160,28 +199,32 @@ public class ExFormFields extends ApiExampleBase {
         Assert.assertFalse(checkBox.getChecked());
         Assert.assertFalse(checkBox.getDefault());
 
-        builder.writeln();
+        builder.insertBreak(BreakType.PARAGRAPH_BREAK);
 
-        // Use a document builder to insert text input form field
-        FormField textInput = builder.insertTextInput("MyTextInput", TextFormFieldType.REGULAR, "", "Your text goes here", 50);
+        // Use a document builder to insert text input form field.
+        builder.write("Enter text here: ");
+        FormField textInput = builder.insertTextInput("MyTextInput", TextFormFieldType.REGULAR, "", "Placeholder text", 50);
         textInput.setEntryMacro("EntryMacro");
         textInput.setExitMacro("ExitMacro");
         textInput.setTextInputDefault("Regular");
         textInput.setTextInputFormat("FIRST CAPITAL");
-        textInput.setTextInputValue("This value overrides the one we set during initialization");
+        textInput.setTextInputValue("New placeholder text");
         Assert.assertEquals(TextFormFieldType.REGULAR, textInput.getTextInputType());
         Assert.assertEquals(50, textInput.getMaxLength());
 
-        // Get the collection of form fields that has accumulated in our document
+        // This collection contains all of our form fields.
         FormFieldCollection formFields = doc.getRange().getFormFields();
         Assert.assertEquals(3, formFields.getCount());
 
-        // Our form fields are represented as fields, with field codes FORMDROPDOWN, FORMCHECKBOX and FORMTEXT respectively,
-        // made visible by pressing Alt + F9 in Microsoft Word
-        // These fields have no switches and the content of their form fields is fully governed by members of the FormField object
+        // Fields display our form fields. We can see their field codes by opening this document
+        // in Microsoft and pressing Alt + F9. These fields have no switches,
+        // and members of the FormField object fully govern their form fields' content.
         Assert.assertEquals(3, doc.getRange().getFields().getCount());
+        Assert.assertEquals(" FORMDROPDOWN \u0001", doc.getRange().getFields().get(0).getFieldCode());
+        Assert.assertEquals(" FORMCHECKBOX \u0001", doc.getRange().getFields().get(1).getFieldCode());
+        Assert.assertEquals(" FORMTEXT \u0001", doc.getRange().getFields().get(2).getFieldCode());
 
-        // Iterate over the collection with an enumerator, accepting a visitor with each form field
+        // Allow each form field to accept a document visitor.
         FormFieldVisitor formFieldVisitor = new FormFieldVisitor();
 
         Iterator<FormField> fieldEnumerator = formFields.iterator();
@@ -191,12 +234,12 @@ public class ExFormFields extends ApiExampleBase {
         System.out.println(formFieldVisitor.getText());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.FormField.docx");
+        doc.save(getArtifactsDir() + "FormFields.Visitor.html");
         testFormField(doc); //ExSkip
     }
 
     /// <summary>
-    /// Visitor implementation that prints information about visited form fields. 
+    /// Visitor implementation that prints details of form fields that it visits. 
     /// </summary>
     public static class FormFieldVisitor extends DocumentVisitor {
         public FormFieldVisitor() {
@@ -246,7 +289,7 @@ public class ExFormFields extends ApiExampleBase {
             return mBuilder.toString();
         }
 
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 
@@ -257,7 +300,7 @@ public class ExFormFields extends ApiExampleBase {
 
         TestUtil.verifyField(FieldType.FIELD_FORM_DROP_DOWN, " FORMDROPDOWN \u0001", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_FORM_CHECK_BOX, " FORMCHECKBOX \u0001", "", doc.getRange().getFields().get(1));
-        TestUtil.verifyField(FieldType.FIELD_FORM_TEXT_INPUT, " FORMTEXT \u0001", "This value overrides the one we set during initialization", doc.getRange().getFields().get(2));
+        TestUtil.verifyField(FieldType.FIELD_FORM_TEXT_INPUT, " FORMTEXT \u0001", "New placeholder text", doc.getRange().getFields().get(2));
 
         FormFieldCollection formFields = doc.getRange().getFormFields();
         Assert.assertEquals(3, formFields.getCount());
@@ -287,6 +330,82 @@ public class ExFormFields extends ApiExampleBase {
         Assert.assertEquals("FIRST CAPITAL", formFields.get(2).getTextInputFormat());
         Assert.assertEquals(TextFormFieldType.REGULAR, formFields.get(2).getTextInputType());
         Assert.assertEquals(50, formFields.get(2).getMaxLength());
-        Assert.assertEquals("This value overrides the one we set during initialization", formFields.get(2).getResult());
+        Assert.assertEquals("New placeholder text", formFields.get(2).getResult());
+    }
+
+    @Test
+    public void dropDownItemCollection() throws Exception {
+        //ExStart
+        //ExFor:Fields.DropDownItemCollection
+        //ExFor:Fields.DropDownItemCollection.Add(String)
+        //ExFor:Fields.DropDownItemCollection.Clear
+        //ExFor:Fields.DropDownItemCollection.Contains(String)
+        //ExFor:Fields.DropDownItemCollection.Count
+        //ExFor:Fields.DropDownItemCollection.GetEnumerator
+        //ExFor:Fields.DropDownItemCollection.IndexOf(String)
+        //ExFor:Fields.DropDownItemCollection.Insert(Int32, String)
+        //ExFor:Fields.DropDownItemCollection.Item(Int32)
+        //ExFor:Fields.DropDownItemCollection.Remove(String)
+        //ExFor:Fields.DropDownItemCollection.RemoveAt(Int32)
+        //ExSummary:Shows how to insert a combo box field, and edit the elements in its item collection.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a combo box, and then verify its collection of drop down items.
+        // In Microsoft Word, the user will click the combo box,
+        // and then choose one of the items of text in the collection to display.
+        String[] items = {"One", "Two", "Three"};
+        FormField comboBoxField = builder.insertComboBox("DropDown", items, 0);
+        DropDownItemCollection dropDownItems = comboBoxField.getDropDownItems();
+
+        Assert.assertEquals(3, dropDownItems.getCount());
+        Assert.assertEquals("One", dropDownItems.get(0));
+        Assert.assertEquals(1, dropDownItems.indexOf("Two"));
+        Assert.assertTrue(dropDownItems.contains("Three"));
+
+        // There are two ways of adding a new item to an existing collection of drop down box items.
+        // 1 -  Append an item to the end of the collection:
+        dropDownItems.add("Four");
+
+        // 2 -  Insert an item before another item at a specified index:
+        dropDownItems.insert(3, "Three and a half");
+
+        Assert.assertEquals(5, dropDownItems.getCount());
+
+        // Iterate over the collection and print every element.
+        Iterator<String> dropDownCollectionEnumerator = dropDownItems.iterator();
+
+        while (dropDownCollectionEnumerator.hasNext())
+            System.out.println(dropDownCollectionEnumerator.next());
+
+        // There are two ways of removing elements from a collection of drop down items.
+        // 1 -  Remove an item with contents equal to the passed string:
+        dropDownItems.remove("Four");
+
+        // 2 -  Remove an item at an index:
+        dropDownItems.removeAt(3);
+
+        Assert.assertEquals(3, dropDownItems.getCount());
+        Assert.assertFalse(dropDownItems.contains("Three and a half"));
+        Assert.assertFalse(dropDownItems.contains("Four"));
+
+        doc.save(getArtifactsDir() + "FormFields.DropDownItemCollection.html");
+
+        // Empty the whole collection of drop down items.
+        dropDownItems.clear();
+        //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+        dropDownItems = doc.getRange().getFormFields().get(0).getDropDownItems();
+
+        Assert.assertEquals(0, dropDownItems.getCount());
+
+        doc = new Document(getArtifactsDir() + "FormFields.DropDownItemCollection.html");
+        dropDownItems = doc.getRange().getFormFields().get(0).getDropDownItems();
+
+        Assert.assertEquals(3, dropDownItems.getCount());
+        Assert.assertEquals("One", dropDownItems.get(0));
+        Assert.assertEquals("Two", dropDownItems.get(1));
+        Assert.assertEquals("Three", dropDownItems.get(2));
     }
 }

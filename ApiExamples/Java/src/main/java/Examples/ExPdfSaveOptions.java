@@ -205,8 +205,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void downsampleOptions() throws Exception
-    {
+    public void downsampleOptions() throws Exception {
         //ExStart
         //ExFor:DownsampleOptions
         //ExFor:DownsampleOptions.DownsampleImages
@@ -489,7 +488,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // Configure both page setup and PdfSaveOptions to create a book fold
-        for (Section s : (Iterable<Section>) doc.getSections()) {
+        for (Section s : doc.getSections()) {
             s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
         }
 
@@ -881,6 +880,6 @@ public class ExPdfSaveOptions extends ApiExampleBase {
             return mWarnings.size();
         }
 
-        private static ArrayList<WarningInfo> mWarnings = new ArrayList<>();
+        private static final ArrayList<WarningInfo> mWarnings = new ArrayList<>();
     }
 }

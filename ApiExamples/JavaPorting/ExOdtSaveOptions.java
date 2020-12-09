@@ -14,59 +14,104 @@ import com.aspose.words.Document;
 import com.aspose.words.OdtSaveOptions;
 import com.aspose.words.OdtSaveMeasureUnit;
 import com.aspose.words.SaveFormat;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.FileFormatUtil;
 import com.aspose.words.FileFormatInfo;
 import org.testng.Assert;
 import com.aspose.words.LoadOptions;
-import com.aspose.words.DocumentBuilder;
+import com.aspose.ms.System.msString;
 import org.testng.annotations.DataProvider;
 
 
 @Test
 class ExOdtSaveOptions !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
 {
-    @Test (dataProvider = "measureUnitDataProvider")
-    public void measureUnit(boolean doExportToOdt11Specs) throws Exception
+    @Test (dataProvider = "odt11SchemaDataProvider")
+    public void odt11Schema(boolean exportToOdt11Specs) throws Exception
     {
         //ExStart
         //ExFor:OdtSaveOptions
         //ExFor:OdtSaveOptions.#ctor
         //ExFor:OdtSaveOptions.IsStrictSchema11
-        //ExFor:OdtSaveOptions.MeasureUnit
-        //ExFor:OdtSaveMeasureUnit
-        //ExSummary:Shows how to work with units of measure of document content.
+        //ExSummary:Shows how to make a saved document conform to an older ODT schema.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        // Open Office uses centimeters, MS Office uses inches
         OdtSaveOptions saveOptions = new OdtSaveOptions();
         {
             saveOptions.setMeasureUnit(OdtSaveMeasureUnit.CENTIMETERS);
-            saveOptions.isStrictSchema11(doExportToOdt11Specs);
+            saveOptions.isStrictSchema11(exportToOdt11Specs);
         }
 
-        doc.save(getArtifactsDir() + "OdtSaveOptions.MeasureUnit.odt", saveOptions);
+        doc.save(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", saveOptions);
         //ExEnd
 
-        if (doExportToOdt11Specs)
+        if (exportToOdt11Specs)
             TestUtil.docPackageFileContainsString("<text:span text:style-name=\"T118_1\" >Combobox<text:s/></text:span>", 
-                getArtifactsDir() + "OdtSaveOptions.MeasureUnit.odt", "content.xml");
+                getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", "content.xml");
         else
             TestUtil.docPackageFileContainsString("<text:span text:style-name=\"T118_1\" >Combobox<text:s/></text:span>" +
                                           "<text:span text:style-name=\"T118_2\" >" +
                                           "<text:drop-down><text:label text:value=\"Line 1\" ></text:label>" +
                                           "<text:label text:value=\"Line 2\" ></text:label>" +
                                           "<text:label text:value=\"Line 3\" ></text:label>Line 2</text:drop-down></text:span>", 
-                                          getArtifactsDir() + "OdtSaveOptions.MeasureUnit.odt", "content.xml");
+                                          getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", "content.xml");
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "measureUnitDataProvider")
-	public static Object[][] measureUnitDataProvider() throws Exception
+	@DataProvider(name = "odt11SchemaDataProvider")
+	public static Object[][] odt11SchemaDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
 			{false},
 			{true},
+		};
+	}
+
+    @Test (dataProvider = "measurementUnitsDataProvider")
+    public void measurementUnits(/*OdtSaveMeasureUnit*/int odtSaveMeasureUnit) throws Exception
+    {
+        //ExStart
+        //ExFor:OdtSaveOptions
+        //ExFor:OdtSaveOptions.MeasureUnit
+        //ExFor:OdtSaveMeasureUnit
+        //ExSummary:Shows how to use different measurement units to define style parameters of a saved ODT document.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        // When we export the document to .odt, we can use an OdtSaveOptions object to modify how we save the document.
+        // We can set the "MeasureUnit" property to "OdtSaveMeasureUnit.Centimeters"
+        // to define content such as style parameters using the metric system, which Open Office uses. 
+        // We can set the "MeasureUnit" property to "OdtSaveMeasureUnit.Inches"
+        // to define content such as style parameters using the imperial system, which Microsoft Word uses.
+        OdtSaveOptions saveOptions = new OdtSaveOptions();
+        {
+            saveOptions.setMeasureUnit(odtSaveMeasureUnit);
+        }
+
+        doc.save(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", saveOptions);
+        //ExEnd
+
+        switch (odtSaveMeasureUnit)
+        {
+            case OdtSaveMeasureUnit.CENTIMETERS:
+                TestUtil.docPackageFileContainsString("<style:paragraph-properties fo:orphans=\"2\" fo:widows=\"2\" style:tab-stop-distance=\"1.27cm\" />",
+                    getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", "styles.xml");
+                break;
+            case OdtSaveMeasureUnit.INCHES:
+                TestUtil.docPackageFileContainsString("<style:paragraph-properties fo:orphans=\"2\" fo:widows=\"2\" style:tab-stop-distance=\"0.5in\" />",
+                    getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", "styles.xml");
+                break;
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "measurementUnitsDataProvider")
+	public static Object[][] measurementUnitsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{OdtSaveMeasureUnit.CENTIMETERS},
+			{OdtSaveMeasureUnit.INCHES},
 		};
 	}
 
@@ -77,62 +122,38 @@ class ExOdtSaveOptions !Test class should be public in Java to run, please fix .
         //ExFor:OdtSaveOptions.#ctor(SaveFormat)
         //ExFor:OdtSaveOptions.Password
         //ExFor:OdtSaveOptions.SaveFormat
-        //ExSummary:Shows how to encrypted your odt/ott documents with a password.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        //ExSummary:Shows how to encrypt a saved ODT/OTT document with a password, and then load it using Aspose.Words.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world!");
 
+        // Create a new OdtSaveOptions, and pass either "SaveFormat.Odt",
+        // or "SaveFormat.Ott" as the format to save the document in. 
         OdtSaveOptions saveOptions = new OdtSaveOptions(saveFormat);
         saveOptions.setPassword("@sposeEncrypted_1145");
 
-        // Saving document using password property of OdtSaveOptions
-        doc.save(getArtifactsDir() + "OdtSaveOptions.Encrypt" +
-                 FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
-        //ExEnd
+        String extensionString = FileFormatUtil.saveFormatToExtension(saveFormat);
 
-        // Check that all documents are encrypted with a password
-        FileFormatInfo docInfo = 
-            FileFormatUtil.detectFileFormat(getArtifactsDir() + "OdtSaveOptions.Encrypt" + FileFormatUtil.saveFormatToExtension(saveFormat));
+        // If we open this document with an appropriate editor,
+        // it will prompt us for the password we specified in the SaveOptions object.
+        doc.save(getArtifactsDir() + "OdtSaveOptions.Encrypt" + extensionString, saveOptions);
+
+        FileFormatInfo docInfo = FileFormatUtil.detectFileFormat(getArtifactsDir() + "OdtSaveOptions.Encrypt" + extensionString);
+
         Assert.assertTrue(docInfo.isEncrypted());
+
+        // If we wish to open or edit this document again using Aspose.Words,
+        // we will have to provide a LoadOptions object with the correct password to the loading constructor.
+        doc = new Document(getArtifactsDir() + "OdtSaveOptions.Encrypt" + extensionString,
+            new LoadOptions("@sposeEncrypted_1145"));
+
+        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
 	@DataProvider(name = "encryptDataProvider")
 	public static Object[][] encryptDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{SaveFormat.ODT},
-			{SaveFormat.OTT},
-		};
-	}
-
-    @Test (dataProvider = "workWithEncryptedDocumentDataProvider")
-    public void workWithEncryptedDocument(/*SaveFormat*/int saveFormat) throws Exception
-    {
-        //ExStart
-        //ExFor:OdtSaveOptions.#ctor(String)
-        //ExSummary:Shows how to load and change odt/ott encrypted document.
-        Document doc = new Document(getMyDir() + "Encrypted" +
-                                    FileFormatUtil.saveFormatToExtension(saveFormat),
-            new LoadOptions("@sposeEncrypted_1145"));
-
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.moveToDocumentEnd();
-        builder.writeln("Encrypted document after changes.");
-
-        // Saving document using new instance of OdtSaveOptions
-        doc.save(getArtifactsDir() + "OdtSaveOptions.WorkWithEncryptedDocument" +
-                 FileFormatUtil.saveFormatToExtension(saveFormat), new OdtSaveOptions("@sposeEncrypted_1145"));
-        //ExEnd
-
-        // Check that document is still encrypted with a password
-        FileFormatInfo docInfo = 
-            FileFormatUtil.detectFileFormat(getArtifactsDir() + "OdtSaveOptions.WorkWithEncryptedDocument" + FileFormatUtil.saveFormatToExtension(saveFormat));
-        Assert.assertTrue(docInfo.isEncrypted());
-    }
-
-	//JAVA-added data provider for test method
-	@DataProvider(name = "workWithEncryptedDocumentDataProvider")
-	public static Object[][] workWithEncryptedDocumentDataProvider() throws Exception
 	{
 		return new Object[][]
 		{

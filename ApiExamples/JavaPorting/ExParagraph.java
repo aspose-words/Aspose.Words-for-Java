@@ -21,18 +21,22 @@ import org.testng.Assert;
 import com.aspose.words.Paragraph;
 import com.aspose.ms.System.msString;
 import com.aspose.words.FieldType;
-import com.aspose.words.Run;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.TimeSpan;
+import com.aspose.words.Run;
+import com.aspose.words.Field;
 import com.aspose.words.NodeType;
 import com.aspose.words.ParagraphCollection;
-import com.aspose.ms.System.msConsole;
+import com.aspose.words.HeightRule;
+import com.aspose.words.HorizontalAlignment;
+import com.aspose.words.VerticalAlignment;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.Node;
 import com.aspose.words.Body;
 import com.aspose.words.BreakType;
 import com.aspose.words.StyleIdentifier;
+import com.aspose.words.TabStopCollection;
 import com.aspose.words.TabAlignment;
 import com.aspose.words.TabLeader;
 
@@ -55,7 +59,6 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Specify font formatting
         Font font = builder.getFont();
         font.setSize(16.0);
         font.setBold(true);
@@ -63,7 +66,6 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         font.setName("Arial");
         font.setUnderline(Underline.DASH);
 
-        // Specify paragraph formatting
         ParagraphFormat paragraphFormat = builder.getParagraphFormat();
         paragraphFormat.setFirstLineIndent(8.0);
         paragraphFormat.setAlignment(ParagraphAlignment.JUSTIFY);
@@ -71,10 +73,10 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         paragraphFormat.setAddSpaceBetweenFarEastAndDigit(true);
         paragraphFormat.setKeepTogether(true);
 
-        // Using Writeln() ends the paragraph after writing and makes a new one, while Write() stays on the same paragraph
-        builder.writeln("A whole paragraph.");
+        // The "Writeln" method ends the paragraph after appending text
+        // and then starts a new line, adding a new paragraph.
+        builder.writeln("Hello world!");
 
-        // We can use this flag to ensure that we are at the end of the document
         Assert.assertTrue(builder.getCurrentParagraph().isEndOfDocument());
         //ExEnd
 
@@ -86,7 +88,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         Assert.assertTrue(paragraph.getParagraphFormat().getAddSpaceBetweenFarEastAndAlpha());
         Assert.assertTrue(paragraph.getParagraphFormat().getAddSpaceBetweenFarEastAndDigit());
         Assert.assertTrue(paragraph.getParagraphFormat().getKeepTogether());
-        Assert.assertEquals("A whole paragraph.", msString.trim(paragraph.getText()));
+        Assert.assertEquals("Hello world!", msString.trim(paragraph.getText()));
 
         Font runFont = paragraph.getRuns().get(0).getFont();
 
@@ -98,57 +100,87 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     }
 
     @Test
-    public void insertField() throws Exception
+    public void appendField() throws Exception
     {
         //ExStart
         //ExFor:Paragraph.AppendField(FieldType, Boolean)
         //ExFor:Paragraph.AppendField(String)
         //ExFor:Paragraph.AppendField(String, String)
+        //ExSummary:Shows various ways of appending fields to a paragraph.
+        Document doc = new Document();
+        Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
+
+        // Below are three ways of appending a field to the end of a paragraph.
+        // 1 -  Append a DATE field using a field type, and then update it:
+        paragraph.appendField(FieldType.FIELD_DATE, true);
+
+        // 2 -  Append a TIME field using a field code: 
+        paragraph.appendField(" TIME  \\@ \"HH:mm:ss\" ");
+
+        // 3 -  Append a QUOTE field using a field code, and get it to display a placeholder value:
+        paragraph.appendField(" QUOTE \"Real value\"", "Placeholder value");
+
+        Assert.assertEquals("Placeholder value", doc.getRange().getFields().get(2).getResult());
+
+        // This field will display its placeholder value until we update it.
+        doc.updateFields();
+
+        Assert.assertEquals("Real value", doc.getRange().getFields().get(2).getResult());
+
+        doc.save(getArtifactsDir() + "Paragraph.AppendField.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Paragraph.AppendField.docx");
+
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE ", DateTime.getNow(), doc.getRange().getFields().get(0), new TimeSpan(0, 0, 0, 0));
+        TestUtil.verifyField(FieldType.FIELD_TIME, " TIME  \\@ \"HH:mm:ss\" ", DateTime.getNow(), doc.getRange().getFields().get(1), new TimeSpan(0, 0, 0, 5));
+        TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \"Real value\"", "Real value", doc.getRange().getFields().get(2));
+    }
+
+    @Test
+    public void insertField() throws Exception
+    {
+        //ExStart
         //ExFor:Paragraph.InsertField(string, Node, bool)
         //ExFor:Paragraph.InsertField(FieldType, bool, Node, bool)
         //ExFor:Paragraph.InsertField(string, string, Node, bool)
-        //ExSummary:Shows how to insert fields in different ways.
-        // Create a blank document and get its first paragraph
+        //ExSummary:Shows various ways of adding fields to a paragraph.
         Document doc = new Document();
         Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
 
-        // Choose a DATE field by FieldType, append it to the end of the paragraph and update it
-        para.appendField(FieldType.FIELD_DATE, true);
-
-        // Append a TIME field using a field code 
-        para.appendField(" TIME  \\@ \"HH:mm:ss\" ");
-
-        // Append a QUOTE field that will display a placeholder value until it is updated manually in Microsoft Word
-        // or programmatically with Document.UpdateFields() or Field.Update()
-        para.appendField(" QUOTE \"Real value\"", "Placeholder value");
-
-        // We can choose a node in the paragraph and insert a field
-        // before or after that node instead of appending it to the end of a paragraph
-        para = doc.getFirstSection().getBody().appendParagraph("");
-        Run run = new Run(doc); { run.setText(" My Run. "); }
+        // Below are three ways of inserting a field into a paragraph.
+        // 1 -  Insert an AUTHOR field into a paragraph after one of the paragraph's child nodes:
+        Run run = new Run(doc); { run.setText("This run was written by "); }
         para.appendChild(run);
 
-        // Insert an AUTHOR field into the paragraph and place it before the run we created
         doc.getBuiltInDocumentProperties().get("Author").setValue("John Doe");
-        para.insertField(FieldType.FIELD_AUTHOR, true, run, false);
+        para.insertField(FieldType.FIELD_AUTHOR, true, run, true);
 
-        // Insert another field designated by field code before the run
-        para.insertField(" QUOTE \"Real value\" ", run, false);
+        // 2 -  Insert a QUOTE field after one of the paragraph's child nodes:
+        run = new Run(doc); { run.setText("."); }
+        para.appendChild(run);
 
-        // Insert another field with a place holder value and place it after the run
-        para.insertField(" QUOTE \"Real value\"", " Placeholder value. ", run, true);
+        Field field = para.insertField(" QUOTE \" Real value\" ", run, true);
+
+        // 3 -  Insert a QUOTE field before one of the paragraph's child nodes,
+        // and get it to display a placeholder value:
+        para.insertField(" QUOTE \" Real value.\"", " Placeholder value.", field.getStart(), false);
+
+        Assert.assertEquals(" Placeholder value.", doc.getRange().getFields().get(1).getResult());
+
+        // This field will display its placeholder value until we update it.
+        doc.updateFields();
+
+        Assert.assertEquals(" Real value.", doc.getRange().getFields().get(1).getResult());
 
         doc.save(getArtifactsDir() + "Paragraph.InsertField.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Paragraph.InsertField.docx");
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE ", DateTime.getNow(), doc.getRange().getFields().get(0), new TimeSpan(0, 0, 0, 0));
-        TestUtil.verifyField(FieldType.FIELD_TIME, " TIME  \\@ \"HH:mm:ss\" ", DateTime.getNow(), doc.getRange().getFields().get(1), new TimeSpan(0, 0, 0, 5));
-        TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \"Real value\"", "Placeholder value", doc.getRange().getFields().get(2));
-        TestUtil.verifyField(FieldType.FIELD_AUTHOR, " AUTHOR ", "John Doe", doc.getRange().getFields().get(3));
-        TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \"Real value\" ", "Real value", doc.getRange().getFields().get(4));
-        TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \"Real value\"", " Placeholder value. ", doc.getRange().getFields().get(5));
+        TestUtil.verifyField(FieldType.FIELD_AUTHOR, " AUTHOR ", "John Doe", doc.getRange().getFields().get(0));
+        TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \" Real value.\"", " Real value.", doc.getRange().getFields().get(1));
+        TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \" Real value\" ", " Real value", doc.getRange().getFields().get(2));
     }
 
     @Test
@@ -285,38 +317,45 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         //ExFor:CompositeNode.PrependChild(Node) 
         //ExFor:Paragraph.GetText
         //ExFor:Run
-        //ExSummary:Shows how to add, update and delete child nodes from a CompositeNode's child collection.
+        //ExSummary:Shows how to add, update and delete child nodes in a CompositeNode's collection of children.
         Document doc = new Document();
 
-        // An empty document has one paragraph by default
+        // An empty document, by default, has one paragraph.
         Assert.assertEquals(1, doc.getFirstSection().getBody().getParagraphs().getCount());
 
-        // A paragraph is a composite node because it can contain runs, which are another type of node
+        // Composite nodes such as our paragraph can contain other composite and inline nodes as children.
         Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
         Run paragraphText = new Run(doc, "Initial text. ");
         paragraph.appendChild(paragraphText);
 
-        // We will place these 3 children into the main text of our paragraph
+        // Create three more run nodes.
         Run run1 = new Run(doc, "Run 1. ");
         Run run2 = new Run(doc, "Run 2. ");
         Run run3 = new Run(doc, "Run 3. ");
 
-        // We initialized them but not in our paragraph yet
+        // The document body will not display these runs until we insert them into a composite node
+        // that itself is a part of the document's node tree, as we did with the first run.
+        // We can determine where the text contents of nodes that we insert
+        // appears in the document by specifying an insertion location relative to another node in the paragraph.
         Assert.assertEquals("Initial text.", msString.trim(paragraph.getText()));
 
-        // Insert run2 before initial paragraph text. This will be at the start of the paragraph
+        // Insert the second run into the paragraph in front of the initial run.
         paragraph.insertBefore(run2, paragraphText);
 
-        // Insert run3 after initial paragraph text. This will be at the end of the paragraph
+        Assert.assertEquals("Run 2. Initial text.", msString.trim(paragraph.getText()));
+
+        // Insert the third run after the initial run.
         paragraph.insertAfter(run3, paragraphText);
 
-        // Insert run1 before every other child node. run2 was the start of the paragraph, now it will be run1
+        Assert.assertEquals("Run 2. Initial text. Run 3.", msString.trim(paragraph.getText()));
+
+        // Insert the first run to the start of the paragraph's child nodes collection.
         paragraph.prependChild(run1);
 
         Assert.assertEquals("Run 1. Run 2. Initial text. Run 3.", msString.trim(paragraph.getText()));
         Assert.assertEquals(4, paragraph.getChildNodes(NodeType.ANY, true).getCount());
 
-        // Access the child node collection and update/delete children
+        // We can modify the contents of the run by editing and deleting existing child nodes.
         ((Run)paragraph.getChildNodes(NodeType.RUN, true).get(1)).setText("Updated run 2. ");
         paragraph.getChildNodes(NodeType.RUN, true).remove(paragraphText);
 
@@ -326,7 +365,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     }
 
     @Test
-    public void revisionHistory() throws Exception
+    public void revisions() throws Exception
     {
         //ExStart
         //ExFor:Paragraph.IsMoveFromRevision
@@ -334,26 +373,32 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         //ExFor:ParagraphCollection
         //ExFor:ParagraphCollection.Item(Int32)
         //ExFor:Story.Paragraphs
-        //ExSummary:Shows how to get paragraph that was moved (deleted/inserted) in Microsoft Word while change tracking was enabled.
+        //ExSummary:Shows how to check whether a paragraph is a move revision.
         Document doc = new Document(getMyDir() + "Revisions.docx");
 
-        // There are two sets of move revisions in this document
-        // One moves a small part of a paragraph, while the other moves a whole paragraph
-        // Paragraph.IsMoveFromRevision/IsMoveToRevision will only be true if a whole paragraph is moved, as in the latter case
-        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
-        for (int i = 0; i < paragraphs.getCount(); i++)
-        {
-            if (paragraphs.get(i).isMoveFromRevision())
-                msConsole.writeLine("The paragraph {0} has been moved (deleted).", i);
-            if (paragraphs.get(i).isMoveToRevision())
-                msConsole.writeLine("The paragraph {0} has been moved (inserted).", i);
-        }
-        //ExEnd
-
-        Assert.AreEqual(11, doc.getRevisions().Count());
+        // This document contains "Move" revisions, which appear when we highlight text with the cursor,
+        // and then drag it to move it to another location
+        // while tracking revisions in Microsoft Word via "Review" -> "Track changes".
         Assert.AreEqual(6, doc.getRevisions().Count(r => r.RevisionType == RevisionType.Moving));
-        Assert.AreEqual(1, paragraphs.Count(p => ((Paragraph)p).IsMoveFromRevision));
-        Assert.AreEqual(1, paragraphs.Count(p => ((Paragraph)p).IsMoveToRevision));
+
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+
+        // Move revisions consist of pairs of "Move from", and "Move to" revisions. 
+        // These revisions are potential changes to the document that we can either accept or reject.
+        // Before we accept/reject a move revision, the document
+        // must keep track of both the departure and arrival destinations of the text.
+        // The second and the fourth paragraph define one such revision, and thus both have the same contents.
+        Assert.assertEquals(paragraphs.get(1).getText(), paragraphs.get(3).getText());
+
+        // The "Move from" revision is the paragraph where we dragged the text from.
+        // If we accept the revision, this paragraph will disappear,
+        // and the other will remain and no longer be a revision.
+        Assert.assertTrue(paragraphs.get(1).isMoveFromRevision());
+
+        // The "Move to" revision is the paragraph where we dragged the text to.
+        // If we reject the revision, this paragraph instead will disappear, and the other will remain.
+        Assert.assertTrue(paragraphs.get(3).isMoveToRevision());
+        //ExEnd
     }
 
     @Test
@@ -361,10 +406,11 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     {
         //ExStart
         //ExFor:Paragraph.IsFormatRevision
-        //ExSummary:Shows how to get information about whether this object was formatted in Microsoft Word while change tracking was enabled
+        //ExSummary:Shows how to check whether a paragraph is a format revision.
         Document doc = new Document(getMyDir() + "Format revision.docx");
 
-        // This paragraph's formatting was changed while revisions were being tracked
+        // This paragraph is a "Format" revision, which occurs when we change the formatting of existing text
+        // while tracking revisions in Microsoft Word via "Review" -> "Track changes".
         Assert.assertTrue(doc.getFirstSection().getBody().getFirstParagraph().isFormatRevision());
         //ExEnd
     }
@@ -390,37 +436,20 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         //ExSummary:Shows how to get information about formatting properties of paragraphs that are frames.
         Document doc = new Document(getMyDir() + "Paragraph frame.docx");
 
-        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+        Paragraph paragraphFrame = doc.getFirstSection().getBody().getParagraphs().<Paragraph>OfType().First(p => p.FrameFormat.IsFrame);
 
-        for (Paragraph paragraph : paragraphs.<Paragraph>OfType().Where(p => p.FrameFormat.IsFrame) !!Autoporter error: Undefined expression type )
-        {
-            System.out.println("Width: " + paragraph.getFrameFormat().getWidth());
-            System.out.println("Height: " + paragraph.getFrameFormat().getHeight());
-            System.out.println("HeightRule: " + paragraph.getFrameFormat().getHeightRule());
-            System.out.println("HorizontalAlignment: " + paragraph.getFrameFormat().getHorizontalAlignment());
-            System.out.println("VerticalAlignment: " + paragraph.getFrameFormat().getVerticalAlignment());
-            System.out.println("HorizontalPosition: " + paragraph.getFrameFormat().getHorizontalPosition());
-            System.out.println("RelativeHorizontalPosition: " +
-                                  paragraph.getFrameFormat().getRelativeHorizontalPosition());
-            System.out.println("HorizontalDistanceFromText: " +
-                                  paragraph.getFrameFormat().getHorizontalDistanceFromText());
-            System.out.println("VerticalPosition: " + paragraph.getFrameFormat().getVerticalPosition());
-            System.out.println("RelativeVerticalPosition: " + paragraph.getFrameFormat().getRelativeVerticalPosition());
-            System.out.println("VerticalDistanceFromText: " + paragraph.getFrameFormat().getVerticalDistanceFromText());
-        }
+        Assert.assertEquals(233.3d, paragraphFrame.getFrameFormat().getWidth());
+        Assert.assertEquals(138.8d, paragraphFrame.getFrameFormat().getHeight());
+        Assert.assertEquals(HeightRule.AT_LEAST, paragraphFrame.getFrameFormat().getHeightRule());
+        Assert.assertEquals(HorizontalAlignment.DEFAULT, paragraphFrame.getFrameFormat().getHorizontalAlignment());
+        Assert.assertEquals(VerticalAlignment.DEFAULT, paragraphFrame.getFrameFormat().getVerticalAlignment());
+        Assert.assertEquals(34.05d, paragraphFrame.getFrameFormat().getHorizontalPosition());
+        Assert.assertEquals(RelativeHorizontalPosition.PAGE, paragraphFrame.getFrameFormat().getRelativeHorizontalPosition());
+        Assert.assertEquals(9.0d, paragraphFrame.getFrameFormat().getHorizontalDistanceFromText());
+        Assert.assertEquals(20.5d, paragraphFrame.getFrameFormat().getVerticalPosition());
+        Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, paragraphFrame.getFrameFormat().getRelativeVerticalPosition());
+        Assert.assertEquals(0.0d, paragraphFrame.getFrameFormat().getVerticalDistanceFromText());
         //ExEnd
-
-        for (Paragraph paragraph : paragraphs.<Paragraph>OfType().Where(p => p.FrameFormat.IsFrame) !!Autoporter error: Undefined expression type )
-        {
-            Assert.assertEquals(233.3, paragraph.getFrameFormat().getWidth());
-            Assert.assertEquals(138.8, paragraph.getFrameFormat().getHeight());
-            Assert.assertEquals(34.05, paragraph.getFrameFormat().getHorizontalPosition());
-            Assert.assertEquals(RelativeHorizontalPosition.PAGE, paragraph.getFrameFormat().getRelativeHorizontalPosition());
-            Assert.assertEquals(9, paragraph.getFrameFormat().getHorizontalDistanceFromText());
-            Assert.assertEquals(20.5, paragraph.getFrameFormat().getVerticalPosition());
-            Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, paragraph.getFrameFormat().getRelativeVerticalPosition());
-            Assert.assertEquals(0, paragraph.getFrameFormat().getVerticalDistanceFromText());
-        }
     }
 
     /// <summary>
@@ -464,35 +493,41 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         Body body = doc.getFirstSection().getBody();
         Paragraph para = body.getFirstParagraph();
 
-        // Add text to the first paragraph, then add two more paragraphs
         para.appendChild(new Run(doc, "Paragraph 1. "));
         body.appendParagraph("Paragraph 2. ");
         body.appendParagraph("Paragraph 3. ");
 
-        // We have three paragraphs, none of which registered as any type of revision
-        // If we add/remove any content in the document while tracking revisions,
-        // they will be displayed as such in the document and can be accepted/rejected
+        // The above paragraphs are not revisions.
+        // Paragraphs that we add after starting revision tracking will register as "Insert" revisions.
         doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
 
-        // This paragraph is a revision and will have the according "IsInsertRevision" flag set
         para = body.appendParagraph("Paragraph 4. ");
+
         Assert.assertTrue(para.isInsertRevision());
 
-        // Get the document's paragraph collection and remove a paragraph
+        // Paragraphs that we remove after starting revision tracking will register as "Delete" revisions.
         ParagraphCollection paragraphs = body.getParagraphs();
+
         Assert.assertEquals(4, paragraphs.getCount());
+
         para = paragraphs.get(2);
         para.remove();
 
-        // Since we are tracking revisions, the paragraph still exists in the document, will have the "IsDeleteRevision" set
-        // and will be displayed as a revision in Microsoft Word, until we accept or reject all revisions
+        // Such paragraphs will remain until we either accept or reject the delete revision.
+        // Accepting the revision will remove the paragraph for good,
+        // and rejecting the revision will leave it in the document as if we never deleted it.
         Assert.assertEquals(4, paragraphs.getCount());
         Assert.assertTrue(para.isDeleteRevision());
 
-        // The delete revision paragraph is removed once we accept changes
+        // Accept the revision, and then verify that the paragraph is gone.
         doc.acceptAllRevisions();
+
         Assert.assertEquals(3, paragraphs.getCount());
         Assert.That(para, Is.Empty);
+        Assert.assertEquals(
+            "Paragraph 1. \r" +
+            "Paragraph 2. \r" +
+            "Paragraph 4.", msString.trim(doc.getText()));
         //ExEnd
     }
 
@@ -502,31 +537,28 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         //ExStart
         //ExFor:Paragraph.BreakIsStyleSeparator
         //ExSummary:Shows how to write text to the same line as a TOC heading and have it not show up in the TOC.
-        // Create a blank document and insert a table of contents field
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
         builder.insertTableOfContents("\\o \\h \\z \\u");
         builder.insertBreak(BreakType.PAGE_BREAK);
 
-        // Insert a paragraph with a style that will be picked up as an entry in the TOC
+        // Insert a paragraph with a style that the TOC will pick up as an entry.
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);
 
-        // Both these strings are on the same line and same paragraph and will therefore show up on the same TOC entry
+        // Both these strings are in the same paragraph and will therefore show up on the same TOC entry.
         builder.write("Heading 1. ");
         builder.write("Will appear in the TOC. ");
 
-        // Any text on a new line that does not have a heading style will not register as a TOC entry
-        // If we insert a style separator, we can write more text on the same line
-        // and use a different style without it showing up in the TOC
-        // If we use a heading type style afterwards, we can draw two TOC entries from one line of document text
+        // If we insert a style separator, we can write more text in the same paragraph
+        // and use a different style without showing up in the TOC.
+        // If we use a heading type style after the separator, we can draw multiple TOC entries from one document text line.
         builder.insertStyleSeparator();
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.QUOTE);
         builder.write("Won't appear in the TOC. ");
 
-        // This flag is set to true for such paragraphs
         Assert.assertTrue(doc.getFirstSection().getBody().getFirstParagraph().getBreakIsStyleSeparator());
 
-        // Update the TOC and save the document
         doc.updateFields();
         doc.save(getArtifactsDir() + "Paragraph.BreakIsStyleSeparator.docx");
         //ExEnd
@@ -543,36 +575,38 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     {
         //ExStart
         //ExFor:Paragraph.GetEffectiveTabStops
-        //ExSummary:Shows how to set custom tab stops.
+        //ExSummary:Shows how to set custom tab stops for a paragraph.
         Document doc = new Document();
         Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
 
-        // If there are no tab stops in this collection, while we are in this paragraph
-        // the cursor will jump 36 points each time we press the Tab key in Microsoft Word
+        // If we are in a paragraph with no tab stops in this collection,
+        // the cursor will jump 36 points each time we press the Tab key in Microsoft Word.
         Assert.assertEquals(0, doc.getFirstSection().getBody().getFirstParagraph().getEffectiveTabStops().length);
 
-        // We can add custom tab stops in Microsoft Word if we enable the ruler via the view tab
-        // Each unit on that ruler is two default tab stops, which is 72 points
-        // Those tab stops can be programmatically added to the paragraph like this
-        ParagraphFormat format = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat();
-        format.getTabStops().add(72.0, TabAlignment.LEFT, TabLeader.DOTS);
-        format.getTabStops().add(216.0, TabAlignment.CENTER, TabLeader.DASHES);
-        format.getTabStops().add(360.0, TabAlignment.RIGHT, TabLeader.LINE);
+        // We can add custom tab stops in Microsoft Word if we enable the ruler via the "View" tab.
+        // Each unit on this ruler is two default tab stops, which is 72 points.
+        // We can add custom tab stops programmatically like this.
+        TabStopCollection tabStops = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getTabStops();
+        tabStops.add(72.0, TabAlignment.LEFT, TabLeader.DOTS);
+        tabStops.add(216.0, TabAlignment.CENTER, TabLeader.DASHES);
+        tabStops.add(360.0, TabAlignment.RIGHT, TabLeader.LINE);
 
-        // These tab stops are added to this collection, and can also be seen by enabling the ruler mentioned above
+        // We can see these tab stops in Microsoft Word by enabling the ruler via "View" -> "Show" -> "Ruler".
         Assert.assertEquals(3, para.getEffectiveTabStops().length);
 
-        // Add a Run with tab characters that will snap the text to our TabStop positions and save the document
+        // Any tab characters we add will make use of the tab stops on the ruler and may,
+        // depending on the tab leader's value, leave a line between the tab departure and arrival destinations.
         para.appendChild(new Run(doc, "\tTab 1\tTab 2\tTab 3"));
+
         doc.save(getArtifactsDir() + "Paragraph.TabStops.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Paragraph.TabStops.docx");
-        format = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat();
+        tabStops = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getTabStops();
 
-        TestUtil.verifyTabStop(72.0d, TabAlignment.LEFT, TabLeader.DOTS, false, format.getTabStops().get(0));
-        TestUtil.verifyTabStop(216.0d, TabAlignment.CENTER, TabLeader.DASHES, false, format.getTabStops().get(1));
-        TestUtil.verifyTabStop(360.0d, TabAlignment.RIGHT, TabLeader.LINE, false, format.getTabStops().get(2));
+        TestUtil.verifyTabStop(72.0d, TabAlignment.LEFT, TabLeader.DOTS, false, tabStops.get(0));
+        TestUtil.verifyTabStop(216.0d, TabAlignment.CENTER, TabLeader.DASHES, false, tabStops.get(1));
+        TestUtil.verifyTabStop(360.0d, TabAlignment.RIGHT, TabLeader.LINE, false, tabStops.get(2));
     }
 
     @Test
@@ -584,28 +618,31 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a few small runs into the document
+        // Insert four runs of text into the paragraph.
         builder.write("Run 1. ");
         builder.write("Run 2. ");
         builder.write("Run 3. ");
         builder.write("Run 4. ");
 
-        // The Paragraph may look like it's in once piece in Microsoft Word,
-        // but it is fragmented into several Runs, which leaves room for optimization
-        // A big run may be split into many smaller runs with the same formatting
-        // if we keep splitting up a piece of text while manually editing it in Microsoft Word
+        // If we open this document in Microsoft Word, the paragraph will look like one seamless text body.
+        // In reality, it will consist of four separate runs with the same formatting. Fragmented paragraphs like this
+        // may occur when we manually edit parts of one paragraph many times in Microsoft Word.
         Paragraph para = builder.getCurrentParagraph();
+
         Assert.assertEquals(4, para.getRuns().getCount());
 
-        // Change the style of the last run to something different from the first three
+        // Change the style of the last run to set it apart from the first three.
         para.getRuns().get(3).getFont().setStyleIdentifier(StyleIdentifier.EMPHASIS);
 
-        // We can run the JoinRunsWithSameFormatting() method to merge similar Runs
-        // This method also returns the number of joins that occurred during the merge
-        // Two merges occurred to combine Runs 1-3, while Run 4 was left out because it has an incompatible style
+        // We can run the "JoinRunsWithSameFormatting" method to optimize the document's contents
+        // by merging similar runs into one, reducing their overall count.
+        // This method also returns the number of runs that this method merged.
+        // These two merges occurred to combine Runs #1, #2, and #3,
+        // while leaving out Run #4 because it has an incompatible style.
         Assert.assertEquals(2, para.joinRunsWithSameFormatting());
 
-        // The paragraph has been simplified to two runs
+        // The number of runs left will equal the original count
+        // minus the number of run merges that the "JoinRunsWithSameFormatting" method carried out.
         Assert.assertEquals(2, para.getRuns().getCount());
         Assert.assertEquals("Run 1. Run 2. Run 3. ", para.getRuns().get(0).getText());
         Assert.assertEquals("Run 4. ", para.getRuns().get(1).getText());

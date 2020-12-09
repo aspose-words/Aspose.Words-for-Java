@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Hyphenation;
 import org.testng.Assert;
 import com.aspose.words.Document;
+import com.aspose.words.Run;
 import com.aspose.words.WarningInfoCollection;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.ms.System.IO.FileStream;
@@ -34,21 +35,28 @@ public class ExHyphenation extends ApiExampleBase
         //ExFor:Hyphenation.IsDictionaryRegistered(String)
         //ExFor:Hyphenation.RegisterDictionary(String, String)
         //ExFor:Hyphenation.UnregisterDictionary(String)
-        //ExSummary:Shows how to perform and verify hyphenation dictionary registration.
-        // Register a dictionary file from the local file system to the "de-CH" locale
+        //ExSummary:Shows how to register a hyphenation dictionary.
+        // A hyphenation dictionary contains a list of strings that define hyphenation rules for the dictionary's language.
+        // When a document contains lines of text in which a word could be split up and continued on the next line,
+        // hyphenation will look through the dictionary's list of strings for that word's substrings.
+        // If the dictionary contains a substring, then hyphenation will split the word across two lines
+        // by the substring, and add a hyphen to the first half.
+        // Register a dictionary file from the local file system to the "de-CH" locale.
         Hyphenation.registerDictionary("de-CH", getMyDir() + "hyph_de_CH.dic");
 
-        // This method can be used to verify that a language has a matching registered hyphenation dictionary
         Assert.assertTrue(Hyphenation.isDictionaryRegistered("de-CH"));
-
-        // The dictionary file contains a long list of words in a specified language, which is German in this case
-        // These words define a set of rules for hyphenating text (splitting words across lines)
-        // If we open a document with text of a language matching that of a registered dictionary,
-        // that dictionary's hyphenation rules will be applied and visible upon saving
+        
+        // Open a document containing text with a locale matching that of our dictionary,
+        // and save it to a fixed-page save format. The text in that document will be hyphenated.
         Document doc = new Document(getMyDir() + "German text.docx");
+
+        Assert.True(doc.getFirstSection().getBody().getFirstParagraph().getRuns().<Run>OfType().All(
+            r => r.Font.LocaleId == new CultureInfo("de-CH").LCID));
+
         doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Registered.pdf");
 
-        // We can also un-register a dictionary to disable these effects on any documents opened after the operation
+        // Re-load the document after un-registering the dictionary,
+        // and save it to another PDF, which will not have hyphenated text.
         Hyphenation.unregisterDictionary("de-CH");
 
         Assert.assertFalse(Hyphenation.isDictionaryRegistered("de-CH"));
@@ -56,6 +64,22 @@ public class ExHyphenation extends ApiExampleBase
         doc = new Document(getMyDir() + "German text.docx");
         doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Unregistered.pdf");
         //ExEnd
+
+        Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "Hyphenation.Dictionary.Registered.pdf");
+        TextAbsorber textAbsorber = new TextAbsorber();
+        textAbsorber.Visit(pdfDoc);
+
+        Assert.True(textAbsorber.Text.Contains("La ob storen an deinen am sachen. Dop-\r\n" +
+                                               "pelte  um  da  am  spateren  verlogen  ge-\r\n" +
+                                               "kommen  achtzehn  blaulich."));
+
+        pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "Hyphenation.Dictionary.Unregistered.pdf");
+        textAbsorber = new TextAbsorber();
+        textAbsorber.Visit(pdfDoc);
+
+        Assert.True(textAbsorber.Text.Contains("La  ob  storen  an  deinen  am  sachen. \r\n" +
+                                               "Doppelte  um  da  am  spateren  verlogen \r\n" +
+                                               "gekommen  achtzehn  blaulich."));
     }
 
     //ExStart
@@ -70,28 +94,27 @@ public class ExHyphenation extends ApiExampleBase
     @Test //ExSkip
     public void registerDictionary() throws Exception
     {
-        // Set up a callback that tracks warnings that occur during hyphenation dictionary registration
+        // Set up a callback that tracks warnings that occur during hyphenation dictionary registration.
         WarningInfoCollection warningInfoCollection = new WarningInfoCollection();
         Hyphenation.setWarningCallback(warningInfoCollection);
 
-        // Register an English (US) hyphenation dictionary by stream
+        // Register an English (US) hyphenation dictionary by stream.
         Stream dictionaryStream = new FileStream(getMyDir() + "hyph_en_US.dic", FileMode.OPEN);
         Hyphenation.registerDictionaryInternal("en-US", dictionaryStream);
 
-        // No warnings detected
         Assert.assertEquals(0, warningInfoCollection.getCount());
 
-        // Open a document with a German locale that might not get automatically hyphenated by Microsoft Word on an English machine
+        // Open a document with a locale that Microsoft Word may not hyphenate on an English machine, such as German.
         Document doc = new Document(getMyDir() + "German text.docx");
 
-        // To hyphenate that document upon saving, we need a hyphenation dictionary for the "de-CH" language code
-        // This callback will handle the automatic request for that dictionary 
+        // To hyphenate that document upon saving, we need a hyphenation dictionary for the "de-CH" language code.
+        // This callback will handle the automatic request for that dictionary.
         Hyphenation.setCallback(new CustomHyphenationDictionaryRegister());
 
-        // When we save the document, it will be hyphenated according to rules defined by the dictionary known by our callback
+        // When we save the document, German hyphenation will take effect.
         doc.save(getArtifactsDir() + "Hyphenation.RegisterDictionary.pdf");
 
-        // This dictionary contains two identical patterns, which will trigger a warning
+        // This dictionary contains two identical patterns, which will trigger a warning.
         Assert.assertEquals(1, warningInfoCollection.getCount());
         Assert.assertEquals(WarningType.MINOR_FORMATTING_LOSS, warningInfoCollection.get(0).getWarningType());
         Assert.assertEquals(WarningSource.LAYOUT, warningInfoCollection.get(0).getSource());
@@ -100,7 +123,7 @@ public class ExHyphenation extends ApiExampleBase
     }
 
     /// <summary>
-    /// Associates ISO language codes with custom local system dictionary files for their respective languages
+    /// Associates ISO language codes with local system filenames for hyphenation dictionary files.
     /// </summary>
     private static class CustomHyphenationDictionaryRegister implements IHyphenationCallback
     {

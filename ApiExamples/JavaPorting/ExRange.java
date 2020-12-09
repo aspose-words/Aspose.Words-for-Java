@@ -12,25 +12,24 @@ package ApiExamples;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
-import com.aspose.ms.System.msConsole;
-import com.aspose.words.FindReplaceOptions;
 import org.testng.Assert;
 import com.aspose.ms.System.msString;
+import com.aspose.words.FindReplaceOptions;
 import com.aspose.ms.System.DateTime;
+import com.aspose.words.BreakType;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
-import com.aspose.words.FieldDocProperty;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.ReplaceAction;
 import com.aspose.words.ReplacingArgs;
+import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
-import com.aspose.words.FindReplaceDirection;
+import com.aspose.ms.System.msConsole;
 import com.aspose.words.NodeType;
 import com.aspose.words.Run;
 import com.aspose.ms.System.Convert;
-import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.ParagraphCollection;
-import com.aspose.words.BreakType;
+import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
 import java.util.ArrayList;
@@ -41,6 +40,7 @@ import com.aspose.words.CompositeNode;
 import com.aspose.words.NodeImporter;
 import com.aspose.words.ImportFormatMode;
 import com.aspose.words.Section;
+import com.aspose.words.FindReplaceDirection;
 import org.testng.annotations.DataProvider;
 
 
@@ -48,62 +48,137 @@ import org.testng.annotations.DataProvider;
 public class ExRange extends ApiExampleBase
 {
     @Test
-    public void replaceSimple() throws Exception
+    public void replace() throws Exception
+    {
+        //ExStart
+        //ExFor:Range.Replace(String, String)
+        //ExSummary:Shows how to perform a find-and-replace text operation on the contents of a document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Greetings, _FullName_!");
+
+        // Perform a find-and-replace operation on our document's contents and verify the number of replacements that took place.
+        int replacementCount = doc.getRange().replace("_FullName_", "John Doe");
+
+        Assert.assertEquals(1, replacementCount);
+        Assert.assertEquals("Greetings, John Doe!", msString.trim(doc.getText()));
+        //ExEnd
+    }
+
+    @Test (dataProvider = "replaceMatchCaseDataProvider")
+    public void replaceMatchCase(boolean matchCase) throws Exception
     {
         //ExStart
         //ExFor:Range.Replace(String, String, FindReplaceOptions)
         //ExFor:FindReplaceOptions
         //ExFor:FindReplaceOptions.MatchCase
-        //ExFor:FindReplaceOptions.FindWholeWordsOnly
-        //ExSummary:Simple find and replace operation.
+        //ExSummary:Shows how to toggle case sensitivity when performing a find-and-replace operation.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.writeln("Hello _CustomerName_,");
+        builder.writeln("Ruby bought a ruby necklace.");
 
-        // Check the document contains what we are about to test
-        System.out.println(doc.getFirstSection().getBody().getParagraphs().get(0).getText());
-
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
         FindReplaceOptions options = new FindReplaceOptions();
-        options.setMatchCase(false);
-        options.setFindWholeWordsOnly(false);
 
-        doc.getRange().replace("_CustomerName_", "James Bond", options);
+        // Set the "MatchCase" flag to "true" to apply case sensitivity while finding strings to replace.
+        // Set the "MatchCase" flag to "false" to ignore character case while searching for text to replace.
+        options.setMatchCase(matchCase);
 
-        doc.save(getArtifactsDir() + "Range.ReplaceSimple.docx");
+        doc.getRange().replace("Ruby", "Jade", options);
+
+        Assert.assertEquals(matchCase ? "Jade bought a ruby necklace." : "Jade bought a Jade necklace.",
+            msString.trim(doc.getText()));
         //ExEnd
-
-        doc = new Document(getArtifactsDir() + "Range.ReplaceSimple.docx");
-
-        Assert.assertEquals("Hello James Bond,", msString.trim(doc.getText()));
     }
 
+	//JAVA-added data provider for test method
+	@DataProvider(name = "replaceMatchCaseDataProvider")
+	public static Object[][] replaceMatchCaseDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "replaceFindWholeWordsOnlyDataProvider")
+    public void replaceFindWholeWordsOnly(boolean findWholeWordsOnly) throws Exception
+    {
+        //ExStart
+        //ExFor:Range.Replace(String, String, FindReplaceOptions)
+        //ExFor:FindReplaceOptions
+        //ExFor:FindReplaceOptions.FindWholeWordsOnly
+        //ExSummary:Shows how to toggle standalone word-only find-and-replace operations. 
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Jackson will meet you in Jacksonville.");
+
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
+        FindReplaceOptions options = new FindReplaceOptions();
+
+        // Set the "FindWholeWordsOnly" flag to "true" to replace the found text
+        // only as long as it is not a part of another word.
+        // Set the "FindWholeWordsOnly" flag to "false" to disregard the surrounding text of the text we are replacing.
+        options.setFindWholeWordsOnly(findWholeWordsOnly);
+
+        doc.getRange().replace("Jackson", "Louis", options);
+
+        Assert.assertEquals(
+            findWholeWordsOnly ? "Louis will meet you in Jacksonville." : "Louis will meet you in Louisville.",
+            msString.trim(doc.getText()));
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "replaceFindWholeWordsOnlyDataProvider")
+	public static Object[][] replaceFindWholeWordsOnlyDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
     @Test (dataProvider = "ignoreDeletedDataProvider")
-    public void ignoreDeleted(boolean isIgnoreDeleted) throws Exception
+    public void ignoreDeleted(boolean ignoreTextInsideDeleteRevisions) throws Exception
     {
         //ExStart
         //ExFor:FindReplaceOptions.IgnoreDeleted
-        //ExSummary:Shows how to ignore text inside delete revisions.
+        //ExSummary:Shows how to include or ignore text inside delete revisions during a find-and-replace operation.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
  
-        // Insert non-revised text
-        builder.writeln("Deleted");
-        builder.write("Text");
+        builder.writeln("Hello world!");
+        builder.writeln("Hello again!");
  
-        // Remove first paragraph with tracking revisions
+        // Start tracking revisions and remove the second paragraph, which will create a delete revision.
+        // That paragraph will persist in the document until we accept the delete revision.
         doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
-        doc.getFirstSection().getBody().getFirstParagraph().remove();
+        doc.getFirstSection().getBody().getParagraphs().get(1).remove();
         doc.stopTrackRevisions();
- 
-        Regex regex = new Regex("e");
-        FindReplaceOptions options = new FindReplaceOptions();
- 
-        // Replace 'e' in document while ignoring/not ignoring deleted text
-        options.setIgnoreDeleted(isIgnoreDeleted);
-        doc.getRange().replaceInternal(regex, "*", options);
 
-        Assert.assertEquals(msString.trim(doc.getText()), isIgnoreDeleted ? "Deleted\rT*xt" : "D*l*t*d\rT*xt");
+        Assert.assertTrue(doc.getFirstSection().getBody().getParagraphs().get(1).isDeleteRevision());
+
+        // We can use a "FindReplaceOptions" object to modify the find and replace process.
+        FindReplaceOptions options = new FindReplaceOptions();
+
+        // Set the "IgnoreDeleted" flag to "true" to get the find-and-replace
+        // operation to ignore paragraphs that are delete revisions.
+        // Set the "IgnoreDeleted" flag to "false" to get the find-and-replace
+        // operation to also search for text inside delete revisions.
+        options.setIgnoreDeleted(ignoreTextInsideDeleteRevisions);
+        
+        doc.getRange().replace("Hello", "Greetings", options);
+
+        Assert.assertEquals(
+            ignoreTextInsideDeleteRevisions
+                ? "Greetings world!\rHello again!"
+                : "Greetings world!\rGreetings again!", msString.trim(doc.getText()));
         //ExEnd
     }
 
@@ -119,30 +194,38 @@ public class ExRange extends ApiExampleBase
 	}
 
     @Test (dataProvider = "ignoreInsertedDataProvider")
-    public void ignoreInserted(boolean isIgnoreInserted) throws Exception
+    public void ignoreInserted(boolean ignoreTextInsideInsertRevisions) throws Exception
     {
         //ExStart
         //ExFor:FindReplaceOptions.IgnoreInserted
-        //ExSummary:Shows how to ignore text inside insert revisions.
+        //ExSummary:Shows how to include or ignore text inside insert revisions during a find-and-replace operation.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
- 
-        // Insert text with tracking revisions
-        doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
-        builder.writeln("Inserted");
-        doc.stopTrackRevisions();
- 
-        // Insert non-revised text
-        builder.write("Text");
- 
-        Regex regex = new Regex("e");
-        FindReplaceOptions options = new FindReplaceOptions();
- 
-        // Replace 'e' in document while ignoring/not ignoring inserted text
-        options.setIgnoreInserted(isIgnoreInserted);
-        doc.getRange().replaceInternal(regex, "*", options);
 
-        Assert.assertEquals(msString.trim(doc.getText()), isIgnoreInserted ? "Inserted\rT*xt" : "Ins*rt*d\rT*xt");
+        builder.writeln("Hello world!");
+
+        // Start tracking revisions and insert a paragraph. That paragraph will be an insert revision.
+        doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
+        builder.writeln("Hello again!");
+        doc.stopTrackRevisions();
+
+        Assert.assertTrue(doc.getFirstSection().getBody().getParagraphs().get(1).isInsertRevision());
+
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
+        FindReplaceOptions options = new FindReplaceOptions();
+
+        // Set the "IgnoreInserted" flag to "true" to get the find-and-replace
+        // operation to ignore paragraphs that are insert revisions.
+        // Set the "IgnoreInserted" flag to "false" to get the find-and-replace
+        // operation to also search for text inside insert revisions.
+        options.setIgnoreInserted(ignoreTextInsideInsertRevisions);
+
+        doc.getRange().replace("Hello", "Greetings", options);
+
+        Assert.assertEquals(
+            ignoreTextInsideInsertRevisions
+                ? "Greetings world!\rHello again!"
+                : "Greetings world!\rGreetings again!", msString.trim(doc.getText()));
         //ExEnd
     }
 
@@ -158,28 +241,32 @@ public class ExRange extends ApiExampleBase
 	}
 
     @Test (dataProvider = "ignoreFieldsDataProvider")
-    public void ignoreFields(boolean isIgnoreFields) throws Exception
+    public void ignoreFields(boolean ignoreTextInsideFields) throws Exception
     {
         //ExStart
         //ExFor:FindReplaceOptions.IgnoreFields
         //ExSummary:Shows how to ignore text inside fields.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
- 
-        // Insert field with text inside
-        builder.insertField("INCLUDETEXT", "Text in field");
- 
-        Regex regex = new Regex("e");
-        FindReplaceOptions options = new FindReplaceOptions();
-        // Replace 'e' in document ignoring/not ignoring text inside field
-        options.setIgnoreFields(isIgnoreFields);
-        
-        doc.getRange().replaceInternal(regex, "*", options);
 
-        Assert.assertEquals(doc.getText(),
-            isIgnoreFields
-                ? "\u0013INCLUDETEXT\u0014Text in field\u0015\f"
-                : "\u0013INCLUDETEXT\u0014T*xt in fi*ld\u0015\f");
+        builder.writeln("Hello world!");
+        builder.insertField("QUOTE", "Hello again!");
+
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
+        FindReplaceOptions options = new FindReplaceOptions();
+
+        // Set the "IgnoreFields" flag to "true" to get the find-and-replace
+        // operation to ignore text inside fields.
+        // Set the "IgnoreFields" flag to "false" to get the find-and-replace
+        // operation to also search for text inside fields.
+        options.setIgnoreFields(ignoreTextInsideFields);
+
+        doc.getRange().replace("Hello", "Greetings", options);
+
+        Assert.assertEquals(
+            ignoreTextInsideFields
+                ? "Greetings world!\r\u0013QUOTE\u0014Hello again!\u0015"
+                : "Greetings world!\r\u0013QUOTE\u0014Greetings again!\u0015", msString.trim(doc.getText()));
         //ExEnd
     }
 
@@ -199,23 +286,26 @@ public class ExRange extends ApiExampleBase
     {
         //ExStart
         //ExFor:Range.UpdateFields
-        //ExSummary:Shows how to update document fields in the body of the first section only.
+        //ExSummary:Shows how to update all the fields in a range.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a field that will display the value in the document's body text
-        FieldDocProperty field = (FieldDocProperty)builder.insertField(" DOCPROPERTY Category");
+        builder.insertField(" DOCPROPERTY Category");
+        builder.insertBreak(BreakType.SECTION_BREAK_EVEN_PAGE);
+        builder.insertField(" DOCPROPERTY Category");
 
-        // Set the value of the property that should be displayed by the field
+        // The above DOCPROPERTY fields will display the value of this built-in document property.
         doc.getBuiltInDocumentProperties().setCategory("MyCategory");
 
-        // Some field types need to be explicitly updated before they can display their expected values
-        Assert.assertEquals("", field.getResult());
+        // If we update the value of a document property, we will need to update all the DOCPROPERTY fields to display it.
+        Assert.assertEquals("", doc.getRange().getFields().get(0).getResult());
+        Assert.assertEquals("", doc.getRange().getFields().get(1).getResult());
 
-        // Update all the fields in the first section of the document, which includes the field we just inserted
+        // Update all the fields that are in the range of the first section.
         doc.getFirstSection().getRange().updateFields();
 
-        Assert.assertEquals("MyCategory", field.getResult());
+        Assert.assertEquals("MyCategory", doc.getRange().getFields().get(0).getResult());
+        Assert.assertEquals("", doc.getRange().getFields().get(1).getResult());
         //ExEnd
     }
 
@@ -241,72 +331,78 @@ public class ExRange extends ApiExampleBase
     public void replaceWithRegex() throws Exception
     {
         //ExStart
-        //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
-        //ExSummary:Shows how to replace all occurrences of words "sad" or "mad" to "bad".
+        //ExFor:Range.Replace(Regex, String)
+        //ExSummary:Shows how to replace all occurrences of a regular expression pattern with other text.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.writeln("sad mad bad");
 
-        Assert.assertEquals("sad mad bad", msString.trim(doc.getText()));
+        builder.writeln("I decided to get the curtains in gray, ideal for the grey-accented room.");
 
-        FindReplaceOptions options = new FindReplaceOptions();
-        {
-            options.setMatchCase(false);
-            options.setFindWholeWordsOnly(false);
-        }
+        doc.getRange().replaceInternal(new Regex("gr(a|e)y"), "lavender");
 
-        doc.getRange().replaceInternal(new Regex("[s|m]ad"), "bad", options);
-
-        Assert.assertEquals("bad bad bad", msString.trim(doc.getText()));
+        Assert.assertEquals("I decided to get the curtains in lavender, ideal for the lavender-accented room.", msString.trim(doc.getText()));
         //ExEnd
     }
 
     //ExStart
+    //ExFor:FindReplaceOptions.ReplacingCallback
     //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
     //ExFor:ReplacingArgs.Replacement
     //ExFor:IReplacingCallback
     //ExFor:IReplacingCallback.Replacing
     //ExFor:ReplacingArgs
-    //ExSummary:Replaces text specified with regular expression with HTML.
+    //ExSummary:Shows how to replace all occurrences of a regular expression pattern with another string, while tracking all such replacements.
     @Test //ExSkip
-    public void replaceWithInsertHtml() throws Exception
+    public void replaceWithCallback() throws Exception
     {
-        // Open the document
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.writeln("Hello <CustomerName>,");
+        builder.writeln("Our new location in New York City is opening tomorrow. " +
+                        "Hope to see all our NYC-based customers at the opening!");
 
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
         FindReplaceOptions options = new FindReplaceOptions();
-        options.setReplacingCallback(new ReplaceWithHtmlEvaluator());
 
-        doc.getRange().replaceInternal(new Regex(" <CustomerName>,"), "", options);
+        // Set a callback that tracks any replacements that the "Replace" method will make.
+        TextFindAndReplacementLogger logger = new TextFindAndReplacementLogger();
+        options.setReplacingCallback(logger);
 
-        // Save the modified document
-        doc.save(getArtifactsDir() + "Range.ReplaceWithInsertHtml.docx");
-        Assert.assertEquals("James Bond, Hello\r\f",
-            new Document(getArtifactsDir() + "Range.ReplaceWithInsertHtml.docx").getText()); //ExSkip
+        doc.getRange().replaceInternal(new Regex("New York City|NYC"), "Washington", options);
+        
+        Assert.assertEquals("Our new location in (Old value:\"New York City\") Washington is opening tomorrow. " +
+                        "Hope to see all our (Old value:\"NYC\") Washington-based customers at the opening!", msString.trim(doc.getText()));
+
+        Assert.assertEquals("\"New York City\" converted to \"Washington\" 20 characters into a Run node.\r\n" +
+                        "\"NYC\" converted to \"Washington\" 42 characters into a Run node.", msString.trim(logger.getLog()));
     }
 
-    private static class ReplaceWithHtmlEvaluator implements IReplacingCallback
+    /// <summary>
+    /// Maintains a log of every text replacement done by a find-and-replace operation
+    /// and notes the original matched text's value.
+    /// </summary>
+    private static class TextFindAndReplacementLogger implements IReplacingCallback
     {
-        public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs args) throws Exception
+        public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs args)
         {
-            DocumentBuilder builder = new DocumentBuilder((Document)args.getMatchNode().getDocument());
-            builder.moveTo(args.getMatchNode());
-
-            // Replace '<CustomerName>' text with a red bold name
-            builder.insertHtml("<b><font color='red'>James Bond, </font></b>");
-            args.setReplacement("");
-
+            msStringBuilder.appendLine(mLog, $"\"{args.Match.Value}\" converted to \"{args.Replacement}\" " +
+                            $"{args.MatchOffset} characters into a {args.MatchNode.NodeType} node.");
+            
+            args.setReplacement("(Old value:\"{args.Match.Value}\") {args.Replacement}");
             return ReplaceAction.REPLACE;
         }
+
+        public String getLog()
+        {
+            return mLog.toString();
+        }
+
+        private /*final*/ StringBuilder mLog = new StringBuilder();
     }
     //ExEnd
 
     //ExStart
     //ExFor:FindReplaceOptions.ApplyFont
-    //ExFor:FindReplaceOptions.Direction
     //ExFor:FindReplaceOptions.ReplacingCallback
     //ExFor:ReplacingArgs.GroupIndex
     //ExFor:ReplacingArgs.GroupName
@@ -314,37 +410,38 @@ public class ExRange extends ApiExampleBase
     //ExFor:ReplacingArgs.MatchOffset
     //ExSummary:Shows how to apply a different font to new content via FindReplaceOptions.
     @Test //ExSkip
-    public void replaceNumbersAsHex() throws Exception
+    public void convertNumbersToHexadecimal() throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.getFont().setName("Arial");
-        builder.writeln("Numbers that will be converted to hexadecimal and highlighted:\n" +
+        builder.writeln("Numbers that the find-and-replace operation will convert to hexadecimal and highlight:\n" +
                         "123, 456, 789 and 17379.");
 
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
         FindReplaceOptions options = new FindReplaceOptions();
-        // Highlight newly inserted content with a color
+
+        // Set the "HighlightColor" property to a background color that we want to apply to the operation's resulting text.
         options.getApplyFont().setHighlightColor(msColor.getLightGray());
+        
+        NumberHexer numberHexer = new NumberHexer();
+        options.setReplacingCallback(numberHexer);
 
-        // Apply an IReplacingCallback to make the replacement to convert integers into hex equivalents,
-        // and then to count replacements in the order they take place
-        options.setReplacingCallback(new NumberHexer());
-        // By default, text is searched for replacements front to back, but we can change it to go the other way
-        options.setDirection(FindReplaceDirection.BACKWARD);
+        int replacementCount = doc.getRange().replaceInternal(new Regex("[0-9]+"), "", options);
 
-        int count = doc.getRange().replaceInternal(new Regex("[0-9]+"), "", options);
+        System.out.println(numberHexer.getLog());
 
-        Assert.assertEquals(4, count);
-        Assert.assertEquals("Numbers that will be converted to hexadecimal and highlighted:\r" +
+        Assert.assertEquals(4, replacementCount);
+        Assert.assertEquals("Numbers that the find-and-replace operation will convert to hexadecimal and highlight:\r" +
                         "0x7B, 0x1C8, 0x315 and 0x43E3.", msString.trim(doc.getText()));
-        Assert.AreEqual(4,
-            doc.getChildNodes(NodeType.RUN, true).<Run>OfType()
+        Assert.AreEqual(4, doc.getChildNodes(NodeType.RUN, true).<Run>OfType()
                 .Count(r => r.Font.HighlightColor.ToArgb() == Color.LightGray.ToArgb()));
     }
 
     /// <summary>
-    /// Replaces Arabic numbers with hexadecimal equivalents and appends the number of each replacement.
+    /// Replaces numeric find-and-replacement matches with their hexadecimal equivalents
+    /// and also logs every replacement.
     /// </summary>
     private static class NumberHexer implements IReplacingCallback
     {
@@ -352,25 +449,29 @@ public class ExRange extends ApiExampleBase
         {
             mCurrentReplacementNumber++;
             
-            // Parse numbers
             int number = Convert.toInt32(args.getMatchInternal().getValue());
-
-            // And write it as HEX
+            
             args.setReplacement("0x{number:X}");
 
-            System.out.println("Match #{mCurrentReplacementNumber}");
-            System.out.println("\tOriginal value:\t{args.Match.Value}");
-            System.out.println("\tReplacement:\t{args.Replacement}");
-            System.out.println("\tOffset in parent {args.MatchNode.NodeType} node:\t{args.MatchOffset}");
+            msStringBuilder.appendLine(mLog, $"Match #{mCurrentReplacementNumber}");
+            msStringBuilder.appendLine(mLog, $"\tOriginal value:\t{args.Match.Value}");
+            msStringBuilder.appendLine(mLog, $"\tReplacement:\t{args.Replacement}");
+            msStringBuilder.appendLine(mLog, $"\tOffset in parent {args.MatchNode.NodeType} node:\t{args.MatchOffset}");
 
-            System.out.println(msString.isNullOrEmpty(args.GroupName)
-                    ? $"\tGroup index:\t{args.GroupIndex}"
-                    : $"\tGroup name:\t{args.GroupName}");
+            msStringBuilder.appendLine(mLog, msString.isNullOrEmpty(args.GroupName)
+                ? $"\tGroup index:\t{args.GroupIndex}"
+                : $"\tGroup name:\t{args.GroupName}");
 
             return ReplaceAction.REPLACE;
         }
 
+        public String getLog()
+        {
+            return mLog.toString();
+        }
+
         private int mCurrentReplacementNumber;
+        private /*final*/ StringBuilder mLog = new StringBuilder();
     }
     //ExEnd
 
@@ -379,28 +480,39 @@ public class ExRange extends ApiExampleBase
     {
         //ExStart
         //ExFor:FindReplaceOptions.ApplyParagraphFormat
-        //ExSummary:Shows how to affect the format of paragraphs with successful replacements.
+        //ExFor:Range.Replace(String, String)
+        //ExSummary:Shows how to add formatting to paragraphs in which a find-and-replace operation has found matches.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("Every paragraph that ends with a full stop like this one will be right aligned.");
         builder.writeln("This one will not!");
-        builder.writeln("And this one will.");
-        
+        builder.write("This one also will.");
+
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+
+        Assert.assertEquals(ParagraphAlignment.LEFT, paragraphs.get(0).getParagraphFormat().getAlignment());
+        Assert.assertEquals(ParagraphAlignment.LEFT, paragraphs.get(1).getParagraphFormat().getAlignment());
+        Assert.assertEquals(ParagraphAlignment.LEFT, paragraphs.get(2).getParagraphFormat().getAlignment());
+
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
         FindReplaceOptions options = new FindReplaceOptions();
+
+        // Set the "Alignment" property to "ParagraphAlignment.Right" to right-align every paragraph
+        // that contains a match that the find-and-replace operation finds.
         options.getApplyParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
 
+        // Replace every full stop that's right before a paragraph break with an exclamation point.
         int count = doc.getRange().replace(".&p", "!&p", options);
+
         Assert.assertEquals(2, count);
-
-        doc.save(getArtifactsDir() + "Range.ApplyParagraphFormat.docx");
-        //ExEnd
-
-        ParagraphCollection paragraphs = new Document(getArtifactsDir() + "Range.ApplyParagraphFormat.docx").getFirstSection().getBody().getParagraphs();
-
         Assert.assertEquals(ParagraphAlignment.RIGHT, paragraphs.get(0).getParagraphFormat().getAlignment());
         Assert.assertEquals(ParagraphAlignment.LEFT, paragraphs.get(1).getParagraphFormat().getAlignment());
         Assert.assertEquals(ParagraphAlignment.RIGHT, paragraphs.get(2).getParagraphFormat().getAlignment());
+        Assert.assertEquals("Every paragraph that ends with a full stop like this one will be right aligned!\r" +
+                        "This one will not!\r" +
+                        "This one also will!", msString.trim(doc.getText()));
+        //ExEnd
     }
 
     @Test
@@ -409,22 +521,22 @@ public class ExRange extends ApiExampleBase
         //ExStart
         //ExFor:Node.Range
         //ExFor:Range.Delete
-        //ExSummary:Shows how to delete all characters of a range.
-        // Insert two sections into a blank document
+        //ExSummary:Shows how to delete all the nodes from a range.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-
+        
+        // Add text to the first section in the document, and then add another section.
         builder.write("Section 1. ");
         builder.insertBreak(BreakType.SECTION_BREAK_CONTINUOUS);
         builder.write("Section 2.");
 
-        // Verify the whole text of the document
         Assert.assertEquals("Section 1. \fSection 2.", msString.trim(doc.getText()));
 
-        // Delete the first section from the document
+        // Remove the first section entirely by removing all of the nodes
+        // within its range, including the section itself.
         doc.getSections().get(0).getRange().delete();
 
-        // Check the first section was deleted by looking at the text of the whole document again
+        Assert.assertEquals(1, doc.getSections().getCount());
         Assert.assertEquals("Section 2.", msString.trim(doc.getText()));
         //ExEnd
     }
@@ -435,7 +547,7 @@ public class ExRange extends ApiExampleBase
         //ExStart
         //ExFor:Range
         //ExFor:Range.Text
-        //ExSummary:Shows how to get plain, unformatted text of a range.
+        //ExSummary:Shows how to get the text contents of all the nodes that a range covers.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -449,34 +561,38 @@ public class ExRange extends ApiExampleBase
     //ExStart
     //ExFor:FindReplaceOptions.UseLegacyOrder
     //ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation.
-    public void useLegacyOrder(boolean isUseLegacyOrder) throws Exception
+    public void useLegacyOrder(boolean useLegacyOrder) throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert three runs which can be used as tags, with the second placed inside a text box.
+        // Insert three runs which we can search for using a regex pattern.
+        // Place one of those runs inside a text box.
         builder.writeln("[tag 1]");
         Shape textBox = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 50.0);
-        builder.writeln("[tag 3]");
+        builder.writeln("[tag 2]");
         builder.moveTo(textBox.getFirstParagraph());
-        builder.write("[tag 2]");
+        builder.write("[tag 3]");
 
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
         FindReplaceOptions options = new FindReplaceOptions();
+
+        // Assign a custom callback to the "ReplacingCallback" property.
         TextReplacementTracker callback = new TextReplacementTracker();
         options.setReplacingCallback(callback);
 
-        // When a text replacement is performed, all of the runs of a document have their contents searched
-        // for every instance of the string that we wish to replace.
-        // This flag can change the search priority of runs inside text boxes.
-        options.setUseLegacyOrder(isUseLegacyOrder);
+        // If we set the "UseLegacyOrder" property to "true", the
+        // find-and-replace operation will go through all the runs outside of a text box
+        // before going through the ones inside a text box.
+        // If we set the "UseLegacyOrder" property to "false", the
+        // find-and-replace operation will go over all the runs in a range in sequential order.
+        options.setUseLegacyOrder(useLegacyOrder);
 
         doc.getRange().replaceInternal(new Regex("\\[tag \\d*\\]"), "", options);
 
-        // Using legacy order goes through all runs of a range in sequential order.
-        // Not using legacy order goes through runs within text boxes after all runs outside of text boxes have been searched.
-        Assert.assertEquals(isUseLegacyOrder ?
-            new ArrayList<String>(); { .add("[tag 1]"); .add("[tag 2]"); .add("[tag 3]"); } :
-            new ArrayList<String>(); { .add("[tag 1]"); .add("[tag 3]"); .add("[tag 2]"); }, callback.getMatches());
+        Assert.assertEquals(useLegacyOrder ?
+            new ArrayList<String>(); { .add("[tag 1]"); .add("[tag 3]"); .add("[tag 2]"); } :
+            new ArrayList<String>(); { .add("[tag 1]"); .add("[tag 2]"); .add("[tag 3]"); }, callback.getMatches());
     }
 
 	//JAVA-added data provider for test method
@@ -491,8 +607,7 @@ public class ExRange extends ApiExampleBase
 	}
 
     /// <summary>
-    /// Creates a list of string matches from a regex-based text find-and-replacement operation
-    /// in the order that they are encountered.
+    /// Records the order of all matches occuring during a find-and-replace operation.
     /// </summary>
     private static class TextReplacementTracker implements IReplacingCallback
     {
@@ -508,29 +623,46 @@ public class ExRange extends ApiExampleBase
     }
     //ExEnd
 
-    @Test
-    public void useSubstitutions() throws Exception
+    @Test (dataProvider = "useSubstitutionsDataProvider")
+    public void useSubstitutions(boolean useSubstitutions) throws Exception
     {
         //ExStart
         //ExFor:FindReplaceOptions.UseSubstitutions
-        //ExSummary:Shows how to replace text with substitutions.
+        //ExSummary:Shows how to replace the text with substitutions.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("John sold a car to Paul.");
         builder.writeln("Jane sold a house to Joe.");
 
-        // Perform a find-and-replace operation on a range's text contents
-        // while preserving some elements from the replaced text using substitutions.
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
         FindReplaceOptions options = new FindReplaceOptions();
-        options.setUseSubstitutions(true);
+
+        // Set the "UseSubstitutions" property to "true" to get
+        // the find-and-replace operation to recognize substitution elements.
+        // Set the "UseSubstitutions" property to "false" to ignore substitution elements.
+        options.setUseSubstitutions(useSubstitutions);
 
         Regex regex = new Regex("([A-z]+) sold a ([A-z]+) to ([A-z]+)");
         doc.getRange().replaceInternal(regex, "$3 bought a $2 from $1", options);
 
-        Assert.assertEquals(doc.getText(), "Paul bought a car from John.\rJoe bought a house from Jane.\r\f");
+        Assert.assertEquals(
+            useSubstitutions
+                ? "Paul bought a car from John.\rJoe bought a house from Jane."
+                : "$3 bought a $2 from $1.\r$3 bought a $2 from $1.", msString.trim(doc.getText()));
         //ExEnd
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "useSubstitutionsDataProvider")
+	public static Object[][] useSubstitutionsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 
     //ExStart
     //ExFor:Range.Replace(Regex, String, FindReplaceOptions)
@@ -539,15 +671,14 @@ public class ExRange extends ApiExampleBase
     //ExFor:IReplacingCallback.Replacing
     //ExFor:ReplacingArgs
     //ExFor:ReplacingArgs.MatchNode
-    //ExFor:FindReplaceDirection
-    //ExSummary:Shows how to insert content of one document into another during a customized find and replace operation.
+    //ExSummary:Shows how to insert an entire document's contents as a replacement of a match in a find-and-replace operation.
     @Test //ExSkip
     public void insertDocumentAtReplace() throws Exception
     {
         Document mainDoc = new Document(getMyDir() + "Document insertion destination.docx");
 
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
         FindReplaceOptions options = new FindReplaceOptions();
-        options.setDirection(FindReplaceDirection.BACKWARD);
         options.setReplacingCallback(new InsertDocumentAtReplaceHandler());
 
         mainDoc.getRange().replaceInternal(new Regex("\\[MY_DOCUMENT\\]"), "", options);
@@ -562,11 +693,11 @@ public class ExRange extends ApiExampleBase
         {
             Document subDoc = new Document(getMyDir() + "Document.docx");
 
-            // Insert a document after the paragraph, containing the match text
+            // Insert a document after the paragraph containing the matched text.
             Paragraph para = (Paragraph)args.getMatchNode().getParentNode();
             insertDocument(para, subDoc);
 
-            // Remove the paragraph with the match text
+            // Remove the paragraph with the matched text.
             para.remove();
 
             return ReplaceAction.SKIP;
@@ -574,25 +705,21 @@ public class ExRange extends ApiExampleBase
     }
 
     /// <summary>
-    /// Inserts content of the external document after the specified node.
+    /// Inserts all the nodes of another document after a paragraph or table.
     /// </summary>
-    static void insertDocument(Node insertionDestination, Document docToInsert)
+    private static void insertDocument(Node insertionDestination, Document docToInsert)
     {
-        // Make sure that the node is either a paragraph or table
         if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE)))
         {
-            // We will be inserting into the parent of the destination paragraph
             CompositeNode dstStory = insertionDestination.getParentNode();
 
-            // This object will be translating styles and lists during the import
             NodeImporter importer =
                 new NodeImporter(docToInsert, insertionDestination.getDocument(), ImportFormatMode.KEEP_SOURCE_FORMATTING);
 
-            // Loop through all block level nodes in the body of the section
             for (Section srcSection : docToInsert.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
                 for (Node srcNode : (Iterable<Node>) srcSection.getBody())
                 {
-                    // Skip the node if it is a last empty paragraph in a section
+                    // Skip the node if it is the last empty paragraph in a section.
                     if (((srcNode.getNodeType()) == (NodeType.PARAGRAPH)))
                     {
                         Paragraph para = (Paragraph)srcNode;
@@ -600,25 +727,100 @@ public class ExRange extends ApiExampleBase
                             continue;
                     }
 
-                    // This creates a clone of the node, suitable for insertion into the destination document
+                    // Clone the node, and insert it into the destination document.
                     Node newNode = importer.importNode(srcNode, true);
 
-                    // Insert new node after the reference node
                     dstStory.insertAfter(newNode, insertionDestination);
                     insertionDestination = newNode;
                 }
         }
         else
         {
-            throw new IllegalArgumentException("The destination node should be either a paragraph or table.");
+            throw new IllegalArgumentException("The destination node must be either a paragraph or table.");
         }
     }
     //ExEnd
 
-    private void testInsertDocumentAtReplace(Document doc)
+    private static void testInsertDocumentAtReplace(Document doc)
     {
         Assert.assertEquals("1) At text that can be identified by regex:\rHello World!\r" +
                         "2) At a MERGEFIELD:\r\u0013 MERGEFIELD  Document_1  \\* MERGEFORMAT \u0014«Document_1»\u0015\r" +
                         "3) At a bookmark:", msString.trim(doc.getFirstSection().getBody().getText()));
     }
+
+    //ExStart
+    //ExFor:FindReplaceOptions.Direction
+    //ExFor:FindReplaceDirection
+    //ExSummary:Shows how to determine which direction a find-and-replace operation traverses the document in.
+    @Test (dataProvider = "directionDataProvider") //ExSkip
+    public void direction(/*FindReplaceDirection*/int findReplaceDirection) throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert three runs which we can search for using a regex pattern.
+        // Place one of those runs inside a text box.
+        builder.writeln("Match 1.");
+        builder.writeln("Match 2.");
+        builder.writeln("Match 3.");
+        builder.writeln("Match 4.");
+
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
+        FindReplaceOptions options = new FindReplaceOptions();
+
+        // Assign a custom callback to the "ReplacingCallback" property.
+        TextReplacementRecorder callback = new TextReplacementRecorder();
+        options.setReplacingCallback(callback);
+
+        // Set the "Direction" property to "FindReplaceDirection.Backward" to get the find-and-replace
+        // operation to start from the end of the range, and traverse back to the beginning.
+        // Set the "Direction" property to "FindReplaceDirection.Backward" to get the find-and-replace
+        // operation to start from the beginning of the range, and traverse to the end.
+        options.setDirection(findReplaceDirection);
+
+        doc.getRange().replaceInternal(new Regex("Match \\d*"), "Replacement", options);
+
+        Assert.assertEquals("Replacement.\r" +
+                        "Replacement.\r" +
+                        "Replacement.\r" +
+                        "Replacement.", msString.trim(doc.getText()));
+
+        switch (findReplaceDirection)
+        {
+            case FindReplaceDirection.FORWARD:
+                Assert.assertEquals(new String[] { "Match 1", "Match 2", "Match 3", "Match 4" }, callback.getMatches());
+                break;
+            case FindReplaceDirection.BACKWARD:
+                Assert.assertEquals(new String[] { "Match 4", "Match 3", "Match 2", "Match 1" }, callback.getMatches());
+                break;
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "directionDataProvider")
+	public static Object[][] directionDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{FindReplaceDirection.BACKWARD},
+			{FindReplaceDirection.FORWARD},
+		};
+	}
+
+    /// <summary>
+    /// Records all matches that occur during a find-and-replace operation in the order that they take place.
+    /// </summary>
+    private static class TextReplacementRecorder implements IReplacingCallback
+    {
+        public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs e)
+        {
+            msArrayList.add(getMatches(), e.getMatchInternal().getValue());
+            return ReplaceAction.REPLACE;
+        }
+
+        public ArrayList<String> getMatches() { return mMatches; };
+
+        private ArrayList<String> mMatches; = /*new*/ ArrayList<String>list();
+    }
+    //ExEnd
 }

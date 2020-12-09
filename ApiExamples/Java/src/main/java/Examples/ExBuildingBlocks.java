@@ -37,8 +37,7 @@ public class ExBuildingBlocks extends ApiExampleBase {
     //ExFor:BuildingBlocks.BuildingBlockType
     //ExSummary:Shows how to add a custom building block to a document.
     @Test //ExSkip
-    public void createAndInsert() throws Exception
-    {
+    public void createAndInsert() throws Exception {
         // A document's glossary document stores building blocks.
         Document doc = new Document();
         GlossaryDocument glossaryDoc = new GlossaryDocument();
@@ -119,8 +118,8 @@ public class ExBuildingBlocks extends ApiExampleBase {
             return VisitorAction.CONTINUE;
         }
 
-        private StringBuilder mBuilder;
-        private GlossaryDocument mGlossaryDoc;
+        private final StringBuilder mBuilder;
+        private final GlossaryDocument mGlossaryDoc;
     }
     //ExEnd
 
@@ -165,8 +164,8 @@ public class ExBuildingBlocks extends ApiExampleBase {
         Assert.assertEquals("Block 3", glossaryDoc.getBuildingBlocks().toArray()[2].getName());
 
         // 3 -  Get the first building block that matches a gallery, name and category:
-        Assert.assertEquals("Block 4", 
-            glossaryDoc.getBuildingBlock(BuildingBlockGallery.ALL, "(Empty Category)", "Block 4").getName());
+        Assert.assertEquals("Block 4",
+                glossaryDoc.getBuildingBlock(BuildingBlockGallery.ALL, "(Empty Category)", "Block 4").getName());
 
         // We will do that using a custom visitor,
         // which will give every BuildingBlock in the GlossaryDocument a unique GUID
@@ -178,7 +177,7 @@ public class ExBuildingBlocks extends ApiExampleBase {
 
         // When we open this document using Microsoft Word,
         // we can find the building blocks via Insert -> Quick Parts -> Building Blocks Organizer.
-        doc.save(getArtifactsDir() + "BuildingBlocks.GlossaryDocument.dotx"); 
+        doc.save(getArtifactsDir() + "BuildingBlocks.GlossaryDocument.dotx");
     }
 
     public static BuildingBlock createNewBuildingBlock(final GlossaryDocument glossaryDoc, final String buildingBlockName) {
@@ -233,8 +232,8 @@ public class ExBuildingBlocks extends ApiExampleBase {
             return VisitorAction.CONTINUE;
         }
 
-        private HashMap<UUID, BuildingBlock> mBlocksByGuid;
-        private StringBuilder mBuilder;
+        private final HashMap<UUID, BuildingBlock> mBlocksByGuid;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 }

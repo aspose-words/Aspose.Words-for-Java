@@ -79,8 +79,7 @@ public class ExSection extends ApiExampleBase {
     }
 
     @Test
-    public void firstAndLast() throws Exception
-    {
+    public void firstAndLast() throws Exception {
         //ExStart
         //ExFor:Document.FirstSection
         //ExFor:Document.LastSection
@@ -118,8 +117,7 @@ public class ExSection extends ApiExampleBase {
     }
 
     @Test
-    public void createFromScratch() throws Exception
-    {
+    public void createFromScratch() throws Exception {
         //ExStart
         //ExFor:Node.GetText
         //ExFor:CompositeNode.RemoveAllChildren
@@ -312,8 +310,8 @@ public class ExSection extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Document.docx");
 
         // All of the document's content is stored in the child nodes of sections like this one
-        Assert.assertEquals("Hello World!", doc.getText().trim());
-        Assert.assertEquals(5, doc.getSections().get(0).getChildNodes(NodeType.ANY, true).getCount());
+        Assert.assertEquals("Hello World!", doc.getFirstSection().getBody().getText().trim());
+        Assert.assertEquals(19, doc.getSections().get(0).getChildNodes(NodeType.ANY, true).getCount());
 
         doc.getSections().clear();
 
@@ -364,7 +362,7 @@ public class ExSection extends ApiExampleBase {
         //ExSummary:Shows how to clear the content of a section.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        Assert.assertEquals("Hello World!", doc.getText().trim());
+        Assert.assertEquals("Hello World!", doc.getFirstSection().getBody().getText().trim());
 
         doc.getFirstSection().clearContent();
 

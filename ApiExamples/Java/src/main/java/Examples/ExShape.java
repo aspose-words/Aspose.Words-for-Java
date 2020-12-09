@@ -1282,7 +1282,7 @@ public class ExShape extends ApiExampleBase {
 
         private int mShapesVisited;
         private int mTextIndentLevel;
-        private StringBuilder mStringBuilder;
+        private final StringBuilder mStringBuilder;
     }
     //ExEnd
 

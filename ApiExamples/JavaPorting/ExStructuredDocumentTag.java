@@ -41,12 +41,12 @@ import com.aspose.words.CustomXmlPart;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.CustomXmlPartCollection;
 import com.aspose.ms.System.msString;
+import com.aspose.words.StructuredDocumentTagRangeStart;
 import com.aspose.words.CustomXmlSchemaCollection;
 import com.aspose.words.Run;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.Table;
 import com.aspose.words.Row;
-import com.aspose.words.StructuredDocumentTagRangeStart;
 import com.aspose.words.StructuredDocumentTagRangeEnd;
 import com.aspose.words.ref.Ref;
 import org.testng.annotations.DataProvider;
@@ -622,6 +622,32 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     }
 
     @Test
+    public void xmlMappingForStructuredDocumentTagRangeStart() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTagRangeStart.XmlMapping
+        //ExSummary:Shows how to set XML mappings for StructuredDocumentTagRangeStart.
+        Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
+
+        // Construct an XML part that contains data and add it to the document's CustomXmlPart collection.
+        String xmlPartId = Guid.newGuid().toString("B");
+        String xmlPartContent = "<root><text>Text element #1</text><text>Text element #2</text></root>";
+        CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
+        System.out.println(Encoding.getUTF8().getString(xmlPart.getData()));
+
+        // Create a StructuredDocumentTag that will display the contents of our CustomXmlPart in the document.
+        StructuredDocumentTagRangeStart sdtRangeStart = (StructuredDocumentTagRangeStart)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true);
+
+        // If we set a mapping for our StructuredDocumentTag,
+        // it will only display a part of the CustomXmlPart that the XPath points to.
+        // This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart.
+        sdtRangeStart.getXmlMapping().setMapping(xmlPart, "/root[1]/text[2]", null);
+
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.XmlMappingForStructuredDocumentTagRangeStart.docx");
+        //ExEnd
+    }
+
+    @Test
     public void customXmlSchemaCollection() throws Exception
     {
         //ExStart
@@ -931,7 +957,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("Title\u0007Author\u0007\u0007" +
                         "Everyday Italian\u0007Giada De Laurentiis\u0007\u0007" +
                         "Harry Potter\u0007J. K. Rowling\u0007\u0007" +
-                        "Learning XML\u0007Erik T. Ray\u0007\u0007", msString.trim(doc.getChild(NodeType.TABLE, 0, true).getText()));
+                        "Learning XML\u0007Erik T. Ray\u0007\u0007", msString.trim(doc.getFirstSection().getBody().getTables().get(0).getText()));
     }
 
     @Test

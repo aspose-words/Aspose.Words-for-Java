@@ -14,6 +14,7 @@ import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.Stream;
 import java.awt.image.BufferedImage;
 import org.testng.Assert;
+import com.aspose.BitmapPal;
 import com.aspose.words.Table;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.ControlChar;
@@ -43,6 +44,8 @@ import com.aspose.words.ShapeType;
 import com.aspose.words.LayoutFlow;
 import com.aspose.words.TextBoxWrapMode;
 import com.aspose.words.TextBox;
+import com.aspose.words.EditorType;
+import com.aspose.words.EditableRange;
 
 
 class TestUtil extends ApiExampleBase
@@ -77,27 +80,45 @@ class TestUtil extends ApiExampleBase
     /// <param name="imageStream">Stream that contains the image.</param>
     static void verifyImage(int expectedWidth, int expectedHeight, Stream imageStream)
     {
-                BufferedImage image = BufferedImage.FromStream(imageStream);
+        BufferedImage image = BufferedImage.FromStream(imageStream);
         try /*JAVA: was using*/
-                            {
-                        Assert.Multiple(() =>
+        {
+            Assert.Multiple(() =>
             {
                 Assert.assertEquals(expectedWidth, image.getWidth(), 1.0);
                 Assert.assertEquals(expectedHeight, image.getHeight(), 1.0);
             });
-                                    }
+        }
         finally { if (image != null) image.flush(); }
     }
 
-        /// <summary>
-        /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
-        /// </summary>
-        /// <remarks>
-        /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
-        /// </remarks>
-        /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
-        /// <param name="webAddress">URL where the request will be sent.</param>
-        static void verifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
+    /// <summary>
+    /// Checks whether an image from the local file system contains any transparency.
+    /// </summary>
+    /// <param name="filename">Local file system filename of the image file.</param>
+    static void imageContainsTransparency(String filename)
+    {
+        BufferedImage bitmap = (BufferedImage)BitmapPal.loadNativeImage(filename);
+        try /*JAVA: was using*/
+    	{
+            for (int x = 0; x < bitmap.getWidth(); x++)
+                for (int y = 0; y < bitmap.getHeight(); y++)
+                    if ((bitmap.GetPixel(x, y).getAlpha() & 0xFF) != 255) return;
+    	}
+        finally { if (bitmap != null) bitmap.close(); }
+
+        Assert.fail($"The image from \"{filename}\" does not contain any transparency.");
+    }
+
+    /// <summary>
+    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
+    /// </summary>
+    /// <remarks>
+    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
+    /// </remarks>
+    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
+    /// <param name="webAddress">URL where the request will be sent.</param>
+    static void verifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
     {
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(webAddress);
         request.Method = "HEAD";
@@ -114,7 +135,7 @@ class TestUtil extends ApiExampleBase
     /// <param name="sqlQuery">Microsoft.Jet.OLEDB.4.0-compliant SQL query.</param>
     static void tableMatchesQueryResult(Table expectedResult, String dbFilename, String sqlQuery)
     {
-                OleDbConnection connection = new OleDbConnection();
+        OleDbConnection connection = new OleDbConnection();
         try /*JAVA: was using*/
         {
             connection.ConnectionString = $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={dbFilename};";
@@ -136,7 +157,7 @@ class TestUtil extends ApiExampleBase
                         myDataTable.getRows().get(i).get(j).toString());
         }
         finally { if (connection != null) connection.close(); }
-            }
+    }
 
     /// <summary>
     /// Checks whether a document produced during a mail merge contains every element of every table produced by a list of consecutive SQL queries on a database.
@@ -166,7 +187,7 @@ class TestUtil extends ApiExampleBase
     /// <param name="onePagePerRow">True if the mail merge produced a document with one page per row in the data source.</param>
     static void mailMergeMatchesQueryResult(String dbFilename, String sqlQuery, Document doc, boolean onePagePerRow)
     {
-                ArrayList<String[]> expectedStrings = new ArrayList<String[]>(); 
+        ArrayList<String[]> expectedStrings = new ArrayList<String[]>(); 
         String connectionString = "Driver={Microsoft Access Driver (*.mdb)};Dbq=" + dbFilename;
 
         OdbcConnection connection = new OdbcConnection();
@@ -207,7 +228,7 @@ class TestUtil extends ApiExampleBase
         finally { if (connection != null) connection.close(); }
 
         mailMergeMatchesArray(msArrayList.toArray(expectedStrings, new String[][0]), doc, onePagePerRow);
-            }
+    }
 
     /// <summary>
     /// Checks whether a document produced during a mail merge contains every element of every DataTable in a DataSet.
@@ -357,13 +378,13 @@ class TestUtil extends ApiExampleBase
     /// <param name="field">The field that's being tested.</param>
     static void verifyField(/*FieldType*/int expectedType, String expectedFieldCode, String expectedResult, Field field)
     {
-                Assert.Multiple(() =>
+        Assert.Multiple(() =>
         {
             Assert.assertEquals(expectedType, field.getType());
             Assert.assertEquals(expectedFieldCode, field.getFieldCode(true));
             Assert.assertEquals(expectedResult, field.getResult());
         });
-                        }
+    }
 
     /// <summary>
     /// Checks whether values of attributes of a field with a type related to date/time are equal to expected values.
@@ -379,7 +400,7 @@ class TestUtil extends ApiExampleBase
     /// <param name="delta">Margin of error for expectedResult.</param>
     static void verifyField(/*FieldType*/int expectedType, String expectedFieldCode, DateTime expectedResult, Field field, TimeSpan delta)
     {
-                Assert.Multiple(() =>
+        Assert.Multiple(() =>
         {
             Assert.AreEqual(expectedType, field.Type);
             Assert.AreEqual(expectedFieldCode, field.GetFieldCode(true));
@@ -392,7 +413,7 @@ class TestUtil extends ApiExampleBase
             else
                 VerifyDate(expectedResult.Date, actual, delta);
         });
-                        }
+    }
 
     /// <summary>
     /// Checks whether a DateTime matches an expected value, with a margin of error.
@@ -437,14 +458,14 @@ class TestUtil extends ApiExampleBase
     /// <param name="imageShape">Shape that contains the image.</param>
     static void verifyImageInShape(int expectedWidth, int expectedHeight, /*ImageType*/int expectedImageType, Shape imageShape) throws Exception
     {
-                Assert.Multiple(() =>
+        Assert.Multiple(() =>
         {
             Assert.assertTrue(imageShape.hasImage());
             Assert.assertEquals(expectedImageType, imageShape.getImageData().getImageType());
             Assert.assertEquals(expectedWidth, imageShape.getImageData().getImageSize().getWidthPixels());
             Assert.assertEquals(expectedHeight, imageShape.getImageData().getImageSize().getHeightPixels());
         });
-                        }
+    }
 
     /// <summary>
     /// Checks whether values of a footnote's attributes are equal to their expected values.
@@ -456,14 +477,14 @@ class TestUtil extends ApiExampleBase
     /// <param name="footnote">Footnote node in question.</param>
     static void verifyFootnote(/*FootnoteType*/int expectedFootnoteType, boolean expectedIsAuto, String expectedReferenceMark, String expectedContents, Footnote footnote) throws Exception
     {
-                Assert.Multiple(() =>
+        Assert.Multiple(() =>
         {
             Assert.assertEquals(expectedFootnoteType, footnote.getFootnoteType());
             Assert.assertEquals(expectedIsAuto, footnote.isAuto());
             Assert.assertEquals(expectedReferenceMark, footnote.getReferenceMark());
             Assert.assertEquals(expectedContents, msString.trim(footnote.toString(SaveFormat.TEXT)));
         });
-                        }
+    }
 
     /// <summary>
     /// Checks whether values of a list level's attributes are equal to their expected values.
@@ -477,13 +498,13 @@ class TestUtil extends ApiExampleBase
     /// <param name="listLevel">List level in question.</param>
     static void verifyListLevel(String expectedListFormat, double expectedNumberPosition, /*NumberStyle*/int expectedNumberStyle, ListLevel listLevel)
     {
-                Assert.Multiple(() =>
+        Assert.Multiple(() =>
         {
             Assert.assertEquals(expectedListFormat, listLevel.getNumberFormat());
             Assert.assertEquals(expectedNumberPosition, listLevel.getNumberPosition());
             Assert.assertEquals(expectedNumberStyle, listLevel.getNumberStyle());
         });
-                        }
+    }
     
     /// <summary>
     /// Copies from the current position in src stream till the end.
@@ -536,14 +557,14 @@ class TestUtil extends ApiExampleBase
     /// <param name="tabStop">Tab stop that's being tested.</param>
     static void verifyTabStop(double expectedPosition, /*TabAlignment*/int expectedTabAlignment, /*TabLeader*/int expectedTabLeader, boolean isClear, TabStop tabStop)
     {
-                Assert.Multiple(() =>
+        Assert.Multiple(() =>
         {
             Assert.assertEquals(expectedPosition, tabStop.getPosition());
             Assert.assertEquals(expectedTabAlignment, tabStop.getAlignment());
             Assert.assertEquals(expectedTabLeader, tabStop.getLeader());
             Assert.assertEquals(isClear, tabStop.isClear());
         });
-                        }
+    }
 
     /// <summary>
     /// Checks whether values of a shape's attributes are equal to their expected values.
@@ -553,7 +574,7 @@ class TestUtil extends ApiExampleBase
     /// </remarks>
     static void verifyShape(/*ShapeType*/int expectedShapeType, String expectedName, double expectedWidth, double expectedHeight, double expectedTop, double expectedLeft, Shape shape)
     {
-                Assert.Multiple(() =>
+        Assert.Multiple(() =>
         {
             Assert.assertEquals(expectedShapeType, shape.getShapeType());
             Assert.assertEquals(expectedName, shape.getName());
@@ -562,7 +583,7 @@ class TestUtil extends ApiExampleBase
             Assert.assertEquals(expectedTop, shape.getTop());
             Assert.assertEquals(expectedLeft, shape.getLeft());
         });
-                        }
+    }
 
     /// <summary>
     /// Checks whether values of attributes of a textbox are equal to their expected values.
@@ -572,7 +593,7 @@ class TestUtil extends ApiExampleBase
     /// </remarks>
     static void verifyTextBox(/*LayoutFlow*/int expectedLayoutFlow, boolean expectedFitShapeToText, /*TextBoxWrapMode*/int expectedTextBoxWrapMode, double marginTop, double marginBottom, double marginLeft, double marginRight, TextBox textBox)
     {
-                Assert.Multiple(() =>
+        Assert.Multiple(() =>
         {
             Assert.assertEquals(expectedLayoutFlow, textBox.getLayoutFlow());
             Assert.assertEquals(expectedFitShapeToText, textBox.getFitShapeToText());
@@ -582,13 +603,19 @@ class TestUtil extends ApiExampleBase
             Assert.assertEquals(marginLeft, textBox.getInternalMarginLeft());
             Assert.assertEquals(marginRight, textBox.getInternalMarginRight());
         });
-                        }
+    }
 
     /// <summary>
-    /// Margin of error, in bytes, for file size comparisons which take system-to-system variance of metadata size into account.
+    /// Checks whether values of attributes of an editable range are equal to their expected values.
     /// </summary>
-    static int getFileInfoLengthDelta() { return mFileInfoLengthDelta; };
-
-    private static  int mFileInfoLengthDelta; = 200;
+    static void verifyEditableRange(int expectedId, String expectedEditorUser, /*EditorType*/int expectedEditorGroup, EditableRange editableRange)
+    {
+        Assert.Multiple(() =>
+        {
+            Assert.assertEquals(expectedId, editableRange.getId());
+            Assert.assertEquals(expectedEditorUser, editableRange.getSingleUser());
+            Assert.assertEquals(expectedEditorGroup, editableRange.getEditorGroup());
+        });
+    }
 }
 

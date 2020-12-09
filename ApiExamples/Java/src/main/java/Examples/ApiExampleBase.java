@@ -25,7 +25,7 @@ public class ApiExampleBase {
     /**
      * Test artifacts directory.
      */
-    private File artifactsDirPath = new File(getArtifactsDir());
+    private final File artifactsDirPath = new File(getArtifactsDir());
 
     /**
      * Delete all dirs and files from directory.

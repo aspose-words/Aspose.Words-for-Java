@@ -75,17 +75,13 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
             return mImagesFolderAlias;
         }
 
-        ;
-
-        private String mImagesFolderAlias;
+        private final String mImagesFolderAlias;
 
         public ArrayList<String> getResources() {
             return mResources;
         }
 
-        ;
-
-        private ArrayList<String> mResources;
+        private final ArrayList<String> mResources;
     }
     //ExEnd
 

@@ -53,7 +53,7 @@ public class ExCellFormat extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "CellFormat.VerticalMerge.docx");
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(CellMerge.FIRST, table.getRows().get(0).getCells().get(0).getCellFormat().getVerticalMerge());
         Assert.assertEquals(CellMerge.PREVIOUS, table.getRows().get(1).getCells().get(0).getCellFormat().getVerticalMerge());
@@ -95,7 +95,7 @@ public class ExCellFormat extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "CellFormat.HorizontalMerge.docx");
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(1, table.getRows().get(0).getCells().getCount());
         Assert.assertEquals(CellMerge.NONE, table.getRows().get(0).getCells().get(0).getCellFormat().getHorizontalMerge());
@@ -104,8 +104,7 @@ public class ExCellFormat extends ApiExampleBase {
     }
 
     @Test
-    public void padding() throws Exception
-    {
+    public void padding() throws Exception {
         //ExStart
         //ExFor:CellFormat.SetPaddings
         //ExSummary:Shows how to pad the contents of a cell with whitespace.
@@ -120,14 +119,14 @@ public class ExCellFormat extends ApiExampleBase {
         builder.startTable();
         builder.insertCell();
         builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
-                      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
 
         doc.save(getArtifactsDir() + "CellFormat.Padding.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "CellFormat.Padding.docx");
 
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
         Cell cell = table.getRows().get(0).getCells().get(0);
 
         Assert.assertEquals(cell.getCellFormat().getLeftPadding(), 5.0);

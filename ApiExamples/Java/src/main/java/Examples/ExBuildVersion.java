@@ -17,8 +17,7 @@ import java.util.regex.Pattern;
 
 public class ExBuildVersion extends ApiExampleBase {
     @Test
-    public void printBuildVersionInfo()
-    {
+    public void printBuildVersionInfo() {
         //ExStart
         //ExFor:BuildVersionInfo
         //ExFor:BuildVersionInfo.Product

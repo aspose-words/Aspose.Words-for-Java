@@ -170,7 +170,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
                 // Insert the checkbox for this merge field, using DocumentBuilder
                 DocumentBuilder builder = new DocumentBuilder(args.getDocument());
                 builder.moveToMergeField(args.getFieldName());
-                builder.insertCheckBox(args.getDocumentFieldName() + Integer.toString(mCheckBoxCount), false, 0);
+                builder.insertCheckBox(args.getDocumentFieldName() + mCheckBoxCount, false, 0);
                 // Get the actual value of the field
                 String fieldValue = args.getFieldValue().toString();
 
@@ -202,7 +202,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
         for (int i = 0; i < 10; i++) {
             DataRow datarow = dataTable.newRow();
             dataTable.getRows().add(datarow);
-            datarow.set(0, "Course " + Integer.toString(i));
+            datarow.set(0, "Course " + i);
         }
         return dataTable;
     }
@@ -281,8 +281,8 @@ public class ExMailMergeEvent extends ApiExampleBase {
         for (int i = 0; i < 10; i++) {
             DataRow datarow = dataTable.newRow();
             dataTable.getRows().add(datarow);
-            datarow.set(0, "Company " + Integer.toString(i));
-            datarow.set(1, "Contact " + Integer.toString(i));
+            datarow.set(0, "Company " + i);
+            datarow.set(1, "Contact " + i);
         }
 
         return dataTable;

@@ -13,30 +13,30 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @Test
-public class ExXpsSaveOptions extends ApiExampleBase
-{
-    @Test (dataProvider = "optimizeOutputDataProvider")
-    public void optimizeOutput(boolean optimizeOutput) throws Exception
-    {
+public class ExXpsSaveOptions extends ApiExampleBase {
+    @Test(dataProvider = "optimizeOutputDataProvider")
+    public void optimizeOutput(boolean optimizeOutput) throws Exception {
         //ExStart
         //ExFor:FixedPageSaveOptions.OptimizeOutput
         //ExSummary:Shows how to optimize document objects while saving to xps.
         Document doc = new Document(getMyDir() + "Unoptimized document.docx");
 
         // When saving to .xps, we can use SaveOptions to optimize the output in some cases
-        XpsSaveOptions saveOptions = new XpsSaveOptions(); { saveOptions.setOptimizeOutput(optimizeOutput); }
+        XpsSaveOptions saveOptions = new XpsSaveOptions();
+        {
+            saveOptions.setOptimizeOutput(optimizeOutput);
+        }
 
         doc.save(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps", saveOptions);
         //ExEnd
     }
 
-	@DataProvider(name = "optimizeOutputDataProvider")
-	public static Object[][] optimizeOutputDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "optimizeOutputDataProvider")
+    public static Object[][] optimizeOutputDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 }

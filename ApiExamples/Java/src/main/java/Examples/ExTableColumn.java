@@ -117,7 +117,7 @@ public class ExTableColumn extends ApiExampleBase {
         }
 
         private int mColumnIndex;
-        private Table mTable;
+        private final Table mTable;
     }
 
     @Test

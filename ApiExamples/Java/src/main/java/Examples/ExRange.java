@@ -9,14 +9,11 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import com.aspose.words.Shape;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -245,7 +242,7 @@ public class ExRange extends ApiExampleBase {
             return ReplaceAction.REPLACE;
         }
 
-        private FindReplaceOptions mOptions;
+        private final FindReplaceOptions mOptions;
     }
     //ExEnd
 
@@ -380,9 +377,8 @@ public class ExRange extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (enabled = false)
-    public void useSubstitutions() throws Exception
-    {
+    @Test(enabled = false)
+    public void useSubstitutions() throws Exception {
         //ExStart
         //ExFor:FindReplaceOptions.UseSubstitutions
         //ExSummary:Shows how to replace text with substitutions.

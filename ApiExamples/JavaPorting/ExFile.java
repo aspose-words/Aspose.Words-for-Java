@@ -42,6 +42,8 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExSummary:Shows how to catch a FileCorruptedException.
         try
         {
+            // If we get an "Unreadable content" error message when trying to open a document using Microsoft Word,
+            // chances are that we will get an exception thrown when trying to load that document using Aspose.Words.
             Document doc = new Document(getMyDir() + "Corrupted document.docx");
         }
         catch (FileCorruptedException e)
@@ -58,16 +60,19 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatInfo.Encoding
         //ExFor:FileFormatUtil
         //ExSummary:Shows how to detect encoding in an html file.
-        // 'DetectFileFormat' not working on a non-html files
-        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.html");
+
+        Assert.assertEquals(LoadFormat.HTML, info.getLoadFormat());
+
+        // The Encoding property is used only when we create a FileFormatInfo object for an html document.
+        Assert.assertEquals("Western European (Windows)", info.getEncodingInternal().getEncodingName());
+        Assert.assertEquals(1252, info.getEncodingInternal().getCodePage());
+        //ExEnd
+
+        info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
+
         Assert.assertEquals(LoadFormat.DOCX, info.getLoadFormat());
         Assert.assertNull(info.getEncodingInternal());
-
-        // This time the property will not be null
-        info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.html");
-        Assert.assertEquals(LoadFormat.HTML, info.getLoadFormat());
-        Assert.assertNotNull(info.getEncodingInternal());
-        //ExEnd
     }
 
     @Test
@@ -76,24 +81,19 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExStart
         //ExFor:FileFormatUtil.ContentTypeToLoadFormat(String)
         //ExFor:FileFormatUtil.ContentTypeToSaveFormat(String)
-        //ExSummary:Shows how to find the corresponding Aspose load/save format from an IANA content type string.
-        // Trying to search for a SaveFormat with a simple string will not work
-        try
-        {
-            Assert.assertEquals(SaveFormat.JPEG, FileFormatUtil.contentTypeToSaveFormat("jpeg"));
-        }
-        catch (IllegalArgumentException e)
-        {
-            System.out.println(e.getMessage());
-        }
+        //ExSummary:Shows how to find the corresponding Aspose load/save format from each media type string.
+        // The ContentTypeToSaveFormat/ContentTypeToLoadFormat methods only accept official IANA media type names, also known as MIME types. 
+        // All valid media types are listed here: https://www.iana.org/assignments/media-types/media-types.xhtml.
 
-        // The convertion methods only accept official IANA type names, which are all listed here:
-        //      https://www.iana.org/assignments/media-types/media-types.xhtml
-        // Note that if a corresponding SaveFormat or LoadFormat for a type from that list does not exist in the Aspose enums,
-        // converting will raise an exception just like in the code above 
+        // Trying to associate a SaveFormat with a partial media type string will not work.
+        Assert.<IllegalArgumentException>Throws(() => FileFormatUtil.contentTypeToSaveFormat("jpeg"));
 
-        // File types that can be saved to but not opened as documents will not have corresponding load formats
-        // Attempting to convert them to load formats will raise an exception
+        // If Aspose.Words does not have a corresponding save/load format for a content type, an exception will also be thrown.
+        Assert.<IllegalArgumentException>Throws(() => FileFormatUtil.contentTypeToSaveFormat("application/zip"));
+
+        // Files of the types listed below can be saved, but not loaded using Aspose.Words.
+        Assert.<IllegalArgumentException>Throws(() => FileFormatUtil.contentTypeToLoadFormat("image/jpeg"));
+
         Assert.assertEquals(SaveFormat.JPEG, FileFormatUtil.contentTypeToSaveFormat("image/jpeg"));
         Assert.assertEquals(SaveFormat.PNG, FileFormatUtil.contentTypeToSaveFormat("image/png"));
         Assert.assertEquals(SaveFormat.TIFF, FileFormatUtil.contentTypeToSaveFormat("image/tiff"));
@@ -104,7 +104,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         Assert.assertEquals(SaveFormat.SVG, FileFormatUtil.contentTypeToSaveFormat("image/svg+xml"));
         Assert.assertEquals(SaveFormat.EPUB, FileFormatUtil.contentTypeToSaveFormat("application/epub+zip"));
 
-        // File types that can both be loaded and saved have corresponding load and save formats
+        // For file types that can be saved and loaded, we can match a media type to both a load format and a save format.
         Assert.assertEquals(LoadFormat.DOC, FileFormatUtil.contentTypeToLoadFormat("application/msword"));
         Assert.assertEquals(SaveFormat.DOC, FileFormatUtil.contentTypeToSaveFormat("application/msword"));
 
@@ -139,17 +139,16 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatInfo.IsEncrypted
         //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and encryption.
         Document doc = new Document();
-
-        // Save it as an encrypted .odt
+        
+        // Configure a SaveOptions object to encrypt the document with a password when we save it, and then save it.
         OdtSaveOptions saveOptions = new OdtSaveOptions(SaveFormat.ODT);
         saveOptions.setPassword("MyPassword");
 
         doc.save(getArtifactsDir() + "File.DetectDocumentEncryption.odt", saveOptions);
-        
-        // Create a FileFormatInfo object for this document
+
+        // Verify the file type of our document, and its encryption status.
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getArtifactsDir() + "File.DetectDocumentEncryption.odt");
 
-        // Verify the file type of our document and its encryption status
         Assert.assertEquals(".odt", FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
         Assert.assertTrue(info.isEncrypted());
         //ExEnd
@@ -164,23 +163,22 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatInfo.LoadFormat
         //ExFor:FileFormatInfo.HasDigitalSignature
         //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and presence of digital signatures.
-        // Use a FileFormatInfo instance to verify that a document is not digitally signed
+        // Use a FileFormatInfo instance to verify that a document is not digitally signed.
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.docx");
 
         Assert.assertEquals(".docx", FileFormatUtil.loadFormatToExtension(info.getLoadFormat()));
         Assert.assertFalse(info.hasDigitalSignature());
 
-        // Sign the document
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
         DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "File.DetectDigitalSignatures.docx",
             certificateHolder, new SignOptions(); { .setSignTime(DateTime.getNow()); });
 
-        // Use a new FileFormatInstance to confirm that it is signed
+        // Use a new FileFormatInstance to confirm that it is signed.
         info = FileFormatUtil.detectFileFormat(getArtifactsDir() + "File.DetectDigitalSignatures.docx");
 
         Assert.assertTrue(info.hasDigitalSignature());
 
-        // The signatures can then be accessed like this
+        // We can load and access the signatures of a signed document in a collection like this.
         Assert.assertEquals(1, DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "File.DetectDigitalSignatures.docx").getCount());
         //ExEnd
     }
@@ -196,37 +194,33 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatUtil.LoadFormatToSaveFormat(LoadFormat)
         //ExFor:Document.OriginalFileName
         //ExFor:FileFormatInfo.LoadFormat
-        //ExSummary:Shows how to use the FileFormatUtil methods to detect the format of a document without any extension and save it with the correct file extension.
-        // Load the document without a file extension into a stream and use the DetectFileFormat method to detect it's format
-        // These are both times where you might need extract the file format as it's not visible
-        // The file format of this document is actually ".doc"
+        //ExSummary:Shows how to use the FileFormatUtil methods to detect the format of a document.
+        // Load a document from a file that is missing a file extension, and then detect its file format.
         FileStream docStream = File.openRead(getMyDir() + "Word document with missing file extension");
-        FileFormatInfo info = FileFormatUtil.detectFileFormat(docStream);
+        try /*JAVA: was using*/
+        {
+            FileFormatInfo info = FileFormatUtil.detectFileFormat(docStream);
+            /*LoadFormat*/int loadFormat = info.getLoadFormat();
 
-        // Retrieve the LoadFormat of the document
-        /*LoadFormat*/int loadFormat = info.getLoadFormat();
+            Assert.assertEquals(LoadFormat.DOC, loadFormat);
 
-        // There are two methods of converting LoadFormat enumerations to SaveFormat enumerations
-        //
-        // Method #1
-        // Convert the LoadFormat to a String first for working with. The String will include the leading dot in front of the extension
-        String fileExtension = FileFormatUtil.loadFormatToExtension(loadFormat);
-        // Now convert this extension into the corresponding SaveFormat enumeration
-        /*SaveFormat*/int saveFormat = FileFormatUtil.extensionToSaveFormat(fileExtension);
+            // Below are two methods of converting a LoadFormat to its corresponding SaveFormat.
+            // 1 -  Get the file extension string for the LoadFormat, then get the corresponding SaveFormat from that string:
+            String fileExtension = FileFormatUtil.loadFormatToExtension(loadFormat);
+            /*SaveFormat*/int saveFormat = FileFormatUtil.extensionToSaveFormat(fileExtension);
 
-        // Method #2
-        // Convert the LoadFormat enumeration directly to the SaveFormat enumeration
-        saveFormat = FileFormatUtil.loadFormatToSaveFormat(loadFormat);
+            // 2 -  Convert the LoadFormat directly to its SaveFormat:
+            saveFormat = FileFormatUtil.loadFormatToSaveFormat(loadFormat);
 
-        // Load a document from the stream.
-        Document doc = new Document(docStream);
+            // Load a document from the stream, and then save it to the automatically detected file extension.
+            Document doc = new Document(docStream);
 
-        // Save the document with the original file name, " Out" and the document's file extension
-        doc.save(
-            getArtifactsDir() + "File.SaveToDetectedFileFormat" + FileFormatUtil.saveFormatToExtension(saveFormat));
+            Assert.assertEquals(".doc", FileFormatUtil.saveFormatToExtension(saveFormat));
+
+            doc.save(getArtifactsDir() + "File.SaveToDetectedFileFormat" + FileFormatUtil.saveFormatToExtension(saveFormat));
+        }
+        finally { if (docStream != null) docStream.close(); }
         //ExEnd
-
-        Assert.assertEquals(".doc", FileFormatUtil.saveFormatToExtension(saveFormat));
     }
 
     @Test
@@ -234,21 +228,18 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
     {
         //ExStart
         //ExFor:FileFormatUtil.SaveFormatToLoadFormat(SaveFormat)
-        //ExSummary:Shows how to use the FileFormatUtil class and to convert a SaveFormat enumeration into the corresponding LoadFormat enumeration.
-        // Define the SaveFormat enumeration to convert
-        final /*SaveFormat*/int SAVE_FORMAT = SaveFormat.HTML;
-        // Convert the SaveFormat enumeration to LoadFormat enumeration
-        /*LoadFormat*/int loadFormat = FileFormatUtil.saveFormatToLoadFormat(SAVE_FORMAT);
-        System.out.println("The converted LoadFormat is: " + FileFormatUtil.loadFormatToExtension(loadFormat));
-        //ExEnd
+        //ExSummary:Shows how to convert a save format to its corresponding load format.
+        Assert.assertEquals(LoadFormat.HTML, FileFormatUtil.saveFormatToLoadFormat(SaveFormat.HTML));
 
-        Assert.assertEquals(".html", FileFormatUtil.saveFormatToExtension(SAVE_FORMAT));
-        Assert.assertEquals(".html", FileFormatUtil.loadFormatToExtension(loadFormat));
+        // Some file types can have documents saved to, but not loaded from using Aspose.Words.
+        // If we attempt to convert a save format of such a type to a load format, an exception will be thrown.
+        Assert.<IllegalArgumentException>Throws(() => FileFormatUtil.saveFormatToLoadFormat(SaveFormat.JPEG));
+        //ExEnd
     }
 
 
     @Test
-    public void extractImagesToFiles() throws Exception
+    public void extractImages() throws Exception
     {
         //ExStart
         //ExFor:Shape
@@ -259,10 +250,13 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:ImageData.ImageType
         //ExFor:ImageData.Save(String)
         //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
-        //ExSummary:Shows how to extract images from a document and save them as files.
+        //ExSummary:Shows how to extract images from a document, and save them to the local file system as individual files.
         Document doc = new Document(getMyDir() + "Images.docx");
-
+        
+        // Get the collection of shapes from the document,
+        // and save the image data of every shape with an image as a file to the local file system.
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
+
         Assert.AreEqual(9, shapes.Count(s => ((Shape)s).HasImage));
 
         int imageIndex = 0;
@@ -270,8 +264,10 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         {
             if (shape.hasImage())
             {
+                // The image data of shapes may contain images of many possible image formats. 
+                // We can determine a file extension for each image automatically, based on its format.
                 String imageFileName =
-                    $"File.ExtractImagesToFiles.{imageIndex}{FileFormatUtil.ImageTypeToExtension(shape.ImageData.ImageType)}";
+                    $"File.ExtractImages.{imageIndex}{FileFormatUtil.ImageTypeToExtension(shape.ImageData.ImageType)}";
                 shape.getImageData().save(getArtifactsDir() + imageFileName);
                 imageIndex++;
             }
@@ -279,6 +275,6 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExEnd
 
         Assert.AreEqual(9,Directory.getFiles(getArtifactsDir()).
-            Count(s => Regex.IsMatch(s, "^.+\\.(jpeg|png|emf|wmf)$") && s.StartsWith(ArtifactsDir + "File.ExtractImagesToFiles")));
+            Count(s => Regex.IsMatch(s, "^.+\\.(jpeg|png|emf|wmf)$") && s.StartsWith(ArtifactsDir + "File.ExtractImages")));
     }
 }

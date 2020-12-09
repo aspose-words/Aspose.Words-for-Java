@@ -23,7 +23,7 @@ public class ExPsSaveOptions extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // Configure both page setup and PsSaveOptions to create a book fold
-        for (Section s : (Iterable<Section>) doc.getSections()) {
+        for (Section s : doc.getSections()) {
             s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
         }
 
