@@ -21,8 +21,7 @@ import java.text.MessageFormat;
 
 public class ExImageSaveOptions extends ApiExampleBase {
     @Test
-    public void onePage() throws Exception
-    {
+    public void onePage() throws Exception {
         //ExStart
         //ExFor:Document.Save(String, SaveOptions)
         //ExFor:FixedPageSaveOptions
@@ -55,9 +54,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.OnePage.jpg");
     }
 
-    @Test (dataProvider = "rendererDataProvider")
-    public void renderer(boolean useGdiEmfRenderer) throws Exception
-    {
+    @Test(dataProvider = "rendererDataProvider")
+    public void renderer(boolean useGdiEmfRenderer) throws Exception {
         //ExStart
         //ExFor:ImageSaveOptions.UseGdiEmfRenderer
         //ExSummary:Shows how to choose a renderer when converting a document to .emf.
@@ -79,18 +77,17 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	@DataProvider(name = "rendererDataProvider")
-	public static Object[][] rendererDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    @DataProvider(name = "rendererDataProvider")
+    public static Object[][] rendererDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test
-    public void pageIndex() throws Exception
-    {
+    public void pageIndex() throws Exception {
         //ExStart
         //ExFor:ImageSaveOptions.PageIndex
         //ExSummary:Shows how to specify which page in a document to render as an image.
@@ -155,17 +152,16 @@ public class ExImageSaveOptions extends ApiExampleBase {
         TestUtil.verifyImage(794, 1122, getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpg");
     }
 
-    @Test (dataProvider = "windowsMetaFileDataProvider")
-    public void windowsMetaFile(int metafileRenderingMode) throws Exception
-    {
+    @Test(dataProvider = "windowsMetaFileDataProvider")
+    public void windowsMetaFile(int metafileRenderingMode) throws Exception {
         //ExStart
         //ExFor:ImageSaveOptions.MetafileRenderingOptions
         //ExSummary:Shows how to set the rendering mode when saving documents with Windows Metafile images to other image formats. 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
-        
+
         // When we save the document as an image, we can pass a SaveOptions object to
         // determine how the saving operation will process Windows Metafiles in the document.
         // If we set the "RenderingMode" property to "MetafileRenderingMode.Vector",
@@ -173,26 +169,25 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // If we set the "RenderingMode" property to "MetafileRenderingMode.Bitmap", we will render all metafiles as bitmaps.
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
         options.getMetafileRenderingOptions().setRenderingMode(metafileRenderingMode);
-        
+
         doc.save(getArtifactsDir() + "ImageSaveOptions.WindowsMetaFile.png", options);
         //ExEnd
 
         TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.WindowsMetaFile.png");
     }
 
-	@DataProvider(name = "windowsMetaFileDataProvider")
-	public static Object[][] windowsMetaFileDataProvider() {
-		return new Object[][]
-		{
-			{MetafileRenderingMode.VECTOR},
-			{MetafileRenderingMode.BITMAP},
-			{MetafileRenderingMode.VECTOR_WITH_FALLBACK},
-		};
-	}
+    @DataProvider(name = "windowsMetaFileDataProvider")
+    public static Object[][] windowsMetaFileDataProvider() {
+        return new Object[][]
+                {
+                        {MetafileRenderingMode.VECTOR},
+                        {MetafileRenderingMode.BITMAP},
+                        {MetafileRenderingMode.VECTOR_WITH_FALLBACK},
+                };
+    }
 
     @Test
-    public void pageByPage() throws Exception
-    {
+    public void pageByPage() throws Exception {
         //ExStart
         //ExFor:Document.Save(String, SaveOptions)
         //ExFor:FixedPageSaveOptions
@@ -217,8 +212,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // Many other image formats only render one page at a time, and do not use this property.
         options.setPageCount(1);
 
-        for (int i = 0; i < doc.getPageCount(); i++)
-        {
+        for (int i = 0; i < doc.getPageCount(); i++) {
             // Set the "PageIndex" property to the number of the first page from
             // which to start rendering the document from.
             options.setPageIndex(i);
@@ -228,9 +222,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (dataProvider = "colorModeDataProvider")
-    public void colorMode(/*ImageColorMode*/int imageColorMode) throws Exception
-    {
+    @Test(dataProvider = "colorModeDataProvider")
+    public void colorMode(/*ImageColorMode*/int imageColorMode) throws Exception {
         //ExStart
         //ExFor:ImageColorMode
         //ExFor:ImageSaveOptions.ImageColorMode
@@ -253,24 +246,23 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // and preserve all the document's colors in the output image.
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setImageColorMode(imageColorMode);
-        
+
         doc.save(getArtifactsDir() + "ImageSaveOptions.ColorMode.png", imageSaveOptions);
         //ExEnd
     }
 
-	@DataProvider(name = "colorModeDataProvider")
-	public static Object[][] colorModeDataProvider() {
-		return new Object[][]
-		{
-			{ImageColorMode.BLACK_AND_WHITE},
-			{ImageColorMode.GRAYSCALE},
-			{ImageColorMode.NONE},
-		};
-	}
+    @DataProvider(name = "colorModeDataProvider")
+    public static Object[][] colorModeDataProvider() {
+        return new Object[][]
+                {
+                        {ImageColorMode.BLACK_AND_WHITE},
+                        {ImageColorMode.GRAYSCALE},
+                        {ImageColorMode.NONE},
+                };
+    }
 
     @Test
-    public void paperColor() throws Exception
-    {
+    public void paperColor() throws Exception {
         //ExStart
         //ExFor:ImageSaveOptions
         //ExFor:ImageSaveOptions.PaperColor
@@ -302,9 +294,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (dataProvider = "pixelFormatDataProvider")
-    public void pixelFormat(/*ImagePixelFormat*/int imagePixelFormat) throws Exception
-    {
+    @Test(dataProvider = "pixelFormatDataProvider")
+    public void pixelFormat(/*ImagePixelFormat*/int imagePixelFormat) throws Exception {
         //ExStart
         //ExFor:ImagePixelFormat
         //ExFor:ImageSaveOptions.Clone
@@ -330,16 +321,16 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	@DataProvider(name = "pixelFormatDataProvider")
-	public static Object[][] pixelFormatDataProvider() {
-		return new Object[][]
-		{
-			{ImagePixelFormat.FORMAT_1_BPP_INDEXED},
-			{ImagePixelFormat.FORMAT_16_BPP_RGB_555},
-			{ImagePixelFormat.FORMAT_24_BPP_RGB},
-			{ImagePixelFormat.FORMAT_32_BPP_RGB},
-			{ImagePixelFormat.FORMAT_48_BPP_RGB},
-		};
+    @DataProvider(name = "pixelFormatDataProvider")
+    public static Object[][] pixelFormatDataProvider() {
+        return new Object[][]
+                {
+                        {ImagePixelFormat.FORMAT_1_BPP_INDEXED},
+                        {ImagePixelFormat.FORMAT_16_BPP_RGB_555},
+                        {ImagePixelFormat.FORMAT_24_BPP_RGB},
+                        {ImagePixelFormat.FORMAT_32_BPP_RGB},
+                        {ImagePixelFormat.FORMAT_48_BPP_RGB},
+                };
     }
 
     @Test
@@ -415,8 +406,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void jpegQuality() throws Exception
-    {
+    public void jpegQuality() throws Exception {
         //ExStart
         //ExFor:Document.Save(String, SaveOptions)
         //ExFor:FixedPageSaveOptions.JpegQuality
@@ -447,15 +437,13 @@ public class ExImageSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void saveToTiffDefault() throws Exception
-    {
+    public void saveToTiffDefault() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.save(getArtifactsDir() + "ImageSaveOptions.SaveToTiffDefault.tiff");
     }
 
-    @Test (dataProvider = "tiffImageCompressionDataProvider")
-    public void tiffImageCompression(/*TiffCompression*/int tiffCompression) throws Exception
-    {
+    @Test(dataProvider = "tiffImageCompressionDataProvider")
+    public void tiffImageCompression(/*TiffCompression*/int tiffCompression) throws Exception {
         //ExStart
         //ExFor:TiffCompression
         //ExFor:ImageSaveOptions.TiffCompression
@@ -481,23 +469,21 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "tiffImageCompressionDataProvider")
-	public static Object[][] tiffImageCompressionDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{TiffCompression.NONE},
-			{TiffCompression.RLE},
-			{TiffCompression.LZW},
-			{TiffCompression.CCITT_3},
-			{TiffCompression.CCITT_4},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "tiffImageCompressionDataProvider")
+    public static Object[][] tiffImageCompressionDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {TiffCompression.NONE},
+                        {TiffCompression.RLE},
+                        {TiffCompression.LZW},
+                        {TiffCompression.CCITT_3},
+                        {TiffCompression.CCITT_4},
+                };
+    }
 
     @Test
-    public void resolution() throws Exception
-    {
+    public void resolution() throws Exception {
         //ExStart
         //ExFor:ImageSaveOptions
         //ExFor:ImageSaveOptions.Resolution
@@ -536,9 +522,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (enabled = false)
-    public void exportVariousPageRanges() throws Exception
-    {
+    @Test(enabled = false)
+    public void exportVariousPageRanges() throws Exception {
         //ExStart
         //ExFor:PageSet.#ctor(PageRange[])
         //ExFor:PageRange.#ctor(int, int)

@@ -20,8 +20,7 @@ import java.util.Date;
 
 public class ExDigitalSignatureUtil extends ApiExampleBase {
     @Test
-    public void load() throws Exception
-    {
+    public void load() throws Exception {
         //ExStart
         //ExFor:DigitalSignatureUtil
         //ExFor:DigitalSignatureUtil.LoadSignatures(String)
@@ -29,26 +28,25 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         //ExSummary:Shows how to load signatures from a digitally signed document.
         // There are two ways of loading a signed document's collection of digital signatures using the DigitalSignatureUtil class.
         // 1 -  Load from a document from a local file system filename:
-        DigitalSignatureCollection digitalSignatures = 
-            DigitalSignatureUtil.loadSignatures(getMyDir() + "Digitally signed.docx");
+        DigitalSignatureCollection digitalSignatures =
+                DigitalSignatureUtil.loadSignatures(getMyDir() + "Digitally signed.docx");
 
         // If this collection is nonempty, then we can verify that the document is digitally signed.
         Assert.assertEquals(1, digitalSignatures.getCount());
 
         // 2 -  Load from a document from a FileStream:
         InputStream stream = new FileInputStream(getMyDir() + "Digitally signed.docx");
-        try
-        {
+        try {
             digitalSignatures = DigitalSignatureUtil.loadSignatures(stream);
             Assert.assertEquals(1, digitalSignatures.getCount());
+        } finally {
+            if (stream != null) stream.close();
         }
-        finally { if (stream != null) stream.close(); }
         //ExEnd
     }
 
     @Test
-    public void remove() throws Exception
-    {
+    public void remove() throws Exception {
         //ExStart
         //ExFor:DigitalSignatureUtil
         //ExFor:DigitalSignatureUtil.LoadSignatures(String)
@@ -59,20 +57,20 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         // from a signed document by saving an unsigned copy of it somewhere else in the local file system.
         // 1 - Determine the locations of both the signed document and the unsigned copy by filename strings:
         DigitalSignatureUtil.removeAllSignatures(getMyDir() + "Digitally signed.docx",
-            getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx");
+                getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx");
 
         // 2 - Determine the locations of both the signed document and the unsigned copy by file streams:
         InputStream streamIn = new FileInputStream(getMyDir() + "Digitally signed.docx");
-        try
-        {
+        try {
             OutputStream streamOut = new FileOutputStream(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx");
-            try
-            {
+            try {
                 DigitalSignatureUtil.removeAllSignatures(streamIn, streamOut);
+            } finally {
+                if (streamOut != null) streamOut.close();
             }
-            finally { if (streamOut != null) streamOut.close(); }
+        } finally {
+            if (streamIn != null) streamIn.close();
         }
-        finally { if (streamIn != null) streamIn.close(); }
 
         // Verify that both our output documents have no digital signatures.
         Assert.assertEquals(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx").getCount(), 0);
@@ -95,28 +93,27 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         // Create a comment and date which will be applied with our new digital signature.
         SignOptions signOptions = new SignOptions();
         {
-            signOptions.setComments("My comment"); 
+            signOptions.setComments("My comment");
             signOptions.setSignTime(new Date());
         }
 
         // Take an unsigned document from the local file system via a file stream,
         // then create a signed copy of it determined by the filename of the output file stream.
         InputStream streamIn = new FileInputStream(getMyDir() + "Document.docx");
-        try
-        {
+        try {
             OutputStream streamOut = new FileOutputStream(getArtifactsDir() + "DigitalSignatureUtil.SignDocument.docx");
-            try
-            {
+            try {
                 DigitalSignatureUtil.sign(streamIn, streamOut, certificateHolder, signOptions);
-    }
-            finally { if (streamOut != null) streamOut.close(); }
-    }
-        finally { if (streamIn != null) streamIn.close(); }
+            } finally {
+                if (streamOut != null) streamOut.close();
+            }
+        } finally {
+            if (streamIn != null) streamIn.close();
+        }
         //ExEnd
 
         InputStream stream = new FileInputStream(getArtifactsDir() + "DigitalSignatureUtil.SignDocument.docx");
-        try
-        {
+        try {
             DigitalSignatureCollection digitalSignatures = DigitalSignatureUtil.loadSignatures(stream);
             Assert.assertEquals(1, digitalSignatures.getCount());
 
@@ -126,8 +123,9 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
             Assert.assertEquals(DigitalSignatureType.XML_DSIG, signature.getSignatureType());
             Assert.assertEquals(signOptions.getSignTime().toString(), signature.getSignTime().toString());
             Assert.assertEquals("My comment", signature.getComments());
+        } finally {
+            if (stream != null) stream.close();
         }
-        finally { if (stream != null) stream.close(); }
     }
 
     @Test(description = "WORDSNET-16868")
@@ -143,9 +141,9 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         // Create a comment, date, and decryption password which will be applied with our new digital signature.
         SignOptions signOptions = new SignOptions();
         {
-        signOptions.setComments("Comment");
+            signOptions.setComments("Comment");
             signOptions.setSignTime(new Date());
-        signOptions.setDecryptionPassword("docPassword");
+            signOptions.setDecryptionPassword("docPassword");
         }
 
         // Set a local system filename for the unsigned input document, and an output filename for its new digitally signed copy.
@@ -167,9 +165,8 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         Assert.assertTrue(signatures.isValid());
     }
 
-    @Test (description = "WORDSNET-13036, WORDSNET-16868")
-    public void signDocumentObfuscationBug() throws Exception
-    {
+    @Test(description = "WORDSNET-13036, WORDSNET-16868")
+    public void signDocumentObfuscationBug() throws Exception {
         CertificateHolder ch = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
@@ -182,9 +179,8 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, ch, signOptions);
     }
 
-    @Test (description = "WORDSNET-16868")
-    public void incorrectDecryptionPassword() throws Exception
-    {
+    @Test(description = "WORDSNET-16868")
+    public void incorrectDecryptionPassword() throws Exception {
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
         Document doc = new Document(getMyDir() + "Encrypted.docx", new LoadOptions("docPassword"));
@@ -212,8 +208,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
     }
 
     @Test
-    public void noCertificateForSign() throws Exception
-    {
+    public void noCertificateForSign() throws Exception {
         Document doc = new Document(getMyDir() + "Digitally signed.docx");
 
         SignOptions signOptions = new SignOptions();

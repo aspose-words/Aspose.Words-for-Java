@@ -33,7 +33,7 @@ public class ExHyphenation extends ApiExampleBase {
         Hyphenation.registerDictionary("de-CH", getMyDir() + "hyph_de_CH.dic");
 
         Assert.assertTrue(Hyphenation.isDictionaryRegistered("de-CH"));
-        
+
         // Open a document containing text with a locale matching that of our dictionary,
         // and save it to a fixed-page save format. The text in that document will be hyphenated.
         Document doc = new Document(getMyDir() + "German text.docx");
@@ -61,8 +61,7 @@ public class ExHyphenation extends ApiExampleBase {
     //ExFor:IHyphenationCallback.RequestDictionary(System.String)
     //ExSummary:Shows how to open and register a dictionary from a file.
     @Test //ExSkip
-    public void registerDictionary() throws Exception
-    {
+    public void registerDictionary() throws Exception {
         // Set up a callback that tracks warnings that occur during hyphenation dictionary registration.
         WarningInfoCollection warningInfoCollection = new WarningInfoCollection();
         Hyphenation.setWarningCallback(warningInfoCollection);
@@ -120,7 +119,7 @@ public class ExHyphenation extends ApiExampleBase {
             System.out.println(", no respective dictionary file known by this Callback.");
         }
 
-        private HashMap<String, String> mHyphenationDictionaryFiles;
+        private final HashMap<String, String> mHyphenationDictionaryFiles;
     }
     //ExEnd
 }

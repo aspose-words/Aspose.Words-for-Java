@@ -9,13 +9,11 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import test.enable.EnableTest;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,13 +21,11 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public class ExHtmlSaveOptions extends ApiExampleBase {
-    @Test (dataProvider = "exportPageMarginsEpubDataProvider")
+    @Test(dataProvider = "exportPageMarginsEpubDataProvider")
     public void exportPageMarginsEpub(int saveFormat) throws Exception {
         Document doc = new Document(getMyDir() + "TextBoxes.docx");
 
@@ -40,46 +36,44 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         }
 
         doc.save(
-            getArtifactsDir() + "HtmlSaveOptions.ExportPageMarginsEpub" +
-            FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
+                getArtifactsDir() + "HtmlSaveOptions.ExportPageMarginsEpub" +
+                        FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
     }
 
     @DataProvider(name = "exportPageMarginsEpubDataProvider")
-	public static Object[][] exportPageMarginsEpubDataProvider() {
-		return new Object[][]
-		{
-                {SaveFormat.HTML},
-                {SaveFormat.MHTML},
-                {SaveFormat.EPUB}
-        };
+    public static Object[][] exportPageMarginsEpubDataProvider() {
+        return new Object[][]
+                {
+                        {SaveFormat.HTML},
+                        {SaveFormat.MHTML},
+                        {SaveFormat.EPUB}
+                };
     }
 
-    @Test (dataProvider = "exportOfficeMathEpubDataProvider")
-    public void exportOfficeMathEpub(int saveFormat, int outputMode) throws Exception
-    {
+    @Test(dataProvider = "exportOfficeMathEpubDataProvider")
+    public void exportOfficeMathEpub(int saveFormat, int outputMode) throws Exception {
         Document doc = new Document(getMyDir() + "Office math.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setOfficeMathOutputMode(outputMode);
 
         doc.save(
-            getArtifactsDir() + "HtmlSaveOptions.ExportOfficeMathEpub" +
-            FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
+                getArtifactsDir() + "HtmlSaveOptions.ExportOfficeMathEpub" +
+                        FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "exportOfficeMathEpubDataProvider")
-	public static Object[][] exportOfficeMathEpubDataProvider() {
-		return new Object[][]
-		{
-                {SaveFormat.HTML, HtmlOfficeMathOutputMode.IMAGE},
-                {SaveFormat.MHTML, HtmlOfficeMathOutputMode.MATH_ML},
-                {SaveFormat.EPUB, HtmlOfficeMathOutputMode.TEXT}};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "exportOfficeMathEpubDataProvider")
+    public static Object[][] exportOfficeMathEpubDataProvider() {
+        return new Object[][]
+                {
+                        {SaveFormat.HTML, HtmlOfficeMathOutputMode.IMAGE},
+                        {SaveFormat.MHTML, HtmlOfficeMathOutputMode.MATH_ML},
+                        {SaveFormat.EPUB, HtmlOfficeMathOutputMode.TEXT}};
     }
 
-    @Test (dataProvider = "exportTextBoxAsSvgEpubDataProvider")
-    public void exportTextBoxAsSvgEpub(/*SaveFormat*/int saveFormat, boolean isTextBoxAsSvg) throws Exception
-    {
+    @Test(dataProvider = "exportTextBoxAsSvgEpubDataProvider")
+    public void exportTextBoxAsSvgEpub(/*SaveFormat*/int saveFormat, boolean isTextBoxAsSvg) throws Exception {
         ArrayList<String> dirFiles;
 
         Document doc = new Document();
@@ -91,11 +85,10 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(saveFormat);
         saveOptions.setExportTextBoxAsSvg(isTextBoxAsSvg);
-        
+
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportTextBoxAsSvgEpub" + FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
 
-        switch (saveFormat)
-        {
+        switch (saveFormat) {
             case SaveFormat.HTML:
 
                 dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png");
@@ -116,14 +109,14 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         }
     }
 
-	@DataProvider(name = "exportTextBoxAsSvgEpubDataProvider")
-	public static Object[][] exportTextBoxAsSvgEpubDataProvider() {
-		return new Object[][]
-		{
-                {SaveFormat.HTML, true},
-                {SaveFormat.EPUB, true},
-                {SaveFormat.MHTML, false}
-        };
+    @DataProvider(name = "exportTextBoxAsSvgEpubDataProvider")
+    public static Object[][] exportTextBoxAsSvgEpubDataProvider() {
+        return new Object[][]
+                {
+                        {SaveFormat.HTML, true},
+                        {SaveFormat.EPUB, true},
+                        {SaveFormat.MHTML, false}
+                };
     }
 
     @Test(dataProvider = "controlListLabelsExportDataProvider")
@@ -263,16 +256,15 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         };
     }
 
-    @Test (dataProvider = "exportFontsDataProvider")
-    public void exportFonts(boolean exportAsBase64) throws Exception
-    {
+    @Test(dataProvider = "exportFontsDataProvider")
+    public void exportFonts(boolean exportAsBase64) throws Exception {
         String fontsFolder = getArtifactsDir() + "HtmlSaveOptions.ExportFonts.Resources";
-        
+
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         saveOptions.setExportFontResources(true);
-            saveOptions.setFontsFolder(fontsFolder);
+        saveOptions.setFontsFolder(fontsFolder);
         saveOptions.setExportFontsAsBase64(exportAsBase64);
 
         if (exportAsBase64 == false) {
@@ -398,7 +390,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.CssClassNamePrefix.css"), StandardCharsets.UTF_8);
 
         Assert.assertTrue(outDocContents.contains(".myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt }\r\n" +
-                                            ".myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt }\r\n"));
+                ".myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt }\r\n"));
         //ExEnd
     }
 
@@ -430,9 +422,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ContentIdScheme.mhtml", saveOptions);
     }
 
-    @Test (enabled = false, description = "Bug", dataProvider = "resolveFontNamesDataProvider")
-    public void resolveFontNames(boolean resolveFontNames) throws Exception
-    {
+    @Test(enabled = false, description = "Bug", dataProvider = "resolveFontNamesDataProvider")
+    public void resolveFontNames(boolean resolveFontNames) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ResolveFontNames
         //ExSummary:Shows how to resolve all font names before writing them to HTML.
@@ -450,7 +441,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         }
 
         doc.setFontSettings(fontSettings);
-        
+
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         {
             // By default, this option is set to 'False' and Aspose.Words writes font names as specified in the source document.
@@ -465,16 +456,15 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "resolveFontNamesDataProvider")
-	public static Object[][] resolveFontNamesDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "resolveFontNamesDataProvider")
+    public static Object[][] resolveFontNamesDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     @Test
     public void headingLevels() throws Exception {
@@ -510,7 +500,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
             options.setDocumentSplitCriteria(DocumentSplitCriteria.HEADING_PARAGRAPH);
             options.setDocumentSplitHeadingLevel(2);
         }
-        
+
         // Our document has four headings of levels 1 - 2. One of those headings will not be
         // a split point since it is at the beginning of the document.
         // The saving operation will split our document at three places, into four smaller documents.
@@ -523,7 +513,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "HtmlSaveOptions.HeadingLevels-01.html");
 
         Assert.assertEquals("Heading #2\r" +
-                        "Heading #3", doc.getText().trim());
+                "Heading #3", doc.getText().trim());
 
         doc = new Document(getArtifactsDir() + "HtmlSaveOptions.HeadingLevels-02.html");
 
@@ -535,9 +525,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (dataProvider = "negativeIndentDataProvider")
-    public void negativeIndent(boolean allowNegativeIndent) throws Exception
-    {
+    @Test(dataProvider = "negativeIndentDataProvider")
+    public void negativeIndent(boolean allowNegativeIndent) throws Exception {
         //ExStart
         //ExFor:HtmlElementSizeOutputMode
         //ExFor:HtmlSaveOptions.AllowNegativeIndent
@@ -574,38 +563,35 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
         {
             options.setAllowNegativeIndent(allowNegativeIndent);
-        options.setTableWidthOutputMode(HtmlElementSizeOutputMode.RELATIVE_ONLY);
+            options.setTableWidthOutputMode(HtmlElementSizeOutputMode.RELATIVE_ONLY);
         }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.NegativeIndent.html", options);
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.NegativeIndent.html"), StandardCharsets.UTF_8);
 
-        if (allowNegativeIndent)
-        {
+        if (allowNegativeIndent) {
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:-41.65pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:-41.65pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
-        }
-        else
-        {
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+        } else {
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
         }
         //ExEnd
     }
 
-	@DataProvider(name = "negativeIndentDataProvider")
-	public static Object[][] negativeIndentDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "negativeIndentDataProvider")
+    public static Object[][] negativeIndentDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     @Test
     public void folderAlias() throws Exception {
@@ -658,8 +644,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     //ExFor:FontSavingArgs.OriginalFileSize
     //ExSummary:Shows how to define custom logic for exporting fonts when saving to HTML.
     @Test(enabled = false) //ExSkip
-    public void saveExportedFonts() throws Exception
-    {
+    public void saveExportedFonts() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Configure a SaveOptions object to export fonts to separate files.
@@ -675,8 +660,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         File[] fontFileNames = new File(getArtifactsDir()).listFiles((d, name) -> name.endsWith(".ttf"));
 
-        for (File fontFilename : fontFileNames)
-        {
+        for (File fontFilename : fontFileNames) {
             System.out.println(fontFilename.getName());
         }
 
@@ -686,10 +670,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     /// <summary>
     /// Prints information about exported fonts, and saves them in the same local system folder as their output .html.
     /// </summary>
-    public static class HandleFontSaving implements IFontSavingCallback
-    {
-        public void fontSaving(FontSavingArgs args) throws Exception
-        {
+    public static class HandleFontSaving implements IFontSavingCallback {
+        public void fontSaving(FontSavingArgs args) throws Exception {
             System.out.println(MessageFormat.format("Font:\t{0}", args.getFontFamilyName()));
             if (args.getBold()) System.out.print(", bold");
             if (args.getItalic()) System.out.print(", italic");
@@ -702,7 +684,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
             Assert.assertTrue(args.isSubsettingNeeded());
 
             String[] splittedFileName = args.getOriginalFileName().split("\\\\");
-            String fileName = splittedFileName[splittedFileName.length -1];
+            String fileName = splittedFileName[splittedFileName.length - 1];
 
             // There are two ways of saving an exported font.
             // 1 -  Save it to a local file system location:
@@ -715,9 +697,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test (dataProvider = "htmlVersionsDataProvider")
-    public void htmlVersions(/*HtmlVersion*/int htmlVersion) throws Exception
-    {
+    @Test(dataProvider = "htmlVersionsDataProvider")
+    public void htmlVersions(/*HtmlVersion*/int htmlVersion) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.#ctor(SaveFormat)
         //ExFor:HtmlSaveOptions.HtmlVersion
@@ -736,8 +717,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // Our HTML documents will have minor differences to be compatible with different HTML versions.
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.HtmlVersions.html"), StandardCharsets.UTF_8);
 
-        switch (htmlVersion)
-        {
+        switch (htmlVersion) {
             case HtmlVersion.HTML_5:
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
@@ -752,18 +732,17 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	@DataProvider(name = "htmlVersionsDataProvider")
-	public static Object[][] htmlVersionsDataProvider() {
-		return new Object[][]
-		{
-			{HtmlVersion.HTML_5},
-			{HtmlVersion.XHTML},
-		};
-	}
+    @DataProvider(name = "htmlVersionsDataProvider")
+    public static Object[][] htmlVersionsDataProvider() {
+        return new Object[][]
+                {
+                        {HtmlVersion.HTML_5},
+                        {HtmlVersion.XHTML},
+                };
+    }
 
-    @Test (dataProvider = "exportXhtmlTransitionalDataProvider")
-    public void exportXhtmlTransitional(boolean showDoctypeDeclaration) throws Exception
-    {
+    @Test(dataProvider = "exportXhtmlTransitionalDataProvider")
+    public void exportXhtmlTransitional(boolean showDoctypeDeclaration) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportXhtmlTransitional
         //ExFor:HtmlSaveOptions.HtmlVersion
@@ -788,22 +767,22 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         if (showDoctypeDeclaration)
             Assert.assertTrue(outDocContents.contains(
-                "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\r\n" +
-                "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n" +
-                "<html xmlns=\"http://www.w3.org/1999/xhtml\">"));
+                    "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\r\n" +
+                            "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n" +
+                            "<html xmlns=\"http://www.w3.org/1999/xhtml\">"));
         else
             Assert.assertTrue(outDocContents.contains("<html>"));
         //ExEnd
     }
 
-	@DataProvider(name = "exportXhtmlTransitionalDataProvider")
-	public static Object[][] exportXhtmlTransitionalDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "exportXhtmlTransitionalDataProvider")
+    public static Object[][] exportXhtmlTransitionalDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     @Test
     public void epubHeadings() throws Exception {
@@ -843,8 +822,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void doc2EpubSaveOptions() throws Exception
-    {
+    public void doc2EpubSaveOptions() throws Exception {
         //ExStart
         //ExFor:DocumentSplitCriteria
         //ExFor:HtmlSaveOptions
@@ -876,9 +854,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (dataProvider = "contentIdUrlsDataProvider")
-    public void contentIdUrls(boolean exportCidUrlsForMhtmlResources) throws Exception
-    {
+    @Test(dataProvider = "contentIdUrlsDataProvider")
+    public void contentIdUrls(boolean exportCidUrlsForMhtmlResources) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportCidUrlsForMhtmlResources
         //ExSummary:Shows how to enable content IDs for output MHTML documents.
@@ -898,15 +875,12 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.ContentIdUrls.mht"), StandardCharsets.UTF_8);
 
-        if (exportCidUrlsForMhtmlResources)
-        {
+        if (exportCidUrlsForMhtmlResources) {
             Assert.assertTrue(outDocContents.contains("Content-ID: <document.html>"));
             Assert.assertTrue(outDocContents.contains("<link href=3D\"cid:styles.css\" type=3D\"text/css\" rel=3D\"stylesheet\" />"));
             Assert.assertTrue(outDocContents.contains("@font-face { font-family:'Arial Black'; src:url('cid:ariblk.ttf') }"));
             Assert.assertTrue(outDocContents.contains("<img src=3D\"cid:image.003.jpeg\" width=3D\"351\" height=3D\"180\" alt=3D\"\" />"));
-        }
-        else
-        {
+        } else {
             Assert.assertTrue(outDocContents.contains("Content-Location: document.html"));
             Assert.assertTrue(outDocContents.contains("<link href=3D\"styles.css\" type=3D\"text/css\" rel=3D\"stylesheet\" />"));
             Assert.assertTrue(outDocContents.contains("@font-face { font-family:'Arial Black'; src:url('ariblk.ttf') }"));
@@ -915,18 +889,17 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	@DataProvider(name = "contentIdUrlsDataProvider")
-	public static Object[][] contentIdUrlsDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "contentIdUrlsDataProvider")
+    public static Object[][] contentIdUrlsDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "dropDownFormFieldDataProvider")
-    public void dropDownFormField(boolean exportDropDownFormFieldAsText) throws Exception
-    {
+    @Test(dataProvider = "dropDownFormFieldDataProvider")
+    public void dropDownFormField(boolean exportDropDownFormFieldAsText) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportDropDownFormFieldAsText
         //ExSummary:Shows how to get drop down combo box form fields to blend in with paragraph text when saving to html.
@@ -934,7 +907,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Use a document builder to insert a combo box with the value "Two" selected.
-        builder.insertComboBox("MyComboBox", new String[] { "One", "Two", "Three" }, 1);
+        builder.insertComboBox("MyComboBox", new String[]{"One", "Two", "Three"}, 1);
 
         // The "ExportDropDownFormFieldAsText" flag of this SaveOptions object allows us to
         // control how saving the document to HTML treats drop-down combo boxes.
@@ -942,7 +915,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // that displays the combo box's currently selected value, effectively freezing it.
         // Setting it to "false" will preserve the functionality of the combo box using <select> and <option> tags.
         HtmlSaveOptions options = new HtmlSaveOptions();
-        options.setExportDropDownFormFieldAsText(exportDropDownFormFieldAsText);    
+        options.setExportDropDownFormFieldAsText(exportDropDownFormFieldAsText);
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.DropDownFormField.html", options);
 
@@ -950,31 +923,29 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         if (exportDropDownFormFieldAsText)
             Assert.assertTrue(outDocContents.contains(
-                "<span>Two</span>"));
+                    "<span>Two</span>"));
         else
             Assert.assertTrue(outDocContents.contains(
-                "<select name=\"MyComboBox\">" +
-                    "<option>One</option>" +
-                    "<option selected=\"selected\">Two</option>" +
-                    "<option>Three</option>" +
-                "</select>"));
+                    "<select name=\"MyComboBox\">" +
+                            "<option>One</option>" +
+                            "<option selected=\"selected\">Two</option>" +
+                            "<option>Three</option>" +
+                            "</select>"));
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "dropDownFormFieldDataProvider")
-	public static Object[][] dropDownFormFieldDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "dropDownFormFieldDataProvider")
+    public static Object[][] dropDownFormFieldDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "exportImagesAsBase64DataProvider")
-    public void exportImagesAsBase64(boolean exportItemsAsBase64) throws Exception
-    {
+    @Test(dataProvider = "exportImagesAsBase64DataProvider")
+    public void exportImagesAsBase64(boolean exportItemsAsBase64) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportFontsAsBase64
         //ExFor:HtmlSaveOptions.ExportImagesAsBase64
@@ -992,24 +963,23 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.ExportImagesAsBase64.html"), StandardCharsets.UTF_8);
 
         Assert.assertTrue(exportItemsAsBase64
-            ? outDocContents.contains("<img src=\"data:image/png;base64")
-            : outDocContents.contains("<img src=\"HtmlSaveOptions.ExportImagesAsBase64.001.png\""));
+                ? outDocContents.contains("<img src=\"data:image/png;base64")
+                : outDocContents.contains("<img src=\"HtmlSaveOptions.ExportImagesAsBase64.001.png\""));
         //ExEnd
     }
 
-	@DataProvider(name = "exportImagesAsBase64DataProvider")
-	public static Object[][] exportImagesAsBase64DataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "exportImagesAsBase64DataProvider")
+    public static Object[][] exportImagesAsBase64DataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
 
     @Test
-    public void exportFontsAsBase64() throws Exception
-    {
+    public void exportFontsAsBase64() throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportFontsAsBase64
         //ExFor:HtmlSaveOptions.ExportImagesAsBase64
@@ -1027,9 +997,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (dataProvider = "exportLanguageInformationDataProvider")
-    public void exportLanguageInformation(boolean exportLanguageInformation) throws Exception
-    {
+    @Test(dataProvider = "exportLanguageInformationDataProvider")
+    public void exportLanguageInformation(boolean exportLanguageInformation) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportLanguageInformation
         //ExSummary:Shows how to preserve language information when saving to .html.
@@ -1062,14 +1031,11 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.ExportLanguageInformation.html"), StandardCharsets.UTF_8);
 
-        if (exportLanguageInformation)
-        {
+        if (exportLanguageInformation) {
             Assert.assertTrue(outDocContents.contains("<span>Hello world!</span>"));
             Assert.assertTrue(outDocContents.contains("<span lang=\"en-GB\">Hello again!</span>"));
             Assert.assertTrue(outDocContents.contains("<span lang=\"ru-RU\">Привет, мир!</span>"));
-        }
-        else
-        {
+        } else {
             Assert.assertTrue(outDocContents.contains("<span>Hello world!</span>"));
             Assert.assertTrue(outDocContents.contains("<span>Hello again!</span>"));
             Assert.assertTrue(outDocContents.contains("<span>Привет, мир!</span>"));
@@ -1077,28 +1043,27 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	@DataProvider(name = "exportLanguageInformationDataProvider")
-	public static Object[][] exportLanguageInformationDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "exportLanguageInformationDataProvider")
+    public static Object[][] exportLanguageInformationDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "listDataProvider")
-    public void list(int exportListLabels) throws Exception
-    {
+    @Test(dataProvider = "listDataProvider")
+    public void list(int exportListLabels) throws Exception {
         //ExStart
         //ExFor:ExportListLabels
         //ExFor:HtmlSaveOptions.ExportListLabels
         //ExSummary:Shows how to configure list exporting to HTML.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         List list = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
         builder.getListFormat().setList(list);
-        
+
         builder.writeln("Default numbered list item 1.");
         builder.writeln("Default numbered list item 2.");
         builder.getListFormat().listIndent();
@@ -1126,84 +1091,85 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // to build lists in cases when using the <ol> and <li> tags may cause loss of formatting.
         // Setting the "ExportListLabels" property to "ExportListLabels.ByHtmlTags"
         // will use <ol> and <li> tags to build all lists.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setExportListLabels(exportListLabels); }
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        {
+            options.setExportListLabels(exportListLabels);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.List.html", options);
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.List.html"), StandardCharsets.UTF_8);
 
-        switch (exportListLabels)
-        {
+        switch (exportListLabels) {
             case ExportListLabels.AS_INLINE_TEXT:
                 Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-left:72pt; margin-bottom:0pt; text-indent:-18pt; -aw-import:list-item; -aw-list-level-number:1; -aw-list-number-format:'%1.'; -aw-list-number-styles:'lowerLetter'; -aw-list-number-values:'1'; -aw-list-padding-sml:9.67pt\">" +
-                        "<span style=\"-aw-import:ignore\">" +
-                            "<span>a.</span>" +
-                            "<span style=\"font:7pt 'Times New Roman'; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
-                        "</span>" +
-                        "<span>Default numbered list item 3.</span>" +
-                    "</p>"));
+                        "<p style=\"margin-top:0pt; margin-left:72pt; margin-bottom:0pt; text-indent:-18pt; -aw-import:list-item; -aw-list-level-number:1; -aw-list-number-format:'%1.'; -aw-list-number-styles:'lowerLetter'; -aw-list-number-values:'1'; -aw-list-padding-sml:9.67pt\">" +
+                                "<span style=\"-aw-import:ignore\">" +
+                                "<span>a.</span>" +
+                                "<span style=\"font:7pt 'Times New Roman'; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
+                                "</span>" +
+                                "<span>Default numbered list item 3.</span>" +
+                                "</p>"));
 
                 Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-left:43.2pt; margin-bottom:0pt; text-indent:-43.2pt; -aw-import:list-item; -aw-list-level-number:3; -aw-list-number-format:'%0.%1.%2.%3'; -aw-list-number-styles:'decimal decimal decimal decimal'; -aw-list-number-values:'2 1 1 1'; -aw-list-padding-sml:10.2pt\">" +
-                        "<span style=\"-aw-import:ignore\">" +
-                            "<span>2.1.1.1</span>" +
-                            "<span style=\"font:7pt 'Times New Roman'; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
-                        "</span>" +
-                        "<span>Outline legal heading list item 5.</span>" +
-                    "</p>"));
+                        "<p style=\"margin-top:0pt; margin-left:43.2pt; margin-bottom:0pt; text-indent:-43.2pt; -aw-import:list-item; -aw-list-level-number:3; -aw-list-number-format:'%0.%1.%2.%3'; -aw-list-number-styles:'decimal decimal decimal decimal'; -aw-list-number-values:'2 1 1 1'; -aw-list-padding-sml:10.2pt\">" +
+                                "<span style=\"-aw-import:ignore\">" +
+                                "<span>2.1.1.1</span>" +
+                                "<span style=\"font:7pt 'Times New Roman'; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
+                                "</span>" +
+                                "<span>Outline legal heading list item 5.</span>" +
+                                "</p>"));
                 break;
             case ExportListLabels.AUTO:
                 Assert.assertTrue(outDocContents.contains(
-                    "<ol type=\"a\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
-                        "<li style=\"margin-left:31.33pt; padding-left:4.67pt\">" +
-                            "<span>Default numbered list item 3.</span>" +
-                        "</li>" +
-                    "</ol>"));
+                        "<ol type=\"a\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
+                                "<li style=\"margin-left:31.33pt; padding-left:4.67pt\">" +
+                                "<span>Default numbered list item 3.</span>" +
+                                "</li>" +
+                                "</ol>"));
 
                 Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-left:43.2pt; margin-bottom:0pt; text-indent:-43.2pt; -aw-import:list-item; -aw-list-level-number:3; " +
-                    "-aw-list-number-format:'%0.%1.%2.%3'; -aw-list-number-styles:'decimal decimal decimal decimal'; " +
-                    "-aw-list-number-values:'2 1 1 1'; -aw-list-padding-sml:10.2pt\">" +
-                        "<span style=\"-aw-import:ignore\">" +
-                            "<span>2.1.1.1</span>" +
-                            "<span style=\"font:7pt 'Times New Roman'; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
-                        "</span>" +
-                        "<span>Outline legal heading list item 5.</span>" +
-                    "</p>"));
+                        "<p style=\"margin-top:0pt; margin-left:43.2pt; margin-bottom:0pt; text-indent:-43.2pt; -aw-import:list-item; -aw-list-level-number:3; " +
+                                "-aw-list-number-format:'%0.%1.%2.%3'; -aw-list-number-styles:'decimal decimal decimal decimal'; " +
+                                "-aw-list-number-values:'2 1 1 1'; -aw-list-padding-sml:10.2pt\">" +
+                                "<span style=\"-aw-import:ignore\">" +
+                                "<span>2.1.1.1</span>" +
+                                "<span style=\"font:7pt 'Times New Roman'; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
+                                "</span>" +
+                                "<span>Outline legal heading list item 5.</span>" +
+                                "</p>"));
                 break;
             case ExportListLabels.BY_HTML_TAGS:
                 Assert.assertTrue(outDocContents.contains(
-                    "<ol type=\"a\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
-                        "<li style=\"margin-left:31.33pt; padding-left:4.67pt\">" +
-                            "<span>Default numbered list item 3.</span>" +
-                        "</li>" +
-                    "</ol>"));
+                        "<ol type=\"a\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
+                                "<li style=\"margin-left:31.33pt; padding-left:4.67pt\">" +
+                                "<span>Default numbered list item 3.</span>" +
+                                "</li>" +
+                                "</ol>"));
 
                 Assert.assertTrue(outDocContents.contains(
-                    "<ol type=\"1\" class=\"awlist3\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
-                        "<li style=\"margin-left:7.2pt; text-indent:-43.2pt; -aw-list-padding-sml:10.2pt\">" +
-                            "<span style=\"font:7pt 'Times New Roman'; -aw-import:ignore\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
-                            "<span>Outline legal heading list item 5.</span>" +
-                        "</li>" +
-                    "</ol>"));
+                        "<ol type=\"1\" class=\"awlist3\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
+                                "<li style=\"margin-left:7.2pt; text-indent:-43.2pt; -aw-list-padding-sml:10.2pt\">" +
+                                "<span style=\"font:7pt 'Times New Roman'; -aw-import:ignore\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
+                                "<span>Outline legal heading list item 5.</span>" +
+                                "</li>" +
+                                "</ol>"));
                 break;
         }
         //ExEnd
-        }
-
-	@DataProvider(name = "listDataProvider")
-	public static Object[][] listDataProvider() {
-		return new Object[][]
-		{
-			{ExportListLabels.AS_INLINE_TEXT},
-			{ExportListLabels.AUTO},
-			{ExportListLabels.BY_HTML_TAGS},
-		};
     }
 
-    @Test (dataProvider = "exportPageMarginsDataProvider")
-    public void exportPageMargins(boolean exportPageMargins) throws Exception
-    {
+    @DataProvider(name = "listDataProvider")
+    public static Object[][] listDataProvider() {
+        return new Object[][]
+                {
+                        {ExportListLabels.AS_INLINE_TEXT},
+                        {ExportListLabels.AUTO},
+                        {ExportListLabels.BY_HTML_TAGS},
+                };
+    }
+
+    @Test(dataProvider = "exportPageMarginsDataProvider")
+    public void exportPageMargins(boolean exportPageMargins) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportPageMargins
         //ExSummary:Shows how to show out-of-bounds objects in output HTML documents.
@@ -1226,37 +1192,36 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // If we set the "ExportPageMargins" flag to "true", the shape will be fully visible in the output HTML.
         // If we set the "ExportPageMargins" flag to "false",
         // our document will display the shape truncated as we would see it in Microsoft Word.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setExportPageMargins(exportPageMargins); }
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        {
+            options.setExportPageMargins(exportPageMargins);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins.html", options);
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins.html"), StandardCharsets.UTF_8);
 
-        if (exportPageMargins)
-        {
+        if (exportPageMargins) {
             Assert.assertTrue(outDocContents.contains("<style type=\"text/css\">div.Section1 { margin:72pt }</style>"));
             Assert.assertTrue(outDocContents.contains("<div class=\"Section1\"><p style=\"margin-top:0pt; margin-left:151pt; margin-bottom:0pt\">"));
-        }
-        else
-        {
+        } else {
             Assert.assertFalse(outDocContents.contains("style type=\"text/css\">"));
             Assert.assertTrue(outDocContents.contains("<div><p style=\"margin-top:0pt; margin-left:223pt; margin-bottom:0pt\">"));
         }
         //ExEnd
     }
 
-	@DataProvider(name = "exportPageMarginsDataProvider")
-	public static Object[][] exportPageMarginsDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "exportPageMarginsDataProvider")
+    public static Object[][] exportPageMarginsDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "exportPageSetupDataProvider")
-    public void exportPageSetup(boolean exportPageSetup) throws Exception
-    {
+    @Test(dataProvider = "exportPageSetupDataProvider")
+    public void exportPageSetup(boolean exportPageSetup) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportPageSetup
         //ExSummary:Shows how decide whether to preserve section structure/page setup information when saving to HTML.
@@ -1277,54 +1242,53 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // If we set the "ExportPageSetup" flag to "true", the output HTML document will contain our page setup configuration.
         // If we set the "ExportPageSetup" flag to "false", the save operation will discard our page setup settings
         // for the first section, and both sections will look identical.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setExportPageSetup(exportPageSetup); }
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        {
+            options.setExportPageSetup(exportPageSetup);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportPageSetup.html", options);
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.ExportPageSetup.html"), StandardCharsets.UTF_8);
 
-        if (exportPageSetup)
-        {
+        if (exportPageSetup) {
             Assert.assertTrue(outDocContents.contains(
-                "<style type=\"text/css\">" +
-                    "@page Section1 { size:419.55pt 595.3pt; margin:36pt 72pt }" +
-                    "@page Section2 { size:612pt 792pt; margin:72pt }" +
-                    "div.Section1 { page:Section1 }div.Section2 { page:Section2 }" +
-                "</style>"));
+                    "<style type=\"text/css\">" +
+                            "@page Section1 { size:419.55pt 595.3pt; margin:36pt 72pt }" +
+                            "@page Section2 { size:612pt 792pt; margin:72pt }" +
+                            "div.Section1 { page:Section1 }div.Section2 { page:Section2 }" +
+                            "</style>"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<div class=\"Section1\">" +
-                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                        "<span>Section 1</span>" +
-                    "</p>" +
-                "</div>"));
-        }
-        else
-        {
+                    "<div class=\"Section1\">" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                            "<span>Section 1</span>" +
+                            "</p>" +
+                            "</div>"));
+        } else {
             Assert.assertFalse(outDocContents.contains("style type=\"text/css\">"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<div>" +
-                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                        "<span>Section 1</span>" +
-                    "</p>" +
-                "</div>"));
+                    "<div>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                            "<span>Section 1</span>" +
+                            "</p>" +
+                            "</div>"));
         }
         //ExEnd
     }
 
-	@DataProvider(name = "exportPageSetupDataProvider")
-	public static Object[][] exportPageSetupDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "exportPageSetupDataProvider")
+    public static Object[][] exportPageSetupDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "relativeFontSizeDataProvider")
-    public void relativeFontSize(boolean exportRelativeFontSize) throws Exception
-    {
+    @Test(dataProvider = "relativeFontSizeDataProvider")
+    public void relativeFontSize(boolean exportRelativeFontSize) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportRelativeFontSize
         //ExSummary:Shows how to use relative font sizes when saving to .html.
@@ -1343,61 +1307,60 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // using the "em" measurement unit, which is a factor that multiplies the current font size. 
         // Set the "ExportRelativeFontSize" flag to "false" to declare font sizes
         // using the "pt" measurement unit, which is the font's absolute size in points.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setExportRelativeFontSize(exportRelativeFontSize); }
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        {
+            options.setExportRelativeFontSize(exportRelativeFontSize);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.RelativeFontSize.html", options);
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.RelativeFontSize.html"), StandardCharsets.UTF_8);
 
-        if (exportRelativeFontSize)
-        {
+        if (exportRelativeFontSize) {
             Assert.assertTrue(outDocContents.contains(
-                "<body style=\"font-family:'Times New Roman'\">" +
-                    "<div>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                    "<body style=\"font-family:'Times New Roman'\">" +
+                            "<div>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
                             "<span>Default font size, </span>" +
-                        "</p>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:2em\">" +
+                            "</p>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:2em\">" +
                             "<span>2x default font size,</span>" +
-                        "</p>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:8em\">" +
+                            "</p>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:8em\">" +
                             "<span>8x default font size</span>" +
-                        "</p>" +
-                    "</div>" +
-                "</body>"));
-        }
-        else
-        {
+                            "</p>" +
+                            "</div>" +
+                            "</body>"));
+        } else {
             Assert.assertTrue(outDocContents.contains(
-                "<body style=\"font-family:'Times New Roman'; font-size:12pt\">" +
-                    "<div>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                    "<body style=\"font-family:'Times New Roman'; font-size:12pt\">" +
+                            "<div>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
                             "<span>Default font size, </span>" +
-                        "</p>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:24pt\">" +
+                            "</p>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:24pt\">" +
                             "<span>2x default font size,</span>" +
-                        "</p>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:96pt\">" +
+                            "</p>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt; font-size:96pt\">" +
                             "<span>8x default font size</span>" +
-                        "</p>" +
-                    "</div>" +
-                "</body>"));
+                            "</p>" +
+                            "</div>" +
+                            "</body>"));
         }
         //ExEnd
-        }
-
-	@DataProvider(name = "relativeFontSizeDataProvider")
-	public static Object[][] relativeFontSizeDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
     }
 
-    @Test (dataProvider = "exportTextBoxDataProvider")
-    public void exportTextBox(boolean exportTextBoxAsSvg) throws Exception
-    {
+    @DataProvider(name = "relativeFontSizeDataProvider")
+    public static Object[][] relativeFontSizeDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
+
+    @Test(dataProvider = "exportTextBoxDataProvider")
+    public void exportTextBox(boolean exportTextBoxAsSvg) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportTextBoxAsSvg
         //ExSummary:Shows how to export text boxes as scalable vector graphics.
@@ -1414,41 +1377,40 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // the save operation will convert shapes with text into SVG objects.
         // If we set the "ExportTextBoxAsSvg" flag to "false",
         // the save operation will convert shapes with text into images.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setExportTextBoxAsSvg(exportTextBoxAsSvg); }
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        {
+            options.setExportTextBoxAsSvg(exportTextBoxAsSvg);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportTextBox.html", options);
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.ExportTextBox.html"), StandardCharsets.UTF_8);
 
-        if (exportTextBoxAsSvg)
-        {
+        if (exportTextBoxAsSvg) {
             Assert.assertTrue(outDocContents.contains(
-                "<span style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\">" +
-                "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"133\" height=\"80\">"));
-        }
-        else
-        {
+                    "<span style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\">" +
+                            "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"133\" height=\"80\">"));
+        } else {
             Assert.assertTrue(outDocContents.contains(
-                "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                    "<img src=\"HtmlSaveOptions.ExportTextBox.001.png\" width=\"136\" height=\"83\" alt=\"\" " +
-                    "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
-                "</p>"));
+                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                            "<img src=\"HtmlSaveOptions.ExportTextBox.001.png\" width=\"136\" height=\"83\" alt=\"\" " +
+                            "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
+                            "</p>"));
         }
         //ExEnd
     }
 
-	@DataProvider(name = "exportTextBoxDataProvider")
-	public static Object[][] exportTextBoxDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "exportTextBoxDataProvider")
+    public static Object[][] exportTextBoxDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "roundTripInformationDataProvider")
-    public void roundTripInformation(boolean exportRoundtripInformation) throws Exception
-    {
+    @Test(dataProvider = "roundTripInformationDataProvider")
+    public void roundTripInformation(boolean exportRoundtripInformation) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportRoundtripInformation
         //ExSummary:Shows how to preserve hidden elements when converting to .html.
@@ -1465,76 +1427,75 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // If we set the "ExportRoundTripInformation" flag to "false", the save operation will discard these elements.
         // We will want to preserve such elements if we intend to load the saved HTML using Aspose.Words,
         // as they could be of use once again.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setExportRoundtripInformation(exportRoundtripInformation); }
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        {
+            options.setExportRoundtripInformation(exportRoundtripInformation);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.RoundTripInformation.html", options);
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.RoundTripInformation.html"), StandardCharsets.UTF_8);
         doc = new Document(getArtifactsDir() + "HtmlSaveOptions.RoundTripInformation.html");
 
-        if (exportRoundtripInformation)
-        {
+        if (exportRoundtripInformation) {
             Assert.assertTrue(outDocContents.contains("<div style=\"-aw-headerfooter-type:header-primary; clear:both\">"));
             Assert.assertTrue(outDocContents.contains("<span style=\"-aw-import:ignore\">&#xa0;</span>"));
-            
+
             Assert.assertTrue(outDocContents.contains(
-                "td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
-                "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; " +
-                "-aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single\">"));
-            
+                    "td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
+                            "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; " +
+                            "-aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single\">"));
+
             Assert.assertTrue(outDocContents.contains(
-                "<li style=\"margin-left:30.2pt; padding-left:5.8pt; -aw-font-family:'Courier New'; -aw-font-weight:normal; -aw-number-format:'o'\">"));
-            
+                    "<li style=\"margin-left:30.2pt; padding-left:5.8pt; -aw-font-family:'Courier New'; -aw-font-weight:normal; -aw-number-format:'o'\">"));
+
             Assert.assertTrue(outDocContents.contains(
-                "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"351\" height=\"180\" alt=\"\" " +
-                "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />"));
+                    "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"351\" height=\"180\" alt=\"\" " +
+                            "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />"));
 
 
             Assert.assertTrue(outDocContents.contains(
-                "<span>Page number </span>" +
-                "<span style=\"-aw-field-start:true\"></span>" +
-                "<span style=\"-aw-field-code:' PAGE   \\\\* MERGEFORMAT '\"></span>" +
-                "<span style=\"-aw-field-separator:true\"></span>" +
-                "<span>1</span>" +
-                "<span style=\"-aw-field-end:true\"></span>"));
+                    "<span>Page number </span>" +
+                            "<span style=\"-aw-field-start:true\"></span>" +
+                            "<span style=\"-aw-field-code:' PAGE   \\\\* MERGEFORMAT '\"></span>" +
+                            "<span style=\"-aw-field-separator:true\"></span>" +
+                            "<span>1</span>" +
+                            "<span style=\"-aw-field-end:true\"></span>"));
 
             Assert.assertEquals(1, IterableUtils.countMatches(doc.getRange().getFields(), f -> f.getType() == FieldType.FIELD_PAGE));
-        }
-        else
-        {
+        } else {
             Assert.assertTrue(outDocContents.contains("<div style=\"clear:both\">"));
             Assert.assertTrue(outDocContents.contains("<span>&#xa0;</span>"));
-            
-            Assert.assertTrue(outDocContents.contains(
-                "<td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
-                "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top\">"));
-            
-            Assert.assertTrue(outDocContents.contains(
-                "<li style=\"margin-left:30.2pt; padding-left:5.8pt\">"));
-            
-            Assert.assertTrue(outDocContents.contains(
-                "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"351\" height=\"180\" alt=\"\" />"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<span>Page number 1</span>"));
+                    "<td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
+                            "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top\">"));
+
+            Assert.assertTrue(outDocContents.contains(
+                    "<li style=\"margin-left:30.2pt; padding-left:5.8pt\">"));
+
+            Assert.assertTrue(outDocContents.contains(
+                    "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"351\" height=\"180\" alt=\"\" />"));
+
+            Assert.assertTrue(outDocContents.contains(
+                    "<span>Page number 1</span>"));
 
             Assert.assertEquals(0, IterableUtils.countMatches(doc.getRange().getFields(), f -> f.getType() == FieldType.FIELD_PAGE));
         }
         //ExEnd
     }
 
-	@DataProvider(name = "roundTripInformationDataProvider")
-	public static Object[][] roundTripInformationDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "roundTripInformationDataProvider")
+    public static Object[][] roundTripInformationDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "exportTocPageNumbersDataProvider")
-    public void exportTocPageNumbers(boolean exportTocPageNumbers) throws Exception
-    {
+    @Test(dataProvider = "exportTocPageNumbersDataProvider")
+    public void exportTocPageNumbers(boolean exportTocPageNumbers) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportTocPageNumbers
         //ExSummary:Shows how to display page numbers when saving a document with a table of contents to .html.
@@ -1544,7 +1505,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // Insert a table of contents, and then populate the document with paragraphs formatted using a "Heading"
         // style that the table of contents will pick up as entries. Each entry will display the heading paragraph on the left,
         // and the page number that contains the heading on the right.
-        FieldToc fieldToc = (FieldToc)builder.insertField(FieldType.FIELD_TOC, true);
+        FieldToc fieldToc = (FieldToc) builder.insertField(FieldType.FIELD_TOC, true);
 
         builder.getParagraphFormat().setStyle(builder.getDocument().getStyles().get("Heading 1"));
         builder.insertBreak(BreakType.PAGE_BREAK);
@@ -1564,44 +1525,43 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // each TOC entry will display the heading, separator, and page number, preserving its appearance in Microsoft Word.
         // If we set the "ExportTocPageNumbers" flag to "false",
         // the save operation will omit both the separator and page number, but leave the heading for each entry intact.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setExportTocPageNumbers(exportTocPageNumbers); }
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        {
+            options.setExportTocPageNumbers(exportTocPageNumbers);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportTocPageNumbers.html", options);
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.ExportTocPageNumbers.html"), StandardCharsets.UTF_8);
 
-        if (exportTocPageNumbers)
-        {
+        if (exportTocPageNumbers) {
             Assert.assertTrue(outDocContents.contains(
-                "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                "<span>Entry 1</span>" +
-                "<span style=\"width:425.84pt; font-family:'Lucida Console'; font-size:10pt; display:inline-block; -aw-font-family:'Times New Roman'; " +
-                "-aw-tabstop-align:right; -aw-tabstop-leader:dots; -aw-tabstop-pos:467.5pt\">......................................................................</span>" +
-                "<span>2</span>" +
-                "</p>"));
-        }
-        else
-        {
+                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                            "<span>Entry 1</span>" +
+                            "<span style=\"width:425.84pt; font-family:'Lucida Console'; font-size:10pt; display:inline-block; -aw-font-family:'Times New Roman'; " +
+                            "-aw-tabstop-align:right; -aw-tabstop-leader:dots; -aw-tabstop-pos:467.5pt\">......................................................................</span>" +
+                            "<span>2</span>" +
+                            "</p>"));
+        } else {
             Assert.assertTrue(outDocContents.contains(
-                "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                "<span>Entry 1</span>" +
-                "</p>"));
+                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                            "<span>Entry 1</span>" +
+                            "</p>"));
         }
         //ExEnd
     }
 
-	@DataProvider(name = "exportTocPageNumbersDataProvider")
-	public static Object[][] exportTocPageNumbersDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "exportTocPageNumbersDataProvider")
+    public static Object[][] exportTocPageNumbersDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "fontSubsettingDataProvider")
-    public void fontSubsetting(int fontResourcesSubsettingSizeThreshold) throws Exception
-    {
+    @Test(dataProvider = "fontSubsettingDataProvider")
+    public void fontSubsetting(int fontResourcesSubsettingSizeThreshold) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.FontResourcesSubsettingSizeThreshold
         //ExSummary:Shows how to work with font subsetting.
@@ -1644,25 +1604,24 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	@DataProvider(name = "fontSubsettingDataProvider")
-	public static Object[][] fontSubsettingDataProvider() {
-		return new Object[][]
-		{
-			{0},
-			{1000000},
-			{Integer.MAX_VALUE},
-		};
-	}
+    @DataProvider(name = "fontSubsettingDataProvider")
+    public static Object[][] fontSubsettingDataProvider() {
+        return new Object[][]
+                {
+                        {0},
+                        {1000000},
+                        {Integer.MAX_VALUE},
+                };
+    }
 
-    @Test (dataProvider = "metafileFormatDataProvider")
-    public void metafileFormat(int htmlMetafileFormat) throws Exception
-    {
+    @Test(dataProvider = "metafileFormatDataProvider")
+    public void metafileFormat(int htmlMetafileFormat) throws Exception {
         //ExStart
         //ExFor:HtmlMetafileFormat
         //ExFor:HtmlSaveOptions.MetafileFormat
         //ExSummary:Shows how to convert SVG objects to a different format when saving HTML documents.
-        String html = 
-            "<html>\r\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\r\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\r\n                    </svg>\r\n                </html>";
+        String html =
+                "<html>\r\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\r\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\r\n                    </svg>\r\n                </html>";
 
         Document doc = new Document(new ByteArrayInputStream(html.getBytes()));
 
@@ -1672,50 +1631,51 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // Setting the "MetafileFormat" property to "HtmlMetafileFormat.Png" to convert it to a PNG image.
         // Setting the "MetafileFormat" property to "HtmlMetafileFormat.Svg" preserve it as a SVG object.
         // Setting the "MetafileFormat" property to "HtmlMetafileFormat.EmfOrWmf" to convert it to a metafile.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setMetafileFormat(htmlMetafileFormat); }
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        {
+            options.setMetafileFormat(htmlMetafileFormat);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.MetafileFormat.html", options);
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.MetafileFormat.html"), StandardCharsets.UTF_8);
 
-        switch (htmlMetafileFormat)
-        {
+        switch (htmlMetafileFormat) {
             case HtmlMetafileFormat.PNG:
                 Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                        "<img src=\"HtmlSaveOptions.MetafileFormat.001.png\" width=\"500\" height=\"40\" alt=\"\" " +
-                        "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
-                    "</p>"));
+                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                                "<img src=\"HtmlSaveOptions.MetafileFormat.001.png\" width=\"500\" height=\"40\" alt=\"\" " +
+                                "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
+                                "</p>"));
                 break;
             case HtmlMetafileFormat.SVG:
                 Assert.assertTrue(outDocContents.contains(
-                    "<span style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\">" +
-                    "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"499\" height=\"40\">"));
+                        "<span style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\">" +
+                                "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"499\" height=\"40\">"));
                 break;
             case HtmlMetafileFormat.EMF_OR_WMF:
                 Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                        "<img src=\"HtmlSaveOptions.MetafileFormat.001.emf\" width=\"500\" height=\"40\" alt=\"\" " +
-                        "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
-                    "</p>"));
+                        "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
+                                "<img src=\"HtmlSaveOptions.MetafileFormat.001.emf\" width=\"500\" height=\"40\" alt=\"\" " +
+                                "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
+                                "</p>"));
                 break;
         }
         //ExEnd
     }
 
-	@DataProvider(name = "metafileFormatDataProvider")
-	public static Object[][] metafileFormatDataProvider() {
-		return new Object[][]
-		{
-			{HtmlMetafileFormat.PNG},
-			{HtmlMetafileFormat.SVG},
-			{HtmlMetafileFormat.EMF_OR_WMF},
-		};
-	}
+    @DataProvider(name = "metafileFormatDataProvider")
+    public static Object[][] metafileFormatDataProvider() {
+        return new Object[][]
+                {
+                        {HtmlMetafileFormat.PNG},
+                        {HtmlMetafileFormat.SVG},
+                        {HtmlMetafileFormat.EMF_OR_WMF},
+                };
+    }
 
-    @Test (dataProvider = "officeMathOutputModeDataProvider")
-    public void officeMathOutputMode(/*HtmlOfficeMathOutputMode*/int htmlOfficeMathOutputMode) throws Exception
-    {
+    @Test(dataProvider = "officeMathOutputModeDataProvider")
+    public void officeMathOutputMode(/*HtmlOfficeMathOutputMode*/int htmlOfficeMathOutputMode) throws Exception {
         //ExStart
         //ExFor:HtmlOfficeMathOutputMode
         //ExFor:HtmlSaveOptions.OfficeMathOutputMode
@@ -1730,25 +1690,27 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // will convert each OfficeMath object into MathML.
         // Setting the "OfficeMathOutputMode" property to "HtmlOfficeMathOutputMode.Text"
         // will represent each OfficeMath formula using plain HTML text.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setOfficeMathOutputMode(htmlOfficeMathOutputMode); }
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        {
+            options.setOfficeMathOutputMode(htmlOfficeMathOutputMode);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.OfficeMathOutputMode.html", options);
         //ExEnd
     }
 
-	@DataProvider(name = "officeMathOutputModeDataProvider")
-	public static Object[][] officeMathOutputModeDataProvider() {
-		return new Object[][]
-		{
-			{HtmlOfficeMathOutputMode.IMAGE},
-			{HtmlOfficeMathOutputMode.MATH_ML},
-			{HtmlOfficeMathOutputMode.TEXT},
-		};
-	}
+    @DataProvider(name = "officeMathOutputModeDataProvider")
+    public static Object[][] officeMathOutputModeDataProvider() {
+        return new Object[][]
+                {
+                        {HtmlOfficeMathOutputMode.IMAGE},
+                        {HtmlOfficeMathOutputMode.MATH_ML},
+                        {HtmlOfficeMathOutputMode.TEXT},
+                };
+    }
 
-    @Test (dataProvider = "scaleImageToShapeSizeDataProvider")
-    public void scaleImageToShapeSize(boolean scaleImageToShapeSize) throws Exception
-    {
+    @Test(dataProvider = "scaleImageToShapeSizeDataProvider")
+    public void scaleImageToShapeSize(boolean scaleImageToShapeSize) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ScaleImageToShapeSize
         //ExSummary:Shows how to disable the scaling of images to their parent shape dimensions when saving to .html.
@@ -1773,24 +1735,26 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // to the size of the shape that contains it, so that no saved images will be larger than the document requires them to be.
         // Setting the "ScaleImageToShapeSize" flag to "false" will preserve these images' original sizes,
         // which will take up more space in exchange for preserving image quality.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setScaleImageToShapeSize(scaleImageToShapeSize); }
+        HtmlSaveOptions options = new HtmlSaveOptions();
+        {
+            options.setScaleImageToShapeSize(scaleImageToShapeSize);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.html", options);
         //ExEnd
     }
 
-	@DataProvider(name = "scaleImageToShapeSizeDataProvider")
-	public static Object[][] scaleImageToShapeSizeDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "scaleImageToShapeSizeDataProvider")
+    public static Object[][] scaleImageToShapeSizeDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     @Test
-    public void imageFolder() throws Exception
-    {
+    public void imageFolder() throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions
         //ExFor:HtmlSaveOptions.ExportTextInputFormFieldAsText
@@ -1863,9 +1827,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test (dataProvider = "prettyFormatDataProvider")
-    public void prettyFormat(boolean usePrettyFormat) throws Exception
-    {
+    @Test(dataProvider = "prettyFormatDataProvider")
+    public void prettyFormat(boolean usePrettyFormat) throws Exception {
         //ExStart
         //ExFor:SaveOptions.PrettyFormat
         //ExSummary:Shows how to enhance the readability of the raw code of a saved .html document.
@@ -1873,7 +1836,10 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Hello world!");
 
-        HtmlSaveOptions htmlOptions = new HtmlSaveOptions(SaveFormat.HTML); { htmlOptions.setPrettyFormat(usePrettyFormat); }
+        HtmlSaveOptions htmlOptions = new HtmlSaveOptions(SaveFormat.HTML);
+        {
+            htmlOptions.setPrettyFormat(usePrettyFormat);
+        }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.PrettyFormat.html", htmlOptions);
 
@@ -1882,43 +1848,43 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         if (usePrettyFormat)
             Assert.assertEquals(
-                "<html>\r\n" +
+                    "<html>\r\n" +
                             "\t<head>\r\n" +
-                                "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n" +
-                                "\t\t<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\r\n" +
-                                MessageFormat.format("\t\t<meta name=\"generator\" content=\"{0} {1}\" />\r\n", BuildVersionInfo.getProduct(), BuildVersionInfo.getVersion()) +
-                                "\t\t<title>\r\n" +
-                                "\t\t</title>\r\n" +
+                            "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n" +
+                            "\t\t<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\r\n" +
+                            MessageFormat.format("\t\t<meta name=\"generator\" content=\"{0} {1}\" />\r\n", BuildVersionInfo.getProduct(), BuildVersionInfo.getVersion()) +
+                            "\t\t<title>\r\n" +
+                            "\t\t</title>\r\n" +
                             "\t</head>\r\n" +
                             "\t<body style=\"font-family:'Times New Roman'; font-size:12pt\">\r\n" +
-                                "\t\t<div>\r\n" +
-                                    "\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">\r\n" +
-                                        "\t\t\t\t<span>Hello world!</span>\r\n" +
-                                    "\t\t\t</p>\r\n" +
-                                    "\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">\r\n" +
-                                        "\t\t\t\t<span style=\"-aw-import:ignore\">&#xa0;</span>\r\n" +
-                                    "\t\t\t</p>\r\n" +
-                                "\t\t</div>\r\n" +
-                            "\t</body>\r\n</html>", 
-                html);
+                            "\t\t<div>\r\n" +
+                            "\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">\r\n" +
+                            "\t\t\t\t<span>Hello world!</span>\r\n" +
+                            "\t\t\t</p>\r\n" +
+                            "\t\t\t<p style=\"margin-top:0pt; margin-bottom:0pt\">\r\n" +
+                            "\t\t\t\t<span style=\"-aw-import:ignore\">&#xa0;</span>\r\n" +
+                            "\t\t\t</p>\r\n" +
+                            "\t\t</div>\r\n" +
+                            "\t</body>\r\n</html>",
+                    html);
         else
             Assert.assertEquals(
-                "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" +
-                        "<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />" +
-                        MessageFormat.format("<meta name=\"generator\" content=\"{0} {1}\" /><title></title></head>", BuildVersionInfo.getProduct(), BuildVersionInfo.getVersion()) +
-                        "<body style=\"font-family:'Times New Roman'; font-size:12pt\">" +
-                        "<div><p style=\"margin-top:0pt; margin-bottom:0pt\"><span>Hello world!</span></p>" +
-                        "<p style=\"margin-top:0pt; margin-bottom:0pt\"><span style=\"-aw-import:ignore\">&#xa0;</span></p></div></body></html>", 
-                html);
+                    "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />" +
+                            "<meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />" +
+                            MessageFormat.format("<meta name=\"generator\" content=\"{0} {1}\" /><title></title></head>", BuildVersionInfo.getProduct(), BuildVersionInfo.getVersion()) +
+                            "<body style=\"font-family:'Times New Roman'; font-size:12pt\">" +
+                            "<div><p style=\"margin-top:0pt; margin-bottom:0pt\"><span>Hello world!</span></p>" +
+                            "<p style=\"margin-top:0pt; margin-bottom:0pt\"><span style=\"-aw-import:ignore\">&#xa0;</span></p></div></body></html>",
+                    html);
         //ExEnd
     }
 
-	@DataProvider(name = "prettyFormatDataProvider")
-	public static Object[][] prettyFormatDataProvider() {
-		return new Object[][]
-		{
-			{true},
-			{false},
-		};
-	}
+    @DataProvider(name = "prettyFormatDataProvider")
+    public static Object[][] prettyFormatDataProvider() {
+        return new Object[][]
+                {
+                        {true},
+                        {false},
+                };
+    }
 }

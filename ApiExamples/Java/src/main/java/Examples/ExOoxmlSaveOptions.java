@@ -13,10 +13,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 public class ExOoxmlSaveOptions extends ApiExampleBase {
     @Test
     public void password() throws Exception {
@@ -79,9 +75,8 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (dataProvider = "restartingDocumentListDataProvider")
-    public void restartingDocumentList(boolean restartListAtEachSection) throws Exception
-    {
+    @Test(dataProvider = "restartingDocumentListDataProvider")
+    public void restartingDocumentList(boolean restartListAtEachSection) throws Exception {
         //ExStart
         //ExFor:List.IsRestartAtEachSection
         //ExFor:OoxmlCompliance
@@ -109,9 +104,9 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.writeln("List item 3");
         builder.writeln("List item 4");
-        
+
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx", options);
-        
+
         doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.RestartingDocumentList.docx");
 
         Assert.assertEquals(restartListAtEachSection, doc.getLists().get(0).isRestartAtEachSection());
@@ -127,9 +122,8 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
                 };
     }
 
-    @Test (dataProvider = "lastSavedTimeDataProvider")
-    public void lastSavedTime(boolean updateLastSavedTimeProperty) throws Exception
-    {
+    @Test(dataProvider = "lastSavedTimeDataProvider")
+    public void lastSavedTime(boolean updateLastSavedTimeProperty) throws Exception {
         //ExStart
         //ExFor:SaveOptions.UpdateLastSavedTimeProperty
         //ExSummary:Shows how to determine whether to preserve the document's "Last saved time" property when saving.
@@ -148,18 +142,17 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	@DataProvider(name = "lastSavedTimeDataProvider")
-	public static Object[][] lastSavedTimeDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    @DataProvider(name = "lastSavedTimeDataProvider")
+    public static Object[][] lastSavedTimeDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
-    @Test (dataProvider = "keepLegacyControlCharsDataProvider")
-    public void keepLegacyControlChars(boolean keepLegacyControlChars) throws Exception
-    {
+    @Test(dataProvider = "keepLegacyControlCharsDataProvider")
+    public void keepLegacyControlChars(boolean keepLegacyControlChars) throws Exception {
         //ExStart
         //ExFor:OoxmlSaveOptions.KeepLegacyControlChars
         //ExFor:OoxmlSaveOptions.#ctor(SaveFormat)
@@ -174,9 +167,9 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         // the "ShortDateTime" legacy character from the output document.
         OoxmlSaveOptions so = new OoxmlSaveOptions(SaveFormat.DOCX);
         so.setKeepLegacyControlChars(keepLegacyControlChars);
- 
+
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.KeepLegacyControlChars.docx", so);
-        
+
         doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.KeepLegacyControlChars.docx");
 
         if (keepLegacyControlChars)
@@ -195,9 +188,8 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
                 };
     }
 
-    @Test (dataProvider = "documentCompressionDataProvider")
-    public void documentCompression(/*CompressionLevel*/int compressionLevel) throws Exception
-    {
+    @Test(dataProvider = "documentCompressionDataProvider")
+    public void documentCompression(/*CompressionLevel*/int compressionLevel) throws Exception {
         //ExStart
         //ExFor:OoxmlSaveOptions.CompressionLevel
         //ExFor:CompressionLevel
@@ -214,19 +206,19 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         // the default compression that Microsoft Word uses.
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
         saveOptions.setCompressionLevel(compressionLevel);
-        
+
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.docx", saveOptions);
     }
 
-	@DataProvider(name = "documentCompressionDataProvider")
-	public static Object[][] documentCompressionDataProvider() {
-		return new Object[][]
-		{
-			{CompressionLevel.MAXIMUM},
-			{CompressionLevel.FAST},
-			{CompressionLevel.NORMAL},
-			{CompressionLevel.SUPER_FAST},
-		};
+    @DataProvider(name = "documentCompressionDataProvider")
+    public static Object[][] documentCompressionDataProvider() {
+        return new Object[][]
+                {
+                        {CompressionLevel.MAXIMUM},
+                        {CompressionLevel.FAST},
+                        {CompressionLevel.NORMAL},
+                        {CompressionLevel.SUPER_FAST},
+                };
     }
 
     @Test

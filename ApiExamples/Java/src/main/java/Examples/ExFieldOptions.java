@@ -19,8 +19,7 @@ import java.util.Locale;
 @Test
 public class ExFieldOptions extends ApiExampleBase {
     @Test
-    public void currentUser() throws Exception
-    {
+    public void currentUser() throws Exception {
         //ExStart
         //ExFor:Document.UpdateFields
         //ExFor:FieldOptions.CurrentUser
@@ -81,8 +80,7 @@ public class ExFieldOptions extends ApiExampleBase {
     }
 
     @Test
-    public void fileName() throws Exception
-    {
+    public void fileName() throws Exception {
         //ExStart
         //ExFor:FieldOptions.FileName
         //ExFor:FieldFileName
@@ -95,7 +93,7 @@ public class ExFieldOptions extends ApiExampleBase {
         builder.writeln();
 
         // This FILENAME field will display the local system file name of the document we loaded.
-        FieldFileName field = (FieldFileName)builder.insertField(FieldType.FIELD_FILE_NAME, true);
+        FieldFileName field = (FieldFileName) builder.insertField(FieldType.FIELD_FILE_NAME, true);
         field.update();
 
         Assert.assertEquals(" FILENAME ", field.getFieldCode());
@@ -105,7 +103,7 @@ public class ExFieldOptions extends ApiExampleBase {
 
         // By default, the FILENAME field shows the file's name, but not its full local file system path.
         // We can set a flag to make it show the full file path.
-        field = (FieldFileName)builder.insertField(FieldType.FIELD_FILE_NAME, true);
+        field = (FieldFileName) builder.insertField(FieldType.FIELD_FILE_NAME, true);
         field.setIncludeFullPath(true);
         field.update();
 
@@ -130,8 +128,7 @@ public class ExFieldOptions extends ApiExampleBase {
     }
 
     @Test
-    public void bidi() throws Exception
-    {
+    public void bidi() throws Exception {
         //ExStart
         //ExFor:FieldOptions.IsBidiTextSupportedOnUpdate
         //ExSummary:Shows how to use FieldOptions to ensure that field updating fully supports bi-directional text.
@@ -159,8 +156,7 @@ public class ExFieldOptions extends ApiExampleBase {
     }
 
     @Test
-    public void legacyNumberFormat() throws Exception
-    {
+    public void legacyNumberFormat() throws Exception {
         //ExStart
         //ExFor:FieldOptions.LegacyNumberFormat
         //ExSummary:Shows how enable legacy number formatting for fields.
@@ -184,8 +180,7 @@ public class ExFieldOptions extends ApiExampleBase {
     }
 
     @Test
-    public void preProcessCulture() throws Exception
-    {
+    public void preProcessCulture() throws Exception {
         //ExStart
         //ExFor:FieldOptions.PreProcessCulture
         //ExSummary:Shows how to set the preprocess culture.
@@ -214,8 +209,7 @@ public class ExFieldOptions extends ApiExampleBase {
     }
 
     @Test
-    public void tableOfAuthorityCategories() throws Exception
-    {
+    public void tableOfAuthorityCategories() throws Exception {
         //ExStart
         //ExFor:FieldOptions.ToaCategories
         //ExFor:ToaCategories
@@ -274,8 +268,7 @@ public class ExFieldOptions extends ApiExampleBase {
     }
 
     @Test
-    public void useInvariantCultureNumberFormat() throws Exception
-    {
+    public void useInvariantCultureNumberFormat() throws Exception {
         //ExStart
         //ExFor:FieldOptions.UseInvariantCultureNumberFormat
         //ExSummary:Shows how to format numbers according to the invariant culture.
@@ -311,8 +304,7 @@ public class ExFieldOptions extends ApiExampleBase {
     //ExFor:IFieldUpdateCultureProvider.GetCulture(string, Field)
     //ExSummary:Shows how to specify a culture which parses date/time formatting for each field.
     @Test //ExSkip
-    public void defineDateTimeFormatting() throws Exception
-    {
+    public void defineDateTimeFormatting() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -324,8 +316,8 @@ public class ExFieldOptions extends ApiExampleBase {
         doc.getFieldOptions().setFieldUpdateCultureProvider(new FieldUpdateCultureProvider());
 
         FieldTime fieldDate = (FieldTime) doc.getRange().getFields().get(0);
-        if (fieldDate.getLocaleId() != (int) EditingLanguage.RUSSIAN)
-            fieldDate.setLocaleId((int) EditingLanguage.RUSSIAN);
+        if (fieldDate.getLocaleId() != EditingLanguage.RUSSIAN)
+            fieldDate.setLocaleId(EditingLanguage.RUSSIAN);
 
         doc.save(getArtifactsDir() + "FieldOptions.UpdateDateTimeFormatting.pdf");
     }

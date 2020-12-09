@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
@@ -36,7 +37,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         // The default encoding is UTF-8. If we want to represent our document using a different encoding,
         // we can use a SaveOptions object to set a specific encoding.
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
-        htmlFixedSaveOptions.setEncoding(Charset.forName("US-ASCII"));
+        htmlFixedSaveOptions.setEncoding(StandardCharsets.US_ASCII);
 
         Assert.assertEquals("US-ASCII", htmlFixedSaveOptions.getEncoding().name());
 
@@ -53,14 +54,13 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         Document doc = DocumentHelper.createDocumentFillWithDummyText();
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
-        htmlFixedSaveOptions.setEncoding(Charset.forName("utf-16"));
+        htmlFixedSaveOptions.setEncoding(StandardCharsets.UTF_16);
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.GetEncoding.html", htmlFixedSaveOptions);
     }
 
-    @Test (dataProvider = "exportEmbeddedCssDataProvider")
-    public void exportEmbeddedCss(boolean exportEmbeddedCss) throws Exception
-    {
+    @Test(dataProvider = "exportEmbeddedCssDataProvider")
+    public void exportEmbeddedCss(boolean exportEmbeddedCss) throws Exception {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportEmbeddedCss
         //ExSummary:Shows how to determine where to store CSS stylesheets when exporting a document to Html.
@@ -99,9 +99,8 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
                 };
     }
 
-    @Test (dataProvider = "exportEmbeddedFontsDataProvider")
-    public void exportEmbeddedFonts(boolean exportEmbeddedFonts) throws Exception
-    {
+    @Test(dataProvider = "exportEmbeddedFontsDataProvider")
+    public void exportEmbeddedFonts(boolean exportEmbeddedFonts) throws Exception {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportEmbeddedFonts
         //ExSummary:Shows how to determine where to store embedded fonts when exporting a document to Html.
@@ -133,9 +132,8 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
                 };
     }
 
-    @Test (dataProvider = "exportEmbeddedImagesDataProvider")
-    public void exportEmbeddedImages(boolean exportImages) throws Exception
-    {
+    @Test(dataProvider = "exportEmbeddedImagesDataProvider")
+    public void exportEmbeddedImages(boolean exportImages) throws Exception {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportEmbeddedImages
         //ExSummary:Shows how to determine where to store images when exporting a document to Html.
@@ -166,9 +164,8 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
                 };
     }
 
-    @Test (dataProvider = "exportEmbeddedSvgsDataProvider")
-    public void exportEmbeddedSvgs(boolean exportSvgs) throws Exception
-    {
+    @Test(dataProvider = "exportEmbeddedSvgsDataProvider")
+    public void exportEmbeddedSvgs(boolean exportSvgs) throws Exception {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportEmbeddedSvg
         //ExSummary:Shows how to determine where to store SVG objects when exporting a document to Html.
@@ -199,9 +196,8 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
                 };
     }
 
-    @Test (dataProvider = "exportFormFieldsDataProvider")
-    public void exportFormFields(boolean exportFormFields) throws Exception
-    {
+    @Test(dataProvider = "exportFormFieldsDataProvider")
+    public void exportFormFields(boolean exportFormFields) throws Exception {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportFormFields
         //ExSummary:Shows how to export form fields to Html.
@@ -307,36 +303,36 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         Assert.assertThrows(IllegalArgumentException.class, () -> saveOptions.setPageMargins(-1));
     }
 
-    @Test (dataProvider = "optimizeGraphicsOutputDataProvider")
-    public void optimizeGraphicsOutput(boolean optimizeOutput) throws Exception
-    {
+    @Test(dataProvider = "optimizeGraphicsOutputDataProvider")
+    public void optimizeGraphicsOutput(boolean optimizeOutput) throws Exception {
         //ExStart
         //ExFor:FixedPageSaveOptions.OptimizeOutput
         //ExFor:HtmlFixedSaveOptions.OptimizeOutput
         //ExSummary:Shows how to simplify a document when saving it to HTML by removing various redundant objects.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions(); { saveOptions.setOptimizeOutput(optimizeOutput); }
+        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
+        {
+            saveOptions.setOptimizeOutput(optimizeOutput);
+        }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "optimizeGraphicsOutputDataProvider")
-	public static Object[][] optimizeGraphicsOutputDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "optimizeGraphicsOutputDataProvider")
+    public static Object[][] optimizeGraphicsOutputDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
 
-    @Test (dataProvider = "usingMachineFontsDataProvider")
-    public void usingMachineFonts(boolean useTargetMachineFonts) throws Exception
-    {
+    @Test(dataProvider = "usingMachineFontsDataProvider")
+    public void usingMachineFonts(boolean useTargetMachineFonts) throws Exception {
         //ExStart
         //ExFor:ExportFontFormat
         //ExFor:HtmlFixedSaveOptions.FontFormat
@@ -356,15 +352,14 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "usingMachineFontsDataProvider")
-	public static Object[][] usingMachineFontsDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "usingMachineFontsDataProvider")
+    public static Object[][] usingMachineFontsDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     //ExStart
@@ -376,8 +371,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     //ExFor:ResourceSavingArgs.ResourceFileUri
     //ExSummary:Shows how to use a callback to track external resources created while converting a document to HTML.
     @Test //ExSkip
-    public void resourceSavingCallback() throws Exception
-    {
+    public void resourceSavingCallback() throws Exception {
         Document doc = new Document(getMyDir() + "Bullet points with alternative font.docx");
 
         FontSavingCallback callback = new FontSavingCallback();
@@ -393,32 +387,28 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         testResourceSavingCallback(callback); //ExSkip
     }
 
-    private static class FontSavingCallback implements IResourceSavingCallback
-    {
+    private static class FontSavingCallback implements IResourceSavingCallback {
         /// <summary>
         /// Called when Aspose.Words saves an external resource to fixed page HTML or SVG.
         /// </summary>
-        public void resourceSaving(ResourceSavingArgs args)
-        {
+        public void resourceSaving(ResourceSavingArgs args) {
             mText.append(MessageFormat.format("Original document URI:\t{0}", args.getDocument().getOriginalFileName()));
             mText.append(MessageFormat.format("Resource being saved:\t{0}", args.getResourceFileName()));
             mText.append(MessageFormat.format("Full uri after saving:\t{0}\n", args.getResourceFileUri()));
-    }
+        }
 
-        public String getText()
-        {
+        public String getText() {
             return mText.toString();
         }
 
-        private StringBuilder mText = new StringBuilder();
+        private final StringBuilder mText = new StringBuilder();
     }
     //ExEnd
 
-    private void testResourceSavingCallback(FontSavingCallback callback)
-    {
-        Assert.assertTrue(callback.getText().contains("font001.woff")); 
+    private void testResourceSavingCallback(FontSavingCallback callback) {
+        Assert.assertTrue(callback.getText().contains("font001.woff"));
         Assert.assertTrue(callback.getText().contains("styles.css"));
-        }
+    }
 
     //ExStart
     //ExFor:HtmlFixedSaveOptions
@@ -433,8 +423,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     //ExFor:ResourceSavingArgs.ResourceStream
     //ExSummary:Shows how to use a callback to print the URIs of external resources created while converting a document to HTML.
     @Test //ExSkip
-    public void htmlFixedResourceFolder() throws Exception
-    {
+    public void htmlFixedResourceFolder() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ResourceUriPrinter callback = new ResourceUriPrinter();
@@ -491,13 +480,12 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
             args.setKeepResourceStreamOpen(false);
         }
 
-        public String getText()
-        {
+        public String getText() {
             return mText.toString();
         }
 
         private int mSavedResourceCount;
-        private /*final*/ StringBuilder mText = new StringBuilder();
+        private final /*final*/ StringBuilder mText = new StringBuilder();
     }
     //ExEnd
 }

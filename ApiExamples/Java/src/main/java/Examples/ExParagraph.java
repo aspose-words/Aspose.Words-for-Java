@@ -296,7 +296,7 @@ public class ExParagraph extends ApiExampleBase {
 
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
 
-        for (Paragraph paragraph : (Iterable<Paragraph>) paragraphs) {
+        for (Paragraph paragraph : paragraphs) {
             if (paragraph.getFrameFormat().isFrame()) {
                 System.out.println("Width: " + paragraph.getFrameFormat().getWidth());
                 System.out.println("Height: " + paragraph.getFrameFormat().getHeight());

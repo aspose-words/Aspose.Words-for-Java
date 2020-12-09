@@ -13,11 +13,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @Test
-public class ExNodeImporter extends ApiExampleBase
-{
-    @Test (dataProvider = "keepSourceNumberingDataProvider")
-    public void keepSourceNumbering(boolean keepSourceNumbering) throws Exception
-    {
+public class ExNodeImporter extends ApiExampleBase {
+    @Test(dataProvider = "keepSourceNumberingDataProvider")
+    public void keepSourceNumbering(boolean keepSourceNumbering) throws Exception {
         //ExStart
         //ExFor:ImportFormatOptions.KeepSourceNumbering
         //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode, ImportFormatOptions)
@@ -38,49 +36,45 @@ public class ExNodeImporter extends ApiExampleBase
         importFormatOptions.setKeepSourceNumbering(keepSourceNumbering);
 
         NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_DIFFERENT_STYLES, importFormatOptions);
-        for (Paragraph paragraph : (Iterable<Paragraph>) srcDoc.getFirstSection().getBody().getParagraphs())
-        {
+        for (Paragraph paragraph : srcDoc.getFirstSection().getBody().getParagraphs()) {
             Node importedNode = importer.importNode(paragraph, true);
             dstDoc.getFirstSection().getBody().appendChild(importedNode);
         }
 
         dstDoc.updateListLabels();
 
-        if (keepSourceNumbering)
-        {
+        if (keepSourceNumbering) {
             Assert.assertEquals(
-                "6. Item 1\r\n" +
-                "7. Item 2 \r\n" +
-                "8. Item 3\r\n" +
-                "9. Item 4\r\n" +
-                "6. Item 1\r\n" +
-                "7. Item 2 \r\n" +
-                "8. Item 3\r\n" +
-                "9. Item 4", dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT).trim());
-        }
-        else
-        {
+                    "6. Item 1\r\n" +
+                            "7. Item 2 \r\n" +
+                            "8. Item 3\r\n" +
+                            "9. Item 4\r\n" +
+                            "6. Item 1\r\n" +
+                            "7. Item 2 \r\n" +
+                            "8. Item 3\r\n" +
+                            "9. Item 4", dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT).trim());
+        } else {
             Assert.assertEquals(
-                "6. Item 1\r\n" +
-                "7. Item 2 \r\n" +
-                "8. Item 3\r\n" +
-                "9. Item 4\r\n" +
-                "10. Item 1\r\n" +
-                "11. Item 2 \r\n" +
-                "12. Item 3\r\n" +
-                "13. Item 4", dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT).trim());
+                    "6. Item 1\r\n" +
+                            "7. Item 2 \r\n" +
+                            "8. Item 3\r\n" +
+                            "9. Item 4\r\n" +
+                            "10. Item 1\r\n" +
+                            "11. Item 2 \r\n" +
+                            "12. Item 3\r\n" +
+                            "13. Item 4", dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT).trim());
         }
         //ExEnd
     }
 
-	@DataProvider(name = "keepSourceNumberingDataProvider")
-	public static Object[][] keepSourceNumberingDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "keepSourceNumberingDataProvider")
+    public static Object[][] keepSourceNumberingDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     //ExStart
     //ExFor:Paragraph.IsEndOfSection
@@ -89,8 +83,7 @@ public class ExNodeImporter extends ApiExampleBase
     //ExFor:NodeImporter.ImportNode(Node, Boolean)
     //ExSummary:Shows how to insert the contents of one document to a bookmark in another document.
     @Test
-    public void insertAtBookmark() throws Exception
-    {
+    public void insertAtBookmark() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -109,14 +102,14 @@ public class ExNodeImporter extends ApiExampleBase
         insertDocument(bookmark.getBookmarkStart().getParentNode(), docToInsert);
 
         Assert.assertEquals("We will insert a document here: " +
-                        "\rHello world!", doc.getText().trim());
+                "\rHello world!", doc.getText().trim());
     }
 
     /// <summary>
     /// Inserts the contents of a document after the specified node.
     /// </summary>
-    static void insertDocument(Node insertionDestination, Document docToInsert) {        
-        if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE))) {            
+    static void insertDocument(Node insertionDestination, Document docToInsert) {
+        if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE))) {
             CompositeNode destinationParent = insertionDestination.getParentNode();
 
             NodeImporter importer =
@@ -144,8 +137,7 @@ public class ExNodeImporter extends ApiExampleBase
     //ExEnd
 
     @Test
-    public void insertAtMergeField() throws Exception
-    {
+    public void insertAtMergeField() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.write("A document will appear here: ");
@@ -162,28 +154,25 @@ public class ExNodeImporter extends ApiExampleBase
         // The main document has a merge field in it called "Document_1".
         // Execute a mail merge using a data source that contains a local system filename
         // of the document that we wish to insert into the MERGEFIELD.
-        doc.getMailMerge().execute(new String[] { "Document_1" },
-            new Object[] { getArtifactsDir() + "NodeImporter.InsertAtMergeField.docx" });
+        doc.getMailMerge().execute(new String[]{"Document_1"},
+                new Object[]{getArtifactsDir() + "NodeImporter.InsertAtMergeField.docx"});
 
         Assert.assertEquals("A document will appear here: \r" +
-                        "Hello world!", doc.getText().trim());
+                "Hello world!", doc.getText().trim());
     }
 
-        /// <summary>
+    /// <summary>
     /// If the mail merge encounters a MERGEFIELD with a specified name,
     /// this handler treats the current value of a mail merge data source as a local system filename of a document.
     /// The handler will insert the document in its entirety into the MERGEFIELD instead of the current merge value.
-        /// </summary>
-    private static class InsertDocumentAtMailMergeHandler implements IFieldMergingCallback
-    {
-        public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args) throws Exception
-        {
-            if ("Document_1".equals(args.getDocumentFieldName()))
-            {
+    /// </summary>
+    private static class InsertDocumentAtMailMergeHandler implements IFieldMergingCallback {
+        public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args) throws Exception {
+            if ("Document_1".equals(args.getDocumentFieldName())) {
                 DocumentBuilder builder = new DocumentBuilder(args.getDocument());
                 builder.moveToMergeField(args.getDocumentFieldName());
 
-                Document subDoc = new Document((String)args.getFieldValue());
+                Document subDoc = new Document((String) args.getFieldValue());
 
                 insertDocument(builder.getCurrentParagraph(), subDoc);
 
@@ -194,8 +183,7 @@ public class ExNodeImporter extends ApiExampleBase
             }
         }
 
-        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs args)
-        {
+        public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs args) {
             // Do nothing.
         }
     }

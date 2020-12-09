@@ -14,7 +14,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -62,8 +61,7 @@ public class ExCharts extends ApiExampleBase {
     }
 
     @Test
-    public void dataLabelNumberFormat() throws Exception
-    {
+    public void dataLabelNumberFormat() throws Exception {
         //ExStart
         //ExFor:ChartDataLabelCollection.NumberFormat
         //ExFor:ChartNumberFormat.FormatCode
@@ -77,12 +75,12 @@ public class ExCharts extends ApiExampleBase {
         Chart chart = shape.getChart();
         chart.getSeries().clear();
         chart.getTitle().setText("Monthly sales report");
-        
+
         // Insert a custom chart series with months as categories for the X-axis,
         // and respective decimal amounts for the Y-axis.
-        ChartSeries series = chart.getSeries().add("Revenue", 
-            new String[] { "January", "February", "March" }, 
-            new double[] { 25.611d, 21.439d, 33.750d });
+        ChartSeries series = chart.getSeries().add("Revenue",
+                new String[]{"January", "February", "March"},
+                new double[]{25.611d, 21.439d, 33.750d});
 
         // Enable data labels, and then apply a custom number format for values displayed in the data labels.
         // This format will treat displayed decimal values as millions of US Dollars.
@@ -95,7 +93,7 @@ public class ExCharts extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Charts.DataLabelNumberFormat.docx");
-        series = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0);
+        series = ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0);
 
         Assert.assertTrue(series.hasDataLabels());
         Assert.assertTrue(series.getDataLabels().getShowValue());
@@ -113,14 +111,14 @@ public class ExCharts extends ApiExampleBase {
         ChartSeriesCollection seriesColl = chart.getSeries();
         seriesColl.clear();
 
-        String[] categories = { "Cat1", null, "Cat3", "Cat4", "Cat5", null };
-        seriesColl.add("AW Series 1", categories, new double[] { 1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0 });
-        seriesColl.add("AW Series 2", categories, new double[] { 2.0, 3.0, Double.NaN, 5.0, 6.0, 7.0 });
+        String[] categories = {"Cat1", null, "Cat3", "Cat4", "Cat5", null};
+        seriesColl.add("AW Series 1", categories, new double[]{1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0});
+        seriesColl.add("AW Series 2", categories, new double[]{2.0, 3.0, Double.NaN, 5.0, 6.0, 7.0});
 
         Assert.assertThrows(IllegalArgumentException.class, () -> seriesColl.add("AW Series 3", categories,
-                new double[] { Double.NaN, 4.0, 5.0, Double.NaN, Double.NaN }));
+                new double[]{Double.NaN, 4.0, 5.0, Double.NaN, Double.NaN}));
         Assert.assertThrows(IllegalArgumentException.class, () -> seriesColl.add("AW Series 4", categories,
-                new double[] { Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN }));
+                new double[]{Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN}));
     }
 
     @Test
@@ -135,7 +133,7 @@ public class ExCharts extends ApiExampleBase {
         seriesColl.clear();
 
         String[] categories = {"Cat1", null, "Cat3", "Cat4", "Cat5", null};
-         seriesColl.add("AW Series 1", categories, new double[]{1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0});
+        seriesColl.add("AW Series 1", categories, new double[]{1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0});
         seriesColl.add("AW Series 2", categories, new double[]{2.0, 3.0, Double.NaN, 5.0, 6.0, 7.0});
         seriesColl.add("AW Series 3", categories, new double[]{Double.NaN, 4.0, 5.0, Double.NaN, 7.0, 8.0});
         seriesColl.add("AW Series 4", categories,
@@ -258,7 +256,7 @@ public class ExCharts extends ApiExampleBase {
 
         // Add a custom series containing date/time values for the X-axis, and respective decimal values for the Y-axis.
         chart.getSeries().add("Aspose Test Series",
-            new Date[]
+                new Date[]
                         {
                                 DocumentHelper.createDate(2017, 11, 6), DocumentHelper.createDate(2017, 11, 9), DocumentHelper.createDate(2017, 11, 15),
                                 DocumentHelper.createDate(2017, 11, 21), DocumentHelper.createDate(2017, 11, 25), DocumentHelper.createDate(2017, 11, 29)
@@ -324,8 +322,8 @@ public class ExCharts extends ApiExampleBase {
 
         // Add a custom series with categories for the X-axis, and respective decimal values for the Y-axis.
         chart.getSeries().add("AW Series 1",
-            new String[] { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" },
-            new double[] { 1.2, 0.3, 2.1, 2.9, 4.2 });
+                new String[]{"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"},
+                new double[]{1.2, 0.3, 2.1, 2.9, 4.2});
 
         // Hide the chart axes to simplify the appearance of the chart. 
         chart.getAxisX().setHidden(true);
@@ -386,7 +384,7 @@ public class ExCharts extends ApiExampleBase {
         Shape shape = builder.insertChart(chartType, 500.0, 300.0);
         Chart chart = shape.getChart();
         chart.getSeries().clear();
-        
+
         chart.getSeries().add("Aspose Test Series",
                 new String[]{"Word", "PDF", "Excel", "GoogleDocs", "Note"},
                 new double[]{1900000.0, 850000.0, 2100000.0, 600000.0, 1500000.0});
@@ -434,8 +432,7 @@ public class ExCharts extends ApiExampleBase {
     }
 
     @Test
-    public void dataLabelsBubbleChart() throws Exception
-    {
+    public void dataLabelsBubbleChart() throws Exception {
         //ExStart
         //ExFor:ChartDataLabelCollection.Separator
         //ExFor:ChartDataLabelCollection.ShowBubbleSize
@@ -451,9 +448,9 @@ public class ExCharts extends ApiExampleBase {
 
         // Add a custom series with X/Y coordinates and diameter of each of the bubbles. 
         ChartSeries series = chart.getSeries().add("Aspose Test Series",
-            new double[] { 2.9, 3.5, 1.1, 4.0, 4.0 },
-            new double[] { 1.9, 8.5, 2.1, 6.0, 1.5 },
-            new double[] { 9.0, 4.5, 2.5, 8.0, 5.0 });
+                new double[]{2.9, 3.5, 1.1, 4.0, 4.0},
+                new double[]{1.9, 8.5, 2.1, 6.0, 1.5},
+                new double[]{9.0, 4.5, 2.5, 8.0, 5.0});
 
         // Enable data labels, and then modify their appearance.
         series.hasDataLabels(true);
@@ -467,7 +464,7 @@ public class ExCharts extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Charts.DataLabelsBubbleChart.docx");
-        dataLabels = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0).getDataLabels();
+        dataLabels = ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0).getDataLabels();
 
         Assert.assertTrue(dataLabels.getShowBubbleSize());
         Assert.assertTrue(dataLabels.getShowCategoryName());
@@ -476,8 +473,7 @@ public class ExCharts extends ApiExampleBase {
     }
 
     @Test
-    public void dataLabelsPieChart() throws Exception
-    {
+    public void dataLabelsPieChart() throws Exception {
         //ExStart
         //ExFor:ChartDataLabelCollection.Separator
         //ExFor:ChartDataLabelCollection.ShowLeaderLines
@@ -494,8 +490,8 @@ public class ExCharts extends ApiExampleBase {
 
         // Insert a custom chart series with a category name for each of the sectors, and their frequency table.
         ChartSeries series = chart.getSeries().add("Aspose Test Series",
-            new String[] { "Word", "PDF", "Excel" },
-            new double[] { 2.7, 3.2, 0.8 });
+                new String[]{"Word", "PDF", "Excel"},
+                new double[]{2.7, 3.2, 0.8});
 
         // Enable data labels that will display both percentage and frequency of each sector, and modify their appearance.
         series.hasDataLabels(true);
@@ -510,7 +506,7 @@ public class ExCharts extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Charts.DataLabelsPieChart.docx");
-        dataLabels = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0).getDataLabels();
+        dataLabels = ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0).getDataLabels();
 
         Assert.assertTrue(dataLabels.getShowLeaderLines());
         Assert.assertTrue(dataLabels.getShowLegendKey());
@@ -546,11 +542,10 @@ public class ExCharts extends ApiExampleBase {
     //ExFor:ChartDataLabelCollection.RemoveAt(System.Int32)
     //ExSummary:Shows how to apply labels to data points in a line chart.
     @Test //ExSkip
-    public void dataLabels() throws Exception
-    {
+    public void dataLabels() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         Shape chartShape = builder.insertChart(ChartType.LINE, 400.0, 300.0);
         Chart chart = chartShape.getChart();
 
@@ -561,8 +556,7 @@ public class ExCharts extends ApiExampleBase {
 
         // Apply data labels to every series in the chart.
         // These labels will appear next to each data point in the graph and display its value.
-        for (ChartSeries series : chart.getSeries())
-        {
+        for (ChartSeries series : chart.getSeries()) {
             applyDataLabels(series, 4, "000.0", ", ");
             Assert.assertEquals(series.getDataLabels().getCount(), 4);
         }
@@ -644,7 +638,7 @@ public class ExCharts extends ApiExampleBase {
         Assert.assertEquals("Series 3", chart.getSeries().get(2).getName());
 
         // Emphasize the chart's data points by making them appear as diamond shapes.
-        for (ChartSeries series : chart.getSeries()) 
+        for (ChartSeries series : chart.getSeries())
             applyDataPoints(series, 4, MarkerSymbol.DIAMOND, 15);
 
         // Smooth out the line that represents the first data series.
@@ -729,8 +723,7 @@ public class ExCharts extends ApiExampleBase {
         Assert.assertTrue(chart.getSeries().get(0).getBubble3D());
 
         // Apply a data label to each bubble that displays its diameter.
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < 3; i++) {
             chart.getSeries().get(0).hasDataLabels(true);
             ChartDataLabel cdl = chart.getSeries().get(0).getDataLabels().get(i);
             cdl.setShowBubbleSize(true);
@@ -761,18 +754,18 @@ public class ExCharts extends ApiExampleBase {
     public void chartSeriesCollection() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // There are several ways of populating a chart's series collection.
         // Different series schemas are intended for different chart types.
         // 1 -  Column chart with columns grouped and banded along the X-axis by category:
         Chart chart = appendChart(builder, ChartType.COLUMN, 500.0, 300.0);
 
-        String[] categories = { "Category 1", "Category 2", "Category 3" };
+        String[] categories = {"Category 1", "Category 2", "Category 3"};
 
         // Insert two series of decimal values containing a value for each respective category.
         // This column chart will have three groups, each with two columns.
-        chart.getSeries().add("Series 1", categories, new double[] { 76.6, 82.1, 91.6 });
-        chart.getSeries().add("Series 2", categories, new double[] { 64.2, 79.5, 94.0 });
+        chart.getSeries().add("Series 1", categories, new double[]{76.6, 82.1, 91.6});
+        chart.getSeries().add("Series 2", categories, new double[]{64.2, 79.5, 94.0});
 
         // Categories are distributed along the X-axis, and values are distributed along the Y-axis.
         Assert.assertEquals(ChartAxisType.CATEGORY, chart.getAxisX().getType());
@@ -792,7 +785,7 @@ public class ExCharts extends ApiExampleBase {
         // Insert a series with a decimal value for each respective date.
         // The dates will be distributed along a linear X-axis,
         // and the values added to this series will create data points.
-        chart.getSeries().add("Series 1", dates, new double[] { 15.8, 21.5, 22.9, 28.7, 33.1 });
+        chart.getSeries().add("Series 1", dates, new double[]{15.8, 21.5, 22.9, 28.7, 33.1});
 
         Assert.assertEquals(ChartAxisType.CATEGORY, chart.getAxisX().getType());
         Assert.assertEquals(ChartAxisType.VALUE, chart.getAxisY().getType());
@@ -803,12 +796,12 @@ public class ExCharts extends ApiExampleBase {
         // Each series will need two decimal arrays of equal length.
         // The first array contains X-values, and the second contains corresponding Y-values
         // of data points on the chart's graph.
-        chart.getSeries().add("Series 1", 
-            new double[] { 3.1, 3.5, 6.3, 4.1, 2.2, 8.3, 1.2, 3.6 }, 
-            new double[] { 3.1, 6.3, 4.6, 0.9, 8.5, 4.2, 2.3, 9.9 });
-        chart.getSeries().add("Series 2", 
-            new double[] { 2.6, 7.3, 4.5, 6.6, 2.1, 9.3, 0.7, 3.3 }, 
-            new double[] { 7.1, 6.6, 3.5, 7.8, 7.7, 9.5, 1.3, 4.6 });
+        chart.getSeries().add("Series 1",
+                new double[]{3.1, 3.5, 6.3, 4.1, 2.2, 8.3, 1.2, 3.6},
+                new double[]{3.1, 6.3, 4.6, 0.9, 8.5, 4.2, 2.3, 9.9});
+        chart.getSeries().add("Series 2",
+                new double[]{2.6, 7.3, 4.5, 6.6, 2.1, 9.3, 0.7, 3.3},
+                new double[]{7.1, 6.6, 3.5, 7.8, 7.7, 9.5, 1.3, 4.6});
 
         Assert.assertEquals(ChartAxisType.VALUE, chart.getAxisX().getType());
         Assert.assertEquals(ChartAxisType.VALUE, chart.getAxisY().getType());
@@ -819,14 +812,14 @@ public class ExCharts extends ApiExampleBase {
         // Each series will need three decimal arrays of equal length.
         // The first array contains X-values, the second contains corresponding Y-values,
         // and the third contains diameters for each of the graph's data points.
-        chart.getSeries().add("Series 1", 
-            new double[] { 1.1, 5.0, 9.8 }, 
-            new double[] { 1.2, 4.9, 9.9 }, 
-            new double[] { 2.0, 4.0, 8.0 });
+        chart.getSeries().add("Series 1",
+                new double[]{1.1, 5.0, 9.8},
+                new double[]{1.2, 4.9, 9.9},
+                new double[]{2.0, 4.0, 8.0});
 
         doc.save(getArtifactsDir() + "Charts.ChartSeriesCollection.docx");
     }
-    
+
     /// <summary>
     /// Insert a chart using a document builder of a specified ChartType, width and height, and remove its demo data.
     /// </summary>
@@ -870,14 +863,14 @@ public class ExCharts extends ApiExampleBase {
         }
 
         // These are the names of the categories in the chart.
-        String[] categories = { "Category 1", "Category 2", "Category 3", "Category 4" };
+        String[] categories = {"Category 1", "Category 2", "Category 3", "Category 4"};
 
         // We can add a series with new values for existing categories.
         // This chart will now contain four clusters of four columns.
-        chart.getSeries().add("Series 4", categories, new double[] { 4.4, 7.0, 3.5, 2.1 });
+        chart.getSeries().add("Series 4", categories, new double[]{4.4, 7.0, 3.5, 2.1});
         Assert.assertEquals(4, chartData.getCount()); //ExSkip
         Assert.assertEquals("Series 4", chartData.get(3).getName()); //ExSkip
-        
+
         // A chart series can also be removed by index, like this.
         // This will remove one of the three demo series that came with the chart.
         chartData.removeAt(2);
@@ -911,9 +904,9 @@ public class ExCharts extends ApiExampleBase {
         chart.getSeries().clear();
 
         // Insert a series with X/Y coordinates for five points.
-        chart.getSeries().add("Series 1", 
-            new double[] { 1.0, 2.0, 3.0, 4.0, 5.0 }, 
-            new double[] { 1.0, 20.0, 400.0, 8000.0, 160000.0 });
+        chart.getSeries().add("Series 1",
+                new double[]{1.0, 2.0, 3.0, 4.0, 5.0},
+                new double[]{1.0, 20.0, 400.0, 8000.0, 160000.0});
 
         // The scaling of the X-axis is linear by default,
         // displaying evenly incrementing values that cover our X-value range (0, 1, 2, 3...).
@@ -953,9 +946,9 @@ public class ExCharts extends ApiExampleBase {
 
         // Add a series with two decimal arrays. The first array contains the X-values,
         // and the second contains corresponding Y-values for points in the scatter chart.
-        chart.getSeries().add("Series 1", 
-            new double[] { 1.1, 5.4, 7.9, 3.5, 2.1, 9.7 }, 
-            new double[] { 2.1, 0.3, 0.6, 3.3, 1.4, 1.9 });
+        chart.getSeries().add("Series 1",
+                new double[]{1.1, 5.4, 7.9, 3.5, 2.1, 9.7},
+                new double[]{2.1, 0.3, 0.6, 3.3, 1.4, 1.9});
 
         // By default, default scaling is applied to the graph's X and Y-axes,
         // so that both their ranges are big enough to encompass every X and Y-value of every series.
@@ -1089,8 +1082,7 @@ public class ExCharts extends ApiExampleBase {
     }
 
     @Test
-    public void axisDisplayUnit() throws Exception
-    {
+    public void axisDisplayUnit() throws Exception {
         //ExStart
         //ExFor:AxisBuiltInUnit
         //ExFor:ChartAxis.DisplayUnit
@@ -1122,7 +1114,7 @@ public class ExCharts extends ApiExampleBase {
         // Set they Y-axis to show a major tick every 10 units, and a minor tick every 1 unit.
         axis.setMajorUnit(10.0);
         axis.setMinorUnit(1.0);
-        
+
         // Set the Y-axis bounds to -10 and 20.
         // This Y-axis will now display 4 major tick marks and 27 minor tick marks.
         axis.getScaling().setMinimum(new AxisBound(-10));
@@ -1142,7 +1134,7 @@ public class ExCharts extends ApiExampleBase {
         axis.setTickLabelAlignment(ParagraphAlignment.RIGHT);
 
         Assert.assertEquals(1, axis.getTickLabelSpacing());
-        
+
         // Set the tick labels to display their value in millions.
         axis.getDisplayUnit().setUnit(AxisBuiltInUnit.MILLIONS);
 
@@ -1155,7 +1147,7 @@ public class ExCharts extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Charts.AxisDisplayUnit.docx");
-        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         Assert.assertEquals(450.0d, shape.getWidth());
         Assert.assertEquals(250.0d, shape.getHeight());

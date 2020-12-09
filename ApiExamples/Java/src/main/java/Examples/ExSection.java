@@ -79,8 +79,7 @@ public class ExSection extends ApiExampleBase {
     }
 
     @Test
-    public void firstAndLast() throws Exception
-    {
+    public void firstAndLast() throws Exception {
         //ExStart
         //ExFor:Document.FirstSection
         //ExFor:Document.LastSection
@@ -118,8 +117,7 @@ public class ExSection extends ApiExampleBase {
     }
 
     @Test
-    public void createFromScratch() throws Exception
-    {
+    public void createFromScratch() throws Exception {
         //ExStart
         //ExFor:Node.GetText
         //ExFor:CompositeNode.RemoveAllChildren

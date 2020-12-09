@@ -256,8 +256,7 @@ class TestUtil {
     /// <summary>
     /// Checks whether values of attributes of an editable range are equal to their expected values.
     /// </summary>
-    static void verifyEditableRange(int expectedId, String expectedEditorUser, int expectedEditorGroup, EditableRange editableRange)
-    {
+    static void verifyEditableRange(int expectedId, String expectedEditorUser, int expectedEditorGroup, EditableRange editableRange) {
         Assert.assertEquals(expectedId, editableRange.getId());
         Assert.assertEquals(expectedEditorUser, editableRange.getSingleUser());
         Assert.assertEquals(expectedEditorGroup, editableRange.getEditorGroup());

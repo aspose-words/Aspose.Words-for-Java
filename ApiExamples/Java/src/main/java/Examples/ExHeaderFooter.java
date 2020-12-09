@@ -20,8 +20,7 @@ import java.util.regex.Pattern;
 
 public class ExHeaderFooter extends ApiExampleBase {
     @Test
-    public void create() throws Exception
-    {
+    public void create() throws Exception {
         //ExStart
         //ExFor:HeaderFooter
         //ExFor:HeaderFooter.#ctor(DocumentBase, HeaderFooterType)
@@ -34,7 +33,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExFor:Story.AppendParagraph
         //ExSummary:Shows how to create a header and a footer.
         Document doc = new Document();
-        
+
         // Create a header, and append a paragraph to it. The text in that paragraph
         // will appear at the top of every page of this section, above the main body text.
         HeaderFooter header = new HeaderFooter(doc, HeaderFooterType.HEADER_PRIMARY);
@@ -69,8 +68,7 @@ public class ExHeaderFooter extends ApiExampleBase {
     }
 
     @Test
-    public void link() throws Exception
-    {
+    public void link() throws Exception {
         //ExStart
         //ExFor:HeaderFooter.IsLinkedToPrevious
         //ExFor:HeaderFooterCollection.Item(System.Int32)
@@ -158,8 +156,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         // Iterate through each section, and remove every kind of footer.
-        for (Section section : doc.getSections())
-        {
+        for (Section section : doc.getSections()) {
             // There are three kinds of footer and header types.
             // 1 -  The "First" header/footer, which only appears on the first page of a section.
             HeaderFooter footer = section.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_FIRST);
@@ -193,8 +190,7 @@ public class ExHeaderFooter extends ApiExampleBase {
     }
 
     @Test
-    public void exportMode() throws Exception
-    {
+    public void exportMode() throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportHeadersFootersMode
         //ExFor:ExportHeadersFootersMode
@@ -255,36 +251,37 @@ public class ExHeaderFooter extends ApiExampleBase {
     //ExFor:IReplacingCallback
     //ExFor:PageSetup.DifferentFirstPageHeaderFooter
     //ExSummary:Shows how to track the order in which a text replacement operation traverses nodes.
-    @Test (dataProvider = "orderDataProvider") //ExSkip
-    public void order(boolean differentFirstPageHeaderFooter) throws Exception
-    {
+    @Test(dataProvider = "orderDataProvider") //ExSkip
+    public void order(boolean differentFirstPageHeaderFooter) throws Exception {
         Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         Section firstPageSection = doc.getFirstSection();
 
         ReplaceLog logger = new ReplaceLog();
-        FindReplaceOptions options = new FindReplaceOptions(); { options.setReplacingCallback(logger); }
-        
+        FindReplaceOptions options = new FindReplaceOptions();
+        {
+            options.setReplacingCallback(logger);
+        }
+
         // Using a different header/footer for the first page will affect the search order.
         firstPageSection.getPageSetup().setDifferentFirstPageHeaderFooter(differentFirstPageHeaderFooter);
         doc.getRange().replace(Pattern.compile("(header|footer)"), "", options);
 
         if (differentFirstPageHeaderFooter)
             Assert.assertEquals("First headerFirst footerSecond headerSecond footerThird headerThird footer",
-                logger.Text().replace("\r", ""));
+                    logger.Text().replace("\r", ""));
         else
             Assert.assertEquals("Third headerFirst headerThird footerFirst footerSecond headerSecond footer",
-                logger.Text().replace("\r", ""));
+                    logger.Text().replace("\r", ""));
     }
 
-	@DataProvider(name = "orderDataProvider")
-	public static Object[][] orderDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    @DataProvider(name = "orderDataProvider")
+    public static Object[][] orderDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     /// <summary>
@@ -298,12 +295,11 @@ public class ExHeaderFooter extends ApiExampleBase {
             return ReplaceAction.SKIP;
         }
 
-        public String Text()
-        {
+        public String Text() {
             return mTextBuilder.toString();
         }
 
-        private StringBuilder mTextBuilder = new StringBuilder();
+        private final StringBuilder mTextBuilder = new StringBuilder();
     }
     //ExEnd
 

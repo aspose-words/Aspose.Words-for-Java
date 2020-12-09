@@ -9,14 +9,12 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 @Test
 public class ExFile extends ApiExampleBase {
@@ -26,8 +24,7 @@ public class ExFile extends ApiExampleBase {
         //ExStart
         //ExFor:FileCorruptedException
         //ExSummary:Shows how to catch a FileCorruptedException.
-        try
-        {
+        try {
             // If we get an "Unreadable content" error message when trying to open a document using Microsoft Word,
             // chances are that we will get an exception thrown when trying to load that document using Aspose.Words.
             Document doc = new Document(getMyDir() + "Corrupted document.docx");
@@ -38,8 +35,7 @@ public class ExFile extends ApiExampleBase {
     }
 
     @Test
-    public void detectEncoding() throws Exception
-    {
+    public void detectEncoding() throws Exception {
         //ExStart
         //ExFor:FileFormatInfo.Encoding
         //ExFor:FileFormatUtil
@@ -116,7 +112,7 @@ public class ExFile extends ApiExampleBase {
         //ExFor:FileFormatInfo.IsEncrypted
         //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and encryption.
         Document doc = new Document();
-        
+
         // Configure a SaveOptions object to encrypt the document with a password when we save it, and then save it.
         OdtSaveOptions saveOptions = new OdtSaveOptions(SaveFormat.ODT);
         saveOptions.setPassword("MyPassword");
@@ -211,8 +207,7 @@ public class ExFile extends ApiExampleBase {
     }
 
     @Test
-    public void extractImages() throws Exception
-    {
+    public void extractImages() throws Exception {
         //ExStart
         //ExFor:Shape
         //ExFor:Shape.ImageData
@@ -224,7 +219,7 @@ public class ExFile extends ApiExampleBase {
         //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
         //ExSummary:Shows how to extract images from a document, and save them to the local file system as individual files.
         Document doc = new Document(getMyDir() + "Images.docx");
-        
+
         // Get the collection of shapes from the document,
         // and save the image data of every shape with an image as a file to the local file system.
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);

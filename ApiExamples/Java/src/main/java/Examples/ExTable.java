@@ -64,8 +64,7 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void padding() throws Exception
-    {
+    public void padding() throws Exception {
         //ExStart
         //ExFor:Table.LeftPadding
         //ExFor:Table.RightPadding
@@ -81,7 +80,7 @@ public class ExTable extends ApiExampleBase {
         builder.insertCell();
         builder.write("Row 1, cell 2.");
         builder.endTable();
-        
+
         // For every cell in the table, set the distance between its contents, and each of its borders. 
         // Text will be wrapped to maintain this minimum padding distance.
         table.setLeftPadding(30.0);
@@ -94,7 +93,7 @@ public class ExTable extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.SetRowFormatting.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
         Assert.assertEquals(30.0d, table.getLeftPadding());
         Assert.assertEquals(60.0d, table.getRightPadding());
@@ -103,8 +102,7 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void rowCellFormat() throws Exception
-    {
+    public void rowCellFormat() throws Exception {
         //ExStart
         //ExFor:Row.RowFormat
         //ExFor:RowFormat

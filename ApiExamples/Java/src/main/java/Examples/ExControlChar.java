@@ -33,13 +33,13 @@ public class ExControlChar extends ApiExampleBase {
         // Converting the document to text form reveals that control characters
         // represent some of the document's structural elements, such as page breaks.
         Assert.assertEquals(MessageFormat.format("Hello world!{0}", ControlChar.CR) +
-                        MessageFormat.format("Hello again!{0}", ControlChar.CR) +
-                        ControlChar.PAGE_BREAK, doc.getText());
+                MessageFormat.format("Hello again!{0}", ControlChar.CR) +
+                ControlChar.PAGE_BREAK, doc.getText());
 
         // When converting a document to string form,
         // we can omit some of the control characters with the Trim method.
         Assert.assertEquals(MessageFormat.format("Hello world!{0}", ControlChar.CR) +
-                        "Hello again!", doc.getText().trim());
+                "Hello again!", doc.getText().trim());
         //ExEnd
     }
 

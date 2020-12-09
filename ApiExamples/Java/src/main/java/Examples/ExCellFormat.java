@@ -104,8 +104,7 @@ public class ExCellFormat extends ApiExampleBase {
     }
 
     @Test
-    public void padding() throws Exception
-    {
+    public void padding() throws Exception {
         //ExStart
         //ExFor:CellFormat.SetPaddings
         //ExSummary:Shows how to pad the contents of a cell with whitespace.
@@ -120,7 +119,7 @@ public class ExCellFormat extends ApiExampleBase {
         builder.startTable();
         builder.insertCell();
         builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
-                      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
 
         doc.save(getArtifactsDir() + "CellFormat.Padding.docx");
         //ExEnd

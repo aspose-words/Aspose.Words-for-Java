@@ -84,8 +84,7 @@ public class ExEditableRange extends ApiExampleBase {
     }
 
     @Test
-    public void nested() throws Exception
-    {
+    public void nested() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.StartEditableRange
         //ExFor:DocumentBuilder.EndEditableRange(EditableRangeStart)
@@ -96,8 +95,8 @@ public class ExEditableRange extends ApiExampleBase {
 
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Hello world! Since we have set the document's protection level to read-only, " +
-                        "we cannot edit this paragraph without the password.");
-         
+                "we cannot edit this paragraph without the password.");
+
         // Create two nested editable ranges.
         EditableRangeStart outerEditableRangeStart = builder.startEditableRange();
         builder.writeln("This paragraph inside the outer editable range and can be edited.");
@@ -127,16 +126,16 @@ public class ExEditableRange extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "EditableRange.Nested.docx");
 
         Assert.assertEquals("Hello world! Since we have set the document's protection level to read-only, we cannot edit this paragraph without the password.\r" +
-                        "This paragraph inside the outer editable range and can be edited.\r" +
-                        "This paragraph inside both the outer and inner editable ranges and can be edited.\r" +
-                        "This paragraph inside the outer editable range and can be edited.\r" +
-                        "This paragraph is outside any editable ranges, and cannot be edited.", doc.getText().trim());
+                "This paragraph inside the outer editable range and can be edited.\r" +
+                "This paragraph inside both the outer and inner editable ranges and can be edited.\r" +
+                "This paragraph inside the outer editable range and can be edited.\r" +
+                "This paragraph is outside any editable ranges, and cannot be edited.", doc.getText().trim());
 
-        EditableRange editableRange = ((EditableRangeStart)doc.getChild(NodeType.EDITABLE_RANGE_START, 0, true)).getEditableRange();
+        EditableRange editableRange = ((EditableRangeStart) doc.getChild(NodeType.EDITABLE_RANGE_START, 0, true)).getEditableRange();
 
         TestUtil.verifyEditableRange(0, "", EditorType.EVERYONE, editableRange);
 
-        editableRange = ((EditableRangeStart)doc.getChild(NodeType.EDITABLE_RANGE_START, 1, true)).getEditableRange();
+        editableRange = ((EditableRangeStart) doc.getChild(NodeType.EDITABLE_RANGE_START, 1, true)).getEditableRange();
 
         TestUtil.verifyEditableRange(1, "", EditorType.CONTRIBUTORS, editableRange);
     }
@@ -152,14 +151,13 @@ public class ExEditableRange extends ApiExampleBase {
     //ExFor:EditorType
     //ExSummary:Shows how to limit the editing rights of editable ranges to a specific group/user.
     @Test //ExSkip
-    public void visitor() throws Exception
-    {
+    public void visitor() throws Exception {
         Document doc = new Document();
         doc.protect(ProtectionType.READ_ONLY, "MyPassword");
 
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Hello world! Since we have set the document's protection level to read-only," +
-                        " we cannot edit this paragraph without the password.");
+                " we cannot edit this paragraph without the password.");
 
         // When we write-protect documents, editable ranges allow us to pick specific areas that users are allowed to edit.
         // There are two mutually exclusive ways to narrow down the list of allowed editors.
@@ -201,8 +199,7 @@ public class ExEditableRange extends ApiExampleBase {
             return mBuilder.toString();
         }
 
-        public void reset()
-        {
+        public void reset() {
             mBuilder.setLength(0);
             mInsideEditableRange = false;
         }
@@ -210,8 +207,7 @@ public class ExEditableRange extends ApiExampleBase {
         /// <summary>
         /// Called when an EditableRangeStart node is encountered in the document.
         /// </summary>
-        public /*override*/ /*VisitorAction*/int visitEditableRangeStart(EditableRangeStart editableRangeStart)
-        {
+        public /*override*/ /*VisitorAction*/int visitEditableRangeStart(EditableRangeStart editableRangeStart) {
             mBuilder.append(" -- Editable range found! -- ");
             mBuilder.append("\tID:\t\t" + editableRangeStart.getId());
             if (editableRangeStart.getEditableRange().getSingleUser().equals(""))
@@ -248,7 +244,7 @@ public class ExEditableRange extends ApiExampleBase {
         }
 
         private boolean mInsideEditableRange;
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 

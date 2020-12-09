@@ -9,7 +9,6 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -98,8 +97,7 @@ public class ExNode extends ApiExampleBase {
     }
 
     @Test
-    public void childNodesEnumerate() throws Exception
-    {
+    public void childNodesEnumerate() throws Exception {
         //ExStart
         //ExFor:Node
         //ExFor:NodeType
@@ -113,7 +111,7 @@ public class ExNode extends ApiExampleBase {
         Document doc = new Document();
 
         // Add two runs and one shape as child nodes to the first paragraph of this document.
-        Paragraph paragraph = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 0, true);
+        Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
         paragraph.appendChild(new Run(doc, "Hello world! "));
 
         Shape shape = new Shape(doc, ShapeType.RECTANGLE);
@@ -131,18 +129,17 @@ public class ExNode extends ApiExampleBase {
         Assert.assertEquals(3, paragraph.getChildNodes().getCount());
 
         for (Node child : (Iterable<Node>) children)
-            switch (child.getNodeType())
-            {
+            switch (child.getNodeType()) {
                 case NodeType.RUN:
                     System.out.println("Run contents:");
                     System.out.println("\t\"{child.GetText().Trim()}\"");
                     break;
                 case NodeType.SHAPE:
-                    Shape childShape = (Shape)child;
+                    Shape childShape = (Shape) child;
                     System.out.println("Shape:");
                     System.out.println("\t{childShape.ShapeType}, {childShape.Width}x{childShape.Height}");
                     break;
-        }
+            }
         //ExEnd
 
         Assert.assertEquals(NodeType.RUN, paragraph.getChild(NodeType.RUN, 0, true).getNodeType());
@@ -181,8 +178,7 @@ public class ExNode extends ApiExampleBase {
     //ExFor:CommentRangeStart.NodeType
     //ExSummary:Shows how to traverse a composite node's tree of child nodes.
     @Test //ExSkip
-    public void recurseChildren() throws Exception
-    {
+    public void recurseChildren() throws Exception {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // Any node that can contain child nodes, such as the document itself, is composite.
@@ -254,7 +250,7 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Shows how to use a node's NextSibling property to enumerate through its immediate children.
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
-        for (Node node = doc.getFirstSection().getBody().getFirstChild(); node != null; node = node.getNextSibling()) {            
+        for (Node node = doc.getFirstSection().getBody().getFirstChild(); node != null; node = node.getNextSibling()) {
             System.out.println(Node.nodeTypeToString(node.getNodeType()));
         }
         //ExEnd
@@ -275,7 +271,7 @@ public class ExNode extends ApiExampleBase {
         Assert.assertEquals(5, tables.get(0).getRows().getCount());
         Assert.assertEquals(4, tables.get(1).getRows().getCount());
 
-        for (Table table : tables) {            
+        for (Table table : tables) {
             if (table.getFirstRow() != null) {
                 table.getFirstRow().remove();
             }
@@ -299,14 +295,14 @@ public class ExNode extends ApiExampleBase {
         //ExSummary:Shows how to use of methods of Node and CompositeNode to remove a section before the last section in the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         builder.writeln("Section 1 text.");
         builder.insertBreak(BreakType.SECTION_BREAK_CONTINUOUS);
         builder.writeln("Section 2 text.");
 
         // Both sections are siblings of each other.
-        Section lastSection = (Section)doc.getLastChild();
-        Section firstSection = (Section)lastSection.getPreviousSibling();
+        Section lastSection = (Section) doc.getLastChild();
+        Section firstSection = (Section) lastSection.getPreviousSibling();
 
         // Remove a section based on its sibling relationship with another section.
         if (lastSection.getPreviousSibling() != null)
@@ -589,7 +585,7 @@ public class ExNode extends ApiExampleBase {
         builder.endTable();
 
         builder.insertImage(getImageDir() + "Logo.jpg");
-                    
+
         // Our document contains three Run nodes.
         NodeList nodeList = doc.selectNodes("//Run");
 
@@ -603,15 +599,15 @@ public class ExNode extends ApiExampleBase {
 
         // Single forward slashes specify direct descendant relationships,
         // which we skipped when we used double slashes.
-        Assert.assertEquals(doc.selectNodes("//Table//Run"), 
-            doc.selectNodes("//Table/Row/Cell/Paragraph/Run"));
+        Assert.assertEquals(doc.selectNodes("//Table//Run"),
+                doc.selectNodes("//Table/Row/Cell/Paragraph/Run"));
 
         // Access the shape that contains the image we inserted.
         nodeList = doc.selectNodes("//Shape");
 
         Assert.assertEquals(1, nodeList.getCount());
 
-        Shape shape = (Shape)nodeList.get(0);
+        Shape shape = (Shape) nodeList.get(0);
         Assert.assertTrue(shape.hasImage());
         //ExEnd
     }

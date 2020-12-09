@@ -13,11 +13,9 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class ExOdtSaveOptions extends ApiExampleBase
-{
-    @Test (dataProvider = "odt11SchemaDataProvider")
-    public void odt11Schema(boolean exportToOdt11Specs) throws Exception
-    {
+public class ExOdtSaveOptions extends ApiExampleBase {
+    @Test(dataProvider = "odt11SchemaDataProvider")
+    public void odt11Schema(boolean exportToOdt11Specs) throws Exception {
         //ExStart
         //ExFor:OdtSaveOptions
         //ExFor:OdtSaveOptions.#ctor
@@ -36,7 +34,7 @@ public class ExOdtSaveOptions extends ApiExampleBase
     }
 
     @DataProvider(name = "odt11SchemaDataProvider")
-	public static Object[][] odt11SchemaDataProvider() {
+    public static Object[][] odt11SchemaDataProvider() {
         return new Object[][]
                 {
                         {false},
@@ -44,9 +42,8 @@ public class ExOdtSaveOptions extends ApiExampleBase
                 };
     }
 
-    @Test (dataProvider = "measurementUnitsDataProvider")
-    public void measurementUnits(/*OdtSaveMeasureUnit*/int odtSaveMeasureUnit) throws Exception
-    {
+    @Test(dataProvider = "measurementUnitsDataProvider")
+    public void measurementUnits(/*OdtSaveMeasureUnit*/int odtSaveMeasureUnit) throws Exception {
         //ExStart
         //ExFor:OdtSaveOptions
         //ExFor:OdtSaveOptions.MeasureUnit
@@ -68,18 +65,17 @@ public class ExOdtSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-	@DataProvider(name = "measurementUnitsDataProvider")
-	public static Object[][] measurementUnitsDataProvider() {
+    @DataProvider(name = "measurementUnitsDataProvider")
+    public static Object[][] measurementUnitsDataProvider() {
         return new Object[][]
                 {
-			{OdtSaveMeasureUnit.CENTIMETERS},
-			{OdtSaveMeasureUnit.INCHES},
+                        {OdtSaveMeasureUnit.CENTIMETERS},
+                        {OdtSaveMeasureUnit.INCHES},
                 };
     }
 
-    @Test (dataProvider = "encryptDataProvider")
-    public void encrypt(/*SaveFormat*/int saveFormat) throws Exception
-    {
+    @Test(dataProvider = "encryptDataProvider")
+    public void encrypt(/*SaveFormat*/int saveFormat) throws Exception {
         //ExStart
         //ExFor:OdtSaveOptions.#ctor(SaveFormat)
         //ExFor:OdtSaveOptions.Password
@@ -107,16 +103,15 @@ public class ExOdtSaveOptions extends ApiExampleBase
         // If we wish to open or edit this document again using Aspose.Words,
         // we will have to provide a LoadOptions object with the correct password to the loading constructor.
         doc = new Document(getArtifactsDir() + "OdtSaveOptions.Encrypt" + extensionString,
-            new LoadOptions("@sposeEncrypted_1145"));
+                new LoadOptions("@sposeEncrypted_1145"));
 
         Assert.assertEquals("Hello world!", doc.getText().trim());
         //ExEnd
     }
 
     //JAVA-added data provider for test method
-	@DataProvider(name = "encryptDataProvider")
-	public static Object[][] encryptDataProvider() throws Exception
-	{
+    @DataProvider(name = "encryptDataProvider")
+    public static Object[][] encryptDataProvider() throws Exception {
         return new Object[][]
                 {
                         {SaveFormat.ODT},

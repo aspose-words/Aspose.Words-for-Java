@@ -108,7 +108,7 @@ public class ExDrawing extends ApiExampleBase {
         Graphics2D graphics2D = image.createGraphics();
 
         // When we flip the orientation of our arrow, we also flip the image that the arrow contains.
-                // Flip the image the other way to cancel this out before getting the shape to display it.
+        // Flip the image the other way to cancel this out before getting the shape to display it.
         AffineTransform at = new AffineTransform();
         at.concatenate(AffineTransform.getScaleInstance(1, -1));
         at.concatenate(AffineTransform.getTranslateInstance(0, -image.getHeight()));
@@ -301,7 +301,7 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:Stroke.ImageBytes
         //ExSummary:Shows how to process shape stroke features.
         Document doc = new Document(getMyDir() + "Shape stroke pattern border.docx");
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         Stroke stroke = shape.getStroke();
 
         // Strokes can have two colors, which are used to create a pattern defined by two-tone image data.
@@ -332,7 +332,7 @@ public class ExDrawing extends ApiExampleBase {
     public void groupOfShapes() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // If you need to create "NonPrimitive" shapes, such as SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
         // TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
         // please use DocumentBuilder.InsertShape methods.
@@ -396,7 +396,7 @@ public class ExDrawing extends ApiExampleBase {
             return VisitorAction.CONTINUE;
         }
 
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 
@@ -463,7 +463,7 @@ public class ExDrawing extends ApiExampleBase {
         Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
         Assert.assertEquals(10, imgSourceDoc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSkip
 
-        Shape imgShape = (Shape)imgSourceDoc.getChild(NodeType.SHAPE, 0, true);
+        Shape imgShape = (Shape) imgSourceDoc.getChild(NodeType.SHAPE, 0, true);
 
         Assert.assertTrue(imgShape.hasImage());
 
@@ -509,7 +509,7 @@ public class ExDrawing extends ApiExampleBase {
         Document dstDoc = new Document();
 
         // Import a shape from the source document, and append it to the first paragraph.
-        Shape importedShape = (Shape)dstDoc.importNode(sourceShape, true);
+        Shape importedShape = (Shape) dstDoc.importNode(sourceShape, true);
         dstDoc.getFirstSection().getBody().getFirstParagraph().appendChild(importedShape);
 
         // The imported shape contains an image. We can access the image's attributes and raw data via the ImageData object.
@@ -543,7 +543,7 @@ public class ExDrawing extends ApiExampleBase {
 
         // Import the source shape again to create a third image, and set it to BiLevel.
         // BiLevel sets every pixel to either black or white, whichever is closer to the original color.
-        importedShape = (Shape)dstDoc.importNode(sourceShape, true);
+        importedShape = (Shape) dstDoc.importNode(sourceShape, true);
         dstDoc.getFirstSection().getBody().getFirstParagraph().appendChild(importedShape);
 
         importedShape.getImageData().setBiLevel(true);
@@ -598,7 +598,7 @@ public class ExDrawing extends ApiExampleBase {
 
         // If the shape contains an image, its ImageData property will be valid,
         // and it will contain an ImageSize object.
-        ImageSize imageSize = shape.getImageData().getImageSize(); 
+        ImageSize imageSize = shape.getImageData().getImageSize();
 
         // The ImageSize object contains read-only information about the image within the shape.
         Assert.assertEquals(imageSize.getHeightPixels(), 400);

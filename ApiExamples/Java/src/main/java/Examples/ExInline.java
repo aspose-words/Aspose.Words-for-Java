@@ -44,7 +44,7 @@ public class ExInline extends ApiExampleBase {
         Assert.assertEquals(6, doc.getRevisions().getCount());
 
         // The parent node of a revision is the run that the revision concerns. A Run is an Inline node.
-        Run run = (Run)doc.getRevisions().get(0).getParentNode();
+        Run run = (Run) doc.getRevisions().get(0).getParentNode();
 
         Paragraph firstParagraph = run.getParentParagraph();
         RunCollection runs = firstParagraph.getRuns();

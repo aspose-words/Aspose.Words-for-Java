@@ -21,9 +21,8 @@ public class ExMetered extends ApiExampleBase {
         Assert.assertThrows(IllegalStateException.class, () -> usage());
     }
 
-    @Test (enabled = false)
-    public void usage() throws Exception
-    {
+    @Test(enabled = false)
+    public void usage() throws Exception {
         //ExStart
         //ExFor:Metered
         //ExFor:Metered.#ctor
@@ -34,7 +33,7 @@ public class ExMetered extends ApiExampleBase {
         // Create a new Metered license, and then print its usage statistics.
         Metered metered = new Metered();
         metered.setMeteredKey("MyPublicKey", "MyPrivateKey");
-        
+
         System.out.println("Credit before operation: {Metered.GetConsumptionCredit()}");
         System.out.println("Consumption quantity before operation: {Metered.GetConsumptionQuantity()}");
 

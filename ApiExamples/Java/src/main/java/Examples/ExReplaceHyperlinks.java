@@ -102,7 +102,7 @@ class Hyperlink {
         Matcher matcher = G_REGEX.matcher(fieldCode.trim());
         matcher.find();
         mIsLocal = (matcher.group(1) != null) && (matcher.group(1).length() > 0);    //The link is local if \l is present in the field code.
-        mTarget = matcher.group(2).toString();
+        mTarget = matcher.group(2);
     }
 
     /**
@@ -204,7 +204,7 @@ class Hyperlink {
     private boolean mIsLocal;
     private String mTarget;
 
-    private static Pattern G_REGEX = Pattern.compile(
+    private static final Pattern G_REGEX = Pattern.compile(
             "\\S+" +             // one or more non spaces HYPERLINK or other word in other languages
                     "\\s+" +             // one or more spaces
                     "(?:\"\"\\s+)?" +    // non capturing optional "" and one or more spaces, found in one of the customers files

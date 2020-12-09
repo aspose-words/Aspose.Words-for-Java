@@ -9,7 +9,6 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -18,12 +17,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 public class ExImage extends ApiExampleBase {
     @Test
-    public void fromFile() throws Exception
-    {
+    public void fromFile() throws Exception {
         //ExStart
         //ExFor:Shape.#ctor(DocumentBase,ShapeType)
         //ExFor:ShapeType
@@ -45,7 +42,7 @@ public class ExImage extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Image.FromFile.docx");
-        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
         Assert.assertEquals(100.0d, shape.getHeight());
@@ -53,8 +50,7 @@ public class ExImage extends ApiExampleBase {
     }
 
     @Test
-    public void fromUrl() throws Exception
-    {
+    public void fromUrl() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(String)
         //ExSummary:Shows how to insert a shape with an image into a document.
@@ -85,8 +81,7 @@ public class ExImage extends ApiExampleBase {
     }
 
     @Test
-    public void fromStream() throws Exception
-    {
+    public void fromStream() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(Stream)
         //ExSummary:Shows how to insert a shape with an image from a stream into a document.
@@ -109,9 +104,8 @@ public class ExImage extends ApiExampleBase {
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape) doc.getChildNodes(NodeType.SHAPE, true).get(0));
     }
 
-        @Test (groups = "SkipMono")
-    public void fromImage() throws Exception
-    {
+    @Test(groups = "SkipMono")
+    public void fromImage() throws Exception {
         DocumentBuilder builder = new DocumentBuilder();
 
         BufferedImage rasterImage = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
@@ -304,7 +298,7 @@ public class ExImage extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "Image.CreateLinkedImage.Linked.docx");
 
-        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         TestUtil.verifyImageInShape(0, 0, ImageType.WMF, shape);
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());

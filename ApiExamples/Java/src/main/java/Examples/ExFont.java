@@ -10,25 +10,16 @@ package Examples;
 
 
 import com.aspose.words.Font;
-import com.aspose.words.Shape;
 import com.aspose.words.*;
-import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.*;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.io.File;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.StreamSupport;
 
 public class ExFont extends ApiExampleBase {
     @Test
@@ -80,7 +71,7 @@ public class ExFont extends ApiExampleBase {
         run.getFont().setAllCaps(true);
         para.appendChild(run);
 
-        para = (Paragraph)para.getParentNode().appendChild(new Paragraph(doc));
+        para = (Paragraph) para.getParentNode().appendChild(new Paragraph(doc));
 
         // 2 -  Set the SmallCaps flag to display all characters in small capitals:
         // If a character is lower case, it will appear in its upper case form
@@ -120,8 +111,7 @@ public class ExFont extends ApiExampleBase {
         Assert.assertEquals(5, allFonts.getCount()); //ExSkip
 
         // Print all the used and unused fonts in the document.
-        for (int i = 0; i < allFonts.getCount(); i++)
-        {
+        for (int i = 0; i < allFonts.getCount(); i++) {
             System.out.println("Font index #{i}");
             System.out.println("\tName: {allFonts[i].Name}");
             System.out.println("\tIs {(allFonts[i].IsTrueType ? ");
@@ -138,9 +128,8 @@ public class ExFont extends ApiExampleBase {
         Assert.assertFalse(doc.getFontInfos().getSaveSubsetFonts());
     }
 
-    @Test (dataProvider = "fontInfoCollectionDataProvider")
-    public void fontInfoCollection(boolean embedAllFonts) throws Exception
-    {
+    @Test(dataProvider = "fontInfoCollectionDataProvider")
+    public void fontInfoCollection(boolean embedAllFonts) throws Exception {
         //ExStart
         //ExFor:FontInfoCollection
         //ExFor:DocumentBase.FontInfos
@@ -159,15 +148,14 @@ public class ExFont extends ApiExampleBase {
         //ExEnd
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "fontInfoCollectionDataProvider")
-	public static Object[][] fontInfoCollectionDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "fontInfoCollectionDataProvider")
+    public static Object[][] fontInfoCollectionDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test(dataProvider = "workWithEmbeddedFontsDataProvider")
@@ -207,7 +195,7 @@ public class ExFont extends ApiExampleBase {
         run.getFont().setStrikeThrough(true);
         para.appendChild(run);
 
-        para = (Paragraph)para.getParentNode().appendChild(new Paragraph(doc));
+        para = (Paragraph) para.getParentNode().appendChild(new Paragraph(doc));
 
         run = new Run(doc, "Text with a double-line strikethrough.");
         run.getFont().setDoubleStrikeThrough(true);
@@ -459,7 +447,7 @@ public class ExFont extends ApiExampleBase {
         // It is not advised to use this method to hide sensitive information.
         builder.getFont().setHidden(true);
         builder.getFont().setSize(36.0);
-        
+
         builder.writeln("This text will not be visible in the document.");
 
         doc.save(getArtifactsDir() + "Font.Hidden.docx");
@@ -492,7 +480,7 @@ public class ExFont extends ApiExampleBase {
         // Any text we add from this point will have kerning applied. The spaces between characters
         // will be adjusted, normally resulting in a slightly more aesthetically pleasing text run.
         builder.getFont().setKerning(12.0);
-        
+
         builder.writeln("TALLY. (Kerning applied)");
 
         doc.save(getArtifactsDir() + "Font.Kerning.docx");
@@ -549,7 +537,7 @@ public class ExFont extends ApiExampleBase {
         // the English locale spell checker will not recognize the text and detect it as a spelling error.
         builder.getFont().setLocaleId(1033);
         builder.writeln("Привет!");
-        
+
         // Set a matching locale for the text that we are about to add to apply the appropriate spell checker.
         builder.getFont().setLocaleId(1049);
         builder.writeln("Привет!");
@@ -680,7 +668,7 @@ public class ExFont extends ApiExampleBase {
         //ExSummary:Shows how to define separate sets of font settings for right-to-left, and right-to-left text.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // Define a set of font settings for left-to-right text.
         builder.getFont().setName("Courier New");
         builder.getFont().setSize(16.0);
@@ -731,7 +719,7 @@ public class ExFont extends ApiExampleBase {
         // This could be useful when a western font does not have ideal representations for Asian characters.
         builder.getFont().setNameFarEast("SimSun");
         builder.getFont().setLocaleIdFarEast(2052);
-        
+
         // This text will be displayed in the default font/locale.
         builder.writeln("Hello world!");
 
@@ -760,8 +748,7 @@ public class ExFont extends ApiExampleBase {
     }
 
     @Test
-    public void nameAscii() throws Exception
-    {
+    public void nameAscii() throws Exception {
         //ExStart
         //ExFor:Font.NameAscii
         //ExFor:Font.NameOther
@@ -815,11 +802,10 @@ public class ExFont extends ApiExampleBase {
         // 2 -  Using a built-in style identifier:
         builder.getFont().setStyleIdentifier(StyleIdentifier.INTENSE_EMPHASIS);
         builder.writeln("Text originally in \"Intense Emphasis\" style");
-   
+
         // Convert all uses of one style to another,
         // using the above methods to reference old and new styles.
-        for (Run run : (Iterable<Run>)doc.getChildNodes(NodeType.RUN, true))
-        {
+        for (Run run : (Iterable<Run>) doc.getChildNodes(NodeType.RUN, true)) {
             if (run.getFont().getStyleName().equals("Emphasis"))
                 run.getFont().setStyleName("Strong");
 
@@ -845,8 +831,7 @@ public class ExFont extends ApiExampleBase {
     }
 
     @Test
-    public void builtIn() throws Exception
-    {
+    public void builtIn() throws Exception {
         //ExStart
         //ExFor:Style.BuiltIn
         //ExSummary:Shows how to differentiate custom styles from built-in styles.
@@ -907,8 +892,7 @@ public class ExFont extends ApiExampleBase {
     }
 
     @Test
-    public void getAvailableFonts() throws Exception
-    {
+    public void getAvailableFonts() throws Exception {
         //ExStart
         //ExFor:Fonts.PhysicalFontInfo
         //ExFor:FontSourceBase.GetAvailableFonts
@@ -918,10 +902,9 @@ public class ExFont extends ApiExampleBase {
         //ExFor:PhysicalFontInfo.FilePath
         //ExSummary:Shows how to list available fonts.
         // Configure Aspose.Words to source fonts from a custom folder, and then print every available font.
-        FontSourceBase[] folderFontSource = { new FolderFontSource(getFontsDir(), true) };
-        
-        for (PhysicalFontInfo fontInfo : folderFontSource[0].getAvailableFonts())
-        {
+        FontSourceBase[] folderFontSource = {new FolderFontSource(getFontsDir(), true)};
+
+        for (PhysicalFontInfo fontInfo : folderFontSource[0].getAvailableFonts()) {
             System.out.println(MessageFormat.format("FontFamilyName : {0}", fontInfo.getFontFamilyName()));
             System.out.println(MessageFormat.format("FullFontName  : {0}", fontInfo.getFullFontName()));
             System.out.println(MessageFormat.format("Version  : {0}", fontInfo.getVersion()));
@@ -931,8 +914,7 @@ public class ExFont extends ApiExampleBase {
     }
 
     @Test
-    public void defaultFonts() throws Exception
-    {
+    public void defaultFonts() throws Exception {
         //ExStart
         //ExFor:Fonts.FontInfoCollection.Contains(String)
         //ExFor:Fonts.FontInfoCollection.Count
@@ -968,7 +950,7 @@ public class ExFont extends ApiExampleBase {
         Assert.assertNotNull(embeddedFontBytes); //ExSkip
 
         FileUtils.writeByteArrayToFile(new File(getArtifactsDir() + "Alte DIN 1451 Mittelschrift.ttf"), embeddedFontBytes);
-        
+
         // Embedded font formats may be different in other formats such as .doc.
         // We need to know the correct format before we can extract the font.
         doc = new Document(getMyDir() + "Embedded font.doc");
@@ -996,13 +978,11 @@ public class ExFont extends ApiExampleBase {
         //ExFor:Fonts.FontInfoCollection.GetEnumerator
         //ExSummary:Shows how to access and print details of each font in a document.
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         Iterator fontCollectionEnumerator = doc.getFontInfos().iterator();
-        while (fontCollectionEnumerator.hasNext())
-        {
-            FontInfo fontInfo = (FontInfo)fontCollectionEnumerator.next();
-            if (fontInfo != null)
-            {
+        while (fontCollectionEnumerator.hasNext()) {
+            FontInfo fontInfo = (FontInfo) fontCollectionEnumerator.next();
+            if (fontInfo != null) {
                 System.out.println("Font name: " + fontInfo.getName());
 
                 // Alt names are usually blank.
@@ -1028,8 +1008,7 @@ public class ExFont extends ApiExampleBase {
     }
 
     @Test
-    public void lineSpacing() throws Exception
-    {
+    public void lineSpacing() throws Exception {
         //ExStart
         //ExFor:Font.LineSpacing
         //ExSummary:Shows how to get a font's line spacing, in points.
@@ -1072,9 +1051,8 @@ public class ExFont extends ApiExampleBase {
                 "Fonts did not install to the user font folder");
     }
 
-    @Test (dataProvider = "setEmphasisMarkDataProvider")
-    public void setEmphasisMark(int emphasisMark) throws Exception
-    {
+    @Test(dataProvider = "setEmphasisMarkDataProvider")
+    public void setEmphasisMark(int emphasisMark) throws Exception {
         //ExStart
         //ExFor:EmphasisMark
         //ExFor:Font.EmphasisMark
@@ -1083,8 +1061,8 @@ public class ExFont extends ApiExampleBase {
 
         // Possible types of emphasis mark:
         // https://apireference.aspose.com/words/net/aspose.words/emphasismark
-        builder.getFont().setEmphasisMark(emphasisMark); 
-        
+        builder.getFont().setEmphasisMark(emphasisMark);
+
         builder.write("Emphasis text");
         builder.writeln();
         builder.getFont().clearFormatting();

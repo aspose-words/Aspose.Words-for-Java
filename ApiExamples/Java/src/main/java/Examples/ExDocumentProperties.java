@@ -15,16 +15,13 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
 @Test
-public class ExDocumentProperties extends ApiExampleBase
-{
+public class ExDocumentProperties extends ApiExampleBase {
     @Test
-    public void custom() throws Exception
-    {
+    public void custom() throws Exception {
         //ExStart
         //ExFor:BuiltInDocumentProperties.Item(String)
         //ExFor:CustomDocumentProperties
@@ -41,8 +38,7 @@ public class ExDocumentProperties extends ApiExampleBase
         doc.getCustomDocumentProperties().add("CustomProperty2", "Value of custom document property #2");
 
         System.out.println("Custom Properties:");
-        for (DocumentProperty customDocumentProperty : doc.getCustomDocumentProperties())
-        {
+        for (DocumentProperty customDocumentProperty : doc.getCustomDocumentProperties()) {
             System.out.println(customDocumentProperty.getName());
             System.out.println(MessageFormat.format("\tType:\t{0}", customDocumentProperty.getType()));
             System.out.println(MessageFormat.format("\tValue:\t\"{0}\"", customDocumentProperty.getValue()));
@@ -53,8 +49,7 @@ public class ExDocumentProperties extends ApiExampleBase
     }
 
     @Test
-    public void description() throws Exception
-    {
+    public void description() throws Exception {
         //ExStart
         //ExFor:BuiltInDocumentProperties.Author
         //ExFor:BuiltInDocumentProperties.Category
@@ -113,8 +108,7 @@ public class ExDocumentProperties extends ApiExampleBase
     }
 
     @Test
-    public void origin() throws Exception
-    {
+    public void origin() throws Exception {
         //ExStart
         //ExFor:BuiltInDocumentProperties.Company
         //ExFor:BuiltInDocumentProperties.CreatedTime
@@ -181,8 +175,7 @@ public class ExDocumentProperties extends ApiExampleBase
     //ExFor:BuiltInDocumentProperties.Words
     //ExSummary:Shows how to work with document properties in the "Content" category.
     @Test //ExSkip
-    public void content() throws Exception
-    {
+    public void content() throws Exception {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
@@ -223,8 +216,8 @@ public class ExDocumentProperties extends ApiExampleBase
         // Set a different template for our document, and then update the "Template" built-in property manually to reflect this change.
         doc.setAttachedTemplate(getMyDir() + "Business brochure.dotx");
 
-        Assert.assertEquals("Normal", properties.getTemplate());    
-        
+        Assert.assertEquals("Normal", properties.getTemplate());
+
         properties.setTemplate(doc.getAttachedTemplate());
 
         // "ContentStatus" is a descriptive built-in property.
@@ -245,33 +238,25 @@ public class ExDocumentProperties extends ApiExampleBase
     /// Traverses the document's layout entities tree upon construction,
     /// counting entities of the "Line" type that also contain real text.
     /// </summary>
-    private static class LineCounter
-    {
-        public LineCounter(Document doc) throws Exception
-        {
+    private static class LineCounter {
+        public LineCounter(Document doc) throws Exception {
             mLayoutEnumerator = new LayoutEnumerator(doc);
 
             countLines();
         }
 
-        public int getLineCount()
-        {
+        public int getLineCount() {
             return mLineCount;
         }
 
-        private void countLines() throws Exception
-        {
-            do
-            {
-                if (mLayoutEnumerator.getType() == LayoutEntityType.LINE)
-                {
+        private void countLines() throws Exception {
+            do {
+                if (mLayoutEnumerator.getType() == LayoutEntityType.LINE) {
                     mScanningLineForRealText = true;
                 }
 
-                if (mLayoutEnumerator.moveFirstChild())
-                {
-                    if (mScanningLineForRealText && mLayoutEnumerator.getKind().startsWith("TEXT"))
-                    {
+                if (mLayoutEnumerator.moveFirstChild()) {
+                    if (mScanningLineForRealText && mLayoutEnumerator.getKind().startsWith("TEXT")) {
                         mLineCount++;
                         mScanningLineForRealText = false;
                     }
@@ -281,14 +266,13 @@ public class ExDocumentProperties extends ApiExampleBase
             } while (mLayoutEnumerator.moveNext());
         }
 
-        private LayoutEnumerator mLayoutEnumerator;
+        private final LayoutEnumerator mLayoutEnumerator;
         private int mLineCount;
         private boolean mScanningLineForRealText;
     }
     //ExEnd
 
-    private void testContent(Document doc)
-    {
+    private void testContent(Document doc) {
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
         Assert.assertEquals(6, properties.getPages());
@@ -331,8 +315,7 @@ public class ExDocumentProperties extends ApiExampleBase
     }
 
     @Test
-    public void hyperlinkBase() throws Exception
-    {
+    public void hyperlinkBase() throws Exception {
         //ExStart
         //ExFor:BuiltInDocumentProperties.HyperlinkBase
         //ExSummary:Shows how to store the base part of a hyperlink in the document's properties.
@@ -355,7 +338,7 @@ public class ExDocumentProperties extends ApiExampleBase
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
         properties.setHyperlinkBase(getMyDir());
 
-        Assert.assertTrue(new File(properties.getHyperlinkBase() + ((FieldHyperlink)doc.getRange().getFields().get(0)).getAddress()).exists());
+        Assert.assertTrue(new File(properties.getHyperlinkBase() + ((FieldHyperlink) doc.getRange().getFields().get(0)).getAddress()).exists());
 
         doc.save(getArtifactsDir() + "DocumentProperties.HyperlinkBase.WorkingLink.docx");
         //ExEnd
@@ -369,18 +352,17 @@ public class ExDocumentProperties extends ApiExampleBase
         properties = doc.getBuiltInDocumentProperties();
 
         Assert.assertEquals(getMyDir(), properties.getHyperlinkBase());
-        Assert.assertTrue(new File(properties.getHyperlinkBase() + ((FieldHyperlink)doc.getRange().getFields().get(0)).getAddress()).exists());
+        Assert.assertTrue(new File(properties.getHyperlinkBase() + ((FieldHyperlink) doc.getRange().getFields().get(0)).getAddress()).exists());
     }
 
     @Test
-    public void headingPairs() throws Exception
-    {
+    public void headingPairs() throws Exception {
         //ExStart
         //ExFor:Properties.BuiltInDocumentProperties.HeadingPairs
         //ExFor:Properties.BuiltInDocumentProperties.TitlesOfParts
         //ExSummary:Shows the relationship between "HeadingPairs" and "TitlesOfParts" properties.
         Document doc = new Document(getMyDir() + "Heading pairs and titles of parts.docx");
-        
+
         // We can find the combined values of these collections via "File" -> "Properties" -> "Advanced Properties" > "Contents" tab.
         // The HeadingPairs property is a collection of <string, int> pairs that determines
         // how many document parts a heading spans across.
@@ -391,10 +373,9 @@ public class ExDocumentProperties extends ApiExampleBase
 
         int headingPairsIndex = 0;
         int titlesOfPartsIndex = 0;
-        while (headingPairsIndex < headingPairs.length)
-        {
+        while (headingPairsIndex < headingPairs.length) {
             System.out.println(MessageFormat.format("Parts for {0}:", headingPairs[headingPairsIndex++]));
-            int partsCount = (int)headingPairs[headingPairsIndex++];
+            int partsCount = (int) headingPairs[headingPairsIndex++];
 
             for (int i = 0; i < partsCount; i++)
                 System.out.println(MessageFormat.format("\t\"{0}\"", titlesOfParts[titlesOfPartsIndex++]));
@@ -425,8 +406,7 @@ public class ExDocumentProperties extends ApiExampleBase
     }
 
     @Test
-    public void security() throws Exception
-    {
+    public void security() throws Exception {
         //ExStart
         //ExFor:Properties.BuiltInDocumentProperties.Security
         //ExFor:Properties.DocumentSecurity
@@ -439,8 +419,8 @@ public class ExDocumentProperties extends ApiExampleBase
         doc.getWriteProtection().setReadOnlyRecommended(true);
         doc.save(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyRecommended.docx");
 
-        Assert.assertEquals(DocumentSecurity.READ_ONLY_RECOMMENDED, 
-            new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyRecommended.docx").getBuiltInDocumentProperties().getSecurity());
+        Assert.assertEquals(DocumentSecurity.READ_ONLY_RECOMMENDED,
+                new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyRecommended.docx").getBuiltInDocumentProperties().getSecurity());
 
         // Write-protect a document, and then verify its security level.
         doc = new Document();
@@ -453,9 +433,9 @@ public class ExDocumentProperties extends ApiExampleBase
         Assert.assertTrue(doc.getWriteProtection().isWriteProtected());
 
         doc.save(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyEnforced.docx");
-        
+
         Assert.assertEquals(DocumentSecurity.READ_ONLY_ENFORCED,
-            new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyEnforced.docx").getBuiltInDocumentProperties().getSecurity());
+                new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyEnforced.docx").getBuiltInDocumentProperties().getSecurity());
 
         // "Security" is a descriptive property. We can edit its value manually.
         doc = new Document();
@@ -465,13 +445,12 @@ public class ExDocumentProperties extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyExceptAnnotations.docx");
 
         Assert.assertEquals(DocumentSecurity.READ_ONLY_EXCEPT_ANNOTATIONS,
-            new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyExceptAnnotations.docx").getBuiltInDocumentProperties().getSecurity());
+                new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyExceptAnnotations.docx").getBuiltInDocumentProperties().getSecurity());
         //ExEnd
     }
 
     @Test
-    public void customNamedAccess() throws Exception
-    {
+    public void customNamedAccess() throws Exception {
         //ExStart
         //ExFor:DocumentPropertyCollection.Item(String)
         //ExFor:CustomDocumentProperties.Add(String,DateTime)
@@ -486,8 +465,7 @@ public class ExDocumentProperties extends ApiExampleBase
     }
 
     @Test
-    public void linkCustomDocumentPropertiesToBookmark() throws Exception
-    {
+    public void linkCustomDocumentPropertiesToBookmark() throws Exception {
         //ExStart
         //ExFor:CustomDocumentProperties.AddLinkToContent(String, String)
         //ExFor:DocumentProperty.IsLinkToContent
@@ -508,7 +486,7 @@ public class ExDocumentProperties extends ApiExampleBase
         Assert.assertEquals(true, customProperty.isLinkToContent());
         Assert.assertEquals("MyBookmark", customProperty.getLinkSource());
         Assert.assertEquals("Hello world!", customProperty.getValue());
-        
+
         doc.save(getArtifactsDir() + "DocumentProperties.LinkCustomDocumentPropertiesToBookmark.docx");
         //ExEnd
 
@@ -521,8 +499,7 @@ public class ExDocumentProperties extends ApiExampleBase
     }
 
     @Test
-    public void documentPropertyCollection() throws Exception
-    {
+    public void documentPropertyCollection() throws Exception {
         //ExStart
         //ExFor:CustomDocumentProperties.Add(String,String)
         //ExFor:CustomDocumentProperties.Add(String,Boolean)
@@ -564,7 +541,7 @@ public class ExDocumentProperties extends ApiExampleBase
 
         // Display the value of a custom property using a DOCPROPERTY field.
         DocumentBuilder builder = new DocumentBuilder(doc);
-        FieldDocProperty field = (FieldDocProperty)builder.insertField(" DOCPROPERTY \"Authorized By\"");
+        FieldDocProperty field = (FieldDocProperty) builder.insertField(" DOCPROPERTY \"Authorized By\"");
         field.update();
 
         Assert.assertEquals("John Doe", field.getResult());
@@ -593,8 +570,7 @@ public class ExDocumentProperties extends ApiExampleBase
     }
 
     @Test
-    public void propertyTypes() throws Exception
-    {
+    public void propertyTypes() throws Exception {
         //ExStart
         //ExFor:DocumentProperty.ToBool
         //ExFor:DocumentProperty.ToInt

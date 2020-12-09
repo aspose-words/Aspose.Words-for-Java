@@ -15,7 +15,10 @@ import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 
 @Test
 public class ExDocumentBuilderImages extends ApiExampleBase {
@@ -103,8 +106,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
     }
 
     @Test
-    public void insertImageFromFilename() throws Exception
-    {
+    public void insertImageFromFilename() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(String)
         //ExFor:DocumentBuilder.InsertImage(String, Double, Double)
@@ -126,7 +128,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         builder.insertBreak(BreakType.PAGE_BREAK);
 
         // 3 -  Floating shape with custom dimensions:
-        builder.insertImage(getImageDir() + "Windows MetaFile.wmf", RelativeHorizontalPosition.MARGIN, 100.0, 
+        builder.insertImage(getImageDir() + "Windows MetaFile.wmf", RelativeHorizontalPosition.MARGIN, 100.0,
                 RelativeVerticalPosition.MARGIN, 100.0, 200.0, 100.0, WrapType.SQUARE);
 
         doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromFilename.docx");
@@ -181,8 +183,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
     }
 
     @Test
-    public void insertImageFromImageObject() throws Exception
-    {
+    public void insertImageFromImageObject() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(Image)
         //ExFor:DocumentBuilder.InsertImage(Image, Double, Double)

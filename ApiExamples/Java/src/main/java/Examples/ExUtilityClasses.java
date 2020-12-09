@@ -7,21 +7,19 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import org.testng.annotations.Test;
+import com.aspose.words.ConvertUtil;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.PageSetup;
-import com.aspose.words.ConvertUtil;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.text.MessageFormat;
 
 @Test
-public class ExUtilityClasses extends ApiExampleBase
-{
+public class ExUtilityClasses extends ApiExampleBase {
     @Test
-    public void pointsAndInches() throws Exception
-    {
+    public void pointsAndInches() throws Exception {
         //ExStart
         //ExFor:ConvertUtil
         //ExFor:ConvertUtil.PointToInch
@@ -45,12 +43,12 @@ public class ExUtilityClasses extends ApiExampleBase
         // Add content to demonstrate these changes
         builder.writeln(MessageFormat.format("This Text is {0} points/{1} inches from the left, ",
                 pageSetup.getLeftMargin(), ConvertUtil.pointToInch(pageSetup.getLeftMargin())) +
-                        MessageFormat.format("{0} points/{1} inches from the right, ",
-                                pageSetup.getRightMargin(), ConvertUtil.pointToInch(pageSetup.getRightMargin())) +
-                        MessageFormat.format("{0} points/{1} inches from the top, ",
-                                pageSetup.getTopMargin(), ConvertUtil.pointToInch(pageSetup.getTopMargin())) +
-                        MessageFormat.format("and {0} points/{1} inches from the bottom of the page.",
-                                pageSetup.getBottomMargin(), ConvertUtil.pointToInch(pageSetup.getBottomMargin())));
+                MessageFormat.format("{0} points/{1} inches from the right, ",
+                        pageSetup.getRightMargin(), ConvertUtil.pointToInch(pageSetup.getRightMargin())) +
+                MessageFormat.format("{0} points/{1} inches from the top, ",
+                        pageSetup.getTopMargin(), ConvertUtil.pointToInch(pageSetup.getTopMargin())) +
+                MessageFormat.format("and {0} points/{1} inches from the bottom of the page.",
+                        pageSetup.getBottomMargin(), ConvertUtil.pointToInch(pageSetup.getBottomMargin())));
 
         doc.save(getArtifactsDir() + "UtilityClasses.PointsAndInches.docx");
         //ExEnd
@@ -69,8 +67,7 @@ public class ExUtilityClasses extends ApiExampleBase
     }
 
     @Test
-    public void pointsAndMillimeters() throws Exception
-    {
+    public void pointsAndMillimeters() throws Exception {
         //ExStart
         //ExFor:ConvertUtil.MillimeterToPoint
         //ExSummary:Shows how to specify page properties in millimeters.
@@ -90,9 +87,9 @@ public class ExUtilityClasses extends ApiExampleBase
 
         // Add content to demonstrate these changes
         builder.writeln(MessageFormat.format("This Text is {0} points from the left, ", pageSetup.getLeftMargin()) +
-                        MessageFormat.format("{0} points from the right, ", pageSetup.getRightMargin()) +
-                        MessageFormat.format("{0} points from the top, ", pageSetup.getTopMargin()) +
-                        MessageFormat.format("and {0} points from the bottom of the page.", pageSetup.getBottomMargin()));
+                MessageFormat.format("{0} points from the right, ", pageSetup.getRightMargin()) +
+                MessageFormat.format("{0} points from the top, ", pageSetup.getTopMargin()) +
+                MessageFormat.format("and {0} points from the bottom of the page.", pageSetup.getBottomMargin()));
 
         doc.save(getArtifactsDir() + "UtilityClasses.PointsAndMillimeters.docx");
         //ExEnd
@@ -107,8 +104,7 @@ public class ExUtilityClasses extends ApiExampleBase
     }
 
     @Test
-    public void pointsAndPixels() throws Exception
-    {
+    public void pointsAndPixels() throws Exception {
         //ExStart
         //ExFor:ConvertUtil.PixelToPoint(double)
         //ExFor:ConvertUtil.PointToPixel(double)

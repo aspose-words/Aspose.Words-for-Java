@@ -18,8 +18,7 @@ import java.util.Iterator;
 @Test
 public class ExFormFields extends ApiExampleBase {
     @Test
-    public void create() throws Exception
-    {
+    public void create() throws Exception {
         //ExStart
         //ExFor:FormField
         //ExFor:FormField.Result
@@ -32,7 +31,7 @@ public class ExFormFields extends ApiExampleBase {
         builder.write("Please select a fruit: ");
 
         // Insert a combo box which will allow a user to choose an option from a collection of strings.
-        FormField comboBox = builder.insertComboBox("MyComboBox", new String[] { "Apple", "Banana", "Cherry" }, 0);
+        FormField comboBox = builder.insertComboBox("MyComboBox", new String[]{"Apple", "Banana", "Cherry"}, 0);
 
         Assert.assertEquals("MyComboBox", comboBox.getName());
         Assert.assertEquals(FieldType.FIELD_FORM_DROP_DOWN, comboBox.getType());
@@ -51,8 +50,7 @@ public class ExFormFields extends ApiExampleBase {
     }
 
     @Test
-    public void textInput() throws Exception
-    {
+    public void textInput() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertTextInput
         //ExSummary:Shows how to insert a text input form field.
@@ -119,8 +117,7 @@ public class ExFormFields extends ApiExampleBase {
     }
 
     @Test
-    public void formFieldFontFormatting() throws Exception
-    {
+    public void formFieldFontFormatting() throws Exception {
         //ExStart
         //ExFor:FormField
         //ExSummary:Shows how to formatting the entire FormField, including the field value.
@@ -134,7 +131,7 @@ public class ExFormFields extends ApiExampleBase {
         formField.setResult("Aspose.FormField");
 
         doc = DocumentHelper.saveOpen(doc);
-        
+
         Run formFieldRun = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(1);
 
         Assert.assertEquals("Aspose.FormField", formFieldRun.getText());
@@ -176,14 +173,13 @@ public class ExFormFields extends ApiExampleBase {
     //ExFor:Range.FormFields
     //ExSummary:Shows how insert different kinds of form fields into a document, and process them with using a document visitor implementation.
     @Test //ExSkip
-    public void visitor() throws Exception
-    {
+    public void visitor() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Use a document builder to insert a combo box.
         builder.write("Choose a value from this combo box: ");
-        FormField comboBox = builder.insertComboBox("MyComboBox", new String[] { "One", "Two", "Three" }, 0);
+        FormField comboBox = builder.insertComboBox("MyComboBox", new String[]{"One", "Two", "Three"}, 0);
         comboBox.setCalculateOnExit(true);
         Assert.assertEquals(3, comboBox.getDropDownItems().getCount());
         Assert.assertEquals(0, comboBox.getDropDownSelectedIndex());
@@ -293,7 +289,7 @@ public class ExFormFields extends ApiExampleBase {
             return mBuilder.toString();
         }
 
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 

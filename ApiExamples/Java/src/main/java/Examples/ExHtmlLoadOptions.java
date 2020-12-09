@@ -14,8 +14,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.text.MessageFormat;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -38,12 +37,12 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "VML conditional.htm", loadOptions);
 
         if (supportVml)
-            Assert.assertEquals(ImageType.JPEG, ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getImageData().getImageType());
+            Assert.assertEquals(ImageType.JPEG, ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getImageData().getImageType());
         else
-            Assert.assertEquals(ImageType.PNG, ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getImageData().getImageType());
+            Assert.assertEquals(ImageType.PNG, ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getImageData().getImageType());
         //ExEnd
 
-        Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Shape imageShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         if (supportVml)
             TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
@@ -73,7 +72,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
             return mWarnings;
         }
 
-        private ArrayList<WarningInfo> mWarnings = new ArrayList<>();
+        private final ArrayList<WarningInfo> mWarnings = new ArrayList<>();
     }
     //ExEnd
 
@@ -123,7 +122,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Missing image.html", loadOptions);
 
         // While the image was broken in the input .html, our custom base URI helped us repair the link.
-        Shape imageShape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
+        Shape imageShape = (Shape) doc.getChildNodes(NodeType.SHAPE, true).get(0);
         Assert.assertTrue(imageShape.isImage());
 
         // This output document will display the image that was missing.
@@ -132,7 +131,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "HtmlLoadOptions.BaseUri.docx");
 
-        Assert.assertTrue(((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getImageData().getImageBytes().length > 0);
+        Assert.assertTrue(((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getImageData().getImageBytes().length > 0);
     }
 
     @Test
@@ -146,7 +145,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         HtmlLoadOptions htmlLoadOptions = new HtmlLoadOptions();
         htmlLoadOptions.setPreferredControlType(HtmlControlType.STRUCTURED_DOCUMENT_TAG);
 
-        Document doc = new Document(new ByteArrayInputStream(html.getBytes("UTF-8")), htmlLoadOptions);
+        Document doc = new Document(new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8)), htmlLoadOptions);
         NodeCollection nodes = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
 
         StructuredDocumentTag tag = (StructuredDocumentTag) nodes.get(0);
@@ -166,7 +165,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         // So, we do not set this value.
         HtmlLoadOptions htmlLoadOptions = new HtmlLoadOptions();
 
-        Document doc = new Document(new ByteArrayInputStream(html.getBytes("UTF-8")), htmlLoadOptions);
+        Document doc = new Document(new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8)), htmlLoadOptions);
         NodeCollection nodes = doc.getChildNodes(NodeType.FORM_FIELD, true);
 
         Assert.assertEquals(nodes.getCount(), 1);

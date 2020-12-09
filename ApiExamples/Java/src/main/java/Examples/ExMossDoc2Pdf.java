@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 /**
@@ -34,7 +35,7 @@ public class ExMossDoc2Pdf {
         // conversion account (not sure what name), so for testing purposes, 
         // I would give the Users group write permissions into this folder.
         OutputStream os = new FileOutputStream("C:\\Aspose2Pdf\\log.txt", true);
-        gLog = new OutputStreamWriter(os, "UTF-8");
+        gLog = new OutputStreamWriter(os, StandardCharsets.UTF_8);
 
         try {
             gLog.write(new Date().toString() + " Started");

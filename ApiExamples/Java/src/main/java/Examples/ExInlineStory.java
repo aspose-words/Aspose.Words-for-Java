@@ -14,15 +14,12 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Date;
 
 @Test
-public class ExInlineStory extends ApiExampleBase
-{
-    @Test (dataProvider = "positionFootnoteDataProvider")
-    public void positionFootnote(/*FootnotePosition*/int footnotePosition) throws Exception
-    {
+public class ExInlineStory extends ApiExampleBase {
+    @Test(dataProvider = "positionFootnoteDataProvider")
+    public void positionFootnote(/*FootnotePosition*/int footnotePosition) throws Exception {
         //ExStart
         //ExFor:Document.FootnoteOptions
         //ExFor:FootnoteOptions
@@ -57,21 +54,20 @@ public class ExInlineStory extends ApiExampleBase
         Assert.assertEquals(footnotePosition, doc.getFootnoteOptions().getPosition());
 
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
-            "Footnote contents.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+                "Footnote contents.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
     }
 
-	@DataProvider(name = "positionFootnoteDataProvider")
-	public static Object[][] positionFootnoteDataProvider() {
-		return new Object[][]
-		{
-			{FootnotePosition.BENEATH_TEXT},
-			{FootnotePosition.BOTTOM_OF_PAGE},
-		};
-	}
+    @DataProvider(name = "positionFootnoteDataProvider")
+    public static Object[][] positionFootnoteDataProvider() {
+        return new Object[][]
+                {
+                        {FootnotePosition.BENEATH_TEXT},
+                        {FootnotePosition.BOTTOM_OF_PAGE},
+                };
+    }
 
-    @Test (dataProvider = "positionEndnoteDataProvider")
-    public void positionEndnote(/*EndnotePosition*/int endnotePosition) throws Exception
-    {
+    @Test(dataProvider = "positionEndnoteDataProvider")
+    public void positionEndnote(/*EndnotePosition*/int endnotePosition) throws Exception {
         //ExStart
         //ExFor:Document.EndnoteOptions
         //ExFor:EndnoteOptions
@@ -108,23 +104,21 @@ public class ExInlineStory extends ApiExampleBase
         Assert.assertEquals(endnotePosition, doc.getEndnoteOptions().getPosition());
 
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-            "Endnote contents.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+                "Endnote contents.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "positionEndnoteDataProvider")
-	public static Object[][] positionEndnoteDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{EndnotePosition.END_OF_DOCUMENT},
-			{EndnotePosition.END_OF_SECTION},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "positionEndnoteDataProvider")
+    public static Object[][] positionEndnoteDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {EndnotePosition.END_OF_DOCUMENT},
+                        {EndnotePosition.END_OF_SECTION},
+                };
+    }
 
     @Test
-    public void refMarkNumberStyle() throws Exception
-    {
+    public void refMarkNumberStyle() throws Exception {
         //ExStart
         //ExFor:Document.EndnoteOptions
         //ExFor:EndnoteOptions
@@ -181,22 +175,21 @@ public class ExInlineStory extends ApiExampleBase
         Assert.assertEquals(NumberStyle.UPPERCASE_LETTER, doc.getEndnoteOptions().getNumberStyle());
 
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
-            "Footnote 1.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+                "Footnote 1.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
-            "Footnote 2.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 1, true));
+                "Footnote 2.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 1, true));
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, false, "Custom footnote reference mark",
-            "Custom footnote reference mark Footnote 3.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 2, true));
+                "Custom footnote reference mark Footnote 3.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 2, true));
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-            "Endnote 1.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 3, true));
+                "Endnote 1.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 3, true));
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-            "Endnote 2.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 4, true));
+                "Endnote 2.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 4, true));
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, false, "Custom endnote reference mark",
-            "Custom endnote reference mark Endnote 3.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 5, true));
+                "Custom endnote reference mark Endnote 3.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 5, true));
     }
 
     @Test
-    public void numberingRule() throws Exception
-    {
+    public void numberingRule() throws Exception {
         //ExStart
         //ExFor:Document.EndnoteOptions
         //ExFor:EndnoteOptions
@@ -259,26 +252,25 @@ public class ExInlineStory extends ApiExampleBase
         Assert.assertEquals(FootnoteNumberingRule.RESTART_SECTION, doc.getEndnoteOptions().getRestartRule());
 
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
-            "Footnote 1.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+                "Footnote 1.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
-            "Footnote 2.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 1, true));
+                "Footnote 2.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 1, true));
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
-            "Footnote 3.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 2, true));
+                "Footnote 3.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 2, true));
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
-            "Footnote 4.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 3, true));
+                "Footnote 4.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 3, true));
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-            "Endnote 1.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 4, true));
+                "Endnote 1.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 4, true));
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-            "Endnote 2.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 5, true));
+                "Endnote 2.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 5, true));
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-            "Endnote 3.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 6, true));
+                "Endnote 3.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 6, true));
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-            "Endnote 4.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 7, true));
+                "Endnote 4.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 7, true));
     }
 
     @Test
-    public void startNumber() throws Exception
-    {
+    public void startNumber() throws Exception {
         //ExStart
         //ExFor:Document.EndnoteOptions
         //ExFor:EndnoteOptions
@@ -337,22 +329,21 @@ public class ExInlineStory extends ApiExampleBase
         Assert.assertEquals(NumberStyle.ARABIC, doc.getEndnoteOptions().getNumberStyle());
 
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
-            "Footnote 1.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
+                "Footnote 1.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
-            "Footnote 2.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 1, true));
+                "Footnote 2.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 1, true));
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "",
-            "Footnote 3.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 2, true));
+                "Footnote 3.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 2, true));
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-            "Endnote 1.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 3, true));
+                "Endnote 1.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 3, true));
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-            "Endnote 2.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 4, true));
+                "Endnote 2.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 4, true));
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-            "Endnote 3.", (Footnote)doc.getChild(NodeType.FOOTNOTE, 5, true));
+                "Endnote 3.", (Footnote) doc.getChild(NodeType.FOOTNOTE, 5, true));
     }
 
     @Test
-    public void addFootnote() throws Exception
-    {
+    public void addFootnote() throws Exception {
         //ExStart
         //ExFor:Footnote
         //ExFor:Footnote.IsAuto
