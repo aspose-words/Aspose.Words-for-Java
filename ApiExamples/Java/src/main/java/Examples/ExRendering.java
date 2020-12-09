@@ -150,7 +150,7 @@ public class ExRendering extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // Configure both page setup and XpsSaveOptions to create a book fold
-        for (Section s : (Iterable<Section>) doc.getSections()) {
+        for (Section s : doc.getSections()) {
             s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
         }
 
@@ -247,7 +247,7 @@ public class ExRendering extends ApiExampleBase {
 
         for (int i = 0; i < doc.getPageCount(); i++) {
             options.setPageIndex(i);
-            doc.save(getArtifactsDir() + "Rendering.SaveToEmf." + Integer.toString(i) + ".emf", options);
+            doc.save(getArtifactsDir() + "Rendering.SaveToEmf." + i + ".emf", options);
         }
         //ExEnd
     }
@@ -651,7 +651,7 @@ public class ExRendering extends ApiExampleBase {
         Assert.assertEquals(doc.getFontSettings().getSubstitutionSettings().getDefaultFontSubstitution().getDefaultFontName(), "Times New Roman");
 
         Iterable<String> alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Times New Roman");
-        Assert.assertEquals(alternativeFonts, Arrays.asList(new String[]{"Slab", "Arvo"}));
+        Assert.assertEquals(alternativeFonts, Arrays.asList("Slab", "Arvo"));
     }
 
     @Test
@@ -686,10 +686,10 @@ public class ExRendering extends ApiExampleBase {
         doc.save(dstStream, SaveFormat.DOCX);
 
         Iterable<String> alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Slab");
-        Assert.assertEquals(alternativeFonts, Arrays.asList(new String[]{"Times New Roman", "Arial"}));
+        Assert.assertEquals(alternativeFonts, Arrays.asList("Times New Roman", "Arial"));
 
         alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Arvo");
-        Assert.assertEquals(alternativeFonts, Arrays.asList(new String[]{"Open Sans", "Arial"}));
+        Assert.assertEquals(alternativeFonts, Arrays.asList("Open Sans", "Arial"));
     }
 
     @Test

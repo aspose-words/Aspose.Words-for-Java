@@ -826,8 +826,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     }
 
     @Test
-    public void multiSectionTags() throws Exception
-    {
+    public void multiSectionTags() throws Exception {
         //ExStart
         //ExFor:StructuredDocumentTagRangeStart
         //ExFor:StructuredDocumentTagRangeStart.Id

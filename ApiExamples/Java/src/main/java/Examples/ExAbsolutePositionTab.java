@@ -20,8 +20,7 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitAbsolutePositionTab
     //ExSummary:Shows how to process absolute position tab characters with a document visitor.
     @Test //ExSkip
-    public void documentToTxt() throws Exception
-    {
+    public void documentToTxt() throws Exception {
         Document doc = new Document(getMyDir() + "Absolute position tab.docx");
 
         // Extract the text contents of our document by accepting this custom document visitor.
@@ -32,7 +31,7 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
         Assert.assertEquals("Before AbsolutePositionTab\tAfter AbsolutePositionTab", myDocTextExtractor.getText());
 
         // An AbsolutePositionTab can accept a DocumentVisitor by itself too.
-        AbsolutePositionTab absPositionTab = (AbsolutePositionTab)doc.getFirstSection().getBody().getFirstParagraph().getChild(NodeType.SPECIAL_CHAR, 0, true);
+        AbsolutePositionTab absPositionTab = (AbsolutePositionTab) doc.getFirstSection().getBody().getFirstParagraph().getChild(NodeType.SPECIAL_CHAR, 0, true);
 
         myDocTextExtractor = new DocTextExtractor();
         absPositionTab.accept(myDocTextExtractor);
@@ -43,10 +42,8 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
     /// <summary>
     /// Collects the text contents of all runs in the visited document, and represents all absolute tab characters as ordinary tabs.
     /// </summary>
-    public static class DocTextExtractor extends DocumentVisitor
-    {
-        public DocTextExtractor()
-        {
+    public static class DocTextExtractor extends DocumentVisitor {
+        public DocTextExtractor() {
             mBuilder = new StringBuilder();
         }
 
@@ -81,7 +78,7 @@ public class ExAbsolutePositionTab extends ApiExampleBase {
             return mBuilder.toString();
         }
 
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 }

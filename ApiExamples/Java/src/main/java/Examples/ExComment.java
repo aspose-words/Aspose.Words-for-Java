@@ -9,15 +9,11 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
-import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 
 public class ExComment extends ApiExampleBase {
     @Test
@@ -32,7 +28,7 @@ public class ExComment extends ApiExampleBase {
 
         Comment comment = new Comment(doc, "John Doe", "J.D.", new Date());
         comment.setText("My comment.");
-        
+
         // Place the comment at a node in the document's body.
         // This comment will show up at the location of its paragraph,
         // outside the right side margin of the page, and with a dotted line connecting it to its paragraph.
@@ -54,7 +50,7 @@ public class ExComment extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Comment.AddCommentWithReply.docx");
-        Comment docComment = (Comment)doc.getChild(NodeType.COMMENT, 0, true);
+        Comment docComment = (Comment) doc.getChild(NodeType.COMMENT, 0, true);
 
         Assert.assertEquals(1, docComment.getCount());
         Assert.assertEquals(1, comment.getReplies().getCount());
@@ -64,8 +60,7 @@ public class ExComment extends ApiExampleBase {
     }
 
     @Test
-    public void printAllComments() throws Exception
-    {
+    public void printAllComments() throws Exception {
         //ExStart
         //ExFor:Comment.Ancestor
         //ExFor:Comment.Author
@@ -79,13 +74,12 @@ public class ExComment extends ApiExampleBase {
 
         // If a comment has no ancestor, it is a "top-level" comment as opposed to a reply-type comment.
         // Print all top-level comments along with their replies, if there are any.
-        for (Comment comment : (Iterable<Comment>) comments)
-        {
+        for (Comment comment : (Iterable<Comment>) comments) {
             if (comment.getAncestor() == null) {
                 System.out.println("Top-level comment:");
                 System.out.println("\t\"{comment.GetText().Trim()}\", by {comment.Author}");
                 System.out.println("Has {comment.Replies.Count} replies");
-                for (Comment commentReply : (Iterable<Comment>) comment.getReplies()) {
+                for (Comment commentReply : comment.getReplies()) {
                     System.out.println("\t\"{commentReply.GetText().Trim()}\", by {commentReply.Author}");
                 }
                 System.out.println();
@@ -107,7 +101,7 @@ public class ExComment extends ApiExampleBase {
         comment.setText("My comment.");
 
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(comment);
-        
+
         comment.addReply("Joe Bloggs", "J.B.", new Date(), "New reply");
         comment.addReply("Joe Bloggs", "J.B.", new Date(), "Another reply");
 
@@ -126,8 +120,7 @@ public class ExComment extends ApiExampleBase {
     }
 
     @Test
-    public void done() throws Exception
-    {
+    public void done() throws Exception {
         //ExStart
         //ExFor:Comment.Done
         //ExFor:CommentCollection
@@ -159,13 +152,13 @@ public class ExComment extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Comment.Done.docx");
-        comment = (Comment)doc.getChildNodes(NodeType.COMMENT, true).get(0);
+        comment = (Comment) doc.getChildNodes(NodeType.COMMENT, true).get(0);
 
         Assert.assertTrue(comment.getDone());
         Assert.assertEquals("Fix the spelling error!", comment.getText().trim());
         Assert.assertEquals("Hello world!", doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText());
-        }
-    
+    }
+
     //ExStart
     //ExFor:Comment.Done
     //ExFor:Comment.#ctor(DocumentBase)
@@ -185,7 +178,7 @@ public class ExComment extends ApiExampleBase {
     @Test //ExSkip
     public void createCommentsAndPrintAllInfo() throws Exception {
         Document doc = new Document();
-        
+
         Comment newComment = new Comment(doc);
         {
             newComment.setAuthor("VDeryushev");
@@ -197,28 +190,26 @@ public class ExComment extends ApiExampleBase {
 
         // Add text to the document, warp it in a comment range, and then add your comment.
         Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
-            para.appendChild(new CommentRangeStart(doc, newComment.getId()));
+        para.appendChild(new CommentRangeStart(doc, newComment.getId()));
         para.appendChild(new Run(doc, "Commented text."));
-            para.appendChild(new CommentRangeEnd(doc, newComment.getId()));
-        para.appendChild(newComment); 
-        
+        para.appendChild(new CommentRangeEnd(doc, newComment.getId()));
+        para.appendChild(newComment);
+
         // Add two replies to the comment.
         newComment.addReply("John Doe", "JD", new Date(), "New reply.");
         newComment.addReply("John Doe", "JD", new Date(), "Another reply.");
 
         printAllCommentInfo(doc.getChildNodes(NodeType.COMMENT, true));
-            }
-    
+    }
+
     /// <summary>
     /// Iterates over every top-level comment and prints its comment range, contents, and replies.
     /// </summary>
-    private static void printAllCommentInfo(NodeCollection comments) throws Exception
-    {
+    private static void printAllCommentInfo(NodeCollection comments) throws Exception {
         CommentInfoPrinter commentVisitor = new CommentInfoPrinter();
 
         // Iterate over all top level comments. Unlike reply-type comments, top-level comments have no ancestor.
-        for (Comment comment : (Iterable<Comment>) comments)
-        {
+        for (Comment comment : (Iterable<Comment>) comments) {
             if (comment.getAncestor() == null) {
                 // First, visit the start of the comment range.
                 CommentRangeStart commentRangeStart = (CommentRangeStart) comment.getPreviousSibling().getPreviousSibling().getPreviousSibling();
@@ -227,7 +218,7 @@ public class ExComment extends ApiExampleBase {
                 // Then, visit the comment, and any replies that it may have.
                 comment.accept(commentVisitor);
 
-                for (Comment reply : (Iterable<Comment>) comment.getReplies())
+                for (Comment reply : comment.getReplies())
                     reply.accept(commentVisitor);
 
                 // Finally, visit the end of the comment range, and then print the visitor's text contents.
@@ -236,16 +227,14 @@ public class ExComment extends ApiExampleBase {
 
                 System.out.println(commentVisitor.getText());
             }
-    }
+        }
     }
 
     /// <summary>
     /// Prints information and contents of all comments and comment ranges encountered in the document.
     /// </summary>
-    public static class CommentInfoPrinter extends DocumentVisitor
-    {
-        public CommentInfoPrinter()
-        {
+    public static class CommentInfoPrinter extends DocumentVisitor {
+        public CommentInfoPrinter() {
             mBuilder = new StringBuilder();
             mVisitorIsInsideComment = false;
         }
@@ -325,7 +314,7 @@ public class ExComment extends ApiExampleBase {
 
         private boolean mVisitorIsInsideComment;
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 }

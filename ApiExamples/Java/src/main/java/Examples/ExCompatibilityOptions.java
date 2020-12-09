@@ -14,13 +14,6 @@ import com.aspose.words.MsWordVersion;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.text.MessageFormat;
-import java.util.SortedSet;
-
 @Test
 public class ExCompatibilityOptions extends ApiExampleBase {
     @Test

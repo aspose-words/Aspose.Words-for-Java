@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.Calendar;
-import java.util.Date;
 
 @Test
 public class ExDocSaveOptions extends ApiExampleBase {
@@ -125,18 +124,16 @@ public class ExDocSaveOptions extends ApiExampleBase {
     }
 
     @DataProvider(name = "updateLastPrintedPropertyDataProvider")
-	public static Object[][] updateLastPrintedPropertyDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{true},
-			{false},
-		};
-	}
+    public static Object[][] updateLastPrintedPropertyDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {true},
+                        {false},
+                };
+    }
 
-    @Test (dataProvider = "alwaysCompressMetafilesDataProvider")
-    public void alwaysCompressMetafiles(boolean compressAllMetafiles) throws Exception
-    {
+    @Test(dataProvider = "alwaysCompressMetafilesDataProvider")
+    public void alwaysCompressMetafiles(boolean compressAllMetafiles) throws Exception {
         //ExStart
         //ExFor:DocSaveOptions.AlwaysCompressMetafiles
         //ExSummary:Shows how to change metafiles compression in a document while saving.
@@ -153,12 +150,12 @@ public class ExDocSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-	@DataProvider(name = "alwaysCompressMetafilesDataProvider")
-	public static Object[][] alwaysCompressMetafilesDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    @DataProvider(name = "alwaysCompressMetafilesDataProvider")
+    public static Object[][] alwaysCompressMetafilesDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 }

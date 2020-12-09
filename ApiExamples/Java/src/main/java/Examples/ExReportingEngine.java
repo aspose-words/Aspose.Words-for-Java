@@ -34,8 +34,8 @@ import java.util.List;
 
 @Test
 public class ExReportingEngine extends ApiExampleBase {
-    private String mImage = getImageDir() + "Logo.jpg";
-    private String mDocument = getMyDir() + "ReportingEngine.TestDataTable.Java.docx";
+    private final String mImage = getImageDir() + "Logo.jpg";
+    private final String mDocument = getMyDir() + "ReportingEngine.TestDataTable.Java.docx";
 
     @Test
     public void simpleCase() throws Exception {

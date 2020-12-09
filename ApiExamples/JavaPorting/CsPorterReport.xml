@@ -24,6 +24,7 @@
 		<File project="Examples" dir="" name="ExDocumentBase" status="AUTO" />
 		<File project="Examples" dir="" name="ExDocumentBuilder" status="AUTO" />
 		<File project="Examples" dir="" name="ExDocumentBuilderImages" status="AUTO" />
+		<File project="Examples" dir="" name="ExDocumentProperties" status="AUTO" />
 		<File project="Examples" dir="" name="ExDocumentVisitor" status="AUTO" />
 		<File project="Examples" dir="" name="ExDrawing" status="AUTO" />
 		<File project="Examples" dir="" name="ExEditableRange" status="AUTO" />
@@ -56,7 +57,6 @@
 		<File project="Examples" dir="" name="ExParagraph" status="AUTO" />
 		<File project="Examples" dir="" name="ExPclSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExPdfSaveOptions" status="AUTO" />
-		<File project="Examples" dir="" name="ExProperties" status="AUTO" />
 		<File project="Examples" dir="" name="ExPsSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExRange" status="AUTO" />
 		<File project="Examples" dir="" name="ExRenameMergeFields" status="AUTO" />

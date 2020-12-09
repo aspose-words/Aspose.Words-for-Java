@@ -18,11 +18,9 @@ import java.util.Iterator;
 
 
 @Test
-public class ExBookmarks extends ApiExampleBase
-{
+public class ExBookmarks extends ApiExampleBase {
     @Test
-    public void insert() throws Exception
-    {
+    public void insert() throws Exception {
         //ExStart
         //ExFor:Bookmark.Name
         //ExSummary:Shows how to insert a bookmark.
@@ -73,15 +71,14 @@ public class ExBookmarks extends ApiExampleBase
     //ExFor:DocumentVisitor.VisitBookmarkEnd
     //ExSummary:Shows how to add bookmarks and update their contents.
     @Test //ExSkip
-    public void createUpdateAndPrintBookmarks() throws Exception
-    {
+    public void createUpdateAndPrintBookmarks() throws Exception {
         // Create a document with three bookmarks, then use a custom document visitor implementation to print their contents.
         Document doc = createDocumentWithBookmarks(3);
         BookmarkCollection bookmarks = doc.getRange().getBookmarks();
         Assert.assertEquals(3, bookmarks.getCount()); //ExSkip
 
         printAllBookmarkInfo(bookmarks);
-        
+
         // Bookmarks can be accessed in the bookmark collection by index or name, and their names can be updated.
         bookmarks.get(0).setName("{bookmarks[0].Name}_NewName");
         bookmarks.get("MyBookmark_2").setText("Updated text contents of {bookmarks[1].Name}");
@@ -93,13 +90,11 @@ public class ExBookmarks extends ApiExampleBase
     /// <summary>
     /// Create a document with a given number of bookmarks.
     /// </summary>
-    private static Document createDocumentWithBookmarks(int numberOfBookmarks) throws Exception
-    {
+    private static Document createDocumentWithBookmarks(int numberOfBookmarks) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        for (int i = 1; i <= numberOfBookmarks; i++)
-        {
+        for (int i = 1; i <= numberOfBookmarks; i++) {
             String bookmarkName = "MyBookmark_" + i;
 
             builder.write("Text before bookmark.");
@@ -115,8 +110,7 @@ public class ExBookmarks extends ApiExampleBase
     /// <summary>
     /// Use an iterator and a visitor to print info of every bookmark in the collection.
     /// </summary>
-    private static void printAllBookmarkInfo(BookmarkCollection bookmarks) throws Exception
-    {
+    private static void printAllBookmarkInfo(BookmarkCollection bookmarks) throws Exception {
         BookmarkInfoPrinter bookmarkVisitor = new BookmarkInfoPrinter();
 
         // Get each bookmark in the collection to accept a visitor that will print its contents.
@@ -125,8 +119,7 @@ public class ExBookmarks extends ApiExampleBase
         while (enumerator.hasNext()) {
             Bookmark currentBookmark = enumerator.next();
 
-                if (currentBookmark != null)
-                {
+            if (currentBookmark != null) {
                 currentBookmark.getBookmarkStart().accept(bookmarkVisitor);
                 currentBookmark.getBookmarkEnd().accept(bookmarkVisitor);
 

@@ -610,7 +610,7 @@ public class ExLists extends ApiExampleBase {
             builder.getListFormat().setList(list);
             builder.getListFormat().setListLevelNumber(i);
 
-            String styleName = "Heading " + Integer.toString((i + 1));
+            String styleName = "Heading " + (i + 1);
             builder.getParagraphFormat().setStyleName(styleName);
             builder.writeln(styleName);
         }

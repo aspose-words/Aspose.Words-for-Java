@@ -19,6 +19,8 @@ import com.aspose.words.SvgSaveOptions;
 import com.aspose.words.XamlFixedSaveOptions;
 import com.aspose.words.XpsSaveOptions;
 import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.BreakType;
 import com.aspose.ms.System.IO.Directory;
 import org.testng.Assert;
 import com.aspose.words.IPageSavingCallback;
@@ -43,25 +45,25 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     public void checkThatAllMethodsArePresent()
     {
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
-        htmlFixedSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+        htmlFixedSaveOptions.setPageSavingCallback(new CustomFileNamePageSavingCallback());
 
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
-        imageSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+        imageSaveOptions.setPageSavingCallback(new CustomFileNamePageSavingCallback());
 
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
-        pdfSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+        pdfSaveOptions.setPageSavingCallback(new CustomFileNamePageSavingCallback());
 
         PsSaveOptions psSaveOptions = new PsSaveOptions();
-        psSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+        psSaveOptions.setPageSavingCallback(new CustomFileNamePageSavingCallback());
 
         SvgSaveOptions svgSaveOptions = new SvgSaveOptions();
-        svgSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+        svgSaveOptions.setPageSavingCallback(new CustomFileNamePageSavingCallback());
 
         XamlFixedSaveOptions xamlFixedSaveOptions = new XamlFixedSaveOptions();
-        xamlFixedSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+        xamlFixedSaveOptions.setPageSavingCallback(new CustomFileNamePageSavingCallback());
 
         XpsSaveOptions xpsSaveOptions = new XpsSaveOptions();
-        xpsSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+        xpsSaveOptions.setPageSavingCallback(new CustomFileNamePageSavingCallback());
     }
 
     //ExStart
@@ -73,41 +75,52 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     //ExFor:PageSavingArgs.PageIndex
     //ExFor:PageSavingArgs.PageStream
     //ExFor:FixedPageSaveOptions.PageSavingCallback
-    //ExSummary:Shows how separate pages are saved when a document is exported to fixed page format.
+    //ExSummary:Shows how to use a callback to save a document to HTML page by page.
     @Test //ExSkip
-    public void pageFileName() throws Exception
+    public void pageFileNames() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Rendering.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        HtmlFixedSaveOptions htmlFixedSaveOptions =
-            new HtmlFixedSaveOptions(); { htmlFixedSaveOptions.setPageIndex(0); htmlFixedSaveOptions.setPageCount(doc.getPageCount()); }
-        htmlFixedSaveOptions.setPageSavingCallback(new CustomPageFileNamePageSavingCallback());
+        builder.writeln("Page 1.");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Page 2.");
+        builder.insertImage(getImageDir() + "Logo.jpg");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Page 3.");
 
-        doc.save($"{ArtifactsDir}SavingCallback.PageFileName.html", htmlFixedSaveOptions);
+        // Create an "HtmlFixedSaveOptions" object, which we can pass to the document's "Save" method
+        // to modify how we convert the document to HTML.
+        HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
 
-        String[] filePaths = Directory.getFiles(getArtifactsDir()).Where(s => s.StartsWith(ArtifactsDir + "SavingCallback.PageFileName.Page_")).OrderBy(s => s).ToArray();
+        // We will save each page in this document to a separate HTML file in the local file system.
+        // Set a callback that allows us to name each output HTML document.
+        htmlFixedSaveOptions.setPageSavingCallback(new CustomFileNamePageSavingCallback());
 
-        for (int i = 0; i < doc.getPageCount(); i++)
-        {
-            String file = $"{ArtifactsDir}SavingCallback.PageFileName.Page_{i}.html";
-            Assert.assertEquals(file, filePaths[i]);//ExSkip
-        }
+        doc.save(getArtifactsDir() + "SavingCallback.PageFileNames.html", htmlFixedSaveOptions);
+
+        String[] filePaths = Directory.getFiles(getArtifactsDir()).Where(
+            s => s.StartsWith(ArtifactsDir + "SavingCallback.PageFileNames.Page_")).OrderBy(s => s).ToArray();
+
+        Assert.assertEquals(3, filePaths.length);
     }
 
     /// <summary>
-    /// Custom PageFileName is specified.
+    /// Saves all pages to a file and directory specified within.
     /// </summary>
-    private static class CustomPageFileNamePageSavingCallback implements IPageSavingCallback
+    private static class CustomFileNamePageSavingCallback implements IPageSavingCallback
     {
         public void pageSaving(PageSavingArgs args) throws Exception
         {
-            String outFileName = $"{ArtifactsDir}SavingCallback.PageFileName.Page_{args.PageIndex}.html";
+            String outFileName = $"{ArtifactsDir}SavingCallback.PageFileNames.Page_{args.PageIndex}.html";
 
-            // Specify name of the output file for the current page either in this 
+            // Below are two ways of specifying where Aspose.Words will save each page of the document.
+            // 1 -  Set a filename for the output page file:
             args.setPageFileName(outFileName);
 
-            // ..or by setting up a custom stream
+            // 2 -  Create a custom stream for the output page file:
             args.setPageStreamInternal(new FileStream(outFileName, FileMode.CREATE));
+
             Assert.assertFalse(args.getKeepPageStreamOpen());
         }
     }
@@ -128,35 +141,36 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     //ExFor:HtmlSaveOptions
     //ExFor:HtmlSaveOptions.DocumentPartSavingCallback
     //ExFor:HtmlSaveOptions.ImageSavingCallback
-    //ExSummary:Shows how split a document into parts and save them.
+    //ExSummary:Shows how to split a document into parts and save them.
     @Test //ExSkip
-    public void documentParts() throws Exception
+    public void documentPartsFileNames() throws Exception
     {
-        // Open a document to be converted to html
         Document doc = new Document(getMyDir() + "Rendering.docx");
-        String outFileName = "SavingCallback.DocumentParts.Rendering.html";
+        String outFileName = "SavingCallback.DocumentPartsFileNames.html";
 
-        // We can use an appropriate SaveOptions subclass to customize the conversion process
+        // Create an "HtmlFixedSaveOptions" object, which we can pass to the document's "Save" method
+        // to modify how we convert the document to HTML.
         HtmlSaveOptions options = new HtmlSaveOptions();
 
-        // We can use it to split a document into smaller parts, in this instance split by section breaks
-        // Each part will be saved into a separate file, creating many files during the conversion process instead of just one
+        // If we save the document normally, there will be one output HTML
+        // document with all of the source document's contents.
+        // Set the "DocumentSplitCriteria" property to "DocumentSplitCriteria.SectionBreak" to
+        // save our document to multiple HTML files: one for each section.
         options.setDocumentSplitCriteria(DocumentSplitCriteria.SECTION_BREAK);
 
-        // We can set a callback to name each document part file ourselves
+        // Assign a custom callback to the "DocumentPartSavingCallback" property to alter the document part saving logic.
         options.setDocumentPartSavingCallback(new SavedDocumentPartRename(outFileName, options.getDocumentSplitCriteria()));
 
-        // If we convert a document that contains images into html, we will end up with one html file which links to several images
-        // Each image will be in the form of a file in the local file system
-        // There is also a callback that can customize the name and file system location of each image
+        // If we convert a document that contains images into html, we will end up with one html file which links to several images.
+        // Each image will be in the form of a file in the local file system.
+        // There is also a callback that can customize the name and file system location of each image.
         options.setImageSavingCallback(new SavedImageRename(outFileName));
 
-        // The DocumentPartSaving() and ImageSaving() methods of our callbacks will be run at this time
         doc.save(getArtifactsDir() + outFileName, options);
     }
 
     /// <summary>
-    /// Renames saved document parts that are produced when an HTML document is saved while being split according to a DocumentSplitCriteria.
+    /// Sets custom filenames for output documents that the saving operation splits a document into.
     /// </summary>
     private static class SavedDocumentPartRename implements IDocumentPartSavingCallback
     {
@@ -168,6 +182,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
 
         public void /*IDocumentPartSavingCallback.*/documentPartSaving(DocumentPartSavingArgs args) throws Exception
         {
+            // We can access the entire source document via the "Document" property.
             Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.docx"));
 
             String partType = "";
@@ -190,11 +205,13 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
 
             String partFileName = $"{mOutFileName} part {++mCount}, of type {partType}{Path.GetExtension(args.DocumentPartFileName)}";
 
-            // We can designate the filename and location of each output file either by filename
+            // Below are two ways of specifying where Aspose.Words will save each part of the document.
+            // 1 -  Set a filename for the output part file:
             args.setDocumentPartFileName(partFileName);
 
-            // Or we can make a new stream and choose the location of the file at construction
+            // 2 -  Create a custom stream for the output part file:
             args.setDocumentPartStreamInternal(new FileStream(getArtifactsDir() + partFileName, FileMode.CREATE));
+
             Assert.assertTrue(args.getDocumentPartStreamInternal().canWrite());
             Assert.assertFalse(args.getKeepDocumentPartStreamOpen());
         }
@@ -205,7 +222,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     }
 
     /// <summary>
-    /// Renames saved images that are produced when an HTML document is saved.
+    /// Sets custom filenames for image files that an HTML conversion creates.
     /// </summary>
     public static class SavedImageRename implements IImageSavingCallback
     {
@@ -216,12 +233,15 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
 
         public void /*IImageSavingCallback.*/imageSaving(ImageSavingArgs args) throws Exception
         {
-            // Same filename and stream functions as above in IDocumentPartSavingCallback apply here
             String imageFileName = $"{mOutFileName} shape {++mCount}, of type {args.CurrentShape.ShapeType}{Path.GetExtension(args.ImageFileName)}";
 
+            // Below are two ways of specifying where Aspose.Words will save each part of the document.
+            // 1 -  Set a filename for the output image file:
             args.setImageFileName(imageFileName);
 
+            // 2 -  Create a custom stream for the output image file:
             args.ImageStream = new FileStream(getArtifactsDir() + imageFileName, FileMode.CREATE);
+
             Assert.True(args.ImageStream.CanWrite);
             Assert.assertTrue(args.isImageAvailable());
             Assert.assertFalse(args.getKeepImageStreamOpen());
@@ -244,33 +264,32 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
     //ExFor:HtmlSaveOptions.CssStyleSheetType
     //ExFor:ICssSavingCallback
     //ExFor:ICssSavingCallback.CssSaving(CssSavingArgs)
-    //ExSummary:Shows how to work with CSS stylesheets that may be created along with Html documents.
+    //ExSummary:Shows how to work with CSS stylesheets that an HTML conversion creates.
     @Test //ExSkip
-    public void cssSavingCallback() throws Exception
+    public void externalCssFilenames() throws Exception
     {
-        // Open a document to be converted to html
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        // If our output document will produce a CSS stylesheet, we can use an HtmlSaveOptions to control where it is saved
+        // Create an "HtmlFixedSaveOptions" object, which we can pass to the document's "Save" method
+        // to modify how we convert the document to HTML.
         HtmlSaveOptions options = new HtmlSaveOptions();
 
-        // By default, a CSS stylesheet is stored inside its HTML document, but we can have it saved to a separate file
+        // Set the "CssStylesheetType" property to "CssStyleSheetType.External" to
+        // accompany a saved HTML document with an external CSS stylesheet file.
         options.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
 
-        // We can designate a filename for our stylesheet like this
-        options.setCssStyleSheetFileName(getArtifactsDir() + "SavingCallback.CssSavingCallback.css");
+        // Below are two ways of specifying directories and filenames for output CSS stylesheets.
+        // 1 -  Use the "CssStyleSheetFileName" property to assign a filename to our stylesheet:
+        options.setCssStyleSheetFileName(getArtifactsDir() + "SavingCallback.ExternalCssFilenames.css");
 
-        // A custom ICssSavingCallback implementation can also control where that stylesheet will be saved and linked to by the Html document
-        // This callback will override the filename we specified above in options.CssStyleSheetFileName,
-        // but will give us more control over the saving process
-        options.setCssSavingCallback(new CustomCssSavingCallback(getArtifactsDir() + "SavingCallback.CssSavingCallback.css", true, false));
+        // 2 -  Use a custom callback to name our stylesheet:
+        options.setCssSavingCallback(new CustomCssSavingCallback(getArtifactsDir() + "SavingCallback.ExternalCssFilenames.css", true, false));
 
-        // The CssSaving() method of our callback will be called at this stage
-        doc.save(getArtifactsDir() + "SavingCallback.CssSavingCallback.html", options);
+        doc.save(getArtifactsDir() + "SavingCallback.ExternalCssFilenames.html", options);
     }
 
     /// <summary>
-    /// Designates a filename and other parameters for the saving of a CSS stylesheet
+    /// Sets a custom filename, along with other parameters for an external CSS stylesheet.
     /// </summary>
     private static class CustomCssSavingCallback implements ICssSavingCallback
     {
@@ -283,14 +302,14 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
 
         public void cssSaving(CssSavingArgs args) throws Exception
         {
-            // Set up the stream that will create the CSS document         
+            // We can access the entire source document via the "Document" property.
+            Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.docx"));
+
             args.CssStream = new FileStream(mCssTextFileName, FileMode.CREATE);
-            Assert.True(args.CssStream.CanWrite);
             args.isExportNeeded(mIsExportNeeded);
             args.setKeepCssStreamOpen(mKeepCssStreamOpen);
 
-            // We can also access the original document here like this
-            Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.docx"));
+            Assert.True(args.CssStream.CanWrite);
         }
 
         private /*final*/ String mCssTextFileName;

@@ -13,6 +13,7 @@ import com.aspose.ms.ms;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.words.BreakType;
 import org.testng.Assert;
 import com.aspose.words.NumberStyle;
 import com.aspose.words.ListTemplate;
@@ -28,7 +29,6 @@ import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import com.aspose.words.Paragraph;
 import com.aspose.ms.System.msConsole;
-import com.aspose.words.BreakType;
 import com.aspose.words.ListCollection;
 import com.aspose.ms.System.msString;
 import com.aspose.words.SaveFormat;
@@ -49,56 +49,19 @@ public class ExLists extends ApiExampleBase
         //ExFor:ListFormat.ListOutdent
         //ExFor:ListFormat.RemoveNumbers
         //ExFor:ListFormat.ListLevelNumber
-        //ExSummary:Shows how to apply default bulleted or numbered list formatting to paragraphs when using DocumentBuilder.
+        //ExSummary:Shows how to create bulleted and numbered lists.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.writeln("Aspose.Words allows:");
-        builder.writeln();
-
-        // Start a numbered list with default formatting
-        builder.getListFormat().applyNumberDefault();
-        builder.writeln("Opening documents from different formats:");
-
-        Assert.assertEquals(0, builder.getListFormat().getListLevelNumber());
-
-        // Go to second list level, add more text
-        builder.getListFormat().listIndent();
-
-        Assert.assertEquals(1, builder.getListFormat().getListLevelNumber());
-
-        builder.writeln("DOC");
-        builder.writeln("PDF");
-        builder.writeln("HTML");
-
-        // Outdent to the first list level
-        builder.getListFormat().listOutdent();
-
-        Assert.assertEquals(0, builder.getListFormat().getListLevelNumber());
-
-        builder.writeln("Processing documents");
-        builder.writeln("Saving documents in different formats:");
-
-        // Indent the list level again
-        builder.getListFormat().listIndent();
-        builder.writeln("DOC");
-        builder.writeln("PDF");
-        builder.writeln("HTML");
-        builder.writeln("MHTML");
-        builder.writeln("Plain text");
-
-        // Outdent the list level again
-        builder.getListFormat().listOutdent();
-        builder.writeln("Doing many other things!");
-
-        // End the numbered list
-        builder.getListFormat().removeNumbers();
-        builder.writeln();
-
         builder.writeln("Aspose.Words main advantages are:");
-        builder.writeln();
 
-        // Start a bulleted list with default formatting
+        // A list allows us to organize and decorate sets of paragraphs with prefix symbols and indents.
+        // We can create nested lists by increasing the indent level. 
+        // We can begin and end a list by using a document builder's "ListFormat" property. 
+        // Each paragraph that we add between a list's start and the end will become an item in the list.
+        // Below are two types of lists that we can create with a document builder.
+        // 1 -  A bulleted list:
+        // This list will apply an indent and a bullet symbol ("•") before each paragraph.
         builder.getListFormat().applyBulletDefault();
         builder.writeln("Great performance");
         builder.writeln("High reliability");
@@ -106,7 +69,59 @@ public class ExLists extends ApiExampleBase
         builder.writeln("Wide variety of features");
         builder.writeln("Easy to understand API");
 
-        // End the bulleted list
+        // End the bulleted list.
+        builder.getListFormat().removeNumbers();
+
+        builder.insertBreak(BreakType.PARAGRAPH_BREAK);
+        builder.writeln("Aspose.Words allows:");
+
+        // 2 -  A numbered list:
+        // Numbered lists create a logical order for their paragraphs by numbering each item.
+        builder.getListFormat().applyNumberDefault();
+
+        // This paragraph is the first item. The first item of a numbered list will have a "1." as its list item symbol.
+        builder.writeln("Opening documents from different formats:");
+
+        Assert.assertEquals(0, builder.getListFormat().getListLevelNumber());
+
+        // Call the "ListIndent" method to increase the current list level,
+        // which will start a new self-contained list, with a deeper indent, at the current item of the first list level.
+        builder.getListFormat().listIndent();
+
+        Assert.assertEquals(1, builder.getListFormat().getListLevelNumber());
+
+        // These are the first three list items of the second list level, which will maintain a count
+        // independent of the count of the first list level. According to the current list format,
+        // they will have symbols of "a.", "b.", and "c.".
+        builder.writeln("DOC");
+        builder.writeln("PDF");
+        builder.writeln("HTML");
+
+        // Call the "ListOutdent" method to return to the previous list level.
+        builder.getListFormat().listOutdent();
+
+        Assert.assertEquals(0, builder.getListFormat().getListLevelNumber());
+
+        // These two paragraphs will continue the count of the first list level.
+        // These items will have symbols of "2.", and "3."
+        builder.writeln("Processing documents");
+        builder.writeln("Saving documents in different formats:");
+
+        // If we increase the list level to one we have added items to previously,
+        // the nested list will be independent of the previous, and its numbering will start again. 
+        // These list items will have symbols of "a.", "b.", "c.", "d.", and "e".
+        builder.getListFormat().listIndent();
+        builder.writeln("DOC");
+        builder.writeln("PDF");
+        builder.writeln("HTML");
+        builder.writeln("MHTML");
+        builder.writeln("Plain text");
+
+        // Outdent the list level again.
+        builder.getListFormat().listOutdent();
+        builder.writeln("Doing many other things!");
+
+        // End the numbered list.
         builder.getListFormat().removeNumbers();
 
         doc.save(getArtifactsDir() + "Lists.ApplyDefaultBulletsAndNumbers.docx");
@@ -114,9 +129,9 @@ public class ExLists extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Lists.ApplyDefaultBulletsAndNumbers.docx");
 
-        TestUtil.verifyListLevel("\u0000.", 18.0d, NumberStyle.ARABIC, doc.getLists().get(0).getListLevels().get(0));
-        TestUtil.verifyListLevel("\u0001.", 54.0d, NumberStyle.LOWERCASE_LETTER, doc.getLists().get(0).getListLevels().get(1));
-        TestUtil.verifyListLevel("\uf0b7", 18.0d, NumberStyle.BULLET, doc.getLists().get(1).getListLevels().get(0));
+        TestUtil.verifyListLevel("\u0000.", 18.0d, NumberStyle.ARABIC, doc.getLists().get(1).getListLevels().get(0));
+        TestUtil.verifyListLevel("\u0001.", 54.0d, NumberStyle.LOWERCASE_LETTER, doc.getLists().get(1).getListLevels().get(1));
+        TestUtil.verifyListLevel("\uf0b7", 18.0d, NumberStyle.BULLET, doc.getLists().get(0).getListLevels().get(0));
     }
 
     @Test
@@ -126,29 +141,43 @@ public class ExLists extends ApiExampleBase
         //ExFor:ListCollection
         //ExFor:List
         //ExFor:ListFormat
+        //ExFor:ListFormat.IsListItem
         //ExFor:ListFormat.ListLevelNumber
         //ExFor:ListFormat.List
         //ExFor:ListTemplate
         //ExFor:DocumentBase.Lists
         //ExFor:ListCollection.Add(ListTemplate)
-        //ExSummary:Shows how to specify list level number when building a list using DocumentBuilder.
+        //ExSummary:Shows how to work with list levels.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create a numbered list based on one of the Microsoft Word list templates and
-        // apply it to the current paragraph in the document builder
-        builder.getListFormat().setList(doc.getLists().add(ListTemplate.NUMBER_ARABIC_DOT));
+        Assert.assertFalse(builder.getListFormat().isListItem());
 
-        // Insert text at each of the 9 indent levels
+        // A list allows us to organize and decorate sets of paragraphs with prefix symbols and indents.
+        // We can create nested lists by increasing the indent level. 
+        // We can begin and end a list by using a document builder's "ListFormat" property. 
+        // Each paragraph that we add between a list's start and the end will become an item in the list.
+        // Below are two types of lists that we can create using a document builder.
+        // 1 -  A numbered list:
+        // Numbered lists create a logical order for their paragraphs by numbering each item.
+        builder.getListFormat().setList(doc.getLists().add(ListTemplate.NUMBER_DEFAULT));
+
+        Assert.assertTrue(builder.getListFormat().isListItem());
+
+        // By setting the "ListLevelNumber" property, we can increase the list level
+        // to begin a self-contained sub-list at the current list item.
+        // The Microsoft Word list template called "NumberDefault" uses numbers to create list levels for the first list level.
+        // Deeper list levels use letters and lowercase Roman numerals. 
         for (int i = 0; i < 9; i++)
         {
             builder.getListFormat().setListLevelNumber(i);
             builder.writeln("Level " + i);
         }
 
-        // Create a bulleted list based on one of the Microsoft Word list templates
-        // and apply it to the current paragraph in the document builder
-        builder.getListFormat().setList(doc.getLists().add(ListTemplate.BULLET_DIAMONDS));
+        // 2 -  A bulleted list:
+        // This list will apply an indent and a bullet symbol ("•") before each paragraph.
+        // Deeper levels of this list will use different symbols, such as "■" and "○".
+        builder.getListFormat().setList(doc.getLists().add(ListTemplate.BULLET_DEFAULT));
 
         for (int i = 0; i < 9; i++)
         {
@@ -156,8 +185,10 @@ public class ExLists extends ApiExampleBase
             builder.writeln("Level " + i);
         }
 
-        // This is a way to stop list formatting
+        // We can disable list formatting to not format any subsequent paragraphs as lists by un-setting the "List" flag.
         builder.getListFormat().setList(null);
+
+        Assert.assertFalse(builder.getListFormat().isListItem());
 
         doc.save(getArtifactsDir() + "Lists.SpecifyListLevel.docx");
         //ExEnd
@@ -176,27 +207,31 @@ public class ExLists extends ApiExampleBase
         //ExFor:ParagraphFormat.DropCapPosition
         //ExFor:ParagraphFormat.IsListItem
         //ExFor:Paragraph.IsListItem
-        //ExSummary:Shows how to start a numbered list, add a bulleted list inside it, then return to the numbered list.
+        //ExSummary:Shows how to nest a list inside another list.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create an outline list for the headings
+        // A list allows us to organize and decorate sets of paragraphs with prefix symbols and indents.
+        // We can create nested lists by increasing the indent level. 
+        // We can begin and end a list by using a document builder's "ListFormat" property. 
+        // Each paragraph that we add between a list's start and the end will become an item in the list.
+        // Create an outline list for the headings.
         List outlineList = doc.getLists().add(ListTemplate.OUTLINE_NUMBERS);
         builder.getListFormat().setList(outlineList);
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);
         builder.writeln("This is my Chapter 1");
 
-        // Create a numbered list
+        // Create a numbered list.
         List numberedList = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
         builder.getListFormat().setList(numberedList);
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.NORMAL);
         builder.writeln("Numbered list item 1.");
 
-        // Every paragraph that comprises a list will have this flag
+        // Every paragraph that comprises a list will have this flag.
         Assert.assertTrue(builder.getCurrentParagraph().isListItem());
         Assert.assertTrue(builder.getParagraphFormat().isListItem());
 
-        // Create a bulleted list
+        // Create a bulleted list.
         List bulletedList = doc.getLists().add(ListTemplate.BULLET_DEFAULT);
         builder.getListFormat().setList(bulletedList);
         builder.getParagraphFormat().setLeftIndent(72.0);
@@ -204,12 +239,12 @@ public class ExLists extends ApiExampleBase
         builder.writeln("Bulleted list item 2.");
         builder.getParagraphFormat().clearFormatting();
 
-        // Revert to the numbered list
+        // Revert to the numbered list.
         builder.getListFormat().setList(numberedList);
         builder.writeln("Numbered list item 2.");
         builder.writeln("Numbered list item 3.");
 
-        // Revert to the outline list
+        // Revert to the outline list.
         builder.getListFormat().setList(outlineList);
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);
         builder.writeln("This is my Chapter 2");
@@ -251,10 +286,13 @@ public class ExLists extends ApiExampleBase
         //ExSummary:Shows how to apply custom list formatting to paragraphs when using DocumentBuilder.
         Document doc = new Document();
 
-        // Create a list based on one of the Microsoft Word list templates
+        // A list allows us to organize and decorate sets of paragraphs with prefix symbols and indents.
+        // We can create nested lists by increasing the indent level. 
+        // We can begin and end a list by using a document builder's "ListFormat" property. 
+        // Each paragraph that we add between a list's start and the end will become an item in the list.
+        // Create a list from a Microsoft Word template, and customize the first two of its list levels.
         List list = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
-        // Completely customize one list level
         ListLevel listLevel = list.getListLevels().get(0);
         listLevel.getFont().setColor(Color.RED);
         listLevel.getFont().setSize(24.0);
@@ -266,19 +304,19 @@ public class ExLists extends ApiExampleBase
         listLevel.setTextPosition(144.0);
         listLevel.setTabPosition(144.0);
 
-        // Customize another list level
         listLevel = list.getListLevels().get(1);
         listLevel.setAlignment(ListLevelAlignment.RIGHT);
         listLevel.setNumberStyle(NumberStyle.BULLET);
         listLevel.getFont().setName("Wingdings");
         listLevel.getFont().setColor(Color.BLUE);
         listLevel.getFont().setSize(24.0);
-        listLevel.setNumberFormat("\uf0af"); // A bullet that looks like a star
+
+        // This NumberFormat value will create star-shaped bullet list symbols.
+        listLevel.setNumberFormat("\uf0af");
         listLevel.setTrailingCharacter(ListTrailingCharacter.SPACE);
         listLevel.setNumberPosition(144.0);
 
-        // Now add some text that uses the list that we created
-        // It does not matter when to customize the list - before or after adding the paragraphs
+        // Create paragraphs, and apply both list levels of our custom list formatting to them.
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.getListFormat().setList(list);
@@ -327,29 +365,32 @@ public class ExLists extends ApiExampleBase
         //ExFor:ListTemplate
         //ExSummary:Shows how to restart numbering in a list by copying a list.
         Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create a list based on a template
+        // A list allows us to organize and decorate sets of paragraphs with prefix symbols and indents.
+        // We can create nested lists by increasing the indent level. 
+        // We can begin and end a list by using a document builder's "ListFormat" property. 
+        // Each paragraph that we add between a list's start and the end will become an item in the list.
+        // Create a list from a Microsoft Word template, and customize its first list level.
         List list1 = doc.getLists().add(ListTemplate.NUMBER_ARABIC_PARENTHESIS);
-        // Modify the formatting of the list
         list1.getListLevels().get(0).getFont().setColor(Color.RED);
         list1.getListLevels().get(0).setAlignment(ListLevelAlignment.RIGHT);
 
+        // Apply our list to some paragraphs.
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
         builder.writeln("List 1 starts below:");
-        // Use the first list in the document for a while
         builder.getListFormat().setList(list1);
         builder.writeln("Item 1");
         builder.writeln("Item 2");
         builder.getListFormat().removeNumbers();
 
-        // Now I want to reuse the first list, but need to restart numbering
-        // This should be done by creating a copy of the original list formatting
+        // We can add a copy of an existing list to the document's list collection
+        // to create a similar list without making changes to the original.
         List list2 = doc.getLists().addCopy(list1);
-
-        // We can modify the new list in any way. Including setting new start number
+        list2.getListLevels().get(0).getFont().setColor(Color.BLUE);
         list2.getListLevels().get(0).setStartAt(10);
 
-        // Use the second list in the document
+        // Apply the second list to new paragraphs.
         builder.writeln("List 2 starts below:");
         builder.getListFormat().setList(list2);
         builder.writeln("Item 1");
@@ -369,7 +410,7 @@ public class ExLists extends ApiExampleBase
 
         list2 = doc.getLists().get(1);
         TestUtil.verifyListLevel("\u0000)", 18.0d, NumberStyle.ARABIC, list2.getListLevels().get(0));
-        Assert.assertEquals(Color.RED.getRGB(), list2.getListLevels().get(0).getFont().getColor().getRGB());
+        Assert.assertEquals(Color.BLUE.getRGB(), list2.getListLevels().get(0).getFont().getColor().getRGB());
         Assert.assertEquals(10.0d, list2.getListLevels().get(0).getFont().getSize());
         Assert.assertEquals(10, list2.getListLevels().get(0).getStartAt());
     }
@@ -392,21 +433,21 @@ public class ExLists extends ApiExampleBase
         //ExSummary:Shows how to create a list style and use it in a document.
         Document doc = new Document();
 
-        // Create a new list style
-        // List formatting associated with this list style is default numbered
+        // A list allows us to organize and decorate sets of paragraphs with prefix symbols and indents.
+        // We can create nested lists by increasing the indent level. 
+        // We can begin and end a list by using a document builder's "ListFormat" property. 
+        // Each paragraph that we add between a list's start and the end will become an item in the list.
+        // We can contain an entire List object within a style.
         Style listStyle = doc.getStyles().add(StyleType.LIST, "MyListStyle");
 
-        // This list defines the formatting of the list style
-        // Note that this list can not be used directly to apply formatting to paragraphs (see below)
         List list1 = listStyle.getList();
 
-        // Check some basic rules about the list that defines a list style
         Assert.assertTrue(list1.isListStyleDefinition());
         Assert.assertFalse(list1.isListStyleReference());
         Assert.assertTrue(list1.isMultiLevel());
         Assert.assertEquals(listStyle, list1.getStyle());
 
-        // Modify formatting of the list style to our liking
+        // Change the appearance of all list levels in our list.
         for (ListLevel level : list1.getListLevels())
         {
             level.getFont().setName("Verdana");
@@ -414,20 +455,18 @@ public class ExLists extends ApiExampleBase
             level.getFont().setBold(true);
         }
 
-        // Add some text to our document and use the list style
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("Using list style first time:");
 
-        // This creates a list based on the list style
+        // Create another list from a list within a style.
         List list2 = doc.getLists().add(listStyle);
 
-        // Check some basic rules about the list that references a list style
         Assert.assertFalse(list2.isListStyleDefinition());
         Assert.assertTrue(list2.isListStyleReference());
         Assert.assertEquals(listStyle, list2.getStyle());
 
-        // Apply the list that references the list style
+        // Add some list items that our list will format.
         builder.getListFormat().setList(list2);
         builder.writeln("Item 1");
         builder.writeln("Item 2");
@@ -435,7 +474,7 @@ public class ExLists extends ApiExampleBase
 
         builder.writeln("Using list style second time:");
 
-        // Create and apply another list based on the list style
+        // Create and apply another list based on the list style.
         List list3 = doc.getLists().add(listStyle);
         builder.getListFormat().setList(list3);
         builder.writeln("Item 1");
@@ -480,7 +519,7 @@ public class ExLists extends ApiExampleBase
         //ExFor:ListFormat.IsListItem
         //ExFor:CompositeNode.GetText
         //ExFor:List.ListId
-        //ExSummary:Shows how to output all paragraphs in a document that are bulleted or numbered.
+        //ExSummary:Shows how to output all paragraphs in a document that are list items.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -516,7 +555,7 @@ public class ExLists extends ApiExampleBase
     {
         //ExStart
         //ExFor:ListFormat.RemoveNumbers
-        //ExSummary:Shows how to remove bullets and numbering from all paragraphs in the main text of a section.
+        //ExSummary:Shows how to remove list formatting from all paragraphs in the main text of a section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -610,7 +649,7 @@ public class ExLists extends ApiExampleBase
 
     //ExStart
     //ExFor:ListTemplate
-    //ExSummary:Shows how to create a document that demonstrates all outline headings list templates.
+    //ExSummary:Shows how to create a document that contains all outline headings list templates.
     @Test //ExSkip
     public void outlineHeadingTemplates() throws Exception
     {
@@ -656,7 +695,7 @@ public class ExLists extends ApiExampleBase
 
     private void testOutlineHeadingTemplates(Document doc)
     {
-        List list = doc.getLists().get(0); // Article section list template
+        List list = doc.getLists().get(0); // Article section list template.
 
         TestUtil.verifyListLevel("Article \u0000.", 0.0d, NumberStyle.UPPERCASE_ROMAN, list.getListLevels().get(0));
         TestUtil.verifyListLevel("Section \u0000.\u0001", 0.0d, NumberStyle.LEADING_ZERO, list.getListLevels().get(1));
@@ -668,7 +707,7 @@ public class ExLists extends ApiExampleBase
         TestUtil.verifyListLevel("\u0007.", 50.4d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(7));
         TestUtil.verifyListLevel("\b.", 72.0d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(8));
 
-        list = doc.getLists().get(1); // Legal list template
+        list = doc.getLists().get(1); // Legal list template.
 
         TestUtil.verifyListLevel("\u0000", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(0));
         TestUtil.verifyListLevel("\u0000.\u0001", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(1));
@@ -680,7 +719,7 @@ public class ExLists extends ApiExampleBase
         TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\u0007", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(7));
         TestUtil.verifyListLevel("\u0000.\u0001.\u0002.\u0003.\u0004.\u0005.\u0006.\u0007.\b", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(8));
 
-        list = doc.getLists().get(2); // Numbered list template
+        list = doc.getLists().get(2); // Numbered list template.
 
         TestUtil.verifyListLevel("\u0000.", 0.0d, NumberStyle.UPPERCASE_ROMAN, list.getListLevels().get(0));
         TestUtil.verifyListLevel("\u0001.", 36.0d, NumberStyle.UPPERCASE_LETTER, list.getListLevels().get(1));
@@ -692,7 +731,7 @@ public class ExLists extends ApiExampleBase
         TestUtil.verifyListLevel("(\u0007)", 252.0d, NumberStyle.LOWERCASE_LETTER, list.getListLevels().get(7));
         TestUtil.verifyListLevel("(\b)", 288.0d, NumberStyle.LOWERCASE_ROMAN, list.getListLevels().get(8));
 
-        list = doc.getLists().get(3); // Chapter list template
+        list = doc.getLists().get(3); // Chapter list template.
 
         TestUtil.verifyListLevel("Chapter \u0000", 0.0d, NumberStyle.ARABIC, list.getListLevels().get(0));
         TestUtil.verifyListLevel("", 0.0d, NumberStyle.NONE, list.getListLevels().get(1));
@@ -709,20 +748,17 @@ public class ExLists extends ApiExampleBase
     //ExFor:ListCollection
     //ExFor:ListCollection.AddCopy(List)
     //ExFor:ListCollection.GetEnumerator
-    //ExSummary:Shows how to enumerate through all lists defined in one document and creates a sample of those lists in another document.
+    //ExSummary:Shows how to create a document with a sample of all the lists from another document.
     @Test //ExSkip
     public void printOutAllLists() throws Exception
     {
-        // Open a document that contains lists
         Document srcDoc = new Document(getMyDir() + "Rendering.docx");
 
-        // This will be the sample document we product
         Document dstDoc = new Document();
         DocumentBuilder builder = new DocumentBuilder(dstDoc);
 
         for (List srcList : srcDoc.getLists())
         {
-            // This copies the list formatting from the source into the destination document
             List dstList = dstDoc.getLists().addCopy(srcList);
             addListSample(builder, dstList);
         }
@@ -804,39 +840,46 @@ public class ExLists extends ApiExampleBase
         //ExFor:ListLevel.RestartAfterLevel
         //ExFor:ListLevel.LinkedStyle
         //ExFor:ListLevelCollection.GetEnumerator
-        //ExSummary:Shows how to create a list with some advanced formatting.
+        //ExSummary:Shows advances ways of customizing list labels.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // A list allows us to organize and decorate sets of paragraphs with prefix symbols and indents.
+        // We can create nested lists by increasing the indent level. 
+        // We can begin and end a list by using a document builder's "ListFormat" property. 
+        // Each paragraph that we add between a list's start and the end will become an item in the list.
         List list = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
-        // Level 1 labels will be "Appendix A", continuous and linked to the Heading 1 paragraph style
+        // Level 1 labels will be formatted according to the "Heading 1" paragraph style, and will have a prefix.
+        // These will look like "Appendix A", "Appendix B"...
         list.getListLevels().get(0).setNumberFormat("Appendix \u0000");
         list.getListLevels().get(0).setNumberStyle(NumberStyle.UPPERCASE_LETTER);
         list.getListLevels().get(0).setLinkedStyle(doc.getStyles().get("Heading 1"));
 
-        // Level 2 labels will be "Section (1.01)" and restarting after Level 2 item appears
+        // Level 2 labels will display the current numbers of the first and the second list levels and have leading zeroes.
+        // If the first list level is at 1, then the list labels from these will look like "Section (1.01)", "Section (1.02)"...
         list.getListLevels().get(1).setNumberFormat("Section (\u0000.\u0001)");
         list.getListLevels().get(1).setNumberStyle(NumberStyle.LEADING_ZERO);
 
-        // Note that the higher level uses UppercaseLetter numbering
-        // We can set this property to use Arabic numbers for the higher list levels
+        // Note that the higher-level uses UppercaseLetter numbering.
+        // We can set the "IsLegal" property to use Arabic numbers for the higher list levels.
         list.getListLevels().get(1).isLegal(true);
         list.getListLevels().get(1).setRestartAfterLevel(0);
 
-        // Level 3 labels will be "-I-" and restarting after Level 2 item appears
+        // Level 3 labels will be upper case Roman numerals with a prefix and a suffix and will restart at each List level 1 item.
+        // These list labels will look like "-I-", "-II-"...
         list.getListLevels().get(2).setNumberFormat("-\u0002-");
         list.getListLevels().get(2).setNumberStyle(NumberStyle.UPPERCASE_ROMAN);
         list.getListLevels().get(2).setRestartAfterLevel(1);
 
-        // Make labels of all list levels bold
+        // Make labels of all list levels bold.
         for (ListLevel level : list.getListLevels())
             level.getFont().setBold(true);
 
-        // Apply list formatting to the current paragraph
+        // Apply list formatting to the current paragraph.
         builder.getListFormat().setList(list);
 
-        // Exercise the 3 levels we created two times
+        // Create list items that will display all three of our list levels.
         for (int n = 0; n < 2; n++)
         {
             for (int i = 0; i < 3; i++)
@@ -878,30 +921,30 @@ public class ExLists extends ApiExampleBase
         //ExFor:Paragraph.ListLabel
         //ExFor:ListLabel.LabelValue
         //ExFor:ListLabel.LabelString
-        //ExSummary:Shows how to extract the label of each paragraph in a list as a value or a String.
+        //ExSummary:Shows how to extract the list labels of all paragraphs that are list items.
         Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.updateListLabels();
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
 
-        // Find if we have the paragraph list. In our document our list uses plain Arabic numbers,
-        // which start at three and ends at six
+        // Find if we have the paragraph list. In our document, our list uses plain Arabic numbers,
+        // which start at three and ends at six.
         for (Paragraph paragraph : paras.<Paragraph>OfType().Where(p => p.ListFormat.IsListItem) !!Autoporter error: Undefined expression type )
         {
             System.out.println("List item paragraph #{paras.IndexOf(paragraph)}");
 
-            // This is the text we get when actually getting when we output this node to text format
-            // The list labels are not included in this text output. Trim any paragraph formatting characters
+            // This is the text we get when getting when we output this node to text format.
+            // This text output will omit list labels. Trim any paragraph formatting characters. 
             String paragraphText = msString.trim(paragraph.toString(SaveFormat.TEXT));
             System.out.println("\tExported Text: {paragraphText}");
 
             ListLabel label = paragraph.getListLabel();
 
-            // This gets the position of the paragraph in current level of the list. If we have a list with multiple levels,
-            // this will tell us what position it is on that level
+            // This gets the position of the paragraph in the current level of the list. If we have a list with multiple levels,
+            // this will tell us what position it is on that level.
             System.out.println("\tNumerical Id: {label.LabelValue}");
 
-            // Combine them together to include the list label with the text in the output
+            // Combine them together to include the list label with the text in the output.
             System.out.println("\tList label combined with text: {label.LabelString} {paragraphText}");
         }
         //ExEnd
@@ -915,21 +958,18 @@ public class ExLists extends ApiExampleBase
         //ExStart
         //ExFor:ListLevel.CreatePictureBullet
         //ExFor:ListLevel.DeletePictureBullet
-        //ExSummary:Shows how to creating and deleting picture bullet with custom image.
+        //ExSummary:Shows how to set a custom image icon for list item labels.
         Document doc = new Document();
 
-        // Create a list with template
         List list = doc.getLists().add(ListTemplate.BULLET_CIRCLE);
 
-        // Create picture bullet for the current list level
+        // Create a picture bullet for the current list level, and set an image from a local file system
+        // as the icon that the bullets for this list level will display.
         list.getListLevels().get(0).createPictureBullet();
-
-        // Set your own picture bullet image through the ImageData
         list.getListLevels().get(0).getImageData().setImage(getImageDir() + "Logo icon.ico");
 
         Assert.assertTrue(list.getListLevels().get(0).getImageData().hasImage());
 
-        // Create a list, configure its bullets to use our image and add two list items
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.getListFormat().setList(list);
@@ -938,7 +978,6 @@ public class ExLists extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Lists.CreatePictureBullet.docx");
 
-        // Delete picture bullet
         list.getListLevels().get(0).deletePictureBullet();
 
         Assert.assertNull(list.getListLevels().get(0).getImageData());

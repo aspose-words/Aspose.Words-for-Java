@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BreakType;
+import com.aspose.words.TextFormFieldType;
 import com.aspose.words.ProtectionType;
 import org.testng.Assert;
 import com.aspose.ms.System.msString;
@@ -24,13 +25,12 @@ import com.aspose.words.Paragraph;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.Run;
 import java.awt.Color;
-import com.aspose.words.ControlChar;
 import com.aspose.words.NodeType;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.Node;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.HeaderFooter;
-import com.aspose.words.Shape;
+import com.aspose.words.ControlChar;
 import com.aspose.words.ShapeType;
 import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.ms.System.Globalization.msCultureInfo;
@@ -46,21 +46,25 @@ public class ExSection extends ApiExampleBase
         //ExFor:Document.Protect(ProtectionType)
         //ExFor:ProtectionType
         //ExFor:Section.ProtectedForForms
-        //ExSummary:Shows how to protect a section so only editing in form fields is possible.
+        //ExSummary:Shows how to turn off protection for a section.
         Document doc = new Document();
 
-        // Insert two sections with some text
         DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.writeln("Section 1. Unprotected.");
-        builder.insertBreak(BreakType.SECTION_BREAK_CONTINUOUS);
-        builder.writeln("Section 2. Protected.");
+        builder.writeln("Section 1. Hello world!");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
 
-        // Section protection only works when document protection is turned and only editing in form fields is allowed
+        builder.writeln("Section 2. Hello again!");
+        builder.write("Please enter text here: ");
+        builder.insertTextInput("TextInput1", TextFormFieldType.REGULAR, "", "Placeholder text", 0);
+
+        // Apply write protection to every section in the document.
         doc.protect(ProtectionType.ALLOW_ONLY_FORM_FIELDS);
 
-        // By default, all sections are protected, but we can selectively turn protection off
+        // Turn off write protection for the first section.
         doc.getSections().get(0).setProtectedForForms(false);
 
+        // In this output document, we will be able to edit the first section freely,
+        // and we will only be able to edit the contents of the form field in the second section.
         doc.save(getArtifactsDir() + "Section.Protect.docx");
         //ExEnd
 
@@ -78,7 +82,7 @@ public class ExSection extends ApiExampleBase
         //ExFor:Section.Clone
         //ExFor:SectionCollection
         //ExFor:NodeCollection.RemoveAt(Int32)
-        //ExSummary:Shows how to add/remove sections in a document.
+        //ExSummary:Shows how to add and remove sections in a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -86,18 +90,18 @@ public class ExSection extends ApiExampleBase
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.write("Section 2");
 
-        // This shows what is in the document originally. The document has two sections
         Assert.assertEquals("Section 1\fSection 2", msString.trim(doc.getText()));
 
-        // Delete the first section from the document
+        // Delete the first section from the document.
         doc.getSections().removeAt(0);
 
-        // Duplicate the last section and append the copy to the end of the document
+        Assert.assertEquals("Section 2", msString.trim(doc.getText()));
+        
+        // Append a copy of what is now the first section to the end of the document.
         int lastSectionIdx = doc.getSections().getCount() - 1;
         Section newSection = doc.getSections().get(lastSectionIdx).deepClone();
         doc.getSections().add(newSection);
 
-        // Check what the document contains after we changed it
         Assert.assertEquals("Section 2\fSection 2", msString.trim(doc.getText()));
         //ExEnd
     }
@@ -112,18 +116,21 @@ public class ExSection extends ApiExampleBase
         Document doc = new Document();
 
         // A blank document contains one section by default,
-        // in order for us to be able to edit it straight away.
+        // which contains child nodes that we can edit.
         Assert.assertEquals(1, doc.getSections().getCount());
 
-        // Use a document builder to add text, and then to create a new section by inserting a section break.
+        // Use a document builder to add text to the first section.
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Hello world!");
+
+        // Create a second section by inserting a section break.
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
 
         Assert.assertEquals(2, doc.getSections().getCount());
 
-        // Each section is a subdivision of the document that has its own page setup settings.
-        // We can split up the text in the second section into two columns without affecting the first section in any way.
+        // Each section has its own page setup settings.
+        // We can split the text in the second section into two columns.
+        // This will not affect the text in the first section.
         doc.getLastSection().getPageSetup().getTextColumns().setCount(2);
         builder.writeln("Column 1.");
         builder.insertBreak(BreakType.COLUMN_BREAK);
@@ -142,7 +149,7 @@ public class ExSection extends ApiExampleBase
     }
 
     @Test
-    public void createFromScratch() throws Exception
+    public void createManually() throws Exception
     {
         //ExStart
         //ExFor:Node.GetText
@@ -168,54 +175,52 @@ public class ExSection extends ApiExampleBase
         //ExFor:Run.#ctor(DocumentBase)
         //ExFor:Run.Text
         //ExFor:Inline.Font
-        //ExSummary:Shows how to construct an Aspose Words document node by node.
+        //ExSummary:Shows how to construct an Aspose.Words document by hand.
         Document doc = new Document();
 
-        // A newly created blank document still comes one section, one body and one paragraph
-        // Calling this method will remove all those nodes to completely empty the document
+        // A blank document contains one section, one body and one paragraph.
+        // Call the "RemoveAllChildren" method to remove all those nodes,
+        // and end up with a document node with no children.
         doc.removeAllChildren();
 
-        // This document now has no composite nodes that content can be added to
-        // If we wish to edit it, we will need to repopulate its node collection,
-        // which we will start to do with by creating a new Section node
+        // This document now has no composite child nodes that we can add content to.
+        // If we wish to edit it, we will need to repopulate its node collection.
+        // First, create a new section, and then append it as a child to the root document node.
         Section section = new Section(doc);
-
-        // Append the section to the document
         doc.appendChild(section);
 
-        // Set some properties for the section
+        // Set some page setup properties for the section.
         section.getPageSetup().setSectionStart(SectionStart.NEW_PAGE);
         section.getPageSetup().setPaperSize(PaperSize.LETTER);
-
-        // A section needs a body, which will contain all other nodes that can be edited
+        
+        // A section needs a body, which will contain and display all of its contents
+        // on the page between the section's header and footer.
         Body body = new Body(doc);
         section.appendChild(body);
 
-        // The body needs to have at least one paragraph
-        // Note that the paragraph has not yet been added to the document, but we have to specify the parent document
-        // The parent document is needed so the paragraph can correctly work
-        // with styles and other document-wide information
+        // Create a paragraph, set some formatting properties, and then append it as a child to the body.
         Paragraph para = new Paragraph(doc);
-        body.appendChild(para);
 
-        // We can set some formatting for the paragraph
         para.getParagraphFormat().setStyleName("Heading 1");
         para.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
 
-        // Now we can begin adding content to the document
+        body.appendChild(para);
+
+        // Finally, add some content to do the document by creating a run,
+        // setting its text contents and appearance, and appending it as a child to the paragraph.
         Run run = new Run(doc);
         run.setText("Hello World!");
         run.getFont().setColor(Color.RED);
         para.appendChild(run);
 
-        Assert.assertEquals("Hello World!" + ControlChar.SECTION_BREAK_CHAR, doc.getText());
+        Assert.assertEquals("Hello World!", msString.trim(doc.getText()));
 
-        doc.save(getArtifactsDir() + "Section.CreateFromScratch.docx");
+        doc.save(getArtifactsDir() + "Section.CreateManually.docx");
         //ExEnd
     }
 
     @Test
-    public void ensureSectionMinimum() throws Exception
+    public void ensureMinimum() throws Exception
     {
         //ExStart
         //ExFor:NodeCollection.Add
@@ -224,20 +229,26 @@ public class ExSection extends ApiExampleBase
         //ExSummary:Shows how to prepare a new section node for editing.
         Document doc = new Document();
         
-        // A blank document comes with a section, which has a body, which in turn has a paragraph,
-        // so we can edit the document by adding children to the paragraph like shapes or runs of text
-        Assert.assertEquals(2, doc.getSections().get(0).getChildNodes(NodeType.ANY, true).getCount());
+        // A blank document comes with a section, which has a body, which in turn has a paragraph.
+        // We can add contents to this document by adding elements such as text runs, shapes, or tables to that paragraph.
+        Assert.assertEquals(NodeType.SECTION, doc.getChild(NodeType.ANY, 0, true).getNodeType());
+        Assert.assertEquals(NodeType.BODY, doc.getSections().get(0).getChild(NodeType.ANY, 0, true).getNodeType());
+        Assert.assertEquals(NodeType.PARAGRAPH, doc.getSections().get(0).getBody().getChild(NodeType.ANY, 0, true).getNodeType());
 
-        // If we add a new section like this, it will not have a body or a paragraph that we can edit
+        // If we add a new section like this, it will not have a body, or any other child nodes.
         doc.getSections().add(new Section(doc));
 
         Assert.assertEquals(0, doc.getSections().get(1).getChildNodes(NodeType.ANY, true).getCount());
 
-        // Makes sure that the section contains a body with at least one paragraph
+        // Run the "EnsureMinumim" method to add a body and a paragraph to this section to begin editing it.
         doc.getLastSection().ensureMinimum();
 
-        // Now we can add content to this section
-        Assert.assertEquals(2, doc.getSections().get(1).getChildNodes(NodeType.ANY, true).getCount());
+        Assert.assertEquals(NodeType.BODY, doc.getSections().get(1).getChild(NodeType.ANY, 0, true).getNodeType());
+        Assert.assertEquals(NodeType.PARAGRAPH, doc.getSections().get(1).getBody().getChild(NodeType.ANY, 0, true).getNodeType());
+
+        doc.getSections().get(0).getBody().getFirstParagraph().appendChild(new Run(doc, "Hello world!"));
+
+        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
         //ExEnd
     }
 
@@ -248,46 +259,45 @@ public class ExSection extends ApiExampleBase
         //ExFor:Section.Body
         //ExFor:Body.EnsureMinimum
         //ExSummary:Clears main text from all sections from the document leaving the sections themselves.
-        // Open a document
         Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.write("Section 1");
-        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
-        builder.write("Section 2");
+        // A blank document contains one section, one body and one paragraph.
+        // Call the "RemoveAllChildren" method to remove all those nodes,
+        // and end up with a document node with no children.
+        doc.removeAllChildren();
 
-        // This shows what is in the document originally
-        // The document has two sections
-        Assert.assertEquals($"Section 1{ControlChar.SectionBreak}Section 2{ControlChar.SectionBreak}", doc.getText());
+        // This document now has no composite child nodes that we can add content to.
+        // If we wish to edit it, we will need to repopulate its node collection.
+        // First, create a new section, and then append it as a child to the root document node.
+        Section section = new Section(doc);
+        doc.appendChild(section);
 
-        // Loop through all sections in the document
-        for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
-        {
-            // Each section has a Body node that contains main story (main text) of the section
-            Body body = section.getBody();
+        // A section needs a body, which will contain and display all of its contents
+        // on the page between the section's header and footer.
+        Body body = new Body(doc);
+        section.appendChild(body);
 
-            // This clears all nodes from the body
-            body.removeAllChildren();
+        // This body has no children, so we cannot add runs to it yet.
+        Assert.assertEquals(0, doc.getFirstSection().getBody().getChildNodes(NodeType.ANY, true).getCount());
+        
+        // Call the "EnsureMinimum" to make sure that this body contains at least one empty paragraph. 
+        body.ensureMinimum();
 
-            // Technically speaking, for the main story of a section to be valid, it needs to have
-            // at least one empty paragraph. That's what the EnsureMinimum method does
-            body.ensureMinimum();
-        }
+        // Now, we can add runs to the body, and get the document to display them.
+        body.getFirstParagraph().appendChild(new Run(doc, "Hello world!"));
 
-        // Check how the content of the document looks now
-        Assert.assertEquals($"{ControlChar.SectionBreak}{ControlChar.SectionBreak}", doc.getText());
+        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
         //ExEnd
     }
 
     @Test
-    public void bodyNodeType() throws Exception
+    public void bodyChildNodes() throws Exception
     {
         //ExStart
         //ExFor:Body.NodeType
         //ExFor:HeaderFooter.NodeType
         //ExFor:Document.FirstSection
-        //ExSummary:Shows how you can enumerate through children of a composite node and detect types of the children nodes.
-        // Open a document
+        //ExSummary:Shows how to iterate through the children of a composite node.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -297,40 +307,32 @@ public class ExSection extends ApiExampleBase
         builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
         builder.write("Primary footer");
 
-        // Get the first section in the document
         Section section = doc.getFirstSection();
 
-        // A Section is a composite node and therefore can contain child nodes
-        // Section can contain only Body and HeaderFooter nodes
+        // A Section is a composite node and can contain child nodes,
+        // but only if those child nodes are of a "Body" or "HeaderFooter" node type.
         for (Node node : (Iterable<Node>) section)
         {
-            // Every node has the NodeType property
             switch (node.getNodeType())
             {
                 case NodeType.BODY:
                 {
-                    // If the node type is Body, we can cast the node to the Body class
-                    Body body = (Body) node;
+                    Body body = (Body)node;
 
-                    // Write the content of the main story of the section to the console
-                    System.out.println("*** Body ***");
-                    System.out.println(body.getText());
+                    System.out.println("Body:");
+                    System.out.println("\t\"{body.GetText().Trim()}\"");
                     break;
                 }
                 case NodeType.HEADER_FOOTER:
                 {
-                    // If the node type is HeaderFooter, we can cast the node to the HeaderFooter class
-                    HeaderFooter headerFooter = (HeaderFooter) node;
+                    HeaderFooter headerFooter = (HeaderFooter)node;
 
-                    // Write the content of the header footer to the console
-                    System.out.println("*** HeaderFooter ***");
-                    msConsole.writeLine(headerFooter.getHeaderFooterType());
-                    System.out.println(headerFooter.getText());
+                    System.out.println("HeaderFooter type: {headerFooter.HeaderFooterType}:");
+                    System.out.println("\t\"{headerFooter.GetText().Trim()}\"");
                     break;
                 }
                 default:
                 {
-                    // Other types of nodes never occur inside a Section node
                     throw new Exception("Unexpected node type in a section.");
                 }
             }
@@ -339,32 +341,33 @@ public class ExSection extends ApiExampleBase
     }
 
     @Test
-    public void sectionsDeleteAllSections() throws Exception
+    public void clear() throws Exception
     {
         //ExStart
         //ExFor:NodeCollection.Clear
         //ExSummary:Shows how to remove all sections from a document.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        // All the document's content is stored in the child nodes of sections like this one
-        Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
+        // This document has one section with a few child nodes containing and displaying all of the document's contents.
+        Assert.assertEquals(1, doc.getSections().getCount());
         Assert.assertEquals(19, doc.getSections().get(0).getChildNodes(NodeType.ANY, true).getCount());
+        Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
 
+        // Clear the collection of sections, which will remove all of their child nodes, and all of the document's content.
         doc.getSections().clear();
         
-        // Clearing the section collection effectively empties the document
-        Assert.assertEquals("", doc.getText());
-        Assert.assertEquals(0, doc.getSections().getCount());
+        Assert.assertEquals(0, doc.getChildNodes(NodeType.ANY, true).getCount());
+        Assert.assertEquals("", msString.trim(doc.getText()));
         //ExEnd
     }
 
     @Test
-    public void sectionsAppendSectionContent() throws Exception
+    public void prependAppendContent() throws Exception
     {
         //ExStart
         //ExFor:Section.AppendContent
         //ExFor:Section.PrependContent
-        //ExSummary:Shows how to append content of an existing section. The number of sections in the document remains the same.
+        //ExSummary:Shows how to append the contents of a section to another section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -374,83 +377,107 @@ public class ExSection extends ApiExampleBase
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.write("Section 3");
 
-        // This is the section that we will append and prepend to
         Section section = doc.getSections().get(2);
 
-        // This copies content of the 1st section and inserts it at the beginning of the specified section
+        Assert.assertEquals("Section 3" + ControlChar.SECTION_BREAK, section.getText());
+
+        // Insert the contents of the first section to the beginning of the third section.
         Section sectionToPrepend = doc.getSections().get(0);
         section.prependContent(sectionToPrepend);
 
-        // This copies content of the 2nd section and inserts it at the end of the specified section
+        // Insert the contents of the second section to the end of the third section.
         Section sectionToAppend = doc.getSections().get(1);
         section.appendContent(sectionToAppend);
 
-        Assert.assertEquals("Section 1" + ControlChar.SECTION_BREAK +
-                        "Section 2" + ControlChar.SECTION_BREAK +
-                        "Section 1" + ControlChar.PARAGRAPH_BREAK +
+        // The "PrependContent" and "AppendContent" methods did not create any new sections.
+        Assert.assertEquals(3, doc.getSections().getCount());
+        Assert.assertEquals("Section 1" + ControlChar.PARAGRAPH_BREAK +
                         "Section 3" + ControlChar.PARAGRAPH_BREAK +
-                        "Section 2" + ControlChar.SECTION_BREAK, doc.getText());
+                        "Section 2" + ControlChar.SECTION_BREAK, section.getText());
         //ExEnd
     }
 
     @Test
-    public void sectionsDeleteSectionContent() throws Exception
+    public void clearContent() throws Exception
     {
         //ExStart
         //ExFor:Section.ClearContent
-        //ExSummary:Shows how to clear the content of a section.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        //ExSummary:Shows how to clear the contents of a section.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
+        builder.write("Hello world!");
 
+        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals(1, doc.getFirstSection().getBody().getParagraphs().getCount());
+
+        // Running the "ClearContent" method will remove all the section contents
+        // but leave a blank paragraph to add content again.
         doc.getFirstSection().clearContent();
 
         Assert.assertEquals("", msString.trim(doc.getText()));
+        Assert.assertEquals(1, doc.getFirstSection().getBody().getParagraphs().getCount());
         //ExEnd
     }
 
     @Test
-    public void sectionsDeleteHeaderFooter() throws Exception
+    public void clearHeadersFooters() throws Exception
     {
         //ExStart
         //ExFor:Section.ClearHeadersFooters
-        //ExSummary:Clears content of all headers and footers in a section.
-        Document doc = new Document(getMyDir() + "Header and footer types.docx");
+        //ExSummary:Shows how to clear the contents of all headers and footers in a section.
+        Document doc = new Document();
 
-        Section section = doc.getSections().get(0);
+        Assert.assertEquals(0, doc.getFirstSection().getHeadersFooters().getCount());
 
-        Assert.assertEquals(6, section.getHeadersFooters().getCount());
-        Assert.assertEquals("First header", msString.trim(section.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_FIRST).getText()));
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        section.clearHeadersFooters();
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.writeln("This is the primary header.");
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        builder.writeln("This is the primary footer.");
 
-        Assert.assertEquals(6, section.getHeadersFooters().getCount());
-        Assert.assertEquals("", section.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_FIRST).getText());
+        Assert.assertEquals(2, doc.getFirstSection().getHeadersFooters().getCount());
+
+        Assert.assertEquals("This is the primary header.", msString.trim(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText()));
+        Assert.assertEquals("This is the primary footer.", msString.trim(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText()));
+
+        // Empty all the headers and footers in this section of all their contents.
+        // The headers and footers themselves will still be present, but will have nothing to display.
+        doc.getFirstSection().clearHeadersFooters();
+
+        Assert.assertEquals(2, doc.getFirstSection().getHeadersFooters().getCount());
+
+        Assert.assertEquals("", msString.trim(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText()));
+        Assert.assertEquals("", msString.trim(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText()));
         //ExEnd
     }
 
     @Test
-    public void sectionDeleteHeaderFooterShapes() throws Exception
+    public void deleteHeaderFooterShapes() throws Exception
     {
         //ExStart
         //ExFor:Section.DeleteHeaderFooterShapes
-        //ExSummary:Removes all images and shapes from all headers footers in a section.
+        //ExSummary:Shows how to remove all shapes from all headers footers in a section.
         Document doc = new Document();
-        Section section = doc.getSections().get(0);
-        HeaderFooter firstHeader = new HeaderFooter(doc, HeaderFooterType.HEADER_FIRST);
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        section.getHeadersFooters().add(firstHeader);
+        // Create a primary header with a shape.
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.insertShape(ShapeType.RECTANGLE, 100.0, 100.0);
 
-        firstHeader.appendParagraph("This paragraph contains a shape: ");
+        // Create a primary footer with an image.
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        builder.insertImage(getImageDir() + "Logo Icon.ico");
 
-        Shape shape = new Shape(doc, ShapeType.ARROW);
-        firstHeader.getFirstParagraph().appendChild(shape);
+        Assert.assertEquals(1, doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getChildNodes(NodeType.SHAPE, true).getCount());
+        Assert.assertEquals(1, doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getChildNodes(NodeType.SHAPE, true).getCount());
 
-        Assert.assertEquals(1, firstHeader.getChildNodes(NodeType.SHAPE, true).getCount());
+        // Remove all shapes from the headers and footers in the first section.
+        doc.getFirstSection().deleteHeaderFooterShapes();
 
-        section.deleteHeaderFooterShapes();
-
-        Assert.assertEquals(0, firstHeader.getChildNodes(NodeType.SHAPE, true).getCount());
+        Assert.assertEquals(0, doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getChildNodes(NodeType.SHAPE, true).getCount());
+        Assert.assertEquals(0, doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getChildNodes(NodeType.SHAPE, true).getCount());
         //ExEnd
     }
 
@@ -493,8 +520,8 @@ public class ExSection extends ApiExampleBase
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.write("Section 2");
 
-        // It is important to understand that a document can contain many sections and each
-        // section has its own page setup. In this case we want to modify them all
+        // It is important to understand that a document can contain many sections,
+        // and each section has its page setup. In this case, we want to modify them all.
         for (Section section : doc.<Section>OfType() !!Autoporter error: Undefined expression type )
             section.getPageSetup().setPaperSize(PaperSize.LETTER);
 
@@ -508,7 +535,7 @@ public class ExSection extends ApiExampleBase
 
         Document docEn = new Document();
 
-        // Assert that page defaults comply current culture info
+        // Assert that page defaults comply with current culture info.
         Section sectionEn = docEn.getSections().get(0);
         Assert.assertEquals(72.0, sectionEn.getPageSetup().getLeftMargin()); // 2.54 cm         
         Assert.assertEquals(72.0, sectionEn.getPageSetup().getRightMargin()); // 2.54 cm
@@ -518,7 +545,7 @@ public class ExSection extends ApiExampleBase
         Assert.assertEquals(36.0, sectionEn.getPageSetup().getFooterDistance()); // 1.27 cm
         Assert.assertEquals(36.0, sectionEn.getPageSetup().getTextColumns().getSpacing()); // 1.27 cm
 
-        // Change culture and assert that the page defaults are changed
+        // Change the culture and assert that the page defaults are changed.
         CurrentThread.setCurrentCulture(new msCultureInfo("de-de"));
 
         Document docDe = new Document();
@@ -532,7 +559,7 @@ public class ExSection extends ApiExampleBase
         Assert.assertEquals(35.4, sectionDe.getPageSetup().getFooterDistance()); // 1.25 cm
         Assert.assertEquals(35.4, sectionDe.getPageSetup().getTextColumns().getSpacing()); // 1.25 cm
 
-        // Change page defaults
+        // Change page defaults.
         sectionDe.getPageSetup().setLeftMargin(90.0); // 3.17 cm
         sectionDe.getPageSetup().setRightMargin(90.0); // 3.17 cm
         sectionDe.getPageSetup().setTopMargin(72.0); // 2.54 cm

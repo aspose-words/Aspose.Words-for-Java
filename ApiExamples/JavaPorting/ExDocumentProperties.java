@@ -15,13 +15,15 @@ import com.aspose.words.Document;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentProperty;
 import org.testng.Assert;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BuiltInDocumentProperties;
+import com.aspose.words.FieldType;
+import com.aspose.ms.System.msString;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.TimeSpan;
 import com.aspose.words.NodeType;
 import com.aspose.words.LayoutEnumerator;
 import com.aspose.words.LayoutEntityType;
-import com.aspose.words.DocumentBuilder;
 import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
@@ -31,10 +33,11 @@ import com.aspose.words.DocumentSecurity;
 import com.aspose.words.ProtectionType;
 import com.aspose.words.CustomDocumentProperties;
 import java.util.Iterator;
+import com.aspose.words.FieldDocProperty;
 
 
 @Test
-public class ExProperties extends ApiExampleBase
+public class ExDocumentProperties extends ApiExampleBase
 {
     @Test
     public void builtIn() throws Exception
@@ -47,21 +50,21 @@ public class ExProperties extends ApiExampleBase
         //ExFor:DocumentProperty.Name
         //ExFor:DocumentProperty.Value
         //ExFor:DocumentProperty.Type
-        //ExSummary:Shows how to work with built in document properties.
+        //ExSummary:Shows how to work with built-in document properties.
         Document doc = new Document(getMyDir() + "Properties.docx");
 
-        // Some information about the document is stored in member attributes, and can be accessed like this
+        // The "Document" object contains some of its metadata in its members.
         System.out.println("Document filename:\n\t \"{doc.OriginalFileName}\"");
 
-        // Most of the document's metadata, such as author name, file size,
-        // word/page counts can be found in the built-in properties collection like this
+        // The document also stores metadata in its built-in properties.
+        // Each built-in property is a member of the document's "BuiltInDocumentProperties" object.
         System.out.println("Built-in Properties:");
         for (DocumentProperty docProperty : (Iterable<DocumentProperty>) doc.getBuiltInDocumentProperties())
         {
             System.out.println(docProperty.getName());
             System.out.println("\tType:\t{docProperty.Type}");
 
-            // Some properties may store multiple values
+            // Some properties may store multiple values.
             if (docProperty.getValue() instanceof Object[])
             {
                 for (Object value : ms.as(docProperty.getValue(), Object[].class))
@@ -89,15 +92,12 @@ public class ExProperties extends ApiExampleBase
         //ExSummary:Shows how to work with custom document properties.
         Document doc = new Document(getMyDir() + "Properties.docx");
 
-        // A document's built-in properties contain a set of predetermined keys
-        // with values such as the author's name or document's word count
-        // We can add our own keys and values to a custom properties collection also
-        // Before we add a custom property, we need to make sure that one with the same name does not already exist
+        // Every document contains a collection of custom properties, which, like the built-in properties, are key-value pairs.
+        // Unlike the built-in properties, many of which the document maintains by itself, we need to create all of our own custom properties. 
         Assert.assertEquals("Value of custom document property", doc.getCustomDocumentProperties().get("CustomProperty").toString());
 
         doc.getCustomDocumentProperties().add("CustomProperty2", "Value of custom document property #2");
 
-        // Iterate over all the custom document properties
         System.out.println("Custom Properties:");
         for (DocumentProperty customDocumentProperty : (Iterable<DocumentProperty>) doc.getCustomDocumentProperties())
         {
@@ -120,30 +120,47 @@ public class ExProperties extends ApiExampleBase
         //ExFor:BuiltInDocumentProperties.Keywords
         //ExFor:BuiltInDocumentProperties.Subject
         //ExFor:BuiltInDocumentProperties.Title
-        //ExSummary:Shows how to work with document properties in the "Description" category.
+        //ExSummary:Shows how to work with built-in document properties in the "Description" category.
         Document doc = new Document();
-
-        // The properties we will work with are members of the BuiltInDocumentProperties attribute
+        DocumentBuilder builder = new DocumentBuilder(doc);
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
-        // Set the values of some descriptive properties
-        // These are metadata that can be glanced at without opening the document in the "Details" or "Content" folder views in Windows Explorer 
-        // The "Details" view has columns dedicated to these properties
-        // Fields such as AUTHOR, SUBJECT, TITLE etc. can be used to display these values inside the document
+        // Below are four built-in document properties that have fields that can display their values in the document body.
+        // 1 -  "Author" property, which we can display using an AUTHOR field:
         properties.setAuthor("John Doe");
-        properties.setTitle("John's Document");
-        properties.setSubject("My subject");
-        properties.setCategory("My category");
-        properties.setComments("This is {properties.Author}'s document about {properties.Subject}");
+        builder.write("Author:\t");
+        builder.insertField(FieldType.FIELD_AUTHOR, true);
 
-        // Tags can be used as keywords and are separated by semicolons
+        // 2 -  "Title" property, which we can display using a TITLE field:
+        properties.setTitle("John's Document");
+        builder.write("\nDoc title:\t");
+        builder.insertField(FieldType.FIELD_TITLE, true);
+
+        // 3 -  "Subject" property, which we can display using a SUBJECT field:
+        properties.setSubject("My subject");
+        builder.write("\nSubject:\t");
+        builder.insertField(FieldType.FIELD_SUBJECT, true);
+
+        // 4 -  "Comments" property, which we can display using a COMMENTS field:
+        properties.setComments("This is {properties.Author}'s document about {properties.Subject}");
+        builder.write("\nComments:\t\"");
+        builder.insertField(FieldType.FIELD_COMMENTS, true);
+        builder.write("\"");
+
+        // The "Category" built-in property does not have a field that can display its value.
+        properties.setCategory("My category");
+
+        // We can set multiple keywords for a document by separating the string value of the "Keywords" property with semicolons.
         properties.setKeywords("Tag 1; Tag 2; Tag 3");
 
-        // When right clicking the document file in Windows Explorer, these properties are found in Properties > Details > Description
-        doc.save(getArtifactsDir() + "Properties.Description.docx");
+        // We can right-click this document in Windows Explorer and find these properties in "Properties" -> "Details".
+        // The "Author" built-in property is in the "Origin" group, and the others are in the "Description" group.
+        doc.save(getArtifactsDir() + "DocumentProperties.Description.docx");
         //ExEnd
 
-        properties = new Document(getArtifactsDir() + "Properties.Description.docx").getBuiltInDocumentProperties();
+        doc = new Document(getArtifactsDir() + "DocumentProperties.Description.docx");
+
+        properties = doc.getBuiltInDocumentProperties();
 
         Assert.assertEquals("John Doe", properties.getAuthor());
         Assert.assertEquals("My category", properties.getCategory());
@@ -151,6 +168,10 @@ public class ExProperties extends ApiExampleBase
         Assert.assertEquals("Tag 1; Tag 2; Tag 3", properties.getKeywords());
         Assert.assertEquals("My subject", properties.getSubject());
         Assert.assertEquals("John's Document", properties.getTitle());
+        Assert.assertEquals("Author:\t\u0013 AUTHOR \u0014John Doe\u0015\r" +
+                        "Doc title:\t\u0013 TITLE \u0014John's Document\u0015\r" +
+                        "Subject:\t\u0013 SUBJECT \u0014My subject\u0015\r" +
+                        "Comments:\t\"\u0013 COMMENTS \u0014This is John Doe's document about My subject\u0015\"", msString.trim(doc.getText()));
     }
 
     @Test
@@ -169,34 +190,35 @@ public class ExProperties extends ApiExampleBase
         //ExFor:BuiltInDocumentProperties.TotalEditingTime
         //ExFor:BuiltInDocumentProperties.Version
         //ExSummary:Shows how to work with document properties in the "Origin" category.
+        // Open a document that we have created and edited using Microsoft Word.
         Document doc = new Document(getMyDir() + "Properties.docx");
-
-        // The properties we will work with are members of the BuiltInDocumentProperties attribute
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
-        // Since this document has been edited and printed in the past, values generated by Microsoft Word will appear here
-        // These values can be glanced at by right clicking the file in Windows Explorer, without actually opening the document
-        // Fields such as PRINTDATE, EDITTIME etc. can display these values inside the document
+        // The following built-in properties contain information regarding the creation and editing of this document.
+        // We can right-click this document in Windows Explorer and find
+        // these properties via "Properties" -> "Details" -> "Origin" category.
+        // Fields such as PRINTDATE and EDITTIME can display these values in the document body.
         System.out.println("Created using {properties.NameOfApplication}, on {properties.CreatedTime}");
         System.out.println("Minutes spent editing: {properties.TotalEditingTime}");
         System.out.println("Date/time last printed: {properties.LastPrinted}");
         System.out.println("Template document: {properties.Template}");
 
-        // We can set these properties ourselves
+        // We can also change the values of built-in properties.
         properties.setCompany("Doe Ltd.");
         properties.setManager("Jane Doe");
         properties.setVersion(5);
         properties.setRevisionNumber(properties.getRevisionNumber() + 1)/*Property++*/;
 
-        // If we plan on programmatically saving the document, we may record some details like this
+        // Microsoft Word updates the following properties automatically when we save the document.
+        // To use these properties with Aspose.Words, we will need to set values for them manually.
         properties.setLastSavedBy("John Doe");
         properties.setLastSavedTimeInternal(DateTime.getNow());
 
-        // When right clicking the document file in Windows Explorer, these properties are found in Properties > Details > Origin
-        doc.save(getArtifactsDir() + "Properties.Origin.docx");
+        // We can right-click this document in Windows Explorer and find these properties in "Properties" -> "Details" -> "Origin".
+        doc.save(getArtifactsDir() + "DocumentProperties.Origin.docx");
         //ExEnd
 
-        properties = new Document(getArtifactsDir() + "Properties.Origin.docx").getBuiltInDocumentProperties();
+        properties = new Document(getArtifactsDir() + "DocumentProperties.Origin.docx").getBuiltInDocumentProperties();
 
         Assert.assertEquals("Doe Ltd.", properties.getCompany());
         Assert.assertEquals(new DateTime(2006, 4, 25, 10, 10, 0), properties.getCreatedTimeInternal());
@@ -226,10 +248,7 @@ public class ExProperties extends ApiExampleBase
     @Test //ExSkip
     public void content() throws Exception
     {
-        // Open a document with a couple paragraphs of content
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
-
-        // The properties we will work with are members of the BuiltInDocumentProperties attribute
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
         // By using built in properties,
@@ -238,48 +257,57 @@ public class ExProperties extends ApiExampleBase
         // If we want to display this data inside the document, we can use fields such as NUMPAGES, NUMWORDS, NUMCHARS etc.
         // Also, these values can also be viewed in Microsoft Word by navigating File > Properties > Advanced Properties > Statistics
         // Page count: The PageCount attribute shows the page count in real time and its value can be assigned to the Pages property
-        properties.setPages(doc.getPageCount());
+
+        // The "Pages" property stores the page count of the document. 
         Assert.assertEquals(6, properties.getPages());
 
-        // Word count: The UpdateWordCount() automatically assigns the real time word/character counts to the respective built in properties
+        // The "Words", "Characters", and "CharactersWithSpaces" built-in properties also display various document statistics,
+        // but we need to call the "UpdateWordCount" method on the whole document before we can expect them to contain accurate values.
+        Assert.assertEquals(1054, properties.getWords()); //ExSkip
+        Assert.assertEquals(6009, properties.getCharacters()); //ExSkip
+        Assert.assertEquals(7049, properties.getCharactersWithSpaces()); //ExSkip
         doc.updateWordCount();
+
         Assert.assertEquals(1035, properties.getWords());
         Assert.assertEquals(6026, properties.getCharacters());
         Assert.assertEquals(7041, properties.getCharactersWithSpaces());
 
-        // Line count: Count the lines in a document and assign value to the Lines property
+        // Count the number of lines in the document, and then assign the result to the "Lines" built-in property.
         LineCounter lineCounter = new LineCounter(doc);
         properties.setLines(lineCounter.getLineCount());
+
         Assert.assertEquals(142, properties.getLines());
 
-        // Paragraph count: Assign the size of the count of child Paragraph-nodes to the Paragraphs built in property
+        // Assign the number of Paragraph nodes in the document to the "Paragraphs" built-in property.
         properties.setParagraphs(doc.getChildNodes(NodeType.PARAGRAPH, true).getCount());
         Assert.assertEquals(29, properties.getParagraphs());
 
-        // Check the real file size of our document
+        // Get an estimate of the file size of our document via the "Bytes" built-in property.
         Assert.assertEquals(20310, properties.getBytes());
 
-        // Template: The Template attribute can reflect the filename of the attached template document
+        // Set a different template for our document, and then update the "Template" built-in property manually to reflect this change.
         doc.setAttachedTemplate(getMyDir() + "Business brochure.dotx");
-        Assert.assertEquals("Normal", properties.getTemplate());          
+
+        Assert.assertEquals("Normal", properties.getTemplate());    
+        
         properties.setTemplate(doc.getAttachedTemplate());
 
-        // Content status: This is a descriptive field
+        // "ContentStatus" is a descriptive built-in property.
         properties.setContentStatus("Draft");
 
-        // Content type: Upon saving, any value we assign to this field will be overwritten by the MIME type of the output save format
+        // Upon saving, the "ContentType" built-in property will contain the MIME type of the output save format.
         Assert.assertEquals("", properties.getContentType());
 
-        // If the document contains links and they are all up to date, we can set this to true
+        // If the document contains links, and they are all up to date, we can set the "LinksUpToDate" property to "true".
         Assert.assertFalse(properties.getLinksUpToDate());
 
-        doc.save(getArtifactsDir() + "Properties.Content.docx");
-        testContent(new Document(getArtifactsDir() + "Properties.Content.docx")); //ExSkip
+        doc.save(getArtifactsDir() + "DocumentProperties.Content.docx");
+        testContent(new Document(getArtifactsDir() + "DocumentProperties.Content.docx")); //ExSkip
     }
 
     /// <summary>
-    /// Util class that counts the lines in a document.
-    /// Upon construction, traverses the document's layout entities tree,
+    /// Counts the lines in a document.
+    /// Traverses the document's layout entities tree upon construction,
     /// counting entities of the "Line" type that also contain real text.
     /// </summary>
     private static class LineCounter
@@ -348,30 +376,26 @@ public class ExProperties extends ApiExampleBase
         //ExStart
         //ExFor:BuiltInDocumentProperties.Thumbnail
         //ExFor:DocumentProperty.ToByteArray
-        //ExSummary:Shows how to append a thumbnail to an Epub document.
-        // Create a blank document and add some text with a DocumentBuilder
+        //ExSummary:Shows how to add a thumbnail to a document that we save as an Epub.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Hello world!");
 
-        // The thumbnail property resides in a document's built-in properties, but is used exclusively by Epub e-book documents
+        // If we save a document, whose "Thumbnail" property contains image data that we added, as an Epub,
+        // a reader that opens that document may display the image before the first page.
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
 
-        // Load an image from our file system into a byte array
         byte[] thumbnailBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
-
-        // Set the value of the Thumbnail property to the array from above
         properties.setThumbnail(thumbnailBytes);
 
-        // Our thumbnail should be visible at the start of the document, before the text we added
-        doc.save(getArtifactsDir() + "Properties.Thumbnail.epub");
+        doc.save(getArtifactsDir() + "DocumentProperties.Thumbnail.epub");
 
-        // We can also extract a thumbnail property into a byte array and then into the local file system like this
+        // We can extract a document's thumbnail image and save it to the local file system.
         DocumentProperty thumbnail = doc.getBuiltInDocumentProperties().get("Thumbnail");
-        File.writeAllBytes(getArtifactsDir() + "Properties.Thumbnail.gif", thumbnail.toByteArray());
+        File.writeAllBytes(getArtifactsDir() + "DocumentProperties.Thumbnail.gif", thumbnail.toByteArray());
         //ExEnd
 
-        FileStream imgStream = new FileStream(getArtifactsDir() + "Properties.Thumbnail.gif", FileMode.OPEN);
+        FileStream imgStream = new FileStream(getArtifactsDir() + "DocumentProperties.Thumbnail.gif", FileMode.OPEN);
         try /*JAVA: was using*/
         {
             TestUtil.verifyImage(400, 400, imgStream);
@@ -385,34 +409,36 @@ public class ExProperties extends ApiExampleBase
         //ExStart
         //ExFor:BuiltInDocumentProperties.HyperlinkBase
         //ExSummary:Shows how to store the base part of a hyperlink in the document's properties.
-        // Create a blank document and a DocumentBuilder
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a relative hyperlink to "Document.docx", which will open that document when clicked on
+        // Insert a relative hyperlink to a document in the local file system named "Document.docx".
+        // When we click the link in Microsoft Word, it will open the designated document, provided that it is available.
         builder.insertHyperlink("Relative hyperlink", "Document.docx", false);
 
-        // If we do not have a "Document.docx" in the same folder as the document we are about to save, we will end up with a broken link
+        // This link is relative. If there is no "Document.docx" in the same folder
+        // as the document that contains this link, the link will be broken.
         Assert.assertFalse(File.exists(getArtifactsDir() + "Document.docx"));
-        doc.save(getArtifactsDir() + "Properties.HyperlinkBase.BrokenLink.docx");
+        doc.save(getArtifactsDir() + "DocumentProperties.HyperlinkBase.BrokenLink.docx");
 
-        // We could keep prepending something like "C:\users\...\data" to every hyperlink we place to remedy this
-        // Alternatively, if we know that all our linked files will come from the same folder,
-        // we could set a base hyperlink in the document properties, keeping our hyperlinks short
+        // The document we are trying to link to is in a different directory to the one we are planning to save the document in.
+        // We could fix links like this by putting an absolute filename in each one. 
+        // Alternatively, we could provide a base link that every hyperlink with a relative filename
+        // will prepend to its link when we click on it. 
         BuiltInDocumentProperties properties = doc.getBuiltInDocumentProperties();
         properties.setHyperlinkBase(getMyDir());
 
         Assert.assertTrue(File.exists(properties.getHyperlinkBase() + ((FieldHyperlink)doc.getRange().getFields().get(0)).getAddress()));
 
-        doc.save(getArtifactsDir() + "Properties.HyperlinkBase.WorkingLink.docx");
+        doc.save(getArtifactsDir() + "DocumentProperties.HyperlinkBase.WorkingLink.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "Properties.HyperlinkBase.BrokenLink.docx");
+        doc = new Document(getArtifactsDir() + "DocumentProperties.HyperlinkBase.BrokenLink.docx");
         properties = doc.getBuiltInDocumentProperties();
 
         Assert.assertEquals("", properties.getHyperlinkBase());
 
-        doc = new Document(getArtifactsDir() + "Properties.HyperlinkBase.WorkingLink.docx");
+        doc = new Document(getArtifactsDir() + "DocumentProperties.HyperlinkBase.WorkingLink.docx");
         properties = doc.getBuiltInDocumentProperties();
 
         Assert.assertEquals(getMyDir(), properties.getHyperlinkBase());
@@ -425,16 +451,15 @@ public class ExProperties extends ApiExampleBase
         //ExStart
         //ExFor:Properties.BuiltInDocumentProperties.HeadingPairs
         //ExFor:Properties.BuiltInDocumentProperties.TitlesOfParts
-        //ExSummary:Shows the relationship between HeadingPairs and TitlesOfParts properties.
-        // Open a document that contains entries in the HeadingPairs/TitlesOfParts properties
+        //ExSummary:Shows the relationship between "HeadingPairs" and "TitlesOfParts" properties.
         Document doc = new Document(getMyDir() + "Heading pairs and titles of parts.docx");
         
-        // We can find the combined values of these collections in File > Properties > Advanced Properties > Contents tab
+        // We can find the combined values of these collections via "File" -> "Properties" -> "Advanced Properties" > "Contents" tab.
         // The HeadingPairs property is a collection of <string, int> pairs that determines
-        // how many document parts a heading spans over
+        // how many document parts a heading spans across.
         Object[] headingPairs = doc.getBuiltInDocumentProperties().getHeadingPairs();
 
-        // The TitlesOfParts property contains the names of parts that belong to the above headings
+        // The TitlesOfParts property contains the names of parts that belong to the above headings.
         String[] titlesOfParts = doc.getBuiltInDocumentProperties().getTitlesOfParts();
 
         int headingPairsIndex = 0;
@@ -481,39 +506,39 @@ public class ExProperties extends ApiExampleBase
         //ExSummary:Shows how to use document properties to display the security level of a document.
         Document doc = new Document();
 
-        // The "Security" property serves as a description of the security level of a document
         Assert.assertEquals(DocumentSecurity.NONE, doc.getBuiltInDocumentProperties().getSecurity());
 
-        // Upon saving a document after setting its security level, Aspose automatically updates this property to the appropriate value
+        // If we configure a document to be read-only, it will display this status using the "Security" built-in property.
         doc.getWriteProtection().setReadOnlyRecommended(true);
-        doc.save(getArtifactsDir() + "Properties.Security.ReadOnlyRecommended.docx");
+        doc.save(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyRecommended.docx");
 
-        // Open a document and verify its security level
         Assert.assertEquals(DocumentSecurity.READ_ONLY_RECOMMENDED, 
-            new Document(getArtifactsDir() + "Properties.Security.ReadOnlyRecommended.docx").getBuiltInDocumentProperties().getSecurity());
+            new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyRecommended.docx").getBuiltInDocumentProperties().getSecurity());
 
-        // Create a new document and set it to Write-Protected
+        // Write-protect a document, and then verify its security level.
         doc = new Document();
 
         Assert.assertFalse(doc.getWriteProtection().isWriteProtected());
+
         doc.getWriteProtection().setPassword("MyPassword");
+
         Assert.assertTrue(doc.getWriteProtection().validatePassword("MyPassword"));
         Assert.assertTrue(doc.getWriteProtection().isWriteProtected());
-        doc.save(getArtifactsDir() + "Properties.Security.ReadOnlyEnforced.docx");
-        
-        // This document's security level counts as "ReadOnlyEnforced" 
-        Assert.assertEquals(DocumentSecurity.READ_ONLY_ENFORCED,
-            new Document(getArtifactsDir() + "Properties.Security.ReadOnlyEnforced.docx").getBuiltInDocumentProperties().getSecurity());
 
-        // Since this is still a descriptive property, we can protect a document and pick a suitable value ourselves
+        doc.save(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyEnforced.docx");
+        
+        Assert.assertEquals(DocumentSecurity.READ_ONLY_ENFORCED,
+            new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyEnforced.docx").getBuiltInDocumentProperties().getSecurity());
+
+        // "Security" is a descriptive property. We can edit its value manually.
         doc = new Document();
 
         doc.protect(ProtectionType.ALLOW_ONLY_COMMENTS, "MyPassword");
         doc.getBuiltInDocumentProperties().setSecurity(DocumentSecurity.READ_ONLY_EXCEPT_ANNOTATIONS);
-        doc.save(getArtifactsDir() + "Properties.Security.ReadOnlyExceptAnnotations.docx");
+        doc.save(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyExceptAnnotations.docx");
 
         Assert.assertEquals(DocumentSecurity.READ_ONLY_EXCEPT_ANNOTATIONS,
-            new Document(getArtifactsDir() + "Properties.Security.ReadOnlyExceptAnnotations.docx").getBuiltInDocumentProperties().getSecurity());
+            new Document(getArtifactsDir() + "DocumentProperties.Security.ReadOnlyExceptAnnotations.docx").getBuiltInDocumentProperties().getSecurity());
         //ExEnd
     }
 
@@ -524,16 +549,16 @@ public class ExProperties extends ApiExampleBase
         //ExFor:DocumentPropertyCollection.Item(String)
         //ExFor:CustomDocumentProperties.Add(String,DateTime)
         //ExFor:DocumentProperty.ToDateTime
-        //ExSummary:Shows how to create a custom document property with the value of a date and time.
+        //ExSummary:Shows how to create a custom document property which contains a date and time.
         Document doc = new Document();
 
-        doc.getCustomDocumentProperties().addInternal("AuthorizedDate", DateTime.getNow());
+        doc.getCustomDocumentProperties().addInternal("AuthorizationDate", DateTime.getNow());
 
         System.out.println("Document authorized on {doc.CustomDocumentProperties[");
         //ExEnd
 
         TestUtil.verifyDate(DateTime.getNow(), 
-            DocumentHelper.saveOpen(doc).getCustomDocumentProperties().get("AuthorizedDate").toDateTimeInternal(), 
+            DocumentHelper.saveOpen(doc).getCustomDocumentProperties().get("AuthorizationDate").toDateTimeInternal(), 
             TimeSpan.fromSeconds(1.0));
     }
 
@@ -547,28 +572,29 @@ public class ExProperties extends ApiExampleBase
         //ExSummary:Shows how to link a custom document property to a bookmark.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
         builder.startBookmark("MyBookmark");
-        builder.write("MyBookmark contents.");
+        builder.write("Hello world!");
         builder.endBookmark("MyBookmark");
 
-        // Add linked to content property
+        // Link a new custom property to a bookmark. The value of this property
+        // will be the contents of the bookmark that it references in the "LinkSource" member.
         CustomDocumentProperties customProperties = doc.getCustomDocumentProperties();
         DocumentProperty customProperty = customProperties.addLinkToContent("Bookmark", "MyBookmark");
 
-        // Check whether the property is linked to content
         Assert.assertEquals(true, customProperty.isLinkToContent());
         Assert.assertEquals("MyBookmark", customProperty.getLinkSource());
-        Assert.assertEquals("MyBookmark contents.", customProperty.getValue());
-
-        doc.save(getArtifactsDir() + "Properties.LinkCustomDocumentPropertiesToBookmark.docx");
+        Assert.assertEquals("Hello world!", customProperty.getValue());
+        
+        doc.save(getArtifactsDir() + "DocumentProperties.LinkCustomDocumentPropertiesToBookmark.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "Properties.LinkCustomDocumentPropertiesToBookmark.docx");
+        doc = new Document(getArtifactsDir() + "DocumentProperties.LinkCustomDocumentPropertiesToBookmark.docx");
         customProperty = doc.getCustomDocumentProperties().get("Bookmark");
 
         Assert.assertEquals(true, customProperty.isLinkToContent());
         Assert.assertEquals("MyBookmark", customProperty.getLinkSource());
-        Assert.assertEquals("MyBookmark contents.", customProperty.getValue());
+        Assert.assertEquals("Hello world!", customProperty.getValue());
     }
 
     @Test
@@ -589,25 +615,24 @@ public class ExProperties extends ApiExampleBase
         //ExFor:Properties.DocumentPropertyCollection.RemoveAt(System.Int32)
         //ExFor:Properties.DocumentPropertyCollection.Remove
         //ExFor:PropertyType
-        //ExSummary:Shows how to add custom properties to a document.
+        //ExSummary:Shows how to work with a document's custom properties.
         Document doc = new Document();
         CustomDocumentProperties properties = doc.getCustomDocumentProperties();
 
-        // The custom property collection will be empty by default
         Assert.assertEquals(0, properties.getCount());
 
-        // We can populate it with key/value pairs with a variety of value types
+        // Custom document properties are key-value pairs that we can add to the document.
         properties.add("Authorized", true);
         properties.add("Authorized By", "John Doe");
         properties.addInternal("Authorized Date", DateTime.getToday());
         properties.add("Authorized Revision", doc.getBuiltInDocumentProperties().getRevisionNumber());
         properties.add("Authorized Amount", 123.45);
 
-        // Custom properties are automatically sorted in alphabetic order
+        // The collection sorts the custom properties in alphabetic order.
         Assert.assertEquals(1, properties.indexOf("Authorized Amount"));
         Assert.assertEquals(5, properties.getCount());
 
-        // Enumerate and print all custom properties
+        // Print every custom property in the document.
         Iterator<DocumentProperty> enumerator = properties.iterator();
         try /*JAVA: was using*/
         {
@@ -616,20 +641,32 @@ public class ExProperties extends ApiExampleBase
         }
         finally { if (enumerator != null) enumerator.close(); }
 
-        // We can view/edit custom properties by opening the document and looking in File > Properties > Advanced Properties > Custom
-        doc.save(getArtifactsDir() + "Properties.DocumentPropertyCollection.docx");
+        // Display the value of a custom property using a DOCPROPERTY field.
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        FieldDocProperty field = (FieldDocProperty)builder.insertField(" DOCPROPERTY \"Authorized By\"");
+        field.update();
 
-        // We can remove elements from the property collection by index or by name
+        Assert.assertEquals("John Doe", field.getResult());
+
+        // We can find these custom properties in Microsoft Word via "File" -> "Properties" > "Advanced Properties" > "Custom".
+        doc.save(getArtifactsDir() + "DocumentProperties.DocumentPropertyCollection.docx");
+
+        // Below are three ways or removing custom properties from a document.
+        // 1 -  Remove by index:
         properties.removeAt(1);
+
         Assert.assertFalse(properties.contains("Authorized Amount"));
         Assert.assertEquals(4, properties.getCount());
 
+        // 2 -  Remove by name:
         properties.remove("Authorized Revision");
+
         Assert.assertFalse(properties.contains("Authorized Revision"));
         Assert.assertEquals(3, properties.getCount());
 
-        // We can also empty the entire custom property collection at once
+        // 3 -  Empty the entire collection at once:
         properties.clear();
+
         Assert.assertEquals(0, properties.getCount());
         //ExEnd
     }

@@ -100,6 +100,7 @@ import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningSource;
 import com.aspose.words.TableContentAlignment;
 import com.aspose.words.MarkdownSaveOptions;
+import com.aspose.words.OlePackage;
 import org.testng.annotations.DataProvider;
 
 
@@ -391,7 +392,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:DocumentBuilder.MoveToHeaderFooter
         //ExFor:PageSetup.PageWidth
         //ExFor:PageSetup.PageHeight
-        //ExFor:DocumentBuilder.InsertImage(Image)
         //ExFor:WrapType
         //ExFor:RelativeHorizontalPosition
         //ExFor:RelativeVerticalPosition
@@ -957,7 +957,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertTable.docx");
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals("Row 1, Col 1\u0007", msString.trim(table.getRows().get(0).getCells().get(0).getText()));
         Assert.assertEquals("Row 1, Col 2\u0007", msString.trim(table.getRows().get(0).getCells().get(1).getText()));
@@ -1110,7 +1110,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertTableSetHeadingRow.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         for (int i = 0; i < table.getRows().getCount(); i++)
             Assert.assertEquals(i < 2, table.getRows().get(i).getRowFormat().getHeadingFormat());
@@ -1141,7 +1141,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertTableWithPreferredWidth.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(PreferredWidthType.PERCENT, table.getPreferredWidth().getType());
         Assert.assertEquals(50, table.getPreferredWidth().getValue());
@@ -1166,13 +1166,13 @@ public class ExDocumentBuilder extends ApiExampleBase
         Table table = builder.startTable();
 
         // There are two ways of applying the PreferredWidth class to table cells.
-        // 1 -  Set an absolute preferred width based on points.
+        // 1 -  Set an absolute preferred width based on points:
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPoints(40.0));
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.LightYellow);
         builder.writeln($"Cell with a width of {builder.CellFormat.PreferredWidth}.");
 
-        // 2 -  Set a relative preferred width based on percent of the table's width.
+        // 2 -  Set a relative preferred width based on percent of the table's width:
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(20.0));
         builder.getCellFormat().getShading().setBackgroundPatternColor(Color.LightBlue);
@@ -1197,7 +1197,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(100.0d, PreferredWidth.fromPoints(100.0).getValue());
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertCellsWithPreferredWidths.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
         
         Assert.assertEquals(PreferredWidthType.POINTS, table.getFirstRow().getCells().get(0).getCellFormat().getPreferredWidth().getType());
         Assert.assertEquals(40.0d, table.getFirstRow().getCells().get(0).getCellFormat().getPreferredWidth().getValue());
@@ -1297,7 +1297,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.CreateTable.docx");
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(4, table.getChildNodes(NodeType.CELL, true).getCount());
 
@@ -1373,7 +1373,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.CreateFormattedTable.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(20.0d, table.getLeftIndent());
 
@@ -1447,7 +1447,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.TableBordersAndShading.docx");
-        table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         for (Cell c : (Iterable<Cell>) table.getFirstRow())
         {
@@ -1647,7 +1647,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.MoveToCell.docx");
 
-        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals("Column 2, cell 2.\u0007", msString.trim(table.getRows().get(1).getCells().get(1).getText()));
     }
@@ -1756,7 +1756,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.BuildTable.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(2, table.getRows().getCount());
         Assert.assertEquals(2, table.getRows().get(0).getCells().getCount());
@@ -1784,14 +1784,14 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Rotated cell text.docx");
 
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
         Cell cell = table.getFirstRow().getFirstCell();
 
         Assert.assertEquals(TextOrientation.VERTICAL_ROTATED_FAR_EAST, cell.getCellFormat().getOrientation());
 
         doc = DocumentHelper.saveOpen(doc);
 
-        table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
         cell = table.getFirstRow().getFirstCell();
 
         Assert.assertEquals(TextOrientation.VERTICAL_ROTATED_FAR_EAST, cell.getCellFormat().getOrientation());
@@ -2137,7 +2137,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.SetCellFormatting.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(159.3d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth());
         Assert.assertEquals(5.4d, table.getFirstRow().getCells().get(0).getCellFormat().getLeftPadding());
@@ -2191,7 +2191,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.SetRowFormatting.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(0.0d, table.getRows().get(0).getRowFormat().getHeight());
         Assert.assertEquals(HeightRule.AUTO, table.getRows().get(0).getRowFormat().getHeightRule());
@@ -2554,7 +2554,6 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // Insert two fields while passing a flag which determines whether to update them as the builder inserts them.
         // In some cases, updating fields could be computationally expensive, and it may be a good idea to defer the update.
-        // Not all field types require updating, exceptions include BARCODE and MERGEFIELD.
         doc.getBuiltInDocumentProperties().setAuthor("John Doe");
         builder.write("This document was written by ");
         builder.insertField(FieldType.FIELD_AUTHOR, updateInsertedFieldsImmediately);
@@ -3446,7 +3445,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getDocument().save(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md", saveOptions);
 
         Document doc = new Document(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md");
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         switch (tableContentAlignment)
         {
@@ -3590,10 +3589,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(RelativeHorizontalPosition.COLUMN, shape.getRelativeHorizontalPosition());
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
-
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
-
+        
         shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
         TestUtil.verifyImageInShape(320, 320, ImageType.PNG, shape);
@@ -3606,6 +3602,38 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(RelativeHorizontalPosition.RIGHT_MARGIN, shape.getRelativeHorizontalPosition());
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
+
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
+    }
+
+    @Test
+    public void insertOleObjectAsIcon() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertOleObjectAsIcon(String, String, Boolean, String, String)
+        //ExFor:DocumentBuilder.InsertOleObjectAsIcon(Stream, String, String, String)
+        //ExSummary:Shows how to insert an embedded or linked OLE object as icon into the document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", "Package", false, getImageDir() + "Logo icon.ico", "My embedded file");
+
+        builder.insertBreak(BreakType.LINE_BREAK);
+
+        FileStream stream = new FileStream(getMyDir() + "Presentation.pptx", FileMode.OPEN);
+        try /*JAVA: was using*/
+        {
+            Shape shape = builder.insertOleObjectAsIconInternal(stream, "PowerPoint.Application", getImageDir() + "Logo icon.ico",
+                "My embedded file stream");
+
+            OlePackage setOlePackage = shape.getOleFormat().getOlePackage();
+            setOlePackage.setFileName("Presentation.pptx");
+            setOlePackage.setDisplayName("Presentation.pptx");
+        }
+        finally { if (stream != null) stream.close(); }
+
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertOleObjectAsIcon.docx");
+        //ExEnd
     }
 }

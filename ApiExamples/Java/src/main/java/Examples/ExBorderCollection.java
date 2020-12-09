@@ -29,10 +29,10 @@ public class ExBorderCollection extends ApiExampleBase {
 
         Iterator<Border> enumerator = borders.iterator();
         while (enumerator.hasNext()) {
-                Border border = enumerator.next();
-                border.setColor(Color.green);
-                border.setLineStyle(LineStyle.WAVE);
-                border.setLineWidth(3.0);
+            Border border = enumerator.next();
+            border.setColor(Color.green);
+            border.setLineStyle(LineStyle.WAVE);
+            border.setLineWidth(3.0);
         }
 
         // Insert a paragraph. Our border settings will determine the appearance of its border.
@@ -43,8 +43,7 @@ public class ExBorderCollection extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "BorderCollection.GetBordersEnumerator.docx");
 
-        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders())
-        {
+        for (Border border : doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders()) {
             Assert.assertEquals(Color.green.getRGB(), border.getColor().getRGB());
             Assert.assertEquals(LineStyle.WAVE, border.getLineStyle());
             Assert.assertEquals(3.0d, border.getLineWidth());
@@ -66,18 +65,16 @@ public class ExBorderCollection extends ApiExampleBase {
         Assert.assertEquals(3.0d, firstParagraphBorders.getLineWidth());
 
         // Apply the ClearFormatting method to each paragraph to remove all of its borders.
-        for (Paragraph paragraph : (Iterable<Paragraph>) doc.getFirstSection().getBody().getParagraphs())
-        {
+        for (Paragraph paragraph : doc.getFirstSection().getBody().getParagraphs()) {
             paragraph.getParagraphFormat().getBorders().clearFormatting();
 
-            for (Border border : paragraph.getParagraphFormat().getBorders())
-            {
+            for (Border border : paragraph.getParagraphFormat().getBorders()) {
                 Assert.assertEquals(0, border.getColor().getRGB());
                 Assert.assertEquals(LineStyle.NONE, border.getLineStyle());
                 Assert.assertEquals(0.0d, border.getLineWidth());
             }
         }
-        
+
         doc.save(getArtifactsDir() + "BorderCollection.RemoveAllBorders.docx");
         //ExEnd
 

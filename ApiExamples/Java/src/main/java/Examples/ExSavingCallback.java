@@ -182,8 +182,8 @@ class ExSavingCallback extends ApiExampleBase {
         }
 
         private int mCount;
-        private String mOutFileName;
-        private int mDocumentSplitCriteria;
+        private final String mOutFileName;
+        private final int mDocumentSplitCriteria;
     }
 
     /// <summary>
@@ -213,7 +213,7 @@ class ExSavingCallback extends ApiExampleBase {
         }
 
         private int mCount;
-        private String mOutFileName;
+        private final String mOutFileName;
     }
     //ExEnd
 
@@ -275,9 +275,9 @@ class ExSavingCallback extends ApiExampleBase {
             Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.docx"));
         }
 
-        private String mCssTextFileName;
-        private boolean mIsExportNeeded;
-        private boolean mKeepCssStreamOpen;
+        private final String mCssTextFileName;
+        private final boolean mIsExportNeeded;
+        private final boolean mKeepCssStreamOpen;
     }
     //ExEnd
 }

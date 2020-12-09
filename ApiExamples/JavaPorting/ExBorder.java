@@ -270,7 +270,7 @@ public class ExBorder extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Border.VerticalBorders.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
         for (Row row : (Iterable<Row>) table.getChildNodes(NodeType.ROW, true))
         {

@@ -102,8 +102,8 @@ public class ExMailMerge extends ApiExampleBase {
         DataTable table = new DataTable("Test");
         table.getColumns().add("CustomerName");
         table.getColumns().add("Address");
-        table.getRows().add(new Object[]{"Thomas Hardy", "120 Hanover Sq., London"});
-        table.getRows().add(new Object[]{"Paolo Accorti", "Via Monte Bianco 34, Torino"});
+        table.getRows().add("Thomas Hardy", "120 Hanover Sq., London");
+        table.getRows().add("Paolo Accorti", "Via Monte Bianco 34, Torino");
 
         // Field values from the table are inserted into the mail merge fields found in the document
         doc.getMailMerge().execute(table);
@@ -186,17 +186,17 @@ public class ExMailMerge extends ApiExampleBase {
         DataTable tableCustomers = new DataTable("Customers");
         tableCustomers.getColumns().add("CustomerID");
         tableCustomers.getColumns().add("CustomerName");
-        tableCustomers.getRows().add(new Object[]{1, "John Doe"});
-        tableCustomers.getRows().add(new Object[]{2, "Jane Doe"});
+        tableCustomers.getRows().add(1, "John Doe");
+        tableCustomers.getRows().add(2, "Jane Doe");
 
         // Create the table for the inner merge
         DataTable tableOrders = new DataTable("Orders");
         tableOrders.getColumns().add("CustomerID");
         tableOrders.getColumns().add("ItemName");
         tableOrders.getColumns().add("Quantity");
-        tableOrders.getRows().add(new Object[]{1, "Hawaiian", 2});
-        tableOrders.getRows().add(new Object[]{2, "Pepperoni", 1});
-        tableOrders.getRows().add(new Object[]{2, "Chicago", 1});
+        tableOrders.getRows().add(1, "Hawaiian", 2);
+        tableOrders.getRows().add(2, "Pepperoni", 1);
+        tableOrders.getRows().add(2, "Chicago", 1);
 
         // Add both tables to a data set
         DataSet dataSet = new DataSet();
@@ -238,16 +238,16 @@ public class ExMailMerge extends ApiExampleBase {
         // Create two data tables that aren't linked or related in any way which we still want in the same document
         DataTable tableCities = new DataTable("Cities");
         tableCities.getColumns().add("Name");
-        tableCities.getRows().add(new Object[]{"Washington"});
-        tableCities.getRows().add(new Object[]{"London"});
-        tableCities.getRows().add(new Object[]{"New York"});
+        tableCities.getRows().add("Washington");
+        tableCities.getRows().add("London");
+        tableCities.getRows().add("New York");
 
         DataTable tableFruit = new DataTable("Fruit");
         tableFruit.getColumns().add("Name");
-        tableFruit.getRows().add(new Object[]{"Cherry"});
-        tableFruit.getRows().add(new Object[]{"Apple"});
-        tableFruit.getRows().add(new Object[]{"Watermelon"});
-        tableFruit.getRows().add(new Object[]{"Banana"});
+        tableFruit.getRows().add("Cherry");
+        tableFruit.getRows().add("Apple");
+        tableFruit.getRows().add("Watermelon");
+        tableFruit.getRows().add("Banana");
 
         // We will need to run one mail merge per table
         // This mail merge will populate the MERGEFIELDs in the "Cities" range, while leaving the fields in "Fruit" empty
@@ -358,7 +358,7 @@ public class ExMailMerge extends ApiExampleBase {
         DataTable dataTable = new DataTable("MergeRegion");
         dataTable.getColumns().add("Column1");
         dataTable.getColumns().add("Column2");
-        dataTable.getRows().add(new Object[]{"Value 1", "Value 2"});
+        dataTable.getRows().add("Value 1", "Value 2");
 
         return dataTable;
     }
@@ -415,7 +415,7 @@ public class ExMailMerge extends ApiExampleBase {
     private static DataTable createSourceTablePreserveUnusedTags() {
         DataTable dataTable = new DataTable("MyTable");
         dataTable.getColumns().add("Column1");
-        dataTable.getRows().add(new Object[]{"Value1"});
+        dataTable.getRows().add("Value1");
 
         return dataTable;
     }
@@ -487,7 +487,7 @@ public class ExMailMerge extends ApiExampleBase {
     private static DataTable createSourceTableMergeWholeDocument() {
         DataTable dataTable = new DataTable("MyTable");
         dataTable.getColumns().add("MyColumn");
-        dataTable.getRows().add(new Object[]{"MyValue"});
+        dataTable.getRows().add("MyValue");
 
         return dataTable;
     }
@@ -543,7 +543,7 @@ public class ExMailMerge extends ApiExampleBase {
         DataTable dataTable = new DataTable("MyTable");
         dataTable.getColumns().add("Column1");
         dataTable.getColumns().add("Column2");
-        dataTable.getRows().add(new Object[]{"Value 1", "Value 2"});
+        dataTable.getRows().add("Value 1", "Value 2");
 
         return dataTable;
     }
@@ -780,7 +780,7 @@ public class ExMailMerge extends ApiExampleBase {
         DataTable dataTable = new DataTable("MyTable");
         dataTable.getColumns().add("Column1");
         dataTable.getColumns().add("Column2");
-        dataTable.getRows().add(new Object[]{"Value1", "Value2"});
+        dataTable.getRows().add("Value1", "Value2");
 
         return dataTable;
     }
@@ -1001,7 +1001,7 @@ public class ExMailMerge extends ApiExampleBase {
         for (int i = 0; i < 10; i++) {
             DataRow datarow = dataTable.newRow();
             dataTable.getRows().add(datarow);
-            datarow.set(0, "Course " + Integer.toString(i));
+            datarow.set(0, "Course " + i);
         }
 
         return dataTable;
@@ -1052,9 +1052,8 @@ public class ExMailMerge extends ApiExampleBase {
                 };
     }
 
-    @Test (dataProvider = "retainFirstSectionStartDataProvider")
-    public void retainFirstSectionStart(boolean isRetainFirstSectionStart, int sectionStart, int expected) throws Exception
-    {
+    @Test(dataProvider = "retainFirstSectionStartDataProvider")
+    public void retainFirstSectionStart(boolean isRetainFirstSectionStart, int sectionStart, int expected) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1069,25 +1068,24 @@ public class ExMailMerge extends ApiExampleBase {
 
         doc.getMailMerge().execute(dataTable);
 
-        for (Section section : (Iterable<Section>) doc.getSections())
+        for (Section section : doc.getSections())
             Assert.assertEquals(expected, section.getPageSetup().getSectionStart());
     }
 
     @DataProvider(name = "retainFirstSectionStartDataProvider")
-    public static Object[][] retainFirstSectionStartDataProvider() throws Exception
-    {
+    public static Object[][] retainFirstSectionStartDataProvider() throws Exception {
         return new Object[][]
                 {
-                        {true,  SectionStart.CONTINUOUS,  SectionStart.CONTINUOUS},
-                        {true,  SectionStart.NEW_COLUMN,  SectionStart.NEW_COLUMN},
-                        {true,  SectionStart.NEW_PAGE,  SectionStart.NEW_PAGE},
-                        {true,  SectionStart.EVEN_PAGE,  SectionStart.EVEN_PAGE},
-                        {true,  SectionStart.ODD_PAGE,  SectionStart.ODD_PAGE},
-                        {false,  SectionStart.CONTINUOUS,  SectionStart.NEW_PAGE},
-                        {false,  SectionStart.NEW_COLUMN,  SectionStart.NEW_PAGE},
-                        {false,  SectionStart.NEW_PAGE,  SectionStart.NEW_PAGE},
-                        {false,  SectionStart.EVEN_PAGE,  SectionStart.EVEN_PAGE},
-                        {false,  SectionStart.ODD_PAGE,  SectionStart.ODD_PAGE},
+                        {true, SectionStart.CONTINUOUS, SectionStart.CONTINUOUS},
+                        {true, SectionStart.NEW_COLUMN, SectionStart.NEW_COLUMN},
+                        {true, SectionStart.NEW_PAGE, SectionStart.NEW_PAGE},
+                        {true, SectionStart.EVEN_PAGE, SectionStart.EVEN_PAGE},
+                        {true, SectionStart.ODD_PAGE, SectionStart.ODD_PAGE},
+                        {false, SectionStart.CONTINUOUS, SectionStart.NEW_PAGE},
+                        {false, SectionStart.NEW_COLUMN, SectionStart.NEW_PAGE},
+                        {false, SectionStart.NEW_PAGE, SectionStart.NEW_PAGE},
+                        {false, SectionStart.EVEN_PAGE, SectionStart.EVEN_PAGE},
+                        {false, SectionStart.ODD_PAGE, SectionStart.ODD_PAGE},
                 };
     }
 }

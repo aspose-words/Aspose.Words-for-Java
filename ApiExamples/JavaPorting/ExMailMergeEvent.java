@@ -9,21 +9,20 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
-import com.aspose.ms.java.collections.StringSwitchMap;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.IFieldMergingCallback;
 import com.aspose.words.FieldMergingArgs;
-import com.aspose.words.FieldMergeField;
-import com.aspose.words.DocumentBuilder;
 import com.aspose.words.ImageFieldMergingArgs;
-import org.testng.Assert;
 import com.aspose.ms.System.msString;
+import org.testng.Assert;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataRow;
 import java.awt.Color;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
+import com.aspose.words.ImageType;
 import com.aspose.words.net.System.Data.IDataReader;
 import com.aspose.ms.System.IO.MemoryStream;
 
@@ -42,107 +41,113 @@ public class ExMailMergeEvent extends ApiExampleBase
     //ExFor:FieldMergingArgsBase.Document
     //ExFor:IFieldMergingCallback.FieldMerging
     //ExFor:FieldMergingArgs.Text
-    //ExFor:FieldMergeField.TextBefore
-    //ExSummary:Shows how to mail merge HTML data into a document.
+    //ExSummary:Shows how to execute a mail merge with a custom callback that handles merge data in the form of HTML documents.
     @Test //ExSkip
-    public void insertHtml() throws Exception
+    public void mergeHtml() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Field sample - MERGEFIELD.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add a handler for the MergeField event
+        builder.insertField("MERGEFIELD  html_Title  \\b Content");
+        builder.insertField("MERGEFIELD  html_Body  \\b Content");
+
+        Object[] mergeData =
+        {
+            "<html>" +
+                "<h1>" +
+                    "<span style=\"color: #0000ff; font-family: Arial;\">Hello World!</span>" +
+                "</h1>" +
+            "</html>", 
+
+            "<html>" +
+                "<blockquote>" +
+                    "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>" +
+                "</blockquote>" +
+            "</html>"
+        };
+        
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldInsertHtml());
-
-        final String HTML = "<html>\r\n                    <h1>Hello world!</h1>\r\n            </html>";
-
-        // Execute mail merge
-        doc.getMailMerge().execute(new String[] { "htmlField1" }, new Object[] { HTML });
-
-        // Save resulting document with a new name
-        doc.save(getArtifactsDir() + "MailMergeEvent.InsertHtml.docx");
+        doc.getMailMerge().execute(new String[] { "html_Title", "html_Body" }, mergeData);
+        
+        doc.save(getArtifactsDir() + "MailMergeEvent.MergeHtml.docx");
     }
 
+    /// <summary>
+    /// If the mail merge encounters a MERGEFIELD whose name starts with the "html_" prefix,
+    /// this callback parses its merge data as HTML content, and adds the result to the document location of the MERGEFIELD.
+    /// </summary>
     private static class HandleMergeFieldInsertHtml implements IFieldMergingCallback
     {
         /// <summary>
-        /// This is called when merge field is merged with data in the document.
+        /// Called when a mail merge merges data into a MERGEFIELD.
         /// </summary>
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args) throws Exception
         {
-            // All merge fields that expect HTML data should be marked with some prefix, e.g. 'html'
-            if (args.getDocumentFieldName().startsWith("html") && args.getField().getFieldCode().contains("\\b"))
+            if (args.getDocumentFieldName().startsWith("html_") && args.getField().getFieldCode().contains("\\b"))
             {
-                FieldMergeField field = args.getField();
-
-                // Insert the text for this merge field as HTML data, using DocumentBuilder
+                // Add parsed HTML data to the document's body.
                 DocumentBuilder builder = new DocumentBuilder(args.getDocument());
                 builder.moveToMergeField(args.getDocumentFieldName());
-                builder.write(field.getTextBefore());
-                builder.insertHtml((String) args.getFieldValue());
+                builder.insertHtml((String)args.getFieldValue());
 
-                // The HTML text itself should not be inserted
-                // We have already inserted it as an HTML
+                // Since we have already inserted the merged content manually,
+                // we will not need to respond to this event by returning content via the "Text" property. 
                 args.setText("");
             }
         }
 
         public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs args)
         {
-            // Do nothing
+            // Do nothing.
         }
     }
     //ExEnd
 
     //ExStart
     //ExFor:FieldMergingArgsBase.FieldValue
-    //ExSummary:Shows how to use data source value of the field.
+    //ExSummary:Shows how to edit values that MERGEFIELDs receive as a mail merge takes place.
     @Test //ExSkip
     public void fieldFormats() throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.insertField("MERGEFIELD TextField \\* Caps", null);
+
+        // Insert some MERGEFIELDs with format switches that will edit the values they will receive during a mail merge.
+        builder.insertField("MERGEFIELD text_Field1 \\* Caps", null);
         builder.write(", ");
-        builder.insertField("MERGEFIELD TextField2 \\* Upper", null);
+        builder.insertField("MERGEFIELD text_Field2 \\* Upper", null);
         builder.write(", ");
-        builder.insertField("MERGEFIELD NumericField \\# 0.0", null);
+        builder.insertField("MERGEFIELD numeric_Field1 \\# 0.0", null);
 
         builder.getDocument().getMailMerge().setFieldMergingCallback(new FieldValueMergingCallback());
 
         builder.getDocument().getMailMerge().execute(
-            new String[] { "TextField", "TextField2", "NumericField" },
-            new Object[] { "Original value", "Original value", 10 });
-
-        Assert.assertEquals("New Value, New value from FieldMergingArgs, 20.0", msString.trim(doc.getText()));
+            new String[] { "text_Field1", "text_Field2", "numeric_Field1" },
+            new Object[] { "Field 1", "Field 2", 10 });
+        String t = msString.trim(doc.getText());
+        Assert.assertEquals("Merge Value For \"Text_Field1\": Field 1, MERGE VALUE FOR \"TEXT_FIELD2\": FIELD 2, 10000.0", msString.trim(doc.getText()));
     }
 
+    /// <summary>
+    /// Edits the values that MERGEFIELDs receive during a mail merge.
+    /// The name of a MERGEFIELD must have a prefix in order for this callback to take effect on its value.
+    /// </summary>
     private static class FieldValueMergingCallback implements IFieldMergingCallback
     {
         /// <summary>
-        /// This is called when merge field is merged with data in the document.
+        /// Called when a mail merge merges data into a MERGEFIELD.
         /// </summary>
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs e)
         {
-            switch (gStringSwitchMap.of(e.getFieldName()))
-            {
-                case /*"TextField"*/0:
-                    Assert.assertEquals("Original value", e.getFieldValue());
-                    e.setFieldValue("New value");
-                    break;
-                case /*"TextField2"*/1:
-                    Assert.assertEquals("Original value", e.getFieldValue());
-                    e.setText("New value from FieldMergingArgs");   // Should suppress e.FieldValue and ignore format
-                    e.setFieldValue("new value");
-                    break;
-                case /*"NumericField"*/2:
-                    Assert.assertEquals(10.0d, e.getFieldValue());
-                    e.setFieldValue(20);
-                    break;
-            }
+            if (e.getFieldName().startsWith("text_"))
+                e.setFieldValue("Merge value for \"{e.FieldName}\": {(string)e.FieldValue}");
+            else if (e.getFieldName().startsWith("numeric_"))
+                e.setFieldValue((/*int*/Integer)e.getFieldValue() * 1000);
         }
 
         public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs e)
         {
-            // Do nothing
+            // Do nothing.
         }
     }
     //ExEnd
@@ -152,13 +157,15 @@ public class ExMailMergeEvent extends ApiExampleBase
     //ExFor:FieldMergingArgsBase.FieldName
     //ExFor:FieldMergingArgsBase.TableName
     //ExFor:FieldMergingArgsBase.RecordIndex
-    //ExSummary:Shows how to insert checkbox form fields into a document during mail merge.
+    //ExSummary:Shows how to insert checkbox form fields into MERGEFIELDs as merge data during mail merge.
     @Test //ExSkip
     public void insertCheckBox() throws Exception
     {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // Use MERGEFIELDs with "TableStart"/"TableEnd" tags to define a mail merge region
+        // which belongs to a data source named "StudentCourse", and has a MERGEFIELD which accepts data from a column named "CourseName".
         builder.startTable();
         builder.insertCell();
         builder.insertField(" MERGEFIELD  TableStart:StudentCourse ");
@@ -168,40 +175,36 @@ public class ExMailMergeEvent extends ApiExampleBase
         builder.insertField(" MERGEFIELD  TableEnd:StudentCourse ");
         builder.endTable();
 
-        // Add a handler for the MergeField event
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldInsertCheckBox());
 
-        // Execute mail merge with regions
         DataTable dataTable = getStudentCourseDataTable();
-        doc.getMailMerge().executeWithRegions(dataTable);
 
-        // Save resulting document with a new name
+        doc.getMailMerge().executeWithRegions(dataTable);
         doc.save(getArtifactsDir() + "MailMergeEvent.InsertCheckBox.docx");
         TestUtil.mailMergeMatchesDataTable(dataTable, new Document(getArtifactsDir() + "MailMergeEvent.InsertCheckBox.docx"), false); //ExSkip
     }
 
+    /// <summary>
+    /// Upon encountering a MERGEFIELD with a specific name, inserts a check box form field instead of merge data text.
+    /// </summary>
     private static class HandleMergeFieldInsertCheckBox implements IFieldMergingCallback
     {
         /// <summary>
-        /// This is called for each merge field in the document
-        /// when Document.MailMerge.ExecuteWithRegions is called.
+        /// Called when a mail merge merges data into a MERGEFIELD.
         /// </summary>
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args) throws Exception
         {
             if (args.getDocumentFieldName().equals("CourseName"))
             {
-                // The name of the table that we are merging can be found here
                 Assert.assertEquals("StudentCourse", args.getTableName());
 
-                // Insert the checkbox for this merge field, using DocumentBuilder
                 DocumentBuilder builder = new DocumentBuilder(args.getDocument());
                 builder.moveToMergeField(args.getFieldName());
                 builder.insertCheckBox(args.getDocumentFieldName() + mCheckBoxCount, false, 0);
 
-                // Get the actual value of the field
                 String fieldValue = args.getFieldValue().toString();
 
-                // In this case, for every record index 'n', the corresponding field value is "Course n"
+                // In this case, for every record index 'n', the corresponding field value is "Course n".
                 Assert.assertEquals(char.GetNumericValue(fieldValue.charAt(7)), args.getRecordIndex());
 
                 builder.write(fieldValue);
@@ -211,18 +214,14 @@ public class ExMailMergeEvent extends ApiExampleBase
 
         public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs args)
         {
-            // Do nothing
+            // Do nothing.
         }
 
-        /// <summary>
-        /// Counter for CheckBox name generation.
-        /// </summary>
         private int mCheckBoxCount;
     }
 
     /// <summary>
-    /// Create DataTable and fill it with data.
-    /// In real life this DataTable should be filled from a database.
+    /// Creates a mail merge data source.
     /// </summary>
     private static DataTable getStudentCourseDataTable()
     {
@@ -241,16 +240,14 @@ public class ExMailMergeEvent extends ApiExampleBase
 
     //ExStart
     //ExFor:MailMerge.ExecuteWithRegions(DataTable)
-    //ExSummary:Demonstrates how to implement custom logic in the MergeField event to apply cell formatting.
+    //ExSummary:Demonstrates how to format cells during a mail merge.
     @Test //ExSkip
     public void alternatingRows() throws Exception
     {
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind suppliers.docx");
 
-        // Add a handler for the MergeField event
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldAlternatingRows());
 
-        // Execute mail merge with regions
         DataTable dataTable = getSuppliersDataTable();
         doc.getMailMerge().executeWithRegions(dataTable);
 
@@ -258,25 +255,24 @@ public class ExMailMergeEvent extends ApiExampleBase
         TestUtil.mailMergeMatchesDataTable(dataTable, new Document(getArtifactsDir() + "MailMergeEvent.AlternatingRows.docx"), false); //ExSkip
     }
 
+    /// <summary>
+    /// Formats table rows as a mail merge takes place to alternate between two colors on odd/even rows.
+    /// </summary>
     private static class HandleMergeFieldAlternatingRows implements IFieldMergingCallback
     {
         /// <summary>
-        /// Called for every merge field encountered in the document.
-        /// We can either return some data to the mail merge engine or do something
-        /// else with the document. In this case we modify cell formatting.
+        /// Called when a mail merge merges data into a MERGEFIELD.
         /// </summary>
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args)
         {
             if (mBuilder == null)
                 mBuilder = new DocumentBuilder(args.getDocument());
 
-            // This way we catch the beginning of a new row
+            // This is true of we are on the first column, which means we have moved to a new row.
             if (args.getFieldName().equals("CompanyName"))
             {
-                // Select the color depending on whether the row number is even or odd
                 Color rowColor = isOdd(mRowIdx) ? new Color((213), (227), (235)) : new Color((242), (242), (242));
 
-                // Set properties for each cell in the row
                 for (int colIdx = 0; colIdx < 4; colIdx++)
                 {
                     mBuilder.moveToCell(0, mRowIdx, colIdx, 0);
@@ -289,7 +285,7 @@ public class ExMailMergeEvent extends ApiExampleBase
 
         public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs args)
         {
-            // Do nothing
+            // Do nothing.
         }
 
         private DocumentBuilder mBuilder;
@@ -297,17 +293,15 @@ public class ExMailMergeEvent extends ApiExampleBase
     }
 
     /// <summary>
-    /// Returns true if the value is odd; false if the value is even.
+    /// Function needed for VB autoporting that returns the parity of the passed number.
     /// </summary>
     private static boolean isOdd(int value)
     {
-        // The code is a bit complex, but otherwise automatic conversion to VB does not work
         return (((value / 2 * 2)) == (value));
     }
 
     /// <summary>
-    /// Create DataTable and fill it with data.
-    /// In real life this DataTable should be filled from a database.
+    /// Creates a mail merge data source.
     /// </summary>
     private static DataTable getSuppliersDataTable()
     {
@@ -331,22 +325,36 @@ public class ExMailMergeEvent extends ApiExampleBase
     {
         //ExStart
         //ExFor:MailMerge.Execute(String[], Object[])
-        //ExSummary:Demonstrates how to merge an image from a web address using an Image field.
+        //ExSummary:Shows how to merge an image from a URI as mail merge data into a MERGEFIELD.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.insertField("MERGEFIELD  Image:Logo ");
 
-        // Pass a URL which points to the image to merge into the document
-        doc.getMailMerge().execute(new String[] { "Logo" },
-            new Object[] { getAsposeLogoUrl() });
+        // MERGEFIELDs with "Image:" tags will receive an image during a mail merge.
+        // The string after the colon in the "Image:" tag corresponds to a column name
+        // in the data source whose cells contain URIs of image files.
+        builder.insertField("MERGEFIELD  Image:logo_FromWeb ");
+        builder.insertField("MERGEFIELD  Image:logo_FromFileSystem ");
 
-        doc.save(getArtifactsDir() + "MailMergeEvent.ImageFromUrl.doc");
+        // Create a data source that contains URIs of images that we will merge. 
+        // A URI can be a web URL that points to an image, or a local file system filename of an image file.
+        String[] columns = { "logo_FromWeb", "logo_FromFileSystem" };
+        Object[] URIs = { getAsposeLogoUrl(), getImageDir() + "Logo.jpg" };
+
+        // Execute a mail merge on a data source with one row.
+        doc.getMailMerge().execute(columns, URIs);
+
+        doc.save(getArtifactsDir() + "MailMergeEvent.ImageFromUrl.docx");
         //ExEnd
 
-        // Verify the image was merged into the document
-        Shape logoImage = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        Assert.assertNotNull(logoImage);
-        Assert.assertTrue(logoImage.hasImage());
+        doc = new Document(getArtifactsDir() + "MailMergeEvent.ImageFromUrl.docx");
+
+        Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
+
+        imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, imageShape);
     }
 
     //ExStart
@@ -363,10 +371,8 @@ public class ExMailMergeEvent extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");
 
-        // Set up the event handler for image fields
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
 
-        // Open a database connection
         String connString = $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={DatabaseDir + "Northwind.mdb"};";
         String query = "SELECT FirstName, LastName, Title, Address, City, Region, Country, PhotoBLOB FROM Employees";
 
@@ -375,11 +381,10 @@ public class ExMailMergeEvent extends ApiExampleBase
         {
             conn.Open();
 
-            // Open the data reader. It needs to be in the normal mode that reads all record at once
+            // Open the data reader, which needs to be in a mode that reads all records at once.
             OleDbCommand cmd = new OleDbCommand(query, conn);
             IDataReader dataReader = cmd.ExecuteReader();
 
-            // Perform mail merge
             doc.getMailMerge().executeWithRegions(dataReader, "Employees");
         }
         finally { if (conn != null) conn.close(); }
@@ -392,29 +397,17 @@ public class ExMailMergeEvent extends ApiExampleBase
     {
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args)
         {
-            // Do nothing
+            // Do nothing.
         }
 
         /// <summary>
-        /// This is called when mail merge engine encounters Image:XXX merge field in the document.
-        /// You have a chance to return an Image object, file name or a stream that contains the image.
+        /// This is called when a mail merge encounters a MERGEFIELD in the document with an "Image:" tag in its name.
         /// </summary>
         public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs e) throws Exception
         {
-            // The field value is a byte array, just cast it and create a stream on it
             MemoryStream imageStream = new MemoryStream((byte[])e.getFieldValue());
-            // Now the mail merge engine will retrieve the image from the stream
             e.setImageStreamInternal(imageStream);
         }
     }
-
-	//JAVA-added for string switch emulation
-	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
-	(
-		"TextField",
-		"TextField2",
-		"NumericField"
-	);
-
     //ExEnd
 }

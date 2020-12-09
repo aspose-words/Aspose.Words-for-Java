@@ -15,7 +15,10 @@ import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 
 @Test
 public class ExDocumentBuilderImages extends ApiExampleBase {
@@ -34,7 +37,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         IOUtils.copy(new FileInputStream(getImageDir() + "Logo.jpg"), byteArrayOutputStream);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
 
-        // Below are three ways of inserting an image from a stream:
+        // Below are three ways of inserting an image from a stream.
         // 1 -  Inline shape with a default size based on the image's original dimensions:
         builder.insertImage(byteArrayInputStream);
 
@@ -103,8 +106,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
     }
 
     @Test
-    public void insertImageFromFilename() throws Exception
-    {
+    public void insertImageFromFilename() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(String)
         //ExFor:DocumentBuilder.InsertImage(String, Double, Double)
@@ -113,7 +115,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Below are three ways of inserting an image from a local system filename:
+        // Below are three ways of inserting an image from a local system filename.
         // 1 -  Inline shape with a default size based on the image's original dimensions:
         builder.insertImage(getImageDir() + "Logo.jpg");
 
@@ -126,7 +128,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         builder.insertBreak(BreakType.PAGE_BREAK);
 
         // 3 -  Floating shape with custom dimensions:
-        builder.insertImage(getImageDir() + "Windows MetaFile.wmf", RelativeHorizontalPosition.MARGIN, 100.0, 
+        builder.insertImage(getImageDir() + "Windows MetaFile.wmf", RelativeHorizontalPosition.MARGIN, 100.0,
                 RelativeVerticalPosition.MARGIN, 100.0, 200.0, 100.0, WrapType.SQUARE);
 
         doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromFilename.docx");
@@ -181,9 +183,9 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
     }
 
     @Test
-    public void insertImageFromImageObject() throws Exception
-    {
+    public void insertImageFromImageObject() throws Exception {
         //ExStart
+        //ExFor:DocumentBuilder.InsertImage(Image)
         //ExFor:DocumentBuilder.InsertImage(Image, Double, Double)
         //ExFor:DocumentBuilder.InsertImage(Image, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
         //ExSummary:Shows how to insert an image from an object into a document.

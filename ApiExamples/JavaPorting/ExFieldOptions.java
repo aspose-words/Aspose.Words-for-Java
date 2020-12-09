@@ -32,13 +32,17 @@ import com.aspose.words.FieldTime;
 import com.aspose.words.EditingLanguage;
 import com.aspose.words.IFieldUpdateCultureProvider;
 import com.aspose.ms.System.Globalization.msDateTimeFormatInfo;
+import com.aspose.words.BarcodeParameters;
+import java.awt.image.BufferedImage;
+import com.aspose.words.Shape;
+import com.aspose.words.NodeType;
 
 
 @Test
 public class ExFieldOptions extends ApiExampleBase
 {
     @Test
-    public void fieldOptionsCurrentUser() throws Exception
+    public void currentUser() throws Exception
     {
         //ExStart
         //ExFor:Document.UpdateFields
@@ -48,23 +52,26 @@ public class ExFieldOptions extends ApiExampleBase
         //ExFor:UserInformation.Initials
         //ExFor:UserInformation.Address
         //ExFor:UserInformation.DefaultUser
-        //ExSummary:Shows how to set user details and display them with fields.
+        //ExSummary:Shows how to set user details, and display them using fields.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Set user information
+        // Create a UserInformation object and set it as the data source for fields that display user information.
         UserInformation userInformation = new UserInformation();
-        userInformation.setName("John Doe");
-        userInformation.setInitials("J. D.");
-        userInformation.setAddress("123 Main Street");
+        {
+            userInformation.setName("John Doe");
+            userInformation.setInitials("J. D.");
+            userInformation.setAddress("123 Main Street");
+        }
         doc.getFieldOptions().setCurrentUser(userInformation);
 
-        // Insert fields that reference our user information
+        // Insert USERNAME, USERINITIALS, and USERADDRESS fields, which display values of
+        // the respective properties of the UserInformation object that we have created above. 
         Assert.assertEquals(userInformation.getName(), builder.insertField(" USERNAME ").getResult());
         Assert.assertEquals(userInformation.getInitials(), builder.insertField(" USERINITIALS ").getResult());
         Assert.assertEquals(userInformation.getAddress(), builder.insertField(" USERADDRESS ").getResult());
 
-        // The field options object also has a static default user value that fields from many documents can refer to
+        // The field options object also has a static default user that fields from all documents can refer to.
         UserInformation.getDefaultUser().setName("Default User");
         UserInformation.getDefaultUser().setInitials("D. U.");
         UserInformation.getDefaultUser().setAddress("One Microsoft Way");
@@ -75,10 +82,10 @@ public class ExFieldOptions extends ApiExampleBase
         Assert.assertEquals("One Microsoft Way", builder.insertField(" USERADDRESS ").getResult());
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "FieldOptions.FieldOptionsCurrentUser.docx");
+        doc.save(getArtifactsDir() + "FieldOptions.CurrentUser.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "FieldOptions.FieldOptionsCurrentUser.docx");
+        doc = new Document(getArtifactsDir() + "FieldOptions.CurrentUser.docx");
 
         Assert.assertNull(doc.getFieldOptions().getCurrentUser());
 
@@ -99,7 +106,7 @@ public class ExFieldOptions extends ApiExampleBase
     }
 
     @Test
-    public void fieldOptionsFileName() throws Exception
+    public void fileName() throws Exception
     {
         //ExStart
         //ExFor:FieldOptions.FileName
@@ -112,7 +119,7 @@ public class ExFieldOptions extends ApiExampleBase
         builder.moveToDocumentEnd();
         builder.writeln();
 
-        // This FILENAME field will display the file name of the document we opened
+        // This FILENAME field will display the local system file name of the document we loaded.
         FieldFileName field = (FieldFileName)builder.insertField(FieldType.FIELD_FILE_NAME, true);
         field.update();
 
@@ -121,11 +128,16 @@ public class ExFieldOptions extends ApiExampleBase
 
         builder.writeln();
 
-        // By default, the FILENAME field does not show the full path, and we can change this
+        // By default, the FILENAME field shows the file's name, but not its full local file system path.
+        // We can set a flag to make it show the full file path.
         field = (FieldFileName)builder.insertField(FieldType.FIELD_FILE_NAME, true);
         field.setIncludeFullPath(true);
+        field.update();
 
-        // We can override the values displayed by our FILENAME fields by setting this attribute
+        Assert.assertEquals(getMyDir() + "Document.docx", field.getResult());
+
+        // We can also set a value for this property to
+        // override the value that the FILENAME field displays.
         doc.getFieldOptions().setFileName("FieldOptions.FILENAME.docx");
         field.update();
 
@@ -143,26 +155,26 @@ public class ExFieldOptions extends ApiExampleBase
     }
 
     @Test
-    public void fieldOptionsBidi() throws Exception
+    public void bidi() throws Exception
     {
         //ExStart
         //ExFor:FieldOptions.IsBidiTextSupportedOnUpdate
-        //ExSummary:Shows how to use FieldOptions to ensure that bi-directional text is properly supported during the field update.
+        //ExSummary:Shows how to use FieldOptions to ensure that field updating fully supports bi-directional text.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Ensure that any field operation involving right-to-left text is performed correctly 
+        // Ensure that any field operation involving right-to-left text is performs as expected. 
         doc.getFieldOptions().isBidiTextSupportedOnUpdate(true);
 
-        // Use a document builder to insert a field which contains right-to-left text
+        // Use a document builder to insert a field that contains the right-to-left text.
         FormField comboBox = builder.insertComboBox("MyComboBox", new String[] { "עֶשְׂרִים", "שְׁלוֹשִׁים", "אַרְבָּעִים", "חֲמִשִּׁים", "שִׁשִּׁים" }, 0);
         comboBox.setCalculateOnExit(true);
 
         doc.updateFields();
-        doc.save(getArtifactsDir() + "FieldOptions.FieldOptionsBidi.docx");
+        doc.save(getArtifactsDir() + "FieldOptions.Bidi.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "FieldOptions.FieldOptionsBidi.docx");
+        doc = new Document(getArtifactsDir() + "FieldOptions.Bidi.docx");
 
         Assert.assertFalse(doc.getFieldOptions().isBidiTextSupportedOnUpdate());
 
@@ -172,11 +184,11 @@ public class ExFieldOptions extends ApiExampleBase
     }
 
     @Test
-    public void fieldOptionsLegacyNumberFormat() throws Exception
+    public void legacyNumberFormat() throws Exception
     {
         //ExStart
         //ExFor:FieldOptions.LegacyNumberFormat
-        //ExSummary:Shows how use FieldOptions to change the number format.
+        //ExSummary:Shows how enable legacy number formatting for fields.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -197,7 +209,7 @@ public class ExFieldOptions extends ApiExampleBase
     }
 
     @Test
-    public void fieldOptionsPreProcessCulture() throws Exception
+    public void preProcessCulture() throws Exception
     {
         //ExStart
         //ExFor:FieldOptions.PreProcessCulture
@@ -205,17 +217,19 @@ public class ExFieldOptions extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // Set the culture according to which some fields will format their displayed values.
         doc.getFieldOptions().setPreProcessCultureInternal(new msCultureInfo("de-DE"));
 
         Field field = builder.insertField(" DOCPROPERTY CreateTime");
 
-        // Conforming to the German culture, the date/time will be presented in the "dd.mm.yyyy hh:mm" format
+        // The DOCPROPERTY field will display its result formatted according to the preprocess culture
+        // we have set to German. The field will display the date/time using the "dd.mm.yyyy hh:mm" format.
         Assert.assertTrue(Regex.match(field.getResult(), "\\d{2}[.]\\d{2}[.]\\d{4} \\d{2}[:]\\d{2}").getSuccess());
 
         doc.getFieldOptions().setPreProcessCultureInternal(msCultureInfo.getInvariantCulture());
         field.update();
 
-        // After switching to the invariant culture, the date/time will be presented in the "mm/dd/yyyy hh:mm" format
+        // After switching to the invariant culture, the DOCPROPERTY field will use the "mm/dd/yyyy hh:mm" format.
         Assert.assertTrue(Regex.match(field.getResult(), "\\d{2}[/]\\d{2}[/]\\d{4} \\d{2}[:]\\d{2}").getSuccess());
         //ExEnd
 
@@ -226,34 +240,44 @@ public class ExFieldOptions extends ApiExampleBase
     }
 
     @Test
-    public void fieldOptionsToaCategories() throws Exception
+    public void tableOfAuthorityCategories() throws Exception
     {
         //ExStart
         //ExFor:FieldOptions.ToaCategories
         //ExFor:ToaCategories
         //ExFor:ToaCategories.Item(Int32)
         //ExFor:ToaCategories.DefaultCategories
-        //ExSummary:Shows how to specify a table of authorities categories for a document.
+        //ExSummary:Shows how to specify a set of categories for TOA fields.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // There are default category values we can use, or we can make our own like this
+        // TOA fields can filter their entries by categories defined in this collection.
         ToaCategories toaCategories = new ToaCategories();
         doc.getFieldOptions().setToaCategories(toaCategories);
 
-        toaCategories.set(1, "My Category 1"); // Replaces default value "Cases"
-        toaCategories.set(2, "My Category 2"); // Replaces default value "Statutes"
+        // This collection of categories comes with default values, which we can overwrite with custom values.
+        Assert.assertEquals("Cases", toaCategories.get(1));
+        Assert.assertEquals("Statutes", toaCategories.get(2));
 
-        // Even if we changed the categories in the FieldOptions object, the default categories are still available here
+        toaCategories.set(1, "My Category 1");
+        toaCategories.set(2, "My Category 2");
+
+        // We can always access the default values via this collection.
         Assert.assertEquals("Cases", ToaCategories.getDefaultCategories().get(1));
         Assert.assertEquals("Statutes", ToaCategories.getDefaultCategories().get(2));
 
-        // Insert 2 tables of authorities, one per category
+        // Insert 2 TOA fields. TOA fields create an entry for each TA field in the document.
+        // Use the "\c" switch to select the index of a category from our collection.
+        //  With this switch, a TOA field will only pick up entries from TA fields that
+        // also have a "\c" switch with a matching category index. Each TOA field will also display
+        // the name of the category that its "\c" switch points to.
         builder.insertField("TOA \\c 1 \\h", null);
         builder.insertField("TOA \\c 2 \\h", null);
         builder.insertBreak(BreakType.PAGE_BREAK);
 
-        // Insert TOA entries across 2 categories
+        // Insert TOA entries across 2 categories. Our first TOA field will receive one entry,
+        // from the second TA field whose "\c" switch also points to the first category.
+        // The second TOA field will have two entries from the other two TA fields.
         builder.insertField("TA \\c 2 \\l \"entry 1\"");
         builder.insertBreak(BreakType.PAGE_BREAK);
         builder.insertField("TA \\c 1 \\l \"entry 2\"");
@@ -276,7 +300,7 @@ public class ExFieldOptions extends ApiExampleBase
     }
 
     @Test
-    public void fieldOptionsUseInvariantCultureNumberFormat() throws Exception
+    public void useInvariantCultureNumberFormat() throws Exception
     {
         //ExStart
         //ExFor:FieldOptions.UseInvariantCultureNumberFormat
@@ -288,11 +312,14 @@ public class ExFieldOptions extends ApiExampleBase
         Field field = builder.insertField(" = 1234567,89 \\# $#,###,###.##");
         field.update();
 
-        // The combination of field, number format and thread culture can sometimes produce an unsuitable result
+        // Sometimes, fields may not format their numbers correctly under certain cultures. 
         Assert.assertFalse(doc.getFieldOptions().getUseInvariantCultureNumberFormat());
         Assert.assertEquals("$1234567,89 .     ", field.getResult());
 
-        // We can set this attribute to avoid changing the whole thread culture just for numeric formats
+        // To fix this, we could change the culture for the entire thread.
+        // Another way to fix this is to set this flag,
+        // which gets all fields to use the invariant culture when formatting numbers.
+        // This way allows us to avoid changing the culture for the entire thread.
         doc.getFieldOptions().setUseInvariantCultureNumberFormat(true);
         field.update();
         Assert.assertEquals("$1.234.567,89", field.getResult());
@@ -308,7 +335,7 @@ public class ExFieldOptions extends ApiExampleBase
     //ExFor:FieldOptions.FieldUpdateCultureProvider
     //ExFor:IFieldUpdateCultureProvider
     //ExFor:IFieldUpdateCultureProvider.GetCulture(string, Field)
-    //ExSummary:Shows how to specify a culture defining date/time formatting on per field basis.
+    //ExSummary:Shows how to specify a culture which parses date/time formatting for each field.
     @Test
     public void defineDateTimeFormatting() throws Exception
     {
@@ -319,7 +346,7 @@ public class ExFieldOptions extends ApiExampleBase
 
         doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
 
-        // Set a provider that returns a culture object specific for each field
+        // Set a provider that returns a culture object specific to each field.
         doc.getFieldOptions().setFieldUpdateCultureProvider(new FieldUpdateCultureProvider());
 
         FieldTime fieldDate = (FieldTime)doc.getRange().getFields().get(0);
@@ -371,6 +398,120 @@ public class ExFieldOptions extends ApiExampleBase
             }
         }
     }
+    //ExEnd
+
+    @Test
+    public void barcodeGenerator() throws Exception
+    {
+        //ExStart
+        //ExFor:BarcodeParameters
+        //ExFor:BarcodeParameters.AddStartStopChar
+        //ExFor:BarcodeParameters.BackgroundColor
+        //ExFor:BarcodeParameters.BarcodeType
+        //ExFor:BarcodeParameters.BarcodeValue
+        //ExFor:BarcodeParameters.CaseCodeStyle
+        //ExFor:BarcodeParameters.DisplayText
+        //ExFor:BarcodeParameters.ErrorCorrectionLevel
+        //ExFor:BarcodeParameters.FacingIdentificationMark
+        //ExFor:BarcodeParameters.FixCheckDigit
+        //ExFor:BarcodeParameters.ForegroundColor
+        //ExFor:BarcodeParameters.IsBookmark
+        //ExFor:BarcodeParameters.IsUSPostalAddress
+        //ExFor:BarcodeParameters.PosCodeStyle
+        //ExFor:BarcodeParameters.PostalAddress
+        //ExFor:BarcodeParameters.ScalingFactor
+        //ExFor:BarcodeParameters.SymbolHeight
+        //ExFor:BarcodeParameters.SymbolRotation
+        //ExFor:IBarcodeGenerator
+        //ExFor:IBarcodeGenerator.GetBarcodeImage(BarcodeParameters)
+        //ExFor:IBarcodeGenerator.GetOldBarcodeImage(BarcodeParameters)
+        //ExFor:FieldOptions.BarcodeGenerator
+        //ExSummary:Shows how to use a barcode generator.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        Assert.assertNull(doc.getFieldOptions().getBarcodeGenerator()); //ExSkip
+
+        // We can use a custom IBarcodeGenerator implementation to generate barcodes,
+        // and then insert them into the document as images.
+        // We can find the source code for the barcode generator here:
+        // https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/ApiExamples/CSharp/ApiExamples/CustomBarcodeGenerator.cs
+        doc.getFieldOptions().setBarcodeGenerator(new CustomBarcodeGenerator());
+
+        // Below are four examples of different barcode types that we can create using our generator.
+        // For each barcode, we specify a new set of barcode parameters, and then generate the image.
+        // Afterwards, we can insert the image into the document, or save it to the local file system.
+        // 1 -  QR code:
+        BarcodeParameters barcodeParameters = new BarcodeParameters();
+        {
+            barcodeParameters.setBarcodeType("QR");
+            barcodeParameters.setBarcodeValue("ABC123");
+            barcodeParameters.setBackgroundColor("0xF8BD69");
+            barcodeParameters.setForegroundColor("0xB5413B");
+            barcodeParameters.setErrorCorrectionLevel("3");
+            barcodeParameters.setScalingFactor("250");
+            barcodeParameters.setSymbolHeight("1000");
+            barcodeParameters.setSymbolRotation("0");
+        }
+
+        BufferedImage img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
+
+        builder.insertImage(img);
+
+        // 2 -  EAN13 barcode:
+        barcodeParameters = new BarcodeParameters();
+        {
+            barcodeParameters.setBarcodeType("EAN13");
+            barcodeParameters.setBarcodeValue("501234567890");
+            barcodeParameters.setDisplayText(true);
+            barcodeParameters.setPosCodeStyle("CASE");
+            barcodeParameters.setFixCheckDigit(true);
+        }
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
+        builder.insertImage(img);
+
+        // 3 -  CODE39 barcode:
+        barcodeParameters = new BarcodeParameters();
+        {
+            barcodeParameters.setBarcodeType("CODE39");
+            barcodeParameters.setBarcodeValue("12345ABCDE");
+            barcodeParameters.setAddStartStopChar(true);
+        }
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
+        builder.insertImage(img);
+
+        // 4 -  ITF14 barcode:
+        barcodeParameters = new BarcodeParameters();
+        {
+            barcodeParameters.setBarcodeType("ITF14");
+            barcodeParameters.setBarcodeValue("09312345678907");
+            barcodeParameters.setCaseCodeStyle("STD");
+        }
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
+        builder.insertImage(img);
+
+        doc.save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
+        //ExEnd
+
+        TestUtil.verifyImage(378, 378, getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
+        TestUtil.verifyImage(220, 78, getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
+        TestUtil.verifyImage(414, 65, getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
+        TestUtil.verifyImage(300, 65, getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
+
+        doc = new Document(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
+        Shape barcode = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertTrue(barcode.hasImage());
+
+        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK,
+            "https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/ApiExamples/CSharp/ApiExamples/CustomBarcodeGenerator.cs");
+    }
 
 	//JAVA-added for string switch emulation
 	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
@@ -379,6 +520,5 @@ public class ExFieldOptions extends ApiExampleBase
 		"en-US"
 	);
 
-    //ExEnd
 }
 

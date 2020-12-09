@@ -14,6 +14,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 @Test
 public class ExTxtSaveOptions extends ApiExampleBase {
@@ -253,7 +254,7 @@ public class ExTxtSaveOptions extends ApiExampleBase {
         // We can use a SaveOptions object to make sure the encoding we save the .txt document in supports our content
         TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
         {
-            txtSaveOptions.setEncoding(Charset.forName("UTF-8"));
+            txtSaveOptions.setEncoding(StandardCharsets.UTF_8);
         }
 
         doc.save(getArtifactsDir() + "TxtSaveOptions.Encoding.txt", txtSaveOptions);
@@ -303,8 +304,7 @@ public class ExTxtSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void updateTableLayout() throws Exception
-    {
+    public void updateTableLayout() throws Exception {
         //ExStart
         //ExFor:Document.UpdateTableLayout
         //ExSummary:Shows how to preserve a table's layout when saving to .txt.

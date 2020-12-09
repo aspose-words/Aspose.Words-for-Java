@@ -17,24 +17,20 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 
-/**
- * Mostly scenarios that deal with image shapes.
- */
 public class ExImage extends ApiExampleBase {
     @Test
-    public void createImageDirectly() throws Exception {
+    public void fromFile() throws Exception {
         //ExStart
         //ExFor:Shape.#ctor(DocumentBase,ShapeType)
         //ExFor:ShapeType
-        //ExSummary:Shows how to add a shape with an image to a document.
+        //ExSummary:Shows how to insert a shape with an image from the local file system into a document.
         Document doc = new Document();
 
-        // Public constructor of "Shape" class creates shape with "ShapeMarkupLanguage.Vml" markup type
-        // If you need to create non-primitive shapes, such as SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
-        // TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, DiagonalCornersRounded
-        // please use DocumentBuilder.InsertShape
+        // The "Shape" class's public constructor will create a shape with "ShapeMarkupLanguage.Vml" markup type.
+        // If you need to create a shape of a non-primitive type, such as SingleCornerSnipped, TopCornersSnipped, DiagonalCornersSnipped,
+        // TopCornersOneRoundedOneSnipped, SingleCornerRounded, TopCornersRounded, or DiagonalCornersRounded,
+        // please use DocumentBuilder.InsertShape.
         Shape shape = new Shape(doc, ShapeType.IMAGE);
         shape.getImageData().setImage(getImageDir() + "Windows MetaFile.wmf");
         shape.setWidth(100.0);
@@ -42,10 +38,10 @@ public class ExImage extends ApiExampleBase {
 
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(shape);
 
-        doc.save(getArtifactsDir() + "Image.CreateImageDirectly.docx");
+        doc.save(getArtifactsDir() + "Image.FromFile.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "Image.CreateImageDirectly.docx");
+        doc = new Document(getArtifactsDir() + "Image.FromFile.docx");
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
@@ -54,25 +50,29 @@ public class ExImage extends ApiExampleBase {
     }
 
     @Test
-    public void createFromUrl() throws Exception {
+    public void fromUrl() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(String)
-        //ExSummary:Shows how to inserts an image from a URL.
+        //ExSummary:Shows how to insert a shape with an image into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // Below are two locations where the document builder's "InsertShape" method
+        // can source the image that the shape will display.
+        // 1 -  Pass a local file system filename of an image file:
         builder.write("Image from local file: ");
         builder.insertImage(getImageDir() + "Logo.jpg");
         builder.writeln();
 
+        // 2 -  Pass a URL which points to an image.
         builder.write("Image from a URL: ");
         builder.insertImage(getAsposelogoUri().toURL().openStream());
         builder.writeln();
 
-        doc.save(getArtifactsDir() + "Image.CreateFromUrl.docx");
+        doc.save(getArtifactsDir() + "Image.FromUrl.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "Image.CreateFromUrl.docx");
+        doc = new Document(getArtifactsDir() + "Image.FromUrl.docx");
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
         Assert.assertEquals(2, shapes.getCount());
@@ -81,10 +81,10 @@ public class ExImage extends ApiExampleBase {
     }
 
     @Test
-    public void createFromStream() throws Exception {
+    public void fromStream() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(Stream)
-        //ExSummary:Shows how to insert an image from a stream. 
+        //ExSummary:Shows how to insert a shape with an image from a stream into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -96,31 +96,28 @@ public class ExImage extends ApiExampleBase {
             stream.close();
         }
 
-        doc.save(getArtifactsDir() + "Image.CreateFromStream.docx");
+        doc.save(getArtifactsDir() + "Image.FromStream.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "Image.CreateFromStream.docx");
+        doc = new Document(getArtifactsDir() + "Image.FromStream.docx");
 
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape) doc.getChildNodes(NodeType.SHAPE, true).get(0));
     }
 
     @Test(groups = "SkipMono")
-    public void createFromImage() throws Exception {
-        // This creates a builder and also an empty document inside the builder
+    public void fromImage() throws Exception {
         DocumentBuilder builder = new DocumentBuilder();
 
-        // Insert a raster image
         BufferedImage rasterImage = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
         builder.write("Raster image: ");
         builder.insertImage(rasterImage);
         builder.writeln();
 
-        // Aspose.Words allows to insert a metafile too
         builder.write("Metafile: ");
         builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
         builder.writeln();
 
-        builder.getDocument().save(getArtifactsDir() + "Image.CreateFromImage.docx");
+        builder.getDocument().save(getArtifactsDir() + "Image.FromImage.docx");
     }
 
     @Test
@@ -140,14 +137,12 @@ public class ExImage extends ApiExampleBase {
         //ExFor:RelativeVerticalPosition
         //ExFor:HorizontalAlignment
         //ExFor:VerticalAlignment
-        //ExSummary:Shows how to insert a floating image in the middle of a page.
+        //ExSummary:Shows how to insert a floating image to the center of a page.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // By default, the image is inline
+        // Insert a floating image that will appear behind the overlapping text and align it to the page's center.
         Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
-
-        // Make the image float, put it behind text and center on the page
         shape.setWrapType(WrapType.NONE);
         shape.setBehindText(true);
         shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
@@ -185,29 +180,28 @@ public class ExImage extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // By default, the image is inline
         Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
-
-        // Make the image float, put it behind text and center on the page
         shape.setWrapType(WrapType.NONE);
 
-        // Make position relative to the page
+        // Configure the shape's "RelativeHorizontalPosition" property to treat the value of the "Left" property
+        // as the shape's horizontal distance, in points, from the left side of the page. 
         shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
-        shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
 
-        // Set the shape's coordinates, from the top left corner of the page
+        // Set the shape's horizontal distance from the left side of the page to 100.
         shape.setLeft(100.0);
+
+        // Use the "RelativeVerticalPosition" property in a similar way to position the shape 80pt below the top of the page.
+        shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
         shape.setTop(80.0);
 
-        // Set the shape's height
+        // Set the shape's height, which will automatically scale the width to preserve dimensions.
         shape.setHeight(125.0);
 
-        // The width will be scaled to the height and the dimensions of the real image
-        Assert.assertEquals(shape.getWidth(), 125.0);
+        Assert.assertEquals(125.0d, shape.getWidth());
 
-        // The Bottom and Right members contain the locations of the bottom and right edges of the image
-        Assert.assertEquals(shape.getBottom(), shape.getTop() + shape.getHeight());
-        Assert.assertEquals(shape.getRight(), shape.getLeft() + shape.getWidth());
+        // The "Bottom" and "Right" properties contain the bottom and right edges of the image.
+        Assert.assertEquals(shape.getTop() + shape.getHeight(), shape.getBottom());
+        Assert.assertEquals(shape.getLeft() + shape.getWidth(), shape.getRight());
 
         doc.save(getArtifactsDir() + "Image.CreateFloatingPositionSize.docx");
         //ExEnd
@@ -233,22 +227,24 @@ public class ExImage extends ApiExampleBase {
         //ExFor:ShapeBase.HRef
         //ExFor:ShapeBase.ScreenTip
         //ExFor:ShapeBase.Target
-        //ExSummary:Shows how to insert an image with a hyperlink.
+        //ExSummary:Shows how to insert a shape which contains an image, and is also a hyperlink.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Shape shape = builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
+        Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
         shape.setHRef("https://forum.aspose.com/");
         shape.setTarget("New Window");
         shape.setScreenTip("Aspose.Words Support Forums");
 
+        // Ctrl + left-clicking the shape in Microsoft Word will open a new web browser window
+        // and take us to the hyperlink in the "HRef" property.
         doc.save(getArtifactsDir() + "Image.InsertImageWithHyperlink.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Image.InsertImageWithHyperlink.docx");
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals("New Window", shape.getTarget());
         Assert.assertEquals("Aspose.Words Support Forums", shape.getScreenTip());
     }
@@ -267,124 +263,46 @@ public class ExImage extends ApiExampleBase {
 
         String imageFileName = getImageDir() + "Windows MetaFile.wmf";
 
-        builder.write("Image linked, not stored in the document: ");
-
+        // Below are two ways of applying an image to a shape so that it can display it.
+        // 1 -  Set the shape to contain the image.
         Shape shape = new Shape(builder.getDocument(), ShapeType.IMAGE);
         shape.setWrapType(WrapType.INLINE);
-        shape.getImageData().setSourceFullName(imageFileName);
-
-        builder.insertNode(shape);
-        builder.writeln();
-
-        builder.write("Image linked and stored in the document: ");
-
-        shape = new Shape(builder.getDocument(), ShapeType.IMAGE);
-        shape.setWrapType(WrapType.INLINE);
-        shape.getImageData().setSourceFullName(imageFileName);
         shape.getImageData().setImage(imageFileName);
 
         builder.insertNode(shape);
-        builder.writeln();
 
-        builder.write("Image stored in the document, but not linked: ");
+        doc.save(getArtifactsDir() + "Image.CreateLinkedImage.Embedded.docx");
 
+        doc.getFirstSection().getBody().getFirstParagraph().removeAllChildren();
+
+        // 2 -  Set the shape to link to an image file in the local file system.
         shape = new Shape(builder.getDocument(), ShapeType.IMAGE);
         shape.setWrapType(WrapType.INLINE);
-        shape.getImageData().setImage(imageFileName);
+        shape.getImageData().setSourceFullName(imageFileName);
 
         builder.insertNode(shape);
-        builder.writeln();
 
-        doc.save(getArtifactsDir() + "Image.CreateLinkedImage.docx");
+        // Linking to images will save space and result in a smaller document.
+        // However, the document can only display the image correctly as long as
+        // the image file is present at the location that the shape's "SourceFullName" property points to.
+        doc.save(getArtifactsDir() + "Image.CreateLinkedImage.Linked.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "Image.CreateLinkedImage.docx");
+        doc = new Document(getArtifactsDir() + "Image.CreateLinkedImage.Embedded.docx");
+
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
+        Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
+        Assert.assertEquals("", shape.getImageData().getSourceFullName().replace("%20", " "));
+
+        doc = new Document(getArtifactsDir() + "Image.CreateLinkedImage.Linked.docx");
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         TestUtil.verifyImageInShape(0, 0, ImageType.WMF, shape);
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
-        Assert.assertEquals(imageFileName, shape.getImageData().getSourceFullName());
-
-        shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
-
-        TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
-        Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
-        Assert.assertEquals(imageFileName, shape.getImageData().getSourceFullName());
-
-        shape = (Shape) doc.getChild(NodeType.SHAPE, 2, true);
-
-        TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, shape);
-        Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
-        Assert.assertEquals("", shape.getImageData().getSourceFullName());
-    }
-
-    @Test
-    public void deleteAllImages() throws Exception {
-        //ExStart
-        //ExFor:Shape.HasImage
-        //ExFor:Node.Remove
-        //ExSummary:Shows how to delete all images from a document.
-        Document doc = new Document(getMyDir() + "Images.docx");
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 10);
-
-        // Here we get all shapes from the document node, but you can do this for any smaller
-        // node too, for example delete shapes from a single section or a paragraph
-        NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
-
-        // We cannot delete shape nodes while we enumerate through the collection
-        // One solution is to add nodes that we want to delete to a temporary array and delete afterwards
-        ArrayList shapesToDelete = new ArrayList();
-        for (Shape shape : (Iterable<Shape>) shapes) {
-            // Several shape types can have an image including image shapes and OLE objects
-            if (shape.hasImage()) {
-                shapesToDelete.add(shape);
-            }
-        }
-
-        // Now we can delete shapes
-        for (Shape shape : (Iterable<Shape>) shapesToDelete)
-            shape.remove();
-
-        // The only remaining shape doesn't have an image
-        Assert.assertEquals(1, doc.getChildNodes(NodeType.SHAPE, true).getCount());
-        Assert.assertFalse(((Shape) doc.getChild(NodeType.SHAPE, 0, true)).hasImage());
-        //ExEnd
-    }
-
-    @Test
-    public void deleteAllImagesPreOrder() throws Exception {
-        //ExStart
-        //ExFor:Node.NextPreOrder(Node)
-        //ExFor:Node.PreviousPreOrder(Node)
-        //ExSummary:Shows how to delete all images from a document using pre-order tree traversal.
-        Document doc = new Document(getMyDir() + "Images.docx");
-        Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 10);
-
-        Node curNode = doc;
-        while (curNode != null) {
-            Node nextNode = curNode.nextPreOrder(doc);
-
-            if (curNode.previousPreOrder(doc) != null && nextNode != null) {
-                Assert.assertEquals(curNode, nextNode.previousPreOrder(doc));
-            }
-
-            if (curNode.getNodeType() == NodeType.SHAPE) {
-                Shape shape = (Shape) curNode;
-
-                // Several shape types can have an image including image shapes and OLE objects
-                if (shape.hasImage()) {
-                    shape.remove();
-                }
-            }
-
-            curNode = nextNode;
-        }
-
-        // The only remaining shape doesn't have an image
-        Assert.assertEquals(1, doc.getChildNodes(NodeType.SHAPE, true).getCount());
-        Assert.assertFalse(((Shape) doc.getChild(NodeType.SHAPE, 0, true)).hasImage());
-        //ExEnd
+        Assert.assertEquals(imageFileName, shape.getImageData().getSourceFullName().replace("%20", " "));
     }
 
     @Test
@@ -397,23 +315,41 @@ public class ExImage extends ApiExampleBase {
         //ExFor:ShapeBase.Width
         //ExFor:ShapeBase.Height
         //ExSummary:Shows how to resize a shape with an image.
+        BufferedImage image = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
+
+        Assert.assertEquals(400, image.getWidth());
+        Assert.assertEquals(400, image.getHeight());
+
+        // When we insert an image using the "InsertImage" method, the builder scales the shape that displays the image so that,
+        // when we view the document using 100% zoom in Microsoft Word, the shape displays the image in its actual size.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // By default, the image is inserted at 100% scale
         Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
 
-        // Reduce the overall size of the shape by 50%
-        shape.setWidth(shape.getWidth() * 0.5);
-        shape.setHeight(shape.getHeight() * 0.5);
-
-        Assert.assertEquals(75.0d, shape.getWidth());
-        Assert.assertEquals(75.0d, shape.getHeight());
-
-        // However, we can also go back to the original image size and scale from there, for example, to 110%
+        // A 400x400 image will create an ImageData object with an image size of 300x300pt.
         ImageSize imageSize = shape.getImageData().getImageSize();
+
+        Assert.assertEquals(300.0d, imageSize.getWidthPoints());
+        Assert.assertEquals(300.0d, imageSize.getHeightPoints());
+
+        // If a shape's dimensions match the image data's dimensions,
+        // then the shape is displaying the image in its original size.
+        Assert.assertEquals(300.0d, shape.getWidth());
+        Assert.assertEquals(300.0d, shape.getHeight());
+
+        // Reduce the overall size of the shape by 50%. 
+        shape.setWidth(shape.getWidth() * 0.5);
+
+        // Scaling factors apply to both the width and the height at the same time to preserve the shape's proportions. 
+        Assert.assertEquals(150.0d, shape.getWidth());
+        Assert.assertEquals(150.0d, shape.getHeight());
+
+        // When we resize the shape, the size of the image data remains the same.
+        Assert.assertEquals(300.0d, imageSize.getWidthPoints());
+        Assert.assertEquals(300.0d, imageSize.getHeightPoints());
+
+        // We can reference the image data dimensions to apply a scaling based on the size of the image.
         shape.setWidth(imageSize.getWidthPoints() * 1.1);
-        shape.setHeight(imageSize.getHeightPoints() * 1.1);
 
         Assert.assertEquals(330.0d, shape.getWidth());
         Assert.assertEquals(330.0d, shape.getHeight());

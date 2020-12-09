@@ -118,8 +118,7 @@ public class ExBorder extends ApiExampleBase {
     }
 
     @Test
-    public void sharedElements() throws Exception
-    {
+    public void sharedElements() throws Exception {
         //ExStart
         //ExFor:Border.Equals(Object)
         //ExFor:Border.Equals(Border)
@@ -140,8 +139,7 @@ public class ExBorder extends ApiExampleBase {
         BorderCollection secondParagraphBorders = builder.getCurrentParagraph().getParagraphFormat().getBorders();
         Assert.assertEquals(6, firstParagraphBorders.getCount()); //ExSkip
 
-        for (int i = 0; i < firstParagraphBorders.getCount(); i++)
-        {
+        for (int i = 0; i < firstParagraphBorders.getCount(); i++) {
             Assert.assertTrue(firstParagraphBorders.get(i).equals(secondParagraphBorders.get(i)));
             Assert.assertEquals(firstParagraphBorders.get(i).hashCode(), secondParagraphBorders.get(i).hashCode());
             Assert.assertFalse(firstParagraphBorders.get(i).isVisible());
@@ -152,8 +150,7 @@ public class ExBorder extends ApiExampleBase {
 
         // After changing the line style of the borders in just the second paragraph,
         // the border collections no longer share the same elements.
-        for (int i = 0; i < firstParagraphBorders.getCount(); i++)
-        {
+        for (int i = 0; i < firstParagraphBorders.getCount(); i++) {
             Assert.assertFalse(firstParagraphBorders.get(i).equals(secondParagraphBorders.get(i)));
             Assert.assertNotEquals(firstParagraphBorders.get(i).hashCode(), secondParagraphBorders.get(i).hashCode());
 
@@ -175,8 +172,7 @@ public class ExBorder extends ApiExampleBase {
     }
 
     @Test
-    public void horizontalBorders() throws Exception
-    {
+    public void horizontalBorders() throws Exception {
         //ExStart
         //ExFor:BorderCollection.Horizontal
         //ExSummary:Shows how to apply settings to horizontal borders to a paragraph's format.
@@ -208,8 +204,7 @@ public class ExBorder extends ApiExampleBase {
     }
 
     @Test
-    public void verticalBorders() throws Exception
-    {
+    public void verticalBorders() throws Exception {
         //ExStart
         //ExFor:BorderCollection.Horizontal
         //ExFor:BorderCollection.Vertical
@@ -221,8 +216,7 @@ public class ExBorder extends ApiExampleBase {
         // Create a table with red and blue inner borders.
         Table table = builder.startTable();
 
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < 3; i++) {
             builder.insertCell();
             builder.write(MessageFormat.format("Row {0}, Column 1", i + 1));
             builder.insertCell();
@@ -253,10 +247,9 @@ public class ExBorder extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Border.VerticalBorders.docx");
-        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        table = doc.getFirstSection().getBody().getTables().get(0);
 
-        for (Row row : (Iterable<Row>) table.getChildNodes(NodeType.ROW, true))
-        {
+        for (Row row : (Iterable<Row>) table.getChildNodes(NodeType.ROW, true)) {
             Assert.assertEquals(Color.RED.getRGB(), row.getRowFormat().getBorders().getHorizontal().getColor().getRGB());
             Assert.assertEquals(LineStyle.DOT, row.getRowFormat().getBorders().getHorizontal().getLineStyle());
             Assert.assertEquals(2.0d, row.getRowFormat().getBorders().getHorizontal().getLineWidth());

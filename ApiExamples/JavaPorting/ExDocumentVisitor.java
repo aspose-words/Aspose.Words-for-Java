@@ -121,7 +121,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitSectionStart(Section section)
         {
-            // Get the index of our section within the document
+            // Get the index of our section within the document.
             NodeCollection docSections = section.getDocument().getChildNodes(NodeType.SECTION, false);
             int sectionIndex = docSections.indexOf(section);
 
@@ -223,7 +223,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
     //ExEnd
 
-    private void testDocStructureToText(DocStructurePrinter visitor)
+    private static void testDocStructureToText(DocStructurePrinter visitor)
     {
         String visitorText = visitor.getText();
 
@@ -413,7 +413,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
     //ExEnd
 
-    private void testTableToText(TableStructurePrinter visitor)
+    private static void testTableToText(TableStructurePrinter visitor)
     {
         String visitorText = visitor.getText();
 
@@ -545,7 +545,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
     //ExEnd
 
-    private void testCommentsToText(CommentStructurePrinter visitor)
+    private static void testCommentsToText(CommentStructurePrinter visitor)
     {
         String visitorText = visitor.getText();
 
@@ -658,7 +658,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
     //ExEnd
 
-    private void testFieldToText(FieldStructurePrinter visitor)
+    private static void testFieldToText(FieldStructurePrinter visitor)
     {
         String visitorText = visitor.getText();
 
@@ -763,7 +763,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
     //ExEnd
 
-    private void testHeaderFooterToText(HeaderFooterStructurePrinter visitor)
+    private static void testHeaderFooterToText(HeaderFooterStructurePrinter visitor)
     {
         String visitorText = visitor.getText();
 
@@ -869,7 +869,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
     //ExEnd
     
-    private void testEditableRangeToText(EditableRangeStructurePrinter visitor)
+    private static void testEditableRangeToText(EditableRangeStructurePrinter visitor)
     {
         String visitorText = visitor.getText();
 
@@ -969,7 +969,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
     //ExEnd
 
-    private void testFootnoteToText(FootnoteStructurePrinter visitor)
+    private static void testFootnoteToText(FootnoteStructurePrinter visitor)
     {
         String visitorText = visitor.getText();
 
@@ -1071,7 +1071,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
     //ExEnd
 
-    private void testOfficeMathToText(OfficeMathStructurePrinter visitor)
+    private static void testOfficeMathToText(OfficeMathStructurePrinter visitor)
     {
         String visitorText = visitor.getText();
 
@@ -1177,7 +1177,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
     //ExEnd
 
-    private void testSmartTagToText(SmartTagStructurePrinter visitor)
+    private static void testSmartTagToText(SmartTagStructurePrinter visitor)
     {
         String visitorText = visitor.getText();
 
@@ -1282,7 +1282,7 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
     //ExEnd
 
-    private void testStructuredDocumentTagToText(StructuredDocumentTagNodePrinter visitor)
+    private static void testStructuredDocumentTagToText(StructuredDocumentTagNodePrinter visitor)
     {
         String visitorText = visitor.getText();
 

@@ -226,17 +226,13 @@ public class ExMailMergeCustom extends ApiExampleBase {
             return mFullName;
         }
 
-        ;
-
-        private String mFullName;
+        private final String mFullName;
 
         public String getDepartment() {
             return mDepartment;
         }
 
-        ;
-
-        private String mDepartment;
+        private final String mDepartment;
     }
 
     /// <summary>
@@ -268,7 +264,7 @@ public class ExMailMergeCustom extends ApiExampleBase {
             mSources.put(sourceName, source);
         }
 
-        private HashMap<String, EmployeeListMailMergeSource> mSources = new HashMap<>();
+        private final HashMap<String, EmployeeListMailMergeSource> mSources = new HashMap<>();
     }
 
     /// <summary>
@@ -331,7 +327,7 @@ public class ExMailMergeCustom extends ApiExampleBase {
             throw new UnsupportedOperationException();
         }
 
-        private EmployeeList mEmployees;
+        private final EmployeeList mEmployees;
         private int mRecordIndex;
     }
     //ExEnd

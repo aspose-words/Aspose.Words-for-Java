@@ -177,7 +177,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         private int mDocTraversalDepth;
-        private StringBuilder mAcceptingNodeChildTree;
+        private final StringBuilder mAcceptingNodeChildTree;
     }
     //ExEnd
 
@@ -350,7 +350,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
 
         private boolean mVisitorIsInsideTable;
         private int mDocTraversalDepth;
-        private /*final*/ StringBuilder mVisitedTables;
+        private final /*final*/ StringBuilder mVisitedTables;
     }
     //ExEnd
 
@@ -472,7 +472,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
 
         private boolean mVisitorIsInsideComment;
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 
@@ -576,7 +576,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
 
         private boolean mVisitorIsInsideField;
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 
@@ -674,7 +674,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
 
         private boolean mVisitorIsInsideHeaderFooter;
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 
@@ -775,7 +775,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
 
         private boolean mVisitorIsInsideEditableRange;
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 
@@ -870,7 +870,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
 
         private boolean mVisitorIsInsideFootnote;
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 
@@ -967,7 +967,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
 
         private boolean mVisitorIsInsideOfficeMath;
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 
@@ -1068,7 +1068,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
 
         private boolean mVisitorIsInsideSmartTag;
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 
@@ -1166,9 +1166,9 @@ public class ExDocumentVisitor extends ApiExampleBase {
             mBuilder.append(text + "\r\n");
         }
 
-        private boolean mVisitorIsInsideStructuredDocumentTag;
+        private final boolean mVisitorIsInsideStructuredDocumentTag;
         private int mDocTraversalDepth;
-        private StringBuilder mBuilder;
+        private final StringBuilder mBuilder;
     }
     //ExEnd
 

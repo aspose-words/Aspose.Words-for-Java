@@ -22,12 +22,12 @@ import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.HtmlFixedPageHorizontalAlignment;
 import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.words.ExportFontFormat;
+import com.aspose.ms.System.msConsole;
 import com.aspose.words.IResourceSavingCallback;
 import com.aspose.words.ResourceSavingArgs;
-import com.aspose.ms.System.msConsole;
-import com.aspose.ms.System.IO.MemoryStream;
-import com.aspose.ms.System.IO.Path;
+import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.SaveFormat;
+import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import org.testng.annotations.DataProvider;
@@ -41,14 +41,14 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
     {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.Encoding
-        //ExSummary:Shows how to set encoding while exporting to HTML.
+        //ExSummary:Shows how to set which encoding to use while exporting a document to HTML.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
         builder.writeln("Hello World!");
 
-        // The default encoding is UTF-8
-        // If we want to represent our document using a different encoding, we can set one explicitly using a SaveOptions object
+        // The default encoding is UTF-8. If we want to represent our document using a different encoding,
+        // we can use a SaveOptions object to set a specific encoding.
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
             htmlFixedSaveOptions.setEncoding(Encoding.getEncoding("ASCII"));
@@ -76,40 +76,45 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.GetEncoding.html", htmlFixedSaveOptions);
     }
 
-    @Test (dataProvider = "exportEmbeddedCSSDataProvider")
-    public void exportEmbeddedCSS(boolean doExportEmbeddedCss) throws Exception
+    @Test (dataProvider = "exportEmbeddedCssDataProvider")
+    public void exportEmbeddedCss(boolean exportEmbeddedCss) throws Exception
     {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportEmbeddedCss
-        //ExSummary:Shows how to export embedded stylesheets into an HTML file.
+        //ExSummary:Shows how to determine where to store CSS stylesheets when exporting a document to Html.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
+        // When we export a document to html, Aspose.Words will also create a CSS stylesheet to format the document with.
+        // Setting the "ExportEmbeddedCss" flag to "true" save the CSS stylesheet to a .css file,
+        // and link to the file from the html document using a <link> element.
+        // Setting the flag to "false" will embed the CSS stylesheet within the Html document,
+        // which will create only one file instead of two.
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
-            htmlFixedSaveOptions.setExportEmbeddedCss(doExportEmbeddedCss);
+            htmlFixedSaveOptions.setExportEmbeddedCss(exportEmbeddedCss);
         }
 
-        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedCSS.html", htmlFixedSaveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedCss.html", htmlFixedSaveOptions);
 
-        String outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedCSS.html");
+        String outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedCss.html");
 
-        if (doExportEmbeddedCss)
+        if (exportEmbeddedCss)
         {
             Assert.assertTrue(Regex.match(outDocContents, "<style type=\"text/css\">").getSuccess());
-            Assert.assertFalse(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedCSS/styles.css"));
+            Assert.assertFalse(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedCss/styles.css"));
         }
         else
         {
             Assert.assertTrue(Regex.match(outDocContents,
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"HtmlFixedSaveOptions[.]ExportEmbeddedCSS/styles[.]css\" media=\"all\" />").getSuccess());
-            Assert.assertTrue(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedCSS/styles.css"));
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"HtmlFixedSaveOptions[.]ExportEmbeddedCss/styles[.]css\" media=\"all\" />").getSuccess());
+            Assert.assertTrue(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedCss/styles.css"));
         }
         //ExEnd
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "exportEmbeddedCSSDataProvider")
-	public static Object[][] exportEmbeddedCSSDataProvider() throws Exception
+	@DataProvider(name = "exportEmbeddedCssDataProvider")
+	public static Object[][] exportEmbeddedCssDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -119,23 +124,30 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 	}
 
     @Test (dataProvider = "exportEmbeddedFontsDataProvider")
-    public void exportEmbeddedFonts(boolean doExportEmbeddedFonts) throws Exception
+    public void exportEmbeddedFonts(boolean exportEmbeddedFonts) throws Exception
     {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportEmbeddedFonts
-        //ExSummary:Shows how to export embedded fonts into an HTML file.
+        //ExSummary:Shows how to determine where to store embedded fonts when exporting a document to Html.
         Document doc = new Document(getMyDir() + "Embedded font.docx");
 
+        // When we export a document with embedded fonts to .html,
+        // Aspose.Words can place the fonts in two possible locations.
+        // Setting the "ExportEmbeddedFonts" flag to "true" will store the raw data for embedded fonts within the CSS stylesheet,
+        // in the "url" property of the "@font-face" rule. This may create a huge CSS stylesheet file
+        // and reduce the number of external files that this HTML conversion will create.
+        // Setting this flag to "false" will create a file for each font.
+        // The CSS stylesheet will link to each font file using the "url" property of the "@font-face" rule.
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
-            htmlFixedSaveOptions.setExportEmbeddedFonts(doExportEmbeddedFonts);
+            htmlFixedSaveOptions.setExportEmbeddedFonts(exportEmbeddedFonts);
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts.html", htmlFixedSaveOptions);
 
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts/styles.css");
 
-        if (doExportEmbeddedFonts)
+        if (exportEmbeddedFonts)
         {
             Assert.assertTrue(Regex.match(outDocContents,
                 "@font-face { font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], url[(].+[)] format[(]'woff'[)]; }").getSuccess());
@@ -162,23 +174,29 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 	}
 
     @Test (dataProvider = "exportEmbeddedImagesDataProvider")
-    public void exportEmbeddedImages(boolean doExportImages) throws Exception
+    public void exportEmbeddedImages(boolean exportImages) throws Exception
     {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportEmbeddedImages
-        //ExSummary:Shows how to export embedded images into an HTML file.
+        //ExSummary:Shows how to determine where to store images when exporting a document to Html.
         Document doc = new Document(getMyDir() + "Images.docx");
 
+        // When we export a document with embedded images to .html,
+        // Aspose.Words can place the images in two possible locations.
+        // Setting the "ExportEmbeddedImages" flag to "true" will store the raw data
+        // for all images within the output HTML document, in the "src" attribute of <image> tags.
+        // Setting this flag to "false" will create an image file in the local file system for every image,
+        // and store all these files in a separate folder.
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
-            htmlFixedSaveOptions.setExportEmbeddedImages(doExportImages);
+            htmlFixedSaveOptions.setExportEmbeddedImages(exportImages);
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedImages.html", htmlFixedSaveOptions);
 
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedImages.html");
 
-        if (doExportImages)
+        if (exportImages)
         {
             Assert.assertFalse(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedImages/image001.jpeg"));
             Assert.assertTrue(Regex.match(outDocContents,
@@ -206,23 +224,29 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 	}
 
     @Test (dataProvider = "exportEmbeddedSvgsDataProvider")
-    public void exportEmbeddedSvgs(boolean doExportSvgs) throws Exception
+    public void exportEmbeddedSvgs(boolean exportSvgs) throws Exception
     {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportEmbeddedSvg
-        //ExSummary:Shows how to export embedded SVG objects into an HTML file.
+        //ExSummary:Shows how to determine where to store SVG objects when exporting a document to Html.
         Document doc = new Document(getMyDir() + "Images.docx");
 
+        // When we export a document with SVG objects to .html,
+        // Aspose.Words can place these objects in two possible locations.
+        // Setting the "ExportEmbeddedSvg" flag to "true" will embed all SVG object raw data
+        // within the output HTML, inside <image> tags.
+        // Setting this flag to "false" will create a file in the local file system for each SVG object.
+        // The HTML will link to each file using the "data" attribute of an <object> tag.
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
-            htmlFixedSaveOptions.setExportEmbeddedSvg(doExportSvgs);
+            htmlFixedSaveOptions.setExportEmbeddedSvg(exportSvgs);
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedSvgs.html", htmlFixedSaveOptions);
 
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedSvgs.html");
 
-        if (doExportSvgs)
+        if (exportSvgs)
         {
             Assert.assertFalse(File.exists(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedSvgs/svg001.svg"));
             Assert.assertTrue(Regex.match(outDocContents,
@@ -249,26 +273,32 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 	}
 
     @Test (dataProvider = "exportFormFieldsDataProvider")
-    public void exportFormFields(boolean doExportFormFields) throws Exception
+    public void exportFormFields(boolean exportFormFields) throws Exception
     {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.ExportFormFields
-        //ExSummary:Show how to exporting form fields from a document into HTML file.
+        //ExSummary:Shows how to export form fields to Html.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.insertCheckBox("CheckBox", false, 15);
 
+        // When we export a document with form fields to .html,
+        // there are two ways in which Aspose.Words can export form fields.
+        // Setting the "ExportFormFields" flag to "true" will export them as interactive objects.
+        // Setting this flag to "false" will display form fields as plain text.
+        // This will freeze them at their current value, and prevent the reader of our HTML document
+        // from being able to interact with them.
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
         {
-            htmlFixedSaveOptions.setExportFormFields(doExportFormFields);
+            htmlFixedSaveOptions.setExportFormFields(exportFormFields);
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportFormFields.html", htmlFixedSaveOptions);
 
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.ExportFormFields.html");
 
-        if (doExportFormFields)
+        if (exportFormFields)
         {
             Assert.assertTrue(Regex.match(outDocContents,
                 "<a name=\"CheckBox\" style=\"left:0pt; top:0pt;\"></a>" +
@@ -300,7 +330,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         //ExStart
         //ExFor:HtmlFixedSaveOptions.CssClassNamesPrefix
         //ExFor:HtmlFixedSaveOptions.SaveFontFaceCssSeparately
-        //ExSummary:Shows how to add prefix to all class names in css file.
+        //ExSummary:Shows how to place CSS into a separate file and add a prefix to all of its CSS class names.
         Document doc = new Document(getMyDir() + "Bookmarks.docx");
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
@@ -317,6 +347,12 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             "<div class=\"myprefixdiv myprefixpage\" style=\"width:595[.]3pt; height:841[.]9pt;\">" +
             "<div class=\"myprefixdiv\" style=\"left:85[.]05pt; top:36pt; clip:rect[(]0pt,510[.]25pt,74[.]95pt,-85.05pt[)];\">" +
             "<span class=\"myprefixspan myprefixtext001\" style=\"font-size:11pt; left:294[.]73pt; top:0[.]36pt;\">").getSuccess());
+
+        outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix/styles.css");
+
+        Assert.assertTrue(Regex.match(outDocContents,
+            ".myprefixdiv { position:absolute; } " +
+            ".myprefixspan { position:absolute; white-space:pre; color:#000000; font-size:12pt; }").getSuccess());
         //ExEnd
     }
 
@@ -326,7 +362,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         //ExStart
         //ExFor:HtmlFixedSaveOptions.PageHorizontalAlignment
         //ExFor:HtmlFixedPageHorizontalAlignment
-        //ExSummary:Shows how to set the horizontal alignment of pages in HTML file.
+        //ExSummary:Shows how to set the horizontal alignment of pages when saving a document to HTML.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlFixedSaveOptions htmlFixedSaveOptions = new HtmlFixedSaveOptions();
@@ -373,7 +409,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
     {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.PageMargins
-        //ExSummary:Shows how to set the margins around pages in HTML file.
+        //ExSummary:Shows how to adjust page margins when saving a document to HTML.
         Document doc = new Document(getMyDir() + "Document.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
@@ -397,94 +433,135 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         Assert.That(() => saveOptions.setPageMargins(-1), Throws.<IllegalArgumentException>TypeOf());
     }
 
-    @Test
-    public void optimizeGraphicsOutput() throws Exception
+    @Test (dataProvider = "optimizeGraphicsOutputDataProvider")
+    public void optimizeGraphicsOutput(boolean optimizeOutput) throws Exception
     {
         //ExStart
         //ExFor:FixedPageSaveOptions.OptimizeOutput
         //ExFor:HtmlFixedSaveOptions.OptimizeOutput
-        //ExSummary:Shows how to optimize document objects while saving to html.
+        //ExSummary:Shows how to simplify a document when saving it to HTML by removing various redundant objects.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
-        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions(); { saveOptions.setOptimizeOutput(false); }
+        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions(); { saveOptions.setOptimizeOutput(optimizeOutput); }
 
-        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.Unoptimized.html", saveOptions);
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
 
-        saveOptions.setOptimizeOutput(true);
-
-        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.Optimized.html", saveOptions);
-
-        Assert.assertTrue(new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.Unoptimized.html").getLength() > 
-                        new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.Optimized.html").getLength());
+        // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
+        if (optimizeOutput)
+            Assert.assertEquals(58000.0, 
+                new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength(), 200.0);
+        else
+            Assert.assertEquals(161100.0, 
+                new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength(), 200.0);
         //ExEnd
     }
 
-    //ExStart
-    //ExFor:ExportFontFormat
-    //ExFor:HtmlFixedSaveOptions.FontFormat
-    //ExFor:HtmlFixedSaveOptions.UseTargetMachineFonts
-    //ExFor:IResourceSavingCallback
-    //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
-    //ExFor:ResourceSavingArgs
-    //ExFor:ResourceSavingArgs.Document
-    //ExFor:ResourceSavingArgs.KeepResourceStreamOpen
-    //ExFor:ResourceSavingArgs.ResourceFileName
-    //ExFor:ResourceSavingArgs.ResourceFileUri
-    //ExFor:ResourceSavingArgs.ResourceStream
-    //ExSummary:Shows how use target machine fonts to display the document.
-    @Test //ExSkip
-    public void usingMachineFonts() throws Exception
+	//JAVA-added data provider for test method
+	@DataProvider(name = "optimizeGraphicsOutputDataProvider")
+	public static Object[][] optimizeGraphicsOutputDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+
+    @Test (dataProvider = "usingMachineFontsDataProvider")
+    public void usingMachineFonts(boolean useTargetMachineFonts) throws Exception
     {
+        //ExStart
+        //ExFor:ExportFontFormat
+        //ExFor:HtmlFixedSaveOptions.FontFormat
+        //ExFor:HtmlFixedSaveOptions.UseTargetMachineFonts
+        //ExSummary:Shows how use fonts only from the target machine when saving a document to HTML.
         Document doc = new Document(getMyDir() + "Bullet points with alternative font.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
         {
             saveOptions.setExportEmbeddedCss(true);
-            saveOptions.setUseTargetMachineFonts(true);
+            saveOptions.setUseTargetMachineFonts(useTargetMachineFonts);
             saveOptions.setFontFormat(ExportFontFormat.TTF);
             saveOptions.setExportEmbeddedFonts(false);
-            saveOptions.setResourceSavingCallback(new ResourceSavingCallback());
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.UsingMachineFonts.html", saveOptions);
 
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.UsingMachineFonts.html");
 
-        if (saveOptions.getUseTargetMachineFonts())
+        if (useTargetMachineFonts)
             Assert.assertFalse(Regex.match(outDocContents, "@font-face").getSuccess());
         else
             Assert.assertTrue(Regex.match(outDocContents,
                 "@font-face { font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], " +
                 "url[(]'HtmlFixedSaveOptions.UsingMachineFonts/font001.ttf'[)] format[(]'truetype'[)]; }").getSuccess());
+        //ExEnd
     }
 
-    private static class ResourceSavingCallback implements IResourceSavingCallback
+	//JAVA-added data provider for test method
+	@DataProvider(name = "usingMachineFontsDataProvider")
+	public static Object[][] usingMachineFontsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    //ExStart
+    //ExFor:IResourceSavingCallback
+    //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
+    //ExFor:ResourceSavingArgs
+    //ExFor:ResourceSavingArgs.Document
+    //ExFor:ResourceSavingArgs.ResourceFileName
+    //ExFor:ResourceSavingArgs.ResourceFileUri
+    //ExSummary:Shows how to use a callback to track external resources created while converting a document to HTML.
+    @Test //ExSkip
+    public void resourceSavingCallback() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Bullet points with alternative font.docx");
+
+        FontSavingCallback callback = new FontSavingCallback();
+
+        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
+        {
+            saveOptions.setResourceSavingCallback(callback);
+        }
+
+        doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.UsingMachineFonts.html", saveOptions);
+
+        System.out.println(callback.getText());
+        testResourceSavingCallback(callback); //ExSkip
+    }
+
+    private static class FontSavingCallback implements IResourceSavingCallback
     {
         /// <summary>
         /// Called when Aspose.Words saves an external resource to fixed page HTML or SVG.
         /// </summary>
-        public void resourceSaving(ResourceSavingArgs args) throws Exception
+        public void resourceSaving(ResourceSavingArgs args)
         {
-            System.out.println("Original document URI:\t{args.Document.OriginalFileName}");
-            System.out.println("Resource being saved:\t{args.ResourceFileName}");
-            System.out.println("Full uri after saving:\t{args.ResourceFileUri}");
-
-            args.ResourceStream = new MemoryStream();
-            args.setKeepResourceStreamOpen(true);
-
-            String extension = Path.getExtension(args.getResourceFileName());
-            switch (gStringSwitchMap.of(extension))
-            {
-                case /*".ttf"*/0:
-                case /*".woff"*/1:
-                {
-                    Assert.fail("'ResourceSavingCallback' is not fired for fonts when 'UseTargetMachineFonts' is true");
-                    break;
-                }
-            }
+            msStringBuilder.appendLine(mText, $"Original document URI:\t{args.Document.OriginalFileName}");
+            msStringBuilder.appendLine(mText, $"Resource being saved:\t{args.ResourceFileName}");
+            msStringBuilder.appendLine(mText, $"Full uri after saving:\t{args.ResourceFileUri}\n");
         }
+
+        public String getText()
+        {
+            return mText.toString();
+        }
+
+        private /*final*/ StringBuilder mText = new StringBuilder();
     }
     //ExEnd
+
+    private void testResourceSavingCallback(FontSavingCallback callback)
+    {
+        Assert.assertTrue(callback.getText().contains("font001.woff")); 
+        Assert.assertTrue(callback.getText().contains("styles.css"));
+    }
 
     //ExStart
     //ExFor:HtmlFixedSaveOptions
@@ -493,12 +570,17 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
     //ExFor:HtmlFixedSaveOptions.ResourcesFolderAlias
     //ExFor:HtmlFixedSaveOptions.SaveFormat
     //ExFor:HtmlFixedSaveOptions.ShowPageBorder
-    //ExSummary:Shows how to print the URIs of linked resources created during conversion of a document to fixed-form .html.
+    //ExFor:IResourceSavingCallback
+    //ExFor:IResourceSavingCallback.ResourceSaving(ResourceSavingArgs)
+    //ExFor:ResourceSavingArgs.KeepResourceStreamOpen
+    //ExFor:ResourceSavingArgs.ResourceStream
+    //ExSummary:Shows how to use a callback to print the URIs of external resources created while converting a document to HTML.
     @Test //ExSkip
     public void htmlFixedResourceFolder() throws Exception
     {
-        // Open a document which contains images
         Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        ResourceUriPrinter callback = new ResourceUriPrinter();
 
         HtmlFixedSaveOptions options = new HtmlFixedSaveOptions();
         {
@@ -507,30 +589,33 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
             options.setResourcesFolder(getArtifactsDir() + "HtmlFixedResourceFolder");
             options.setResourcesFolderAlias(getArtifactsDir() + "HtmlFixedResourceFolderAlias");
             options.setShowPageBorder(false);
-            options.setResourceSavingCallback(new ResourceUriPrinter());
+            options.setResourceSavingCallback(callback);
         }
 
-        // A folder specified by ResourcesFolderAlias will contain the resources instead of ResourcesFolder
-        // We must ensure the folder exists before the streams can put their resources into it
+        // A folder specified by ResourcesFolderAlias will contain the resources instead of ResourcesFolder.
+        // We must ensure the folder exists before the streams can put their resources into it.
         Directory.createDirectory(options.getResourcesFolderAlias());
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.HtmlFixedResourceFolder.html", options);
+
+        System.out.println(callback.getText());
 
         String[] resourceFiles = Directory.getFiles(getArtifactsDir() + "HtmlFixedResourceFolderAlias");
 
         Assert.assertFalse(Directory.exists(getArtifactsDir() + "HtmlFixedResourceFolder"));
         Assert.AreEqual(6, resourceFiles.Count(f => f.EndsWith(".jpeg") || f.EndsWith(".png") || f.EndsWith(".css")));
+        testHtmlFixedResourceFolder(callback); //ExSkip
     }
-
+    
     /// <summary>
-    /// Counts and prints URIs of resources contained by as they are converted to fixed .Html
+    /// Counts and prints URIs of resources contained by as they are converted to fixed .Html.
     /// </summary>
     private static class ResourceUriPrinter implements IResourceSavingCallback
     {
         public void /*IResourceSavingCallback.*/resourceSaving(ResourceSavingArgs args) throws Exception
         {
-            // If we set a folder alias in the SaveOptions object, it will be printed here
-            System.out.println("Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
+            // If we set a folder alias in the SaveOptions object, we will be able to print it from here.
+            msStringBuilder.appendLine(mText, $"Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
 
             String extension = Path.getExtension(args.getResourceFileName());
             switch (gStringSwitchMap.of(extension))
@@ -538,20 +623,34 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
                 case /*".ttf"*/0:
                 case /*".woff"*/1:
                 {
-                    // By default, 'ResourceFileUri' used system folder for fonts
-                    // To avoid problems across platforms you must explicitly specify the path for the fonts
+                    // By default, 'ResourceFileUri' uses system folder for fonts.
+                    // To avoid problems in other platforms you must explicitly specify the path for the fonts.
                     args.setResourceFileUri(getArtifactsDir() + Path.DirectorySeparatorChar + args.getResourceFileName());
                     break;
                 }
             }
-            System.out.println("\t" + args.getResourceFileUri());
 
-            // If we specified a ResourcesFolderAlias we will also need to redirect each stream to put its resource in that folder
+            msStringBuilder.appendLine(mText, "\t" + args.getResourceFileUri());
+
+            // If we have specified a folder in the "ResourcesFolderAlias" property,
+            // we will also need to redirect each stream to put its resource in that folder.
             args.ResourceStream = new FileStream(args.getResourceFileUri(), FileMode.CREATE);
             args.setKeepResourceStreamOpen(false);
         }
 
+        public String getText()
+        {
+            return mText.toString();
+        }
+
         private int mSavedResourceCount;
+        private /*final*/ StringBuilder mText = new StringBuilder();
+    }
+    //ExEnd
+
+    private void testHtmlFixedResourceFolder(ResourceUriPrinter callback)
+    {
+        Assert.assertEquals(16, Regex.matches(callback.getText(), "Resource #").getCount());
     }
 
 	//JAVA-added for string switch emulation
@@ -561,5 +660,4 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 		".woff"
 	);
 
-    //ExEnd
 }

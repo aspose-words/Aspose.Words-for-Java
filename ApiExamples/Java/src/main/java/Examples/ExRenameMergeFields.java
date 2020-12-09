@@ -108,7 +108,7 @@ class MergeField {
 
         matcher.find();
 
-        String newFieldCode = java.text.MessageFormat.format(" {0}{1} ", matcher.group(1).toString(), fieldName);
+        String newFieldCode = java.text.MessageFormat.format(" {0}{1} ", matcher.group(1), fieldName);
         fieldCode.setText(newFieldCode);
 
         // But sometimes the field code can consist of more than one run, delete these runs

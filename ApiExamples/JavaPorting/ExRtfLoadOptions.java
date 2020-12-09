@@ -21,24 +21,29 @@ import org.testng.annotations.DataProvider;
 public class ExRtfLoadOptions extends ApiExampleBase
 {
     @Test (dataProvider = "recognizeUtf8TextDataProvider")
-    public void recognizeUtf8Text(boolean doRecognizeUtb8Text) throws Exception
+    public void recognizeUtf8Text(boolean recognizeUtf8Text) throws Exception
     {
         //ExStart
         //ExFor:RtfLoadOptions
         //ExFor:RtfLoadOptions.#ctor
         //ExFor:RtfLoadOptions.RecognizeUtf8Text
-        //ExSummary:Shows how to detect UTF8 characters during import.
+        //ExSummary:Shows how to detect UTF-8 characters while loading an RTF document.
+        // Create an "RtfLoadOptions" object to modify how we load an RTF document.
         RtfLoadOptions loadOptions = new RtfLoadOptions();
-        {
-            loadOptions.setRecognizeUtf8Text(doRecognizeUtb8Text);
-        }
+
+        // Set the "RecognizeUtf8Text" property to "false" to assume that the document uses the ISO 8859-1 charset
+        // and loads every character in the document.
+        // Set the "RecognizeUtf8Text" property to "true" to parse any variable-length characters that may occur in the text.
+        loadOptions.setRecognizeUtf8Text(recognizeUtf8Text);
 
         Document doc = new Document(getMyDir() + "UTF-8 characters.rtf", loadOptions);
 
         Assert.assertEquals(
-            doRecognizeUtb8Text
-                ? "“John Doe´s list of currency symbols”™\r€, ¢, £, ¥, ¤"
-                : "â€œJohn DoeÂ´s list of currency symbolsâ€\u009dâ„¢\râ‚¬, Â¢, Â£, Â¥, Â¤",
+            recognizeUtf8Text
+                ? "“John Doe´s list of currency symbols”™\r" +
+                  "€, ¢, £, ¥, ¤"
+                : "â€œJohn DoeÂ´s list of currency symbolsâ€\u009dâ„¢\r" +
+                  "â‚¬, Â¢, Â£, Â¥, Â¤",
             msString.trim(doc.getFirstSection().getBody().getText()));
         //ExEnd
     }

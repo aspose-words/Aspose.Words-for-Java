@@ -11,143 +11,213 @@ package ApiExamples;
 
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import com.aspose.words.ProtectionType;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.EditableRangeStart;
-import com.aspose.words.EditableRange;
 import com.aspose.words.EditableRangeEnd;
+import com.aspose.words.EditableRange;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
+import com.aspose.ms.System.msString;
+import com.aspose.words.EditorType;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.Run;
 import com.aspose.words.NodeCollection;
-import com.aspose.words.EditorType;
 
 
 @Test
 class ExEditableRange !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
 {
     @Test
-    public void removesEditableRange() throws Exception
+    public void createAndRemove() throws Exception
     {
         //ExStart
+        //ExFor:DocumentBuilder.StartEditableRange
+        //ExFor:DocumentBuilder.EndEditableRange
+        //ExFor:EditableRange
+        //ExFor:EditableRange.EditableRangeEnd
+        //ExFor:EditableRange.EditableRangeStart
+        //ExFor:EditableRange.Id
         //ExFor:EditableRange.Remove
-        //ExSummary:Shows how to remove an editable range from a document.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        //ExFor:EditableRangeEnd.EditableRangeStart
+        //ExFor:EditableRangeEnd.Id
+        //ExFor:EditableRangeEnd.NodeType
+        //ExFor:EditableRangeStart.EditableRange
+        //ExFor:EditableRangeStart.Id
+        //ExFor:EditableRangeStart.NodeType
+        //ExSummary:Shows how to work with an editable range.
+        Document doc = new Document();
+        doc.protect(ProtectionType.READ_ONLY, "MyPassword");
+
         DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world! Since we have set the document's protection level to read-only," +
+                        " we cannot edit this paragraph without the password.");
 
-        // Create an EditableRange so we can remove it. Does not have to be well-formed
-        EditableRangeStart edRange1Start = builder.startEditableRange();
-        EditableRange editableRange1 = edRange1Start.getEditableRange();
-        builder.writeln("Paragraph inside editable range");
-        EditableRangeEnd edRange1End = builder.endEditableRange();
-        Assert.assertEquals(1, doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true).getCount()); //ExSkip
-        Assert.assertEquals(1, doc.getChildNodes(NodeType.EDITABLE_RANGE_END, true).getCount()); //ExSkip
-        Assert.assertEquals(0, edRange1Start.getEditableRange().getId()); //ExSkip
-        Assert.assertEquals("", edRange1Start.getEditableRange().getSingleUser()); //ExSkip
+        // Editable ranges allow us to leave parts of protected documents open for editing.
+        EditableRangeStart editableRangeStart = builder.startEditableRange();
+        builder.writeln("This paragraph is inside an editable range, and can be edited.");
+        EditableRangeEnd editableRangeEnd = builder.endEditableRange();
 
-        // Remove the range that was just made
-        editableRange1.remove();
+        // A well-formed editable range has a start node, and end node.
+        // These nodes have matching IDs and encompass editable nodes.
+        EditableRange editableRange = editableRangeStart.getEditableRange();
+
+        Assert.assertEquals(editableRangeStart.getId(), editableRange.getId());
+        Assert.assertEquals(editableRangeEnd.getId(), editableRange.getId());
+        
+        // Different parts of the editable range link to each other.
+        Assert.assertEquals(editableRangeStart.getId(), editableRange.getEditableRangeStart().getId());
+        Assert.assertEquals(editableRangeStart.getId(), editableRangeEnd.getEditableRangeStart().getId());
+        Assert.assertEquals(editableRange.getId(), editableRangeStart.getEditableRange().getId());
+        Assert.assertEquals(editableRangeEnd.getId(), editableRange.getEditableRangeEnd().getId());
+
+        // We can access the node types of each part like this. The editable range itself is not a node,
+        // but an entity which consists of a start, an end, and their enclosed contents.
+        Assert.assertEquals(NodeType.EDITABLE_RANGE_START, editableRangeStart.getNodeType());
+        Assert.assertEquals(NodeType.EDITABLE_RANGE_END, editableRangeEnd.getNodeType());
+
+        builder.writeln("This paragraph is outside the editable range, and cannot be edited.");
+
+        doc.save(getArtifactsDir() + "EditableRange.CreateAndRemove.docx");
+
+        // Remove an editable range. All the nodes that were inside the range will remain intact.
+        editableRange.remove();
         //ExEnd
 
+        Assert.assertEquals("Hello world! Since we have set the document's protection level to read-only, we cannot edit this paragraph without the password.\r" +
+                        "This paragraph is inside an editable range, and can be edited.\r" +
+                        "This paragraph is outside the editable range, and cannot be edited.", msString.trim(doc.getText()));
         Assert.assertEquals(0, doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true).getCount());
-        Assert.assertEquals(0, doc.getChildNodes(NodeType.EDITABLE_RANGE_END, true).getCount());
+
+        doc = new Document(getArtifactsDir() + "EditableRange.CreateAndRemove.docx");
+
+        Assert.assertEquals(ProtectionType.READ_ONLY, doc.getProtectionType());
+        Assert.assertEquals("Hello world! Since we have set the document's protection level to read-only, we cannot edit this paragraph without the password.\r" +
+                        "This paragraph is inside an editable range, and can be edited.\r" +
+                        "This paragraph is outside the editable range, and cannot be edited.", msString.trim(doc.getText()));
+
+        editableRange = ((EditableRangeStart)doc.getChild(NodeType.EDITABLE_RANGE_START, 0, true)).getEditableRange();
+
+        TestUtil.verifyEditableRange(0, "", EditorType.UNSPECIFIED, editableRange);
+    }
+
+
+    @Test
+    public void nested() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.StartEditableRange
+        //ExFor:DocumentBuilder.EndEditableRange(EditableRangeStart)
+        //ExFor:EditableRange.EditorGroup
+        //ExSummary:Shows how to create nested editable ranges.
+        Document doc = new Document();
+        doc.protect(ProtectionType.READ_ONLY, "MyPassword");
+
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world! Since we have set the document's protection level to read-only, " +
+                        "we cannot edit this paragraph without the password.");
+         
+        // Create two nested editable ranges.
+        EditableRangeStart outerEditableRangeStart = builder.startEditableRange();
+        builder.writeln("This paragraph inside the outer editable range and can be edited.");
+
+        EditableRangeStart innerEditableRangeStart = builder.startEditableRange();
+        builder.writeln("This paragraph inside both the outer and inner editable ranges and can be edited.");
+
+        // Currently, the document builder's node insertion cursor is in more than one ongoing editable range.
+        // When we want to end an editable range in this situation,
+        // we need to specify which of the ranges we wish to end by passing its EditableRangeStart node.
+        builder.endEditableRange(innerEditableRangeStart);
+
+        builder.writeln("This paragraph inside the outer editable range and can be edited.");
+
+        builder.endEditableRange(outerEditableRangeStart);
+
+        builder.writeln("This paragraph is outside any editable ranges, and cannot be edited.");
+
+        // If a region of text has two overlapping editable ranges with specified groups,
+        // the combined group of users excluded by both groups are prevented from editing it.
+        outerEditableRangeStart.getEditableRange().setEditorGroup(EditorType.EVERYONE);
+        innerEditableRangeStart.getEditableRange().setEditorGroup(EditorType.CONTRIBUTORS);
+
+        doc.save(getArtifactsDir() + "EditableRange.Nested.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "EditableRange.Nested.docx");
+
+        Assert.assertEquals("Hello world! Since we have set the document's protection level to read-only, we cannot edit this paragraph without the password.\r" +
+                        "This paragraph inside the outer editable range and can be edited.\r" +
+                        "This paragraph inside both the outer and inner editable ranges and can be edited.\r" +
+                        "This paragraph inside the outer editable range and can be edited.\r" +
+                        "This paragraph is outside any editable ranges, and cannot be edited.", msString.trim(doc.getText()));
+
+        EditableRange editableRange = ((EditableRangeStart)doc.getChild(NodeType.EDITABLE_RANGE_START, 0, true)).getEditableRange();
+
+        TestUtil.verifyEditableRange(0, "", EditorType.EVERYONE, editableRange);
+
+        editableRange = ((EditableRangeStart)doc.getChild(NodeType.EDITABLE_RANGE_START, 1, true)).getEditableRange();
+
+        TestUtil.verifyEditableRange(1, "", EditorType.CONTRIBUTORS, editableRange);
     }
 
     //ExStart
-    //ExFor:DocumentBuilder.StartEditableRange
-    //ExFor:DocumentBuilder.EndEditableRange
-    //ExFor:DocumentBuilder.EndEditableRange(EditableRangeStart)
+
     //ExFor:EditableRange
-    //ExFor:EditableRange.EditableRangeEnd
-    //ExFor:EditableRange.EditableRangeStart
-    //ExFor:EditableRange.Id
+    //ExFor:EditableRange.EditorGroup
     //ExFor:EditableRange.SingleUser
     //ExFor:EditableRangeEnd
     //ExFor:EditableRangeEnd.Accept(DocumentVisitor)
-    //ExFor:EditableRangeEnd.EditableRangeStart
-    //ExFor:EditableRangeEnd.Id
-    //ExFor:EditableRangeEnd.NodeType
     //ExFor:EditableRangeStart
     //ExFor:EditableRangeStart.Accept(DocumentVisitor)
-    //ExFor:EditableRangeStart.EditableRange
-    //ExFor:EditableRangeStart.Id
-    //ExFor:EditableRangeStart.NodeType
-    //ExSummary:Shows how to start and end an editable range.
+    //ExFor:EditorType
+    //ExSummary:Shows how to limit the editing rights of editable ranges to a specific group/user.
     @Test //ExSkip
-    public void createEditableRanges() throws Exception
+    public void visitor() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Document.docx");
+        Document doc = new Document();
+        doc.protect(ProtectionType.READ_ONLY, "MyPassword");
+
         DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world! Since we have set the document's protection level to read-only," +
+                        " we cannot edit this paragraph without the password.");
 
-        // Start an editable range
-        EditableRangeStart edRange1Start = builder.startEditableRange();
+        // When we write-protect documents, editable ranges allow us to pick specific areas that users are allowed to edit.
+        // There are two mutually exclusive ways to narrow down the list of allowed editors.
+        // 1 -  Specify a user:
+        EditableRange editableRange = builder.startEditableRange().getEditableRange();
+        editableRange.setSingleUser("john.doe@myoffice.com");
+        builder.writeln($"This paragraph is inside the first editable range, can only be edited by {editableRange.SingleUser}.");
+        builder.endEditableRange();
 
-        // An EditableRange object is created for the EditableRangeStart that we just made
-        EditableRange editableRange1 = edRange1Start.getEditableRange();
+        Assert.assertEquals(EditorType.UNSPECIFIED, editableRange.getEditorGroup());
 
-        // Put something inside the editable range
-        builder.writeln("Paragraph inside first editable range");
+        // 2 -  Specify a group that allowed users are associated with:
+        editableRange = builder.startEditableRange().getEditableRange();
+        editableRange.setEditorGroup(EditorType.ADMINISTRATORS);
+        builder.writeln($"This paragraph is inside the first editable range, can only be edited by {editableRange.EditorGroup}.");
+        builder.endEditableRange();
 
-        // An editable range is well-formed if it has a start and an end
-        // Multiple editable ranges can be nested and overlapping 
-        EditableRangeEnd edRange1End = builder.endEditableRange();
+        Assert.assertEquals("", editableRange.getSingleUser());
 
-        // Explicitly state which EditableRangeStart a new EditableRangeEnd should be paired with
-        EditableRangeStart edRange2Start = builder.startEditableRange();
-        builder.writeln("Paragraph inside second editable range");
-        EditableRange editableRange2 = edRange2Start.getEditableRange();
-        EditableRangeEnd edRange2End = builder.endEditableRange(edRange2Start);
+        builder.writeln("This paragraph is outside the editable range, and cannot be edited by anybody.");
 
-        // Editable range starts and ends have their own respective node types
-        Assert.assertEquals(NodeType.EDITABLE_RANGE_START, edRange1Start.getNodeType());
-        Assert.assertEquals(NodeType.EDITABLE_RANGE_END, edRange1End.getNodeType());
+        // Print details and contents of every editable range in the document.
+        EditableRangePrinter editableRangePrinter = new EditableRangePrinter();
 
-        // Editable range IDs are unique and set automatically
-        Assert.assertEquals(0, editableRange1.getId());
-        Assert.assertEquals(1, editableRange2.getId());
+        doc.accept(editableRangePrinter);
 
-        // Editable range starts and ends always belong to a range
-        Assert.assertEquals(edRange1Start, editableRange1.getEditableRangeStart());
-        Assert.assertEquals(edRange1End, editableRange1.getEditableRangeEnd());
-
-        // They also inherit the ID of the entire editable range that they belong to
-        Assert.assertEquals(editableRange1.getId(), edRange1Start.getId());
-        Assert.assertEquals(editableRange1.getId(), edRange1End.getId());
-        Assert.assertEquals(editableRange2.getId(), edRange2Start.getEditableRange().getId());
-        Assert.assertEquals(editableRange2.getId(), edRange2End.getEditableRangeStart().getEditableRange().getId());
-
-        // If the editable range was found in a document, it will probably have something in the single user property
-        // But if we make one programmatically, the property is empty by default
-        Assert.assertEquals("", editableRange1.getSingleUser());
-
-        // We have to set it ourselves if we want the ranges to belong to somebody
-        editableRange1.setSingleUser("john.doe@myoffice.com");
-        editableRange2.setSingleUser("jane.doe@myoffice.com");
-
-        // Initialize a custom visitor for editable ranges that will print their contents 
-        EditableRangeInfoPrinter editableRangeReader = new EditableRangeInfoPrinter();
-
-        // Both the start and end of an editable range can accept visitors, but not the editable range itself
-        edRange1Start.accept(editableRangeReader);
-        edRange2End.accept(editableRangeReader);
-
-        // Or, if we want to go over all the editable ranges in a document, we can get the document to accept the visitor
-        editableRangeReader.reset();
-        doc.accept(editableRangeReader);
-
-        System.out.println(editableRangeReader.toText());
-        testCreateEditableRanges(doc, editableRangeReader); //ExSkip
+        System.out.println(editableRangePrinter.toText());
     }
 
     /// <summary>
-    /// Visitor implementation that prints attributes and contents of ranges.
+    /// Collects attributes and contents of visited editable ranges in a string.
     /// </summary>
-    public static class EditableRangeInfoPrinter extends DocumentVisitor
+    public static class EditableRangePrinter extends DocumentVisitor
     {
-        public EditableRangeInfoPrinter()
+        public EditableRangePrinter()
         {
             mBuilder = new StringBuilder();
         }
@@ -169,13 +239,15 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         public /*override*/ /*VisitorAction*/int visitEditableRangeStart(EditableRangeStart editableRangeStart)
         {
             msStringBuilder.appendLine(mBuilder, " -- Editable range found! -- ");
-            msStringBuilder.appendLine(mBuilder, "\tID: " + editableRangeStart.getId());
-            msStringBuilder.appendLine(mBuilder, "\tUser: " + editableRangeStart.getEditableRange().getSingleUser());
-            msStringBuilder.appendLine(mBuilder, "\tContents: ");
+            msStringBuilder.appendLine(mBuilder, "\tID:\t\t" + editableRangeStart.getId());
+            if (msString.equals(editableRangeStart.getEditableRange().getSingleUser(), ""))
+                msStringBuilder.appendLine(mBuilder, "\tGroup:\t" + editableRangeStart.getEditableRange().getEditorGroup());
+            else
+                msStringBuilder.appendLine(mBuilder, "\tUser:\t" + editableRangeStart.getEditableRange().getSingleUser());
+            msStringBuilder.appendLine(mBuilder, "\tContents:");
 
             mInsideEditableRange = true;
 
-            // Let the visitor continue visiting other nodes
             return VisitorAction.CONTINUE;
         }
 
@@ -184,22 +256,20 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitEditableRangeEnd(EditableRangeEnd editableRangeEnd)
         {
-            msStringBuilder.appendLine(mBuilder, " -- End of editable range -- ");
+            msStringBuilder.appendLine(mBuilder, " -- End of editable range --\n");
 
             mInsideEditableRange = false;
 
-            // Let the visitor continue visiting other nodes
             return VisitorAction.CONTINUE;
         }
 
         /// <summary>
-        /// Called when a Run node is encountered in the document. Only runs within editable ranges have their contents recorded.
+        /// Called when a Run node is encountered in the document. This visitor only records runs that are inside editable ranges.
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitRun(Run run)
         {
             if (mInsideEditableRange) msStringBuilder.appendLine(mBuilder, "\t\"" + run.getText() + "\"");
 
-            // Let the visitor continue visiting other nodes
             return VisitorAction.CONTINUE;
         }
 
@@ -208,31 +278,6 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
     }
     //ExEnd
 
-    private void testCreateEditableRanges(Document doc, EditableRangeInfoPrinter visitor)
-    {
-        NodeCollection editableRangeStarts = doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true);
-
-        Assert.assertEquals(2, editableRangeStarts.getCount());
-        Assert.assertEquals(2, doc.getChildNodes(NodeType.EDITABLE_RANGE_END, true).getCount());
-
-        EditableRange range = ((EditableRangeStart)editableRangeStarts.get(0)).getEditableRange();
-
-        Assert.assertEquals(0, range.getId());
-        Assert.assertEquals("john.doe@myoffice.com", range.getSingleUser());
-        Assert.assertEquals(EditorType.UNSPECIFIED, range.getEditorGroup());
-
-        range = ((EditableRangeStart)editableRangeStarts.get(1)).getEditableRange();
-
-        Assert.assertEquals(1, range.getId());
-        Assert.assertEquals("jane.doe@myoffice.com", range.getSingleUser());
-        Assert.assertEquals(EditorType.UNSPECIFIED, range.getEditorGroup());
-
-        String visitorText = visitor.toText();
-
-        Assert.assertTrue(visitorText.contains("Paragraph inside first editable range"));
-        Assert.assertTrue(visitorText.contains("Paragraph inside second editable range"));
-    }
-
     @Test
     public void incorrectStructureException() throws Exception
     {
@@ -240,7 +285,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Checking that isn't valid structure for the current document
+        // Assert that isn't valid structure for the current document.
         Assert.That(() => builder.endEditableRange(), Throws.<IllegalStateException>TypeOf());
 
         builder.startEditableRange();
@@ -252,22 +297,15 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         Document doc = DocumentHelper.createDocumentFillWithDummyText();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        //ExStart
-        //ExFor:EditableRange.EditorGroup
-        //ExFor:EditorType
-        //ExSummary:Shows how to add editing group for editable ranges
         EditableRangeStart startRange1 = builder.startEditableRange();
 
         builder.writeln("EditableRange_1_1");
         builder.writeln("EditableRange_1_2");
 
-        // Sets the editor for editable range region
         startRange1.getEditableRange().setEditorGroup(EditorType.EVERYONE);
-        //ExEnd
-
         doc = DocumentHelper.saveOpen(doc);
 
-        // Assert that it's not valid structure and editable ranges aren't added to the current document
+        // Assert that it's not valid structure and editable ranges aren't added to the current document.
         NodeCollection startNodes = doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true);
         Assert.assertEquals(0, startNodes.getCount());
 

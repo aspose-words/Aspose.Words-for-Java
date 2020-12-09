@@ -22,11 +22,11 @@ public class ExMetered extends ApiExampleBase
     @Test
     public void testMeteredUsage()
     {
-        Assert.<IllegalStateException>Throws(meteredUsage);
+        Assert.<IllegalStateException>Throws(usage);
     }
 
     @Test (enabled = false)
-    public void meteredUsage() throws Exception
+    public void usage() throws Exception
     {
         //ExStart
         //ExFor:Metered
@@ -35,18 +35,17 @@ public class ExMetered extends ApiExampleBase
         //ExFor:Metered.GetConsumptionQuantity
         //ExFor:Metered.SetMeteredKey(String, String)
         //ExSummary:Shows how to activate a Metered license and track credit/consumption.
-        // Set a public and private key for a new Metered instance
+        // Create a new Metered license, and then print its usage statistics.
         Metered metered = new Metered();
         metered.setMeteredKey("MyPublicKey", "MyPrivateKey");
         
-        // Print credit/usage 
         System.out.println("Credit before operation: {Metered.GetConsumptionCredit()}");
         System.out.println("Consumption quantity before operation: {Metered.GetConsumptionQuantity()}");
 
-        // Do something
+        // Operate using Aspose.Words, and then print our metered stats again to see how much we spent.
         Document doc = new Document(getMyDir() + "Document.docx");
+        doc.save(getArtifactsDir() + "Metered.Usage.pdf");
 
-        // Print credit/usage to see how much was spent
         System.out.println("Credit after operation: {Metered.GetConsumptionCredit()}");
         System.out.println("Consumption quantity after operation: {Metered.GetConsumptionQuantity()}");
         //ExEnd

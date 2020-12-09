@@ -67,9 +67,9 @@ public class ExDocumentBase extends ApiExampleBase {
         Document dstDoc = new Document();
 
         srcDoc.getFirstSection().getBody().getFirstParagraph().appendChild(
-            new Run(srcDoc, "Source document first paragraph text."));
+                new Run(srcDoc, "Source document first paragraph text."));
         dstDoc.getFirstSection().getBody().getFirstParagraph().appendChild(
-            new Run(dstDoc, "Destination document first paragraph text."));
+                new Run(dstDoc, "Destination document first paragraph text."));
 
         // Every node has a parent document, which is the document that contains the node.
         // Inserting a node into a document that the node does not belong to will throw an exception.
@@ -78,7 +78,7 @@ public class ExDocumentBase extends ApiExampleBase {
 
         // Use the ImportNode method to create a copy of a node, which will have the document
         // that called the ImportNode method set as its new owner document.
-        Section importedSection = (Section)dstDoc.importNode(srcDoc.getFirstSection(), true);
+        Section importedSection = (Section) dstDoc.importNode(srcDoc.getFirstSection(), true);
 
         Assert.assertEquals(dstDoc, importedSection.getDocument());
 
@@ -86,13 +86,13 @@ public class ExDocumentBase extends ApiExampleBase {
         dstDoc.appendChild(importedSection);
 
         Assert.assertEquals("Destination document first paragraph text.\r\nSource document first paragraph text.\r\n",
-            dstDoc.toString(SaveFormat.TEXT));
+                dstDoc.toString(SaveFormat.TEXT));
         //ExEnd
 
         Assert.assertNotEquals(importedSection, srcDoc.getFirstSection());
         Assert.assertNotEquals(importedSection.getDocument(), srcDoc.getFirstSection().getDocument());
         Assert.assertEquals(importedSection.getBody().getFirstParagraph().getText(),
-            srcDoc.getFirstSection().getBody().getFirstParagraph().getText());
+                srcDoc.getFirstSection().getBody().getFirstParagraph().getText());
     }
 
     @Test
@@ -119,7 +119,7 @@ public class ExDocumentBase extends ApiExampleBase {
         // Import the Section from the destination document into the source document, causing a style name collision.
         // If we use destination styles, then the imported source text with the same style name
         // as destination text will adopt the destination style.
-        Section importedSection = (Section)dstDoc.importNode(srcDoc.getFirstSection(), true, ImportFormatMode.USE_DESTINATION_STYLES);
+        Section importedSection = (Section) dstDoc.importNode(srcDoc.getFirstSection(), true, ImportFormatMode.USE_DESTINATION_STYLES);
         Assert.assertEquals("Source document text.", importedSection.getBody().getParagraphs().get(0).getRuns().get(0).getText().trim()); //ExSkip
         Assert.assertNull(dstDoc.getStyles().get("My style_0")); //ExSkip
         Assert.assertEquals(dstStyle.getFont().getName(), importedSection.getBody().getFirstParagraph().getRuns().get(0).getFont().getName());
@@ -195,8 +195,7 @@ public class ExDocumentBase extends ApiExampleBase {
     //ExFor:ResourceType
     //ExSummary:Shows how to customize the process of loading external resources into a document.
     @Test //ExSkip
-    public void resourceLoadingCallback() throws Exception
-    {
+    public void resourceLoadingCallback() throws Exception {
         Document doc = new Document();
         doc.setResourceLoadingCallback(new ImageNameHandler());
 
@@ -222,10 +221,10 @@ public class ExDocumentBase extends ApiExampleBase {
         public int resourceLoading(final ResourceLoadingArgs args) throws URISyntaxException, IOException {
             if (args.getResourceType() == ResourceType.IMAGE) {
                 // If this callback encounters one of the image shorthands while loading an image,
-            // it will apply unique logic for each defined shorthand instead of treating it as a URI.
+                // it will apply unique logic for each defined shorthand instead of treating it as a URI.
                 if ("Google logo".equals(args.getOriginalUri())) {
                     args.setData(DocumentHelper.getBytesFromStream(new URI("http://www.google.com/images/logos/ps_logo2.png").toURL().openStream()));
-                    
+
                     return ResourceLoadingAction.USER_PROVIDED;
                 }
 
