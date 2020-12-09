@@ -1443,12 +1443,12 @@ public class ExTable extends ApiExampleBase {
         table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
         Assert.assertTrue(table.getBidi());
-        Assert.assertEquals(5.0d, table.getCellSpacing());
         Assert.assertEquals("MyTableStyle1", table.getStyleName());
-        Assert.assertEquals(0.0d, table.getBottomPadding());
-        Assert.assertEquals(0.0d, table.getLeftPadding());
-        Assert.assertEquals(0.0d, table.getRightPadding());
-        Assert.assertEquals(0.0d, table.getTopPadding());
+        Assert.assertEquals(5.0d, table.getCellSpacing());
+        Assert.assertEquals(20.0d, table.getBottomPadding());
+        Assert.assertEquals(5.0d, table.getLeftPadding());
+        Assert.assertEquals(10.0d, table.getRightPadding());
+        Assert.assertEquals(20.0d, table.getTopPadding());
 
         tableStyle = (TableStyle) doc.getStyles().get("MyTableStyle1");
 
