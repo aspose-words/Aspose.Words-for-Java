@@ -14,16 +14,17 @@ import org.testng.annotations.Test;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Shows how to rename merge fields in a Word document.
- */
-public class ExRenameMergeFields extends ApiExampleBase {
-    /**
-     * Finds all merge fields in a Word document and changes their names.
-     */
-    @Test //ExSkip
-    public void rename() throws Exception {
-        // Create a blank document and insert MERGEFIELDs
+/// <summary>
+/// Shows how to rename merge fields in a Word document.
+/// </summary>
+public class ExRenameMergeFields extends ApiExampleBase
+{
+    /// <summary>
+    /// Finds all merge fields in a Word document and changes their names.
+    /// </summary>
+    @Test
+    public void rename() throws Exception
+    {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -34,7 +35,7 @@ public class ExRenameMergeFields extends ApiExampleBase {
         builder.writeln(",");
         builder.insertField("MERGEFIELD  CustomGreeting ");
 
-        // Select all field start nodes so we can find the MERGEFIELDs
+        // Select all field start nodes so we can find the MERGEFIELDs.
         NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true);
         for (FieldStart fieldStart : (Iterable<FieldStart>) fieldStarts) {
             if (fieldStart.getFieldType() == FieldType.FIELD_MERGE_FIELD) {
@@ -51,7 +52,7 @@ public class ExRenameMergeFields extends ApiExampleBase {
  * Represents a facade object for a merge field in a Microsoft Word document.
  */
 class MergeField {
-    MergeField(final FieldStart fieldStart) throws Exception {
+    MergeField(final FieldStart fieldStart) {
         if (fieldStart.equals(null)) {
             throw new IllegalArgumentException("fieldStart");
         }
@@ -62,7 +63,7 @@ class MergeField {
 
         mFieldStart = fieldStart;
 
-        // Find the field separator node
+        // Find the field separator node.
         mFieldSeparator = findNextSibling(mFieldStart, NodeType.FIELD_SEPARATOR);
         if (mFieldSeparator == null) {
             throw new IllegalStateException("Cannot find field separator.");
@@ -71,14 +72,14 @@ class MergeField {
         // Find the field end node. Normally field end will always be found, but in the example document 
         // there happens to be a paragraph break included in the hyperlink and this puts the field end 
         // in the next paragraph. It will be much more complicated to handle fields which span several 
-        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes
+        // paragraphs correctly, but in this case allowing field end to be null is enough for our purposes.
         mFieldEnd = findNextSibling(mFieldSeparator, NodeType.FIELD_END);
     }
 
     /**
      * Gets or sets the name of the merge field.
      */
-    String getName() throws Exception {
+    String getName() {
         String fieldResult = getTextSameParent(mFieldSeparator.getNextSibling(), mFieldEnd);
         int startPos = fieldResult.indexOf("«");
         startPos = (startPos >= 0) ? startPos + 1 : 0;
@@ -89,7 +90,7 @@ class MergeField {
         return fieldResult.substring(startPos, endPos);
     }
 
-    void setName(final String value) throws Exception {
+    void setName(final String value) {
         // Merge field name is stored in the field result which is a Run
         // node between field separator and field end
         Run fieldResult = (Run) mFieldSeparator.getNextSibling();
@@ -101,8 +102,8 @@ class MergeField {
         updateFieldCode(value);
     }
 
-    private void updateFieldCode(final String fieldName) throws Exception {
-        // Field code is stored in a Run node between field start and field separator
+    private void updateFieldCode(final String fieldName) {
+        // Field code is stored in a Run node between field start and field separator.
         Run fieldCode = (Run) mFieldStart.getNextSibling();
         Matcher matcher = G_REGEX.matcher(fieldCode.getText());
 
@@ -111,7 +112,7 @@ class MergeField {
         String newFieldCode = java.text.MessageFormat.format(" {0}{1} ", matcher.group(1), fieldName);
         fieldCode.setText(newFieldCode);
 
-        // But sometimes the field code can consist of more than one run, delete these runs
+        // But sometimes the field code can consist of more than one run, delete these runs.
         removeSameParent(fieldCode.getNextSibling(), mFieldSeparator);
     }
 
