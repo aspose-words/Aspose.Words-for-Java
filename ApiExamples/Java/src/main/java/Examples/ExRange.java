@@ -688,7 +688,7 @@ public class ExRange extends ApiExampleBase {
     //ExFor:FindReplaceOptions.Direction
     //ExFor:FindReplaceDirection
     //ExSummary:Shows how to determine which direction a find-and-replace operation traverses the document in.
-    @Test (enabled = false, dataProvider = "directionDataProvider") //ExSkip
+    @Test (dataProvider = "directionDataProvider") //ExSkip
     public void direction(int findReplaceDirection) throws Exception
     {
         Document doc = new Document();
@@ -724,10 +724,10 @@ public class ExRange extends ApiExampleBase {
         switch (findReplaceDirection)
         {
             case FindReplaceDirection.FORWARD:
-                Assert.assertEquals(new String[] { "Match 1", "Match 2", "Match 3", "Match 4" }, callback.getMatches());
+                Assert.assertEquals(new String[] { "Match 1", "Match 2", "Match 3", "Match 4" }, callback.getMatches().toArray());
                 break;
             case FindReplaceDirection.BACKWARD:
-                Assert.assertEquals(new String[] { "Match 4", "Match 3", "Match 2", "Match 1" }, callback.getMatches());
+                Assert.assertEquals(new String[] { "Match 4", "Match 3", "Match 2", "Match 1" }, callback.getMatches().toArray());
                 break;
         }
     }
@@ -754,7 +754,7 @@ public class ExRange extends ApiExampleBase {
 
         public ArrayList<String> getMatches() { return mMatches; }
 
-        private ArrayList<String> mMatches;
+        private ArrayList<String> mMatches = new ArrayList<String>();
     }
     //ExEnd
 }
