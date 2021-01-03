@@ -46,7 +46,7 @@ public class ExNodeImporter extends ApiExampleBase
         Document dstDoc = srcDoc.deepClone();
 
         // When we import the document's clone into the original and then append it,
-        // then the two lists with the same list format will join together.
+        // then the two lists with the same list format will join.
         // If we set the "KeepSourceNumbering" flag to "false", then the list from the document clone
         // that we append to the original will carry on the numbering of the list we append it to.
         // This will effectively merge the two lists into one.
@@ -135,7 +135,7 @@ public class ExNodeImporter extends ApiExampleBase
     /// <summary>
     /// Inserts the contents of a document after the specified node.
     /// </summary>
-    static void insertDocument(Node insertionDestination, Document docToInsert)
+    static void insertDocument(Node insertionDestination, Document docToInsert) throws Exception
     {
         if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE)))
         {

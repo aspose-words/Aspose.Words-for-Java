@@ -104,7 +104,7 @@ class MergeField
         }
     }
 
-    private void updateFieldCode(String fieldName)
+    private void updateFieldCode(String fieldName) throws Exception
     {
         // Field code is stored in a Run node between field start and field separator.
         Run fieldCode = (Run) mFieldStart.getNextSibling();

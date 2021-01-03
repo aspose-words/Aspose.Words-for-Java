@@ -52,7 +52,7 @@ public class ExCellFormat extends ApiExampleBase
         builder.insertCell();
         builder.getCellFormat().setVerticalMerge(CellMerge.PREVIOUS);
 
-        // Insert another independent cell in the second column of the second row, and end the table.
+        // Insert another independent cell in the second column of the second row.
         builder.insertCell();
         builder.getCellFormat().setVerticalMerge(CellMerge.NONE);
         builder.write("Text in unmerged cell.");
@@ -88,7 +88,7 @@ public class ExCellFormat extends ApiExampleBase
         builder.write("Text in merged cells.");
 
         // Insert a cell into the second column of the first row. Instead of adding text contents,
-        // we will merge this cell with the first cell that we added directly to the left, and end the row afterward.
+        // we will merge this cell with the first cell that we added directly to the left.
         builder.insertCell();
         builder.getCellFormat().setHorizontalMerge(CellMerge.PREVIOUS);
         builder.endRow();
@@ -126,7 +126,7 @@ public class ExCellFormat extends ApiExampleBase
         // of each table cell we create with the document builder. 
         builder.getCellFormat().setPaddings(5.0, 10.0, 40.0, 50.0);
 
-        // Create a table with a cell, and add contents which will be padded by whitespace.
+        // Create a table with one cell whose contents will have whitespace padding.
         builder.startTable();
         builder.insertCell();
         builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +

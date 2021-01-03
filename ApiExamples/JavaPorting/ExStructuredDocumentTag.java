@@ -48,13 +48,10 @@ import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.Table;
 import com.aspose.words.Row;
 import com.aspose.words.StructuredDocumentTagRangeEnd;
-import com.aspose.words.ref.Ref;
 import org.testng.annotations.DataProvider;
+import com.aspose.words.ref.Ref;
 
 
-/// <summary>
-/// Tests that verify work with structured document tags in the document. 
-/// </summary>
 @Test
 class ExStructuredDocumentTag !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
 {
@@ -63,7 +60,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:StructuredDocumentTag.SdtType
-        //ExSummary:Shows how to get type of structured document tag.
+        //ExSummary:Shows how to get the type of a structured document tag.
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
         ArrayList<StructuredDocumentTag> sdTags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).<StructuredDocumentTag>OfType().ToList();
@@ -75,7 +72,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     }
 
     @Test
-    public void setSpecificStyleToSdt() throws Exception
+    public void applyStyle() throws Exception
     {
         //ExStart
         //ExFor:StructuredDocumentTag
@@ -88,20 +85,19 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Get specific style from the document to apply it to an SDT
+        // Below are two ways to apply a style from the document to a structured document tag.
+        // 1 -  Apply a style object from the document's style collection:
         Style quoteStyle = doc.getStyles().getByStyleIdentifier(StyleIdentifier.QUOTE);
         StructuredDocumentTag sdtPlainText = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.INLINE);
         sdtPlainText.setStyle(quoteStyle);
 
+        // 2 -  Reference a style in the document by name:
         StructuredDocumentTag sdtRichText = new StructuredDocumentTag(doc, SdtType.RICH_TEXT, MarkupLevel.INLINE);
-        // Second method to apply specific style to an SDT control
         sdtRichText.setStyleName("Quote");
 
-        // Insert content controls into the document
         builder.insertNode(sdtPlainText);
         builder.insertNode(sdtRichText);
 
-        // We can get a collection of StructuredDocumentTags by looking for the document's child nodes of this NodeType
         Assert.assertEquals(NodeType.STRUCTURED_DOCUMENT_TAG, sdtPlainText.getNodeType());
 
         NodeCollection tags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
@@ -109,7 +105,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         for (Node node : (Iterable<Node>) tags)
         {
             StructuredDocumentTag sdt = (StructuredDocumentTag)node;
-            // If style was not defined before, style should be "Default Paragraph Font"
+
             Assert.assertEquals(StyleIdentifier.QUOTE, sdt.getStyle().getStyleIdentifier());
             Assert.assertEquals("Quote", sdt.getStyleName());
         }
@@ -122,24 +118,24 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:StructuredDocumentTag.#ctor(DocumentBase, SdtType, MarkupLevel)
         //ExFor:StructuredDocumentTag.Checked
-        //ExSummary:Show how to create and insert checkbox structured document tag.
+        //ExSummary:Show how to create a structured document tag in the form of a check box.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         StructuredDocumentTag sdtCheckBox = new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE);
         sdtCheckBox.setChecked(true);
 
-        // Insert content control into the document
         builder.insertNode(sdtCheckBox);
+
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.CheckBox.docx");
         //ExEnd
 
-        doc = DocumentHelper.saveOpen(doc);
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.CheckBox.docx");
 
-        NodeCollection sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true);
+        StructuredDocumentTag[] sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).<StructuredDocumentTag>OfType().ToArray();
 
-        StructuredDocumentTag sdt = (StructuredDocumentTag) sdts.get(0);
-        Assert.assertEquals(true, sdt.getChecked());
-        Assert.That(sdt.getXmlMapping().getStoreItemId(), Is.Empty); //Assert that this sdt has no StoreItemId
+        Assert.assertEquals(true, sdts[0].getChecked());
+        Assert.That(sdts[0].getXmlMapping().getStoreItemId(), Is.Empty);
     }
 
     @Test (groups = "SkipMono")
@@ -151,37 +147,30 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:StructuredDocumentTag.DateDisplayLocale
         //ExFor:StructuredDocumentTag.DateStorageFormat
         //ExFor:StructuredDocumentTag.FullDate
-        //ExSummary:Shows how to prompt the user to enter a date with a StructuredDocumentTag.
-        // Create a new document
+        //ExSummary:Shows how to prompt the user to enter a date with a structured document tag.
         Document doc = new Document();
 
-        // Insert a StructuredDocumentTag that prompts the user to enter a date
-        // In Microsoft Word, this element is known as a "Date picker content control"
+        // Insert a structured document tag that prompts the user to enter a date.
+        // In Microsoft Word, this element is known as a "Date picker content control".
         // When we click on the arrow on the right end of this tag in Microsoft Word,
-        // we will see a pop up in the form of a clickable calendar
-        // We can use that popup to select a date that will be displayed by the tag 
+        // we will see a pop up in the form of a clickable calendar.
+        // We can use that popup to select a date that the tag will display.
         StructuredDocumentTag sdtDate = new StructuredDocumentTag(doc, SdtType.DATE, MarkupLevel.INLINE);
 
-        // This attribute sets the language that the calendar will be displayed in,
-        // which in this case will be Saudi Arabian Arabic
+        // Display the date, according to the Saudi Arabian Arabic locale.
         sdtDate.setDateDisplayLocale(msCultureInfo.getCultureInfo("ar-SA").getLCID());
 
-        // We can set the format with which to display the date like this
-        // The locale we set above will be carried over to the displayed date
+        // Set the format with which to display the date.
         sdtDate.setDateDisplayFormat("dd MMMM, yyyy");
-
-        // Select how the data will be stored in the document
         sdtDate.setDateStorageFormat(SdtDateStorageFormat.DATE_TIME);
 
-        // Set the calendar type that will be used to select and display the date
+        // Display the date according to the Hijri calendar.
         sdtDate.setCalendarType(SdtCalendarType.HIJRI);
 
-        // Before a date is chosen, the tag will display the text "Click here to enter a date."
-        // We can set a default date to display by setting this variable
-        // We must convert the date to the appropriate calendar ourselves
+        // Before the user chooses a date in Microsoft Word, the tag will display the text "Click here to enter a date.".
+        // According to the tag's calendar, set the "FullDate" property to get the tag to display a default date.
         sdtDate.setFullDateInternal(new DateTime(1440, 10, 20));
 
-        // Insert the StructuredDocumentTag into the document with a DocumentBuilder and save the document
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertNode(sdtDate);
 
@@ -202,46 +191,47 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:StructuredDocumentTag.Tag
         //ExFor:StructuredDocumentTag.Title
         //ExFor:StructuredDocumentTag.RemoveSelfOnly
-        //ExSummary:Shows how to create a StructuredDocumentTag in the form of a plain text box and modify its appearance.
-        // Create a new document 
+        //ExSummary:Shows how to create a structured document tag in a plain text box and modify its appearance.
         Document doc = new Document();
 
-        // Create a StructuredDocumentTag that will contain plain text
+        // Create a structured document tag that will contain plain text.
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.INLINE);
 
-        // Set the title and color of the frame that appears when you mouse over it
+        // Set the title and color of the frame that appears when you mouse over the structured document tag in Microsoft Word.
         tag.setTitle("My plain text");
         tag.setColor(Color.MAGENTA);
 
-        // Set a programmatic tag for this StructuredDocumentTag
-        // Unlike the title, this value will not be visible in the document but will be programmatically obtainable
-        // as an XML element named "tag", with the string below in its "@val" attribute
+        // Set a tag for this structured document tag, which is obtainable
+        // as an XML element named "tag", with the string below in its "@val" attribute.
         tag.setTag("MyPlainTextSDT");
 
-        // Every StructuredDocumentTag gets a random unique ID
+        // Every structured document tag has a random unique ID.
         Assert.That(tag.getId(), Is.Positive);
 
-        // Set the font for the text inside the StructuredDocumentTag
+        // Set the font for the text inside the structured document tag.
         tag.getContentsFont().setName("Arial");
 
-        // Set the font for the text at the end of the StructuredDocumentTag
-        // Any text that is typed in the document body after moving out of the tag with arrow keys will keep this font
+        // Set the font for the text at the end of the structured document tag.
+        // Any text that we type in the document body after moving out of the tag with arrow keys will use this font.
         tag.getEndCharacterFont().setName("Arial Black");
 
-        // By default, this is false and pressing enter while inside a StructuredDocumentTag does nothing
-        // When set to true, our StructuredDocumentTag can have multiple lines
+        // By default, this is false and pressing enter while inside a structured document tag does nothing.
+        // When set to true, our structured document tag can have multiple lines.
+
+        // Set the "Multiline" property to "false" to only allow the contents
+        // of this structured document tag to span a single line.
+        // Set the "Multiline" property to "true" to allow the tag to contain multiple lines of content.
         tag.setMultiline(true);
 
-        // Insert the StructuredDocumentTag into the document with a DocumentBuilder and save the document to a file
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertNode(tag);
 
-        // Insert a clone of our StructuredDocumentTag in a new paragraph
+        // Insert a clone of our structured document tag in a new paragraph.
         StructuredDocumentTag tagClone = (StructuredDocumentTag)tag.deepClone(true);
         builder.insertParagraph();
         builder.insertNode(tagClone);
 
-        // We can remove the tag while keeping its contents where they were in the Paragraph by calling RemoveSelfOnly()
+        // Use the "RemoveSelfOnly" method to remove a structured document tag, while keeping its contents in the document.
         tagClone.removeSelfOnly();
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.PlainText.docx");
@@ -259,33 +249,38 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertTrue(tag.getMultiline());
     }
 
-    @Test
-    public void isTemporary() throws Exception
+    @Test (dataProvider = "isTemporaryDataProvider")
+    public void isTemporary(boolean isTemporary) throws Exception
     {
         //ExStart
         //ExFor:StructuredDocumentTag.IsTemporary
-        //ExSummary:Demonstrates the effects of making a StructuredDocumentTag temporary.
+        //ExSummary:Shows how to make single-use controls.
         Document doc = new Document();
 
-        // Insert a plain text StructuredDocumentTag, which will prompt the user to enter text
-        // and allow them to edit it like a text box
+        // Insert a plain text structured document tag,
+        // which will act as a plain text form that the user may enter text into.
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.INLINE);
 
-        // If we set its Temporary attribute to true, as soon as we start typing,
-        // the tag will disappear, and its contents will be assimilated into the parent Paragraph
-        tag.isTemporary(true);
+        // Set the "IsTemporary" property to "true" to make the structured document tag disappear and
+        // assimilate its contents into the document after the user edits it once in Microsoft Word.
+        // Set the "IsTemporary" property to "false" to allow the user to edit the contents
+        // of the structured document tag any number of times.
+        tag.isTemporary(isTemporary);
 
-        // Insert the StructuredDocumentTag with a DocumentBuilder
         DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.write("Temporary text box: ");
+        builder.write("Please enter text: ");
         builder.insertNode(tag);
 
-        // A StructuredDocumentTag in the form of a check box will let the user a square to check and uncheck
-        // Setting it to temporary will freeze its value after the first time it is clicked
+        // Insert another structured document tag in the form of a check box and set its default state to "checked".
         tag = new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE);
-        tag.isTemporary(true);
+        tag.setChecked(true);
 
-        builder.write("\nTemporary checkbox: ");
+        // Set the "IsTemporary" property to "true" to make the check box become a symbol
+        // once the user clicks on it in Microsoft Word.
+        // Set the "IsTemporary" property to "false" to allow the user to click on the check box any number of times.
+        tag.isTemporary(isTemporary);
+
+        builder.write("\nPlease click the check box: ");
         builder.insertNode(tag);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.IsTemporary.docx");
@@ -293,25 +288,37 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.IsTemporary.docx");
 
-        Assert.AreEqual(2, doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).Count(sdt => ((StructuredDocumentTag)sdt).IsTemporary));
+        Assert.AreEqual(2, 
+            doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).Count(sdt => ((StructuredDocumentTag)sdt).IsTemporary == isTemporary));
     }
 
-    @Test
-    public void placeholderBuildingBlock() throws Exception
+	//JAVA-added data provider for test method
+	@DataProvider(name = "isTemporaryDataProvider")
+	public static Object[][] isTemporaryDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "placeholderBuildingBlockDataProvider")
+    public void placeholderBuildingBlock(boolean isShowingPlaceholderText) throws Exception
     {
         //ExStart
         //ExFor:StructuredDocumentTag.IsShowingPlaceholderText
         //ExFor:StructuredDocumentTag.Placeholder
         //ExFor:StructuredDocumentTag.PlaceholderName
-        //ExSummary:Shows how to use the contents of a BuildingBlock as a custom placeholder text for a StructuredDocumentTag. 
+        //ExSummary:Shows how to use a building block's contents as a custom placeholder text for a structured document tag. 
         Document doc = new Document();
 
-        // Insert a plain text StructuredDocumentTag of the PlainText type, which will function like a text box
-        // It contains a default "Click here to enter text." prompt, which we can click and replace with our own text
+        // Insert a plain text structured document tag of the "PlainText" type, which will function as a text box.
+        // The contents that it will display by default are a "Click here to enter text." prompt.
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.INLINE);
 
-        // We can substitute that default placeholder with a custom phrase, which will be drawn from a BuildingBlock
-        // First, we will need to create the BuildingBlock, give it content and add it to the GlossaryDocument
+        // We can get the tag to display the contents of a building block instead of the default text.
+        // First, add a building block with contents to the glossary document.
         GlossaryDocument glossaryDoc = doc.getGlossaryDocument();
 
         BuildingBlock substituteBlock = new BuildingBlock(glossaryDoc);
@@ -322,20 +329,21 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         glossaryDoc.appendChild(substituteBlock);
 
-        // The substitute BuildingBlock we made can be referenced by name
+        // Then, use the structured document tag's "PlaceholderName" property to reference that building block by name.
         tag.setPlaceholderName("Custom Placeholder");
 
-        // If PlaceholderName refers to an existing block in the parent document's GlossaryDocument,
-        // the BuildingBlock will be automatically found and assigned to the Placeholder attribute
+        // If "PlaceholderName" refers to an existing block in the parent document's glossary document,
+        // we will be able to verify the building block via the "Placeholder" property.
         Assert.assertEquals(substituteBlock, tag.getPlaceholder());
 
-        // Setting this to true will register the text inside the StructuredDocumentTag as placeholder text
-        // This means that, in Microsoft Word, all the text contents of the StructuredDocumentTag will be highlighted with one click,
-        // so we can immediately replace the entire substitute text by typing
-        // If this is false, the text will behave like an ordinary Paragraph and a cursor will be placed with nothing highlighted
-        tag.isShowingPlaceholderText(true);
+        // Set the "IsShowingPlaceholderText" property to "true" to treat the
+        // structured document tag's current contents as placeholder text.
+        // This means that clicking on the text box in Microsoft Word will immediately highlight all the tag's contents.
+        // Set the "IsShowingPlaceholderText" property to "false" to get the
+        // structured document tag to treat its contents as text that a user has already entered.
+        // Clicking on this text in Microsoft Word will place the blinking cursor at the clicked location.
+        tag.isShowingPlaceholderText(isShowingPlaceholderText);
 
-        // Insert the StructuredDocumentTag into the document using a DocumentBuilder and save the document to a file
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertNode(tag);
 
@@ -347,10 +355,21 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         substituteBlock = (BuildingBlock)doc.getGlossaryDocument().getChild(NodeType.BUILDING_BLOCK, 0, true);
 
         Assert.assertEquals("Custom Placeholder", substituteBlock.getName());
-        Assert.assertTrue(tag.isShowingPlaceholderText());
+        Assert.assertEquals(isShowingPlaceholderText, tag.isShowingPlaceholderText());
         Assert.assertEquals(substituteBlock, tag.getPlaceholder());
         Assert.assertEquals(substituteBlock.getName(), tag.getPlaceholderName());
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "placeholderBuildingBlockDataProvider")
+	public static Object[][] placeholderBuildingBlockDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 
     @Test
     public void lock() throws Exception
@@ -358,27 +377,26 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:StructuredDocumentTag.LockContentControl
         //ExFor:StructuredDocumentTag.LockContents
-        //ExSummary:Shows how to restrict the editing of a StructuredDocumentTag.
+        //ExSummary:Shows how to apply editing restrictions to structured document tags.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a plain text StructuredDocumentTag of the PlainText type, which will function like a text box
-        // It contains a default "Click here to enter text." prompt, which we can click and replace with our own text
+        // Insert a plain text structured document tag, which acts as a text box that prompts the user to fill it in.
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.INLINE);
 
-        // We can prohibit the users from editing the inner text in Microsoft Word by setting this to true
+        // Set the "LockContents" property to "true" to prohibit the user from editing this text box's contents.
         tag.setLockContents(true);
-        builder.write("The contents of this StructuredDocumentTag cannot be edited: ");
+        builder.write("The contents of this structured document tag cannot be edited: ");
         builder.insertNode(tag);
 
         tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.INLINE);
 
-        // Setting this to true will disable the deletion of this StructuredDocumentTag
-        // by text editing operations in Microsoft Word
+        // Set the "LockContentControl" property to "true" to prohibit the user from
+        // deleting this structured document tag manually in Microsoft Word.
         tag.setLockContentControl(true);
 
         builder.insertParagraph();
-        builder.write("This StructuredDocumentTag cannot be deleted but its contents can be edited: ");
+        builder.write("This structured document tag cannot be deleted but its contents can be edited: ");
         builder.insertNode(tag);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.Lock.docx");
@@ -414,56 +432,55 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:SdtListItemCollection.RemoveAt(System.Int32)
         //ExFor:SdtListItemCollection.SelectedValue
         //ExFor:StructuredDocumentTag.ListItems
-        //ExSummary:Shows how to work with StructuredDocumentTag nodes of the DropDownList type.
-        // Create a blank document and insert a StructuredDocumentTag that will contain a drop-down list
+        //ExSummary:Shows how to work with drop down-list structured document tags.
         Document doc = new Document();
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.DROP_DOWN_LIST, MarkupLevel.BLOCK);
         doc.getFirstSection().getBody().appendChild(tag);
 
-        // A drop-down list needs elements, each of which will be a SdtListItem
+        // A drop-down list structured document tag is a form that allows the user to
+        // select an option from a list by left-clicking and opening the form in Microsoft Word.
+        // The "ListItems" property contains all list items, and each list item is an "SdtListItem".
         SdtListItemCollection listItems = tag.getListItems();
         listItems.add(new SdtListItem("Value 1"));
 
-        // Each SdtListItem has text that will be displayed when the drop-down list is opened, and also a value
-        // When we initialize with one string, we are providing just the value
-        // Accordingly, value is passed as DisplayText and will consequently be displayed on the screen
         Assert.assertEquals(listItems.get(0).getDisplayText(), listItems.get(0).getValue());
 
-        // Add 3 more SdtListItems with non-empty strings passed to DisplayText
+        // Add 3 more list items. Initialize these items using a different constructor to the first item
+        // to display strings that are different from their values.
         listItems.add(new SdtListItem("Item 2", "Value 2"));
         listItems.add(new SdtListItem("Item 3", "Value 3"));
         listItems.add(new SdtListItem("Item 4", "Value 4"));
 
-        // We can obtain a count of the SdtListItems and also set the drop-down list's SelectedValue attribute to
-        // automatically have one of them pre-selected when we open the document in Microsoft Word
         Assert.assertEquals(4, listItems.getCount());
+
+        // The drop-down list is displaying the first item. Assign a different list item to the "SelectedValue" to display it.
         listItems.setSelectedValue(listItems.get(3));
 
         Assert.assertEquals("Value 4", listItems.getSelectedValue().getValue());
 
-        // We can enumerate over the collection and print each element
+        // Enumerate over the collection and print each element.
         Iterator<SdtListItem> enumerator = listItems.iterator();
         try /*JAVA: was using*/
         {
             while (enumerator.hasNext())
-            {
                 if (enumerator.next() != null)
                     System.out.println("List item: {enumerator.Current.DisplayText}, value: {enumerator.Current.Value}");
-            }
         }
         finally { if (enumerator != null) enumerator.close(); }
 
-        // We can also remove elements one at a time
+        // Remove the last list item. 
         listItems.removeAt(3);
+
         Assert.assertEquals(3, listItems.getCount());
 
-        // Make sure to update the SelectedValue's index if it ever ends up out of bounds before saving the document
+        // Since our drop-down control is set to display the removed item by default, give it an item to display which exists.
         listItems.setSelectedValue(listItems.get(1));
        
         doc.save(getArtifactsDir() + "StructuredDocumentTag.ListItemCollection.docx");
 
-        // We can clear the whole collection at once too
+        // Use the "Clear" method to empty the entire drop-down item collection at once.
         listItems.clear();
+
         Assert.assertEquals(0, listItems.getCount());
         //ExEnd
     }
@@ -490,35 +507,37 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:Document.CustomXmlParts
         //ExFor:StructuredDocumentTag.XmlMapping
         //ExFor:XmlMapping.SetMapping(CustomXmlPart, String, String)
-        //ExSummary:Shows how to create structured document tag with a custom XML data.
+        //ExSummary:Shows how to create a structured document tag with custom XML data.
         Document doc = new Document();
 
-        // Construct an XML part that contains data and add it to the document's collection
-        // Once the "Developer" tab in Microsoft Word is enabled,
-        // we can find elements from this collection as well as a couple defaults in the "XML Mapping Pane" 
+        // Construct an XML part that contains data and add it to the document's collection.
+        // If we enable the "Developer" tab in Microsoft Word,
+        // we can find elements from this collection in the "XML Mapping Pane", along with a few default elements.
         String xmlPartId = Guid.newGuid().toString("B");
         String xmlPartContent = "<root><text>Hello world!</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
 
-        // The data we entered is stored in these attributes
         Assert.assertEquals(Encoding.getASCII().getBytes(xmlPartContent), xmlPart.getData());
         Assert.assertEquals(xmlPartId, xmlPart.getId());
 
-        // XML parts can be referenced by collection index or GUID
+        // Below are two ways to refer to XML parts.
+        // 1 -  By an index in the custom XML part collection:
         Assert.assertEquals(xmlPart, doc.getCustomXmlParts().get(0));
+
+        // 2 -  By GUID:
         Assert.assertEquals(xmlPart, doc.getCustomXmlParts().getById(xmlPartId));
 
-        // Once the part is created, we can add XML schema associations like this
+        // Add an XML schema association.
         xmlPart.getSchemas().add("http://www.w3.org/2001/XMLSchema");
         
-        // We can also clone parts and insert them into the collection directly
+        // Clone a part, and then insert it into the collection.
         CustomXmlPart xmlPartClone = xmlPart.deepClone();
         xmlPartClone.setId(Guid.newGuid().toString("B"));
         doc.getCustomXmlParts().add(xmlPartClone);
 
         Assert.assertEquals(2, doc.getCustomXmlParts().getCount());
 
-        // Iterate through collection with an enumerator and print the contents of each part
+        // Iterate through the collection and print the contents of each part.
         Iterator<CustomXmlPart> enumerator = doc.getCustomXmlParts().iterator();
         try /*JAVA: was using*/
         {
@@ -532,19 +551,16 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         }
         finally { if (enumerator != null) enumerator.close(); }
 
-        // XML parts can be removed by index
+        // Use the "RemoveAt" method to remove the cloned part by index.
         doc.getCustomXmlParts().removeAt(1);
 
         Assert.assertEquals(1, doc.getCustomXmlParts().getCount());
 
-        // The XML part collection itself can be cloned also
+        // Clone the XML parts collection, and then use the "Clear" method to remove all its elements at once.
         CustomXmlPartCollection customXmlParts = doc.getCustomXmlParts().deepClone();
-
-        // And all elements can be cleared like this
         customXmlParts.clear();
 
-        // Create a StructuredDocumentTag that will display the contents of our part,
-        // insert it into the document and save the document
+        // Create a structured document tag that will display our part's contents and insert it into the document body.
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
         tag.getXmlMapping().setMapping(xmlPart, "/root[1]/text[1]", "");
 
@@ -580,21 +596,23 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:XmlMapping.IsMapped
         //ExFor:XmlMapping.PrefixMappings
         //ExFor:XmlMapping.XPath
-        //ExSummary:Shows how to set XML mappings for CustomXmlParts.
+        //ExSummary:Shows how to set XML mappings for custom XML parts.
         Document doc = new Document();
 
-        // Construct an XML part that contains data and add it to the document's CustomXmlPart collection
+        // Construct an XML part that contains text and add it to the document's CustomXmlPart collection.
         String xmlPartId = Guid.newGuid().toString("B");
         String xmlPartContent = "<root><text>Text element #1</text><text>Text element #2</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
-        System.out.println(Encoding.getUTF8().getString(xmlPart.getData()));
 
-        // Create a StructuredDocumentTag that will display the contents of our CustomXmlPart in the document
+        Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>", 
+            Encoding.getUTF8().getString(xmlPart.getData()));
+
+        // Create a structured document tag that will display the contents of our CustomXmlPart.
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
 
-        // If we set a mapping for our StructuredDocumentTag,
-        // it will only display a part of the CustomXmlPart that the XPath points to
-        // This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart
+        // Set a mapping for our structured document tag. This mapping will instruct
+        // our structured document tag to display a portion of the XML part's text contents that the XPath points to.
+        // In this case, it will be contents of the the second "<text>" element of the first "<root>" element: "Text element #2".
         tag.getXmlMapping().setMapping(xmlPart, "/root[1]/text[2]", "xmlns:ns='http://www.w3.org/2001/XMLSchema'");
 
         Assert.assertTrue(tag.getXmlMapping().isMapped());
@@ -602,7 +620,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("/root[1]/text[2]", tag.getXmlMapping().getXPath());
         Assert.assertEquals("xmlns:ns='http://www.w3.org/2001/XMLSchema'", tag.getXmlMapping().getPrefixMappings());
 
-        // Add the StructuredDocumentTag to the document to display the content from our CustomXmlPart
+        // Add the structured document tag to the document to display the content from our custom part.
         doc.getFirstSection().getBody().appendChild(tag);
         doc.save(getArtifactsDir() + "StructuredDocumentTag.XmlMapping.docx");
         //ExEnd
@@ -622,29 +640,42 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     }
 
     @Test
-    public void xmlMappingForStructuredDocumentTagRangeStart() throws Exception
+    public void structuredDocumentTagRangeStartXmlMapping() throws Exception
     {
         //ExStart
         //ExFor:StructuredDocumentTagRangeStart.XmlMapping
-        //ExSummary:Shows how to set XML mappings for StructuredDocumentTagRangeStart.
+        //ExSummary:Shows how to set XML mappings for the range start of a structured document tag.
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
 
-        // Construct an XML part that contains data and add it to the document's CustomXmlPart collection.
+        // Construct an XML part that contains text and add it to the document's CustomXmlPart collection.
         String xmlPartId = Guid.newGuid().toString("B");
         String xmlPartContent = "<root><text>Text element #1</text><text>Text element #2</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
-        System.out.println(Encoding.getUTF8().getString(xmlPart.getData()));
 
-        // Create a StructuredDocumentTag that will display the contents of our CustomXmlPart in the document.
+        Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>",
+            Encoding.getUTF8().getString(xmlPart.getData()));
+
+        // Create a structured document tag that will display the contents of our CustomXmlPart in the document.
         StructuredDocumentTagRangeStart sdtRangeStart = (StructuredDocumentTagRangeStart)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true);
 
-        // If we set a mapping for our StructuredDocumentTag,
-        // it will only display a part of the CustomXmlPart that the XPath points to.
+        // If we set a mapping for our structured document tag,
+        // it will only display a portion of the CustomXmlPart that the XPath points to.
         // This XPath will point to the contents second "<text>" element of the first "<root>" element of our CustomXmlPart.
         sdtRangeStart.getXmlMapping().setMapping(xmlPart, "/root[1]/text[2]", null);
 
-        doc.save(getArtifactsDir() + "StructuredDocumentTag.XmlMappingForStructuredDocumentTagRangeStart.docx");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.StructuredDocumentTagRangeStartXmlMapping.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.StructuredDocumentTagRangeStartXmlMapping.docx");
+        xmlPart = doc.getCustomXmlParts().get(0);
+
+        Ref<Guid> referenceToGuid = new Ref<Guid>(Guid);
+        Assert.True(Guid.TryParse(xmlPart.getId(), /*out*/ referenceToGuid temp));
+        Guid = referenceToGuid.get();
+        Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>", Encoding.getUTF8().getString(xmlPart.getData()));
+
+        sdtRangeStart = (StructuredDocumentTagRangeStart)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true);
+        Assert.assertEquals("/root[1]/text[2]", sdtRangeStart.getXmlMapping().getXPath());
     }
 
     @Test
@@ -662,39 +693,41 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:CustomXmlSchemaCollection.Remove(System.String)
         //ExFor:CustomXmlSchemaCollection.RemoveAt(System.Int32)
         //ExSummary:Shows how to work with an XML schema collection.
-        // Create a document and add a custom XML part
         Document doc = new Document();
 
         String xmlPartId = Guid.newGuid().toString("B");
         String xmlPartContent = "<root><text>Hello, World!</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
 
-        // Once the part is created, we can add XML schema associations like this,
-        // and perform other collection-related operations on the list of schemas for this part
+        // Add an XML schema association.
         xmlPart.getSchemas().add("http://www.w3.org/2001/XMLSchema");
 
-        // Collections can be cloned, and elements can be added
+        // Clone the custom XML part's XML schema association collection,
+        // and then add a couple of new schemas to the clone.
         CustomXmlSchemaCollection schemas = xmlPart.getSchemas().deepClone();
         schemas.add("http://www.w3.org/2001/XMLSchema-instance");
         schemas.add("http://schemas.microsoft.com/office/2006/metadata/contentType");
         
         Assert.assertEquals(3, schemas.getCount());
-        Assert.assertEquals(2, schemas.indexOf(("http://schemas.microsoft.com/office/2006/metadata/contentType")));
+        Assert.assertEquals(2, schemas.indexOf("http://schemas.microsoft.com/office/2006/metadata/contentType"));
 
-        // We can iterate over the collection with an enumerator
+        // Enumerate the schemas and print each element.
         Iterator<String> enumerator = schemas.iterator();
         try /*JAVA: was using*/
         {
             while (enumerator.hasNext())
-            {
                 System.out.println(enumerator.next());
-            }
         }
         finally { if (enumerator != null) enumerator.close(); }
 
-        // We can also remove elements by index, element, or we can clear the entire collection
+        // Below are three ways of removing schemas from the collection.
+        // 1 -  Remove a schema by index:
         schemas.removeAt(2);
+
+        // 2 -  Remove a schema by value:
         schemas.remove("http://www.w3.org/2001/XMLSchema");
+
+        // 3 -  Use the "Clear" method to empty the collection at once.
         schemas.clear();
 
         Assert.assertEquals(0, schemas.getCount());
@@ -706,11 +739,12 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:XmlMapping.StoreItemId
-        //ExSummary:Shows how to get special id of your xml part.
+        //ExSummary:Shows how to get the custom XML data identifier of an XML part.
         Document doc = new Document(getMyDir() + "Custom XML part in structured document tag.docx");
 
-        // Structured document tags have IDs in the form of Guids
+        // Structured document tags have IDs in the form of GUIDs.
         StructuredDocumentTag tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+
         Assert.assertEquals("{F3029283-4FF8-4DD2-9F31-395F19ACEE85}", tag.getXmlMapping().getStoreItemId());
         //ExEnd
     }
@@ -721,10 +755,9 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        StructuredDocumentTag sdtCheckBox = new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE);
-        sdtCheckBox.setChecked(true);
+        StructuredDocumentTag sdtCheckBox = 
+            new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE); {sdtCheckBox.setChecked(true);}
 
-        // Insert content control into the document
         builder.insertNode(sdtCheckBox);
 
         doc = DocumentHelper.saveOpen(doc);
@@ -738,18 +771,18 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:StructuredDocumentTag.Clear
-        //ExSummary:Shows how to delete content of StructuredDocumentTag elements.
+        //ExSummary:Shows how to delete contents of structured document tag elements.
         Document doc = new Document();
 
-        // Create a plain text structured document tag and append it to the document
+        // Create a plain text structured document tag, and then append it to the document.
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
         doc.getFirstSection().getBody().appendChild(tag);
 
-        // This structured document tag, which is in the form of a text box, already displays placeholder text
+        // This structured document tag, which is in the form of a text box, already displays placeholder text.
         Assert.assertEquals("Click here to enter text.", msString.trim(tag.getText()));
         Assert.assertTrue(tag.isShowingPlaceholderText());
 
-        // Create a building block that 
+        // Create a building block with text contents.
         GlossaryDocument glossaryDoc = doc.getGlossaryDocument();
         BuildingBlock substituteBlock = new BuildingBlock(glossaryDoc);
         substituteBlock.setName("My placeholder");
@@ -758,22 +791,23 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         substituteBlock.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(glossaryDoc, "Custom placeholder text."));
         glossaryDoc.appendChild(substituteBlock);
 
-        // Set the tag's placeholder to the building block
+        // Set the structured document tag's "PlaceholderName" property to our building block's name to get
+        // the structured document tag to display the contents of the building block in place of the original default text.
         tag.setPlaceholderName("My placeholder");
 
         Assert.assertEquals("Custom placeholder text.", msString.trim(tag.getText()));
         Assert.assertTrue(tag.isShowingPlaceholderText());
 
-        // Edit the text of the structured document tag and disable showing of placeholder text
+        // Edit the text of the structured document tag and hide the placeholder text.
         Run run = (Run)tag.getChild(NodeType.RUN, 0, true);
         run.setText("New text.");
         tag.isShowingPlaceholderText(false);
 
         Assert.assertEquals("New text.", msString.trim(tag.getText()));
 
+        // Use the "Clear" method to clear this structured document tag's contents and display the placeholder again.
         tag.clear();
 
-        // Clearing a PlainText tag reverts these changes
         Assert.assertTrue(tag.isShowingPlaceholderText());
         Assert.assertEquals("Custom placeholder text.", msString.trim(tag.getText()));
         //ExEnd
@@ -810,7 +844,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:StructuredDocumentTag.BuildingBlockCategory
         //ExFor:StructuredDocumentTag.BuildingBlockGallery
-        //ExSummary:Shows how to insert a StructuredDocumentTag as a building block and set its category and gallery.
+        //ExSummary:Shows how to insert a structured document tag as a building block, and set its category and gallery.
         Document doc = new Document();
 
         StructuredDocumentTag buildingBlockSdt =
@@ -838,27 +872,29 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:SaveOptions.UpdateSdtContent
-        //ExSummary:Shows how structured document tags can be updated while saving to .pdf.
+        //ExSummary:Shows how to update structured document tags while saving a document to PDF.
         Document doc = new Document();
 
-        // Insert two StructuredDocumentTags; a date and a drop-down list 
-        StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.DATE, MarkupLevel.BLOCK);
-        tag.setFullDateInternal(DateTime.getNow());
-
-        doc.getFirstSection().getBody().appendChild(tag);
-
-        tag = new StructuredDocumentTag(doc, SdtType.DROP_DOWN_LIST, MarkupLevel.BLOCK);
+        // Insert a drop-down list structured document tag.
+        StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.DROP_DOWN_LIST, MarkupLevel.BLOCK);
         tag.getListItems().add(new SdtListItem("Value 1"));
         tag.getListItems().add(new SdtListItem("Value 2"));
         tag.getListItems().add(new SdtListItem("Value 3"));
+
+        // The drop-down list currently displays "Choose an item" as the default text.
+        // Set the "SelectedValue" property to one of the list items to get the tag to
+        // display that list item's value instead of the default text.
         tag.getListItems().setSelectedValue(tag.getListItems().get(1));
 
         doc.getFirstSection().getBody().appendChild(tag);
 
-        // We've selected default values for both tags
-        // We can save those values in the document without immediately updating the tags, leaving them in their default state
-        // by using a SaveOptions object with this flag set
+        // Create a "PdfSaveOptions" object to pass to the document's "Save" method
+        // to modify how that method saves the document to .PDF.
         PdfSaveOptions options = new PdfSaveOptions();
+
+        // Set the "UpdateSdtContent" property to "false" not to update the structured document tags
+        // while saving the document to PDF. They will display their default values as they were at the time of construction.
+        // Set the "UpdateSdtContent" property to "true" to make sure the tags display updated values in the PDF.
         options.setUpdateSdtContent(updateSdtContent);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf", options);
@@ -868,7 +904,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.Visit(pdfDoc);
 
-        Assert.AreEqual(updateSdtContent ? "Value 2" : $"Click here to enter a date.{Environment.NewLine}Choose an item.",
+        Assert.AreEqual(updateSdtContent ? "Value 2" : "Choose an item.",
             textAbsorber.Text);
     }
 
@@ -888,21 +924,27 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:SdtType
-        //ExSummary:Shows how to fill the table with data contained in the XML part.
+        //ExSummary:Shows how to fill a table with data from in an XML part.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
  
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add("Books",
             "<books>" +
-            "<book><title>Everyday Italian</title>" +
-            "<author>Giada De Laurentiis</author></book>" +
-            "<book><title>Harry Potter</title>" +
-            "<author>J. K. Rowling</author></book>" +
-            "<book><title>Learning XML</title>" +
-            "<author>Erik T. Ray</author></book>" +
+                "<book>" +
+                    "<title>Everyday Italian</title>" +
+                    "<author>Giada De Laurentiis</author>" +
+                "</book>" +
+                "<book>" +
+                    "<title>The C Programming Language</title>" +
+                    "<author>Brian W. Kernighan, Dennis M. Ritchie</author>" +
+                "</book>" +
+                "<book>" +
+                    "<title>Learning XML</title>" +
+                    "<author>Erik T. Ray</author>" +
+                "</book>" +
             "</books>");
  
-        // Create headers for data from xml content
+        // Create headers for data from the XML content.
         Table table = builder.startTable();
         builder.insertCell();
         builder.write("Title");
@@ -910,22 +952,24 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         builder.write("Author");
         builder.endRow();
         builder.endTable();
- 
-        // Create table with RepeatingSection inside
+
+        // Create a table with a repeating section inside.
         StructuredDocumentTag repeatingSectionSdt =
             new StructuredDocumentTag(doc, SdtType.REPEATING_SECTION, MarkupLevel.ROW);
         repeatingSectionSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book", "");
         table.appendChild(repeatingSectionSdt);
- 
-        // Add RepeatingSectionItem inside RepeatingSection and mark it as a row
+
+        // Add repeating section item inside the repeating section and mark it as a row.
+        // This table will have a row for each element that we can find in the XML document
+        // using the "/books[1]/book" XPath, of which there are three.
         StructuredDocumentTag repeatingSectionItemSdt =
             new StructuredDocumentTag(doc, SdtType.REPEATING_SECTION_ITEM, MarkupLevel.ROW);
         repeatingSectionSdt.appendChild(repeatingSectionItemSdt);
  
         Row row = new Row(doc);
         repeatingSectionItemSdt.appendChild(row);
- 
-        // Map xml data with created table cells for book title and author
+
+        // Map XML data with created table cells for the title and author of each book.
         StructuredDocumentTag titleSdt =
             new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.CELL);
         titleSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book[1]/title[1]", "");
@@ -956,38 +1000,37 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         Assert.assertEquals("Title\u0007Author\u0007\u0007" +
                         "Everyday Italian\u0007Giada De Laurentiis\u0007\u0007" +
-                        "Harry Potter\u0007J. K. Rowling\u0007\u0007" +
+                        "The C Programming Language\u0007Brian W. Kernighan, Dennis M. Ritchie\u0007\u0007" +
                         "Learning XML\u0007Erik T. Ray\u0007\u0007", msString.trim(doc.getFirstSection().getBody().getTables().get(0).getText()));
     }
 
     @Test
     public void customXmlPart() throws Exception
     {
-        // Obtain an XML in the form of a string
-        String xmlString = "<?xml version=\"1.0\"?>" +
-                           "<Company>" +
-                           "<Employee id=\"1\">" +
-                           "<FirstName>John</FirstName>" +
-                           "<LastName>Doe</LastName>" +
-                           "</Employee>" +
-                           "<Employee id=\"2\">" +
-                           "<FirstName>Jane</FirstName>" +
-                           "<LastName>Doe</LastName>" +
-                           "</Employee>" +
-                           "</Company>";
+        String xmlString = 
+           "<?xml version=\"1.0\"?>" +
+           "<Company>" +
+               "<Employee id=\"1\">" +
+                   "<FirstName>John</FirstName>" +
+                   "<LastName>Doe</LastName>" +
+               "</Employee>" +
+               "<Employee id=\"2\">" +
+                   "<FirstName>Jane</FirstName>" +
+                   "<LastName>Doe</LastName>" +
+               "</Employee>" +
+           "</Company>";
 
         Document doc = new Document();
 
-        // Insert the full XML document as a custom document part
-        // The mapping for this part will be seen in the "XML Mapping Pane" in the "Developer" tab, if it is enabled
+        // Insert the full XML document as a custom document part.
+        // We can find the mapping for this part in Microsoft Word via "Developer" -> "XML Mapping Pane", if it is enabled.
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(Guid.newGuid().toString("B"), xmlString);
 
-        // None of the XML is in the document body at this point
-        // Create a StructuredDocumentTag, which will refer to a single element from the XML with an XPath
+        // Create a structured document tag, which will use an XPath to refer to a single element from the XML.
         StructuredDocumentTag sdt = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
         sdt.getXmlMapping().setMapping(xmlPart, "Company//Employee[@id='2']/FirstName", "");
 
-        // Add the StructuredDocumentTag to the document to display the element in the text 
+        // Add the StructuredDocumentTag to the document to display the element in the text.
         doc.getFirstSection().getBody().appendChild(sdt);
     }
 
@@ -1007,10 +1050,9 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:StructuredDocumentTagRangeStart.Tag
         //ExFor:StructuredDocumentTagRangeEnd
         //ExFor:StructuredDocumentTagRangeEnd.Id
-        //ExSummary:Shows how to get multi-section structured document tags properties.
+        //ExSummary:Shows how to get the properties of multi-section structured document tags.
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
 
-        // Note that these nodes can be a child of NodeType.Body node only and all properties of these nodes are read-only.
         StructuredDocumentTagRangeStart rangeStartTag =
             ms.as(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true).get(0), StructuredDocumentTagRangeStart.class);
         StructuredDocumentTagRangeEnd rangeEndTag =

@@ -476,7 +476,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     /// Insert field into the first paragraph of the current document using field code and field String.
     /// </summary>
     private static void insertFieldUsingFieldCodeFieldString(Document doc, String fieldCode, String fieldValue,
-        Node refNode, boolean isAfter, int paraIndex)
+        Node refNode, boolean isAfter, int paraIndex) throws Exception
     {
         Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
         para.insertField(fieldCode, fieldValue, refNode, isAfter);
@@ -625,7 +625,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         builder.write("Run 4. ");
 
         // If we open this document in Microsoft Word, the paragraph will look like one seamless text body.
-        // In reality, it will consist of four separate runs with the same formatting. Fragmented paragraphs like this
+        // However, it will consist of four separate runs with the same formatting. Fragmented paragraphs like this
         // may occur when we manually edit parts of one paragraph many times in Microsoft Word.
         Paragraph para = builder.getCurrentParagraph();
 

@@ -187,7 +187,7 @@ public class ExMailMergeCustom extends ApiExampleBase
 
         // Since we have consecutive mail merge regions, we would normally have to perform two mail merges.
         // However, one mail merge source with a data root can fill in multiple regions
-        // as long as the root contains tables with corresponding names/column names.
+        // if the root contains tables with corresponding names/column names.
         doc.getMailMerge().executeWithRegions(sourceRoot);
 
         doc.save(getArtifactsDir() + "MailMergeCustom.CustomDataSourceRoot.docx");

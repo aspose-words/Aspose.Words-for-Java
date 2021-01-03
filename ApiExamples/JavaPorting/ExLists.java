@@ -107,8 +107,8 @@ public class ExLists extends ApiExampleBase
         builder.writeln("Processing documents");
         builder.writeln("Saving documents in different formats:");
 
-        // If we increase the list level to one we have added items to previously,
-        // the nested list will be independent of the previous, and its numbering will start again. 
+        // If we increase the list level to a level that we have added items to previously,
+        // the nested list will be separate from the previous, and its numbering will start from the beginning. 
         // These list items will have symbols of "a.", "b.", "c.", "d.", and "e".
         builder.getListFormat().listIndent();
         builder.writeln("DOC");
@@ -316,7 +316,7 @@ public class ExLists extends ApiExampleBase
         listLevel.setTrailingCharacter(ListTrailingCharacter.SPACE);
         listLevel.setNumberPosition(144.0);
 
-        // Create paragraphs, and apply both list levels of our custom list formatting to them.
+        // Create paragraphs and apply both list levels of our custom list formatting to them.
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.getListFormat().setList(list);
@@ -674,7 +674,7 @@ public class ExLists extends ApiExampleBase
         testOutlineHeadingTemplates(new Document(getArtifactsDir() + "Lists.OutlineHeadingTemplates.docx")); //ExSkip
     }
 
-    private static void addOutlineHeadingParagraphs(DocumentBuilder builder, List list, String title)
+    private static void addOutlineHeadingParagraphs(DocumentBuilder builder, List list, String title) throws Exception
     {
         builder.getParagraphFormat().clearFormatting();
         builder.writeln(title);
@@ -767,7 +767,7 @@ public class ExLists extends ApiExampleBase
         testPrintOutAllLists(srcDoc, new Document(getArtifactsDir() + "Lists.PrintOutAllLists.docx")); //ExSkip
     }
 
-    private static void addListSample(DocumentBuilder builder, List list)
+    private static void addListSample(DocumentBuilder builder, List list) throws Exception
     {
         builder.writeln("Sample formatting of list with ListId:" + list.getListId());
         builder.getListFormat().setList(list);
@@ -850,7 +850,7 @@ public class ExLists extends ApiExampleBase
         // Each paragraph that we add between a list's start and the end will become an item in the list.
         List list = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
 
-        // Level 1 labels will be formatted according to the "Heading 1" paragraph style, and will have a prefix.
+        // Level 1 labels will be formatted according to the "Heading 1" paragraph style and will have a prefix.
         // These will look like "Appendix A", "Appendix B"...
         list.getListLevels().get(0).setNumberFormat("Appendix \u0000");
         list.getListLevels().get(0).setNumberStyle(NumberStyle.UPPERCASE_LETTER);

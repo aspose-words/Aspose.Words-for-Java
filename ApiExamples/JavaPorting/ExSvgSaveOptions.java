@@ -34,7 +34,7 @@ public class ExSvgSaveOptions extends ApiExampleBase
         //ExSummary:Shows how to mimic the properties of images when converting a .docx document to .svg.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        // Configure the SvgSaveOptions object to save with no page borders or selectable text
+        // Configure the SvgSaveOptions object to save with no page borders or selectable text.
         SvgSaveOptions options = new SvgSaveOptions();
         {
             options.setFitToViewPort(true);
@@ -53,11 +53,10 @@ public class ExSvgSaveOptions extends ApiExampleBase
     //ExFor:SvgSaveOptions.ResourcesFolder
     //ExFor:SvgSaveOptions.ResourcesFolderAlias
     //ExFor:SvgSaveOptions.SaveFormat
-    //ExSummary:Shows how to manipulate and print the URIs of linked resources created during conversion of a document to .svg.
+    //ExSummary:Shows how to manipulate and print the URIs of linked resources created while converting a document to .svg.
     @Test //ExSkip
     public void svgResourceFolder() throws Exception
     {
-        // Open a document which contains images
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         SvgSaveOptions options = new SvgSaveOptions();
@@ -83,7 +82,6 @@ public class ExSvgSaveOptions extends ApiExampleBase
     {
         public void /*IResourceSavingCallback.*/resourceSaving(ResourceSavingArgs args)
         {
-            // If we set a folder alias in the SaveOptions object, it will be printed here
             System.out.println("Resource #{++mSavedResourceCount} \"{args.ResourceFileName}\"");
             System.out.println("\t" + args.getResourceFileUri());
         }

@@ -680,7 +680,7 @@ public class ExNode extends ApiExampleBase
         builder.write("Run 1. ");
         builder.write("Run 2. ");
 
-        // Every invocation of the "Write()" method creates a new Run,
+        // Every invocation of the "Write" method creates a new Run,
         // which then appears in the parent Paragraph's RunCollection.
         RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
 

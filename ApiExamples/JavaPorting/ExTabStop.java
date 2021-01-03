@@ -32,26 +32,27 @@ public class ExTabStop extends ApiExampleBase
         //ExStart
         //ExFor:TabStopCollection.Add(TabStop)
         //ExFor:TabStopCollection.Add(Double, TabAlignment, TabLeader)
-        //ExSummary:Shows how to add tab stops to a document and set their positions.
+        //ExSummary:Shows how to add custom tab stops to a document.
         Document doc = new Document();
         Paragraph paragraph = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 0, true);
 
-        // Create a TabStop object and add it to the document
+        // Below are two ways of adding tab stops to a paragraph's collection of tab stops via the "ParagraphFormat" property.
+        // 1 -  Create a "TabStop" object, and then add it to the collection:
         TabStop tabStop = new TabStop(ConvertUtil.inchToPoint(3.0), TabAlignment.LEFT, TabLeader.DASHES);
         paragraph.getParagraphFormat().getTabStops().add(tabStop);
 
-        // Add a tab stop without explicitly creating new TabStop objects
+        // 2 -  Pass the values for properties of a new tab stop to the "Add" method:
         paragraph.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(100.0), TabAlignment.LEFT,
             TabLeader.DASHES);
 
-        // Add tab stops at 5 cm to all paragraphs
+        // Add tab stops at 5 cm to all paragraphs.
         for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
         {
             para.getParagraphFormat().getTabStops().add(ConvertUtil.millimeterToPoint(50.0), TabAlignment.LEFT,
                 TabLeader.DASHES);
         }
 
-        // Insert text with tabs that demonstrate the tab stops
+        // Every "tab" character takes the builder's cursor to the location of the next tab stop.
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Start\tTab 1\tTab 2\tTab 3\tTab 4");
 
@@ -89,10 +90,9 @@ public class ExTabStop extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Access the collection of tab stops and add some tab stops to it
         TabStopCollection tabStops = builder.getParagraphFormat().getTabStops();
 
-        // 72 points is one "inch" on the Microsoft Word tab stop ruler
+        // 72 points is one "inch" on the Microsoft Word tab stop ruler.
         tabStops.add(new TabStop(72.0));
         tabStops.add(new TabStop(432, TabAlignment.RIGHT, TabLeader.DASHES));
 
@@ -100,22 +100,22 @@ public class ExTabStop extends ApiExampleBase
         Assert.assertFalse(tabStops.get(0).isClear());
         Assert.assertFalse(tabStops.get(0).equals(tabStops.get(1)));
 
-        // Every "tab" character takes the builder's cursor to the next tab stop
+        // Every "tab" character takes the builder's cursor to the location of the next tab stop.
         builder.writeln("Start\tTab 1\tTab 2");
 
-        // Get the collection of paragraphs that we have created
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+
         Assert.assertEquals(2, paragraphs.getCount());
 
-        // Each paragraph gets its own TabStopCollection which gets values from the DocumentBuilder's collection
+        // Each paragraph gets its tab stop collection, which clones its values from the document builder's tab stop collection.
         Assert.assertEquals(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
         Assert.assertNotSame(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
 
-        // A TabStopCollection can point us to TabStops before and after certain positions
+        // A tab stop collection can point us to TabStops before and after certain positions.
         Assert.assertEquals(72.0, tabStops.before(100.0).getPosition());
         Assert.assertEquals(432.0, tabStops.after(100.0).getPosition());
 
-        // We can clear a paragraph's TabStopCollection to revert to the default tabbing behaviour
+        // We can clear a paragraph's tab stop collection to revert to the default tabbing behavior.
         paragraphs.get(1).getParagraphFormat().getTabStops().clear();
 
         Assert.assertEquals(0, paragraphs.get(1).getParagraphFormat().getTabStops().getCount());
@@ -149,7 +149,7 @@ public class ExTabStop extends ApiExampleBase
 
         Assert.assertEquals(2, tabStops.getCount());
 
-        // Tab stop placed at 30 mm is removed
+        // Remove the first tab stop.
         tabStops.removeByIndex(0);
 
         Assert.assertEquals(1, tabStops.getCount());
@@ -167,14 +167,14 @@ public class ExTabStop extends ApiExampleBase
     {
         //ExStart
         //ExFor:TabStopCollection.GetPositionByIndex
-        //ExSummary:Shows how to find a tab stop by it's index and get its position.
+        //ExSummary:Shows how to find a tab, stop by its index and verify its position.
         Document doc = new Document();
         TabStopCollection tabStops = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getTabStops();
 
         tabStops.add(ConvertUtil.millimeterToPoint(30.0), TabAlignment.LEFT, TabLeader.DASHES);
         tabStops.add(ConvertUtil.millimeterToPoint(60.0), TabAlignment.LEFT, TabLeader.DASHES);
 
-        // Get the position of the second tab stop in the collection
+        // Verify the position of the second tab stop in the collection.
         Assert.assertEquals(ConvertUtil.millimeterToPoint(60.0), tabStops.getPositionByIndex(1), 0.1d);
         //ExEnd
     }
@@ -184,17 +184,19 @@ public class ExTabStop extends ApiExampleBase
     {
         //ExStart
         //ExFor:TabStopCollection.GetIndexByPosition
-        //ExSummary:Shows how to look up a position to see if a tab stop exists there, and if so, obtain its index.
+        //ExSummary:Shows how to look up a position to see if a tab stop exists there and obtain its index.
         Document doc = new Document();
         TabStopCollection tabStops = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getTabStops();
 
-        // Add a tab stop at a position of 30mm
+        // Add a tab stop at a position of 30mm.
         tabStops.add(ConvertUtil.millimeterToPoint(30.0), TabAlignment.LEFT, TabLeader.DASHES);
 
-        // "0" confirms that a tab stop at 30mm exists in this collection, and it is at index 0 
+        // A result of "0" returned by "GetIndexByPosition" confirms that a tab stop
+        // at 30mm exists in this collection, and it is at index 0.
         Assert.assertEquals(0, tabStops.getIndexByPosition(ConvertUtil.millimeterToPoint(30.0)));
 
-        // "-1" means that there is no tab stop in this collection with a position of 60mm
+        // A "-1" returned by "GetIndexByPosition" confirms that
+        // there is no tab stop in this collection with a position of 60mm.
         Assert.assertEquals(-1, tabStops.getIndexByPosition(ConvertUtil.millimeterToPoint(60.0)));
         //ExEnd
     }

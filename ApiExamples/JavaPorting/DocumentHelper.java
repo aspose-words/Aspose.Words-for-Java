@@ -174,7 +174,7 @@ class DocumentHelper extends ApiExampleBase
     /// <param name="doc">Current document</param>
     /// <param name="text">Custom text</param>
     /// <param name="paraIndex">Paragraph index</param>
-    static Run insertNewRun(Document doc, String text, int paraIndex)
+    static Run insertNewRun(Document doc, String text, int paraIndex) throws Exception
     {
         Paragraph para = getParagraph(doc, paraIndex);
 
@@ -190,7 +190,7 @@ class DocumentHelper extends ApiExampleBase
     /// </summary>
     /// <param name="builder">Current document builder</param>
     /// <param name="textStrings">Custom text</param>
-    static void insertBuilderText(DocumentBuilder builder, String[] textStrings)
+    static void insertBuilderText(DocumentBuilder builder, String[] textStrings) throws Exception
     {
         for (String textString : textStrings)
         {
@@ -251,7 +251,7 @@ class DocumentHelper extends ApiExampleBase
     /// <param name="builder">
     /// The builder.
     /// </param>
-    static void insertToc(DocumentBuilder builder)
+    static void insertToc(DocumentBuilder builder) throws Exception
     {
         // Creating TOC entries
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);

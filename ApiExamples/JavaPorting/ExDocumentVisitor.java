@@ -68,7 +68,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         DocStructurePrinter visitor = new DocStructurePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
@@ -77,7 +77,8 @@ public class ExDocumentVisitor extends ApiExampleBase
     }
 
     /// <summary>
-    /// Traverses a node's tree of child nodes, and creates a map of this tree in the form of a string.
+    /// Traverses a node's tree of child nodes.
+    /// Creates a map of this tree in the form of a string.
     /// </summary>
     public static class DocStructurePrinter extends DocumentVisitor
     {
@@ -263,7 +264,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         TableStructurePrinter visitor = new TableStructurePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
@@ -439,7 +440,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         CommentStructurePrinter visitor = new CommentStructurePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
@@ -568,7 +569,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         FieldStructurePrinter visitor = new FieldStructurePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
@@ -683,7 +684,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         HeaderFooterStructurePrinter visitor = new HeaderFooterStructurePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
@@ -788,7 +789,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         EditableRangeStructurePrinter visitor = new EditableRangeStructurePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
@@ -890,7 +891,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         FootnoteStructurePrinter visitor = new FootnoteStructurePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
@@ -992,7 +993,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         OfficeMathStructurePrinter visitor = new OfficeMathStructurePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
@@ -1098,7 +1099,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         SmartTagStructurePrinter visitor = new SmartTagStructurePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
@@ -1205,7 +1206,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         StructuredDocumentTagNodePrinter visitor = new StructuredDocumentTagNodePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 

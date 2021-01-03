@@ -81,7 +81,7 @@ public class ExBorderCollection extends ApiExampleBase
         Assert.assertEquals(LineStyle.SINGLE, firstParagraphBorders.getLineStyle());
         Assert.assertEquals(3.0d, firstParagraphBorders.getLineWidth());
 
-        // Apply the ClearFormatting method to each paragraph to remove all of its borders.
+        // Use the "ClearFormatting" method on each paragraph to remove all borders.
         for (Paragraph paragraph : (Iterable<Paragraph>) doc.getFirstSection().getBody().getParagraphs())
         {
             paragraph.getParagraphFormat().getBorders().clearFormatting();

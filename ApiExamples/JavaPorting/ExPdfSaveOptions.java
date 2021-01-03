@@ -17,6 +17,7 @@ import com.aspose.words.BreakType;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.PdfSaveOptions;
+import com.aspose.words.PageSet;
 import org.testng.Assert;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.words.SaveFormat;
@@ -66,7 +67,6 @@ import com.aspose.words.PdfEncryptionDetails;
 import com.aspose.words.PdfEncryptionAlgorithm;
 import com.aspose.words.PdfPermissions;
 import com.aspose.words.NumeralFormat;
-import com.aspose.words.PageSet;
 import org.testng.annotations.DataProvider;
 
 
@@ -77,8 +77,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     public void onePage() throws Exception
     {
         //ExStart
-        //ExFor:FixedPageSaveOptions.PageIndex
-        //ExFor:FixedPageSaveOptions.PageCount
+        //ExFor:FixedPageSaveOptions.PageSet
         //ExFor:Document.Save(Stream, SaveOptions)
         //ExSummary:Shows how to convert only some of the pages in a document to PDF.
         Document doc = new Document();
@@ -98,11 +97,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             PdfSaveOptions options = new PdfSaveOptions();
 
             // Set the "PageIndex" to "1" to render a portion of the document starting from the second page.
-            options.setPageIndex(1);
-
-            // Set the "PageCount" to "1" to render only one page of the document,
-            // starting from the page that the "PageIndex" property specified.
-            options.setPageCount(1);
+            options.setPageSet(new PageSet(1));
 
             // This document will contain one page starting from page two, which will only contain the second page.
             doc.save(stream, options);
@@ -351,10 +346,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         options.getOutlineOptions().setHeadingsOutlineLevels(4);
 
         // If an outline entry has subsequent entries of a higher level inbetween itself and the next entry of the same or lower level,
-        // an arrow will appear to the left of the entry. This entry is the "owner" of a number of such "sub-entries".
+        // an arrow will appear to the left of the entry. This entry is the "owner" of several such "sub-entries".
         // In our document, the outline entries from the 5th heading level are sub-entries of the second 4th level outline entry,
         // the 4th and 5th heading level entries are sub-entries of the second 3rd level entry, and so on. 
-        // In the outline, we can click on the arrow of the "owner" entry to collapse/expand all of its sub-entries.
+        // In the outline, we can click on the arrow of the "owner" entry to collapse/expand all its sub-entries.
         // Set the "ExpandedOutlineLevels" property to "2" to automatically expand all heading level 2 and lower outline entries
         // and collapse all level and 3 and higher entries when we open the document. 
         options.getOutlineOptions().setExpandedOutlineLevels(2);
@@ -500,7 +495,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Set the "Compliance" property to "PdfCompliance.Pdf17" to comply with the "1.7" standard.
         // Set the "Compliance" property to "PdfCompliance.PdfA1a" to comply with the "PDF/A-1a" standard,
         // which complies with "PDF/A-1b" as well as preserving the document structure of the original document.
-        // This helps with making documents searchable, but may significantly increase the size of already large documents.
+        // This helps with making documents searchable but may significantly increase the size of already large documents.
         saveOptions.setCompliance(pdfCompliance);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.Compliance.pdf", saveOptions);
@@ -1377,17 +1372,19 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExStart
         //ExFor:PdfSaveOptions.AdditionalTextPositioning
         //ExSummary:Show how to write additional text positioning operators.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
+        Document doc = new Document(getMyDir() + "Text positioning operators.docx");
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions saveOptions = new PdfSaveOptions();
-        saveOptions.setTextCompression(PdfTextCompression.NONE);
+        {
+            saveOptions.setTextCompression(PdfTextCompression.NONE);
 
-        // Set the "AdditionalTextPositioning" property to "true" to attempt to fix incorrect
-        // element positioning in the output PDF, should there be any, at the cost of increased file size.
-        // Set the "AdditionalTextPositioning" property to "false" to render the document as usual.
-        saveOptions.setAdditionalTextPositioning(applyAdditionalTextPositioning);
+            // Set the "AdditionalTextPositioning" property to "true" to attempt to fix incorrect
+            // element positioning in the output PDF, should there be any, at the cost of increased file size.
+            // Set the "AdditionalTextPositioning" property to "false" to render the document as usual.
+            saveOptions.setAdditionalTextPositioning(applyAdditionalTextPositioning);
+        }
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf", saveOptions);
         //ExEnd
@@ -1399,19 +1396,21 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         pdfDocument.Pages[1].Accept(textAbsorber);
 
         SetGlyphsPositionShowText tjOperator =
-            (SetGlyphsPositionShowText) textAbsorber.TextFragments[1].Page.Contents[96];
+            (SetGlyphsPositionShowText) textAbsorber.TextFragments[1].Page.Contents[85];
 
         if (applyAdditionalTextPositioning)
         {
-            Assert.That(300000, Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").getLength()));
+            Assert.That(100000,
+                Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").getLength()));
             Assert.AreEqual(
-                "[0 (s) 0 (e) 1 (g) 0 (m) 0 (e) 0 (n) 0 (t) 0 (s) 0 ( ) 1 (o) 0 (f) 0 ( ) 1 (t) 0 (e) 0 (x) 0 (t)] TJ",
+                "[0 (S) 0 (a) 0 (m) 0 (s) 0 (t) 0 (a) -1 (g) 1 (,) 0 ( ) 0 (1) 0 (0) 0 (.) 0 ( ) 0 (N) 0 (o) 0 (v) 0 (e) 0 (m) 0 (b) 0 (e) 0 (r) -1 ( ) 1 (2) -1 (0) 0 (1) 0 (8)] TJ",
                 tjOperator.ToString());
         }
         else
         {
-            Assert.That(300000, Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").getLength()));
-            Assert.AreEqual("[(se) 1 (gments ) 1 (of ) 1 (text)] TJ", tjOperator.ToString());
+            Assert.That(97000,
+                Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").getLength()));
+            Assert.AreEqual("[(Samsta) -1 (g) 1 (, 10. November) -1 ( ) 1 (2) -1 (018)] TJ", tjOperator.ToString());
         }
     }
 
@@ -1444,7 +1443,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         options.setUseBookFoldPrintingSettings(renderTextAsBookfold);
 
         // If we are rendering the document as a booklet, we must set the "MultiplePages"
-        // properties of all page setup objects of all sections to "MultiplePagesType.BookFoldPrinting".
+        // properties of the page setup objects of all sections to "MultiplePagesType.BookFoldPrinting".
         if (renderTextAsBookfold)
             for (Section s : (Iterable<Section>) doc.getSections())
             {
@@ -2038,11 +2037,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             mWarnings.Add(info);
         }
 
-         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
-            mWarnings.Clear();
-        }
-
-        public int Count => private mWarnings.CountmWarnings;
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!private mWarnings.CountmWarnings;
 
         /// <summary>
         /// Returns true if a warning with the specified properties has been generated.
@@ -2124,7 +2119,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions options = new PdfSaveOptions();
 
-        // Create a digital signature, and assign it to our SaveOptions object to sign the document when we save it to PDF. 
+        // Create a digital signature and assign it to our SaveOptions object to sign the document when we save it to PDF. 
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
         options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", DateTime.getNow()));
 

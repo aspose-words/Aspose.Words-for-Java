@@ -367,7 +367,7 @@ class TestUtil extends ApiExampleBase
     }
 
     /// <summary>
-    /// Checks whether values of attributes of a field with a type not related to date/time are equal to expected values.
+    /// Checks whether values of properties of a field with a type not related to date/time are equal to expected values.
     /// </summary>
     /// <remarks>
     /// Best used when there are many fields closely being tested and should be avoided if a field has a long field code/result.
@@ -387,7 +387,7 @@ class TestUtil extends ApiExampleBase
     }
 
     /// <summary>
-    /// Checks whether values of attributes of a field with a type related to date/time are equal to expected values.
+    /// Checks whether values of properties of a field with a type related to date/time are equal to expected values.
     /// </summary>
     /// <remarks>
     /// Used when comparing DateTime instances to Field.Result values parsed to DateTime, which may differ slightly. 
@@ -468,7 +468,7 @@ class TestUtil extends ApiExampleBase
     }
 
     /// <summary>
-    /// Checks whether values of a footnote's attributes are equal to their expected values.
+    /// Checks whether values of a footnote's properties are equal to their expected values.
     /// </summary>
     /// <param name="expectedFootnoteType">Expected type of the footnote/endnote.</param>
     /// <param name="expectedIsAuto">Expected auto-numbered status of this footnote.</param>
@@ -487,7 +487,7 @@ class TestUtil extends ApiExampleBase
     }
 
     /// <summary>
-    /// Checks whether values of a list level's attributes are equal to their expected values.
+    /// Checks whether values of a list level's properties are equal to their expected values.
     /// </summary>
     /// <remarks>
     /// Only necessary for list levels that have been explicitly created by the user.
@@ -548,7 +548,7 @@ class TestUtil extends ApiExampleBase
     }
 
     /// <summary>
-    /// Checks whether values of a tab stop's attributes are equal to their expected values.
+    /// Checks whether values of a tab stop's properties are equal to their expected values.
     /// </summary>
     /// <param name="expectedPosition">Expected position on the tab stop ruler, in points.</param>
     /// <param name="expectedTabAlignment">Expected position where the position is measured from </param>
@@ -567,7 +567,7 @@ class TestUtil extends ApiExampleBase
     }
 
     /// <summary>
-    /// Checks whether values of a shape's attributes are equal to their expected values.
+    /// Checks whether values of a shape's properties are equal to their expected values.
     /// </summary>
     /// <remarks>
     /// All dimension measurements are in points.
@@ -586,7 +586,7 @@ class TestUtil extends ApiExampleBase
     }
 
     /// <summary>
-    /// Checks whether values of attributes of a textbox are equal to their expected values.
+    /// Checks whether values of properties of a textbox are equal to their expected values.
     /// </summary>
     /// <remarks>
     /// All dimension measurements are in points.
@@ -606,7 +606,7 @@ class TestUtil extends ApiExampleBase
     }
 
     /// <summary>
-    /// Checks whether values of attributes of an editable range are equal to their expected values.
+    /// Checks whether values of properties of an editable range are equal to their expected values.
     /// </summary>
     static void verifyEditableRange(int expectedId, String expectedEditorUser, /*EditorType*/int expectedEditorGroup, EditableRange editableRange)
     {

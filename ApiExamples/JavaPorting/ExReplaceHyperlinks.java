@@ -152,7 +152,7 @@ class Hyperlink
         }
     }
 
-    private void updateFieldCode()
+    private void updateFieldCode() throws Exception
     {
         // A field's field code is in a Run node between the field's start node and field separator.
         Run fieldCode = (Run) mFieldStart.getNextSibling();

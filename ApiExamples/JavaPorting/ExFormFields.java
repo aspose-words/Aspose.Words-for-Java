@@ -234,7 +234,7 @@ public class ExFormFields extends ApiExampleBase
         Assert.assertEquals(TextFormFieldType.REGULAR, textInput.getTextInputType());
         Assert.assertEquals(50, textInput.getMaxLength());
 
-        // This collection contains all of our form fields.
+        // This collection contains all our form fields.
         FormFieldCollection formFields = doc.getRange().getFormFields();
         Assert.assertEquals(3, formFields.getCount());
 
@@ -277,7 +277,7 @@ public class ExFormFields extends ApiExampleBase
         /// <summary>
         /// Called when a FormField node is encountered in the document.
         /// </summary>
-        public /*override*/ /*VisitorAction*/int visitFormField(FormField formField)
+        public /*override*/ /*VisitorAction*/int visitFormField(FormField formField) throws Exception
         {
             appendLine(formField.getType() + ": \"" + formField.getName() + "\"");
             appendLine("\tStatus: " + (formField.getEnabled() ? "Enabled" : "Disabled"));
@@ -288,8 +288,8 @@ public class ExFormFields extends ApiExampleBase
             switch (formField.getType())
             {
                 case FieldType.FIELD_FORM_DROP_DOWN:
-                    appendLine("\tDrop down items count: " + formField.getDropDownItems().getCount() + ", default selected item index: " + formField.getDropDownSelectedIndex());
-                    AppendLine("\tDrop down items: " + String.Join(", ", formField.getDropDownItems().ToArray()));
+                    appendLine("\tDrop-down items count: " + formField.getDropDownItems().getCount() + ", default selected item index: " + formField.getDropDownSelectedIndex());
+                    AppendLine("\tDrop-down items: " + String.Join(", ", formField.getDropDownItems().ToArray()));
                     break;
                 case FieldType.FIELD_FORM_CHECK_BOX:
                     appendLine("\tCheckbox size: " + formField.getCheckBoxSize());
@@ -385,7 +385,7 @@ public class ExFormFields extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a combo box, and then verify its collection of drop down items.
+        // Insert a combo box, and then verify its collection of drop-down items.
         // In Microsoft Word, the user will click the combo box,
         // and then choose one of the items of text in the collection to display.
         String[] items = { "One", "Two", "Three" };
@@ -397,7 +397,7 @@ public class ExFormFields extends ApiExampleBase
         Assert.assertEquals(1, dropDownItems.indexOf("Two"));
         Assert.assertTrue(dropDownItems.contains("Three"));
 
-        // There are two ways of adding a new item to an existing collection of drop down box items.
+        // There are two ways of adding a new item to an existing collection of drop-down box items.
         // 1 -  Append an item to the end of the collection:
         dropDownItems.add("Four");
 
@@ -415,7 +415,7 @@ public class ExFormFields extends ApiExampleBase
     	}
         finally { if (dropDownCollectionEnumerator != null) dropDownCollectionEnumerator.close(); }
 
-        // There are two ways of removing elements from a collection of drop down items.
+        // There are two ways of removing elements from a collection of drop-down items.
         // 1 -  Remove an item with contents equal to the passed string:
         dropDownItems.remove("Four");
 
@@ -428,7 +428,7 @@ public class ExFormFields extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "FormFields.DropDownItemCollection.html");
 
-        // Empty the whole collection of drop down items.
+        // Empty the whole collection of drop-down items.
         dropDownItems.clear();
         //ExEnd
 

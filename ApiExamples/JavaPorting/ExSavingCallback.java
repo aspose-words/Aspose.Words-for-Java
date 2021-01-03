@@ -153,7 +153,7 @@ class ExSavingCallback !Test class should be public in Java to run, please fix .
         HtmlSaveOptions options = new HtmlSaveOptions();
 
         // If we save the document normally, there will be one output HTML
-        // document with all of the source document's contents.
+        // document with all the source document's contents.
         // Set the "DocumentSplitCriteria" property to "DocumentSplitCriteria.SectionBreak" to
         // save our document to multiple HTML files: one for each section.
         options.setDocumentSplitCriteria(DocumentSplitCriteria.SECTION_BREAK);

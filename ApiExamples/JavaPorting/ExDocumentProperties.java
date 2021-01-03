@@ -93,7 +93,7 @@ public class ExDocumentProperties extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Properties.docx");
 
         // Every document contains a collection of custom properties, which, like the built-in properties, are key-value pairs.
-        // Unlike the built-in properties, many of which the document maintains by itself, we need to create all of our own custom properties. 
+        // The document has a fixed list of built-in properties. The user creates all of the custom properties. 
         Assert.assertEquals("Value of custom document property", doc.getCustomDocumentProperties().get("CustomProperty").toString());
 
         doc.getCustomDocumentProperties().add("CustomProperty2", "Value of custom document property #2");
@@ -253,10 +253,10 @@ public class ExDocumentProperties extends ApiExampleBase
 
         // By using built in properties,
         // we can treat document statistics such as word/page/character counts as metadata that can be glanced at without opening the document
-        // These properties are accessed by right-clicking the file in Windows Explorer and navigating to Properties > Details > Content
+        // These properties are accessed by right clicking the file in Windows Explorer and navigating to Properties > Details > Content
         // If we want to display this data inside the document, we can use fields such as NUMPAGES, NUMWORDS, NUMCHARS etc.
         // Also, these values can also be viewed in Microsoft Word by navigating File > Properties > Advanced Properties > Statistics
-        // Page count: The PageCount attribute shows the page count in real time and its value can be assigned to the Pages property
+        // Page count: The PageCount property shows the page count in real time and its value can be assigned to the Pages property
 
         // The "Pages" property stores the page count of the document. 
         Assert.assertEquals(6, properties.getPages());
@@ -413,7 +413,7 @@ public class ExDocumentProperties extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a relative hyperlink to a document in the local file system named "Document.docx".
-        // When we click the link in Microsoft Word, it will open the designated document, provided that it is available.
+        // Clicking on the link in Microsoft Word will open the designated document, if it is available.
         builder.insertHyperlink("Relative hyperlink", "Document.docx", false);
 
         // This link is relative. If there is no "Document.docx" in the same folder
@@ -454,9 +454,10 @@ public class ExDocumentProperties extends ApiExampleBase
         //ExSummary:Shows the relationship between "HeadingPairs" and "TitlesOfParts" properties.
         Document doc = new Document(getMyDir() + "Heading pairs and titles of parts.docx");
         
-        // We can find the combined values of these collections via "File" -> "Properties" -> "Advanced Properties" > "Contents" tab.
-        // The HeadingPairs property is a collection of <string, int> pairs that determines
-        // how many document parts a heading spans across.
+        // We can find the combined values of these collections via
+        // "File" -> "Properties" -> "Advanced Properties" -> "Contents" tab.
+        // The HeadingPairs property is a collection of <string, int> pairs that
+        // determines how many document parts a heading spans across.
         Object[] headingPairs = doc.getBuiltInDocumentProperties().getHeadingPairs();
 
         // The TitlesOfParts property contains the names of parts that belong to the above headings.

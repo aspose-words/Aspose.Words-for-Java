@@ -137,7 +137,7 @@ public class ExMailMerge extends ApiExampleBase
             // This will run the command and store the data in the reader.
             OdbcDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
 
-            // Take the data from the reader, and use it in the mail merge.
+            // Take the data from the reader and use it in the mail merge.
             doc.getMailMerge().execute(reader);
         }
         finally { if (connection != null) connection.close(); }
@@ -175,7 +175,7 @@ public class ExMailMerge extends ApiExampleBase
         ADODB.Recordset recordset = new ADODB.Recordset();
         recordset.Open(COMMAND, connection);
 
-        // Execute the mail merge, and save the document.
+        // Execute the mail merge and save the document.
         doc.getMailMerge().ExecuteADO(recordset);
         doc.save(getArtifactsDir() + "MailMerge.ExecuteADO.docx");
         TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.mdb", COMMAND, doc, true); //ExSkip
@@ -228,13 +228,13 @@ public class ExMailMerge extends ApiExampleBase
         // Run a mail merge on just the first region, filling its MERGEFIELDS with data from the record set.
         doc.getMailMerge().ExecuteWithRegionsADO(recordset, "MergeRegion1");
 
-        // Close the record set, and reopen it with data from another SQL query.
+        // Close the record set and reopen it with data from another SQL query.
         command = "SELECT * FROM Customers";
 
         recordset.Close();
         recordset.Open(command, connection);
 
-        // Run a second mail merge on the second region, and save the document.
+        // Run a second mail merge on the second region and save the document.
         doc.getMailMerge().ExecuteWithRegionsADO(recordset, "MergeRegion2");
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx");
@@ -656,16 +656,12 @@ public class ExMailMerge extends ApiExampleBase
         Document doc = createSourceDocWithAlternativeMergeFields();
         DataTable dataTable = createSourceTablePreserveUnusedTags();
 
-        // By default, alternative merge tags that cannot receive data because the data source has no columns with their name
-        // are converted to and left on display as MERGEFIELDs after the mail merge.
-        // We can preserve their original appearance setting this attribute to true.
-
         // By default, a mail merge places data from each row of a table into MERGEFIELDs, which name columns in that table. 
         // Our document has no such fields, but it does have plaintext tags enclosed by curly braces.
         // If we set the "PreserveUnusedTags" flag to "true", we could treat these tags as MERGEFIELDs
         // to allow our mail merge to insert data from the data source at those tags.
         // If we set the "PreserveUnusedTags" flag to "false",
-        // the mail merge will convert these tags to MERGEFIELDs, and leave them unfilled.
+        // the mail merge will convert these tags to MERGEFIELDs and leave them unfilled.
         doc.getMailMerge().setPreserveUnusedTags(preserveUnusedTags);
         doc.getMailMerge().execute(dataTable);
 
@@ -694,7 +690,7 @@ public class ExMailMerge extends ApiExampleBase
 	}
 
     /// <summary>
-    /// Create a document and add two plaintext tags that can may act as MERGEFIELDs during a mail merge.
+    /// Create a document and add two plaintext tags that may act as MERGEFIELDs during a mail merge.
     /// </summary>
     private static Document createSourceDocWithAlternativeMergeFields() throws Exception
     {
@@ -1101,7 +1097,7 @@ public class ExMailMerge extends ApiExampleBase
         doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS);
 
         // Setting the "CleanupParagraphsWithPunctuationMarks" property to "true" will also count paragraphs
-        // with punctuation marks as empty, and will get the mail merge operation to remove them as well.
+        // with punctuation marks as empty and will get the mail merge operation to remove them as well.
         // Setting the "CleanupParagraphsWithPunctuationMarks" property to "false"
         // will remove empty paragraphs, but not ones with punctuation marks.
         // This is a list of punctuation marks that this property concerns: "!", ",", ".", ":", ";", "?", "¡", "¿".
@@ -1845,14 +1841,15 @@ public class ExMailMerge extends ApiExampleBase
         }
         finally { if (enumerator != null) enumerator.close(); }
 
-        // We can clone the elements in this collection.
+        // Clone the elements in this collection.
         msAssert.areNotEqual(dataCollection.get(0), dataCollection.get(0).deepClone());
 
-        // We can also remove elements individually, or clear the entire collection at once.
+        // Use the "RemoveAt" method elements individually by index.
         dataCollection.removeAt(0);
 
         Assert.assertEquals(29, dataCollection.getCount());
 
+        // Use the "Clear" method to clear the entire collection at once.
         dataCollection.clear();
 
         Assert.assertEquals(0, dataCollection.getCount());

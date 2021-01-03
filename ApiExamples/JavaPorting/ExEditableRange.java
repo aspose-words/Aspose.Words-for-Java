@@ -184,7 +184,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         builder.writeln("Hello world! Since we have set the document's protection level to read-only," +
                         " we cannot edit this paragraph without the password.");
 
-        // When we write-protect documents, editable ranges allow us to pick specific areas that users are allowed to edit.
+        // When we write-protect documents, editable ranges allow us to pick specific areas that users may edit.
         // There are two mutually exclusive ways to narrow down the list of allowed editors.
         // 1 -  Specify a user:
         EditableRange editableRange = builder.startEditableRange().getEditableRange();
@@ -213,7 +213,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
     }
 
     /// <summary>
-    /// Collects attributes and contents of visited editable ranges in a string.
+    /// Collects properties and contents of visited editable ranges in a string.
     /// </summary>
     public static class EditableRangePrinter extends DocumentVisitor
     {

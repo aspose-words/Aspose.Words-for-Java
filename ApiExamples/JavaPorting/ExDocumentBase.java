@@ -120,7 +120,7 @@ public class ExDocumentBase extends ApiExampleBase
         //ExStart
         //ExFor:DocumentBase.ImportNode(Node, System.Boolean, ImportFormatMode)
         //ExSummary:Shows how to import node from source document to destination document with specific options.
-        // Create two documents, and add a character style to each document.
+        // Create two documents and add a character style to each document.
         // Configure the styles to have the same name, but different text formatting.
         Document srcDoc = new Document();
         Style srcStyle = srcDoc.getStyles().add(StyleType.CHARACTER, "My style");

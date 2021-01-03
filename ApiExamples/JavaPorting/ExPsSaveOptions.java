@@ -43,7 +43,7 @@ public class ExPsSaveOptions extends ApiExampleBase
         }
 
         // If we are rendering the document as a booklet, we must set the "MultiplePages"
-        // properties of all page setup objects of all sections to "MultiplePagesType.BookFoldPrinting".
+        // properties of the page setup objects of all sections to "MultiplePagesType.BookFoldPrinting".
         for (Section s : (Iterable<Section>) doc.getSections())
         {
             s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);

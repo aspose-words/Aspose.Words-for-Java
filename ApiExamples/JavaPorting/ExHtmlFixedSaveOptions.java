@@ -608,7 +608,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
     }
     
     /// <summary>
-    /// Counts and prints URIs of resources contained by as they are converted to fixed .Html.
+    /// Counts and prints URIs of resources contained by as they are converted to fixed HTML.
     /// </summary>
     private static class ResourceUriPrinter implements IResourceSavingCallback
     {
