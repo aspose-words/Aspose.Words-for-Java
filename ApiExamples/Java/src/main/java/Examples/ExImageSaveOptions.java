@@ -25,7 +25,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:Document.Save(String, SaveOptions)
         //ExFor:FixedPageSaveOptions
-        //ExFor:ImageSaveOptions.PageIndex
+        //ExFor:ImageSaveOptions.PageSet
         //ExSummary:Shows how to render one page from a document to a JPEG image.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -41,9 +41,9 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // to modify the way in which that method renders the document into an image.
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
 
-        // Set the "PageIndex" to "1" to select the second page via
+        // Set the "PageSet" to "1" to select the second page via
         // the zero-based index to start rendering the document from.
-        options.setPageIndex(1);
+        options.setPageSet(new PageSet(1));
 
         // When we save the document to the JPEG format, Aspose.Words only renders one page.
         // This image will contain one page starting from page two,
@@ -87,9 +87,9 @@ public class ExImageSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void pageIndex() throws Exception {
+    public void pageSet() throws Exception {
         //ExStart
-        //ExFor:ImageSaveOptions.PageIndex
+        //ExFor:ImageSaveOptions.PageSet
         //ExSummary:Shows how to specify which page in a document to render as an image.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -108,8 +108,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.GIF);
 
         // Render every page of the document to a separate image file.
-        for (int i = 1; i <= doc.getPageCount(); i++) {
-            saveOptions.setPageIndex(1);
+        for (int i = 1; i <= doc.getPageCount(); i++){
+            saveOptions.setPageSet(new PageSet(1));
 
             doc.save(getArtifactsDir() + MessageFormat.format("ImageSaveOptions.PageIndex.Page {0}.gif", i), saveOptions);
         }
@@ -191,8 +191,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:Document.Save(String, SaveOptions)
         //ExFor:FixedPageSaveOptions
-        //ExFor:ImageSaveOptions.PageIndex
-        //ExFor:ImageSaveOptions.PageCount
+        //ExFor:ImageSaveOptions.PageSet
         //ExSummary:Shows how to render every page of a document to a separate TIFF image.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -208,14 +207,11 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // to modify the way in which that method renders the document into an image.
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.TIFF);
 
-        // Set the "PageCount" property to "1" to render only one page of the document.
-        // Many other image formats only render one page at a time, and do not use this property.
-        options.setPageCount(1);
-
-        for (int i = 0; i < doc.getPageCount(); i++) {
-            // Set the "PageIndex" property to the number of the first page from
+        for (int i = 0; i < doc.getPageCount(); i++)
+        {
+            // Set the "PageSet" property to the number of the first page from
             // which to start rendering the document from.
-            options.setPageIndex(i);
+            options.setPageSet(new PageSet(i));
 
             doc.save(getArtifactsDir() + MessageFormat.format("ImageSaveOptions.PageByPage.{0}.tiff", i + 1), options);
         }

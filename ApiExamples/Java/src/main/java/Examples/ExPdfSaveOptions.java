@@ -44,8 +44,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
     @Test
     public void onePage() throws Exception {
 		//ExStart
-		//ExFor:FixedPageSaveOptions.PageIndex
-		//ExFor:FixedPageSaveOptions.PageCount
+        //ExFor:FixedPageSaveOptions.PageSet
 		//ExFor:Document.Save(Stream, SaveOptions)
 		//ExSummary:Shows how to convert only some of the pages in a document to PDF.
 		Document doc = new Document();
@@ -61,7 +60,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
 		// to modify how that method converts the document to .PDF.
 		PdfSaveOptions options = new PdfSaveOptions();
 
-		// Set the "PageSet" to "1" to render a portion of the document starting from the second page.
+            // Set the "PageIndex" to "1" to render a portion of the document starting from the second page.
 		options.setPageSet(new PageSet(1));
 
 		// This document will contain one page starting from page two, which will only contain the second page.

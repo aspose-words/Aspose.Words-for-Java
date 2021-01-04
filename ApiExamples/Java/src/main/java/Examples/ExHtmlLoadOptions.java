@@ -74,7 +74,6 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
 
         private final ArrayList<WarningInfo> mWarnings = new ArrayList<>();
     }
-    //ExEnd
 
     @Test
     public void encryptedHtml() throws Exception {
