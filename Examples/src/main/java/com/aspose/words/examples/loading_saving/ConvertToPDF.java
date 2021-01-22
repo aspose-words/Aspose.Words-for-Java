@@ -23,6 +23,16 @@ public class ConvertToPDF {
     	System.out.println("Images converted to PDF successfully.");
     }
     
+    public static void ConvertPDFtoOtherFormats(String dataDir) throws Exception {
+    	//ExStart:ConvertPDFtoOtherFormats
+    	// Load the document from disk.
+    	Document doc = new Document(dataDir + "TestDoc.pdf");
+
+    	// Save the document in DOCX format.
+    	doc.save(dataDir + "SavePdf2Docx.docx");
+    	//ExEnd:ConvertPDFtoOtherFormats
+    }
+    
     public static void Doc2PDF(String dataDir) throws Exception {
         //ExStart:Doc2Pdf
         // Load the document from disk.
