@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -63,7 +63,7 @@ public class ExTableColumn extends ApiExampleBase
         /// <summary>
         /// Inserts a new column before this column into the table.
         /// </summary>
-        public Column insertColumnBefore() throws Exception
+        public Column insertColumnBefore()
         {
             Cell[] columnCells = getCells();
 

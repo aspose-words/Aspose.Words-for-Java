@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -174,7 +174,7 @@ class DocumentHelper extends ApiExampleBase
     /// <param name="doc">Current document</param>
     /// <param name="text">Custom text</param>
     /// <param name="paraIndex">Paragraph index</param>
-    static Run insertNewRun(Document doc, String text, int paraIndex) throws Exception
+    static Run insertNewRun(Document doc, String text, int paraIndex)
     {
         Paragraph para = getParagraph(doc, paraIndex);
 
@@ -190,7 +190,7 @@ class DocumentHelper extends ApiExampleBase
     /// </summary>
     /// <param name="builder">Current document builder</param>
     /// <param name="textStrings">Custom text</param>
-    static void insertBuilderText(DocumentBuilder builder, String[] textStrings) throws Exception
+    static void insertBuilderText(DocumentBuilder builder, String[] textStrings)
     {
         for (String textString : textStrings)
         {
@@ -251,7 +251,7 @@ class DocumentHelper extends ApiExampleBase
     /// <param name="builder">
     /// The builder.
     /// </param>
-    static void insertToc(DocumentBuilder builder) throws Exception
+    static void insertToc(DocumentBuilder builder)
     {
         // Creating TOC entries
         builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);

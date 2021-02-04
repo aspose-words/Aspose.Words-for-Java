@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -104,7 +104,7 @@ class MergeField
         }
     }
 
-    private void updateFieldCode(String fieldName) throws Exception
+    private void updateFieldCode(String fieldName)
     {
         // Field code is stored in a Run node between field start and field separator.
         Run fieldCode = (Run) mFieldStart.getNextSibling();

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -263,7 +263,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         /// <summary>
         /// Called when a mail merge merges data into a MERGEFIELD.
         /// </summary>
-        public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args) throws Exception
+        public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args)
         {
             if (mBuilder == null)
                 mBuilder = new DocumentBuilder(args.getDocument());

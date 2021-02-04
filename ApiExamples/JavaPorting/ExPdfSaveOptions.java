@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -46,6 +46,7 @@ import com.aspose.words.Section;
 import com.aspose.words.MultiplePagesType;
 import com.aspose.ms.System.StringComparison;
 import com.aspose.words.PdfZoomBehavior;
+import java.util.ArrayList;
 import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.DmlEffectsRenderingMode;
 import com.aspose.words.DmlRenderingMode;
@@ -54,7 +55,6 @@ import com.aspose.BitmapPal;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.Dml3DEffectsRenderingMode;
 import com.aspose.words.WarningSource;
-import java.util.ArrayList;
 import com.aspose.words.CertificateHolder;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.PdfDigitalSignatureDetails;
@@ -356,6 +356,20 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.ExpandedOutlineLevels.pdf", options);
         //ExEnd
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExpandedOutlineLevels.pdf");
+
+        Assert.AreEqual(1, pdfDocument.Outlines.Count);
+        Assert.AreEqual(5, pdfDocument.Outlines.VisibleCount);
+
+        Assert.True(pdfDocument.Outlines[1].Open);
+        Assert.AreEqual(1, pdfDocument.Outlines[1].Level);
+
+        Assert.False(pdfDocument.Outlines[1][1].Open);
+        Assert.AreEqual(2, pdfDocument.Outlines[1][1].Level);
+
+        Assert.True(pdfDocument.Outlines[1][2].Open);
+        Assert.AreEqual(2, pdfDocument.Outlines[1][2].Level);
     }
 
     @Test (dataProvider = "updateFieldsDataProvider")
@@ -454,6 +468,15 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                                         "<</Type /Annot/Subtype /Widget/P 4 0 R/FT /Ch/F 4/Rect [168.39199829 707.35101318 217.87442017 722.64007568]/Ff 131072/T(þÿ\u0000M\u0000y\0C\u0000o\u0000m\0b\u0000o\0B\u0000o\u0000x)/Opt " +
                                         "[(þÿ\0A\u0000p\u0000p\u0000l\0e) (þÿ\0B\0a\u0000n\0a\u0000n\0a) (þÿ\0C\u0000h\0e\u0000r\u0000r\u0000y) ]/V(þÿ\0A\u0000p\u0000p\u0000l\0e)/DA(0 g /FAAABC 12 Tf )/AP<</N 11 0 R>>>>",
                 getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf");
+
+            Aspose.Pdf.Forms.Form form = pdfDocument.Form;
+            Assert.AreEqual(1, pdfDocument.Form.Count);
+
+            ComboBoxField field = (ComboBoxField)form.Fields[0];
+            
+            Assert.AreEqual("MyComboBox", field.FullName);
+            Assert.AreEqual(3, field.Options.Count);
+            Assert.AreEqual("Apple", field.Value);
         }
         else
         {
@@ -463,6 +486,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 TestUtil.fileContainsString("/Widget",
                     getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf");
             });
+
+            Assert.AreEqual(0, pdfDocument.Form.Count);
         }
     }
 
@@ -587,7 +612,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 			{PdfTextCompression.FLATE},
 		};
 	}
-    
+
     @Test (dataProvider = "imageCompressionDataProvider")
     public void imageCompression(/*PdfImageCompression*/int pdfImageCompression) throws Exception
     {
@@ -1253,6 +1278,16 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Restore the original font sources.
         FontSettings.getDefaultInstance().setFontsSources(originalFontsSources);
         //ExEnd
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf");
+
+        Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
+
+        Assert.AreEqual("ArialMT", pdfDocFonts[0].FontName);
+        Assert.AreNotEqual(embedFullFonts, pdfDocFonts[0].IsSubset);
+
+        Assert.AreEqual("Arvo", pdfDocFonts[1].FontName);
+        Assert.AreNotEqual(embedFullFonts, pdfDocFonts[1].IsSubset);
     }
 
 	//JAVA-added data provider for test method
@@ -1309,6 +1344,18 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 break;
         }
         //ExEnd
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf");
+
+        Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
+
+        Assert.AreEqual("ArialMT", pdfDocFonts[0].FontName);
+        Assert.AreEqual(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL, 
+            pdfDocFonts[0].IsEmbedded);
+
+        Assert.AreEqual("CourierNewPSMT", pdfDocFonts[1].FontName);
+        Assert.AreEqual(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL || pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_NONSTANDARD, 
+            pdfDocFonts[1].IsEmbedded);
     }
 
 	//JAVA-added data provider for test method
@@ -1353,6 +1400,24 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         else
             Assert.That(30000, Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf").getLength()));
         //ExEnd
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf");
+
+        Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
+
+        if (useCoreFonts)
+        {
+            Assert.AreEqual("Helvetica", pdfDocFonts[0].FontName);
+            Assert.AreEqual("Courier", pdfDocFonts[1].FontName);
+        }
+        else
+        {
+            Assert.AreEqual("ArialMT", pdfDocFonts[0].FontName);
+            Assert.AreEqual("CourierNewPSMT", pdfDocFonts[1].FontName);
+        }
+
+        Assert.AreNotEqual(useCoreFonts, pdfDocFonts[0].IsEmbedded);
+        Assert.AreNotEqual(useCoreFonts, pdfDocFonts[1].IsEmbedded);
     }
 
 	//JAVA-added data provider for test method
@@ -1524,11 +1589,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.ZoomBehaviour.pdf", options);
         //ExEnd
 
-                Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ZoomBehaviour.pdf");
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ZoomBehaviour.pdf");
         GoToAction action = (GoToAction)pdfDocument.OpenAction;
 
         Assert.AreEqual(0.25d, (ms.as(action.Destination, XYZExplicitDestination.class)).Zoom);
-            }
+    }
 
     @Test (dataProvider = "pageModeDataProvider")
     public void pageMode(/*PdfPageMode*/int pageMode) throws Exception
@@ -1582,6 +1647,25 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             case PdfPageMode.USE_NONE:
                 TestUtil.fileContainsString($"<</Type /Catalog/Pages 3 0 R/Lang({docLocaleName})>>\r\n",
                     getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
+                break;
+        }
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
+
+        switch (pageMode)
+        {
+            case PdfPageMode.USE_NONE:
+            case PdfPageMode.USE_OUTLINES:
+                Assert.AreEqual(Aspose.Pdf.PageMode.UseNone, pdfDocument.PageMode);
+                break;
+            case PdfPageMode.USE_THUMBS:
+                Assert.AreEqual(Aspose.Pdf.PageMode.UseThumbs, pdfDocument.PageMode);
+                break;
+            case PdfPageMode.FULL_SCREEN:
+                Assert.AreEqual(Aspose.Pdf.PageMode.FullScreen, pdfDocument.PageMode);
+                break;
+            case PdfPageMode.USE_OC:
+                Assert.AreEqual(Aspose.Pdf.PageMode.UseOC, pdfDocument.PageMode);
                 break;
         }
     }
@@ -1654,6 +1738,32 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                     TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect",
                         getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf"));
         }
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
+        Page page = pdfDocument.Pages[1];
+        AnnotationSelector annotationSelector = new AnnotationSelector(new LinkAnnotation(page, Rectangle.Trivial));
+
+        page.Accept(annotationSelector);
+
+        ArrayList</* unknown Type use JavaGenericArguments */> linkAnnotations = annotationSelector.Selected.<LinkAnnotation>Cast().ToList();
+
+        if (createNoteHyperlinks)
+        {
+            Assert.AreEqual(8, linkAnnotations.Count(a => a.AnnotationType == AnnotationType.Link));
+
+            Assert.AreEqual("1 XYZ 85 677 0", linkAnnotations.get(0).Destination.ToString());
+            Assert.AreEqual("1 XYZ 85 79 0", linkAnnotations.get(1).Destination.ToString());
+            Assert.AreEqual("1 XYZ 85 654 0", linkAnnotations.get(2).Destination.ToString());
+            Assert.AreEqual("1 XYZ 85 68 0", linkAnnotations.get(3).Destination.ToString());
+            Assert.AreEqual("1 XYZ 202 733 0", linkAnnotations.get(4).Destination.ToString());
+            Assert.AreEqual("1 XYZ 258 711 0", linkAnnotations.get(5).Destination.ToString());
+            Assert.AreEqual("1 XYZ 157 733 0", linkAnnotations.get(6).Destination.ToString());
+            Assert.AreEqual("1 XYZ 212 711 0", linkAnnotations.get(7).Destination.ToString());
+        }
+        else
+        {
+            Assert.AreEqual(0, annotationSelector.Selected.Count);
+        }
     }
 
 	//JAVA-added data provider for test method
@@ -1719,6 +1829,32 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                     getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
                 break;
         }
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
+
+        Assert.AreEqual("Aspose.Words", pdfDocument.Info.Creator);
+        Assert.True(pdfDocument.Info.Producer.StartsWith("Aspose.Words"));
+        
+        switch (pdfCustomPropertiesExportMode)
+        {
+            case PdfCustomPropertiesExport.NONE:
+                Assert.AreEqual(2, pdfDocument.Info.Count);
+                Assert.AreEqual(0, pdfDocument.Metadata.Count);
+                break;
+            case PdfCustomPropertiesExport.METADATA:
+                Assert.AreEqual(2, pdfDocument.Info.Count);
+                Assert.AreEqual(2, pdfDocument.Metadata.Count);
+
+                Assert.AreEqual("Aspose.Words", pdfDocument.Metadata["xmp:CreatorTool"].ToString());
+                Assert.AreEqual("Company", pdfDocument.Metadata["custprops:Property1"].ToString());
+                break;
+            case PdfCustomPropertiesExport.STANDARD:
+                Assert.AreEqual(3, pdfDocument.Info.Count);
+                Assert.AreEqual(0, pdfDocument.Metadata.Count);
+
+                Assert.AreEqual("My value", pdfDocument.Info["Company"]);
+                break;
+        }
     }
 
 	//JAVA-added data provider for test method
@@ -1764,11 +1900,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Aspose.Pdf.Document pdfDocument =
             new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DrawingMLEffects.pdf");
 
-        ImagePlacementAbsorber imb = new ImagePlacementAbsorber();
-        imb.Visit(pdfDocument.Pages[1]);
+        ImagePlacementAbsorber imagePlacementAbsorber = new ImagePlacementAbsorber();
+        imagePlacementAbsorber.Visit(pdfDocument.Pages[1]);
 
-        TableAbsorber ttb = new TableAbsorber();
-        ttb.Visit(pdfDocument.Pages[1]);
+        TableAbsorber tableAbsorber = new TableAbsorber();
+        tableAbsorber.Visit(pdfDocument.Pages[1]);
 
         switch (effectsRenderingMode)
         {
@@ -1777,15 +1913,15 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 TestUtil.fileContainsString("4 0 obj\r\n" +
                                             "<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLEffects.pdf");
-                Assert.AreEqual(0, imb.ImagePlacements.Count);
-                Assert.AreEqual(28, ttb.TableList.Count);
+                Assert.AreEqual(0, imagePlacementAbsorber.ImagePlacements.Count);
+                Assert.AreEqual(28, tableAbsorber.TableList.Count);
                 break;
             case DmlEffectsRenderingMode.FINE:
                 TestUtil.fileContainsString(
                     "4 0 obj\r\n<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R>>/XObject<</X1 9 0 R/X2 10 0 R/X3 11 0 R/X4 12 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLEffects.pdf");
-                Assert.AreEqual(21, imb.ImagePlacements.Count);
-                Assert.AreEqual(4, ttb.TableList.Count);
+                Assert.AreEqual(21, imagePlacementAbsorber.ImagePlacements.Count);
+                Assert.AreEqual(4, tableAbsorber.TableList.Count);
                 break;
         }
     }
@@ -1835,6 +1971,25 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 TestUtil.fileContainsString(
                     "4 0 obj\r\n<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R/FAAABC 12 0 R>>/ExtGState<</GS1 9 0 R/GS2 10 0 R>>>>/Group ",
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
+                break;
+        }
+
+        Aspose.Pdf.Document pdfDocument =
+            new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
+
+        ImagePlacementAbsorber imagePlacementAbsorber = new ImagePlacementAbsorber();
+        imagePlacementAbsorber.Visit(pdfDocument.Pages[1]);
+
+        TableAbsorber tableAbsorber = new TableAbsorber();
+        tableAbsorber.Visit(pdfDocument.Pages[1]);
+
+        switch (dmlRenderingMode)
+        {
+            case DmlRenderingMode.DRAWING_ML:
+                Assert.AreEqual(6, tableAbsorber.TableList.Count);
+                break;
+            case DmlRenderingMode.FALLBACK:
+                Assert.AreEqual(15, tableAbsorber.TableList.Count);
                 break;
         }
     }
@@ -2037,7 +2192,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             mWarnings.Add(info);
         }
 
-         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!private mWarnings.CountmWarnings;
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
+            mWarnings.Clear();
+        }
+
+        public int Count => private mWarnings.CountmWarnings;
 
         /// <summary>
         /// Returns true if a warning with the specified properties has been generated.
@@ -2095,8 +2254,22 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf")
             .hasDigitalSignature());
-    }
 
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
+
+        Assert.False(pdfDocument.Form.SignaturesExist);
+
+        SignatureField signatureField = (SignatureField)pdfDocument.Form[1];
+
+        Assert.AreEqual("AsposeDigitalSignature", signatureField.FullName);
+        Assert.AreEqual("AsposeDigitalSignature", signatureField.PartialName);
+        Assert.AreEqual(Aspose.Pdf.Forms.PKCS7.class, signatureField.Signature.GetType());
+        Assert.AreEqual(DateTime.getToday(), signatureField.Signature.Date.Date);
+        Assert.AreEqual("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", signatureField.Signature.Authority);
+        Assert.AreEqual("þÿ\u0000M\u0000y\u0000 \u0000O\0f\0f\u0000i\0c\0e", signatureField.Signature.Location);
+        Assert.AreEqual("þÿ\u0000T\0e\u0000s\u0000t\u0000 \u0000S\u0000i\u0000g\u0000n\u0000i\u0000n\u0000g", signatureField.Signature.Reason);
+    }
+    
     @Test
     public void pdfDigitalSignatureTimestamp() throws Exception
     {
@@ -2145,6 +2318,21 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         TestUtil.fileContainsString("6 0 obj\r\n" +
                                     "<</Type /Annot/Subtype /Widget/FT /Sig/DR <<>>/F 132/Rect [0 0 0 0]/V 7 0 R/P 4 0 R/T(þÿ\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 8 0 R>>>>", 
         getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
+
+        Assert.False(pdfDocument.Form.SignaturesExist);
+
+        SignatureField signatureField = (SignatureField)pdfDocument.Form[1];
+
+        Assert.AreEqual("AsposeDigitalSignature", signatureField.FullName);
+        Assert.AreEqual("AsposeDigitalSignature", signatureField.PartialName);
+        Assert.AreEqual(Aspose.Pdf.Forms.PKCS7.class, signatureField.Signature.GetType());
+        Assert.AreEqual(new DateTime(1, 1, 1, 0, 0, 0), signatureField.Signature.Date);
+        Assert.AreEqual("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", signatureField.Signature.Authority);
+        Assert.AreEqual("þÿ\0A\u0000s\u0000p\u0000o\u0000s\0e\u0000 \u0000O\0f\0f\u0000i\0c\0e", signatureField.Signature.Location);
+        Assert.AreEqual("þÿ\u0000T\0e\u0000s\u0000t\u0000 \u0000S\u0000i\u0000g\u0000n\u0000i\u0000n\u0000g", signatureField.Signature.Reason);
+        Assert.Null(signatureField.Signature.TimestampSettings);
     }
 
     @Test (dataProvider = "renderMetafileDataProvider")
@@ -2248,6 +2436,18 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // When we open this document, we will need to provide the password before accessing its contents.
         doc.save(getArtifactsDir() + "PdfSaveOptions.EncryptionPermissions.pdf", saveOptions);
         //ExEnd
+
+        Aspose.Pdf.Document pdfDocument;
+
+        Assert.<InvalidPasswordException>Throws(() => 
+            pdfDocument = new Aspose.Pdf.Document(ArtifactsDir + "PdfSaveOptions.EncryptionPermissions.pdf"));
+
+        pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EncryptionPermissions.pdf", "password");
+        TextFragmentAbsorber textAbsorber = new TextFragmentAbsorber();
+
+        pdfDocument.Pages[1].Accept(textAbsorber);
+        
+        Assert.AreEqual("Hello world!", textAbsorber.Text);
     }
 
     @Test (dataProvider = "setNumeralFormatDataProvider")
@@ -2279,6 +2479,24 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.SetNumeralFormat.pdf", options);
         //ExEnd
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.SetNumeralFormat.pdf");
+        TextFragmentAbsorber textAbsorber = new TextFragmentAbsorber();
+
+        pdfDocument.Pages[1].Accept(textAbsorber);
+
+        switch (numeralFormat)
+        {
+            case NumeralFormat.EUROPEAN:
+                Assert.AreEqual("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 50, 100", textAbsorber.Text);
+                break;
+            case NumeralFormat.ARABIC_INDIC:
+                Assert.AreEqual(", ٢, ٣, ٤, ٥, ٦, ٧, ٨, ٩, ١٠, ٥٠, ١١٠٠", textAbsorber.Text);
+                break;
+            case NumeralFormat.EASTERN_ARABIC_INDIC:
+                Assert.AreEqual("۱۰۰ ,۵۰ ,۱۰ ,۹ ,۸ ,۷ ,۶ ,۵ ,۴ ,۳ ,۲ ,۱", textAbsorber.Text);
+                break;
+        }
     }
 
 	//JAVA-added data provider for test method
@@ -2296,16 +2514,66 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 	}
 
     @Test
-    public void exportOddPages() throws Exception
+    public void exportPageSet() throws Exception
     {
         //ExStart
         //ExFor:FixedPageSaveOptions.PageSet
         //ExSummary:Shows how to export Odd pages from the document.
-        Document doc = new Document(getMyDir() + "Images.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        PdfSaveOptions pdfOptions = new PdfSaveOptions(); { pdfOptions.setPageSet(PageSet.getOdd()); }
+        for (int i = 0; i < 5; i++)
+        {
+            builder.writeln($"Page {i + 1} ({(i % 2 == 0 ? "odd" : "even")})");
+            if (i < 4)
+                builder.insertBreak(BreakType.PAGE_BREAK);
+        }
 
-        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportOddPages.pdf", pdfOptions);
+        // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        // to modify how that method converts the document to .PDF.
+        PdfSaveOptions options = new PdfSaveOptions();
+
+        // Below are three PageSet properties that we can use to filter out a set of pages from
+        // our document to save in an output PDF document based on the parity of their page numbers.
+        // 1 -  Save only the even-numbered pages:
+        options.setPageSet(PageSet.getEven());
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.Even.pdf", options);
+
+        // 2 -  Save only the odd-numbered pages:
+        options.setPageSet(PageSet.getOdd());
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.Odd.pdf", options);
+
+        // 3 -  Save every page:
+        options.setPageSet(PageSet.getAll());
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.All.pdf", options);
         //ExEnd
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.Even.pdf");
+        TextAbsorber textAbsorber = new TextAbsorber();
+        pdfDocument.Pages.Accept(textAbsorber);
+
+        Assert.AreEqual("Page 2 (even)\r\n" +
+                        "Page 4 (even)", textAbsorber.Text);
+
+        pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.Odd.pdf");
+        textAbsorber = new TextAbsorber();
+        pdfDocument.Pages.Accept(textAbsorber);
+
+        Assert.AreEqual("Page 1 (odd)\r\n" +
+                        "Page 3 (odd)\r\n" +
+                        "Page 5 (odd)", textAbsorber.Text);
+
+        pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.All.pdf");
+        textAbsorber = new TextAbsorber();
+        pdfDocument.Pages.Accept(textAbsorber);
+
+        Assert.AreEqual("Page 1 (odd)\r\n" +
+                        "Page 2 (even)\r\n" +
+                        "Page 3 (odd)\r\n" +
+                        "Page 4 (even)\r\n" +
+                        "Page 5 (odd)", textAbsorber.Text);
     }
 }

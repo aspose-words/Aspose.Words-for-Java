@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -476,7 +476,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     /// Insert field into the first paragraph of the current document using field code and field String.
     /// </summary>
     private static void insertFieldUsingFieldCodeFieldString(Document doc, String fieldCode, String fieldValue,
-        Node refNode, boolean isAfter, int paraIndex) throws Exception
+        Node refNode, boolean isAfter, int paraIndex)
     {
         Paragraph para = DocumentHelper.getParagraph(doc, paraIndex);
         para.insertField(fieldCode, fieldValue, refNode, isAfter);

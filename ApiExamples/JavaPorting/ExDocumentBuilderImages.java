@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -23,6 +23,7 @@ import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 import org.testng.Assert;
 import com.aspose.words.ImageType;
+import com.aspose.words.MsWordVersion;
 import java.awt.image.BufferedImage;
 import com.aspose.BitmapPal;
 import com.aspose.ms.System.IO.MemoryStream;
@@ -189,6 +190,31 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         TestUtil.verifyImageInShape(1600, 1600, ImageType.WMF, imageShape);
         Assert.assertEquals(400.0d, imageShape.getImageData().getImageSize().getHeightPoints());
         Assert.assertEquals(400.0d, imageShape.getImageData().getImageSize().getWidthPoints());
+    }
+
+    @Test
+    public void insertSvgImage() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertImage(String)
+        //ExSummary:Shows how to determine which image will be inserted.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertImage(getImageDir() + "Scalable Vector Graphics.svg");
+
+        // Aspose.Words insert SVG image to the document as PNG with svgBlip extension
+        // that contains the original vector SVG image representation.
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertSvgImage.SvgWithSvgBlip.docx");
+
+        // Aspose.Words insert SVG image to the document as PNG, just like Microsoft Word does for old format.
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertSvgImage.Svg.doc");
+
+        doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2003);
+
+        // Aspose.Words insert SVG image to the document as EMF metafile to keep the image in vector representation.
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertSvgImage.Emf.docx");
+        //ExEnd
     }
 
     @Test

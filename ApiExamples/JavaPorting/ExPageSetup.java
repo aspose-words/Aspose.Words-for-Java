@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1122,7 +1122,7 @@ public class ExPageSetup extends ApiExampleBase
     /// <summary>
     /// Append a section with text and an endnote to a document.
     /// </summary>
-    private static void insertSectionWithEndnote(Document doc, String sectionBodyText, String endnoteText) throws Exception
+    private static void insertSectionWithEndnote(Document doc, String sectionBodyText, String endnoteText)
     {
         Section section = new Section(doc);
 

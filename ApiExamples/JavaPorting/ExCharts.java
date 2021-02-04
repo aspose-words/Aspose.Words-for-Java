@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -671,12 +671,10 @@ public class ExCharts extends ApiExampleBase
     //ExFor:ChartDataPoint
     //ExFor:ChartDataPoint.Index
     //ExFor:ChartDataPointCollection
-    //ExFor:ChartDataPointCollection.Add(System.Int32)
-    //ExFor:ChartDataPointCollection.Clear
+    //ExFor:ChartDataPointCollection.ClearFormat
     //ExFor:ChartDataPointCollection.Count
     //ExFor:ChartDataPointCollection.GetEnumerator
     //ExFor:ChartDataPointCollection.Item(System.Int32)
-    //ExFor:ChartDataPointCollection.RemoveAt(System.Int32)
     //ExFor:ChartMarker
     //ExFor:ChartMarker.Size
     //ExFor:ChartMarker.Symbol
@@ -717,23 +715,23 @@ public class ExCharts extends ApiExampleBase
         }
         finally { if (enumerator != null) enumerator.close(); }
 
-        // For a cleaner looking graph, we can remove data points individually.
-        chart.getSeries().get(1).getDataPoints().removeAt(2);
+        // For a cleaner looking graph, we can clear format individually.
+        chart.getSeries().get(1).getDataPoints().get(2).clearFormat();
 
         // We can also strip an entire series of data points at once.
-        chart.getSeries().get(2).getDataPoints().clear();
+        chart.getSeries().get(2).getDataPoints().clearFormat();
 
         doc.save(getArtifactsDir() + "Charts.ChartDataPoint.docx");
     }
 
     /// <summary>
-    /// Applies several data points to a series.
+    /// Applies a number of data points to a series.
     /// </summary>
     private static void applyDataPoints(ChartSeries series, int dataPointsCount, /*MarkerSymbol*/int markerSymbol, int dataPointSize)
     {
         for (int i = 0; i < dataPointsCount; i++)
         {
-            ChartDataPoint point = series.getDataPoints().add(i);
+            ChartDataPoint point = series.getDataPoints().get(i);
             point.getMarker().setSymbol(markerSymbol);
             point.getMarker().setSize(dataPointSize);
 
@@ -757,13 +755,14 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(1, chart.getSeries().getCount());
         Assert.assertEquals("Sales", chart.getSeries().get(0).getName());
 
-        // "Slices" of a pie chart may be moved away from the center by a distance via the respective data point's Explosion property.
-        // Add a data point to the first portion of the pie chart and move it away from the center by 10 points. 
-        ChartDataPoint dataPoint = chart.getSeries().get(0).getDataPoints().add(0);
+        // "Slices" of a pie chart may be moved away from the center by a distance via the respective data point's Explosion attribute.
+        // Add a data point to the first portion of the pie chart and move it away from the center by 10 points.
+        // Aspose.Words create data points automatically if them does not exist.
+        ChartDataPoint dataPoint = chart.getSeries().get(0).getDataPoints().get(0);
         dataPoint.setExplosion(10);
 
         // Displace the second portion by a greater distance.
-        dataPoint = chart.getSeries().get(0).getDataPoints().add(1);
+        dataPoint = chart.getSeries().get(0).getDataPoints().get(1);
         dataPoint.setExplosion(40);
 
         doc.save(getArtifactsDir() + "Charts.PieChartExplosion.docx");

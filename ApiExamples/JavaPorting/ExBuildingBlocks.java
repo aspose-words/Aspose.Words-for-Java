@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -113,7 +113,7 @@ public class ExBuildingBlocks extends ApiExampleBase
             mGlossaryDoc = ownerGlossaryDoc;
         }
 
-        public /*override*/ /*VisitorAction*/int visitBuildingBlockStart(BuildingBlock block) throws Exception
+        public /*override*/ /*VisitorAction*/int visitBuildingBlockStart(BuildingBlock block)
         {
             // Configure the building block as a quick part, and add properties used by Building Blocks Organizer.
             block.setBehavior(BuildingBlockBehavior.PARAGRAPH);

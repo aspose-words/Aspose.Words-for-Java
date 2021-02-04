@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -135,7 +135,7 @@ public class ExNodeImporter extends ApiExampleBase
     /// <summary>
     /// Inserts the contents of a document after the specified node.
     /// </summary>
-    static void insertDocument(Node insertionDestination, Document docToInsert) throws Exception
+    static void insertDocument(Node insertionDestination, Document docToInsert)
     {
         if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE)))
         {

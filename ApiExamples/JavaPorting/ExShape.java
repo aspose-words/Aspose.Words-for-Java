@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1172,7 +1172,7 @@ public class ExShape extends ApiExampleBase
         Assert.assertTrue(oleFormat.getSourceFullName().endsWith("Images" + Path.DirectorySeparatorChar + "Microsoft Visio drawing.vsd"));
         Assert.assertEquals("", oleFormat.getSourceItem());
 
-        Assert.assertEquals("Packager", oleFormat.getIconCaption());
+        Assert.assertEquals("Microsoft Visio drawing.vsd", oleFormat.getIconCaption());
 
         doc.save(getArtifactsDir() + "Shape.OleLinks.docx");
 
@@ -2409,7 +2409,7 @@ public class ExShape extends ApiExampleBase
     /// <summary>
     /// Insert a new paragraph with a WordArt shape inside it.
     /// </summary>
-    private static Shape appendWordArt(Document doc, String text, String textFontFamily, double shapeWidth, double shapeHeight, Color wordArtFill, Color line, /*ShapeType*/int wordArtShapeType) throws Exception
+    private static Shape appendWordArt(Document doc, String text, String textFontFamily, double shapeWidth, double shapeHeight, Color wordArtFill, Color line, /*ShapeType*/int wordArtShapeType)
     {
         // Create an inline Shape, which will serve as a container for our WordArt.
         // The shape can only be a valid WordArt shape if we assign a WordArt-designated ShapeType to it.

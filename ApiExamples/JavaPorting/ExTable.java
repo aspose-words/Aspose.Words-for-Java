@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -908,6 +908,16 @@ public class ExTable extends ApiExampleBase
         Assert.assertTrue(table.getAllowCellSpacing());
         //ExEnd
 
+        doc = new Document(getArtifactsDir() + "Table.AllowCellSpacing.html");
+        table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+
+        Assert.assertEquals(allowCellSpacing, table.getAllowCellSpacing());
+
+        if (allowCellSpacing)
+            Assert.assertEquals(3.0d, table.getCellSpacing());
+        else
+            Assert.assertEquals(0.0d, table.getCellSpacing());
+
         TestUtil.fileContainsString(
             allowCellSpacing
                 ? "<td style=\"border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border:0.5pt single\">"
@@ -1352,10 +1362,10 @@ public class ExTable extends ApiExampleBase
         Assert.assertTrue(table.getBidi());
         Assert.assertEquals(5.0d, table.getCellSpacing());
         Assert.assertEquals("MyTableStyle1", table.getStyleName());
-        Assert.assertEquals(0.0d, table.getBottomPadding());
-        Assert.assertEquals(0.0d, table.getLeftPadding());
-        Assert.assertEquals(0.0d, table.getRightPadding());
-        Assert.assertEquals(0.0d, table.getTopPadding());
+        Assert.assertEquals(20.0d, tableStyle.getBottomPadding());
+        Assert.assertEquals(5.0d, tableStyle.getLeftPadding());
+        Assert.assertEquals(10.0d, tableStyle.getRightPadding());
+        Assert.assertEquals(20.0d, tableStyle.getTopPadding());
         Assert.AreEqual(6, table.getFirstRow().getRowFormat().getBorders().Count(b => b.Color.ToArgb() == Color.Blue.ToArgb()));
 
         tableStyle = (TableStyle)doc.getStyles().get("MyTableStyle1");

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -180,6 +180,11 @@ import com.aspose.words.FieldTime;
 import com.aspose.words.FieldBidiOutline;
 import com.aspose.words.ShapeType;
 import com.aspose.words.FieldIndexFormat;
+import com.aspose.words.ComparisonEvaluationResult;
+import com.aspose.words.IComparisonExpressionEvaluator;
+import com.aspose.words.ComparisonExpression;
+import com.aspose.ms.System.Collections.msArrayList;
+import java.util.ArrayList;
 import org.testng.annotations.DataProvider;
 
 
@@ -1242,7 +1247,7 @@ public class ExField extends ApiExampleBase
         /// <summary>
         /// Called when a FieldStart node is encountered in the document.
         /// </summary>
-        public /*override*/ /*VisitorAction*/int visitFieldStart(FieldStart fieldStart) throws Exception
+        public /*override*/ /*VisitorAction*/int visitFieldStart(FieldStart fieldStart)
         {
             msStringBuilder.appendLine(mBuilder, "Found field: " + fieldStart.getFieldType());
             msStringBuilder.appendLine(mBuilder, "\tField code: " + fieldStart.getField().getFieldCode());
@@ -1727,7 +1732,7 @@ public class ExField extends ApiExampleBase
     /// <summary>
     /// Create an AutoText-type building block and add it to a glossary document.
     /// </summary>
-    private static void appendAutoTextEntry(GlossaryDocument glossaryDoc, String name, String contents) throws Exception
+    private static void appendAutoTextEntry(GlossaryDocument glossaryDoc, String name, String contents)
     {
         BuildingBlock buildingBlock = new BuildingBlock(glossaryDoc);
         buildingBlock.setName(name);
@@ -2075,7 +2080,7 @@ public class ExField extends ApiExampleBase
     /// Start a new page and insert a paragraph of a specified style.
     /// </summary>
     @Test (enabled = false)
-    public void insertNewPageWithHeading(DocumentBuilder builder, String captionText, String styleName) throws Exception
+    public void insertNewPageWithHeading(DocumentBuilder builder, String captionText, String styleName)
     {
         builder.insertBreak(BreakType.PAGE_BREAK);
         String originalStyle = builder.getParagraphFormat().getStyleName();
@@ -6006,7 +6011,7 @@ public class ExField extends ApiExampleBase
     /// <summary>
     /// Uses a document builder to insert a named bookmark with a footnote at the end.
     /// </summary>
-    private static void insertBookmarkWithFootnote(DocumentBuilder builder, String bookmarkName, String bookmarkText, String footnoteText) throws Exception
+    private static void insertBookmarkWithFootnote(DocumentBuilder builder, String bookmarkName, String bookmarkText, String footnoteText)
     {
         builder.startBookmark(bookmarkName);
         builder.write(bookmarkText);
@@ -6016,7 +6021,7 @@ public class ExField extends ApiExampleBase
     }
     //ExEnd
 
-    private void testNoteRef(Document doc) throws Exception
+    private void testNoteRef(Document doc)
     {
         FieldNoteRef field = (FieldNoteRef)doc.getRange().getFields().get(0);
 
@@ -6144,7 +6149,7 @@ public class ExField extends ApiExampleBase
     /// <summary>
     /// Uses a document builder to insert a named bookmark.
     /// </summary>
-    private static void insertAndNameBookmark(DocumentBuilder builder, String bookmarkName) throws Exception
+    private static void insertAndNameBookmark(DocumentBuilder builder, String bookmarkName)
     {
         builder.startBookmark(bookmarkName);
         builder.writeln($"Contents of bookmark \"{bookmarkName}\".");
@@ -6152,7 +6157,7 @@ public class ExField extends ApiExampleBase
     }
     //ExEnd
 
-    private void testPageRef(Document doc) throws Exception
+    private void testPageRef(Document doc)
     {
         FieldPageRef field = (FieldPageRef)doc.getRange().getFields().get(0);
 
@@ -6795,7 +6800,7 @@ public class ExField extends ApiExampleBase
     }
     //ExEnd
 
-    private void testFieldTOA(Document doc) throws Exception
+    private void testFieldTOA(Document doc)
     {
         FieldToa fieldTOA = (FieldToa)doc.getRange().getFields().get(0);
 
@@ -6993,7 +6998,7 @@ public class ExField extends ApiExampleBase
     }
     //ExEnd
 
-    private void testFieldEQ(Document doc) throws Exception
+    private void testFieldEQ(Document doc)
     {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\f(1,4)", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\al \\co2 \\vs3 \\hs3(4x,- 4y,-4x,+ y)", "", doc.getRange().getFields().get(1));
@@ -7472,5 +7477,196 @@ public class ExField extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Field.SetFieldIndexFormat.docx");
         //ExEnd
+    }
+
+    //ExStart
+    //ExFor:ComparisonEvaluationResult.#ctor(bool)
+    //ExFor:ComparisonEvaluationResult.#ctor(string)
+    //ExFor:ComparisonEvaluationResult
+    //ExFor:ComparisonExpression
+    //ExFor:ComparisonExpression.LeftExpression
+    //ExFor:ComparisonExpression.ComparisonOperator
+    //ExFor:ComparisonExpression.RightExpression
+    //ExFor:FieldOptions.ComparisonExpressionEvaluator
+    //ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields.
+    @Test (dataProvider = "conditionEvaluationExtensionPointDataProvider") //ExSkip
+    public void conditionEvaluationExtensionPoint(String fieldCode, byte comparisonResult, String comparisonError,
+        String expectedResult) throws Exception
+    {
+        final String LEFT = "\"left expression\"";
+        final String _OPERATOR = "<>";
+        final String RIGHT = "\"right expression\"";
+
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Field codes that we use in this example:
+        // 1.   " IF {0} {1} {2} \"true argument\" \"false argument\" ".
+        // 2.   " COMPARE {0} {1} {2} ".
+        Field field = builder.insertField(msString.format(fieldCode, LEFT, _OPERATOR, RIGHT), null);
+
+        // If the "comparisonResult" is undefined, we create "ComparisonEvaluationResult" with string, instead of bool.
+        ComparisonEvaluationResult result = comparisonResult != -1
+            ? new ComparisonEvaluationResult(comparisonResult == 1)
+            : comparisonError != null ? new ComparisonEvaluationResult(comparisonError) : null;
+
+        ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(result);
+        builder.getDocument().getFieldOptions().setComparisonExpressionEvaluator(evaluator);
+
+        builder.getDocument().updateFields();
+
+        Assert.assertEquals(expectedResult, field.getResult());
+        evaluator.assertInvocationsCount(1).assertInvocationArguments(0, LEFT, _OPERATOR, RIGHT);
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "conditionEvaluationExtensionPointDataProvider")
+	public static Object[][] conditionEvaluationExtensionPointDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{" IF {0} {1} {2} \"true argument\" \"false argument\" ",  1,  null,  "true argument"},
+			{" IF {0} {1} {2} \"true argument\" \"false argument\" ",  0,  null,  "false argument"},
+			{" IF {0} {1} {2} \"true argument\" \"false argument\" ",  -1,  "Custom Error",  "Custom Error"},
+			{" IF {0} {1} {2} \"true argument\" \"false argument\" ",  -1,  null,  "true argument"},
+			{" COMPARE {0} {1} {2} ",  1,  null,  "1"},
+			{" COMPARE {0} {1} {2} ",  0,  null,  "0"},
+			{" COMPARE {0} {1} {2} ",  -1,  "Custom Error",  "Custom Error"},
+			{" COMPARE {0} {1} {2} ",  -1,  null,  "1"},
+		};
+	}
+
+    /// <summary>
+    /// Comparison expressions evaluation for the FieldIf and FieldCompare.
+    /// </summary>
+    private static class ComparisonExpressionEvaluator implements IComparisonExpressionEvaluator
+    {
+        public ComparisonExpressionEvaluator(ComparisonEvaluationResult result)
+        {
+            mResult = result;
+        }
+
+        public ComparisonEvaluationResult evaluate(Field field, ComparisonExpression expression)
+        {
+            msArrayList.add(mInvocations, new String[]
+            {
+                expression.getLeftExpression(),
+                expression.getComparisonOperator(),
+                expression.getRightExpression()
+            });
+
+            return mResult;
+        }
+
+        public ComparisonExpressionEvaluator assertInvocationsCount(int expected)
+        {
+            Assert.assertEquals(expected, mInvocations.size());
+            return this;
+        }
+
+        public ComparisonExpressionEvaluator assertInvocationArguments(
+            int invocationIndex,
+            String expectedLeftExpression,
+            String expectedComparisonOperator,
+            String expectedRightExpression)
+        {
+            String[] arguments = mInvocations.get(invocationIndex);
+
+            Assert.assertEquals(expectedLeftExpression, arguments[0]);
+            Assert.assertEquals(expectedComparisonOperator, arguments[1]);
+            Assert.assertEquals(expectedRightExpression, arguments[2]);
+
+            return this;
+        }
+
+        private /*final*/ ComparisonEvaluationResult mResult;
+        private /*final*/ ArrayList<String[]> mInvocations = new ArrayList<String[]>();
+    } 
+    //ExEnd
+
+    @Test
+    public void comparisonExpressionEvaluatorNestedFields() throws Exception
+    {
+        Document document = new Document();
+
+        new FieldBuilder(FieldType.FIELD_IF)
+            .addArgument(
+                new FieldBuilder(FieldType.FIELD_IF)
+                    .addArgument(123)
+                    .addArgument(">")
+                    .addArgument(666)
+                    .addArgument("left greater than right")
+                    .addArgument("left less than right"))
+            .addArgument("<>")
+            .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                .addArgument("left expression")
+                .addArgument("=")
+                .addArgument("right expression")
+                .addArgument("expression are equal")
+                .addArgument("expression are not equal"))
+            .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                    .addArgument(new FieldArgumentBuilder()
+                        .addText("#")
+                        .addField(new FieldBuilder(FieldType.FIELD_PAGE)))
+                    .addArgument("=")
+                    .addArgument(new FieldArgumentBuilder()
+                        .addText("#")
+                        .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+                    .addArgument("the last page")
+                    .addArgument("not the last page"))
+            .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                    .addArgument("unexpected")
+                    .addArgument("=")
+                    .addArgument("unexpected")
+                    .addArgument("unexpected")
+                    .addArgument("unexpected"))
+            .buildAndInsert(document.getFirstSection().getBody().getFirstParagraph());
+
+        ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(null);
+        document.getFieldOptions().setComparisonExpressionEvaluator(evaluator);
+
+        document.updateFields();
+
+        evaluator
+            .assertInvocationsCount(4)
+            .assertInvocationArguments(0, "123", ">", "666")
+            .assertInvocationArguments(1, "\"left expression\"", "=", "\"right expression\"")
+            .assertInvocationArguments(2, "left less than right", "<>", "expression are not equal")
+            .assertInvocationArguments(3, "\"#1\"", "=", "\"#1\"");
+    }
+
+    @Test
+    public void comparisonExpressionEvaluatorHeaderFooterFields() throws Exception
+    {
+        Document document = new Document();
+        DocumentBuilder builder = new DocumentBuilder(document);
+
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+
+        new FieldBuilder(FieldType.FIELD_IF)
+            .addArgument(new FieldBuilder(FieldType.FIELD_PAGE))
+            .addArgument("=")
+            .addArgument(new FieldBuilder(FieldType.FIELD_NUM_PAGES))
+            .addArgument(new FieldArgumentBuilder()
+                .addField(new FieldBuilder(FieldType.FIELD_PAGE))
+                .addText(" / ")
+                .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+            .addArgument(new FieldArgumentBuilder()
+                .addField(new FieldBuilder(FieldType.FIELD_PAGE))
+                .addText(" / ")
+                .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+            .buildAndInsert(builder.getCurrentParagraph());
+
+        ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(null);
+        document.getFieldOptions().setComparisonExpressionEvaluator(evaluator);
+
+        document.updateFields();
+
+        evaluator
+            .assertInvocationsCount(3)
+            .assertInvocationArguments(0, "1", "=", "3")
+            .assertInvocationArguments(1, "2", "=", "3")
+            .assertInvocationArguments(2, "3", "=", "3");
     }
 }

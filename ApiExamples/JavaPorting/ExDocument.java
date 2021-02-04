@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -115,6 +115,9 @@ import com.aspose.BitmapPal;
 import com.aspose.words.Granularity;
 import com.aspose.words.RevisionGroupCollection;
 import com.aspose.words.RevisionType;
+import com.aspose.words.MemoryFontSource;
+import com.aspose.words.FontSettings;
+import com.aspose.words.FontSourceBase;
 import org.testng.annotations.DataProvider;
 
 
@@ -513,7 +516,7 @@ public class ExDocument extends ApiExampleBase
     /// </summary>
     public static class HandleNodeChangingFontChanger implements INodeChangingCallback
     {
-        public void /*INodeChangingCallback.*/nodeInserted(NodeChangingArgs args) throws Exception
+        public void /*INodeChangingCallback.*/nodeInserted(NodeChangingArgs args)
         {
             msStringBuilder.appendLine(mLog, $"\tType:\t{args.Node.NodeType}");
             msStringBuilder.appendLine(mLog, $"\tHash:\t{args.Node.GetHashCode()}");
@@ -2686,5 +2689,67 @@ public class ExDocument extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Document.ExtractPages.docx");
         Assert.assertEquals(doc.getPageCount(), 2);
+    }
+
+    @Test (dataProvider = "spellingOrGrammarDataProvider")
+    public void spellingOrGrammar(boolean checkSpellingGrammar) throws Exception
+    {
+        //ExStart
+        //ExFor:Document.SpellingChecked
+        //ExFor:Document.GrammarChecked
+        //ExSummary:Shows how to set spelling or grammar verifying.
+        Document doc = new Document();
+
+        // The string with spelling errors.
+        doc.getFirstSection().getBody().getFirstParagraph().getRuns().add(new Run(doc, "The speeling in this documentz is all broked."));
+
+        // Spelling/Grammar check start if we set properties to false. 
+        // We can see all errors in Microsoft Word via Review -> Spelling & Grammar.
+        // Note that Microsoft Word does not start grammar/spell check automatically for DOC and RTF document format.
+        doc.setSpellingChecked(checkSpellingGrammar);
+        doc.setGrammarChecked(checkSpellingGrammar);
+
+        doc.save(getArtifactsDir() + "Document.SpellingOrGrammar.docx");
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "spellingOrGrammarDataProvider")
+	public static Object[][] spellingOrGrammarDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test
+    public void allowEmbeddingPostScriptFonts() throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.AllowEmbeddingPostScriptFonts
+        //ExSummary:Shows how to save the document with PostScript font.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.getFont().setName("PostScriptFont");
+        builder.writeln("Some text with PostScript font.");
+
+        // Load the font with PostScript to use in the document.
+        MemoryFontSource otf = new MemoryFontSource(File.readAllBytes(getFontsDir() + "AllegroOpen.otf"));
+        doc.setFontSettings(new FontSettings());
+        doc.getFontSettings().setFontsSources(new FontSourceBase[] { otf });
+
+        // Embed TrueType fonts.
+        doc.getFontInfos().setEmbedTrueTypeFonts(true);
+
+        // Allow embedding PostScript fonts while embedding TrueType fonts.
+        // Microsoft Word does not embed PostScript fonts, but can open documents with embedded fonts of this type.
+        SaveOptions saveOptions = SaveOptions.createSaveOptions(SaveFormat.DOCX);
+        saveOptions.setAllowEmbeddingPostScriptFonts(true);
+
+        doc.save(getArtifactsDir() + "Document.AllowEmbeddingPostScriptFonts.docx", saveOptions);
+        //ExEnd
     }
 }
