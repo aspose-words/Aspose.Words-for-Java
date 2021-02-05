@@ -1,13 +1,14 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.pdf.TextAbsorber;
 import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -28,7 +29,7 @@ public class ExHyphenation extends ApiExampleBase {
         // When a document contains lines of text in which a word could be split up and continued on the next line,
         // hyphenation will look through the dictionary's list of strings for that word's substrings.
         // If the dictionary contains a substring, then hyphenation will split the word across two lines
-        // by the substring, and add a hyphen to the first half.
+        // by the substring and add a hyphen to the first half.
         // Register a dictionary file from the local file system to the "de-CH" locale.
         Hyphenation.registerDictionary("de-CH", getMyDir() + "hyph_de_CH.dic");
 
@@ -49,6 +50,26 @@ public class ExHyphenation extends ApiExampleBase {
         doc = new Document(getMyDir() + "German text.docx");
         doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Unregistered.pdf");
         //ExEnd
+
+        com.aspose.pdf.Document pdfDoc = new com.aspose.pdf.Document(getArtifactsDir() + "Hyphenation.Dictionary.Registered.pdf");
+        TextAbsorber textAbsorber = new TextAbsorber();
+        textAbsorber.visit(pdfDoc);
+
+        Assert.assertTrue(textAbsorber.getText().contains("La ob storen an deinen am sachen. Dop-\r\n" +
+                "pelte  um  da  am  spateren  verlogen  ge-\r\n" +
+                "kommen  achtzehn  blaulich."));
+
+        pdfDoc.close();
+
+        pdfDoc = new com.aspose.pdf.Document(getArtifactsDir() + "Hyphenation.Dictionary.Unregistered.pdf");
+        textAbsorber = new TextAbsorber();
+        textAbsorber.visit(pdfDoc);
+
+        Assert.assertTrue(textAbsorber.getText().contains("La  ob  storen  an  deinen  am  sachen. \r\n" +
+                "Doppelte  um  da  am  spateren  verlogen \r\n" +
+                "gekommen  achtzehn  blaulich."));
+
+        pdfDoc.close();
     }
 
     //ExStart

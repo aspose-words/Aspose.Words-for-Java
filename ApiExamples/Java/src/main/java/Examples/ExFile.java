@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -113,7 +113,8 @@ public class ExFile extends ApiExampleBase {
         //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and encryption.
         Document doc = new Document();
 
-        // Configure a SaveOptions object to encrypt the document with a password when we save it, and then save it.
+        // Configure a SaveOptions object to encrypt the document
+        // with a password when we save it, and then save the document.
         OdtSaveOptions saveOptions = new OdtSaveOptions(SaveFormat.ODT);
         saveOptions.setPassword("MyPassword");
 
@@ -165,6 +166,7 @@ public class ExFile extends ApiExampleBase {
         //ExFor:FileFormatUtil.LoadFormatToSaveFormat(LoadFormat)
         //ExFor:Document.OriginalFileName
         //ExFor:FileFormatInfo.LoadFormat
+        //ExFor:LoadFormat
         //ExSummary:Shows how to use the FileFormatUtil methods to detect the format of a document.
         // Load a document from a file that is missing a file extension, and then detect its file format.
         FileInputStream docStream = new FileInputStream(getMyDir() + "Word document with missing file extension");

@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -14,9 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 
 public class ExSavingCallback extends ApiExampleBase {
     //ExStart
@@ -30,8 +28,7 @@ public class ExSavingCallback extends ApiExampleBase {
     //ExFor:FixedPageSaveOptions.PageSavingCallback
     //ExSummary:Shows how to use a callback to save a document to HTML page by page.
     @Test //ExSkip
-    public void pageFileNames() throws Exception
-    {
+    public void pageFileNames() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -56,10 +53,8 @@ public class ExSavingCallback extends ApiExampleBase {
     /// <summary>
     /// Saves all pages to a file and directory specified within.
     /// </summary>
-    private static class CustomFileNamePageSavingCallback implements IPageSavingCallback
-    {
-        public void pageSaving(PageSavingArgs args) throws Exception
-        {
+    private static class CustomFileNamePageSavingCallback implements IPageSavingCallback {
+        public void pageSaving(PageSavingArgs args) throws Exception {
             String outFileName = MessageFormat.format("{0}SavingCallback.PageFileNames.Page_{1}.html", getArtifactsDir(), args.getPageIndex());
 
             // Below are two ways of specifying where Aspose.Words will save each page of the document.
@@ -91,8 +86,7 @@ public class ExSavingCallback extends ApiExampleBase {
     //ExFor:HtmlSaveOptions.ImageSavingCallback
     //ExSummary:Shows how to split a document into parts and save them.
     @Test //ExSkip
-    public void documentPartsFileNames() throws Exception
-    {
+    public void documentPartsFileNames() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
         String outFileName = "SavingCallback.DocumentPartsFileNames.html";
 
@@ -101,7 +95,7 @@ public class ExSavingCallback extends ApiExampleBase {
         HtmlSaveOptions options = new HtmlSaveOptions();
 
         // If we save the document normally, there will be one output HTML
-        // document with all of the source document's contents.
+        // document with all the source document's contents.
         // Set the "DocumentSplitCriteria" property to "DocumentSplitCriteria.SectionBreak" to
         // save our document to multiple HTML files: one for each section.
         options.setDocumentSplitCriteria(DocumentSplitCriteria.SECTION_BREAK);
@@ -126,8 +120,7 @@ public class ExSavingCallback extends ApiExampleBase {
             mDocumentSplitCriteria = documentSplitCriteria;
         }
 
-        public void documentPartSaving(DocumentPartSavingArgs args) throws Exception
-        {
+        public void documentPartSaving(DocumentPartSavingArgs args) throws Exception {
             // We can access the entire source document via the "Document" property.
             Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.docx"));
 
@@ -208,8 +201,7 @@ public class ExSavingCallback extends ApiExampleBase {
     //ExFor:ICssSavingCallback.CssSaving(CssSavingArgs)
     //ExSummary:Shows how to work with CSS stylesheets that an HTML conversion creates.
     @Test //ExSkip
-    public void externalCssFilenames() throws Exception
-    {
+    public void externalCssFilenames() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Create an "HtmlFixedSaveOptions" object, which we can pass to the document's "Save" method
@@ -240,8 +232,7 @@ public class ExSavingCallback extends ApiExampleBase {
             mKeepCssStreamOpen = keepCssStreamOpen;
         }
 
-        public void cssSaving(CssSavingArgs args) throws Exception
-        {
+        public void cssSaving(CssSavingArgs args) throws Exception {
             // We can access the entire source document via the "Document" property.
             Assert.assertTrue(args.getDocument().getOriginalFileName().endsWith("Rendering.docx"));
 

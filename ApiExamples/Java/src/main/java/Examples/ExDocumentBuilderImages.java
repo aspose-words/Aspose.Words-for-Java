@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -183,6 +183,30 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
     }
 
     @Test
+    public void insertSvgImage() throws Exception {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertImage(String)
+        //ExSummary:Shows how to determine which image will be inserted.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertImage(getImageDir() + "Scalable Vector Graphics.svg");
+
+        // Aspose.Words insert SVG image to the document as PNG with svgBlip extension
+        // that contains the original vector SVG image representation.
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertSvgImage.SvgWithSvgBlip.docx");
+
+        // Aspose.Words insert SVG image to the document as PNG, just like Microsoft Word does for old format.
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertSvgImage.Svg.doc");
+
+        doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2003);
+
+        // Aspose.Words insert SVG image to the document as EMF metafile to keep the image in vector representation.
+        doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertSvgImage.Emf.docx");
+        //ExEnd
+    }
+
+    @Test
     public void insertImageFromImageObject() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertImage(Image)
@@ -194,7 +218,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
 
         BufferedImage image = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
 
-        // Below are three ways of inserting an image from an Image object instance:
+        // Below are three ways of inserting an image from an Image object instance.
         // 1 -  Inline shape with a default size based on the image's original dimensions:
         builder.insertImage(image);
 
@@ -272,7 +296,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
 
         byte[] imageByteArray = DocumentHelper.getBytesFromStream(new FileInputStream(getImageDir() + "Logo.jpg"));
 
-        // Below are three ways of inserting an image from a byte array:
+        // Below are three ways of inserting an image from a byte array.
         // 1 -  Inline shape with a default size based on the image's original dimensions:
         builder.insertImage(imageByteArray);
 

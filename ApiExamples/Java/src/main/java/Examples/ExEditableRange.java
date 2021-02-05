@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -159,7 +159,7 @@ public class ExEditableRange extends ApiExampleBase {
         builder.writeln("Hello world! Since we have set the document's protection level to read-only," +
                 " we cannot edit this paragraph without the password.");
 
-        // When we write-protect documents, editable ranges allow us to pick specific areas that users are allowed to edit.
+        // When we write-protect documents, editable ranges allow us to pick specific areas that users may edit.
         // There are two mutually exclusive ways to narrow down the list of allowed editors.
         // 1 -  Specify a user:
         EditableRange editableRange = builder.startEditableRange().getEditableRange();
@@ -188,7 +188,7 @@ public class ExEditableRange extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Collects attributes and contents of visited editable ranges in a string.
+    /// Collects properties and contents of visited editable ranges in a string.
     /// </summary>
     public static class EditableRangePrinter extends DocumentVisitor {
         public EditableRangePrinter() {

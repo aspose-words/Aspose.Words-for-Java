@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -490,8 +490,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         builder.getParagraphFormat().setStyle(builder.getDocument().getStyles().get("Heading 3"));
         builder.writeln("Heading #6");
 
-        // Create a HtmlSaveOptions object, and set the split criteria to "HeadingParagraph".
-        // This criteria will split the document at paragraphs with "Heading" styles into several smaller documents,
+        // Create a HtmlSaveOptions object and set the split criteria to "HeadingParagraph".
+        // These criteria will split the document at paragraphs with "Heading" styles into several smaller documents,
         // and save each document in a separate HTML file in the local file system.
         // We will also set the maximum heading level, which splits the document to 2.
         // Saving the document will split it at headings of levels 1 and 2, but not at 3 to 9.
@@ -655,7 +655,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
             options.setFontSavingCallback(new HandleFontSaving());
         }
 
-        // The callback will export .ttf files, and save them alongside the output document.
+        // The callback will export .ttf files and save them alongside the output document.
         doc.save(getArtifactsDir() + "HtmlSaveOptions.SaveExportedFonts.html", options);
 
         File[] fontFileNames = new File(getArtifactsDir()).listFiles((d, name) -> name.endsWith(".ttf"));
@@ -668,7 +668,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Prints information about exported fonts, and saves them in the same local system folder as their output .html.
+    /// Prints information about exported fonts and saves them in the same local system folder as their output .html.
     /// </summary>
     public static class HandleFontSaving implements IFontSavingCallback {
         public void fontSaving(FontSavingArgs args) throws Exception {
@@ -902,7 +902,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     public void dropDownFormField(boolean exportDropDownFormFieldAsText) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportDropDownFormFieldAsText
-        //ExSummary:Shows how to get drop down combo box form fields to blend in with paragraph text when saving to html.
+        //ExSummary:Shows how to get drop-down combo box form fields to blend in with paragraph text when saving to html.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1524,7 +1524,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         // If we set the "ExportTocPageNumbers" flag to "true",
         // each TOC entry will display the heading, separator, and page number, preserving its appearance in Microsoft Word.
         // If we set the "ExportTocPageNumbers" flag to "false",
-        // the save operation will omit both the separator and page number, but leave the heading for each entry intact.
+        // the save operation will omit both the separator and page number and leave the heading for each entry intact.
         HtmlSaveOptions options = new HtmlSaveOptions();
         {
             options.setExportTocPageNumbers(exportTocPageNumbers);
@@ -1576,10 +1576,11 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         builder.writeln("Hello world!");
 
         // When we save the document to HTML, we can pass a SaveOptions object configure font subsetting.
-        // Suppose we set the "ExportFontResources" flag to "true", and also name a folder in the "FontsFolder" property.
+        // Suppose we set the "ExportFontResources" flag to "true" and also name a folder in the "FontsFolder" property.
         // In that case, the saving operation will create that folder and place a .ttf file inside
         // that folder for each font that our document uses.
-        // Each .ttf file will contain that font's entire glyph set, which can potentially be very large.
+        // Each .ttf file will contain that font's entire glyph set,
+        // which may potentially result in a very large file that accompanies the document.
         // When we apply subsetting to a font, its exported raw data will only contain the glyphs that the document is
         // using instead of the entire glyph set. If the text in our document only uses a small fraction of a font's
         // glyph set, then subsetting will significantly reduce our output documents' size.

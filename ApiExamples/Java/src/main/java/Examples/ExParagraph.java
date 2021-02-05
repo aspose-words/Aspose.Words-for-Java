@@ -1,15 +1,15 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.*;
 import com.aspose.words.Font;
+import com.aspose.words.*;
 import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -23,8 +23,7 @@ import java.util.Locale;
 
 public class ExParagraph extends ApiExampleBase {
     @Test
-    public void documentBuilderInsertParagraph() throws Exception
-    {
+    public void documentBuilderInsertParagraph() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertParagraph
         //ExFor:ParagraphFormat.FirstLineIndent
@@ -78,8 +77,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void appendField() throws Exception
-    {
+    public void appendField() throws Exception {
         //ExStart
         //ExFor:Paragraph.AppendField(FieldType, Boolean)
         //ExFor:Paragraph.AppendField(String)
@@ -110,8 +108,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void insertField() throws Exception
-    {
+    public void insertField() throws Exception {
         //ExStart
         //ExFor:Paragraph.InsertField(string, Node, bool)
         //ExFor:Paragraph.InsertField(FieldType, bool, Node, bool)
@@ -122,14 +119,20 @@ public class ExParagraph extends ApiExampleBase {
 
         // Below are three ways of inserting a field into a paragraph.
         // 1 -  Insert an AUTHOR field into a paragraph after one of the paragraph's child nodes:
-        Run run = new Run(doc); { run.setText("This run was written by "); }
+        Run run = new Run(doc);
+        {
+            run.setText("This run was written by ");
+        }
         para.appendChild(run);
 
         doc.getBuiltInDocumentProperties().get("Author").setValue("John Doe");
         para.insertField(FieldType.FIELD_AUTHOR, true, run, true);
 
         // 2 -  Insert a QUOTE field after one of the paragraph's child nodes:
-        run = new Run(doc); { run.setText("."); }
+        run = new Run(doc);
+        {
+            run.setText(".");
+        }
         para.appendChild(run);
 
         Field field = para.insertField(" QUOTE \" Real value\" ", run, true);
@@ -313,7 +316,7 @@ public class ExParagraph extends ApiExampleBase {
         Assert.assertEquals(4, paragraph.getChildNodes(NodeType.ANY, true).getCount());
 
         // We can modify the contents of the run by editing and deleting existing child nodes.
-        ((Run)paragraph.getChildNodes(NodeType.RUN, true).get(1)).setText("Updated run 2. ");
+        ((Run) paragraph.getChildNodes(NodeType.RUN, true).get(1)).setText("Updated run 2. ");
         paragraph.getChildNodes(NodeType.RUN, true).remove(paragraphText);
 
         Assert.assertEquals("Run 1. Updated run 2. Run 3.", paragraph.getText().trim());
@@ -322,8 +325,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void revisions() throws Exception
-    {
+    public void revisions() throws Exception {
         //ExStart
         //ExFor:Paragraph.IsMoveFromRevision
         //ExFor:Paragraph.IsMoveToRevision
@@ -475,9 +477,9 @@ public class ExParagraph extends ApiExampleBase {
 
         Assert.assertEquals(3, paragraphs.getCount());
         Assert.assertEquals(
-            "Paragraph 1. \r" +
-            "Paragraph 2. \r" +
-            "Paragraph 4.", doc.getText().trim());
+                "Paragraph 1. \r" +
+                        "Paragraph 2. \r" +
+                        "Paragraph 4.", doc.getText().trim());
         //ExEnd
     }
 
@@ -572,7 +574,7 @@ public class ExParagraph extends ApiExampleBase {
         builder.write("Run 4. ");
 
         // If we open this document in Microsoft Word, the paragraph will look like one seamless text body.
-        // In reality, it will consist of four separate runs with the same formatting. Fragmented paragraphs like this
+        // However, it will consist of four separate runs with the same formatting. Fragmented paragraphs like this
         // may occur when we manually edit parts of one paragraph many times in Microsoft Word.
         Paragraph para = builder.getCurrentParagraph();
 

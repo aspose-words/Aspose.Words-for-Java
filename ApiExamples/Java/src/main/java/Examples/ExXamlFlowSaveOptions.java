@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -27,24 +27,31 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
     //ExFor:XamlFlowSaveOptions.ImagesFolder
     //ExFor:XamlFlowSaveOptions.ImagesFolderAlias
     //ExFor:XamlFlowSaveOptions.SaveFormat
-    //ExSummary:Shows how to print the filenames of linked images created during conversion of a document to flow-form .xaml.
+    //ExSummary:Shows how to print the filenames of linked images created while converting a document to flow-form .xaml.
     @Test //ExSkip
     public void imageFolder() throws Exception {
-        // Open a document which contains images
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageUriPrinter callback = new ImageUriPrinter(getArtifactsDir() + "XamlFlowImageFolderAlias");
 
+        // Create a "XamlFlowSaveOptions" object, which we can pass to the document's "Save" method
+        // to modify how we save the document to the XAML save format.
         XamlFlowSaveOptions options = new XamlFlowSaveOptions();
-        {
-            options.setSaveFormat(SaveFormat.XAML_FLOW);
-            options.setImagesFolder(getArtifactsDir() + "XamlFlowImageFolder");
-            options.setImagesFolderAlias(getArtifactsDir() + "XamlFlowImageFolderAlias");
-            options.setImageSavingCallback(callback);
-        }
 
-        // A folder specified by ImagesFolderAlias will contain the images instead of ImagesFolder
-        // We must ensure the folder exists before the streams can put their images into it
+        Assert.assertEquals(SaveFormat.XAML_FLOW, options.getSaveFormat());
+
+        // Use the "ImagesFolder" property to assign a folder in the local file system into which
+        // Aspose.Words will save all the document's linked images.
+        options.setImagesFolder(getArtifactsDir() + "XamlFlowImageFolder");
+
+        // Use the "ImagesFolderAlias" property to use this folder
+        // when constructing image URIs instead of the images folder's name.
+        options.setImagesFolderAlias(getArtifactsDir() + "XamlFlowImageFolderAlias");
+
+        options.setImageSavingCallback(callback);
+
+        // A folder specified by "ImagesFolderAlias" will need to contain the resources instead of "ImagesFolder".
+        // We must ensure the folder exists before the callback's streams can put their resources into it.
         new File(options.getImagesFolderAlias()).mkdir();
 
         doc.save(getArtifactsDir() + "XamlFlowSaveOptions.ImageFolder.xaml", options);
@@ -66,7 +73,8 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
         public void imageSaving(ImageSavingArgs args) throws Exception {
             getResources().add(args.getImageFileName());
 
-            // If we specified a ImagesFolderAlias we will also need to redirect each stream to put its image in that folder
+            // If we specified an image folder alias, we would also need
+            // to redirect each stream to put its image in the alias folder.
             args.setImageStream(new FileOutputStream(MessageFormat.format("{0}/{1}", mImagesFolderAlias, args.getImageFileName())));
             args.setKeepImageStreamOpen(false);
         }
@@ -85,7 +93,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testImageFolder(ImageUriPrinter callback) throws Exception {
+    private void testImageFolder(ImageUriPrinter callback) {
         Assert.assertEquals(9, callback.getResources().size());
         for (String resource : callback.getResources())
             Assert.assertTrue(new File(MessageFormat.format("{0}/{1}", callback.getImagesFolderAlias(), resource)).exists());

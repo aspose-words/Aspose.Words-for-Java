@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -15,7 +15,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.text.MessageFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.regex.Pattern;
 
 public class ExHeaderFooter extends ApiExampleBase {
@@ -34,7 +34,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExSummary:Shows how to create a header and a footer.
         Document doc = new Document();
 
-        // Create a header, and append a paragraph to it. The text in that paragraph
+        // Create a header and append a paragraph to it. The text in that paragraph
         // will appear at the top of every page of this section, above the main body text.
         HeaderFooter header = new HeaderFooter(doc, HeaderFooterType.HEADER_PRIMARY);
         doc.getFirstSection().getHeadersFooters().add(header);
@@ -44,7 +44,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         Assert.assertTrue(header.isHeader());
         Assert.assertTrue(para.isEndOfHeaderFooter());
 
-        // Create a footer, and append a paragraph to it. The text in that paragraph
+        // Create a footer and append a paragraph to it. The text in that paragraph
         // will appear at the bottom of every page of this section, below the main body text.
         HeaderFooter footer = new HeaderFooter(doc, HeaderFooterType.FOOTER_PRIMARY);
         doc.getFirstSection().getHeadersFooters().add(footer);
@@ -85,7 +85,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.write("Section 3");
 
-        // Move to the first section, and create a header and a footer. By default,
+        // Move to the first section and create a header and a footer. By default,
         // the header and the footer will only appear on pages in the section that contains them.
         builder.moveToSection(0);
 
@@ -99,8 +99,8 @@ public class ExHeaderFooter extends ApiExampleBase {
         // to allow the linking section to display the linked section's headers/footers.
         doc.getSections().get(1).getHeadersFooters().linkToPrevious(true);
 
-        // Each section will still have its own header/footer objects. The linking section displays
-        // the linked section's header/footers while still keeping its own when we link sections.
+        // Each section will still have its own header/footer objects. When we link sections,
+        // the linking section will display the linked section's header/footers while keeping its own.
         Assert.assertNotEquals(doc.getSections().get(0).getHeadersFooters().get(0), doc.getSections().get(1).getHeadersFooters().get(0));
         Assert.assertNotEquals(doc.getSections().get(0).getHeadersFooters().get(0).getParentSection(), doc.getSections().get(1).getHeadersFooters().get(0).getParentSection());
 
@@ -117,11 +117,11 @@ public class ExHeaderFooter extends ApiExampleBase {
         // The third section now will have the same footer as the second and first sections, but not the header.
         doc.getSections().get(2).getHeadersFooters().linkToPrevious(HeaderFooterType.FOOTER_PRIMARY, true);
 
-        // The first section's header/footers can't link themselves to anything because there is no previous section.
+        // The first section's header/footers cannot link themselves to anything because there is no previous section.
         Assert.assertEquals(2, doc.getSections().get(0).getHeadersFooters().getCount());
         Assert.assertEquals(0, IterableUtils.countMatches(doc.getSections().get(0).getHeadersFooters(), s -> s.isLinkedToPrevious()));
 
-        // All of the second section's header/footers are linked to the first section's headers/footers.
+        // All the second section's header/footers are linked to the first section's headers/footers.
         Assert.assertEquals(6, doc.getSections().get(1).getHeadersFooters().getCount());
         Assert.assertEquals(6, IterableUtils.countMatches(doc.getSections().get(1).getHeadersFooters(), s -> s.isLinkedToPrevious()));
 
@@ -155,7 +155,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         //ExSummary:Shows how to delete all footers from a document.
         Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
-        // Iterate through each section, and remove every kind of footer.
+        // Iterate through each section and remove footers of every kind.
         for (Section section : doc.getSections()) {
             // There are three kinds of footer and header types.
             // 1 -  The "First" header/footer, which only appears on the first page of a section.
@@ -237,7 +237,7 @@ public class ExHeaderFooter extends ApiExampleBase {
         options.setMatchCase(false);
         options.setFindWholeWordsOnly(false);
 
-        int currentYear = new Date().getYear();
+        int currentYear = Calendar.YEAR;
         footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", MessageFormat.format("Copyright (C) {0} by Aspose Pty Ltd.", currentYear), options);
 
         doc.save(getArtifactsDir() + "HeaderFooter.ReplaceText.docx");

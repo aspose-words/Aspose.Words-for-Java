@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -108,7 +108,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.GIF);
 
         // Render every page of the document to a separate image file.
-        for (int i = 1; i <= doc.getPageCount(); i++){
+        for (int i = 1; i <= doc.getPageCount(); i++) {
             saveOptions.setPageSet(new PageSet(1));
 
             doc.save(getArtifactsDir() + MessageFormat.format("ImageSaveOptions.PageIndex.Page {0}.gif", i), saveOptions);
@@ -207,8 +207,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // to modify the way in which that method renders the document into an image.
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.TIFF);
 
-        for (int i = 0; i < doc.getPageCount(); i++)
-        {
+        for (int i = 0; i < doc.getPageCount(); i++) {
             // Set the "PageSet" property to the number of the first page from
             // which to start rendering the document from.
             options.setPageSet(new PageSet(i));
@@ -234,8 +233,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // When we save the document as an image, we can pass a SaveOptions object to
         // select a color mode for the image that the saving operation will generate.
         // If we set the "ImageColorMode" property to "ImageColorMode.BlackAndWhite",
-        // the saving operation will apply grayscale color reduction while rendering the document,
-        // so it only consists of black and white.
+        // the saving operation will apply grayscale color reduction while rendering the document.
         // If we set the "ImageColorMode" property to "ImageColorMode.Grayscale", 
         // the saving operation will render the document into a monochrome image.
         // If we set the "ImageColorMode" property to "None", the saving operation will apply the default method
@@ -349,10 +347,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // Higher values tend to produce darker images.
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.TIFF);
         options.setTiffCompression(TiffCompression.CCITT_3);
-        options.setImageColorMode(ImageColorMode.GRAYSCALE);
         options.setTiffBinarizationMethod(ImageBinarizationMethod.FLOYD_STEINBERG_DITHERING);
-        // The default value of this property is 128. The higher value, the darker image
-        options.setThresholdForFloydSteinbergDithering((byte) 254);
+        options.setThresholdForFloydSteinbergDithering((byte) 240);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff", options);
         //ExEnd
@@ -425,7 +421,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg", imageOptions);
 
         // Set the "JpegQuality" property to "100" to use weaker compression when rending the document.
-        // This will improve the quality of the image, but will also increase the file size.
+        // This will improve the quality of the image at the cost of an increased file size.
         imageOptions.setJpegQuality(100);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighQuality.jpg", imageOptions);

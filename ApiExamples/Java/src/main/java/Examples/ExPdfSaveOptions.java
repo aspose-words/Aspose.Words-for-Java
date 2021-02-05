@@ -1,18 +1,17 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.pdf.Font;
 import com.aspose.pdf.*;
 import com.aspose.pdf.facades.Bookmarks;
 import com.aspose.pdf.facades.PdfBookmarkEditor;
-import com.aspose.pdf.operators.SetGlyphsPositionShowText;
-import com.aspose.words.*;
 import com.aspose.words.Document;
 import com.aspose.words.FolderFontSource;
 import com.aspose.words.PdfSaveOptions;
@@ -20,8 +19,7 @@ import com.aspose.words.SaveFormat;
 import com.aspose.words.SaveOptions;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningType;
-import com.aspose.words.net.System.Globalization.CultureInfo;
-import org.apache.commons.collections4.IterableUtils;
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -29,106 +27,103 @@ import org.testng.annotations.Test;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
-import static com.aspose.barcode.internal.lb.b.Is;
-
-public class ExPdfSaveOptions extends ApiExampleBase
-{
+public class ExPdfSaveOptions extends ApiExampleBase {
     @Test
     public void onePage() throws Exception {
-		//ExStart
+        //ExStart
         //ExFor:FixedPageSaveOptions.PageSet
-		//ExFor:Document.Save(Stream, SaveOptions)
-		//ExSummary:Shows how to convert only some of the pages in a document to PDF.
-		Document doc = new Document();
-		DocumentBuilder builder = new DocumentBuilder(doc);
+        //ExFor:Document.Save(Stream, SaveOptions)
+        //ExSummary:Shows how to convert only some of the pages in a document to PDF.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-		builder.writeln("Page 1.");
-		builder.insertBreak(BreakType.PAGE_BREAK);
-		builder.writeln("Page 2.");
-		builder.insertBreak(BreakType.PAGE_BREAK);
-		builder.writeln("Page 3.");
+        builder.writeln("Page 1.");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Page 2.");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Page 3.");
 
-		// Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
-		// to modify how that method converts the document to .PDF.
-		PdfSaveOptions options = new PdfSaveOptions();
+        // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        // to modify how that method converts the document to .PDF.
+        PdfSaveOptions options = new PdfSaveOptions();
 
-            // Set the "PageIndex" to "1" to render a portion of the document starting from the second page.
-		options.setPageSet(new PageSet(1));
+        // Set the "PageIndex" to "1" to render a portion of the document starting from the second page.
+        options.setPageSet(new PageSet(1));
 
-		// This document will contain one page starting from page two, which will only contain the second page.
-		doc.save(new FileOutputStream(getArtifactsDir() + "PdfSaveOptions.OnePage.pdf"), options);
-		//ExEnd
+        // This document will contain one page starting from page two, which will only contain the second page.
+        doc.save(new FileOutputStream(getArtifactsDir() + "PdfSaveOptions.OnePage.pdf"), options);
+        //ExEnd
 
-		com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.OnePage.pdf");
+        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.OnePage.pdf");
 
-		Assert.assertEquals(1, pdfDocument.getPages().size());
+        Assert.assertEquals(1, pdfDocument.getPages().size());
 
-		TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
-		pdfDocument.getPages().accept(textFragmentAbsorber);
+        TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
+        pdfDocument.getPages().accept(textFragmentAbsorber);
 
-		Assert.assertEquals("Page 2.", textFragmentAbsorber.getText());
-	}
+        Assert.assertEquals("Page 2.", textFragmentAbsorber.getText());
+
+        pdfDocument.close();
+    }
 
     @Test
     public void headingsOutlineLevels() throws Exception {
-		//ExStart
-		//ExFor:ParagraphFormat.IsHeading
-		//ExFor:PdfSaveOptions.OutlineOptions
-		//ExFor:PdfSaveOptions.SaveFormat
-		//ExSummary:Shows how to limit the headings' level that will appear in the outline of a saved PDF document.
-		Document doc = new Document();
-		DocumentBuilder builder = new DocumentBuilder(doc);
+        //ExStart
+        //ExFor:ParagraphFormat.IsHeading
+        //ExFor:PdfSaveOptions.OutlineOptions
+        //ExFor:PdfSaveOptions.SaveFormat
+        //ExSummary:Shows how to limit the headings' level that will appear in the outline of a saved PDF document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-		// Insert headings that can serve as TOC entries of levels 1, 2, and then 3.
-		builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);
+        // Insert headings that can serve as TOC entries of levels 1, 2, and then 3.
+        builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_1);
 
-		Assert.assertTrue(builder.getParagraphFormat().isHeading());
+        Assert.assertTrue(builder.getParagraphFormat().isHeading());
 
-		builder.writeln("Heading 1");
+        builder.writeln("Heading 1");
 
-		builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_2);
+        builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_2);
 
-		builder.writeln("Heading 1.1");
-		builder.writeln("Heading 1.2");
+        builder.writeln("Heading 1.1");
+        builder.writeln("Heading 1.2");
 
-		builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_3);
+        builder.getParagraphFormat().setStyleIdentifier(StyleIdentifier.HEADING_3);
 
-		builder.writeln("Heading 1.2.1");
-		builder.writeln("Heading 1.2.2");
+        builder.writeln("Heading 1.2.1");
+        builder.writeln("Heading 1.2.2");
 
-		// Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
-		// to modify how that method converts the document to .PDF.
-		PdfSaveOptions saveOptions = new PdfSaveOptions();
-		saveOptions.setSaveFormat(SaveFormat.PDF);
+        // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        // to modify how that method converts the document to .PDF.
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setSaveFormat(SaveFormat.PDF);
 
-		// The output PDF document will contain an outline, which is a table of contents that lists headings in the document body.
-		// Clicking on an entry in this outline will take us to the location of its respective heading.
-		// Set the "HeadingsOutlineLevels" property to "2" to exclude all headings whose levels are above 2 from the outline.
-		// The last two headings we have inserted above will not appear.
-		saveOptions.getOutlineOptions().setHeadingsOutlineLevels(2);
+        // The output PDF document will contain an outline, which is a table of contents that lists headings in the document body.
+        // Clicking on an entry in this outline will take us to the location of its respective heading.
+        // Set the "HeadingsOutlineLevels" property to "2" to exclude all headings whose levels are above 2 from the outline.
+        // The last two headings we have inserted above will not appear.
+        saveOptions.getOutlineOptions().setHeadingsOutlineLevels(2);
 
-		doc.save(getArtifactsDir() + "PdfSaveOptions.HeadingsOutlineLevels.pdf", saveOptions);
-		//ExEnd
+        doc.save(getArtifactsDir() + "PdfSaveOptions.HeadingsOutlineLevels.pdf", saveOptions);
+        //ExEnd
 
-		PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
-		bookmarkEditor.bindPdf(getArtifactsDir() + "PdfSaveOptions.HeadingsOutlineLevels.pdf");
+        PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
+        bookmarkEditor.bindPdf(getArtifactsDir() + "PdfSaveOptions.HeadingsOutlineLevels.pdf");
 
-		Bookmarks bookmarks = bookmarkEditor.extractBookmarks();
+        Bookmarks bookmarks = bookmarkEditor.extractBookmarks();
 
-		Assert.assertEquals(3, bookmarks.size());
-	}
+        Assert.assertEquals(3, bookmarks.size());
 
-    @Test (dataProvider = "createMissingOutlineLevelsDataProvider")
-    public void createMissingOutlineLevels(boolean createMissingOutlineLevels) throws Exception
-    {
+        bookmarkEditor.close();
+    }
+
+    @Test(dataProvider = "createMissingOutlineLevelsDataProvider")
+    public void createMissingOutlineLevels(boolean createMissingOutlineLevels) throws Exception {
         //ExStart
         //ExFor:OutlineOptions.CreateMissingOutlineLevels
         //ExFor:PdfSaveOptions.OutlineOptions
@@ -174,20 +169,21 @@ public class ExPdfSaveOptions extends ApiExampleBase
         Bookmarks bookmarks = bookmarkEditor.extractBookmarks();
 
         Assert.assertEquals(createMissingOutlineLevels ? 6 : 3, bookmarks.size());
+
+        bookmarkEditor.close();
     }
 
-	@DataProvider(name = "createMissingOutlineLevelsDataProvider")
-	public static Object[][] createMissingOutlineLevelsDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    @DataProvider(name = "createMissingOutlineLevelsDataProvider")
+    public static Object[][] createMissingOutlineLevelsDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
-    @Test (dataProvider = "tableHeadingOutlinesDataProvider")
-    public void tableHeadingOutlines(boolean createOutlinesForHeadingsInTables) throws Exception
-    {
+    @Test(dataProvider = "tableHeadingOutlinesDataProvider")
+    public void tableHeadingOutlines(boolean createOutlinesForHeadingsInTables) throws Exception {
         //ExStart
         //ExFor:OutlineOptions.CreateOutlinesForHeadingsInTables
         //ExSummary:Shows how to create PDF document outline entries for headings inside tables.
@@ -230,8 +226,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
 
         com.aspose.pdf.Document pdfDoc = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.TableHeadingOutlines.pdf");
 
-        if (createOutlinesForHeadingsInTables)
-        {
+        if (createOutlinesForHeadingsInTables) {
             Assert.assertEquals(1, pdfDoc.getOutlines().size());
             Assert.assertEquals("Customers", pdfDoc.getOutlines().get_Item(1).getTitle());
         } else
@@ -243,20 +238,21 @@ public class ExPdfSaveOptions extends ApiExampleBase
         Assert.assertEquals("Customers", tableAbsorber.getTableList().get_Item(0).getRowList().get_Item(0).getCellList().get_Item(0).getTextFragments().get_Item(1).getText());
         Assert.assertEquals("John Doe", tableAbsorber.getTableList().get_Item(0).getRowList().get_Item(1).getCellList().get_Item(0).getTextFragments().get_Item(1).getText());
         Assert.assertEquals("Jane Doe", tableAbsorber.getTableList().get_Item(0).getRowList().get_Item(2).getCellList().get_Item(0).getTextFragments().get_Item(1).getText());
+
+        pdfDoc.close();
     }
 
-	@DataProvider(name = "tableHeadingOutlinesDataProvider")
-	public static Object[][] tableHeadingOutlinesDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "tableHeadingOutlinesDataProvider")
+    public static Object[][] tableHeadingOutlinesDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     @Test
-    public void expandedOutlineLevels() throws Exception
-    {
+    public void expandedOutlineLevels() throws Exception {
         //ExStart
         //ExFor:Document.Save(String, SaveOptions)
         //ExFor:PdfSaveOptions
@@ -303,10 +299,10 @@ public class ExPdfSaveOptions extends ApiExampleBase
         options.getOutlineOptions().setHeadingsOutlineLevels(4);
 
         // If an outline entry has subsequent entries of a higher level inbetween itself and the next entry of the same or lower level,
-        // an arrow will appear to the left of the entry. This entry is the "owner" of a number of such "sub-entries".
+        // an arrow will appear to the left of the entry. This entry is the "owner" of several such "sub-entries".
         // In our document, the outline entries from the 5th heading level are sub-entries of the second 4th level outline entry,
         // the 4th and 5th heading level entries are sub-entries of the second 3rd level entry, and so on. 
-        // In the outline, we can click on the arrow of the "owner" entry to collapse/expand all of its sub-entries.
+        // In the outline, we can click on the arrow of the "owner" entry to collapse/expand all its sub-entries.
         // Set the "ExpandedOutlineLevels" property to "2" to automatically expand all heading level 2 and lower outline entries
         // and collapse all level and 3 and higher entries when we open the document. 
         options.getOutlineOptions().setExpandedOutlineLevels(2);
@@ -315,62 +311,63 @@ public class ExPdfSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (dataProvider = "updateFieldsDataProvider")
+    @Test(dataProvider = "updateFieldsDataProvider")
     public void updateFields(boolean updateFields) throws Exception {
-		//ExStart
-		//ExFor:PdfSaveOptions.Clone
-		//ExFor:SaveOptions.UpdateFields
-		//ExSummary:Shows how to update all the fields in a document immediately before saving it to PDF.
-		Document doc = new Document();
-		DocumentBuilder builder = new DocumentBuilder(doc);
+        //ExStart
+        //ExFor:PdfSaveOptions.Clone
+        //ExFor:SaveOptions.UpdateFields
+        //ExSummary:Shows how to update all the fields in a document immediately before saving it to PDF.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-		// Insert text with PAGE and NUMPAGES fields. These fields do not display the correct value in real time.
-		// We will need to manually update them using updating methods such as "Field.Update()", and "Document.UpdateFields()"
-		// each time we need them to display accurate values.
-		builder.write("Page ");
-		builder.insertField("PAGE", "");
-		builder.write(" of ");
-		builder.insertField("NUMPAGES", "");
-		builder.insertBreak(BreakType.PAGE_BREAK);
-		builder.writeln("Hello World!");
+        // Insert text with PAGE and NUMPAGES fields. These fields do not display the correct value in real time.
+        // We will need to manually update them using updating methods such as "Field.Update()", and "Document.UpdateFields()"
+        // each time we need them to display accurate values.
+        builder.write("Page ");
+        builder.insertField("PAGE", "");
+        builder.write(" of ");
+        builder.insertField("NUMPAGES", "");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Hello World!");
 
-		// Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
-		// to modify how that method converts the document to .PDF.
-		PdfSaveOptions options = new PdfSaveOptions();
+        // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        // to modify how that method converts the document to .PDF.
+        PdfSaveOptions options = new PdfSaveOptions();
 
-		// Set the "UpdateFields" property to "false" to not update all the fields in a document right before a save operation.
-		// This is the preferable option if we know that all our fields will be up to date before saving.
-		// Set the "UpdateFields" property to "true" to iterate through all the document
-		// fields and update them before we save it as a PDF. This will make sure that all the fields will display
-		// the most accurate values in the PDF.
-		options.setUpdateFields(updateFields);
+        // Set the "UpdateFields" property to "false" to not update all the fields in a document right before a save operation.
+        // This is the preferable option if we know that all our fields will be up to date before saving.
+        // Set the "UpdateFields" property to "true" to iterate through all the document
+        // fields and update them before we save it as a PDF. This will make sure that all the fields will display
+        // the most accurate values in the PDF.
+        options.setUpdateFields(updateFields);
 
-		// We can clone PdfSaveOptions objects.
-		Assert.assertNotSame(options, options.deepClone());
+        // We can clone PdfSaveOptions objects.
+        Assert.assertNotSame(options, options.deepClone());
 
-		doc.save(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf", options);
-		//ExEnd
+        doc.save(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf", options);
+        //ExEnd
 
-		com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf");
+        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf");
 
-		TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
-		pdfDocument.getPages().accept(textFragmentAbsorber);
+        TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
+        pdfDocument.getPages().accept(textFragmentAbsorber);
 
-		Assert.assertEquals(updateFields ? "Page 1 of 2" : "Page  of ", textFragmentAbsorber.getTextFragments().get_Item(1).getText());
-	}
+        Assert.assertEquals(updateFields ? "Page 1 of 2" : "Page  of ", textFragmentAbsorber.getTextFragments().get_Item(1).getText());
 
-	@DataProvider(name = "updateFieldsDataProvider")
-	public static Object[][] updateFieldsDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+        pdfDocument.close();
+    }
 
-    @Test (dataProvider = "preserveFormFieldsDataProvider")
-    public void preserveFormFields(boolean preserveFormFields) throws Exception
-    {
+    @DataProvider(name = "updateFieldsDataProvider")
+    public static Object[][] updateFieldsDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
+
+    @Test(dataProvider = "preserveFormFieldsDataProvider")
+    public void preserveFormFields(boolean preserveFormFields) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.PreserveFormFields
         //ExSummary:Shows how to save a document to the PDF format using the Save method and the PdfSaveOptions class.
@@ -380,7 +377,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         builder.write("Please select a fruit: ");
 
         // Insert a combo box which will allow a user to choose an option from a collection of strings.
-        builder.insertComboBox("MyComboBox", new String[] { "Apple", "Banana", "Cherry" }, 0);
+        builder.insertComboBox("MyComboBox", new String[]{"Apple", "Banana", "Cherry"}, 0);
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
@@ -401,18 +398,17 @@ public class ExPdfSaveOptions extends ApiExampleBase
         TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
         pdfDocument.getPages().accept(textFragmentAbsorber);
 
-        if (preserveFormFields)
-        {
+        if (preserveFormFields) {
             Assert.assertEquals("Please select a fruit: ", textFragmentAbsorber.getText());
-        }
-        else
-        {
+        } else {
             Assert.assertEquals("Please select a fruit: Apple", textFragmentAbsorber.getText());
         }
+
+        pdfDocument.close();
     }
 
     @DataProvider(name = "preserveFormFieldsDataProvider")
-	public static Object[][] preserveFormFieldsDataProvider() {
+    public static Object[][] preserveFormFieldsDataProvider() {
         return new Object[][]
                 {
                         {false},
@@ -421,8 +417,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
     }
 
     @Test(enabled = false, dataProvider = "complianceDataProvider")
-    public void compliance(int pdfCompliance) throws Exception
-    {
+    public void compliance(int pdfCompliance) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.Compliance
         //ExFor:PdfCompliance
@@ -438,7 +433,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         // Set the "Compliance" property to "PdfCompliance.Pdf17" to comply with the "1.7" standard.
         // Set the "Compliance" property to "PdfCompliance.PdfA1a" to comply with the "PDF/A-1a" standard,
         // which complies with "PDF/A-1b" as well as preserving the document structure of the original document.
-        // This helps with making documents searchable, but may significantly increase the size of already large documents.
+        // This helps with making documents searchable but may significantly increase the size of already large documents.
         saveOptions.setCompliance(pdfCompliance);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.Compliance.pdf", saveOptions);
@@ -446,8 +441,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
 
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.Compliance.pdf");
 
-        switch (pdfCompliance)
-        {
+        switch (pdfCompliance) {
             case PdfCompliance.PDF_17:
                 Assert.assertEquals(PdfFormat.v_1_7, pdfDocument.getPdfFormat());
                 Assert.assertEquals("1.7", pdfDocument.getVersion());
@@ -461,21 +455,22 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 Assert.assertEquals("1.4", pdfDocument.getVersion());
                 break;
         }
+
+        pdfDocument.close();
     }
 
-	@DataProvider(name = "complianceDataProvider")
-	public static Object[][] complianceDataProvider() {
-		return new Object[][]
-		{
-			{PdfCompliance.PDF_A_1_B},
-			{PdfCompliance.PDF_17},
-			{PdfCompliance.PDF_A_1_A},
-		};
-	}
+    @DataProvider(name = "complianceDataProvider")
+    public static Object[][] complianceDataProvider() {
+        return new Object[][]
+                {
+                        {PdfCompliance.PDF_A_1_B},
+                        {PdfCompliance.PDF_17},
+                        {PdfCompliance.PDF_A_1_A},
+                };
+    }
 
-    @Test (dataProvider = "textCompressionDataProvider")
-    public void textCompression(int pdfTextCompression) throws Exception
-    {
+    @Test(dataProvider = "textCompressionDataProvider")
+    public void textCompression(int pdfTextCompression) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions
         //ExFor:PdfSaveOptions.TextCompression
@@ -486,7 +481,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
 
         for (int i = 0; i < 100; i++)
             builder.writeln("Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                            "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+                    "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
@@ -502,60 +497,59 @@ public class ExPdfSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-	@DataProvider(name = "textCompressionDataProvider")
-	public static Object[][] textCompressionDataProvider() {
-		return new Object[][]
-		{
-			{PdfTextCompression.NONE},
-			{PdfTextCompression.FLATE},
-		};
-	}
-    
-    @Test (dataProvider = "imageCompressionDataProvider")
+    @DataProvider(name = "textCompressionDataProvider")
+    public static Object[][] textCompressionDataProvider() {
+        return new Object[][]
+                {
+                        {PdfTextCompression.NONE},
+                        {PdfTextCompression.FLATE},
+                };
+    }
+
+    @Test(dataProvider = "imageCompressionDataProvider")
     public void imageCompression(int pdfImageCompression) throws Exception {
-		//ExStart
-		//ExFor:PdfSaveOptions.ImageCompression
-		//ExFor:PdfSaveOptions.JpegQuality
-		//ExFor:PdfImageCompression
-		//ExSummary:Shows how to specify a compression type for all images in a document that we are converting to PDF.
-		Document doc = new Document();
-		DocumentBuilder builder = new DocumentBuilder(doc);
+        //ExStart
+        //ExFor:PdfSaveOptions.ImageCompression
+        //ExFor:PdfSaveOptions.JpegQuality
+        //ExFor:PdfImageCompression
+        //ExSummary:Shows how to specify a compression type for all images in a document that we are converting to PDF.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-		builder.writeln("Jpeg image:");
-		builder.insertImage(getImageDir() + "Logo.jpg");
-		builder.insertParagraph();
-		builder.writeln("Png image:");
-		builder.insertImage(getImageDir() + "Transparent background logo.png");
+        builder.writeln("Jpeg image:");
+        builder.insertImage(getImageDir() + "Logo.jpg");
+        builder.insertParagraph();
+        builder.writeln("Png image:");
+        builder.insertImage(getImageDir() + "Transparent background logo.png");
 
-		// Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
-		// to modify how that method converts the document to .PDF.
-		PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
+        // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        // to modify how that method converts the document to .PDF.
+        PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
 
-		// Set the "ImageCompression" property to "PdfImageCompression.Auto" to use the
-		// "ImageCompression" property to control the quality of the Jpeg images that end up in the output PDF.
-		// Set the "ImageCompression" property to "PdfImageCompression.Jpeg" to use the
-		// "ImageCompression" property to control the quality of all images that end up in the output PDF.
-		pdfSaveOptions.setImageCompression(pdfImageCompression);
+        // Set the "ImageCompression" property to "PdfImageCompression.Auto" to use the
+        // "ImageCompression" property to control the quality of the Jpeg images that end up in the output PDF.
+        // Set the "ImageCompression" property to "PdfImageCompression.Jpeg" to use the
+        // "ImageCompression" property to control the quality of all images that end up in the output PDF.
+        pdfSaveOptions.setImageCompression(pdfImageCompression);
 
-		// Set the "JpegQuality" property to "10" to strengthen compression at the cost of image quality.
-		pdfSaveOptions.setJpegQuality(10);
+        // Set the "JpegQuality" property to "10" to strengthen compression at the cost of image quality.
+        pdfSaveOptions.setJpegQuality(10);
 
-		doc.save(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf", pdfSaveOptions);
-		//ExEnd
-	}
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf", pdfSaveOptions);
+        //ExEnd
+    }
 
-	@DataProvider(name = "imageCompressionDataProvider")
-	public static Object[][] imageCompressionDataProvider() {
-		return new Object[][]
-		{
-			{PdfImageCompression.AUTO},
-			{PdfImageCompression.JPEG},
-		};
-	}
+    @DataProvider(name = "imageCompressionDataProvider")
+    public static Object[][] imageCompressionDataProvider() {
+        return new Object[][]
+                {
+                        {PdfImageCompression.AUTO},
+                        {PdfImageCompression.JPEG},
+                };
+    }
 
-    @Test (dataProvider = "imageColorSpaceExportModeDataProvider")
-    public void imageColorSpaceExportMode(int pdfImageColorSpaceExportMode) throws Exception
-    {
+    @Test(dataProvider = "imageColorSpaceExportModeDataProvider")
+    public void imageColorSpaceExportMode(int pdfImageColorSpaceExportMode) throws Exception {
         //ExStart
         //ExFor:PdfImageColorSpaceExportMode
         //ExFor:PdfSaveOptions.ImageColorSpaceExportMode
@@ -596,15 +590,17 @@ public class ExPdfSaveOptions extends ApiExampleBase
         Assert.assertEquals(400, pdfDocImage.getWidth());
         Assert.assertEquals(400, pdfDocImage.getHeight());
         Assert.assertEquals(ColorType.Rgb, pdfDocImage.getColorType());
+
+        pdfDocument.close();
     }
 
-	@DataProvider(name = "imageColorSpaceExportModeDataProvider")
-	public static Object[][] imageColorSpaceExportModeDataProvider() {
-		return new Object[][]
-		{
-			{PdfImageColorSpaceExportMode.AUTO},
-			{PdfImageColorSpaceExportMode.SIMPLE_CMYK},
-		};
+    @DataProvider(name = "imageColorSpaceExportModeDataProvider")
+    public static Object[][] imageColorSpaceExportModeDataProvider() {
+        return new Object[][]
+                {
+                        {PdfImageColorSpaceExportMode.AUTO},
+                        {PdfImageColorSpaceExportMode.SIMPLE_CMYK},
+                };
     }
 
     @Test
@@ -644,11 +640,12 @@ public class ExPdfSaveOptions extends ApiExampleBase
         XImage pdfDocImage = pdfDocument.getPages().get_Item(1).getResources().getImages().get_Item(1);
 
         Assert.assertEquals(ColorType.Rgb, pdfDocImage.getColorType());
+
+        pdfDocument.close();
     }
 
     @Test(dataProvider = "colorRenderingDataProvider")
-    public void colorRendering(int colorMode) throws Exception
-    {
+    public void colorRendering(int colorMode) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions
         //ExFor:ColorMode
@@ -661,16 +658,18 @@ public class ExPdfSaveOptions extends ApiExampleBase
         // Set the "ColorMode" property to "Grayscale" to render all images from the document in black and white.
         // The size of the output document may be larger with this setting.
         // Set the "ColorMode" property to "Normal" to render all images in color.
-        PdfSaveOptions pdfSaveOptions = new PdfSaveOptions(); { pdfSaveOptions.setColorMode(colorMode); }
-        
+        PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
+        {
+            pdfSaveOptions.setColorMode(colorMode);
+        }
+
         doc.save(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf", pdfSaveOptions);
         //ExEnd
 
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf");
         XImage pdfDocImage = pdfDocument.getPages().get_Item(1).getResources().getImages().get_Item(1);
 
-        switch (colorMode)
-        {
+        switch (colorMode) {
             case ColorMode.NORMAL:
                 Assert.assertEquals(ColorType.Rgb, pdfDocImage.getColorType());
                 break;
@@ -678,59 +677,62 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 Assert.assertEquals(ColorType.Grayscale, pdfDocImage.getColorType());
                 break;
         }
+
+        pdfDocument.close();
+    }
+
+    @DataProvider(name = "colorRenderingDataProvider")
+    public static Object[][] colorRenderingDataProvider() {
+        return new Object[][]
+                {
+                        {ColorMode.GRAYSCALE},
+                        {ColorMode.NORMAL},
+                };
+    }
+
+    @Test(dataProvider = "docTitleDataProvider")
+    public void docTitle(boolean displayDocTitle) throws Exception {
+        //ExStart
+        //ExFor:PdfSaveOptions.DisplayDocTitle
+        //ExSummary:Shows how to display the title of the document as the title bar.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world!");
+
+        doc.getBuiltInDocumentProperties().setTitle("Windows bar pdf title");
+
+        // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        // to modify how that method converts the document to .PDF.
+        // Set the "DisplayDocTitle" to "true" to get some PDF readers, such as Adobe Acrobat Pro,
+        // to display the value of the document's "Title" built-in property in the tab that belongs to this document.
+        // Set the "DisplayDocTitle" to "false" to get such readers to display the document's filename.
+        PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
+        {
+            pdfSaveOptions.setDisplayDocTitle(displayDocTitle);
         }
 
-	@DataProvider(name = "colorRenderingDataProvider")
-	public static Object[][] colorRenderingDataProvider() {
-		return new Object[][]
-		{
-			{ColorMode.GRAYSCALE},
-			{ColorMode.NORMAL},
-		};
+        doc.save(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf", pdfSaveOptions);
+        //ExEnd
+
+        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf");
+
+        Assert.assertEquals(displayDocTitle, pdfDocument.getDisplayDocTitle());
+        Assert.assertEquals("Windows bar pdf title", pdfDocument.getInfo().getTitle());
+
+        pdfDocument.close();
     }
 
-    @Test (dataProvider = "docTitleDataProvider")
-    public void docTitle(boolean displayDocTitle) throws Exception {
-		//ExStart
-		//ExFor:PdfSaveOptions.DisplayDocTitle
-		//ExSummary:Shows how to display the title of the document as the title bar.
-		Document doc = new Document();
-		DocumentBuilder builder = new DocumentBuilder(doc);
-		builder.writeln("Hello world!");
-
-		doc.getBuiltInDocumentProperties().setTitle("Windows bar pdf title");
-
-		// Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
-		// to modify how that method converts the document to .PDF.
-		// Set the "DisplayDocTitle" to "true" to get some PDF readers, such as Adobe Acrobat Pro,
-		// to display the value of the document's "Title" built-in property in the tab that belongs to this document.
-		// Set the "DisplayDocTitle" to "false" to get such readers to display the document's filename.
-		PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
-		{
-			pdfSaveOptions.setDisplayDocTitle(displayDocTitle);
-		}
-
-		doc.save(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf", pdfSaveOptions);
-		//ExEnd
-
-		com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf");
-
-		Assert.assertEquals(displayDocTitle, pdfDocument.getDisplayDocTitle());
-		Assert.assertEquals("Windows bar pdf title", pdfDocument.getInfo().getTitle());
-	}
-
-	@DataProvider(name = "docTitleDataProvider")
-	public static Object[][] docTitleDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    @DataProvider(name = "docTitleDataProvider")
+    public static Object[][] docTitleDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
-    @Test (dataProvider = "memoryOptimizationDataProvider")
-    public void memoryOptimization(boolean memoryOptimization) throws Exception
-    {
+    @Test(dataProvider = "memoryOptimizationDataProvider")
+    public void memoryOptimization(boolean memoryOptimization) throws Exception {
         //ExStart
         //ExFor:SaveOptions.CreateSaveOptions(SaveFormat)
         //ExFor:SaveOptions.MemoryOptimization
@@ -750,18 +752,17 @@ public class ExPdfSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-	@DataProvider(name = "memoryOptimizationDataProvider")
-	public static Object[][] memoryOptimizationDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "memoryOptimizationDataProvider")
+    public static Object[][] memoryOptimizationDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "escapeUriDataProvider")
-    public void escapeUri(String uri, String result, boolean isEscaped) throws Exception
-    {
+    @Test(dataProvider = "escapeUriDataProvider")
+    public void escapeUri(String uri, String result, boolean isEscaped) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.EscapeUri
         //ExSummary:Shows how to escape hyperlinks in the document.
@@ -785,27 +786,28 @@ public class ExPdfSaveOptions extends ApiExampleBase
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf");
 
         Page page = pdfDocument.getPages().get_Item(1);
-        LinkAnnotation linkAnnot = (LinkAnnotation)page.getAnnotations().get_Item(1);
+        LinkAnnotation linkAnnot = (LinkAnnotation) page.getAnnotations().get_Item(1);
 
-        GoToURIAction action = (GoToURIAction)linkAnnot.getAction();
+        GoToURIAction action = (GoToURIAction) linkAnnot.getAction();
 
         Assert.assertEquals(result, action.getURI());
+
+        pdfDocument.close();
     }
 
     @DataProvider(name = "escapeUriDataProvider")
     public static Object[][] escapeUriDataProvider() {
         return new Object[][]
                 {
-			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q=%20aspose",  true},
-			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose",  true},
-			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q= aspose",  false},
-			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose",  false},
-		};
-	}
+                        {"https://www.google.com/search?q= aspose", "https://www.google.com/search?q=%20aspose", true},
+                        {"https://www.google.com/search?q=%20aspose", "https://www.google.com/search?q=%20aspose", true},
+                        {"https://www.google.com/search?q= aspose", "https://www.google.com/search?q= aspose", false},
+                        {"https://www.google.com/search?q=%20aspose", "https://www.google.com/search?q=%20aspose", false},
+                };
+    }
 
-    @Test (dataProvider = "openHyperlinksInNewWindowDataProvider")
-    public void openHyperlinksInNewWindow(boolean openHyperlinksInNewWindow) throws Exception
-    {
+    @Test(dataProvider = "openHyperlinksInNewWindowDataProvider")
+    public void openHyperlinksInNewWindow(boolean openHyperlinksInNewWindow) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.OpenHyperlinksInNewWindow
         //ExSummary:Shows how to save hyperlinks in a document we convert to PDF so that they open new pages when we click on them.
@@ -831,17 +833,19 @@ public class ExPdfSaveOptions extends ApiExampleBase
         LinkAnnotation linkAnnot = (LinkAnnotation) page.getAnnotations().get_Item(1);
 
         Assert.assertEquals(openHyperlinksInNewWindow ? JavascriptAction.class : GoToURIAction.class,
-            linkAnnot.getAction().getClass());
+                linkAnnot.getAction().getClass());
+
+        pdfDocument.close();
     }
 
-	@DataProvider(name = "openHyperlinksInNewWindowDataProvider")
-	public static Object[][] openHyperlinksInNewWindowDataProvider() {
-		return new Object[][]
-				{
-						{false},
-						{true},
-				};
-	}
+    @DataProvider(name = "openHyperlinksInNewWindowDataProvider")
+    public static Object[][] openHyperlinksInNewWindowDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     //ExStart
     //ExFor:MetafileRenderingMode
@@ -851,9 +855,8 @@ public class ExPdfSaveOptions extends ApiExampleBase
     //ExFor:IWarningCallback
     //ExFor:FixedPageSaveOptions.MetafileRenderingOptions
     //ExSummary:Shows added a fallback to bitmap rendering and changing type of warnings about unsupported metafile records.
-    @Test (groups = "SkipMono") //ExSkip
-    public void handleBinaryRasterWarnings() throws Exception
-    {
+    @Test(groups = "SkipMono") //ExSkip
+    public void handleBinaryRasterWarnings() throws Exception {
         Document doc = new Document(getMyDir() + "WMF with image.docx");
 
         MetafileRenderingOptions metafileRenderingOptions = new MetafileRenderingOptions();
@@ -878,18 +881,15 @@ public class ExPdfSaveOptions extends ApiExampleBase
 
         Assert.assertEquals(1, callback.mWarnings.getCount());
         Assert.assertEquals("'R2_XORPEN' binary raster operation is partly supported.",
-            callback.mWarnings.get(0).getDescription());
+                callback.mWarnings.get(0).getDescription());
     }
 
     /// <summary>
     /// Prints and collects formatting loss-related warnings that occur upon saving a document.
     /// </summary>
-    public static class HandleDocumentWarnings implements IWarningCallback
-    {
-        public void warning(WarningInfo info)
-        {
-            if (info.getWarningType() == WarningType.MINOR_FORMATTING_LOSS)
-            {
+    public static class HandleDocumentWarnings implements IWarningCallback {
+        public void warning(WarningInfo info) {
+            if (info.getWarningType() == WarningType.MINOR_FORMATTING_LOSS) {
                 System.out.println("Unsupported operation: " + info.getDescription());
                 this.mWarnings.warning(info);
             }
@@ -937,8 +937,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
 
         TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
         pdfDoc.getPages().accept(textFragmentAbsorber);
-        switch (headerFooterBookmarksExportMode)
-        {
+        switch (headerFooterBookmarksExportMode) {
             case com.aspose.words.HeaderFooterBookmarksExportMode.NONE:
                 Assert.assertEquals(0, pdfDoc.getOutlines().size());
                 break;
@@ -956,6 +955,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 Assert.assertEquals("Bookmark_4", outlineItemCollection.get_Item(4).getTitle());
                 break;
         }
+        pdfDoc.close();
     }
 
     @DataProvider(name = "headerFooterBookmarksExportModeDataProvider")
@@ -991,10 +991,9 @@ public class ExPdfSaveOptions extends ApiExampleBase
 
         WarningInfoCollection mSaveWarnings = new WarningInfoCollection();
     }
-	
-	@Test (dataProvider = "fontsScaledToMetafileSizeDataProvider")
-    public void fontsScaledToMetafileSize(boolean scaleWmfFonts) throws Exception
-    {
+
+    @Test(dataProvider = "fontsScaledToMetafileSizeDataProvider")
+    public void fontsScaledToMetafileSize(boolean scaleWmfFonts) throws Exception {
         //ExStart
         //ExFor:MetafileRenderingOptions.ScaleWmfFontsToMetafileSize
         //ExSummary:Shows how to WMF fonts scaling according to metafile size on the page.
@@ -1020,10 +1019,12 @@ public class ExPdfSaveOptions extends ApiExampleBase
         Rectangle textFragmentRectangle = textAbsorber.getTextFragments().get_Item(3).getRectangle();
 
         Assert.assertEquals(scaleWmfFonts ? 1.589d : 5.045d, textFragmentRectangle.getWidth(), 0.001d);
+
+        pdfDocument.close();
     }
 
     @DataProvider(name = "fontsScaledToMetafileSizeDataProvider")
-	public static Object[][] fontsScaledToMetafileSizeDataProvider() {
+    public static Object[][] fontsScaledToMetafileSizeDataProvider() {
         return new Object[][]
                 {
                         {false},
@@ -1031,9 +1032,8 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 };
     }
 
-    @Test (dataProvider = "embedFullFontsDataProvider")
-    public void embedFullFonts(boolean embedFullFonts) throws Exception
-    {
+    @Test(dataProvider = "embedFullFontsDataProvider")
+    public void embedFullFonts(boolean embedFullFonts) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.#ctor
         //ExFor:PdfSaveOptions.EmbedFullFonts
@@ -1049,7 +1049,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         // Configure our font sources to ensure that we have access to both the fonts in this document.
         FontSourceBase[] originalFontsSources = FontSettings.getDefaultInstance().getFontsSources();
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), true);
-        FontSettings.getDefaultInstance().setFontsSources(new FontSourceBase[] { originalFontsSources[0], folderFontSource });
+        FontSettings.getDefaultInstance().setFontsSources(new FontSourceBase[]{originalFontsSources[0], folderFontSource});
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
@@ -1068,20 +1068,31 @@ public class ExPdfSaveOptions extends ApiExampleBase
         // Restore the original font sources.
         FontSettings.getDefaultInstance().setFontsSources(originalFontsSources);
         //ExEnd
+
+        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf");
+
+        Font[] pdfDocFonts = pdfDocument.getFontUtilities().getAllFonts();
+
+        Assert.assertEquals("ArialMT", pdfDocFonts[0].getFontName());
+        Assert.assertNotEquals(embedFullFonts, pdfDocFonts[0].isSubset());
+
+        Assert.assertEquals("Arvo", pdfDocFonts[1].getFontName());
+        Assert.assertNotEquals(embedFullFonts, pdfDocFonts[1].isSubset());
+
+        pdfDocument.close();
     }
 
-	@DataProvider(name = "embedFullFontsDataProvider")
-	public static Object[][] embedFullFontsDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "embedFullFontsDataProvider")
+    public static Object[][] embedFullFontsDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "embedWindowsFontsDataProvider")
-    public void embedWindowsFonts(int pdfFontEmbeddingMode) throws Exception
-    {
+    @Test(dataProvider = "embedWindowsFontsDataProvider")
+    public void embedWindowsFonts(int pdfFontEmbeddingMode) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.FontEmbeddingMode
         //ExFor:PdfFontEmbeddingMode
@@ -1111,19 +1122,18 @@ public class ExPdfSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-	@DataProvider(name = "embedWindowsFontsDataProvider")
-	public static Object[][] embedWindowsFontsDataProvider() {
-		return new Object[][]
-		{
-			{PdfFontEmbeddingMode.EMBED_ALL},
-			{PdfFontEmbeddingMode.EMBED_NONE},
-			{PdfFontEmbeddingMode.EMBED_NONSTANDARD},
-		};
-	}
+    @DataProvider(name = "embedWindowsFontsDataProvider")
+    public static Object[][] embedWindowsFontsDataProvider() {
+        return new Object[][]
+                {
+                        {PdfFontEmbeddingMode.EMBED_ALL},
+                        {PdfFontEmbeddingMode.EMBED_NONE},
+                        {PdfFontEmbeddingMode.EMBED_NONSTANDARD},
+                };
+    }
 
-    @Test (dataProvider = "embedCoreFontsDataProvider")
-    public void embedCoreFonts(boolean useCoreFonts) throws Exception
-    {
+    @Test(dataProvider = "embedCoreFontsDataProvider")
+    public void embedCoreFonts(boolean useCoreFonts) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.UseCoreFonts
         //ExSummary:Shows how enable/disable PDF Type 1 font substitution.
@@ -1146,24 +1156,40 @@ public class ExPdfSaveOptions extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf", options);
         //ExEnd
+
+        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf");
+
+        Font[] pdfDocFonts = pdfDocument.getFontUtilities().getAllFonts();
+
+        if (useCoreFonts) {
+            Assert.assertEquals("Helvetica", pdfDocFonts[0].getFontName());
+            Assert.assertEquals("Courier", pdfDocFonts[1].getFontName());
+        } else {
+            Assert.assertEquals("ArialMT", pdfDocFonts[0].getFontName());
+            Assert.assertEquals("CourierNewPSMT", pdfDocFonts[1].getFontName());
+        }
+
+        Assert.assertNotEquals(useCoreFonts, pdfDocFonts[0].isEmbedded());
+        Assert.assertNotEquals(useCoreFonts, pdfDocFonts[1].isEmbedded());
+
+        pdfDocument.close();
     }
 
-	@DataProvider(name = "embedCoreFontsDataProvider")
-	public static Object[][] embedCoreFontsDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "embedCoreFontsDataProvider")
+    public static Object[][] embedCoreFontsDataProvider() {
+        return new Object[][]
+                {
+                        {true},
+                        {false}
+                };
+    }
 
-    @Test (dataProvider = "additionalTextPositioningDataProvider")
-    public void additionalTextPositioning(boolean applyAdditionalTextPositioning) throws Exception
-    {
+    @Test(dataProvider = "additionalTextPositioningDataProvider")
+    public void additionalTextPositioning(boolean applyAdditionalTextPositioning) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.AdditionalTextPositioning
         //ExSummary:Show how to write additional text positioning operators.
-        Document doc = new Document(getMyDir() + "Rendering.docx");
+        Document doc = new Document(getMyDir() + "Text positioning operators.docx");
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
@@ -1173,29 +1199,10 @@ public class ExPdfSaveOptions extends ApiExampleBase
         // Set the "AdditionalTextPositioning" property to "true" to attempt to fix incorrect
         // element positioning in the output PDF, should there be any, at the cost of increased file size.
         // Set the "AdditionalTextPositioning" property to "false" to render the document as usual.
-            saveOptions.setAdditionalTextPositioning(applyAdditionalTextPositioning);
+        saveOptions.setAdditionalTextPositioning(applyAdditionalTextPositioning);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf", saveOptions);
         //ExEnd
-
-        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf");
-        TextFragmentAbsorber textAbsorber = new TextFragmentAbsorber();
-
-        pdfDocument.getPages().get_Item(1).accept(textAbsorber);
-
-        SetGlyphsPositionShowText tjOperator =
-            (SetGlyphsPositionShowText) textAbsorber.getTextFragments().get_Item(1).getPage().getContents().get_Item(96);
-
-        if (applyAdditionalTextPositioning)
-        {
-            Assert.assertEquals(
-                "[0 (s) 0 (e) 1 (g) 0 (m) 0 (e) 0 (n) 0 (t) 0 (s) 0 ( ) 1 (o) 0 (f) 0 ( ) 1 (t) 0 (e) 0 (x) 0 (t)] TJ",
-                tjOperator.toString());
-        }
-        else
-        {
-            Assert.assertEquals("[(se) 1 (gments ) 1 (of ) 1 (text)] TJ", tjOperator.toString());
-        }
     }
 
     @DataProvider(name = "additionalTextPositioningDataProvider")
@@ -1207,9 +1214,8 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 };
     }
 
-    @Test (dataProvider = "saveAsPdfBookFoldDataProvider")
-    public void saveAsPdfBookFold(boolean renderTextAsBookfold) throws Exception
-    {
+    @Test(dataProvider = "saveAsPdfBookFoldDataProvider")
+    public void saveAsPdfBookFold(boolean renderTextAsBookfold) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.UseBookFoldPrintingSettings
         //ExSummary:Shows how to save a document to the PDF format in the form of a book fold.
@@ -1225,17 +1231,45 @@ public class ExPdfSaveOptions extends ApiExampleBase
         options.setUseBookFoldPrintingSettings(renderTextAsBookfold);
 
         // If we are rendering the document as a booklet, we must set the "MultiplePages"
-        // properties of all page setup objects of all sections to "MultiplePagesType.BookFoldPrinting".
+        // properties of the page setup objects of all sections to "MultiplePagesType.BookFoldPrinting".
         if (renderTextAsBookfold)
-            for (Section s : (Iterable<Section>) doc.getSections())
-            {
-            s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
-        }
+            for (Section s : doc.getSections()) {
+                s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
+            }
 
         // Once we print this document on both sides of the pages, we can fold all the pages down the middle at once,
         // and the contents will line up in a way that creates a booklet.
         doc.save(getArtifactsDir() + "PdfSaveOptions.SaveAsPdfBookFold.pdf", options);
         //ExEnd
+
+        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.SaveAsPdfBookFold.pdf");
+        TextAbsorber textAbsorber = new TextAbsorber();
+
+        pdfDocument.getPages().accept(textAbsorber);
+
+        if (renderTextAsBookfold) {
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #1") < textAbsorber.getText().indexOf("Heading #2"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #2") < textAbsorber.getText().indexOf("Heading #3"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #3") < textAbsorber.getText().indexOf("Heading #4"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #4") < textAbsorber.getText().indexOf("Heading #5"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #5") < textAbsorber.getText().indexOf("Heading #6"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #6") < textAbsorber.getText().indexOf("Heading #7"));
+            Assert.assertFalse(textAbsorber.getText().indexOf("Heading #7") < textAbsorber.getText().indexOf("Heading #8"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #8") < textAbsorber.getText().indexOf("Heading #9"));
+            Assert.assertFalse(textAbsorber.getText().indexOf("Heading #9") < textAbsorber.getText().indexOf("Heading #10"));
+        } else {
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #1") < textAbsorber.getText().indexOf("Heading #2"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #2") < textAbsorber.getText().indexOf("Heading #3"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #3") < textAbsorber.getText().indexOf("Heading #4"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #4") < textAbsorber.getText().indexOf("Heading #5"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #5") < textAbsorber.getText().indexOf("Heading #6"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #6") < textAbsorber.getText().indexOf("Heading #7"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #7") < textAbsorber.getText().indexOf("Heading #8"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #8") < textAbsorber.getText().indexOf("Heading #9"));
+            Assert.assertTrue(textAbsorber.getText().indexOf("Heading #9") < textAbsorber.getText().indexOf("Heading #10"));
+        }
+
+        pdfDocument.close();
     }
 
     @DataProvider(name = "saveAsPdfBookFoldDataProvider")
@@ -1315,9 +1349,8 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 };
     }
 
-    @Test (dataProvider = "noteHyperlinksDataProvider")
-    public void noteHyperlinks(boolean createNoteHyperlinks) throws Exception
-    {
+    @Test(dataProvider = "noteHyperlinksDataProvider")
+    public void noteHyperlinks(boolean createNoteHyperlinks) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.CreateNoteHyperlinks
         //ExSummary:Shows how to make footnotes and endnotes function as hyperlinks.
@@ -1416,8 +1449,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         TableAbsorber ttb = new TableAbsorber();
         ttb.visit(pdfDocument.getPages().get_Item(1));
 
-        switch (effectsRenderingMode)
-        {
+        switch (effectsRenderingMode) {
             case DmlEffectsRenderingMode.NONE:
             case DmlEffectsRenderingMode.SIMPLIFIED:
                 Assert.assertEquals(0, imb.getImagePlacements().size());
@@ -1428,6 +1460,8 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 Assert.assertEquals(1, ttb.getTableList().size());
                 break;
         }
+
+        pdfDocument.close();
     }
 
     @DataProvider(name = "drawingMLEffectsDataProvider")
@@ -1471,9 +1505,8 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 };
     }
 
-    @Test (dataProvider = "exportDocumentStructureDataProvider")
-    public void exportDocumentStructure(boolean exportDocumentStructure) throws Exception
-    {
+    @Test(dataProvider = "exportDocumentStructureDataProvider")
+    public void exportDocumentStructure(boolean exportDocumentStructure) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.ExportDocumentStructure
         //ExSummary:Shows how to preserve document structure elements, which can assist in programmatically interpreting our document.
@@ -1484,7 +1517,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         builder.writeln("Hello world!");
         builder.getParagraphFormat().setStyle(doc.getStyles().get("Normal"));
         builder.write(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
@@ -1511,9 +1544,8 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 };
     }
 
-    @Test (dataProvider = "preblendImagesDataProvider")
-    public void preblendImages(boolean preblendImages) throws Exception
-    {
+    @Test(dataProvider = "preblendImagesDataProvider")
+    public void preblendImages(boolean preblendImages) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.PreblendImages
         //ExSummary:Shows how to preblend images with transparent backgrounds while saving a document to PDF.
@@ -1544,9 +1576,8 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 };
     }
 
-    @Test (dataProvider = "interpolateImagesDataProvider")
-    public void interpolateImages(boolean interpolateImages) throws Exception
-    {
+    @Test(dataProvider = "interpolateImagesDataProvider")
+    public void interpolateImages(boolean interpolateImages) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.InterpolateImages
         //ExSummary:Shows how to perform interpolation on images while saving a document to PDF.
@@ -1571,44 +1602,41 @@ public class ExPdfSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-	@DataProvider(name = "interpolateImagesDataProvider")
-	public static Object[][] interpolateImagesDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "interpolateImagesDataProvider")
+    public static Object[][] interpolateImagesDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (groups = "SkipMono")
-    public void dml3DEffectsRenderingModeTest() throws Exception
-    {
+    @Test(groups = "SkipMono")
+    public void dml3DEffectsRenderingModeTest() throws Exception {
         Document doc = new Document(getMyDir() + "DrawingML shape 3D effects.docx");
-        
+
         RenderCallback warningCallback = new RenderCallback();
         doc.setWarningCallback(warningCallback);
-        
+
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         saveOptions.setDml3DEffectsRenderingMode(Dml3DEffectsRenderingMode.ADVANCED);
-        
+
         doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
 
         Assert.assertEquals(43, warningCallback.getCount());
     }
 
-    public static class RenderCallback implements IWarningCallback
-    {
-        public void warning(WarningInfo info)
-        {
+    public static class RenderCallback implements IWarningCallback {
+        public void warning(WarningInfo info) {
             System.out.println(MessageFormat.format("{0}: {1}.", info.getWarningType(), info.getDescription()));
             mWarnings.add(info);
         }
 
         public int getCount() {
-			return mWarnings.size();
-		}
+            return mWarnings.size();
+        }
 
-        private ArrayList<WarningInfo> mWarnings = new ArrayList<>();
+        private final ArrayList<WarningInfo> mWarnings = new ArrayList<>();
     }
 
 
@@ -1649,7 +1677,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         //ExEnd
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf")
-            .hasDigitalSignature());
+                .hasDigitalSignature());
     }
 
     @Test(enabled = false)
@@ -1729,8 +1757,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
 
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
 
-        switch (renderingMode)
-        {
+        switch (renderingMode) {
             case EmfPlusDualRenderingMode.EMF:
             case EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK:
                 Assert.assertEquals(0, pdfDocument.getPages().get_Item(1).getResources().getImages().size());
@@ -1739,6 +1766,8 @@ public class ExPdfSaveOptions extends ApiExampleBase
                 Assert.assertEquals(1, pdfDocument.getPages().get_Item(1).getResources().getImages().size());
                 break;
         }
+
+        pdfDocument.close();
     }
 
     @DataProvider(name = "renderMetafileDataProvider")
@@ -1752,8 +1781,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
     }
 
     @Test
-    public void encryptionPermissions() throws Exception
-    {
+    public void encryptionPermissions() throws Exception {
         //ExStart
         //ExFor:PdfEncryptionDetails.#ctor
         //ExFor:PdfSaveOptions.EncryptionDetails
@@ -1771,7 +1799,7 @@ public class ExPdfSaveOptions extends ApiExampleBase
         builder.writeln("Hello world!");
 
         PdfEncryptionDetails encryptionDetails =
-            new PdfEncryptionDetails("password", "", PdfEncryptionAlgorithm.RC_4_128);
+                new PdfEncryptionDetails("password", "", PdfEncryptionAlgorithm.RC_4_128);
 
         // Start by disallowing all permissions.
         encryptionDetails.setPermissions(PdfPermissions.DISALLOW_ALL);
@@ -1791,9 +1819,8 @@ public class ExPdfSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (dataProvider = "setNumeralFormatDataProvider")
-    public void setNumeralFormat(/*NumeralFormat*/int numeralFormat) throws Exception
-    {
+    @Test(dataProvider = "setNumeralFormatDataProvider")
+    public void setNumeralFormat(/*NumeralFormat*/int numeralFormat) throws Exception {
         //ExStart
         //ExFor:FixedPageSaveOptions.NumeralFormat
         //ExFor:NumeralFormat
@@ -1820,31 +1847,85 @@ public class ExPdfSaveOptions extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.SetNumeralFormat.pdf", options);
         //ExEnd
-        }
+    }
 
-	@DataProvider(name = "setNumeralFormatDataProvider")
-	public static Object[][] setNumeralFormatDataProvider() {
-		return new Object[][]
-		{
-			{NumeralFormat.ARABIC_INDIC},
-			{NumeralFormat.CONTEXT},
-			{NumeralFormat.EASTERN_ARABIC_INDIC},
-			{NumeralFormat.EUROPEAN},
-			{NumeralFormat.SYSTEM},
-		};
-        }
+    @DataProvider(name = "setNumeralFormatDataProvider")
+    public static Object[][] setNumeralFormatDataProvider() {
+        return new Object[][]
+                {
+                        {NumeralFormat.ARABIC_INDIC},
+                        {NumeralFormat.CONTEXT},
+                        {NumeralFormat.EASTERN_ARABIC_INDIC},
+                        {NumeralFormat.EUROPEAN},
+                        {NumeralFormat.SYSTEM},
+                };
+    }
 
     @Test
-    public void exportOddPages() throws Exception
-    {
+    public void exportPageSet() throws Exception {
         //ExStart
         //ExFor:FixedPageSaveOptions.PageSet
         //ExSummary:Shows how to export Odd pages from the document.
-        Document doc = new Document(getMyDir() + "Images.docx");
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        PdfSaveOptions pdfOptions = new PdfSaveOptions(); { pdfOptions.setPageSet(PageSet.getOdd()); }
+        for (int i = 0; i < 5; i++) {
+            builder.writeln(MessageFormat.format("Page {0} ({1})", i + 1, (i % 2 == 0 ? "odd" : "even")));
+            if (i < 4)
+                builder.insertBreak(BreakType.PAGE_BREAK);
+        }
 
-        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportOddPages.pdf", pdfOptions);
+        // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        // to modify how that method converts the document to .PDF.
+        PdfSaveOptions options = new PdfSaveOptions();
+
+        // Below are three PageSet properties that we can use to filter out a set of pages from
+        // our document to save in an output PDF document based on the parity of their page numbers.
+        // 1 -  Save only the even-numbered pages:
+        options.setPageSet(PageSet.getEven());
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.Even.pdf", options);
+
+        // 2 -  Save only the odd-numbered pages:
+        options.setPageSet(PageSet.getOdd());
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.Odd.pdf", options);
+
+        // 3 -  Save every page:
+        options.setPageSet(PageSet.getAll());
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.All.pdf", options);
         //ExEnd
+
+        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.Even.pdf");
+        TextAbsorber textAbsorber = new TextAbsorber();
+        pdfDocument.getPages().accept(textAbsorber);
+
+        Assert.assertEquals("Page 2 (even)\r\n" +
+                "Page 4 (even)", textAbsorber.getText());
+
+        pdfDocument.close();
+
+        pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.Odd.pdf");
+        textAbsorber = new TextAbsorber();
+        pdfDocument.getPages().accept(textAbsorber);
+
+        Assert.assertEquals("Page 1 (odd)\r\n" +
+                "Page 3 (odd)\r\n" +
+                "Page 5 (odd)", textAbsorber.getText());
+
+        pdfDocument.close();
+
+        pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.All.pdf");
+        textAbsorber = new TextAbsorber();
+        pdfDocument.getPages().accept(textAbsorber);
+
+        Assert.assertEquals("Page 1 (odd)\r\n" +
+                "Page 2 (even)\r\n" +
+                "Page 3 (odd)\r\n" +
+                "Page 4 (even)\r\n" +
+                "Page 5 (odd)", textAbsorber.getText());
+
+        pdfDocument.close();
     }
 }

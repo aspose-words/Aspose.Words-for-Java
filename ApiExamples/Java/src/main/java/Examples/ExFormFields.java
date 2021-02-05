@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -212,7 +212,7 @@ public class ExFormFields extends ApiExampleBase {
         Assert.assertEquals(TextFormFieldType.REGULAR, textInput.getTextInputType());
         Assert.assertEquals(50, textInput.getMaxLength());
 
-        // This collection contains all of our form fields.
+        // This collection contains all our form fields.
         FormFieldCollection formFields = doc.getRange().getFormFields();
         Assert.assertEquals(3, formFields.getCount());
 
@@ -351,7 +351,7 @@ public class ExFormFields extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a combo box, and then verify its collection of drop down items.
+        // Insert a combo box, and then verify its collection of drop-down items.
         // In Microsoft Word, the user will click the combo box,
         // and then choose one of the items of text in the collection to display.
         String[] items = {"One", "Two", "Three"};
@@ -363,7 +363,7 @@ public class ExFormFields extends ApiExampleBase {
         Assert.assertEquals(1, dropDownItems.indexOf("Two"));
         Assert.assertTrue(dropDownItems.contains("Three"));
 
-        // There are two ways of adding a new item to an existing collection of drop down box items.
+        // There are two ways of adding a new item to an existing collection of drop-down box items.
         // 1 -  Append an item to the end of the collection:
         dropDownItems.add("Four");
 
@@ -378,7 +378,7 @@ public class ExFormFields extends ApiExampleBase {
         while (dropDownCollectionEnumerator.hasNext())
             System.out.println(dropDownCollectionEnumerator.next());
 
-        // There are two ways of removing elements from a collection of drop down items.
+        // There are two ways of removing elements from a collection of drop-down items.
         // 1 -  Remove an item with contents equal to the passed string:
         dropDownItems.remove("Four");
 
@@ -391,7 +391,7 @@ public class ExFormFields extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "FormFields.DropDownItemCollection.html");
 
-        // Empty the whole collection of drop down items.
+        // Empty the whole collection of drop-down items.
         dropDownItems.clear();
         //ExEnd
 

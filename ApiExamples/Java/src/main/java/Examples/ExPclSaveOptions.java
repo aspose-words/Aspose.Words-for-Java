@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -30,8 +30,7 @@ public class ExPclSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void fallbackFontName() throws Exception
-    {
+    public void fallbackFontName() throws Exception {
         //ExStart
         //ExFor:PclSaveOptions.FallbackFontName
         //ExSummary:Shows how to declare a font that a printer will apply to printed text as a substitute should its original font be unavailable.
@@ -43,7 +42,7 @@ public class ExPclSaveOptions extends ApiExampleBase {
 
         PclSaveOptions saveOptions = new PclSaveOptions();
         saveOptions.setFallbackFontName("Times New Roman");
-        
+
         // This document will instruct the printer to apply "Times New Roman" to the text with the missing font.
         // Should "Times New Roman" also be unavailable, the printer will default to the "Arial" font.
         doc.save(getArtifactsDir() + "PclSaveOptions.SetPrinterFont.pcl", saveOptions);
@@ -51,8 +50,7 @@ public class ExPclSaveOptions extends ApiExampleBase {
     }
 
     @Test
-    public void addPrinterFont() throws Exception
-    {
+    public void addPrinterFont() throws Exception {
         //ExStart
         //ExFor:PclSaveOptions.AddPrinterFont(string, string)
         //ExSummary:Shows how to get a printer to substitute all instances of a specific font with a different font. 
@@ -71,9 +69,8 @@ public class ExPclSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test (description = "This test is a manual check that PaperTray information is preserved in the output pcl document.")
-    public void getPreservedPaperTrayInformation() throws Exception
-    {
+    @Test(description = "This test is a manual check that PaperTray information is preserved in the output pcl document.")
+    public void getPreservedPaperTrayInformation() throws Exception {
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // Paper tray information is now preserved when saving document to PCL format.

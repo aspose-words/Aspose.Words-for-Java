@@ -1,6 +1,6 @@
 package Examples;
 
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,9 +13,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @Test
-public class ExRtfSaveOptions extends ApiExampleBase
-{
-    @Test (dataProvider = "exportImagesDataProvider")
+public class ExRtfSaveOptions extends ApiExampleBase {
+    @Test(dataProvider = "exportImagesDataProvider")
     public void exportImages(boolean exportImagesForOldReaders) throws Exception {
         //ExStart
         //ExFor:RtfSaveOptions
@@ -53,9 +52,8 @@ public class ExRtfSaveOptions extends ApiExampleBase
                 };
     }
 
-    @Test (dataProvider = "saveImagesAsWmfDataProvider")
-    public void saveImagesAsWmf(boolean saveImagesAsWmf) throws Exception
-    {
+    @Test(dataProvider = "saveImagesAsWmfDataProvider")
+    public void saveImagesAsWmf(boolean saveImagesAsWmf) throws Exception {
         //ExStart
         //ExFor:RtfSaveOptions.SaveImagesAsWmf
         //ExSummary:Shows how to convert all images in a document to the Windows Metafile format as we save the document as an RTF.
@@ -88,25 +86,22 @@ public class ExRtfSaveOptions extends ApiExampleBase
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);
 
-        if (saveImagesAsWmf)
-        {
-            Assert.assertEquals(ImageType.WMF, ((Shape)shapes.get(0)).getImageData().getImageType());
-            Assert.assertEquals(ImageType.WMF, ((Shape)shapes.get(1)).getImageData().getImageType());
-        }
-        else
-        {
-            Assert.assertEquals(ImageType.JPEG, ((Shape)shapes.get(0)).getImageData().getImageType());
-            Assert.assertEquals(ImageType.PNG, ((Shape)shapes.get(1)).getImageData().getImageType());
+        if (saveImagesAsWmf) {
+            Assert.assertEquals(ImageType.WMF, ((Shape) shapes.get(0)).getImageData().getImageType());
+            Assert.assertEquals(ImageType.WMF, ((Shape) shapes.get(1)).getImageData().getImageType());
+        } else {
+            Assert.assertEquals(ImageType.JPEG, ((Shape) shapes.get(0)).getImageData().getImageType());
+            Assert.assertEquals(ImageType.PNG, ((Shape) shapes.get(1)).getImageData().getImageType());
         }
         //ExEnd
     }
 
-	@DataProvider(name = "saveImagesAsWmfDataProvider")
-	public static Object[][] saveImagesAsWmfDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    @DataProvider(name = "saveImagesAsWmfDataProvider")
+    public static Object[][] saveImagesAsWmfDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 }

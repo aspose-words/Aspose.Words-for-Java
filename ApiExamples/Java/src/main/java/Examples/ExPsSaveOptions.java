@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,11 +13,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @Test
-public class ExPsSaveOptions extends ApiExampleBase
-{
-    @Test (dataProvider = "useBookFoldPrintingSettingsDataProvider")
-    public void useBookFoldPrintingSettings(boolean renderTextAsBookFold) throws Exception
-    {
+public class ExPsSaveOptions extends ApiExampleBase {
+    @Test(dataProvider = "useBookFoldPrintingSettingsDataProvider")
+    public void useBookFoldPrintingSettings(boolean renderTextAsBookFold) throws Exception {
         //ExStart
         //ExFor:PsSaveOptions
         //ExFor:PsSaveOptions.SaveFormat
@@ -37,9 +35,8 @@ public class ExPsSaveOptions extends ApiExampleBase
         }
 
         // If we are rendering the document as a booklet, we must set the "MultiplePages"
-        // properties of all page setup objects of all sections to "MultiplePagesType.BookFoldPrinting".
-        for (Section s : doc.getSections())
-        {
+        // properties of the page setup objects of all sections to "MultiplePagesType.BookFoldPrinting".
+        for (Section s : doc.getSections()) {
             s.getPageSetup().setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
         }
 
@@ -49,12 +46,12 @@ public class ExPsSaveOptions extends ApiExampleBase
         //ExEnd
     }
 
-	@DataProvider(name = "useBookFoldPrintingSettingsDataProvider")
-	public static Object[][] useBookFoldPrintingSettingsDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "useBookFoldPrintingSettingsDataProvider")
+    public static Object[][] useBookFoldPrintingSettingsDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 }

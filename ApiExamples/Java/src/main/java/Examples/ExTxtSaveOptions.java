@@ -1,338 +1,1 @@
-package Examples;
-
-//////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
-//
-// This file is part of Aspose.Words. The source code in this file
-// is only intended as a supplement to the documentation, and is provided
-// "as is", without warranty of any kind, either expressed or implied.
-//////////////////////////////////////////////////////////////////////////
-
-import com.aspose.words.*;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-
-@Test
-public class ExTxtSaveOptions extends ApiExampleBase {
-    @Test(dataProvider = "pageBreaksDataProvider")
-    public void pageBreaks(boolean forcePageBreaks) throws Exception {
-        //ExStart
-        //ExFor:TxtSaveOptionsBase.ForcePageBreaks
-        //ExSummary:Shows how to specify whether the page breaks should be preserved during export.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.writeln("Page 1");
-        builder.insertBreak(BreakType.PAGE_BREAK);
-        builder.writeln("Page 2");
-        builder.insertBreak(BreakType.PAGE_BREAK);
-        builder.writeln("Page 3");
-
-        // If ForcePageBreaks is set to true then the output document will have form feed characters in place of page breaks
-        // Otherwise, they will be line breaks
-        TxtSaveOptions saveOptions = new TxtSaveOptions();
-        {
-            saveOptions.setForcePageBreaks(forcePageBreaks);
-        }
-
-        doc.save(getArtifactsDir() + "TxtSaveOptions.PageBreaks.txt", saveOptions);
-
-        // If we load the document using Aspose.Words again, the page breaks will be preserved/lost depending on ForcePageBreaks
-        doc = new Document(getArtifactsDir() + "TxtSaveOptions.PageBreaks.txt");
-
-        Assert.assertEquals(forcePageBreaks ? 3 : 1, doc.getPageCount());
-        //ExEnd
-    }
-
-    //JAVA-added data provider for test method
-    @DataProvider(name = "pageBreaksDataProvider")
-    public static Object[][] pageBreaksDataProvider() throws Exception {
-        return new Object[][]
-                {
-                        {false},
-                        {true},
-                };
-    }
-
-    @Test(dataProvider = "addBidiMarksDataProvider")
-    public void addBidiMarks(boolean addBidiMarks) throws Exception {
-        //ExStart
-        //ExFor:TxtSaveOptions.AddBidiMarks
-        //ExSummary:Shows how to insert Unicode Character 'RIGHT-TO-LEFT MARK' (U+200F) before each bi-directional Run in text.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.writeln("Hello world!");
-        builder.getParagraphFormat().setBidi(true);
-        builder.writeln("שלום עולם!");
-        builder.writeln("مرحبا بالعالم!");
-
-        TxtSaveOptions saveOptions = new TxtSaveOptions();
-        {
-            saveOptions.setAddBidiMarks(addBidiMarks);
-            saveOptions.setEncoding(Charset.defaultCharset());
-        }
-
-        doc.save(getArtifactsDir() + "TxtSaveOptions.AddBidiMarks.txt", saveOptions);
-        //ExEnd
-    }
-
-    //JAVA-added data provider for test method
-    @DataProvider(name = "addBidiMarksDataProvider")
-    public static Object[][] addBidiMarksDataProvider() throws Exception {
-        return new Object[][]
-                {
-                        {false},
-                        {true},
-                };
-    }
-
-    @Test(dataProvider = "exportHeadersFootersDataProvider")
-    public void exportHeadersFooters(/*TxtExportHeadersFootersMode*/int txtExportHeadersFootersMode) throws Exception {
-        //ExStart
-        //ExFor:TxtSaveOptionsBase.ExportHeadersFootersMode
-        //ExFor:TxtExportHeadersFootersMode
-        //ExSummary:Shows how to specifies the way headers and footers are exported to plain text format.
-        Document doc = new Document();
-
-        // Insert even and primary headers/footers into the document
-        // The primary header/footers should override the even ones 
-        doc.getFirstSection().getHeadersFooters().add(new HeaderFooter(doc, HeaderFooterType.HEADER_EVEN));
-        doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_EVEN).appendParagraph("Even header");
-        doc.getFirstSection().getHeadersFooters().add(new HeaderFooter(doc, HeaderFooterType.FOOTER_EVEN));
-        doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_EVEN).appendParagraph("Even footer");
-        doc.getFirstSection().getHeadersFooters().add(new HeaderFooter(doc, HeaderFooterType.HEADER_PRIMARY));
-        doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).appendParagraph("Primary header");
-        doc.getFirstSection().getHeadersFooters().add(new HeaderFooter(doc, HeaderFooterType.FOOTER_PRIMARY));
-        doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).appendParagraph("Primary footer");
-
-        // Insert pages that would display these headers and footers
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.writeln("Page 1");
-        builder.insertBreak(BreakType.PAGE_BREAK);
-        builder.writeln("Page 2");
-        builder.insertBreak(BreakType.PAGE_BREAK);
-        builder.write("Page 3");
-
-        // Three values are available in TxtExportHeadersFootersMode enum:
-        // "None" - No headers and footers are exported
-        // "AllAtEnd" - All headers and footers are placed after all section bodies at the very end of a document
-        // "PrimaryOnly" - Only primary headers and footers are exported at the beginning and end of each section (default value)
-        TxtSaveOptions saveOptions = new TxtSaveOptions();
-        {
-            saveOptions.setExportHeadersFootersMode(txtExportHeadersFootersMode);
-        }
-
-        doc.save(getArtifactsDir() + "TxtSaveOptions.ExportHeadersFooters.txt", saveOptions);
-        //ExEnd
-    }
-
-    //JAVA-added data provider for test method
-    @DataProvider(name = "exportHeadersFootersDataProvider")
-    public static Object[][] exportHeadersFootersDataProvider() throws Exception {
-        return new Object[][]
-                {
-                        {TxtExportHeadersFootersMode.ALL_AT_END},
-                        {TxtExportHeadersFootersMode.PRIMARY_ONLY},
-                        {TxtExportHeadersFootersMode.NONE},
-                };
-    }
-
-    @Test
-    public void txtListIndentation() throws Exception {
-        //ExStart
-        //ExFor:TxtListIndentation
-        //ExFor:TxtListIndentation.Count
-        //ExFor:TxtListIndentation.Character
-        //ExFor:TxtSaveOptions.ListIndentation
-        //ExSummary:Shows how to configure list indenting when converting to plaintext.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Create a list with three levels of indentation
-        builder.getListFormat().applyNumberDefault();
-        builder.writeln("Item 1");
-        builder.getListFormat().listIndent();
-        builder.writeln("Item 2");
-        builder.getListFormat().listIndent();
-        builder.write("Item 3");
-
-        // Microsoft Word list objects get lost when converting to plaintext
-        // We can create a custom representation for list indentation using pure plaintext with a SaveOptions object
-        // In this case, each list item will be left-padded by 3 space characters times its list indent level
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
-        txtSaveOptions.getListIndentation().setCount(3);
-        txtSaveOptions.getListIndentation().setCharacter(' ');
-
-        doc.save(getArtifactsDir() + "TxtSaveOptions.TxtListIndentation.txt", txtSaveOptions);
-        //ExEnd
-    }
-
-    @Test(dataProvider = "simplifyListLabelsDataProvider")
-    public void simplifyListLabels(boolean simplifyListLabels) throws Exception {
-        //ExStart
-        //ExFor:TxtSaveOptions.SimplifyListLabels
-        //ExSummary:Shows how to change the appearance of lists when converting to plaintext.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Create a bulleted list with five levels of indentation
-        builder.getListFormat().applyBulletDefault();
-        builder.writeln("Item 1");
-        builder.getListFormat().listIndent();
-        builder.writeln("Item 2");
-        builder.getListFormat().listIndent();
-        builder.writeln("Item 3");
-        builder.getListFormat().listIndent();
-        builder.writeln("Item 4");
-        builder.getListFormat().listIndent();
-        builder.write("Item 5");
-
-        // The SimplifyListLabels flag will convert some list symbols
-        // into ASCII characters such as *, o, +, > etc, depending on list level
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
-        {
-            txtSaveOptions.setSimplifyListLabels(simplifyListLabels);
-        }
-
-        doc.save(getArtifactsDir() + "TxtSaveOptions.SimplifyListLabels.txt", txtSaveOptions);
-        //ExEnd
-    }
-
-    //JAVA-added data provider for test method
-    @DataProvider(name = "simplifyListLabelsDataProvider")
-    public static Object[][] simplifyListLabelsDataProvider() throws Exception {
-        return new Object[][]
-                {
-                        {false},
-                        {true},
-                };
-    }
-
-    @Test
-    public void paragraphBreak() throws Exception {
-        //ExStart
-        //ExFor:TxtSaveOptions
-        //ExFor:TxtSaveOptions.SaveFormat
-        //ExFor:TxtSaveOptionsBase
-        //ExFor:TxtSaveOptionsBase.ParagraphBreak
-        //ExSummary:Shows how to save a .txt document with a custom paragraph break.
-        // Create a new document and add some paragraphs
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.writeln("Paragraph 1.");
-        builder.writeln("Paragraph 2.");
-        builder.write("Paragraph 3.");
-
-        // When saved to plain text, the paragraphs we created can be separated by a custom string
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
-        {
-            txtSaveOptions.setSaveFormat(SaveFormat.TEXT);
-            txtSaveOptions.setParagraphBreak(" End of paragraph.\n\n\t");
-        }
-
-        doc.save(getArtifactsDir() + "TxtSaveOptions.ParagraphBreak.txt", txtSaveOptions);
-        //ExEnd
-    }
-
-    @Test
-    public void encoding() throws Exception {
-        //ExStart
-        //ExFor:TxtSaveOptionsBase.Encoding
-        //ExSummary:Shows how to set encoding for a .txt output document.
-        // Create a new document and add some text from outside the ASCII character set
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.write("À È Ì Ò Ù.");
-
-        // We can use a SaveOptions object to make sure the encoding we save the .txt document in supports our content
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
-        {
-            txtSaveOptions.setEncoding(StandardCharsets.UTF_8);
-        }
-
-        doc.save(getArtifactsDir() + "TxtSaveOptions.Encoding.txt", txtSaveOptions);
-        //ExEnd
-    }
-
-    @Test(dataProvider = "tableLayoutDataProvider")
-    public void tableLayout(boolean preserveTableLayout) throws Exception {
-        //ExStart
-        //ExFor:TxtSaveOptions.PreserveTableLayout
-        //ExSummary:Shows how to preserve the layout of tables when converting to plaintext.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Insert a table
-        builder.startTable();
-        builder.insertCell();
-        builder.write("Row 1, cell 1");
-        builder.insertCell();
-        builder.write("Row 1, cell 2");
-        builder.endRow();
-        builder.insertCell();
-        builder.write("Row 2, cell 1");
-        builder.insertCell();
-        builder.write("Row 2, cell 2");
-        builder.endTable();
-
-        // Tables, with their borders and widths do not translate to plaintext
-        // However, we can configure a SaveOptions object to arrange table contents to preserve some of the table's appearance
-        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
-        {
-            txtSaveOptions.setPreserveTableLayout(preserveTableLayout);
-        }
-
-        doc.save(getArtifactsDir() + "TxtSaveOptions.TableLayout.txt", txtSaveOptions);
-        //ExEnd
-    }
-
-    //JAVA-added data provider for test method
-    @DataProvider(name = "tableLayoutDataProvider")
-    public static Object[][] tableLayoutDataProvider() throws Exception {
-        return new Object[][]
-                {
-                        {false},
-                        {true},
-                };
-    }
-
-    @Test
-    public void updateTableLayout() throws Exception {
-        //ExStart
-        //ExFor:Document.UpdateTableLayout
-        //ExSummary:Shows how to preserve a table's layout when saving to .txt.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        Table table = builder.startTable();
-        builder.insertCell();
-        builder.write("Cell 1");
-        builder.insertCell();
-        builder.write("Cell 2");
-        builder.insertCell();
-        builder.write("Cell 3");
-        builder.endTable();
-
-        // Create a SaveOptions object to prepare this document to be saved to .txt.
-        TxtSaveOptions options = new TxtSaveOptions();
-        options.setPreserveTableLayout(true);
-
-        // Previewing the appearance of the document in .txt form shows that the table will not be represented accurately.
-        Assert.assertEquals(0.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth());
-        Assert.assertEquals("CCC\r\neee\r\nlll\r\nlll\r\n   \r\n123\r\n\r\n", doc.toString(options));
-
-        // We can call UpdateTableLayout() to fix some of these issues.
-        doc.updateTableLayout();
-
-        Assert.assertEquals("Cell 1             Cell 2             Cell 3\r\n\r\n", doc.toString(options));
-        Assert.assertEquals(155.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth(), 2f);
-        //ExEnd
-    }
-}
+package Examples;//////////////////////////////////////////////////////////////////////////// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.//// This file is part of Aspose.Words. The source code in this file// is only intended as a supplement to the documentation, and is provided// "as is", without warranty of any kind, either expressed or implied.//////////////////////////////////////////////////////////////////////////import com.aspose.words.*;import org.testng.Assert;import org.testng.annotations.DataProvider;import org.testng.annotations.Test;@Testpublic class ExTxtSaveOptions extends ApiExampleBase {    @Test(dataProvider = "pageBreaksDataProvider")    public void pageBreaks(boolean forcePageBreaks) throws Exception {        //ExStart        //ExFor:TxtSaveOptionsBase.ForcePageBreaks        //ExSummary:Shows how to specify whether to preserve page breaks when exporting a document to plaintext.        Document doc = new Document();        DocumentBuilder builder = new DocumentBuilder(doc);        builder.writeln("Page 1");        builder.insertBreak(BreakType.PAGE_BREAK);        builder.writeln("Page 2");        builder.insertBreak(BreakType.PAGE_BREAK);        builder.writeln("Page 3");        // Create a "TxtSaveOptions" object, which we can pass to the document's "Save"        // method to modify how we save the document to plaintext.        TxtSaveOptions saveOptions = new TxtSaveOptions();        // The Aspose.Words "Document" objects have page breaks, just like Microsoft Word documents.        // Save formats such as ".txt" are one continuous body of text without page breaks.        // Set the "ForcePageBreaks" property to "true" to preserve all page breaks in the form of '\f' characters.        // Set the "ForcePageBreaks" property to "false" to discard all page breaks.        saveOptions.setForcePageBreaks(forcePageBreaks);        doc.save(getArtifactsDir() + "TxtSaveOptions.PageBreaks.txt", saveOptions);        // If we load a plaintext document with page breaks,        // the "Document" object will use them to split the body into pages.        doc = new Document(getArtifactsDir() + "TxtSaveOptions.PageBreaks.txt");        Assert.assertEquals(forcePageBreaks ? 3 : 1, doc.getPageCount());        //ExEnd    }    @DataProvider(name = "pageBreaksDataProvider")    public static Object[][] pageBreaksDataProvider() {        return new Object[][]                {                        {false},                        {true},                };    }    @Test(dataProvider = "exportHeadersFootersDataProvider")    public void exportHeadersFooters(int txtExportHeadersFootersMode) throws Exception {        //ExStart        //ExFor:TxtSaveOptionsBase.ExportHeadersFootersMode        //ExFor:TxtExportHeadersFootersMode        //ExSummary:Shows how to specify how to export headers and footers to plain text format.        Document doc = new Document();        // Insert even and primary headers/footers into the document.        // The primary header/footers will override the even headers/footers.        doc.getFirstSection().getHeadersFooters().add(new HeaderFooter(doc, HeaderFooterType.HEADER_EVEN));        doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_EVEN).appendParagraph("Even header");        doc.getFirstSection().getHeadersFooters().add(new HeaderFooter(doc, HeaderFooterType.FOOTER_EVEN));        doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_EVEN).appendParagraph("Even footer");        doc.getFirstSection().getHeadersFooters().add(new HeaderFooter(doc, HeaderFooterType.HEADER_PRIMARY));        doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).appendParagraph("Primary header");        doc.getFirstSection().getHeadersFooters().add(new HeaderFooter(doc, HeaderFooterType.FOOTER_PRIMARY));        doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).appendParagraph("Primary footer");        // Insert pages to display these headers and footers.        DocumentBuilder builder = new DocumentBuilder(doc);        builder.writeln("Page 1");        builder.insertBreak(BreakType.PAGE_BREAK);        builder.writeln("Page 2");        builder.insertBreak(BreakType.PAGE_BREAK);        builder.write("Page 3");        // Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method        // to modify how we save the document to plaintext.        TxtSaveOptions saveOptions = new TxtSaveOptions();        // Set the "ExportHeadersFootersMode" property to "TxtExportHeadersFootersMode.None"        // to not export any headers/footers.        // Set the "ExportHeadersFootersMode" property to "TxtExportHeadersFootersMode.PrimaryOnly"        // to only export primary headers/footers.        // Set the "ExportHeadersFootersMode" property to "TxtExportHeadersFootersMode.AllAtEnd"        // to place all headers and footers for all section bodies at the end of the document.        saveOptions.setExportHeadersFootersMode(txtExportHeadersFootersMode);        doc.save(getArtifactsDir() + "TxtSaveOptions.ExportHeadersFooters.txt", saveOptions);        String docText = new Document(getArtifactsDir() + "TxtSaveOptions.ExportHeadersFooters.txt").getText().trim();        switch (txtExportHeadersFootersMode) {            case TxtExportHeadersFootersMode.ALL_AT_END:                Assert.assertEquals("Page 1\r" +                        "Page 2\r" +                        "Page 3\r" +                        "Even header\r\r" +                        "Primary header\r\r" +                        "Even footer\r\r" +                        "Primary footer", docText);                break;            case TxtExportHeadersFootersMode.PRIMARY_ONLY:                Assert.assertEquals("Primary header\r" +                        "Page 1\r" +                        "Page 2\r" +                        "Page 3\r" +                        "Primary footer", docText);                break;            case TxtExportHeadersFootersMode.NONE:                Assert.assertEquals("Page 1\r" +                        "Page 2\r" +                        "Page 3", docText);                break;        }        //ExEnd    }    @DataProvider(name = "exportHeadersFootersDataProvider")    public static Object[][] exportHeadersFootersDataProvider() {        return new Object[][]                {                        {TxtExportHeadersFootersMode.ALL_AT_END},                        {TxtExportHeadersFootersMode.PRIMARY_ONLY},                        {TxtExportHeadersFootersMode.NONE},                };    }    @Test    public void txtListIndentation() throws Exception {        //ExStart        //ExFor:TxtListIndentation        //ExFor:TxtListIndentation.Count        //ExFor:TxtListIndentation.Character        //ExFor:TxtSaveOptions.ListIndentation        //ExSummary:Shows how to configure list indenting when saving a document to plaintext.        Document doc = new Document();        DocumentBuilder builder = new DocumentBuilder(doc);        // Create a list with three levels of indentation.        builder.getListFormat().applyNumberDefault();        builder.writeln("Item 1");        builder.getListFormat().listIndent();        builder.writeln("Item 2");        builder.getListFormat().listIndent();        builder.write("Item 3");        // Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method        // to modify how we save the document to plaintext.        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();        // Set the "Character" property to assign a character to use        // for padding that simulates list indentation in plaintext.        txtSaveOptions.getListIndentation().setCharacter(' ');        // Set the "Count" property to specify the number of times        // to place the padding character for each list indent level.        txtSaveOptions.getListIndentation().setCount(3);        doc.save(getArtifactsDir() + "TxtSaveOptions.TxtListIndentation.txt", txtSaveOptions);        String docText = new Document(getArtifactsDir() + "TxtSaveOptions.TxtListIndentation.txt").getText().trim();        Assert.assertEquals("1. Item 1\r" +                "   a. Item 2\r" +                "      i. Item 3", docText);        //ExEnd    }    @Test(dataProvider = "simplifyListLabelsDataProvider")    public void simplifyListLabels(boolean simplifyListLabels) throws Exception {        //ExStart        //ExFor:TxtSaveOptions.SimplifyListLabels        //ExSummary:Shows how to change the appearance of lists when saving a document to plaintext.        Document doc = new Document();        DocumentBuilder builder = new DocumentBuilder(doc);        // Create a bulleted list with five levels of indentation.        builder.getListFormat().applyBulletDefault();        builder.writeln("Item 1");        builder.getListFormat().listIndent();        builder.writeln("Item 2");        builder.getListFormat().listIndent();        builder.writeln("Item 3");        builder.getListFormat().listIndent();        builder.writeln("Item 4");        builder.getListFormat().listIndent();        builder.write("Item 5");        // Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method        // to modify how we save the document to plaintext.        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();        // Set the "SimplifyListLabels" property to "true" to convert some list        // symbols into simpler ASCII characters, such as '*', 'o', '+', '>', etc.        // Set the "SimplifyListLabels" property to "false" to preserve as many original list symbols as possible.        txtSaveOptions.setSimplifyListLabels(simplifyListLabels);        doc.save(getArtifactsDir() + "TxtSaveOptions.SimplifyListLabels.txt", txtSaveOptions);        String docText = new Document(getArtifactsDir() + "TxtSaveOptions.SimplifyListLabels.txt").getText().trim();        if (simplifyListLabels)            Assert.assertEquals("* Item 1\r" +                    "  > Item 2\r" +                    "    + Item 3\r" +                    "      - Item 4\r" +                    "        o Item 5", docText);        else            Assert.assertEquals("· Item 1\r" +                    "o Item 2\r" +                    "§ Item 3\r" +                    "· Item 4\r" +                    "o Item 5", docText);        //ExEnd    }    @DataProvider(name = "simplifyListLabelsDataProvider")    public static Object[][] simplifyListLabelsDataProvider() {        return new Object[][]                {                        {false},                        {true},                };    }    @Test    public void paragraphBreak() throws Exception {        //ExStart        //ExFor:TxtSaveOptions        //ExFor:TxtSaveOptions.SaveFormat        //ExFor:TxtSaveOptionsBase        //ExFor:TxtSaveOptionsBase.ParagraphBreak        //ExSummary:Shows how to save a .txt document with a custom paragraph break.        Document doc = new Document();        DocumentBuilder builder = new DocumentBuilder(doc);        builder.writeln("Paragraph 1.");        builder.writeln("Paragraph 2.");        builder.write("Paragraph 3.");        // Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method        // to modify how we save the document to plaintext.        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();        Assert.assertEquals(SaveFormat.TEXT, txtSaveOptions.getSaveFormat());        // Set the "ParagraphBreak" to a custom value that we wish to put at the end of every paragraph.        txtSaveOptions.setParagraphBreak(" End of paragraph.\r\r\t");        doc.save(getArtifactsDir() + "TxtSaveOptions.ParagraphBreak.txt", txtSaveOptions);        String docText = new Document(getArtifactsDir() + "TxtSaveOptions.ParagraphBreak.txt").getText().trim();        Assert.assertEquals("Paragraph 1. End of paragraph.\r\r\t" +                "Paragraph 2. End of paragraph.\r\r\t" +                "Paragraph 3. End of paragraph.", docText);        //ExEnd    }    @Test(dataProvider = "preserveTableLayoutDataProvider")    public void preserveTableLayout(boolean preserveTableLayout) throws Exception {        //ExStart        //ExFor:TxtSaveOptions.PreserveTableLayout        //ExSummary:Shows how to preserve the layout of tables when converting to plaintext.        Document doc = new Document();        DocumentBuilder builder = new DocumentBuilder(doc);        builder.startTable();        builder.insertCell();        builder.write("Row 1, cell 1");        builder.insertCell();        builder.write("Row 1, cell 2");        builder.endRow();        builder.insertCell();        builder.write("Row 2, cell 1");        builder.insertCell();        builder.write("Row 2, cell 2");        builder.endTable();        // Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method        // to modify how we save the document to plaintext.        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();        // Set the "PreserveTableLayout" property to "true" to apply whitespace padding to the contents        // of the output plaintext document to preserve as much of the table's layout as possible.        // Set the "PreserveTableLayout" property to "false" to save all tables' contents        // as a continuous body of text, with just a new line for each row.        txtSaveOptions.setPreserveTableLayout(preserveTableLayout);        doc.save(getArtifactsDir() + "TxtSaveOptions.PreserveTableLayout.txt", txtSaveOptions);        String docText = new Document(getArtifactsDir() + "TxtSaveOptions.PreserveTableLayout.txt").getText().trim();        if (preserveTableLayout)            Assert.assertEquals("Row 1, cell 1                Row 1, cell 2\r" +                    "Row 2, cell 1                Row 2, cell 2", docText);        else            Assert.assertEquals("Row 1, cell 1\r" +                    "Row 1, cell 2\r" +                    "Row 2, cell 1\r" +                    "Row 2, cell 2", docText);        //ExEnd    }    @DataProvider(name = "preserveTableLayoutDataProvider")    public static Object[][] preserveTableLayoutDataProvider() {        return new Object[][]                {                        {false},                        {true},                };    }}

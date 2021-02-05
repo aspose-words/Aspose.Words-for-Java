@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -37,7 +37,7 @@ public class ExPageSetup extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Modify the page setup properties for the builder's current section, and add text.
+        // Modify the page setup properties for the builder's current section and add text.
         builder.getPageSetup().setOrientation(Orientation.LANDSCAPE);
         builder.getPageSetup().setVerticalAlignment(PageVerticalAlignment.CENTER);
         builder.writeln("This is the first section, which landscape oriented with vertically centered text.");
@@ -69,9 +69,8 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(PageVerticalAlignment.TOP, doc.getSections().get(1).getPageSetup().getVerticalAlignment());
     }
 
-    @Test (dataProvider = "differentFirstPageHeaderFooterDataProvider")
-    public void differentFirstPageHeaderFooter(boolean differentFirstPageHeaderFooter) throws Exception
-    {
+    @Test(dataProvider = "differentFirstPageHeaderFooterDataProvider")
+    public void differentFirstPageHeaderFooter(boolean differentFirstPageHeaderFooter) throws Exception {
         //ExStart
         //ExFor:PageSetup.DifferentFirstPageHeaderFooter
         //ExSummary:Shows how to enable or disable primary headers/footers.
@@ -116,18 +115,17 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(differentFirstPageHeaderFooter, doc.getFirstSection().getPageSetup().getDifferentFirstPageHeaderFooter());
     }
 
-	@DataProvider(name = "differentFirstPageHeaderFooterDataProvider")
-	public static Object[][] differentFirstPageHeaderFooterDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "differentFirstPageHeaderFooterDataProvider")
+    public static Object[][] differentFirstPageHeaderFooterDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
-    @Test (dataProvider = "oddAndEvenPagesHeaderFooterDataProvider")
-    public void oddAndEvenPagesHeaderFooter(boolean oddAndEvenPagesHeaderFooter) throws Exception
-    {
+    @Test(dataProvider = "oddAndEvenPagesHeaderFooterDataProvider")
+    public void oddAndEvenPagesHeaderFooter(boolean oddAndEvenPagesHeaderFooter) throws Exception {
         //ExStart
         //ExFor:PageSetup.OddAndEvenPagesHeaderFooter
         //ExSummary:Shows how to enable or disable even page headers/footers.
@@ -173,18 +171,17 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(oddAndEvenPagesHeaderFooter, doc.getFirstSection().getPageSetup().getOddAndEvenPagesHeaderFooter());
     }
 
-	@DataProvider(name = "oddAndEvenPagesHeaderFooterDataProvider")
-	public static Object[][] oddAndEvenPagesHeaderFooterDataProvider() {
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    @DataProvider(name = "oddAndEvenPagesHeaderFooterDataProvider")
+    public static Object[][] oddAndEvenPagesHeaderFooterDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     @Test
-    public void charactersPerLine() throws Exception
-    {
+    public void charactersPerLine() throws Exception {
         //ExStart
         //ExFor:PageSetup.CharactersPerLine
         //ExFor:PageSetup.LayoutMode
@@ -192,7 +189,7 @@ public class ExPageSetup extends ApiExampleBase {
         //ExSummary:Shows how to specify a for the number of characters that each line may have.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // Enable pitching, and then use it to set the number of characters per line in this section.
         builder.getPageSetup().setLayoutMode(SectionLayoutMode.GRID);
         builder.getPageSetup().setCharactersPerLine(10);
@@ -214,8 +211,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void linesPerPage() throws Exception
-    {
+    public void linesPerPage() throws Exception {
         //ExStart
         //ExFor:PageSetup.LinesPerPage
         //ExFor:PageSetup.LayoutMode
@@ -224,7 +220,7 @@ public class ExPageSetup extends ApiExampleBase {
         //ExSummary:Shows how to specify a limit for the number of lines that each page may have.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // Enable pitching, and then use it to set the number of lines per page in this section.
         // A large enough font size will push some lines down onto the next page to avoid overlapping characters.
         builder.getPageSetup().setLayoutMode(SectionLayoutMode.LINE_GRID);
@@ -243,7 +239,7 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(SectionLayoutMode.LINE_GRID, doc.getFirstSection().getPageSetup().getLayoutMode());
         Assert.assertEquals(14, doc.getFirstSection().getPageSetup().getLinesPerPage());
 
-        for (Paragraph paragraph : (Iterable<Paragraph>) doc.getFirstSection().getBody().getParagraphs())
+        for (Paragraph paragraph : doc.getFirstSection().getBody().getParagraphs())
             Assert.assertTrue(paragraph.getParagraphFormat().getSnapToGrid());
     }
 
@@ -306,27 +302,25 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(SectionStart.NEW_COLUMN, doc.getSections().get(5).getPageSetup().getSectionStart());
     }
 
-    @Test (enabled = false, description = "Run only when the printer driver is installed")
-    public void paperTrayForDifferentPaperType() throws Exception
-    {
+    @Test(enabled = false, description = "Run only when the printer driver is installed")
+    public void paperTrayForDifferentPaperType() throws Exception {
         //ExStart
         //ExFor:PageSetup.FirstPageTray
         //ExFor:PageSetup.OtherPagesTray
         //ExSummary:Shows how to set up printing using different printer trays for different paper sizes.
         Document doc = new Document();
 
-        /// Choose the default printer to be used for printing this document
+        /// Choose the default printer to be used for printing this document.
         PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
         Media[] trays = (Media[]) printService.getSupportedAttributeValues(Media.class, null, null);
 
-        // This is the tray we will use for A4 paper size
-        // This is the first tray in the media set
+        // This is the tray we will use for pages in the "A4" paper size.
         int printerTrayForA4 = trays[0].getValue();
-        // This is the tray we will use Letter paper size
-        // This is the second tray in the media set
+        // This is the tray we will use for pages in the "Letter" paper size.
         int printerTrayForLetter = trays[1].getValue();
 
-        // Set the tray used for each section based off the paper size used in the section
+        // Modify the PageSettings object of this section to get Microsoft Word to instruct the printer
+        // to use one of the trays we identified above, depending on this section's paper size.
         for (Section section : doc.getSections()) {
             if (section.getPageSetup().getPaperSize() == PaperSize.LETTER) {
                 section.getPageSetup().setFirstPageTray(printerTrayForLetter);
@@ -452,8 +446,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void columnsSameWidth() throws Exception
-    {
+    public void columnsSameWidth() throws Exception {
         //ExStart
         //ExFor:PageSetup.TextColumns
         //ExFor:TextColumnCollection
@@ -529,9 +522,8 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(0.0d, pageSetup.getTextColumns().get(1).getSpaceAfter());
     }
 
-    @Test (dataProvider = "verticalLineBetweenColumnsDataProvider")
-    public void verticalLineBetweenColumns(boolean lineBetween) throws Exception
-    {
+    @Test(dataProvider = "verticalLineBetweenColumnsDataProvider")
+    public void verticalLineBetweenColumns(boolean lineBetween) throws Exception {
         //ExStart
         //ExFor:TextColumnCollection.LineBetween
         //ExSummary:Shows how to separate columns with a vertical line.
@@ -559,16 +551,15 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(lineBetween, doc.getFirstSection().getPageSetup().getTextColumns().getLineBetween());
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "verticalLineBetweenColumnsDataProvider")
-	public static Object[][] verticalLineBetweenColumnsDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
+    //JAVA-added data provider for test method
+    @DataProvider(name = "verticalLineBetweenColumnsDataProvider")
+    public static Object[][] verticalLineBetweenColumnsDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
 
     @Test
     public void lineNumbers() throws Exception {
@@ -587,7 +578,7 @@ public class ExPageSetup extends ApiExampleBase {
         // This is the same behavior as a List object,
         // but it covers the entire section and does not modify the text in any way.
         // Our section will restart the numbering on each new page from 1 and display the number,
-        // if it is a multiple of 3, at a distance of 50pt to the left of the line.
+        // if it is a multiple of 3, at 50pt to the left of the line.
         PageSetup pageSetup = builder.getPageSetup();
         pageSetup.setLineStartingNumber(1);
         pageSetup.setLineNumberCountBy(3);
@@ -809,9 +800,8 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(1, endnoteOptions.getStartNumber());
     }
 
-    @Test (dataProvider = "bidiDataProvider")
-    public void bidi(boolean reverseColumns) throws Exception
-    {
+    @Test(dataProvider = "bidiDataProvider")
+    public void bidi(boolean reverseColumns) throws Exception {
         //ExStart
         //ExFor:PageSetup.Bidi
         //ExSummary:Shows how to set the order of text columns in a section.
@@ -843,15 +833,14 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(reverseColumns, pageSetup.getBidi());
     }
 
-	//JAVA-added data provider for test method
-	@DataProvider(name = "bidiDataProvider")
-	public static Object[][] bidiDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
+    //JAVA-added data provider for test method
+    @DataProvider(name = "bidiDataProvider")
+    public static Object[][] bidiDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test
@@ -903,10 +892,9 @@ public class ExPageSetup extends ApiExampleBase {
 
         // Insert text that spans several pages.
         DocumentBuilder builder = new DocumentBuilder(doc);
-        for (int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-                          "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+                    "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
             builder.insertBreak(BreakType.PAGE_BREAK);
         }
 
@@ -916,7 +904,7 @@ public class ExPageSetup extends ApiExampleBase {
 
         // Determine how much space our pages have for text within the margins and then add an amount to pad a margin. 
         Assert.assertEquals(468.00d, pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin(), 0.01d);
-        
+
         pageSetup.setGutter(100.0d);
 
         // Set the "RtlGutter" property to "true" to place the gutter in a more suitable position for right-to-left text.
@@ -950,8 +938,7 @@ public class ExPageSetup extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("My Booklet:");
 
-        for (int i = 0; i < 15; i++)
-        {
+        for (int i = 0; i < 15; i++) {
             builder.insertBreak(BreakType.PAGE_BREAK);
             builder.write(MessageFormat.format("Booklet face #{0}", i));
         }
@@ -976,8 +963,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void setTextOrientation() throws Exception
-    {
+    public void setTextOrientation() throws Exception {
         //ExStart
         //ExFor:PageSetup.TextOrientation
         //ExSummary:Shows how to set text orientation.
@@ -1005,8 +991,7 @@ public class ExPageSetup extends ApiExampleBase {
     //ExFor:Body.ParentSection
     //ExSummary:Shows how to store endnotes at the end of each section, and modify their positions.
     @Test //ExSkip
-    public void suppressEndnotes() throws Exception
-    {
+    public void suppressEndnotes() throws Exception {
         Document doc = new Document();
         doc.removeAllChildren();
 
@@ -1034,8 +1019,7 @@ public class ExPageSetup extends ApiExampleBase {
     /// <summary>
     /// Append a section with text and an endnote to a document.
     /// </summary>
-    private static void insertSectionWithEndnote(Document doc, String sectionBodyText, String endnoteText)
-    {
+    private static void insertSectionWithEndnote(Document doc, String sectionBodyText, String endnoteText) {
         Section section = new Section(doc);
 
         doc.appendChild(section);

@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -17,14 +17,12 @@ import java.util.regex.Pattern;
 /// <summary>
 /// Shows how to rename merge fields in a Word document.
 /// </summary>
-public class ExRenameMergeFields extends ApiExampleBase
-{
+public class ExRenameMergeFields extends ApiExampleBase {
     /// <summary>
     /// Finds all merge fields in a Word document and changes their names.
     /// </summary>
     @Test
-    public void rename() throws Exception
-    {
+    public void rename() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -91,12 +89,12 @@ class MergeField {
     }
 
     void setName(final String value) {
-        // Merge field name is stored in the field result which is a Run
-        // node between field separator and field end
+        // Merge field name is stored in the field result which is a Run 
+        // node between field separator and field end.
         Run fieldResult = (Run) mFieldSeparator.getNextSibling();
         fieldResult.setText(java.text.MessageFormat.format("«{0}»", value));
 
-        // But sometimes the field result can consist of more than one run, delete these runs
+        // But sometimes the field result can consist of more than one run, delete these runs.
         removeSameParent(fieldResult.getNextSibling(), mFieldEnd);
 
         updateFieldCode(value);
