@@ -1041,10 +1041,10 @@ public class ExShape extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Embed a Microsoft Visio drawing into the document as an OLE object.
-        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", false, false, null);
+        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", false, false, new FileInputStream(getMyDir() + "Presentation.pptx"));
 
         // Insert a link to the file in the local file system and display it as an icon.
-        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", true, true, null);
+        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", true, true, new FileInputStream(getMyDir() + "Presentation.pptx"));
 
         // Inserting OLE objects creates shapes that store these objects.
         List<Shape> shapeList = Arrays.stream(doc.getChildNodes(NodeType.SHAPE, true).toArray())
@@ -1414,7 +1414,7 @@ public class ExShape extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertOleObject("http://www.aspose.com", "htmlfile", true, false, null);
+        builder.insertOleObject("http://www.aspose.com", "htmlfile", true, false, new FileInputStream(getMyDir() + "Presentation.pptx"));
 
         doc.save(getArtifactsDir() + "Shape.InsertOleObjectAsHtmlFile.docx");
     }
