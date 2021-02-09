@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -31,6 +31,21 @@ public class ExOdtSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", saveOptions);
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt");
+
+        Assert.assertEquals(com.aspose.words.MeasurementUnits.CENTIMETERS, doc.getLayoutOptions().getRevisionOptions().getMeasurementUnit());
+
+        if (exportToOdt11Specs) {
+            Assert.assertEquals(2, doc.getRange().getFormFields().getCount());
+            Assert.assertEquals(FieldType.FIELD_FORM_TEXT_INPUT, doc.getRange().getFormFields().get(0).getType());
+            Assert.assertEquals(FieldType.FIELD_FORM_CHECK_BOX, doc.getRange().getFormFields().get(1).getType());
+        } else {
+            Assert.assertEquals(3, doc.getRange().getFormFields().getCount());
+            Assert.assertEquals(FieldType.FIELD_FORM_TEXT_INPUT, doc.getRange().getFormFields().get(0).getType());
+            Assert.assertEquals(FieldType.FIELD_FORM_CHECK_BOX, doc.getRange().getFormFields().get(1).getType());
+            Assert.assertEquals(FieldType.FIELD_FORM_DROP_DOWN, doc.getRange().getFormFields().get(2).getType());
+        }
     }
 
     @DataProvider(name = "odt11SchemaDataProvider")

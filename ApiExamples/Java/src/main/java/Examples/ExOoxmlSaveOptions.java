@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -42,6 +42,8 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
     @Test
     public void iso29500Strict() throws Exception {
         //ExStart
+        //ExFor:CompatibilityOptions
+        //ExFor:CompatibilityOptions.OptimizeFor(MsWordVersion)
         //ExFor:OoxmlSaveOptions
         //ExFor:OoxmlSaveOptions.#ctor
         //ExFor:OoxmlSaveOptions.SaveFormat
@@ -194,7 +196,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         //ExFor:OoxmlSaveOptions.CompressionLevel
         //ExFor:CompressionLevel
         //ExSummary:Shows how to specify the compression level to use while saving an OOXML document.
-        Document doc = new Document(getMyDir() + "Images.docx");
+        Document doc = new Document(getMyDir() + "Big document.docx");
 
         // When we save the document to an OOXML format, we can create an OoxmlSaveOptions object
         // and then pass it to the document's saving method to modify how we save the document.
@@ -207,7 +209,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
         saveOptions.setCompressionLevel(compressionLevel);
 
-        doc.save(getArtifactsDir() + "OoxmlSaveOptions.docx", saveOptions);
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression.docx", saveOptions);
     }
 
     @DataProvider(name = "documentCompressionDataProvider")

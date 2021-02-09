@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -74,7 +74,6 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
 
         private final ArrayList<WarningInfo> mWarnings = new ArrayList<>();
     }
-    //ExEnd
 
     @Test
     public void encryptedHtml() throws Exception {
@@ -109,6 +108,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
     public void baseUri() throws Exception {
         //ExStart
         //ExFor:HtmlLoadOptions.#ctor(LoadFormat,String,String)
+        //ExFor:LoadOptions.#ctor(LoadFormat, String, String)
         //ExFor:LoadOptions.LoadFormat
         //ExFor:LoadFormat
         //ExSummary:Shows how to specify a base URI when opening an html document.

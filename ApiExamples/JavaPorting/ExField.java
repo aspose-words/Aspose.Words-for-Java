@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -180,6 +180,11 @@ import com.aspose.words.FieldTime;
 import com.aspose.words.FieldBidiOutline;
 import com.aspose.words.ShapeType;
 import com.aspose.words.FieldIndexFormat;
+import com.aspose.words.ComparisonEvaluationResult;
+import com.aspose.words.IComparisonExpressionEvaluator;
+import com.aspose.words.ComparisonExpression;
+import com.aspose.ms.System.Collections.msArrayList;
+import java.util.ArrayList;
 import org.testng.annotations.DataProvider;
 
 
@@ -263,7 +268,7 @@ public class ExField extends ApiExampleBase
         FieldAuthor fieldAuthor = (FieldAuthor)builder.insertField(FieldType.FIELD_AUTHOR, true);
         fieldAuthor.setAuthorName("John Doe");
 
-        // We can use the DisplayResult attribute to verify what exact text
+        // We can use the DisplayResult property to verify what exact text
         // a field would display in its place in the document.
         Assert.assertEquals("", fieldAuthor.getDisplayResult());
 
@@ -365,7 +370,7 @@ public class ExField extends ApiExampleBase
         // Insert a field that does not denote an objective field type in its field code.
         Field field = builder.insertField(" NOTAREALFIELD //a");
 
-        // Fields like that can be created and read, and are assigned a special "FieldNone" type.
+        // The "FieldNone" field type is reserved for fields such as these.
         Assert.assertEquals(FieldType.FIELD_NONE, field.getType());
 
         // We can also still work with these fields and assign them as instances of the FieldUnknown class.
@@ -450,7 +455,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(FieldUpdateCultureSource.CURRENT_THREAD, doc.getFieldOptions().getFieldUpdateCultureSource()); //ExSkip
 
         // Changing the culture of our thread will impact the result of the DATE field.
-        // Another way to get the DATE field to display a date in a different culture is to use its LocaleId attribute.
+        // Another way to get the DATE field to display a date in a different culture is to use its LocaleId property.
         // This way allows us to avoid changing the thread's culture to get this effect.
         doc.getFieldOptions().setFieldUpdateCultureSource(FieldUpdateCultureSource.FIELD_CODE);
         msCultureInfo de = new msCultureInfo("de-DE");
@@ -635,12 +640,12 @@ public class ExField extends ApiExampleBase
             "GROUP BY[Products].ProductName " +
             "ORDER BY SUM([Order Details].UnitPrice* (1 - [Order Details].Discount) * [Order Details].Quantity) DESC");
 
-        // These attributes have the same function as LIMIT and TOP clauses.
+        // These properties have the same function as LIMIT and TOP clauses.
         // Configure them to display only rows 1 to 10 of the query result in the field's table.
         field.setFirstRecord("1");
         field.setLastRecord("10");
 
-        // This attribute is the index of the format we want to use for our table. The list of table formats is in the "Table AutoFormat..." menu
+        // This property is the index of the format we want to use for our table. The list of table formats is in the "Table AutoFormat..." menu
         // that shows up when we create a DATABASE field in Microsoft Word. Index #10 corresponds to the "Colorful 3" format.
         field.setTableFormat("10");
 
@@ -776,7 +781,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("= 2 + 3", field.getFieldCode());
         Assert.assertEquals("5", field.getResult());
 
-        // We can apply a format to a field's result using the field's attributes.
+        // We can apply a format to a field's result using the field's properties.
         // Below are three types of formats that we can apply to a field's result.
         // 1 -  Numeric format:
         FieldFormat format = field.getFormat();
@@ -1132,7 +1137,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" ADDRESSBLOCK ", field.getFieldCode());
 
         // Setting this to "2" will include all countries and regions,
-        // unless it is the one specified in the ExcludedCountryOrRegionName attribute.
+        // unless it is the one specified in the ExcludedCountryOrRegionName property.
         field.setIncludeCountryOrRegionName("2");
         field.setFormatAddressOnCountryOrRegion(true);
         field.setExcludedCountryOrRegionName("United States");
@@ -1190,7 +1195,6 @@ public class ExField extends ApiExampleBase
         builder.insertField(" QUOTE \"Hello world!\" ");
         doc.updateFields();
 
-        // This collection stores all of a document's fields.
         FieldCollection fields = doc.getRange().getFields();
 
         Assert.assertEquals(6, fields.getCount());
@@ -1310,7 +1314,6 @@ public class ExField extends ApiExampleBase
         builder.insertField(" QUOTE \"Hello world!\" ");
         doc.updateFields();
 
-        // This collection stores all of a document's fields.
         FieldCollection fields = doc.getRange().getFields();
 
         Assert.assertEquals(6, fields.getCount());
@@ -1413,8 +1416,8 @@ public class ExField extends ApiExampleBase
         field.setComparisonOperator("=");
         field.setRightExpression("1");
 
-        // The IF field will display a string from either its "TrueText" attribute,
-        // or its "FalseText" attribute, depending on the truth of the statement that we have constructed.
+        // The IF field will display a string from either its "TrueText" property,
+        // or its "FalseText" property, depending on the truth of the statement that we have constructed.
         field.setTrueText("True");
         field.setFalseText("False");
         field.update();
@@ -1472,8 +1475,8 @@ public class ExField extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // AUTONUM fields display a number of increments at each AUTONUM field,
-        // allowing us to automatically number items similar to a numbered list.
+        // Each AUTONUM field displays the current value of a running count of AUTONUM fields,
+        // allowing us to automatically number items like a numbered list.
         // This field will display a number "1.".
         FieldAutoNum field = (FieldAutoNum)builder.insertField(FieldType.FIELD_AUTO_NUM, true);
         builder.writeln("\tParagraph 1.");
@@ -1484,10 +1487,10 @@ public class ExField extends ApiExampleBase
         builder.writeln("\tParagraph 2.");
 
         // The separator character, which appears in the field result immediately after the number,is a full stop by default.
-        // If we leave this attribute null, our second AUTONUM field will display "2." in the document.
+        // If we leave this property null, our second AUTONUM field will display "2." in the document.
         Assert.assertNull(field.getSeparatorCharacter());
 
-        // We can set this attribute to apply the first character of its string as the new separator character.
+        // We can set this property to apply the first character of its string as the new separator character.
         // In this case, our AUTONUM field will now display "2:".
         field.setSeparatorCharacter(":");
 
@@ -1545,11 +1548,11 @@ public class ExField extends ApiExampleBase
         for (FieldAutoNumLgl field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumLegal) !!Autoporter error: Undefined expression type )
         {
             // The separator character, which appears in the field result immediately after the number,
-            // is a full stop by default. If we leave this attribute null,
+            // is a full stop by default. If we leave this property null,
             // our last AUTONUMLGL field will display "2.2.1." in the document.
             Assert.assertNull(field.getSeparatorCharacter());
 
-            // Setting a custom separater character and removing the trailing period
+            // Setting a custom separator character and removing the trailing period
             // will change that field's appearance from "2.2.1." to "2:2:1".
             // We will apply this to all the fields that we have created.
             field.setSeparatorCharacter(":");
@@ -1602,7 +1605,7 @@ public class ExField extends ApiExampleBase
         // AUTONUMOUT fields display a number that increments at each AUTONUMOUT field.
         // Unlike AUTONUM fields, AUTONUMOUT fields use the outline numbering scheme,
         // which we can define in Microsoft Word via Format -> Bullets & Numbering -> "Outline Numbered".
-        // This allows us to automatically number items similar to a numbered list.
+        // This allows us to automatically number items like a numbered list.
         // LISTNUM fields are a newer alternative to AUTONUMOUT fields.
         // This field will display "1.".
         builder.insertField(FieldType.FIELD_AUTO_NUM_OUTLINE, true);
@@ -1636,7 +1639,7 @@ public class ExField extends ApiExampleBase
         //ExSummary:Shows how to display a building block with AUTOTEXT and GLOSSARY fields. 
         Document doc = new Document();
 
-        // Create a glossary document, and add an AutoText building block to it.
+        // Create a glossary document and add an AutoText building block to it.
         doc.setGlossaryDocument(new GlossaryDocument());
         BuildingBlock buildingBlock = new BuildingBlock(doc.getGlossaryDocument());
         buildingBlock.setName("MyBlock");
@@ -1646,7 +1649,7 @@ public class ExField extends ApiExampleBase
         buildingBlock.setBehavior(BuildingBlockBehavior.PARAGRAPH);
         doc.getGlossaryDocument().appendChild(buildingBlock);
 
-        // Create a source, and add it as text to our building block.
+        // Create a source and add it as text to our building block.
         Document buildingBlockSource = new Document();
         DocumentBuilder buildingBlockSourceBuilder = new DocumentBuilder(buildingBlockSource);
         buildingBlockSourceBuilder.writeln("Hello World!");
@@ -1702,7 +1705,7 @@ public class ExField extends ApiExampleBase
     {
         Document doc = new Document();
 
-        // Create a glossary document, and populate it with auto text entries.
+        // Create a glossary document and populate it with auto text entries.
         doc.setGlossaryDocument(new GlossaryDocument());
         appendAutoTextEntry(doc.getGlossaryDocument(), "AutoText 1", "Contents of AutoText 1");
         appendAutoTextEntry(doc.getGlossaryDocument(), "AutoText 2", "Contents of AutoText 2");
@@ -1710,7 +1713,7 @@ public class ExField extends ApiExampleBase
 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create an AUTOTEXTLIST field, and set the text that the field will display in Microsoft Word.
+        // Create an AUTOTEXTLIST field and set the text that the field will display in Microsoft Word.
         // Set the text to prompt the user to right-click this field to select an AutoText building block,
         // whose contents the field will display.
         FieldAutoTextList field = (FieldAutoTextList)builder.insertField(FieldType.FIELD_AUTO_TEXT_LIST, true);
@@ -1727,7 +1730,7 @@ public class ExField extends ApiExampleBase
     }
 
     /// <summary>
-    /// Create an AutoText-type building block, and add it to a glossary document.
+    /// Create an AutoText-type building block and add it to a glossary document.
     /// </summary>
     private static void appendAutoTextEntry(GlossaryDocument glossaryDoc, String name, String contents)
     {
@@ -1858,13 +1861,13 @@ public class ExField extends ApiExampleBase
         // LISTNUM fields maintain separate counts for each list level. 
         // Inserting a LISTNUM field in the same paragraph as another LISTNUM field
         // increases the list level instead of the count.
-        // The next field will continue the count we started above and have a value of 1 at list level 1.
+        // The next field will continue the count we started above and display a value of "1" at list level 1.
         builder.insertField(FieldType.FIELD_LIST_NUM, true);
 
-        // This field will start a count at list level 2, and will display a value of 1.
+        // This field will start a count at list level 2. It will display a value of "1".
         builder.insertField(FieldType.FIELD_LIST_NUM, true);
 
-        // This field will start a count at list level 3, and will display a value of 1.
+        // This field will start a count at list level 3. It will display a value of "1".
         // Different list levels have different formatting,
         // so these fields combined will display a value of "1)a)i)".
         builder.insertField(FieldType.FIELD_LIST_NUM, true);
@@ -1872,7 +1875,7 @@ public class ExField extends ApiExampleBase
 
         // The next LISTNUM field that we insert will continue the count at the list level
         // that the previous LISTNUM field was on.
-        // We can use the "ListLevel" attribute to jump to a different list level.
+        // We can use the "ListLevel" property to jump to a different list level.
         // If this LISTNUM field stayed on list level 3, it would display "ii)",
         // but, since we have moved it to list level 2, it carries on the count at that level and displays "b)".
         field = (FieldListNum)builder.insertField(FieldType.FIELD_LIST_NUM, true);
@@ -1881,7 +1884,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(" LISTNUM  \\l 2", field.getFieldCode());
 
-        // We can set the ListName attribute to get the field to emulate a different AUTONUM field type.
+        // We can set the ListName property to get the field to emulate a different AUTONUM field type.
         // "NumberDefault" emulates AUTONUM, "OutlineDefault" emulates AUTONUMOUT,
         // and "LegalDefault" emulates AUTONUMLGL fields.
         // The "OutlineDefault" list name with 1 as the starting number will result in displaying "I.".
@@ -1894,7 +1897,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" LISTNUM  OutlineDefault \\s 1", field.getFieldCode());
 
         // The ListName does not carry over from the previous field, so we will need to set it for each new field.
-        // This field continues the count with the different list name, and displays "II.".
+        // This field continues the count with the different list name and displays "II.".
         field = (FieldListNum)builder.insertField(FieldType.FIELD_LIST_NUM, true);
         field.setListName("OutlineDefault");
         builder.writeln("Paragraph 5");
@@ -1966,7 +1969,7 @@ public class ExField extends ApiExampleBase
         table.getRows().add("Mr.", "John", "Doe");
         table.getRows().add("Mrs.", "Jane", "Cardholder");
 
-        // Insert a MERGEFIELD with a FieldName attribute set to the name of a column in the data source.
+        // Insert a MERGEFIELD with a FieldName property set to the name of a column in the data source.
         FieldMergeField fieldMergeField = (FieldMergeField)builder.insertField(FieldType.FIELD_MERGE_FIELD, true);
         fieldMergeField.setFieldName("Courtesy Title");
         fieldMergeField.isMapped(true);
@@ -2020,16 +2023,16 @@ public class ExField extends ApiExampleBase
         // and the page the heading appears on to the right.
         FieldToc field = (FieldToc)builder.insertField(FieldType.FIELD_TOC, true);
 
-        // Use the BookmarkName attribute to only list headings
+        // Use the BookmarkName property to only list headings
         // that appear within the bounds of a bookmark with the "MyBookmark" name.
         field.setBookmarkName("MyBookmark");
 
         // Text with a built-in heading style, such as "Heading 1", applied to it will count as a heading.
-        // We can name additional styles to be picked up as headings by the TOC in this attribute and their TOC levels.
+        // We can name additional styles to be picked up as headings by the TOC in this property and their TOC levels.
         field.setCustomStyles("Quote; 6; Intense Quote; 7");
 
-        // By default, Styles/TOC levels are separated in the CustomStyles attribute by a comma,
-        // but we can set a custom delimiter in this attribute.
+        // By default, Styles/TOC levels are separated in the CustomStyles property by a comma,
+        // but we can set a custom delimiter in this property.
         doc.getFieldOptions().setCustomTocStyleSeparator(";");
 
         // Configure the field to exclude any headings that have TOC levels outside of this range.
@@ -2056,13 +2059,13 @@ public class ExField extends ApiExampleBase
         insertNewPageWithHeading(builder, "Fifth entry", "Heading 2");
         insertNewPageWithHeading(builder, "Sixth entry", "Heading 3");
 
-        // This entry not appear because "Heading 4" is outside of the "1-3" range that we have set earlier.
+        // This entry does not appear because "Heading 4" is outside of the "1-3" range that we have set earlier.
         insertNewPageWithHeading(builder, "Seventh entry", "Heading 4");
 
         builder.endBookmark("MyBookmark");
         builder.writeln("Paragraph text.");
 
-        // This entry not appear because it is outside the bookmark specified by the TOC.
+        // This entry does not appear because it is outside the bookmark specified by the TOC.
         insertNewPageWithHeading(builder, "Eighth entry", "Heading 1");
 
         Assert.assertEquals(" TOC  \\b MyBookmark \\t \"Quote; 6; Intense Quote; 7\" \\o 1-3 \\n 2-5 \\p - \\h \\x \\w", field.getFieldCode());
@@ -2230,12 +2233,12 @@ public class ExField extends ApiExampleBase
 
         // SEQ fields display a count that increments at each SEQ field.
         // These fields also maintain separate counts for each unique named sequence
-        // identified by the SEQ field's "SequenceIdentifier" attribute.
-        // Use the "TableOfFiguresLabel" attribute to name a main sequence for the TOC.
+        // identified by the SEQ field's "SequenceIdentifier" property.
+        // Use the "TableOfFiguresLabel" property to name a main sequence for the TOC.
         // Now, this TOC will only create entries out of SEQ fields with their "SequenceIdentifier" set to "MySequence".
         fieldToc.setTableOfFiguresLabel("MySequence");
 
-        // We can name another SEQ field sequence in the "PrefixedSequenceIdentifier" attribute.
+        // We can name another SEQ field sequence in the "PrefixedSequenceIdentifier" property.
         // SEQ fields from this prefix sequence will not create TOC entries. 
         // Every TOC entry created from a main sequence SEQ field will now also display the count that
         // the prefix sequence is currently on at the primary sequence SEQ field that made the entry.
@@ -2254,7 +2257,7 @@ public class ExField extends ApiExampleBase
         // 1 -  Inserting a SEQ field that belongs to the TOC's prefix sequence:
         // This field will increment the SEQ sequence count for the "PrefixSequence" by 1.
         // Since this field does not belong to the main sequence identified
-        // by the "TableOfFiguresLabel" attribute of the TOC, it will not appear as an entry.
+        // by the "TableOfFiguresLabel" property of the TOC, it will not appear as an entry.
         FieldSeq fieldSeq = (FieldSeq)builder.insertField(FieldType.FIELD_SEQUENCE, true);
         fieldSeq.setSequenceIdentifier("PrefixSequence");
         builder.insertParagraph();
@@ -2265,7 +2268,7 @@ public class ExField extends ApiExampleBase
         // This SEQ field will create an entry in the TOC.
         // The TOC entry will contain the paragraph that the SEQ field is in and the number of the page that it appears on.
         // This entry will also display the count that the prefix sequence is currently at,
-        // separated from the page number by the value in the TOC's SeqenceSeparator attribute.
+        // separated from the page number by the value in the TOC's SeqenceSeparator property.
         // The "PrefixSequence" count is at 1, this main sequence SEQ field is on page 2,
         // and the separator is ">", so entry will display "1>2".
         builder.write("First TOC entry, MySequence #");
@@ -2362,9 +2365,9 @@ public class ExField extends ApiExampleBase
 
         // SEQ fields display a count that increments at each SEQ field.
         // These fields also maintain separate counts for each unique named sequence
-        // identified by the SEQ field's "SequenceIdentifier" attribute.
+        // identified by the SEQ field's "SequenceIdentifier" property.
         // Insert a SEQ field that will display the current count value of "MySequence",
-        // after using the "ResetNumber" attribute to set it to 100.
+        // after using the "ResetNumber" property to set it to 100.
         builder.write("#");
         FieldSeq fieldSeq = (FieldSeq)builder.insertField(FieldType.FIELD_SEQUENCE, true);
         fieldSeq.setSequenceIdentifier("MySequence");
@@ -2388,7 +2391,7 @@ public class ExField extends ApiExampleBase
         builder.writeln("This level 1 heading will reset MySequence to 1");
         builder.getParagraphFormat().setStyle(doc.getStyles().get("Normal"));
 
-        // Insert another SEQ field from the same sequence, and configure it to reset the count at every heading with 1.
+        // Insert another SEQ field from the same sequence and configure it to reset the count at every heading with 1.
         builder.write("\n#");
         fieldSeq = (FieldSeq)builder.insertField(FieldType.FIELD_SEQUENCE, true);
         fieldSeq.setSequenceIdentifier("MySequence");
@@ -2453,9 +2456,11 @@ public class ExField extends ApiExampleBase
         // and the number of the page that the field appears on.
         FieldToc fieldToc = (FieldToc)builder.insertField(FieldType.FIELD_TOC, true);
 
-        // Configure this TOC field to only pick up SEQ fields that are within the bounds of a bookmark
-        // named "TOCBookmark", and also have a SequenceIdentifier attribute with a value of "MySequence".
+        // Configure this TOC field to have a SequenceIdentifier property with a value of "MySequence".
         fieldToc.setTableOfFiguresLabel("MySequence");
+
+        // Configure this TOC field to only pick up SEQ fields that are within the bounds of a bookmark
+        // named "TOCBookmark".
         fieldToc.setBookmarkName("TOCBookmark");
         builder.insertBreak(BreakType.PAGE_BREAK);
 
@@ -2463,9 +2468,9 @@ public class ExField extends ApiExampleBase
 
         // SEQ fields display a count that increments at each SEQ field.
         // These fields also maintain separate counts for each unique named sequence
-        // identified by the SEQ field's "SequenceIdentifier" attribute.
+        // identified by the SEQ field's "SequenceIdentifier" property.
         // Insert a SEQ field that has a sequence identifier that matches the TOC's
-        // TableOfFiguresLabel attribute. This field will not create an entry in the TOC since it is outside
+        // TableOfFiguresLabel property. This field will not create an entry in the TOC since it is outside
         // the bookmark's bounds designated by "BookmarkName".
         builder.write("MySequence #");
         FieldSeq fieldSeq = (FieldSeq)builder.insertField(FieldType.FIELD_SEQUENCE, true);
@@ -2474,21 +2479,21 @@ public class ExField extends ApiExampleBase
 
         builder.startBookmark("TOCBookmark");
 
-        // This SEQ field's sequence matches the TOC's "TableOfFiguresLabel" attribute and is within the bookmark's bounds.
+        // This SEQ field's sequence matches the TOC's "TableOfFiguresLabel" property and is within the bookmark's bounds.
         // The paragraph that contains this field will show up in the TOC as an entry.
         builder.write("MySequence #");
         fieldSeq = (FieldSeq)builder.insertField(FieldType.FIELD_SEQUENCE, true);
         fieldSeq.setSequenceIdentifier("MySequence");
         builder.writeln(", will show up in the TOC next to the entry for the above caption.");
 
-        // This SEQ field's sequence does not match the TOC's "TableOfFiguresLabel" attribute,
+        // This SEQ field's sequence does not match the TOC's "TableOfFiguresLabel" property,
         // and is within the bounds of the bookmark. Its paragraph will not show up in the TOC as an entry.
         builder.write("MySequence #");
         fieldSeq = (FieldSeq)builder.insertField(FieldType.FIELD_SEQUENCE, true);
         fieldSeq.setSequenceIdentifier("OtherSequence");
         builder.writeln(", will not show up in the TOC because it's from a different sequence identifier.");
 
-        // This SEQ field's sequence matches the TOC's "TableOfFiguresLabel" attribute, and is within the bounds of the bookmark.
+        // This SEQ field's sequence matches the TOC's "TableOfFiguresLabel" property and is within the bounds of the bookmark.
         // This field also references another bookmark. The contents of that bookmark will appear in the TOC entry for this SEQ field.
         // The SEQ field itself will not display the contents of that bookmark.
         fieldSeq = (FieldSeq)builder.insertField(FieldType.FIELD_SEQUENCE, true);
@@ -2945,7 +2950,7 @@ public class ExField extends ApiExampleBase
         FieldHyperlink field = (FieldHyperlink)builder.insertField(FieldType.FIELD_HYPERLINK, true);
 
         // When we click this HYPERLINK field in Microsoft Word,
-        // it will open the linked document, and also place the cursor at the specified bookmark.
+        // it will open the linked document and then place the cursor at the specified bookmark.
         field.setAddress(getMyDir() + "Bookmarks.docx");
         field.setSubAddress("MyBookmark3");
         field.setScreenTip("Open " + field.getAddress() + " on bookmark " + field.getSubAddress() + " in a new window");
@@ -3190,22 +3195,22 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create an INDEX field which will display an entry for each XE field found in the document.
-        // Each entry will display the XE field's Text attribute value on the left side
+        // Each entry will display the XE field's Text property value on the left side
         // and the page containing the XE field on the right.
         // If the XE fields have the same value in their "Text" property,
         // the INDEX field will group them into one entry.
         FieldIndex index = (FieldIndex)builder.insertField(FieldType.FIELD_INDEX, true);
 
         // Configure the INDEX field only to display XE fields that are within the bounds
-        // of a bookmark named "MainBookmark", and whose "EntryType" attributes have a value of "A".
-        // For both INDEX and XE fields, the "EntryType" attribute only uses the first character of its string value.
+        // of a bookmark named "MainBookmark", and whose "EntryType" properties have a value of "A".
+        // For both INDEX and XE fields, the "EntryType" property only uses the first character of its string value.
         index.setBookmarkName("MainBookmark");
         index.setEntryType("A");
 
         Assert.assertEquals(" INDEX  \\b MainBookmark \\f A", index.getFieldCode());
 
         // On a new page, start the bookmark with a name that matches the value
-        // of the INDEX field's "BookmarkName" attribute.
+        // of the INDEX field's "BookmarkName" property.
         builder.insertBreak(BreakType.PAGE_BREAK);
         builder.startBookmark("MainBookmark");
 
@@ -3280,14 +3285,14 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create an INDEX field which will display an entry for each XE field found in the document.
-        // Each entry will display the XE field's Text attribute value on the left side,
+        // Each entry will display the XE field's Text property value on the left side,
         // and the number of the page that contains the XE field on the right.
         // If the XE fields have the same value in their "Text" property,
         // the INDEX field will group them into one entry.
         FieldIndex index = (FieldIndex)builder.insertField(FieldType.FIELD_INDEX, true);
         index.setLanguageId("1033");
 
-        // Setting this attribute's value to "A" will group all the entries by their first letter,
+        // Setting this property's value to "A" will group all the entries by their first letter,
         // and place that letter in uppercase above each group.
         index.setHeading("A");
 
@@ -3330,7 +3335,7 @@ public class ExField extends ApiExampleBase
         indexEntry.setText("Avocado");
 
         // This entry will not appear because it starts with the letter "D",
-        // which is outside the "a-c" character range that the INDEX field's LetterRange attribute defines.
+        // which is outside the "a-c" character range that the INDEX field's LetterRange property defines.
         builder.insertBreak(BreakType.PAGE_BREAK);
         indexEntry = (FieldXE)builder.insertField(FieldType.FIELD_INDEX_ENTRY, true);
         indexEntry.setText("Durian");
@@ -3411,13 +3416,13 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create an INDEX field which will display an entry for each XE field found in the document.
-        // Each entry will display the XE field's Text attribute value on the left side,
+        // Each entry will display the XE field's Text property value on the left side,
         // and the number of the page that contains the XE field on the right.
         // If the XE fields have the same value in their "Text" property,
         // the INDEX field will group them into one entry.
         FieldIndex index = (FieldIndex)builder.insertField(FieldType.FIELD_INDEX, true);
 
-        // In the SequenceName attribute, name a SEQ field sequence. Each entry of this INDEX field will now also display
+        // In the SequenceName property, name a SEQ field sequence. Each entry of this INDEX field will now also display
         // the number that the sequence count is on at the XE field location that created this entry.
         index.setSequenceName("MySequence");
 
@@ -3432,7 +3437,7 @@ public class ExField extends ApiExampleBase
 
         // SEQ fields display a count that increments at each SEQ field.
         // These fields also maintain separate counts for each unique named sequence
-        // identified by the SEQ field's "SequenceIdentifier" attribute.
+        // identified by the SEQ field's "SequenceIdentifier" property.
         // Insert a SEQ field which moves the "MySequence" sequence to 1.
         // This field no different from normal document text. It will not appear on an INDEX field's table of contents.
         builder.insertBreak(BreakType.PAGE_BREAK);
@@ -3449,22 +3454,22 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(" XE  Cat", indexEntry.getFieldCode());
 
-        // Insert a page break, and use SEQ fields to advance "MySequence" to 3.
+        // Insert a page break and use SEQ fields to advance "MySequence" to 3.
         builder.insertBreak(BreakType.PAGE_BREAK);
         sequenceField = (FieldSeq)builder.insertField(FieldType.FIELD_SEQUENCE, true);
         sequenceField.setSequenceIdentifier("MySequence");
         sequenceField = (FieldSeq)builder.insertField(FieldType.FIELD_SEQUENCE, true);
         sequenceField.setSequenceIdentifier("MySequence");
 
-        // Insert an XE field with the same Text attribute as the one above.
-        // The INDEX entry will group XE fields with matching valeus in the "Text" property
+        // Insert an XE field with the same Text property as the one above.
+        // The INDEX entry will group XE fields with matching values in the "Text" property
         // into one entry as opposed to making an entry for each XE field.
         // Since we are on page 2 with "MySequence" at 3, ", 3 on page 3" will be appended to the same INDEX entry as above.
         // The page number portion of that INDEX entry will now display "MySequence at 1 on page 2, 3 on page 3".
         indexEntry = (FieldXE)builder.insertField(FieldType.FIELD_INDEX_ENTRY, true);
         indexEntry.setText("Cat");
 
-        // Insert an XE field with a new and unique Text attribute value.
+        // Insert an XE field with a new and unique Text property value.
         // This will add a new entry, with MySequence at 3 on page 4.
         builder.insertBreak(BreakType.PAGE_BREAK);
         indexEntry = (FieldXE)builder.insertField(FieldType.FIELD_INDEX_ENTRY, true);
@@ -3500,9 +3505,9 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create an INDEX field which will display an entry for each XE field found in the document.
-        // Each entry will display the XE field's Text attribute value on the left side,
+        // Each entry will display the XE field's Text property value on the left side,
         // and the number of the page that contains the XE field on the right.
-        // The INDEX entry will group XE fields with matching valeus in the "Text" property
+        // The INDEX entry will group XE fields with matching values in the "Text" property
         // into one entry as opposed to making an entry for each XE field.
         FieldIndex index = (FieldIndex)builder.insertField(FieldType.FIELD_INDEX, true);
 
@@ -3555,9 +3560,9 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create an INDEX field which will display an entry for each XE field found in the document.
-        // Each entry will display the XE field's Text attribute value on the left side,
+        // Each entry will display the XE field's Text property value on the left side,
         // and the number of the page that contains the XE field on the right.
-        // The INDEX entry will collect all XE fields with matching valeus in the "Text" property
+        // The INDEX entry will collect all XE fields with matching values in the "Text" property
         // into one entry as opposed to making an entry for each XE field.
         FieldIndex index = (FieldIndex)builder.insertField(FieldType.FIELD_INDEX, true);
 
@@ -3572,7 +3577,7 @@ public class ExField extends ApiExampleBase
         FieldXE indexEntry = (FieldXE)builder.insertField(FieldType.FIELD_INDEX_ENTRY, true);
         indexEntry.setText("My entry");
 
-        // If an XE field names a bookmark using the PageRangeBookmarkName attribute,
+        // If an XE field names a bookmark using the PageRangeBookmarkName property,
         // its INDEX entry will show the range of pages that the bookmark spans
         // instead of the number of the page that contains the XE field.
         indexEntry.setPageRangeBookmarkName("MyBookmark");
@@ -3580,7 +3585,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" XE  \"My entry\" \\r MyBookmark", indexEntry.getFieldCode());
         Assert.assertTrue(indexEntry.hasPageRangeBookmarkName());
 
-        // Insert a bookmark that starts on page 3, and ends on page 5.
+        // Insert a bookmark that starts on page 3 and ends on page 5.
         // The INDEX entry for the XE field that references this bookmark will display this page range.
         // In our table, the INDEX entry will display "My entry, on page(s) 3 to 5".
         builder.insertBreak(BreakType.PAGE_BREAK);
@@ -3621,15 +3626,15 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create an INDEX field which will display an entry for each XE field found in the document.
-        // Each entry will display the XE field's Text attribute value on the left side,
+        // Each entry will display the XE field's Text property value on the left side,
         // and the number of the page that contains the XE field on the right.
-        // The INDEX entry will collect all XE fields with matching valeus in the "Text" property
+        // The INDEX entry will collect all XE fields with matching values in the "Text" property
         // into one entry as opposed to making an entry for each XE field.
         FieldIndex index = (FieldIndex)builder.insertField(FieldType.FIELD_INDEX, true);
 
         // We can configure an XE field to get its INDEX entry to display a string instead of a page number.
         // First, for entries that substitute a page number with a string,
-        // specify a custom separator between the XE field's Text attribute value and the string.
+        // specify a custom separator between the XE field's Text property value and the string.
         index.setCrossReferenceSeparator(", see: ");
 
         Assert.assertEquals(" INDEX  \\k \", see: \"", index.getFieldCode());
@@ -3643,7 +3648,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(" XE  Apple", indexEntry.getFieldCode());
 
-        // Insert another XE field on page 3, and set a value for the PageNumberReplacement attribute.
+        // Insert another XE field on page 3 and set a value for the PageNumberReplacement property.
         // This value will show up instead of the number of the page that this field is on,
         // and the INDEX field's CrossReferenceSeparator value will appear in front of it.
         // The entry for this XE field will display "Banana, see: Tropical fruit".
@@ -3689,21 +3694,21 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create an INDEX field which will display an entry for each XE field found in the document.
-        // Each entry will display the XE field's Text attribute value on the left side,
+        // Each entry will display the XE field's Text property value on the left side,
         // and the number of the page that contains the XE field on the right.
-        // The INDEX entry will collect all XE fields with matching valeus in the "Text" property
+        // The INDEX entry will collect all XE fields with matching values in the "Text" property
         // into one entry as opposed to making an entry for each XE field.
         FieldIndex index = (FieldIndex)builder.insertField(FieldType.FIELD_INDEX, true);
         index.setPageNumberSeparator(", see page ");
         index.setHeading("A");
 
-        // XE fields that have a Text attribute whose value becomes the heading of the INDEX entry.
+        // XE fields that have a Text property whose value becomes the heading of the INDEX entry.
         // If this value contains two string segments split by a colon (the INDEX entry will treat :) delimiter,
         // the first segment is heading, and the second segment will become the subheading.
         // The INDEX field first groups entries alphabetically, then, if there are multiple XE fields with the same
         // headings, the INDEX field will further subgroup them by the values of these headings.
         // There can be multiple subgrouping layers, depending on how many times
-        // the Text attributes of XE fields get segmented like this.
+        // the Text properties of XE fields get segmented like this.
         // By default, an INDEX field entry group will create a new line for every subheading within this group. 
         // We can set the RunSubentriesOnSameLine flag to true to keep the heading,
         // and every subheading for the group on one line instead, which will make the INDEX field more compact.
@@ -3716,7 +3721,7 @@ public class ExField extends ApiExampleBase
 
         // Insert two XE fields, each on a new page, and with the same heading named "Heading 1",
         // which the INDEX field will use to group them.
-        // If RunSubentriesOnSameLine is false, then the INDEX table will create three lines;
+        // If RunSubentriesOnSameLine is false, then the INDEX table will create three lines:
         // one line for the grouping heading "Heading 1", and one more line for each subheading.
         // If RunSubentriesOnSameLine is true, then the INDEX table will create a one-line
         // entry that encompasses the heading and every subheading.
@@ -3787,13 +3792,13 @@ public class ExField extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create an INDEX field which will display an entry for each XE field found in the document.
-        // Each entry will display the XE field's Text attribute value on the left side,
+        // Each entry will display the XE field's Text property value on the left side,
         // and the number of the page that contains the XE field on the right.
-        // The INDEX entry will collect all XE fields with matching valeus in the "Text" property
+        // The INDEX entry will collect all XE fields with matching values in the "Text" property
         // into one entry as opposed to making an entry for each XE field.
         FieldIndex index = (FieldIndex)builder.insertField(FieldType.FIELD_INDEX, true);
 
-        // The INDEX table automatically sorts its entries by the values of their Text attributes in alphabetic order.
+        // The INDEX table automatically sorts its entries by the values of their Text properties in alphabetic order.
         // Set the INDEX table to sort entries phonetically using Hiragana instead.
         index.setUseYomi(sortEntriesUsingYomi);
 
@@ -3803,10 +3808,10 @@ public class ExField extends ApiExampleBase
             Assert.assertEquals(" INDEX ", index.getFieldCode());
 
         // Insert 4 XE fields, which would show up as entries in the INDEX field's table of contents.
-        // The "Text" attribute may contain a word's spelling in Kanji, whose pronunciation may be ambiguous,
+        // The "Text" property may contain a word's spelling in Kanji, whose pronunciation may be ambiguous,
         // while the "Yomi" version of the word will spell exactly how it is pronounced using Hiragana.
         // If we set our INDEX field to use Yomi, it will sort these entries
-        // by the value of their Yomi attributes, instead of their Text values.
+        // by the value of their Yomi properties, instead of their Text values.
         builder.insertBreak(BreakType.PAGE_BREAK);
         FieldXE indexEntry = (FieldXE)builder.insertField(FieldType.FIELD_INDEX_ENTRY, true);
         indexEntry.setText("愛子");
@@ -3907,7 +3912,7 @@ public class ExField extends ApiExampleBase
         builder.writeln();
 
         // Below are two ways of using BARCODE fields to display custom values as barcodes.
-        // 1 -  Store the value that the bardcode will display in the PostalAddress attribute:
+        // 1 -  Store the value that the barcode will display in the PostalAddress property:
         FieldBarcode field = (FieldBarcode)builder.insertField(FieldType.FIELD_BARCODE, true);
 
         // This value needs to be a valid ZIP code.
@@ -3926,7 +3931,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(" BARCODE  BarcodeBookmark \\b", field.getFieldCode());
 
-        // The bookmark that the BARCODE field references in its PostalAddress attribute
+        // The bookmark that the BARCODE field references in its PostalAddress property
         // need to contain nothing besides the valid ZIP code.
         builder.insertBreak(BreakType.PAGE_BREAK);
         builder.startBookmark("BarcodeBookmark");
@@ -4289,7 +4294,7 @@ public class ExField extends ApiExampleBase
 
         // Create a DataTable with a column with the same name as our MERGEBARCODE field's BarcodeValue.
         // The mail merge will create a new page for each row. Each page will contain a DISPLAYBARCODE field,
-        // which will display a ITF14 barcode with the value from the merged row.
+        // which will display an ITF14 barcode with the value from the merged row.
         DataTable table = new DataTable("Barcodes");
         table.getColumns().add("MyITF14Barcode");
         table.getRows().add(new String[] { "09312345678907" });
@@ -4438,7 +4443,7 @@ public class ExField extends ApiExampleBase
 	}
 
     /// <summary>
-    /// Use a document builder to insert a LINK field, and set its properties according to parameters.
+    /// Use a document builder to insert a LINK field and set its properties according to parameters.
     /// </summary>
     private static void insertFieldLink(DocumentBuilder builder, /*InsertLinkedObjectAs*/int insertLinkedObjectAs,
         String progId, String sourceFullName, String sourceItem, boolean shouldAutoUpdate) throws Exception
@@ -4576,7 +4581,7 @@ public class ExField extends ApiExampleBase
         //ExSummary:Shows how to use the USERADDRESS field.
         Document doc = new Document();
 
-        // Create a UserInformation object, and set it as the source of user information for any fields that we create.
+        // Create a UserInformation object and set it as the source of user information for any fields that we create.
         UserInformation userInformation = new UserInformation();
         userInformation.setAddress("123 Main Street");
         doc.getFieldOptions().setCurrentUser(userInformation);
@@ -4590,7 +4595,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" USERADDRESS ", fieldUserAddress.getFieldCode());
         Assert.assertEquals("123 Main Street", fieldUserAddress.getResult());
 
-        // We can set this attribute to get our field to override the value currently stored in the UserInformation object. 
+        // We can set this property to get our field to override the value currently stored in the UserInformation object. 
         fieldUserAddress.setUserAddress("456 North Road");
         fieldUserAddress.update();
 
@@ -4621,7 +4626,7 @@ public class ExField extends ApiExampleBase
         //ExSummary:Shows how to use the USERINITIALS field.
         Document doc = new Document();
 
-        // Create a UserInformation object, and set it as the source of user information for any fields that we create.
+        // Create a UserInformation object and set it as the source of user information for any fields that we create.
         UserInformation userInformation = new UserInformation();
         userInformation.setInitials("J. D.");
         doc.getFieldOptions().setCurrentUser(userInformation);
@@ -4635,7 +4640,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" USERINITIALS ", fieldUserInitials.getFieldCode());
         Assert.assertEquals("J. D.", fieldUserInitials.getResult());
 
-        // We can set this attribute to get our field to override the value currently stored in the UserInformation object. 
+        // We can set this property to get our field to override the value currently stored in the UserInformation object. 
         fieldUserInitials.setUserInitials("J. C.");
         fieldUserInitials.update();
 
@@ -4666,7 +4671,7 @@ public class ExField extends ApiExampleBase
         //ExSummary:Shows how to use the USERNAME field.
         Document doc = new Document();
 
-        // Create a UserInformation object, and set it as the source of user information for any fields that we create.
+        // Create a UserInformation object and set it as the source of user information for any fields that we create.
         UserInformation userInformation = new UserInformation();
         userInformation.setName("John Doe");
         doc.getFieldOptions().setCurrentUser(userInformation);
@@ -4681,7 +4686,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" USERNAME ", fieldUserName.getFieldCode());
         Assert.assertEquals("John Doe", fieldUserName.getResult());
 
-        // We can set this attribute to get our field to override the value currently stored in the UserInformation object. 
+        // We can set this property to get our field to override the value currently stored in the UserInformation object. 
         fieldUserName.setUserName("Jane Doe");
         fieldUserName.update();
 
@@ -4727,7 +4732,7 @@ public class ExField extends ApiExampleBase
         list.getListLevels().get(0).setNumberFormat("\u0000.");
         list.getListLevels().get(1).setNumberFormat("\u0001 )");
 
-        // Add text, and apply paragraph styles that STYLEREF fields will reference.
+        // Add text and apply paragraph styles that STYLEREF fields will reference.
         builder.getListFormat().setList(list);
         builder.getListFormat().listIndent();
         builder.getParagraphFormat().setStyle(doc.getStyles().get("List Paragraph"));
@@ -4850,7 +4855,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" DATE  \\s", field.getFieldCode());
         builder.writeln();
 
-        // Insert a DATE field, and set its calendar type to the one last used by the host application.
+        // Insert a DATE field and set its calendar type to the one last used by the host application.
         // In Microsoft Word, the type will be the most recently used in the Insert -> Text -> Date and Time dialog box.
         field = (FieldDate)builder.insertField(FieldType.FIELD_DATE, true);
         field.setUseLastFormat(true);
@@ -5096,7 +5101,7 @@ public class ExField extends ApiExampleBase
         falseOutput.addNode(new Run(doc, " does not equal "));
         falseOutput.addField(rightExpression);
 
-        // Finally, we will create one more field builder for the IF field, and put all of its pieces together. 
+        // Finally, we will create one more field builder for the IF field and combine all of the expressions. 
         builder = new FieldBuilder(FieldType.FIELD_IF);
         builder.addArgument(leftExpression);
         builder.addArgument("=");
@@ -5191,8 +5196,8 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" AUTHOR ", field.getFieldCode());
         Assert.assertEquals("John Doe", field.getResult());
         
-        // If we give an AUTHOR field a different name again and then update it,
-        // the field will apply it to the built-in property.
+        // If we update an AUTHOR field after changing its "Name" property,
+        // then the field will display the new name and apply the new name to the built-in property.
         field.setAuthorName("Jane Doe");
         field.update();
 
@@ -5745,7 +5750,7 @@ public class ExField extends ApiExampleBase
         field.setPostScriptGroup("para");
 
         // When we use a printer that supports PostScript to print our document,
-        // this command will turn the entire area that we specified in field.PostScriptGroup white.
+        // this command will turn the entire area that we specified in "field.PostScriptGroup" white.
         field.setPrinterInstructions("erasepage");
 
         Assert.assertEquals(" PRINT  erasepage \\p para", field.getFieldCode());
@@ -5824,7 +5829,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(" QUOTE  \"\\\"Quoted text\\\"\"", field.getFieldCode());
 
-        // Insert a QUOTE field, and insert a DATE field inside it.
+        // Insert a QUOTE field and nest a DATE field inside it.
         // DATE fields update their value to the current date every time we open the document using Microsoft Word.
         // Nesting the DATE field inside the QUOTE field like this will freeze its value
         // to the date when we created the document.
@@ -5880,7 +5885,7 @@ public class ExField extends ApiExampleBase
         // If we have multiple merge fields with the same FieldName,
         // they will receive data from the same row of the data source and display the same value after the merge.
         // A NEXT field tells the mail merge instantly to move down one row,
-        // so any MERGEFIELDs after the NEXT will receive from the next row.
+        // which means any MERGEFIELDs that follow the NEXT field will receive data from the next row.
         // Make sure never to try to skip to the next row while already on the last row.
         FieldNext fieldNext = (FieldNext)builder.insertField(FieldType.FIELD_NEXT, true);
 
@@ -5964,7 +5969,7 @@ public class ExField extends ApiExampleBase
         insertBookmarkWithFootnote(builder, "MyBookmark1", "Contents of MyBookmark1", "Footnote from MyBookmark1");
 
         // This NOTEREF field will display the number of the footnote inside the referenced bookmark.
-        // Setting the InsertHyperlink attribute lets us jump to the bookmark by Ctrl + clicking the field in Microsoft Word.
+        // Setting the InsertHyperlink property lets us jump to the bookmark by Ctrl + clicking the field in Microsoft Word.
         Assert.assertEquals(" NOTEREF  MyBookmark2 \\h",
             insertFieldNoteRef(builder, "MyBookmark2", true, false, false, "Hyperlink to Bookmark2, with footnote number ").getFieldCode());
 
@@ -6126,7 +6131,7 @@ public class ExField extends ApiExampleBase
     }
 
     /// <summary>
-    /// Uses a document builder to insert a PAGEREF field and sets its attributes.
+    /// Uses a document builder to insert a PAGEREF field and sets its properties.
     /// </summary>
     private static FieldPageRef insertFieldPageRef(DocumentBuilder builder, String bookmarkName, boolean insertHyperlink, boolean insertRelativePosition, String textBefore) throws Exception
     {
@@ -6355,7 +6360,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(" RD  ReferencedDocument.docx \\f", field.getFieldCode());
 
-        // Create the document that the RD field is referencing, and insert a heading. 
+        // Create the document that the RD field is referencing and insert a heading. 
         // This heading will show up as an entry in the TOC field in our first document.
         Document referencedDoc = new Document();
         DocumentBuilder refDocBuilder = new DocumentBuilder(referencedDoc);
@@ -6461,7 +6466,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(" SET  MyBookmark \"Hello world!\"", fieldSet.getFieldCode());
 
-        // Refer to the bookmark by name in a REF field, and display its contents.
+        // Refer to the bookmark by name in a REF field and display its contents.
         FieldRef fieldRef = (FieldRef)builder.insertField(FieldType.FIELD_REF, true);
         fieldRef.setBookmarkName("MyBookmark");
         fieldRef.update();
@@ -6710,7 +6715,7 @@ public class ExField extends ApiExampleBase
         fieldToa.setPageNumberListSeparator(" & p. ");
 
         // We can set this to true to get our table to display the word "passim"
-        // if there are 5 or more page numbers in one row.
+        // if there are five or more page numbers in one row.
         fieldToa.setUsePassim(true);
 
         // One TA field can refer to a range of pages.
@@ -6783,10 +6788,6 @@ public class ExField extends ApiExampleBase
         testFieldTOA(new Document(getArtifactsDir() + "Field.TOA.TA.docx")); //ExSKip
     }
 
-    /// <summary>
-    /// Get a builder to insert a TA field, specifying its long citation and category,
-    /// insert a page break, and return the field we created.
-    /// </summary>
     private static FieldTA insertToaEntry(DocumentBuilder builder, String entryCategory, String longCitation) throws Exception
     {
         FieldTA field = (FieldTA)builder.insertField(FieldType.FIELD_TOA_ENTRY, false);
@@ -7121,8 +7122,8 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(" MERGEREC ", fieldMergeRec.getFieldCode());
 
-        // A MERGESEQ field will count the number of successful merges, and print the current value on each respective page.
-        // If a mail merge skips no rows and invokes no SKIP/SKIPIF/NEXT/NEXTIF fields, then all of its merges are successful.
+        // A MERGESEQ field will count the number of successful merges and print the current value on each respective page.
+        // If a mail merge skips no rows and invokes no SKIP/SKIPIF/NEXT/NEXTIF fields, then all merges are successful.
         // The MERGESEQ and MERGEREC fields will display the same results of their mail merge was successful.
         builder.write("\nSuccessful merge number: ");
         FieldMergeSeq fieldMergeSeq = (FieldMergeSeq)builder.insertField(FieldType.FIELD_MERGE_SEQ, true);
@@ -7280,8 +7281,8 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(" SECTIONPAGES ", fieldSectionPages.getFieldCode());
 
-        // Move out of the header back into the main document, and insert two pages.
-        // All of these pages will be in the first section. Our fields, which appear once every header,
+        // Move out of the header back into the main document and insert two pages.
+        // All these pages will be in the first section. Our fields, which appear once every header,
         // will number the current/total pages of this section.
         builder.moveToDocumentEnd();
         builder.insertBreak(BreakType.PAGE_BREAK);
@@ -7429,7 +7430,7 @@ public class ExField extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Legacy fields.doc");
 
         // If we open the Word document and press Alt+F9, we will see a SHAPE and an EMBED field.
-        // A SHAPE field is the anchor/canvas for an autoshape object with the "In line with text" wrapping style enabled.
+        // A SHAPE field is the anchor/canvas for an AutoShape object with the "In line with text" wrapping style enabled.
         // An EMBED field has the same function, but for an embedded object,
         // such as a spreadsheet from an external Excel document.
         // However, these fields will not appear in the document's Fields collection.
@@ -7476,5 +7477,196 @@ public class ExField extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Field.SetFieldIndexFormat.docx");
         //ExEnd
+    }
+
+    //ExStart
+    //ExFor:ComparisonEvaluationResult.#ctor(bool)
+    //ExFor:ComparisonEvaluationResult.#ctor(string)
+    //ExFor:ComparisonEvaluationResult
+    //ExFor:ComparisonExpression
+    //ExFor:ComparisonExpression.LeftExpression
+    //ExFor:ComparisonExpression.ComparisonOperator
+    //ExFor:ComparisonExpression.RightExpression
+    //ExFor:FieldOptions.ComparisonExpressionEvaluator
+    //ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields.
+    @Test (dataProvider = "conditionEvaluationExtensionPointDataProvider") //ExSkip
+    public void conditionEvaluationExtensionPoint(String fieldCode, byte comparisonResult, String comparisonError,
+        String expectedResult) throws Exception
+    {
+        final String LEFT = "\"left expression\"";
+        final String _OPERATOR = "<>";
+        final String RIGHT = "\"right expression\"";
+
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Field codes that we use in this example:
+        // 1.   " IF {0} {1} {2} \"true argument\" \"false argument\" ".
+        // 2.   " COMPARE {0} {1} {2} ".
+        Field field = builder.insertField(msString.format(fieldCode, LEFT, _OPERATOR, RIGHT), null);
+
+        // If the "comparisonResult" is undefined, we create "ComparisonEvaluationResult" with string, instead of bool.
+        ComparisonEvaluationResult result = comparisonResult != -1
+            ? new ComparisonEvaluationResult(comparisonResult == 1)
+            : comparisonError != null ? new ComparisonEvaluationResult(comparisonError) : null;
+
+        ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(result);
+        builder.getDocument().getFieldOptions().setComparisonExpressionEvaluator(evaluator);
+
+        builder.getDocument().updateFields();
+
+        Assert.assertEquals(expectedResult, field.getResult());
+        evaluator.assertInvocationsCount(1).assertInvocationArguments(0, LEFT, _OPERATOR, RIGHT);
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "conditionEvaluationExtensionPointDataProvider")
+	public static Object[][] conditionEvaluationExtensionPointDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{" IF {0} {1} {2} \"true argument\" \"false argument\" ",  1,  null,  "true argument"},
+			{" IF {0} {1} {2} \"true argument\" \"false argument\" ",  0,  null,  "false argument"},
+			{" IF {0} {1} {2} \"true argument\" \"false argument\" ",  -1,  "Custom Error",  "Custom Error"},
+			{" IF {0} {1} {2} \"true argument\" \"false argument\" ",  -1,  null,  "true argument"},
+			{" COMPARE {0} {1} {2} ",  1,  null,  "1"},
+			{" COMPARE {0} {1} {2} ",  0,  null,  "0"},
+			{" COMPARE {0} {1} {2} ",  -1,  "Custom Error",  "Custom Error"},
+			{" COMPARE {0} {1} {2} ",  -1,  null,  "1"},
+		};
+	}
+
+    /// <summary>
+    /// Comparison expressions evaluation for the FieldIf and FieldCompare.
+    /// </summary>
+    private static class ComparisonExpressionEvaluator implements IComparisonExpressionEvaluator
+    {
+        public ComparisonExpressionEvaluator(ComparisonEvaluationResult result)
+        {
+            mResult = result;
+        }
+
+        public ComparisonEvaluationResult evaluate(Field field, ComparisonExpression expression)
+        {
+            msArrayList.add(mInvocations, new String[]
+            {
+                expression.getLeftExpression(),
+                expression.getComparisonOperator(),
+                expression.getRightExpression()
+            });
+
+            return mResult;
+        }
+
+        public ComparisonExpressionEvaluator assertInvocationsCount(int expected)
+        {
+            Assert.assertEquals(expected, mInvocations.size());
+            return this;
+        }
+
+        public ComparisonExpressionEvaluator assertInvocationArguments(
+            int invocationIndex,
+            String expectedLeftExpression,
+            String expectedComparisonOperator,
+            String expectedRightExpression)
+        {
+            String[] arguments = mInvocations.get(invocationIndex);
+
+            Assert.assertEquals(expectedLeftExpression, arguments[0]);
+            Assert.assertEquals(expectedComparisonOperator, arguments[1]);
+            Assert.assertEquals(expectedRightExpression, arguments[2]);
+
+            return this;
+        }
+
+        private /*final*/ ComparisonEvaluationResult mResult;
+        private /*final*/ ArrayList<String[]> mInvocations = new ArrayList<String[]>();
+    } 
+    //ExEnd
+
+    @Test
+    public void comparisonExpressionEvaluatorNestedFields() throws Exception
+    {
+        Document document = new Document();
+
+        new FieldBuilder(FieldType.FIELD_IF)
+            .addArgument(
+                new FieldBuilder(FieldType.FIELD_IF)
+                    .addArgument(123)
+                    .addArgument(">")
+                    .addArgument(666)
+                    .addArgument("left greater than right")
+                    .addArgument("left less than right"))
+            .addArgument("<>")
+            .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                .addArgument("left expression")
+                .addArgument("=")
+                .addArgument("right expression")
+                .addArgument("expression are equal")
+                .addArgument("expression are not equal"))
+            .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                    .addArgument(new FieldArgumentBuilder()
+                        .addText("#")
+                        .addField(new FieldBuilder(FieldType.FIELD_PAGE)))
+                    .addArgument("=")
+                    .addArgument(new FieldArgumentBuilder()
+                        .addText("#")
+                        .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+                    .addArgument("the last page")
+                    .addArgument("not the last page"))
+            .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                    .addArgument("unexpected")
+                    .addArgument("=")
+                    .addArgument("unexpected")
+                    .addArgument("unexpected")
+                    .addArgument("unexpected"))
+            .buildAndInsert(document.getFirstSection().getBody().getFirstParagraph());
+
+        ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(null);
+        document.getFieldOptions().setComparisonExpressionEvaluator(evaluator);
+
+        document.updateFields();
+
+        evaluator
+            .assertInvocationsCount(4)
+            .assertInvocationArguments(0, "123", ">", "666")
+            .assertInvocationArguments(1, "\"left expression\"", "=", "\"right expression\"")
+            .assertInvocationArguments(2, "left less than right", "<>", "expression are not equal")
+            .assertInvocationArguments(3, "\"#1\"", "=", "\"#1\"");
+    }
+
+    @Test
+    public void comparisonExpressionEvaluatorHeaderFooterFields() throws Exception
+    {
+        Document document = new Document();
+        DocumentBuilder builder = new DocumentBuilder(document);
+
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+
+        new FieldBuilder(FieldType.FIELD_IF)
+            .addArgument(new FieldBuilder(FieldType.FIELD_PAGE))
+            .addArgument("=")
+            .addArgument(new FieldBuilder(FieldType.FIELD_NUM_PAGES))
+            .addArgument(new FieldArgumentBuilder()
+                .addField(new FieldBuilder(FieldType.FIELD_PAGE))
+                .addText(" / ")
+                .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+            .addArgument(new FieldArgumentBuilder()
+                .addField(new FieldBuilder(FieldType.FIELD_PAGE))
+                .addText(" / ")
+                .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+            .buildAndInsert(builder.getCurrentParagraph());
+
+        ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(null);
+        document.getFieldOptions().setComparisonExpressionEvaluator(evaluator);
+
+        document.updateFields();
+
+        evaluator
+            .assertInvocationsCount(3)
+            .assertInvocationArguments(0, "1", "=", "3")
+            .assertInvocationArguments(1, "2", "=", "3")
+            .assertInvocationArguments(2, "3", "=", "3");
     }
 }

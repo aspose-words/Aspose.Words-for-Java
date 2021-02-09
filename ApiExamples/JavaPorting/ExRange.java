@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -120,9 +120,8 @@ public class ExRange extends ApiExampleBase
         // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
         FindReplaceOptions options = new FindReplaceOptions();
 
-        // Set the "FindWholeWordsOnly" flag to "true" to replace the found text
-        // only as long as it is not a part of another word.
-        // Set the "FindWholeWordsOnly" flag to "false" to disregard the surrounding text of the text we are replacing.
+        // Set the "FindWholeWordsOnly" flag to "true" to replace the found text if it is not a part of another word.
+        // Set the "FindWholeWordsOnly" flag to "false" to replace all text regardless of its surroundings.
         options.setFindWholeWordsOnly(findWholeWordsOnly);
 
         doc.getRange().replace("Jackson", "Louis", options);
@@ -440,8 +439,8 @@ public class ExRange extends ApiExampleBase
     }
 
     /// <summary>
-    /// Replaces numeric find-and-replacement matches with their hexadecimal equivalents
-    /// and also logs every replacement.
+    /// Replaces numeric find-and-replacement matches with their hexadecimal equivalents.
+    /// Maintains a log of every replacement.
     /// </summary>
     private static class NumberHexer implements IReplacingCallback
     {
@@ -502,7 +501,7 @@ public class ExRange extends ApiExampleBase
         // that contains a match that the find-and-replace operation finds.
         options.getApplyParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
 
-        // Replace every full stop that's right before a paragraph break with an exclamation point.
+        // Replace every full stop that is right before a paragraph break with an exclamation point.
         int count = doc.getRange().replace(".&p", "!&p", options);
 
         Assert.assertEquals(2, count);
@@ -532,7 +531,7 @@ public class ExRange extends ApiExampleBase
 
         Assert.assertEquals("Section 1. \fSection 2.", msString.trim(doc.getText()));
 
-        // Remove the first section entirely by removing all of the nodes
+        // Remove the first section entirely by removing all the nodes
         // within its range, including the section itself.
         doc.getSections().get(0).getRange().delete();
 
@@ -607,7 +606,7 @@ public class ExRange extends ApiExampleBase
 	}
 
     /// <summary>
-    /// Records the order of all matches occuring during a find-and-replace operation.
+    /// Records the order of all matches that occur during a find-and-replace operation.
     /// </summary>
     private static class TextReplacementTracker implements IReplacingCallback
     {
@@ -727,7 +726,6 @@ public class ExRange extends ApiExampleBase
                             continue;
                     }
 
-                    // Clone the node, and insert it into the destination document.
                     Node newNode = importer.importNode(srcNode, true);
 
                     dstStory.insertAfter(newNode, insertionDestination);

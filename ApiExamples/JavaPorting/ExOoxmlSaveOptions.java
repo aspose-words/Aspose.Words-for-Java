@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -72,6 +72,8 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
     public void iso29500Strict() throws Exception
     {
         //ExStart
+        //ExFor:CompatibilityOptions
+        //ExFor:CompatibilityOptions.OptimizeFor(MsWordVersion)
         //ExFor:OoxmlSaveOptions
         //ExFor:OoxmlSaveOptions.#ctor
         //ExFor:OoxmlSaveOptions.SaveFormat
@@ -246,7 +248,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         //ExFor:OoxmlSaveOptions.CompressionLevel
         //ExFor:CompressionLevel
         //ExSummary:Shows how to specify the compression level to use while saving an OOXML document.
-        Document doc = new Document(getMyDir() + "Images.docx");
+        Document doc = new Document(getMyDir() + "Big document.docx");
 
         // When we save the document to an OOXML format, we can create an OoxmlSaveOptions object
         // and then pass it to the document's saving method to modify how we save the document.
@@ -260,10 +262,10 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         saveOptions.setCompressionLevel(compressionLevel);
         
         Stopwatch st = Stopwatch.startNew();
-        doc.save(getArtifactsDir() + "OoxmlSaveOptions.docx", saveOptions);
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression.docx", saveOptions);
         st.stop();
 
-        FileInfo fileInfo = new FileInfo(getArtifactsDir() + "OoxmlSaveOptions.docx");
+        FileInfo fileInfo = new FileInfo(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression.docx");
 
         System.out.println("Saving operation done using the \"{compressionLevel}\" compression level:");
         System.out.println("\tDuration:\t{st.ElapsedMilliseconds} ms");
@@ -273,16 +275,16 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         switch (compressionLevel)
         {
             case CompressionLevel.MAXIMUM:
-                Assert.That(1150000, Is.AtLeast(fileInfo.getLength()));
+                Assert.That(1266000, Is.AtLeast(fileInfo.getLength()));
                 break;
             case CompressionLevel.NORMAL:
-                Assert.That(1150000, Is.LessThan(fileInfo.getLength()));
+                Assert.That(1267000, Is.LessThan(fileInfo.getLength()));
                 break;
             case CompressionLevel.FAST:
-                Assert.That(1200000, Is.LessThan(fileInfo.getLength()));
+                Assert.That(1269000, Is.LessThan(fileInfo.getLength()));
                 break;
             case CompressionLevel.SUPER_FAST:
-                Assert.That(1250000, Is.LessThan(fileInfo.getLength()));
+                Assert.That(1271000, Is.LessThan(fileInfo.getLength()));
                 break;
         }
     }

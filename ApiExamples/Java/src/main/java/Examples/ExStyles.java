@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -9,6 +9,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -33,9 +34,9 @@ public class ExStyles extends ApiExampleBase {
         //ExSummary:Shows how to access a document's style collection.
         Document doc = new Document();
 
-        // A blank document comes with 4 styles by default
         Assert.assertEquals(4, doc.getStyles().getCount());
 
+        // Enumerate and list all the styles that a document created using Aspose.Words contains by default.
         Iterator<Style> stylesEnum = doc.getStyles().iterator();
         while (stylesEnum.hasNext()) {
             Style curStyle = stylesEnum.next();
@@ -55,17 +56,17 @@ public class ExStyles extends ApiExampleBase {
         //ExFor:Style.Font
         //ExFor:Style
         //ExFor:Style.Remove
-        //ExSummary:Shows how to create and apply a style.
+        //ExSummary:Shows how to create and apply a custom style.
         Document doc = new Document();
 
-        // Add a custom style and change its appearance
         Style style = doc.getStyles().add(StyleType.PARAGRAPH, "MyStyle");
         style.getFont().setName("Times New Roman");
         style.getFont().setSize(16.0);
         style.getFont().setColor(Color.magenta);
 
-        // Write a paragraph in that style
         DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Apply one of the styles from the document to the paragraph that the document builder is creating.
         builder.getParagraphFormat().setStyle(doc.getStyles().get("MyStyle"));
         builder.writeln("Hello world!");
 
@@ -73,12 +74,13 @@ public class ExStyles extends ApiExampleBase {
 
         Assert.assertEquals(style, firstParagraphStyle);
 
-        // Styles can also be removed from the collection like this
+        // Remove our custom style from the document's styles collection.
         doc.getStyles().get("MyStyle").remove();
 
         firstParagraphStyle = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getStyle();
 
-        // Removing the style reverts the styling of the text that was in that style
+        // Any text that used a removed style reverts to the default formatting.
+        Assert.assertFalse(IterableUtils.matchesAny(doc.getStyles(), s -> s.getName() == "MyStyle"));
         Assert.assertEquals("Times New Roman", firstParagraphStyle.getFont().getName());
         Assert.assertEquals(12.0d, firstParagraphStyle.getFont().getSize());
         Assert.assertEquals(0, firstParagraphStyle.getFont().getColor().getRGB());
@@ -94,30 +96,23 @@ public class ExStyles extends ApiExampleBase {
         //ExFor:StyleCollection.DefaultParagraphFormat
         //ExFor:StyleCollection.Item(StyleIdentifier)
         //ExFor:StyleCollection.Item(Int32)
-        //ExSummary:Shows how to add a Style to a StyleCollection.
+        //ExSummary:Shows how to add a Style to a document's styles collection.
         Document doc = new Document();
-
-        // New documents come with a collection of default styles that can be applied to paragraphs
         StyleCollection styles = doc.getStyles();
-        // We can set default parameters for new styles that will be added to the collection from now on
+
+        // Set default parameters for new styles that we may later add to this collection.
         styles.getDefaultFont().setName("Courier New");
+
+        // If we add a style of the "StyleType.Paragraph", the collection will apply the values of
+        // its "DefaultParagraphFormat" property to the style's "ParagraphFormat" property.
         styles.getDefaultParagraphFormat().setFirstLineIndent(15.0);
 
+        // Add a style, and then verify that it has the default settings.
         styles.add(StyleType.PARAGRAPH, "MyStyle");
 
-        // Styles within the collection can be referenced either by index or name
-        // The default font "Courier New" gets automatically applied to any new style added to the collection
         Assert.assertEquals("Courier New", styles.get(4).getFont().getName());
         Assert.assertEquals(15.0, styles.get("MyStyle").getParagraphFormat().getFirstLineIndent());
         //ExEnd
-    }
-
-    @Test
-    public void changeStyleOfTocLevel() throws Exception {
-        Document doc = new Document();
-
-        // Retrieve the style used for the first level of the TOC and change the formatting of the style
-        doc.getStyles().getByStyleIdentifier(StyleIdentifier.TOC_1).getFont().setBold(true);
     }
 
     @Test
@@ -133,17 +128,16 @@ public class ExStyles extends ApiExampleBase {
         //ExSummary:Shows how to modify the position of the right tab stop in TOC related paragraphs.
         Document doc = new Document(getMyDir() + "Table of contents.docx");
 
-        // Iterate through all paragraphs formatted using the TOC result based styles; this is any style between TOC and TOC9
+        // Iterate through all paragraphs with TOC result-based styles; this is any style between TOC and TOC9.
         for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true)) {
             if (para.getParagraphFormat().getStyle().getStyleIdentifier() >= StyleIdentifier.TOC_1
                     && para.getParagraphFormat().getStyle().getStyleIdentifier() <= StyleIdentifier.TOC_9) {
-                // Get the first tab used in this paragraph, this should be the tab used to align the page numbers
+                // Get the first tab used in this paragraph, this should be the tab used to align the page numbers.
                 TabStop tab = para.getParagraphFormat().getTabStops().get(0);
-                // Remove the old tab from the collection
+
+                // Replace the first default tab, stop with a custom tab stop.
                 para.getParagraphFormat().getTabStops().removeByPosition(tab.getPosition());
-                // Insert a new tab using the same properties but at a modified position
-                // We could also change the separators used (dots) by passing a different Leader type
-                para.getParagraphFormat().getTabStops().add(tab.getPosition() - 50, tab.getAlignment(), tab.getLeader());
+                para.getParagraphFormat().getTabStops().add(tab.getPosition() - 50.0, tab.getAlignment(), tab.getLeader());
             }
         }
 
@@ -152,14 +146,16 @@ public class ExStyles extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "Styles.ChangeTocsTabStops.docx");
 
-        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
-            if (para.getParagraphFormat().getStyle().getStyleIdentifier() >= StyleIdentifier.TOC_1 &&
-                    para.getParagraphFormat().getStyle().getStyleIdentifier() <= StyleIdentifier.TOC_9) {
-                TabStop tabStop = para.getEffectiveTabStops()[0];
+        for (Paragraph paragraph : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true)) {
+            if (paragraph.getParagraphFormat().getStyle().getStyleIdentifier() >= StyleIdentifier.TOC_1 &&
+                    paragraph.getParagraphFormat().getStyle().getStyleIdentifier() <= StyleIdentifier.TOC_9) {
+                TabStop tabStop = paragraph.getEffectiveTabStops()[0];
+
                 Assert.assertEquals(400.8d, tabStop.getPosition());
                 Assert.assertEquals(TabAlignment.RIGHT, tabStop.getAlignment());
                 Assert.assertEquals(TabLeader.DOTS, tabStop.getLeader());
             }
+        }
     }
 
     @Test
@@ -167,18 +163,28 @@ public class ExStyles extends ApiExampleBase {
         //ExStart
         //ExFor:StyleCollection.AddCopy
         //ExFor:Style.Name
-        //ExSummary:Shows how to copy a style within the same document.
-        Document doc = new Document(getMyDir() + "Document.docx");
+        //ExSummary:Shows how to clone a document's style.
+        Document doc = new Document();
 
-        // The AddCopy method creates a copy of the specified style and automatically generates a new name for the style, such as "Heading 1_0"
+        // The AddCopy method creates a copy of the specified style and
+        // automatically generates a new name for the style, such as "Heading 1_0".
         Style newStyle = doc.getStyles().addCopy(doc.getStyles().get("Heading 1"));
-        // You can change the new style name if required as the Style.Name property is read-write
-        newStyle.setName("My Heading 1");
-        //ExEnd
 
-        Assert.assertNotNull(newStyle);
-        Assert.assertEquals(newStyle.getName(), "My Heading 1");
-        Assert.assertEquals(newStyle.getType(), doc.getStyles().get("Heading 1").getType());
+        // Use the style's "Name" property to change the style's identifying name.
+        newStyle.setName("My Heading 1");
+
+        // Our document now has two identical looking styles with different names.
+        // Changing settings of one of the styles do not affect the other.
+        newStyle.getFont().setColor(Color.RED);
+
+        Assert.assertEquals("My Heading 1", newStyle.getName());
+        Assert.assertEquals("Heading 1", doc.getStyles().get("Heading 1").getName());
+
+        Assert.assertEquals(doc.getStyles().get("Heading 1").getType(), newStyle.getType());
+        Assert.assertEquals(doc.getStyles().get("Heading 1").getFont().getName(), newStyle.getFont().getName());
+        Assert.assertEquals(doc.getStyles().get("Heading 1").getFont().getSize(), newStyle.getFont().getSize());
+        Assert.assertNotEquals(doc.getStyles().get("Heading 1").getFont().getColor(), newStyle.getFont().getColor());
+        //ExEnd
     }
 
     @Test
@@ -186,17 +192,17 @@ public class ExStyles extends ApiExampleBase {
         //ExStart
         //ExFor:StyleCollection.AddCopy
         //ExSummary:Shows how to import a style from one document into a different document.
-        Document dstDoc = new Document();
         Document srcDoc = new Document();
 
+        // Create a custom style for the source document.
         Style srcStyle = srcDoc.getStyles().add(StyleType.PARAGRAPH, "MyStyle");
-        // Change the font of the heading style to red
         srcStyle.getFont().setColor(Color.RED);
 
-        // The AddCopy method can be used to copy a style from a different document
+        // Import the source document's custom style into the destination document.
+        Document dstDoc = new Document();
         Style newStyle = dstDoc.getStyles().addCopy(srcStyle);
 
-        // The imported style is identical to its source
+        // The imported style has an appearance identical to its source style.
         Assert.assertEquals("MyStyle", newStyle.getName());
         Assert.assertEquals(Color.RED.getRGB(), newStyle.getFont().getColor().getRGB());
         //ExEnd
@@ -206,7 +212,6 @@ public class ExStyles extends ApiExampleBase {
     public void defaultStyles() throws Exception {
         Document doc = new Document();
 
-        // Add document-wide defaults parameters
         doc.getStyles().getDefaultFont().setName("PMingLiU");
         doc.getStyles().getDefaultFont().setBold(true);
 
@@ -236,21 +241,21 @@ public class ExStyles extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create a paragraph style and specify some formatting for it
+        // Create a custom paragraph style.
         Style style = doc.getStyles().add(StyleType.PARAGRAPH, "MyStyle1");
         style.getFont().setSize(24.0);
         style.getFont().setName("Verdana");
         style.getParagraphFormat().setSpaceAfter(12.0);
 
-        // Create a list and make sure the paragraphs that use this style will use this list
+        // Create a list and make sure the paragraphs that use this style will use this list.
         style.getListFormat().setList(doc.getLists().add(ListTemplate.BULLET_DEFAULT));
         style.getListFormat().setListLevelNumber(0);
 
-        // Apply the paragraph style to the current paragraph in the document and add some text
+        // Apply the paragraph style to the document builder's current paragraph, and then add some text.
         builder.getParagraphFormat().setStyle(style);
         builder.writeln("Hello World: MyStyle1, bulleted list.");
 
-        // Change to a paragraph style that has no list formatting
+        // Change the document builder's style to one that has no list formatting and write another paragraph.
         builder.getParagraphFormat().setStyle(doc.getStyles().get("Normal"));
         builder.writeln("Hello World: Normal.");
 
@@ -277,14 +282,25 @@ public class ExStyles extends ApiExampleBase {
         //ExSummary:Shows how to use style aliases.
         Document doc = new Document(getMyDir() + "Style with alias.docx");
 
-        // If a style's name has multiple values separated by commas, each one is considered to be a separate alias
+        // This document contains a style named "MyStyle,MyStyle Alias 1,MyStyle Alias 2".
+        // If a style's name has multiple values separated by commas, each clause is a separate alias.
         Style style = doc.getStyles().get("MyStyle");
         Assert.assertEquals(new String[]{"MyStyle Alias 1", "MyStyle Alias 2"}, style.getAliases());
         Assert.assertEquals("Title", style.getBaseStyleName());
         Assert.assertEquals("MyStyle Char", style.getLinkedStyleName());
 
-        // A style can be referenced by alias as well as name
-        Assert.assertEquals(style, doc.getStyles().get("MyStyle Alias 1"));
+        // We can reference a style using its alias, as well as its name.
+        Assert.assertEquals(doc.getStyles().get("MyStyle Alias 1"), doc.getStyles().get("MyStyle Alias 2"));
+
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.moveToDocumentEnd();
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("MyStyle Alias 1"));
+        builder.writeln("Hello world!");
+        builder.getParagraphFormat().setStyle(doc.getStyles().get("MyStyle Alias 2"));
+        builder.write("Hello again!");
+
+        Assert.assertEquals(doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getStyle(),
+                doc.getFirstSection().getBody().getParagraphs().get(1).getParagraphFormat().getStyle());
         //ExEnd
     }
 }

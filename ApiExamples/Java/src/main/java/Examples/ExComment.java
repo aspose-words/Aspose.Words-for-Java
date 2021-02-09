@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -31,7 +31,7 @@ public class ExComment extends ApiExampleBase {
 
         // Place the comment at a node in the document's body.
         // This comment will show up at the location of its paragraph,
-        // outside the right side margin of the page, and with a dotted line connecting it to its paragraph.
+        // outside the right-side margin of the page, and with a dotted line connecting it to its paragraph.
         builder.getCurrentParagraph().appendChild(comment);
 
         // Add a reply, which will show up under its parent comment.
@@ -40,7 +40,7 @@ public class ExComment extends ApiExampleBase {
         // Comments and replies are both Comment nodes.
         Assert.assertEquals(2, doc.getChildNodes(NodeType.COMMENT, true).getCount());
 
-        // Comments that do not reply to other comments are "top-level", and have no ancestor.
+        // Comments that do not reply to other comments are "top-level". They have no ancestor comments.
         Assert.assertNull(comment.getAncestor());
 
         // Replies have an ancestor top-level comment.
@@ -73,7 +73,7 @@ public class ExComment extends ApiExampleBase {
         Assert.assertEquals(12, comments.getCount()); //ExSkip
 
         // If a comment has no ancestor, it is a "top-level" comment as opposed to a reply-type comment.
-        // Print all top-level comments along with their replies, if there are any.
+        // Print all top-level comments along with any replies they may have.
         for (Comment comment : (Iterable<Comment>) comments) {
             if (comment.getAncestor() == null) {
                 System.out.println("Top-level comment:");
@@ -107,12 +107,13 @@ public class ExComment extends ApiExampleBase {
 
         Assert.assertEquals(2, comment.getReplies().getCount());
 
-        // We can remove replies from a comment individually.
+        // Below are two ways of removing replies from a comment.
+        // 1 -  Use the "RemoveReply" method to remove replies from a comment individually:
         comment.removeReply(comment.getReplies().get(0));
 
         Assert.assertEquals(1, comment.getReplies().getCount());
 
-        // We can also remove all of a comment's replies at once with this method.
+        // 2 -  Use the "RemoveAllReplies" method to remove all replies from a comment at once:
         comment.removeAllReplies();
 
         Assert.assertEquals(0, comment.getReplies().getCount());
@@ -134,9 +135,9 @@ public class ExComment extends ApiExampleBase {
         comment.setText("Fix the spelling error!");
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(comment);
 
-        // Comments have a "Done" flag, which by default, is false. 
-        // If a comment suggests that a we make a change within the document,
-        // we can apply the change, and then also use that flag to indicate the correction.
+        // Comments have a "Done" flag, which is set to "false" by default. 
+        // If a comment suggests that we make a change within the document,
+        // we can apply the change, and then also set the "Done" flag afterwards to indicate the correction.
         Assert.assertFalse(comment.getDone());
 
         doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).setText("Hello world!");
@@ -208,7 +209,7 @@ public class ExComment extends ApiExampleBase {
     private static void printAllCommentInfo(NodeCollection comments) throws Exception {
         CommentInfoPrinter commentVisitor = new CommentInfoPrinter();
 
-        // Iterate over all top level comments. Unlike reply-type comments, top-level comments have no ancestor.
+        // Iterate over all top-level comments. Unlike reply-type comments, top-level comments have no ancestor.
         for (Comment comment : (Iterable<Comment>) comments) {
             if (comment.getAncestor() == null) {
                 // First, visit the start of the comment range.

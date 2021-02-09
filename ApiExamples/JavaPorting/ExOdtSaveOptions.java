@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -13,11 +13,12 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.OdtSaveOptions;
 import com.aspose.words.OdtSaveMeasureUnit;
+import org.testng.Assert;
+import com.aspose.words.FieldType;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.FileFormatUtil;
 import com.aspose.words.FileFormatInfo;
-import org.testng.Assert;
 import com.aspose.words.LoadOptions;
 import com.aspose.ms.System.msString;
 import org.testng.annotations.DataProvider;
@@ -44,17 +45,24 @@ class ExOdtSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", saveOptions);
         //ExEnd
+        
+        doc = new Document(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt");
+
+        Assert.assertEquals(com.aspose.words.MeasurementUnits.CENTIMETERS, doc.getLayoutOptions().getRevisionOptions().getMeasurementUnit());
 
         if (exportToOdt11Specs)
-            TestUtil.docPackageFileContainsString("<text:span text:style-name=\"T118_1\" >Combobox<text:s/></text:span>", 
-                getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", "content.xml");
+        {
+            Assert.assertEquals(2, doc.getRange().getFormFields().getCount());
+            Assert.assertEquals(FieldType.FIELD_FORM_TEXT_INPUT, doc.getRange().getFormFields().get(0).getType());
+            Assert.assertEquals(FieldType.FIELD_FORM_CHECK_BOX, doc.getRange().getFormFields().get(1).getType());
+        }
         else
-            TestUtil.docPackageFileContainsString("<text:span text:style-name=\"T118_1\" >Combobox<text:s/></text:span>" +
-                                          "<text:span text:style-name=\"T118_2\" >" +
-                                          "<text:drop-down><text:label text:value=\"Line 1\" ></text:label>" +
-                                          "<text:label text:value=\"Line 2\" ></text:label>" +
-                                          "<text:label text:value=\"Line 3\" ></text:label>Line 2</text:drop-down></text:span>", 
-                                          getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", "content.xml");
+        {
+            Assert.assertEquals(3, doc.getRange().getFormFields().getCount());
+            Assert.assertEquals(FieldType.FIELD_FORM_TEXT_INPUT, doc.getRange().getFormFields().get(0).getType());
+            Assert.assertEquals(FieldType.FIELD_FORM_CHECK_BOX, doc.getRange().getFormFields().get(1).getType());
+            Assert.assertEquals(FieldType.FIELD_FORM_DROP_DOWN, doc.getRange().getFormFields().get(2).getType());
+        }
     }
 
 	//JAVA-added data provider for test method

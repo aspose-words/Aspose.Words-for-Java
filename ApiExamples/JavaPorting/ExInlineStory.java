@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -60,7 +60,7 @@ public class ExInlineStory extends ApiExampleBase
         builder.write("Hello world!");
         builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote contents.");
 
-        // We can use the "Position" property to determine where the document will place all of its footnotes.
+        // We can use the "Position" property to determine where the document will place all its footnotes.
         // If we set the value of the "Position" property to "FootnotePosition.BottomOfPage",
         // every footnote will show up at the bottom of the page that contains its reference mark. This is the default value.
         // If we set the value of the "Position" property to "FootnotePosition.BeneathText",
@@ -113,7 +113,7 @@ public class ExInlineStory extends ApiExampleBase
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.write("This is the second section.");
 
-        // We can use the "Position" property to determine where the document will place all of its endnotes.
+        // We can use the "Position" property to determine where the document will place all its endnotes.
         // If we set the value of the "Position" property to "EndnotePosition.EndOfDocument",
         // every footnote will show up in a collection at the end of the document. This is the default value.
         // If we set the value of the "Position" property to "EndnotePosition.EndOfSection",
@@ -181,8 +181,8 @@ public class ExInlineStory extends ApiExampleBase
         builder.insertFootnote(FootnoteType.ENDNOTE, "Endnote 3.", "Custom endnote reference mark");
 
         // By default, the reference symbol for each footnote and endnote is its index
-        // among all of the document's footnotes/endnotes. Each document maintains separate counts
-        // for footnotes and for endnotes. By default, footnotes display their numbers in arabic,
+        // among all the document's footnotes/endnotes. Each document maintains separate counts
+        // for footnotes and for endnotes. By default, footnotes display their numbers using Arabic numerals,
         // and endnotes display their numbers in lowercase Roman numerals.
         Assert.assertEquals(NumberStyle.ARABIC, doc.getFootnoteOptions().getNumberStyle());
         Assert.assertEquals(NumberStyle.LOWERCASE_ROMAN, doc.getEndnoteOptions().getNumberStyle());
@@ -260,7 +260,7 @@ public class ExInlineStory extends ApiExampleBase
         builder.insertFootnote(FootnoteType.ENDNOTE, "Endnote 4.");
 
         // By default, the reference symbol for each footnote and endnote is its index
-        // among all of the document's footnotes/endnotes. Each document maintains separate counts
+        // among all the document's footnotes/endnotes. Each document maintains separate counts
         // for footnotes and endnotes and does not restart these counts at any point.
         Assert.assertEquals(doc.getFootnoteOptions().getRestartRule(), FootnoteNumberingRule.DEFAULT);
         Assert.assertEquals(FootnoteNumberingRule.DEFAULT, FootnoteNumberingRule.CONTINUOUS);
@@ -336,7 +336,7 @@ public class ExInlineStory extends ApiExampleBase
         builder.insertFootnote(FootnoteType.ENDNOTE, "Endnote 3.");
 
         // By default, the reference symbol for each footnote and endnote is its index
-        // among all of the document's footnotes/endnotes. Each document maintains separate counts
+        // among all the document's footnotes/endnotes. Each document maintains separate counts
         // for footnotes and for endnotes, which both begin at 1.
         Assert.assertEquals(1, doc.getFootnoteOptions().getStartNumber());
         Assert.assertEquals(1, doc.getEndnoteOptions().getStartNumber());
@@ -394,7 +394,7 @@ public class ExInlineStory extends ApiExampleBase
         Footnote footnote = builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote text.");
 
         // If this property is set to "true", then our footnote's reference mark
-        // will be its index among all of the section's footnotes.
+        // will be its index among all the section's footnotes.
         // This is the first footnote, so the reference mark will be "1".
         Assert.assertTrue(footnote.isAuto());
 
@@ -522,7 +522,7 @@ public class ExInlineStory extends ApiExampleBase
         // When we edit the document while the "Track Changes" option, found in via Review -> Tracking,
         // is turned on in Microsoft Word, the changes we apply count as revisions.
         // When editing a document using Aspose.Words, we can begin tracking revisions by
-        // invoking the document's "StartTrackRevisions" method, and stop tracking by using the "StopTrackRevisions" method.
+        // invoking the document's "StartTrackRevisions" method and stop tracking by using the "StopTrackRevisions" method.
         // We can either accept revisions to assimilate them into the document
         // or reject them to undo and discard the proposed change.
         Assert.assertTrue(doc.hasRevisions());
@@ -607,7 +607,7 @@ public class ExInlineStory extends ApiExampleBase
 
         // However, the last paragraph is the one from the comment text contents,
         // which will be outside the main document body in a speech bubble.
-        // A comment won't have any child nodes by default,
+        // A comment will not have any child nodes by default,
         // so we can apply the EnsureMinimum() method to place a paragraph here as well.
         Assert.assertNull(comment.getLastParagraph());
         comment.ensureMinimum();

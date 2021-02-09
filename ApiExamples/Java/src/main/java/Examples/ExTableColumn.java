@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -50,7 +50,7 @@ public class ExTableColumn extends ApiExampleBase {
         }
 
         /**
-         * Inserts a brand new column before this column into the table.
+         * Inserts a new column before this column into the table.
          */
         public Column insertColumnBefore() {
             Cell[] columnCells = getCells();
@@ -64,15 +64,14 @@ public class ExTableColumn extends ApiExampleBase {
                 cell.getParentRow().insertBefore(cell.deepClone(false), cell);
             }
 
-            // This is the new column
             Column column = new Column(columnCells[0].getParentRow().getParentTable(), mColumnIndex);
 
-            // We want to make sure that the cells are all valid to work with (have at least one paragraph)
+            // We want to make sure that the cells are all valid to work with (have at least one paragraph).
             for (Cell cell : column.getCells()) {
                 cell.ensureMinimum();
             }
 
-            // Increase the index which this column represents since there is now one extra column infront
+            // Increment the index of this column represents since there is a new column before it.
             mColumnIndex++;
 
             return column;
@@ -125,7 +124,6 @@ public class ExTableColumn extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
-        // Get the third column from the table and remove it.
         Column column = Column.fromIndex(table, 2);
         column.remove();
 
@@ -141,14 +139,13 @@ public class ExTableColumn extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
-        // Get the second column in the table
         Column column = Column.fromIndex(table, 1);
 
-        // Create a new column to the left of this column
-        // This is the same as using the "Insert Column Before" command in Microsoft Word
+        // Create a new column to the left of this column.
+        // This is the same as using the "Insert Column Before" command in Microsoft Word.
         Column newColumn = column.insertColumnBefore();
 
-        // Add some text to each of the column cells
+        // Add some text to each cell in the column.
         for (Cell cell : newColumn.getCells())
             cell.getFirstParagraph().appendChild(new Run(doc, "Column Text " + newColumn.indexOf(cell)));
 
@@ -164,10 +161,7 @@ public class ExTableColumn extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
 
-        // Get the first column in the table
         Column column = Column.fromIndex(table, 0);
-
-        // Print the plain text of the column to the screen
         System.out.println(column.toTxt());
 
         Assert.assertEquals(column.toTxt(), "\r\nRow 1\r\nRow 2\r\nRow 3\r\n");

@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -286,15 +286,15 @@ public class ExFont extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add run of text, and increase character width to 150%.
+        // Add run of text and increase character width to 150%.
         builder.getFont().setScaling(150);
         builder.writeln("Wide characters");
 
-        // Add run of text, and add 1pt of extra horizontal spacing between each character.
+        // Add run of text and add 1pt of extra horizontal spacing between each character.
         builder.getFont().setSpacing(1.0);
         builder.writeln("Expanded by 1pt");
 
-        // Add run of text, and bring characters closer together by 1pt.
+        // Add run of text and bring characters closer together by 1pt.
         builder.getFont().setSpacing(-1);
         builder.writeln("Condensed by 1pt");
 
@@ -442,7 +442,7 @@ public class ExFont extends ApiExampleBase {
 
         // With the Hidden flag set to true, any text that we create using this Font object will be invisible in the document.
         // We will not see or highlight hidden text unless we enable the "Hidden text" option
-        // found in Microsoft Word via File -> Options -> Display. The text will still be there,
+        // found in Microsoft Word via "File" -> "Options" -> "Display". The text will still be there,
         // and we will be able to access this text programmatically.
         // It is not advised to use this method to hide sensitive information.
         builder.getFont().setHidden(true);
@@ -509,7 +509,7 @@ public class ExFont extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Normally, Microsoft Word emphasizes spelling errors with a jagged red underline.
-        // We can un-set the NoProofing flag to create a portion of text that
+        // We can un-set the "NoProofing" flag to create a portion of text that
         // bypasses the spell checker while completely disabling it.
         builder.getFont().setNoProofing(true);
 
@@ -845,7 +845,7 @@ public class ExFont extends ApiExampleBase {
 
         Assert.assertTrue(style.getBuiltIn());
 
-        // Create a custom style, and add it to the collection.
+        // Create a custom style and add it to the collection.
         // Custom styles such as this will have the "BuiltIn" flag set to "false". 
         style = doc.getStyles().add(StyleType.CHARACTER, "MyStyle");
         style.getFont().setColor(Color.RED);
@@ -863,7 +863,7 @@ public class ExFont extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a custom style, and apply it to text created using a document builder.
+        // Insert a custom style and apply it to text created using a document builder.
         Style style = doc.getStyles().add(StyleType.CHARACTER, "MyStyle");
         style.getFont().setColor(Color.RED);
         style.getFont().setName("Courier New");
@@ -871,7 +871,7 @@ public class ExFont extends ApiExampleBase {
         builder.getFont().setStyleName("MyStyle");
         builder.write("This text is in a custom style.");
 
-        // Iterate over every run, and add a double underline to every custom style.
+        // Iterate over every run and add a double underline to every custom style.
         for (Run run : (Iterable<Run>) doc.getChildNodes(NodeType.RUN, true)) {
             Style charStyle = run.getFont().getStyle();
 

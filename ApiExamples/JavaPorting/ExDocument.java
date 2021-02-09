@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -65,6 +65,7 @@ import com.aspose.words.TableStyle;
 import com.aspose.words.StyleType;
 import java.awt.Color;
 import com.aspose.words.LineStyle;
+import com.aspose.words.TxtSaveOptions;
 import com.aspose.words.Revision;
 import com.aspose.words.FootnoteType;
 import com.aspose.words.Comment;
@@ -114,6 +115,9 @@ import com.aspose.BitmapPal;
 import com.aspose.words.Granularity;
 import com.aspose.words.RevisionGroupCollection;
 import com.aspose.words.RevisionType;
+import com.aspose.words.MemoryFontSource;
+import com.aspose.words.FontSettings;
+import com.aspose.words.FontSourceBase;
 import org.testng.annotations.DataProvider;
 
 
@@ -131,8 +135,8 @@ public class ExDocument extends ApiExampleBase
         // 1 -  Create a blank document:
         Document doc = new Document();
 
-        // New Document objects by default come with a section, body, and paragraph;
-        // the minimal set of nodes required to begin editing.
+        // New Document objects by default come with the minimal set of nodes
+        // required to begin adding content such as text and shapes: a Section, a Body, and a Paragraph.
         doc.getFirstSection().getBody().getFirstParagraph().appendChild(new Run(doc, "Hello world!"));
 
         // 2 -  Load a document that exists in the local file system:
@@ -507,8 +511,8 @@ public class ExDocument extends ApiExampleBase
     }
 
     /// <summary>
-    /// Logs the date and time of each node insertion and removal,
-    /// and also set a custom font name/size for the text contents of Run nodes.
+    /// Logs the date and time of each node insertion and removal.
+    /// Sets a custom font name/size for the text contents of Run nodes.
     /// </summary>
     public static class HandleNodeChangingFontChanger implements INodeChangingCallback
     {
@@ -680,13 +684,13 @@ public class ExDocument extends ApiExampleBase
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
 
         // There are two ways of saving a signed copy of a document to the local file system:
-        // 1 - Designate a document by a local system filename, and save a signed copy at a location specified by another filename.
+        // 1 - Designate a document by a local system filename and save a signed copy at a location specified by another filename.
         DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "Document.DigitalSignature.docx", 
             certificateHolder, new SignOptions(); { .setSignTime(DateTime.getNow()); } );
 
         Assert.assertTrue(FileFormatUtil.detectFileFormat(getArtifactsDir() + "Document.DigitalSignature.docx").hasDigitalSignature());
 
-        // 2 - Take a document from a stream, and save a signed copy to another stream.
+        // 2 - Take a document from a stream and save a signed copy to another stream.
         FileStream inDoc = new FileStream(getMyDir() + "Document.docx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
@@ -701,7 +705,7 @@ public class ExDocument extends ApiExampleBase
 
         Assert.assertTrue(FileFormatUtil.detectFileFormat(getArtifactsDir() + "Document.DigitalSignature.docx").hasDigitalSignature());
 
-        // Please verify that all of the document's digital signatures are valid, and check their details.
+        // Please verify that all of the document's digital signatures are valid and check their details.
         Document signedDoc = new Document(getArtifactsDir() + "Document.DigitalSignature.docx");
         DigitalSignatureCollection digitalSignatureCollection = signedDoc.getDigitalSignatures();
 
@@ -763,7 +767,7 @@ public class ExDocument extends ApiExampleBase
         // then the document may be simplified.
         Assert.assertEquals(317, doc.getChildNodes(NodeType.RUN, true).getCount());
 
-        // Combine such runs with this method, and verify the number of run joins that will take place.
+        // Combine such runs with this method and verify the number of run joins that will take place.
         Assert.assertEquals(121, doc.joinRunsWithSameFormatting());
 
         // The number of joins and the number of runs we have after the join
@@ -928,8 +932,7 @@ public class ExDocument extends ApiExampleBase
 
         Assert.assertEquals(0, doc.getChildNodes(NodeType.ANY, true).getCount());
 
-        // Call this method to make sure that the document has at least those three nodes,
-        // so we can edit the document again.
+        // Call this method to make sure that the document has at least those three nodes so we can edit it again.
         doc.ensureMinimum();
 
         Assert.assertEquals(NodeType.SECTION, nodes.get(0).getNodeType());
@@ -953,7 +956,7 @@ public class ExDocument extends ApiExampleBase
         Assert.assertTrue(doc.hasMacros());
         Assert.assertEquals("Project", doc.getVbaProject().getName());
 
-        // Remove the document's VBA project, along with all of its macros.
+        // Remove the document's VBA project, along with all its macros.
         doc.removeMacros();
 
         Assert.assertFalse(doc.hasMacros());
@@ -980,7 +983,7 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(3, doc.getPageCount());
 
         // Getting the PageCount property invoked the document's page layout to calculate the value.
-        // This operation will not need to be re-done when rendering the document to a fixed-page save format,
+        // This operation will not need to be re-done when rendering the document to a fixed page save format,
         // such as .pdf. So you can save some time, especially with more complex documents.
         doc.save(getArtifactsDir() + "Document.GetPageCount.pdf");
         //ExEnd
@@ -1033,7 +1036,7 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:CompositeNode.GetChild
         //ExFor:Document.ExpandTableStylesToDirectFormatting
-        //ExSummary:Shows how to apply attributes of a table's style directly to the table's elements.
+        //ExSummary:Shows how to apply the properties of a table's style directly to the table's elements.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1051,7 +1054,7 @@ public class ExDocument extends ApiExampleBase
 
         table.setStyle(tableStyle);
 
-        // This method concerns table style attributes such as the ones we set above.
+        // This method concerns table style properties such as the ones we set above.
         doc.expandTableStylesToDirectFormatting();
 
         doc.save(getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx");
@@ -1063,6 +1066,40 @@ public class ExDocument extends ApiExampleBase
             getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "document.xml");
         TestUtil.docPackageFileContainsString("<w:tblBorders><w:top w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:left w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:bottom w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:right w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideH w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideV w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /></w:tblBorders>",
             getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "document.xml");
+    }
+
+    @Test
+    public void updateTableLayout() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.UpdateTableLayout
+        //ExSummary:Shows how to preserve a table's layout when saving to .txt.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Table table = builder.startTable();
+        builder.insertCell();
+        builder.write("Cell 1");
+        builder.insertCell();
+        builder.write("Cell 2");
+        builder.insertCell();
+        builder.write("Cell 3");
+        builder.endTable();
+
+        // Use a TxtSaveOptions object to preserve the table's layout when converting the document to plaintext.
+        TxtSaveOptions options = new TxtSaveOptions();
+        options.setPreserveTableLayout(true);
+
+        // Previewing the appearance of the document in .txt form shows that the table will not be represented accurately.
+        Assert.assertEquals(0.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth());
+        Assert.assertEquals("CCC\r\neee\r\nlll\r\nlll\r\n   \r\n123\r\n\r\n", doc.toString(options));
+
+        // We can call UpdateTableLayout() to fix some of these issues.
+        doc.updateTableLayout();
+
+        Assert.assertEquals("Cell 1             Cell 2             Cell 3\r\n\r\n", doc.toString(options));
+        Assert.assertEquals(155.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth(), 2f);
+        //ExEnd
     }
 
     @Test
@@ -1118,7 +1155,7 @@ public class ExDocument extends ApiExampleBase
             docOriginal.compareInternal(docEdited, "authorName", DateTime.getNow());
 
         // After the comparison, the original document will gain a new revision
-        // for every element that's different in the edited document.
+        // for every element that is different in the edited document.
         Assert.assertEquals(2, docOriginal.getRevisions().getCount()); //ExSkip
         for (Revision r : docOriginal.getRevisions())
         {
@@ -1170,7 +1207,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:ComparisonTargetType
         //ExFor:Document.Compare(Document, String, DateTime, CompareOptions)
         //ExSummary:Shows how to filter specific types of document elements when making a comparison.
-        // Create the original document, and populate it with various kinds of elements.
+        // Create the original document and populate it with various kinds of elements.
         Document docOriginal = new Document();
         DocumentBuilder builder = new DocumentBuilder(docOriginal);
 
@@ -1204,7 +1241,7 @@ public class ExDocument extends ApiExampleBase
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         builder.writeln("Original header contents.");
 
-        // Create a clone of our document, and perform a quick edit on each of the cloned document's elements.
+        // Create a clone of our document and perform a quick edit on each of the cloned document's elements.
         Document docEdited = (Document)docOriginal.deepClone(true);
         Paragraph firstParagraph = docEdited.getFirstSection().getBody().getFirstParagraph();
 
@@ -1363,7 +1400,7 @@ public class ExDocument extends ApiExampleBase
         
         // We can accept/reject these revisions programmatically
         // by calling methods such as Document.AcceptAllRevisions, or each revision's Accept method.
-        // In Microsoft Word, they can be processed via Review -> Changes.
+        // In Microsoft Word, we can process them manually via "Review" -> "Changes".
         doc.save(getArtifactsDir() + "Document.StartTrackRevisions.docx");
         //ExEnd
     }
@@ -1672,20 +1709,19 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
          
-        // Write some text
-        builder.write("Jason give money to Paul.");
+        builder.write("Jason gave money to Paul.");
          
-        Regex regex = new Regex("([A-z]+) give money to ([A-z]+)");
+        Regex regex = new Regex("([A-z]+) gave money to ([A-z]+)");
          
-        // Replace text using substitutions
         FindReplaceOptions options = new FindReplaceOptions();
         options.setUseSubstitutions(true);
+
         // Using legacy mode does not support many advanced features, so we need to set it to 'false'.
         options.setLegacyMode(false);
 
-        doc.getRange().replaceInternal(regex, "$2 take money from $1", options);
+        doc.getRange().replaceInternal(regex, "$2 took money from $1", options);
         
-        Assert.assertEquals(doc.getText(), "Paul take money from Jason.\f");
+        Assert.assertEquals(doc.getText(), "Paul took money from Jason.\f");
         //ExEnd
     }
 
@@ -1709,14 +1745,14 @@ public class ExDocument extends ApiExampleBase
         fieldText.setText("PAGE");
 
         // Changing the field code has changed this field to one of a different type,
-        // but the field's type attributes still display the old type.
+        // but the field's type properties still display the old type.
         Assert.assertEquals("PAGE", field.getFieldCode());
         Assert.assertEquals(FieldType.FIELD_DATE, field.getType());
         Assert.assertEquals(FieldType.FIELD_DATE, field.getStart().getFieldType());
         Assert.assertEquals(FieldType.FIELD_DATE, field.getSeparator().getFieldType());
         Assert.assertEquals(FieldType.FIELD_DATE, field.getEnd().getFieldType());
 
-        // Update those attributes with this method to display current value.
+        // Update those properties with this method to display current value.
         doc.normalizeFieldTypes();
 
         Assert.assertEquals(FieldType.FIELD_PAGE, field.getType());
@@ -1741,8 +1777,7 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert a revision, then change the color of all revisions to green,
-        // and also remove the bar that appears to the left of every revised line.
+        // Insert a revision, then change the color of all revisions to green.
         builder.writeln("This is not a revision.");
         doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
         Assert.assertEquals(RevisionColor.BY_AUTHOR, doc.getLayoutOptions().getRevisionOptions().getInsertedTextColor()); //ExSkip
@@ -1751,6 +1786,7 @@ public class ExDocument extends ApiExampleBase
         doc.stopTrackRevisions();
         builder.writeln("This is not a revision.");
 
+        // Remove the bar that appears to the left of every revised line.
         doc.getLayoutOptions().getRevisionOptions().setInsertedTextColor(RevisionColor.BRIGHT_GREEN);
         doc.getLayoutOptions().getRevisionOptions().setShowRevisionBars(false);
 
@@ -1862,7 +1898,7 @@ public class ExDocument extends ApiExampleBase
 
         // In the current version of Aspose.Words, modifying the document does not automatically rebuild 
         // the cached page layout. If we wish for the cached layout
-        // to stay up-to-date, we will need to update it manually.
+        // to stay up to date, we will need to update it manually.
         doc.updatePageLayout();
 
         doc.save(getArtifactsDir() + "Document.UpdatePageLayout.2.pdf");
@@ -2174,7 +2210,7 @@ public class ExDocument extends ApiExampleBase
         // Create a document which we will copy the styles to.
         Document target = new Document();
 
-        // Create a style with the same name as a style from the template document, and add it to the target document.
+        // Create a style with the same name as a style from the template document and add it to the target document.
         style = target.getStyles().add(StyleType.PARAGRAPH, "TemplateStyle3");
         style.getFont().setName("Calibri");
         style.getFont().setColor(msColor.getOrange());
@@ -2653,5 +2689,67 @@ public class ExDocument extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Document.ExtractPages.docx");
         Assert.assertEquals(doc.getPageCount(), 2);
+    }
+
+    @Test (dataProvider = "spellingOrGrammarDataProvider")
+    public void spellingOrGrammar(boolean checkSpellingGrammar) throws Exception
+    {
+        //ExStart
+        //ExFor:Document.SpellingChecked
+        //ExFor:Document.GrammarChecked
+        //ExSummary:Shows how to set spelling or grammar verifying.
+        Document doc = new Document();
+
+        // The string with spelling errors.
+        doc.getFirstSection().getBody().getFirstParagraph().getRuns().add(new Run(doc, "The speeling in this documentz is all broked."));
+
+        // Spelling/Grammar check start if we set properties to false. 
+        // We can see all errors in Microsoft Word via Review -> Spelling & Grammar.
+        // Note that Microsoft Word does not start grammar/spell check automatically for DOC and RTF document format.
+        doc.setSpellingChecked(checkSpellingGrammar);
+        doc.setGrammarChecked(checkSpellingGrammar);
+
+        doc.save(getArtifactsDir() + "Document.SpellingOrGrammar.docx");
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "spellingOrGrammarDataProvider")
+	public static Object[][] spellingOrGrammarDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test
+    public void allowEmbeddingPostScriptFonts() throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.AllowEmbeddingPostScriptFonts
+        //ExSummary:Shows how to save the document with PostScript font.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.getFont().setName("PostScriptFont");
+        builder.writeln("Some text with PostScript font.");
+
+        // Load the font with PostScript to use in the document.
+        MemoryFontSource otf = new MemoryFontSource(File.readAllBytes(getFontsDir() + "AllegroOpen.otf"));
+        doc.setFontSettings(new FontSettings());
+        doc.getFontSettings().setFontsSources(new FontSourceBase[] { otf });
+
+        // Embed TrueType fonts.
+        doc.getFontInfos().setEmbedTrueTypeFonts(true);
+
+        // Allow embedding PostScript fonts while embedding TrueType fonts.
+        // Microsoft Word does not embed PostScript fonts, but can open documents with embedded fonts of this type.
+        SaveOptions saveOptions = SaveOptions.createSaveOptions(SaveFormat.DOCX);
+        saveOptions.setAllowEmbeddingPostScriptFonts(true);
+
+        doc.save(getArtifactsDir() + "Document.AllowEmbeddingPostScriptFonts.docx", saveOptions);
+        //ExEnd
     }
 }

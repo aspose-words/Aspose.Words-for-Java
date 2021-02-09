@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -26,7 +26,7 @@ public class ExMailMerge extends ApiExampleBase {
         //ExStart
         //ExFor:MailMerge.Execute(String[], Object[])
         //ExFor:ContentDisposition
-        //ExSummary:Performs a simple insertion of data into merge fields and sends the document to the browser inline.
+        //ExSummary:Shows how to perform a mail merge, and then save the document to the client browser.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -38,7 +38,6 @@ public class ExMailMerge extends ApiExampleBase {
         builder.insertParagraph();
         builder.insertField(" MERGEFIELD City ");
 
-        // Fill the fields in the document with user data
         doc.getMailMerge().execute(new String[]{"FullName", "Company", "Address", "City"},
                 new Object[]{"James Bond", "MI5 Headquarters", "Milbank", "London"});
         //ExEnd
@@ -53,7 +52,6 @@ public class ExMailMerge extends ApiExampleBase {
         //ExStart
         //ExFor:MailMerge.Execute(IDataReader)
         //ExSummary:Shows how to run a mail merge using data from a data reader.
-        // Create a new document and populate it with merge fields
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -67,16 +65,15 @@ public class ExMailMerge extends ApiExampleBase {
         builder.insertField(" MERGEFIELD UnitPrice");
 
         // "DocumentHelper.executeDataTable" is utility function that creates a connection, command,
-        // executes the command and return the result in a DataTable
+        // executes the command and return the result in a DataTable.
         ResultSet resultSet = DocumentHelper.executeDataTable(
                 "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, " +
                         "{fn ROUND(Products.UnitPrice,2)} as UnitPrice " +
                         "FROM Products INNER JOIN Suppliers ON Products.SupplierID = Suppliers.SupplierID");
         DataTable dataTable = new DataTable(resultSet, "OrderDetails");
-        // Open the data reader
         IDataReader dataReader = new DataTableReader(dataTable);
 
-        // Now we can take the data from the reader and use it in the mail merge
+        // Now we can take the data from the reader and use it in the mail merge.
         doc.getMailMerge().execute(dataReader);
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteDataReader.docx");
@@ -91,7 +88,7 @@ public class ExMailMerge extends ApiExampleBase {
         //ExFor:MailMerge.Execute(DataTable)
         //ExFor:MailMerge.Execute(DataRow)
         //ExFor:Document.MailMerge
-        //ExSummary:Executes mail merge from data stored in a ResultSet.
+        //ExSummary:Shows how to execute a mail merge with data from a DataTable.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertField(" MERGEFIELD CustomerName ");

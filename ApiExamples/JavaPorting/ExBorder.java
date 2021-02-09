@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -112,7 +112,7 @@ public class ExBorder extends ApiExampleBase
         Assert.assertTrue(borders.get(0).isVisible());
 
         // We can remove a border at once by running the ClearFormatting method. 
-        // Running this method on every border of a paragraph will remove all of its borders.
+        // Running this method on every border of a paragraph will remove all its borders.
         for (Border border : borders)
             border.clearFormatting();
 
@@ -151,8 +151,8 @@ public class ExBorder extends ApiExampleBase
         builder.writeln("Paragraph 1.");
         builder.write("Paragraph 2.");
 
-        // Since both paragraphs were created with the same border configuration,
-        // the border collections of the two paragraphs share the same elements.
+        // Since we used the same border configuration while creating
+        // these paragraphs, their border collections share the same elements.
         BorderCollection firstParagraphBorders = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders();
         BorderCollection secondParagraphBorders = builder.getCurrentParagraph().getParagraphFormat().getBorders();
         Assert.assertEquals(6, firstParagraphBorders.getCount()); //ExSkip
@@ -259,7 +259,7 @@ public class ExBorder extends ApiExampleBase
             borders.getVertical().setLineWidth(2.0d);
         }
 
-        // A row format's border settings are separate from those of the cell paragraph.
+        // A row format, and a cell's inner paragraph use different border settings.
         Border border = table.getFirstRow().getFirstCell().getLastParagraph().getParagraphFormat().getBorders().getVertical();
 
         Assert.assertEquals(msColor.Empty.getRGB(), border.getColor().getRGB());

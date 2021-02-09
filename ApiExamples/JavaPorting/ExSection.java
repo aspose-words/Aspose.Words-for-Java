@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -193,7 +193,7 @@ public class ExSection extends ApiExampleBase
         section.getPageSetup().setSectionStart(SectionStart.NEW_PAGE);
         section.getPageSetup().setPaperSize(PaperSize.LETTER);
         
-        // A section needs a body, which will contain and display all of its contents
+        // A section needs a body, which will contain and display all its contents
         // on the page between the section's header and footer.
         Body body = new Body(doc);
         section.appendChild(body);
@@ -206,8 +206,8 @@ public class ExSection extends ApiExampleBase
 
         body.appendChild(para);
 
-        // Finally, add some content to do the document by creating a run,
-        // setting its text contents and appearance, and appending it as a child to the paragraph.
+        // Finally, add some content to do the document. Create a run,
+        // set its appearance and contents, and then append it as a child to the paragraph.
         Run run = new Run(doc);
         run.setText("Hello World!");
         run.getFont().setColor(Color.RED);
@@ -240,7 +240,7 @@ public class ExSection extends ApiExampleBase
 
         Assert.assertEquals(0, doc.getSections().get(1).getChildNodes(NodeType.ANY, true).getCount());
 
-        // Run the "EnsureMinumim" method to add a body and a paragraph to this section to begin editing it.
+        // Run the "EnsureMinimum" method to add a body and a paragraph to this section to begin editing it.
         doc.getLastSection().ensureMinimum();
 
         Assert.assertEquals(NodeType.BODY, doc.getSections().get(1).getChild(NodeType.ANY, 0, true).getNodeType());
@@ -272,7 +272,7 @@ public class ExSection extends ApiExampleBase
         Section section = new Section(doc);
         doc.appendChild(section);
 
-        // A section needs a body, which will contain and display all of its contents
+        // A section needs a body, which will contain and display all its contents
         // on the page between the section's header and footer.
         Body body = new Body(doc);
         section.appendChild(body);
@@ -348,12 +348,12 @@ public class ExSection extends ApiExampleBase
         //ExSummary:Shows how to remove all sections from a document.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        // This document has one section with a few child nodes containing and displaying all of the document's contents.
+        // This document has one section with a few child nodes containing and displaying all the document's contents.
         Assert.assertEquals(1, doc.getSections().getCount());
         Assert.assertEquals(19, doc.getSections().get(0).getChildNodes(NodeType.ANY, true).getCount());
         Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
 
-        // Clear the collection of sections, which will remove all of their child nodes, and all of the document's content.
+        // Clear the collection of sections, which will remove all of the document's children.
         doc.getSections().clear();
         
         Assert.assertEquals(0, doc.getChildNodes(NodeType.ANY, true).getCount());
@@ -443,7 +443,7 @@ public class ExSection extends ApiExampleBase
         Assert.assertEquals("This is the primary footer.", msString.trim(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText()));
 
         // Empty all the headers and footers in this section of all their contents.
-        // The headers and footers themselves will still be present, but will have nothing to display.
+        // The headers and footers themselves will still be present but will have nothing to display.
         doc.getFirstSection().clearHeadersFooters();
 
         Assert.assertEquals(2, doc.getFirstSection().getHeadersFooters().getCount());

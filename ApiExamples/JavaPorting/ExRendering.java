@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -203,7 +203,7 @@ public class ExRendering extends ApiExampleBase
                 gr.ScaleTransform(0.5f, 0.5f);
                 gr.PageScale = 2f;
 
-                // Create another rectangle, and use it to frame another page from the document.
+                // Create another rectangle and use it to frame another page from the document.
                 gr.DrawRectangle(new Pen(Color.BLACK, 1f), 90, 10, 50, 100);
                 doc.renderToSize(1, gr, 90f, 10f, 50f, 100f);
 

@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -43,25 +43,28 @@ public class ExThemes extends ApiExampleBase {
         //ExFor:Themes.ThemeFonts.ComplexScript
         //ExFor:Themes.ThemeFonts.EastAsian
         //ExFor:Themes.ThemeFonts.Latin
-        //ExSummary:Shows how to set custom theme colors and fonts.
+        //ExSummary:Shows how to set custom colors and fonts for themes.
         Document doc = new Document(getMyDir() + "Theme colors.docx");
 
-        // This object gives us access to the document theme, which is a source of default fonts and colors
+        // The "Theme" object gives us access to the document theme, a source of default fonts and colors.
         Theme theme = doc.getTheme();
 
-        // These fonts will be inherited by some styles like "Heading 1" and "Subtitle"
+        // Some styles, such as "Heading 1" and "Subtitle", will inherit these fonts.
         theme.getMajorFonts().setLatin("Courier New");
         theme.getMinorFonts().setLatin("Agency FB");
 
+        // Other languages may also have their custom fonts in this theme.
         Assert.assertEquals(theme.getMajorFonts().getComplexScript(), "");
         Assert.assertEquals(theme.getMajorFonts().getEastAsian(), "");
         Assert.assertEquals(theme.getMinorFonts().getComplexScript(), "");
         Assert.assertEquals(theme.getMinorFonts().getEastAsian(), "");
 
-        // This collection of colors corresponds to the color palette from Microsoft Word which appears when changing shading or font color 
+        // The "Colors" property contains the color palette from Microsoft Word,
+        // which appears when changing shading or font color.
+        // Apply custom colors to the color palette so we have easy access to them in Microsoft Word
+        // when we, for example, change the font color via "Home" -> "Font" -> "Font Color",
+        // or insert a shape, and then set a color for it via "Shape Format" -> "Shape Styles".
         ThemeColors colors = theme.getColors();
-
-        // We will set the color of each color palette column going from left to right like this
         colors.setDark1(Color.BLUE);
         colors.setLight1(Color.GREEN);
         colors.setDark2(Color.MAGENTA);
@@ -74,12 +77,13 @@ public class ExThemes extends ApiExampleBase {
         colors.setAccent5(Color.cyan);
         colors.setAccent6(Color.darkGray);
 
-        // We can also set colors for hyperlinks like this
+        // Apply custom colors to hyperlinks in their clicked and un-clicked states.
         colors.setHyperlink(Color.WHITE);
         colors.setFollowedHyperlink(Color.lightGray);
 
         doc.save(getArtifactsDir() + "Themes.CustomColorsAndFonts.docx");
         //ExEnd
+
         doc = new Document(getArtifactsDir() + "Themes.CustomColorsAndFonts.docx");
 
         Assert.assertEquals(Color.RED.getRGB(), doc.getTheme().getColors().getAccent1().getRGB());

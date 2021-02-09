@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -10,6 +10,7 @@ package Examples;
 
 import com.aspose.words.*;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import javax.print.PrintService;
@@ -32,19 +33,29 @@ public class ExPageSetup extends ApiExampleBase {
         //ExFor:Orientation
         //ExFor:PageVerticalAlignment
         //ExFor:BreakType
-        //ExSummary:Shows how to insert sections using DocumentBuilder, specify page setup for a section and reset page setup to defaults.
+        //ExSummary:Shows how to apply and revert page setup settings to sections in a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Modify the first section in the document
+        // Modify the page setup properties for the builder's current section and add text.
         builder.getPageSetup().setOrientation(Orientation.LANDSCAPE);
         builder.getPageSetup().setVerticalAlignment(PageVerticalAlignment.CENTER);
-        builder.writeln("Section 1, landscape oriented and text vertically centered.");
+        builder.writeln("This is the first section, which landscape oriented with vertically centered text.");
 
-        // Start a new section and reset its formatting to defaults
+        // If we start a new section using a document builder,
+        // it will inherit the builder's current page setup properties.
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+
+        Assert.assertEquals(Orientation.LANDSCAPE, doc.getSections().get(1).getPageSetup().getOrientation());
+        Assert.assertEquals(PageVerticalAlignment.CENTER, doc.getSections().get(1).getPageSetup().getVerticalAlignment());
+
+        // We can revert its page setup properties to their default values using the "ClearFormatting" method.
         builder.getPageSetup().clearFormatting();
-        builder.writeln("Section 2, back to default Letter paper size, portrait orientation and top alignment.");
+
+        Assert.assertEquals(Orientation.PORTRAIT, doc.getSections().get(1).getPageSetup().getOrientation());
+        Assert.assertEquals(PageVerticalAlignment.TOP, doc.getSections().get(1).getPageSetup().getVerticalAlignment());
+
+        builder.writeln("This is the second section, which is in default Letter paper size, portrait orientation and top alignment.");
 
         doc.save(getArtifactsDir() + "PageSetup.ClearFormatting.docx");
         //ExEnd
@@ -58,53 +69,178 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(PageVerticalAlignment.TOP, doc.getSections().get(1).getPageSetup().getVerticalAlignment());
     }
 
-    @Test
-    public void differentHeaders() throws Exception {
+    @Test(dataProvider = "differentFirstPageHeaderFooterDataProvider")
+    public void differentFirstPageHeaderFooter(boolean differentFirstPageHeaderFooter) throws Exception {
         //ExStart
         //ExFor:PageSetup.DifferentFirstPageHeaderFooter
-        //ExFor:PageSetup.OddAndEvenPagesHeaderFooter
-        //ExFor:PageSetup.LayoutMode
-        //ExFor:PageSetup.CharactersPerLine
-        //ExFor:PageSetup.LinesPerPage
-        //ExFor:SectionLayoutMode
-        //ExSummary:Shows how to create headers and footers different for first, even and odd pages using DocumentBuilder.
+        //ExSummary:Shows how to enable or disable primary headers/footers.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        PageSetup pageSetup = builder.getPageSetup();
-        pageSetup.setDifferentFirstPageHeaderFooter(true);
-        pageSetup.setOddAndEvenPagesHeaderFooter(true);
-        pageSetup.setLayoutMode(SectionLayoutMode.LINE_GRID);
-        pageSetup.setCharactersPerLine(1);
-        pageSetup.setLinesPerPage(1);
-
+        // Below are two types of header/footers.
+        // 1 -  The "First" header/footer, which appears on the first page of the section.
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
         builder.writeln("First page header.");
 
-        builder.moveToHeaderFooter(HeaderFooterType.HEADER_EVEN);
-        builder.writeln("Even pages header.");
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_FIRST);
+        builder.writeln("First page footer.");
 
+        // 2 -  The "Primary" header/footer, which appears on every page in the section.
+        // We can override the primary header/footer by a first and an even page header/footer. 
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        builder.writeln("Odd pages header.");
+        builder.writeln("Primary header.");
 
-        // Move back to the main story of the first section
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        builder.writeln("Primary footer.");
+
         builder.moveToSection(0);
-        builder.writeln("Text page 1.");
+        builder.writeln("Page 1.");
         builder.insertBreak(BreakType.PAGE_BREAK);
-        builder.writeln("Text page 2.");
+        builder.writeln("Page 2.");
         builder.insertBreak(BreakType.PAGE_BREAK);
-        builder.writeln("Text page 3.");
+        builder.writeln("Page 3.");
 
-        doc.save(getArtifactsDir() + "PageSetup.DifferentHeaders.docx");
+        // Each section has a "PageSetup" object that specifies page appearance-related properties
+        // such as orientation, size, and borders.
+        // Set the "DifferentFirstPageHeaderFooter" property to "true" to apply the first header/footer to the first page.
+        // Set the "DifferentFirstPageHeaderFooter" property to "false"
+        // to make the first page display the primary header/footer.
+        builder.getPageSetup().setDifferentFirstPageHeaderFooter(differentFirstPageHeaderFooter);
+
+        doc.save(getArtifactsDir() + "PageSetup.DifferentFirstPageHeaderFooter.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "PageSetup.DifferentHeaders.docx");
+        doc = new Document(getArtifactsDir() + "PageSetup.DifferentFirstPageHeaderFooter.docx");
 
-        Assert.assertTrue(pageSetup.getDifferentFirstPageHeaderFooter());
-        Assert.assertTrue(pageSetup.getOddAndEvenPagesHeaderFooter());
+        Assert.assertEquals(differentFirstPageHeaderFooter, doc.getFirstSection().getPageSetup().getDifferentFirstPageHeaderFooter());
+    }
+
+    @DataProvider(name = "differentFirstPageHeaderFooterDataProvider")
+    public static Object[][] differentFirstPageHeaderFooterDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
+
+    @Test(dataProvider = "oddAndEvenPagesHeaderFooterDataProvider")
+    public void oddAndEvenPagesHeaderFooter(boolean oddAndEvenPagesHeaderFooter) throws Exception {
+        //ExStart
+        //ExFor:PageSetup.OddAndEvenPagesHeaderFooter
+        //ExSummary:Shows how to enable or disable even page headers/footers.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Below are two types of header/footers.
+        // 1 -  The "Primary" header/footer, which appears on every page in the section.
+        // We can override the primary header/footer by a first and an even page header/footer. 
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.writeln("Primary header.");
+
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        builder.writeln("Primary footer.");
+
+        // 2 -  The "Even" header/footer, which appears on every even page of this section.
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_EVEN);
+        builder.writeln("Even page header.");
+
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_EVEN);
+        builder.writeln("Even page footer.");
+
+        builder.moveToSection(0);
+        builder.writeln("Page 1.");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Page 2.");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Page 3.");
+
+        // Each section has a "PageSetup" object that specifies page appearance-related properties
+        // such as orientation, size, and borders.
+        // Set the "OddAndEvenPagesHeaderFooter" property to "true"
+        // to display the even page header/footer on even pages.
+        // Set the "OddAndEvenPagesHeaderFooter" property to "false"
+        // to display the primary header/footer on even pages.
+        builder.getPageSetup().setOddAndEvenPagesHeaderFooter(oddAndEvenPagesHeaderFooter);
+
+        doc.save(getArtifactsDir() + "PageSetup.OddAndEvenPagesHeaderFooter.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "PageSetup.OddAndEvenPagesHeaderFooter.docx");
+
+        Assert.assertEquals(oddAndEvenPagesHeaderFooter, doc.getFirstSection().getPageSetup().getOddAndEvenPagesHeaderFooter());
+    }
+
+    @DataProvider(name = "oddAndEvenPagesHeaderFooterDataProvider")
+    public static Object[][] oddAndEvenPagesHeaderFooterDataProvider() {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
+
+    @Test
+    public void charactersPerLine() throws Exception {
+        //ExStart
+        //ExFor:PageSetup.CharactersPerLine
+        //ExFor:PageSetup.LayoutMode
+        //ExFor:SectionLayoutMode
+        //ExSummary:Shows how to specify a for the number of characters that each line may have.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Enable pitching, and then use it to set the number of characters per line in this section.
+        builder.getPageSetup().setLayoutMode(SectionLayoutMode.GRID);
+        builder.getPageSetup().setCharactersPerLine(10);
+
+        // The number of characters also depends on the size of the font.
+        doc.getStyles().get("Normal").getFont().setSize(20.0);
+
+        Assert.assertEquals(8, doc.getFirstSection().getPageSetup().getCharactersPerLine());
+
+        builder.writeln("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+
+        doc.save(getArtifactsDir() + "PageSetup.CharactersPerLine.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "PageSetup.CharactersPerLine.docx");
+
+        Assert.assertEquals(SectionLayoutMode.GRID, doc.getFirstSection().getPageSetup().getLayoutMode());
+        Assert.assertEquals(8, doc.getFirstSection().getPageSetup().getCharactersPerLine());
+    }
+
+    @Test
+    public void linesPerPage() throws Exception {
+        //ExStart
+        //ExFor:PageSetup.LinesPerPage
+        //ExFor:PageSetup.LayoutMode
+        //ExFor:ParagraphFormat.SnapToGrid
+        //ExFor:SectionLayoutMode
+        //ExSummary:Shows how to specify a limit for the number of lines that each page may have.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Enable pitching, and then use it to set the number of lines per page in this section.
+        // A large enough font size will push some lines down onto the next page to avoid overlapping characters.
+        builder.getPageSetup().setLayoutMode(SectionLayoutMode.LINE_GRID);
+        builder.getPageSetup().setLinesPerPage(15);
+
+        builder.getParagraphFormat().setSnapToGrid(true);
+
+        for (int i = 0; i < 30; i++)
+            builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ");
+
+        doc.save(getArtifactsDir() + "PageSetup.LinesPerPage.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "PageSetup.LinesPerPage.docx");
+
         Assert.assertEquals(SectionLayoutMode.LINE_GRID, doc.getFirstSection().getPageSetup().getLayoutMode());
-        Assert.assertEquals(1, doc.getFirstSection().getPageSetup().getCharactersPerLine());
-        Assert.assertEquals(1, doc.getFirstSection().getPageSetup().getLinesPerPage());
+        Assert.assertEquals(14, doc.getFirstSection().getPageSetup().getLinesPerPage());
+
+        for (Paragraph paragraph : doc.getFirstSection().getBody().getParagraphs())
+            Assert.assertTrue(paragraph.getParagraphFormat().getSnapToGrid());
     }
 
     @Test
@@ -113,31 +249,45 @@ public class ExPageSetup extends ApiExampleBase {
         //ExFor:SectionStart
         //ExFor:PageSetup.SectionStart
         //ExFor:Document.Sections
-        //ExSummary:Shows how to specify how the section starts, from a new page, on the same page or other.
+        //ExSummary:Shows how to specify how a new section separates itself from the previous.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Add text to the first section and that comes with a blank document,
-        // then add a new section that starts a new page and give it text as well
         builder.writeln("This text is in section 1.");
+
+        // Section break types determine how a new section separates itself from the previous section.
+        // Below are five types of section breaks.
+        // 1 -  Starts the next section on a new page:
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.writeln("This text is in section 2.");
 
-        // Section break types determine how a new section gets split from the previous section
-        // By inserting a "SectionBreakNewPage" type section break, we've set this section's SectionStart value to "NewPage" 
         Assert.assertEquals(SectionStart.NEW_PAGE, doc.getSections().get(1).getPageSetup().getSectionStart());
 
-        // Insert a new column section the same way
-        builder.insertBreak(BreakType.SECTION_BREAK_NEW_COLUMN);
+        // 2 -  Starts the next section on the current page:
+        builder.insertBreak(BreakType.SECTION_BREAK_CONTINUOUS);
         builder.writeln("This text is in section 3.");
 
-        Assert.assertEquals(SectionStart.NEW_COLUMN, doc.getSections().get(2).getPageSetup().getSectionStart());
+        Assert.assertEquals(SectionStart.CONTINUOUS, doc.getSections().get(2).getPageSetup().getSectionStart());
 
-        // We can change the types of section breaks by assigning different values to each section's SectionStart
-        // Setting their values to "Continuous" will put no visible breaks between sections
-        // and will leave all the content of this document on one page
-        doc.getSections().get(1).getPageSetup().setSectionStart(SectionStart.CONTINUOUS);
-        doc.getSections().get(2).getPageSetup().setSectionStart(SectionStart.CONTINUOUS);
+        // 3 -  Starts the next section on a new even page:
+        builder.insertBreak(BreakType.SECTION_BREAK_EVEN_PAGE);
+        builder.writeln("This text is in section 4.");
+
+        Assert.assertEquals(SectionStart.EVEN_PAGE, doc.getSections().get(3).getPageSetup().getSectionStart());
+
+        // 4 -  Starts the next section on a new odd page:
+        builder.insertBreak(BreakType.SECTION_BREAK_ODD_PAGE);
+        builder.writeln("This text is in section 5.");
+
+        Assert.assertEquals(SectionStart.ODD_PAGE, doc.getSections().get(4).getPageSetup().getSectionStart());
+
+        // 5 -  Starts the next section on a new column:
+        TextColumnCollection columns = builder.getPageSetup().getTextColumns();
+        columns.setCount(2);
+
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_COLUMN);
+        builder.writeln("This text is in section 6.");
+
+        Assert.assertEquals(SectionStart.NEW_COLUMN, doc.getSections().get(5).getPageSetup().getSectionStart());
 
         doc.save(getArtifactsDir() + "PageSetup.SetSectionStart.docx");
         //ExEnd
@@ -145,8 +295,11 @@ public class ExPageSetup extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "PageSetup.SetSectionStart.docx");
 
         Assert.assertEquals(SectionStart.NEW_PAGE, doc.getSections().get(0).getPageSetup().getSectionStart());
-        Assert.assertEquals(SectionStart.CONTINUOUS, doc.getSections().get(1).getPageSetup().getSectionStart());
+        Assert.assertEquals(SectionStart.NEW_PAGE, doc.getSections().get(1).getPageSetup().getSectionStart());
         Assert.assertEquals(SectionStart.CONTINUOUS, doc.getSections().get(2).getPageSetup().getSectionStart());
+        Assert.assertEquals(SectionStart.EVEN_PAGE, doc.getSections().get(3).getPageSetup().getSectionStart());
+        Assert.assertEquals(SectionStart.ODD_PAGE, doc.getSections().get(4).getPageSetup().getSectionStart());
+        Assert.assertEquals(SectionStart.NEW_COLUMN, doc.getSections().get(5).getPageSetup().getSectionStart());
     }
 
     @Test(enabled = false, description = "Run only when the printer driver is installed")
@@ -157,18 +310,17 @@ public class ExPageSetup extends ApiExampleBase {
         //ExSummary:Shows how to set up printing using different printer trays for different paper sizes.
         Document doc = new Document();
 
-        // Choose the default printer to be used for printing this document
+        /// Choose the default printer to be used for printing this document.
         PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
         Media[] trays = (Media[]) printService.getSupportedAttributeValues(Media.class, null, null);
 
-        // This is the tray we will use for A4 paper size
-        // This is the first tray in the media set
+        // This is the tray we will use for pages in the "A4" paper size.
         int printerTrayForA4 = trays[0].getValue();
-        // This is the tray we will use Letter paper size
-        // This is the second tray in the media set
+        // This is the tray we will use for pages in the "Letter" paper size.
         int printerTrayForLetter = trays[1].getValue();
 
-        // Set the tray used for each section based off the paper size used in the section
+        // Modify the PageSettings object of this section to get Microsoft Word to instruct the printer
+        // to use one of the trays we identified above, depending on this section's paper size.
         for (Section section : doc.getSections()) {
             if (section.getPageSetup().getPaperSize() == PaperSize.LETTER) {
                 section.getPageSetup().setFirstPageTray(printerTrayForLetter);
@@ -205,7 +357,7 @@ public class ExPageSetup extends ApiExampleBase {
         //ExFor:PageSetup.RightMargin
         //ExFor:PageSetup.HeaderDistance
         //ExFor:PageSetup.FooterDistance
-        //ExSummary:Shows how to adjust paper size, orientation, margins and other settings for a section.
+        //ExSummary:Shows how to adjust paper size, orientation, margins, along with other settings for a section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -218,7 +370,7 @@ public class ExPageSetup extends ApiExampleBase {
         builder.getPageSetup().setHeaderDistance(ConvertUtil.inchToPoint(0.2));
         builder.getPageSetup().setFooterDistance(ConvertUtil.inchToPoint(0.2));
 
-        builder.writeln("Hello world.");
+        builder.writeln("Hello world!");
 
         doc.save(getArtifactsDir() + "PageSetup.PageMargins.docx");
         //ExEnd
@@ -226,6 +378,8 @@ public class ExPageSetup extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "PageSetup.PageMargins.docx");
 
         Assert.assertEquals(PaperSize.LEGAL, doc.getFirstSection().getPageSetup().getPaperSize());
+        Assert.assertEquals(1008.0d, doc.getFirstSection().getPageSetup().getPageWidth());
+        Assert.assertEquals(612.0d, doc.getFirstSection().getPageSetup().getPageHeight());
         Assert.assertEquals(Orientation.LANDSCAPE, doc.getFirstSection().getPageSetup().getOrientation());
         Assert.assertEquals(72.0d, doc.getFirstSection().getPageSetup().getTopMargin());
         Assert.assertEquals(72.0d, doc.getFirstSection().getPageSetup().getBottomMargin());
@@ -236,25 +390,79 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
+    public void paperSizes() throws Exception {
+        //ExStart
+        //ExFor:PaperSize
+        //ExFor:PageSetup.PaperSize
+        //ExSummary:Shows how to set page sizes.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // We can change the current page's size to a pre-defined size
+        // by using the "PaperSize" property of this section's PageSetup object.
+        builder.getPageSetup().setPaperSize(PaperSize.TABLOID);
+
+        Assert.assertEquals(792.0d, builder.getPageSetup().getPageWidth());
+        Assert.assertEquals(1224.0d, builder.getPageSetup().getPageHeight());
+
+        builder.writeln(MessageFormat.format("This page is {0}x{1}.", builder.getPageSetup().getPageWidth(), builder.getPageSetup().getPageHeight()));
+
+        // Each section has its own PageSetup object. When we use a document builder to make a new section,
+        // that section's PageSetup object inherits all the previous section's PageSetup object's values.
+        builder.insertBreak(BreakType.SECTION_BREAK_EVEN_PAGE);
+
+        Assert.assertEquals(PaperSize.TABLOID, builder.getPageSetup().getPaperSize());
+
+        builder.getPageSetup().setPaperSize(PaperSize.A5);
+        builder.writeln(MessageFormat.format("This page is {0}x{1}.", builder.getPageSetup().getPageWidth(), builder.getPageSetup().getPageHeight()));
+
+        Assert.assertEquals(419.55d, builder.getPageSetup().getPageWidth());
+        Assert.assertEquals(595.30d, builder.getPageSetup().getPageHeight());
+
+        builder.insertBreak(BreakType.SECTION_BREAK_EVEN_PAGE);
+
+        // Set a custom size for this section's pages.
+        builder.getPageSetup().setPageWidth(620.0);
+        builder.getPageSetup().setPageHeight(480.0);
+
+        Assert.assertEquals(PaperSize.CUSTOM, builder.getPageSetup().getPaperSize());
+
+        builder.writeln(MessageFormat.format("This page is {0}x{1}.", builder.getPageSetup().getPageWidth(), builder.getPageSetup().getPageHeight()));
+
+        doc.save(getArtifactsDir() + "PageSetup.PaperSizes.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "PageSetup.PaperSizes.docx");
+
+        Assert.assertEquals(PaperSize.TABLOID, doc.getSections().get(0).getPageSetup().getPaperSize());
+        Assert.assertEquals(792.0d, doc.getSections().get(0).getPageSetup().getPageWidth());
+        Assert.assertEquals(1224.0d, doc.getSections().get(0).getPageSetup().getPageHeight());
+        Assert.assertEquals(PaperSize.A5, doc.getSections().get(1).getPageSetup().getPaperSize());
+        Assert.assertEquals(419.55d, doc.getSections().get(1).getPageSetup().getPageWidth());
+        Assert.assertEquals(595.30d, doc.getSections().get(1).getPageSetup().getPageHeight());
+        Assert.assertEquals(PaperSize.CUSTOM, doc.getSections().get(2).getPageSetup().getPaperSize());
+        Assert.assertEquals(620.0d, doc.getSections().get(2).getPageSetup().getPageWidth());
+        Assert.assertEquals(480.0d, doc.getSections().get(2).getPageSetup().getPageHeight());
+    }
+
+    @Test
     public void columnsSameWidth() throws Exception {
         //ExStart
         //ExFor:PageSetup.TextColumns
         //ExFor:TextColumnCollection
         //ExFor:TextColumnCollection.Spacing
         //ExFor:TextColumnCollection.SetCount
-        //ExSummary:Shows how to create multiple evenly spaced columns in a section using DocumentBuilder.
+        //ExSummary:Shows how to create multiple evenly spaced columns in a section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         TextColumnCollection columns = builder.getPageSetup().getTextColumns();
-        // Make spacing between columns wider
         columns.setSpacing(100.0);
-        // This creates two columns of equal width
         columns.setCount(2);
 
-        builder.writeln("Text in column 1.");
+        builder.writeln("Column 1.");
         builder.insertBreak(BreakType.COLUMN_BREAK);
-        builder.writeln("Text in column 2.");
+        builder.writeln("Column 2.");
 
         doc.save(getArtifactsDir() + "PageSetup.ColumnsSameWidth.docx");
         //ExEnd
@@ -268,33 +476,32 @@ public class ExPageSetup extends ApiExampleBase {
     @Test
     public void customColumnWidth() throws Exception {
         //ExStart
-        //ExFor:TextColumnCollection.LineBetween
         //ExFor:TextColumnCollection.EvenlySpaced
         //ExFor:TextColumnCollection.Item
         //ExFor:TextColumn
         //ExFor:TextColumn.Width
         //ExFor:TextColumn.SpaceAfter
-        //ExSummary:Shows how to set widths of columns.
+        //ExSummary:Shows how to create unevenly spaced columns.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+        PageSetup pageSetup = builder.getPageSetup();
 
-        TextColumnCollection columns = builder.getPageSetup().getTextColumns();
-        // Show vertical line between columns
-        columns.setLineBetween(true);
-        // Indicate we want to create column with different widths
+        TextColumnCollection columns = pageSetup.getTextColumns();
         columns.setEvenlySpaced(false);
-        // Create two columns, note they will be created with zero widths, need to set them
         columns.setCount(2);
 
-        // Set the first column to be narrow
+        // Determine the amount of room that we have available for arranging columns.
+        double contentWidth = pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin();
+
+        Assert.assertEquals(468.0d, contentWidth, 0.01d);
+
+        // Set the first column to be narrow.
         TextColumn column = columns.get(0);
         column.setWidth(100.0);
         column.setSpaceAfter(20.0);
 
-        // Set the second column to take the rest of the space available on the page
+        // Set the second column to take the rest of the space available within the margins of the page.
         column = columns.get(1);
-        PageSetup pageSetup = builder.getPageSetup();
-        double contentWidth = pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin();
         column.setWidth(contentWidth - column.getWidth() - column.getSpaceAfter());
 
         builder.writeln("Narrow column 1.");
@@ -307,13 +514,51 @@ public class ExPageSetup extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "PageSetup.CustomColumnWidth.docx");
         pageSetup = doc.getFirstSection().getPageSetup();
 
-        Assert.assertTrue(pageSetup.getTextColumns().getLineBetween());
         Assert.assertFalse(pageSetup.getTextColumns().getEvenlySpaced());
         Assert.assertEquals(2, pageSetup.getTextColumns().getCount());
         Assert.assertEquals(100.0d, pageSetup.getTextColumns().get(0).getWidth());
         Assert.assertEquals(20.0d, pageSetup.getTextColumns().get(0).getSpaceAfter());
         Assert.assertEquals(468.0d, pageSetup.getTextColumns().get(1).getWidth());
         Assert.assertEquals(0.0d, pageSetup.getTextColumns().get(1).getSpaceAfter());
+    }
+
+    @Test(dataProvider = "verticalLineBetweenColumnsDataProvider")
+    public void verticalLineBetweenColumns(boolean lineBetween) throws Exception {
+        //ExStart
+        //ExFor:TextColumnCollection.LineBetween
+        //ExSummary:Shows how to separate columns with a vertical line.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Configure the current section's PageSetup object to divide the text into several columns.
+        // Set the "LineBetween" property to "true" to put a dividing line between columns.
+        // Set the "LineBetween" property to "false" to leave the space between columns blank.
+        TextColumnCollection columns = builder.getPageSetup().getTextColumns();
+        columns.setLineBetween(lineBetween);
+        columns.setCount(3);
+
+        builder.writeln("Column 1.");
+        builder.insertBreak(BreakType.COLUMN_BREAK);
+        builder.writeln("Column 2.");
+        builder.insertBreak(BreakType.COLUMN_BREAK);
+        builder.writeln("Column 3.");
+
+        doc.save(getArtifactsDir() + "PageSetup.VerticalLineBetweenColumns.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "PageSetup.VerticalLineBetweenColumns.docx");
+
+        Assert.assertEquals(lineBetween, doc.getFirstSection().getPageSetup().getTextColumns().getLineBetween());
+    }
+
+    //JAVA-added data provider for test method
+    @DataProvider(name = "verticalLineBetweenColumnsDataProvider")
+    public static Object[][] verticalLineBetweenColumnsDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test
@@ -325,27 +570,28 @@ public class ExPageSetup extends ApiExampleBase {
         //ExFor:PageSetup.LineNumberRestartMode
         //ExFor:ParagraphFormat.SuppressLineNumbers
         //ExFor:LineNumberRestartMode
-        //ExSummary:Shows how to enable Microsoft Word line numbering for a section.
+        //ExSummary:Shows how to enable line numbering for a section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Line numbering for each section can be configured via PageSetup
+        // We can use the section's PageSetup object to display numbers to the left of the section's text lines.
+        // This is the same behavior as a List object,
+        // but it covers the entire section and does not modify the text in any way.
+        // Our section will restart the numbering on each new page from 1 and display the number,
+        // if it is a multiple of 3, at 50pt to the left of the line.
         PageSetup pageSetup = builder.getPageSetup();
         pageSetup.setLineStartingNumber(1);
         pageSetup.setLineNumberCountBy(3);
         pageSetup.setLineNumberRestartMode(LineNumberRestartMode.RESTART_PAGE);
         pageSetup.setLineNumberDistanceFromText(50.0d);
 
-        // LineNumberCountBy is set to 3, so every line that's a multiple of 3
-        // will display that line number to the left of the text
         for (int i = 1; i <= 25; i++)
             builder.writeln(MessageFormat.format("Line {0}.", i));
 
-        // The line counter will skip any paragraph with this flag set to true
-        // Normally, the number "15" would normally appear next to this paragraph, which says "Line 15"
-        // Since we set this flag to true and this paragraph is not counted by numbering,
-        // number 15 will appear next to the next paragraph, "Line 16", and from then on counting will carry on as normal
-        // until it will restart according to LineNumberRestartMode
+        // The line counter will skip any paragraph with the "SuppressLineNumbers" flag set to "true".
+        // This paragraph is on the 15th line, which is a multiple of 3, and thus would normally display a line number.
+        // The section's line counter will also ignore this line, treat the next line as the 15th,
+        // and continue the count from that point onward.
         doc.getFirstSection().getBody().getParagraphs().get(14).getParagraphFormat().setSuppressLineNumbers(true);
 
         doc.save(getArtifactsDir() + "PageSetup.LineNumbers.docx");
@@ -370,7 +616,7 @@ public class ExPageSetup extends ApiExampleBase {
         //ExFor:PageBorderDistanceFrom
         //ExFor:PageBorderAppliesTo
         //ExFor:Border.DistanceFromText
-        //ExSummary:Shows how to create a page border that looks like a wide blue band at the top of the first page only.
+        //ExSummary:Shows how to create a wide blue band border at the top of the first page.
         Document doc = new Document();
 
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
@@ -444,29 +690,39 @@ public class ExPageSetup extends ApiExampleBase {
         //ExFor:PageSetup.PageStartingNumber
         //ExFor:PageSetup.PageNumberStyle
         //ExFor:DocumentBuilder.InsertField(String, String)
-        //ExSummary:Shows how to control page numbering per section.
+        //ExSummary:Shows how to set up page numbering in a section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.writeln("Section 1");
+        builder.writeln("Section 1, page 1.");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Section 1, page 2.");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Section 1, page 3.");
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
-        builder.writeln("Section 2");
+        builder.writeln("Section 2, page 1.");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Section 2, page 2.");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Section 2, page 3.");
 
-        // Use document builder to create a header with a page number field for the first section
-        // The page number will look like "Page V"
+        // Move the document builder to the first section's primary header,
+        // which every page in that section will display.
         builder.moveToSection(0);
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+
+        // Insert a PAGE field, which will display the number of the current page.
         builder.write("Page ");
         builder.insertField("PAGE", "");
 
-        // Set first section page numbering
+        // Configure the section to have the page count that PAGE fields display start from 5.
+        // Also, configure all PAGE fields to display their page numbers using uppercase Roman numerals.
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
         pageSetup.setRestartPageNumbering(true);
         pageSetup.setPageStartingNumber(5);
         pageSetup.setPageNumberStyle(NumberStyle.UPPERCASE_ROMAN);
 
-        // Create a header for the section
-        // The page number will look like " - 10 - ".
+        // Create another primary header for the second section, with another PAGE field.
         builder.moveToSection(1);
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
@@ -474,7 +730,8 @@ public class ExPageSetup extends ApiExampleBase {
         builder.insertField("PAGE", "");
         builder.write(" - ");
 
-        // Set second section page numbering
+        // Configure the section to have the page count that PAGE fields display start from 10.
+        // Also, configure all PAGE fields to display their page numbers using Arabic numbers.
         pageSetup = doc.getSections().get(1).getPageSetup();
         pageSetup.setPageStartingNumber(10);
         pageSetup.setRestartPageNumbering(true);
@@ -502,24 +759,25 @@ public class ExPageSetup extends ApiExampleBase {
         //ExStart
         //ExFor:PageSetup.EndnoteOptions
         //ExFor:PageSetup.FootnoteOptions
-        //ExSummary:Shows how to set options for footnotes and endnotes in current section.
+        //ExSummary:Shows how to configure options affecting footnotes/endnotes in a section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Insert text and a reference for it in the form of a footnote
-        builder.write("Hello world!.");
+        builder.write("Hello world!");
         builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote reference text.");
 
-        // Set options for footnote position and numbering
+        // Configure all footnotes in the first section to restart the numbering from 1
+        // at each new page and display themselves directly beneath the text on every page.
         FootnoteOptions footnoteOptions = doc.getSections().get(0).getPageSetup().getFootnoteOptions();
         footnoteOptions.setPosition(FootnotePosition.BENEATH_TEXT);
         footnoteOptions.setRestartRule(FootnoteNumberingRule.RESTART_PAGE);
         footnoteOptions.setStartNumber(1);
 
-        // Endnotes also have a similar options object
         builder.write(" Hello again.");
         builder.insertFootnote(FootnoteType.FOOTNOTE, "Endnote reference text.");
 
+        // Configure all endnotes in the first section to maintain a continuous count throughout the section,
+        // starting from 1. Also, set them all to appear collected at the end of the document.
         EndnoteOptions endnoteOptions = doc.getSections().get(0).getPageSetup().getEndnoteOptions();
         endnoteOptions.setPosition(EndnotePosition.END_OF_DOCUMENT);
         endnoteOptions.setRestartRule(FootnoteNumberingRule.CONTINUOUS);
@@ -542,26 +800,28 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(1, endnoteOptions.getStartNumber());
     }
 
-    @Test
-    public void bidi() throws Exception {
+    @Test(dataProvider = "bidiDataProvider")
+    public void bidi(boolean reverseColumns) throws Exception {
         //ExStart
         //ExFor:PageSetup.Bidi
-        //ExSummary:Shows how to change the order of columns.
+        //ExSummary:Shows how to set the order of text columns in a section.
         Document doc = new Document();
 
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
         pageSetup.getTextColumns().setCount(3);
 
         DocumentBuilder builder = new DocumentBuilder(doc);
-
         builder.write("Column 1.");
         builder.insertBreak(BreakType.COLUMN_BREAK);
         builder.write("Column 2.");
         builder.insertBreak(BreakType.COLUMN_BREAK);
         builder.write("Column 3.");
 
-        // Reverse the order of the columns
-        pageSetup.setBidi(true);
+        // Set the "Bidi" property to "true" to arrange the columns starting from the page's right side.
+        // The order of the columns will match the direction of the right-to-left text.
+        // Set the "Bidi" property to "false" to arrange the columns starting from the page's left side.
+        // The order of the columns will match the direction of the left-to-right text.
+        pageSetup.setBidi(reverseColumns);
 
         doc.save(getArtifactsDir() + "PageSetup.Bidi.docx");
         //ExEnd
@@ -570,7 +830,17 @@ public class ExPageSetup extends ApiExampleBase {
         pageSetup = doc.getFirstSection().getPageSetup();
 
         Assert.assertEquals(3, pageSetup.getTextColumns().getCount());
-        Assert.assertTrue(pageSetup.getBidi());
+        Assert.assertEquals(reverseColumns, pageSetup.getBidi());
+    }
+
+    //JAVA-added data provider for test method
+    @DataProvider(name = "bidiDataProvider")
+    public static Object[][] bidiDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
     }
 
     @Test
@@ -581,23 +851,25 @@ public class ExPageSetup extends ApiExampleBase {
         //ExSummary:Shows how to apply a border to the page and header/footer.
         Document doc = new Document();
 
-        // Insert header and footer text
         DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Hello world! This is the main body text.");
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        builder.write("Header");
+        builder.write("This is the header.");
         builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
-        builder.write("Footer");
+        builder.write("This is the footer.");
         builder.moveToDocumentEnd();
 
-        // Insert a page border and set the color and line style
+        // Insert a blue double-line border.
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
         pageSetup.getBorders().setLineStyle(LineStyle.DOUBLE);
         pageSetup.getBorders().setColor(Color.BLUE);
 
-        // By default, page borders don't surround headers and footers
-        // We can change that by setting these flags
-        pageSetup.setBorderSurroundsFooter(true);
+        // A section's PageSetup object has "BorderSurroundsHeader" and "BorderSurroundsFooter" flags that determine
+        // whether a page border surrounds the main body text, also includes the header or footer, respectively.
+        // Set the "BorderSurroundsHeader" flag to "true" to surround the header with our border,
+        // and then set the "BorderSurroundsFooter" flag to leave the footer outside of the border.
         pageSetup.setBorderSurroundsHeader(true);
+        pageSetup.setBorderSurroundsFooter(false);
 
         doc.save(getArtifactsDir() + "PageSetup.PageBorder.docx");
         //ExEnd
@@ -605,8 +877,8 @@ public class ExPageSetup extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "PageSetup.PageBorder.docx");
         pageSetup = doc.getFirstSection().getPageSetup();
 
-        Assert.assertTrue(pageSetup.getBorderSurroundsFooter());
         Assert.assertTrue(pageSetup.getBorderSurroundsHeader());
+        Assert.assertFalse(pageSetup.getBorderSurroundsFooter());
     }
 
     @Test
@@ -618,23 +890,28 @@ public class ExPageSetup extends ApiExampleBase {
         //ExSummary:Shows how to set gutter margins.
         Document doc = new Document();
 
-        // Insert text spanning several pages
+        // Insert text that spans several pages.
         DocumentBuilder builder = new DocumentBuilder(doc);
         for (int i = 0; i < 6; i++) {
-            builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+            builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                    "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
             builder.insertBreak(BreakType.PAGE_BREAK);
         }
 
-        // We can access the gutter margin in the section's page options,
-        // which is a margin which is added to the page margin at one side of the page
+        // A gutter adds whitespaces to either the left or right page margin,
+        // which makes up for the center folding of pages in a book encroaching on the page's layout.
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
+
+        // Determine how much space our pages have for text within the margins and then add an amount to pad a margin. 
+        Assert.assertEquals(468.00d, pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin(), 0.01d);
+
         pageSetup.setGutter(100.0d);
 
-        // If our text is LTR, the gutter will appear on the left side of the page
-        // Setting this flag will move it to the right side
+        // Set the "RtlGutter" property to "true" to place the gutter in a more suitable position for right-to-left text.
         pageSetup.setRtlGutter(true);
 
-        // Mirroring the margins will make the gutter alternate in position from page to page
+        // Set the "MultiplePages" property to "MultiplePagesType.MirrorMargins" to alternate
+        // the left/right page side position of margins every page.
         pageSetup.setMultiplePages(MultiplePagesType.MIRROR_MARGINS);
 
         doc.save(getArtifactsDir() + "PageSetup.Gutter.docx");
@@ -651,11 +928,13 @@ public class ExPageSetup extends ApiExampleBase {
     @Test
     public void booklet() throws Exception {
         //ExStart
+        //ExFor:PageSetup.Gutter
+        //ExFor:PageSetup.MultiplePages
         //ExFor:PageSetup.SheetsPerBooklet
-        //ExSummary:Shows how to create a booklet.
+        //ExSummary:Shows how to configure a document that can be printed as a book fold.
         Document doc = new Document();
 
-        // Use a document builder to create 16 pages of content that will be compiled in a booklet
+        // Insert text that spans 16 pages.
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("My Booklet:");
 
@@ -664,12 +943,13 @@ public class ExPageSetup extends ApiExampleBase {
             builder.write(MessageFormat.format("Booklet face #{0}", i));
         }
 
-        // Set the number of sheets that will be used by the printer to create the booklet
-        // After being printed on both sides, the sheets can be stacked and folded down the centre
-        // The contents that we placed in such a way that they will be in order once the booklet is folded
-        // We can only specify the number of sheets in multiples of 4
+        // Configure the first section's "PageSetup" property to print the document in the form of a book fold.
+        // When we print this document on both sides, we can take the pages to stack them
+        // and fold them all down the middle at once. The contents of the document will line up into a book fold.
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
         pageSetup.setMultiplePages(MultiplePagesType.BOOK_FOLD_PRINTING);
+
+        // We can only specify the number of sheets in multiples of 4.
         pageSetup.setSheetsPerBooklet(4);
 
         doc.save(getArtifactsDir() + "PageSetup.Booklet.docx");
@@ -683,7 +963,7 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     @Test
-    public void sectionTextOrientation() throws Exception {
+    public void setTextOrientation() throws Exception {
         //ExStart
         //ExFor:PageSetup.TextOrientation
         //ExSummary:Shows how to set text orientation.
@@ -692,14 +972,15 @@ public class ExPageSetup extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.writeln("Hello world!");
 
-        // Setting this value will rotate the section's text 90 degrees to the right
+        // Set the "TextOrientation" property to "TextOrientation.Upward" to rotate all the text 90 degrees
+        // to the right so that all left-to-right text now goes top-to-bottom.
         PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
         pageSetup.setTextOrientation(TextOrientation.UPWARD);
 
-        doc.save(getArtifactsDir() + "PageSetup.SectionTextOrientation.docx");
+        doc.save(getArtifactsDir() + "PageSetup.SetTextOrientation.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "PageSetup.SectionTextOrientation.docx");
+        doc = new Document(getArtifactsDir() + "PageSetup.SetTextOrientation.docx");
         pageSetup = doc.getFirstSection().getPageSetup();
 
         Assert.assertEquals(TextOrientation.UPWARD, pageSetup.getTextOrientation());
@@ -708,23 +989,26 @@ public class ExPageSetup extends ApiExampleBase {
     //ExStart
     //ExFor:PageSetup.SuppressEndnotes
     //ExFor:Body.ParentSection
-    //ExSummary:Shows how to store endnotes at the end of each section instead of the document and manipulate their positions.
+    //ExSummary:Shows how to store endnotes at the end of each section, and modify their positions.
     @Test //ExSkip
     public void suppressEndnotes() throws Exception {
-        // Create a new document and make it empty
         Document doc = new Document();
         doc.removeAllChildren();
 
-        // Normally endnotes are all stored at the end of a document, but this option lets us store them at the end of each section
+        // By default, a document compiles all endnotes at its end. 
+        Assert.assertEquals(EndnotePosition.END_OF_DOCUMENT, doc.getEndnoteOptions().getPosition());
+
+        // We use the "Position" property of the document's "EndnoteOptions" object
+        // to collect endnotes at the end of each section instead. 
         doc.getEndnoteOptions().setPosition(EndnotePosition.END_OF_SECTION);
 
-        // Create 3 new sections, each having a paragraph and an endnote at the end
-        insertSection(doc, "Section 1", "Endnote 1, will stay in section 1");
-        insertSection(doc, "Section 2", "Endnote 2, will be pushed down to section 3");
-        insertSection(doc, "Section 3", "Endnote 3, will stay in section 3");
+        insertSectionWithEndnote(doc, "Section 1", "Endnote 1, will stay in section 1");
+        insertSectionWithEndnote(doc, "Section 2", "Endnote 2, will be pushed down to section 3");
+        insertSectionWithEndnote(doc, "Section 3", "Endnote 3, will stay in section 3");
 
-        // Each section contains its own page setup object
-        // Setting this value will push this section's endnotes down to the next section
+        // While getting sections to display their respective endnotes, we can set the "SuppressEndnotes" flag
+        // of a section's "PageSetup" object to "true" to revert to the default behavior and pass its endnotes
+        // onto the next section.
         PageSetup pageSetup = doc.getSections().get(1).getPageSetup();
         pageSetup.setSuppressEndnotes(true);
 
@@ -733,9 +1017,9 @@ public class ExPageSetup extends ApiExampleBase {
     }
 
     /// <summary>
-    /// Add a section to the end of a document, give it a body and a paragraph, then add text and an endnote to that paragraph.
+    /// Append a section with text and an endnote to a document.
     /// </summary>
-    private void insertSection(Document doc, String sectionBodyText, String endnoteText) {
+    private static void insertSectionWithEndnote(Document doc, String sectionBodyText, String endnoteText) {
         Section section = new Section(doc);
 
         doc.appendChild(section);

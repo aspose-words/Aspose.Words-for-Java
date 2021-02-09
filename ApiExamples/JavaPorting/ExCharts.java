@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -65,12 +65,14 @@ public class ExCharts extends ApiExampleBase
         Shape chartShape = builder.insertChart(ChartType.BAR, 400.0, 300.0);
         Chart chart = chartShape.getChart();
 
-        // Set the title text, which appears at the top center of the chart area.
+        // Use the "Title" property to give our chart a title, which appears at the top center of the chart area.
         ChartTitle title = chart.getTitle();
         title.setText("My Chart");
 
-        // Set the title to be visible, and give other chart elements room by allowing them to overlap the title.
+        // Set the "Show" property to "true" to make the title visible. 
         title.setShow(true);
+
+        // Set the "Overlay" property to "true" Give other chart elements more room by allowing them to overlap the title
         title.setOverlay(true);
 
         doc.save(getArtifactsDir() + "Charts.ChartTitle.docx");
@@ -202,9 +204,10 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add a column chart, and then clear its demo data series to start with a clean chart.
         Shape shape = builder.insertChart(ChartType.COLUMN, 500.0, 300.0);
         Chart chart = shape.getChart();
+
+        // Clear the chart's demo data series to start with a clean chart.
         chart.getSeries().clear();
 
         // Insert a chart series with categories for the X-axis and respective numeric values for the Y-axis.
@@ -286,9 +289,10 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add a line chart, and clear its demo data series to start with a clean chart.
         Shape shape = builder.insertChart(ChartType.LINE, 500.0, 300.0);
         Chart chart = shape.getChart();
+
+        // Clear the chart's demo data series to start with a clean chart.
         chart.getSeries().clear();
 
         // Add a custom series containing date/time values for the X-axis, and respective decimal values for the Y-axis.
@@ -353,9 +357,10 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add a line chart, and then clear its demo data series to start with a clean chart.
         Shape shape = builder.insertChart(ChartType.LINE, 500.0, 300.0);
         Chart chart = shape.getChart();
+
+        // Clear the chart's demo data series to start with a clean chart.
         chart.getSeries().clear();
 
         // Add a custom series with categories for the X-axis, and respective decimal values for the Y-axis.
@@ -389,9 +394,10 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add a column chart, and then clear its demo data series to start with a clean chart.
         Shape shape = builder.insertChart(ChartType.COLUMN, 500.0, 300.0);
         Chart chart = shape.getChart();
+
+        // Clear the chart's demo data series to start with a clean chart.
         chart.getSeries().clear();
 
         // Add a custom series to the chart with categories for the X-axis,
@@ -485,8 +491,9 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add a bubble chart, and then clear its demo data series to start with a clean chart.
         Chart chart = builder.insertChart(ChartType.BUBBLE, 500.0, 300.0).getChart();
+
+        // Clear the chart's demo data series to start with a clean chart.
         chart.getSeries().clear();
 
         // Add a custom series with X/Y coordinates and diameter of each of the bubbles. 
@@ -528,8 +535,9 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add a pie chart, and then clear its demo data series to start with a clean chart.
         Chart chart = builder.insertChart(ChartType.PIE, 500.0, 300.0).getChart();
+
+        // Clear the chart's demo data series to start with a clean chart.
         chart.getSeries().clear();
 
         // Insert a custom chart series with a category name for each of the sectors, and their frequency table.
@@ -629,7 +637,7 @@ public class ExCharts extends ApiExampleBase
     }
 
     /// <summary>
-    /// Apply data labels with custom number format and separator to a number of data points in a series.
+    /// Apply data labels with custom number format and separator to several data points in a series.
     /// </summary>
     private static void applyDataLabels(ChartSeries series, int labelsCount, String numberFormat, String separator)
     {
@@ -663,12 +671,10 @@ public class ExCharts extends ApiExampleBase
     //ExFor:ChartDataPoint
     //ExFor:ChartDataPoint.Index
     //ExFor:ChartDataPointCollection
-    //ExFor:ChartDataPointCollection.Add(System.Int32)
-    //ExFor:ChartDataPointCollection.Clear
+    //ExFor:ChartDataPointCollection.ClearFormat
     //ExFor:ChartDataPointCollection.Count
     //ExFor:ChartDataPointCollection.GetEnumerator
     //ExFor:ChartDataPointCollection.Item(System.Int32)
-    //ExFor:ChartDataPointCollection.RemoveAt(System.Int32)
     //ExFor:ChartMarker
     //ExFor:ChartMarker.Size
     //ExFor:ChartMarker.Symbol
@@ -709,11 +715,11 @@ public class ExCharts extends ApiExampleBase
         }
         finally { if (enumerator != null) enumerator.close(); }
 
-        // For a cleaner looking graph, we can remove data points individually.
-        chart.getSeries().get(1).getDataPoints().removeAt(2);
+        // For a cleaner looking graph, we can clear format individually.
+        chart.getSeries().get(1).getDataPoints().get(2).clearFormat();
 
         // We can also strip an entire series of data points at once.
-        chart.getSeries().get(2).getDataPoints().clear();
+        chart.getSeries().get(2).getDataPoints().clearFormat();
 
         doc.save(getArtifactsDir() + "Charts.ChartDataPoint.docx");
     }
@@ -725,7 +731,7 @@ public class ExCharts extends ApiExampleBase
     {
         for (int i = 0; i < dataPointsCount; i++)
         {
-            ChartDataPoint point = series.getDataPoints().add(i);
+            ChartDataPoint point = series.getDataPoints().get(i);
             point.getMarker().setSymbol(markerSymbol);
             point.getMarker().setSize(dataPointSize);
 
@@ -750,12 +756,13 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals("Sales", chart.getSeries().get(0).getName());
 
         // "Slices" of a pie chart may be moved away from the center by a distance via the respective data point's Explosion attribute.
-        // Add a data point to the first portion of the pie chart and move it away from the center by 10 points. 
-        ChartDataPoint dataPoint = chart.getSeries().get(0).getDataPoints().add(0);
+        // Add a data point to the first portion of the pie chart and move it away from the center by 10 points.
+        // Aspose.Words create data points automatically if them does not exist.
+        ChartDataPoint dataPoint = chart.getSeries().get(0).getDataPoints().get(0);
         dataPoint.setExplosion(10);
 
         // Displace the second portion by a greater distance.
-        dataPoint = chart.getSeries().get(0).getDataPoints().add(1);
+        dataPoint = chart.getSeries().get(0).getDataPoints().get(1);
         dataPoint.setExplosion(40);
 
         doc.save(getArtifactsDir() + "Charts.PieChartExplosion.docx");
@@ -916,7 +923,7 @@ public class ExCharts extends ApiExampleBase
         Shape chartShape = builder.insertChart(ChartType.COLUMN, 400.0, 300.0);
         Chart chart = chartShape.getChart();
 
-        // Each series has four decimal values; one for each of the four categories.
+        // Each series has four decimal values: one for each of the four categories.
         // Four clusters of three columns will represent this data.
         ChartSeriesCollection chartData = chart.getSeries();
 
@@ -950,7 +957,7 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(3, chartData.getCount()); //ExSkip
         Assert.assertEquals("Series 4", chartData.get(2).getName()); //ExSkip
 
-        // We can also clear all of the chart's data at once with this method.
+        // We can also clear all the chart's data at once with this method.
         // When creating a new chart, this is the way to wipe all the demo data
         // before we can begin working on a blank chart.
         chartData.clear();
@@ -970,9 +977,10 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add a scatter chart, and then clear its demo data series to start with a clean chart.
         Shape chartShape = builder.insertChart(ChartType.SCATTER, 450.0, 300.0);
         Chart chart = chartShape.getChart();
+
+        // Clear the chart's demo data series to start with a clean chart.
         chart.getSeries().clear();
 
         // Insert a series with X/Y coordinates for five points.
@@ -1012,9 +1020,10 @@ public class ExCharts extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Add a scatter chart, and then clear its demo data series to start with a clean chart.
         Shape chartShape = builder.insertChart(ChartType.SCATTER, 450.0, 300.0);
         Chart chart = chartShape.getChart();
+
+        // Clear the chart's demo data series to start with a clean chart.
         chart.getSeries().clear();
 
         // Add a series with two decimal arrays. The first array contains the X-values,
@@ -1197,12 +1206,14 @@ public class ExCharts extends ApiExampleBase
         axis.getScaling().setMaximum(new AxisBound(20.0));
 
         // For the X-axis, set the major tick marks at every 10 units,
-        // every minor tick mark at 2.5 units, and configure them to both be inside the graph plot area.
+        // every minor tick mark at 2.5 units.
         axis = chart.getAxisX();
-        axis.setMajorTickMark(AxisTickMark.INSIDE);
-        axis.setMinorTickMark(AxisTickMark.INSIDE);
         axis.setMajorUnit(10.0);
         axis.setMinorUnit(2.5);
+
+        // Configure both types of tick marks to appear inside the graph plot area.
+        axis.setMajorTickMark(AxisTickMark.INSIDE);
+        axis.setMinorTickMark(AxisTickMark.INSIDE);
 
         // Set the X-axis bounds so that the X-axis spans 5 major tick marks and 12 minor tick marks.
         axis.getScaling().setMinimum(new AxisBound(-10));

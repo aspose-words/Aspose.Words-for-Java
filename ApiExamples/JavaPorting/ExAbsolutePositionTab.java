@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -50,7 +50,7 @@ public class ExAbsolutePositionTab extends ApiExampleBase
     }
 
     /// <summary>
-    /// Collects the text contents of all runs in the visited document, and represents all absolute tab characters as ordinary tabs.
+    /// Collects the text contents of all runs in the visited document. Replaces all absolute tab characters with ordinary tabs.
     /// </summary>
     public static class DocTextExtractor extends DocumentVisitor
     {

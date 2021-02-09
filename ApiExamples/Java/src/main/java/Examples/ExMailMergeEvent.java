@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -28,11 +28,9 @@ public class ExMailMergeEvent extends ApiExampleBase {
     //ExFor:FieldMergingArgsBase.Field
     //ExFor:FieldMergingArgsBase.DocumentFieldName
     //ExFor:FieldMergingArgsBase.Document
-    //ExFor:FieldMergingArgsBase.FieldValue
     //ExFor:IFieldMergingCallback.FieldMerging
     //ExFor:FieldMergingArgs.Text
-    //ExFor:FieldMergeField.TextBefore
-    //ExSummary:Shows how to mail merge HTML data into a document.
+    //ExSummary:Shows how to execute a mail merge with a custom callback that handles merge data in the form of HTML documents.
     @Test //ExSkip
     public void insertHtml() throws Exception {
         Document doc = new Document(getMyDir() + "Field sample - MERGEFIELD.docx");

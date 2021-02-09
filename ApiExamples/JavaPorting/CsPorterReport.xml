@@ -97,7 +97,6 @@
 		<File project="Examples" dir="TestData\TestClasses" name="ManagerTestClass" status="AUTO" />
 		<File project="Examples" dir="TestData\TestClasses" name="MessageTestClass" status="AUTO" />
 		<File project="Examples" dir="TestData\TestClasses" name="NumericTestClass" status="AUTO" />
-		<File project="Examples" dir="TestData\TestClasses" name="SignPersonTestClass" status="AUTO" />
 		<File project="Examples" dir="" name="TestUtil" status="AUTO" />
 	</Files>
 	<Resources />

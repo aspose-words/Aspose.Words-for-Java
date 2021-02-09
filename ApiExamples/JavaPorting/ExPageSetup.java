@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -70,7 +70,7 @@ public class ExPageSetup extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Modify the page setup properties for the builder's current section, and add text.
+        // Modify the page setup properties for the builder's current section and add text.
         builder.getPageSetup().setOrientation(Orientation.LANDSCAPE);
         builder.getPageSetup().setVerticalAlignment(PageVerticalAlignment.CENTER);
         builder.writeln("This is the first section, which landscape oriented with vertically centered text.");
@@ -357,7 +357,7 @@ public class ExPageSetup extends ApiExampleBase
         // You can define a specific printer using the "PrinterName" property of the PrinterSettings object.
         PrinterSettings settings = new PrinterSettings();
         
-        // The paper tray value stored in documents is printer-specific.
+        // The paper tray value stored in documents is printer specific.
         // This means the code below resets all page tray values to use the current printers default tray.
         // You can enumerate PrinterSettings.PaperSources to find the other valid paper tray values of the selected printer.
         for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
@@ -667,7 +667,7 @@ public class ExPageSetup extends ApiExampleBase
         // This is the same behavior as a List object,
         // but it covers the entire section and does not modify the text in any way.
         // Our section will restart the numbering on each new page from 1 and display the number,
-        // if it is a multiple of 3, at a distance of 50pt to the left of the line.
+        // if it is a multiple of 3, at 50pt to the left of the line.
         PageSetup pageSetup = builder.getPageSetup();
         pageSetup.setLineStartingNumber(1);
         pageSetup.setLineNumberCountBy(3);

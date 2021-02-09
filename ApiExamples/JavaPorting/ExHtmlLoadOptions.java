@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -89,7 +89,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     @Test //ExSkip
     public void webRequestTimeout() throws Exception
     {
-        // Create a new HtmlLoadOptions object, and verify its timeout threshold for a web request.
+        // Create a new HtmlLoadOptions object and verify its timeout threshold for a web request.
         HtmlLoadOptions options = new HtmlLoadOptions();
 
         // When loading an Html document with resources externally linked by a web address URL,
@@ -100,7 +100,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         ListDocumentWarnings warningCallback = new ListDocumentWarnings();
         options.setWarningCallback(warningCallback);
 
-        // Load such a document, and verify that a shape with image data has been created.
+        // Load such a document and verify that a shape with image data has been created.
         // This linked image will require a web request to load, which will have to complete within our time limit.
         String html = $"\r\n                <html>\r\n                    <img src=\"{AsposeLogoUrl}\" alt=\"Aspose logo\" style=\"width:400px;height:400px;\">\r\n                </html>\r\n            ";
 
@@ -110,7 +110,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         Assert.assertEquals(7498, imageShape.getImageData().getImageBytes().length);
         Assert.assertEquals(0, warningCallback.warnings().size());
 
-        // Set an unreasonable timeout limit, and try load the document again.
+        // Set an unreasonable timeout limit and try load the document again.
         options.setWebRequestTimeout(0);
         doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(html)), options);
 
@@ -186,6 +186,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     {
         //ExStart
         //ExFor:HtmlLoadOptions.#ctor(LoadFormat,String,String)
+        //ExFor:LoadOptions.#ctor(LoadFormat, String, String)
         //ExFor:LoadOptions.LoadFormat
         //ExFor:LoadFormat
         //ExSummary:Shows how to specify a base URI when opening an html document.

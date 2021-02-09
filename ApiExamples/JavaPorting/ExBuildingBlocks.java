@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -70,15 +70,15 @@ public class ExBuildingBlocks extends ApiExampleBase
 
         block.setGuidInternal(Guid.newGuid());
 
-        // The following attributes categorize building blocks
-        // in the menu found via Insert -> Quick Parts -> Building Blocks Organizer in Microsoft Word.
+        // The following properties categorize building blocks
+        // in the menu we can access in Microsoft Word via "Insert" -> "Quick Parts" -> "Building Blocks Organizer".
         Assert.assertEquals("(Empty Category)", block.getCategory());
         Assert.assertEquals(BuildingBlockType.NONE, block.getType());
         Assert.assertEquals(BuildingBlockGallery.ALL, block.getGallery());
         Assert.assertEquals(BuildingBlockBehavior.CONTENT, block.getBehavior());
 
-        // Before we can add this building block to our document, we will need to give it some contents.
-        // We will do that and set a category, gallery, and behavior with a document visitor.
+        // Before we can add this building block to our document, we will need to give it some contents,
+        // which we will do using a document visitor. This visitor will also set a category, gallery, and behavior.
         BuildingBlockVisitor visitor = new BuildingBlockVisitor(glossaryDoc);
         block.accept(visitor);
 
@@ -115,7 +115,7 @@ public class ExBuildingBlocks extends ApiExampleBase
 
         public /*override*/ /*VisitorAction*/int visitBuildingBlockStart(BuildingBlock block)
         {
-            // Configure the building block as a quick part, and add attributes used by Building Blocks Organizer.
+            // Configure the building block as a quick part, and add properties used by Building Blocks Organizer.
             block.setBehavior(BuildingBlockBehavior.PARAGRAPH);
             block.setCategory("My custom building blocks");
             block.setDescription("Using this block in the Quick Parts section of word will place its contents at the cursor.");
@@ -197,13 +197,13 @@ public class ExBuildingBlocks extends ApiExampleBase
 
         System.out.println(visitor.getText());
 
-        // When we open this document using Microsoft Word,
-        // we can find the building blocks via Insert -> Quick Parts -> Building Blocks Organizer.
+        // In Microsoft Word, we can access the building blocks via "Insert" -> "Quick Parts" -> "Building Blocks Organizer".
         doc.save(getArtifactsDir() + "BuildingBlocks.GlossaryDocument.dotx"); 
     }
 
     /// <summary>
-    /// Gives each building block in a visited glossary document a unique GUID, and stores the GUID-building block pairs in a dictionary.
+    /// Gives each building block in a visited glossary document a unique GUID.
+    /// Stores the GUID-building block pairs in a dictionary.
     /// </summary>
     public static class GlossaryDocVisitor extends DocumentVisitor
     {

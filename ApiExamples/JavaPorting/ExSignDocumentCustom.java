@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -10,8 +10,6 @@ package ApiExamples;
 // ********* THIS FILE IS AUTO PORTED *********
 
 import org.testng.annotations.Test;
-import com.aspose.ms.System.msConsole;
-import ApiExamples.TestData.TestClasses.SignPersonTestClass;
 import org.testng.Assert;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
@@ -22,14 +20,11 @@ import com.aspose.words.SignOptions;
 import com.aspose.words.DigitalSignatureUtil;
 import java.awt.image.BufferedImage;
 import com.aspose.ms.System.IO.MemoryStream;
-import java.util.ArrayList;
 import com.aspose.ms.System.Guid;
+import java.util.ArrayList;
 import com.aspose.BitmapPal;
 
 
-/// <summary>
-/// This example demonstrates how to add new signature line to the document and sign it with your personal signature <see cref="SignDocument"/>.
-/// </summary>
 @Test
 public class ExSignDocumentCustom extends ApiExampleBase
 {
@@ -41,78 +36,63 @@ public class ExSignDocumentCustom extends ApiExampleBase
     //ExFor:SignOptions.SignatureLineId
     //ExFor:SignOptions.SignatureLineImage
     //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
-    //ExSummary:Demonstrates how to add new signature line to the document and sign it with personal signature using SignatureLineId.
+    //ExSummary:Shows how to add a signature line to a document, and then sign it using a digital certificate.
     @Test (description = "WORDSNET-16868") //ExSkip
     public static void sign() throws Exception
     {
-        String signPersonName = "Ron Williams";
+        String signeeName = "Ron Williams";
         String srcDocumentPath = getMyDir() + "Document.docx";
         String dstDocumentPath = getArtifactsDir() + "SignDocumentCustom.Sign.docx";
         String certificatePath = getMyDir() + "morzal.pfx";
         String certificatePassword = "aw";
 
-        // We need to create simple list with test signers for this example
-        createSignPersonData();
-        System.out.println("Test data successfully added!");
+        createSignees();
 
-        // Get sign person object by name of the person who must sign a document
-        // This an example, in real use case you would return an object from a database
-        SignPersonTestClass signPersonInfo =
-            (from c : gSignPersonList where c.Name == signPersonName select c).FirstOrDefault();
+        Signee signeeInfo =
+            (from c : mSignees where c.Name == signeeName select c).FirstOrDefault();
 
-        if (signPersonInfo != null)
-        {
-            signDocument(srcDocumentPath, dstDocumentPath, signPersonInfo, certificatePath, certificatePassword);
-            System.out.println("Document successfully signed!");
-        }
+        if (signeeInfo != null)
+            signDocument(srcDocumentPath, dstDocumentPath, signeeInfo, certificatePath, certificatePassword);
         else
-        {
-            System.out.println("Sign person does not exist, please check your parameters.");
-            Assert.fail(); //ExSkip
-        }
-
-        // Now do something with a signed document, for example, save it to your database
-        // Use 'new Document(dstDocumentPath)' for loading a signed document
+            Assert.fail("Signee does not exist.");
     }
 
     /// <summary>
-    /// Signs the document obtained at the source location and saves it to the specified destination.
+    /// Creates a copy of a source document signed using provided signee information and X509 certificate.
     /// </summary>
     private static void signDocument(String srcDocumentPath, String dstDocumentPath,
-        SignPersonTestClass signPersonInfo, String certificatePath, String certificatePassword) throws Exception
+        Signee signeeInfo, String certificatePath, String certificatePassword) throws Exception
     {
-        // Create new document instance based on a test file that we need to sign
         Document document = new Document(srcDocumentPath);
         DocumentBuilder builder = new DocumentBuilder(document);
 
-        // Add info about responsible person who sign a document
-        SignatureLineOptions signatureLineOptions =
-            new SignatureLineOptions(); { signatureLineOptions.setSigner(signPersonInfo.getName()); signatureLineOptions.setSignerTitle(signPersonInfo.getPosition()); }
-
-        // Add signature line for responsible person who sign a document
-        SignatureLine signatureLine = builder.insertSignatureLine(signatureLineOptions).getSignatureLine();
-        signatureLine.setIdInternal(signPersonInfo.getPersonId());
-
-        // Save a document with line signatures into temporary file for future signing
-        builder.getDocument().save(dstDocumentPath);
-
-        // Create holder of certificate instance based on your personal certificate
-        // This is the test certificate generated for this example
-        CertificateHolder certificateHolder = CertificateHolder.create(certificatePath, certificatePassword);
-
-        // Link our signature line with personal signature
-        SignOptions signOptions = new SignOptions();
+        // Configure and insert a signature line, an object in the document that will display a signature that we sign it with.
+        SignatureLineOptions signatureLineOptions = new SignatureLineOptions();
         {
-            signOptions.setSignatureLineId(signPersonInfo.getPersonId());
-            signOptions.setSignatureLineImage(signPersonInfo.getImage());
+            signatureLineOptions.setSigner(signeeInfo.getName()); 
+            signatureLineOptions.setSignerTitle(signeeInfo.getPosition());
         }
 
-        // Sign a document which contains signature line with personal certificate
+        SignatureLine signatureLine = builder.insertSignatureLine(signatureLineOptions).getSignatureLine();
+        signatureLine.setIdInternal(signeeInfo.getPersonId());
+
+        // First, we will save an unsigned version of our document.
+        builder.getDocument().save(dstDocumentPath);
+
+        CertificateHolder certificateHolder = CertificateHolder.create(certificatePath, certificatePassword);
+        
+        SignOptions signOptions = new SignOptions();
+        {
+            signOptions.setSignatureLineId(signeeInfo.getPersonId());
+            signOptions.setSignatureLineImage(signeeInfo.getImage());
+        }
+
+        // Overwrite the unsigned document we saved above with a version signed using the certificate.
         DigitalSignatureUtil.sign(dstDocumentPath, dstDocumentPath, certificateHolder, signOptions);
     }
 
-        /// <summary>
-    /// Converting image file to bytes array.
+    /// <summary>
+    /// Converts an image to a byte array.
     /// </summary>
     private static byte[] imageToByteArray(BufferedImage imageIn) throws Exception
     {
@@ -124,22 +104,43 @@ public class ExSignDocumentCustom extends ApiExampleBase
         }
         finally { if (ms != null) ms.close(); }
     }
-    
-    /// <summary>
-    /// Create test data that contains info about sing persons
-    /// </summary>
-    private static void createSignPersonData() throws Exception
+
+    public static class Signee
     {
-        gSignPersonList = new ArrayList<SignPersonTestClass>();
+        public Guid getPersonId() { return mPersonId; }; public void setPersonId(Guid value) { mPersonId = value; };
+
+        private Guid mPersonId;
+        public String getName() { return mName; }; public void setName(String value) { mName = value; };
+
+        private String mName;
+        public String getPosition() { return mPosition; }; public void setPosition(String value) { mPosition = value; };
+
+        private String mPosition;
+        public byte[] getImage() { return mImage; }; public void setImage(byte[] value) { mImage = value; };
+
+        private byte[] mImage;
+
+        public Signee(Guid guid, String name, String position, byte[] image)
         {
-                        gSignPersonList.add(new SignPersonTestClass(Guid.newGuid(), "Ron Williams", "Chief Executive Officer",
+            setPersonId(guid);
+            setName(name);
+            setPosition(position);
+            setImage(image);
+        }
+    }
+
+    private static void createSignees() throws Exception
+    {
+        mSignees = new ArrayList<Signee>();
+        {
+                        mSignees.add(new Signee(Guid.newGuid(), "Ron Williams", "Chief Executive Officer",
                 imageToByteArray(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"))));
                                         
-                        gSignPersonList.add(new SignPersonTestClass(Guid.newGuid(), "Stephen Morse", "Head of Compliance",
+                        mSignees.add(new Signee(Guid.newGuid(), "Stephen Morse", "Head of Compliance",
                 imageToByteArray(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"))));
                                     }
     }
-
-    private static ArrayList<SignPersonTestClass> gSignPersonList;
+    
+    private static ArrayList<Signee> mSignees;
     //ExEnd
 }

@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2020 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -9,6 +9,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -24,24 +25,30 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
     //ExFor:XamlFixedSaveOptions.ResourcesFolder
     //ExFor:XamlFixedSaveOptions.ResourcesFolderAlias
     //ExFor:XamlFixedSaveOptions.SaveFormat
-    //ExSummary:Shows how to print the URIs of linked resources created during conversion of a document to fixed-form .xaml.
+    //ExSummary:Shows how to print the URIs of linked resources created while converting a document to fixed-form .xaml.
     @Test //ExSkip
     public void resourceFolder() throws Exception {
-        // Open a document which contains resources
         Document doc = new Document(getMyDir() + "Rendering.docx");
-
         ResourceUriPrinter callback = new ResourceUriPrinter();
 
+        // Create a "XamlFixedSaveOptions" object, which we can pass to the document's "Save" method
+        // to modify how we save the document to the XAML save format.
         XamlFixedSaveOptions options = new XamlFixedSaveOptions();
-        {
-            options.setSaveFormat(SaveFormat.XAML_FIXED);
-            options.setResourcesFolder(getArtifactsDir() + "XamlFixedResourceFolder");
-            options.setResourcesFolderAlias(getArtifactsDir() + "XamlFixedFolderAlias");
-            options.setResourceSavingCallback(callback);
-        }
 
-        // A folder specified by ResourcesFolderAlias will contain the resources instead of ResourcesFolder
-        // We must ensure the folder exists before the streams can put their resources into it
+        Assert.assertEquals(SaveFormat.XAML_FIXED, options.getSaveFormat());
+
+        // Use the "ResourcesFolder" property to assign a folder in the local file system into which
+        // Aspose.Words will save all the document's linked resources, such as images and fonts.
+        options.setResourcesFolder(getArtifactsDir() + "XamlFixedResourceFolder");
+
+        // Use the "ResourcesFolderAlias" property to use this folder
+        // when constructing image URIs instead of the resources folder's name.
+        options.setResourcesFolderAlias(getArtifactsDir() + "XamlFixedFolderAlias");
+
+        options.setResourceSavingCallback(callback);
+
+        // A folder specified by "ResourcesFolderAlias" will need to contain the resources instead of "ResourcesFolder".
+        // We must ensure the folder exists before the callback's streams can put their resources into it.
         new File(options.getResourcesFolderAlias()).mkdir();
 
         doc.save(getArtifactsDir() + "XamlFixedSaveOptions.ResourceFolder.xaml", options);
@@ -55,14 +62,14 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
     /// </summary>
     private static class ResourceUriPrinter implements IResourceSavingCallback {
         public ResourceUriPrinter() {
-            mResources = new ArrayList<String>();
+            mResources = new ArrayList<>();
         }
 
         public void resourceSaving(ResourceSavingArgs args) throws Exception {
-            // If we set a folder alias in the SaveOptions object, it will be stored here
             getResources().add(MessageFormat.format("Resource \"{0}\"\n\t{1}", args.getResourceFileName(), args.getResourceFileUri()));
 
-            // If we specified a ResourcesFolderAlias we will also need to redirect each stream to put its resource in that folder
+            // If we specified a resource folder alias, we would also need
+            // to redirect each stream to put its resource in the alias folder.
             args.setResourceStream(new FileOutputStream(args.getResourceFileUri()));
             args.setKeepResourceStreamOpen(false);
         }
@@ -75,3 +82,4 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
     }
     //ExEnd
 }
+
