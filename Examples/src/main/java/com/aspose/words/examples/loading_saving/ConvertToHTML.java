@@ -152,4 +152,34 @@ public class ConvertToHTML {
 		client.send(message);
 		// ExEnd:ConvertDocumentToMHTMLAndEmail
 	}
+	
+	public static void SplitDocumentByHeadingsHTML(String dataDir) throws Exception {
+		// ExStart:SplitDocumentByHeadingsHTML
+		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
+		// Open a Word document
+		Document doc = new Document(dataDir + "Test File (doc).docx");
+		 
+		HtmlSaveOptions options = new HtmlSaveOptions();
+		// Split a document into smaller parts, in this instance split by heading
+		options.setDocumentSplitCriteria(DocumentSplitCriteria.HEADING_PARAGRAPH);
+		 
+		// Save the output file
+		doc.save(dataDir + "SplitDocumentByHeadings_out.html", options);
+		// ExEnd:SplitDocumentByHeadingsHTML
+	}
+	
+	public static void SplitDocumentBySectionsHTML(String dataDir) throws Exception {
+		// ExStart:SplitDocumentBySectionsHTML
+		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
+		// Open a Word document
+		Document doc = new Document(dataDir + "Test File (doc).docx");
+		 
+		HtmlSaveOptions options = new HtmlSaveOptions();
+		// Split a document into smaller parts, in this instance split by heading
+		options.setDocumentSplitCriteria(DocumentSplitCriteria.SECTION_BREAK);
+		 
+		// Save the output file
+		doc.save(dataDir + "SplitDocumentByHeadings_out.html", options);
+		// ExEnd:SplitDocumentBySectionsHTML
+	}
 }
