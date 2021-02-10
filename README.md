@@ -1,3 +1,4 @@
+![GitHub all releases](https://img.shields.io/github/downloads/aspose-words/Aspose.Words-for-Java/total) ![GitHub](https://img.shields.io/github/license/aspose-words/Aspose.Words-for-java)
 # Java API for Various Document Formats
 
 [Aspose.Words for Java](https://products.aspose.com/words/java) is an advanced Java Word processing API that enables you to perform a great range of document processing tasks directly within your Java applications. Aspose.Words for Java API supports processing word (DOC, DOCX, OOXML, RTF) HTML, OpenDocument, PDF, EPUB, XPS, SWF and all image formats. With Aspose.Words you can generate, modify, and convert documents without using Microsoft Word.
