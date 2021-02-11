@@ -37,13 +37,13 @@
 		<dependency>
 			<groupId>com.aspose</groupId>
 			<artifactId>aspose-words</artifactId>
-			<version>20.11</version>
+			<version>21.2</version>
 			<classifier>jdk17</classifier>
 		</dependency>
 		<dependency>
 			<groupId>com.aspose</groupId>
 			<artifactId>aspose-words</artifactId>
-			<version>20.11</version>
+			<version>21.2</version>
 			<classifier>javadoc</classifier>
 		</dependency>
 		<dependency>
@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>com.aspose</groupId>
 			<artifactId>aspose-words</artifactId>
-			<version>20.11</version>
+			<version>21.2</version>
 			<classifier>shaping-harfbuzz-plugin</classifier>
 		</dependency>
 		<dependency>
@@ -84,6 +84,11 @@
 			<groupId>com.intellij</groupId>
 			<artifactId>forms_rt</artifactId>
 			<version>7.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.9.8</version>
 		</dependency>
 		<!-- Required for MYSQL 
 		<dependency>
