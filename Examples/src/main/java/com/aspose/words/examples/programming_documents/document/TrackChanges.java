@@ -157,8 +157,10 @@ public class TrackChanges {
 
 		// The document has one shape that was moved, but shape move revisions will have two instances of that shape.
 		// One will be the shape at its arrival destination and the other will be the shape at its original location.
+		doc = new Document(dataDir + "Revision shape.docx");
+
 		Node[] nc = doc.getChildNodes(NodeType.SHAPE, true).toArray();
-		if(2 == nc.length)
+		if(4 == nc.length)
 			System.out.println("Shapes Count:" + nc.length);
 
 		Shape mvr = (Shape) nc[0];
