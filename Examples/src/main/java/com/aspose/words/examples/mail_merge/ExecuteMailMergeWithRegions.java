@@ -4,8 +4,7 @@ import com.aspose.words.Document;
 import com.aspose.words.examples.Utils;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.MailMergeRegionInfo;
-import com.sun.tools.javac.util.Assert;
-import java.util.*;  
+import java.util.*;
 
 public class ExecuteMailMergeWithRegions {
 	//ExStart: ExecuteMailMergeWithRegions
