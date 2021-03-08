@@ -750,7 +750,7 @@ public class ExDocument extends ApiExampleBase
         //ExEnd
 
         Assert.assertEquals(7, dstDoc.getStyles().getCount());
-        Assert.assertEquals(8, dstDoc.getSections().getCount());
+        Assert.assertEquals(9, dstDoc.getSections().getCount());
     }
 
     @Test

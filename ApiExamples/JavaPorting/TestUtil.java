@@ -209,7 +209,7 @@ class TestUtil extends ApiExampleBase
                     for (int i = 0; i < reader.getFieldCount(); i++)
                         switch (reader.(i))
                         {
-                            case decimal d:
+                            case BigDecimal d:
                                 row[i] = d.ToString("G29");
                                 break;
                             case String s:

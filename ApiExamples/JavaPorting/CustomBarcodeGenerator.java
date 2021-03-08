@@ -14,9 +14,7 @@ import com.aspose.words.IBarcodeGenerator;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import com.aspose.words.BarcodeParameters;
-import com.aspose.barcode.BarCodeBuilder;
 import com.aspose.barcode.EncodeTypes;
-import com.aspose.barcode.CodeLocation;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 
 
@@ -90,94 +88,95 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
         if (parameters.getBarcodeType() == null || parameters.getBarcodeValue() == null)
             return null;
 
-        BarCodeBuilder builder = new BarCodeBuilder();
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
 
         String type = parameters.getBarcodeType().toUpperCase();
 
         switch (gStringSwitchMap.of(type))
         {
             case /*"QR"*/0:
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
+                generator = new BarcodeGenerator(EncodeTypes.QR);
                 break;
             case /*"CODE128"*/1:
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
+                generator = new BarcodeGenerator(EncodeTypes.CODE_128);
                 break;
             case /*"CODE39"*/2:
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD);
+                generator = new BarcodeGenerator(EncodeTypes.CODE_39_STANDARD);
                 break;
             case /*"EAN8"*/3:
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.EAN_8);
+                generator = new BarcodeGenerator(EncodeTypes.EAN_8);
                 break;
             case /*"EAN13"*/4:
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.EAN_13);
+                generator = new BarcodeGenerator(EncodeTypes.EAN_13);
                 break;
             case /*"UPCA"*/5:
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.UPCA);
+                generator = new BarcodeGenerator(EncodeTypes.UPCA);
                 break;
             case /*"UPCE"*/6:
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.UPCE);
+                generator = new BarcodeGenerator(EncodeTypes.UPCE);
                 break;
             case /*"ITF14"*/7:
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.ITF_14);
+                generator = new BarcodeGenerator(EncodeTypes.ITF_14);
                 break;
             case /*"CASE"*/8:
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.None);
+                generator = new BarcodeGenerator(EncodeTypes.None);
                 break;
         }
 
-        if (builder.getEncodeType().Equals(com.aspose.barcode.EncodeTypes.None))
+        if (generator.BarcodeType.Equals(EncodeTypes.None))
             return null;
 
-        builder.setCodeText(parameters.getBarcodeValue());
+        generator.CodeText = parameters.getBarcodeValue();
 
-        if (builder.getEncodeType().Equals(com.aspose.barcode.EncodeTypes.QR))
-            builder.setDisplay2DText(parameters.getBarcodeValue());
+        if (generator.BarcodeType.Equals(EncodeTypes.QR))
+            generator.Parameters.Barcode.CodeTextParameters.TwoDDisplayText = parameters.getBarcodeValue();
 
         if (parameters.getForegroundColor() != null)
-            builder.setForeColor(convertColor(parameters.getForegroundColor()));
+            generator.Parameters.Barcode.BarColor = convertColor(parameters.getForegroundColor());
 
         if (parameters.getBackgroundColor() != null)
-            builder.setBackColor(convertColor(parameters.getBackgroundColor()));
+            generator.Parameters.BackColor = convertColor(parameters.getBackgroundColor());
 
         if (parameters.getSymbolHeight() != null)
         {
-            builder.setImageHeight(convertSymbolHeight(parameters.getSymbolHeight()));
-            builder.setAutoSize(false);
+            generator.Parameters.ImageHeight.Pixels = convertSymbolHeight(parameters.getSymbolHeight());
+            generator.Parameters.AutoSizeMode = AutoSizeMode.None;
         }
 
-        builder.setCodeLocation(CodeLocation.None);
+        generator.Parameters.Barcode.CodeTextParameters.Location = CodeLocation.None;
 
         if (parameters.getDisplayText())
-            builder.setCodeLocation(CodeLocation.Below);
+            generator.Parameters.Barcode.CodeTextParameters.Location = CodeLocation.Below;
 
-        builder.getCaptionAbove().setText("");
+        generator.Parameters.CaptionAbove.Text = "";
 
-        final float SCALE = 0.4f; // Empiric scaling factor for converting Word barcode to Aspose.BarCode
+        final float SCALE = 2.4f; // Empiric scaling factor for converting Word barcode to Aspose.BarCode
         float xdim = 1.0f;
 
-        if (builder.getEncodeType().Equals(com.aspose.barcode.EncodeTypes.QR))
+        if (generator.BarcodeType.Equals(EncodeTypes.QR))
         {
-            builder.setAutoSize(false);
-            builder.setImageWidth(builder.getImageWidth() * SCALE);
-            builder.setImageHeight(builder.getImageWidth());
-            xdim = builder.getImageHeight() / 25f;
-            builder.setxDimension(builder.setyDimension(xdim));
+            generator.Parameters.AutoSizeMode = AutoSizeMode.Nearest;
+            generator.Parameters.ImageWidth.Inches *= SCALE;
+            generator.Parameters.ImageHeight.Inches = generator.Parameters.ImageWidth.Inches;
+            xdim = generator.Parameters.ImageHeight.Inches / 25;
+            generator.Parameters.Barcode.XDimension.Inches = generator.Parameters.Barcode.BarHeight.Inches = xdim;
         }
 
         if (parameters.getScalingFactor() != null)
         {
             float scalingFactor = convertScalingFactor(parameters.getScalingFactor());
-            builder.setImageHeight(builder.getImageHeight() * scalingFactor);
-            if (builder.getEncodeType().Equals(com.aspose.barcode.EncodeTypes.QR))
+            generator.Parameters.ImageHeight.Inches *= scalingFactor;
+            
+            if (generator.BarcodeType.Equals(EncodeTypes.QR))
             {
-                builder.setImageWidth(builder.getImageHeight());
-                builder.setxDimension(builder.setyDimension(xdim * scalingFactor));
+                generator.Parameters.ImageWidth.Inches = generator.Parameters.ImageHeight.Inches;
+                generator.Parameters.Barcode.XDimension.Inches = generator.Parameters.Barcode.BarHeight.Inches = xdim * scalingFactor;
             }
 
-            builder.setAutoSize(false);
+            generator.Parameters.AutoSizeMode = AutoSizeMode.None;
         }
-        
-        return builder.getBarCodeImage();            
+
+        return generator.GenerateBarCodeImage();            
 
     }
 
@@ -191,14 +190,13 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
         if (parameters.getPostalAddress() == null)
             return null;
 
-        BarCodeBuilder builder = new BarCodeBuilder();
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.POSTNET);
         {
-            builder.setEncodeType(com.aspose.barcode.EncodeTypes.POSTNET);
-            builder.setCodeText(parameters.getPostalAddress());
+            generator.setCodeText(parameters.getPostalAddress());
         }
 
         // Hardcode type for old-fashioned Barcode
-        return builder.getBarCodeImage();
+        return generator.GenerateBarCodeImage();
     }
 
     /// <summary>

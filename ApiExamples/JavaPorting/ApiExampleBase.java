@@ -105,7 +105,7 @@ public class ApiExampleBase
         // CodeBase is a full URI, such as file:///x:\blahblah.
         msUri uri = new msUri(assembly.CodeBase);
         String mainFolder = Path.getDirectoryName(uri.getLocalPath())
-            ?.Substring(0, uri.LocalPath.IndexOf("CSharp", StringComparison.Ordinal));
+            ?.Substring(0, uri.LocalPath.IndexOf("ApiExamples", StringComparison.Ordinal));
         return mainFolder;
     }
 

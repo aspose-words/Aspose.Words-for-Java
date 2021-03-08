@@ -819,7 +819,7 @@ public class ExShape extends ApiExampleBase
     public void fill() throws Exception
     {
         //ExStart
-        //ExFor:Shape.Fill
+        //ExFor:ShapeBase.Fill
         //ExFor:Shape.FillColor
         //ExFor:Shape.StrokeColor
         //ExFor:Fill
@@ -2378,7 +2378,7 @@ public class ExShape extends ApiExampleBase
         shape.getTextPath().setKerning(false);
 
         // Use the "Spacing" property to set the custom spacing between characters on a scale from 0.0 (none) to 1.0 (default).
-        shape = appendWordArt(doc, "Spacing set to 0.1", "Calibri", 120.0, 24.0, Color.BlueViolet, Color.BLUE, ShapeType.TEXT_CASCADE_DOWN);
+        shape = appendWordArt(doc, "Spacing set to 0.1", "Calibri", 120.0, 24.0, msColor.getBlueViolet(), Color.BLUE, ShapeType.TEXT_CASCADE_DOWN);
         shape.getTextPath().setSpacing(0.1);
 
         // Set the "RotateLetters" property to "true" to rotate each character 90 degrees counterclockwise.

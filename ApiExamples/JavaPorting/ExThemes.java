@@ -78,7 +78,7 @@ public class ExThemes extends ApiExampleBase
         colors.setAccent2(Color.LightSalmon);
         colors.setAccent3(Color.YELLOW);
         colors.setAccent4(msColor.getGold());
-        colors.setAccent5(Color.BlueViolet);
+        colors.setAccent5(msColor.getBlueViolet());
         colors.setAccent6(Color.DarkViolet);
 
         // Apply custom colors to hyperlinks in their clicked and un-clicked states.

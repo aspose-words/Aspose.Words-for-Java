@@ -570,8 +570,12 @@ public class ExField extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Field.BarCodeWord2Pdf.pdf");
 
-        BarCodeReader barCode = barCodeReaderPdf(getArtifactsDir() + "Field.BarCodeWord2Pdf.pdf");
-        Assert.assertEquals("QR", barCode.GetCodeType().toString());
+        BarCodeReader barCodeReader = barCodeReaderPdf(getArtifactsDir() + "Field.BarCodeWord2Pdf.pdf");
+        try /*JAVA: was using*/
+        {
+            Assert.AreEqual("QR", barCodeReader.FoundBarCodes[0].CodeTypeName);
+        }
+        finally { if (barCodeReader != null) barCodeReader.close(); }
     }
 
     private BarCodeReader barCodeReaderPdf(String filename) throws Exception
@@ -595,10 +599,9 @@ public class ExField extends ApiExampleBase
 
         // Recognize the barcode from the image stream above.
         BarCodeReader barcodeReader = new BarCodeReader(imageStream, DecodeType.QR);
-        while (barcodeReader.Read())
-            System.out.println("Codetext found: " + barcodeReader.GetCodeText() + ", Symbology: " + barcodeReader.GetCodeType());
 
-        barcodeReader.Close();
+        for (BarCodeResult result : barcodeReader.ReadBarCodes() !!Autoporter error: Undefined expression type )
+            msConsole.WriteLine("Codetext found: " + result.CodeText + ", Symbology: " + result.CodeTypeName);
 
         return barcodeReader;
     }
