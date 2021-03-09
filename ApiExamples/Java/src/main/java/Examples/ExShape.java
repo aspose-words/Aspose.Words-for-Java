@@ -722,7 +722,7 @@ public class ExShape extends ApiExampleBase {
     @Test
     public void fill() throws Exception {
         //ExStart
-        //ExFor:Shape.Fill
+        //ExFor:ShapeBase.Fill
         //ExFor:Shape.FillColor
         //ExFor:Shape.StrokeColor
         //ExFor:Fill

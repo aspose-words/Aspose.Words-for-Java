@@ -14,6 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.Iterator;
 
 
@@ -235,6 +236,7 @@ public class ExBookmarks extends ApiExampleBase {
         bookmarks.clear();
 
         // The text that was inside the bookmarks is still present in the document.
+        Assert.assertTrue(IterableUtils.size(bookmarks) == 0);
         Assert.assertEquals("Text inside MyBookmark_1.\r" +
                 "Text inside MyBookmark_2.\r" +
                 "Text inside MyBookmark_3.\r" +

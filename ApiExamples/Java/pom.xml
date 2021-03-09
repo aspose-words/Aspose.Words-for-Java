@@ -72,19 +72,19 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-barcode</artifactId>
-            <version>18.8</version>
+            <version>21.2</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-pdf</artifactId>
-            <version>19.2</version>
+            <version>21.2</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.9.8</version>
+            <version>7.4.0</version>
         </dependency>
         <dependency>
             <groupId>javax.media.jai</groupId>

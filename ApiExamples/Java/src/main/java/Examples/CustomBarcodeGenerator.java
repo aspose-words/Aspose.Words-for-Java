@@ -8,9 +8,10 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.barcode.BarCodeBuilder;
-import com.aspose.barcode.CodeLocation;
 import com.aspose.barcode.EncodeTypes;
+import com.aspose.barcode.generation.AutoSizeMode;
+import com.aspose.barcode.generation.BarcodeGenerator;
+import com.aspose.barcode.generation.CodeLocation;
 import com.aspose.words.BarcodeParameters;
 import com.aspose.words.IBarcodeGenerator;
 
@@ -82,90 +83,96 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
         if (parameters.getBarcodeType() == null || parameters.getBarcodeValue() == null)
             return null;
 
-        BarCodeBuilder builder = new BarCodeBuilder();
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
+
         String type = parameters.getBarcodeType().toUpperCase();
 
         switch (type) {
             case "QR":
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.QR);
+                generator = new BarcodeGenerator(EncodeTypes.QR);
                 break;
             case "CODE128":
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_128);
+                generator = new BarcodeGenerator(EncodeTypes.CODE_128);
                 break;
             case "CODE39":
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.CODE_39_STANDARD);
+                generator = new BarcodeGenerator(EncodeTypes.CODE_39_STANDARD);
                 break;
             case "EAN8":
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.EAN_8);
+                generator = new BarcodeGenerator(EncodeTypes.EAN_8);
                 break;
             case "EAN13":
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.EAN_13);
+                generator = new BarcodeGenerator(EncodeTypes.EAN_13);
                 break;
             case "UPCA":
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.UPCA);
+                generator = new BarcodeGenerator(EncodeTypes.UPCA);
                 break;
             case "UPCE":
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.UPCE);
+                generator = new BarcodeGenerator(EncodeTypes.UPCE);
                 break;
             case "ITF14":
-                builder.setEncodeType(com.aspose.barcode.EncodeTypes.ITF_14);
+                generator = new BarcodeGenerator(EncodeTypes.ITF_14);
                 break;
             case "CASE":
-                builder.setEncodeType(EncodeTypes.NONE);
+                generator = new BarcodeGenerator(EncodeTypes.NONE);
                 break;
         }
 
-        if (builder.getEncodeType().equals(EncodeTypes.NONE))
+        if (generator.getBarcodeType().equals(EncodeTypes.NONE))
             return null;
 
-        builder.setCodeText(parameters.getBarcodeValue());
+        generator.setCodeText(parameters.getBarcodeValue());
 
-        if (builder.getEncodeType().equals(com.aspose.barcode.EncodeTypes.QR))
-            builder.setDisplay2DText(parameters.getBarcodeValue());
+        if (generator.getBarcodeType().equals(EncodeTypes.QR))
+            generator.getParameters().getBarcode().getCodeTextParameters().setTwoDDisplayText(parameters.getBarcodeValue());
 
         if (parameters.getForegroundColor() != null)
-            builder.setForeColor(convertColor(parameters.getForegroundColor()));
+            generator.getParameters().getBarcode().setBarColor(convertColor(parameters.getForegroundColor()));
 
         if (parameters.getBackgroundColor() != null)
-            builder.setBackColor(convertColor(parameters.getBackgroundColor()));
+            generator.getParameters().setBackColor(convertColor(parameters.getBackgroundColor()));
 
-        if (parameters.getSymbolHeight() != null) {
-            builder.setImageHeight(convertSymbolHeight(parameters.getSymbolHeight()));
-            builder.setAutoSize(false);
+        if (parameters.getSymbolHeight() != null)
+        {
+            generator.getParameters().getImageHeight().setPixels(convertSymbolHeight(parameters.getSymbolHeight()));
+            generator.getParameters().setAutoSizeMode(AutoSizeMode.NONE);
         }
 
-        builder.setCodeLocation(CodeLocation.None);
-
+        generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
         if (parameters.getDisplayText())
-            builder.setCodeLocation(CodeLocation.Below);
+            generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
 
-        builder.getCaptionAbove().setText("");
+        generator.getParameters().getCaptionAbove().setText("");
 
-        final float SCALE = 0.4f; // Empiric scaling factor for converting Word barcode to Aspose.BarCode
+        final float SCALE = 2.4f; // Empiric scaling factor for converting Word barcode to Aspose.BarCode.
         float xdim = 1.0f;
 
-        if (builder.getEncodeType().equals(com.aspose.barcode.EncodeTypes.QR)) {
-            builder.setAutoSize(false);
-            builder.setImageWidth(builder.getImageWidth() * SCALE);
-            builder.setImageHeight(builder.getImageWidth());
-            xdim = builder.getImageHeight() / 25f;
-            builder.setxDimension(xdim);
-            builder.setyDimension(xdim);
+        if (generator.getBarcodeType().equals(EncodeTypes.QR))
+        {
+            generator.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
+            generator.getParameters().getImageWidth().setInches(SCALE);
+            generator.getParameters().getImageHeight().setInches(generator.getParameters().getImageWidth().getInches());
+            xdim = generator.getParameters().getImageHeight().getInches() / 25;
+            generator.getParameters().getBarcode().getXDimension().setInches(xdim);
+            generator.getParameters().getBarcode().getBarHeight().setInches(xdim);
         }
 
-        if (parameters.getScalingFactor() != null) {
+        if (parameters.getScalingFactor() != null)
+        {
             float scalingFactor = convertScalingFactor(parameters.getScalingFactor());
-            builder.setImageHeight(builder.getImageHeight() * scalingFactor);
-            if (builder.getEncodeType().equals(com.aspose.barcode.EncodeTypes.QR)) {
-                builder.setImageWidth(builder.getImageHeight());
-                builder.setxDimension(xdim * scalingFactor);
-                builder.setyDimension(xdim * scalingFactor);
+            generator.getParameters().getImageHeight().setInches(scalingFactor);
+            
+            if (generator.getBarcodeType().equals(EncodeTypes.QR))
+            {
+                generator.getParameters().getImageWidth().setInches(generator.getParameters().getImageHeight().getInches());
+                generator.getParameters().getBarcode().getXDimension().setInches(xdim * scalingFactor);
+                generator.getParameters().getBarcode().getBarHeight().setInches(xdim * scalingFactor);
             }
 
-            builder.setAutoSize(false);
+            generator.getParameters().setAutoSizeMode(AutoSizeMode.NONE);
         }
 
-        return builder.getBarCodeImage();
+        return generator.generateBarCodeImage();
+
     }
 
     /// <summary>
@@ -177,14 +184,13 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
         if (parameters.getPostalAddress() == null)
             return null;
 
-        BarCodeBuilder builder = new BarCodeBuilder();
+        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.POSTNET);
         {
-            builder.setEncodeType(com.aspose.barcode.EncodeTypes.POSTNET);
-            builder.setCodeText(parameters.getPostalAddress());
+            generator.setCodeText(parameters.getPostalAddress());
         }
 
-        // Hardcode type for old-fashioned Barcode
-        return builder.getBarCodeImage();
+        // Hardcode type for old-fashioned Barcode.
+        return generator.generateBarCodeImage();
     }
 
     /// <summary>
