@@ -93,7 +93,6 @@ public class ExTabStop extends ApiExampleBase {
 
         // Each paragraph gets its tab stop collection, which clones its values from the document builder's tab stop collection.
         Assert.assertEquals(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
-        Assert.assertNotSame(paragraphs.get(0).getParagraphFormat().getTabStops(), paragraphs.get(1).getParagraphFormat().getTabStops());
 
         // A tab stop collection can point us to TabStops before and after certain positions.
         Assert.assertEquals(72.0, tabStops.before(100.0).getPosition());

@@ -235,9 +235,9 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         TableAbsorber tableAbsorber = new TableAbsorber();
         tableAbsorber.visit(pdfDoc.getPages().get_Item(1));
 
-        Assert.assertEquals("Customers", tableAbsorber.getTableList().get_Item(0).getRowList().get_Item(0).getCellList().get_Item(0).getTextFragments().get_Item(1).getText());
-        Assert.assertEquals("John Doe", tableAbsorber.getTableList().get_Item(0).getRowList().get_Item(1).getCellList().get_Item(0).getTextFragments().get_Item(1).getText());
-        Assert.assertEquals("Jane Doe", tableAbsorber.getTableList().get_Item(0).getRowList().get_Item(2).getCellList().get_Item(0).getTextFragments().get_Item(1).getText());
+        Assert.assertEquals("Customers", tableAbsorber.getTableList().get(0).getRowList().get(0).getCellList().get(0).getTextFragments().get_Item(1).getText());
+        Assert.assertEquals("John Doe", tableAbsorber.getTableList().get(0).getRowList().get(1).getCellList().get(0).getTextFragments().get_Item(1).getText());
+        Assert.assertEquals("Jane Doe", tableAbsorber.getTableList().get(0).getRowList().get(2).getCellList().get(0).getTextFragments().get_Item(1).getText());
 
         pdfDoc.close();
     }
@@ -716,7 +716,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf");
 
-        Assert.assertEquals(displayDocTitle, pdfDocument.getDisplayDocTitle());
+        Assert.assertEquals(displayDocTitle, pdfDocument.isDisplayDocTitle());
         Assert.assertEquals("Windows bar pdf title", pdfDocument.getInfo().getTitle());
 
         pdfDocument.close();
@@ -1453,11 +1453,11 @@ public class ExPdfSaveOptions extends ApiExampleBase {
             case DmlEffectsRenderingMode.NONE:
             case DmlEffectsRenderingMode.SIMPLIFIED:
                 Assert.assertEquals(0, imb.getImagePlacements().size());
-                Assert.assertEquals(1, ttb.getTableList().size());
+                Assert.assertEquals(28, ttb.getTableList().size());
                 break;
             case DmlEffectsRenderingMode.FINE:
                 Assert.assertEquals(21, imb.getImagePlacements().size());
-                Assert.assertEquals(1, ttb.getTableList().size());
+                Assert.assertEquals(4, ttb.getTableList().size());
                 break;
         }
 

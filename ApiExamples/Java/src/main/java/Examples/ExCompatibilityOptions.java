@@ -15,7 +15,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Test
-public class ExCompatibilityOptions extends ApiExampleBase {
+public class ExCompatibilityOptions extends ApiExampleBase
+{
     @Test
     public void tables() throws Exception {
         Document doc = new Document();

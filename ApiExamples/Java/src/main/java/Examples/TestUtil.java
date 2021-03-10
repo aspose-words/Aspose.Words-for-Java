@@ -9,15 +9,31 @@ package Examples;
 
 import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataTable;
+import org.apache.commons.collections4.IterableUtils;
+import org.apache.commons.io.IOUtils;
 import org.testng.Assert;
+import sun.nio.ch.IOUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 class TestUtil {
     /// <summary>
@@ -57,6 +73,21 @@ class TestUtil {
         } finally {
             if (image != null) image.flush();
         }
+    }
+
+    /// <summary>
+    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
+    /// </summary>
+    /// <remarks>
+    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
+    /// </remarks>
+    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
+    /// <param name="webAddress">URL where the request will be sent.</param>
+    static void verifyWebResponseStatusCode(int expectedHttpStatusCode, URL webAddress) throws IOException {
+        HttpURLConnection httpURLConnection = (HttpURLConnection) webAddress.openConnection();
+        httpURLConnection.setRequestMethod("HEAD");
+
+        Assert.assertEquals(expectedHttpStatusCode, httpURLConnection.getResponseCode());
     }
 
     /// <summary>
@@ -124,7 +155,34 @@ class TestUtil {
     }
 
     /// <summary>
-    /// Checks whether values of attributes of a field with a type not related to date/time are equal to expected values.
+    /// Checks whether a file inside a document's OOXML package contains a string.
+    /// </summary>
+    /// <remarks>
+    /// If an output document does not have a testable value that can be found as a property in its object when loaded,
+    /// the value can sometimes be found in the document's OOXML package. 
+    /// </remarks>
+    /// <param name="expected">The string we are looking for.</param>
+    /// <param name="docFilename">Local file system filename of the document.</param>
+    /// <param name="docPartFilename">Name of the file within the document opened as a .zip that is expected to contain the string.</param>
+    static void docPackageFileContainsString(String expected, String docFilename, String docPartFilename) throws Exception {
+        try (ZipFile archive = new ZipFile(docFilename)) {
+            Enumeration<? extends ZipEntry> zipEntries = archive.entries();
+
+            while (zipEntries.hasMoreElements()) {
+                ZipEntry entry = zipEntries.nextElement();
+
+                if (entry.getName().equals(docPartFilename)) {
+                    InputStream entryStream = archive.getInputStream(entry);
+                    String entryContent = IOUtils.toString(entryStream, StandardCharsets.UTF_8);
+
+                    Assert.assertTrue(entryContent.contains(expected));
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Checks whether values of properties of a field with a type not related to date/time are equal to expected values.
     /// </summary>
     /// <remarks>
     /// Best used when there are many fields closely being tested and should be avoided if a field has a long field code/result.

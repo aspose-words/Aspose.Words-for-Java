@@ -722,7 +722,7 @@ public class ExShape extends ApiExampleBase {
     @Test
     public void fill() throws Exception {
         //ExStart
-        //ExFor:Shape.Fill
+        //ExFor:ShapeBase.Fill
         //ExFor:Shape.FillColor
         //ExFor:Shape.StrokeColor
         //ExFor:Fill
@@ -1027,7 +1027,7 @@ public class ExShape extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test
+    @Test (enabled = false)
     public void oleLinks() throws Exception {
         //ExStart
         //ExFor:OleFormat.IconCaption
@@ -1409,7 +1409,7 @@ public class ExShape extends ApiExampleBase {
         Assert.assertEquals(ShapeLineStyle.TRIPLE, stroke.getLineStyle());
     }
 
-    @Test(description = "WORDSNET-16067")
+    @Test(description = "WORDSNET-16067", enabled = false)
     public void insertOleObjectAsHtmlFile() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
