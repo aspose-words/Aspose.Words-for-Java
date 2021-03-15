@@ -204,7 +204,6 @@ public class ExDrawing extends ApiExampleBase {
             if (imageData.hasImage()) {
                 InputStream format = imageData.toStream();
 
-                // We will use an ImageReader to determine an image's file extension
                 ImageInputStream iis = ImageIO.createImageInputStream(format);
                 Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
 
@@ -425,7 +424,7 @@ public class ExDrawing extends ApiExampleBase {
     public void textBox() throws Exception {
         //ExStart
         //ExFor:Drawing.LayoutFlow
-        //ExSummary:Shows how to add text to a text box, and change its orientation
+        //ExSummary:Shows how to add text to a text box, and change its orientation.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

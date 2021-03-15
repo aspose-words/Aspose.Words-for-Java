@@ -5879,7 +5879,6 @@ public class ExField extends ApiExampleBase {
         field = (FieldTemplate) doc.getRange().getFields().get(1);
         Assert.assertEquals(" TEMPLATE  \\p", field.getFieldCode());
         Assert.assertTrue(field.getResult().endsWith("\\Microsoft\\Templates\\Normal.dotm"));
-
     }
 
     @Test

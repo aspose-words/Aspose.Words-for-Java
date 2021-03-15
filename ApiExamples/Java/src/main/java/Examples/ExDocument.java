@@ -29,6 +29,8 @@ import java.net.URLConnection;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Test
 public class ExDocument extends ApiExampleBase {
@@ -342,6 +344,7 @@ public class ExDocument extends ApiExampleBase {
         doc.getRange().getFields().get(0).remove();
 
         System.out.println(callback.getLog());
+        testFontChangeViaCallback(callback.getLog()); //ExSkip
     }
 
     /// <summary>
@@ -385,6 +388,22 @@ public class ExDocument extends ApiExampleBase {
         private final StringBuilder mLog = new StringBuilder();
     }
     //ExEnd
+
+    private static void testFontChangeViaCallback(String log)
+    {
+        Assert.assertEquals(10, getLogCount(log, "insertion"));
+        Assert.assertEquals(5, getLogCount(log, "removal"));
+    }
+
+    private static int getLogCount(String log, String pattern) {
+        Matcher matcher = Pattern.compile(pattern).matcher(log);
+
+        int count = 0;
+        while (matcher.find())
+            count++;
+
+        return count;
+    }
 
     @Test
     public void appendDocument() throws Exception {
@@ -1715,7 +1734,6 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(false, parts.get(0).isExternal());
         Assert.assertEquals(18, parts.get(0).getData().length);
 
-        // This part is external and its content is sourced from outside the document
         Assert.assertEquals("http://www.aspose.com/Images/aspose-logo.jpg", parts.get(1).getName());
         Assert.assertEquals("", parts.get(1).getContentType());
         Assert.assertEquals("http://mytest.payload.external", parts.get(1).getRelationshipType());

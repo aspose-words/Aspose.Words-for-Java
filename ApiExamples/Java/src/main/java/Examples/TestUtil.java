@@ -26,10 +26,11 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
+import java.time.Duration;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -198,6 +199,20 @@ class TestUtil {
     }
 
     /// <summary>
+    /// Checks whether a DateTime matches an expected value, with a margin of error.
+    /// </summary>
+    /// <param name="expected">The date/time that we expect the result to be.</param>
+    /// <param name="actual">The DateTime object being tested.</param>
+    /// <param name="delta">Margin of error for expectedResult.</param>
+    static void verifyDate(Date expected, Date actual, Duration delta)
+    {
+        long diffInMillies = Math.abs(expected.getTime() - actual.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+        Assert.assertTrue(diff <= delta.getSeconds());
+    }
+
+    /// <summary>
     /// Checks whether a field contains another complete field as a sibling within its nodes.
     /// </summary>
     /// <remarks>
@@ -220,7 +235,7 @@ class TestUtil {
     /// Checks whether a shape contains a valid image with specified dimensions.
     /// </summary>
     /// <remarks>
-    /// Serves as a way to check that an image file is valid and nonempty without looking up its data length.
+    /// Serves to check that an image file is valid and nonempty without looking up its data length.
     /// </remarks>
     /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
@@ -234,7 +249,7 @@ class TestUtil {
     }
 
     /// <summary>
-    /// Checks whether values of a footnote's attributes are equal to their expected values.
+    /// Checks whether values of a footnote's properties are equal to their expected values.
     /// </summary>
     /// <param name="expectedFootnoteType">Expected type of the footnote/endnote.</param>
     /// <param name="expectedIsAuto">Expected auto-numbered status of this footnote.</param>
@@ -249,7 +264,7 @@ class TestUtil {
     }
 
     /// <summary>
-    /// Checks whether values of a list level's attributes are equal to their expected values.
+    /// Checks whether values of a list level's properties are equal to their expected values.
     /// </summary>
     /// <remarks>
     /// Only necessary for list levels that have been explicitly created by the user.
@@ -265,7 +280,7 @@ class TestUtil {
     }
 
     /// <summary>
-    /// Checks whether values of a tab stop's attributes are equal to their expected values.
+    /// Checks whether values of a tab stop's properties are equal to their expected values.
     /// </summary>
     /// <param name="expectedPosition">Expected position on the tab stop ruler, in points.</param>
     /// <param name="expectedTabAlignment">Expected position where the position is measured from </param>
@@ -280,7 +295,7 @@ class TestUtil {
     }
 
     /// <summary>
-    /// Checks whether values of a shape's attributes are equal to their expected values.
+    /// Checks whether values of a shape's properties are equal to their expected values.
     /// </summary>
     /// <remarks>
     /// All dimension measurements are in points.
@@ -296,7 +311,7 @@ class TestUtil {
     }
 
     /// <summary>
-    /// Checks whether values of attributes of a textbox are equal to their expected values.
+    /// Checks whether values of properties of a textbox are equal to their expected values.
     /// </summary>
     /// <remarks>
     /// All dimension measurements are in points.
@@ -312,7 +327,7 @@ class TestUtil {
     }
 
     /// <summary>
-    /// Checks whether values of attributes of an editable range are equal to their expected values.
+    /// Checks whether values of properties of an editable range are equal to their expected values.
     /// </summary>
     static void verifyEditableRange(int expectedId, String expectedEditorUser, int expectedEditorGroup, EditableRange editableRange) {
         Assert.assertEquals(expectedId, editableRange.getId());
