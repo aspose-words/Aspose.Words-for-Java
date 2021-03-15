@@ -416,7 +416,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 };
     }
 
-    @Test(enabled = false, dataProvider = "complianceDataProvider")
+    @Test(dataProvider = "complianceDataProvider")
     public void compliance(int pdfCompliance) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.Compliance
