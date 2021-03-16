@@ -192,7 +192,7 @@ class TestUtil {
     /// <param name="expectedFieldCode">The expected output value of GetFieldCode() being called on the field.</param>
     /// <param name="expectedResult">The field's expected result, which will be the value displayed by it in the document.</param>
     /// <param name="field">The field that's being tested.</param>
-    static void verifyField(/*FieldType*/int expectedType, String expectedFieldCode, String expectedResult, Field field) {
+    static void verifyField(int expectedType, String expectedFieldCode, String expectedResult, Field field) {
         Assert.assertEquals(expectedType, field.getType());
         Assert.assertEquals(expectedFieldCode, field.getFieldCode(true));
         Assert.assertEquals(expectedResult, field.getResult());
