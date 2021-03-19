@@ -18,6 +18,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Optional;
 
 public class ExImageSaveOptions extends ApiExampleBase {
     @Test
@@ -72,9 +74,16 @@ public class ExImageSaveOptions extends ApiExampleBase {
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EMF);
         saveOptions.setUseGdiEmfRenderer(useGdiEmfRenderer);
 
-        // The GDI+ renderer usually creates larger files.
         doc.save(getArtifactsDir() + "ImageSaveOptions.Renderer.emf", saveOptions);
+
+        // The GDI+ renderer usually creates larger files.
+        if (useGdiEmfRenderer)
+            Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Renderer.emf").length() < 300000);
+        else
+            Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Renderer.emf").length() <= 30000);
         //ExEnd
+
+        TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.Renderer.emf");
     }
 
     @DataProvider(name = "rendererDataProvider")
@@ -215,10 +224,17 @@ public class ExImageSaveOptions extends ApiExampleBase {
             doc.save(getArtifactsDir() + MessageFormat.format("ImageSaveOptions.PageByPage.{0}.tiff", i + 1), options);
         }
         //ExEnd
+
+        String[] imageFileNames = DocumentHelper.directoryGetFiles(getArtifactsDir(), "*.tiff").stream().filter(i -> i.contains("ImageSaveOptions.PageByPage.") && i.endsWith(".tiff")).toArray(String[]::new);
+
+        Assert.assertEquals(3, imageFileNames.length);
+
+        for (String imageFileName : imageFileNames)
+            TestUtil.verifyImage(816, 1056, imageFileName);
     }
 
     @Test(dataProvider = "colorModeDataProvider")
-    public void colorMode(/*ImageColorMode*/int imageColorMode) throws Exception {
+    public void colorMode(int imageColorMode) throws Exception {
         //ExStart
         //ExFor:ImageColorMode
         //ExFor:ImageSaveOptions.ImageColorMode
@@ -230,6 +246,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         builder.writeln("Hello world!");
         builder.insertImage(getImageDir() + "Logo.jpg");
 
+        Assert.assertTrue(new File(getImageDir() + "Logo.jpg").length() < 20200);
+
         // When we save the document as an image, we can pass a SaveOptions object to
         // select a color mode for the image that the saving operation will generate.
         // If we set the "ImageColorMode" property to "ImageColorMode.BlackAndWhite",
@@ -240,8 +258,21 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // and preserve all the document's colors in the output image.
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setImageColorMode(imageColorMode);
-
+        
         doc.save(getArtifactsDir() + "ImageSaveOptions.ColorMode.png", imageSaveOptions);
+
+        switch (imageColorMode)
+        {
+            case ImageColorMode.NONE:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() < 156000);
+                break;
+            case ImageColorMode.GRAYSCALE:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() < 84000);
+                break;
+            case ImageColorMode.BLACK_AND_WHITE:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() <= 20000);
+                break;
+        }
         //ExEnd
     }
 
@@ -276,7 +307,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         // Set the "PaperColor" property to a transparent color to apply a transparent
         // background to the document while rendering it to an image.
-        imgOptions.setPaperColor(Color.RED);
+        imgOptions.setPaperColor(new Color(1f,0f,0f,.5f ));
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.PaperColor.Transparent.png", imgOptions);
 
@@ -286,10 +317,13 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.PaperColor.LightCoral.png", imgOptions);
         //ExEnd
+
+        TestUtil.imageContainsTransparency(getArtifactsDir() + "ImageSaveOptions.PaperColor.Transparent.png");
+        Assert.assertThrows(AssertionError.class, () -> TestUtil.imageContainsTransparency(getArtifactsDir() + "ImageSaveOptions.PaperColor.LightCoral.png"));
     }
 
     @Test(dataProvider = "pixelFormatDataProvider")
-    public void pixelFormat(/*ImagePixelFormat*/int imagePixelFormat) throws Exception {
+    public void pixelFormat(int imagePixelFormat) throws Exception {
         //ExStart
         //ExFor:ImagePixelFormat
         //ExFor:ImageSaveOptions.Clone
@@ -302,6 +336,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         builder.writeln("Hello world!");
         builder.insertImage(getImageDir() + "Logo.jpg");
 
+        Assert.assertTrue(new File(getImageDir() + "Logo.jpg").length() < 21000);
+
         // When we save the document as an image, we can pass a SaveOptions object to
         // select a pixel format for the image that the saving operation will generate.
         // Various bit per pixel rates will affect the quality and file size of the generated image.
@@ -312,6 +348,25 @@ public class ExImageSaveOptions extends ApiExampleBase {
         Assert.assertNotEquals(imageSaveOptions, imageSaveOptions.deepClone());
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png", imageSaveOptions);
+
+        switch (imagePixelFormat)
+        {
+            case ImagePixelFormat.FORMAT_1_BPP_INDEXED:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() <= 10000);
+                break;
+            case ImagePixelFormat.FORMAT_16_BPP_RGB_555:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 160000);
+                break;
+            case ImagePixelFormat.FORMAT_24_BPP_RGB:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 146000);
+                break;
+            case ImagePixelFormat.FORMAT_32_BPP_RGB:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 156000);
+                break;
+            case ImagePixelFormat.FORMAT_48_BPP_RGB:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 156000);
+                break;
+        }
         //ExEnd
     }
 
@@ -352,6 +407,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff", options);
         //ExEnd
+        
+        TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff");
     }
 
     @Test
@@ -420,11 +477,15 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg", imageOptions);
 
+        Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg").length() <= 20000);
+
         // Set the "JpegQuality" property to "100" to use weaker compression when rending the document.
         // This will improve the quality of the image at the cost of an increased file size.
         imageOptions.setJpegQuality(100);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighQuality.jpg", imageOptions);
+
+        Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighQuality.jpg").length() < 60000);
         //ExEnd
     }
 
@@ -498,6 +559,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png", options);
 
+        Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png").length() <= 120000);
+
         BufferedImage image = ImageIO.read(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png"));
 
         Assert.assertEquals(612, image.getWidth());
@@ -506,6 +569,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         options.setResolution(300f);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png", options);
+
+        Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png").length() < 1160000);
 
         image = ImageIO.read(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png"));
 

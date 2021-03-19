@@ -10,6 +10,8 @@ package Examples;
 
 import com.aspose.pdf.TextAbsorber;
 import com.aspose.words.*;
+import com.aspose.words.net.System.Globalization.CultureInfo;
+import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -38,6 +40,8 @@ public class ExHyphenation extends ApiExampleBase {
         // Open a document containing text with a locale matching that of our dictionary,
         // and save it to a fixed-page save format. The text in that document will be hyphenated.
         Document doc = new Document(getMyDir() + "German text.docx");
+
+        Assert.assertTrue(IterableUtils.matchesAll(doc.getFirstSection().getBody().getFirstParagraph().getRuns(), r -> r.getFont().getLocaleId() == 2055));
 
         doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Registered.pdf");
 

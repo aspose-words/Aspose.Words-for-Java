@@ -8,6 +8,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import com.aspose.words.Shape;
 import com.aspose.words.net.System.Data.DataTable;
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.io.IOUtils;
@@ -15,6 +16,7 @@ import org.testng.Assert;
 import sun.nio.ch.IOUtil;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,6 +76,20 @@ class TestUtil {
         } finally {
             if (image != null) image.flush();
         }
+    }
+
+    /// <summary>
+    /// Checks whether an image from the local file system contains any transparency.
+    /// </summary>
+    /// <param name="filename">Local file system filename of the image file.</param>
+    static void imageContainsTransparency(String filename) throws IOException {
+        BufferedImage bitmap = ImageIO.read(new File(filename));
+
+            for (int x = 0; x < bitmap.getWidth(); x++)
+                for (int y = 0; y < bitmap.getHeight(); y++)
+                    if (new Color(bitmap.getRGB(x, y), true).getAlpha() != 255) return;
+
+        Assert.fail(MessageFormat.format("The image from \"{0}\" does not contain any transparency.", filename));
     }
 
     /// <summary>

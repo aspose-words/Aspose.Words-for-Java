@@ -18,7 +18,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Locale;
 
-
 @Test
 public class ExFieldOptions extends ApiExampleBase {
     @Test
