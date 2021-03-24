@@ -14,6 +14,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Test
 public class ExViewOptions extends ApiExampleBase {
@@ -181,6 +183,11 @@ public class ExViewOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ViewOptions.FormsDesign.xml");
         //ExEnd
+
+        if (useFormsDesign)
+            TestUtil.fileContainsString("<w:formsDesign />", getArtifactsDir() + "ViewOptions.FormsDesign.xml");
+        else
+            Assert.assertThrows(AssertionError.class, () -> TestUtil.fileContainsString("<w:formsDesign />", getArtifactsDir() + "ViewOptions.FormsDesign.xml"));
     }
 
     @DataProvider(name = "formsDesignDataProvider")

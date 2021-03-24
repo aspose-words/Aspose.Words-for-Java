@@ -48,6 +48,10 @@ public class ExSavingCallback extends ApiExampleBase {
         htmlFixedSaveOptions.setPageSavingCallback(new CustomFileNamePageSavingCallback());
 
         doc.save(getArtifactsDir() + "SavingCallback.PageFileNames.html", htmlFixedSaveOptions);
+
+        String[] filePaths = DocumentHelper.directoryGetFiles(getArtifactsDir(), "SavingCallback.PageFileNames.Page_*").toArray(new String[0]);
+
+        Assert.assertEquals(3, filePaths.length);
     }
 
     /// <summary>

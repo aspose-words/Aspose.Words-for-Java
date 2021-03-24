@@ -27,13 +27,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -67,7 +72,7 @@ class TestUtil {
     /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
     /// <param name="imageStream">Stream that contains the image.</param>
-    static void verifyImage(int expectedWidth, int expectedHeight, FileInputStream imageStream) throws IOException {
+    static void verifyImage(int expectedWidth, int expectedHeight, InputStream imageStream) throws IOException {
         BufferedImage image = ImageIO.read(imageStream);
 
         try {
@@ -195,6 +200,18 @@ class TestUtil {
                     Assert.assertTrue(entryContent.contains(expected));
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Checks whether a file in the local file system contains a string in its raw data.
+    /// </summary>
+    /// <param name="expected">The string we are looking for.</param>
+    /// <param name="filename">Local system filename of a file which, when read from the beginning, should contain the string.</param>
+    static void fileContainsString(String expected, String filename) throws Exception {
+        try (FileInputStream stream = new FileInputStream(filename)) {
+            String text = IOUtils.toString(stream, StandardCharsets.UTF_8.name());
+            Assert.assertTrue(text.contains(expected));
         }
     }
 

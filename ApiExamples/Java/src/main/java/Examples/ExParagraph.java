@@ -16,10 +16,12 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.MessageFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ExParagraph extends ApiExampleBase {
     @Test

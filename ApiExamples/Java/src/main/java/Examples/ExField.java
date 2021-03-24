@@ -412,7 +412,6 @@ public class ExField extends ApiExampleBase {
 
         BarCodeResult qrBarCode = Arrays.stream(barCodeReader.getFoundBarCodes()).filter(b -> b.getCodeTypeName() == "QR").findFirst().get();
         Assert.assertEquals("QR", qrBarCode.getCodeTypeName());
-
     }
 
     private BarCodeReader barCodeReaderPdf(String filename) throws Exception
@@ -433,6 +432,8 @@ public class ExField extends ApiExampleBase {
         ByteArrayOutputStream imageStream = new ByteArrayOutputStream();
         pdfExtractor.getNextImage(imageStream);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageStream.toByteArray());
+
+        pdfExtractor.close();
 
         // Recognize the barcode from the image stream above.
         BarCodeReader barcodeReader = new BarCodeReader(byteArrayInputStream, DecodeType.QR);
@@ -5103,8 +5104,8 @@ public class ExField extends ApiExampleBase {
 
         FieldFillIn field = (FieldFillIn) doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_FILL_IN, " FILLIN  \"Please enter a response:\" \\d \"A default response\" \\o",
-                "Response modified by PromptRespondent. A default response", field);
+        TestUtil.verifyField(FieldType.FIELD_FILL_IN, " FILLIN  \"Please enter a response:\" \\d \"A default response.\" \\o",
+                "Response modified by PromptRespondent. A default response.", field);
         Assert.assertEquals("Please enter a response:", field.getPromptText());
         Assert.assertEquals("A default response.", field.getDefaultResponse());
         Assert.assertTrue(field.getPromptOnceOnMailMerge());

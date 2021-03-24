@@ -64,6 +64,11 @@ public class ExShape extends ApiExampleBase {
 
         TestUtil.verifyShape(ShapeType.IMAGE, "", 153.0d, 153.0d, 0.0, 0.0, shape);
         Assert.assertEquals("Alt text for MyCube.", shape.getAlternativeText());
+
+        TestUtil.fileContainsString(
+            "<img src=\"Shape.AltText.001.png\" width=\"204\" height=\"204\" alt=\"Alt text for MyCube.\" " +
+            "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />", 
+            getArtifactsDir() + "Shape.AltText.html");
     }
 
     @Test(dataProvider = "fontDataProvider")
@@ -221,6 +226,7 @@ public class ExShape extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Shape.Coordinates.docx");
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
+        TestUtil.verifyShape(ShapeType.RECTANGLE, "Rectangle 100002", 150.0d, 150.0d, 75.0d, 150.0d, shape);
         Assert.assertEquals(40.0d, shape.getDistanceBottom());
         Assert.assertEquals(40.0d, shape.getDistanceLeft());
         Assert.assertEquals(40.0d, shape.getDistanceRight());
@@ -1025,6 +1031,9 @@ public class ExShape extends ApiExampleBase {
         // 2 -  Save it directly to a filename:
         oleFormat.save(getArtifactsDir() + "OLE spreadsheet saved directly" + oleFormat.getSuggestedExtension());
         //ExEnd
+
+        Assert.assertTrue(new File(getArtifactsDir() + "OLE spreadsheet extracted via stream.xlsx").length() < 8500);
+        Assert.assertTrue(new File(getArtifactsDir() + "OLE spreadsheet saved directly.xlsx").length() < 8500);
     }
 
     @Test

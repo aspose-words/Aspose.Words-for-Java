@@ -41,6 +41,16 @@ public class ExRtfSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf", options);
         //ExEnd
+
+        if (exportImagesForOldReaders)
+        {
+            TestUtil.fileContainsString("nonshppict", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf");
+            TestUtil.fileContainsString("shprslt", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf");
+        }
+        else {
+            Assert.assertThrows(AssertionError.class, () -> TestUtil.fileContainsString("nonshppict", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf"));
+            Assert.assertThrows(AssertionError.class, () -> TestUtil.fileContainsString("shprslt", getArtifactsDir() + "RtfSaveOptions.ExportImages.rtf"));
+        }
     }
 
     @DataProvider(name = "exportImagesDataProvider")

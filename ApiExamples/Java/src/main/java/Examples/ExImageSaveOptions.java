@@ -82,8 +82,6 @@ public class ExImageSaveOptions extends ApiExampleBase {
         else
             Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Renderer.emf").length() <= 30000);
         //ExEnd
-
-        TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.Renderer.emf");
     }
 
     @DataProvider(name = "rendererDataProvider")
@@ -228,9 +226,6 @@ public class ExImageSaveOptions extends ApiExampleBase {
         String[] imageFileNames = DocumentHelper.directoryGetFiles(getArtifactsDir(), "*.tiff").stream().filter(i -> i.contains("ImageSaveOptions.PageByPage.") && i.endsWith(".tiff")).toArray(String[]::new);
 
         Assert.assertEquals(3, imageFileNames.length);
-
-        for (String imageFileName : imageFileNames)
-            TestUtil.verifyImage(816, 1056, imageFileName);
     }
 
     @Test(dataProvider = "colorModeDataProvider")
@@ -355,16 +350,12 @@ public class ExImageSaveOptions extends ApiExampleBase {
                 Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() <= 10000);
                 break;
             case ImagePixelFormat.FORMAT_16_BPP_RGB_555:
-                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 160000);
+            case ImagePixelFormat.FORMAT_32_BPP_RGB:
+            case ImagePixelFormat.FORMAT_48_BPP_RGB:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 156000);
                 break;
             case ImagePixelFormat.FORMAT_24_BPP_RGB:
                 Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 146000);
-                break;
-            case ImagePixelFormat.FORMAT_32_BPP_RGB:
-                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 156000);
-                break;
-            case ImagePixelFormat.FORMAT_48_BPP_RGB:
-                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 156000);
                 break;
         }
         //ExEnd
@@ -407,8 +398,6 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff", options);
         //ExEnd
-        
-        TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff");
     }
 
     @Test
