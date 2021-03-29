@@ -79,6 +79,8 @@ import com.aspose.words.Shading;
 import com.aspose.words.TextureIndex;
 import com.aspose.words.ImportFormatOptions;
 import com.aspose.words.ImportFormatMode;
+import com.aspose.words.ListTemplate;
+import com.aspose.words.List;
 import com.aspose.words.NodeImporter;
 import com.aspose.words.Field;
 import com.aspose.words.Chart;
@@ -2325,8 +2327,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
     }
 
-    @Test
-    public void appendDocumentAndResolveStyles() throws Exception
+    @Test (dataProvider = "appendDocumentAndResolveStylesDataProvider")
+    public void appendDocumentAndResolveStyles(boolean keepSourceNumbering) throws Exception
     {
         //ExStart
         //ExFor:Document.AppendDocument(Document, ImportFormatMode, ImportFormatOptions)
@@ -2340,8 +2342,11 @@ public class ExDocumentBuilder extends ApiExampleBase
         dstDoc.getStyles().get("CustomStyle").getFont().setColor(msColor.getDarkRed());
 
         // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
         ImportFormatOptions options = new ImportFormatOptions();
-        options.setKeepSourceNumbering(true);
+        options.setKeepSourceNumbering(keepSourceNumbering);
 
         // Joining two documents that have different styles that share the same name causes a style clash.
         // We can specify an import format mode while appending documents to resolve this clash.
@@ -2351,6 +2356,98 @@ public class ExDocumentBuilder extends ApiExampleBase
         dstDoc.save(getArtifactsDir() + "DocumentBuilder.AppendDocumentAndResolveStyles.docx");
         //ExEnd
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "appendDocumentAndResolveStylesDataProvider")
+	public static Object[][] appendDocumentAndResolveStylesDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "insertDocumentAndResolveStylesDataProvider")
+    public void insertDocumentAndResolveStyles(boolean keepSourceNumbering) throws Exception
+    {
+        //ExStart
+        //ExFor:Document.AppendDocument(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to manage list style clashes while inserting a document.
+        Document dstDoc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(dstDoc);
+        builder.insertBreak(BreakType.PARAGRAPH_BREAK);
+
+        dstDoc.getLists().add(ListTemplate.NUMBER_DEFAULT);
+        List list = dstDoc.getLists().get(0);
+
+        builder.getListFormat().setList(list);
+
+        for (int i = 1; i <= 15; i++)
+            builder.write($"List Item {i}\n");
+
+        Document attachDoc = (Document)dstDoc.deepClone(true);
+
+        // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
+        ImportFormatOptions importOptions = new ImportFormatOptions();
+        importOptions.setKeepSourceNumbering(keepSourceNumbering);
+
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.insertDocument(attachDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, importOptions);
+
+        dstDoc.save(getArtifactsDir() + "DocumentBuilder.InsertDocumentAndResolveStyles.docx");
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "insertDocumentAndResolveStylesDataProvider")
+	public static Object[][] insertDocumentAndResolveStylesDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "loadDocumentWithListNumberingDataProvider")
+    public void loadDocumentWithListNumbering(boolean keepSourceNumbering) throws Exception
+    {
+        //ExStart
+        //ExFor:Document.AppendDocument(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to manage list style clashes while appending a clone of a document to itself.
+        Document srcDoc = new Document(getMyDir() + "List item.docx");
+        Document dstDoc = new Document(getMyDir() + "List item.docx");
+
+        // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
+        DocumentBuilder builder = new DocumentBuilder(dstDoc);
+        builder.moveToDocumentEnd();
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+
+        ImportFormatOptions options = new ImportFormatOptions();
+        options.setKeepSourceNumbering(keepSourceNumbering);
+        builder.insertDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+
+        dstDoc.updateListLabels();
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "loadDocumentWithListNumberingDataProvider")
+	public static Object[][] loadDocumentWithListNumberingDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 
     @Test (dataProvider = "ignoreTextBoxesDataProvider")
     public void ignoreTextBoxes(boolean ignoreTextBoxes) throws Exception

@@ -12,7 +12,9 @@
 		<File project="Examples" dir="" name="ExBuildingBlocks" status="AUTO" />
 		<File project="Examples" dir="" name="ExBuildVersion" status="AUTO" />
 		<File project="Examples" dir="" name="ExCellFormat" status="AUTO" />
+		<File project="Examples" dir="" name="ExCertificateHolder" status="NEW" />
 		<File project="Examples" dir="" name="ExCharts" status="AUTO" />
+		<File project="Examples" dir="" name="ExCleanupOptions" status="NEW" />
 		<File project="Examples" dir="" name="ExComHelper" status="AUTO" />
 		<File project="Examples" dir="" name="ExComment" status="AUTO" />
 		<File project="Examples" dir="" name="ExCompatibilityOptions" status="AUTO" />
@@ -32,6 +34,7 @@
 		<File project="Examples" dir="" name="ExFieldOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExFile" status="AUTO" />
 		<File project="Examples" dir="" name="ExFont" status="EMPTY-IN-JAVA" />
+		<File project="Examples" dir="" name="ExFontSettings" status="NEW" />
 		<File project="Examples" dir="" name="ExFormFields" status="AUTO" />
 		<File project="Examples" dir="" name="ExHeaderFooter" status="AUTO" />
 		<File project="Examples" dir="" name="ExHtmlFixedSaveOptions" status="AUTO" />
@@ -42,9 +45,13 @@
 		<File project="Examples" dir="" name="ExImageSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExInline" status="AUTO" />
 		<File project="Examples" dir="" name="ExInlineStory" status="AUTO" />
+		<File project="Examples" dir="" name="ExLayout" status="NEW" />
+		<File project="Examples" dir="" name="ExLicense" status="NEW" />
 		<File project="Examples" dir="" name="ExLists" status="AUTO" />
+		<File project="Examples" dir="" name="ExLoadOptions" status="NEW" />
 		<File project="Examples" dir="" name="ExMailMerge" status="AUTO" />
 		<File project="Examples" dir="" name="ExMailMergeCustom" status="AUTO" />
+		<File project="Examples" dir="" name="ExMailMergeCustomNested" status="NEW" />
 		<File project="Examples" dir="" name="ExMailMergeEvent" status="AUTO" />
 		<File project="Examples" dir="" name="ExMetered" status="AUTO" />
 		<File project="Examples" dir="" name="ExMossDoc2Pdf" status="AUTO" />
@@ -55,20 +62,25 @@
 		<File project="Examples" dir="" name="ExOoxmlSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExPageSetup" status="AUTO" />
 		<File project="Examples" dir="" name="ExParagraph" status="AUTO" />
+		<File project="Examples" dir="" name="ExParagraphFormat" status="NEW" />
 		<File project="Examples" dir="" name="ExPclSaveOptions" status="AUTO" />
+		<File project="Examples" dir="" name="ExPdfLoadOptions" status="NEW" />
 		<File project="Examples" dir="" name="ExPdfSaveOptions" status="AUTO" />
+		<File project="Examples" dir="" name="ExPlainTextDocument" status="NEW" />
 		<File project="Examples" dir="" name="ExPsSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExRange" status="AUTO" />
 		<File project="Examples" dir="" name="ExRenameMergeFields" status="AUTO" />
 		<File project="Examples" dir="" name="ExRendering" status="AUTO" />
 		<File project="Examples" dir="" name="ExReplaceHyperlinks" status="AUTO" />
 		<File project="Examples" dir="" name="ExReportingEngine" status="AUTO" />
+		<File project="Examples" dir="" name="ExRevision" status="NEW" />
 		<File project="Examples" dir="" name="ExRtfLoadOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExRtfSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExSavingCallback" status="AUTO" />
 		<File project="Examples" dir="" name="ExSection" status="AUTO" />
 		<File project="Examples" dir="" name="ExShape" status="AUTO" />
 		<File project="Examples" dir="" name="ExSignDocumentCustom" status="AUTO" />
+		<File project="Examples" dir="" name="ExSmartTag" status="NEW" />
 		<File project="Examples" dir="" name="ExStructuredDocumentTag" status="AUTO" />
 		<File project="Examples" dir="" name="ExStyles" status="AUTO" />
 		<File project="Examples" dir="" name="ExSvgSaveOptions" status="AUTO" />
@@ -80,7 +92,9 @@
 		<File project="Examples" dir="" name="ExTxtSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExUtilityClasses" status="AUTO" />
 		<File project="Examples" dir="" name="ExVariableCollection" status="AUTO" />
+		<File project="Examples" dir="" name="ExVbaProject" status="NEW" />
 		<File project="Examples" dir="" name="ExViewOptions" status="AUTO" />
+		<File project="Examples" dir="" name="ExWordML2003SaveOptions" status="NEW" />
 		<File project="Examples" dir="" name="ExXamlFixedSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExXamlFlowSaveOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExXpsSaveOptions" status="AUTO" />
