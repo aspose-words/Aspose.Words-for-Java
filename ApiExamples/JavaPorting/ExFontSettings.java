@@ -44,6 +44,7 @@ import com.aspose.words.FontFallbackSettings;
 import com.aspose.words.TableSubstitutionRule;
 import com.aspose.words.StreamFontSource;
 import com.aspose.ms.System.IO.Stream;
+import java.io.FileInputStream;
 import org.testng.annotations.DataProvider;
 
 
@@ -1268,7 +1269,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     {
         public /*override*/ Stream openFontDataStream() throws Exception
         {
-            return File.openRead(getFontsDir() + "Kreon-Regular.ttf");
+            return new FileInputStream(getFontsDir() + "Kreon-Regular.ttf");
         }
     }
     //ExEnd

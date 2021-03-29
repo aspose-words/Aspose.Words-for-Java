@@ -8,7 +8,6 @@ import com.aspose.words.Document;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import org.testng.Assert;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.annotations.DataProvider;
 
 
@@ -33,7 +32,7 @@ class ExPdfLoadOptions !Test class should be public in Java to run, please fix .
         }
         else
         {
-            msAssert.areNotEqual(shapeCollection.getCount(), 0);
+            Assert.assertNotEquals(shapeCollection.getCount(), 0);
         }
         //ExEnd
     }

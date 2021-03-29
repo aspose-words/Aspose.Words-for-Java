@@ -17,7 +17,6 @@ import com.aspose.words.Cell;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Run;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.PreferredWidth;
 import com.aspose.words.RowFormat;
@@ -37,7 +36,6 @@ import com.aspose.words.TableAlignment;
 import com.aspose.words.LineStyle;
 import com.aspose.words.TextureIndex;
 import com.aspose.words.BorderCollection;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.HeightRule;
 import com.aspose.words.TextOrientation;
 import com.aspose.words.Border;
@@ -103,7 +101,7 @@ public class ExTable extends ApiExampleBase
 
         Assert.assertEquals(1, table.getRows().getCount());
         Assert.assertEquals(1, table.getFirstRow().getCells().getCount());
-        Assert.assertEquals("Hello world!\u0007\u0007", msString.trim(table.getText()));
+        Assert.assertEquals("Hello world!\u0007\u0007", table.getText().trim());
     }
 
     @Test
@@ -187,7 +185,7 @@ public class ExTable extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Table.RowCellFormat.docx");
         table = doc.getFirstSection().getBody().getTables().get(0);
 
-        Assert.assertEquals("City\u0007Country\u0007\u0007London\u0007U.K.\u0007\u0007", msString.trim(table.getText()));
+        Assert.assertEquals("City\u0007Country\u0007\u0007London\u0007U.K.\u0007\u0007", table.getText().trim());
 
         rowFormat = table.getFirstRow().getRowFormat();
 
@@ -245,7 +243,7 @@ public class ExTable extends ApiExampleBase
 
                 for (int k = 0; k < cells.getCount(); k++)
                 {
-                    String cellText = msString.trim(cells.get(k).toString(SaveFormat.TEXT));
+                    String cellText = cells.get(k).toString(SaveFormat.TEXT).trim();
                     System.out.println("\t\tContents of Cell:{k} = \"{cellText}\"");
                 }
 
@@ -278,16 +276,15 @@ public class ExTable extends ApiExampleBase
 
             // Find out if any cells in the table have other tables as children.
             int count = getChildTableCount(table);
-            msConsole.writeLine("Table #{0} has {1} tables directly within its cells", i, count);
+            System.out.println("Table #{0} has {1} tables directly within its cells",i,count);
 
             // Find out if the table is nested inside another table, and, if so, at what depth.
             int tableDepth = getNestedDepthOfTable(table);
 
             if (tableDepth > 0)
-                msConsole.writeLine("Table #{0} is nested inside another table at depth of {1}", i,
-                    tableDepth);
+                System.out.println("Table #{0} is nested inside another table at depth of {1}",i,tableDepth);
             else
-                msConsole.writeLine("Table #{0} is a non nested table (is not a child of another table)", i);
+                System.out.println("Table #{0} is a non nested table (is not a child of another table)",i);
         }
     }
 
@@ -459,8 +456,8 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(msColor.getGreen().getRGB(), borders.getLeft().getColor().getRGB());
         Assert.assertEquals(msColor.getGreen().getRGB(), borders.getRight().getColor().getRGB());
         Assert.assertEquals(msColor.getGreen().getRGB(), borders.getBottom().getColor().getRGB());
-        msAssert.areNotEqual(msColor.getGreen().getRGB(), borders.getHorizontal().getColor().getRGB());
-        msAssert.areNotEqual(msColor.getGreen().getRGB(), borders.getVertical().getColor().getRGB());
+        Assert.assertNotEquals(msColor.getGreen().getRGB(), borders.getHorizontal().getColor().getRGB());
+        Assert.assertNotEquals(msColor.getGreen().getRGB(), borders.getVertical().getColor().getRGB());
         Assert.assertEquals(msColor.getLightGreen().getRGB(), table.getFirstRow().getFirstCell().getCellFormat().getShading().getForegroundPatternColor().getRGB());
     }
 
@@ -637,7 +634,7 @@ public class ExTable extends ApiExampleBase
         table.getLastRow().getLastCell().getRange().replace("50", "20", options);
 
         Assert.assertEquals("Eggs\u000750\u0007\u0007" +
-                        "Potatoes\u000720\u0007\u0007", msString.trim(table.getText()));
+                        "Potatoes\u000720\u0007\u0007", table.getText().trim());
         //ExEnd
     }
 
@@ -690,7 +687,7 @@ public class ExTable extends ApiExampleBase
         for (Cell cell : tableClone.getChildNodes(NodeType.CELL, true).<Cell>OfType() !!Autoporter error: Undefined expression type )
             cell.removeAllChildren();
         
-        Assert.assertEquals("", msString.trim(tableClone.toString(SaveFormat.TEXT)));
+        Assert.assertEquals("", tableClone.toString(SaveFormat.TEXT).trim());
     }
 
     @Test (dataProvider = "allowBreakAcrossPagesDataProvider")
@@ -1519,7 +1516,7 @@ public class ExTable extends ApiExampleBase
             while (enumerator.hasNext())
             {
                 ConditionalStyle currentStyle = enumerator.next();
-                if (currentStyle != null) msConsole.writeLine(currentStyle.getType());
+                if (currentStyle != null) System.out.println(currentStyle.getType());
             }
         }
         finally { if (enumerator != null) enumerator.close(); }

@@ -16,7 +16,6 @@ import com.aspose.words.OoxmlSaveOptions;
 import org.testng.Assert;
 import com.aspose.words.IncorrectPasswordException;
 import com.aspose.words.LoadOptions;
-import com.aspose.ms.System.msString;
 import com.aspose.words.MsWordVersion;
 import com.aspose.words.ShapeMarkupLanguage;
 import com.aspose.words.Shape;
@@ -27,6 +26,7 @@ import com.aspose.words.ListTemplate;
 import com.aspose.words.List;
 import com.aspose.words.BreakType;
 import com.aspose.ms.System.DateTime;
+import java.util.Date;
 import com.aspose.words.CompressionLevel;
 import com.aspose.ms.System.Diagnostics.Stopwatch;
 import com.aspose.ms.System.IO.FileInfo;
@@ -64,7 +64,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         // Open the encrypted document by passing the correct password in a LoadOptions object.
         doc = new Document(getArtifactsDir() + "OoxmlSaveOptions.Password.docx", new LoadOptions("MyPassword"));
 
-        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world!", doc.getText().trim());
         //ExEnd
     }
 
@@ -185,7 +185,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         DateTime lastSavedTimeNew = doc.getBuiltInDocumentProperties().getLastSavedTimeInternal();
 
         if (updateLastSavedTimeProperty)
-            Assert.That(DateTime.getNow(), Is.EqualTo(lastSavedTimeNew).Within(1).Days);
+            Assert.That(new Date(), Is.EqualTo(lastSavedTimeNew).Within(1).Days);
         else
             Assert.assertEquals(new DateTime(2020, 7, 30, 5, 27, 0), 
                 lastSavedTimeNew);

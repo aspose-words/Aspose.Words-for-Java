@@ -25,7 +25,7 @@ import com.aspose.ms.System.Drawing.Text.TextRenderingHint;
 import com.aspose.ms.System.Drawing.Drawing2D.CompositingMode;
 import com.aspose.ms.System.Drawing.Drawing2D.InterpolationMode;
 import com.aspose.words.MetafileRenderingMode;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import com.aspose.ms.System.IO.Directory;
@@ -33,7 +33,6 @@ import com.aspose.words.ImageColorMode;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.ImagePixelFormat;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.TiffCompression;
 import com.aspose.words.ImageBinarizationMethod;
 import com.aspose.words.PageRange;
@@ -200,7 +199,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
-        builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Windows MetaFile.wmf"));
+        builder.insertImage(ImageIO.read(getImageDir() + "Windows MetaFile.wmf"));
         
         // When we save the document as an image, we can pass a SaveOptions object to
         // determine how the saving operation will process Windows Metafiles in the document.
@@ -387,7 +386,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         imageSaveOptions.setPixelFormat(imagePixelFormat);
 
         // We can clone ImageSaveOptions instances.
-        msAssert.areNotEqual(imageSaveOptions, imageSaveOptions.deepClone());
+        Assert.assertNotEquals(imageSaveOptions, imageSaveOptions.deepClone());
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png", imageSaveOptions);
 
@@ -633,7 +632,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         Assert.That(120000, Is.AtLeast(new FileInfo(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png").getLength()));
 
-        BufferedImage image = BitmapPal.loadNativeImage(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png");
+        BufferedImage image = ImageIO.read(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png");
 
         Assert.assertEquals(612, image.getWidth());
         Assert.assertEquals(792, image.getHeight());
@@ -644,7 +643,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         Assert.That(700000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png").getLength()));
 
-        image = BitmapPal.loadNativeImage(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png");
+        image = ImageIO.read(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png");
 
         Assert.assertEquals(2550, image.getWidth());
         Assert.assertEquals(3300, image.getHeight());

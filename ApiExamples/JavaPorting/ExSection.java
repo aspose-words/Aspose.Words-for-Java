@@ -16,7 +16,6 @@ import com.aspose.words.BreakType;
 import com.aspose.words.TextFormFieldType;
 import com.aspose.words.ProtectionType;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.Section;
 import com.aspose.words.SectionStart;
 import com.aspose.words.PaperSize;
@@ -90,19 +89,19 @@ public class ExSection extends ApiExampleBase
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
         builder.write("Section 2");
 
-        Assert.assertEquals("Section 1\fSection 2", msString.trim(doc.getText()));
+        Assert.assertEquals("Section 1\fSection 2", doc.getText().trim());
 
         // Delete the first section from the document.
         doc.getSections().removeAt(0);
 
-        Assert.assertEquals("Section 2", msString.trim(doc.getText()));
+        Assert.assertEquals("Section 2", doc.getText().trim());
         
         // Append a copy of what is now the first section to the end of the document.
         int lastSectionIdx = doc.getSections().getCount() - 1;
         Section newSection = doc.getSections().get(lastSectionIdx).deepClone();
         doc.getSections().add(newSection);
 
-        Assert.assertEquals("Section 2\fSection 2", msString.trim(doc.getText()));
+        Assert.assertEquals("Section 2\fSection 2", doc.getText().trim());
         //ExEnd
     }
 
@@ -213,7 +212,7 @@ public class ExSection extends ApiExampleBase
         run.getFont().setColor(Color.RED);
         para.appendChild(run);
 
-        Assert.assertEquals("Hello World!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello World!", doc.getText().trim());
 
         doc.save(getArtifactsDir() + "Section.CreateManually.docx");
         //ExEnd
@@ -248,7 +247,7 @@ public class ExSection extends ApiExampleBase
 
         doc.getSections().get(0).getBody().getFirstParagraph().appendChild(new Run(doc, "Hello world!"));
 
-        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world!", doc.getText().trim());
         //ExEnd
     }
 
@@ -286,7 +285,7 @@ public class ExSection extends ApiExampleBase
         // Now, we can add runs to the body, and get the document to display them.
         body.getFirstParagraph().appendChild(new Run(doc, "Hello world!"));
 
-        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world!", doc.getText().trim());
         //ExEnd
     }
 
@@ -351,13 +350,13 @@ public class ExSection extends ApiExampleBase
         // This document has one section with a few child nodes containing and displaying all the document's contents.
         Assert.assertEquals(1, doc.getSections().getCount());
         Assert.assertEquals(19, doc.getSections().get(0).getChildNodes(NodeType.ANY, true).getCount());
-        Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", doc.getText().trim());
 
         // Clear the collection of sections, which will remove all of the document's children.
         doc.getSections().clear();
         
         Assert.assertEquals(0, doc.getChildNodes(NodeType.ANY, true).getCount());
-        Assert.assertEquals("", msString.trim(doc.getText()));
+        Assert.assertEquals("", doc.getText().trim());
         //ExEnd
     }
 
@@ -408,14 +407,14 @@ public class ExSection extends ApiExampleBase
 
         builder.write("Hello world!");
 
-        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world!", doc.getText().trim());
         Assert.assertEquals(1, doc.getFirstSection().getBody().getParagraphs().getCount());
 
         // Running the "ClearContent" method will remove all the section contents
         // but leave a blank paragraph to add content again.
         doc.getFirstSection().clearContent();
 
-        Assert.assertEquals("", msString.trim(doc.getText()));
+        Assert.assertEquals("", doc.getText().trim());
         Assert.assertEquals(1, doc.getFirstSection().getBody().getParagraphs().getCount());
         //ExEnd
     }
@@ -439,8 +438,8 @@ public class ExSection extends ApiExampleBase
 
         Assert.assertEquals(2, doc.getFirstSection().getHeadersFooters().getCount());
 
-        Assert.assertEquals("This is the primary header.", msString.trim(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText()));
-        Assert.assertEquals("This is the primary footer.", msString.trim(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText()));
+        Assert.assertEquals("This is the primary header.", doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText().trim());
+        Assert.assertEquals("This is the primary footer.", doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().trim());
 
         // Empty all the headers and footers in this section of all their contents.
         // The headers and footers themselves will still be present but will have nothing to display.
@@ -448,8 +447,8 @@ public class ExSection extends ApiExampleBase
 
         Assert.assertEquals(2, doc.getFirstSection().getHeadersFooters().getCount());
 
-        Assert.assertEquals("", msString.trim(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText()));
-        Assert.assertEquals("", msString.trim(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText()));
+        Assert.assertEquals("", doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText().trim());
+        Assert.assertEquals("", doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().trim());
         //ExEnd
     }
 

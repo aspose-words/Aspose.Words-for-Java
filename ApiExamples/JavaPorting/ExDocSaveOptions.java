@@ -17,9 +17,7 @@ import com.aspose.words.SaveFormat;
 import org.testng.Assert;
 import com.aspose.words.IncorrectPasswordException;
 import com.aspose.words.LoadOptions;
-import com.aspose.ms.System.msString;
 import com.aspose.ms.System.IO.Directory;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.IO.FileInfo;
 import org.testng.annotations.DataProvider;
@@ -61,7 +59,7 @@ public class ExDocSaveOptions extends ApiExampleBase
         LoadOptions loadOptions = new LoadOptions("MyPassword");
         doc = new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", loadOptions);
 
-        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world!", doc.getText().trim());
         //ExEnd
     }
 
@@ -133,7 +131,7 @@ public class ExDocSaveOptions extends ApiExampleBase
         // Open the saved document, then verify the value of the property.
         doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.doc");
 
-        msAssert.areNotEqual(isUpdateLastPrintedProperty, (DateTime.equals(DateTime.MinValue.getDate(), doc.getBuiltInDocumentProperties().getLastPrintedInternal())));
+        Assert.assertNotEquals(isUpdateLastPrintedProperty, (DateTime.equals(DateTime.MinValue.getDate(), doc.getBuiltInDocumentProperties().getLastPrintedInternal())));
         //ExEnd
     }
 

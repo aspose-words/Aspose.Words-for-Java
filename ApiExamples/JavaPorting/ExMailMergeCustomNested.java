@@ -276,8 +276,8 @@ public class ExMailMergeCustomNested extends ApiExampleBase
         for (Customer customer : (Iterable<Customer>) customers)
         {
             for (Order order : (Iterable<Order>) customer.getOrders())
-                msArrayList.add(mailMergeData, new String[]{ order.getName(), Integer.toString(order.getQuantity()) });
-            msArrayList.add(mailMergeData, new String[] {customer.getFullName(), customer.getAddress()});
+                mailMergeData.add(new String[]{ order.getName(), Integer.toString(order.getQuantity()) });
+            mailMergeData.add(new String[] {customer.getFullName(), customer.getAddress()});
         }
 
         TestUtil.mailMergeMatchesArray(msArrayList.toArray(mailMergeData, new String[][0]), doc, false);

@@ -20,7 +20,6 @@ import com.aspose.words.Row;
 import com.aspose.words.Document;
 import com.aspose.words.NodeType;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.Run;
 import com.aspose.ms.System.msConsole;
 
@@ -141,8 +140,8 @@ public class ExTableColumn extends ApiExampleBase
         doc.save(getArtifactsDir() + "TableColumn.RemoveColumn.doc");
 
         Assert.assertEquals(16, table.getChildNodes(NodeType.CELL, true).getCount());
-        Assert.assertEquals("Cell 7 contents", msString.trim(table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT)));
-        Assert.assertEquals("Cell 11 contents", msString.trim(table.getLastRow().getCells().get(2).toString(SaveFormat.TEXT)));
+        Assert.assertEquals("Cell 7 contents", table.getRows().get(2).getCells().get(2).toString(SaveFormat.TEXT).trim());
+        Assert.assertEquals("Cell 11 contents", table.getLastRow().getCells().get(2).toString(SaveFormat.TEXT).trim());
     }
 
     @Test
@@ -164,8 +163,8 @@ public class ExTableColumn extends ApiExampleBase
         doc.save(getArtifactsDir() + "TableColumn.Insert.doc");
 
         Assert.assertEquals(24, table.getChildNodes(NodeType.CELL, true).getCount());
-        Assert.assertEquals("Column Text 0", msString.trim(table.getFirstRow().getCells().get(1).toString(SaveFormat.TEXT)));
-        Assert.assertEquals("Column Text 3", msString.trim(table.getLastRow().getCells().get(1).toString(SaveFormat.TEXT)));
+        Assert.assertEquals("Column Text 0", table.getFirstRow().getCells().get(1).toString(SaveFormat.TEXT).trim());
+        Assert.assertEquals("Column Text 3", table.getLastRow().getCells().get(1).toString(SaveFormat.TEXT).trim());
     }
 
     @Test

@@ -46,6 +46,7 @@ import com.aspose.ms.System.msString;
 import com.aspose.words.FileFormatUtil;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.XmlDataSource;
+import java.io.FileInputStream;
 import com.aspose.words.JsonDataLoadOptions;
 import com.aspose.words.JsonDataSource;
 import com.aspose.words.JsonSimpleValueParseMode;
@@ -706,7 +707,7 @@ public class ExReportingEngine extends ApiExampleBase
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
             // Assert that the width is preserved, and the height is changed
-            msAssert.areNotEqual(346.35, shape.getHeight());
+            Assert.assertNotEquals(346.35, shape.getHeight());
             Assert.assertEquals(431.5, shape.getWidth());
         }
     }
@@ -731,7 +732,7 @@ public class ExReportingEngine extends ApiExampleBase
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
             // Assert that the height is preserved, and the width is changed
-            msAssert.areNotEqual(431.5, shape.getWidth());
+            Assert.assertNotEquals(431.5, shape.getWidth());
             Assert.assertEquals(346.35, shape.getHeight());
         }
     }
@@ -756,8 +757,8 @@ public class ExReportingEngine extends ApiExampleBase
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
             // Assert that the height and the width are changed
-            msAssert.areNotEqual(346.35, shape.getHeight());
-            msAssert.areNotEqual(431.5, shape.getWidth());
+            Assert.assertNotEquals(346.35, shape.getHeight());
+            Assert.assertNotEquals(431.5, shape.getWidth());
         }
     }
 
@@ -955,7 +956,7 @@ public class ExReportingEngine extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
 
-        FileStream stream = File.openRead(getMyDir() + "List of people.xml");
+        FileStream stream = new FileInputStream(getMyDir() + "List of people.xml");
         try /*JAVA: was using*/
         {
             XmlDataSource dataSource = new XmlDataSource(stream);
@@ -1020,7 +1021,7 @@ public class ExReportingEngine extends ApiExampleBase
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         options.setExactDateTimeParseFormat("MM/dd/yyyy");
         
-        FileStream stream = File.openRead(getMyDir() + "List of people.json");
+        FileStream stream = new FileInputStream(getMyDir() + "List of people.json");
         try /*JAVA: was using*/
         {
             JsonDataSource dataSource = new JsonDataSource(stream, options);
@@ -1075,7 +1076,7 @@ public class ExReportingEngine extends ApiExampleBase
         loadOptions.setDelimiter(';');
         loadOptions.setCommentChar('$');
 
-        FileStream stream = File.openRead(getMyDir() + "List of people.csv");
+        FileStream stream = new FileInputStream(getMyDir() + "List of people.csv");
         try /*JAVA: was using*/
         {
             CsvDataSource dataSource = new CsvDataSource(stream, loadOptions);

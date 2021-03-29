@@ -18,21 +18,18 @@ import com.aspose.words.ResourceLoadingArgs;
 import com.aspose.words.ResourceType;
 import com.aspose.ms.System.msConsole;
 import java.awt.image.BufferedImage;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
 import com.aspose.words.FileFormatInfo;
 import com.aspose.words.FileFormatUtil;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.Text.Encoding;
-import com.aspose.ms.System.msString;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.FontSettings;
 import com.aspose.words.MsWordVersion;
 import java.util.ArrayList;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.IWarningCallback;
-import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.WarningType;
 import com.aspose.words.WarningSource;
 import com.aspose.ms.System.IO.Directory;
@@ -79,7 +76,7 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
                     final String NEW_IMAGE_FILENAME = "Logo.jpg";
                     System.out.println("\tImage will be substituted with: {newImageFilename}");
 
-                    BufferedImage newImage = BitmapPal.loadNativeImage(getImageDir() + NEW_IMAGE_FILENAME);
+                    BufferedImage newImage = ImageIO.read(getImageDir() + NEW_IMAGE_FILENAME);
 
                     ImageConverter converter = new ImageConverter();
                     byte[] imageBytes = (byte[])converter.ConvertTo(newImage, byte[].class);
@@ -140,14 +137,14 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
         // A FileFormatInfo object will detect this file as being encoded in something other than UTF-7.
         FileFormatInfo fileFormatInfo = FileFormatUtil.detectFileFormat(getMyDir() + "Encoded in UTF-7.txt");
 
-        msAssert.areNotEqual(Encoding.getUTF7(), fileFormatInfo.getEncodingInternal());
+        Assert.assertNotEquals(Encoding.getUTF7(), fileFormatInfo.getEncodingInternal());
 
         // If we load the document with no loading configurations, Aspose.Words will detect its encoding as UTF-8.
         Document doc = new Document(getMyDir() + "Encoded in UTF-7.txt");
 
         // The contents, parsed in UTF-8, create a valid string.
         // However, knowing that the file is in UTF-7, we can see that the result is incorrect.
-        Assert.assertEquals("Hello world+ACE-", msString.trim(doc.toString(SaveFormat.TEXT)));
+        Assert.assertEquals("Hello world+ACE-", doc.toString(SaveFormat.TEXT).trim());
 
         // In cases of ambiguous encoding such as this one, we can set a specific encoding variant
         // to parse the file within a LoadOptions object.
@@ -159,7 +156,7 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
         // Load the document while passing the LoadOptions object, then verify the document's contents.
         doc = new Document(getMyDir() + "Encoded in UTF-7.txt", loadOptions);
 
-        Assert.assertEquals("Hello world!", msString.trim(doc.toString(SaveFormat.TEXT)));
+        Assert.assertEquals("Hello world!", doc.toString(SaveFormat.TEXT).trim());
         //ExEnd
     }
 
@@ -236,7 +233,7 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
             System.out.println("Warning: {info.WarningType}");
             System.out.println("\tSource: {info.Source}");
             System.out.println("\tDescription: {info.Description}");
-            msArrayList.add(mWarnings, info);
+            mWarnings.add(info);
         }
 
         public ArrayList<WarningInfo> getWarnings()

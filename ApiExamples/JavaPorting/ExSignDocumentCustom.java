@@ -22,7 +22,7 @@ import java.awt.image.BufferedImage;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Guid;
 import java.util.ArrayList;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 
 
 @Test
@@ -134,10 +134,10 @@ public class ExSignDocumentCustom extends ApiExampleBase
         mSignees = new ArrayList<Signee>();
         {
                         mSignees.add(new Signee(Guid.newGuid(), "Ron Williams", "Chief Executive Officer",
-                imageToByteArray(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"))));
+                imageToByteArray(ImageIO.read(getImageDir() + "Logo.jpg"))));
                                         
                         mSignees.add(new Signee(Guid.newGuid(), "Stephen Morse", "Head of Compliance",
-                imageToByteArray(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"))));
+                imageToByteArray(ImageIO.read(getImageDir() + "Logo.jpg"))));
                                     }
     }
     

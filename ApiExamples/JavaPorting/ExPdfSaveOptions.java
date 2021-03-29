@@ -51,12 +51,13 @@ import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.DmlEffectsRenderingMode;
 import com.aspose.words.DmlRenderingMode;
 import java.awt.image.BufferedImage;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.Dml3DEffectsRenderingMode;
 import com.aspose.words.WarningSource;
 import com.aspose.words.CertificateHolder;
 import com.aspose.ms.System.DateTime;
+import java.util.Date;
 import com.aspose.words.PdfDigitalSignatureDetails;
 import com.aspose.words.PdfDigitalSignatureHashAlgorithm;
 import com.aspose.words.FileFormatUtil;
@@ -2069,7 +2070,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage img = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
+        BufferedImage img = ImageIO.read(getImageDir() + "Transparent background logo.png");
         builder.insertImage(img);
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
@@ -2126,7 +2127,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage img = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
+        BufferedImage img = ImageIO.read(getImageDir() + "Transparent background logo.png");
         builder.insertImage(img);
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
@@ -2237,7 +2238,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         // Configure the "DigitalSignatureDetails" object of the "SaveOptions" object to
         // digitally sign the document as we render it with the "Save" method.
-        DateTime signingTime = DateTime.getNow();
+        DateTime signingTime = new Date();
         options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "My Office", signingTime));
         options.getDigitalSignatureDetails().setHashAlgorithm(PdfDigitalSignatureHashAlgorithm.SHA_256);
 
@@ -2294,7 +2295,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         // Create a digital signature and assign it to our SaveOptions object to sign the document when we save it to PDF. 
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
-        options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", DateTime.getNow()));
+        options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", new Date()));
 
         // Create a timestamp authority-verified timestamp.
         options.getDigitalSignatureDetails().setTimestampSettings(new PdfDigitalSignatureTimestampSettings("https://freetsa.org/tsr", "JohnDoe", "MyPassword"));

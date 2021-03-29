@@ -16,7 +16,6 @@ import com.aspose.words.Run;
 import com.aspose.words.Node;
 import org.testng.Assert;
 import com.aspose.words.CompositeNode;
-import com.aspose.ms.System.msString;
 import com.aspose.words.NodeType;
 import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
@@ -24,6 +23,7 @@ import com.aspose.words.WrapType;
 import com.aspose.words.NodeCollection;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.Inline;
+import com.aspose.ms.System.msString;
 import com.aspose.words.TableCollection;
 import com.aspose.words.Table;
 import com.aspose.words.DocumentBuilder;
@@ -35,7 +35,7 @@ import com.aspose.words.Body;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.HtmlSaveOptions;
 import com.aspose.ms.System.Text.msStringBuilder;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import com.aspose.words.INodeChangingCallback;
 import com.aspose.words.NodeChangingArgs;
@@ -62,13 +62,13 @@ public class ExNode extends ApiExampleBase
         Node cloneWithChildren = para.deepClone(true);
 
         Assert.assertTrue(((CompositeNode)cloneWithChildren).hasChildNodes());
-        Assert.assertEquals("Hello world!", msString.trim(cloneWithChildren.getText()));
+        Assert.assertEquals("Hello world!", cloneWithChildren.getText().trim());
 
         // 2 -  Create a clone of a node just by itself without any children.
         Node cloneWithoutChildren = para.deepClone(false);
 
         Assert.assertFalse(((CompositeNode)cloneWithoutChildren).hasChildNodes());
-        Assert.assertEquals("", msString.trim(cloneWithoutChildren.getText()));
+        Assert.assertEquals("", cloneWithoutChildren.getText().trim());
         //ExEnd
     }
 
@@ -113,7 +113,7 @@ public class ExNode extends ApiExampleBase
         // The owner document is the document we passed to the node's constructor.
         // We have not attached this paragraph to the document, so the document does not contain its text.
         Assert.assertEquals(para.getDocument(), doc);
-        Assert.assertEquals("", msString.trim(doc.getText()));
+        Assert.assertEquals("", doc.getText().trim());
 
         // Since the document owns this paragraph, we can apply one of its styles to the paragraph's contents.
         para.getParagraphFormat().setStyle(doc.getStyles().get("Heading 1"));
@@ -122,7 +122,7 @@ public class ExNode extends ApiExampleBase
         doc.getFirstSection().getBody().appendChild(para);
 
         Assert.assertEquals(doc.getFirstSection().getBody(), para.getParentNode());
-        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world!", doc.getText().trim());
         //ExEnd
 
         Assert.assertEquals(doc, para.getDocument());
@@ -178,7 +178,7 @@ public class ExNode extends ApiExampleBase
         //ExEnd
 
         Assert.assertEquals(NodeType.RUN, paragraph.getChild(NodeType.RUN, 0, true).getNodeType());
-        Assert.assertEquals("Hello world! Hello again!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world! Hello again!", doc.getText().trim());
     }
 
     //ExStart
@@ -301,7 +301,7 @@ public class ExNode extends ApiExampleBase
             msConsole.writeLine();
             System.out.println("Node type: {Node.NodeTypeToString(node.NodeType)}");
 
-            String contents = msString.trim(node.getText());
+            String contents = node.getText().trim();
             System.out.println(msString.equals(contents, "") ? "This node contains no text" : $"Contents: \"{node.GetText().Trim()}\"");
         }
         //ExEnd
@@ -359,7 +359,7 @@ public class ExNode extends ApiExampleBase
             doc.removeChild(firstSection);
 
         // The section we removed was the first one, leaving the document with only the second.
-        Assert.assertEquals("Section 2 text.", msString.trim(doc.getText()));
+        Assert.assertEquals("Section 2 text.", doc.getText().trim());
         //ExEnd
     }
 
@@ -593,7 +593,7 @@ public class ExNode extends ApiExampleBase
     private void testNodeXPathNavigator(String navigatorResult, Document doc)
     {
         for (Run run : doc.getChildNodes(NodeType.RUN, true).toArray().<Run>OfType() !!Autoporter error: Undefined expression type )
-            Assert.assertTrue(navigatorResult.contains(msString.trim(run.getText())));
+            Assert.assertTrue(navigatorResult.contains(run.getText().trim()));
     }
 
     //ExStart
@@ -617,7 +617,7 @@ public class ExNode extends ApiExampleBase
         builder.write("Cell 2");
         builder.endTable();
 
-                builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"));
+                builder.insertImage(ImageIO.read(getImageDir() + "Logo.jpg"));
                     
         builder.getCurrentParagraph().getParentNode().removeAllChildren();
     }
@@ -641,7 +641,7 @@ public class ExNode extends ApiExampleBase
             System.out.println("Inserted node:");
             System.out.println("\tType:\t{args.Node.NodeType}");
 
-            if (!"".equals(msString.trim(args.getNode().getText())))
+            if (!"".equals(args.getNode().getText().trim()))
             {
                 System.out.println("\tText:\t\"{args.Node.GetText().Trim()}\"");
             }
@@ -691,13 +691,13 @@ public class ExNode extends ApiExampleBase
         runs.insert(3, newRun);
 
         Assert.assertTrue(runs.contains(newRun));
-        Assert.assertEquals("Run 1. Run 2. Run 3.", msString.trim(doc.getText()));
+        Assert.assertEquals("Run 1. Run 2. Run 3.", doc.getText().trim());
 
         // Access individual runs and remove them to remove their text from the document.
         Run run = runs.get(1);
         runs.remove(run);
 
-        Assert.assertEquals("Run 1. Run 3.", msString.trim(doc.getText()));
+        Assert.assertEquals("Run 1. Run 3.", doc.getText().trim());
         Assert.assertNotNull(run);
         Assert.assertFalse(runs.contains(run));
         //ExEnd
@@ -723,7 +723,7 @@ public class ExNode extends ApiExampleBase
         builder.write("Cell 2");
         builder.endTable();
 
-                builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"));
+                builder.insertImage(ImageIO.read(getImageDir() + "Logo.jpg"));
                     
         // Our document contains three Run nodes.
         NodeList nodeList = doc.selectNodes("//Run");

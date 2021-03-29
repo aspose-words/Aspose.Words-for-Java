@@ -15,7 +15,6 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.IFieldMergingCallback;
 import com.aspose.words.FieldMergingArgs;
 import com.aspose.words.ImageFieldMergingArgs;
-import com.aspose.ms.System.msString;
 import org.testng.Assert;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataRow;
@@ -124,8 +123,8 @@ public class ExMailMergeEvent extends ApiExampleBase
         builder.getDocument().getMailMerge().execute(
             new String[] { "text_Field1", "text_Field2", "numeric_Field1" },
             new Object[] { "Field 1", "Field 2", 10 });
-        String t = msString.trim(doc.getText());
-        Assert.assertEquals("Merge Value For \"Text_Field1\": Field 1, MERGE VALUE FOR \"TEXT_FIELD2\": FIELD 2, 10000.0", msString.trim(doc.getText()));
+        String t = doc.getText().trim();
+        Assert.assertEquals("Merge Value For \"Text_Field1\": Field 1, MERGE VALUE FOR \"TEXT_FIELD2\": FIELD 2, 10000.0", doc.getText().trim());
     }
 
     /// <summary>

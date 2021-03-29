@@ -14,6 +14,7 @@ import com.aspose.ms.System.IO.Path;
 import com.aspose.words.License;
 import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.Stream;
+import java.io.FileInputStream;
 
 
 @Test
@@ -54,7 +55,7 @@ class ExLicense !Test class should be public in Java to run, please fix .Net sou
         //ExFor:License.SetLicense(Stream)
         //ExSummary:Shows how to initialize a license for Aspose.Words from a stream.
         // Set the license for our Aspose.Words product by passing a stream for a valid license file in our local file system.
-        Stream myStream = File.openRead(Path.combine(getLicenseDir(), "Aspose.Words.NET.lic"));
+        Stream myStream = new FileInputStream(Path.combine(getLicenseDir(), "Aspose.Words.NET.lic"));
         try /*JAVA: was using*/
         {
             License license = new License();

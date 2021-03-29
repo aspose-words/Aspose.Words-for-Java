@@ -17,6 +17,7 @@ import com.aspose.words.FieldDate;
 import com.aspose.words.FieldType;
 import com.aspose.words.FieldChar;
 import org.testng.Assert;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.FieldIf;
 import com.aspose.words.FieldAuthor;
@@ -109,7 +110,7 @@ import com.aspose.words.MergeFieldImageDimension;
 import com.aspose.words.ImageType;
 import java.util.HashMap;
 import com.aspose.ms.System.Collections.msDictionary;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import com.aspose.words.FieldIndex;
 import com.aspose.words.FieldXE;
@@ -183,7 +184,6 @@ import com.aspose.words.FieldIndexFormat;
 import com.aspose.words.ComparisonEvaluationResult;
 import com.aspose.words.IComparisonExpressionEvaluator;
 import com.aspose.words.ComparisonExpression;
-import com.aspose.ms.System.Collections.msArrayList;
 import java.util.ArrayList;
 import org.testng.annotations.DataProvider;
 
@@ -228,7 +228,7 @@ public class ExField extends ApiExampleBase
 
         doc = DocumentHelper.saveOpen(doc);
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", DateTime.getNow().toString("dddd, MMMM dd, yyyy"), doc.getRange().getFields().get(0));
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", new Date().toString("dddd, MMMM dd, yyyy"), doc.getRange().getFields().get(0));
     }
     
     @Test
@@ -320,7 +320,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(11).getPreviousSibling(), doc.getRange().getFields().get(0).getEnd());
         Assert.assertEquals($"{ControlChar.FieldStartChar} BARCODE 90210 \\f A \\u {ControlChar.FieldEndChar} Hello world! This text is one Run, which is an inline node.", 
-            msString.trim(doc.getText()));
+            doc.getText().trim());
     }
 
     @Test
@@ -468,7 +468,7 @@ public class ExField extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
         field = doc.getRange().getFields().get(0); 
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, "DATE", DateTime.getNow().toString(de.getDateTimeFormat().getShortDatePattern()), field);
+        TestUtil.verifyField(FieldType.FIELD_DATE, "DATE", new Date().toString(de.getDateTimeFormat().getShortDatePattern()), field);
         Assert.assertEquals(new msCultureInfo("de-DE").getLCID(), field.getLocaleId());
     }
 
@@ -870,7 +870,7 @@ public class ExField extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
         String secWithFields = DocumentHelper.getSectionText(doc, 1);
 
-        Assert.assertTrue(msString.trim(secWithFields).endsWith(
+        Assert.assertTrue(secWithFields.trim().endsWith(
             "Fields.Docx   Элементы указателя не найдены.     3.\rОшибка! Не указана последовательность.    Fields.Docx   Элементы указателя не найдены.     4."));
     }
 
@@ -887,7 +887,7 @@ public class ExField extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
         String paraWithFields = DocumentHelper.getParagraphText(doc, 0);
 
-        Assert.assertTrue(msString.trim(paraWithFields).endsWith(
+        Assert.assertTrue(paraWithFields.trim().endsWith(
             "FILENAME  \\* Caps  \\* MERGEFORMAT \u0014Fields.Docx\u0015   Элементы указателя не найдены.     \u0013 LISTNUM  LegalDefault \u0015"));
     }
 
@@ -1758,11 +1758,11 @@ public class ExField extends ApiExampleBase
 
         Assert.assertEquals(3, doc.getGlossaryDocument().getCount());
         Assert.assertEquals("AutoText 1", doc.getGlossaryDocument().getBuildingBlocks().get(0).getName());
-        Assert.assertEquals("Contents of AutoText 1", msString.trim(doc.getGlossaryDocument().getBuildingBlocks().get(0).getText()));
+        Assert.assertEquals("Contents of AutoText 1", doc.getGlossaryDocument().getBuildingBlocks().get(0).getText().trim());
         Assert.assertEquals("AutoText 2", doc.getGlossaryDocument().getBuildingBlocks().get(1).getName());
-        Assert.assertEquals("Contents of AutoText 2", msString.trim(doc.getGlossaryDocument().getBuildingBlocks().get(1).getText()));
+        Assert.assertEquals("Contents of AutoText 2", doc.getGlossaryDocument().getBuildingBlocks().get(1).getText().trim());
         Assert.assertEquals("AutoText 3", doc.getGlossaryDocument().getBuildingBlocks().get(2).getName());
-        Assert.assertEquals("Contents of AutoText 3", msString.trim(doc.getGlossaryDocument().getBuildingBlocks().get(2).getText()));
+        Assert.assertEquals("Contents of AutoText 3", doc.getGlossaryDocument().getBuildingBlocks().get(2).getText().trim());
 
         FieldAutoTextList field = (FieldAutoTextList)doc.getRange().getFields().get(0);
 
@@ -1833,7 +1833,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("Dear Mr. Doe,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
                         "\fDear Mrs. Cardholder,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
                         "\fDear Sir or Madam,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!",
-            msString.trim(doc.getText()));
+            doc.getText().trim());
         //ExEnd
     }
 
@@ -1992,7 +1992,7 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.getMailMerge().execute(table);
 
-        Assert.assertEquals("Dear Mr. Doe:\fDear Mrs. Cardholder:", msString.trim(doc.getText()));
+        Assert.assertEquals("Dear Mr. Doe:\fDear Mrs. Cardholder:", doc.getText().trim());
         //ExEnd
 
         Assert.That(doc.getRange().getFields(), Is.Empty);
@@ -3153,7 +3153,7 @@ public class ExField extends ApiExampleBase
         {
             if (mImageFilenames.containsKey(args.getFieldValue().toString()))
             {
-                                args.setImage(BitmapPal.loadNativeImage(mImageFilenames.get(args.getFieldValue().toString())));
+                                args.setImage(ImageIO.read(mImageFilenames.get(args.getFieldValue().toString())));
                                                 }
             
             Assert.assertNotNull(args.getImage());
@@ -4880,17 +4880,17 @@ public class ExField extends ApiExampleBase
 
         field = (FieldDate)doc.getRange().getFields().get(1);
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\u", DateTime.getNow().toShortDateString(), field);
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\u", new Date().toShortDateString(), field);
         Assert.assertTrue(field.getUseUmAlQuraCalendar());
 
         field = (FieldDate)doc.getRange().getFields().get(2);
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\s", DateTime.getNow().toShortDateString(), field);
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\s", new Date().toShortDateString(), field);
         Assert.assertTrue(field.getUseSakaEraCalendar());
 
         field = (FieldDate)doc.getRange().getFields().get(3);
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\l", DateTime.getNow().toShortDateString(), field);
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\l", new Date().toShortDateString(), field);
         Assert.assertTrue(field.getUseLastFormat());
     }
 
@@ -5000,7 +5000,7 @@ public class ExField extends ApiExampleBase
 
         // The SAVEDATE fields draw their date/time values from the LastSavedTime built-in property.
         // The document's Save method will not update this value, but we can still update it manually.
-        doc.getBuiltInDocumentProperties().setLastSavedTimeInternal(DateTime.getNow());
+        doc.getBuiltInDocumentProperties().setLastSavedTimeInternal(new Date());
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.SAVEDATE.docx");
@@ -5008,7 +5008,7 @@ public class ExField extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Field.SAVEDATE.docx");
 
-        msConsole.writeLine(doc.getBuiltInDocumentProperties().getLastSavedTimeInternal());
+        System.out.println(doc.getBuiltInDocumentProperties().getLastSavedTimeInternal());
 
         field = (FieldSaveDate)doc.getRange().getFields().get(0);
 
@@ -5841,7 +5841,7 @@ public class ExField extends ApiExampleBase
         builder.moveTo(field.getSeparator());
         builder.insertField(FieldType.FIELD_DATE, true);
 
-        Assert.assertEquals(" QUOTE \u0013 DATE \u0014" + DateTime.getNow().getDate().toShortDateString() + "\u0015", field.getFieldCode());
+        Assert.assertEquals(" QUOTE \u0013 DATE \u0014" + new Date().getDate().toShortDateString() + "\u0015", field.getFieldCode());
 
         // Update all the fields to display their correct results.
         doc.updateFields();
@@ -5855,8 +5855,8 @@ public class ExField extends ApiExampleBase
 
         TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE  \"\\\"Quoted text\\\"\"", "\"Quoted text\"", doc.getRange().getFields().get(0));
 
-        TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \u0013 DATE \u0014" + DateTime.getNow().getDate().toShortDateString() + "\u0015", 
-            DateTime.getNow().getDate().toShortDateString(), doc.getRange().getFields().get(1));
+        TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \u0013 DATE \u0014" + new Date().getDate().toShortDateString() + "\u0015", 
+            new Date().getDate().toShortDateString(), doc.getRange().getFields().get(1));
 
     }
 
@@ -7165,7 +7165,7 @@ public class ExField extends ApiExampleBase
                         "Successful merge number: 1\fDear Joe Bloggs,\r" +
                         "\r" +
                         "Row number of record in data source: 2\r" +
-                        "Successful merge number: 3", msString.trim(doc.getText()));
+                        "Successful merge number: 3", doc.getText().trim());
     }
 
     @Test
@@ -7356,7 +7356,7 @@ public class ExField extends ApiExampleBase
 
     private void testFieldTime(Document doc) throws Exception
     {
-        DateTime docLoadingTime = DateTime.getNow();
+        DateTime docLoadingTime = new Date();
         doc = DocumentHelper.saveOpen(doc);
 
         FieldTime field = (FieldTime)doc.getRange().getFields().get(0);
@@ -7550,7 +7550,7 @@ public class ExField extends ApiExampleBase
 
         public ComparisonEvaluationResult evaluate(Field field, ComparisonExpression expression)
         {
-            msArrayList.add(mInvocations, new String[]
+            mInvocations.add(new String[]
             {
                 expression.getLeftExpression(),
                 expression.getComparisonOperator(),

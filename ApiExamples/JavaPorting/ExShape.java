@@ -20,8 +20,7 @@ import com.aspose.words.NodeType;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.Underline;
-import com.aspose.ms.System.msString;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.WrapType;
@@ -69,6 +68,7 @@ import com.aspose.words.EndCap;
 import com.aspose.words.ShapeLineStyle;
 import com.aspose.words.OlePackage;
 import com.aspose.words.HeightRule;
+import com.aspose.ms.System.msString;
 import java.util.ArrayList;
 import com.aspose.words.Table;
 import com.aspose.words.TableStyle;
@@ -197,8 +197,8 @@ public class ExShape extends ApiExampleBase
         }
 
         TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100002", 300.0d, 50.0d, 0.0, 0.0, shape);
-        Assert.assertEquals("This text is inside the text box.", msString.trim(shape.getText()));
-        Assert.assertEquals("Hello world!\rThis text is inside the text box.\r\rThis text is outside the text box.", msString.trim(doc.getText()));
+        Assert.assertEquals("This text is inside the text box.", shape.getText().trim());
+        Assert.assertEquals("Hello world!\rThis text is inside the text box.\r\rThis text is outside the text box.", doc.getText().trim());
     }
 
 	//JAVA-added data provider for test method
@@ -223,7 +223,7 @@ public class ExShape extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a shape with an image.
-        Shape shape = builder.insertImage(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"));
+        Shape shape = builder.insertImage(ImageIO.read(getImageDir() + "Logo.jpg"));
         Assert.assertTrue(shape.canHaveImage());
         Assert.assertTrue(shape.hasImage());
 
@@ -249,7 +249,7 @@ public class ExShape extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        BufferedImage image = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
+        BufferedImage image = ImageIO.read(getImageDir() + "Transparent background logo.png");
 
         Shape shape = builder.insertImage(image);
         shape.setWrapType(WrapType.NONE);
@@ -986,7 +986,7 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(WrapType.NONE, textBox.getWrapType());
         Assert.assertEquals(HorizontalAlignment.CENTER, textBox.getHorizontalAlignment());
         Assert.assertEquals(VerticalAlignment.TOP, textBox.getVerticalAlignment());
-        Assert.assertEquals("Hello world!", msString.trim(textBox.getText()));
+        Assert.assertEquals("Hello world!", textBox.getText().trim());
     }
 
     @Test
@@ -2028,7 +2028,7 @@ public class ExShape extends ApiExampleBase
         }
 
         TestUtil.verifyTextBox(expectedLayoutFlow, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, textBoxShape.getTextBox());
-        Assert.assertEquals("Hello world!\rHello again!", msString.trim(textBoxShape.getText()));
+        Assert.assertEquals("Hello world!\rHello again!", textBoxShape.getText().trim());
     }
 
 	//JAVA-added data provider for test method
@@ -2075,7 +2075,7 @@ public class ExShape extends ApiExampleBase
 
         TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100002", 150.0d, 100.0d, 0.0d, 0.0d, textBoxShape);
         TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, true, TextBoxWrapMode.NONE, 3.6d, 3.6d, 7.2d, 7.2d, textBoxShape.getTextBox());
-        Assert.assertEquals("Text fit tightly inside textbox.", msString.trim(textBoxShape.getText()));
+        Assert.assertEquals("Text fit tightly inside textbox.", textBoxShape.getText().trim());
     }
 
     @Test
@@ -2110,7 +2110,7 @@ public class ExShape extends ApiExampleBase
 
         TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100002", 100.0d, 100.0d, 0.0d, 0.0d, textBoxShape);
         TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 15.0d, 15.0d, 15.0d, 15.0d, textBoxShape.getTextBox());
-        Assert.assertEquals("Text placed according to textbox margins.", msString.trim(textBoxShape.getText()));
+        Assert.assertEquals("Text placed according to textbox margins.", textBoxShape.getText().trim());
     }
 
     @Test (dataProvider = "textBoxContentsWrapModeDataProvider")
@@ -2144,7 +2144,7 @@ public class ExShape extends ApiExampleBase
 
         TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100002", 300.0d, 300.0d, 0.0d, 0.0d, textBoxShape);
         TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, textBoxWrapMode, 3.6d, 3.6d, 7.2d, 7.2d, textBoxShape.getTextBox());
-        Assert.assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", msString.trim(textBoxShape.getText()));
+        Assert.assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", textBoxShape.getText().trim());
     }
 
 	//JAVA-added data provider for test method
@@ -2245,19 +2245,19 @@ public class ExShape extends ApiExampleBase
 
         TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100002", 100.0d, 100.0d, 0.0d, 0.0d, shapes.get(0));
         TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, shapes.get(0).getTextBox());
-        Assert.assertEquals("", msString.trim(shapes.get(0).getText()));
+        Assert.assertEquals("", shapes.get(0).getText().trim());
 
         TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100004", 100.0d, 100.0d, 0.0d, 0.0d, shapes.get(1));
         TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, shapes.get(1).getTextBox());
-        Assert.assertEquals("", msString.trim(shapes.get(1).getText()));
+        Assert.assertEquals("", shapes.get(1).getText().trim());
 
         TestUtil.verifyShape(ShapeType.RECTANGLE, "TextBox 100006", 100.0d, 100.0d, 0.0d, 0.0d, shapes.get(2));
         TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, shapes.get(2).getTextBox());
-        Assert.assertEquals("", msString.trim(shapes.get(2).getText()));
+        Assert.assertEquals("", shapes.get(2).getText().trim());
 
         TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100008", 100.0d, 100.0d, 0.0d, 0.0d, shapes.get(3));
         TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, shapes.get(3).getTextBox());
-        Assert.assertEquals("Hello world!", msString.trim(shapes.get(3).getText()));
+        Assert.assertEquals("Hello world!", shapes.get(3).getText().trim());
     }
 
     @Test (dataProvider = "verticalAnchorDataProvider")
@@ -2296,7 +2296,7 @@ public class ExShape extends ApiExampleBase
         TestUtil.verifyShape(ShapeType.TEXT_BOX, "TextBox 100002", 200.0d, 200.0d, 0.0d, 0.0d, shape);
         TestUtil.verifyTextBox(LayoutFlow.HORIZONTAL, false, TextBoxWrapMode.SQUARE, 3.6d, 3.6d, 7.2d, 7.2d, shape.getTextBox());
         Assert.assertEquals(verticalAnchor, shape.getTextBox().getVerticalAnchor());
-        Assert.assertEquals("Hello world!", msString.trim(shape.getText()));
+        Assert.assertEquals("Hello world!", shape.getText().trim());
     }
 
 	//JAVA-added data provider for test method

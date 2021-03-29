@@ -31,7 +31,6 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.words.FontSettings;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.DocumentSplitCriteria;
-import com.aspose.ms.System.msString;
 import com.aspose.words.Table;
 import com.aspose.words.PreferredWidth;
 import com.aspose.words.BreakType;
@@ -39,6 +38,7 @@ import com.aspose.words.HtmlElementSizeOutputMode;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.IFontSavingCallback;
 import com.aspose.words.FontSavingArgs;
+import com.aspose.ms.System.msString;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
@@ -54,7 +54,7 @@ import com.aspose.words.FieldType;
 import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.ms.System.IO.MemoryStream;
 import java.awt.image.BufferedImage;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import com.aspose.ms.System.Drawing.msSize;
 import com.aspose.words.IImageSavingCallback;
 import com.aspose.words.ImageSavingArgs;
@@ -618,21 +618,21 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         doc = new Document(getArtifactsDir() + "HtmlSaveOptions.HeadingLevels.html");
 
-        Assert.assertEquals("Heading #1", msString.trim(doc.getText()));
+        Assert.assertEquals("Heading #1", doc.getText().trim());
 
         doc = new Document(getArtifactsDir() + "HtmlSaveOptions.HeadingLevels-01.html");
 
         Assert.assertEquals("Heading #2\r" +
-                        "Heading #3", msString.trim(doc.getText()));
+                        "Heading #3", doc.getText().trim());
 
         doc = new Document(getArtifactsDir() + "HtmlSaveOptions.HeadingLevels-02.html");
 
-        Assert.assertEquals("Heading #4", msString.trim(doc.getText()));
+        Assert.assertEquals("Heading #4", doc.getText().trim());
 
         doc = new Document(getArtifactsDir() + "HtmlSaveOptions.HeadingLevels-03.html");
 
         Assert.assertEquals("Heading #5\r" +
-                        "Heading #6", msString.trim(doc.getText()));
+                        "Heading #6", doc.getText().trim());
         //ExEnd
     }
 
@@ -1951,7 +1951,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a shape which contains an image, and then make that shape considerably smaller than the image.
-        BufferedImage image = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
+        BufferedImage image = ImageIO.read(getImageDir() + "Transparent background logo.png");
 
         Assert.assertEquals(400, msSize.getWidth(image.Size));
         Assert.assertEquals(400, msSize.getHeight(image.Size));

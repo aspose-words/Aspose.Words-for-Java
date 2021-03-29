@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import com.aspose.words.MailMergeRegionInfo;
 import com.aspose.words.FieldQuote;
 import com.aspose.words.FieldType;
-import com.aspose.ms.System.msString;
 import com.aspose.words.MailMergeCleanupOptions;
 import com.aspose.words.FieldMergeField;
 import com.aspose.words.MappedDataFieldCollection;
@@ -48,7 +47,6 @@ import com.aspose.words.NodeType;
 import com.aspose.words.OdsoFieldMapDataCollection;
 import com.aspose.words.OdsoFieldMapData;
 import com.aspose.words.OdsoFieldMappingType;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.OdsoRecipientDataCollection;
 import com.aspose.words.OdsoRecipientData;
 import com.aspose.ms.System.Globalization.msCultureInfo;
@@ -954,11 +952,11 @@ public class ExMailMerge extends ApiExampleBase
 
         Assert.assertEquals(
             "Dear \u0013 MERGEFIELD FirstName \u0014«FirstName»\u0015 \u0013 MERGEFIELD LastName \u0014«LastName»\u0015,\rGreetings!", 
-            msString.trim(doc.getText()));
+            doc.getText().trim());
 
         doc.getMailMerge().deleteFields();
 
-        Assert.assertEquals("Dear  ,\rGreetings!", msString.trim(doc.getText()));
+        Assert.assertEquals("Dear  ,\rGreetings!", doc.getText().trim());
         //ExEnd
     }
 
@@ -1048,12 +1046,12 @@ public class ExMailMerge extends ApiExampleBase
         if (doc.getMailMerge().getCleanupOptions() == MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS) 
             Assert.assertEquals(
                 "John Doe\r" +
-                "Jane Doe", msString.trim(doc.getText()));
+                "Jane Doe", doc.getText().trim());
         else
             Assert.assertEquals(
                 "John Doe\r" +
                 " \r" +
-                "Jane Doe", msString.trim(doc.getText()));
+                "Jane Doe", doc.getText().trim());
         //ExEnd
 
         TestUtil.mailMergeMatchesDataTable(dataTable, doc, false);
@@ -1508,7 +1506,7 @@ public class ExMailMerge extends ApiExampleBase
             countAllMergeFields
                 ? "\u0013 IF 1 = 2 \"James Bond\"\u0014\u0015"
                 : "\u0013 IF 1 = 2 \u0013 MERGEFIELD  FullName \u0014«FullName»\u0015\u0014\u0015",
-            msString.trim(doc.getText()));
+            doc.getText().trim());
         //ExEnd
     }
 
@@ -1777,12 +1775,12 @@ public class ExMailMerge extends ApiExampleBase
         //ExEnd
 
         Assert.assertEquals("FirstName\u0007LastName\u0007\u0007",
-            msString.trim(new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.Header.docx").
-                getChild(NodeType.TABLE, 0, true).getText()));
+            new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.Header.docx").
+                getChild(NodeType.TABLE, 0, true).getText().trim());
 
         Assert.assertEquals("John\u0007Doe\u0007\u0007",
-            msString.trim(new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.Data.docx").
-                getChild(NodeType.TABLE, 0, true).getText()));
+            new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.Data.docx").
+                getChild(NodeType.TABLE, 0, true).getText().trim());
 
         doc = new Document(getArtifactsDir() + "MailMerge.MailingLabelMerge.docx");
 
@@ -1842,7 +1840,7 @@ public class ExMailMerge extends ApiExampleBase
         finally { if (enumerator != null) enumerator.close(); }
 
         // Clone the elements in this collection.
-        msAssert.areNotEqual(dataCollection.get(0), dataCollection.get(0).deepClone());
+        Assert.assertNotEquals(dataCollection.get(0), dataCollection.get(0).deepClone());
 
         // Use the "RemoveAt" method elements individually by index.
         dataCollection.removeAt(0);
@@ -1896,7 +1894,7 @@ public class ExMailMerge extends ApiExampleBase
         finally { if (enumerator != null) enumerator.close(); }
 
         // We can clone the elements in this collection.
-        msAssert.areNotEqual(dataCollection.get(0), dataCollection.get(0).deepClone());
+        Assert.assertNotEquals(dataCollection.get(0), dataCollection.get(0).deepClone());
 
         // We can also remove elements individually, or clear the entire collection at once.
         dataCollection.removeAt(0);
@@ -1939,7 +1937,7 @@ public class ExMailMerge extends ApiExampleBase
         doc.getMailMerge().execute(new String[] { "Date2" }, new Object[] { new DateTime(2020, 1, 1) });
 
         // The first merge result contains a date formatted in English, while the second one is in German.
-        Assert.assertEquals("Wednesday, 1 January 2020 - Mittwoch, 1 Januar 2020", msString.trim(doc.getRange().getText()));
+        Assert.assertEquals("Wednesday, 1 January 2020 - Mittwoch, 1 Januar 2020", doc.getRange().getText().trim());
 
         // Restore the thread's original culture.
         CurrentThread.setCurrentCulture(currentCulture);

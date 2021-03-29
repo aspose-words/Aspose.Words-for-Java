@@ -22,13 +22,12 @@ import com.aspose.words.WarningSource;
 import com.aspose.words.WarningType;
 import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfo;
-import com.aspose.ms.System.Collections.msArrayList;
 import java.util.ArrayList;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.SignOptions;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.DigitalSignatureUtil;
-import com.aspose.ms.System.msString;
 import com.aspose.words.LoadFormat;
 import com.aspose.words.HtmlControlType;
 import com.aspose.words.NodeCollection;
@@ -138,7 +137,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     {
         public void warning(WarningInfo info)
         {
-            msArrayList.add(mWarnings, info);
+            mWarnings.add(info);
         }
 
         public ArrayList<WarningInfo> warnings() { 
@@ -161,7 +160,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         SignOptions signOptions = new SignOptions();
         {
             signOptions.setComments("Comment");
-            signOptions.setSignTime(DateTime.getNow());
+            signOptions.setSignTime(new Date());
             signOptions.setDecryptionPassword("docPassword");
         }
 
@@ -177,7 +176,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
 
         Document doc = new Document(outputFileName, loadOptions);
 
-        Assert.assertEquals("Test encrypted document.", msString.trim(doc.getText()));       
+        Assert.assertEquals("Test encrypted document.", doc.getText().trim());       
         //ExEnd
     }
 

@@ -14,7 +14,6 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.PlainTextDocument;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.OoxmlSaveOptions;
@@ -40,7 +39,7 @@ class ExPlainTextDocument !Test class should be public in Java to run, please fi
 
         PlainTextDocument plaintext = new PlainTextDocument(getArtifactsDir() + "PlainTextDocument.Load.docx");
 
-        Assert.assertEquals("Hello world!", msString.trim(plaintext.getText()));
+        Assert.assertEquals("Hello world!", plaintext.getText().trim());
         //ExEnd
     }
 
@@ -61,7 +60,7 @@ class ExPlainTextDocument !Test class should be public in Java to run, please fi
         {
             PlainTextDocument plaintext = new PlainTextDocument(stream);
 
-            Assert.assertEquals("Hello world!", msString.trim(plaintext.getText()));
+            Assert.assertEquals("Hello world!", plaintext.getText().trim());
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
@@ -87,7 +86,7 @@ class ExPlainTextDocument !Test class should be public in Java to run, please fi
 
         PlainTextDocument plaintext = new PlainTextDocument(getArtifactsDir() + "PlainTextDocument.LoadEncrypted.docx", loadOptions);
 
-        Assert.assertEquals("Hello world!", msString.trim(plaintext.getText()));
+        Assert.assertEquals("Hello world!", plaintext.getText().trim());
         //ExEnd
     }
 
@@ -115,7 +114,7 @@ class ExPlainTextDocument !Test class should be public in Java to run, please fi
         {
             PlainTextDocument plaintext = new PlainTextDocument(stream, loadOptions);
 
-            Assert.assertEquals("Hello world!", msString.trim(plaintext.getText()));
+            Assert.assertEquals("Hello world!", plaintext.getText().trim());
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
@@ -137,7 +136,7 @@ class ExPlainTextDocument !Test class should be public in Java to run, please fi
 
         PlainTextDocument plaintext = new PlainTextDocument(getArtifactsDir() + "PlainTextDocument.BuiltInProperties.docx");
 
-        Assert.assertEquals("Hello world!", msString.trim(plaintext.getText()));
+        Assert.assertEquals("Hello world!", plaintext.getText().trim());
         Assert.assertEquals("John Doe", plaintext.getBuiltInDocumentProperties().getAuthor());
         //ExEnd
     }
@@ -158,7 +157,7 @@ class ExPlainTextDocument !Test class should be public in Java to run, please fi
 
         PlainTextDocument plaintext = new PlainTextDocument(getArtifactsDir() + "PlainTextDocument.CustomDocumentProperties.docx");
 
-        Assert.assertEquals("Hello world!", msString.trim(plaintext.getText()));
+        Assert.assertEquals("Hello world!", plaintext.getText().trim());
         Assert.assertEquals("123 Main St, London, UK", plaintext.getCustomDocumentProperties().get("Location of writing").getValue());
         //ExEnd
     }

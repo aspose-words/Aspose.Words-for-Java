@@ -26,7 +26,6 @@ import com.aspose.words.StyleIdentifier;
 import com.aspose.words.TabStop;
 import com.aspose.words.TabAlignment;
 import com.aspose.words.TabLeader;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.ListTemplate;
 
@@ -208,7 +207,7 @@ public class ExStyles extends ApiExampleBase
         Assert.assertEquals(doc.getStyles().get("Heading 1").getType(), newStyle.getType());
         Assert.assertEquals(doc.getStyles().get("Heading 1").getFont().getName(), newStyle.getFont().getName());
         Assert.assertEquals(doc.getStyles().get("Heading 1").getFont().getSize(), newStyle.getFont().getSize());
-        msAssert.areNotEqual(doc.getStyles().get("Heading 1").getFont().getColor(), newStyle.getFont().getColor());
+        Assert.assertNotEquals(doc.getStyles().get("Heading 1").getFont().getColor(), newStyle.getFont().getColor());
         //ExEnd
     }
 

@@ -19,12 +19,13 @@ import com.aspose.words.ParagraphFormat;
 import com.aspose.words.ParagraphAlignment;
 import org.testng.Assert;
 import com.aspose.words.Paragraph;
-import com.aspose.ms.System.msString;
 import com.aspose.words.FieldType;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.TimeSpan;
 import com.aspose.words.Run;
 import com.aspose.words.Field;
+import com.aspose.ms.System.msString;
 import com.aspose.words.NodeType;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.HeightRule;
@@ -88,7 +89,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         Assert.assertTrue(paragraph.getParagraphFormat().getAddSpaceBetweenFarEastAndAlpha());
         Assert.assertTrue(paragraph.getParagraphFormat().getAddSpaceBetweenFarEastAndDigit());
         Assert.assertTrue(paragraph.getParagraphFormat().getKeepTogether());
-        Assert.assertEquals("Hello world!", msString.trim(paragraph.getText()));
+        Assert.assertEquals("Hello world!", paragraph.getText().trim());
 
         Font runFont = paragraph.getRuns().get(0).getFont();
 
@@ -132,8 +133,8 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         doc = new Document(getArtifactsDir() + "Paragraph.AppendField.docx");
 
-        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE ", DateTime.getNow(), doc.getRange().getFields().get(0), new TimeSpan(0, 0, 0, 0));
-        TestUtil.verifyField(FieldType.FIELD_TIME, " TIME  \\@ \"HH:mm:ss\" ", DateTime.getNow(), doc.getRange().getFields().get(1), new TimeSpan(0, 0, 0, 5));
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE ", new Date(), doc.getRange().getFields().get(0), new TimeSpan(0, 0, 0, 0));
+        TestUtil.verifyField(FieldType.FIELD_TIME, " TIME  \\@ \"HH:mm:ss\" ", new Date(), doc.getRange().getFields().get(1), new TimeSpan(0, 0, 0, 5));
         TestUtil.verifyField(FieldType.FIELD_QUOTE, " QUOTE \"Real value\"", "Real value", doc.getRange().getFields().get(2));
     }
 
@@ -337,29 +338,29 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         // that itself is a part of the document's node tree, as we did with the first run.
         // We can determine where the text contents of nodes that we insert
         // appears in the document by specifying an insertion location relative to another node in the paragraph.
-        Assert.assertEquals("Initial text.", msString.trim(paragraph.getText()));
+        Assert.assertEquals("Initial text.", paragraph.getText().trim());
 
         // Insert the second run into the paragraph in front of the initial run.
         paragraph.insertBefore(run2, paragraphText);
 
-        Assert.assertEquals("Run 2. Initial text.", msString.trim(paragraph.getText()));
+        Assert.assertEquals("Run 2. Initial text.", paragraph.getText().trim());
 
         // Insert the third run after the initial run.
         paragraph.insertAfter(run3, paragraphText);
 
-        Assert.assertEquals("Run 2. Initial text. Run 3.", msString.trim(paragraph.getText()));
+        Assert.assertEquals("Run 2. Initial text. Run 3.", paragraph.getText().trim());
 
         // Insert the first run to the start of the paragraph's child nodes collection.
         paragraph.prependChild(run1);
 
-        Assert.assertEquals("Run 1. Run 2. Initial text. Run 3.", msString.trim(paragraph.getText()));
+        Assert.assertEquals("Run 1. Run 2. Initial text. Run 3.", paragraph.getText().trim());
         Assert.assertEquals(4, paragraph.getChildNodes(NodeType.ANY, true).getCount());
 
         // We can modify the contents of the run by editing and deleting existing child nodes.
         ((Run)paragraph.getChildNodes(NodeType.RUN, true).get(1)).setText("Updated run 2. ");
         paragraph.getChildNodes(NodeType.RUN, true).remove(paragraphText);
 
-        Assert.assertEquals("Run 1. Updated run 2. Run 3.", msString.trim(paragraph.getText()));
+        Assert.assertEquals("Run 1. Updated run 2. Run 3.", paragraph.getText().trim());
         Assert.assertEquals(3, paragraph.getChildNodes(NodeType.ANY, true).getCount());
         //ExEnd
     }
@@ -499,7 +500,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         // The above paragraphs are not revisions.
         // Paragraphs that we add after starting revision tracking will register as "Insert" revisions.
-        doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
+        doc.startTrackRevisionsInternal("John Doe", new Date());
 
         para = body.appendParagraph("Paragraph 4. ");
 
@@ -527,7 +528,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         Assert.assertEquals(
             "Paragraph 1. \r" +
             "Paragraph 2. \r" +
-            "Paragraph 4.", msString.trim(doc.getText()));
+            "Paragraph 4.", doc.getText().trim());
         //ExEnd
     }
 

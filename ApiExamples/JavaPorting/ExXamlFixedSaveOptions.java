@@ -19,7 +19,6 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.IResourceSavingCallback;
 import java.util.ArrayList;
 import com.aspose.words.ResourceSavingArgs;
-import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.File;
@@ -81,7 +80,7 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase
 
         public void /*IResourceSavingCallback.*/resourceSaving(ResourceSavingArgs args) throws Exception
         {
-            msArrayList.add(getResources(), $"Resource \"{args.ResourceFileName}\"\n\t{args.ResourceFileUri}");
+            getResources().add($"Resource \"{args.ResourceFileName}\"\n\t{args.ResourceFileUri}");
 
             // If we specified a resource folder alias, we would also need
             // to redirect each stream to put its resource in the alias folder.

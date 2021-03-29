@@ -26,6 +26,7 @@ import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.FlipOrientation;
 import com.aspose.ms.System.IO.MemoryStream;
 import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import com.aspose.words.NodeType;
 import com.aspose.words.ImageType;
 import java.util.Iterator;
@@ -35,7 +36,6 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.Directory;
 import java.util.ArrayList;
 import com.aspose.ms.System.IO.FileInfo;
-import com.aspose.BitmapPal;
 import com.aspose.ms.System.IO.Stream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.FileAccess;
@@ -47,7 +47,6 @@ import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.LayoutFlow;
 import com.aspose.words.Paragraph;
-import com.aspose.ms.System.msString;
 import com.aspose.words.ImageSize;
 
 
@@ -136,7 +135,7 @@ public class ExDrawing extends ApiExampleBase
             MemoryStream stream = new MemoryStream(imageBytes);
             try /*JAVA: was using*/
             {
-                BufferedImage image = BufferedImage.FromStream(stream);
+                BufferedImage image = ImageIO.read(stream);
                 // When we flip the orientation of our arrow, we also flip the image that the arrow contains.
                 // Flip the image the other way to cancel this out before getting the shape to display it.
                 image.RotateFlip(RotateFlipType.RotateNoneFlipXY);
@@ -215,7 +214,7 @@ public class ExDrawing extends ApiExampleBase
             MemoryStream stream = new MemoryStream(imageBytes);
             try /*JAVA: was using*/
             {
-                BufferedImage image = BufferedImage.FromStream(stream);
+                BufferedImage image = ImageIO.read(stream);
 
                 // The image in the URL is a .gif. Inserting it into a document converts it into a .png.
                 Shape imgShape = builder.insertImage(image);
@@ -304,7 +303,7 @@ public class ExDrawing extends ApiExampleBase
 
         // Below are two ways of getting an image from a file in the local file system.
         // 1 -  Create an image object from an image file:
-        BufferedImage srcImage = BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg");
+        BufferedImage srcImage = ImageIO.read(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
         {
             imgShape = new Shape(doc, ShapeType.IMAGE);
@@ -523,7 +522,7 @@ public class ExDrawing extends ApiExampleBase
         Assert.assertEquals(100.0d, textbox.getWidth());
         Assert.assertEquals(100.0d, textbox.getHeight());
         Assert.assertEquals(LayoutFlow.BOTTOM_TO_TOP, textbox.getTextBox().getLayoutFlow());
-        Assert.assertEquals("This text is flipped 90 degrees to the left.", msString.trim(textbox.getText()));
+        Assert.assertEquals("This text is flipped 90 degrees to the left.", textbox.getText().trim());
     }
 
     @Test

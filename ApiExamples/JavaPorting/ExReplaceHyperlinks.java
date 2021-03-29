@@ -20,8 +20,8 @@ import com.aspose.words.FieldStart;
 import com.aspose.words.FieldType;
 import com.aspose.words.NodeType;
 import com.aspose.ms.System.Text.RegularExpressions.Match;
-import com.aspose.ms.System.msString;
 import com.aspose.words.Run;
+import com.aspose.ms.System.msString;
 import com.aspose.words.Node;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
@@ -101,7 +101,7 @@ class Hyperlink
 
         // Field code looks something like "HYPERLINK "http:\\www.myurl.com"", but it can consist of several runs.
         String fieldCode = getTextSameParent(mFieldStart.getNextSibling(), mFieldSeparator);
-        Match match = G_REGEX.match(msString.trim(fieldCode));
+        Match match = G_REGEX.match(fieldCode.trim());
 
         // The hyperlink is local if \l is present in the field code.
         mIsLocal = match.getGroups().get(1).getLength() > 0; 

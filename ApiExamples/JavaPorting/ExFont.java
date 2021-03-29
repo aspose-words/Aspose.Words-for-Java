@@ -15,7 +15,6 @@ import com.aspose.words.Run;
 import com.aspose.words.Font;
 import java.awt.Color;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.Paragraph;
 import com.aspose.words.NodeType;
 import com.aspose.words.FontInfoCollection;
@@ -94,7 +93,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.CreateFormattedRun.docx");
         run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
 
-        Assert.assertEquals("Hello world!", msString.trim(run.getText()));
+        Assert.assertEquals("Hello world!", run.getText().trim());
         Assert.assertEquals("Courier New", run.getFont().getName());
         Assert.assertEquals(36, run.getFont().getSize());
         Assert.assertEquals(Color.YELLOW.getRGB(), run.getFont().getHighlightColor().getRGB());
@@ -133,12 +132,12 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.Caps.docx");
         run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("all capitals", msString.trim(run.getText()));
+        Assert.assertEquals("all capitals", run.getText().trim());
         Assert.assertTrue(run.getFont().getAllCaps());
 
         run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
 
-        Assert.assertEquals("Small Capitals", msString.trim(run.getText()));
+        Assert.assertEquals("Small Capitals", run.getText().trim());
         Assert.assertTrue(run.getFont().getSmallCaps());
     }
 
@@ -268,12 +267,12 @@ public class ExFont extends ApiExampleBase
 
         run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Text with a single-line strikethrough.", msString.trim(run.getText()));
+        Assert.assertEquals("Text with a single-line strikethrough.", run.getText().trim());
         Assert.assertTrue(run.getFont().getStrikeThrough());
 
         run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
 
-        Assert.assertEquals("Text with a double-line strikethrough.", msString.trim(run.getText()));
+        Assert.assertEquals("Text with a double-line strikethrough.", run.getText().trim());
         Assert.assertTrue(run.getFont().getDoubleStrikeThrough());
     }
 
@@ -318,23 +317,23 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.PositionSubscript.docx");
         run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
 
-        Assert.assertEquals("Raised text.", msString.trim(run.getText()));
+        Assert.assertEquals("Raised text.", run.getText().trim());
         Assert.assertEquals(5, run.getFont().getPosition());
 
         doc = new Document(getArtifactsDir() + "Font.PositionSubscript.docx");
         run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(1);
 
-        Assert.assertEquals("Lowered text.", msString.trim(run.getText()));
+        Assert.assertEquals("Lowered text.", run.getText().trim());
         Assert.assertEquals(-10, run.getFont().getPosition());
 
         run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(3);
 
-        Assert.assertEquals("Subscript.", msString.trim(run.getText()));
+        Assert.assertEquals("Subscript.", run.getText().trim());
         Assert.assertTrue(run.getFont().getSubscript());
 
         run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(4);
 
-        Assert.assertEquals("Superscript.", msString.trim(run.getText()));
+        Assert.assertEquals("Superscript.", run.getText().trim());
         Assert.assertTrue(run.getFont().getSuperscript());
     }
 
@@ -366,17 +365,17 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.ScalingSpacing.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Wide characters", msString.trim(run.getText()));
+        Assert.assertEquals("Wide characters", run.getText().trim());
         Assert.assertEquals(150, run.getFont().getScaling());
 
         run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
 
-        Assert.assertEquals("Expanded by 1pt", msString.trim(run.getText()));
+        Assert.assertEquals("Expanded by 1pt", run.getText().trim());
         Assert.assertEquals(1, run.getFont().getSpacing());
 
         run = doc.getFirstSection().getBody().getParagraphs().get(2).getRuns().get(0);
 
-        Assert.assertEquals("Condensed by 1pt", msString.trim(run.getText()));
+        Assert.assertEquals("Condensed by 1pt", run.getText().trim());
         Assert.assertEquals(-1, run.getFont().getSpacing());
     }
 
@@ -399,7 +398,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.Italic.docx");
         Run run = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
 
-        Assert.assertEquals("Hello world!", msString.trim(run.getText()));
+        Assert.assertEquals("Hello world!", run.getText().trim());
         Assert.assertTrue(run.getFont().getItalic());
     }
 
@@ -434,13 +433,13 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.EngraveEmboss.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("This text is engraved.", msString.trim(run.getText()));
+        Assert.assertEquals("This text is engraved.", run.getText().trim());
         Assert.assertTrue(run.getFont().getEngrave());
         Assert.assertFalse(run.getFont().getEmboss());
 
         run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
 
-        Assert.assertEquals("This text is embossed.", msString.trim(run.getText()));
+        Assert.assertEquals("This text is embossed.", run.getText().trim());
         Assert.assertFalse(run.getFont().getEngrave());
         Assert.assertTrue(run.getFont().getEmboss());
     }
@@ -467,7 +466,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.Shadow.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("This text has a shadow.", msString.trim(run.getText()));
+        Assert.assertEquals("This text has a shadow.", run.getText().trim());
         Assert.assertTrue(run.getFont().getShadow());
     }
 
@@ -494,7 +493,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.Outline.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("This text has an outline.", msString.trim(run.getText()));
+        Assert.assertEquals("This text has an outline.", run.getText().trim());
         Assert.assertTrue(run.getFont().getOutline());
     }
 
@@ -523,7 +522,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.Hidden.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("This text will not be visible in the document.", msString.trim(run.getText()));
+        Assert.assertEquals("This text will not be visible in the document.", run.getText().trim());
         Assert.assertTrue(run.getFont().getHidden());
     }
 
@@ -557,13 +556,13 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.Kerning.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("TALLY. (Kerning not applied)", msString.trim(run.getText()));
+        Assert.assertEquals("TALLY. (Kerning not applied)", run.getText().trim());
         Assert.assertEquals(24, run.getFont().getKerning());
         Assert.assertEquals(18, run.getFont().getSize());
 
         run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
 
-        Assert.assertEquals("TALLY. (Kerning applied)", msString.trim(run.getText()));
+        Assert.assertEquals("TALLY. (Kerning applied)", run.getText().trim());
         Assert.assertEquals(12, run.getFont().getKerning());
         Assert.assertEquals(18, run.getFont().getSize());
     }
@@ -590,7 +589,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.NoProofing.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Proofing has been disabled, so these spelking errrs will not display red lines underneath.", msString.trim(run.getText()));
+        Assert.assertEquals("Proofing has been disabled, so these spelking errrs will not display red lines underneath.", run.getText().trim());
         Assert.assertTrue(run.getFont().getNoProofing());
     }
 
@@ -618,12 +617,12 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.LocaleId.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Привет!", msString.trim(run.getText()));
+        Assert.assertEquals("Привет!", run.getText().trim());
         Assert.assertEquals(1033, run.getFont().getLocaleId());
 
         run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
 
-        Assert.assertEquals("Привет!", msString.trim(run.getText()));
+        Assert.assertEquals("Привет!", run.getText().trim());
         Assert.assertEquals(1049, run.getFont().getLocaleId());
     }
 
@@ -648,7 +647,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.Underlines.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Underlined text.", msString.trim(run.getText()));
+        Assert.assertEquals("Underlined text.", run.getText().trim());
         Assert.assertEquals(Underline.DOTTED, run.getFont().getUnderline());
         Assert.assertEquals(Color.RED.getRGB(), run.getFont().getUnderlineColor().getRGB());
     }
@@ -672,7 +671,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.ComplexScript.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Text treated as complex script.", msString.trim(run.getText()));
+        Assert.assertEquals("Text treated as complex script.", run.getText().trim());
         Assert.assertTrue(run.getFont().getComplexScript());
     }
 
@@ -697,7 +696,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.SparklingText.doc");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Text with a sparkle effect.", msString.trim(run.getText()));
+        Assert.assertEquals("Text with a sparkle effect.", run.getText().trim());
         Assert.assertEquals(TextEffect.SPARKLE_TEXT, run.getFont().getTextEffect());
     }
 
@@ -727,7 +726,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.Shading.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("White text on an orange background with a two-tone texture.", msString.trim(run.getText()));
+        Assert.assertEquals("White text on an orange background with a two-tone texture.", run.getText().trim());
         Assert.assertEquals(Color.WHITE.getRGB(), run.getFont().getColor().getRGB());
 
         Assert.assertEquals(TextureIndex.TEXTURE_DIAGONAL_UP, run.getFont().getShading().getTexture());
@@ -784,11 +783,11 @@ public class ExFont extends ApiExampleBase
             switch (doc.getFirstSection().getBody().getParagraphs().get(0).indexOf(run))
             {
                 case 0:
-                    Assert.assertEquals("مرحبًا", msString.trim(run.getText()));
+                    Assert.assertEquals("مرحبًا", run.getText().trim());
                     Assert.assertTrue(run.getFont().getBidi());
                     break;
                 case 1:
-                    Assert.assertEquals("Hello world!", msString.trim(run.getText()));
+                    Assert.assertEquals("Hello world!", run.getText().trim());
                     Assert.assertFalse(run.getFont().getBidi());
                     break;
             }
@@ -839,7 +838,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.FarEast.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Hello world!", msString.trim(run.getText()));
+        Assert.assertEquals("Hello world!", run.getText().trim());
         Assert.assertEquals(1033, run.getFont().getLocaleId());
         Assert.assertEquals("Courier New", run.getFont().getName());
         Assert.assertEquals(2052, run.getFont().getLocaleIdFarEast());
@@ -847,7 +846,7 @@ public class ExFont extends ApiExampleBase
 
         run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
 
-        Assert.assertEquals("你好世界", msString.trim(run.getText()));
+        Assert.assertEquals("你好世界", run.getText().trim());
         Assert.assertEquals(1033, run.getFont().getLocaleId());
         Assert.assertEquals("SimSun", run.getFont().getName());
         Assert.assertEquals(2052, run.getFont().getLocaleIdFarEast());
@@ -886,7 +885,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.NameAscii.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Hello, Привет", msString.trim(run.getText()));
+        Assert.assertEquals("Hello, Привет", run.getText().trim());
         Assert.assertEquals("Calibri", run.getFont().getName());
         Assert.assertEquals("Calibri", run.getFont().getNameAscii());
         Assert.assertEquals("Courier New", run.getFont().getNameOther());
@@ -929,13 +928,13 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.ChangeStyle.docx");
         Run docRun = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Text originally in \"Emphasis\" style", msString.trim(docRun.getText()));
+        Assert.assertEquals("Text originally in \"Emphasis\" style", docRun.getText().trim());
         Assert.assertEquals(StyleIdentifier.STRONG, docRun.getFont().getStyleIdentifier());
         Assert.assertEquals("Strong", docRun.getFont().getStyleName());
 
         docRun = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
 
-        Assert.assertEquals("Text originally in \"Intense Emphasis\" style", msString.trim(docRun.getText()));
+        Assert.assertEquals("Text originally in \"Intense Emphasis\" style", docRun.getText().trim());
         Assert.assertEquals(StyleIdentifier.STRONG, docRun.getFont().getStyleIdentifier());
         Assert.assertEquals("Strong", docRun.getFont().getStyleName());
     }
@@ -998,7 +997,7 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.Style.docx");
         Run docRun = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("This text is in a custom style.", msString.trim(docRun.getText()));
+        Assert.assertEquals("This text is in a custom style.", docRun.getText().trim());
         Assert.assertEquals("MyStyle", docRun.getFont().getStyleName());
         Assert.assertFalse(docRun.getFont().getStyle().getBuiltIn());
         Assert.assertEquals(Underline.DOUBLE, docRun.getFont().getUnderline());
@@ -1020,10 +1019,10 @@ public class ExFont extends ApiExampleBase
         
         for (PhysicalFontInfo fontInfo : folderFontSource[0].getAvailableFonts())
         {
-            msConsole.writeLine("FontFamilyName : {0}", fontInfo.getFontFamilyName());
-            msConsole.writeLine("FullFontName  : {0}", fontInfo.getFullFontName());
-            msConsole.writeLine("Version  : {0}", fontInfo.getVersion());
-            msConsole.writeLine("FilePath : {0}\n", fontInfo.getFilePath());
+            System.out.println("FontFamilyName : {0}",fontInfo.getFontFamilyName());
+            System.out.println("FullFontName  : {0}",fontInfo.getFullFontName());
+            System.out.println("Version  : {0}",fontInfo.getVersion());
+            System.out.println("FilePath : {0}\n",fontInfo.getFilePath());
         }
         //ExEnd
 
@@ -1066,13 +1065,13 @@ public class ExFont extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Font.SetFontAutoColor.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("The text color automatically chosen for this run is white.", msString.trim(run.getText()));
+        Assert.assertEquals("The text color automatically chosen for this run is white.", run.getText().trim());
         Assert.assertEquals(msColor.Empty.getRGB(), run.getFont().getColor().getRGB());
         Assert.assertEquals(msColor.getDarkBlue().getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
 
         run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
 
-        Assert.assertEquals("The text color automatically chosen for this run is black.", msString.trim(run.getText()));
+        Assert.assertEquals("The text color automatically chosen for this run is black.", run.getText().trim());
         Assert.assertEquals(msColor.Empty.getRGB(), run.getFont().getColor().getRGB());
         Assert.assertEquals(Color.LightBlue.getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
     }

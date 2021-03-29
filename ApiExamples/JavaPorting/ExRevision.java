@@ -13,10 +13,10 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import org.testng.Assert;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.Revision;
 import com.aspose.words.RevisionType;
-import com.aspose.ms.System.msString;
 import com.aspose.words.RevisionCollection;
 import com.aspose.ms.System.msConsole;
 import java.util.Iterator;
@@ -58,7 +58,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         Assert.assertFalse(doc.hasRevisions());
 
         // To register our edits as revisions, we need to declare an author, and then start tracking them.
-        doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
+        doc.startTrackRevisionsInternal("John Doe", new Date());
 
         builder.write("This is revision #1. ");
 
@@ -76,7 +76,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         Assert.assertEquals("John Doe", revision.getAuthor());
         Assert.assertEquals("This is revision #1. ", revision.getParentNode().getText());
         Assert.assertEquals(RevisionType.INSERTION, revision.getRevisionType());
-        Assert.assertEquals(revision.getDateTimeInternal().getDate(), DateTime.getNow().getDate());
+        Assert.assertEquals(revision.getDateTimeInternal().getDate(), new Date().getDate());
         Assert.assertEquals(doc.getRevisions().getGroups().get(0), revision.getGroup());
 
         // Remove a run to create a deletion-type revision.
@@ -89,20 +89,20 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         // Insert revisions show up in the document body even before we accept/reject the revision.
         // Rejecting the revision will remove its nodes from the body. Conversely, nodes that make up delete revisions
         // also linger in the document until we accept the revision.
-        Assert.assertEquals("This does not count as a revision. This is revision #1.", msString.trim(doc.getText()));
+        Assert.assertEquals("This does not count as a revision. This is revision #1.", doc.getText().trim());
 
         // Accepting the delete revision will remove its parent node from the paragraph text
         // and then remove the collection's revision itself.
         doc.getRevisions().get(0).accept();
 
         Assert.assertEquals(1, doc.getRevisions().getCount());
-        Assert.assertEquals("This is revision #1.", msString.trim(doc.getText()));
+        Assert.assertEquals("This is revision #1.", doc.getText().trim());
 
         // The insertion-type revision is now at index 0. Reject the revision to discard its contents.
         doc.getRevisions().get(0).reject();
 
         Assert.assertEquals(0, doc.getRevisions().getCount());
-        Assert.assertEquals("", msString.trim(doc.getText()));
+        Assert.assertEquals("", doc.getText().trim());
         //ExEnd
     }
 
