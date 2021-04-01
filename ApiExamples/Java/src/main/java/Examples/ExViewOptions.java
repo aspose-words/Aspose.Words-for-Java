@@ -14,8 +14,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @Test
 public class ExViewOptions extends ApiExampleBase {

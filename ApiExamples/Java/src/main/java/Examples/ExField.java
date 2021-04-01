@@ -10,7 +10,6 @@ package Examples;
 
 import com.aspose.barcode.barcoderecognition.BarCodeReader;
 import com.aspose.barcode.barcoderecognition.BarCodeResult;
-import com.aspose.barcode.barcoderecognition.BaseDecodeType;
 import com.aspose.barcode.barcoderecognition.DecodeType;
 import com.aspose.pdf.facades.PdfExtractor;
 import com.aspose.words.List;
@@ -24,20 +23,15 @@ import org.apache.poi.util.LocaleUtil;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import sun.util.locale.LocaleUtils;
 
 import javax.imageio.ImageIO;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.time.*;
-import java.time.chrono.Chronology;
-import java.time.chrono.HijrahChronology;
-import java.time.chrono.HijrahDate;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -414,8 +408,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals("QR", qrBarCode.getCodeTypeName());
     }
 
-    private BarCodeReader barCodeReaderPdf(String filename) throws Exception
-    {
+    private BarCodeReader barCodeReaderPdf(String filename) throws Exception {
         // Set license for Aspose.BarCode.
         com.aspose.barcode.License licenceBarCode = new com.aspose.barcode.License();
         licenceBarCode.setLicense(getLicenseDir() + "Aspose.Total.Java.lic");
@@ -444,9 +437,8 @@ public class ExField extends ApiExampleBase {
         return barcodeReader;
     }
 
-    @Test (enabled = false, description = "WORDSNET-13854")
-    public void fieldDatabase() throws Exception
-    {
+    @Test(enabled = false, description = "WORDSNET-13854")
+    public void fieldDatabase() throws Exception {
         //ExStart
         //ExFor:FieldDatabase
         //ExFor:FieldDatabase.Connection
@@ -539,9 +531,8 @@ public class ExField extends ApiExampleBase {
         TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.mdb", new StringBuffer(field.getQuery()).insert(7, " TOP 10 ").toString());
     }
 
-    @Test (dataProvider = "preserveIncludePictureDataProvider")
-    public void preserveIncludePicture(boolean preserveIncludePictureField) throws Exception
-    {
+    @Test(dataProvider = "preserveIncludePictureDataProvider")
+    public void preserveIncludePicture(boolean preserveIncludePictureField) throws Exception {
         //ExStart
         //ExFor:Field.Update(bool)
         //ExFor:LoadOptions.PreserveIncludePictureField
@@ -549,12 +540,11 @@ public class ExField extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        FieldIncludePicture includePicture = (FieldIncludePicture)builder.insertField(FieldType.FIELD_INCLUDE_PICTURE, true);
+        FieldIncludePicture includePicture = (FieldIncludePicture) builder.insertField(FieldType.FIELD_INCLUDE_PICTURE, true);
         includePicture.setSourceFullName(getImageDir() + "Transparent background logo.png");
         includePicture.update(true);
 
-        try (ByteArrayOutputStream docStream = new ByteArrayOutputStream())
-        {
+        try (ByteArrayOutputStream docStream = new ByteArrayOutputStream()) {
             doc.save(docStream, new OoxmlSaveOptions(SaveFormat.DOCX));
 
             // We can set a flag in a LoadOptions object to decide whether to convert all INCLUDEPICTURE fields
@@ -567,22 +557,19 @@ public class ExField extends ApiExampleBase {
             doc = new Document(new ByteArrayInputStream(docStream.toByteArray()), loadOptions);
             FieldCollection fieldCollection = doc.getRange().getFields();
 
-            if (preserveIncludePictureField)
-            {
+            if (preserveIncludePictureField) {
                 Assert.assertTrue(IterableUtils.matchesAny(fieldCollection, f -> f.getType() == FieldType.FIELD_INCLUDE_PICTURE));
 
                 doc.updateFields();
                 doc.save(getArtifactsDir() + "Field.PreserveIncludePicture.docx");
-            }
-            else
-            {
+            } else {
                 Assert.assertFalse(IterableUtils.matchesAny(fieldCollection, f -> f.getType() == FieldType.FIELD_INCLUDE_PICTURE));
             }
         }
         //ExEnd
     }
 
-	@DataProvider(name = "preserveIncludePictureDataProvider")
+    @DataProvider(name = "preserveIncludePictureDataProvider")
     public static Object[][] preserveIncludePictureDataProvider() {
         return new Object[][]
                 {
@@ -1079,8 +1066,7 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testFieldCollection(String fieldVisitorText)
-    {
+    private void testFieldCollection(String fieldVisitorText) {
         Assert.assertTrue(fieldVisitorText.contains("Found field: 31"));
         Assert.assertTrue(fieldVisitorText.contains("Found field: 32"));
         Assert.assertTrue(fieldVisitorText.contains("Found field: 24"));
@@ -1477,7 +1463,7 @@ public class ExField extends ApiExampleBase {
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Field.AUTOTEXT.GLOSSARY.dotx");
-        
+
         Assert.assertTrue(doc.getFieldOptions().getBuiltInTemplatesPaths().length == 0);
 
         fieldAutoText = (FieldAutoText) doc.getRange().getFields().get(0);
@@ -2307,8 +2293,8 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(FieldType.FIELD_TOC, fieldToc.getType());
         Assert.assertEquals("MySequence", fieldToc.getTableOfFiguresLabel());
         TestUtil.verifyField(FieldType.FIELD_TOC, " TOC  \\c MySequence \\b TOCBookmark",
-            MessageFormat.format("MySequence #2, will show up in the TOC next to the entry for the above caption.\t\u0013 PAGEREF {0} \\h \u00142\u0015\r", pageRefIds[0]) +
-            MessageFormat.format("3MySequence #3, text from inside SEQBookmark.\t\u0013 PAGEREF {0} \\h \u00142\u0015\r", pageRefIds[1]), fieldToc);
+                MessageFormat.format("MySequence #2, will show up in the TOC next to the entry for the above caption.\t\u0013 PAGEREF {0} \\h \u00142\u0015\r", pageRefIds[0]) +
+                        MessageFormat.format("3MySequence #3, text from inside SEQBookmark.\t\u0013 PAGEREF {0} \\h \u00142\u0015\r", pageRefIds[1]), fieldToc);
 
         FieldPageRef fieldPageRef = (FieldPageRef) doc.getRange().getFields().get(1);
 
@@ -2596,9 +2582,8 @@ public class ExField extends ApiExampleBase {
     //ExFor:FieldIncludeText.XPath
     //ExFor:FieldIncludeText.XslTransformation
     //ExSummary:Shows how to create an INCLUDETEXT field, and set its properties.
-    @Test (description = "WORDSNET-17543") //ExSkip
-    public void fieldIncludeText() throws Exception
-    {
+    @Test(description = "WORDSNET-17543") //ExSkip
+    public void fieldIncludeText() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -2620,10 +2605,9 @@ public class ExField extends ApiExampleBase {
     /// <summary>
     /// Use a document builder to insert an INCLUDETEXT field with custom properties.
     /// </summary>
-    @Test (enabled = false)
-    public FieldIncludeText createFieldIncludeText(DocumentBuilder builder, String sourceFullName, boolean lockFields, String mimeType, String textConverter, String encoding) throws Exception
-    {
-        FieldIncludeText fieldIncludeText = (FieldIncludeText)builder.insertField(FieldType.FIELD_INCLUDE_TEXT, true);
+    @Test(enabled = false)
+    public FieldIncludeText createFieldIncludeText(DocumentBuilder builder, String sourceFullName, boolean lockFields, String mimeType, String textConverter, String encoding) throws Exception {
+        FieldIncludeText fieldIncludeText = (FieldIncludeText) builder.insertField(FieldType.FIELD_INCLUDE_TEXT, true);
         fieldIncludeText.setSourceFullName(sourceFullName);
         fieldIncludeText.setLockFields(lockFields);
         fieldIncludeText.setMimeType(mimeType);
@@ -2634,9 +2618,8 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test (enabled = false, description = "WORDSNET-17545")
-    public void fieldHyperlink() throws Exception
-    {
+    @Test(enabled = false, description = "WORDSNET-17545")
+    public void fieldHyperlink() throws Exception {
         //ExStart
         //ExFor:FieldHyperlink
         //ExFor:FieldHyperlink.Address
@@ -2794,14 +2777,13 @@ public class ExField extends ApiExampleBase {
     //ExFor:ImageFieldMergingArgs.Image
     //ExSummary:Shows how to use a callback to customize image merging logic.
     @Test //ExSkip
-    public void mergeFieldImages() throws Exception
-    {
+    public void mergeFieldImages() throws Exception {
         Document doc = new Document();
 
         // Insert a MERGEFIELD that will accept images from a source during a mail merge. Use the field code to reference
         // a column in the data source which contains local system filenames of images we wish to use in the mail merge.
         DocumentBuilder builder = new DocumentBuilder(doc);
-        FieldMergeField field = (FieldMergeField)builder.insertField("MERGEFIELD Image:ImageColumn");
+        FieldMergeField field = (FieldMergeField) builder.insertField("MERGEFIELD Image:ImageColumn");
 
         // In this case, the field expects the data source to have such a column named "ImageColumn".
         Assert.assertEquals("Image:ImageColumn", field.getFieldName());
@@ -2846,12 +2828,11 @@ public class ExField extends ApiExampleBase {
             Assert.assertNotNull(args.getImage());
         }
 
-        private HashMap<String, String> mImageFilenames = new HashMap<>();
+        private final HashMap<String, String> mImageFilenames = new HashMap<>();
     }
     //ExEnd
 
-    private void testMergeFieldImages(Document doc) throws Exception
-    {
+    private void testMergeFieldImages(Document doc) throws Exception {
         doc = DocumentHelper.saveOpen(doc);
 
         Assert.assertEquals(0, doc.getRange().getFields().getCount());
@@ -7013,9 +6994,9 @@ public class ExField extends ApiExampleBase {
     //ExFor:ComparisonExpression.RightExpression
     //ExFor:FieldOptions.ComparisonExpressionEvaluator
     //ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields.
-    @Test (dataProvider = "conditionEvaluationExtensionPointDataProvider") //ExSkip
+    @Test(dataProvider = "conditionEvaluationExtensionPointDataProvider") //ExSkip
     public void conditionEvaluationExtensionPoint(String fieldCode, byte comparisonResult, String comparisonError,
-        String expectedResult) throws Exception {
+                                                  String expectedResult) throws Exception {
         final String LEFT = "\"left expression\"";
         final String _OPERATOR = "<>";
         final String RIGHT = "\"right expression\"";
@@ -7029,8 +7010,8 @@ public class ExField extends ApiExampleBase {
 
         // If the "comparisonResult" is undefined, we create "ComparisonEvaluationResult" with string, instead of bool.
         ComparisonEvaluationResult result = comparisonResult != -1
-            ? new ComparisonEvaluationResult(comparisonResult == 1)
-            : comparisonError != null ? new ComparisonEvaluationResult(comparisonError) : null;
+                ? new ComparisonEvaluationResult(comparisonResult == 1)
+                : comparisonError != null ? new ComparisonEvaluationResult(comparisonError) : null;
 
         ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(result);
         builder.getDocument().getFieldOptions().setComparisonExpressionEvaluator(evaluator);
@@ -7041,55 +7022,50 @@ public class ExField extends ApiExampleBase {
         evaluator.assertInvocationsCount(1).assertInvocationArguments(0, LEFT, _OPERATOR, RIGHT);
     }
 
-	@DataProvider(name = "conditionEvaluationExtensionPointDataProvider")
-	public static Object[][] conditionEvaluationExtensionPointDataProvider() {
+    @DataProvider(name = "conditionEvaluationExtensionPointDataProvider")
+    public static Object[][] conditionEvaluationExtensionPointDataProvider() {
         return new Object[][]
                 {
-                        { " IF %s %s %s \"true argument\" \"false argument\" ", (byte) 1, null, "true argument" },
-                        { " IF %s %s %s \"true argument\" \"false argument\" ", (byte) 0, null, "false argument" },
-                        { " IF %s %s %s \"true argument\" \"false argument\" ", (byte) -1, "Custom Error", "Custom Error" },
-                        { " IF %s %s %s \"true argument\" \"false argument\" ", (byte) -1, null, "true argument" },
-                        { " COMPARE %s %s %s ", (byte) 1, null, "1" },
-                        { " COMPARE %s %s %s ", (byte) 0, null, "0" },
-                        { " COMPARE %s %s %s ", (byte) -1, "Custom Error", "Custom Error" },
-                        { " COMPARE %s %s %s ", (byte) -1, null, "1" },
+                        {" IF %s %s %s \"true argument\" \"false argument\" ", (byte) 1, null, "true argument"},
+                        {" IF %s %s %s \"true argument\" \"false argument\" ", (byte) 0, null, "false argument"},
+                        {" IF %s %s %s \"true argument\" \"false argument\" ", (byte) -1, "Custom Error", "Custom Error"},
+                        {" IF %s %s %s \"true argument\" \"false argument\" ", (byte) -1, null, "true argument"},
+                        {" COMPARE %s %s %s ", (byte) 1, null, "1"},
+                        {" COMPARE %s %s %s ", (byte) 0, null, "0"},
+                        {" COMPARE %s %s %s ", (byte) -1, "Custom Error", "Custom Error"},
+                        {" COMPARE %s %s %s ", (byte) -1, null, "1"},
                 };
     }
 
     /// <summary>
     /// Comparison expressions evaluation for the FieldIf and FieldCompare.
     /// </summary>
-    private static class ComparisonExpressionEvaluator implements IComparisonExpressionEvaluator
-    {
-        public ComparisonExpressionEvaluator(ComparisonEvaluationResult result)
-        {
+    private static class ComparisonExpressionEvaluator implements IComparisonExpressionEvaluator {
+        public ComparisonExpressionEvaluator(ComparisonEvaluationResult result) {
             mResult = result;
         }
 
-        public ComparisonEvaluationResult evaluate(Field field, ComparisonExpression expression)
-        {
+        public ComparisonEvaluationResult evaluate(Field field, ComparisonExpression expression) {
             mInvocations.add(new String[]
-            {
-                expression.getLeftExpression(),
-                expression.getComparisonOperator(),
-                expression.getRightExpression()
-            });
+                    {
+                            expression.getLeftExpression(),
+                            expression.getComparisonOperator(),
+                            expression.getRightExpression()
+                    });
 
             return mResult;
         }
 
-        public ComparisonExpressionEvaluator assertInvocationsCount(int expected)
-        {
+        public ComparisonExpressionEvaluator assertInvocationsCount(int expected) {
             Assert.assertEquals(expected, mInvocations.size());
             return this;
         }
 
         public ComparisonExpressionEvaluator assertInvocationArguments(
-            int invocationIndex,
-            String expectedLeftExpression,
-            String expectedComparisonOperator,
-            String expectedRightExpression)
-        {
+                int invocationIndex,
+                String expectedLeftExpression,
+                String expectedComparisonOperator,
+                String expectedRightExpression) {
             String[] arguments = mInvocations.get(invocationIndex);
 
             Assert.assertEquals(expectedLeftExpression, arguments[0]);
@@ -7099,48 +7075,47 @@ public class ExField extends ApiExampleBase {
             return this;
         }
 
-        private ComparisonEvaluationResult mResult;
-        private ArrayList<String[]> mInvocations = new ArrayList<>();
-    } 
+        private final ComparisonEvaluationResult mResult;
+        private final ArrayList<String[]> mInvocations = new ArrayList<>();
+    }
     //ExEnd
 
     @Test
-    public void comparisonExpressionEvaluatorNestedFields() throws Exception
-    {
+    public void comparisonExpressionEvaluatorNestedFields() throws Exception {
         Document document = new Document();
 
         new FieldBuilder(FieldType.FIELD_IF)
-            .addArgument(
-                new FieldBuilder(FieldType.FIELD_IF)
-                    .addArgument(123)
-                    .addArgument(">")
-                    .addArgument(666)
-                    .addArgument("left greater than right")
-                    .addArgument("left less than right"))
-            .addArgument("<>")
-            .addArgument(new FieldBuilder(FieldType.FIELD_IF)
-                .addArgument("left expression")
-                .addArgument("=")
-                .addArgument("right expression")
-                .addArgument("expression are equal")
-                .addArgument("expression are not equal"))
-            .addArgument(new FieldBuilder(FieldType.FIELD_IF)
-                    .addArgument(new FieldArgumentBuilder()
-                        .addText("#")
-                        .addField(new FieldBuilder(FieldType.FIELD_PAGE)))
-                    .addArgument("=")
-                    .addArgument(new FieldArgumentBuilder()
-                        .addText("#")
-                        .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
-                    .addArgument("the last page")
-                    .addArgument("not the last page"))
-            .addArgument(new FieldBuilder(FieldType.FIELD_IF)
-                    .addArgument("unexpected")
-                    .addArgument("=")
-                    .addArgument("unexpected")
-                    .addArgument("unexpected")
-                    .addArgument("unexpected"))
-            .buildAndInsert(document.getFirstSection().getBody().getFirstParagraph());
+                .addArgument(
+                        new FieldBuilder(FieldType.FIELD_IF)
+                                .addArgument(123)
+                                .addArgument(">")
+                                .addArgument(666)
+                                .addArgument("left greater than right")
+                                .addArgument("left less than right"))
+                .addArgument("<>")
+                .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                        .addArgument("left expression")
+                        .addArgument("=")
+                        .addArgument("right expression")
+                        .addArgument("expression are equal")
+                        .addArgument("expression are not equal"))
+                .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                        .addArgument(new FieldArgumentBuilder()
+                                .addText("#")
+                                .addField(new FieldBuilder(FieldType.FIELD_PAGE)))
+                        .addArgument("=")
+                        .addArgument(new FieldArgumentBuilder()
+                                .addText("#")
+                                .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+                        .addArgument("the last page")
+                        .addArgument("not the last page"))
+                .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                        .addArgument("unexpected")
+                        .addArgument("=")
+                        .addArgument("unexpected")
+                        .addArgument("unexpected")
+                        .addArgument("unexpected"))
+                .buildAndInsert(document.getFirstSection().getBody().getFirstParagraph());
 
         ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(null);
         document.getFieldOptions().setComparisonExpressionEvaluator(evaluator);
@@ -7148,16 +7123,15 @@ public class ExField extends ApiExampleBase {
         document.updateFields();
 
         evaluator
-            .assertInvocationsCount(4)
-            .assertInvocationArguments(0, "123", ">", "666")
-            .assertInvocationArguments(1, "\"left expression\"", "=", "\"right expression\"")
-            .assertInvocationArguments(2, "left less than right", "<>", "expression are not equal")
-            .assertInvocationArguments(3, "\"#1\"", "=", "\"#1\"");
+                .assertInvocationsCount(4)
+                .assertInvocationArguments(0, "123", ">", "666")
+                .assertInvocationArguments(1, "\"left expression\"", "=", "\"right expression\"")
+                .assertInvocationArguments(2, "left less than right", "<>", "expression are not equal")
+                .assertInvocationArguments(3, "\"#1\"", "=", "\"#1\"");
     }
 
     @Test
-    public void comparisonExpressionEvaluatorHeaderFooterFields() throws Exception
-    {
+    public void comparisonExpressionEvaluatorHeaderFooterFields() throws Exception {
         Document document = new Document();
         DocumentBuilder builder = new DocumentBuilder(document);
 
@@ -7166,18 +7140,18 @@ public class ExField extends ApiExampleBase {
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
 
         new FieldBuilder(FieldType.FIELD_IF)
-            .addArgument(new FieldBuilder(FieldType.FIELD_PAGE))
-            .addArgument("=")
-            .addArgument(new FieldBuilder(FieldType.FIELD_NUM_PAGES))
-            .addArgument(new FieldArgumentBuilder()
-                .addField(new FieldBuilder(FieldType.FIELD_PAGE))
-                .addText(" / ")
-                .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
-            .addArgument(new FieldArgumentBuilder()
-                .addField(new FieldBuilder(FieldType.FIELD_PAGE))
-                .addText(" / ")
-                .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
-            .buildAndInsert(builder.getCurrentParagraph());
+                .addArgument(new FieldBuilder(FieldType.FIELD_PAGE))
+                .addArgument("=")
+                .addArgument(new FieldBuilder(FieldType.FIELD_NUM_PAGES))
+                .addArgument(new FieldArgumentBuilder()
+                        .addField(new FieldBuilder(FieldType.FIELD_PAGE))
+                        .addText(" / ")
+                        .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+                .addArgument(new FieldArgumentBuilder()
+                        .addField(new FieldBuilder(FieldType.FIELD_PAGE))
+                        .addText(" / ")
+                        .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+                .buildAndInsert(builder.getCurrentParagraph());
 
         ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(null);
         document.getFieldOptions().setComparisonExpressionEvaluator(evaluator);
@@ -7185,9 +7159,9 @@ public class ExField extends ApiExampleBase {
         document.updateFields();
 
         evaluator
-            .assertInvocationsCount(3)
-            .assertInvocationArguments(0, "1", "=", "3")
-            .assertInvocationArguments(1, "2", "=", "3")
-            .assertInvocationArguments(2, "3", "=", "3");
+                .assertInvocationsCount(3)
+                .assertInvocationArguments(0, "1", "=", "3")
+                .assertInvocationArguments(1, "2", "=", "3")
+                .assertInvocationArguments(2, "3", "=", "3");
     }
 }

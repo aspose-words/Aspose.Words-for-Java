@@ -20,8 +20,10 @@ import org.testng.annotations.Test;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URI;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
@@ -2446,8 +2448,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     //ExFor:CalendarType
     //ExSummary:Shows how to automatically apply a custom format to field results as the fields are updated.
     @Test //ExSkip
-    public void fieldResultFormatting() throws Exception
-    {
+    public void fieldResultFormatting() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         FieldResultFormatter formatter = new FieldResultFormatter("$%d", "Date: %tb", "Item # %s:");
@@ -2481,27 +2482,23 @@ public class ExDocumentBuilder extends ApiExampleBase {
     /// When fields with formatting are updated, this formatter will override their formatting
     /// with a custom format, while tracking every invocation.
     /// </summary>
-    private static class FieldResultFormatter implements IFieldResultFormatter
-    {
-        public FieldResultFormatter(String numberFormat, String dateFormat, String generalFormat)
-        {
+    private static class FieldResultFormatter implements IFieldResultFormatter {
+        public FieldResultFormatter(String numberFormat, String dateFormat, String generalFormat) {
             mNumberFormat = numberFormat;
             mDateFormat = dateFormat;
             mGeneralFormat = generalFormat;
         }
 
-        public String formatNumeric(double value, String format)
-        {
+        public String formatNumeric(double value, String format) {
             if (mNumberFormat.isEmpty())
                 return null;
-            
+
             String newValue = String.format(mNumberFormat, (long) value);
             mFormatInvocations.add(new FormatInvocation(FormatInvocationType.NUMERIC, value, format, newValue));
             return newValue;
         }
 
-        public String formatDateTime(Date value, String format, int calendarType)
-        {
+        public String formatDateTime(Date value, String format, int calendarType) {
             if (mDateFormat.isEmpty())
                 return null;
 
@@ -2510,18 +2507,15 @@ public class ExDocumentBuilder extends ApiExampleBase {
             return newValue;
         }
 
-        public String format(String value, int format)
-        {
-            return format((Object)value, format);
+        public String format(String value, int format) {
+            return format((Object) value, format);
         }
 
-        public String format(double value, int format)
-        {
-            return format((Object)value, format);
+        public String format(double value, int format) {
+            return format((Object) value, format);
         }
 
-        private String format(Object value, int format)
-        {
+        private String format(Object value, int format) {
             if (mGeneralFormat.isEmpty())
                 return null;
 
@@ -2530,47 +2524,57 @@ public class ExDocumentBuilder extends ApiExampleBase {
             return newValue;
         }
 
-        public int countFormatInvocations(int formatInvocationType)
-        {
+        public int countFormatInvocations(int formatInvocationType) {
             if (formatInvocationType == FormatInvocationType.ALL)
                 return getFormatInvocations().size();
-            
+
             return (int) IterableUtils.countMatches(getFormatInvocations(), i -> i.getFormatInvocationType() == formatInvocationType);
         }
 
-        public void printFormatInvocations()
-        { 
+        public void printFormatInvocations() {
             for (FormatInvocation f : getFormatInvocations())
                 System.out.println(MessageFormat.format("Invocation type:\t{0}\n" +
-                                      "\tOriginal value:\t\t{1}\n" +
-                                      "\tOriginal format:\t{2}\n" +
-                                      "\tNew value:\t\t\t{3}\n", f.getFormatInvocationType(), f.getValue(), f.getOriginalFormat(), f.getNewValue()));
+                        "\tOriginal value:\t\t{1}\n" +
+                        "\tOriginal format:\t{2}\n" +
+                        "\tNew value:\t\t\t{3}\n", f.getFormatInvocationType(), f.getValue(), f.getOriginalFormat(), f.getNewValue()));
         }
 
-        private String mNumberFormat;
-        private String mDateFormat;
-        private String mGeneralFormat;
+        private final String mNumberFormat;
+        private final String mDateFormat;
+        private final String mGeneralFormat;
 
-        private ArrayList<FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
-        private ArrayList<FormatInvocation> mFormatInvocations = new ArrayList<>();
+        private ArrayList<FormatInvocation> getFormatInvocations() {
+            return mFormatInvocations;
+        }
 
-        private static class FormatInvocation
-        {
-            public int getFormatInvocationType() { return mFormatInvocationType; };
+        private final ArrayList<FormatInvocation> mFormatInvocations = new ArrayList<>();
 
-            private int mFormatInvocationType;
-            public Object getValue() { return mValue; };
+        private static class FormatInvocation {
+            public int getFormatInvocationType() {
+                return mFormatInvocationType;
+            }
 
-            private  Object mValue;
-            public String getOriginalFormat() { return mOriginalFormat; };
+            private final int mFormatInvocationType;
 
-            private  String mOriginalFormat;
-            public String getNewValue() { return mNewValue; };
+            public Object getValue() {
+                return mValue;
+            }
 
-            private  String mNewValue;
+            private final Object mValue;
 
-            public FormatInvocation(int formatInvocationType, Object value, String originalFormat, String newValue)
-            {
+            public String getOriginalFormat() {
+                return mOriginalFormat;
+            }
+
+            private final String mOriginalFormat;
+
+            public String getNewValue() {
+                return mNewValue;
+            }
+
+            private final String mNewValue;
+
+            public FormatInvocation(int formatInvocationType, Object value, String originalFormat, String newValue) {
                 mValue = value;
                 mFormatInvocationType = formatInvocationType;
                 mOriginalFormat = originalFormat;
@@ -2578,10 +2582,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
             }
         }
 
-        public final class FormatInvocationType
-        {
-            private FormatInvocationType(){}
-            
+        public final class FormatInvocationType {
+            private FormatInvocationType() {
+            }
+
             public static final int NUMERIC = 0;
             public static final int DATE_TIME = 1;
             public static final int GENERAL = 2;
@@ -2593,8 +2597,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void insertVideoWithUrl() throws Exception
-    {
+    public void insertVideoWithUrl() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, Double, Double)
         //ExSummary:Shows how to insert an online video into a document using a URL.
@@ -2748,10 +2751,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals("Heading 1", doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getStyle().getName());
         Assert.assertEquals("MyParaStyle", doc.getFirstSection().getBody().getParagraphs().get(1).getParagraphFormat().getStyle().getName());
         Assert.assertEquals(" ", doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getText());
-        TestUtil.docPackageFileContainsString("w:rPr><w:vanish /><w:specVanish /></w:rPr>", 
-            getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
-        TestUtil.docPackageFileContainsString("<w:t xml:space=\"preserve\"> </w:t>", 
-            getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
+        TestUtil.docPackageFileContainsString("w:rPr><w:vanish /><w:specVanish /></w:rPr>",
+                getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
+        TestUtil.docPackageFileContainsString("<w:t xml:space=\"preserve\"> </w:t>",
+                getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
     }
 
     @Test(enabled = false, description = "Bug: does not insert headers and footers, all lists (bullets, numbering, multilevel) breaks")
@@ -3367,8 +3370,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     }
 
     @Test
-    public void insertOleObjectAsIcon() throws Exception
-    {
+    public void insertOleObjectAsIcon() throws Exception {
         //ExStart
         //ExFor:DocumentBuilder.InsertOleObjectAsIcon(String, String, Boolean, String, String)
         //ExFor:DocumentBuilder.InsertOleObjectAsIcon(Stream, String, String, String)
@@ -3380,10 +3382,9 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         builder.insertBreak(BreakType.LINE_BREAK);
 
-        try (FileInputStream stream = new FileInputStream(getMyDir() + "Presentation.pptx"))
-        {
+        try (FileInputStream stream = new FileInputStream(getMyDir() + "Presentation.pptx")) {
             Shape shape = builder.insertOleObjectAsIcon(stream, "PowerPoint.Application", getImageDir() + "Logo icon.ico",
-                "My embedded file stream");
+                    "My embedded file stream");
 
             OlePackage setOlePackage = shape.getOleFormat().getOlePackage();
             setOlePackage.setFileName("Presentation.pptx");

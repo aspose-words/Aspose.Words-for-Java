@@ -126,11 +126,11 @@ public class ExXpsSaveOptions extends ApiExampleBase {
             Assert.assertTrue(outFileInfo.length() < 65000);
 
         TestUtil.docPackageFileContainsString(
-            optimizeOutput
-                ? "Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" " +
-                  "UnicodeString=\"This document contains complex content which can be optimized to save space when \""
-                : "<Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" UnicodeString=\"This\"",
-            getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps", "1.fpage");
+                optimizeOutput
+                        ? "Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" " +
+                        "UnicodeString=\"This document contains complex content which can be optimized to save space when \""
+                        : "<Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" UnicodeString=\"This\"",
+                getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps", "1.fpage");
     }
 
     @DataProvider(name = "optimizeOutputDataProvider")

@@ -212,7 +212,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         // the default compression that Microsoft Word uses.
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
         saveOptions.setCompressionLevel(compressionLevel);
-        
+
         StopWatch st = new StopWatch();
         st.start();
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression.docx", saveOptions);
@@ -225,8 +225,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         System.out.println(MessageFormat.format("\tFile Size:\t{0} bytes", fileInfo.length()));
         //ExEnd
 
-        switch (compressionLevel)
-        {
+        switch (compressionLevel) {
             case CompressionLevel.MAXIMUM:
                 Assert.assertTrue(fileInfo.length() <= 1266000);
                 break;

@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.text.MessageFormat;
 import java.time.Duration;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -108,9 +107,9 @@ public class ExDocumentProperties extends ApiExampleBase {
         Assert.assertEquals("My subject", properties.getSubject());
         Assert.assertEquals("John's Document", properties.getTitle());
         Assert.assertEquals("Author:\t\u0013 AUTHOR \u0014John Doe\u0015\r" +
-                        "Doc title:\t\u0013 TITLE \u0014John's Document\u0015\r" +
-                        "Subject:\t\u0013 SUBJECT \u0014My subject\u0015\r" +
-                        "Comments:\t\"\u0013 COMMENTS \u0014This is John Doe's document about My subject\u0015\"", doc.getText().trim());
+                "Doc title:\t\u0013 TITLE \u0014John's Document\u0015\r" +
+                "Subject:\t\u0013 SUBJECT \u0014My subject\u0015\r" +
+                "Comments:\t\"\u0013 COMMENTS \u0014This is John Doe's document about My subject\u0015\"", doc.getText().trim());
     }
 
     @Test
@@ -472,8 +471,8 @@ public class ExDocumentProperties extends ApiExampleBase {
         //ExEnd
 
         TestUtil.verifyDate(new Date(),
-            DocumentHelper.saveOpen(doc).getCustomDocumentProperties().get("AuthorizationDate").toDateTime(),
-            Duration.ofSeconds(1));
+                DocumentHelper.saveOpen(doc).getCustomDocumentProperties().get("AuthorizationDate").toDateTime(),
+                Duration.ofSeconds(1));
     }
 
     @Test

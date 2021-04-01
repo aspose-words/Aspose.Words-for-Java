@@ -23,7 +23,6 @@ import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningType;
 import com.aspose.words.*;
 import org.apache.commons.collections4.IterableUtils;
-import org.apache.poi.util.IOUtils;
 import org.apache.poi.util.LocaleUtil;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -32,12 +31,10 @@ import org.testng.annotations.Test;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -423,25 +420,22 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
         pdfDocument.getPages().accept(textFragmentAbsorber);
 
-        if (preserveFormFields)
-        {
+        if (preserveFormFields) {
             Assert.assertEquals("Please select a fruit: ", textFragmentAbsorber.getText());
             TestUtil.fileContainsString("10 0 obj\r\n" +
-                                        "<</Type /Annot/Subtype /Widget/P 4 0 R/FT /Ch/F 4/Rect [169.54200745 706.20098877 219.02442932 721.49005127]/Ff 131072/T(��\u0000M\u0000y\0C\u0000o\u0000m\0b\u0000o\0B\u0000o\u0000x)/Opt " +
-                                        "[(��\0A\u0000p\u0000p\u0000l\0e) (��\0B\0a\u0000n\0a\u0000n\0a) (��\0C\u0000h\0e\u0000r\u0000r\u0000y) ]/V(��\0A\u0000p\u0000p\u0000l\0e)/DA(0 g /FAAABC 12 Tf )/AP<</N 11 0 R>>>>",
-                getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf");
+                            "<</Type /Annot/Subtype /Widget/P 4 0 R/FT /Ch/F 4/Rect [169.54200745 706.20098877 219.02442932 721.49005127]/Ff 131072/T(��\u0000M\u0000y\0C\u0000o\u0000m\0b\u0000o\0B\u0000o\u0000x)/Opt " +
+                            "[(��\0A\u0000p\u0000p\u0000l\0e) (��\0B\0a\u0000n\0a\u0000n\0a) (��\0C\u0000h\0e\u0000r\u0000r\u0000y) ]/V(��\0A\u0000p\u0000p\u0000l\0e)/DA(0 g /FAAABC 12 Tf )/AP<</N 11 0 R>>>>",
+                    getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf");
 
             com.aspose.pdf.Form form = pdfDocument.getForm();
             Assert.assertEquals(1, form.size());
 
-            ComboBoxField field = (ComboBoxField)form.getFields()[0];
-            
+            ComboBoxField field = (ComboBoxField) form.getFields()[0];
+
             Assert.assertEquals("MyComboBox", field.getFullName());
             Assert.assertEquals(3, field.getOptions().size());
             Assert.assertEquals("Apple", field.getValue());
-        }
-        else
-        {
+        } else {
             Assert.assertEquals("Please select a fruit: Apple", textFragmentAbsorber.getText());
             Assert.assertThrows(AssertionError.class, () -> TestUtil.fileContainsString("/Widget",
                     getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf"));
@@ -541,17 +535,16 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf", options);
         //ExEnd
 
-        switch (pdfTextCompression)
-        {
+        switch (pdfTextCompression) {
             case PdfTextCompression.NONE:
                 Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf").length() < 68000);
                 TestUtil.fileContainsString("5 0 obj\r\n<</Length 9 0 R>>stream",
-                    getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf");
+                        getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf");
                 break;
             case PdfTextCompression.FLATE:
                 Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf").length() < 30000);
                 TestUtil.fileContainsString("5 0 obj\r\n<</Length 9 0 R/Filter /FlateDecode>>stream",
-                    getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf");
+                        getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf");
                 break;
         }
     }
@@ -618,7 +611,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         pdfDocument.close();
     }
 
-	@DataProvider(name = "imageCompressionDataProvider")
+    @DataProvider(name = "imageCompressionDataProvider")
     public static Object[][] imageCompressionDataProvider() {
         return new Object[][]
                 {
@@ -908,12 +901,12 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         if (openHyperlinksInNewWindow)
             TestUtil.fileContainsString(
-                "<</Type/Border/S/S/W 0>>/A<</Type /Action/S /JavaScript/JS(app.launchURL\\(\"https://www.google.com/search?q=%20aspose\", true\\);)>>>>",
-                getArtifactsDir() + "PdfSaveOptions.OpenHyperlinksInNewWindow.pdf");
+                    "<</Type/Border/S/S/W 0>>/A<</Type /Action/S /JavaScript/JS(app.launchURL\\(\"https://www.google.com/search?q=%20aspose\", true\\);)>>>>",
+                    getArtifactsDir() + "PdfSaveOptions.OpenHyperlinksInNewWindow.pdf");
         else
             TestUtil.fileContainsString(
-                "<</Type/Border/S/S/W 0>>/A<</Type /Action/S /URI/URI(https://www.google.com/search?q=%20aspose)>>>>",
-                getArtifactsDir() + "PdfSaveOptions.OpenHyperlinksInNewWindow.pdf");
+                    "<</Type/Border/S/S/W 0>>/A<</Type /Action/S /URI/URI(https://www.google.com/search?q=%20aspose)>>>>",
+                    getArtifactsDir() + "PdfSaveOptions.OpenHyperlinksInNewWindow.pdf");
 
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.OpenHyperlinksInNewWindow.pdf");
 
@@ -1029,15 +1022,15 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         switch (headerFooterBookmarksExportMode) {
             case com.aspose.words.HeaderFooterBookmarksExportMode.NONE:
                 TestUtil.fileContainsString(MessageFormat.format("<</Type /Catalog/Pages 3 0 R/Lang({0})>>\r\n", inputDocLocaleName),
-                    getArtifactsDir() + "PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf");
+                        getArtifactsDir() + "PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf");
 
                 Assert.assertEquals(0, pdfDoc.getOutlines().size());
                 break;
             case com.aspose.words.HeaderFooterBookmarksExportMode.FIRST:
             case com.aspose.words.HeaderFooterBookmarksExportMode.ALL:
                 TestUtil.fileContainsString(
-                    MessageFormat.format("<</Type /Catalog/Pages 3 0 R/Outlines 13 0 R/PageMode /UseOutlines/Lang({0})>>", inputDocLocaleName),
-                    getArtifactsDir() + "PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf");
+                        MessageFormat.format("<</Type /Catalog/Pages 3 0 R/Outlines 13 0 R/PageMode /UseOutlines/Lang({0})>>", inputDocLocaleName),
+                        getArtifactsDir() + "PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf");
 
                 OutlineCollection outlineItemCollection = pdfDoc.getOutlines();
 
@@ -1225,8 +1218,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf", options);
 
-        switch (pdfFontEmbeddingMode)
-        {
+        switch (pdfFontEmbeddingMode) {
             case PdfFontEmbeddingMode.EMBED_ALL:
                 Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").length() < 1030500);
                 break;
@@ -1245,11 +1237,11 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         Assert.assertEquals("ArialMT", pdfDocFonts[0].getFontName());
         Assert.assertEquals(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL,
-            pdfDocFonts[0].isEmbedded());
+                pdfDocFonts[0].isEmbedded());
 
         Assert.assertEquals("CourierNewPSMT", pdfDocFonts[1].getFontName());
         Assert.assertEquals(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL || pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_NONSTANDARD,
-            pdfDocFonts[1].isEmbedded());
+                pdfDocFonts[1].isEmbedded());
 
         pdfDocument.close();
     }
@@ -1342,23 +1334,20 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
 
         com.aspose.pdf.Document pdfDocument =
-            new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf");
+                new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf");
         TextFragmentAbsorber textAbsorber = new TextFragmentAbsorber();
 
         pdfDocument.getPages().get_Item(1).accept(textAbsorber);
 
         SetGlyphsPositionShowText tjOperator =
-            (SetGlyphsPositionShowText) textAbsorber.getTextFragments().get_Item(1).getPage().getContents().get_Item(85);
+                (SetGlyphsPositionShowText) textAbsorber.getTextFragments().get_Item(1).getPage().getContents().get_Item(85);
 
-        if (applyAdditionalTextPositioning)
-        {
+        if (applyAdditionalTextPositioning) {
             Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").length() < 101000);
             Assert.assertEquals(
-                "[0 (S) 0 (a) 0 (m) 0 (s) 0 (t) 0 (a) -1 (g) 1 (,) 0 ( ) 0 (1) 0 (0) 0 (.) 0 ( ) 0 (N) 0 (o) 0 (v) 0 (e) 0 (m) 0 (b) 0 (e) 0 (r) -1 ( ) 1 (2) -1 (0) 0 (1) 0 (8)] TJ",
-                tjOperator.toString());
-        }
-        else
-        {
+                    "[0 (S) 0 (a) 0 (m) 0 (s) 0 (t) 0 (a) -1 (g) 1 (,) 0 ( ) 0 (1) 0 (0) 0 (.) 0 ( ) 0 (N) 0 (o) 0 (v) 0 (e) 0 (m) 0 (b) 0 (e) 0 (r) -1 ( ) 1 (2) -1 (0) 0 (1) 0 (8)] TJ",
+                    tjOperator.toString());
+        } else {
             Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").length() < 98200);
             Assert.assertEquals("[(Samsta) -1 (g) 1 (, 10. November) -1 ( ) 1 (2) -1 (018)] TJ", tjOperator.toString());
         }
@@ -1469,9 +1458,9 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
 
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.ZoomBehaviour.pdf");
-        GoToAction action = (GoToAction)pdfDocument.getOpenAction();
+        GoToAction action = (GoToAction) pdfDocument.getOpenAction();
 
-        Assert.assertEquals(0.25d, XYZExplicitDestination.class.cast(action.getDestination()).getZoom());
+        Assert.assertEquals(0.25d, ((XYZExplicitDestination) action.getDestination()).getZoom());
 
         pdfDocument.close();
     }
@@ -1550,7 +1539,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         pdfDocument.close();
     }
 
-	@DataProvider(name = "pageModeDataProvider")
+    @DataProvider(name = "pageModeDataProvider")
     public static Object[][] pageModeDataProvider() {
         return new Object[][]
                 {
@@ -1581,34 +1570,32 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf", options);
         //ExEnd
 
-        if (createNoteHyperlinks)
-        {
+        if (createNoteHyperlinks) {
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [157.80099487 720.90106201 159.35600281 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 677 0]>>",
-                getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
+                    "<</Type /Annot/Subtype /Link/Rect [157.80099487 720.90106201 159.35600281 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 677 0]>>",
+                    getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [202.16900635 720.90106201 206.06201172 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 79 0]>>",
-                getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
+                    "<</Type /Annot/Subtype /Link/Rect [202.16900635 720.90106201 206.06201172 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 79 0]>>",
+                    getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [212.23199463 699.2510376 215.34199524 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 654 0]>>",
-                getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
+                    "<</Type /Annot/Subtype /Link/Rect [212.23199463 699.2510376 215.34199524 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 654 0]>>",
+                    getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [258.15499878 699.2510376 262.04800415 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 68 0]>>",
-                getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
+                    "<</Type /Annot/Subtype /Link/Rect [258.15499878 699.2510376 262.04800415 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 85 68 0]>>",
+                    getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [85.05000305 68.19905853 88.66500092 79.69805908]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 202 733 0]>>",
-                getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
+                    "<</Type /Annot/Subtype /Link/Rect [85.05000305 68.19905853 88.66500092 79.69805908]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 202 733 0]>>",
+                    getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [85.05000305 56.70005798 88.66500092 68.19905853]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 258 711 0]>>",
-                getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
+                    "<</Type /Annot/Subtype /Link/Rect [85.05000305 56.70005798 88.66500092 68.19905853]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 258 711 0]>>",
+                    getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [85.05000305 666.10205078 86.4940033 677.60107422]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 157 733 0]>>",
-                getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
+                    "<</Type /Annot/Subtype /Link/Rect [85.05000305 666.10205078 86.4940033 677.60107422]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 157 733 0]>>",
+                    getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [85.05000305 643.10406494 87.93800354 654.60308838]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 212 711 0]>>",
-                getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
-        }
-        else {
+                    "<</Type /Annot/Subtype /Link/Rect [85.05000305 643.10406494 87.93800354 654.60308838]/BS <</Type/Border/S/S/W 0>>/Dest[4 0 R /XYZ 212 711 0]>>",
+                    getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
+        } else {
             Assert.assertThrows(AssertionError.class, () -> TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect",
                     getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf"));
         }
@@ -1619,10 +1606,9 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         page.accept(annotationSelector);
 
-        List<LinkAnnotation> linkAnnotations = (List<LinkAnnotation>)(List<?>) annotationSelector.getSelected();
+        List<LinkAnnotation> linkAnnotations = (List<LinkAnnotation>) (List<?>) annotationSelector.getSelected();
 
-        if (createNoteHyperlinks)
-        {
+        if (createNoteHyperlinks) {
             Assert.assertEquals(8, IterableUtils.countMatches(linkAnnotations, a -> a.getAnnotationType() == AnnotationType.Link));
 
             Assert.assertEquals("1 XYZ 85 677 0", linkAnnotations.get(0).getDestination().toString());
@@ -1633,16 +1619,14 @@ public class ExPdfSaveOptions extends ApiExampleBase {
             Assert.assertEquals("1 XYZ 258 711 0", linkAnnotations.get(5).getDestination().toString());
             Assert.assertEquals("1 XYZ 157 733 0", linkAnnotations.get(6).getDestination().toString());
             Assert.assertEquals("1 XYZ 212 711 0", linkAnnotations.get(7).getDestination().toString());
-        }
-        else
-        {
+        } else {
             Assert.assertEquals(0, annotationSelector.getSelected().size());
         }
 
         pdfDocument.close();
     }
 
-	@DataProvider(name = "noteHyperlinksDataProvider")
+    @DataProvider(name = "noteHyperlinksDataProvider")
     public static Object[][] noteHyperlinksDataProvider() {
         return new Object[][]
                 {
@@ -1676,26 +1660,25 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf", options);
         //ExEnd
 
-        switch (pdfCustomPropertiesExportMode)
-        {
+        switch (pdfCustomPropertiesExportMode) {
             case PdfCustomPropertiesExport.NONE:
-                    Assert.assertThrows(AssertionError.class, () -> TestUtil.fileContainsString(
-                            doc.getCustomDocumentProperties().get(0).getName(),
-                            getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf"));
-                    Assert.assertThrows(AssertionError.class, () -> TestUtil.fileContainsString(
-                            "<</Type /Metadata/Subtype /XML/Length 8 0 R/Filter /FlateDecode>>",
-                            getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf"));
-                 break;
+                Assert.assertThrows(AssertionError.class, () -> TestUtil.fileContainsString(
+                        doc.getCustomDocumentProperties().get(0).getName(),
+                        getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf"));
+                Assert.assertThrows(AssertionError.class, () -> TestUtil.fileContainsString(
+                        "<</Type /Metadata/Subtype /XML/Length 8 0 R/Filter /FlateDecode>>",
+                        getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf"));
+                break;
             case PdfCustomPropertiesExport.STANDARD:
                 TestUtil.fileContainsString(
-                    "<</Creator(��\0A\u0000s\u0000p\u0000o\u0000s\0e\u0000.\u0000W\u0000o\u0000r\0d\u0000s)/Producer(��\0A\u0000s\u0000p\u0000o\u0000s\0e\u0000.\u0000W\u0000o\u0000r\0d\u0000s\u0000 \0f\u0000o\u0000r\u0000",
-                    getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
+                        "<</Creator(��\0A\u0000s\u0000p\u0000o\u0000s\0e\u0000.\u0000W\u0000o\u0000r\0d\u0000s)/Producer(��\0A\u0000s\u0000p\u0000o\u0000s\0e\u0000.\u0000W\u0000o\u0000r\0d\u0000s\u0000 \0f\u0000o\u0000r\u0000",
+                        getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
                 TestUtil.fileContainsString("/Company (��\u0000M\u0000y\u0000 \u0000v\0a\u0000l\u0000u\0e)>>",
-                    getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
+                        getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
                 break;
             case PdfCustomPropertiesExport.METADATA:
                 TestUtil.fileContainsString("<</Type /Metadata/Subtype /XML/Length 8 0 R/Filter /FlateDecode>>",
-                    getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
+                        getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
                 break;
         }
 
@@ -1703,9 +1686,8 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         Assert.assertEquals("Aspose.Words", pdfDocument.getInfo().getCreator());
         Assert.assertTrue(pdfDocument.getInfo().getProducer().startsWith("Aspose.Words"));
-        
-        switch (pdfCustomPropertiesExportMode)
-        {
+
+        switch (pdfCustomPropertiesExportMode) {
             case PdfCustomPropertiesExport.NONE:
                 Assert.assertEquals(2, pdfDocument.getInfo().size());
                 Assert.assertEquals(0, pdfDocument.getMetadata().size());
@@ -1728,7 +1710,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         pdfDocument.close();
     }
 
-	@DataProvider(name = "customPropertiesExportDataProvider")
+    @DataProvider(name = "customPropertiesExportDataProvider")
     public static Object[][] customPropertiesExportDataProvider() {
         return new Object[][]
                 {
@@ -1825,22 +1807,21 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf", options);
         //ExEnd
 
-        switch (dmlRenderingMode)
-        {
+        switch (dmlRenderingMode) {
             case DmlRenderingMode.DRAWING_ML:
                 TestUtil.fileContainsString(
-                    "<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R/FAAABA 10 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
-                    getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
+                        "<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R/FAAABA 10 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                        getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
                 break;
             case DmlRenderingMode.FALLBACK:
                 TestUtil.fileContainsString(
-                    "4 0 obj\r\n<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R/FAAABC 12 0 R>>/ExtGState<</GS1 9 0 R/GS2 10 0 R>>>>/Group ",
-                    getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
+                        "4 0 obj\r\n<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R/FAAABC 12 0 R>>/ExtGState<</GS1 9 0 R/GS2 10 0 R>>>>/Group ",
+                        getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
                 break;
         }
 
         com.aspose.pdf.Document pdfDocument =
-            new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
+                new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
 
         ImagePlacementAbsorber imagePlacementAbsorber = new ImagePlacementAbsorber();
         imagePlacementAbsorber.visit(pdfDocument.getPages().get_Item(1));
@@ -1848,8 +1829,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         TableAbsorber tableAbsorber = new TableAbsorber();
         tableAbsorber.visit(pdfDocument.getPages().get_Item(1));
 
-        switch (dmlRenderingMode)
-        {
+        switch (dmlRenderingMode) {
             case DmlRenderingMode.DRAWING_ML:
                 Assert.assertEquals(6, tableAbsorber.getTableList().size());
                 break;
@@ -1899,17 +1879,14 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.ExportDocumentStructure.pdf", options);
         //ExEnd
 
-        if (exportDocumentStructure)
-        {
+        if (exportDocumentStructure) {
             TestUtil.fileContainsString("4 0 obj\r\n" +
-                                        "<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R/FAAABB 11 0 R>>/ExtGState<</GS1 9 0 R/GS2 13 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>/StructParents 0/Tabs /S>>",
-                getArtifactsDir() + "PdfSaveOptions.ExportDocumentStructure.pdf");
-        }
-        else
-        {
+                            "<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R/FAAABB 11 0 R>>/ExtGState<</GS1 9 0 R/GS2 13 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>/StructParents 0/Tabs /S>>",
+                    getArtifactsDir() + "PdfSaveOptions.ExportDocumentStructure.pdf");
+        } else {
             TestUtil.fileContainsString("4 0 obj\r\n" +
-                                        "<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R/FAAABA 10 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
-                getArtifactsDir() + "PdfSaveOptions.ExportDocumentStructure.pdf");
+                            "<</Type /Page/Parent 3 0 R/Contents 5 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAH 7 0 R/FAAABA 10 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                    getArtifactsDir() + "PdfSaveOptions.ExportDocumentStructure.pdf");
         }
     }
 
@@ -1979,17 +1956,14 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.InterpolateImages.pdf", saveOptions);
         //ExEnd
 
-        if (interpolateImages)
-        {
+        if (interpolateImages) {
             TestUtil.fileContainsString("6 0 obj\r\n" +
-                                        "<</Type /XObject/Subtype /Image/Width 400/Height 400/ColorSpace [/Indexed/DeviceRGB 255 8 0 R]/BitsPerComponent 8/SMask 9 0 R/Interpolate true/Length 10 0 R/Filter /FlateDecode>>",
-                getArtifactsDir() + "PdfSaveOptions.InterpolateImages.pdf");
-        }
-        else
-        {
+                            "<</Type /XObject/Subtype /Image/Width 400/Height 400/ColorSpace [/Indexed/DeviceRGB 255 8 0 R]/BitsPerComponent 8/SMask 9 0 R/Interpolate true/Length 10 0 R/Filter /FlateDecode>>",
+                    getArtifactsDir() + "PdfSaveOptions.InterpolateImages.pdf");
+        } else {
             TestUtil.fileContainsString("6 0 obj\r\n" +
-                                        "<</Type /XObject/Subtype /Image/Width 400/Height 400/ColorSpace [/Indexed/DeviceRGB 255 8 0 R]/BitsPerComponent 8/SMask 9 0 R/Length 10 0 R/Filter /FlateDecode>>",
-                getArtifactsDir() + "PdfSaveOptions.InterpolateImages.pdf");
+                            "<</Type /XObject/Subtype /Image/Width 400/Height 400/ColorSpace [/Indexed/DeviceRGB 255 8 0 R]/BitsPerComponent 8/SMask 9 0 R/Length 10 0 R/Filter /FlateDecode>>",
+                    getArtifactsDir() + "PdfSaveOptions.InterpolateImages.pdf");
         }
     }
 
@@ -2068,8 +2042,8 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
 
         TestUtil.fileContainsString("6 0 obj\r\n" +
-                                    "<</Type /Annot/Subtype /Widget/FT /Sig/DR <<>>/F 132/Rect [0 0 0 0]/V 7 0 R/P 4 0 R/T(��\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 8 0 R>>>>",
-            getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
+                        "<</Type /Annot/Subtype /Widget/FT /Sig/DR <<>>/F 132/Rect [0 0 0 0]/V 7 0 R/P 4 0 R/T(��\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 8 0 R>>>>",
+                getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf")
                 .hasDigitalSignature());
@@ -2078,7 +2052,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         Assert.assertFalse(pdfDocument.getForm().getSignaturesExist());
 
-        SignatureField signatureField = (SignatureField)pdfDocument.getForm().get(1);
+        SignatureField signatureField = (SignatureField) pdfDocument.getForm().get(1);
 
         Assert.assertEquals("AsposeDigitalSignature", signatureField.getFullName());
         Assert.assertEquals("AsposeDigitalSignature", signatureField.getPartialName());
@@ -2135,14 +2109,14 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf").hasDigitalSignature());
         TestUtil.fileContainsString("6 0 obj\r\n" +
-                                    "<</Type /Annot/Subtype /Widget/FT /Sig/DR <<>>/F 132/Rect [0 0 0 0]/V 7 0 R/P 4 0 R/T(��\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 8 0 R>>>>",
-        getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
+                        "<</Type /Annot/Subtype /Widget/FT /Sig/DR <<>>/F 132/Rect [0 0 0 0]/V 7 0 R/P 4 0 R/T(��\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 8 0 R>>>>",
+                getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
 
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
 
         Assert.assertFalse(pdfDocument.getForm().getSignaturesExist());
 
-        SignatureField signatureField = (SignatureField)pdfDocument.getForm().get(1);
+        SignatureField signatureField = (SignatureField) pdfDocument.getForm().get(1);
 
         Assert.assertEquals("AsposeDigitalSignature", signatureField.getFullName());
         Assert.assertEquals("AsposeDigitalSignature", signatureField.getPartialName());
@@ -2259,7 +2233,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         TextFragmentAbsorber textAbsorber = new TextFragmentAbsorber();
 
         pdfDocument.getPages().get_Item(1).accept(textAbsorber);
-        
+
         Assert.assertEquals("Hello world!", textAbsorber.getText());
 
         pdfDocument.close();
@@ -2299,8 +2273,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         pdfDocument.getPages().get_Item(1).accept(textAbsorber);
 
-        switch (numeralFormat)
-        {
+        switch (numeralFormat) {
             case NumeralFormat.EUROPEAN:
                 Assert.assertEquals("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 50, 100", textAbsorber.getText());
                 break;

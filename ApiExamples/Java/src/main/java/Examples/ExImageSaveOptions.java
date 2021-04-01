@@ -18,8 +18,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Optional;
 
 public class ExImageSaveOptions extends ApiExampleBase {
     @Test
@@ -253,11 +251,10 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // and preserve all the document's colors in the output image.
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setImageColorMode(imageColorMode);
-        
+
         doc.save(getArtifactsDir() + "ImageSaveOptions.ColorMode.png", imageSaveOptions);
 
-        switch (imageColorMode)
-        {
+        switch (imageColorMode) {
             case ImageColorMode.NONE:
                 Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() < 156000);
                 break;
@@ -302,7 +299,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         // Set the "PaperColor" property to a transparent color to apply a transparent
         // background to the document while rendering it to an image.
-        imgOptions.setPaperColor(new Color(1f,0f,0f,.5f ));
+        imgOptions.setPaperColor(new Color(1f, 0f, 0f, .5f));
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.PaperColor.Transparent.png", imgOptions);
 
@@ -344,8 +341,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png", imageSaveOptions);
 
-        switch (imagePixelFormat)
-        {
+        switch (imagePixelFormat) {
             case ImagePixelFormat.FORMAT_1_BPP_INDEXED:
                 Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() <= 10000);
                 break;

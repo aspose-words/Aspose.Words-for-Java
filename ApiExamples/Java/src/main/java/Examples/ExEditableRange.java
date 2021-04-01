@@ -82,7 +82,7 @@ public class ExEditableRange extends ApiExampleBase {
                 "This paragraph is inside an editable range, and can be edited.\r" +
                 "This paragraph is outside the editable range, and cannot be edited.", doc.getText().trim());
 
-        editableRange = ((EditableRangeStart)doc.getChild(NodeType.EDITABLE_RANGE_START, 0, true)).getEditableRange();
+        editableRange = ((EditableRangeStart) doc.getChild(NodeType.EDITABLE_RANGE_START, 0, true)).getEditableRange();
 
         TestUtil.verifyEditableRange(0, "", EditorType.UNSPECIFIED, editableRange);
     }

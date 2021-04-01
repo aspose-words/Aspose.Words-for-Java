@@ -676,23 +676,20 @@ public class ExTable extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
         //ExEnd
 
-        if (allowAutoFit)
-        {
+        if (allowAutoFit) {
             TestUtil.fileContainsString(
-                "<td style=\"width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single\">",
-                getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
+                    "<td style=\"width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single\">",
+                    getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
             TestUtil.fileContainsString(
-                "<td style=\"border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single\">",
-                getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
-        }
-        else
-        {
+                    "<td style=\"border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single\">",
+                    getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
+        } else {
             TestUtil.fileContainsString(
-                "<td style=\"width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single\">",
-                getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
+                    "<td style=\"width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single\">",
+                    getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
             TestUtil.fileContainsString(
-                "<td style=\"width:7.2pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single\">",
-                getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
+                    "<td style=\"width:7.2pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single\">",
+                    getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
         }
     }
 
@@ -828,11 +825,11 @@ public class ExTable extends ApiExampleBase {
             Assert.assertEquals(0.0d, table.getCellSpacing());
 
         TestUtil.fileContainsString(
-            allowCellSpacing
-                ? "<td style=\"border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border:0.5pt single\">"
-                : "<td style=\"border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; " +
-                  "padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single\">",
-            getArtifactsDir() + "Table.AllowCellSpacing.html");
+                allowCellSpacing
+                        ? "<td style=\"border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border:0.5pt single\">"
+                        : "<td style=\"border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; " +
+                        "padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single\">",
+                getArtifactsDir() + "Table.AllowCellSpacing.html");
     }
 
     @DataProvider(name = "allowCellSpacingDataProvider")

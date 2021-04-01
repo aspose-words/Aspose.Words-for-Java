@@ -7,13 +7,11 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.*;
 import com.aspose.words.Shape;
+import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataTable;
-import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.io.IOUtils;
 import org.testng.Assert;
-import sun.nio.ch.IOUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,23 +21,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.MessageFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.List;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -90,9 +79,9 @@ class TestUtil {
     static void imageContainsTransparency(String filename) throws IOException {
         BufferedImage bitmap = ImageIO.read(new File(filename));
 
-            for (int x = 0; x < bitmap.getWidth(); x++)
-                for (int y = 0; y < bitmap.getHeight(); y++)
-                    if (new Color(bitmap.getRGB(x, y), true).getAlpha() != 255) return;
+        for (int x = 0; x < bitmap.getWidth(); x++)
+            for (int y = 0; y < bitmap.getHeight(); y++)
+                if (new Color(bitmap.getRGB(x, y), true).getAlpha() != 255) return;
 
         Assert.fail(MessageFormat.format("The image from \"{0}\" does not contain any transparency.", filename));
     }
@@ -237,8 +226,7 @@ class TestUtil {
     /// <param name="expected">The date/time that we expect the result to be.</param>
     /// <param name="actual">The DateTime object being tested.</param>
     /// <param name="delta">Margin of error for expectedResult.</param>
-    static void verifyDate(Date expected, Date actual, Duration delta)
-    {
+    static void verifyDate(Date expected, Date actual, Duration delta) {
         long diffInMillies = Math.abs(expected.getTime() - actual.getTime());
         long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 

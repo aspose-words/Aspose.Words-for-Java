@@ -10,10 +10,9 @@ package Examples;
 
 
 import com.aspose.words.Font;
-import com.aspose.words.*;
 import com.aspose.words.Shape;
+import com.aspose.words.*;
 import org.apache.commons.io.FileUtils;
-import org.apache.poi.hssf.record.FooterRecord;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -554,7 +553,7 @@ public class ExFont extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Font.LocaleId.docx");
         Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Привет!", run.getText().trim()); 
+        Assert.assertEquals("Привет!", run.getText().trim());
         Assert.assertEquals(1033, run.getFont().getLocaleId());
 
         run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
@@ -710,10 +709,8 @@ public class ExFont extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "Font.Bidi.docx");
 
-        for (Run run : doc.getFirstSection().getBody().getParagraphs().get(0).getRuns())
-        {
-            switch (doc.getFirstSection().getBody().getParagraphs().get(0).indexOf(run))
-            {
+        for (Run run : doc.getFirstSection().getBody().getParagraphs().get(0).getRuns()) {
+            switch (doc.getFirstSection().getBody().getParagraphs().get(0).indexOf(run)) {
                 case 0:
                     Assert.assertEquals("مرحبًا", run.getText().trim());
                     Assert.assertTrue(run.getFont().getBidi());
@@ -949,13 +946,12 @@ public class ExFont extends ApiExampleBase {
         }
         //ExEnd
 
-       Assert.assertEquals(folderFontSource[0].getAvailableFonts().size(),
-            DocumentHelper.directoryGetFiles(getFontsDir(), "*.*").stream().filter(f -> f.endsWith(".ttf") || f.endsWith(".otf")).count());
+        Assert.assertEquals(folderFontSource[0].getAvailableFonts().size(),
+                DocumentHelper.directoryGetFiles(getFontsDir(), "*.*").stream().filter(f -> f.endsWith(".ttf") || f.endsWith(".otf")).count());
     }
 
     @Test
-    public void setFontAutoColor() throws Exception
-    {
+    public void setFontAutoColor() throws Exception {
         //ExStart
         //ExFor:Font.AutoColor
         //ExSummary:Shows how to improve readability by automatically selecting text color based on the brightness of its background.
@@ -1018,8 +1014,7 @@ public class ExFont extends ApiExampleBase {
     //ExFor:Table.Accept
     //ExSummary:Shows how to use a DocumentVisitor implementation to remove all hidden content from a document.
     @Test //ExSkip
-    public void removeHiddenContentFromDocument() throws Exception
-    {
+    public void removeHiddenContentFromDocument() throws Exception {
         Document doc = new Document(getMyDir() + "Hidden content.docx");
         Assert.assertEquals(26, doc.getChildNodes(NodeType.PARAGRAPH, true).getCount()); //ExSkip
         Assert.assertEquals(2, doc.getChildNodes(NodeType.TABLE, true).getCount()); //ExSkip
@@ -1046,13 +1041,11 @@ public class ExFont extends ApiExampleBase {
     /// <summary>
     /// Removes all visited nodes marked as "hidden content".
     /// </summary>
-    public static class RemoveHiddenContentVisitor extends DocumentVisitor
-    {
+    public static class RemoveHiddenContentVisitor extends DocumentVisitor {
         /// <summary>
         /// Called when a FieldStart node is encountered in the document.
         /// </summary>
-        public int visitFieldStart(FieldStart fieldStart)
-        {
+        public int visitFieldStart(FieldStart fieldStart) {
             if (fieldStart.getFont().getHidden())
                 fieldStart.remove();
 
@@ -1062,8 +1055,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a FieldEnd node is encountered in the document.
         /// </summary>
-        public int visitFieldEnd(FieldEnd fieldEnd)
-        {
+        public int visitFieldEnd(FieldEnd fieldEnd) {
             if (fieldEnd.getFont().getHidden())
                 fieldEnd.remove();
 
@@ -1073,8 +1065,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a FieldSeparator node is encountered in the document.
         /// </summary>
-        public int visitFieldSeparator(FieldSeparator fieldSeparator)
-        {
+        public int visitFieldSeparator(FieldSeparator fieldSeparator) {
             if (fieldSeparator.getFont().getHidden())
                 fieldSeparator.remove();
 
@@ -1084,8 +1075,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a Run node is encountered in the document.
         /// </summary>
-        public int visitRun(Run run)
-        {
+        public int visitRun(Run run) {
             if (run.getFont().getHidden())
                 run.remove();
 
@@ -1095,8 +1085,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a Paragraph node is encountered in the document.
         /// </summary>
-        public int visitParagraphStart(Paragraph paragraph)
-        {
+        public int visitParagraphStart(Paragraph paragraph) {
             if (paragraph.getParagraphBreakFont().getHidden())
                 paragraph.remove();
 
@@ -1106,8 +1095,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a FormField is encountered in the document.
         /// </summary>
-        public int visitFormField(FormField formField)
-        {
+        public int visitFormField(FormField formField) {
             if (formField.getFont().getHidden())
                 formField.remove();
 
@@ -1117,8 +1105,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a GroupShape is encountered in the document.
         /// </summary>
-        public int visitGroupShapeStart(GroupShape groupShape)
-        {
+        public int visitGroupShapeStart(GroupShape groupShape) {
             if (groupShape.getFont().getHidden())
                 groupShape.remove();
 
@@ -1128,8 +1115,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a Shape is encountered in the document.
         /// </summary>
-        public int visitShapeStart(Shape shape)
-        {
+        public int visitShapeStart(Shape shape) {
             if (shape.getFont().getHidden())
                 shape.remove();
 
@@ -1139,8 +1125,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a Comment is encountered in the document.
         /// </summary>
-        public int visitCommentStart(Comment comment)
-        {
+        public int visitCommentStart(Comment comment) {
             if (comment.getFont().getHidden())
                 comment.remove();
 
@@ -1150,8 +1135,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a Footnote is encountered in the document.
         /// </summary>
-        public int visitFootnoteStart(Footnote footnote)
-        {
+        public int visitFootnoteStart(Footnote footnote) {
             if (footnote.getFont().getHidden())
                 footnote.remove();
 
@@ -1161,8 +1145,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when a SpecialCharacter is encountered in the document.
         /// </summary>
-        public int visitSpecialChar(SpecialChar specialChar)
-        {
+        public int visitSpecialChar(SpecialChar specialChar) {
             if (specialChar.getFont().getHidden())
                 specialChar.remove();
 
@@ -1172,8 +1155,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when visiting of a Table node is ended in the document.
         /// </summary>
-        public int visitTableEnd(Table table)
-        {
+        public int visitTableEnd(Table table) {
             // The content inside table cells may have the hidden content flag, but the tables themselves cannot.
             // If this table had nothing but hidden content, this visitor would have removed all of it,
             // and there would be no child nodes left.
@@ -1182,15 +1164,14 @@ public class ExFont extends ApiExampleBase {
             // which this visitor will not remove.
             if (!table.hasChildNodes())
                 table.remove();
-            
+
             return VisitorAction.CONTINUE;
         }
 
         /// <summary>
         /// Called when visiting of a Cell node is ended in the document.
         /// </summary>
-        public int visitCellEnd(Cell cell)
-        {
+        public int visitCellEnd(Cell cell) {
             if (!cell.hasChildNodes() && cell.getParentNode() != null)
                 cell.remove();
 
@@ -1200,8 +1181,7 @@ public class ExFont extends ApiExampleBase {
         /// <summary>
         /// Called when visiting of a Row node is ended in the document.
         /// </summary>
-        public int visitRowEnd(Row row)
-        {
+        public int visitRowEnd(Row row) {
             if (!row.hasChildNodes() && row.getParentNode() != null)
                 row.remove();
 
@@ -1210,15 +1190,12 @@ public class ExFont extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testRemoveHiddenContent(Document doc)
-    {
+    private void testRemoveHiddenContent(Document doc) {
         Assert.assertEquals(20, doc.getChildNodes(NodeType.PARAGRAPH, true).getCount()); //ExSkip
         Assert.assertEquals(1, doc.getChildNodes(NodeType.TABLE, true).getCount()); //ExSkip
 
-        for (Node node : (Iterable<Node>) doc.getChildNodes(NodeType.ANY, true))
-        {
-            switch (node.getNodeType())
-            {
+        for (Node node : (Iterable<Node>) doc.getChildNodes(NodeType.ANY, true)) {
+            switch (node.getNodeType()) {
                 case NodeType.FIELD_START:
                     FieldStart fieldStart = (FieldStart) node;
                     Assert.assertFalse(fieldStart.getFont().getHidden());
@@ -1264,12 +1241,11 @@ public class ExFont extends ApiExampleBase {
                     Assert.assertFalse(specialChar.getFont().getHidden());
                     break;
             }
-        } 
+        }
     }
 
     @Test
-    public void defaultFonts() throws Exception
-    {
+    public void defaultFonts() throws Exception {
         //ExStart
         //ExFor:Fonts.FontInfoCollection.Contains(String)
         //ExFor:Fonts.FontInfoCollection.Count

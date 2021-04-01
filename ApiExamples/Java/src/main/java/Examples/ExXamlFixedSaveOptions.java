@@ -75,9 +75,12 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
             args.setKeepResourceStreamOpen(false);
         }
 
-        public ArrayList<String> getResources() { return mResources; };
-        private ArrayList<String> mResources;
+        public ArrayList<String> getResources() {
+            return mResources;
         }
+
+        private final ArrayList<String> mResources;
+    }
     //ExEnd
 
     private void testResourceFolder(ResourceUriPrinter callback) {

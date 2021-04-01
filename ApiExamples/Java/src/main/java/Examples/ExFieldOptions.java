@@ -366,8 +366,7 @@ public class ExFieldOptions extends ApiExampleBase {
     //ExEnd
 
     @Test
-    public void barcodeGenerator() throws Exception
-    {
+    public void barcodeGenerator() throws Exception {
         //ExStart
         //ExFor:BarcodeParameters
         //ExFor:BarcodeParameters.AddStartStopChar
@@ -468,7 +467,7 @@ public class ExFieldOptions extends ApiExampleBase {
         TestUtil.verifyImage(633, 134, getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
 
         doc = new Document(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
-        Shape barcode = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Shape barcode = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         Assert.assertTrue(barcode.hasImage());
     }

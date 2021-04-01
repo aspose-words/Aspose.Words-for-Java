@@ -66,9 +66,9 @@ public class ExShape extends ApiExampleBase {
         Assert.assertEquals("Alt text for MyCube.", shape.getAlternativeText());
 
         TestUtil.fileContainsString(
-            "<img src=\"Shape.AltText.001.png\" width=\"204\" height=\"204\" alt=\"Alt text for MyCube.\" " +
-            "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />", 
-            getArtifactsDir() + "Shape.AltText.html");
+                "<img src=\"Shape.AltText.001.png\" width=\"204\" height=\"204\" alt=\"Alt text for MyCube.\" " +
+                        "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />",
+                getArtifactsDir() + "Shape.AltText.html");
     }
 
     @Test(dataProvider = "fontDataProvider")

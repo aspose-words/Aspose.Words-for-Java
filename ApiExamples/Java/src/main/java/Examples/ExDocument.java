@@ -9,7 +9,6 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.pdf.TextAbsorber;
-import com.aspose.pdf.internal.html.rendering.image.ImageFormat;
 import com.aspose.words.Font;
 import com.aspose.words.List;
 import com.aspose.words.Shape;
@@ -22,7 +21,6 @@ import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -78,8 +76,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void loadFromWeb() throws Exception
-    {
+    public void loadFromWeb() throws Exception {
         //ExStart
         //ExFor:Document.#ctor(Stream)
         //ExSummary:Shows how to retrieve a document from a URL and saves it to disk in a different format.
@@ -121,7 +118,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Document.Save(String)
         //ExSummary:Shows how to open a document and convert it to .PDF.
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         doc.save(getArtifactsDir() + "Document.ConvertToPdf.pdf");
         //ExEnd
     }
@@ -389,8 +386,7 @@ public class ExDocument extends ApiExampleBase {
     }
     //ExEnd
 
-    private static void testFontChangeViaCallback(String log)
-    {
+    private static void testFontChangeViaCallback(String log) {
         Assert.assertEquals(10, getLogCount(log, "insertion"));
         Assert.assertEquals(5, getLogCount(log, "removal"));
     }
@@ -884,12 +880,12 @@ public class ExDocument extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx");
         //ExEnd
 
-        TestUtil.docPackageFileContainsString("<w:tblStyleRowBandSize w:val=\"3\" />", 
-            getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
-        TestUtil.docPackageFileContainsString("<w:tblCellSpacing w:w=\"100\" w:type=\"dxa\" />", 
-            getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
+        TestUtil.docPackageFileContainsString("<w:tblStyleRowBandSize w:val=\"3\" />",
+                getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
+        TestUtil.docPackageFileContainsString("<w:tblCellSpacing w:w=\"100\" w:type=\"dxa\" />",
+                getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
         TestUtil.docPackageFileContainsString("<w:tblBorders><w:top w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:left w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:bottom w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:right w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideH w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideV w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /></w:tblBorders>",
-            getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
+                getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
     }
 
     @Test

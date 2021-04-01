@@ -10,7 +10,6 @@ package Examples;
 
 import com.aspose.pdf.TextAbsorber;
 import com.aspose.words.*;
-import com.aspose.words.net.System.Globalization.CultureInfo;
 import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;

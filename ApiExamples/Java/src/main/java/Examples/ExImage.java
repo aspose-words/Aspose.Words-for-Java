@@ -20,7 +20,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class ExImage extends ApiExampleBase {
     @Test
@@ -315,8 +314,7 @@ public class ExImage extends ApiExampleBase {
     }
 
     @Test
-    public void deleteAllImages() throws Exception
-    {
+    public void deleteAllImages() throws Exception {
         //ExStart
         //ExFor:Shape.HasImage
         //ExFor:Node.Remove
@@ -334,7 +332,7 @@ public class ExImage extends ApiExampleBase {
         }));
 
         for (Shape shape : shapes)
-            if (shape.hasImage()) 
+            if (shape.hasImage())
                 shape.remove();
 
         shapes = (ArrayList<Shape>) IterableUtils.toList(doc.getChildNodes(NodeType.SHAPE, true));
@@ -351,8 +349,7 @@ public class ExImage extends ApiExampleBase {
     }
 
     @Test
-    public void deleteAllImagesPreOrder() throws Exception
-    {
+    public void deleteAllImagesPreOrder() throws Exception {
         //ExStart
         //ExFor:Node.NextPreOrder(Node)
         //ExFor:Node.PreviousPreOrder(Node)
@@ -370,16 +367,15 @@ public class ExImage extends ApiExampleBase {
         }));
 
         Node curNode = doc;
-        while (curNode != null)
-        {
+        while (curNode != null) {
             Node nextNode = curNode.nextPreOrder(doc);
 
             if (curNode.previousPreOrder(doc) != null && nextNode != null)
                 Assert.assertEquals(curNode, nextNode.previousPreOrder(doc));
 
-            if (curNode.getNodeType() == NodeType.SHAPE && ((Shape)curNode).hasImage())
+            if (curNode.getNodeType() == NodeType.SHAPE && ((Shape) curNode).hasImage())
                 curNode.remove();
-            
+
             curNode = nextNode;
         }
 
@@ -397,8 +393,7 @@ public class ExImage extends ApiExampleBase {
     }
 
     @Test
-    public void scaleImage() throws Exception
-    {
+    public void scaleImage() throws Exception {
         //ExStart
         //ExFor:ImageData.ImageSize
         //ExFor:ImageSize
