@@ -177,7 +177,7 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test
+    @Test(enabled = false, description = "Need to rework")
     public void insertHtmlFromWebPage() throws Exception {
         //ExStart
         //ExFor:Document.#ctor(Stream, LoadOptions)
@@ -455,6 +455,70 @@ public class ExDocument extends ApiExampleBase {
         }
     }
 
+    @Test (dataProvider = "importListDataProvider")
+    public void importList(boolean isKeepSourceNumbering) throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.KeepSourceNumbering
+        //ExSummary:Shows how to import a document with numbered lists.
+        Document srcDoc = new Document(getMyDir() + "List source.docx");
+        Document dstDoc = new Document(getMyDir() + "List destination.docx");
+
+        Assert.assertEquals(2, dstDoc.getLists().getCount());
+
+        ImportFormatOptions options = new ImportFormatOptions();
+
+        // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
+        options.setKeepSourceNumbering(isKeepSourceNumbering);
+
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+        dstDoc.updateListLabels();
+
+        if (isKeepSourceNumbering)
+            Assert.assertEquals(3, dstDoc.getLists().getCount());
+        else
+            Assert.assertEquals(2, dstDoc.getLists().getCount());
+        //ExEnd
+    }
+
+	@DataProvider(name = "importListDataProvider")
+	public static Object[][] importListDataProvider() {
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test
+    public void keepSourceNumberingSameListIds() throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.KeepSourceNumbering
+        //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how resolve a clash when importing documents that have lists with the same list definition identifier.
+        Document srcDoc = new Document(getMyDir() + "List with the same definition identifier - source.docx");
+        Document dstDoc = new Document(getMyDir() + "List with the same definition identifier - destination.docx");
+
+        ImportFormatOptions importFormatOptions = new ImportFormatOptions();
+
+        // Set the "KeepSourceNumbering" property to "true" to apply a different list definition ID
+        // to identical styles as Aspose.Words imports them into destination documents.
+        importFormatOptions.setKeepSourceNumbering(true);
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES, importFormatOptions);
+
+        dstDoc.updateListLabels();
+        //ExEnd
+
+        String paraText = dstDoc.getSections().get(1).getBody().getLastParagraph().getText();
+
+        Assert.assertTrue(paraText.startsWith("13->13"), paraText);
+        Assert.assertEquals("1.", dstDoc.getSections().get(1).getBody().getLastParagraph().getListLabel().getLabelString());
+    }
+
     @Test
     public void validateIndividualDocumentSignatures() throws Exception {
         //ExStart
@@ -581,7 +645,7 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
 
         Assert.assertEquals(7, dstDoc.getStyles().getCount());
-        Assert.assertEquals(8, dstDoc.getSections().getCount());
+        Assert.assertEquals(9, dstDoc.getSections().getCount());
     }
 
     @Test

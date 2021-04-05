@@ -742,9 +742,6 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
-
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataString.docx",
-                getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
     }
 
     @Test
@@ -759,9 +756,6 @@ public class ExReportingEngine extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx");
-
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx",
-                getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
     }
 
     @Test

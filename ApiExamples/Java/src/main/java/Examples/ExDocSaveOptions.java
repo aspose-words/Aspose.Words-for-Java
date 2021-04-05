@@ -124,7 +124,7 @@ public class ExDocSaveOptions extends ApiExampleBase {
     }
 
     @DataProvider(name = "updateLastPrintedPropertyDataProvider")
-    public static Object[][] updateLastPrintedPropertyDataProvider() throws Exception {
+    public static Object[][] updateLastPrintedPropertyDataProvider() {
         return new Object[][]
                 {
                         {true},
@@ -147,6 +147,11 @@ public class ExDocSaveOptions extends ApiExampleBase {
         saveOptions.setAlwaysCompressMetafiles(compressAllMetafiles);
 
         doc.save(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx", saveOptions);
+
+        if (compressAllMetafiles)
+            Assert.assertTrue(new File(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx").length() < 13315);
+        else
+            Assert.assertTrue(new File(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx").length() <= 30000);
         //ExEnd
     }
 
