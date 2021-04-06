@@ -20,11 +20,12 @@ import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfo;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.WarningInfoCollection;
+import java.util.ArrayList;
+import com.aspose.words.PhysicalFontInfo;
 import java.util.Iterator;
 import com.aspose.words.WarningSource;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.ms.System.Text.RegularExpressions.Match;
-import java.util.ArrayList;
 import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.FolderFontSource;
 import com.aspose.words.FileFontSource;
@@ -159,11 +160,11 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
             if (info.getWarningType() == WarningType.FONT_SUBSTITUTION)
             {
                 System.out.println("Font substitution: " + info.getDescription());
-                FontWarnings.warning(info); //ExSkip
+                FontWarnings.warning(info);
             }
         }
 
-        public WarningInfoCollection FontWarnings = new WarningInfoCollection(); //ExSkip
+        public WarningInfoCollection FontWarnings = new WarningInfoCollection();
     }
 
     //ExStart
@@ -186,7 +187,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         // Store the current collection of font sources, which will be the default font source for every document
         // for which we do not specify a different font source.
         FontSourceBase[] originalFontSources = FontSettings.getDefaultInstance().getFontsSources();
-
+        
         // For testing purposes, we will set Aspose.Words to look for fonts only in a folder that does not exist.
         FontSettings.getDefaultInstance().setFontsFolder("", false);
 
@@ -214,6 +215,40 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         }
 
         public WarningInfoCollection FontSubstitutionWarnings = new WarningInfoCollection();
+    }
+    //ExEnd
+
+    //ExStart
+    //ExFor:FontSourceBase.WarningCallback
+    //ExSummary:Shows how to call warning callback when the font sources working with.
+    @Test
+    public void fontSourceWarning()
+    {
+        FontSettings settings = new FontSettings();
+        settings.setFontsFolder("bad folder?", false);
+
+        FontSourceBase source = settings.getFontsSources()[0];
+        FontSourceWarningCollector callback = new FontSourceWarningCollector();
+        source.setWarningCallback(callback);
+
+        // Get the list of fonts to call warning callback.
+        ArrayList<PhysicalFontInfo> fontInfos = source.getAvailableFonts();
+
+        Assert.assertEquals("Error loading font from the folder \"bad folder?\": Illegal characters in path.",
+            callback.FontSubstitutionWarnings.get(0).getDescription());
+    }
+
+    private static class FontSourceWarningCollector implements IWarningCallback
+    {
+        /// <summary>
+        /// Called every time a warning occurs during processing of font source.
+        /// </summary>
+        public void warning(WarningInfo info)
+        {
+            FontSubstitutionWarnings.warning(info);
+        }
+
+        public /*final*/ WarningInfoCollection FontSubstitutionWarnings = new WarningInfoCollection();
     }
     //ExEnd
 
@@ -358,11 +393,11 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         HandleDocumentSubstitutionWarnings substitutionWarningHandler = new HandleDocumentSubstitutionWarnings();
         doc.setWarningCallback(substitutionWarningHandler);
 
-        ArrayList fontSources = msArrayList.ctor(FontSettings.getDefaultInstance().getFontsSources());
+        ArrayList<FontSourceBase> fontSources = msArrayList.ctor(FontSettings.getDefaultInstance().getFontsSources());
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), true);
-        msArrayList.add(fontSources, folderFontSource);
+        fontSources.add(folderFontSource);
 
-        FontSourceBase[] updatedFontSources = (FontSourceBase[])msArrayList.toArray(fontSources, FontSourceBase.class);
+        FontSourceBase[] updatedFontSources = msArrayList.toArray(fontSources, new FontSourceBase[0]);
         FontSettings.getDefaultInstance().setFontsSources(updatedFontSources);
 
         doc.save(getArtifactsDir() + "Font.GetSubstitutionWithoutSuffixes.pdf");

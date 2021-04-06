@@ -13,9 +13,9 @@ import com.aspose.ms.java.collections.StringSwitchMap;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
-import com.aspose.ms.System.Collections.msArrayList;
 import java.util.ArrayList;
 import com.aspose.words.IMailMergeDataSource;
+import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.IMailMergeDataSourceRoot;
 import com.aspose.ms.System.Collections.msDictionary;
 import java.util.HashMap;
@@ -43,9 +43,9 @@ public class ExMailMergeCustom extends ApiExampleBase
         builder.insertParagraph();
         builder.insertField(" MERGEFIELD Address ");
 
-        CustomerList customers = new CustomerList();
-        msArrayList.add(customers, new Customer("Thomas Hardy", "120 Hanover Sq., London"));
-        msArrayList.add(customers, new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        customers.add(new Customer("Thomas Hardy", "120 Hanover Sq., London"));
+        customers.add(new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
 
         // To use a custom object as a data source, it must implement the IMailMergeDataSource interface. 
         CustomerMailMergeDataSource dataSource = new CustomerMailMergeDataSource(customers);
@@ -76,21 +76,12 @@ public class ExMailMergeCustom extends ApiExampleBase
     }
 
     /// <summary>
-    /// An example of a typed collection that contains your "data" objects.
-    /// </summary>
-    public static class CustomerList extends ArrayList
-    {
-        public /*new*/ Customer get(int index) { return (Customer) super.get(index); }
-        public /*new*/void set(int index, Customer value) { super.set(index, value); }
-    }
-
-    /// <summary>
     /// A custom mail merge data source that you implement to allow Aspose.Words 
     /// to mail merge data from your Customer objects into Microsoft Word documents.
     /// </summary>
     public static class CustomerMailMergeDataSource implements IMailMergeDataSource
     {
-        public CustomerMailMergeDataSource(CustomerList customers)
+        public CustomerMailMergeDataSource(ArrayList<Customer> customers)
         {
             mCustomers = customers;
 
@@ -142,12 +133,12 @@ public class ExMailMergeCustom extends ApiExampleBase
 
         private boolean isEof() { return (mRecordIndex >= mCustomers.size()); }
 
-        private /*final*/ CustomerList mCustomers;
+        private /*final*/ ArrayList<Customer> mCustomers;
         private int mRecordIndex;
     }
     //ExEnd
 
-    private void testCustomDataSource(CustomerList customerList, Document doc)
+    private void testCustomDataSource(ArrayList<Customer> customerList, Document doc)
     {
         String[][] mergeData = new String[customerList.size()][];
 

@@ -193,7 +193,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         /// </summary>
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args) throws Exception
         {
-            if (args.getDocumentFieldName().equals("CourseName"))
+            if ("CourseName".equals(args.getDocumentFieldName()))
             {
                 Assert.assertEquals("StudentCourse", args.getTableName());
 
@@ -268,7 +268,7 @@ public class ExMailMergeEvent extends ApiExampleBase
                 mBuilder = new DocumentBuilder(args.getDocument());
 
             // This is true of we are on the first column, which means we have moved to a new row.
-            if (args.getFieldName().equals("CompanyName"))
+            if ("CompanyName".equals(args.getFieldName()))
             {
                 Color rowColor = isOdd(mRowIdx) ? new Color((213), (227), (235)) : new Color((242), (242), (242));
 

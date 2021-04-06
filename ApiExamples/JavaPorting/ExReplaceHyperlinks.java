@@ -41,7 +41,7 @@ public class ExReplaceHyperlinks extends ApiExampleBase
 
         for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType() !!Autoporter error: Undefined expression type )
         {
-            if (((fieldStart.getFieldType()) == (FieldType.FIELD_HYPERLINK)))
+            if (fieldStart.getFieldType() == FieldType.FIELD_HYPERLINK)
             {
                 Hyperlink hyperlink = new Hyperlink(fieldStart);
 
@@ -83,7 +83,7 @@ class Hyperlink
     {
         if (fieldStart == null)
             throw new NullPointerException("fieldStart");
-        if (!((fieldStart.getFieldType()) == (FieldType.FIELD_HYPERLINK)))
+        if (fieldStart.getFieldType() != FieldType.FIELD_HYPERLINK)
             throw new IllegalArgumentException("Field start type must be FieldHyperlink.");
 
         mFieldStart = fieldStart;
@@ -169,7 +169,7 @@ class Hyperlink
     {
         for (Node node = startNode; node != null; node = node.getNextSibling())
         {
-            if (((node.getNodeType()) == (nodeType)))
+            if (node.getNodeType() == nodeType)
                 return node;
         }
 

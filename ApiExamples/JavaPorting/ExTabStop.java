@@ -94,7 +94,7 @@ public class ExTabStop extends ApiExampleBase
 
         // 72 points is one "inch" on the Microsoft Word tab stop ruler.
         tabStops.add(new TabStop(72.0));
-        tabStops.add(new TabStop(432, TabAlignment.RIGHT, TabLeader.DASHES));
+        tabStops.add(new TabStop(432.0, TabAlignment.RIGHT, TabLeader.DASHES));
 
         Assert.assertEquals(2, tabStops.getCount());
         Assert.assertFalse(tabStops.get(0).isClear());

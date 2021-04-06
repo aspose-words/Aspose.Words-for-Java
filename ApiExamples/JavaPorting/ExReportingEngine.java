@@ -52,6 +52,10 @@ import com.aspose.words.JsonDataSource;
 import com.aspose.words.JsonSimpleValueParseMode;
 import com.aspose.words.CsvDataLoadOptions;
 import com.aspose.words.CsvDataSource;
+import com.aspose.words.SdtType;
+import com.aspose.words.SdtListItem;
+import com.aspose.words.StructuredDocumentTag;
+import com.aspose.words.MarkupLevel;
 import java.lang.Class;
 import org.testng.annotations.DataProvider;
 
@@ -1089,6 +1093,66 @@ public class ExReportingEngine extends ApiExampleBase
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx",
             getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
     }
+
+    @Test (dataProvider = "insertComboboxDropdownListItemsDynamicallyDataProvider")
+    public void insertComboboxDropdownListItemsDynamically(/*SdtType*/int sdtType) throws Exception
+    {
+        final String TEMPLATE =
+            "<<item[\"three\"] [\"3\"]>><<if [false]>><<item [\"four\"] [null]>><</if>><<item[\"five\"] [\"5\"]>>";
+
+        SdtListItem[] staticItems =
+        {
+            new SdtListItem("1", "one"),
+            new SdtListItem("2", "two")
+        };
+
+        Document doc = new Document();
+
+        StructuredDocumentTag sdt = new StructuredDocumentTag(doc, sdtType, MarkupLevel.BLOCK); { sdt.setTitle(TEMPLATE); }
+
+        for (SdtListItem item : staticItems)
+        {
+            sdt.getListItems().add(item);
+        }
+
+        doc.getFirstSection().getBody().appendChild(sdt);
+
+        buildReport(doc, new Object(), "");
+
+        doc.save(getArtifactsDir() + $"ReportingEngine.InsertComboboxDropdownListItemsDynamically_{sdtType}.docx");
+
+        doc = new Document(getArtifactsDir() +
+                           $"ReportingEngine.InsertComboboxDropdownListItemsDynamically_{sdtType}.docx");
+
+        sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+
+        SdtListItem[] expectedItems =
+        {
+            new SdtListItem("1", "one"),
+            new SdtListItem("2", "two"),
+            new SdtListItem("3", "three"),
+            new SdtListItem("5", "five")
+        };
+
+        Assert.assertEquals(expectedItems.length, sdt.getListItems().getCount());
+
+        for (int i = 0; i < expectedItems.length; i++)
+        {
+            Assert.assertEquals(expectedItems[i].getValue(), sdt.getListItems().get(i).getValue());
+            Assert.assertEquals(expectedItems[i].getDisplayText(), sdt.getListItems().get(i).getDisplayText());
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "insertComboboxDropdownListItemsDynamicallyDataProvider")
+	public static Object[][] insertComboboxDropdownListItemsDynamicallyDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{SdtType.COMBO_BOX},
+			{SdtType.DROP_DOWN_LIST},
+		};
+	}
 
     private static void buildReport(Document document, Object dataSource, String dataSourceName,
         /*ReportBuildOptions*/int reportBuildOptions) throws Exception

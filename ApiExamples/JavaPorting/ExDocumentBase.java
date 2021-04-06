@@ -259,12 +259,7 @@ public class ExDocumentBase extends ApiExampleBase
                         return ResourceLoadingAction.USER_PROVIDED;
 
                     case /*"Aspose logo"*/1:
-                        WebClient webClient1 = new WebClient();
-                        try /*JAVA: was using*/
-                        {
-                            args.setData(webClient1.DownloadData(getAsposeLogoUrl()));
-                        }
-                        finally { if (webClient1 != null) webClient1.close(); }
+                        args.setData(File.readAllBytes(getImageDir() + "Logo.jpg"));
 
                         return ResourceLoadingAction.USER_PROVIDED;
 
@@ -288,7 +283,6 @@ public class ExDocumentBase extends ApiExampleBase
         }
 
         TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, "http://www.google.com/images/logos/ps_logo2.png");
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, getAsposeLogoUrl());
     }
 
 	//JAVA-added for string switch emulation

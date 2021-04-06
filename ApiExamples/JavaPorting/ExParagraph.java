@@ -312,7 +312,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     {
         //ExStart
         //ExFor:CompositeNode.Count
-        //ExFor:CompositeNode.GetChildNodes(NodeType[], Boolean)
+        //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
         //ExFor:CompositeNode.InsertAfter(Node, Node)
         //ExFor:CompositeNode.InsertBefore(Node, Node)
         //ExFor:CompositeNode.PrependChild(Node) 

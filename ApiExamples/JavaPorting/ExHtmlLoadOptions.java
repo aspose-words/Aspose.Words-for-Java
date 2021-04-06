@@ -251,4 +251,37 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         FormField formField = (FormField) nodes.get(0);
         Assert.assertEquals("Input value text", formField.getResult());
     }
+
+    @Test (dataProvider = "ignoreNoscriptElementsDataProvider")
+    public void ignoreNoscriptElements(boolean ignoreNoscriptElements) throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlLoadOptions.IgnoreNoscriptElements
+        //ExSummary:Shows how to ignore <noscript> HTML elements.
+        final String HTML = "\r\n                <html>\r\n                  <head>\r\n                    <title>NOSCRIPT</title>\r\n                      <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n                      <script type=\"text/javascript\">\r\n                        alert(\"Hello, world!\");\r\n                      </script>\r\n                  </head>\r\n                <body>\r\n                  <noscript><p>Your browser does not support JavaScript!</p></noscript>\r\n                </body>\r\n                </html>";
+
+        HtmlLoadOptions htmlLoadOptions = new HtmlLoadOptions();
+        htmlLoadOptions.setIgnoreNoscriptElements(ignoreNoscriptElements);
+
+        Document doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(HTML)), htmlLoadOptions);
+        doc.save(getArtifactsDir() + "HtmlLoadOptions.IgnoreNoscriptElements.pdf");
+        //ExEnd
+
+        Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "HtmlLoadOptions.IgnoreNoscriptElements.pdf");
+        TextAbsorber textAbsorber = new TextAbsorber();
+        textAbsorber.Visit(pdfDoc);
+
+        Assert.AreEqual(ignoreNoscriptElements ? "" : "Your browser does not support JavaScript!", textAbsorber.Text);
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "ignoreNoscriptElementsDataProvider")
+	public static Object[][] ignoreNoscriptElementsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
 }

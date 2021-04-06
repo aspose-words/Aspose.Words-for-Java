@@ -10,6 +10,7 @@ package ApiExamples;
 // ********* THIS FILE IS AUTO PORTED *********
 
 import org.testng.annotations.Test;
+import com.aspose.ms.System.msString;
 import org.testng.Assert;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
@@ -48,8 +49,7 @@ public class ExSignDocumentCustom extends ApiExampleBase
 
         createSignees();
 
-        Signee signeeInfo =
-            (from c : mSignees where c.Name == signeeName select c).FirstOrDefault();
+        Signee signeeInfo = mSignees.Find(c => msString.equals(c.getName(), signeeName));
 
         if (signeeInfo != null)
             signDocument(srcDocumentPath, dstDocumentPath, signeeInfo, certificatePath, certificatePassword);

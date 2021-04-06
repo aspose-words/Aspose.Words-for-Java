@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentProperty;
+import java.util.Collection;
 import org.testng.Assert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BuiltInDocumentProperties;
@@ -65,9 +66,9 @@ public class ExDocumentProperties extends ApiExampleBase
             System.out.println("\tType:\t{docProperty.Type}");
 
             // Some properties may store multiple values.
-            if (docProperty.getValue() instanceof Object[])
+            if (docProperty.getValue() instanceof Collection<Object>)
             {
-                for (Object value : ms.as(docProperty.getValue(), Object[].class))
+                for (Object value : ms.as(docProperty.getValue(), Collection<Object>.class))
                     System.out.println("\tValue:\t\"{value}\"");
             }
             else

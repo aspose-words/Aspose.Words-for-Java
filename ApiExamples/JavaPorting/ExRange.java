@@ -556,10 +556,10 @@ public class ExRange extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (dataProvider = "useLegacyOrderDataProvider")
     //ExStart
     //ExFor:FindReplaceOptions.UseLegacyOrder
     //ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation.
+    @Test (dataProvider = "useLegacyOrderDataProvider") // ExSkip
     public void useLegacyOrder(boolean useLegacyOrder) throws Exception
     {
         Document doc = new Document();
@@ -618,7 +618,7 @@ public class ExRange extends ApiExampleBase
 
         public ArrayList<String> getMatches() { return mMatches; };
 
-        private ArrayList<String> mMatches; = /*new*/ ArrayList<String>list();
+        private ArrayList<String> mMatches; = /*new*/ArrayList<String>list();
     }
     //ExEnd
 
@@ -708,7 +708,7 @@ public class ExRange extends ApiExampleBase
     /// </summary>
     private static void insertDocument(Node insertionDestination, Document docToInsert)
     {
-        if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE)))
+        if (insertionDestination.getNodeType() == NodeType.PARAGRAPH || insertionDestination.getNodeType() == NodeType.TABLE)
         {
             CompositeNode dstStory = insertionDestination.getParentNode();
 
@@ -719,7 +719,7 @@ public class ExRange extends ApiExampleBase
                 for (Node srcNode : (Iterable<Node>) srcSection.getBody())
                 {
                     // Skip the node if it is the last empty paragraph in a section.
-                    if (((srcNode.getNodeType()) == (NodeType.PARAGRAPH)))
+                    if (srcNode.getNodeType() == NodeType.PARAGRAPH)
                     {
                         Paragraph para = (Paragraph)srcNode;
                         if (para.isEndOfSection() && !para.hasChildNodes())

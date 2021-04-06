@@ -1078,4 +1078,25 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         System.out.println("\t|NodeType: {rangeEndTag.NodeType}");
         //ExEnd
     }
+
+    @Test
+    public void sdtChildNodes() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTagRangeStart.ChildNodes
+        //ExFor:StructuredDocumentTagRangeStart.GetChildNodes(NodeType, bool)
+        //ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
+        Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
+        StructuredDocumentTagRangeStart tag = ms.as(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true).get(0), StructuredDocumentTagRangeStart.class);
+
+        System.out.println("StructuredDocumentTagRangeStart values:");
+        System.out.println("\t|Child nodes count: {tag.ChildNodes.Count}\n");
+
+        for (Node node : (Iterable<Node>) tag.getChildNodes())
+            System.out.println("\t|Child node type: {node.NodeType}");
+
+        for (Node node : (Iterable<Node>) tag.getChildNodes(NodeType.RUN, true))
+            System.out.println("\t|Child node text: {node.GetText()}");
+        //ExEnd
+    }
 }

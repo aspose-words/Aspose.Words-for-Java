@@ -136,7 +136,7 @@ public class ExNodeImporter extends ApiExampleBase
     /// </summary>
     static void insertDocument(Node insertionDestination, Document docToInsert)
     {
-        if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE)))
+        if (insertionDestination.getNodeType() == NodeType.PARAGRAPH || insertionDestination.getNodeType() == NodeType.TABLE)
         {
             CompositeNode destinationParent = insertionDestination.getParentNode();
 
@@ -148,7 +148,7 @@ public class ExNodeImporter extends ApiExampleBase
             for (Section srcSection : docToInsert.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
                 for (Node srcNode : (Iterable<Node>) srcSection.getBody())
                 {
-                    if (((srcNode.getNodeType()) == (NodeType.PARAGRAPH)))
+                    if (srcNode.getNodeType() == NodeType.PARAGRAPH)
                     {
                         Paragraph para = (Paragraph)srcNode;
                         if (para.isEndOfSection() && !para.hasChildNodes())

@@ -134,6 +134,7 @@ public class ExNode extends ApiExampleBase
     {
         //ExStart
         //ExFor:Node
+        //ExFor:Node.CustomNodeId
         //ExFor:NodeType
         //ExFor:CompositeNode
         //ExFor:CompositeNode.GetChild
@@ -151,6 +152,8 @@ public class ExNode extends ApiExampleBase
         Shape shape = new Shape(doc, ShapeType.RECTANGLE);
         shape.setWidth(200.0);
         shape.setHeight(200.0);
+        // Note that the 'CustomNodeId' is not saved to an output file and exists only during the node lifetime.
+        shape.setCustomNodeId(100);
         shape.setWrapType(WrapType.INLINE);
         paragraph.appendChild(shape);
 
@@ -173,6 +176,7 @@ public class ExNode extends ApiExampleBase
                     Shape childShape = (Shape)child;
                     System.out.println("Shape:");
                     System.out.println("\t{childShape.ShapeType}, {childShape.Width}x{childShape.Height}");
+                    Assert.assertEquals(100, shape.getCustomNodeId()); //ExSkip
                     break;
             }
         //ExEnd
@@ -275,7 +279,7 @@ public class ExNode extends ApiExampleBase
 
             // A section body can contain Paragraph and Table nodes.
             // If the node is a Table, remove it from the parent.
-            if (((curNode.getNodeType()) == (NodeType.TABLE)))
+            if (curNode.getNodeType() == NodeType.TABLE)
                 curNode.remove();
 
             curNode = nextNode;
@@ -405,7 +409,7 @@ public class ExNode extends ApiExampleBase
     @Test
     public void testNodeIsInsideField() throws Exception
     {
-        //ExStart:
+        //ExStart
         //ExFor:CompositeNode.SelectNodes
         //ExSummary:Shows how to use an XPath expression to test whether a node is inside a field.
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");

@@ -49,7 +49,7 @@ public class ExTableColumn extends ApiExampleBase
         /// <summary>
         /// Returns the cells which make up the column.
         /// </summary>
-        public Cell[] getCells() { return (Cell[]) msArrayList.toArray(getColumnCells(), Cell.class); }
+        public Cell[] getCells() { return msArrayList.toArray(getColumnCells(), new Cell[0]); }
 
         /// <summary>
         /// Returns the index of the given cell in the column.
@@ -110,15 +110,15 @@ public class ExTableColumn extends ApiExampleBase
         /// <summary>
         /// Provides an up-to-date collection of cells which make up the column represented by this facade.
         /// </summary>
-        private ArrayList getColumnCells()
+        private ArrayList<Cell> getColumnCells()
         {
-            ArrayList columnCells = new ArrayList();
+            ArrayList<Cell> columnCells = new ArrayList<Cell>();
 
             for (Row row : mTable.getRows().<Row>OfType() !!Autoporter error: Undefined expression type )
             {
                 Cell cell = row.getCells().get(mColumnIndex);
                 if (cell != null)
-                    msArrayList.add(columnCells, cell);
+                    columnCells.add(cell);
             }
 
             return columnCells;

@@ -62,9 +62,9 @@ public class ExMailMergeCustomNested extends ApiExampleBase
         msArrayList.add(customers, new Customer("Thomas Hardy", "120 Hanover Sq., London"));
         msArrayList.add(customers, new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
 
-        msArrayList.add(customers.get(0).getOrders(), new Order("Rugby World Cup Cap", 2));
-        msArrayList.add(customers.get(0).getOrders(), new Order("Rugby World Cup Ball", 1));
-        msArrayList.add(customers.get(1).getOrders(), new Order("Rugby World Cup Guide", 1));
+        customers.get(0).getOrders().add(new Order("Rugby World Cup Cap", 2));
+        customers.get(0).getOrders().add(new Order("Rugby World Cup Ball", 1));
+        customers.get(1).getOrders().add(new Order("Rugby World Cup Guide", 1));
 
         // To mail merge from your data source, we must wrap it into an object that implements the IMailMergeDataSource interface.
         CustomerMailMergeDataSource customersDataSource = new CustomerMailMergeDataSource(customers);
@@ -84,7 +84,7 @@ public class ExMailMergeCustomNested extends ApiExampleBase
         {
             setFullName(aFullName);
             setAddress(anAddress);
-            setOrders(new OrderList());
+            setOrders(new ArrayList<Order>());
         }
 
         public String getFullName() { return mFullName; }; public void setFullName(String value) { mFullName = value; };
@@ -93,9 +93,9 @@ public class ExMailMergeCustomNested extends ApiExampleBase
         public String getAddress() { return mAddress; }; public void setAddress(String value) { mAddress = value; };
 
         private String mAddress;
-        public OrderList getOrders() { return mOrders; }; public void setOrders(OrderList value) { mOrders = value; };
+        public ArrayList<Order> getOrders() { return mOrders; }; public void setOrders(ArrayList<Order> value) { mOrders = value; };
 
-        private OrderList mOrders;
+        private ArrayList<Order> mOrders;
     }
 
     /// <summary>
@@ -124,15 +124,6 @@ public class ExMailMergeCustomNested extends ApiExampleBase
         public int getQuantity() { return mQuantity; }; public void setQuantity(int value) { mQuantity = value; };
 
         private int mQuantity;
-    }
-
-    /// <summary>
-    /// An example of a typed collection that contains your "data" objects.
-    /// </summary>
-    public static class OrderList extends ArrayList
-    {
-        public /*new*/ Order get(int index) { return (Order) super.get(index); }
-        public /*new*/void set(int index, Order value) { super.set(index, value); }
     }
 
     /// <summary>
@@ -209,7 +200,7 @@ public class ExMailMergeCustomNested extends ApiExampleBase
 
     public static class OrderMailMergeDataSource implements IMailMergeDataSource
     {
-        public OrderMailMergeDataSource(OrderList orders)
+        public OrderMailMergeDataSource(ArrayList<Order> orders)
         {
             mOrders = orders;
 
@@ -264,7 +255,7 @@ public class ExMailMergeCustomNested extends ApiExampleBase
 
         private boolean isEof() { return (mRecordIndex >= mOrders.size()); }
 
-        private /*final*/ OrderList mOrders;
+        private /*final*/ ArrayList<Order> mOrders;
         private int mRecordIndex;
     }
     //ExEnd
@@ -275,7 +266,7 @@ public class ExMailMergeCustomNested extends ApiExampleBase
 
         for (Customer customer : (Iterable<Customer>) customers)
         {
-            for (Order order : (Iterable<Order>) customer.getOrders())
+            for (Order order : customer.getOrders())
                 mailMergeData.add(new String[]{ order.getName(), Integer.toString(order.getQuantity()) });
             mailMergeData.add(new String[] {customer.getFullName(), customer.getAddress()});
         }

@@ -96,7 +96,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
             // to modify how that method converts the document to .PDF.
             PdfSaveOptions options = new PdfSaveOptions();
-
+            
             // Set the "PageIndex" to "1" to render a portion of the document starting from the second page.
             options.setPageSet(new PageSet(1));
 
@@ -924,27 +924,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 	}
 
     @Test (dataProvider = "escapeUriDataProvider")
-    public void escapeUri(String uri, String result, boolean isEscaped) throws Exception
+    public void escapeUri(String uri, String result) throws Exception
     {
-        //ExStart
-        //ExFor:PdfSaveOptions.EscapeUri
-        //ExSummary:Shows how to escape hyperlinks in the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertHyperlink("Testlink", uri, false);
 
-        // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
-        // to modify how that method converts the document to .PDF.
-        PdfSaveOptions options = new PdfSaveOptions();
-
-        // Set the "EscapeUri" property to "true" if links in the document contain characters,
-        // such as the blank space, that we need to replace with escape sequences, such as "%20".
-        // Set the "EscapeUri" property to "false" if we are sure that this document's links
-        // do not need any such escape character substitution.
-        options.setEscapeUri(isEscaped);
-
-        doc.save(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf", options);
-        //ExEnd
+        doc.save(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf");
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf");
 
@@ -962,10 +948,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 	{
 		return new Object[][]
 		{
-			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q=%20aspose",  true},
-			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose",  true},
-			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q= aspose",  false},
-			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose",  false},
+			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q=%20aspose"},
+			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose"},
 		};
 	}
 

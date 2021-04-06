@@ -59,6 +59,8 @@ import com.aspose.words.RunCollection;
 import com.aspose.words.TextDmlEffect;
 import com.aspose.words.SystemFontSource;
 import com.aspose.words.EmphasisMark;
+import com.aspose.words.ThemeFont;
+import com.aspose.words.ThemeColor;
 import org.testng.annotations.DataProvider;
 
 
@@ -97,7 +99,6 @@ public class ExFont extends ApiExampleBase
         Assert.assertEquals("Courier New", run.getFont().getName());
         Assert.assertEquals(36, run.getFont().getSize());
         Assert.assertEquals(Color.YELLOW.getRGB(), run.getFont().getHighlightColor().getRGB());
-
     }
 
     @Test
@@ -915,10 +916,10 @@ public class ExFont extends ApiExampleBase
         // using the above methods to reference old and new styles.
         for (Run run : doc.getChildNodes(NodeType.RUN, true).<Run>OfType() !!Autoporter error: Undefined expression type )
         {
-            if (run.getFont().getStyleName().equals("Emphasis"))
+            if ("Emphasis".equals(run.getFont().getStyleName()))
                 run.getFont().setStyleName("Strong");
 
-            if (((run.getFont().getStyleIdentifier()) == (StyleIdentifier.INTENSE_EMPHASIS)))
+            if (run.getFont().getStyleIdentifier() == StyleIdentifier.INTENSE_EMPHASIS)
                 run.getFont().setStyleIdentifier(StyleIdentifier.STRONG);
         }
 
@@ -1402,10 +1403,10 @@ public class ExFont extends ApiExampleBase
         //ExSummary:Shows how to access and print details of each font in a document.
         Document doc = new Document(getMyDir() + "Document.docx");
         
-        Iterator fontCollectionEnumerator = doc.getFontInfos().iterator();
+        Iterator<FontInfo> fontCollectionEnumerator = doc.getFontInfos().iterator();
         while (fontCollectionEnumerator.hasNext())
         {
-            FontInfo fontInfo = (FontInfo)fontCollectionEnumerator.next();
+            FontInfo fontInfo = fontCollectionEnumerator.next();
             if (fontInfo != null)
             {
                 System.out.println("Font name: " + fontInfo.getName());
@@ -1518,5 +1519,143 @@ public class ExFont extends ApiExampleBase
 			{EmphasisMark.UNDER_SOLID_CIRCLE},
 		};
 	}
+
+    @Test
+    public void themeFontsColors() throws Exception
+    {
+        //ExStart
+        //ExFor:Font.ThemeFont
+        //ExFor:Font.ThemeFontAscii
+        //ExFor:Font.ThemeFontBi
+        //ExFor:Font.ThemeFontFarEast
+        //ExFor:Font.ThemeFontOther
+        //ExFor:Font.ThemeColor
+        //ExFor:ThemeFont
+        //ExFor:ThemeColor
+        //ExSummary:Shows how to work with theme fonts and colors.
+        Document doc = new Document();
+        
+        // Define fonts for languages uses by default.
+        doc.getTheme().getMinorFonts().setLatin("Algerian");
+        doc.getTheme().getMinorFonts().setEastAsian("Aharoni");
+        doc.getTheme().getMinorFonts().setComplexScript("Andalus");
+
+        Font font = doc.getStyles().get("Normal").getFont();
+        System.out.println("Originally the Normal style theme color is: {0} and RGB color is: {1}\n",font.getThemeColor(),font.getColor());
+
+        // We can use theme font and color instead of default values.
+        font.setThemeFont(ThemeFont.MINOR);
+        font.setThemeColor(ThemeColor.ACCENT_2);
+        
+        Assert.assertEquals(ThemeFont.MINOR, font.getThemeFont());
+        Assert.assertEquals("Algerian", font.getName());
+        
+        Assert.assertEquals(ThemeFont.MINOR, font.getThemeFontAscii());
+        Assert.assertEquals("Algerian", font.getNameAscii());
+
+        Assert.assertEquals(ThemeFont.MINOR, font.getThemeFontBi());
+        Assert.assertEquals("Andalus", font.getNameBi());
+
+        Assert.assertEquals(ThemeFont.MINOR, font.getThemeFontFarEast());
+        Assert.assertEquals("Aharoni", font.getNameFarEast());
+
+        Assert.assertEquals(ThemeFont.MINOR, font.getThemeFontOther());
+        Assert.assertEquals("Algerian", font.getNameOther());
+
+        Assert.assertEquals(ThemeColor.ACCENT_2, font.getThemeColor());
+        Assert.assertEquals(msColor.Empty, font.getColor());
+
+        // There are several ways of reset them font and color.
+        // 1 -  By setting ThemeFont.None/ThemeColor.None:
+        font.setThemeFont(ThemeFont.NONE);
+        font.setThemeColor(ThemeColor.NONE);
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFont());
+        Assert.assertEquals("Algerian", font.getName());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontAscii());
+        Assert.assertEquals("Algerian", font.getNameAscii());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontBi());
+        Assert.assertEquals("Andalus", font.getNameBi());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontFarEast());
+        Assert.assertEquals("Aharoni", font.getNameFarEast());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontOther());
+        Assert.assertEquals("Algerian", font.getNameOther());
+
+        Assert.assertEquals(ThemeColor.NONE, font.getThemeColor());
+        Assert.assertEquals(msColor.Empty, font.getColor());
+
+        // 2 -  By setting non-theme font/color names:
+        font.setName("Arial");
+        font.setColor(Color.BLUE);
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFont());
+        Assert.assertEquals("Arial", font.getName());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontAscii());
+        Assert.assertEquals("Arial", font.getNameAscii());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontBi());
+        Assert.assertEquals("Arial", font.getNameBi());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontFarEast());
+        Assert.assertEquals("Arial", font.getNameFarEast());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontOther());
+        Assert.assertEquals("Arial", font.getNameOther());
+
+        Assert.assertEquals(ThemeColor.NONE, font.getThemeColor());
+        Assert.assertEquals(Color.BLUE.getRGB(), font.getColor().getRGB());
+        //ExEnd
+    }
+
+    @Test
+    public void createThemedStyle() throws Exception
+    {
+        //ExStart
+        //ExFor:Font.ThemeFont
+        //ExFor:Font.ThemeColor
+        //ExFor:Font.TintAndShade
+        //ExFor:ThemeFont
+        //ExFor:ThemeColor
+        //ExSummary:Shows how to create and use themed style.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        builder.writeln();
+
+        // Create some style with theme font properties.
+        Style style = doc.getStyles().add(StyleType.PARAGRAPH, "ThemedStyle");
+        style.getFont().setThemeFont(ThemeFont.MAJOR);
+        style.getFont().setThemeColor(ThemeColor.ACCENT_5);
+        style.getFont().setTintAndShade(0.3);
+
+        builder.getParagraphFormat().setStyleName("ThemedStyle");
+        builder.writeln("Text with themed style");
+        //ExEnd
+        
+        Run run = (Run)((Paragraph)builder.getCurrentParagraph().getPreviousSibling()).getFirstChild();
+
+        Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFont());
+        Assert.assertEquals("Times New Roman", run.getFont().getName());
+
+        Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFontAscii());
+        Assert.assertEquals("Times New Roman", run.getFont().getNameAscii());
+
+        Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFontBi());
+        Assert.assertEquals("Times New Roman", run.getFont().getNameBi());
+
+        Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFontFarEast());
+        Assert.assertEquals("Times New Roman", run.getFont().getNameFarEast());
+
+        Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFontOther());
+        Assert.assertEquals("Times New Roman", run.getFont().getNameOther());
+
+        Assert.assertEquals(ThemeColor.ACCENT_5, run.getFont().getThemeColor());
+        Assert.assertEquals(msColor.Empty, run.getFont().getColor());
+    }
 }
 

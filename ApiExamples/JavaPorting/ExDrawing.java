@@ -24,6 +24,7 @@ import com.aspose.words.JoinStyle;
 import com.aspose.words.EndCap;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.FlipOrientation;
+import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.MemoryStream;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -32,7 +33,6 @@ import com.aspose.words.ImageType;
 import java.util.Iterator;
 import com.aspose.words.ImageData;
 import com.aspose.ms.System.IO.FileStream;
-import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.Directory;
 import java.util.ArrayList;
 import com.aspose.ms.System.IO.FileInfo;
@@ -62,9 +62,9 @@ public class ExDrawing extends ApiExampleBase
         //ExFor:Drawing.ArrowWidth
         //ExFor:Drawing.DashStyle
         //ExFor:Drawing.EndCap
-        //ExFor:Drawing.Fill.Color
+        //ExFor:Drawing.Fill.ForeColor
         //ExFor:Drawing.Fill.ImageBytes
-        //ExFor:Drawing.Fill.On
+        //ExFor:Drawing.Fill.Visible
         //ExFor:Drawing.JoinStyle
         //ExFor:Shape.Stroke
         //ExFor:Stroke.Color
@@ -115,8 +115,8 @@ public class ExDrawing extends ApiExampleBase
         filledInArrow.setWidth(200.0);
         filledInArrow.setHeight(40.0);
         filledInArrow.setTop(100.0);
-        filledInArrow.getFill().setColor(msColor.getGreen());
-        filledInArrow.getFill().setOn(true);
+        filledInArrow.getFill().setForeColor(msColor.getGreen());
+        filledInArrow.getFill().setVisible(true);
 
         builder.insertNode(filledInArrow);
 
@@ -130,7 +130,7 @@ public class ExDrawing extends ApiExampleBase
         WebClient webClient = new WebClient();
         try /*JAVA: was using*/
         {
-            byte[] imageBytes = webClient.DownloadData(getAsposeLogoUrl());
+            byte[] imageBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
 
             MemoryStream stream = new MemoryStream(imageBytes);
             try /*JAVA: was using*/
@@ -185,8 +185,8 @@ public class ExDrawing extends ApiExampleBase
         Assert.assertEquals(200.0d, filledInArrow.getWidth());
         Assert.assertEquals(40.0d, filledInArrow.getHeight());
         Assert.assertEquals(100.0d, filledInArrow.getTop());
-        Assert.assertEquals(msColor.getGreen().getRGB(), filledInArrow.getFill().getColor().getRGB());
-        Assert.assertTrue(filledInArrow.getFill().getOn());
+        Assert.assertEquals(msColor.getGreen().getRGB(), filledInArrow.getFill().getForeColor().getRGB());
+        Assert.assertTrue(filledInArrow.getFill().getVisible());
 
         filledInArrowImg = (Shape)doc.getChild(NodeType.SHAPE, 3, true);
 
@@ -209,7 +209,7 @@ public class ExDrawing extends ApiExampleBase
         WebClient webClient = new WebClient();
         try /*JAVA: was using*/
         {
-            byte[] imageBytes = webClient.DownloadData(getAsposeLogoUrl());
+            byte[] imageBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
 
             MemoryStream stream = new MemoryStream(imageBytes);
             try /*JAVA: was using*/
@@ -218,7 +218,7 @@ public class ExDrawing extends ApiExampleBase
 
                 // The image in the URL is a .gif. Inserting it into a document converts it into a .png.
                 Shape imgShape = builder.insertImage(image);
-                Assert.assertEquals(ImageType.PNG, imgShape.getImageData().getImageType());
+                Assert.assertEquals(ImageType.JPEG, imgShape.getImageData().getImageType());
             }
             finally { if (stream != null) stream.close(); }
         }
@@ -378,7 +378,6 @@ public class ExDrawing extends ApiExampleBase
     //ExFor:DocumentVisitor.VisitGroupShapeStart(GroupShape)
     //ExFor:Drawing.GroupShape
     //ExFor:Drawing.GroupShape.#ctor(DocumentBase)
-    //ExFor:Drawing.GroupShape.#ctor(DocumentBase,Drawing.ShapeMarkupLanguage)
     //ExFor:Drawing.GroupShape.Accept(DocumentVisitor)
     //ExFor:ShapeBase.IsGroup
     //ExFor:ShapeBase.ShapeType
@@ -454,7 +453,7 @@ public class ExDrawing extends ApiExampleBase
             msStringBuilder.appendLine(mBuilder, "\t\tWidth: " + shape.getWidth());
             msStringBuilder.appendLine(mBuilder, "\t\tHeight: " + shape.getHeight());
             msStringBuilder.appendLine(mBuilder, "\t\tStroke color: " + shape.getStroke().getColor());
-            msStringBuilder.appendLine(mBuilder, "\t\tFill color: " + shape.getFill().getColor());
+            msStringBuilder.appendLine(mBuilder, "\t\tFill color: " + shape.getFill().getForeColor());
             return VisitorAction.CONTINUE;
         }
 

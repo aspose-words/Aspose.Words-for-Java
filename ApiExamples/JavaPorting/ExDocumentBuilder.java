@@ -101,6 +101,9 @@ import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningSource;
 import com.aspose.words.TableContentAlignment;
 import com.aspose.words.MarkdownSaveOptions;
+import com.aspose.ms.System.IO.Directory;
+import com.aspose.words.IImageSavingCallback;
+import com.aspose.words.ImageSavingArgs;
 import com.aspose.words.OlePackage;
 import org.testng.annotations.DataProvider;
 
@@ -310,7 +313,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // The hyperlink will be a clickable piece of text which will take us to the location specified in the URL.
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setUnderline(Underline.SINGLE);
-        builder.insertHyperlink("Aspose website", "http://www.aspose.com", false);
+        builder.insertHyperlink("Google website", "https://www.google.com", false);
         builder.getFont().clearFormatting();
         builder.writeln(".");
 
@@ -327,7 +330,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals(Color.BLUE.getRGB(), fieldContents.getFont().getColor().getRGB());
         Assert.assertEquals(Underline.SINGLE, fieldContents.getFont().getUnderline());
-        Assert.assertEquals("HYPERLINK \"http://www.aspose.com\"", fieldContents.getText().trim());
+        Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
     }
 
     @Test
@@ -446,13 +449,19 @@ public class ExDocumentBuilder extends ApiExampleBase
         FileStream imageStream = new FileStream(getImageDir() + "Logo.jpg", FileMode.OPEN);
         try /*JAVA: was using*/
         {
+            // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+            // the icon according to the file extension and uses the filename for the icon caption.
             builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", false, false, imageStream); 
         }
         finally { if (imageStream != null) imageStream.close(); }
-        
+
+        // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+        // the icon according to 'progId' and uses the filename for the icon caption.
         // 2 -  Icon based on the application that will open the object:
         builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
 
+        // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        // the icon according to 'progId' and uses the predefined icon caption.
         // 3 -  Image icon that's 32 x 32 pixels or smaller from the local file system, with a custom caption:
         builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", false, getImageDir() + "Logo icon.ico",
             "Double click to view presentation!");
@@ -595,6 +604,54 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(1, doc.getRange().getBookmarks().getCount());
         Assert.assertEquals("MyBookmark", doc.getRange().getBookmarks().get(0).getName());
         Assert.assertEquals("Hello world!", doc.getRange().getBookmarks().get(0).getText().trim());
+        //ExEnd
+    }
+
+    @Test
+    public void createColumnBookmark() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.StartColumnBookmark
+        //ExFor:DocumentBuilder.EndColumnBookmark
+        //ExSummary:Shows how to create a column bookmark.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.startTable();
+
+        builder.insertCell();
+        // Cells 1,2,4,5 will be bookmarked.
+        builder.startColumnBookmark("MyBookmark_1");
+        // Badly formed bookmarks or bookmarks with duplicate names will be ignored when the document is saved.
+        builder.startColumnBookmark("MyBookmark_1");
+        builder.startColumnBookmark("BadStartBookmark");
+        builder.write("Cell 1");
+
+        builder.insertCell();
+        builder.write("Cell 2");
+
+        builder.insertCell();
+        builder.write("Cell 3");
+
+        builder.endRow();
+
+        builder.insertCell();
+        builder.write("Cell 4");
+
+        builder.insertCell();
+        builder.write("Cell 5");
+        builder.endColumnBookmark("MyBookmark_1");
+        builder.endColumnBookmark("MyBookmark_1");
+
+        Assert.Throws(IllegalStateException.class, () => builder.endColumnBookmark("BadEndBookmark")); //ExSkip
+
+        builder.insertCell();
+        builder.write("Cell 6");
+
+        builder.endRow();
+        builder.endTable();
+
+        doc.save(getArtifactsDir() + "Bookmarks.CreateColumnBookmark.docx");
         //ExEnd
     }
 
@@ -2828,7 +2885,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         private /*final*/ String mGeneralFormat; 
         private ArrayList<FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
-        private ArrayList<FormatInvocation> mFormatInvocations; = /*new*/ ArrayList<FormatInvocation>list();
+        private ArrayList<FormatInvocation> mFormatInvocations; = /*new*/ArrayList<FormatInvocation>list();
         
         private static class FormatInvocation
         {
@@ -2968,6 +3025,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         try /*JAVA: was using*/
         {
             builder.writeln("Spreadsheet Ole object:");
+            // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+            // the icon according to 'progId' and uses the predefined icon caption.
             builder.insertOleObjectInternal(spreadsheetStream, "OleObject.xlsx", false, null);
         }
         finally { if (spreadsheetStream != null) spreadsheetStream.close(); }
@@ -2980,7 +3039,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             WebClient webClient = new WebClient();
             try /*JAVA: was using*/
             {
-                byte[] imgBytes = webClient.DownloadData(getAsposeLogoUrl());
+                byte[] imgBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
 
                 MemoryStream imageStream = new MemoryStream(imgBytes);
                 try /*JAVA: was using*/
@@ -3548,9 +3607,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
         saveOptions.setTableContentAlignment(tableContentAlignment);
 
-        builder.getDocument().save(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md", saveOptions);
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocumentTableContentAlignment.md", saveOptions);
 
-        Document doc = new Document(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md");
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocumentTableContentAlignment.md");
         Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         switch (tableContentAlignment)
@@ -3594,6 +3653,62 @@ public class ExDocumentBuilder extends ApiExampleBase
 			{TableContentAlignment.AUTO},
 		};
 	}
+
+    //ExStart
+    //ExFor:MarkdownSaveOptions.ImageSavingCallback
+    //ExFor:IImageSavingCallback
+    //ExSummary:Shows how to rename the image name during saving into Markdown document.
+    @Test //ExSkip
+    public void renameImages() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        MarkdownSaveOptions options = new MarkdownSaveOptions();
+
+        // If we convert a document that contains images into Markdown, we will end up with one Markdown file which links to several images.
+        // Each image will be in the form of a file in the local file system.
+        // There is also a callback that can customize the name and file system location of each image.
+        options.setImageSavingCallback(new SavedImageRename("DocumentBuilder.HandleDocument.md"));
+
+        // The ImageSaving() method of our callback will be run at this time.
+        doc.save(getArtifactsDir() + "DocumentBuilder.HandleDocument.md", options);
+
+        Assert.AreEqual(1,
+            Directory.getFiles(getArtifactsDir())
+                .Where(s => s.StartsWith(ArtifactsDir + "DocumentBuilder.HandleDocument.md shape"))
+                .Count(f => f.EndsWith(".jpeg")));
+        Assert.AreEqual(8,
+            Directory.getFiles(getArtifactsDir())
+                .Where(s => s.StartsWith(ArtifactsDir + "DocumentBuilder.HandleDocument.md shape"))
+                .Count(f => f.EndsWith(".png")));
+    }
+
+    /// <summary>
+    /// Renames saved images that are produced when an Markdown document is saved.
+    /// </summary>
+    public static class SavedImageRename implements IImageSavingCallback
+    {
+        public SavedImageRename(String outFileName)
+        {
+            mOutFileName = outFileName;
+        }
+
+        public void /*IImageSavingCallback.*/imageSaving(ImageSavingArgs args) throws Exception
+        {
+            String imageFileName = $"{mOutFileName} shape {++mCount}, of type {args.CurrentShape.ShapeType}{Path.GetExtension(args.ImageFileName)}";
+
+            args.setImageFileName(imageFileName);
+            args.ImageStream = new FileStream(getArtifactsDir() + imageFileName, FileMode.CREATE);
+
+            Assert.True(args.ImageStream.CanWrite);
+            Assert.assertTrue(args.isImageAvailable());
+            Assert.assertFalse(args.getKeepImageStreamOpen());
+        }
+
+        private int mCount;
+        private /*final*/ String mOutFileName;
+    }
+    //ExEnd
 
     @Test
     public void insertOnlineVideo() throws Exception
@@ -3644,50 +3759,46 @@ public class ExDocumentBuilder extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         String videoUrl = "https://vimeo.com/52477838";
-        String videoEmbedCode = "<iframe src=\"https://player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " +
-                                "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+        String videoEmbedCode =
+            "<iframe src=\"https://player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " +
+            "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
 
-        WebClient webClient = new WebClient();
+        byte[] thumbnailImageBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
+
+        MemoryStream stream = new MemoryStream(thumbnailImageBytes);
         try /*JAVA: was using*/
         {
-            byte[] thumbnailImageBytes = webClient.DownloadData(getAsposeLogoUrl());
-
-            MemoryStream stream = new MemoryStream(thumbnailImageBytes);
+            BufferedImage image = ImageIO.read(stream);
             try /*JAVA: was using*/
             {
-                BufferedImage image = ImageIO.read(stream);
-                try /*JAVA: was using*/
-                {
-                    // Below are two ways of creating a shape with a custom thumbnail, which links to an online video
-                    // that will play when we click on the shape in Microsoft Word.
-                    // 1 -  Insert an inline shape at the builder's node insertion cursor:
-                    builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes, image.getWidth(), image.getHeight());
+                // Below are two ways of creating a shape with a custom thumbnail, which links to an online video
+                // that will play when we click on the shape in Microsoft Word.
+                // 1 -  Insert an inline shape at the builder's node insertion cursor:
+                builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes, image.getWidth(), image.getHeight());
 
-                    builder.insertBreak(BreakType.PAGE_BREAK);
+                builder.insertBreak(BreakType.PAGE_BREAK);
 
-                    // 2 -  Insert a floating shape:
-                    double left = builder.getPageSetup().getRightMargin() - image.getWidth();
-                    double top = builder.getPageSetup().getBottomMargin() - image.getHeight();
+                // 2 -  Insert a floating shape:
+                double left = builder.getPageSetup().getRightMargin() - image.getWidth();
+                double top = builder.getPageSetup().getBottomMargin() - image.getHeight();
 
-                    builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes,
-                        RelativeHorizontalPosition.RIGHT_MARGIN, left, RelativeVerticalPosition.BOTTOM_MARGIN, top,
-                        image.getWidth(), image.getHeight(), WrapType.SQUARE);
-                }
-                finally { if (image != null) image.flush(); }
+                builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes,
+                    RelativeHorizontalPosition.RIGHT_MARGIN, left, RelativeVerticalPosition.BOTTOM_MARGIN, top,
+                    image.getWidth(), image.getHeight(), WrapType.SQUARE);
             }
-            finally { if (stream != null) stream.close(); }
+            finally { if (image != null) image.flush(); }
         }
-        finally { if (webClient != null) webClient.close(); }
+        finally { if (stream != null) stream.close(); }
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideoCustomThumbnail.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideoCustomThumbnail.docx");
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-        
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, shape);
-        Assert.assertEquals(320.0d, shape.getWidth());
-        Assert.assertEquals(320.0d, shape.getHeight());
+        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
+        Assert.assertEquals(400.0d, shape.getWidth());
+        Assert.assertEquals(400.0d, shape.getHeight());
         Assert.assertEquals(0.0d, shape.getLeft());
         Assert.assertEquals(0.0d, shape.getTop());
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
@@ -3695,14 +3806,14 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(RelativeHorizontalPosition.COLUMN, shape.getRelativeHorizontalPosition());
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
-        
-        shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, shape);
-        Assert.assertEquals(320.0d, shape.getWidth());
-        Assert.assertEquals(320.0d, shape.getHeight());
-        Assert.assertEquals(-249.15d, shape.getLeft());
-        Assert.assertEquals(-249.15d, shape.getTop());
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
+
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
+        Assert.assertEquals(400.0d, shape.getWidth());
+        Assert.assertEquals(400.0d, shape.getHeight());
+        Assert.assertEquals(-329.15d, shape.getLeft());
+        Assert.assertEquals(-329.15d, shape.getTop());
         Assert.assertEquals(WrapType.SQUARE, shape.getWrapType());
         Assert.assertEquals(RelativeVerticalPosition.BOTTOM_MARGIN, shape.getRelativeVerticalPosition());
         Assert.assertEquals(RelativeHorizontalPosition.RIGHT_MARGIN, shape.getRelativeHorizontalPosition());
@@ -3723,6 +3834,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        // the icon according to 'progId' and uses the filename for the icon caption.
         builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", "Package", false, getImageDir() + "Logo icon.ico", "My embedded file");
 
         builder.insertBreak(BreakType.LINE_BREAK);
@@ -3730,6 +3843,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         FileStream stream = new FileStream(getMyDir() + "Presentation.pptx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
+            // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+            // the icon according to the file extension and uses the filename for the icon caption.
             Shape shape = builder.insertOleObjectAsIconInternal(stream, "PowerPoint.Application", getImageDir() + "Logo icon.ico",
                 "My embedded file stream");
 

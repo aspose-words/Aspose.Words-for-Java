@@ -17,6 +17,7 @@ import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.Revision;
 import com.aspose.words.RevisionType;
+import com.aspose.words.Node;
 import com.aspose.words.RevisionCollection;
 import com.aspose.ms.System.msConsole;
 import java.util.Iterator;
@@ -98,11 +99,30 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         Assert.assertEquals(1, doc.getRevisions().getCount());
         Assert.assertEquals("This is revision #1.", doc.getText().trim());
 
-        // The insertion-type revision is now at index 0. Reject the revision to discard its contents.
-        doc.getRevisions().get(0).reject();
+        builder.writeln("");
+        builder.write("This is revision #2.");
 
-        Assert.assertEquals(0, doc.getRevisions().getCount());
-        Assert.assertEquals("", doc.getText().trim());
+        // Now move the node to create a moving revision type.
+        Node node = doc.getFirstSection().getBody().getParagraphs().get(1);
+        Node endNode = doc.getFirstSection().getBody().getParagraphs().get(1).getNextSibling();
+        Node referenceNode = doc.getFirstSection().getBody().getParagraphs().get(0);
+
+        while (node != endNode)
+        {
+            Node nextNode = node.getNextSibling();
+            doc.getFirstSection().getBody().insertBefore(node, referenceNode);
+            node = nextNode;
+        }
+
+        Assert.assertEquals(RevisionType.MOVING, doc.getRevisions().get(0).getRevisionType());
+        Assert.assertEquals(8, doc.getRevisions().getCount());
+        Assert.assertEquals("This is revision #2.\rThis is revision #1. \rThis is revision #2.", doc.getText().trim());
+
+        // The moving revision is now at index 1. Reject the revision to discard its contents.
+        doc.getRevisions().get(1).reject();
+
+        Assert.assertEquals(6, doc.getRevisions().getCount());
+        Assert.assertEquals("This is revision #1. \rThis is revision #2.", doc.getText().trim());
         //ExEnd
     }
 

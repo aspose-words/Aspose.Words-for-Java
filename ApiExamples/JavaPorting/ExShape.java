@@ -911,7 +911,7 @@ public class ExShape extends ApiExampleBase
 
         for (Shape shape : shapes)
         {
-            if (((shape.getShapeType()) == (ShapeType.TEXT_BOX)))
+            if (shape.getShapeType() == ShapeType.TEXT_BOX)
             {
                 Shape replacementShape = new Shape(doc, ShapeType.IMAGE);
                 replacementShape.getImageData().setImage(getImageDir() + "Logo.jpg");
@@ -1515,7 +1515,7 @@ public class ExShape extends ApiExampleBase
 
         // Basic shapes, such as the rectangle, have two visible parts.
         // 1 -  The fill, which applies to the area within the outline of the shape:
-        shape.getFill().setColor(Color.WHITE);
+        shape.getFill().setForeColor(Color.WHITE);
 
         // 2 -  The stroke, which marks the outline of the shape:
         // Modify various properties of this shape's stroke.
@@ -1656,7 +1656,7 @@ public class ExShape extends ApiExampleBase
             }
 
 
-            watermark.getFill().setColor(Color.Gainsboro);
+            watermark.getFill().setForeColor(Color.Gainsboro);
             watermark.setStrokeColor(Color.Gainsboro);
 
             watermark.getTextPath().setText(msString.format("{0}", num));
@@ -1782,7 +1782,6 @@ public class ExShape extends ApiExampleBase
     //ExStart
     //ExFor:Shape.Accept(DocumentVisitor)
     //ExFor:Shape.Chart
-    //ExFor:Shape.Clone(Boolean, INodeCloningListener)
     //ExFor:Shape.ExtrusionEnabled
     //ExFor:Shape.Filled
     //ExFor:Shape.HasChart

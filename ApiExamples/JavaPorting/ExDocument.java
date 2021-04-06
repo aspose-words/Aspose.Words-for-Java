@@ -130,7 +130,7 @@ public class ExDocument extends ApiExampleBase
     public void constructor() throws Exception
     {
         //ExStart
-        //ExFor:Document.#ctor(Boolean)
+        //ExFor:Document.#ctor()
         //ExFor:Document.#ctor(String,LoadOptions)
         //ExSummary:Shows how to create and load documents.
         // There are two ways of creating a Document object using Aspose.Words.
@@ -1389,7 +1389,7 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows how to compare documents ignoring DML unique ID.
         Document docA = new Document(getMyDir() + "DML unique ID original.docx");
         Document docB = new Document(getMyDir() + "DML unique ID compare.docx");
- 
+
         // By default, Aspose.Words do not ignore DML's unique ID, and the revisions count was 2.
         // If we are ignoring DML's unique ID, and revisions count were 0.
         CompareOptions compareOptions = new CompareOptions();
@@ -1645,7 +1645,7 @@ public class ExDocument extends ApiExampleBase
     public void imageSaveOptions() throws Exception
     {
         //ExStart
-        //ExFor:Document.Save(Stream, String, Saving.SaveOptions)
+        //ExFor:Document.Save(String, Saving.SaveOptions)
         //ExFor:SaveOptions.UseAntiAliasing
         //ExFor:SaveOptions.UseHighQualityRendering
         //ExSummary:Shows how to improve the quality of a rendered document with SaveOptions.
@@ -2668,7 +2668,7 @@ public class ExDocument extends ApiExampleBase
         Document docB = new Document();
         DocumentBuilder builderB = new DocumentBuilder(docB);
         builderB.writeln("Lorems ipsum dolor sit amet consectetur - \"adipiscing\" elit");
- 
+
         // Specify whether changes are tracking
         // by character ('Granularity.CharLevel'), or by word ('Granularity.WordLevel').
         CompareOptions compareOptions = new CompareOptions();
