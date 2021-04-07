@@ -13,6 +13,7 @@ import com.aspose.words.List;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
 import org.apache.commons.collections4.IterableUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -21,10 +22,7 @@ import org.testng.annotations.Test;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
@@ -228,7 +226,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         // The hyperlink will be a clickable piece of text which will take us to the location specified in the URL.
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setUnderline(Underline.SINGLE);
-        builder.insertHyperlink("Aspose website", "http://www.aspose.com", false);
+        builder.insertHyperlink("Google website", "https://www.google.com", false);
         builder.getFont().clearFormatting();
         builder.writeln(".");
 
@@ -238,13 +236,14 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertHyperlink.docx");
 
-        FieldHyperlink hyperlink = (FieldHyperlink) doc.getRange().getFields().get(0);
+        FieldHyperlink hyperlink = (FieldHyperlink)doc.getRange().getFields().get(0);
+        TestUtil.verifyWebResponseStatusCode(200, new URL(hyperlink.getAddress()));
 
         Run fieldContents = (Run) hyperlink.getStart().getNextSibling();
 
         Assert.assertEquals(Color.BLUE.getRGB(), fieldContents.getFont().getColor().getRGB());
         Assert.assertEquals(Underline.SINGLE, fieldContents.getFont().getUnderline());
-        Assert.assertEquals("HYPERLINK \"http://www.aspose.com\"", fieldContents.getText().trim());
+        Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
     }
 
     @Test
@@ -354,12 +353,18 @@ public class ExDocumentBuilder extends ApiExampleBase {
         // OLE objects are links to files in our local file system that can be opened by other installed applications.
         // Double clicking these shapes will launch the application, and then use it to open the linked object.
         // There are three ways of using the InsertOleObject method to insert these shapes and configure their appearance.
+        // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+        // the icon according to the file extension and uses the filename for the icon caption.
         // 1 -  Image taken from the local file system:
         builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, new FileInputStream(getImageDir() + "Logo.jpg"));
 
+        // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+        // the icon according to 'progId' and uses the filename for the icon caption.
         // 2 -  Icon based on the application that will open the object:
         builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, new FileInputStream(getImageDir() + "Logo.jpg"));
 
+        // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        // the icon according to 'progId' and uses the predefined icon caption.
         // 3 -  Image icon that's 32 x 32 pixels or smaller from the local file system, with a custom caption:
         builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", false, getImageDir() + "Logo icon.ico",
                 "Double click to view presentation!");
@@ -501,7 +506,56 @@ public class ExDocumentBuilder extends ApiExampleBase {
     }
 
     @Test
-    public void createForm() throws Exception {
+    public void createColumnBookmark() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.StartColumnBookmark
+        //ExFor:DocumentBuilder.EndColumnBookmark
+        //ExSummary:Shows how to create a column bookmark.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.startTable();
+
+        builder.insertCell();
+        // Cells 1,2,4,5 will be bookmarked.
+        builder.startColumnBookmark("MyBookmark_1");
+        // Badly formed bookmarks or bookmarks with duplicate names will be ignored when the document is saved.
+        builder.startColumnBookmark("MyBookmark_1");
+        builder.startColumnBookmark("BadStartBookmark");
+        builder.write("Cell 1");
+
+        builder.insertCell();
+        builder.write("Cell 2");
+
+        builder.insertCell();
+        builder.write("Cell 3");
+
+        builder.endRow();
+
+        builder.insertCell();
+        builder.write("Cell 4");
+
+        builder.insertCell();
+        builder.write("Cell 5");
+        builder.endColumnBookmark("MyBookmark_1");
+        builder.endColumnBookmark("MyBookmark_1");
+
+        Assert.assertThrows(IllegalStateException.class, () -> builder.endColumnBookmark("BadEndBookmark")); //ExSkip
+
+        builder.insertCell();
+        builder.write("Cell 6");
+
+        builder.endRow();
+        builder.endTable();
+
+        doc.save(getArtifactsDir() + "Bookmarks.CreateColumnBookmark.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void createForm() throws Exception
+    {
         //ExStart
         //ExFor:TextFormFieldType
         //ExFor:DocumentBuilder.InsertTextInput
@@ -3313,10 +3367,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
         MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
         saveOptions.setTableContentAlignment(tableContentAlignment);
 
-        builder.getDocument().save(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md", saveOptions);
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocumentTableContentAlignment.md", saveOptions);
 
-        Document doc = new Document(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md");
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocumentTableContentAlignment.md");
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         switch (tableContentAlignment) {
             case TableContentAlignment.AUTO:
@@ -3356,6 +3410,54 @@ public class ExDocumentBuilder extends ApiExampleBase {
                         {TableContentAlignment.AUTO},
                 };
     }
+
+    //ExStart
+    //ExFor:MarkdownSaveOptions.ImageSavingCallback
+    //ExFor:IImageSavingCallback
+    //ExSummary:Shows how to rename the image name during saving into Markdown document.
+    @Test //ExSkip
+    public void renameImages() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        MarkdownSaveOptions options = new MarkdownSaveOptions();
+
+        // If we convert a document that contains images into Markdown, we will end up with one Markdown file which links to several images.
+        // Each image will be in the form of a file in the local file system.
+        // There is also a callback that can customize the name and file system location of each image.
+        options.setImageSavingCallback(new SavedImageRename("DocumentBuilder.HandleDocument.md"));
+
+        // The ImageSaving() method of our callback will be run at this time.
+        doc.save(getArtifactsDir() + "DocumentBuilder.HandleDocument.md", options);
+
+        Assert.assertEquals(1, DocumentHelper.directoryGetFiles(getArtifactsDir(),"*.*").stream().filter(f -> f.endsWith(".jpeg")).count());
+        Assert.assertEquals(8, DocumentHelper.directoryGetFiles(getArtifactsDir(),"*.*").stream().filter(f -> f.endsWith(".png")).count());
+    }
+
+    /// <summary>
+    /// Renames saved images that are produced when an Markdown document is saved.
+    /// </summary>
+    public static class SavedImageRename implements IImageSavingCallback
+    {
+        public SavedImageRename(String outFileName)
+        {
+            mOutFileName = outFileName;
+        }
+
+        public void imageSaving(ImageSavingArgs args) throws Exception {
+            String imageFileName = MessageFormat.format("{0} shape {1}, of type {2}.{3}", mOutFileName, ++mCount, args.getCurrentShape().getShapeType(), FilenameUtils.getExtension(args.getImageFileName()));
+
+            args.setImageFileName(imageFileName);
+            args.setImageStream(new FileOutputStream(getArtifactsDir() + imageFileName));
+
+            Assert.assertTrue(args.isImageAvailable());
+            Assert.assertFalse(args.getKeepImageStreamOpen());
+        }
+
+        private int mCount;
+        private String mOutFileName;
+    }
+    //ExEnd
 
     @Test
     public void insertOnlineVideo() throws Exception {
@@ -3467,11 +3569,15 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        // the icon according to 'progId' and uses the filename for the icon caption.
         builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", "Package", false, getImageDir() + "Logo icon.ico", "My embedded file");
 
         builder.insertBreak(BreakType.LINE_BREAK);
 
         try (FileInputStream stream = new FileInputStream(getMyDir() + "Presentation.pptx")) {
+            // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+            // the icon according to the file extension and uses the filename for the icon caption.
             Shape shape = builder.insertOleObjectAsIcon(stream, "PowerPoint.Application", getImageDir() + "Logo icon.ico",
                     "My embedded file stream");
 

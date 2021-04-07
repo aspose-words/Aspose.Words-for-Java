@@ -1083,7 +1083,6 @@ public class ExField extends ApiExampleBase {
         //ExFor:FieldCollection.Clear
         //ExFor:FieldCollection.Item(Int32)
         //ExFor:FieldCollection.Remove(Field)
-        //ExFor:FieldCollection.Remove(FieldStart)
         //ExFor:FieldCollection.RemoveAt(Int32)
         //ExFor:Field.Remove
         //ExSummary:Shows how to remove fields from a field collection.

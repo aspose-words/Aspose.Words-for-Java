@@ -834,7 +834,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test(dataProvider = "escapeUriDataProvider")
-    public void escapeUri(String uri, String result, boolean isEscaped) throws Exception {
+    public void escapeUri(String uri, String result) throws Exception {
         //ExStart
         //ExFor:PdfSaveOptions.EscapeUri
         //ExSummary:Shows how to escape hyperlinks in the document.
@@ -845,12 +845,6 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions options = new PdfSaveOptions();
-
-        // Set the "EscapeUri" property to "true" if links in the document contain characters,
-        // such as the blank space, that we need to replace with escape sequences, such as "%20".
-        // Set the "EscapeUri" property to "false" if we are sure that this document's links
-        // do not need any such escape character substitution.
-        options.setEscapeUri(isEscaped);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf", options);
         //ExEnd
@@ -871,10 +865,8 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public static Object[][] escapeUriDataProvider() {
         return new Object[][]
                 {
-                        {"https://www.google.com/search?q= aspose", "https://www.google.com/search?q=%20aspose", true},
-                        {"https://www.google.com/search?q=%20aspose", "https://www.google.com/search?q=%20aspose", true},
-                        {"https://www.google.com/search?q= aspose", "https://www.google.com/search?q= aspose", false},
-                        {"https://www.google.com/search?q=%20aspose", "https://www.google.com/search?q=%20aspose", false},
+                        {"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q=%20aspose"},
+                        {"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose"},
                 };
     }
 

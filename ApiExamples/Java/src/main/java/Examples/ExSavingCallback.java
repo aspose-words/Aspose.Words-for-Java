@@ -66,7 +66,9 @@ public class ExSavingCallback extends ApiExampleBase {
             args.setPageFileName(outFileName);
 
             // 2 -  Create a custom stream for the output page file:
-            args.setPageStream(new FileOutputStream(outFileName));
+            try (FileOutputStream outputStream = new FileOutputStream(outFileName)) {
+                args.setPageStream(outputStream);
+            }
 
             Assert.assertFalse(args.getKeepPageStreamOpen());
         }
@@ -152,7 +154,9 @@ public class ExSavingCallback extends ApiExampleBase {
             args.setDocumentPartFileName(partFileName);
 
             // 2 -  Create a custom stream for the output part file:
-            args.setDocumentPartStream(new FileOutputStream(getArtifactsDir() + partFileName));
+            try (FileOutputStream outputStream = new FileOutputStream(getArtifactsDir() + partFileName)) {
+                args.setDocumentPartStream(outputStream);
+            }
 
             Assert.assertNotNull(args.getDocumentPartStream());
             Assert.assertFalse(args.getKeepDocumentPartStreamOpen());

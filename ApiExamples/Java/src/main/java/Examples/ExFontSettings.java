@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -83,36 +84,36 @@ public class ExFontSettings extends ApiExampleBase {
 
     @Test
     public void updatePageLayoutWarnings() throws Exception {
-        // Store the font sources currently used so we can restore them later
+        // Store the font sources currently used so we can restore them later.
         FontSourceBase[] originalFontSources = FontSettings.getDefaultInstance().getFontsSources();
 
-        // Load the document to render
+        // Load the document to render.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class
+        // Create a new class implementing IWarningCallback and assign it to the PdfSaveOptions class.
         HandleDocumentWarnings callback = new HandleDocumentWarnings();
         doc.setWarningCallback(callback);
 
-        // We can choose the default font to use in the case of any missing fonts
+        // We can choose the default font to use in the case of any missing fonts.
         FontSettings.getDefaultInstance().getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
 
         // For testing we will set Aspose.Words to look for fonts only in a folder which does not exist. Since Aspose.Words won't
         // find any fonts in the specified directory, then during rendering the fonts in the document will be substituted with the default 
-        // font specified under FontSettings.DefaultFontName. We can pick up on this substitution using our callback
+        // font specified under FontSettings.DefaultFontName. We can pick up on this substitution using our callback.
         FontSettings.getDefaultInstance().setFontsFolder("", false);
 
         // When you call UpdatePageLayout the document is rendered in memory. Any warnings that occurred during rendering
-        // are stored until the document save and then sent to the appropriate WarningCallback
+        // are stored until the document save and then sent to the appropriate WarningCallback.
         doc.updatePageLayout();
 
-        // Even though the document was rendered previously, any save warnings are notified to the user during document save
+        // Even though the document was rendered previously, any save warnings are notified to the user during document save.
         doc.save(getArtifactsDir() + "FontSettings.UpdatePageLayoutWarnings.pdf");
 
         Assert.assertTrue(callback.FontWarnings.getCount() > 0);
         Assert.assertTrue(callback.FontWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
         Assert.assertTrue(callback.FontWarnings.get(0).getDescription().contains("has not been found"));
 
-        // Restore default fonts
+        // Restore default fonts.
         FontSettings.getDefaultInstance().setFontsSources(originalFontSources);
     }
 
@@ -123,14 +124,14 @@ public class ExFontSettings extends ApiExampleBase {
         /// load and/or document save.
         /// </summary>
         public void warning(WarningInfo info) {
-            // We are only interested in fonts being substituted
+            // We are only interested in fonts being substituted.
             if (info.getWarningType() == WarningType.FONT_SUBSTITUTION) {
                 System.out.println("Font substitution: " + info.getDescription());
-                FontWarnings.warning(info); //ExSkip
+                FontWarnings.warning(info);
             }
         }
 
-        public WarningInfoCollection FontWarnings = new WarningInfoCollection(); //ExSkip
+        public WarningInfoCollection FontWarnings = new WarningInfoCollection();
     }
 
     //ExStart
@@ -175,6 +176,40 @@ public class ExFontSettings extends ApiExampleBase {
         public void warning(WarningInfo info) {
             if (info.getWarningType() == WarningType.FONT_SUBSTITUTION)
                 FontSubstitutionWarnings.warning(info);
+        }
+
+        public WarningInfoCollection FontSubstitutionWarnings = new WarningInfoCollection();
+    }
+    //ExEnd
+
+    //ExStart
+    //ExFor:FontSourceBase.WarningCallback
+    //ExSummary:Shows how to call warning callback when the font sources working with.
+    @Test
+    public void fontSourceWarning()
+    {
+        FontSettings settings = new FontSettings();
+        settings.setFontsFolder("bad folder?", false);
+
+        FontSourceBase source = settings.getFontsSources()[0];
+        FontSourceWarningCollector callback = new FontSourceWarningCollector();
+        source.setWarningCallback(callback);
+
+        // Get the list of fonts to call warning callback.
+        ArrayList<PhysicalFontInfo> fontInfos = source.getAvailableFonts();
+
+        Assert.assertEquals("Error loading font from the folder \"bad folder?\": Illegal characters in path.",
+            callback.FontSubstitutionWarnings.get(0).getDescription());
+    }
+
+    private static class FontSourceWarningCollector implements IWarningCallback
+    {
+        /// <summary>
+        /// Called every time a warning occurs during processing of font source.
+        /// </summary>
+        public void warning(WarningInfo info)
+        {
+            FontSubstitutionWarnings.warning(info);
         }
 
         public WarningInfoCollection FontSubstitutionWarnings = new WarningInfoCollection();

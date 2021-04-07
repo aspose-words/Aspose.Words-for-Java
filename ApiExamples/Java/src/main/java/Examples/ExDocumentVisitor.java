@@ -1002,7 +1002,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         doc.accept(visitor);
 
         System.out.println(visitor.getText());
-        testSmartTagToText(visitor); //ExEnd
+        testSmartTagToText(visitor); //ExSkip
     }
 
     /// <summary>

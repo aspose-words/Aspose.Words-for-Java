@@ -1389,7 +1389,7 @@ public class ExShape extends ApiExampleBase {
 
         // Basic shapes, such as the rectangle, have two visible parts.
         // 1 -  The fill, which applies to the area within the outline of the shape:
-        shape.getFill().setColor(Color.WHITE);
+        shape.getFill().setForeColor(Color.WHITE);
 
         // 2 -  The stroke, which marks the outline of the shape:
         // Modify various properties of this shape's stroke.
@@ -1525,7 +1525,7 @@ public class ExShape extends ApiExampleBase {
                 watermark.setRotation(-40);
             }
 
-            watermark.getFill().setColor(new Color(220, 220, 220));
+            watermark.getFill().setForeColor(new Color(220, 220, 220));
             watermark.setStrokeColor(new Color(220, 220, 220));
 
             watermark.getTextPath().setText(MessageFormat.format("{0}", num));
@@ -1653,7 +1653,6 @@ public class ExShape extends ApiExampleBase {
     //ExStart
     //ExFor:Shape.Accept(DocumentVisitor)
     //ExFor:Shape.Chart
-    //ExFor:Shape.Clone(Boolean, INodeCloningListener)
     //ExFor:Shape.ExtrusionEnabled
     //ExFor:Shape.Filled
     //ExFor:Shape.HasChart

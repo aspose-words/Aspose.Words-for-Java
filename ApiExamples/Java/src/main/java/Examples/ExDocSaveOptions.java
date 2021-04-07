@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.Date;
 
 @Test
 public class ExDocSaveOptions extends ApiExampleBase {
@@ -106,6 +107,10 @@ public class ExDocSaveOptions extends ApiExampleBase {
         //ExSummary:Shows how to update a document's "Last printed" property when saving.
         Document doc = new Document();
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2019, 11, 20);
+        doc.getBuiltInDocumentProperties().setLastPrinted(calendar.getTime());
+
         // This flag determines whether the last printed date, which is a built-in property, is updated.
         // If so, then the date of the document's most recent save operation
         // with this SaveOptions object passed as a parameter is used as the print date.
@@ -115,16 +120,42 @@ public class ExDocSaveOptions extends ApiExampleBase {
         // In Microsoft Word 2003, this property can be found via File -> Properties -> Statistics -> Printed.
         // It can also be displayed in the document's body by using a PRINTDATE field.
         doc.save(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.doc", saveOptions);
-
-        // Open the saved document, then verify the value of the property.
-        doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.doc");
-
-        Assert.assertNotEquals(Calendar.getInstance().getTime(), doc.getBuiltInDocumentProperties().getLastPrinted());
         //ExEnd
     }
 
     @DataProvider(name = "updateLastPrintedPropertyDataProvider")
-    public static Object[][] updateLastPrintedPropertyDataProvider() {
+	public static Object[][] updateLastPrintedPropertyDataProvider() {
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test (dataProvider = "updateCreatedTimePropertyDataProvider")
+    public void updateCreatedTimeProperty(boolean isUpdateCreatedTimeProperty) throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.UpdateLastPrintedProperty
+        //ExSummary:Shows how to update a document's "CreatedTime" property when saving.
+        Document doc = new Document();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2019, 11, 20);
+        doc.getBuiltInDocumentProperties().setCreatedTime(calendar.getTime());
+
+        // This flag determines whether the created time, which is a built-in property, is updated.
+        // If so, then the date of the document's most recent save operation
+        // with this SaveOptions object passed as a parameter is used as the created time.
+        DocSaveOptions saveOptions = new DocSaveOptions();
+        saveOptions.setUpdateCreatedTimeProperty(isUpdateCreatedTimeProperty);
+
+        doc.save(getArtifactsDir() + "DocSaveOptions.UpdateCreatedTimeProperty.docx", saveOptions);
+        //ExEnd
+    }
+
+	@DataProvider(name = "updateCreatedTimePropertyDataProvider")
+	public static Object[][] updateCreatedTimePropertyDataProvider() {
         return new Object[][]
                 {
                         {true},

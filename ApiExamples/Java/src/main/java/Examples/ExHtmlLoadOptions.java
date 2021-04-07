@@ -8,6 +8,7 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.pdf.TextAbsorber;
 import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -173,4 +174,37 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
         FormField formField = (FormField) nodes.get(0);
         Assert.assertEquals(formField.getResult(), "Input value text");
     }
+
+    @Test (dataProvider = "ignoreNoscriptElementsDataProvider")
+    public void ignoreNoscriptElements(boolean ignoreNoscriptElements) throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlLoadOptions.IgnoreNoscriptElements
+        //ExSummary:Shows how to ignore <noscript> HTML elements.
+        final String html = "\r\n<html>\r\n<head>\r\n<title>NOSCRIPT</title>\r\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n<script type=\"text/javascript\">\r\nalert(\"Hello, world!\");\r\n</script>\r\n</head>\r\n<body>\r\n<noscript><p>Your browser does not support JavaScript!</p></noscript>\r\n</body>\r\n</html>";
+
+        HtmlLoadOptions htmlLoadOptions = new HtmlLoadOptions();
+        htmlLoadOptions.setIgnoreNoscriptElements(ignoreNoscriptElements);
+
+        Document doc = new Document(new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8)), htmlLoadOptions);
+        doc.save(getArtifactsDir() + "HtmlLoadOptions.IgnoreNoscriptElements.pdf");
+        //ExEnd
+
+        com.aspose.pdf.Document pdfDoc = new com.aspose.pdf.Document(getArtifactsDir() + "HtmlLoadOptions.IgnoreNoscriptElements.pdf");
+        TextAbsorber textAbsorber = new TextAbsorber();
+        textAbsorber.visit(pdfDoc);
+
+        Assert.assertEquals(ignoreNoscriptElements ? "" : "Your browser does not support JavaScript!", textAbsorber.getText());
+
+        pdfDoc.close();
+    }
+
+	@DataProvider(name = "ignoreNoscriptElementsDataProvider")
+	public static Object[][] ignoreNoscriptElementsDataProvider() {
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
 }

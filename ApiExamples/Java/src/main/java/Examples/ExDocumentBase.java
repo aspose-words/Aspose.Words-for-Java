@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 @Test
 public class ExDocumentBase extends ApiExampleBase {
@@ -252,5 +253,7 @@ public class ExDocumentBase extends ApiExampleBase {
             Assert.assertTrue(shape.hasImage());
             Assert.assertNotEquals(shape.getImageData().getImageBytes(), new byte[0]);
         }
+
+        TestUtil.verifyWebResponseStatusCode(200, new URL("http://www.google.com/images/logos/ps_logo2.png"));
     }
 }

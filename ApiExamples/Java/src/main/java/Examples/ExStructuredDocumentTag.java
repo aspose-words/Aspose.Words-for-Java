@@ -969,4 +969,25 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         System.out.println("\t|NodeType: {rangeEndTag.NodeType}");
         //ExEnd
     }
+
+    @Test
+    public void sdtChildNodes() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTagRangeStart.ChildNodes
+        //ExFor:StructuredDocumentTagRangeStart.GetChildNodes(NodeType, bool)
+        //ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
+        Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
+        StructuredDocumentTagRangeStart tag = (StructuredDocumentTagRangeStart) doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true).get(0);
+
+        System.out.println("StructuredDocumentTagRangeStart values:");
+        System.out.println("\t|Child nodes count: {tag.ChildNodes.Count}\n");
+
+        for (Node node : (Iterable<Node>) tag.getChildNodes())
+            System.out.println(MessageFormat.format("\t|Child node type: {0}", node.getNodeType()));
+
+        for (Node node : (Iterable<Node>) tag.getChildNodes(NodeType.RUN, true))
+            System.out.println(MessageFormat.format("\t|Child node text: {0}", node.getText()));
+        //ExEnd
+    }
 }

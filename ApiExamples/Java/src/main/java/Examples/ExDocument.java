@@ -35,7 +35,7 @@ public class ExDocument extends ApiExampleBase {
     @Test
     public void constructor() throws Exception {
         //ExStart
-        //ExFor:Document.#ctor(Boolean)
+        //ExFor:Document.#ctor()
         //ExFor:Document.#ctor(String,LoadOptions)
         //ExSummary:Shows how to create and load documents.
         // There are two ways of creating a Document object using Aspose.Words.
@@ -1429,7 +1429,7 @@ public class ExDocument extends ApiExampleBase {
     @Test(enabled = false, description = "WORDSNET-20342")
     public void imageSaveOptions() throws Exception {
         //ExStart
-        //ExFor:Document.Save(Stream, String, Saving.SaveOptions)
+        //ExFor:Document.Save(String, Saving.SaveOptions)
         //ExFor:SaveOptions.UseAntiAliasing
         //ExFor:SaveOptions.UseHighQualityRendering
         //ExSummary:Shows how to improve the quality of a rendered document with SaveOptions.
