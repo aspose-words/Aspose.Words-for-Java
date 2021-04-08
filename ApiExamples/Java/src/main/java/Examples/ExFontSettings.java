@@ -198,7 +198,7 @@ public class ExFontSettings extends ApiExampleBase {
         // Get the list of fonts to call warning callback.
         ArrayList<PhysicalFontInfo> fontInfos = source.getAvailableFonts();
 
-        Assert.assertEquals("Error loading font from the folder \"bad folder?\": Illegal characters in path.",
+        Assert.assertEquals("Error loading font from the folder \"bad folder?\": ",
             callback.FontSubstitutionWarnings.get(0).getDescription());
     }
 
@@ -1099,7 +1099,7 @@ public class ExFontSettings extends ApiExampleBase {
     /// <summary>
     /// Load the font data only when required instead of storing it in the memory for the entire lifetime of the "FontSettings" object.
     /// </summary>
-    private static class StreamFontSourceFile extends StreamFontSource {
+    private static class StreamFontSourceFile extends StreamFontSource  {
         public FileInputStream openFontDataStream() throws Exception {
             return new FileInputStream(getFontsDir() + "Kreon-Regular.ttf");
         }

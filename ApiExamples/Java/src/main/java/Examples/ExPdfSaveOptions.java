@@ -836,7 +836,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     @Test(dataProvider = "escapeUriDataProvider")
     public void escapeUri(String uri, String result) throws Exception {
         //ExStart
-        //ExFor:PdfSaveOptions.EscapeUri
+        //ExFor:PdfSaveOptions
         //ExSummary:Shows how to escape hyperlinks in the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
