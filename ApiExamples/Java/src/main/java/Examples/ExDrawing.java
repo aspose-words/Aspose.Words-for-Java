@@ -385,7 +385,7 @@ public class ExDrawing extends ApiExampleBase {
             mBuilder.append("\t\tWidth: " + shape.getWidth() + "\r\n");
             mBuilder.append("\t\tHeight: " + shape.getHeight() + "\r\n");
             mBuilder.append("\t\tStroke color: " + shape.getStroke().getColor() + "\r\n");
-            mBuilder.append("\t\tFill color: " + shape.getFill().getColor() + "\r\n");
+            mBuilder.append("\t\tFill color: " + shape.getFill().getForeColor() + "\r\n");
             return VisitorAction.CONTINUE;
         }
 
