@@ -9,20 +9,18 @@ public class DocumentBuilderMoveToDocumentStartEnd {
     public static void main(String[] args) throws Exception {
 
         //ExStart:DocumentBuilderMoveToDocumentStartEnd
-        // The path to the documents directory.
         String dataDir = Utils.getDataDir(DocumentBuilderMoveToDocumentStartEnd.class);
 
-        // Open the document.
-        Document doc = new Document();
+        Document doc = new Document(dataDir + "Document.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.moveToDocumentEnd();
-        builder.write("\n\nThis is the end of the document.");
-
-        builder.insertParagraph();
+        // Move the cursor position to the beginning of your document.
         builder.moveToDocumentStart();
-        builder.write("\nThis is the beginning of the document.");
-        doc.save(dataDir + "output.doc");
+        builder.writeln("This is the beginning of the document.");
+
+        // Move the cursor position to the end of your document.
+        builder.moveToDocumentEnd();
+        builder.writeln("This is the end of the document.");
         //ExEnd:DocumentBuilderMoveToDocumentStartEnd
 
     }

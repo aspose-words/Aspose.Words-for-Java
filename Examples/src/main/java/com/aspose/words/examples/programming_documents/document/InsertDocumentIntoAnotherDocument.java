@@ -46,7 +46,7 @@ public class InsertDocumentIntoAnotherDocument {
         // that should be inserted to this field.
         mainDoc.getMailMerge().execute(new String[]{"Document_1"}, new String[]{dataDir + "InsertDocument2.doc"});
 
-        mainDoc.save(dataDir + "InsertDocumentAtMailMerge_out.doc");
+        mainDoc.save(dataDir + "InsertDocument.InsertAtMailMerge.docx");
         //ExEnd:insertDocumentAtMailMerge
     }
 
@@ -54,12 +54,13 @@ public class InsertDocumentIntoAnotherDocument {
         //ExStart: insertDocumentAtReplace
         Document mainDoc = new Document(dataDir + "InsertDocument1.doc");
 
-        FindReplaceOptions opts = new FindReplaceOptions();
-        opts.setDirection(FindReplaceDirection.BACKWARD);
-        opts.setReplacingCallback(new InsertDocumentAtReplaceHandler());
+        // Set find and replace options.
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setDirection(FindReplaceDirection.BACKWARD);
+        options.setReplacingCallback(new InsertDocumentAtReplaceHandler());
 
-        mainDoc.getRange().replace(Pattern.compile("\\[MY_DOCUMENT\\]"), "", opts);
-        mainDoc.save(dataDir + "InsertDocumentAtReplace_out.doc");
+        mainDoc.getRange().replace(Pattern.compile("\\[MY_DOCUMENT\\]"), "", options);
+        mainDoc.save(dataDir + "InsertDocument.InsertDocumentAtReplace.docx");
         //ExEnd: insertDocumentAtReplace
     }
 
@@ -153,46 +154,50 @@ public class InsertDocumentIntoAnotherDocument {
 //ExEnd:InsertDocumentAtMailMergeBlobHandler
 
 //ExStart:insertDocument
-
     /**
      * Inserts content of the external document after the specified node.
      * Section breaks and section formatting of the inserted document are
      * ignored.
      *
-     * @param insertAfterNode Node in the destination document after which the content
+     * @param insertionDestination Node in the destination document after which the content
      *                        should be inserted. This node should be a block level node
      *                        (paragraph or table).
-     * @param srcDoc          The document to insert.
+     * @param docToInsert     The document to insert.
      */
-    public static void insertDocument(Node insertAfterNode, Document srcDoc) throws Exception {
+    public static void insertDocument(Node insertionDestination, Document docToInsert)
+    {
         // Make sure that the node is either a paragraph or table.
-        if ((insertAfterNode.getNodeType() != NodeType.PARAGRAPH) & (insertAfterNode.getNodeType() != NodeType.TABLE))
-            throw new IllegalArgumentException("The destination node should be either a paragraph or table.");
+        if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE)))
+        {
+            // We will be inserting into the parent of the destination paragraph.
+            CompositeNode dstStory = insertionDestination.getParentNode();
 
-        // We will be inserting into the parent of the destination paragraph.
-        CompositeNode dstStory = insertAfterNode.getParentNode();
+            // This object will be translating styles and lists during the import.
+            NodeImporter importer = new NodeImporter(docToInsert, insertionDestination.getDocument(), ImportFormatMode.KEEP_SOURCE_FORMATTING);
 
-        // This object will be translating styles and lists during the import.
-        NodeImporter importer = new NodeImporter(srcDoc, insertAfterNode.getDocument(), ImportFormatMode.KEEP_SOURCE_FORMATTING);
+            // Loop through all block level nodes in the body of the section
+            for (Section srcSection : docToInsert.getSections().toArray())
+                for (Node srcNode : srcSection.getBody())
+                {
+                    // Let's skip the node if it is a last empty paragraph in a section
+                    if (((srcNode.getNodeType()) == (NodeType.PARAGRAPH)))
+                    {
+                        Paragraph para = (Paragraph)srcNode;
+                        if (para.isEndOfSection() && !para.hasChildNodes())
+                            continue;
+                    }
 
-        // Loop through all sections in the source document.
-        for (Section srcSection : srcDoc.getSections()) {
-            // Loop through all block level nodes (paragraphs and tables) in the body of the section.
-            for (Node srcNode : srcSection.getBody()) {
-                // Let's skip the node if it is a last empty paragraph in a section.
-                if (srcNode.getNodeType() == (NodeType.PARAGRAPH)) {
-                    Paragraph para = (Paragraph) srcNode;
-                    if (para.isEndOfSection() && !para.hasChildNodes())
-                        continue;
+                    // This creates a clone of the node, suitable for insertion into the destination document.
+                    Node newNode = importer.importNode(srcNode, true);
+
+                    // Insert new node after the reference node.
+                    dstStory.insertAfter(newNode, insertionDestination);
+                    insertionDestination = newNode;
                 }
-
-                // This creates a clone of the node, suitable for insertion into the destination document.
-                Node newNode = importer.importNode(srcNode, true);
-
-                // Insert new node after the reference node.
-                dstStory.insertAfter(newNode, insertAfterNode);
-                insertAfterNode = newNode;
-            }
+        }
+        else
+        {
+            throw new IllegalArgumentException("The destination node should be either a paragraph or table.");
         }
     }
     //ExEnd:insertDocument
