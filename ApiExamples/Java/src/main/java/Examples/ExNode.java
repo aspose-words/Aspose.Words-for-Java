@@ -100,6 +100,7 @@ public class ExNode extends ApiExampleBase {
     public void childNodesEnumerate() throws Exception {
         //ExStart
         //ExFor:Node
+        //ExFor:Node.CustomNodeId
         //ExFor:NodeType
         //ExFor:CompositeNode
         //ExFor:CompositeNode.GetChild
@@ -117,6 +118,8 @@ public class ExNode extends ApiExampleBase {
         Shape shape = new Shape(doc, ShapeType.RECTANGLE);
         shape.setWidth(200.0);
         shape.setHeight(200.0);
+        // Note that the 'CustomNodeId' is not saved to an output file and exists only during the node lifetime.
+        shape.setCustomNodeId(100);
         shape.setWrapType(WrapType.INLINE);
         paragraph.appendChild(shape);
 
@@ -138,6 +141,7 @@ public class ExNode extends ApiExampleBase {
                     Shape childShape = (Shape) child;
                     System.out.println("Shape:");
                     System.out.println("\t{childShape.ShapeType}, {childShape.Width}x{childShape.Height}");
+                    Assert.assertEquals(100, shape.getCustomNodeId()); //ExSkip
                     break;
             }
         //ExEnd
@@ -351,7 +355,7 @@ public class ExNode extends ApiExampleBase {
 
     @Test
     public void testNodeIsInsideField() throws Exception {
-        //ExStart:
+        //ExStart
         //ExFor:CompositeNode.SelectNodes
         //ExSummary:Shows how to use an XPath expression to test whether a node is inside a field.
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");
@@ -587,15 +591,15 @@ public class ExNode extends ApiExampleBase {
         builder.insertImage(getImageDir() + "Logo.jpg");
 
         // Our document contains three Run nodes.
-        NodeList nodeList = doc.selectNodes("//Run");
+        NodeList runs = doc.selectNodes("//Run");
 
-        Assert.assertEquals(3, nodeList.getCount());
+        Assert.assertEquals(3, runs.getCount());
 
         // Use a double forward slash to select all Run nodes
         // that are indirect descendants of a Table node, which would be the runs inside the two cells we inserted.
-        nodeList = doc.selectNodes("//Table//Run");
+        runs = doc.selectNodes("//Table//Run");
 
-        Assert.assertEquals(2, nodeList.getCount());
+        Assert.assertEquals(2, runs.getCount());
 
         // Single forward slashes specify direct descendant relationships,
         // which we skipped when we used double slashes.
@@ -603,11 +607,11 @@ public class ExNode extends ApiExampleBase {
                 doc.selectNodes("//Table/Row/Cell/Paragraph/Run"));
 
         // Access the shape that contains the image we inserted.
-        nodeList = doc.selectNodes("//Shape");
+        NodeList shapes = doc.selectNodes("//Shape");
 
-        Assert.assertEquals(1, nodeList.getCount());
+        Assert.assertEquals(1, shapes.getCount());
 
-        Shape shape = (Shape) nodeList.get(0);
+        Shape shape = (Shape) shapes.get(0);
         Assert.assertTrue(shape.hasImage());
         //ExEnd
     }

@@ -17,7 +17,6 @@ import java.awt.Color;
 import com.aspose.words.Underline;
 import com.aspose.words.Run;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.HeaderFooterType;
 import com.aspose.words.BreakType;
 import com.aspose.words.HeaderFooterCollection;
@@ -30,9 +29,8 @@ import com.aspose.words.FieldHyperlink;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.RunCollection;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import java.awt.image.BufferedImage;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import com.aspose.words.WrapType;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
@@ -62,6 +60,7 @@ import com.aspose.words.SignatureLineOptions;
 import com.aspose.words.SignatureLine;
 import com.aspose.ms.System.Guid;
 import com.aspose.words.SignOptions;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.DigitalSignatureUtil;
@@ -79,12 +78,14 @@ import com.aspose.words.Shading;
 import com.aspose.words.TextureIndex;
 import com.aspose.words.ImportFormatOptions;
 import com.aspose.words.ImportFormatMode;
+import com.aspose.words.ListTemplate;
+import com.aspose.words.List;
 import com.aspose.words.NodeImporter;
 import com.aspose.words.Field;
 import com.aspose.words.Chart;
 import com.aspose.words.ChartType;
 import com.aspose.words.IFieldResultFormatter;
-import com.aspose.ms.System.Collections.msArrayList;
+import com.aspose.ms.System.msString;
 import com.aspose.words.CalendarType;
 import com.aspose.words.GeneralFormat;
 import com.aspose.ms.System.msConsole;
@@ -100,6 +101,9 @@ import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningSource;
 import com.aspose.words.TableContentAlignment;
 import com.aspose.words.MarkdownSaveOptions;
+import com.aspose.ms.System.IO.Directory;
+import com.aspose.words.IImageSavingCallback;
+import com.aspose.words.ImageSavingArgs;
 import com.aspose.words.OlePackage;
 import org.testng.annotations.DataProvider;
 
@@ -136,7 +140,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = DocumentHelper.saveOpen(builder.getDocument());
         Run firstRun = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
 
-        Assert.assertEquals("Hello world!", msString.trim(firstRun.getText()));
+        Assert.assertEquals("Hello world!", firstRun.getText().trim());
         Assert.assertEquals(16.0d, firstRun.getFont().getSize());
         Assert.assertTrue(firstRun.getFont().getBold());
         Assert.assertEquals("Courier New", firstRun.getFont().getName());
@@ -188,9 +192,9 @@ public class ExDocumentBuilder extends ApiExampleBase
             new Document(getArtifactsDir() + "DocumentBuilder.HeadersAndFooters.docx").getFirstSection().getHeadersFooters();
 
         Assert.assertEquals(3, headersFooters.getCount());
-        Assert.assertEquals("Header for the first page", msString.trim(headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_FIRST).getText()));
-        Assert.assertEquals("Header for even pages", msString.trim(headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_EVEN).getText()));
-        Assert.assertEquals("Header for all other pages", msString.trim(headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText()));
+        Assert.assertEquals("Header for the first page", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_FIRST).getText().trim());
+        Assert.assertEquals("Header for even pages", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_EVEN).getText().trim());
+        Assert.assertEquals("Header for all other pages", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText().trim());
 
     }
 
@@ -226,7 +230,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals("\u0013MERGEFIELD MyMergeField1 \\* MERGEFORMAT\u0014«MyMergeField1»\u0015" +
                         " Text between our merge fields. " +
-                        "\u0013MERGEFIELD MyMergeField2 \\* MERGEFORMAT\u0014«MyMergeField2»\u0015", msString.trim(doc.getText()));
+                        "\u0013MERGEFIELD MyMergeField2 \\* MERGEFORMAT\u0014«MyMergeField2»\u0015", doc.getText().trim());
         Assert.assertEquals(2, doc.getRange().getFields().getCount());
         TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField1 \\* MERGEFORMAT", 
             "«MyMergeField1»", doc.getRange().getFields().get(0));
@@ -309,7 +313,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // The hyperlink will be a clickable piece of text which will take us to the location specified in the URL.
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setUnderline(Underline.SINGLE);
-        builder.insertHyperlink("Aspose website", "http://www.aspose.com", false);
+        builder.insertHyperlink("Google website", "https://www.google.com", false);
         builder.getFont().clearFormatting();
         builder.writeln(".");
 
@@ -326,7 +330,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals(Color.BLUE.getRGB(), fieldContents.getFont().getColor().getRGB());
         Assert.assertEquals(Underline.SINGLE, fieldContents.getFont().getUnderline());
-        Assert.assertEquals("HYPERLINK \"http://www.aspose.com\"", msString.trim(fieldContents.getText()));
+        Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
     }
 
     @Test
@@ -371,16 +375,16 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals(4, runs.getCount());
 
-        Assert.assertEquals("To visit Google, hold Ctrl and click", msString.trim(runs.get(0).getText()));
-        Assert.assertEquals(". We hope you enjoyed the example.", msString.trim(runs.get(3).getText()));
+        Assert.assertEquals("To visit Google, hold Ctrl and click", runs.get(0).getText().trim());
+        Assert.assertEquals(". We hope you enjoyed the example.", runs.get(3).getText().trim());
         Assert.assertEquals(runs.get(0).getFont().getColor(), runs.get(3).getFont().getColor());
         Assert.assertEquals(runs.get(0).getFont().getUnderline(), runs.get(3).getFont().getUnderline());
 
-        Assert.assertEquals("here", msString.trim(runs.get(2).getText()));
+        Assert.assertEquals("here", runs.get(2).getText().trim());
         Assert.assertEquals(Color.BLUE.getRGB(), runs.get(2).getFont().getColor().getRGB());
         Assert.assertEquals(Underline.SINGLE, runs.get(2).getFont().getUnderline());
-        msAssert.areNotEqual(runs.get(0).getFont().getColor(), runs.get(2).getFont().getColor());
-        msAssert.areNotEqual(runs.get(0).getFont().getUnderline(), runs.get(2).getFont().getUnderline());
+        Assert.assertNotEquals(runs.get(0).getFont().getColor(), runs.get(2).getFont().getColor());
+        Assert.assertNotEquals(runs.get(0).getFont().getUnderline(), runs.get(2).getFont().getUnderline());
 
         TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, ((FieldHyperlink)doc.getRange().getFields().get(0)).getAddress());
     }
@@ -400,7 +404,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert the image into the header so that it will be visible on every page.
-        BufferedImage image = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
+        BufferedImage image = ImageIO.read(getImageDir() + "Transparent background logo.png");
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         Shape shape = builder.insertImage(image);
         shape.setWrapType(WrapType.NONE);
@@ -445,13 +449,19 @@ public class ExDocumentBuilder extends ApiExampleBase
         FileStream imageStream = new FileStream(getImageDir() + "Logo.jpg", FileMode.OPEN);
         try /*JAVA: was using*/
         {
+            // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+            // the icon according to the file extension and uses the filename for the icon caption.
             builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", false, false, imageStream); 
         }
         finally { if (imageStream != null) imageStream.close(); }
-        
+
+        // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+        // the icon according to 'progId' and uses the filename for the icon caption.
         // 2 -  Icon based on the application that will open the object:
         builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
 
+        // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        // the icon according to 'progId' and uses the predefined icon caption.
         // 3 -  Image icon that's 32 x 32 pixels or smaller from the local file system, with a custom caption:
         builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", false, getImageDir() + "Logo icon.ico",
             "Double click to view presentation!");
@@ -498,17 +508,17 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Inserting HTML code parses the formatting of each element into equivalent document text formatting.
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
 
-        Assert.assertEquals("Paragraph right", msString.trim(paragraphs.get(0).getText()));
+        Assert.assertEquals("Paragraph right", paragraphs.get(0).getText().trim());
         Assert.assertEquals(ParagraphAlignment.RIGHT, paragraphs.get(0).getParagraphFormat().getAlignment());
 
-        Assert.assertEquals("Implicit paragraph left", msString.trim(paragraphs.get(1).getText()));
+        Assert.assertEquals("Implicit paragraph left", paragraphs.get(1).getText().trim());
         Assert.assertEquals(ParagraphAlignment.LEFT, paragraphs.get(1).getParagraphFormat().getAlignment());
         Assert.assertTrue(paragraphs.get(1).getRuns().get(0).getFont().getBold());
 
-        Assert.assertEquals("Div center", msString.trim(paragraphs.get(2).getText()));
+        Assert.assertEquals("Div center", paragraphs.get(2).getText().trim());
         Assert.assertEquals(ParagraphAlignment.CENTER, paragraphs.get(2).getParagraphFormat().getAlignment());
 
-        Assert.assertEquals("Heading 1 left.", msString.trim(paragraphs.get(3).getText()));
+        Assert.assertEquals("Heading 1 left.", paragraphs.get(3).getText().trim());
         Assert.assertEquals("Heading 1", paragraphs.get(3).getParagraphFormat().getStyle().getName());
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertHtml.docx");
@@ -534,12 +544,12 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // The first paragraph has an alignment specified. When InsertHtml parses the HTML code,
         // the paragraph alignment value found in the HTML code always supersedes the document builder's value.
-        Assert.assertEquals("Paragraph 1.", msString.trim(paragraphs.get(0).getText()));
+        Assert.assertEquals("Paragraph 1.", paragraphs.get(0).getText().trim());
         Assert.assertEquals(ParagraphAlignment.RIGHT, paragraphs.get(0).getParagraphFormat().getAlignment());
 
         // The second paragraph has no alignment specified. It can have its alignment value filled in
         // by the builder's value depending on the flag we passed to the InsertHtml method.
-        Assert.assertEquals("Paragraph 2.", msString.trim(paragraphs.get(1).getText()));
+        Assert.assertEquals("Paragraph 2.", paragraphs.get(1).getText().trim());
         Assert.assertEquals(useBuilderFormatting ? ParagraphAlignment.DISTRIBUTED : ParagraphAlignment.LEFT,
             paragraphs.get(1).getParagraphFormat().getAlignment());
 
@@ -593,7 +603,55 @@ public class ExDocumentBuilder extends ApiExampleBase
         
         Assert.assertEquals(1, doc.getRange().getBookmarks().getCount());
         Assert.assertEquals("MyBookmark", doc.getRange().getBookmarks().get(0).getName());
-        Assert.assertEquals("Hello world!", msString.trim(doc.getRange().getBookmarks().get(0).getText()));
+        Assert.assertEquals("Hello world!", doc.getRange().getBookmarks().get(0).getText().trim());
+        //ExEnd
+    }
+
+    @Test
+    public void createColumnBookmark() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.StartColumnBookmark
+        //ExFor:DocumentBuilder.EndColumnBookmark
+        //ExSummary:Shows how to create a column bookmark.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.startTable();
+
+        builder.insertCell();
+        // Cells 1,2,4,5 will be bookmarked.
+        builder.startColumnBookmark("MyBookmark_1");
+        // Badly formed bookmarks or bookmarks with duplicate names will be ignored when the document is saved.
+        builder.startColumnBookmark("MyBookmark_1");
+        builder.startColumnBookmark("BadStartBookmark");
+        builder.write("Cell 1");
+
+        builder.insertCell();
+        builder.write("Cell 2");
+
+        builder.insertCell();
+        builder.write("Cell 3");
+
+        builder.endRow();
+
+        builder.insertCell();
+        builder.write("Cell 4");
+
+        builder.insertCell();
+        builder.write("Cell 5");
+        builder.endColumnBookmark("MyBookmark_1");
+        builder.endColumnBookmark("MyBookmark_1");
+
+        Assert.Throws(IllegalStateException.class, () => builder.endColumnBookmark("BadEndBookmark")); //ExSkip
+
+        builder.insertCell();
+        builder.write("Cell 6");
+
+        builder.endRow();
+        builder.endTable();
+
+        doc.save(getArtifactsDir() + "Bookmarks.CreateColumnBookmark.docx");
         //ExEnd
     }
 
@@ -730,7 +788,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals(NodeType.BOOKMARK_START, firstParagraphNodes.get(0).getNodeType());
         Assert.assertEquals(NodeType.RUN, firstParagraphNodes.get(1).getNodeType());
-        Assert.assertEquals("Bookmark contents.", msString.trim(firstParagraphNodes.get(1).getText()));
+        Assert.assertEquals("Bookmark contents.", firstParagraphNodes.get(1).getText().trim());
         Assert.assertEquals(NodeType.BOOKMARK_END, firstParagraphNodes.get(2).getNodeType());
 
         // The document builder's cursor is always ahead of the node that we last added with it.
@@ -800,13 +858,13 @@ public class ExDocumentBuilder extends ApiExampleBase
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
 
         Assert.assertTrue(paragraphs.get(0).getRuns().get(0).getFont().getBold());
-        Assert.assertEquals("John Doe", msString.trim(paragraphs.get(0).getRuns().get(0).getText()));
+        Assert.assertEquals("John Doe", paragraphs.get(0).getRuns().get(0).getText().trim());
 
         Assert.assertTrue(paragraphs.get(1).getRuns().get(0).getFont().getItalic());
-        Assert.assertEquals("Jane Doe", msString.trim(paragraphs.get(1).getRuns().get(0).getText()));
+        Assert.assertEquals("Jane Doe", paragraphs.get(1).getRuns().get(0).getText().trim());
 
         Assert.assertTrue(paragraphs.get(2).getRuns().get(0).getFont().getItalic());
-        Assert.assertEquals("John Bloggs", msString.trim(paragraphs.get(2).getRuns().get(0).getText()));
+        Assert.assertEquals("John Bloggs", paragraphs.get(2).getRuns().get(0).getText().trim());
 
     }
 
@@ -959,8 +1017,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertTable.docx");
         Table table = doc.getFirstSection().getBody().getTables().get(0);
 
-        Assert.assertEquals("Row 1, Col 1\u0007", msString.trim(table.getRows().get(0).getCells().get(0).getText()));
-        Assert.assertEquals("Row 1, Col 2\u0007", msString.trim(table.getRows().get(0).getCells().get(1).getText()));
+        Assert.assertEquals("Row 1, Col 1\u0007", table.getRows().get(0).getCells().get(0).getText().trim());
+        Assert.assertEquals("Row 1, Col 2\u0007", table.getRows().get(0).getCells().get(1).getText().trim());
         Assert.assertEquals(HeightRule.EXACTLY, table.getRows().get(0).getRowFormat().getHeightRule());
         Assert.assertEquals(50.0d, table.getRows().get(0).getRowFormat().getHeight());
         Assert.assertEquals(LineStyle.ENGRAVE_3_D, table.getRows().get(0).getRowFormat().getBorders().getLineStyle());
@@ -977,8 +1035,8 @@ public class ExDocumentBuilder extends ApiExampleBase
             Assert.assertEquals(ParagraphAlignment.CENTER, c.getFirstParagraph().getParagraphFormat().getAlignment());
         }
 
-        Assert.assertEquals("Row 2, Col 1\u0007", msString.trim(table.getRows().get(1).getCells().get(0).getText()));
-        Assert.assertEquals("Row 2, Col 2\u0007", msString.trim(table.getRows().get(1).getCells().get(1).getText()));
+        Assert.assertEquals("Row 2, Col 1\u0007", table.getRows().get(1).getCells().get(0).getText().trim());
+        Assert.assertEquals("Row 2, Col 2\u0007", table.getRows().get(1).getCells().get(1).getText().trim());
 
 
         for (Cell c : (Iterable<Cell>) table.getRows().get(1).getCells())
@@ -994,11 +1052,11 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals(150, table.getRows().get(2).getRowFormat().getHeight());
 
-        Assert.assertEquals("Row 3, Col 1\u0007", msString.trim(table.getRows().get(2).getCells().get(0).getText()));
+        Assert.assertEquals("Row 3, Col 1\u0007", table.getRows().get(2).getCells().get(0).getText().trim());
         Assert.assertEquals(TextOrientation.UPWARD, table.getRows().get(2).getCells().get(0).getCellFormat().getOrientation());
         Assert.assertEquals(ParagraphAlignment.CENTER, table.getRows().get(2).getCells().get(0).getFirstParagraph().getParagraphFormat().getAlignment());
 
-        Assert.assertEquals("Row 3, Col 2\u0007", msString.trim(table.getRows().get(2).getCells().get(1).getText()));
+        Assert.assertEquals("Row 3, Col 2\u0007", table.getRows().get(2).getCells().get(1).getText().trim());
         Assert.assertEquals(TextOrientation.DOWNWARD, table.getRows().get(2).getCells().get(1).getCellFormat().getOrientation());
         Assert.assertEquals(ParagraphAlignment.CENTER, table.getRows().get(2).getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
     }
@@ -1064,7 +1122,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             table.getStyleOptions());
         Assert.assertEquals(189, (table.getFirstRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getBlue() & 0xFF));
         Assert.assertEquals(Color.WHITE.getRGB(), table.getFirstRow().getFirstCell().getFirstParagraph().getRuns().get(0).getFont().getColor().getRGB());
-        msAssert.areNotEqual(Color.LightBlue.getRGB(),
+        Assert.assertNotEquals(Color.LightBlue.getRGB(),
             (table.getLastRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getBlue() & 0xFF));
         Assert.assertEquals(msColor.Empty.getRGB(), table.getLastRow().getFirstCell().getFirstParagraph().getRuns().get(0).getFont().getColor().getRGB());
     }
@@ -1184,7 +1242,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getCellFormat().setPreferredWidth(PreferredWidth.AUTO);
 
         // Each configuration of the "PreferredWidth" property creates a new object.
-        msAssert.areNotEqual(table.getFirstRow().getCells().get(1).getCellFormat().getPreferredWidth().hashCode(),
+        Assert.assertNotEquals(table.getFirstRow().getCells().get(1).getCellFormat().getPreferredWidth().hashCode(),
             builder.getCellFormat().getPreferredWidth().hashCode());
 
         builder.getCellFormat().getShading().setBackgroundPatternColor(msColor.getLightGreen());
@@ -1201,15 +1259,15 @@ public class ExDocumentBuilder extends ApiExampleBase
         
         Assert.assertEquals(PreferredWidthType.POINTS, table.getFirstRow().getCells().get(0).getCellFormat().getPreferredWidth().getType());
         Assert.assertEquals(40.0d, table.getFirstRow().getCells().get(0).getCellFormat().getPreferredWidth().getValue());
-        Assert.assertEquals("Cell with a width of 800.\r\u0007", msString.trim(table.getFirstRow().getCells().get(0).getText()));
+        Assert.assertEquals("Cell with a width of 800.\r\u0007", table.getFirstRow().getCells().get(0).getText().trim());
 
         Assert.assertEquals(PreferredWidthType.PERCENT, table.getFirstRow().getCells().get(1).getCellFormat().getPreferredWidth().getType());
         Assert.assertEquals(20.0d, table.getFirstRow().getCells().get(1).getCellFormat().getPreferredWidth().getValue());
-        Assert.assertEquals("Cell with a width of 20%.\r\u0007", msString.trim(table.getFirstRow().getCells().get(1).getText()));
+        Assert.assertEquals("Cell with a width of 20%.\r\u0007", table.getFirstRow().getCells().get(1).getText().trim());
 
         Assert.assertEquals(PreferredWidthType.AUTO, table.getFirstRow().getCells().get(2).getCellFormat().getPreferredWidth().getType());
         Assert.assertEquals(0.0d, table.getFirstRow().getCells().get(2).getCellFormat().getPreferredWidth().getValue());
-        Assert.assertEquals("Automatically sized cell.\r\u0007", msString.trim(table.getFirstRow().getCells().get(2).getText()));
+        Assert.assertEquals("Automatically sized cell.\r\u0007", table.getFirstRow().getCells().get(2).getText().trim());
     }
 
     @Test
@@ -1301,10 +1359,10 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals(4, table.getChildNodes(NodeType.CELL, true).getCount());
 
-        Assert.assertEquals("Row 1, Cell 1.\u0007", msString.trim(table.getRows().get(0).getCells().get(0).getText()));
-        Assert.assertEquals("Row 1, Cell 2.\u0007", msString.trim(table.getRows().get(0).getCells().get(1).getText()));
-        Assert.assertEquals("Row 2, Cell 1.\u0007", msString.trim(table.getRows().get(1).getCells().get(0).getText()));
-        Assert.assertEquals("Row 2, Cell 2.\u0007", msString.trim(table.getRows().get(1).getCells().get(1).getText()));
+        Assert.assertEquals("Row 1, Cell 1.\u0007", table.getRows().get(0).getCells().get(0).getText().trim());
+        Assert.assertEquals("Row 1, Cell 2.\u0007", table.getRows().get(0).getCells().get(1).getText().trim());
+        Assert.assertEquals("Row 2, Cell 1.\u0007", table.getRows().get(1).getCells().get(0).getText().trim());
+        Assert.assertEquals("Row 2, Cell 2.\u0007", table.getRows().get(1).getCells().get(1).getText().trim());
     }
 
     @Test
@@ -1540,7 +1598,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // there will be no nodes in front of it so that the current node will be null.
         Assert.assertNull(builder.getCurrentNode());
 
-        Assert.assertEquals("Hello world!", msString.trim(builder.getCurrentParagraph().getText()));
+        Assert.assertEquals("Hello world!", builder.getCurrentParagraph().getText().trim());
 
         // Move to the beginning of the document and place the cursor at an existing node.
         builder.moveToDocumentStart();          
@@ -1572,13 +1630,13 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Adding a second run will insert it in front of the first run.
         builder.writeln("Run 2. ");
 
-        Assert.assertEquals("Run 2. \rRun 1.", msString.trim(doc.getText()));
+        Assert.assertEquals("Run 2. \rRun 1.", doc.getText().trim());
 
         // Move the cursor to the end of the document to continue appending text to the end as before.
         builder.moveTo(doc.getLastSection().getBody().getLastParagraph());
         builder.writeln("Run 3. ");
 
-        Assert.assertEquals("Run 2. \rRun 1. \rRun 3.", msString.trim(doc.getText()));
+        Assert.assertEquals("Run 2. \rRun 1. \rRun 3.", doc.getText().trim());
         Assert.assertEquals(doc.getFirstSection().getBody().getLastParagraph(), builder.getCurrentParagraph()); //ExSkip
         //ExEnd
     }
@@ -1613,7 +1671,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         doc = DocumentHelper.saveOpen(doc);
 
-        Assert.assertEquals("This is a new third paragraph.", msString.trim(doc.getFirstSection().getBody().getParagraphs().get(2).getText()));
+        Assert.assertEquals("This is a new third paragraph.", doc.getFirstSection().getBody().getParagraphs().get(2).getText().trim());
     }
 
     @Test
@@ -1649,7 +1707,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Table table = doc.getFirstSection().getBody().getTables().get(0);
 
-        Assert.assertEquals("Column 2, cell 2.\u0007", msString.trim(table.getRows().get(1).getCells().get(1).getText()));
+        Assert.assertEquals("Column 2, cell 2.\u0007", table.getRows().get(1).getCells().get(1).getText().trim());
     }
 
     @Test
@@ -1675,28 +1733,28 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.write("1. ");
 
         Assert.assertEquals("Hello world! ", doc.getRange().getBookmarks().get("MyBookmark").getText());
-        Assert.assertEquals("1. Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("1. Hello world!", doc.getText().trim());
 
         // 2 -  Inside the bookmark, right after the BookmarkStart node:
         Assert.assertTrue(builder.moveToBookmark("MyBookmark", true, true));
         builder.write("2. ");
 
         Assert.assertEquals("2. Hello world! ", doc.getRange().getBookmarks().get("MyBookmark").getText());
-        Assert.assertEquals("1. 2. Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("1. 2. Hello world!", doc.getText().trim());
 
         // 2 -  Inside the bookmark, right in front of the BookmarkEnd node:
         Assert.assertTrue(builder.moveToBookmark("MyBookmark", false, false));
         builder.write("3. ");
 
         Assert.assertEquals("2. Hello world! 3. ", doc.getRange().getBookmarks().get("MyBookmark").getText());
-        Assert.assertEquals("1. 2. Hello world! 3.", msString.trim(doc.getText()));
+        Assert.assertEquals("1. 2. Hello world! 3.", doc.getText().trim());
 
         // 4 -  Outside of the bookmark, after the BookmarkEnd node:
         Assert.assertTrue(builder.moveToBookmark("MyBookmark", false, true));
         builder.write("4.");
 
         Assert.assertEquals("2. Hello world! 3. ", doc.getRange().getBookmarks().get("MyBookmark").getText());
-        Assert.assertEquals("1. 2. Hello world! 3. 4.", msString.trim(doc.getText()));
+        Assert.assertEquals("1. 2. Hello world! 3. 4.", doc.getText().trim());
         //ExEnd
     }
 
@@ -1767,15 +1825,15 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(100, table.getRows().get(1).getRowFormat().getHeight());
         Assert.assertEquals(HeightRule.EXACTLY, table.getRows().get(1).getRowFormat().getHeightRule());
 
-        Assert.assertEquals("Row 1, cell 1.\u0007", msString.trim(table.getRows().get(0).getCells().get(0).getText()));
+        Assert.assertEquals("Row 1, cell 1.\u0007", table.getRows().get(0).getCells().get(0).getText().trim());
         Assert.assertEquals(CellVerticalAlignment.CENTER, table.getRows().get(0).getCells().get(0).getCellFormat().getVerticalAlignment());
 
-        Assert.assertEquals("Row 1, cell 2.\u0007", msString.trim(table.getRows().get(0).getCells().get(1).getText()));
+        Assert.assertEquals("Row 1, cell 2.\u0007", table.getRows().get(0).getCells().get(1).getText().trim());
 
-        Assert.assertEquals("Row 2, cell 1.\u0007", msString.trim(table.getRows().get(1).getCells().get(0).getText()));
+        Assert.assertEquals("Row 2, cell 1.\u0007", table.getRows().get(1).getCells().get(0).getText().trim());
         Assert.assertEquals(TextOrientation.UPWARD, table.getRows().get(1).getCells().get(0).getCellFormat().getOrientation());
 
-        Assert.assertEquals("Row 2, cell 2.\u0007", msString.trim(table.getRows().get(1).getCells().get(1).getText()));
+        Assert.assertEquals("Row 2, cell 2.\u0007", table.getRows().get(1).getCells().get(1).getText().trim());
         Assert.assertEquals(TextOrientation.DOWNWARD, table.getRows().get(1).getCells().get(1).getCellFormat().getOrientation());
     }
 
@@ -1973,7 +2031,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             signOptions.setSignatureLineId(signatureLine.getIdInternal());
             signOptions.setProviderId(signatureLine.getProviderIdInternal());
             signOptions.setComments("Document was signed by vderyushev");
-            signOptions.setSignTime(DateTime.getNow());
+            signOptions.setSignTime(new Date());
         }
 
         CertificateHolder certHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
@@ -2321,12 +2379,12 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.deleteRow(0, 0);
 
         Assert.assertEquals(1, table.getRows().getCount());
-        Assert.assertEquals("Row 2, cell 1.\u0007Row 2, cell 2.\u0007\u0007", msString.trim(table.getText()));
+        Assert.assertEquals("Row 2, cell 1.\u0007Row 2, cell 2.\u0007\u0007", table.getText().trim());
         //ExEnd
     }
 
-    @Test
-    public void appendDocumentAndResolveStyles() throws Exception
+    @Test (dataProvider = "appendDocumentAndResolveStylesDataProvider")
+    public void appendDocumentAndResolveStyles(boolean keepSourceNumbering) throws Exception
     {
         //ExStart
         //ExFor:Document.AppendDocument(Document, ImportFormatMode, ImportFormatOptions)
@@ -2340,8 +2398,11 @@ public class ExDocumentBuilder extends ApiExampleBase
         dstDoc.getStyles().get("CustomStyle").getFont().setColor(msColor.getDarkRed());
 
         // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
         ImportFormatOptions options = new ImportFormatOptions();
-        options.setKeepSourceNumbering(true);
+        options.setKeepSourceNumbering(keepSourceNumbering);
 
         // Joining two documents that have different styles that share the same name causes a style clash.
         // We can specify an import format mode while appending documents to resolve this clash.
@@ -2351,6 +2412,98 @@ public class ExDocumentBuilder extends ApiExampleBase
         dstDoc.save(getArtifactsDir() + "DocumentBuilder.AppendDocumentAndResolveStyles.docx");
         //ExEnd
     }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "appendDocumentAndResolveStylesDataProvider")
+	public static Object[][] appendDocumentAndResolveStylesDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "insertDocumentAndResolveStylesDataProvider")
+    public void insertDocumentAndResolveStyles(boolean keepSourceNumbering) throws Exception
+    {
+        //ExStart
+        //ExFor:Document.AppendDocument(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to manage list style clashes while inserting a document.
+        Document dstDoc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(dstDoc);
+        builder.insertBreak(BreakType.PARAGRAPH_BREAK);
+
+        dstDoc.getLists().add(ListTemplate.NUMBER_DEFAULT);
+        List list = dstDoc.getLists().get(0);
+
+        builder.getListFormat().setList(list);
+
+        for (int i = 1; i <= 15; i++)
+            builder.write($"List Item {i}\n");
+
+        Document attachDoc = (Document)dstDoc.deepClone(true);
+
+        // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
+        ImportFormatOptions importOptions = new ImportFormatOptions();
+        importOptions.setKeepSourceNumbering(keepSourceNumbering);
+
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.insertDocument(attachDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, importOptions);
+
+        dstDoc.save(getArtifactsDir() + "DocumentBuilder.InsertDocumentAndResolveStyles.docx");
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "insertDocumentAndResolveStylesDataProvider")
+	public static Object[][] insertDocumentAndResolveStylesDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "loadDocumentWithListNumberingDataProvider")
+    public void loadDocumentWithListNumbering(boolean keepSourceNumbering) throws Exception
+    {
+        //ExStart
+        //ExFor:Document.AppendDocument(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to manage list style clashes while appending a clone of a document to itself.
+        Document srcDoc = new Document(getMyDir() + "List item.docx");
+        Document dstDoc = new Document(getMyDir() + "List item.docx");
+
+        // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
+        DocumentBuilder builder = new DocumentBuilder(dstDoc);
+        builder.moveToDocumentEnd();
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+
+        ImportFormatOptions options = new ImportFormatOptions();
+        options.setKeepSourceNumbering(keepSourceNumbering);
+        builder.insertDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+
+        dstDoc.updateListLabels();
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "loadDocumentWithListNumberingDataProvider")
+	public static Object[][] loadDocumentWithListNumberingDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
 
     @Test (dataProvider = "ignoreTextBoxesDataProvider")
     public void ignoreTextBoxes(boolean ignoreTextBoxes) throws Exception
@@ -2439,7 +2592,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             builder.write(" Text immediately after the field.");
 
             Assert.assertEquals("\u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015 Text immediately after the field.", 
-                msString.trim(doc.getText()));
+                doc.getText().trim());
         }
         else
         {
@@ -2447,7 +2600,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             builder.write("Text immediately before the field. ");
 
             Assert.assertEquals("Text immediately before the field. \u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015", 
-                msString.trim(doc.getText()));
+                doc.getText().trim());
         }
         //ExEnd
     }
@@ -2599,7 +2752,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
 
         Assert.assertEquals("This document was written by \u0013 AUTHOR \u0014John Doe\u0015" +
-                        "\r\rThis is page \u0013 PAGE \u00141\u0015", msString.trim(doc.getText()));
+                        "\r\rThis is page \u0013 PAGE \u00141\u0015", doc.getText().trim());
 
         TestUtil.verifyField(FieldType.FIELD_AUTHOR, " AUTHOR ", "John Doe", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_PAGE, " PAGE ", "1", doc.getRange().getFields().get(1));
@@ -2676,7 +2829,7 @@ public class ExDocumentBuilder extends ApiExampleBase
                 return null;
             
             String newValue = msString.format(mNumberFormat, value);
-            msArrayList.add(getFormatInvocations(), new FormatInvocation(FormatInvocationType.NUMERIC, value, format, newValue));
+            getFormatInvocations().add(new FormatInvocation(FormatInvocationType.NUMERIC, value, format, newValue));
             return newValue;
         }
 
@@ -2686,7 +2839,7 @@ public class ExDocumentBuilder extends ApiExampleBase
                 return null;
 
             String newValue = msString.format(mDateFormat, value);
-            msArrayList.add(getFormatInvocations(), new FormatInvocation(FormatInvocationType.DATE_TIME, $"{value} ({calendarType})", format, newValue));
+            getFormatInvocations().add(new FormatInvocation(FormatInvocationType.DATE_TIME, $"{value} ({calendarType})", format, newValue));
             return newValue;
         }
 
@@ -2706,7 +2859,7 @@ public class ExDocumentBuilder extends ApiExampleBase
                 return null;
 
             String newValue = msString.format(mGeneralFormat, value);
-            msArrayList.add(getFormatInvocations(), new FormatInvocation(FormatInvocationType.GENERAL, value, GeneralFormat.toString(format), newValue));
+            getFormatInvocations().add(new FormatInvocation(FormatInvocationType.GENERAL, value, GeneralFormat.toString(format), newValue));
             return newValue;
         }
 
@@ -2732,7 +2885,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         private /*final*/ String mGeneralFormat; 
         private ArrayList<FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
-        private ArrayList<FormatInvocation> mFormatInvocations; = /*new*/ ArrayList<FormatInvocation>list();
+        private ArrayList<FormatInvocation> mFormatInvocations; = /*new*/ArrayList<FormatInvocation>list();
         
         private static class FormatInvocation
         {
@@ -2819,7 +2972,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertUnderline.docx");
         Run firstRun = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0);
 
-        Assert.assertEquals("Large, blue, and underlined text.", msString.trim(firstRun.getText()));
+        Assert.assertEquals("Large, blue, and underlined text.", firstRun.getText().trim());
         Assert.assertEquals(Underline.DASH, firstRun.getFont().getUnderline());
         Assert.assertEquals(Color.BLUE.getRGB(), firstRun.getFont().getColor().getRGB());
         Assert.assertEquals(32.0d, firstRun.getFont().getSize());
@@ -2854,7 +3007,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         doc = DocumentHelper.saveOpen(doc);
         Assert.assertEquals(1, doc.getFirstSection().getBody().getTables().getCount());
-        Assert.assertEquals("Row 1, cell 1\u0007Row 1, cell 2\u0007\u0007\rText added to current Story.", msString.trim(doc.getFirstSection().getBody().getText()));
+        Assert.assertEquals("Row 1, cell 1\u0007Row 1, cell 2\u0007\u0007\rText added to current Story.", doc.getFirstSection().getBody().getText().trim());
     }
 
     @Test
@@ -2872,6 +3025,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         try /*JAVA: was using*/
         {
             builder.writeln("Spreadsheet Ole object:");
+            // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+            // the icon according to 'progId' and uses the predefined icon caption.
             builder.insertOleObjectInternal(spreadsheetStream, "OleObject.xlsx", false, null);
         }
         finally { if (spreadsheetStream != null) spreadsheetStream.close(); }
@@ -2884,7 +3039,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             WebClient webClient = new WebClient();
             try /*JAVA: was using*/
             {
-                byte[] imgBytes = webClient.DownloadData(getAsposeLogoUrl());
+                byte[] imgBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
 
                 MemoryStream imageStream = new MemoryStream(imgBytes);
                 try /*JAVA: was using*/
@@ -2954,7 +3109,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals(2, doc.getFirstSection().getBody().getParagraphs().getCount());
         Assert.assertEquals("This text is in a Heading style. \r This text is in a custom style.",
-            msString.trim(doc.getText()));
+            doc.getText().trim());
         Assert.assertEquals("Heading 1", doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getStyle().getName());
         Assert.assertEquals("MyParaStyle", doc.getFirstSection().getBody().getParagraphs().get(1).getParagraphFormat().getStyle().getName());
         Assert.assertEquals(" ", doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getText());
@@ -3452,9 +3607,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
         saveOptions.setTableContentAlignment(tableContentAlignment);
 
-        builder.getDocument().save(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md", saveOptions);
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocumentTableContentAlignment.md", saveOptions);
 
-        Document doc = new Document(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md");
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocumentTableContentAlignment.md");
         Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         switch (tableContentAlignment)
@@ -3498,6 +3653,62 @@ public class ExDocumentBuilder extends ApiExampleBase
 			{TableContentAlignment.AUTO},
 		};
 	}
+
+    //ExStart
+    //ExFor:MarkdownSaveOptions.ImageSavingCallback
+    //ExFor:IImageSavingCallback
+    //ExSummary:Shows how to rename the image name during saving into Markdown document.
+    @Test //ExSkip
+    public void renameImages() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        MarkdownSaveOptions options = new MarkdownSaveOptions();
+
+        // If we convert a document that contains images into Markdown, we will end up with one Markdown file which links to several images.
+        // Each image will be in the form of a file in the local file system.
+        // There is also a callback that can customize the name and file system location of each image.
+        options.setImageSavingCallback(new SavedImageRename("DocumentBuilder.HandleDocument.md"));
+
+        // The ImageSaving() method of our callback will be run at this time.
+        doc.save(getArtifactsDir() + "DocumentBuilder.HandleDocument.md", options);
+
+        Assert.AreEqual(1,
+            Directory.getFiles(getArtifactsDir())
+                .Where(s => s.StartsWith(ArtifactsDir + "DocumentBuilder.HandleDocument.md shape"))
+                .Count(f => f.EndsWith(".jpeg")));
+        Assert.AreEqual(8,
+            Directory.getFiles(getArtifactsDir())
+                .Where(s => s.StartsWith(ArtifactsDir + "DocumentBuilder.HandleDocument.md shape"))
+                .Count(f => f.EndsWith(".png")));
+    }
+
+    /// <summary>
+    /// Renames saved images that are produced when an Markdown document is saved.
+    /// </summary>
+    public static class SavedImageRename implements IImageSavingCallback
+    {
+        public SavedImageRename(String outFileName)
+        {
+            mOutFileName = outFileName;
+        }
+
+        public void /*IImageSavingCallback.*/imageSaving(ImageSavingArgs args) throws Exception
+        {
+            String imageFileName = $"{mOutFileName} shape {++mCount}, of type {args.CurrentShape.ShapeType}{Path.GetExtension(args.ImageFileName)}";
+
+            args.setImageFileName(imageFileName);
+            args.ImageStream = new FileStream(getArtifactsDir() + imageFileName, FileMode.CREATE);
+
+            Assert.True(args.ImageStream.CanWrite);
+            Assert.assertTrue(args.isImageAvailable());
+            Assert.assertFalse(args.getKeepImageStreamOpen());
+        }
+
+        private int mCount;
+        private /*final*/ String mOutFileName;
+    }
+    //ExEnd
 
     @Test
     public void insertOnlineVideo() throws Exception
@@ -3548,50 +3759,46 @@ public class ExDocumentBuilder extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         String videoUrl = "https://vimeo.com/52477838";
-        String videoEmbedCode = "<iframe src=\"https://player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " +
-                                "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+        String videoEmbedCode =
+            "<iframe src=\"https://player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " +
+            "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
 
-        WebClient webClient = new WebClient();
+        byte[] thumbnailImageBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
+
+        MemoryStream stream = new MemoryStream(thumbnailImageBytes);
         try /*JAVA: was using*/
         {
-            byte[] thumbnailImageBytes = webClient.DownloadData(getAsposeLogoUrl());
-
-            MemoryStream stream = new MemoryStream(thumbnailImageBytes);
+            BufferedImage image = ImageIO.read(stream);
             try /*JAVA: was using*/
             {
-                BufferedImage image = BufferedImage.FromStream(stream);
-                try /*JAVA: was using*/
-                {
-                    // Below are two ways of creating a shape with a custom thumbnail, which links to an online video
-                    // that will play when we click on the shape in Microsoft Word.
-                    // 1 -  Insert an inline shape at the builder's node insertion cursor:
-                    builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes, image.getWidth(), image.getHeight());
+                // Below are two ways of creating a shape with a custom thumbnail, which links to an online video
+                // that will play when we click on the shape in Microsoft Word.
+                // 1 -  Insert an inline shape at the builder's node insertion cursor:
+                builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes, image.getWidth(), image.getHeight());
 
-                    builder.insertBreak(BreakType.PAGE_BREAK);
+                builder.insertBreak(BreakType.PAGE_BREAK);
 
-                    // 2 -  Insert a floating shape:
-                    double left = builder.getPageSetup().getRightMargin() - image.getWidth();
-                    double top = builder.getPageSetup().getBottomMargin() - image.getHeight();
+                // 2 -  Insert a floating shape:
+                double left = builder.getPageSetup().getRightMargin() - image.getWidth();
+                double top = builder.getPageSetup().getBottomMargin() - image.getHeight();
 
-                    builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes,
-                        RelativeHorizontalPosition.RIGHT_MARGIN, left, RelativeVerticalPosition.BOTTOM_MARGIN, top,
-                        image.getWidth(), image.getHeight(), WrapType.SQUARE);
-                }
-                finally { if (image != null) image.flush(); }
+                builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes,
+                    RelativeHorizontalPosition.RIGHT_MARGIN, left, RelativeVerticalPosition.BOTTOM_MARGIN, top,
+                    image.getWidth(), image.getHeight(), WrapType.SQUARE);
             }
-            finally { if (stream != null) stream.close(); }
+            finally { if (image != null) image.flush(); }
         }
-        finally { if (webClient != null) webClient.close(); }
+        finally { if (stream != null) stream.close(); }
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideoCustomThumbnail.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideoCustomThumbnail.docx");
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-        
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, shape);
-        Assert.assertEquals(320.0d, shape.getWidth());
-        Assert.assertEquals(320.0d, shape.getHeight());
+        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
+        Assert.assertEquals(400.0d, shape.getWidth());
+        Assert.assertEquals(400.0d, shape.getHeight());
         Assert.assertEquals(0.0d, shape.getLeft());
         Assert.assertEquals(0.0d, shape.getTop());
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
@@ -3599,14 +3806,14 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(RelativeHorizontalPosition.COLUMN, shape.getRelativeHorizontalPosition());
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
-        
-        shape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, shape);
-        Assert.assertEquals(320.0d, shape.getWidth());
-        Assert.assertEquals(320.0d, shape.getHeight());
-        Assert.assertEquals(-249.15d, shape.getLeft());
-        Assert.assertEquals(-249.15d, shape.getTop());
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
+
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
+        Assert.assertEquals(400.0d, shape.getWidth());
+        Assert.assertEquals(400.0d, shape.getHeight());
+        Assert.assertEquals(-329.15d, shape.getLeft());
+        Assert.assertEquals(-329.15d, shape.getTop());
         Assert.assertEquals(WrapType.SQUARE, shape.getWrapType());
         Assert.assertEquals(RelativeVerticalPosition.BOTTOM_MARGIN, shape.getRelativeVerticalPosition());
         Assert.assertEquals(RelativeHorizontalPosition.RIGHT_MARGIN, shape.getRelativeHorizontalPosition());
@@ -3627,6 +3834,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        // the icon according to 'progId' and uses the filename for the icon caption.
         builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", "Package", false, getImageDir() + "Logo icon.ico", "My embedded file");
 
         builder.insertBreak(BreakType.LINE_BREAK);
@@ -3634,6 +3843,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         FileStream stream = new FileStream(getMyDir() + "Presentation.pptx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
+            // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+            // the icon according to the file extension and uses the filename for the icon caption.
             Shape shape = builder.insertOleObjectAsIconInternal(stream, "PowerPoint.Application", getImageDir() + "Logo icon.ico",
                 "My embedded file stream");
 

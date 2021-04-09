@@ -24,7 +24,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map;
 import com.aspose.words.ShapeBase;
-import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.ShapeRenderer;
 import java.awt.Graphics2D;
 import com.aspose.ms.System.EventArgs;
@@ -109,12 +108,12 @@ public class ExRendering extends ApiExampleBase
 
         public void addShapeToRenderToScale(ShapeBase shape, float x, float y, float scale)
         {
-            msArrayList.add(mShapesToRender, new Map.Entry<ShapeBase, float[]>(shape, new float[] {x, y, scale}));
+            mShapesToRender.add(new Map.Entry<ShapeBase, float[]>(shape, new float[] {x, y, scale}));
         }
 
         public void addShapeToRenderToSize(ShapeBase shape, float x, float y, float width, float height)
         {
-            msArrayList.add(mShapesToRender, new Map.Entry<ShapeBase, float[]>(shape, new float[] {x, y, width, height}));
+            mShapesToRender.add(new Map.Entry<ShapeBase, float[]>(shape, new float[] {x, y, width, height}));
         }
 
         protected /*override*/ void onPaint(PaintEventArgs e) throws Exception

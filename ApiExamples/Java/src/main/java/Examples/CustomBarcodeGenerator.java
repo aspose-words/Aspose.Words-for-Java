@@ -131,8 +131,7 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
         if (parameters.getBackgroundColor() != null)
             generator.getParameters().setBackColor(convertColor(parameters.getBackgroundColor()));
 
-        if (parameters.getSymbolHeight() != null)
-        {
+        if (parameters.getSymbolHeight() != null) {
             generator.getParameters().getImageHeight().setPixels(convertSymbolHeight(parameters.getSymbolHeight()));
             generator.getParameters().setAutoSizeMode(AutoSizeMode.NONE);
         }
@@ -146,8 +145,7 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
         final float SCALE = 2.4f; // Empiric scaling factor for converting Word barcode to Aspose.BarCode.
         float xdim = 1.0f;
 
-        if (generator.getBarcodeType().equals(EncodeTypes.QR))
-        {
+        if (generator.getBarcodeType().equals(EncodeTypes.QR)) {
             generator.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
             generator.getParameters().getImageWidth().setInches(SCALE);
             generator.getParameters().getImageHeight().setInches(generator.getParameters().getImageWidth().getInches());
@@ -156,13 +154,11 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
             generator.getParameters().getBarcode().getBarHeight().setInches(xdim);
         }
 
-        if (parameters.getScalingFactor() != null)
-        {
+        if (parameters.getScalingFactor() != null) {
             float scalingFactor = convertScalingFactor(parameters.getScalingFactor());
             generator.getParameters().getImageHeight().setInches(scalingFactor);
-            
-            if (generator.getBarcodeType().equals(EncodeTypes.QR))
-            {
+
+            if (generator.getBarcodeType().equals(EncodeTypes.QR)) {
                 generator.getParameters().getImageWidth().setInches(generator.getParameters().getImageHeight().getInches());
                 generator.getParameters().getBarcode().getXDimension().setInches(xdim * scalingFactor);
                 generator.getParameters().getBarcode().getBarHeight().setInches(xdim * scalingFactor);

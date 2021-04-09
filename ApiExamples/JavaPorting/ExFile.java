@@ -22,8 +22,10 @@ import com.aspose.words.OdtSaveOptions;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.words.SignOptions;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.IO.FileStream;
+import java.io.FileInputStream;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
@@ -172,7 +174,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
 
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
         DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "File.DetectDigitalSignatures.docx",
-            certificateHolder, new SignOptions(); { .setSignTime(DateTime.getNow()); });
+            certificateHolder, new SignOptions(); { .setSignTime(new Date()); });
 
         // Use a new FileFormatInstance to confirm that it is signed.
         info = FileFormatUtil.detectFileFormat(getArtifactsDir() + "File.DetectDigitalSignatures.docx");
@@ -198,7 +200,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:LoadFormat
         //ExSummary:Shows how to use the FileFormatUtil methods to detect the format of a document.
         // Load a document from a file that is missing a file extension, and then detect its file format.
-        FileStream docStream = File.openRead(getMyDir() + "Word document with missing file extension");
+        FileStream docStream = new FileInputStream(getMyDir() + "Word document with missing file extension");
         try /*JAVA: was using*/
         {
             FileFormatInfo info = FileFormatUtil.detectFileFormat(docStream);

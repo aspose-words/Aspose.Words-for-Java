@@ -54,19 +54,19 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>21.3</version>
+            <version>21.4</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>21.3</version>
+            <version>21.4</version>
             <classifier>javadoc</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>21.3</version>
+            <version>21.4</version>
             <classifier>shaping-harfbuzz-plugin</classifier>
         </dependency>
         <dependency>
@@ -105,6 +105,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.0.0</version>
         </dependency>
     </dependencies>
 </project>

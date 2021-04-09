@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.MessageFormat;
+import java.time.Duration;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -79,7 +80,7 @@ public class ExDocumentProperties extends ApiExampleBase {
         builder.insertField(FieldType.FIELD_SUBJECT, true);
 
         // 4 -  "Comments" property, which we can display using a COMMENTS field:
-        properties.setComments(MessageFormat.format("This is {0}'s document about {1}", properties.getAuthor(), properties.getSubject()));
+        properties.setComments(MessageFormat.format("This is {0}''s document about {1}", properties.getAuthor(), properties.getSubject()));
         builder.write("\nComments:\t\"");
         builder.insertField(FieldType.FIELD_COMMENTS, true);
         builder.write("\"");
@@ -101,10 +102,14 @@ public class ExDocumentProperties extends ApiExampleBase {
 
         Assert.assertEquals("John Doe", properties.getAuthor());
         Assert.assertEquals("My category", properties.getCategory());
-        Assert.assertEquals(MessageFormat.format("This is {0}'s document about {1}", properties.getAuthor(), properties.getSubject()), properties.getComments());
+        Assert.assertEquals("This is John Doe's document about My subject", properties.getComments());
         Assert.assertEquals("Tag 1; Tag 2; Tag 3", properties.getKeywords());
         Assert.assertEquals("My subject", properties.getSubject());
         Assert.assertEquals("John's Document", properties.getTitle());
+        Assert.assertEquals("Author:\t\u0013 AUTHOR \u0014John Doe\u0015\r" +
+                "Doc title:\t\u0013 TITLE \u0014John's Document\u0015\r" +
+                "Subject:\t\u0013 SUBJECT \u0014My subject\u0015\r" +
+                "Comments:\t\"\u0013 COMMENTS \u0014This is John Doe's document about My subject\u0015\"", doc.getText().trim());
     }
 
     @Test
@@ -154,6 +159,7 @@ public class ExDocumentProperties extends ApiExampleBase {
 
         Assert.assertEquals("Doe Ltd.", properties.getCompany());
         Assert.assertEquals("John Doe", properties.getLastSavedBy());
+        TestUtil.verifyDate(new Date(), properties.getLastSavedTime(), Duration.ofSeconds(5));
         Assert.assertEquals("Jane Doe", properties.getManager());
         Assert.assertEquals("Microsoft Office Word", properties.getNameOfApplication());
         Assert.assertEquals(12, properties.getRevisionNumber());
@@ -461,8 +467,12 @@ public class ExDocumentProperties extends ApiExampleBase {
 
         doc.getCustomDocumentProperties().add("AuthorizationDate", new Date());
 
-        System.out.println("Document authorized on {doc.CustomDocumentProperties[");
+        System.out.println(MessageFormat.format("Document authorized on {0}", doc.getCustomDocumentProperties().get("AuthorizationDate")));
         //ExEnd
+
+        TestUtil.verifyDate(new Date(),
+                DocumentHelper.saveOpen(doc).getCustomDocumentProperties().get("AuthorizationDate").toDateTime(),
+                Duration.ofSeconds(1));
     }
 
     @Test

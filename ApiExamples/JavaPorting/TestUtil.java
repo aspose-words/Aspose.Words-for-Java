@@ -13,8 +13,8 @@ import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.Stream;
 import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import org.testng.Assert;
-import com.aspose.BitmapPal;
 import com.aspose.words.Table;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.ControlChar;
@@ -80,7 +80,7 @@ class TestUtil extends ApiExampleBase
     /// <param name="imageStream">Stream that contains the image.</param>
     static void verifyImage(int expectedWidth, int expectedHeight, Stream imageStream)
     {
-        BufferedImage image = BufferedImage.FromStream(imageStream);
+        BufferedImage image = ImageIO.read(imageStream);
         try /*JAVA: was using*/
         {
             Assert.Multiple(() =>
@@ -98,7 +98,7 @@ class TestUtil extends ApiExampleBase
     /// <param name="filename">Local file system filename of the image file.</param>
     static void imageContainsTransparency(String filename)
     {
-        BufferedImage bitmap = (BufferedImage)BitmapPal.loadNativeImage(filename);
+        BufferedImage bitmap = (BufferedImage)ImageIO.read(filename);
         try /*JAVA: was using*/
     	{
             for (int x = 0; x < bitmap.getWidth(); x++)
@@ -220,7 +220,7 @@ class TestUtil extends ApiExampleBase
                                 break;
                         }
 
-                    msArrayList.add(expectedStrings, row);
+                    expectedStrings.add(row);
                 }
             }
             finally { if (reader != null) reader.close(); }
@@ -273,7 +273,7 @@ class TestUtil extends ApiExampleBase
         {
             if (onePagePerRow)
             {
-                String[] docTextByPages = msString.split(msString.trim(doc.getText()), new String[] { ControlChar.PAGE_BREAK }, StringSplitOptions.REMOVE_EMPTY_ENTRIES);
+                String[] docTextByPages = msString.split(doc.getText().trim(), new String[] { ControlChar.PAGE_BREAK }, StringSplitOptions.REMOVE_EMPTY_ENTRIES);
 
                 for (int i = 0; i < expectedResult.length; i++)
                     for (int j = 0; j < expectedResult[0].length; j++)
@@ -482,7 +482,7 @@ class TestUtil extends ApiExampleBase
             Assert.assertEquals(expectedFootnoteType, footnote.getFootnoteType());
             Assert.assertEquals(expectedIsAuto, footnote.isAuto());
             Assert.assertEquals(expectedReferenceMark, footnote.getReferenceMark());
-            Assert.assertEquals(expectedContents, msString.trim(footnote.toString(SaveFormat.TEXT)));
+            Assert.assertEquals(expectedContents, footnote.toString(SaveFormat.TEXT).trim());
         });
     }
 

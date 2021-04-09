@@ -18,12 +18,12 @@ import com.aspose.words.EditableRangeEnd;
 import com.aspose.words.EditableRange;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
-import com.aspose.ms.System.msString;
 import com.aspose.words.EditorType;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.Text.msStringBuilder;
+import com.aspose.ms.System.msString;
 import com.aspose.words.Run;
 import com.aspose.words.NodeCollection;
 
@@ -89,7 +89,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
 
         Assert.assertEquals("Hello world! Since we have set the document's protection level to read-only, we cannot edit this paragraph without the password.\r" +
                         "This paragraph is inside an editable range, and can be edited.\r" +
-                        "This paragraph is outside the editable range, and cannot be edited.", msString.trim(doc.getText()));
+                        "This paragraph is outside the editable range, and cannot be edited.", doc.getText().trim());
         Assert.assertEquals(0, doc.getChildNodes(NodeType.EDITABLE_RANGE_START, true).getCount());
 
         doc = new Document(getArtifactsDir() + "EditableRange.CreateAndRemove.docx");
@@ -97,7 +97,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         Assert.assertEquals(ProtectionType.READ_ONLY, doc.getProtectionType());
         Assert.assertEquals("Hello world! Since we have set the document's protection level to read-only, we cannot edit this paragraph without the password.\r" +
                         "This paragraph is inside an editable range, and can be edited.\r" +
-                        "This paragraph is outside the editable range, and cannot be edited.", msString.trim(doc.getText()));
+                        "This paragraph is outside the editable range, and cannot be edited.", doc.getText().trim());
 
         editableRange = ((EditableRangeStart)doc.getChild(NodeType.EDITABLE_RANGE_START, 0, true)).getEditableRange();
 
@@ -152,7 +152,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
                         "This paragraph inside the outer editable range and can be edited.\r" +
                         "This paragraph inside both the outer and inner editable ranges and can be edited.\r" +
                         "This paragraph inside the outer editable range and can be edited.\r" +
-                        "This paragraph is outside any editable ranges, and cannot be edited.", msString.trim(doc.getText()));
+                        "This paragraph is outside any editable ranges, and cannot be edited.", doc.getText().trim());
 
         EditableRange editableRange = ((EditableRangeStart)doc.getChild(NodeType.EDITABLE_RANGE_START, 0, true)).getEditableRange();
 

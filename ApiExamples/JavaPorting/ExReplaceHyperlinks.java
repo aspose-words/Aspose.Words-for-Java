@@ -20,8 +20,8 @@ import com.aspose.words.FieldStart;
 import com.aspose.words.FieldType;
 import com.aspose.words.NodeType;
 import com.aspose.ms.System.Text.RegularExpressions.Match;
-import com.aspose.ms.System.msString;
 import com.aspose.words.Run;
+import com.aspose.ms.System.msString;
 import com.aspose.words.Node;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
@@ -41,7 +41,7 @@ public class ExReplaceHyperlinks extends ApiExampleBase
 
         for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType() !!Autoporter error: Undefined expression type )
         {
-            if (((fieldStart.getFieldType()) == (FieldType.FIELD_HYPERLINK)))
+            if (fieldStart.getFieldType() == FieldType.FIELD_HYPERLINK)
             {
                 Hyperlink hyperlink = new Hyperlink(fieldStart);
 
@@ -83,7 +83,7 @@ class Hyperlink
     {
         if (fieldStart == null)
             throw new NullPointerException("fieldStart");
-        if (!((fieldStart.getFieldType()) == (FieldType.FIELD_HYPERLINK)))
+        if (fieldStart.getFieldType() != FieldType.FIELD_HYPERLINK)
             throw new IllegalArgumentException("Field start type must be FieldHyperlink.");
 
         mFieldStart = fieldStart;
@@ -101,7 +101,7 @@ class Hyperlink
 
         // Field code looks something like "HYPERLINK "http:\\www.myurl.com"", but it can consist of several runs.
         String fieldCode = getTextSameParent(mFieldStart.getNextSibling(), mFieldSeparator);
-        Match match = G_REGEX.match(msString.trim(fieldCode));
+        Match match = G_REGEX.match(fieldCode.trim());
 
         // The hyperlink is local if \l is present in the field code.
         mIsLocal = match.getGroups().get(1).getLength() > 0; 
@@ -169,7 +169,7 @@ class Hyperlink
     {
         for (Node node = startNode; node != null; node = node.getNextSibling())
         {
-            if (((node.getNodeType()) == (nodeType)))
+            if (node.getNodeType() == nodeType)
                 return node;
         }
 

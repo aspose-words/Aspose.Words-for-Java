@@ -10,6 +10,7 @@ package ApiExamples;
 // ********* THIS FILE IS AUTO PORTED *********
 
 import org.testng.annotations.Test;
+import com.aspose.ms.System.msString;
 import org.testng.Assert;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
@@ -22,7 +23,7 @@ import java.awt.image.BufferedImage;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Guid;
 import java.util.ArrayList;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 
 
 @Test
@@ -48,8 +49,7 @@ public class ExSignDocumentCustom extends ApiExampleBase
 
         createSignees();
 
-        Signee signeeInfo =
-            (from c : mSignees where c.Name == signeeName select c).FirstOrDefault();
+        Signee signeeInfo = mSignees.Find(c => msString.equals(c.getName(), signeeName));
 
         if (signeeInfo != null)
             signDocument(srcDocumentPath, dstDocumentPath, signeeInfo, certificatePath, certificatePassword);
@@ -134,10 +134,10 @@ public class ExSignDocumentCustom extends ApiExampleBase
         mSignees = new ArrayList<Signee>();
         {
                         mSignees.add(new Signee(Guid.newGuid(), "Ron Williams", "Chief Executive Officer",
-                imageToByteArray(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"))));
+                imageToByteArray(ImageIO.read(getImageDir() + "Logo.jpg"))));
                                         
                         mSignees.add(new Signee(Guid.newGuid(), "Stephen Morse", "Head of Compliance",
-                imageToByteArray(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"))));
+                imageToByteArray(ImageIO.read(getImageDir() + "Logo.jpg"))));
                                     }
     }
     

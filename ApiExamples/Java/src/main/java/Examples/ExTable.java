@@ -514,6 +514,10 @@ public class ExTable extends ApiExampleBase {
 
         // Clear the borders of all cells in the table, and then save the document.
         table.clearBorders();
+
+        Border finalTopBorder = topBorder;
+        Assert.assertThrows(AssertionError.class, () -> Assert.assertEquals(0, finalTopBorder.getColor().getRGB())); //ExSkip
+
         doc.save(getArtifactsDir() + "Table.ClearBorders.docx");
 
         // Verify the values of the table's properties after re-opening the document.
@@ -558,8 +562,52 @@ public class ExTable extends ApiExampleBase {
         table.getLastRow().getLastCell().getRange().replace("50", "20", options);
 
         Assert.assertEquals("Eggs\u000750\u0007\u0007" +
-                "Potatoes\u000720", table.getText().trim());
+                        "Potatoes\u000720", table.getText().trim());
         //ExEnd
+    }
+
+    @Test (dataProvider = "removeParagraphTextAndMarkDataProvider")
+    public void removeParagraphTextAndMark(boolean isSmartParagraphBreakReplacement) throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.SmartParagraphBreakReplacement
+        //ExSummary:Shows how to remove paragraph from a table cell with a nested table.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create table with paragraph and inner table in first cell.
+        builder.startTable();
+        builder.insertCell();
+        builder.write("TEXT1");
+        builder.startTable();
+        builder.insertCell();
+        builder.endTable();
+        builder.endTable();
+        builder.writeln();
+
+        FindReplaceOptions options = new FindReplaceOptions();
+        // When the following option is set to 'true', Aspose.Words will remove paragraph's text
+        // completely with its paragraph mark. Otherwise, Aspose.Words will mimic Word and remove
+        // only paragraph's text and leaves the paragraph mark intact (when a table follows the text).
+        options.setSmartParagraphBreakReplacement(isSmartParagraphBreakReplacement);
+        doc.getRange().replace("TEXT1&p", "", options);
+
+        doc.save(getArtifactsDir() + "Table.RemoveParagraphTextAndMark.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Table.RemoveParagraphTextAndMark.docx");
+
+        Assert.assertEquals(isSmartParagraphBreakReplacement ? 1 : 2,
+            doc.getFirstSection().getBody().getTables().get(0).getRows().get(0).getCells().get(0).getParagraphs().getCount());
+    }
+
+	@DataProvider(name = "removeParagraphTextAndMarkDataProvider")
+	public static Object[][] removeParagraphTextAndMarkDataProvider() {
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
     }
 
     @Test(enabled = false)
@@ -675,6 +723,22 @@ public class ExTable extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
         //ExEnd
+
+        if (allowAutoFit) {
+            TestUtil.fileContainsString(
+                    "<td style=\"width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single\">",
+                    getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
+            TestUtil.fileContainsString(
+                    "<td style=\"border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single\">",
+                    getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
+        } else {
+            TestUtil.fileContainsString(
+                    "<td style=\"width:89.2pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-right:0.5pt single\">",
+                    getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
+            TestUtil.fileContainsString(
+                    "<td style=\"width:7.2pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-left:0.5pt single\">",
+                    getArtifactsDir() + "Table.AllowAutoFitOnTable.html");
+        }
     }
 
     @DataProvider(name = "allowAutoFitOnTableDataProvider")
@@ -807,6 +871,13 @@ public class ExTable extends ApiExampleBase {
             Assert.assertEquals(3.0d, table.getCellSpacing());
         else
             Assert.assertEquals(0.0d, table.getCellSpacing());
+
+        TestUtil.fileContainsString(
+                allowCellSpacing
+                        ? "<td style=\"border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border:0.5pt single\">"
+                        : "<td style=\"border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; " +
+                        "padding-right:5.03pt; padding-left:5.03pt; vertical-align:top; -aw-border-bottom:0.5pt single; -aw-border-right:0.5pt single\">",
+                getArtifactsDir() + "Table.AllowCellSpacing.html");
     }
 
     @DataProvider(name = "allowCellSpacingDataProvider")
@@ -1190,6 +1261,7 @@ public class ExTable extends ApiExampleBase {
         //ExFor:TableStyle.TopPadding
         //ExFor:TableStyle.Shading
         //ExFor:TableStyle.Borders
+        //ExFor:TableStyle.VerticalAlignment
         //ExSummary:Shows how to create custom style settings for the table.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1215,6 +1287,7 @@ public class ExTable extends ApiExampleBase {
         tableStyle.getShading().setBackgroundPatternColor(Color.WHITE);
         tableStyle.getBorders().setColor(Color.BLACK);
         tableStyle.getBorders().setLineStyle(LineStyle.DOT_DASH);
+        tableStyle.setVerticalAlignment(CellVerticalAlignment.CENTER);
 
         table.setStyle(tableStyle);
 
@@ -1237,6 +1310,7 @@ public class ExTable extends ApiExampleBase {
         Assert.assertEquals(10.0d, tableStyle.getRightPadding());
         Assert.assertEquals(20.0d, tableStyle.getTopPadding());
         Assert.assertEquals(6, IterableUtils.countMatches(table.getFirstRow().getRowFormat().getBorders(), s -> s.getColor().getRGB() == Color.BLACK.getRGB()));
+        Assert.assertEquals(CellVerticalAlignment.CENTER, tableStyle.getVerticalAlignment());
 
         tableStyle = (TableStyle) doc.getStyles().get("MyTableStyle1");
 
@@ -1250,6 +1324,7 @@ public class ExTable extends ApiExampleBase {
         Assert.assertEquals(Color.WHITE.getRGB(), tableStyle.getShading().getBackgroundPatternColor().getRGB());
         Assert.assertEquals(Color.BLACK.getRGB(), tableStyle.getBorders().getColor().getRGB());
         Assert.assertEquals(LineStyle.DOT_DASH, tableStyle.getBorders().getLineStyle());
+        Assert.assertEquals(CellVerticalAlignment.CENTER, tableStyle.getVerticalAlignment());
     }
 
     @Test
@@ -1332,7 +1407,6 @@ public class ExTable extends ApiExampleBase {
         //ExFor:ConditionalStyleCollection.EvenRowBanding
         //ExFor:ConditionalStyleCollection.FirstColumn
         //ExFor:ConditionalStyleCollection.Item(ConditionalStyleType)
-        //ExFor:ConditionalStyleCollection.Item(TableStyleOverrideType)
         //ExFor:ConditionalStyleCollection.Item(Int32)
         //ExFor:ConditionalStyleCollection.OddColumnBanding
         //ExFor:ConditionalStyleCollection.OddRowBanding

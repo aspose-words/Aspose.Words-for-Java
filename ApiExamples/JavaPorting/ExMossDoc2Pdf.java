@@ -11,6 +11,7 @@ package ApiExamples;
 
 import com.aspose.ms.java.collections.StringSwitchMap;
 import com.aspose.ms.System.IO.StreamWriter;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.ms.System.Environment;
@@ -45,7 +46,7 @@ public /*static*/ class ExMossDoc2Pdf
 
         try
         {
-            gLog.writeLine(DateTime.getNow().toString(msCultureInfo.getInvariantCulture()) + " Started");
+            gLog.writeLine(new Date().toString(msCultureInfo.getInvariantCulture()) + " Started");
             gLog.writeLine(Environment.getCommandLine());
 
             parseCommandLine(args);

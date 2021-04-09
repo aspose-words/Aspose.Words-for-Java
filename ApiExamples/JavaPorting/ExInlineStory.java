@@ -21,7 +21,6 @@ import com.aspose.words.EndnotePosition;
 import com.aspose.words.BreakType;
 import com.aspose.words.NumberStyle;
 import com.aspose.words.FootnoteNumberingRule;
-import com.aspose.ms.System.msString;
 import com.aspose.words.Comment;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.Paragraph;
@@ -30,6 +29,7 @@ import com.aspose.words.Table;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.StoryType;
+import java.util.Date;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.ShapeType;
 import org.testng.annotations.DataProvider;
@@ -403,7 +403,7 @@ public class ExInlineStory extends ApiExampleBase
         builder.write(" More text added by a DocumentBuilder.");
         builder.moveToDocumentEnd();
 
-        Assert.assertEquals("\u0002 Footnote text. More text added by a DocumentBuilder.", msString.trim(footnote.getText()));
+        Assert.assertEquals("\u0002 Footnote text. More text added by a DocumentBuilder.", footnote.getText().trim());
 
         builder.write(" More main body text.");
         footnote = builder.insertFootnote(FootnoteType.FOOTNOTE, "Footnote text.");
@@ -600,7 +600,7 @@ public class ExInlineStory extends ApiExampleBase
         Assert.assertEquals(StoryType.FOOTNOTES, footnote.getStoryType());
 
         // A comment is another type of inline story.
-        Comment comment = (Comment)builder.getCurrentParagraph().appendChild(new Comment(doc, "John Doe", "J. D.", DateTime.getNow()));
+        Comment comment = (Comment)builder.getCurrentParagraph().appendChild(new Comment(doc, "John Doe", "J. D.", new Date()));
 
         // The parent paragraph of an inline story node will be the one from the main document body.
         Assert.assertEquals(doc.getFirstSection().getBody().getFirstParagraph(), comment.getParentParagraph());
@@ -633,7 +633,7 @@ public class ExInlineStory extends ApiExampleBase
 
         comment = (Comment)doc.getChild(NodeType.COMMENT, 0, true);
 
-        Assert.assertEquals("My comment.", msString.trim(comment.toString(SaveFormat.TEXT)));
+        Assert.assertEquals("My comment.", comment.toString(SaveFormat.TEXT).trim());
     }
 
     @Test

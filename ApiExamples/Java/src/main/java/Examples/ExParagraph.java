@@ -271,7 +271,7 @@ public class ExParagraph extends ApiExampleBase {
     public void compositeNodeChildren() throws Exception {
         //ExStart
         //ExFor:CompositeNode.Count
-        //ExFor:CompositeNode.GetChildNodes(NodeType[], Boolean)
+        //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
         //ExFor:CompositeNode.InsertAfter(Node, Node)
         //ExFor:CompositeNode.InsertBefore(Node, Node)
         //ExFor:CompositeNode.PrependChild(Node) 

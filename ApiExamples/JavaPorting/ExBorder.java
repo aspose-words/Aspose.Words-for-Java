@@ -19,7 +19,6 @@ import com.aspose.words.Border;
 import org.testng.Assert;
 import com.aspose.words.BorderType;
 import com.aspose.words.BorderCollection;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.Table;
 import com.aspose.words.Row;
@@ -172,7 +171,7 @@ public class ExBorder extends ApiExampleBase
         for (int i = 0; i < firstParagraphBorders.getCount(); i++)
         {
             Assert.assertFalse(firstParagraphBorders.get(i).equals(secondParagraphBorders.get(i)));
-            msAssert.areNotEqual(firstParagraphBorders.get(i).hashCode(), secondParagraphBorders.get(i).hashCode());
+            Assert.assertNotEquals(firstParagraphBorders.get(i).hashCode(), secondParagraphBorders.get(i).hashCode());
 
             // Changing the appearance of an empty border makes it visible.
             Assert.assertTrue(secondParagraphBorders.get(i).isVisible());

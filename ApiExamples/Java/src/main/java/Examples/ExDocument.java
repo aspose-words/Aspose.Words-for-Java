@@ -9,7 +9,6 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.pdf.TextAbsorber;
-import com.aspose.pdf.internal.html.rendering.image.ImageFormat;
 import com.aspose.words.Font;
 import com.aspose.words.List;
 import com.aspose.words.Shape;
@@ -22,20 +21,21 @@ import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Test
 public class ExDocument extends ApiExampleBase {
     @Test
     public void constructor() throws Exception {
         //ExStart
-        //ExFor:Document.#ctor(Boolean)
+        //ExFor:Document.#ctor()
         //ExFor:Document.#ctor(String,LoadOptions)
         //ExSummary:Shows how to create and load documents.
         // There are two ways of creating a Document object using Aspose.Words.
@@ -76,8 +76,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void loadFromWeb() throws Exception
-    {
+    public void loadFromWeb() throws Exception {
         //ExStart
         //ExFor:Document.#ctor(Stream)
         //ExSummary:Shows how to retrieve a document from a URL and saves it to disk in a different format.
@@ -119,7 +118,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Document.Save(String)
         //ExSummary:Shows how to open a document and convert it to .PDF.
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         doc.save(getArtifactsDir() + "Document.ConvertToPdf.pdf");
         //ExEnd
     }
@@ -178,7 +177,7 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test
+    @Test(enabled = false, description = "Need to rework")
     public void insertHtmlFromWebPage() throws Exception {
         //ExStart
         //ExFor:Document.#ctor(Stream, LoadOptions)
@@ -342,6 +341,7 @@ public class ExDocument extends ApiExampleBase {
         doc.getRange().getFields().get(0).remove();
 
         System.out.println(callback.getLog());
+        testFontChangeViaCallback(callback.getLog()); //ExSkip
     }
 
     /// <summary>
@@ -385,6 +385,21 @@ public class ExDocument extends ApiExampleBase {
         private final StringBuilder mLog = new StringBuilder();
     }
     //ExEnd
+
+    private static void testFontChangeViaCallback(String log) {
+        Assert.assertEquals(10, getLogCount(log, "insertion"));
+        Assert.assertEquals(5, getLogCount(log, "removal"));
+    }
+
+    private static int getLogCount(String log, String pattern) {
+        Matcher matcher = Pattern.compile(pattern).matcher(log);
+
+        int count = 0;
+        while (matcher.find())
+            count++;
+
+        return count;
+    }
 
     @Test
     public void appendDocument() throws Exception {
@@ -438,6 +453,70 @@ public class ExDocument extends ApiExampleBase {
                 Assert.assertThrows(NullPointerException.class, () -> doc.getSections().get(finalI).getHeadersFooters().linkToPrevious(false));
             }
         }
+    }
+
+    @Test (dataProvider = "importListDataProvider")
+    public void importList(boolean isKeepSourceNumbering) throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.KeepSourceNumbering
+        //ExSummary:Shows how to import a document with numbered lists.
+        Document srcDoc = new Document(getMyDir() + "List source.docx");
+        Document dstDoc = new Document(getMyDir() + "List destination.docx");
+
+        Assert.assertEquals(2, dstDoc.getLists().getCount());
+
+        ImportFormatOptions options = new ImportFormatOptions();
+
+        // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
+        options.setKeepSourceNumbering(isKeepSourceNumbering);
+
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+        dstDoc.updateListLabels();
+
+        if (isKeepSourceNumbering)
+            Assert.assertEquals(3, dstDoc.getLists().getCount());
+        else
+            Assert.assertEquals(2, dstDoc.getLists().getCount());
+        //ExEnd
+    }
+
+	@DataProvider(name = "importListDataProvider")
+	public static Object[][] importListDataProvider() {
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test
+    public void keepSourceNumberingSameListIds() throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.KeepSourceNumbering
+        //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how resolve a clash when importing documents that have lists with the same list definition identifier.
+        Document srcDoc = new Document(getMyDir() + "List with the same definition identifier - source.docx");
+        Document dstDoc = new Document(getMyDir() + "List with the same definition identifier - destination.docx");
+
+        ImportFormatOptions importFormatOptions = new ImportFormatOptions();
+
+        // Set the "KeepSourceNumbering" property to "true" to apply a different list definition ID
+        // to identical styles as Aspose.Words imports them into destination documents.
+        importFormatOptions.setKeepSourceNumbering(true);
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES, importFormatOptions);
+
+        dstDoc.updateListLabels();
+        //ExEnd
+
+        String paraText = dstDoc.getSections().get(1).getBody().getLastParagraph().getText();
+
+        Assert.assertTrue(paraText.startsWith("13->13"), paraText);
+        Assert.assertEquals("1.", dstDoc.getSections().get(1).getBody().getLastParagraph().getListLabel().getLabelString());
     }
 
     @Test
@@ -566,7 +645,7 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
 
         Assert.assertEquals(7, dstDoc.getStyles().getCount());
-        Assert.assertEquals(8, dstDoc.getSections().getCount());
+        Assert.assertEquals(9, dstDoc.getSections().getCount());
     }
 
     @Test
@@ -865,12 +944,12 @@ public class ExDocument extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx");
         //ExEnd
 
-        TestUtil.docPackageFileContainsString("<w:tblStyleRowBandSize w:val=\"3\" />", 
-            getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
-        TestUtil.docPackageFileContainsString("<w:tblCellSpacing w:w=\"100\" w:type=\"dxa\" />", 
-            getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
+        TestUtil.docPackageFileContainsString("<w:tblStyleRowBandSize w:val=\"3\" />",
+                getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
+        TestUtil.docPackageFileContainsString("<w:tblCellSpacing w:w=\"100\" w:type=\"dxa\" />",
+                getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
         TestUtil.docPackageFileContainsString("<w:tblBorders><w:top w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:left w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:bottom w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:right w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideH w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideV w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /></w:tblBorders>",
-            getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
+                getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "word/document.xml");
     }
 
     @Test
@@ -1350,7 +1429,7 @@ public class ExDocument extends ApiExampleBase {
     @Test(enabled = false, description = "WORDSNET-20342")
     public void imageSaveOptions() throws Exception {
         //ExStart
-        //ExFor:Document.Save(Stream, String, Saving.SaveOptions)
+        //ExFor:Document.Save(String, Saving.SaveOptions)
         //ExFor:SaveOptions.UseAntiAliasing
         //ExFor:SaveOptions.UseHighQualityRendering
         //ExSummary:Shows how to improve the quality of a rendered document with SaveOptions.
@@ -1715,7 +1794,6 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(false, parts.get(0).isExternal());
         Assert.assertEquals(18, parts.get(0).getData().length);
 
-        // This part is external and its content is sourced from outside the document
         Assert.assertEquals("http://www.aspose.com/Images/aspose-logo.jpg", parts.get(1).getName());
         Assert.assertEquals("", parts.get(1).getContentType());
         Assert.assertEquals("http://mytest.payload.external", parts.get(1).getRelationshipType());

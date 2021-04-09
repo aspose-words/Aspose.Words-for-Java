@@ -9,9 +9,13 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.lang.time.StopWatch;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.text.MessageFormat;
 
 public class ExOoxmlSaveOptions extends ApiExampleBase {
     @Test
@@ -209,7 +213,32 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
         saveOptions.setCompressionLevel(compressionLevel);
 
+        StopWatch st = new StopWatch();
+        st.start();
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression.docx", saveOptions);
+        st.stop();
+
+        File fileInfo = new File(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression.docx");
+
+        System.out.println(MessageFormat.format("Saving operation done using the \"{0}\" compression level:", compressionLevel));
+        System.out.println(MessageFormat.format("\tDuration:\t{0}", st.getTime()));
+        System.out.println(MessageFormat.format("\tFile Size:\t{0} bytes", fileInfo.length()));
+        //ExEnd
+
+        switch (compressionLevel) {
+            case CompressionLevel.MAXIMUM:
+                Assert.assertTrue(fileInfo.length() <= 1266000);
+                break;
+            case CompressionLevel.NORMAL:
+                Assert.assertTrue(fileInfo.length() < 1267000);
+                break;
+            case CompressionLevel.FAST:
+                Assert.assertTrue(fileInfo.length() < 1269000);
+                break;
+            case CompressionLevel.SUPER_FAST:
+                Assert.assertTrue(fileInfo.length() < 1271000);
+                break;
+        }
     }
 
     @DataProvider(name = "documentCompressionDataProvider")

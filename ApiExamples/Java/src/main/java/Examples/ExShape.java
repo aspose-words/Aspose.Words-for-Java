@@ -64,6 +64,11 @@ public class ExShape extends ApiExampleBase {
 
         TestUtil.verifyShape(ShapeType.IMAGE, "", 153.0d, 153.0d, 0.0, 0.0, shape);
         Assert.assertEquals("Alt text for MyCube.", shape.getAlternativeText());
+
+        TestUtil.fileContainsString(
+                "<img src=\"Shape.AltText.001.png\" width=\"204\" height=\"204\" alt=\"Alt text for MyCube.\" " +
+                        "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />",
+                getArtifactsDir() + "Shape.AltText.html");
     }
 
     @Test(dataProvider = "fontDataProvider")
@@ -221,6 +226,7 @@ public class ExShape extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Shape.Coordinates.docx");
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
+        TestUtil.verifyShape(ShapeType.RECTANGLE, "Rectangle 100002", 150.0d, 150.0d, 75.0d, 150.0d, shape);
         Assert.assertEquals(40.0d, shape.getDistanceBottom());
         Assert.assertEquals(40.0d, shape.getDistanceLeft());
         Assert.assertEquals(40.0d, shape.getDistanceRight());
@@ -1025,9 +1031,12 @@ public class ExShape extends ApiExampleBase {
         // 2 -  Save it directly to a filename:
         oleFormat.save(getArtifactsDir() + "OLE spreadsheet saved directly" + oleFormat.getSuggestedExtension());
         //ExEnd
+
+        Assert.assertTrue(new File(getArtifactsDir() + "OLE spreadsheet extracted via stream.xlsx").length() < 8500);
+        Assert.assertTrue(new File(getArtifactsDir() + "OLE spreadsheet saved directly.xlsx").length() < 8500);
     }
 
-    @Test (enabled = false)
+    @Test
     public void oleLinks() throws Exception {
         //ExStart
         //ExFor:OleFormat.IconCaption
@@ -1041,10 +1050,10 @@ public class ExShape extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Embed a Microsoft Visio drawing into the document as an OLE object.
-        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", false, false, new FileInputStream(getMyDir() + "Presentation.pptx"));
+        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", false, false, new FileInputStream(getImageDir() + "Transparent background logo.png"));
 
         // Insert a link to the file in the local file system and display it as an icon.
-        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", true, true, new FileInputStream(getMyDir() + "Presentation.pptx"));
+        builder.insertOleObject(getImageDir() + "Microsoft Visio drawing.vsd", "Package", true, true, new FileInputStream(getImageDir() + "Transparent background logo.png"));
 
         // Inserting OLE objects creates shapes that store these objects.
         List<Shape> shapeList = Arrays.stream(doc.getChildNodes(NodeType.SHAPE, true).toArray())
@@ -1380,7 +1389,7 @@ public class ExShape extends ApiExampleBase {
 
         // Basic shapes, such as the rectangle, have two visible parts.
         // 1 -  The fill, which applies to the area within the outline of the shape:
-        shape.getFill().setColor(Color.WHITE);
+        shape.getFill().setForeColor(Color.WHITE);
 
         // 2 -  The stroke, which marks the outline of the shape:
         // Modify various properties of this shape's stroke.
@@ -1409,12 +1418,12 @@ public class ExShape extends ApiExampleBase {
         Assert.assertEquals(ShapeLineStyle.TRIPLE, stroke.getLineStyle());
     }
 
-    @Test(description = "WORDSNET-16067", enabled = false)
+    @Test(description = "WORDSNET-16067")
     public void insertOleObjectAsHtmlFile() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertOleObject("http://www.aspose.com", "htmlfile", true, false, new FileInputStream(getMyDir() + "Presentation.pptx"));
+        builder.insertOleObject("http://www.aspose.com", "htmlfile", true, false, new FileInputStream(getImageDir() + "Transparent background logo.png"));
 
         doc.save(getArtifactsDir() + "Shape.InsertOleObjectAsHtmlFile.docx");
     }
@@ -1516,7 +1525,7 @@ public class ExShape extends ApiExampleBase {
                 watermark.setRotation(-40);
             }
 
-            watermark.getFill().setColor(new Color(220, 220, 220));
+            watermark.getFill().setForeColor(new Color(220, 220, 220));
             watermark.setStrokeColor(new Color(220, 220, 220));
 
             watermark.getTextPath().setText(MessageFormat.format("{0}", num));
@@ -1644,7 +1653,6 @@ public class ExShape extends ApiExampleBase {
     //ExStart
     //ExFor:Shape.Accept(DocumentVisitor)
     //ExFor:Shape.Chart
-    //ExFor:Shape.Clone(Boolean, INodeCloningListener)
     //ExFor:Shape.ExtrusionEnabled
     //ExFor:Shape.Filled
     //ExFor:Shape.HasChart

@@ -25,7 +25,6 @@ import com.aspose.words.NodeType;
 import com.aspose.words.Row;
 import com.aspose.words.ControlChar;
 import com.aspose.words.BreakType;
-import com.aspose.ms.System.msString;
 
 
 @Test
@@ -271,7 +270,7 @@ public class ExBookmarks extends ApiExampleBase
                         "Text inside MyBookmark_2.\r" +
                         "Text inside MyBookmark_3.\r" +
                         "Text inside MyBookmark_4.\r" +
-                        "Text inside MyBookmark_5.", msString.trim(doc.getText()));
+                        "Text inside MyBookmark_5.", doc.getText().trim());
         //ExEnd
     }
 }

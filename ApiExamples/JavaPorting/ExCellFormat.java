@@ -16,7 +16,6 @@ import com.aspose.words.CellMerge;
 import com.aspose.words.Table;
 import org.testng.Assert;
 import com.aspose.ms.System.msString;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Cell;
 
 
@@ -68,7 +67,7 @@ public class ExCellFormat extends ApiExampleBase
         Assert.assertEquals(CellMerge.FIRST, table.getRows().get(0).getCells().get(0).getCellFormat().getVerticalMerge());
         Assert.assertEquals(CellMerge.PREVIOUS, table.getRows().get(1).getCells().get(0).getCellFormat().getVerticalMerge());
         Assert.assertEquals("Text in merged cells.", msString.trim(table.getRows().get(0).getCells().get(0).getText(), '\u0007'));
-        msAssert.areNotEqual(table.getRows().get(0).getCells().get(0).getText(), table.getRows().get(1).getCells().get(0).getText());
+        Assert.assertNotEquals(table.getRows().get(0).getCells().get(0).getText(), table.getRows().get(1).getCells().get(0).getText());
     }
 
     @Test

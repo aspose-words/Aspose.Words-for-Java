@@ -40,7 +40,6 @@ import com.aspose.ms.System.Guid;
 import com.aspose.words.CustomXmlPart;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.CustomXmlPartCollection;
-import com.aspose.ms.System.msString;
 import com.aspose.words.StructuredDocumentTagRangeStart;
 import com.aspose.words.CustomXmlSchemaCollection;
 import com.aspose.words.Run;
@@ -581,7 +580,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("http://www.w3.org/2001/XMLSchema", xmlPart.getSchemas().get(0));
 
         tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
-        Assert.assertEquals("Hello world!", msString.trim(tag.getText()));
+        Assert.assertEquals("Hello world!", tag.getText().trim());
         Assert.assertEquals("/root[1]/text[1]", tag.getXmlMapping().getXPath());
         Assert.assertEquals("", tag.getXmlMapping().getPrefixMappings());
     }
@@ -634,7 +633,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>", Encoding.getUTF8().getString(xmlPart.getData()));
 
         tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
-        Assert.assertEquals("Text element #2", msString.trim(tag.getText()));
+        Assert.assertEquals("Text element #2", tag.getText().trim());
         Assert.assertEquals("/root[1]/text[2]", tag.getXmlMapping().getXPath());
         Assert.assertEquals("xmlns:ns='http://www.w3.org/2001/XMLSchema'", tag.getXmlMapping().getPrefixMappings());
     }
@@ -779,7 +778,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         doc.getFirstSection().getBody().appendChild(tag);
 
         // This structured document tag, which is in the form of a text box, already displays placeholder text.
-        Assert.assertEquals("Click here to enter text.", msString.trim(tag.getText()));
+        Assert.assertEquals("Click here to enter text.", tag.getText().trim());
         Assert.assertTrue(tag.isShowingPlaceholderText());
 
         // Create a building block with text contents.
@@ -795,7 +794,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // the structured document tag to display the contents of the building block in place of the original default text.
         tag.setPlaceholderName("My placeholder");
 
-        Assert.assertEquals("Custom placeholder text.", msString.trim(tag.getText()));
+        Assert.assertEquals("Custom placeholder text.", tag.getText().trim());
         Assert.assertTrue(tag.isShowingPlaceholderText());
 
         // Edit the text of the structured document tag and hide the placeholder text.
@@ -803,13 +802,13 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         run.setText("New text.");
         tag.isShowingPlaceholderText(false);
 
-        Assert.assertEquals("New text.", msString.trim(tag.getText()));
+        Assert.assertEquals("New text.", tag.getText().trim());
 
         // Use the "Clear" method to clear this structured document tag's contents and display the placeholder again.
         tag.clear();
 
         Assert.assertTrue(tag.isShowingPlaceholderText());
-        Assert.assertEquals("Custom placeholder text.", msString.trim(tag.getText()));
+        Assert.assertEquals("Custom placeholder text.", tag.getText().trim());
         //ExEnd
     }
 
@@ -1001,7 +1000,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("Title\u0007Author\u0007\u0007" +
                         "Everyday Italian\u0007Giada De Laurentiis\u0007\u0007" +
                         "The C Programming Language\u0007Brian W. Kernighan, Dennis M. Ritchie\u0007\u0007" +
-                        "Learning XML\u0007Erik T. Ray\u0007\u0007", msString.trim(doc.getFirstSection().getBody().getTables().get(0).getText()));
+                        "Learning XML\u0007Erik T. Ray\u0007\u0007", doc.getFirstSection().getBody().getTables().get(0).getText().trim());
     }
 
     @Test
@@ -1077,6 +1076,27 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         System.out.println("StructuredDocumentTagRangeEnd values:");
         System.out.println("\t|Id: {rangeEndTag.Id}");
         System.out.println("\t|NodeType: {rangeEndTag.NodeType}");
+        //ExEnd
+    }
+
+    @Test
+    public void sdtChildNodes() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTagRangeStart.ChildNodes
+        //ExFor:StructuredDocumentTagRangeStart.GetChildNodes(NodeType, bool)
+        //ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
+        Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
+        StructuredDocumentTagRangeStart tag = ms.as(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true).get(0), StructuredDocumentTagRangeStart.class);
+
+        System.out.println("StructuredDocumentTagRangeStart values:");
+        System.out.println("\t|Child nodes count: {tag.ChildNodes.Count}\n");
+
+        for (Node node : (Iterable<Node>) tag.getChildNodes())
+            System.out.println("\t|Child node type: {node.NodeType}");
+
+        for (Node node : (Iterable<Node>) tag.getChildNodes(NodeType.RUN, true))
+            System.out.println("\t|Child node text: {node.GetText()}");
         //ExEnd
     }
 }

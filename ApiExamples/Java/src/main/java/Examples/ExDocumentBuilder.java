@@ -9,8 +9,12 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.Font;
+import com.aspose.words.List;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
+import org.apache.commons.collections4.IterableUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,10 +22,11 @@ import org.testng.annotations.Test;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URL;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
@@ -221,7 +226,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         // The hyperlink will be a clickable piece of text which will take us to the location specified in the URL.
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setUnderline(Underline.SINGLE);
-        builder.insertHyperlink("Aspose website", "http://www.aspose.com", false);
+        builder.insertHyperlink("Google website", "https://www.google.com", false);
         builder.getFont().clearFormatting();
         builder.writeln(".");
 
@@ -231,13 +236,14 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertHyperlink.docx");
 
-        FieldHyperlink hyperlink = (FieldHyperlink) doc.getRange().getFields().get(0);
+        FieldHyperlink hyperlink = (FieldHyperlink)doc.getRange().getFields().get(0);
+        TestUtil.verifyWebResponseStatusCode(200, new URL(hyperlink.getAddress()));
 
         Run fieldContents = (Run) hyperlink.getStart().getNextSibling();
 
         Assert.assertEquals(Color.BLUE.getRGB(), fieldContents.getFont().getColor().getRGB());
         Assert.assertEquals(Underline.SINGLE, fieldContents.getFont().getUnderline());
-        Assert.assertEquals("HYPERLINK \"http://www.aspose.com\"", fieldContents.getText().trim());
+        Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
     }
 
     @Test
@@ -347,12 +353,18 @@ public class ExDocumentBuilder extends ApiExampleBase {
         // OLE objects are links to files in our local file system that can be opened by other installed applications.
         // Double clicking these shapes will launch the application, and then use it to open the linked object.
         // There are three ways of using the InsertOleObject method to insert these shapes and configure their appearance.
+        // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+        // the icon according to the file extension and uses the filename for the icon caption.
         // 1 -  Image taken from the local file system:
         builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", false, false, new FileInputStream(getImageDir() + "Logo.jpg"));
 
+        // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
+        // the icon according to 'progId' and uses the filename for the icon caption.
         // 2 -  Icon based on the application that will open the object:
         builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, new FileInputStream(getImageDir() + "Logo.jpg"));
 
+        // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        // the icon according to 'progId' and uses the predefined icon caption.
         // 3 -  Image icon that's 32 x 32 pixels or smaller from the local file system, with a custom caption:
         builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", false, getImageDir() + "Logo icon.ico",
                 "Double click to view presentation!");
@@ -494,7 +506,56 @@ public class ExDocumentBuilder extends ApiExampleBase {
     }
 
     @Test
-    public void createForm() throws Exception {
+    public void createColumnBookmark() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.StartColumnBookmark
+        //ExFor:DocumentBuilder.EndColumnBookmark
+        //ExSummary:Shows how to create a column bookmark.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.startTable();
+
+        builder.insertCell();
+        // Cells 1,2,4,5 will be bookmarked.
+        builder.startColumnBookmark("MyBookmark_1");
+        // Badly formed bookmarks or bookmarks with duplicate names will be ignored when the document is saved.
+        builder.startColumnBookmark("MyBookmark_1");
+        builder.startColumnBookmark("BadStartBookmark");
+        builder.write("Cell 1");
+
+        builder.insertCell();
+        builder.write("Cell 2");
+
+        builder.insertCell();
+        builder.write("Cell 3");
+
+        builder.endRow();
+
+        builder.insertCell();
+        builder.write("Cell 4");
+
+        builder.insertCell();
+        builder.write("Cell 5");
+        builder.endColumnBookmark("MyBookmark_1");
+        builder.endColumnBookmark("MyBookmark_1");
+
+        Assert.assertThrows(IllegalStateException.class, () -> builder.endColumnBookmark("BadEndBookmark")); //ExSkip
+
+        builder.insertCell();
+        builder.write("Cell 6");
+
+        builder.endRow();
+        builder.endTable();
+
+        doc.save(getArtifactsDir() + "Bookmarks.CreateColumnBookmark.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void createForm() throws Exception
+    {
         //ExStart
         //ExFor:TextFormFieldType
         //ExFor:DocumentBuilder.InsertTextInput
@@ -1392,6 +1453,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         TestUtil.verifyField(FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ", "Link to Bookmark1", hyperlink);
         Assert.assertEquals("Bookmark1", hyperlink.getSubAddress());
         Assert.assertEquals("Hyperlink Tip", hyperlink.getScreenTip());
+        Assert.assertTrue(IterableUtils.matchesAny(doc.getRange().getBookmarks(), b -> b.getName().contains("Bookmark1")));
     }
 
     @Test
@@ -1781,6 +1843,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertTrue(formField.getEnabled());
         Assert.assertEquals("DropDown", formField.getName());
         Assert.assertEquals(0, formField.getDropDownSelectedIndex());
+        Assert.assertEquals(items.length, formField.getDropDownItems().getCount());
         Assert.assertEquals(FieldType.FIELD_FORM_DROP_DOWN, formField.getType());
     }
 
@@ -1810,9 +1873,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
         signatureLineOptions.setInstructions("Please sign here.");
         signatureLineOptions.setAllowComments(true);
 
-
         SignatureLine signatureLine = builder.insertSignatureLine(signatureLineOptions).getSignatureLine();
         signatureLine.setProviderId(UUID.fromString("CF5A7BB4-8F3C-4756-9DF6-BEF7F13259A2"));
+
+        Assert.assertFalse(signatureLine.isSigned());
+        Assert.assertFalse(signatureLine.isValid());
 
         doc.save(getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId.docx");
 
@@ -2130,7 +2195,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals(TextureIndex.TEXTURE_DIAGONAL_CROSS, shading.getTexture());
         Assert.assertEquals(Color.decode("#f08080").getRGB(), shading.getBackgroundPatternColor().getRGB());
         Assert.assertEquals(Color.decode("#ffa07a").getRGB(), shading.getForegroundPatternColor().getRGB());
-
     }
 
     @Test
@@ -2163,8 +2227,9 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test
-    public void appendDocumentAndResolveStyles() throws Exception {
+    @Test (dataProvider = "appendDocumentAndResolveStylesDataProvider")
+    public void appendDocumentAndResolveStyles(boolean keepSourceNumbering) throws Exception
+    {
         //ExStart
         //ExFor:Document.AppendDocument(Document, ImportFormatMode, ImportFormatOptions)
         //ExSummary:Shows how to manage list style clashes while appending a document.
@@ -2177,8 +2242,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
         dstDoc.getStyles().get("CustomStyle").getFont().setColor(Color.RED);
 
         // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
         ImportFormatOptions options = new ImportFormatOptions();
-        options.setKeepSourceNumbering(true);
+        options.setKeepSourceNumbering(keepSourceNumbering);
 
         // Joining two documents that have different styles that share the same name causes a style clash.
         // We can specify an import format mode while appending documents to resolve this clash.
@@ -2189,8 +2257,95 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test(dataProvider = "ignoreTextBoxesDataProvider")
-    public void ignoreTextBoxes(boolean ignoreTextBoxes) throws Exception {
+	@DataProvider(name = "appendDocumentAndResolveStylesDataProvider")
+	public static Object[][] appendDocumentAndResolveStylesDataProvider() {
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "insertDocumentAndResolveStylesDataProvider")
+    public void insertDocumentAndResolveStyles(boolean keepSourceNumbering) throws Exception
+    {
+        //ExStart
+        //ExFor:Document.AppendDocument(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to manage list style clashes while inserting a document.
+        Document dstDoc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(dstDoc);
+        builder.insertBreak(BreakType.PARAGRAPH_BREAK);
+
+        dstDoc.getLists().add(ListTemplate.NUMBER_DEFAULT);
+        List list = dstDoc.getLists().get(0);
+
+        builder.getListFormat().setList(list);
+
+        for (int i = 1; i <= 15; i++)
+            builder.write(MessageFormat.format("List Item {0}\n", i));
+
+        Document attachDoc = (Document)dstDoc.deepClone(true);
+
+        // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
+        ImportFormatOptions importOptions = new ImportFormatOptions();
+        importOptions.setKeepSourceNumbering(keepSourceNumbering);
+
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.insertDocument(attachDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, importOptions);
+
+        dstDoc.save(getArtifactsDir() + "DocumentBuilder.InsertDocumentAndResolveStyles.docx");
+        //ExEnd
+    }
+
+	@DataProvider(name = "insertDocumentAndResolveStylesDataProvider")
+	public static Object[][] insertDocumentAndResolveStylesDataProvider() {
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "loadDocumentWithListNumberingDataProvider")
+    public void loadDocumentWithListNumbering(boolean keepSourceNumbering) throws Exception
+    {
+        //ExStart
+        //ExFor:Document.AppendDocument(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to manage list style clashes while appending a clone of a document to itself.
+        Document srcDoc = new Document(getMyDir() + "List item.docx");
+        Document dstDoc = new Document(getMyDir() + "List item.docx");
+
+        // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
+        DocumentBuilder builder = new DocumentBuilder(dstDoc);
+        builder.moveToDocumentEnd();
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+
+        ImportFormatOptions options = new ImportFormatOptions();
+        options.setKeepSourceNumbering(keepSourceNumbering);
+        builder.insertDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+
+        dstDoc.updateListLabels();
+        //ExEnd
+    }
+
+	@DataProvider(name = "loadDocumentWithListNumberingDataProvider")
+	public static Object[][] loadDocumentWithListNumberingDataProvider() {
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "ignoreTextBoxesDataProvider")
+    public void ignoreTextBoxes(boolean ignoreTextBoxes) throws Exception
+    {
         //ExStart
         //ExFor:ImportFormatOptions.IgnoreTextBoxes
         //ExSummary:Shows how to manage text box formatting while appending a document.
@@ -2233,9 +2388,8 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "ignoreTextBoxesDataProvider")
-    public static Object[][] ignoreTextBoxesDataProvider() throws Exception {
+    public static Object[][] ignoreTextBoxesDataProvider() {
         return new Object[][]
                 {
                         {true},
@@ -2280,9 +2434,8 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "moveToFieldDataProvider")
-    public static Object[][] moveToFieldDataProvider() throws Exception {
+    public static Object[][] moveToFieldDataProvider() {
         return new Object[][]
                 {
                         {false},
@@ -2428,6 +2581,164 @@ public class ExDocumentBuilder extends ApiExampleBase {
                 };
     }
 
+    //ExStart
+    //ExFor:IFieldResultFormatter
+    //ExFor:IFieldResultFormatter.Format(Double, GeneralFormat)
+    //ExFor:IFieldResultFormatter.Format(String, GeneralFormat)
+    //ExFor:IFieldResultFormatter.FormatDateTime(DateTime, String, CalendarType)
+    //ExFor:IFieldResultFormatter.FormatNumeric(Double, String)
+    //ExFor:FieldOptions.ResultFormatter
+    //ExFor:CalendarType
+    //ExSummary:Shows how to automatically apply a custom format to field results as the fields are updated.
+    @Test //ExSkip
+    public void fieldResultFormatting() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        FieldResultFormatter formatter = new FieldResultFormatter("$%d", "Date: %tb", "Item # %s:");
+        doc.getFieldOptions().setResultFormatter(formatter);
+
+        // Our field result formatter applies a custom format to newly created fields of three types of formats.
+        // Field result formatters apply new formatting to fields as they are updated,
+        // which happens as soon as we create them using this InsertField method overload.
+        // 1 -  Numeric:
+        builder.insertField(" = 2 + 3 \\# $###");
+
+        Assert.assertEquals("$5", doc.getRange().getFields().get(0).getResult());
+        Assert.assertEquals(1, formatter.countFormatInvocations(FieldResultFormatter.FormatInvocationType.NUMERIC));
+
+        // 2 -  Date/time:
+        builder.insertField("DATE \\@ \"d MMMM yyyy\"");
+
+        Assert.assertTrue(doc.getRange().getFields().get(1).getResult().startsWith("Date: "));
+        Assert.assertEquals(1, formatter.countFormatInvocations(FieldResultFormatter.FormatInvocationType.DATE_TIME));
+
+        // 3 -  General:
+        builder.insertField("QUOTE \"2\" \\* Ordinal");
+
+        Assert.assertEquals("Item # 2:", doc.getRange().getFields().get(2).getResult());
+        Assert.assertEquals(1, formatter.countFormatInvocations(FieldResultFormatter.FormatInvocationType.GENERAL));
+
+        formatter.printFormatInvocations();
+    }
+
+    /// <summary>
+    /// When fields with formatting are updated, this formatter will override their formatting
+    /// with a custom format, while tracking every invocation.
+    /// </summary>
+    private static class FieldResultFormatter implements IFieldResultFormatter {
+        public FieldResultFormatter(String numberFormat, String dateFormat, String generalFormat) {
+            mNumberFormat = numberFormat;
+            mDateFormat = dateFormat;
+            mGeneralFormat = generalFormat;
+        }
+
+        public String formatNumeric(double value, String format) {
+            if (mNumberFormat.isEmpty())
+                return null;
+
+            String newValue = String.format(mNumberFormat, (long) value);
+            mFormatInvocations.add(new FormatInvocation(FormatInvocationType.NUMERIC, value, format, newValue));
+            return newValue;
+        }
+
+        public String formatDateTime(Date value, String format, int calendarType) {
+            if (mDateFormat.isEmpty())
+                return null;
+
+            String newValue = String.format(mDateFormat, value);
+            mFormatInvocations.add(new FormatInvocation(FormatInvocationType.DATE_TIME, MessageFormat.format("{0} ({1})", value, calendarType), format, newValue));
+            return newValue;
+        }
+
+        public String format(String value, int format) {
+            return format((Object) value, format);
+        }
+
+        public String format(double value, int format) {
+            return format((Object) value, format);
+        }
+
+        private String format(Object value, int format) {
+            if (mGeneralFormat.isEmpty())
+                return null;
+
+            String newValue = String.format(mGeneralFormat, new DecimalFormat("#.####").format(value));
+            mFormatInvocations.add(new FormatInvocation(FormatInvocationType.GENERAL, value, GeneralFormat.toString(format), newValue));
+            return newValue;
+        }
+
+        public int countFormatInvocations(int formatInvocationType) {
+            if (formatInvocationType == FormatInvocationType.ALL)
+                return getFormatInvocations().size();
+
+            return (int) IterableUtils.countMatches(getFormatInvocations(), i -> i.getFormatInvocationType() == formatInvocationType);
+        }
+
+        public void printFormatInvocations() {
+            for (FormatInvocation f : getFormatInvocations())
+                System.out.println(MessageFormat.format("Invocation type:\t{0}\n" +
+                        "\tOriginal value:\t\t{1}\n" +
+                        "\tOriginal format:\t{2}\n" +
+                        "\tNew value:\t\t\t{3}\n", f.getFormatInvocationType(), f.getValue(), f.getOriginalFormat(), f.getNewValue()));
+        }
+
+        private final String mNumberFormat;
+        private final String mDateFormat;
+        private final String mGeneralFormat;
+
+        private ArrayList<FormatInvocation> getFormatInvocations() {
+            return mFormatInvocations;
+        }
+
+        private final ArrayList<FormatInvocation> mFormatInvocations = new ArrayList<>();
+
+        private static class FormatInvocation {
+            public int getFormatInvocationType() {
+                return mFormatInvocationType;
+            }
+
+            private final int mFormatInvocationType;
+
+            public Object getValue() {
+                return mValue;
+            }
+
+            private final Object mValue;
+
+            public String getOriginalFormat() {
+                return mOriginalFormat;
+            }
+
+            private final String mOriginalFormat;
+
+            public String getNewValue() {
+                return mNewValue;
+            }
+
+            private final String mNewValue;
+
+            public FormatInvocation(int formatInvocationType, Object value, String originalFormat, String newValue) {
+                mValue = value;
+                mFormatInvocationType = formatInvocationType;
+                mOriginalFormat = originalFormat;
+                mNewValue = newValue;
+            }
+        }
+
+        public final class FormatInvocationType {
+            private FormatInvocationType() {
+            }
+
+            public static final int NUMERIC = 0;
+            public static final int DATE_TIME = 1;
+            public static final int GENERAL = 2;
+            public static final int ALL = 3;
+
+            public static final int length = 4;
+        }
+    }
+    //ExEnd
+
     @Test
     public void insertVideoWithUrl() throws Exception {
         //ExStart
@@ -2446,6 +2757,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         TestUtil.verifyImageInShape(480, 360, ImageType.JPEG, shape);
+        TestUtil.verifyWebResponseStatusCode(200, new URL(shape.getHRef()));
 
         Assert.assertEquals(360.0d, shape.getWidth());
         Assert.assertEquals(270.0d, shape.getHeight());
@@ -2582,6 +2894,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals("Heading 1", doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getStyle().getName());
         Assert.assertEquals("MyParaStyle", doc.getFirstSection().getBody().getParagraphs().get(1).getParagraphFormat().getStyle().getName());
         Assert.assertEquals(" ", doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getText());
+        TestUtil.docPackageFileContainsString("w:rPr><w:vanish /><w:specVanish /></w:rPr>",
+                getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
+        TestUtil.docPackageFileContainsString("<w:t xml:space=\"preserve\"> </w:t>",
+                getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
     }
 
     @Test(enabled = false, description = "Bug: does not insert headers and footers, all lists (bullets, numbering, multilevel) breaks")
@@ -3051,10 +3367,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
         MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
         saveOptions.setTableContentAlignment(tableContentAlignment);
 
-        builder.getDocument().save(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md", saveOptions);
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocumentTableContentAlignment.md", saveOptions);
 
-        Document doc = new Document(getArtifactsDir() + "MarkdownDocumentTableContentAlignment.md");
-        Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
+        Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocumentTableContentAlignment.md");
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         switch (tableContentAlignment) {
             case TableContentAlignment.AUTO:
@@ -3085,7 +3401,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     }
 
     @DataProvider(name = "markdownDocumentTableContentAlignmentDataProvider")
-    public static Object[][] markdownDocumentTableContentAlignmentDataProvider() throws Exception {
+    public static Object[][] markdownDocumentTableContentAlignmentDataProvider() {
         return new Object[][]
                 {
                         {TableContentAlignment.LEFT},
@@ -3094,6 +3410,54 @@ public class ExDocumentBuilder extends ApiExampleBase {
                         {TableContentAlignment.AUTO},
                 };
     }
+
+    //ExStart
+    //ExFor:MarkdownSaveOptions.ImageSavingCallback
+    //ExFor:IImageSavingCallback
+    //ExSummary:Shows how to rename the image name during saving into Markdown document.
+    @Test //ExSkip
+    public void renameImages() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        MarkdownSaveOptions options = new MarkdownSaveOptions();
+
+        // If we convert a document that contains images into Markdown, we will end up with one Markdown file which links to several images.
+        // Each image will be in the form of a file in the local file system.
+        // There is also a callback that can customize the name and file system location of each image.
+        options.setImageSavingCallback(new SavedImageRename("DocumentBuilder.HandleDocument.md"));
+
+        // The ImageSaving() method of our callback will be run at this time.
+        doc.save(getArtifactsDir() + "DocumentBuilder.HandleDocument.md", options);
+
+        Assert.assertEquals(1, DocumentHelper.directoryGetFiles(getArtifactsDir(),"*.*").stream().filter(f -> f.endsWith(".jpeg")).count());
+        Assert.assertEquals(8, DocumentHelper.directoryGetFiles(getArtifactsDir(),"*.*").stream().filter(f -> f.endsWith(".png")).count());
+    }
+
+    /// <summary>
+    /// Renames saved images that are produced when an Markdown document is saved.
+    /// </summary>
+    public static class SavedImageRename implements IImageSavingCallback
+    {
+        public SavedImageRename(String outFileName)
+        {
+            mOutFileName = outFileName;
+        }
+
+        public void imageSaving(ImageSavingArgs args) throws Exception {
+            String imageFileName = MessageFormat.format("{0} shape {1}, of type {2}.{3}", mOutFileName, ++mCount, args.getCurrentShape().getShapeType(), FilenameUtils.getExtension(args.getImageFileName()));
+
+            args.setImageFileName(imageFileName);
+            args.setImageStream(new FileOutputStream(getArtifactsDir() + imageFileName));
+
+            Assert.assertTrue(args.isImageAvailable());
+            Assert.assertFalse(args.getKeepImageStreamOpen());
+        }
+
+        private int mCount;
+        private String mOutFileName;
+    }
+    //ExEnd
 
     @Test
     public void insertOnlineVideo() throws Exception {
@@ -3129,5 +3493,100 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Assert.assertEquals(RelativeHorizontalPosition.LEFT_MARGIN, shape.getRelativeHorizontalPosition());
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
+        TestUtil.verifyWebResponseStatusCode(200, new URL(shape.getHRef()));
+    }
+
+    @Test
+    public void insertOnlineVideoCustomThumbnail() throws Exception {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertOnlineVideo(String, String, Byte[], Double, Double)
+        //ExFor:DocumentBuilder.InsertOnlineVideo(String, String, Byte[], RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
+        //ExSummary:Shows how to insert an online video into a document with a custom thumbnail.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        String videoUrl = "https://vimeo.com/52477838";
+        String videoEmbedCode = "<iframe src=\"https://player.vimeo.com/video/52477838\" width=\"640\" height=\"360\" frameborder=\"0\" " +
+                "title=\"Aspose\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+
+        byte[] thumbnailImageBytes = IOUtils.toByteArray(getAsposelogoUri().toURL().openStream());
+
+        BufferedImage image = ImageIO.read(new ByteArrayInputStream(thumbnailImageBytes));
+
+        // Below are two ways of creating a shape with a custom thumbnail, which links to an online video
+        // that will play when we click on the shape in Microsoft Word.
+        // 1 -  Insert an inline shape at the builder's node insertion cursor:
+        builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes, image.getWidth(), image.getHeight());
+
+        builder.insertBreak(BreakType.PAGE_BREAK);
+
+        // 2 -  Insert a floating shape:
+        double left = builder.getPageSetup().getRightMargin() - image.getWidth();
+        double top = builder.getPageSetup().getBottomMargin() - image.getHeight();
+
+        builder.insertOnlineVideo(videoUrl, videoEmbedCode, thumbnailImageBytes,
+                RelativeHorizontalPosition.RIGHT_MARGIN, left, RelativeVerticalPosition.BOTTOM_MARGIN, top,
+                image.getWidth(), image.getHeight(), WrapType.SQUARE);
+
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideoCustomThumbnail.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideoCustomThumbnail.docx");
+        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+
+        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, shape);
+        Assert.assertEquals(320.0d, shape.getWidth());
+        Assert.assertEquals(320.0d, shape.getHeight());
+        Assert.assertEquals(0.0d, shape.getLeft());
+        Assert.assertEquals(0.0d, shape.getTop());
+        Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
+        Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, shape.getRelativeVerticalPosition());
+        Assert.assertEquals(RelativeHorizontalPosition.COLUMN, shape.getRelativeHorizontalPosition());
+
+        Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
+
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
+
+        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, shape);
+        Assert.assertEquals(320.0d, shape.getWidth());
+        Assert.assertEquals(320.0d, shape.getHeight());
+        Assert.assertEquals(-248.0d, shape.getLeft());
+        Assert.assertEquals(-248.0d, shape.getTop());
+        Assert.assertEquals(WrapType.SQUARE, shape.getWrapType());
+        Assert.assertEquals(RelativeVerticalPosition.BOTTOM_MARGIN, shape.getRelativeVerticalPosition());
+        Assert.assertEquals(RelativeHorizontalPosition.RIGHT_MARGIN, shape.getRelativeHorizontalPosition());
+
+        Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
+        TestUtil.verifyWebResponseStatusCode(200, new URL(shape.getHRef()));
+    }
+
+    @Test
+    public void insertOleObjectAsIcon() throws Exception {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertOleObjectAsIcon(String, String, Boolean, String, String)
+        //ExFor:DocumentBuilder.InsertOleObjectAsIcon(Stream, String, String, String)
+        //ExSummary:Shows how to insert an embedded or linked OLE object as icon into the document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+        // the icon according to 'progId' and uses the filename for the icon caption.
+        builder.insertOleObjectAsIcon(getMyDir() + "Presentation.pptx", "Package", false, getImageDir() + "Logo icon.ico", "My embedded file");
+
+        builder.insertBreak(BreakType.LINE_BREAK);
+
+        try (FileInputStream stream = new FileInputStream(getMyDir() + "Presentation.pptx")) {
+            // If 'iconFile' and 'iconCaption' are omitted, this overloaded method selects
+            // the icon according to the file extension and uses the filename for the icon caption.
+            Shape shape = builder.insertOleObjectAsIcon(stream, "PowerPoint.Application", getImageDir() + "Logo icon.ico",
+                    "My embedded file stream");
+
+            OlePackage setOlePackage = shape.getOleFormat().getOlePackage();
+            setOlePackage.setFileName("Presentation.pptx");
+            setOlePackage.setDisplayName("Presentation.pptx");
+        }
+
+        doc.save(getArtifactsDir() + "DocumentBuilder.InsertOleObjectAsIcon.docx");
+        //ExEnd
     }
 }

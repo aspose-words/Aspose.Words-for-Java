@@ -181,6 +181,11 @@ public class ExViewOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ViewOptions.FormsDesign.xml");
         //ExEnd
+
+        if (useFormsDesign)
+            TestUtil.fileContainsString("<w:formsDesign />", getArtifactsDir() + "ViewOptions.FormsDesign.xml");
+        else
+            Assert.assertThrows(AssertionError.class, () -> TestUtil.fileContainsString("<w:formsDesign />", getArtifactsDir() + "ViewOptions.FormsDesign.xml"));
     }
 
     @DataProvider(name = "formsDesignDataProvider")

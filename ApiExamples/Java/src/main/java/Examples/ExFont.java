@@ -10,6 +10,7 @@ package Examples;
 
 
 import com.aspose.words.Font;
+import com.aspose.words.Shape;
 import com.aspose.words.*;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
@@ -53,7 +54,6 @@ public class ExFont extends ApiExampleBase {
         Assert.assertEquals("Courier New", run.getFont().getName());
         Assert.assertEquals(36.0, run.getFont().getSize());
         Assert.assertEquals(Color.YELLOW.getRGB(), run.getFont().getHighlightColor().getRGB());
-
     }
 
     @Test
@@ -145,6 +145,11 @@ public class ExFont extends ApiExampleBase {
         fontInfos.setSaveSubsetFonts(embedAllFonts);
 
         doc.save(getArtifactsDir() + "Font.FontInfoCollection.docx");
+
+        if (embedAllFonts)
+            Assert.assertTrue(new File(getArtifactsDir() + "Font.FontInfoCollection.docx").length() > 25000);
+        else
+            Assert.assertTrue(new File(getArtifactsDir() + "Font.FontInfoCollection.docx").length() <= 15000);
         //ExEnd
     }
 
@@ -550,6 +555,11 @@ public class ExFont extends ApiExampleBase {
 
         Assert.assertEquals("Привет!", run.getText().trim());
         Assert.assertEquals(1033, run.getFont().getLocaleId());
+
+        run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
+
+        Assert.assertEquals("Привет!", run.getText().trim());
+        Assert.assertEquals(1049, run.getFont().getLocaleId());
     }
 
     @Test
@@ -678,9 +688,7 @@ public class ExFont extends ApiExampleBase {
 
         // Define another set of font settings for right-to-left text.
         builder.getFont().setNameBi("Andalus");
-        builder.getFont().setSizeBi(48.0);
-
-        // Specify that the right-to-left text in this run is bold and italic
+        builder.getFont().setSizeBi(24.0);
         builder.getFont().setItalicBi(true);
         builder.getFont().setBoldBi(true);
         builder.getFont().setLocaleIdBi(1025);
@@ -698,6 +706,32 @@ public class ExFont extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Font.Bidi.docx");
         //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.Bidi.docx");
+
+        for (Run run : doc.getFirstSection().getBody().getParagraphs().get(0).getRuns()) {
+            switch (doc.getFirstSection().getBody().getParagraphs().get(0).indexOf(run)) {
+                case 0:
+                    Assert.assertEquals("مرحبًا", run.getText().trim());
+                    Assert.assertTrue(run.getFont().getBidi());
+                    break;
+                case 1:
+                    Assert.assertEquals("Hello world!", run.getText().trim());
+                    Assert.assertFalse(run.getFont().getBidi());
+                    break;
+            }
+
+            Assert.assertEquals(1033, run.getFont().getLocaleId());
+            Assert.assertEquals(16, run.getFont().getSize());
+            Assert.assertEquals("Courier New", run.getFont().getName());
+            Assert.assertFalse(run.getFont().getItalic());
+            Assert.assertFalse(run.getFont().getBold());
+            Assert.assertEquals(1025, run.getFont().getLocaleIdBi());
+            Assert.assertEquals(24, run.getFont().getSizeBi());
+            Assert.assertEquals("Andalus", run.getFont().getNameBi());
+            Assert.assertTrue(run.getFont().getItalicBi());
+            Assert.assertTrue(run.getFont().getBoldBi());
+        }
     }
 
     @Test
@@ -911,6 +945,303 @@ public class ExFont extends ApiExampleBase {
             System.out.println(MessageFormat.format("FilePath : {0}\n", fontInfo.getFilePath()));
         }
         //ExEnd
+
+        Assert.assertEquals(folderFontSource[0].getAvailableFonts().size(),
+                DocumentHelper.directoryGetFiles(getFontsDir(), "*.*").stream().filter(f -> f.endsWith(".ttf") || f.endsWith(".otf")).count());
+    }
+
+    @Test
+    public void setFontAutoColor() throws Exception {
+        //ExStart
+        //ExFor:Font.AutoColor
+        //ExSummary:Shows how to improve readability by automatically selecting text color based on the brightness of its background.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // If a run's Font object does not specify text color, it will automatically
+        // select either black or white depending on the background color's color.
+        Assert.assertEquals(0, builder.getFont().getColor().getRGB());
+
+        // The default color for text is black. If the color of the background is dark, black text will be difficult to see.
+        // To solve this problem, the AutoColor property will display this text in white.
+        builder.getFont().getShading().setBackgroundPatternColor(Color.BLUE);
+
+        builder.writeln("The text color automatically chosen for this run is white.");
+
+        Assert.assertEquals(Color.WHITE.getRGB(), doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0).getFont().getAutoColor().getRGB());
+
+        // If we change the background to a light color, black will be a more
+        // suitable text color than white so that the auto color will display it in black.
+        builder.getFont().getShading().setBackgroundPatternColor(Color.RED);
+
+        builder.writeln("The text color automatically chosen for this run is black.");
+
+        Assert.assertEquals(Color.BLACK.getRGB(), doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getFont().getAutoColor().getRGB());
+
+        doc.save(getArtifactsDir() + "Font.SetFontAutoColor.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.SetFontAutoColor.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("The text color automatically chosen for this run is white.", run.getText().trim());
+        Assert.assertEquals(0, run.getFont().getColor().getRGB());
+        Assert.assertEquals(Color.BLUE.getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
+
+        run = doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0);
+
+        Assert.assertEquals("The text color automatically chosen for this run is black.", run.getText().trim());
+        Assert.assertEquals(0, run.getFont().getColor().getRGB());
+        Assert.assertEquals(Color.RED.getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
+    }
+
+    //ExStart
+    //ExFor:Font.Hidden
+    //ExFor:Paragraph.Accept
+    //ExFor:DocumentVisitor.VisitParagraphStart(Paragraph)
+    //ExFor:DocumentVisitor.VisitFormField(FormField)
+    //ExFor:DocumentVisitor.VisitTableEnd(Table)
+    //ExFor:DocumentVisitor.VisitCellEnd(Cell)
+    //ExFor:DocumentVisitor.VisitRowEnd(Row)
+    //ExFor:DocumentVisitor.VisitSpecialChar(SpecialChar)
+    //ExFor:DocumentVisitor.VisitGroupShapeStart(GroupShape)
+    //ExFor:DocumentVisitor.VisitShapeStart(Shape)
+    //ExFor:DocumentVisitor.VisitCommentStart(Comment)
+    //ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
+    //ExFor:SpecialChar
+    //ExFor:Node.Accept
+    //ExFor:Paragraph.ParagraphBreakFont
+    //ExFor:Table.Accept
+    //ExSummary:Shows how to use a DocumentVisitor implementation to remove all hidden content from a document.
+    @Test //ExSkip
+    public void removeHiddenContentFromDocument() throws Exception {
+        Document doc = new Document(getMyDir() + "Hidden content.docx");
+        Assert.assertEquals(26, doc.getChildNodes(NodeType.PARAGRAPH, true).getCount()); //ExSkip
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.TABLE, true).getCount()); //ExSkip
+
+        RemoveHiddenContentVisitor hiddenContentRemover = new RemoveHiddenContentVisitor();
+
+        // Below are three types of fields which can accept a document visitor,
+        // which will allow it to visit the accepting node, and then traverse its child nodes in a depth-first manner.
+        // 1 -  Paragraph node:
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 4, true);
+        para.accept(hiddenContentRemover);
+
+        // 2 -  Table node:
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
+        table.accept(hiddenContentRemover);
+
+        // 3 -  Document node:
+        doc.accept(hiddenContentRemover);
+
+        doc.save(getArtifactsDir() + "Font.RemoveHiddenContentFromDocument.docx");
+        testRemoveHiddenContent(new Document(getArtifactsDir() + "Font.RemoveHiddenContentFromDocument.docx")); //ExSkip
+    }
+
+    /// <summary>
+    /// Removes all visited nodes marked as "hidden content".
+    /// </summary>
+    public static class RemoveHiddenContentVisitor extends DocumentVisitor {
+        /// <summary>
+        /// Called when a FieldStart node is encountered in the document.
+        /// </summary>
+        public int visitFieldStart(FieldStart fieldStart) {
+            if (fieldStart.getFont().getHidden())
+                fieldStart.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a FieldEnd node is encountered in the document.
+        /// </summary>
+        public int visitFieldEnd(FieldEnd fieldEnd) {
+            if (fieldEnd.getFont().getHidden())
+                fieldEnd.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a FieldSeparator node is encountered in the document.
+        /// </summary>
+        public int visitFieldSeparator(FieldSeparator fieldSeparator) {
+            if (fieldSeparator.getFont().getHidden())
+                fieldSeparator.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a Run node is encountered in the document.
+        /// </summary>
+        public int visitRun(Run run) {
+            if (run.getFont().getHidden())
+                run.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a Paragraph node is encountered in the document.
+        /// </summary>
+        public int visitParagraphStart(Paragraph paragraph) {
+            if (paragraph.getParagraphBreakFont().getHidden())
+                paragraph.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a FormField is encountered in the document.
+        /// </summary>
+        public int visitFormField(FormField formField) {
+            if (formField.getFont().getHidden())
+                formField.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a GroupShape is encountered in the document.
+        /// </summary>
+        public int visitGroupShapeStart(GroupShape groupShape) {
+            if (groupShape.getFont().getHidden())
+                groupShape.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a Shape is encountered in the document.
+        /// </summary>
+        public int visitShapeStart(Shape shape) {
+            if (shape.getFont().getHidden())
+                shape.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a Comment is encountered in the document.
+        /// </summary>
+        public int visitCommentStart(Comment comment) {
+            if (comment.getFont().getHidden())
+                comment.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a Footnote is encountered in the document.
+        /// </summary>
+        public int visitFootnoteStart(Footnote footnote) {
+            if (footnote.getFont().getHidden())
+                footnote.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a SpecialCharacter is encountered in the document.
+        /// </summary>
+        public int visitSpecialChar(SpecialChar specialChar) {
+            if (specialChar.getFont().getHidden())
+                specialChar.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when visiting of a Table node is ended in the document.
+        /// </summary>
+        public int visitTableEnd(Table table) {
+            // The content inside table cells may have the hidden content flag, but the tables themselves cannot.
+            // If this table had nothing but hidden content, this visitor would have removed all of it,
+            // and there would be no child nodes left.
+            // Thus, we can also treat the table itself as hidden content and remove it.
+            // Tables which are empty but do not have hidden content will have cells with empty paragraphs inside,
+            // which this visitor will not remove.
+            if (!table.hasChildNodes())
+                table.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when visiting of a Cell node is ended in the document.
+        /// </summary>
+        public int visitCellEnd(Cell cell) {
+            if (!cell.hasChildNodes() && cell.getParentNode() != null)
+                cell.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when visiting of a Row node is ended in the document.
+        /// </summary>
+        public int visitRowEnd(Row row) {
+            if (!row.hasChildNodes() && row.getParentNode() != null)
+                row.remove();
+
+            return VisitorAction.CONTINUE;
+        }
+    }
+    //ExEnd
+
+    private void testRemoveHiddenContent(Document doc) {
+        Assert.assertEquals(20, doc.getChildNodes(NodeType.PARAGRAPH, true).getCount()); //ExSkip
+        Assert.assertEquals(1, doc.getChildNodes(NodeType.TABLE, true).getCount()); //ExSkip
+
+        for (Node node : (Iterable<Node>) doc.getChildNodes(NodeType.ANY, true)) {
+            switch (node.getNodeType()) {
+                case NodeType.FIELD_START:
+                    FieldStart fieldStart = (FieldStart) node;
+                    Assert.assertFalse(fieldStart.getFont().getHidden());
+                    break;
+                case NodeType.FIELD_END:
+                    FieldEnd fieldEnd = (FieldEnd) node;
+                    Assert.assertFalse(fieldEnd.getFont().getHidden());
+                    break;
+                case NodeType.FIELD_SEPARATOR:
+                    FieldSeparator fieldSeparator = (FieldSeparator) node;
+                    Assert.assertFalse(fieldSeparator.getFont().getHidden());
+                    break;
+                case NodeType.RUN:
+                    Run run = (Run) node;
+                    Assert.assertFalse(run.getFont().getHidden());
+                    break;
+                case NodeType.PARAGRAPH:
+                    Paragraph paragraph = (Paragraph) node;
+                    Assert.assertFalse(paragraph.getParagraphBreakFont().getHidden());
+                    break;
+                case NodeType.FORM_FIELD:
+                    FormField formField = (FormField) node;
+                    Assert.assertFalse(formField.getFont().getHidden());
+                    break;
+                case NodeType.GROUP_SHAPE:
+                    GroupShape groupShape = (GroupShape) node;
+                    Assert.assertFalse(groupShape.getFont().getHidden());
+                    break;
+                case NodeType.SHAPE:
+                    Shape shape = (Shape) node;
+                    Assert.assertFalse(shape.getFont().getHidden());
+                    break;
+                case NodeType.COMMENT:
+                    Comment comment = (Comment) node;
+                    Assert.assertFalse(comment.getFont().getHidden());
+                    break;
+                case NodeType.FOOTNOTE:
+                    Footnote footnote = (Footnote) node;
+                    Assert.assertFalse(footnote.getFont().getHidden());
+                    break;
+                case NodeType.SPECIAL_CHAR:
+                    SpecialChar specialChar = (SpecialChar) node;
+                    Assert.assertFalse(specialChar.getFont().getHidden());
+                    break;
+            }
+        }
     }
 
     @Test
@@ -979,9 +1310,9 @@ public class ExFont extends ApiExampleBase {
         //ExSummary:Shows how to access and print details of each font in a document.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        Iterator fontCollectionEnumerator = doc.getFontInfos().iterator();
+        Iterator<FontInfo> fontCollectionEnumerator = doc.getFontInfos().iterator();
         while (fontCollectionEnumerator.hasNext()) {
-            FontInfo fontInfo = (FontInfo) fontCollectionEnumerator.next();
+            FontInfo fontInfo = fontCollectionEnumerator.next();
             if (fontInfo != null) {
                 System.out.println("Font name: " + fontInfo.getName());
 
@@ -1082,5 +1413,143 @@ public class ExFont extends ApiExampleBase {
                         {EmphasisMark.OVER_WHITE_CIRCLE},
                         {EmphasisMark.UNDER_SOLID_CIRCLE},
                 };
+    }
+
+    @Test
+    public void themeFontsColors() throws Exception
+    {
+        //ExStart
+        //ExFor:Font.ThemeFont
+        //ExFor:Font.ThemeFontAscii
+        //ExFor:Font.ThemeFontBi
+        //ExFor:Font.ThemeFontFarEast
+        //ExFor:Font.ThemeFontOther
+        //ExFor:Font.ThemeColor
+        //ExFor:ThemeFont
+        //ExFor:ThemeColor
+        //ExSummary:Shows how to work with theme fonts and colors.
+        Document doc = new Document();
+        
+        // Define fonts for languages uses by default.
+        doc.getTheme().getMinorFonts().setLatin("Algerian");
+        doc.getTheme().getMinorFonts().setEastAsian("Aharoni");
+        doc.getTheme().getMinorFonts().setComplexScript("Andalus");
+
+        Font font = doc.getStyles().get("Normal").getFont();
+        System.out.println(MessageFormat.format("Originally the Normal style theme color is: {0} and RGB color is: {1}\n", font.getThemeColor(), font.getColor()));
+
+        // We can use theme font and color instead of default values.
+        font.setThemeFont(ThemeFont.MINOR);
+        font.setThemeColor(ThemeColor.ACCENT_2);
+        
+        Assert.assertEquals(ThemeFont.MINOR, font.getThemeFont());
+        Assert.assertEquals("Algerian", font.getName());
+        
+        Assert.assertEquals(ThemeFont.MINOR, font.getThemeFontAscii());
+        Assert.assertEquals("Algerian", font.getNameAscii());
+
+        Assert.assertEquals(ThemeFont.MINOR, font.getThemeFontBi());
+        Assert.assertEquals("Andalus", font.getNameBi());
+
+        Assert.assertEquals(ThemeFont.MINOR, font.getThemeFontFarEast());
+        Assert.assertEquals("Aharoni", font.getNameFarEast());
+
+        Assert.assertEquals(ThemeFont.MINOR, font.getThemeFontOther());
+        Assert.assertEquals("Algerian", font.getNameOther());
+
+        Assert.assertEquals(ThemeColor.ACCENT_2, font.getThemeColor());
+        Assert.assertEquals(0, font.getColor().getRGB());
+
+        // There are several ways of reset them font and color.
+        // 1 -  By setting ThemeFont.None/ThemeColor.None:
+        font.setThemeFont(ThemeFont.NONE);
+        font.setThemeColor(ThemeColor.NONE);
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFont());
+        Assert.assertEquals("Algerian", font.getName());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontAscii());
+        Assert.assertEquals("Algerian", font.getNameAscii());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontBi());
+        Assert.assertEquals("Andalus", font.getNameBi());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontFarEast());
+        Assert.assertEquals("Aharoni", font.getNameFarEast());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontOther());
+        Assert.assertEquals("Algerian", font.getNameOther());
+
+        Assert.assertEquals(ThemeColor.NONE, font.getThemeColor());
+        Assert.assertEquals(0, font.getColor().getRGB());
+
+        // 2 -  By setting non-theme font/color names:
+        font.setName("Arial");
+        font.setColor(Color.BLUE);
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFont());
+        Assert.assertEquals("Arial", font.getName());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontAscii());
+        Assert.assertEquals("Arial", font.getNameAscii());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontBi());
+        Assert.assertEquals("Arial", font.getNameBi());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontFarEast());
+        Assert.assertEquals("Arial", font.getNameFarEast());
+
+        Assert.assertEquals(ThemeFont.NONE, font.getThemeFontOther());
+        Assert.assertEquals("Arial", font.getNameOther());
+
+        Assert.assertEquals(ThemeColor.NONE, font.getThemeColor());
+        Assert.assertEquals(Color.BLUE.getRGB(), font.getColor().getRGB());
+        //ExEnd
+    }
+
+    @Test
+    public void createThemedStyle() throws Exception
+    {
+        //ExStart
+        //ExFor:Font.ThemeFont
+        //ExFor:Font.ThemeColor
+        //ExFor:Font.TintAndShade
+        //ExFor:ThemeFont
+        //ExFor:ThemeColor
+        //ExSummary:Shows how to create and use themed style.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        builder.writeln();
+
+        // Create some style with theme font properties.
+        Style style = doc.getStyles().add(StyleType.PARAGRAPH, "ThemedStyle");
+        style.getFont().setThemeFont(ThemeFont.MAJOR);
+        style.getFont().setThemeColor(ThemeColor.ACCENT_5);
+        style.getFont().setTintAndShade(0.3);
+
+        builder.getParagraphFormat().setStyleName("ThemedStyle");
+        builder.writeln("Text with themed style");
+        //ExEnd
+        
+        Run run = (Run)((Paragraph)builder.getCurrentParagraph().getPreviousSibling()).getFirstChild();
+
+        Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFont());
+        Assert.assertEquals("Times New Roman", run.getFont().getName());
+
+        Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFontAscii());
+        Assert.assertEquals("Times New Roman", run.getFont().getNameAscii());
+
+        Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFontBi());
+        Assert.assertEquals("Times New Roman", run.getFont().getNameBi());
+
+        Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFontFarEast());
+        Assert.assertEquals("Times New Roman", run.getFont().getNameFarEast());
+
+        Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFontOther());
+        Assert.assertEquals("Times New Roman", run.getFont().getNameOther());
+
+        Assert.assertEquals(ThemeColor.ACCENT_5, run.getFont().getThemeColor());
+        Assert.assertEquals(0, run.getFont().getColor().getRGB());
     }
 }

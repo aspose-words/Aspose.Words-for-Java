@@ -51,12 +51,13 @@ import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.DmlEffectsRenderingMode;
 import com.aspose.words.DmlRenderingMode;
 import java.awt.image.BufferedImage;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.Dml3DEffectsRenderingMode;
 import com.aspose.words.WarningSource;
 import com.aspose.words.CertificateHolder;
 import com.aspose.ms.System.DateTime;
+import java.util.Date;
 import com.aspose.words.PdfDigitalSignatureDetails;
 import com.aspose.words.PdfDigitalSignatureHashAlgorithm;
 import com.aspose.words.FileFormatUtil;
@@ -95,7 +96,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
             // to modify how that method converts the document to .PDF.
             PdfSaveOptions options = new PdfSaveOptions();
-
+            
             // Set the "PageIndex" to "1" to render a portion of the document starting from the second page.
             options.setPageSet(new PageSet(1));
 
@@ -923,27 +924,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 	}
 
     @Test (dataProvider = "escapeUriDataProvider")
-    public void escapeUri(String uri, String result, boolean isEscaped) throws Exception
+    public void escapeUri(String uri, String result) throws Exception
     {
-        //ExStart
-        //ExFor:PdfSaveOptions.EscapeUri
-        //ExSummary:Shows how to escape hyperlinks in the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertHyperlink("Testlink", uri, false);
 
-        // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
-        // to modify how that method converts the document to .PDF.
-        PdfSaveOptions options = new PdfSaveOptions();
-
-        // Set the "EscapeUri" property to "true" if links in the document contain characters,
-        // such as the blank space, that we need to replace with escape sequences, such as "%20".
-        // Set the "EscapeUri" property to "false" if we are sure that this document's links
-        // do not need any such escape character substitution.
-        options.setEscapeUri(isEscaped);
-
-        doc.save(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf", options);
-        //ExEnd
+        doc.save(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf");
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf");
 
@@ -961,10 +948,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 	{
 		return new Object[][]
 		{
-			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q=%20aspose",  true},
-			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose",  true},
-			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q= aspose",  false},
-			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose",  false},
+			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q=%20aspose"},
+			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose"},
 		};
 	}
 
@@ -2069,7 +2054,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage img = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
+        BufferedImage img = ImageIO.read(getImageDir() + "Transparent background logo.png");
         builder.insertImage(img);
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
@@ -2126,7 +2111,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage img = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");
+        BufferedImage img = ImageIO.read(getImageDir() + "Transparent background logo.png");
         builder.insertImage(img);
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
@@ -2237,7 +2222,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         // Configure the "DigitalSignatureDetails" object of the "SaveOptions" object to
         // digitally sign the document as we render it with the "Save" method.
-        DateTime signingTime = DateTime.getNow();
+        DateTime signingTime = new Date();
         options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "My Office", signingTime));
         options.getDigitalSignatureDetails().setHashAlgorithm(PdfDigitalSignatureHashAlgorithm.SHA_256);
 
@@ -2294,7 +2279,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         // Create a digital signature and assign it to our SaveOptions object to sign the document when we save it to PDF. 
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
-        options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", DateTime.getNow()));
+        options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", new Date()));
 
         // Create a timestamp authority-verified timestamp.
         options.getDigitalSignatureDetails().setTimestampSettings(new PdfDigitalSignatureTimestampSettings("https://freetsa.org/tsr", "JohnDoe", "MyPassword"));

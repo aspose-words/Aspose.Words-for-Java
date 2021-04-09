@@ -26,7 +26,6 @@ import com.aspose.words.StyleIdentifier;
 import com.aspose.words.TabStop;
 import com.aspose.words.TabAlignment;
 import com.aspose.words.TabLeader;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.ListTemplate;
 
@@ -114,7 +113,7 @@ public class ExStyles extends ApiExampleBase
     public void styleCollection() throws Exception
     {
         //ExStart
-        //ExFor:StyleCollection.Add(Style)
+        //ExFor:StyleCollection.Add(StyleType,String)
         //ExFor:StyleCollection.Count
         //ExFor:StyleCollection.DefaultFont
         //ExFor:StyleCollection.DefaultParagraphFormat
@@ -136,6 +135,21 @@ public class ExStyles extends ApiExampleBase
 
         Assert.assertEquals("Courier New", styles.get(4).getFont().getName());
         Assert.assertEquals(15.0, styles.get("MyStyle").getParagraphFormat().getFirstLineIndent());
+        //ExEnd
+    }
+
+    @Test
+    public void removeStylesFromStyleGallery() throws Exception
+    {
+        //ExStart
+        //ExFor:StyleCollection.ClearQuickStyleGallery
+        //ExSummary:Shows how to remove styles from Style Gallery panel.
+        Document doc = new Document();
+
+        // Note that remove styles work only with DOCX format for now.
+        doc.getStyles().clearQuickStyleGallery();
+
+        doc.save(getArtifactsDir() + "Styles.RemoveStylesFromStyleGallery.docx");
         //ExEnd
     }
 
@@ -208,7 +222,7 @@ public class ExStyles extends ApiExampleBase
         Assert.assertEquals(doc.getStyles().get("Heading 1").getType(), newStyle.getType());
         Assert.assertEquals(doc.getStyles().get("Heading 1").getFont().getName(), newStyle.getFont().getName());
         Assert.assertEquals(doc.getStyles().get("Heading 1").getFont().getSize(), newStyle.getFont().getSize());
-        msAssert.areNotEqual(doc.getStyles().get("Heading 1").getFont().getColor(), newStyle.getFont().getColor());
+        Assert.assertNotEquals(doc.getStyles().get("Heading 1").getFont().getColor(), newStyle.getFont().getColor());
         //ExEnd
     }
 

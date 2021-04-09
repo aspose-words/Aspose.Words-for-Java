@@ -19,9 +19,10 @@ import org.testng.Assert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.NodeCollection;
 import com.aspose.ms.System.IO.Stream;
+import java.io.FileInputStream;
 import com.aspose.ms.System.IO.File;
 import java.awt.image.BufferedImage;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import com.aspose.words.WrapType;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
@@ -111,7 +112,7 @@ public class ExImage extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Stream stream = File.openRead(getImageDir() + "Logo.jpg");
+        Stream stream = new FileInputStream(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
         {
             builder.write("Image from stream: ");
@@ -132,7 +133,7 @@ public class ExImage extends ApiExampleBase
     {
         DocumentBuilder builder = new DocumentBuilder();
 
-        BufferedImage rasterImage = BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg");
+        BufferedImage rasterImage = ImageIO.read(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
         {
             builder.write("Raster image: ");
@@ -141,7 +142,7 @@ public class ExImage extends ApiExampleBase
         }
         finally { if (rasterImage != null) rasterImage.flush(); }
 
-        BufferedImage metafile = BitmapPal.loadNativeImage(getImageDir() + "Windows MetaFile.wmf");
+        BufferedImage metafile = ImageIO.read(getImageDir() + "Windows MetaFile.wmf");
         try /*JAVA: was using*/
         {
             builder.write("Metafile: ");
@@ -409,7 +410,7 @@ public class ExImage extends ApiExampleBase
         //ExFor:ShapeBase.Width
         //ExFor:ShapeBase.Height
         //ExSummary:Shows how to resize a shape with an image.
-        BufferedImage image = BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg");
+        BufferedImage image = ImageIO.read(getImageDir() + "Logo.jpg");
 
         Assert.assertEquals(400, msSize.getWidth(image.Size));
         Assert.assertEquals(400, msSize.getHeight(image.Size));

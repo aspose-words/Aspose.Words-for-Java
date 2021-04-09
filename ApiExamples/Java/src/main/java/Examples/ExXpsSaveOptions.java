@@ -12,6 +12,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 public class ExXpsSaveOptions extends ApiExampleBase {
     @Test
     public void outlineLevels() throws Exception {
@@ -115,6 +117,20 @@ public class ExXpsSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps", saveOptions);
         //ExEnd
+
+        File outFileInfo = new File(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps");
+
+        if (optimizeOutput)
+            Assert.assertTrue(outFileInfo.length() <= 50000);
+        else
+            Assert.assertTrue(outFileInfo.length() < 65000);
+
+        TestUtil.docPackageFileContainsString(
+                optimizeOutput
+                        ? "Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" " +
+                        "UnicodeString=\"This document contains complex content which can be optimized to save space when \""
+                        : "<Glyphs OriginX=\"34.294998169\" OriginY=\"10.31799984\" UnicodeString=\"This\"",
+                getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps", "1.fpage");
     }
 
     @DataProvider(name = "optimizeOutputDataProvider")

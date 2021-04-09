@@ -55,10 +55,11 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
 
         for (String resource : callback.getResources())
             System.out.println(resource);
+        testResourceFolder(callback); //ExSkip
     }
 
     /// <summary>
-    /// Counts and prints URIs of resources created during conversion to to fixed .xaml.
+    /// Counts and prints URIs of resources created during conversion to fixed .xaml.
     /// </summary>
     private static class ResourceUriPrinter implements IResourceSavingCallback {
         public ResourceUriPrinter() {
@@ -81,5 +82,11 @@ public class ExXamlFixedSaveOptions extends ApiExampleBase {
         private final ArrayList<String> mResources;
     }
     //ExEnd
+
+    private void testResourceFolder(ResourceUriPrinter callback) {
+        Assert.assertEquals(15, callback.getResources().size());
+        for (String resource : callback.getResources())
+            Assert.assertTrue(new File(resource.split("\t")[1]).exists());
+    }
 }
 

@@ -13,6 +13,10 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 @Test
 public class ExTxtSaveOptions extends ApiExampleBase {
     @Test(dataProvider = "pageBreaksDataProvider")
@@ -47,10 +51,61 @@ public class ExTxtSaveOptions extends ApiExampleBase {
 
         Assert.assertEquals(forcePageBreaks ? 3 : 1, doc.getPageCount());
         //ExEnd
+
+        TestUtil.fileContainsString(
+                forcePageBreaks ? "Page 1\r\n\fPage 2\r\n\fPage 3\r\n\r\n" : "Page 1\r\nPage 2\r\nPage 3\r\n\r\n",
+                getArtifactsDir() + "TxtSaveOptions.PageBreaks.txt");
     }
 
     @DataProvider(name = "pageBreaksDataProvider")
-    public static Object[][] pageBreaksDataProvider() {
+    public static Object[][] pageBreaksDataProvider() throws Exception {
+        return new Object[][]
+                {
+                        {false},
+                        {true},
+                };
+    }
+
+    @Test(dataProvider = "addBidiMarksDataProvider")
+    public void addBidiMarks(boolean addBidiMarks) throws Exception {
+        //ExStart
+        //ExFor:TxtSaveOptions.AddBidiMarks
+        //ExSummary:Shows how to insert Unicode Character 'RIGHT-TO-LEFT MARK' (U+200F) before each bi-directional Run in text.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Hello world!");
+        builder.getParagraphFormat().setBidi(true);
+        builder.writeln("שלום עולם!");
+        builder.writeln("مرحبا بالعالم!");
+
+        // Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
+        // to modify how we save the document to plaintext.
+        TxtSaveOptions saveOptions = new TxtSaveOptions();
+        saveOptions.setEncoding(StandardCharsets.UTF_16);
+
+        // Set the "AddBidiMarks" property to "true" to add marks before runs
+        // with right-to-left text to indicate the fact.
+        // Set the "AddBidiMarks" property to "false" to write all left-to-right
+        // and right-to-left run equally with nothing to indicate which is which.
+        saveOptions.setAddBidiMarks(addBidiMarks);
+
+        doc.save(getArtifactsDir() + "TxtSaveOptions.AddBidiMarks.txt", saveOptions);
+
+        String docText = new String(Files.readAllBytes(Paths.get(getArtifactsDir() + "TxtSaveOptions.AddBidiMarks.txt")), StandardCharsets.UTF_16);
+
+        if (addBidiMarks) {
+            Assert.assertEquals("Hello world!\u200E\r\nשלום עולם!\u200F\r\nمرحبا بالعالم!\u200F", docText.trim());
+            Assert.assertTrue(docText.contains("\u200f"));
+        } else {
+            Assert.assertEquals("Hello world!\r\nשלום עולם!\r\nمرحبا بالعالم!", docText.trim());
+            Assert.assertFalse(docText.contains("\u200f"));
+        }
+        //ExEnd
+    }
+
+    @DataProvider(name = "addBidiMarksDataProvider")
+    public static Object[][] addBidiMarksDataProvider() throws Exception {
         return new Object[][]
                 {
                         {false},
@@ -267,6 +322,39 @@ public class ExTxtSaveOptions extends ApiExampleBase {
         Assert.assertEquals("Paragraph 1. End of paragraph.\r\r\t" +
                 "Paragraph 2. End of paragraph.\r\r\t" +
                 "Paragraph 3. End of paragraph.", docText);
+        //ExEnd
+    }
+
+    @Test
+    public void encoding() throws Exception {
+        //ExStart
+        //ExFor:TxtSaveOptionsBase.Encoding
+        //ExSummary:Shows how to set encoding for a .txt output document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Add some text with characters from outside the ASCII character set.
+        builder.write("À È Ì Ò Ù.");
+
+        // Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
+        // to modify how we save the document to plaintext.
+        TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
+
+        // Verify that the "Encoding" property contains the appropriate encoding for our document's contents.
+        Assert.assertEquals(StandardCharsets.UTF_8, txtSaveOptions.getEncoding());
+
+        doc.save(getArtifactsDir() + "TxtSaveOptions.Encoding.UTF8.txt", txtSaveOptions);
+
+        String docText = new String(Files.readAllBytes(Paths.get(getArtifactsDir() + "TxtSaveOptions.Encoding.UTF8.txt")), StandardCharsets.UTF_8);
+
+        Assert.assertEquals("\uFEFFÀ È Ì Ò Ù.", docText.trim());
+
+        // Using an unsuitable encoding may result in a loss of document contents.
+        txtSaveOptions.setEncoding(StandardCharsets.US_ASCII);
+        doc.save(getArtifactsDir() + "TxtSaveOptions.Encoding.ASCII.txt", txtSaveOptions);
+        docText = new String(Files.readAllBytes(Paths.get(getArtifactsDir() + "TxtSaveOptions.Encoding.ASCII.txt")), StandardCharsets.US_ASCII);
+
+        Assert.assertEquals("? ? ? ? ?.", docText.trim());
         //ExEnd
     }
 

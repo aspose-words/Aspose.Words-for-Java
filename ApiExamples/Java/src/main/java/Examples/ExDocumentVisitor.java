@@ -379,7 +379,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         CommentStructurePrinter visitor = new CommentStructurePrinter();
 
         // When we get a composite node to accept a document visitor, the visitor visits the accepting node,
-        // and then traverses all of the node's children in a depth-first manner.
+        // and then traverses all the node's children in a depth-first manner.
         // The visitor can read and modify each visited node.
         doc.accept(visitor);
 
@@ -1002,7 +1002,7 @@ public class ExDocumentVisitor extends ApiExampleBase {
         doc.accept(visitor);
 
         System.out.println(visitor.getText());
-        testSmartTagToText(visitor); //ExEnd
+        testSmartTagToText(visitor); //ExSkip
     }
 
     /// <summary>

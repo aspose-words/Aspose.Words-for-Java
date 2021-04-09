@@ -13,8 +13,8 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.FindReplaceOptions;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.BreakType;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
@@ -28,12 +28,12 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.NodeType;
 import com.aspose.words.Run;
 import com.aspose.ms.System.Convert;
+import com.aspose.ms.System.msString;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
 import java.util.ArrayList;
-import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Node;
 import com.aspose.words.CompositeNode;
@@ -62,7 +62,7 @@ public class ExRange extends ApiExampleBase
         int replacementCount = doc.getRange().replace("_FullName_", "John Doe");
 
         Assert.assertEquals(1, replacementCount);
-        Assert.assertEquals("Greetings, John Doe!", msString.trim(doc.getText()));
+        Assert.assertEquals("Greetings, John Doe!", doc.getText().trim());
         //ExEnd
     }
 
@@ -89,7 +89,7 @@ public class ExRange extends ApiExampleBase
         doc.getRange().replace("Ruby", "Jade", options);
 
         Assert.assertEquals(matchCase ? "Jade bought a ruby necklace." : "Jade bought a Jade necklace.",
-            msString.trim(doc.getText()));
+            doc.getText().trim());
         //ExEnd
     }
 
@@ -128,7 +128,7 @@ public class ExRange extends ApiExampleBase
 
         Assert.assertEquals(
             findWholeWordsOnly ? "Louis will meet you in Jacksonville." : "Louis will meet you in Louisville.",
-            msString.trim(doc.getText()));
+            doc.getText().trim());
         //ExEnd
     }
 
@@ -157,7 +157,7 @@ public class ExRange extends ApiExampleBase
  
         // Start tracking revisions and remove the second paragraph, which will create a delete revision.
         // That paragraph will persist in the document until we accept the delete revision.
-        doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
+        doc.startTrackRevisionsInternal("John Doe", new Date());
         doc.getFirstSection().getBody().getParagraphs().get(1).remove();
         doc.stopTrackRevisions();
 
@@ -177,7 +177,7 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals(
             ignoreTextInsideDeleteRevisions
                 ? "Greetings world!\rHello again!"
-                : "Greetings world!\rGreetings again!", msString.trim(doc.getText()));
+                : "Greetings world!\rGreetings again!", doc.getText().trim());
         //ExEnd
     }
 
@@ -204,7 +204,7 @@ public class ExRange extends ApiExampleBase
         builder.writeln("Hello world!");
 
         // Start tracking revisions and insert a paragraph. That paragraph will be an insert revision.
-        doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
+        doc.startTrackRevisionsInternal("John Doe", new Date());
         builder.writeln("Hello again!");
         doc.stopTrackRevisions();
 
@@ -224,7 +224,7 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals(
             ignoreTextInsideInsertRevisions
                 ? "Greetings world!\rHello again!"
-                : "Greetings world!\rGreetings again!", msString.trim(doc.getText()));
+                : "Greetings world!\rGreetings again!", doc.getText().trim());
         //ExEnd
     }
 
@@ -265,7 +265,7 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals(
             ignoreTextInsideFields
                 ? "Greetings world!\r\u0013QUOTE\u0014Hello again!\u0015"
-                : "Greetings world!\r\u0013QUOTE\u0014Greetings again!\u0015", msString.trim(doc.getText()));
+                : "Greetings world!\r\u0013QUOTE\u0014Greetings again!\u0015", doc.getText().trim());
         //ExEnd
     }
 
@@ -339,7 +339,7 @@ public class ExRange extends ApiExampleBase
 
         doc.getRange().replaceInternal(new Regex("gr(a|e)y"), "lavender");
 
-        Assert.assertEquals("I decided to get the curtains in lavender, ideal for the lavender-accented room.", msString.trim(doc.getText()));
+        Assert.assertEquals("I decided to get the curtains in lavender, ideal for the lavender-accented room.", doc.getText().trim());
         //ExEnd
     }
 
@@ -370,10 +370,10 @@ public class ExRange extends ApiExampleBase
         doc.getRange().replaceInternal(new Regex("New York City|NYC"), "Washington", options);
         
         Assert.assertEquals("Our new location in (Old value:\"New York City\") Washington is opening tomorrow. " +
-                        "Hope to see all our (Old value:\"NYC\") Washington-based customers at the opening!", msString.trim(doc.getText()));
+                        "Hope to see all our (Old value:\"NYC\") Washington-based customers at the opening!", doc.getText().trim());
 
         Assert.assertEquals("\"New York City\" converted to \"Washington\" 20 characters into a Run node.\r\n" +
-                        "\"NYC\" converted to \"Washington\" 42 characters into a Run node.", msString.trim(logger.getLog()));
+                        "\"NYC\" converted to \"Washington\" 42 characters into a Run node.", logger.getLog().trim());
     }
 
     /// <summary>
@@ -433,7 +433,7 @@ public class ExRange extends ApiExampleBase
 
         Assert.assertEquals(4, replacementCount);
         Assert.assertEquals("Numbers that the find-and-replace operation will convert to hexadecimal and highlight:\r" +
-                        "0x7B, 0x1C8, 0x315 and 0x43E3.", msString.trim(doc.getText()));
+                        "0x7B, 0x1C8, 0x315 and 0x43E3.", doc.getText().trim());
         Assert.AreEqual(4, doc.getChildNodes(NodeType.RUN, true).<Run>OfType()
                 .Count(r => r.Font.HighlightColor.ToArgb() == Color.LightGray.ToArgb()));
     }
@@ -510,7 +510,7 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals(ParagraphAlignment.RIGHT, paragraphs.get(2).getParagraphFormat().getAlignment());
         Assert.assertEquals("Every paragraph that ends with a full stop like this one will be right aligned!\r" +
                         "This one will not!\r" +
-                        "This one also will!", msString.trim(doc.getText()));
+                        "This one also will!", doc.getText().trim());
         //ExEnd
     }
 
@@ -529,14 +529,14 @@ public class ExRange extends ApiExampleBase
         builder.insertBreak(BreakType.SECTION_BREAK_CONTINUOUS);
         builder.write("Section 2.");
 
-        Assert.assertEquals("Section 1. \fSection 2.", msString.trim(doc.getText()));
+        Assert.assertEquals("Section 1. \fSection 2.", doc.getText().trim());
 
         // Remove the first section entirely by removing all the nodes
         // within its range, including the section itself.
         doc.getSections().get(0).getRange().delete();
 
         Assert.assertEquals(1, doc.getSections().getCount());
-        Assert.assertEquals("Section 2.", msString.trim(doc.getText()));
+        Assert.assertEquals("Section 2.", doc.getText().trim());
         //ExEnd
     }
 
@@ -552,14 +552,14 @@ public class ExRange extends ApiExampleBase
 
         builder.write("Hello world!");
 
-        Assert.assertEquals("Hello world!", msString.trim(doc.getRange().getText()));
+        Assert.assertEquals("Hello world!", doc.getRange().getText().trim());
         //ExEnd
     }
 
-    @Test (dataProvider = "useLegacyOrderDataProvider")
     //ExStart
     //ExFor:FindReplaceOptions.UseLegacyOrder
     //ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation.
+    @Test (dataProvider = "useLegacyOrderDataProvider") // ExSkip
     public void useLegacyOrder(boolean useLegacyOrder) throws Exception
     {
         Document doc = new Document();
@@ -612,13 +612,13 @@ public class ExRange extends ApiExampleBase
     {
         public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs e)
         {
-            msArrayList.add(getMatches(), e.getMatchInternal().getValue());
+            getMatches().add(e.getMatchInternal().getValue());
             return ReplaceAction.REPLACE;
         }
 
         public ArrayList<String> getMatches() { return mMatches; };
 
-        private ArrayList<String> mMatches; = /*new*/ ArrayList<String>list();
+        private ArrayList<String> mMatches; = /*new*/ArrayList<String>list();
     }
     //ExEnd
 
@@ -648,7 +648,7 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals(
             useSubstitutions
                 ? "Paul bought a car from John.\rJoe bought a house from Jane."
-                : "$3 bought a $2 from $1.\r$3 bought a $2 from $1.", msString.trim(doc.getText()));
+                : "$3 bought a $2 from $1.\r$3 bought a $2 from $1.", doc.getText().trim());
         //ExEnd
     }
 
@@ -708,7 +708,7 @@ public class ExRange extends ApiExampleBase
     /// </summary>
     private static void insertDocument(Node insertionDestination, Document docToInsert)
     {
-        if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE)))
+        if (insertionDestination.getNodeType() == NodeType.PARAGRAPH || insertionDestination.getNodeType() == NodeType.TABLE)
         {
             CompositeNode dstStory = insertionDestination.getParentNode();
 
@@ -719,7 +719,7 @@ public class ExRange extends ApiExampleBase
                 for (Node srcNode : (Iterable<Node>) srcSection.getBody())
                 {
                     // Skip the node if it is the last empty paragraph in a section.
-                    if (((srcNode.getNodeType()) == (NodeType.PARAGRAPH)))
+                    if (srcNode.getNodeType() == NodeType.PARAGRAPH)
                     {
                         Paragraph para = (Paragraph)srcNode;
                         if (para.isEndOfSection() && !para.hasChildNodes())
@@ -743,7 +743,7 @@ public class ExRange extends ApiExampleBase
     {
         Assert.assertEquals("1) At text that can be identified by regex:\rHello World!\r" +
                         "2) At a MERGEFIELD:\r\u0013 MERGEFIELD  Document_1  \\* MERGEFORMAT \u0014«Document_1»\u0015\r" +
-                        "3) At a bookmark:", msString.trim(doc.getFirstSection().getBody().getText()));
+                        "3) At a bookmark:", doc.getFirstSection().getBody().getText().trim());
     }
 
     //ExStart
@@ -781,7 +781,7 @@ public class ExRange extends ApiExampleBase
         Assert.assertEquals("Replacement.\r" +
                         "Replacement.\r" +
                         "Replacement.\r" +
-                        "Replacement.", msString.trim(doc.getText()));
+                        "Replacement.", doc.getText().trim());
 
         switch (findReplaceDirection)
         {
@@ -812,7 +812,7 @@ public class ExRange extends ApiExampleBase
     {
         public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs e)
         {
-            msArrayList.add(getMatches(), e.getMatchInternal().getValue());
+            getMatches().add(e.getMatchInternal().getValue());
             return ReplaceAction.REPLACE;
         }
 

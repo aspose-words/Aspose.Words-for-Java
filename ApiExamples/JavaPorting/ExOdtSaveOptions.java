@@ -20,7 +20,6 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.FileFormatUtil;
 import com.aspose.words.FileFormatInfo;
 import com.aspose.words.LoadOptions;
-import com.aspose.ms.System.msString;
 import org.testng.annotations.DataProvider;
 
 
@@ -155,7 +154,7 @@ class ExOdtSaveOptions !Test class should be public in Java to run, please fix .
         doc = new Document(getArtifactsDir() + "OdtSaveOptions.Encrypt" + extensionString,
             new LoadOptions("@sposeEncrypted_1145"));
 
-        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world!", doc.getText().trim());
         //ExEnd
     }
 

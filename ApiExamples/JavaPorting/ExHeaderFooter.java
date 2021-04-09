@@ -17,14 +17,13 @@ import com.aspose.words.Paragraph;
 import org.testng.Assert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BreakType;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Section;
-import com.aspose.ms.System.msString;
 import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.ExportHeadersFootersMode;
 import com.aspose.words.HeaderFooterCollection;
 import com.aspose.words.FindReplaceOptions;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.IReplacingCallback;
@@ -130,8 +129,8 @@ public class ExHeaderFooter extends ApiExampleBase
 
         // Each section will still have its own header/footer objects. When we link sections,
         // the linking section will display the linked section's header/footers while keeping its own.
-        msAssert.areNotEqual(doc.getSections().get(0).getHeadersFooters().get(0), doc.getSections().get(1).getHeadersFooters().get(0));
-        msAssert.areNotEqual(doc.getSections().get(0).getHeadersFooters().get(0).getParentSection(), doc.getSections().get(1).getHeadersFooters().get(0).getParentSection());
+        Assert.assertNotEquals(doc.getSections().get(0).getHeadersFooters().get(0), doc.getSections().get(1).getHeadersFooters().get(0));
+        Assert.assertNotEquals(doc.getSections().get(0).getHeadersFooters().get(0).getParentSection(), doc.getSections().get(1).getHeadersFooters().get(0).getParentSection());
 
         // Link the headers/footers of the third section to the headers/footers of the second section.
         // The second section already links to the first section's header/footers,
@@ -224,7 +223,7 @@ public class ExHeaderFooter extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         // This document contains headers and footers. We can access them via the "HeadersFooters" collection.
-        Assert.assertEquals("First header", msString.trim(doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_FIRST).getText()));
+        Assert.assertEquals("First header", doc.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_FIRST).getText().trim());
 
         // Formats such as .html do not split the document into pages, so headers/footers will not function the same way
         // they would when we open the document as a .docx using Microsoft Word.
@@ -263,7 +262,7 @@ public class ExHeaderFooter extends ApiExampleBase
             options.setFindWholeWordsOnly(false);
         }
 
-        int currentYear = DateTime.getNow().getYear();
+        int currentYear = new Date().getYear();
         footer.getRange().replace("(C) 2006 Aspose Pty Ltd.", $"Copyright (C) {currentYear} by Aspose Pty Ltd.", options);
 
         doc.save(getArtifactsDir() + "HeaderFooter.ReplaceText.docx");

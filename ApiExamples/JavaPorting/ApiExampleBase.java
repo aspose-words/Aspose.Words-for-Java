@@ -32,7 +32,13 @@ public class ApiExampleBase
     public void oneTimeSetUp() throws Exception
     {
         CurrentThread.setCurrentCulture(msCultureInfo.getInvariantCulture());
-        
+
+        ServicePointManager.ServerCertificateValidationCallback = new
+            RemoteCertificateValidationCallback
+            (
+                delegate { return true; }
+            );
+
         setUnlimitedLicense();
 
         if (!Directory.exists(getArtifactsDir()))
@@ -53,6 +59,12 @@ public class ApiExampleBase
     @OneTimeTearDown
     public void oneTimeTearDown() throws Exception
     {
+        ServicePointManager.ServerCertificateValidationCallback = new
+            RemoteCertificateValidationCallback
+            (
+                delegate { return false; }
+            );
+
         if (Directory.exists(getArtifactsDir()))
             Directory.delete(getArtifactsDir(), true);
     }

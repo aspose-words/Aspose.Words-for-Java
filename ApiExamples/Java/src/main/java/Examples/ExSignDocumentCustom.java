@@ -32,7 +32,7 @@ public class ExSignDocumentCustom extends ApiExampleBase {
     //ExFor:SignOptions.SignatureLineId
     //ExFor:SignOptions.SignatureLineImage
     //ExFor:DigitalSignatureUtil.Sign(String, String, CertificateHolder, SignOptions)
-    //ExSummary:Demonstrates how to add new signature line to the document and sign it with personal signature using SignatureLineId.
+    //ExSummary:Shows how to add a signature line to a document, and then sign it using a digital certificate.
     @Test(description = "WORDSNET-16868") //ExSkip
     public static void sign() throws Exception {
         String signPersonName = "Ron Williams";

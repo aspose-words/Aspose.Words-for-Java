@@ -26,6 +26,7 @@ import java.awt.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -742,9 +743,6 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
-
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataString.docx",
-                getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
     }
 
     @Test
@@ -759,9 +757,6 @@ public class ExReportingEngine extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx");
-
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx",
-                getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
     }
 
     @Test
@@ -815,6 +810,64 @@ public class ExReportingEngine extends ApiExampleBase {
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx",
                 getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
     }
+
+    @Test (dataProvider = "insertComboboxDropdownListItemsDynamicallyDataProvider")
+    public void insertComboboxDropdownListItemsDynamically(int sdtType) throws Exception
+    {
+        final String TEMPLATE =
+            "<<item[\"three\"] [\"3\"]>><<if [false]>><<item [\"four\"] [null]>><</if>><<item[\"five\"] [\"5\"]>>";
+
+        SdtListItem[] staticItems =
+        {
+            new SdtListItem("1", "one"),
+            new SdtListItem("2", "two")
+        };
+
+        Document doc = new Document();
+
+        StructuredDocumentTag sdt = new StructuredDocumentTag(doc, sdtType, MarkupLevel.BLOCK); { sdt.setTitle(TEMPLATE); }
+
+        for (SdtListItem item : staticItems)
+        {
+            sdt.getListItems().add(item);
+        }
+
+        doc.getFirstSection().getBody().appendChild(sdt);
+
+        buildReport(doc, new Object(), "");
+
+        doc.save(getArtifactsDir() + MessageFormat.format("ReportingEngine.InsertComboboxDropdownListItemsDynamically_{0}.docx", sdtType));
+
+        doc = new Document(getArtifactsDir() +
+                           MessageFormat.format("ReportingEngine.InsertComboboxDropdownListItemsDynamically_{0}.docx", sdtType));
+
+        sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+
+        SdtListItem[] expectedItems =
+        {
+            new SdtListItem("1", "one"),
+            new SdtListItem("2", "two"),
+            new SdtListItem("3", "three"),
+            new SdtListItem("5", "five")
+        };
+
+        Assert.assertEquals(expectedItems.length, sdt.getListItems().getCount());
+
+        for (int i = 0; i < expectedItems.length; i++)
+        {
+            Assert.assertEquals(expectedItems[i].getValue(), sdt.getListItems().get(i).getValue());
+            Assert.assertEquals(expectedItems[i].getDisplayText(), sdt.getListItems().get(i).getDisplayText());
+        }
+    }
+
+	@DataProvider(name = "insertComboboxDropdownListItemsDynamicallyDataProvider")
+	public static Object[][] insertComboboxDropdownListItemsDynamicallyDataProvider() {
+		return new Object[][]
+		{
+			{SdtType.COMBO_BOX},
+			{SdtType.DROP_DOWN_LIST},
+		};
+	}
 
     private static void buildReport(final Document document, final Object dataSource) throws Exception {
         ReportingEngine engine = new ReportingEngine();

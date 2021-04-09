@@ -14,7 +14,6 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import org.testng.Assert;
 import com.aspose.words.ControlChar;
-import com.aspose.ms.System.msString;
 import com.aspose.words.NodeType;
 import com.aspose.words.Section;
 import com.aspose.ms.System.Convert;
@@ -47,7 +46,7 @@ public class ExControlChar extends ApiExampleBase
         // When converting a document to string form,
         // we can omit some of the control characters with the Trim method.
         Assert.assertEquals($"Hello world!{ControlChar.Cr}" +
-                        "Hello again!", msString.trim(doc.getText()));
+                        "Hello again!", doc.getText().trim());
         //ExEnd
     }
 

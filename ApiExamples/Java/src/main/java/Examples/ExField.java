@@ -8,26 +8,32 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
+import com.aspose.barcode.barcoderecognition.BarCodeReader;
+import com.aspose.barcode.barcoderecognition.BarCodeResult;
+import com.aspose.barcode.barcoderecognition.DecodeType;
+import com.aspose.pdf.facades.PdfExtractor;
 import com.aspose.words.List;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataColumn;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Globalization.CultureInfo;
+import org.apache.commons.collections4.IterableUtils;
+import org.apache.poi.util.LocaleUtil;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URL;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class ExField extends ApiExampleBase {
@@ -64,6 +70,10 @@ public class ExField extends ApiExampleBase {
         // Update the field to show the current date.
         field.update();
         //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+
+        TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", new SimpleDateFormat("EEEEE, MMMM dd, yyyy").format(new Date()), doc.getRange().getFields().get(0));
     }
 
     @Test
@@ -278,7 +288,7 @@ public class ExField extends ApiExampleBase {
         // Insert a DATE field, and then print the date it will display.
         // Your thread's current culture determines the formatting of the date.
         Field field = builder.insertField("DATE");
-        System.out.println("Today's date, as displayed in the \"{CultureInfo.CurrentCulture.EnglishName}\" culture: {field.Result}");
+        System.out.println(MessageFormat.format("Today''s date, as displayed in the \"{0}\" culture: {1}", Locale.getDefault().getDisplayLanguage(), field.getResult()));
 
         Assert.assertEquals(1033, field.getLocaleId());
         Assert.assertEquals(FieldUpdateCultureSource.CURRENT_THREAD, doc.getFieldOptions().getFieldUpdateCultureSource()); //ExSkip
@@ -291,8 +301,14 @@ public class ExField extends ApiExampleBase {
         field.setLocaleId(1031);
         field.update();
 
-        System.out.println("Today's date, as displayed according to the \"{CultureInfo.GetCultureInfo(field.LocaleId).EnglishName}\" culture: {field.Result}");
+        System.out.println(MessageFormat.format("Today''s date, as displayed according to the \"{0}\" culture: {1}", Locale.forLanguageTag(LocaleUtil.getLocaleFromLCID(field.getLocaleId())).getDisplayLanguage(), field.getResult()));
         //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+        field = doc.getRange().getFields().get(0);
+
+        TestUtil.verifyField(FieldType.FIELD_DATE, "DATE", new SimpleDateFormat(de.getDateTimeFormat().getShortDatePattern()).format(new Date()), field);
+        Assert.assertEquals(1031, field.getLocaleId());
     }
 
     @Test(enabled = false, description = "WORDSNET-16037", dataProvider = "updateDirtyFieldsDataProvider")
@@ -376,6 +392,49 @@ public class ExField extends ApiExampleBase {
 
         Assert.assertThrows(IllegalArgumentException.class, () -> fieldBuilder.addArgument(argumentBuilder).addArgument("=").addArgument("BestField")
                 .addArgument(10).addArgument(20.0).buildAndInsert(run));
+    }
+
+    @Test
+    public void barCodeWord2Pdf() throws Exception {
+        Document doc = new Document(getMyDir() + "Field sample - BARCODE.docx");
+
+        doc.getFieldOptions().setBarcodeGenerator(new CustomBarcodeGenerator());
+
+        doc.save(getArtifactsDir() + "Field.BarCodeWord2Pdf.pdf");
+
+        BarCodeReader barCodeReader = barCodeReaderPdf(getArtifactsDir() + "Field.BarCodeWord2Pdf.pdf");
+
+        BarCodeResult qrBarCode = Arrays.stream(barCodeReader.getFoundBarCodes()).filter(b -> b.getCodeTypeName() == "QR").findFirst().get();
+        Assert.assertEquals("QR", qrBarCode.getCodeTypeName());
+    }
+
+    private BarCodeReader barCodeReaderPdf(String filename) throws Exception {
+        // Set license for Aspose.BarCode.
+        com.aspose.barcode.License licenceBarCode = new com.aspose.barcode.License();
+        licenceBarCode.setLicense(getLicenseDir() + "Aspose.Total.Java.lic");
+
+        PdfExtractor pdfExtractor = new PdfExtractor();
+        pdfExtractor.bindPdf(filename);
+
+        // Set page range for image extraction.
+        pdfExtractor.setStartPage(1);
+        pdfExtractor.setEndPage(1);
+
+        pdfExtractor.extractImage();
+
+        ByteArrayOutputStream imageStream = new ByteArrayOutputStream();
+        pdfExtractor.getNextImage(imageStream);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageStream.toByteArray());
+
+        pdfExtractor.close();
+
+        // Recognize the barcode from the image stream above.
+        BarCodeReader barcodeReader = new BarCodeReader(byteArrayInputStream, DecodeType.QR);
+
+        for (BarCodeResult result : barcodeReader.readBarCodes())
+            System.out.println("Codetext found: " + result.getCodeText() + ", Symbology: " + result.getCodeTypeName());
+
+        return barcodeReader;
     }
 
     @Test(enabled = false, description = "WORDSNET-13854")
@@ -472,8 +531,46 @@ public class ExField extends ApiExampleBase {
         TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.mdb", new StringBuffer(field.getQuery()).insert(7, " TOP 10 ").toString());
     }
 
+    @Test(dataProvider = "preserveIncludePictureDataProvider")
+    public void preserveIncludePicture(boolean preserveIncludePictureField) throws Exception {
+        //ExStart
+        //ExFor:Field.Update(bool)
+        //ExFor:LoadOptions.PreserveIncludePictureField
+        //ExSummary:Shows how to preserve or discard INCLUDEPICTURE fields when loading a document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        FieldIncludePicture includePicture = (FieldIncludePicture) builder.insertField(FieldType.FIELD_INCLUDE_PICTURE, true);
+        includePicture.setSourceFullName(getImageDir() + "Transparent background logo.png");
+        includePicture.update(true);
+
+        try (ByteArrayOutputStream docStream = new ByteArrayOutputStream()) {
+            doc.save(docStream, new OoxmlSaveOptions(SaveFormat.DOCX));
+
+            // We can set a flag in a LoadOptions object to decide whether to convert all INCLUDEPICTURE fields
+            // into image shapes when loading a document that contains them.
+            LoadOptions loadOptions = new LoadOptions();
+            {
+                loadOptions.setPreserveIncludePictureField(preserveIncludePictureField);
+            }
+
+            doc = new Document(new ByteArrayInputStream(docStream.toByteArray()), loadOptions);
+            FieldCollection fieldCollection = doc.getRange().getFields();
+
+            if (preserveIncludePictureField) {
+                Assert.assertTrue(IterableUtils.matchesAny(fieldCollection, f -> f.getType() == FieldType.FIELD_INCLUDE_PICTURE));
+
+                doc.updateFields();
+                doc.save(getArtifactsDir() + "Field.PreserveIncludePicture.docx");
+            } else {
+                Assert.assertFalse(IterableUtils.matchesAny(fieldCollection, f -> f.getType() == FieldType.FIELD_INCLUDE_PICTURE));
+            }
+        }
+        //ExEnd
+    }
+
     @DataProvider(name = "preserveIncludePictureDataProvider")
-    public static Object[][] preserveIncludePictureDataProvider() throws Exception {
+    public static Object[][] preserveIncludePictureDataProvider() {
         return new Object[][]
                 {
                         {false},
@@ -904,7 +1001,7 @@ public class ExField extends ApiExampleBase {
         Iterator<Field> fieldEnumerator = fields.iterator();
 
         while (fieldEnumerator.hasNext()) {
-            if (fieldEnumerator.next() != null) {
+            if (fieldEnumerator != null) {
                 Field currentField = fieldEnumerator.next();
 
                 currentField.getStart().accept(fieldVisitor);
@@ -918,6 +1015,7 @@ public class ExField extends ApiExampleBase {
         }
 
         System.out.println(fieldVisitor.getText());
+        testFieldCollection(fieldVisitor.getText()); //ExSkip
     }
 
     /// <summary>
@@ -968,6 +1066,15 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
+    private void testFieldCollection(String fieldVisitorText) {
+        Assert.assertTrue(fieldVisitorText.contains("Found field: 31"));
+        Assert.assertTrue(fieldVisitorText.contains("Found field: 32"));
+        Assert.assertTrue(fieldVisitorText.contains("Found field: 24"));
+        Assert.assertTrue(fieldVisitorText.contains("Found field: 17"));
+        Assert.assertTrue(fieldVisitorText.contains("Found field: 16"));
+        Assert.assertTrue(fieldVisitorText.contains("Found field: 35"));
+    }
+
     @Test
     public void removeFields() throws Exception {
         //ExStart
@@ -976,7 +1083,6 @@ public class ExField extends ApiExampleBase {
         //ExFor:FieldCollection.Clear
         //ExFor:FieldCollection.Item(Int32)
         //ExFor:FieldCollection.Remove(Field)
-        //ExFor:FieldCollection.Remove(FieldStart)
         //ExFor:FieldCollection.RemoveAt(Int32)
         //ExFor:Field.Remove
         //ExSummary:Shows how to remove fields from a field collection.
@@ -1357,6 +1463,8 @@ public class ExField extends ApiExampleBase {
 
         doc = new Document(getArtifactsDir() + "Field.AUTOTEXT.GLOSSARY.dotx");
 
+        Assert.assertTrue(doc.getFieldOptions().getBuiltInTemplatesPaths().length == 0);
+
         fieldAutoText = (FieldAutoText) doc.getRange().getFields().get(0);
 
         TestUtil.verifyField(FieldType.FIELD_AUTO_TEXT, " AUTOTEXT  MyBlock", "Hello World!\r", fieldAutoText);
@@ -1496,6 +1604,7 @@ public class ExField extends ApiExampleBase {
 
         doc.getMailMerge().execute(table);
 
+        Assert.assertTrue(doc.getRange().getFields().getCount() == 0);
         Assert.assertEquals("Dear Mr. Doe,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
                         "\fDear Mrs. Cardholder,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
                         "\fDear Sir or Madam,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!",
@@ -1657,6 +1766,8 @@ public class ExField extends ApiExampleBase {
 
         Assert.assertEquals("Dear Mr. Doe:\fDear Mrs. Cardholder:", doc.getText().trim());
         //ExEnd
+
+        Assert.assertTrue(doc.getRange().getFields().getCount() == 0);
     }
 
     //ExStart
@@ -2097,7 +2208,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals("MySequence", fieldSeq.getSequenceIdentifier());
     }
 
-    @Test(enabled = false, description = "WORDSNET-18083")
+    @Test(description = "WORDSNET-18083")
     public void tocSeqBookmark() throws Exception {
         //ExStart
         //ExFor:FieldSeq
@@ -2176,10 +2287,13 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(8, doc.getRange().getFields().getCount());
 
         fieldToc = (FieldToc) doc.getRange().getFields().get(0);
-        String[] pageRefIds = (String[]) Arrays.stream(fieldToc.getResult().split(" ")).filter(s -> s.endsWith("_Toc")).toArray();
+        String[] pageRefIds = Arrays.stream(fieldToc.getResult().split(" ")).filter(s -> s.startsWith("_Toc")).toArray(String[]::new);
 
         Assert.assertEquals(FieldType.FIELD_TOC, fieldToc.getType());
         Assert.assertEquals("MySequence", fieldToc.getTableOfFiguresLabel());
+        TestUtil.verifyField(FieldType.FIELD_TOC, " TOC  \\c MySequence \\b TOCBookmark",
+                MessageFormat.format("MySequence #2, will show up in the TOC next to the entry for the above caption.\t\u0013 PAGEREF {0} \\h \u00142\u0015\r", pageRefIds[0]) +
+                        MessageFormat.format("3MySequence #3, text from inside SEQBookmark.\t\u0013 PAGEREF {0} \\h \u00142\u0015\r", pageRefIds[1]), fieldToc);
 
         FieldPageRef fieldPageRef = (FieldPageRef) doc.getRange().getFields().get(1);
 
@@ -2455,6 +2569,54 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(getImageDir() + "Transparent background logo.png", image.getImageData().getSourceFullName());
     }
 
+    //ExStart
+    //ExFor:FieldIncludeText
+    //ExFor:FieldIncludeText.BookmarkName
+    //ExFor:FieldIncludeText.Encoding
+    //ExFor:FieldIncludeText.LockFields
+    //ExFor:FieldIncludeText.MimeType
+    //ExFor:FieldIncludeText.NamespaceMappings
+    //ExFor:FieldIncludeText.SourceFullName
+    //ExFor:FieldIncludeText.TextConverter
+    //ExFor:FieldIncludeText.XPath
+    //ExFor:FieldIncludeText.XslTransformation
+    //ExSummary:Shows how to create an INCLUDETEXT field, and set its properties.
+    @Test(description = "WORDSNET-17543") //ExSkip
+    public void fieldIncludeText() throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Below are two ways to use INCLUDETEXT fields to display the contents of an XML file in the local file system.
+        // 1 -  Perform an XSL transformation on an XML document:
+        FieldIncludeText fieldIncludeText = createFieldIncludeText(builder, getMyDir() + "CD collection data.xml", false, "text/xml", "XML", "ISO-8859-1");
+        fieldIncludeText.setXslTransformation(getMyDir() + "CD collection XSL transformation.xsl");
+
+        builder.writeln();
+
+        // 2 -  Use an XPath to take specific elements from an XML document:
+        fieldIncludeText = createFieldIncludeText(builder, getMyDir() + "CD collection data.xml", false, "text/xml", "XML", "ISO-8859-1");
+        fieldIncludeText.setNamespaceMappings("xmlns:n='myNamespace'");
+        fieldIncludeText.setXPath("/catalog/cd/title");
+
+        doc.save(getArtifactsDir() + "Field.INCLUDETEXT.docx");
+    }
+
+    /// <summary>
+    /// Use a document builder to insert an INCLUDETEXT field with custom properties.
+    /// </summary>
+    @Test(enabled = false)
+    public FieldIncludeText createFieldIncludeText(DocumentBuilder builder, String sourceFullName, boolean lockFields, String mimeType, String textConverter, String encoding) throws Exception {
+        FieldIncludeText fieldIncludeText = (FieldIncludeText) builder.insertField(FieldType.FIELD_INCLUDE_TEXT, true);
+        fieldIncludeText.setSourceFullName(sourceFullName);
+        fieldIncludeText.setLockFields(lockFields);
+        fieldIncludeText.setMimeType(mimeType);
+        fieldIncludeText.setTextConverter(textConverter);
+        fieldIncludeText.setEncoding(encoding);
+
+        return fieldIncludeText;
+    }
+    //ExEnd
+
     @Test(enabled = false, description = "WORDSNET-17545")
     public void fieldHyperlink() throws Exception {
         //ExStart
@@ -2610,6 +2772,65 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(200.0d, shape.getHeight());
     }
 
+    //ExStart
+    //ExFor:ImageFieldMergingArgs.Image
+    //ExSummary:Shows how to use a callback to customize image merging logic.
+    @Test //ExSkip
+    public void mergeFieldImages() throws Exception {
+        Document doc = new Document();
+
+        // Insert a MERGEFIELD that will accept images from a source during a mail merge. Use the field code to reference
+        // a column in the data source which contains local system filenames of images we wish to use in the mail merge.
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        FieldMergeField field = (FieldMergeField) builder.insertField("MERGEFIELD Image:ImageColumn");
+
+        // In this case, the field expects the data source to have such a column named "ImageColumn".
+        Assert.assertEquals("Image:ImageColumn", field.getFieldName());
+
+        // Filenames can be lengthy, and if we can find a way to avoid storing them in the data source,
+        // we may considerably reduce its size.
+        // Create a data source that refers to images using short names.
+        DataTable dataTable = new DataTable("Images");
+        dataTable.getColumns().add(new DataColumn("ImageColumn"));
+        dataTable.getRows().add("Dark logo");
+        dataTable.getRows().add("Transparent logo");
+
+        // Assign a merging callback that contains all logic that processes those names,
+        // and then execute the mail merge. 
+        doc.getMailMerge().setFieldMergingCallback(new ImageFilenameCallback());
+        doc.getMailMerge().execute(dataTable);
+
+        doc.save(getArtifactsDir() + "Field.MERGEFIELD.Images.docx");
+        testMergeFieldImages(new Document(getArtifactsDir() + "Field.MERGEFIELD.Images.docx")); //ExSkip
+    }
+
+    /// <summary>
+    /// Contains a dictionary that maps names of images to local system filenames that contain these images.
+    /// If a mail merge data source uses one of the dictionary's names to refer to an image,
+    /// this callback will pass the respective filename to the merge destination.
+    /// </summary>
+    private static class ImageFilenameCallback implements IFieldMergingCallback {
+        public ImageFilenameCallback() {
+            mImageFilenames.put("Dark logo", getImageDir() + "Logo.jpg");
+            mImageFilenames.put("Transparent logo", getImageDir() + "Transparent background logo.png");
+        }
+
+        public void fieldMerging(FieldMergingArgs args) {
+            throw new UnsupportedOperationException();
+        }
+
+        public void imageFieldMerging(ImageFieldMergingArgs args) throws IOException {
+            if (mImageFilenames.containsKey(args.getFieldValue().toString())) {
+                args.setImage(ImageIO.read(new File(mImageFilenames.get(args.getFieldValue().toString()))));
+            }
+
+            Assert.assertNotNull(args.getImage());
+        }
+
+        private final HashMap<String, String> mImageFilenames = new HashMap<>();
+    }
+    //ExEnd
+
     private void testMergeFieldImages(Document doc) throws Exception {
         doc = DocumentHelper.saveOpen(doc);
 
@@ -2618,15 +2839,15 @@ public class ExField extends ApiExampleBase {
 
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
-        Assert.assertEquals(300.0d, shape.getWidth());
-        Assert.assertEquals(300.0d, shape.getHeight());
+        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, shape);
+        Assert.assertEquals(300.0d, shape.getWidth(), 1);
+        Assert.assertEquals(300.0d, shape.getHeight(), 1);
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
 
         TestUtil.verifyImageInShape(400, 400, ImageType.PNG, shape);
-        Assert.assertEquals(300.0d, shape.getWidth());
-        Assert.assertEquals(300.0d, shape.getHeight());
+        Assert.assertEquals(300.0d, shape.getWidth(), 1);
+        Assert.assertEquals(300.0d, shape.getHeight(), 1);
     }
 
     @Test(enabled = false, description = "WORDSNET-17524")
@@ -4307,47 +4528,6 @@ public class ExField extends ApiExampleBase {
     }
 
     @Test(enabled = false, description = "WORDSNET-17669")
-    public void fieldCreateDate() throws Exception {
-        //ExStart
-        //ExFor:FieldCreateDate
-        //ExFor:FieldCreateDate.UseLunarCalendar
-        //ExFor:FieldCreateDate.UseSakaEraCalendar
-        //ExFor:FieldCreateDate.UseUmAlQuraCalendar
-        //ExSummary:Shows how to use the CREATEDATE field to display the creation date/time of the document.
-        Document doc = new Document(getMyDir() + "Document.docx");
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.moveToDocumentEnd();
-        builder.writeln(" Date this document was created:");
-
-        // We can use the CREATEDATE field to display the date and time of the creation of the document.
-        // Below are three different calendar types according to which the CREATEDATE field can display the date/time.
-        // 1 -  Islamic Lunar Calendar:
-        builder.write("According to the Lunar Calendar - ");
-        FieldCreateDate field = (FieldCreateDate) builder.insertField(FieldType.FIELD_CREATE_DATE, true);
-        field.setUseLunarCalendar(true);
-
-        Assert.assertEquals(" CREATEDATE  \\h", field.getFieldCode());
-
-        // 2 -  Umm al-Qura calendar:
-        builder.write("\nAccording to the Umm al-Qura Calendar - ");
-        field = (FieldCreateDate) builder.insertField(FieldType.FIELD_CREATE_DATE, true);
-        field.setUseUmAlQuraCalendar(true);
-
-        Assert.assertEquals(" CREATEDATE  \\u", field.getFieldCode());
-
-        // 3 -  Indian National Calendar:
-        builder.write("\nAccording to the Indian National Calendar - ");
-        field = (FieldCreateDate) builder.insertField(FieldType.FIELD_CREATE_DATE, true);
-        field.setUseSakaEraCalendar(true);
-
-        Assert.assertEquals(" CREATEDATE  \\s", field.getFieldCode());
-
-        doc.updateFields();
-        doc.save(getArtifactsDir() + "Field.CREATEDATE.docx");
-        //ExEnd
-    }
-
-    @Test(enabled = false, description = "WORDSNET-17669")
     public void fieldSaveDate() throws Exception {
         //ExStart
         //ExFor:BuiltInDocumentProperties.LastSavedTime
@@ -4637,6 +4817,7 @@ public class ExField extends ApiExampleBase {
 
         // 2 -  Display a custom document variable:
         // Define a custom variable, then reference that variable with a DOCPROPERTY field.
+        Assert.assertTrue(doc.getVariables().getCount() == 0);
         doc.getVariables().add("My variable", "My variable's value");
 
         FieldDocVariable fieldDocVariable = (FieldDocVariable) builder.insertField(FieldType.FIELD_DOC_VARIABLE, true);
@@ -4865,13 +5046,13 @@ public class ExField extends ApiExampleBase {
         // it will prompt us to enter a response. The field will then display the response as text.
         FieldFillIn field = (FieldFillIn) builder.insertField(FieldType.FIELD_FILL_IN, true);
         field.setPromptText("Please enter a response:");
-        field.setDefaultResponse("A default response");
+        field.setDefaultResponse("A default response.");
 
         // We can also use these fields to ask the user for a unique response for each page
         // created during a mail merge done using Microsoft Word.
         field.setPromptOnceOnMailMerge(true);
 
-        Assert.assertEquals(" FILLIN  \"Please enter a response:\" \\d \"A default response\" \\o", field.getFieldCode());
+        Assert.assertEquals(" FILLIN  \"Please enter a response:\" \\d \"A default response.\" \\o", field.getFieldCode());
 
         FieldMergeField mergeField = (FieldMergeField) builder.insertField(FieldType.FIELD_MERGE_FIELD, true);
         mergeField.setFieldName("MergeField");
@@ -4903,10 +5084,10 @@ public class ExField extends ApiExampleBase {
 
         FieldFillIn field = (FieldFillIn) doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_FILL_IN, " FILLIN  \"Please enter a response:\" \\d \"A default response\" \\o",
-                "Response modified by PromptRespondent. A default response", field);
+        TestUtil.verifyField(FieldType.FIELD_FILL_IN, " FILLIN  \"Please enter a response:\" \\d \"A default response.\" \\o",
+                "Response modified by PromptRespondent. A default response.", field);
         Assert.assertEquals("Please enter a response:", field.getPromptText());
-        Assert.assertEquals("A default response", field.getDefaultResponse());
+        Assert.assertEquals("A default response.", field.getDefaultResponse());
         Assert.assertTrue(field.getPromptOnceOnMailMerge());
     }
 
@@ -5879,7 +6060,6 @@ public class ExField extends ApiExampleBase {
         field = (FieldTemplate) doc.getRange().getFields().get(1);
         Assert.assertEquals(" TEMPLATE  \\p", field.getFieldCode());
         Assert.assertTrue(field.getResult().endsWith("\\Microsoft\\Templates\\Normal.dotm"));
-
     }
 
     @Test
@@ -6343,7 +6523,7 @@ public class ExField extends ApiExampleBase {
     }
     //ExEnd
 
-    private void testFieldEQ(Document doc) {
+    private void testFieldEQ(Document doc) throws IOException {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\f(1,4)", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\al \\co2 \\vs3 \\hs3(4x,- 4y,-4x,+ y)", "", doc.getRange().getFields().get(1));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\b \\bc\\[ (\\a \\al \\co3 \\vs3 \\hs3(1,0,0,0,1,0,0,0,1))", "", doc.getRange().getFields().get(2));
@@ -6357,6 +6537,7 @@ public class ExField extends ApiExampleBase {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\ac \\vs1 \\co1(lim,n→∞) \\b (\\f(n,n2 + 12) + \\f(n,n2 + 22) + ... + \\f(n,n2 + n2))", "", doc.getRange().getFields().get(10));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\i (,,  \\b(\\f(x,x2 + 3x + 2))) \\s \\up10(2)", "", doc.getRange().getFields().get(11));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\i \\in( tan x, \\s \\up2(sec x), \\b(\\r(3) )\\s \\up4(t) \\s \\up7(2)  dt)", "", doc.getRange().getFields().get(12));
+        TestUtil.verifyWebResponseStatusCode(200, new URL("https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/"));
     }
 
     @Test
@@ -6800,5 +6981,186 @@ public class ExField extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Field.SetFieldIndexFormat.docx");
         //ExEnd
+    }
+
+    //ExStart
+    //ExFor:ComparisonEvaluationResult.#ctor(bool)
+    //ExFor:ComparisonEvaluationResult.#ctor(string)
+    //ExFor:ComparisonEvaluationResult
+    //ExFor:ComparisonExpression
+    //ExFor:ComparisonExpression.LeftExpression
+    //ExFor:ComparisonExpression.ComparisonOperator
+    //ExFor:ComparisonExpression.RightExpression
+    //ExFor:FieldOptions.ComparisonExpressionEvaluator
+    //ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields.
+    @Test(dataProvider = "conditionEvaluationExtensionPointDataProvider") //ExSkip
+    public void conditionEvaluationExtensionPoint(String fieldCode, byte comparisonResult, String comparisonError,
+                                                  String expectedResult) throws Exception {
+        final String LEFT = "\"left expression\"";
+        final String _OPERATOR = "<>";
+        final String RIGHT = "\"right expression\"";
+
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // Field codes that we use in this example:
+        // 1.   " IF %s %s %s \"true argument\" \"false argument\" ".
+        // 2.   " COMPARE %s %s %s ".
+        Field field = builder.insertField(String.format(fieldCode, LEFT, _OPERATOR, RIGHT), null);
+
+        // If the "comparisonResult" is undefined, we create "ComparisonEvaluationResult" with string, instead of bool.
+        ComparisonEvaluationResult result = comparisonResult != -1
+                ? new ComparisonEvaluationResult(comparisonResult == 1)
+                : comparisonError != null ? new ComparisonEvaluationResult(comparisonError) : null;
+
+        ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(result);
+        builder.getDocument().getFieldOptions().setComparisonExpressionEvaluator(evaluator);
+
+        builder.getDocument().updateFields();
+
+        Assert.assertEquals(expectedResult, field.getResult());
+        evaluator.assertInvocationsCount(1).assertInvocationArguments(0, LEFT, _OPERATOR, RIGHT);
+    }
+
+    @DataProvider(name = "conditionEvaluationExtensionPointDataProvider")
+    public static Object[][] conditionEvaluationExtensionPointDataProvider() {
+        return new Object[][]
+                {
+                        {" IF %s %s %s \"true argument\" \"false argument\" ", (byte) 1, null, "true argument"},
+                        {" IF %s %s %s \"true argument\" \"false argument\" ", (byte) 0, null, "false argument"},
+                        {" IF %s %s %s \"true argument\" \"false argument\" ", (byte) -1, "Custom Error", "Custom Error"},
+                        {" IF %s %s %s \"true argument\" \"false argument\" ", (byte) -1, null, "true argument"},
+                        {" COMPARE %s %s %s ", (byte) 1, null, "1"},
+                        {" COMPARE %s %s %s ", (byte) 0, null, "0"},
+                        {" COMPARE %s %s %s ", (byte) -1, "Custom Error", "Custom Error"},
+                        {" COMPARE %s %s %s ", (byte) -1, null, "1"},
+                };
+    }
+
+    /// <summary>
+    /// Comparison expressions evaluation for the FieldIf and FieldCompare.
+    /// </summary>
+    private static class ComparisonExpressionEvaluator implements IComparisonExpressionEvaluator {
+        public ComparisonExpressionEvaluator(ComparisonEvaluationResult result) {
+            mResult = result;
+        }
+
+        public ComparisonEvaluationResult evaluate(Field field, ComparisonExpression expression) {
+            mInvocations.add(new String[]
+                    {
+                            expression.getLeftExpression(),
+                            expression.getComparisonOperator(),
+                            expression.getRightExpression()
+                    });
+
+            return mResult;
+        }
+
+        public ComparisonExpressionEvaluator assertInvocationsCount(int expected) {
+            Assert.assertEquals(expected, mInvocations.size());
+            return this;
+        }
+
+        public ComparisonExpressionEvaluator assertInvocationArguments(
+                int invocationIndex,
+                String expectedLeftExpression,
+                String expectedComparisonOperator,
+                String expectedRightExpression) {
+            String[] arguments = mInvocations.get(invocationIndex);
+
+            Assert.assertEquals(expectedLeftExpression, arguments[0]);
+            Assert.assertEquals(expectedComparisonOperator, arguments[1]);
+            Assert.assertEquals(expectedRightExpression, arguments[2]);
+
+            return this;
+        }
+
+        private final ComparisonEvaluationResult mResult;
+        private final ArrayList<String[]> mInvocations = new ArrayList<>();
+    }
+    //ExEnd
+
+    @Test
+    public void comparisonExpressionEvaluatorNestedFields() throws Exception {
+        Document document = new Document();
+
+        new FieldBuilder(FieldType.FIELD_IF)
+                .addArgument(
+                        new FieldBuilder(FieldType.FIELD_IF)
+                                .addArgument(123)
+                                .addArgument(">")
+                                .addArgument(666)
+                                .addArgument("left greater than right")
+                                .addArgument("left less than right"))
+                .addArgument("<>")
+                .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                        .addArgument("left expression")
+                        .addArgument("=")
+                        .addArgument("right expression")
+                        .addArgument("expression are equal")
+                        .addArgument("expression are not equal"))
+                .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                        .addArgument(new FieldArgumentBuilder()
+                                .addText("#")
+                                .addField(new FieldBuilder(FieldType.FIELD_PAGE)))
+                        .addArgument("=")
+                        .addArgument(new FieldArgumentBuilder()
+                                .addText("#")
+                                .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+                        .addArgument("the last page")
+                        .addArgument("not the last page"))
+                .addArgument(new FieldBuilder(FieldType.FIELD_IF)
+                        .addArgument("unexpected")
+                        .addArgument("=")
+                        .addArgument("unexpected")
+                        .addArgument("unexpected")
+                        .addArgument("unexpected"))
+                .buildAndInsert(document.getFirstSection().getBody().getFirstParagraph());
+
+        ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(null);
+        document.getFieldOptions().setComparisonExpressionEvaluator(evaluator);
+
+        document.updateFields();
+
+        evaluator
+                .assertInvocationsCount(4)
+                .assertInvocationArguments(0, "123", ">", "666")
+                .assertInvocationArguments(1, "\"left expression\"", "=", "\"right expression\"")
+                .assertInvocationArguments(2, "left less than right", "<>", "expression are not equal")
+                .assertInvocationArguments(3, "\"#1\"", "=", "\"#1\"");
+    }
+
+    @Test
+    public void comparisonExpressionEvaluatorHeaderFooterFields() throws Exception {
+        Document document = new Document();
+        DocumentBuilder builder = new DocumentBuilder(document);
+
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+
+        new FieldBuilder(FieldType.FIELD_IF)
+                .addArgument(new FieldBuilder(FieldType.FIELD_PAGE))
+                .addArgument("=")
+                .addArgument(new FieldBuilder(FieldType.FIELD_NUM_PAGES))
+                .addArgument(new FieldArgumentBuilder()
+                        .addField(new FieldBuilder(FieldType.FIELD_PAGE))
+                        .addText(" / ")
+                        .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+                .addArgument(new FieldArgumentBuilder()
+                        .addField(new FieldBuilder(FieldType.FIELD_PAGE))
+                        .addText(" / ")
+                        .addField(new FieldBuilder(FieldType.FIELD_NUM_PAGES)))
+                .buildAndInsert(builder.getCurrentParagraph());
+
+        ComparisonExpressionEvaluator evaluator = new ComparisonExpressionEvaluator(null);
+        document.getFieldOptions().setComparisonExpressionEvaluator(evaluator);
+
+        document.updateFields();
+
+        evaluator
+                .assertInvocationsCount(3)
+                .assertInvocationArguments(0, "1", "=", "3")
+                .assertInvocationArguments(1, "2", "=", "3")
+                .assertInvocationArguments(2, "3", "=", "3");
     }
 }

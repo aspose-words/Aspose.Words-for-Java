@@ -19,7 +19,6 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.IImageSavingCallback;
 import java.util.ArrayList;
 import com.aspose.words.ImageSavingArgs;
-import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.File;
@@ -84,7 +83,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
 
         public void /*IImageSavingCallback.*/imageSaving(ImageSavingArgs args) throws Exception
         {
-            msArrayList.add(getResources(), args.getImageFileName());
+            getResources().add(args.getImageFileName());
 
             // If we specified an image folder alias, we would also need
             // to redirect each stream to put its image in the alias folder.

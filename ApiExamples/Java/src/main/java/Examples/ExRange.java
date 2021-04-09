@@ -493,10 +493,10 @@ public class ExRange extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test(dataProvider = "useLegacyOrderDataProvider")
     //ExStart
     //ExFor:FindReplaceOptions.UseLegacyOrder
     //ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation.
+    @Test(dataProvider = "useLegacyOrderDataProvider") //ExSkip
     public void useLegacyOrder(boolean useLegacyOrder) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -523,7 +523,7 @@ public class ExRange extends ApiExampleBase {
         // find-and-replace operation will go over all the runs in a range in sequential order.
         options.setUseLegacyOrder(useLegacyOrder);
 
-        doc.getRange().replace("\\[tag \\d*\\]", "", options);
+        doc.getRange().replace("\\[tag d*\\]", "", options);
     }
 
     @DataProvider(name = "useLegacyOrderDataProvider")
@@ -605,7 +605,7 @@ public class ExRange extends ApiExampleBase {
         FindReplaceOptions options = new FindReplaceOptions();
         options.setReplacingCallback(new InsertDocumentAtReplaceHandler());
 
-        mainDoc.getRange().replace("[MY_DOCUMENT]", "", options);
+        mainDoc.getRange().replace("\\[MY_DOCUMENT\\]", "", options);
         mainDoc.save(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx");
 
         testInsertDocumentAtReplace(new Document(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx")); //ExSkip

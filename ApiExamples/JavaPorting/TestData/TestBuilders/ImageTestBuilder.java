@@ -5,7 +5,7 @@ package ApiExamples.TestData.TestBuilders;
 import ApiExamples.ApiExampleBase;
 import java.awt.image.BufferedImage;
 import com.aspose.ms.System.IO.Stream;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import ApiExamples.TestData.TestClasses.ImageTestClass;
 
 
@@ -18,7 +18,7 @@ public class ImageTestBuilder extends ApiExampleBase
 
     public ImageTestBuilder()
     {
-        mImage = BitmapPal.loadNativeImage(getImageDir() + "Transparent background logo.png");            
+        mImage = ImageIO.read(getImageDir() + "Transparent background logo.png");            
         mImageStream = Stream.Null;
         mImageBytes = new byte[0];
         mImageString = "";

@@ -90,7 +90,7 @@ public class ExStyles extends ApiExampleBase {
     @Test
     public void styleCollection() throws Exception {
         //ExStart
-        //ExFor:StyleCollection.Add(Style)
+        //ExFor:StyleCollection.Add(StyleType,String)
         //ExFor:StyleCollection.Count
         //ExFor:StyleCollection.DefaultFont
         //ExFor:StyleCollection.DefaultParagraphFormat
@@ -116,7 +116,23 @@ public class ExStyles extends ApiExampleBase {
     }
 
     @Test
-    public void changeTocsTabStops() throws Exception {
+    public void removeStylesFromStyleGallery() throws Exception
+    {
+        //ExStart
+        //ExFor:StyleCollection.ClearQuickStyleGallery
+        //ExSummary:Shows how to remove styles from Style Gallery panel.
+        Document doc = new Document();
+
+        // Note that remove styles work only with DOCX format for now.
+        doc.getStyles().clearQuickStyleGallery();
+
+        doc.save(getArtifactsDir() + "Styles.RemoveStylesFromStyleGallery.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void changeTocsTabStops() throws Exception
+    {
         //ExStart
         //ExFor:TabStop
         //ExFor:ParagraphFormat.TabStops

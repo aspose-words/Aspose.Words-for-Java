@@ -21,6 +21,8 @@ import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExHtmlFixedSaveOptions extends ApiExampleBase {
     @Test
@@ -118,12 +120,24 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts.html", htmlFixedSaveOptions);
+
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts/styles.css"), StandardCharsets.UTF_8);
+
+        if (exportEmbeddedFonts)
+        {
+            Assert.assertTrue(Pattern.compile("@font-face [{] font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], url[(].+[)] format[(]'woff'[)]; [}]").matcher(outDocContents).find());
+            Assert.assertEquals(0, DocumentHelper.directoryGetFiles(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts", "*.woff").size());
+        }
+        else
+        {
+            Assert.assertTrue(Pattern.compile("@font-face [{] font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], url[(]'font001[.]woff'[)] format[(]'woff'[)]; [}]").matcher(outDocContents).find());
+            Assert.assertEquals(2, DocumentHelper.directoryGetFiles(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedFonts", "*.woff").size());
+        }
         //ExEnd
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "exportEmbeddedFontsDataProvider")
-    public static Object[][] exportEmbeddedFontsDataProvider() throws Exception {
+    public static Object[][] exportEmbeddedFontsDataProvider() {
         return new Object[][]
                 {
                         {true},
@@ -150,12 +164,25 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedImages.html", htmlFixedSaveOptions);
+
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedImages.html"), StandardCharsets.UTF_8);
+
+        if (exportImages)
+        {
+            Assert.assertFalse(new File(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedImages/image001.jpeg").exists());
+            Assert.assertTrue(Pattern.compile("<img class=\"awimg\" style=\"left:0pt; top:0pt; width:493.1pt; height:300.55pt;\" src=\".+\" />").matcher(outDocContents).find());
+        }
+        else
+        {
+            Assert.assertTrue(new File(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedImages/image001.jpeg").exists());
+            Assert.assertTrue(Pattern.compile("<img class=\"awimg\" style=\"left:0pt; top:0pt; width:493.1pt; height:300.55pt;\" " +
+                "src=\"HtmlFixedSaveOptions[.]ExportEmbeddedImages/image001[.]jpeg\" />").matcher(outDocContents).find());
+        }
         //ExEnd
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "exportEmbeddedImagesDataProvider")
-    public static Object[][] exportEmbeddedImagesDataProvider() throws Exception {
+    public static Object[][] exportEmbeddedImagesDataProvider() {
         return new Object[][]
                 {
                         {true},
@@ -182,12 +209,21 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedSvgs.html", htmlFixedSaveOptions);
+
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedSvgs.html"), StandardCharsets.UTF_8);
+
+        if (exportSvgs) {
+            Assert.assertFalse(new File(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedSvgs/svg001.svg").exists());
+            Assert.assertTrue(Pattern.compile("<image id=\"image004\" xlink:href=.+/>").matcher(outDocContents).find());
+        } else {
+            Assert.assertTrue(new File(getArtifactsDir() + "HtmlFixedSaveOptions.ExportEmbeddedSvgs/svg001.svg").exists());
+            Assert.assertTrue(Pattern.compile("<object type=\"image/svg[+]xml\" data=\"HtmlFixedSaveOptions.ExportEmbeddedSvgs/svg001[.]svg\"></object>").matcher(outDocContents).find());
+        }
         //ExEnd
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "exportEmbeddedSvgsDataProvider")
-    public static Object[][] exportEmbeddedSvgsDataProvider() throws Exception {
+    public static Object[][] exportEmbeddedSvgsDataProvider() {
         return new Object[][]
                 {
                         {true},
@@ -217,12 +253,26 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.ExportFormFields.html", htmlFixedSaveOptions);
+
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.ExportFormFields.html"), StandardCharsets.UTF_8);
+
+        if (exportFormFields)
+        {
+            Assert.assertTrue(Pattern.compile(
+                "<a name=\"CheckBox\" style=\"left:0pt; top:0pt;\"></a>" +
+                "<input style=\"position:absolute; left:0pt; top:0pt;\" type=\"checkbox\" name=\"CheckBox\" />").matcher(outDocContents).find());
+        }
+        else
+        {
+            Assert.assertTrue(Pattern.compile(
+                "<a name=\"CheckBox\" style=\"left:0pt; top:0pt;\"></a>" +
+                "<div class=\"awdiv\" style=\"left:0.8pt; top:0.8pt; width:14.25pt; height:14.25pt; border:solid 0.75pt #000000;\"").matcher(outDocContents).find());
+        }
         //ExEnd
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "exportFormFieldsDataProvider")
-    public static Object[][] exportFormFieldsDataProvider() throws Exception {
+    public static Object[][] exportFormFieldsDataProvider() {
         return new Object[][]
                 {
                         {true},
@@ -246,14 +296,23 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix.html", htmlFixedSaveOptions);
 
-        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix.html"), "utf-8");
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix.html"), StandardCharsets.UTF_8);
 
-        Assert.assertTrue(outDocContents.contains("<div class=\"myprefixdiv myprefixpage\""));
+        Assert.assertTrue(Pattern.compile(
+            "<div class=\"myprefixdiv myprefixpage\" style=\"width:595[.]3pt; height:841[.]9pt;\">" +
+            "<div class=\"myprefixdiv\" style=\"left:85[.]05pt; top:36pt; clip:rect[(]0pt,510[.]25pt,74[.]95pt,-85.05pt[)];\">" +
+            "<span class=\"myprefixspan myprefixtext001\" style=\"font-size:11pt; left:294[.]73pt; top:0[.]36pt;\">").matcher(outDocContents).find());
+
+        outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix/styles.css"), StandardCharsets.UTF_8);
+
+        Assert.assertTrue(Pattern.compile(
+            ".myprefixdiv [{] position:absolute; [}] " +
+            ".myprefixspan [{] position:absolute; white-space:pre; color:#000000; font-size:12pt; [}]").matcher(outDocContents).find());
         //ExEnd
     }
 
     @Test(dataProvider = "horizontalAlignmentDataProvider")
-    public void horizontalAlignment(/*HtmlFixedPageHorizontalAlignment*/int pageHorizontalAlignment) throws Exception {
+    public void horizontalAlignment(int pageHorizontalAlignment) throws Exception {
         //ExStart
         //ExFor:HtmlFixedSaveOptions.PageHorizontalAlignment
         //ExFor:HtmlFixedPageHorizontalAlignment
@@ -266,12 +325,29 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.HorizontalAlignment.html", htmlFixedSaveOptions);
+
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.HorizontalAlignment/styles.css"), StandardCharsets.UTF_8);
+
+        switch (pageHorizontalAlignment)
+        {
+            case HtmlFixedPageHorizontalAlignment.CENTER:
+                Assert.assertTrue(Pattern.compile(
+                    "[.]awpage [{] position:relative; border:solid 1pt black; margin:10pt auto 10pt auto; overflow:hidden; [}]").matcher(outDocContents).find());
+                break;
+            case HtmlFixedPageHorizontalAlignment.LEFT:
+                Assert.assertTrue(Pattern.compile(
+                    "[.]awpage [{] position:relative; border:solid 1pt black; margin:10pt auto 10pt 10pt; overflow:hidden; [}]").matcher(outDocContents).find());
+                break;
+            case HtmlFixedPageHorizontalAlignment.RIGHT:
+                Assert.assertTrue(Pattern.compile(
+                    "[.]awpage [{] position:relative; border:solid 1pt black; margin:10pt 10pt 10pt auto; overflow:hidden; [}]").matcher(outDocContents).find());
+                break;
+        }
         //ExEnd
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "horizontalAlignmentDataProvider")
-    public static Object[][] horizontalAlignmentDataProvider() throws Exception {
+    public static Object[][] horizontalAlignmentDataProvider() {
         return new Object[][]
                 {
                         {HtmlFixedPageHorizontalAlignment.CENTER},
@@ -293,6 +369,11 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.PageMargins.html", saveOptions);
+
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.PageMargins/styles.css"), StandardCharsets.UTF_8);
+
+        Assert.assertTrue(Pattern.compile(
+            "[.]awpage [{] position:relative; border:solid 1pt black; margin:15pt auto 15pt auto; overflow:hidden; [}]").matcher(outDocContents).find());
         //ExEnd
     }
 
@@ -316,12 +397,19 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
+
+        // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
+        if (optimizeOutput)
+            Assert.assertEquals(58000.0, 
+                new File(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").length(), 200.0);
+        else
+            Assert.assertEquals(161100.0, 
+                new File(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").length(), 200.0);
         //ExEnd
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "optimizeGraphicsOutputDataProvider")
-    public static Object[][] optimizeGraphicsOutputDataProvider() throws Exception {
+    public static Object[][] optimizeGraphicsOutputDataProvider() {
         return new Object[][]
                 {
                         {false},
@@ -348,12 +436,20 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.UsingMachineFonts.html", saveOptions);
+
+        String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.UsingMachineFonts.html"), StandardCharsets.UTF_8);
+
+        if (useTargetMachineFonts)
+            Assert.assertFalse(Pattern.compile("@font-face").matcher(outDocContents).find());
+        else
+            Assert.assertTrue(Pattern.compile(
+                "@font-face [{] font-family:'Arial'; font-style:normal; font-weight:normal; src:local[(]'☺'[)], " +
+                "url[(]'HtmlFixedSaveOptions.UsingMachineFonts/font001.ttf'[)] format[(]'truetype'[)]; [}]").matcher(outDocContents).find());
         //ExEnd
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "usingMachineFontsDataProvider")
-    public static Object[][] usingMachineFontsDataProvider() throws Exception {
+    public static Object[][] usingMachineFontsDataProvider() {
         return new Object[][]
                 {
                         {false},
@@ -450,10 +546,11 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         Assert.assertFalse(new File(getArtifactsDir() + "HtmlFixedResourceFolder").exists());
         Assert.assertEquals(6, IterableUtils.countMatches(Arrays.asList(resourceFiles),
                 f -> f.endsWith(".jpeg") || f.endsWith(".png") || f.endsWith(".css")));
+        testHtmlFixedResourceFolder(callback); //ExSkip
     }
 
     /// <summary>
-    /// Counts and prints URIs of resources contained by as they are converted to fixed .Html.
+    /// Counts and prints URIs of resources contained by as they are converted to fixed HTML.
     /// </summary>
     private static class ResourceUriPrinter implements IResourceSavingCallback {
         public void resourceSaving(ResourceSavingArgs args) throws Exception {
@@ -487,4 +584,15 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         private final /*final*/ StringBuilder mText = new StringBuilder();
     }
     //ExEnd
+
+    private void testHtmlFixedResourceFolder(ResourceUriPrinter callback)
+    {
+        int count = 0;
+
+        Matcher matcher = Pattern.compile("Resource #").matcher(callback.getText());
+        while (matcher.find())
+            count++;
+
+        Assert.assertEquals(16, count);
+    }
 }

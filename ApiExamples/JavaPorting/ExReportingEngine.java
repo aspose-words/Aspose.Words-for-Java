@@ -46,11 +46,16 @@ import com.aspose.ms.System.msString;
 import com.aspose.words.FileFormatUtil;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.XmlDataSource;
+import java.io.FileInputStream;
 import com.aspose.words.JsonDataLoadOptions;
 import com.aspose.words.JsonDataSource;
 import com.aspose.words.JsonSimpleValueParseMode;
 import com.aspose.words.CsvDataLoadOptions;
 import com.aspose.words.CsvDataSource;
+import com.aspose.words.SdtType;
+import com.aspose.words.SdtListItem;
+import com.aspose.words.StructuredDocumentTag;
+import com.aspose.words.MarkupLevel;
 import java.lang.Class;
 import org.testng.annotations.DataProvider;
 
@@ -706,7 +711,7 @@ public class ExReportingEngine extends ApiExampleBase
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
             // Assert that the width is preserved, and the height is changed
-            msAssert.areNotEqual(346.35, shape.getHeight());
+            Assert.assertNotEquals(346.35, shape.getHeight());
             Assert.assertEquals(431.5, shape.getWidth());
         }
     }
@@ -731,7 +736,7 @@ public class ExReportingEngine extends ApiExampleBase
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
             // Assert that the height is preserved, and the width is changed
-            msAssert.areNotEqual(431.5, shape.getWidth());
+            Assert.assertNotEquals(431.5, shape.getWidth());
             Assert.assertEquals(346.35, shape.getHeight());
         }
     }
@@ -756,8 +761,8 @@ public class ExReportingEngine extends ApiExampleBase
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
             // Assert that the height and the width are changed
-            msAssert.areNotEqual(346.35, shape.getHeight());
-            msAssert.areNotEqual(431.5, shape.getWidth());
+            Assert.assertNotEquals(346.35, shape.getHeight());
+            Assert.assertNotEquals(431.5, shape.getWidth());
         }
     }
 
@@ -955,7 +960,7 @@ public class ExReportingEngine extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
 
-        FileStream stream = File.openRead(getMyDir() + "List of people.xml");
+        FileStream stream = new FileInputStream(getMyDir() + "List of people.xml");
         try /*JAVA: was using*/
         {
             XmlDataSource dataSource = new XmlDataSource(stream);
@@ -1020,7 +1025,7 @@ public class ExReportingEngine extends ApiExampleBase
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         options.setExactDateTimeParseFormat("MM/dd/yyyy");
         
-        FileStream stream = File.openRead(getMyDir() + "List of people.json");
+        FileStream stream = new FileInputStream(getMyDir() + "List of people.json");
         try /*JAVA: was using*/
         {
             JsonDataSource dataSource = new JsonDataSource(stream, options);
@@ -1075,7 +1080,7 @@ public class ExReportingEngine extends ApiExampleBase
         loadOptions.setDelimiter(';');
         loadOptions.setCommentChar('$');
 
-        FileStream stream = File.openRead(getMyDir() + "List of people.csv");
+        FileStream stream = new FileInputStream(getMyDir() + "List of people.csv");
         try /*JAVA: was using*/
         {
             CsvDataSource dataSource = new CsvDataSource(stream, loadOptions);
@@ -1088,6 +1093,66 @@ public class ExReportingEngine extends ApiExampleBase
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx",
             getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
     }
+
+    @Test (dataProvider = "insertComboboxDropdownListItemsDynamicallyDataProvider")
+    public void insertComboboxDropdownListItemsDynamically(/*SdtType*/int sdtType) throws Exception
+    {
+        final String TEMPLATE =
+            "<<item[\"three\"] [\"3\"]>><<if [false]>><<item [\"four\"] [null]>><</if>><<item[\"five\"] [\"5\"]>>";
+
+        SdtListItem[] staticItems =
+        {
+            new SdtListItem("1", "one"),
+            new SdtListItem("2", "two")
+        };
+
+        Document doc = new Document();
+
+        StructuredDocumentTag sdt = new StructuredDocumentTag(doc, sdtType, MarkupLevel.BLOCK); { sdt.setTitle(TEMPLATE); }
+
+        for (SdtListItem item : staticItems)
+        {
+            sdt.getListItems().add(item);
+        }
+
+        doc.getFirstSection().getBody().appendChild(sdt);
+
+        buildReport(doc, new Object(), "");
+
+        doc.save(getArtifactsDir() + $"ReportingEngine.InsertComboboxDropdownListItemsDynamically_{sdtType}.docx");
+
+        doc = new Document(getArtifactsDir() +
+                           $"ReportingEngine.InsertComboboxDropdownListItemsDynamically_{sdtType}.docx");
+
+        sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+
+        SdtListItem[] expectedItems =
+        {
+            new SdtListItem("1", "one"),
+            new SdtListItem("2", "two"),
+            new SdtListItem("3", "three"),
+            new SdtListItem("5", "five")
+        };
+
+        Assert.assertEquals(expectedItems.length, sdt.getListItems().getCount());
+
+        for (int i = 0; i < expectedItems.length; i++)
+        {
+            Assert.assertEquals(expectedItems[i].getValue(), sdt.getListItems().get(i).getValue());
+            Assert.assertEquals(expectedItems[i].getDisplayText(), sdt.getListItems().get(i).getDisplayText());
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "insertComboboxDropdownListItemsDynamicallyDataProvider")
+	public static Object[][] insertComboboxDropdownListItemsDynamicallyDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{SdtType.COMBO_BOX},
+			{SdtType.DROP_DOWN_LIST},
+		};
+	}
 
     private static void buildReport(Document document, Object dataSource, String dataSourceName,
         /*ReportBuildOptions*/int reportBuildOptions) throws Exception

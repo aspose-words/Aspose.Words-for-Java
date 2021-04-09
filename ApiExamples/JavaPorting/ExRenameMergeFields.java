@@ -49,7 +49,7 @@ public class ExRenameMergeFields extends ApiExampleBase
         NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true);
         for (FieldStart fieldStart : fieldStarts.<FieldStart>OfType() !!Autoporter error: Undefined expression type )
         {
-            if (((fieldStart.getFieldType()) == (FieldType.FIELD_MERGE_FIELD)))
+            if (fieldStart.getFieldType() == FieldType.FIELD_MERGE_FIELD)
             {
                 MergeField mergeField = new MergeField(fieldStart);
                 mergeField.(mergeField.getName() + "_Renamed");
@@ -67,7 +67,7 @@ class MergeField
 {
     MergeField(FieldStart fieldStart)
     {
-        if (!((fieldStart.getFieldType()) == (FieldType.FIELD_MERGE_FIELD)))
+        if (fieldStart.getFieldType() != FieldType.FIELD_MERGE_FIELD)
             throw new IllegalArgumentException("Field start type must be FieldMergeField.");
 
         mFieldStart = fieldStart;
@@ -124,7 +124,7 @@ class MergeField
     {
         for (Node node = startNode; node != null; node = node.getNextSibling())
         {
-            if (((node.getNodeType()) == (nodeType)))
+            if (node.getNodeType() == nodeType)
                 return node;
         }
 

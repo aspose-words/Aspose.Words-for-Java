@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.ms.System.IO.Stream;
+import java.io.FileInputStream;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.BreakType;
 import com.aspose.words.ConvertUtil;
@@ -25,7 +26,7 @@ import org.testng.Assert;
 import com.aspose.words.ImageType;
 import com.aspose.words.MsWordVersion;
 import java.awt.image.BufferedImage;
-import com.aspose.BitmapPal;
+import javax.imageio.ImageIO;
 import com.aspose.ms.System.IO.MemoryStream;
 
 
@@ -43,7 +44,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Stream stream = File.openRead(getImageDir() + "Logo.jpg");
+        Stream stream = new FileInputStream(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
         {
             // Below are three ways of inserting an image from a stream.
@@ -228,7 +229,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage image = BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg");
+        BufferedImage image = ImageIO.read(getImageDir() + "Logo.jpg");
 
         // Below are three ways of inserting an image from an Image object instance.
         // 1 -  Inline shape with a default size based on the image's original dimensions:
@@ -307,7 +308,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage image = BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg");
+        BufferedImage image = ImageIO.read(getImageDir() + "Logo.jpg");
 
         MemoryStream ms = new MemoryStream();
         try /*JAVA: was using*/

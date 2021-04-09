@@ -58,7 +58,7 @@ public class ExOdtSaveOptions extends ApiExampleBase {
     }
 
     @Test(dataProvider = "measurementUnitsDataProvider")
-    public void measurementUnits(/*OdtSaveMeasureUnit*/int odtSaveMeasureUnit) throws Exception {
+    public void measurementUnits(int odtSaveMeasureUnit) throws Exception {
         //ExStart
         //ExFor:OdtSaveOptions
         //ExFor:OdtSaveOptions.MeasureUnit
@@ -78,6 +78,17 @@ public class ExOdtSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", saveOptions);
         //ExEnd
+
+        switch (odtSaveMeasureUnit) {
+            case OdtSaveMeasureUnit.CENTIMETERS:
+                TestUtil.docPackageFileContainsString("<style:paragraph-properties fo:orphans=\"2\" fo:widows=\"2\" style:tab-stop-distance=\"1.27cm\" />",
+                        getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", "styles.xml");
+                break;
+            case OdtSaveMeasureUnit.INCHES:
+                TestUtil.docPackageFileContainsString("<style:paragraph-properties fo:orphans=\"2\" fo:widows=\"2\" style:tab-stop-distance=\"0.5in\" />",
+                        getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", "styles.xml");
+                break;
+        }
     }
 
     @DataProvider(name = "measurementUnitsDataProvider")

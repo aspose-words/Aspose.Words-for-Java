@@ -9,6 +9,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -17,6 +18,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class ExImage extends ApiExampleBase {
     @Test
@@ -244,6 +247,7 @@ public class ExImage extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Image.InsertImageWithHyperlink.docx");
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
+        TestUtil.verifyWebResponseStatusCode(200, new URL(shape.getHRef()));
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals("New Window", shape.getTarget());
         Assert.assertEquals("Aspose.Words Support Forums", shape.getScreenTip());
@@ -273,6 +277,9 @@ public class ExImage extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Image.CreateLinkedImage.Embedded.docx");
 
+        // Every image that we store in shape will increase the size of our document.
+        Assert.assertTrue(new File(getArtifactsDir() + "Image.CreateLinkedImage.Embedded.docx").length() > 70000);
+
         doc.getFirstSection().getBody().getFirstParagraph().removeAllChildren();
 
         // 2 -  Set the shape to link to an image file in the local file system.
@@ -281,11 +288,12 @@ public class ExImage extends ApiExampleBase {
         shape.getImageData().setSourceFullName(imageFileName);
 
         builder.insertNode(shape);
+        doc.save(getArtifactsDir() + "Image.CreateLinkedImage.Linked.docx");
 
         // Linking to images will save space and result in a smaller document.
         // However, the document can only display the image correctly while
         // the image file is present at the location that the shape's "SourceFullName" property points to.
-        doc.save(getArtifactsDir() + "Image.CreateLinkedImage.Linked.docx");
+        Assert.assertTrue(new File(getArtifactsDir() + "Image.CreateLinkedImage.Linked.docx").length() < 10000);
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Image.CreateLinkedImage.Embedded.docx");
@@ -303,6 +311,85 @@ public class ExImage extends ApiExampleBase {
         TestUtil.verifyImageInShape(0, 0, ImageType.WMF, shape);
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
         Assert.assertEquals(imageFileName, shape.getImageData().getSourceFullName().replace("%20", " "));
+    }
+
+    @Test
+    public void deleteAllImages() throws Exception {
+        //ExStart
+        //ExFor:Shape.HasImage
+        //ExFor:Node.Remove
+        //ExSummary:Shows how to delete all shapes with images from a document.
+        Document doc = new Document(getMyDir() + "Images.docx");
+        ArrayList<Shape> shapes = (ArrayList<Shape>) IterableUtils.toList(doc.getChildNodes(NodeType.SHAPE, true));
+
+        Assert.assertEquals(9, IterableUtils.countMatches(shapes, s -> {
+            try {
+                return s.hasImage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }));
+
+        for (Shape shape : shapes)
+            if (shape.hasImage())
+                shape.remove();
+
+        shapes = (ArrayList<Shape>) IterableUtils.toList(doc.getChildNodes(NodeType.SHAPE, true));
+
+        Assert.assertEquals(0, IterableUtils.countMatches(shapes, s -> {
+            try {
+                return s.hasImage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }));
+        //ExEnd
+    }
+
+    @Test
+    public void deleteAllImagesPreOrder() throws Exception {
+        //ExStart
+        //ExFor:Node.NextPreOrder(Node)
+        //ExFor:Node.PreviousPreOrder(Node)
+        //ExSummary:Shows how to traverse the document's node tree using the pre-order traversal algorithm, and delete any encountered shape with an image.
+        Document doc = new Document(getMyDir() + "Images.docx");
+        ArrayList<Shape> shapes = (ArrayList<Shape>) IterableUtils.toList(doc.getChildNodes(NodeType.SHAPE, true));
+
+        Assert.assertEquals(9, IterableUtils.countMatches(shapes, s -> {
+            try {
+                return s.hasImage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }));
+
+        Node curNode = doc;
+        while (curNode != null) {
+            Node nextNode = curNode.nextPreOrder(doc);
+
+            if (curNode.previousPreOrder(doc) != null && nextNode != null)
+                Assert.assertEquals(curNode, nextNode.previousPreOrder(doc));
+
+            if (curNode.getNodeType() == NodeType.SHAPE && ((Shape) curNode).hasImage())
+                curNode.remove();
+
+            curNode = nextNode;
+        }
+
+        shapes = (ArrayList<Shape>) IterableUtils.toList(doc.getChildNodes(NodeType.SHAPE, true));
+
+        Assert.assertEquals(0, IterableUtils.countMatches(shapes, s -> {
+            try {
+                return s.hasImage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }));
+        //ExEnd
     }
 
     @Test

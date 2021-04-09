@@ -17,7 +17,6 @@ import com.aspose.words.ImportFormatMode;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Node;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Bookmark;
@@ -74,7 +73,7 @@ public class ExNodeImporter extends ApiExampleBase
                 "6. Item 1\r\n" +
                 "7. Item 2 \r\n" +
                 "8. Item 3\r\n" +
-                "9. Item 4", msString.trim(dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT)));
+                "9. Item 4", dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT).trim());
         }
         else
         {
@@ -86,7 +85,7 @@ public class ExNodeImporter extends ApiExampleBase
                 "10. Item 1\r\n" +
                 "11. Item 2 \r\n" +
                 "12. Item 3\r\n" +
-                "13. Item 4", msString.trim(dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT)));
+                "13. Item 4", dstDoc.getFirstSection().getBody().toString(SaveFormat.TEXT).trim());
         }
         //ExEnd
     }
@@ -101,7 +100,7 @@ public class ExNodeImporter extends ApiExampleBase
 			{true},
 		};
 	}
-
+    
     //ExStart
     //ExFor:Paragraph.IsEndOfSection
     //ExFor:NodeImporter
@@ -129,7 +128,7 @@ public class ExNodeImporter extends ApiExampleBase
         insertDocument(bookmark.getBookmarkStart().getParentNode(), docToInsert);
 
         Assert.assertEquals("We will insert a document here: " +
-                        "\rHello world!", msString.trim(doc.getText()));
+                        "\rHello world!", doc.getText().trim());
     }
 
     /// <summary>
@@ -137,7 +136,7 @@ public class ExNodeImporter extends ApiExampleBase
     /// </summary>
     static void insertDocument(Node insertionDestination, Document docToInsert)
     {
-        if (((insertionDestination.getNodeType()) == (NodeType.PARAGRAPH)) || ((insertionDestination.getNodeType()) == (NodeType.TABLE)))
+        if (insertionDestination.getNodeType() == NodeType.PARAGRAPH || insertionDestination.getNodeType() == NodeType.TABLE)
         {
             CompositeNode destinationParent = insertionDestination.getParentNode();
 
@@ -149,7 +148,7 @@ public class ExNodeImporter extends ApiExampleBase
             for (Section srcSection : docToInsert.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
                 for (Node srcNode : (Iterable<Node>) srcSection.getBody())
                 {
-                    if (((srcNode.getNodeType()) == (NodeType.PARAGRAPH)))
+                    if (srcNode.getNodeType() == NodeType.PARAGRAPH)
                     {
                         Paragraph para = (Paragraph)srcNode;
                         if (para.isEndOfSection() && !para.hasChildNodes())
@@ -192,7 +191,7 @@ public class ExNodeImporter extends ApiExampleBase
             new Object[] { getArtifactsDir() + "NodeImporter.InsertAtMergeField.docx" });
 
         Assert.assertEquals("A document will appear here: \r" +
-                        "Hello world!", msString.trim(doc.getText()));
+                        "Hello world!", doc.getText().trim());
     }
 
     /// <summary>

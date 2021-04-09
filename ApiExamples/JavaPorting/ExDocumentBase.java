@@ -19,13 +19,11 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.Run;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.Section;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.Style;
 import com.aspose.words.StyleType;
 import com.aspose.words.ImportFormatMode;
-import com.aspose.ms.System.msString;
 import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
 import com.aspose.words.NodeType;
@@ -92,7 +90,7 @@ public class ExDocumentBase extends ApiExampleBase
 
         // Every node has a parent document, which is the document that contains the node.
         // Inserting a node into a document that the node does not belong to will throw an exception.
-        msAssert.areNotEqual(dstDoc, srcDoc.getFirstSection().getDocument());
+        Assert.assertNotEquals(dstDoc, srcDoc.getFirstSection().getDocument());
         Assert.<IllegalArgumentException>Throws(() => { dstDoc.appendChild(srcDoc.getFirstSection()); });
 
         // Use the ImportNode method to create a copy of a node, which will have the document
@@ -108,8 +106,8 @@ public class ExDocumentBase extends ApiExampleBase
             dstDoc.toString(SaveFormat.TEXT));
         //ExEnd
 
-        msAssert.areNotEqual(importedSection, srcDoc.getFirstSection());
-        msAssert.areNotEqual(importedSection.getDocument(), srcDoc.getFirstSection().getDocument());
+        Assert.assertNotEquals(importedSection, srcDoc.getFirstSection());
+        Assert.assertNotEquals(importedSection.getDocument(), srcDoc.getFirstSection().getDocument());
         Assert.assertEquals(importedSection.getBody().getFirstParagraph().getText(),
             srcDoc.getFirstSection().getBody().getFirstParagraph().getText());
     }
@@ -140,7 +138,7 @@ public class ExDocumentBase extends ApiExampleBase
         // If we use destination styles, then the imported source text with the same style name
         // as destination text will adopt the destination style.
         Section importedSection = (Section)dstDoc.importNode(srcDoc.getFirstSection(), true, ImportFormatMode.USE_DESTINATION_STYLES);
-        Assert.assertEquals("Source document text.", msString.trim(importedSection.getBody().getParagraphs().get(0).getRuns().get(0).getText())); //ExSkip
+        Assert.assertEquals("Source document text.", importedSection.getBody().getParagraphs().get(0).getRuns().get(0).getText().trim()); //ExSkip
         Assert.assertNull(dstDoc.getStyles().get("My style_0")); //ExSkip
         Assert.assertEquals(dstStyle.getFont().getName(), importedSection.getBody().getFirstParagraph().getRuns().get(0).getFont().getName());
         Assert.assertEquals(dstStyle.getName(), importedSection.getBody().getFirstParagraph().getRuns().get(0).getFont().getStyleName());
@@ -261,12 +259,7 @@ public class ExDocumentBase extends ApiExampleBase
                         return ResourceLoadingAction.USER_PROVIDED;
 
                     case /*"Aspose logo"*/1:
-                        WebClient webClient1 = new WebClient();
-                        try /*JAVA: was using*/
-                        {
-                            args.setData(webClient1.DownloadData(getAsposeLogoUrl()));
-                        }
-                        finally { if (webClient1 != null) webClient1.close(); }
+                        args.setData(File.readAllBytes(getImageDir() + "Logo.jpg"));
 
                         return ResourceLoadingAction.USER_PROVIDED;
 
@@ -290,7 +283,6 @@ public class ExDocumentBase extends ApiExampleBase
         }
 
         TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, "http://www.google.com/images/logos/ps_logo2.png");
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, getAsposeLogoUrl());
     }
 
 	//JAVA-added for string switch emulation

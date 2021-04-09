@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 import com.aspose.words.ComHelper;
 import com.aspose.words.Document;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 
@@ -36,7 +35,7 @@ public class ExComHelper extends ApiExampleBase
         // 1 -  Using a local system filename:
         Document doc = comHelper.open(getMyDir() + "Document.docx");
 
-        Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", doc.getText().trim());
 
         // 2 -  From a stream:
         FileStream stream = new FileStream(getMyDir() + "Document.docx", FileMode.OPEN);
@@ -44,7 +43,7 @@ public class ExComHelper extends ApiExampleBase
         {
             doc = comHelper.open(stream);
 
-            Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
+            Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", doc.getText().trim());
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd

@@ -17,7 +17,6 @@ import com.aspose.words.Cell;
 import com.aspose.words.Paragraph;
 import com.aspose.words.Run;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.PreferredWidth;
 import com.aspose.words.RowFormat;
@@ -37,11 +36,11 @@ import com.aspose.words.TableAlignment;
 import com.aspose.words.LineStyle;
 import com.aspose.words.TextureIndex;
 import com.aspose.words.BorderCollection;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.HeightRule;
 import com.aspose.words.TextOrientation;
 import com.aspose.words.Border;
 import com.aspose.words.FindReplaceOptions;
+import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.PreferredWidthType;
 import com.aspose.words.CellMerge;
 import com.aspose.ms.System.Drawing.msPoint;
@@ -53,6 +52,7 @@ import com.aspose.words.VerticalAlignment;
 import com.aspose.words.HorizontalAlignment;
 import com.aspose.words.TableStyle;
 import com.aspose.words.StyleType;
+import com.aspose.words.CellVerticalAlignment;
 import com.aspose.words.ConditionalStyleType;
 import com.aspose.words.ParagraphAlignment;
 import java.util.Iterator;
@@ -103,7 +103,7 @@ public class ExTable extends ApiExampleBase
 
         Assert.assertEquals(1, table.getRows().getCount());
         Assert.assertEquals(1, table.getFirstRow().getCells().getCount());
-        Assert.assertEquals("Hello world!\u0007\u0007", msString.trim(table.getText()));
+        Assert.assertEquals("Hello world!\u0007\u0007", table.getText().trim());
     }
 
     @Test
@@ -187,7 +187,7 @@ public class ExTable extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Table.RowCellFormat.docx");
         table = doc.getFirstSection().getBody().getTables().get(0);
 
-        Assert.assertEquals("City\u0007Country\u0007\u0007London\u0007U.K.\u0007\u0007", msString.trim(table.getText()));
+        Assert.assertEquals("City\u0007Country\u0007\u0007London\u0007U.K.\u0007\u0007", table.getText().trim());
 
         rowFormat = table.getFirstRow().getRowFormat();
 
@@ -245,7 +245,7 @@ public class ExTable extends ApiExampleBase
 
                 for (int k = 0; k < cells.getCount(); k++)
                 {
-                    String cellText = msString.trim(cells.get(k).toString(SaveFormat.TEXT));
+                    String cellText = cells.get(k).toString(SaveFormat.TEXT).trim();
                     System.out.println("\t\tContents of Cell:{k} = \"{cellText}\"");
                 }
 
@@ -278,16 +278,15 @@ public class ExTable extends ApiExampleBase
 
             // Find out if any cells in the table have other tables as children.
             int count = getChildTableCount(table);
-            msConsole.writeLine("Table #{0} has {1} tables directly within its cells", i, count);
+            System.out.println("Table #{0} has {1} tables directly within its cells",i,count);
 
             // Find out if the table is nested inside another table, and, if so, at what depth.
             int tableDepth = getNestedDepthOfTable(table);
 
             if (tableDepth > 0)
-                msConsole.writeLine("Table #{0} is nested inside another table at depth of {1}", i,
-                    tableDepth);
+                System.out.println("Table #{0} is nested inside another table at depth of {1}",i,tableDepth);
             else
-                msConsole.writeLine("Table #{0} is a non nested table (is not a child of another table)", i);
+                System.out.println("Table #{0} is a non nested table (is not a child of another table)",i);
         }
     }
 
@@ -459,8 +458,8 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(msColor.getGreen().getRGB(), borders.getLeft().getColor().getRGB());
         Assert.assertEquals(msColor.getGreen().getRGB(), borders.getRight().getColor().getRGB());
         Assert.assertEquals(msColor.getGreen().getRGB(), borders.getBottom().getColor().getRGB());
-        msAssert.areNotEqual(msColor.getGreen().getRGB(), borders.getHorizontal().getColor().getRGB());
-        msAssert.areNotEqual(msColor.getGreen().getRGB(), borders.getVertical().getColor().getRGB());
+        Assert.assertNotEquals(msColor.getGreen().getRGB(), borders.getHorizontal().getColor().getRGB());
+        Assert.assertNotEquals(msColor.getGreen().getRGB(), borders.getVertical().getColor().getRGB());
         Assert.assertEquals(msColor.getLightGreen().getRGB(), table.getFirstRow().getFirstCell().getCellFormat().getShading().getForegroundPatternColor().getRGB());
     }
 
@@ -637,9 +636,55 @@ public class ExTable extends ApiExampleBase
         table.getLastRow().getLastCell().getRange().replace("50", "20", options);
 
         Assert.assertEquals("Eggs\u000750\u0007\u0007" +
-                        "Potatoes\u000720\u0007\u0007", msString.trim(table.getText()));
+                        "Potatoes\u000720\u0007\u0007", table.getText().trim());
         //ExEnd
     }
+
+    @Test (dataProvider = "removeParagraphTextAndMarkDataProvider")
+    public void removeParagraphTextAndMark(boolean isSmartParagraphBreakReplacement) throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.SmartParagraphBreakReplacement
+        //ExSummary:Shows how to remove paragraph from a table cell with a nested table.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Create table with paragraph and inner table in first cell.
+        builder.startTable();
+        builder.insertCell();
+        builder.write("TEXT1");
+        builder.startTable();
+        builder.insertCell();
+        builder.endTable();
+        builder.endTable();
+        builder.writeln();
+
+        FindReplaceOptions options = new FindReplaceOptions();
+        // When the following option is set to 'true', Aspose.Words will remove paragraph's text
+        // completely with its paragraph mark. Otherwise, Aspose.Words will mimic Word and remove
+        // only paragraph's text and leaves the paragraph mark intact (when a table follows the text).
+        options.setSmartParagraphBreakReplacement(isSmartParagraphBreakReplacement);
+        doc.getRange().replaceInternal(new Regex("TEXT1&p"), "", options);
+
+        doc.save(getArtifactsDir() + "Table.RemoveParagraphTextAndMark.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Table.RemoveParagraphTextAndMark.docx");
+
+        Assert.assertEquals(isSmartParagraphBreakReplacement ? 1 : 2,
+            doc.getFirstSection().getBody().getTables().get(0).getRows().get(0).getCells().get(0).getParagraphs().getCount());
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "removeParagraphTextAndMarkDataProvider")
+	public static Object[][] removeParagraphTextAndMarkDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
 
     @Test
     public void printTableRange() throws Exception
@@ -690,7 +735,7 @@ public class ExTable extends ApiExampleBase
         for (Cell cell : tableClone.getChildNodes(NodeType.CELL, true).<Cell>OfType() !!Autoporter error: Undefined expression type )
             cell.removeAllChildren();
         
-        Assert.assertEquals("", msString.trim(tableClone.toString(SaveFormat.TEXT)));
+        Assert.assertEquals("", tableClone.toString(SaveFormat.TEXT).trim());
     }
 
     @Test (dataProvider = "allowBreakAcrossPagesDataProvider")
@@ -1320,6 +1365,7 @@ public class ExTable extends ApiExampleBase
         //ExFor:TableStyle.TopPadding
         //ExFor:TableStyle.Shading
         //ExFor:TableStyle.Borders
+        //ExFor:TableStyle.VerticalAlignment
         //ExSummary:Shows how to create custom style settings for the table.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1345,6 +1391,7 @@ public class ExTable extends ApiExampleBase
         tableStyle.getShading().setBackgroundPatternColor(Color.AntiqueWhite);
         tableStyle.getBorders().setColor(Color.BLUE);
         tableStyle.getBorders().setLineStyle(LineStyle.DOT_DASH);
+        tableStyle.setVerticalAlignment(CellVerticalAlignment.CENTER);
 
         table.setStyle(tableStyle);
 
@@ -1367,6 +1414,7 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(10.0d, tableStyle.getRightPadding());
         Assert.assertEquals(20.0d, tableStyle.getTopPadding());
         Assert.AreEqual(6, table.getFirstRow().getRowFormat().getBorders().Count(b => b.Color.ToArgb() == Color.Blue.ToArgb()));
+        Assert.assertEquals(CellVerticalAlignment.CENTER, tableStyle.getVerticalAlignment());
 
         tableStyle = (TableStyle)doc.getStyles().get("MyTableStyle1");
 
@@ -1380,6 +1428,7 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(Color.AntiqueWhite.getRGB(), tableStyle.getShading().getBackgroundPatternColor().getRGB());
         Assert.assertEquals(Color.BLUE.getRGB(), tableStyle.getBorders().getColor().getRGB());
         Assert.assertEquals(LineStyle.DOT_DASH, tableStyle.getBorders().getLineStyle());
+        Assert.assertEquals(CellVerticalAlignment.CENTER, tableStyle.getVerticalAlignment());
     }
 
     @Test
@@ -1464,7 +1513,6 @@ public class ExTable extends ApiExampleBase
         //ExFor:ConditionalStyleCollection.EvenRowBanding
         //ExFor:ConditionalStyleCollection.FirstColumn
         //ExFor:ConditionalStyleCollection.Item(ConditionalStyleType)
-        //ExFor:ConditionalStyleCollection.Item(TableStyleOverrideType)
         //ExFor:ConditionalStyleCollection.Item(Int32)
         //ExFor:ConditionalStyleCollection.OddColumnBanding
         //ExFor:ConditionalStyleCollection.OddRowBanding
@@ -1519,7 +1567,7 @@ public class ExTable extends ApiExampleBase
             while (enumerator.hasNext())
             {
                 ConditionalStyle currentStyle = enumerator.next();
-                if (currentStyle != null) msConsole.writeLine(currentStyle.getType());
+                if (currentStyle != null) System.out.println(currentStyle.getType());
             }
         }
         finally { if (enumerator != null) enumerator.close(); }

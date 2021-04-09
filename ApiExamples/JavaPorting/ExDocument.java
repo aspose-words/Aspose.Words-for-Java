@@ -13,14 +13,15 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.Run;
 import org.testng.Assert;
-import com.aspose.ms.System.msString;
 import com.aspose.words.LoadOptions;
 import com.aspose.ms.System.IO.Stream;
+import java.io.FileInputStream;
 import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.SaveFormat;
 import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
 import com.aspose.words.FileFormatInfo;
 import com.aspose.words.FileFormatUtil;
@@ -43,10 +44,13 @@ import com.aspose.words.Font;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.ImportFormatMode;
 import java.io.FileNotFoundException;
+import com.aspose.words.ImportFormatOptions;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.DigitalSignature;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.words.SignOptions;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
@@ -55,7 +59,6 @@ import com.aspose.words.DigitalSignatureType;
 import com.aspose.words.StyleIdentifier;
 import java.util.ArrayList;
 import com.aspose.words.ControlChar;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.ProtectionType;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.Paragraph;
@@ -111,7 +114,6 @@ import com.aspose.words.TextWatermarkOptions;
 import com.aspose.words.WatermarkLayout;
 import com.aspose.words.WatermarkType;
 import com.aspose.words.ImageWatermarkOptions;
-import com.aspose.BitmapPal;
 import com.aspose.words.Granularity;
 import com.aspose.words.RevisionGroupCollection;
 import com.aspose.words.RevisionType;
@@ -128,7 +130,7 @@ public class ExDocument extends ApiExampleBase
     public void constructor() throws Exception
     {
         //ExStart
-        //ExFor:Document.#ctor(Boolean)
+        //ExFor:Document.#ctor()
         //ExFor:Document.#ctor(String,LoadOptions)
         //ExSummary:Shows how to create and load documents.
         // There are two ways of creating a Document object using Aspose.Words.
@@ -143,13 +145,13 @@ public class ExDocument extends ApiExampleBase
         doc = new Document(getMyDir() + "Document.docx");
 
         // Loaded documents will have contents that we can access and edit.
-        Assert.assertEquals("Hello World!", msString.trim(doc.getFirstSection().getBody().getFirstParagraph().getText()));
+        Assert.assertEquals("Hello World!", doc.getFirstSection().getBody().getFirstParagraph().getText().trim());
 
         // Some operations that need to occur during loading, such as using a password to decrypt a document,
         // can be done by passing a LoadOptions object when loading the document.
         doc = new Document(getMyDir() + "Encrypted.docx", new LoadOptions("docPassword"));
 
-        Assert.assertEquals("Test encrypted document.", msString.trim(doc.getFirstSection().getBody().getFirstParagraph().getText()));
+        Assert.assertEquals("Test encrypted document.", doc.getFirstSection().getBody().getFirstParagraph().getText().trim());
         //ExEnd
     }
 
@@ -159,12 +161,12 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.#ctor(Stream)
         //ExSummary:Shows how to load a document using a stream.
-        Stream stream = File.openRead(getMyDir() + "Document.docx");
+        Stream stream = new FileInputStream(getMyDir() + "Document.docx");
         try /*JAVA: was using*/
         {
             Document doc = new Document(stream);
 
-            Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(doc.getText()));
+            Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", doc.getText().trim());
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
@@ -194,7 +196,7 @@ public class ExDocument extends ApiExampleBase
                 Assert.assertEquals("Use this section to highlight your relevant passions, activities, and how you like to give back. " +
                                 "It’s good to include Leadership and volunteer experiences here. " +
                                 "Or show off important extras like publications, certifications, languages and more.",
-                    msString.trim(doc.getFirstSection().getBody().getParagraphs().get(4).getText()));
+                    doc.getFirstSection().getBody().getParagraphs().get(4).getText().trim());
 
                 doc.save(getArtifactsDir() + "Document.LoadFromWeb.docx");
             }
@@ -242,7 +244,7 @@ public class ExDocument extends ApiExampleBase
             stream.setPosition(0);
 
             // Read the stream back into an image.
-            BufferedImage image = BufferedImage.FromStream(stream);
+            BufferedImage image = ImageIO.read(stream);
             try /*JAVA: was using*/
             {
                 Assert.assertEquals(ImageFormat.Bmp, image.RawFormat);
@@ -317,7 +319,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:LoadOptions.#ctor
         //ExFor:LoadOptions.BaseUri
         //ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
-        Stream stream = File.openRead(getMyDir() + "Document.html");
+        Stream stream = new FileInputStream(getMyDir() + "Document.html");
         try /*JAVA: was using*/
         {
             // Pass the URI of the base folder while loading it
@@ -362,7 +364,7 @@ public class ExDocument extends ApiExampleBase
                 Document doc = new Document(stream, options);
 
                 // At this stage, we can read and edit the document's contents and then save it to the local file system.
-                Assert.assertEquals("File Format APIs", msString.trim(doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getText())); //ExSkip
+                Assert.assertEquals("File Format APIs", doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getText().trim()); //ExSkip
 
                 doc.save(getArtifactsDir() + "Document.InsertHtmlFromWebPage.docx");
             }
@@ -394,14 +396,14 @@ public class ExDocument extends ApiExampleBase
         // There are two ways of loading an encrypted document with a LoadOptions object.
         // 1 -  Load the document from the local file system by filename:
         doc = new Document(getMyDir() + "Encrypted.docx", options);
-        Assert.assertEquals("Test encrypted document.", msString.trim(doc.getText())); //ExSkip
+        Assert.assertEquals("Test encrypted document.", doc.getText().trim()); //ExSkip
 
         // 2 -  Load the document from a stream:
-        Stream stream = File.openRead(getMyDir() + "Encrypted.docx");
+        Stream stream = new FileInputStream(getMyDir() + "Encrypted.docx");
         try /*JAVA: was using*/
         {
             doc = new Document(stream, options);
-            Assert.assertEquals("Test encrypted document.", msString.trim(doc.getText())); //ExSkip
+            Assert.assertEquals("Test encrypted document.", doc.getText().trim()); //ExSkip
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
@@ -472,7 +474,7 @@ public class ExDocument extends ApiExampleBase
             doc.save(dstStream, SaveFormat.DOCX);
 
             // Verify that the stream contains the document.
-            Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", msString.trim(new Document(dstStream).getText()));
+            Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", new Document(dstStream).getText().trim());
         }
         finally { if (dstStream != null) dstStream.close(); }
         //ExEnd
@@ -622,6 +624,72 @@ public class ExDocument extends ApiExampleBase
         }
     }
 
+    @Test (dataProvider = "importListDataProvider")
+    public void importList(boolean isKeepSourceNumbering) throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.KeepSourceNumbering
+        //ExSummary:Shows how to import a document with numbered lists.
+        Document srcDoc = new Document(getMyDir() + "List source.docx");
+        Document dstDoc = new Document(getMyDir() + "List destination.docx");
+
+        Assert.assertEquals(2, dstDoc.getLists().getCount());
+
+        ImportFormatOptions options = new ImportFormatOptions();
+
+        // If there is a clash of list styles, apply the list format of the source document.
+        // Set the "KeepSourceNumbering" property to "false" to not import any list numbers into the destination document.
+        // Set the "KeepSourceNumbering" property to "true" import all clashing
+        // list style numbering with the same appearance that it had in the source document.
+        options.setKeepSourceNumbering(isKeepSourceNumbering);
+
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+        dstDoc.updateListLabels();
+
+        if (isKeepSourceNumbering)
+            Assert.assertEquals(3, dstDoc.getLists().getCount());
+        else
+            Assert.assertEquals(2, dstDoc.getLists().getCount());
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "importListDataProvider")
+	public static Object[][] importListDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test
+    public void keepSourceNumberingSameListIds() throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.KeepSourceNumbering
+        //ExFor:NodeImporter.#ctor(DocumentBase, DocumentBase, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how resolve a clash when importing documents that have lists with the same list definition identifier.
+        Document srcDoc = new Document(getMyDir() + "List with the same definition identifier - source.docx");
+        Document dstDoc = new Document(getMyDir() + "List with the same definition identifier - destination.docx");
+
+        ImportFormatOptions importFormatOptions = new ImportFormatOptions();
+
+        // Set the "KeepSourceNumbering" property to "true" to apply a different list definition ID
+        // to identical styles as Aspose.Words imports them into destination documents.
+        importFormatOptions.setKeepSourceNumbering(true);
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES, importFormatOptions);
+
+        dstDoc.updateListLabels();
+        //ExEnd
+
+        String paraText = dstDoc.getSections().get(1).getBody().getLastParagraph().getText();
+
+        msAssert.isTrue(paraText.startsWith("13->13"), paraText);
+        Assert.assertEquals("1.", dstDoc.getSections().get(1).getBody().getLastParagraph().getListLabel().getLabelString());
+    }
+
     @Test
     public void validateIndividualDocumentSignatures() throws Exception
     {
@@ -686,7 +754,7 @@ public class ExDocument extends ApiExampleBase
         // There are two ways of saving a signed copy of a document to the local file system:
         // 1 - Designate a document by a local system filename and save a signed copy at a location specified by another filename.
         DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "Document.DigitalSignature.docx", 
-            certificateHolder, new SignOptions(); { .setSignTime(DateTime.getNow()); } );
+            certificateHolder, new SignOptions(); { .setSignTime(new Date()); } );
 
         Assert.assertTrue(FileFormatUtil.detectFileFormat(getArtifactsDir() + "Document.DigitalSignature.docx").hasDigitalSignature());
 
@@ -816,7 +884,7 @@ public class ExDocument extends ApiExampleBase
 
         Assert.assertEquals(doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText(), 
             clone.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText());
-        msAssert.areNotEqual(doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).hashCode(),
+        Assert.assertNotEquals(doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).hashCode(),
             clone.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).hashCode());
         //ExEnd
     }
@@ -883,7 +951,7 @@ public class ExDocument extends ApiExampleBase
 
         DocumentBuilder builder = new DocumentBuilder(protectedDoc);
         builder.writeln("Text added to a protected document.");
-        Assert.assertEquals("Text added to a protected document.", msString.trim(protectedDoc.getRange().getText())); //ExSkip
+        Assert.assertEquals("Text added to a protected document.", protectedDoc.getRange().getText().trim()); //ExSkip
 
         // There are two ways of removing protection from a document.
         // 1 - With no password:
@@ -942,7 +1010,7 @@ public class ExDocument extends ApiExampleBase
         ((Paragraph)nodes.get(2)).getRuns().add(new Run(doc, "Hello world!"));
         //ExEnd
 
-        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world!", doc.getText().trim());
     }
 
     @Test
@@ -1152,7 +1220,7 @@ public class ExDocument extends ApiExampleBase
 
         // Comparing documents with revisions will throw an exception.
         if (docOriginal.getRevisions().getCount() == 0 && docEdited.getRevisions().getCount() == 0)
-            docOriginal.compareInternal(docEdited, "authorName", DateTime.getNow());
+            docOriginal.compareInternal(docEdited, "authorName", new Date());
 
         // After the comparison, the original document will gain a new revision
         // for every element that is different in the edited document.
@@ -1186,7 +1254,7 @@ public class ExDocument extends ApiExampleBase
         docWithRevision.startTrackRevisions("John Doe");
         builder.writeln("This is a revision.");
 
-        Assert.That(() => docWithRevision.compareInternal(doc1, "John Doe", DateTime.getNow()),
+        Assert.That(() => docWithRevision.compareInternal(doc1, "John Doe", new Date()),
             Throws.<IllegalStateException>TypeOf());
     }
 
@@ -1233,7 +1301,7 @@ public class ExDocument extends ApiExampleBase
         builder.insertField(" DATE ");
 
         // Comment:
-        Comment newComment = new Comment(docOriginal, "John Doe", "J.D.", DateTime.getNow());
+        Comment newComment = new Comment(docOriginal, "John Doe", "J.D.", new Date());
         newComment.setText("Original comment.");
         builder.getCurrentParagraph().appendChild(newComment);
 
@@ -1268,7 +1336,7 @@ public class ExDocument extends ApiExampleBase
         compareOptions.setIgnoreHeadersAndFooters(false);
         compareOptions.setTarget(ComparisonTargetType.NEW);
 
-        docOriginal.compareInternal(docEdited, "John Doe", DateTime.getNow(), compareOptions);
+        docOriginal.compareInternal(docEdited, "John Doe", new Date(), compareOptions);
         docOriginal.save(getArtifactsDir() + "Document.CompareOptions.docx");
         //ExEnd
 
@@ -1321,13 +1389,13 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows how to compare documents ignoring DML unique ID.
         Document docA = new Document(getMyDir() + "DML unique ID original.docx");
         Document docB = new Document(getMyDir() + "DML unique ID compare.docx");
- 
+
         // By default, Aspose.Words do not ignore DML's unique ID, and the revisions count was 2.
         // If we are ignoring DML's unique ID, and revisions count were 0.
         CompareOptions compareOptions = new CompareOptions();
         compareOptions.setIgnoreDmlUniqueId(isIgnoreDmlUniqueId);
  
-        docA.compareInternal(docB, "Aspose.Words", DateTime.getNow(), compareOptions);
+        docA.compareInternal(docB, "Aspose.Words", new Date(), compareOptions);
 
         Assert.assertEquals(isIgnoreDmlUniqueId ? 0 : 2, docA.getRevisions().getCount());
         //ExEnd
@@ -1380,7 +1448,7 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(1, doc.getRevisions().getCount());
         Assert.assertTrue(doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(1).isInsertRevision());
         Assert.assertEquals("John Doe", doc.getRevisions().get(0).getAuthor());
-        Assert.That(doc.getRevisions().get(0).getDateTimeInternal(), Is.EqualTo(DateTime.getNow()).Within(10).Milliseconds);
+        Assert.That(doc.getRevisions().get(0).getDateTimeInternal(), Is.EqualTo(new Date()).Within(10).Milliseconds);
 
         // Stop tracking revisions to not count any future edits as revisions.
         doc.stopTrackRevisions();
@@ -1428,7 +1496,7 @@ public class ExDocument extends ApiExampleBase
         doc.acceptAllRevisions();
 
         Assert.assertEquals(0, doc.getRevisions().getCount());
-        Assert.assertEquals("Hello world! Hello again! This is another revision.", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world! Hello again! This is another revision.", doc.getText().trim());
         //ExEnd
     }
 
@@ -1577,7 +1645,7 @@ public class ExDocument extends ApiExampleBase
     public void imageSaveOptions() throws Exception
     {
         //ExStart
-        //ExFor:Document.Save(Stream, String, Saving.SaveOptions)
+        //ExFor:Document.Save(String, Saving.SaveOptions)
         //ExFor:SaveOptions.UseAntiAliasing
         //ExFor:SaveOptions.UseHighQualityRendering
         //ExSummary:Shows how to improve the quality of a rendered document with SaveOptions.
@@ -1779,7 +1847,7 @@ public class ExDocument extends ApiExampleBase
 
         // Insert a revision, then change the color of all revisions to green.
         builder.writeln("This is not a revision.");
-        doc.startTrackRevisionsInternal("John Doe", DateTime.getNow());
+        doc.startTrackRevisionsInternal("John Doe", new Date());
         Assert.assertEquals(RevisionColor.BY_AUTHOR, doc.getLayoutOptions().getRevisionOptions().getInsertedTextColor()); //ExSkip
         Assert.assertTrue(doc.getLayoutOptions().getRevisionOptions().getShowRevisionBars()); //ExSkip
         builder.writeln("This is a revision.");
@@ -2074,7 +2142,7 @@ public class ExDocument extends ApiExampleBase
         builder.writeln("Writing text in a protected document.");
 
         Assert.assertEquals("Hello world! This document is protected." +
-                        "\rWriting text in a protected document.", msString.trim(doc.getText()));
+                        "\rWriting text in a protected document.", doc.getText().trim());
         //ExEnd
         Assert.assertTrue(doc.getWriteProtection().getReadOnlyRecommended());
         Assert.assertTrue(doc.getWriteProtection().validatePassword("MyPassword"));
@@ -2094,7 +2162,7 @@ public class ExDocument extends ApiExampleBase
         doc.getBuiltInDocumentProperties().setAuthor("John Doe");
         doc.getBuiltInDocumentProperties().setCompany("Placeholder Inc.");
 
-        doc.startTrackRevisionsInternal(doc.getBuiltInDocumentProperties().getAuthor(), DateTime.getNow());
+        doc.startTrackRevisionsInternal(doc.getBuiltInDocumentProperties().getAuthor(), new Date());
         builder.write("Hello world!");
         doc.stopTrackRevisions();
 
@@ -2136,7 +2204,7 @@ public class ExDocument extends ApiExampleBase
 
         builder.write("Hello world!");
 
-        Comment comment = new Comment(doc, "John Doe", "J.D.", DateTime.getNow());
+        Comment comment = new Comment(doc, "John Doe", "J.D.", new Date());
         comment.setText("My comment.");
         builder.getCurrentParagraph().appendChild(comment);
 
@@ -2536,7 +2604,7 @@ public class ExDocument extends ApiExampleBase
         imageWatermarkOptions.setScale(5.0);
         imageWatermarkOptions.isWashout(false);
 
-        doc.getWatermark().setImage(BitmapPal.loadNativeImage(getImageDir() + "Logo.jpg"), imageWatermarkOptions);
+        doc.getWatermark().setImage(ImageIO.read(getImageDir() + "Logo.jpg"), imageWatermarkOptions);
 
         doc.save(getArtifactsDir() + "Document.ImageWatermark.docx");
         //ExEnd
@@ -2600,13 +2668,13 @@ public class ExDocument extends ApiExampleBase
         Document docB = new Document();
         DocumentBuilder builderB = new DocumentBuilder(docB);
         builderB.writeln("Lorems ipsum dolor sit amet consectetur - \"adipiscing\" elit");
- 
+
         // Specify whether changes are tracking
         // by character ('Granularity.CharLevel'), or by word ('Granularity.WordLevel').
         CompareOptions compareOptions = new CompareOptions();
         compareOptions.setGranularity(granularity);
  
-        docA.compareInternal(docB, "author", DateTime.getNow(), compareOptions);
+        docA.compareInternal(docB, "author", new Date(), compareOptions);
 
         // The first document's collection of revision groups contains all the differences between documents.
         RevisionGroupCollection groups = docA.getRevisions().getGroups();

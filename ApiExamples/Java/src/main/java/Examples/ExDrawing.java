@@ -39,9 +39,9 @@ public class ExDrawing extends ApiExampleBase {
         //ExFor:Drawing.ArrowWidth
         //ExFor:Drawing.DashStyle
         //ExFor:Drawing.EndCap
-        //ExFor:Drawing.Fill.Color
+        //ExFor:Drawing.Fill.ForeColor
         //ExFor:Drawing.Fill.ImageBytes
-        //ExFor:Drawing.Fill.On
+        //ExFor:Drawing.Fill.Visible
         //ExFor:Drawing.JoinStyle
         //ExFor:Shape.Stroke
         //ExFor:Stroke.Color
@@ -92,8 +92,8 @@ public class ExDrawing extends ApiExampleBase {
         filledInArrow.setWidth(200.0);
         filledInArrow.setHeight(40.0);
         filledInArrow.setTop(100.0);
-        filledInArrow.getFill().setColor(Color.GREEN);
-        filledInArrow.getFill().setOn(true);
+        filledInArrow.getFill().setForeColor(Color.GREEN);
+        filledInArrow.getFill().setVisible(true);
 
         builder.insertNode(filledInArrow);
 
@@ -155,8 +155,8 @@ public class ExDrawing extends ApiExampleBase {
         Assert.assertEquals(200.0d, filledInArrow.getWidth());
         Assert.assertEquals(40.0d, filledInArrow.getHeight());
         Assert.assertEquals(100.0d, filledInArrow.getTop());
-        Assert.assertEquals(Color.GREEN.getRGB(), filledInArrow.getFill().getColor().getRGB());
-        Assert.assertTrue(filledInArrow.getFill().getOn());
+        Assert.assertEquals(Color.GREEN.getRGB(), filledInArrow.getFill().getForeColor().getRGB());
+        Assert.assertTrue(filledInArrow.getFill().getVisible());
 
         filledInArrowImg = (Shape) doc.getChild(NodeType.SHAPE, 3, true);
 
@@ -204,7 +204,6 @@ public class ExDrawing extends ApiExampleBase {
             if (imageData.hasImage()) {
                 InputStream format = imageData.toStream();
 
-                // We will use an ImageReader to determine an image's file extension
                 ImageInputStream iis = ImageIO.createImageInputStream(format);
                 Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(iis);
 
@@ -323,7 +322,6 @@ public class ExDrawing extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitGroupShapeStart(GroupShape)
     //ExFor:Drawing.GroupShape
     //ExFor:Drawing.GroupShape.#ctor(DocumentBase)
-    //ExFor:Drawing.GroupShape.#ctor(DocumentBase,Drawing.ShapeMarkupLanguage)
     //ExFor:Drawing.GroupShape.Accept(DocumentVisitor)
     //ExFor:ShapeBase.IsGroup
     //ExFor:ShapeBase.ShapeType
@@ -387,7 +385,7 @@ public class ExDrawing extends ApiExampleBase {
             mBuilder.append("\t\tWidth: " + shape.getWidth() + "\r\n");
             mBuilder.append("\t\tHeight: " + shape.getHeight() + "\r\n");
             mBuilder.append("\t\tStroke color: " + shape.getStroke().getColor() + "\r\n");
-            mBuilder.append("\t\tFill color: " + shape.getFill().getColor() + "\r\n");
+            mBuilder.append("\t\tFill color: " + shape.getFill().getForeColor() + "\r\n");
             return VisitorAction.CONTINUE;
         }
 
@@ -425,7 +423,7 @@ public class ExDrawing extends ApiExampleBase {
     public void textBox() throws Exception {
         //ExStart
         //ExFor:Drawing.LayoutFlow
-        //ExSummary:Shows how to add text to a text box, and change its orientation
+        //ExSummary:Shows how to add text to a text box, and change its orientation.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

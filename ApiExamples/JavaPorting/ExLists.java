@@ -30,7 +30,6 @@ import com.aspose.words.NodeType;
 import com.aspose.words.Paragraph;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.ListCollection;
-import com.aspose.ms.System.msString;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.ListLabel;
 
@@ -935,7 +934,7 @@ public class ExLists extends ApiExampleBase
 
             // This is the text we get when getting when we output this node to text format.
             // This text output will omit list labels. Trim any paragraph formatting characters. 
-            String paragraphText = msString.trim(paragraph.toString(SaveFormat.TEXT));
+            String paragraphText = paragraph.toString(SaveFormat.TEXT).trim();
             System.out.println("\tExported Text: {paragraphText}");
 
             ListLabel label = paragraph.getListLabel();

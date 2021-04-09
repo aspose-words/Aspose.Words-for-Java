@@ -13,8 +13,10 @@ import com.aspose.words.net.System.Globalization.DateTimeFormatInfo;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Locale;
-
 
 @Test
 public class ExFieldOptions extends ApiExampleBase {
@@ -362,5 +364,112 @@ public class ExFieldOptions extends ApiExampleBase {
         }
     }
     //ExEnd
+
+    @Test
+    public void barcodeGenerator() throws Exception {
+        //ExStart
+        //ExFor:BarcodeParameters
+        //ExFor:BarcodeParameters.AddStartStopChar
+        //ExFor:BarcodeParameters.BackgroundColor
+        //ExFor:BarcodeParameters.BarcodeType
+        //ExFor:BarcodeParameters.BarcodeValue
+        //ExFor:BarcodeParameters.CaseCodeStyle
+        //ExFor:BarcodeParameters.DisplayText
+        //ExFor:BarcodeParameters.ErrorCorrectionLevel
+        //ExFor:BarcodeParameters.FacingIdentificationMark
+        //ExFor:BarcodeParameters.FixCheckDigit
+        //ExFor:BarcodeParameters.ForegroundColor
+        //ExFor:BarcodeParameters.IsBookmark
+        //ExFor:BarcodeParameters.IsUSPostalAddress
+        //ExFor:BarcodeParameters.PosCodeStyle
+        //ExFor:BarcodeParameters.PostalAddress
+        //ExFor:BarcodeParameters.ScalingFactor
+        //ExFor:BarcodeParameters.SymbolHeight
+        //ExFor:BarcodeParameters.SymbolRotation
+        //ExFor:IBarcodeGenerator
+        //ExFor:IBarcodeGenerator.GetBarcodeImage(BarcodeParameters)
+        //ExFor:IBarcodeGenerator.GetOldBarcodeImage(BarcodeParameters)
+        //ExFor:FieldOptions.BarcodeGenerator
+        //ExSummary:Shows how to use a barcode generator.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        Assert.assertNull(doc.getFieldOptions().getBarcodeGenerator()); //ExSkip
+
+        // We can use a custom IBarcodeGenerator implementation to generate barcodes,
+        // and then insert them into the document as images.
+        doc.getFieldOptions().setBarcodeGenerator(new CustomBarcodeGenerator());
+
+        // Below are four examples of different barcode types that we can create using our generator.
+        // For each barcode, we specify a new set of barcode parameters, and then generate the image.
+        // Afterwards, we can insert the image into the document, or save it to the local file system.
+        // 1 -  QR code:
+        BarcodeParameters barcodeParameters = new BarcodeParameters();
+        {
+            barcodeParameters.setBarcodeType("QR");
+            barcodeParameters.setBarcodeValue("ABC123");
+            barcodeParameters.setBackgroundColor("0xF8BD69");
+            barcodeParameters.setForegroundColor("0xB5413B");
+            barcodeParameters.setErrorCorrectionLevel("3");
+            barcodeParameters.setScalingFactor("250");
+            barcodeParameters.setSymbolHeight("1000");
+            barcodeParameters.setSymbolRotation("0");
+        }
+
+        BufferedImage img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        ImageIO.write(img, "jpg", new File(getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg"));
+
+        builder.insertImage(img);
+
+        // 2 -  EAN13 barcode:
+        barcodeParameters = new BarcodeParameters();
+        {
+            barcodeParameters.setBarcodeType("EAN13");
+            barcodeParameters.setBarcodeValue("501234567890");
+            barcodeParameters.setDisplayText(true);
+            barcodeParameters.setPosCodeStyle("CASE");
+            barcodeParameters.setFixCheckDigit(true);
+        }
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        ImageIO.write(img, "jpg", new File(getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg"));
+        builder.insertImage(img);
+
+        // 3 -  CODE39 barcode:
+        barcodeParameters = new BarcodeParameters();
+        {
+            barcodeParameters.setBarcodeType("CODE39");
+            barcodeParameters.setBarcodeValue("12345ABCDE");
+            barcodeParameters.setAddStartStopChar(true);
+        }
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        ImageIO.write(img, "jpg", new File(getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg"));
+        builder.insertImage(img);
+
+        // 4 -  ITF14 barcode:
+        barcodeParameters = new BarcodeParameters();
+        {
+            barcodeParameters.setBarcodeType("ITF14");
+            barcodeParameters.setBarcodeValue("09312345678907");
+            barcodeParameters.setCaseCodeStyle("STD");
+        }
+
+        img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
+        ImageIO.write(img, "jpg", new File(getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg"));
+        builder.insertImage(img);
+
+        doc.save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
+        //ExEnd
+
+        TestUtil.verifyImage(496, 496, getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
+        TestUtil.verifyImage(117, 107, getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
+        TestUtil.verifyImage(397, 70, getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
+        TestUtil.verifyImage(633, 134, getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
+
+        doc = new Document(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
+        Shape barcode = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertTrue(barcode.hasImage());
+    }
 }
 

@@ -17,9 +17,7 @@ import com.aspose.words.SaveFormat;
 import org.testng.Assert;
 import com.aspose.words.IncorrectPasswordException;
 import com.aspose.words.LoadOptions;
-import com.aspose.ms.System.msString;
 import com.aspose.ms.System.IO.Directory;
-import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.IO.FileInfo;
 import org.testng.annotations.DataProvider;
@@ -44,7 +42,7 @@ public class ExDocSaveOptions extends ApiExampleBase
         builder.write("Hello world!");
 
         DocSaveOptions options = new DocSaveOptions(SaveFormat.DOC);
-
+        
         // Set a password which will protect the loading of the document by Microsoft Word or Aspose.Words.
         // Note that this does not encrypt the contents of the document in any way.
         options.setPassword("MyPassword");
@@ -61,7 +59,7 @@ public class ExDocSaveOptions extends ApiExampleBase
         LoadOptions loadOptions = new LoadOptions("MyPassword");
         doc = new Document(getArtifactsDir() + "DocSaveOptions.SaveAsDoc.doc", loadOptions);
 
-        Assert.assertEquals("Hello world!", msString.trim(doc.getText()));
+        Assert.assertEquals("Hello world!", doc.getText().trim());
         //ExEnd
     }
 
@@ -119,6 +117,7 @@ public class ExDocSaveOptions extends ApiExampleBase
         //ExFor:SaveOptions.UpdateLastPrintedProperty
         //ExSummary:Shows how to update a document's "Last printed" property when saving.
         Document doc = new Document();
+        doc.getBuiltInDocumentProperties().setLastPrintedInternal(new DateTime(2019, 12, 20));
 
         // This flag determines whether the last printed date, which is a built-in property, is updated.
         // If so, then the date of the document's most recent save operation
@@ -133,13 +132,48 @@ public class ExDocSaveOptions extends ApiExampleBase
         // Open the saved document, then verify the value of the property.
         doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateLastPrintedProperty.doc");
 
-        msAssert.areNotEqual(isUpdateLastPrintedProperty, (DateTime.equals(DateTime.MinValue.getDate(), doc.getBuiltInDocumentProperties().getLastPrintedInternal())));
+        Assert.assertNotEquals(isUpdateLastPrintedProperty, DateTime.equals(new DateTime(2019, 12, 20), doc.getBuiltInDocumentProperties().getLastPrintedInternal()));
         //ExEnd
     }
 
 	//JAVA-added data provider for test method
 	@DataProvider(name = "updateLastPrintedPropertyDataProvider")
 	public static Object[][] updateLastPrintedPropertyDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test (dataProvider = "updateCreatedTimePropertyDataProvider")
+    public void updateCreatedTimeProperty(boolean isUpdateCreatedTimeProperty) throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.UpdateLastPrintedProperty
+        //ExSummary:Shows how to update a document's "CreatedTime" property when saving.
+        Document doc = new Document();
+        doc.getBuiltInDocumentProperties().setCreatedTimeInternal(new DateTime(2019, 12, 20));
+
+        // This flag determines whether the created time, which is a built-in property, is updated.
+        // If so, then the date of the document's most recent save operation
+        // with this SaveOptions object passed as a parameter is used as the created time.
+        DocSaveOptions saveOptions = new DocSaveOptions();
+        saveOptions.setUpdateCreatedTimeProperty(isUpdateCreatedTimeProperty);
+
+        doc.save(getArtifactsDir() + "DocSaveOptions.UpdateCreatedTimeProperty.docx", saveOptions);
+
+        // Open the saved document, then verify the value of the property.
+        doc = new Document(getArtifactsDir() + "DocSaveOptions.UpdateCreatedTimeProperty.docx");
+
+        Assert.assertNotEquals(isUpdateCreatedTimeProperty, DateTime.equals(new DateTime(2019, 12, 20), doc.getBuiltInDocumentProperties().getCreatedTimeInternal()));
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "updateCreatedTimePropertyDataProvider")
+	public static Object[][] updateCreatedTimePropertyDataProvider() throws Exception
 	{
 		return new Object[][]
 		{

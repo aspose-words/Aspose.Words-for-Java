@@ -14,11 +14,12 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentProperty;
+import java.util.Collection;
 import org.testng.Assert;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.BuiltInDocumentProperties;
 import com.aspose.words.FieldType;
-import com.aspose.ms.System.msString;
+import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.TimeSpan;
 import com.aspose.words.NodeType;
@@ -65,9 +66,9 @@ public class ExDocumentProperties extends ApiExampleBase
             System.out.println("\tType:\t{docProperty.Type}");
 
             // Some properties may store multiple values.
-            if (docProperty.getValue() instanceof Object[])
+            if (docProperty.getValue() instanceof Collection<Object>)
             {
-                for (Object value : ms.as(docProperty.getValue(), Object[].class))
+                for (Object value : ms.as(docProperty.getValue(), Collection<Object>.class))
                     System.out.println("\tValue:\t\"{value}\"");
             }
             else
@@ -171,7 +172,7 @@ public class ExDocumentProperties extends ApiExampleBase
         Assert.assertEquals("Author:\t\u0013 AUTHOR \u0014John Doe\u0015\r" +
                         "Doc title:\t\u0013 TITLE \u0014John's Document\u0015\r" +
                         "Subject:\t\u0013 SUBJECT \u0014My subject\u0015\r" +
-                        "Comments:\t\"\u0013 COMMENTS \u0014This is John Doe's document about My subject\u0015\"", msString.trim(doc.getText()));
+                        "Comments:\t\"\u0013 COMMENTS \u0014This is John Doe's document about My subject\u0015\"", doc.getText().trim());
     }
 
     @Test
@@ -212,7 +213,7 @@ public class ExDocumentProperties extends ApiExampleBase
         // Microsoft Word updates the following properties automatically when we save the document.
         // To use these properties with Aspose.Words, we will need to set values for them manually.
         properties.setLastSavedBy("John Doe");
-        properties.setLastSavedTimeInternal(DateTime.getNow());
+        properties.setLastSavedTimeInternal(new Date());
 
         // We can right-click this document in Windows Explorer and find these properties in "Properties" -> "Details" -> "Origin".
         doc.save(getArtifactsDir() + "DocumentProperties.Origin.docx");
@@ -224,7 +225,7 @@ public class ExDocumentProperties extends ApiExampleBase
         Assert.assertEquals(new DateTime(2006, 4, 25, 10, 10, 0), properties.getCreatedTimeInternal());
         Assert.assertEquals(new DateTime(2019, 4, 21, 10, 0, 0), properties.getLastPrintedInternal());
         Assert.assertEquals("John Doe", properties.getLastSavedBy());
-        TestUtil.verifyDate(DateTime.getNow(), properties.getLastSavedTimeInternal(), TimeSpan.fromSeconds(5.0));
+        TestUtil.verifyDate(new Date(), properties.getLastSavedTimeInternal(), TimeSpan.fromSeconds(5.0));
         Assert.assertEquals("Jane Doe", properties.getManager());
         Assert.assertEquals("Microsoft Office Word", properties.getNameOfApplication());
         Assert.assertEquals(12, properties.getRevisionNumber());
@@ -553,12 +554,12 @@ public class ExDocumentProperties extends ApiExampleBase
         //ExSummary:Shows how to create a custom document property which contains a date and time.
         Document doc = new Document();
 
-        doc.getCustomDocumentProperties().addInternal("AuthorizationDate", DateTime.getNow());
+        doc.getCustomDocumentProperties().addInternal("AuthorizationDate", new Date());
 
         System.out.println("Document authorized on {doc.CustomDocumentProperties[");
         //ExEnd
 
-        TestUtil.verifyDate(DateTime.getNow(), 
+        TestUtil.verifyDate(new Date(), 
             DocumentHelper.saveOpen(doc).getCustomDocumentProperties().get("AuthorizationDate").toDateTimeInternal(), 
             TimeSpan.fromSeconds(1.0));
     }

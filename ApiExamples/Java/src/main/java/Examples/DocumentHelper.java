@@ -340,6 +340,17 @@ public final class DocumentHelper {
     }
 
     /**
+     * Create specific date for tests.
+     *
+     * @return specific date
+     */
+    static Date createDate(int year, int month, int day, int hours, int minuts, int seconds) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day, hours, minuts, seconds);
+        return cal.getTime();
+    }
+
+    /**
      * Create date without time for tests.
      *
      * @return specific date without time
