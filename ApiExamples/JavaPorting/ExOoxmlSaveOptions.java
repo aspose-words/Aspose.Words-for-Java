@@ -278,7 +278,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
                 Assert.That(1266000, Is.AtLeast(fileInfo.getLength()));
                 break;
             case CompressionLevel.NORMAL:
-                Assert.That(1267000, Is.LessThan(fileInfo.getLength()));
+                Assert.That(1266900, Is.LessThan(fileInfo.getLength()));
                 break;
             case CompressionLevel.FAST:
                 Assert.That(1269000, Is.LessThan(fileInfo.getLength()));
