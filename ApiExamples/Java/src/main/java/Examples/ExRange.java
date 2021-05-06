@@ -552,7 +552,7 @@ public class ExRange extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test(enabled = false, dataProvider = "useSubstitutionsDataProvider")
+    @Test(dataProvider = "useSubstitutionsDataProvider")
     public void useSubstitutions(boolean useSubstitutions) throws Exception {
         //ExStart
         //ExFor:FindReplaceOptions.UseSubstitutions

@@ -13,6 +13,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -193,7 +194,7 @@ public class ExTxtSaveOptions extends ApiExampleBase {
                 };
     }
 
-    @Test(enabled = false)
+    @Test
     public void txtListIndentation() throws Exception {
         //ExStart
         //ExFor:TxtListIndentation
@@ -226,15 +227,15 @@ public class ExTxtSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "TxtSaveOptions.TxtListIndentation.txt", txtSaveOptions);
 
-        String docText = new Document(getArtifactsDir() + "TxtSaveOptions.TxtListIndentation.txt").getText().trim();
+        String docText = getArtifactsDir() + "TxtSaveOptions.TxtListIndentation.txt";
 
-        Assert.assertEquals("1. Item 1\r" +
-                "   a. Item 2\r" +
+        TestUtil.fileContainsString("1. Item 1\r\n" +
+                "   a. Item 2\r\n" +
                 "      i. Item 3", docText);
         //ExEnd
     }
 
-    @Test(dataProvider = "simplifyListLabelsDataProvider", enabled = false)
+    @Test(dataProvider = "simplifyListLabelsDataProvider")
     public void simplifyListLabels(boolean simplifyListLabels) throws Exception {
         //ExStart
         //ExFor:TxtSaveOptions.SimplifyListLabels
@@ -265,19 +266,19 @@ public class ExTxtSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "TxtSaveOptions.SimplifyListLabels.txt", txtSaveOptions);
 
-        String docText = new Document(getArtifactsDir() + "TxtSaveOptions.SimplifyListLabels.txt").getText().trim();
+        String docText = getArtifactsDir() + "TxtSaveOptions.SimplifyListLabels.txt";
 
         if (simplifyListLabels)
-            Assert.assertEquals("* Item 1\r" +
-                    "  > Item 2\r" +
-                    "    + Item 3\r" +
-                    "      - Item 4\r" +
+            TestUtil.fileContainsString("* Item 1\r\n" +
+                    "  > Item 2\r\n" +
+                    "    + Item 3\r\n" +
+                    "      - Item 4\r\n" +
                     "        o Item 5", docText);
         else
-            Assert.assertEquals("· Item 1\r" +
-                    "o Item 2\r" +
-                    "§ Item 3\r" +
-                    "· Item 4\r" +
+            TestUtil.fileContainsString("· Item 1\r\n" +
+                    "o Item 2\r\n" +
+                    "§ Item 3\r\n" +
+                    "· Item 4\r\n" +
                     "o Item 5", docText);
         //ExEnd
     }
