@@ -552,7 +552,7 @@ public class ExRange extends ApiExampleBase {
     }
     //ExEnd
 
-    @Test(enabled = false, dataProvider = "useSubstitutionsDataProvider")
+    @Test(dataProvider = "useSubstitutionsDataProvider")
     public void useSubstitutions(boolean useSubstitutions) throws Exception {
         //ExStart
         //ExFor:FindReplaceOptions.UseSubstitutions
@@ -605,14 +605,14 @@ public class ExRange extends ApiExampleBase {
         FindReplaceOptions options = new FindReplaceOptions();
         options.setReplacingCallback(new InsertDocumentAtReplaceHandler());
 
-        mainDoc.getRange().replace("\\[MY_DOCUMENT\\]", "", options);
+        mainDoc.getRange().replace(Pattern.compile("\\[MY_DOCUMENT\\]"), "", options);
         mainDoc.save(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx");
 
         testInsertDocumentAtReplace(new Document(getArtifactsDir() + "InsertDocument.InsertDocumentAtReplace.docx")); //ExSkip
     }
 
     private static class InsertDocumentAtReplaceHandler implements IReplacingCallback {
-        public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs args) throws Exception {
+        public int replacing(ReplacingArgs args) throws Exception {
             Document subDoc = new Document(getMyDir() + "Document.docx");
 
             // Insert a document after the paragraph containing the matched text.

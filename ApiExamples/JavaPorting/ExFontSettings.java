@@ -234,8 +234,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         // Get the list of fonts to call warning callback.
         ArrayList<PhysicalFontInfo> fontInfos = source.getAvailableFonts();
 
-        Assert.assertEquals("Error loading font from the folder \"bad folder?\": Illegal characters in path.",
-            callback.FontSubstitutionWarnings.get(0).getDescription());
+        Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getDescription().contains("Error loading font from the folder \"bad folder?\""));
     }
 
     private static class FontSourceWarningCollector implements IWarningCallback
