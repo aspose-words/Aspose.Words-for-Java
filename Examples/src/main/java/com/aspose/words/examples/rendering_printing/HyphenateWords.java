@@ -2,8 +2,10 @@ package com.aspose.words.examples.rendering_printing;
 
 import com.aspose.words.Document;
 import com.aspose.words.Hyphenation;
+import com.aspose.words.IHyphenationCallback;
 import com.aspose.words.examples.Utils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -17,6 +19,8 @@ public class HyphenateWords {
 
         // Load a hyphenation dictionary for a specified language from a stream.
         loadHyphenationDictionaryFromStream();
+
+        hyphenationCallback();
     }
 
     public static void loadHyphenationDictionaryFromFile() throws Exception {
@@ -40,4 +44,39 @@ public class HyphenateWords {
         doc.save(dataDir + "LoadHyphenationDictionaryFromStream_Out.pdf");
         //ExEnd:LoadHyphenationDictionaryFromStream
     }
+
+    //ExStart:HyphenationCallback
+    public static void hyphenationCallback() {
+        try {
+            // Register hyphenation callback.
+            Hyphenation.setCallback(new CustomHyphenationCallback());
+
+            Document document = new Document(dataDir + "in.docx");
+            document.save(dataDir + "LoadHyphenationDictionaryFromStream_Out.pdf");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Hyphenation.setCallback(null);
+        }
+    }
+
+    static class CustomHyphenationCallback implements IHyphenationCallback {
+        public void requestDictionary(String language) throws Exception {
+            String dictionaryFolder = dataDir;
+            String dictionaryFullFileName;
+            switch (language) {
+                case "en-US":
+                    dictionaryFullFileName = new File(dictionaryFolder, "hyph_en_US.dic").getPath();
+                    break;
+                case "de-CH":
+                    dictionaryFullFileName = new File(dictionaryFolder, "hyph_de_CH.dic").getPath();
+                    break;
+                default:
+                    throw new Exception("Missing hyphenation dictionary for " + language);
+            }
+            // Register dictionary for requested language.
+            Hyphenation.registerDictionary(language, dictionaryFullFileName);
+        }
+    }
+    //ExEnd:HyphenationCallback
 }

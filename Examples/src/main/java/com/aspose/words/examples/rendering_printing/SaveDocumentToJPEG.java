@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 import com.aspose.words.Document;
 import com.aspose.words.ImageSaveOptions;
+import com.aspose.words.PageSet;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.examples.Utils;
 
@@ -32,8 +33,7 @@ public class SaveDocumentToJPEG {
 		// constructor
 		// to signal what type of image to save as.
 		ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
-		imageOptions.setPageIndex(2);
-		imageOptions.setPageCount(1);
+		imageOptions.setPageSet(new PageSet(2, 1));
 		imageOptions.setJpegQuality(80);
 		doc.save(dataDir + "Rendering.JpegCustomOptions.jpg", imageOptions);
 		// ExEnd:SaveDocumentToJPEG

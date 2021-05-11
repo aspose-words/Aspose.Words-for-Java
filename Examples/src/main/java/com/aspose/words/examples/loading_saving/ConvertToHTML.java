@@ -22,12 +22,24 @@ public class ConvertToHTML {
 		// The path to the documents directory.
 		String dataDir = Utils.getDataDir(ConvertToHTML.class);
 
+		ConvertDocToHtml(dataDir);
 		ConvertDocxToHtml(dataDir);
 		ConvertDocumentToHtmlWithRoundtrip(dataDir);
 		ExportResourcesUsingHtmlSaveOptions(dataDir);
 		ExportFontsAsBase64(dataDir);
 		ConvertDocumentToEPUB(dataDir);
 		ConvertDocumentToMHTMLAndEmail(dataDir);
+	}
+
+	public static void ConvertDocToHtml(String dataDir) throws Exception {
+		// ExStart:ConvertDocToHtml
+		// Load the document from disk.
+		Document doc = new Document(dataDir + "Test File (doc).doc");
+
+		// Save the document into HTML.
+		doc.save(dataDir + "Document_out.html");
+		// ExEnd:ConvertDocToHtml
+		System.out.println("Document converted to html successfully.");
 	}
 
 	public static void ConvertDocxToHtml(String dataDir) throws Exception {

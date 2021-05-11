@@ -16,14 +16,25 @@ public class WorkingWithStyle {
 	public static void cleansUnusedStylesandLists(String dataDir) throws Exception {
 		// ExStart:CleansUnusedStylesandLists
 		Document doc = new Document(dataDir + "TestFile.doc");
-		CleanupOptions cleanupoptions = new CleanupOptions();
 
+		// Count of styles before Cleanup.
+		System.out.println(doc.getStyles().getCount());
+		// Count of lists before Cleanup.
+		System.out.println(doc.getLists().getCount());
+
+		CleanupOptions cleanupoptions = new CleanupOptions();
 		cleanupoptions.setUnusedLists(false);
 		cleanupoptions.setUnusedStyles(true);
 
 		// Cleans unused styles and lists from the document depending on given
 		// CleanupOptions.
 		doc.cleanup(cleanupoptions);
+
+		// Count of styles after Cleanup was decreased.
+		System.out.println(doc.getStyles().getCount());
+		// Count of lists after Cleanup is the same.
+		System.out.println(doc.getLists().getCount());
+
 		doc.save(dataDir + "Document.Cleanup_out.docx");
 		// ExEnd:CleansUnusedStylesandLists
 
@@ -47,11 +58,17 @@ public class WorkingWithStyle {
 		// ExStart:CleanupDuplicateStyle
 		Document doc = new Document(dataDir + "Document.doc");
 
+		// Count of styles before Cleanup.
+		System.out.println(doc.getStyles().getCount());
+
 		CleanupOptions options = new CleanupOptions();
 		options.setDuplicateStyle(true);
 
 		// Cleans duplicate styles from the document.
 		doc.cleanup(options);
+
+		// Count of styles after Cleanup was decreased.
+		System.out.println(doc.getStyles().getCount());
 
 		doc.save(dataDir + "Document.CleanupDuplicateStyle_out.docx");
 		// ExEnd:CleanupDuplicateStyle
