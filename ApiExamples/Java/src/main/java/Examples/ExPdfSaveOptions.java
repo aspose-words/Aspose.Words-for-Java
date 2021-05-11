@@ -2034,7 +2034,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExEnd
 
         TestUtil.fileContainsString("6 0 obj\r\n" +
-                        "<</Type /Annot/Subtype /Widget/FT /Sig/DR <<>>/F 132/Rect [0 0 0 0]/V 7 0 R/P 4 0 R/T(��\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 8 0 R>>>>",
+                        "<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/DR <<>>/F 132/V 7 0 R/P 4 0 R/T(��\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 8 0 R>>>>",
                 getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf")
@@ -2101,7 +2101,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf").hasDigitalSignature());
         TestUtil.fileContainsString("6 0 obj\r\n" +
-                        "<</Type /Annot/Subtype /Widget/FT /Sig/DR <<>>/F 132/Rect [0 0 0 0]/V 7 0 R/P 4 0 R/T(��\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 8 0 R>>>>",
+                        "<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/DR <<>>/F 132/V 7 0 R/P 4 0 R/T(��\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 8 0 R>>>>",
                 getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
 
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
