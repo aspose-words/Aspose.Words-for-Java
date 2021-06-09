@@ -2876,11 +2876,11 @@ public class ExField extends ApiExampleBase
             fieldIncludeText.getFieldCode());
         Assert.assertTrue(fieldIncludeText.getResult().startsWith("My CD Collection"));
 
-        org.w3c.dom.Document cdCollectionData = XmlUtilPal.newDocument();
+        org.w3c.dom.Document cdCollectionData = XmlUtilPal.newXmlDocument();
         cdCollectionData.LoadXml(File.readAllText(getMyDir() + "CD collection data.xml"));
         org.w3c.dom.Node catalogData = cdCollectionData.getChildNodes().item(0);
 
-        org.w3c.dom.Document cdCollectionXslTransformation = XmlUtilPal.newDocument();
+        org.w3c.dom.Document cdCollectionXslTransformation = XmlUtilPal.newXmlDocument();
         cdCollectionXslTransformation.LoadXml(File.readAllText(getMyDir() + "CD collection XSL transformation.xsl"));
 
         Table table = doc.getFirstSection().getBody().getTables().get(0);

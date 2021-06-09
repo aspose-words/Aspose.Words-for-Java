@@ -83,7 +83,7 @@ public class ExThemes extends ApiExampleBase
 
         // Apply custom colors to hyperlinks in their clicked and un-clicked states.
         colors.setHyperlink(Color.BLACK);
-        colors.setFollowedHyperlink(Color.Gray);
+        colors.setFollowedHyperlink(msColor.getGray());
 
         doc.save(getArtifactsDir() + "Themes.CustomColorsAndFonts.docx");
         //ExEnd
@@ -92,7 +92,7 @@ public class ExThemes extends ApiExampleBase
 
         Assert.assertEquals(Color.OrangeRed.getRGB(), doc.getTheme().getColors().getAccent1().getRGB());
         Assert.assertEquals(Color.MidnightBlue.getRGB(), doc.getTheme().getColors().getDark1().getRGB());
-        Assert.assertEquals(Color.Gray.getRGB(), doc.getTheme().getColors().getFollowedHyperlink().getRGB());
+        Assert.assertEquals(msColor.getGray().getRGB(), doc.getTheme().getColors().getFollowedHyperlink().getRGB());
         Assert.assertEquals(Color.BLACK.getRGB(), doc.getTheme().getColors().getHyperlink().getRGB());
         Assert.assertEquals(Color.PaleGreen.getRGB(), doc.getTheme().getColors().getLight1().getRGB());
 

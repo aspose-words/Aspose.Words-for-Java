@@ -884,7 +884,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         finally { if (fontFallbackStream1 != null) fontFallbackStream1.close(); }
         //ExEnd
 
-        org.w3c.dom.Document fallbackSettingsDoc = XmlUtilPal.newDocument();
+        org.w3c.dom.Document fallbackSettingsDoc = XmlUtilPal.newXmlDocument();
         fallbackSettingsDoc.LoadXml(File.readAllText(getArtifactsDir() + "FallbackSettings.xml"));
         XmlNamespaceManager manager = new XmlNamespaceManager(fallbackSettingsDoc.NameTable);
         manager.addNamespace("aw", "Aspose.Words");
@@ -1039,7 +1039,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         fontFallbackSettings.save(getArtifactsDir() + "FontSettings.FallbackSettings.LoadNotoFallbackSettings.xml");
         //ExEnd
 
-        org.w3c.dom.Document fallbackSettingsDoc = XmlUtilPal.newDocument();
+        org.w3c.dom.Document fallbackSettingsDoc = XmlUtilPal.newXmlDocument();
         fallbackSettingsDoc.LoadXml(File.readAllText(getArtifactsDir() + "FontSettings.FallbackSettings.Default.xml"));
         XmlNamespaceManager manager = new XmlNamespaceManager(fallbackSettingsDoc.NameTable);
         manager.addNamespace("aw", "Aspose.Words");
@@ -1107,7 +1107,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         doc.save(getArtifactsDir() + "FontSettings.FallbackSettingsCustom.pdf");
         //ExEnd
 
-        org.w3c.dom.Document fallbackSettingsDoc = XmlUtilPal.newDocument();
+        org.w3c.dom.Document fallbackSettingsDoc = XmlUtilPal.newXmlDocument();
         fallbackSettingsDoc.LoadXml(File.readAllText(getArtifactsDir() + "FontSettings.FallbackSettingsCustom.BuildAutomatic.xml"));
         XmlNamespaceManager manager = new XmlNamespaceManager(fallbackSettingsDoc.NameTable);
         manager.addNamespace("aw", "Aspose.Words");
@@ -1169,7 +1169,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         finally { if (fileStream != null) fileStream.close(); }
         //ExEnd
 
-        org.w3c.dom.Document fallbackSettingsDoc = XmlUtilPal.newDocument();
+        org.w3c.dom.Document fallbackSettingsDoc = XmlUtilPal.newXmlDocument();
         fallbackSettingsDoc.LoadXml(File.readAllText(getArtifactsDir() + "FontSettings.TableSubstitutionRule.Windows.xml"));
         XmlNamespaceManager manager = new XmlNamespaceManager(fallbackSettingsDoc.NameTable);
         manager.addNamespace("aw", "Aspose.Words");
