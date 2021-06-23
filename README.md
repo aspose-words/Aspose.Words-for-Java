@@ -104,4 +104,4 @@ pj.setPrintable(awPrintDoc);
 pj.print();
 ```
 
-[Product Page](https://products.aspose.com/words/java) | [Docs](https://docs.aspose.com/words/java/) | [Demos](https://products.aspose.app/words/family) | [API Reference](https://apireference.aspose.com/words/java) | [Examples](https://github.com/aspose-words/Aspose.Words-for-Java/tree/master/Examples) | [Blog](https://blog.aspose.com/category/words/) | [Free Support](https://forum.aspose.com/c/words) | [Temporary License](https://purchase.aspose.com/temporary-license)
+[Product Page](https://products.aspose.com/words/java) | [Docs](https://docs.aspose.com/words/java/) | [Demos](https://products.aspose.app/words/family) | [API Reference](https://apireference.aspose.com/words/java) | [Examples](https://github.com/aspose-words/Aspose.Words-for-Java/tree/master/Examples) | [Blog](https://blog.aspose.com/category/words/) | [Search](https://search.aspose.com/) | [Free Support](https://forum.aspose.com/c/words) | [Temporary License](https://purchase.aspose.com/temporary-license)
