@@ -572,14 +572,14 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         if (allowNegativeIndent) {
             Assert.assertTrue(outDocContents.contains(
-                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:-41.65pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:-41.65pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
             Assert.assertTrue(outDocContents.contains(
-                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
         } else {
             Assert.assertTrue(outDocContents.contains(
-                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
             Assert.assertTrue(outDocContents.contains(
-                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                    "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
         }
         //ExEnd
     }
@@ -721,12 +721,12 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
             case HtmlVersion.HTML_5:
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
-                Assert.assertTrue(outDocContents.contains("<table style=\"border-collapse:collapse\">"));
+                Assert.assertTrue(outDocContents.contains("<table style=\"-aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
                 break;
             case HtmlVersion.XHTML:
                 Assert.assertTrue(outDocContents.contains("<a name=\"_Toc76372689\"></a>"));
                 Assert.assertTrue(outDocContents.contains("<ul type=\"disc\" style=\"margin:0pt; padding-left:0pt\">"));
-                Assert.assertTrue(outDocContents.contains("<table cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse\">"));
+                Assert.assertTrue(outDocContents.contains("<table cellspacing=\"0\" cellpadding=\"0\" style=\"-aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
                 break;
         }
         //ExEnd

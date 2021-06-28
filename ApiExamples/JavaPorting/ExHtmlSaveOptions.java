@@ -685,16 +685,16 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         if (allowNegativeIndent)
         {
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:-41.65pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:-41.65pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
         }
         else
         {
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
             Assert.assertTrue(outDocContents.contains(
-                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; border-collapse:collapse\">"));
+                "<table cellspacing=\"0\" cellpadding=\"0\" style=\"margin-left:30.35pt; border:0.75pt solid #000000; -aw-border:0.5pt single; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
         }
         //ExEnd
     }
@@ -841,12 +841,12 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             case HtmlVersion.HTML_5:
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
-                Assert.assertTrue(outDocContents.contains("<table style=\"border-collapse:collapse\">"));
+                Assert.assertTrue(outDocContents.contains("<table style=\"-aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
                 break;
             case HtmlVersion.XHTML:
                 Assert.assertTrue(outDocContents.contains("<a name=\"_Toc76372689\"></a>"));
                 Assert.assertTrue(outDocContents.contains("<ul type=\"disc\" style=\"margin:0pt; padding-left:0pt\">"));
-                Assert.assertTrue(outDocContents.contains("<table cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse\">"));
+                Assert.assertTrue(outDocContents.contains("<table cellspacing=\"0\" cellpadding=\"0\" style=\"-aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\""));
                 break;
         }
         //ExEnd
@@ -1906,8 +1906,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
                     "</p>").getSuccess());
                 break;
             case HtmlOfficeMathOutputMode.MATH_ML:
-                Assert.assertTrue(Regex.match(outDocContents, 
-                    "<p style=\"margin-top:0pt; margin-bottom:10pt\">" +
+                Assert.assertTrue(Regex.match(outDocContents,
+                    "<p style=\"margin-top:0pt; margin-bottom:10pt; text-align:center\">" +
                         "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">" +
                             "<mi>i</mi>" +
                             "<mo>[+]</mo>" +
@@ -1921,7 +1921,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
                 break;
             case HtmlOfficeMathOutputMode.TEXT:
                 Assert.assertTrue(Regex.match(outDocContents,
-                    "<p style=\\\"margin-top:0pt; margin-bottom:10pt\\\">" +
+                    "<p style=\\\"margin-top:0pt; margin-bottom:10pt; text-align:center\\\">" +
                         "<span style=\\\"font-family:'Cambria Math'\\\">i[+]b-c≥iM[+]bM-cM </span>" +
                     "</p>").getSuccess());
                 break;
