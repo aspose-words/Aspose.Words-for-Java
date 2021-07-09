@@ -10,6 +10,7 @@ package Examples;
 
 import com.aspose.pdf.TextAbsorber;
 import com.aspose.words.*;
+import com.aspose.words.ref.Ref;
 import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -524,6 +525,35 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     }
 
     @Test
+    public void dataChecksum() throws Exception
+    {
+        //ExStart
+        //ExFor:CustomXmlPart.DataChecksum
+        //ExSummary:Shows how the checksum is calculated in a runtime.
+        Document doc = new Document();
+
+        StructuredDocumentTag richText = new StructuredDocumentTag(doc, SdtType.RICH_TEXT, MarkupLevel.BLOCK);
+        doc.getFirstSection().getBody().appendChild(richText);
+
+        // The checksum is read-only and computed using the data of the corresponding custom XML data part.
+        richText.getXmlMapping().setMapping(doc.getCustomXmlParts().add(UUID.randomUUID().toString(),
+                "<root><text>ContentControl</text></root>"), "/root/text", "");
+
+        long checksum = richText.getXmlMapping().getCustomXmlPart().getDataChecksum();
+        System.out.println(checksum);
+
+        richText.getXmlMapping().setMapping(doc.getCustomXmlParts().add(UUID.randomUUID().toString(),
+                "<root><text>Updated ContentControl</text></root>"), "/root/text", "");
+
+        long updatedChecksum = richText.getXmlMapping().getCustomXmlPart().getDataChecksum();
+        System.out.println(updatedChecksum);
+
+        // We changed the XmlPart of the tag, and the checksum was updated at runtime.
+        Assert.assertNotEquals(checksum, updatedChecksum);
+        //ExEnd
+    }
+
+    @Test
     public void xmlMapping() throws Exception {
         //ExStart
         //ExFor:XmlMapping
@@ -933,11 +963,13 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExFor:StructuredDocumentTagRangeStart
         //ExFor:StructuredDocumentTagRangeStart.Id
         //ExFor:StructuredDocumentTagRangeStart.Title
+        //ExFor:StructuredDocumentTagRangeStart.PlaceholderName
         //ExFor:StructuredDocumentTagRangeStart.IsShowingPlaceholderText
         //ExFor:StructuredDocumentTagRangeStart.LockContentControl
         //ExFor:StructuredDocumentTagRangeStart.LockContents
         //ExFor:StructuredDocumentTagRangeStart.Level
         //ExFor:StructuredDocumentTagRangeStart.RangeEnd
+        //ExFor:StructuredDocumentTagRangeStart.Color
         //ExFor:StructuredDocumentTagRangeStart.SdtType
         //ExFor:StructuredDocumentTagRangeStart.Tag
         //ExFor:StructuredDocumentTagRangeEnd
@@ -953,16 +985,18 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Assert.assertEquals(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, rangeEndTag.getNodeType()); //ExSkip
 
         System.out.println("StructuredDocumentTagRangeStart values:");
-        System.out.println("\t|Id: {rangeStartTag.Id}");
-        System.out.println("\t|Title: {rangeStartTag.Title}");
-        System.out.println("\t|IsShowingPlaceholderText: {rangeStartTag.IsShowingPlaceholderText}");
-        System.out.println("\t|LockContentControl: {rangeStartTag.LockContentControl}");
-        System.out.println("\t|LockContents: {rangeStartTag.LockContents}");
-        System.out.println("\t|Level: {rangeStartTag.Level}");
-        System.out.println("\t|NodeType: {rangeStartTag.NodeType}");
-        System.out.println("\t|RangeEnd: {rangeStartTag.RangeEnd}");
-        System.out.println("\t|SdtType: {rangeStartTag.SdtType}");
-        System.out.println("\t|Tag: {rangeStartTag.Tag}\n");
+        System.out.println(MessageFormat.format("\t|Id: {0}", rangeStartTag.getId()));
+        System.out.println(MessageFormat.format("\t|Title: {0}", rangeStartTag.getTitle()));
+        System.out.println(MessageFormat.format("\t|PlaceholderName: {0}", rangeStartTag.getPlaceholderName()));
+        System.out.println(MessageFormat.format("\t|IsShowingPlaceholderText: {0}", rangeStartTag.isShowingPlaceholderText()));
+        System.out.println(MessageFormat.format("\t|LockContentControl: {0}", rangeStartTag.getLockContentControl()));
+        System.out.println(MessageFormat.format("\t|LockContents: {0}", rangeStartTag.getLockContents()));
+        System.out.println(MessageFormat.format("\t|Level: {0}", rangeStartTag.getLevel()));
+        System.out.println(MessageFormat.format("\t|NodeType: {0}", rangeStartTag.getNodeType()));
+        System.out.println(MessageFormat.format("\t|RangeEnd: {0}", rangeStartTag.getRangeEnd()));
+        System.out.println(MessageFormat.format("\t|Color: {0}", rangeStartTag.getColor()));
+        System.out.println(MessageFormat.format("\t|SdtType: {0}", rangeStartTag.getSdtType()));
+        System.out.println(MessageFormat.format("\t|Tag: {0}\n", rangeStartTag.getTag()));
 
         System.out.println("StructuredDocumentTagRangeEnd values:");
         System.out.println("\t|Id: {rangeEndTag.Id}");

@@ -23,6 +23,7 @@ public class ExCleanupOptions extends ApiExampleBase {
         //ExFor:CleanupOptions
         //ExFor:CleanupOptions.UnusedLists
         //ExFor:CleanupOptions.UnusedStyles
+        //ExFor:CleanupOptions.UnusedBuiltinStyles
         //ExSummary:Shows how to remove all unused custom styles from a document. 
         Document doc = new Document();
 
@@ -51,17 +52,18 @@ public class ExCleanupOptions extends ApiExampleBase {
         CleanupOptions cleanupOptions = new CleanupOptions();
         cleanupOptions.setUnusedLists(true);
         cleanupOptions.setUnusedStyles(true);
+        cleanupOptions.setUnusedBuiltinStyles(true);
 
         doc.cleanup(cleanupOptions);
 
-        Assert.assertEquals(6, doc.getStyles().getCount());
+        Assert.assertEquals(4, doc.getStyles().getCount());
 
         // Removing every node that a custom style is applied to marks it as "unused" again. 
         // Rerun the Cleanup method to remove them.
         doc.getFirstSection().getBody().removeAllChildren();
         doc.cleanup(cleanupOptions);
 
-        Assert.assertEquals(4, doc.getStyles().getCount());
+        Assert.assertEquals(2, doc.getStyles().getCount());
         //ExEnd
     }
 

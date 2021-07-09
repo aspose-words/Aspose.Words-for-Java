@@ -580,4 +580,25 @@ public class ExImageSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "ImageSaveOptions.ExportVariousPageRanges.tiff", imageOptions);
         //ExEnd
     }
+
+    @Test
+    public void renderInkObject() throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.ImlRenderingMode
+        //ExFor:ImlRenderingMode
+        //ExSummary:Shows how to render Ink object.
+        Document doc = new Document(getMyDir() + "Ink object.docx");
+
+        // Set 'ImlRenderingMode.InkML' ignores fall-back shape of ink (InkML) object and renders InkML itself.
+        // If the rendering result is unsatisfactory,
+        // please use 'ImlRenderingMode.Fallback' to get a result similar to previous versions.
+        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.JPEG);
+        {
+            saveOptions.setImlRenderingMode(ImlRenderingMode.INK_ML);
+        }
+
+        doc.save(getArtifactsDir() + "ImageSaveOptions.RenderInkObject.jpeg", saveOptions);
+        //ExEnd
+    }
 }

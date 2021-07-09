@@ -739,7 +739,12 @@ public class ExReportingEngine extends ApiExampleBase {
     public void jsonDataString() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
 
-        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json");
+        JsonDataLoadOptions options = new JsonDataLoadOptions();
+        {
+            options.setExactDateTimeParseFormat("MM/dd/yyyy");
+        }
+
+        JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json", options);
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
@@ -748,9 +753,15 @@ public class ExReportingEngine extends ApiExampleBase {
     @Test
     public void jsonDataStream() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
+
+        JsonDataLoadOptions options = new JsonDataLoadOptions();
+        {
+            options.setExactDateTimeParseFormat("MM/dd/yyyy");
+        }
+
         InputStream stream = new FileInputStream(getMyDir() + "List of people.json");
         try {
-            JsonDataSource dataSource = new JsonDataSource(stream);
+            JsonDataSource dataSource = new JsonDataSource(stream, options);
             buildReport(doc, dataSource, "persons");
         } finally {
             stream.close();

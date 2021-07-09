@@ -412,4 +412,23 @@ public class ExTxtSaveOptions extends ApiExampleBase {
                         {true},
                 };
     }
+
+    @Test
+    public void maxCharactersPerLine() throws Exception
+    {
+        //ExStart
+        //ExFor:TxtSaveOptions.MaxCharactersPerLine
+        //ExSummary:Shows how to set maximum number of characters per line.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.");
+
+        // Set 30 characters as maximum allowed per one line.
+        TxtSaveOptions saveOptions = new TxtSaveOptions(); { saveOptions.setMaxCharactersPerLine(30); }
+
+        doc.save(getArtifactsDir() + "TxtSaveOptions.MaxCharactersPerLine.txt", saveOptions);
+        //ExEnd
+    }
 }
