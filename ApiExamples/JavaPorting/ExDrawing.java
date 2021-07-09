@@ -30,6 +30,8 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import com.aspose.words.NodeType;
 import com.aspose.words.ImageType;
+import com.aspose.words.Fill;
+import com.aspose.ms.System.msConsole;
 import java.util.Iterator;
 import com.aspose.words.ImageData;
 import com.aspose.ms.System.IO.FileStream;
@@ -41,7 +43,6 @@ import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.FileAccess;
 import com.aspose.words.Stroke;
 import com.aspose.words.GroupShape;
-import com.aspose.ms.System.msConsole;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.words.VisitorAction;
 import com.aspose.ms.System.Text.msStringBuilder;
@@ -127,27 +128,22 @@ public class ExDrawing extends ApiExampleBase
         filledInArrowImg.setTop(160.0);
         filledInArrowImg.setFlipOrientation(FlipOrientation.BOTH);
 
-        WebClient webClient = new WebClient();
+        byte[] imageBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
+
+        MemoryStream stream = new MemoryStream(imageBytes);
         try /*JAVA: was using*/
         {
-            byte[] imageBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
+            BufferedImage image = ImageIO.read(stream);
+            // When we flip the orientation of our arrow, we also flip the image that the arrow contains.
+            // Flip the image the other way to cancel this out before getting the shape to display it.
+            image.RotateFlip(RotateFlipType.RotateNoneFlipXY);
 
-            MemoryStream stream = new MemoryStream(imageBytes);
-            try /*JAVA: was using*/
-            {
-                BufferedImage image = ImageIO.read(stream);
-                // When we flip the orientation of our arrow, we also flip the image that the arrow contains.
-                // Flip the image the other way to cancel this out before getting the shape to display it.
-                image.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+            filledInArrowImg.getImageData().setImage(image);
+            filledInArrowImg.getStroke().setJoinStyle(JoinStyle.ROUND);
 
-                filledInArrowImg.getImageData().setImage(image);
-                filledInArrowImg.getStroke().setJoinStyle(JoinStyle.ROUND);
-
-                builder.insertNode(filledInArrowImg);
-            }
-            finally { if (stream != null) stream.close(); }
+            builder.insertNode(filledInArrowImg);
         }
-        finally { if (webClient != null) webClient.close(); }
+        finally { if (stream != null) stream.close(); }
 
         doc.save(getArtifactsDir() + "Drawing.VariousShapes.docx");
         //ExEnd
@@ -156,7 +152,7 @@ public class ExDrawing extends ApiExampleBase
 
         Assert.assertEquals(4, doc.getChildNodes(NodeType.SHAPE, true).getCount());
 
-        arrow = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        arrow = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         Assert.assertEquals(ShapeType.LINE, arrow.getShapeType());
         Assert.assertEquals(200.0d, arrow.getWidth());
@@ -170,7 +166,7 @@ public class ExDrawing extends ApiExampleBase
         Assert.assertEquals(DashStyle.DASH, arrow.getStroke().getDashStyle());
         Assert.assertEquals(0.5d, arrow.getStroke().getOpacity());
 
-        line = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+        line = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
 
         Assert.assertEquals(ShapeType.LINE, line.getShapeType());
         Assert.assertEquals(40.0d, line.getTop());
@@ -179,7 +175,7 @@ public class ExDrawing extends ApiExampleBase
         Assert.assertEquals(5.0d, line.getStrokeWeight());
         Assert.assertEquals(EndCap.ROUND, line.getStroke().getEndCap());
 
-        filledInArrow = (Shape)doc.getChild(NodeType.SHAPE, 2, true);
+        filledInArrow = (Shape) doc.getChild(NodeType.SHAPE, 2, true);
 
         Assert.assertEquals(ShapeType.ARROW, filledInArrow.getShapeType());
         Assert.assertEquals(200.0d, filledInArrow.getWidth());
@@ -188,7 +184,7 @@ public class ExDrawing extends ApiExampleBase
         Assert.assertEquals(msColor.getGreen().getRGB(), filledInArrow.getFill().getForeColor().getRGB());
         Assert.assertTrue(filledInArrow.getFill().getVisible());
 
-        filledInArrowImg = (Shape)doc.getChild(NodeType.SHAPE, 3, true);
+        filledInArrowImg = (Shape) doc.getChild(NodeType.SHAPE, 3, true);
 
         Assert.assertEquals(ShapeType.ARROW, filledInArrowImg.getShapeType());
         Assert.assertEquals(200.0d, filledInArrowImg.getWidth());
@@ -205,24 +201,48 @@ public class ExDrawing extends ApiExampleBase
         //ExSummary:Shows how to add an image to a shape and check its type.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        byte[] imageBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
 
-        WebClient webClient = new WebClient();
+        MemoryStream stream = new MemoryStream(imageBytes);
         try /*JAVA: was using*/
         {
-            byte[] imageBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
+            BufferedImage image = ImageIO.read(stream);
 
-            MemoryStream stream = new MemoryStream(imageBytes);
-            try /*JAVA: was using*/
-            {
-                BufferedImage image = ImageIO.read(stream);
-
-                // The image in the URL is a .gif. Inserting it into a document converts it into a .png.
-                Shape imgShape = builder.insertImage(image);
-                Assert.assertEquals(ImageType.JPEG, imgShape.getImageData().getImageType());
-            }
-            finally { if (stream != null) stream.close(); }
+            // The image in the URL is a .gif. Inserting it into a document converts it into a .png.
+            Shape imgShape = builder.insertImage(image);
+            Assert.assertEquals(ImageType.JPEG, imgShape.getImageData().getImageType());
         }
-        finally { if (webClient != null) webClient.close(); }
+        finally { if (stream != null) stream.close(); }
+
+        //ExEnd
+    }
+
+    @Test
+    public void fillSolid() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.Color()
+        //ExFor:Fill.Color(Color)
+        //ExSummary:Shows how to convert any of the fills back to solid fill.
+        Document doc = new Document(getMyDir() + "Two color gradient.docx");
+
+        // Get Fill object for Font of the first Run.
+        Fill fill = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0).getFont().getFill();
+
+        // Check Fill properties of the Font.
+        System.out.println("The type of the fill is: {0}",fill.getFillType());
+        System.out.println("The foreground color of the fill is: {0}",fill.getForeColor());
+        System.out.println("The fill is transparent at {0}%",fill.getTransparency() * 100.0);
+
+        // Change type of the fill to Solid with uniform green color.
+        fill.solid(msColor.getGreen());
+        System.out.println("\nThe fill is changed:");
+        System.out.println("The type of the fill is: {0}",fill.getFillType());
+        System.out.println("The foreground color of the fill is: {0}",fill.getForeColor());
+        System.out.println("The fill transparency is {0}%",fill.getTransparency() * 100.0);
+
+        doc.save(getArtifactsDir() + "Drawing.FillSolid.docx");
         //ExEnd
     }
 
@@ -535,7 +555,7 @@ public class ExDrawing extends ApiExampleBase
         Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
         Assert.assertEquals(10, imgSourceDoc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSkip
 
-        Shape imgShape = (Shape)imgSourceDoc.getChild(NodeType.SHAPE, 0, true);
+        Shape imgShape = (Shape) imgSourceDoc.getChild(NodeType.SHAPE, 0, true);
 
         Assert.assertTrue(imgShape.hasImage());
 
@@ -546,7 +566,8 @@ public class ExDrawing extends ApiExampleBase
         Stream imgStream = imgShape.getImageData().toStreamInternal();
         try /*JAVA: was using*/
         {
-            FileStream outStream = new FileStream(getArtifactsDir() + "Drawing.GetDataFromImage.png", FileMode.CREATE, FileAccess.READ_WRITE);
+            FileStream outStream = new FileStream(getArtifactsDir() + "Drawing.GetDataFromImage.png",
+                FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
             {
                 imgStream.copyTo(outStream);

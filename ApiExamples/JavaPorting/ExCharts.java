@@ -41,6 +41,9 @@ import com.aspose.words.AxisScaleType;
 import com.aspose.words.ChartLegend;
 import com.aspose.words.LegendPosition;
 import com.aspose.words.ParagraphAlignment;
+import com.aspose.words.ChartDataPointCollection;
+import com.aspose.words.PresetTexture;
+import java.awt.Color;
 import org.testng.annotations.DataProvider;
 
 
@@ -1259,5 +1262,114 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(1.0d, axis.getMinorUnit());
         Assert.assertEquals(-10.0d, axis.getScaling().getMinimum().getValue());
         Assert.assertEquals(20.0d, axis.getScaling().getMaximum().getValue());
+    }
+
+    @Test
+    public void markerFormatting() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartMarker.Format
+        //ExFor:ChartFormat.Fill
+        //ExFor:ChartFormat.Stroke
+        //ExFor:Stroke.ForeColor
+        //ExFor:Stroke.BackColor
+        //ExFor:Stroke.Visible
+        //ExFor:Stroke.Transparency
+        //ExFor:Fill.PresetTextured(PresetTexture)
+        //ExSummary:Show how to set marker formatting.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.SCATTER, 432.0, 252.0);
+        Chart chart = shape.getChart();
+        
+        // Delete default generated series.
+        chart.getSeries().clear();
+        ChartSeries series = chart.getSeries().add("AW Series 1", new double[] { 0.7, 1.8, 2.6, 3.9 },
+            new double[] { 2.7, 3.2, 0.8, 1.7 });
+
+        // Set marker formatting.
+        series.getMarker().setSize(40);
+        series.getMarker().setSymbol(MarkerSymbol.SQUARE);
+        ChartDataPointCollection dataPoints = series.getDataPoints();
+        dataPoints.get(0).getMarker().getFormat().getFill().presetTextured(PresetTexture.DENIM);
+        dataPoints.get(0).getMarker().getFormat().getStroke().setForeColor(Color.YELLOW);
+        dataPoints.get(0).getMarker().getFormat().getStroke().setBackColor(Color.RED);
+        dataPoints.get(1).getMarker().getFormat().getFill().presetTextured(PresetTexture.WATER_DROPLETS);
+        dataPoints.get(1).getMarker().getFormat().getStroke().setForeColor(Color.YELLOW);
+        dataPoints.get(1).getMarker().getFormat().getStroke().setVisible(false);
+        dataPoints.get(2).getMarker().getFormat().getFill().presetTextured(PresetTexture.GREEN_MARBLE);
+        dataPoints.get(2).getMarker().getFormat().getStroke().setForeColor(Color.YELLOW);
+        dataPoints.get(3).getMarker().getFormat().getFill().presetTextured(PresetTexture.OAK);
+        dataPoints.get(3).getMarker().getFormat().getStroke().setForeColor(Color.YELLOW);
+        dataPoints.get(3).getMarker().getFormat().getStroke().setTransparency(0.5);
+
+        doc.save(getArtifactsDir() + "Charts.MarkerFormatting.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void seriesColor() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartSeries.Format
+        //ExSummary:Sows how to set series color.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+
+        Chart chart = shape.getChart();
+        ChartSeriesCollection seriesColl = chart.getSeries();
+
+        // Delete default generated series.
+        seriesColl.clear();
+
+        // Create category names array.
+        String[] categories = new String[] { "Category 1", "Category 2" };
+
+        // Adding new series. Value and category arrays must be the same size.
+        ChartSeries series1 = seriesColl.add("Series 1", categories, new double[] { 1.0, 2.0 });
+        ChartSeries series2 = seriesColl.add("Series 2", categories, new double[] { 3.0, 4.0 });
+        ChartSeries series3 = seriesColl.add("Series 3", categories, new double[] { 5.0, 6.0 });
+
+        // Set series color.
+        series1.getFormat().getFill().setForeColor(Color.RED);
+        series2.getFormat().getFill().setForeColor(Color.YELLOW);
+        series3.getFormat().getFill().setForeColor(Color.BLUE);
+
+        doc.save(getArtifactsDir() + "Charts.SeriesColor.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void dataPointsFormatting() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartDataPoint.Format
+        //ExSummary:Shows how to set individual formatting for categories of a column chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        Chart chart = shape.getChart();
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        // Adding new series.
+        ChartSeries series = chart.getSeries().add("Series 1",
+            new String[] { "Category 1", "Category 2", "Category 3", "Category 4" },
+            new double[] { 1.0, 2.0, 3.0, 4.0 });
+
+        // Set column formatting.
+        ChartDataPointCollection dataPoints = series.getDataPoints();
+        dataPoints.get(0).getFormat().getFill().presetTextured(PresetTexture.DENIM);
+        dataPoints.get(1).getFormat().getFill().setForeColor(Color.RED);
+        dataPoints.get(2).getFormat().getFill().setForeColor(Color.YELLOW);
+        dataPoints.get(3).getFormat().getFill().setForeColor(Color.BLUE);
+
+        doc.save(getArtifactsDir() + "Charts.DataPointsFormatting.docx");
+        //ExEnd
     }
 }

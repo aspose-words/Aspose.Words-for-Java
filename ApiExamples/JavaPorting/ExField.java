@@ -181,6 +181,7 @@ import com.aspose.words.FieldTime;
 import com.aspose.words.FieldBidiOutline;
 import com.aspose.words.ShapeType;
 import com.aspose.words.FieldIndexFormat;
+import java.text.MessageFormat;
 import com.aspose.words.ComparisonEvaluationResult;
 import com.aspose.words.IComparisonExpressionEvaluator;
 import com.aspose.words.ComparisonExpression;
@@ -5373,7 +5374,7 @@ public class ExField extends ApiExampleBase
         //ExSummary:Shows how to display the file size of a document with a FILESIZE field.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        Assert.assertEquals(16222, doc.getBuiltInDocumentProperties().getBytes());
+        Assert.assertEquals(18105, doc.getBuiltInDocumentProperties().getBytes());
 
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.moveToDocumentEnd();
@@ -5386,7 +5387,7 @@ public class ExField extends ApiExampleBase
         field.update();
 
         Assert.assertEquals(" FILESIZE ", field.getFieldCode());
-        Assert.assertEquals("16222", field.getResult());
+        Assert.assertEquals("18105", field.getResult());
 
         // 2 -  Kilobytes:
         builder.insertParagraph();
@@ -5395,7 +5396,7 @@ public class ExField extends ApiExampleBase
         field.update();
 
         Assert.assertEquals(" FILESIZE  \\k", field.getFieldCode());
-        Assert.assertEquals("16", field.getResult());
+        Assert.assertEquals("18", field.getResult());
 
         // 3 -  Megabytes:
         builder.insertParagraph();
@@ -5415,7 +5416,7 @@ public class ExField extends ApiExampleBase
 
         field = (FieldFileSize)doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE ", "16222", field);
+        TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE ", "18105", field);
 
         // These fields will need to be updated to produce an accurate result.
         doc.updateFields();
@@ -7504,7 +7505,7 @@ public class ExField extends ApiExampleBase
         // Field codes that we use in this example:
         // 1.   " IF {0} {1} {2} \"true argument\" \"false argument\" ".
         // 2.   " COMPARE {0} {1} {2} ".
-        Field field = builder.insertField(msString.format(fieldCode, LEFT, _OPERATOR, RIGHT), null);
+        Field field = builder.insertField(MessageFormat.format(fieldCode, LEFT, _OPERATOR, RIGHT), null);
 
         // If the "comparisonResult" is undefined, we create "ComparisonEvaluationResult" with string, instead of bool.
         ComparisonEvaluationResult result = comparisonResult != -1

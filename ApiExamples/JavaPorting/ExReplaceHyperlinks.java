@@ -21,7 +21,7 @@ import com.aspose.words.FieldType;
 import com.aspose.words.NodeType;
 import com.aspose.ms.System.Text.RegularExpressions.Match;
 import com.aspose.words.Run;
-import com.aspose.ms.System.msString;
+import java.text.MessageFormat;
 import com.aspose.words.Node;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
@@ -156,7 +156,7 @@ class Hyperlink
     {
         // A field's field code is in a Run node between the field's start node and field separator.
         Run fieldCode = (Run) mFieldStart.getNextSibling();
-        fieldCode.setText(msString.format("HYPERLINK {0}\"{1}\"", ((mIsLocal) ? "\\l " : ""), mTarget));
+        fieldCode.setText(MessageFormat.format("HYPERLINK {0}\"{1}\"", ((mIsLocal) ? "\\l " : ""), mTarget));
 
         // If the field code consists of more than one run, delete these runs.
         removeSameParent(fieldCode.getNextSibling(), mFieldSeparator);
