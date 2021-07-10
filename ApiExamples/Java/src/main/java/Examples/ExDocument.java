@@ -534,6 +534,7 @@ public class ExDocument extends ApiExampleBase {
         dstDoc.appendDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES, options);
 
         dstDoc.save(getArtifactsDir() + "Document.MergePastedLists.docx");
+        //ExEnd
     }
 
     @Test
