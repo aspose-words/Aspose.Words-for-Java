@@ -394,8 +394,8 @@ public class ExTxtSaveOptions extends ApiExampleBase {
         String docText = new Document(getArtifactsDir() + "TxtSaveOptions.PreserveTableLayout.txt").getText().trim();
 
         if (preserveTableLayout)
-            Assert.assertEquals("Row 1, cell 1                Row 1, cell 2\r" +
-                    "Row 2, cell 1                Row 2, cell 2", docText);
+            Assert.assertEquals("Row 1, cell 1                                           Row 1, cell 2\r" +
+                    "Row 2, cell 1                                           Row 2, cell 2", docText);
         else
             Assert.assertEquals("Row 1, cell 1\r" +
                     "Row 1, cell 2\r" +

@@ -998,7 +998,7 @@ public class ExDocument extends ApiExampleBase {
         // We can call UpdateTableLayout() to fix some of these issues.
         doc.updateTableLayout();
 
-        Assert.assertEquals("Cell 1             Cell 2             Cell 3\r\n\r\n", doc.toString(options));
+        Assert.assertEquals("Cell 1                                       Cell 2                                       Cell 3\r\n\r\n", doc.toString(options));
         Assert.assertEquals(155.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth(), 2f);
         //ExEnd
     }
