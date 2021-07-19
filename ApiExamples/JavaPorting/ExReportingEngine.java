@@ -994,7 +994,9 @@ public class ExReportingEngine extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination.docx");
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
-        options.setExactDateTimeParseFormat("MM/dd/yyyy");
+        {
+            options.setExactDateTimeParseFormats(new ArrayList<String>()); {options.getExactDateTimeParseFormats().add("MM/dd/yyyy");}
+        }
 
         JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json", options);
         buildReport(doc, dataSource, "persons");
@@ -1021,10 +1023,12 @@ public class ExReportingEngine extends ApiExampleBase
     public void jsonDataStream() throws Exception
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination.docx");
-        
+
         JsonDataLoadOptions options = new JsonDataLoadOptions();
-        options.setExactDateTimeParseFormat("MM/dd/yyyy");
-        
+        {
+            options.setExactDateTimeParseFormats(new ArrayList<String>()); {options.getExactDateTimeParseFormats().add("MM/dd/yyyy");}
+        }
+
         FileStream stream = new FileInputStream(getMyDir() + "List of people.json");
         try /*JAVA: was using*/
         {

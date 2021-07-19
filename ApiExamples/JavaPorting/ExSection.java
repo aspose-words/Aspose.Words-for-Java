@@ -349,7 +349,7 @@ public class ExSection extends ApiExampleBase
 
         // This document has one section with a few child nodes containing and displaying all the document's contents.
         Assert.assertEquals(1, doc.getSections().getCount());
-        Assert.assertEquals(19, doc.getSections().get(0).getChildNodes(NodeType.ANY, true).getCount());
+        Assert.assertEquals(17, doc.getSections().get(0).getChildNodes(NodeType.ANY, true).getCount());
         Assert.assertEquals("Hello World!\r\rHello Word!\r\r\rHello World!", doc.getText().trim());
 
         // Clear the collection of sections, which will remove all of the document's children.

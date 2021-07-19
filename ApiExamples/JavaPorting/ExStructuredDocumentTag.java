@@ -62,7 +62,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExSummary:Shows how to get the type of a structured document tag.
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
-        ArrayList<StructuredDocumentTag> sdTags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).<StructuredDocumentTag>OfType().ToList();
+        ArrayList<StructuredDocumentTag> sdTags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true)
+            .<StructuredDocumentTag>OfType().ToList();
 
         Assert.assertEquals(SdtType.REPEATING_SECTION, sdTags.get(0).getSdtType());
         Assert.assertEquals(SdtType.REPEATING_SECTION_ITEM, sdTags.get(1).getSdtType());
@@ -87,12 +88,12 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // Below are two ways to apply a style from the document to a structured document tag.
         // 1 -  Apply a style object from the document's style collection:
         Style quoteStyle = doc.getStyles().getByStyleIdentifier(StyleIdentifier.QUOTE);
-        StructuredDocumentTag sdtPlainText = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.INLINE);
-        sdtPlainText.setStyle(quoteStyle);
+        StructuredDocumentTag sdtPlainText =
+            new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.INLINE); { sdtPlainText.setStyle(quoteStyle); }
 
         // 2 -  Reference a style in the document by name:
-        StructuredDocumentTag sdtRichText = new StructuredDocumentTag(doc, SdtType.RICH_TEXT, MarkupLevel.INLINE);
-        sdtRichText.setStyleName("Quote");
+        StructuredDocumentTag sdtRichText =
+            new StructuredDocumentTag(doc, SdtType.RICH_TEXT, MarkupLevel.INLINE); { sdtRichText.setStyleName("Quote"); }
 
         builder.insertNode(sdtPlainText);
         builder.insertNode(sdtRichText);
@@ -117,13 +118,19 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:StructuredDocumentTag.#ctor(DocumentBase, SdtType, MarkupLevel)
         //ExFor:StructuredDocumentTag.Checked
+        //ExFor:StructuredDocumentTag.SetCheckedSymbol(System.Int32, System.String)
+        //ExFor:StructuredDocumentTag.SetUncheckedSymbol(System.Int32, System.String)
         //ExSummary:Show how to create a structured document tag in the form of a check box.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        StructuredDocumentTag sdtCheckBox = new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE);
-        sdtCheckBox.setChecked(true);
+        StructuredDocumentTag sdtCheckBox =
+            new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE); {sdtCheckBox.setChecked(true);}
 
+        // We can set the symbols used to represent the checked/unchecked state of a checkbox content control.
+        sdtCheckBox.setCheckedSymbol(0x00A9, "Times New Roman");
+        sdtCheckBox.setUncheckedSymbol(0x00AE, "Times New Roman");
+        
         builder.insertNode(sdtCheckBox);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.CheckBox.docx");
@@ -131,10 +138,11 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.CheckBox.docx");
 
-        StructuredDocumentTag[] sdts = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).<StructuredDocumentTag>OfType().ToArray();
+        StructuredDocumentTag[] tags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true)
+            .<StructuredDocumentTag>OfType().ToArray();
 
-        Assert.assertEquals(true, sdts[0].getChecked());
-        Assert.That(sdts[0].getXmlMapping().getStoreItemId(), Is.Empty);
+        Assert.assertEquals(true, tags[0].getChecked());
+        Assert.That(tags[0].getXmlMapping().getStoreItemId(), Is.Empty);
     }
 
     @Test (groups = "SkipMono")
@@ -562,7 +570,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // Create a structured document tag that will display our part's contents and insert it into the document body.
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
         tag.getXmlMapping().setMapping(xmlPart, "/root[1]/text[1]", "");
-
+        
         doc.getFirstSection().getBody().appendChild(tag);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx");
@@ -583,6 +591,36 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("Hello world!", tag.getText().trim());
         Assert.assertEquals("/root[1]/text[1]", tag.getXmlMapping().getXPath());
         Assert.assertEquals("", tag.getXmlMapping().getPrefixMappings());
+        Assert.assertEquals(xmlPart.getDataChecksum(), tag.getXmlMapping().getCustomXmlPart().getDataChecksum());
+    }
+
+    @Test
+    public void dataChecksum() throws Exception
+    {
+        //ExStart
+        //ExFor:CustomXmlPart.DataChecksum
+        //ExSummary:Shows how the checksum is calculated in a runtime.
+        Document doc = new Document();
+
+        StructuredDocumentTag richText = new StructuredDocumentTag(doc, SdtType.RICH_TEXT, MarkupLevel.BLOCK);
+        doc.getFirstSection().getBody().appendChild(richText);
+
+        // The checksum is read-only and computed using the data of the corresponding custom XML data part.
+        richText.getXmlMapping().setMapping(doc.getCustomXmlParts().add(Guid.newGuid().toString(),
+            "<root><text>ContentControl</text></root>"), "/root/text", "");
+
+        long checksum = richText.getXmlMapping().getCustomXmlPart().getDataChecksum();
+        msConsole.writeLine(checksum);
+
+        richText.getXmlMapping().setMapping(doc.getCustomXmlParts().add(Guid.newGuid().toString(),
+            "<root><text>Updated ContentControl</text></root>"), "/root/text", "");
+
+        long updatedChecksum = richText.getXmlMapping().getCustomXmlPart().getDataChecksum();
+        msConsole.writeLine(updatedChecksum);
+
+        // We changed the XmlPart of the tag, and the checksum was updated at runtime.
+        Assert.assertNotEquals(checksum, updatedChecksum);
+        //ExEnd
     }
 
     @Test
@@ -1040,11 +1078,13 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:StructuredDocumentTagRangeStart
         //ExFor:StructuredDocumentTagRangeStart.Id
         //ExFor:StructuredDocumentTagRangeStart.Title
+        //ExFor:StructuredDocumentTagRangeStart.PlaceholderName
         //ExFor:StructuredDocumentTagRangeStart.IsShowingPlaceholderText
         //ExFor:StructuredDocumentTagRangeStart.LockContentControl
         //ExFor:StructuredDocumentTagRangeStart.LockContents
         //ExFor:StructuredDocumentTagRangeStart.Level
         //ExFor:StructuredDocumentTagRangeStart.RangeEnd
+        //ExFor:StructuredDocumentTagRangeStart.Color
         //ExFor:StructuredDocumentTagRangeStart.SdtType
         //ExFor:StructuredDocumentTagRangeStart.Tag
         //ExFor:StructuredDocumentTagRangeEnd
@@ -1064,12 +1104,14 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         System.out.println("StructuredDocumentTagRangeStart values:");
         System.out.println("\t|Id: {rangeStartTag.Id}");
         System.out.println("\t|Title: {rangeStartTag.Title}");
+        System.out.println("\t|PlaceholderName: {rangeStartTag.PlaceholderName}");
         System.out.println("\t|IsShowingPlaceholderText: {rangeStartTag.IsShowingPlaceholderText}");
         System.out.println("\t|LockContentControl: {rangeStartTag.LockContentControl}");
         System.out.println("\t|LockContents: {rangeStartTag.LockContents}");
         System.out.println("\t|Level: {rangeStartTag.Level}");
         System.out.println("\t|NodeType: {rangeStartTag.NodeType}");
         System.out.println("\t|RangeEnd: {rangeStartTag.RangeEnd}");
+        System.out.println("\t|Color: {rangeStartTag.Color.ToArgb()}");
         System.out.println("\t|SdtType: {rangeStartTag.SdtType}");
         System.out.println("\t|Tag: {rangeStartTag.Tag}\n");
 
@@ -1087,7 +1129,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:StructuredDocumentTagRangeStart.GetChildNodes(NodeType, bool)
         //ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
-        StructuredDocumentTagRangeStart tag = ms.as(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true).get(0), StructuredDocumentTagRangeStart.class);
+        StructuredDocumentTagRangeStart tag =
+            ms.as(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true).get(0), StructuredDocumentTagRangeStart.class);
 
         System.out.println("StructuredDocumentTagRangeStart values:");
         System.out.println("\t|Child nodes count: {tag.ChildNodes.Count}\n");
@@ -1099,4 +1142,60 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             System.out.println("\t|Child node text: {node.GetText()}");
         //ExEnd
     }
+
+    //ExStart
+    //ExFor:StructuredDocumentTagRangeStart.#ctor(DocumentBase, SdtType)
+    //ExFor:StructuredDocumentTagRangeEnd.#ctor(DocumentBase, int)
+    //ExFor:StructuredDocumentTagRangeStart.RemoveSelfOnly
+    //ExFor:StructuredDocumentTagRangeStart.RemoveAllChildren
+    //ExSummary:Shows how to create/remove structured document tag and its content.
+    @Test //ExSkip
+    public void sdtRangeExtendedMethods() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("StructuredDocumentTag element");
+
+        Ref<StructuredDocumentTagRangeStart> referenceToStructuredDocumentTagRangeStart = new Ref<StructuredDocumentTagRangeStart>(StructuredDocumentTagRangeStart);
+        InsertStructuredDocumentTagRanges(doc, /*out*/ referenceToStructuredDocumentTagRangeStart rangeStart);
+        StructuredDocumentTagRangeStart = referenceToStructuredDocumentTagRangeStart.get();
+
+        // Removes ranged structured document tag, but keeps content inside.
+        rangeStart.RemoveSelfOnly();
+
+        rangeStart = (StructuredDocumentTagRangeStart)doc.getChild(
+            NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, false);
+        Assert.AreEqual(null, rangeStart);
+        
+        StructuredDocumentTagRangeEnd rangeEnd = (StructuredDocumentTagRangeEnd)doc.getChild(
+            NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, 0, false);
+        
+        Assert.assertEquals(null, rangeEnd);
+        Assert.assertEquals("StructuredDocumentTag element", doc.getText().trim());
+
+        referenceToRangeStart.set(rangeStart);
+        InsertStructuredDocumentTagRanges(doc, /*out*/ referenceToRangeStart);
+        rangeStart = referenceToRangeStart.get();
+
+        Node paragraphNode = rangeStart.LastOrDefault();
+        Assert.AreEqual("StructuredDocumentTag element", paragraphNode?.GetText().Trim());
+
+        // Removes ranged structured document tag and content inside.
+        rangeStart.RemoveAllChildren();
+        
+        paragraphNode = rangeStart.LastOrDefault();
+        Assert.AreEqual(null, paragraphNode?.GetText());
+    }
+
+    @Test (enabled = false)
+    public void insertStructuredDocumentTagRanges(Document doc, /*out*/Ref<StructuredDocumentTagRangeStart> rangeStart)
+    {
+        rangeStart.set(new StructuredDocumentTagRangeStart(doc, SdtType.PLAIN_TEXT));
+        StructuredDocumentTagRangeEnd rangeEnd = new StructuredDocumentTagRangeEnd(doc, rangeStart.get().getId());
+
+        doc.getFirstSection().getBody().insertBefore(rangeStart.get(), doc.getFirstSection().getBody().getFirstParagraph());
+        doc.getLastSection().getBody().insertAfter(rangeEnd, doc.getFirstSection().getBody().getFirstParagraph());
+    }
+    //ExEnd
 }

@@ -1943,4 +1943,19 @@ public class ExMailMerge extends ApiExampleBase
         CurrentThread.setCurrentCulture(currentCulture);
         //ExEnd
     }
+
+    @Test
+    public void restartListsAtEachSection() throws Exception
+    {
+        //ExStart
+        //ExFor:MailMerge.RestartListsAtEachSection
+        //ExSummary:Shows how to control whether or not list numbering is restarted at each section when mail merge is performed.
+        Document doc = new Document(getMyDir() + "Section breaks with numbering.docx");
+        
+        doc.getMailMerge().setRestartListsAtEachSection(false);
+        doc.getMailMerge().execute(new String[0], new Object[0]);
+
+        doc.save(getArtifactsDir() + "MailMerge.RestartListsAtEachSection.pdf");
+        //ExEnd
+    }
 }

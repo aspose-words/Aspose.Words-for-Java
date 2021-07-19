@@ -520,6 +520,24 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
+    public void mergePastedLists() throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.MergePastedLists
+        //ExSummary:Shows how to merge lists from a documents.
+        Document srcDoc = new Document(getMyDir() + "List item.docx");
+        Document dstDoc = new Document(getMyDir() + "List destination.docx");
+
+        ImportFormatOptions options = new ImportFormatOptions(); { options.setMergePastedLists(true); }
+
+        // Set the "MergePastedLists" property to "true" pasted lists will be merged with surrounding lists.
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES, options);
+
+        dstDoc.save(getArtifactsDir() + "Document.MergePastedLists.docx");
+        //ExEnd
+    }
+
+    @Test
     public void validateIndividualDocumentSignatures() throws Exception {
         //ExStart
         //ExFor:CertificateHolder.Certificate
@@ -980,7 +998,7 @@ public class ExDocument extends ApiExampleBase {
         // We can call UpdateTableLayout() to fix some of these issues.
         doc.updateTableLayout();
 
-        Assert.assertEquals("Cell 1             Cell 2             Cell 3\r\n\r\n", doc.toString(options));
+        Assert.assertEquals("Cell 1                                       Cell 2                                       Cell 3\r\n\r\n", doc.toString(options));
         Assert.assertEquals(155.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth(), 2f);
         //ExEnd
     }
@@ -1936,11 +1954,13 @@ public class ExDocument extends ApiExampleBase {
                 };
     }
 
-    @Test(dataProvider = "showCommentsDataProvider")
-    public void showComments(boolean showComments) throws Exception {
+    @Test
+    public void showComments() throws Exception
+    {
         //ExStart
-        //ExFor:LayoutOptions.ShowComments
-        //ExSummary:Shows how to show/hide comments when saving a document to a rendered format.
+        //ExFor:LayoutOptions.CommentDisplayMode
+        //ExFor:CommentDisplayMode
+        //ExSummary:Shows how to show comments when saving a document to a rendered format.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1950,30 +1970,30 @@ public class ExDocument extends ApiExampleBase {
         comment.setText("My comment.");
         builder.getCurrentParagraph().appendChild(comment);
 
-        doc.getLayoutOptions().setShowComments(showComments);
+        // ShowInAnnotations is only available in Pdf1.7 and Pdf1.5 formats.
+        // In other formats, it will work similarly to Hide.
+        doc.getLayoutOptions().setCommentDisplayMode(CommentDisplayMode.SHOW_IN_ANNOTATIONS);
 
-        doc.save(getArtifactsDir() + "Document.ShowComments.pdf");
+        doc.save(getArtifactsDir() + "Document.ShowCommentsInAnnotations.pdf");
+
+        // Note that it's required to rebuild the document page layout (via Document.UpdatePageLayout() method)
+        // after changing the Document.LayoutOptions values.
+        doc.getLayoutOptions().setCommentDisplayMode(CommentDisplayMode.SHOW_IN_BALLOONS);
+        doc.updatePageLayout();
+
+        doc.save(getArtifactsDir() + "Document.ShowCommentsInBalloons.pdf");
         //ExEnd
 
-        com.aspose.pdf.Document pdfDoc = new com.aspose.pdf.Document(getArtifactsDir() + "Document.ShowComments.pdf");
+        com.aspose.pdf.Document pdfDoc =
+                new com.aspose.pdf.Document(getArtifactsDir() + "Document.ShowCommentsInBalloons.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.visit(pdfDoc);
 
         Assert.assertEquals(
-                showComments
-                        ? "Hello world!                                                                    Commented [J.D.1]:  My comment."
-                        : "Hello world!", textAbsorber.getText());
+                "Hello world!                                                                    Commented [J.D.1]:  My comment.",
+                textAbsorber.getText());
 
         pdfDoc.close();
-    }
-
-    @DataProvider(name = "showCommentsDataProvider")
-    public static Object[][] showCommentsDataProvider() {
-        return new Object[][]
-                {
-                        {false},
-                        {true},
-                };
     }
 
     @Test

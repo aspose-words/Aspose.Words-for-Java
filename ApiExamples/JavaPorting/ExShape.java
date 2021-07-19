@@ -68,7 +68,7 @@ import com.aspose.words.EndCap;
 import com.aspose.words.ShapeLineStyle;
 import com.aspose.words.OlePackage;
 import com.aspose.words.HeightRule;
-import com.aspose.ms.System.msString;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import com.aspose.words.Table;
 import com.aspose.words.TableStyle;
@@ -1659,7 +1659,7 @@ public class ExShape extends ApiExampleBase
             watermark.getFill().setForeColor(Color.Gainsboro);
             watermark.setStrokeColor(Color.Gainsboro);
 
-            watermark.getTextPath().setText(msString.format("{0}", num));
+            watermark.getTextPath().setText(MessageFormat.format("{0}", num));
             watermark.getTextPath().setFontFamily("Arial");
 
             watermark.setName("Watermark_{num++}");
@@ -2714,6 +2714,43 @@ public class ExShape extends ApiExampleBase
 
         Assert.assertEquals(159, bounds.getWidth());
         Assert.assertEquals(30, bounds.getHeight());
+        //ExEnd
+    }
+
+    @Test
+    public void shapeTypes() throws Exception
+    {
+        //ExStart
+        //ExFor:ShapeType
+        //ExSummary:Shows how Aspose.Words identify shapes.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertShape(ShapeType.HEPTAGON, RelativeHorizontalPosition.RIGHT_MARGIN, 0.0,
+            RelativeVerticalPosition.PAGE, 0.0, 0.0, 0.0, WrapType.NONE);
+        
+        builder.insertShape(ShapeType.CLOUD, RelativeHorizontalPosition.RIGHT_MARGIN, 0.0,
+            RelativeVerticalPosition.PAGE, 0.0, 0.0, 0.0, WrapType.NONE);
+        
+        builder.insertShape(ShapeType.MATH_PLUS, RelativeHorizontalPosition.RIGHT_MARGIN, 0.0,
+            RelativeVerticalPosition.PAGE, 0.0, 0.0, 0.0, WrapType.NONE);
+
+        // To correct identify shape types you need to work with shapes as DML.
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
+        {
+            // "Strict" or "Transitional" compliance allows to save shape as DML.
+            saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
+        }
+        
+        doc.save(getArtifactsDir() + "ShapeTypes.docx", saveOptions);
+        doc = new Document(getArtifactsDir() + "ShapeTypes.docx");
+
+        Shape[] shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToArray();
+
+        for (Shape shape : shapes)
+        {
+            System.out.println(shape.getShapeType());
+        }
         //ExEnd
     }
 }

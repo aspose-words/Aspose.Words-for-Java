@@ -31,6 +31,7 @@ import com.aspose.words.SaveFormat;
 import com.aspose.words.PageSet;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
+import com.aspose.words.ContinuousSectionRestart;
 
 
 @Test
@@ -328,5 +329,25 @@ class ExLayout !Test class should be public in Java to run, please fix .Net sour
         private int mNum;
     }
     //ExEnd
+
+    @Test
+    public void restartPageNumberingInContinuousSection() throws Exception
+    {
+        //ExStart
+        //ExFor:LayoutOptions.ContinuousSectionPageNumberingRestart
+        //ExFor:ContinuousSectionRestart
+        //ExSummary:Shows how to control page numbering in a continuous section.
+        Document doc = new Document(getMyDir() + "Continuous section page numbering.docx");
+
+        // By default Aspose.Words behavior matches the Microsoft Word 2019.
+        // If you need old Aspose.Words behavior, repetitive Microsoft Word 2016, use 'ContinuousSectionRestart.FromNewPageOnly'.
+        // Page numbering restarts only if there is no other content before the section on the page where the section starts,
+        // because of that the numbering will reset to 2 from the second page.
+        doc.getLayoutOptions().setContinuousSectionPageNumberingRestart(ContinuousSectionRestart.FROM_NEW_PAGE_ONLY);
+        doc.updatePageLayout();
+
+        doc.save(getArtifactsDir() + "Layout.RestartPageNumberingInContinuousSection.pdf");
+        //ExEnd
+    }
 }
 

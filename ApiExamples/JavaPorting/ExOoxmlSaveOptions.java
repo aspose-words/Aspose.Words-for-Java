@@ -167,7 +167,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         //ExSummary:Shows how to determine whether to preserve the document's "Last saved time" property when saving.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        Assert.assertEquals(new DateTime(2020, 7, 30, 5, 27, 0), 
+        Assert.assertEquals(new DateTime(2021, 5, 11, 6, 32, 0), 
             doc.getBuiltInDocumentProperties().getLastSavedTimeInternal());
 
         // When we save the document to an OOXML format, we can create an OoxmlSaveOptions object
@@ -187,7 +187,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         if (updateLastSavedTimeProperty)
             Assert.That(new Date(), Is.EqualTo(lastSavedTimeNew).Within(1).Days);
         else
-            Assert.assertEquals(new DateTime(2020, 7, 30, 5, 27, 0), 
+            Assert.assertEquals(new DateTime(2021, 5, 11, 6, 32, 0), 
                 lastSavedTimeNew);
         //ExEnd
     }

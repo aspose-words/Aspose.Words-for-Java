@@ -25,7 +25,7 @@ import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.TimeSpan;
 import com.aspose.words.Run;
 import com.aspose.words.Field;
-import com.aspose.ms.System.msString;
+import java.text.MessageFormat;
 import com.aspose.words.NodeType;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.HeightRule;
@@ -204,7 +204,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
 
         insertFieldUsingFieldCode(doc, " DATE ", null, true, 1);
 
-        Assert.assertEquals(msString.format("Hello World!\u0013 DATE \u0014{0}\u0015\r", date),
+        Assert.assertEquals(MessageFormat.format("Hello World!\u0013 DATE \u0014{0}\u0015\r", date),
             DocumentHelper.getParagraphText(doc, 1));
     }
 

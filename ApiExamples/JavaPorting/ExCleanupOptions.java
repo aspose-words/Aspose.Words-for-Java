@@ -22,7 +22,7 @@ import com.aspose.words.ParagraphCollection;
 
 
 @Test
-class ExCleanupOptions !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
+public class ExCleanupOptions extends ApiExampleBase
 {
     @Test
     public void removeUnusedResources() throws Exception
@@ -32,6 +32,7 @@ class ExCleanupOptions !Test class should be public in Java to run, please fix .
         //ExFor:CleanupOptions
         //ExFor:CleanupOptions.UnusedLists
         //ExFor:CleanupOptions.UnusedStyles
+        //ExFor:CleanupOptions.UnusedBuiltinStyles
         //ExSummary:Shows how to remove all unused custom styles from a document. 
         Document doc = new Document();
 
@@ -58,19 +59,20 @@ class ExCleanupOptions !Test class should be public in Java to run, please fix .
         // Now, there is one unused character style and one unused list style.
         // The Cleanup() method, when configured with a CleanupOptions object, can target unused styles and remove them.
         CleanupOptions cleanupOptions = new CleanupOptions();
-        cleanupOptions.setUnusedLists(true);
-        cleanupOptions.setUnusedStyles(true);
+        {
+            cleanupOptions.setUnusedLists(true); cleanupOptions.setUnusedStyles(true); cleanupOptions.setUnusedBuiltinStyles(true);
+        }
 
         doc.cleanup(cleanupOptions);
 
-        Assert.assertEquals(6, doc.getStyles().getCount());
+        Assert.assertEquals(4, doc.getStyles().getCount());
 
         // Removing every node that a custom style is applied to marks it as "unused" again. 
         // Rerun the Cleanup method to remove them.
         doc.getFirstSection().getBody().removeAllChildren();
         doc.cleanup(cleanupOptions);
 
-        Assert.assertEquals(4, doc.getStyles().getCount());
+        Assert.assertEquals(2, doc.getStyles().getCount());
         //ExEnd
     }
 
@@ -111,8 +113,7 @@ class ExCleanupOptions !Test class should be public in Java to run, please fix .
 
         // Configure a CleanOptions object, then call the Cleanup method to substitute all duplicate styles
         // with the original and remove the duplicates from the document.
-        CleanupOptions cleanupOptions = new CleanupOptions();
-        cleanupOptions.setDuplicateStyle(true);
+        CleanupOptions cleanupOptions = new CleanupOptions(); { cleanupOptions.setDuplicateStyle(true); }
 
         doc.cleanup(cleanupOptions);
 

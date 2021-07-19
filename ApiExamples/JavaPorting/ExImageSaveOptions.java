@@ -36,6 +36,7 @@ import com.aspose.words.ImagePixelFormat;
 import com.aspose.words.TiffCompression;
 import com.aspose.words.ImageBinarizationMethod;
 import com.aspose.words.PageRange;
+import com.aspose.words.ImlRenderingMode;
 import org.testng.annotations.DataProvider;
 
 
@@ -650,7 +651,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         //ExEnd
     }
 
-    @Test (enabled = false)
+    @Test
     public void exportVariousPageRanges() throws Exception
     {
         //ExStart
@@ -661,10 +662,32 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         Document doc = new Document(getMyDir() + "Images.docx");
 
         ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.TIFF);
-        PageSet pageSet = new PageSet(new PageRange(1, 1), new PageRange(2, 3), new PageRange(1, 3), new PageRange(2, 4), new PageRange(1, 1));
+        PageSet pageSet = new PageSet(new PageRange(1, 1), new PageRange(2, 3), new PageRange(1, 3),
+            new PageRange(2, 4), new PageRange(1, 1));
 
         imageOptions.setPageSet(pageSet);
         doc.save(getArtifactsDir() + "ImageSaveOptions.ExportVariousPageRanges.tiff", imageOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void renderInkObject() throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.ImlRenderingMode
+        //ExFor:ImlRenderingMode
+        //ExSummary:Shows how to render Ink object.
+        Document doc = new Document(getMyDir() + "Ink object.docx");
+
+        // Set 'ImlRenderingMode.InkML' ignores fall-back shape of ink (InkML) object and renders InkML itself.
+        // If the rendering result is unsatisfactory,
+        // please use 'ImlRenderingMode.Fallback' to get a result similar to previous versions.
+        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.JPEG);
+        {
+            saveOptions.setImlRenderingMode(ImlRenderingMode.INK_ML);
+        }
+
+        doc.save(getArtifactsDir() + "ImageSaveOptions.RenderInkObject.jpeg", saveOptions);
         //ExEnd
     }
 }

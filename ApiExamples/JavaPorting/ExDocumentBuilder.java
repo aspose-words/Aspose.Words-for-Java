@@ -86,6 +86,7 @@ import com.aspose.words.Chart;
 import com.aspose.words.ChartType;
 import com.aspose.words.IFieldResultFormatter;
 import com.aspose.ms.System.msString;
+import java.text.MessageFormat;
 import com.aspose.words.CalendarType;
 import com.aspose.words.GeneralFormat;
 import com.aspose.ms.System.msConsole;
@@ -2828,7 +2829,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             if (msString.isNullOrEmpty(mNumberFormat)) 
                 return null;
             
-            String newValue = msString.format(mNumberFormat, value);
+            String newValue = MessageFormat.format(mNumberFormat, value);
             getFormatInvocations().add(new FormatInvocation(FormatInvocationType.NUMERIC, value, format, newValue));
             return newValue;
         }
@@ -2838,7 +2839,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             if (msString.isNullOrEmpty(mDateFormat))
                 return null;
 
-            String newValue = msString.format(mDateFormat, value);
+            String newValue = MessageFormat.format(mDateFormat, value);
             getFormatInvocations().add(new FormatInvocation(FormatInvocationType.DATE_TIME, $"{value} ({calendarType})", format, newValue));
             return newValue;
         }
@@ -2858,7 +2859,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             if (msString.isNullOrEmpty(mGeneralFormat))
                 return null;
 
-            String newValue = msString.format(mGeneralFormat, value);
+            String newValue = MessageFormat.format(mGeneralFormat, value);
             getFormatInvocations().add(new FormatInvocation(FormatInvocationType.GENERAL, value, GeneralFormat.toString(format), newValue));
             return newValue;
         }
