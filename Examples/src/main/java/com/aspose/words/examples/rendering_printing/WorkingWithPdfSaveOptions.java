@@ -119,10 +119,8 @@ public class WorkingWithPdfSaveOptions {
 	}
 
 	public static void PdfImageComppression(String dataDir) throws Exception {
-		// ExStart:PdfImageComppression
-		// For complete examples and data files, please go to //
-		// https://github.com/aspose-words/Aspose.Words-for-Java
-		// Open a document
+		// ExStart:PdfImageCompression
+		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		Document doc = new Document(dataDir + "SaveOptions.PdfImageCompression.rtf");
 
 		PdfSaveOptions options = new PdfSaveOptions();
@@ -131,14 +129,14 @@ public class WorkingWithPdfSaveOptions {
 
 		doc.save(dataDir + "SaveOptions.PdfImageCompression.pdf", options);
 
-		PdfSaveOptions optionsA1B = new PdfSaveOptions();
-		optionsA1B.setCompliance(PdfCompliance.PDF_A_1_B);
-		optionsA1B.setImageCompression(PdfImageCompression.JPEG);
-		optionsA1B.setJpegQuality(100);// Use JPEG compression at 50% quality to reduce file size
-		optionsA1B.setImageColorSpaceExportMode(PdfImageColorSpaceExportMode.SIMPLE_CMYK);
+		PdfSaveOptions options17 = new PdfSaveOptions();
+		options17.setCompliance(PdfCompliance.PDF_17);
+		options17.setImageCompression(PdfImageCompression.JPEG);
+		options17.setJpegQuality(100);// Use JPEG compression at 50% quality to reduce file size
+		options17.setImageColorSpaceExportMode(PdfImageColorSpaceExportMode.SIMPLE_CMYK);
 
-		doc.save(dataDir + "SaveOptions.PdfImageComppression PDF_A_1_B.pdf", optionsA1B);
-		// ExEnd:PdfImageComppression
+		doc.save(dataDir + "SaveOptions.PdfImageComppression_17.pdf", options17);
+		// ExEnd:PdfImageCompression
 		System.out.println("\nFile saved at " + dataDir);
 	}
 
