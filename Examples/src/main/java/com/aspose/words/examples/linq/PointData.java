@@ -1,7 +1,7 @@
 package com.aspose.words.examples.linq;
 
 public class PointData {
-    private String Time;
+    public String Time;
     public int Flow;
     public int Rainfall;
     

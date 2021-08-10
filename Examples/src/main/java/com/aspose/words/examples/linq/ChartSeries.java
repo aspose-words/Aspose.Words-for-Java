@@ -21,7 +21,7 @@ public class ChartSeries {
 	public static void SetChartSeriesNameDynamically(String dataDir) throws Exception
 	{
 		// ExStart:SetChartSeriesNameDynamically
-		List<PointData> data = new ArrayList<PointData>();
+		List<PointData> data = new ArrayList<>();
 		data.add(new PointData("12:00:00 AM", 10, 2));
 		data.add(new PointData("01:00:00 AM", 15, 4));
         data.add(new PointData("02:00:00 AM", 23, 7));
@@ -31,7 +31,7 @@ public class ChartSeries {
         Document doc = new Document(dataDir + "ChartTemplate.docx");
 
         ReportingEngine engine = new ReportingEngine();
-        engine.buildReport(doc, new Object[] { data, seriesNames }, new String[] { "data", "seriesNames" });
+        engine.buildReport(doc, new Object[] { data.toArray(new PointData[0]), seriesNames.toArray(new String[0]) }, new String[] { "data", "seriesNames" });
 
         doc.save(dataDir + "ChartTemplate_Out.docx");
         // ExEnd:SetChartSeriesNameDynamically
