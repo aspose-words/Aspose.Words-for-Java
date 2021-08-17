@@ -164,6 +164,6 @@ public class ExTableColumn extends ApiExampleBase {
         Column column = Column.fromIndex(table, 0);
         System.out.println(column.toTxt());
 
-        Assert.assertEquals(column.toTxt(), "\r\nRow 1\r\nRow 2\r\nRow 3\r\n");
+        Assert.assertEquals(column.toTxt(), "\rRow 1\rRow 2\rRow 3\r");
     }
 }
