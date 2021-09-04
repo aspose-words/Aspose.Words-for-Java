@@ -2166,7 +2166,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         
         doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
 
-        Assert.AreEqual(43, warningCallback.Count);
+        Assert.AreEqual(38, warningCallback.Count);
     }
 
     public static class RenderCallback implements IWarningCallback

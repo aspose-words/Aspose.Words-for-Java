@@ -422,10 +422,10 @@ public class ExTxtSaveOptions extends ApiExampleBase
             Assert.assertEquals("Row 1, cell 1                                            Row 1, cell 2\r\n" +
                             "Row 2, cell 1                                            Row 2, cell 2\r\n\r\n", docText);
         else
-            Assert.assertEquals("Row 1, cell 1\r\n" +
-                            "Row 1, cell 2\r\n" +
-                            "Row 2, cell 1\r\n" +
-                            "Row 2, cell 2\r\n\r\n", docText);
+            Assert.assertEquals("Row 1, cell 1\r" +
+                            "Row 1, cell 2\r" +
+                            "Row 2, cell 1\r" +
+                            "Row 2, cell 2\r\r\n", docText);
         //ExEnd
     }
 

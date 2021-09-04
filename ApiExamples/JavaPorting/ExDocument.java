@@ -77,7 +77,6 @@ import com.aspose.words.Footnote;
 import com.aspose.words.FieldDate;
 import com.aspose.words.CompareOptions;
 import com.aspose.words.ComparisonTargetType;
-import com.aspose.words.Node;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.RevisionsView;
 import com.aspose.words.ThumbnailGeneratingOptions;
@@ -1358,41 +1357,6 @@ public class ExDocument extends ApiExampleBase
 
         TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
             "OriginalEdited endnote text.", (Footnote)docOriginal.getChild(NodeType.FOOTNOTE, 0, true));
-
-        // If we set compareOptions to ignore certain types of changes,
-        // then revisions done on those types of nodes will not appear in the output document.
-        // We can tell what kind of node a revision was done by looking at the NodeType of the revision's parent nodes.
-        Assert.AreNotEqual(compareOptions.getIgnoreFormatting(),
-            docOriginal.getRevisions().Any(rev => rev.RevisionType == RevisionType.FormatChange));
-        Assert.AreNotEqual(compareOptions.getIgnoreCaseChanges(),
-            docOriginal.getRevisions().Any(s => s.ParentNode.GetText().Contains("hello")));
-        Assert.AreNotEqual(compareOptions.getIgnoreComments(),
-            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.Comment)));
-        Assert.AreNotEqual(compareOptions.getIgnoreTables(),
-            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.Table)));
-        Assert.AreNotEqual(compareOptions.getIgnoreFields(),
-            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.FieldStart)));
-        Assert.AreNotEqual(compareOptions.getIgnoreFootnotes(),
-            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.Footnote)));
-        Assert.AreNotEqual(compareOptions.getIgnoreTextboxes(),
-            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.Shape)));
-        Assert.AreNotEqual(compareOptions.getIgnoreHeadersAndFooters(),
-            docOriginal.getRevisions().Any(rev => HasParentOfType(rev, NodeType.HeaderFooter)));
-    }
-
-    /// <summary>
-    /// Returns true if the passed revision has a parent node with the type specified by parentType.
-    /// </summary>
-    private static boolean hasParentOfType(Revision revision, /*NodeType*/int parentType)
-    {
-        Node n = revision.getParentNode();
-        while (n.getParentNode() != null)
-        {
-            if (n.getNodeType() == parentType) return true;
-            n = n.getParentNode();
-        }
-
-        return false;
     }
 
     @Test (dataProvider = "ignoreDmlUniqueIdDataProvider")

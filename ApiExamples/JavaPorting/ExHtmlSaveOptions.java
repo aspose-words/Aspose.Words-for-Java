@@ -1029,14 +1029,14 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             Assert.assertTrue(outDocContents.contains("Content-ID: <document.html>"));
             Assert.assertTrue(outDocContents.contains("<link href=3D\"cid:styles.css\" type=3D\"text/css\" rel=3D\"stylesheet\" />"));
             Assert.assertTrue(outDocContents.contains("@font-face { font-family:'Arial Black'; src:url('cid:ariblk.ttf') }"));
-            Assert.assertTrue(outDocContents.contains("<img src=3D\"cid:image.003.jpeg\" width=3D\"351\" height=3D\"180\" alt=3D\"\" />"));
+            Assert.assertTrue(outDocContents.contains("<img src=3D\"cid:image.003.jpeg\" width=3D\"350\" height=3D\"180\" alt=3D\"\" />"));
         }
         else
         {
             Assert.assertTrue(outDocContents.contains("Content-Location: document.html"));
             Assert.assertTrue(outDocContents.contains("<link href=3D\"styles.css\" type=3D\"text/css\" rel=3D\"stylesheet\" />"));
             Assert.assertTrue(outDocContents.contains("@font-face { font-family:'Arial Black'; src:url('ariblk.ttf') }"));
-            Assert.assertTrue(outDocContents.contains("<img src=3D\"image.003.jpeg\" width=3D\"351\" height=3D\"180\" alt=3D\"\" />"));
+            Assert.assertTrue(outDocContents.contains("<img src=3D\"image.003.jpeg\" width=3D\"350\" height=3D\"180\" alt=3D\"\" />"));
         }
         //ExEnd
     }
@@ -1628,7 +1628,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
                 "<li style=\"margin-left:30.2pt; padding-left:5.8pt; -aw-font-family:'Courier New'; -aw-font-weight:normal; -aw-number-format:'o'\">"));
             
             Assert.assertTrue(outDocContents.contains(
-                "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"351\" height=\"180\" alt=\"\" " +
+                "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"350\" height=\"180\" alt=\"\" " +
                 "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />"));
 
 
@@ -1655,7 +1655,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
                 "<li style=\"margin-left:30.2pt; padding-left:5.8pt\">"));
             
             Assert.assertTrue(outDocContents.contains(
-                "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"351\" height=\"180\" alt=\"\" />"));
+                "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"350\" height=\"180\" alt=\"\" />"));
 
             Assert.assertTrue(outDocContents.contains(
                 "<span>Page number 1</span>"));
