@@ -1165,36 +1165,6 @@ public class ExDocument extends ApiExampleBase {
         docOriginal.compare(docEdited, "John Doe", new Date(), compareOptions);
         docOriginal.save(getArtifactsDir() + "Document.CompareOptions.docx");
         //ExEnd
-
-        docOriginal = new Document(getArtifactsDir() + "Document.CompareOptions.docx");
-
-        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
-                "OriginalEdited endnote text.", (Footnote) docOriginal.getChild(NodeType.FOOTNOTE, 0, true));
-
-        // If we set compareOptions to ignore certain types of changes,
-        // then revisions done on those types of nodes will not appear in the output document.
-        // We can tell what kind of node a revision was done by looking at the NodeType of the revision's parent nodes.
-        Assert.assertNotEquals(compareOptions.getIgnoreFormatting(), IterableUtils.matchesAny(docOriginal.getRevisions(), rev -> rev.getRevisionType() == RevisionType.FORMAT_CHANGE));
-        Assert.assertNotEquals(compareOptions.getIgnoreCaseChanges(), IterableUtils.matchesAny(docOriginal.getRevisions(), rev -> rev.getParentNode().getText().contains("hello")));
-        Assert.assertNotEquals(compareOptions.getIgnoreComments(), IterableUtils.matchesAny(docOriginal.getRevisions(), rev -> hasParentOfType(rev, NodeType.COMMENT)));
-        Assert.assertNotEquals(compareOptions.getIgnoreComments(), IterableUtils.matchesAny(docOriginal.getRevisions(), rev -> hasParentOfType(rev, NodeType.TABLE)));
-        Assert.assertNotEquals(compareOptions.getIgnoreComments(), IterableUtils.matchesAny(docOriginal.getRevisions(), rev -> hasParentOfType(rev, NodeType.FIELD_START)));
-        Assert.assertNotEquals(compareOptions.getIgnoreComments(), IterableUtils.matchesAny(docOriginal.getRevisions(), rev -> hasParentOfType(rev, NodeType.FOOTNOTE)));
-        Assert.assertNotEquals(compareOptions.getIgnoreComments(), IterableUtils.matchesAny(docOriginal.getRevisions(), rev -> hasParentOfType(rev, NodeType.SHAPE)));
-        Assert.assertNotEquals(compareOptions.getIgnoreComments(), IterableUtils.matchesAny(docOriginal.getRevisions(), rev -> hasParentOfType(rev, NodeType.HEADER_FOOTER)));
-    }
-
-    /// <summary>
-    /// Returns true if the passed revision has a parent node with the type specified by parentType.
-    /// </summary>
-    private static boolean hasParentOfType(Revision revision, int parentType) {
-        Node n = revision.getParentNode();
-        while (n.getParentNode() != null) {
-            if (n.getNodeType() == parentType) return true;
-            n = n.getParentNode();
-        }
-
-        return false;
     }
 
     @Test(dataProvider = "ignoreDmlUniqueIdDataProvider")
