@@ -2225,6 +2225,7 @@ public class ExDocument extends ApiExampleBase
 
         target.copyStylesFromTemplate(template);
         Assert.assertEquals(22, target.getStyles().getCount()); //ExSkip
+
         //ExEnd
     }
 
