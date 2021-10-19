@@ -1979,6 +1979,7 @@ public class ExDocument extends ApiExampleBase {
 
         target.copyStylesFromTemplate(template);
         Assert.assertEquals(18, target.getStyles().getCount()); //ExSkip
+
         //ExEnd
     }
 
