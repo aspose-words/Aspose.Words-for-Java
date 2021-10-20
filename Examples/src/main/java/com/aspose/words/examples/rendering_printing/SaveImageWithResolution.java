@@ -1,6 +1,7 @@
 package com.aspose.words.examples.rendering_printing;
 
 import com.aspose.words.ImageSaveOptions;
+import com.aspose.words.PageSet;
 import com.aspose.words.examples.Utils;
 
 /**
@@ -17,7 +18,7 @@ public class SaveImageWithResolution {
         ImageSaveOptions options = new ImageSaveOptions(com.aspose.words.SaveFormat.PNG);
         options.setHorizontalResolution(300);
         options.setVerticalResolution(300);
-        options.setPageCount(1);
+        options.setPageSet(new PageSet(0, 1));
 
         doc.save(dataDir + "Rendering.SaveToImageResolution Out.png", options);
         //ExEnd:SetHorizontalAndVerticalImageResolution

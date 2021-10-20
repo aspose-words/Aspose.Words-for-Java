@@ -19,7 +19,6 @@ public class WorkingWithPdfSaveOptions {
 
 		String dataDir = Utils.getDataDir(WorkingWithPdfSaveOptions.class);
 
-		EscapeUriInPdf(dataDir);
 		ExportHeaderFooterBookmarks(dataDir);
 		ScaleWmfFontsToMetafileSize(dataDir);
 		AdditionalTextPositioning(dataDir);
@@ -32,22 +31,6 @@ public class WorkingWithPdfSaveOptions {
 		DownsamplingImages(dataDir);
 		EffectsRendering(dataDir);
 		SetImageInterpolation(dataDir);
-	}
-
-	public static void EscapeUriInPdf(String dataDir) throws Exception {
-		// ExStart:EscapeUriInPdf
-		// For complete examples and data files, please go to //
-		// https://github.com/aspose-words/Aspose.Words-for-Java
-		// The path to the documents directory.
-		Document doc = new Document(dataDir + "EscapeUri.docx");
-
-		PdfSaveOptions options = new PdfSaveOptions();
-		options.setEscapeUri(false);
-
-		dataDir = dataDir + "EscapeUri_out.pdf";
-		doc.save(dataDir, options);
-		// ExEnd:EscapeUriInPdf
-		System.out.println("\nFile saved at " + dataDir);
 	}
 
 	public static void ExportHeaderFooterBookmarks(String dataDir) throws Exception {
@@ -136,10 +119,8 @@ public class WorkingWithPdfSaveOptions {
 	}
 
 	public static void PdfImageComppression(String dataDir) throws Exception {
-		// ExStart:PdfImageComppression
-		// For complete examples and data files, please go to //
-		// https://github.com/aspose-words/Aspose.Words-for-Java
-		// Open a document
+		// ExStart:PdfImageCompression
+		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		Document doc = new Document(dataDir + "SaveOptions.PdfImageCompression.rtf");
 
 		PdfSaveOptions options = new PdfSaveOptions();
@@ -148,14 +129,14 @@ public class WorkingWithPdfSaveOptions {
 
 		doc.save(dataDir + "SaveOptions.PdfImageCompression.pdf", options);
 
-		PdfSaveOptions optionsA1B = new PdfSaveOptions();
-		optionsA1B.setCompliance(PdfCompliance.PDF_A_1_B);
-		optionsA1B.setImageCompression(PdfImageCompression.JPEG);
-		optionsA1B.setJpegQuality(100);// Use JPEG compression at 50% quality to reduce file size
-		optionsA1B.setImageColorSpaceExportMode(PdfImageColorSpaceExportMode.SIMPLE_CMYK);
+		PdfSaveOptions options17 = new PdfSaveOptions();
+		options17.setCompliance(PdfCompliance.PDF_17);
+		options17.setImageCompression(PdfImageCompression.JPEG);
+		options17.setJpegQuality(100);// Use JPEG compression at 50% quality to reduce file size
+		options17.setImageColorSpaceExportMode(PdfImageColorSpaceExportMode.SIMPLE_CMYK);
 
-		doc.save(dataDir + "SaveOptions.PdfImageComppression PDF_A_1_B.pdf", optionsA1B);
-		// ExEnd:PdfImageComppression
+		doc.save(dataDir + "SaveOptions.PdfImageComppression_17.pdf", options17);
+		// ExEnd:PdfImageCompression
 		System.out.println("\nFile saved at " + dataDir);
 	}
 

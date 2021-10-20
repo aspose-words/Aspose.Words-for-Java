@@ -15,7 +15,18 @@ public class ConvertToImage {
 		SavePdfToJpeg(dataDir);
 		ConvertDocumentToImage(dataDir);
 	}
-	
+
+	public static void ConvertDocxToJpeg(String dataDir) throws Exception
+	{
+		// ExStart:ConvertDocxToJpeg
+		// Load the document from disk.
+		Document doc = new Document(dataDir + "TestDoc.pdf");
+
+		// Save the document in JPEG format.
+		doc.save(dataDir + "SaveDocx2Jpeg.jpeg");
+		// ExEnd:ConvertDocxToJpeg
+	}
+
 	public static void SavePdfToJpeg(String dataDir) throws Exception
 	{
 		// ExStart:SavePdfToJpeg

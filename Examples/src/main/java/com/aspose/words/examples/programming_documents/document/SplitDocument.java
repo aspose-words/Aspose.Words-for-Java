@@ -48,17 +48,15 @@ public class SplitDocument {
 	public static void SplitDocumentPageByPage (String dataDir) throws Exception {
 		// ExStart:SplitDocumentPageByPage
 		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
-		// Open a Word document
 		Document doc = new Document(dataDir + "TestFile (Split).docx");
 
-		// Split nodes in the document into separate pages
-		DocumentPageSplitter splitter = new DocumentPageSplitter(doc);
+		int pageCount = doc.getPageCount();
 
-		// Save each page as a separate document
-		for (int page = 1; page <= doc.getPageCount(); page++)
+		// Save each page as a separate document.
+		for (int page = 0; page <= pageCount; page++)
 		{
-		    Document pageDoc = splitter.getDocumentOfPage(page);
-		    pageDoc.save(dataDir + "SplitDocumentPageByPageOut_" + page + ".docx");
+			Document extractedPage = doc.extractPages(page, 1);
+			extractedPage.save(dataDir + "SplitDocumentPageByPageOut_" + (page + 1) + ".docx");
 		}
 		// ExEnd:SplitDocumentPageByPage
 	}
@@ -66,15 +64,11 @@ public class SplitDocument {
 	public static void SplitDocumentByPageRange (String dataDir) throws Exception {
 		// ExStart:SplitDocumentByPageRange
 		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
-		// Open a Word document
 		Document doc = new Document(dataDir + "TestFile (Split).docx");
-
-		// Split nodes in the document into separate pages
-		DocumentPageSplitter splitter = new DocumentPageSplitter(doc);
 		 
-		// Get part of the document
-		Document pageDoc = splitter.getDocumentOfPageRange(3,6);
-		pageDoc.save(dataDir + "SplitDocumentByPageRangeOut.docx");
+		// Get part of the document.
+		Document extractedPages = doc.extractPages(3, 6);
+		extractedPages.save(dataDir + "SplitDocumentByPageRangeOut.docx");
 		// ExEnd:SplitDocumentByPageRange
 	}
 	

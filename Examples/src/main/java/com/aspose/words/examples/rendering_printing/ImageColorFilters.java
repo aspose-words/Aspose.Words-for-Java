@@ -153,7 +153,7 @@ public class ImageColorFilters {
     {
         // ExStart:SaveImageToOnebitPerPixel
         ImageSaveOptions opt = new ImageSaveOptions(SaveFormat.PNG);
-        opt.setPageIndex(1);
+        opt.setPageSet(new PageSet(1));
         opt.setImageColorMode(ImageColorMode.BLACK_AND_WHITE);
         opt.setPixelFormat(ImagePixelFormat.FORMAT_1_BPP_INDEXED);
 

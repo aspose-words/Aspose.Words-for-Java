@@ -1,9 +1,6 @@
 package com.aspose.words.examples.rendering_printing;
 
-import com.aspose.words.Document;
-import com.aspose.words.ImageSaveOptions;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.TiffCompression;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
 
 public class SaveAsMultipageTiff {
@@ -23,8 +20,7 @@ public class SaveAsMultipageTiff {
         // ExStart:SaveAsTIFFUsingImageSaveOptions
         // Create an ImageSaveOptions object to pass to the Save method
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.TIFF);
-        options.setPageIndex(0);
-        options.setPageCount(2);
+        options.setPageSet(new PageSet(0, 2));
         options.setTiffCompression(TiffCompression.CCITT_4);
         options.setResolution(160);
         doc.save(dataDir + "TestFileWithOptions_Out.tiff", options);

@@ -21,11 +21,7 @@ public class SetPdfSaveOptions {
         // The path to the documents directory.
         Document doc = new Document(dataDir + "EscapeUri.docx");
 
-        PdfSaveOptions options = new PdfSaveOptions();
-        options.setEscapeUri(false);
-
-        dataDir = dataDir + "EscapeUri_out.pdf";
-        doc.save(dataDir, options);
+        doc.save(dataDir + "EscapeUri_out.pdf");
         // ExEnd:EscapeUriInPdf
         System.out.println("\nFile saved at " + dataDir);
     }
