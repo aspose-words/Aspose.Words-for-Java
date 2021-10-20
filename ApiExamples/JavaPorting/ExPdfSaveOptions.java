@@ -1325,7 +1325,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 Assert.That(480000, Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
                 break;
             case PdfFontEmbeddingMode.EMBED_NONE:
-                Assert.That(4209, Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
+                Assert.That(4212, Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
                 break;
         }
         //ExEnd

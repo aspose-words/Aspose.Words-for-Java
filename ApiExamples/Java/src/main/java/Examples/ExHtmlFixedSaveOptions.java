@@ -400,10 +400,10 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
 
         // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
         if (optimizeOutput)
-            Assert.assertEquals(58000.0, 
+            Assert.assertEquals(57220.0,
                 new File(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").length(), 200.0);
         else
-            Assert.assertEquals(161100.0, 
+            Assert.assertEquals(160535.0,
                 new File(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").length(), 200.0);
         //ExEnd
     }
