@@ -17,8 +17,11 @@ import org.testng.annotations.Test;
 import java.awt.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class ExRange extends ApiExampleBase {
     @Test
@@ -231,6 +234,66 @@ public class ExRange extends ApiExampleBase {
 
     @DataProvider(name = "ignoreFieldsDataProvider")
     public static Object[][] ignoreFieldsDataProvider() {
+        return new Object[][]
+                {
+                        {true},
+                        {false},
+                };
+    }
+
+    @Test (dataProvider = "ignoreFootnoteDataProvider")
+    public void ignoreFootnote(boolean isIgnoreFootnotes) throws Exception {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreFootnotes
+        //ExSummary:Shows how to ignore footnotes during a find-and-replace operation.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+        builder.insertFootnote(FootnoteType.FOOTNOTE, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+
+        builder.insertParagraph();
+
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+        builder.insertFootnote(FootnoteType.ENDNOTE, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+
+        // Set the "IgnoreFootnotes" flag to "true" to get the find-and-replace
+        // operation to ignore text inside footnotes.
+        // Set the "IgnoreFootnotes" flag to "false" to get the find-and-replace
+        // operation to also search for text inside footnotes.
+        FindReplaceOptions options = new FindReplaceOptions();
+        {
+            options.setIgnoreFootnotes(isIgnoreFootnotes);
+        }
+        doc.getRange().replace("Lorem ipsum", "Replaced Lorem ipsum", options);
+        //ExEnd
+
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+
+        for (Paragraph para : paragraphs) {
+            Assert.assertEquals("Replaced Lorem ipsum", para.getRuns().get(0).getText());
+        }
+
+        List<Footnote> footnotes = Arrays.stream(doc.getChildNodes(NodeType.FOOTNOTE, true).toArray())
+                .filter(Footnote.class::isInstance)
+                .map(Footnote.class::cast)
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(
+                isIgnoreFootnotes
+                        ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                        : "Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                footnotes.get(0).toString(SaveFormat.TEXT).trim());
+        Assert.assertEquals(
+                isIgnoreFootnotes
+                        ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                        : "Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                footnotes.get(1).toString(SaveFormat.TEXT).trim());
+    }
+
+    @DataProvider(name = "ignoreFootnoteDataProvider")
+    public static Object[][] ignoreFootnoteDataProvider() throws Exception
+    {
         return new Object[][]
                 {
                         {true},

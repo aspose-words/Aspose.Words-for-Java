@@ -157,6 +157,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExFor:StructuredDocumentTag.Tag
         //ExFor:StructuredDocumentTag.Title
         //ExFor:StructuredDocumentTag.RemoveSelfOnly
+        //ExFor:StructuredDocumentTag.Appearance
         //ExSummary:Shows how to create a structured document tag in a plain text box and modify its appearance.
         Document doc = new Document();
 
@@ -189,6 +190,10 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         // Set the "Multiline" property to "true" to allow the tag to contain multiple lines of content.
         tag.setMultiline(true);
 
+        // Set the "Appearance" property to "SdtAppearance.Tags" to show tags around content.
+        // By default structured document tag shows as BoundingBox.
+        tag.setAppearance(SdtAppearance.TAGS);
+
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertNode(tag);
 
@@ -212,6 +217,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Assert.assertEquals("Arial", tag.getContentsFont().getName());
         Assert.assertEquals("Arial Black", tag.getEndCharacterFont().getName());
         Assert.assertTrue(tag.getMultiline());
+        Assert.assertEquals(SdtAppearance.TAGS, tag.getAppearance());
     }
 
     @Test(dataProvider = "isTemporaryDataProvider")
