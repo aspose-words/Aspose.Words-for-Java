@@ -38,6 +38,7 @@ import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
 import com.aspose.words.ImageType;
 import com.aspose.words.LoadFormat;
+import com.aspose.words.SaveOptions;
 import org.testng.annotations.DataProvider;
 
 
@@ -374,5 +375,49 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
 
         Document doc = new Document(getMyDir() + "HTML help.chm", loadOptions);
     }
+
+    @Test (dataProvider = "flatOpcXmlMappingOnlyDataProvider")
+    public void flatOpcXmlMappingOnly(boolean isFlatOpcXmlMappingOnly) throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.FlatOpcXmlMappingOnly
+        //ExSummary:Shows how to binding structured document tags to any format.
+        // If true - SDT will contain raw HTML text.
+        // If false - mapped HTML will parsed and resulting document will be inserted into SDT content.
+        LoadOptions loadOptions = new LoadOptions(); {loadOptions.setFlatOpcXmlMappingOnly(isFlatOpcXmlMappingOnly);}
+        Document doc = new Document(getMyDir() + "Structured document tag with HTML content.docx", loadOptions);
+
+        SaveOptions saveOptions = SaveOptions.createSaveOptions(SaveFormat.PDF);
+        saveOptions.setFlatOpcXmlMappingOnly(isFlatOpcXmlMappingOnly);
+
+        doc.save(getArtifactsDir() + "LoadOptions.FlatOpcXmlMappingOnly.pdf", saveOptions);
+        //ExEnd
+
+        Aspose.Pdf.Document pdfDocument =
+            new Aspose.Pdf.Document(getArtifactsDir() + "LoadOptions.FlatOpcXmlMappingOnly.pdf");
+        TextAbsorber textAbsorber = new TextAbsorber();
+        pdfDocument.Pages.Accept(textAbsorber);
+
+        Assert.True(isFlatOpcXmlMappingOnly
+            ? textAbsorber.Text.Contains(
+                "TCSVerify vData1: <!DOCTYPE html><html><body><h1>My First Heading</h1><p>My first \r\nparagraph.</p></body></html>\r\n\r\n" +
+                "TCSVerify vData2: <html><body><b>This is BOLD</b><i>This is Italics</i></body></html>\r\n\r\n" +
+                "TCSVerify vData3: <!DOCTYPE HTML PUBLIC")
+            : textAbsorber.Text.Contains(
+                "TCSVerify vData1: \r\nMy First Heading\r\n\r\nMy first paragraph.\r\n\r\n\r\n" +
+                "TCSVerify vData2: This is BOLDThis is Italics\r\n\r\n" +
+                "TCSVerify vData3: \r\n\r\nDepression Program\r\n\r\nDepression Abuse"));
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "flatOpcXmlMappingOnlyDataProvider")
+	public static Object[][] flatOpcXmlMappingOnlyDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
 }
 

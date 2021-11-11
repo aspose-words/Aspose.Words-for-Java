@@ -53,6 +53,7 @@ import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.FieldUpdateCultureSource;
+import com.aspose.words.HtmlInsertOptions;
 import org.testng.annotations.DataProvider;
 
 
@@ -118,7 +119,7 @@ public class ExMailMerge extends ApiExampleBase
         // in our local file system, open a connection, and set up an SQL query.
         String connectionString = "Driver={Microsoft Access Driver (*.mdb)};Dbq=" + getDatabaseDir() + "Northwind.mdb";
         String query = 
-            "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, {fn ROUND(Products.UnitPrice,2)} as UnitPrice\r\n                FROM Products \r\n                INNER JOIN Suppliers \r\n                ON Products.SupplierID = Suppliers.SupplierID";
+            "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, {fn ROUND(Products.UnitPrice,2)} as UnitPrice\n                FROM Products \n                INNER JOIN Suppliers \n                ON Products.SupplierID = Suppliers.SupplierID";
 
         OdbcConnection connection = new OdbcConnection();
         try /*JAVA: was using*/
@@ -520,6 +521,7 @@ public class ExMailMerge extends ApiExampleBase
         //ExFor:MailMerge.GetRegionsByName(System.String)
         //ExFor:MailMerge.RegionEndTag
         //ExFor:MailMerge.RegionStartTag
+        //ExFor:MailMergeRegionInfo.ParentRegion
         //ExSummary:Shows how to create, list, and read mail merge regions.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -548,11 +550,11 @@ public class ExMailMerge extends ApiExampleBase
         Assert.assertEquals("Column1", mergeFieldNames[0]);
         Assert.assertEquals("Column2", mergeFieldNames[1]);
 
-        // Insert a region with the same name as an existing region, which will make it a duplicate.
-        // Multiple mail merge regions cannot share a single row/paragraph.
-        builder.insertParagraph(); 
+        // Insert a region with the same name inside the existing region, which will make it a parent.
+        // Now a "Column2" field will be inside a new region.
+        builder.moveToField(regions.get(0).getFields().get(1), false); 
         builder.insertField(" MERGEFIELD TableStart:MailMergeRegion1");
-        builder.insertField(" MERGEFIELD Column3");
+        builder.moveToField(regions.get(0).getFields().get(1), true);
         builder.insertField(" MERGEFIELD TableEnd:MailMergeRegion1");
 
         // If we look up the name of duplicate regions using the "GetRegionsByName" method,
@@ -560,10 +562,12 @@ public class ExMailMerge extends ApiExampleBase
         regions = doc.getMailMerge().getRegionsByName("MailMergeRegion1");
 
         Assert.assertEquals(2, regions.size());
+        // Check that the second region now has a parent region.
+        Assert.assertEquals("MailMergeRegion1", regions.get(1).getParentRegion().getName());
 
         mergeFieldNames = doc.getMailMerge().getFieldNamesForRegion("MailMergeRegion1", 1);
 
-        Assert.assertEquals("Column3", mergeFieldNames[0]);
+        Assert.assertEquals("Column2", mergeFieldNames[0]);
         //ExEnd
     }
 
@@ -1957,5 +1961,34 @@ public class ExMailMerge extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "MailMerge.RestartListsAtEachSection.pdf");
         //ExEnd
+    }
+
+    @Test
+    public void removeLastEmptyParagraph() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertHtml(String, HtmlInsertOptions)
+        //ExSummary:Shows how to use options while inserting html.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertField(" MERGEFIELD Name ");
+        builder.insertParagraph();
+        builder.insertField(" MERGEFIELD EMAIL ");
+        builder.insertParagraph();
+
+        // By default "DocumentBuilder.InsertHtml" inserts a HTML fragment that ends with a block-level HTML element,
+        // it normally closes that block-level element and inserts a paragraph break.
+        // As a result, a new empty paragraph appears after inserted document.
+        // If we specify "HtmlInsertOptions.RemoveLastEmptyParagraph", those extra empty paragraphs will be removed.
+        builder.moveToMergeField("NAME");
+        builder.insertHtml("<p>John Smith</p>", HtmlInsertOptions.USE_BUILDER_FORMATTING | HtmlInsertOptions.REMOVE_LAST_EMPTY_PARAGRAPH);
+        builder.moveToMergeField("EMAIL");
+        builder.insertHtml("<p>jsmith@example.com</p>", HtmlInsertOptions.USE_BUILDER_FORMATTING);
+
+        doc.save(getArtifactsDir() + "MailMerge.RemoveLastEmptyParagraph.docx");
+        //ExEnd
+
+        Assert.assertEquals(4, doc.getFirstSection().getBody().getParagraphs().getCount());
     }
 }

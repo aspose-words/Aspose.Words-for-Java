@@ -36,6 +36,17 @@ import com.aspose.ms.System.Drawing.msPointF;
 import com.aspose.words.BreakType;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.FlipOrientation;
+import com.aspose.words.PresetTexture;
+import com.aspose.words.TextureAlignment;
+import com.aspose.words.OoxmlSaveOptions;
+import com.aspose.words.OoxmlCompliance;
+import com.aspose.words.GradientStyle;
+import com.aspose.words.GradientVariant;
+import com.aspose.words.GradientStopCollection;
+import com.aspose.words.GradientStop;
+import com.aspose.words.Fill;
+import com.aspose.ms.System.msConsole;
+import com.aspose.words.PatternType;
 import com.aspose.words.WrapSide;
 import com.aspose.words.HorizontalAlignment;
 import com.aspose.words.VerticalAlignment;
@@ -46,7 +57,6 @@ import com.aspose.words.Forms2OleControl;
 import com.aspose.words.Forms2OleControlType;
 import com.aspose.words.Node;
 import com.aspose.words.OleFormat;
-import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.FileInfo;
@@ -74,8 +84,6 @@ import com.aspose.words.Table;
 import com.aspose.words.TableStyle;
 import com.aspose.words.StyleType;
 import com.aspose.words.LineStyle;
-import com.aspose.words.OoxmlSaveOptions;
-import com.aspose.words.OoxmlCompliance;
 import com.aspose.words.DocumentVisitor;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.VisitorAction;
@@ -848,7 +856,7 @@ public class ExShape extends ApiExampleBase
 
         // Set the shape fill color's opacity to a lower value so that we can see the text underneath it.
         shape.getFill().setOpacity(0.3);
-
+        
         doc.save(getArtifactsDir() + "Shape.Fill.docx");
         //ExEnd
 
@@ -859,6 +867,203 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(Color.LightBlue.getRGB(), shape.getFillColor().getRGB());
         Assert.assertEquals(Color.CadetBlue.getRGB(), shape.getStrokeColor().getRGB());
         Assert.assertEquals(0.3d, shape.getFill().getOpacity(), 0.01d);
+    }
+
+    @Test
+    public void textureFill() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.TextureAlignment
+        //ExFor:TextureAlignment
+        //ExSummary:Shows how to fill and tiling the texture inside the shape.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 80.0, 80.0);
+
+        // Apply texture alignment to the shape fill.
+        shape.getFill().presetTextured(PresetTexture.CANVAS);
+        shape.getFill().setTextureAlignment(TextureAlignment.TOP_RIGHT);
+
+        // Use the compliance option to define the shape using DML if you want to get "TextureAlignment"
+        // property after the document saves.
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_STRICT); }
+
+        doc.save(getArtifactsDir() + "Shape.TextureFill.docx", saveOptions);
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.TextureFill.docx");
+
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(TextureAlignment.TOP_RIGHT, shape.getFill().getTextureAlignment());
+    }
+
+    @Test
+    public void gradientFill() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.OneColorGradient(Color, GradientStyle, GradientVariant, Double)
+        //ExFor:Fill.OneColorGradient(GradientStyle, GradientVariant, Double)
+        //ExFor:Fill.TwoColorGradient(Color, Color, GradientStyle, GradientVariant)
+        //ExFor:Fill.TwoColorGradient(GradientStyle, GradientVariant)
+        //ExFor:Fill.GradientStyle
+        //ExFor:Fill.GradientVariant
+        //ExFor:Fill.GradientAngle
+        //ExFor:GradientStyle
+        //ExFor:GradientVariant
+        //ExSummary:Shows how to fill a shape with a gradients.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 80.0, 80.0);
+        // Apply One-color gradient fill to the shape with ForeColor of gradient fill.
+        shape.getFill().oneColorGradient(Color.RED, GradientStyle.HORIZONTAL, GradientVariant.VARIANT_2, 0.1);
+
+        Assert.assertEquals(Color.RED.getRGB(), shape.getFill().getForeColor().getRGB());
+        Assert.assertEquals(GradientStyle.HORIZONTAL, shape.getFill().getGradientStyle());
+        Assert.assertEquals(GradientVariant.VARIANT_2, shape.getFill().getGradientVariant());
+        Assert.assertEquals(270, shape.getFill().getGradientAngle());
+
+        shape = builder.insertShape(ShapeType.RECTANGLE, 80.0, 80.0);
+        // Apply Two-color gradient fill to the shape.
+        shape.getFill().twoColorGradient(GradientStyle.FROM_CORNER, GradientVariant.VARIANT_4);
+        // Change BackColor of gradient fill.
+        shape.getFill().setBackColor(Color.YELLOW);
+        // Note that changes "GradientAngle" for "GradientStyle.FromCorner/GradientStyle.FromCenter"
+        // gradient fill don't get any effect, it will work only for linear gradient.
+        shape.getFill().setGradientAngle(15.0);
+
+        Assert.assertEquals(Color.YELLOW.getRGB(), shape.getFill().getBackColor().getRGB());
+        Assert.assertEquals(GradientStyle.FROM_CORNER, shape.getFill().getGradientStyle());
+        Assert.assertEquals(GradientVariant.VARIANT_4, shape.getFill().getGradientVariant());
+        Assert.assertEquals(0, shape.getFill().getGradientAngle());
+
+        // Use the compliance option to define the shape using DML if you want to get "GradientStyle",
+        // "GradientVariant" and "GradientAngle" properties after the document saves.
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_STRICT); }
+
+        doc.save(getArtifactsDir() + "Shape.GradientFill.docx", saveOptions);
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.GradientFill.docx");
+        Shape firstShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(Color.RED.getRGB(), firstShape.getFill().getForeColor().getRGB());
+        Assert.assertEquals(GradientStyle.HORIZONTAL, firstShape.getFill().getGradientStyle());
+        Assert.assertEquals(GradientVariant.VARIANT_2, firstShape.getFill().getGradientVariant());
+        Assert.assertEquals(270, firstShape.getFill().getGradientAngle());
+
+        Shape secondShape = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+
+        Assert.assertEquals(Color.YELLOW.getRGB(), secondShape.getFill().getBackColor().getRGB());
+        Assert.assertEquals(GradientStyle.FROM_CORNER, secondShape.getFill().getGradientStyle());
+        Assert.assertEquals(GradientVariant.VARIANT_4, secondShape.getFill().getGradientVariant());
+        Assert.assertEquals(0, secondShape.getFill().getGradientAngle());
+    }
+
+    @Test
+    public void gradientStops() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.GradientStops
+        //ExFor:GradientStopCollection
+        //ExFor:GradientStopCollection.Insert(System.Int32, GradientStop)
+        //ExFor:GradientStopCollection.Add(GradientStop)
+        //ExFor:GradientStopCollection.RemoveAt(System.Int32)
+        //ExFor:GradientStopCollection.Remove(GradientStop)
+        //ExFor:GradientStopCollection.Item(System.Int32)
+        //ExFor:GradientStopCollection.Count
+        //ExFor:GradientStop.#ctor(Color, Double)
+        //ExFor:GradientStop.#ctor(Color, Double, Double)
+        //ExFor:GradientStop.Color
+        //ExFor:GradientStop.Position
+        //ExFor:GradientStop.Transparency
+        //ExFor:GradientStop.Remove
+        //ExSummary:Shows how to add gradient stops to the gradient fill.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 80.0, 80.0);
+        shape.getFill().twoColorGradient(msColor.getGreen(), Color.RED, GradientStyle.HORIZONTAL, GradientVariant.VARIANT_2);
+
+        // Get gradient stops collection.
+        GradientStopCollection gradientStops = shape.getFill().getGradientStops();
+
+        // Change first gradient stop.
+        gradientStops.get(0).setColor(msColor.getAqua());
+        gradientStops.get(0).setPosition(0.1);
+        gradientStops.get(0).setTransparency(0.25);
+
+        // Add new gradient stop to the end of collection.
+        GradientStop gradientStop = new GradientStop(msColor.getBrown(), 0.5);
+        gradientStops.add(gradientStop);
+
+        // Remove gradient stop at index 1.
+        gradientStops.removeAt(1);
+        // And insert new gradient stop at the same index 1.
+        gradientStops.insert(1, new GradientStop(msColor.getChocolate(), 0.75, 0.3));
+
+        // Remove last gradient stop in the collection.
+        gradientStop = gradientStops.get(2);
+        gradientStops.remove(gradientStop);
+
+        Assert.assertEquals(2, gradientStops.getCount());
+
+        Assert.assertEquals(msColor.getAqua().getRGB(), gradientStops.get(0).getColor().getRGB());
+        Assert.assertEquals(0.1d, gradientStops.get(0).getPosition(), 0.01d);
+        Assert.assertEquals(0.25d, gradientStops.get(0).getTransparency(), 0.01d);
+
+        Assert.assertEquals(msColor.getChocolate().getRGB(), gradientStops.get(1).getColor().getRGB());
+        Assert.assertEquals(0.75d, gradientStops.get(1).getPosition(), 0.01d);
+        Assert.assertEquals(0.3d, gradientStops.get(1).getTransparency(), 0.01d);
+
+        // Use the compliance option to define the shape using DML
+        // if you want to get "GradientStops" property after the document saves.
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_STRICT); }
+
+        doc.save(getArtifactsDir() + "Shape.GradientStops.docx", saveOptions);
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.GradientStops.docx");
+
+        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        gradientStops = shape.getFill().getGradientStops();
+
+        Assert.assertEquals(2, gradientStops.getCount());
+
+        Assert.assertEquals(msColor.getAqua().getRGB(), gradientStops.get(0).getColor().getRGB());
+        Assert.assertEquals(0.1d, gradientStops.get(0).getPosition(), 0.01d);
+        Assert.assertEquals(0.25d, gradientStops.get(0).getTransparency(), 0.01d);
+
+        Assert.assertEquals(msColor.getChocolate().getRGB(), gradientStops.get(1).getColor().getRGB());
+        Assert.assertEquals(0.75d, gradientStops.get(1).getPosition(), 0.01d);
+        Assert.assertEquals(0.3d, gradientStops.get(1).getTransparency(), 0.01d);
+    }
+        
+	@Test
+    public void fillPattern() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.Patterned(PatternType)
+        //ExFor:Fill.Patterned(PatternType, Color, Color)
+        //ExSummary:Shows how to set pattern for a shape.
+        Document doc = new Document(getMyDir() + "Shape stroke pattern border.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Fill fill = shape.getFill();
+
+        System.out.println("Pattern value is: {0}",fill.getPattern());
+
+        // There are several ways specified fill to a pattern.
+        // 1 -  Apply pattern to the shape fill:
+        fill.patterned(PatternType.DIAGONAL_BRICK);
+
+        // 2 -  Apply pattern with foreground and background colors to the shape fill:
+        fill.patterned(PatternType.DIAGONAL_BRICK, msColor.getAqua(), Color.Bisque);
+
+        doc.save(getArtifactsDir() + "Shape.FillPattern.docx");
+        //ExEnd
     }
 
     @Test
@@ -2726,7 +2931,7 @@ public class ExShape extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertShape(ShapeType.HEPTAGON, RelativeHorizontalPosition.RIGHT_MARGIN, 0.0,
+        builder.insertShape(ShapeType.HEPTAGON, RelativeHorizontalPosition.PAGE, 0.0,
             RelativeVerticalPosition.PAGE, 0.0, 0.0, 0.0, WrapType.NONE);
         
         builder.insertShape(ShapeType.CLOUD, RelativeHorizontalPosition.RIGHT_MARGIN, 0.0,
@@ -2742,8 +2947,8 @@ public class ExShape extends ApiExampleBase
             saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
         }
         
-        doc.save(getArtifactsDir() + "ShapeTypes.docx", saveOptions);
-        doc = new Document(getArtifactsDir() + "ShapeTypes.docx");
+        doc.save(getArtifactsDir() + "Shape.ShapeTypes.docx", saveOptions);
+        doc = new Document(getArtifactsDir() + "Shape.ShapeTypes.docx");
 
         Shape[] shapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>OfType().ToArray();
 
@@ -2751,6 +2956,33 @@ public class ExShape extends ApiExampleBase
         {
             System.out.println(shape.getShapeType());
         }
+        //ExEnd
+    }
+
+    @Test
+    public void isDecorative() throws Exception
+    {
+        //ExStart
+        //ExFor:ShapeBase.IsDecorative
+        //ExSummary:Shows how to set that the shape is decorative.
+        Document doc = new Document(getMyDir() + "Decorative shapes.docx");
+
+        Shape shape = (Shape) doc.getChildNodes(NodeType.SHAPE, true).get(0);
+        Assert.assertTrue(shape.isDecorative());
+        
+        // If "AlternativeText" is not empty, the shape cannot be decorative.
+        // That's why our value has changed to 'false'.
+        shape.setAlternativeText("Alternative text.");
+        Assert.assertFalse(shape.isDecorative());
+
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.moveToDocumentEnd();
+        // Create a new shape as decorative.
+        shape = builder.insertShape(ShapeType.RECTANGLE, 100.0, 100.0);
+        shape.isDecorative(true);
+
+        doc.save(getArtifactsDir() + "Shape.IsDecorative.docx");
         //ExEnd
     }
 }

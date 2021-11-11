@@ -16,6 +16,13 @@ import org.testng.Assert;
 import com.aspose.words.FindReplaceOptions;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
+import com.aspose.words.FootnoteType;
+import com.aspose.words.ParagraphCollection;
+import com.aspose.words.Paragraph;
+import java.util.ArrayList;
+import com.aspose.words.Footnote;
+import com.aspose.words.NodeType;
+import com.aspose.words.SaveFormat;
 import com.aspose.words.BreakType;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.IReplacingCallback;
@@ -25,16 +32,12 @@ import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.ms.System.msConsole;
-import com.aspose.words.NodeType;
 import com.aspose.words.Run;
 import com.aspose.ms.System.Convert;
 import com.aspose.ms.System.msString;
-import com.aspose.words.ParagraphCollection;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
-import java.util.ArrayList;
-import com.aspose.words.Paragraph;
 import com.aspose.words.Node;
 import com.aspose.words.CompositeNode;
 import com.aspose.words.NodeImporter;
@@ -272,6 +275,62 @@ public class ExRange extends ApiExampleBase
 	//JAVA-added data provider for test method
 	@DataProvider(name = "ignoreFieldsDataProvider")
 	public static Object[][] ignoreFieldsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test (dataProvider = "ignoreFootnoteDataProvider")
+    public void ignoreFootnote(boolean isIgnoreFootnotes) throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreFootnotes
+        //ExSummary:Shows how to ignore footnotes during a find-and-replace operation.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+        builder.insertFootnote(FootnoteType.FOOTNOTE, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+
+        builder.insertParagraph();
+
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+        builder.insertFootnote(FootnoteType.ENDNOTE, "Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+
+        // Set the "IgnoreFootnotes" flag to "true" to get the find-and-replace
+        // operation to ignore text inside footnotes.
+        // Set the "IgnoreFootnotes" flag to "false" to get the find-and-replace
+        // operation to also search for text inside footnotes.
+        FindReplaceOptions options = new FindReplaceOptions(); { options.setIgnoreFootnotes(isIgnoreFootnotes); }
+        doc.getRange().replace("Lorem ipsum", "Replaced Lorem ipsum", options);
+        //ExEnd
+
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+
+        for (Paragraph para : (Iterable<Paragraph>) paragraphs)
+        {
+            Assert.assertEquals("Replaced Lorem ipsum", para.getRuns().get(0).getText());
+        }
+
+        ArrayList<Footnote> footnotes = doc.getChildNodes(NodeType.FOOTNOTE, true).<Footnote>Cast().ToList();
+        Assert.assertEquals(
+            isIgnoreFootnotes
+                ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                : "Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            footnotes.get(0).toString(SaveFormat.TEXT).trim());
+        Assert.assertEquals(
+            isIgnoreFootnotes
+                ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                : "Replaced Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            footnotes.get(1).toString(SaveFormat.TEXT).trim());
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "ignoreFootnoteDataProvider")
+	public static Object[][] ignoreFootnoteDataProvider() throws Exception
 	{
 		return new Object[][]
 		{

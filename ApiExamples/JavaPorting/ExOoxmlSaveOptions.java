@@ -348,4 +348,19 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
             finally { if (stream != null) stream.close(); }
         }
     }
+
+    @Test
+    public void exportGeneratorName() throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.ExportGeneratorName
+        //ExSummary:Shows how to disable adding name and version of Aspose.Words into produced files.
+        Document doc = new Document();
+        
+        // Use https://docs.aspose.com/words/net/generator-or-producer-name-included-in-output-documents/ to know how to check the result.
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setExportGeneratorName(false); }
+        
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.ExportGeneratorName.docx", saveOptions);
+        //ExEnd
+    }
 }

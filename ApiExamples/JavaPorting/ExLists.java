@@ -986,4 +986,35 @@ public class ExLists extends ApiExampleBase
 
         Assert.assertTrue(doc.getLists().get(0).getListLevels().get(0).getImageData().hasImage());
     }
+
+    @Test
+    public void customNumberStyleFormat() throws Exception
+    {
+        //ExStart
+        //ExFor:ListLevel.CustomNumberStyleFormat
+        //ExFor:ListLevel.GetEffectiveValue(Int32, NumberStyle, String)
+        //ExSummary:Shows how to get the format for a list with the custom number style.
+        Document doc = new Document(getMyDir() + "List with leading zero.docx");
+
+        ListLevel listLevel = doc.getFirstSection().getBody().getParagraphs().get(0).getListFormat().getListLevel();
+
+        String customNumberStyleFormat = "";
+
+        if (listLevel.getNumberStyle() == NumberStyle.CUSTOM)
+            customNumberStyleFormat = listLevel.getCustomNumberStyleFormat();
+
+        Assert.assertEquals("001, 002, 003, ...", customNumberStyleFormat);
+
+        // We can get value for the specified index of the list item.
+        Assert.assertEquals("iv", ListLevel.getEffectiveValue(4, NumberStyle.LOWERCASE_ROMAN, null));
+        Assert.assertEquals("005", ListLevel.getEffectiveValue(5, NumberStyle.CUSTOM, customNumberStyleFormat));
+        //ExEnd
+
+        Assert.That(() => ListLevel.getEffectiveValue(5, NumberStyle.LOWERCASE_ROMAN, customNumberStyleFormat),
+            Throws.<IllegalArgumentException>TypeOf());
+        Assert.That(() => ListLevel.getEffectiveValue(5, NumberStyle.CUSTOM, null),
+            Throws.<IllegalArgumentException>TypeOf());
+        Assert.That(() => ListLevel.getEffectiveValue(5, NumberStyle.CUSTOM, "...."),
+            Throws.<IllegalArgumentException>TypeOf());
+    }
 }
