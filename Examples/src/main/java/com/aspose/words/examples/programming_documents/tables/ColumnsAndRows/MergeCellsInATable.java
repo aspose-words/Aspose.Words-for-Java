@@ -60,5 +60,5 @@ public class MergeCellsInATable {
         builder.endRow();
         builder.endTable();
     }
-    //ExStart:mergeCellsVertically
+    //ExEnd:mergeCellsVertically
 }

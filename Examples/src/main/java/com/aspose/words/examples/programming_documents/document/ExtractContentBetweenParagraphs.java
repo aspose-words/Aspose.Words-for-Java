@@ -42,7 +42,6 @@ public class ExtractContentBetweenParagraphs {
 	 * @param isInclusive Should the marker nodes be included.
 	 */
 	//ExStart:ExtractContent
-	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 	public static ArrayList extractContent(Node startNode, Node endNode, boolean isInclusive) throws Exception {
 	    // First check that the nodes passed to this method are valid for use.
 	    verifyParameterNodes(startNode, endNode);
@@ -132,12 +131,12 @@ public class ExtractContentBetweenParagraphs {
 	    return nodes;
 	}
 	//ExEnd:ExtractContent
-	
+
+	//ExStart:verifyParameterNodes
 	/**
 	 * Checks the input parameters are correct and can be used. Throws an exception
 	 * if there is any problem.
 	 */
-
 	private static void verifyParameterNodes(Node startNode, Node endNode) throws Exception {
 		// The order in which these checks are done is important.
 		if (startNode == null)
@@ -265,7 +264,9 @@ public class ExtractContentBetweenParagraphs {
 				nodes.add(cloneNode);
 		}
 	}
+	//ExEnd:verifyParameterNodes
 
+	//ExStart:generateDocument
 	public static Document generateDocument(Document srcDoc, ArrayList nodes) throws Exception {
 
 		// Create a blank document.
@@ -285,4 +286,5 @@ public class ExtractContentBetweenParagraphs {
 		// Return the generated document.
 		return dstDoc;
 	}
+	//ExEnd:generateDocument
 }

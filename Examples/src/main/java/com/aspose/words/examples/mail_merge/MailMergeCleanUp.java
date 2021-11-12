@@ -29,7 +29,6 @@ public class MailMergeCleanUp {
     }
     public static void RemoveContainingFields(String dataDir) throws Exception {
     	//ExStart: RemoveContainingFields
-    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
     	Document doc = new Document(dataDir + "RemoveRowfromTable.docx");
 
     	doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_CONTAINING_FIELDS);
@@ -42,7 +41,6 @@ public class MailMergeCleanUp {
     }
     public static void RemoveUnusedFields(String dataDir) throws Exception {
         //ExStart:RemoveUnusedFields
-    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
     	Document doc = new Document(dataDir + "RemoveRowfromTable.docx");
 
     	doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_UNUSED_FIELDS);
@@ -56,7 +54,6 @@ public class MailMergeCleanUp {
     
     public static void RemoveUnmergedRegions(String dataDir) throws Exception {
         //ExStart:RemoveUnmergedRegions
-    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
     	Document doc = new Document(dataDir + "TestFile Empty.doc");
 
     	// Create an empty data source in the form of a DataSet containing no DataTable objects.
@@ -76,7 +73,6 @@ public class MailMergeCleanUp {
     
     public static void RemoveEmptyParagraphs(String dataDir) throws Exception {
     	//ExStart: RemoveEmptyParagraphs
-    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
     	Document doc = new Document(dataDir + "RemoveRowfromTable.docx");
 
     	doc.getMailMerge().setCleanupOptions(MailMergeCleanupOptions.REMOVE_EMPTY_PARAGRAPHS);

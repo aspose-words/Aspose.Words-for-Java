@@ -1,11 +1,10 @@
 package com.aspose.words.examples.rendering_printing;
 
-import com.aspose.words.Document;
-import com.aspose.words.FolderFontSource;
-import com.aspose.words.FontSettings;
-import com.aspose.words.FontSourceBase;
+import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
+import org.testng.annotations.Test;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -74,4 +73,27 @@ public class SpecifyTrueTypeFontsLocation {
         doc.save(dataDir + "Rendering.SpecifyFontsToBeReadFromBothSystemFontsFolderAndCustomFolder_Out.pdf");
         //ExEnd:SpecifyFontsFromBothSystemFontsFolderAndCustomFolder
     }
+
+    //ExStart:loadingFontsStream
+    public void streamFontSourceFileRendering() throws Exception {
+        FontSettings fontSettings = new FontSettings();
+        fontSettings.setFontsSources(new FontSourceBase[]{new StreamFontSourceFile()});
+
+        DocumentBuilder builder = new DocumentBuilder();
+        builder.getDocument().setFontSettings(fontSettings);
+        builder.getFont().setName("Kreon-Regular");
+        builder.writeln("Test aspose text when saving to PDF.");
+
+        builder.getDocument().save(dataDir + "FontSettings.StreamFontSourceFileRendering.pdf");
+    }
+
+    /// <summary>
+    /// Load the font data only when required instead of storing it in the memory for the entire lifetime of the "FontSettings" object.
+    /// </summary>
+    private static class StreamFontSourceFile extends StreamFontSource  {
+        public FileInputStream openFontDataStream() throws Exception {
+            return new FileInputStream(dataDir + "Kreon-Regular.ttf");
+        }
+    }
+    //ExEnd:loadingFontsStream
 }

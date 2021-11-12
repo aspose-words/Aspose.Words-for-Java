@@ -24,10 +24,10 @@ public class ChartSeries {
 		List<PointData> data = new ArrayList<>();
 		data.add(new PointData("12:00:00 AM", 10, 2));
 		data.add(new PointData("01:00:00 AM", 15, 4));
-        data.add(new PointData("02:00:00 AM", 23, 7));
-       
+		data.add(new PointData("02:00:00 AM", 23, 7));
+
         List<String> seriesNames = Arrays.asList("Flow","Rainfall");
-        
+
         Document doc = new Document(dataDir + "ChartTemplate.docx");
 
         ReportingEngine engine = new ReportingEngine();

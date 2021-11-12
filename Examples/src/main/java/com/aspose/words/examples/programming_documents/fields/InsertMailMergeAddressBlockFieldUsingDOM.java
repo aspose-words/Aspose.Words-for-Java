@@ -45,8 +45,6 @@ public class InsertMailMergeAddressBlockFieldUsingDOM {
 
         doc.save(dataDir + "output.docx");
         //ExEnd:InsertMailMergeAddressBlockFieldUsingDOM
-
-
     }
 }
 

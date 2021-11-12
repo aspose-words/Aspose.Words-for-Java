@@ -7,7 +7,6 @@ import com.aspose.words.BreakType;
 
 public class MailMergeTemplate {
 	// ExStart: CreateMailMergeTemplate
-	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 	public static Document CreateMailMergeTemplate() throws Exception	{
 	    DocumentBuilder builder = new DocumentBuilder();
 	    

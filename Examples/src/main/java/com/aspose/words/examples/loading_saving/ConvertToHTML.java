@@ -55,7 +55,6 @@ public class ConvertToHTML {
 
 	public static void ConvertDocumentToHtmlWithRoundtrip(String dataDir) throws Exception {
 		// ExStart:ConvertDocumentToHtmlWithRoundtrip
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Load the document.
 		Document doc = new Document(dataDir + "Test File (doc).doc");
 
@@ -74,7 +73,6 @@ public class ConvertToHTML {
 
 	public static void ExportResourcesUsingHtmlSaveOptions(String dataDir) throws Exception {
 		// ExStart:ExportResourcesUsingHtmlSaveOptions
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// The path to the document which is to be processed.
 		Document doc = new Document(dataDir + "Document.doc");
 
@@ -90,7 +88,6 @@ public class ConvertToHTML {
 
 	public static void ExportFontsAsBase64(String dataDir) throws Exception {
 		// ExStart:ExportFontsAsBase64
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// The path to the document which is to be processed.
 		Document doc = new Document(dataDir + "Document.doc");
 
@@ -105,7 +102,6 @@ public class ConvertToHTML {
 
 	public static void ConvertDocumentToEPUB(String dataDir) throws Exception {
 		// ExStart:ConvertDocumentToEPUB
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open an existing document from disk.
 		Document doc = new Document(dataDir + "Document.EpubConversion.doc");
 
@@ -138,7 +134,6 @@ public class ConvertToHTML {
 
 	public static void ConvertDocumentToMHTMLAndEmail(String dataDir) throws Exception {
 		// ExStart:ConvertDocumentToMHTMLAndEmail
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Load the document
 		Document doc = new Document(dataDir + "Document.doc");
 
@@ -167,7 +162,6 @@ public class ConvertToHTML {
 	
 	public static void SplitDocumentByHeadingsHTML(String dataDir) throws Exception {
 		// ExStart:SplitDocumentByHeadingsHTML
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a Word document
 		Document doc = new Document(dataDir + "Test File (doc).docx");
 		 
@@ -182,7 +176,6 @@ public class ConvertToHTML {
 	
 	public static void SplitDocumentBySectionsHTML(String dataDir) throws Exception {
 		// ExStart:SplitDocumentBySectionsHTML
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a Word document
 		Document doc = new Document(dataDir + "Test File (doc).docx");
 		 

@@ -55,7 +55,6 @@ public class SpecifyLoadOptions {
 
 	public static void convertShapeToOfficeMath(String dataDir) throws Exception {
 		// ExStart:ConvertShapeToOfficeMath
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		LoadOptions lo = new LoadOptions();
 		lo.setConvertShapeToOfficeMath(true);
 
@@ -69,7 +68,6 @@ public class SpecifyLoadOptions {
 
 	public static void setMSWordVersion(String dataDir) throws Exception {
 		// ExStart:SetMSWordVersion
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Specify load option to specify MS Word version
 		LoadOptions loadOptions = new LoadOptions();
 		loadOptions.setMswVersion(MsWordVersion.WORD_2003);
@@ -81,7 +79,6 @@ public class SpecifyLoadOptions {
 
 	public static void SetTempFolder(String dataDir) throws Exception {
 		// ExStart:SetTempFolder
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Specify LoadOptions to set Temp Folder
 		LoadOptions lo = new LoadOptions();
 		lo.setTempFolder("C:\\TempFolder\\");
@@ -92,7 +89,6 @@ public class SpecifyLoadOptions {
 
 	public static void LoadOptionsEncoding(String dataDir) throws Exception {
 		// ExStart:LoadOptionsEncoding
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Set the Encoding attribute in a LoadOptions object to override the
 		// automatically chosen encoding with the one we know to be correct
 		LoadOptions loadOptions = new LoadOptions();

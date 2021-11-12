@@ -27,8 +27,7 @@ public class InsertAuthorField {
         // Finally update this AUTHOR field
         field.update();
         doc.save(dataDir + "output.docx");
-//ExEnd:InsertAuthorField
-
+        //ExEnd:InsertAuthorField
     }
 }
 

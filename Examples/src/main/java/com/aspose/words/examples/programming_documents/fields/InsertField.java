@@ -2,6 +2,8 @@ package com.aspose.words.examples.programming_documents.fields;
 
 import com.aspose.words.*;
 import com.aspose.words.examples.Utils;
+import com.aspose.words.net.System.Data.DataTable;
+import org.testng.Assert;
 
 public class InsertField {
     public static void main(String[] args) throws Exception {
@@ -89,6 +91,60 @@ public class InsertField {
         doc.updateFields();
         //ExEnd:fieldIf
         doc.save(dataDir + "Field.If.docx");
+    }
+
+    public void fieldAdvance(String dataDir) throws Exception {
+        //ExStart:fieldAdvance
+        Document doc = new Document(dataDir + "in.doc");
+
+        // Get paragraph you want to append this merge field to
+        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(1);
+
+        // Create instance of FieldAdvance class and lets build the above field code
+        FieldAdvance field = (FieldAdvance) para.appendField(FieldType.FIELD_ADVANCE, false);
+        field.setRightOffset("5");
+        field.setUpOffset("5");
+
+        field.update();
+
+        doc.save(dataDir + "output.docx");
+        //ExEnd:fieldAdvance
+    }
+
+    public void fieldAsk(String dataDir) throws Exception {
+        //ExStart:fieldAsk
+        Document doc = new Document(dataDir + "in.doc");
+
+        // Get paragraph you want to append this merge field to
+        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(1);
+
+        // Create instance of FieldAsk class and lets build the above field code
+        FieldAsk field = (FieldAsk) para.appendField(FieldType.FIELD_ASK, false);
+        field.setPromptText("Please provide a response for this ASK field");
+        field.setDefaultResponse("Response from within the field.");
+
+        field.update();
+
+        doc.save(dataDir + "output.docx");
+        //ExEnd:fieldAsk
+    }
+
+    public void fieldIncludeText(String dataDir) throws Exception {
+        //ExStart:fieldIncludeText
+        Document doc = new Document(dataDir + "in.doc");
+
+        // Get paragraph you want to append this merge field to
+        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(1);
+
+        // Create instance of FieldIncludeText class and lets build the above field code
+        FieldIncludeText field = (FieldIncludeText) para.appendField(FieldType.FIELD_INCLUDE_TEXT, false);
+        field.setBookmarkName("bookmark");
+        field.setSourceFullName(dataDir + "IncludeText.docx");
+
+        field.update();
+
+        doc.save(dataDir + "output.docx");
+        //ExEnd:fieldIncludeText
     }
 }
 

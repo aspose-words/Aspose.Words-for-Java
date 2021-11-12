@@ -12,7 +12,6 @@ import java.io.FileOutputStream;
 public class CheckFormatCompatibility {
 	public static void main(String[] args) throws Exception {
 		// ExStart:CheckFormatCompatibility
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// The path to the documents directory.
 		String dataDir = Utils.getDataDir(CheckFormatCompatibility.class);
 
@@ -21,7 +20,9 @@ public class CheckFormatCompatibility {
 		String encryptedDir = dataDir + "OutEncrypted" + File.separator;
 		String pre97Dir = dataDir + "OutPre97" + File.separator;
 
+		//ExStart:GetListOfFilesInFolder
 		File[] fileList = new File(dataDir).listFiles();
+		//ExEnd:GetListOfFilesInFolder
 
 		// Loop through all found files.
 		for (File file : fileList) {

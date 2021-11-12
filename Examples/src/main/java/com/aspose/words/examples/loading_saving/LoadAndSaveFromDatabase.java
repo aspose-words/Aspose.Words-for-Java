@@ -53,7 +53,6 @@ public class LoadAndSaveFromDatabase {
 	}
 
 	// ExStart: DeleteFromDatabase
-	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java	
 	private static void DeleteFromDatabase(String fileName, Connection mConnection) throws Exception {
 		// Create the SQL command.
 		String commandString = "DELETE FROM Documents WHERE FileName='" + fileName + "'";
@@ -64,7 +63,6 @@ public class LoadAndSaveFromDatabase {
 	// ExEnd: DeleteFromDatabase
 
 	// ExStart: ReadFromDatabase
-	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 	private static Document ReadFromDatabase(String fileName, Connection mConnection) throws Exception {
 		// Create the SQL command.
 		String commandString = "SELECT * FROM Documents WHERE FileName=?";
@@ -86,7 +84,6 @@ public class LoadAndSaveFromDatabase {
 	// ExEnd: ReadFromDatabase
 
 	// ExStart: StoreToDatabase
-	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 	public static void StoreToDatabase(Document doc, Connection mConnection) throws Exception {
 		// Create an output stream which uses byte array to save data
 		ByteArrayOutputStream aout = new ByteArrayOutputStream();
