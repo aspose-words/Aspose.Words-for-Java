@@ -86,7 +86,7 @@ public class TypesofMailMergeOperations {
 		// ExEnd: MailMergeWithRegions
 	}
 
-	// ExStart: CreateDataSet
+	//ExStart:CreateDataSet
 	private static DataSet CreateDataSet() {
 		// Create the customers table.
 		DataTable tableCustomers = new DataTable("Customers");
@@ -116,11 +116,10 @@ public class TypesofMailMergeOperations {
 
 		return dataSet;
 	}
-	// ExEnd: CreateDataSet
+	//ExEnd:CreateDataSet
 	
 	private static void NestedMailMerge(String dataDir) throws Exception {
 		// ExStart: NestedMailMerge
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-java
 		// Create the Dataset and read the XML.
 		DataSet pizzaDs = new DataSet();
 			 

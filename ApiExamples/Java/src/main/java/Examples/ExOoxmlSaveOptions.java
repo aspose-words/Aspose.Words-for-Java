@@ -277,4 +277,19 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
             doc.save(getArtifactsDir() + "OoxmlSaveOptions.CheckFileSignatures.docx", saveOptions);
         }
     }
+
+    @Test
+    public void exportGeneratorName() throws Exception
+    {
+        //ExStart
+        //ExFor:SaveOptions.ExportGeneratorName
+        //ExSummary:Shows how to disable adding name and version of Aspose.Words into produced files.
+        Document doc = new Document();
+
+        // Use https://docs.aspose.com/words/net/generator-or-producer-name-included-in-output-documents/ to know how to check the result.
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setExportGeneratorName(false); }
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.ExportGeneratorName.docx", saveOptions);
+        //ExEnd
+    }
 }

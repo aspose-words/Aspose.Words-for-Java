@@ -21,7 +21,6 @@ public class MailMergeUsingMustacheTemplateSyntax {
 
     private static void MustacheSyntaxUsingDataTable(String dataDir) throws Exception {
 		//ExStart: MustacheSyntaxUsingDataTable
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Load a document
 		Document doc = new Document(dataDir + "Test.docx");
 
@@ -77,7 +76,6 @@ public class MailMergeUsingMustacheTemplateSyntax {
 
     public static void UseOfIfElseMustacheSyntax(String dataDir) throws Exception {
         // ExStart:UseOfIfElseMustacheSyntax
-    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
         // Open a template document.
         Document doc = new Document(dataDir + "UseOfifelseMustacheSyntax.docx");
 

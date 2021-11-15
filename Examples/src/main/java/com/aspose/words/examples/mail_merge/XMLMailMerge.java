@@ -15,7 +15,6 @@ public class XMLMailMerge {
 
     public static void main(String[] args) throws Exception {
     	//ExStart: XMLMailMerge
-    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
     	// The path to the documents directory.
     	String dataDir = Utils.getSharedDataDir(XMLMailMerge.class) + "MailMerge/";
 

@@ -75,7 +75,6 @@ public class ExecuteMailMergeWithRegions {
 
     private static void GetRegionsByName() throws Exception {
     	//ExStart: GetRegionsByName
-    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
     	Document doc = new Document(dataDir + "Mail merge regions.docx");
 
     	List<MailMergeRegionInfo> regions = doc.getMailMerge().getRegionsByName("Region1");

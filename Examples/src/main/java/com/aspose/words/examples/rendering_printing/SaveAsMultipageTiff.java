@@ -12,7 +12,6 @@ public class SaveAsMultipageTiff {
         // Open the document.
         Document doc = new Document(dataDir + "TestFile.MultipageTIFF.docx");
         //ExStart:SaveAsTIFF
-        // For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
         // Save the document as multipage TIFF.
         doc.save(dataDir + "TestFile.MultipageTIFF_out.tiff");
         //ExEnd:SaveAsTIFF

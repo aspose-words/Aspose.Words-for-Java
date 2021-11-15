@@ -19,7 +19,6 @@ public class EmbeddedFontsInPDF {
 
 	public static void EmbeddAllFonts(String dataDir) throws Exception {
 		// ExStart: EmbeddAllFonts
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a Document
 		Document doc = new Document(dataDir + "Rendering.doc");
 
@@ -37,7 +36,6 @@ public class EmbeddedFontsInPDF {
 
 	public static void EmbeddSubsetFonts(String dataDir) throws Exception {
 		// ExStart: EmbeddSubsetFonts
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a Document
 		Document doc = new Document(dataDir + "Rendering.doc");
 
@@ -57,7 +55,6 @@ public class EmbeddedFontsInPDF {
 
 	public static void AvoidEmbeddingCoreFonts(String dataDir) throws Exception {
 		// ExStart: AvoidEmbeddingCoreFonts
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a Document
 		Document doc = new Document(dataDir + "Rendering.doc");
 
@@ -75,7 +72,6 @@ public class EmbeddedFontsInPDF {
 
 	public static void SetFontEmbeddingMode(String dataDir) throws Exception {
 		// ExStart: SetFontEmbeddingMode
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a Document
 		Document doc = new Document(dataDir + "Rendering.doc");
 

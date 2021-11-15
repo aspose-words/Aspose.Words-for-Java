@@ -2798,4 +2798,38 @@ public class ExDocument extends ApiExampleBase
         doc.save(getArtifactsDir() + "Document.AllowEmbeddingPostScriptFonts.docx", saveOptions);
         //ExEnd
     }
+
+    @Test
+    public void frameset() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.Frameset
+        //ExFor:Frameset
+        //ExFor:Frameset.FrameDefaultUrl
+        //ExFor:Frameset.IsFrameLinkToFile
+        //ExFor:Frameset.ChildFramesets
+        //ExSummary:Shows how to access frames on-page.
+        // Document contains several frames with links to other documents.
+        Document doc = new Document(getMyDir() + "Frameset.docx");
+
+        // We can check the default URL (a web page URL or local document) or if the frame is an external resource.
+        Assert.assertEquals("https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx",
+            doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
+        Assert.assertTrue(doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).isFrameLinkToFile());
+
+        Assert.assertEquals("Document.docx", doc.getFrameset().getChildFramesets().get(1).getFrameDefaultUrl());
+        Assert.assertFalse(doc.getFrameset().getChildFramesets().get(1).isFrameLinkToFile());
+
+        // Change properties for one of our frames.
+        doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).setFrameDefaultUrl("https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx");
+        doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).isFrameLinkToFile(false);
+        //ExEnd
+
+        doc = DocumentHelper.saveOpen(doc);
+
+        Assert.assertEquals(
+            "https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx",
+            doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
+        Assert.assertFalse(doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).isFrameLinkToFile());
+    }
 }

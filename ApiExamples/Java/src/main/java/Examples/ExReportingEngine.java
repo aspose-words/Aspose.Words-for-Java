@@ -28,9 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.*;
 import java.util.List;
 
 @Test
@@ -741,7 +739,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
-            options.setExactDateTimeParseFormat("MM/dd/yyyy");
+            options.setExactDateTimeParseFormats(Arrays.asList(new String[]{"MM/dd/yyyy", "MM.d.yy", "MM d yy"}));
         }
 
         JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json", options);
@@ -756,7 +754,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
-            options.setExactDateTimeParseFormat("MM/dd/yyyy");
+            options.setExactDateTimeParseFormats(Arrays.asList(new String[]{"MM/dd/yyyy", "MM.d.yy", "MM d yy"}));
         }
 
         InputStream stream = new FileInputStream(getMyDir() + "List of people.json");

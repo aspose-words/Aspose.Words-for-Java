@@ -120,7 +120,6 @@ public class WorkingWithPdfSaveOptions {
 
 	public static void PdfImageComppression(String dataDir) throws Exception {
 		// ExStart:PdfImageCompression
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		Document doc = new Document(dataDir + "SaveOptions.PdfImageCompression.rtf");
 
 		PdfSaveOptions options = new PdfSaveOptions();

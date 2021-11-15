@@ -995,7 +995,7 @@ public class ExReportingEngine extends ApiExampleBase
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
-            options.setExactDateTimeParseFormats(new ArrayList<String>()); {options.getExactDateTimeParseFormats().add("MM/dd/yyyy");}
+            options.setExactDateTimeParseFormats(new ArrayList<String>()); {options.getExactDateTimeParseFormats().add("MM/dd/yyyy"); options.getExactDateTimeParseFormats().add("MM.d.yy"); options.getExactDateTimeParseFormats().add("MM d yy");}
         }
 
         JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json", options);
@@ -1026,7 +1026,7 @@ public class ExReportingEngine extends ApiExampleBase
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
-            options.setExactDateTimeParseFormats(new ArrayList<String>()); {options.getExactDateTimeParseFormats().add("MM/dd/yyyy");}
+            options.setExactDateTimeParseFormats(new ArrayList<String>()); {options.getExactDateTimeParseFormats().add("MM/dd/yyyy"); options.getExactDateTimeParseFormats().add("MM.d.yy"); options.getExactDateTimeParseFormats().add("MM d yy");}
         }
 
         FileStream stream = new FileInputStream(getMyDir() + "List of people.json");

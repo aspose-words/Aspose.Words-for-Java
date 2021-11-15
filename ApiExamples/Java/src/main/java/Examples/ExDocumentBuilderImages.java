@@ -361,4 +361,23 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 0.1d);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 0.1d);
     }
+
+    @Test
+    public void insertGif() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertImage(String)
+        //ExSummary:Shows how to insert gif image to the document.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        // We can insert gif image using path or bytes array.
+        // It works only if DocumentBuilder optimized to Word version 2010 or higher.
+        // Note, that access to the image bytes causes conversion Gif to Png.
+        Shape gifImage = builder.insertImage(getImageDir() + "Graphics Interchange Format.gif");
+
+        gifImage = builder.insertImage(DocumentHelper.getBytesFromStream(new FileInputStream(getImageDir() + "Graphics Interchange Format.gif")));
+
+        builder.getDocument().save(getArtifactsDir() + "InsertGif.docx");
+        //ExEnd
+    }
 }

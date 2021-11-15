@@ -148,7 +148,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         saveOptions.setSaveFormat(SaveFormat.PDF);
-
+        
         // The output PDF document will contain an outline, which is a table of contents that lists headings in the document body.
         // Clicking on an entry in this outline will take us to the location of its respective heading.
         // Set the "HeadingsOutlineLevels" property to "2" to exclude all headings whose levels are above 2 from the outline.
@@ -1325,7 +1325,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 Assert.That(480000, Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
                 break;
             case PdfFontEmbeddingMode.EMBED_NONE:
-                Assert.That(4212, Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
+                Assert.That(4217, Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
                 break;
         }
         //ExEnd
@@ -2560,5 +2560,27 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                         "Page 3 (odd)\r\n" +
                         "Page 4 (even)\r\n" +
                         "Page 5 (odd)", textAbsorber.Text);
+    }
+
+    @Test
+    public void exportLanguageToSpanTag() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.ExportLanguageToSpanTag
+        //ExSummary:Shows how to create a "Span" tag in the document structure to export the text language.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Hello world!");
+        builder.writeln("Hola mundo!");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        {
+            // Note, when "ExportDocumentStructure" is false, "ExportLanguageToSpanTag" is ignored.
+            saveOptions.setExportDocumentStructure(true); saveOptions.setExportLanguageToSpanTag(true);
+        }
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportLanguageToSpanTag.pdf", saveOptions);
+        //ExEnd
     }
 }

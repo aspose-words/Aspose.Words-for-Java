@@ -15,7 +15,6 @@ public class SetupLanguagePreferences {
 
     private static void addJapaneseAsEditinglanguages(String dataDir) throws Exception {
         // ExStart:AddJapaneseAsEditinglanguages
-    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
         // Specify LoadOptions to add Editing Language
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.getLanguagePreferences().addEditingLanguage(EditingLanguage.JAPANESE);
@@ -32,7 +31,6 @@ public class SetupLanguagePreferences {
 
     private static void setRussianAsDefaultEditingLanguage(String dataDir) throws Exception {
         // ExStart:SetRussianAsDefaultEditingLanguage
-    	// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
     	// Specify LoadOptions to set Default Editing Language
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.getLanguagePreferences().setDefaultEditingLanguage(EditingLanguage.RUSSIAN);

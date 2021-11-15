@@ -186,6 +186,7 @@ import com.aspose.words.ComparisonEvaluationResult;
 import com.aspose.words.IComparisonExpressionEvaluator;
 import com.aspose.words.ComparisonExpression;
 import java.util.ArrayList;
+import com.aspose.words.IFieldUpdatingCallback;
 import org.testng.annotations.DataProvider;
 
 
@@ -6494,15 +6495,20 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("Hello world!", fieldRef.getResult());
     }
 
-    @Test (enabled = false, description = "WORDSNET-18137")
+    @Test
     public void fieldTemplate() throws Exception
     {
         //ExStart
         //ExFor:FieldTemplate
         //ExFor:FieldTemplate.IncludeFullPath
+        //ExFor:FieldOptions.TemplateName
         //ExSummary:Shows how to use a TEMPLATE field to display the local file system location of a document's template.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // We can set a template name using by the fields. This property is used when the "doc.AttachedTemplate" is empty.
+        // If this property is empty the default template file name "Normal.dotm" is used.
+        doc.getFieldOptions().setTemplateName("");
 
         FieldTemplate field = (FieldTemplate)builder.insertField(FieldType.FIELD_TEMPLATE, false);
         Assert.assertEquals(" TEMPLATE ", field.getFieldCode());
@@ -6525,8 +6531,7 @@ public class ExField extends ApiExampleBase
 
         field = (FieldTemplate)doc.getRange().getFields().get(1);
         Assert.assertEquals(" TEMPLATE  \\p", field.getFieldCode());
-        Assert.assertTrue(field.getResult().endsWith("\\Microsoft\\Templates\\Normal.dotm"));
-
+        Assert.assertEquals("Normal.dotm", field.getResult());
     }
 
     @Test
@@ -7672,4 +7677,66 @@ public class ExField extends ApiExampleBase
             .assertInvocationArguments(1, "2", "=", "3")
             .assertInvocationArguments(2, "3", "=", "3");
     }
+
+    //ExStart
+    //ExFor:IFieldUpdatingCallback
+    //ExFor:IFieldUpdatingCallback.FieldUpdating(Field)
+    //ExFor:IFieldUpdatingCallback.FieldUpdated(Field)
+    //ExSummary:Shows how to use callback methods during a field update.
+    @Test //ExSkip
+    public void fieldUpdatingCallbackTest() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertField(" DATE \\@ \"dddd, d MMMM yyyy\" ");
+        builder.insertField(" TIME ");
+        builder.insertField(" REVNUM ");
+        builder.insertField(" AUTHOR  \"John Doe\" ");
+        builder.insertField(" SUBJECT \"My Subject\" ");
+        builder.insertField(" QUOTE \"Hello world!\" ");
+
+        FieldUpdatingCallback callback = new FieldUpdatingCallback();
+        doc.getFieldOptions().setFieldUpdatingCallback(callback);
+
+        doc.updateFields();
+
+        Assert.assertTrue(callback.getFieldUpdatedCalls().contains("Updating John Doe"));
+    }
+    
+    /// <summary>
+    /// Implement this interface if you want to have your own custom methods called during a field update.
+    /// </summary>
+    public static class FieldUpdatingCallback implements IFieldUpdatingCallback
+    {
+        public FieldUpdatingCallback()
+        {
+            mFieldUpdatedCalls = new ArrayList<String>();
+        }
+
+        /// <summary>
+        /// A user defined method that is called just before a field is updated.
+        /// </summary>
+        public void /*IFieldUpdatingCallback.*/fieldUpdating(Field field) throws Exception
+        {
+            if (field.getType() == FieldType.FIELD_AUTHOR)
+            {
+                FieldAuthor fieldAuthor = (FieldAuthor) field;
+                fieldAuthor.setAuthorName("Updating John Doe");
+            }
+        }
+
+        /// <summary>
+        /// A user defined method that is called just after a field is updated.
+        /// </summary>
+        public void /*IFieldUpdatingCallback.*/fieldUpdated(Field field)
+        {
+            getFieldUpdatedCalls().add(field.getResult());
+        }
+
+        public ArrayList<String> getFieldUpdatedCalls() { return mFieldUpdatedCalls; };
+
+        private ArrayList<String> mFieldUpdatedCalls;
+    }
+    //ExEnd
 }

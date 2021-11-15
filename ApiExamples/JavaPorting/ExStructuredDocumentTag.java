@@ -28,6 +28,7 @@ import com.aspose.words.SdtDateStorageFormat;
 import com.aspose.words.SdtCalendarType;
 import com.aspose.ms.System.DateTime;
 import java.awt.Color;
+import com.aspose.words.SdtAppearance;
 import com.aspose.words.GlossaryDocument;
 import com.aspose.words.BuildingBlock;
 import com.aspose.words.Section;
@@ -198,6 +199,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:StructuredDocumentTag.Tag
         //ExFor:StructuredDocumentTag.Title
         //ExFor:StructuredDocumentTag.RemoveSelfOnly
+        //ExFor:StructuredDocumentTag.Appearance
         //ExSummary:Shows how to create a structured document tag in a plain text box and modify its appearance.
         Document doc = new Document();
 
@@ -230,6 +232,10 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // Set the "Multiline" property to "true" to allow the tag to contain multiple lines of content.
         tag.setMultiline(true);
 
+        // Set the "Appearance" property to "SdtAppearance.Tags" to show tags around content.
+        // By default structured document tag shows as BoundingBox. 
+        tag.setAppearance(SdtAppearance.TAGS);
+
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertNode(tag);
 
@@ -254,6 +260,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("Arial", tag.getContentsFont().getName());
         Assert.assertEquals("Arial Black", tag.getEndCharacterFont().getName());
         Assert.assertTrue(tag.getMultiline());
+        Assert.assertEquals(SdtAppearance.TAGS, tag.getAppearance());
     }
 
     @Test (dataProvider = "isTemporaryDataProvider")

@@ -262,6 +262,7 @@ public class ExMailMerge extends ApiExampleBase {
         //ExFor:MailMerge.GetRegionsByName(System.String)
         //ExFor:MailMerge.RegionEndTag
         //ExFor:MailMerge.RegionStartTag
+        //ExFor:MailMergeRegionInfo.ParentRegion
         //ExSummary:Shows how to create, list and read mail merge regions.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -286,18 +287,21 @@ public class ExMailMerge extends ApiExampleBase {
         Assert.assertEquals(mergeFieldNames[0], "Column1");
         Assert.assertEquals(mergeFieldNames[1], "Column2");
 
-        // Insert a region with the same name as an existing region, which will make it a duplicate
-        builder.insertParagraph(); // A single row/paragraph cannot be shared by multiple regions
+        // Insert a region with the same name inside the existing region, which will make it a parent.
+        // Now a "Column2" field will be inside a new region.
+        builder.moveToField(regions.get(0).getFields().get(1), false);
         builder.insertField(" MERGEFIELD TableStart:MailMergeRegion1");
-        builder.insertField(" MERGEFIELD Column3");
+        builder.moveToField(regions.get(0).getFields().get(1), true);
         builder.insertField(" MERGEFIELD TableEnd:MailMergeRegion1");
 
         // Regions that share the same name are still accounted for and can be accessed by index
         regions = doc.getMailMerge().getRegionsByName("MailMergeRegion1");
         Assert.assertEquals(regions.size(), 2);
+        // Check that the second region now has a parent region.
+        Assert.assertEquals("MailMergeRegion1", regions.get(1).getParentRegion().getName());
 
         mergeFieldNames = doc.getMailMerge().getFieldNamesForRegion("MailMergeRegion1", 1);
-        Assert.assertEquals(mergeFieldNames[0], "Column3");
+        Assert.assertEquals(mergeFieldNames[0], "Column2");
         //ExEnd
     }
 
@@ -1099,5 +1103,34 @@ public class ExMailMerge extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "MailMerge.RestartListsAtEachSection.pdf");
         //ExEnd
+    }
+
+    @Test
+    public void removeLastEmptyParagraph() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.InsertHtml(String, HtmlInsertOptions)
+        //ExSummary:Shows how to use options while inserting html.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertField(" MERGEFIELD Name ");
+        builder.insertParagraph();
+        builder.insertField(" MERGEFIELD EMAIL ");
+        builder.insertParagraph();
+
+        // By default "DocumentBuilder.InsertHtml" inserts a HTML fragment that ends with a block-level HTML element,
+        // it normally closes that block-level element and inserts a paragraph break.
+        // As a result, a new empty paragraph appears after inserted document.
+        // If we specify "HtmlInsertOptions.RemoveLastEmptyParagraph", those extra empty paragraphs will be removed.
+        builder.moveToMergeField("NAME");
+        builder.insertHtml("<p>John Smith</p>", HtmlInsertOptions.USE_BUILDER_FORMATTING | HtmlInsertOptions.REMOVE_LAST_EMPTY_PARAGRAPH);
+        builder.moveToMergeField("EMAIL");
+        builder.insertHtml("<p>jsmith@example.com</p>", HtmlInsertOptions.USE_BUILDER_FORMATTING);
+
+        doc.save(getArtifactsDir() + "MailMerge.RemoveLastEmptyParagraph.docx");
+        //ExEnd
+
+        Assert.assertEquals(4, doc.getFirstSection().getBody().getParagraphs().getCount());
     }
 }

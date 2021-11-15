@@ -24,7 +24,6 @@ public class SplitDocument {
 
 	public static void SplitDocumentBySections (String dataDir) throws Exception {
 		// ExStart:SplitDocumentBySections
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		// Open a Word document
 		Document doc = new Document(dataDir + "TestFile (Split).docx");
 
@@ -47,7 +46,6 @@ public class SplitDocument {
 	
 	public static void SplitDocumentPageByPage (String dataDir) throws Exception {
 		// ExStart:SplitDocumentPageByPage
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		Document doc = new Document(dataDir + "TestFile (Split).docx");
 
 		int pageCount = doc.getPageCount();
@@ -63,7 +61,6 @@ public class SplitDocument {
 	
 	public static void SplitDocumentByPageRange (String dataDir) throws Exception {
 		// ExStart:SplitDocumentByPageRange
-		// For complete examples and data files, please go to https://github.com/aspose-words/Aspose.Words-for-Java
 		Document doc = new Document(dataDir + "TestFile (Split).docx");
 		 
 		// Get part of the document.
