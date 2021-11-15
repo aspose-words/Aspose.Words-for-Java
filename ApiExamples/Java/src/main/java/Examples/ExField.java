@@ -3248,7 +3248,7 @@ public class ExField extends ApiExampleBase {
         indexEntry.setPageRangeBookmarkName("MyBookmark");
 
         Assert.assertEquals(" XE  \"My entry\" \\r MyBookmark", indexEntry.getFieldCode());
-        Assert.assertTrue(indexEntry.hasPageRangeBookmarkName());
+        Assert.assertEquals(indexEntry.getPageRangeBookmarkName(), "MyBookmark");
 
         // Insert a bookmark that starts on page 3 and ends on page 5.
         // The INDEX entry for the XE field that references this bookmark will display this page range.
@@ -3277,7 +3277,6 @@ public class ExField extends ApiExampleBase {
         TestUtil.verifyField(FieldType.FIELD_INDEX_ENTRY, " XE  \"My entry\" \\r MyBookmark", "", indexEntry);
         Assert.assertEquals("My entry", indexEntry.getText());
         Assert.assertEquals("MyBookmark", indexEntry.getPageRangeBookmarkName());
-        Assert.assertTrue(indexEntry.hasPageRangeBookmarkName());
     }
 
     @Test(enabled = false, description = "WORDSNET-17524")

@@ -8,10 +8,10 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.generation.AutoSizeMode;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.CodeLocation;
+import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.words.BarcodeParameters;
 import com.aspose.words.IBarcodeGenerator;
 
