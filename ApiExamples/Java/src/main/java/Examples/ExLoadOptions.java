@@ -329,6 +329,8 @@ public class ExLoadOptions extends ApiExampleBase {
                 "TCSVerify vData1: \r\nMy First Heading\r\n\r\nMy first paragraph.\r\n\r\n\r\n" +
                         "TCSVerify vData2: This is BOLDThis is Italics\r\n\r\n" +
                         "TCSVerify vData3: \r\n\r\nDepression Program\r\n\r\nDepression Abuse"));
+
+        pdfDocument.close();
     }
 
     @DataProvider(name = "flatOpcXmlMappingOnlyDataProvider")
