@@ -437,22 +437,17 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
     public void optimizeGraphicsOutput(boolean optimizeOutput) throws Exception
     {
         //ExStart
-        //ExFor:FixedPageSaveOptions.OptimizeOutput
         //ExFor:HtmlFixedSaveOptions.OptimizeOutput
         //ExSummary:Shows how to simplify a document when saving it to HTML by removing various redundant objects.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions(); { saveOptions.setOptimizeOutput(optimizeOutput); }
-
+        
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
 
         // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
-        if (optimizeOutput)
-            Assert.assertEquals(57220.0, 
-                new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength(), 200.0);
-        else
-            Assert.assertEquals(160535.0, 
-                new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength(), 200.0);
+        Assert.assertEquals(optimizeOutput ? 57220 : 159000,
+            new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength(), 200.0);
         //ExEnd
     }
 
