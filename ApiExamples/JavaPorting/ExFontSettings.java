@@ -606,7 +606,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         //ExStart
         //ExFor:FontSettings            
         //ExFor:FontSettings.GetFontsSources()
-        //ExFor:FontSettings.SetFontsSources()
+        //ExFor:FontSettings.SetFontsSources(FontSourceBase[])
         //ExSummary:Shows how to add a font source to our existing font sources.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
