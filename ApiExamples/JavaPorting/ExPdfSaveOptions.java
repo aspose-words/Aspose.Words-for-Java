@@ -2234,7 +2234,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExEnd
 
         TestUtil.fileContainsString("7 0 obj\r\n" +
-                                    "<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/DR <<>>/F 132/V 8 0 R/P 5 0 R/T(þÿ\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 9 0 R>>>>",
+                                    "<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/T",
             getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf")
@@ -2242,7 +2242,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
 
-        Assert.False(pdfDocument.Form.SignaturesExist);
+        Assert.True(pdfDocument.Form.SignaturesExist);
 
         SignatureField signatureField = (SignatureField)pdfDocument.Form[1];
 
@@ -2301,12 +2301,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf").hasDigitalSignature());
         TestUtil.fileContainsString("7 0 obj\r\n" +
-                                    "<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/DR <<>>/F 132/V 8 0 R/P 5 0 R/T(þÿ\0A\u0000s\u0000p\u0000o\u0000s\0e\0D\u0000i\u0000g\u0000i\u0000t\0a\u0000l\u0000S\u0000i\u0000g\u0000n\0a\u0000t\u0000u\u0000r\0e)/AP <</N 9 0 R>>>>", 
+                                    "<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/T", 
         getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
 
-        Assert.False(pdfDocument.Form.SignaturesExist);
+        Assert.True(pdfDocument.Form.SignaturesExist);
 
         SignatureField signatureField = (SignatureField)pdfDocument.Form[1];
 
