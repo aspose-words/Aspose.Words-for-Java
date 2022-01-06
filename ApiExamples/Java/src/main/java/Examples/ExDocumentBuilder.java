@@ -1505,6 +1505,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         Assert.assertEquals("Run 2. \rRun 1. \rRun 3.", doc.getText().trim());
         Assert.assertEquals(doc.getFirstSection().getBody().getLastParagraph(), builder.getCurrentParagraph()); //ExSkip
+        
         //ExEnd
     }
 

@@ -892,6 +892,7 @@ public class ExCharts extends ApiExampleBase {
         // before we can begin working on a blank chart.
         chartData.clear();
         Assert.assertEquals(0, chartData.getCount()); //ExSkip
+        
         //ExEnd
     }
 
