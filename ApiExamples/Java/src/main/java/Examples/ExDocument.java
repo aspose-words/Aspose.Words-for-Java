@@ -2415,13 +2415,13 @@ public class ExDocument extends ApiExampleBase {
             Assert.assertEquals("\"", groups.get(4).getText());
         } else {
             Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
-            Assert.assertEquals("Alpha Lorem ", groups.get(0).getText());
+            Assert.assertEquals("Alpha Lorem", groups.get(0).getText());
 
             Assert.assertEquals(RevisionType.DELETION, groups.get(1).getRevisionType());
             Assert.assertEquals(",", groups.get(1).getText());
 
             Assert.assertEquals(RevisionType.INSERTION, groups.get(2).getRevisionType());
-            Assert.assertEquals("Lorems ", groups.get(2).getText());
+            Assert.assertEquals("Lorems", groups.get(2).getText());
 
             Assert.assertEquals(RevisionType.INSERTION, groups.get(3).getRevisionType());
             Assert.assertEquals("- \"", groups.get(3).getText());
