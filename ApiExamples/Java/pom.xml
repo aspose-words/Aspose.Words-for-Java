@@ -41,7 +41,7 @@
         <repository>
             <id>AsposeJavaAPI</id>
             <name>Aspose Java API</name>
-            <url>https://repository.aspose.com/list/repo/</url>
+            <url>https://repository.aspose.com/repo/</url>
         </repository>
         <repository>
             <id>com.springsource.repository.bundles.external</id>
