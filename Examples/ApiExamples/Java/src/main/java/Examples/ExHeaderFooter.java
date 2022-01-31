@@ -170,7 +170,7 @@ public class ExHeaderFooter extends ApiExampleBase {
                 footer.remove();
             }
 
-            // 3 -  The "Even" header/footer, which appears on odd even pages. 
+            // 3 -  The "Even" header/footer, which appears on even pages.
             footer = section.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_EVEN);
             if (footer != null) {
                 footer.remove();
