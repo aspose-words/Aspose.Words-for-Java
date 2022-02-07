@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -195,11 +195,11 @@ public class ApiExampleBase
     private static  String mFontsDir;
 
     /// <summary>
-    /// Gets the URL of the Aspose logo.
+    /// Gets the URL of the test image.
     /// </summary>
-    static String getAsposeLogoUrl() { return mAsposeLogoUrl; };
+    static String getImageUrl() { return mImageUrl; };
 
-    private static  String mAsposeLogoUrl;
+    private static  String mImageUrl;
 
     static/* ApiExampleBase()*/
     {
@@ -215,7 +215,7 @@ public class ApiExampleBase
         	mImageDir = new msUri(new msUri(getCodeBaseDir()), "Data/Images/").getLocalPath();
         	mDatabaseDir = new msUri(new msUri(getCodeBaseDir()), "Data/Database/").getLocalPath();
         	mFontsDir = new msUri(new msUri(getCodeBaseDir()), "Data/MyFonts/").getLocalPath();
-        	mAsposeLogoUrl = new msUri("https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png").getAbsoluteUri();
+        	mImageUrl = new msUri("https://images.pexels.com/photos/239548/pexels-photo-239548.jpeg").getAbsoluteUri();
     	}
     	catch (Exception e)
     	{

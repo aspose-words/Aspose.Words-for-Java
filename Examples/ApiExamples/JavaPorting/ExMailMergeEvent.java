@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -337,7 +337,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         // Create a data source that contains URIs of images that we will merge. 
         // A URI can be a web URL that points to an image, or a local file system filename of an image file.
         String[] columns = { "logo_FromWeb", "logo_FromFileSystem" };
-        Object[] URIs = { getAsposeLogoUrl(), getImageDir() + "Logo.jpg" };
+        Object[] URIs = { getImageUrl(), getImageDir() + "Logo.jpg" };
 
         // Execute a mail merge on a data source with one row.
         doc.getMailMerge().execute(columns, URIs);
@@ -353,7 +353,7 @@ public class ExMailMergeEvent extends ApiExampleBase
 
         imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, imageShape);
+        TestUtil.verifyImageInShape(5184, 3456, ImageType.JPEG, imageShape);
     }
 
     //ExStart

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -196,7 +196,7 @@ public class ExHeaderFooter extends ApiExampleBase
             footer = section.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
             footer?.Remove();
 
-            // 3 -  The "Even" header/footer, which appears on odd even pages. 
+            // 3 -  The "Even" header/footer, which appears on even pages. 
             footer = section.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_EVEN);
             footer?.Remove();
 

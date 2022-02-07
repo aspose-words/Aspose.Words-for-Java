@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -105,7 +105,7 @@ public class ExViewOptions extends ApiExampleBase
         //ExSummary:Shows how to hide/display document background images in view options.
         // Use an HTML string to create a new document with a flat background color.
         final String HTML = 
-        "<html>\r\n                <body style='background-color: blue'>\r\n                    <p>Hello world!</p>\r\n                </body>\r\n            </html>";
+        "<html>\n                <body style='background-color: blue'>\n                    <p>Hello world!</p>\n                </body>\n            </html>";
 
         Document doc = new Document(new MemoryStream(Encoding.getUnicode().getBytes(HTML)));
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -3557,7 +3557,6 @@ public class ExField extends ApiExampleBase
     {
         //ExStart
         //ExFor:FieldIndex.PageRangeSeparator
-        //ExFor:FieldXE.HasPageRangeBookmarkName
         //ExFor:FieldXE.PageRangeBookmarkName
         //ExSummary:Shows how to specify a bookmark's spanned pages as a page range for an INDEX field entry.
         Document doc = new Document();
@@ -3587,7 +3586,7 @@ public class ExField extends ApiExampleBase
         indexEntry.setPageRangeBookmarkName("MyBookmark");
 
         Assert.assertEquals(" XE  \"My entry\" \\r MyBookmark", indexEntry.getFieldCode());
-        Assert.assertTrue(indexEntry.hasPageRangeBookmarkName());
+        Assert.assertEquals("MyBookmark", indexEntry.getPageRangeBookmarkName());
 
         // Insert a bookmark that starts on page 3 and ends on page 5.
         // The INDEX entry for the XE field that references this bookmark will display this page range.
@@ -3616,7 +3615,6 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_INDEX_ENTRY, " XE  \"My entry\" \\r MyBookmark", "", indexEntry);
         Assert.assertEquals("My entry", indexEntry.getText());
         Assert.assertEquals("MyBookmark", indexEntry.getPageRangeBookmarkName());
-        Assert.assertTrue(indexEntry.hasPageRangeBookmarkName());
     }
 
     @Test (enabled = false, description = "WORDSNET-17524")

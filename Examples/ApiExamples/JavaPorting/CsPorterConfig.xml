@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CsPorterConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:///X:/csporter/CsPorter/CsPorterConfig.xsd">
 	<Config>
-		<CsBaseDirs cs="X:\Examples\Aspose.Words-for-.NET\Examples\ApiExamples" java="X:\Examples\Aspose.Words-for-Java\ApiExamples" outputDirsMatchPackages="true" />
+		<CsBaseDirs cs="X:\Examples\Aspose.Words-for-.NET\Examples\ApiExamples" java="X:\Examples\Aspose.Words-for-Java\Examples\ApiExamples" outputDirsMatchPackages="true" />
 		<CsProjects>
 			<CsProject id="Examples" file="ApiExamples.csproj" srcDir="ApiExamples" dstDir="JavaPorting" status="AUTO" />
 		</CsProjects>

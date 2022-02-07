@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1872,7 +1872,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             RelativeVerticalPosition.MARGIN, 0.0, 200.0, 200.0, WrapType.SQUARE);
 
         // 2 -  From a URL:
-        builder.insertImage(getAsposeLogoUrl(), RelativeHorizontalPosition.MARGIN, 100.0,
+        builder.insertImage(getImageUrl(), RelativeHorizontalPosition.MARGIN, 100.0,
             RelativeVerticalPosition.MARGIN, 250.0, 200.0, 200.0, WrapType.SQUARE);
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertFloatingImage.docx");
@@ -1892,7 +1892,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         image = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, image);
+        TestUtil.verifyImageInShape(5184, 3456, ImageType.JPEG, image);
         Assert.assertEquals(100.0d, image.getLeft());
         Assert.assertEquals(250.0d, image.getTop());
         Assert.assertEquals(200.0d, image.getWidth());

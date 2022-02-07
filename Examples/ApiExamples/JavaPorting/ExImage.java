@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -71,7 +71,7 @@ public class ExImage extends ApiExampleBase
         Assert.assertEquals(100.0d, shape.getWidth());
     }
 
-    @Test
+    @Test (groups = "IgnoreOnJenkins")
     public void fromUrl() throws Exception
     {
         //ExStart
@@ -89,7 +89,7 @@ public class ExImage extends ApiExampleBase
 
         // 2 -  Pass a URL which points to an image.
         builder.write("Image from a URL: ");
-        builder.insertImage(getAsposeLogoUrl());
+        builder.insertImage(getImageUrl());
         builder.writeln();
 
         doc.save(getArtifactsDir() + "Image.FromUrl.docx");
@@ -100,7 +100,7 @@ public class ExImage extends ApiExampleBase
 
         Assert.assertEquals(2, shapes.getCount());
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape)shapes.get(0));
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, (Shape)shapes.get(1));
+        TestUtil.verifyImageInShape(5184, 3456, ImageType.JPEG, (Shape)shapes.get(1));
     }
 
     @Test

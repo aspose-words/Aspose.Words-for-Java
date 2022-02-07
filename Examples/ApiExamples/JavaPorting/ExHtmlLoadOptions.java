@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2021 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -101,12 +101,12 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
 
         // Load such a document and verify that a shape with image data has been created.
         // This linked image will require a web request to load, which will have to complete within our time limit.
-        String html = $"\r\n                <html>\r\n                    <img src=\"{AsposeLogoUrl}\" alt=\"Aspose logo\" style=\"width:400px;height:400px;\">\r\n                </html>\r\n            ";
+        String html = $"\n                <html>\n                    <img src=\"{ImageUrl}\" alt=\"Aspose logo\" style=\"width:400px;height:400px;\">\n                </html>\n            ";
 
         Document doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(html)), options);
         Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        Assert.assertEquals(7498, imageShape.getImageData().getImageBytes().length);
+        Assert.assertEquals(1109843, imageShape.getImageData().getImageBytes().length);
         Assert.assertEquals(0, warningCallback.warnings().size());
 
         // Set an unreasonable timeout limit and try load the document again.
@@ -121,7 +121,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         // We can also configure a custom callback to pick up any warnings from timed out web requests.
         Assert.assertEquals(WarningSource.HTML, warningCallback.warnings().get(0).getSource());
         Assert.assertEquals(WarningType.DATA_LOSS, warningCallback.warnings().get(0).getWarningType());
-        Assert.assertEquals($"Couldn't load a resource from \'{AsposeLogoUrl}\'.", warningCallback.warnings().get(0).getDescription());
+        Assert.assertEquals($"Couldn't load a resource from \'{ImageUrl}\'.", warningCallback.warnings().get(0).getDescription());
 
         Assert.assertEquals(WarningSource.HTML, warningCallback.warnings().get(1).getSource());
         Assert.assertEquals(WarningType.DATA_LOSS, warningCallback.warnings().get(1).getWarningType());
@@ -217,7 +217,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         //ExStart
         //ExFor:HtmlLoadOptions.PreferredControlType
         //ExSummary:Shows how to set preferred type of document nodes that will represent imported <input> and <select> elements.
-        final String HTML = "\r\n                <html>\r\n                    <select name='ComboBox' size='1'>\r\n                        <option value='val1'>item1</option>\r\n                        <option value='val2'></option>                        \r\n                    </select>\r\n                </html>\r\n            ";
+        final String HTML = "\n                <html>\n                    <select name='ComboBox' size='1'>\n                        <option value='val1'>item1</option>\n                        <option value='val2'></option>                        \n                    </select>\n                </html>\n            ";
 
         HtmlLoadOptions htmlLoadOptions = new HtmlLoadOptions();
         htmlLoadOptions.setPreferredControlType(HtmlControlType.STRUCTURED_DOCUMENT_TAG);
@@ -237,7 +237,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     @Test
     public void getInputAsFormField() throws Exception
     {
-        final String HTML = "\r\n                <html>\r\n                    <input type='text' value='Input value text' />\r\n                </html>\r\n            ";
+        final String HTML = "\n                <html>\n                    <input type='text' value='Input value text' />\n                </html>\n            ";
 
         // By default, "HtmlLoadOptions.PreferredControlType" value is "HtmlControlType.FormField".
         // So, we do not set this value.
@@ -258,7 +258,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         //ExStart
         //ExFor:HtmlLoadOptions.IgnoreNoscriptElements
         //ExSummary:Shows how to ignore <noscript> HTML elements.
-        final String HTML = "\r\n                <html>\r\n                  <head>\r\n                    <title>NOSCRIPT</title>\r\n                      <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n                      <script type=\"text/javascript\">\r\n                        alert(\"Hello, world!\");\r\n                      </script>\r\n                  </head>\r\n                <body>\r\n                  <noscript><p>Your browser does not support JavaScript!</p></noscript>\r\n                </body>\r\n                </html>";
+        final String HTML = "\n                <html>\n                  <head>\n                    <title>NOSCRIPT</title>\n                      <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n                      <script type=\"text/javascript\">\n                        alert(\"Hello, world!\");\n                      </script>\n                  </head>\n                <body>\n                  <noscript><p>Your browser does not support JavaScript!</p></noscript>\n                </body>\n                </html>";
 
         HtmlLoadOptions htmlLoadOptions = new HtmlLoadOptions();
         htmlLoadOptions.setIgnoreNoscriptElements(ignoreNoscriptElements);
