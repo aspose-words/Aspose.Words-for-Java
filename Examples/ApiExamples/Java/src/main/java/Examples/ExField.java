@@ -3218,7 +3218,6 @@ public class ExField extends ApiExampleBase {
     public void fieldIndexPageRangeBookmark() throws Exception {
         //ExStart
         //ExFor:FieldIndex.PageRangeSeparator
-        //ExFor:FieldXE.HasPageRangeBookmarkName
         //ExFor:FieldXE.PageRangeBookmarkName
         //ExSummary:Shows how to specify a bookmark's spanned pages as a page range for an INDEX field entry.
         Document doc = new Document();
