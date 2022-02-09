@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CsPorterConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:///X:/csporter/CsPorter/CsPorterConfig.xsd">
+	<Config>
+		<CsBaseDirs cs="X:\Examples\Aspose.Words-for-.NET\Examples\ApiExamples" java="X:\Examples\Aspose.Words-for-Java\Examples\ApiExamples" outputDirsMatchPackages="true" />
+		<CsProjects>
+			<CsProject id="Examples" file="ApiExamples.csproj" srcDir="ApiExamples" dstDir="JavaPorting" status="AUTO" />
+		</CsProjects>
+		<NamespaceToPackageMap>
+			<Map namespacePattern="Aspose.Words.*" javaPackage="com.aspose.words" inPublicApi="true" />
+			<Map namespacePattern="Aspose.Layout.*" javaPackage="com.aspose.words" inPublicApi="true" />
+			<Map namespacePattern="Aspose.*" javaPackage="com.aspose" inPublicApi="false" />
+		</NamespaceToPackageMap>
+		<PPConstants plainCode="PLAIN_JAVA">
+			<Constant name="ASPOSE_WORDS" />
+			<Constant name="JAVA" />
+			<Constant name="TEST" />
+		</PPConstants>
+		<DeleteFiles>
+		</DeleteFiles>
+		<DeleteAttributes>
+		</DeleteAttributes>
+		<ManualAttributes>
+		</ManualAttributes>
+	</Config> 
+</CsPorterConfig>
