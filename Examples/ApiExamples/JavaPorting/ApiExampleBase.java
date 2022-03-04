@@ -28,7 +28,6 @@ import com.aspose.ms.System.msUri;
 /// </summary>
 public class ApiExampleBase
 {
-    @OneTimeSetUp
     public void oneTimeSetUp() throws Exception
     {
         CurrentThread.setCurrentCulture(msCultureInfo.getInvariantCulture());

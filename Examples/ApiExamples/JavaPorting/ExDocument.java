@@ -28,7 +28,6 @@ import com.aspose.words.FileFormatUtil;
 import com.aspose.words.LoadFormat;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.PdfEncryptionDetails;
-import com.aspose.words.PdfEncryptionAlgorithm;
 import com.aspose.words.PdfLoadOptions;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
@@ -300,7 +299,7 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Pdf Document.pdf");
 
         PdfSaveOptions saveOptions = new PdfSaveOptions();
-        saveOptions.setEncryptionDetails(new PdfEncryptionDetails("Aspose", null, PdfEncryptionAlgorithm.RC_4_40));
+        saveOptions.setEncryptionDetails(new PdfEncryptionDetails("Aspose", null));
 
         doc.save(getArtifactsDir() + "Document.PdfDocumentEncrypted.pdf", saveOptions);
 
