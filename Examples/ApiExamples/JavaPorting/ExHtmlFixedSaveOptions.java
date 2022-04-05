@@ -346,7 +346,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         Assert.assertTrue(Regex.match(outDocContents,
             "<div class=\"myprefixdiv myprefixpage\" style=\"width:595[.]3pt; height:841[.]9pt;\">" +
             "<div class=\"myprefixdiv\" style=\"left:85[.]05pt; top:36pt; clip:rect[(]0pt,510[.]25pt,74[.]95pt,-85.05pt[)];\">" +
-            "<span class=\"myprefixspan myprefixtext001\" style=\"font-size:11pt; left:294[.]73pt; top:0[.]36pt;\">").getSuccess());
+            "<span class=\"myprefixspan myprefixtext001\" style=\"font-size:11pt; left:294[.]73pt; top:0[.]36pt; line-height:12[.]29pt;\">").getSuccess());
 
         outDocContents = File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix/styles.css");
 
@@ -446,7 +446,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
 
         // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
-        Assert.assertEquals(optimizeOutput ? 57220 : 159000,
+        Assert.assertEquals(optimizeOutput ? 62521 : 191770,
             new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength(), 200.0);
         //ExEnd
     }
@@ -461,7 +461,6 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 			{true},
 		};
 	}
-
 
     @Test (dataProvider = "usingMachineFontsDataProvider")
     public void usingMachineFonts(boolean useTargetMachineFonts) throws Exception

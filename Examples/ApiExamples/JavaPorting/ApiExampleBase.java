@@ -9,12 +9,14 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
+import org.testng.annotations.BeforeTest;
 import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.ms.System.IO.Directory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
 import com.aspose.ms.System.msConsole;
+import org.testng.annotations.AfterTest;
 import java.lang.Class;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.File;
@@ -28,6 +30,7 @@ import com.aspose.ms.System.msUri;
 /// </summary>
 public class ApiExampleBase
 {
+    @BeforeTest
     public void oneTimeSetUp() throws Exception
     {
         CurrentThread.setCurrentCulture(msCultureInfo.getInvariantCulture());
@@ -55,7 +58,7 @@ public class ApiExampleBase
         System.out.println("Clr: {RuntimeInformation.FrameworkDescription}\n");
     }
 
-    @OneTimeTearDown
+    @AfterTest
     public void oneTimeTearDown() throws Exception
     {
         ServicePointManager.ServerCertificateValidationCallback = new
