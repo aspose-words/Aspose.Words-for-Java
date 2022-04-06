@@ -971,39 +971,6 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void updateTableLayout() throws Exception {
-        //ExStart
-        //ExFor:Document.UpdateTableLayout
-        //ExSummary:Shows how to preserve a table's layout when saving to .txt.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        Table table = builder.startTable();
-        builder.insertCell();
-        builder.write("Cell 1");
-        builder.insertCell();
-        builder.write("Cell 2");
-        builder.insertCell();
-        builder.write("Cell 3");
-        builder.endTable();
-
-        // Use a TxtSaveOptions object to preserve the table's layout when converting the document to plaintext.
-        TxtSaveOptions options = new TxtSaveOptions();
-        options.setPreserveTableLayout(true);
-
-        // Previewing the appearance of the document in .txt form shows that the table will not be represented accurately.
-        Assert.assertEquals(0.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth());
-        Assert.assertEquals("CCC\r\neee\r\nlll\r\nlll\r\n   \r\n123\r\n\r\n", doc.toString(options));
-
-        // We can call UpdateTableLayout() to fix some of these issues.
-        doc.updateTableLayout();
-
-        Assert.assertEquals("Cell 1                                       Cell 2                                       Cell 3\r\n\r\n", doc.toString(options));
-        Assert.assertEquals(155.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth(), 2f);
-        //ExEnd
-    }
-
-    @Test
     public void getOriginalFileInfo() throws Exception {
         //ExStart
         //ExFor:Document.OriginalFileName
