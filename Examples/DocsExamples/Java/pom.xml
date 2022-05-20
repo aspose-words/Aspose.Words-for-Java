@@ -57,19 +57,19 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>22.1</version>
+            <version>22.5</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>22.1</version>
+            <version>22.5</version>
             <classifier>javadoc</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>22.1</version>
+            <version>22.5</version>
             <classifier>shaping-harfbuzz-plugin</classifier>
         </dependency>
         <dependency>
@@ -129,11 +129,6 @@
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.14.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.intellij</groupId>
-            <artifactId>forms_rt</artifactId>
-            <version>7.0.3</version>
         </dependency>
     </dependencies>
 </project>

@@ -41,6 +41,10 @@ public class ExMetered extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Document.docx");
         doc.save(getArtifactsDir() + "Metered.Usage.pdf");
 
+        // Aspose Metered Licensing mechanism does not send the usage data to purchase server every time,
+        // you need to use waiting.
+        Thread.sleep(10000);
+
         System.out.println(MessageFormat.format("Credit after operation: {0}", Metered.getConsumptionCredit()));
         System.out.println(MessageFormat.format("Consumption quantity after operation: {0}", Metered.getConsumptionQuantity()));
         //ExEnd

@@ -28,7 +28,6 @@ import com.aspose.words.FileFormatUtil;
 import com.aspose.words.LoadFormat;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.PdfEncryptionDetails;
-import com.aspose.words.PdfEncryptionAlgorithm;
 import com.aspose.words.PdfLoadOptions;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
@@ -68,7 +67,6 @@ import com.aspose.words.TableStyle;
 import com.aspose.words.StyleType;
 import java.awt.Color;
 import com.aspose.words.LineStyle;
-import com.aspose.words.TxtSaveOptions;
 import com.aspose.words.Revision;
 import com.aspose.words.FootnoteType;
 import com.aspose.words.Comment;
@@ -300,7 +298,7 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Pdf Document.pdf");
 
         PdfSaveOptions saveOptions = new PdfSaveOptions();
-        saveOptions.setEncryptionDetails(new PdfEncryptionDetails("Aspose", null, PdfEncryptionAlgorithm.RC_4_40));
+        saveOptions.setEncryptionDetails(new PdfEncryptionDetails("Aspose", null));
 
         doc.save(getArtifactsDir() + "Document.PdfDocumentEncrypted.pdf", saveOptions);
 
@@ -1147,40 +1145,6 @@ public class ExDocument extends ApiExampleBase
             getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "document.xml");
         TestUtil.docPackageFileContainsString("<w:tblBorders><w:top w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:left w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:bottom w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:right w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideH w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /><w:insideV w:val=\"dotDash\" w:sz=\"2\" w:space=\"0\" w:color=\"0000FF\" /></w:tblBorders>",
             getArtifactsDir() + "Document.TableStyleToDirectFormatting.docx", "document.xml");
-    }
-
-    @Test
-    public void updateTableLayout() throws Exception
-    {
-        //ExStart
-        //ExFor:Document.UpdateTableLayout
-        //ExSummary:Shows how to preserve a table's layout when saving to .txt.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        Table table = builder.startTable();
-        builder.insertCell();
-        builder.write("Cell 1");
-        builder.insertCell();
-        builder.write("Cell 2");
-        builder.insertCell();
-        builder.write("Cell 3");
-        builder.endTable();
-
-        // Use a TxtSaveOptions object to preserve the table's layout when converting the document to plaintext.
-        TxtSaveOptions options = new TxtSaveOptions();
-        options.setPreserveTableLayout(true);
-
-        // Previewing the appearance of the document in .txt form shows that the table will not be represented accurately.
-        Assert.assertEquals(0.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth());
-        Assert.assertEquals("CCC\r\neee\r\nlll\r\nlll\r\n   \r\n123\r\n\r\n", doc.toString(options));
-
-        // We can call UpdateTableLayout() to fix some of these issues.
-        doc.updateTableLayout();
-
-        Assert.assertEquals("Cell 1                                       Cell 2                                       Cell 3\r\n\r\n", doc.toString(options));
-        Assert.assertEquals(155.0d, table.getFirstRow().getCells().get(0).getCellFormat().getWidth(), 2f);
-        //ExEnd
     }
 
     @Test

@@ -301,7 +301,7 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
         Assert.assertTrue(Pattern.compile(
             "<div class=\"myprefixdiv myprefixpage\" style=\"width:595[.]3pt; height:841[.]9pt;\">" +
             "<div class=\"myprefixdiv\" style=\"left:85[.]05pt; top:36pt; clip:rect[(]0pt,510[.]25pt,74[.]95pt,-85.05pt[)];\">" +
-            "<span class=\"myprefixspan myprefixtext001\" style=\"font-size:11pt; left:294[.]73pt; top:0[.]36pt;\">").matcher(outDocContents).find());
+            "<span class=\"myprefixspan myprefixtext001\" style=\"font-size:11pt; left:294[.]73pt; top:0[.]36pt; line-height:12[.]29pt;\">").matcher(outDocContents).find());
 
         outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlFixedSaveOptions.AddCssClassNamesPrefix/styles.css"), StandardCharsets.UTF_8);
 
@@ -400,10 +400,10 @@ public class ExHtmlFixedSaveOptions extends ApiExampleBase {
 
         // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
         if (optimizeOutput)
-            Assert.assertEquals(57220.0,
+            Assert.assertEquals(62521.0,
                 new File(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").length(), 200.0);
         else
-            Assert.assertEquals(159100.0,
+            Assert.assertEquals(191770.0,
                 new File(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").length(), 200.0);
         //ExEnd
     }

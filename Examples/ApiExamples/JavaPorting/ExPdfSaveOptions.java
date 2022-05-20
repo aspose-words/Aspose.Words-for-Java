@@ -65,7 +65,6 @@ import com.aspose.words.PdfDigitalSignatureTimestampSettings;
 import com.aspose.ms.System.TimeSpan;
 import com.aspose.words.EmfPlusDualRenderingMode;
 import com.aspose.words.PdfEncryptionDetails;
-import com.aspose.words.PdfEncryptionAlgorithm;
 import com.aspose.words.PdfPermissions;
 import com.aspose.words.NumeralFormat;
 import org.testng.annotations.DataProvider;
@@ -2177,11 +2176,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             mWarnings.Add(info);
         }
 
-         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
-            mWarnings.Clear();
-        }
-
-        public int Count => private mWarnings.CountmWarnings;
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!private mWarnings.CountmWarnings;
 
         /// <summary>
         /// Returns true if a warning with the specified properties has been generated.
@@ -2248,7 +2243,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Assert.AreEqual("AsposeDigitalSignature", signatureField.FullName);
         Assert.AreEqual("AsposeDigitalSignature", signatureField.PartialName);
-        Assert.AreEqual(Aspose.Pdf.Forms.PKCS7.class, signatureField.Signature.GetType());
+        Assert.AreEqual(Aspose.Pdf.Forms.PKCS7Detached.class, signatureField.Signature.GetType());
         Assert.AreEqual(DateTime.getToday(), signatureField.Signature.Date.Date);
         Assert.AreEqual("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", signatureField.Signature.Authority);
         Assert.AreEqual("þÿ\u0000M\u0000y\u0000 \u0000O\0f\0f\u0000i\0c\0e", signatureField.Signature.Location);
@@ -2312,7 +2307,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Assert.AreEqual("AsposeDigitalSignature", signatureField.FullName);
         Assert.AreEqual("AsposeDigitalSignature", signatureField.PartialName);
-        Assert.AreEqual(Aspose.Pdf.Forms.PKCS7.class, signatureField.Signature.GetType());
+        Assert.AreEqual(Aspose.Pdf.Forms.PKCS7Detached.class, signatureField.Signature.GetType());
         Assert.AreEqual(new DateTime(1, 1, 1, 0, 0, 0), signatureField.Signature.Date);
         Assert.AreEqual("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", signatureField.Signature.Authority);
         Assert.AreEqual("þÿ\0A\u0000s\u0000p\u0000o\u0000s\0e\u0000 \u0000O\0f\0f\u0000i\0c\0e", signatureField.Signature.Location);
@@ -2390,10 +2385,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExFor:PdfEncryptionDetails.#ctor
         //ExFor:PdfSaveOptions.EncryptionDetails
         //ExFor:PdfEncryptionDetails.Permissions
-        //ExFor:PdfEncryptionDetails.EncryptionAlgorithm
         //ExFor:PdfEncryptionDetails.OwnerPassword
         //ExFor:PdfEncryptionDetails.UserPassword
-        //ExFor:PdfEncryptionAlgorithm
         //ExFor:PdfPermissions
         //ExFor:PdfEncryptionDetails
         //ExSummary:Shows how to set permissions on a saved PDF document.
@@ -2403,7 +2396,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         builder.writeln("Hello world!");
 
         PdfEncryptionDetails encryptionDetails =
-            new PdfEncryptionDetails("password", "", PdfEncryptionAlgorithm.RC_4_128);
+            new PdfEncryptionDetails("password", "");
 
         // Start by disallowing all permissions.
         encryptionDetails.setPermissions(PdfPermissions.DISALLOW_ALL);

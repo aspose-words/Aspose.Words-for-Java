@@ -14,6 +14,7 @@ import org.testng.Assert;
 import com.aspose.words.Metered;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.Document;
+import java.lang.Thread;
 
 
 @Test
@@ -45,6 +46,10 @@ public class ExMetered extends ApiExampleBase
         // Operate using Aspose.Words, and then print our metered stats again to see how much we spent.
         Document doc = new Document(getMyDir() + "Document.docx");
         doc.save(getArtifactsDir() + "Metered.Usage.pdf");
+
+        // Aspose Metered Licensing mechanism does not send the usage data to purchase server every time,
+        // you need to use waiting.
+        Thread.sleep(10000);
 
         System.out.println("Credit after operation: {Metered.GetConsumptionCredit()}");
         System.out.println("Consumption quantity after operation: {Metered.GetConsumptionQuantity()}");
