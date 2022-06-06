@@ -45,6 +45,7 @@ import com.aspose.words.ImportFormatMode;
 import java.io.FileNotFoundException;
 import com.aspose.words.ImportFormatOptions;
 import com.aspose.ms.NUnit.Framework.msAssert;
+import com.aspose.words.ParagraphCollection;
 import com.aspose.words.DigitalSignature;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.DigitalSignatureUtil;
@@ -75,7 +76,6 @@ import com.aspose.words.Footnote;
 import com.aspose.words.FieldDate;
 import com.aspose.words.CompareOptions;
 import com.aspose.words.ComparisonTargetType;
-import com.aspose.words.ParagraphCollection;
 import com.aspose.words.RevisionsView;
 import com.aspose.words.ThumbnailGeneratingOptions;
 import com.aspose.ms.System.Drawing.msSize;
@@ -698,6 +698,27 @@ public class ExDocument extends ApiExampleBase
         dstDoc.appendDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES, options);
 
         dstDoc.save(getArtifactsDir() + "Document.MergePastedLists.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void forceCopyStyles() throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.ForceCopyStyles
+        //ExSummary:Shows how to copy source styles with unique names forcibly.
+        // Both documents contain MyStyle1 and MyStyle2, MyStyle3 exists only in a source document.
+        Document srcDoc = new Document(getMyDir() + "Styles source.docx");
+        Document dstDoc = new Document(getMyDir() + "Styles destination.docx");
+
+        ImportFormatOptions options = new ImportFormatOptions(); { options.setForceCopyStyles(true); }
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+
+        ParagraphCollection paras = dstDoc.getSections().get(1).getBody().getParagraphs();
+        
+        Assert.assertEquals(paras.get(0).getParagraphFormat().getStyle().getName(), "MyStyle1_0");
+        Assert.assertEquals(paras.get(1).getParagraphFormat().getStyle().getName(), "MyStyle2_0");
+        Assert.assertEquals(paras.get(2).getParagraphFormat().getStyle().getName(), "MyStyle3");
         //ExEnd
     }
 
@@ -2795,5 +2816,15 @@ public class ExDocument extends ApiExampleBase
             "https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx",
             doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
         Assert.assertFalse(doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).isFrameLinkToFile());
+    }
+
+    @Test
+    public void openAzw() throws Exception
+    {
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Azw3 document.azw3");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.AZW_3);
+
+        Document doc = new Document(getMyDir() + "Azw3 document.azw3");
+        Assert.assertTrue(doc.getText().contains("Hachette Book Group USA"));
     }
 }

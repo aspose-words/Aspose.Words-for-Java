@@ -346,4 +346,27 @@ public class ExStyles extends ApiExampleBase
             doc.getFirstSection().getBody().getParagraphs().get(1).getParagraphFormat().getStyle());
         //ExEnd
     }
+
+    @Test
+    public void latentStyles() throws Exception
+    {
+        // This test is to check that after re-saving a document it doesn't lose LatentStyle information
+        // for 4 styles from documents created in Microsoft Word.
+        Document doc = new Document(getMyDir() + "Blank.docx");
+
+        doc.save(getArtifactsDir() + "Styles.LatentStyles.docx");
+
+        TestUtil.docPackageFileContainsString(
+            "<w:lsdException w:name=\"Mention\" w:semiHidden=\"1\" w:unhideWhenUsed=\"1\" />",
+            getArtifactsDir() + "Styles.LatentStyles.docx", "styles.xml");
+        TestUtil.docPackageFileContainsString(
+            "<w:lsdException w:name=\"Smart Hyperlink\" w:semiHidden=\"1\" w:unhideWhenUsed=\"1\" />",
+            getArtifactsDir() + "Styles.LatentStyles.docx", "styles.xml");
+        TestUtil.docPackageFileContainsString(
+            "<w:lsdException w:name=\"Hashtag\" w:semiHidden=\"1\" w:unhideWhenUsed=\"1\" />",
+            getArtifactsDir() + "Styles.LatentStyles.docx", "styles.xml");
+        TestUtil.docPackageFileContainsString(
+            "<w:lsdException w:name=\"Unresolved Mention\" w:semiHidden=\"1\" w:unhideWhenUsed=\"1\" />",
+            getArtifactsDir() + "Styles.LatentStyles.docx", "styles.xml");
+    }
 }

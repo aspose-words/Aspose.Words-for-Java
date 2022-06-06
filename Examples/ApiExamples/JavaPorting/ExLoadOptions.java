@@ -39,6 +39,10 @@ import com.aspose.words.ShapeType;
 import com.aspose.words.ImageType;
 import com.aspose.words.LoadFormat;
 import com.aspose.words.SaveOptions;
+import com.aspose.words.IDocumentLoadingCallback;
+import java.util.Date;
+import com.aspose.ms.System.DateTime;
+import com.aspose.words.DocumentLoadingArgs;
 import org.testng.annotations.DataProvider;
 
 
@@ -370,8 +374,7 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "HTML help.chm");
         Assert.assertEquals(info.getLoadFormat(), LoadFormat.CHM);
 
-        LoadOptions loadOptions = new LoadOptions();
-        loadOptions.setEncodingInternal(Encoding.getEncoding("windows-1251"));
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setEncoding(Encoding.getEncoding("windows-1251")); }
 
         Document doc = new Document(getMyDir() + "HTML help.chm", loadOptions);
     }
@@ -384,7 +387,7 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
         //ExSummary:Shows how to binding structured document tags to any format.
         // If true - SDT will contain raw HTML text.
         // If false - mapped HTML will parsed and resulting document will be inserted into SDT content.
-        LoadOptions loadOptions = new LoadOptions(); {loadOptions.setFlatOpcXmlMappingOnly(isFlatOpcXmlMappingOnly);}
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setFlatOpcXmlMappingOnly(isFlatOpcXmlMappingOnly); }
         Document doc = new Document(getMyDir() + "Structured document tag with HTML content.docx", loadOptions);
 
         SaveOptions saveOptions = SaveOptions.createSaveOptions(SaveFormat.PDF);
@@ -419,5 +422,67 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
 			{false},
 		};
 	}
+
+    //ExStart
+    //ExFor:LoadOptions.ProgressCallback
+    //ExFor:IDocumentLoadingCallback
+    //ExFor:IDocumentLoadingCallback.Notify
+    //ExSummary:Shows how to notify the user if document loading exceeded expected loading time.
+    @Test
+    public void progressCallback() throws Exception
+    {
+        LoadingProgressCallback progressCallback = new LoadingProgressCallback();
+
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setProgressCallback(progressCallback); }
+
+        try
+        {
+            Document doc = new Document(getMyDir() + "Big document.docx", loadOptions);
+        }
+        catch (IllegalStateException exception)
+        {
+            System.out.println(exception.getMessage());
+
+            // Handle loading duration issue.
+        }
+    }
+
+    /// <summary>
+    /// Cancel a document loading after the "MaxDuration" seconds.
+    /// </summary>
+    public static class LoadingProgressCallback implements IDocumentLoadingCallback
+    {
+        /// <summary>
+        /// Ctr.
+        /// </summary>
+        public LoadingProgressCallback()
+        {
+            mLoadingStartedAt = new Date();
+        }
+
+        /// <summary>
+        /// Callback method which called during document loading.
+        /// </summary>
+        /// <param name="args">Loading arguments.</param>
+        public void notify(DocumentLoadingArgs args)
+        {
+            DateTime canceledAt = new Date();
+            double ellapsedSeconds = (DateTime.subtract(canceledAt, mLoadingStartedAt)).getTotalSeconds();
+
+            if (ellapsedSeconds > MAX_DURATION)
+                throw new IllegalStateException($"EstimatedProgress = {args.EstimatedProgress}; CanceledAt = {canceledAt}");
+        }
+
+        /// <summary>
+        /// Date and time when document loading is started.
+        /// </summary>
+        private /*final*/ DateTime mLoadingStartedAt;
+
+        /// <summary>
+        /// Maximum allowed duration in sec.
+        /// </summary>
+        private static final double MAX_DURATION = 0.5;
+    }
+    //ExEnd
 }
 

@@ -60,6 +60,10 @@ import com.aspose.ms.System.Drawing.msSize;
 import com.aspose.words.IImageSavingCallback;
 import com.aspose.words.ImageSavingArgs;
 import com.aspose.words.LayoutCollector;
+import com.aspose.words.IDocumentSavingCallback;
+import java.util.Date;
+import com.aspose.ms.System.DateTime;
+import com.aspose.words.DocumentSavingArgs;
 import org.testng.annotations.DataProvider;
 
 
@@ -131,7 +135,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         builder.write("Hello world!");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(saveFormat);
-        saveOptions.setExportTextBoxAsSvg(isTextBoxAsSvg);
+        saveOptions.setExportShapesAsSvg(isTextBoxAsSvg);
         
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportTextBoxAsSvgEpub" + FileFormatUtil.saveFormatToExtension(saveFormat), saveOptions);
 
@@ -1029,14 +1033,14 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         {
             Assert.assertTrue(outDocContents.contains("Content-ID: <document.html>"));
             Assert.assertTrue(outDocContents.contains("<link href=3D\"cid:styles.css\" type=3D\"text/css\" rel=3D\"stylesheet\" />"));
-            Assert.assertTrue(outDocContents.contains("@font-face { font-family:'Arial Black'; src:url('cid:ariblk.ttf') }"));
+            Assert.assertTrue(outDocContents.contains("@font-face { font-family:'Arial Black'; font-weight:bold; src:url('cid:arib=\r\nlk.ttf') }"));
             Assert.assertTrue(outDocContents.contains("<img src=3D\"cid:image.003.jpeg\" width=3D\"350\" height=3D\"180\" alt=3D\"\" />"));
         }
         else
         {
             Assert.assertTrue(outDocContents.contains("Content-Location: document.html"));
             Assert.assertTrue(outDocContents.contains("<link href=3D\"styles.css\" type=3D\"text/css\" rel=3D\"stylesheet\" />"));
-            Assert.assertTrue(outDocContents.contains("@font-face { font-family:'Arial Black'; src:url('ariblk.ttf') }"));
+            Assert.assertTrue(outDocContents.contains("@font-face { font-family:'Arial Black'; font-weight:bold; src:url('ariblk.t=\r\ntf') }"));
             Assert.assertTrue(outDocContents.contains("<img src=3D\"image.003.jpeg\" width=3D\"350\" height=3D\"180\" alt=3D\"\" />"));
         }
         //ExEnd
@@ -1102,7 +1106,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 	}
 
     @Test (dataProvider = "exportImagesAsBase64DataProvider")
-    public void exportImagesAsBase64(boolean exportItemsAsBase64) throws Exception
+    public void exportImagesAsBase64(boolean exportImagesAsBase64) throws Exception
     {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportFontsAsBase64
@@ -1112,7 +1116,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         HtmlSaveOptions options = new HtmlSaveOptions();
         {
-            options.setExportImagesAsBase64(exportItemsAsBase64);
+            options.setExportImagesAsBase64(exportImagesAsBase64);
             options.setPrettyFormat(true);
         }
 
@@ -1120,7 +1124,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlSaveOptions.ExportImagesAsBase64.html");
 
-        Assert.assertTrue(exportItemsAsBase64
+        Assert.assertTrue(exportImagesAsBase64
             ? outDocContents.contains("<img src=\"data:image/png;base64")
             : outDocContents.contains("<img src=\"HtmlSaveOptions.ExportImagesAsBase64.001.png\""));
         //ExEnd
@@ -1536,12 +1540,12 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 		};
 	}
 
-    @Test (dataProvider = "exportTextBoxDataProvider")
-    public void exportTextBox(boolean exportTextBoxAsSvg) throws Exception
+    @Test (dataProvider = "exportShapeDataProvider")
+    public void exportShape(boolean exportShapesAsSvg) throws Exception
     {
         //ExStart
-        //ExFor:HtmlSaveOptions.ExportTextBoxAsSvg
-        //ExSummary:Shows how to export text boxes as scalable vector graphics.
+        //ExFor:HtmlSaveOptions.ExportShapesAsSvg
+        //ExSummary:Shows how to export shape as scalable vector graphics.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1555,13 +1559,13 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         // the save operation will convert shapes with text into SVG objects.
         // If we set the "ExportTextBoxAsSvg" flag to "false",
         // the save operation will convert shapes with text into images.
-        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setExportTextBoxAsSvg(exportTextBoxAsSvg); }
+        HtmlSaveOptions options = new HtmlSaveOptions(); { options.setExportShapesAsSvg(exportShapesAsSvg); }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportTextBox.html", options);
 
         String outDocContents = File.readAllText(getArtifactsDir() + "HtmlSaveOptions.ExportTextBox.html");
 
-        if (exportTextBoxAsSvg)
+        if (exportShapesAsSvg)
         {
             Assert.assertTrue(outDocContents.contains(
                 "<span style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\">" +
@@ -1579,8 +1583,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "exportTextBoxDataProvider")
-	public static Object[][] exportTextBoxDataProvider() throws Exception
+	@DataProvider(name = "exportShapeDataProvider")
+	public static Object[][] exportShapeDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -2139,4 +2143,75 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 			{false},
 		};
 	}
+
+    @Test (dataProvider = "progressCallbackDataProvider")
+    //ExStart
+    //ExFor:SaveOptions.ProgressCallback
+    //ExFor:IDocumentSavingCallback
+    //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
+    //ExFor:DocumentSavingArgs.EstimatedProgress
+    //ExSummary:Shows how to manage a document while saving to html.
+    public void progressCallback(/*SaveFormat*/int saveFormat, String ext) throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        // Following formats are supported: Html, Mhtml, Epub.
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions(saveFormat);
+        {
+            saveOptions.setProgressCallback(new SavingProgressCallback());
+        }
+
+        IllegalStateException exception = Assert.<IllegalStateException>Throws(() =>
+            doc.save(getArtifactsDir() + $"HtmlSaveOptions.ProgressCallback.{ext}", saveOptions));
+        Assert.True(exception?.Message.Contains("EstimatedProgress"));
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "progressCallbackDataProvider")
+	public static Object[][] progressCallbackDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{SaveFormat.HTML,  "html"},
+			{SaveFormat.MHTML,  "mhtml"},
+			{SaveFormat.EPUB,  "epub"},
+		};
+	}
+
+    /// <summary>
+    /// Saving progress callback. Cancel a document saving after the "MaxDuration" seconds.
+    /// </summary>
+    public static class SavingProgressCallback implements IDocumentSavingCallback
+    {
+        /// <summary>
+        /// Ctr.
+        /// </summary>
+        public SavingProgressCallback()
+        {
+            mSavingStartedAt = new Date();
+        }
+
+        /// <summary>
+        /// Callback method which called during document saving.
+        /// </summary>
+        /// <param name="args">Saving arguments.</param>
+        public void notify(DocumentSavingArgs args)
+        {
+            DateTime canceledAt = new Date();
+            double ellapsedSeconds = (DateTime.subtract(canceledAt, mSavingStartedAt)).getTotalSeconds();
+            if (ellapsedSeconds > MAX_DURATION)
+                throw new IllegalStateException($"EstimatedProgress = {args.EstimatedProgress}; CanceledAt = {canceledAt}");
+        }
+
+        /// <summary>
+        /// Date and time when document saving is started.
+        /// </summary>
+        private /*final*/ DateTime mSavingStartedAt;
+
+        /// <summary>
+        /// Maximum allowed duration in sec.
+        /// </summary>
+        private static final double MAX_DURATION = 0.1d;
+    }
+    //ExEnd
 }

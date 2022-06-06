@@ -24,6 +24,9 @@ import com.aspose.ms.System.Drawing.Drawing2D.SmoothingMode;
 import com.aspose.ms.System.Drawing.Text.TextRenderingHint;
 import com.aspose.ms.System.Drawing.Drawing2D.CompositingMode;
 import com.aspose.ms.System.Drawing.Drawing2D.InterpolationMode;
+import com.aspose.words.Shape;
+import com.aspose.words.NodeType;
+import com.aspose.words.ShapeRenderer;
 import com.aspose.words.MetafileRenderingMode;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -189,6 +192,25 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         //ExEnd
 
         TestUtil.verifyImage(794, 1122, getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpg");
+    }
+
+    @Test
+    public void useTileFlipMode() throws Exception
+    {
+        //ExStart
+        //ExFor:GraphicsQualityOptions.UseTileFlipMode
+        //ExSummary:Shows how to prevent the white line appears when rendering with a high resolution.
+        Document doc = new Document(getMyDir() + "Shape high dpi.docx");
+                    
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        ShapeRenderer renderer = shape.getShapeRenderer();
+        
+        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.PNG);
+        {
+            saveOptions.setResolution(500f); saveOptions.setGraphicsQualityOptions(new GraphicsQualityOptions()); { saveOptions.getGraphicsQualityOptions().setUseTileFlipMode(true); }
+        }
+        renderer.save(getArtifactsDir() + "ImageSaveOptions.UseTileFlipMode.png", saveOptions);
+        //ExEnd
     }
 
     @Test (groups = "SkipMono", dataProvider = "windowsMetaFileDataProvider")

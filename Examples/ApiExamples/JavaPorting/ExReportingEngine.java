@@ -26,6 +26,7 @@ import ApiExamples.TestData.TestBuilders.ColorItemTestBuilder;
 import java.awt.Color;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.ReportingEngine;
+import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
@@ -40,7 +41,6 @@ import ApiExamples.TestData.TestClasses.ClientTestClass;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.NodeType;
 import com.aspose.words.Shape;
-import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.ControlChar;
 import com.aspose.ms.System.msString;
 import com.aspose.words.FileFormatUtil;
@@ -335,6 +335,18 @@ public class ExReportingEngine extends ApiExampleBase
         doc.save(getArtifactsDir() + "ReportingEngine.Operators.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.Operators.docx", getGoldsDir() + "ReportingEngine.Operators Gold.docx"));
+    }
+
+    @Test
+    public void headerVariable() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - Header variable.docx");
+
+        buildReport(doc, new DataSet(), "", ReportBuildOptions.USE_LEGACY_HEADER_FOOTER_VISITING);
+
+        doc.save(getArtifactsDir() + "ReportingEngine.HeaderVariable.docx");
+
+        Assert.assertEquals("Value of myHeaderVariable is: I am header variable", doc.getFirstSection().getBody().getFirstParagraph().getText().trim());
     }
 
     @Test
@@ -847,7 +859,7 @@ public class ExReportingEngine extends ApiExampleBase
 	}
 
     @Test
-    public void setBackgroundColor() throws Exception
+    public void setBackgroundColorDynamically() throws Exception
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - Background color.docx");
 
@@ -860,10 +872,30 @@ public class ExReportingEngine extends ApiExampleBase
 
         buildReport(doc, colors, "Colors");
 
-        doc.save(getArtifactsDir() + "ReportingEngine.BackColor.docx");
+        doc.save(getArtifactsDir() + "ReportingEngine.SetBackgroundColorDynamically.docx");
 
-        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.BackColor.docx",
-            getGoldsDir() + "ReportingEngine.BackColor Gold.docx"));
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetBackgroundColorDynamically.docx",
+            getGoldsDir() + "ReportingEngine.SetBackgroundColorDynamically Gold.docx"));
+    }
+
+    @Test
+    public void setTextColorDynamically() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - Text color.docx");
+
+        ArrayList<ColorItemTestClass> colors = new ArrayList<ColorItemTestClass>();
+        {
+            colors.add(new ColorItemTestBuilder().withColor("Black", Color.BLUE).build());
+            colors.add(new ColorItemTestBuilder().withColor("Red", new Color((255), (0), (0))).build());
+            colors.add(new ColorItemTestBuilder().withColor("Empty", msColor.Empty).build());
+        }
+
+        buildReport(doc, colors, "Colors");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.SetTextColorDynamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetTextColorDynamically.docx",
+            getGoldsDir() + "ReportingEngine.SetTextColorDynamically Gold.docx"));
     }
 
     @Test
