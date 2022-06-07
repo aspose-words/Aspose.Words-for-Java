@@ -1129,7 +1129,7 @@ public class ExFontSettings extends ApiExampleBase {
                 });
 
 
-        try (InputStream cacheStream = new ByteArrayInputStream(new byte[0]))
+        try (ByteArrayOutputStream cacheStream = new ByteArrayOutputStream())
         {
             parsedFonts.saveSearchCache(cacheStream);
             loadedCache.setFontsSources(new FontSourceBase[]
