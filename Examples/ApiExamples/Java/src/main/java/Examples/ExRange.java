@@ -241,6 +241,39 @@ public class ExRange extends ApiExampleBase {
                 };
     }
 
+    @Test (dataProvider = "ignoreFieldCodesDataProvider")
+    public void ignoreFieldCodes(boolean ignoreFieldCodes) throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreFieldCodes
+        //ExSummary:Shows how to ignore text inside field codes.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertField("INCLUDETEXT", "Test IT!");
+
+        FindReplaceOptions options = new FindReplaceOptions(); {options.setIgnoreFieldCodes(ignoreFieldCodes);}
+
+        // Replace 'T' in document ignoring text inside field code or not.
+        doc.getRange().replace(Pattern.compile("T"), "*", options);
+        System.out.println(doc.getText());
+
+        Assert.assertEquals(
+                ignoreFieldCodes
+                        ? "INCLUDETEXT\u0014*est I*!"
+                        : "INCLUDE*EX*\u0014*est I*!", doc.getText().trim());
+        //ExEnd
+    }
+
+    @DataProvider(name = "ignoreFieldCodesDataProvider")
+    public static Object[][] ignoreFieldCodesDataProvider() {
+        return new Object[][]
+                {
+                        {true},
+                        {false},
+                };
+    }
+
     @Test (dataProvider = "ignoreFootnoteDataProvider")
     public void ignoreFootnote(boolean isIgnoreFootnotes) throws Exception {
         //ExStart

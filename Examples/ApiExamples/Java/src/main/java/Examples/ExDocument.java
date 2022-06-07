@@ -538,6 +538,27 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
+    public void forceCopyStyles() throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.ForceCopyStyles
+        //ExSummary:Shows how to copy source styles with unique names forcibly.
+        // Both documents contain MyStyle1 and MyStyle2, MyStyle3 exists only in a source document.
+        Document srcDoc = new Document(getMyDir() + "Styles source.docx");
+        Document dstDoc = new Document(getMyDir() + "Styles destination.docx");
+
+        ImportFormatOptions options = new ImportFormatOptions(); { options.setForceCopyStyles(true); }
+        dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, options);
+
+        ParagraphCollection paras = dstDoc.getSections().get(1).getBody().getParagraphs();
+
+        Assert.assertEquals(paras.get(0).getParagraphFormat().getStyle().getName(), "MyStyle1_0");
+        Assert.assertEquals(paras.get(1).getParagraphFormat().getStyle().getName(), "MyStyle2_0");
+        Assert.assertEquals(paras.get(2).getParagraphFormat().getStyle().getName(), "MyStyle3");
+        //ExEnd
+    }
+
+    @Test
     public void validateIndividualDocumentSignatures() throws Exception {
         //ExStart
         //ExFor:CertificateHolder.Certificate

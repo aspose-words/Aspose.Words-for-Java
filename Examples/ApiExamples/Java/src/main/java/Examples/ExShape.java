@@ -1190,6 +1190,20 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
+    public void linkedChartSourceFullName() throws Exception
+    {
+        //ExStart
+        //ExFor:Chart.SourceFullName
+        //ExSummary:Shows how to get the full name of the external xls/xlsx document if the chart is linked.
+        Document doc = new Document(getMyDir() + "Shape with linked chart.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertTrue(shape.getChart().getSourceFullName().contains("Examples\\Data\\Spreadsheet.xlsx"));
+        //ExEnd
+    }
+
+    @Test
     public void oleControl() throws Exception {
         //ExStart
         //ExFor:OleFormat

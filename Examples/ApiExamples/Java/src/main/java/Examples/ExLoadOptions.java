@@ -22,6 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class ExLoadOptions extends ApiExampleBase {
     //ExStart
@@ -341,5 +343,67 @@ public class ExLoadOptions extends ApiExampleBase {
                         {false},
                 };
     }
+
+    //ExStart
+    //ExFor:LoadOptions.ProgressCallback
+    //ExFor:IDocumentLoadingCallback
+    //ExFor:IDocumentLoadingCallback.Notify
+    //ExSummary:Shows how to notify the user if document loading exceeded expected loading time.
+    @Test
+    public void progressCallback() throws Exception
+    {
+        LoadingProgressCallback progressCallback = new LoadingProgressCallback();
+
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setProgressCallback(progressCallback); }
+
+        try
+        {
+            new Document(getMyDir() + "Big document.docx", loadOptions);
+        }
+        catch (IllegalStateException exception)
+        {
+            System.out.println(exception.getMessage());
+            // Handle loading duration issue.
+        }
+    }
+
+    /// <summary>
+    /// Cancel a document loading after the "MaxDuration" seconds.
+    /// </summary>
+    public static class LoadingProgressCallback implements IDocumentLoadingCallback
+    {
+        /// <summary>
+        /// Ctr.
+        /// </summary>
+        public LoadingProgressCallback()
+        {
+            mLoadingStartedAt = new Date();
+        }
+
+        /// <summary>
+        /// Callback method which called during document loading.
+        /// </summary>
+        /// <param name="args">Loading arguments.</param>
+        public void notify(DocumentLoadingArgs args)
+        {
+            Date canceledAt = new Date();
+            long diff = canceledAt.getTime() - mLoadingStartedAt.getTime();
+            long ellapsedSeconds = TimeUnit.MILLISECONDS.toSeconds(diff);
+
+            if (ellapsedSeconds > MAX_DURATION)
+                throw new IllegalStateException(MessageFormat.format("EstimatedProgress = {0}; CanceledAt = {1}", args.getEstimatedProgress(), canceledAt));
+        }
+
+        /// <summary>
+        /// Date and time when document loading is started.
+        /// </summary>
+        private Date mLoadingStartedAt;
+
+        /// <summary>
+        /// Maximum allowed duration in sec.
+        /// </summary>
+        private static final double MAX_DURATION = 0.5;
+    }
+    //ExEnd
 }
 

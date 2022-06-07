@@ -15,14 +15,16 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class ExFontSettings extends ApiExampleBase {
     @Test
@@ -1102,6 +1104,59 @@ public class ExFontSettings extends ApiExampleBase {
     private static class StreamFontSourceFile extends StreamFontSource  {
         public FileInputStream openFontDataStream() throws Exception {
             return new FileInputStream(getFontsDir() + "Kreon-Regular.ttf");
+        }
+    }
+    //ExEnd
+
+    //ExStart
+    //ExFor:FileFontSource.#ctor(String, Int32, String)
+    //ExFor:MemoryFontSource.#ctor(Byte[], Int32, String)
+    //ExFor:FontSettings.SaveSearchCache(Stream)
+    //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
+    //ExSummary:Shows how to speed up the font cache initialization process.
+    @Test
+    public void loadFontSearchCache() throws Exception
+    {
+        final String CACHE_KEY_1 = "Arvo";
+        final String CACHE_KEY_2 = "Arvo-Bold";
+        FontSettings parsedFonts = new FontSettings();
+        FontSettings loadedCache = new FontSettings();
+
+        parsedFonts.setFontsSources(new FontSourceBase[]
+                {
+                        new FileFontSource(getFontsDir() + "Arvo-Regular.ttf", 0, CACHE_KEY_1),
+                        new FileFontSource(getFontsDir() + "Arvo-Bold.ttf", 0, CACHE_KEY_2)
+                });
+
+
+        try (InputStream cacheStream = new ByteArrayInputStream(new byte[0]))
+        {
+            parsedFonts.saveSearchCache(cacheStream);
+            loadedCache.setFontsSources(new FontSourceBase[]
+                    {
+                            new SearchCacheStream(CACHE_KEY_1),
+                            new MemoryFontSource(Files.readAllBytes(Paths.get(getFontsDir() + "Arvo-Bold.ttf")), 0, CACHE_KEY_2)
+                    }, cacheStream);
+        }
+
+        Assert.assertEquals(parsedFonts.getFontsSources().length, loadedCache.getFontsSources().length);
+    }
+
+    /// <summary>
+    /// Load the font data only when required instead of storing it in the memory
+    /// for the entire lifetime of the "FontSettings" object.
+    /// </summary>
+    private static class SearchCacheStream extends StreamFontSource
+    {
+        public SearchCacheStream(String cacheKey)
+        {
+            super(0, cacheKey);
+
+        }
+
+        public FileInputStream openFontDataStream() throws Exception
+        {
+            return new FileInputStream(getFontsDir() + "Arvo-Regular.ttf");
         }
     }
     //ExEnd

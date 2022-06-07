@@ -10,12 +10,15 @@ package Examples;
 
 import com.aspose.words.*;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Test
 public class ExXamlFlowSaveOptions extends ApiExampleBase {
@@ -98,4 +101,78 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
         for (String resource : callback.getResources())
             Assert.assertTrue(new File(MessageFormat.format("{0}/{1}", callback.getImagesFolderAlias(), resource)).exists());
     }
+
+    @Test (dataProvider = "progressCallbackDataProvider")
+    //ExStart
+    //ExFor:SaveOptions.ProgressCallback
+    //ExFor:IDocumentSavingCallback
+    //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
+    //ExFor:DocumentSavingArgs.EstimatedProgress
+    //ExSummary:Shows how to manage a document while saving to xamlflow.
+    public void progressCallback(int saveFormat, String ext) throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        // Following formats are supported: XamlFlow, XamlFlowPack.
+        XamlFlowSaveOptions saveOptions = new XamlFlowSaveOptions(saveFormat);
+        {
+            saveOptions.setProgressCallback(new SavingProgressCallback());
+        }
+
+        try {
+            doc.save(getArtifactsDir() + MessageFormat.format("XamlFlowSaveOptions.ProgressCallback.{0}", ext), saveOptions);
+        }
+        catch (IllegalStateException exception) {
+            Assert.assertTrue(exception.getMessage().contains("EstimatedProgress"));
+        }
+    }
+
+    @DataProvider(name = "progressCallbackDataProvider")
+    public static Object[][] progressCallbackDataProvider() throws Exception
+    {
+        return new Object[][]
+                {
+                        {SaveFormat.XAML_FLOW,  "xamlflow"},
+                        {SaveFormat.XAML_FLOW_PACK,  "xamlflowpack"},
+                };
+    }
+
+    /// <summary>
+    /// Saving progress callback. Cancel a document saving after the "MaxDuration" seconds.
+    /// </summary>
+    public static class SavingProgressCallback implements IDocumentSavingCallback
+    {
+        /// <summary>
+        /// Ctr.
+        /// </summary>
+        public SavingProgressCallback()
+        {
+            mSavingStartedAt = new Date();
+        }
+
+        /// <summary>
+        /// Callback method which called during document saving.
+        /// </summary>
+        /// <param name="args">Saving arguments.</param>
+        public void notify(DocumentSavingArgs args)
+        {
+            Date canceledAt = new Date();
+            long diff = canceledAt.getTime() - mSavingStartedAt.getTime();
+            long ellapsedSeconds = TimeUnit.MILLISECONDS.toSeconds(diff);
+
+            if (ellapsedSeconds > MAX_DURATION)
+                throw new IllegalStateException(MessageFormat.format("EstimatedProgress = {0}; CanceledAt = {1}", args.getEstimatedProgress(), canceledAt));
+        }
+
+        /// <summary>
+        /// Date and time when document saving is started.
+        /// </summary>
+        private Date mSavingStartedAt;
+
+        /// <summary>
+        /// Maximum allowed duration in sec.
+        /// </summary>
+        private static final double MAX_DURATION = 0.01d;
+    }
+    //ExEnd
 }
