@@ -1132,11 +1132,12 @@ public class ExFontSettings extends ApiExampleBase {
         try (ByteArrayOutputStream cacheStream = new ByteArrayOutputStream())
         {
             parsedFonts.saveSearchCache(cacheStream);
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(cacheStream.toByteArray());
             loadedCache.setFontsSources(new FontSourceBase[]
                     {
                             new SearchCacheStream(CACHE_KEY_1),
                             new MemoryFontSource(Files.readAllBytes(Paths.get(getFontsDir() + "Arvo-Bold.ttf")), 0, CACHE_KEY_2)
-                    }, cacheStream);
+                    }, inputStream);
         }
 
         Assert.assertEquals(parsedFonts.getFontsSources().length, loadedCache.getFontsSources().length);
