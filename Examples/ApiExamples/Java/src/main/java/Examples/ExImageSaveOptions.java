@@ -9,6 +9,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import com.aspose.words.Shape;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -157,6 +158,25 @@ public class ExImageSaveOptions extends ApiExampleBase {
         TestUtil.verifyImage(794, 1122, getArtifactsDir() + "ImageSaveOptions.GraphicsQuality.jpg");
     }
 
+    @Test
+    public void useTileFlipMode() throws Exception
+    {
+        //ExStart
+        //ExFor:GraphicsQualityOptions.UseTileFlipMode
+        //ExSummary:Shows how to prevent the white line appears when rendering with a high resolution.
+        Document doc = new Document(getMyDir() + "Shape high dpi.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        ShapeRenderer renderer = shape.getShapeRenderer();
+
+        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.PNG);
+        {
+            saveOptions.setResolution(500f); saveOptions.setGraphicsQualityOptions(new GraphicsQualityOptions()); { saveOptions.getGraphicsQualityOptions().setUseTileFlipMode(true); }
+        }
+        renderer.save(getArtifactsDir() + "ImageSaveOptions.UseTileFlipMode.png", saveOptions);
+        //ExEnd
+    }
+
     @Test(dataProvider = "windowsMetaFileDataProvider")
     public void windowsMetaFile(int metafileRenderingMode) throws Exception {
         //ExStart
@@ -259,7 +279,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
                 Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() < 156000);
                 break;
             case ImageColorMode.GRAYSCALE:
-                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() < 84000);
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() < 85000);
                 break;
             case ImageColorMode.BLACK_AND_WHITE:
                 Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() <= 20000);
@@ -555,7 +575,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png", options);
 
-        Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png").length() < 1160000);
+        Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png").length() < 1170000);
 
         image = ImageIO.read(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png"));
 

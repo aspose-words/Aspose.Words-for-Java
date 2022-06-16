@@ -46,6 +46,7 @@ import com.aspose.words.TableSubstitutionRule;
 import com.aspose.words.StreamFontSource;
 import com.aspose.ms.System.IO.Stream;
 import java.io.FileInputStream;
+import com.aspose.ms.System.IO.MemoryStream;
 import org.testng.annotations.DataProvider;
 
 
@@ -187,7 +188,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         // Store the current collection of font sources, which will be the default font source for every document
         // for which we do not specify a different font source.
         FontSourceBase[] originalFontSources = FontSettings.getDefaultInstance().getFontsSources();
-        
+
         // For testing purposes, we will set Aspose.Words to look for fonts only in a folder that does not exist.
         FontSettings.getDefaultInstance().setFontsFolder("", false);
 
@@ -200,7 +201,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         Assert.assertEquals(1, callback.FontSubstitutionWarnings.getCount()); //ExSkip
         Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
         Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getDescription()
-            .equals("Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
+            .equals(
+                "Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
     }
 
     private static class FontSubstitutionWarningCollector implements IWarningCallback
@@ -234,7 +236,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         // Get the list of fonts to call warning callback.
         ArrayList<PhysicalFontInfo> fontInfos = source.getAvailableFonts();
 
-        Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getDescription().contains("Error loading font from the folder \"bad folder?\""));
+        Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getDescription()
+            .contains("Error loading font from the folder \"bad folder?\""));
     }
 
     private static class FontSourceWarningCollector implements IWarningCallback
@@ -278,7 +281,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         // Set a default font name and enable font substitution.
         FontSettings fontSettings = new FontSettings();
-        fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial"); ;
+        fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
+        ;
         fontSettings.getSubstitutionSettings().getFontInfoSubstitution().setEnabled(true);
 
         // We will get a font substitution warning if we save a document with a missing font.
@@ -295,7 +299,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         // We can also verify warnings in the collection and clear them.
         Assert.assertEquals(WarningSource.LAYOUT, substitutionWarningHandler.FontWarnings.get(0).getSource());
-        Assert.assertEquals("Font '28 Days Later' has not been found. Using 'Calibri' font instead. Reason: alternative name from document.",
+        Assert.assertEquals(
+            "Font '28 Days Later' has not been found. Using 'Calibri' font instead. Reason: alternative name from document.",
             substitutionWarningHandler.FontWarnings.get(0).getDescription());
 
         substitutionWarningHandler.FontWarnings.clear();
@@ -329,7 +334,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         doc.save(getArtifactsDir() + "FontSettings.SubstitutionWarningsClosestMatch.pdf");
 
         Assert.assertTrue(callback.FontWarnings.get(0).getDescription()
-            .equals("Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution."));
+            .equals(
+                "Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution."));
     }
 
     @Test
@@ -347,7 +353,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         doc.setFontSettings(fontSettings);
         doc.save(getArtifactsDir() + "FontSettings.DisableFontSubstitution.pdf");
 
-        Regex reg = new Regex("Font '28 Days Later' has not been found. Using (.*) font instead. Reason: default font setting.");
+        Regex reg = new Regex(
+            "Font '28 Days Later' has not been found. Using (.*) font instead. Reason: default font setting.");
 
         for (WarningInfo fontWarning : callback.FontWarnings)
         {
@@ -376,9 +383,11 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         doc.setFontSettings(fontSettings);
         doc.save(getArtifactsDir() + "FontSettings.SubstitutionWarnings.pdf");
 
-        Assert.assertEquals("Font \'Arial\' has not been found. Using \'Arvo\' font instead. Reason: table substitution.",
+        Assert.assertEquals(
+            "Font \'Arial\' has not been found. Using \'Arvo\' font instead. Reason: table substitution.",
             callback.FontWarnings.get(0).getDescription());
-        Assert.assertEquals("Font \'Times New Roman\' has not been found. Using \'M+ 2m\' font instead. Reason: font info substitution.",
+        Assert.assertEquals(
+            "Font \'Times New Roman\' has not been found. Using \'M+ 2m\' font instead. Reason: font info substitution.",
             callback.FontWarnings.get(1).getDescription());
     }
 
@@ -426,7 +435,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         Document doc = new Document();
         doc.setFontSettings(new FontSettings());
-        doc.getFontSettings().setFontsSources(new FontSourceBase[] { fileFontSource });
+        doc.getFontSettings().setFontsSources(new FontSourceBase[] {fileFontSource});
 
         Assert.assertEquals(getMyDir() + "Alte DIN 1451 Mittelschrift.ttf", fileFontSource.getFilePath());
         Assert.assertEquals(FontSourceType.FONT_FILE, fileFontSource.getType());
@@ -451,7 +460,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         Document doc = new Document();
         doc.setFontSettings(new FontSettings());
-        doc.getFontSettings().setFontsSources(new FontSourceBase[] { folderFontSource });
+        doc.getFontSettings().setFontsSources(new FontSourceBase[] {folderFontSource});
 
         Assert.assertEquals(getFontsDir(), folderFontSource.getFolderPath());
         Assert.assertEquals(false, folderFontSource.getScanSubfolders());
@@ -562,7 +571,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         // that we are passing in the first argument, but not include any fonts from any of the directories' subfolders.
         // Pass "true" as the "recursive" argument to include all font files in the directories that we are passing
         // in the first argument, as well as all the fonts in their subdirectories.
-        FontSettings.getDefaultInstance().setFontsFolders(new String[] { getFontsDir() + "/Amethysta", getFontsDir() + "/Junction" }, recursive);
+        FontSettings.getDefaultInstance().setFontsFolders(new String[] {getFontsDir() + "/Amethysta", getFontsDir() + "/Junction"},
+            recursive);
 
         FontSourceBase[] newFontSources = FontSettings.getDefaultInstance().getFontsSources();
 
@@ -633,7 +643,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), true);
 
         // Apply a new array of font sources that contains the original font sources, as well as our custom fonts.
-        FontSourceBase[] updatedFontSources = { originalFontSources[0], folderFontSource };
+        FontSourceBase[] updatedFontSources = {originalFontSources[0], folderFontSource};
         FontSettings.getDefaultInstance().setFontsSources(updatedFontSources);
 
         // Verify that Aspose.Words has access to all required fonts before we render the document to PDF.
@@ -662,7 +672,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         Document doc = new Document(getMyDir() + "Rendering.docx", loadOptions);
 
-        FolderFontSource folderSource = ((FolderFontSource)doc.getFontSettings().getFontsSources()[0]);
+        FolderFontSource folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[0]);
 
         Assert.assertEquals(getFontsDir(), folderSource.getFolderPath());
         Assert.assertFalse(folderSource.getScanSubfolders());
@@ -698,7 +708,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         // If the first substitute is unavailable, Aspose.Words attempts to use the second substitute, and so on.
         doc.setFontSettings(new FontSettings());
         doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().setSubstitutes(
-            "Amethysta", new String[] { "Arvo", "Courier New" });
+            "Amethysta", new String[] {"Arvo", "Courier New"});
 
         // "Amethysta" is unavailable, and the substitution rule states that the first font to use as a substitute is "Arvo". 
         Assert.False(fontSources[0].getAvailableFonts().Any(f => f.FullFontName == "Arvo"));
@@ -715,18 +725,18 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     public void setSpecifyFontFolders() throws Exception
     {
         FontSettings fontSettings = new FontSettings();
-        fontSettings.setFontsFolders(new String[] { getFontsDir(), "C:\\Windows\\Fonts\\" }, true);
+        fontSettings.setFontsFolders(new String[] {getFontsDir(), "C:\\Windows\\Fonts\\"}, true);
 
         // Using load options
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setFontSettings(fontSettings);
         Document doc = new Document(getMyDir() + "Rendering.docx", loadOptions);
 
-        FolderFontSource folderSource = ((FolderFontSource)doc.getFontSettings().getFontsSources()[0]);
+        FolderFontSource folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[0]);
         Assert.assertEquals(getFontsDir(), folderSource.getFolderPath());
         Assert.assertTrue(folderSource.getScanSubfolders());
 
-        folderSource = ((FolderFontSource)doc.getFontSettings().getFontsSources()[1]);
+        folderSource = ((FolderFontSource) doc.getFontSettings().getFontsSources()[1]);
         Assert.assertEquals("C:\\Windows\\Fonts\\", folderSource.getFolderPath());
         Assert.assertTrue(folderSource.getScanSubfolders());
     }
@@ -735,17 +745,20 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     public void addFontSubstitutes() throws Exception
     {
         FontSettings fontSettings = new FontSettings();
-        fontSettings.getSubstitutionSettings().getTableSubstitution().setSubstitutes("Slab", new String[] { "Times New Roman", "Arial" });
-        fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Arvo", new String[] { "Open Sans", "Arial" });
+        fontSettings.getSubstitutionSettings().getTableSubstitution().setSubstitutes("Slab",
+            new String[] {"Times New Roman", "Arial"});
+        fontSettings.getSubstitutionSettings().getTableSubstitution().addSubstitutes("Arvo",
+            new String[] {"Open Sans", "Arial"});
 
         Document doc = new Document(getMyDir() + "Rendering.docx");
         doc.setFontSettings(fontSettings);
 
-        String[] alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Slab").ToArray();
-        Assert.assertEquals(new String[] { "Times New Roman", "Arial" }, alternativeFonts);
+        String[] alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Slab")
+            .ToArray();
+        Assert.assertEquals(new String[] {"Times New Roman", "Arial"}, alternativeFonts);
 
         alternativeFonts = doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Arvo").ToArray();
-        Assert.assertEquals(new String[] { "Open Sans", "Arial" }, alternativeFonts);
+        Assert.assertEquals(new String[] {"Open Sans", "Arial"}, alternativeFonts);
     }
 
     @Test
@@ -764,7 +777,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         Document doc = new Document();
         doc.setFontSettings(new FontSettings());
-        doc.getFontSettings().setFontsSources(new FontSourceBase[] { memoryFontSource });
+        doc.getFontSettings().setFontsSources(new FontSourceBase[] {memoryFontSource});
 
         Assert.assertEquals(FontSourceType.MEMORY_FONT, memoryFontSource.getType());
         Assert.assertEquals(0, memoryFontSource.getPriority());
@@ -793,16 +806,18 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         // By default, a blank document always contains a system font source.
         Assert.assertEquals(1, doc.getFontSettings().getFontsSources().length);
 
-        SystemFontSource systemFontSource = (SystemFontSource)doc.getFontSettings().getFontsSources()[0];
+        SystemFontSource systemFontSource = (SystemFontSource) doc.getFontSettings().getFontsSources()[0];
         Assert.assertEquals(FontSourceType.SYSTEM_FONTS, systemFontSource.getType());
         Assert.assertEquals(0, systemFontSource.getPriority());
 
         /*PlatformID*/int pid = Environment.getOSVersion().Platform;
-        boolean isWindows = (pid == PlatformID.Win32NT) || (pid == PlatformID.Win32S) || (pid == PlatformID.Win32Windows) || (pid == PlatformID.WinCE);
+        boolean isWindows = (pid == PlatformID.Win32NT) || (pid == PlatformID.Win32S) ||
+                         (pid == PlatformID.Win32Windows) || (pid == PlatformID.WinCE);
         if (isWindows)
         {
             final String FONTS_PATH = "C:\\WINDOWS\\Fonts";
-            Assert.AreEqual(FONTS_PATH.toLowerCase(), SystemFontSource.getSystemFontFolders().FirstOrDefault()?.ToLower());
+            Assert.AreEqual(FONTS_PATH.toLowerCase(),
+                SystemFontSource.getSystemFontFolders().FirstOrDefault()?.ToLower());
         }
 
         for (String systemFontFolder : SystemFontSource.getSystemFontFolders())
@@ -812,14 +827,16 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         // Set a font that exists in the Windows Fonts directory as a substitute for one that does not.
         doc.getFontSettings().getSubstitutionSettings().getFontInfoSubstitution().setEnabled(true);
-        doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().addSubstitutes("Kreon-Regular", new String[] { "Calibri" });
+        doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().addSubstitutes("Kreon-Regular", new String[] {"Calibri"});
 
-        Assert.AreEqual(1, doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").Count());
-        Assert.Contains("Calibri", doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").ToArray());
+        Assert.AreEqual(1,
+            doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").Count());
+        Assert.Contains("Calibri",
+            doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").ToArray());
 
         // Alternatively, we could add a folder font source in which the corresponding folder contains the font.
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), false);
-        doc.getFontSettings().setFontsSources(new FontSourceBase[] { systemFontSource, folderFontSource });
+        doc.getFontSettings().setFontsSources(new FontSourceBase[] {systemFontSource, folderFontSource});
         Assert.assertEquals(2, doc.getFontSettings().getFontsSources().length);
 
         // Resetting the font sources still leaves us with the system font source as well as our substitutes.
@@ -827,7 +844,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         Assert.assertEquals(1, doc.getFontSettings().getFontsSources().length);
         Assert.assertEquals(FontSourceType.SYSTEM_FONTS, doc.getFontSettings().getFontsSources()[0].getType());
-        Assert.AreEqual(1, doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").Count());
+        Assert.AreEqual(1,
+            doc.getFontSettings().getSubstitutionSettings().getTableSubstitution().getSubstitutes("Kreon-Regular").Count());
         //ExEnd
     }
 
@@ -889,7 +907,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         XmlNamespaceManager manager = new XmlNamespaceManager(fallbackSettingsDoc.NameTable);
         manager.addNamespace("aw", "Aspose.Words");
 
-        org.w3c.dom.NodeList rules = fallbackSettingsDoc.SelectNodes("//aw:FontFallbackSettings/aw:FallbackTable/aw:Rule", manager);
+        org.w3c.dom.NodeList rules =
+            fallbackSettingsDoc.SelectNodes("//aw:FontFallbackSettings/aw:FallbackTable/aw:Rule", manager);
 
         Assert.assertEquals("0B80-0BFF", rules.item(0).getAttributes().getNamedItem("Ranges").getNodeValue());
         Assert.assertEquals("Vijaya", rules.item(0).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
@@ -951,7 +970,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         // Get the default substitution rule within FontSettings.
         // This rule will substitute all missing fonts with "Times New Roman".
-        DefaultFontSubstitutionRule defaultFontSubstitutionRule = fontSettings.getSubstitutionSettings().getDefaultFontSubstitution();
+        DefaultFontSubstitutionRule defaultFontSubstitutionRule =
+            fontSettings.getSubstitutionSettings().getDefaultFontSubstitution();
         Assert.assertTrue(defaultFontSubstitutionRule.getEnabled());
         Assert.assertEquals("Times New Roman", defaultFontSubstitutionRule.getDefaultFontName());
 
@@ -984,9 +1004,10 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         //ExFor:Fonts.FontSubstitutionSettings.FontConfigSubstitution
         //ExSummary:Shows operating system-dependent font config substitution.
         FontSettings fontSettings = new FontSettings();
-        FontConfigSubstitutionRule fontConfigSubstitution = fontSettings.getSubstitutionSettings().getFontConfigSubstitution();
+        FontConfigSubstitutionRule fontConfigSubstitution =
+            fontSettings.getSubstitutionSettings().getFontConfigSubstitution();
 
-        boolean isWindows = new PlatformID[] { PlatformID.Win32NT, PlatformID.Win32S, PlatformID.Win32Windows, PlatformID.WinCE }
+        boolean isWindows = new PlatformID[] {PlatformID.Win32NT, PlatformID.Win32S, PlatformID.Win32Windows, PlatformID.WinCE}
             .Any(p => Environment.OSVersion.Platform == p);
 
         // The FontConfigSubstitutionRule object works differently on Windows/non-Windows platforms.
@@ -997,7 +1018,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
             Assert.assertFalse(fontConfigSubstitution.isFontConfigAvailable());
         }
 
-        boolean isLinuxOrMac = new PlatformID[] { PlatformID.Unix, PlatformID.MacOSX }.Any(p => Environment.OSVersion.Platform == p);
+        boolean isLinuxOrMac =
+            new PlatformID[] {PlatformID.Unix, PlatformID.MacOSX}.Any(p => Environment.OSVersion.Platform == p);
 
         // On Linux/Mac, we will have access to it, and will be able to perform operations.
         if (isLinuxOrMac)
@@ -1007,6 +1029,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
             fontConfigSubstitution.resetCache();
         }
+
         //ExEnd
     }
 
@@ -1044,7 +1067,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         XmlNamespaceManager manager = new XmlNamespaceManager(fallbackSettingsDoc.NameTable);
         manager.addNamespace("aw", "Aspose.Words");
 
-        org.w3c.dom.NodeList rules = fallbackSettingsDoc.SelectNodes("//aw:FontFallbackSettings/aw:FallbackTable/aw:Rule", manager);
+        org.w3c.dom.NodeList rules =
+            fallbackSettingsDoc.SelectNodes("//aw:FontFallbackSettings/aw:FallbackTable/aw:Rule", manager);
 
         Assert.assertEquals("0C00-0C7F", rules.item(8).getAttributes().getNamedItem("Ranges").getNodeValue());
         Assert.assertEquals("Vani", rules.item(8).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
@@ -1066,7 +1090,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         // Configure our font settings to source fonts only from the "MyFonts" folder.
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), false);
-        fontSettings.setFontsSources(new FontSourceBase[] { folderFontSource });
+        fontSettings.setFontsSources(new FontSourceBase[] {folderFontSource});
 
         // Calling the "BuildAutomatic" method will generate a fallback scheme that
         // distributes accessible fonts across as many Unicode character codes as possible.
@@ -1091,10 +1115,12 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
             switch (i)
             {
                 case 0x0021:
-                    builder.writeln("\n\n0x0021 - 0x00FF: \nBasic Latin/Latin-1 Supplement Unicode blocks in \"AllegroOpen\" font:");
+                    builder.writeln(
+                        "\n\n0x0021 - 0x00FF: \nBasic Latin/Latin-1 Supplement Unicode blocks in \"AllegroOpen\" font:");
                     break;
                 case 0x0100:
-                    builder.writeln("\n\n0x0100 - 0x024F: \nLatin Extended A/B blocks, mostly in \"AllegroOpen\" font:");
+                    builder.writeln(
+                        "\n\n0x0100 - 0x024F: \nLatin Extended A/B blocks, mostly in \"AllegroOpen\" font:");
                     break;
                 case 0x0250:
                     builder.writeln("\n\n0x0250 - 0x052F: \nIPA/Greek/Cyrillic blocks in \"M+ 2m\" font:");
@@ -1108,15 +1134,17 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         //ExEnd
 
         org.w3c.dom.Document fallbackSettingsDoc = XmlUtilPal.newXmlDocument();
-        fallbackSettingsDoc.LoadXml(File.readAllText(getArtifactsDir() + "FontSettings.FallbackSettingsCustom.BuildAutomatic.xml"));
+        fallbackSettingsDoc.LoadXml(
+            File.readAllText(getArtifactsDir() + "FontSettings.FallbackSettingsCustom.BuildAutomatic.xml"));
         XmlNamespaceManager manager = new XmlNamespaceManager(fallbackSettingsDoc.NameTable);
         manager.addNamespace("aw", "Aspose.Words");
 
-        org.w3c.dom.NodeList rules = fallbackSettingsDoc.SelectNodes("//aw:FontFallbackSettings/aw:FallbackTable/aw:Rule", manager);
+        org.w3c.dom.NodeList rules =
+            fallbackSettingsDoc.SelectNodes("//aw:FontFallbackSettings/aw:FallbackTable/aw:Rule", manager);
 
         Assert.assertEquals("0000-007F", rules.item(0).getAttributes().getNamedItem("Ranges").getNodeValue());
         Assert.assertEquals("AllegroOpen", rules.item(0).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
-        
+
         Assert.assertEquals("0100-017F", rules.item(2).getAttributes().getNamedItem("Ranges").getNodeValue());
         Assert.assertEquals("AllegroOpen", rules.item(2).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
 
@@ -1146,7 +1174,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         tableSubstitutionRule.loadWindowsSettings();
 
         // In Windows, the default substitute for the "Times New Roman CE" font is "Times New Roman".
-        Assert.AreEqual(new String[] { "Times New Roman" },
+        Assert.AreEqual(new String[] {"Times New Roman"},
             tableSubstitutionRule.getSubstitutes("Times New Roman CE").ToArray());
 
         // We can save the table in the form of an XML document.
@@ -1157,11 +1185,12 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         // If the first substitute, "FreeSerif" is also unavailable,
         // this rule will cycle through the others in the array until it finds an available one.
         tableSubstitutionRule.loadLinuxSettings();
-        Assert.AreEqual(new String[] { "FreeSerif", "Liberation Serif", "DejaVu Serif" },
+        Assert.AreEqual(new String[] {"FreeSerif", "Liberation Serif", "DejaVu Serif"},
             tableSubstitutionRule.getSubstitutes("Times New Roman CE").ToArray());
 
         // Save the Linux substitution table in the form of an XML document using a stream.
-        FileStream fileStream = new FileStream(getArtifactsDir() + "FontSettings.TableSubstitutionRule.Linux.xml", FileMode.CREATE);
+        FileStream fileStream = new FileStream(getArtifactsDir() + "FontSettings.TableSubstitutionRule.Linux.xml",
+            FileMode.CREATE);
         try /*JAVA: was using*/
         {
             tableSubstitutionRule.saveInternal(fileStream);
@@ -1170,17 +1199,21 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         //ExEnd
 
         org.w3c.dom.Document fallbackSettingsDoc = XmlUtilPal.newXmlDocument();
-        fallbackSettingsDoc.LoadXml(File.readAllText(getArtifactsDir() + "FontSettings.TableSubstitutionRule.Windows.xml"));
+        fallbackSettingsDoc.LoadXml(
+            File.readAllText(getArtifactsDir() + "FontSettings.TableSubstitutionRule.Windows.xml"));
         XmlNamespaceManager manager = new XmlNamespaceManager(fallbackSettingsDoc.NameTable);
         manager.addNamespace("aw", "Aspose.Words");
 
-        org.w3c.dom.NodeList rules = fallbackSettingsDoc.SelectNodes("//aw:TableSubstitutionSettings/aw:SubstitutesTable/aw:Item", manager);
+        org.w3c.dom.NodeList rules =
+            fallbackSettingsDoc.SelectNodes("//aw:TableSubstitutionSettings/aw:SubstitutesTable/aw:Item", manager);
 
         Assert.assertEquals("Times New Roman CE", rules.item(16).getAttributes().getNamedItem("OriginalFont").getNodeValue());
         Assert.assertEquals("Times New Roman", rules.item(16).getAttributes().getNamedItem("SubstituteFonts").getNodeValue());
 
-        fallbackSettingsDoc.LoadXml(File.readAllText(getArtifactsDir() + "FontSettings.TableSubstitutionRule.Linux.xml"));
-        rules = fallbackSettingsDoc.SelectNodes("//aw:TableSubstitutionSettings/aw:SubstitutesTable/aw:Item", manager);
+        fallbackSettingsDoc.LoadXml(
+            File.readAllText(getArtifactsDir() + "FontSettings.TableSubstitutionRule.Linux.xml"));
+        rules = fallbackSettingsDoc.SelectNodes("//aw:TableSubstitutionSettings/aw:SubstitutesTable/aw:Item",
+            manager);
 
         Assert.assertEquals("Times New Roman CE", rules.item(31).getAttributes().getNamedItem("OriginalFont").getNodeValue());
         Assert.assertEquals("FreeSerif, Liberation Serif, DejaVu Serif", rules.item(31).getAttributes().getNamedItem("SubstituteFonts").getNodeValue());
@@ -1208,7 +1241,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         // We will no longer have access to the Microsoft Windows fonts,
         // such as "Arial" or "Times New Roman" since they do not exist in our new font folder.
         FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), false);
-        fontSettings.setFontsSources(new FontSourceBase[] { folderFontSource });
+        fontSettings.setFontsSources(new FontSourceBase[] {folderFontSource});
 
         // Below are two ways of loading a substitution table from a file in the local file system.
         // 1 -  From a stream:
@@ -1224,21 +1257,22 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         // Since we no longer have access to "Arial", our font table will first try substitute it with "Nonexistent Font".
         // We do not have this font so that it will move onto the next substitute, "Kreon", found in the "MyFonts" folder.
-        Assert.AreEqual(new String[] { "Missing Font", "Kreon" }, tableSubstitutionRule.getSubstitutes("Arial").ToArray());
+        Assert.AreEqual(new String[] {"Missing Font", "Kreon"}, tableSubstitutionRule.getSubstitutes("Arial").ToArray());
 
         // We can expand this table programmatically. We will add an entry that substitutes "Times New Roman" with "Arvo"
         Assert.assertNull(tableSubstitutionRule.getSubstitutes("Times New Roman"));
         tableSubstitutionRule.addSubstitutes("Times New Roman", "Arvo");
-        Assert.AreEqual(new String[] { "Arvo" }, tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
+        Assert.AreEqual(new String[] {"Arvo"}, tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
 
         // We can add a secondary fallback substitute for an existing font entry with AddSubstitutes().
         // In case "Arvo" is unavailable, our table will look for "M+ 2m" as a second substitute option.
         tableSubstitutionRule.addSubstitutes("Times New Roman", "M+ 2m");
-        Assert.AreEqual(new String[] { "Arvo", "M+ 2m" }, tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
+        Assert.AreEqual(new String[] {"Arvo", "M+ 2m"}, tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
 
         // SetSubstitutes() can set a new list of substitute fonts for a font.
-        tableSubstitutionRule.setSubstitutes("Times New Roman", new String[] { "Squarish Sans CT", "M+ 2m" });
-        Assert.AreEqual(new String[] { "Squarish Sans CT", "M+ 2m" }, tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
+        tableSubstitutionRule.setSubstitutes("Times New Roman", new String[] {"Squarish Sans CT", "M+ 2m"});
+        Assert.AreEqual(new String[] {"Squarish Sans CT", "M+ 2m"},
+            tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
 
         // Writing text in fonts that we do not have access to will invoke our substitution rules.
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1266,7 +1300,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         // this rule will substitute the unavailable font with one that does exist.
         // In this case, all uses of the "MissingFont" will convert to "Comic Sans MS".
         TableSubstitutionRule substitutionRule = loadOptions.getFontSettings().getSubstitutionSettings().getTableSubstitution();
-        substitutionRule.addSubstitutes("MissingFont", new String[] { "Comic Sans MS" });
+        substitutionRule.addSubstitutes("MissingFont", new String[] {"Comic Sans MS"});
 
         Document doc = new Document(getMyDir() + "Missing font.html", loadOptions);
 
@@ -1286,7 +1320,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     public void streamFontSourceFileRendering() throws Exception
     {
         FontSettings fontSettings = new FontSettings();
-        fontSettings.setFontsSources(new FontSourceBase[] { new StreamFontSourceFile() });
+        fontSettings.setFontsSources(new FontSourceBase[] {new StreamFontSourceFile()});
 
         DocumentBuilder builder = new DocumentBuilder();
         builder.getDocument().setFontSettings(fontSettings);
@@ -1297,13 +1331,68 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     }
 
     /// <summary>
-    /// Load the font data only when required instead of storing it in the memory for the entire lifetime of the "FontSettings" object.
+    /// Load the font data only when required instead of storing it in the memory
+    /// for the entire lifetime of the "FontSettings" object.
     /// </summary>
     private static class StreamFontSourceFile extends StreamFontSource
     {
         public /*override*/ Stream openFontDataStream() throws Exception
         {
             return new FileInputStream(getFontsDir() + "Kreon-Regular.ttf");
+        }
+    }
+    //ExEnd
+
+    //ExStart
+    //ExFor:FileFontSource.#ctor(String, Int32, String)
+    //ExFor:MemoryFontSource.#ctor(Byte[], Int32, String)
+    //ExFor:FontSettings.SaveSearchCache(Stream)
+    //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
+    //ExSummary:Shows how to speed up the font cache initialization process.
+    @Test
+    public void loadFontSearchCache() throws Exception
+    {
+        final String CACHE_KEY_1 = "Arvo";
+        final String CACHE_KEY_2 = "Arvo-Bold";
+        FontSettings parsedFonts = new FontSettings();
+        FontSettings loadedCache = new FontSettings();
+
+        parsedFonts.setFontsSources(new FontSourceBase[]
+        {
+            new FileFontSource(getFontsDir() + "Arvo-Regular.ttf", 0, CACHE_KEY_1),
+            new FileFontSource(getFontsDir() + "Arvo-Bold.ttf", 0, CACHE_KEY_2)
+        });
+        
+        MemoryStream cacheStream = new MemoryStream();
+        try /*JAVA: was using*/
+        {
+            parsedFonts.saveSearchCacheInternal(cacheStream);
+            loadedCache.setFontsSourcesInternal(new FontSourceBase[]
+            {
+                new SearchCacheStream(CACHE_KEY_1),                    
+                new MemoryFontSource(File.readAllBytes(getFontsDir() + "Arvo-Bold.ttf"), 0, CACHE_KEY_2)
+            }, cacheStream);
+        }
+        finally { if (cacheStream != null) cacheStream.close(); }
+
+        Assert.assertEquals(parsedFonts.getFontsSources().length, loadedCache.getFontsSources().length);
+    }
+
+    /// <summary>
+    /// Load the font data only when required instead of storing it in the memory
+    /// for the entire lifetime of the "FontSettings" object.
+    /// </summary>
+    private static class SearchCacheStream extends StreamFontSource
+    {
+        public SearchCacheStream(String cacheKey)
+        {
+        	super(0, cacheKey);
+	
+        }
+
+        public /*override*/ Stream openFontDataStream() throws Exception
+        {
+            return new FileInputStream(getFontsDir() + "Arvo-Regular.ttf");
         }
     }
     //ExEnd

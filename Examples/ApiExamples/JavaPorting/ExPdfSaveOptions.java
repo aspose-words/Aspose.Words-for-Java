@@ -513,6 +513,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
+        // Note that some PdfSaveOptions are prohibited when saving to one of the standards and automatically fixed.
+        // Use IWarningCallback to know which options are automatically fixed.
         PdfSaveOptions saveOptions = new PdfSaveOptions();
 
         // Set the "Compliance" property to "PdfCompliance.PdfA1b" to comply with the "PDF/A-1b" standard,
@@ -520,6 +522,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Set the "Compliance" property to "PdfCompliance.Pdf17" to comply with the "1.7" standard.
         // Set the "Compliance" property to "PdfCompliance.PdfA1a" to comply with the "PDF/A-1a" standard,
         // which complies with "PDF/A-1b" as well as preserving the document structure of the original document.
+        // Set the "Compliance" property to "PdfCompliance.PdfUa1" to comply with the "PDF/UA-1" (ISO 14289-1) standard,
+        // which aims to define represent electronic documents in PDF that allow the file to be accessible.
         // This helps with making documents searchable but may significantly increase the size of already large documents.
         saveOptions.setCompliance(pdfCompliance);
 
@@ -542,6 +546,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 Assert.AreEqual(PdfFormat.PDF_A_2U, pdfDocument.PdfFormat);
                 Assert.AreEqual("1.7", pdfDocument.Version);
                 break;
+            case PdfCompliance.PDF_UA_1:
+                Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
+                Assert.AreEqual("1.7", pdfDocument.Version);
+                break;
         }
     }
 
@@ -554,6 +562,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 			{PdfCompliance.PDF_A_2_U},
 			{PdfCompliance.PDF_17},
 			{PdfCompliance.PDF_A_2_A},
+			{PdfCompliance.PDF_UA_1},
 		};
 	}
 
@@ -1603,6 +1612,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Set the "PageMode" property to "PdfPageMode.UseOutlines" to get the PDF reader
         // also to display the outline, if possible.
         // Set the "PageMode" property to "PdfPageMode.UseNone" to get the PDF reader to display just the document itself.
+        // Set the "PageMode" property to "PdfPageMode.UseAttachments" to make visible attachments panel.
         options.setPageMode(pageMode);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PageMode.pdf", options);
@@ -1632,6 +1642,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 TestUtil.fileContainsString($"<</Type /Catalog/Pages 3 0 R/Lang({docLocaleName})/Metadata 4 0 R>>\r\n",
                     getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
                 break;
+            case PdfPageMode.USE_ATTACHMENTS:
+                TestUtil.fileContainsString(
+                    $"<</Type /Catalog/Pages 3 0 R/PageMode /UseAttachments/Lang({docLocaleName})/Metadata 4 0 R>>\r\n",
+                    getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
+                break;
         }
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
@@ -1651,6 +1666,9 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             case PdfPageMode.USE_OC:
                 Assert.AreEqual(Aspose.Pdf.PageMode.UseOC, pdfDocument.PageMode);
                 break;
+            case PdfPageMode.USE_ATTACHMENTS:
+                Assert.AreEqual(Aspose.Pdf.PageMode.UseAttachments, pdfDocument.PageMode);
+                break;
         }
     }
 
@@ -1665,6 +1683,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 			{PdfPageMode.USE_OC},
 			{PdfPageMode.USE_OUTLINES},
 			{PdfPageMode.USE_NONE},
+			{PdfPageMode.USE_ATTACHMENTS},
 		};
 	}
 

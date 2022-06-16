@@ -55,7 +55,6 @@ import com.aspose.words.Run;
 import com.aspose.words.OleControl;
 import com.aspose.words.Forms2OleControl;
 import com.aspose.words.Forms2OleControlType;
-import com.aspose.words.Node;
 import com.aspose.words.OleFormat;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
@@ -1277,9 +1276,9 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to access the raw data of an embedded OLE object.
         Document doc = new Document(getMyDir() + "OLE objects.docx");
 
-        for (Node shape : (Iterable<Node>) doc.getChildNodes(NodeType.SHAPE, true))
+        for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
         {
-            OleFormat oleFormat = ((Shape)shape).getOleFormat();
+            OleFormat oleFormat = shape.getOleFormat();
             if (oleFormat != null)
             {
                 System.out.println("This is {(oleFormat.IsLink ? ");
@@ -1288,6 +1287,20 @@ public class ExShape extends ApiExampleBase
                 Assert.assertEquals(24576, oleRawData.length);
             }
         }
+        //ExEnd
+    }
+
+    @Test
+    public void linkedChartSourceFullName() throws Exception
+    {
+        //ExStart
+        //ExFor:Chart.SourceFullName
+        //ExSummary:Shows how to get the full name of the external xls/xlsx document if the chart is linked.
+        Document doc = new Document(getMyDir() + "Shape with linked chart.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertTrue(shape.getChart().getSourceFullName().contains("Examples\\Data\\Spreadsheet.xlsx"));
         //ExEnd
     }
 
@@ -2983,6 +2996,36 @@ public class ExShape extends ApiExampleBase
         shape.isDecorative(true);
 
         doc.save(getArtifactsDir() + "Shape.IsDecorative.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void fillImage() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.SetImage(String)
+        //ExSummary:Shows how to set shape fill type as image.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // There are several ways of setting image.
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 80.0, 80.0);
+        // 1 -  Using a local system filename:
+        shape.getFill().setImage(getImageDir() + "Logo.jpg");
+        doc.save(getArtifactsDir() + "Shape.FillImage.FileName.docx");
+        
+        // 2 -  Load a file into a byte array:
+        shape.getFill().setImage(File.readAllBytes(getImageDir() + "Logo.jpg"));
+        doc.save(getArtifactsDir() + "Shape.FillImage.ByteArray.docx");
+        
+        // 3 -  From a stream:
+        FileStream stream = new FileStream(getImageDir() + "Logo.jpg", FileMode.OPEN);
+        try /*JAVA: was using*/
+    	{
+            shape.getFill().setImageInternal(stream);
+    	}
+        finally { if (stream != null) stream.close(); }
+        doc.save(getArtifactsDir() + "Shape.FillImage.Stream.docx");
         //ExEnd
     }
 }

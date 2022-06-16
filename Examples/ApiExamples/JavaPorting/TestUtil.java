@@ -233,7 +233,7 @@ class TestUtil extends ApiExampleBase
     /// <summary>
     /// Checks whether a document produced during a mail merge contains every element of every DataTable in a DataSet.
     /// </summary>
-    /// <param name="expectedResult">DataSet containing DataTables which contain values that we expect the document to contain.</param>
+    /// <param name="dataSet">DataSet containing DataTables which contain values that we expect the document to contain.</param>
     /// <param name="doc">Document created during a mail merge.</param>
     /// <param name="onePagePerRow">True if the mail merge produced a document with one page per row in the data source.</param>
     static void mailMergeMatchesDataSet(DataSet dataSet, Document doc, boolean onePagePerRow)
@@ -314,7 +314,7 @@ class TestUtil extends ApiExampleBase
             
             Stream stream = entry.Open();
             try /*JAVA: was using*/
-            {
+            { 
                streamContainsString(expected, stream);
             }
             finally { if (stream != null) stream.close(); }

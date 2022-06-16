@@ -14,6 +14,7 @@
 		<File project="Examples" dir="" name="ExCellFormat" status="AUTO" />
 		<File project="Examples" dir="" name="ExCertificateHolder" status="AUTO" />
 		<File project="Examples" dir="" name="ExCharts" status="AUTO" />
+		<File project="Examples" dir="" name="ExChmLoadOptions" status="NEW" />
 		<File project="Examples" dir="" name="ExCleanupOptions" status="AUTO" />
 		<File project="Examples" dir="" name="ExComHelper" status="AUTO" />
 		<File project="Examples" dir="" name="ExComment" status="AUTO" />
@@ -53,6 +54,7 @@
 		<File project="Examples" dir="" name="ExMailMergeCustom" status="AUTO" />
 		<File project="Examples" dir="" name="ExMailMergeCustomNested" status="AUTO" />
 		<File project="Examples" dir="" name="ExMailMergeEvent" status="AUTO" />
+		<File project="Examples" dir="" name="ExMarkdownSaveOptions" status="NEW" />
 		<File project="Examples" dir="" name="ExMetered" status="AUTO" />
 		<File project="Examples" dir="" name="ExMossDoc2Pdf" status="AUTO" />
 		<File project="Examples" dir="" name="ExMossRtf2Docx" status="AUTO" />

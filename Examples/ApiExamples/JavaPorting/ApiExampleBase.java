@@ -35,11 +35,7 @@ public class ApiExampleBase
     {
         CurrentThread.setCurrentCulture(msCultureInfo.getInvariantCulture());
 
-        ServicePointManager.ServerCertificateValidationCallback = new
-            RemoteCertificateValidationCallback
-            (
-                delegate { return true; }
-            );
+        ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
         setUnlimitedLicense();
 
@@ -61,11 +57,7 @@ public class ApiExampleBase
     @AfterTest
     public void oneTimeTearDown() throws Exception
     {
-        ServicePointManager.ServerCertificateValidationCallback = new
-            RemoteCertificateValidationCallback
-            (
-                delegate { return false; }
-            );
+        ServicePointManager.ServerCertificateValidationCallback = delegate { return false; };
 
         if (Directory.exists(getArtifactsDir()))
             Directory.delete(getArtifactsDir(), true);

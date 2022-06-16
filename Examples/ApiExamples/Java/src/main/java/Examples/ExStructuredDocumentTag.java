@@ -31,14 +31,33 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExSummary:Shows how to get the type of a structured document tag.
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
-        List<StructuredDocumentTag> stdTagsList = Arrays.stream(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).toArray())
+        List<StructuredDocumentTag> tags = Arrays.stream(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).toArray())
                 .filter(StructuredDocumentTag.class::isInstance)
                 .map(StructuredDocumentTag.class::cast)
                 .collect(Collectors.toList());
 
-        Assert.assertEquals(SdtType.REPEATING_SECTION, stdTagsList.get(0).getSdtType());
-        Assert.assertEquals(SdtType.REPEATING_SECTION_ITEM, stdTagsList.get(1).getSdtType());
-        Assert.assertEquals(SdtType.RICH_TEXT, stdTagsList.get(2).getSdtType());
+        Assert.assertEquals(SdtType.REPEATING_SECTION, tags.get(0).getSdtType());
+        Assert.assertEquals(SdtType.REPEATING_SECTION_ITEM, tags.get(1).getSdtType());
+        Assert.assertEquals(SdtType.RICH_TEXT, tags.get(2).getSdtType());
+        //ExEnd
+    }
+
+    @Test
+    public void flatOpcContent() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTag.WordOpenXML
+        //ExSummary:Shows how to get XML contained within the node in the FlatOpc format.
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+
+        List<StructuredDocumentTag> tags = Arrays.stream(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).toArray())
+                .filter(StructuredDocumentTag.class::isInstance)
+                .map(StructuredDocumentTag.class::cast)
+                .collect(Collectors.toList());
+
+        Assert.assertTrue(tags.get(0).getWordOpenXML()
+                .contains(
+                        "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
         //ExEnd
     }
 
@@ -977,6 +996,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExFor:StructuredDocumentTagRangeStart.RangeEnd
         //ExFor:StructuredDocumentTagRangeStart.Color
         //ExFor:StructuredDocumentTagRangeStart.SdtType
+        //ExFor:StructuredDocumentTagRangeStart.WordOpenXML
         //ExFor:StructuredDocumentTagRangeStart.Tag
         //ExFor:StructuredDocumentTagRangeEnd
         //ExFor:StructuredDocumentTagRangeEnd.Id
@@ -1002,6 +1022,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         System.out.println(MessageFormat.format("\t|RangeEnd: {0}", rangeStartTag.getRangeEnd()));
         System.out.println(MessageFormat.format("\t|Color: {0}", rangeStartTag.getColor()));
         System.out.println(MessageFormat.format("\t|SdtType: {0}", rangeStartTag.getSdtType()));
+        System.out.println(MessageFormat.format("\t|FlatOpcContent: {0}", rangeStartTag.getWordOpenXML()));
         System.out.println(MessageFormat.format("\t|Tag: {0}\n", rangeStartTag.getTag()));
 
         System.out.println("StructuredDocumentTagRangeEnd values:");

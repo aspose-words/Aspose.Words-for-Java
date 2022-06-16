@@ -22,6 +22,11 @@ import com.aspose.words.ImageSavingArgs;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.File;
+import com.aspose.words.IDocumentSavingCallback;
+import java.util.Date;
+import com.aspose.ms.System.DateTime;
+import com.aspose.words.DocumentSavingArgs;
+import org.testng.annotations.DataProvider;
 
 
 @Test
@@ -106,4 +111,74 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase
         for (String resource : callback.getResources())
             Assert.assertTrue(File.exists($"{callback.ImagesFolderAlias}/{resource}"));
     }
+
+    @Test (dataProvider = "progressCallbackDataProvider")
+    //ExStart
+    //ExFor:SaveOptions.ProgressCallback
+    //ExFor:IDocumentSavingCallback
+    //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
+    //ExFor:DocumentSavingArgs.EstimatedProgress
+    //ExSummary:Shows how to manage a document while saving to xamlflow.
+    public void progressCallback(/*SaveFormat*/int saveFormat, String ext) throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        // Following formats are supported: XamlFlow, XamlFlowPack.
+        XamlFlowSaveOptions saveOptions = new XamlFlowSaveOptions(saveFormat);
+        {
+            saveOptions.setProgressCallback(new SavingProgressCallback());
+        }
+
+        IllegalStateException exception = Assert.<IllegalStateException>Throws(() =>
+            doc.save(getArtifactsDir() + $"XamlFlowSaveOptions.ProgressCallback.{ext}", saveOptions));
+        Assert.True(exception?.Message.Contains("EstimatedProgress"));
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "progressCallbackDataProvider")
+	public static Object[][] progressCallbackDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{SaveFormat.XAML_FLOW,  "xamlflow"},
+			{SaveFormat.XAML_FLOW_PACK,  "xamlflowpack"},
+		};
+	}
+
+    /// <summary>
+    /// Saving progress callback. Cancel a document saving after the "MaxDuration" seconds.
+    /// </summary>
+    public static class SavingProgressCallback implements IDocumentSavingCallback
+    {
+        /// <summary>
+        /// Ctr.
+        /// </summary>
+        public SavingProgressCallback()
+        {
+            mSavingStartedAt = new Date();
+        }
+
+        /// <summary>
+        /// Callback method which called during document saving.
+        /// </summary>
+        /// <param name="args">Saving arguments.</param>
+        public void notify(DocumentSavingArgs args)
+        {
+            DateTime canceledAt = new Date();
+            double ellapsedSeconds = (DateTime.subtract(canceledAt, mSavingStartedAt)).getTotalSeconds();
+            if (ellapsedSeconds > MAX_DURATION)
+                throw new IllegalStateException($"EstimatedProgress = {args.EstimatedProgress}; CanceledAt = {canceledAt}");
+        }
+
+        /// <summary>
+        /// Date and time when document saving is started.
+        /// </summary>
+        private /*final*/ DateTime mSavingStartedAt;
+
+        /// <summary>
+        /// Maximum allowed duration in sec.
+        /// </summary>
+        private static final double MAX_DURATION = 0.01d;
+    }
+    //ExEnd
 }

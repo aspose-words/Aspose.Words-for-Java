@@ -255,6 +255,18 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
+    public void headerVariable() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - Header variable.docx");
+
+        buildReport(doc, new DataSet(), "", ReportBuildOptions.USE_LEGACY_HEADER_FOOTER_VISITING);
+
+        doc.save(getArtifactsDir() + "ReportingEngine.HeaderVariable.docx");
+
+        Assert.assertEquals("Value of myHeaderVariable is: I am header variable", doc.getFirstSection().getBody().getFirstParagraph().getText().trim());
+    }
+
+    @Test
     public void contextualObjectMemberAccess() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.ContextualObjectMemberAccess.Java.docx");
 
@@ -634,7 +646,7 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void setBackgroundColor() throws Exception {
+    public void setBackgroundColorDynamically() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.BackColor.Java.docx");
 
         ArrayList<ColorItemTestClass> colors = new ArrayList<>();
@@ -644,7 +656,30 @@ public class ExReportingEngine extends ApiExampleBase {
 
         buildReport(doc, colors, "Colors", new Class[]{ColorItemTestClass.class});
 
-        doc.save(getArtifactsDir() + "ReportingEngine.BackColor.docx");
+        doc.save(getArtifactsDir() + "ReportingEngine.SetBackgroundColorDynamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetBackgroundColorDynamically.docx",
+                getGoldsDir() + "ReportingEngine.SetBackgroundColorDynamically Gold.docx"));
+    }
+
+    @Test
+    public void setTextColorDynamically() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - Text color.docx");
+
+        ArrayList<ColorItemTestClass> colors = new ArrayList<>();
+        {
+            colors.add(new ColorItemTestBuilder().withColor("Black", Color.BLUE).build());
+            colors.add(new ColorItemTestBuilder().withColor("Red", new Color((255), (0), (0))).build());
+            colors.add(new ColorItemTestBuilder().withColor("Empty", null).build());
+        }
+
+        buildReport(doc, colors, "Colors", new Class[]{ColorItemTestClass.class});
+
+        doc.save(getArtifactsDir() + "ReportingEngine.SetTextColorDynamically.docx");
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SetTextColorDynamically.docx",
+                getGoldsDir() + "ReportingEngine.SetTextColorDynamically Gold.docx"));
     }
 
     @Test

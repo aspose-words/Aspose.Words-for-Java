@@ -28,6 +28,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -74,6 +75,19 @@ public class ExField extends ApiExampleBase {
         doc = DocumentHelper.saveOpen(doc);
 
         TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", new SimpleDateFormat("EEEEE, MMMM dd, yyyy").format(new Date()), doc.getRange().getFields().get(0));
+    }
+
+    @Test
+    public void getFieldData() throws Exception
+    {
+        //ExStart
+        //ExFor:FieldStart.FieldData
+        //ExSummary:Shows how to get data associated with the field.
+        Document doc = new Document(getMyDir() + "Field sample - Field with data.docx");
+
+        Field field = doc.getRange().getFields().get(2);
+        System.out.println(new String(field.getStart().getFieldData(), StandardCharsets.UTF_8));
+        //ExEnd
     }
 
     @Test

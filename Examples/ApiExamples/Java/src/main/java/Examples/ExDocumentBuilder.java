@@ -3412,54 +3412,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
                 };
     }
 
-    //ExStart
-    //ExFor:MarkdownSaveOptions.ImageSavingCallback
-    //ExFor:IImageSavingCallback
-    //ExSummary:Shows how to rename the image name during saving into Markdown document.
-    @Test //ExSkip
-    public void renameImages() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Rendering.docx");
-
-        MarkdownSaveOptions options = new MarkdownSaveOptions();
-
-        // If we convert a document that contains images into Markdown, we will end up with one Markdown file which links to several images.
-        // Each image will be in the form of a file in the local file system.
-        // There is also a callback that can customize the name and file system location of each image.
-        options.setImageSavingCallback(new SavedImageRename("DocumentBuilder.HandleDocument.md"));
-
-        // The ImageSaving() method of our callback will be run at this time.
-        doc.save(getArtifactsDir() + "DocumentBuilder.HandleDocument.md", options);
-
-        Assert.assertEquals(1, DocumentHelper.directoryGetFiles(getArtifactsDir(),"*.*").stream().filter(f -> f.endsWith(".jpeg")).count());
-        Assert.assertEquals(8, DocumentHelper.directoryGetFiles(getArtifactsDir(),"*.*").stream().filter(f -> f.endsWith(".png")).count());
-    }
-
-    /// <summary>
-    /// Renames saved images that are produced when an Markdown document is saved.
-    /// </summary>
-    public static class SavedImageRename implements IImageSavingCallback
-    {
-        public SavedImageRename(String outFileName)
-        {
-            mOutFileName = outFileName;
-        }
-
-        public void imageSaving(ImageSavingArgs args) throws Exception {
-            String imageFileName = MessageFormat.format("{0} shape {1}, of type {2}.{3}", mOutFileName, ++mCount, args.getCurrentShape().getShapeType(), FilenameUtils.getExtension(args.getImageFileName()));
-
-            args.setImageFileName(imageFileName);
-            args.setImageStream(new FileOutputStream(getArtifactsDir() + imageFileName));
-
-            Assert.assertTrue(args.isImageAvailable());
-            Assert.assertFalse(args.getKeepImageStreamOpen());
-        }
-
-        private int mCount;
-        private String mOutFileName;
-    }
-    //ExEnd
-
     @Test
     public void insertOnlineVideo() throws Exception {
         //ExStart

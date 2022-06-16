@@ -19,18 +19,19 @@ import com.aspose.words.FieldChar;
 import org.testng.Assert;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
+import com.aspose.words.Field;
+import com.aspose.ms.System.msConsole;
+import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.FieldIf;
 import com.aspose.words.FieldAuthor;
 import com.aspose.words.FieldBuilder;
 import com.aspose.words.FieldRevNum;
-import com.aspose.words.Field;
 import com.aspose.words.FieldUnknown;
 import com.aspose.words.FindReplaceOptions;
 import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.ReplaceAction;
 import com.aspose.words.ReplacingArgs;
-import com.aspose.ms.System.msConsole;
 import com.aspose.words.FieldUpdateCultureSource;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.ms.System.IO.MemoryStream;
@@ -232,7 +233,20 @@ public class ExField extends ApiExampleBase
 
         TestUtil.verifyField(FieldType.FIELD_DATE, " DATE  \\@ \"dddd, MMMM dd, yyyy\"", new Date().toString("dddd, MMMM dd, yyyy"), doc.getRange().getFields().get(0));
     }
-    
+
+    @Test
+    public void getFieldData() throws Exception
+    {
+        //ExStart
+        //ExFor:FieldStart.FieldData
+        //ExSummary:Shows how to get data associated with the field.
+        Document doc = new Document(getMyDir() + "Field sample - Field with data.docx");
+
+        Field field = doc.getRange().getFields().get(2);
+        System.out.println(Encoding.getDefault().getString(field.getStart().getFieldData()));
+        //ExEnd
+    }
+
     @Test
     public void getFieldCode() throws Exception
     {

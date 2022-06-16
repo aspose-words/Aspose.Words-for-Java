@@ -63,14 +63,32 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExSummary:Shows how to get the type of a structured document tag.
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
-        ArrayList<StructuredDocumentTag> sdTags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true)
+        ArrayList<StructuredDocumentTag> tags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true)
             .<StructuredDocumentTag>OfType().ToList();
 
-        Assert.assertEquals(SdtType.REPEATING_SECTION, sdTags.get(0).getSdtType());
-        Assert.assertEquals(SdtType.REPEATING_SECTION_ITEM, sdTags.get(1).getSdtType());
-        Assert.assertEquals(SdtType.RICH_TEXT, sdTags.get(2).getSdtType());
+        Assert.assertEquals(SdtType.REPEATING_SECTION, tags.get(0).getSdtType());
+        Assert.assertEquals(SdtType.REPEATING_SECTION_ITEM, tags.get(1).getSdtType());
+        Assert.assertEquals(SdtType.RICH_TEXT, tags.get(2).getSdtType());
         //ExEnd
     }
+
+    @Test
+    public void flatOpcContent() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTag.WordOpenXML
+        //ExSummary:Shows how to get XML contained within the node in the FlatOpc format.
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+
+        ArrayList<StructuredDocumentTag> tags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true)
+            .<StructuredDocumentTag>OfType().ToList();
+
+        Assert.assertTrue(tags.get(0).getWordOpenXML()
+            .contains(
+                "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
+        //ExEnd
+    }
+
 
     @Test
     public void applyStyle() throws Exception
@@ -1093,6 +1111,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:StructuredDocumentTagRangeStart.RangeEnd
         //ExFor:StructuredDocumentTagRangeStart.Color
         //ExFor:StructuredDocumentTagRangeStart.SdtType
+        //ExFor:StructuredDocumentTagRangeStart.WordOpenXML
         //ExFor:StructuredDocumentTagRangeStart.Tag
         //ExFor:StructuredDocumentTagRangeEnd
         //ExFor:StructuredDocumentTagRangeEnd.Id
@@ -1120,6 +1139,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         System.out.println("\t|RangeEnd: {rangeStartTag.RangeEnd}");
         System.out.println("\t|Color: {rangeStartTag.Color.ToArgb()}");
         System.out.println("\t|SdtType: {rangeStartTag.SdtType}");
+        System.out.println("\t|FlatOpcContent: {rangeStartTag.WordOpenXML}");
         System.out.println("\t|Tag: {rangeStartTag.Tag}\n");
 
         System.out.println("StructuredDocumentTagRangeEnd values:");

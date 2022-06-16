@@ -16,6 +16,8 @@ import org.testng.Assert;
 import com.aspose.words.FindReplaceOptions;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
+import com.aspose.ms.System.Text.RegularExpressions.Regex;
+import com.aspose.ms.System.msConsole;
 import com.aspose.words.FootnoteType;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.Paragraph;
@@ -24,14 +26,12 @@ import com.aspose.words.Footnote;
 import com.aspose.words.NodeType;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.BreakType;
-import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.ReplaceAction;
 import com.aspose.words.ReplacingArgs;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
-import com.aspose.ms.System.msConsole;
 import com.aspose.words.Run;
 import com.aspose.ms.System.Convert;
 import com.aspose.ms.System.msString;
@@ -275,6 +275,41 @@ public class ExRange extends ApiExampleBase
 	//JAVA-added data provider for test method
 	@DataProvider(name = "ignoreFieldsDataProvider")
 	public static Object[][] ignoreFieldsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test (dataProvider = "ignoreFieldCodesDataProvider")
+    public void ignoreFieldCodes(boolean ignoreFieldCodes) throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreFieldCodes
+        //ExSummary:Shows how to ignore text inside field codes.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertField("INCLUDETEXT", "Test IT!");
+
+        FindReplaceOptions options = new FindReplaceOptions(); {options.setIgnoreFieldCodes(ignoreFieldCodes);}
+
+        // Replace 'T' in document ignoring text inside field code or not.
+        doc.getRange().replaceInternal(new Regex("T"), "*", options);
+        System.out.println(doc.getText());
+
+        Assert.assertEquals(
+            ignoreFieldCodes
+                ? "\u0013INCLUDETEXT\u0014*est I*!\u0015"
+                : "\u0013INCLUDE*EX*\u0014*est I*!\u0015", doc.getText().trim());
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "ignoreFieldCodesDataProvider")
+	public static Object[][] ignoreFieldCodesDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -677,7 +712,7 @@ public class ExRange extends ApiExampleBase
 
         public ArrayList<String> getMatches() { return mMatches; };
 
-        private ArrayList<String> mMatches; = /*new*/ArrayList<String>list();
+        private ArrayList<String> mMatches; = /*new*/ ArrayList<String>list();
     }
     //ExEnd
 
@@ -877,7 +912,7 @@ public class ExRange extends ApiExampleBase
 
         public ArrayList<String> getMatches() { return mMatches; };
 
-        private ArrayList<String> mMatches; = /*new*/ ArrayList<String>list();
+        private ArrayList<String> mMatches; = /*new*/ArrayList<String>list();
     }
     //ExEnd
 }
