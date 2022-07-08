@@ -200,7 +200,7 @@ public class ExStyles extends ApiExampleBase
     public void copyStyleSameDocument() throws Exception
     {
         //ExStart
-        //ExFor:StyleCollection.AddCopy
+        //ExFor:StyleCollection.AddCopy(Style)
         //ExFor:Style.Name
         //ExSummary:Shows how to clone a document's style.
         Document doc = new Document();
@@ -230,7 +230,7 @@ public class ExStyles extends ApiExampleBase
     public void copyStyleDifferentDocument() throws Exception
     {
         //ExStart
-        //ExFor:StyleCollection.AddCopy
+        //ExFor:StyleCollection.AddCopy(Style)
         //ExSummary:Shows how to import a style from one document into a different document.
         Document srcDoc = new Document();
 

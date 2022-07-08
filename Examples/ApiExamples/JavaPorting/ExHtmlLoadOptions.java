@@ -103,19 +103,14 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         // This linked image will require a web request to load, which will have to complete within our time limit.
         String html = $"\n                <html>\n                    <img src=\"{ImageUrl}\" alt=\"Aspose logo\" style=\"width:400px;height:400px;\">\n                </html>\n            ";
 
-        Document doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(html)), options);
-        Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-
-        Assert.assertEquals(1109843, imageShape.getImageData().getImageBytes().length);
-        Assert.assertEquals(0, warningCallback.warnings().size());
-
         // Set an unreasonable timeout limit and try load the document again.
         options.setWebRequestTimeout(0);
-        doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(html)), options);
+        Document doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(html)), options);
+        Assert.assertEquals(2, warningCallback.warnings().size());
 
         // A web request that fails to obtain an image within the time limit will still produce an image.
         // However, the image will be the red 'x' that commonly signifies missing images.
-        imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Shape imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
         Assert.assertEquals(924, imageShape.getImageData().getImageBytes().length);
 
         // We can also configure a custom callback to pick up any warnings from timed out web requests.

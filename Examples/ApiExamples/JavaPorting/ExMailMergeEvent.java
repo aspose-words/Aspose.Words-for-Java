@@ -353,7 +353,7 @@ public class ExMailMergeEvent extends ApiExampleBase
 
         imageShape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(5184, 3456, ImageType.JPEG, imageShape);
+        TestUtil.verifyImageInShape(252, 213, ImageType.PNG, imageShape);
     }
 
     //ExStart
