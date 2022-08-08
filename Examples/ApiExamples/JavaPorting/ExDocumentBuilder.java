@@ -2882,7 +2882,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         private /*final*/ String mGeneralFormat; 
         private ArrayList<FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
-        private ArrayList<FormatInvocation> mFormatInvocations; = /*new*/ArrayList<FormatInvocation>list();
+        private ArrayList<FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<FormatInvocation>list();
         
         private static class FormatInvocation
         {

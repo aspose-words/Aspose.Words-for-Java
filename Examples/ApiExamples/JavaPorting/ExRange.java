@@ -712,7 +712,7 @@ public class ExRange extends ApiExampleBase
 
         public ArrayList<String> getMatches() { return mMatches; };
 
-        private ArrayList<String> mMatches; = /*new*/ ArrayList<String>list();
+        private ArrayList<String> mMatches !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<String>list();
     }
     //ExEnd
 
@@ -912,7 +912,7 @@ public class ExRange extends ApiExampleBase
 
         public ArrayList<String> getMatches() { return mMatches; };
 
-        private ArrayList<String> mMatches; = /*new*/ArrayList<String>list();
+        private ArrayList<String> mMatches !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<String>list();
     }
     //ExEnd
 }
