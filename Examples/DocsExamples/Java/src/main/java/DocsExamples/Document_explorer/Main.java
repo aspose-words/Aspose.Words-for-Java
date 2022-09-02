@@ -33,7 +33,7 @@ import java.util.Enumeration;
  */
 public class Main implements TreeWillExpandListener, TreeSelectionListener, KeyListener {
 
-    String imgPath = Utils.getDataDir(DocumentExplorer.class) + "images" + File.separator;
+    String imgPath = Utils.getDataDir() + "Document explorer images" + File.separator;
 
     public Main() throws Exception {
 

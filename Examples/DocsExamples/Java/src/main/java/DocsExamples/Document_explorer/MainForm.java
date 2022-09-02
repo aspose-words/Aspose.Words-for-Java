@@ -112,7 +112,7 @@ public class MainForm extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        String imgPath = Utils.getDataDir(DocumentExplorer.class) + "images" + File.separator;
+        String imgPath = Utils.getDataDir() + "Document explorer images" + File.separator;
         System.out.println("image path: " + imgPath);
 
         toolOpenDocument.setIcon(new javax.swing.ImageIcon(imgPath + "tlb_1.gif")); // NOI18N

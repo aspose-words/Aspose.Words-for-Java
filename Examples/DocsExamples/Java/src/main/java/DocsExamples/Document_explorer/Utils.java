@@ -69,4 +69,16 @@ public class Utils {
             return null;
         }
     }
+
+    public static String getDataDir()
+    {
+        String userDir = System.getProperty("user.dir");
+        String topDir = new File(userDir).getParentFile().getParentFile()
+                .getParentFile().getParentFile()
+                .getParentFile().getParentFile()
+                .getParentFile() + File.separator;
+        String dataDir = topDir + "Data" + File.separator;
+
+        return dataDir;
+    }
 }
