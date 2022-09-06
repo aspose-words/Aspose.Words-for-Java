@@ -9,7 +9,7 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
-import com.aspose.ms.ms;
+import com.aspose.ms.System.ms;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
