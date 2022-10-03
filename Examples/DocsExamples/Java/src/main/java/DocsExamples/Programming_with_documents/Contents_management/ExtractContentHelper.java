@@ -1,7 +1,6 @@
-package DocsExamples.Programming_with_documents.Contents_managment;
+package DocsExamples.Programming_with_documents.Contents_management;
 
 import com.aspose.words.*;
-import org.testng.Assert;
 
 import java.util.ArrayList;
 
