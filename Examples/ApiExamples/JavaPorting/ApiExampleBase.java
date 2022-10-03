@@ -209,7 +209,7 @@ public class ApiExampleBase
         	mImageDir = new msUri(new msUri(getCodeBaseDir()), "Data/Images/").getLocalPath();
         	mDatabaseDir = new msUri(new msUri(getCodeBaseDir()), "Data/Database/").getLocalPath();
         	mFontsDir = new msUri(new msUri(getCodeBaseDir()), "Data/MyFonts/").getLocalPath();
-        	mImageUrl = new msUri("https://images.pexels.com/photos/239548/pexels-photo-239548.jpeg").getAbsoluteUri();
+        	mImageUrl = new msUri("https://www.aspose.cloud/templates/aspose/img/products/words/aspose_words.svg").getAbsoluteUri();
     	}
     	catch (Exception e)
     	{

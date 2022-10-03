@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents.Contents_managment;
+package DocsExamples.Programming_with_documents.Contents_management;
 
 import DocsExamples.DocsExamplesBase;
 import org.testng.annotations.Test;
