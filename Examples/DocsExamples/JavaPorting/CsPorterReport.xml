@@ -1,97 +1,97 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CsPorterReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:///X:/Aspose/Aspose.CsPorter/CsPorter/CsPorterReport.xsd">
 	<Files>
-		<File project="DocsExamples" dir="" name="DocsExamplesBase" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions" name="Base conversions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Complex examples and helpers" name="Working with document in database" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Load Options" name="Working with HtmlLoadOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Load Options" name="Working with LoadOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Load Options" name="Working with PdfLoadOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Load Options" name="Working with RtfLoadOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Load Options" name="Working with TxtLoadOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with DocSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with HtmlFixedSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with HtmlSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with ImageSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with MarkdownSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with OdtSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with OoxmlSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with PclSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with PdfSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with RtfSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with TxtSaveOptions" status="AUTO" />
-		<File project="DocsExamples" dir="File Formats and Conversions" name="Working with FileFormat" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Base operations" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine" name="BuildOptions" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Charts" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers" name="Common" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="BackgroundColor" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="Client" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="Contract" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="Manager" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="PointData" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="Sender" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Lists" status="AUTO" />
-		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Tables" status="AUTO" />
-		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Base operations" status="AUTO" />
-		<File project="DocsExamples" dir="Mail Merge and Reporting\Complex examples and helpers" name="Apply custom logic to empty regions" status="AUTO" />
-		<File project="DocsExamples" dir="Mail Merge and Reporting\Complex examples and helpers" name="Create MailMerge template" status="AUTO" />
-		<File project="DocsExamples" dir="Mail Merge and Reporting\Complex examples and helpers" name="Nested MailMerge custom" status="AUTO" />
-		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Working with CleanupOptions" status="AUTO" />
-		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Working with Fields" status="AUTO" />
-		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Working with XML data" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Apply License" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Extract content helper" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Extract content" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Find and replace" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Remove content" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with Bookmarks" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with Ranges" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with SDT" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with styles and themes" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with table of content" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Enable OpenType features" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Protect or Encrypt Document" name="Document protection" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Protect or Encrypt Document" name="Working with DigitalSinatures" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Split Documents" name="Page splitter" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Split Documents" name="Split document" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Split Documents" name="Split into html pages" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Comments" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Add content using DocumentBuilder" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Clone and combine documents" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Compare documents" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Document formatting" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Join and append documents" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Working with document options and settings" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Working with document properties" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Working with WebExtension" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Fields" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Fonts" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Footnote and Endnote" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with FormFields" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="CustomBarcodeGenerator" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with BarcodeGenerator" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with Charts" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with Images" status="EMPTY-IN-JAVA" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with OfficeMath" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with Shapes" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with Watermark" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Headers and Footers" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Hyphenation" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with List" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Markdown" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Node" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with OleObjects and ActiveX" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Revisions" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Section" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Tables" name="Working with table styles and formatting" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents\Working with Tables" name="Working with Tables" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with Textboxes" status="AUTO" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Working with VBA Macros" status="AUTO" />
-		<File project="DocsExamples" dir="Rendering and Printing\Complex examples and helpers" name="Enumerate layout elements" status="EMPTY-IN-JAVA" />
-		<File project="DocsExamples" dir="Rendering and Printing\Complex examples and helpers" name="Page layout helper" status="AUTO" />
-		<File project="DocsExamples" dir="Rendering and Printing" name="Print documents" status="EMPTY-IN-JAVA" />
-		<File project="DocsExamples" dir="Rendering and Printing" name="Rendering shapes" status="EMPTY-IN-JAVA" />
+		<File project="DocsExamples" dir="" name="DocsExamplesBase" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions" name="Base conversions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Complex examples and helpers" name="Working with document in database" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Load Options" name="Working with HtmlLoadOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Load Options" name="Working with LoadOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Load Options" name="Working with PdfLoadOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Load Options" name="Working with RtfLoadOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Load Options" name="Working with TxtLoadOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with DocSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with HtmlFixedSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with HtmlSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with ImageSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with MarkdownSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with OdtSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with OoxmlSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with PclSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with PdfSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with RtfSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with TxtSaveOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="File Formats and Conversions" name="Working with FileFormat" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Base operations" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine" name="BuildOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Charts" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers" name="Common" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="BackgroundColor" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="Client" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="Contract" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="Manager" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="PointData" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine\Helpers\Data Source Objects" name="Sender" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Lists" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Tables" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Base operations" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Mail Merge and Reporting\Complex examples and helpers" name="Apply custom logic to empty regions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Mail Merge and Reporting\Complex examples and helpers" name="Create MailMerge template" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Mail Merge and Reporting\Complex examples and helpers" name="Nested MailMerge custom" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Working with CleanupOptions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Working with Fields" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Working with XML data" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Apply License" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Extract content helper" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Extract content" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Find and replace" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Remove content" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with Bookmarks" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with Ranges" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with SDT" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with styles and themes" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Working with table of content" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Enable OpenType features" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Protect or Encrypt Document" name="Document protection" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Protect or Encrypt Document" name="Working with DigitalSinatures" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Split Documents" name="Page splitter" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Split Documents" name="Split document" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Split Documents" name="Split into html pages" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Comments" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Add content using DocumentBuilder" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Clone and combine documents" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Compare documents" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Document formatting" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Join and append documents" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Working with document options and settings" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Working with document properties" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Document" name="Working with WebExtension" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Fields" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Fonts" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Footnote and Endnote" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with FormFields" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="CustomBarcodeGenerator" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with BarcodeGenerator" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with Charts" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with Images" status="EMPTY-IN-JAVA" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with OfficeMath" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with Shapes" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Graphic Elements" name="Working with Watermark" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Headers and Footers" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Hyphenation" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with List" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Markdown" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Node" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with OleObjects and ActiveX" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Revisions" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Section" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Tables" name="Working with table styles and formatting" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents\Working with Tables" name="Working with Tables" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with Textboxes" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Programming with Documents" name="Working with VBA Macros" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Rendering and Printing\Complex examples and helpers" name="Enumerate layout elements" status="EMPTY-IN-JAVA" isTest="false" />
+		<File project="DocsExamples" dir="Rendering and Printing\Complex examples and helpers" name="Page layout helper" status="AUTO" isTest="false" />
+		<File project="DocsExamples" dir="Rendering and Printing" name="Print documents" status="EMPTY-IN-JAVA" isTest="false" />
+		<File project="DocsExamples" dir="Rendering and Printing" name="Rendering shapes" status="EMPTY-IN-JAVA" isTest="false" />
 	</Files>
 	<Resources />
 </CsPorterReport>

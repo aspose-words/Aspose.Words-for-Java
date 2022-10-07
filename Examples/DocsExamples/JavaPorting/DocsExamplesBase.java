@@ -3,11 +3,13 @@ package DocsExamples;
 // ********* THIS FILE IS AUTO PORTED *********
 
 import com.aspose.ms.System.msUri;
+import org.testng.annotations.BeforeTest;
 import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.ms.System.IO.Directory;
 import org.testng.annotations.BeforeMethod;
 import com.aspose.ms.System.msConsole;
+import org.testng.annotations.AfterTest;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.License;
@@ -16,7 +18,7 @@ import com.aspose.words.License;
 public class DocsExamplesBase
 {
 
-    @OneTimeSetUp
+    @BeforeTest
     public static void oneTimeSetUp() throws Exception
     {
         CurrentThread.setCurrentCulture(msCultureInfo.getInvariantCulture());
@@ -33,7 +35,7 @@ public class DocsExamplesBase
         System.out.println("Clr: {RuntimeInformation.FrameworkDescription}\n");
     }
 
-    @OneTimeTearDown
+    @AfterTest
     public static void oneTimeTearDown() throws Exception
     {
         if (Directory.exists(getArtifactsDir()))

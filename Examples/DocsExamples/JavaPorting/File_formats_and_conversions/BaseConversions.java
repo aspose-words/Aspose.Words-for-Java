@@ -101,7 +101,7 @@ public class BaseConversions extends DocsExamplesBase
         // Rewind the stream to the beginning so Aspose.Email can read it.
         stream.setPosition(0);
 
-        // Create an Aspose.Network MIME email message from the stream.
+        // Create an Aspose.Email MIME email message from the stream.
         MailMessage message = MailMessage.Load(stream, new MhtmlLoadOptions());
         message.From = "your_from@email.com";
         message.To = "your_to@email.com";

@@ -6,30 +6,24 @@ import com.aspose.ms.java.collections.StringSwitchMap;
 import DocsExamples.DocsExamplesBase;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import com.aspose.words.Field;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.FieldUpdateCultureSource;
 import com.aspose.ms.System.DateTime;
-import com.aspose.words.Field;
 import com.aspose.words.FieldType;
 import com.aspose.words.FieldHyperlink;
-import com.aspose.words.NodeCollection;
-import com.aspose.words.NodeType;
-import com.aspose.words.FieldStart;
-import com.aspose.ms.ms;
-import com.aspose.words.Run;
-import com.aspose.ms.System.Text.RegularExpressions.Match;
-import java.text.MessageFormat;
-import com.aspose.words.Node;
-import com.aspose.ms.System.Text.RegularExpressions.Regex;
+import com.aspose.words.FieldMergeField;
 import com.aspose.words.Paragraph;
 import com.aspose.words.FieldTA;
 import com.aspose.words.FieldToa;
 import com.aspose.words.BreakType;
 import com.aspose.words.HeaderFooterType;
-import com.aspose.words.FieldMergeField;
+import com.aspose.words.NodeType;
 import com.aspose.words.FieldAddressBlock;
 import com.aspose.words.FieldIncludeText;
 import com.aspose.words.FieldUnknown;
+import com.aspose.words.FieldBuilder;
+import com.aspose.words.FieldArgumentBuilder;
 import com.aspose.words.FieldAuthor;
 import com.aspose.words.FieldAsk;
 import com.aspose.words.FieldAdvance;
@@ -45,6 +39,18 @@ import java.util.Date;
 
 class WorkingWithFields extends DocsExamplesBase
 {
+    @Test
+    public void fieldCode() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Hyperlinks.docx");
+
+        for (Field field : doc.getRange().getFields())
+        {
+            String fieldCode = field.getFieldCode();
+            String fieldResult = field.getResult();
+        }
+    }
+
     @Test
     public void changeFieldUpdateCultureSource() throws Exception
     {
@@ -117,103 +123,19 @@ class WorkingWithFields extends DocsExamplesBase
         builder.insertField("MERGEFIELD MyMergeField1 \\* MERGEFORMAT");
         builder.insertField("MERGEFIELD MyMergeField2 \\* MERGEFORMAT");
 
-        // Select all field start nodes so we can find the merge fields.
-        NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true);
-        for (FieldStart fieldStart : (Iterable<FieldStart>) fieldStarts)
+        for (Field f : doc.getRange().getFields())
         {
-            if (fieldStart.getFieldType() == FieldType.FIELD_MERGE_FIELD)
+            if (f.getType() == FieldType.FIELD_MERGE_FIELD)
             {
-                MergeField mergeField = new MergeField(fieldStart);
-                mergeField.(mergeField.getName() + "_Renamed");
+                FieldMergeField mergeField = (FieldMergeField)f;
+                mergeField.setFieldName(mergeField.getFieldName() + "_Renamed");
+                mergeField.update();
             }
         }
 
-        doc.save(getArtifactsDir() + "WorkingWithFields.RenameMergeFields.doc");
+        doc.save(getArtifactsDir() + "WorkingWithFields.RenameMergeFields.docx");
         //ExEnd:RenameMergeFields
     }
-
-    //ExStart:MergeField
-    /// <summary>
-    /// Represents a facade object for a merge field in a Microsoft Word document.
-    /// </summary>
-    static class MergeField
-    {
-        MergeField(FieldStart fieldStart)
-        {
-            if (fieldStart == null)
-                throw new NullPointerException(ms.nameof("fieldStart"));
-            if (fieldStart.getFieldType() != FieldType.FIELD_MERGE_FIELD)
-                throw new IllegalArgumentException("Field start type must be FieldMergeField.");
-
-            mFieldStart = fieldStart;
-
-            // Find the field separator node.
-            mFieldSeparator = fieldStart.getField().getSeparator();
-            if (mFieldSeparator == null)
-                throw new IllegalStateException("Cannot find field separator.");
-
-            mFieldEnd = fieldStart.getField().getEnd();
-        }
-
-        /// <summary>
-        /// Gets or sets the name of the merge field.
-        /// </summary>
-        String getName() { return mName; }
-
-        private String mName; => ((FieldStart) mFieldStart).GetField().Result.Replace("«", "").Replace("»", "");
-            set
-            {
-                // Merge field name is stored in the field result which is a Run
-                // node between field separator and field end.
-                Run fieldResult = (Run) mFieldSeparator.NextSibling;
-                fieldResult.Text = String.Format("«{0}»", value);
-
-                // But sometimes the field result can consist of more than one run, delete these runs.
-                RemoveSameParent(fieldResult.NextSibling, mFieldEnd);
-
-                UpdateFieldCode(value);
-            }
-        }
-
-        private void updateFieldCode(String fieldName)
-        {
-            // Field code is stored in a Run node between field start and field separator.
-            Run fieldCode = (Run) mFieldStart.getNextSibling();
-
-            Match match = gRegex.match(((FieldStart) mFieldStart).getField().getFieldCode());
-
-            String newFieldCode = MessageFormat.format(" {0}{1} ", match.getGroups().get("start").getValue(), fieldName);
-            fieldCode.setText(newFieldCode);
-
-            // But sometimes the field code can consist of more than one run, delete these runs.
-            removeSameParent(fieldCode.getNextSibling(), mFieldSeparator);
-        }
-
-        /// <summary>
-        /// Removes nodes from start up to but not including the end node.
-        /// Start and end are assumed to have the same parent.
-        /// </summary>
-        private void removeSameParent(Node startNode, Node endNode)
-        {
-            if (endNode != null && startNode.getParentNode() != endNode.getParentNode())
-                throw new IllegalArgumentException("Start and end nodes are expected to have the same parent.");
-
-            Node curChild = startNode;
-            while (curChild != null && curChild != endNode)
-            {
-                Node nextChild = curChild.getNextSibling();
-                curChild.remove();
-                curChild = nextChild;
-            }
-        }
-
-        private /*final*/ Node mFieldStart;
-        private /*final*/ Node mFieldSeparator;
-        private /*final*/ Node mFieldEnd;
-
-        private /*final*/ Regex gRegex = new Regex("\\s*(?<start>MERGEFIELD\\s|)(\\s|)(?<name>\\S+)\\s+");
-    }
-    //ExEnd:MergeField
 
     @Test
     public void removeField() throws Exception
@@ -224,6 +146,15 @@ class WorkingWithFields extends DocsExamplesBase
         Field field = doc.getRange().getFields().get(0);
         field.remove();
         //ExEnd:RemoveField
+    }
+
+    @Test
+    public void unlinkFields() throws Exception
+    {
+        //ExStart:UnlinkFields
+        Document doc = new Document(getMyDir() + "Various fields.docx");
+        doc.unlinkFields();
+        //ExEnd:UnlinkFields
     }
 
     @Test
@@ -404,6 +335,32 @@ class WorkingWithFields extends DocsExamplesBase
         
         doc.save(getArtifactsDir() + "WorkingWithFields.InsertField.docx");
         //ExEnd:InsertField
+    }
+
+    @Test
+    public void insertFieldUsingFieldBuilder() throws Exception
+    {
+        Document doc = new Document();
+
+        // Prepare IF field with two nested MERGEFIELD fields: { IF "left expression" = "right expression" "Firstname: { MERGEFIELD firstname }" "Lastname: { MERGEFIELD lastname }"}
+        FieldBuilder fieldBuilder = new FieldBuilder(FieldType.FIELD_IF)
+            .addArgument("left expression")
+            .addArgument("=")
+            .addArgument("right expression")
+            .addArgument(
+                new FieldArgumentBuilder()
+                    .addText("Firstname: ")
+                    .addField(new FieldBuilder(FieldType.FIELD_MERGE_FIELD).addArgument("firstname")))
+            .addArgument(
+                new FieldArgumentBuilder()
+                    .addText("Lastname: ")
+                    .addField(new FieldBuilder(FieldType.FIELD_MERGE_FIELD).addArgument("lastname")));
+
+        // Insert IF field in exact location            
+        Field field = fieldBuilder.buildAndInsert(doc.getFirstSection().getBody().getFirstParagraph());
+        field.update();
+
+        doc.save(getArtifactsDir() + "Field.InsertFieldUsingFieldBuilder.docx");
     }
 
     @Test

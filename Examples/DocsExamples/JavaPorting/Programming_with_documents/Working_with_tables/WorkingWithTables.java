@@ -874,7 +874,7 @@ class WorkingWithTables extends DocsExamplesBase
     {
         public ArrayList<RowInfo> getRows() { return mRows; };
 
-        private ArrayList<RowInfo> mRows; = /*new*/ArrayList<RowInfo>list();
+        private ArrayList<RowInfo> mRows !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<RowInfo>list();
     }
 
     /// <summary>
@@ -884,7 +884,7 @@ class WorkingWithTables extends DocsExamplesBase
     {
         public ArrayList<CellInfo> getCells() { return mCells; };
 
-        private ArrayList<CellInfo> mCells; = /*new*/ArrayList<CellInfo>list();
+        private ArrayList<CellInfo> mCells !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<CellInfo>list();
     }
 
     /// <summary>
