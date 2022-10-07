@@ -44,7 +44,6 @@ import com.aspose.words.CustomXmlPartCollection;
 import com.aspose.words.StructuredDocumentTagRangeStart;
 import com.aspose.words.CustomXmlSchemaCollection;
 import com.aspose.words.Run;
-import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.Table;
 import com.aspose.words.Row;
 import com.aspose.words.StructuredDocumentTagRangeEnd;
@@ -929,8 +928,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("Built-in", buildingBlockSdt.getBuildingBlockCategory());
     }
 
-    @Test (dataProvider = "updateSdtContentDataProvider")
-    public void updateSdtContent(boolean updateSdtContent) throws Exception
+    @Test
+    public void updateSdtContent() throws Exception
     {
         //ExStart
         //ExFor:SaveOptions.UpdateSdtContent
@@ -950,36 +949,15 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc.getFirstSection().getBody().appendChild(tag);
 
-        // Create a "PdfSaveOptions" object to pass to the document's "Save" method
-        // to modify how that method saves the document to .PDF.
-        PdfSaveOptions options = new PdfSaveOptions();
-
-        // Set the "UpdateSdtContent" property to "false" not to update the structured document tags
-        // while saving the document to PDF. They will display their default values as they were at the time of construction.
-        // Set the "UpdateSdtContent" property to "true" to make sure the tags display updated values in the PDF.
-        options.setUpdateSdtContent(updateSdtContent);
-
-        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf", options);
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
         //ExEnd
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.Visit(pdfDoc);
 
-        Assert.AreEqual(updateSdtContent ? "Value 2" : "Choose an item.",
-            textAbsorber.Text);
+        Assert.AreEqual("Value 2", textAbsorber.Text);
     }
-
-	//JAVA-added data provider for test method
-	@DataProvider(name = "updateSdtContentDataProvider")
-	public static Object[][] updateSdtContentDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{false},
-			{true},
-		};
-	}
 
     @Test
     public void fillTableUsingRepeatingSectionItem() throws Exception
