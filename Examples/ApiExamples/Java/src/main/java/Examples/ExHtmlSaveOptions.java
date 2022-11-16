@@ -1202,12 +1202,15 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         String outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.ExportPageMargins.html"), StandardCharsets.UTF_8);
 
-        if (exportPageMargins) {
+        if (exportPageMargins)
+        {
             Assert.assertTrue(outDocContents.contains("<style type=\"text/css\">div.Section1 { margin:72pt }</style>"));
-            Assert.assertTrue(outDocContents.contains("<div class=\"Section1\"><p style=\"margin-top:0pt; margin-left:151pt; margin-bottom:0pt\">"));
-        } else {
+            Assert.assertTrue(outDocContents.contains("<div class=\"Section1\"><p style=\"margin-top:0pt; margin-left:150pt; margin-bottom:0pt\">"));
+        }
+        else
+        {
             Assert.assertFalse(outDocContents.contains("style type=\"text/css\">"));
-            Assert.assertTrue(outDocContents.contains("<div><p style=\"margin-top:0pt; margin-left:223pt; margin-bottom:0pt\">"));
+            Assert.assertTrue(outDocContents.contains("<div><p style=\"margin-top:0pt; margin-left:222pt; margin-bottom:0pt\">"));
         }
         //ExEnd
     }
