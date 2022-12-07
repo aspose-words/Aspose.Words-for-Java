@@ -524,6 +524,9 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // which complies with "PDF/A-1b" as well as preserving the document structure of the original document.
         // Set the "Compliance" property to "PdfCompliance.PdfUa1" to comply with the "PDF/UA-1" (ISO 14289-1) standard,
         // which aims to define represent electronic documents in PDF that allow the file to be accessible.
+        // Set the "Compliance" property to "PdfCompliance.Pdf20" to comply with the "PDF 2.0" (ISO 32000-2) standard.
+        // Set the "Compliance" property to "PdfCompliance.PdfA4" to comply with the "PDF/A-4" (ISO 19004:2020) standard,
+        // which preserving document static visual appearance over time.
         // This helps with making documents searchable but may significantly increase the size of already large documents.
         saveOptions.setCompliance(pdfCompliance);
 
@@ -550,6 +553,14 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
                 Assert.AreEqual("1.7", pdfDocument.Version);
                 break;
+            case PdfCompliance.PDF_20:
+                Assert.AreEqual(PdfFormat.v_2_0, pdfDocument.PdfFormat);
+                Assert.AreEqual("2.0", pdfDocument.Version);
+                break;
+            case PdfCompliance.PDF_A_4:
+                Assert.AreEqual(PdfFormat.v_2_0, pdfDocument.PdfFormat);
+                Assert.AreEqual("2.0", pdfDocument.Version);
+                break;
         }
     }
 
@@ -563,6 +574,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 			{PdfCompliance.PDF_17},
 			{PdfCompliance.PDF_A_2_A},
 			{PdfCompliance.PDF_UA_1},
+			{PdfCompliance.PDF_20},
+			{PdfCompliance.PDF_A_4},
 		};
 	}
 
@@ -2195,11 +2208,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             mWarnings.Add(info);
         }
 
-         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!
-            mWarnings.Clear();
-        }
-
-        public int Count => private mWarnings.CountmWarnings;
+         !!Autoporter error: Indexer ApiExamples.ExPdfSaveOptions.RenderCallback.Item(int) hasn't both getter and setter!private mWarnings.CountmWarnings;
 
         /// <summary>
         /// Returns true if a warning with the specified properties has been generated.
@@ -2242,7 +2251,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // digitally sign the document as we render it with the "Save" method.
         DateTime signingTime = new Date();
         options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "My Office", signingTime));
-        options.getDigitalSignatureDetails().setHashAlgorithm(PdfDigitalSignatureHashAlgorithm.SHA_256);
+        options.getDigitalSignatureDetails().setHashAlgorithm(PdfDigitalSignatureHashAlgorithm.RIPE_MD_160);
 
         Assert.assertEquals("Test Signing", options.getDigitalSignatureDetails().getReason());
         Assert.assertEquals("My Office", options.getDigitalSignatureDetails().getLocation());

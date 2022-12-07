@@ -100,6 +100,9 @@ public class ApiExampleBase
 
             License barcodeLicense = new License();
             barcodeLicense.setLicense(testLicenseFileName);
+
+            Aspose.Page.License pageLicense = new Aspose.Page.License();
+            pageLicense.SetLicense(testLicenseFileName);
         }
     }
 

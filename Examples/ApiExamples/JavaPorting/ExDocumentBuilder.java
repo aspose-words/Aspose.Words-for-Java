@@ -101,6 +101,7 @@ import com.aspose.words.WarningInfoCollection;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningSource;
 import com.aspose.words.OlePackage;
+import com.aspose.words.HtmlInsertOptions;
 import org.testng.annotations.DataProvider;
 
 
@@ -2882,7 +2883,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         private /*final*/ String mGeneralFormat; 
         private ArrayList<FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
-        private ArrayList<FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<FormatInvocation>list();
+        private ArrayList<FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<FormatInvocation>list();
         
         private static class FormatInvocation
         {
@@ -3033,7 +3034,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Stream powerpointStream = File.open(getMyDir() + "Presentation.pptx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
-            WebClient webClient = new WebClient();
+            HttpClient httpClient = new HttpClient();
             try /*JAVA: was using*/
             {
                 byte[] imgBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
@@ -3047,7 +3048,7 @@ public class ExDocumentBuilder extends ApiExampleBase
                 }
                 finally { if (imageStream != null) imageStream.close(); }
             }
-            finally { if (webClient != null) webClient.close(); }
+            finally { if (httpClient != null) httpClient.close(); }
         }
         finally { if (powerpointStream != null) powerpointStream.close(); }
 
@@ -3734,6 +3735,23 @@ public class ExDocumentBuilder extends ApiExampleBase
         finally { if (stream != null) stream.close(); }
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertOleObjectAsIcon.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void preserveBlocks() throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlInsertOptions
+        //ExSummary:Shows how to allows better preserve borders and margins seen.
+        final String HTML = "\n                <html>\n                    <div style='border:dotted'>\n                    <div style='border:solid'>\n                        <p>paragraph 1</p>\n                        <p>paragraph 2</p>\n                    </div>\n                    </div>\n                </html>";
+
+        // Set the new mode of import HTML block-level elements.
+        /*HtmlInsertOptions*/int insertOptions = HtmlInsertOptions.PRESERVE_BLOCKS;
+        
+        DocumentBuilder builder = new DocumentBuilder();
+        builder.insertHtml(HTML, insertOptions);
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.PreserveBlocks.docx");
         //ExEnd
     }
 }

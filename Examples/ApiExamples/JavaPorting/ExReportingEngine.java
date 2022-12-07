@@ -529,7 +529,20 @@ public class ExReportingEngine extends ApiExampleBase
             "Fail inserting document by bytes");
 
     }
-    
+
+    @Test
+    public void imageExifOrientation() throws Exception
+    {
+        Document template = new Document(getMyDir() + "Reporting engine template - Image exif orientation.docx");
+
+        byte[] image1Bytes = File.readAllBytes(getImageDir() + "RightF.jpg");
+        byte[] image2Bytes = File.readAllBytes(getImageDir() + "WrongF.jpg");
+
+        buildReport(template, new Object[] { image1Bytes, image2Bytes }, new String[] { "image1", "image2" }, 
+            ReportBuildOptions.RESPECT_JPEG_EXIF_ORIENTATION);
+        template.save(getArtifactsDir() + "ReportingEngine.ImageExifOrientation.docx");
+    }
+
     @Test
     public void dynamicStretchingImageWithinTextBox() throws Exception
     {
@@ -1189,6 +1202,12 @@ public class ExReportingEngine extends ApiExampleBase
 			{SdtType.DROP_DOWN_LIST},
 		};
 	}
+
+    private static void buildReport(Document document, Object dataSource, /*ReportBuildOptions*/int reportBuildOptions) throws Exception
+    {
+        ReportingEngine engine = new ReportingEngine(); { engine.setOptions(reportBuildOptions); }
+        engine.buildReport(document, dataSource);
+    }
 
     private static void buildReport(Document document, Object dataSource, String dataSourceName,
         /*ReportBuildOptions*/int reportBuildOptions) throws Exception

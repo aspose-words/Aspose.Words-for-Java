@@ -36,6 +36,7 @@ import com.aspose.ms.System.Drawing.msPointF;
 import com.aspose.words.BreakType;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.FlipOrientation;
+import com.aspose.ms.System.Convert;
 import com.aspose.words.PresetTexture;
 import com.aspose.words.TextureAlignment;
 import com.aspose.words.OoxmlSaveOptions;
@@ -96,6 +97,7 @@ import com.aspose.words.TextPathAlignment;
 import com.aspose.words.ShapeRenderer;
 import com.aspose.words.OfficeMathRenderer;
 import com.aspose.ms.System.Drawing.Rectangle;
+import com.aspose.words.ShadowType;
 import org.testng.annotations.DataProvider;
 
 
@@ -139,11 +141,11 @@ public class ExShape extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Shape.AltText.html");
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyShape(ShapeType.IMAGE, "", 153.0d, 153.0d, 0.0, 0.0, shape);
+        TestUtil.verifyShape(ShapeType.IMAGE, "", 151.5d, 151.5d, 0.0, 0.0, shape);
         Assert.assertEquals("Alt text for MyCube.", shape.getAlternativeText());
 
         TestUtil.fileContainsString(
-            "<img src=\"Shape.AltText.001.png\" width=\"204\" height=\"204\" alt=\"Alt text for MyCube.\" " +
+            "<img src=\"Shape.AltText.001.png\" width=\"202\" height=\"202\" alt=\"Alt text for MyCube.\" " +
             "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />", 
             getArtifactsDir() + "Shape.AltText.html");
     }
@@ -863,7 +865,8 @@ public class ExShape extends ApiExampleBase
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
         TestUtil.verifyShape(ShapeType.CLOUD_CALLOUT, "CloudCallout 100002", 250.0d, 150.0d, 25.0d, 25.0d, shape);
-        Assert.assertEquals(Color.LightBlue.getRGB(), shape.getFillColor().getRGB());
+        Color colorWithOpacity = new Color((Color.LightBlue.getRed()), (Color.LightBlue.getGreen()), (Color.LightBlue.getBlue()), (Convert.toInt32(255.0 * shape.getFill().getOpacity())));
+        Assert.assertEquals(colorWithOpacity.getRGB(), shape.getFillColor().getRGB());
         Assert.assertEquals(Color.CadetBlue.getRGB(), shape.getStrokeColor().getRGB());
         Assert.assertEquals(0.3d, shape.getFill().getOpacity(), 0.01d);
     }
@@ -1295,12 +1298,16 @@ public class ExShape extends ApiExampleBase
     {
         //ExStart
         //ExFor:Chart.SourceFullName
-        //ExSummary:Shows how to get the full name of the external xls/xlsx document if the chart is linked.
+        //ExSummary:Shows how to get/set the full name of the external xls/xlsx document if the chart is linked.
         Document doc = new Document(getMyDir() + "Shape with linked chart.docx");
-
+        
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        
+        String sourceFullName = shape.getChart().getSourceFullName();
+        Assert.assertTrue(sourceFullName.contains("Examples\\Data\\Spreadsheet.xlsx"));
 
-        Assert.assertTrue(shape.getChart().getSourceFullName().contains("Examples\\Data\\Spreadsheet.xlsx"));
+        sourceFullName = "D:\\Documents\\ChartData.xlsx";
+        Assert.assertTrue(sourceFullName.equals("D:\\Documents\\ChartData.xlsx"));
         //ExEnd
     }
 
@@ -2237,7 +2244,11 @@ public class ExShape extends ApiExampleBase
             case LayoutFlow.BOTTOM_TO_TOP:
             case LayoutFlow.HORIZONTAL:
             case LayoutFlow.TOP_TO_BOTTOM_IDEOGRAPHIC:
+            case LayoutFlow.VERTICAL:
                 expectedLayoutFlow = layoutFlow;
+                break;
+            case LayoutFlow.TOP_TO_BOTTOM:
+                expectedLayoutFlow = LayoutFlow.VERTICAL;
                 break;
             default:
                 expectedLayoutFlow = LayoutFlow.HORIZONTAL;
@@ -3028,4 +3039,24 @@ public class ExShape extends ApiExampleBase
         doc.save(getArtifactsDir() + "Shape.FillImage.Stream.docx");
         //ExEnd
     }
+
+    @Test
+    public void shadowFormat() throws Exception
+    {
+        //ExStart
+        //ExFor:ShadowFormat.Visible
+        //ExFor:ShadowFormat.Clear()
+        //ExFor:ShadowType
+        //ExSummary:Shows how to work with a shadow formatting for the shape.
+        Document doc = new Document(getMyDir() + "Shape stroke pattern border.docx");
+        Shape shape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
+        
+        if (shape.getShadowFormat().getVisible() && shape.getShadowFormat().getType() == ShadowType.SHADOW_2)                
+            shape.getShadowFormat().setType(ShadowType.SHADOW_7);
+        
+        if (shape.getShadowFormat().getType() == ShadowType.SHADOW_MIXED)            
+            shape.getShadowFormat().clear();
+        //ExEnd
+    }
 }
+

@@ -33,6 +33,7 @@ import com.aspose.words.HtmlControlType;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.StructuredDocumentTag;
 import com.aspose.words.FormField;
+import com.aspose.words.BlockImportMode;
 import org.testng.annotations.DataProvider;
 
 
@@ -277,6 +278,36 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
 		{
 			{true},
 			{false},
+		};
+	}
+
+    @Test (dataProvider = "blockImportDataProvider")
+    public void blockImport(/*BlockImportMode*/int blockImportMode) throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlLoadOptions.BlockImportMode
+        //ExFor:BlockImportMode
+        //ExSummary:Shows how properties of block-level elements are imported from HTML-based documents.
+        final String HTML = "\n            <html>\n                <div style='border:dotted'>\n                    <div style='border:solid'>\n                        <p>paragraph 1</p>\n                        <p>paragraph 2</p>\n                    </div>\n                </div>\n            </html>";
+        MemoryStream stream = new MemoryStream(Encoding.getUTF8().getBytes(HTML));
+
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions();
+        // Set the new mode of import HTML block-level elements.
+        loadOptions.setBlockImportMode(blockImportMode);
+                    
+        Document doc = new Document(stream, loadOptions);
+        doc.save(getArtifactsDir() + "HtmlLoadOptions.BlockImport.docx");
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "blockImportDataProvider")
+	public static Object[][] blockImportDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{BlockImportMode.PRESERVE},
+			{BlockImportMode.MERGE},
 		};
 	}
 }
