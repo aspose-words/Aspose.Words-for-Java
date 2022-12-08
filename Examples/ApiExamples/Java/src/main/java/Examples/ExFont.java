@@ -19,7 +19,9 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.File;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ExFont extends ApiExampleBase {
@@ -1372,14 +1374,19 @@ public class ExFont extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test(groups = "IgnoreOnJenkins")
+    @Test
     public void checkScanUserFontsFolder() {
-        // On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
-        // or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user.
-        SystemFontSource systemFontSource = new SystemFontSource();
-        Assert.assertNotNull(systemFontSource.getAvailableFonts().stream().
-                        filter((x) -> x.getFilePath().contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")).findFirst(),
-                "Fonts did not install to the user font folder");
+        String userProfile = System.getenv("USERPROFILE");
+        String currentUserFontsFolder = Paths.get(userProfile, "AppData\\Local\\Microsoft\\Windows\\Fonts").toString();
+        ArrayList<String> currentUserFonts = DocumentHelper.directoryGetFiles(currentUserFontsFolder, "*.ttf");
+        if (currentUserFonts.size() != 0) {
+            // On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
+            // or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user.
+            SystemFontSource systemFontSource = new SystemFontSource();
+            Assert.assertNotNull(systemFontSource.getAvailableFonts().stream().
+                            filter((x) -> x.getFilePath().contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")).findFirst(),
+                    "Fonts did not install to the user font folder");
+        }
     }
 
     @Test(dataProvider = "setEmphasisMarkDataProvider")

@@ -1033,4 +1033,55 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
             System.out.println(MessageFormat.format("\t|Child node text: {0}", node.getText()));
         //ExEnd
     }
+
+    @Test
+    public void getSdt() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTagCollection.Remove(int)
+        //ExFor:StructuredDocumentTagCollection.RemoveAt(int)
+        //ExSummary:Shows how to remove structured document tag.
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+
+        StructuredDocumentTagCollection structuredDocumentTags = doc.getRange().getStructuredDocumentTags();
+        IStructuredDocumentTag sdt;
+        for (int i = 0; i < structuredDocumentTags.getCount(); i++)
+        {
+            sdt = structuredDocumentTags.get(i);
+            System.out.println(sdt.getTitle());
+        }
+
+        sdt = structuredDocumentTags.getById(1691867797);
+        Assert.assertEquals(1691867797, sdt.getId());
+
+        Assert.assertEquals(3, structuredDocumentTags.getCount());
+        // Remove the structured document tag by Id.
+        structuredDocumentTags.remove(1691867797);
+        // Remove the structured document tag at position 0.
+        structuredDocumentTags.removeAt(0);
+        Assert.assertEquals(1, structuredDocumentTags.getCount());
+        //ExEnd
+    }
+
+    @Test
+    public void rangeSdt() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTagCollection.GetById(int)
+        //ExFor:StructuredDocumentTagCollection.GetByTitle(String)
+        //ExFor:IStructuredDocumentTag.IsRanged()
+        //ExFor:IStructuredDocumentTag.Title
+        //ExSummary:Shows how to get structured document tag.
+        Document doc = new Document(getMyDir() + "Structured document tags by id.docx");
+
+        // Get the structured document tag by Id.
+        IStructuredDocumentTag sdt = doc.getRange().getStructuredDocumentTags().getById(1160505028);
+        System.out.println(sdt.isRanged());
+        System.out.println(sdt.getTitle());
+
+        // Get the structured document tag or ranged tag by Title.
+        sdt = doc.getRange().getStructuredDocumentTags().getByTitle("Alias4");
+        System.out.println(sdt.getId());
+        //ExEnd
+    }
 }
