@@ -745,10 +745,10 @@ public class ExShape extends ApiExampleBase {
                 RelativeVerticalPosition.TOP_MARGIN, 25.0, 250.0, 150.0, WrapType.NONE);
 
         // Use the "StrokeColor" property to set the color of the outline of the shape.
-        shape.setStrokeColor(Color.BLUE);
+        shape.setStrokeColor(Color.BLACK);
 
         // Use the "FillColor" property to set the color of the inside area of the shape.
-        shape.setFillColor(Color.BLACK);
+        shape.setFillColor(Color.BLUE);
 
         // The "Opacity" property determines how transparent the color is on a 0-1 scale,
         // with 1 being fully opaque, and 0 being invisible.
@@ -767,7 +767,7 @@ public class ExShape extends ApiExampleBase {
         TestUtil.verifyShape(ShapeType.CLOUD_CALLOUT, "CloudCallout 100002", 250.0d, 150.0d, 25.0d, 25.0d, shape);
         Color colorWithOpacity = new Color(Color.BLUE.getRed(), Color.BLUE.getGreen(), Color.BLUE.getBlue(), (int)(255.0 * shape.getFill().getOpacity()));
         Assert.assertEquals(colorWithOpacity.getRGB(), shape.getFillColor().getRGB());
-        Assert.assertEquals(Color.BLACK.getRGB(), shape.getFillColor().getRGB());
+        Assert.assertEquals(Color.BLACK.getRGB(), shape.getStrokeColor().getRGB());
         Assert.assertEquals(0.3d, shape.getFill().getOpacity(), 0.01d);
     }
 

@@ -5635,6 +5635,8 @@ public class ExField extends ApiExampleBase {
         builder.endBookmark("CrossRefBookmark");
         builder.writeln();
 
+        doc.updateFields();
+
         // This field works only in older versions of Microsoft Word.
         doc.save(getArtifactsDir() + "Field.NOTEREF.doc");
         //ExEnd
