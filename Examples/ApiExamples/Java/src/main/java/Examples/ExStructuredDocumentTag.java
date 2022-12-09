@@ -817,8 +817,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Assert.assertEquals("Built-in", buildingBlockSdt.getBuildingBlockCategory());
     }
 
-    @Test(dataProvider = "updateSdtContentDataProvider")
-    public void updateSdtContent(boolean updateSdtContent) throws Exception {
+    @Test
+    public void updateSdtContent() throws Exception {
         //ExStart
         //ExFor:SaveOptions.UpdateSdtContent
         //ExSummary:Shows how to update structured document tags while saving a document to PDF.
@@ -837,34 +837,16 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         doc.getFirstSection().getBody().appendChild(tag);
 
-        // Create a "PdfSaveOptions" object to pass to the document's "Save" method
-        // to modify how that method saves the document to .PDF.
-        PdfSaveOptions options = new PdfSaveOptions();
-
-        // Set the "UpdateSdtContent" property to "false" not to update the structured document tags
-        // while saving the document to PDF. They will display their default values as they were at the time of construction.
-        // Set the "UpdateSdtContent" property to "true" to make sure the tags display updated values in the PDF.
-        options.setUpdateSdtContent(updateSdtContent);
-
-        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf", options);
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
         //ExEnd
 
         com.aspose.pdf.Document pdfDoc = new com.aspose.pdf.Document(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
         textAbsorber.visit(pdfDoc);
 
-        Assert.assertEquals(updateSdtContent ? "Value 2" : "Choose an item.", textAbsorber.getText());
+        Assert.assertEquals("Value 2", textAbsorber.getText());
 
         pdfDoc.close();
-    }
-
-    @DataProvider(name = "updateSdtContentDataProvider")
-    public static Object[][] updateSdtContentDataProvider() {
-        return new Object[][]
-                {
-                        {false},
-                        {true},
-                };
     }
 
     @Test
@@ -1049,6 +1031,57 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         for (Node node : (Iterable<Node>) tag.getChildNodes(NodeType.RUN, true))
             System.out.println(MessageFormat.format("\t|Child node text: {0}", node.getText()));
+        //ExEnd
+    }
+
+    @Test
+    public void getSdt() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTagCollection.Remove(int)
+        //ExFor:StructuredDocumentTagCollection.RemoveAt(int)
+        //ExSummary:Shows how to remove structured document tag.
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+
+        StructuredDocumentTagCollection structuredDocumentTags = doc.getRange().getStructuredDocumentTags();
+        IStructuredDocumentTag sdt;
+        for (int i = 0; i < structuredDocumentTags.getCount(); i++)
+        {
+            sdt = structuredDocumentTags.get(i);
+            System.out.println(sdt.getTitle());
+        }
+
+        sdt = structuredDocumentTags.getById(1691867797);
+        Assert.assertEquals(1691867797, sdt.getId());
+
+        Assert.assertEquals(3, structuredDocumentTags.getCount());
+        // Remove the structured document tag by Id.
+        structuredDocumentTags.remove(1691867797);
+        // Remove the structured document tag at position 0.
+        structuredDocumentTags.removeAt(0);
+        Assert.assertEquals(1, structuredDocumentTags.getCount());
+        //ExEnd
+    }
+
+    @Test
+    public void rangeSdt() throws Exception
+    {
+        //ExStart
+        //ExFor:StructuredDocumentTagCollection.GetById(int)
+        //ExFor:StructuredDocumentTagCollection.GetByTitle(String)
+        //ExFor:IStructuredDocumentTag.IsRanged()
+        //ExFor:IStructuredDocumentTag.Title
+        //ExSummary:Shows how to get structured document tag.
+        Document doc = new Document(getMyDir() + "Structured document tags by id.docx");
+
+        // Get the structured document tag by Id.
+        IStructuredDocumentTag sdt = doc.getRange().getStructuredDocumentTags().getById(1160505028);
+        System.out.println(sdt.isRanged());
+        System.out.println(sdt.getTitle());
+
+        // Get the structured document tag or ranged tag by Title.
+        sdt = doc.getRange().getStructuredDocumentTags().getByTitle("Alias4");
+        System.out.println(sdt.getId());
         //ExEnd
     }
 }

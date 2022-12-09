@@ -54,7 +54,7 @@ class WorkWithWatermark extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "Document.docx");
 
         insertWatermarkText(doc, "CONFIDENTIAL");
-        doc.save(getArtifactsDir() + "TestFile.Watermark.docx");
+        doc.save(getArtifactsDir() + "WorkWithWatermark.AddWatermark.docx");
 
         removeWatermarkText(doc);
         doc.save(getArtifactsDir() + "WorkWithWatermark.RemoveWatermark.docx");

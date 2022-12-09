@@ -2,7 +2,7 @@ package DocsExamples.Programming_with_Documents.Contents_Management;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
-import com.aspose.ms.ms;
+import com.aspose.ms.System.ms;
 import DocsExamples.DocsExamplesBase;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;

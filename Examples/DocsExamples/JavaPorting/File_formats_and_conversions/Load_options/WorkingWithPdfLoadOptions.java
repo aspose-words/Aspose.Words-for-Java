@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.PdfEncryptionDetails;
-import com.aspose.words.PdfEncryptionAlgorithm;
 import com.aspose.words.PdfLoadOptions;
 import com.aspose.words.LoadFormat;
 
@@ -22,7 +21,7 @@ public class WorkingWithPdfLoadOptions extends DocsExamplesBase
 
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         {
-            saveOptions.setEncryptionDetails(new PdfEncryptionDetails("Aspose", null, PdfEncryptionAlgorithm.RC_4_40));
+            saveOptions.setEncryptionDetails(new PdfEncryptionDetails("Aspose", null));
         }
 
         doc.save(getArtifactsDir() + "WorkingWithPdfLoadOptions.LoadEncryptedPdf.pdf", saveOptions);

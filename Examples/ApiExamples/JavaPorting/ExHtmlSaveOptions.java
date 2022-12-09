@@ -1374,12 +1374,12 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         if (exportPageMargins)
         {
             Assert.assertTrue(outDocContents.contains("<style type=\"text/css\">div.Section1 { margin:70.85pt }</style>"));
-            Assert.assertTrue(outDocContents.contains("<div class=\"Section1\"><p style=\"margin-top:0pt; margin-left:151pt; margin-bottom:0pt\">"));
+            Assert.assertTrue(outDocContents.contains("<div class=\"Section1\"><p style=\"margin-top:0pt; margin-left:150pt; margin-bottom:0pt\">"));
         }
         else
         {
             Assert.assertFalse(outDocContents.contains("style type=\"text/css\">"));
-            Assert.assertTrue(outDocContents.contains("<div><p style=\"margin-top:0pt; margin-left:221.85pt; margin-bottom:0pt\">"));
+            Assert.assertTrue(outDocContents.contains("<div><p style=\"margin-top:0pt; margin-left:220.85pt; margin-bottom:0pt\">"));
         }
         //ExEnd
     }

@@ -258,7 +258,7 @@ public class ExRevision extends ApiExampleBase {
         // and double-underlined blue at the moved-to revision.
         revisionOptions.setMovedFromTextColor(RevisionColor.YELLOW);
         revisionOptions.setMovedFromTextEffect(RevisionTextEffect.DOUBLE_STRIKE_THROUGH);
-        revisionOptions.setMovedToTextColor(RevisionColor.BLUE);
+        revisionOptions.setMovedToTextColor(RevisionColor.CLASSIC_BLUE);
         revisionOptions.setMovedFromTextEffect(RevisionTextEffect.DOUBLE_UNDERLINE);
 
         // Render format revisions in dark red and bold.

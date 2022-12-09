@@ -37,7 +37,6 @@ public class EnumerateLayoutElements extends DocsExamplesBase
         OutlineLayoutEntitiesRenderer.run(doc, layoutEnumerator, getArtifactsDir());
     }
 }
-
 class LayoutInfoWriter
 {
     public static void run(LayoutEnumerator layoutEnumerator) throws Exception

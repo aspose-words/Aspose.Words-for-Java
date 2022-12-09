@@ -207,4 +207,33 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
 			{false},
 		};
 	}
+
+    @Test (dataProvider = "blockImportDataProvider")
+    public void blockImport(int blockImportMode) throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlLoadOptions.BlockImportMode
+        //ExFor:BlockImportMode
+        //ExSummary:Shows how properties of block-level elements are imported from HTML-based documents.
+        final String html = "\n<html>\n<div style='border:dotted'>\n<div style='border:solid'>\n<p>paragraph 1</p>\n<p>paragraph 2</p>\n</div>\n</div>\n</html>";
+
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions();
+        // Set the new mode of import HTML block-level elements.
+        loadOptions.setBlockImportMode(blockImportMode);
+
+        Document doc = new Document(new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8)), loadOptions);
+        doc.save(getArtifactsDir() + "HtmlLoadOptions.BlockImport.docx");
+        //ExEnd
+    }
+
+    //JAVA-added data provider for test method
+    @DataProvider(name = "blockImportDataProvider")
+    public static Object[][] blockImportDataProvider() throws Exception
+    {
+        return new Object[][]
+                {
+                        {BlockImportMode.PRESERVE},
+                        {BlockImportMode.MERGE},
+                };
+    }
 }

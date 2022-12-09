@@ -325,7 +325,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(1031, field.getLocaleId());
     }
 
-    @Test(enabled = false, description = "WORDSNET-16037", dataProvider = "updateDirtyFieldsDataProvider")
+    @Test(dataProvider = "updateDirtyFieldsDataProvider")
     public void updateDirtyFields(boolean updateDirtyFields) throws Exception {
         //ExStart
         //ExFor:Field.IsDirty
@@ -350,33 +350,28 @@ public class ExField extends ApiExampleBase {
         // This value will stay out of date until we update the field manually with the Field.Update() method.
         field.isDirty(true);
 
-        OutputStream docStream = new FileOutputStream(getArtifactsDir() + "Filed.UpdateDirtyFields.docx");
-        try {
-            // If we save without calling an update method,
-            // the field will keep displaying the out of date value in the output document.
-            doc.save(docStream, SaveFormat.DOCX);
+        // If we save without calling an update method,
+        // the field will keep displaying the out of date value in the output document.
+        doc.save(getArtifactsDir() + "Filed.UpdateDirtyFields.docx");
 
-            // The LoadOptions object has an option to update all fields
-            // marked as "dirty" when loading the document.
-            LoadOptions options = new LoadOptions();
-            options.setUpdateDirtyFields(updateDirtyFields);
+        // The LoadOptions object has an option to update all fields
+        // marked as "dirty" when loading the document.
+        LoadOptions options = new LoadOptions();
+        options.setUpdateDirtyFields(updateDirtyFields);
 
-            doc = new Document(String.valueOf(docStream), options);
+        doc = new Document(getArtifactsDir() + "Filed.UpdateDirtyFields.docx", options);
 
-            Assert.assertEquals("John & Jane Doe", doc.getBuiltInDocumentProperties().getAuthor());
+        Assert.assertEquals("John & Jane Doe", doc.getBuiltInDocumentProperties().getAuthor());
 
-            field = (FieldAuthor) doc.getRange().getFields().get(0);
+        field = (FieldAuthor) doc.getRange().getFields().get(0);
 
-            // Updating dirty fields like this automatically set their "IsDirty" flag to false.
-            if (updateDirtyFields) {
-                Assert.assertEquals("John & Jane Doe", field.getResult());
-                Assert.assertFalse(field.isDirty());
-            } else {
-                Assert.assertEquals("John Doe", field.getResult());
-                Assert.assertTrue(field.isDirty());
-            }
-        } finally {
-            if (docStream != null) docStream.close();
+        // Updating dirty fields like this automatically set their "IsDirty" flag to false.
+        if (updateDirtyFields) {
+            Assert.assertEquals("John & Jane Doe", field.getResult());
+            Assert.assertFalse(field.isDirty());
+        } else {
+            Assert.assertEquals("John Doe", field.getResult());
+            Assert.assertTrue(field.isDirty());
         }
         //ExEnd
     }
@@ -474,7 +469,7 @@ public class ExField extends ApiExampleBase {
         field.setConnection("DSN=MS Access Databases");
         field.setQuery("SELECT * FROM [Products]");
 
-        Assert.assertEquals(" DATABASE  \\d \"{DatabaseDir.Replace('\\', '\\\\') + 'Northwind.mdb'}\" \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"",
+        Assert.assertEquals(MessageFormat.format(" DATABASE  \\d {0} \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"", getDatabaseDir().replace("\\", "\\\\") + "Northwind.mdb"),
                 field.getFieldCode());
 
         // Insert another DATABASE field with a more complex query that sorts all products in descending order by gross sales.
@@ -519,7 +514,7 @@ public class ExField extends ApiExampleBase {
 
         field = (FieldDatabase) doc.getRange().getFields().get(0);
 
-        Assert.assertEquals(" DATABASE  \\d \"{DatabaseDir.Replace('\\', '\\\\') + 'Northwind.mdb'}\" \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"",
+        Assert.assertEquals(MessageFormat.format(" DATABASE  \\d {0} \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"", getDatabaseDir().replace("\\", "\\\\") + "Northwind.mdb"),
                 field.getFieldCode());
 
         TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.mdb", field.getQuery());
@@ -2222,7 +2217,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals("MySequence", fieldSeq.getSequenceIdentifier());
     }
 
-    @Test(description = "WORDSNET-18083")
+    @Test
     public void tocSeqBookmark() throws Exception {
         //ExStart
         //ExFor:FieldSeq
@@ -2595,7 +2590,7 @@ public class ExField extends ApiExampleBase {
     //ExFor:FieldIncludeText.XPath
     //ExFor:FieldIncludeText.XslTransformation
     //ExSummary:Shows how to create an INCLUDETEXT field, and set its properties.
-    @Test(description = "WORDSNET-17543") //ExSkip
+    @Test//ExSkip
     public void fieldIncludeText() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2864,7 +2859,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(300.0d, shape.getHeight(), 1);
     }
 
-    @Test(enabled = false, description = "WORDSNET-17524")
+    @Test
     public void fieldIndexFilter() throws Exception {
         //ExStart
         //ExFor:FieldIndex
@@ -2920,6 +2915,7 @@ public class ExField extends ApiExampleBase {
         indexEntry.setText("Index entry 3");
         indexEntry.setEntryType("A");
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INDEX.XE.Filtering.docx");
         //ExEnd
@@ -2950,7 +2946,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals("A", indexEntry.getEntryType());
     }
 
-    @Test(enabled = false, description = "WORDSNET-17524")
+    @Test
     public void fieldIndexFormatting() throws Exception {
         //ExStart
         //ExFor:FieldIndex
@@ -3022,6 +3018,7 @@ public class ExField extends ApiExampleBase {
         indexEntry = (FieldXE) builder.insertField(FieldType.FIELD_INDEX_ENTRY, true);
         indexEntry.setText("Durian");
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INDEX.XE.Formatting.docx");
         //ExEnd
@@ -3086,7 +3083,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertFalse(indexEntry.isItalic());
     }
 
-    @Test(enabled = false, description = "WORDSNET-17524")
+    @Test
     public void fieldIndexSequence() throws Exception {
         //ExStart
         //ExFor:FieldIndex.HasSequenceName
@@ -3156,6 +3153,7 @@ public class ExField extends ApiExampleBase {
         indexEntry = (FieldXE) builder.insertField(FieldType.FIELD_INDEX_ENTRY, true);
         indexEntry.setText("Dog");
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INDEX.XE.Sequence.docx");
         //ExEnd
@@ -3174,7 +3172,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(3, DocumentHelper.getFieldsCount(doc.getRange().getFields(), FieldType.FIELD_SEQUENCE));
     }
 
-    @Test(enabled = false, description = "WORDSNET-17524")
+    @Test
     public void fieldIndexPageNumberSeparator() throws Exception {
         //ExStart
         //ExFor:FieldIndex.HasPageNumberSeparator
@@ -3215,6 +3213,7 @@ public class ExField extends ApiExampleBase {
         indexEntry = (FieldXE) builder.insertField(FieldType.FIELD_INDEX_ENTRY, true);
         indexEntry.setText("First entry");
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INDEX.XE.PageNumberList.docx");
         //ExEnd
@@ -3228,7 +3227,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertTrue(index.hasPageNumberSeparator());
     }
 
-    @Test(enabled = false, description = "WORDSNET-17524")
+    @Test
     public void fieldIndexPageRangeBookmark() throws Exception {
         //ExStart
         //ExFor:FieldIndex.PageRangeSeparator
@@ -3274,6 +3273,7 @@ public class ExField extends ApiExampleBase {
         builder.write("End of MyBookmark");
         builder.endBookmark("MyBookmark");
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INDEX.XE.PageRangeBookmark.docx");
         //ExEnd
@@ -3292,7 +3292,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals("MyBookmark", indexEntry.getPageRangeBookmarkName());
     }
 
-    @Test(enabled = false, description = "WORDSNET-17524")
+    @Test
     public void fieldIndexCrossReferenceSeparator() throws Exception {
         //ExStart
         //ExFor:FieldIndex.CrossReferenceSeparator
@@ -3335,6 +3335,7 @@ public class ExField extends ApiExampleBase {
 
         Assert.assertEquals(" XE  Banana \\t \"Tropical fruit\"", indexEntry.getFieldCode());
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INDEX.XE.CrossReferenceSeparator.docx");
         //ExEnd
@@ -3342,7 +3343,7 @@ public class ExField extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Field.INDEX.XE.CrossReferenceSeparator.docx");
         index = (FieldIndex) doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_INDEX_ENTRY, " INDEX  \\k \", see: \"",
+        TestUtil.verifyField(FieldType.FIELD_INDEX, " INDEX  \\k \", see: \"",
                 "Apple, 2\r" +
                         "Banana, see: Tropical fruit\r", index);
         Assert.assertEquals(", see: ", index.getCrossReferenceSeparator());
@@ -3360,7 +3361,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals("Tropical fruit", indexEntry.getPageNumberReplacement());
     }
 
-    @Test(enabled = false, description = "WORDSNET-17524", dataProvider = "fieldIndexSubheadingDataProvider")
+    @Test(dataProvider = "fieldIndexSubheadingDataProvider")
     public void fieldIndexSubheading(boolean runSubentriesOnTheSameLine) throws Exception {
         //ExStart
         //ExFor:FieldIndex.RunSubentriesOnSameLine
@@ -3410,6 +3411,7 @@ public class ExField extends ApiExampleBase {
         indexEntry = (FieldXE) builder.insertField(FieldType.FIELD_INDEX_ENTRY, true);
         indexEntry.setText("Heading 1:Subheading 2");
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INDEX.XE.Subheading.docx");
         //ExEnd
@@ -3418,7 +3420,7 @@ public class ExField extends ApiExampleBase {
         index = (FieldIndex) doc.getRange().getFields().get(0);
 
         if (runSubentriesOnTheSameLine) {
-            TestUtil.verifyField(FieldType.FIELD_INDEX, " INDEX  \\r \\e \", see page \" \\h A",
+            TestUtil.verifyField(FieldType.FIELD_INDEX, " INDEX  \\e \", see page \" \\h A \\r",
                     "H\r" +
                             "Heading 1: Subheading 1, see page 2; Subheading 2, see page 3\r", index);
             Assert.assertTrue(index.getRunSubentriesOnSameLine());
@@ -3452,7 +3454,7 @@ public class ExField extends ApiExampleBase {
                 };
     }
 
-    @Test(enabled = false, description = "WORDSNET-17524", dataProvider = "fieldIndexYomiDataProvider")
+    @Test(enabled = false, description = "WORDSNET-24595", dataProvider = "fieldIndexYomiDataProvider")
     public void fieldIndexYomi(boolean sortEntriesUsingYomi) throws Exception {
         //ExStart
         //ExFor:FieldIndex.UseYomi
@@ -3504,6 +3506,7 @@ public class ExField extends ApiExampleBase {
         indexEntry.setText("愛美");
         indexEntry.setYomi("え");
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INDEX.XE.Yomi.docx");
         //ExEnd
@@ -4358,7 +4361,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals("Jane Doe", fieldUserName.getUserName());
     }
 
-    @Test(enabled = false, description = "WORDSNET-17657")
+    @Test
     public void fieldStyleRefParagraphNumbers() throws Exception {
         //ExStart
         //ExFor:FieldStyleRef
@@ -4428,6 +4431,7 @@ public class ExField extends ApiExampleBase {
         field.setInsertParagraphNumberInFullContext(true);
         field.setSuppressNonDelimiters(true);
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.STYLEREF.docx");
         //ExEnd
@@ -5521,7 +5525,7 @@ public class ExField extends ApiExampleBase {
     //ExFor:FieldNoteRef.InsertReferenceMark
     //ExFor:FieldNoteRef.InsertRelativePosition
     //ExSummary:Shows to insert NOTEREF fields, and modify their appearance.
-    @Test(enabled = false, description = "WORDSNET-17845") //ExSkip
+    @Test//ExSkip
     public void fieldNoteRef() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -5547,6 +5551,7 @@ public class ExField extends ApiExampleBase {
         builder.insertBreak(BreakType.PAGE_BREAK);
         insertBookmarkWithFootnote(builder, "MyBookmark2", "Contents of MyBookmark2", "Footnote from MyBookmark2");
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.NOTEREF.docx");
         testNoteRef(new Document(getArtifactsDir() + "Field.NOTEREF.docx")); //ExSkip
@@ -5607,43 +5612,41 @@ public class ExField extends ApiExampleBase {
         Assert.assertTrue(field.getInsertReferenceMark());
     }
 
-    @Test(enabled = false, description = "WORDSNET-17845")
-    public void footnoteRef() throws Exception {
+    @Test
+    public void noteRef() throws Exception {
         //ExStart
-        //ExFor:FieldFootnoteRef
-        //ExSummary:Shows how to cross-reference footnotes with the FOOTNOTEREF field.
+        //ExFor:FieldNoteRef
+        //ExSummary:Shows how to cross-reference footnotes with the NOTEREF field.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("CrossReference: ");
+
+        FieldNoteRef field = (FieldNoteRef)builder.insertField(FieldType.FIELD_NOTE_REF, false); // <--- don't update field
+        field.setBookmarkName("CrossRefBookmark");
+        field.setInsertHyperlink(true);
+        field.setInsertReferenceMark(true);
+        field.setInsertRelativePosition(false);
+        builder.writeln();
 
         builder.startBookmark("CrossRefBookmark");
         builder.write("Hello world!");
         builder.insertFootnote(FootnoteType.FOOTNOTE, "Cross referenced footnote.");
         builder.endBookmark("CrossRefBookmark");
-        builder.insertParagraph();
-
-        // Insert a FOOTNOTEREF field, which lets us reference a footnote more than once while re-using the same footnote marker.
-        builder.write("CrossReference: ");
-        FieldFootnoteRef field = (FieldFootnoteRef) builder.insertField(FieldType.FIELD_FOOTNOTE_REF, true);
-
-        // Reference the bookmark that we have created with the FOOTNOTEREF field. That bookmark contains a footnote marker
-        // belonging to the footnote we inserted. The field will display that footnote marker.
-        builder.moveTo(field.getSeparator());
-        builder.write("CrossRefBookmark");
-
-        Assert.assertEquals(field.getFieldCode(), " FOOTNOTEREF CrossRefBookmark");
+        builder.writeln();
 
         doc.updateFields();
 
         // This field works only in older versions of Microsoft Word.
-        doc.save(getArtifactsDir() + "Field.FOOTNOTEREF.doc");
+        doc.save(getArtifactsDir() + "Field.NOTEREF.doc");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "Field.FOOTNOTEREF.doc");
-        field = (FieldFootnoteRef) doc.getRange().getFields().get(0);
+        doc = new Document(getArtifactsDir() + "Field.NOTEREF.doc");
+        field = (FieldNoteRef)doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_FOOTNOTE_REF, " FOOTNOTEREF CrossRefBookmark", "1", field);
-        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "", "Cross referenced footnote.",
-                (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
+        TestUtil.verifyField(FieldType.FIELD_NOTE_REF, " NOTEREF  CrossRefBookmark \\h \\f", "1", field);
+        TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, null, "Cross referenced footnote.",
+                (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true));
     }
 
     //ExStart
@@ -5652,7 +5655,7 @@ public class ExField extends ApiExampleBase {
     //ExFor:FieldPageRef.InsertHyperlink
     //ExFor:FieldPageRef.InsertRelativePosition
     //ExSummary:Shows to insert PAGEREF fields to display the relative location of bookmarks.
-    @Test(enabled = false, description = "WORDSNET-17836") //ExSkip
+    @Test//ExSkip
     public void fieldPageRef() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -5682,6 +5685,7 @@ public class ExField extends ApiExampleBase {
         builder.insertBreak(BreakType.PAGE_BREAK);
         insertAndNameBookmark(builder, "MyBookmark3");
 
+        doc.updatePageLayout();
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.PAGEREF.docx");
         testPageRef(new Document(getArtifactsDir() + "Field.PAGEREF.docx")); //ExSkip
@@ -5755,7 +5759,7 @@ public class ExField extends ApiExampleBase {
     //ExFor:FieldRef.NumberSeparator
     //ExFor:FieldRef.SuppressNonDelimiters
     //ExSummary:Shows how to insert REF fields to reference bookmarks.
-    @Test(enabled = false, description = "WORDSNET-18067") //ExSkip
+    @Test//ExSkip
     public void fieldRef() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -5842,7 +5846,7 @@ public class ExField extends ApiExampleBase {
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "", "MyBookmark footnote #1",
                 (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
         TestUtil.verifyFootnote(FootnoteType.FOOTNOTE, true, "", "MyBookmark footnote #2",
-                (Footnote) doc.getChild(NodeType.FOOTNOTE, 0, true));
+                (Footnote) doc.getChild(NodeType.FOOTNOTE, 1, true));
 
         FieldRef field = (FieldRef) doc.getRange().getFields().get(0);
 
@@ -6635,7 +6639,7 @@ public class ExField extends ApiExampleBase {
         TestUtil.verifyField(FieldType.FIELD_LAST_SAVED_BY, " LASTSAVEDBY ", "John Doe", doc.getRange().getFields().get(0));
     }
 
-    @Test(enabled = false, description = "WORDSNET-18173")
+    @Test
     public void fieldMergeRec() throws Exception {
         //ExStart
         //ExFor:FieldMergeRec
@@ -6698,8 +6702,8 @@ public class ExField extends ApiExampleBase {
                 "Row number of record in data source: 1\r" +
                 "Successful merge number: 1\fDear Joe Bloggs,\r" +
                 "\r" +
-                "Row number of record in data source: 2\r" +
-                "Successful merge number: 3", doc.getText().trim());
+                "Row number of record in data source: 3\r" +
+                "Successful merge number: 2", doc.getText().trim());
     }
 
     @Test

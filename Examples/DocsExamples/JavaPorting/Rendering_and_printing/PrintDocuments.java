@@ -8,7 +8,7 @@ import com.aspose.words.Document;
 import com.aspose.ms.System.Drawing.Printing.PrinterSettings;
 import com.aspose.words.AsposeWordsPrintDocument;
 import com.aspose.ms.System.Drawing.msSize;
-import com.aspose.ms.ms;
+import com.aspose.ms.System.ms;
 import com.aspose.ms.System.Drawing.Text.TextRenderingHint;
 import com.aspose.ms.System.Drawing.msSizeF;
 import com.aspose.words.ConvertUtil;

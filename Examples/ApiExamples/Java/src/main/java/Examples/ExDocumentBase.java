@@ -165,9 +165,12 @@ public class ExDocumentBase extends ApiExampleBase {
 
         Assert.assertTrue(doc.getBackgroundShape().hasImage());
 
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setCacheBackgroundGraphics(false);
+
         // Microsoft Word does not support shapes with images as backgrounds,
         // but we can still see these backgrounds in other save formats such as .pdf.
-        doc.save(getArtifactsDir() + "DocumentBase.BackgroundShape.Image.pdf");
+        doc.save(getArtifactsDir() + "DocumentBase.BackgroundShape.Image.pdf", saveOptions);
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBase.BackgroundShape.FlatColor.docx");

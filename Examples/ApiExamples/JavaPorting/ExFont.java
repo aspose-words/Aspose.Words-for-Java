@@ -57,6 +57,8 @@ import com.aspose.ms.System.IO.File;
 import java.util.Iterator;
 import com.aspose.words.RunCollection;
 import com.aspose.words.TextDmlEffect;
+import com.aspose.ms.System.Environment;
+import com.aspose.ms.System.IO.Path;
 import com.aspose.words.SystemFontSource;
 import com.aspose.words.EmphasisMark;
 import com.aspose.words.ThemeFont;
@@ -286,7 +288,7 @@ public class ExFont extends ApiExampleBase
         //ExFor:Font.Superscript
         //ExSummary:Shows how to format text to offset its position.
         Document doc = new Document();
-        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
+        Paragraph para = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         // Raise this run of text 5 points above the baseline.
         Run run = new Run(doc, "Raised text. ");
@@ -514,7 +516,7 @@ public class ExFont extends ApiExampleBase
         // It is not advised to use this method to hide sensitive information.
         builder.getFont().setHidden(true);
         builder.getFont().setSize(36.0);
-        
+
         builder.writeln("This text will not be visible in the document.");
 
         doc.save(getArtifactsDir() + "Font.Hidden.docx");
@@ -548,7 +550,7 @@ public class ExFont extends ApiExampleBase
         // Any text we add from this point will have kerning applied. The spaces between characters
         // will be adjusted, normally resulting in a slightly more aesthetically pleasing text run.
         builder.getFont().setKerning(12.0);
-        
+
         builder.writeln("TALLY. (Kerning applied)");
 
         doc.save(getArtifactsDir() + "Font.Kerning.docx");
@@ -607,7 +609,7 @@ public class ExFont extends ApiExampleBase
         // the English locale spell checker will not recognize the text and detect it as a spelling error.
         builder.getFont().setLocaleId(new msCultureInfo("en-US", false).getLCID());
         builder.writeln("Привет!");
-        
+
         // Set a matching locale for the text that we are about to add to apply the appropriate spell checker.
         builder.getFont().setLocaleId(new msCultureInfo("ru-RU", false).getLCID());
         builder.writeln("Привет!");
@@ -748,7 +750,7 @@ public class ExFont extends ApiExampleBase
         //ExSummary:Shows how to define separate sets of font settings for right-to-left, and right-to-left text.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // Define a set of font settings for left-to-right text.
         builder.getFont().setName("Courier New");
         builder.getFont().setSize(16.0);
@@ -826,7 +828,7 @@ public class ExFont extends ApiExampleBase
         // This could be useful when a western font does not have ideal representations for Asian characters.
         builder.getFont().setNameFarEast("SimSun");
         builder.getFont().setLocaleIdFarEast(new msCultureInfo("zh-CN", false).getLCID());
-        
+
         // This text will be displayed in the default font/locale.
         builder.writeln("Hello world!");
 
@@ -911,7 +913,7 @@ public class ExFont extends ApiExampleBase
         // 2 -  Using a built-in style identifier:
         builder.getFont().setStyleIdentifier(StyleIdentifier.INTENSE_EMPHASIS);
         builder.writeln("Text originally in \"Intense Emphasis\" style");
-   
+
         // Convert all uses of one style to another,
         // using the above methods to reference old and new styles.
         for (Run run : doc.getChildNodes(NodeType.RUN, true).<Run>OfType() !!Autoporter error: Undefined expression type )
@@ -982,7 +984,7 @@ public class ExFont extends ApiExampleBase
 
         builder.getFont().setStyleName("MyStyle");
         builder.write("This text is in a custom style.");
-        
+
         // Iterate over every run and add a double underline to every custom style.
         for (Run run : doc.getChildNodes(NodeType.RUN, true).<Run>OfType() !!Autoporter error: Undefined expression type )
         {
@@ -1003,7 +1005,7 @@ public class ExFont extends ApiExampleBase
         Assert.assertFalse(docRun.getFont().getStyle().getBuiltIn());
         Assert.assertEquals(Underline.DOUBLE, docRun.getFont().getUnderline());
     }
-    
+
     @Test
     public void getAvailableFonts() throws Exception
     {
@@ -1017,7 +1019,7 @@ public class ExFont extends ApiExampleBase
         //ExSummary:Shows how to list available fonts.
         // Configure Aspose.Words to source fonts from a custom folder, and then print every available font.
         FontSourceBase[] folderFontSource = { new FolderFontSource(getFontsDir(), true) };
-        
+
         for (PhysicalFontInfo fontInfo : folderFontSource[0].getAvailableFonts())
         {
             System.out.println("FontFamilyName : {0}",fontInfo.getFontFamilyName());
@@ -1027,7 +1029,7 @@ public class ExFont extends ApiExampleBase
         }
         //ExEnd
 
-        Assert.AreEqual(folderFontSource[0].getAvailableFonts().size(), 
+        Assert.AreEqual(folderFontSource[0].getAvailableFonts().size(),
             Directory.enumerateFiles(getFontsDir(), "*.*", SearchOption.ALL_DIRECTORIES).Count(f => f.EndsWith(".ttf") || f.EndsWith(".otf")));
     }
 
@@ -1107,7 +1109,7 @@ public class ExFont extends ApiExampleBase
         // Below are three types of fields which can accept a document visitor,
         // which will allow it to visit the accepting node, and then traverse its child nodes in a depth-first manner.
         // 1 -  Paragraph node:
-        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 4, true);
+        Paragraph para = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 4, true);
         para.accept(hiddenContentRemover);
 
         // 2 -  Table node:
@@ -1260,7 +1262,7 @@ public class ExFont extends ApiExampleBase
             // which this visitor will not remove.
             if (!table.hasChildNodes())
                 table.remove();
-            
+
             return VisitorAction.CONTINUE;
         }
 
@@ -1331,7 +1333,7 @@ public class ExFont extends ApiExampleBase
                     Assert.False(specialChar.Font.Hidden);
                     break;
             }
-        } 
+        }
     }
 
     @Test
@@ -1373,7 +1375,7 @@ public class ExFont extends ApiExampleBase
         Assert.assertNotNull(embeddedFontBytes); //ExSkip
 
         File.writeAllBytes(getArtifactsDir() + "Alte DIN 1451 Mittelschrift.ttf", embeddedFontBytes);
-        
+
         // Embedded font formats may be different in other formats such as .doc.
         // We need to know the correct format before we can extract the font.
         doc = new Document(getMyDir() + "Embedded font.doc");
@@ -1389,7 +1391,7 @@ public class ExFont extends ApiExampleBase
     }
 
     @Test
-    public void getFontInfoFromFile() throws Exception 
+    public void getFontInfoFromFile() throws Exception
     {
         //ExStart
         //ExFor:Fonts.FontFamily
@@ -1402,7 +1404,7 @@ public class ExFont extends ApiExampleBase
         //ExFor:Fonts.FontInfoCollection.GetEnumerator
         //ExSummary:Shows how to access and print details of each font in a document.
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         Iterator<FontInfo> fontCollectionEnumerator = doc.getFontInfos().iterator();
         while (fontCollectionEnumerator.hasNext())
         {
@@ -1462,9 +1464,9 @@ public class ExFont extends ApiExampleBase
         //ExFor:Font.HasDmlEffect(TextDmlEffect)
         //ExSummary:Shows how to check if a run displays a DrawingML text effect.
         Document doc = new Document(getMyDir() + "DrawingML text effects.docx");
-        
+
         RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
-        
+
         Assert.assertTrue(runs.get(0).getFont().hasDmlEffect(TextDmlEffect.SHADOW));
         Assert.assertTrue(runs.get(1).getFont().hasDmlEffect(TextDmlEffect.SHADOW));
         Assert.assertTrue(runs.get(2).getFont().hasDmlEffect(TextDmlEffect.REFLECTION));
@@ -1472,16 +1474,22 @@ public class ExFont extends ApiExampleBase
         Assert.assertTrue(runs.get(4).getFont().hasDmlEffect(TextDmlEffect.FILL));
         //ExEnd
     }
-    
-    @Test (groups = "IgnoreOnJenkins")
-    public void checkScanUserFontsFolder()
+
+    @Test        
+    public void checkScanUserFontsFolder() throws Exception
     {
-        // On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
-        // or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user.
-        SystemFontSource systemFontSource = new SystemFontSource();
-        Assert.NotNull(systemFontSource.getAvailableFonts()
-                .FirstOrDefault(x => x.FilePath.Contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")),
-            "Fonts did not install to the user font folder");
+        String userProfile = Environment.getFolderPath(Environment.SpecialFolder.USER_PROFILE);
+        String currentUserFontsFolder = Path.combine(userProfile, "AppData\\Local\\Microsoft\\Windows\\Fonts");
+        String currentUserFonts = Directory.getFiles(currentUserFontsFolder, "*.ttf");
+        if (currentUserFonts.length != 0)
+        {
+            // On Windows 10 fonts may be installed either into system folder "%windir%\fonts" for all users
+            // or into user folder "%userprofile%\AppData\Local\Microsoft\Windows\Fonts" for current user.
+            SystemFontSource systemFontSource = new SystemFontSource();
+            Assert.NotNull(systemFontSource.getAvailableFonts()
+                    .FirstOrDefault(x => x.FilePath.Contains("\\AppData\\Local\\Microsoft\\Windows\\Fonts")),
+                "Fonts did not install to the user font folder");
+        }
     }
 
     @Test (dataProvider = "setEmphasisMarkDataProvider")

@@ -38,7 +38,6 @@ import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
 import com.aspose.words.ImageType;
 import com.aspose.words.LoadFormat;
-import com.aspose.words.SaveOptions;
 import com.aspose.words.IDocumentLoadingCallback;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;

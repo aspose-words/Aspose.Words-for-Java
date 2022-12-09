@@ -9,6 +9,7 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
+import com.aspose.ms.java.collections.StringSwitchMap;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.Run;
@@ -29,18 +30,21 @@ import com.aspose.words.LoadFormat;
 import com.aspose.words.PdfSaveOptions;
 import com.aspose.words.PdfEncryptionDetails;
 import com.aspose.words.PdfLoadOptions;
+import com.aspose.ms.System.IO.FileStream;
+import java.util.ArrayList;
+import com.aspose.ms.System.IO.FileMode;
+import com.aspose.ms.System.Text.RegularExpressions.Regex;
+import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 import com.aspose.words.ConvertUtil;
 import com.aspose.words.IncorrectPasswordException;
-import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.ShapeType;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.INodeChangingCallback;
 import com.aspose.words.NodeChangingArgs;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.Font;
-import com.aspose.ms.System.Text.RegularExpressions.Regex;
 import com.aspose.words.ImportFormatMode;
 import java.io.FileNotFoundException;
 import com.aspose.words.ImportFormatOptions;
@@ -52,12 +56,9 @@ import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.words.SignOptions;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
-import com.aspose.ms.System.IO.FileStream;
-import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignatureType;
 import com.aspose.words.StyleIdentifier;
-import java.util.ArrayList;
 import com.aspose.words.ControlChar;
 import com.aspose.words.ProtectionType;
 import com.aspose.words.NodeCollection;
@@ -308,7 +309,182 @@ public class ExDocument extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Document.PdfDocumentEncrypted.pdf", loadOptions);
     }
-    
+
+    @Test (dataProvider = "pdfRendererDataProvider")
+    public void pdfRenderer(String docName, String format) throws Exception
+    {
+        var pdfRenderer = new PdfFixedRenderer();
+        var options = new PdfFixedOptions();
+
+
+        switch (gStringSwitchMap.of(format))
+        {
+            case /*"PDF"*/0:
+                options = new PdfFixedOptions(); { options.setPassword("{Asp0se}P@ssw0rd"); }
+                saveTo(pdfRenderer, docName, options, "pdf");
+                assertResult("pdf");
+
+                break;
+
+            case /*"HTML"*/1:
+                options = new PdfFixedOptions(); { options.setPageIndex(0); options.setPageCount(1); }
+                saveTo(pdfRenderer, docName, options, "html");
+                assertResult("html");
+
+                break;
+
+            case /*"XPS"*/2:                    
+                saveTo(pdfRenderer, docName, options, "xps");
+                assertResult("xps");
+
+                break;
+
+            case /*"JPEG"*/3:
+                options = new PdfFixedOptions(); { options.setJpegQuality(10); options.setImageFormat(FixedImageFormat.Jpeg); }
+                saveTo(pdfRenderer, docName, options, "jpeg");
+                assertResult("jpeg");
+
+                break;
+
+            case /*"PNG"*/4:
+                options = new PdfFixedOptions(); { 
+                    options.setPageIndex(0); 
+                    options.setPageCount(2); 
+                    options.setJpegQuality(50); 
+                    options.setImageFormat(FixedImageFormat.Png); 
+                }
+                saveTo(pdfRenderer, docName, options, "png");
+                assertResult("png");
+
+                break;
+
+            case /*"TIFF"*/5:
+                options = new PdfFixedOptions(); { options.setJpegQuality(100); options.setImageFormat(FixedImageFormat.Tiff); }
+                saveTo(pdfRenderer, docName, options, "tiff");
+                assertResult("tiff");
+
+                break;
+
+            case /*"BMP"*/6:
+                options = new PdfFixedOptions(); { options.setImageFormat(FixedImageFormat.Bmp); }
+                saveTo(pdfRenderer, docName, options, "bmp");
+                assertResult("bmp");
+
+                break;
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "pdfRendererDataProvider")
+	public static Object[][] pdfRendererDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"Protected pdf document.pdf",  "PDF"},
+			{"Pdf Document.pdf",  "HTML"},
+			{"Pdf Document.pdf",  "XPS"},
+			{"Images.pdf",  "JPEG"},
+			{"Images.pdf",  "PNG"},
+			{"Images.pdf",  "TIFF"},
+			{"Images.pdf",  "BMP"},
+		};
+	}
+
+    private void saveTo(PdfFixedRenderer pdfRenderer, String docName, PdfFixedOptions fixedOptions, String fileExt) throws Exception
+    {
+        FileStream pdfDoc = new FileInputStream(getMyDir() + docName);
+        try /*JAVA: was using*/
+        {
+            Stream stream = new MemoryStream();
+            IReadOnlyList<Stream> imagesStream = new ArrayList<Stream>();
+
+            if ("pdf".equals(fileExt))
+            {
+                stream = pdfRenderer.SavePdfAsPdf(pdfDoc, fixedOptions);
+            }
+            else if ("html".equals(fileExt))
+            {
+                stream = pdfRenderer.SavePdfAsHtml(pdfDoc, fixedOptions);
+            }
+            else if ("xps".equals(fileExt))
+            {
+                stream = pdfRenderer.SavePdfAsXps(pdfDoc, fixedOptions);
+            }
+            else if ("jpeg".equals(fileExt) || "png".equals(fileExt) || "tiff".equals(fileExt) || "bmp".equals(fileExt))
+            {
+                imagesStream = pdfRenderer.SavePdfAsImages(pdfDoc, fixedOptions);
+            }
+
+            if (imagesStream.Count != 0)
+            {
+                for (int i = 0; i < imagesStream.Count; i++)
+                {
+                    FileStream resultDoc = new FileStream(getArtifactsDir() + $"PdfRenderer_{i}.{fileExt}", FileMode.CREATE);
+                    try /*JAVA: was using*/
+                	{
+                        imagesStream.(i).copyTo(resultDoc);
+                	}
+                    finally { if (resultDoc != null) resultDoc.close(); }                        
+                }                    
+            }
+            else
+            {
+                FileStream resultDoc = new FileStream(getArtifactsDir() + $"PdfRenderer.{fileExt}", FileMode.CREATE);
+                try /*JAVA: was using*/
+            	{
+                    stream.copyTo(resultDoc);
+            	}
+                finally { if (resultDoc != null) resultDoc.close(); }
+            }
+        }
+        finally { if (pdfDoc != null) pdfDoc.close(); }
+    }
+
+    private void assertResult(String fileExt) throws Exception
+    {
+        if ("jpeg".equals(fileExt) || "png".equals(fileExt) || "tiff".equals(fileExt) || "bmp".equals(fileExt))
+        {
+            Regex reg = new Regex("PdfRenderer_*");
+
+            var images = Directory.getFiles(getArtifactsDir(), $"*.{fileExt}")
+                                 .Where(path => reg.IsMatch(path))
+                                 .ToList();
+
+            if("png".equals(fileExt))
+                Assert.AreEqual(2, images.Count);
+            else
+                Assert.AreEqual(5, images.Count);
+        }
+        else
+        {
+            if ("xps".equals(fileExt))
+            {
+                var doc = new XpsDocument(getArtifactsDir() + $"PdfRenderer.{fileExt}");
+                AssertXpsText(doc);
+            }
+            else
+            {
+                Document doc = new Document(getArtifactsDir() + $"PdfRenderer.{fileExt}");
+                String content = doc.getText().replace("\r", " ");
+
+                Assert.assertTrue(content.contains("Heading 1 Heading 1.1.1.1 Heading 1.1.1.2"));
+            }               
+        }
+    }
+
+    private static void assertXpsText(XpsDocument doc)
+    {
+        AssertXpsText(doc.SelectActivePage(1));
+    }
+
+    private static void assertXpsText(XpsElement element)
+    {
+        for (int i = 0; i < element.Count; i++)
+            AssertXpsText(element[i]);
+        if (element instanceof XpsGlyphs)
+            Assert.True(new String[] { "Heading 1", "Head", "ing 1" }.Any(c => ((XpsGlyphs)element).UnicodeString.Contains(c)));
+    }
+
     @Test
     public void openFromStreamWithBaseUri() throws Exception
     {
@@ -2827,4 +3003,37 @@ public class ExDocument extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Azw3 document.azw3");
         Assert.assertTrue(doc.getText().contains("Hachette Book Group USA"));
     }
+
+    @Test
+    public void openEpub() throws Exception
+    {
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Epub document.epub");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.EPUB);
+
+        Document doc = new Document(getMyDir() + "Epub document.epub");
+        Assert.assertTrue(doc.getText().contains("Down the Rabbit-Hole"));
+    }
+
+    @Test
+    public void openXml() throws Exception
+    {
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Mail merge data - Customers.xml");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.XML);
+
+        Document doc = new Document(getMyDir() + "Mail merge data - Purchase order.xml");
+        Assert.assertTrue(doc.getText().contains("Ellen Adams\r123 Maple Street"));
+    }
+
+	//JAVA-added for string switch emulation
+	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
+	(
+		"PDF",
+		"HTML",
+		"XPS",
+		"JPEG",
+		"PNG",
+		"TIFF",
+		"BMP"
+	);
+
 }
