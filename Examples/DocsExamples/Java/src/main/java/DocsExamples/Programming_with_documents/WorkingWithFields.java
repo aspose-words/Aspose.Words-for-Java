@@ -90,101 +90,19 @@ public class WorkingWithFields extends DocsExamplesBase
         builder.insertField("MERGEFIELD MyMergeField1 \\* MERGEFORMAT");
         builder.insertField("MERGEFIELD MyMergeField2 \\* MERGEFORMAT");
 
-        // Select all field start nodes so we can find the merge fields.
-        NodeCollection fieldStarts = doc.getChildNodes(NodeType.FIELD_START, true);
-        for (FieldStart fieldStart : (Iterable<FieldStart>) fieldStarts)
+        for (Field f : doc.getRange().getFields())
         {
-            if (fieldStart.getFieldType() == FieldType.FIELD_MERGE_FIELD)
+            if (f.getType() == FieldType.FIELD_MERGE_FIELD)
             {
-                MergeField mergeField = new MergeField(fieldStart);
-                mergeField.setName(mergeField.getName() + "_Renamed");
+                FieldMergeField mergeField = (FieldMergeField)f;
+                mergeField.setFieldName(mergeField.getFieldName() + "_Renamed");
+                mergeField.update();
             }
         }
 
-        doc.save(getArtifactsDir() + "WorkingWithFields.RenameMergeFields.doc");
+        doc.save(getArtifactsDir() + "WorkingWithFields.RenameMergeFields.docx");
         //ExEnd:RenameMergeFields
     }
-
-    //ExStart:MergeField
-    /// <summary>
-    /// Represents a facade object for a merge field in a Microsoft Word document.
-    /// </summary>
-    static class MergeField {
-        MergeField(FieldStart fieldStart) {
-            if (fieldStart == null)
-                throw new NullPointerException("fieldStart");
-            if (fieldStart.getFieldType() != FieldType.FIELD_MERGE_FIELD)
-                throw new IllegalArgumentException("Field start type must be FieldMergeField.");
-
-            mFieldStart = fieldStart;
-
-            // Find the field separator node.
-            mFieldSeparator = fieldStart.getField().getSeparator();
-            if (mFieldSeparator == null)
-                throw new IllegalStateException("Cannot find field separator.");
-
-            mFieldEnd = fieldStart.getField().getEnd();
-        }
-
-        /// <summary>
-        /// Gets or sets the name of the merge field.
-        /// </summary>
-        String getName() {
-            return ((FieldStart) mFieldStart).getField().getResult().replace("«", "").replace("»", "");
-        }
-
-        void setName(String value) {
-            // Merge field name is stored in the field result which is a Run
-            // node between field separator and field end.
-            Run fieldResult = (Run) mFieldSeparator.getNextSibling();
-            fieldResult.setText(String.format("«{0}»", value));
-
-            // But sometimes the field result can consist of more than one run, delete these runs.
-            removeSameParent(fieldResult.getNextSibling(), mFieldEnd);
-
-            updateFieldCode(value);
-        }
-
-        private void updateFieldCode(String fieldName) {
-            // Field code is stored in a Run node between field start and field separator.
-            Run fieldCode = (Run) mFieldStart.getNextSibling();
-
-            Matcher match = pattern.matcher(((FieldStart) mFieldStart).getField().getFieldCode());
-
-            if (match.find()) {
-                String newFieldCode = MessageFormat.format(" {0}{1} ", match.group("start"), fieldName);
-                fieldCode.setText(newFieldCode);
-
-                // But sometimes the field code can consist of more than one run, delete these runs.
-                removeSameParent(fieldCode.getNextSibling(), mFieldSeparator);
-            } else {
-                System.out.println("Can't find FieldStart.");
-            }
-        }
-
-        /// <summary>
-        /// Removes nodes from start up to but not including the end node.
-        /// Start and end are assumed to have the same parent.
-        /// </summary>
-        private void removeSameParent(Node startNode, Node endNode) {
-            if (endNode != null && startNode.getParentNode() != endNode.getParentNode())
-                throw new IllegalArgumentException("Start and end nodes are expected to have the same parent.");
-
-            Node curChild = startNode;
-            while (curChild != null && curChild != endNode) {
-                Node nextChild = curChild.getNextSibling();
-                curChild.remove();
-                curChild = nextChild;
-            }
-        }
-
-        private Node mFieldStart;
-        private Node mFieldSeparator;
-        private Node mFieldEnd;
-
-        private Pattern pattern = Pattern.compile("\\s*(?<start>MERGEFIELD\\s|)(\\s|)(?<name>\\S+)\\s+");
-    }
-    //ExEnd:MergeField
 
     @Test
     public void removeField() throws Exception
