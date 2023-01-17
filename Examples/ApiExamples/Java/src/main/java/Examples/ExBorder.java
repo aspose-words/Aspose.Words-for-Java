@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -53,6 +53,8 @@ public class ExBorder extends ApiExampleBase {
     public void paragraphTopBorder() throws Exception {
         //ExStart
         //ExFor:BorderCollection
+        //ExFor:Border.ThemeColor
+        //ExFor:Border.TintAndShade
         //ExFor:Border
         //ExFor:BorderType
         //ExFor:ParagraphFormat.Borders
@@ -61,11 +63,13 @@ public class ExBorder extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         Border topBorder = builder.getParagraphFormat().getBorders().getByBorderType(BorderType.TOP);
-        topBorder.setColor(Color.RED);
         topBorder.setLineWidth(4.0d);
         topBorder.setLineStyle(LineStyle.DASH_SMALL_GAP);
+        // Set ThemeColor only when LineWidth or LineStyle setted.
+        topBorder.setThemeColor(ThemeColor.ACCENT_1);
+        topBorder.setTintAndShade(0.25d);
 
-        builder.writeln("Text with a red top border.");
+        builder.writeln("Text with a top border.");
 
         doc.save(getArtifactsDir() + "Border.ParagraphTopBorder.docx");
         //ExEnd
@@ -73,9 +77,10 @@ public class ExBorder extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Border.ParagraphTopBorder.docx");
         Border border = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBorders().getByBorderType(BorderType.TOP);
 
-        Assert.assertEquals(Color.RED.getRGB(), border.getColor().getRGB());
         Assert.assertEquals(4.0d, border.getLineWidth());
         Assert.assertEquals(LineStyle.DASH_SMALL_GAP, border.getLineStyle());
+        Assert.assertEquals(ThemeColor.ACCENT_1, border.getThemeColor());
+        Assert.assertEquals(0.25d, border.getTintAndShade(), 0.01);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -48,7 +48,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                 {
                         {SaveFormat.HTML},
                         {SaveFormat.MHTML},
-                        {SaveFormat.EPUB}
+                        {SaveFormat.EPUB},
+                        {SaveFormat.AZW_3}
                 };
     }
 
@@ -70,7 +71,9 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                 {
                         {SaveFormat.HTML, HtmlOfficeMathOutputMode.IMAGE},
                         {SaveFormat.MHTML, HtmlOfficeMathOutputMode.MATH_ML},
-                        {SaveFormat.EPUB, HtmlOfficeMathOutputMode.TEXT}};
+                        {SaveFormat.EPUB, HtmlOfficeMathOutputMode.TEXT},
+                        {SaveFormat.AZW_3,  HtmlOfficeMathOutputMode.TEXT}
+                };
     }
 
     @Test(dataProvider = "exportTextBoxAsSvgEpubDataProvider")
@@ -91,19 +94,9 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         switch (saveFormat) {
             case SaveFormat.HTML:
-
-                dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png");
-                Assert.assertTrue(dirFiles.isEmpty());
-                return;
-
             case SaveFormat.EPUB:
-
-                dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png");
-                Assert.assertTrue(dirFiles.isEmpty());
-                return;
-
             case SaveFormat.MHTML:
-
+            case SaveFormat.AZW_3:
                 dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png");
                 Assert.assertTrue(dirFiles.isEmpty());
                 return;
@@ -116,7 +109,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                 {
                         {SaveFormat.HTML, true},
                         {SaveFormat.EPUB, true},
-                        {SaveFormat.MHTML, false}
+                        {SaveFormat.MHTML, false},
+                        {SaveFormat.AZW_3,  false}
                 };
     }
 

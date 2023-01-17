@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1159,7 +1159,7 @@ public class ExShape extends ApiExampleBase {
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         OleControl oleControl = shape.getOleFormat().getOleControl();
 
-        Assert.assertEquals(oleControl.getName(), null);
+        Assert.assertEquals(oleControl.getName(), "CheckBox1");
 
         if (oleControl.isForms2OleControl()) {
             Forms2OleControl checkBox = (Forms2OleControl) oleControl;

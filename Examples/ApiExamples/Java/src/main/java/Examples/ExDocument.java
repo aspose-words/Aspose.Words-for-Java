@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1680,6 +1680,7 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:StyleCollection.Item(String)
         //ExFor:SectionCollection.Item(Int32)
+        //ExFor:PageSetup.Margins
         //ExFor:Document.UpdatePageLayout
         //ExSummary:Shows when to recalculate the page layout of the document.
         Document doc = new Document(getMyDir() + "Rendering.docx");
@@ -1690,7 +1691,8 @@ public class ExDocument extends ApiExampleBase {
 
         // Modify the document in some way.
         doc.getStyles().get("Normal").getFont().setSize(6.0);
-        doc.getSections().get(0).getPageSetup().setOrientation(com.aspose.words.Orientation.LANDSCAPE);
+        doc.getSections().get(0).getPageSetup().setOrientation(Orientation.LANDSCAPE);
+        doc.getSections().get(0).getPageSetup().setMargins(Margins.MIRRORED);
 
         // In the current version of Aspose.Words, modifying the document does not automatically rebuild 
         // the cached page layout. If we wish for the cached layout
@@ -2547,5 +2549,39 @@ public class ExDocument extends ApiExampleBase {
                 "https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx",
                 doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
         Assert.assertFalse(doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).isFrameLinkToFile());
+    }
+
+    @Test
+    public void moveToStructuredDocumentTag() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.MoveToStructuredDocumentTag(int, int)
+        //ExFor:DocumentBuilder.MoveToStructuredDocumentTag(StructuredDocumentTag, int)
+        //ExFor:DocumentBuilder.IsAtEndOfStructuredDocumentTag
+        //ExFor:DocumentBuilder.CurrentStructuredDocumentTag
+        //ExSummary:Shows how to move cursor of DocumentBuilder inside a structured document tag.
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // There is a several ways to move the cursor:
+        // 1 -  Move to the first character of structured document tag by index.
+        builder.moveToStructuredDocumentTag(1, 1);
+
+        // 2 -  Move to the first character of structured document tag by object.
+        StructuredDocumentTag tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 2, true);
+        builder.moveToStructuredDocumentTag(tag, 1);
+        builder.write(" New text.");
+
+        Assert.assertEquals("R New text.ichText", tag.getText().trim());
+
+        // 3 -  Move to the end of the second structured document tag.
+        builder.moveToStructuredDocumentTag(1, -1);
+        Assert.assertTrue(builder.isAtEndOfStructuredDocumentTag());
+
+        // Get currently selected structured document tag.
+        builder.getCurrentStructuredDocumentTag().setColor(Color.GREEN);
+
+        doc.save(getArtifactsDir() + "Document.MoveToStructuredDocumentTag.docx");
+        //ExEnd
     }
 }
