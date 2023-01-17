@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -168,6 +168,7 @@ import com.aspose.words.FieldTA;
 import com.aspose.words.FieldAddIn;
 import com.aspose.words.FieldEditTime;
 import com.aspose.words.FieldEQ;
+import com.aspose.words.OfficeMath;
 import com.aspose.words.FieldFormCheckBox;
 import com.aspose.words.FieldFormDropDown;
 import com.aspose.words.FieldFormText;
@@ -189,6 +190,8 @@ import com.aspose.words.IComparisonExpressionEvaluator;
 import com.aspose.words.ComparisonExpression;
 import java.util.ArrayList;
 import com.aspose.words.IFieldUpdatingCallback;
+import com.aspose.words.IFieldUpdatingProgressCallback;
+import com.aspose.words.FieldUpdatingProgressArgs;
 import org.testng.annotations.DataProvider;
 
 
@@ -7068,6 +7071,24 @@ public class ExField extends ApiExampleBase
     }
 
     @Test
+    public void fieldEQAsOfficeMath() throws Exception
+    {
+        //ExStart
+        //ExFor:FieldEQ
+        //ExSummary:Shows how to replace the EQ field with Office Math.
+        Document doc = new Document(getMyDir() + "Field sample - EQ.docx");
+        FieldEQ fieldEQ = doc.getRange().getFields().<FieldEQ>OfType().First();
+
+        OfficeMath officeMath = fieldEQ.asOfficeMath();
+
+        fieldEQ.getStart().getParentNode().insertBefore(officeMath, fieldEQ.getStart());
+        fieldEQ.remove();
+
+        doc.save(getArtifactsDir() + "Field.EQAsOfficeMath.docx");
+        //ExEnd
+    }
+
+    @Test
     public void fieldForms() throws Exception
     {
         //ExStart
@@ -7723,6 +7744,11 @@ public class ExField extends ApiExampleBase
 
     //ExStart
     //ExFor:IFieldUpdatingCallback
+    //ExFor:IFieldUpdatingProgressCallback
+    //ExFor:IFieldUpdatingProgressCallback.Notify(FieldUpdatingProgressArgs)
+    //ExFor:FieldUpdatingProgressArgs.UpdateCompleted
+    //ExFor:FieldUpdatingProgressArgs.TotalFieldsCount
+    //ExFor:FieldUpdatingProgressArgs.UpdatedFieldsCount
     //ExFor:IFieldUpdatingCallback.FieldUpdating(Field)
     //ExFor:IFieldUpdatingCallback.FieldUpdated(Field)
     //ExSummary:Shows how to use callback methods during a field update.
@@ -7750,7 +7776,7 @@ public class ExField extends ApiExampleBase
     /// <summary>
     /// Implement this interface if you want to have your own custom methods called during a field update.
     /// </summary>
-    public static class FieldUpdatingCallback implements IFieldUpdatingCallback
+    public static class FieldUpdatingCallback implements IFieldUpdatingCallback, IFieldUpdatingProgressCallback
     {
         public FieldUpdatingCallback()
         {
@@ -7777,10 +7803,17 @@ public class ExField extends ApiExampleBase
             getFieldUpdatedCalls().add(field.getResult());
         }
 
+        public void /*IFieldUpdatingProgressCallback.*/notify(FieldUpdatingProgressArgs args)
+        {
+            System.out.println("{args.UpdateCompleted}/{args.TotalFieldsCount}");
+            System.out.println("{args.UpdatedFieldsCount}");
+        }
+
         public ArrayList<String> getFieldUpdatedCalls() { return mFieldUpdatedCalls; };
 
         private ArrayList<String> mFieldUpdatedCalls;
     }
     //ExEnd
 }
+
 

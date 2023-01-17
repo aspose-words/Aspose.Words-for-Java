@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -88,6 +88,7 @@ import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.Field;
 import com.aspose.words.FieldType;
 import com.aspose.words.RevisionColor;
+import com.aspose.words.Margins;
 import com.aspose.words.CustomPart;
 import java.util.Iterator;
 import com.aspose.words.CustomPartCollection;
@@ -119,6 +120,7 @@ import com.aspose.words.RevisionType;
 import com.aspose.words.MemoryFontSource;
 import com.aspose.words.FontSettings;
 import com.aspose.words.FontSourceBase;
+import com.aspose.words.StructuredDocumentTag;
 import org.testng.annotations.DataProvider;
 
 
@@ -2092,6 +2094,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:StyleCollection.Item(String)
         //ExFor:SectionCollection.Item(Int32)
         //ExFor:Document.UpdatePageLayout
+        //ExFor:PageSetup.Margins
         //ExSummary:Shows when to recalculate the page layout of the document.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
@@ -2102,6 +2105,7 @@ public class ExDocument extends ApiExampleBase
         // Modify the document in some way.
         doc.getStyles().get("Normal").getFont().setSize(6.0);
         doc.getSections().get(0).getPageSetup().setOrientation(com.aspose.words.Orientation.LANDSCAPE);
+        doc.getSections().get(0).getPageSetup().setMargins(Margins.MIRRORED);
 
         // In the current version of Aspose.Words, modifying the document does not automatically rebuild 
         // the cached page layout. If we wish for the cached layout
@@ -3022,6 +3026,40 @@ public class ExDocument extends ApiExampleBase
 
         Document doc = new Document(getMyDir() + "Mail merge data - Purchase order.xml");
         Assert.assertTrue(doc.getText().contains("Ellen Adams\r123 Maple Street"));
+    }
+
+    @Test
+    public void moveToStructuredDocumentTag() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.MoveToStructuredDocumentTag(int, int)
+        //ExFor:DocumentBuilder.MoveToStructuredDocumentTag(StructuredDocumentTag, int)
+        //ExFor:DocumentBuilder.IsAtEndOfStructuredDocumentTag
+        //ExFor:DocumentBuilder.CurrentStructuredDocumentTag
+        //ExSummary:Shows how to move cursor of DocumentBuilder inside a structured document tag.
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // There is a several ways to move the cursor:
+        // 1 -  Move to the first character of structured document tag by index.
+        builder.moveToStructuredDocumentTag(1, 1);
+
+        // 2 -  Move to the first character of structured document tag by object.
+        StructuredDocumentTag tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 2, true);
+        builder.moveToStructuredDocumentTag(tag, 1);
+        builder.write(" New text.");
+
+        Assert.assertEquals("R New text.ichText", tag.getText().trim());
+
+        // 3 -  Move to the end of the second structured document tag.
+        builder.moveToStructuredDocumentTag(1, -1);
+        Assert.assertTrue(builder.isAtEndOfStructuredDocumentTag());            
+
+        // Get currently selected structured document tag.
+        builder.getCurrentStructuredDocumentTag().setColor(msColor.getGreen());
+
+        doc.save(getArtifactsDir() + "Document.MoveToStructuredDocumentTag.docx");
+        //ExEnd
     }
 
 	//JAVA-added for string switch emulation

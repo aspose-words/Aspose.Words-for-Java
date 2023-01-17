@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -396,6 +396,21 @@ public class ExReportingEngine extends ApiExampleBase
     }
 
     @Test
+    public void insertDocumentDynamicallyTrimLastParagraph() throws Exception
+    {
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.Document] -inline>>");
+
+        DocumentTestClass doc = new DocumentTestBuilder()
+            .withDocument(new Document(getMyDir() + "Reporting engine template - Data table.docx")).build();
+
+        buildReport(template, doc, "src", ReportBuildOptions.NONE);
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
+
+        template = new Document(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
+        Assert.assertEquals(1, template.getFirstSection().getBody().getParagraphs().getCount());
+    }
+
+    @Test
     public void insertDocumentDynamicallyByStream() throws Exception
     {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.DocumentStream]>>");
@@ -732,10 +747,10 @@ public class ExReportingEngine extends ApiExampleBase
 
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
-            // Assert that the image is really insert in textbox 
+            // Assert that the image is really insert in textbox.
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
-            // Assert that the width is preserved, and the height is changed
+            // Assert that the width is preserved, and the height is changed.
             Assert.assertNotEquals(346.35, shape.getHeight());
             Assert.assertEquals(431.5, shape.getWidth());
         }
@@ -760,7 +775,7 @@ public class ExReportingEngine extends ApiExampleBase
         {
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
-            // Assert that the height is preserved, and the width is changed
+            // Assert that the height is preserved, and the width is changed.
             Assert.assertNotEquals(431.5, shape.getWidth());
             Assert.assertEquals(346.35, shape.getHeight());
         }
@@ -784,8 +799,8 @@ public class ExReportingEngine extends ApiExampleBase
         for (Shape shape : shapes.<Shape>OfType() !!Autoporter error: Undefined expression type )
         {
             Assert.assertNotNull(shape.getFill().getImageBytes());
-
-            // Assert that the height and the width are changed
+            
+            // Assert that the height and the width are changed.
             Assert.assertNotEquals(346.35, shape.getHeight());
             Assert.assertNotEquals(431.5, shape.getWidth());
         }
@@ -810,7 +825,7 @@ public class ExReportingEngine extends ApiExampleBase
         {
             Assert.assertNotNull(shape.getFill().getImageBytes());
 
-            // Assert that textbox size are equal image size
+            // Assert that textbox size are equal image size.
             Assert.assertEquals(300.0d, shape.getHeight());
             Assert.assertEquals(300.0d, shape.getWidth());
         }
@@ -821,11 +836,11 @@ public class ExReportingEngine extends ApiExampleBase
     {
         DocumentBuilder builder = new DocumentBuilder();
 
-        //Add templete to the document for reporting engine
+        // Add templete to the document for reporting engine.
         DocumentHelper.insertBuilderText(builder,
             new String[] { "<<[missingObject.First().id]>>", "<<foreach [in missingObject]>><<[id]>><</foreach>>" });
 
-        //Assert that build report failed without "ReportBuildOptions.AllowMissingMembers"
+        // Assert that build report failed without "ReportBuildOptions.AllowMissingMembers".
         Assert.That(() => buildReport(builder.getDocument(), new DataSet(), "", ReportBuildOptions.NONE),
             Throws.<IllegalStateException>TypeOf());
     }
@@ -835,13 +850,13 @@ public class ExReportingEngine extends ApiExampleBase
     {
         DocumentBuilder builder = new DocumentBuilder();
 
-        //Add templete to the document for reporting engine
+        // Add templete to the document for reporting engine.
         DocumentHelper.insertBuilderText(builder,
             new String[] { "<<[missingObject.First().id]>>", "<<foreach [in missingObject]>><<[id]>><</foreach>>" });
 
         buildReport(builder.getDocument(), new DataSet(), "", ReportBuildOptions.ALLOW_MISSING_MEMBERS);
 
-        //Assert that build report success with "ReportBuildOptions.AllowMissingMembers"
+        // Assert that build report success with "ReportBuildOptions.AllowMissingMembers".
         Assert.assertEquals(ControlChar.PARAGRAPH_BREAK + ControlChar.PARAGRAPH_BREAK + ControlChar.SECTION_BREAK,
             builder.getDocument().getText());
     }

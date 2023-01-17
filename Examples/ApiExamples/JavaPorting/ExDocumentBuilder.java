@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -426,7 +426,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(RelativeVerticalPosition.PAGE, shape.getRelativeVerticalPosition());
         Assert.assertEquals((doc.getFirstSection().getPageSetup().getPageWidth() - shape.getWidth()) / 2.0, shape.getLeft());
         Assert.assertEquals((doc.getFirstSection().getPageSetup().getPageHeight() - shape.getHeight()) / 2.0, shape.getTop());
-    }
+    }        
 
     @Test
     public void insertOleObject() throws Exception
@@ -2871,7 +2871,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         public void printFormatInvocations()
         { 
-            for (FormatInvocation f : getFormatInvocations())
+            for (FormatInvocation f : (Iterable<FormatInvocation>) getFormatInvocations())
                 System.out.println("Invocation type:\t{f.FormatInvocationType}\n" +
                                       $"\tOriginal value:\t\t{f.Value}\n" +
                                       $"\tOriginal format:\t{f.OriginalFormat}\n" +
@@ -2881,9 +2881,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         private /*final*/ String mNumberFormat;
         private /*final*/ String mDateFormat;
         private /*final*/ String mGeneralFormat; 
-        private ArrayList<FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
+        private ArrayList<FieldResultFormatter.FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
-        private ArrayList<FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<FormatInvocation>list();
+        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<FieldResultFormatter.FormatInvocation>list();
         
         private static class FormatInvocation
         {

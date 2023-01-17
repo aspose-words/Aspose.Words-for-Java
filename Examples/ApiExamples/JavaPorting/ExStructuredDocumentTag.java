@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -49,6 +49,10 @@ import com.aspose.words.Row;
 import com.aspose.words.StructuredDocumentTagRangeEnd;
 import com.aspose.words.StructuredDocumentTagCollection;
 import com.aspose.words.IStructuredDocumentTag;
+import com.aspose.words.Cell;
+import com.aspose.words.Paragraph;
+import com.aspose.words.SaveFormat;
+import com.aspose.words.FindReplaceOptions;
 import org.testng.annotations.DataProvider;
 import com.aspose.words.ref.Ref;
 
@@ -1226,12 +1230,12 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         sdt = structuredDocumentTags.getById(1691867797);
         Assert.assertEquals(1691867797, sdt.getId());
 
-        Assert.assertEquals(3, structuredDocumentTags.getCount());
+        Assert.assertEquals(5, structuredDocumentTags.getCount());
         // Remove the structured document tag by Id.
         structuredDocumentTags.remove(1691867797);
         // Remove the structured document tag at position 0.
         structuredDocumentTags.removeAt(0);
-        Assert.assertEquals(1, structuredDocumentTags.getCount());
+        Assert.assertEquals(3, structuredDocumentTags.getCount());
         //ExEnd
     }
 
@@ -1255,5 +1259,90 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         sdt = doc.getRange().getStructuredDocumentTags().getByTitle("Alias4");
         msConsole.writeLine(sdt.getId());
         //ExEnd
+    }
+
+    @Test
+    public void sdtAtRowLevel() throws Exception
+    {
+        //ExStart
+        //ExFor:SdtType
+        //ExSummary:Shows how to create group structured document tag at the Row level.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Table table = builder.startTable();
+
+        // Create a Group structured document tag at the Row level.
+        StructuredDocumentTag groupSdt = new StructuredDocumentTag(doc, SdtType.GROUP, MarkupLevel.ROW);
+        table.appendChild(groupSdt);
+        groupSdt.isShowingPlaceholderText(false);
+        groupSdt.removeAllChildren();
+
+        // Create a child row of the structured document tag.
+        Row row = new Row(doc);
+        groupSdt.appendChild(row);
+
+        Cell cell = new Cell(doc);
+        row.appendChild(cell);
+
+        builder.endTable();
+
+        // Insert cell contents.
+        cell.ensureMinimum();
+        builder.moveTo(cell.getLastParagraph());
+        builder.write("Lorem ipsum dolor.");
+
+        // Insert text after the table.
+        builder.moveTo(table.getNextSibling());
+        builder.write("Nulla blandit nisi.");
+
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.SdtAtRowLevel.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void ignoreStructuredDocumentTags() throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreStructuredDocumentTags
+        //ExSummary:Shows how to ignore content of tags from replacement.
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+
+        // This paragraph contains SDT.
+        Paragraph p = (Paragraph)doc.getFirstSection().getBody().getChild(NodeType.PARAGRAPH, 2, true);
+        String textToSearch = p.toString(SaveFormat.TEXT).trim();
+        
+        FindReplaceOptions options = new FindReplaceOptions(); { options.setIgnoreStructuredDocumentTags(true); }
+        doc.getRange().replace(textToSearch, "replacement", options);
+
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.IgnoreStructuredDocumentTags.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "StructuredDocumentTag.IgnoreStructuredDocumentTags.docx");
+        Assert.assertEquals("This document contains Structured Document Tags with text inside them\r\rRepeatingSection\rRichText\rreplacement", doc.getText().trim());
+    }
+
+    @Test
+    public void citation() throws Exception
+    {
+        //ExStart
+        //ExFor:SdtType
+        //ExSummary:Shows how to create a structured document tag of the Citation type.
+        Document doc = new Document();
+        
+        StructuredDocumentTag sdt = new StructuredDocumentTag(doc, SdtType.CITATION, MarkupLevel.INLINE);
+        Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
+        paragraph.appendChild(sdt);
+
+        // Create a Citation field.
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.moveToParagraph(0, -1);
+        builder.insertField("CITATION Ath22 \\l 1033 ", "(John Lennon, 2022)");
+
+        // Move the field to the structured document tag.
+        while (sdt.getNextSibling() != null)
+            sdt.appendChild(sdt.getNextSibling());
+
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.Citation.docx");
     }
 }

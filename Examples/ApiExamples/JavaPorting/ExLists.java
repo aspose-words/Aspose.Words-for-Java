@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -565,7 +565,6 @@ public class ExLists extends ApiExampleBase
         builder.getListFormat().removeNumbers();
 
         NodeCollection paras = doc.getChildNodes(NodeType.PARAGRAPH, true);
-
         Assert.AreEqual(3, paras.Count(n => (ms.as(n, Paragraph.class)).ListFormat.IsListItem));
 
         for (Paragraph paragraph : (Iterable<Paragraph>) paras)
@@ -807,11 +806,9 @@ public class ExLists extends ApiExampleBase
         Document doc = new Document();
 
         ListCollection lists = doc.getLists();
-
         Assert.assertEquals(doc, lists.getDocument());
 
         List list = lists.add(ListTemplate.BULLET_DEFAULT);
-
         Assert.assertEquals(doc, list.getDocument());
 
         System.out.println("Current list count: " + lists.getCount());
@@ -1016,5 +1013,18 @@ public class ExLists extends ApiExampleBase
             Throws.<IllegalArgumentException>TypeOf());
         Assert.That(() => ListLevel.getEffectiveValue(5, NumberStyle.CUSTOM, "...."),
             Throws.<IllegalArgumentException>TypeOf());
+    }
+
+    @Test
+    public void hasSameTemplate() throws Exception
+    {
+        //ExStart
+        //ExFor:List.HasSameTemplate(List)
+        //ExSummary:Shows how to define lists with the same ListDefId.
+        Document doc = new Document(getMyDir() + "Different lists.docx");
+
+        Assert.assertTrue(doc.getLists().get(0).hasSameTemplate(doc.getLists().get(1)));
+        Assert.assertFalse(doc.getLists().get(1).hasSameTemplate(doc.getLists().get(2)));
+        //ExEnd
     }
 }

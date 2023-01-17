@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -67,6 +67,7 @@ import com.aspose.words.EmfPlusDualRenderingMode;
 import com.aspose.words.PdfEncryptionDetails;
 import com.aspose.words.PdfPermissions;
 import com.aspose.words.NumeralFormat;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import org.testng.annotations.DataProvider;
 
 
@@ -2610,6 +2611,44 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         }
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.ExportLanguageToSpanTag.pdf", saveOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void pdfEmbedAttachments() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.EmbedAttachments
+        //ExSummary:Shows how to add embed attachments to the PDF document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
+
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setEmbedAttachments(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.PdfEmbedAttachments.pdf", options);
+        //ExEnd
+    }
+
+    @Test
+    public void cacheBackgroundGraphics() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.CacheBackgroundGraphics
+        //ExSummary:Shows how to cache graphics placed in document's background.
+        Document doc = new Document(getMyDir() + "Background images.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setCacheBackgroundGraphics(true);
+        
+        doc.save(getArtifactsDir() + "PdfSaveOptions.CacheBackgroundGraphics.pdf", saveOptions);
+
+        long asposeToPdfSize = new FileInfo(getArtifactsDir() + "PdfSaveOptions.CacheBackgroundGraphics.pdf").getLength();
+        long wordToPdfSize = new FileInfo(getMyDir() + "Background images (word to pdf).pdf").getLength();
+
+        msAssert.less(asposeToPdfSize, wordToPdfSize);
         //ExEnd
     }
 }
