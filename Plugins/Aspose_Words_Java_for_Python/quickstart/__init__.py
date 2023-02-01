@@ -62,12 +62,12 @@ class FindAndReplace:
 
         doc = Document(srcDocFile)
 
-        print "Original document text: " + doc.getRange().getText()
+        print ("Original document text: ", doc.getRange().getText())
 
         doc.getRange().replace(searchString, replaceString, FindReplaceOptions(FindReplaceDirection.FORWARD))
         # Check the replacement was made.
 
-        print "Document text after replace: " + doc.getRange().getText()
+        print ("Document text after replace: ", doc.getRange().getText())
 
         # Save the modified document.
         doc.save(outputDocFile)
@@ -172,7 +172,7 @@ class UpdateFields:
         builder.writeln("Heading 3.2")
         builder.writeln("Heading 3.3")
 
-        print "Updating all fields in the document."
+        print ("Updating all fields in the document.")
 
         # Call the method below to update the TOC.
         doc.updateFields()
@@ -199,7 +199,7 @@ class WorkingWithNodes:
         # Next print the node type of one of the nodes in the document.
         nodeType = doc.getFirstSection().getBody().getNodeType()
 
-        print "NodeType: " + Node.nodeTypeToString(nodeType)
+        print ("NodeType: ", Node.nodeTypeToString(nodeType))
 
 class ApplyLicense:
 
@@ -215,4 +215,4 @@ class ApplyLicense:
             license.setLicense("Aspose.Words.lic")
         except Exception as e:
             # We do not ship any license with this example, visit the Aspose site to obtain either a temporary or permanent license.
-            print "There was an error setting the license: "
+            print ("There was an error setting the license: ")
