@@ -290,7 +290,7 @@ public class ExReportingEngine extends ApiExampleBase {
     @Test
     public void insertDocumentDynamicallyTrimLastParagraph() throws Exception
     {
-        Document template = DocumentHelper.createSimpleDocument("<<doc [src.Document] -inline>>");
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocument()] -inline>>");
 
         DocumentTestClass doc = new DocumentTestBuilder()
                 .withDocument(new Document(getMyDir() + "Reporting engine template - Data table.docx")).build();
