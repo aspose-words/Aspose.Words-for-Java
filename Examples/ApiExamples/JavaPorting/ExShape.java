@@ -1546,7 +1546,6 @@ public class ExShape extends ApiExampleBase
         //ExStart
         //ExFor:OfficeMath
         //ExFor:OfficeMath.DisplayType
-        //ExFor:OfficeMath.EquationXmlEncoding
         //ExFor:OfficeMath.Justification
         //ExFor:OfficeMath.NodeType
         //ExFor:OfficeMath.ParentParagraph
@@ -1562,9 +1561,6 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(MathObjectType.O_MATH_PARA, officeMath.getMathObjectType());
         Assert.assertEquals(NodeType.OFFICE_MATH, officeMath.getNodeType());
         Assert.assertEquals(officeMath.getParentNode(), officeMath.getParentParagraph());
-
-        // OOXML and WML formats use the "EquationXmlEncoding" property.
-        Assert.assertNull(officeMath.getEquationXmlEncodingInternal());
 
         // Change the location and display type of the OfficeMath node.
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);

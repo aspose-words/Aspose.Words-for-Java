@@ -186,6 +186,21 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 		};
 	}
 
+    @Test
+    public void createAZW3Toc() throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExSummary:Shows how to generate table of contents for azw3 documents.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.AZW_3);
+        options.setEpubNavigationMapLevel(2);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.CreateAZW3Toc.azw3", options);
+        //ExEnd
+    }
+
     @Test (dataProvider = "controlListLabelsExportDataProvider")
     public void controlListLabelsExport(/*ExportListLabels*/int howExportListLabels) throws Exception
     {
@@ -1438,8 +1453,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         {
             Assert.assertTrue(outDocContents.contains(
                 "<style type=\"text/css\">" +
-                    "@page Section1 { size:419.55pt 595.3pt; margin:36pt 70.85pt }" +
-                    "@page Section2 { size:612pt 792pt; margin:70.85pt }" +
+                    "@page Section1 { size:419.55pt 595.3pt; margin:36pt 70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
+                    "@page Section2 { size:612pt 792pt; margin:70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
                     "div.Section1 { page:Section1 }div.Section2 { page:Section2 }" +
                 "</style>"));
 
@@ -1732,7 +1747,6 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         if (exportTocPageNumbers)
         {
             Assert.assertTrue(outDocContents.contains(
-                "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
                 "<span>Entry 1</span>" +
                 "<span style=\"width:428.14pt; font-family:'Lucida Console'; font-size:10pt; display:inline-block; -aw-font-family:'Times New Roman'; " +
                 "-aw-tabstop-align:right; -aw-tabstop-leader:dots; -aw-tabstop-pos:469.8pt\">.......................................................................</span>" +
@@ -1743,7 +1757,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         {
             Assert.assertTrue(outDocContents.contains(
                 "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                "<span>Entry 1</span>" +
+                "<span>Entry 2</span>" +
                 "</p>"));
         }
         //ExEnd

@@ -36,7 +36,8 @@ public class ExCertificateHolder extends ApiExampleBase
         FileStream certStream = new FileStream(getMyDir() + "morzal.pfx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
-            PKCS12KeyStoreSpi.BCPKCS12KeyStore pkcs12Store = new PKCS12KeyStoreSpi.BCPKCS12KeyStore(certStream, "aw".toCharArray());
+            PKCS12KeyStoreSpi.BCPKCS12KeyStore pkcs12Store = new Pkcs12StoreBuilder().Build();
+            pkcs12Store.load(certStream, "aw".toCharArray());
             Iterator enumerator = pkcs12Store.getAliases().iterator();
 
             while (enumerator.hasNext())

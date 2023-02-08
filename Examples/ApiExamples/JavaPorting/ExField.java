@@ -626,7 +626,7 @@ public class ExField extends ApiExampleBase
         return barcodeReader;
     }
 
-    @Test (groups = "SkipMono")
+    @Test (groups = "IgnoreOnJenkins")
     public void fieldDatabase() throws Exception
     {
         //ExStart
@@ -7034,7 +7034,7 @@ public class ExField extends ApiExampleBase
         insertFieldEQ(builder, "\\i \\in( tan x, \\s \\up2(sec x), \\b(\\r(3) )\\s \\up4(t) \\s \\up7(2)  dt)");
 
         doc.save(getArtifactsDir() + "Field.EQ.docx");
-        testFieldEQ(new Document(getArtifactsDir() + "Field.EQ.docx")); //ExSkip
+        Task.WhenAll(testFieldEQ(new Document(getArtifactsDir() + "Field.EQ.docx"))); //ExSkip
     }
 
     /// <summary>
@@ -7049,10 +7049,7 @@ public class ExField extends ApiExampleBase
         
         builder.insertParagraph();
         return field;
-    }
-    //ExEnd
-
-    private void testFieldEQ(Document doc)
+    }private TestFieldEQtestFieldEQ(Document doc)
     {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\f(1,4)", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\al \\co2 \\vs3 \\hs3(4x,- 4y,-4x,+ y)", "", doc.getRange().getFields().get(1));
@@ -7067,7 +7064,7 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\ac \\vs1 \\co1(lim,n→∞) \\b (\\f(n,n2 + 12) + \\f(n,n2 + 22) + ... + \\f(n,n2 + n2))", "", doc.getRange().getFields().get(10));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\i (,,  \\b(\\f(x,x2 + 3x + 2))) \\s \\up10(2)", "", doc.getRange().getFields().get(11));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\i \\in( tan x, \\s \\up2(sec x), \\b(\\r(3) )\\s \\up4(t) \\s \\up7(2)  dt)", "", doc.getRange().getFields().get(12));
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/");
+        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/");
     }
 
     @Test

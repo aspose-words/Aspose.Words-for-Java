@@ -118,12 +118,12 @@ class TestUtil extends ApiExampleBase
     /// </remarks>
     /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
     /// <param name="webAddress">URL where the request will be sent.</param>
-    static void verifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
+     static async System.Threading.Tasks.Task private VerifyWebResponseStatusCodeverifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
     {
-        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(webAddress);
-        request.Method = "HEAD";
+        var myClient = new System.Net.Http.HttpClient();
+        var response = await myClient.GetAsync(webAddress);
 
-        Assert.assertEquals(expectedHttpStatusCode, ((HttpWebResponse)request.GetResponse()).StatusCode);
+        Assert.AreEqual(expectedHttpStatusCode, response.StatusCode);
     }
 
     /// <summary>

@@ -365,7 +365,7 @@ public class ExMailMergeEvent extends ApiExampleBase
     //ExFor:IFieldMergingCallback.ImageFieldMerging
     //ExFor:ImageFieldMergingArgs.ImageStream
     //ExSummary:Shows how to insert images stored in a database BLOB field into a report.
-    @Test (groups = "SkipMono") //ExSkip        
+    @Test (groups = "IgnoreOnJenkins") //ExSkip        
     public void imageFromBlob() throws Exception
     {
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");

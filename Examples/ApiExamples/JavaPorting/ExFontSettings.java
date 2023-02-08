@@ -929,8 +929,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         Assert.assertEquals("Arial Unicode MS", rules.item(5).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
     }
 
-    @Test
-    public void loadNotoFontsFallbackSettings() throws Exception
+    [Test]
+    public async Task private LoadNotoFontsFallbackSettingsloadNotoFontsFallbackSettings() throws Exception
     {
         //ExStart
         //ExFor:FontFallbackSettings.LoadNotoFallbackSettings
@@ -953,7 +953,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         doc.setFontSettings(fontSettings);
         //ExEnd
 
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, "https://www.google.com/get/noto/#sans-lgc");
+        await TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, "https://www.google.com/get/noto/#sans-lgc");
     }
 
     @Test

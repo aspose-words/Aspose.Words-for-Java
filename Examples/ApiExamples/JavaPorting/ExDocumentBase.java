@@ -238,7 +238,7 @@ public class ExDocumentBase extends ApiExampleBase
         Assert.assertEquals(3, doc.getChildNodes(NodeType.SHAPE, true).getCount());
 
         doc.save(getArtifactsDir() + "DocumentBase.ResourceLoadingCallback.docx");
-        testResourceLoadingCallback(new Document(getArtifactsDir() + "DocumentBase.ResourceLoadingCallback.docx")); //ExSkip
+        Task.WhenAll(testResourceLoadingCallback(new Document(getArtifactsDir() + "DocumentBase.ResourceLoadingCallback.docx"))); //ExSkip
     }
 
     /// <summary>
@@ -277,10 +277,7 @@ public class ExDocumentBase extends ApiExampleBase
 
             return ResourceLoadingAction.DEFAULT;
         }
-    }
-    //ExEnd
-
-    private void testResourceLoadingCallback(Document doc) throws Exception
+    }private TestResourceLoadingCallbacktestResourceLoadingCallback(Document doc) throws Exception
     {
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
         {
@@ -288,7 +285,7 @@ public class ExDocumentBase extends ApiExampleBase
             Assert.IsNotEmpty(shape.getImageData().getImageBytes());
         }
 
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, "http://www.google.com/images/logos/ps_logo2.png");
+        await TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, "http://www.google.com/images/logos/ps_logo2.png");
     }
 
 	//JAVA-added for string switch emulation

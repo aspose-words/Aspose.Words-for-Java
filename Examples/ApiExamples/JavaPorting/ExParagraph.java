@@ -28,6 +28,8 @@ import com.aspose.words.Field;
 import java.text.MessageFormat;
 import com.aspose.words.NodeType;
 import com.aspose.words.ParagraphCollection;
+import com.aspose.words.Revision;
+import com.aspose.words.RevisionType;
 import com.aspose.words.HeightRule;
 import com.aspose.words.HorizontalAlignment;
 import com.aspose.words.VerticalAlignment;
@@ -366,7 +368,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     }
 
     @Test
-    public void revisions() throws Exception
+    public void moveRevisions() throws Exception
     {
         //ExStart
         //ExFor:Paragraph.IsMoveFromRevision
@@ -399,6 +401,26 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         // The "Move to" revision is the paragraph where we dragged the text to.
         // If we reject the revision, this paragraph instead will disappear, and the other will remain.
         Assert.assertTrue(paragraphs.get(3).isMoveToRevision());
+        //ExEnd
+    }
+
+    @Test
+    public void rangeRevisions() throws Exception 
+    {
+        //ExStart
+        //ExFor:Range.Revisions
+        //ExSummary:Shows how to work with revisions in range.
+        Document doc = new Document(getMyDir() + "Revisions.docx");
+
+        Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
+        for (Revision revision : paragraph.getRange().getRevisions())
+        {
+            if (revision.getRevisionType() == RevisionType.DELETION)
+                revision.accept();
+        }
+
+        // Reject the first section revisions.
+        doc.getFirstSection().getRange().getRevisions().rejectAll();
         //ExEnd
     }
 

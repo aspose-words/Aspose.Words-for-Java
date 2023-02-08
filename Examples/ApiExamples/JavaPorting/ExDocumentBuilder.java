@@ -291,8 +291,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.That(() => horizontalRuleFormat.setHeight(1585.0), Throws.<IllegalArgumentException>TypeOf());
     }
 
-    @Test
-    public void insertHyperlink() throws Exception
+    [Test]
+    public async Task private InsertHyperlinkAsyncinsertHyperlinkAsync() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertHyperlink
@@ -321,7 +321,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertHyperlink.docx");
 
         FieldHyperlink hyperlink = (FieldHyperlink)doc.getRange().getFields().get(0);
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, hyperlink.getAddress());
+        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, hyperlink.getAddress());
 
         Run fieldContents = (Run)hyperlink.getStart().getNextSibling();
 
@@ -330,8 +330,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
     }
 
-    @Test
-    public void pushPopFont() throws Exception
+    [Test]
+    public async Task private PushPopFontpushPopFont() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.PushFont
@@ -383,7 +383,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertNotEquals(runs.get(0).getFont().getColor(), runs.get(2).getFont().getColor());
         Assert.assertNotEquals(runs.get(0).getFont().getUnderline(), runs.get(2).getFont().getUnderline());
 
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, ((FieldHyperlink)doc.getRange().getFields().get(0)).getAddress());
+        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, ((FieldHyperlink)doc.getRange().getFields().get(0)).getAddress());
     }
 
     @Test
@@ -2883,7 +2883,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         private /*final*/ String mGeneralFormat; 
         private ArrayList<FieldResultFormatter.FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
-        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<FieldResultFormatter.FormatInvocation>list();
+        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<FieldResultFormatter.FormatInvocation>list();
         
         private static class FormatInvocation
         {
@@ -2920,11 +2920,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
             public static final int length = 4;
         }
-    }
-    //ExEnd
-
-    @Test (enabled = false, description = "Failed")
-    public void insertVideoWithUrl() throws Exception
+    }private InsertVideoWithUrlinsertVideoWithUrl() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, Double, Double)
@@ -2942,7 +2938,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
         TestUtil.verifyImageInShape(480, 360, ImageType.JPEG, shape);
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
+        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
 
         Assert.assertEquals(360.0d, shape.getWidth());
         Assert.assertEquals(270.0d, shape.getHeight());
@@ -3590,8 +3586,8 @@ public class ExDocumentBuilder extends ApiExampleBase
 		};
 	}
 
-    @Test
-    public void insertOnlineVideo() throws Exception
+    [Test]
+    public async Task private InsertOnlineVideoinsertOnlineVideo() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
@@ -3625,11 +3621,11 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(RelativeHorizontalPosition.LEFT_MARGIN, shape.getRelativeHorizontalPosition());
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
+        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
     }
 
-    @Test
-    public void insertOnlineVideoCustomThumbnail() throws Exception
+    [Test]
+    public async Task private InsertOnlineVideoCustomThumbnailinsertOnlineVideoCustomThumbnail() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, String, Byte[], Double, Double)
@@ -3701,7 +3697,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
 
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
+        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
     }
 
     @Test

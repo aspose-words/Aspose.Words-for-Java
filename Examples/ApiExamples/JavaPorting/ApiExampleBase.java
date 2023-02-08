@@ -112,7 +112,7 @@ public class ApiExampleBase
     static String getCodeBaseDir(Assembly assembly) throws Exception
     {
         // CodeBase is a full URI, such as file:///x:\blahblah.
-        msUri uri = new msUri(assembly.CodeBase);
+        msUri uri = new msUri(assembly.Location);
         String mainFolder = Path.getDirectoryName(uri.getLocalPath())
             ?.Substring(0, uri.LocalPath.IndexOf("ApiExamples", StringComparison.Ordinal));
         return mainFolder;
@@ -124,7 +124,7 @@ public class ApiExampleBase
     static String getAssemblyDir(Assembly assembly) throws Exception
     {
         // CodeBase is a full URI, such as file:///x:\blahblah.
-        msUri uri = new msUri(assembly.CodeBase);
+        msUri uri = new msUri(assembly.Location);
         return Path.getDirectoryName(uri.getLocalPath()) + Path.DirectorySeparatorChar;
     }
 
