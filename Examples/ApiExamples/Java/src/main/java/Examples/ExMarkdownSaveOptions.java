@@ -167,5 +167,28 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
 			{false},
 		};
 	}
+
+    @Test (dataProvider = "listExportModeDataProvider")
+    public void listExportMode(int markdownListExportMode) throws Exception
+    {
+        //ExStart
+        //ExFor:MarkdownSaveOptions.ListExportMode
+        //ExSummary:Shows how to list items will be written to the markdown document.
+        Document doc = new Document(getMyDir() + "List item.docx");
+
+        // Use MarkdownListExportMode.PlainText or MarkdownListExportMode.MarkdownSyntax to export list.
+        MarkdownSaveOptions options = new MarkdownSaveOptions(); { options.setListExportMode(markdownListExportMode); }
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.ListExportMode.md", options);
+        //ExEnd
+    }
+
+    @DataProvider(name = "listExportModeDataProvider")
+    public static Object[][] listExportModeDataProvider() {
+        return new Object[][]
+                {
+                        {MarkdownListExportMode.PLAIN_TEXT},
+                        {MarkdownListExportMode.MARKDOWN_SYNTAX},
+                };
+    }
 }
 

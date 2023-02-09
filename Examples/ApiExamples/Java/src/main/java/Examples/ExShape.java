@@ -1428,7 +1428,6 @@ public class ExShape extends ApiExampleBase {
         //ExStart
         //ExFor:OfficeMath
         //ExFor:OfficeMath.DisplayType
-        //ExFor:OfficeMath.EquationXmlEncoding
         //ExFor:OfficeMath.Justification
         //ExFor:OfficeMath.NodeType
         //ExFor:OfficeMath.ParentParagraph

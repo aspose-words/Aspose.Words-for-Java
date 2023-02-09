@@ -636,6 +636,46 @@ public class ExFont extends ApiExampleBase {
     }
 
     @Test
+    public void foregroundAndBackground() throws Exception
+    {
+        //ExStart
+        //ExFor:Shading.ForegroundPatternThemeColor
+        //ExFor:Shading.BackgroundPatternThemeColor
+        //ExFor:Shading.ForegroundTintAndShade
+        //ExFor:Shading.BackgroundTintAndShade
+        //ExSummary:Shows how to set foreground and background colors for shading texture.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shading shading = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getShading();
+        shading.setTexture(TextureIndex.TEXTURE_12_PT_5_PERCENT);
+        shading.setForegroundPatternThemeColor(ThemeColor.DARK_1);
+        shading.setBackgroundPatternThemeColor(ThemeColor.DARK_2);
+
+        shading.setForegroundTintAndShade(0.5);
+        shading.setBackgroundTintAndShade(-0.2);
+
+        builder.getFont().getBorder().setColor(Color.GREEN);
+        builder.getFont().getBorder().setLineWidth(2.5d);
+        builder.getFont().getBorder().setLineStyle(LineStyle.DASH_DOT_STROKER);
+
+        builder.writeln("Foreground and background pattern colors for shading texture.");
+
+        doc.save(getArtifactsDir() + "Font.ForegroundAndBackground.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Font.ForegroundAndBackground.docx");
+        Run run = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0);
+
+        Assert.assertEquals("Foreground and background pattern colors for shading texture.", run.getText().trim());
+        Assert.assertEquals(ThemeColor.DARK_1, doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getShading().getForegroundPatternThemeColor());
+        Assert.assertEquals(ThemeColor.DARK_2, doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getShading().getBackgroundPatternThemeColor());
+
+        Assert.assertEquals(0.5, doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getShading().getForegroundTintAndShade(), 0.1);
+        Assert.assertEquals(-0.2, doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getShading().getBackgroundTintAndShade(), 0.1);
+    }
+
+    @Test
     public void shading() throws Exception {
         //ExStart
         //ExFor:Font.Shading

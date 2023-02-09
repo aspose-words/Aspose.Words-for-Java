@@ -68,6 +68,7 @@ public class ExCharts extends ApiExampleBase {
     public void dataLabelNumberFormat() throws Exception {
         //ExStart
         //ExFor:ChartDataLabelCollection.NumberFormat
+        //ExFor:ChartDataLabelCollection.Font
         //ExFor:ChartNumberFormat.FormatCode
         //ExSummary:Shows how to enable and configure data labels for a chart series.
         Document doc = new Document();
@@ -92,6 +93,7 @@ public class ExCharts extends ApiExampleBase {
         ChartDataLabelCollection dataLabels = series.getDataLabels();
         dataLabels.setShowValue(true);
         dataLabels.getNumberFormat().setFormatCode("\"US$\" #,##0.000\"M\"");
+        dataLabels.getFont().setSize(12.0);
 
         doc.save(getArtifactsDir() + "Charts.DataLabelNumberFormat.docx");
         //ExEnd
@@ -717,6 +719,7 @@ public class ExCharts extends ApiExampleBase {
     public void bubble3D() throws Exception {
         //ExStart
         //ExFor:ChartDataLabel.ShowBubbleSize
+        //ExFor:Charts.ChartDataLabel.Font
         //ExFor:IChartDataPoint.Bubble3D
         //ExSummary:Shows how to use 3D effects with bubble charts.
         Document doc = new Document();
@@ -733,6 +736,7 @@ public class ExCharts extends ApiExampleBase {
         for (int i = 0; i < 3; i++) {
             chart.getSeries().get(0).hasDataLabels(true);
             ChartDataLabel cdl = chart.getSeries().get(0).getDataLabels().get(i);
+            chart.getSeries().get(0).getDataLabels().get(i).getFont().setSize(12.0);
             cdl.setShowBubbleSize(true);
         }
 
@@ -743,6 +747,7 @@ public class ExCharts extends ApiExampleBase {
         ChartSeries series = ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getChart().getSeries().get(0);
 
         for (int i = 0; i < 3; i++) {
+            Assert.assertTrue(series.getDataLabels().get(i).getShowBubbleSize());
             Assert.assertTrue(series.getDataLabels().get(i).getShowBubbleSize());
         }
     }
