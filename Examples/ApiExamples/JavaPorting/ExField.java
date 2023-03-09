@@ -1014,7 +1014,7 @@ public class ExField extends ApiExampleBase
     //ExFor:IFieldUserPromptRespondent
     //ExFor:IFieldUserPromptRespondent.Respond(String,String)
     //ExSummary:Shows how to create an ASK field, and set its properties.
-    @Test
+    @Test//ExSkip
     public void fieldAsk() throws Exception
     {
         Document doc = new Document();

@@ -44,8 +44,10 @@ public class ExMailMergeCustom extends ApiExampleBase
         builder.insertField(" MERGEFIELD Address ");
 
         ArrayList<ExMailMergeCustom.Customer> customers = new ArrayList<ExMailMergeCustom.Customer>();
-        customers.add(new Customer("Thomas Hardy", "120 Hanover Sq., London"));
-        customers.add(new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
+        {
+            customers.add(new Customer("Thomas Hardy", "120 Hanover Sq., London"));
+            customers.add(new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
+        }
 
         // To use a custom object as a data source, it must implement the IMailMergeDataSource interface. 
         CustomerMailMergeDataSource dataSource = new CustomerMailMergeDataSource(customers);

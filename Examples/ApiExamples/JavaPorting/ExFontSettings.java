@@ -223,7 +223,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     //ExStart
     //ExFor:FontSourceBase.WarningCallback
     //ExSummary:Shows how to call warning callback when the font sources working with.
-    @Test
+    @Test//ExSkip
     public void fontSourceWarning()
     {
         FontSettings settings = new FontSettings();
@@ -269,7 +269,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     //ExFor:WarningType
     //ExFor:DocumentBase.WarningCallback
     //ExSummary:Shows how to set the property for finding the closest match for a missing font from the available font sources.
-    @Test
+    @Test//ExSkip
     public void enableFontSubstitution() throws Exception
     {
         // Open a document that contains text formatted with a font that does not exist in any of our font sources.
@@ -1349,7 +1349,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     //ExFor:FontSettings.SaveSearchCache(Stream)
     //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
     //ExSummary:Shows how to speed up the font cache initialization process.
-    @Test
+    @Test//ExSkip
     public void loadFontSearchCache() throws Exception
     {
         final String CACHE_KEY_1 = "Arvo";

@@ -121,7 +121,7 @@ class ExVbaProject !Test class should be public in Java to run, please fix .Net 
     //ExFor:VbaReferenceCollection.Remove(VbaReference)
     //ExFor:VbaReferenceType
     //ExSummary:Shows how to get/remove an element from the VBA reference collection.
-    @Test
+    @Test//ExSkip
     public void removeVbaReference() throws Exception
     {
         final String BROKEN_PATH = "X:\\broken.dll";

@@ -653,7 +653,7 @@ public class ExRange extends ApiExampleBase
     //ExStart
     //ExFor:FindReplaceOptions.UseLegacyOrder
     //ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation.
-    @Test (dataProvider = "useLegacyOrderDataProvider") // ExSkip
+    @Test (dataProvider = "useLegacyOrderDataProvider") //ExSkip
     public void useLegacyOrder(boolean useLegacyOrder) throws Exception
     {
         Document doc = new Document();

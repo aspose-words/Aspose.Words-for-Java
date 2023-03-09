@@ -383,7 +383,7 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
     //ExFor:IDocumentLoadingCallback
     //ExFor:IDocumentLoadingCallback.Notify
     //ExSummary:Shows how to notify the user if document loading exceeded expected loading time.
-    @Test
+    @Test//ExSkip
     public void progressCallback() throws Exception
     {
         LoadingProgressCallback progressCallback = new LoadingProgressCallback();

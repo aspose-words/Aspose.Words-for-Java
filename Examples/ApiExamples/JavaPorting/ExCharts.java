@@ -688,7 +688,7 @@ public class ExCharts extends ApiExampleBase
     //ExFor:IChartDataPoint.Marker
     //ExFor:MarkerSymbol
     //ExSummary:Shows how to work with data points on a line chart.
-    @Test
+    @Test//ExSkip
     public void chartDataPoint() throws Exception
     {
         Document doc = new Document();
