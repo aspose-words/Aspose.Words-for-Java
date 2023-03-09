@@ -124,7 +124,7 @@ public class ExMailMerge extends ApiExampleBase {
     //ExStart
     //ExFor:MailMerge.ExecuteWithRegions(DataSet)
     //ExSummary:Shows how to create a nested mail merge with regions with data from a data set with two related tables.
-    @Test
+    @Test//ExSkip
     public void executeWithRegionsNested() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

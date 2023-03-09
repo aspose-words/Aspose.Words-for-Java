@@ -305,7 +305,7 @@ public class ExLoadOptions extends ApiExampleBase {
     //ExFor:IDocumentLoadingCallback
     //ExFor:IDocumentLoadingCallback.Notify
     //ExSummary:Shows how to notify the user if document loading exceeded expected loading time.
-    @Test
+    @Test//ExSkip
     public void progressCallback() throws Exception
     {
         LoadingProgressCallback progressCallback = new LoadingProgressCallback();

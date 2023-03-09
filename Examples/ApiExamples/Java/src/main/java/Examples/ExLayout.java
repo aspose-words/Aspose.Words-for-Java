@@ -232,7 +232,7 @@ public class ExLayout extends ApiExampleBase {
     //ExFor:PageLayoutCallbackArgs.PageIndex
     //ExFor:PageLayoutEvent
     //ExSummary:Shows how to track layout changes with a layout callback.
-    @Test
+    @Test//ExSkip
     public void pageLayoutCallback() throws Exception {
         Document doc = new Document();
         doc.getBuiltInDocumentProperties().setTitle("My Document");

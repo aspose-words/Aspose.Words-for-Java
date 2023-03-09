@@ -187,7 +187,7 @@ public class ExFontSettings extends ApiExampleBase {
     //ExStart
     //ExFor:FontSourceBase.WarningCallback
     //ExSummary:Shows how to call warning callback when the font sources working with.
-    @Test
+    @Test//ExSkip
     public void fontSourceWarning()
     {
         FontSettings settings = new FontSettings();
@@ -233,7 +233,7 @@ public class ExFontSettings extends ApiExampleBase {
     //ExFor:WarningType
     //ExFor:DocumentBase.WarningCallback
     //ExSummary:Shows how to set the property for finding the closest match for a missing font from the available font sources.
-    @Test
+    @Test//ExSkip
     public void enableFontSubstitution() throws Exception {
         // Open a document that contains text formatted with a font that does not exist in any of our font sources.
         Document doc = new Document(getMyDir() + "Missing font.docx");

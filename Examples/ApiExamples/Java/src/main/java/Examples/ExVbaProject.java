@@ -106,7 +106,7 @@ public class ExVbaProject extends ApiExampleBase {
     //ExFor:VbaReferenceCollection.Remove(VbaReference)
     //ExFor:VbaReferenceType
     //ExSummary:Shows how to get/remove an element from the VBA reference collection.
-    @Test
+    @Test//ExSkip
     public void removeVbaReference() throws Exception {
         final String BROKEN_PATH = "X:\\broken.dll";
         Document doc = new Document(getMyDir() + "VBA project.docm");
