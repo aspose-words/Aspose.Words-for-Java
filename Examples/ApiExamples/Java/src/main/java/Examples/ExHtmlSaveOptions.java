@@ -1267,8 +1267,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         if (exportPageSetup) {
             Assert.assertTrue(outDocContents.contains(
                     "<style type=\"text/css\">" +
-                            "@page Section1 { size:419.55pt 595.3pt; margin:36pt 70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
-                            "@page Section2 { size:612pt 792pt; margin:70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
+                            "@page Section1 { size:419.55pt 595.3pt; margin:36pt 72pt; -aw-footer-distance:36pt; -aw-header-distance:36pt }" +
+                            "@page Section2 { size:612pt 792pt; margin:72pt; -aw-footer-distance:36pt; -aw-header-distance:36pt }" +
                             "div.Section1 { page:Section1 }div.Section2 { page:Section2 }" +
                             "</style>"));
 
