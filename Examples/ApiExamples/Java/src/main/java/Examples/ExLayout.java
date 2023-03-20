@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -232,7 +232,7 @@ public class ExLayout extends ApiExampleBase {
     //ExFor:PageLayoutCallbackArgs.PageIndex
     //ExFor:PageLayoutEvent
     //ExSummary:Shows how to track layout changes with a layout callback.
-    @Test
+    @Test//ExSkip
     public void pageLayoutCallback() throws Exception {
         Document doc = new Document();
         doc.getBuiltInDocumentProperties().setTitle("My Document");

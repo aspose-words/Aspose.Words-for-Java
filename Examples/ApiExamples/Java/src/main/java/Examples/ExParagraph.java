@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -325,7 +325,7 @@ public class ExParagraph extends ApiExampleBase {
     }
 
     @Test
-    public void revisions() throws Exception {
+    public void moveRevisions() throws Exception {
         //ExStart
         //ExFor:Paragraph.IsMoveFromRevision
         //ExFor:Paragraph.IsMoveToRevision
@@ -357,6 +357,26 @@ public class ExParagraph extends ApiExampleBase {
         // The "Move to" revision is the paragraph where we dragged the text to.
         // If we reject the revision, this paragraph instead will disappear, and the other will remain.
         Assert.assertTrue(paragraphs.get(3).isMoveToRevision());
+        //ExEnd
+    }
+
+    @Test
+    public void rangeRevisions() throws Exception
+    {
+        //ExStart
+        //ExFor:Range.Revisions
+        //ExSummary:Shows how to work with revisions in range.
+        Document doc = new Document(getMyDir() + "Revisions.docx");
+
+        Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
+        for (Revision revision : paragraph.getRange().getRevisions())
+        {
+            if (revision.getRevisionType() == RevisionType.DELETION)
+                revision.accept();
+        }
+
+        // Reject the first section revisions.
+        doc.getFirstSection().getRange().getRevisions().rejectAll();
         //ExEnd
     }
 

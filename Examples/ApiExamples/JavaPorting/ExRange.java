@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -653,7 +653,7 @@ public class ExRange extends ApiExampleBase
     //ExStart
     //ExFor:FindReplaceOptions.UseLegacyOrder
     //ExSummary:Shows how to change the searching order of nodes when performing a find-and-replace text operation.
-    @Test (dataProvider = "useLegacyOrderDataProvider") // ExSkip
+    @Test (dataProvider = "useLegacyOrderDataProvider") //ExSkip
     public void useLegacyOrder(boolean useLegacyOrder) throws Exception
     {
         Document doc = new Document();

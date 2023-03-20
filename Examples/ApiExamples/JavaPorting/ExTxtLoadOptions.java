@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -19,6 +19,8 @@ import com.aspose.words.TxtLeadingSpacesOptions;
 import com.aspose.words.TxtTrailingSpacesOptions;
 import com.aspose.words.ParagraphCollection;
 import com.aspose.words.DocumentDirection;
+import com.aspose.words.Paragraph;
+import com.aspose.words.NodeType;
 import org.testng.annotations.DataProvider;
 
 
@@ -205,5 +207,25 @@ public class ExTxtLoadOptions extends ApiExampleBase
 
         Assert.assertFalse(doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat().getBidi());
         //ExEnd
+    }
+
+    @Test
+    public void autoNumberingDetection() throws Exception
+    {
+        //ExStart
+        //ExFor:TxtLoadOptions.AutoNumberingDetection            
+        //ExSummary:Shows how to disable automatic numbering detection.            
+        TxtLoadOptions options = new TxtLoadOptions(); { options.setAutoNumberingDetection(false); }
+        Document doc = new Document(getMyDir() + "Number detection.txt", options);
+        //ExEnd            
+
+        int listItemsCount = 0;
+        for (Paragraph paragraph : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
+        {
+            if (paragraph.isListItem())
+                listItemsCount++;
+        }
+
+        Assert.assertEquals(0, listItemsCount);            
     }
 }

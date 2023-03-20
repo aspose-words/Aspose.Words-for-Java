@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -223,7 +223,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     //ExStart
     //ExFor:FontSourceBase.WarningCallback
     //ExSummary:Shows how to call warning callback when the font sources working with.
-    @Test
+    @Test//ExSkip
     public void fontSourceWarning()
     {
         FontSettings settings = new FontSettings();
@@ -269,7 +269,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     //ExFor:WarningType
     //ExFor:DocumentBase.WarningCallback
     //ExSummary:Shows how to set the property for finding the closest match for a missing font from the available font sources.
-    @Test
+    @Test//ExSkip
     public void enableFontSubstitution() throws Exception
     {
         // Open a document that contains text formatted with a font that does not exist in any of our font sources.
@@ -929,8 +929,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         Assert.assertEquals("Arial Unicode MS", rules.item(5).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
     }
 
-    @Test
-    public void loadNotoFontsFallbackSettings() throws Exception
+    [Test]
+    public async Task private LoadNotoFontsFallbackSettingsloadNotoFontsFallbackSettings() throws Exception
     {
         //ExStart
         //ExFor:FontFallbackSettings.LoadNotoFallbackSettings
@@ -953,7 +953,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         doc.setFontSettings(fontSettings);
         //ExEnd
 
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, "https://www.google.com/get/noto/#sans-lgc");
+        await TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, "https://www.google.com/get/noto/#sans-lgc");
     }
 
     @Test
@@ -1349,7 +1349,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     //ExFor:FontSettings.SaveSearchCache(Stream)
     //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
     //ExSummary:Shows how to speed up the font cache initialization process.
-    @Test
+    @Test//ExSkip
     public void loadFontSearchCache() throws Exception
     {
         final String CACHE_KEY_1 = "Arvo";

@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -48,7 +48,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                 {
                         {SaveFormat.HTML},
                         {SaveFormat.MHTML},
-                        {SaveFormat.EPUB}
+                        {SaveFormat.EPUB},
+                        {SaveFormat.AZW_3}
                 };
     }
 
@@ -70,7 +71,9 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                 {
                         {SaveFormat.HTML, HtmlOfficeMathOutputMode.IMAGE},
                         {SaveFormat.MHTML, HtmlOfficeMathOutputMode.MATH_ML},
-                        {SaveFormat.EPUB, HtmlOfficeMathOutputMode.TEXT}};
+                        {SaveFormat.EPUB, HtmlOfficeMathOutputMode.TEXT},
+                        {SaveFormat.AZW_3,  HtmlOfficeMathOutputMode.TEXT}
+                };
     }
 
     @Test(dataProvider = "exportTextBoxAsSvgEpubDataProvider")
@@ -91,19 +94,9 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         switch (saveFormat) {
             case SaveFormat.HTML:
-
-                dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png");
-                Assert.assertTrue(dirFiles.isEmpty());
-                return;
-
             case SaveFormat.EPUB:
-
-                dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png");
-                Assert.assertTrue(dirFiles.isEmpty());
-                return;
-
             case SaveFormat.MHTML:
-
+            case SaveFormat.AZW_3:
                 dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png");
                 Assert.assertTrue(dirFiles.isEmpty());
                 return;
@@ -116,8 +109,24 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                 {
                         {SaveFormat.HTML, true},
                         {SaveFormat.EPUB, true},
-                        {SaveFormat.MHTML, false}
+                        {SaveFormat.MHTML, false},
+                        {SaveFormat.AZW_3,  false}
                 };
+    }
+
+    @Test
+    public void createAZW3Toc() throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExSummary:Shows how to generate table of contents for azw3 documents.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.AZW_3);
+        options.setEpubNavigationMapLevel(2);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.CreateAZW3Toc.azw3", options);
+        //ExEnd
     }
 
     @Test(dataProvider = "controlListLabelsExportDataProvider")
@@ -1258,8 +1267,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         if (exportPageSetup) {
             Assert.assertTrue(outDocContents.contains(
                     "<style type=\"text/css\">" +
-                            "@page Section1 { size:419.55pt 595.3pt; margin:36pt 72pt }" +
-                            "@page Section2 { size:612pt 792pt; margin:72pt }" +
+                            "@page Section1 { size:419.55pt 595.3pt; margin:36pt 72pt; -aw-footer-distance:36pt; -aw-header-distance:36pt }" +
+                            "@page Section2 { size:612pt 792pt; margin:72pt; -aw-footer-distance:36pt; -aw-header-distance:36pt }" +
                             "div.Section1 { page:Section1 }div.Section2 { page:Section2 }" +
                             "</style>"));
 
@@ -1540,8 +1549,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         if (exportTocPageNumbers) {
             Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                            "<span>Entry 1</span>" +
+                    "<span>Entry 1</span>" +
                             "<span style=\"width:425.84pt; font-family:'Lucida Console'; font-size:10pt; display:inline-block; -aw-font-family:'Times New Roman'; " +
                             "-aw-tabstop-align:right; -aw-tabstop-leader:dots; -aw-tabstop-pos:467.5pt\">......................................................................</span>" +
                             "<span>2</span>" +
@@ -1549,7 +1557,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         } else {
             Assert.assertTrue(outDocContents.contains(
                     "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
-                            "<span>Entry 1</span>" +
+                            "<span>Entry 2</span>" +
                             "</p>"));
         }
         //ExEnd

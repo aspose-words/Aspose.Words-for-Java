@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -285,6 +285,21 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(template, new Object[]{doc, Common.getContracts()}, new String[]{"src", "Contracts"}, new Class[]{ContractTestClass.class});
         template.save(
                 getArtifactsDir() + "ReportingEngine.InsertDocumentDynamicallyWithAdditionalTemplateChecking.docx");
+    }
+
+    @Test
+    public void insertDocumentDynamicallyTrimLastParagraph() throws Exception
+    {
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocument()] -inline>>");
+
+        DocumentTestClass doc = new DocumentTestBuilder()
+                .withDocument(new Document(getMyDir() + "Reporting engine template - Data table.docx")).build();
+
+        buildReport(template, doc, "src", new Class[]{DocumentTestClass.class}, ReportBuildOptions.NONE);
+        template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
+
+        template = new Document(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
+        Assert.assertEquals(1, template.getFirstSection().getBody().getParagraphs().getCount());
     }
 
     @Test

@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1062,7 +1062,7 @@ public class ExShape extends ApiExampleBase
         fill.patterned(PatternType.DIAGONAL_BRICK);
 
         // 2 -  Apply pattern with foreground and background colors to the shape fill:
-        fill.patterned(PatternType.DIAGONAL_BRICK, msColor.getAqua(), Color.Bisque);
+        fill.patterned(PatternType.DIAGONAL_BRICK, msColor.getAqua(), msColor.getBisque());
 
         doc.save(getArtifactsDir() + "Shape.FillPattern.docx");
         //ExEnd
@@ -1257,7 +1257,7 @@ public class ExShape extends ApiExampleBase
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         OleControl oleControl = shape.getOleFormat().getOleControl();
 
-        Assert.assertEquals(null, oleControl.getName());
+        Assert.assertEquals("CheckBox1", oleControl.getName());
 
         if (oleControl.isForms2OleControl())
         {
@@ -1546,7 +1546,6 @@ public class ExShape extends ApiExampleBase
         //ExStart
         //ExFor:OfficeMath
         //ExFor:OfficeMath.DisplayType
-        //ExFor:OfficeMath.EquationXmlEncoding
         //ExFor:OfficeMath.Justification
         //ExFor:OfficeMath.NodeType
         //ExFor:OfficeMath.ParentParagraph
@@ -1562,9 +1561,6 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(MathObjectType.O_MATH_PARA, officeMath.getMathObjectType());
         Assert.assertEquals(NodeType.OFFICE_MATH, officeMath.getNodeType());
         Assert.assertEquals(officeMath.getParentNode(), officeMath.getParentParagraph());
-
-        // OOXML and WML formats use the "EquationXmlEncoding" property.
-        Assert.assertNull(officeMath.getEquationXmlEncodingInternal());
 
         // Change the location and display type of the OfficeMath node.
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);

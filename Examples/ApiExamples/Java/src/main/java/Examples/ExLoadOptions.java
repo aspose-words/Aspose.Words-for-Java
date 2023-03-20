@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -305,7 +305,7 @@ public class ExLoadOptions extends ApiExampleBase {
     //ExFor:IDocumentLoadingCallback
     //ExFor:IDocumentLoadingCallback.Notify
     //ExSummary:Shows how to notify the user if document loading exceeded expected loading time.
-    @Test
+    @Test//ExSkip
     public void progressCallback() throws Exception
     {
         LoadingProgressCallback progressCallback = new LoadingProgressCallback();
@@ -361,5 +361,21 @@ public class ExLoadOptions extends ApiExampleBase {
         private static final double MAX_DURATION = 0.5;
     }
     //ExEnd
+
+    @Test
+    public void ignoreOleData() throws Exception
+    {
+        //ExStart
+        //ExFor:LoadOptions.IgnoreOleData
+        //ExSummary:Shows how to ingore OLE data while loading.
+        // Ignoring OLE data may reduce memory consumption and increase performance
+        // without data lost in a case when destination format does not support OLE objects.
+        LoadOptions loadOptions = new LoadOptions();
+        loadOptions.setIgnoreOleData(true);
+        Document doc = new Document(getMyDir() + "OLE objects.docx", loadOptions);
+
+        doc.save(getArtifactsDir() + "LoadOptions.IgnoreOleData.docx");
+        //ExEnd
+    }
 }
 

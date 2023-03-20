@@ -16,6 +16,7 @@ import com.aspose.words.ImageSavingArgs;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.File;
+import com.aspose.words.MarkdownListExportMode;
 import org.testng.annotations.DataProvider;
 
 
@@ -166,6 +167,31 @@ class ExMarkdownSaveOptions extends ApiExampleBase
 		{
 			{true},
 			{false},
+		};
+	}
+
+    @Test (dataProvider = "listExportModeDataProvider")
+    public void listExportMode(/*MarkdownListExportMode*/int markdownListExportMode) throws Exception
+    {
+        //ExStart
+        //ExFor:MarkdownSaveOptions.ListExportMode
+        //ExSummary:Shows how to list items will be written to the markdown document.
+        Document doc = new Document(getMyDir() + "List item.docx");
+
+        // Use MarkdownListExportMode.PlainText or MarkdownListExportMode.MarkdownSyntax to export list.
+        MarkdownSaveOptions options = new MarkdownSaveOptions(); { options.setListExportMode(markdownListExportMode); }
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.ListExportMode.md", options);
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "listExportModeDataProvider")
+	public static Object[][] listExportModeDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{MarkdownListExportMode.PLAIN_TEXT},
+			{MarkdownListExportMode.MARKDOWN_SYNTAX},
 		};
 	}
 }

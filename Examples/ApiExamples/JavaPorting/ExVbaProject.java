@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -121,7 +121,7 @@ class ExVbaProject !Test class should be public in Java to run, please fix .Net 
     //ExFor:VbaReferenceCollection.Remove(VbaReference)
     //ExFor:VbaReferenceType
     //ExSummary:Shows how to get/remove an element from the VBA reference collection.
-    @Test
+    @Test//ExSkip
     public void removeVbaReference() throws Exception
     {
         final String BROKEN_PATH = "X:\\broken.dll";

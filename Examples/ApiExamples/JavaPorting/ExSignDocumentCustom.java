@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -131,7 +131,7 @@ public class ExSignDocumentCustom extends ApiExampleBase
 
     private static void createSignees() throws Exception
     {
-        mSignees = new ArrayList<Signee>();
+        mSignees = new ArrayList<ExSignDocumentCustom.Signee>();
         {
                         mSignees.add(new Signee(Guid.newGuid(), "Ron Williams", "Chief Executive Officer",
                 imageToByteArray(ImageIO.read(getImageDir() + "Logo.jpg"))));
@@ -141,6 +141,6 @@ public class ExSignDocumentCustom extends ApiExampleBase
                                     }
     }
     
-    private static ArrayList<Signee> mSignees;
+    private static ArrayList<ExSignDocumentCustom.Signee> mSignees;
     //ExEnd
 }

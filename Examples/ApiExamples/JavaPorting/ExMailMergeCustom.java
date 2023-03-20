@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -43,9 +43,11 @@ public class ExMailMergeCustom extends ApiExampleBase
         builder.insertParagraph();
         builder.insertField(" MERGEFIELD Address ");
 
-        ArrayList<Customer> customers = new ArrayList<Customer>();
-        customers.add(new Customer("Thomas Hardy", "120 Hanover Sq., London"));
-        customers.add(new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
+        ArrayList<ExMailMergeCustom.Customer> customers = new ArrayList<ExMailMergeCustom.Customer>();
+        {
+            customers.add(new Customer("Thomas Hardy", "120 Hanover Sq., London"));
+            customers.add(new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
+        }
 
         // To use a custom object as a data source, it must implement the IMailMergeDataSource interface. 
         CustomerMailMergeDataSource dataSource = new CustomerMailMergeDataSource(customers);
@@ -81,7 +83,7 @@ public class ExMailMergeCustom extends ApiExampleBase
     /// </summary>
     public static class CustomerMailMergeDataSource implements IMailMergeDataSource
     {
-        public CustomerMailMergeDataSource(ArrayList<Customer> customers)
+        public CustomerMailMergeDataSource(ArrayList<ExMailMergeCustom.Customer> customers)
         {
             mCustomers = customers;
 
@@ -133,12 +135,12 @@ public class ExMailMergeCustom extends ApiExampleBase
 
         private boolean isEof() { return (mRecordIndex >= mCustomers.size()); }
 
-        private /*final*/ ArrayList<Customer> mCustomers;
+        private /*final*/ ArrayList<ExMailMergeCustom.Customer> mCustomers;
         private int mRecordIndex;
     }
     //ExEnd
 
-    private void testCustomDataSource(ArrayList<Customer> customerList, Document doc)
+    private void testCustomDataSource(ArrayList<ExMailMergeCustom.Customer> customerList, Document doc)
     {
         String[][] mergeData = new String[customerList.size()][];
 
@@ -254,7 +256,7 @@ public class ExMailMergeCustom extends ApiExampleBase
             msDictionary.add(mSources, sourceName, source);
         }
 
-        private /*final*/ HashMap<String, EmployeeListMailMergeSource> mSources = new HashMap<String, EmployeeListMailMergeSource>();
+        private /*final*/ HashMap<String, ExMailMergeCustom.EmployeeListMailMergeSource> mSources = new HashMap<String, ExMailMergeCustom.EmployeeListMailMergeSource>();
     }
 
     /// <summary>

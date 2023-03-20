@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -97,7 +97,7 @@ public class ExMailMerge extends ApiExampleBase
         TestUtil.mailMergeMatchesArray(new String[] { new String[] { "James Bond", "MI5 Headquarters", "Milbank", "London" } }, doc, true);
     }
 
-    @Test (groups = "SkipMono")
+    @Test (groups = "IgnoreOnJenkins")
     public void executeDataReader() throws Exception
     {
         //ExStart
@@ -152,7 +152,7 @@ public class ExMailMerge extends ApiExampleBase
     //ExStart
     //ExFor:MailMerge.ExecuteADO(Object)
     //ExSummary:Shows how to run a mail merge with data from an ADO dataset.
-    @Test (groups = "SkipMono") //ExSkip
+    @Test (groups = "IgnoreOnJenkins") //ExSkip
     public void executeADO() throws Exception
     {
         Document doc = createSourceDocADOMailMerge();
@@ -202,7 +202,7 @@ public class ExMailMerge extends ApiExampleBase
     //ExStart
     //ExFor:MailMerge.ExecuteWithRegionsADO(Object,String)
     //ExSummary:Shows how to run a mail merge with multiple regions, compiled with data from an ADO dataset.
-    @Test (groups = "SkipMono") //ExSkip
+    @Test (groups = "IgnoreOnJenkins") //ExSkip
     public void executeWithRegionsADO() throws Exception
     {
         Document doc = createSourceDocADOMailMergeWithRegions();
@@ -371,7 +371,7 @@ public class ExMailMerge extends ApiExampleBase
     //ExStart
     //ExFor:MailMerge.ExecuteWithRegions(DataSet)
     //ExSummary:Shows how to execute a nested mail merge with two merge regions and two data tables.
-    @Test
+    @Test//ExSkip
     public void executeWithRegionsNested() throws Exception
     {
         Document doc = new Document();

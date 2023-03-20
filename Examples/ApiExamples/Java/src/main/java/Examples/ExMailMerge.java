@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -124,7 +124,7 @@ public class ExMailMerge extends ApiExampleBase {
     //ExStart
     //ExFor:MailMerge.ExecuteWithRegions(DataSet)
     //ExSummary:Shows how to create a nested mail merge with regions with data from a data set with two related tables.
-    @Test
+    @Test//ExSkip
     public void executeWithRegionsNested() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

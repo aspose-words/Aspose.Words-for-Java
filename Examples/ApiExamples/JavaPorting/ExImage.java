@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -255,10 +255,7 @@ public class ExImage extends ApiExampleBase
         Assert.assertEquals(125.0d, shape.getWidth());
         Assert.assertEquals(shape.getTop() + shape.getHeight(), shape.getBottom());
         Assert.assertEquals(shape.getLeft() + shape.getWidth(), shape.getRight());
-    }
-
-    @Test
-    public void insertImageWithHyperlink() throws Exception
+    }private InsertImageWithHyperlinkinsertImageWithHyperlink() throws Exception
     {
         //ExStart
         //ExFor:ShapeBase.HRef
@@ -281,8 +278,8 @@ public class ExImage extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Image.InsertImageWithHyperlink.docx");
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
-        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
+        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
+        _TestUtil.VerifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals("New Window", shape.getTarget());
         Assert.assertEquals("Aspose.Words Support Forums", shape.getScreenTip());
     }

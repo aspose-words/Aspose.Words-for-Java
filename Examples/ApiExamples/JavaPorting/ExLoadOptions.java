@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -378,56 +378,12 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
         Document doc = new Document(getMyDir() + "HTML help.chm", loadOptions);
     }
 
-    @Test (dataProvider = "flatOpcXmlMappingOnlyDataProvider")
-    public void flatOpcXmlMappingOnly(boolean isFlatOpcXmlMappingOnly) throws Exception
-    {
-        //ExStart
-        //ExFor:SaveOptions.FlatOpcXmlMappingOnly
-        //ExSummary:Shows how to binding structured document tags to any format.
-        // If true - SDT will contain raw HTML text.
-        // If false - mapped HTML will parsed and resulting document will be inserted into SDT content.
-        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setFlatOpcXmlMappingOnly(isFlatOpcXmlMappingOnly); }
-        Document doc = new Document(getMyDir() + "Structured document tag with HTML content.docx", loadOptions);
-
-        SaveOptions saveOptions = SaveOptions.createSaveOptions(SaveFormat.PDF);
-        saveOptions.setFlatOpcXmlMappingOnly(isFlatOpcXmlMappingOnly);
-
-        doc.save(getArtifactsDir() + "LoadOptions.FlatOpcXmlMappingOnly.pdf", saveOptions);
-        //ExEnd
-
-        Aspose.Pdf.Document pdfDocument =
-            new Aspose.Pdf.Document(getArtifactsDir() + "LoadOptions.FlatOpcXmlMappingOnly.pdf");
-        TextAbsorber textAbsorber = new TextAbsorber();
-        pdfDocument.Pages.Accept(textAbsorber);
-
-        Assert.True(isFlatOpcXmlMappingOnly
-            ? textAbsorber.Text.Contains(
-                "TCSVerify vData1: <!DOCTYPE html><html><body><h1>My First Heading</h1><p>My first \r\nparagraph.</p></body></html>\r\n\r\n" +
-                "TCSVerify vData2: <html><body><b>This is BOLD</b><i>This is Italics</i></body></html>\r\n\r\n" +
-                "TCSVerify vData3: <!DOCTYPE HTML PUBLIC")
-            : textAbsorber.Text.Contains(
-                "TCSVerify vData1: \r\nMy First Heading\r\n\r\nMy first paragraph.\r\n\r\n\r\n" +
-                "TCSVerify vData2: This is BOLDThis is Italics\r\n\r\n" +
-                "TCSVerify vData3: \r\n\r\nDepression Program\r\n\r\n\r\nDepression Abuse"));
-    }
-
-	//JAVA-added data provider for test method
-	@DataProvider(name = "flatOpcXmlMappingOnlyDataProvider")
-	public static Object[][] flatOpcXmlMappingOnlyDataProvider() throws Exception
-	{
-		return new Object[][]
-		{
-			{true},
-			{false},
-		};
-	}
-
     //ExStart
     //ExFor:LoadOptions.ProgressCallback
     //ExFor:IDocumentLoadingCallback
     //ExFor:IDocumentLoadingCallback.Notify
     //ExSummary:Shows how to notify the user if document loading exceeded expected loading time.
-    @Test
+    @Test//ExSkip
     public void progressCallback() throws Exception
     {
         LoadingProgressCallback progressCallback = new LoadingProgressCallback();
@@ -483,5 +439,20 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
         private static final double MAX_DURATION = 0.5;
     }
     //ExEnd
+
+    @Test
+    public void ignoreOleData() throws Exception
+    {
+        //ExStart
+        //ExFor:LoadOptions.IgnoreOleData
+        //ExSummary:Shows how to ingore OLE data while loading.
+        // Ignoring OLE data may reduce memory consumption and increase performance
+        // without data lost in a case when destination format does not support OLE objects.
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setIgnoreOleData(true); }
+        Document doc = new Document(getMyDir() + "OLE objects.docx", loadOptions);
+
+        doc.save(getArtifactsDir() + "LoadOptions.IgnoreOleData.docx");
+        //ExEnd
+    }
 }
 

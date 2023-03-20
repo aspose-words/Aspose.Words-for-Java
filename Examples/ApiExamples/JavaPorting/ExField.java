@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -168,6 +168,7 @@ import com.aspose.words.FieldTA;
 import com.aspose.words.FieldAddIn;
 import com.aspose.words.FieldEditTime;
 import com.aspose.words.FieldEQ;
+import com.aspose.words.OfficeMath;
 import com.aspose.words.FieldFormCheckBox;
 import com.aspose.words.FieldFormDropDown;
 import com.aspose.words.FieldFormText;
@@ -189,6 +190,8 @@ import com.aspose.words.IComparisonExpressionEvaluator;
 import com.aspose.words.ComparisonExpression;
 import java.util.ArrayList;
 import com.aspose.words.IFieldUpdatingCallback;
+import com.aspose.words.IFieldUpdatingProgressCallback;
+import com.aspose.words.FieldUpdatingProgressArgs;
 import org.testng.annotations.DataProvider;
 
 
@@ -623,7 +626,7 @@ public class ExField extends ApiExampleBase
         return barcodeReader;
     }
 
-    @Test (groups = "SkipMono")
+    @Test (groups = "IgnoreOnJenkins")
     public void fieldDatabase() throws Exception
     {
         //ExStart
@@ -1011,7 +1014,7 @@ public class ExField extends ApiExampleBase
     //ExFor:IFieldUserPromptRespondent
     //ExFor:IFieldUserPromptRespondent.Respond(String,String)
     //ExSummary:Shows how to create an ASK field, and set its properties.
-    @Test
+    @Test//ExSkip
     public void fieldAsk() throws Exception
     {
         Document doc = new Document();
@@ -7031,7 +7034,7 @@ public class ExField extends ApiExampleBase
         insertFieldEQ(builder, "\\i \\in( tan x, \\s \\up2(sec x), \\b(\\r(3) )\\s \\up4(t) \\s \\up7(2)  dt)");
 
         doc.save(getArtifactsDir() + "Field.EQ.docx");
-        testFieldEQ(new Document(getArtifactsDir() + "Field.EQ.docx")); //ExSkip
+        Task.WhenAll(testFieldEQ(new Document(getArtifactsDir() + "Field.EQ.docx"))); //ExSkip
     }
 
     /// <summary>
@@ -7046,10 +7049,7 @@ public class ExField extends ApiExampleBase
         
         builder.insertParagraph();
         return field;
-    }
-    //ExEnd
-
-    private void testFieldEQ(Document doc)
+    }private TestFieldEQtestFieldEQ(Document doc)
     {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\f(1,4)", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\al \\co2 \\vs3 \\hs3(4x,- 4y,-4x,+ y)", "", doc.getRange().getFields().get(1));
@@ -7064,7 +7064,25 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\ac \\vs1 \\co1(lim,n→∞) \\b (\\f(n,n2 + 12) + \\f(n,n2 + 22) + ... + \\f(n,n2 + n2))", "", doc.getRange().getFields().get(10));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\i (,,  \\b(\\f(x,x2 + 3x + 2))) \\s \\up10(2)", "", doc.getRange().getFields().get(11));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\i \\in( tan x, \\s \\up2(sec x), \\b(\\r(3) )\\s \\up4(t) \\s \\up7(2)  dt)", "", doc.getRange().getFields().get(12));
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/");
+        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/");
+    }
+
+    @Test
+    public void fieldEQAsOfficeMath() throws Exception
+    {
+        //ExStart
+        //ExFor:FieldEQ
+        //ExSummary:Shows how to replace the EQ field with Office Math.
+        Document doc = new Document(getMyDir() + "Field sample - EQ.docx");
+        FieldEQ fieldEQ = doc.getRange().getFields().<FieldEQ>OfType().First();
+
+        OfficeMath officeMath = fieldEQ.asOfficeMath();
+
+        fieldEQ.getStart().getParentNode().insertBefore(officeMath, fieldEQ.getStart());
+        fieldEQ.remove();
+
+        doc.save(getArtifactsDir() + "Field.EQAsOfficeMath.docx");
+        //ExEnd
     }
 
     @Test
@@ -7723,6 +7741,11 @@ public class ExField extends ApiExampleBase
 
     //ExStart
     //ExFor:IFieldUpdatingCallback
+    //ExFor:IFieldUpdatingProgressCallback
+    //ExFor:IFieldUpdatingProgressCallback.Notify(FieldUpdatingProgressArgs)
+    //ExFor:FieldUpdatingProgressArgs.UpdateCompleted
+    //ExFor:FieldUpdatingProgressArgs.TotalFieldsCount
+    //ExFor:FieldUpdatingProgressArgs.UpdatedFieldsCount
     //ExFor:IFieldUpdatingCallback.FieldUpdating(Field)
     //ExFor:IFieldUpdatingCallback.FieldUpdated(Field)
     //ExSummary:Shows how to use callback methods during a field update.
@@ -7750,7 +7773,7 @@ public class ExField extends ApiExampleBase
     /// <summary>
     /// Implement this interface if you want to have your own custom methods called during a field update.
     /// </summary>
-    public static class FieldUpdatingCallback implements IFieldUpdatingCallback
+    public static class FieldUpdatingCallback implements IFieldUpdatingCallback, IFieldUpdatingProgressCallback
     {
         public FieldUpdatingCallback()
         {
@@ -7777,10 +7800,17 @@ public class ExField extends ApiExampleBase
             getFieldUpdatedCalls().add(field.getResult());
         }
 
+        public void /*IFieldUpdatingProgressCallback.*/notify(FieldUpdatingProgressArgs args)
+        {
+            System.out.println("{args.UpdateCompleted}/{args.TotalFieldsCount}");
+            System.out.println("{args.UpdatedFieldsCount}");
+        }
+
         public ArrayList<String> getFieldUpdatedCalls() { return mFieldUpdatedCalls; };
 
         private ArrayList<String> mFieldUpdatedCalls;
     }
     //ExEnd
 }
+
 

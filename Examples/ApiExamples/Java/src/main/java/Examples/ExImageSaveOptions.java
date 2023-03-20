@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -181,6 +181,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
     public void windowsMetaFile(int metafileRenderingMode) throws Exception {
         //ExStart
         //ExFor:ImageSaveOptions.MetafileRenderingOptions
+        //ExFor:MetafileRenderingOptions.UseGdiRasterOperationsEmulation
         //ExSummary:Shows how to set the rendering mode when saving documents with Windows Metafile images to other image formats. 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -194,6 +195,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // If we set the "RenderingMode" property to "MetafileRenderingMode.Bitmap", we will render all metafiles as bitmaps.
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.PNG);
         options.getMetafileRenderingOptions().setRenderingMode(metafileRenderingMode);
+        // Aspose.Words uses GDI+ for raster operations emulation, when value is set to true.
+        options.getMetafileRenderingOptions().setUseGdiRasterOperationsEmulation(true);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.WindowsMetaFile.png", options);
         //ExEnd

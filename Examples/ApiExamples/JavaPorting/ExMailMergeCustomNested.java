@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -84,7 +84,7 @@ public class ExMailMergeCustomNested extends ApiExampleBase
         {
             setFullName(aFullName);
             setAddress(anAddress);
-            setOrders(new ArrayList<Order>());
+            setOrders(new ArrayList<ExMailMergeCustomNested.Order>());
         }
 
         public String getFullName() { return mFullName; }; public void setFullName(String value) { mFullName = value; };
@@ -93,9 +93,9 @@ public class ExMailMergeCustomNested extends ApiExampleBase
         public String getAddress() { return mAddress; }; public void setAddress(String value) { mAddress = value; };
 
         private String mAddress;
-        public ArrayList<Order> getOrders() { return mOrders; }; public void setOrders(ArrayList<Order> value) { mOrders = value; };
+        public ArrayList<ExMailMergeCustomNested.Order> getOrders() { return mOrders; }; public void setOrders(ArrayList<ExMailMergeCustomNested.Order> value) { mOrders = value; };
 
-        private ArrayList<Order> mOrders;
+        private ArrayList<ExMailMergeCustomNested.Order> mOrders;
     }
 
     /// <summary>
@@ -200,7 +200,7 @@ public class ExMailMergeCustomNested extends ApiExampleBase
 
     public static class OrderMailMergeDataSource implements IMailMergeDataSource
     {
-        public OrderMailMergeDataSource(ArrayList<Order> orders)
+        public OrderMailMergeDataSource(ArrayList<ExMailMergeCustomNested.Order> orders)
         {
             mOrders = orders;
 
@@ -255,7 +255,7 @@ public class ExMailMergeCustomNested extends ApiExampleBase
 
         private boolean isEof() { return (mRecordIndex >= mOrders.size()); }
 
-        private /*final*/ ArrayList<Order> mOrders;
+        private /*final*/ ArrayList<ExMailMergeCustomNested.Order> mOrders;
         private int mRecordIndex;
     }
     //ExEnd
@@ -266,7 +266,7 @@ public class ExMailMergeCustomNested extends ApiExampleBase
 
         for (Customer customer : (Iterable<Customer>) customers)
         {
-            for (Order order : customer.getOrders())
+            for (Order order : (Iterable<Order>) customer.getOrders())
                 mailMergeData.add(new String[]{ order.getName(), Integer.toString(order.getQuantity()) });
             mailMergeData.add(new String[] {customer.getFullName(), customer.getAddress()});
         }

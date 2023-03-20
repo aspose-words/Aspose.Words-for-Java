@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -783,7 +783,7 @@ public class ExField extends ApiExampleBase {
     //ExFor:IFieldUserPromptRespondent
     //ExFor:IFieldUserPromptRespondent.Respond(String,String)
     //ExSummary:Shows how to create an ASK field, and set its properties.
-    @Test
+    @Test//ExSkip
     public void fieldAsk() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

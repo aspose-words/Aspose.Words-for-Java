@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2022 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -88,6 +88,7 @@ import com.aspose.words.FindReplaceOptions;
 import com.aspose.words.Field;
 import com.aspose.words.FieldType;
 import com.aspose.words.RevisionColor;
+import com.aspose.words.Margins;
 import com.aspose.words.CustomPart;
 import java.util.Iterator;
 import com.aspose.words.CustomPartCollection;
@@ -119,10 +120,11 @@ import com.aspose.words.RevisionType;
 import com.aspose.words.MemoryFontSource;
 import com.aspose.words.FontSettings;
 import com.aspose.words.FontSourceBase;
+import com.aspose.words.StructuredDocumentTag;
 import org.testng.annotations.DataProvider;
 
 
-@Test
+@Test   
 public class ExDocument extends ApiExampleBase
 {
     @Test
@@ -171,8 +173,8 @@ public class ExDocument extends ApiExampleBase
         //ExEnd
     }
 
-    @Test
-    public void loadFromWeb() throws Exception
+    [Test]
+    public async Task private LoadFromWebloadFromWeb() throws Exception
     {
         //ExStart
         //ExFor:Document.#ctor(Stream)
@@ -181,10 +183,10 @@ public class ExDocument extends ApiExampleBase
         final String URL = "https://omextemplates.content.office.net/support/templates/en-us/tf16402488.dotx";
 
         // Download the document into a byte array, then load that array into a document using a memory stream.
-        WebClient webClient = new WebClient();
+        HttpClient webClient = new HttpClient();
         try /*JAVA: was using*/
         {
-            byte[] dataBytes = webClient.DownloadData(URL);
+            byte[] dataBytes = await webClient.GetByteArrayAsync(URL);
 
             MemoryStream byteStream = new MemoryStream(dataBytes);
             try /*JAVA: was using*/
@@ -204,7 +206,7 @@ public class ExDocument extends ApiExampleBase
         finally { if (webClient != null) webClient.close(); }
         //ExEnd
 
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, URL);
+        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, URL);
     }
 
     @Test
@@ -515,20 +517,21 @@ public class ExDocument extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (enabled = false, description = "Need to rework.")
-    public void insertHtmlFromWebPage() throws Exception
+    [Test]
+    public async Task private InsertHtmlFromWebPageinsertHtmlFromWebPage() throws Exception
     {
         //ExStart
         //ExFor:Document.#ctor(Stream, LoadOptions)
         //ExFor:LoadOptions.#ctor(LoadFormat, String, String)
         //ExFor:LoadFormat
         //ExSummary:Shows how save a web page as a .docx file.
-        final String URL = "http://www.aspose.com/";
+        final String URL = "https://www.aspose.com/";
 
-        WebClient client = new WebClient();
+        HttpClient client = new HttpClient();
         try /*JAVA: was using*/ 
-        { 
-            MemoryStream stream = new MemoryStream(client.DownloadData(URL));
+        {
+            var bytes = await client.GetByteArrayAsync(URL);
+            MemoryStream stream = new MemoryStream(bytes);
             try /*JAVA: was using*/
             {
                 // The URL is used again as a baseUri to ensure that any relative image paths are retrieved correctly.
@@ -538,7 +541,7 @@ public class ExDocument extends ApiExampleBase
                 Document doc = new Document(stream, options);
 
                 // At this stage, we can read and edit the document's contents and then save it to the local file system.
-                Assert.assertEquals("File Format APIs", doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getText().trim()); //ExSkip
+                Assert.assertEquals("HYPERLINK \"https://products.aspose.com/words/family/\" \\o \"Aspose.Words\"", doc.getFirstSection().getBody().getParagraphs().get(50).getRuns().get(0).getText().trim()); //ExSkip
 
                 doc.save(getArtifactsDir() + "Document.InsertHtmlFromWebPage.docx");
             }
@@ -547,7 +550,7 @@ public class ExDocument extends ApiExampleBase
         finally { if (client != null) client.close(); }
         //ExEnd
 
-        TestUtil.verifyWebResponseStatusCode(HttpStatusCode.OK, URL);
+        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, URL);
     }
 
     @Test
@@ -2092,6 +2095,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:StyleCollection.Item(String)
         //ExFor:SectionCollection.Item(Int32)
         //ExFor:Document.UpdatePageLayout
+        //ExFor:PageSetup.Margins
         //ExSummary:Shows when to recalculate the page layout of the document.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
@@ -2102,6 +2106,7 @@ public class ExDocument extends ApiExampleBase
         // Modify the document in some way.
         doc.getStyles().get("Normal").getFont().setSize(6.0);
         doc.getSections().get(0).getPageSetup().setOrientation(com.aspose.words.Orientation.LANDSCAPE);
+        doc.getSections().get(0).getPageSetup().setMargins(Margins.MIRRORED);
 
         // In the current version of Aspose.Words, modifying the document does not automatically rebuild 
         // the cached page layout. If we wish for the cached layout
@@ -3022,6 +3027,40 @@ public class ExDocument extends ApiExampleBase
 
         Document doc = new Document(getMyDir() + "Mail merge data - Purchase order.xml");
         Assert.assertTrue(doc.getText().contains("Ellen Adams\r123 Maple Street"));
+    }
+
+    @Test
+    public void moveToStructuredDocumentTag() throws Exception
+    {
+        //ExStart
+        //ExFor:DocumentBuilder.MoveToStructuredDocumentTag(int, int)
+        //ExFor:DocumentBuilder.MoveToStructuredDocumentTag(StructuredDocumentTag, int)
+        //ExFor:DocumentBuilder.IsAtEndOfStructuredDocumentTag
+        //ExFor:DocumentBuilder.CurrentStructuredDocumentTag
+        //ExSummary:Shows how to move cursor of DocumentBuilder inside a structured document tag.
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // There is a several ways to move the cursor:
+        // 1 -  Move to the first character of structured document tag by index.
+        builder.moveToStructuredDocumentTag(1, 1);
+
+        // 2 -  Move to the first character of structured document tag by object.
+        StructuredDocumentTag tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 2, true);
+        builder.moveToStructuredDocumentTag(tag, 1);
+        builder.write(" New text.");
+
+        Assert.assertEquals("R New text.ichText", tag.getText().trim());
+
+        // 3 -  Move to the end of the second structured document tag.
+        builder.moveToStructuredDocumentTag(1, -1);
+        Assert.assertTrue(builder.isAtEndOfStructuredDocumentTag());            
+
+        // Get currently selected structured document tag.
+        builder.getCurrentStructuredDocumentTag().setColor(msColor.getGreen());
+
+        doc.save(getArtifactsDir() + "Document.MoveToStructuredDocumentTag.docx");
+        //ExEnd
     }
 
 	//JAVA-added for string switch emulation
