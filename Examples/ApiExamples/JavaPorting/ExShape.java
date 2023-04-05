@@ -48,6 +48,7 @@ import com.aspose.words.GradientStop;
 import com.aspose.words.Fill;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.PatternType;
+import com.aspose.words.ThemeColor;
 import com.aspose.words.WrapSide;
 import com.aspose.words.HorizontalAlignment;
 import com.aspose.words.VerticalAlignment;
@@ -1065,6 +1066,48 @@ public class ExShape extends ApiExampleBase
         fill.patterned(PatternType.DIAGONAL_BRICK, msColor.getAqua(), msColor.getBisque());
 
         doc.save(getArtifactsDir() + "Shape.FillPattern.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void fillThemeColor() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.ForeThemeColor
+        //ExFor:Fill.BackThemeColor
+        //ExSummary:Shows how to set theme color for foreground/background shape color.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertShape(ShapeType.ROUND_RECTANGLE, 80.0, 80.0);
+        
+        Fill fill = shape.getFill();
+        fill.setForeThemeColor(ThemeColor.DARK_1);
+        fill.setBackThemeColor(ThemeColor.BACKGROUND_2);
+
+        // Note: do not use "BackThemeColor" and "BackTintAndShade" for font fill.
+        if (fill.getBackTintAndShade() == 0)
+            fill.setBackTintAndShade(0.2);
+
+        doc.save(getArtifactsDir() + "Shape.FillThemeColor.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void fillTintAndShade() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.ForeTintAndShade
+        //ExFor:Fill.BackTintAndShade
+        //ExSummary:Shows how to manage lightening and darkening foreground font color.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        Fill textFill = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getFont().getFill();
+        textFill.setForeThemeColor(ThemeColor.ACCENT_1);
+        if (textFill.getForeTintAndShade() == 0)
+            textFill.setForeTintAndShade(0.5);
+
+        doc.save(getArtifactsDir() + "Shape.FillTintAndShade.docx");
         //ExEnd
     }
 
@@ -3053,6 +3096,28 @@ public class ExShape extends ApiExampleBase
         if (shape.getShadowFormat().getType() == ShadowType.SHADOW_MIXED)            
             shape.getShadowFormat().clear();
         //ExEnd
+    }
+
+    @Test
+    public void noTextRotation() throws Exception
+    {
+        //ExStart
+        //ExFor:TextBox.NoTextRotation
+        //ExSummary:Shows how to disable text rotation when the shape is rotate.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertShape(ShapeType.ELLIPSE, 20.0, 20.0);
+        shape.getTextBox().setNoTextRotation(true);
+
+        doc.save(getArtifactsDir() + "Shape.NoTextRotation.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.NoTextRotation.docx");
+        shape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
+
+        Assert.assertEquals(true, shape.getTextBox().getNoTextRotation());
+
     }
 }
 

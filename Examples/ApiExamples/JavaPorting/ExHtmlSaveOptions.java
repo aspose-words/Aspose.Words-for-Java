@@ -96,6 +96,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 			{SaveFormat.MHTML},
 			{SaveFormat.EPUB},
 			{SaveFormat.AZW_3},
+			{SaveFormat.MOBI},
 		};
 	}
 
@@ -121,6 +122,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 			{SaveFormat.MHTML,  HtmlOfficeMathOutputMode.MATH_ML},
 			{SaveFormat.EPUB,  HtmlOfficeMathOutputMode.TEXT},
 			{SaveFormat.AZW_3,  HtmlOfficeMathOutputMode.TEXT},
+			{SaveFormat.MOBI,  HtmlOfficeMathOutputMode.TEXT},
 		};
 	}
 
@@ -170,6 +172,13 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
                     SearchOption.ALL_DIRECTORIES);
                 Assert.That(dirFiles, Is.Empty);
                 return;
+
+            case SaveFormat.MOBI:
+
+                dirFiles = Directory.getFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png",
+                    SearchOption.ALL_DIRECTORIES);
+                Assert.That(dirFiles, Is.Empty);
+                return;
         }
     }
 
@@ -183,6 +192,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 			{SaveFormat.EPUB,  true},
 			{SaveFormat.MHTML,  false},
 			{SaveFormat.AZW_3,  false},
+			{SaveFormat.MOBI,  false},
 		};
 	}
 
