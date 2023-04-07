@@ -56,6 +56,7 @@ public class ExStyles extends ApiExampleBase {
         //ExFor:Style.Font
         //ExFor:Style
         //ExFor:Style.Remove
+        //ExFor:Style.AutomaticallyUpdate
         //ExSummary:Shows how to create and apply a custom style.
         Document doc = new Document();
 
@@ -63,6 +64,8 @@ public class ExStyles extends ApiExampleBase {
         style.getFont().setName("Times New Roman");
         style.getFont().setSize(16.0);
         style.getFont().setColor(Color.magenta);
+        // Automatically redefine style.
+        style.setAutomaticallyUpdate(true);
 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -98,9 +101,9 @@ public class ExStyles extends ApiExampleBase {
         //ExFor:StyleCollection.Item(Int32)
         //ExSummary:Shows how to add a Style to a document's styles collection.
         Document doc = new Document();
-        StyleCollection styles = doc.getStyles();
 
         // Set default parameters for new styles that we may later add to this collection.
+        StyleCollection styles = doc.getStyles();
         styles.getDefaultFont().setName("Courier New");
 
         // If we add a style of the "StyleType.Paragraph", the collection will apply the values of

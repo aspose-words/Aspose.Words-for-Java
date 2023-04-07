@@ -49,7 +49,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                         {SaveFormat.HTML},
                         {SaveFormat.MHTML},
                         {SaveFormat.EPUB},
-                        {SaveFormat.AZW_3}
+                        {SaveFormat.AZW_3},
+                        {SaveFormat.MOBI}
                 };
     }
 
@@ -72,7 +73,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                         {SaveFormat.HTML, HtmlOfficeMathOutputMode.IMAGE},
                         {SaveFormat.MHTML, HtmlOfficeMathOutputMode.MATH_ML},
                         {SaveFormat.EPUB, HtmlOfficeMathOutputMode.TEXT},
-                        {SaveFormat.AZW_3,  HtmlOfficeMathOutputMode.TEXT}
+                        {SaveFormat.AZW_3,  HtmlOfficeMathOutputMode.TEXT},
+                        {SaveFormat.MOBI,  HtmlOfficeMathOutputMode.TEXT}
                 };
     }
 
@@ -97,6 +99,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
             case SaveFormat.EPUB:
             case SaveFormat.MHTML:
             case SaveFormat.AZW_3:
+            case SaveFormat.MOBI:
+
                 dirFiles = DocumentHelper.directoryGetFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png");
                 Assert.assertTrue(dirFiles.isEmpty());
                 return;
@@ -110,7 +114,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                         {SaveFormat.HTML, true},
                         {SaveFormat.EPUB, true},
                         {SaveFormat.MHTML, false},
-                        {SaveFormat.AZW_3,  false}
+                        {SaveFormat.AZW_3,  false},
+                        {SaveFormat.MOBI,  false},
                 };
     }
 
