@@ -1075,6 +1075,7 @@ public class ExShape extends ApiExampleBase
         //ExStart
         //ExFor:Fill.ForeThemeColor
         //ExFor:Fill.BackThemeColor
+        //ExFor:Fill.BackTintAndShade
         //ExSummary:Shows how to set theme color for foreground/background shape color.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1097,8 +1098,7 @@ public class ExShape extends ApiExampleBase
     public void fillTintAndShade() throws Exception
     {
         //ExStart
-        //ExFor:Fill.ForeTintAndShade
-        //ExFor:Fill.BackTintAndShade
+        //ExFor:Fill.ForeTintAndShade            
         //ExSummary:Shows how to manage lightening and darkening foreground font color.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
