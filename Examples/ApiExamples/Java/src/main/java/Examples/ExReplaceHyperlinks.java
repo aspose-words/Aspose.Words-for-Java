@@ -49,23 +49,22 @@ public class ExReplaceHyperlinks extends ApiExampleBase {
 }
 
 
-/**
- * This "facade" class makes it easier to work with a hyperlink field in a Word document.
- * <p>
- * HYPERLINK fields contain and display hyperlinks in the document body. A field in Aspose.Words
- * consists of several nodes, and it might be difficult to work with all those nodes directly.
- * This implementation will work only if the hyperlink code and name each consist of only one Run node.
- * <p>
- * The node structure for fields is as follows:
- * <p>
- * [FieldStart][Run - field code][FieldSeparator][Run - field result][FieldEnd]
- * <p>
- * Below are two example field codes of HYPERLINK fields:
- * HYPERLINK "url"
- * HYPERLINK \l "bookmark name"
- * <p>
- * A field's "Result" property contains text that the field displays in the document body to the user.
- */
+
+// This "facade" class makes it easier to work with a hyperlink field in a Word document.
+// <p>
+// HYPERLINK fields contain and display hyperlinks in the document body. A field in Aspose.Words
+// consists of several nodes, and it might be difficult to work with all those nodes directly.
+// This implementation will work only if the hyperlink code and name each consist of only one Run node.
+// <p>
+// The node structure for fields is as follows:
+// <p>
+// [FieldStart][Run - field code][FieldSeparator][Run - field result][FieldEnd]
+// <p>
+// Below are two example field codes of HYPERLINK fields:
+// HYPERLINK "url"
+// HYPERLINK \l "bookmark name"
+// <p>
+// A field's "Result" property contains text that the field displays in the document body to the user.
 class Hyperlink {
     Hyperlink(final FieldStart fieldStart) throws Exception {
         if (fieldStart == null) {
@@ -100,9 +99,7 @@ class Hyperlink {
         mTarget = matcher.group(2);
     }
 
-    /**
-     * Gets or sets the display name of the hyperlink.
-     */
+    // Gets or sets the display name of the hyperlink.
     String getName() throws Exception {
         return getTextSameParent(mFieldSeparator, mFieldEnd);
     }
@@ -117,9 +114,7 @@ class Hyperlink {
         removeSameParent(fieldResult.getNextSibling(), mFieldEnd);
     }
 
-    /**
-     * Gets or sets the target URL or bookmark name of the hyperlink.
-     */
+    // Gets or sets the target URL or bookmark name of the hyperlink.
     String getTarget() {
         return mTarget;
     }
@@ -129,9 +124,7 @@ class Hyperlink {
         updateFieldCode();
     }
 
-    /**
-     * True if the hyperlinks target is a bookmark inside the document. False if the hyperlink is a URL.
-     */
+    // True if the hyperlinks target is a bookmark inside the document. False if the hyperlink is a URL.
     boolean isLocal() {
         return mIsLocal;
     }
@@ -150,9 +143,7 @@ class Hyperlink {
         removeSameParent(fieldCode.getNextSibling(), mFieldSeparator);
     }
 
-    /**
-     * Goes through siblings starting from the start node until it finds a node of the specified type or null.
-     */
+    // Goes through siblings starting from the start node until it finds a node of the specified type or null.
     private static Node findNextSibling(final Node startNode, final int nodeType) {
         for (Node node = startNode; node != null; node = node.getNextSibling()) {
             if (node.getNodeType() == nodeType) return node;
@@ -160,9 +151,7 @@ class Hyperlink {
         return null;
     }
 
-    /**
-     * Retrieves text from start up to but not including the end node.
-     */
+    // Retrieves text from start up to but not including the end node.
     private static String getTextSameParent(final Node startNode, final Node endNode) {
         if ((endNode != null) && (startNode.getParentNode() != endNode.getParentNode())) {
             throw new IllegalArgumentException("Start and end nodes are expected to have the same parent.");
@@ -176,10 +165,8 @@ class Hyperlink {
         return builder.toString();
     }
 
-    /**
-     * Removes nodes from start up to but not including the end node.
-     * Assumes that the start and end nodes have the same parent.
-     */
+    // Removes nodes from start up to but not including the end node.
+    // Assumes that the start and end nodes have the same parent.
     private static void removeSameParent(final Node startNode, final Node endNode) {
         if ((endNode != null) && (startNode.getParentNode() != endNode.getParentNode())) {
             throw new IllegalArgumentException("Start and end nodes are expected to have the same parent.");

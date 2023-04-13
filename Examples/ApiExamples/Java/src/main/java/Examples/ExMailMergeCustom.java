@@ -52,9 +52,7 @@ public class ExMailMergeCustom extends ApiExampleBase {
         testCustomDataSource(customers, new Document(getArtifactsDir() + "MailMergeCustom.CustomDataSource.docx")); //ExSkip
     }
 
-    /**
-     * An example of a "data entity" class in your application.
-     */
+    // An example of a "data entity" class in your application.
     public class Customer {
         public Customer(final String aFullName, final String anAddress) {
             mFullName = aFullName;
@@ -81,9 +79,7 @@ public class ExMailMergeCustom extends ApiExampleBase {
         private String mAddress;
     }
 
-    /**
-     * An example of a typed collection that contains your "data" objects.
-     */
+    // An example of a typed collection that contains your "data" objects.
     public class CustomerList extends ArrayList {
         public Customer get(final int index) {
             return (Customer) super.get(index);
@@ -94,10 +90,8 @@ public class ExMailMergeCustom extends ApiExampleBase {
         }
     }
 
-    /**
-     * A custom mail merge data source that you implement to allow Aspose.Words
-     * to mail merge data from your Customer objects into Microsoft Word documents.
-     */
+    // A custom mail merge data source that you implement to allow Aspose.Words
+    // to mail merge data from your Customer objects into Microsoft Word documents.
     public class CustomerMailMergeDataSource implements IMailMergeDataSource {
         public CustomerMailMergeDataSource(final CustomerList customers) {
             mCustomers = customers;
@@ -106,16 +100,12 @@ public class ExMailMergeCustom extends ApiExampleBase {
             mRecordIndex = -1;
         }
 
-        /**
-         * The name of the data source. Used by Aspose.Words only when executing mail merge with repeatable regions.
-         */
+        // The name of the data source. Used by Aspose.Words only when executing mail merge with repeatable regions.
         public String getTableName() {
             return "Customer";
         }
 
-        /**
-         * Aspose.Words calls this method to get a value for every data field.
-         */
+        // Aspose.Words calls this method to get a value for every data field.
         public boolean getValue(final String fieldName, final Ref<Object> fieldValue) throws Exception {
             if (fieldName.equals("FullName")) {
                 fieldValue.set(mCustomers.get(mRecordIndex).getFullName());
@@ -131,9 +121,7 @@ public class ExMailMergeCustom extends ApiExampleBase {
             }
         }
 
-        /**
-         * A standard implementation for moving to a next record in a collection.
-         */
+        // A standard implementation for moving to a next record in a collection.
         public boolean moveNext() {
             if (!isEof()) mRecordIndex++;
 

@@ -1224,7 +1224,7 @@ public class ExShape extends ApiExampleBase {
         for (Node shape : (Iterable<Node>) doc.getChildNodes(NodeType.SHAPE, true)) {
             OleFormat oleFormat = ((Shape) shape).getOleFormat();
             if (oleFormat != null) {
-                System.out.println("This is {(oleFormat.IsLink ? ");
+                System.out.println("This is {(oleFormat.IsLink ? "); //ExSkip
                 byte[] oleRawData = oleFormat.getRawData();
 
                 Assert.assertEquals(24576, oleRawData.length);

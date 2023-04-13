@@ -116,7 +116,7 @@ public class ExFont extends ApiExampleBase {
         for (int i = 0; i < allFonts.getCount(); i++) {
             System.out.println("Font index #{i}");
             System.out.println("\tName: {allFonts[i].Name}");
-            System.out.println("\tIs {(allFonts[i].IsTrueType ? ");
+            System.out.println("\tIs {(allFonts[i].IsTrueType ? "); //ExSkip
         }
         //ExEnd
     }

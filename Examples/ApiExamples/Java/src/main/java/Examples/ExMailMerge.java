@@ -324,7 +324,7 @@ public class ExMailMerge extends ApiExampleBase {
         doc.save(getArtifactsDir() + "MailMerge.MergeDuplicateRegions.docx");
     }
 
-    @DataProvider(name = "mergeDuplicateRegionsDataProvider")
+    @DataProvider(name = "mergeDuplicateRegionsDataProvider") //ExSkip
     public static Object[][] mergeDuplicateRegionsDataProvider() {
         return new Object[][]
                 {
@@ -385,7 +385,7 @@ public class ExMailMerge extends ApiExampleBase {
         Assert.assertEquals(doc.getText().contains("{{ Column2 }}"), doPreserveUnusedTags);
     }
 
-    @DataProvider(name = "preserveUnusedTagsDataProvider")
+    @DataProvider(name = "preserveUnusedTagsDataProvider") //ExSkip
     public static Object[][] preserveUnusedTagsDataProvider() throws Exception {
         return new Object[][]
                 {
@@ -446,7 +446,7 @@ public class ExMailMerge extends ApiExampleBase {
         Assert.assertEquals(doMergeWholeDocument, doc.getText().contains("This QUOTE field is outside of the \"MyTable\" merge region."));
     }
 
-    @DataProvider(name = "mergeWholeDocumentDataProvider")
+    @DataProvider(name = "mergeWholeDocumentDataProvider") //ExSkip
     public static Object[][] mergeWholeDocumentDataProvider() throws Exception {
         return new Object[][]
                 {

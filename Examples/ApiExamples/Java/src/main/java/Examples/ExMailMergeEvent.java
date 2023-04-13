@@ -48,9 +48,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
     }
 
     private class HandleMergeFieldInsertHtml implements IFieldMergingCallback {
-        /**
-         * This is called when merge field is actually merged with data in the document.
-         */
+        // This is called when merge field is actually merged with data in the document.
         public void fieldMerging(final FieldMergingArgs args) throws Exception {
             // All merge fields that expect HTML data should be marked with some prefix, e.g. 'html'
             if (args.getDocumentFieldName().startsWith("html") && args.getField().getFieldCode().contains("\\b")) {
@@ -156,10 +154,8 @@ public class ExMailMergeEvent extends ApiExampleBase {
     }
 
     private class HandleMergeFieldInsertCheckBox implements IFieldMergingCallback {
-        /**
-         * This is called for each merge field in the document
-         * when Document.MailMerge.ExecuteWithRegions is called.
-         */
+        // This is called for each merge field in the document
+        // when Document.MailMerge.ExecuteWithRegions is called.
         public void fieldMerging(final FieldMergingArgs args) throws Exception {
             if (args.getDocumentFieldName().equals("CourseName")) {
                 // The name of the table that we are merging can be found here
@@ -184,16 +180,12 @@ public class ExMailMergeEvent extends ApiExampleBase {
             // Do nothing
         }
 
-        /**
-         * Counter for CheckBox name generation.
-         */
+        // Counter for CheckBox name generation.
         private int mCheckBoxCount;
     }
 
-    /**
-     * Create DataTable and fill it with data.
-     * In real life this DataTable should be filled from a database.
-     */
+    // Create DataTable and fill it with data.
+    // In real life this DataTable should be filled from a database.
     private static DataTable getStudentCourseDataTable() throws Exception {
         DataTable dataTable = new DataTable("StudentCourse");
         dataTable.getColumns().add("CourseName");
@@ -224,11 +216,9 @@ public class ExMailMergeEvent extends ApiExampleBase {
     }
 
     private class HandleMergeFieldAlternatingRows implements IFieldMergingCallback {
-        /**
-         * Called for every merge field encountered in the document.
-         * We can either return some data to the mail merge engine or do something
-         * else with the document. In this case we modify cell formatting.
-         */
+        // Called for every merge field encountered in the document.
+        // We can either return some data to the mail merge engine or do something
+        // else with the document. In this case we modify cell formatting.
         public void fieldMerging(final FieldMergingArgs args) throws Exception {
             if (mBuilder == null) {
                 mBuilder = new DocumentBuilder(args.getDocument());
@@ -261,17 +251,15 @@ public class ExMailMergeEvent extends ApiExampleBase {
     }
 
     /*
-     * Returns true if the value is odd; false if the value is even.
+    // Returns true if the value is odd; false if the value is even.
      */
 
     private static boolean isOdd(final int value) {
         return (value % 2 != 0);
     }
 
-    /**
-     * Create DataTable and fill it with data.
-     * In real life this DataTable should be filled from a database.
-     */
+    // Create DataTable and fill it with data.
+    // In real life this DataTable should be filled from a database.
     private static DataTable getSuppliersDataTable() throws Exception {
         DataTable dataTable = new DataTable("Suppliers");
         dataTable.getColumns().add("CompanyName");
@@ -335,7 +323,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
 
         // Create and execute a command
         java.sql.Statement statement = conn.createStatement();
-        java.sql.ResultSet resultSet = statement.executeQuery("SELECT * FROM Employees");
+        java.sql.ResultSet resultSet = statement.executeQuery("SELECT// FROM Employees");
 
         DataTable table = new DataTable(resultSet, "Employees");
 
@@ -353,10 +341,8 @@ public class ExMailMergeEvent extends ApiExampleBase {
             // Do nothing
         }
 
-        /**
-         * This is called when mail merge engine encounters Image:XXX merge field in the document.
-         * You have a chance to return an Image object, file name or a stream that contains the image.
-         */
+        // This is called when mail merge engine encounters Image:XXX merge field in the document.
+        // You have a chance to return an Image object, file name or a stream that contains the image.
         public void imageFieldMerging(final ImageFieldMergingArgs e) {
             // The field value is a byte array, just cast it and create a stream on it
             ByteArrayInputStream imageStream = new ByteArrayInputStream((byte[]) e.getFieldValue());

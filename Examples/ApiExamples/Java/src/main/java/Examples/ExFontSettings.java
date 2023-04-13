@@ -1114,7 +1114,7 @@ public class ExFontSettings extends ApiExampleBase {
     //ExFor:FontSettings.SaveSearchCache(Stream)
     //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
     //ExSummary:Shows how to speed up the font cache initialization process.
-    @Test
+    @Test //ExSkip
     public void loadFontSearchCache() throws Exception
     {
         final String CACHE_KEY_1 = "Arvo";

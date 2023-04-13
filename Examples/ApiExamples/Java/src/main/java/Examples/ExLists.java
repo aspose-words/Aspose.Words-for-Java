@@ -904,10 +904,10 @@ public class ExLists extends ApiExampleBase {
                 // Combine them together to include the list label with the text in the output.
                 System.out.println("\tList label combined with text: {label.LabelString} {paragraphText}");
             }
-            //ExEnd
 
-            Assert.assertEquals(10, DocumentHelper.getListItemCount(doc.getChildNodes(NodeType.PARAGRAPH, true)));
+            Assert.assertEquals(10, DocumentHelper.getListItemCount(doc.getChildNodes(NodeType.PARAGRAPH, true))); //ExSkip
         }
+        //ExEnd
     }
 
     @Test

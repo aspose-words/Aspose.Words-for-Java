@@ -105,7 +105,6 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
     @Test (dataProvider = "progressCallbackDataProvider")
     //ExStart
     //ExFor:SaveOptions.ProgressCallback
-    //ExFor:IDocumentSavingCallback
     //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
     //ExFor:DocumentSavingArgs.EstimatedProgress
     //ExSummary:Shows how to manage a document while saving to xamlflow.
@@ -127,7 +126,7 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
         }
     }
 
-    @DataProvider(name = "progressCallbackDataProvider")
+    @DataProvider(name = "progressCallbackDataProvider") //ExSkip
     public static Object[][] progressCallbackDataProvider() throws Exception
     {
         return new Object[][]

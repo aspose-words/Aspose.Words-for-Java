@@ -1932,7 +1932,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
     }
 
-    @DataProvider(name = "progressCallbackDataProvider")
+    @DataProvider(name = "progressCallbackDataProvider") //ExSkip
     public static Object[][] progressCallbackDataProvider() throws Exception
     {
         return new Object[][]
