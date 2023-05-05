@@ -21,13 +21,13 @@ import com.aspose.words.FontInfoCollection;
 import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.words.Underline;
 import com.aspose.words.TextEffect;
 import com.aspose.words.Shading;
 import com.aspose.words.TextureIndex;
 import com.aspose.words.ThemeColor;
-import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.LineStyle;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.words.Style;
@@ -417,7 +417,7 @@ public class ExFont extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.getFont().setSize(36.0);
-        builder.getFont().setColor(Color.LightBlue);
+        builder.getFont().setColor(msColor.getLightBlue());
 
         // Below are two ways of using shadows to apply a 3D-like effect to the text.
         // 1 -  Engrave text to make it look like the letters are sunken into the page:
@@ -1097,7 +1097,7 @@ public class ExFont extends ApiExampleBase
 
         // If we change the background to a light color, black will be a more
         // suitable text color than white so that the auto color will display it in black.
-        builder.getFont().getShading().setBackgroundPatternColor(Color.LightBlue);
+        builder.getFont().getShading().setBackgroundPatternColor(msColor.getLightBlue());
 
         builder.writeln("The text color automatically chosen for this run is black.");
 
@@ -1117,7 +1117,7 @@ public class ExFont extends ApiExampleBase
 
         Assert.assertEquals("The text color automatically chosen for this run is black.", run.getText().trim());
         Assert.assertEquals(msColor.Empty.getRGB(), run.getFont().getColor().getRGB());
-        Assert.assertEquals(Color.LightBlue.getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
+        Assert.assertEquals(msColor.getLightBlue().getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
     }
 
     //ExStart

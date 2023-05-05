@@ -27,6 +27,7 @@ import com.aspose.words.AxisCategoryType;
 import com.aspose.words.AxisCrosses;
 import com.aspose.words.AxisTickMark;
 import com.aspose.words.AxisTickLabelPosition;
+import com.aspose.words.ChartAxisType;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.AxisBound;
 import com.aspose.words.AxisTimeUnit;
@@ -35,7 +36,6 @@ import java.util.Iterator;
 import com.aspose.words.ChartDataLabel;
 import com.aspose.words.MarkerSymbol;
 import com.aspose.words.ChartDataPoint;
-import com.aspose.words.ChartAxisType;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.AxisScaleType;
 import com.aspose.words.ChartLegend;
@@ -276,6 +276,30 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(100.0d, chart.getAxisY().getMajorUnit());
         Assert.assertEquals(20.0d, chart.getAxisY().getMinorUnit());
         Assert.assertEquals(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisY().getTickLabelPosition());
+    }
+
+    @Test
+    public void axisCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartAxisCollection
+        //ExFor:Chart.Axes
+        //ExSummary:Shows how to work with axes collection.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 500.0, 300.0);
+        Chart chart = shape.getChart();            
+
+        // Hide the major grid lines on the primary and secondary Y axes.
+        for (ChartAxis axis : chart.getAxes())
+        {
+            if (axis.getType() == ChartAxisType.VALUE)
+                axis.hasMajorGridlines(false);
+        }
+
+        doc.save(getArtifactsDir() + "Charts.AxisCollection.docx");
+        //ExEnd
     }
 
     @Test

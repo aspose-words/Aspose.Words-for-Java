@@ -289,10 +289,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         horizontalRuleFormat.setHeight(1584.0);
         Assert.That(() => horizontalRuleFormat.setHeight(-1), Throws.<IllegalArgumentException>TypeOf());
         Assert.That(() => horizontalRuleFormat.setHeight(1585.0), Throws.<IllegalArgumentException>TypeOf());
-    }
-
-    [Test]
-    public async Task private InsertHyperlinkAsyncinsertHyperlinkAsync() throws Exception
+    }private InsertHyperlinkAsyncinsertHyperlinkAsync() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertHyperlink
@@ -1119,7 +1116,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             table.getStyleOptions());
         Assert.assertEquals(189, (table.getFirstRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getBlue() & 0xFF));
         Assert.assertEquals(Color.WHITE.getRGB(), table.getFirstRow().getFirstCell().getFirstParagraph().getRuns().get(0).getFont().getColor().getRGB());
-        Assert.assertNotEquals(Color.LightBlue.getRGB(),
+        Assert.assertNotEquals(msColor.getLightBlue().getRGB(),
             (table.getLastRow().getFirstCell().getCellFormat().getShading().getBackgroundPatternColor().getBlue() & 0xFF));
         Assert.assertEquals(msColor.Empty.getRGB(), table.getLastRow().getFirstCell().getFirstParagraph().getRuns().get(0).getFont().getColor().getRGB());
     }
@@ -1230,7 +1227,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // 2 -  Set a relative preferred width based on percent of the table's width:
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(20.0));
-        builder.getCellFormat().getShading().setBackgroundPatternColor(Color.LightBlue);
+        builder.getCellFormat().getShading().setBackgroundPatternColor(msColor.getLightBlue());
         builder.writeln($"Cell with a width of {builder.CellFormat.PreferredWidth}.");
 
         builder.insertCell();
@@ -2883,7 +2880,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         private /*final*/ String mGeneralFormat; 
         private ArrayList<FieldResultFormatter.FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
-        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<FieldResultFormatter.FormatInvocation>list();
+        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<FieldResultFormatter.FormatInvocation>list();
         
         private static class FormatInvocation
         {
@@ -2920,7 +2917,11 @@ public class ExDocumentBuilder extends ApiExampleBase
 
             public static final int length = 4;
         }
-    }private InsertVideoWithUrlinsertVideoWithUrl() throws Exception
+    }
+    //ExEnd
+
+    [Test, Ignore("Failed")]
+    public async Task private InsertVideoWithUrlinsertVideoWithUrl() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, Double, Double)
@@ -3622,10 +3623,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
         await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
-    }
-
-    [Test]
-    public async Task private InsertOnlineVideoCustomThumbnailinsertOnlineVideoCustomThumbnail() throws Exception
+    }private InsertOnlineVideoCustomThumbnailinsertOnlineVideoCustomThumbnail() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, String, Byte[], Double, Double)
@@ -3749,5 +3747,16 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.insertHtml(HTML, insertOptions);
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.PreserveBlocks.docx");
         //ExEnd
+    }
+
+    @Test
+    public void phoneticGuide() throws Exception
+    {
+        DocumentBuilder builder = new DocumentBuilder();
+        builder.write("Lorem ipsum.");
+
+        RunCollection runs = builder.getDocument().getFirstSection().getBody().getFirstParagraph().getRuns();
+        // Use phonetic guide in the Asian text.
+        Assert.assertEquals(false, runs.get(0).isPhoneticGuide());
     }
 }
