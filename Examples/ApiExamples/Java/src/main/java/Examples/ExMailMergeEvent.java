@@ -323,7 +323,7 @@ public class ExMailMergeEvent extends ApiExampleBase {
 
         // Create and execute a command
         java.sql.Statement statement = conn.createStatement();
-        java.sql.ResultSet resultSet = statement.executeQuery("SELECT// FROM Employees");
+        java.sql.ResultSet resultSet = statement.executeQuery("SELECT * FROM Employees");
 
         DataTable table = new DataTable(resultSet, "Employees");
 

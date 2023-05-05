@@ -240,6 +240,30 @@ public class ExCharts extends ApiExampleBase {
     }
 
     @Test
+    public void axisCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartAxisCollection
+        //ExFor:Chart.Axes
+        //ExSummary:Shows how to work with axes collection.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 500.0, 300.0);
+        Chart chart = shape.getChart();
+
+        // Hide the major grid lines on the primary and secondary Y axes.
+        for (ChartAxis axis : chart.getAxes())
+        {
+            if (axis.getType() == ChartAxisType.VALUE)
+                axis.hasMajorGridlines(false);
+        }
+
+        doc.save(getArtifactsDir() + "Charts.AxisCollection.docx");
+        //ExEnd
+    }
+
+    @Test
     public void dateTimeValues() throws Exception {
         //ExStart
         //ExFor:AxisBound

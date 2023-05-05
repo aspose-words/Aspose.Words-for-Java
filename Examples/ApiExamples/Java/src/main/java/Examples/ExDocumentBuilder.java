@@ -3542,4 +3542,19 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertOleObjectAsIcon.docx");
         //ExEnd
     }
+
+    @Test
+    public void phoneticGuide() throws Exception
+    {
+        //ExStart
+        //ExFor:Run.isPhoneticGuide
+        //ExSummary:Shows how to check if the run is phonetic guide.
+        DocumentBuilder builder = new DocumentBuilder();
+        builder.write("Lorem ipsum.");
+
+        RunCollection runs = builder.getDocument().getFirstSection().getBody().getFirstParagraph().getRuns();
+        // Use phonetic guide in the Asian text.
+        Assert.assertEquals(false, runs.get(0).isPhoneticGuide());
+        //ExEnd
+    }
 }

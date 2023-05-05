@@ -471,13 +471,13 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void getDistance() throws Exception {
+    public void distanceBetweenTableAndText() throws Exception {
         //ExStart
         //ExFor:Table.DistanceBottom
         //ExFor:Table.DistanceLeft
         //ExFor:Table.DistanceRight
         //ExFor:Table.DistanceTop
-        //ExSummary:Shows the minimum distance operations between table boundaries and text.
+        //ExSummary:Shows how to set distance between table boundaries and text.
         Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -486,6 +486,14 @@ public class ExTable extends ApiExampleBase {
         Assert.assertEquals(table.getDistanceBottom(), 25.9d);
         Assert.assertEquals(table.getDistanceLeft(), 17.3d);
         Assert.assertEquals(table.getDistanceRight(), 17.3d);
+
+        // Set distance between table and surrounding text.
+        table.setDistanceLeft(24.0);
+        table.setDistanceRight(24.0);
+        table.setDistanceTop(3.0);
+        table.setDistanceBottom(3.0);
+
+        doc.save(getArtifactsDir() + "Table.DistanceBetweenTableAndText.docx");
         //ExEnd
     }
 

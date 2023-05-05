@@ -878,6 +878,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:GradientStopCollection.Count
         //ExFor:GradientStop.#ctor(Color, Double)
         //ExFor:GradientStop.#ctor(Color, Double, Double)
+        //ExFor:GradientStop.BaseColor
         //ExFor:GradientStop.Color
         //ExFor:GradientStop.Position
         //ExFor:GradientStop.Transparency
@@ -912,6 +913,7 @@ public class ExShape extends ApiExampleBase {
 
         Assert.assertEquals(2, gradientStops.getCount());
 
+        Assert.assertEquals(new Color((255), (255), (0)), gradientStops.get(0).getBaseColor());
         Assert.assertEquals(Color.yellow.getRGB(), gradientStops.get(0).getColor().getRGB());
         Assert.assertEquals(0.1d, gradientStops.get(0).getPosition(), 0.01d);
         Assert.assertEquals(0.25d, gradientStops.get(0).getTransparency(), 0.01d);
@@ -1634,6 +1636,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:Stroke.Weight
         //ExFor:Stroke.JoinStyle
         //ExFor:Stroke.LineStyle
+        //ExFor:Stroke.Fill
         //ExFor:ShapeLineStyle
         //ExSummary:Shows how change stroke properties.
         Document doc = new Document();
@@ -1656,6 +1659,7 @@ public class ExShape extends ApiExampleBase {
         stroke.setJoinStyle(JoinStyle.MITER);
         stroke.setEndCap(EndCap.SQUARE);
         stroke.setLineStyle(ShapeLineStyle.TRIPLE);
+        stroke.getFill().twoColorGradient(Color.RED, Color.BLUE, GradientStyle.VERTICAL, GradientVariant.VARIANT_1);
 
         doc.save(getArtifactsDir() + "Shape.Stroke.docx");
         //ExEnd
@@ -2929,6 +2933,66 @@ public class ExShape extends ApiExampleBase {
         shape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
 
         Assert.assertEquals(true, shape.getTextBox().getNoTextRotation());
+    }
 
+    @Test
+    public void relativeSizeAndPosition() throws Exception
+    {
+        //ExStart
+        //ExFor:ShapeBase.RelativeHorizontalSize
+        //ExFor:ShapeBase.RelativeVerticalSize
+        //ExFor:ShapeBase.WidthRelative
+        //ExFor:ShapeBase.HeightRelative
+        //ExFor:ShapeBase.TopRelative
+        //ExFor:ShapeBase.LeftRelative
+        //ExFor:RelativeHorizontalSize
+        //ExFor:RelativeVerticalSize
+        //ExSummary:Shows how to set relative size and position.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Adding a simple shape with absolute size and position.
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 100.0, 40.0);
+        // Set WrapType to WrapType.None since Inline shapes are automatically converted to absolute units.
+        shape.setWrapType(WrapType.NONE);
+
+        // Checking and setting the relative horizontal size.
+        if (shape.getRelativeHorizontalSize() == RelativeHorizontalSize.DEFAULT)
+        {
+            // Setting the horizontal size binding to Margin.
+            shape.setRelativeHorizontalSize(RelativeHorizontalSize.MARGIN);
+            // Setting the width to 50% of Margin width.
+            shape.setWidthRelative(50f);
+        }
+
+        // Checking and setting the relative vertical size.
+        if (shape.getRelativeVerticalSize() == RelativeVerticalSize.DEFAULT)
+        {
+            // Setting the vertical size binding to Margin.
+            shape.setRelativeVerticalSize(RelativeVerticalSize.MARGIN);
+            // Setting the heigh to 30% of Margin height.
+            shape.setHeightRelative(30f);
+        }
+
+        // Checking and setting the relative vertical position.
+        if (shape.getRelativeVerticalPosition() == RelativeVerticalPosition.PARAGRAPH)
+        {
+            // etting the position binding to TopMargin.
+            shape.setRelativeVerticalPosition(RelativeVerticalPosition.TOP_MARGIN);
+            // Setting relative Top to 30% of TopMargin position.
+            shape.setTopRelative(30f);
+        }
+
+        // Checking and setting the relative horizontal position.
+        if (shape.getRelativeHorizontalPosition() == RelativeHorizontalPosition.DEFAULT)
+        {
+            // Setting the position binding to RightMargin.
+            shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.RIGHT_MARGIN);
+            // The position relative value can be negative.
+            shape.setLeftRelative(-260);
+        }
+
+        doc.save(getArtifactsDir() + "Shape.RelativeSizeAndPosition.docx");
+        //ExEnd
     }
 }
