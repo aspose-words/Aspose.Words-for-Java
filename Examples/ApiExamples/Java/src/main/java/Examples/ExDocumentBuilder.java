@@ -3547,7 +3547,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
     public void phoneticGuide() throws Exception
     {
         //ExStart
-        //ExFor:Run.isPhoneticGuide
+        //ExFor:Run.IsPhoneticGuide
         //ExSummary:Shows how to check if the run is phonetic guide.
         DocumentBuilder builder = new DocumentBuilder();
         builder.write("Lorem ipsum.");
