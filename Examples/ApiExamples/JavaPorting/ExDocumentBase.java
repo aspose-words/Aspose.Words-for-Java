@@ -167,7 +167,7 @@ public class ExDocumentBase extends ApiExampleBase
 
         // There are two ways of using this shape as a page background.
         // 1 -  A flat color:
-        shapeRectangle.setFillColor(java.awt.Color.LightBlue);
+        shapeRectangle.setFillColor(msColor.getLightBlue());
         doc.setBackgroundShape(shapeRectangle);
 
         doc.save(getArtifactsDir() + "DocumentBase.BackgroundShape.FlatColor.docx");
@@ -196,7 +196,7 @@ public class ExDocumentBase extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "DocumentBase.BackgroundShape.FlatColor.docx");
 
-        Assert.assertEquals(java.awt.Color.LightBlue.getRGB(), doc.getBackgroundShape().getFillColor().getRGB());
+        Assert.assertEquals(msColor.getLightBlue().getRGB(), doc.getBackgroundShape().getFillColor().getRGB());
         Assert.<IllegalArgumentException>Throws(() =>
         {
             doc.setBackgroundShape(new Shape(doc, ShapeType.TRIANGLE));

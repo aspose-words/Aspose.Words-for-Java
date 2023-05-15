@@ -27,6 +27,7 @@ import com.aspose.words.AxisCategoryType;
 import com.aspose.words.AxisCrosses;
 import com.aspose.words.AxisTickMark;
 import com.aspose.words.AxisTickLabelPosition;
+import com.aspose.words.ChartAxisType;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.AxisBound;
 import com.aspose.words.AxisTimeUnit;
@@ -35,7 +36,6 @@ import java.util.Iterator;
 import com.aspose.words.ChartDataLabel;
 import com.aspose.words.MarkerSymbol;
 import com.aspose.words.ChartDataPoint;
-import com.aspose.words.ChartAxisType;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.AxisScaleType;
 import com.aspose.words.ChartLegend;
@@ -279,6 +279,30 @@ public class ExCharts extends ApiExampleBase
     }
 
     @Test
+    public void axisCollection() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartAxisCollection
+        //ExFor:Chart.Axes
+        //ExSummary:Shows how to work with axes collection.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 500.0, 300.0);
+        Chart chart = shape.getChart();            
+
+        // Hide the major grid lines on the primary and secondary Y axes.
+        for (ChartAxis axis : chart.getAxes())
+        {
+            if (axis.getType() == ChartAxisType.VALUE)
+                axis.hasMajorGridlines(false);
+        }
+
+        doc.save(getArtifactsDir() + "Charts.AxisCollection.docx");
+        //ExEnd
+    }
+
+    @Test
     public void dateTimeValues() throws Exception
     {
         //ExStart
@@ -292,6 +316,8 @@ public class ExCharts extends ApiExampleBase
         //ExFor:Charts.AxisTickLabelPosition
         //ExFor:Charts.AxisTimeUnit
         //ExFor:Charts.ChartAxis.BaseTimeUnit
+        //ExFor:ChartAxis.HasMajorGridlines
+        //ExFor:ChartAxis.HasMinorGridlines
         //ExSummary:Shows how to insert chart with date/time values.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -323,6 +349,8 @@ public class ExCharts extends ApiExampleBase
         xAxis.setMajorTickMark(AxisTickMark.CROSS);
         xAxis.setMinorUnit(1.0d);
         xAxis.setMinorTickMark(AxisTickMark.OUTSIDE);
+        xAxis.hasMajorGridlines(true);
+        xAxis.hasMinorGridlines(true);
 
         // Define Y-axis properties for decimal values.
         ChartAxis yAxis = chart.getAxisY();
@@ -332,6 +360,8 @@ public class ExCharts extends ApiExampleBase
         yAxis.getDisplayUnit().setUnit(AxisBuiltInUnit.HUNDREDS);
         yAxis.getScaling().setMinimum(new AxisBound(100.0));
         yAxis.getScaling().setMaximum(new AxisBound(700.0));
+        yAxis.hasMajorGridlines(true);
+        yAxis.hasMinorGridlines(true);
 
         doc.save(getArtifactsDir() + "Charts.DateTimeValues.docx");
         //ExEnd
@@ -346,6 +376,8 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(1.0d, chart.getAxisX().getMinorUnit());
         Assert.assertEquals(AxisTickMark.CROSS, chart.getAxisX().getMajorTickMark());
         Assert.assertEquals(AxisTickMark.OUTSIDE, chart.getAxisX().getMinorTickMark());
+        Assert.assertEquals(true, chart.getAxisX().hasMajorGridlines());
+        Assert.assertEquals(true, chart.getAxisX().hasMinorGridlines());
 
         Assert.assertEquals(AxisTickLabelPosition.HIGH, chart.getAxisY().getTickLabelPosition());
         Assert.assertEquals(100.0d, chart.getAxisY().getMajorUnit());
@@ -353,6 +385,8 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(AxisBuiltInUnit.HUNDREDS, chart.getAxisY().getDisplayUnit().getUnit());
         Assert.assertEquals(new AxisBound(100.0), chart.getAxisY().getScaling().getMinimum());
         Assert.assertEquals(new AxisBound(700.0), chart.getAxisY().getScaling().getMaximum());
+        Assert.assertEquals(true, chart.getAxisY().hasMajorGridlines());
+        Assert.assertEquals(true, chart.getAxisY().hasMinorGridlines());
     }
 
     @Test

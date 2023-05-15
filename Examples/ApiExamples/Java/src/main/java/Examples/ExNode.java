@@ -196,7 +196,7 @@ public class ExNode extends ApiExampleBase {
     /// Recursively traverses a node tree while printing the type of each node
     /// with an indent depending on depth as well as the contents of all inline nodes.
     /// </summary>
-    @Test(enabled = false)
+    @Test(enabled = false) //ExSkip
     public void traverseAllNodes(CompositeNode parentNode, int depth) {
         for (Node childNode = parentNode.getFirstChild(); childNode != null; childNode = childNode.getNextSibling()) {
             System.out.println(MessageFormat.format("{0}{1}", String.format("	", depth), Node.nodeTypeToString(childNode.getNodeType())));

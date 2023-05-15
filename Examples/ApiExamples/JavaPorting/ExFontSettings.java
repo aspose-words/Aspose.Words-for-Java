@@ -927,10 +927,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         Assert.assertEquals("MS Mincho", rules.item(4).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
 
         Assert.assertEquals("Arial Unicode MS", rules.item(5).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
-    }
-
-    [Test]
-    public async Task private LoadNotoFontsFallbackSettingsloadNotoFontsFallbackSettings() throws Exception
+    }private LoadNotoFontsFallbackSettingsloadNotoFontsFallbackSettings() throws Exception
     {
         //ExStart
         //ExFor:FontFallbackSettings.LoadNotoFallbackSettings

@@ -622,7 +622,7 @@ public class ExRange extends ApiExampleBase {
         doc.getRange().replace("\\[tag d*\\]", "", options);
     }
 
-    @DataProvider(name = "useLegacyOrderDataProvider")
+    @DataProvider(name = "useLegacyOrderDataProvider") //ExSkip
     public static Object[][] useLegacyOrderDataProvider() {
         return new Object[][]
                 {
@@ -804,7 +804,7 @@ public class ExRange extends ApiExampleBase {
         }
     }
 
-    @DataProvider(name = "directionDataProvider")
+    @DataProvider(name = "directionDataProvider") //ExSkip
     public static Object[][] directionDataProvider() {
         return new Object[][]
                 {

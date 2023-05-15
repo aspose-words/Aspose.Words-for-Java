@@ -878,6 +878,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:GradientStopCollection.Count
         //ExFor:GradientStop.#ctor(Color, Double)
         //ExFor:GradientStop.#ctor(Color, Double, Double)
+        //ExFor:GradientStop.BaseColor
         //ExFor:GradientStop.Color
         //ExFor:GradientStop.Position
         //ExFor:GradientStop.Transparency
@@ -912,6 +913,7 @@ public class ExShape extends ApiExampleBase {
 
         Assert.assertEquals(2, gradientStops.getCount());
 
+        Assert.assertEquals(new Color((255), (255), (0)), gradientStops.get(0).getBaseColor());
         Assert.assertEquals(Color.yellow.getRGB(), gradientStops.get(0).getColor().getRGB());
         Assert.assertEquals(0.1d, gradientStops.get(0).getPosition(), 0.01d);
         Assert.assertEquals(0.25d, gradientStops.get(0).getTransparency(), 0.01d);
@@ -965,6 +967,48 @@ public class ExShape extends ApiExampleBase {
         fill.patterned(PatternType.DIAGONAL_BRICK, Color.yellow, Color.blue);
 
         doc.save(getArtifactsDir() + "Shape.FillPattern.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void fillThemeColor() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.ForeThemeColor
+        //ExFor:Fill.BackThemeColor
+        //ExFor:Fill.BackTintAndShade
+        //ExSummary:Shows how to set theme color for foreground/background shape color.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertShape(ShapeType.ROUND_RECTANGLE, 80.0, 80.0);
+
+        Fill fill = shape.getFill();
+        fill.setForeThemeColor(ThemeColor.DARK_1);
+        fill.setBackThemeColor(ThemeColor.BACKGROUND_2);
+
+        // Note: do not use "BackThemeColor" and "BackTintAndShade" for font fill.
+        if (fill.getBackTintAndShade() == 0)
+            fill.setBackTintAndShade(0.2);
+
+        doc.save(getArtifactsDir() + "Shape.FillThemeColor.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void fillTintAndShade() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.ForeTintAndShade
+        //ExSummary:Shows how to manage lightening and darkening foreground font color.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        Fill textFill = doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getFont().getFill();
+        textFill.setForeThemeColor(ThemeColor.ACCENT_1);
+        if (textFill.getForeTintAndShade() == 0)
+            textFill.setForeTintAndShade(0.5);
+
+        doc.save(getArtifactsDir() + "Shape.FillTintAndShade.docx");
         //ExEnd
     }
 
@@ -1182,7 +1226,7 @@ public class ExShape extends ApiExampleBase {
         for (Node shape : (Iterable<Node>) doc.getChildNodes(NodeType.SHAPE, true)) {
             OleFormat oleFormat = ((Shape) shape).getOleFormat();
             if (oleFormat != null) {
-                System.out.println("This is {(oleFormat.IsLink ? ");
+                System.out.println("This is {(oleFormat.IsLink ? "); //ExSkip
                 byte[] oleRawData = oleFormat.getRawData();
 
                 Assert.assertEquals(24576, oleRawData.length);
@@ -1444,9 +1488,6 @@ public class ExShape extends ApiExampleBase {
         Assert.assertEquals(NodeType.OFFICE_MATH, officeMath.getNodeType());
         Assert.assertEquals(officeMath.getParentNode(), officeMath.getParentParagraph());
 
-        // OOXML and WML formats use the "EquationXmlEncoding" property.
-        Assert.assertNull(officeMath.getEquationXmlEncoding());
-
         // Change the location and display type of the OfficeMath node.
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);
         officeMath.setJustification(OfficeMathJustification.LEFT);
@@ -1595,6 +1636,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:Stroke.Weight
         //ExFor:Stroke.JoinStyle
         //ExFor:Stroke.LineStyle
+        //ExFor:Stroke.Fill
         //ExFor:ShapeLineStyle
         //ExSummary:Shows how change stroke properties.
         Document doc = new Document();
@@ -1617,6 +1659,7 @@ public class ExShape extends ApiExampleBase {
         stroke.setJoinStyle(JoinStyle.MITER);
         stroke.setEndCap(EndCap.SQUARE);
         stroke.setLineStyle(ShapeLineStyle.TRIPLE);
+        stroke.getFill().twoColorGradient(Color.RED, Color.BLUE, GradientStyle.VERTICAL, GradientVariant.VARIANT_1);
 
         doc.save(getArtifactsDir() + "Shape.Stroke.docx");
         //ExEnd
@@ -2868,6 +2911,88 @@ public class ExShape extends ApiExampleBase {
 
         if (shape.getShadowFormat().getType() == ShadowType.SHADOW_MIXED)
             shape.getShadowFormat().clear();
+        //ExEnd
+    }
+
+    @Test
+    public void noTextRotation() throws Exception
+    {
+        //ExStart
+        //ExFor:TextBox.NoTextRotation
+        //ExSummary:Shows how to disable text rotation when the shape is rotate.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertShape(ShapeType.ELLIPSE, 20.0, 20.0);
+        shape.getTextBox().setNoTextRotation(true);
+
+        doc.save(getArtifactsDir() + "Shape.NoTextRotation.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "Shape.NoTextRotation.docx");
+        shape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
+
+        Assert.assertEquals(true, shape.getTextBox().getNoTextRotation());
+    }
+
+    @Test
+    public void relativeSizeAndPosition() throws Exception
+    {
+        //ExStart
+        //ExFor:ShapeBase.RelativeHorizontalSize
+        //ExFor:ShapeBase.RelativeVerticalSize
+        //ExFor:ShapeBase.WidthRelative
+        //ExFor:ShapeBase.HeightRelative
+        //ExFor:ShapeBase.TopRelative
+        //ExFor:ShapeBase.LeftRelative
+        //ExFor:RelativeHorizontalSize
+        //ExFor:RelativeVerticalSize
+        //ExSummary:Shows how to set relative size and position.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Adding a simple shape with absolute size and position.
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 100.0, 40.0);
+        // Set WrapType to WrapType.None since Inline shapes are automatically converted to absolute units.
+        shape.setWrapType(WrapType.NONE);
+
+        // Checking and setting the relative horizontal size.
+        if (shape.getRelativeHorizontalSize() == RelativeHorizontalSize.DEFAULT)
+        {
+            // Setting the horizontal size binding to Margin.
+            shape.setRelativeHorizontalSize(RelativeHorizontalSize.MARGIN);
+            // Setting the width to 50% of Margin width.
+            shape.setWidthRelative(50f);
+        }
+
+        // Checking and setting the relative vertical size.
+        if (shape.getRelativeVerticalSize() == RelativeVerticalSize.DEFAULT)
+        {
+            // Setting the vertical size binding to Margin.
+            shape.setRelativeVerticalSize(RelativeVerticalSize.MARGIN);
+            // Setting the heigh to 30% of Margin height.
+            shape.setHeightRelative(30f);
+        }
+
+        // Checking and setting the relative vertical position.
+        if (shape.getRelativeVerticalPosition() == RelativeVerticalPosition.PARAGRAPH)
+        {
+            // etting the position binding to TopMargin.
+            shape.setRelativeVerticalPosition(RelativeVerticalPosition.TOP_MARGIN);
+            // Setting relative Top to 30% of TopMargin position.
+            shape.setTopRelative(30f);
+        }
+
+        // Checking and setting the relative horizontal position.
+        if (shape.getRelativeHorizontalPosition() == RelativeHorizontalPosition.DEFAULT)
+        {
+            // Setting the position binding to RightMargin.
+            shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.RIGHT_MARGIN);
+            // The position relative value can be negative.
+            shape.setLeftRelative(-260);
+        }
+
+        doc.save(getArtifactsDir() + "Shape.RelativeSizeAndPosition.docx");
         //ExEnd
     }
 }

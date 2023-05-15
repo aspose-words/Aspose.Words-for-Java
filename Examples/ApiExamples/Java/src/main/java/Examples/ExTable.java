@@ -228,14 +228,13 @@ public class ExTable extends ApiExampleBase {
         }
     }
 
-    /**
-     * Calculates what level a table is nested inside other tables.
-     *
-     * @returns An integer containing the level the table is nested at.
-     * 0 = Table is not nested inside any other table
-     * 1 = Table is nested within one parent table
-     * 2 = Table is nested within two parent tables etc..
-     */
+
+    // Calculates what level a table is nested inside other tables.
+    //
+    // Returns An integer containing the level the table is nested at.
+    // 0 = Table is not nested inside any other table
+    // 1 = Table is nested within one parent table
+    // 2 = Table is nested within two parent tables etc..
     private static int getNestedDepthOfTable(final Table table) {
         int depth = 0;
         Node parent = table.getAncestor(table.getNodeType());
@@ -248,13 +247,12 @@ public class ExTable extends ApiExampleBase {
         return depth;
     }
 
-    /**
-     * Determines if a table contains any immediate child table within its cells.
-     * Does not recursively traverse through those tables to check for further tables.
-     *
-     * @returns Returns true if at least one child cell contains a table.
-     * Returns false if no cells in the table contains a table.
-     */
+
+    // Determines if a table contains any immediate child table within its cells.
+    // Does not recursively traverse through those tables to check for further tables.
+    //
+    // Returns true if at least one child cell contains a table.
+    // Returns false if no cells in the table contains a table.
     private static int getChildTableCount(final Table table) {
         int childTableCount = 0;
 
@@ -473,13 +471,13 @@ public class ExTable extends ApiExampleBase {
     }
 
     @Test
-    public void getDistance() throws Exception {
+    public void distanceBetweenTableAndText() throws Exception {
         //ExStart
         //ExFor:Table.DistanceBottom
         //ExFor:Table.DistanceLeft
         //ExFor:Table.DistanceRight
         //ExFor:Table.DistanceTop
-        //ExSummary:Shows the minimum distance operations between table boundaries and text.
+        //ExSummary:Shows how to set distance between table boundaries and text.
         Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -488,6 +486,14 @@ public class ExTable extends ApiExampleBase {
         Assert.assertEquals(table.getDistanceBottom(), 25.9d);
         Assert.assertEquals(table.getDistanceLeft(), 17.3d);
         Assert.assertEquals(table.getDistanceRight(), 17.3d);
+
+        // Set distance between table and surrounding text.
+        table.setDistanceLeft(24.0);
+        table.setDistanceRight(24.0);
+        table.setDistanceTop(3.0);
+        table.setDistanceBottom(3.0);
+
+        doc.save(getArtifactsDir() + "Table.DistanceBetweenTableAndText.docx");
         //ExEnd
     }
 
@@ -916,9 +922,8 @@ public class ExTable extends ApiExampleBase {
         testCreateNestedTable(new Document(getArtifactsDir() + "Table.CreateNestedTable.docx")); //ExSkip
     }
 
-    /**
-     * Creates a new table in the document with the given dimensions and text in each cell.
-     */
+
+    // Creates a new table in the document with the given dimensions and text in each cell.
     private Table createTable(final Document doc, final int rowCount, final int cellCount, final String cellText) throws Exception {
         Table table = new Table(doc);
 

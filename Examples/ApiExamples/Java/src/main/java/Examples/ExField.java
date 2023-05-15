@@ -1862,7 +1862,7 @@ public class ExField extends ApiExampleBase {
     /// <summary>
     /// Start a new page and insert a paragraph of a specified style.
     /// </summary>
-    @Test(enabled = false)
+    @Test(enabled = false) //ExSkip
     public void insertNewPageWithHeading(final DocumentBuilder builder, final String captionText, final String styleName) {
         builder.insertBreak(BreakType.PAGE_BREAK);
         String originalStyle = builder.getParagraphFormat().getStyleName();
@@ -1940,7 +1940,7 @@ public class ExField extends ApiExampleBase {
     /// <summary>
     /// Use a document builder to insert a TC field.
     /// </summary>
-    @Test(enabled = false)
+    @Test(enabled = false) //ExSkip
     public void insertTocEntry(final DocumentBuilder builder, final String text, final String typeIdentifier, final String entryLevel) throws Exception {
         FieldTC fieldTc = (FieldTC) builder.insertField(FieldType.FIELD_TOC_ENTRY, true);
         fieldTc.setOmitPageNumber(true);
@@ -2613,7 +2613,7 @@ public class ExField extends ApiExampleBase {
     /// <summary>
     /// Use a document builder to insert an INCLUDETEXT field with custom properties.
     /// </summary>
-    @Test(enabled = false)
+    @Test(enabled = false)//ExSkip
     public FieldIncludeText createFieldIncludeText(DocumentBuilder builder, String sourceFullName, boolean lockFields, String mimeType, String textConverter, String encoding) throws Exception {
         FieldIncludeText fieldIncludeText = (FieldIncludeText) builder.insertField(FieldType.FIELD_INCLUDE_TEXT, true);
         fieldIncludeText.setSourceFullName(sourceFullName);
@@ -3994,44 +3994,10 @@ public class ExField extends ApiExampleBase {
 
     //ExStart
     //ExFor:FieldLink
-    //ExFor:FieldLink.AutoUpdate
-    //ExFor:FieldLink.FormatUpdateType
-    //ExFor:FieldLink.InsertAsBitmap
-    //ExFor:FieldLink.InsertAsHtml
-    //ExFor:FieldLink.InsertAsPicture
-    //ExFor:FieldLink.InsertAsRtf
-    //ExFor:FieldLink.InsertAsText
-    //ExFor:FieldLink.InsertAsUnicode
-    //ExFor:FieldLink.IsLinked
-    //ExFor:FieldLink.ProgId
-    //ExFor:FieldLink.SourceFullName
-    //ExFor:FieldLink.SourceItem
     //ExFor:FieldDde
-    //ExFor:FieldDde.AutoUpdate
-    //ExFor:FieldDde.InsertAsBitmap
-    //ExFor:FieldDde.InsertAsHtml
-    //ExFor:FieldDde.InsertAsPicture
-    //ExFor:FieldDde.InsertAsRtf
-    //ExFor:FieldDde.InsertAsText
-    //ExFor:FieldDde.InsertAsUnicode
-    //ExFor:FieldDde.IsLinked
-    //ExFor:FieldDde.ProgId
-    //ExFor:FieldDde.SourceFullName
-    //ExFor:FieldDde.SourceItem
     //ExFor:FieldDdeAuto
-    //ExFor:FieldDdeAuto.InsertAsBitmap
-    //ExFor:FieldDdeAuto.InsertAsHtml
-    //ExFor:FieldDdeAuto.InsertAsPicture
-    //ExFor:FieldDdeAuto.InsertAsRtf
-    //ExFor:FieldDdeAuto.InsertAsText
-    //ExFor:FieldDdeAuto.InsertAsUnicode
-    //ExFor:FieldDdeAuto.IsLinked
-    //ExFor:FieldDdeAuto.ProgId
-    //ExFor:FieldDdeAuto.SourceFullName
-    //ExFor:FieldDdeAuto.SourceItem
     //ExSummary:Shows how to use various field types to link to other documents in the local file system, and display their contents.
-    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsTextDataProvider")
-    //ExSkip
+    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsTextDataProvider")//ExSkip
     public void fieldLinkedObjectsAsText(/*InsertLinkedObjectAs*/int insertLinkedObjectAs) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -4055,7 +4021,7 @@ public class ExField extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Field.LINK.DDE.DDEAUTO.docx");
     }
 
-    @DataProvider(name = "fieldLinkedObjectsAsTextDataProvider")
+    @DataProvider(name = "fieldLinkedObjectsAsTextDataProvider")//ExSkip
     public static Object[][] fieldLinkedObjectsAsTextDataProvider() {
         return new Object[][]
                 {
@@ -4066,8 +4032,7 @@ public class ExField extends ApiExampleBase {
                 };
     }
 
-    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider")
-    //ExSkip
+    @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsImageDataProvider")//ExSkip
     public void fieldLinkedObjectsAsImage(/*InsertLinkedObjectAs*/int insertLinkedObjectAs) throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -4092,7 +4057,7 @@ public class ExField extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Field.LINK.DDE.DDEAUTO.AsImage.docx");
     }
 
-    @DataProvider(name = "fieldLinkedObjectsAsImageDataProvider")
+    @DataProvider(name = "fieldLinkedObjectsAsImageDataProvider")//ExSkip
     public static Object[][] fieldLinkedObjectsAsImageDataProvider() {
         return new Object[][]
                 {
@@ -5489,7 +5454,7 @@ public class ExField extends ApiExampleBase {
     /// <summary>
     /// Uses a document builder to insert MERGEFIELDs for a data source that contains columns named "Courtesy Title", "First Name" and "Last Name".
     /// </summary>
-    @Test(enabled = false)
+    @Test(enabled = false) //ExSkip
     public void insertMergeFields(final DocumentBuilder builder, final String firstFieldTextBefore) throws Exception {
         insertMergeField(builder, "Courtesy Title", firstFieldTextBefore, " ");
         insertMergeField(builder, "First Name", null, " ");
@@ -5500,7 +5465,7 @@ public class ExField extends ApiExampleBase {
     /// <summary>
     /// Uses a document builder to insert a MERRGEFIELD with specified properties.
     /// </summary>
-    @Test(enabled = false)
+    @Test(enabled = false) //ExSkip
     public void insertMergeField(final DocumentBuilder builder, final String fieldName, final String textBefore, final String textAfter) throws Exception {
         FieldMergeField field = (FieldMergeField) builder.insertField(FieldType.FIELD_MERGE_FIELD, true);
         field.setFieldName(fieldName);
@@ -7005,13 +6970,8 @@ public class ExField extends ApiExampleBase {
     }
 
     //ExStart
-    //ExFor:ComparisonEvaluationResult.#ctor(bool)
-    //ExFor:ComparisonEvaluationResult.#ctor(string)
     //ExFor:ComparisonEvaluationResult
     //ExFor:ComparisonExpression
-    //ExFor:ComparisonExpression.LeftExpression
-    //ExFor:ComparisonExpression.ComparisonOperator
-    //ExFor:ComparisonExpression.RightExpression
     //ExFor:FieldOptions.ComparisonExpressionEvaluator
     //ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields.
     @Test(dataProvider = "conditionEvaluationExtensionPointDataProvider") //ExSkip
@@ -7042,7 +7002,7 @@ public class ExField extends ApiExampleBase {
         evaluator.assertInvocationsCount(1).assertInvocationArguments(0, LEFT, _OPERATOR, RIGHT);
     }
 
-    @DataProvider(name = "conditionEvaluationExtensionPointDataProvider")
+    @DataProvider(name = "conditionEvaluationExtensionPointDataProvider") //ExSkip
     public static Object[][] conditionEvaluationExtensionPointDataProvider() {
         return new Object[][]
                 {

@@ -547,22 +547,29 @@ public class ExTable extends ApiExampleBase
     }
 
     @Test
-    public void getDistance() throws Exception
+    public void distanceBetweenTableAndText() throws Exception
     {
         //ExStart
         //ExFor:Table.DistanceBottom
         //ExFor:Table.DistanceLeft
         //ExFor:Table.DistanceRight
         //ExFor:Table.DistanceTop
-        //ExSummary:Shows the minimum distance operations between table boundaries and text.
+        //ExSummary:Shows how to set distance between table boundaries and text.
         Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
 
         Table table = doc.getFirstSection().getBody().getTables().get(0);
-
         Assert.assertEquals(25.9d, table.getDistanceTop());
         Assert.assertEquals(25.9d, table.getDistanceBottom());
         Assert.assertEquals(17.3d, table.getDistanceLeft());
         Assert.assertEquals(17.3d, table.getDistanceRight());
+
+        // Set distance between table and surrounding text.                        
+        table.setDistanceLeft(24.0);
+        table.setDistanceRight(24.0);
+        table.setDistanceTop(3.0);
+        table.setDistanceBottom(3.0);
+
+        doc.save(getArtifactsDir() + "Table.DistanceBetweenTableAndText.docx");            
         //ExEnd
     }
 
@@ -1682,7 +1689,7 @@ public class ExTable extends ApiExampleBase
 
         // Set the two colors, which will alternate over every 3 rows.
         tableStyle.setRowStripe(3);
-        tableStyle.getConditionalStyles().getByConditionalStyleType(ConditionalStyleType.ODD_ROW_BANDING).getShading().setBackgroundPatternColor(Color.LightBlue);
+        tableStyle.getConditionalStyles().getByConditionalStyleType(ConditionalStyleType.ODD_ROW_BANDING).getShading().setBackgroundPatternColor(msColor.getLightBlue());
         tableStyle.getConditionalStyles().getByConditionalStyleType(ConditionalStyleType.EVEN_ROW_BANDING).getShading().setBackgroundPatternColor(Color.LightCyan);
 
         // Set a color to apply to every even column, which will override any custom row coloring.
@@ -1711,7 +1718,7 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(Color.BLACK.getRGB(), tableStyle.getBorders().getColor().getRGB());
         Assert.assertEquals(LineStyle.DOUBLE, tableStyle.getBorders().getLineStyle());
         Assert.assertEquals(3, tableStyle.getRowStripe());
-        Assert.assertEquals(Color.LightBlue.getRGB(), tableStyle.getConditionalStyles().getByConditionalStyleType(ConditionalStyleType.ODD_ROW_BANDING).getShading().getBackgroundPatternColor().getRGB());
+        Assert.assertEquals(msColor.getLightBlue().getRGB(), tableStyle.getConditionalStyles().getByConditionalStyleType(ConditionalStyleType.ODD_ROW_BANDING).getShading().getBackgroundPatternColor().getRGB());
         Assert.assertEquals(Color.LightCyan.getRGB(), tableStyle.getConditionalStyles().getByConditionalStyleType(ConditionalStyleType.EVEN_ROW_BANDING).getShading().getBackgroundPatternColor().getRGB());
         Assert.assertEquals(1, tableStyle.getColumnStripe());
         Assert.assertEquals(Color.LightSalmon.getRGB(), tableStyle.getConditionalStyles().getByConditionalStyleType(ConditionalStyleType.EVEN_COLUMN_BANDING).getShading().getBackgroundPatternColor().getRGB());

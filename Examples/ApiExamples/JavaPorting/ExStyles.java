@@ -78,6 +78,7 @@ public class ExStyles extends ApiExampleBase
         //ExFor:Style.Font
         //ExFor:Style
         //ExFor:Style.Remove
+        //ExFor:Style.AutomaticallyUpdate
         //ExSummary:Shows how to create and apply a custom style.
         Document doc = new Document();
 
@@ -85,6 +86,8 @@ public class ExStyles extends ApiExampleBase
         style.getFont().setName("Times New Roman");
         style.getFont().setSize(16.0);
         style.getFont().setColor(Color.Navy);
+        // Automatically redefine style.
+        style.setAutomaticallyUpdate(true);
 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -121,15 +124,13 @@ public class ExStyles extends ApiExampleBase
         //ExFor:StyleCollection.Item(Int32)
         //ExSummary:Shows how to add a Style to a document's styles collection.
         Document doc = new Document();
-        StyleCollection styles = doc.getStyles();
 
+        StyleCollection styles = doc.getStyles();
         // Set default parameters for new styles that we may later add to this collection.
         styles.getDefaultFont().setName("Courier New");
-
         // If we add a style of the "StyleType.Paragraph", the collection will apply the values of
         // its "DefaultParagraphFormat" property to the style's "ParagraphFormat" property.
         styles.getDefaultParagraphFormat().setFirstLineIndent(15.0);
-
         // Add a style, and then verify that it has the default settings.
         styles.add(StyleType.PARAGRAPH, "MyStyle");
 
@@ -145,7 +146,6 @@ public class ExStyles extends ApiExampleBase
         //ExFor:StyleCollection.ClearQuickStyleGallery
         //ExSummary:Shows how to remove styles from Style Gallery panel.
         Document doc = new Document();
-
         // Note that remove styles work only with DOCX format for now.
         doc.getStyles().clearQuickStyleGallery();
 

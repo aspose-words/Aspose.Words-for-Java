@@ -37,7 +37,7 @@ public class ExBookmarks extends ApiExampleBase
         //ExFor:Bookmark.Name
         //ExSummary:Shows how to insert a bookmark.
         Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
+        DocumentBuilder builder = new DocumentBuilder(doc);            
 
         // A valid bookmark has a name, a BookmarkStart, and a BookmarkEnd node.
         // Any whitespace in the names of bookmarks will be converted to underscores if we open the saved document with Microsoft Word. 

@@ -275,7 +275,7 @@ public class ExHeaderFooter extends ApiExampleBase {
                     logger.Text().replace("\r", ""));
     }
 
-    @DataProvider(name = "orderDataProvider")
+    @DataProvider(name = "orderDataProvider") //ExSkip
     public static Object[][] orderDataProvider() throws Exception {
         return new Object[][]
                 {

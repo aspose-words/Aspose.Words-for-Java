@@ -143,6 +143,13 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
+    public void detectMobiDocumentFormat() throws Exception
+    {
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Document.mobi");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.MOBI);
+    }
+
+    @Test
     public void detectPdfDocumentFormat() throws Exception {
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Pdf Document.pdf");
         Assert.assertEquals(info.getLoadFormat(), LoadFormat.PDF);
@@ -555,6 +562,28 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(paras.get(0).getParagraphFormat().getStyle().getName(), "MyStyle1_0");
         Assert.assertEquals(paras.get(1).getParagraphFormat().getStyle().getName(), "MyStyle2_0");
         Assert.assertEquals(paras.get(2).getParagraphFormat().getStyle().getName(), "MyStyle3");
+        //ExEnd
+    }
+
+    @Test
+    public void adjustSentenceAndWordSpacing() throws Exception
+    {
+        //ExStart
+        //ExFor:ImportFormatOptions.AdjustSentenceAndWordSpacing
+        //ExSummary:Shows how to adjust sentence and word spacing automatically.
+        Document srcDoc = new Document();
+        Document dstDoc = new Document();
+
+        DocumentBuilder builder = new DocumentBuilder(srcDoc);
+        builder.write("Dolor sit amet.");
+
+        builder = new DocumentBuilder(dstDoc);
+        builder.write("Lorem ipsum.");
+
+        ImportFormatOptions options = new ImportFormatOptions(); { options.setAdjustSentenceAndWordSpacing(true); }
+        builder.insertDocument(srcDoc, ImportFormatMode.USE_DESTINATION_STYLES, options);
+
+        Assert.assertEquals("Lorem ipsum. Dolor sit amet.", dstDoc.getFirstSection().getBody().getFirstParagraph().getText().trim());
         //ExEnd
     }
 
@@ -2582,6 +2611,46 @@ public class ExDocument extends ApiExampleBase {
         builder.getCurrentStructuredDocumentTag().setColor(Color.GREEN);
 
         doc.save(getArtifactsDir() + "Document.MoveToStructuredDocumentTag.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void includeTextboxesFootnotesEndnotesInStat() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.IncludeTextboxesFootnotesEndnotesInStat
+        //ExSummary: Shows how to include or exclude textboxes, footnotes and endnotes from word count statistics.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Lorem ipsum");
+        builder.insertFootnote(FootnoteType.FOOTNOTE, "sit amet");
+
+        // By default option is set to 'false'.
+        doc.updateWordCount();
+        // Words count without textboxes, footnotes and endnotes.
+        Assert.assertEquals(2, doc.getBuiltInDocumentProperties().getWords());
+
+        doc.setIncludeTextboxesFootnotesEndnotesInStat(true);
+        doc.updateWordCount();
+        // Words count with textboxes, footnotes and endnotes.
+        Assert.assertEquals(4, doc.getBuiltInDocumentProperties().getWords());
+        //ExEnd
+    }
+
+    @Test
+    public void setJustificationMode() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.JustificationMode
+        //ExFor:JustificationMode
+        //ExSummary:Shows how to manage character spacing control.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        int justificationMode = doc.getJustificationMode();
+        if (justificationMode == JustificationMode.EXPAND)
+            doc.setJustificationMode(JustificationMode.COMPRESS);
+
+        doc.save(getArtifactsDir() + "Document.SetJustificationMode.docx");
         //ExEnd
     }
 }
