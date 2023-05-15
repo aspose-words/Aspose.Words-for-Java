@@ -47,12 +47,12 @@ class HandleMergeField:
                 self.mBuilder = self.DocumentBuilder(e.getDocument())
 
         # We decided that we want all boolean values to be output as check box form fields.
-        if (e.getFieldValue() in ('True', 'False')) :
+        if (str(e.getFieldValue()) in ('True', 'False')) :
             # Move the "cursor" to the current merge field.
             self.mBuilder.moveToMergeField(e.getFieldName())
 
             # It is nice to give names to check boxes. Lets generate a name such as MyField21 or so.
-            checkBoxName = e.getFieldName() + e.getRecordIndex()
+            checkBoxName = e.getFieldName() + str(e.getRecordIndex())
 
             # Insert a check box.
             self.mBuilder.insertCheckBox(checkBoxName, e.getFieldValue(), 0)
@@ -64,7 +64,7 @@ class HandleMergeField:
         if ("Subject" == e.getFieldName()):
 
             self.mBuilder.moveToMergeField(e.getFieldName())
-            textInputName = e.getFieldName() + e.getRecordIndex()
+            textInputName = e.getFieldName() + str(e.getRecordIndex())
             self.mBuilder.insertTextInput(textInputName, self.TextFormFieldType.REGULAR, "", e.getFieldValue(), 0)
 
     def imageFieldMerging(self):

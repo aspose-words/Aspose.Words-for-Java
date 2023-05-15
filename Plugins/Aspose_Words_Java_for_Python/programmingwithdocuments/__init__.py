@@ -351,20 +351,20 @@ class ProcessComments:
         comments = self.extractComments(doc)
 
         for comment in comments:
-            print comment
+            print (comment)
 
         # Remove comments by the "pm" author.
         self.removeComments(doc, "pm")
-        print "Comments from \"pm\" are removed!"
+        print ("Comments from \"pm\" are removed!")
 
         # Extract the information about the comments of the "ks" author.
         comments = self.extractComments(doc, "ks")
         for comment in comments:
-            print comment
+            print (comment)
 
         # Remove all comments.
         self.removeComments(doc)
-        print "All comments are removed!"
+        print ("All comments are removed!")
 
         # Save the document.
         doc.save(self.dataDir + "Test File Out.doc")
@@ -384,9 +384,9 @@ class ProcessComments:
             if 1 < len(args) and args[1] is not None :
                 authorName = args[1]
                 if str(comment.getAuthor()) == authorName:
-                    collectedComments.append(str(comment.getAuthor()) + " " + str(comment.getDateTime()) + " " + comment.toString(self.SaveFormat.TEXT))
+                    collectedComments.append(str(comment.getAuthor()) + " " + str(comment.getDateTime()) + " " + str(comment.toString()))
             else:
-                collectedComments.append(str(comment.getAuthor()) + " " + str(comment.getDateTime()) + " " + comment.toString(self.SaveFormat.TEXT))
+                collectedComments.append(str(comment.getAuthor()) + " " + str(comment.getDateTime()) + " " + str(comment.toString()))
 
         return collectedComments
 
@@ -504,7 +504,7 @@ class ExtractContent:
         # Get the node from the list. There should only be one paragraph returned in the list.
         node = extractedNodes[0]
         # Print the text of this node to the console.
-        print node.toString(self.SaveFormat.TEXT)
+        print (node.toString())
 
     #ExEnd
 
@@ -669,8 +669,8 @@ class ExtractContent:
         while (endNode.getParentNode().getNodeType() != self.NodeType.BODY):
             endNode = endNode.getParentNode()
 
-        print str(originalStartNode) + " = " + str(startNode)
-        print str(originalEndNode) + " = " + str(endNode)
+        print (str(originalStartNode) + " = " + str(startNode))
+        print (str(originalEndNode) + " = " + str(endNode))
 
         isExtracting = True
         isStartingNode = True
@@ -966,12 +966,12 @@ class AddWatermark:
         self.Shape = jpype.JClass("com.aspose.words.Shape")
         self.ShapeType = jpype.JClass("com.aspose.words.ShapeType")
         self.Color = jpype.JClass("java.awt.Color")
-        self.ColRelativeHorizontalPositionor = jpype.JClass("java.awt.RelativeHorizontalPosition")
-        self.RelativeVerticalPosition = jpype.JClass("java.awt.RelativeVerticalPosition")
-        self.WrapType = jpype.JClass("java.awt.WrapType")
-        self.VerticalAlignment = jpype.JClass("java.awt.VerticalAlignment")
-        self.HorizontalAlignment = jpype.JClass("java.awt.HorizontalAlignment")
-        self.Paragraph = jpype.JClass("java.awt.Paragraph")
+        self.RelativeHorizontalPosition = jpype.JClass("com.aspose.words.RelativeHorizontalPosition")
+        self.RelativeVerticalPosition = jpype.JClass("com.aspose.words.RelativeVerticalPosition")
+        self.WrapType = jpype.JClass("com.aspose.words.WrapType")
+        self.VerticalAlignment = jpype.JClass("com.aspose.words.VerticalAlignment")
+        self.HorizontalAlignment = jpype.JClass("com.aspose.words.HorizontalAlignment")
+        self.Paragraph = jpype.JClass("com.aspose.words.Paragraph")
         self.HeaderFooterType = jpype.JClass("com.aspose.words.HeaderFooterType")
         self.HeaderFooter = jpype.JClass("com.aspose.words.HeaderFooter")
 
@@ -1055,20 +1055,20 @@ class ExtractContentBasedOnStyles:
         # Show the number of collected paragraphs and display the text of this paragraphs.
         paragraphs = self.paragraphsByStyleName(doc, PARA_STYLE)
 
-        print "abc = " + str(paragraphs[0])
-        print "Paragraphs with " + PARA_STYLE + " styles " + str(len(paragraphs)) + ":"
+        print ("abc = " + str(paragraphs[0]))
+        print ("Paragraphs with " + PARA_STYLE + " styles " + str(len(paragraphs)) + ":")
 
         for paragraph in paragraphs :
-            print str(paragraph.toString(self.SaveFormat.TEXT))
+            print (str(paragraph.toString()))
 
         # Collect runs with defined styles.
         # Show the number of collected runs and display the text of this runs.
         runs = self.runsByStyleName(doc, RUN_STYLE)
 
-        print "Runs with " + RUN_STYLE + " styles " + str(len(runs)) + ":"
+        print ("Runs with " + RUN_STYLE + " styles " + str(len(runs)) + ":")
 
         for run in runs :
-            print run.getRange().getText()
+            print (run.getRange().getText())
 
 
 
