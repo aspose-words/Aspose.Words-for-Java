@@ -14,6 +14,7 @@ import java.awt.Color;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.StyleType;
 import com.aspose.words.StyleIdentifier;
+import org.testng.Assert;
 
 
 class WorkingWithStylesAndThemes extends DocsExamplesBase
@@ -106,5 +107,26 @@ class WorkingWithStylesAndThemes extends DocsExamplesBase
 
         doc.save(getArtifactsDir() + "WorkingWithStylesAndThemes.InsertStyleSeparator.docx");
         //ExEnd:InsertStyleSeparator
+    }
+
+    @Test
+    public void copyStyleDifferentDocument() throws Exception
+    {
+        //ExStart:CopyStyleDifferentDocument
+        //GistId:93b92a7e6f2f4bbfd9177dd7fcecbd8c
+        Document srcDoc = new Document();
+
+        // Create a custom style for the source document.
+        Style srcStyle = srcDoc.getStyles().add(StyleType.PARAGRAPH, "MyStyle");
+        srcStyle.getFont().setColor(Color.RED);
+
+        // Import the source document's custom style into the destination document.
+        Document dstDoc = new Document();
+        Style newStyle = dstDoc.getStyles().addCopy(srcStyle);
+
+        // The imported style has an appearance identical to its source style.
+        Assert.assertEquals("MyStyle", newStyle.getName());
+        Assert.assertEquals(Color.RED.getRGB(), newStyle.getFont().getColor().getRGB());
+        //ExEnd:CopyStyleDifferentDocument
     }
 }

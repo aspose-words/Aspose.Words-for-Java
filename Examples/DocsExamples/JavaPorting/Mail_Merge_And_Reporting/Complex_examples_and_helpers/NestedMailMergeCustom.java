@@ -40,7 +40,7 @@ class NestedMailMergeCustom extends DocsExamplesBase
 
         builder.insertField(" MERGEFIELD TableEnd:Customer");
 
-        ArrayList<Customer> customers = new ArrayList<Customer>();
+        ArrayList<NestedMailMergeCustom.Customer> customers = new ArrayList<NestedMailMergeCustom.Customer>();
         {
             customers.add(new Customer("Thomas Hardy", "120 Hanover Sq., London"));
             customers.add(new Customer("Paolo Accorti", "Via Monte Bianco 34, Torino"));
@@ -69,7 +69,7 @@ class NestedMailMergeCustom extends DocsExamplesBase
         {
             setFullName(aFullName);
             setAddress(anAddress);
-            setOrders(new ArrayList<Order>());
+            setOrders(new ArrayList<NestedMailMergeCustom.Order>());
         }
 
         public String getFullName() { return mFullName; }; public void setFullName(String value) { mFullName = value; };
@@ -78,9 +78,9 @@ class NestedMailMergeCustom extends DocsExamplesBase
         public String getAddress() { return mAddress; }; public void setAddress(String value) { mAddress = value; };
 
         private String mAddress;
-        public ArrayList<Order> getOrders() { return mOrders; }; public void setOrders(ArrayList<Order> value) { mOrders = value; };
+        public ArrayList<NestedMailMergeCustom.Order> getOrders() { return mOrders; }; public void setOrders(ArrayList<NestedMailMergeCustom.Order> value) { mOrders = value; };
 
-        private ArrayList<Order> mOrders;
+        private ArrayList<NestedMailMergeCustom.Order> mOrders;
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ class NestedMailMergeCustom extends DocsExamplesBase
     /// </summary>
     public static class CustomerMailMergeDataSource implements IMailMergeDataSource
     {
-        public CustomerMailMergeDataSource(ArrayList<Customer> customers)
+        public CustomerMailMergeDataSource(ArrayList<NestedMailMergeCustom.Customer> customers)
         {
             mCustomers = customers;
 
@@ -170,13 +170,13 @@ class NestedMailMergeCustom extends DocsExamplesBase
 
         private boolean IsEof => (mRecordIndex >= mCustomers.Count);
 
-        private /*final*/ ArrayList<Customer> mCustomers;
+        private /*final*/ ArrayList<NestedMailMergeCustom.Customer> mCustomers;
         private int mRecordIndex;
     }
 
     public static class OrderMailMergeDataSource implements IMailMergeDataSource
     {
-        public OrderMailMergeDataSource(ArrayList<Order> orders)
+        public OrderMailMergeDataSource(ArrayList<NestedMailMergeCustom.Order> orders)
         {
             mOrders = orders;
 
@@ -227,7 +227,7 @@ class NestedMailMergeCustom extends DocsExamplesBase
 
         private boolean IsEof => mRecordIndex >= private mOrders.CountmOrders;
 
-        private /*final*/ ArrayList<Order> mOrders;
+        private /*final*/ ArrayList<NestedMailMergeCustom.Order> mOrders;
         private int mRecordIndex;
     }
 

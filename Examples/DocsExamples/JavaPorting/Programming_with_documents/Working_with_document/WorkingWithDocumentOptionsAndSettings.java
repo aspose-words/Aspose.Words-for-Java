@@ -15,6 +15,13 @@ import com.aspose.words.EditingLanguage;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Orientation;
 import com.aspose.words.PaperSize;
+import com.aspose.words.PageSetup;
+import com.aspose.words.PageBorderDistanceFrom;
+import com.aspose.words.PageBorderAppliesTo;
+import com.aspose.words.Border;
+import com.aspose.words.BorderType;
+import com.aspose.words.LineStyle;
+import java.awt.Color;
 
 
 class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
@@ -164,5 +171,47 @@ class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
 
         doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.SetPageSetupAndSectionFormatting.docx");
         //ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting
+    }
+
+    @Test
+    public void pageBorderProperties() throws Exception
+    {
+        //ExStart:PageBorderProperties
+        Document doc = new Document();
+
+        PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
+        pageSetup.setBorderAlwaysInFront(false);
+        pageSetup.setBorderDistanceFrom(PageBorderDistanceFrom.PAGE_EDGE);
+        pageSetup.setBorderAppliesTo(PageBorderAppliesTo.FIRST_PAGE);
+
+        Border border = pageSetup.getBorders().getByBorderType(BorderType.TOP);
+        border.setLineStyle(LineStyle.SINGLE);
+        border.setLineWidth(30.0);
+        border.setColor(Color.BLUE);
+        border.setDistanceFromText(0.0);
+
+        doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.PageBorderProperties.docx");
+        //ExEnd:PageBorderProperties
+    }
+
+    @Test
+    public void lineGridSectionLayoutMode() throws Exception
+    {
+        //ExStart:LineGridSectionLayoutMode
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Enable pitching, and then use it to set the number of lines per page in this section.
+        // A large enough font size will push some lines down onto the next page to avoid overlapping characters.
+        builder.getPageSetup().setLayoutMode(SectionLayoutMode.LINE_GRID);
+        builder.getPageSetup().setLinesPerPage(15);
+
+        builder.getParagraphFormat().setSnapToGrid(true);
+
+        for (int i = 0; i < 30; i++)
+            builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ");
+
+        doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.LinesPerPage.docx");
+        //ExEnd:LineGridSectionLayoutMode
     }
 }

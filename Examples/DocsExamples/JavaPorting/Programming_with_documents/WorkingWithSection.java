@@ -7,7 +7,15 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Section;
+import com.aspose.words.BreakType;
 import com.aspose.words.PaperSize;
+import com.aspose.words.HeaderFooterType;
+import com.aspose.words.Node;
+import com.aspose.words.NodeType;
+import com.aspose.words.Body;
+import com.aspose.ms.System.msConsole;
+import com.aspose.words.HeaderFooter;
+import com.aspose.words.Run;
 
 
 class WorkingWithSection extends DocsExamplesBase
@@ -66,22 +74,19 @@ class WorkingWithSection extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.writeln("Hello1");
-        doc.appendChild(new Section(doc));
-        builder.writeln("Hello22");
-        doc.appendChild(new Section(doc));
-        builder.writeln("Hello3");
-        doc.appendChild(new Section(doc));
-        builder.writeln("Hello45");
+        builder.write("Section 1");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.write("Section 2");
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+        builder.write("Section 3");
 
-        // This is the section that we will append and prepend to.
         Section section = doc.getSections().get(2);
 
-        // This copies the content of the 1st section and inserts it at the beginning of the specified section.
+        // Insert the contents of the first section to the beginning of the third section.
         Section sectionToPrepend = doc.getSections().get(0);
         section.prependContent(sectionToPrepend);
 
-        // This copies the content of the 2nd section and inserts it at the end of the specified section.
+        // Insert the contents of the second section to the end of the third section.
         Section sectionToAppend = doc.getSections().get(1);
         section.appendContent(sectionToAppend);
         //ExEnd:AppendSectionContent
@@ -104,9 +109,9 @@ class WorkingWithSection extends DocsExamplesBase
         Document dstDoc = new Document();
 
         Section sourceSection = srcDoc.getSections().get(0);
-        Section newSection = (Section) dstDoc.importNode(sourceSection, true);
+        Section newSection = (Section)dstDoc.importNode(sourceSection, true);
         dstDoc.getSections().add(newSection);
-        
+
         dstDoc.save(getArtifactsDir() + "WorkingWithSection.CopySection.docx");
         //ExEnd:CopySection
     }
@@ -116,7 +121,7 @@ class WorkingWithSection extends DocsExamplesBase
     {
         //ExStart:DeleteHeaderFooterContent
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         Section section = doc.getSections().get(0);
         section.clearHeadersFooters();
         //ExEnd:DeleteHeaderFooterContent
@@ -127,7 +132,7 @@ class WorkingWithSection extends DocsExamplesBase
     {
         //ExStart:DeleteSectionContent
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         Section section = doc.getSections().get(0);
         section.clearContent();
         //ExEnd:DeleteSectionContent
@@ -140,13 +145,13 @@ class WorkingWithSection extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.writeln("Hello1");
+        builder.writeln("Section 1");
         doc.appendChild(new Section(doc));
-        builder.writeln("Hello22");
+        builder.writeln("Section 2");
         doc.appendChild(new Section(doc));
-        builder.writeln("Hello3");
+        builder.writeln("Section 3");
         doc.appendChild(new Section(doc));
-        builder.writeln("Hello45");
+        builder.writeln("Section 4");
 
         // It is important to understand that a document can contain many sections,
         // and each section has its page setup. In this case, we want to modify them all.
@@ -162,7 +167,7 @@ class WorkingWithSection extends DocsExamplesBase
     {
         //ExStart:SectionsAccessByIndex
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         Section section = doc.getSections().get(0);
         section.getPageSetup().setLeftMargin(90.0); // 3.17 cm
         section.getPageSetup().setRightMargin(90.0); // 3.17 cm
@@ -172,5 +177,66 @@ class WorkingWithSection extends DocsExamplesBase
         section.getPageSetup().setFooterDistance(35.4); // 1.25 cm
         section.getPageSetup().getTextColumns().setSpacing(35.4); // 1.25 cm
         //ExEnd:SectionsAccessByIndex
+    }
+
+    @Test
+    public void sectionChildNodes() throws Exception
+    {
+        //ExStart:SectionChildNodes
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Section 1");
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.write("Primary header");
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        builder.write("Primary footer");
+
+        Section section = doc.getFirstSection();
+
+        // A Section is a composite node and can contain child nodes,
+        // but only if those child nodes are of a "Body" or "HeaderFooter" node type.
+        for (Node node : (Iterable<Node>) section)
+        {
+            switch (node.getNodeType())
+            {
+                case NodeType.BODY:
+                    {
+                        Body body = (Body)node;
+
+                        System.out.println("Body:");
+                        System.out.println("\t\"{body.GetText().Trim()}\"");
+                        break;
+                    }
+                case NodeType.HEADER_FOOTER:
+                    {
+                        HeaderFooter headerFooter = (HeaderFooter)node;
+
+                        System.out.println("HeaderFooter type: {headerFooter.HeaderFooterType}:");
+                        System.out.println("\t\"{headerFooter.GetText().Trim()}\"");
+                        break;
+                    }
+                default:
+                    {
+                        throw new Exception("Unexpected node type in a section.");
+                    }
+            }
+        }
+        //ExEnd:SectionChildNodes
+    }
+
+    @Test
+    public void ensureMinimum() throws Exception
+    {
+        //ExStart:EnsureMinimum
+        Document doc = new Document();
+
+        // If we add a new section like this, it will not have a body, or any other child nodes.
+        doc.getSections().add(new Section(doc));
+        // Run the "EnsureMinimum" method to add a body and a paragraph to this section to begin editing it.
+        doc.getLastSection().ensureMinimum();
+        
+        doc.getSections().get(0).getBody().getFirstParagraph().appendChild(new Run(doc, "Hello world!"));
+        //ExEnd:EnsureMinimum
     }
 }

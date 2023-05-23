@@ -63,7 +63,7 @@ public class DocsExamplesBase
     /// </summary>
     static String getCodeBaseDir(Assembly assembly) throws Exception
     {
-        msUri uri = new msUri(assembly.CodeBase);
+        msUri uri = new msUri(assembly.Location);
         String mainFolder = Path.getDirectoryName(uri.getLocalPath())
             ?.Substring(0, uri.LocalPath.IndexOf("DocsExamples", StringComparison.Ordinal));
         
