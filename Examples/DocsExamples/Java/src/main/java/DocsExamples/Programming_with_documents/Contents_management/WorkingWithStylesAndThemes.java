@@ -104,7 +104,7 @@ public class WorkingWithStylesAndThemes extends DocsExamplesBase
     public void copyStyleDifferentDocument() throws Exception
     {
         //ExStart:CopyStyleDifferentDocument
-        //GistId:93b92a7e6f2f4bbfd9177dd7fcecbd8c
+        //GistId:f1d06175603c48e6dabf5a2eea01207c
         Document srcDoc = new Document();
 
         // Create a custom style for the source document.

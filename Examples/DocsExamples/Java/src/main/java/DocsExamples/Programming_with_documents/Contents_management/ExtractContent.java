@@ -386,7 +386,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractPrintText() throws Exception {
         //ExStart:ExtractText
-        //GistId:458eb4fd5bd1de8b06fab4d1ef1acdc6
+        //GistId:7855fd2588b90f4640bf0540285b5277
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -399,7 +399,7 @@ public class ExtractContent extends DocsExamplesBase {
         //ExEnd:ExtractText   
 
         //ExStart:PrintTextRangeOFRowAndTable
-        //GistId:458eb4fd5bd1de8b06fab4d1ef1acdc6
+        //GistId:7855fd2588b90f4640bf0540285b5277
         System.out.println("\nContents of the row: ");
         System.out.println(table.getRows().get(1).getRange().getText());
 

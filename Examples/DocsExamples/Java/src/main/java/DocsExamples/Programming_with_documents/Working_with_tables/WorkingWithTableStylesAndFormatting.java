@@ -13,7 +13,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void distanceBetweenTableSurroundingText() throws Exception
     {
         //ExStart:DistanceBetweenTableSurroundingText
-        //GistId:8df1ad0825619cab7c80b571c6e6ba99
+        //GistId:0f235c484e5edae70a542ebdaae40fd8
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         System.out.println("\nGet distance between table left, right, bottom, top and the surrounding text.");
@@ -30,9 +30,9 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void applyOutlineBorder() throws Exception
     {
         //ExStart:ApplyOutlineBorder
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         //ExStart:InlineTablePosition
-        //GistId:8df1ad0825619cab7c80b571c6e6ba99
+        //GistId:0f235c484e5edae70a542ebdaae40fd8
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -59,7 +59,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void buildTableWithBorders() throws Exception
     {
         //ExStart:BuildTableWithBorders
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -78,7 +78,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void modifyRowFormatting() throws Exception
     {
         //ExStart:ModifyRowFormatting
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -95,7 +95,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void applyRowFormatting() throws Exception
     {
         //ExStart:ApplyRowFormatting
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -125,7 +125,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void cellPadding() throws Exception
     {
         //ExStart:CellPadding
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -150,7 +150,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void modifyCellFormatting() throws Exception
     {
         //ExStart:ModifyCellFormatting
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
@@ -165,7 +165,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void formatTableAndCellWithDifferentBorders() throws Exception
     {
         //ExStart:FormatTableAndCellWithDifferentBorders
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -212,7 +212,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void tableTitleAndDescription() throws Exception
     {
         //ExStart:TableTitleAndDescription
-        //GistId:458eb4fd5bd1de8b06fab4d1ef1acdc6
+        //GistId:7855fd2588b90f4640bf0540285b5277
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -231,7 +231,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void allowCellSpacing() throws Exception
     {
         //ExStart:AllowCellSpacing
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -246,7 +246,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void buildTableWithStyle() throws Exception
     {
         //ExStart:BuildTableWithStyle
-        //GistId:93b92a7e6f2f4bbfd9177dd7fcecbd8c
+        //GistId:f1d06175603c48e6dabf5a2eea01207c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -294,7 +294,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void expandFormattingOnCellsAndRowFromStyle() throws Exception
     {
         //ExStart:ExpandFormattingOnCellsAndRowFromStyle
-        //GistId:93b92a7e6f2f4bbfd9177dd7fcecbd8c
+        //GistId:f1d06175603c48e6dabf5a2eea01207c
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         // Get the first cell of the first table in the document.
@@ -319,7 +319,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void createTableStyle() throws Exception
     {
         //ExStart:CreateTableStyle
-        //GistId:93b92a7e6f2f4bbfd9177dd7fcecbd8c
+        //GistId:f1d06175603c48e6dabf5a2eea01207c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -351,7 +351,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void defineConditionalFormatting() throws Exception
     {
         //ExStart:DefineConditionalFormatting
-        //GistId:93b92a7e6f2f4bbfd9177dd7fcecbd8c
+        //GistId:f1d06175603c48e6dabf5a2eea01207c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

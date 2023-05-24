@@ -36,7 +36,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void removeColumn() throws Exception
     {
         //ExStart:RemoveColumn
-        //GistId:7e7e54ead8b97457543ea46fc6bae045
+        //GistId:14f5cea1b896ffd04f143627939e0878
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 1, true);
@@ -50,7 +50,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void insertBlankColumn() throws Exception
     {
         //ExStart:InsertBlankColumn
-        //GistId:7e7e54ead8b97457543ea46fc6bae045
+        //GistId:14f5cea1b896ffd04f143627939e0878
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -71,7 +71,7 @@ public class WorkingWithTables extends DocsExamplesBase
     }
 
     //ExStart:ColumnClass
-    //GistId:7e7e54ead8b97457543ea46fc6bae045
+    //GistId:14f5cea1b896ffd04f143627939e0878
     /// <summary>
     /// Represents a facade object for a column of a table in a Microsoft Word document.
     /// </summary>
@@ -182,7 +182,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void autoFitTableToContents() throws Exception
     {
         //ExStart:AutoFitTableToContents
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -196,7 +196,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void autoFitTableToFixedColumnWidths() throws Exception
     {
         //ExStart:AutoFitTableToFixedColumnWidths
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -211,7 +211,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void autoFitTableToPageWidth() throws Exception
     {
         //ExStart:AutoFitTableToPageWidth
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -226,7 +226,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void buildTableFromDataTable() throws Exception
     {
         //ExStart:BuildTableFromDataTable
-        //GistId:affb937d8f345f60e6a506e1da3db9fa
+        //GistId:b5330afb035e842063be7ce93cefe219
         Document doc = new Document();
         // We can position where we want the table to be inserted and specify any extra formatting to the table.
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -254,7 +254,7 @@ public class WorkingWithTables extends DocsExamplesBase
     }
 
     //ExStart:ImportTableFromDataTable
-    //GistId:affb937d8f345f60e6a506e1da3db9fa
+    //GistId:b5330afb035e842063be7ce93cefe219
     /// <summary>
     /// Imports the content from the specified DataTable into a new Aspose.Words Table object.
     /// The table is inserted at the document builder's current position and using the current builder's formatting if any is defined.
@@ -326,7 +326,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void cloneCompleteTable() throws Exception
     {
         //ExStart:CloneCompleteTable
-        //GistId:10307fa0baf630b07d0cbdae30119bf3
+        //GistId:68616fbf7f092a743b66d4491578d18c
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -347,7 +347,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void cloneLastRow() throws Exception
     {
         //ExStart:CloneLastRow
-        //GistId:10307fa0baf630b07d0cbdae30119bf3
+        //GistId:68616fbf7f092a743b66d4491578d18c
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -369,7 +369,7 @@ public class WorkingWithTables extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         //ExStart:RetrieveTableIndex
-        //GistId:7e7e54ead8b97457543ea46fc6bae045
+        //GistId:14f5cea1b896ffd04f143627939e0878
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
         NodeCollection allTables = doc.getChildNodes(NodeType.TABLE, true);
@@ -378,14 +378,14 @@ public class WorkingWithTables extends DocsExamplesBase
         System.out.println("\nTable index is " + tableIndex);
 
         //ExStart:RetrieveRowIndex
-        //GistId:7e7e54ead8b97457543ea46fc6bae045
+        //GistId:14f5cea1b896ffd04f143627939e0878
         int rowIndex = table.indexOf(table.getLastRow());
         //ExEnd:RetrieveRowIndex
         System.out.println("\nRow index is " + rowIndex);
 
         Row row = table.getLastRow();
         //ExStart:RetrieveCellIndex
-        //GistId:7e7e54ead8b97457543ea46fc6bae045
+        //GistId:14f5cea1b896ffd04f143627939e0878
         int cellIndex = row.indexOf(row.getCells().get(4));
         //ExEnd:RetrieveCellIndex
         System.out.println("\nCell index is " + cellIndex);
@@ -395,7 +395,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void insertTableDirectly() throws Exception
     {
         //ExStart:InsertTableDirectly
-        //GistId:10307fa0baf630b07d0cbdae30119bf3
+        //GistId:68616fbf7f092a743b66d4491578d18c
         Document doc = new Document();
         
         // We start by creating the table object. Note that we must pass the document object
@@ -438,7 +438,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void insertTableFromHtml() throws Exception
     {
         //ExStart:InsertTableFromHtml
-        //GistId:10307fa0baf630b07d0cbdae30119bf3
+        //GistId:68616fbf7f092a743b66d4491578d18c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -462,7 +462,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void createSimpleTable() throws Exception
     {
         //ExStart:CreateSimpleTable
-        //GistId:10307fa0baf630b07d0cbdae30119bf3
+        //GistId:68616fbf7f092a743b66d4491578d18c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
@@ -498,7 +498,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void formattedTable() throws Exception
     {
         //ExStart:FormattedTable
-        //GistId:10307fa0baf630b07d0cbdae30119bf3
+        //GistId:68616fbf7f092a743b66d4491578d18c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -573,7 +573,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void nestedTable() throws Exception
     {
         //ExStart:NestedTable
-        //GistId:10307fa0baf630b07d0cbdae30119bf3
+        //GistId:68616fbf7f092a743b66d4491578d18c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -605,7 +605,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void combineRows() throws Exception
     {
         //ExStart:CombineRows
-        //GistId:b0735c64408bcb2c063f96f7c9d5af75
+        //GistId:89807559333317718ba2e6084fdcb3e2
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         // The rows from the second table will be appended to the end of the first table.
@@ -627,7 +627,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void splitTable() throws Exception
     {
         //ExStart:SplitTable
-        //GistId:4ab56c5443822fa44f4cac1f45af32b7
+        //GistId:ff5affdcea04dcd20d1b872f9503dbfe
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table firstTable = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -660,7 +660,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void rowFormatDisableBreakAcrossPages() throws Exception
     {
         //ExStart:RowFormatDisableBreakAcrossPages
-        //GistId:7e7e54ead8b97457543ea46fc6bae045
+        //GistId:14f5cea1b896ffd04f143627939e0878
         Document doc = new Document(getMyDir() + "Table spanning two pages.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -677,7 +677,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void keepTableTogether() throws Exception
     {
         //ExStart:KeepTableTogether
-        //GistId:7e7e54ead8b97457543ea46fc6bae045
+        //GistId:14f5cea1b896ffd04f143627939e0878
         Document doc = new Document(getMyDir() + "Table spanning two pages.docx");
         
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -701,7 +701,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void checkCellsMerged() throws Exception
     {
         //ExStart:CheckCellsMerged
-        //GistId:93de23a2f74a7f2e4971ed203874c983
+        //GistId:4fe6fda3615c0c441401e2131533d93b
         Document doc = new Document(getMyDir() + "Table with merged cells.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -742,7 +742,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void verticalMerge() throws Exception
     {
         //ExStart:VerticalMerge
-        //GistId:93de23a2f74a7f2e4971ed203874c983
+        //GistId:4fe6fda3615c0c441401e2131533d93b
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -773,7 +773,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void horizontalMerge() throws Exception
     {
         //ExStart:HorizontalMerge
-        //GistId:93de23a2f74a7f2e4971ed203874c983
+        //GistId:4fe6fda3615c0c441401e2131533d93b
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -803,7 +803,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void mergeCellRange() throws Exception
     {
         //ExStart:MergeCellRange
-        //GistId:93de23a2f74a7f2e4971ed203874c983
+        //GistId:4fe6fda3615c0c441401e2131533d93b
         Document doc = new Document(getMyDir() + "Table with merged cells.docx");
 
         Table table = doc.getFirstSection().getBody().getTables().get(0);
@@ -823,7 +823,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void printHorizontalAndVerticalMerged() throws Exception
     {
         //ExStart:PrintHorizontalAndVerticalMerged
-        //GistId:93de23a2f74a7f2e4971ed203874c983
+        //GistId:4fe6fda3615c0c441401e2131533d93b
         Document doc = new Document(getMyDir() + "Table with merged cells.docx");
 
         SpanVisitor visitor = new SpanVisitor(doc);
@@ -835,7 +835,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void convertToHorizontallyMergedCells() throws Exception
     {
         //ExStart:ConvertToHorizontallyMergedCells
-        //GistId:93de23a2f74a7f2e4971ed203874c983
+        //GistId:4fe6fda3615c0c441401e2131533d93b
         Document doc = new Document(getMyDir() + "Table with merged cells.docx");
 
         Table table = doc.getFirstSection().getBody().getTables().get(0);
@@ -845,7 +845,7 @@ public class WorkingWithTables extends DocsExamplesBase
     }
 
     //ExStart:MergeCells
-    //GistId:93de23a2f74a7f2e4971ed203874c983
+    //GistId:4fe6fda3615c0c441401e2131533d93b
     void mergeCells(Cell startCell, Cell endCell)
     {
         Table parentTable = startCell.getParentRow().getParentTable();
@@ -880,7 +880,7 @@ public class WorkingWithTables extends DocsExamplesBase
     //ExEnd:MergeCells
     
     //ExStart:HorizontalAndVerticalMergeHelperClasses
-    //GistId:93de23a2f74a7f2e4971ed203874c983
+    //GistId:4fe6fda3615c0c441401e2131533d93b
     /// <summary>
     /// Helper class that contains collection of rowinfo for each row.
     /// </summary>
@@ -1008,7 +1008,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void repeatRowsOnSubsequentPages() throws Exception
     {
         //ExStart:RepeatRowsOnSubsequentPages
-        //GistId:7e7e54ead8b97457543ea46fc6bae045
+        //GistId:14f5cea1b896ffd04f143627939e0878
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1044,7 +1044,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void autoFitPageWidth() throws Exception
     {
         //ExStart:AutoFitPageWidth
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1069,7 +1069,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void preferredWidthSettings() throws Exception
     {
         //ExStart:PreferredWidthSettings
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1104,12 +1104,12 @@ public class WorkingWithTables extends DocsExamplesBase
     public void retrievePreferredWidthType() throws Exception
     {
         //ExStart:RetrievePreferredWidthType
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         //ExStart:AllowAutoFit
-        //GistId:770bf20bd617f3cb80031a74cc6c9b73
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         table.setAllowAutoFit(true);
         //ExEnd:AllowAutoFit
 
@@ -1123,7 +1123,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void getTablePosition() throws Exception
     {
         //ExStart:GetTablePosition
-        //GistId:8df1ad0825619cab7c80b571c6e6ba99
+        //GistId:0f235c484e5edae70a542ebdaae40fd8
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -1144,7 +1144,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void getFloatingTablePosition() throws Exception
     {
         //ExStart:GetFloatingTablePosition
-        //GistId:8df1ad0825619cab7c80b571c6e6ba99
+        //GistId:0f235c484e5edae70a542ebdaae40fd8
         Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
         
         for (Table table : doc.getFirstSection().getBody().getTables())
@@ -1169,7 +1169,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void floatingTablePosition() throws Exception
     {
         //ExStart:FloatingTablePosition
-        //GistId:8df1ad0825619cab7c80b571c6e6ba99
+        //GistId:0f235c484e5edae70a542ebdaae40fd8
         Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
 
         Table table = doc.getFirstSection().getBody().getTables().get(0);
@@ -1184,7 +1184,7 @@ public class WorkingWithTables extends DocsExamplesBase
     public void relativeHorizontalOrVerticalPosition() throws Exception
     {
         //ExStart:RelativeHorizontalOrVerticalPosition
-        //GistDesc:Specify table position in C#
+        //GistId:0f235c484e5edae70a542ebdaae40fd8
         Document doc = new Document(getMyDir() + "Table wrapped by text.docx");
 
         Table table = doc.getFirstSection().getBody().getTables().get(0);
