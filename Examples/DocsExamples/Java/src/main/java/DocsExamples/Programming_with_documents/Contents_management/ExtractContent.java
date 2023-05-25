@@ -398,14 +398,14 @@ public class ExtractContent extends DocsExamplesBase {
         System.out.println(table.getRange().getText());
         //ExEnd:ExtractText   
 
-        //ExStart:PrintTextRangeOFRowAndTable
+        //ExStart:PrintTextRangeRowAndTable
         //GistId:7855fd2588b90f4640bf0540285b5277
         System.out.println("\nContents of the row: ");
         System.out.println(table.getRows().get(1).getRange().getText());
 
         System.out.println("\nContents of the cell: ");
         System.out.println(table.getLastRow().getLastCell().getRange().getText());
-        //ExEnd:PrintTextRangeOFRowAndTable
+        //ExEnd:PrintTextRangeRowAndTable
     }
 
     @Test
