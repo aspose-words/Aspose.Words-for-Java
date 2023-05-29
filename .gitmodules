@@ -28,3 +28,6 @@
 [submodule "Gists/Specify_table_position_in_C#"]
 	path = "Gists/Specify_table_position_in_C#"
 	url = https://gist.github.com/aspose-words-gists/0f235c484e5edae70a542ebdaae40fd8
+[submodule "Gists/Work_with_sections_Java"]
+	path = Gists/Work_with_sections_Java
+	url = https://gist.github.com/aspose-words-gists/7c0668453e53ed7a57d3ea3a05520f21

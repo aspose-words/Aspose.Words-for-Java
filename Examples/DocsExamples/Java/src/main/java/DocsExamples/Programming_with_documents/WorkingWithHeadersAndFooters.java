@@ -25,7 +25,7 @@ public class WorkingWithHeadersAndFooters extends DocsExamplesBase
     {
         //ExStart:CreateHeaderFooterUsingDocBuilder
         //ExStart:DifferentFirstPageHeaderFooter
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

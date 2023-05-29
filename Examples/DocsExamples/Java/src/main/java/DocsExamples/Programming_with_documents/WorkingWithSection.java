@@ -60,7 +60,7 @@ public class WorkingWithSection extends DocsExamplesBase
     public void appendSectionContent() throws Exception
     {
         //ExStart:AppendSectionContent
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -87,7 +87,7 @@ public class WorkingWithSection extends DocsExamplesBase
     public void cloneSection() throws Exception
     {
         //ExStart:CloneSection
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
         Document doc = new Document(getMyDir() + "Document.docx");
         Section cloneSection = doc.getSections().get(0).deepClone();
         //ExEnd:CloneSection
@@ -97,7 +97,7 @@ public class WorkingWithSection extends DocsExamplesBase
     public void copySection() throws Exception
     {
         //ExStart:CopySection
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
         Document srcDoc = new Document(getMyDir() + "Document.docx");
         Document dstDoc = new Document();
 
@@ -113,7 +113,7 @@ public class WorkingWithSection extends DocsExamplesBase
     public void deleteHeaderFooterContent() throws Exception
     {
         //ExStart:DeleteHeaderFooterContent
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
         Document doc = new Document(getMyDir() + "Document.docx");
         
         Section section = doc.getSections().get(0);
@@ -125,7 +125,7 @@ public class WorkingWithSection extends DocsExamplesBase
     public void deleteHeaderFooterShapes() throws Exception
     {
         //ExStart:DeleteHeaderFooterShapes
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
         Document doc = new Document(getMyDir() + "Document.docx");
 
         Section section = doc.getSections().get(0);
@@ -148,7 +148,7 @@ public class WorkingWithSection extends DocsExamplesBase
     public void modifyPageSetupInAllSections() throws Exception
     {
         //ExStart:ModifyPageSetupInAllSections
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -190,7 +190,7 @@ public class WorkingWithSection extends DocsExamplesBase
     public void sectionChildNodes() throws Exception
     {
         //ExStart:SectionChildNodes
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -237,7 +237,7 @@ public class WorkingWithSection extends DocsExamplesBase
     public void ensureMinimum() throws Exception
     {
         //ExStart:EnsureMinimum
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
         Document doc = new Document();
 
         // If we add a new section like this, it will not have a body, or any other child nodes.
