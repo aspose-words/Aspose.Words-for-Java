@@ -143,9 +143,10 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     }
 
     @Test
-    public void setPageSetupAndSectionFormatting() throws Exception
+    public void pageSetupAndSectionFormatting() throws Exception
     {
-        //ExStart:DocumentBuilderSetPageSetupAndSectionFormatting
+        //ExStart:PageSetupAndSectionFormatting
+        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -154,7 +155,7 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
         builder.getPageSetup().setPaperSize(PaperSize.PAPER_10_X_14);
 
         doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.SetPageSetupAndSectionFormatting.docx");
-        //ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting
+        //ExEnd:PageSetupAndSectionFormatting
     }
 
     @Test
@@ -182,6 +183,7 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     public void lineGridSectionLayoutMode() throws Exception
     {
         //ExStart:LineGridSectionLayoutMode
+        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
