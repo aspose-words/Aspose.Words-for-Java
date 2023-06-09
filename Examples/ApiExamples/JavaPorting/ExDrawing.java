@@ -492,16 +492,16 @@ public class ExDrawing extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
         GroupShape shapes = (GroupShape)doc.getChild(NodeType.GROUP_SHAPE, 0, true);
 
-        Assert.assertEquals(2, shapes.getChildNodes().getCount());
+        Assert.assertEquals(2, shapes.getChildNodes(NodeType.ANY, false).getCount());
 
-        Shape shape = (Shape)shapes.getChildNodes().get(0);
+        Shape shape = (Shape)shapes.getChildNodes(NodeType.ANY, false).get(0);
 
         Assert.assertEquals(ShapeType.BALLOON, shape.getShapeType());
         Assert.assertEquals(200.0d, shape.getWidth());
         Assert.assertEquals(200.0d, shape.getHeight());
         Assert.assertEquals(Color.RED.getRGB(), shape.getStrokeColor().getRGB());
 
-        shape = (Shape)shapes.getChildNodes().get(1);
+        shape = (Shape)shapes.getChildNodes(NodeType.ANY, false).get(1);
 
         Assert.assertEquals(ShapeType.CUBE, shape.getShapeType());
         Assert.assertEquals(100.0d, shape.getWidth());

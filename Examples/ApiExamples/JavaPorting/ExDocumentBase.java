@@ -33,6 +33,7 @@ import com.aspose.words.ResourceLoadingAction;
 import com.aspose.words.ResourceLoadingArgs;
 import com.aspose.words.ResourceType;
 import com.aspose.ms.System.IO.File;
+import com.aspose.ms.NUnit.Framework.msAssert;
 
 
 @Test
@@ -282,7 +283,7 @@ public class ExDocumentBase extends ApiExampleBase
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
         {
             Assert.assertTrue(shape.hasImage());
-            Assert.IsNotEmpty(shape.getImageData().getImageBytes());
+            msAssert.isNotEmpty(shape.getImageData().getImageBytes());
         }
 
         await TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, "http://www.google.com/images/logos/ps_logo2.png");

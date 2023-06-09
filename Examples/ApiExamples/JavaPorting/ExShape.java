@@ -1298,6 +1298,7 @@ public class ExShape extends ApiExampleBase
         //ExFor:Forms2OleControl.Enabled
         //ExFor:Forms2OleControl.Type
         //ExFor:Forms2OleControl.ChildNodes
+        //ExFor:Forms2OleControl.GroupName
         //ExSummary:Shows how to verify the properties of an ActiveX control.
         Document doc = new Document(getMyDir() + "ActiveX controls.docx");
 
@@ -1314,8 +1315,20 @@ public class ExShape extends ApiExampleBase
             Assert.assertEquals(true, checkBox.getEnabled());
             Assert.assertEquals(Forms2OleControlType.CHECK_BOX, checkBox.getType());
             Assert.assertEquals(null, checkBox.getChildNodes());
+            Assert.assertEquals("", checkBox.getGroupName());
+
+            // Note, that you can't set GroupName for a Frame.
+            checkBox.setGroupName("Aspose group name");
         }
         //ExEnd
+
+        doc.save(getArtifactsDir() + "Shape.GetActiveXControlProperties.docx");
+        doc = new Document(getArtifactsDir() + "Shape.GetActiveXControlProperties.docx");
+
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Forms2OleControl forms2OleControl = (Forms2OleControl) shape.getOleFormat().getOleControl();
+
+        Assert.assertEquals("Aspose group name", forms2OleControl.getGroupName());
     }
 
     @Test

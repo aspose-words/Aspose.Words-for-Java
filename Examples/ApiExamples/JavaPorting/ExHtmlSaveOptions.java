@@ -26,6 +26,7 @@ import com.aspose.words.List;
 import com.aspose.words.ListTemplate;
 import com.aspose.words.CssStyleSheetType;
 import com.aspose.words.HtmlVersion;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.HtmlMetafileFormat;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.FontSettings;
@@ -387,7 +388,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
                 doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportFonts.False.html", saveOptions);
 
-                Assert.IsNotEmpty(Directory.getFiles(fontsFolder, "HtmlSaveOptions.ExportFonts.False.times.ttf",
+                msAssert.isNotEmpty(Directory.getFiles(fontsFolder, "HtmlSaveOptions.ExportFonts.False.times.ttf",
                     SearchOption.ALL_DIRECTORIES));
 
                 Directory.delete(fontsFolder, true);
@@ -427,10 +428,10 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderPriority.html", saveOptions);
 
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.png", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.002.png", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.css", SearchOption.ALL_DIRECTORIES));
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.png", SearchOption.ALL_DIRECTORIES));
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.002.png", SearchOption.ALL_DIRECTORIES));
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.css", SearchOption.ALL_DIRECTORIES));
     }
 
     @Test
@@ -450,13 +451,13 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderLowPriority.html", saveOptions);
 
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Images",
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Images",
             "HtmlSaveOptions.ResourceFolderLowPriority.001.png", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.002.png",
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.002.png",
             SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Fonts",
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Fonts",
             "HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderLowPriority.css",
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderLowPriority.css",
             SearchOption.ALL_DIRECTORIES));
     }
 
@@ -1408,8 +1409,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         if (exportPageMargins)
         {
-            Assert.assertTrue(outDocContents.contains("<style type=\"text/css\">div.Section1 { margin:70.85pt }</style>"));
-            Assert.assertTrue(outDocContents.contains("<div class=\"Section1\"><p style=\"margin-top:0pt; margin-left:150pt; margin-bottom:0pt\">"));
+            Assert.assertTrue(outDocContents.contains("<style type=\"text/css\">div.Section_1 { margin:70.85pt }</style>"));
+            Assert.assertTrue(outDocContents.contains("<div class=\"Section_1\"><p style=\"margin-top:0pt; margin-left:150pt; margin-bottom:0pt\">"));
         }
         else
         {
@@ -1463,13 +1464,13 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         {
             Assert.assertTrue(outDocContents.contains(
                 "<style type=\"text/css\">" +
-                    "@page Section1 { size:419.55pt 595.3pt; margin:36pt 70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
-                    "@page Section2 { size:612pt 792pt; margin:70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
-                    "div.Section1 { page:Section1 }div.Section2 { page:Section2 }" +
+                    "@page Section_1 { size:419.55pt 595.3pt; margin:36pt 70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
+                    "@page Section_2 { size:612pt 792pt; margin:70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
+                    "div.Section_1 { page:Section_1 }div.Section_2 { page:Section_2 }" +
                 "</style>"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<div class=\"Section1\">" +
+                "<div class=\"Section_1\">" +
                     "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
                         "<span>Section 1</span>" +
                     "</p>" +

@@ -82,7 +82,7 @@ class Hyperlink
     Hyperlink(FieldStart fieldStart)
     {
         if (fieldStart == null)
-            throw new NullPointerException("fieldStart");
+            throw new NullPointerException("Value cannot be null.\r\nParameter name: " + "fieldStart");
         if (fieldStart.getFieldType() != FieldType.FIELD_HYPERLINK)
             throw new IllegalArgumentException("Field start type must be FieldHyperlink.");
 

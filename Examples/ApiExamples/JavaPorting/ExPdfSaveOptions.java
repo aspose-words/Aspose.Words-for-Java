@@ -2389,15 +2389,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         {
             case EmfPlusDualRenderingMode.EMF:
             case EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK:
+            case EmfPlusDualRenderingMode.EMF_PLUS:
                 Assert.AreEqual(0, pdfDocument.Pages[1].Resources.Images.Count);
                 TestUtil.fileContainsString("5 0 obj\r\n" +
                                             "<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABB 11 0 R/FAAABE 14 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
-                    getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
-                break;
-            case EmfPlusDualRenderingMode.EMF_PLUS:
-                Assert.AreEqual(1, pdfDocument.Pages[1].Resources.Images.Count);
-                TestUtil.fileContainsString("5 0 obj\r\n" +
-                                            "<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABF 15 0 R>>/XObject<</X1 10 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
                 break;
         }
@@ -2650,5 +2645,25 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         msAssert.less(asposeToPdfSize, wordToPdfSize);
         //ExEnd
+    }
+
+    @Test
+    public void exportParagraphGraphicsToArtifact() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.ExportParagraphGraphicsToArtifact
+        //ExSummary:Shows how to export paragraph graphics as artifact (underlines, text emphasis, etc.).
+        Document doc = new Document(getMyDir() + "PDF artifacts.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setExportDocumentStructure(true);
+        saveOptions.setExportParagraphGraphicsToArtifact(true);
+        saveOptions.setTextCompression(PdfTextCompression.NONE);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf", saveOptions);
+        //ExEnd
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf");
+        Assert.AreEqual(3, pdfDocument.Pages[1].Artifacts.Count());
     }
 }

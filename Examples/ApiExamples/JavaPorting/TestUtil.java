@@ -29,6 +29,7 @@ import com.aspose.words.Field;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.TimeSpan;
 import com.aspose.words.CompositeNode;
+import com.aspose.words.NodeType;
 import com.aspose.words.ImageType;
 import com.aspose.words.Shape;
 import com.aspose.words.FootnoteType;
@@ -442,8 +443,8 @@ class TestUtil extends ApiExampleBase
         CompositeNode innerFieldParent = innerField.getStart().getParentNode();
 
         Assert.assertTrue(innerFieldParent == outerField.getStart().getParentNode());
-        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getStart()) > innerFieldParent.getChildNodes().indexOf(outerField.getStart()));
-        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getEnd()) < innerFieldParent.getChildNodes().indexOf(outerField.getEnd()));
+        Assert.assertTrue(innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(innerField.getStart()) > innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(outerField.getStart()));
+        Assert.assertTrue(innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(innerField.getEnd()) < innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(outerField.getEnd()));
     }
 
     /// <summary>
@@ -513,9 +514,9 @@ class TestUtil extends ApiExampleBase
     static void copyStream(Stream srcStream, Stream dstStream) throws Exception
     {
         if (srcStream == null)
-            throw new NullPointerException("srcStream");
+            throw new NullPointerException("Value cannot be null.\r\nParameter name: " + "srcStream");
         if (dstStream == null)
-            throw new NullPointerException("dstStream");
+            throw new NullPointerException("Value cannot be null.\r\nParameter name: " + "dstStream");
 
         byte[] buf = new byte[65536];
         while (true)

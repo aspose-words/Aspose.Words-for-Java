@@ -289,7 +289,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         horizontalRuleFormat.setHeight(1584.0);
         Assert.That(() => horizontalRuleFormat.setHeight(-1), Throws.<IllegalArgumentException>TypeOf());
         Assert.That(() => horizontalRuleFormat.setHeight(1585.0), Throws.<IllegalArgumentException>TypeOf());
-    }private InsertHyperlinkAsyncinsertHyperlinkAsync() throws Exception
+    }
+
+    [Test]
+    public async Task private InsertHyperlinkAsyncinsertHyperlinkAsync() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertHyperlink
@@ -778,7 +781,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.write("Bookmark contents.");
         builder.endBookmark("MyBookmark");
 
-        NodeCollection firstParagraphNodes = doc.getFirstSection().getBody().getFirstParagraph().getChildNodes();
+        NodeCollection firstParagraphNodes = doc.getFirstSection().getBody().getFirstParagraph().getChildNodes(NodeType.ANY, false);
 
         Assert.assertEquals(NodeType.BOOKMARK_START, firstParagraphNodes.get(0).getNodeType());
         Assert.assertEquals(NodeType.RUN, firstParagraphNodes.get(1).getNodeType());
@@ -2880,7 +2883,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         private /*final*/ String mGeneralFormat; 
         private ArrayList<FieldResultFormatter.FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
-        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<FieldResultFormatter.FormatInvocation>list();
+        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<FieldResultFormatter.FormatInvocation>list();
         
         private static class FormatInvocation
         {
@@ -3623,7 +3626,10 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
         await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
-    }private InsertOnlineVideoCustomThumbnailinsertOnlineVideoCustomThumbnail() throws Exception
+    }
+
+    [Test]
+    public async Task private InsertOnlineVideoCustomThumbnailinsertOnlineVideoCustomThumbnail() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, String, Byte[], Double, Double)
@@ -3752,11 +3758,19 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void phoneticGuide() throws Exception
     {
-        DocumentBuilder builder = new DocumentBuilder();
-        builder.write("Lorem ipsum.");
+        //ExStart
+        //ExFor:Run.IsPhoneticGuide
+        //ExFor:Run.PhoneticGuide
+        //ExFor:PhoneticGuide.BaseText
+        //ExFor:PhoneticGuide.RubyText
+        //ExSummary:Shows how to get properties of the phonetic guide.
+        Document doc = new Document(getMyDir() + "Phonetic guide.docx");            
 
-        RunCollection runs = builder.getDocument().getFirstSection().getBody().getFirstParagraph().getRuns();
+        RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
         // Use phonetic guide in the Asian text.
-        Assert.assertEquals(false, runs.get(0).isPhoneticGuide());
+        Assert.assertEquals(true, runs.get(0).isPhoneticGuide());
+        Assert.assertEquals("base", runs.get(0).getPhoneticGuide().getBaseText());
+        Assert.assertEquals("ruby", runs.get(0).getPhoneticGuide().getRubyText());
+        //ExEnd
     }
 }
