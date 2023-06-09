@@ -133,7 +133,7 @@ class WorkingWithSdt extends DocsExamplesBase
         run.setText("Hello World");
         run.getFont().setColor(msColor.getGreen());
         para.getRuns().add(run);
-        sdtRichText.getChildNodes().add(para);
+        sdtRichText.getChildNodes(NodeType.ANY, false).add(para);
         doc.getFirstSection().getBody().appendChild(sdtRichText);
 
         doc.save(getArtifactsDir() + "WorkingWithSdt.RichTextBoxContentControl.docx");

@@ -82,6 +82,7 @@ class WordToHtmlConverter
     }
 
     //ExStart:InsertSectionBreaks
+    //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
     /// <summary>
     /// Insert section breaks before the specified paragraphs.
     /// </summary>
