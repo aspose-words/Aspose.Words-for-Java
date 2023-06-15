@@ -3548,13 +3548,19 @@ public class ExDocumentBuilder extends ApiExampleBase {
     {
         //ExStart
         //ExFor:Run.IsPhoneticGuide
-        //ExSummary:Shows how to check if the run is phonetic guide.
-        DocumentBuilder builder = new DocumentBuilder();
-        builder.write("Lorem ipsum.");
+        //ExFor:Run.PhoneticGuide
+        //ExFor:PhoneticGuide.BaseText
+        //ExFor:PhoneticGuide.RubyText
+        //ExSummary:Shows how to get properties of the phonetic guide.
+        Document doc = new Document(getMyDir() + "Phonetic guide.docx");
 
-        RunCollection runs = builder.getDocument().getFirstSection().getBody().getFirstParagraph().getRuns();
+        RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
+
         // Use phonetic guide in the Asian text.
-        Assert.assertEquals(false, runs.get(0).isPhoneticGuide());
+        Assert.assertEquals(true, runs.get(0).isPhoneticGuide());
+        Assert.assertEquals("base", runs.get(0).getPhoneticGuide().getBaseText());
+        Assert.assertEquals("ruby", runs.get(0).getPhoneticGuide().getRubyText());
         //ExEnd
+
     }
 }

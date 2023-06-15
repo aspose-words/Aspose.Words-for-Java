@@ -1369,4 +1369,148 @@ public class ExCharts extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Charts.LegendEntries.docx");
         //ExEnd
     }
+
+    @Test
+    public void removeSpecificChartSeries() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartSeries.SeriesType
+        //ExFor:ChartSeriesType
+        //ExSummary:Shows how to
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
+        Chart chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
+
+        // Remove all series of the Column type.
+        for (int i = chart.getSeries().getCount() - 1; i >= 0; i--)
+        {
+            if (chart.getSeries().get(i).getSeriesType() == ChartSeriesType.COLUMN)
+                chart.getSeries().removeAt(i);
+        }
+
+        chart.getSeries().add(
+                "Aspose Series",
+                new String[] { "Category 1", "Category 2", "Category 3", "Category 4" },
+                new double[] { 5.6, 7.1, 2.9, 8.9 });
+
+        doc.save(getArtifactsDir() + "Charts.RemoveSpecificChartSeries.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void populateChartWithData() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartXValue.FromDouble(Double)
+        //ExFor:ChartYValue.FromDouble(Double)
+        //ExFor:ChartSeries.Add(ChartXValue, ChartYValue)
+        //ExSummary:Shows how to populate chart series with data.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder();
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        Chart chart = shape.getChart();
+        ChartSeries series1 = chart.getSeries().get(0);
+
+        // Clear X and Y values of the first series.
+        series1.clearValues();
+
+        // Populate the series with data.
+        series1.add(ChartXValue.fromDouble(3.0), ChartYValue.fromDouble(10.0));
+        series1.add(ChartXValue.fromDouble(5.0), ChartYValue.fromDouble(5.0));
+        series1.add(ChartXValue.fromDouble(7.0), ChartYValue.fromDouble(11.0));
+        series1.add(ChartXValue.fromDouble(9.0), ChartYValue.fromDouble(17.0));
+
+        ChartSeries series2 = chart.getSeries().get(1);
+
+        // Clear X and Y values of the second series.
+        series2.clearValues();
+
+        // Populate the series with data.
+        series2.add(ChartXValue.fromDouble(2.0), ChartYValue.fromDouble(4.0));
+        series2.add(ChartXValue.fromDouble(4.0), ChartYValue.fromDouble(7.0));
+        series2.add(ChartXValue.fromDouble(6.0), ChartYValue.fromDouble(14.0));
+        series2.add(ChartXValue.fromDouble(8.0), ChartYValue.fromDouble(7.0));
+
+        doc.save(getArtifactsDir() + "Charts.PopulateChartWithData.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void getChartSeriesData() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartXValueCollection
+        //ExFor:ChartYValueCollection
+        //ExSummary:Shows how to get chart series data.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder();
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        Chart chart = shape.getChart();
+        ChartSeries series = chart.getSeries().get(0);
+
+        double minValue = Double.MAX_VALUE;
+        int minValueIndex = 0;
+        double maxValue = -Double.MAX_VALUE;
+        int maxValueIndex = 0;
+
+        for (int i = 0; i < series.getYValues().getCount(); i++)
+        {
+            // Clear individual format of all data points.
+            // Data points and data values are one-to-one in column charts.
+            series.getDataPoints().get(i).clearFormat();
+
+            // Get Y value.
+            double yValue = series.getYValues().get(i).getDoubleValue();
+
+            if (yValue < minValue)
+            {
+                minValue = yValue;
+                minValueIndex = i;
+            }
+
+            if (yValue > maxValue)
+            {
+                maxValue = yValue;
+                maxValueIndex = i;
+            }
+        }
+
+        // Change colors of the max and min values.
+        series.getDataPoints().get(minValueIndex).getFormat().getFill().setForeColor(Color.RED);
+        series.getDataPoints().get(maxValueIndex).getFormat().getFill().setForeColor(Color.GREEN);
+
+        doc.save(getArtifactsDir() + "Charts.GetChartSeriesData.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void chartDataValues() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartXValue.FromString(String)
+        //ExFor:ChartSeries.Remove(Int32)
+        //ExFor:ChartSeries.Add(ChartXValue, ChartYValue)
+        //ExSummary:Shows how to add/remove chart data values.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder();
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        Chart chart = shape.getChart();
+        ChartSeries department1Series = chart.getSeries().get(0);
+        ChartSeries department2Series = chart.getSeries().get(1);
+
+        // Remove the first value in the both series.
+        department1Series.remove(0);
+        department2Series.remove(0);
+
+        // Add new values to the both series.
+        ChartXValue newXCategory = ChartXValue.fromString("Q1, 2023");
+        department1Series.add(newXCategory, ChartYValue.fromDouble(10.3));
+        department2Series.add(newXCategory, ChartYValue.fromDouble(5.7));
+
+        doc.save(getArtifactsDir() + "Charts.ChartDataValues.docx");
+        //ExEnd
+    }
+
 }
