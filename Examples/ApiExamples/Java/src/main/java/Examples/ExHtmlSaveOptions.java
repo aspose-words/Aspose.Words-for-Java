@@ -1218,8 +1218,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         if (exportPageMargins)
         {
-            Assert.assertTrue(outDocContents.contains("<style type=\"text/css\">div.Section1 { margin:72pt }</style>"));
-            Assert.assertTrue(outDocContents.contains("<div class=\"Section1\"><p style=\"margin-top:0pt; margin-left:150pt; margin-bottom:0pt\">"));
+            Assert.assertTrue(outDocContents.contains("<style type=\"text/css\">div.Section_1 { margin:72pt }</style>"));
+            Assert.assertTrue(outDocContents.contains("<div class=\"Section_1\"><p style=\"margin-top:0pt; margin-left:150pt; margin-bottom:0pt\">"));
         }
         else
         {
@@ -1272,13 +1272,13 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         if (exportPageSetup) {
             Assert.assertTrue(outDocContents.contains(
                     "<style type=\"text/css\">" +
-                            "@page Section1 { size:419.55pt 595.3pt; margin:36pt 72pt; -aw-footer-distance:36pt; -aw-header-distance:36pt }" +
-                            "@page Section2 { size:612pt 792pt; margin:72pt; -aw-footer-distance:36pt; -aw-header-distance:36pt }" +
-                            "div.Section1 { page:Section1 }div.Section2 { page:Section2 }" +
+                            "@page Section_1 { size:419.55pt 595.3pt; margin:36pt 72pt; -aw-footer-distance:36pt; -aw-header-distance:36pt }" +
+                            "@page Section_2 { size:612pt 792pt; margin:72pt; -aw-footer-distance:36pt; -aw-header-distance:36pt }" +
+                            "div.Section_1 { page:Section_1 }div.Section_2 { page:Section_2 }" +
                             "</style>"));
 
             Assert.assertTrue(outDocContents.contains(
-                    "<div class=\"Section1\">" +
+                    "<div class=\"Section_1\">" +
                             "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
                             "<span>Section 1</span>" +
                             "</p>" +

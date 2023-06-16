@@ -81,7 +81,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Document.#ctor(Stream)
         //ExSummary:Shows how to retrieve a document from a URL and saves it to disk in a different format.
         // This is the URL address pointing to where to find the document
-        URL url = new URL("https://omextemplates.content.office.net/support/templates/en-us/tf16402488.dotx");
+        URL url = new URL("https://filesamples.com/samples/document/docx/sample3.docx");
 
         // The easiest way to load our document from the internet is make use of the URLConnection class
         URLConnection webClient = url.openConnection();
@@ -104,7 +104,7 @@ public class ExDocument extends ApiExampleBase {
         // The file format of the passed data is inferred from the content of the bytes itself
         // You can load any document format supported by Aspose.Words in the same way
         Document doc = new Document(byteStream);
-        Assert.assertTrue(doc.getText().contains("First Name last name")); //ExSkip
+        Assert.assertTrue(doc.getText().contains("There are eight section headings in this document")); //ExSkip
 
         // Convert the document to any format supported by Aspose.Words and save
         doc.save(getArtifactsDir() + "Document.OpenDocumentFromWeb.docx");
