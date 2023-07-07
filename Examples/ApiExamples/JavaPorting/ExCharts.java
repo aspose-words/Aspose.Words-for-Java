@@ -50,6 +50,8 @@ import com.aspose.words.ChartSeriesType;
 import com.aspose.words.ChartXValue;
 import com.aspose.words.ChartYValue;
 import com.aspose.ms.System.Drawing.msColor;
+import com.aspose.words.ChartFormat;
+import com.aspose.words.ChartShapeType;
 import org.testng.annotations.DataProvider;
 
 
@@ -1594,6 +1596,47 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.ChartDataValues.docx");
         //ExEnd
+    }
+
+    @Test
+    public void formatDataLables() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartDataLableCollection.Format
+        //ExFor:ChartFormat.ShapeType
+        //ExFor:ChartShapeType
+        //ExSummary:Shows how to set fill, stroke and callout formatting for chart data labels.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        Chart chart = shape.getChart();
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        // Add new series.
+        ChartSeries series = chart.getSeries().add("AW Series 1",
+            new String[] { "AW Category 1", "AW Category 2", "AW Category 3", "AW Category 4" },
+            new double[] { 100.0, 200.0, 300.0, 400.0 });
+
+        // Show data labels.
+        series.hasDataLabels(true);
+        series.getDataLabels().setShowValue(true);
+
+        // Format data labels as callouts.
+        ChartFormat format = series.getDataLabels().getFormat();
+        format.setShapeType(ChartShapeType.WEDGE_RECT_CALLOUT);
+        format.getStroke().setColor(msColor.getDarkGreen());
+        format.getFill().solid(msColor.getGreen());
+        series.getDataLabels().getFont().setColor(Color.YELLOW);
+
+        // Change fill and stroke of an individual data label.
+        ChartFormat labelFormat = series.getDataLabels().get(0).getFormat();
+        labelFormat.getStroke().setColor(msColor.getDarkBlue());
+        labelFormat.getFill().solid(Color.BLUE);
+
+        doc.save(getArtifactsDir() + "Charts.FormatDataLables.docx");
     }
 }
 

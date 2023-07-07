@@ -545,6 +545,31 @@ public class ExReportingEngine extends ApiExampleBase
 
     }
 
+    @Test (dataProvider = "insertHtmlDinamicallyDataProvider")
+    public void insertHtmlDinamically(String templateText) throws Exception
+    {
+        String html = File.readAllText(getMyDir() + "Reporting engine template - Html.html");
+
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln(templateText);
+
+        buildReport(doc, html, "html_text");
+        doc.save(getArtifactsDir() + "ReportingEngine.InsertHtmlDinamically.docx");
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "insertHtmlDinamicallyDataProvider")
+	public static Object[][] insertHtmlDinamicallyDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"<<[html_text] -html>>"},
+			{"<<html [html_text]>>"},
+			{"<<html [html_text] -sourceStyles>>"},
+		};
+	}
+
     @Test
     public void imageExifOrientation() throws Exception
     {

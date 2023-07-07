@@ -39,6 +39,7 @@ import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 import com.aspose.words.ConvertUtil;
 import com.aspose.words.IncorrectPasswordException;
+import com.aspose.words.WarningInfoCollection;
 import com.aspose.words.ShapeType;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.INodeChangingCallback;
@@ -592,6 +593,15 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
+    }
+
+    @Test
+    public void notSupportedWarning() throws Exception
+    {
+        WarningInfoCollection warings = new WarningInfoCollection();
+        Document doc = new Document(getMyDir() + "FB2 document.fb2", new LoadOptions(); { doc.setWarningCallback(warings); });
+
+        Assert.assertEquals("The original file load format is FB2, which is not supported by Aspose.Words. The file is loaded as an XML document.", warings.get(0).getDescription());
     }
 
     @Test
@@ -3130,6 +3140,19 @@ public class ExDocument extends ApiExampleBase
             doc.setJustificationMode(JustificationMode.COMPRESS);
 
         doc.save(getArtifactsDir() + "Document.SetJustificationMode.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void pageIsInColor() throws Exception
+    {
+        //ExStart
+        //ExFor:PageInfo.Colored
+        //ExSummary:Shows how to check whether the page is in color or not.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        // Check that the first page of the document is not colored.
+        Assert.assertFalse(doc.getPageInfo(0).getColored());
         //ExEnd
     }
 

@@ -257,6 +257,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     //ExStart
     //ExFor:Fonts.FontInfoSubstitutionRule
     //ExFor:Fonts.FontSubstitutionSettings.FontInfoSubstitution
+    //ExFor:LayoutOptions.KeepOriginalFontMetrics
     //ExFor:IWarningCallback
     //ExFor:IWarningCallback.Warning(WarningInfo)
     //ExFor:WarningInfo
@@ -284,6 +285,9 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
         ;
         fontSettings.getSubstitutionSettings().getFontInfoSubstitution().setEnabled(true);
+
+        // Original font metrics should be used after font substitution.
+        doc.getLayoutOptions().setKeepOriginalFontMetrics(true);
 
         // We will get a font substitution warning if we save a document with a missing font.
         doc.setFontSettings(fontSettings);
@@ -927,7 +931,10 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         Assert.assertEquals("MS Mincho", rules.item(4).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
 
         Assert.assertEquals("Arial Unicode MS", rules.item(5).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
-    }private LoadNotoFontsFallbackSettingsloadNotoFontsFallbackSettings() throws Exception
+    }
+
+    [Test]
+    public async Task private LoadNotoFontsFallbackSettingsloadNotoFontsFallbackSettings() throws Exception
     {
         //ExStart
         //ExFor:FontFallbackSettings.LoadNotoFallbackSettings
@@ -1067,8 +1074,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         org.w3c.dom.NodeList rules =
             fallbackSettingsDoc.SelectNodes("//aw:FontFallbackSettings/aw:FallbackTable/aw:Rule", manager);
 
-        Assert.assertEquals("0C00-0C7F", rules.item(8).getAttributes().getNamedItem("Ranges").getNodeValue());
-        Assert.assertEquals("Vani", rules.item(8).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
+        Assert.assertEquals("0C00-0C7F", rules.item(9).getAttributes().getNamedItem("Ranges").getNodeValue());
+        Assert.assertEquals("Vani", rules.item(9).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
     }
 
     @Test
