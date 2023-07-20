@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.MessageFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -254,6 +255,17 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
+    public void notSupportedWarning() throws Exception
+    {
+        WarningInfoCollection warings = new WarningInfoCollection();
+        LoadOptions loadOptions = new LoadOptions();
+        loadOptions.setWarningCallback(warings);
+        Document doc = new Document(getMyDir() + "FB2 document.fb2", loadOptions);
+
+        Assert.assertEquals("The original file load format is FB2, which is not supported by Aspose.Words. The file is loaded as an XML document.", warings.get(0).getDescription());
+    }
+
+    @Test
     public void tempFolder() throws Exception {
         //ExStart
         //ExFor:LoadOptions.TempFolder
@@ -266,6 +278,19 @@ public class ExDocument extends ApiExampleBase {
         new File(loadOptions.getTempFolder()).mkdir();
 
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
+        //ExEnd
+    }
+
+    @Test
+    public void pageIsInColor() throws Exception
+    {
+        //ExStart
+        //ExFor:PageInfo.Colored
+        //ExSummary:Shows how to check whether the page is in color or not.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        // Check that the first page of the document is not colored.
+        Assert.assertFalse(doc.getPageInfo(0).getColored());
         //ExEnd
     }
 

@@ -17,6 +17,7 @@ import TestData.TestClasses.*;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataSet;
+import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -407,6 +408,29 @@ public class ExReportingEngine extends ApiExampleBase {
                         });
 
         template.save(getArtifactsDir() + "ReportingEngine.InsertHyperlinksDynamically.docx");
+    }
+
+    @Test (dataProvider = "insertHtmlDinamicallyDataProvider")
+    public void insertHtmlDinamically(String templateText) throws Exception
+    {
+        String html = FileUtils.readFileToString(new File(getMyDir() + "Reporting engine template - Html.html"), "utf-8");
+
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln(templateText);
+
+        buildReport(doc, html, "html_text");
+        doc.save(getArtifactsDir() + "ReportingEngine.InsertHtmlDinamically.docx");
+    }
+
+    @DataProvider(name = "insertHtmlDinamicallyDataProvider")
+    public static Object[][] insertHtmlDinamicallyDataProvider() {
+        return new Object[][]
+                {
+                        {"<<[html_text] -html>>"},
+                        {"<<html [html_text]>>"},
+                        {"<<html [html_text] -sourceStyles>>"},
+                };
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
