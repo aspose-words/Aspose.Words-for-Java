@@ -247,3 +247,4 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
 	);
 
 }
+

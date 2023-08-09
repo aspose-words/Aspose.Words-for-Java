@@ -1758,4 +1758,27 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(CellMerge.NONE, row.getCells().get(6).getCellFormat().getHorizontalMerge());
         //ExEnd
     }
+
+    @Test
+    public void getTextFromCells() throws Exception
+    {
+        //ExStart
+        //ExFor:Row.NextRow
+        //ExFor:Row.PreviousRow
+        //ExFor:Cell.NextCell
+        //ExFor:Cell.PreviousCell
+        //ExSummary:Shows how to enumerate through all table cells.
+        Document doc = new Document(getMyDir() + "Tables.docx");
+        Table table = doc.getFirstSection().getBody().getTables().get(0);
+
+        // Enumerate through all cells of the table.
+        for (Row row = table.getFirstRow(); row != null; row = row.getNextRow())
+        {
+            for (Cell cell = row.getFirstCell(); cell != null; cell = cell.getNextCell())
+            {
+                System.out.println(cell.getText());
+            }
+        }
+        //ExEnd
+    }
 }

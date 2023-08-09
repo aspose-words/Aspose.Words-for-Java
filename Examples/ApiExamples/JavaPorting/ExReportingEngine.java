@@ -50,6 +50,8 @@ import java.io.FileInputStream;
 import com.aspose.words.JsonDataLoadOptions;
 import com.aspose.words.JsonDataSource;
 import com.aspose.words.JsonSimpleValueParseMode;
+import com.aspose.ms.System.IO.MemoryStream;
+import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.CsvDataLoadOptions;
 import com.aspose.words.CsvDataSource;
 import com.aspose.words.SdtType;
@@ -1143,6 +1145,36 @@ public class ExReportingEngine extends ApiExampleBase
     }
 
     @Test
+    public void jsonDataPreserveSpaces() throws Exception
+    {
+        final String TEMPLATE = "LINE BEFORE\r<<[LineWhitespace]>>\r<<[BlockWhitespace]>>LINE AFTER";
+        final String EXPECTED_RESULT = "LINE BEFORE\r    \r\r\r\r\rLINE AFTER";
+        final String JSON =
+            "{" +
+            "    \"LineWhitespace\" : \"    \"," +
+            "    \"BlockWhitespace\" : \"\r\n\r\n\r\n\r\n\"" +
+            "}";
+
+        MemoryStream stream = new MemoryStream(Encoding.getUTF8().getBytes(JSON));
+        try /*JAVA: was using*/
+        {
+            JsonDataLoadOptions options = new JsonDataLoadOptions();
+            options.setPreserveSpaces(true);
+            options.setSimpleValueParseMode(JsonSimpleValueParseMode.STRICT);
+
+            JsonDataSource dataSource = new JsonDataSource(stream, options);
+
+            DocumentBuilder builder = new DocumentBuilder();
+            builder.write(TEMPLATE);
+
+            buildReport(builder.getDocument(), dataSource, "ds");                
+
+            Assert.assertEquals(EXPECTED_RESULT + ControlChar.SECTION_BREAK, builder.getDocument().getText());
+        }
+        finally { if (stream != null) stream.close(); }
+    }
+
+    @Test
     public void csvDataString() throws Exception
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination.docx");
@@ -1305,3 +1337,4 @@ public class ExReportingEngine extends ApiExampleBase
         engine.buildReport(document, dataSource);
     }
 }
+

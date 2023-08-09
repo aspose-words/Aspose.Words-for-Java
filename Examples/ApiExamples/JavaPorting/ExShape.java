@@ -58,6 +58,8 @@ import com.aspose.words.OleControl;
 import com.aspose.words.Forms2OleControl;
 import com.aspose.words.Forms2OleControlType;
 import com.aspose.words.OleFormat;
+import com.aspose.ms.System.msString;
+import com.aspose.ms.System.StringComparison;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.FileInfo;
@@ -1367,7 +1369,7 @@ public class ExShape extends ApiExampleBase
         Assert.assertTrue(sourceFullName.contains("Examples\\Data\\Spreadsheet.xlsx"));
 
         sourceFullName = "D:\\Documents\\ChartData.xlsx";
-        Assert.assertTrue(sourceFullName.equals("D:\\Documents\\ChartData.xlsx"));
+        Assert.assertTrue(msString.equals(sourceFullName, "D:\\Documents\\ChartData.xlsx", StringComparison.ORDINAL));
         //ExEnd
     }
 

@@ -372,7 +372,7 @@ public class ExMailMergeEvent extends ApiExampleBase
 
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
 
-        String connString = $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={DatabaseDir + "Northwind.mdb"};";
+        String connString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={DatabaseDir + "Northwind.accdb"};";
         String query = "SELECT FirstName, LastName, Title, Address, City, Region, Country, PhotoBLOB FROM Employees";
 
         OleDbConnection conn = new OleDbConnection(connString);
@@ -389,7 +389,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         finally { if (conn != null) conn.close(); }
 
         doc.save(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx");
-        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.mdb", query, new Document(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx"), false); //ExSkip
+        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.accdb", query, new Document(getArtifactsDir() + "MailMergeEvent.ImageFromBlob.docx"), false); //ExSkip
     }
 
     private static class HandleMergeImageFieldFromBlob implements IFieldMergingCallback

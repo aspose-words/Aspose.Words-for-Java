@@ -313,3 +313,4 @@ class DocumentHelper extends ApiExampleBase
         finally { if (docStream != null) docStream.close(); }
     }
 }
+

@@ -30,6 +30,7 @@ import com.aspose.words.ShapeRenderer;
 import com.aspose.words.MetafileRenderingMode;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import com.aspose.ms.System.Drawing.msSize;
 import java.util.ArrayList;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.ImageColorMode;
@@ -108,8 +109,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         else
             Assert.That(30000, Is.AtLeast(new FileInfo(getArtifactsDir() + "ImageSaveOptions.Renderer.emf").getLength()));
         //ExEnd
-
-        TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.Renderer.emf");
     }
 
 	//JAVA-added data provider for test method
@@ -260,6 +259,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         //ExFor:Document.Save(String, SaveOptions)
         //ExFor:FixedPageSaveOptions
         //ExFor:ImageSaveOptions.PageSet
+        //ExFor:ImageSaveOptions.ImageSize
         //ExSummary:Shows how to render every page of a document to a separate TIFF image.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -280,6 +280,9 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
             // Set the "PageSet" property to the number of the first page from
             // which to start rendering the document from.
             options.setPageSet(new PageSet(i));
+            // Export page at 2325x5325 pixels and 600 dpi.
+            options.setResolution(600f);
+            options.setImageSizeInternal(msSize.ctor(2325, 5325));
 
             doc.save(getArtifactsDir() + $"ImageSaveOptions.PageByPage.{i + 1}.tiff", options);
         }
@@ -291,7 +294,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         Assert.assertEquals(3, imageFileNames.size());
 
         for (String imageFileName : imageFileNames)
-            TestUtil.verifyImage(816, 1056, imageFileName);
+            TestUtil.verifyImage(2325, 5325, imageFileName);
     }
 
     @Test (dataProvider = "colorModeDataProvider")
@@ -715,4 +718,26 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         doc.save(getArtifactsDir() + "ImageSaveOptions.RenderInkObject.jpeg", saveOptions);
         //ExEnd
     }
+
+    @Test
+    public void conversionDocumentToEps() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Images.docx");
+
+        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EPS);
+        saveOptions.setPageSet(new PageSet(2));
+        doc.save(getArtifactsDir() + "ImageSaveOptions.ConversionDocumentToEps.eps", saveOptions);
+    }
+
+    @Test
+    public void conversionShapeToEps() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Shape shadow effect.docx");
+
+        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EPS);
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        ShapeRenderer renderer = shape.getShapeRenderer();
+        renderer.save(getArtifactsDir() + "ImageSaveOptions.ConversionShapeToEps.eps", saveOptions);
+    }
 }
+

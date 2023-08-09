@@ -202,13 +202,28 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     {
         //ExStart
         //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
-        //ExSummary:Shows how to generate table of contents for azw3 documents.
+        //ExSummary:Shows how to generate table of contents for Azw3 documents.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.AZW_3);
-        options.setEpubNavigationMapLevel(2);
+        options.setNavigationMapLevel(2);
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.CreateAZW3Toc.azw3", options);
+        //ExEnd
+    }
+
+    @Test
+    public void createMobiToc() throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExSummary:Shows how to generate table of contents for Mobi documents.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.MOBI);
+        options.setNavigationMapLevel(5);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.CreateMobiToc.mobi", options);
         //ExEnd
     }
 
@@ -980,7 +995,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         // We can use the "EpubNavigationMapLevel" property to set a maximum heading level. 
         // The Epub reader will not add headings with a level above the one we specify to the contents table.
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.EPUB);
-        options.setEpubNavigationMapLevel(2);
+        options.setNavigationMapLevel(2);
 
         // Our document has six headings, two of which are above level 2.
         // The table of contents for this document will have four entries.
@@ -2231,3 +2246,4 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     }
     //ExEnd
 }
+

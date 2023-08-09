@@ -940,9 +940,6 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     @Test
     public void updateSdtContent() throws Exception
     {
-        //ExStart
-        //ExFor:SaveOptions.UpdateSdtContent
-        //ExSummary:Shows how to update structured document tags while saving a document to PDF.
         Document doc = new Document();
 
         // Insert a drop-down list structured document tag.
@@ -959,7 +956,6 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         doc.getFirstSection().getBody().appendChild(tag);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
-        //ExEnd
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();

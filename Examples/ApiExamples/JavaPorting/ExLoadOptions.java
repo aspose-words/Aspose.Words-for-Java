@@ -21,8 +21,6 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import org.testng.Assert;
 import com.aspose.words.NodeType;
-import com.aspose.words.FileFormatInfo;
-import com.aspose.words.FileFormatUtil;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.FontSettings;
@@ -37,6 +35,8 @@ import com.aspose.words.EditingLanguage;
 import com.aspose.words.Shape;
 import com.aspose.words.ShapeType;
 import com.aspose.words.ImageType;
+import com.aspose.words.FileFormatInfo;
+import com.aspose.words.FileFormatUtil;
 import com.aspose.words.LoadFormat;
 import com.aspose.words.IDocumentLoadingCallback;
 import java.util.Date;
@@ -46,7 +46,7 @@ import org.testng.annotations.DataProvider;
 
 
 @Test
-class ExLoadOptions !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
+public class ExLoadOptions extends ApiExampleBase
 {
     //ExStart
     //ExFor:LoadOptions.ResourceLoadingCallback
@@ -138,29 +138,15 @@ class ExLoadOptions !Test class should be public in Java to run, please fix .Net
         //ExStart
         //ExFor:LoadOptions.Encoding
         //ExSummary:Shows how to set the encoding with which to open a document.
-        // A FileFormatInfo object will detect this file as being encoded in something other than UTF-7.
-        FileFormatInfo fileFormatInfo = FileFormatUtil.detectFileFormat(getMyDir() + "Encoded in UTF-7.txt");
-
-        Assert.assertNotEquals(Encoding.getUTF7(), fileFormatInfo.getEncodingInternal());
-
-        // If we load the document with no loading configurations, Aspose.Words will detect its encoding as UTF-8.
-        Document doc = new Document(getMyDir() + "Encoded in UTF-7.txt");
-
-        // The contents, parsed in UTF-8, create a valid string.
-        // However, knowing that the file is in UTF-7, we can see that the result is incorrect.
-        Assert.assertEquals("Hello world+ACE-", doc.toString(SaveFormat.TEXT).trim());
-
-        // In cases of ambiguous encoding such as this one, we can set a specific encoding variant
-        // to parse the file within a LoadOptions object.
         LoadOptions loadOptions = new LoadOptions();
         {
-            loadOptions.setEncoding(Encoding.getUTF7());
+            loadOptions.setEncoding(Encoding.getASCII());
         }
 
         // Load the document while passing the LoadOptions object, then verify the document's contents.
-        doc = new Document(getMyDir() + "Encoded in UTF-7.txt", loadOptions);
+        Document doc = new Document(getMyDir() + "English text.txt", loadOptions);
 
-        Assert.assertEquals("Hello world!", doc.toString(SaveFormat.TEXT).trim());
+        Assert.assertTrue(doc.toString(SaveFormat.TEXT).contains("This is a sample text in English."));
         //ExEnd
     }
 

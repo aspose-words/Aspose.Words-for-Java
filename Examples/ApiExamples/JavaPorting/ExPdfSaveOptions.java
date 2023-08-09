@@ -2398,7 +2398,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     public void encryptionPermissions() throws Exception
     {
         //ExStart
-        //ExFor:PdfEncryptionDetails.#ctor
+        //ExFor:PdfEncryptionDetails.#ctor(String,String,PdfPermissions)
         //ExFor:PdfSaveOptions.EncryptionDetails
         //ExFor:PdfEncryptionDetails.Permissions
         //ExFor:PdfEncryptionDetails.OwnerPassword
@@ -2411,19 +2411,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         builder.writeln("Hello world!");
 
-        PdfEncryptionDetails encryptionDetails =
-            new PdfEncryptionDetails("password", "");
-
-        // Start by disallowing all permissions.
-        encryptionDetails.setPermissions(PdfPermissions.DISALLOW_ALL);
-
         // Extend permissions to allow the editing of annotations.
-        encryptionDetails.setPermissions(PdfPermissions.MODIFY_ANNOTATIONS | PdfPermissions.DOCUMENT_ASSEMBLY);
+        PdfEncryptionDetails encryptionDetails =
+            new PdfEncryptionDetails("password", "", PdfPermissions.MODIFY_ANNOTATIONS | PdfPermissions.DOCUMENT_ASSEMBLY);
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions saveOptions = new PdfSaveOptions();
-
         // Enable encryption via the "EncryptionDetails" property.
         saveOptions.setEncryptionDetails(encryptionDetails);
 
@@ -2651,3 +2645,4 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Assert.AreEqual(3, pdfDocument.Pages[1].Artifacts.Count());
     }
 }
+

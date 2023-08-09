@@ -47,6 +47,8 @@ import com.aspose.words.NodeChangingArgs;
 import com.aspose.ms.System.Text.msStringBuilder;
 import com.aspose.words.Font;
 import com.aspose.words.ImportFormatMode;
+import com.aspose.ms.System.msString;
+import com.aspose.ms.System.StringComparison;
 import java.io.FileNotFoundException;
 import com.aspose.words.ImportFormatOptions;
 import com.aspose.ms.NUnit.Framework.msAssert;
@@ -59,6 +61,7 @@ import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.DigitalSignatureCollection;
 import com.aspose.words.DigitalSignatureType;
+import com.aspose.ms.System.Convert;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.words.ControlChar;
 import com.aspose.words.ProtectionType;
@@ -173,10 +176,7 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
-    }
-
-    [Test]
-    public async Task private LoadFromWebloadFromWeb() throws Exception
+    }private LoadFromWebloadFromWeb() throws Exception
     {
         //ExStart
         //ExFor:Document.#ctor(Stream)
@@ -784,8 +784,8 @@ public class ExDocument extends ApiExampleBase
 
         String outDocText = new Document(getArtifactsDir() + "Document.AppendDocument.docx").getText();
 
-        Assert.assertTrue(outDocText.startsWith(dstDoc.getText()));
-        Assert.assertTrue(outDocText.endsWith(srcDoc.getText()));
+        Assert.assertTrue(msString.startsWith(outDocText, dstDoc.getText(), StringComparison.ORDINAL));
+        Assert.assertTrue(msString.endsWith(outDocText, srcDoc.getText(), StringComparison.ORDINAL));
     }
 
     @Test
@@ -1033,6 +1033,24 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals(DigitalSignatureType.XML_DSIG, digitalSignatureCollection.get(0).getSignatureType());
         Assert.assertEquals("CN=Morzal.Me", signedDoc.getDigitalSignatures().get(0).getIssuerName());
         Assert.assertEquals("CN=Morzal.Me", signedDoc.getDigitalSignatures().get(0).getSubjectName());
+        //ExEnd
+    }
+
+    @Test
+    public void signatureValue() throws Exception
+    {
+        //ExStart
+        //ExFor:DigitalSignature.SignatureValue
+        //ExSummary:Shows how to get a digital signature value from a digitally signed document.
+        Document doc = new Document(getMyDir() + "Digitally signed.docx");
+
+        for (DigitalSignature digitalSignature : doc.getDigitalSignatures())
+        {
+            String signatureValue = Convert.toBase64String(digitalSignature.getSignatureValue());
+            Assert.assertEquals("K1cVLLg2kbJRAzT5WK+m++G8eEO+l7S+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbD" +
+                "MhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw/k5CiFZzCp1+MmhOdYPcVO+Fm" +
+                "+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo=", signatureValue);
+        }
         //ExEnd
     }
 
@@ -3169,3 +3187,4 @@ public class ExDocument extends ApiExampleBase
 	);
 
 }
+

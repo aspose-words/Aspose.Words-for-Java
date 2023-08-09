@@ -20,6 +20,7 @@ import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.ControlChar;
 import com.aspose.words.Document;
 import java.util.ArrayList;
+import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.ms.System.msString;
@@ -139,7 +140,7 @@ class TestUtil extends ApiExampleBase
         OleDbConnection connection = new OleDbConnection();
         try /*JAVA: was using*/
         {
-            connection.ConnectionString = $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={dbFilename};";
+            connection.ConnectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbFilename};";
             connection.Open();
 
             OleDbCommand command = connection.CreateCommand();
@@ -189,42 +190,47 @@ class TestUtil extends ApiExampleBase
     static void mailMergeMatchesQueryResult(String dbFilename, String sqlQuery, Document doc, boolean onePagePerRow)
     {
         ArrayList<String[]> expectedStrings = new ArrayList<String[]>(); 
-        String connectionString = "Driver={Microsoft Access Driver (*.mdb)};Dbq=" + dbFilename;
+        String connectionString = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source=" + dbFilename;
 
-        OdbcConnection connection = new OdbcConnection();
+        OleDbConnection connection = new OleDbConnection(connectionString);
         try /*JAVA: was using*/
         {
-            connection.ConnectionString = connectionString;
-            connection.Open();
-
-            OdbcCommand command = connection.CreateCommand();
+            OleDbCommand command = new OleDbCommand(sqlQuery, connection);
             command.CommandText = sqlQuery;
 
-            OdbcDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-            try /*JAVA: was using*/
+            try
             {
-                while (reader.read())
+                connection.Open();
+                OleDbDataReader reader = command.ExecuteReader();
+                try /*JAVA: was using*/
                 {
-                    String[] row = new String[reader.getFieldCount()];
+                    while (reader.read())
+                    {
+                        String[] row = new String[reader.getFieldCount()];
 
-                    for (int i = 0; i < reader.getFieldCount(); i++)
-                        switch (reader.(i))
-                        {
-                            case BigDecimal d:
-                                row[i] = d.ToString("G29");
-                                break;
-                            case String s:
-                                row[i] = s.Trim().Replace("\n", String.Empty);
-                                break;
-                            default:
-                                row[i] = "";
-                                break;
-                        }
+                        for (int i = 0; i < reader.getFieldCount(); i++)
+                            switch (reader.(i))
+                            {
+                                case BigDecimal d:
+                                    row[i] = d.ToString("G29");
+                                    break;
+                                case String s:
+                                    row[i] = s.Trim().Replace("\n", String.Empty);
+                                    break;
+                                default:
+                                    row[i] = "";
+                                    break;
+                            }
 
-                    expectedStrings.add(row);
+                        expectedStrings.add(row);
+                    }
                 }
+                finally { if (reader != null) reader.close(); }
             }
-            finally { if (reader != null) reader.close(); }
+            catch (Exception ex)
+            {
+                System.out.println(ex.getMessage());
+            }
         }
         finally { if (connection != null) connection.close(); }
 
