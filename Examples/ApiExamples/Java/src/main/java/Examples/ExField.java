@@ -465,16 +465,16 @@ public class ExField extends ApiExampleBase {
 
         // This DATABASE field will run a query on a database, and display the result in a table.
         FieldDatabase field = (FieldDatabase) builder.insertField(FieldType.FIELD_DATABASE, true);
-        field.setFileName(getDatabaseDir() + "Northwind.mdb");
+        field.setFileName(getDatabaseDir() + "Northwind.accdb");
         field.setConnection("DSN=MS Access Databases");
         field.setQuery("SELECT * FROM [Products]");
 
-        Assert.assertEquals(MessageFormat.format(" DATABASE  \\d {0} \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"", getDatabaseDir().replace("\\", "\\\\") + "Northwind.mdb"),
+        Assert.assertEquals(MessageFormat.format(" DATABASE  \\d {0} \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"", getDatabaseDir().replace("\\", "\\\\") + "Northwind.accdb"),
                 field.getFieldCode());
 
         // Insert another DATABASE field with a more complex query that sorts all products in descending order by gross sales.
         field = (FieldDatabase) builder.insertField(FieldType.FIELD_DATABASE, true);
-        field.setFileName(getMyDir() + "Database\\Northwind.mdb");
+        field.setFileName(getMyDir() + "Database\\Northwind.accdb");
         field.setConnection("DSN=MS Access Databases");
         field.setQuery("SELECT [Products].ProductName, FORMAT(SUM([Order Details].UnitPrice * (1 - [Order Details].Discount) * [Order Details].Quantity), 'Currency') AS GrossSales " +
                 "FROM([Products] " +
@@ -514,10 +514,10 @@ public class ExField extends ApiExampleBase {
 
         field = (FieldDatabase) doc.getRange().getFields().get(0);
 
-        Assert.assertEquals(MessageFormat.format(" DATABASE  \\d {0} \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"", getDatabaseDir().replace("\\", "\\\\") + "Northwind.mdb"),
+        Assert.assertEquals(MessageFormat.format(" DATABASE  \\d {0} \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"", getDatabaseDir().replace("\\", "\\\\") + "Northwind.accdb"),
                 field.getFieldCode());
 
-        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.mdb", field.getQuery());
+        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.accdb", field.getQuery());
 
         table = (Table) doc.getChild(NodeType.TABLE, 1, true);
         field = (FieldDatabase) doc.getRange().getFields().get(1);
@@ -527,7 +527,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals("ProductName\u0007", table.getRows().get(0).getCells().get(0).getText());
         Assert.assertEquals("GrossSales\u0007", table.getRows().get(0).getCells().get(1).getText());
 
-        Assert.assertEquals(" DATABASE  \\d \"{DatabaseDir.Replace('\\', '\\\\') + 'Northwind.mdb'}\" \\c \"DSN=MS Access Databases\" " +
+        Assert.assertEquals(" DATABASE  \\d \"{DatabaseDir.Replace('\\', '\\\\') + 'Northwind.accdb'}\" \\c \"DSN=MS Access Databases\" " +
                         "\\s \"SELECT [Products].ProductName, FORMAT(SUM([Order Details].UnitPrice * (1 - [Order Details].Discount) * [Order Details].Quantity), 'Currency') AS GrossSales " +
                         "FROM([Products] " +
                         "LEFT JOIN[Order Details] ON[Products].[ProductID] = [Order Details].[ProductID]) " +
@@ -537,7 +537,7 @@ public class ExField extends ApiExampleBase {
 
         table.getRows().get(0).remove();
 
-        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.mdb", new StringBuffer(field.getQuery()).insert(7, " TOP 10 ").toString());
+        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.accdb", new StringBuffer(field.getQuery()).insert(7, " TOP 10 ").toString());
     }
 
     @Test(dataProvider = "preserveIncludePictureDataProvider")

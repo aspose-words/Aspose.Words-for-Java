@@ -387,7 +387,7 @@ public final class DocumentHelper {
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 
         // Open the database connection
-        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.mdb";
+        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.accdb";
 
         // From Wikipedia: The Sun driver has a known issue with character encoding and Microsoft Access databases
         // Microsoft Access may use an encoding that is not correctly translated by the driver, leading to the replacement
