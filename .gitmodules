@@ -31,3 +31,9 @@
 [submodule "Gists/Work_with_sections_Java"]
 	path = Gists/Work_with_sections_Java
 	url = https://gist.github.com/aspose-words-gists/7c0668453e53ed7a57d3ea3a05520f21
+[submodule "Gists/Encrypt_document_using_encryption_algorithms_in_Java"]
+	path = Gists/Encrypt_document_using_encryption_algorithms_in_Java
+	url = https://gist.github.com/aspose-words-gists/821ff3a1df0c75b2af641299b393fb60
+[submodule "Gists/Working_with_digital_signatures_using_Java"]
+	path = Gists/Working_with_digital_signatures_using_Java
+	url = https://gist.github.com/aspose-words-gists/39ea49b7754e472caf41179f8b5970a0

@@ -92,6 +92,7 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     public void digitallySignedPdfUsingCertificateHolder() throws Exception
     {
         //ExStart:DigitallySignedPdfUsingCertificateHolder
+        //GistId:39ea49b7754e472caf41179f8b5970a0
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
