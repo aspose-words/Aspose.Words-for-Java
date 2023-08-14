@@ -25,6 +25,7 @@ import org.testng.annotations.Test;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -853,6 +854,36 @@ public class ExReportingEngine extends ApiExampleBase {
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx",
                 getGoldsDir() + "ReportingEngine.DataSourceWithNestedElements Gold.docx"));
+    }
+
+    @Test
+    public void jsonDataPreserveSpaces() throws Exception
+    {
+        final String TEMPLATE = "LINE BEFORE\r<<[LineWhitespace]>>\r<<[BlockWhitespace]>>LINE AFTER";
+        final String EXPECTED_RESULT = "LINE BEFORE\r    \r\r\r\r\rLINE AFTER";
+        final String JSON =
+                "{" +
+                        "    \"LineWhitespace\" : \"    \"," +
+                        "    \"BlockWhitespace\" : \"\r\n\r\n\r\n\r\n\"" +
+                        "}";
+
+        ByteArrayInputStream stream = new ByteArrayInputStream(JSON.getBytes(StandardCharsets.UTF_8));
+        try
+        {
+            JsonDataLoadOptions options = new JsonDataLoadOptions();
+            options.setPreserveSpaces(true);
+            options.setSimpleValueParseMode(JsonSimpleValueParseMode.STRICT);
+
+            JsonDataSource dataSource = new JsonDataSource(stream, options);
+
+            DocumentBuilder builder = new DocumentBuilder();
+            builder.write(TEMPLATE);
+
+            buildReport(builder.getDocument(), dataSource, "ds");
+
+            Assert.assertEquals(EXPECTED_RESULT + ControlChar.SECTION_BREAK, builder.getDocument().getText());
+        }
+        finally { if (stream != null) stream.close(); }
     }
 
     @Test

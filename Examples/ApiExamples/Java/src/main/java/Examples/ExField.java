@@ -2453,6 +2453,30 @@ public class ExField extends ApiExampleBase {
                 "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", fieldBibliography);
     }
 
+    //ExStart
+    //ExFor:IBibliographyStylesProvider
+    //ExFor:FieldOptions.BibliographyStylesProvider
+    //ExSummary:Shows how to override built-in styles or provide custom one.
+    @Test //ExSkip
+    public void changeBibliographyStyles() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Bibliography.docx");
+
+        doc.getFieldOptions().setBibliographyStylesProvider(new BibliographyStylesProvider());
+        doc.updateFields();
+
+        doc.save(getArtifactsDir() + "Field.ChangeBibliographyStyles.docx");
+    }
+
+    public static class BibliographyStylesProvider implements IBibliographyStylesProvider
+    {
+        public FileInputStream getStyle(String styleFileName) throws Exception
+        {
+            return new FileInputStream(getMyDir() + "Bibliography custom style.xsl");
+        }
+    }
+    //ExEnd
+
     @Test
     public void fieldData() throws Exception {
         //ExStart
@@ -4918,7 +4942,7 @@ public class ExField extends ApiExampleBase {
         //ExSummary:Shows how to display the file size of a document with a FILESIZE field.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        Assert.assertEquals(16222, doc.getBuiltInDocumentProperties().getBytes());
+        Assert.assertEquals(doc.getBuiltInDocumentProperties().getBytes(), 18105);
 
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.moveToDocumentEnd();
@@ -4931,7 +4955,7 @@ public class ExField extends ApiExampleBase {
         field.update();
 
         Assert.assertEquals(" FILESIZE ", field.getFieldCode());
-        Assert.assertEquals("16222", field.getResult());
+        Assert.assertEquals("18105", field.getResult());
 
         // 2 -  Kilobytes:
         builder.insertParagraph();
@@ -4940,7 +4964,7 @@ public class ExField extends ApiExampleBase {
         field.update();
 
         Assert.assertEquals(" FILESIZE  \\k", field.getFieldCode());
-        Assert.assertEquals("16", field.getResult());
+        Assert.assertEquals("18", field.getResult());
 
         // 3 -  Megabytes:
         builder.insertParagraph();
@@ -4960,7 +4984,7 @@ public class ExField extends ApiExampleBase {
 
         field = (FieldFileSize) doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE ", "16222", field);
+        TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE ", "18105", field);
 
         // These fields will need to be updated to produce an accurate result.
         doc.updateFields();

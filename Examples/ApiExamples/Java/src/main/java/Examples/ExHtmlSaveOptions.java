@@ -134,6 +134,21 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExEnd
     }
 
+    @Test
+    public void createMobiToc() throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExSummary:Shows how to generate table of contents for Mobi documents.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.MOBI);
+        options.setNavigationMapLevel(5);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.CreateMobiToc.mobi", options);
+        //ExEnd
+    }
+
     @Test(dataProvider = "controlListLabelsExportDataProvider")
     public void controlListLabelsExport(final int howExportListLabels) throws Exception {
         Document doc = new Document();

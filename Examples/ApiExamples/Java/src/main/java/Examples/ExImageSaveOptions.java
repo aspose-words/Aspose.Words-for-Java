@@ -220,6 +220,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExFor:Document.Save(String, SaveOptions)
         //ExFor:FixedPageSaveOptions
         //ExFor:ImageSaveOptions.PageSet
+        //ExFor:ImageSaveOptions.ImageSize
         //ExSummary:Shows how to render every page of a document to a separate TIFF image.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -239,6 +240,9 @@ public class ExImageSaveOptions extends ApiExampleBase {
             // Set the "PageSet" property to the number of the first page from
             // which to start rendering the document from.
             options.setPageSet(new PageSet(i));
+            // Export page at 2325x5325 pixels and 600 dpi.
+            options.setResolution(600f);
+            options.setImageSize(new Dimension(2325, 5325));
 
             doc.save(getArtifactsDir() + MessageFormat.format("ImageSaveOptions.PageByPage.{0}.tiff", i + 1), options);
         }
@@ -623,5 +627,26 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.RenderInkObject.jpeg", saveOptions);
         //ExEnd
+    }
+
+    @Test
+    public void conversionDocumentToEps() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Images.docx");
+
+        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EPS);
+        saveOptions.setPageSet(new PageSet(2));
+        doc.save(getArtifactsDir() + "ImageSaveOptions.ConversionDocumentToEps.eps", saveOptions);
+    }
+
+    @Test
+    public void conversionShapeToEps() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Shape shadow effect.docx");
+
+        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EPS);
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        ShapeRenderer renderer = shape.getShapeRenderer();
+        renderer.save(getArtifactsDir() + "ImageSaveOptions.ConversionShapeToEps.eps", saveOptions);
     }
 }

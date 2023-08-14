@@ -677,7 +677,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.write("Bookmark contents.");
         builder.endBookmark("MyBookmark");
 
-        NodeCollection firstParagraphNodes = doc.getFirstSection().getBody().getFirstParagraph().getChildNodes();
+        NodeCollection firstParagraphNodes = doc.getFirstSection().getBody().getFirstParagraph().getChildNodes(NodeType.ANY, false);
 
         Assert.assertEquals(NodeType.BOOKMARK_START, firstParagraphNodes.get(0).getNodeType());
         Assert.assertEquals(NodeType.RUN, firstParagraphNodes.get(1).getNodeType());

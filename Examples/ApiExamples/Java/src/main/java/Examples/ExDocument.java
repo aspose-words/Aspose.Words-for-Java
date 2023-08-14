@@ -86,6 +86,9 @@ public class ExDocument extends ApiExampleBase {
 
         // The easiest way to load our document from the internet is make use of the URLConnection class
         URLConnection webClient = url.openConnection();
+        webClient.addRequestProperty("User-Agent", "Mozilla");
+        webClient.setReadTimeout(5000);
+        webClient.setConnectTimeout(5000);
 
         // Download the bytes from the location referenced by the URL
         InputStream inputStream = webClient.getInputStream();
@@ -496,7 +499,7 @@ public class ExDocument extends ApiExampleBase {
         Document srcDoc = new Document(getMyDir() + "List source.docx");
         Document dstDoc = new Document(getMyDir() + "List destination.docx");
 
-        Assert.assertEquals(2, dstDoc.getLists().getCount());
+        Assert.assertEquals(dstDoc.getLists().getCount(), 4);
 
         ImportFormatOptions options = new ImportFormatOptions();
 
@@ -510,9 +513,9 @@ public class ExDocument extends ApiExampleBase {
         dstDoc.updateListLabels();
 
         if (isKeepSourceNumbering)
-            Assert.assertEquals(3, dstDoc.getLists().getCount());
+            Assert.assertEquals(dstDoc.getLists().getCount(), 5);
         else
-            Assert.assertEquals(2, dstDoc.getLists().getCount());
+            Assert.assertEquals(dstDoc.getLists().getCount(), 4);
         //ExEnd
     }
 
@@ -2036,12 +2039,11 @@ public class ExDocument extends ApiExampleBase {
         Document template = new Document(getMyDir() + "Rendering.docx");
         Document target = new Document(getMyDir() + "Document.docx");
 
-        Assert.assertEquals(18, template.getStyles().getCount()); //ExSkip
-        Assert.assertEquals(8, target.getStyles().getCount()); //ExSkip
+        Assert.assertEquals(template.getStyles().getCount(), 18); //ExSkip
+        Assert.assertEquals(target.getStyles().getCount(), 12); //ExSkip
 
         target.copyStylesFromTemplate(template);
-        Assert.assertEquals(18, target.getStyles().getCount()); //ExSkip
-
+        Assert.assertEquals(target.getStyles().getCount(), 22); //ExSkip
         //ExEnd
     }
 

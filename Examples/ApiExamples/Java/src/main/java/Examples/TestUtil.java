@@ -65,8 +65,8 @@ class TestUtil {
         BufferedImage image = ImageIO.read(imageStream);
 
         try {
-            Assert.assertEquals(expectedWidth, image.getWidth());
-            Assert.assertEquals(expectedHeight, image.getHeight());
+            Assert.assertEquals(image.getWidth(), expectedWidth);
+            Assert.assertEquals(image.getHeight(), expectedHeight);
         } finally {
             if (image != null) image.flush();
         }
