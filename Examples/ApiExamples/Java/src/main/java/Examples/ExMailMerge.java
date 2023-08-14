@@ -913,13 +913,14 @@ public class ExMailMerge extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test
-    public void testTagsReplacedEventShouldRisedWithUseNonMergeFieldsOption() throws Exception {
+
         //ExStart
         //ExFor:MailMerge.MailMergeCallback
         //ExFor:IMailMergeCallback
         //ExFor:IMailMergeCallback.TagsReplaced
         //ExSummary:Shows how to define custom logic for handling events during mail merge.
+    @Test //ExSkip
+    public void testTagsReplacedEventShouldRisedWithUseNonMergeFieldsOption() throws Exception {
         Document document = new Document();
         document.getMailMerge().setUseNonMergeFields(true);
 

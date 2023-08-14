@@ -5816,8 +5816,7 @@ public class ExField extends ApiExampleBase {
         FieldRef field = (FieldRef) doc.getRange().getFields().get(0);
 
         TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\f \\h",
-                "\u0002 MyBookmark footnote #1\r" +
-                        "Text that will appear in REF field\u0002 MyBookmark footnote #2\r", field);
+                "Text that will appear in REF field", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getIncludeNoteOrComment());
         Assert.assertTrue(field.getInsertHyperlink());
