@@ -2043,8 +2043,8 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(target.getStyles().getCount(), 12); //ExSkip
 
         target.copyStylesFromTemplate(template);
-        Assert.assertEquals(target.getStyles().getCount(), 22); //ExSkip
         //ExEnd
+        Assert.assertEquals(target.getStyles().getCount(), 22); //ExSkip
     }
 
     @Test
