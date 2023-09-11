@@ -1602,7 +1602,7 @@ public class ExCharts extends ApiExampleBase
     public void formatDataLables() throws Exception
     {
         //ExStart
-        //ExFor:ChartDataLableCollection.Format
+        //ExFor:ChartDataLabelCollection.Format
         //ExFor:ChartFormat.ShapeType
         //ExFor:ChartShapeType
         //ExSummary:Shows how to set fill, stroke and callout formatting for chart data labels.
@@ -1637,6 +1637,39 @@ public class ExCharts extends ApiExampleBase
         labelFormat.getFill().solid(Color.BLUE);
 
         doc.save(getArtifactsDir() + "Charts.FormatDataLables.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void chartAxisTitle() throws Exception
+    {
+        //ExStart
+        //ExFor:ChartAxisTitle
+        //ExFor:ChartAxisTitle.Text
+        //ExFor:ChartAxisTitle.Show
+        //ExFor:ChartAxisTitle.Overlay
+        //ExSummary:Shows how to set chart axis title.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+
+        Chart chart = shape.getChart();
+        ChartSeriesCollection seriesColl = chart.getSeries();
+        // Delete default generated series.
+        seriesColl.clear();
+
+        seriesColl.add("AW Series 1", new String[] { "AW Category 1", "AW Category 2" }, new double[] { 1.0, 2.0 });
+
+        // Set axis title.
+        chart.getAxisX().getTitle().setText("Categories");
+        chart.getAxisX().getTitle().setShow(true);
+        chart.getAxisY().getTitle().setText("Values");
+        chart.getAxisY().getTitle().setShow(true);
+        chart.getAxisY().getTitle().setOverlay(true);
+
+        doc.save(getArtifactsDir() + "Charts.ChartAxisTitle.docx");
+        //ExEnd
     }
 }
 

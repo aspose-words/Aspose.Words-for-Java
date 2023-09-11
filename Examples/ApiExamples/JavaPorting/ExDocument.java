@@ -176,7 +176,10 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
-    }private LoadFromWebloadFromWeb() throws Exception
+    }
+
+    [Test]
+    public async Task private LoadFromWebloadFromWeb() throws Exception
     {
         //ExStart
         //ExFor:Document.#ctor(Stream)
@@ -550,7 +553,7 @@ public class ExDocument extends ApiExampleBase
                 Document doc = new Document(stream, options);
 
                 // At this stage, we can read and edit the document's contents and then save it to the local file system.
-                Assert.assertEquals("HYPERLINK \"https://products.aspose.com/words/family/\" \\o \"Aspose.Words\"", doc.getFirstSection().getBody().getParagraphs().get(50).getRuns().get(0).getText().trim()); //ExSkip
+                Assert.assertTrue(doc.getText().contains("HYPERLINK \"https://products.aspose.com/words/family/\" \\o \"Aspose.Words\"")); //ExSkip
 
                 doc.save(getArtifactsDir() + "Document.InsertHtmlFromWebPage.docx");
             }

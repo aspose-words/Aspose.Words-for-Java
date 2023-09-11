@@ -17,6 +17,7 @@ import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.MarkdownListExportMode;
+import com.aspose.ms.System.IO.Path;
 import org.testng.annotations.DataProvider;
 
 
@@ -194,5 +195,35 @@ class ExMarkdownSaveOptions extends ApiExampleBase
 			{MarkdownListExportMode.MARKDOWN_SYNTAX},
 		};
 	}
+
+    @Test
+    public void imagesFolder() throws Exception
+    {
+        //ExStart
+        //ExFor:MarkdownSaveOptions.ImagesFolder
+        //ExFor:MarkdownSaveOptions.ImagesFolderAlias
+        //ExSummary:Shows how to specifies the name of the folder used to construct image URIs.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        builder.writeln("Some image below:");            
+        builder.insertImage(getImageDir() + "Logo.jpg");
+
+        String imagesFolder = Path.combine(getArtifactsDir(), "ImagesDir");
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        // Use the "ImagesFolder" property to assign a folder in the local file system into which
+        // Aspose.Words will save all the document's linked images.
+        saveOptions.setImagesFolder(imagesFolder);
+        // Use the "ImagesFolderAlias" property to use this folder
+        // when constructing image URIs instead of the images folder's name.
+        saveOptions.setImagesFolderAlias("http://example.com/images");
+
+        builder.getDocument().save(getArtifactsDir() + "MarkdownSaveOptions.ImagesFolder.md", saveOptions);
+        //ExEnd
+
+        String[] dirFiles = Directory.getFiles(imagesFolder, "MarkdownSaveOptions.ImagesFolder.001.jpeg");
+        Assert.assertEquals(1, dirFiles.length);
+        Document doc = new Document(getArtifactsDir() + "MarkdownSaveOptions.ImagesFolder.md");
+        doc.getText().contains("http://example.com/images/MarkdownSaveOptions.ImagesFolder.001.jpeg");
+    }
 }
 

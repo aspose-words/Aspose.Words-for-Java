@@ -50,7 +50,7 @@
 		<File project="Examples" dir="" name="ExLicense" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExLists" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExLoadOptions" status="AUTO" isTest="false" />
-		<File project="Examples" dir="" name="ExLowCode" status="NEW" isTest="false" />
+		<File project="Examples" dir="" name="ExLowCode" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExMailMerge" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExMailMergeCustom" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExMailMergeCustomNested" status="AUTO" isTest="false" />
@@ -100,7 +100,7 @@
 		<File project="Examples" dir="" name="ExWordML2003SaveOptions" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExXamlFixedSaveOptions" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExXamlFlowSaveOptions" status="AUTO" isTest="false" />
-		<File project="Examples" dir="" name="ExXlsxSaveOptions" status="NEW" isTest="false" />
+		<File project="Examples" dir="" name="ExXlsxSaveOptions" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExXpsSaveOptions" status="AUTO" isTest="false" />
 		<File project="Examples" dir="TestData" name="Common" status="AUTO" isTest="false" />
 		<File project="Examples" dir="TestData\TestBuilders" name="ColorItemTestBuilder" status="AUTO" isTest="false" />
