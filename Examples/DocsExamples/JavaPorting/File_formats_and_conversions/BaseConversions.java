@@ -11,6 +11,9 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.words.FindReplaceOptions;
+import com.aspose.words.XlsxSaveOptions;
+import com.aspose.words.CompressionLevel;
 
 
 public class BaseConversions extends DocsExamplesBase
@@ -166,6 +169,47 @@ public class BaseConversions extends DocsExamplesBase
 
         doc.save(getArtifactsDir() + "BaseConversions.PdfToDocx.docx");
         //ExEnd:PdfToDocx
+    }
+
+    @Test
+    public void pdfToXlsx() throws Exception
+    {
+        //ExStart:PdfToXlsx
+        Document doc = new Document(getMyDir() + "Pdf Document.pdf");
+
+        doc.save(getArtifactsDir() + "BaseConversions.PdfToXlsx.xlsx");
+        //ExEnd:PdfToXlsx
+    }
+
+    @Test
+    public void findReplaceXlsx() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Ruby bought a ruby necklace.");
+
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
+        FindReplaceOptions options = new FindReplaceOptions();
+
+        // Set the "MatchCase" flag to "true" to apply case sensitivity while finding strings to replace.
+        // Set the "MatchCase" flag to "false" to ignore character case while searching for text to replace.
+        options.setMatchCase(true);
+
+        doc.getRange().replace("Ruby", "Jade", options);
+
+        doc.save(getArtifactsDir() + "BaseConversions.FindReplaceXlsx.xlsx");
+    }
+
+    @Test
+    public void compressXlsx() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        XlsxSaveOptions saveOptions = new XlsxSaveOptions();
+        saveOptions.setCompressionLevel(CompressionLevel.MAXIMUM);
+
+        doc.save(getArtifactsDir() + "BaseConversions.CompressXlsx.xlsx", saveOptions);
     }
 
 }

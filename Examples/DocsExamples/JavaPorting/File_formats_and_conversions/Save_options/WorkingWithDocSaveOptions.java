@@ -15,6 +15,7 @@ public class WorkingWithDocSaveOptions extends DocsExamplesBase
     public void encryptDocumentWithPassword() throws Exception
     {
         //ExStart:EncryptDocumentWithPassword
+        //GistDesc:Encrypt document using encryption algorithms in C#.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         

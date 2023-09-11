@@ -18,7 +18,7 @@ public class WorkingWithDocumentInDatabase extends DocsExamplesBase
     {
         Document doc = new Document(getMyDir() + "Document.docx");
         //ExStart:OpenDatabaseConnection 
-        String connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
+        String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
         
         OleDbConnection connection = new OleDbConnection(connString);
         connection.Open();

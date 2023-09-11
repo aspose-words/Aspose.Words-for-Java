@@ -208,22 +208,22 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     }
 
     @Test
-    public void scaleWmfFontsToMetafileSize() throws Exception
+    public void emulateRenderingToSizeOnPage() throws Exception
     {
-        //ExStart:ScaleWmfFontsToMetafileSize
+        //ExStart:EmulateRenderingToSizeOnPage
         Document doc = new Document(getMyDir() + "WMF with text.docx");
 
         MetafileRenderingOptions metafileRenderingOptions = new MetafileRenderingOptions();
         {
-            metafileRenderingOptions.setScaleWmfFontsToMetafileSize(false);
+            metafileRenderingOptions.setEmulateRenderingToSizeOnPage(false);
         }
 
         // If Aspose.Words cannot correctly render some of the metafile records to vector graphics
         // then Aspose.Words renders this metafile to a bitmap.
         PdfSaveOptions saveOptions = new PdfSaveOptions(); { saveOptions.setMetafileRenderingOptions(metafileRenderingOptions); }
 
-        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.ScaleWmfFontsToMetafileSize.pdf", saveOptions);
-        //ExEnd:ScaleWmfFontsToMetafileSize
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.EmulateRenderingToSizeOnPage.pdf", saveOptions);
+        //ExEnd:EmulateRenderingToSizeOnPage
     }
 
     @Test

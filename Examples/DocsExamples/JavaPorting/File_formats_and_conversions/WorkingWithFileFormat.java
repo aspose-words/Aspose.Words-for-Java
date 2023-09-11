@@ -137,6 +137,7 @@ public class WorkingWithFileFormat extends DocsExamplesBase
     public void verifyEncryptedDocument() throws Exception
     {
         //ExStart:VerifyEncryptedDocument
+        //GistDesc:Encrypt document using encryption algorithms in C#.
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Encrypted.docx");
         msConsole.writeLine(info.isEncrypted());
         //ExEnd:VerifyEncryptedDocument

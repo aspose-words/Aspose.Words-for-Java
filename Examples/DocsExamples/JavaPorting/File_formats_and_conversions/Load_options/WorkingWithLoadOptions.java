@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 import com.aspose.words.LoadOptions;
 import com.aspose.words.Document;
 import com.aspose.words.OdtSaveOptions;
+import org.testng.Assert;
+import com.aspose.words.IncorrectPasswordException;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.MsWordVersion;
 import com.aspose.words.IWarningCallback;
@@ -33,13 +35,26 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
     @Test
     public void loadEncryptedDocument() throws Exception
     {
-        //ExStart:LoadSaveEncryptedDoc
+        //ExStart:LoadSaveEncryptedDocument
+        //GistDesc:Encrypt document using encryption algorithms in C#.
         //ExStart:OpenEncryptedDocument
         Document doc = new Document(getMyDir() + "Encrypted.docx", new LoadOptions("docPassword"));
         //ExEnd:OpenEncryptedDocument
 
-        doc.save(getArtifactsDir() + "WorkingWithLoadOptions.LoadAndSaveEncryptedOdt.odt", new OdtSaveOptions("newPassword"));
-        //ExEnd:LoadSaveEncryptedDoc
+        doc.save(getArtifactsDir() + "WorkingWithLoadOptions.LoadSaveEncryptedDocument.odt", new OdtSaveOptions("newPassword"));
+        //ExEnd:LoadSaveEncryptedDocument
+    }
+
+    @Test
+    public void loadEncryptedDocumentWithoutPassword() throws Exception
+    {
+        //ExStart:LoadEncryptedDocumentWithoutPassword
+        //GistDesc:Encrypt document using encryption algorithms in C#.
+        // We will not be able to open this document with Microsoft Word or
+        // Aspose.Words without providing the correct password.
+        Assert.<IncorrectPasswordException>Throws(() =>
+            new Document(getMyDir() + "Encrypted.docx"));
+        //ExEnd:LoadEncryptedDocumentWithoutPassword
     }
 
     @Test
@@ -105,9 +120,10 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
     public void loadWithEncoding() throws Exception
     {
         //ExStart:LoadWithEncoding
-        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setEncoding(Encoding.getUTF7()); }
+        LoadOptions loadOptions = new LoadOptions(); { loadOptions.setEncoding(Encoding.getASCII()); }
 
-        Document doc = new Document(getMyDir() + "Encoded in UTF-7.txt", loadOptions);
+        // Load the document while passing the LoadOptions object, then verify the document's contents.
+        Document doc = new Document(getMyDir() + "English text.txt", loadOptions);
         //ExEnd:LoadWithEncoding
     }
 
