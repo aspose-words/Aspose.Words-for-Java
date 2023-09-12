@@ -248,8 +248,8 @@ class TestUtil {
         CompositeNode innerFieldParent = innerField.getStart().getParentNode();
 
         Assert.assertTrue(innerFieldParent == outerField.getStart().getParentNode());
-        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getStart()) > innerFieldParent.getChildNodes().indexOf(outerField.getStart()));
-        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getEnd()) < innerFieldParent.getChildNodes().indexOf(outerField.getEnd()));
+        Assert.assertTrue(innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(innerField.getStart()) > innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(outerField.getStart()));
+        Assert.assertTrue(innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(innerField.getEnd()) < innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(outerField.getEnd()));
     }
 
     /// <summary>

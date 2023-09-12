@@ -963,7 +963,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.HandleBinaryRasterWarnings.pdf", saveOptions);
 
         Assert.assertEquals(1, callback.mWarnings.getCount());
-        Assert.assertEquals("'R2_XORPEN' binary raster operation is partly supported.",
+        Assert.assertEquals("'R2_XORPEN' binary raster operation is not supported.",
                 callback.mWarnings.get(0).getDescription());
     }
 
@@ -1087,39 +1087,42 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         WarningInfoCollection mSaveWarnings = new WarningInfoCollection();
     }
 
-    @Test(dataProvider = "fontsScaledToMetafileSizeDataProvider")
-    public void fontsScaledToMetafileSize(boolean scaleWmfFonts) throws Exception {
+    @Test (dataProvider = "emulateRenderingToSizeOnPageDataProvider")
+    public void emulateRenderingToSizeOnPage(boolean renderToSize) throws Exception
+    {
         //ExStart
-        //ExFor:MetafileRenderingOptions.ScaleWmfFontsToMetafileSize
-        //ExSummary:Shows how to WMF fonts scaling according to metafile size on the page.
+        //ExFor:MetafileRenderingOptions.EmulateRenderingToSizeOnPage
+        //ExFor:MetafileRenderingOptions.EmulateRenderingToSizeOnPageResolution
+        //ExSummary:Shows how to display of the metafile according to the size on page.
         Document doc = new Document(getMyDir() + "WMF with text.docx");
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions saveOptions = new PdfSaveOptions();
 
-        // Set the "ScaleWmfFontsToMetafileSize" property to "true" to scale fonts
-        // that format text within WMF images according to the size of the metafile on the page.
-        // Set the "ScaleWmfFontsToMetafileSize" property to "false" to
-        // preserve the default scale of these fonts.
-        saveOptions.getMetafileRenderingOptions().setScaleWmfFontsToMetafileSize(scaleWmfFonts);
+        // Set the "EmulateRenderingToSizeOnPage" property to "true"
+        // to emulate rendering according to the metafile size on page.
+        // Set the "EmulateRenderingToSizeOnPage" property to "false"
+        // to emulate metafile rendering to its default size in pixels.
+        saveOptions.getMetafileRenderingOptions().setEmulateRenderingToSizeOnPage(renderToSize);
+        saveOptions.getMetafileRenderingOptions().setEmulateRenderingToSizeOnPageResolution(50);
 
-        doc.save(getArtifactsDir() + "PdfSaveOptions.FontsScaledToMetafileSize.pdf", saveOptions);
+        doc.save(getArtifactsDir() + "PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf", saveOptions);
         //ExEnd
 
-        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.FontsScaledToMetafileSize.pdf");
+        com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf");
         TextFragmentAbsorber textAbsorber = new TextFragmentAbsorber();
 
         pdfDocument.getPages().get_Item(1).accept(textAbsorber);
         Rectangle textFragmentRectangle = textAbsorber.getTextFragments().get_Item(3).getRectangle();
 
-        Assert.assertEquals(scaleWmfFonts ? 1.589d : 5.045d, textFragmentRectangle.getWidth(), 0.001d);
+        Assert.assertEquals(renderToSize ? 1.585d : 5.045d, textFragmentRectangle.getWidth(), 0.001d);
 
         pdfDocument.close();
     }
 
-    @DataProvider(name = "fontsScaledToMetafileSizeDataProvider")
-    public static Object[][] fontsScaledToMetafileSizeDataProvider() {
+    @DataProvider(name = "emulateRenderingToSizeOnPageDataProvider")
+    public static Object[][] emulateRenderingToSizeOnPageDataProvider() {
         return new Object[][]
                 {
                         {false},
@@ -2171,7 +2174,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
             case EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK:
             case EmfPlusDualRenderingMode.EMF_PLUS:
                 Assert.assertEquals(0, pdfDocument.getPages().get_Item(1).getResources().getImages().size());
-                TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABG 16 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABF 15 0 R/FAAACB 21 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                         getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
                 break;
         }
