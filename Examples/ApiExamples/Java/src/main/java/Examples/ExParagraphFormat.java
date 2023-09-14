@@ -535,5 +535,28 @@ public class ExParagraphFormat extends ApiExampleBase {
         Assert.assertEquals(format.getLineUnitAfter(), 10.9d);
         Assert.assertEquals(format.getSpaceAfter(), 130.8d, 0.1d);
     }
+
+    @Test
+    public void paragraphBaselineAlignment() throws Exception
+    {
+        //ExStart
+        //ExFor:BaselineAlignment
+        //ExFor:ParagraphFormat.BaselineAlignment
+        //ExSummary:Shows how to set fonts vertical position on a line.
+        Document doc = new Document(getMyDir() + "Office math.docx");
+
+        ParagraphFormat format = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat();
+        if (format.getBaselineAlignment() == BaselineAlignment.AUTO)
+        {
+            format.setBaselineAlignment(BaselineAlignment.TOP);
+        }
+
+        doc.save(getArtifactsDir() + "ParagraphFormat.ParagraphBaselineAlignment.docx");
+        //ExEnd
+
+        doc = new Document(getArtifactsDir() + "ParagraphFormat.ParagraphBaselineAlignment.docx");
+        format = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat();
+        Assert.assertEquals(BaselineAlignment.TOP, format.getBaselineAlignment());
+    }
 }
 

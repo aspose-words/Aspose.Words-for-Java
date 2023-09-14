@@ -137,7 +137,7 @@ public class AboutForm extends javax.swing.JDialog {
                                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
-        closeButton.setLabel("OK");
+        closeButton.setText("OK");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

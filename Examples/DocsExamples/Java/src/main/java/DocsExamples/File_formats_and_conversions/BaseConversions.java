@@ -2,14 +2,11 @@ package DocsExamples.File_formats_and_conversions;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.email.*;
+import com.aspose.words.*;
 import org.apache.commons.io.FileUtils;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
 
 import java.io.*;
-
-import com.aspose.words.SaveFormat;
-import com.aspose.words.DocumentBuilder;
 
 @Test
 public class BaseConversions extends DocsExamplesBase
@@ -140,5 +137,36 @@ public class BaseConversions extends DocsExamplesBase
 
         doc.save(getArtifactsDir() + "BaseConversions.TxtToDocx.docx");
         //ExEnd:TxtToDocx
+    }
+
+    @Test
+    public void findReplaceXlsx() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Ruby bought a ruby necklace.");
+
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
+        FindReplaceOptions options = new FindReplaceOptions();
+
+        // Set the "MatchCase" flag to "true" to apply case sensitivity while finding strings to replace.
+        // Set the "MatchCase" flag to "false" to ignore character case while searching for text to replace.
+        options.setMatchCase(true);
+
+        doc.getRange().replace("Ruby", "Jade", options);
+
+        doc.save(getArtifactsDir() + "BaseConversions.FindReplaceXlsx.xlsx");
+    }
+
+    @Test
+    public void compressXlsx() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        XlsxSaveOptions saveOptions = new XlsxSaveOptions();
+        saveOptions.setCompressionLevel(CompressionLevel.MAXIMUM);
+
+        doc.save(getArtifactsDir() + "BaseConversions.CompressXlsx.xlsx", saveOptions);
     }
 }

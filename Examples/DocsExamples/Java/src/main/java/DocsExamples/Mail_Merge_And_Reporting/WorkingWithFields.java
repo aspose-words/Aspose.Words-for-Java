@@ -231,7 +231,7 @@ public class WorkingWithFields extends DocsExamplesBase
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
 
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.mdb";
+        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.accdb";
 
         Connection connection = DriverManager.getConnection(connString, "Admin", "");
 

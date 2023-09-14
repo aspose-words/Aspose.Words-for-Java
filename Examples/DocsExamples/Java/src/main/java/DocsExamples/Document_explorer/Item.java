@@ -90,7 +90,7 @@ public class Item {
                 mIconNames.add(getIconName());
             }
 
-            if (mNode instanceof CompositeNode && ((CompositeNode) mNode).getChildNodes().getCount() > 0) {
+            if (mNode instanceof CompositeNode && ((CompositeNode) mNode).getChildNodes(NodeType.ANY, false).getCount() > 0) {
                 mTreeNode.add(new DefaultMutableTreeNode("#dummy"));
             }
         }
@@ -124,7 +124,7 @@ public class Item {
         if ("#dummy".equals(getTreeNode().getFirstChild().toString())) {
             getTreeNode().removeAllChildren();
             Globals.mTreeModel.reload(getTreeNode());
-            for (Object o : ((CompositeNode) mNode).getChildNodes()) {
+            for (Object o : ((CompositeNode) mNode).getChildNodes(NodeType.ANY, false)) {
                 Node n = (Node) o;
                 getTreeNode().add(Item.createItem(n).getTreeNode());
             }

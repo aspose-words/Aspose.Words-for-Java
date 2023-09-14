@@ -34,7 +34,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -2046,13 +2050,15 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         // Configure the "DigitalSignatureDetails" object of the "SaveOptions" object to
         // digitally sign the document as we render it with the "Save" method.
-        Date signingTime = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2015, Calendar.JULY, 20);
+        Date signingTime = calendar.getTime();
         options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "My Office", signingTime));
         options.getDigitalSignatureDetails().setHashAlgorithm(PdfDigitalSignatureHashAlgorithm.RIPE_MD_160);
 
         Assert.assertEquals(options.getDigitalSignatureDetails().getReason(), "Test Signing");
         Assert.assertEquals(options.getDigitalSignatureDetails().getLocation(), "My Office");
-        Assert.assertEquals(options.getDigitalSignatureDetails().getSignatureDate(), signingTime);
+        Assert.assertEquals(DocumentHelper.getLocalDate(options.getDigitalSignatureDetails().getSignatureDate()), DocumentHelper.getLocalDate(signingTime));
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf", options);
         //ExEnd
@@ -2069,6 +2075,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         Assert.assertEquals("AsposeDigitalSignature", signatureField.getFullName());
         Assert.assertEquals("AsposeDigitalSignature", signatureField.getPartialName());
         Assert.assertEquals(com.aspose.pdf.PKCS7Detached.class.getName(), signatureField.getSignature().getClass().getName());
+        Assert.assertEquals(DocumentHelper.getLocalDate(signatureField.getSignature().getDate()), DocumentHelper.getLocalDate(signingTime));
         Assert.assertEquals("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", signatureField.getSignature().getAuthority());
         Assert.assertEquals("þÿ\u0000M\u0000y\u0000 \u0000O\0f\0f\u0000i\0c\0e", signatureField.getSignature().getLocation());
         Assert.assertEquals("þÿ\u0000T\0e\u0000s\u0000t\u0000 \u0000S\u0000i\u0000g\u0000n\u0000i\u0000n\u0000g", signatureField.getSignature().getReason());

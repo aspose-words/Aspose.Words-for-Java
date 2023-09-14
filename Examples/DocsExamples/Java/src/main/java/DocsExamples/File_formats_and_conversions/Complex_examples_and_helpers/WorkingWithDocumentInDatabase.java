@@ -23,7 +23,7 @@ public class WorkingWithDocumentInDatabase extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "Document.docx");
         //ExStart:OpenDatabaseConnection
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.mdb";
+        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.accdb";
 
         Connection connection = DriverManager.getConnection(connString, "Admin", "");
         //ExEnd:OpenDatabaseConnection

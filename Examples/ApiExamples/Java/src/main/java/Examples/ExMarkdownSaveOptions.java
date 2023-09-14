@@ -18,7 +18,9 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -189,6 +191,36 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
                         {MarkdownListExportMode.PLAIN_TEXT},
                         {MarkdownListExportMode.MARKDOWN_SYNTAX},
                 };
+    }
+
+    @Test
+    public void imagesFolder() throws Exception
+    {
+        //ExStart
+        //ExFor:MarkdownSaveOptions.ImagesFolder
+        //ExFor:MarkdownSaveOptions.ImagesFolderAlias
+        //ExSummary:Shows how to specifies the name of the folder used to construct image URIs.
+        DocumentBuilder builder = new DocumentBuilder();
+
+        builder.writeln("Some image below:");
+        builder.insertImage(getImageDir() + "Logo.jpg");
+
+        String imagesFolder = Paths.get(getArtifactsDir(), "ImagesDir").toString();
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        // Use the "ImagesFolder" property to assign a folder in the local file system into which
+        // Aspose.Words will save all the document's linked images.
+        saveOptions.setImagesFolder(imagesFolder);
+        // Use the "ImagesFolderAlias" property to use this folder
+        // when constructing image URIs instead of the images folder's name.
+        saveOptions.setImagesFolderAlias("http://example.com/images");
+
+        builder.getDocument().save(getArtifactsDir() + "MarkdownSaveOptions.ImagesFolder.md", saveOptions);
+        //ExEnd
+
+        ArrayList<String> dirFiles = DocumentHelper.directoryGetFiles(imagesFolder, "MarkdownSaveOptions.ImagesFolder.001.jpeg");
+        Assert.assertEquals(1, dirFiles.size());
+        Document doc = new Document(getArtifactsDir() + "MarkdownSaveOptions.ImagesFolder.md");
+        doc.getText().contains("http://example.com/images/MarkdownSaveOptions.ImagesFolder.001.jpeg");
     }
 }
 

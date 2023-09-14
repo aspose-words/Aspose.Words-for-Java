@@ -15,6 +15,9 @@ import java.io.*;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -360,6 +363,16 @@ public final class DocumentHelper {
         SimpleDateFormat formatter = new SimpleDateFormat(
                 "dd/MM/yyyy");
         return formatter.parse(formatter.format(date));
+    }
+
+    /**
+     * Get date base on system configuration.
+     *
+     * @return specific date without time
+     */
+    static LocalDate getLocalDate(Date date)
+    {
+        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
     }
 
     static ArrayList<String> directoryGetFiles(final String dirname, final String filenamePattern) {
