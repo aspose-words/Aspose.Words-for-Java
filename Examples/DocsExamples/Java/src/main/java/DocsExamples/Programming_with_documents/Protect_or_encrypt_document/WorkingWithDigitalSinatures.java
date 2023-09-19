@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
@@ -192,5 +193,22 @@ public class WorkingWithDigitalSinatures extends DocsExamplesBase
         Assert.assertEquals(IterableUtils.size(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx")), 0);
         Assert.assertEquals(IterableUtils.size(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx")), 0);
         //ExEnd:RemoveSignatures
+    }
+
+    @Test
+    public void signatureValue() throws Exception
+    {
+        //ExStart:SignatureValue
+        //GistId:39ea49b7754e472caf41179f8b5970a0
+        Document doc = new Document(getMyDir() + "Digitally signed.docx");
+
+        for (DigitalSignature digitalSignature : doc.getDigitalSignatures())
+        {
+            String signatureValue = Base64.getEncoder().encodeToString(digitalSignature.getSignatureValue());
+            Assert.assertEquals("K1cVLLg2kbJRAzT5WK+m++G8eEO+l7S+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbD" +
+                    "MhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw/k5CiFZzCp1+MmhOdYPcVO+Fm" +
+                    "+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo=", signatureValue);
+        }
+        //ExEnd:SignatureValue
     }
 }
