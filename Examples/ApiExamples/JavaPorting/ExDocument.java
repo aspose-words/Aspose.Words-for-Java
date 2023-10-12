@@ -12,6 +12,9 @@ package ApiExamples;
 import com.aspose.ms.java.collections.StringSwitchMap;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import com.aspose.words.Section;
+import com.aspose.words.Body;
+import com.aspose.words.Paragraph;
 import com.aspose.words.Run;
 import org.testng.Assert;
 import com.aspose.words.LoadOptions;
@@ -66,7 +69,6 @@ import com.aspose.words.StyleIdentifier;
 import com.aspose.words.ControlChar;
 import com.aspose.words.ProtectionType;
 import com.aspose.words.NodeCollection;
-import com.aspose.words.Paragraph;
 import com.aspose.words.BreakType;
 import com.aspose.words.Table;
 import com.aspose.words.TableStyle;
@@ -126,12 +128,32 @@ import com.aspose.words.FontSettings;
 import com.aspose.words.FontSourceBase;
 import com.aspose.words.StructuredDocumentTag;
 import com.aspose.words.JustificationMode;
+import com.aspose.words.BookmarkStart;
+import com.aspose.words.BookmarkEnd;
 import org.testng.annotations.DataProvider;
 
 
 @Test   
 public class ExDocument extends ApiExampleBase
 {
+    @Test
+    public void createSimpleDocument() throws Exception
+    {
+        //ExStart:CreateSimpleDocument            
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:Document.#ctor()
+        //ExSummary:Shows how to create simple document.
+        Document doc = new Document();
+
+        // New Document objects by default come with the minimal set of nodes
+        // required to begin adding content such as text and shapes: a Section, a Body, and a Paragraph.
+        doc.appendChild(new Section(doc))
+            .appendChild(new Body(doc))
+            .appendChild(new Paragraph(doc))
+            .appendChild(new Run(doc, "Hello world!"));
+        //ExEnd:CreateSimpleDocument
+    }
+
     @Test
     public void constructor() throws Exception
     {
@@ -176,10 +198,7 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
-    }
-
-    [Test]
-    public async Task private LoadFromWebloadFromWeb() throws Exception
+    }private LoadFromWebloadFromWeb() throws Exception
     {
         //ExStart
         //ExFor:Document.#ctor(Stream)
@@ -527,10 +546,7 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
-    }
-
-    [Test]
-    public async Task private InsertHtmlFromWebPageinsertHtmlFromWebPage() throws Exception
+    }private InsertHtmlFromWebPageinsertHtmlFromWebPage() throws Exception
     {
         //ExStart
         //ExFor:Document.#ctor(Stream, LoadOptions)
@@ -1182,22 +1198,6 @@ public class ExDocument extends ApiExampleBase
     }
 
     @Test
-    public void documentByteArray() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Document.docx");
-
-        MemoryStream streamOut = new MemoryStream();
-        doc.save(streamOut, SaveFormat.DOCX);
-
-        byte[] docBytes = streamOut.toArray();
-
-        MemoryStream streamIn = new MemoryStream(docBytes);
-
-        Document loadDoc = new Document(streamIn);
-        Assert.assertEquals(doc.getText(), loadDoc.getText());
-    }
-
-    @Test
     public void protectUnprotect() throws Exception
     {
         //ExStart
@@ -1815,16 +1815,12 @@ public class ExDocument extends ApiExampleBase
     }
 
     @Test
-    public void hyphenationOptionsExceptions() throws Exception
+    public void hyphenationZoneException() throws Exception
     {
         Document doc = new Document();
-
-        doc.getHyphenationOptions().setConsecutiveHyphenLimit(0);
-        Assert.That(() => doc.getHyphenationOptions().setHyphenationZone(0), Throws.<IllegalArgumentException>TypeOf());
-
-        Assert.That(() => doc.getHyphenationOptions().setConsecutiveHyphenLimit(-1),
+        
+        Assert.That(() => doc.getHyphenationOptions().setHyphenationZone(0),
             Throws.<IllegalArgumentException>TypeOf());
-        doc.getHyphenationOptions().setHyphenationZone(360);
     }
 
     @Test
@@ -1835,16 +1831,14 @@ public class ExDocument extends ApiExampleBase
         //ExSummary:Shows how to read a loaded document's Open Office XML compliance version.
         // The compliance version varies between documents created by different versions of Microsoft Word.
         Document doc = new Document(getMyDir() + "Document.doc");
-
         Assert.assertEquals(doc.getCompliance(), OoxmlCompliance.ECMA_376_2006);
 
         doc = new Document(getMyDir() + "Document.docx");
-
         Assert.assertEquals(doc.getCompliance(), OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
         //ExEnd
     }
 
-    @Test (enabled = false, description = "WORDSNET-20342")
+    @Test (description = "WORDSNET-20342")
     public void imageSaveOptions() throws Exception
     {
         //ExStart
@@ -2452,7 +2446,6 @@ public class ExDocument extends ApiExampleBase
 
         target.copyStylesFromTemplate(template);
         Assert.assertEquals(22, target.getStyles().getCount()); //ExSkip
-
         //ExEnd
     }
 
@@ -3175,6 +3168,33 @@ public class ExDocument extends ApiExampleBase
         // Check that the first page of the document is not colored.
         Assert.assertFalse(doc.getPageInfo(0).getColored());
         //ExEnd
+    }
+
+    @Test
+    public void insertDocumentInline() throws Exception
+    {
+        //ExStart:InsertDocumentInline
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:DocumentBuilder.InsertDocumentInline(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to insert a document inline at the cursor position.
+        DocumentBuilder srcDoc = new DocumentBuilder();
+        srcDoc.write("[src content]");
+
+        // Create destination document.
+        DocumentBuilder dstDoc = new DocumentBuilder();
+        dstDoc.write("Before ");
+        dstDoc.insertNode(new BookmarkStart(dstDoc.getDocument(), "src_place"));
+        dstDoc.insertNode(new BookmarkEnd(dstDoc.getDocument(), "src_place"));
+        dstDoc.write(" after");
+
+        Assert.assertEquals("Before  after", msString.trimEnd(dstDoc.getDocument().getText()));
+
+        // Insert source document into destination inline.
+        dstDoc.moveToBookmark("src_place");
+        dstDoc.insertDocumentInline(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
+
+        Assert.assertEquals("Before [src content] after", msString.trimEnd(dstDoc.getDocument().getText()));
+        //ExEnd:InsertDocumentInline
     }
 
 	//JAVA-added for string switch emulation

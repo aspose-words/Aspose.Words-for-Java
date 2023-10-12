@@ -35,8 +35,6 @@ import com.aspose.words.Body;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.HtmlSaveOptions;
 import com.aspose.ms.System.Text.msStringBuilder;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import com.aspose.words.INodeChangingCallback;
 import com.aspose.words.NodeChangingArgs;
 import com.aspose.words.NodeChangingAction;
@@ -344,8 +342,7 @@ public class ExNode extends ApiExampleBase
     {
         //ExStart
         //ExFor:CompositeNode.LastChild
-        //ExFor:Node.PreviousSibling
-        //ExFor:CompositeNode.RemoveChild
+        //ExFor:Node.PreviousSibling            
         //ExSummary:Shows how to use of methods of Node and CompositeNode to remove a section before the last section in the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -621,8 +618,8 @@ public class ExNode extends ApiExampleBase
         builder.write("Cell 2");
         builder.endTable();
 
-                builder.insertImage(ImageIO.read(getImageDir() + "Logo.jpg"));
-                    
+        builder.insertImage(getImageDir() + "Logo.jpg");            
+
         builder.getCurrentParagraph().getParentNode().removeAllChildren();
     }
 
@@ -727,8 +724,8 @@ public class ExNode extends ApiExampleBase
         builder.write("Cell 2");
         builder.endTable();
 
-                builder.insertImage(ImageIO.read(getImageDir() + "Logo.jpg"));
-                    
+        builder.insertImage(getImageDir() + "Logo.jpg");            
+
         // Our document contains three Run nodes.
         NodeList nodeList = doc.selectNodes("//Run");
 
@@ -760,3 +757,4 @@ public class ExNode extends ApiExampleBase
         //ExEnd
     }
 }
+

@@ -28,8 +28,6 @@ import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 import com.aspose.words.ShapeRenderer;
 import com.aspose.words.MetafileRenderingMode;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import com.aspose.ms.System.Drawing.msSize;
 import java.util.ArrayList;
 import com.aspose.ms.System.IO.Directory;
@@ -39,6 +37,8 @@ import java.awt.Color;
 import com.aspose.words.ImagePixelFormat;
 import com.aspose.words.TiffCompression;
 import com.aspose.words.ImageBinarizationMethod;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import com.aspose.words.PageRange;
 import com.aspose.words.ImlRenderingMode;
 import org.testng.annotations.DataProvider;
@@ -221,9 +221,9 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         //ExSummary:Shows how to set the rendering mode when saving documents with Windows Metafile images to other image formats. 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
-        builder.insertImage(ImageIO.read(getImageDir() + "Windows MetaFile.wmf"));
-        
+
+        builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
+
         // When we save the document as an image, we can pass a SaveOptions object to
         // determine how the saving operation will process Windows Metafiles in the document.
         // If we set the "RenderingMode" property to "MetafileRenderingMode.Vector",

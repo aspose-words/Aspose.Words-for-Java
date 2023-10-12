@@ -21,6 +21,9 @@ import com.aspose.words.ParagraphCollection;
 import com.aspose.words.DocumentDirection;
 import com.aspose.words.Paragraph;
 import com.aspose.words.NodeType;
+import com.aspose.ms.System.IO.Stream;
+import com.aspose.words.Field;
+import com.aspose.ms.System.msConsole;
 import org.testng.annotations.DataProvider;
 
 
@@ -228,4 +231,36 @@ public class ExTxtLoadOptions extends ApiExampleBase
 
         Assert.assertEquals(0, listItemsCount);            
     }
+
+    @Test
+    public void detectHyperlinks() throws Exception
+    {
+        //ExStart:DetectHyperlinks
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:TxtLoadOptions.DetectHyperlinks
+        //ExSummary:Shows how to read and display hyperlinks.
+        final String INPUT_TEXT = "Some links in TXT:\n" +
+                "https://www.aspose.com/\n" +
+                "https://docs.aspose.com/words/net/\n";
+
+        Stream stream = new MemoryStream();
+        try /*JAVA: was using*/
+        {
+            byte[] buf = Encoding.getASCII().getBytes(INPUT_TEXT);
+            stream.write(buf, 0, buf.length);
+
+            // Load document with hyperlinks.
+            Document doc = new Document(stream, new TxtLoadOptions(); { doc.setDetectHyperlinks(true); });
+
+            // Print hyperlinks text.
+            for (Field field : doc.getRange().getFields())
+                System.out.println(field.getResult());
+
+            Assert.assertEquals(doc.getRange().getFields().get(0).getResult().trim(), "https://www.aspose.com/");
+            Assert.assertEquals(doc.getRange().getFields().get(1).getResult().trim(), "https://docs.aspose.com/words/net/");
+        }
+        finally { if (stream != null) stream.close(); }
+        //ExEnd:DetectHyperlinks
+    }
 }
+

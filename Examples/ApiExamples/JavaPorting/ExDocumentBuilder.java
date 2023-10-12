@@ -105,7 +105,6 @@ import com.aspose.words.HtmlInsertOptions;
 import org.testng.annotations.DataProvider;
 
 
-
 @Test
 public class ExDocumentBuilder extends ApiExampleBase
 {
@@ -328,10 +327,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(Color.BLUE.getRGB(), fieldContents.getFont().getColor().getRGB());
         Assert.assertEquals(Underline.SINGLE, fieldContents.getFont().getUnderline());
         Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
-    }
-
-    [Test]
-    public async Task private PushPopFontpushPopFont() throws Exception
+    }private PushPopFontpushPopFont() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.PushFont
@@ -3221,10 +3217,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
     }
 
-        /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (1)
+    @Test (enabled = false)
     public void markdownDocumentEmphases() throws Exception
     {
         DocumentBuilder builder = new DocumentBuilder();
@@ -3256,11 +3249,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Markdown treats asterisks (*), underscores (_) and tilde (~) as indicators of emphasis.
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
-
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (2)
+    
+    @Test (enabled = false)
     public void markdownDocumentInlineCode() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3286,11 +3276,8 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
-
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test (description = "WORDSNET-19850") @Order (3)
+    
+    @Test (enabled = false)
     public void markdownDocumentHeadings() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3361,10 +3348,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (4)
+    @Test (enabled = false)
     public void markdownDocumentBlockquotes() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3420,10 +3404,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (5)
+    @Test (enabled = false)
     public void markdownDocumentIndentedCode() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3443,10 +3424,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (6)
+    @Test (enabled = false)
     public void markdownDocumentFencedCode() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3470,10 +3448,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (7)
+    @Test (enabled = false)
     public void markdownDocumentHorizontalRule() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3491,10 +3466,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (8)
+    @Test (enabled = false)
     public void markdownDocumentBulletedList() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3521,12 +3493,19 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test (dataProvider = "loadMarkdownDocumentAndAssertContentDataProvider") @Order (9)
+    @Test (description = "WORDSNET-19850", dataProvider = "loadMarkdownDocumentAndAssertContentDataProvider")
     public void loadMarkdownDocumentAndAssertContent(String text, String styleName, boolean isItalic, boolean isBold) throws Exception
     {
+        // Prepeare document to test.
+        markdownDocumentEmphases();
+        markdownDocumentInlineCode();
+        markdownDocumentHeadings();
+        markdownDocumentBlockquotes();
+        markdownDocumentIndentedCode();
+        markdownDocumentFencedCode();
+        markdownDocumentHorizontalRule();
+        markdownDocumentBulletedList();
+
         // Load created document from previous tests.
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
@@ -3774,3 +3753,4 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
     }
 }
+

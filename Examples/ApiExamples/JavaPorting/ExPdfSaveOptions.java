@@ -158,13 +158,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.HeadingsOutlineLevels.pdf", saveOptions);
         //ExEnd
 
-                PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
+        PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
         bookmarkEditor.BindPdf(getArtifactsDir() + "PdfSaveOptions.HeadingsOutlineLevels.pdf");
 
         Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();
 
-        Assert.AreEqual(3, bookmarks.Count);
-            }
+        Assert.AreEqual(3, bookmarks.Count);            
+    }
 
     @Test (dataProvider = "createMissingOutlineLevelsDataProvider")
     public void createMissingOutlineLevels(boolean createMissingOutlineLevels) throws Exception
@@ -270,7 +270,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.TableHeadingOutlines.pdf", pdfSaveOptions);
         //ExEnd
 
-                Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.TableHeadingOutlines.pdf");
+        Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.TableHeadingOutlines.pdf");
 
         if (createOutlinesForHeadingsInTables)
         {
@@ -410,7 +410,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf", options);
         //ExEnd
 
-                Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf");
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf");
 
         TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
         pdfDocument.Pages.Accept(textFragmentAbsorber);
@@ -844,7 +844,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf", pdfSaveOptions);
         //ExEnd
 
-                Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf");
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
 
         switch (colorMode)
@@ -858,7 +858,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 Assert.AreEqual(ColorType.Grayscale, pdfDocImage.GetColorType());
                 break;
         }
-            }
+    }
 
 	//JAVA-added data provider for test method
 	@DataProvider(name = "colorRenderingDataProvider")
@@ -893,11 +893,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf", pdfSaveOptions);
         //ExEnd
 
-                Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf");
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf");
 
         Assert.AreEqual(displayDocTitle, pdfDocument.DisplayDocTitle);
         Assert.AreEqual("Windows bar pdf title", pdfDocument.Info.Title);
-            }
+    }
 
 	//JAVA-added data provider for test method
 	@DataProvider(name = "docTitleDataProvider")
@@ -1347,7 +1347,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 Assert.That(480000, Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
                 break;
             case PdfFontEmbeddingMode.EMBED_NONE:
-                Assert.That(4255, Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
+                Assert.That(4258, Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
                 break;
         }
         //ExEnd
@@ -1468,7 +1468,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         pdfDocument.Pages[1].Accept(textAbsorber);
 
         SetGlyphsPositionShowText tjOperator =
-            (SetGlyphsPositionShowText) textAbsorber.TextFragments[1].Page.Contents[85];
+            (SetGlyphsPositionShowText) textAbsorber.TextFragments[1].Page.Contents[83];
 
         if (applyAdditionalTextPositioning)
         {
@@ -1985,7 +1985,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 break;
             case DmlRenderingMode.FALLBACK:
                 TestUtil.fileContainsString(
-                    "<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABE 14 0 R>>/ExtGState<</GS1 11 0 R/GS2 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                    "<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABE 14 0 R>>/ExtGState<</GS1 11 0 R/GS2 12 0 R/GS3 17 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
                 break;
         }

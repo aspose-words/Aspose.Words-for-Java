@@ -91,6 +91,7 @@ import com.aspose.words.BreakType;
 import com.aspose.words.FieldTC;
 import com.aspose.words.FieldSeq;
 import com.aspose.words.FieldPageRef;
+import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.words.FieldCitation;
 import com.aspose.words.FieldBibliography;
 import com.aspose.words.IBibliographyStylesProvider;
@@ -2614,7 +2615,10 @@ public class ExField extends ApiExampleBase
 
     @Test        
     public void fieldCitation() throws Exception
-    {
+    {            
+        msCultureInfo oldCulture = CurrentThread.getCurrentCulture();
+        CurrentThread.setCurrentCulture(new msCultureInfo("en-nz", false));
+
         //ExStart
         //ExFor:FieldCitation
         //ExFor:FieldCitation.AnotherSourceTag
@@ -2723,6 +2727,8 @@ public class ExField extends ApiExampleBase
 
         TestUtil.verifyField(FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY ", 
             "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", fieldBibliography);
+
+        CurrentThread.setCurrentCulture(oldCulture);
     }
 
     //ExStart
@@ -2731,13 +2737,18 @@ public class ExField extends ApiExampleBase
     //ExSummary:Shows how to override built-in styles or provide custom one.
     @Test //ExSkip
     public void changeBibliographyStyles() throws Exception
-    {            
+    {
+        msCultureInfo oldCulture = CurrentThread.getCurrentCulture(); //ExSkip
+        CurrentThread.setCurrentCulture(new msCultureInfo("en-nz", false)); //ExSkip
+
         Document doc = new Document(getMyDir() + "Bibliography.docx");
 
         doc.getFieldOptions().setBibliographyStylesProvider(new BibliographyStylesProvider());
         doc.updateFields();
 
         doc.save(getArtifactsDir() + "Field.ChangeBibliographyStyles.docx");
+
+        CurrentThread.setCurrentCulture(oldCulture); //ExSkip
     }
     
     public static class BibliographyStylesProvider implements IBibliographyStylesProvider
@@ -7075,10 +7086,7 @@ public class ExField extends ApiExampleBase
         
         builder.insertParagraph();
         return field;
-    }
-    //ExEnd
-
-    private async Task private TestFieldEQtestFieldEQ(Document doc)
+    }private TestFieldEQtestFieldEQ(Document doc)
     {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\f(1,4)", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\al \\co2 \\vs3 \\hs3(4x,- 4y,-4x,+ y)", "", doc.getRange().getFields().get(1));

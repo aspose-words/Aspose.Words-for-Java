@@ -955,7 +955,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc.getFirstSection().getBody().appendChild(tag);
 
-        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");            
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
@@ -1344,3 +1344,4 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         doc.save(getArtifactsDir() + "StructuredDocumentTag.Citation.docx");
     }
 }
+
