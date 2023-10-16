@@ -346,4 +346,23 @@ public class ExStyles extends ApiExampleBase {
                 getArtifactsDir() + "Styles.LatentStyles.docx", "styles.xml");
     }
 
+    @Test
+    public void lockStyle() throws Exception
+    {
+        //ExStart:LockStyle
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:Style.Locked
+        //ExSummary:Shows how to lock style.
+        Document doc = new Document();
+
+        Style styleHeading1 = doc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1);
+        if (!styleHeading1.getLocked())
+            styleHeading1.setLocked(true);
+
+        doc.save(getArtifactsDir() + "Styles.LockStyle.docx");
+        //ExEnd:LockStyle
+
+        doc = new Document(getArtifactsDir() + "Styles.LockStyle.docx");
+        Assert.assertTrue(doc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1).getLocked());
+    }
 }

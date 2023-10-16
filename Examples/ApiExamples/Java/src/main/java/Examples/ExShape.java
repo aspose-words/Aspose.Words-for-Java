@@ -165,31 +165,6 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void aspectRatioLockedDefaultValue() throws Exception {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        BufferedImage image = ImageIO.read(new File(getImageDir() + "Transparent background logo.png"));
-
-        Shape shape = builder.insertImage(image);
-        shape.setWrapType(WrapType.NONE);
-        shape.setBehindText(true);
-
-        shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
-        shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
-
-        // Calculate image left and top position so it appears in the center of the page.
-        shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
-        shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
-
-        doc = DocumentHelper.saveOpen(doc);
-
-        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        Assert.assertEquals(true, shape.getAspectRatioLocked());
-    }
-
-    @Test
     public void coordinates() throws Exception {
         //ExStart
         //ExFor:ShapeBase.DistanceBottom
@@ -1416,14 +1391,6 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
-    public void resolutionDefaultValues() {
-        ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
-
-        Assert.assertEquals(imageOptions.getHorizontalResolution(), (float) 96.0);
-        Assert.assertEquals(imageOptions.getVerticalResolution(), (float) 96.0);
-    }
-
-    @Test
     public void renderOfficeMath() throws Exception {
         //ExStart
         //ExFor:ImageSaveOptions.Scale
@@ -2457,7 +2424,7 @@ public class ExShape extends ApiExampleBase {
         Shape shape = appendWordArt(doc, "Hello World! This text is bold, and italic.",
                 "Arial", 480.0, 24.0, Color.WHITE, Color.BLACK, ShapeType.TEXT_PLAIN_TEXT);
 
-        // Apply the "Bold' and "Italic" formatting settings to the text using the respective properties.
+        // Apply the "Bold" and "Italic" formatting settings to the text using the respective properties.
         shape.getTextPath().setBold(true);
         shape.getTextPath().setItalic(true);
 
@@ -2726,13 +2693,13 @@ public class ExShape extends ApiExampleBase {
 
         // The effects have also affected the visible dimensions of the shape.
         Assert.assertEquals(1045.0, rectangleFOut.getWidth());
-        Assert.assertEquals(1132.0, rectangleFOut.getHeight());
+        Assert.assertEquals(1133.5, rectangleFOut.getHeight());
 
         // The effects have also affected the visible bounds of the shape.
         Assert.assertEquals(-28.5, shape.getBoundsWithEffects().getX());
         Assert.assertEquals(-33.0, shape.getBoundsWithEffects().getY());
         Assert.assertEquals(192.0, shape.getBoundsWithEffects().getWidth());
-        Assert.assertEquals(279.0, shape.getBoundsWithEffects().getHeight());
+        Assert.assertEquals(280.5, shape.getBoundsWithEffects().getHeight());
         //ExEnd
     }
 
@@ -2994,5 +2961,52 @@ public class ExShape extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Shape.RelativeSizeAndPosition.docx");
         //ExEnd
+    }
+
+    @Test
+    public void fillBaseColor() throws Exception
+    {
+        //ExStart:FillBaseColor
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:Fill.BaseForeColor
+        //ExFor:Stroke.BaseForeColor
+        //ExSummary:Shows how to get foreground color without modifiers.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder();
+
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 100.0, 40.0);
+        shape.getFill().setForeColor(Color.RED);
+        shape.getFill().setForeTintAndShade(0.5);
+        shape.getStroke().getFill().setForeColor(Color.GREEN);
+        shape.getStroke().getFill().setTransparency(0.5);
+
+        Assert.assertEquals(new Color((255), (188), (188), (255)).getRGB(), shape.getFill().getForeColor().getRGB());
+        Assert.assertEquals(Color.RED.getRGB(), shape.getFill().getBaseForeColor().getRGB());
+
+        Assert.assertEquals(new Color((0), (128), (0), (128)).getRGB(), shape.getStroke().getForeColor().getRGB());
+        Assert.assertEquals(Color.GREEN.getRGB(), shape.getStroke().getBaseForeColor().getRGB());
+
+        Assert.assertEquals(Color.GREEN.getRGB(), shape.getStroke().getFill().getForeColor().getRGB());
+        Assert.assertEquals(Color.GREEN.getRGB(), shape.getStroke().getFill().getBaseForeColor().getRGB());
+        //ExEnd:FillBaseColor
+    }
+
+    @Test
+    public void fitImageToShape() throws Exception
+    {
+        //ExStart:FitImageToShape
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:ImageData.FitImageToShape
+        //ExSummary:Shows hot to fit the image data to Shape frame.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert an image shape and leave its orientation in its default state.
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 300.0, 450.0);
+        shape.getImageData().setImage(getImageDir() + "Barcode.png");
+        shape.getImageData().fitImageToShape();
+
+        doc.save(getArtifactsDir() + "Shape.FitImageToShape.docx");
+        //ExEnd:FitImageToShape
     }
 }

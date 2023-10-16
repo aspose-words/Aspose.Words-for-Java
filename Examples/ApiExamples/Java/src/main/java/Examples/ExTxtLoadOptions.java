@@ -15,6 +15,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -214,5 +215,33 @@ public class ExTxtLoadOptions extends ApiExampleBase {
         }
 
         Assert.assertEquals(0, listItemsCount);
+    }
+
+    @Test
+    public void detectHyperlinks() throws Exception
+    {
+        //ExStart:DetectHyperlinks
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:TxtLoadOptions.DetectHyperlinks
+        //ExSummary:Shows how to read and display hyperlinks.
+        final String INPUT_TEXT = "Some links in TXT:\n" +
+                "https://www.aspose.com/\n" +
+                "https://docs.aspose.com/words/net/\n";
+
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(INPUT_TEXT.getBytes(StandardCharsets.US_ASCII)))
+        {
+            // Load document with hyperlinks.
+            TxtLoadOptions loadOptions = new TxtLoadOptions();
+            loadOptions.setDetectHyperlinks(true);
+            Document doc = new Document(stream, loadOptions);
+
+            // Print hyperlinks text.
+            for (Field field : doc.getRange().getFields())
+                System.out.println(field.getResult());
+
+            Assert.assertEquals(doc.getRange().getFields().get(0).getResult().trim(), "https://www.aspose.com/");
+            Assert.assertEquals(doc.getRange().getFields().get(1).getResult().trim(), "https://docs.aspose.com/words/net/");
+        }
+        //ExEnd:DetectHyperlinks
     }
 }

@@ -45,7 +45,7 @@ public class ExTable extends ApiExampleBase {
         Paragraph paragraph = new Paragraph(doc);
         firstCell.appendChild(paragraph);
 
-        // Add text to the first call in the first row of the table.
+        // Add text to the first cell in the first row of the table.
         Run run = new Run(doc, "Hello world!");
         paragraph.appendChild(run);
 

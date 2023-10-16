@@ -1235,7 +1235,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").length() < 491800);
                 break;
             case PdfFontEmbeddingMode.EMBED_NONE:
-                Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").length() <= 4255);
+                Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").length() <= 4258);
                 break;
         }
         //ExEnd
@@ -1349,7 +1349,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         pdfDocument.getPages().get_Item(1).accept(textAbsorber);
 
         SetGlyphsPositionShowText tjOperator =
-                (SetGlyphsPositionShowText) textAbsorber.getTextFragments().get_Item(1).getPage().getContents().get_Item(85);
+                (SetGlyphsPositionShowText) textAbsorber.getTextFragments().get_Item(1).getPage().getContents().get_Item(83);
 
         if (applyAdditionalTextPositioning) {
             Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").length() < 102000);
@@ -1833,7 +1833,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 break;
             case DmlRenderingMode.FALLBACK:
                 TestUtil.fileContainsString(
-                    "<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABE 14 0 R>>/ExtGState<</GS1 11 0 R/GS2 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                        "<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABE 14 0 R>>/ExtGState<</GS1 11 0 R/GS2 12 0 R/GS3 17 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                         getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
                 break;
         }

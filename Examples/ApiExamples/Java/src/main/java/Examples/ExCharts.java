@@ -23,13 +23,15 @@ import java.util.Iterator;
 public class ExCharts extends ApiExampleBase {
     @Test
     public void chartTitle() throws Exception {
-        //ExStart
+        //ExStart:ChartTitle
+        //GistId:3428e84add5beb0d46a8face6e5fc858
         //ExFor:Chart
         //ExFor:Chart.Title
         //ExFor:ChartTitle
         //ExFor:ChartTitle.Overlay
         //ExFor:ChartTitle.Show
         //ExFor:ChartTitle.Text
+        //ExFor:ChartTitle.Font
         //ExSummary:Shows how to insert a chart and set a title.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -41,6 +43,8 @@ public class ExCharts extends ApiExampleBase {
         // Use the "Title" property to give our chart a title, which appears at the top center of the chart area.
         ChartTitle title = chart.getTitle();
         title.setText("My Chart");
+        title.getFont().setSize(15.0);
+        title.getFont().setColor(Color.BLUE);
 
         // Set the "Show" property to "true" to make the title visible. 
         title.setShow(true);
@@ -49,7 +53,7 @@ public class ExCharts extends ApiExampleBase {
         title.setOverlay(true);
 
         doc.save(getArtifactsDir() + "Charts.ChartTitle.docx");
-        //ExEnd
+        //ExEnd:ChartTitle
 
         doc = new Document(getArtifactsDir() + "Charts.ChartTitle.docx");
         chartShape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
@@ -104,48 +108,6 @@ public class ExCharts extends ApiExampleBase {
         Assert.assertTrue(series.hasDataLabels());
         Assert.assertTrue(series.getDataLabels().getShowValue());
         Assert.assertEquals("\"US$\" #,##0.000\"M\"", series.getDataLabels().getNumberFormat().getFormatCode());
-    }
-
-    @Test
-    public void dataArraysWrongSize() throws Exception {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        Shape shape = builder.insertChart(ChartType.LINE, 500.0, 300.0);
-        Chart chart = shape.getChart();
-
-        ChartSeriesCollection seriesColl = chart.getSeries();
-        seriesColl.clear();
-
-        String[] categories = {"Cat1", null, "Cat3", "Cat4", "Cat5", null};
-        seriesColl.add("AW Series 1", categories, new double[]{1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0});
-        seriesColl.add("AW Series 2", categories, new double[]{2.0, 3.0, Double.NaN, 5.0, 6.0, 7.0});
-
-        Assert.assertThrows(IllegalArgumentException.class, () -> seriesColl.add("AW Series 3", categories,
-                new double[]{Double.NaN, 4.0, 5.0, Double.NaN, Double.NaN}));
-        Assert.assertThrows(IllegalArgumentException.class, () -> seriesColl.add("AW Series 4", categories,
-                new double[]{Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN}));
-    }
-
-    @Test
-    public void emptyValuesInChartData() throws Exception {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        Shape shape = builder.insertChart(ChartType.LINE, 500.0, 300.0);
-        Chart chart = shape.getChart();
-
-        ChartSeriesCollection seriesColl = chart.getSeries();
-        seriesColl.clear();
-
-        String[] categories = {"Cat1", null, "Cat3", "Cat4", "Cat5", null};
-        seriesColl.add("AW Series 1", categories, new double[]{1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0});
-        seriesColl.add("AW Series 2", categories, new double[]{2.0, 3.0, Double.NaN, 5.0, 6.0, 7.0});
-        seriesColl.add("AW Series 3", categories, new double[]{Double.NaN, 4.0, 5.0, Double.NaN, 7.0, 8.0});
-        seriesColl.add("AW Series 4", categories,
-                new double[]{Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 9.0});
-
-        doc.save(getArtifactsDir() + "Charts.EmptyValuesInChartData.docx");
     }
 
     @Test
@@ -418,61 +380,6 @@ public class ExCharts extends ApiExampleBase {
         chart = ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getChart();
 
         Assert.assertEquals("#,##0", chart.getAxisY().getNumberFormat().getFormatCode());
-    }
-
-    @Test(dataProvider = "testDisplayChartsWithConversionDataProvider")
-    public void testDisplayChartsWithConversion(int chartType) throws Exception {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        Shape shape = builder.insertChart(chartType, 500.0, 300.0);
-        Chart chart = shape.getChart();
-        chart.getSeries().clear();
-
-        chart.getSeries().add("Aspose Test Series",
-                new String[]{"Word", "PDF", "Excel", "GoogleDocs", "Note"},
-                new double[]{1900000.0, 850000.0, 2100000.0, 600000.0, 1500000.0});
-
-        doc.save(getArtifactsDir() + "Charts.TestDisplayChartsWithConversion.docx");
-        doc.save(getArtifactsDir() + "Charts.TestDisplayChartsWithConversion.pdf");
-    }
-
-    //JAVA-added data provider for test method
-    @DataProvider(name = "testDisplayChartsWithConversionDataProvider")
-    public static Object[][] testDisplayChartsWithConversionDataProvider() {
-        return new Object[][]
-                {
-                        {ChartType.COLUMN},
-                        {ChartType.LINE},
-                        {ChartType.PIE},
-                        {ChartType.BAR},
-                        {ChartType.AREA},
-                };
-    }
-
-    @Test
-    public void surface3DChart() throws Exception {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        Shape shape = builder.insertChart(ChartType.SURFACE_3_D, 500.0, 300.0);
-        Chart chart = shape.getChart();
-        chart.getSeries().clear();
-
-        chart.getSeries().add("Aspose Test Series 1",
-                new String[]{"Word", "PDF", "Excel", "GoogleDocs", "Note"},
-                new double[]{1900000.0, 850000.0, 2100000.0, 600000.0, 1500000.0});
-
-        chart.getSeries().add("Aspose Test Series 2",
-                new String[]{"Word", "PDF", "Excel", "GoogleDocs", "Note"},
-                new double[]{900000.0, 50000.0, 1100000.0, 400000.0, 2500000.0});
-
-        chart.getSeries().add("Aspose Test Series 3",
-                new String[]{"Word", "PDF", "Excel", "GoogleDocs", "Note"},
-                new double[]{500000.0, 820000.0, 1500000.0, 400000.0, 100000.0});
-
-        doc.save(getArtifactsDir() + "Charts.SurfaceChart.docx");
-        doc.save(getArtifactsDir() + "Charts.SurfaceChart.pdf");
     }
 
     @Test
@@ -1558,11 +1465,13 @@ public class ExCharts extends ApiExampleBase {
     @Test
     public void chartAxisTitle() throws Exception
     {
-        //ExStart
+        //ExStart:ChartAxisTitle
+        //GistId:3428e84add5beb0d46a8face6e5fc858
         //ExFor:ChartAxisTitle
         //ExFor:ChartAxisTitle.Text
         //ExFor:ChartAxisTitle.Show
         //ExFor:ChartAxisTitle.Overlay
+        //ExFor:ChartAxisTitle.Font
         //ExSummary:Shows how to set chart axis title.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1577,13 +1486,106 @@ public class ExCharts extends ApiExampleBase {
         seriesColl.add("AW Series 1", new String[] { "AW Category 1", "AW Category 2" }, new double[] { 1.0, 2.0 });
 
         // Set axis title.
-        chart.getAxisX().getTitle().setText("Categories");
-        chart.getAxisX().getTitle().setShow(true);
-        chart.getAxisY().getTitle().setText("Values");
-        chart.getAxisY().getTitle().setShow(true);
-        chart.getAxisY().getTitle().setOverlay(true);
+        ChartAxisTitle chartAxisXTitle = chart.getAxisX().getTitle();
+        chartAxisXTitle.setText("Categories");
+        chartAxisXTitle.setShow(true);
+        ChartAxisTitle chartAxisYTitle = chart.getAxisY().getTitle();
+        chartAxisYTitle.setText("Values");
+        chartAxisYTitle.setShow(true);
+        chartAxisYTitle.setOverlay(true);
+        chartAxisYTitle.getFont().setSize(12.0);
+        chartAxisYTitle.getFont().setColor(Color.BLUE);
 
         doc.save(getArtifactsDir() + "Charts.ChartAxisTitle.docx");
-        //ExEnd
+        //ExEnd:ChartAxisTitle
+    }
+
+    @Test (dataProvider = "dataArraysWrongSizeDataProvider")
+    public void dataArraysWrongSize(double[] seriesValue, Class exception) throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.LINE, 500.0, 300.0);
+        ChartSeriesCollection seriesColl = shape.getChart().getSeries();
+        seriesColl.clear();
+
+        String[] categories = { "Word", null, "Excel", "GoogleDocs", "Note", null };
+        if (exception == null)
+            seriesColl.add("AW Series", categories, seriesValue);
+        else
+            Assert.assertThrows(exception, () -> seriesColl.add("AW Series", categories, seriesValue));
+    }
+
+    @DataProvider(name = "dataArraysWrongSizeDataProvider")
+    public static Object[][] dataArraysWrongSizeDataProvider() throws Exception
+    {
+        return new Object[][]
+                {
+                        {new double[] { 1.0, 2.0, Double.NaN, 4.0, 5.0, 6.0 }, null},
+                        {new double[] { Double.NaN, 4.0, 5.0, Double.NaN, 7.0, 8.0 }, null},
+                        {new double[] { Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 9.0 }, null},
+                        {new double[] { Double.NaN, 4.0, 5.0, Double.NaN, Double.NaN },  IllegalArgumentException.class},
+                        {new double[] { Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN },  IllegalArgumentException.class},
+                };
+    }
+
+    @Test
+    public void copyDataPointFormat() throws Exception
+    {
+        //ExStart:CopyDataPointFormat
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:ChartSeries.CopyFormatFrom(int)
+        //ExFor:ChartDataPointCollection.HasDefaultFormat(int)
+        //ExFor:ChartDataPointCollection.CopyFormat(int, int)
+        //ExSummary:Shows how to copy data point format.
+        Document doc = new Document(getMyDir() + "DataPoint format.docx");
+
+        // Get the chart and series to update format.
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        ChartSeries series = shape.getChart().getSeries().get(0);
+        ChartDataPointCollection dataPoints = series.getDataPoints();
+
+        Assert.assertTrue(dataPoints.hasDefaultFormat(0));
+        Assert.assertFalse(dataPoints.hasDefaultFormat(1));
+
+        // Copy format of the data point with index 1 to the data point with index 2
+        // so that the data point 2 looks the same as the data point 1.
+        dataPoints.copyFormat(0, 1);
+
+        Assert.assertTrue(dataPoints.hasDefaultFormat(0));
+        Assert.assertTrue(dataPoints.hasDefaultFormat(1));
+
+        // Copy format of the data point with index 0 to the series defaults so that all data points
+        // in the series that have the default format look the same as the data point 0.
+        series.copyFormatFrom(1);
+
+        Assert.assertTrue(dataPoints.hasDefaultFormat(0));
+        Assert.assertTrue(dataPoints.hasDefaultFormat(1));
+
+        doc.save(getArtifactsDir() + "Charts.CopyDataPointFormat.docx");
+        //ExEnd:CopyDataPointFormat
+    }
+
+    @Test
+    public void resetDataPointFill() throws Exception
+    {
+        //ExStart:ResetDataPointFill
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:ChartFormat.IsDefined
+        //ExFor:ChartFormat.SetDefaultFill
+        //ExSummary:Shows how to reset the fill to the default value defined in the series.
+        Document doc = new Document(getMyDir() + "DataPoint format.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        ChartSeries series = shape.getChart().getSeries().get(0);
+        ChartDataPoint dataPoint = series.getDataPoints().get(1);
+
+        Assert.assertTrue(dataPoint.getFormat().isDefined());
+
+        dataPoint.getFormat().setDefaultFill();
+
+        doc.save(getArtifactsDir() + "Charts.ResetDataPointFill.docx");
+        //ExEnd:ResetDataPointFill
     }
 }

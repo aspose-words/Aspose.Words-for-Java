@@ -298,6 +298,33 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
+    public void insertDocumentInline() throws Exception
+    {
+        //ExStart:InsertDocumentInline
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:DocumentBuilder.InsertDocumentInline(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to insert a document inline at the cursor position.
+        DocumentBuilder srcDoc = new DocumentBuilder();
+        srcDoc.write("[src content]");
+
+        // Create destination document.
+        DocumentBuilder dstDoc = new DocumentBuilder();
+        dstDoc.write("Before ");
+        dstDoc.insertNode(new BookmarkStart(dstDoc.getDocument(), "src_place"));
+        dstDoc.insertNode(new BookmarkEnd(dstDoc.getDocument(), "src_place"));
+        dstDoc.write(" after");
+
+        Assert.assertEquals("Before  after", dstDoc.getDocument().getText().trim());
+
+        // Insert source document into destination inline.
+        dstDoc.moveToBookmark("src_place");
+        dstDoc.insertDocument(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
+
+        Assert.assertEquals("Before [src content] after", dstDoc.getDocument().getText().trim());
+        //ExEnd:InsertDocumentInline
+    }
+
+    @Test
     public void convertToHtml() throws Exception {
         //ExStart
         //ExFor:Document.Save(String,SaveFormat)

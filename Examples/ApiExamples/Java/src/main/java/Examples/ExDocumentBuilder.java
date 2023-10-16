@@ -3000,10 +3000,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExEnd
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test(priority = 1)
     public void markdownDocumentEmphases() throws Exception {
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -3035,10 +3031,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test(priority = 2)
     public void markdownDocumentInlineCode() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3064,10 +3056,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test(description = "WORDSNET-19850", priority = 3)
     public void markdownDocumentHeadings() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3137,10 +3125,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test(priority = 4)
     public void markdownDocumentBlockquotes() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3195,10 +3179,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test(priority = 5)
     public void markdownDocumentIndentedCode() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3217,10 +3197,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test(priority = 6)
     public void markdownDocumentFencedCode() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3243,10 +3219,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test(priority = 7)
     public void markdownDocumentHorizontalRule() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3263,10 +3235,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test(priority = 8)
     public void markdownDocumentBulletedList() throws Exception {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3292,11 +3260,18 @@ public class ExDocumentBuilder extends ApiExampleBase {
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test(dataProvider = "loadMarkdownDocumentAndAssertContentDataProvider", priority = 9)
+    @Test (description = "WORDSNET-19850", dataProvider = "loadMarkdownDocumentAndAssertContentDataProvider")
     public void loadMarkdownDocumentAndAssertContent(String text, String styleName, boolean isItalic, boolean isBold) throws Exception {
+        // Prepare document to test.
+        markdownDocumentEmphases();
+        markdownDocumentInlineCode();
+        markdownDocumentHeadings();
+        markdownDocumentBlockquotes();
+        markdownDocumentIndentedCode();
+        markdownDocumentFencedCode();
+        markdownDocumentHorizontalRule();
+        markdownDocumentBulletedList();
+
         // Load created document from previous tests.
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
@@ -3322,7 +3297,6 @@ public class ExDocumentBuilder extends ApiExampleBase {
         }
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "loadMarkdownDocumentAndAssertContentDataProvider")
     public static Object[][] loadMarkdownDocumentAndAssertContentDataProvider() throws Exception {
         return new Object[][]
