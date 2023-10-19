@@ -318,7 +318,7 @@ public class ExDocument extends ApiExampleBase {
 
         // Insert source document into destination inline.
         dstDoc.moveToBookmark("src_place");
-        dstDoc.insertDocument(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
+        dstDoc.insertDocumentInline(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
 
         Assert.assertEquals("Before [src content] after", dstDoc.getDocument().getText().trim());
         //ExEnd:InsertDocumentInline

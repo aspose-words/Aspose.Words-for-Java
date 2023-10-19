@@ -295,7 +295,6 @@ public class ExNode extends ApiExampleBase {
         //ExStart
         //ExFor:CompositeNode.LastChild
         //ExFor:Node.PreviousSibling
-        //ExFor:CompositeNode.RemoveChild
         //ExSummary:Shows how to use of methods of Node and CompositeNode to remove a section before the last section in the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

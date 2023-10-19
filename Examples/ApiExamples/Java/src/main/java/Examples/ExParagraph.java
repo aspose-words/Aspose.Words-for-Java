@@ -272,9 +272,6 @@ public class ExParagraph extends ApiExampleBase {
         //ExStart
         //ExFor:CompositeNode.Count
         //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
-        //ExFor:CompositeNode.InsertAfter(Node, Node)
-        //ExFor:CompositeNode.InsertBefore(Node, Node)
-        //ExFor:CompositeNode.PrependChild(Node) 
         //ExFor:Paragraph.GetText
         //ExFor:Run
         //ExSummary:Shows how to add, update and delete child nodes in a CompositeNode's collection of children.
