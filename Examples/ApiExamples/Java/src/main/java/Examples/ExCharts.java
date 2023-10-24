@@ -24,7 +24,7 @@ public class ExCharts extends ApiExampleBase {
     @Test
     public void chartTitle() throws Exception {
         //ExStart:ChartTitle
-        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
         //ExFor:Chart
         //ExFor:Chart.Title
         //ExFor:ChartTitle
@@ -1466,7 +1466,7 @@ public class ExCharts extends ApiExampleBase {
     public void chartAxisTitle() throws Exception
     {
         //ExStart:ChartAxisTitle
-        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
         //ExFor:ChartAxisTitle
         //ExFor:ChartAxisTitle.Text
         //ExFor:ChartAxisTitle.Show
@@ -1534,7 +1534,7 @@ public class ExCharts extends ApiExampleBase {
     public void copyDataPointFormat() throws Exception
     {
         //ExStart:CopyDataPointFormat
-        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
         //ExFor:ChartSeries.CopyFormatFrom(int)
         //ExFor:ChartDataPointCollection.HasDefaultFormat(int)
         //ExFor:ChartDataPointCollection.CopyFormat(int, int)
@@ -1571,7 +1571,7 @@ public class ExCharts extends ApiExampleBase {
     public void resetDataPointFill() throws Exception
     {
         //ExStart:ResetDataPointFill
-        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
         //ExFor:ChartFormat.IsDefined
         //ExFor:ChartFormat.SetDefaultFill
         //ExSummary:Shows how to reset the fill to the default value defined in the series.

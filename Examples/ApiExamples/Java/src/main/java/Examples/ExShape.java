@@ -2967,7 +2967,7 @@ public class ExShape extends ApiExampleBase {
     public void fillBaseColor() throws Exception
     {
         //ExStart:FillBaseColor
-        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
         //ExFor:Fill.BaseForeColor
         //ExFor:Stroke.BaseForeColor
         //ExSummary:Shows how to get foreground color without modifiers.
@@ -2995,7 +2995,7 @@ public class ExShape extends ApiExampleBase {
     public void fitImageToShape() throws Exception
     {
         //ExStart:FitImageToShape
-        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
         //ExFor:ImageData.FitImageToShape
         //ExSummary:Shows hot to fit the image data to Shape frame.
         Document doc = new Document();

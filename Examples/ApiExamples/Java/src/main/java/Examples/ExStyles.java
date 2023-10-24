@@ -350,7 +350,7 @@ public class ExStyles extends ApiExampleBase {
     public void lockStyle() throws Exception
     {
         //ExStart:LockStyle
-        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
         //ExFor:Style.Locked
         //ExSummary:Shows how to lock style.
         Document doc = new Document();

@@ -221,7 +221,7 @@ public class ExTxtLoadOptions extends ApiExampleBase {
     public void detectHyperlinks() throws Exception
     {
         //ExStart:DetectHyperlinks
-        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
         //ExFor:TxtLoadOptions.DetectHyperlinks
         //ExSummary:Shows how to read and display hyperlinks.
         final String INPUT_TEXT = "Some links in TXT:\n" +

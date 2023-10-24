@@ -301,7 +301,7 @@ public class ExDocument extends ApiExampleBase {
     public void insertDocumentInline() throws Exception
     {
         //ExStart:InsertDocumentInline
-        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
         //ExFor:DocumentBuilder.InsertDocumentInline(Document, ImportFormatMode, ImportFormatOptions)
         //ExSummary:Shows how to insert a document inline at the cursor position.
         DocumentBuilder srcDoc = new DocumentBuilder();
