@@ -2,6 +2,7 @@ package DocsExamples.Programming_with_documents.Working_with_document;
 
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.text.MessageFormat;
@@ -239,6 +240,7 @@ public class JoinAndAppendDocuments extends DocsExamplesBase
     public void differentPageSetup() throws Exception
     {
         //ExStart:DifferentPageSetup
+        //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
         Document srcDoc = new Document(getMyDir() + "Document source.docx");
         Document dstDoc = new Document(getMyDir() + "Northwind traders.docx");
 
@@ -305,6 +307,7 @@ public class JoinAndAppendDocuments extends DocsExamplesBase
     public void keepSourceFormatting() throws Exception
     {
         //ExStart:KeepSourceFormatting
+        //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
         Document dstDoc = new Document();
         dstDoc.getFirstSection().getBody().appendParagraph("Destination document text. ");
 
@@ -477,9 +480,10 @@ public class JoinAndAppendDocuments extends DocsExamplesBase
     }
 
     @Test
-    public void insertDocumentWithBuilder() throws Exception
+    public void insertDocument() throws Exception
     {
         //ExStart:InsertDocumentWithBuilder
+        //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
         Document srcDoc = new Document(getMyDir() + "Document source.docx");
         Document dstDoc = new Document(getMyDir() + "Northwind traders.docx");
         DocumentBuilder builder = new DocumentBuilder(dstDoc);
@@ -488,8 +492,33 @@ public class JoinAndAppendDocuments extends DocsExamplesBase
         builder.insertBreak(BreakType.PAGE_BREAK);
 
         builder.insertDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
-        builder.getDocument().save(getArtifactsDir() + "JoinAndAppendDocuments.InsertDocumentWithBuilder.docx");
+        builder.getDocument().save(getArtifactsDir() + "JoinAndAppendDocuments.insertDocument.docx");
         //ExEnd:InsertDocumentWithBuilder
+    }
+
+    @Test
+    public void insertDocumentInline() throws Exception
+    {
+        //ExStart:InsertDocumentInlineWithBuilder
+        //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
+        DocumentBuilder srcDoc = new DocumentBuilder();
+        srcDoc.write("[src content]");
+
+        // Create destination document.
+        DocumentBuilder dstDoc = new DocumentBuilder();
+        dstDoc.write("Before ");
+        dstDoc.insertNode(new BookmarkStart(dstDoc.getDocument(), "src_place"));
+        dstDoc.insertNode(new BookmarkEnd(dstDoc.getDocument(), "src_place"));
+        dstDoc.write(" after");
+
+        Assert.assertEquals("Before  after", dstDoc.getDocument().getText().trim());
+
+        // Insert source document into destination inline.
+        dstDoc.moveToBookmark("src_place");
+        dstDoc.insertDocumentInline(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
+
+        Assert.assertEquals("Before [src content] after", dstDoc.getDocument().getText().trim());
+        //ExEnd:InsertDocumentInlineWithBuilder
     }
 
     @Test

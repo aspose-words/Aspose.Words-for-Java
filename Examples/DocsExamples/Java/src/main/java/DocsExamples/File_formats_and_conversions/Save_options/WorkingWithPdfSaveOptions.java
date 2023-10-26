@@ -239,13 +239,14 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     @Test
     public void conversionToPdf17() throws Exception
     {
-        //ExStart:ConversionToPDF17
+        //ExStart:ConversionToPdf17
+        //GistId:b237846932dfcde42358bd0c887661a5
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PdfSaveOptions saveOptions = new PdfSaveOptions(); { saveOptions.setCompliance(PdfCompliance.PDF_17); }
 
         doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.ConversionToPdf17.pdf", saveOptions);
-        //ExEnd:ConversionToPDF17
+        //ExEnd:ConversionToPdf17
     }
 
     @Test

@@ -6,6 +6,10 @@ import com.aspose.words.*;
 import org.apache.commons.io.FileUtils;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 @Test
@@ -49,11 +53,12 @@ public class BaseConversions extends DocsExamplesBase
     @Test
     public void docxToPdf() throws Exception
     {
-        //ExStart:Doc2Pdf
+        //ExStart:DocxToPdf
+        //GistId:b237846932dfcde42358bd0c887661a5
         Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.save(getArtifactsDir() + "BaseConversions.DocxToPdf.pdf");
-        //ExEnd:Doc2Pdf
+        //ExEnd:DocxToPdf
     }
 
     @Test
@@ -169,4 +174,76 @@ public class BaseConversions extends DocsExamplesBase
 
         doc.save(getArtifactsDir() + "BaseConversions.CompressXlsx.xlsx", saveOptions);
     }
+
+    @Test
+    public void ImagesToPdf() throws Exception {
+        //ExStart:ImageToPdf
+        //GistId:b237846932dfcde42358bd0c887661a5
+        convertImageToPDF(getImagesDir() + "Logo.jpg", getArtifactsDir() + "BaseConversions.JpgToPdf.pdf");
+        convertImageToPDF(getImagesDir() + "Transparent background logo.png", getArtifactsDir() + "BaseConversions.PngToPdf.pdf");
+        convertImageToPDF(getImagesDir() + "Windows MetaFile.wmf", getArtifactsDir() + "BaseConversions.WmfToPdf.pdf");
+        convertImageToPDF(getImagesDir() + "Tagged Image File Format.tiff", getArtifactsDir() + "BaseConversions.TiffToPdf.pdf");
+        convertImageToPDF(getImagesDir() + "Graphics Interchange Format.gif", getArtifactsDir() + "BaseConversions.GifToPdf.pdf");
+        //ExEnd:ImageToPdf
+    }
+
+    //ExStart:ConvertImageToPdf
+    //GistId:b237846932dfcde42358bd0c887661a5
+    /**
+     * Converts an image to PDF using Aspose.Words for Java.
+     *
+     * @param inputFileName File name of input image file.
+     * @param outputFileName Output PDF file name.
+     * @throws Exception
+     */
+    public void convertImageToPDF(String inputFileName, String outputFileName) throws Exception {
+        // Create Aspose.Words.Document and DocumentBuilder.
+        // The builder makes it simple to add content to the document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Load images from the disk using the appropriate reader.
+        // The file formats that can be loaded depends on the image readers available on the machine.
+        ImageInputStream iis = ImageIO.createImageInputStream(new File(inputFileName));
+        ImageReader reader = ImageIO.getImageReaders(iis).next();
+        reader.setInput(iis, false);
+
+        // Get the number of frames in the image.
+        int framesCount = reader.getNumImages(true);
+
+        // Loop through all frames.
+        for (int frameIdx = 0; frameIdx < framesCount; frameIdx++) {
+            // Insert a section break before each new page, in case of a multi-frame image.
+            if (frameIdx != 0)
+                builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+
+            // Select active frame.
+            BufferedImage image = reader.read(frameIdx);
+
+            // We want the size of the page to be the same as the size of the image.
+            // Convert pixels to points to size the page to the actual image size.
+            PageSetup ps = builder.getPageSetup();
+            ps.setPageWidth(ConvertUtil.pixelToPoint(image.getWidth()));
+            ps.setPageHeight(ConvertUtil.pixelToPoint(image.getHeight()));
+
+            // Insert the image into the document and position it at the top left corner of the page.
+            builder.insertImage(
+                    image,
+                    RelativeHorizontalPosition.PAGE,
+                    0,
+                    RelativeVerticalPosition.PAGE,
+                    0,
+                    ps.getPageWidth(),
+                    ps.getPageHeight(),
+                    WrapType.NONE);
+        }
+
+        if (iis != null) {
+            iis.close();
+            reader.dispose();
+        }
+
+        doc.save(outputFileName);
+    }
+    //ExEnd:ConvertImageToPdf
 }

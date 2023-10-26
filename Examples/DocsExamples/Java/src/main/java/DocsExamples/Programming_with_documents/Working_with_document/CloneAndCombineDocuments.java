@@ -25,6 +25,7 @@ public class CloneAndCombineDocuments extends DocsExamplesBase
     public void insertDocumentAtReplace() throws Exception
     {
         //ExStart:InsertDocumentAtReplace
+        //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
         Document mainDoc = new Document(getMyDir() + "Document insertion 1.docx");
 
         // Set find and replace options.
@@ -43,7 +44,8 @@ public class CloneAndCombineDocuments extends DocsExamplesBase
     @Test
     public void insertDocumentAtBookmark() throws Exception
     {
-        //ExStart:InsertDocumentAtBookmark         
+        //ExStart:InsertDocumentAtBookmark
+        //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
         Document mainDoc = new Document(getMyDir() + "Document insertion 1.docx");
         Document subDoc = new Document(getMyDir() + "Document insertion 2.docx");
 
@@ -57,7 +59,8 @@ public class CloneAndCombineDocuments extends DocsExamplesBase
     @Test
     public void insertDocumentAtMailMerge() throws Exception
     {
-        //ExStart:InsertDocumentAtMailMerge   
+        //ExStart:InsertDocumentAtMailMerge
+        //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
         Document mainDoc = new Document(getMyDir() + "Document insertion 1.docx");
 
         mainDoc.getMailMerge().setFieldMergingCallback(new InsertDocumentAtMailMergeHandler());
@@ -70,6 +73,8 @@ public class CloneAndCombineDocuments extends DocsExamplesBase
         //ExEnd:InsertDocumentAtMailMerge
     }
 
+    //ExStart:InsertDocumentAsNodes
+    //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
     /// <summary>
     /// Inserts content of the external document after the specified node.
     /// Section breaks and section formatting of the inserted document are ignored.
@@ -77,7 +82,6 @@ public class CloneAndCombineDocuments extends DocsExamplesBase
     /// <param name="insertionDestination">Node in the destination document after which the content
     /// Should be inserted. This node should be a block level node (paragraph or table).</param>
     /// <param name="docToInsert">The document to insert.</param>
-    //ExStart:InsertDocument
     private static void insertDocument(Node insertionDestination, Document docToInsert)
     {
         if (insertionDestination.getNodeType() == NodeType.PARAGRAPH || insertionDestination.getNodeType() == NodeType.TABLE)
@@ -110,7 +114,7 @@ public class CloneAndCombineDocuments extends DocsExamplesBase
             throw new IllegalArgumentException("The destination node should be either a paragraph or table.");
         }
     }
-    //ExEnd:InsertDocument
+    //ExEnd:InsertDocumentAsNodes
 
     //ExStart:InsertDocumentWithSectionFormatting
     /// <summary>
@@ -163,6 +167,7 @@ public class CloneAndCombineDocuments extends DocsExamplesBase
     //ExEnd:InsertDocumentWithSectionFormatting
 
     //ExStart:InsertDocumentAtMailMergeHandler
+    //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
     private static class InsertDocumentAtMailMergeHandler implements IFieldMergingCallback
     {
         // This handler makes special processing for the "Document_1" field.
@@ -233,6 +238,7 @@ public class CloneAndCombineDocuments extends DocsExamplesBase
     //ExEnd:InsertDocumentAtMailMergeBlobHandler
     
     //ExStart:InsertDocumentAtReplaceHandler
+    //GistId:6e5c8fd2462c6d7ba26da4d9f66ff77b
     private static class InsertDocumentAtReplaceHandler implements IReplacingCallback
     {
         public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs args) throws Exception
