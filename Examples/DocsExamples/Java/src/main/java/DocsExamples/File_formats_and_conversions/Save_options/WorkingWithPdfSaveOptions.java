@@ -368,4 +368,17 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
         doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.InterpolateImages.pdf", saveOptions);
         //ExEnd:SetImageInterpolation
     }
+
+    @Test
+    public void optimizeOutput() throws Exception
+    {
+        //ExStart:OptimizeOutput
+        //GistId:b237846932dfcde42358bd0c887661a5
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions(); { saveOptions.setOptimizeOutput(true); }
+
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.OptimizeOutput.pdf", saveOptions);
+        //ExEnd:OptimizeOutput
+    }
 }
