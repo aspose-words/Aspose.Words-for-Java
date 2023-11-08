@@ -1125,7 +1125,8 @@ public class ExShape extends ApiExampleBase
         //ExStart
         //ExFor:WrapSide
         //ExFor:ShapeBase.WrapSide
-        //ExFor:NodeCollection            
+        //ExFor:NodeCollection
+        //ExFor:CompositeNode.InsertAfter``1(``0,Node)
         //ExFor:NodeCollection.ToArray
         //ExSummary:Shows how to replace all textbox shapes with image shapes.
         Document doc = new Document(getMyDir() + "Textboxes in drawing canvas.docx");
@@ -1384,8 +1385,8 @@ public class ExShape extends ApiExampleBase
         oleFormat.save(getArtifactsDir() + "OLE spreadsheet saved directly" + oleFormat.getSuggestedExtension());
         //ExEnd
 
-        Assert.That(8000, Is.LessThan(new FileInfo(getArtifactsDir() + "OLE spreadsheet extracted via stream.xlsx").getLength()));
-        Assert.That(8000, Is.LessThan(new FileInfo(getArtifactsDir() + "OLE spreadsheet saved directly.xlsx").getLength()));
+        Assert.That(new FileInfo(getArtifactsDir() + "OLE spreadsheet extracted via stream.xlsx").getLength(), Is.LessThan(8400));
+        Assert.That(new FileInfo(getArtifactsDir() + "OLE spreadsheet saved directly.xlsx").getLength(), Is.LessThan(8400));
     }
 
     @Test

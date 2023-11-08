@@ -432,7 +432,7 @@ public class ExFieldOptions extends ApiExampleBase
         Assert.assertNull(doc.getFieldOptions().getBarcodeGenerator()); //ExSkip
 
         // We can use a custom IBarcodeGenerator implementation to generate barcodes,
-        // and then insert them into the document as images.
+        // and then insert them into the document as images.            
         doc.getFieldOptions().setBarcodeGenerator(new CustomBarcodeGenerator());
 
         // Below are four examples of different barcode types that we can create using our generator.
@@ -453,7 +453,6 @@ public class ExFieldOptions extends ApiExampleBase
 
         BufferedImage img = doc.getFieldOptions().getBarcodeGenerator().getBarcodeImage(barcodeParameters);
         img.Save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
-
         builder.insertImage(img);
 
         // 2 -  EAN13 barcode:

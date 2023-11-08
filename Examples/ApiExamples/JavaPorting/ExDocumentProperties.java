@@ -26,8 +26,6 @@ import com.aspose.words.NodeType;
 import com.aspose.words.LayoutEnumerator;
 import com.aspose.words.LayoutEntityType;
 import com.aspose.ms.System.IO.File;
-import com.aspose.ms.System.IO.FileStream;
-import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.FieldHyperlink;
 import com.aspose.ms.System.Convert;
 import com.aspose.words.DocumentSecurity;
@@ -396,12 +394,7 @@ public class ExDocumentProperties extends ApiExampleBase
         File.writeAllBytes(getArtifactsDir() + "DocumentProperties.Thumbnail.gif", thumbnail.toByteArray());
         //ExEnd
 
-        FileStream imgStream = new FileStream(getArtifactsDir() + "DocumentProperties.Thumbnail.gif", FileMode.OPEN);
-        try /*JAVA: was using*/
-        {
-            TestUtil.verifyImage(400, 400, imgStream);
-        }
-        finally { if (imgStream != null) imgStream.close(); }
+        TestUtil.verifyImage(400, 400, getArtifactsDir() + "DocumentProperties.Thumbnail.gif");            
     }
 
     @Test

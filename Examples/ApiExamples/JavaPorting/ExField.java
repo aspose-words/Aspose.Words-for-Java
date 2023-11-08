@@ -3074,8 +3074,7 @@ public class ExField extends ApiExampleBase
     }
 
     //ExStart
-    //ExFor:MergeFieldImageDimension
-    //ExFor:MergeFieldImageDimension.#ctor
+    //ExFor:MergeFieldImageDimension        
     //ExFor:MergeFieldImageDimension.#ctor(Double)
     //ExFor:MergeFieldImageDimension.#ctor(Double,MergeFieldImageDimensionUnit)
     //ExFor:MergeFieldImageDimension.Unit
@@ -7086,7 +7085,10 @@ public class ExField extends ApiExampleBase
         
         builder.insertParagraph();
         return field;
-    }private TestFieldEQtestFieldEQ(Document doc)
+    }
+    //ExEnd
+
+    private async Task private TestFieldEQtestFieldEQ(Document doc)
     {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\f(1,4)", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\al \\co2 \\vs3 \\hs3(4x,- 4y,-4x,+ y)", "", doc.getRange().getFields().get(1));

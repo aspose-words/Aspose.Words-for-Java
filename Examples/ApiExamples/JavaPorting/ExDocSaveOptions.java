@@ -198,12 +198,14 @@ public class ExDocSaveOptions extends ApiExampleBase
         saveOptions.setAlwaysCompressMetafiles(compressAllMetafiles);
 
         doc.save(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx", saveOptions);
+        //ExEnd
+
+        long testedFileLength = new FileInfo(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx").getLength();
 
         if (compressAllMetafiles)
-            Assert.That(10000, Is.LessThan(new FileInfo(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx").getLength()));
+            Assert.That(testedFileLength, Is.LessThan(14000));
         else
-            Assert.That(30000, Is.AtLeast(new FileInfo(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx").getLength()));
-        //ExEnd
+            Assert.That(testedFileLength, Is.LessThan(22000));            
     }
 
 	//JAVA-added data provider for test method

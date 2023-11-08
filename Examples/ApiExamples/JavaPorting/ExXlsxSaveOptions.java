@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.XlsxSaveOptions;
 import com.aspose.words.CompressionLevel;
+import com.aspose.words.XlsxSectionMode;
 
 
 @Test
@@ -32,4 +33,23 @@ class ExXlsxSaveOptions !Test class should be public in Java to run, please fix 
         doc.save(getArtifactsDir() + "XlsxSaveOptions.CompressXlsx.xlsx", xlsxSaveOptions);
         //ExEnd
     }
+
+    @Test
+    public void selectionMode() throws Exception
+    {
+        //ExStart:SelectionMode
+        //GistId:470c0da51e4317baae82ad9495747fed
+        //ExFor:XlsxSaveOptions.SectionMode
+        //ExSummary:Shows how to save document as a separate worksheets.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        // Each section of a document will be created as a separate worksheet.
+        // Use 'SingleWorksheet' to display all document on one worksheet.
+        XlsxSaveOptions xlsxSaveOptions = new XlsxSaveOptions();
+        xlsxSaveOptions.setSectionMode(XlsxSectionMode.MULTIPLE_WORKSHEETS);
+
+        doc.save(getArtifactsDir() + "XlsxSaveOptions.SelectionMode.xlsx", xlsxSaveOptions);
+        //ExEnd:SelectionMode
+    }
 }
+

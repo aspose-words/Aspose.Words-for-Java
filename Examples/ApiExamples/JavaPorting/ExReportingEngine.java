@@ -35,7 +35,6 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.words.ShapeType;
 import ApiExamples.TestData.TestClasses.ImageTestClass;
 import ApiExamples.TestData.TestBuilders.ImageTestBuilder;
-import java.awt.image.BufferedImage;
 import com.aspose.words.DocumentBuilder;
 import ApiExamples.TestData.TestClasses.ClientTestClass;
 import com.aspose.words.NodeCollection;
@@ -474,8 +473,8 @@ public class ExReportingEngine extends ApiExampleBase
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.Image]>>", ShapeType.TEXT_BOX);
         
-                ImageTestClass image = new ImageTestBuilder().withImage(BufferedImage.FromFile(mImage, true)).build();
-                            
+        ImageTestClass image = new ImageTestBuilder().withImage(mImage).build();
+                    
         buildReport(template, image, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
@@ -590,7 +589,8 @@ public class ExReportingEngine extends ApiExampleBase
     {
         Document template = new Document(getMyDir() + "Reporting engine template - Dynamic stretching.docx");
         
-        ImageTestClass image = new ImageTestBuilder().withImage(BufferedImage.FromFile(mImage, true)).build();
+        ImageTestClass image = new ImageTestBuilder().withImage(mImage).build();
+
         buildReport(template, image, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox.docx");
 
@@ -1274,6 +1274,20 @@ public class ExReportingEngine extends ApiExampleBase
 			{SdtType.DROP_DOWN_LIST},
 		};
 	}
+
+    @Test
+    public void updateFieldsSyntaxAware() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - Fields.docx");
+
+        // Note that enabling of the option makes the engine to update fields while building a report,
+        // so there is no need to update fields separately after that.
+        ReportingEngine engine = new ReportingEngine();
+        buildReport(doc, new String[] { "First topic", "Second topic", "Third topic" }, "topics",
+            ReportBuildOptions.UPDATE_FIELDS_SYNTAX_AWARE);
+
+        doc.save(getArtifactsDir() + "ReportingEngine.UpdateFieldsSyntaxAware.docx");            
+    }
 
     private static void buildReport(Document document, Object dataSource, /*ReportBuildOptions*/int reportBuildOptions) throws Exception
     {

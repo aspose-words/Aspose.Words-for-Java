@@ -29,8 +29,6 @@ import com.aspose.words.FieldHyperlink;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.RunCollection;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import com.aspose.words.WrapType;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
@@ -100,6 +98,8 @@ import com.aspose.words.StyleType;
 import com.aspose.words.WarningInfoCollection;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningSource;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import com.aspose.words.OlePackage;
 import com.aspose.words.HtmlInsertOptions;
 import org.testng.annotations.DataProvider;
@@ -288,10 +288,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         horizontalRuleFormat.setHeight(1584.0);
         Assert.That(() => horizontalRuleFormat.setHeight(-1), Throws.<IllegalArgumentException>TypeOf());
         Assert.That(() => horizontalRuleFormat.setHeight(1585.0), Throws.<IllegalArgumentException>TypeOf());
-    }
-
-    [Test]
-    public async Task private InsertHyperlinkAsyncinsertHyperlinkAsync() throws Exception
+    }private InsertHyperlinkAsyncinsertHyperlinkAsync() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertHyperlink
@@ -327,7 +324,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(Color.BLUE.getRGB(), fieldContents.getFont().getColor().getRGB());
         Assert.assertEquals(Underline.SINGLE, fieldContents.getFont().getUnderline());
         Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
-    }private PushPopFontpushPopFont() throws Exception
+    }
+
+    [Test]
+    public async Task private PushPopFontpushPopFont() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.PushFont
@@ -397,9 +397,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert the image into the header so that it will be visible on every page.
-        BufferedImage image = ImageIO.read(getImageDir() + "Transparent background logo.png");
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        Shape shape = builder.insertImage(image);
+        Shape shape = builder.insertImage(getImageDir() + "Transparent background logo.png");
         shape.setWrapType(WrapType.NONE);
         shape.setBehindText(true);
 
@@ -2919,7 +2918,7 @@ public class ExDocumentBuilder extends ApiExampleBase
     }
     //ExEnd
 
-    [Test, Ignore("Failed")]
+    [Test]
     public async Task private InsertVideoWithUrlinsertVideoWithUrl() throws Exception
     {
         //ExStart
@@ -2928,7 +2927,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertOnlineVideo("https://youtu.be/t_1LYZ102RA", 360.0, 270.0);
+        builder.insertOnlineVideo("https://youtu.be/g1N9ke8Prmk", 360.0, 270.0);
 
         // We can watch the video from Microsoft Word by clicking on the shape.
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertVideoWithUrl.docx");
@@ -3567,10 +3566,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 			{"This is a fenced code with info string",  "FencedCode.C#",  false,  false},
 			{"Item 1",  "Normal",  false,  false},
 		};
-	}
-
-    [Test]
-    public async Task private InsertOnlineVideoinsertOnlineVideo() throws Exception
+	}private InsertOnlineVideoinsertOnlineVideo() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)

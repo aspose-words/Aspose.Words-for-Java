@@ -94,7 +94,6 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExEnd
     }
 
-
     @Test
     public void applyStyle() throws Exception
     {
@@ -1342,6 +1341,25 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             sdt.appendChild(sdt.getNextSibling());
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.Citation.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void rangeStartWordOpenXmlMinimal() throws Exception
+    {
+        //ExStart:RangeStartWordOpenXmlMinimal
+        //GistId:470c0da51e4317baae82ad9495747fed
+        //ExFor:StructuredDocumentTagRangeStart.WordOpenXMLMinimal
+        //ExSummary:Shows how to get minimal XML contained within the node in the FlatOpc format.
+        Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
+        StructuredDocumentTagRangeStart tag =
+            ms.as(doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true), StructuredDocumentTagRangeStart.class);
+
+        Assert.assertTrue(tag.getWordOpenXMLMinimal()
+            .contains(
+                "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
+        Assert.assertFalse(tag.getWordOpenXMLMinimal().contains("xmlns:w16cid=\"http://schemas.microsoft.com/office/word/2016/wordml/cid\""));
+        //ExEnd:RangeStartWordOpenXmlMinimal
     }
 }
 

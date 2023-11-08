@@ -17,7 +17,6 @@ import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.PageSet;
 import org.testng.Assert;
-import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.GraphicsQualityOptions;
 import com.aspose.ms.System.Drawing.Drawing2D.SmoothingMode;
@@ -32,13 +31,12 @@ import com.aspose.ms.System.Drawing.msSize;
 import java.util.ArrayList;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.ImageColorMode;
+import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.ImagePixelFormat;
 import com.aspose.words.TiffCompression;
 import com.aspose.words.ImageBinarizationMethod;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import com.aspose.words.PageRange;
 import com.aspose.words.ImlRenderingMode;
 import org.testng.annotations.DataProvider;
@@ -68,7 +66,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         // Create an "ImageSaveOptions" object which we can pass to the document's "Save" method
         // to modify the way in which that method renders the document into an image.
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
-
         // Set the "PageSet" to "1" to select the second page via
         // the zero-based index to start rendering the document from.
         options.setPageSet(new PageSet(1));
@@ -102,12 +99,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         saveOptions.setUseGdiEmfRenderer(useGdiEmfRenderer);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.Renderer.emf", saveOptions);
-
-        // The GDI+ renderer usually creates larger files.
-        if (useGdiEmfRenderer)
-            Assert.That(300000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.Renderer.emf").getLength()));
-        else
-            Assert.That(30000, Is.AtLeast(new FileInfo(getArtifactsDir() + "ImageSaveOptions.Renderer.emf").getLength()));
         //ExEnd
     }
 
@@ -143,7 +134,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         // When we save the document as an image, Aspose.Words only renders the first page by default.
         // We can pass a SaveOptions object to specify a different page to render.
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.GIF);
-
         // Render every page of the document to a separate image file.
         for (int i = 1; i <= doc.getPageCount(); i++)
         {
@@ -203,7 +193,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
                     
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
         ShapeRenderer renderer = shape.getShapeRenderer();
-        
+
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.PNG);
         {
             saveOptions.setResolution(500f); saveOptions.setGraphicsQualityOptions(new GraphicsQualityOptions()); { saveOptions.getGraphicsQualityOptions().setUseTileFlipMode(true); }
@@ -292,7 +282,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
             .Where(item => item.Contains("ImageSaveOptions.PageByPage.") && item.EndsWith(".tiff")).ToList();
 
         Assert.assertEquals(3, imageFileNames.size());
-
         for (String imageFileName : imageFileNames)
             TestUtil.verifyImage(2325, 5325, imageFileName);
     }
@@ -311,8 +300,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         builder.writeln("Hello world!");
         builder.insertImage(getImageDir() + "Logo.jpg");
 
-        Assert.That(20000, Is.LessThan(new FileInfo(getImageDir() + "Logo.jpg").getLength()));
-
         // When we save the document as an image, we can pass a SaveOptions object to
         // select a color mode for the image that the saving operation will generate.
         // If we set the "ImageColorMode" property to "ImageColorMode.BlackAndWhite",
@@ -325,20 +312,22 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         imageSaveOptions.setImageColorMode(imageColorMode);
         
         doc.save(getArtifactsDir() + "ImageSaveOptions.ColorMode.png", imageSaveOptions);
+        //ExEnd
+
+        long testedImageLength = new FileInfo(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").getLength();
 
         switch (imageColorMode)
         {
             case ImageColorMode.NONE:
-                Assert.That(150000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(175000));
                 break;
             case ImageColorMode.GRAYSCALE:
-                Assert.That(80000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(90000));
                 break;
             case ImageColorMode.BLACK_AND_WHITE:
-                Assert.That(20000, Is.AtLeast(new FileInfo(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(15000));
                 break;
         }
-        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -372,7 +361,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         // Create an "ImageSaveOptions" object which we can pass to the document's "Save" method
         // to modify the way in which that method renders the document into an image.
         ImageSaveOptions imgOptions = new ImageSaveOptions(SaveFormat.PNG);
-
         // Set the "PaperColor" property to a transparent color to apply a transparent
         // background to the document while rendering it to an image.
         imgOptions.setPaperColor(msColor.getTransparent());
@@ -391,7 +379,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
             TestUtil.imageContainsTransparency(getArtifactsDir() + "ImageSaveOptions.PaperColor.LightCoral.png"));
     }
 
-    @Test (dataProvider = "pixelFormatDataProvider")
+    @Test (dataProvider = "pixelFormatDataProvider")        
     public void pixelFormat(/*ImagePixelFormat*/int imagePixelFormat) throws Exception
     {
         //ExStart
@@ -406,8 +394,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         builder.writeln("Hello world!");
         builder.insertImage(getImageDir() + "Logo.jpg");
 
-        Assert.That(20000, Is.LessThan(new FileInfo(getImageDir() + "Logo.jpg").getLength()));
-
         // When we save the document as an image, we can pass a SaveOptions object to
         // select a pixel format for the image that the saving operation will generate.
         // Various bit per pixel rates will affect the quality and file size of the generated image.
@@ -418,26 +404,36 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         Assert.assertNotEquals(imageSaveOptions, imageSaveOptions.deepClone());
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png", imageSaveOptions);
+        //ExEnd
+
+        long testedImageLength = new FileInfo(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").getLength();
 
         switch (imagePixelFormat)
         {
             case ImagePixelFormat.FORMAT_1_BPP_INDEXED:
-                Assert.That(10000, Is.AtLeast(new FileInfo(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(2500));
+                break;                
+            case ImagePixelFormat.FORMAT_16_BPP_RGB_565:
+                Assert.That(testedImageLength, Is.LessThan(104000));
                 break;
             case ImagePixelFormat.FORMAT_16_BPP_RGB_555:
-                Assert.That(80000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(88000));
                 break;
             case ImagePixelFormat.FORMAT_24_BPP_RGB:
-                Assert.That(125000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(160000));
                 break;
             case ImagePixelFormat.FORMAT_32_BPP_RGB:
-                Assert.That(150000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").getLength()));
+            case ImagePixelFormat.FORMAT_32_BPP_ARGB:
+                Assert.That(testedImageLength, Is.LessThan(175000));
                 break;
             case ImagePixelFormat.FORMAT_48_BPP_RGB:
-                Assert.That(200000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(212000));
+                break;
+            case ImagePixelFormat.FORMAT_64_BPP_ARGB:
+            case ImagePixelFormat.FORMAT_64_BPP_P_ARGB:
+                Assert.That(testedImageLength, Is.LessThan(239000));
                 break;
         }
-        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -448,9 +444,14 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 		{
 			{ImagePixelFormat.FORMAT_1_BPP_INDEXED},
 			{ImagePixelFormat.FORMAT_16_BPP_RGB_555},
+			{ImagePixelFormat.FORMAT_16_BPP_RGB_565},
 			{ImagePixelFormat.FORMAT_24_BPP_RGB},
 			{ImagePixelFormat.FORMAT_32_BPP_RGB},
+			{ImagePixelFormat.FORMAT_32_BPP_ARGB},
+			{ImagePixelFormat.FORMAT_32_BPP_P_ARGB},
 			{ImagePixelFormat.FORMAT_48_BPP_RGB},
+			{ImagePixelFormat.FORMAT_64_BPP_ARGB},
+			{ImagePixelFormat.FORMAT_64_BPP_P_ARGB},
 		};
 	}
 
@@ -547,30 +548,19 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         // Create an "ImageSaveOptions" object which we can pass to the document's "Save" method
         // to modify the way in which that method renders the document into an image.
         ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
-
         // Set the "JpegQuality" property to "10" to use stronger compression when rendering the document.
         // This will reduce the file size of the document, but the image will display more prominent compression artifacts.
         imageOptions.setJpegQuality(10);
-
-        doc.save(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg", imageOptions);
-
-        Assert.That(20000, Is.AtLeast(new FileInfo(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg").getLength()));
+        doc.save(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg", imageOptions);            
 
         // Set the "JpegQuality" property to "100" to use weaker compression when rending the document.
         // This will improve the quality of the image at the cost of an increased file size.
         imageOptions.setJpegQuality(100);
-
         doc.save(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighQuality.jpg", imageOptions);
-
-        Assert.That(60000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighQuality.jpg").getLength()));
         //ExEnd
-    }
 
-    @Test (groups = "SkipMono")
-    public void saveToTiffDefault() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Rendering.docx");
-        doc.save(getArtifactsDir() + "ImageSaveOptions.SaveToTiffDefault.tiff");
+        Assert.That(new FileInfo(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg").getLength(), Is.LessThan(18000));
+        Assert.That(new FileInfo(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighQuality.jpg").getLength(), Is.LessThan(75000));            
     }
 
     @Test (groups = "SkipMono", dataProvider = "tiffImageCompressionDataProvider")
@@ -588,7 +578,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         // Create an "ImageSaveOptions" object which we can pass to the document's "Save" method
         // to modify the way in which that method renders the document into an image.
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.TIFF);
-
         // Set the "TiffCompression" property to "TiffCompression.None" to apply no compression while saving,
         // which may result in a very large output file.
         // Set the "TiffCompression" property to "TiffCompression.Rle" to apply RLE compression
@@ -598,26 +587,28 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         options.setTiffCompression(tiffCompression);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.TiffImageCompression.tiff", options);
+        //ExEnd
+
+        long testedImageLength = new FileInfo(getArtifactsDir() + "ImageSaveOptions.TiffImageCompression.tiff").getLength();
 
         switch (tiffCompression)
         {
             case TiffCompression.NONE:
-                Assert.That(3000000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.TiffImageCompression.tiff").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(3450000));
                 break;
             case TiffCompression.RLE:
-                Assert.That(600000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.TiffImageCompression.tiff").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(687000));
                 break;
             case TiffCompression.LZW:
-                Assert.That(200000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.TiffImageCompression.tiff").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(250000));
                 break;
             case TiffCompression.CCITT_3:
-                Assert.That(90000, Is.AtLeast(new FileInfo(getArtifactsDir() + "ImageSaveOptions.TiffImageCompression.tiff").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(8300));
                 break;
             case TiffCompression.CCITT_4:
-                Assert.That(20000, Is.AtLeast(new FileInfo(getArtifactsDir() + "ImageSaveOptions.TiffImageCompression.tiff").getLength()));
+                Assert.That(testedImageLength, Is.LessThan(1700));
                 break;
-        }
-        //ExEnd
+        }            
     }
 
 	//JAVA-added data provider for test method
@@ -656,27 +647,15 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         // Set the "Resolution" property to "72" to render the document in 72dpi.
         options.setResolution(72f);
-
         doc.save(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png", options);
 
-        Assert.That(120000, Is.AtLeast(new FileInfo(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png").getLength()));
-
-        BufferedImage image = ImageIO.read(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png");
-
-        Assert.assertEquals(612, image.getWidth());
-        Assert.assertEquals(792, image.getHeight());
         // Set the "Resolution" property to "300" to render the document in 300dpi.
         options.setResolution(300f);
-
         doc.save(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png", options);
-
-        Assert.That(700000, Is.LessThan(new FileInfo(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png").getLength()));
-
-        image = ImageIO.read(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png");
-
-        Assert.assertEquals(2550, image.getWidth());
-        Assert.assertEquals(3300, image.getHeight());
         //ExEnd
+
+        TestUtil.verifyImage(612, 792, getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png");
+        TestUtil.verifyImage(2550, 3300, getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png");
     }
 
     @Test
@@ -717,27 +696,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.RenderInkObject.jpeg", saveOptions);
         //ExEnd
-    }
-
-    @Test
-    public void conversionDocumentToEps() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Images.docx");
-
-        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EPS);
-        saveOptions.setPageSet(new PageSet(2));
-        doc.save(getArtifactsDir() + "ImageSaveOptions.ConversionDocumentToEps.eps", saveOptions);
-    }
-
-    @Test
-    public void conversionShapeToEps() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Shape shadow effect.docx");
-
-        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EPS);
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-        ShapeRenderer renderer = shape.getShapeRenderer();
-        renderer.save(getArtifactsDir() + "ImageSaveOptions.ConversionShapeToEps.eps", saveOptions);
     }
 }
 

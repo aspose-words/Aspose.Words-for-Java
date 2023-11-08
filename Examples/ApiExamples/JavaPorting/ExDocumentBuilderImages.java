@@ -25,9 +25,6 @@ import com.aspose.words.NodeType;
 import org.testng.Assert;
 import com.aspose.words.ImageType;
 import com.aspose.words.MsWordVersion;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import com.aspose.ms.System.IO.MemoryStream;
 
 
 @Test
@@ -229,21 +226,21 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage image = ImageIO.read(getImageDir() + "Logo.jpg");
+        String imageFile = getImageDir() + "Logo.jpg";
 
         // Below are three ways of inserting an image from an Image object instance.
         // 1 -  Inline shape with a default size based on the image's original dimensions:
-        builder.insertImage(image);
+        builder.insertImage(imageFile);
 
         builder.insertBreak(BreakType.PAGE_BREAK);
 
         // 2 -  Inline shape with custom dimensions:
-        builder.insertImage(image, ConvertUtil.pixelToPoint(250.0), ConvertUtil.pixelToPoint(144.0));
+        builder.insertImage(imageFile, ConvertUtil.pixelToPoint(250.0), ConvertUtil.pixelToPoint(144.0));
 
         builder.insertBreak(BreakType.PAGE_BREAK);
 
         // 3 -  Floating shape with custom dimensions:
-        builder.insertImage(image, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN,
+        builder.insertImage(imageFile, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN,
         100.0, 200.0, 100.0, WrapType.SQUARE);
 
         doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromImageObject.docx");
@@ -308,30 +305,22 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage image = ImageIO.read(getImageDir() + "Logo.jpg");
+        byte[] imageByteArray = File.readAllBytes(getImageDir() + "Logo.jpg");
 
-        MemoryStream ms = new MemoryStream();
-        try /*JAVA: was using*/
-        {
-            image.Save(ms, ImageFormat.Png);
-            byte[] imageByteArray = ms.toArray();
+        // Below are three ways of inserting an image from a byte array.
+        // 1 -  Inline shape with a default size based on the image's original dimensions:
+        builder.insertImage(imageByteArray);
 
-            // Below are three ways of inserting an image from a byte array.
-            // 1 -  Inline shape with a default size based on the image's original dimensions:
-            builder.insertImage(imageByteArray);
+        builder.insertBreak(BreakType.PAGE_BREAK);
 
-            builder.insertBreak(BreakType.PAGE_BREAK);
+        // 2 -  Inline shape with custom dimensions:
+        builder.insertImage(imageByteArray, ConvertUtil.pixelToPoint(250.0), ConvertUtil.pixelToPoint(144.0));
 
-            // 2 -  Inline shape with custom dimensions:
-            builder.insertImage(imageByteArray, ConvertUtil.pixelToPoint(250.0), ConvertUtil.pixelToPoint(144.0));
+        builder.insertBreak(BreakType.PAGE_BREAK);
 
-            builder.insertBreak(BreakType.PAGE_BREAK);
-
-            // 3 -  Floating shape with custom dimensions:
-            builder.insertImage(imageByteArray, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN, 
-            100.0, 200.0, 100.0, WrapType.SQUARE);
-        }
-        finally { if (ms != null) ms.close(); }
+        // 3 -  Floating shape with custom dimensions:
+        builder.insertImage(imageByteArray, RelativeHorizontalPosition.MARGIN, 100.0, RelativeVerticalPosition.MARGIN,
+        100.0, 200.0, 100.0, WrapType.SQUARE);
 
         doc.save(getArtifactsDir() + "DocumentBuilderImages.InsertImageFromByteArray.docx");
         //ExEnd
@@ -349,7 +338,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
         Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
 
-        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imageShape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 0.1d);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 0.1d);
 
@@ -364,7 +353,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
         Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
 
-        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imageShape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 0.1d);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 0.1d);
 
@@ -379,7 +368,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Assert.assertEquals(RelativeHorizontalPosition.MARGIN, imageShape.getRelativeHorizontalPosition());
         Assert.assertEquals(RelativeVerticalPosition.MARGIN, imageShape.getRelativeVerticalPosition());
 
-        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imageShape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 0.1d);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 0.1d);
     }

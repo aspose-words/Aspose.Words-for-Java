@@ -152,7 +152,8 @@ public class ExSection extends ApiExampleBase
     {
         //ExStart
         //ExFor:Node.GetText
-        //ExFor:CompositeNode.RemoveAllChildren            
+        //ExFor:CompositeNode.RemoveAllChildren
+        //ExFor:CompositeNode.AppendChild``1(``0)
         //ExFor:Section
         //ExFor:Section.#ctor
         //ExFor:Section.PageSetup

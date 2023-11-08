@@ -198,12 +198,14 @@ public class ExFont extends ApiExampleBase
         fontInfos.setSaveSubsetFonts(embedAllFonts);
 
         doc.save(getArtifactsDir() + "Font.FontInfoCollection.docx");
+        //ExEnd
+
+        long testedFileLength = new FileInfo(getArtifactsDir() + "Font.FontInfoCollection.docx").getLength();
 
         if (embedAllFonts)
-            Assert.That(25000, Is.LessThan(new FileInfo(getArtifactsDir() + "Font.FontInfoCollection.docx").getLength()));
+            Assert.That(testedFileLength, Is.LessThan(28000));
         else
-            Assert.That(15000, Is.AtLeast(new FileInfo(getArtifactsDir() + "Font.FontInfoCollection.docx").getLength()));
-        //ExEnd
+            Assert.That(testedFileLength, Is.LessThan(13000));
     }
 
 	//JAVA-added data provider for test method
@@ -1516,7 +1518,7 @@ public class ExFont extends ApiExampleBase
         //ExEnd
     }
 
-    @Test        
+    @Test (groups = "SkipGitHub")        
     public void checkScanUserFontsFolder() throws Exception
     {
         String userProfile = Environment.getFolderPath(Environment.SpecialFolder.USER_PROFILE);

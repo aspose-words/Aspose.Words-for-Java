@@ -9,9 +9,6 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
-import com.aspose.ms.System.IO.FileStream;
-import com.aspose.ms.System.IO.FileMode;
-import com.aspose.ms.System.IO.Stream;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import org.testng.Assert;
@@ -25,6 +22,9 @@ import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.ms.System.msString;
 import com.aspose.ms.System.StringSplitOptions;
+import com.aspose.ms.System.IO.Stream;
+import com.aspose.ms.System.IO.FileStream;
+import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.FieldType;
 import com.aspose.words.Field;
 import com.aspose.ms.System.DateTime;
@@ -61,28 +61,9 @@ class TestUtil extends ApiExampleBase
     /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
     /// <param name="filename">Local file system filename of the image file.</param>
-    static void verifyImage(int expectedWidth, int expectedHeight, String filename) throws Exception
+    static void verifyImage(int expectedWidth, int expectedHeight, String filename)
     {
-        FileStream fileStream = new FileStream(filename, FileMode.OPEN);
-        try /*JAVA: was using*/
-        {
-            verifyImage(expectedWidth, expectedHeight, fileStream);
-        }
-        finally { if (fileStream != null) fileStream.close(); }
-    }
-
-    /// <summary>
-    /// Checks whether a stream contains a valid image with specified dimensions.
-    /// </summary>
-    /// <remarks>
-    /// Serves to check that an image file is valid and nonempty without looking up its file size.
-    /// </remarks>
-    /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
-    /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
-    /// <param name="imageStream">Stream that contains the image.</param>
-    static void verifyImage(int expectedWidth, int expectedHeight, Stream imageStream)
-    {
-        BufferedImage image = ImageIO.read(imageStream);
+        BufferedImage image = ImageIO.read(filename);
         try /*JAVA: was using*/
         {
             Assert.Multiple(() =>
@@ -110,17 +91,7 @@ class TestUtil extends ApiExampleBase
         finally { if (bitmap != null) bitmap.close(); }
 
         Assert.fail($"The image from \"{filename}\" does not contain any transparency.");
-    }
-
-    /// <summary>
-    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
-    /// </summary>
-    /// <remarks>
-    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
-    /// </remarks>
-    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
-    /// <param name="webAddress">URL where the request will be sent.</param>
-     static async System.Threading.Tasks.Task private VerifyWebResponseStatusCodeverifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
+    }private VerifyWebResponseStatusCodeverifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
     {
         var myClient = new System.Net.Http.HttpClient();
         var response = await myClient.GetAsync(webAddress);

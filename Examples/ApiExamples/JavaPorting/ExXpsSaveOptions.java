@@ -126,7 +126,6 @@ public class ExXpsSaveOptions extends ApiExampleBase
         // Create an "XpsSaveOptions" object to pass to the document's "Save" method
         // to modify how that method converts the document to .XPS.
         XpsSaveOptions saveOptions = new XpsSaveOptions();
-
         // Set the "OptimizeOutput" property to "true" to take measures such as removing nested or empty canvases
         // and concatenating adjacent runs with identical formatting to optimize the output document's content.
         // This may affect the appearance of the document.
@@ -136,12 +135,11 @@ public class ExXpsSaveOptions extends ApiExampleBase
         doc.save(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps", saveOptions);
         //ExEnd
 
-        FileInfo outFileInfo = new FileInfo(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps");
-
+        long testedFileLength = new FileInfo(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps").getLength();
         if (optimizeOutput)
-            Assert.That(50000, Is.AtLeast(outFileInfo.getLength()));
+            Assert.That(testedFileLength, Is.LessThan(43000));
         else
-            Assert.That(60000, Is.LessThan(outFileInfo.getLength()));
+            Assert.That(testedFileLength, Is.LessThan(64000));
 
         TestUtil.docPackageFileContainsString(
             optimizeOutput

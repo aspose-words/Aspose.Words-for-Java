@@ -55,9 +55,6 @@ import com.aspose.words.FieldType;
 import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.words.HtmlLoadOptions;
 import com.aspose.ms.System.IO.MemoryStream;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import com.aspose.ms.System.Drawing.msSize;
 import com.aspose.words.IImageSavingCallback;
 import com.aspose.words.ImageSavingArgs;
 import com.aspose.words.LayoutCollector;
@@ -201,7 +198,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void createAZW3Toc() throws Exception
     {
         //ExStart
-        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExFor:HtmlSaveOptions.NavigationMapLevel
         //ExSummary:Shows how to generate table of contents for Azw3 documents.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
@@ -216,7 +213,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void createMobiToc() throws Exception
     {
         //ExStart
-        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExFor:HtmlSaveOptions.NavigationMapLevel
         //ExSummary:Shows how to generate table of contents for Mobi documents.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
@@ -969,7 +966,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void epubHeadings() throws Exception
     {
         //ExStart
-        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExFor:HtmlSaveOptions.NavigationMapLevel
         //ExSummary:Shows how to filter headings that appear in the navigation panel of a saved Epub document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -992,7 +989,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         // Epub readers typically create a table of contents for their documents.
         // Each paragraph with a "Heading" style in the document will create an entry in this table of contents.
-        // We can use the "EpubNavigationMapLevel" property to set a maximum heading level. 
+        // We can use the "NavigationMapLevel" property to set a maximum heading level. 
         // The Epub reader will not add headings with a level above the one we specify to the contents table.
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.EPUB);
         options.setNavigationMapLevel(2);
@@ -1994,12 +1991,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a shape which contains an image, and then make that shape considerably smaller than the image.
-        BufferedImage image = ImageIO.read(getImageDir() + "Transparent background logo.png");
-
-        Assert.assertEquals(400, msSize.getWidth(image.Size));
-        Assert.assertEquals(400, msSize.getHeight(image.Size));
-
-        Shape imageShape = builder.insertImage(image);
+        Shape imageShape = builder.insertImage(getImageDir() + "Transparent background logo.png");
         imageShape.setWidth(50.0);
         imageShape.setHeight(50.0);
 
@@ -2014,14 +2006,15 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         HtmlSaveOptions options = new HtmlSaveOptions(); { options.setScaleImageToShapeSize(scaleImageToShapeSize); }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.html", options);
-
-        FileInfo fileInfo = new FileInfo(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.001.png");
-
-    if (scaleImageToShapeSize)
-        Assert.That(3000, Is.AtLeast(fileInfo.getLength()));
-    else
-        Assert.That(20000, Is.LessThan(fileInfo.getLength()));
         //ExEnd
+
+        long testedImageLength = new FileInfo(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.001.png").getLength();
+
+        if (scaleImageToShapeSize)
+            Assert.That(testedImageLength, Is.LessThan(3000));
+        else
+            Assert.That(testedImageLength, Is.LessThan(16000));
+        
     }
 
 	//JAVA-added data provider for test method
