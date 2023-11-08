@@ -19,6 +19,11 @@ import java.util.Date;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.DigitalSignature;
 import com.aspose.ms.System.msConsole;
+import com.aspose.ms.System.IO.Stream;
+import com.aspose.ms.System.IO.FileStream;
+import com.aspose.ms.System.IO.FileMode;
+import org.testng.Assert;
+import com.aspose.ms.System.Convert;
 
 
 class WorkingWithDigitalSinatures extends DocsExamplesBase
@@ -26,12 +31,13 @@ class WorkingWithDigitalSinatures extends DocsExamplesBase
     @Test
     public void signDocument() throws Exception
     {
-        //ExStart:SingDocument
+        //ExStart:SignDocument
+        //GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
         CertificateHolder certHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
         
         DigitalSignatureUtil.sign(getMyDir() + "Digitally signed.docx", getArtifactsDir() + "Document.Signed.docx",
             certHolder);
-        //ExEnd:SingDocument
+        //ExEnd:SignDocument
     }
 
     @Test
@@ -117,15 +123,16 @@ class WorkingWithDigitalSinatures extends DocsExamplesBase
     @Test
     public void createNewSignatureLineAndSetProviderId() throws Exception
     {
-        //ExStart:CreateNewSignatureLineAndSetProviderID
+        //ExStart:CreateNewSignatureLineAndSetProviderId
+        //GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         SignatureLineOptions signatureLineOptions = new SignatureLineOptions();
         {
-            signatureLineOptions.setSigner("vderyushev");
-            signatureLineOptions.setSignerTitle("QA");
-            signatureLineOptions.setEmail("vderyushev@aspose.com");
+            signatureLineOptions.setSigner("yourname");
+            signatureLineOptions.setSignerTitle("Worker");
+            signatureLineOptions.setEmail("yourname@aspose.com");
             signatureLineOptions.setShowDate(true);
             signatureLineOptions.setDefaultInstructions(false);
             signatureLineOptions.setInstructions("Please sign here.");
@@ -141,7 +148,7 @@ class WorkingWithDigitalSinatures extends DocsExamplesBase
         {
             signOptions.setSignatureLineId(signatureLine.getIdInternal());
             signOptions.setProviderId(signatureLine.getProviderIdInternal());
-            signOptions.setComments("Document was signed by vderyushev");
+            signOptions.setComments("Document was signed by Aspose");
             signOptions.setSignTime(new Date());
         }
 
@@ -149,7 +156,7 @@ class WorkingWithDigitalSinatures extends DocsExamplesBase
 
         DigitalSignatureUtil.sign(getArtifactsDir() + "SignDocuments.SignatureLineProviderId.docx", 
             getArtifactsDir() + "SignDocuments.CreateNewSignatureLineAndSetProviderId.docx", certHolder, signOptions);
-        //ExEnd:CreateNewSignatureLineAndSetProviderID
+        //ExEnd:CreateNewSignatureLineAndSetProviderId
     }
 
     @Test
@@ -170,5 +177,52 @@ class WorkingWithDigitalSinatures extends DocsExamplesBase
             msConsole.writeLine();
         }
         //ExEnd:AccessAndVerifySignature
+    }
+
+    @Test
+    public void removeSignatures() throws Exception
+    {
+        //ExStart:RemoveSignatures
+        //GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
+        // There are two ways of using the DigitalSignatureUtil class to remove digital signatures
+        // from a signed document by saving an unsigned copy of it somewhere else in the local file system.
+        // 1 - Determine the locations of both the signed document and the unsigned copy by filename strings:
+        DigitalSignatureUtil.removeAllSignatures(getMyDir() + "Digitally signed.docx",
+            getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx");
+
+        // 2 - Determine the locations of both the signed document and the unsigned copy by file streams:
+        Stream streamIn = new FileStream(getMyDir() + "Digitally signed.docx", FileMode.OPEN);
+        try /*JAVA: was using*/
+        {
+            Stream streamOut = new FileStream(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx", FileMode.CREATE);
+            try /*JAVA: was using*/
+            {
+                DigitalSignatureUtil.removeAllSignaturesInternal(streamIn, streamOut);
+            }
+            finally { if (streamOut != null) streamOut.close(); }
+        }
+        finally { if (streamIn != null) streamIn.close(); }
+
+        // Verify that both our output documents have no digital signatures.
+        Assert.That(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx"), Is.Empty);
+        Assert.That(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx"), Is.Empty);
+        //ExEnd:RemoveSignatures
+    }
+
+    @Test
+    public void signatureValue() throws Exception
+    {
+        //ExStart:SignatureValue
+        //GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
+        Document doc = new Document(getMyDir() + "Digitally signed.docx");
+
+        for (DigitalSignature digitalSignature : doc.getDigitalSignatures())
+        {
+            String signatureValue = Convert.toBase64String(digitalSignature.getSignatureValue());
+            Assert.assertEquals("K1cVLLg2kbJRAzT5WK+m++G8eEO+l7S+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbD" +
+                "MhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw/k5CiFZzCp1+MmhOdYPcVO+Fm" +
+                "+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo=", signatureValue);
+        }
+        //ExEnd:SignatureValue
     }
 }

@@ -43,16 +43,15 @@ class CloneAndCombineDocuments extends DocsExamplesBase
     public void insertDocumentAtReplace() throws Exception
     {
         //ExStart:InsertDocumentAtReplace
+        //GistId:db2dfc4150d7c714bcac3782ae241d03
         Document mainDoc = new Document(getMyDir() + "Document insertion 1.docx");
-
-        // Set find and replace options.
+                    
         FindReplaceOptions options = new FindReplaceOptions();
         {
             options.setDirection(FindReplaceDirection.BACKWARD); 
             options.setReplacingCallback(new InsertDocumentAtReplaceHandler());
         }
 
-        // Call the replace method.
         mainDoc.getRange().replaceInternal(new Regex("\\[MY_DOCUMENT\\]"), "", options);
         mainDoc.save(getArtifactsDir() + "CloneAndCombineDocuments.InsertDocumentAtReplace.docx");
         //ExEnd:InsertDocumentAtReplace
@@ -61,7 +60,8 @@ class CloneAndCombineDocuments extends DocsExamplesBase
     @Test
     public void insertDocumentAtBookmark() throws Exception
     {
-        //ExStart:InsertDocumentAtBookmark         
+        //ExStart:InsertDocumentAtBookmark
+        //GistId:db2dfc4150d7c714bcac3782ae241d03
         Document mainDoc = new Document(getMyDir() + "Document insertion 1.docx");
         Document subDoc = new Document(getMyDir() + "Document insertion 2.docx");
 
@@ -75,7 +75,8 @@ class CloneAndCombineDocuments extends DocsExamplesBase
     @Test
     public void insertDocumentAtMailMerge() throws Exception
     {
-        //ExStart:InsertDocumentAtMailMerge   
+        //ExStart:InsertDocumentAtMailMerge
+        //GistId:db2dfc4150d7c714bcac3782ae241d03
         Document mainDoc = new Document(getMyDir() + "Document insertion 1.docx");
 
         mainDoc.getMailMerge().setFieldMergingCallback(new InsertDocumentAtMailMergeHandler());
@@ -88,14 +89,15 @@ class CloneAndCombineDocuments extends DocsExamplesBase
         //ExEnd:InsertDocumentAtMailMerge
     }
 
+    //ExStart:InsertDocumentAsNodes
+    //GistId:db2dfc4150d7c714bcac3782ae241d03
     /// <summary>
     /// Inserts content of the external document after the specified node.
     /// Section breaks and section formatting of the inserted document are ignored.
     /// </summary>
     /// <param name="insertionDestination">Node in the destination document after which the content
     /// Should be inserted. This node should be a block level node (paragraph or table).</param>
-    /// <param name="docToInsert">The document to insert.</param>
-    //ExStart:InsertDocument
+    /// <param name="docToInsert">The document to insert.</param>        
     private static void insertDocument(Node insertionDestination, Document docToInsert)
     {
         if (insertionDestination.getNodeType() == NodeType.PARAGRAPH || insertionDestination.getNodeType() == NodeType.TABLE)
@@ -128,7 +130,7 @@ class CloneAndCombineDocuments extends DocsExamplesBase
             throw new IllegalArgumentException("The destination node should be either a paragraph or table.");
         }
     }
-    //ExEnd:InsertDocument
+    //ExEnd:InsertDocumentAsNodes
 
     //ExStart:InsertDocumentWithSectionFormatting
     /// <summary>
@@ -181,6 +183,7 @@ class CloneAndCombineDocuments extends DocsExamplesBase
     //ExEnd:InsertDocumentWithSectionFormatting
 
     //ExStart:InsertDocumentAtMailMergeHandler
+    //GistId:db2dfc4150d7c714bcac3782ae241d03
     private static class InsertDocumentAtMailMergeHandler implements IFieldMergingCallback
     {
         // This handler makes special processing for the "Document_1" field.
@@ -249,8 +252,9 @@ class CloneAndCombineDocuments extends DocsExamplesBase
         }
     }
     //ExEnd:InsertDocumentAtMailMergeBlobHandler
-    
+
     //ExStart:InsertDocumentAtReplaceHandler
+    //GistId:db2dfc4150d7c714bcac3782ae241d03
     private static class InsertDocumentAtReplaceHandler implements IReplacingCallback
     {
         public /*ReplaceAction*/int /*IReplacingCallback.*/replacing(ReplacingArgs args) throws Exception

@@ -36,7 +36,7 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
     public void loadEncryptedDocument() throws Exception
     {
         //ExStart:LoadSaveEncryptedDocument
-        //GistDesc:Encrypt document using encryption algorithms in C#.
+        //GistId:af95c7a408187bb25cf9137465fe5ce6
         //ExStart:OpenEncryptedDocument
         Document doc = new Document(getMyDir() + "Encrypted.docx", new LoadOptions("docPassword"));
         //ExEnd:OpenEncryptedDocument
@@ -49,7 +49,7 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
     public void loadEncryptedDocumentWithoutPassword() throws Exception
     {
         //ExStart:LoadEncryptedDocumentWithoutPassword
-        //GistDesc:Encrypt document using encryption algorithms in C#.
+        //GistId:af95c7a408187bb25cf9137465fe5ce6
         // We will not be able to open this document with Microsoft Word or
         // Aspose.Words without providing the correct password.
         Assert.<IncorrectPasswordException>Throws(() =>

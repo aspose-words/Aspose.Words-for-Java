@@ -18,7 +18,7 @@ public class WorkingWithHtmlLoadOptions extends DocsExamplesBase
     public void preferredControlType() throws Exception
     {
         //ExStart:LoadHtmlElementsWithPreferredControlType
-        final String HTML = "\r\n                <html>\r\n                    <select name='ComboBox' size='1'>\r\n                        <option value='val1'>item1</option>\r\n                        <option value='val2'></option>                        \r\n                    </select>\r\n                </html>\r\n            ";
+        final String HTML = "\n                <html>\n                    <select name='ComboBox' size='1'>\n                        <option value='val1'>item1</option>\n                        <option value='val2'></option>                        \n                    </select>\n                </html>\n            ";
 
         HtmlLoadOptions loadOptions = new HtmlLoadOptions(); { loadOptions.setPreferredControlType(HtmlControlType.STRUCTURED_DOCUMENT_TAG); }
 

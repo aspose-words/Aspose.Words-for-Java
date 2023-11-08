@@ -455,7 +455,6 @@ public class ExtractContent extends DocsExamplesBase
 
         // The range text will include control characters such as "\a" for a cell.
         // You can call ToString and pass SaveFormat.Text on the desired node to find the plain text content.
-
         System.out.println("Contents of the table: ");
         System.out.println(table.getRange().getText());
         //ExEnd:ExtractText
