@@ -2710,7 +2710,6 @@ public class ExField extends ApiExampleBase {
 
     //ExStart
     //ExFor:MergeFieldImageDimension
-    //ExFor:MergeFieldImageDimension.#ctor
     //ExFor:MergeFieldImageDimension.#ctor(Double)
     //ExFor:MergeFieldImageDimension.#ctor(Double,MergeFieldImageDimensionUnit)
     //ExFor:MergeFieldImageDimension.Unit

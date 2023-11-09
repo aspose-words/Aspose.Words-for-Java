@@ -353,7 +353,7 @@ public class ExReportingEngine extends ApiExampleBase {
         Document template =
                 DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImage()]>>", ShapeType.TEXT_BOX);
 
-        ImageTestClass image = new ImageTestBuilder().withImage(ImageIO.read(new File(mImage))).build();
+        ImageTestClass image = new ImageTestBuilder().withImage(mImage).build();
         buildReport(template, image, "src");
 
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
@@ -982,6 +982,23 @@ public class ExReportingEngine extends ApiExampleBase {
 			{SdtType.DROP_DOWN_LIST},
 		};
 	}
+
+    @Test
+    public void updateFieldsSyntaxAware() throws Exception
+    {
+        //ExStart:UpdateFieldsSyntaxAware
+        //GistId:66dd22f0854357e394a013b536e2181b
+        Document doc = new Document(getMyDir() + "Reporting engine template - Fields.docx");
+
+        // Note that enabling of the option makes the engine to update fields while building a report,
+        // so there is no need to update fields separately after that.
+        ReportingEngine engine = new ReportingEngine();
+        buildReport(doc, new String[] { "First topic", "Second topic", "Third topic" }, "topics",
+                ReportBuildOptions.UPDATE_FIELDS_SYNTAX_AWARE);
+
+        doc.save(getArtifactsDir() + "ReportingEngine.UpdateFieldsSyntaxAware.docx");
+        //ExEnd:UpdateFieldsSyntaxAware
+    }
 
     private static void buildReport(final Document document, final Object dataSource) throws Exception {
         ReportingEngine engine = new ReportingEngine();

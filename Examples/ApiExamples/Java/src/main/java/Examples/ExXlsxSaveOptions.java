@@ -30,4 +30,22 @@ class ExXlsxSaveOptions extends ApiExampleBase
         doc.save(getArtifactsDir() + "XlsxSaveOptions.CompressXlsx.xlsx", xlsxSaveOptions);
         //ExEnd
     }
+
+    @Test
+    public void selectionMode() throws Exception
+    {
+        //ExStart:SelectionMode
+        //GistId:66dd22f0854357e394a013b536e2181b
+        //ExFor:XlsxSaveOptions.SectionMode
+        //ExSummary:Shows how to save document as a separate worksheets.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        // Each section of a document will be created as a separate worksheet.
+        // Use 'SingleWorksheet' to display all document on one worksheet.
+        XlsxSaveOptions xlsxSaveOptions = new XlsxSaveOptions();
+        xlsxSaveOptions.setSectionMode(XlsxSectionMode.MULTIPLE_WORKSHEETS);
+
+        doc.save(getArtifactsDir() + "XlsxSaveOptions.SelectionMode.xlsx", xlsxSaveOptions);
+        //ExEnd:SelectionMode
+    }
 }

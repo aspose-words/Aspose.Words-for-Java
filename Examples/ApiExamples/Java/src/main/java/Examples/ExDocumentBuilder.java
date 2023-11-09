@@ -313,9 +313,8 @@ public class ExDocumentBuilder extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert the image into the header so that it will be visible on every page.
-        BufferedImage image = ImageIO.read(new File(getImageDir() + "Transparent background logo.png"));
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        Shape shape = builder.insertImage(image);
+        Shape shape = builder.insertImage(getImageDir() + "Transparent background logo.png");
         shape.setWrapType(WrapType.NONE);
         shape.setBehindText(true);
 
@@ -2748,7 +2747,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertOnlineVideo("https://youtu.be/t_1LYZ102RA", 360.0, 270.0);
+        builder.insertOnlineVideo("https://youtu.be/g1N9ke8Prmk", 360.0, 270.0);
 
         // We can watch the video from Microsoft Word by clicking on the shape.
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertVideoWithUrl.docx");

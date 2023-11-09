@@ -147,15 +147,17 @@ public class ExFont extends ApiExampleBase {
         fontInfos.setSaveSubsetFonts(embedAllFonts);
 
         doc.save(getArtifactsDir() + "Font.FontInfoCollection.docx");
+        //ExEnd
+
+        long testedFileLength = new File(getArtifactsDir() + "Font.FontInfoCollection.docx").length();
 
         if (embedAllFonts)
-            Assert.assertTrue(new File(getArtifactsDir() + "Font.FontInfoCollection.docx").length() > 25000);
+            Assert.assertTrue(testedFileLength > 25000);
         else
-            Assert.assertTrue(new File(getArtifactsDir() + "Font.FontInfoCollection.docx").length() <= 15000);
-        //ExEnd
+            Assert.assertTrue(testedFileLength <= 15000);
+
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "fontInfoCollectionDataProvider")
     public static Object[][] fontInfoCollectionDataProvider() throws Exception {
         return new Object[][]

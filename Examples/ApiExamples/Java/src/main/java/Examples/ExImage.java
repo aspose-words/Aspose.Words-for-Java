@@ -107,22 +107,6 @@ public class ExImage extends ApiExampleBase {
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape) doc.getChildNodes(NodeType.SHAPE, true).get(0));
     }
 
-    @Test(groups = "SkipMono")
-    public void fromImage() throws Exception {
-        DocumentBuilder builder = new DocumentBuilder();
-
-        BufferedImage rasterImage = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
-        builder.write("Raster image: ");
-        builder.insertImage(rasterImage);
-        builder.writeln();
-
-        builder.write("Metafile: ");
-        builder.insertImage(getImageDir() + "Windows MetaFile.wmf");
-        builder.writeln();
-
-        builder.getDocument().save(getArtifactsDir() + "Image.FromImage.docx");
-    }
-
     @Test
     public void createFloatingPageCenter() throws Exception {
         //ExStart
@@ -402,11 +386,6 @@ public class ExImage extends ApiExampleBase {
         //ExFor:ShapeBase.Width
         //ExFor:ShapeBase.Height
         //ExSummary:Shows how to resize a shape with an image.
-        BufferedImage image = ImageIO.read(new File(getImageDir() + "Logo.jpg"));
-
-        Assert.assertEquals(400, image.getWidth());
-        Assert.assertEquals(400, image.getHeight());
-
         // When we insert an image using the "InsertImage" method, the builder scales the shape that displays the image so that,
         // when we view the document using 100% zoom in Microsoft Word, the shape displays the image in its actual size.
         Document doc = new Document();

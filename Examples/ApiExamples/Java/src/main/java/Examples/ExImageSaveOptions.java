@@ -280,19 +280,20 @@ public class ExImageSaveOptions extends ApiExampleBase {
         imageSaveOptions.setImageColorMode(imageColorMode);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.ColorMode.png", imageSaveOptions);
+        //ExEnd
 
+        long testedImageLength = new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length();
         switch (imageColorMode) {
             case ImageColorMode.NONE:
-                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() < 156000);
+                Assert.assertTrue(testedImageLength < 156000);
                 break;
             case ImageColorMode.GRAYSCALE:
-                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() < 85000);
+                Assert.assertTrue(testedImageLength < 85000);
                 break;
             case ImageColorMode.BLACK_AND_WHITE:
-                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.ColorMode.png").length() <= 20000);
+                Assert.assertTrue(testedImageLength <= 20000);
                 break;
         }
-        //ExEnd
     }
 
     @DataProvider(name = "colorModeDataProvider")
@@ -367,21 +368,29 @@ public class ExImageSaveOptions extends ApiExampleBase {
         Assert.assertNotEquals(imageSaveOptions, imageSaveOptions.deepClone());
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png", imageSaveOptions);
+        //ExEnd
 
         switch (imagePixelFormat) {
             case ImagePixelFormat.FORMAT_1_BPP_INDEXED:
                 Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() <= 10000);
                 break;
+            case ImagePixelFormat.FORMAT_16_BPP_RGB_565:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() <= 104000);
+                break;
             case ImagePixelFormat.FORMAT_16_BPP_RGB_555:
             case ImagePixelFormat.FORMAT_32_BPP_RGB:
+            case ImagePixelFormat.FORMAT_32_BPP_ARGB:
             case ImagePixelFormat.FORMAT_48_BPP_RGB:
                 Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 156000);
                 break;
             case ImagePixelFormat.FORMAT_24_BPP_RGB:
                 Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 146000);
                 break;
+            case ImagePixelFormat.FORMAT_64_BPP_ARGB:
+            case ImagePixelFormat.FORMAT_64_BPP_P_ARGB:
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() < 239000);
+                break;
         }
-        //ExEnd
     }
 
     @DataProvider(name = "pixelFormatDataProvider")
@@ -390,9 +399,14 @@ public class ExImageSaveOptions extends ApiExampleBase {
                 {
                         {ImagePixelFormat.FORMAT_1_BPP_INDEXED},
                         {ImagePixelFormat.FORMAT_16_BPP_RGB_555},
+                        {ImagePixelFormat.FORMAT_16_BPP_RGB_565},
                         {ImagePixelFormat.FORMAT_24_BPP_RGB},
                         {ImagePixelFormat.FORMAT_32_BPP_RGB},
+                        {ImagePixelFormat.FORMAT_32_BPP_ARGB},
+                        {ImagePixelFormat.FORMAT_32_BPP_P_ARGB},
                         {ImagePixelFormat.FORMAT_48_BPP_RGB},
+                        {ImagePixelFormat.FORMAT_64_BPP_ARGB},
+                        {ImagePixelFormat.FORMAT_64_BPP_P_ARGB},
                 };
     }
 
@@ -568,27 +582,15 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         // Set the "Resolution" property to "72" to render the document in 72dpi.
         options.setResolution(72f);
-
         doc.save(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png", options);
 
-        Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png").length() <= 120000);
-
-        BufferedImage image = ImageIO.read(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png"));
-
-        Assert.assertEquals(612, image.getWidth());
-        Assert.assertEquals(792, image.getHeight());
         // Set the "Resolution" property to "300" to render the document in 300dpi.
         options.setResolution(300f);
-
         doc.save(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png", options);
-
-        Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png").length() < 1170000);
-
-        image = ImageIO.read(new File(getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png"));
-
-        Assert.assertEquals(2550, image.getWidth());
-        Assert.assertEquals(3300, image.getHeight());
         //ExEnd
+
+        TestUtil.verifyImage(612, 792, getArtifactsDir() + "ImageSaveOptions.Resolution.72dpi.png");
+        TestUtil.verifyImage(2550, 3300, getArtifactsDir() + "ImageSaveOptions.Resolution.300dpi.png");
     }
 
     @Test(enabled = false)
@@ -627,26 +629,5 @@ public class ExImageSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.RenderInkObject.jpeg", saveOptions);
         //ExEnd
-    }
-
-    @Test
-    public void conversionDocumentToEps() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Images.docx");
-
-        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EPS);
-        saveOptions.setPageSet(new PageSet(2));
-        doc.save(getArtifactsDir() + "ImageSaveOptions.ConversionDocumentToEps.eps", saveOptions);
-    }
-
-    @Test
-    public void conversionShapeToEps() throws Exception
-    {
-        Document doc = new Document(getMyDir() + "Shape shadow effect.docx");
-
-        ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.EPS);
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-        ShapeRenderer renderer = shape.getShapeRenderer();
-        renderer.save(getArtifactsDir() + "ImageSaveOptions.ConversionShapeToEps.eps", saveOptions);
     }
 }

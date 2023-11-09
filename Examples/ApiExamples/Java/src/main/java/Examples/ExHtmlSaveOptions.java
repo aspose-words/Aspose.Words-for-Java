@@ -123,12 +123,12 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     public void createAZW3Toc() throws Exception
     {
         //ExStart
-        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExFor:HtmlSaveOptions.NavigationMapLevel
         //ExSummary:Shows how to generate table of contents for azw3 documents.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.AZW_3);
-        options.setEpubNavigationMapLevel(2);
+        options.setNavigationMapLevel(2);
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.CreateAZW3Toc.azw3", options);
         //ExEnd
@@ -138,7 +138,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     public void createMobiToc() throws Exception
     {
         //ExStart
-        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExFor:HtmlSaveOptions.NavigationMapLevel
         //ExSummary:Shows how to generate table of contents for Mobi documents.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
@@ -817,7 +817,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     @Test
     public void epubHeadings() throws Exception {
         //ExStart
-        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExFor:HtmlSaveOptions.NavigationMapLevel
         //ExSummary:Shows how to filter headings that appear in the navigation panel of a saved Epub document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -840,10 +840,10 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         // Epub readers typically create a table of contents for their documents.
         // Each paragraph with a "Heading" style in the document will create an entry in this table of contents.
-        // We can use the "EpubNavigationMapLevel" property to set a maximum heading level. 
+        // We can use the "NavigationMapLevel" property to set a maximum heading level.
         // The Epub reader will not add headings with a level above the one we specify to the contents table.
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.EPUB);
-        options.setEpubNavigationMapLevel(2);
+        options.setNavigationMapLevel(2);
 
         // Our document has six headings, two of which are above level 2.
         // The table of contents for this document will have four entries.
@@ -1734,12 +1734,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a shape which contains an image, and then make that shape considerably smaller than the image.
-        BufferedImage image = ImageIO.read(new File(getImageDir() + "Transparent background logo.png"));
-
-        Assert.assertEquals(400, image.getWidth());
-        Assert.assertEquals(400, image.getHeight());
-
-        Shape imageShape = builder.insertImage(image);
+        Shape imageShape = builder.insertImage(getImageDir() + "Transparent background logo.png");
         imageShape.setWidth(50.0);
         imageShape.setHeight(50.0);
 
@@ -1758,6 +1753,12 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.html", options);
         //ExEnd
+
+        long testedImageLength = new File(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.001.png").length();
+        if (scaleImageToShapeSize)
+            Assert.assertTrue(testedImageLength < 3000);
+        else
+            Assert.assertTrue(testedImageLength < 16000);
     }
 
     @DataProvider(name = "scaleImageToShapeSizeDataProvider")

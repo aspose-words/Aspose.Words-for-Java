@@ -1247,7 +1247,6 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:ChartLegendEntryCollection
         //ExFor:ChartLegend.LegendEntries
         //ExFor:ChartLegendEntry.IsHidden
-        //ExFor:ChartLegendEntry.Font
         //ExSummary:Shows how to work with a legend entry for chart series.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1268,13 +1267,30 @@ public class ExCharts extends ApiExampleBase {
         ChartLegendEntryCollection legendEntries = chart.getLegend().getLegendEntries();
         legendEntries.get(3).isHidden(true);
 
-        for (ChartLegendEntry legendEntry : legendEntries)
-            legendEntry.getFont().setSize(12.0);
-
-        series1.getLegendEntry().getFont().setItalic(true);
-
         doc.save(getArtifactsDir() + "Charts.LegendEntries.docx");
         //ExEnd
+    }
+
+    @Test
+    public void legendFont() throws Exception
+    {
+        //ExStart:LegendFont
+        //GistId:66dd22f0854357e394a013b536e2181b
+        //ExFor:ChartLegendEntry.Font
+        //ExFor:ChartLegend.Font
+        //ExSummary:Shows how to work with a legend font.
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
+        Chart chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
+
+        ChartLegend chartLegend = chart.getLegend();
+        // Set default font size all legend entries.
+        chartLegend.getFont().setSize(14.0);
+        // Change font for specific legend entry.
+        chartLegend.getLegendEntries().get(1).getFont().setItalic(true);
+        chartLegend.getLegendEntries().get(1).getFont().setSize(12.0);
+
+        doc.save(getArtifactsDir() + "Charts.LegendFont.docx");
+        //ExEnd:LegendFont
     }
 
     @Test

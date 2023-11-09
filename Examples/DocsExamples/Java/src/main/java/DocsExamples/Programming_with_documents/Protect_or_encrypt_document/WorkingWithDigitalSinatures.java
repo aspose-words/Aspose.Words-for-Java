@@ -121,9 +121,9 @@ public class WorkingWithDigitalSinatures extends DocsExamplesBase
 
         SignatureLineOptions signatureLineOptions = new SignatureLineOptions();
         {
-            signatureLineOptions.setSigner("vderyushev");
-            signatureLineOptions.setSignerTitle("QA");
-            signatureLineOptions.setEmail("vderyushev@aspose.com");
+            signatureLineOptions.setSigner("yourname");
+            signatureLineOptions.setSignerTitle("Worker");
+            signatureLineOptions.setEmail("yourname@aspose.com");
             signatureLineOptions.setShowDate(true);
             signatureLineOptions.setDefaultInstructions(false);
             signatureLineOptions.setInstructions("Please sign here.");
@@ -139,7 +139,7 @@ public class WorkingWithDigitalSinatures extends DocsExamplesBase
         {
             signOptions.setSignatureLineId(signatureLine.getId());
             signOptions.setProviderId(signatureLine.getProviderId());
-            signOptions.setComments("Document was signed by vderyushev");
+            signOptions.setComments("Document was signed by Aspose");
             signOptions.setSignTime(new Date());
         }
 

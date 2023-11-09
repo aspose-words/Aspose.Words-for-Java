@@ -547,14 +547,15 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf", options);
         //ExEnd
 
+        long testedFileLenght = new File(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf").length();
         switch (pdfTextCompression) {
             case PdfTextCompression.NONE:
-                Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf").length() < 68000);
+                Assert.assertTrue( testedFileLenght < 68000);
                 TestUtil.fileContainsString("<</Length 11 0 R>>stream",
                         getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf");
                 break;
             case PdfTextCompression.FLATE:
-                Assert.assertTrue(new File(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf").length() < 30000);
+                Assert.assertTrue(testedFileLenght < 30000);
                 TestUtil.fileContainsString("<</Length 11 0 R/Filter/FlateDecode>>stream",
                         getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf");
                 break;

@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 public class ImageTestBuilder extends ApiExampleBase {
     private BufferedImage mImage;
@@ -31,8 +32,8 @@ public class ImageTestBuilder extends ApiExampleBase {
         mImageString = "";
     }
 
-    public ImageTestBuilder withImage(final BufferedImage image) {
-        mImage = image;
+    public ImageTestBuilder withImage(final String imagePath) throws IOException {
+        mImage = ImageIO.read(new File(imagePath));
         return this;
     }
 
