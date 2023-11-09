@@ -286,7 +286,7 @@ public class ExLoadOptions extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Image.CreateImageDirectly.docx", loadOptions);
         shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(1666, 1666, ImageType.PNG, shape);
+        TestUtil.verifyImageInShape(1600, 1600, ImageType.PNG, shape);
         //ExEnd
     }
 

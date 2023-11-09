@@ -375,7 +375,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
                 Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() <= 10000);
                 break;
             case ImagePixelFormat.FORMAT_16_BPP_RGB_565:
-                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() <= 104000);
+                Assert.assertTrue(new File(getArtifactsDir() + "ImageSaveOptions.PixelFormat.png").length() <= 160000);
                 break;
             case ImagePixelFormat.FORMAT_16_BPP_RGB_555:
             case ImagePixelFormat.FORMAT_32_BPP_RGB:

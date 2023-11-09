@@ -333,7 +333,7 @@ public class ExRevision extends ApiExampleBase {
 
         public boolean isMatch(Revision revision)
         {
-            return msString.equals(revision.getAuthor(), AuthorName) && revision.getRevisionType() == _RevisionType;
+            return AuthorName.equals(revision.getAuthor()) && revision.getRevisionType() == _RevisionType;
         }
     }
     //ExEnd:RevisionSpecifiedCriteria

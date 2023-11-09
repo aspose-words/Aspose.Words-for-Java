@@ -249,7 +249,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
         Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
 
-        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imageShape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 1);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 1);
 
@@ -264,7 +264,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         Assert.assertEquals(RelativeHorizontalPosition.COLUMN, imageShape.getRelativeHorizontalPosition());
         Assert.assertEquals(RelativeVerticalPosition.PARAGRAPH, imageShape.getRelativeVerticalPosition());
 
-        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imageShape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 1);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 1);
 
@@ -279,7 +279,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase {
         Assert.assertEquals(RelativeHorizontalPosition.MARGIN, imageShape.getRelativeHorizontalPosition());
         Assert.assertEquals(RelativeVerticalPosition.MARGIN, imageShape.getRelativeVerticalPosition());
 
-        TestUtil.verifyImageInShape(400, 400, ImageType.PNG, imageShape);
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, imageShape);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getHeightPoints(), 1);
         Assert.assertEquals(300.0d, imageShape.getImageData().getImageSize().getWidthPoints(), 1);
     }

@@ -2983,7 +2983,7 @@ public class ExShape extends ApiExampleBase {
         Assert.assertEquals(new Color((255), (188), (188), (255)).getRGB(), shape.getFill().getForeColor().getRGB());
         Assert.assertEquals(Color.RED.getRGB(), shape.getFill().getBaseForeColor().getRGB());
 
-        Assert.assertEquals(new Color((0), (128), (0), (128)).getRGB(), shape.getStroke().getForeColor().getRGB());
+        Assert.assertEquals(new Color((0), (255), (0), (128)).getRGB(), shape.getStroke().getForeColor().getRGB());
         Assert.assertEquals(Color.GREEN.getRGB(), shape.getStroke().getBaseForeColor().getRGB());
 
         Assert.assertEquals(Color.GREEN.getRGB(), shape.getStroke().getFill().getForeColor().getRGB());

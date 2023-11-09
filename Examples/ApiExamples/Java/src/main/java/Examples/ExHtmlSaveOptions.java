@@ -1756,7 +1756,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         long testedImageLength = new File(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.001.png").length();
         if (scaleImageToShapeSize)
-            Assert.assertTrue(testedImageLength < 3000);
+            Assert.assertTrue(testedImageLength < 6000);
         else
             Assert.assertTrue(testedImageLength < 16000);
     }
