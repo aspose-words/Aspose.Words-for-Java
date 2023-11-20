@@ -18,15 +18,15 @@ public class ImageTestBuilder extends ApiExampleBase
 
     public ImageTestBuilder()
     {
-        mImage = ImageIO.read(getImageDir() + "Transparent background logo.png");            
+        mImage = ImageIO.read(getImageDir() + "Transparent background logo.png");
         mImageStream = Stream.Null;
         mImageBytes = new byte[0];
         mImageString = "";
     }
 
-    public ImageTestBuilder withImage(BufferedImage image)
+    public ImageTestBuilder withImage(String imagePath)
     {
-        mImage = image;
+        mImage = ImageIO.read(imagePath);
         return this;
     }
 

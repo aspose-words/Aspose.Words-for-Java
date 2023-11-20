@@ -91,15 +91,19 @@ import com.aspose.words.BreakType;
 import com.aspose.words.FieldTC;
 import com.aspose.words.FieldSeq;
 import com.aspose.words.FieldPageRef;
+import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.words.FieldCitation;
 import com.aspose.words.FieldBibliography;
+import com.aspose.words.IBibliographyStylesProvider;
+import com.aspose.ms.System.IO.Stream;
+import java.io.FileInputStream;
+import com.aspose.ms.System.IO.File;
 import com.aspose.words.FieldData;
 import com.aspose.words.FieldInclude;
 import com.aspose.words.FieldImport;
 import com.aspose.words.Shape;
 import com.aspose.words.FieldIncludeText;
 import com.aspose.XmlUtilPal;
-import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.Xml.Schema.XmlNamespaceManager;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
@@ -646,16 +650,16 @@ public class ExField extends ApiExampleBase
 
         // This DATABASE field will run a query on a database, and display the result in a table.
         FieldDatabase field = (FieldDatabase)builder.insertField(FieldType.FIELD_DATABASE, true);
-        field.setFileName(getDatabaseDir() + "Northwind.mdb");
-        field.setConnection("Provider=Microsoft.Jet.OLEDB.4.0");
+        field.setFileName(getDatabaseDir() + "Northwind.accdb");
+        field.setConnection("Provider=Microsoft.ACE.OLEDB.12.0");
         field.setQuery("SELECT * FROM [Products]");
 
-        Assert.AreEqual($" DATABASE  \\d {DatabaseDir.Replace("\\", "\\\\") + "Northwind.mdb"} \\c Provider=Microsoft.Jet.OLEDB.4.0 \\s \"SELECT * FROM [Products]\"", field.getFieldCode());
+        Assert.AreEqual($" DATABASE  \\d {DatabaseDir.Replace("\\", "\\\\") + "Northwind.accdb"} \\c Provider=Microsoft.ACE.OLEDB.12.0 \\s \"SELECT * FROM [Products]\"", field.getFieldCode());
 
         // Insert another DATABASE field with a more complex query that sorts all products in descending order by gross sales.
         field = (FieldDatabase)builder.insertField(FieldType.FIELD_DATABASE, true);
-        field.setFileName(getDatabaseDir() + "Northwind.mdb");
-        field.setConnection("Provider=Microsoft.Jet.OLEDB.4.0");
+        field.setFileName(getDatabaseDir() + "Northwind.accdb");
+        field.setConnection("Provider=Microsoft.ACE.OLEDB.12.0");
         field.setQuery("SELECT [Products].ProductName, FORMAT(SUM([Order Details].UnitPrice * (1 - [Order Details].Discount) * [Order Details].Quantity), 'Currency') AS GrossSales " +
             "FROM([Products] " +
             "LEFT JOIN[Order Details] ON[Products].[ProductID] = [Order Details].[ProductID]) " +
@@ -696,10 +700,10 @@ public class ExField extends ApiExampleBase
 
         field = (FieldDatabase)doc.getRange().getFields().get(0);
 
-        Assert.AreEqual($" DATABASE  \\d {DatabaseDir.Replace("\\", "\\\\") + "Northwind.mdb"} \\c Provider=Microsoft.Jet.OLEDB.4.0 \\s \"SELECT * FROM [Products]\"",
+        Assert.AreEqual($" DATABASE  \\d {DatabaseDir.Replace("\\", "\\\\") + "Northwind.accdb"} \\c Provider=Microsoft.ACE.OLEDB.12.0 \\s \"SELECT * FROM [Products]\"",
             field.getFieldCode());
 
-        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.mdb", field.getQuery());
+        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.accdb", field.getQuery());
 
         table = (Table)doc.getChild(NodeType.TABLE, 1, true);
         field = (FieldDatabase)doc.getRange().getFields().get(1);
@@ -709,7 +713,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("ProductName\u0007", table.getRows().get(0).getCells().get(0).getText());
         Assert.assertEquals("GrossSales\u0007", table.getRows().get(0).getCells().get(1).getText());
 
-        Assert.AreEqual($" DATABASE  \\d {DatabaseDir.Replace("\\", "\\\\") + "Northwind.mdb"} \\c Provider=Microsoft.Jet.OLEDB.4.0 " +
+        Assert.AreEqual($" DATABASE  \\d {DatabaseDir.Replace("\\", "\\\\") + "Northwind.accdb"} \\c Provider=Microsoft.ACE.OLEDB.12.0 " +
                         $"\\s \"SELECT [Products].ProductName, FORMAT(SUM([Order Details].UnitPrice * (1 - [Order Details].Discount) * [Order Details].Quantity), 'Currency') AS GrossSales " +
                         "FROM([Products] " +
                         "LEFT JOIN[Order Details] ON[Products].[ProductID] = [Order Details].[ProductID]) " +
@@ -719,7 +723,7 @@ public class ExField extends ApiExampleBase
 
         table.getRows().get(0).remove();
 
-        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.mdb", msString.insert(field.getQuery(), 7, " TOP 10 "));
+        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.accdb", msString.insert(field.getQuery(), 7, " TOP 10 "));
     }
 
     public static class OleDbFieldDatabaseProvider implements IFieldDatabaseProvider
@@ -2609,9 +2613,12 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("MySequence", fieldSeq.getSequenceIdentifier());
     }
 
-    @Test (enabled = false, description = "WORDSNET-13854")
+    @Test        
     public void fieldCitation() throws Exception
-    {
+    {            
+        msCultureInfo oldCulture = CurrentThread.getCurrentCulture();
+        CurrentThread.setCurrentCulture(new msCultureInfo("en-nz", false));
+
         //ExStart
         //ExFor:FieldCitation
         //ExFor:FieldCitation.AnotherSourceTag
@@ -2667,9 +2674,9 @@ public class ExField extends ApiExampleBase
         // We can use a BIBLIOGRAPHY field to display all the sources within the document.
         builder.insertBreak(BreakType.PAGE_BREAK);
         FieldBibliography fieldBibliography = (FieldBibliography)builder.insertField(FieldType.FIELD_BIBLIOGRAPHY, true);
-        fieldBibliography.setFormatLanguageId("1124");
+        fieldBibliography.setFormatLanguageId("5129");
 
-        Assert.assertEquals(" BIBLIOGRAPHY  \\l 1124", fieldBibliography.getFieldCode());
+        Assert.assertEquals(" BIBLIOGRAPHY  \\l 5129", fieldBibliography.getFieldCode());
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.CITATION.docx");
@@ -2681,7 +2688,7 @@ public class ExField extends ApiExampleBase
 
         fieldCitation = (FieldCitation)doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_CITATION, " CITATION  Book1 \\p 85 \\t \\y", " (Doe, p. 85)", fieldCitation);
+        TestUtil.verifyField(FieldType.FIELD_CITATION, " CITATION  Book1 \\p 85 \\t \\y", "(Doe, p. 85)", fieldCitation);
         Assert.assertEquals("Book1", fieldCitation.getSourceTag());
         Assert.assertEquals("85", fieldCitation.getPageNumber());
         Assert.assertFalse(fieldCitation.getSuppressAuthor());
@@ -2692,7 +2699,7 @@ public class ExField extends ApiExampleBase
 
         TestUtil.verifyField(FieldType.FIELD_CITATION, 
             " CITATION  Book1 \\m Book2 \\l en-US \\p 19 \\f \"Prefix \" \\s \" Suffix\" \\v VII", 
-            " (Doe, 2018; Prefix Cardholder, 2018, VII:19 Suffix)", fieldCitation);
+            "(Doe, 2018; Prefix Cardholder, 2018, VII:19 Suffix)", fieldCitation);
         Assert.assertEquals("Book1", fieldCitation.getSourceTag());
         Assert.assertEquals("Book2", fieldCitation.getAnotherSourceTag());
         Assert.assertEquals("en-US", fieldCitation.getFormatLanguageId());
@@ -2706,13 +2713,13 @@ public class ExField extends ApiExampleBase
 
         fieldBibliography = (FieldBibliography)doc.getRange().getFields().get(2);
 
-        TestUtil.verifyField(FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY  \\l 1124",
+        TestUtil.verifyField(FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY  \\l 5129",
             "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", fieldBibliography);
-        Assert.assertEquals("1124", fieldBibliography.getFormatLanguageId());
+        Assert.assertEquals("5129", fieldBibliography.getFormatLanguageId());
 
         fieldCitation = (FieldCitation)doc.getRange().getFields().get(3);
 
-        TestUtil.verifyField(FieldType.FIELD_CITATION, " CITATION Book1 \\l 1033 ", "(Doe, 2018)", fieldCitation);
+        TestUtil.verifyField(FieldType.FIELD_CITATION, " CITATION Book1 \\l 1033 ", " (Doe, 2018)", fieldCitation);
         Assert.assertEquals("Book1", fieldCitation.getSourceTag());
         Assert.assertEquals("1033", fieldCitation.getFormatLanguageId());
 
@@ -2720,7 +2727,38 @@ public class ExField extends ApiExampleBase
 
         TestUtil.verifyField(FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY ", 
             "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", fieldBibliography);
+
+        CurrentThread.setCurrentCulture(oldCulture);
     }
+
+    //ExStart
+    //ExFor:IBibliographyStylesProvider
+    //ExFor:FieldOptions.BibliographyStylesProvider
+    //ExSummary:Shows how to override built-in styles or provide custom one.
+    @Test //ExSkip
+    public void changeBibliographyStyles() throws Exception
+    {
+        msCultureInfo oldCulture = CurrentThread.getCurrentCulture(); //ExSkip
+        CurrentThread.setCurrentCulture(new msCultureInfo("en-nz", false)); //ExSkip
+
+        Document doc = new Document(getMyDir() + "Bibliography.docx");
+
+        doc.getFieldOptions().setBibliographyStylesProvider(new BibliographyStylesProvider());
+        doc.updateFields();
+
+        doc.save(getArtifactsDir() + "Field.ChangeBibliographyStyles.docx");
+
+        CurrentThread.setCurrentCulture(oldCulture); //ExSkip
+    }
+    
+    public static class BibliographyStylesProvider implements IBibliographyStylesProvider
+    {
+        public Stream /*IBibliographyStylesProvider.*/getStyle(String styleFileName) throws Exception
+        {
+            return new FileInputStream(getMyDir() + "Bibliography custom style.xsl");
+        }
+    }
+    //ExEnd
 
     @Test
     public void fieldData() throws Exception
@@ -3036,8 +3074,7 @@ public class ExField extends ApiExampleBase
     }
 
     //ExStart
-    //ExFor:MergeFieldImageDimension
-    //ExFor:MergeFieldImageDimension.#ctor
+    //ExFor:MergeFieldImageDimension        
     //ExFor:MergeFieldImageDimension.#ctor(Double)
     //ExFor:MergeFieldImageDimension.#ctor(Double,MergeFieldImageDimensionUnit)
     //ExFor:MergeFieldImageDimension.Unit
@@ -6345,8 +6382,7 @@ public class ExField extends ApiExampleBase
         FieldRef field = (FieldRef)doc.getRange().getFields().get(0);
 
         TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\f \\h", 
-            "\u0002 MyBookmark footnote #1\r" +
-            "Text that will appear in REF field\u0002 MyBookmark footnote #2\r", field);
+            "Text that will appear in REF field", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getIncludeNoteOrComment());
         Assert.assertTrue(field.getInsertHyperlink());
@@ -7049,7 +7085,10 @@ public class ExField extends ApiExampleBase
         
         builder.insertParagraph();
         return field;
-    }private TestFieldEQtestFieldEQ(Document doc)
+    }
+    //ExEnd
+
+    private async Task private TestFieldEQtestFieldEQ(Document doc)
     {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\f(1,4)", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\al \\co2 \\vs3 \\hs3(4x,- 4y,-4x,+ y)", "", doc.getRange().getFields().get(1));

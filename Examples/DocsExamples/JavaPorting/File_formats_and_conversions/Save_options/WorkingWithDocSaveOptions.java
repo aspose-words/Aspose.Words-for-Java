@@ -15,6 +15,7 @@ public class WorkingWithDocSaveOptions extends DocsExamplesBase
     public void encryptDocumentWithPassword() throws Exception
     {
         //ExStart:EncryptDocumentWithPassword
+        //GistId:af95c7a408187bb25cf9137465fe5ce6
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         

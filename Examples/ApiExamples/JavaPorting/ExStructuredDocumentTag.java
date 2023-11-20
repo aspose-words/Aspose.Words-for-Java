@@ -23,6 +23,7 @@ import com.aspose.words.StyleIdentifier;
 import com.aspose.words.MarkupLevel;
 import com.aspose.words.NodeCollection;
 import com.aspose.words.Node;
+import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.Globalization.msCultureInfo;
 import com.aspose.words.SdtDateStorageFormat;
 import com.aspose.words.SdtCalendarType;
@@ -36,7 +37,6 @@ import com.aspose.words.Body;
 import com.aspose.words.SdtListItemCollection;
 import com.aspose.words.SdtListItem;
 import java.util.Iterator;
-import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.Guid;
 import com.aspose.words.CustomXmlPart;
 import com.aspose.ms.System.Text.Encoding;
@@ -94,7 +94,6 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExEnd
     }
 
-
     @Test
     public void applyStyle() throws Exception
     {
@@ -103,6 +102,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:StructuredDocumentTag.NodeType
         //ExFor:StructuredDocumentTag.Style
         //ExFor:StructuredDocumentTag.StyleName
+        //ExFor:StructuredDocumentTag.WordOpenXMLMinimal
         //ExFor:MarkupLevel
         //ExFor:SdtType
         //ExSummary:Shows how to work with styles for content control elements.
@@ -129,6 +129,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         for (Node node : (Iterable<Node>) tags)
         {
             StructuredDocumentTag sdt = (StructuredDocumentTag)node;
+
+            System.out.println(sdt.getWordOpenXMLMinimal());
 
             Assert.assertEquals(StyleIdentifier.QUOTE, sdt.getStyle().getStyleIdentifier());
             Assert.assertEquals("Quote", sdt.getStyleName());
@@ -937,9 +939,6 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     @Test
     public void updateSdtContent() throws Exception
     {
-        //ExStart
-        //ExFor:SaveOptions.UpdateSdtContent
-        //ExSummary:Shows how to update structured document tags while saving a document to PDF.
         Document doc = new Document();
 
         // Insert a drop-down list structured document tag.
@@ -955,8 +954,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc.getFirstSection().getBody().appendChild(tag);
 
-        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
-        //ExEnd
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");            
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
@@ -1135,8 +1133,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     @Test
     public void sdtChildNodes() throws Exception
     {
-        //ExStart
-        //ExFor:StructuredDocumentTagRangeStart.ChildNodes
+        //ExStart            
         //ExFor:StructuredDocumentTagRangeStart.GetChildNodes(NodeType, bool)
         //ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
@@ -1144,9 +1141,9 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             ms.as(doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, true).get(0), StructuredDocumentTagRangeStart.class);
 
         System.out.println("StructuredDocumentTagRangeStart values:");
-        System.out.println("\t|Child nodes count: {tag.ChildNodes.Count}\n");
+        System.out.println("\t|Child nodes count: {tag.GetChildNodes(NodeType.Any, false).Count}\n");
 
-        for (Node node : (Iterable<Node>) tag.getChildNodes())
+        for (Node node : (Iterable<Node>) tag.getChildNodes(NodeType.ANY, false))
             System.out.println("\t|Child node type: {node.NodeType}");
 
         for (Node node : (Iterable<Node>) tag.getChildNodes(NodeType.RUN, true))
@@ -1344,5 +1341,25 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             sdt.appendChild(sdt.getNextSibling());
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.Citation.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void rangeStartWordOpenXmlMinimal() throws Exception
+    {
+        //ExStart:RangeStartWordOpenXmlMinimal
+        //GistId:470c0da51e4317baae82ad9495747fed
+        //ExFor:StructuredDocumentTagRangeStart.WordOpenXMLMinimal
+        //ExSummary:Shows how to get minimal XML contained within the node in the FlatOpc format.
+        Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
+        StructuredDocumentTagRangeStart tag =
+            ms.as(doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true), StructuredDocumentTagRangeStart.class);
+
+        Assert.assertTrue(tag.getWordOpenXMLMinimal()
+            .contains(
+                "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
+        Assert.assertFalse(tag.getWordOpenXMLMinimal().contains("xmlns:w16cid=\"http://schemas.microsoft.com/office/word/2016/wordml/cid\""));
+        //ExEnd:RangeStartWordOpenXmlMinimal
     }
 }
+

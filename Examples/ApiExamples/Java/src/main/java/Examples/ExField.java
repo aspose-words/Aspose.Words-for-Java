@@ -465,16 +465,16 @@ public class ExField extends ApiExampleBase {
 
         // This DATABASE field will run a query on a database, and display the result in a table.
         FieldDatabase field = (FieldDatabase) builder.insertField(FieldType.FIELD_DATABASE, true);
-        field.setFileName(getDatabaseDir() + "Northwind.mdb");
+        field.setFileName(getDatabaseDir() + "Northwind.accdb");
         field.setConnection("DSN=MS Access Databases");
         field.setQuery("SELECT * FROM [Products]");
 
-        Assert.assertEquals(MessageFormat.format(" DATABASE  \\d {0} \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"", getDatabaseDir().replace("\\", "\\\\") + "Northwind.mdb"),
+        Assert.assertEquals(MessageFormat.format(" DATABASE  \\d {0} \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"", getDatabaseDir().replace("\\", "\\\\") + "Northwind.accdb"),
                 field.getFieldCode());
 
         // Insert another DATABASE field with a more complex query that sorts all products in descending order by gross sales.
         field = (FieldDatabase) builder.insertField(FieldType.FIELD_DATABASE, true);
-        field.setFileName(getMyDir() + "Database\\Northwind.mdb");
+        field.setFileName(getMyDir() + "Database\\Northwind.accdb");
         field.setConnection("DSN=MS Access Databases");
         field.setQuery("SELECT [Products].ProductName, FORMAT(SUM([Order Details].UnitPrice * (1 - [Order Details].Discount) * [Order Details].Quantity), 'Currency') AS GrossSales " +
                 "FROM([Products] " +
@@ -514,10 +514,10 @@ public class ExField extends ApiExampleBase {
 
         field = (FieldDatabase) doc.getRange().getFields().get(0);
 
-        Assert.assertEquals(MessageFormat.format(" DATABASE  \\d {0} \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"", getDatabaseDir().replace("\\", "\\\\") + "Northwind.mdb"),
+        Assert.assertEquals(MessageFormat.format(" DATABASE  \\d {0} \\c \"DSN=MS Access Databases\" \\s \"SELECT * FROM [Products]\"", getDatabaseDir().replace("\\", "\\\\") + "Northwind.accdb"),
                 field.getFieldCode());
 
-        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.mdb", field.getQuery());
+        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.accdb", field.getQuery());
 
         table = (Table) doc.getChild(NodeType.TABLE, 1, true);
         field = (FieldDatabase) doc.getRange().getFields().get(1);
@@ -527,7 +527,7 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals("ProductName\u0007", table.getRows().get(0).getCells().get(0).getText());
         Assert.assertEquals("GrossSales\u0007", table.getRows().get(0).getCells().get(1).getText());
 
-        Assert.assertEquals(" DATABASE  \\d \"{DatabaseDir.Replace('\\', '\\\\') + 'Northwind.mdb'}\" \\c \"DSN=MS Access Databases\" " +
+        Assert.assertEquals(" DATABASE  \\d \"{DatabaseDir.Replace('\\', '\\\\') + 'Northwind.accdb'}\" \\c \"DSN=MS Access Databases\" " +
                         "\\s \"SELECT [Products].ProductName, FORMAT(SUM([Order Details].UnitPrice * (1 - [Order Details].Discount) * [Order Details].Quantity), 'Currency') AS GrossSales " +
                         "FROM([Products] " +
                         "LEFT JOIN[Order Details] ON[Products].[ProductID] = [Order Details].[ProductID]) " +
@@ -537,7 +537,7 @@ public class ExField extends ApiExampleBase {
 
         table.getRows().get(0).remove();
 
-        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.mdb", new StringBuffer(field.getQuery()).insert(7, " TOP 10 ").toString());
+        TestUtil.tableMatchesQueryResult(table, getDatabaseDir() + "Northwind.accdb", new StringBuffer(field.getQuery()).insert(7, " TOP 10 ").toString());
     }
 
     @Test(dataProvider = "preserveIncludePictureDataProvider")
@@ -2453,6 +2453,30 @@ public class ExField extends ApiExampleBase {
                 "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", fieldBibliography);
     }
 
+    //ExStart
+    //ExFor:IBibliographyStylesProvider
+    //ExFor:FieldOptions.BibliographyStylesProvider
+    //ExSummary:Shows how to override built-in styles or provide custom one.
+    @Test //ExSkip
+    public void changeBibliographyStyles() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Bibliography.docx");
+
+        doc.getFieldOptions().setBibliographyStylesProvider(new BibliographyStylesProvider());
+        doc.updateFields();
+
+        doc.save(getArtifactsDir() + "Field.ChangeBibliographyStyles.docx");
+    }
+
+    public static class BibliographyStylesProvider implements IBibliographyStylesProvider
+    {
+        public FileInputStream getStyle(String styleFileName) throws Exception
+        {
+            return new FileInputStream(getMyDir() + "Bibliography custom style.xsl");
+        }
+    }
+    //ExEnd
+
     @Test
     public void fieldData() throws Exception {
         //ExStart
@@ -2686,7 +2710,6 @@ public class ExField extends ApiExampleBase {
 
     //ExStart
     //ExFor:MergeFieldImageDimension
-    //ExFor:MergeFieldImageDimension.#ctor
     //ExFor:MergeFieldImageDimension.#ctor(Double)
     //ExFor:MergeFieldImageDimension.#ctor(Double,MergeFieldImageDimensionUnit)
     //ExFor:MergeFieldImageDimension.Unit
@@ -4918,7 +4941,7 @@ public class ExField extends ApiExampleBase {
         //ExSummary:Shows how to display the file size of a document with a FILESIZE field.
         Document doc = new Document(getMyDir() + "Document.docx");
 
-        Assert.assertEquals(16222, doc.getBuiltInDocumentProperties().getBytes());
+        Assert.assertEquals(doc.getBuiltInDocumentProperties().getBytes(), 18105);
 
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.moveToDocumentEnd();
@@ -4931,7 +4954,7 @@ public class ExField extends ApiExampleBase {
         field.update();
 
         Assert.assertEquals(" FILESIZE ", field.getFieldCode());
-        Assert.assertEquals("16222", field.getResult());
+        Assert.assertEquals("18105", field.getResult());
 
         // 2 -  Kilobytes:
         builder.insertParagraph();
@@ -4940,7 +4963,7 @@ public class ExField extends ApiExampleBase {
         field.update();
 
         Assert.assertEquals(" FILESIZE  \\k", field.getFieldCode());
-        Assert.assertEquals("16", field.getResult());
+        Assert.assertEquals("18", field.getResult());
 
         // 3 -  Megabytes:
         builder.insertParagraph();
@@ -4960,7 +4983,7 @@ public class ExField extends ApiExampleBase {
 
         field = (FieldFileSize) doc.getRange().getFields().get(0);
 
-        TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE ", "16222", field);
+        TestUtil.verifyField(FieldType.FIELD_FILE_SIZE, " FILESIZE ", "18105", field);
 
         // These fields will need to be updated to produce an accurate result.
         doc.updateFields();
@@ -5816,8 +5839,7 @@ public class ExField extends ApiExampleBase {
         FieldRef field = (FieldRef) doc.getRange().getFields().get(0);
 
         TestUtil.verifyField(FieldType.FIELD_REF, " REF  MyBookmark \\f \\h",
-                "\u0002 MyBookmark footnote #1\r" +
-                        "Text that will appear in REF field\u0002 MyBookmark footnote #2\r", field);
+                "Text that will appear in REF field", field);
         Assert.assertEquals("MyBookmark", field.getBookmarkName());
         Assert.assertTrue(field.getIncludeNoteOrComment());
         Assert.assertTrue(field.getInsertHyperlink());

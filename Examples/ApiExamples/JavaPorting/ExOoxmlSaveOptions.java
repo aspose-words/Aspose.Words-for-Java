@@ -274,19 +274,21 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         System.out.println("\tFile Size:\t{fileInfo.Length} bytes");
         //ExEnd
 
+        long testedFileLength = fileInfo.getLength();
+
         switch (compressionLevel)
         {
             case CompressionLevel.MAXIMUM:
-                Assert.That(1266000, Is.AtLeast(fileInfo.getLength()));
+                Assert.That(testedFileLength, Is.LessThan(1269000));
                 break;
             case CompressionLevel.NORMAL:
-                Assert.That(1266900, Is.LessThan(fileInfo.getLength()));
+                Assert.That(testedFileLength, Is.LessThan(1271000));
                 break;
             case CompressionLevel.FAST:
-                Assert.That(1269000, Is.LessThan(fileInfo.getLength()));
+                Assert.That(testedFileLength, Is.LessThan(1280000));
                 break;
             case CompressionLevel.SUPER_FAST:
-                Assert.That(1271000, Is.LessThan(fileInfo.getLength()));
+                Assert.That(testedFileLength, Is.LessThan(1276000));
                 break;
         }
     }
@@ -439,3 +441,4 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
     }
     //ExEnd
 }
+

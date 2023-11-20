@@ -176,8 +176,7 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
             generator.Parameters.AutoSizeMode = AutoSizeMode.None;
         }
 
-        return generator.GenerateBarCodeImage();            
-
+        return generator.GenerateBarCodeImage();
     }
 
     /// <summary>
@@ -247,3 +246,4 @@ public class CustomBarcodeGenerator extends ApiExampleBase implements IBarcodeGe
 	);
 
 }
+

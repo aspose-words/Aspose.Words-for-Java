@@ -92,6 +92,7 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     public void digitallySignedPdfUsingCertificateHolder() throws Exception
     {
         //ExStart:DigitallySignedPdfUsingCertificateHolder
+        //GistId:39ea49b7754e472caf41179f8b5970a0
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
@@ -205,22 +206,22 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     }
 
     @Test
-    public void scaleWmfFontsToMetafileSize() throws Exception
+    public void emulateRenderingToSizeOnPage() throws Exception
     {
-        //ExStart:ScaleWmfFontsToMetafileSize
+        //ExStart:EmulateRenderingToSizeOnPage
         Document doc = new Document(getMyDir() + "WMF with text.docx");
 
         MetafileRenderingOptions metafileRenderingOptions = new MetafileRenderingOptions();
         {
-            metafileRenderingOptions.setScaleWmfFontsToMetafileSize(false);
+            metafileRenderingOptions.setEmulateRenderingToSizeOnPage(false);
         }
 
         // If Aspose.Words cannot correctly render some of the metafile records to vector graphics
         // then Aspose.Words renders this metafile to a bitmap.
         PdfSaveOptions saveOptions = new PdfSaveOptions(); { saveOptions.setMetafileRenderingOptions(metafileRenderingOptions); }
 
-        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.ScaleWmfFontsToMetafileSize.pdf", saveOptions);
-        //ExEnd:ScaleWmfFontsToMetafileSize
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.EmulateRenderingToSizeOnPage.pdf", saveOptions);
+        //ExEnd:EmulateRenderingToSizeOnPage
     }
 
     @Test
@@ -238,13 +239,14 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     @Test
     public void conversionToPdf17() throws Exception
     {
-        //ExStart:ConversionToPDF17
+        //ExStart:ConversionToPdf17
+        //GistId:b237846932dfcde42358bd0c887661a5
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PdfSaveOptions saveOptions = new PdfSaveOptions(); { saveOptions.setCompliance(PdfCompliance.PDF_17); }
 
         doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.ConversionToPdf17.pdf", saveOptions);
-        //ExEnd:ConversionToPDF17
+        //ExEnd:ConversionToPdf17
     }
 
     @Test
@@ -365,5 +367,18 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
 
         doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.InterpolateImages.pdf", saveOptions);
         //ExEnd:SetImageInterpolation
+    }
+
+    @Test
+    public void optimizeOutput() throws Exception
+    {
+        //ExStart:OptimizeOutput
+        //GistId:b237846932dfcde42358bd0c887661a5
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions(); { saveOptions.setOptimizeOutput(true); }
+
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.OptimizeOutput.pdf", saveOptions);
+        //ExEnd:OptimizeOutput
     }
 }

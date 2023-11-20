@@ -120,7 +120,7 @@ public class ExFont extends ApiExampleBase
         run.getFont().setAllCaps(true);
         para.appendChild(run);
 
-        para = (Paragraph)para.getParentNode().appendChild(new Paragraph(doc));
+        para = para.getParentNode().appendChild(new Paragraph(doc));
 
         // 2 -  Set the SmallCaps flag to display all characters in small capitals:
         // If a character is lower case, it will appear in its upper case form
@@ -198,12 +198,14 @@ public class ExFont extends ApiExampleBase
         fontInfos.setSaveSubsetFonts(embedAllFonts);
 
         doc.save(getArtifactsDir() + "Font.FontInfoCollection.docx");
+        //ExEnd
+
+        long testedFileLength = new FileInfo(getArtifactsDir() + "Font.FontInfoCollection.docx").getLength();
 
         if (embedAllFonts)
-            Assert.That(25000, Is.LessThan(new FileInfo(getArtifactsDir() + "Font.FontInfoCollection.docx").getLength()));
+            Assert.That(testedFileLength, Is.LessThan(28000));
         else
-            Assert.That(15000, Is.AtLeast(new FileInfo(getArtifactsDir() + "Font.FontInfoCollection.docx").getLength()));
-        //ExEnd
+            Assert.That(testedFileLength, Is.LessThan(13000));
     }
 
 	//JAVA-added data provider for test method
@@ -258,7 +260,7 @@ public class ExFont extends ApiExampleBase
         run.getFont().setStrikeThrough(true);
         para.appendChild(run);
 
-        para = (Paragraph)para.getParentNode().appendChild(new Paragraph(doc));
+        para = para.getParentNode().appendChild(new Paragraph(doc));
 
         run = new Run(doc, "Text with a double-line strikethrough.");
         run.getFont().setDoubleStrikeThrough(true);
@@ -1516,7 +1518,7 @@ public class ExFont extends ApiExampleBase
         //ExEnd
     }
 
-    @Test        
+    @Test (groups = "SkipGitHub")        
     public void checkScanUserFontsFolder() throws Exception
     {
         String userProfile = Environment.getFolderPath(Environment.SpecialFolder.USER_PROFILE);

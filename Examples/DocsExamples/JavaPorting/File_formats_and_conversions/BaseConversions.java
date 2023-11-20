@@ -11,6 +11,18 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.DocumentBuilder;
+import com.aspose.words.FindReplaceOptions;
+import com.aspose.words.XlsxSaveOptions;
+import com.aspose.words.CompressionLevel;
+import com.aspose.ms.System.msConsole;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import com.aspose.words.BreakType;
+import com.aspose.words.PageSetup;
+import com.aspose.words.ConvertUtil;
+import com.aspose.words.RelativeHorizontalPosition;
+import com.aspose.words.RelativeVerticalPosition;
+import com.aspose.words.WrapType;
 
 
 public class BaseConversions extends DocsExamplesBase
@@ -56,11 +68,12 @@ public class BaseConversions extends DocsExamplesBase
     @Test
     public void docxToPdf() throws Exception
     {
-        //ExStart:Doc2Pdf
+        //ExStart:DocxToPdf
+        //GistId:a53bdaad548845275c1b9556ee21ae65
         Document doc = new Document(getMyDir() + "Document.docx");
 
         doc.save(getArtifactsDir() + "BaseConversions.DocxToPdf.pdf");
-        //ExEnd:Doc2Pdf
+        //ExEnd:DocxToPdf
     }
 
     @Test
@@ -168,4 +181,114 @@ public class BaseConversions extends DocsExamplesBase
         //ExEnd:PdfToDocx
     }
 
+    @Test
+    public void pdfToXlsx() throws Exception
+    {
+        //ExStart:PdfToXlsx
+        Document doc = new Document(getMyDir() + "Pdf Document.pdf");
+
+        doc.save(getArtifactsDir() + "BaseConversions.PdfToXlsx.xlsx");
+        //ExEnd:PdfToXlsx
+    }
+
+    @Test
+    public void findReplaceXlsx() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("Ruby bought a ruby necklace.");
+
+        // We can use a "FindReplaceOptions" object to modify the find-and-replace process.
+        FindReplaceOptions options = new FindReplaceOptions();
+
+        // Set the "MatchCase" flag to "true" to apply case sensitivity while finding strings to replace.
+        // Set the "MatchCase" flag to "false" to ignore character case while searching for text to replace.
+        options.setMatchCase(true);
+
+        doc.getRange().replace("Ruby", "Jade", options);
+
+        doc.save(getArtifactsDir() + "BaseConversions.FindReplaceXlsx.xlsx");
+    }
+
+    @Test
+    public void compressXlsx() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        XlsxSaveOptions saveOptions = new XlsxSaveOptions();
+        saveOptions.setCompressionLevel(CompressionLevel.MAXIMUM);
+
+        doc.save(getArtifactsDir() + "BaseConversions.CompressXlsx.xlsx", saveOptions);
+    }
+
+    @Test
+    public void imagesToPdf() throws Exception
+    {
+        //ExStart:ImageToPdf
+        //GistId:a53bdaad548845275c1b9556ee21ae65
+        convertImageToPdf(getImagesDir() + "Logo.jpg", getArtifactsDir() + "BaseConversions.JpgToPdf.pdf");
+        convertImageToPdf(getImagesDir() + "Transparent background logo.png", getArtifactsDir() + "BaseConversions.PngToPdf.pdf");
+        convertImageToPdf(getImagesDir() + "Windows MetaFile.wmf", getArtifactsDir() + "BaseConversions.WmfToPdf.pdf");
+        convertImageToPdf(getImagesDir() + "Tagged Image File Format.tiff", getArtifactsDir() + "BaseConversions.TiffToPdf.pdf");
+        convertImageToPdf(getImagesDir() + "Graphics Interchange Format.gif", getArtifactsDir() + "BaseConversions.GifToPdf.pdf");
+        //ExEnd:ImageToPdf
+    }
+
+    //ExStart:ConvertImageToPdf
+    //GistId:a53bdaad548845275c1b9556ee21ae65
+    /// <summary>
+    /// Converts an image to PDF using Aspose.Words for .NET.
+    /// </summary>
+    /// <param name="inputFileName">File name of input image file.</param>
+    /// <param name="outputFileName">Output PDF file name.</param>
+    public void convertImageToPdf(String inputFileName, String outputFileName) throws Exception
+    {
+        System.out.println("Converting " + inputFileName + " to PDF ....");
+
+        
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Read the image from file, ensure it is disposed.
+        BufferedImage image = ImageIO.read(inputFileName);
+        try /*JAVA: was using*/
+        {
+            // Find which dimension the frames in this image represent. For example 
+            // the frames of a BMP or TIFF are "page dimension" whereas frames of a GIF image are "time dimension".
+            FrameDimension dimension = new FrameDimension(image.FrameDimensionsList[0]);
+
+            int framesCount = image.GetFrameCount(dimension);
+
+            for (int frameIdx = 0; frameIdx < framesCount; frameIdx++)
+            {
+                // Insert a section break before each new page, in case of a multi-frame TIFF.
+                if (frameIdx != 0)
+                    builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+
+                image.SelectActiveFrame(dimension, frameIdx);
+
+                // We want the size of the page to be the same as the size of the image.
+                // Convert pixels to points to size the page to the actual image size.
+                PageSetup ps = builder.getPageSetup();
+                ps.setPageWidth(ConvertUtil.pixelToPoint(image.getWidth(), image.HorizontalResolution));
+                ps.setPageHeight(ConvertUtil.pixelToPoint(image.getHeight(), image.VerticalResolution));
+
+                // Insert the image into the document and position it at the top left corner of the page.
+                builder.insertImage(
+                    image,
+                    RelativeHorizontalPosition.PAGE,
+                    0.0,
+                    RelativeVerticalPosition.PAGE,
+                    0.0,
+                    ps.getPageWidth(),
+                    ps.getPageHeight(),
+                    WrapType.NONE);
+            }
+        }
+        finally { if (image != null) image.flush(); }
+
+        doc.save(outputFileName);            
+    }
+    //ExEnd:ConvertImageToPdf
 }

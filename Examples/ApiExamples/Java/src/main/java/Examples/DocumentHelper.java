@@ -15,6 +15,9 @@ import java.io.*;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -362,6 +365,16 @@ public final class DocumentHelper {
         return formatter.parse(formatter.format(date));
     }
 
+    /**
+     * Get date base on system configuration.
+     *
+     * @return specific date without time
+     */
+    static LocalDate getLocalDate(Date date)
+    {
+        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
+    }
+
     static ArrayList<String> directoryGetFiles(final String dirname, final String filenamePattern) {
         File dirFile = new File(dirname);
         Pattern re = Pattern.compile(filenamePattern.replace("*", ".*").replace("?", ".?"));
@@ -387,7 +400,7 @@ public final class DocumentHelper {
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 
         // Open the database connection
-        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.mdb";
+        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.accdb";
 
         // From Wikipedia: The Sun driver has a known issue with character encoding and Microsoft Access databases
         // Microsoft Access may use an encoding that is not correctly translated by the driver, leading to the replacement

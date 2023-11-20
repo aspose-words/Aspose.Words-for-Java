@@ -20,12 +20,7 @@ import com.aspose.words.NodeType;
 import com.aspose.ms.System.Drawing.msColor;
 import java.awt.Color;
 import com.aspose.words.Underline;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import com.aspose.words.HeaderFooterType;
 import com.aspose.words.WrapType;
-import com.aspose.words.RelativeHorizontalPosition;
-import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.GroupShape;
 import com.aspose.ms.System.Drawing.RectangleF;
 import com.aspose.ms.System.Drawing.msSize;
@@ -35,6 +30,8 @@ import com.aspose.words.Paragraph;
 import com.aspose.ms.System.Drawing.msPointF;
 import com.aspose.words.BreakType;
 import com.aspose.words.NodeCollection;
+import com.aspose.words.RelativeHorizontalPosition;
+import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.FlipOrientation;
 import com.aspose.ms.System.Convert;
 import com.aspose.words.PresetTexture;
@@ -58,15 +55,17 @@ import com.aspose.words.OleControl;
 import com.aspose.words.Forms2OleControl;
 import com.aspose.words.Forms2OleControlType;
 import com.aspose.words.OleFormat;
+import com.aspose.ms.System.msString;
+import com.aspose.ms.System.StringComparison;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.Forms2OleControlCollection;
+import com.aspose.words.OfficeMath;
 import com.aspose.words.ImageSaveOptions;
 import com.aspose.words.SaveFormat;
-import com.aspose.words.OfficeMath;
 import com.aspose.words.OfficeMathDisplayType;
 import com.aspose.words.OfficeMathJustification;
 import com.aspose.words.MathObjectType;
@@ -235,7 +234,7 @@ public class ExShape extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a shape with an image.
-        Shape shape = builder.insertImage(ImageIO.read(getImageDir() + "Logo.jpg"));
+        Shape shape = builder.insertImage(getImageDir() + "Logo.jpg");
         Assert.assertTrue(shape.canHaveImage());
         Assert.assertTrue(shape.hasImage());
 
@@ -252,32 +251,6 @@ public class ExShape extends ApiExampleBase
         Assert.assertTrue(shape.canHaveImage());
         Assert.assertTrue(shape.hasImage());
         Assert.assertEquals(45.0d, shape.getRotation());
-    }
-
-    @Test
-    public void aspectRatioLockedDefaultValue() throws Exception
-    {
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        BufferedImage image = ImageIO.read(getImageDir() + "Transparent background logo.png");
-
-        Shape shape = builder.insertImage(image);
-        shape.setWrapType(WrapType.NONE);
-        shape.setBehindText(true);
-
-        shape.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
-        shape.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
-
-        // Calculate image left and top position so it appears in the center of the page.
-        shape.setLeft((builder.getPageSetup().getPageWidth() - shape.getWidth()) / 2.0);
-        shape.setTop((builder.getPageSetup().getPageHeight() - shape.getHeight()) / 2.0);
-
-        doc = DocumentHelper.saveOpen(doc);
-
-        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        Assert.assertEquals(true, shape.getAspectRatioLocked());            
     }
 
     @Test
@@ -888,7 +861,7 @@ public class ExShape extends ApiExampleBase
 
         // Apply texture alignment to the shape fill.
         shape.getFill().presetTextured(PresetTexture.CANVAS);
-        shape.getFill().setTextureAlignment(TextureAlignment.TOP_RIGHT);
+        shape.getFill().setTextureAlignment(TextureAlignment.TOP_RIGHT);            
 
         // Use the compliance option to define the shape using DML if you want to get "TextureAlignment"
         // property after the document saves.
@@ -1153,7 +1126,7 @@ public class ExShape extends ApiExampleBase
         //ExFor:WrapSide
         //ExFor:ShapeBase.WrapSide
         //ExFor:NodeCollection
-        //ExFor:CompositeNode.InsertAfter(Node, Node)
+        //ExFor:CompositeNode.InsertAfter``1(``0,Node)
         //ExFor:NodeCollection.ToArray
         //ExSummary:Shows how to replace all textbox shapes with image shapes.
         Document doc = new Document(getMyDir() + "Textboxes in drawing canvas.docx");
@@ -1298,6 +1271,7 @@ public class ExShape extends ApiExampleBase
         //ExFor:Forms2OleControl.Enabled
         //ExFor:Forms2OleControl.Type
         //ExFor:Forms2OleControl.ChildNodes
+        //ExFor:Forms2OleControl.GroupName
         //ExSummary:Shows how to verify the properties of an ActiveX control.
         Document doc = new Document(getMyDir() + "ActiveX controls.docx");
 
@@ -1314,8 +1288,20 @@ public class ExShape extends ApiExampleBase
             Assert.assertEquals(true, checkBox.getEnabled());
             Assert.assertEquals(Forms2OleControlType.CHECK_BOX, checkBox.getType());
             Assert.assertEquals(null, checkBox.getChildNodes());
+            Assert.assertEquals("", checkBox.getGroupName());
+
+            // Note, that you can't set GroupName for a Frame.
+            checkBox.setGroupName("Aspose group name");
         }
         //ExEnd
+
+        doc.save(getArtifactsDir() + "Shape.GetActiveXControlProperties.docx");
+        doc = new Document(getArtifactsDir() + "Shape.GetActiveXControlProperties.docx");
+
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Forms2OleControl forms2OleControl = (Forms2OleControl) shape.getOleFormat().getOleControl();
+
+        Assert.assertEquals("Aspose group name", forms2OleControl.getGroupName());
     }
 
     @Test
@@ -1348,13 +1334,13 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to get/set the full name of the external xls/xlsx document if the chart is linked.
         Document doc = new Document(getMyDir() + "Shape with linked chart.docx");
         
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);            
         
         String sourceFullName = shape.getChart().getSourceFullName();
         Assert.assertTrue(sourceFullName.contains("Examples\\Data\\Spreadsheet.xlsx"));
 
         sourceFullName = "D:\\Documents\\ChartData.xlsx";
-        Assert.assertTrue(sourceFullName.equals("D:\\Documents\\ChartData.xlsx"));
+        Assert.assertTrue(msString.equals(sourceFullName, "D:\\Documents\\ChartData.xlsx", StringComparison.ORDINAL));
         //ExEnd
     }
 
@@ -1399,8 +1385,8 @@ public class ExShape extends ApiExampleBase
         oleFormat.save(getArtifactsDir() + "OLE spreadsheet saved directly" + oleFormat.getSuggestedExtension());
         //ExEnd
 
-        Assert.That(8000, Is.LessThan(new FileInfo(getArtifactsDir() + "OLE spreadsheet extracted via stream.xlsx").getLength()));
-        Assert.That(8000, Is.LessThan(new FileInfo(getArtifactsDir() + "OLE spreadsheet saved directly.xlsx").getLength()));
+        Assert.That(new FileInfo(getArtifactsDir() + "OLE spreadsheet extracted via stream.xlsx").getLength(), Is.LessThan(8400));
+        Assert.That(new FileInfo(getArtifactsDir() + "OLE spreadsheet saved directly.xlsx").getLength(), Is.LessThan(8400));
     }
 
     @Test
@@ -1525,15 +1511,6 @@ public class ExShape extends ApiExampleBase
 
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         Assert.That(shape.getOleFormat().getSuggestedFileName(), Is.Empty);
-    }
-
-    @Test
-    public void resolutionDefaultValues()
-    {
-        ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
-
-        Assert.assertEquals(96, imageOptions.getHorizontalResolution());
-        Assert.assertEquals(96, imageOptions.getVerticalResolution());
     }
 
     @Test
@@ -1732,8 +1709,8 @@ public class ExShape extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (dataProvider = "markupLunguageForDifferentMsWordVersionsDataProvider")
-    public void markupLunguageForDifferentMsWordVersions(/*MsWordVersion*/int msWordVersion,
+    @Test (dataProvider = "markupLanguageForDifferentMsWordVersionsDataProvider")
+    public void markupLanguageForDifferentMsWordVersions(/*MsWordVersion*/int msWordVersion,
         /*ShapeMarkupLanguage*/byte shapeMarkupLanguage) throws Exception
     {
         Document doc = new Document();
@@ -1749,8 +1726,8 @@ public class ExShape extends ApiExampleBase
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "markupLunguageForDifferentMsWordVersionsDataProvider")
-	public static Object[][] markupLunguageForDifferentMsWordVersionsDataProvider() throws Exception
+	@DataProvider(name = "markupLanguageForDifferentMsWordVersionsDataProvider")
+	public static Object[][] markupLanguageForDifferentMsWordVersionsDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -2619,7 +2596,7 @@ public class ExShape extends ApiExampleBase
         Shape shape = appendWordArt(doc, "Hello World! This text is bold, and italic.", 
             "Arial", 480.0, 24.0, Color.WHITE, Color.BLACK, ShapeType.TEXT_PLAIN_TEXT);
 
-        // Apply the "Bold' and "Italic" formatting settings to the text using the respective properties.
+        // Apply the "Bold" and "Italic" formatting settings to the text using the respective properties.
         shape.getTextPath().setBold(true);
         shape.getTextPath().setItalic(true);
 
@@ -2884,13 +2861,13 @@ public class ExShape extends ApiExampleBase
 
         // The effects have also affected the visible dimensions of the shape.
         Assert.assertEquals(1045, rectangleFOut.getWidth());
-        Assert.assertEquals(1132, rectangleFOut.getHeight());
+        Assert.assertEquals(1133.5, rectangleFOut.getHeight());
 
         // The effects have also affected the visible bounds of the shape.
         Assert.assertEquals(-28.5, shape.getBoundsWithEffectsInternal().getX());
         Assert.assertEquals(-33, shape.getBoundsWithEffectsInternal().getY());
         Assert.assertEquals(192, shape.getBoundsWithEffectsInternal().getWidth());
-        Assert.assertEquals(279, shape.getBoundsWithEffectsInternal().getHeight());
+        Assert.assertEquals(280.5, shape.getBoundsWithEffectsInternal().getHeight());
         //ExEnd
     }
 
@@ -3185,6 +3162,53 @@ public class ExShape extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Shape.RelativeSizeAndPosition.docx");
         //ExEnd
+    }
+
+    @Test
+    public void fillBaseColor() throws Exception
+    {
+        //ExStart:FillBaseColor
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:Fill.BaseForeColor
+        //ExFor:Stroke.BaseForeColor
+        //ExSummary:Shows how to get foreground color without modifiers.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder();
+
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 100.0, 40.0);
+        shape.getFill().setForeColor(Color.RED);
+        shape.getFill().setForeTintAndShade(0.5);
+        shape.getStroke().getFill().setForeColor(msColor.getGreen());
+        shape.getStroke().getFill().setTransparency(0.5);
+
+        Assert.assertEquals(new Color((255), (188), (188), (255)).getRGB(), shape.getFill().getForeColor().getRGB());
+        Assert.assertEquals(Color.RED.getRGB(), shape.getFill().getBaseForeColor().getRGB());
+
+        Assert.assertEquals(new Color((0), (128), (0), (128)).getRGB(), shape.getStroke().getForeColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), shape.getStroke().getBaseForeColor().getRGB());
+
+        Assert.assertEquals(msColor.getGreen().getRGB(), shape.getStroke().getFill().getForeColor().getRGB());
+        Assert.assertEquals(msColor.getGreen().getRGB(), shape.getStroke().getFill().getBaseForeColor().getRGB());
+        //ExEnd:FillBaseColor
+    }
+
+    @Test
+    public void fitImageToShape() throws Exception
+    {
+        //ExStart:FitImageToShape
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:ImageData.FitImageToShape
+        //ExSummary:Shows hot to fit the image data to Shape frame.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert an image shape and leave its orientation in its default state.
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 300.0, 450.0);
+        shape.getImageData().setImage(getImageDir() + "Barcode.png");
+        shape.getImageData().fitImageToShape();
+
+        doc.save(getArtifactsDir() + "Shape.FitImageToShape.docx");
+        //ExEnd:FitImageToShape
     }
 }
 

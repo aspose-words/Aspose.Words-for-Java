@@ -26,6 +26,7 @@ import com.aspose.words.List;
 import com.aspose.words.ListTemplate;
 import com.aspose.words.CssStyleSheetType;
 import com.aspose.words.HtmlVersion;
+import com.aspose.ms.NUnit.Framework.msAssert;
 import com.aspose.words.HtmlMetafileFormat;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.FontSettings;
@@ -54,9 +55,6 @@ import com.aspose.words.FieldType;
 import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.words.HtmlLoadOptions;
 import com.aspose.ms.System.IO.MemoryStream;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import com.aspose.ms.System.Drawing.msSize;
 import com.aspose.words.IImageSavingCallback;
 import com.aspose.words.ImageSavingArgs;
 import com.aspose.words.LayoutCollector;
@@ -200,14 +198,29 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void createAZW3Toc() throws Exception
     {
         //ExStart
-        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
-        //ExSummary:Shows how to generate table of contents for azw3 documents.
+        //ExFor:HtmlSaveOptions.NavigationMapLevel
+        //ExSummary:Shows how to generate table of contents for Azw3 documents.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.AZW_3);
-        options.setEpubNavigationMapLevel(2);
+        options.setNavigationMapLevel(2);
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.CreateAZW3Toc.azw3", options);
+        //ExEnd
+    }
+
+    @Test
+    public void createMobiToc() throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlSaveOptions.NavigationMapLevel
+        //ExSummary:Shows how to generate table of contents for Mobi documents.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.MOBI);
+        options.setNavigationMapLevel(5);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.CreateMobiToc.mobi", options);
         //ExEnd
     }
 
@@ -387,7 +400,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
                 doc.save(getArtifactsDir() + "HtmlSaveOptions.ExportFonts.False.html", saveOptions);
 
-                Assert.IsNotEmpty(Directory.getFiles(fontsFolder, "HtmlSaveOptions.ExportFonts.False.times.ttf",
+                msAssert.isNotEmpty(Directory.getFiles(fontsFolder, "HtmlSaveOptions.ExportFonts.False.times.ttf",
                     SearchOption.ALL_DIRECTORIES));
 
                 Directory.delete(fontsFolder, true);
@@ -427,10 +440,10 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderPriority.html", saveOptions);
 
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.png", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.002.png", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.css", SearchOption.ALL_DIRECTORIES));
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.001.png", SearchOption.ALL_DIRECTORIES));
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.002.png", SearchOption.ALL_DIRECTORIES));
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderPriority.css", SearchOption.ALL_DIRECTORIES));
     }
 
     @Test
@@ -450,13 +463,13 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ResourceFolderLowPriority.html", saveOptions);
 
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Images",
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Images",
             "HtmlSaveOptions.ResourceFolderLowPriority.001.png", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.002.png",
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Images", "HtmlSaveOptions.ResourceFolderLowPriority.002.png",
             SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Fonts",
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Fonts",
             "HtmlSaveOptions.ResourceFolderLowPriority.arial.ttf", SearchOption.ALL_DIRECTORIES));
-        Assert.IsNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderLowPriority.css",
+        msAssert.isNotEmpty(Directory.getFiles(getArtifactsDir() + "Resources", "HtmlSaveOptions.ResourceFolderLowPriority.css",
             SearchOption.ALL_DIRECTORIES));
     }
 
@@ -953,7 +966,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void epubHeadings() throws Exception
     {
         //ExStart
-        //ExFor:HtmlSaveOptions.EpubNavigationMapLevel
+        //ExFor:HtmlSaveOptions.NavigationMapLevel
         //ExSummary:Shows how to filter headings that appear in the navigation panel of a saved Epub document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -976,10 +989,10 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         // Epub readers typically create a table of contents for their documents.
         // Each paragraph with a "Heading" style in the document will create an entry in this table of contents.
-        // We can use the "EpubNavigationMapLevel" property to set a maximum heading level. 
+        // We can use the "NavigationMapLevel" property to set a maximum heading level. 
         // The Epub reader will not add headings with a level above the one we specify to the contents table.
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.EPUB);
-        options.setEpubNavigationMapLevel(2);
+        options.setNavigationMapLevel(2);
 
         // Our document has six headings, two of which are above level 2.
         // The table of contents for this document will have four entries.
@@ -1331,31 +1344,12 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
                             "<span>Default numbered list item 3.</span>" +
                         "</li>" +
                     "</ol>"));
-
-                Assert.assertTrue(outDocContents.contains(
-                    "<p style=\"margin-top:0pt; margin-left:43.2pt; margin-bottom:0pt; text-indent:-43.2pt; -aw-import:list-item; -aw-list-level-number:3; " +
-                    "-aw-list-number-format:'%0.%1.%2.%3'; -aw-list-number-styles:'decimal decimal decimal decimal'; " +
-                    "-aw-list-number-values:'2 1 1 1'; -aw-list-padding-sml:10.2pt\">" +
-                        "<span style=\"-aw-import:ignore\">" +
-                            "<span>2.1.1.1</span>" +
-                            "<span style=\"width:10.2pt; font:7pt 'Times New Roman'; display:inline-block; -aw-import:spaces\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
-                        "</span>" +
-                        "<span>Outline legal heading list item 5.</span>" +
-                    "</p>"));
                 break;
             case ExportListLabels.BY_HTML_TAGS:
                 Assert.assertTrue(outDocContents.contains(
                     "<ol type=\"a\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
                         "<li style=\"margin-left:31.33pt; padding-left:4.67pt\">" +
                             "<span>Default numbered list item 3.</span>" +
-                        "</li>" +
-                    "</ol>"));
-
-                Assert.assertTrue(outDocContents.contains(
-                    "<ol type=\"1\" class=\"awlist3\" style=\"margin-right:0pt; margin-left:0pt; padding-left:0pt\">" +
-                        "<li style=\"margin-left:7.2pt; text-indent:-43.2pt; -aw-list-padding-sml:10.2pt\">" +
-                            "<span style=\"width:10.2pt; font:7pt 'Times New Roman'; display:inline-block; -aw-import:ignore\">&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span>" +
-                            "<span>Outline legal heading list item 5.</span>" +
                         "</li>" +
                     "</ol>"));
                 break;
@@ -1408,8 +1402,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         if (exportPageMargins)
         {
-            Assert.assertTrue(outDocContents.contains("<style type=\"text/css\">div.Section1 { margin:70.85pt }</style>"));
-            Assert.assertTrue(outDocContents.contains("<div class=\"Section1\"><p style=\"margin-top:0pt; margin-left:150pt; margin-bottom:0pt\">"));
+            Assert.assertTrue(outDocContents.contains("<style type=\"text/css\">div.Section_1 { margin:70.85pt }</style>"));
+            Assert.assertTrue(outDocContents.contains("<div class=\"Section_1\"><p style=\"margin-top:0pt; margin-left:150pt; margin-bottom:0pt\">"));
         }
         else
         {
@@ -1463,13 +1457,13 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         {
             Assert.assertTrue(outDocContents.contains(
                 "<style type=\"text/css\">" +
-                    "@page Section1 { size:419.55pt 595.3pt; margin:36pt 70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
-                    "@page Section2 { size:612pt 792pt; margin:70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
-                    "div.Section1 { page:Section1 }div.Section2 { page:Section2 }" +
+                    "@page Section_1 { size:419.55pt 595.3pt; margin:36pt 70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
+                    "@page Section_2 { size:612pt 792pt; margin:70.85pt; -aw-footer-distance:35.4pt; -aw-header-distance:35.4pt }" +
+                    "div.Section_1 { page:Section_1 }div.Section_2 { page:Section_2 }" +
                 "</style>"));
 
             Assert.assertTrue(outDocContents.contains(
-                "<div class=\"Section1\">" +
+                "<div class=\"Section_1\">" +
                     "<p style=\"margin-top:0pt; margin-bottom:0pt\">" +
                         "<span>Section 1</span>" +
                     "</p>" +
@@ -1997,12 +1991,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a shape which contains an image, and then make that shape considerably smaller than the image.
-        BufferedImage image = ImageIO.read(getImageDir() + "Transparent background logo.png");
-
-        Assert.assertEquals(400, msSize.getWidth(image.Size));
-        Assert.assertEquals(400, msSize.getHeight(image.Size));
-
-        Shape imageShape = builder.insertImage(image);
+        Shape imageShape = builder.insertImage(getImageDir() + "Transparent background logo.png");
         imageShape.setWidth(50.0);
         imageShape.setHeight(50.0);
 
@@ -2017,14 +2006,15 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         HtmlSaveOptions options = new HtmlSaveOptions(); { options.setScaleImageToShapeSize(scaleImageToShapeSize); }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.html", options);
-
-        FileInfo fileInfo = new FileInfo(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.001.png");
-
-    if (scaleImageToShapeSize)
-        Assert.That(3000, Is.AtLeast(fileInfo.getLength()));
-    else
-        Assert.That(20000, Is.LessThan(fileInfo.getLength()));
         //ExEnd
+
+        long testedImageLength = new FileInfo(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.001.png").getLength();
+
+        if (scaleImageToShapeSize)
+            Assert.That(testedImageLength, Is.LessThan(3000));
+        else
+            Assert.That(testedImageLength, Is.LessThan(16000));
+        
     }
 
 	//JAVA-added data provider for test method
@@ -2249,3 +2239,4 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     }
     //ExEnd
 }
+

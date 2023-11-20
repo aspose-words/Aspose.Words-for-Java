@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.MessageFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -81,10 +82,13 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Document.#ctor(Stream)
         //ExSummary:Shows how to retrieve a document from a URL and saves it to disk in a different format.
         // This is the URL address pointing to where to find the document
-        URL url = new URL("https://omextemplates.content.office.net/support/templates/en-us/tf16402488.dotx");
+        URL url = new URL("https://filesamples.com/samples/document/docx/sample3.docx");
 
         // The easiest way to load our document from the internet is make use of the URLConnection class
         URLConnection webClient = url.openConnection();
+        webClient.addRequestProperty("User-Agent", "Mozilla");
+        webClient.setReadTimeout(5000);
+        webClient.setConnectTimeout(5000);
 
         // Download the bytes from the location referenced by the URL
         InputStream inputStream = webClient.getInputStream();
@@ -104,7 +108,7 @@ public class ExDocument extends ApiExampleBase {
         // The file format of the passed data is inferred from the content of the bytes itself
         // You can load any document format supported by Aspose.Words in the same way
         Document doc = new Document(byteStream);
-        Assert.assertTrue(doc.getText().contains("First Name last name")); //ExSkip
+        Assert.assertTrue(doc.getText().contains("There are eight section headings in this document")); //ExSkip
 
         // Convert the document to any format supported by Aspose.Words and save
         doc.save(getArtifactsDir() + "Document.OpenDocumentFromWeb.docx");
@@ -254,6 +258,17 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
+    public void notSupportedWarning() throws Exception
+    {
+        WarningInfoCollection warings = new WarningInfoCollection();
+        LoadOptions loadOptions = new LoadOptions();
+        loadOptions.setWarningCallback(warings);
+        Document doc = new Document(getMyDir() + "FB2 document.fb2", loadOptions);
+
+        Assert.assertEquals("The original file load format is FB2, which is not supported by Aspose.Words. The file is loaded as an XML document.", warings.get(0).getDescription());
+    }
+
+    @Test
     public void tempFolder() throws Exception {
         //ExStart
         //ExFor:LoadOptions.TempFolder
@@ -267,6 +282,46 @@ public class ExDocument extends ApiExampleBase {
 
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
         //ExEnd
+    }
+
+    @Test
+    public void pageIsInColor() throws Exception
+    {
+        //ExStart
+        //ExFor:PageInfo.Colored
+        //ExSummary:Shows how to check whether the page is in color or not.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        // Check that the first page of the document is not colored.
+        Assert.assertFalse(doc.getPageInfo(0).getColored());
+        //ExEnd
+    }
+
+    @Test
+    public void insertDocumentInline() throws Exception
+    {
+        //ExStart:InsertDocumentInline
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
+        //ExFor:DocumentBuilder.InsertDocumentInline(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to insert a document inline at the cursor position.
+        DocumentBuilder srcDoc = new DocumentBuilder();
+        srcDoc.write("[src content]");
+
+        // Create destination document.
+        DocumentBuilder dstDoc = new DocumentBuilder();
+        dstDoc.write("Before ");
+        dstDoc.insertNode(new BookmarkStart(dstDoc.getDocument(), "src_place"));
+        dstDoc.insertNode(new BookmarkEnd(dstDoc.getDocument(), "src_place"));
+        dstDoc.write(" after");
+
+        Assert.assertEquals("Before  after", dstDoc.getDocument().getText().trim());
+
+        // Insert source document into destination inline.
+        dstDoc.moveToBookmark("src_place");
+        dstDoc.insertDocumentInline(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
+
+        Assert.assertEquals("Before [src content] after", dstDoc.getDocument().getText().trim());
+        //ExEnd:InsertDocumentInline
     }
 
     @Test
@@ -471,7 +526,7 @@ public class ExDocument extends ApiExampleBase {
         Document srcDoc = new Document(getMyDir() + "List source.docx");
         Document dstDoc = new Document(getMyDir() + "List destination.docx");
 
-        Assert.assertEquals(2, dstDoc.getLists().getCount());
+        Assert.assertEquals(dstDoc.getLists().getCount(), 4);
 
         ImportFormatOptions options = new ImportFormatOptions();
 
@@ -485,9 +540,9 @@ public class ExDocument extends ApiExampleBase {
         dstDoc.updateListLabels();
 
         if (isKeepSourceNumbering)
-            Assert.assertEquals(3, dstDoc.getLists().getCount());
+            Assert.assertEquals(dstDoc.getLists().getCount(), 5);
         else
-            Assert.assertEquals(2, dstDoc.getLists().getCount());
+            Assert.assertEquals(dstDoc.getLists().getCount(), 4);
         //ExEnd
     }
 
@@ -680,6 +735,24 @@ public class ExDocument extends ApiExampleBase {
         Assert.assertEquals(DigitalSignatureType.XML_DSIG, digitalSignatureCollection.get(0).getSignatureType());
         Assert.assertEquals("CN=Morzal.Me", signedDoc.getDigitalSignatures().get(0).getIssuerName());
         Assert.assertEquals("CN=Morzal.Me", signedDoc.getDigitalSignatures().get(0).getSubjectName());
+        //ExEnd
+    }
+
+    @Test
+    public void signatureValue() throws Exception
+    {
+        //ExStart
+        //ExFor:DigitalSignature.SignatureValue
+        //ExSummary:Shows how to get a digital signature value from a digitally signed document.
+        Document doc = new Document(getMyDir() + "Digitally signed.docx");
+
+        for (DigitalSignature digitalSignature : doc.getDigitalSignatures())
+        {
+            String signatureValue = Base64.getEncoder().encodeToString(digitalSignature.getSignatureValue());
+            Assert.assertEquals("K1cVLLg2kbJRAzT5WK+m++G8eEO+l7S+5ENdjMxxTXkFzGUfvwxREuJdSFj9AbD" +
+                    "MhnGvDURv9KEhC25DDF1al8NRVR71TF3CjHVZXpYu7edQS5/yLw/k5CiFZzCp1+MmhOdYPcVO+Fm" +
+                    "+9fKr2iNLeyYB+fgEeZHfTqTFM2WwAqo=", signatureValue);
+        }
         //ExEnd
     }
 
@@ -1993,13 +2066,12 @@ public class ExDocument extends ApiExampleBase {
         Document template = new Document(getMyDir() + "Rendering.docx");
         Document target = new Document(getMyDir() + "Document.docx");
 
-        Assert.assertEquals(18, template.getStyles().getCount()); //ExSkip
-        Assert.assertEquals(8, target.getStyles().getCount()); //ExSkip
+        Assert.assertEquals(template.getStyles().getCount(), 18); //ExSkip
+        Assert.assertEquals(target.getStyles().getCount(), 12); //ExSkip
 
         target.copyStylesFromTemplate(template);
-        Assert.assertEquals(18, target.getStyles().getCount()); //ExSkip
-
         //ExEnd
+        Assert.assertEquals(target.getStyles().getCount(), 22); //ExSkip
     }
 
     @Test

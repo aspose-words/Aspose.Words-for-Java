@@ -104,7 +104,7 @@ public class ExNode extends ApiExampleBase {
         //ExFor:NodeType
         //ExFor:CompositeNode
         //ExFor:CompositeNode.GetChild
-        //ExFor:CompositeNode.ChildNodes
+        //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
         //ExFor:CompositeNode.GetEnumerator
         //ExFor:NodeCollection.Count
         //ExFor:NodeCollection.Item
@@ -127,9 +127,9 @@ public class ExNode extends ApiExampleBase {
 
         // Iterate through the paragraph's collection of immediate children,
         // and print any runs or shapes that we find within.
-        NodeCollection children = paragraph.getChildNodes();
+        NodeCollection children = paragraph.getChildNodes(NodeType.ANY, false);
 
-        Assert.assertEquals(3, paragraph.getChildNodes().getCount());
+        Assert.assertEquals(3, paragraph.getChildNodes(NodeType.ANY, false).getCount());
 
         for (Node child : (Iterable<Node>) children)
             switch (child.getNodeType()) {
@@ -295,7 +295,7 @@ public class ExNode extends ApiExampleBase {
         //ExStart
         //ExFor:CompositeNode.LastChild
         //ExFor:Node.PreviousSibling
-        //ExFor:CompositeNode.RemoveChild
+        //ExFor:CompositeNode.RemoveChild``1(``0)
         //ExSummary:Shows how to use of methods of Node and CompositeNode to remove a section before the last section in the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -406,7 +406,7 @@ public class ExNode extends ApiExampleBase {
         Body body = doc.getFirstSection().getBody();
 
         // Retrieve the index of the last paragraph in the body of the first section.
-        Assert.assertEquals(24, body.getChildNodes().indexOf(body.getLastParagraph()));
+        Assert.assertEquals(24, body.getChildNodes(NodeType.ANY, false).indexOf(body.getLastParagraph()));
         //ExEnd
     }
 

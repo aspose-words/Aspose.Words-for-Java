@@ -600,7 +600,7 @@ public class ExInlineStory extends ApiExampleBase
         Assert.assertEquals(StoryType.FOOTNOTES, footnote.getStoryType());
 
         // A comment is another type of inline story.
-        Comment comment = (Comment)builder.getCurrentParagraph().appendChild(new Comment(doc, "John Doe", "J. D.", new Date()));
+        Comment comment = builder.getCurrentParagraph().appendChild(new Comment(doc, "John Doe", "J. D.", new Date()));
 
         // The parent paragraph of an inline story node will be the one from the main document body.
         Assert.assertEquals(doc.getFirstSection().getBody().getFirstParagraph(), comment.getParentParagraph());

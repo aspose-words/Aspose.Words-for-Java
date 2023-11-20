@@ -4,6 +4,7 @@ import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.text.MessageFormat;
 
 @Test
@@ -142,9 +143,10 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     }
 
     @Test
-    public void setPageSetupAndSectionFormatting() throws Exception
+    public void pageSetupAndSectionFormatting() throws Exception
     {
-        //ExStart:DocumentBuilderSetPageSetupAndSectionFormatting
+        //ExStart:PageSetupAndSectionFormatting
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -153,6 +155,49 @@ public class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
         builder.getPageSetup().setPaperSize(PaperSize.PAPER_10_X_14);
 
         doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.SetPageSetupAndSectionFormatting.docx");
-        //ExEnd:DocumentBuilderSetPageSetupAndSectionFormatting
+        //ExEnd:PageSetupAndSectionFormatting
+    }
+
+    @Test
+    public void pageBorderProperties() throws Exception
+    {
+        //ExStart:PageBorderProperties
+        Document doc = new Document();
+
+        PageSetup pageSetup = doc.getSections().get(0).getPageSetup();
+        pageSetup.setBorderAlwaysInFront(false);
+        pageSetup.setBorderDistanceFrom(PageBorderDistanceFrom.PAGE_EDGE);
+        pageSetup.setBorderAppliesTo(PageBorderAppliesTo.FIRST_PAGE);
+
+        Border border = pageSetup.getBorders().getByBorderType(BorderType.TOP);
+        border.setLineStyle(LineStyle.SINGLE);
+        border.setLineWidth(30.0);
+        border.setColor(Color.BLUE);
+        border.setDistanceFromText(0.0);
+
+        doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.PageBorderProperties.docx");
+        //ExEnd:PageBorderProperties
+    }
+
+    @Test
+    public void lineGridSectionLayoutMode() throws Exception
+    {
+        //ExStart:LineGridSectionLayoutMode
+        //GistId:7c0668453e53ed7a57d3ea3a05520f21
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Enable pitching, and then use it to set the number of lines per page in this section.
+        // A large enough font size will push some lines down onto the next page to avoid overlapping characters.
+        builder.getPageSetup().setLayoutMode(SectionLayoutMode.LINE_GRID);
+        builder.getPageSetup().setLinesPerPage(15);
+
+        builder.getParagraphFormat().setSnapToGrid(true);
+
+        for (int i = 0; i < 30; i++)
+            builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ");
+
+        doc.save(getArtifactsDir() + "WorkingWithDocumentOptionsAndSettings.LinesPerPage.docx");
+        //ExEnd:LineGridSectionLayoutMode
     }
 }

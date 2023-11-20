@@ -494,8 +494,8 @@ class SectionSplitter extends DocumentVisitor
 
     public int visitParagraphEnd(Paragraph paragraph) throws Exception {
         // If the paragraph contains only section break, add fake run into.
-        if (paragraph.isEndOfSection() && paragraph.getChildNodes().getCount() == 1 &&
-            "\f".equals(paragraph.getChildNodes().get(0).getText()))
+        if (paragraph.isEndOfSection() && paragraph.getChildNodes(NodeType.ANY, false).getCount() == 1 &&
+            "\f".equals(paragraph.getChildNodes(NodeType.ANY, false).get(0).getText()))
         {
             Run run = new Run(paragraph.getDocument());
             paragraph.appendChild(run);
@@ -574,8 +574,8 @@ class SectionSplitter extends DocumentVisitor
         int startingPage = pageNumberFinder.getPage(node);
         
         Node[] childNodes = node.getNodeType() == NodeType.SECTION
-            ? ((Section) node).getBody().getChildNodes().toArray()
-            : node.getChildNodes().toArray();
+            ? ((Section) node).getBody().getChildNodes(NodeType.ANY, false).toArray()
+            : node.getChildNodes(NodeType.ANY, false).toArray();
         for (Node childNode : childNodes)
         {
             int pageNum = pageNumberFinder.getPage(childNode);
@@ -633,7 +633,7 @@ class SectionSplitter extends DocumentVisitor
             // If we are dealing with a row, we need to add dummy cells for the cloned row.
             int targetPageNum = pageNumberFinder.getPage(targetNode);
             
-            Node[] childNodes = baseNode.getChildNodes().toArray();
+            Node[] childNodes = baseNode.getChildNodes(NodeType.ANY, false).toArray();
             for (Node childNode : childNodes)
             {
                 int pageNum = pageNumberFinder.getPage(childNode);
@@ -684,12 +684,12 @@ class SplitPageBreakCorrector
 
     public static void processSection(Section section)
     {
-        if (section.getChildNodes().getCount() == 0)
+        if (section.getChildNodes(NodeType.ANY, false).getCount() == 0)
         {
             return;
         }
 
-        Body lastBody = (Body) Arrays.stream(new Iterator[]{section.getChildNodes().iterator()}).reduce((first, second) -> second)
+        Body lastBody = (Body) Arrays.stream(new Iterator[]{section.getChildNodes(NodeType.ANY, false).iterator()}).reduce((first, second) -> second)
             .orElse(null);
 
         RunCollection runs = (RunCollection) lastBody.getChildNodes(NodeType.RUN, true).iterator();
@@ -712,7 +712,7 @@ class SplitPageBreakCorrector
 
     private void processLastParagraph(Paragraph paragraph)
     {
-        Node lastNode = paragraph.getChildNodes().get(paragraph.getChildNodes().getCount() - 1);
+        Node lastNode = paragraph.getChildNodes(NodeType.ANY, false).get(paragraph.getChildNodes(NodeType.ANY, false).getCount() - 1);
         if (lastNode.getNodeType() != NodeType.RUN)
         {
             return;
@@ -735,7 +735,7 @@ class SplitPageBreakCorrector
             run.setText(StringUtils.stripEnd(run.getText(), String.valueOf(PAGE_BREAK)));
         }
 
-        if (paragraph.getChildNodes().getCount() == 0)
+        if (paragraph.getChildNodes(NodeType.ANY, false).getCount() == 0)
         {
             CompositeNode parent = paragraph.getParentNode();
             parent.removeChild(paragraph);

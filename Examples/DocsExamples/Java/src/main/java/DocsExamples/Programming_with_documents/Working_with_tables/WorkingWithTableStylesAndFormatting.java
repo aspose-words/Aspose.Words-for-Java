@@ -10,9 +10,10 @@ import java.awt.*;
 public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
 {
     @Test
-    public void getDistanceBetweenTableSurroundingText() throws Exception
+    public void distanceBetweenTableSurroundingText() throws Exception
     {
-        //ExStart:GetDistancebetweenTableSurroundingText
+        //ExStart:DistanceBetweenTableSurroundingText
+        //GistId:0f235c484e5edae70a542ebdaae40fd8
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         System.out.println("\nGet distance between table left, right, bottom, top and the surrounding text.");
@@ -22,18 +23,22 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
         System.out.println(table.getDistanceBottom());
         System.out.println(table.getDistanceRight());
         System.out.println(table.getDistanceLeft());
-        //ExEnd:GetDistancebetweenTableSurroundingText
+        //ExEnd:DistanceBetweenTableSurroundingText
     }
 
     @Test
     public void applyOutlineBorder() throws Exception
     {
         //ExStart:ApplyOutlineBorder
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
+        //ExStart:InlineTablePosition
+        //GistId:0f235c484e5edae70a542ebdaae40fd8
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
         // Align the table to the center of the page.
         table.setAlignment(TableAlignment.CENTER);
+        //ExEnd:InlineTablePosition
         // Clear any existing borders from the table.
         table.clearBorders();
 
@@ -54,6 +59,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void buildTableWithBorders() throws Exception
     {
         //ExStart:BuildTableWithBorders
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -72,6 +78,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void modifyRowFormatting() throws Exception
     {
         //ExStart:ModifyRowFormatting
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -88,6 +95,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void applyRowFormatting() throws Exception
     {
         //ExStart:ApplyRowFormatting
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -114,9 +122,10 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     }
 
     @Test
-    public void setCellPadding() throws Exception
+    public void cellPadding() throws Exception
     {
-        //ExStart:SetCellPadding
+        //ExStart:CellPadding
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -130,8 +139,8 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
         builder.endRow();
         builder.endTable();
 
-        doc.save(getArtifactsDir() + "WorkingWithTableStylesAndFormatting.SetCellPadding.docx");
-        //ExEnd:SetCellPadding
+        doc.save(getArtifactsDir() + "WorkingWithTableStylesAndFormatting.CellPadding.docx");
+        //ExEnd:CellPadding
     }
 
     /// <summary>
@@ -141,6 +150,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void modifyCellFormatting() throws Exception
     {
         //ExStart:ModifyCellFormatting
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
@@ -155,6 +165,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void formatTableAndCellWithDifferentBorders() throws Exception
     {
         //ExStart:FormatTableAndCellWithDifferentBorders
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -198,9 +209,10 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     }
 
     @Test
-    public void setTableTitleAndDescription() throws Exception
+    public void tableTitleAndDescription() throws Exception
     {
-        //ExStart:SetTableTitleAndDescription
+        //ExStart:TableTitleAndDescription
+        //GistId:7855fd2588b90f4640bf0540285b5277
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -212,13 +224,14 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
         doc.getCompatibilityOptions().optimizeFor(com.aspose.words.MsWordVersion.WORD_2016);
 
         doc.save(getArtifactsDir() + "WorkingWithTableStylesAndFormatting.SetTableTitleAndDescription.docx", options);
-        //ExEnd:SetTableTitleAndDescription
+        //ExEnd:TableTitleAndDescription
     }
 
     @Test
     public void allowCellSpacing() throws Exception
     {
         //ExStart:AllowCellSpacing
+        //GistId:1c794bd06eb1e3b67f0368daa6f23b1f
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
@@ -233,6 +246,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void buildTableWithStyle() throws Exception
     {
         //ExStart:BuildTableWithStyle
+        //GistId:f1d06175603c48e6dabf5a2eea01207c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -280,6 +294,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void expandFormattingOnCellsAndRowFromStyle() throws Exception
     {
         //ExStart:ExpandFormattingOnCellsAndRowFromStyle
+        //GistId:f1d06175603c48e6dabf5a2eea01207c
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         // Get the first cell of the first table in the document.
@@ -304,6 +319,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void createTableStyle() throws Exception
     {
         //ExStart:CreateTableStyle
+        //GistId:f1d06175603c48e6dabf5a2eea01207c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -335,6 +351,7 @@ public class WorkingWithTableStylesAndFormatting extends DocsExamplesBase
     public void defineConditionalFormatting() throws Exception
     {
         //ExStart:DefineConditionalFormatting
+        //GistId:f1d06175603c48e6dabf5a2eea01207c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

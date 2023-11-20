@@ -624,6 +624,7 @@ public class FindAndReplace extends DocsExamplesBase
     public void replaceTextInTable() throws Exception
     {
         //ExStart:ReplaceText
+        //GistId:7855fd2588b90f4640bf0540285b5277
         Document doc = new Document(getMyDir() + "Tables.docx");
 
         Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);

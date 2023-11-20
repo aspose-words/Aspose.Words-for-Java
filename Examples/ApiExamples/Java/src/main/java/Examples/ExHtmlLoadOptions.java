@@ -77,6 +77,28 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
     }
 
     @Test
+    public void loadHtmlFixed() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions(); { saveOptions.setSaveFormat(SaveFormat.HTML_FIXED); }
+
+        doc.save(getArtifactsDir() + "HtmlLoadOptions.Fixed.html", saveOptions);
+
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions();
+
+        ListDocumentWarnings warningCallback = new ListDocumentWarnings();
+        loadOptions.setWarningCallback(warningCallback);
+
+        doc = new Document(getArtifactsDir() + "HtmlLoadOptions.Fixed.html", loadOptions);
+        Assert.assertEquals(1, warningCallback.warnings().size());
+
+        Assert.assertEquals(WarningSource.HTML, warningCallback.warnings().get(0).getSource());
+        Assert.assertEquals(WarningType.MAJOR_FORMATTING_LOSS, warningCallback.warnings().get(0).getWarningType());
+        Assert.assertEquals("The document is fixed-page HTML. Its structure may not be loaded correctly.", warningCallback.warnings().get(0).getDescription());
+    }
+
+    @Test
     public void encryptedHtml() throws Exception {
         //ExStart
         //ExFor:HtmlLoadOptions.#ctor(String)

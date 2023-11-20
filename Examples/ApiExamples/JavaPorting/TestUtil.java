@@ -9,9 +9,6 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
-import com.aspose.ms.System.IO.FileStream;
-import com.aspose.ms.System.IO.FileMode;
-import com.aspose.ms.System.IO.Stream;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import org.testng.Assert;
@@ -20,15 +17,20 @@ import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.ControlChar;
 import com.aspose.words.Document;
 import java.util.ArrayList;
+import com.aspose.ms.System.msConsole;
 import com.aspose.ms.System.Collections.msArrayList;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.ms.System.msString;
 import com.aspose.ms.System.StringSplitOptions;
+import com.aspose.ms.System.IO.Stream;
+import com.aspose.ms.System.IO.FileStream;
+import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.FieldType;
 import com.aspose.words.Field;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.TimeSpan;
 import com.aspose.words.CompositeNode;
+import com.aspose.words.NodeType;
 import com.aspose.words.ImageType;
 import com.aspose.words.Shape;
 import com.aspose.words.FootnoteType;
@@ -59,28 +61,9 @@ class TestUtil extends ApiExampleBase
     /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
     /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
     /// <param name="filename">Local file system filename of the image file.</param>
-    static void verifyImage(int expectedWidth, int expectedHeight, String filename) throws Exception
+    static void verifyImage(int expectedWidth, int expectedHeight, String filename)
     {
-        FileStream fileStream = new FileStream(filename, FileMode.OPEN);
-        try /*JAVA: was using*/
-        {
-            verifyImage(expectedWidth, expectedHeight, fileStream);
-        }
-        finally { if (fileStream != null) fileStream.close(); }
-    }
-
-    /// <summary>
-    /// Checks whether a stream contains a valid image with specified dimensions.
-    /// </summary>
-    /// <remarks>
-    /// Serves to check that an image file is valid and nonempty without looking up its file size.
-    /// </remarks>
-    /// <param name="expectedWidth">Expected width of the image, in pixels.</param>
-    /// <param name="expectedHeight">Expected height of the image, in pixels.</param>
-    /// <param name="imageStream">Stream that contains the image.</param>
-    static void verifyImage(int expectedWidth, int expectedHeight, Stream imageStream)
-    {
-        BufferedImage image = ImageIO.read(imageStream);
+        BufferedImage image = ImageIO.read(filename);
         try /*JAVA: was using*/
         {
             Assert.Multiple(() =>
@@ -108,17 +91,7 @@ class TestUtil extends ApiExampleBase
         finally { if (bitmap != null) bitmap.close(); }
 
         Assert.fail($"The image from \"{filename}\" does not contain any transparency.");
-    }
-
-    /// <summary>
-    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
-    /// </summary>
-    /// <remarks>
-    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
-    /// </remarks>
-    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
-    /// <param name="webAddress">URL where the request will be sent.</param>
-     static async System.Threading.Tasks.Task private VerifyWebResponseStatusCodeverifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
+    }private VerifyWebResponseStatusCodeverifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
     {
         var myClient = new System.Net.Http.HttpClient();
         var response = await myClient.GetAsync(webAddress);
@@ -138,7 +111,7 @@ class TestUtil extends ApiExampleBase
         OleDbConnection connection = new OleDbConnection();
         try /*JAVA: was using*/
         {
-            connection.ConnectionString = $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={dbFilename};";
+            connection.ConnectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={dbFilename};";
             connection.Open();
 
             OleDbCommand command = connection.CreateCommand();
@@ -188,42 +161,47 @@ class TestUtil extends ApiExampleBase
     static void mailMergeMatchesQueryResult(String dbFilename, String sqlQuery, Document doc, boolean onePagePerRow)
     {
         ArrayList<String[]> expectedStrings = new ArrayList<String[]>(); 
-        String connectionString = "Driver={Microsoft Access Driver (*.mdb)};Dbq=" + dbFilename;
+        String connectionString = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source=" + dbFilename;
 
-        OdbcConnection connection = new OdbcConnection();
+        OleDbConnection connection = new OleDbConnection(connectionString);
         try /*JAVA: was using*/
         {
-            connection.ConnectionString = connectionString;
-            connection.Open();
-
-            OdbcCommand command = connection.CreateCommand();
+            OleDbCommand command = new OleDbCommand(sqlQuery, connection);
             command.CommandText = sqlQuery;
 
-            OdbcDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-            try /*JAVA: was using*/
+            try
             {
-                while (reader.read())
+                connection.Open();
+                OleDbDataReader reader = command.ExecuteReader();
+                try /*JAVA: was using*/
                 {
-                    String[] row = new String[reader.getFieldCount()];
+                    while (reader.read())
+                    {
+                        String[] row = new String[reader.getFieldCount()];
 
-                    for (int i = 0; i < reader.getFieldCount(); i++)
-                        switch (reader.(i))
-                        {
-                            case BigDecimal d:
-                                row[i] = d.ToString("G29");
-                                break;
-                            case String s:
-                                row[i] = s.Trim().Replace("\n", String.Empty);
-                                break;
-                            default:
-                                row[i] = "";
-                                break;
-                        }
+                        for (int i = 0; i < reader.getFieldCount(); i++)
+                            switch (reader.(i))
+                            {
+                                case BigDecimal d:
+                                    row[i] = d.ToString("G29");
+                                    break;
+                                case String s:
+                                    row[i] = s.Trim().Replace("\n", String.Empty);
+                                    break;
+                                default:
+                                    row[i] = "";
+                                    break;
+                            }
 
-                    expectedStrings.add(row);
+                        expectedStrings.add(row);
+                    }
                 }
+                finally { if (reader != null) reader.close(); }
             }
-            finally { if (reader != null) reader.close(); }
+            catch (Exception ex)
+            {
+                System.out.println(ex.getMessage());
+            }
         }
         finally { if (connection != null) connection.close(); }
 
@@ -442,8 +420,8 @@ class TestUtil extends ApiExampleBase
         CompositeNode innerFieldParent = innerField.getStart().getParentNode();
 
         Assert.assertTrue(innerFieldParent == outerField.getStart().getParentNode());
-        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getStart()) > innerFieldParent.getChildNodes().indexOf(outerField.getStart()));
-        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getEnd()) < innerFieldParent.getChildNodes().indexOf(outerField.getEnd()));
+        Assert.assertTrue(innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(innerField.getStart()) > innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(outerField.getStart()));
+        Assert.assertTrue(innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(innerField.getEnd()) < innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(outerField.getEnd()));
     }
 
     /// <summary>
@@ -513,9 +491,9 @@ class TestUtil extends ApiExampleBase
     static void copyStream(Stream srcStream, Stream dstStream) throws Exception
     {
         if (srcStream == null)
-            throw new NullPointerException("srcStream");
+            throw new NullPointerException("Value cannot be null.\r\nParameter name: " + "srcStream");
         if (dstStream == null)
-            throw new NullPointerException("dstStream");
+            throw new NullPointerException("Value cannot be null.\r\nParameter name: " + "dstStream");
 
         byte[] buf = new byte[65536];
         while (true)

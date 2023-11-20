@@ -84,7 +84,7 @@ public class BaseOperations extends DocsExamplesBase
     {
         //ExStart:ProduceMultipleDocuments
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.mdb";
+        String connString = "jdbc:ucanaccess://" + getDatabaseDir() + "Northwind.accdb";
 
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind suppliers.docx");
 

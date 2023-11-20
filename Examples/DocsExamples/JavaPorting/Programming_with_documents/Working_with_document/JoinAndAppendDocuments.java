@@ -21,6 +21,10 @@ import java.util.HashMap;
 import com.aspose.words.List;
 import com.aspose.ms.System.Collections.msDictionary;
 import com.aspose.words.BreakType;
+import com.aspose.words.BookmarkStart;
+import com.aspose.words.BookmarkEnd;
+import org.testng.Assert;
+import com.aspose.ms.System.msString;
 import com.aspose.words.NodeImporter;
 import com.aspose.words.ParagraphCollection;
 
@@ -254,6 +258,7 @@ class JoinAndAppendDocuments extends DocsExamplesBase
     public void differentPageSetup() throws Exception
     {
         //ExStart:DifferentPageSetup
+        //GistId:db2dfc4150d7c714bcac3782ae241d03
         Document srcDoc = new Document(getMyDir() + "Document source.docx");
         Document dstDoc = new Document(getMyDir() + "Northwind traders.docx");
 
@@ -320,6 +325,7 @@ class JoinAndAppendDocuments extends DocsExamplesBase
     public void keepSourceFormatting() throws Exception
     {
         //ExStart:KeepSourceFormatting
+        //GistId:db2dfc4150d7c714bcac3782ae241d03
         Document dstDoc = new Document();
         dstDoc.getFirstSection().getBody().appendParagraph("Destination document text. ");
 
@@ -492,9 +498,10 @@ class JoinAndAppendDocuments extends DocsExamplesBase
     }
 
     @Test
-    public void insertDocumentWithBuilder() throws Exception
+    public void insertDocument() throws Exception
     {
         //ExStart:InsertDocumentWithBuilder
+        //GistId:db2dfc4150d7c714bcac3782ae241d03
         Document srcDoc = new Document(getMyDir() + "Document source.docx");
         Document dstDoc = new Document(getMyDir() + "Northwind traders.docx");
         DocumentBuilder builder = new DocumentBuilder(dstDoc);
@@ -503,8 +510,33 @@ class JoinAndAppendDocuments extends DocsExamplesBase
         builder.insertBreak(BreakType.PAGE_BREAK);
 
         builder.insertDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
-        builder.getDocument().save(getArtifactsDir() + "JoinAndAppendDocuments.InsertDocumentWithBuilder.docx");
+        builder.getDocument().save(getArtifactsDir() + "JoinAndAppendDocuments.InsertDocument.docx");
         //ExEnd:InsertDocumentWithBuilder
+    }
+
+    @Test
+    public void insertDocumentInline() throws Exception
+    {
+        //ExStart:InsertDocumentInlineWithBuilder
+        //GistId:db2dfc4150d7c714bcac3782ae241d03
+        DocumentBuilder srcDoc = new DocumentBuilder();
+        srcDoc.write("[src content]");
+
+        // Create destination document.
+        DocumentBuilder dstDoc = new DocumentBuilder();
+        dstDoc.write("Before ");
+        dstDoc.insertNode(new BookmarkStart(dstDoc.getDocument(), "src_place"));
+        dstDoc.insertNode(new BookmarkEnd(dstDoc.getDocument(), "src_place"));
+        dstDoc.write(" after");
+
+        Assert.assertEquals("Before  after", msString.trimEnd(dstDoc.getDocument().getText()));
+
+        // Insert source document into destination inline.
+        dstDoc.moveToBookmark("src_place");
+        dstDoc.insertDocumentInline(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
+
+        Assert.assertEquals("Before [src content] after", msString.trimEnd(dstDoc.getDocument().getText()));
+        //ExEnd:InsertDocumentInlineWithBuilder
     }
 
     @Test

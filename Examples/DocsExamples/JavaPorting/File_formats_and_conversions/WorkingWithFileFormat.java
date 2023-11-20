@@ -124,6 +124,7 @@ public class WorkingWithFileFormat extends DocsExamplesBase
     public void detectDocumentSignatures() throws Exception
     {
         //ExStart:DetectDocumentSignatures
+        //GistId:bdc15a6de6b25d9d4e66f2ce918fc01b
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Digitally signed.docx");
 
         if (info.hasDigitalSignature())
@@ -137,6 +138,7 @@ public class WorkingWithFileFormat extends DocsExamplesBase
     public void verifyEncryptedDocument() throws Exception
     {
         //ExStart:VerifyEncryptedDocument
+        //GistId:af95c7a408187bb25cf9137465fe5ce6
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Encrypted.docx");
         msConsole.writeLine(info.isEncrypted());
         //ExEnd:VerifyEncryptedDocument

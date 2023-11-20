@@ -54,37 +54,25 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>23.5</version>
+            <version>23.11</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
-            <artifactId>aspose-words</artifactId>
-            <version>23.5</version>
-            <classifier>javadoc</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.aspose</groupId>
-            <artifactId>aspose-words</artifactId>
-            <version>23.5</version>
-            <classifier>shaping-harfbuzz-plugin</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.aspose</groupId>
             <artifactId>aspose-barcode</artifactId>
-            <version>23.2</version>
+            <version>23.10</version>
             <classifier>jdk18</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-pdf</artifactId>
-            <version>23.2</version>
+            <version>23.10</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.4.0</version>
+            <version>7.5.1</version>
         </dependency>
         <dependency>
             <groupId>javax.media.jai</groupId>

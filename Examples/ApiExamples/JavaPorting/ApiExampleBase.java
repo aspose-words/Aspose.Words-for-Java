@@ -17,6 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.Assert;
 import com.aspose.ms.System.msConsole;
 import org.testng.annotations.AfterTest;
+import com.aspose.ms.System.Environment;
 import java.lang.Class;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.File;
@@ -51,7 +52,12 @@ public class ApiExampleBase
             return /* "Test skipped on mono" */;
         }
 
-        System.out.println("Clr: {RuntimeInformation.FrameworkDescription}\n");
+        if (checkForSkipGitHub() && isRunningOnGitHub())
+        {
+            return /* "Test skipped on GitHub" */;
+        }
+
+        System.out.println("Clr: {RuntimeInformation.FrameworkDescription}\n");            
     }
 
     @AfterTest
@@ -73,13 +79,36 @@ public class ApiExampleBase
     }
 
     /// <summary>
+    /// Checks when we need to ignore test on GitHub.
+    /// </summary>
+    private static boolean checkForSkipGitHub()
+    {
+        boolean skipGitHub = TestContext.CurrentContext.Test.Properties.("Category").Contains("SkipGitHub");
+        return skipGitHub;
+    }
+
+    /// <summary>
+    /// Determine if runtime is GitHub.
+    /// </summary>
+    /// <returns>True if being executed in GitHub, false otherwise.</returns>
+    static boolean isRunningOnGitHub()
+    {
+        String runEnv = System.getenv("RUNNER_ENVIRONMENT");
+        if (runEnv != null && runEnv.equals("github-hosted"))
+            return true;
+        else
+            return false;
+    }
+
+    /// <summary>
     /// Determine if runtime is Mono.
     /// Workaround for .netcore.
     /// </summary>
     /// <returns>True if being executed in Mono, false otherwise.</returns>
-    static boolean isRunningOnMono() {
+    static boolean isRunningOnMono()
+    {
         return Class.GetType("Mono.Runtime") != null;
-    }        
+    }
 
     static void setUnlimitedLicense() throws Exception
     {
@@ -155,7 +184,7 @@ public class ApiExampleBase
     static String getArtifactsDir() { return mArtifactsDir; };
 
     private static  String mArtifactsDir;
-    
+
     /// <summary>
     /// Gets the path to the documents used by the code examples. Ends with a back slash.
     /// </summary>

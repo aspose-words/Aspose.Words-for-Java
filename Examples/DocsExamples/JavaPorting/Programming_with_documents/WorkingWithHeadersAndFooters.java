@@ -26,6 +26,8 @@ class WorkingWithHeadersAndFooters extends DocsExamplesBase
     public void createHeaderFooter() throws Exception
     {
         //ExStart:CreateHeaderFooterUsingDocBuilder
+        //ExStart:DifferentFirstPageHeaderFooter
+        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -59,6 +61,7 @@ class WorkingWithHeadersAndFooters extends DocsExamplesBase
         builder.write("Aspose.Words Header/Footer Creation Primer.");
 
         builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        //ExEnd:DifferentFirstPageHeaderFooter
 
         // We use a table with two cells to make one part of the text on the line (with page numbering).
         // To be aligned left, and the other part of the text (with copyright) to be aligned right.

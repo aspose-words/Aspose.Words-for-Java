@@ -78,7 +78,7 @@ class WorkingWithNode extends DocsExamplesBase
         Document doc = new Document();
         Paragraph paragraph = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
-        NodeCollection children = paragraph.getChildNodes();
+        NodeCollection children = paragraph.getChildNodes(NodeType.ANY, false);
         for (Node child : (Iterable<Node>) children)
         {
             // A paragraph may contain children of various types such as runs, shapes, and others.

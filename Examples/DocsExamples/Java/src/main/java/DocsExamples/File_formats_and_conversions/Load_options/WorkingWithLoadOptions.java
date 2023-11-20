@@ -1,15 +1,8 @@
 package DocsExamples.File_formats_and_conversions.Load_options;
 
 import DocsExamples.DocsExamplesBase;
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.LoadOptions;
-import com.aspose.words.Document;
-import com.aspose.words.OdtSaveOptions;
-import com.aspose.words.SaveFormat;
-import com.aspose.words.MsWordVersion;
-import com.aspose.words.IWarningCallback;
-import com.aspose.words.WarningInfo;
-import com.aspose.words.PdfLoadOptions;
 
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
@@ -32,13 +25,24 @@ public class WorkingWithLoadOptions extends DocsExamplesBase {
 
     @Test
     public void loadEncryptedDocument() throws Exception {
-        //ExStart:LoadSaveEncryptedDoc
+        //ExStart:LoadSaveEncryptedDocument
+        //GistId:821ff3a1df0c75b2af641299b393fb60
         //ExStart:OpenEncryptedDocument
         Document doc = new Document(getMyDir() + "Encrypted.docx", new LoadOptions("docPassword"));
         //ExEnd:OpenEncryptedDocument
 
         doc.save(getArtifactsDir() + "WorkingWithLoadOptions.LoadAndSaveEncryptedOdt.odt", new OdtSaveOptions("newPassword"));
-        //ExEnd:LoadSaveEncryptedDoc
+        //ExEnd:LoadSaveEncryptedDocument
+    }
+
+    @Test(expectedExceptions = IncorrectPasswordException.class)
+    public void LoadEncryptedDocumentWithoutPassword() throws Exception {
+        //ExStart:LoadEncryptedDocumentWithoutPassword
+        //GistId:821ff3a1df0c75b2af641299b393fb60
+        // We will not be able to open this document with Microsoft Word or
+        // Aspose.Words without providing the correct password.
+        Document doc = new Document(getMyDir() + "Encrypted.docx");
+        //ExEnd:LoadEncryptedDocumentWithoutPassword
     }
 
     @Test

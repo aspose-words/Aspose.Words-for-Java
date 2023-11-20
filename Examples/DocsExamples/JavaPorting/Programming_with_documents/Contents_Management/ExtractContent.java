@@ -448,25 +448,25 @@ public class ExtractContent extends DocsExamplesBase
     public void extractPrintText() throws Exception
     {
         //ExStart:ExtractText
+        //GistId:458eb4fd5bd1de8b06fab4d1ef1acdc6
         Document doc = new Document(getMyDir() + "Tables.docx");
-
         
         Table table = (Table) doc.getChild(NodeType.TABLE, 0, true);
 
         // The range text will include control characters such as "\a" for a cell.
         // You can call ToString and pass SaveFormat.Text on the desired node to find the plain text content.
-
         System.out.println("Contents of the table: ");
         System.out.println(table.getRange().getText());
-        //ExEnd:ExtractText   
+        //ExEnd:ExtractText
 
-        //ExStart:PrintTextRangeOFRowAndTable
+        //ExStart:PrintTextRangeRowAndTable
+        //GistId:458eb4fd5bd1de8b06fab4d1ef1acdc6
         System.out.println("\nContents of the row: ");
         System.out.println(table.getRows().get(1).getRange().getText());
 
         System.out.println("\nContents of the cell: ");
         System.out.println(table.getLastRow().getLastCell().getRange().getText());
-        //ExEnd:PrintTextRangeOFRowAndTable
+        //ExEnd:PrintTextRangeRowAndTable
     }
 
     @Test

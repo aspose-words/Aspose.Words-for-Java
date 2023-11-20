@@ -227,7 +227,7 @@ public class ExtractContentHelper
         {
             Node currentNode = nodeBranch.get(i);
             int nodeIndex = currentNode.getParentNode().indexOf(currentNode);
-            currentCloneNode = ((CompositeNode) currentCloneNode).getChildNodes().get(nodeIndex);
+            currentCloneNode = ((CompositeNode) currentCloneNode).getChildNodes(NodeType.ANY, false).get(nodeIndex);
 
             removeNodesOutsideOfRange(currentCloneNode, isInclusive || (i > 0), isStartMarker);
         }

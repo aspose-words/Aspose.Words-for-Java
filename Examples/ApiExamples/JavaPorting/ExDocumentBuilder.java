@@ -29,8 +29,6 @@ import com.aspose.words.FieldHyperlink;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.RunCollection;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import com.aspose.words.WrapType;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
@@ -100,10 +98,11 @@ import com.aspose.words.StyleType;
 import com.aspose.words.WarningInfoCollection;
 import com.aspose.words.WarningInfo;
 import com.aspose.words.WarningSource;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import com.aspose.words.OlePackage;
 import com.aspose.words.HtmlInsertOptions;
 import org.testng.annotations.DataProvider;
-
 
 
 @Test
@@ -398,9 +397,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert the image into the header so that it will be visible on every page.
-        BufferedImage image = ImageIO.read(getImageDir() + "Transparent background logo.png");
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        Shape shape = builder.insertImage(image);
+        Shape shape = builder.insertImage(getImageDir() + "Transparent background logo.png");
         shape.setWrapType(WrapType.NONE);
         shape.setBehindText(true);
 
@@ -778,7 +776,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.write("Bookmark contents.");
         builder.endBookmark("MyBookmark");
 
-        NodeCollection firstParagraphNodes = doc.getFirstSection().getBody().getFirstParagraph().getChildNodes();
+        NodeCollection firstParagraphNodes = doc.getFirstSection().getBody().getFirstParagraph().getChildNodes(NodeType.ANY, false);
 
         Assert.assertEquals(NodeType.BOOKMARK_START, firstParagraphNodes.get(0).getNodeType());
         Assert.assertEquals(NodeType.RUN, firstParagraphNodes.get(1).getNodeType());
@@ -2880,7 +2878,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         private /*final*/ String mGeneralFormat; 
         private ArrayList<FieldResultFormatter.FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
-        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<FieldResultFormatter.FormatInvocation>list();
+        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<FieldResultFormatter.FormatInvocation>list();
         
         private static class FormatInvocation
         {
@@ -2920,7 +2918,7 @@ public class ExDocumentBuilder extends ApiExampleBase
     }
     //ExEnd
 
-    [Test, Ignore("Failed")]
+    [Test]
     public async Task private InsertVideoWithUrlinsertVideoWithUrl() throws Exception
     {
         //ExStart
@@ -2929,7 +2927,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertOnlineVideo("https://youtu.be/t_1LYZ102RA", 360.0, 270.0);
+        builder.insertOnlineVideo("https://youtu.be/g1N9ke8Prmk", 360.0, 270.0);
 
         // We can watch the video from Microsoft Word by clicking on the shape.
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertVideoWithUrl.docx");
@@ -3218,10 +3216,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExEnd
     }
 
-        /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (1)
+    @Test (enabled = false)
     public void markdownDocumentEmphases() throws Exception
     {
         DocumentBuilder builder = new DocumentBuilder();
@@ -3253,11 +3248,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Markdown treats asterisks (*), underscores (_) and tilde (~) as indicators of emphasis.
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
-
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (2)
+    
+    @Test (enabled = false)
     public void markdownDocumentInlineCode() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3283,11 +3275,8 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
-
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test (description = "WORDSNET-19850") @Order (3)
+    
+    @Test (enabled = false)
     public void markdownDocumentHeadings() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3358,10 +3347,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (4)
+    @Test (enabled = false)
     public void markdownDocumentBlockquotes() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3417,10 +3403,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (5)
+    @Test (enabled = false)
     public void markdownDocumentIndentedCode() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3440,10 +3423,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (6)
+    @Test (enabled = false)
     public void markdownDocumentFencedCode() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3467,10 +3447,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (7)
+    @Test (enabled = false)
     public void markdownDocumentHorizontalRule() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3488,10 +3465,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test @Order (8)
+    @Test (enabled = false)
     public void markdownDocumentBulletedList() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
@@ -3518,12 +3492,19 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
-    /// <summary>
-    /// All markdown tests work with the same file. That's why we need order for them.
-    /// </summary>
-    @Test (dataProvider = "loadMarkdownDocumentAndAssertContentDataProvider") @Order (9)
+    @Test (description = "WORDSNET-19850", dataProvider = "loadMarkdownDocumentAndAssertContentDataProvider")
     public void loadMarkdownDocumentAndAssertContent(String text, String styleName, boolean isItalic, boolean isBold) throws Exception
     {
+        // Prepeare document to test.
+        markdownDocumentEmphases();
+        markdownDocumentInlineCode();
+        markdownDocumentHeadings();
+        markdownDocumentBlockquotes();
+        markdownDocumentIndentedCode();
+        markdownDocumentFencedCode();
+        markdownDocumentHorizontalRule();
+        markdownDocumentBulletedList();
+
         // Load created document from previous tests.
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
@@ -3585,10 +3566,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 			{"This is a fenced code with info string",  "FencedCode.C#",  false,  false},
 			{"Item 1",  "Normal",  false,  false},
 		};
-	}
-
-    [Test]
-    public async Task private InsertOnlineVideoinsertOnlineVideo() throws Exception
+	}private InsertOnlineVideoinsertOnlineVideo() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
@@ -3623,7 +3601,10 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
         await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
-    }private InsertOnlineVideoCustomThumbnailinsertOnlineVideoCustomThumbnail() throws Exception
+    }
+
+    [Test]
+    public async Task private InsertOnlineVideoCustomThumbnailinsertOnlineVideoCustomThumbnail() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, String, Byte[], Double, Double)
@@ -3752,11 +3733,20 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void phoneticGuide() throws Exception
     {
-        DocumentBuilder builder = new DocumentBuilder();
-        builder.write("Lorem ipsum.");
+        //ExStart
+        //ExFor:Run.IsPhoneticGuide
+        //ExFor:Run.PhoneticGuide
+        //ExFor:PhoneticGuide.BaseText
+        //ExFor:PhoneticGuide.RubyText
+        //ExSummary:Shows how to get properties of the phonetic guide.
+        Document doc = new Document(getMyDir() + "Phonetic guide.docx");            
 
-        RunCollection runs = builder.getDocument().getFirstSection().getBody().getFirstParagraph().getRuns();
+        RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
         // Use phonetic guide in the Asian text.
-        Assert.assertEquals(false, runs.get(0).isPhoneticGuide());
+        Assert.assertEquals(true, runs.get(0).isPhoneticGuide());
+        Assert.assertEquals("base", runs.get(0).getPhoneticGuide().getBaseText());
+        Assert.assertEquals("ruby", runs.get(0).getPhoneticGuide().getRubyText());
+        //ExEnd
     }
 }
+

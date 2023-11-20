@@ -20,6 +20,8 @@ import com.aspose.words.IWarningCallback;
 import com.aspose.words.WarningInfo;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.WarningInfoCollection;
+import com.aspose.ms.System.msString;
+import com.aspose.ms.System.StringComparison;
 import java.util.ArrayList;
 import com.aspose.words.PhysicalFontInfo;
 import java.util.Iterator;
@@ -51,7 +53,7 @@ import org.testng.annotations.DataProvider;
 
 
 @Test
-class ExFontSettings !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
+public class ExFontSettings extends ApiExampleBase
 {
     @Test
     public void defaultFontInstance() throws Exception
@@ -200,9 +202,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         Assert.assertEquals(1, callback.FontSubstitutionWarnings.getCount()); //ExSkip
         Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
-        Assert.assertTrue(callback.FontSubstitutionWarnings.get(0).getDescription()
-            .equals(
-                "Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font."));
+        Assert.assertTrue(msString.equals(callback.FontSubstitutionWarnings.get(0).getDescription(), 
+                "Font 'Times New Roman' has not been found. Using 'Fanwood' font instead. Reason: first available font.", StringComparison.ORDINAL));
     }
 
     private static class FontSubstitutionWarningCollector implements IWarningCallback
@@ -257,6 +258,7 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
     //ExStart
     //ExFor:Fonts.FontInfoSubstitutionRule
     //ExFor:Fonts.FontSubstitutionSettings.FontInfoSubstitution
+    //ExFor:LayoutOptions.KeepOriginalFontMetrics
     //ExFor:IWarningCallback
     //ExFor:IWarningCallback.Warning(WarningInfo)
     //ExFor:WarningInfo
@@ -284,6 +286,9 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
         ;
         fontSettings.getSubstitutionSettings().getFontInfoSubstitution().setEnabled(true);
+
+        // Original font metrics should be used after font substitution.
+        doc.getLayoutOptions().setKeepOriginalFontMetrics(true);
 
         // We will get a font substitution warning if we save a document with a missing font.
         doc.setFontSettings(fontSettings);
@@ -333,9 +338,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
 
         doc.save(getArtifactsDir() + "FontSettings.SubstitutionWarningsClosestMatch.pdf");
 
-        Assert.assertTrue(callback.FontWarnings.get(0).getDescription()
-            .equals(
-                "Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution."));
+        Assert.assertTrue(msString.equals(callback.FontWarnings.get(0).getDescription(), 
+                "Font \'SymbolPS\' has not been found. Using \'Wingdings\' font instead. Reason: font info substitution.", StringComparison.ORDINAL));
     }
 
     @Test
@@ -927,7 +931,10 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         Assert.assertEquals("MS Mincho", rules.item(4).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
 
         Assert.assertEquals("Arial Unicode MS", rules.item(5).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
-    }private LoadNotoFontsFallbackSettingsloadNotoFontsFallbackSettings() throws Exception
+    }
+
+    [Test]
+    public async Task private LoadNotoFontsFallbackSettingsloadNotoFontsFallbackSettings() throws Exception
     {
         //ExStart
         //ExFor:FontFallbackSettings.LoadNotoFallbackSettings
@@ -1067,8 +1074,8 @@ class ExFontSettings !Test class should be public in Java to run, please fix .Ne
         org.w3c.dom.NodeList rules =
             fallbackSettingsDoc.SelectNodes("//aw:FontFallbackSettings/aw:FallbackTable/aw:Rule", manager);
 
-        Assert.assertEquals("0C00-0C7F", rules.item(8).getAttributes().getNamedItem("Ranges").getNodeValue());
-        Assert.assertEquals("Vani", rules.item(8).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
+        Assert.assertEquals("0C00-0C7F", rules.item(9).getAttributes().getNamedItem("Ranges").getNodeValue());
+        Assert.assertEquals("Vani", rules.item(9).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
     }
 
     @Test

@@ -59,6 +59,7 @@ class RemoveContent extends DocsExamplesBase
     //ExEnd:RemovePageBreaks
 
     //ExStart:RemoveSectionBreaks
+    //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
     private void removeSectionBreaks(Document doc)
     {
         // Loop through all sections starting from the section that precedes the last one and moving to the first section.

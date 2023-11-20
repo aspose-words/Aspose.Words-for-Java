@@ -1,10 +1,10 @@
 package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
 
 import DocsExamples.DocsExamplesBase;
-import com.aspose.barcode.EncodeTypes;
 import com.aspose.barcode.generation.AutoSizeMode;
 import com.aspose.barcode.generation.BarcodeGenerator;
 import com.aspose.barcode.generation.CodeLocation;
+import com.aspose.barcode.generation.EncodeTypes;
 import com.aspose.words.BarcodeParameters;
 import com.aspose.words.IBarcodeGenerator;
 

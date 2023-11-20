@@ -44,7 +44,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         //ExSummary:Shows how to set which encoding to use while exporting a document to HTML.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         builder.writeln("Hello World!");
 
         // The default encoding is UTF-8. If we want to represent our document using a different encoding,
@@ -59,7 +59,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.UseEncoding.html", htmlFixedSaveOptions);
         //ExEnd
 
-        Assert.assertTrue(Regex.match(File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.UseEncoding.html"), 
+        Assert.assertTrue(Regex.match(File.readAllText(getArtifactsDir() + "HtmlFixedSaveOptions.UseEncoding.html"),
             "content=\"text/html; charset=us-ascii\"").getSuccess());
     }
 
@@ -306,7 +306,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         }
         else
         {
-            Assert.assertTrue(Regex.match(outDocContents, 
+            Assert.assertTrue(Regex.match(outDocContents,
                 "<a name=\"CheckBox\" style=\"left:0pt; top:0pt;\"></a>" +
                 "<div class=\"awdiv\" style=\"left:0.8pt; top:0.8pt; width:14.25pt; height:14.25pt; border:solid 0.75pt #000000;\"").getSuccess());
         }
@@ -381,11 +381,11 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
                     "[.]awpage { position:relative; border:solid 1pt black; margin:10pt auto 10pt auto; overflow:hidden; }").getSuccess());
                 break;
             case HtmlFixedPageHorizontalAlignment.LEFT:
-                Assert.assertTrue(Regex.match(outDocContents, 
+                Assert.assertTrue(Regex.match(outDocContents,
                     "[.]awpage { position:relative; border:solid 1pt black; margin:10pt auto 10pt 10pt; overflow:hidden; }").getSuccess());
                 break;
             case HtmlFixedPageHorizontalAlignment.RIGHT:
-                Assert.assertTrue(Regex.match(outDocContents, 
+                Assert.assertTrue(Regex.match(outDocContents,
                     "[.]awpage { position:relative; border:solid 1pt black; margin:10pt 10pt 10pt auto; overflow:hidden; }").getSuccess());
                 break;
         }
@@ -442,11 +442,11 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions(); { saveOptions.setOptimizeOutput(optimizeOutput); }
-        
+
         doc.save(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html", saveOptions);
 
         // The size of the optimized version of the document is almost a third of the size of the unoptimized document.
-        Assert.assertEquals(optimizeOutput ? 62521 : 191770,
+        Assert.assertEquals(optimizeOutput ? 61889 : 191770,
             new FileInfo(getArtifactsDir() + "HtmlFixedSaveOptions.OptimizeGraphicsOutput.html").getLength(), 200.0);
         //ExEnd
     }
@@ -553,7 +553,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 
     private void testResourceSavingCallback(FontSavingCallback callback)
     {
-        Assert.assertTrue(callback.getText().contains("font001.woff")); 
+        Assert.assertTrue(callback.getText().contains("font001.woff"));
         Assert.assertTrue(callback.getText().contains("styles.css"));
     }
 
@@ -600,7 +600,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
         Assert.AreEqual(6, resourceFiles.Count(f => f.EndsWith(".jpeg") || f.EndsWith(".png") || f.EndsWith(".css")));
         testHtmlFixedResourceFolder(callback); //ExSkip
     }
-    
+
     /// <summary>
     /// Counts and prints URIs of resources contained by as they are converted to fixed HTML.
     /// </summary>
@@ -655,3 +655,4 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
 	);
 
 }
+

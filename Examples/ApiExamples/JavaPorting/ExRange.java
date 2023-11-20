@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import com.aspose.words.Footnote;
 import com.aspose.words.NodeType;
 import com.aspose.words.SaveFormat;
+import com.aspose.words.ShapeType;
 import com.aspose.words.BreakType;
 import com.aspose.words.IReplacingCallback;
 import com.aspose.words.ReplaceAction;
@@ -37,7 +38,6 @@ import com.aspose.ms.System.Convert;
 import com.aspose.ms.System.msString;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.Shape;
-import com.aspose.words.ShapeType;
 import com.aspose.words.Node;
 import com.aspose.words.CompositeNode;
 import com.aspose.words.NodeImporter;
@@ -373,6 +373,25 @@ public class ExRange extends ApiExampleBase
 			{false},
 		};
 	}
+
+    @Test
+    public void ignoreShapes() throws Exception 
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.IgnoreShapes
+        //ExSummary:Shows how to ignore shapes while replacing text.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+        builder.insertShape(ShapeType.BALLOON, 200.0, 200.0);            
+        builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+
+        builder.getDocument().getRange().replace("Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", new FindReplaceOptions(); { .setIgnoreShapes(true); });
+        Assert.assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", builder.getDocument().getText().trim());
+        //ExEnd
+    }
 
     @Test
     public void updateFieldsInRange() throws Exception
@@ -866,7 +885,7 @@ public class ExRange extends ApiExampleBase
 
         // Set the "Direction" property to "FindReplaceDirection.Backward" to get the find-and-replace
         // operation to start from the end of the range, and traverse back to the beginning.
-        // Set the "Direction" property to "FindReplaceDirection.Backward" to get the find-and-replace
+        // Set the "Direction" property to "FindReplaceDirection.Forward" to get the find-and-replace
         // operation to start from the beginning of the range, and traverse to the end.
         options.setDirection(findReplaceDirection);
 

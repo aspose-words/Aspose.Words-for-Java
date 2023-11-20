@@ -44,12 +44,12 @@
         <repository>
             <id>AsposeJavaAPI</id>
             <name>Aspose Java API</name>
-            <url>https://repository.aspose.com/repo/</url>
+            <url>https://releases.aspose.com/java/repo/</url>
         </repository>
         <repository>
             <id>com.springsource.repository.bundles.external</id>
             <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
-            <url>http://repository.springsource.com/maven/bundles/external</url>
+            <url>https://repository.springsource.com/maven/bundles/external</url>
         </repository>
     </repositories>
 
@@ -57,43 +57,31 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>22.5</version>
+            <version>23.11</version>
             <classifier>jdk17</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.aspose</groupId>
-            <artifactId>aspose-words</artifactId>
-            <version>22.5</version>
-            <classifier>javadoc</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.aspose</groupId>
-            <artifactId>aspose-words</artifactId>
-            <version>22.5</version>
-            <classifier>shaping-harfbuzz-plugin</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-barcode</artifactId>
-            <version>21.2</version>
-            <classifier>jdk17</classifier>
+            <version>23.10</version>
+            <classifier>jdk18</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-pdf</artifactId>
-            <version>21.2</version>
+            <version>23.10</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-email</artifactId>
-            <version>21.6</version>
+            <version>23.10</version>
             <classifier>jdk16</classifier>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.4.0</version>
+            <version>7.5.1</version>
         </dependency>
         <dependency>
             <groupId>javax.media.jai</groupId>

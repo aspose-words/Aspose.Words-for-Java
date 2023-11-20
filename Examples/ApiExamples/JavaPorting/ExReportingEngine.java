@@ -35,7 +35,6 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.words.ShapeType;
 import ApiExamples.TestData.TestClasses.ImageTestClass;
 import ApiExamples.TestData.TestBuilders.ImageTestBuilder;
-import java.awt.image.BufferedImage;
 import com.aspose.words.DocumentBuilder;
 import ApiExamples.TestData.TestClasses.ClientTestClass;
 import com.aspose.words.NodeCollection;
@@ -50,6 +49,8 @@ import java.io.FileInputStream;
 import com.aspose.words.JsonDataLoadOptions;
 import com.aspose.words.JsonDataSource;
 import com.aspose.words.JsonSimpleValueParseMode;
+import com.aspose.ms.System.IO.MemoryStream;
+import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.CsvDataLoadOptions;
 import com.aspose.words.CsvDataSource;
 import com.aspose.words.SdtType;
@@ -472,8 +473,8 @@ public class ExReportingEngine extends ApiExampleBase
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.Image]>>", ShapeType.TEXT_BOX);
         
-                ImageTestClass image = new ImageTestBuilder().withImage(BufferedImage.FromFile(mImage, true)).build();
-                            
+        ImageTestClass image = new ImageTestBuilder().withImage(mImage).build();
+                    
         buildReport(template, image, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
@@ -545,6 +546,31 @@ public class ExReportingEngine extends ApiExampleBase
 
     }
 
+    @Test (dataProvider = "insertHtmlDinamicallyDataProvider")
+    public void insertHtmlDinamically(String templateText) throws Exception
+    {
+        String html = File.readAllText(getMyDir() + "Reporting engine template - Html.html");
+
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln(templateText);
+
+        buildReport(doc, html, "html_text");
+        doc.save(getArtifactsDir() + "ReportingEngine.InsertHtmlDinamically.docx");
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "insertHtmlDinamicallyDataProvider")
+	public static Object[][] insertHtmlDinamicallyDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"<<[html_text] -html>>"},
+			{"<<html [html_text]>>"},
+			{"<<html [html_text] -sourceStyles>>"},
+		};
+	}
+
     @Test
     public void imageExifOrientation() throws Exception
     {
@@ -563,7 +589,8 @@ public class ExReportingEngine extends ApiExampleBase
     {
         Document template = new Document(getMyDir() + "Reporting engine template - Dynamic stretching.docx");
         
-        ImageTestClass image = new ImageTestBuilder().withImage(BufferedImage.FromFile(mImage, true)).build();
+        ImageTestClass image = new ImageTestBuilder().withImage(mImage).build();
+
         buildReport(template, image, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.DynamicStretchingImageWithinTextBox.docx");
 
@@ -1118,6 +1145,36 @@ public class ExReportingEngine extends ApiExampleBase
     }
 
     @Test
+    public void jsonDataPreserveSpaces() throws Exception
+    {
+        final String TEMPLATE = "LINE BEFORE\r<<[LineWhitespace]>>\r<<[BlockWhitespace]>>LINE AFTER";
+        final String EXPECTED_RESULT = "LINE BEFORE\r    \r\r\r\r\rLINE AFTER";
+        final String JSON =
+            "{" +
+            "    \"LineWhitespace\" : \"    \"," +
+            "    \"BlockWhitespace\" : \"\r\n\r\n\r\n\r\n\"" +
+            "}";
+
+        MemoryStream stream = new MemoryStream(Encoding.getUTF8().getBytes(JSON));
+        try /*JAVA: was using*/
+        {
+            JsonDataLoadOptions options = new JsonDataLoadOptions();
+            options.setPreserveSpaces(true);
+            options.setSimpleValueParseMode(JsonSimpleValueParseMode.STRICT);
+
+            JsonDataSource dataSource = new JsonDataSource(stream, options);
+
+            DocumentBuilder builder = new DocumentBuilder();
+            builder.write(TEMPLATE);
+
+            buildReport(builder.getDocument(), dataSource, "ds");                
+
+            Assert.assertEquals(EXPECTED_RESULT + ControlChar.SECTION_BREAK, builder.getDocument().getText());
+        }
+        finally { if (stream != null) stream.close(); }
+    }
+
+    @Test
     public void csvDataString() throws Exception
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination.docx");
@@ -1218,6 +1275,20 @@ public class ExReportingEngine extends ApiExampleBase
 		};
 	}
 
+    @Test
+    public void updateFieldsSyntaxAware() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Reporting engine template - Fields.docx");
+
+        // Note that enabling of the option makes the engine to update fields while building a report,
+        // so there is no need to update fields separately after that.
+        ReportingEngine engine = new ReportingEngine();
+        buildReport(doc, new String[] { "First topic", "Second topic", "Third topic" }, "topics",
+            ReportBuildOptions.UPDATE_FIELDS_SYNTAX_AWARE);
+
+        doc.save(getArtifactsDir() + "ReportingEngine.UpdateFieldsSyntaxAware.docx");            
+    }
+
     private static void buildReport(Document document, Object dataSource, /*ReportBuildOptions*/int reportBuildOptions) throws Exception
     {
         ReportingEngine engine = new ReportingEngine(); { engine.setOptions(reportBuildOptions); }
@@ -1280,3 +1351,4 @@ public class ExReportingEngine extends ApiExampleBase
         engine.buildReport(document, dataSource);
     }
 }
+

@@ -65,6 +65,8 @@ class WordToHtmlConverter
         return topicStartParas;
     }
 
+    //ExStart:InsertSectionBreaks
+    //GistId:7c0668453e53ed7a57d3ea3a05520f21
     /// <summary>
     /// Insert section breaks before the specified paragraphs.
     /// </summary>
@@ -87,6 +89,7 @@ class WordToHtmlConverter
             }
         }
     }
+    //ExEnd:InsertSectionBreaks
 
     /// <summary>
     /// Splits the current document into one topic per section and saves each topic

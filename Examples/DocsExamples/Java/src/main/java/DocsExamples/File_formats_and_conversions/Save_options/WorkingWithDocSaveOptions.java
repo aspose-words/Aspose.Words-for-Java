@@ -11,15 +11,14 @@ public class WorkingWithDocSaveOptions extends DocsExamplesBase {
     @Test
     public void encryptDocumentWithPassword() throws Exception {
         //ExStart:EncryptDocumentWithPassword
+        //GistId:821ff3a1df0c75b2af641299b393fb60
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.write("Hello world!");
 
         DocSaveOptions saveOptions = new DocSaveOptions();
-        {
-            saveOptions.setPassword("password");
-        }
+        saveOptions.setPassword("password");
 
         doc.save(getArtifactsDir() + "WorkingWithDocSaveOptions.EncryptDocumentWithPassword.docx", saveOptions);
         //ExEnd:EncryptDocumentWithPassword

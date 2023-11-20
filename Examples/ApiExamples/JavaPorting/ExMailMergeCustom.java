@@ -31,8 +31,7 @@ public class ExMailMergeCustom extends ApiExampleBase
     //ExFor:IMailMergeDataSource.TableName
     //ExFor:IMailMergeDataSource.MoveNext
     //ExFor:IMailMergeDataSource.GetValue
-    //ExFor:IMailMergeDataSource.GetChildDataSource
-    //ExFor:MailMerge.Execute(IMailMergeDataSourceCore)
+    //ExFor:IMailMergeDataSource.GetChildDataSource        
     //ExSummary:Shows how to execute a mail merge with a data source in the form of a custom object.
     @Test //ExSkip
     public void customDataSource() throws Exception

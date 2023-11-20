@@ -235,7 +235,7 @@ class WorkingWithFields extends DocsExamplesBase
 
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
 
-        String connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
+        String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
         OleDbConnection conn = new OleDbConnection(connString);
         conn.Open();
 

@@ -819,9 +819,6 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
     @Test
     public void updateSdtContent() throws Exception {
-        //ExStart
-        //ExFor:SaveOptions.UpdateSdtContent
-        //ExSummary:Shows how to update structured document tags while saving a document to PDF.
         Document doc = new Document();
 
         // Insert a drop-down list structured document tag.
@@ -838,7 +835,6 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         doc.getFirstSection().getBody().appendChild(tag);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
-        //ExEnd
 
         com.aspose.pdf.Document pdfDoc = new com.aspose.pdf.Document(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
@@ -1169,5 +1165,23 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
             sdt.appendChild(sdt.getNextSibling());
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.Citation.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void rangeStartWordOpenXmlMinimal() throws Exception
+    {
+        //ExStart:RangeStartWordOpenXmlMinimal
+        //GistId:66dd22f0854357e394a013b536e2181b
+        //ExFor:StructuredDocumentTagRangeStart.WordOpenXMLMinimal
+        //ExSummary:Shows how to get minimal XML contained within the node in the FlatOpc format.
+        Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
+        StructuredDocumentTagRangeStart tag = (StructuredDocumentTagRangeStart) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true);
+
+        Assert.assertTrue(tag.getWordOpenXMLMinimal()
+                .contains(
+                        "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
+        Assert.assertFalse(tag.getWordOpenXMLMinimal().contains("xmlns:w16cid=\"http://schemas.microsoft.com/office/word/2016/wordml/cid\""));
+        //ExEnd:RangeStartWordOpenXmlMinimal
     }
 }

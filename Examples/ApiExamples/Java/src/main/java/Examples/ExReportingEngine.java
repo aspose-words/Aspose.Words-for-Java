@@ -17,6 +17,7 @@ import TestData.TestClasses.*;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataSet;
+import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -24,6 +25,7 @@ import org.testng.annotations.Test;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -351,7 +353,7 @@ public class ExReportingEngine extends ApiExampleBase {
         Document template =
                 DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImage()]>>", ShapeType.TEXT_BOX);
 
-        ImageTestClass image = new ImageTestBuilder().withImage(ImageIO.read(new File(mImage))).build();
+        ImageTestClass image = new ImageTestBuilder().withImage(mImage).build();
         buildReport(template, image, "src");
 
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
@@ -407,6 +409,29 @@ public class ExReportingEngine extends ApiExampleBase {
                         });
 
         template.save(getArtifactsDir() + "ReportingEngine.InsertHyperlinksDynamically.docx");
+    }
+
+    @Test (dataProvider = "insertHtmlDinamicallyDataProvider")
+    public void insertHtmlDinamically(String templateText) throws Exception
+    {
+        String html = FileUtils.readFileToString(new File(getMyDir() + "Reporting engine template - Html.html"), "utf-8");
+
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln(templateText);
+
+        buildReport(doc, html, "html_text");
+        doc.save(getArtifactsDir() + "ReportingEngine.InsertHtmlDinamically.docx");
+    }
+
+    @DataProvider(name = "insertHtmlDinamicallyDataProvider")
+    public static Object[][] insertHtmlDinamicallyDataProvider() {
+        return new Object[][]
+                {
+                        {"<<[html_text] -html>>"},
+                        {"<<html [html_text]>>"},
+                        {"<<html [html_text] -sourceStyles>>"},
+                };
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
@@ -832,6 +857,36 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
+    public void jsonDataPreserveSpaces() throws Exception
+    {
+        final String TEMPLATE = "LINE BEFORE\r<<[LineWhitespace]>>\r<<[BlockWhitespace]>>LINE AFTER";
+        final String EXPECTED_RESULT = "LINE BEFORE\r    \r\r\r\r\rLINE AFTER";
+        final String JSON =
+                "{" +
+                        "    \"LineWhitespace\" : \"    \"," +
+                        "    \"BlockWhitespace\" : \"\r\n\r\n\r\n\r\n\"" +
+                        "}";
+
+        ByteArrayInputStream stream = new ByteArrayInputStream(JSON.getBytes(StandardCharsets.UTF_8));
+        try
+        {
+            JsonDataLoadOptions options = new JsonDataLoadOptions();
+            options.setPreserveSpaces(true);
+            options.setSimpleValueParseMode(JsonSimpleValueParseMode.STRICT);
+
+            JsonDataSource dataSource = new JsonDataSource(stream, options);
+
+            DocumentBuilder builder = new DocumentBuilder();
+            builder.write(TEMPLATE);
+
+            buildReport(builder.getDocument(), dataSource, "ds");
+
+            Assert.assertEquals(EXPECTED_RESULT + ControlChar.SECTION_BREAK, builder.getDocument().getText());
+        }
+        finally { if (stream != null) stream.close(); }
+    }
+
+    @Test
     public void csvDataString() throws Exception {
         Document doc = new Document(getMyDir() + "ReportingEngine.CsvData.Java.docx");
 
@@ -927,6 +982,25 @@ public class ExReportingEngine extends ApiExampleBase {
 			{SdtType.DROP_DOWN_LIST},
 		};
 	}
+
+    @Test
+    public void updateFieldsSyntaxAware() throws Exception
+    {
+        //ExStart:UpdateFieldsSyntaxAware
+        //ExFor:ReportingEngine.Options
+        //ExSummary:Shows how to set options for Reporting Engine
+        //GistId:66dd22f0854357e394a013b536e2181b
+        Document doc = new Document(getMyDir() + "Reporting engine template - Fields.docx");
+
+        // Note that enabling of the option makes the engine to update fields while building a report,
+        // so there is no need to update fields separately after that.
+        ReportingEngine engine = new ReportingEngine();
+        engine.setOptions(ReportBuildOptions.UPDATE_FIELDS_SYNTAX_AWARE);
+        engine.buildReport(doc, new String[] { "First topic", "Second topic", "Third topic" }, "topics");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.UpdateFieldsSyntaxAware.docx");
+        //ExEnd:UpdateFieldsSyntaxAware
+    }
 
     private static void buildReport(final Document document, final Object dataSource) throws Exception {
         ReportingEngine engine = new ReportingEngine();

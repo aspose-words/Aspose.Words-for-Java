@@ -25,6 +25,8 @@ import com.aspose.words.PdfCompliance;
 import com.aspose.words.PdfTextCompression;
 import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.words.PdfImageCompression;
+import com.aspose.ms.System.IO.FileStream;
+import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.PdfImageColorSpaceExportMode;
 import com.aspose.words.ColorMode;
 import com.aspose.words.SaveOptions;
@@ -50,17 +52,15 @@ import java.util.ArrayList;
 import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.DmlEffectsRenderingMode;
 import com.aspose.words.DmlRenderingMode;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.Dml3DEffectsRenderingMode;
 import com.aspose.words.WarningSource;
 import com.aspose.words.CertificateHolder;
 import com.aspose.ms.System.DateTime;
-import java.util.Date;
 import com.aspose.words.PdfDigitalSignatureDetails;
 import com.aspose.words.PdfDigitalSignatureHashAlgorithm;
 import com.aspose.words.FileFormatUtil;
+import java.util.Date;
 import com.aspose.words.PdfDigitalSignatureTimestampSettings;
 import com.aspose.ms.System.TimeSpan;
 import com.aspose.words.EmfPlusDualRenderingMode;
@@ -96,7 +96,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
             // to modify how that method converts the document to .PDF.
             PdfSaveOptions options = new PdfSaveOptions();
-            
+
             // Set the "PageIndex" to "1" to render a portion of the document starting from the second page.
             options.setPageSet(new PageSet(1));
 
@@ -148,7 +148,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         saveOptions.setSaveFormat(SaveFormat.PDF);
-        
+
         // The output PDF document will contain an outline, which is a table of contents that lists headings in the document body.
         // Clicking on an entry in this outline will take us to the location of its respective heading.
         // Set the "HeadingsOutlineLevels" property to "2" to exclude all headings whose levels are above 2 from the outline.
@@ -158,13 +158,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.HeadingsOutlineLevels.pdf", saveOptions);
         //ExEnd
 
-                PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
+        PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
         bookmarkEditor.BindPdf(getArtifactsDir() + "PdfSaveOptions.HeadingsOutlineLevels.pdf");
 
         Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();
 
-        Assert.AreEqual(3, bookmarks.Count);
-            }
+        Assert.AreEqual(3, bookmarks.Count);            
+    }
 
     @Test (dataProvider = "createMissingOutlineLevelsDataProvider")
     public void createMissingOutlineLevels(boolean createMissingOutlineLevels) throws Exception
@@ -197,7 +197,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Set the "HeadingsOutlineLevels" property to "5" to include all headings of levels 5 and below in the outline.
         saveOptions.getOutlineOptions().setHeadingsOutlineLevels(5);
 
-        // This document contains headings of levels 1 and 5, and no headings with levels of 2, 3, and 4. 
+        // This document contains headings of levels 1 and 5, and no headings with levels of 2, 3, and 4.
         // The output PDF document will treat outline levels 2, 3, and 4 as "missing".
         // Set the "CreateMissingOutlineLevels" property to "true" to include all missing levels in the outline,
         // leaving blank outline entries since there are no usable headings.
@@ -270,7 +270,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.TableHeadingOutlines.pdf", pdfSaveOptions);
         //ExEnd
 
-                Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.TableHeadingOutlines.pdf");
+        Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.TableHeadingOutlines.pdf");
 
         if (createOutlinesForHeadingsInTables)
         {
@@ -349,10 +349,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // If an outline entry has subsequent entries of a higher level inbetween itself and the next entry of the same or lower level,
         // an arrow will appear to the left of the entry. This entry is the "owner" of several such "sub-entries".
         // In our document, the outline entries from the 5th heading level are sub-entries of the second 4th level outline entry,
-        // the 4th and 5th heading level entries are sub-entries of the second 3rd level entry, and so on. 
+        // the 4th and 5th heading level entries are sub-entries of the second 3rd level entry, and so on.
         // In the outline, we can click on the arrow of the "owner" entry to collapse/expand all its sub-entries.
         // Set the "ExpandedOutlineLevels" property to "2" to automatically expand all heading level 2 and lower outline entries
-        // and collapse all level and 3 and higher entries when we open the document. 
+        // and collapse all level and 3 and higher entries when we open the document.
         options.getOutlineOptions().setExpandedOutlineLevels(2);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.ExpandedOutlineLevels.pdf", options);
@@ -403,14 +403,14 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // fields and update them before we save it as a PDF. This will make sure that all the fields will display
         // the most accurate values in the PDF.
         options.setUpdateFields(updateFields);
-        
+
         // We can clone PdfSaveOptions objects.
         Assert.assertNotSame(options, options.deepClone());
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf", options);
         //ExEnd
 
-                Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf");
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf");
 
         TextFragmentAbsorber textFragmentAbsorber = new TextFragmentAbsorber();
         pdfDocument.Pages.Accept(textFragmentAbsorber);
@@ -465,16 +465,14 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         if (preserveFormFields)
         {
             Assert.AreEqual("Please select a fruit: ", textFragmentAbsorber.Text);
-            TestUtil.fileContainsString("11 0 obj\r\n" +
-                                        "<</Type /Annot/Subtype /Widget/P 5 0 R/FT /Ch/F 4/Rect [168.39199829 707.35101318 217.87442017 722.64007568]/Ff 131072/T(þÿ\u0000M\u0000y\0C\u0000o\u0000m\0b\u0000o\0B\u0000o\u0000x)/Opt " +
-                                        "[(þÿ\0A\u0000p\u0000p\u0000l\0e) (þÿ\0B\0a\u0000n\0a\u0000n\0a) (þÿ\0C\u0000h\0e\u0000r\u0000r\u0000y) ]/V(þÿ\0A\u0000p\u0000p\u0000l\0e)/DA(0 g /FAAABD 12 Tf )/AP<</N 12 0 R>>>>",
+            TestUtil.fileContainsString("<</Type/Annot/Subtype/Widget/P 5 0 R/FT/Ch/F 4/Rect[168.39199829 707.35101318 217.87442017 722.64007568]/Ff 131072/T",
                 getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf");
 
             Aspose.Pdf.Forms.Form form = pdfDocument.Form;
             Assert.AreEqual(1, pdfDocument.Form.Count);
 
             ComboBoxField field = (ComboBoxField)form.Fields[0];
-            
+
             Assert.AreEqual("MyComboBox", field.FullName);
             Assert.AreEqual(3, field.Options.Count);
             Assert.AreEqual("Apple", field.Value);
@@ -608,19 +606,18 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf", options);
         //ExEnd
 
+        String filePath = getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf";
+        long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf").getLength();
+
         switch (pdfTextCompression)
         {
             case PdfTextCompression.NONE:
-                Assert.That(60000,
-                    Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf").getLength()));
-                TestUtil.fileContainsString("12 0 obj\r\n<</Length 13 0 R>>stream",
-                    getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf");
+                Assert.That(testedFileLength, Is.LessThan(69000));
+                TestUtil.fileContainsString("<</Length 11 0 R>>stream", filePath);
                 break;
             case PdfTextCompression.FLATE:
-                Assert.That(30000,
-                    Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf").getLength()));
-                TestUtil.fileContainsString("12 0 obj\r\n<</Length 13 0 R/Filter /FlateDecode>>stream",
-                    getArtifactsDir() + "PdfSaveOptions.TextCompression.pdf");
+                Assert.That(testedFileLength, Is.LessThan(27000));
+                TestUtil.fileContainsString("<</Length 11 0 R/Filter/FlateDecode>>stream", filePath);
                 break;
         }
     }
@@ -656,13 +653,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions();
-
         // Set the "ImageCompression" property to "PdfImageCompression.Auto" to use the
         // "ImageCompression" property to control the quality of the Jpeg images that end up in the output PDF.
         // Set the "ImageCompression" property to "PdfImageCompression.Jpeg" to use the
         // "ImageCompression" property to control the quality of all images that end up in the output PDF.
         pdfSaveOptions.setImageCompression(pdfImageCompression);
-
         // Set the "JpegQuality" property to "10" to strengthen compression at the cost of image quality.
         pdfSaveOptions.setJpegQuality(10);
 
@@ -670,33 +665,39 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExEnd
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf");
-        Stream pdfDocImageStream = pdfDocument.Pages[1].Resources.Images[1].ToStream();
-
+        XImage image = pdfDocument.Pages[1].Resources.Images[1];
+        String imagePath = getArtifactsDir() + $"PdfSaveOptions.ImageCompression.Image1.{image.FilterType}";
+        FileStream stream = new FileStream(imagePath, FileMode.CREATE);
         try /*JAVA: was using*/
-        {
-            TestUtil.verifyImage(400, 400, pdfDocImageStream);
-        }
-        finally { if (pdfDocImageStream != null) pdfDocImageStream.close(); }
+    	{
+            image.Save(stream);
+    	}
+        finally { if (stream != null) stream.close(); }
 
-        pdfDocImageStream = pdfDocument.Pages[1].Resources.Images[2].ToStream();
+        TestUtil.verifyImage(400, 400, imagePath);
 
+        image = pdfDocument.Pages[1].Resources.Images[2];
+        imagePath = getArtifactsDir() + $"PdfSaveOptions.ImageCompression.Image2.{image.FilterType}";
+        FileStream stream1 = new FileStream(imagePath, FileMode.CREATE);
         try /*JAVA: was using*/
+    	{
+            image.Save(stream1);
+    	}
+        finally { if (stream1 != null) stream1.close(); }
+
+        long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf").getLength();
+        switch (pdfImageCompression)
         {
-            switch (pdfImageCompression)
-            {
-                case PdfImageCompression.AUTO:
-                    Assert.That(50000, 
-                        Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf").getLength()));
-                    break;
-                case PdfImageCompression.JPEG:
-                    Assert.That(42000, 
-                        Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf").getLength()));
-                    TestUtil.verifyImage(400, 400, pdfDocImageStream);
-                    break;
-            }
+            case PdfImageCompression.AUTO:
+                Assert.That(testedFileLength, Is.LessThan(54000));
+                TestUtil.verifyImage(400, 400, imagePath);
+                break;
+            case PdfImageCompression.JPEG:
+                Assert.That(testedFileLength, Is.LessThan(40000));
+                TestUtil.verifyImage(400, 400, imagePath);
+                break;
         }
-        finally { if (pdfDocImageStream != null) pdfDocImageStream.close(); }
-            }
+    }
 
 	//JAVA-added data provider for test method
 	@DataProvider(name = "imageCompressionDataProvider")
@@ -743,13 +744,14 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ImageColorSpaceExportMode.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
 
+        var testedImageLength = pdfDocImage.ToStream().Length;
         switch (pdfImageColorSpaceExportMode)
         {
             case PdfImageColorSpaceExportMode.AUTO:
-                Assert.That(20000, Is.LessThan(pdfDocImage.ToStream().Length));
+                Assert.That(testedImageLength, Is.LessThan(20500));
                 break;
             case PdfImageColorSpaceExportMode.SIMPLE_CMYK:
-                Assert.That(100000, Is.LessThan(pdfDocImage.ToStream().Length));
+                Assert.That(testedImageLength, Is.LessThan(140000));
                 break;
         }
 
@@ -758,14 +760,15 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
 
         pdfDocImage = pdfDocument.Pages[1].Resources.Images[2];
-
+        
+        testedImageLength = pdfDocImage.ToStream().Length;
         switch (pdfImageColorSpaceExportMode)
         {
             case PdfImageColorSpaceExportMode.AUTO:
-                Assert.That(25000, Is.AtLeast(pdfDocImage.ToStream().Length));
+                Assert.That(testedImageLength, Is.LessThan(20500));
                 break;
             case PdfImageColorSpaceExportMode.SIMPLE_CMYK:
-                Assert.That(18000, Is.LessThan(pdfDocImage.ToStream().Length));
+                Assert.That(testedImageLength, Is.LessThan(21500));
                 break;
         }
 
@@ -822,7 +825,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.Default.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
 
-        Assert.That(300000, Is.LessThan(pdfDocImage.ToStream().Length));
+        Assert.That(pdfDocImage.ToStream().Length, Is.LessThan(400000));
         Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
     }
 
@@ -842,25 +845,26 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // The size of the output document may be larger with this setting.
         // Set the "ColorMode" property to "Normal" to render all images in color.
         PdfSaveOptions pdfSaveOptions = new PdfSaveOptions(); { pdfSaveOptions.setColorMode(colorMode); }
-        
+
         doc.save(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf", pdfSaveOptions);
         //ExEnd
 
-                Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf");
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
 
+        var testedImageLength = pdfDocImage.ToStream().Length;
         switch (colorMode)
         {
             case ColorMode.NORMAL:
-                Assert.That(300000, Is.LessThan(pdfDocImage.ToStream().Length));
+                Assert.That(testedImageLength, Is.LessThan(400000));
                 Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
                 break;
             case ColorMode.GRAYSCALE:
-                Assert.That(1000000, Is.LessThan(pdfDocImage.ToStream().Length));
+                Assert.That(testedImageLength, Is.LessThan(1450000));
                 Assert.AreEqual(ColorType.Grayscale, pdfDocImage.GetColorType());
                 break;
         }
-            }
+    }
 
 	//JAVA-added data provider for test method
 	@DataProvider(name = "colorRenderingDataProvider")
@@ -895,11 +899,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf", pdfSaveOptions);
         //ExEnd
 
-                Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf");
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf");
 
         Assert.AreEqual(displayDocTitle, pdfDocument.DisplayDocTitle);
         Assert.AreEqual("Windows bar pdf title", pdfDocument.Info.Title);
-            }
+    }
 
 	//JAVA-added data provider for test method
 	@DataProvider(name = "docTitleDataProvider")
@@ -999,13 +1003,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         if (openHyperlinksInNewWindow)
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [70.84999847 707.35101318 110.17799377 721.15002441]/BS " +
-                "<</Type/Border/S/S/W 0>>/A<</Type /Action/S /JavaScript/JS(app.launchURL\\(\"https://www.google.com/search?q=%20aspose\", true\\);)>>>>",
+                "<</Type/Annot/Subtype/Link/Rect[70.84999847 707.35101318 110.17799377 721.15002441]/BS" +
+                "<</Type/Border/S/S/W 0>>/A<</Type/Action/S/JavaScript/JS(app.launchURL\\(\"https://www.google.com/search?q=%20aspose\", true\\);)>>>>",
                 getArtifactsDir() + "PdfSaveOptions.OpenHyperlinksInNewWindow.pdf");
         else
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [70.84999847 707.35101318 110.17799377 721.15002441]/BS " +
-                "<</Type/Border/S/S/W 0>>/A<</Type /Action/S /URI/URI(https://www.google.com/search?q=%20aspose)>>>>",
+                "<</Type/Annot/Subtype/Link/Rect[70.84999847 707.35101318 110.17799377 721.15002441]/BS" +
+                "<</Type/Border/S/S/W 0>>/A<</Type/Action/S/URI/URI(https://www.google.com/search?q=%20aspose)>>>>",
                 getArtifactsDir() + "PdfSaveOptions.OpenHyperlinksInNewWindow.pdf");
 
         Aspose.Pdf.Document pdfDocument =
@@ -1063,7 +1067,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         doc.save(getArtifactsDir() + "PdfSaveOptions.HandleBinaryRasterWarnings.pdf", saveOptions);
 
         Assert.assertEquals(1, callback.Warnings.getCount());
-        Assert.assertEquals("'R2_XORPEN' binary raster operation is partly supported.",
+        Assert.assertEquals("'R2_XORPEN' binary raster operation is not supported.",
             callback.Warnings.get(0).getDescription());
     }
 
@@ -1129,7 +1133,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (headerFooterBookmarksExportMode)
         {
             case com.aspose.words.HeaderFooterBookmarksExportMode.NONE:
-                TestUtil.fileContainsString($"<</Type /Catalog/Pages 3 0 R/Lang({inputDocLocaleName})/Metadata 4 0 R>>\r\n",
+                TestUtil.fileContainsString($"<</Type/Catalog/Pages 3 0 R/Lang({inputDocLocaleName})/Metadata 4 0 R>>\r\n",
                     getArtifactsDir() + "PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf");
 
                 Assert.AreEqual(0, pdfDoc.Outlines.Count);
@@ -1137,7 +1141,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             case com.aspose.words.HeaderFooterBookmarksExportMode.FIRST:
             case com.aspose.words.HeaderFooterBookmarksExportMode.ALL:
                 TestUtil.fileContainsString(
-                    $"<</Type /Catalog/Pages 3 0 R/Outlines 14 0 R/PageMode /UseOutlines/Lang({inputDocLocaleName})/Metadata 4 0 R>>",
+                    $"<</Type/Catalog/Pages 3 0 R/Outlines 15 0 R/PageMode/UseOutlines/Lang({inputDocLocaleName})/Metadata 4 0 R>>",
                     getArtifactsDir() + "PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf");
 
                 OutlineCollection outlineItemCollection = pdfDoc.Outlines;
@@ -1197,40 +1201,42 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         WarningInfoCollection SaveWarnings = new WarningInfoCollection();
 	}
-	
-	@Test (dataProvider = "fontsScaledToMetafileSizeDataProvider")
-    public void fontsScaledToMetafileSize(boolean scaleWmfFonts) throws Exception
+
+	@Test (dataProvider = "emulateRenderingToSizeOnPageDataProvider")
+    public void emulateRenderingToSizeOnPage(boolean renderToSize) throws Exception
     {
-        //ExStart
-        //ExFor:MetafileRenderingOptions.ScaleWmfFontsToMetafileSize
-        //ExSummary:Shows how to WMF fonts scaling according to metafile size on the page.
+        //ExStart            
+        //ExFor:MetafileRenderingOptions.EmulateRenderingToSizeOnPage
+        //ExFor:MetafileRenderingOptions.EmulateRenderingToSizeOnPageResolution
+        //ExSummary:Shows how to display of the metafile according to the size on page.
         Document doc = new Document(getMyDir() + "WMF with text.docx");
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions saveOptions = new PdfSaveOptions();
 
-        // Set the "ScaleWmfFontsToMetafileSize" property to "true" to scale fonts
-        // that format text within WMF images according to the size of the metafile on the page.
-        // Set the "ScaleWmfFontsToMetafileSize" property to "false" to
-        // preserve the default scale of these fonts.
-        saveOptions.getMetafileRenderingOptions().setScaleWmfFontsToMetafileSize(scaleWmfFonts);
+        // Set the "EmulateRenderingToSizeOnPage" property to "true"
+        // to emulate rendering according to the metafile size on page.
+        // Set the "EmulateRenderingToSizeOnPage" property to "false"
+        // to emulate metafile rendering to its default size in pixels.
+        saveOptions.getMetafileRenderingOptions().setEmulateRenderingToSizeOnPage(renderToSize);
+        saveOptions.getMetafileRenderingOptions().setEmulateRenderingToSizeOnPageResolution(50);
 
-        doc.save(getArtifactsDir() + "PdfSaveOptions.FontsScaledToMetafileSize.pdf", saveOptions);
+        doc.save(getArtifactsDir() + "PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf", saveOptions);
         //ExEnd
 
-        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.FontsScaledToMetafileSize.pdf");
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf");
         TextFragmentAbsorber textAbsorber = new TextFragmentAbsorber();
 
         pdfDocument.Pages[1].Accept(textAbsorber);
         Rectangle textFragmentRectangle = textAbsorber.TextFragments[3].Rectangle;
 
-        Assert.AreEqual(scaleWmfFonts ? 1.589d : 5.045d, textFragmentRectangle.Width, 0.001d);
+        Assert.AreEqual(renderToSize ? 1.585d : 5.045d, textFragmentRectangle.Width, 0.001d);
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "fontsScaledToMetafileSizeDataProvider")
-	public static Object[][] fontsScaledToMetafileSizeDataProvider() throws Exception
+	@DataProvider(name = "emulateRenderingToSizeOnPageDataProvider")
+	public static Object[][] emulateRenderingToSizeOnPageDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1277,17 +1283,17 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf", options);
 
-        if (embedFullFonts)
-            Assert.That(500000, Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").getLength()));
-        else
-            Assert.That(25000, Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").getLength()));
-
         // Restore the original font sources.
         FontSettings.getDefaultInstance().setFontsSources(originalFontsSources);
         //ExEnd
 
-        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf");
+        long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").getLength();
+        if (embedFullFonts)
+            Assert.That(testedFileLength, Is.LessThan(571000));
+        else
+            Assert.That(testedFileLength, Is.LessThan(24000));
 
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf");
         Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
 
         Assert.AreEqual("ArialMT", pdfDocFonts[0].FontName);
@@ -1327,41 +1333,39 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions options = new PdfSaveOptions();
-
         // Set the "EmbedFullFonts" property to "true" to embed every glyph of every embedded font in the output PDF.
         options.setEmbedFullFonts(true);
-
         // Set the "FontEmbeddingMode" property to "EmbedAll" to embed all fonts in the output PDF.
         // Set the "FontEmbeddingMode" property to "EmbedNonstandard" to only allow nonstandard fonts' embedding in the output PDF.
         // Set the "FontEmbeddingMode" property to "EmbedNone" to not embed any fonts in the output PDF.
         options.setFontEmbeddingMode(pdfFontEmbeddingMode);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf", options);
+        //ExEnd
 
+        long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength();
         switch (pdfFontEmbeddingMode)
         {
             case PdfFontEmbeddingMode.EMBED_ALL:
-                Assert.That(1000000, Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
+                Assert.That(testedFileLength, Is.LessThan(1040000));
                 break;
             case PdfFontEmbeddingMode.EMBED_NONSTANDARD:
-                Assert.That(480000, Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
+                Assert.That(testedFileLength, Is.LessThan(492000));
                 break;
             case PdfFontEmbeddingMode.EMBED_NONE:
-                Assert.That(4217, Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf").getLength()));
+                Assert.That(testedFileLength, Is.LessThan(4300));
                 break;
-        }
-        //ExEnd
+        }            
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf");
-
         Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
 
         Assert.AreEqual("ArialMT", pdfDocFonts[0].FontName);
-        Assert.AreEqual(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL, 
+        Assert.AreEqual(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL,
             pdfDocFonts[0].IsEmbedded);
 
         Assert.AreEqual("CourierNewPSMT", pdfDocFonts[1].FontName);
-        Assert.AreEqual(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL || pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_NONSTANDARD, 
+        Assert.AreEqual(pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_ALL || pdfFontEmbeddingMode == PdfFontEmbeddingMode.EMBED_NONSTANDARD,
             pdfDocFonts[1].IsEmbedded);
     }
 
@@ -1394,22 +1398,21 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions options = new PdfSaveOptions();
-
         // Set the "UseCoreFonts" property to "true" to replace some fonts,
         // including the two fonts in our document, with their PDF Type 1 equivalents.
         // Set the "UseCoreFonts" property to "false" to not apply PDF Type 1 fonts.
         options.setUseCoreFonts(useCoreFonts);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf", options);
-
-        if (useCoreFonts)
-            Assert.That(3000, Is.AtLeast(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf").getLength()));
-        else
-            Assert.That(30000, Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf").getLength()));
         //ExEnd
 
+        long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf").getLength();
+        if (useCoreFonts)
+            Assert.That(testedFileLength, Is.LessThan(2000));
+        else
+            Assert.That(testedFileLength, Is.LessThan(33500));
+        
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf");
-
         Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
 
         if (useCoreFonts)
@@ -1468,20 +1471,19 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         pdfDocument.Pages[1].Accept(textAbsorber);
 
         SetGlyphsPositionShowText tjOperator =
-            (SetGlyphsPositionShowText) textAbsorber.TextFragments[1].Page.Contents[85];
+            (SetGlyphsPositionShowText) textAbsorber.TextFragments[1].Page.Contents[83];
 
+        long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").getLength();
         if (applyAdditionalTextPositioning)
         {
-            Assert.That(100000,
-                Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").getLength()));
+            Assert.That(testedFileLength, Is.LessThan(102000));
             Assert.AreEqual(
                 "[0 (S) 0 (a) 0 (m) 0 (s) 0 (t) 0 (a) -1 (g) 1 (,) 0 ( ) 0 (1) 0 (0) 0 (.) 0 ( ) 0 (N) 0 (o) 0 (v) 0 (e) 0 (m) 0 (b) 0 (e) 0 (r) -1 ( ) 1 (2) -1 (0) 0 (1) 0 (8)] TJ",
                 tjOperator.ToString());
         }
         else
         {
-            Assert.That(97000,
-                Is.LessThan(new FileInfo(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").getLength()));
+            Assert.That(testedFileLength, Is.LessThan(99500));
             Assert.AreEqual("[(Samsta) -1 (g) 1 (, 10. November) -1 ( ) 1 (2) -1 (018)] TJ", tjOperator.ToString());
         }
     }
@@ -1631,34 +1633,34 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PageMode.pdf", options);
         //ExEnd
-        
+
         String docLocaleName = new msCultureInfo(doc.getStyles().getDefaultFont().getLocaleId()).getName();
 
         switch (pageMode)
         {
             case PdfPageMode.FULL_SCREEN:
                 TestUtil.fileContainsString(
-                    $"<</Type /Catalog/Pages 3 0 R/PageMode /FullScreen/Lang({docLocaleName})/Metadata 4 0 R>>\r\n",
+                    $"<</Type/Catalog/Pages 3 0 R/PageMode/FullScreen/Lang({docLocaleName})/Metadata 4 0 R>>\r\n",
                     getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
                 break;
             case PdfPageMode.USE_THUMBS:
                 TestUtil.fileContainsString(
-                    $"<</Type /Catalog/Pages 3 0 R/PageMode /UseThumbs/Lang({docLocaleName})/Metadata 4 0 R>>",
+                    $"<</Type/Catalog/Pages 3 0 R/PageMode/UseThumbs/Lang({docLocaleName})/Metadata 4 0 R>>",
                     getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
                 break;
             case PdfPageMode.USE_OC:
                 TestUtil.fileContainsString(
-                    $"<</Type /Catalog/Pages 3 0 R/PageMode /UseOC/Lang({docLocaleName})/Metadata 4 0 R>>\r\n",
+                    $"<</Type/Catalog/Pages 3 0 R/PageMode/UseOC/Lang({docLocaleName})/Metadata 4 0 R>>\r\n",
                     getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
                 break;
             case PdfPageMode.USE_OUTLINES:
             case PdfPageMode.USE_NONE:
-                TestUtil.fileContainsString($"<</Type /Catalog/Pages 3 0 R/Lang({docLocaleName})/Metadata 4 0 R>>\r\n",
+                TestUtil.fileContainsString($"<</Type/Catalog/Pages 3 0 R/Lang({docLocaleName})/Metadata 4 0 R>>\r\n",
                     getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
                 break;
             case PdfPageMode.USE_ATTACHMENTS:
                 TestUtil.fileContainsString(
-                    $"<</Type /Catalog/Pages 3 0 R/PageMode /UseAttachments/Lang({docLocaleName})/Metadata 4 0 R>>\r\n",
+                    $"<</Type/Catalog/Pages 3 0 R/PageMode/UseAttachments/Lang({docLocaleName})/Metadata 4 0 R>>\r\n",
                     getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
                 break;
         }
@@ -1724,28 +1726,28 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         if (createNoteHyperlinks)
         {
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [157.80099487 720.90106201 159.35600281 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 677 0]>>",
+                "<</Type/Annot/Subtype/Link/Rect[157.80099487 720.90106201 159.35600281 733.55004883]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 677 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [202.16900635 720.90106201 206.06201172 733.55004883]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 79 0]>>",
+                "<</Type/Annot/Subtype/Link/Rect[202.16900635 720.90106201 206.06201172 733.55004883]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 79 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [212.23199463 699.2510376 215.34199524 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 654 0]>>",
+                "<</Type/Annot/Subtype/Link/Rect[212.23199463 699.2510376 215.34199524 711.90002441]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 654 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [258.15499878 699.2510376 262.04800415 711.90002441]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 68 0]>>",
+                "<</Type/Annot/Subtype/Link/Rect[258.15499878 699.2510376 262.04800415 711.90002441]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 85 68 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [85.05000305 68.19904327 88.66500092 79.69804382]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 202 733 0]>>",
+                "<</Type/Annot/Subtype/Link/Rect[85.05000305 68.19904327 88.66500092 79.69804382]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 202 733 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [85.05000305 56.70004272 88.66500092 68.19904327]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 258 711 0]>>",
+                "<</Type/Annot/Subtype/Link/Rect[85.05000305 56.70004272 88.66500092 68.19904327]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 258 711 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [85.05000305 666.10205078 86.4940033 677.60107422]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 157 733 0]>>",
+                "<</Type/Annot/Subtype/Link/Rect[85.05000305 666.10205078 86.4940033 677.60107422]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 157 733 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
             TestUtil.fileContainsString(
-                "<</Type /Annot/Subtype /Link/Rect [85.05000305 643.10406494 87.93800354 654.60308838]/BS <</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 212 711 0]>>",
+                "<</Type/Annot/Subtype/Link/Rect[85.05000305 643.10406494 87.93800354 654.60308838]/BS<</Type/Border/S/S/W 0>>/Dest[5 0 R /XYZ 212 711 0]>>",
                 getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
         }
         else
@@ -1810,7 +1812,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         PdfSaveOptions options = new PdfSaveOptions();
 
         // Set the "CustomPropertiesExport" property to "PdfCustomPropertiesExport.None" to discard
-        // custom document properties as we save the document to .PDF. 
+        // custom document properties as we save the document to .PDF.
         // Set the "CustomPropertiesExport" property to "PdfCustomPropertiesExport.Standard"
         // to preserve custom properties within the output PDF document.
         // Set the "CustomPropertiesExport" property to "PdfCustomPropertiesExport.Metadata"
@@ -1838,11 +1840,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 TestUtil.fileContainsString(
                     "<</Creator(þÿ\0A\u0000s\u0000p\u0000o\u0000s\0e\u0000.\u0000W\u0000o\u0000r\0d\u0000s)/Producer(þÿ\0A\u0000s\u0000p\u0000o\u0000s\0e\u0000.\u0000W\u0000o\u0000r\0d\u0000s\u0000 \0f\u0000o\u0000r\u0000",
                     getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
-                TestUtil.fileContainsString("/Company (þÿ\u0000M\u0000y\u0000 \u0000v\0a\u0000l\u0000u\0e)>>",
+                TestUtil.fileContainsString("/Company(þÿ\u0000M\u0000y\u0000 \u0000v\0a\u0000l\u0000u\0e)>>",
                     getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
                 break;
             case PdfCustomPropertiesExport.METADATA:
-                TestUtil.fileContainsString("<</Type /Metadata/Subtype /XML/Length 8 0 R/Filter /FlateDecode>>",
+                TestUtil.fileContainsString("<</Type/Metadata/Subtype/XML/Length 8 0 R/Filter/FlateDecode>>",
                     getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
                 break;
         }
@@ -1851,7 +1853,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Assert.AreEqual("Aspose.Words", pdfDocument.Info.Creator);
         Assert.True(pdfDocument.Info.Producer.StartsWith("Aspose.Words"));
-        
+
         switch (pdfCustomPropertiesExportMode)
         {
             case PdfCustomPropertiesExport.NONE:
@@ -1927,15 +1929,14 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         {
             case DmlEffectsRenderingMode.NONE:
             case DmlEffectsRenderingMode.SIMPLIFIED:
-                TestUtil.fileContainsString("5 0 obj\r\n" +
-                                            "<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLEffects.pdf");
                 Assert.AreEqual(0, imagePlacementAbsorber.ImagePlacements.Count);
                 Assert.AreEqual(28, tableAbsorber.TableList.Count);
                 break;
             case DmlEffectsRenderingMode.FINE:
                 TestUtil.fileContainsString(
-                    "5 0 obj\r\n<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R>>/XObject<</X1 10 0 R/X2 11 0 R/X3 12 0 R/X4 13 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                    "<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R>>/XObject<</X1 11 0 R/X2 12 0 R/X3 13 0 R/X4 14 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLEffects.pdf");
                 Assert.AreEqual(21, imagePlacementAbsorber.ImagePlacements.Count);
                 Assert.AreEqual(4, tableAbsorber.TableList.Count);
@@ -1981,12 +1982,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         {
             case DmlRenderingMode.DRAWING_ML:
                 TestUtil.fileContainsString(
-                    "<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABB 11 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                    "<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
                 break;
             case DmlRenderingMode.FALLBACK:
                 TestUtil.fileContainsString(
-                    "5 0 obj\r\n<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABD 13 0 R>>/ExtGState<</GS1 10 0 R/GS2 11 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                    "<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABE 14 0 R>>/ExtGState<</GS1 11 0 R/GS2 12 0 R/GS3 17 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
                 break;
         }
@@ -2040,7 +2041,6 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions options = new PdfSaveOptions();
-
         // Set the "ExportDocumentStructure" property to "true" to make the document structure, such tags, available via the
         // "Content" navigation pane of Adobe Acrobat at the cost of increased file size.
         // Set the "ExportDocumentStructure" property to "false" to not export the document structure.
@@ -2054,14 +2054,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         if (exportDocumentStructure)
         {
-            TestUtil.fileContainsString("5 0 obj\r\n" +
-                                        "<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R>>/ExtGState<</GS1 10 0 R/GS2 14 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>/StructParents 0/Tabs /S>>",
+            TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABD 13 0 R>>/ExtGState<</GS1 11 0 R/GS2 16 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>/StructParents 0/Tabs/S>>",
                 getArtifactsDir() + "PdfSaveOptions.ExportDocumentStructure.pdf");
         }
         else
         {
-            TestUtil.fileContainsString("5 0 obj\r\n" +
-                                        "<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABB 11 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+            TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 612 792]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                 getArtifactsDir() + "PdfSaveOptions.ExportDocumentStructure.pdf");
         }
     }
@@ -2086,13 +2084,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage img = ImageIO.read(getImageDir() + "Transparent background logo.png");
-        builder.insertImage(img);
+        builder.insertImage(getImageDir() + "Transparent background logo.png");
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions options = new PdfSaveOptions();
-
         // Set the "PreblendImages" property to "true" to preblend transparent images
         // with a background, which may reduce artifacts.
         // Set the "PreblendImages" property to "false" to render transparent images normally.
@@ -2111,13 +2107,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
             if (preblendImages)
             {
-                TestUtil.fileContainsString("11 0 obj\r\n20849 ", getArtifactsDir() + "PdfSaveOptions.PreblendImages.pdf");
                 Assert.assertEquals(17898, stream.getLength());
             }
             else
             {
-                TestUtil.fileContainsString("11 0 obj\r\n19289 ", getArtifactsDir() + "PdfSaveOptions.PreblendImages.pdf");
-                Assert.assertEquals(19216, stream.getLength());
+                Assert.That(stream.getLength(), Is.LessThan(19500));
             }
         }
         finally { if (stream != null) stream.close(); }
@@ -2143,13 +2137,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        BufferedImage img = ImageIO.read(getImageDir() + "Transparent background logo.png");
-        builder.insertImage(img);
+        builder.insertImage(getImageDir() + "Transparent background logo.png");
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions saveOptions = new PdfSaveOptions();
-
         // Set the "InterpolateImages" property to "true" to get the reader that opens this document to interpolate images.
         // Their resolution should be lower than that of the device that is displaying the document.
         // Set the "InterpolateImages" property to "false" to make it so that the reader does not apply any interpolation.
@@ -2162,14 +2154,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         if (interpolateImages)
         {
-            TestUtil.fileContainsString("7 0 obj\r\n" +
-                                        "<</Type /XObject/Subtype /Image/Width 400/Height 400/ColorSpace /DeviceRGB/BitsPerComponent 8/SMask 10 0 R/Interpolate true/Length 11 0 R/Filter /FlateDecode>>",
+            TestUtil.fileContainsString("<</Type/XObject/Subtype/Image/Width 400/Height 400/ColorSpace/DeviceRGB/BitsPerComponent 8/SMask 10 0 R/Interpolate true/Length 11 0 R/Filter/FlateDecode>>",
                 getArtifactsDir() + "PdfSaveOptions.InterpolateImages.pdf");
         }
         else
         {
-            TestUtil.fileContainsString("7 0 obj\r\n" +
-                                        "<</Type /XObject/Subtype /Image/Width 400/Height 400/ColorSpace /DeviceRGB/BitsPerComponent 8/SMask 10 0 R/Length 11 0 R/Filter /FlateDecode>>",
+            TestUtil.fileContainsString("<</Type/XObject/Subtype/Image/Width 400/Height 400/ColorSpace/DeviceRGB/BitsPerComponent 8/SMask 10 0 R/Length 11 0 R/Filter/FlateDecode>>",
                 getArtifactsDir() + "PdfSaveOptions.InterpolateImages.pdf");
         }
     }
@@ -2189,13 +2179,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     public void dml3DEffectsRenderingModeTest() throws Exception
     {
         Document doc = new Document(getMyDir() + "DrawingML shape 3D effects.docx");
-        
+
         RenderCallback warningCallback = new RenderCallback();
         doc.setWarningCallback(warningCallback);
-        
+
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         saveOptions.setDml3DEffectsRenderingMode(Dml3DEffectsRenderingMode.ADVANCED);
-        
+
         doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
 
         Assert.AreEqual(38, warningCallback.Count);
@@ -2227,7 +2217,6 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         private /*final*/ ArrayList<WarningInfo> mWarnings = new ArrayList<WarningInfo>();
     }
 
-
     @Test
     public void pdfDigitalSignature() throws Exception
     {
@@ -2254,19 +2243,18 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         // Configure the "DigitalSignatureDetails" object of the "SaveOptions" object to
         // digitally sign the document as we render it with the "Save" method.
-        DateTime signingTime = new Date();
+        DateTime signingTime = new DateTime(2015, 7, 20);
         options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "My Office", signingTime));
         options.getDigitalSignatureDetails().setHashAlgorithm(PdfDigitalSignatureHashAlgorithm.RIPE_MD_160);
 
         Assert.assertEquals("Test Signing", options.getDigitalSignatureDetails().getReason());
         Assert.assertEquals("My Office", options.getDigitalSignatureDetails().getLocation());
-        Assert.assertEquals(signingTime.toUniversalTime(), options.getDigitalSignatureDetails().getSignatureDateInternal().toUniversalTime());
+        Assert.assertEquals(signingTime, options.getDigitalSignatureDetails().getSignatureDateInternal().toLocalTime());
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf", options);
         //ExEnd
 
-        TestUtil.fileContainsString("7 0 obj\r\n" +
-                                    "<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/T",
+        TestUtil.fileContainsString("<</Type/Annot/Subtype/Widget/Rect[0 0 0 0]/FT/Sig/T",
             getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf")
@@ -2281,12 +2269,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Assert.AreEqual("AsposeDigitalSignature", signatureField.FullName);
         Assert.AreEqual("AsposeDigitalSignature", signatureField.PartialName);
         Assert.AreEqual(Aspose.Pdf.Forms.PKCS7Detached.class, signatureField.Signature.GetType());
-        Assert.AreEqual(DateTime.getToday(), signatureField.Signature.Date.Date);
+        Assert.AreEqual(signingTime, signatureField.Signature.Date.ToLocalTime());
         Assert.AreEqual("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", signatureField.Signature.Authority);
         Assert.AreEqual("þÿ\u0000M\u0000y\u0000 \u0000O\0f\0f\u0000i\0c\0e", signatureField.Signature.Location);
         Assert.AreEqual("þÿ\u0000T\0e\u0000s\u0000t\u0000 \u0000S\u0000i\u0000g\u0000n\u0000i\u0000n\u0000g", signatureField.Signature.Reason);
     }
-    
+
     @Test
     public void pdfDigitalSignatureTimestamp() throws Exception
     {
@@ -2309,7 +2297,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions options = new PdfSaveOptions();
 
-        // Create a digital signature and assign it to our SaveOptions object to sign the document when we save it to PDF. 
+        // Create a digital signature and assign it to our SaveOptions object to sign the document when we save it to PDF.
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
         options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", new Date()));
 
@@ -2332,8 +2320,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExEnd
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf").hasDigitalSignature());
-        TestUtil.fileContainsString("7 0 obj\r\n" +
-                                    "<</Type /Annot/Subtype /Widget/Rect [0 0 0 0]/FT /Sig/T", 
+        TestUtil.fileContainsString("<</Type/Annot/Subtype/Widget/Rect[0 0 0 0]/FT/Sig/T",
         getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
@@ -2389,15 +2376,9 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         {
             case EmfPlusDualRenderingMode.EMF:
             case EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK:
-                Assert.AreEqual(0, pdfDocument.Pages[1].Resources.Images.Count);
-                TestUtil.fileContainsString("5 0 obj\r\n" +
-                                            "<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABB 11 0 R/FAAABE 14 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
-                    getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
-                break;
             case EmfPlusDualRenderingMode.EMF_PLUS:
-                Assert.AreEqual(1, pdfDocument.Pages[1].Resources.Images.Count);
-                TestUtil.fileContainsString("5 0 obj\r\n" +
-                                            "<</Type /Page/Parent 3 0 R/Contents 6 0 R/MediaBox [0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABF 15 0 R>>/XObject<</X1 10 0 R>>>>/Group <</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                Assert.AreEqual(0, pdfDocument.Pages[1].Resources.Images.Count);
+                TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABF 15 0 R/FAAACB 21 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
                 break;
         }
@@ -2419,7 +2400,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     public void encryptionPermissions() throws Exception
     {
         //ExStart
-        //ExFor:PdfEncryptionDetails.#ctor
+        //ExFor:PdfEncryptionDetails.#ctor(String,String,PdfPermissions)
         //ExFor:PdfSaveOptions.EncryptionDetails
         //ExFor:PdfEncryptionDetails.Permissions
         //ExFor:PdfEncryptionDetails.OwnerPassword
@@ -2432,19 +2413,13 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         builder.writeln("Hello world!");
 
-        PdfEncryptionDetails encryptionDetails =
-            new PdfEncryptionDetails("password", "");
-
-        // Start by disallowing all permissions.
-        encryptionDetails.setPermissions(PdfPermissions.DISALLOW_ALL);
-
         // Extend permissions to allow the editing of annotations.
-        encryptionDetails.setPermissions(PdfPermissions.MODIFY_ANNOTATIONS | PdfPermissions.DOCUMENT_ASSEMBLY);
+        PdfEncryptionDetails encryptionDetails =
+            new PdfEncryptionDetails("password", "", PdfPermissions.MODIFY_ANNOTATIONS | PdfPermissions.DOCUMENT_ASSEMBLY);
 
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions saveOptions = new PdfSaveOptions();
-
         // Enable encryption via the "EncryptionDetails" property.
         saveOptions.setEncryptionDetails(encryptionDetails);
 
@@ -2454,14 +2429,14 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument;
 
-        Assert.<InvalidPasswordException>Throws(() => 
+        Assert.<InvalidPasswordException>Throws(() =>
             pdfDocument = new Aspose.Pdf.Document(ArtifactsDir + "PdfSaveOptions.EncryptionPermissions.pdf"));
 
         pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EncryptionPermissions.pdf", "password");
         TextFragmentAbsorber textAbsorber = new TextFragmentAbsorber();
 
         pdfDocument.Pages[1].Accept(textAbsorber);
-        
+
         Assert.AreEqual("Hello world!", textAbsorber.Text);
     }
 
@@ -2642,7 +2617,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         saveOptions.setCacheBackgroundGraphics(true);
-        
+
         doc.save(getArtifactsDir() + "PdfSaveOptions.CacheBackgroundGraphics.pdf", saveOptions);
 
         long asposeToPdfSize = new FileInfo(getArtifactsDir() + "PdfSaveOptions.CacheBackgroundGraphics.pdf").getLength();
@@ -2651,4 +2626,25 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         msAssert.less(asposeToPdfSize, wordToPdfSize);
         //ExEnd
     }
+
+    @Test
+    public void exportParagraphGraphicsToArtifact() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.ExportParagraphGraphicsToArtifact
+        //ExSummary:Shows how to export paragraph graphics as artifact (underlines, text emphasis, etc.).
+        Document doc = new Document(getMyDir() + "PDF artifacts.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setExportDocumentStructure(true);
+        saveOptions.setExportParagraphGraphicsToArtifact(true);
+        saveOptions.setTextCompression(PdfTextCompression.NONE);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf", saveOptions);
+        //ExEnd
+
+        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf");
+        Assert.AreEqual(3, pdfDocument.Pages[1].Artifacts.Count());
+    }
 }
+

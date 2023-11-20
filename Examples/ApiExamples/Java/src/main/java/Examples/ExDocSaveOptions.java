@@ -178,12 +178,14 @@ public class ExDocSaveOptions extends ApiExampleBase {
         saveOptions.setAlwaysCompressMetafiles(compressAllMetafiles);
 
         doc.save(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx", saveOptions);
+        //ExEnd
+
+        long testedFileLength = new File(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx").length();
 
         if (compressAllMetafiles)
-            Assert.assertTrue(new File(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx").length() < 13315);
+            Assert.assertTrue(testedFileLength < 13315);
         else
-            Assert.assertTrue(new File(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx").length() <= 30000);
-        //ExEnd
+            Assert.assertTrue(testedFileLength <= 30000);
     }
 
     @DataProvider(name = "alwaysCompressMetafilesDataProvider")

@@ -221,6 +221,7 @@ public class ExFontSettings extends ApiExampleBase {
     //ExStart
     //ExFor:Fonts.FontInfoSubstitutionRule
     //ExFor:Fonts.FontSubstitutionSettings.FontInfoSubstitution
+    //ExFor:LayoutOptions.KeepOriginalFontMetrics
     //ExFor:IWarningCallback
     //ExFor:IWarningCallback.Warning(WarningInfo)
     //ExFor:WarningInfo
@@ -246,6 +247,9 @@ public class ExFontSettings extends ApiExampleBase {
         FontSettings fontSettings = new FontSettings();
         fontSettings.getSubstitutionSettings().getDefaultFontSubstitution().setDefaultFontName("Arial");
         fontSettings.getSubstitutionSettings().getFontInfoSubstitution().setEnabled(true);
+
+        // Original font metrics should be used after font substitution.
+        doc.getLayoutOptions().setKeepOriginalFontMetrics(true);
 
         // We will get a font substitution warning if we save a document with a missing font.
         doc.setFontSettings(fontSettings);

@@ -91,6 +91,15 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         //ExEnd
     }
 
+    @Test
+    public void removeSignatures() throws Exception
+    {
+        DigitalSignatureUtil.removeAllSignatures(getMyDir() + "Digitally signed.odt",
+            getArtifactsDir() + "DigitalSignatureUtil.RemoveSignatures.odt");
+
+        Assert.That(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.RemoveSignatures.odt"), Is.Empty);
+    }
+
     @Test (description = "WORDSNET-16868")
     public void signDocument() throws Exception
     {

@@ -20,10 +20,10 @@ import com.aspose.words.CertificateHolder;
 import com.aspose.words.SignOptions;
 import com.aspose.words.DigitalSignatureUtil;
 import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Guid;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 
 
 @Test
@@ -94,12 +94,13 @@ public class ExSignDocumentCustom extends ApiExampleBase
     /// <summary>
     /// Converts an image to a byte array.
     /// </summary>
-    private static byte[] imageToByteArray(BufferedImage imageIn) throws Exception
+    private static byte[] imageToByteArray(String imagePath) throws Exception
     {
+        BufferedImage image = ImageIO.read(imagePath);
         MemoryStream ms = new MemoryStream();
         try /*JAVA: was using*/
         {
-            imageIn.Save(ms, ImageFormat.Png);
+            image.Save(ms, ImageFormat.Png);
             return ms.toArray();
         }
         finally { if (ms != null) ms.close(); }
@@ -131,14 +132,15 @@ public class ExSignDocumentCustom extends ApiExampleBase
 
     private static void createSignees() throws Exception
     {
+        String signImagePath = getImageDir() + "Logo.jpg";
+
         mSignees = new ArrayList<ExSignDocumentCustom.Signee>();
         {
-                        mSignees.add(new Signee(Guid.newGuid(), "Ron Williams", "Chief Executive Officer",
-                imageToByteArray(ImageIO.read(getImageDir() + "Logo.jpg"))));
-                                        
-                        mSignees.add(new Signee(Guid.newGuid(), "Stephen Morse", "Head of Compliance",
-                imageToByteArray(ImageIO.read(getImageDir() + "Logo.jpg"))));
-                                    }
+            mSignees.add(new Signee(Guid.newGuid(), "Ron Williams", "Chief Executive Officer",
+                imageToByteArray(signImagePath)));                
+            mSignees.add(new Signee(Guid.newGuid(), "Stephen Morse", "Head of Compliance",
+                imageToByteArray(signImagePath)));                
+        }
     }
     
     private static ArrayList<ExSignDocumentCustom.Signee> mSignees;

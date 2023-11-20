@@ -29,18 +29,18 @@ import com.aspose.ms.System.IO.MemoryStream;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import com.aspose.words.NodeType;
+import com.aspose.ms.System.IO.Stream;
+import com.aspose.ms.System.IO.FileStream;
+import com.aspose.ms.System.IO.FileMode;
+import com.aspose.ms.System.IO.FileAccess;
 import com.aspose.words.ImageType;
 import com.aspose.words.Fill;
 import com.aspose.ms.System.msConsole;
 import java.util.Iterator;
 import com.aspose.words.ImageData;
-import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.Directory;
 import java.util.ArrayList;
 import com.aspose.ms.System.IO.FileInfo;
-import com.aspose.ms.System.IO.Stream;
-import com.aspose.ms.System.IO.FileMode;
-import com.aspose.ms.System.IO.FileAccess;
 import com.aspose.words.Stroke;
 import com.aspose.words.GroupShape;
 import com.aspose.words.DocumentVisitor;
@@ -54,7 +54,7 @@ import com.aspose.words.ImageSize;
 @Test
 public class ExDrawing extends ApiExampleBase
 {
-        @Test
+    @Test
     public void variousShapes() throws Exception
     {
         //ExStart
@@ -194,121 +194,6 @@ public class ExDrawing extends ApiExampleBase
     }
 
     @Test
-    public void typeOfImage() throws Exception
-    {
-        //ExStart
-        //ExFor:Drawing.ImageType
-        //ExSummary:Shows how to add an image to a shape and check its type.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        
-        byte[] imageBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
-
-        MemoryStream stream = new MemoryStream(imageBytes);
-        try /*JAVA: was using*/
-        {
-            BufferedImage image = ImageIO.read(stream);
-
-            // The image in the URL is a .gif. Inserting it into a document converts it into a .png.
-            Shape imgShape = builder.insertImage(image);
-            Assert.assertEquals(ImageType.JPEG, imgShape.getImageData().getImageType());
-        }
-        finally { if (stream != null) stream.close(); }
-
-        //ExEnd
-    }
-
-    @Test
-    public void fillSolid() throws Exception
-    {
-        //ExStart
-        //ExFor:Fill.Color()
-        //ExFor:Fill.Solid(Color)
-        //ExSummary:Shows how to convert any of the fills back to solid fill.
-        Document doc = new Document(getMyDir() + "Two color gradient.docx");
-
-        // Get Fill object for Font of the first Run.
-        Fill fill = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0).getFont().getFill();
-
-        // Check Fill properties of the Font.
-        System.out.println("The type of the fill is: {0}",fill.getFillType());
-        System.out.println("The foreground color of the fill is: {0}",fill.getForeColor());
-        System.out.println("The fill is transparent at {0}%",fill.getTransparency() * 100.0);
-
-        // Change type of the fill to Solid with uniform green color.
-        fill.solid(msColor.getGreen());
-        System.out.println("\nThe fill is changed:");
-        System.out.println("The type of the fill is: {0}",fill.getFillType());
-        System.out.println("The foreground color of the fill is: {0}",fill.getForeColor());
-        System.out.println("The fill transparency is {0}%",fill.getTransparency() * 100.0);
-
-        doc.save(getArtifactsDir() + "Drawing.FillSolid.docx");
-        //ExEnd
-    }
-
-    @Test
-    public void saveAllImages() throws Exception
-    {
-        //ExStart
-        //ExFor:ImageData.HasImage
-        //ExFor:ImageData.ToImage
-        //ExFor:ImageData.Save(Stream)
-        //ExSummary:Shows how to save all images from a document to the file system.
-        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
-
-        // Shapes with the "HasImage" flag set store and display all the document's images.
-        Iterable<Shape> shapesWithImages = 
-            imgSourceDoc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().Where(s => s.HasImage);
-
-        // Go through each shape and save its image.
-        ImageFormatConverter formatConverter = new ImageFormatConverter();
-
-        Iterator<Shape> enumerator = shapesWithImages.iterator();
-        try /*JAVA: was using*/
-        {
-            int shapeIndex = 0;
-
-            while (enumerator.hasNext())
-            {
-                ImageData imageData = enumerator.next().getImageData();
-                ImageFormat format = imageData.toImage().RawFormat;
-                String fileExtension = formatConverter.ConvertToString(format);
-
-                FileStream fileStream = File.create(getArtifactsDir() + $"Drawing.SaveAllImages.{++shapeIndex}.{fileExtension}");
-                try /*JAVA: was using*/
-            	{
-                    imageData.save(fileStream);
-            	}
-                finally { if (fileStream != null) fileStream.close(); }
-            }
-        }
-        finally { if (enumerator != null) enumerator.close(); }
-        //ExEnd
-
-        String[] imageFileNames = Directory.getFiles(getArtifactsDir()).Where(s => s.StartsWith(ArtifactsDir + "Drawing.SaveAllImages.")).OrderBy(s => s).ToArray();
-        ArrayList<FileInfo> fileInfos = imageFileNames.Select(s => new FileInfo(s)).ToList();
-        
-        TestUtil.verifyImage(2467, 1500, fileInfos.get(0).getFullName());
-        Assert.assertEquals(".Jpeg", fileInfos.get(0).Extension);
-        TestUtil.verifyImage(400, 400, fileInfos.get(1).getFullName());
-        Assert.assertEquals(".Png", fileInfos.get(1).Extension);
-        TestUtil.verifyImage(382, 138, fileInfos.get(2).getFullName());
-        Assert.assertEquals(".Emf", fileInfos.get(2).Extension);
-        TestUtil.verifyImage(1600, 1600, fileInfos.get(3).getFullName());
-        Assert.assertEquals(".Wmf", fileInfos.get(3).Extension);
-        TestUtil.verifyImage(534, 534, fileInfos.get(4).getFullName());
-        Assert.assertEquals(".Emf", fileInfos.get(4).Extension);
-        TestUtil.verifyImage(1260, 660, fileInfos.get(5).getFullName());
-        Assert.assertEquals(".Jpeg", fileInfos.get(5).Extension);
-        TestUtil.verifyImage(1125, 1500, fileInfos.get(6).getFullName());
-        Assert.assertEquals(".Jpeg", fileInfos.get(6).Extension);
-        TestUtil.verifyImage(1027, 1500, fileInfos.get(7).getFullName());
-        Assert.assertEquals(".Jpeg", fileInfos.get(7).Extension);
-        TestUtil.verifyImage(1200, 1500, fileInfos.get(8).getFullName());
-        Assert.assertEquals(".Jpeg", fileInfos.get(8).Extension);
-    }
-
-    @Test
     public void importImage() throws Exception
     {
         //ExStart
@@ -367,6 +252,108 @@ public class ExDrawing extends ApiExampleBase
         Assert.assertEquals(300.0d, imgShape.getHeight());
         Assert.assertEquals(300.0d, imgShape.getWidth());
     }
+
+    @Test
+    public void typeOfImage() throws Exception
+    {
+        //ExStart
+        //ExFor:Drawing.ImageType
+        //ExSummary:Shows how to add an image to a shape and check its type.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape imgShape = builder.insertImage(getImageDir() + "Logo.jpg");
+        Assert.assertEquals(ImageType.JPEG, imgShape.getImageData().getImageType());
+        //ExEnd
+    }
+
+    @Test
+    public void fillSolid() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.Color()
+        //ExFor:Fill.Solid(Color)
+        //ExSummary:Shows how to convert any of the fills back to solid fill.
+        Document doc = new Document(getMyDir() + "Two color gradient.docx");
+
+        // Get Fill object for Font of the first Run.
+        Fill fill = doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0).getFont().getFill();
+
+        // Check Fill properties of the Font.
+        System.out.println("The type of the fill is: {0}",fill.getFillType());
+        System.out.println("The foreground color of the fill is: {0}",fill.getForeColor());
+        System.out.println("The fill is transparent at {0}%",fill.getTransparency() * 100.0);
+
+        // Change type of the fill to Solid with uniform green color.
+        fill.solid(msColor.getGreen());
+        System.out.println("\nThe fill is changed:");
+        System.out.println("The type of the fill is: {0}",fill.getFillType());
+        System.out.println("The foreground color of the fill is: {0}",fill.getForeColor());
+        System.out.println("The fill transparency is {0}%",fill.getTransparency() * 100.0);
+
+        doc.save(getArtifactsDir() + "Drawing.FillSolid.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void saveAllImages() throws Exception
+    {
+        //ExStart
+        //ExFor:ImageData.HasImage
+        //ExFor:ImageData.ToImage
+        //ExFor:ImageData.Save(Stream)
+        //ExSummary:Shows how to save all images from a document to the file system.
+        Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
+
+        // Shapes with the "HasImage" flag set store and display all the document's images.
+        Iterable<Shape> shapesWithImages = 
+            imgSourceDoc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().Where(s => s.HasImage);
+
+        // Go through each shape and save its image.
+        ImageFormatConverter formatConverter = new ImageFormatConverter();
+
+        Iterator<Shape> enumerator = shapesWithImages.iterator();
+        try /*JAVA: was using*/
+        {
+            int shapeIndex = 0;
+
+            while (enumerator.hasNext())
+            {
+                ImageData imageData = enumerator.next().getImageData();                    
+
+                FileStream fileStream = File.create(getArtifactsDir() + $"Drawing.SaveAllImages.{++shapeIndex}.{imageData.ImageType}");
+                try /*JAVA: was using*/
+            	{
+                    imageData.save(fileStream);
+            	}
+                finally { if (fileStream != null) fileStream.close(); }
+            }
+        }
+        finally { if (enumerator != null) enumerator.close(); }
+        //ExEnd
+
+        String[] imageFileNames = Directory.getFiles(getArtifactsDir()).Where(s => s.StartsWith(ArtifactsDir + "Drawing.SaveAllImages.")).OrderBy(s => s).ToArray();
+        ArrayList<FileInfo> fileInfos = imageFileNames.Select(s => new FileInfo(s)).ToList();
+        
+        TestUtil.verifyImage(2467, 1500, fileInfos.get(0).getFullName());
+        Assert.assertEquals(".Jpeg", fileInfos.get(0).Extension);
+        TestUtil.verifyImage(400, 400, fileInfos.get(1).getFullName());
+        Assert.assertEquals(".Png", fileInfos.get(1).Extension);
+        TestUtil.verifyImage(382, 138, fileInfos.get(2).getFullName());
+        Assert.assertEquals(".Emf", fileInfos.get(2).Extension);
+        TestUtil.verifyImage(1600, 1600, fileInfos.get(3).getFullName());
+        Assert.assertEquals(".Wmf", fileInfos.get(3).Extension);
+        TestUtil.verifyImage(534, 534, fileInfos.get(4).getFullName());
+        Assert.assertEquals(".Emf", fileInfos.get(4).Extension);
+        TestUtil.verifyImage(1260, 660, fileInfos.get(5).getFullName());
+        Assert.assertEquals(".Jpeg", fileInfos.get(5).Extension);
+        TestUtil.verifyImage(1125, 1500, fileInfos.get(6).getFullName());
+        Assert.assertEquals(".Jpeg", fileInfos.get(6).Extension);
+        TestUtil.verifyImage(1027, 1500, fileInfos.get(7).getFullName());
+        Assert.assertEquals(".Jpeg", fileInfos.get(7).Extension);
+        TestUtil.verifyImage(1200, 1500, fileInfos.get(8).getFullName());
+        Assert.assertEquals(".Jpeg", fileInfos.get(8).Extension);
+    }        
 
     @Test
     public void strokePattern() throws Exception
@@ -492,16 +479,16 @@ public class ExDrawing extends ApiExampleBase
         doc = DocumentHelper.saveOpen(doc);
         GroupShape shapes = (GroupShape)doc.getChild(NodeType.GROUP_SHAPE, 0, true);
 
-        Assert.assertEquals(2, shapes.getChildNodes().getCount());
+        Assert.assertEquals(2, shapes.getChildNodes(NodeType.ANY, false).getCount());
 
-        Shape shape = (Shape)shapes.getChildNodes().get(0);
+        Shape shape = (Shape)shapes.getChildNodes(NodeType.ANY, false).get(0);
 
         Assert.assertEquals(ShapeType.BALLOON, shape.getShapeType());
         Assert.assertEquals(200.0d, shape.getWidth());
         Assert.assertEquals(200.0d, shape.getHeight());
         Assert.assertEquals(Color.RED.getRGB(), shape.getStrokeColor().getRGB());
 
-        shape = (Shape)shapes.getChildNodes().get(1);
+        shape = (Shape)shapes.getChildNodes(NodeType.ANY, false).get(1);
 
         Assert.assertEquals(ShapeType.CUBE, shape.getShapeType());
         Assert.assertEquals(100.0d, shape.getWidth());

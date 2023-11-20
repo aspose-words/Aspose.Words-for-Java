@@ -65,8 +65,8 @@ class TestUtil {
         BufferedImage image = ImageIO.read(imageStream);
 
         try {
-            Assert.assertEquals(expectedWidth, image.getWidth());
-            Assert.assertEquals(expectedHeight, image.getHeight());
+            Assert.assertEquals(image.getWidth(), expectedWidth);
+            Assert.assertEquals(image.getHeight(), expectedHeight);
         } finally {
             if (image != null) image.flush();
         }
@@ -248,8 +248,8 @@ class TestUtil {
         CompositeNode innerFieldParent = innerField.getStart().getParentNode();
 
         Assert.assertTrue(innerFieldParent == outerField.getStart().getParentNode());
-        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getStart()) > innerFieldParent.getChildNodes().indexOf(outerField.getStart()));
-        Assert.assertTrue(innerFieldParent.getChildNodes().indexOf(innerField.getEnd()) < innerFieldParent.getChildNodes().indexOf(outerField.getEnd()));
+        Assert.assertTrue(innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(innerField.getStart()) > innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(outerField.getStart()));
+        Assert.assertTrue(innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(innerField.getEnd()) < innerFieldParent.getChildNodes(NodeType.ANY, false).indexOf(outerField.getEnd()));
     }
 
     /// <summary>

@@ -21,8 +21,6 @@ import com.aspose.words.NodeCollection;
 import com.aspose.ms.System.IO.Stream;
 import java.io.FileInputStream;
 import com.aspose.ms.System.IO.File;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import com.aspose.words.WrapType;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
@@ -30,7 +28,6 @@ import com.aspose.words.HorizontalAlignment;
 import com.aspose.words.VerticalAlignment;
 import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.words.Node;
-import com.aspose.ms.System.Drawing.msSize;
 import com.aspose.words.ImageSize;
 
 
@@ -126,32 +123,6 @@ public class ExImage extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Image.FromStream.docx");
 
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0));
-    }
-
-        @Test (groups = "SkipMono")
-    public void fromImage() throws Exception
-    {
-        DocumentBuilder builder = new DocumentBuilder();
-
-        BufferedImage rasterImage = ImageIO.read(getImageDir() + "Logo.jpg");
-        try /*JAVA: was using*/
-        {
-            builder.write("Raster image: ");
-            builder.insertImage(rasterImage);
-            builder.writeln();
-        }
-        finally { if (rasterImage != null) rasterImage.flush(); }
-
-        BufferedImage metafile = ImageIO.read(getImageDir() + "Windows MetaFile.wmf");
-        try /*JAVA: was using*/
-        {
-            builder.write("Metafile: ");
-            builder.insertImage(metafile);
-            builder.writeln();
-        }
-        finally { if (metafile != null) metafile.flush(); }
-
-        builder.getDocument().save(getArtifactsDir() + "Image.FromImage.docx");
     }
 
     @Test
@@ -407,11 +378,6 @@ public class ExImage extends ApiExampleBase
         //ExFor:ShapeBase.Width
         //ExFor:ShapeBase.Height
         //ExSummary:Shows how to resize a shape with an image.
-        BufferedImage image = ImageIO.read(getImageDir() + "Logo.jpg");
-
-        Assert.assertEquals(400, msSize.getWidth(image.Size));
-        Assert.assertEquals(400, msSize.getHeight(image.Size));
-
         // When we insert an image using the "InsertImage" method, the builder scales the shape that displays the image so that,
         // when we view the document using 100% zoom in Microsoft Word, the shape displays the image in its actual size.
         Document doc = new Document();

@@ -227,18 +227,19 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         System.out.println(MessageFormat.format("\tFile Size:\t{0} bytes", fileInfo.length()));
         //ExEnd
 
+        long testedFileLength = fileInfo.length();
         switch (compressionLevel) {
             case CompressionLevel.MAXIMUM:
-                Assert.assertTrue(fileInfo.length() <= 1266000);
+                Assert.assertTrue(testedFileLength <= 1266000);
                 break;
             case CompressionLevel.NORMAL:
-                Assert.assertTrue(fileInfo.length() < 1267000);
+                Assert.assertTrue(testedFileLength < 1267000);
                 break;
             case CompressionLevel.FAST:
-                Assert.assertTrue(fileInfo.length() < 1269000);
+                Assert.assertTrue(testedFileLength < 1269000);
                 break;
             case CompressionLevel.SUPER_FAST:
-                Assert.assertTrue(fileInfo.length() < 1271000);
+                Assert.assertTrue(testedFileLength < 1271000);
                 break;
         }
     }

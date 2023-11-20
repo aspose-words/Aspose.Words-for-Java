@@ -124,7 +124,7 @@ class BaseOperations extends DocsExamplesBase
     /// </summary>
     private DataTable executeDataTable(String commandText)
     {
-        String connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
+        String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
 
         OleDbConnection conn = new OleDbConnection(connString);
         conn.Open();
@@ -145,7 +145,7 @@ class BaseOperations extends DocsExamplesBase
     public void produceMultipleDocuments() throws Exception
     {
         //ExStart:ProduceMultipleDocuments
-        String connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
+        String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
 
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind suppliers.docx");
 

@@ -14,6 +14,7 @@ import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import org.testng.Assert;
 import com.aspose.words.ContentDisposition;
+import com.aspose.ms.System.msConsole;
 import com.aspose.words.net.System.Data.DataTable;
 import com.aspose.words.net.System.Data.DataView;
 import com.aspose.words.net.System.Data.DataSet;
@@ -26,7 +27,6 @@ import com.aspose.words.FieldMergeField;
 import com.aspose.words.MappedDataFieldCollection;
 import java.util.Iterator;
 import java.util.Map;
-import com.aspose.ms.System.msConsole;
 import com.aspose.words.FieldAddressBlock;
 import com.aspose.words.FieldGreetingLine;
 import com.aspose.words.Field;
@@ -54,6 +54,7 @@ import com.aspose.ms.System.Threading.CurrentThread;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.FieldUpdateCultureSource;
 import com.aspose.words.HtmlInsertOptions;
+import com.aspose.words.MustacheTag;
 import org.testng.annotations.DataProvider;
 
 
@@ -117,27 +118,33 @@ public class ExMailMerge extends ApiExampleBase
 
         // Create a connection string that points to the "Northwind" database file
         // in our local file system, open a connection, and set up an SQL query.
-        String connectionString = "Driver={Microsoft Access Driver (*.mdb)};Dbq=" + getDatabaseDir() + "Northwind.mdb";
-        String query = 
-            "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, {fn ROUND(Products.UnitPrice,2)} as UnitPrice\n                FROM Products \n                INNER JOIN Suppliers \n                ON Products.SupplierID = Suppliers.SupplierID";
+        String connectionString = "Provider = Microsoft.ACE.OLEDB.12.0; Data Source=" + getDatabaseDir() + "Northwind.accdb";
+        String query =
+            "SELECT Products.ProductName, Suppliers.CompanyName, Products.QuantityPerUnit, Products.UnitPrice\n                FROM Products \n                INNER JOIN Suppliers \n                ON Products.SupplierID = Suppliers.SupplierID";
 
-        OdbcConnection connection = new OdbcConnection();
+        OleDbConnection connection = new OleDbConnection(connectionString);
         try /*JAVA: was using*/
         {
-            connection.ConnectionString = connectionString;
-            connection.Open();
-
             // Create an SQL command that will source data for our mail merge.
             // The names of the table's columns that this SELECT statement will return
             // will need to correspond to the merge fields we placed above.
-            OdbcCommand command = connection.CreateCommand();
+            OleDbCommand command = new OleDbCommand(query, connection);
             command.CommandText = query;
-
-            // This will run the command and store the data in the reader.
-            OdbcDataReader reader = command.ExecuteReader(CommandBehavior.CloseConnection);
-
-            // Take the data from the reader and use it in the mail merge.
-            doc.getMailMerge().execute(reader);
+            try
+            {                    
+                connection.Open();                 
+                OleDbDataReader reader = command.ExecuteReader();
+                try /*JAVA: was using*/
+                {
+                    // Take the data from the reader and use it in the mail merge.
+                    doc.getMailMerge().execute(reader);
+                }
+                finally { if (reader != null) reader.close(); }
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex.getMessage());
+            }                
         }
         finally { if (connection != null) connection.close(); }
 
@@ -146,13 +153,13 @@ public class ExMailMerge extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "MailMerge.ExecuteDataReader.docx");
 
-        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.mdb", query, doc, true);
+        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.accdb", query, doc, true);
     }
 
     //ExStart
     //ExFor:MailMerge.ExecuteADO(Object)
     //ExSummary:Shows how to run a mail merge with data from an ADO dataset.
-    @Test (groups = "IgnoreOnJenkins") //ExSkip
+    @Test (enabled = false, description = "Run only under x86") //ExSkip
     public void executeADO() throws Exception
     {
         Document doc = createSourceDocADOMailMerge();
@@ -163,7 +170,7 @@ public class ExMailMerge extends ApiExampleBase
 
         // Create a connection string that points to the "Northwind" database file
         // in our local file system and open a connection.
-        String connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
+        String connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
         connection.Open(connectionString);
 
         // Populate our DataSet by running an SQL command on our database.
@@ -177,7 +184,7 @@ public class ExMailMerge extends ApiExampleBase
         // Execute the mail merge and save the document.
         doc.getMailMerge().ExecuteADO(recordset);
         doc.save(getArtifactsDir() + "MailMerge.ExecuteADO.docx");
-        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.mdb", COMMAND, doc, true); //ExSkip
+        TestUtil.mailMergeMatchesQueryResult(getDatabaseDir() + "Northwind.accdb", COMMAND, doc, true); //ExSkip
     }
 
     /// <summary>
@@ -202,7 +209,7 @@ public class ExMailMerge extends ApiExampleBase
     //ExStart
     //ExFor:MailMerge.ExecuteWithRegionsADO(Object,String)
     //ExSummary:Shows how to run a mail merge with multiple regions, compiled with data from an ADO dataset.
-    @Test (groups = "IgnoreOnJenkins") //ExSkip
+    @Test (enabled = false, description = "Run only under x86") //ExSkip
     public void executeWithRegionsADO() throws Exception
     {
         Document doc = createSourceDocADOMailMergeWithRegions();
@@ -213,7 +220,7 @@ public class ExMailMerge extends ApiExampleBase
 
         // Create a connection string that points to the "Northwind" database file
         // in our local file system and open a connection.
-        String connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + getDatabaseDir() + "Northwind.mdb";
+        String connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
         connection.Open(connectionString);
 
         // Populate our DataSet by running an SQL command on our database.
@@ -235,9 +242,10 @@ public class ExMailMerge extends ApiExampleBase
 
         // Run a second mail merge on the second region and save the document.
         doc.getMailMerge().ExecuteWithRegionsADO(recordset, "MergeRegion2");
-
+        
         doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx");
-        TestUtil.mailMergeMatchesQueryResultMultiple(getDatabaseDir() + "Northwind.mdb", new String[] { "SELECT FirstName, LastName, City FROM Employees", "SELECT ContactName, Address, City FROM Customers" }, new Document(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx"), false); //ExSkip
+
+        TestUtil.mailMergeMatchesQueryResultMultiple(getDatabaseDir() + "Northwind.accdb", new String[] { "SELECT FirstName, LastName, City FROM Employees", "SELECT ContactName, Address, City FROM Customers" }, new Document(getArtifactsDir() + "MailMerge.ExecuteWithRegionsADO.docx"), false); //ExSkip
     }
 
     /// <summary>
@@ -1991,4 +1999,35 @@ public class ExMailMerge extends ApiExampleBase
 
         Assert.assertEquals(4, doc.getFirstSection().getBody().getParagraphs().getCount());
     }
+
+    @Test
+    public void mustacheTags() throws Exception
+    {
+        //ExStart
+        //ExFor:MustacheTag.Text
+        //ExFor:MustacheTag.ReferenceOffset
+        //ExFor:MustacheTag.ReferenceRun
+        //ExFor:MailMergeRegionInfo.StartMustacheTag
+        //ExFor:MailMergeRegionInfo.EndMustacheTag
+        //ExSummary:Shows how to work with the mustache tags.
+        Document document = new Document(getMyDir() + "Mail merge mustache tags.docx");
+        document.getMailMerge().setUseNonMergeFields(true);
+
+        MailMergeRegionInfo hierarchy = document.getMailMerge().getRegionsHierarchy();
+
+        for (MustacheTag mustacheTag : hierarchy.getMustacheTags())
+        {
+            System.out.println(mustacheTag.getText());
+            msConsole.writeLine(mustacheTag.getReferenceOffset());
+            System.out.println(mustacheTag.getReferenceRun());
+        }
+
+        for (MailMergeRegionInfo region : hierarchy.getRegions())
+        {
+            System.out.println(region.getStartMustacheTag().getText());
+            System.out.println(region.getEndMustacheTag().getText());
+        }
+        //ExEnd
+    }
 }
+
