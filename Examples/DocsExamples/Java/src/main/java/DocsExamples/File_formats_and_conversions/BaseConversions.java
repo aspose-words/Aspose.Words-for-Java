@@ -196,7 +196,7 @@ public class BaseConversions extends DocsExamplesBase
      * @param outputFileName Output PDF file name.
      * @throws Exception
      */
-    public void convertImageToPDF(String inputFileName, String outputFileName) throws Exception {
+    private void convertImageToPDF(String inputFileName, String outputFileName) throws Exception {
         // Create Aspose.Words.Document and DocumentBuilder.
         // The builder makes it simple to add content to the document.
         Document doc = new Document();
