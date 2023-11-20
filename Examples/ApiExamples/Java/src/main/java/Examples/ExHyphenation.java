@@ -59,8 +59,8 @@ public class ExHyphenation extends ApiExampleBase {
         textAbsorber.visit(pdfDoc);
 
         Assert.assertTrue(textAbsorber.getText().contains("La ob storen an deinen am sachen. Dop-\r\n" +
-                "pelte  um  da  am  spateren  verlogen  ge-\r\n" +
-                "kommen  achtzehn  blaulich."));
+                "pelte um da am spateren verlogen ge-\r\n" +
+                "kommen achtzehn blaulich."));
 
         pdfDoc.close();
 
@@ -68,9 +68,9 @@ public class ExHyphenation extends ApiExampleBase {
         textAbsorber = new TextAbsorber();
         textAbsorber.visit(pdfDoc);
 
-        Assert.assertTrue(textAbsorber.getText().contains("La  ob  storen  an  deinen  am  sachen. \r\n" +
-                "Doppelte  um  da  am  spateren  verlogen \r\n" +
-                "gekommen  achtzehn  blaulich."));
+        Assert.assertTrue(textAbsorber.getText().contains("La ob storen an deinen am sachen. \r\n" +
+                "Doppelte um da am spateren verlogen \r\n" +
+                "gekommen achtzehn blaulich."));
 
         pdfDoc.close();
     }
