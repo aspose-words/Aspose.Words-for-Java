@@ -75,6 +75,7 @@ public class RemoveContent extends DocsExamplesBase
     public void removeFooters() throws Exception
     {
         //ExStart:RemoveFooters
+        //GistId:58431f54e34e5597f8cbaf97481d5321
         Document doc = new Document(getMyDir() + "Header and footer types.docx");
 
         for (Section section : doc.getSections())
