@@ -27,14 +27,17 @@ public class WorkingWithHeadersAndFooters extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
+        // Use HeaderPrimary and FooterPrimary
+        // if you want to set header/footer for all document.
+        // This header/footer type also responsible for odd pages.
         //ExStart:HeaderFooterType
         //GistId:58431f54e34e5597f8cbaf97481d5321
-        builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
-        builder.write("Header for the first page.");
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.write("Header for page.");
         //ExEnd:HeaderFooterType
 
         builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
-        builder.write("Header for odd page.");
+        builder.write("Footer for page.");
 
         doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.CreateHeaderFooter.docx");
         //ExEnd:CreateHeaderFooter
@@ -52,6 +55,8 @@ public class WorkingWithHeadersAndFooters extends DocsExamplesBase
 
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
         builder.write("Header for the first page.");
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_FIRST);
+        builder.write("Footer for the first page.");
 
         builder.moveToSection(0);
         builder.writeln("Page 1");
@@ -76,6 +81,10 @@ public class WorkingWithHeadersAndFooters extends DocsExamplesBase
         builder.write("Header for even pages.");
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         builder.write("Header for odd pages.");
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_EVEN);
+        builder.write("Footer for even pages.");
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        builder.write("Footer for odd pages.");
 
         builder.moveToSection(0);
         builder.writeln("Page 1");
@@ -113,7 +122,7 @@ public class WorkingWithHeadersAndFooters extends DocsExamplesBase
         builder.getFont().setName("Arial");
         builder.getFont().setBold(true);
         builder.getFont().setSize(14);
-        builder.write("Header for odd page.");
+        builder.write("Header for page.");
 
         doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.HeaderFooterFontProps.docx");
         //ExEnd:FontProps
@@ -171,7 +180,6 @@ public class WorkingWithHeadersAndFooters extends DocsExamplesBase
 
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
-
         builder.getFont().setName("Arial");
         builder.getFont().setSize(12);
         builder.write("New Header for the first page.");
