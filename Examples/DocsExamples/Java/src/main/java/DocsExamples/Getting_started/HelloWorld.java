@@ -4,13 +4,11 @@ import DocsExamples.DocsExamplesBase;
 import com.aspose.words.*;
 import org.testng.annotations.Test;
 
-import java.util.Date;
-
 @Test
 public class HelloWorld extends DocsExamplesBase
 {
     @Test
-    public void helloWorld() throws Exception
+    public void simpleHelloWorld() throws Exception
     {
         //ExStart:HelloWorld
         //GistId:4e111aa3d11a41428c8a0cadfc23b972

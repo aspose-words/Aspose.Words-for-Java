@@ -1,4 +1,4 @@
-package DocsExamples.Programming_with_documents;
+package DocsExamples.Getting_started;
 
 import DocsExamples.DocsExamplesBase;
 import org.testng.annotations.Test;
@@ -13,9 +13,9 @@ import java.io.FileInputStream;
 public class ApplyLicense extends DocsExamplesBase
 {
     @Test
-    public void applyLicenseFromFile() throws Exception
-    {
+    public void applyLicenseFromFile() {
         //ExStart:ApplyLicenseFromFile
+        //GistId:aae6b7a56c4792497614b4ee8f6f8eec
         License license = new License();
 
         // This line attempts to set a license from several locations relative to the executable and Aspose.Words.dll.
@@ -37,9 +37,9 @@ public class ApplyLicense extends DocsExamplesBase
     }
 
     @Test
-    public void applyLicenseFromStream() throws Exception
-    {
+    public void applyLicenseFromStream() {
         //ExStart:ApplyLicenseFromStream
+        //GistId:aae6b7a56c4792497614b4ee8f6f8eec
         License license = new License();
 
         try
@@ -58,8 +58,30 @@ public class ApplyLicense extends DocsExamplesBase
     }
 
     @Test
+    public void applyLicenseFromResources() {
+        //ExStart:ApplyLicenseFromResources
+        //GistId:aae6b7a56c4792497614b4ee8f6f8eec
+        License license = new License();
+
+        try
+        {
+            license.setLicense(ApplyLicense.class.getResourceAsStream("Aspose.Words.lic"));
+
+            System.out.println("License set successfully.");
+        }
+        catch (Exception e)
+        {
+            // We do not ship any license with this example,
+            // visit the Aspose site to obtain either a temporary or permanent license.
+            System.out.println("\nThere was an error setting the license: " + e.getMessage());
+        }
+        //ExEnd:ApplyLicenseFromResources
+    }
+
+    @Test
     public void applyMeteredLicense() {
         //ExStart:ApplyMeteredLicense
+        //GistId:aae6b7a56c4792497614b4ee8f6f8eec
         try
         {
             Metered metered = new Metered();
