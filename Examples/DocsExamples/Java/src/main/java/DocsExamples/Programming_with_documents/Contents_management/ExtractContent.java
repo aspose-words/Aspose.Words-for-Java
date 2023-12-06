@@ -13,7 +13,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractContentBetweenBlockLevelNodes() throws Exception {
         //ExStart:ExtractContentBetweenBlockLevelNodes
-        //GistId:1f94e59ea4838ffac2f0edf921f67060
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document(getMyDir() + "Extract content.docx");
 
         Paragraph startPara = (Paragraph) doc.getLastSection().getChild(NodeType.PARAGRAPH, 2, true);
@@ -34,7 +34,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractContentBetweenBookmark() throws Exception {
         //ExStart:ExtractContentBetweenBookmark
-        //GistId:1f94e59ea4838ffac2f0edf921f67060
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document(getMyDir() + "Extract content.docx");
 
         Bookmark bookmark = doc.getRange().getBookmarks().get("Bookmark1");
@@ -58,7 +58,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractContentBetweenCommentRange() throws Exception {
         //ExStart:ExtractContentBetweenCommentRange
-        //GistId:1f94e59ea4838ffac2f0edf921f67060
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document(getMyDir() + "Extract content.docx");
 
         CommentRangeStart commentStart = (CommentRangeStart) doc.getChild(NodeType.COMMENT_RANGE_START, 0, true);
@@ -81,7 +81,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractContentBetweenParagraphs() throws Exception {
         //ExStart:ExtractContentBetweenParagraphs
-        //GistId:1f94e59ea4838ffac2f0edf921f67060
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document(getMyDir() + "Extract content.docx");
 
         Paragraph startPara = (Paragraph) doc.getFirstSection().getBody().getChild(NodeType.PARAGRAPH, 6, true);
@@ -97,7 +97,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractContentBetweenParagraphStyles() throws Exception {
         //ExStart:ExtractContentBetweenParagraphStyles
-        //GistId:1f94e59ea4838ffac2f0edf921f67060
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document(getMyDir() + "Extract content.docx");
 
         // Gather a list of the paragraphs using the respective heading styles.
@@ -117,7 +117,7 @@ public class ExtractContent extends DocsExamplesBase {
     }
 
     //ExStart:ParagraphsByStyleName
-    //GistId:1f94e59ea4838ffac2f0edf921f67060
+    //GistId:1975a35426bcd195a2e7c61d20a1580c
     public static ArrayList<Paragraph> paragraphsByStyleName(Document doc, String styleName)
     {
         // Create an array to collect paragraphs of the specified style.
@@ -139,7 +139,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractContentBetweenRuns() throws Exception {
         //ExStart:ExtractContentBetweenRuns
-        //GistId:1f94e59ea4838ffac2f0edf921f67060
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document(getMyDir() + "Extract content.docx");
 
         Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 7, true);
@@ -156,7 +156,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractContentUsingDocumentVisitor() throws Exception {
         //ExStart:ExtractContentUsingDocumentVisitor
-        //GistId:1f94e59ea4838ffac2f0edf921f67060
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document(getMyDir() + "Absolute position tab.docx");
 
         ConvertDocToTxt convertToPlainText = new ConvertDocToTxt();
@@ -171,7 +171,7 @@ public class ExtractContent extends DocsExamplesBase {
     }
 
     //ExStart:ConvertDocToTxt
-    //GistId:1f94e59ea4838ffac2f0edf921f67060
+    //GistId:1975a35426bcd195a2e7c61d20a1580c
     /// <summary>
     /// Simple implementation of saving a document in the plain text format. Implemented as a Visitor.
     /// </summary>
@@ -278,7 +278,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractContentUsingField() throws Exception {
         //ExStart:ExtractContentUsingField
-        //GistId:1f94e59ea4838ffac2f0edf921f67060
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document(getMyDir() + "Extract content.docx");
         DocumentBuilder builder = new DocumentBuilder(doc);
         // Pass the first boolean parameter to get the DocumentBuilder to move to the FieldStart of the field.
@@ -299,7 +299,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void simpleExtractText() throws Exception {
         //ExStart:SimpleExtractText
-        //GistId:1f94e59ea4838ffac2f0edf921f67060
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -341,7 +341,7 @@ public class ExtractContent extends DocsExamplesBase {
     @Test
     public void extractImages() throws Exception {
         //ExStart:ExtractImages
-        //GistId:1f94e59ea4838ffac2f0edf921f67060
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document(getMyDir() + "Images.docx");
 
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);

@@ -267,7 +267,7 @@ public class ExtractContentHelper
     }
 
     //ExStart:GenerateDocument
-    //GistId:1f94e59ea4838ffac2f0edf921f67060
+    //GistId:1975a35426bcd195a2e7c61d20a1580c
     public static Document generateDocument(Document srcDoc, ArrayList<Node> nodes) throws Exception
     {
         Document dstDoc = new Document();
