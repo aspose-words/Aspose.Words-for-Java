@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class ExtractContentHelper
 {
-    //ExStart:CommonExtractContent
     public static ArrayList<Node> extractContent(Node startNode, Node endNode, boolean isInclusive)
     {
         // First, check that the nodes passed to this method are valid for use.
@@ -94,46 +93,7 @@ public class ExtractContentHelper
         // Return the nodes between the node markers.
         return nodes;
     }
-    //ExEnd:CommonExtractContent
 
-    public static ArrayList<Paragraph> paragraphsByStyleName(Document doc, String styleName)
-    {
-        // Create an array to collect paragraphs of the specified style.
-        ArrayList<Paragraph> paragraphsWithStyle = new ArrayList<Paragraph>();
-        
-        NodeCollection paragraphs = doc.getChildNodes(NodeType.PARAGRAPH, true);
-        
-        // Look through all paragraphs to find those with the specified style.
-        for (Paragraph paragraph : (Iterable<Paragraph>) paragraphs)
-        {
-            if (paragraph.getParagraphFormat().getStyle().getName().equals(styleName))
-                paragraphsWithStyle.add(paragraph);
-        }
-
-        return paragraphsWithStyle;
-    }
-
-    //ExStart:CommonGenerateDocument
-    public static Document generateDocument(Document srcDoc, ArrayList<Node> nodes) throws Exception
-    {
-        Document dstDoc = new Document();
-        // Remove the first paragraph from the empty document.
-        dstDoc.getFirstSection().getBody().removeAllChildren();
-
-        // Import each node from the list into the new document. Keep the original formatting of the node.
-        NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
-
-        for (Node node : nodes)
-        {
-            Node importNode = importer.importNode(node, true);
-            dstDoc.getFirstSection().getBody().appendChild(importNode);
-        }
-
-        return dstDoc;
-    }
-    //ExEnd:CommonGenerateDocument
-
-    //ExStart:CommonExtractContentHelperMethods
     private static void verifyParameterNodes(Node startNode, Node endNode)
     {
         // The order in which these checks are done is important.
@@ -305,5 +265,24 @@ public class ExtractContentHelper
             startNode = startNode.getParentNode();
         return startNode;
     }
-    //ExEnd:CommonExtractContentHelperMethods
+
+    //ExStart:GenerateDocument
+    //GistId:1f94e59ea4838ffac2f0edf921f67060
+    public static Document generateDocument(Document srcDoc, ArrayList<Node> nodes) throws Exception
+    {
+        Document dstDoc = new Document();
+        // Remove the first paragraph from the empty document.
+        dstDoc.getFirstSection().getBody().removeAllChildren();
+
+        // Import each node from the list into the new document. Keep the original formatting of the node.
+        NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
+        for (Node node : nodes)
+        {
+            Node importNode = importer.importNode(node, true);
+            dstDoc.getFirstSection().getBody().appendChild(importNode);
+        }
+
+        return dstDoc;
+    }
+    //ExEnd:GenerateDocument
 }

@@ -127,8 +127,8 @@ public class BaseConversions extends DocsExamplesBase
     public void docxToTxt() throws Exception
     {
         //ExStart:DocxToTxt
+        //GistId:1f94e59ea4838ffac2f0edf921f67060
         Document doc = new Document(getMyDir() + "Document.docx");
-
         doc.save(getArtifactsDir() + "BaseConversions.DocxToTxt.txt");
         //ExEnd:DocxToTxt
     }
