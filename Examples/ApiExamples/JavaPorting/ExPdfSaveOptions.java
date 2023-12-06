@@ -68,6 +68,7 @@ import com.aspose.words.PdfEncryptionDetails;
 import com.aspose.words.PdfPermissions;
 import com.aspose.words.NumeralFormat;
 import com.aspose.ms.NUnit.Framework.msAssert;
+import com.aspose.words.PdfPageLayout;
 import org.testng.annotations.DataProvider;
 
 
@@ -2645,6 +2646,24 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf");
         Assert.AreEqual(3, pdfDocument.Pages[1].Artifacts.Count());
+    }
+
+    @Test
+    public void pageLayout() throws Exception
+    {
+        //ExStart:PageLayout
+        //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:PdfSaveOptions.PageLayout
+        //ExFor:PdfPageLayout
+        //ExSummary:Shows how to display pages when opened in a PDF reader.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        // Display the pages two at a time, with odd-numbered pages on the left.
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setPageLayout(PdfPageLayout.TWO_PAGE_LEFT);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.PageLayout.pdf", saveOptions);
+        //ExEnd:PageLayout
     }
 }
 

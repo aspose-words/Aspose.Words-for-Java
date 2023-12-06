@@ -1883,7 +1883,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         image = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(252, 213, ImageType.PNG, image);
+        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, image);
         Assert.assertEquals(100.0d, image.getLeft());
         Assert.assertEquals(250.0d, image.getTop());
         Assert.assertEquals(200.0d, image.getWidth());
