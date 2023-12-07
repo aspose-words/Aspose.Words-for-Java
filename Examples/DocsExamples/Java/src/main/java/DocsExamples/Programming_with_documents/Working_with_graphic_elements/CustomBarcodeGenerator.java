@@ -11,7 +11,8 @@ import com.aspose.words.IBarcodeGenerator;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-//ExStart:GenerateACustomBarCodeImage_IBarcodeGenerator
+//ExStart:CustomBarcodeGenerator
+//GistId:689e63b98de2dcbb12dffc37afbe9067
 public class CustomBarcodeGenerator extends DocsExamplesBase implements IBarcodeGenerator
 {
     /// <summary>
@@ -20,13 +21,13 @@ public class CustomBarcodeGenerator extends DocsExamplesBase implements IBarcode
     /// <param name="heightInTwipsString"></param>
     /// <returns></returns>
     private static float convertSymbolHeight(String heightInTwipsString) throws Exception {
-        // Input value is in 1/1440 inches (twips)
+        // Input value is in 1/1440 inches (twips).
         int heightInTwips = tryParseInt(heightInTwipsString);
 
         if (heightInTwips == Integer.MIN_VALUE)
             throw new Exception("Error! Incorrect height - " + heightInTwipsString + ".");
 
-        // Convert to mm
+        // Convert to mm.
         return (float) (heightInTwips * 25.4 / 1440.0);
     }
 
@@ -36,7 +37,7 @@ public class CustomBarcodeGenerator extends DocsExamplesBase implements IBarcode
     /// <param name="inputColor"></param>
     /// <returns></returns>
     private static Color convertColor(String inputColor) throws Exception {
-        // Input should be from "0x000000" to "0xFFFFFF"
+        // Input should be from "0x000000" to "0xFFFFFF".
         int color = tryParseHex(inputColor.replace("0x", ""));
 
         if (color == Integer.MIN_VALUE)
@@ -45,7 +46,7 @@ public class CustomBarcodeGenerator extends DocsExamplesBase implements IBarcode
         return new Color((color >> 16), ((color & 0xFF00) >> 8), (color & 0xFF));
 
         // Backward conversion -
-        //return string.Format("0x{0,6:X6}", mControl.ForeColor.ToArgb() & 0xFFFFFF);
+        // return string.Format("0x{0,6:X6}", mControl.ForeColor.ToArgb() & 0xFFFFFF);
     }
 
     /// <summary>
@@ -137,7 +138,8 @@ public class CustomBarcodeGenerator extends DocsExamplesBase implements IBarcode
 
         generator.getParameters().getCaptionAbove().setText("");
 
-        final float SCALE = 2.4f; // Empiric scaling factor for converting Word barcode to Aspose.BarCode
+        // Empiric scaling factor for converting Word barcode to Aspose.BarCode.
+        final float SCALE = 2.4f;
         float xdim = 1.0f;
 
         if (generator.getBarcodeType().equals(EncodeTypes.QR))
@@ -184,7 +186,6 @@ public class CustomBarcodeGenerator extends DocsExamplesBase implements IBarcode
             generator.setCodeText(parameters.getPostalAddress());
         }
 
-        // Hardcode type for old-fashioned Barcode
         return generator.generateBarCodeImage();
     }
 
@@ -225,5 +226,5 @@ public class CustomBarcodeGenerator extends DocsExamplesBase implements IBarcode
         }
     }
 }
-//ExEnd:GenerateACustomBarCodeImage_IBarcodeGenerator
+//ExEnd:CustomBarcodeGenerator
 

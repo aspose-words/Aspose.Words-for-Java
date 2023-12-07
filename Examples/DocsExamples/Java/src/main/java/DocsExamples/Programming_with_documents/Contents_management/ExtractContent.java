@@ -157,7 +157,7 @@ public class ExtractContent extends DocsExamplesBase {
     public void extractContentUsingDocumentVisitor() throws Exception {
         //ExStart:ExtractContentUsingDocumentVisitor
         //GistId:1975a35426bcd195a2e7c61d20a1580c
-        Document doc = new Document(getMyDir() + "Absolute position tab.docx");
+        Document doc = new Document(getMyDir() + "Extract content.docx");
 
         ConvertDocToTxt convertToPlainText = new ConvertDocToTxt();
         // Note that every node in the object model has the accept method so the visiting
@@ -304,8 +304,6 @@ public class ExtractContent extends DocsExamplesBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.insertField("MERGEFIELD Field");
-
-        System.out.println("GetText() Result: " + doc.getText());
 
         // When converted to text it will not retrieve fields code or special characters,
         // but will still contain some natural formatting characters such as paragraph markers etc. 

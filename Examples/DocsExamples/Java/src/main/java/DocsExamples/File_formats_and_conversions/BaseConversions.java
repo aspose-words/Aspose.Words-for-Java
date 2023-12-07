@@ -56,7 +56,6 @@ public class BaseConversions extends DocsExamplesBase
         //ExStart:DocxToPdf
         //GistId:b237846932dfcde42358bd0c887661a5
         Document doc = new Document(getMyDir() + "Document.docx");
-
         doc.save(getArtifactsDir() + "BaseConversions.DocxToPdf.pdf");
         //ExEnd:DocxToPdf
     }
