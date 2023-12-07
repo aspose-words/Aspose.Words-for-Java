@@ -9,14 +9,19 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import com.aspose.words.List;
+import com.aspose.words.Shape;
 import org.apache.commons.lang.time.StopWatch;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class ExOoxmlSaveOptions extends ApiExampleBase {
@@ -371,4 +376,32 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         private static final double MAX_DURATION = 0.01d;
     }
     //ExEnd
+
+    @Test
+    public void zip64ModeOption() throws Exception
+    {
+        //ExStart:Zip64ModeOption
+        //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:OoxmlSaveOptions.Zip64Mode
+        //ExFor:Zip64Mode
+        //ExSummary:Shows how to use ZIP64 format extensions.
+        Random random = new Random();
+        DocumentBuilder builder = new DocumentBuilder();
+
+        for (int i = 0; i < 10000; i++)
+        {
+            BufferedImage bmp = new BufferedImage(5, 5, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = bmp.createGraphics();
+            g.setColor(new Color(random.nextInt(254), random.nextInt(254), random.nextInt(254)));
+            g.drawImage(bmp, 0, 0, null);
+            g.dispose();
+            builder.insertImage(bmp);
+        }
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        saveOptions.setZip64Mode(Zip64Mode.ALWAYS);
+
+        builder.getDocument().save(getArtifactsDir() + "OoxmlSaveOptions.Zip64ModeOption.docx", saveOptions);
+        //ExEnd:Zip64ModeOption
+    }
 }

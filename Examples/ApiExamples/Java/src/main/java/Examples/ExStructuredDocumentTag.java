@@ -1065,14 +1065,14 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExStart
         //ExFor:StructuredDocumentTagCollection.GetById(int)
         //ExFor:StructuredDocumentTagCollection.GetByTitle(String)
-        //ExFor:IStructuredDocumentTag.IsRanged()
+        //ExFor:IStructuredDocumentTag.isMultiSection()
         //ExFor:IStructuredDocumentTag.Title
         //ExSummary:Shows how to get structured document tag.
         Document doc = new Document(getMyDir() + "Structured document tags by id.docx");
 
         // Get the structured document tag by Id.
         IStructuredDocumentTag sdt = doc.getRange().getStructuredDocumentTags().getById(1160505028);
-        System.out.println(sdt.isRanged());
+        System.out.println(sdt.isMultiSection());
         System.out.println(sdt.getTitle());
 
         // Get the structured document tag or ranged tag by Title.
@@ -1183,5 +1183,29 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
                         "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
         Assert.assertFalse(tag.getWordOpenXMLMinimal().contains("xmlns:w16cid=\"http://schemas.microsoft.com/office/word/2016/wordml/cid\""));
         //ExEnd:RangeStartWordOpenXmlMinimal
+    }
+
+    @Test
+    public void removeSelfOnly() throws Exception
+    {
+        //ExStart:RemoveSelfOnly
+        //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:IStructuredDocumentTag.GetChildNodes(NodeType, bool)
+        //ExFor:IStructuredDocumentTag.RemoveSelfOnly
+        //ExSummary:Shows how to remove structured document tag, but keeps content inside.
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+
+        // This collection provides a unified interface for accessing ranged and non-ranged structured tags.
+        List<IStructuredDocumentTag> sdts = (List<IStructuredDocumentTag>) doc.getRange().getStructuredDocumentTags();
+        Assert.assertEquals(5, sdts.size());
+
+        // Here we can get child nodes from the common interface of ranged and non-ranged structured tags.
+        for (IStructuredDocumentTag sdt : sdts)
+            if (sdt.getChildNodes(NodeType.ANY, false).getCount() > 0)
+                sdt.removeSelfOnly();
+
+        sdts = (List<IStructuredDocumentTag>) doc.getRange().getStructuredDocumentTags();
+        Assert.assertEquals(0, sdts.size());
+        //ExEnd:RemoveSelfOnly
     }
 }

@@ -1002,6 +1002,30 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExEnd:UpdateFieldsSyntaxAware
     }
 
+    @Test
+    public void dollarTextFormat() throws Exception
+    {
+        //ExStart:DollarTextFormat
+        //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:ReportingEngine.BuildReport(Document, Object, String)
+        //ExSummary:Shows how to display values as dollar text.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("<<[ds.Value1]:dollarText>>\r<<[ds.Value2]:dollarText>>");
+
+        NumericTestClass testData = new NumericTestBuilder().withValues(1234, 5621718.589).build();
+
+        ReportingEngine report = new ReportingEngine();
+        report.getKnownTypes().add(NumericTestClass.class);
+        report.buildReport(doc, testData, "ds");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.DollarTextFormat.docx");
+        //ExEnd:DollarTextFormat
+
+        Assert.assertEquals("one thousand two hundred thirty-four and 00/100\rfive million six hundred twenty-one thousand seven hundred eighteen and 59/100\r\f", doc.getText());
+    }
+
     private static void buildReport(final Document document, final Object dataSource) throws Exception {
         ReportingEngine engine = new ReportingEngine();
         engine.buildReport(document, dataSource);
