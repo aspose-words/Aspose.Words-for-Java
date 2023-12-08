@@ -1021,9 +1021,6 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         System.out.println("StructuredDocumentTagRangeStart values:");
         System.out.println("\t|Child nodes count: {tag.ChildNodes.Count}\n");
 
-        for (Node node : (Iterable<Node>) tag.getChildNodes())
-            System.out.println(MessageFormat.format("\t|Child node type: {0}", node.getNodeType()));
-
         for (Node node : (Iterable<Node>) tag.getChildNodes(NodeType.RUN, true))
             System.out.println(MessageFormat.format("\t|Child node text: {0}", node.getText()));
         //ExEnd
@@ -1195,16 +1192,16 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
         // This collection provides a unified interface for accessing ranged and non-ranged structured tags.
-        List<IStructuredDocumentTag> sdts = (List<IStructuredDocumentTag>) doc.getRange().getStructuredDocumentTags();
-        Assert.assertEquals(5, sdts.size());
+        StructuredDocumentTagCollection sdts = doc.getRange().getStructuredDocumentTags();
+        Assert.assertEquals(5, sdts.getCount());
 
         // Here we can get child nodes from the common interface of ranged and non-ranged structured tags.
         for (IStructuredDocumentTag sdt : sdts)
             if (sdt.getChildNodes(NodeType.ANY, false).getCount() > 0)
                 sdt.removeSelfOnly();
 
-        sdts = (List<IStructuredDocumentTag>) doc.getRange().getStructuredDocumentTags();
-        Assert.assertEquals(0, sdts.size());
+        sdts = doc.getRange().getStructuredDocumentTags();
+        Assert.assertEquals(0, sdts.getCount());
         //ExEnd:RemoveSelfOnly
     }
 }

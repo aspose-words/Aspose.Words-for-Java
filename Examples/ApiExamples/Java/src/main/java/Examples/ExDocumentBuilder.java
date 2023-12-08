@@ -1751,7 +1751,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         image = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, image);
+        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, image);
         Assert.assertEquals(100.0d, image.getLeft());
         Assert.assertEquals(250.0d, image.getTop());
         Assert.assertEquals(200.0d, image.getWidth());
@@ -3460,9 +3460,9 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertOnlineVideoCustomThumbnail.docx");
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, shape);
-        Assert.assertEquals(320.0d, shape.getWidth());
-        Assert.assertEquals(320.0d, shape.getHeight());
+        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, shape);
+        Assert.assertEquals(272.0d, shape.getWidth());
+        Assert.assertEquals(92.0d, shape.getHeight());
         Assert.assertEquals(0.0d, shape.getLeft());
         Assert.assertEquals(0.0d, shape.getTop());
         Assert.assertEquals(WrapType.INLINE, shape.getWrapType());
@@ -3473,11 +3473,11 @@ public class ExDocumentBuilder extends ApiExampleBase {
 
         shape = (Shape) doc.getChild(NodeType.SHAPE, 1, true);
 
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, shape);
-        Assert.assertEquals(320.0d, shape.getWidth());
-        Assert.assertEquals(320.0d, shape.getHeight());
-        Assert.assertEquals(-248.0d, shape.getLeft());
-        Assert.assertEquals(-248.0d, shape.getTop());
+        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, shape);
+        Assert.assertEquals(272, shape.getWidth());
+        Assert.assertEquals(92.0d, shape.getHeight());
+        Assert.assertEquals(-200.0d, shape.getLeft());
+        Assert.assertEquals(-20.0d, shape.getTop());
         Assert.assertEquals(WrapType.SQUARE, shape.getWrapType());
         Assert.assertEquals(RelativeVerticalPosition.BOTTOM_MARGIN, shape.getRelativeVerticalPosition());
         Assert.assertEquals(RelativeHorizontalPosition.RIGHT_MARGIN, shape.getRelativeHorizontalPosition());

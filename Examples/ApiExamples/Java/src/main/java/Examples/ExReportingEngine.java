@@ -1012,7 +1012,7 @@ public class ExReportingEngine extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.writeln("<<[ds.Value1]:dollarText>>\r<<[ds.Value2]:dollarText>>");
+        builder.writeln("<<[ds.getValue1()]:dollarText>>\r<<[ds.getValue2()]:dollarText>>");
 
         NumericTestClass testData = new NumericTestBuilder().withValues(1234, 5621718.589).build();
 
