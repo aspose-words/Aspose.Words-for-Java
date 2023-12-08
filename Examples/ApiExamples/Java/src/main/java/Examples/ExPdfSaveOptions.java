@@ -2418,7 +2418,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public void pageLayout() throws Exception
     {
         //ExStart:PageLayout
-        //GistId:e386727403c2341ce4018bca370a5b41
+        //GistId:ae5244f2ba45b9e99198ef39ce4a4fce
         //ExFor:PdfSaveOptions.PageLayout
         //ExFor:PdfPageLayout
         //ExSummary:Shows how to display pages when opened in a PDF reader.

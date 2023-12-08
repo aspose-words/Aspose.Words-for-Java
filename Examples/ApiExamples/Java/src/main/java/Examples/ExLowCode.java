@@ -44,7 +44,7 @@ class ExLowCode extends ApiExampleBase
     public void mergeDocumentInstances() throws Exception
     {
         //ExStart:MergeDocumentInstances
-        //GistId:e386727403c2341ce4018bca370a5b41
+        //GistId:ae5244f2ba45b9e99198ef39ce4a4fce
         //ExFor:Merger.Merge(Document[], MergeFormatMode)
         //ExSummary:Shows how to merge input documents to a single document instance.
         DocumentBuilder firstDoc = new DocumentBuilder();

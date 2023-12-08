@@ -381,7 +381,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
     public void zip64ModeOption() throws Exception
     {
         //ExStart:Zip64ModeOption
-        //GistId:e386727403c2341ce4018bca370a5b41
+        //GistId:ae5244f2ba45b9e99198ef39ce4a4fce
         //ExFor:OoxmlSaveOptions.Zip64Mode
         //ExFor:Zip64Mode
         //ExSummary:Shows how to use ZIP64 format extensions.

@@ -1185,7 +1185,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     public void removeSelfOnly() throws Exception
     {
         //ExStart:RemoveSelfOnly
-        //GistId:e386727403c2341ce4018bca370a5b41
+        //GistId:ae5244f2ba45b9e99198ef39ce4a4fce
         //ExFor:IStructuredDocumentTag.GetChildNodes(NodeType, bool)
         //ExFor:IStructuredDocumentTag.RemoveSelfOnly
         //ExSummary:Shows how to remove structured document tag, but keeps content inside.
