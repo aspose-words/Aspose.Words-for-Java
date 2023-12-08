@@ -350,6 +350,8 @@ public class ExtractContent extends DocsExamplesBase {
                 String imageFileName =
                         MessageFormat.format("Image.ExportImages.{0}_{1}", imageIndex, FileFormatUtil.imageTypeToExtension(shape.getImageData().getImageType()));
 
+                // Note, if you have only an image (not a shape with a text and the image),
+                // you can use shape.getShapeRenderer().save(...) method to save the image.
                 shape.getImageData().save(getArtifactsDir() + imageFileName);
                 imageIndex++;
             }
