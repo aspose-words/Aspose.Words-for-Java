@@ -1013,7 +1013,6 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     public void sdtChildNodes() throws Exception
     {
         //ExStart
-        //ExFor:StructuredDocumentTagRangeStart.ChildNodes
         //ExFor:StructuredDocumentTagRangeStart.GetChildNodes(NodeType, bool)
         //ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
@@ -1065,7 +1064,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExStart
         //ExFor:StructuredDocumentTagCollection.GetById(int)
         //ExFor:StructuredDocumentTagCollection.GetByTitle(String)
-        //ExFor:IStructuredDocumentTag.isMultiSection()
+        //ExFor:IStructuredDocumentTag.IsMultiSection()
         //ExFor:IStructuredDocumentTag.Title
         //ExSummary:Shows how to get structured document tag.
         Document doc = new Document(getMyDir() + "Structured document tags by id.docx");
