@@ -18,13 +18,16 @@ import com.aspose.words.Document;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.FileAccess;
+import com.aspose.words.DocumentBuilder;
+import java.awt.Color;
+import org.testng.Assert;
 
 
 @Test
 class ExLowCode !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
 {
     @Test
-    public void mergeDocument() throws Exception
+    public void mergeDocuments() throws Exception
     {
         //ExStart
         //ExFor:Merger.Merge(String, String[])
@@ -80,6 +83,26 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
         }
         finally { if (firstStreamIn != null) firstStreamIn.close(); }
         //ExEnd
+    }
+
+    @Test
+    public void mergeDocumentInstances() throws Exception
+    {
+        //ExStart:MergeDocumentInstances
+        //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:Merger.Merge(Document[], MergeFormatMode)
+        //ExSummary:Shows how to merge input documents to a single document instance.
+        DocumentBuilder firstDoc = new DocumentBuilder();
+        firstDoc.getFont().setSize(16.0);
+        firstDoc.getFont().setColor(Color.BLUE);
+        firstDoc.write("Hello first word!");
+        
+        DocumentBuilder secondDoc = new DocumentBuilder();
+        secondDoc.write("Hello second word!");
+        
+        Document mergedDoc = Merger.merge(new Document[] { firstDoc.getDocument(), secondDoc.getDocument() }, MergeFormatMode.KEEP_SOURCE_LAYOUT);
+        Assert.assertEquals("Hello first word!\fHello second word!\f", mergedDoc.getText());
+        //ExEnd:MergeDocumentInstances
     }
 }
 

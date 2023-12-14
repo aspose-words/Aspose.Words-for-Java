@@ -2412,5 +2412,24 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf");
         Assert.assertEquals(3, pdfDocument.getPages().get_Item(1).getArtifacts().size());
+        pdfDocument.close();
+    }
+
+    @Test
+    public void pageLayout() throws Exception
+    {
+        //ExStart:PageLayout
+        //GistId:ae5244f2ba45b9e99198ef39ce4a4fce
+        //ExFor:PdfSaveOptions.PageLayout
+        //ExFor:PdfPageLayout
+        //ExSummary:Shows how to display pages when opened in a PDF reader.
+        Document doc = new Document(getMyDir() + "Big document.docx");
+
+        // Display the pages two at a time, with odd-numbered pages on the left.
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setPageLayout(PdfPageLayout.TWO_PAGE_LEFT);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.PageLayout.pdf", saveOptions);
+        //ExEnd:PageLayout
     }
 }

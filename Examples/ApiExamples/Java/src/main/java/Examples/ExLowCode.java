@@ -9,13 +9,16 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.awt.*;
 
 @Test
 class ExLowCode extends ApiExampleBase
 {
     @Test
-    public void mergeDocument() throws Exception
+    public void mergeDocuments() throws Exception
     {
         //ExStart
         //ExFor:Merger.Merge(String, String[])
@@ -35,6 +38,26 @@ class ExLowCode extends ApiExampleBase
         Document doc = Merger.merge(new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" }, MergeFormatMode.MERGE_FORMATTING);
         doc.save(getArtifactsDir() + "LowCode.MergeDocument.DocumentInstance.docx");
         //ExEnd
+    }
+
+    @Test
+    public void mergeDocumentInstances() throws Exception
+    {
+        //ExStart:MergeDocumentInstances
+        //GistId:ae5244f2ba45b9e99198ef39ce4a4fce
+        //ExFor:Merger.Merge(Document[], MergeFormatMode)
+        //ExSummary:Shows how to merge input documents to a single document instance.
+        DocumentBuilder firstDoc = new DocumentBuilder();
+        firstDoc.getFont().setSize(16.0);
+        firstDoc.getFont().setColor(Color.BLUE);
+        firstDoc.write("Hello first word!");
+
+        DocumentBuilder secondDoc = new DocumentBuilder();
+        secondDoc.write("Hello second word!");
+
+        Document mergedDoc = Merger.merge(new Document[] { firstDoc.getDocument(), secondDoc.getDocument() }, MergeFormatMode.KEEP_SOURCE_LAYOUT);
+        Assert.assertEquals("Hello first word!\fHello second word!\f", mergedDoc.getText());
+        //ExEnd:MergeDocumentInstances
     }
 }
 

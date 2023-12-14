@@ -1281,12 +1281,35 @@ public class ExReportingEngine extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Reporting engine template - Fields.docx");
 
         // Note that enabling of the option makes the engine to update fields while building a report,
-        // so there is no need to update fields separately after that.
-        ReportingEngine engine = new ReportingEngine();
+        // so there is no need to update fields separately after that.            
         buildReport(doc, new String[] { "First topic", "Second topic", "Third topic" }, "topics",
             ReportBuildOptions.UPDATE_FIELDS_SYNTAX_AWARE);
 
-        doc.save(getArtifactsDir() + "ReportingEngine.UpdateFieldsSyntaxAware.docx");            
+        doc.save(getArtifactsDir() + "ReportingEngine.UpdateFieldsSyntaxAware.docx");
+    }
+
+    @Test
+    public void dollarTextFormat() throws Exception
+    {
+        //ExStart:DollarTextFormat
+        //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:ReportingEngine.BuildReport(Document, Object, String)
+        //ExSummary:Shows how to display values as dollar text.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("<<[ds.Value1]:dollarText>>\r<<[ds.Value2]:dollarText>>");
+
+        NumericTestClass testData = new NumericTestBuilder().withValues(1234, 5621718.589).build();
+
+        ReportingEngine report = new ReportingEngine();
+        report.getKnownTypes().add(NumericTestClass.class);
+        report.buildReport(doc, testData, "ds");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.DollarTextFormat.docx");
+        //ExEnd:DollarTextFormat
+
+        Assert.assertEquals("one thousand two hundred thirty-four and 00/100\rfive million six hundred twenty-one thousand seven hundred eighteen and 59/100\r\f", doc.getText());
     }
 
     private static void buildReport(Document document, Object dataSource, /*ReportBuildOptions*/int reportBuildOptions) throws Exception

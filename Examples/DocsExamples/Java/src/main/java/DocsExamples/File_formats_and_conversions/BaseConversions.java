@@ -56,7 +56,6 @@ public class BaseConversions extends DocsExamplesBase
         //ExStart:DocxToPdf
         //GistId:b237846932dfcde42358bd0c887661a5
         Document doc = new Document(getMyDir() + "Document.docx");
-
         doc.save(getArtifactsDir() + "BaseConversions.DocxToPdf.pdf");
         //ExEnd:DocxToPdf
     }
@@ -127,8 +126,8 @@ public class BaseConversions extends DocsExamplesBase
     public void docxToTxt() throws Exception
     {
         //ExStart:DocxToTxt
+        //GistId:1975a35426bcd195a2e7c61d20a1580c
         Document doc = new Document(getMyDir() + "Document.docx");
-
         doc.save(getArtifactsDir() + "BaseConversions.DocxToTxt.txt");
         //ExEnd:DocxToTxt
     }

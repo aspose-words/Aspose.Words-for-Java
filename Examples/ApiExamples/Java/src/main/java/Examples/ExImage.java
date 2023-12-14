@@ -80,7 +80,7 @@ public class ExImage extends ApiExampleBase {
 
         Assert.assertEquals(2, shapes.getCount());
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape) shapes.get(0));
-        TestUtil.verifyImageInShape(320, 320, ImageType.PNG, (Shape) shapes.get(1));
+        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, (Shape) shapes.get(1));
     }
 
     @Test
