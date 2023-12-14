@@ -2412,6 +2412,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         com.aspose.pdf.Document pdfDocument = new com.aspose.pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf");
         Assert.assertEquals(3, pdfDocument.getPages().get_Item(1).getArtifacts().size());
+        pdfDocument.close();
     }
 
     @Test

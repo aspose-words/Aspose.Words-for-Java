@@ -54,19 +54,19 @@
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>23.11</version>
+            <version>23.12</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-barcode</artifactId>
-            <version>23.10</version>
+            <version>23.11</version>
             <classifier>jdk18</classifier>
         </dependency>
         <dependency>
             <groupId>com.aspose</groupId>
             <artifactId>aspose-pdf</artifactId>
-            <version>23.10</version>
+            <version>23.11</version>
             <classifier>jdk17</classifier>
         </dependency>
         <dependency>
