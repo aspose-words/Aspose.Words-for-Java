@@ -14,8 +14,7 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 
-@Test
-class ExLowCode extends ApiExampleBase
+public class ExLowCode extends ApiExampleBase
 {
     @Test
     public void mergeDocuments() throws Exception
