@@ -1006,7 +1006,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void dollarTextFormat() throws Exception
     {
         //ExStart:DollarTextFormat
-        //GistId:ae5244f2ba45b9e99198ef39ce4a4fce
+        //GistId:f0964b777330b758f6b82330b040b24c
         //ExFor:ReportingEngine.BuildReport(Document, Object, String)
         //ExSummary:Shows how to display values as dollar text.
         Document doc = new Document();
