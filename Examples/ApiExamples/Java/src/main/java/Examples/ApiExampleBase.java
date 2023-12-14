@@ -189,7 +189,7 @@ public class ApiExampleBase {
             G_IMAGE_DIR = G_CODE_BASE_DIR + "Data" + File.separator + "Images" + File.separator;
             G_DATABASE_DIR = G_CODE_BASE_DIR + "Data" + File.separator + "Database" + File.separator;
             G_FONTS_DIR = G_CODE_BASE_DIR + "Data" + File.separator + "MyFonts" + File.separator;
-            G_ASPOSELOGO_URI = new URI("https://www.aspose.cloud/templates/aspose/App_Themes/V3/images/words/header/aspose_words-for-net.png");
+            G_ASPOSELOGO_URI = new URI("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

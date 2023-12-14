@@ -6,18 +6,16 @@ import DocsExamples.DocsExamplesBase;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
-import com.aspose.words.Section;
-import com.aspose.words.PageSetup;
 import com.aspose.words.HeaderFooterType;
-import com.aspose.words.ParagraphAlignment;
+import com.aspose.words.BreakType;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.WrapType;
-import com.aspose.words.PreferredWidth;
-import com.aspose.words.BreakType;
+import com.aspose.words.ParagraphAlignment;
+import com.aspose.words.Section;
+import com.aspose.words.PageSetup;
 import com.aspose.words.Orientation;
 import com.aspose.words.HeaderFooter;
-import com.aspose.words.Row;
 
 
 class WorkingWithHeadersAndFooters extends DocsExamplesBase
@@ -25,81 +23,157 @@ class WorkingWithHeadersAndFooters extends DocsExamplesBase
     @Test
     public void createHeaderFooter() throws Exception
     {
-        //ExStart:CreateHeaderFooterUsingDocBuilder
-        //ExStart:DifferentFirstPageHeaderFooter
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
+        //ExStart:CreateHeaderFooter
+        //GistId:84cab3a22008f041ee6c1e959da09949
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Section currentSection = builder.getCurrentSection();
-        PageSetup pageSetup = currentSection.getPageSetup();
-        // Specify if we want headers/footers of the first page to be different from other pages.
-        // You can also use PageSetup.OddAndEvenPagesHeaderFooter property to specify
-        // different headers/footers for odd and even pages.
-        pageSetup.setDifferentFirstPageHeaderFooter(true);
-        pageSetup.setHeaderDistance(20.0);
+        // Use HeaderPrimary and FooterPrimary
+        // if you want to set header/footer for all document.
+        // This header/footer type also responsible for odd pages.
+        //ExStart:HeaderFooterType
+        //GistId:84cab3a22008f041ee6c1e959da09949
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.write("Header for page.");
+        //ExEnd:HeaderFooterType
+
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        builder.write("Footer for page.");
+
+        doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.CreateHeaderFooter.docx");
+        //ExEnd:CreateHeaderFooter
+    }
+
+    @Test
+    public void differentFirstPage() throws Exception
+    {
+        //ExStart:DifferentFirstPage
+        //GistId:84cab3a22008f041ee6c1e959da09949
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Specify that we want different headers and footers for first page.
+        builder.getPageSetup().setDifferentFirstPageHeaderFooter(true);
 
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
-        builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+        builder.write("Header for the first page.");
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_FIRST);
+        builder.write("Footer for the first page.");
 
+        builder.moveToSection(0);
+        builder.writeln("Page 1");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Page 2");
+
+        doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.DifferentFirstPage.docx");
+        //ExEnd:DifferentFirstPage
+    }
+
+    @Test
+    public void oddEvenPages() throws Exception
+    {
+        //ExStart:OddEvenPages
+        //GistId:84cab3a22008f041ee6c1e959da09949
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        // Specify that we want different headers and footers for even and odd pages.            
+        builder.getPageSetup().setOddAndEvenPagesHeaderFooter(true);
+
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_EVEN);
+        builder.write("Header for even pages.");
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.write("Header for odd pages.");            
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_EVEN);
+        builder.write("Footer for even pages.");
+        builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
+        builder.write("Footer for odd pages.");
+
+        builder.moveToSection(0);
+        builder.writeln("Page 1");
+        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.writeln("Page 2");
+
+        doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.OddEvenPages.docx");
+        //ExEnd:OddEvenPages
+    }
+
+    @Test
+    public void insertImage() throws Exception
+    {
+        //ExStart:InsertImage
+        //GistId:84cab3a22008f041ee6c1e959da09949
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);            
+        builder.insertImage(getImagesDir() + "Logo.jpg", RelativeHorizontalPosition.RIGHT_MARGIN, 10.0,
+            RelativeVerticalPosition.PAGE, 10.0, 50.0, 50.0, WrapType.THROUGH);            
+
+        doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.InsertImage.docx");
+        //ExEnd:InsertImage
+    }
+
+    @Test
+    public void fontProps() throws Exception
+    {
+        //ExStart:FontProps
+        //GistId:84cab3a22008f041ee6c1e959da09949
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
         builder.getFont().setName("Arial");
         builder.getFont().setBold(true);
         builder.getFont().setSize(14.0);
+        builder.write("Header for page.");
 
-        builder.write("Aspose.Words Header/Footer Creation Primer - Title Page.");
+        doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.FontProps.docx");
+        //ExEnd:FontProps
+    }
 
-        pageSetup.setHeaderDistance(20.0);
-        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-
-        // Insert a positioned image into the top/left corner of the header.
-        // Distance from the top/left edges of the page is set to 10 points.
-        builder.insertImage(getImagesDir() + "Graphics Interchange Format.gif", RelativeHorizontalPosition.PAGE, 10.0,
-            RelativeVerticalPosition.PAGE, 10.0, 50.0, 50.0, WrapType.THROUGH);
-
-        builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
-
-        builder.write("Aspose.Words Header/Footer Creation Primer.");
+    @Test
+    public void pageNumbers() throws Exception
+    {
+        //ExStart:PageNumbers
+        //GistId:84cab3a22008f041ee6c1e959da09949
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.moveToHeaderFooter(HeaderFooterType.FOOTER_PRIMARY);
-        //ExEnd:DifferentFirstPageHeaderFooter
-
-        // We use a table with two cells to make one part of the text on the line (with page numbering).
-        // To be aligned left, and the other part of the text (with copyright) to be aligned right.
-        builder.startTable();
-
-        builder.getCellFormat().clearFormatting();
-
-        builder.insertCell();
-
-        builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 / 3));
-
-        // It uses PAGE and NUMPAGES fields to auto calculate the current page number and many pages.
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
         builder.write("Page ");
         builder.insertField("PAGE", "");
         builder.write(" of ");
         builder.insertField("NUMPAGES", "");
 
-        builder.getCurrentParagraph().getParagraphFormat().setAlignment(ParagraphAlignment.LEFT);
+        doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.PageNumbers.docx");
+        //ExEnd:PageNumbers
+    }
 
-        builder.insertCell();
+    @Test
+    public void linkToPreviousHeaderFooter() throws Exception
+    {
+        //ExStart:LinkToPreviousHeaderFooter
+        //GistId:84cab3a22008f041ee6c1e959da09949
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
+        builder.getPageSetup().setDifferentFirstPageHeaderFooter(true);
 
-        builder.write("(C) 2001 Aspose Pty Ltd. All rights reserved.");
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+        builder.getFont().setName("Arial");
+        builder.getFont().setBold(true);
+        builder.getFont().setSize(14.0);
+        builder.write("Header for the first page.");
 
-        builder.getCurrentParagraph().getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
-
-        builder.endRow();
-        builder.endTable();
-
-        builder.moveToDocumentEnd();
-
-        // Make a page break to create a second page on which the primary headers/footers will be seen.
-        builder.insertBreak(BreakType.PAGE_BREAK);
+        builder.moveToDocumentEnd();            
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
 
-        currentSection = builder.getCurrentSection();
-        pageSetup = currentSection.getPageSetup();
+        Section currentSection = builder.getCurrentSection();
+        PageSetup pageSetup = currentSection.getPageSetup();
         pageSetup.setOrientation(Orientation.LANDSCAPE);
         // This section does not need a different first-page header/footer we need only one title page in the document,
         // and the header/footer for this page has already been defined in the previous section.
@@ -107,25 +181,56 @@ class WorkingWithHeadersAndFooters extends DocsExamplesBase
 
         // This section displays headers/footers from the previous section
         // by default call currentSection.HeadersFooters.LinkToPrevious(false) to cancel this page width
-        // is different for the new section, and therefore we need to set different cell widths for a footer table.
+        // is different for the new section.
         currentSection.getHeadersFooters().linkToPrevious(false);
+        currentSection.getHeadersFooters().clear();
 
-        // If we want to use the already existing header/footer set for this section.
-        // But with some minor modifications, then it may be expedient to copy headers/footers
-        // from the previous section and apply the necessary modifications where we want them.
-        copyHeadersFootersFromPreviousSection(currentSection);
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+        builder.getFont().setName("Arial");            
+        builder.getFont().setSize(12.0);
+        builder.write("New Header for the first page.");
 
-        HeaderFooter primaryFooter = currentSection.getHeadersFooters().getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY);
+        doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.LinkToPreviousHeaderFooter.docx");
+        //ExEnd:LinkToPreviousHeaderFooter
+    }
 
-        Row row = primaryFooter.getTables().get(0).getFirstRow();
-        row.getFirstCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 / 3));
-        row.getLastCell().getCellFormat().setPreferredWidth(PreferredWidth.fromPercent(100 * 2 / 3));
+    @Test
+    public void sectionsWithDifferentHeaders() throws Exception
+    {
+        //ExStart:SectionsWithDifferentHeaders            
+        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d            
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
-        doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.CreateHeaderFooter.docx");
-        //ExEnd:CreateHeaderFooterUsingDocBuilder
+        PageSetup pageSetup = builder.getCurrentSection().getPageSetup();
+        pageSetup.setDifferentFirstPageHeaderFooter(true);
+        pageSetup.setHeaderDistance(20.0);
+
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_FIRST);
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+        builder.getFont().setName("Arial");
+        builder.getFont().setBold(true);
+        builder.getFont().setSize(14.0);
+        builder.write("Header for the first page.");
+
+        builder.moveToDocumentEnd();
+        builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
+
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        // Insert a positioned image into the top/left corner of the header.
+        // Distance from the top/left edges of the page is set to 10 points.
+        builder.insertImage(getImagesDir() + "Logo.jpg", RelativeHorizontalPosition.PAGE, 10.0,
+            RelativeVerticalPosition.PAGE, 10.0, 50.0, 50.0, WrapType.THROUGH);
+        builder.getParagraphFormat().setAlignment(ParagraphAlignment.RIGHT);
+        builder.write("Header for odd page.");            
+
+        doc.save(getArtifactsDir() + "WorkingWithHeadersAndFooters.SectionsWithDifferentHeaders.docx");
+        //ExEnd:SectionsWithDifferentHeaders
     }
 
     //ExStart:CopyHeadersFootersFromPreviousSection
+    //GistId:84cab3a22008f041ee6c1e959da09949
     /// <summary>
     /// Clones and copies headers/footers form the previous section to the specified section.
     /// </summary>
@@ -141,5 +246,5 @@ class WorkingWithHeadersAndFooters extends DocsExamplesBase
         for (HeaderFooter headerFooter : (Iterable<HeaderFooter>) previousSection.getHeadersFooters())
             section.getHeadersFooters().add(headerFooter.deepClone(true));
     }
-    //ExEnd:CopyHeadersFootersFromPreviousSection        
+    //ExEnd:CopyHeadersFootersFromPreviousSection
 }

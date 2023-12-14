@@ -47,6 +47,13 @@ public class NumericTestBuilder
         return this;
     }
 
+    public NumericTestBuilder withValues(int? value1, double value2)
+    {
+        mValue1 = value1;
+        mValue2 = value2;
+        return this;
+    }
+
     public NumericTestClass build()
     {
         return new NumericTestClass(mValue1, mValue2, mValue3, mValue4, mLogical, mDate);

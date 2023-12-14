@@ -37,6 +37,11 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.words.IDocumentSavingCallback;
 import com.aspose.words.DocumentSavingArgs;
+import com.aspose.ms.System.Random;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import java.awt.Color;
+import com.aspose.words.Zip64Mode;
 import org.testng.annotations.DataProvider;
 
 
@@ -440,5 +445,43 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         private static final double MAX_DURATION = 0.01d;
     }
     //ExEnd
+
+    @Test
+    public void zip64ModeOption() throws Exception
+    {
+        //ExStart:Zip64ModeOption
+        //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:OoxmlSaveOptions.Zip64Mode
+        //ExFor:Zip64Mode
+        //ExSummary:Shows how to use ZIP64 format extensions.
+        Random random = new Random();
+        DocumentBuilder builder = new DocumentBuilder();
+
+        for (int i = 0; i < 10000; i++)
+        {
+            BufferedImage bmp = new BufferedImage(5, 5);
+            try /*JAVA: was using*/
+        	{
+            Graphics2D g = Graphics2D.FromImage(bmp);
+            try /*JAVA: was using*/
+            {
+                g.Clear(new Color((random.next(0, 254)), (random.next(0, 254)), (random.next(0, 254))));
+                MemoryStream ms = new MemoryStream();
+                try /*JAVA: was using*/
+                {
+                    bmp.Save(ms, ImageFormat.Png);
+                    builder.insertImage(ms.toArray());
+                }
+                finally { if (ms != null) ms.close(); }
+            }
+            finally { if (g != null) g.close(); }
+        	}
+            finally { if (bmp != null) bmp.close(); }
+        }
+
+        builder.getDocument().save(getArtifactsDir() + "OoxmlSaveOptions.Zip64ModeOption.docx", 
+            new OoxmlSaveOptions(); { .setZip64Mode(Zip64Mode.ALWAYS); });
+        //ExEnd:Zip64ModeOption
+    }
 }
 

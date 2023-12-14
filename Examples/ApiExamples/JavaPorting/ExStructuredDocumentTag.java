@@ -151,12 +151,12 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         StructuredDocumentTag sdtCheckBox =
-            new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE); {sdtCheckBox.setChecked(true);}
+            new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE); { sdtCheckBox.setChecked(true); }
 
         // We can set the symbols used to represent the checked/unchecked state of a checkbox content control.
         sdtCheckBox.setCheckedSymbol(0x00A9, "Times New Roman");
         sdtCheckBox.setUncheckedSymbol(0x00AE, "Times New Roman");
-        
+
         builder.insertNode(sdtCheckBox);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.CheckBox.docx");
@@ -327,7 +327,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.IsTemporary.docx");
 
-        Assert.AreEqual(2, 
+        Assert.AreEqual(2,
             doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).Count(sdt => ((StructuredDocumentTag)sdt).IsTemporary == isTemporary));
     }
 
@@ -514,7 +514,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         // Since our drop-down control is set to display the removed item by default, give it an item to display which exists.
         listItems.setSelectedValue(listItems.get(1));
-       
+
         doc.save(getArtifactsDir() + "StructuredDocumentTag.ListItemCollection.docx");
 
         // Use the "Clear" method to empty the entire drop-down item collection at once.
@@ -568,7 +568,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         // Add an XML schema association.
         xmlPart.getSchemas().add("http://www.w3.org/2001/XMLSchema");
-        
+
         // Clone a part, and then insert it into the collection.
         CustomXmlPart xmlPartClone = xmlPart.deepClone();
         xmlPartClone.setId(Guid.newGuid().toString("B"));
@@ -602,7 +602,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // Create a structured document tag that will display our part's contents and insert it into the document body.
         StructuredDocumentTag tag = new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.BLOCK);
         tag.getXmlMapping().setMapping(xmlPart, "/root[1]/text[1]", "");
-        
+
         doc.getFirstSection().getBody().appendChild(tag);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx");
@@ -673,7 +673,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         String xmlPartContent = "<root><text>Text element #1</text><text>Text element #2</text></root>";
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add(xmlPartId, xmlPartContent);
 
-        Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>", 
+        Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>",
             Encoding.getUTF8().getString(xmlPart.getData()));
 
         // Create a structured document tag that will display the contents of our CustomXmlPart.
@@ -776,7 +776,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         CustomXmlSchemaCollection schemas = xmlPart.getSchemas().deepClone();
         schemas.add("http://www.w3.org/2001/XMLSchema-instance");
         schemas.add("http://schemas.microsoft.com/office/2006/metadata/contentType");
-        
+
         Assert.assertEquals(3, schemas.getCount());
         Assert.assertEquals(2, schemas.indexOf("http://schemas.microsoft.com/office/2006/metadata/contentType"));
 
@@ -812,7 +812,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Document doc = new Document(getMyDir() + "Custom XML part in structured document tag.docx");
 
         // Structured document tags have IDs in the form of GUIDs.
-        StructuredDocumentTag tag = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        StructuredDocumentTag tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
 
         Assert.assertEquals("{F3029283-4FF8-4DD2-9F31-395F19ACEE85}", tag.getXmlMapping().getStoreItemId());
         //ExEnd
@@ -824,14 +824,14 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        StructuredDocumentTag sdtCheckBox = 
-            new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE); {sdtCheckBox.setChecked(true);}
+        StructuredDocumentTag sdtCheckBox =
+            new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE); { sdtCheckBox.setChecked(true); }
 
         builder.insertNode(sdtCheckBox);
 
         doc = DocumentHelper.saveOpen(doc);
 
-        StructuredDocumentTag sdt = (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+        StructuredDocumentTag sdt = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
         System.out.println("The Id of your custom xml part is: " + sdt.getXmlMapping().getStoreItemId());
     }
 
@@ -888,7 +888,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Document doc = new Document(getMyDir() + "Structured document tags with building blocks.docx");
 
         StructuredDocumentTag docPartObjSdt =
-            (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+            (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
 
         Assert.assertEquals(SdtType.DOC_PART_OBJ, docPartObjSdt.getSdtType());
         Assert.assertEquals("Table of Contents", docPartObjSdt.getBuildingBlockGallery());
@@ -900,7 +900,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Document doc = new Document(getMyDir() + "Structured document tags with building blocks.docx");
 
         StructuredDocumentTag plainTextSdt =
-            (StructuredDocumentTag) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
+            (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
 
         Assert.assertEquals(SdtType.PLAIN_TEXT, plainTextSdt.getSdtType());
         Assert.That(() => plainTextSdt.getBuildingBlockGallery(), Throws.<IllegalStateException>TypeOf(),
@@ -929,7 +929,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExEnd
 
         buildingBlockSdt =
-            (StructuredDocumentTag) doc.getFirstSection().getBody().getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
+            (StructuredDocumentTag)doc.getFirstSection().getBody().getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
 
         Assert.assertEquals(SdtType.BUILDING_BLOCK_GALLERY, buildingBlockSdt.getSdtType());
         Assert.assertEquals("Table of Contents", buildingBlockSdt.getBuildingBlockGallery());
@@ -954,7 +954,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         doc.getFirstSection().getBody().appendChild(tag);
 
-        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");            
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
@@ -971,7 +971,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExSummary:Shows how to fill a table with data from in an XML part.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
- 
+
         CustomXmlPart xmlPart = doc.getCustomXmlParts().add("Books",
             "<books>" +
                 "<book>" +
@@ -987,7 +987,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
                     "<author>Erik T. Ray</author>" +
                 "</book>" +
             "</books>");
- 
+
         // Create headers for data from the XML content.
         Table table = builder.startTable();
         builder.insertCell();
@@ -1009,7 +1009,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         StructuredDocumentTag repeatingSectionItemSdt =
             new StructuredDocumentTag(doc, SdtType.REPEATING_SECTION_ITEM, MarkupLevel.ROW);
         repeatingSectionSdt.appendChild(repeatingSectionItemSdt);
- 
+
         Row row = new Row(doc);
         repeatingSectionItemSdt.appendChild(row);
 
@@ -1018,14 +1018,14 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.CELL);
         titleSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book[1]/title[1]", "");
         row.appendChild(titleSdt);
- 
+
         StructuredDocumentTag authorSdt =
             new StructuredDocumentTag(doc, SdtType.PLAIN_TEXT, MarkupLevel.CELL);
         authorSdt.getXmlMapping().setMapping(xmlPart, "/books[1]/book[1]/author[1]", "");
         row.appendChild(authorSdt);
- 
+
         doc.save(getArtifactsDir() + "StructuredDocumentTag.RepeatingSectionItem.docx");
-		//ExEnd
+        //ExEnd
 
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.RepeatingSectionItem.docx");
         ArrayList<StructuredDocumentTag> tags = doc.getChildNodes(NodeType.STRUCTURED_DOCUMENT_TAG, true).<StructuredDocumentTag>OfType().ToList();
@@ -1051,7 +1051,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     @Test
     public void customXmlPart() throws Exception
     {
-        String xmlString = 
+        String xmlString =
            "<?xml version=\"1.0\"?>" +
            "<Company>" +
                "<Employee id=\"1\">" +
@@ -1167,7 +1167,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         Ref<StructuredDocumentTagRangeStart> referenceToStructuredDocumentTagRangeStart = new Ref<StructuredDocumentTagRangeStart>(StructuredDocumentTagRangeStart);
         InsertStructuredDocumentTagRanges(doc, /*out*/ referenceToStructuredDocumentTagRangeStart rangeStart);
-        StructuredDocumentTagRangeStart = referenceToStructuredDocumentTagRangeStart.get();
+        StructuredDocumentTagRangeStart = referenceToStructuredDocumentTagRangeStart.get();            
 
         // Removes ranged structured document tag, but keeps content inside.
         rangeStart.RemoveSelfOnly();
@@ -1175,10 +1175,10 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         rangeStart = (StructuredDocumentTagRangeStart)doc.getChild(
             NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, false);
         Assert.AreEqual(null, rangeStart);
-        
+
         StructuredDocumentTagRangeEnd rangeEnd = (StructuredDocumentTagRangeEnd)doc.getChild(
             NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, 0, false);
-        
+
         Assert.assertEquals(null, rangeEnd);
         Assert.assertEquals("StructuredDocumentTag element", doc.getText().trim());
 
@@ -1191,7 +1191,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         // Removes ranged structured document tag and content inside.
         rangeStart.RemoveAllChildren();
-        
+
         paragraphNode = rangeStart.LastOrDefault();
         Assert.AreEqual(null, paragraphNode?.GetText());
     }
@@ -1223,7 +1223,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             sdt = structuredDocumentTags.get(i);
             System.out.println(sdt.getTitle());
         }
-        
+
         sdt = structuredDocumentTags.getById(1691867797);
         Assert.assertEquals(1691867797, sdt.getId());
 
@@ -1240,16 +1240,17 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     public void rangeSdt() throws Exception
     {
         //ExStart
+        //ReleaseVersion:23.12
         //ExFor:StructuredDocumentTagCollection.GetById(int)
         //ExFor:StructuredDocumentTagCollection.GetByTitle(String)
-        //ExFor:IStructuredDocumentTag.IsRanged()
+        //ExFor:IStructuredDocumentTag.IsMultiSection
         //ExFor:IStructuredDocumentTag.Title
         //ExSummary:Shows how to get structured document tag.
         Document doc = new Document(getMyDir() + "Structured document tags by id.docx");
 
         // Get the structured document tag by Id.
         IStructuredDocumentTag sdt = doc.getRange().getStructuredDocumentTags().getById(1160505028);
-        msConsole.writeLine(sdt.isRanged());
+        msConsole.writeLine(sdt.isMultiSection());
         System.out.println(sdt.getTitle());
 
         // Get the structured document tag or ranged tag by Title.
@@ -1308,7 +1309,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         // This paragraph contains SDT.
         Paragraph p = (Paragraph)doc.getFirstSection().getBody().getChild(NodeType.PARAGRAPH, 2, true);
         String textToSearch = p.toString(SaveFormat.TEXT).trim();
-        
+
         FindReplaceOptions options = new FindReplaceOptions(); { options.setIgnoreStructuredDocumentTags(true); }
         doc.getRange().replace(textToSearch, "replacement", options);
 
@@ -1326,7 +1327,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:SdtType
         //ExSummary:Shows how to create a structured document tag of the Citation type.
         Document doc = new Document();
-        
+
         StructuredDocumentTag sdt = new StructuredDocumentTag(doc, SdtType.CITATION, MarkupLevel.INLINE);
         Paragraph paragraph = doc.getFirstSection().getBody().getFirstParagraph();
         paragraph.appendChild(sdt);
@@ -1360,6 +1361,30 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
                 "<pkg:part pkg:name=\"/docProps/app.xml\" pkg:contentType=\"application/vnd.openxmlformats-officedocument.extended-properties+xml\">"));
         Assert.assertFalse(tag.getWordOpenXMLMinimal().contains("xmlns:w16cid=\"http://schemas.microsoft.com/office/word/2016/wordml/cid\""));
         //ExEnd:RangeStartWordOpenXmlMinimal
+    }
+
+    @Test
+    public void removeSelfOnly() throws Exception
+    {
+        //ExStart:RemoveSelfOnly
+        //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:IStructuredDocumentTag.GetChildNodes(NodeType, bool)
+        //ExFor:IStructuredDocumentTag.RemoveSelfOnly
+        //ExSummary:Shows how to remove structured document tag, but keeps content inside.
+        Document doc = new Document(getMyDir() + "Structured document tags.docx");
+        
+        // This collection provides a unified interface for accessing ranged and non-ranged structured tags. 
+        Iterable<IStructuredDocumentTag> sdts = doc.getRange().getStructuredDocumentTags().<IStructuredDocumentTag>Cast().ToList();
+        Assert.AreEqual(5, sdts.Count());
+
+        // Here we can get child nodes from the common interface of ranged and non-ranged structured tags.
+        for (IStructuredDocumentTag sdt : sdts)                
+            if (sdt.getChildNodes(NodeType.ANY, false).getCount() > 0)
+                sdt.removeSelfOnly();
+        
+        sdts = doc.getRange().getStructuredDocumentTags().<IStructuredDocumentTag>Cast().ToList();
+        Assert.AreEqual(0, sdts.Count());
+        //ExEnd:RemoveSelfOnly
     }
 }
 

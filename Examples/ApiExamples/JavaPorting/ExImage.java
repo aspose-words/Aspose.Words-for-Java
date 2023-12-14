@@ -97,7 +97,7 @@ public class ExImage extends ApiExampleBase
 
         Assert.assertEquals(2, shapes.getCount());
         TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, (Shape)shapes.get(0));
-        TestUtil.verifyImageInShape(252, 213, ImageType.PNG, (Shape)shapes.get(1));
+        TestUtil.verifyImageInShape(272, 92, ImageType.PNG, (Shape)shapes.get(1));
     }
 
     @Test
@@ -426,4 +426,5 @@ public class ExImage extends ApiExampleBase
         Assert.assertEquals(300.0d, imageSize.getWidthPoints());
         Assert.assertEquals(300.0d, imageSize.getHeightPoints());
     }
+
 }
