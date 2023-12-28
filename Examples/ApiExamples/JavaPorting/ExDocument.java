@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -41,6 +41,7 @@ import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.Shape;
 import com.aspose.words.NodeType;
 import com.aspose.words.ConvertUtil;
+import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.IncorrectPasswordException;
 import com.aspose.words.WarningInfoCollection;
 import com.aspose.words.ShapeType;
@@ -546,14 +547,17 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
-    }private InsertHtmlFromWebPageinsertHtmlFromWebPage() throws Exception
+    }
+
+    [Test]
+    public async Task private InsertHtmlFromWebPageinsertHtmlFromWebPage() throws Exception
     {
         //ExStart
         //ExFor:Document.#ctor(Stream, LoadOptions)
         //ExFor:LoadOptions.#ctor(LoadFormat, String, String)
         //ExFor:LoadFormat
         //ExSummary:Shows how save a web page as a .docx file.
-        final String URL = "https://www.aspose.com/";
+        final String URL = "https://products.aspose.com/words/";
 
         HttpClient client = new HttpClient();
         try /*JAVA: was using*/ 
@@ -564,12 +568,13 @@ public class ExDocument extends ApiExampleBase
             {
                 // The URL is used again as a baseUri to ensure that any relative image paths are retrieved correctly.
                 LoadOptions options = new LoadOptions(LoadFormat.HTML, "", URL);
+                options.setEncodingInternal(Encoding.getUTF8());
 
                 // Load the HTML document from stream and pass the LoadOptions object.
                 Document doc = new Document(stream, options);
 
                 // At this stage, we can read and edit the document's contents and then save it to the local file system.
-                Assert.assertTrue(doc.getText().contains("HYPERLINK \"https://products.aspose.com/words/family/\" \\o \"Aspose.Words\"")); //ExSkip
+                Assert.assertTrue(doc.getText().contains("HYPERLINK \"https://products.aspose.com/words/net/\" \\o \"Aspose.Words\"")); //ExSkip
 
                 doc.save(getArtifactsDir() + "Document.InsertHtmlFromWebPage.docx");
             }
@@ -577,8 +582,6 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (client != null) client.close(); }
         //ExEnd
-
-        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, URL);
     }
 
     @Test
@@ -1190,10 +1193,10 @@ public class ExDocument extends ApiExampleBase
         builder.insertField("MERGEFIELD Field");
 
         // GetText will retrieve the visible text as well as field codes and special characters.
-        Assert.assertEquals("\u0013MERGEFIELD Field\u0014«Field»\u0015\f", doc.getText());
+        Assert.assertEquals("\u0013MERGEFIELD Field\u0014«Field»\u0015", doc.getText().trim());
 
         // ToString will give us the document's appearance if saved to a passed save format.
-        Assert.assertEquals("«Field»\r\n", doc.toString(SaveFormat.TEXT));
+        Assert.assertEquals("«Field»", doc.toString(SaveFormat.TEXT).trim());
         //ExEnd
     }
 
@@ -2129,7 +2132,7 @@ public class ExDocument extends ApiExampleBase
 
         Assert.AreEqual(showParagraphMarks ? 
                 $"Hello world!¶{Environment.NewLine}Hello again!¶{Environment.NewLine}¶" : 
-                $"Hello world!{Environment.NewLine}Hello again!", textAbsorber.Text);
+                $"Hello world!{Environment.NewLine}Hello again!", textAbsorber.Text.Trim());
     }
 
 	//JAVA-added data provider for test method

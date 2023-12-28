@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -196,6 +196,11 @@ import java.util.ArrayList;
 import com.aspose.words.IFieldUpdatingCallback;
 import com.aspose.words.IFieldUpdatingProgressCallback;
 import com.aspose.words.FieldUpdatingProgressArgs;
+import com.aspose.words.Bibliography;
+import com.aspose.words.Source;
+import com.aspose.words.ContributorCollection;
+import com.aspose.words.PersonCollection;
+import com.aspose.words.Person;
 import org.testng.annotations.DataProvider;
 
 
@@ -7085,10 +7090,7 @@ public class ExField extends ApiExampleBase
         
         builder.insertParagraph();
         return field;
-    }
-    //ExEnd
-
-    private async Task private TestFieldEQtestFieldEQ(Document doc)
+    }private TestFieldEQtestFieldEQ(Document doc)
     {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\f(1,4)", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\al \\co2 \\vs3 \\hs3(4x,- 4y,-4x,+ y)", "", doc.getRange().getFields().get(1));
@@ -7850,6 +7852,42 @@ public class ExField extends ApiExampleBase
         private ArrayList<String> mFieldUpdatedCalls;
     }
     //ExEnd
+
+    @Test
+    public void bibliographySources() throws Exception
+    {
+        //ExStart:BibliographySources
+        //GistId:eeeec1fbf118e95e7df3f346c91ed726
+        //ExFor:Bibliography
+        //ExFor:Bibliography.Sources
+        //ExFor:Source.Title
+        //ExFor:Source.Contributors
+        //ExFor:ContributorCollection
+        //ExFor:ContributorCollection.Author
+        //ExFor:PersonCollection
+        //ExFor:Person
+        //ExFor:Person.First
+        //ExFor:Person.Middle
+        //ExFor:Person.Last
+        //ExSummary:Shows how to get bibliography sources available in the document.
+        Document document = new Document(getMyDir() + "Bibliography sources.docx");
+
+        Bibliography bibliography = document.getBibliography();
+        Assert.assertEquals(12, bibliography.getSources().size());
+
+        Source source = bibliography.getSources().FirstOrDefault();
+        Assert.assertEquals("Book 0 (No LCID)", source.getTitle());
+
+        ContributorCollection contributors = source.getContributors();
+        PersonCollection authors = (PersonCollection)contributors.getAuthor();
+        Assert.AreEqual(2, authors.Count());
+
+        Person person = authors.FirstOrDefault();
+        Assert.AreEqual("Roxanne", person.First);
+        Assert.AreEqual("Brielle", person.Middle);
+        Assert.AreEqual("Tejeda", person.Last);
+        //ExEnd:BibliographySources
+    }
 }
 
 

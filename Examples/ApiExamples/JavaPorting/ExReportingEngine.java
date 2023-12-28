@@ -1,4 +1,4 @@
-// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1302,14 +1302,36 @@ public class ExReportingEngine extends ApiExampleBase
 
         NumericTestClass testData = new NumericTestBuilder().withValues(1234, 5621718.589).build();
 
-        ReportingEngine report = new ReportingEngine();
-        report.getKnownTypes().add(NumericTestClass.class);
-        report.buildReport(doc, testData, "ds");
+        ReportingEngine engine = new ReportingEngine();
+        engine.getKnownTypes().add(NumericTestClass.class);
+        engine.buildReport(doc, testData, "ds");            
 
         doc.save(getArtifactsDir() + "ReportingEngine.DollarTextFormat.docx");
         //ExEnd:DollarTextFormat
 
         Assert.assertEquals("one thousand two hundred thirty-four and 00/100\rfive million six hundred twenty-one thousand seven hundred eighteen and 59/100\r\f", doc.getText());
+    }
+
+    @Test (description = "Test ordered as first to avoid exception with 'SetRestrictedTypes' after execution other tests.") @Order (1)
+    public void restrictedTypes() throws Exception
+    {
+        //ExStart:RestrictedTypes
+        //GistId:eeeec1fbf118e95e7df3f346c91ed726
+        //ExFor:ReportingEngine.SetRestrictedTypes(Type[])
+        //ExSummary:Shows how to deny access to members of types considered insecure.
+        Document doc =
+            DocumentHelper.createSimpleDocument(
+                "<<var [typeVar = \"\".GetType().BaseType]>><<[typeVar]>>");
+
+        // Note, that you can't set restricted types during or after building a report.
+        ReportingEngine.setRestrictedTypes(Class.class);
+        // We set "AllowMissingMembers" option to avoid exceptions during building a report.
+        ReportingEngine engine = new ReportingEngine(); { engine.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); }            
+        engine.buildReport(doc, new Object());
+
+        // We get an empty string because we can't access the GetType() method.
+        Assert.assertEquals("", doc.getText().trim());
+        //ExEnd:RestrictedTypes
     }
 
     private static void buildReport(Document document, Object dataSource, /*ReportBuildOptions*/int reportBuildOptions) throws Exception
