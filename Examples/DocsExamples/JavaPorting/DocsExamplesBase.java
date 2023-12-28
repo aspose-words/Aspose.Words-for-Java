@@ -13,6 +13,7 @@ import org.testng.annotations.AfterTest;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.License;
+import com.aspose.barcode.License;
 
 
 public class DocsExamplesBase
@@ -55,6 +56,10 @@ public class DocsExamplesBase
             // binaries or you add the license to your project as an embedded resource.
             License wordsLicense = new License();
             wordsLicense.setLicense(testLicenseFileName);
+
+            License barcodeLicense = new License();
+            barcodeLicense.setLicense(testLicenseFileName);
+
         }
     }
 
