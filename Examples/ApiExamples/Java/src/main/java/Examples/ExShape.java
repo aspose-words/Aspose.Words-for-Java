@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -3014,7 +3014,7 @@ public class ExShape extends ApiExampleBase {
     public void strokeForeThemeColors() throws Exception
     {
         //ExStart:StrokeForeThemeColors
-        //GistId:eeeec1fbf118e95e7df3f346c91ed726
+        //GistId:b9e728d2381f759edd5b31d64c1c4d3f
         //ExFor:Stroke.ForeThemeColor
         //ExFor:Stroke.ForeTintAndShade
         //ExSummary:Shows how to set fore theme color and tint and shade.
@@ -3040,7 +3040,7 @@ public class ExShape extends ApiExampleBase {
     public void strokeBackThemeColors() throws Exception
     {
         //ExStart:StrokeBackThemeColors
-        //GistId:eeeec1fbf118e95e7df3f346c91ed726
+        //GistId:b9e728d2381f759edd5b31d64c1c4d3f
         //ExFor:Stroke.BackThemeColor
         //ExFor:Stroke.BackTintAndShade
         //ExSummary:Shows how to set back theme color and tint and shade.
@@ -3066,7 +3066,7 @@ public class ExShape extends ApiExampleBase {
     public void textBoxOleControl() throws Exception
     {
         //ExStart:TextBoxOleControl
-        //GistId:eeeec1fbf118e95e7df3f346c91ed726
+        //GistId:b9e728d2381f759edd5b31d64c1c4d3f
         //ExFor:TextBoxControl
         //ExFor:TextBoxControl.Text
         //ExSummary:Shows how to change text of the TextBox OLE control.

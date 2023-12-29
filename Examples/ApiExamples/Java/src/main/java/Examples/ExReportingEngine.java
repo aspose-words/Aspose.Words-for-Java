@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -1030,7 +1030,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void restrictedTypes() throws Exception
     {
         //ExStart:RestrictedTypes
-        //GistId:eeeec1fbf118e95e7df3f346c91ed726
+        //GistId:b9e728d2381f759edd5b31d64c1c4d3f
         //ExFor:ReportingEngine.SetRestrictedTypes(Type[])
         //ExSummary:Shows how to deny access to members of types considered insecure.
         Document doc =
