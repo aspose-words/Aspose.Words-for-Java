@@ -1041,6 +1041,7 @@ public class ExReportingEngine extends ApiExampleBase {
         ReportingEngine.setRestrictedTypes(Class.class);
         // We set "AllowMissingMembers" option to avoid exceptions during building a report.
         ReportingEngine engine = new ReportingEngine();
+        engine.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS);
         engine.buildReport(doc, new Object());
 
         // We get an empty string because we can't access the GetType() method.

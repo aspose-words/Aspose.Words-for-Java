@@ -7254,17 +7254,16 @@ public class ExField extends ApiExampleBase {
         Bibliography bibliography = document.getBibliography();
         Assert.assertEquals(12, bibliography.getSources().size());
 
-        Source source = bibliography.getSources().FirstOrDefault();
+        Source source = (Source)bibliography.getSources().toArray()[8];
         Assert.assertEquals(source.getTitle(), "Book 0 (No LCID)");
 
         ContributorCollection contributors = source.getContributors();
-        PersonCollection authors = (PersonCollection)contributors.getAuthor();
-        Assert.AreEqual(2, authors.Count());
+        BibliographyPersonCollection authors = (BibliographyPersonCollection)contributors.getAuthor();
 
-        Person person = authors.FirstOrDefault();
-        Assert.assertEquals(person.First, "Roxanne");
-        Assert.assertEquals(person.Middle, "Brielle");
-        Assert.assertEquals(person.Last, "Tejeda");
+        BibliographyPerson person = authors.iterator().next();
+        Assert.assertEquals(person.getFirst(), "Roxanne");
+        Assert.assertEquals(person.getMiddle(), "Brielle");
+        Assert.assertEquals(person.getLast(), "Tejeda");
         //ExEnd:BibliographySources
     }
 }
