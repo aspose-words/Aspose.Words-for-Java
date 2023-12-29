@@ -7258,9 +7258,9 @@ public class ExField extends ApiExampleBase {
         Assert.assertEquals(source.getTitle(), "Book 0 (No LCID)");
 
         ContributorCollection contributors = source.getContributors();
-        BibliographyPersonCollection authors = (BibliographyPersonCollection)contributors.getAuthor();
+        PersonCollection authors = (PersonCollection)contributors.getAuthor();
 
-        BibliographyPerson person = authors.iterator().next();
+        Person person = authors.iterator().next();
         Assert.assertEquals(person.getFirst(), "Roxanne");
         Assert.assertEquals(person.getMiddle(), "Brielle");
         Assert.assertEquals(person.getLast(), "Tejeda");
