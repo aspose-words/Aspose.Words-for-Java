@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -1182,7 +1182,7 @@ public class ExShape extends ApiExampleBase {
 
         if (oleControl.isForms2OleControl()) {
             Forms2OleControl checkBox = (Forms2OleControl) oleControl;
-            Assert.assertEquals(checkBox.getCaption(), "Первый");
+            Assert.assertEquals(checkBox.getCaption(), "First");
             Assert.assertEquals(checkBox.getValue(), "0");
             Assert.assertEquals(checkBox.getEnabled(), true);
             Assert.assertEquals(checkBox.getType(), Forms2OleControlType.CHECK_BOX);
@@ -3008,5 +3008,76 @@ public class ExShape extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Shape.FitImageToShape.docx");
         //ExEnd:FitImageToShape
+    }
+
+    @Test
+    public void strokeForeThemeColors() throws Exception
+    {
+        //ExStart:StrokeForeThemeColors
+        //GistId:b9e728d2381f759edd5b31d64c1c4d3f
+        //ExFor:Stroke.ForeThemeColor
+        //ExFor:Stroke.ForeTintAndShade
+        //ExSummary:Shows how to set fore theme color and tint and shade.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 40.0);
+        Stroke stroke = shape.getStroke();
+        stroke.setForeThemeColor(ThemeColor.DARK_1);
+        stroke.setForeTintAndShade(0.5);
+
+        doc.save(getArtifactsDir() + "Shape.StrokeForeThemeColors.docx");
+        //ExEnd:StrokeForeThemeColors
+
+        doc = new Document(getArtifactsDir() + "Shape.StrokeForeThemeColors.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(ThemeColor.DARK_1, shape.getStroke().getForeThemeColor());
+        Assert.assertEquals(0.5, shape.getStroke().getForeTintAndShade());
+    }
+
+    @Test
+    public void strokeBackThemeColors() throws Exception
+    {
+        //ExStart:StrokeBackThemeColors
+        //GistId:b9e728d2381f759edd5b31d64c1c4d3f
+        //ExFor:Stroke.BackThemeColor
+        //ExFor:Stroke.BackTintAndShade
+        //ExSummary:Shows how to set back theme color and tint and shade.
+        Document doc = new Document(getMyDir() + "Stroke gradient outline.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Stroke stroke = shape.getStroke();
+        stroke.setBackThemeColor(ThemeColor.DARK_2);
+        stroke.setBackTintAndShade(0.2d);
+
+        doc.save(getArtifactsDir() + "Shape.StrokeBackThemeColors.docx");
+        //ExEnd:StrokeBackThemeColors
+
+        doc = new Document(getArtifactsDir() + "Shape.StrokeBackThemeColors.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(ThemeColor.DARK_2, shape.getStroke().getBackThemeColor());
+        double precision = 1e-6;
+        Assert.assertEquals(0.2d, shape.getStroke().getBackTintAndShade(), precision);
+    }
+
+    @Test
+    public void textBoxOleControl() throws Exception
+    {
+        //ExStart:TextBoxOleControl
+        //GistId:b9e728d2381f759edd5b31d64c1c4d3f
+        //ExFor:TextBoxControl
+        //ExFor:TextBoxControl.Text
+        //ExSummary:Shows how to change text of the TextBox OLE control.
+        Document doc = new Document(getMyDir() + "Textbox control.docm");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        TextBoxControl textBoxControl = (TextBoxControl)shape.getOleFormat().getOleControl();
+        Assert.assertEquals(textBoxControl.getText(), "Aspose.Words test");
+
+        textBoxControl.setText("Updated text");
+        Assert.assertEquals(textBoxControl.getText(), "Updated text");
+        //ExEnd:TextBoxOleControl
     }
 }

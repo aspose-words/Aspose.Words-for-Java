@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -221,6 +221,25 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
         Assert.assertEquals(1, dirFiles.size());
         Document doc = new Document(getArtifactsDir() + "MarkdownSaveOptions.ImagesFolder.md");
         doc.getText().contains("http://example.com/images/MarkdownSaveOptions.ImagesFolder.001.jpeg");
+    }
+
+    @Test
+    public void exportUnderlineFormatting() throws Exception
+    {
+        //ExStart:ExportUnderlineFormatting
+        //GistId:b9e728d2381f759edd5b31d64c1c4d3f
+        //ExFor:MarkdownSaveOptions.ExportUnderlineFormatting
+        //ExSummary:Shows how to export underline formatting as ++.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.setUnderline(Underline.SINGLE);
+        builder.write("Lorem ipsum. Dolor sit amet.");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setExportUnderlineFormatting(true);
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.ExportUnderlineFormatting.md", saveOptions);
+        //ExEnd:ExportUnderlineFormatting
     }
 }
 

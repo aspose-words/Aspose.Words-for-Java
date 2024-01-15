@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -2419,7 +2419,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public void pageLayout() throws Exception
     {
         //ExStart:PageLayout
-        //GistId:ae5244f2ba45b9e99198ef39ce4a4fce
+        //GistId:f0964b777330b758f6b82330b040b24c
         //ExFor:PdfSaveOptions.PageLayout
         //ExFor:PdfPageLayout
         //ExSummary:Shows how to display pages when opened in a PDF reader.

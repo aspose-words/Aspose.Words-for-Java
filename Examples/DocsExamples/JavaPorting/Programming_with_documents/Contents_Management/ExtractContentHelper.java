@@ -6,19 +6,16 @@ import java.util.ArrayList;
 import com.aspose.words.Node;
 import com.aspose.words.NodeType;
 import com.aspose.words.Section;
-import com.aspose.words.Paragraph;
-import com.aspose.words.Document;
-import com.aspose.words.NodeCollection;
-import com.aspose.ms.System.msString;
-import com.aspose.words.NodeImporter;
-import com.aspose.words.ImportFormatMode;
 import com.aspose.words.CompositeNode;
 import com.aspose.ms.System.Diagnostics.Debug;
+import com.aspose.words.Paragraph;
+import com.aspose.words.Document;
+import com.aspose.words.NodeImporter;
+import com.aspose.words.ImportFormatMode;
 
 
 class ExtractContentHelper
 {
-    //ExStart:CommonExtractContent
     public static ArrayList<Node> extractContent(Node startNode, Node endNode, boolean isInclusive)
     {
         // First, check that the nodes passed to this method are valid for use.
@@ -26,7 +23,6 @@ class ExtractContentHelper
 
         // Create a list to store the extracted nodes.
         ArrayList<Node> nodes = new ArrayList<Node>();
-
         // If either marker is part of a comment, including the comment itself, we need to move the pointer
         // forward to the Comment Node found after the CommentRangeEnd node.
         if (endNode.getNodeType() == NodeType.COMMENT_RANGE_END && isInclusive)
@@ -92,11 +88,9 @@ class ExtractContentHelper
                 Section nextSection = (Section) currNode.getAncestor(NodeType.SECTION).getNextSibling();
                 currNode = nextSection.getBody().getFirstChild();
             }
-            else
-            {
+            else                
                 // Move to the next node in the body.
-                currNode = currNode.getNextSibling();
-            }
+                currNode = currNode.getNextSibling();                
         }
 
         // For compatibility with mode with inline bookmarks, add the next paragraph (empty).
@@ -105,47 +99,8 @@ class ExtractContentHelper
 
         // Return the nodes between the node markers.
         return nodes;
-    }
-    //ExEnd:CommonExtractContent
+    }        
 
-    public static ArrayList<Paragraph> paragraphsByStyleName(Document doc, String styleName)
-    {
-        // Create an array to collect paragraphs of the specified style.
-        ArrayList<Paragraph> paragraphsWithStyle = new ArrayList<Paragraph>();
-        
-        NodeCollection paragraphs = doc.getChildNodes(NodeType.PARAGRAPH, true);
-        
-        // Look through all paragraphs to find those with the specified style.
-        for (Paragraph paragraph : (Iterable<Paragraph>) paragraphs)
-        {
-            if (msString.equals(paragraph.getParagraphFormat().getStyle().getName(), styleName))
-                paragraphsWithStyle.add(paragraph);
-        }
-
-        return paragraphsWithStyle;
-    }
-
-    //ExStart:CommonGenerateDocument
-    public static Document generateDocument(Document srcDoc, ArrayList<Node> nodes) throws Exception
-    {
-        Document dstDoc = new Document();
-        // Remove the first paragraph from the empty document.
-        dstDoc.getFirstSection().getBody().removeAllChildren();
-
-        // Import each node from the list into the new document. Keep the original formatting of the node.
-        NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
-
-        for (Node node : nodes)
-        {
-            Node importNode = importer.importNode(node, true);
-            dstDoc.getFirstSection().getBody().appendChild(importNode);
-        }
-
-        return dstDoc;
-    }
-    //ExEnd:CommonGenerateDocument
-
-    //ExStart:CommonExtractContentHelperMethods
     private static void verifyParameterNodes(Node startNode, Node endNode)
     {
         // The order in which these checks are done is important.
@@ -192,15 +147,7 @@ class ExtractContentHelper
         }
 
         return findNextNode(nodeType, fromNode.getNextSibling());
-    }
-
-    private boolean isInline(Node node)
-    {
-        // Test if the node is a descendant of a Paragraph or Table node and is not a paragraph
-        // or a table a paragraph inside a comment class that is decent of a paragraph is possible.
-        return ((node.getAncestor(NodeType.PARAGRAPH) != null || node.getAncestor(NodeType.TABLE) != null) &&
-                !(node.getNodeType() == NodeType.PARAGRAPH || node.getNodeType() == NodeType.TABLE));
-    }
+    }        
 
     private static void processMarker(Node cloneNode, ArrayList<Node> nodes, Node node, Node blockLevelAncestor,
         boolean isInclusive, boolean isStartMarker, boolean canAdd, boolean forceAdd)
@@ -317,5 +264,25 @@ class ExtractContentHelper
             startNode = startNode.getParentNode();
         return startNode;
     }
-    //ExEnd:CommonExtractContentHelperMethods
+
+
+    //ExStart:GenerateDocument
+    //GistId:1f94e59ea4838ffac2f0edf921f67060
+    public static Document generateDocument(Document srcDoc, ArrayList<Node> nodes) throws Exception
+    {
+        Document dstDoc = new Document();
+        // Remove the first paragraph from the empty document.
+        dstDoc.getFirstSection().getBody().removeAllChildren();
+
+        // Import each node from the list into the new document. Keep the original formatting of the node.
+        NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING);
+        for (Node node : nodes)
+        {
+            Node importNode = importer.importNode(node, true);
+            dstDoc.getFirstSection().getBody().appendChild(importNode);
+        }
+
+        return dstDoc;
+    }
+    //ExEnd:GenerateDocument
 }

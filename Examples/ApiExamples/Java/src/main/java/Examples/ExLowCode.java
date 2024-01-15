@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -14,8 +14,7 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 
-@Test
-class ExLowCode extends ApiExampleBase
+public class ExLowCode extends ApiExampleBase
 {
     @Test
     public void mergeDocuments() throws Exception
@@ -44,7 +43,7 @@ class ExLowCode extends ApiExampleBase
     public void mergeDocumentInstances() throws Exception
     {
         //ExStart:MergeDocumentInstances
-        //GistId:ae5244f2ba45b9e99198ef39ce4a4fce
+        //GistId:f0964b777330b758f6b82330b040b24c
         //ExFor:Merger.Merge(Document[], MergeFormatMode)
         //ExSummary:Shows how to merge input documents to a single document instance.
         DocumentBuilder firstDoc = new DocumentBuilder();

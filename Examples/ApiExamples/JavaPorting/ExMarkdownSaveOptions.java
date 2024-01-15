@@ -1,3 +1,4 @@
+// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
@@ -18,6 +19,7 @@ import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.File;
 import com.aspose.words.MarkdownListExportMode;
 import com.aspose.ms.System.IO.Path;
+import com.aspose.words.Underline;
 import org.testng.annotations.DataProvider;
 
 
@@ -224,6 +226,24 @@ class ExMarkdownSaveOptions extends ApiExampleBase
         Assert.assertEquals(1, dirFiles.length);
         Document doc = new Document(getArtifactsDir() + "MarkdownSaveOptions.ImagesFolder.md");
         doc.getText().contains("http://example.com/images/MarkdownSaveOptions.ImagesFolder.001.jpeg");
+    }
+
+    @Test
+    public void exportUnderlineFormatting() throws Exception
+    {
+        //ExStart:ExportUnderlineFormatting
+        //GistId:eeeec1fbf118e95e7df3f346c91ed726
+        //ExFor:MarkdownSaveOptions.ExportUnderlineFormatting
+        //ExSummary:Shows how to export underline formatting as ++.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.setUnderline(Underline.SINGLE);
+        builder.write("Lorem ipsum. Dolor sit amet.");
+
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions(); { saveOptions.setExportUnderlineFormatting(true); }
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.ExportUnderlineFormatting.md", saveOptions);
+        //ExEnd:ExportUnderlineFormatting
     }
 }
 

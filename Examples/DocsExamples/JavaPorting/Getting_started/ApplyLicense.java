@@ -18,6 +18,7 @@ class ApplyLicense extends DocsExamplesBase
     public void applyLicenseFromFile() throws Exception
     {
         //ExStart:ApplyLicenseFromFile
+        //GistId:c762ebd027c53ed61fce5bc5ccac1ca7
         License license = new License();
 
         // This line attempts to set a license from several locations relative to the executable and Aspose.Words.dll.
@@ -42,6 +43,7 @@ class ApplyLicense extends DocsExamplesBase
     public void applyLicenseFromStream() throws Exception
     {
         //ExStart:ApplyLicenseFromStream
+        //GistId:c762ebd027c53ed61fce5bc5ccac1ca7
         License license = new License();
 
         try
@@ -63,6 +65,7 @@ class ApplyLicense extends DocsExamplesBase
     public void applyMeteredLicense() throws Exception
     {
         //ExStart:ApplyMeteredLicense
+        //GistId:c762ebd027c53ed61fce5bc5ccac1ca7
         try
         {
             Metered metered = new Metered();

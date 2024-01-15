@@ -1,7 +1,7 @@
 package Examples;
 
 //////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2001-2023 Aspose Pty Ltd. All Rights Reserved.
+// Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
 // This file is part of Aspose.Words. The source code in this file
 // is only intended as a supplement to the documentation, and is provided
@@ -7231,4 +7231,39 @@ public class ExField extends ApiExampleBase {
         private ArrayList<String> mFieldUpdatedCalls;
     }
     //ExEnd
+
+    @Test
+    public void bibliographySources() throws Exception
+    {
+        //ExStart:BibliographySources
+        //GistId:b9e728d2381f759edd5b31d64c1c4d3f
+        //ExFor:Bibliography
+        //ExFor:Bibliography.Sources
+        //ExFor:Source.Title
+        //ExFor:Source.Contributors
+        //ExFor:ContributorCollection
+        //ExFor:ContributorCollection.Author
+        //ExFor:PersonCollection
+        //ExFor:Person
+        //ExFor:Person.First
+        //ExFor:Person.Middle
+        //ExFor:Person.Last
+        //ExSummary:Shows how to get bibliography sources available in the document.
+        Document document = new Document(getMyDir() + "Bibliography sources.docx");
+
+        Bibliography bibliography = document.getBibliography();
+        Assert.assertEquals(12, bibliography.getSources().size());
+
+        Source source = (Source)bibliography.getSources().toArray()[8];
+        Assert.assertEquals(source.getTitle(), "Book 0 (No LCID)");
+
+        ContributorCollection contributors = source.getContributors();
+        PersonCollection authors = (PersonCollection)contributors.getAuthor();
+
+        Person person = authors.iterator().next();
+        Assert.assertEquals(person.getFirst(), "Roxanne");
+        Assert.assertEquals(person.getMiddle(), "Brielle");
+        Assert.assertEquals(person.getLast(), "Tejeda");
+        //ExEnd:BibliographySources
+    }
 }

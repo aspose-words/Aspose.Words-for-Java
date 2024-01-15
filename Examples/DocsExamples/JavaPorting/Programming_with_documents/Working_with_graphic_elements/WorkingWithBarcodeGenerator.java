@@ -10,14 +10,15 @@ import com.aspose.words.Document;
 class WorkingWithBarcodeGenerator extends DocsExamplesBase
 {
     @Test
-    public void generateACustomBarCodeImage() throws Exception
+    public void barcodeGenerator() throws Exception
     {
-        //ExStart:GenerateACustomBarCodeImage
+        //ExStart:BarcodeGenerator
+        //GistId:00d34dba66626dbc0175b60bb3b71c8a
         Document doc = new Document(getMyDir() + "Field sample - BARCODE.docx");
 
         doc.getFieldOptions().setBarcodeGenerator(new CustomBarcodeGenerator());
         
-        doc.save(getArtifactsDir() + "WorkingWithBarcodeGenerator.GenerateACustomBarCodeImage.pdf");
-        //ExEnd:GenerateACustomBarCodeImage
+        doc.save(getArtifactsDir() + "WorkingWithBarcodeGenerator.BarcodeGenerator.pdf");
+        //ExEnd:BarcodeGenerator
     }
 }
