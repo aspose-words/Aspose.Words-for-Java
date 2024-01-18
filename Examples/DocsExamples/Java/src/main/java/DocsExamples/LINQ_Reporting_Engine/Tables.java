@@ -1,21 +1,25 @@
 package DocsExamples.LINQ_Reporting_Engine;
 
 import DocsExamples.DocsExamplesBase;
-import DocsExamples.LINQ_Reporting_Engine.Helpers.Common;
+import TestData.Common;
+import TestData.TestClasses.ContractTestClass;
+import TestData.TestClasses.ManagerTestClass;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.ReportingEngine;
 
 @Test
-class Tables extends DocsExamplesBase
+public class Tables extends DocsExamplesBase
 {
     @Test
     public void inTableAlternateContent() throws Exception
     {
         //ExStart:InTableAlternateContent
-        Document doc = new Document(getMyDir() + "Reporting engine template - Total.docx");
+        Document doc = new Document(getMyDir() + "ReportingEngine.Total.Java.docx");
 
         ReportingEngine engine = new ReportingEngine();
+        engine.getKnownTypes().add(ContractTestClass.class);
+
         engine.buildReport(doc, Common.getContracts(), "Contracts");
 
         doc.save(getArtifactsDir() + "ReportingEngine.InTableAlternateContent.docx");
@@ -26,9 +30,12 @@ class Tables extends DocsExamplesBase
     public void inTableMasterDetail() throws Exception
     {
         //ExStart:InTableMasterDetail
-        Document doc = new Document(getMyDir() + "Reporting engine template - Nested data table.docx");
+        Document doc = new Document(getMyDir() + "ReportingEngine.TestNestedDataTable.Java.docx");
 
         ReportingEngine engine = new ReportingEngine();
+        engine.getKnownTypes().add(ManagerTestClass.class);
+        engine.getKnownTypes().add(ContractTestClass.class);
+
         engine.buildReport(doc, Common.getManagers(), "Managers");
 
         doc.save(getArtifactsDir() + "ReportingEngine.InTableMasterDetail.docx");
