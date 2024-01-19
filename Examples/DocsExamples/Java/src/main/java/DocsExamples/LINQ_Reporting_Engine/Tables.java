@@ -46,9 +46,11 @@ public class Tables extends DocsExamplesBase
     public void inTableWithFilteringGroupingSorting() throws Exception
     {
         //ExStart:InTableWithFilteringGroupingSorting
-        Document doc = new Document(getMyDir() + "Reporting engine template - Table with filtering.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template.Table with filtering.Java.docx");
 
         ReportingEngine engine = new ReportingEngine();
+        engine.getKnownTypes().add(ContractTestClass.class);
+
         engine.buildReport(doc, Common.getContracts(), "contracts");
 
         doc.save(getArtifactsDir() + "ReportingEngine.InTableWithFilteringGroupingSorting.docx");
