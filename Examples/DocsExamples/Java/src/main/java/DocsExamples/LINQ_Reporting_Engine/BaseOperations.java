@@ -1,14 +1,19 @@
 package DocsExamples.LINQ_Reporting_Engine;
 
 import DocsExamples.DocsExamplesBase;
-import DocsExamples.LINQ_Reporting_Engine.Helpers.Common;
-import DocsExamples.LINQ_Reporting_Engine.Helpers.Data_Source_Objects.*;
+import TestData.Common;
+import TestData.TestBuilders.ColorItemTestBuilder;
+import TestData.TestClasses.ClientTestClass;
+import TestData.TestClasses.ColorItemTestClass;
+import TestData.TestClasses.ManagerTestClass;
+import TestData.TestClasses.SenderTestClass;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.ReportingEngine;
+
+import java.awt.*;
 import java.util.ArrayList;
-import java.awt.Color;
 
 @Test
 public class BaseOperations extends DocsExamplesBase
@@ -22,7 +27,9 @@ public class BaseOperations extends DocsExamplesBase
         
         builder.write("<<[sender.getName()]>> says: <<[sender.getMessage()]>>");
 
-        Sender sender = new Sender(); { sender.setName("LINQ Reporting Engine"); sender.setMessage("Hello World"); }
+        SenderTestClass sender = new SenderTestClass();
+        sender.setName("LINQ Reporting Engine");
+        sender.setMessage("Hello World");
 
         ReportingEngine engine = new ReportingEngine();
         engine.buildReport(doc, sender, "sender");
@@ -35,10 +42,10 @@ public class BaseOperations extends DocsExamplesBase
     public void singleRow() throws Exception
     {
         //ExStart:SingleRow
-        Document doc = new Document(getMyDir() + "Reporting engine template - Table row.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Table row (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(Manager.class);
+        engine.getKnownTypes().add(ManagerTestClass.class);
         engine.buildReport(doc, Common.getManagers(), "Managers");
 
         doc.save(getArtifactsDir() + "ReportingEngine.SingleRow.docx");
@@ -49,10 +56,10 @@ public class BaseOperations extends DocsExamplesBase
     public void commonMasterDetail() throws Exception
     {
         //ExStart:CommonMasterDetail
-        Document doc = new Document(getMyDir() + "Reporting engine template - Common master detail.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Common master detail (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(Manager.class);
+        engine.getKnownTypes().add(ManagerTestClass.class);
         engine.buildReport(doc, Common.getManagers(), "managers");
 
         doc.save(getArtifactsDir() + "ReportingEngine.CommonMasterDetail.docx");
@@ -63,10 +70,10 @@ public class BaseOperations extends DocsExamplesBase
     public void conditionalBlocks() throws Exception
     {
         //ExStart:ConditionalBlocks
-        Document doc = new Document(getMyDir() + "Reporting engine template - Table row conditional blocks.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Table row conditional blocks (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(Client.class);
+        engine.getKnownTypes().add(ClientTestClass.class);
         engine.buildReport(doc, Common.getClients(), "clients");
 
         doc.save(getArtifactsDir() + "ReportingEngine.ConditionalBlock.docx");
@@ -77,20 +84,15 @@ public class BaseOperations extends DocsExamplesBase
     public void settingBackgroundColor() throws Exception
     {
         //ExStart:SettingBackgroundColor
-        Document doc = new Document(getMyDir() + "Reporting engine template - Background color.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Background color (Java).docx");
 
-        ArrayList<BackgroundColor> colors = new ArrayList<>();
-        {
-            colors.add(new BackgroundColor()); {
-            colors.get(0).setName("Black"); colors.get(0).setColor(Color.BLACK);}
-            colors.add(new BackgroundColor()); {
-            colors.get(1).setName("Red"); colors.get(1).setColor(new Color((255), (0), (0)));}
-            colors.add(new BackgroundColor()); {
-            colors.get(2).setName("Empty"); colors.get(2).setColor(null);}
-        }
+        ArrayList<ColorItemTestClass> colors = new ArrayList<>();
+        colors.add(new ColorItemTestBuilder().withColor("Black", Color.BLACK).build());
+        colors.add(new ColorItemTestBuilder().withColor("Red", new Color((255), (0), (0))).build());
+        colors.add(new ColorItemTestBuilder().withColor("Empty", null).build());
 
         ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(BackgroundColor.class);
+        engine.getKnownTypes().add(ColorItemTestClass.class);
         engine.buildReport(doc, colors, "Colors");
 
         doc.save(getArtifactsDir() + "ReportingEngine.BackColor.docx");

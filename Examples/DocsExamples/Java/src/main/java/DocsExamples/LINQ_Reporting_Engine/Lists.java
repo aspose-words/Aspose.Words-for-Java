@@ -1,9 +1,9 @@
 package DocsExamples.LINQ_Reporting_Engine;
 
 import DocsExamples.DocsExamplesBase;
-import DocsExamples.LINQ_Reporting_Engine.Helpers.Common;
-import DocsExamples.LINQ_Reporting_Engine.Helpers.Data_Source_Objects.Client;
-import DocsExamples.LINQ_Reporting_Engine.Helpers.Data_Source_Objects.Manager;
+import TestData.Common;
+import TestData.TestClasses.ClientTestClass;
+import TestData.TestClasses.ManagerTestClass;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.ReportingEngine;
@@ -16,28 +16,14 @@ public class Lists extends DocsExamplesBase
     public void createBulletedList() throws Exception
     {
         //ExStart:BulletedList
-        Document doc = new Document(getMyDir() + "Reporting engine template - Bulleted list.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Bulleted list (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(Client.class);
+        engine.getKnownTypes().add(ClientTestClass.class);
         engine.buildReport(doc, Common.getClients(), "clients");
 
         doc.save(getArtifactsDir() + "ReportingEngine.CreateBulletedList.docx");
         //ExEnd:BulletedList
-    }
-
-    @Test
-    public void commonList() throws Exception
-    {
-        //ExStart:CommonList
-        Document doc = new Document(getMyDir() + "Reporting engine template - Common master detail.docx");
-
-        ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(Manager.class);
-        engine.buildReport(doc, Common.getManagers(), "managers");
-
-        doc.save(getArtifactsDir() + "ReportingEngine.CommonList.docx");
-        //ExEnd:CommonList
     }
 
     @Test
@@ -47,10 +33,10 @@ public class Lists extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
-        builder.write("<<foreach [Client in clients]>><<[indexOf() !=0 ? ”, ”:  ””]>><<[getName()]>><</foreach>>");
+        builder.write("<<foreach [ClientTestClass in clients]>><<[indexOf() !=0 ? ”, ”:  ””]>><<[getName()]>><</foreach>>");
         
         ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(Client.class);
+        engine.getKnownTypes().add(ClientTestClass.class);
 
         engine.buildReport(doc, Common.getClients(), "clients");
 
@@ -62,10 +48,10 @@ public class Lists extends DocsExamplesBase
     public void inTableList() throws Exception
     {
         //ExStart:InTableList
-        Document doc = new Document(getMyDir() + "Reporting engine template - Contextual object member access.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Contextual object member access (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(Manager.class);
+        engine.getKnownTypes().add(ManagerTestClass.class);
         engine.buildReport(doc, Common.getManagers(), "Managers");
 
         doc.save(getArtifactsDir() + "ReportingEngine.InTableList.docx");
@@ -76,10 +62,10 @@ public class Lists extends DocsExamplesBase
     public void multicoloredNumberedList() throws Exception
     {
         //ExStart:MulticoloredNumberedList
-        Document doc = new Document(getMyDir() + "Reporting engine template - Multicolored numbered list.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Multicolored numbered list (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(Client.class);
+        engine.getKnownTypes().add(ClientTestClass.class);
         engine.buildReport(doc, Common.getClients(), "clients");
 
         doc.save(getArtifactsDir() + "ReportingEngine.MulticoloredNumberedList.doc");
@@ -90,10 +76,10 @@ public class Lists extends DocsExamplesBase
     public void numberedList() throws Exception
     {
         //ExStart:NumberedList
-        Document doc = new Document(getMyDir() + "Reporting engine template - Numbered list.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Numbered list (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(Client.class);
+        engine.getKnownTypes().add(ClientTestClass.class);
         engine.buildReport(doc, Common.getClients(), "clients");
 
         doc.save(getArtifactsDir() + "ReportingEngine.NumberedList.docx");

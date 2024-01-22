@@ -36,7 +36,7 @@ import java.util.List;
 @Test
 public class ExReportingEngine extends ApiExampleBase {
     private final String mImage = getImageDir() + "Logo.jpg";
-    private final String mDocument = getMyDir() + "ReportingEngine.TestDataTable.Java.docx";
+    private final String mDocument = getMyDir() + "Reporting engine template - Data table (Java).docx";
 
     @Test
     public void simpleCase() throws Exception {
@@ -83,7 +83,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void dataTableTest() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestDataTable.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Data table (Java).docx");
 
         buildReport(doc, Common.getContracts(), "Contracts", new Class[]{ContractTestClass.class});
 
@@ -92,7 +92,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void progressiveTotal() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.Total.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Total (Java).docx");
 
         buildReport(doc, Common.getContracts(), "Contracts", new Class[]{ContractTestClass.class});
 
@@ -101,7 +101,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void nestedDataTableTest() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestNestedDataTable.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Nested data table (Java).docx");
 
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class, ContractTestClass.class});
 
@@ -110,7 +110,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void restartingListNumberingDynamically() throws Exception {
-        Document template = new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.Java.docx");
+        Document template = new Document(getMyDir() + "Reporting engine template - List numbering (Java).docx");
 
         buildReport(template, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class, ContractTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
@@ -124,7 +124,7 @@ public class ExReportingEngine extends ApiExampleBase {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocument()] -build>>");
 
         DocumentTestClass doc = new DocumentTestBuilder()
-                .withDocument(new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.Java.docx")).build();
+                .withDocument(new Document(getMyDir() + "Reporting engine template - List numbering (Java).docx")).build();
 
         buildReport(template, new Object[]{doc, Common.getManagers()}, new String[]{"src", "Managers"}, new Class[]{ManagerTestClass.class, ContractTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
@@ -140,7 +140,7 @@ public class ExReportingEngine extends ApiExampleBase {
         Document template2 = DocumentHelper.createSimpleDocument("<<doc [src2.getDocument()] -build>>");
 
         DocumentTestClass doc = new DocumentTestBuilder()
-                .withDocument(new Document(getMyDir() + "ReportingEngine.RestartingListNumberingDynamically.Java.docx")).build();
+                .withDocument(new Document(getMyDir() + "Reporting engine template - List numbering (Java).docx")).build();
 
         buildReport(mainTemplate, new Object[]{template1, template2, doc, Common.getManagers()}, new String[]{"src", "src1", "src2", "Managers"}, new Class[]{ManagerTestClass.class, ContractTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
@@ -151,7 +151,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void chartTest() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestChart.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart (Java).docx");
 
         buildReport(doc, Common.getManagers(), "managers", new Class[]{ManagerTestClass.class});
 
@@ -160,7 +160,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void bubbleChartTest() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestBubbleChart.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Bubble chart (Java).docx");
 
         buildReport(doc, Common.getManagers(), "managers", new Class[]{ManagerTestClass.class});
 
@@ -169,7 +169,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void setChartSeriesColorsDynamically() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.SetChartSeriesColorDynamically.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series color (Java).docx");
 
         buildReport(doc, Common.getManagers(), "managers", new Class[]{ManagerTestClass.class});
 
@@ -178,7 +178,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void setPointColorsDynamically() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.SetPointColorDynamically.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Point color (Java).docx");
 
         List<ColorItemTestClass> colors = new ArrayList<>();
         colors.add(new ColorItemTestBuilder().withColorCodeAndValues("Black", Color.BLACK.getRGB(), 1.0, 2.5, 3.5).build());
@@ -194,7 +194,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test(enabled = false, description = "WORDSNET-20810")
     public void conditionalExpressionRemoveChartSeries() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestRemoveChartSeries.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series (Java)");
 
         int condition = 2;
         buildReport(doc, new Object[]{Common.getManagers(), condition}, new String[]{"managers", "condition"}, new Class[]{ManagerTestClass.class});
@@ -204,7 +204,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void indexOf() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestIndexOf.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Index of (Java).docx");
 
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class});
 
@@ -216,7 +216,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void ifElse() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.IfElse.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - If-else (Java).docx");
 
         buildReport(doc, Common.getManagers(), "m", new Class[]{ManagerTestClass.class});
 
@@ -228,7 +228,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void ifElseWithoutData() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.IfElse.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - If-else (Java).docx");
 
         buildReport(doc, Common.getEmptyManagers(), "m", new Class[]{ManagerTestClass.class});
 
@@ -240,7 +240,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void extensionMethods() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.ExtensionMethods.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Extension methods (Java).docx");
 
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class});
         doc.save(getArtifactsDir() + "ReportingEngine.ExtensionMethods.docx");
@@ -248,7 +248,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void operators() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.Operators.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Operators (Java).docx");
 
         NumericTestClass testData = new NumericTestBuilder().withValuesAndLogical(1, 2.0, 3, null, true).build();
 
@@ -259,7 +259,7 @@ public class ExReportingEngine extends ApiExampleBase {
     @Test
     public void headerVariable() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Reporting engine template - Header variable.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Header variable (Java).docx");
 
         buildReport(doc, new DataSet(), "", ReportBuildOptions.USE_LEGACY_HEADER_FOOTER_VISITING);
 
@@ -270,7 +270,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void contextualObjectMemberAccess() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.ContextualObjectMemberAccess.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Contextual object member access (Java).docx");
 
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class});
 
@@ -295,9 +295,9 @@ public class ExReportingEngine extends ApiExampleBase {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocument()] -inline>>");
 
         DocumentTestClass doc = new DocumentTestBuilder()
-                .withDocument(new Document(getMyDir() + "Reporting engine template - Data table.docx")).build();
+                .withDocument(new Document(mDocument)).build();
 
-        buildReport(template, doc, "src", new Class[]{DocumentTestClass.class}, ReportBuildOptions.NONE);
+        buildReport(template, doc, "src", new Class[]{DocumentTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
         template.save(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
 
         template = new Document(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
@@ -395,7 +395,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void insertHyperlinksDynamically() throws Exception {
-        Document template = new Document(getMyDir() + "ReportingEngine.InsertingHyperlinks.Java.docx");
+        Document template = new Document(getMyDir() + "Reporting engine template - Inserting hyperlinks (Java).docx");
         buildReport(template,
                 new Object[]
                         {
@@ -414,7 +414,7 @@ public class ExReportingEngine extends ApiExampleBase {
     @Test (dataProvider = "insertHtmlDinamicallyDataProvider")
     public void insertHtmlDinamically(String templateText) throws Exception
     {
-        String html = FileUtils.readFileToString(new File(getMyDir() + "Reporting engine template - Html.html"), "utf-8");
+        String html = FileUtils.readFileToString(new File(getMyDir() + "Reporting engine template - Html (Java).html"), "utf-8");
 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -463,7 +463,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void workWithSingleColumnTableRow() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.SingleColumnTableRow.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Table row (Java).docx");
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.SingleColumnTableRow.docx");
@@ -471,7 +471,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void workWithSingleColumnTableRowGreedy() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.SingleColumnTableRowGreedy.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Table row greedy (Java).docx");
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class});
 
         doc.save(getArtifactsDir() + "ReportingEngine.SingleColumnTableRowGreedy.docx");
@@ -479,7 +479,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void tableRowConditionalBlocks() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.TableRowConditionalBlocks.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Table row conditional blocks (Java).docx");
 
         ArrayList<ClientTestClass> clients = new ArrayList<>();
         clients.add(new ClientTestClass("John Monrou", "France", "27 RUE PASTEUR"));
@@ -493,7 +493,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void ifGreedy() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.IfGreedy.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - If greedy (Java).docx");
 
         AsposeData obj = new AsposeData();
         obj.setList(new ArrayList<>());
@@ -672,7 +672,6 @@ public class ExReportingEngine extends ApiExampleBase {
         Assert.assertEquals(builder.getDocument().getFirstSection().getBody().getParagraphs().get(0).getText().replaceAll("\\s+$", ""), result);
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "inlineErrorMessagesDataProvider")
     public static Object[][] inlineErrorMessagesDataProvider() {
         return new Object[][]
@@ -687,7 +686,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void setBackgroundColorDynamically() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.BackColor.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Background color (Java).docx");
 
         ArrayList<ColorItemTestClass> colors = new ArrayList<>();
         colors.add(new ColorItemTestBuilder().withColor("Black", Color.BLACK).build());
@@ -705,7 +704,7 @@ public class ExReportingEngine extends ApiExampleBase {
     @Test
     public void setTextColorDynamically() throws Exception
     {
-        Document doc = new Document(getMyDir() + "Reporting engine template - Text color.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Text color (Java).docx");
 
         ArrayList<ColorItemTestClass> colors = new ArrayList<>();
         {
@@ -724,7 +723,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void doNotRemoveEmptyParagraphs() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.RemoveEmptyParagraphs.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Remove empty paragraphs (Java).docx");
 
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class});
 
@@ -733,7 +732,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void removeEmptyParagraphs() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.RemoveEmptyParagraphs.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Remove empty paragraphs (Java).docx");
 
         buildReport(doc, Common.getManagers(), "Managers", new Class[]{ManagerTestClass.class}, ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS);
 
@@ -742,7 +741,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test(dataProvider = "mergingTableCellsDynamicallyDataProvider")
     public void mergingTableCellsDynamically(final String value1, final String value2, final String resultDocumentName) throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.MergingTableCellsDynamically.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Merging table cells dynamically (Java).docx");
 
         ArrayList<ClientTestClass> clients = new ArrayList<>();
         clients.add(new ClientTestClass("John Monrou", "France", "27 RUE PASTEUR"));
@@ -754,7 +753,6 @@ public class ExReportingEngine extends ApiExampleBase {
         doc.save(getArtifactsDir() + resultDocumentName + FileFormatUtil.saveFormatToExtension(SaveFormat.DOCX));
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "mergingTableCellsDynamicallyDataProvider")
     public static Object[][] mergingTableCellsDynamicallyDataProvider() {
         return new Object[][]
@@ -766,7 +764,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void xmlDataStringWithoutSchema() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
 
         XmlDataSource dataSource = new XmlDataSource(getMyDir() + "List of people.xml");
         buildReport(doc, dataSource, "persons");
@@ -779,7 +777,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void xmlDataStreamWithoutSchema() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
 
         InputStream stream = new FileInputStream(getMyDir() + "List of people.xml");
         try {
@@ -797,7 +795,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void xmlDataWithNestedElements() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSourceWithNestedElements.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Data destination with nested elements (Java).docx");
 
         XmlDataSource dataSource = new XmlDataSource(getMyDir() + "Nested elements.xml");
         buildReport(doc, dataSource, "managers");
@@ -810,7 +808,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void jsonDataString() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
@@ -825,7 +823,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void jsonDataStream() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSource.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
@@ -845,7 +843,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void jsonDataWithNestedElements() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.DataSourceWithNestedElements.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Data destination with nested elements (Java).docx");
 
         JsonDataSource dataSource = new JsonDataSource(getMyDir() + "Nested elements.json");
         buildReport(doc, dataSource, "managers");
@@ -888,7 +886,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void csvDataString() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.CsvData.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Csv data destination (Java).docx");
 
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
@@ -905,7 +903,7 @@ public class ExReportingEngine extends ApiExampleBase {
 
     @Test
     public void csvDataStream() throws Exception {
-        Document doc = new Document(getMyDir() + "ReportingEngine.CsvData.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Csv data destination (Java).docx");
 
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
@@ -940,7 +938,6 @@ public class ExReportingEngine extends ApiExampleBase {
         Document doc = new Document();
 
         StructuredDocumentTag sdt = new StructuredDocumentTag(doc, sdtType, MarkupLevel.BLOCK); { sdt.setTitle(TEMPLATE); }
-
         for (SdtListItem item : staticItems)
         {
             sdt.getListItems().add(item);
@@ -990,7 +987,7 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExFor:ReportingEngine.Options
         //ExSummary:Shows how to set options for Reporting Engine
         //GistId:66dd22f0854357e394a013b536e2181b
-        Document doc = new Document(getMyDir() + "Reporting engine template - Fields.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Fields (Java).docx");
 
         // Note that enabling of the option makes the engine to update fields while building a report,
         // so there is no need to update fields separately after that.
@@ -1026,7 +1023,7 @@ public class ExReportingEngine extends ApiExampleBase {
         Assert.assertEquals("one thousand two hundred thirty-four and 00/100\rfive million six hundred twenty-one thousand seven hundred eighteen and 59/100\r\f", doc.getText());
     }
 
-    @Test (description = "Test ordered as first to avoid exception with 'SetRestrictedTypes' after execution other tests.", priority = 1)
+    @Test (description = "Test ordered as first to avoid exception with 'SetRestrictedTypes' after execution other tests.", priority = -1)
     public void restrictedTypes() throws Exception
     {
         //ExStart:RestrictedTypes

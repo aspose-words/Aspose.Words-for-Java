@@ -15,7 +15,7 @@ public class Tables extends DocsExamplesBase
     public void inTableAlternateContent() throws Exception
     {
         //ExStart:InTableAlternateContent
-        Document doc = new Document(getMyDir() + "ReportingEngine.Total.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Total (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
         engine.getKnownTypes().add(ContractTestClass.class);
@@ -30,7 +30,7 @@ public class Tables extends DocsExamplesBase
     public void inTableMasterDetail() throws Exception
     {
         //ExStart:InTableMasterDetail
-        Document doc = new Document(getMyDir() + "ReportingEngine.TestNestedDataTable.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Nested data table (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
         engine.getKnownTypes().add(ManagerTestClass.class);
@@ -46,7 +46,7 @@ public class Tables extends DocsExamplesBase
     public void inTableWithFilteringGroupingSorting() throws Exception
     {
         //ExStart:InTableWithFilteringGroupingSorting
-        Document doc = new Document(getMyDir() + "Reporting engine template.Table with filtering.Java.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Table with filtering (Java).docx");
 
         ReportingEngine engine = new ReportingEngine();
         engine.getKnownTypes().add(ContractTestClass.class);

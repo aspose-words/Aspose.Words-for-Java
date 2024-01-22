@@ -1,7 +1,7 @@
-package DocsExamples.LINQ_Reporting_Engine.Helpers.Data_Source_Objects;
+package TestData.TestClasses;
 
 //ExStart:Sender
-public class Sender
+public class SenderTestClass
 {
     private String mName;
     private String mMessage;
