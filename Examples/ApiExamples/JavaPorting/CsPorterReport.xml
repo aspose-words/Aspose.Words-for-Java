@@ -55,6 +55,7 @@
 		<File project="Examples" dir="" name="ExMailMergeCustom" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExMailMergeCustomNested" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExMailMergeEvent" status="AUTO" isTest="false" />
+		<File project="Examples" dir="" name="ExMarkdownLoadOptions" status="NEW" isTest="false" />
 		<File project="Examples" dir="" name="ExMarkdownSaveOptions" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExMetered" status="AUTO" isTest="false" />
 		<File project="Examples" dir="" name="ExMossDoc2Pdf" status="AUTO" isTest="false" />

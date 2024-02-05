@@ -288,7 +288,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         horizontalRuleFormat.setHeight(1584.0);
         Assert.That(() => horizontalRuleFormat.setHeight(-1), Throws.<IllegalArgumentException>TypeOf());
         Assert.That(() => horizontalRuleFormat.setHeight(1585.0), Throws.<IllegalArgumentException>TypeOf());
-    }private InsertHyperlinkAsyncinsertHyperlinkAsync() throws Exception
+    }
+
+    [Test]
+    public async Task private InsertHyperlinkAsyncinsertHyperlinkAsync() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertHyperlink
@@ -324,10 +327,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(Color.BLUE.getRGB(), fieldContents.getFont().getColor().getRGB());
         Assert.assertEquals(Underline.SINGLE, fieldContents.getFont().getUnderline());
         Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
-    }
-
-    [Test]
-    public async Task private PushPopFontpushPopFont() throws Exception
+    }private PushPopFontpushPopFont() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.PushFont
@@ -1565,13 +1565,14 @@ public class ExDocumentBuilder extends ApiExampleBase
         // to the "InsertHyperlink" method as part of the argument containing the referenced bookmark's name.
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setUnderline(Underline.SINGLE);
-        builder.insertHyperlink("Link to Bookmark1", "Bookmark1\" \\o \"Hyperlink Tip", true);
+        FieldHyperlink hyperlink = (FieldHyperlink)builder.insertHyperlink("Link to Bookmark1", "Bookmark1", true);
+        hyperlink.setScreenTip("Hyperlink Tip");
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertHyperlinkToLocalBookmark.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertHyperlinkToLocalBookmark.docx");
-        FieldHyperlink hyperlink = (FieldHyperlink)doc.getRange().getFields().get(0);
+        hyperlink = (FieldHyperlink)doc.getRange().getFields().get(0);
 
         TestUtil.verifyField(FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ", "Link to Bookmark1", hyperlink);
         Assert.assertEquals("Bookmark1", hyperlink.getSubAddress());
@@ -3566,7 +3567,10 @@ public class ExDocumentBuilder extends ApiExampleBase
 			{"This is a fenced code with info string",  "FencedCode.C#",  false,  false},
 			{"Item 1",  "Normal",  false,  false},
 		};
-	}private InsertOnlineVideoinsertOnlineVideo() throws Exception
+	}
+
+    [Test]
+    public async Task private InsertOnlineVideoinsertOnlineVideo() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)

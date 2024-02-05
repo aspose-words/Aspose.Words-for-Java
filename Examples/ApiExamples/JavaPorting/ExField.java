@@ -7883,9 +7883,9 @@ public class ExField extends ApiExampleBase
         Assert.AreEqual(2, authors.Count());
 
         Person person = authors.FirstOrDefault();
-        Assert.AreEqual("Roxanne", person.First);
-        Assert.AreEqual("Brielle", person.Middle);
-        Assert.AreEqual("Tejeda", person.Last);
+        Assert.assertEquals("Roxanne", person.getFirst());
+        Assert.assertEquals("Brielle", person.getMiddle());
+        Assert.assertEquals("Tejeda", person.getLast());
         //ExEnd:BibliographySources
     }
 }

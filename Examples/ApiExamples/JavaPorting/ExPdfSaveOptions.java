@@ -2108,7 +2108,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
             if (preblendImages)
             {
-                Assert.assertEquals(17898, stream.getLength());
+                Assert.assertEquals(17890, stream.getLength());
             }
             else
             {

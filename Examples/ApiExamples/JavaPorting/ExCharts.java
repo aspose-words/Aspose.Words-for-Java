@@ -53,6 +53,8 @@ import com.aspose.words.ChartFormat;
 import com.aspose.words.ChartShapeType;
 import com.aspose.words.ChartAxisTitle;
 import java.lang.Class;
+import com.aspose.words.ChartDataTable;
+import com.aspose.words.DashStyle;
 import org.testng.annotations.DataProvider;
 
 
@@ -162,15 +164,15 @@ public class ExCharts extends ApiExampleBase
         //ExFor:ChartAxis.MinorTickMark
         //ExFor:ChartAxis.MajorUnit
         //ExFor:ChartAxis.MinorUnit
-        //ExFor:ChartAxis.TickLabelOffset
-        //ExFor:ChartAxis.TickLabelPosition
-        //ExFor:ChartAxis.TickLabelSpacingIsAuto
+        //ExFor:AxisTickLabels.Offset
+        //ExFor:AxisTickLabels.Position
+        //ExFor:AxisTickLabels.IsAutoSpacing
         //ExFor:ChartAxis.TickMarkSpacing
         //ExFor:Charts.AxisCategoryType
         //ExFor:Charts.AxisCrosses
-        //ExFor:Charts.Chart.AxisX
-        //ExFor:Charts.Chart.AxisY
-        //ExFor:Charts.Chart.AxisZ
+        //ExFor:Chart.AxisX
+        //ExFor:Chart.AxisY
+        //ExFor:Chart.AxisZ
         //ExSummary:Shows how to insert a chart and modify the appearance of its axes.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1687,6 +1689,43 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.ResetDataPointFill.docx");
         //ExEnd:ResetDataPointFill
+    }
+
+    @Test
+    public void dataTable() throws Exception
+    {
+        //ExStart:DataTable
+        //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //ExFor:ChartDataTable
+        //ExFor:ChartDataTable.Show
+        //ExSummary:Shows how to show data table with chart series data.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        Chart chart = shape.getChart();
+
+        ChartSeriesCollection series = chart.getSeries();
+        series.clear();
+        double[] xValues = new double[] { 2020.0, 2021.0, 2022.0, 2023.0 };
+        series.add("Series1", xValues, new double[] { 5.0, 11.0, 2.0, 7.0 });
+        series.add("Series2", xValues, new double[] { 6.0, 5.5, 7.0, 7.8 });
+        series.add("Series3", xValues, new double[] { 10.0, 8.0, 7.0, 9.0 });
+
+        ChartDataTable dataTable = chart.getDataTable();
+        dataTable.setShow(true);
+
+        dataTable.hasLegendKeys(false);
+        dataTable.hasHorizontalBorder(false);
+        dataTable.hasVerticalBorder(false);
+
+        dataTable.getFont().setItalic(true);
+        dataTable.getFormat().getStroke().setWeight(1.0);
+        dataTable.getFormat().getStroke().setDashStyle(DashStyle.SHORT_DOT);
+        dataTable.getFormat().getStroke().setColor(msColor.getDarkBlue());
+
+        doc.save(getArtifactsDir() + "Charts.DataTable.docx");
+        //ExEnd:DataTable
     }
 }
 
