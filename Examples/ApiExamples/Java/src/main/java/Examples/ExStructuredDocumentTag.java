@@ -1204,4 +1204,20 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         Assert.assertEquals(0, sdts.getCount());
         //ExEnd:RemoveSelfOnly
     }
+
+    @Test
+    public void appearance() throws Exception
+    {
+        //ExStart:Appearance
+        //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //ExFor:SdtAppearance
+        //ExFor:StructuredDocumentTagRangeStart.Appearance
+        //ExSummary:Shows how to show tag around content.
+        Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
+        StructuredDocumentTagRangeStart tag = (StructuredDocumentTagRangeStart) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true);
+
+        if (tag.getAppearance() == SdtAppearance.HIDDEN)
+            tag.setAppearance(SdtAppearance.TAGS);
+        //ExEnd:Appearance
+    }
 }

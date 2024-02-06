@@ -1441,13 +1441,14 @@ public class ExDocumentBuilder extends ApiExampleBase {
         // to the "InsertHyperlink" method as part of the argument containing the referenced bookmark's name.
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setUnderline(Underline.SINGLE);
-        builder.insertHyperlink("Link to Bookmark1", "Bookmark1\" \\o \"Hyperlink Tip", true);
+        FieldHyperlink hyperlink = (FieldHyperlink)builder.insertHyperlink("Link to Bookmark1", "Bookmark1", true);
+        hyperlink.setScreenTip("Hyperlink Tip");
 
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertHyperlinkToLocalBookmark.docx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertHyperlinkToLocalBookmark.docx");
-        FieldHyperlink hyperlink = (FieldHyperlink) doc.getRange().getFields().get(0);
+        hyperlink = (FieldHyperlink)doc.getRange().getFields().get(0);
 
         TestUtil.verifyField(FieldType.FIELD_HYPERLINK, " HYPERLINK \\l \"Bookmark1\" \\o \"Hyperlink Tip\" ", "Link to Bookmark1", hyperlink);
         Assert.assertEquals("Bookmark1", hyperlink.getSubAddress());

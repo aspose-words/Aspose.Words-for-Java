@@ -1046,6 +1046,23 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExEnd:RestrictedTypes
     }
 
+    @Test
+    public void word2016Charts() throws Exception
+    {
+        //ExStart:Word2016Charts
+        //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //ExFor:ReportingEngine.BuildReport(Document, Object[], String[])
+        //ExSummary:Shows how to work with charts from word 2016.
+        Document doc = new Document(getMyDir() + "Reporting engine template - Word 2016 Charts (Java).docx");
+
+        ReportingEngine engine = new ReportingEngine();
+        engine.buildReport(doc, new Object[] { Common.getShares(), Common.getShareQuotes() },
+                new String[] { "shares", "quotes" });
+
+        doc.save(getArtifactsDir() + "ReportingEngine.Word2016Charts.docx");
+        //ExEnd:Word2016Charts
+    }
+
     private static void buildReport(final Document document, final Object dataSource) throws Exception {
         ReportingEngine engine = new ReportingEngine();
         engine.buildReport(document, dataSource);

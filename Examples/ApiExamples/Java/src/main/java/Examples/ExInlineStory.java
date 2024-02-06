@@ -628,4 +628,22 @@ public class ExInlineStory extends ApiExampleBase {
         Assert.assertEquals(doc.getChildNodes(NodeType.SHAPE, true).getCount(), 0);
         //ExEnd
     }
+
+    @Test
+    public void updateActualReferenceMarks() throws Exception
+    {
+        //ExStart:UpdateActualReferenceMarks
+        //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //ExFor:Document.UpdateActualReferenceMarks
+        //ExFor:Footnote.ActualReferenceMark
+        //ExSummary:Shows how to get actual footnote reference mark.
+        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
+
+        Footnote footnote = (Footnote)doc.getChild(NodeType.FOOTNOTE, 1, true);
+        doc.updateFields();
+        doc.updateActualReferenceMarks();
+
+        Assert.assertEquals("1", footnote.getActualReferenceMark());
+        //ExEnd:UpdateActualReferenceMarks
+    }
 }

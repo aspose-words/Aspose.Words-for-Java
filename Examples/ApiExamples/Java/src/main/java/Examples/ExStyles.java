@@ -365,4 +365,29 @@ public class ExStyles extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Styles.LockStyle.docx");
         Assert.assertTrue(doc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1).getLocked());
     }
+
+    @Test
+    public void stylePriority() throws Exception
+    {
+        //ExStart:StylePriority
+        //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //ExFor:Style.Priority
+        //ExFor:Style.UnhideWhenUsed
+        //ExFor:Style.SemiHidden
+        //ExSummary:Shows how to prioritize and hide a style.
+        Document doc = new Document();
+        Style styleTitle = doc.getStyles().getByStyleIdentifier(StyleIdentifier.SUBTITLE);
+
+        if (styleTitle.getPriority() == 9)
+            styleTitle.setPriority(10);
+
+        if (!styleTitle.getUnhideWhenUsed())
+            styleTitle.setUnhideWhenUsed(true);
+
+        if (styleTitle.getSemiHidden())
+            styleTitle.setSemiHidden(true);
+
+        doc.save(getArtifactsDir() + "Styles.StylePriority.docx");
+        //ExEnd:StylePriority
+    }
 }

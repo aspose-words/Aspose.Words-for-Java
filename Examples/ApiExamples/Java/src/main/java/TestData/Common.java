@@ -8,9 +8,7 @@ package TestData;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import TestData.TestClasses.ClientTestClass;
-import TestData.TestClasses.ContractTestClass;
-import TestData.TestClasses.ManagerTestClass;
+import TestData.TestClasses.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -152,5 +150,40 @@ public class Common {
         }
 
         return contracts;
+    }
+
+    public static ArrayList<ShareTestClass> getShares() {
+        ArrayList<ShareTestClass> shares = new ArrayList<ShareTestClass>() {
+            {
+                new ShareTestClass("Technology", "Consumer Electronics", "AAPL", 6.602835, -0.0054);
+                new ShareTestClass("Technology", "Software - Infrastructure", "MSFT", 5.832072, -0.005);
+                new ShareTestClass("Technology", "Software - Infrastructure", "ADBE", 0.562561, -0.0274);
+                new ShareTestClass("Technology", "Semiconductors", "NVDA", 1.335994, -0.0074);
+                new ShareTestClass("Technology", "Semiconductors", "QCOM", 0.462198, 0.0248);
+                new ShareTestClass("Communication Services", "Internet Content & Information", "GOOG", 3.771651, 0.011);
+                new ShareTestClass("Communication Services", "Entertainment", "DIS", 0.575768, 0.0102);
+                new ShareTestClass("Communication Services", "Entertainment", "WBD", 0.116579, -0.0165);
+                new ShareTestClass("Consumer Cyclical", "Internet Retail", "AMZN", 3.011482, 0.044);
+                new ShareTestClass("Consumer Cyclical", "Auto Manufactures", "TSLA", 1.816734, -0.0018);
+                new ShareTestClass("Consumer Cyclical", "Auto Manufactures", "GM", 0.160205, 0.0026);
+                new ShareTestClass("Financial", "Credit Services", "V", 1.1, 0.005);
+            }
+        };
+
+        return shares;
+    }
+
+    public static ArrayList<ShareQuoteTestClass> getShareQuotes() {
+        ArrayList<ShareQuoteTestClass> shareQuotes = new ArrayList<ShareQuoteTestClass>() {
+            {
+                new ShareQuoteTestClass(45131, 15232450, 171.32, 172.50, 170.69, 171.98);
+                new ShareQuoteTestClass(45132, 13962990, 172.20, 172.70, 171.40, 171.86);
+                new ShareQuoteTestClass(45133, 14902060, 171.86, 171.93, 170.31, 171.35);
+                new ShareQuoteTestClass(45134, 16962540, 171.64, 173.10, 171.35, 172.00);
+                new ShareQuoteTestClass(45135, 15588280, 171.98, 172.40, 170.00, 171.44);
+            }
+        };
+
+        return shareQuotes;
     }
 }
