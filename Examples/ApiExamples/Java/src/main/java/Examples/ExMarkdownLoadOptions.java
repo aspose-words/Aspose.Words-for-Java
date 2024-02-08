@@ -9,6 +9,7 @@ package Examples;
 //////////////////////////////////////////////////////////////////////////
 
 import com.aspose.words.Document;
+import com.aspose.words.MarkdownLoadOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
