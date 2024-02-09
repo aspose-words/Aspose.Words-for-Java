@@ -1284,7 +1284,7 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:ChartLegendEntry.Font
         //ExFor:ChartLegend.Font
         //ExSummary:Shows how to work with a legend font.
-        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series (Java).docx");
         Chart chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
 
         ChartLegend chartLegend = chart.getLegend();
@@ -1305,7 +1305,7 @@ public class ExCharts extends ApiExampleBase {
         //ExFor:ChartSeries.SeriesType
         //ExFor:ChartSeriesType
         //ExSummary:Shows how to
-        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - Chart series (Java).docx");
         Chart chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
 
         // Remove all series of the Column type.
