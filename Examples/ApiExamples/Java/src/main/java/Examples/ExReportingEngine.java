@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -1050,7 +1050,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void word2016Charts() throws Exception
     {
         //ExStart:Word2016Charts
-        //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //GistId:9c17d666c47318436785490829a3984f
         //ExFor:ReportingEngine.BuildReport(Document, Object[], String[])
         //ExSummary:Shows how to work with charts from word 2016.
         Document doc = new Document(getMyDir() + "Reporting engine template - Word 2016 Charts (Java).docx");

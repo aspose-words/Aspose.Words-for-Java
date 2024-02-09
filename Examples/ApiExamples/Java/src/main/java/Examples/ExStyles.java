@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -370,7 +370,7 @@ public class ExStyles extends ApiExampleBase {
     public void stylePriority() throws Exception
     {
         //ExStart:StylePriority
-        //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //GistId:9c17d666c47318436785490829a3984f
         //ExFor:Style.Priority
         //ExFor:Style.UnhideWhenUsed
         //ExFor:Style.SemiHidden

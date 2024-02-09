@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -23,7 +23,7 @@ class ExMarkdownLoadOptions extends ApiExampleBase
     public void preserveEmptyLines() throws Exception
     {
         //ExStart:PreserveEmptyLines
-        //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //GistId:9c17d666c47318436785490829a3984f
         //ExFor:MarkdownLoadOptions
         //ExFor:MarkdownLoadOptions.PreserveEmptyLines
         //ExSummary:Shows how to preserve empty line while load a document.

@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -83,7 +83,7 @@ public class ExSvgSaveOptions extends ApiExampleBase {
     public void saveOfficeMath() throws Exception
     {
         //ExStart:SaveOfficeMath
-        //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //GistId:9c17d666c47318436785490829a3984f
         //ExFor:NodeRendererBase.Save(String, SvgSaveOptions)
         //ExSummary:Shows how to pass save options when rendering office math.
         Document doc = new Document(getMyDir() + "Office math.docx");
