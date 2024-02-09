@@ -1,4 +1,4 @@
-﻿package TestData.TestClasses;
+package TestData.TestClasses;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -21,6 +21,27 @@ public class ShareTestClass {
         mTicker = ticker;
         mWeight = weight;
         mDelta = delta;
+    }
+
+    public String getSector()
+    {
+        return mSector;
+    }
+    public String getIndustry()
+    {
+        return mIndustry;
+    }
+    public String getTicker()
+    {
+        return mTicker;
+    }
+    public double getWeight()
+    {
+        return mWeight;
+    }
+    public double getDelta()
+    {
+        return mDelta;
     }
 
     public String getTitle() {

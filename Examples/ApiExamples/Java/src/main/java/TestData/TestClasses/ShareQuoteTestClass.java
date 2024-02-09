@@ -1,4 +1,4 @@
-﻿package TestData.TestClasses;
+package TestData.TestClasses;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -15,6 +15,35 @@ public class ShareQuoteTestClass {
     private double mHigh;
     private double mLow;
     private double mClose;
+
+    public int getDate()
+    {
+        return mDate;
+    }
+    public int getVolume()
+    {
+        return mVolume;
+    }
+
+    public double getOpen()
+    {
+        return mOpen;
+    }
+
+    public double getHigh()
+    {
+        return mHigh;
+    }
+
+    public double getLow()
+    {
+        return mLow;
+    }
+
+    public double getClose()
+    {
+        return mClose;
+    }
 
     public ShareQuoteTestClass(int date, int volume, double open, double high, double low, double close) {
         mDate = date;

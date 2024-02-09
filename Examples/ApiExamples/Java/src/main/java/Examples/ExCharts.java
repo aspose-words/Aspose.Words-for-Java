@@ -262,8 +262,10 @@ public class ExCharts extends ApiExampleBase {
 
         // Set lower and upper bounds for the X-axis.
         ChartAxis xAxis = chart.getAxisX();
-        xAxis.getScaling().setMinimum(new AxisBound(DocumentHelper.createDate(2017, 11, 5)));
-        xAxis.getScaling().setMaximum(new AxisBound(DocumentHelper.createDate(2017, 12, 3)));
+        Date datetimeMin = DocumentHelper.createDate(2017, 11, 5);
+        xAxis.getScaling().setMinimum(new AxisBound(datetimeMin));
+        Date datetimeMax = DocumentHelper.createDate(2017, 12, 3);
+        xAxis.getScaling().setMaximum(new AxisBound(datetimeMax));
 
         // Set the major units of the X-axis to a week, and the minor units to a day.
         xAxis.setBaseTimeUnit(AxisTimeUnit.DAYS);
@@ -291,8 +293,8 @@ public class ExCharts extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "Charts.DateTimeValues.docx");
         chart = ((Shape) doc.getChild(NodeType.SHAPE, 0, true)).getChart();
 
-        Assert.assertEquals(new AxisBound(DocumentHelper.createDate(2017, 11, 5)), chart.getAxisX().getScaling().getMinimum());
-        Assert.assertEquals(new AxisBound(DocumentHelper.createDate(2017, 12, 3)), chart.getAxisX().getScaling().getMaximum());
+        Assert.assertEquals(datetimeMin, chart.getAxisX().getScaling().getMinimum().getValueAsDate());
+        Assert.assertEquals(datetimeMax, chart.getAxisX().getScaling().getMaximum().getValueAsDate());
         Assert.assertEquals(AxisTimeUnit.DAYS, chart.getAxisX().getBaseTimeUnit());
         Assert.assertEquals(7.0d, chart.getAxisX().getMajorUnit());
         Assert.assertEquals(1.0d, chart.getAxisX().getMinorUnit());
@@ -936,8 +938,11 @@ public class ExCharts extends ApiExampleBase {
         // We can set axis bounds in the form of dates as well, limiting the chart to a period.
         // Setting the range to 1980-1990 will omit the two of the series values
         // that are outside of the range from the graph.
-        chart.getAxisX().getScaling().setMinimum(new AxisBound(DocumentHelper.createDate(1980, 1, 1)));
-        chart.getAxisX().getScaling().setMaximum(new AxisBound(DocumentHelper.createDate(1990, 1, 1)));
+
+        Date datetimeMin = DocumentHelper.createDate(1980, 1, 1);
+        chart.getAxisX().getScaling().setMinimum(new AxisBound(datetimeMin));
+        Date datetimeMax = DocumentHelper.createDate(1980, 1, 1);
+        chart.getAxisX().getScaling().setMaximum(new AxisBound(datetimeMax));
 
         doc.save(getArtifactsDir() + "Charts.AxisBound.docx");
         //ExEnd
@@ -956,8 +961,8 @@ public class ExCharts extends ApiExampleBase {
         chart = ((Shape) doc.getChild(NodeType.SHAPE, 1, true)).getChart();
 
         Assert.assertFalse(chart.getAxisX().getScaling().getMinimum().isAuto());
-        Assert.assertEquals(new AxisBound(DocumentHelper.createDate(1980, 1, 1)), chart.getAxisX().getScaling().getMinimum());
-        Assert.assertEquals(new AxisBound(DocumentHelper.createDate(1990, 1, 1)), chart.getAxisX().getScaling().getMaximum());
+        Assert.assertEquals(datetimeMin, chart.getAxisX().getScaling().getMinimum().getValueAsDate());
+        Assert.assertEquals(datetimeMax, chart.getAxisX().getScaling().getMaximum().getValueAsDate());
 
         Assert.assertTrue(chart.getAxisY().getScaling().getMinimum().isAuto());
     }
