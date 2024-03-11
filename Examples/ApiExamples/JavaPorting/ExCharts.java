@@ -198,9 +198,9 @@ public class ExCharts extends ApiExampleBase
         xAxis.setMinorTickMark(AxisTickMark.CROSS);
         xAxis.setMajorUnit(10.0d);
         xAxis.setMinorUnit(15.0d);
-        xAxis.setTickLabelOffset(50);
-        xAxis.setTickLabelPosition(AxisTickLabelPosition.LOW);
-        xAxis.setTickLabelSpacingIsAuto(false);
+        xAxis.getTickLabels().setOffset(50);
+        xAxis.getTickLabels().setPosition(AxisTickLabelPosition.LOW);
+        xAxis.getTickLabels().isAutoSpacing(false);
         xAxis.setTickMarkSpacing(1);
 
         ChartAxis yAxis = chart.getAxisY();
@@ -211,7 +211,7 @@ public class ExCharts extends ApiExampleBase
         yAxis.setMinorTickMark(AxisTickMark.CROSS);
         yAxis.setMajorUnit(100.0d);
         yAxis.setMinorUnit(20.0d);
-        yAxis.setTickLabelPosition(AxisTickLabelPosition.NEXT_TO_AXIS);
+        yAxis.getTickLabels().setPosition(AxisTickLabelPosition.NEXT_TO_AXIS);
 
         // Column charts do not have a Z-axis.
         Assert.assertNull(chart.getAxisZ());
@@ -229,9 +229,9 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(AxisTickMark.CROSS, chart.getAxisX().getMinorTickMark());
         Assert.assertEquals(1.0d, chart.getAxisX().getMajorUnit());
         Assert.assertEquals(0.5d, chart.getAxisX().getMinorUnit());
-        Assert.assertEquals(50, chart.getAxisX().getTickLabelOffset());
-        Assert.assertEquals(AxisTickLabelPosition.LOW, chart.getAxisX().getTickLabelPosition());
-        Assert.assertFalse(chart.getAxisX().getTickLabelSpacingIsAuto());
+        Assert.assertEquals(50, chart.getAxisX().getTickLabels().getOffset());
+        Assert.assertEquals(AxisTickLabelPosition.LOW, chart.getAxisX().getTickLabels().getPosition());
+        Assert.assertFalse(chart.getAxisX().getTickLabels().isAutoSpacing());
         Assert.assertEquals(1, chart.getAxisX().getTickMarkSpacing());
 
         Assert.assertEquals(AxisCategoryType.CATEGORY, chart.getAxisY().getCategoryType());
@@ -241,7 +241,7 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(AxisTickMark.CROSS, chart.getAxisY().getMinorTickMark());
         Assert.assertEquals(100.0d, chart.getAxisY().getMajorUnit());
         Assert.assertEquals(20.0d, chart.getAxisY().getMinorUnit());
-        Assert.assertEquals(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisY().getTickLabelPosition());
+        Assert.assertEquals(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisY().getTickLabels().getPosition());
     }
 
     @Test
@@ -320,7 +320,7 @@ public class ExCharts extends ApiExampleBase
 
         // Define Y-axis properties for decimal values.
         ChartAxis yAxis = chart.getAxisY();
-        yAxis.setTickLabelPosition(AxisTickLabelPosition.HIGH);
+        yAxis.getTickLabels().setPosition(AxisTickLabelPosition.HIGH);
         yAxis.setMajorUnit(100.0d);
         yAxis.setMinorUnit(50.0d);
         yAxis.getDisplayUnit().setUnit(AxisBuiltInUnit.HUNDREDS);
@@ -345,7 +345,7 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(true, chart.getAxisX().hasMajorGridlines());
         Assert.assertEquals(true, chart.getAxisX().hasMinorGridlines());
 
-        Assert.assertEquals(AxisTickLabelPosition.HIGH, chart.getAxisY().getTickLabelPosition());
+        Assert.assertEquals(AxisTickLabelPosition.HIGH, chart.getAxisY().getTickLabels().getPosition());
         Assert.assertEquals(100.0d, chart.getAxisY().getMajorUnit());
         Assert.assertEquals(50.0d, chart.getAxisY().getMinorUnit());
         Assert.assertEquals(AxisBuiltInUnit.HUNDREDS, chart.getAxisY().getDisplayUnit().getUnit());
@@ -1168,9 +1168,9 @@ public class ExCharts extends ApiExampleBase
         // Set the X-axis bounds so that the X-axis spans 5 major tick marks and 12 minor tick marks.
         axis.getScaling().setMinimum(new AxisBound(-10));
         axis.getScaling().setMaximum(new AxisBound(30.0));
-        axis.setTickLabelAlignment(ParagraphAlignment.RIGHT);
+        axis.getTickLabels().setAlignment(ParagraphAlignment.RIGHT);
 
-        Assert.assertEquals(1, axis.getTickLabelSpacing());
+        Assert.assertEquals(1, axis.getTickLabels().getSpacing());
 
         // Set the tick labels to display their value in millions.
         axis.getDisplayUnit().setUnit(AxisBuiltInUnit.MILLIONS);
@@ -1196,8 +1196,8 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(10.0d, axis.getMajorUnit());
         Assert.assertEquals(-10.0d, axis.getScaling().getMinimum().getValue());
         Assert.assertEquals(30.0d, axis.getScaling().getMaximum().getValue());
-        Assert.assertEquals(1, axis.getTickLabelSpacing());
-        Assert.assertEquals(ParagraphAlignment.RIGHT, axis.getTickLabelAlignment());
+        Assert.assertEquals(1, axis.getTickLabels().getSpacing());
+        Assert.assertEquals(ParagraphAlignment.RIGHT, axis.getTickLabels().getAlignment());
         Assert.assertEquals(AxisBuiltInUnit.CUSTOM, axis.getDisplayUnit().getUnit());
         Assert.assertEquals(1000000.0d, axis.getDisplayUnit().getCustomUnit());
 
@@ -1704,7 +1704,7 @@ public class ExCharts extends ApiExampleBase
 
         Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
         Chart chart = shape.getChart();
-
+        
         ChartSeriesCollection series = chart.getSeries();
         series.clear();
         double[] xValues = new double[] { 2020.0, 2021.0, 2022.0, 2023.0 };

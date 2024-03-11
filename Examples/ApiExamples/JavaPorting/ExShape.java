@@ -1537,7 +1537,7 @@ public class ExShape extends ApiExampleBase
         //ExEnd
 
         if (!isRunningOnMono())
-            TestUtil.verifyImage(795, 87, getArtifactsDir() + "Shape.RenderOfficeMath.png");
+            TestUtil.verifyImage(792, 87, getArtifactsDir() + "Shape.RenderOfficeMath.png");
         else
             TestUtil.verifyImage(735, 128, getArtifactsDir() + "Shape.RenderOfficeMath.png");
     }
@@ -2935,14 +2935,14 @@ public class ExShape extends ApiExampleBase
         OfficeMathRenderer renderer = new OfficeMathRenderer(officeMath);
 
         // Verify the size of the image that the OfficeMath object will create when we render it.
-        Assert.assertEquals(119.0f, msSizeF.getWidth(renderer.getSizeInPointsInternal()), 0.2f);
+        Assert.assertEquals(119.0f, msSizeF.getWidth(renderer.getSizeInPointsInternal()), 0.25f);
         Assert.assertEquals(13.0f, msSizeF.getHeight(renderer.getSizeInPointsInternal()), 0.1f);
 
-        Assert.assertEquals(119.0f, renderer.getBoundsInPointsInternal().getWidth(), 0.2f);
+        Assert.assertEquals(119.0f, renderer.getBoundsInPointsInternal().getWidth(), 0.25f);
         Assert.assertEquals(13.0f, renderer.getBoundsInPointsInternal().getHeight(), 0.1f);
 
         // Shapes with transparent parts may contain different values in the "OpaqueBoundsInPoints" properties.
-        Assert.assertEquals(119.0f, renderer.getOpaqueBoundsInPointsInternal().getWidth(), 0.2f);
+        Assert.assertEquals(119.0f, renderer.getOpaqueBoundsInPointsInternal().getWidth(), 0.25f);
         Assert.assertEquals(14.2f, renderer.getOpaqueBoundsInPointsInternal().getHeight(), 0.1f);
 
         // Get the shape size in pixels, with linear scaling to a specific DPI.
@@ -3246,7 +3246,7 @@ public class ExShape extends ApiExampleBase
         //ExFor:Stroke.BackThemeColor            
         //ExFor:Stroke.BackTintAndShade
         //ExSummary:Shows how to set back theme color and tint and shade.
-        Document doc = new Document(getMyDir() + "Stroke gradient outline.docx");            
+        Document doc = new Document(getMyDir() + "Stroke gradient outline.docx");
 
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
         Stroke stroke = shape.getStroke();

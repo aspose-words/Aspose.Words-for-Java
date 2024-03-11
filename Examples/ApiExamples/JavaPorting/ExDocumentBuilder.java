@@ -184,7 +184,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.HeadersAndFooters.docx");
         //ExEnd
 
-        HeaderFooterCollection headersFooters = 
+        HeaderFooterCollection headersFooters =
             new Document(getArtifactsDir() + "DocumentBuilder.HeadersAndFooters.docx").getFirstSection().getHeadersFooters();
 
         Assert.assertEquals(3, headersFooters.getCount());
@@ -208,7 +208,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // Move the cursor to the first MERGEFIELD.
         builder.moveToMergeField("MyMergeField1", true, false);
-        
+
         // Note that the cursor is placed immediately after the first MERGEFIELD, and before the second.
         Assert.assertEquals(doc.getRange().getFields().get(1).getStart(), builder.getCurrentNode());
         Assert.assertEquals(doc.getRange().getFields().get(0).getEnd(), builder.getCurrentNode().getPreviousSibling());
@@ -220,7 +220,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.write(" Text between our merge fields. ");
 
         doc.save(getArtifactsDir() + "DocumentBuilder.MergeFields.docx");
-        //ExEnd		
+        //ExEnd
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.MergeFields.docx");
 
@@ -228,9 +228,9 @@ public class ExDocumentBuilder extends ApiExampleBase
                         " Text between our merge fields. " +
                         "\u0013MERGEFIELD MyMergeField2 \\* MERGEFORMAT\u0014«MyMergeField2»\u0015", doc.getText().trim());
         Assert.assertEquals(2, doc.getRange().getFields().getCount());
-        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField1 \\* MERGEFORMAT", 
+        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField1 \\* MERGEFORMAT",
             "«MyMergeField1»", doc.getRange().getFields().get(0));
-        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField2 \\* MERGEFORMAT", 
+        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField2 \\* MERGEFORMAT",
             "«MyMergeField2»", doc.getRange().getFields().get(1));
     }
 
@@ -283,7 +283,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         horizontalRuleFormat.setWidthPercent(100.0);
         Assert.That(() => horizontalRuleFormat.setWidthPercent(0.0), Throws.<IllegalArgumentException>TypeOf());
         Assert.That(() => horizontalRuleFormat.setWidthPercent(101.0), Throws.<IllegalArgumentException>TypeOf());
-        
+
         horizontalRuleFormat.setHeight(0.0);
         horizontalRuleFormat.setHeight(1584.0);
         Assert.That(() => horizontalRuleFormat.setHeight(-1), Throws.<IllegalArgumentException>TypeOf());
@@ -421,7 +421,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(RelativeVerticalPosition.PAGE, shape.getRelativeVerticalPosition());
         Assert.assertEquals((doc.getFirstSection().getPageSetup().getPageWidth() - shape.getWidth()) / 2.0, shape.getLeft());
         Assert.assertEquals((doc.getFirstSection().getPageSetup().getPageHeight() - shape.getHeight()) / 2.0, shape.getTop());
-    }        
+    }
 
     @Test
     public void insertOleObject() throws Exception
@@ -433,7 +433,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExSummary:Shows how to insert an OLE object into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // OLE objects are links to files in our local file system that can be opened by other installed applications.
         // Double clicking these shapes will launch the application, and then use it to open the linked object.
         // There are three ways of using the InsertOleObject method to insert these shapes and configure their appearance.
@@ -443,7 +443,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         {
             // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
             // the icon according to the file extension and uses the filename for the icon caption.
-            builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", false, false, imageStream); 
+            builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", false, false, imageStream);
         }
         finally { if (imageStream != null) imageStream.close(); }
 
@@ -463,7 +463,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertOleObject.docx");
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE,0, true);
-        
+
         Assert.assertEquals(ShapeType.OLE_OBJECT, shape.getShapeType());
         Assert.assertEquals("Excel.Sheet.12", shape.getOleFormat().getProgId());
         Assert.assertEquals(".xlsx", shape.getOleFormat().getSuggestedExtension());
@@ -490,9 +490,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        final String HTML = "<p align='right'>Paragraph right</p>" + 
+        final String HTML = "<p align='right'>Paragraph right</p>" +
                             "<b>Implicit paragraph left</b>" +
-                            "<div align='center'>Div center</div>" + 
+                            "<div align='center'>Div center</div>" +
                             "<h1 align='left'>Heading 1 left.</h1>";
 
         builder.insertHtml(HTML);
@@ -592,7 +592,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.startBookmark("MyBookmark");
         builder.writeln("Hello world!");
         builder.endBookmark("MyBookmark");
-        
+
         Assert.assertEquals(1, doc.getRange().getBookmarks().getCount());
         Assert.assertEquals("MyBookmark", doc.getRange().getBookmarks().get(0).getName());
         Assert.assertEquals("Hello world!", doc.getRange().getBookmarks().get(0).getText().trim());
@@ -660,9 +660,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Form fields are objects in the document that the user can interact with by being prompted to enter values.
         // We can create them using a document builder, and below are two ways of doing so.
         // 1 -  Basic text input:
-        builder.insertTextInput("My text input", TextFormFieldType.REGULAR, 
+        builder.insertTextInput("My text input", TextFormFieldType.REGULAR,
             "", "Enter your name here", 30);
-        
+
         // 2 -  Combo box with prompt text, and a range of possible values:
         String[] items =
         {
@@ -771,7 +771,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create a valid bookmark, an entity that consists of nodes enclosed by a bookmark start node,
-        // and a bookmark end node. 
+        // and a bookmark end node.
         builder.startBookmark("MyBookmark");
         builder.write("Bookmark contents.");
         builder.endBookmark("MyBookmark");
@@ -1124,7 +1124,7 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:RowFormat.HeadingFormat
-        //ExSummary:Shows how to build a table with rows that repeat on every page. 
+        //ExSummary:Shows how to build a table with rows that repeat on every page.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1239,7 +1239,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.getCellFormat().getShading().setBackgroundPatternColor(msColor.getLightGreen());
         builder.writeln("Automatically sized cell.");
-        
+
         doc.save(getArtifactsDir() + "DocumentBuilder.InsertCellsWithPreferredWidths.docx");
         //ExEnd
 
@@ -1248,7 +1248,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertCellsWithPreferredWidths.docx");
         table = doc.getFirstSection().getBody().getTables().get(0);
-        
+
         Assert.assertEquals(PreferredWidthType.POINTS, table.getFirstRow().getCells().get(0).getCellFormat().getPreferredWidth().getType());
         Assert.assertEquals(40.0d, table.getFirstRow().getCells().get(0).getCellFormat().getPreferredWidth().getValue());
         Assert.assertEquals("Cell with a width of 800.\r\u0007", table.getFirstRow().getCells().get(0).getText().trim());
@@ -1561,8 +1561,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.endBookmark("Bookmark1");
         builder.writeln("Text outside of the bookmark.");
 
-        // Insert a HYPERLINK field that links to the bookmark. We can pass field switches
-        // to the "InsertHyperlink" method as part of the argument containing the referenced bookmark's name.
+        // Insert a HYPERLINK field that links to the bookmark.
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setUnderline(Underline.SINGLE);
         FieldHyperlink hyperlink = (FieldHyperlink)builder.insertHyperlink("Link to Bookmark1", "Bookmark1", true);
@@ -1594,7 +1593,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals("Hello world!", builder.getCurrentParagraph().getText().trim());
 
         // Move to the beginning of the document and place the cursor at an existing node.
-        builder.moveToDocumentStart();          
+        builder.moveToDocumentStart();
         Assert.assertEquals(NodeType.RUN, builder.getCurrentNode().getNodeType());
     }
 
@@ -2030,7 +2029,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         CertificateHolder certHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
-        DigitalSignatureUtil.sign(getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId.docx", 
+        DigitalSignatureUtil.sign(getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId.docx",
             getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId.Signed.docx", certHolder, signOptions);
 
         // Re-open our saved document, and verify that the "IsSigned" and "IsValid" properties both equal "true",
@@ -2585,7 +2584,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             Assert.assertNull(builder.getCurrentNode());
             builder.write(" Text immediately after the field.");
 
-            Assert.assertEquals("\u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015 Text immediately after the field.", 
+            Assert.assertEquals("\u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015 Text immediately after the field.",
                 doc.getText().trim());
         }
         else
@@ -2593,7 +2592,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             Assert.assertEquals(field.getStart(), builder.getCurrentNode());
             builder.write("Text immediately before the field. ");
 
-            Assert.assertEquals("Text immediately before the field. \u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015", 
+            Assert.assertEquals("Text immediately before the field. \u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015",
                 doc.getText().trim());
         }
         //ExEnd
@@ -2629,7 +2628,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Chart chart = builder.insertChart(ChartType.PIE, ConvertUtil.pixelToPoint(300.0), 
+        Chart chart = builder.insertChart(ChartType.PIE, ConvertUtil.pixelToPoint(300.0),
             ConvertUtil.pixelToPoint(300.0)).getChart();
         Assert.assertEquals(225.0d, ConvertUtil.pixelToPoint(300.0)); //ExSkip
         chart.getSeries().clear();
@@ -2696,7 +2695,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // This overload of the InsertField method automatically updates inserted fields.
         Assert.That(DateTime.parse(field.getResult()), Is.EqualTo(DateTime.getToday()).Within(1).Days);
-        //ExEnd			
+        //ExEnd
     }
 
     @Test (dataProvider = "insertFieldAndUpdateDataProvider")
@@ -2819,9 +2818,9 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         public String formatNumeric(double value, String format)
         {
-            if (msString.isNullOrEmpty(mNumberFormat)) 
+            if (msString.isNullOrEmpty(mNumberFormat))
                 return null;
-            
+
             String newValue = MessageFormat.format(mNumberFormat, value);
             getFormatInvocations().add(new FormatInvocation(FormatInvocationType.NUMERIC, value, format, newValue));
             return newValue;
@@ -2861,12 +2860,12 @@ public class ExDocumentBuilder extends ApiExampleBase
         {
             if (formatInvocationType == FormatInvocationType.ALL)
                 return getFormatInvocations().size();
-            
+
             return getFormatInvocations().Count(f => f.FormatInvocationType == formatInvocationType);
         }
 
         public void printFormatInvocations()
-        { 
+        {
             for (FormatInvocation f : (Iterable<FormatInvocation>) getFormatInvocations())
                 System.out.println("Invocation type:\t{f.FormatInvocationType}\n" +
                                       $"\tOriginal value:\t\t{f.Value}\n" +
@@ -2876,11 +2875,11 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         private /*final*/ String mNumberFormat;
         private /*final*/ String mDateFormat;
-        private /*final*/ String mGeneralFormat; 
+        private /*final*/ String mGeneralFormat;
         private ArrayList<FieldResultFormatter.FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
         private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<FieldResultFormatter.FormatInvocation>list();
-        
+
         private static class FormatInvocation
         {
             public /*FormatInvocationType*/int getFormatInvocationType() { return mFormatInvocationType; };
@@ -3107,9 +3106,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals("Heading 1", doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getStyle().getName());
         Assert.assertEquals("MyParaStyle", doc.getFirstSection().getBody().getParagraphs().get(1).getParagraphFormat().getStyle().getName());
         Assert.assertEquals(" ", doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getText());
-        TestUtil.docPackageFileContainsString("w:rPr><w:vanish /><w:specVanish /></w:rPr>", 
+        TestUtil.docPackageFileContainsString("w:rPr><w:vanish /><w:specVanish /></w:rPr>",
             getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
-        TestUtil.docPackageFileContainsString("<w:t xml:space=\"preserve\"> </w:t>", 
+        TestUtil.docPackageFileContainsString("<w:t xml:space=\"preserve\"> </w:t>",
             getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
     }
 
@@ -3187,11 +3186,11 @@ public class ExDocumentBuilder extends ApiExampleBase
     public void emphasesWarningSourceMarkdown() throws Exception
     {
         Document doc = new Document(getMyDir() + "Emphases markdown warning.docx");
-        
+
         WarningInfoCollection warnings = new WarningInfoCollection();
         doc.setWarningCallback(warnings);
         doc.save(getArtifactsDir() + "DocumentBuilder.EmphasesWarningSourceMarkdown.md");
- 
+
         for (WarningInfo warningInfo : warnings)
         {
             if (warningInfo.getSource() == WarningSource.MARKDOWN)
@@ -3207,10 +3206,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExSummary:Shows how to specifies ignoring or not source formatting of headers/footers content.
         Document dstDoc = new Document(getMyDir() + "Document.docx");
         Document srcDoc = new Document(getMyDir() + "Header and footer types.docx");
- 
+
         ImportFormatOptions importFormatOptions = new ImportFormatOptions();
         importFormatOptions.setIgnoreHeaderFooter(false);
- 
+
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, importFormatOptions);
 
         dstDoc.save(getArtifactsDir() + "DocumentBuilder.DoNotIgnoreHeaderFooter.docx");
@@ -3221,19 +3220,19 @@ public class ExDocumentBuilder extends ApiExampleBase
     public void markdownDocumentEmphases() throws Exception
     {
         DocumentBuilder builder = new DocumentBuilder();
-        
+
         // Bold and Italic are represented as Font.Bold and Font.Italic.
         builder.getFont().setItalic(true);
         builder.writeln("This text will be italic");
-        
+
         // Use clear formatting if we don't want to combine styles between paragraphs.
         builder.getFont().clearFormatting();
-        
+
         builder.getFont().setBold(true);
         builder.writeln("This text will be bold");
-        
+
         builder.getFont().clearFormatting();
-        
+
         builder.getFont().setItalic(true);
         builder.write("You ");
         builder.getFont().setBold(true);
@@ -3245,29 +3244,29 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.getFont().setStrikeThrough(true);
         builder.writeln("This text will be strikethrough");
-        
+
         // Markdown treats asterisks (*), underscores (_) and tilde (~) as indicators of emphasis.
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
-    
+
     @Test (enabled = false)
     public void markdownDocumentInlineCode() throws Exception
     {
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // Prepare our created document for further work
         // and clear paragraph formatting not to use the previous styles.
         builder.moveToDocumentEnd();
         builder.getParagraphFormat().clearFormatting();
         builder.writeln("\n");
-        
+
         // Style with name that starts from word InlineCode, followed by optional dot (.) and number of backticks (`).
         // If number of backticks is missed, then one backtick will be used by default.
         Style inlineCode1BackTicks = doc.getStyles().add(StyleType.CHARACTER, "InlineCode");
         builder.getFont().setStyle(inlineCode1BackTicks);
         builder.writeln("Text with InlineCode style with one backtick");
-        
+
         // Use optional dot (.) and number of backticks (`).
         // There will be 3 backticks.
         Style inlineCode3BackTicks = doc.getStyles().add(StyleType.CHARACTER, "InlineCode.3");
@@ -3276,7 +3275,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
-    
+
     @Test (enabled = false)
     public void markdownDocumentHeadings() throws Exception
     {
@@ -3288,13 +3287,13 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.moveToDocumentEnd();
         builder.getParagraphFormat().clearFormatting();
         builder.writeln("\n");
-        
+
         // By default, Heading styles in Word may have bold and italic formatting.
         // If we do not want text to be emphasized, set these properties explicitly to false.
         // Thus we can't use 'builder.Font.ClearFormatting()' because Bold/Italic will be set to true.
         builder.getFont().setBold(false);
         builder.getFont().setItalic(false);
-        
+
         // Create for one heading for each level.
         builder.getParagraphFormat().setStyleName("Heading 1");
         builder.getFont().setItalic(true);
@@ -3309,7 +3308,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getParagraphFormat().setStyle(setextHeading1);
         doc.getStyles().get("SetextHeading1").setBaseStyleName("Heading 1");
         builder.writeln("SetextHeading 1");
-        
+
         builder.getParagraphFormat().setStyleName("Heading 2");
         builder.writeln("This is an H2 tag");
 
@@ -3320,17 +3319,17 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getParagraphFormat().setStyle(setextHeading2);
         doc.getStyles().get("SetextHeading2").setBaseStyleName("Heading 2");
         builder.writeln("SetextHeading 2");
-        
+
         builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 3"));
         builder.writeln("This is an H3 tag");
-        
+
         builder.getFont().setBold(false);
         builder.getFont().setItalic(false);
 
         builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 4"));
         builder.getFont().setBold(true);
         builder.writeln("This is an bold H4 tag");
-        
+
         builder.getFont().setBold(false);
         builder.getFont().setItalic(false);
 
@@ -3338,13 +3337,13 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getFont().setItalic(true);
         builder.getFont().setBold(true);
         builder.writeln("This is an italic and bold H5 tag");
-        
+
         builder.getFont().setBold(false);
         builder.getFont().setItalic(false);
 
         builder.getParagraphFormat().setStyle(doc.getStyles().get("Heading 6"));
         builder.writeln("This is an H6 tag");
-        
+
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
@@ -3363,44 +3362,44 @@ public class ExDocumentBuilder extends ApiExampleBase
         // By default, the document stores blockquote style for the first level.
         builder.getParagraphFormat().setStyleName("Quote");
         builder.writeln("Blockquote");
-        
+
         // Create styles for nested levels through style inheritance.
         Style quoteLevel2 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote1");
         builder.getParagraphFormat().setStyle(quoteLevel2);
         doc.getStyles().get("Quote1").setBaseStyleName("Quote");
         builder.writeln("1. Nested blockquote");
-        
+
         Style quoteLevel3 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote2");
         builder.getParagraphFormat().setStyle(quoteLevel3);
         doc.getStyles().get("Quote2").setBaseStyleName("Quote1");
         builder.getFont().setItalic(true);
         builder.writeln("2. Nested italic blockquote");
-        
+
         Style quoteLevel4 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote3");
         builder.getParagraphFormat().setStyle(quoteLevel4);
         doc.getStyles().get("Quote3").setBaseStyleName("Quote2");
         builder.getFont().setItalic(false);
         builder.getFont().setBold(true);
         builder.writeln("3. Nested bold blockquote");
-        
+
         Style quoteLevel5 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote4");
         builder.getParagraphFormat().setStyle(quoteLevel5);
         doc.getStyles().get("Quote4").setBaseStyleName("Quote3");
         builder.getFont().setBold(false);
         builder.writeln("4. Nested blockquote");
-        
+
         Style quoteLevel6 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote5");
         builder.getParagraphFormat().setStyle(quoteLevel6);
         doc.getStyles().get("Quote5").setBaseStyleName("Quote4");
         builder.writeln("5. Nested blockquote");
-        
+
         Style quoteLevel7 = doc.getStyles().add(StyleType.PARAGRAPH, "Quote6");
         builder.getParagraphFormat().setStyle(quoteLevel7);
         doc.getStyles().get("Quote6").setBaseStyleName("Quote5");
         builder.getFont().setItalic(true);
         builder.getFont().setBold(true);
         builder.writeln("6. Nested italic bold blockquote");
-        
+
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
@@ -3420,7 +3419,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Style indentedCode = doc.getStyles().add(StyleType.PARAGRAPH, "IndentedCode");
         builder.getParagraphFormat().setStyle(indentedCode);
         builder.writeln("This is an indented code");
-        
+
         doc.save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
@@ -3462,7 +3461,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // Insert HorizontalRule that will be present in .md file as '-----'.
         builder.insertHorizontalRule();
- 
+
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
@@ -3483,13 +3482,13 @@ public class ExDocumentBuilder extends ApiExampleBase
         // There can be 3 types of bulleted lists.
         // The only diff in a numbering format of the very first level are ‘-’, ‘+’ or ‘*’ respectively.
         builder.getListFormat().getList().getListLevels().get(0).setNumberFormat("-");
-        
+
         builder.writeln("Item 1");
         builder.writeln("Item 2");
         builder.getListFormat().listIndent();
         builder.writeln("Item 2a");
         builder.writeln("Item 2b");
- 
+
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
@@ -3509,7 +3508,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Load created document from previous tests.
         Document doc = new Document(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
         ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
-        
+
         for (Paragraph paragraph : (Iterable<Paragraph>) paragraphs)
         {
             if (paragraph.getRuns().getCount() != 0)
@@ -3530,7 +3529,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             // Check that document also has a HorizontalRule present as a shape.
             NodeCollection shapesCollection = doc.getFirstSection().getBody().getChildNodes(NodeType.SHAPE, true);
             Shape horizontalRuleShape = (Shape) shapesCollection.get(0);
-            
+
             Assert.assertTrue(shapesCollection.getCount() == 1);
             Assert.assertTrue(horizontalRuleShape.isHorizontalRule());
         }
@@ -3577,7 +3576,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExSummary:Shows how to insert an online video into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         String videoUrl = "https://vimeo.com/52477838";
 
         // Insert a shape that plays a video from the web when clicked in Microsoft Word.
@@ -3727,7 +3726,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // Set the new mode of import HTML block-level elements.
         /*HtmlInsertOptions*/int insertOptions = HtmlInsertOptions.PRESERVE_BLOCKS;
-        
+
         DocumentBuilder builder = new DocumentBuilder();
         builder.insertHtml(HTML, insertOptions);
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.PreserveBlocks.docx");
@@ -3743,7 +3742,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:PhoneticGuide.BaseText
         //ExFor:PhoneticGuide.RubyText
         //ExSummary:Shows how to get properties of the phonetic guide.
-        Document doc = new Document(getMyDir() + "Phonetic guide.docx");            
+        Document doc = new Document(getMyDir() + "Phonetic guide.docx");
 
         RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
         // Use phonetic guide in the Asian text.

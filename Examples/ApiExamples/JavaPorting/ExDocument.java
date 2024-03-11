@@ -131,6 +131,8 @@ import com.aspose.words.StructuredDocumentTag;
 import com.aspose.words.JustificationMode;
 import com.aspose.words.BookmarkStart;
 import com.aspose.words.BookmarkEnd;
+import com.aspose.words.HtmlFixedSaveOptions;
+import com.aspose.words.XamlFixedSaveOptions;
 import org.testng.annotations.DataProvider;
 
 
@@ -199,7 +201,10 @@ public class ExDocument extends ApiExampleBase
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
-    }private LoadFromWebloadFromWeb() throws Exception
+    }
+
+    [Test]
+    public async Task private LoadFromWebloadFromWeb() throws Exception
     {
         //ExStart
         //ExFor:Document.#ctor(Stream)
@@ -3200,6 +3205,87 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals("Before [src content] after", msString.trimEnd(dstDoc.getDocument().getText()));
         //ExEnd:InsertDocumentInline
     }
+
+    @Test (dataProvider = "saveDocumentToStreamDataProvider")
+    public void saveDocumentToStream(/*SaveFormat*/int saveFormat) throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Lorem ipsum");
+
+        Stream stream = new MemoryStream();
+        try /*JAVA: was using*/
+        {
+            if (saveFormat == SaveFormat.HTML_FIXED)
+            {
+                HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
+                saveOptions.setExportEmbeddedCss(true);
+                saveOptions.setExportEmbeddedFonts(true);
+                saveOptions.setSaveFormat(saveFormat);
+
+                doc.save(stream, saveOptions);
+            }
+            else if (saveFormat == SaveFormat.XAML_FIXED)
+            {
+                XamlFixedSaveOptions saveOptions = new XamlFixedSaveOptions();
+                saveOptions.setResourcesFolder(getArtifactsDir());
+                saveOptions.setSaveFormat(saveFormat);
+
+                doc.save(stream, saveOptions);
+            }
+            else                
+                doc.save(stream, saveFormat);
+        }
+        finally { if (stream != null) stream.close(); }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "saveDocumentToStreamDataProvider")
+	public static Object[][] saveDocumentToStreamDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{SaveFormat.DOC},
+			{SaveFormat.DOT},
+			{SaveFormat.DOCX},
+			{SaveFormat.DOCM},
+			{SaveFormat.DOTX},
+			{SaveFormat.DOTM},
+			{SaveFormat.FLAT_OPC},
+			{SaveFormat.FLAT_OPC_MACRO_ENABLED},
+			{SaveFormat.FLAT_OPC_TEMPLATE},
+			{SaveFormat.FLAT_OPC_TEMPLATE_MACRO_ENABLED},
+			{SaveFormat.RTF},
+			{SaveFormat.WORD_ML},
+			{SaveFormat.PDF},
+			{SaveFormat.XPS},
+			{SaveFormat.XAML_FIXED},
+			{SaveFormat.SVG},
+			{SaveFormat.HTML_FIXED},
+			{SaveFormat.OPEN_XPS},
+			{SaveFormat.PS},
+			{SaveFormat.PCL},
+			{SaveFormat.HTML},
+			{SaveFormat.MHTML},
+			{SaveFormat.EPUB},
+			{SaveFormat.AZW_3},
+			{SaveFormat.MOBI},
+			{SaveFormat.ODT},
+			{SaveFormat.OTT},
+			{SaveFormat.TEXT},
+			{SaveFormat.XAML_FLOW},
+			{SaveFormat.XAML_FLOW_PACK},
+			{SaveFormat.MARKDOWN},
+			{SaveFormat.XLSX},
+			{SaveFormat.TIFF},
+			{SaveFormat.PNG},
+			{SaveFormat.BMP},
+			{SaveFormat.EMF},
+			{SaveFormat.JPEG},
+			{SaveFormat.GIF},
+			{SaveFormat.EPS},
+		};
+	}
 
 	//JAVA-added for string switch emulation
 	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap

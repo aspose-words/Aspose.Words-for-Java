@@ -401,7 +401,7 @@ public class ExStyles extends ApiExampleBase
         //ExSummary:Shows how to prioritize and hide a style.
         Document doc = new Document();
         Style styleTitle = doc.getStyles().getByStyleIdentifier(StyleIdentifier.SUBTITLE);
-
+        
         if (styleTitle.getPriority() == 9)
             styleTitle.setPriority(10);
 

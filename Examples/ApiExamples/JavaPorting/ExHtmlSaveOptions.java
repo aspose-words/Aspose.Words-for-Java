@@ -2238,5 +2238,33 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         private static final double MAX_DURATION = 0.1d;
     }
     //ExEnd
+
+    @Test (dataProvider = "mobiAzw3DefaultEncodingDataProvider")
+    public void mobiAzw3DefaultEncoding(/*SaveFormat*/int saveFormat) throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setSaveFormat(saveFormat);
+        saveOptions.setEncodingInternal(Encoding.getASCII());
+
+        String outputFileName = $"{ArtifactsDir}HtmlSaveOptions.MobiDefaultEncoding{FileFormatUtil.SaveFormatToExtension(saveFormat)}";
+        doc.save(outputFileName);
+
+        Encoding encoding = TestUtil.getEncoding(outputFileName);
+        Assert.assertNotEquals(Encoding.getASCII(), encoding);
+        Assert.assertEquals(Encoding.getUTF8(), encoding);
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "mobiAzw3DefaultEncodingDataProvider")
+	public static Object[][] mobiAzw3DefaultEncodingDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{SaveFormat.MOBI},
+			{SaveFormat.AZW_3},
+		};
+	}
 }
 

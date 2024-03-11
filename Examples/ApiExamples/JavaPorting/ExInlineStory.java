@@ -680,3 +680,4 @@ public class ExInlineStory extends ApiExampleBase
         //ExEnd:UpdateActualReferenceMarks
     }
 }
+

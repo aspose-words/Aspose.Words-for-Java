@@ -566,14 +566,15 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
     @Test (groups = "SkipMono", dataProvider = "tiffImageCompressionDataProvider")
     public void tiffImageCompression(/*TiffCompression*/int tiffCompression) throws Exception
     {
-        //ExStart
+        //ExStart:TiffImageCompression
+        //GistId:0e50f625c0e76c25844c7e77ffa31057
         //ExFor:TiffCompression
         //ExFor:ImageSaveOptions.TiffCompression
         //ExSummary:Shows how to select the compression scheme to apply to a document that we convert into a TIFF image.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertImage(getImageDir() + "Logo.jpg");
+        builder.insertImage(getImageDir() + "Tagged Image File Format.tiff");
 
         // Create an "ImageSaveOptions" object which we can pass to the document's "Save" method
         // to modify the way in which that method renders the document into an image.
@@ -587,7 +588,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         options.setTiffCompression(tiffCompression);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.TiffImageCompression.tiff", options);
-        //ExEnd
+        //ExEnd:TiffImageCompression
 
         long testedImageLength = new FileInfo(getArtifactsDir() + "ImageSaveOptions.TiffImageCompression.tiff").getLength();
 
@@ -597,16 +598,16 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
                 Assert.That(testedImageLength, Is.LessThan(3450000));
                 break;
             case TiffCompression.RLE:
-                Assert.That(testedImageLength, Is.LessThan(687000));
+                Assert.That(testedImageLength, Is.LessThan(780200));
                 break;
             case TiffCompression.LZW:
-                Assert.That(testedImageLength, Is.LessThan(250000));
+                Assert.That(testedImageLength, Is.LessThan(548500));
                 break;
             case TiffCompression.CCITT_3:
-                Assert.That(testedImageLength, Is.LessThan(8300));
+                Assert.That(testedImageLength, Is.LessThan(10100));
                 break;
-            case TiffCompression.CCITT_4:
-                Assert.That(testedImageLength, Is.LessThan(1700));
+            case TiffCompression.CCITT_4:                    
+                Assert.That(testedImageLength, Is.LessThan(5000));
                 break;
         }            
     }

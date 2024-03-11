@@ -188,7 +188,7 @@ public class ExReportingEngine extends ApiExampleBase
         mainTemplate.save(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDynamically.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileMultipleInsertionsDocumentDynamically.docx", getGoldsDir() + "ReportingEngine.RestartingListNumberingDynamicallyWhileInsertingDocumentDynamically Gold.docx"));
-     }
+    }
 
     @Test
     public void chartTest() throws Exception
@@ -1302,9 +1302,9 @@ public class ExReportingEngine extends ApiExampleBase
 
         NumericTestClass testData = new NumericTestBuilder().withValues(1234, 5621718.589).build();
 
-        ReportingEngine engine = new ReportingEngine();
-        engine.getKnownTypes().add(NumericTestClass.class);
-        engine.buildReport(doc, testData, "ds");            
+        ReportingEngine report = new ReportingEngine();
+        report.getKnownTypes().add(NumericTestClass.class);
+        report.buildReport(doc, testData, "ds");
 
         doc.save(getArtifactsDir() + "ReportingEngine.DollarTextFormat.docx");
         //ExEnd:DollarTextFormat
@@ -1326,7 +1326,7 @@ public class ExReportingEngine extends ApiExampleBase
         // Note, that you can't set restricted types during or after building a report.
         ReportingEngine.setRestrictedTypes(Class.class);
         // We set "AllowMissingMembers" option to avoid exceptions during building a report.
-        ReportingEngine engine = new ReportingEngine(); { engine.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); }            
+        ReportingEngine engine = new ReportingEngine(); { engine.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); }
         engine.buildReport(doc, new Object());
 
         // We get an empty string because we can't access the GetType() method.

@@ -48,6 +48,8 @@ import com.aspose.words.TextBoxWrapMode;
 import com.aspose.words.TextBox;
 import com.aspose.words.EditorType;
 import com.aspose.words.EditableRange;
+import com.aspose.ms.System.Text.Encoding;
+import com.aspose.ms.System.IO.StreamReader;
 
 
 class TestUtil extends ApiExampleBase
@@ -91,7 +93,17 @@ class TestUtil extends ApiExampleBase
         finally { if (bitmap != null) bitmap.close(); }
 
         Assert.fail($"The image from \"{filename}\" does not contain any transparency.");
-    }private VerifyWebResponseStatusCodeverifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
+    }
+
+    /// <summary>
+    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
+    /// </summary>
+    /// <remarks>
+    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
+    /// </remarks>
+    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
+    /// <param name="webAddress">URL where the request will be sent.</param>
+     static async System.Threading.Tasks.Task private VerifyWebResponseStatusCodeverifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
     {
         var myClient = new System.Net.Http.HttpClient();
         var response = await myClient.GetAsync(webAddress);
@@ -594,6 +606,20 @@ class TestUtil extends ApiExampleBase
             Assert.assertEquals(expectedEditorUser, editableRange.getSingleUser());
             Assert.assertEquals(expectedEditorGroup, editableRange.getEditorGroup());
         });
+    }
+
+    /// <summary>
+    /// Get File's Encoding.
+    /// </summary>
+    static Encoding getEncoding(String filename) throws Exception
+    {
+        StreamReader streamReader = new StreamReader(filename, true);
+        try /*JAVA: was using*/
+        {
+            streamReader.read();
+            return streamReader.getCurrentEncoding();
+        }
+        finally { if (streamReader != null) streamReader.close(); }
     }
 }
 
