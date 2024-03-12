@@ -178,9 +178,8 @@ public class RenderingShapes extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "Rendering.docx");
         
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-
         //ExStart:RenderShapeImage
-        shape.getShapeRenderer().save(getArtifactsDir() + "RenderShape.RenderShapeImage.jpg", null);
+        shape.getShapeRenderer().save(getArtifactsDir() + "RenderShape.RenderShapeImage.jpg", new ImageSaveOptions(SaveFormat.JPEG));
         //ExEnd:RenderShapeImage
     }
 

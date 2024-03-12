@@ -2725,4 +2725,81 @@ public class ExDocument extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Document.SetJustificationMode.docx");
         //ExEnd
     }
+
+    @Test (dataProvider = "saveDocumentToStreamDataProvider")
+    public void saveDocumentToStream(int saveFormat) throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.writeln("Lorem ipsum");
+
+        try (ByteArrayOutputStream stream = new ByteArrayOutputStream())
+        {
+            if (saveFormat == SaveFormat.HTML_FIXED)
+            {
+                HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
+                saveOptions.setExportEmbeddedCss(true);
+                saveOptions.setExportEmbeddedFonts(true);
+                saveOptions.setSaveFormat(saveFormat);
+
+                doc.save(stream, saveOptions);
+            }
+            else if (saveFormat == SaveFormat.XAML_FIXED)
+            {
+                XamlFixedSaveOptions saveOptions = new XamlFixedSaveOptions();
+                saveOptions.setResourcesFolder(getArtifactsDir());
+                saveOptions.setSaveFormat(saveFormat);
+
+                doc.save(stream, saveOptions);
+            }
+            else
+                doc.save(stream, saveFormat);
+        }
+    }
+
+    @DataProvider(name = "saveDocumentToStreamDataProvider")
+    public static Object[][] saveDocumentToStreamDataProvider() {
+        return new Object[][]
+                {
+                        {SaveFormat.DOC},
+                        {SaveFormat.DOT},
+                        {SaveFormat.DOCX},
+                        {SaveFormat.DOCM},
+                        {SaveFormat.DOTX},
+                        {SaveFormat.DOTM},
+                        {SaveFormat.FLAT_OPC},
+                        {SaveFormat.FLAT_OPC_MACRO_ENABLED},
+                        {SaveFormat.FLAT_OPC_TEMPLATE},
+                        {SaveFormat.FLAT_OPC_TEMPLATE_MACRO_ENABLED},
+                        {SaveFormat.RTF},
+                        {SaveFormat.WORD_ML},
+                        {SaveFormat.PDF},
+                        {SaveFormat.XPS},
+                        {SaveFormat.XAML_FIXED},
+                        {SaveFormat.SVG},
+                        {SaveFormat.HTML_FIXED},
+                        {SaveFormat.OPEN_XPS},
+                        {SaveFormat.PS},
+                        {SaveFormat.PCL},
+                        {SaveFormat.HTML},
+                        {SaveFormat.MHTML},
+                        {SaveFormat.EPUB},
+                        {SaveFormat.AZW_3},
+                        {SaveFormat.MOBI},
+                        {SaveFormat.ODT},
+                        {SaveFormat.OTT},
+                        {SaveFormat.TEXT},
+                        {SaveFormat.XAML_FLOW},
+                        {SaveFormat.XAML_FLOW_PACK},
+                        {SaveFormat.MARKDOWN},
+                        {SaveFormat.XLSX},
+                        {SaveFormat.TIFF},
+                        {SaveFormat.PNG},
+                        {SaveFormat.BMP},
+                        {SaveFormat.EMF},
+                        {SaveFormat.JPEG},
+                        {SaveFormat.GIF},
+                        {SaveFormat.EPS},
+                };
+    }
 }
