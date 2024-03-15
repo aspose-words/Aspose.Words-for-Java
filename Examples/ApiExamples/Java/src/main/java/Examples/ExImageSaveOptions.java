@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -524,7 +524,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
     @Test(dataProvider = "tiffImageCompressionDataProvider")
     public void tiffImageCompression(int tiffCompression) throws Exception {
         //ExStart:TiffImageCompression
-        //GistId:0e50f625c0e76c25844c7e77ffa31057
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:TiffCompression
         //ExFor:ImageSaveOptions.TiffCompression
         //ExSummary:Shows how to select the compression scheme to apply to a document that we convert into a TIFF image.
