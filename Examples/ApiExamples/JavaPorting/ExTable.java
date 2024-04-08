@@ -124,7 +124,7 @@ public class ExTable extends ApiExampleBase
         builder.insertCell();
         builder.write("Row 1, cell 2.");
         builder.endTable();
-        
+
         // For every cell in the table, set the distance between its contents and each of its borders. 
         // This table will maintain the minimum padding distance by wrapping text.
         table.setLeftPadding(30.0);
@@ -483,7 +483,7 @@ public class ExTable extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Table.SetBorders.docx");
         table = doc.getFirstSection().getBody().getTables().get(0);
-        
+
         Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getTop().getColor().getRGB());
         Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getLeft().getColor().getRGB());
         Assert.assertEquals(msColor.getGreen().getRGB(), table.getFirstRow().getRowFormat().getBorders().getRight().getColor().getRGB());
@@ -563,13 +563,13 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(17.3d, table.getDistanceLeft());
         Assert.assertEquals(17.3d, table.getDistanceRight());
 
-        // Set distance between table and surrounding text.                        
+        // Set distance between table and surrounding text.
         table.setDistanceLeft(24.0);
         table.setDistanceRight(24.0);
         table.setDistanceTop(3.0);
         table.setDistanceBottom(3.0);
 
-        doc.save(getArtifactsDir() + "Table.DistanceBetweenTableAndText.docx");            
+        doc.save(getArtifactsDir() + "Table.DistanceBetweenTableAndText.docx");
         //ExEnd
     }
 
@@ -706,7 +706,7 @@ public class ExTable extends ApiExampleBase
         // Print the plain text range of the table to the screen.
         System.out.println("Contents of the table: ");
         System.out.println(table.getRange().getText());
-        
+
         // Print the contents of the second row to the screen.
         System.out.println("\nContents of the row: ");
         System.out.println(table.getRows().get(1).getRange().getText());
@@ -714,7 +714,7 @@ public class ExTable extends ApiExampleBase
         // Print the contents of the last cell in the table to the screen.
         System.out.println("\nContents of the cell: ");
         System.out.println(table.getLastRow().getLastCell().getRange().getText());
-        
+
         Assert.assertEquals("\u0007Column 1\u0007Column 2\u0007Column 3\u0007Column 4\u0007\u0007", table.getRows().get(1).getRange().getText());
         Assert.assertEquals("Cell 12 contents\u0007", table.getLastRow().getLastCell().getRange().getText());
     }
@@ -735,13 +735,13 @@ public class ExTable extends ApiExampleBase
         table.getParentNode().insertAfter(new Paragraph(doc), table);
 
         doc.save(getArtifactsDir() + "Table.CloneTable.doc");
-        
+
         Assert.assertEquals(3, doc.getChildNodes(NodeType.TABLE, true).getCount());
         Assert.assertEquals(table.getRange().getText(), tableClone.getRange().getText());
 
         for (Cell cell : tableClone.getChildNodes(NodeType.CELL, true).<Cell>OfType() !!Autoporter error: Undefined expression type )
             cell.removeAllChildren();
-        
+
         Assert.assertEquals("", tableClone.toString(SaveFormat.TEXT).trim());
     }
 

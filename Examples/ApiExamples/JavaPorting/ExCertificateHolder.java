@@ -15,7 +15,6 @@ import com.aspose.words.CertificateHolder;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import org.bouncycastle.jcajce.provider.keystore.pkcs12.PKCS12KeyStoreSpi;
-import java.util.Iterator;
 import com.aspose.ms.System.msConsole;
 
 
@@ -46,17 +45,13 @@ public class ExCertificateHolder extends ApiExampleBase
         {
             PKCS12KeyStoreSpi.BCPKCS12KeyStore pkcs12Store = new Pkcs12StoreBuilder().Build();
             pkcs12Store.load(certStream, "aw".toCharArray());
-            Iterator enumerator = pkcs12Store.getAliases().iterator();
-
-            while (enumerator.hasNext())
+            for (String currentAlias : (Iterable<String>) pkcs12Store.getAliases())
             {
-                if (enumerator.next() != null)
+                if ((currentAlias != null) &&
+                    (pkcs12Store.isKeyEntry(currentAlias) &&
+                     pkcs12Store.getKey(currentAlias).Key.isPrivate()))
                 {
-                    String currentAlias = enumerator.next().toString();
-                    if (pkcs12Store.isKeyEntry(currentAlias) && pkcs12Store.getKey(currentAlias).Key.isPrivate())
-                    {
-                        System.out.println("Valid alias found: {enumerator.Current}");
-                    }
+                    System.out.println("Valid alias found: {currentAlias}");
                 }
             }
         }

@@ -137,7 +137,6 @@ public class ExNode extends ApiExampleBase
         //ExFor:CompositeNode
         //ExFor:CompositeNode.GetChild
         //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
-        //ExFor:CompositeNode.GetEnumerator
         //ExFor:NodeCollection.Count
         //ExFor:NodeCollection.Item
         //ExSummary:Shows how to traverse through a composite node's collection of child nodes.
@@ -514,7 +513,7 @@ public class ExNode extends ApiExampleBase
         //ExSummary:Shows how to use "hot remove" to remove a node during enumeration.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         builder.writeln("The first paragraph");
         builder.writeln("The second paragraph");
         builder.writeln("The third paragraph");
@@ -524,7 +523,7 @@ public class ExNode extends ApiExampleBase
         for (Paragraph para : doc.getFirstSection().getBody().getParagraphs().toArray())
             if (para.getRange().getText().contains("third"))
                 para.remove();
-        
+
         Assert.assertFalse(doc.getText().contains("The third paragraph"));
         //ExEnd
     }

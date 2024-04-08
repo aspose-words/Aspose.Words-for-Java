@@ -10,7 +10,8 @@ import com.aspose.words.Document;
 import org.testng.Assert;
 
 
-class ExMarkdownLoadOptions extends ApiExampleBase
+@Test
+public class ExMarkdownLoadOptions extends ApiExampleBase
 {
     @Test
     public void preserveEmptyLines() throws Exception

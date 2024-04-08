@@ -202,6 +202,12 @@ public class ExDocumentBase extends ApiExampleBase
         {
             doc.setBackgroundShape(new Shape(doc, ShapeType.TRIANGLE));
         });
+    }
+
+    @Test
+    public void usePdfDocumentForBackgroundShape() throws Exception
+    {
+        backgroundShape();
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "DocumentBase.BackgroundShape.Image.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
@@ -239,7 +245,7 @@ public class ExDocumentBase extends ApiExampleBase
         Assert.assertEquals(3, doc.getChildNodes(NodeType.SHAPE, true).getCount());
 
         doc.save(getArtifactsDir() + "DocumentBase.ResourceLoadingCallback.docx");
-        Task.WhenAll(testResourceLoadingCallback(new Document(getArtifactsDir() + "DocumentBase.ResourceLoadingCallback.docx"))); //ExSkip
+        testResourceLoadingCallback(new Document(getArtifactsDir() + "DocumentBase.ResourceLoadingCallback.docx")); //ExSkip
     }
 
     /// <summary>
@@ -278,15 +284,16 @@ public class ExDocumentBase extends ApiExampleBase
 
             return ResourceLoadingAction.DEFAULT;
         }
-    }private TestResourceLoadingCallbacktestResourceLoadingCallback(Document doc) throws Exception
+    }
+    //ExEnd
+
+    private void testResourceLoadingCallback(Document doc) throws Exception
     {
         for (Shape shape : (Iterable<Shape>) doc.getChildNodes(NodeType.SHAPE, true))
         {
             Assert.assertTrue(shape.hasImage());
             msAssert.isNotEmpty(shape.getImageData().getImageBytes());
         }
-
-        await TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, "http://www.google.com/images/logos/ps_logo2.png");
     }
 
 	//JAVA-added for string switch emulation

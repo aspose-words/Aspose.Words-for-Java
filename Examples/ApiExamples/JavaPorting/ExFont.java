@@ -203,9 +203,9 @@ public class ExFont extends ApiExampleBase
         long testedFileLength = new FileInfo(getArtifactsDir() + "Font.FontInfoCollection.docx").getLength();
 
         if (embedAllFonts)
-            Assert.That(testedFileLength, Is.LessThan(28000));
+            Assert.assertTrue(testedFileLength < 28000);
         else
-            Assert.That(testedFileLength, Is.LessThan(13000));
+            Assert.assertTrue(testedFileLength < 13000);
     }
 
 	//JAVA-added data provider for test method
@@ -761,7 +761,7 @@ public class ExFont extends ApiExampleBase
         // is to apply a background shading effect.
         Shading shading = builder.getFont().getShading();
         shading.setTexture(TextureIndex.TEXTURE_DIAGONAL_UP);
-        shading.setBackgroundPatternColor(Color.OrangeRed);
+        shading.setBackgroundPatternColor(msColor.getOrangeRed());
         shading.setForegroundPatternColor(msColor.getDarkBlue());
 
         builder.writeln("White text on an orange background with a two-tone texture.");
@@ -776,7 +776,7 @@ public class ExFont extends ApiExampleBase
         Assert.assertEquals(Color.WHITE.getRGB(), run.getFont().getColor().getRGB());
 
         Assert.assertEquals(TextureIndex.TEXTURE_DIAGONAL_UP, run.getFont().getShading().getTexture());
-        Assert.assertEquals(Color.OrangeRed.getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
+        Assert.assertEquals(msColor.getOrangeRed().getRGB(), run.getFont().getShading().getBackgroundPatternColor().getRGB());
         Assert.assertEquals(msColor.getDarkBlue().getRGB(), run.getFont().getShading().getForegroundPatternColor().getRGB());
     }
 
@@ -1518,7 +1518,7 @@ public class ExFont extends ApiExampleBase
         //ExEnd
     }
 
-    @Test (groups = "SkipGitHub")        
+    @Test (groups = "SkipGitHub")
     public void checkScanUserFontsFolder() throws Exception
     {
         String userProfile = Environment.getFolderPath(Environment.SpecialFolder.USER_PROFILE);
@@ -1585,7 +1585,7 @@ public class ExFont extends ApiExampleBase
         //ExFor:ThemeColor
         //ExSummary:Shows how to work with theme fonts and colors.
         Document doc = new Document();
-        
+
         // Define fonts for languages uses by default.
         doc.getTheme().getMinorFonts().setLatin("Algerian");
         doc.getTheme().getMinorFonts().setEastAsian("Aharoni");
@@ -1597,10 +1597,10 @@ public class ExFont extends ApiExampleBase
         // We can use theme font and color instead of default values.
         font.setThemeFont(ThemeFont.MINOR);
         font.setThemeColor(ThemeColor.ACCENT_2);
-        
+
         Assert.assertEquals(ThemeFont.MINOR, font.getThemeFont());
         Assert.assertEquals("Algerian", font.getName());
-        
+
         Assert.assertEquals(ThemeFont.MINOR, font.getThemeFontAscii());
         Assert.assertEquals("Algerian", font.getNameAscii());
 
@@ -1675,7 +1675,7 @@ public class ExFont extends ApiExampleBase
         //ExSummary:Shows how to create and use themed style.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         builder.writeln();
 
         // Create some style with theme font properties.
@@ -1687,7 +1687,7 @@ public class ExFont extends ApiExampleBase
         builder.getParagraphFormat().setStyleName("ThemedStyle");
         builder.writeln("Text with themed style");
         //ExEnd
-        
+
         Run run = (Run)((Paragraph)builder.getCurrentParagraph().getPreviousSibling()).getFirstChild();
 
         Assert.assertEquals(ThemeFont.MAJOR, run.getFont().getThemeFont());

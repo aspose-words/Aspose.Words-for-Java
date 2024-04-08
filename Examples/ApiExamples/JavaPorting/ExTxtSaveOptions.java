@@ -364,14 +364,14 @@ public class ExTxtSaveOptions extends ApiExampleBase
         // Create a "TxtSaveOptions" object, which we can pass to the document's "Save" method
         // to modify how we save the document to plaintext.
         TxtSaveOptions txtSaveOptions = new TxtSaveOptions();
-        
+
         // Verify that the "Encoding" property contains the appropriate encoding for our document's contents.
         Assert.assertEquals(com.aspose.ms.System.Text.Encoding.getUTF8(), txtSaveOptions.getEncodingInternal());
 
         doc.save(getArtifactsDir() + "TxtSaveOptions.Encoding.UTF8.txt", txtSaveOptions);
 
         String docText = com.aspose.ms.System.Text.Encoding.getUTF8().getString(File.readAllBytes(getArtifactsDir() + "TxtSaveOptions.Encoding.UTF8.txt"));
-        
+
         Assert.assertEquals("\uFEFFÀ È Ì Ò Ù.\r\n", docText);
 
         // Using an unsuitable encoding may result in a loss of document contents.

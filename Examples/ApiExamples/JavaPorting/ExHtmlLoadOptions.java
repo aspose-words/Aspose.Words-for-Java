@@ -196,7 +196,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
 
         Document doc = new Document(outputFileName, loadOptions);
 
-        Assert.assertEquals("Test encrypted document.", doc.getText().trim());       
+        Assert.assertEquals("Test encrypted document.", doc.getText().trim());
         //ExEnd
     }
 
@@ -237,7 +237,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         //ExStart
         //ExFor:HtmlLoadOptions.PreferredControlType
         //ExSummary:Shows how to set preferred type of document nodes that will represent imported <input> and <select> elements.
-        final String HTML = "\n                <html>\n                    <select name='ComboBox' size='1'>\n                        <option value='val1'>item1</option>\n                        <option value='val2'></option>                        \n                    </select>\n                </html>\n            ";
+        final String HTML = "\n                <html>\n                    <select name='ComboBox' size='1'>\n                        <option value='val1'>item1</option>\n                        <option value='val2'></option>\n                    </select>\n                </html>\n            ";
 
         HtmlLoadOptions htmlLoadOptions = new HtmlLoadOptions();
         htmlLoadOptions.setPreferredControlType(HtmlControlType.STRUCTURED_DOCUMENT_TAG);
@@ -286,6 +286,23 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         Document doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(HTML)), htmlLoadOptions);
         doc.save(getArtifactsDir() + "HtmlLoadOptions.IgnoreNoscriptElements.pdf");
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "ignoreNoscriptElementsDataProvider")
+	public static Object[][] ignoreNoscriptElementsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{true},
+			{false},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForIgnoreNoscriptElementsDataProvider")
+    public void usePdfDocumentForIgnoreNoscriptElements(boolean ignoreNoscriptElements) throws Exception
+    {
+        ignoreNoscriptElements(ignoreNoscriptElements);
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "HtmlLoadOptions.IgnoreNoscriptElements.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
@@ -295,8 +312,8 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "ignoreNoscriptElementsDataProvider")
-	public static Object[][] ignoreNoscriptElementsDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForIgnoreNoscriptElementsDataProvider")
+	public static Object[][] usePdfDocumentForIgnoreNoscriptElementsDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -318,7 +335,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
         HtmlLoadOptions loadOptions = new HtmlLoadOptions();
         // Set the new mode of import HTML block-level elements.
         loadOptions.setBlockImportMode(blockImportMode);
-                    
+
         Document doc = new Document(stream, loadOptions);
         doc.save(getArtifactsDir() + "HtmlLoadOptions.BlockImport.docx");
         //ExEnd
@@ -334,4 +351,19 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
 			{BlockImportMode.MERGE},
 		};
 	}
+
+    @Test
+    public void fontFaceRules() throws Exception
+    {
+        //ExStart:FontFaceRules
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:HtmlLoadOptions.SupportFontFaceRules
+        //ExSummary:Shows how to load declared "@font-face" rules.
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions();
+        loadOptions.setSupportFontFaceRules(true);
+        Document doc = new Document(getMyDir() + "Html with FontFace.html", loadOptions);
+
+        Assert.assertEquals("Squarish Sans CT Regular", doc.getFontInfos().get(0).getName());
+        //ExEnd:FontFaceRules
+    }
 }

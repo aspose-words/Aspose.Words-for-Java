@@ -147,35 +147,35 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
                 dirFiles = Directory.getFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png",
                     SearchOption.ALL_DIRECTORIES);
-                Assert.That(dirFiles, Is.Empty);
+                Assert.assertEquals(0, dirFiles.length);
                 return;
 
             case SaveFormat.EPUB:
 
                 dirFiles = Directory.getFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png",
                     SearchOption.ALL_DIRECTORIES);
-                Assert.That(dirFiles, Is.Empty);
+                Assert.assertEquals(0, dirFiles.length);
                 return;
 
             case SaveFormat.MHTML:
 
                 dirFiles = Directory.getFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png",
                     SearchOption.ALL_DIRECTORIES);
-                Assert.That(dirFiles, Is.Empty);
+                Assert.assertEquals(0, dirFiles.length);
                 return;
 
             case SaveFormat.AZW_3:
 
                 dirFiles = Directory.getFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png",
                     SearchOption.ALL_DIRECTORIES);
-                Assert.That(dirFiles, Is.Empty);
+                Assert.assertEquals(0, dirFiles.length);
                 return;
 
             case SaveFormat.MOBI:
 
                 dirFiles = Directory.getFiles(getArtifactsDir(), "HtmlSaveOptions.ExportTextBoxAsSvgEpub.001.png",
                     SearchOption.ALL_DIRECTORIES);
-                Assert.That(dirFiles, Is.Empty);
+                Assert.assertEquals(0, dirFiles.length);
                 return;
         }
     }
@@ -295,7 +295,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     {
         Document doc = new Document(getMyDir() + "TextBoxes.docx");
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setExportRoundtripInformation(true); }
-        
+
         doc.save(getArtifactsDir() + "HtmlSaveOptions.RoundtripInformation.html", saveOptions);
     }
 
@@ -357,7 +357,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         }
 
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ConvertFontsAsBase64.html", saveOptions);
-	}
+    }
 
     @Test (dataProvider = "html5SupportDataProvider")
     public void html5Support(/*HtmlVersion*/int htmlVersion) throws Exception
@@ -384,9 +384,9 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void exportFonts(boolean exportAsBase64) throws Exception
     {
         String fontsFolder = getArtifactsDir() + "HtmlSaveOptions.ExportFonts.Resources";
-        
+
         Document doc = new Document(getMyDir() + "Document.docx");
-        
+
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         {
             saveOptions.setExportFontResources(true);
@@ -450,7 +450,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     public void resourceFolderLowPriority() throws Exception
     {
         Document doc = new Document(getMyDir() + "Rendering.docx");
-        
+
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
         {
             saveOptions.setCssStyleSheetType(CssStyleSheetType.EXTERNAL);
@@ -482,8 +482,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         builder.insertHtml(
             "<svg height='210' width='500'>\n                    <polygon points='100,10 40,198 190,78 10,78 160,198' \n                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />\n                  </svg> ");
 
-        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.SvgMetafileFormat.html",
-            new HtmlSaveOptions(); { .setMetafileFormat(HtmlMetafileFormat.PNG); });
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.PNG); }
+        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.SvgMetafileFormat.html", saveOptions);
     }
 
     @Test
@@ -495,8 +495,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         builder.insertHtml(
             "<svg height='210' width='500'>\n                    <polygon points='100,10 40,198 190,78 10,78 160,198' \n                        style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />\n                  </svg> ");
 
-        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.PngMetafileFormat.html",
-            new HtmlSaveOptions(); { .setMetafileFormat(HtmlMetafileFormat.PNG); });
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.PNG); }
+        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.PngMetafileFormat.html", saveOptions);
     }
 
     @Test
@@ -508,8 +508,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         builder.insertHtml(
             "<img src=\"data:image/png;base64,\n                    iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP\n                    C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA\n                    AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J\n                    REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq\n                    ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0\n                    vr4MkhoXe0rZigAAAABJRU5ErkJggg==\" alt=\"Red dot\" />");
 
-        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.EmfOrWmfMetafileFormat.html",
-            new HtmlSaveOptions(); { .setMetafileFormat(HtmlMetafileFormat.EMF_OR_WMF); });
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.EMF_OR_WMF); }
+        builder.getDocument().save(getArtifactsDir() + "HtmlSaveOptions.EmfOrWmfMetafileFormat.html", saveOptions);
     }
 
     @Test
@@ -600,7 +600,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         }
 
         doc.setFontSettings(fontSettings);
-        
+
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(SaveFormat.HTML);
         {
             // By default, this option is set to 'False' and Aspose.Words writes font names as specified in the source document
@@ -663,7 +663,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             options.setDocumentSplitCriteria(DocumentSplitCriteria.HEADING_PARAGRAPH);
             options.setDocumentSplitHeadingLevel(2);
         }
-        
+
         // Our document has four headings of levels 1 - 2. One of those headings will not be
         // a split point since it is at the beginning of the document.
         // The saving operation will split our document at three places, into four smaller documents.
@@ -1280,7 +1280,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         //ExSummary:Shows how to configure list exporting to HTML.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         List list = doc.getLists().add(ListTemplate.NUMBER_DEFAULT);
         builder.getListFormat().setList(list);
         
@@ -1652,15 +1652,15 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         {
             Assert.assertTrue(outDocContents.contains("<div style=\"-aw-headerfooter-type:header-primary; clear:both\">"));
             Assert.assertTrue(outDocContents.contains("<span style=\"-aw-import:ignore\">&#xa0;</span>"));
-            
+
             Assert.assertTrue(outDocContents.contains(
                 "td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
                 "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top; " +
                 "-aw-border-bottom:0.5pt single; -aw-border-left:0.5pt single; -aw-border-top:0.5pt single\">"));
-            
+
             Assert.assertTrue(outDocContents.contains(
                 "<li style=\"margin-left:30.2pt; padding-left:5.8pt; -aw-font-family:'Courier New'; -aw-font-weight:normal; -aw-number-format:'o'\">"));
-            
+
             Assert.assertTrue(outDocContents.contains(
                 "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"350\" height=\"180\" alt=\"\" " +
                 "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />"));
@@ -1680,14 +1680,14 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         {
             Assert.assertTrue(outDocContents.contains("<div style=\"clear:both\">"));
             Assert.assertTrue(outDocContents.contains("<span>&#xa0;</span>"));
-            
+
             Assert.assertTrue(outDocContents.contains(
                 "<td colspan=\"2\" style=\"width:210.6pt; border-style:solid; border-width:0.75pt 6pt 0.75pt 0.75pt; " +
                 "padding-right:2.4pt; padding-left:5.03pt; vertical-align:top\">"));
             
             Assert.assertTrue(outDocContents.contains(
                 "<li style=\"margin-left:30.2pt; padding-left:5.8pt\">"));
-            
+
             Assert.assertTrue(outDocContents.contains(
                 "<img src=\"HtmlSaveOptions.RoundTripInformation.003.jpeg\" width=\"350\" height=\"180\" alt=\"\" />"));
 
@@ -2011,9 +2011,9 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         long testedImageLength = new FileInfo(getArtifactsDir() + "HtmlSaveOptions.ScaleImageToShapeSize.001.png").getLength();
 
         if (scaleImageToShapeSize)
-            Assert.That(testedImageLength, Is.LessThan(3000));
+            Assert.assertTrue(testedImageLength < 3000);
         else
-            Assert.That(testedImageLength, Is.LessThan(16000));
+            Assert.assertTrue(testedImageLength < 16000);
         
     }
 
@@ -2077,7 +2077,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         // to customize the image saving process.
         HtmlSaveOptions options = new HtmlSaveOptions();
         options.setImageSavingCallback(new ImageShapePrinter());
-       
+
         doc.save(getArtifactsDir() + "HtmlSaveOptions.ImageSavingCallback.html", options);
     }
 

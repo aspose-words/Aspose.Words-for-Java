@@ -39,7 +39,7 @@ public class ExMetered extends ApiExampleBase
         // Create a new Metered license, and then print its usage statistics.
         Metered metered = new Metered();
         metered.setMeteredKey("MyPublicKey", "MyPrivateKey");
-        
+
         System.out.println("Credit before operation: {Metered.GetConsumptionCredit()}");
         System.out.println("Consumption quantity before operation: {Metered.GetConsumptionQuantity()}");
 

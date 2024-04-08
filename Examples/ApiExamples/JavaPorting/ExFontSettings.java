@@ -142,7 +142,7 @@ public class ExFontSettings extends ApiExampleBase
         // Even though the document was rendered previously, any save warnings are notified to the user during document save
         doc.save(getArtifactsDir() + "FontSettings.UpdatePageLayoutWarnings.pdf");
 
-        Assert.That(callback.FontWarnings.getCount(), Is.GreaterThan(0));
+        Assert.assertTrue(callback.FontWarnings.getCount() > 0);
         Assert.assertTrue(callback.FontWarnings.get(0).getWarningType() == WarningType.FONT_SUBSTITUTION);
         Assert.assertTrue(callback.FontWarnings.get(0).getDescription().contains("has not been found"));
 
@@ -310,7 +310,7 @@ public class ExFontSettings extends ApiExampleBase
 
         substitutionWarningHandler.FontWarnings.clear();
 
-        Assert.That(substitutionWarningHandler.FontWarnings, Is.Empty);
+        Assert.assertEquals(0, substitutionWarningHandler.FontWarnings.getCount());
     }
 
     public static class HandleDocumentSubstitutionWarnings implements IWarningCallback
@@ -366,7 +366,6 @@ public class ExFontSettings extends ApiExampleBase
             if (match.getSuccess())
             {
                 Assert.Pass();
-                break;
             }
         }
     }
@@ -618,7 +617,7 @@ public class ExFontSettings extends ApiExampleBase
     public void addFontSource() throws Exception
     {
         //ExStart
-        //ExFor:FontSettings            
+        //ExFor:FontSettings
         //ExFor:FontSettings.GetFontsSources()
         //ExFor:FontSettings.SetFontsSources(FontSourceBase[])
         //ExSummary:Shows how to add a font source to our existing font sources.
@@ -933,8 +932,8 @@ public class ExFontSettings extends ApiExampleBase
         Assert.assertEquals("Arial Unicode MS", rules.item(5).getAttributes().getNamedItem("FallbackFonts").getNodeValue());
     }
 
-    [Test]
-    public async Task private LoadNotoFontsFallbackSettingsloadNotoFontsFallbackSettings() throws Exception
+    @Test
+    public void loadNotoFontsFallbackSettings() throws Exception
     {
         //ExStart
         //ExFor:FontFallbackSettings.LoadNotoFallbackSettings
@@ -956,8 +955,6 @@ public class ExFontSettings extends ApiExampleBase
         Document doc = new Document();
         doc.setFontSettings(fontSettings);
         //ExEnd
-
-        await TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, "https://www.google.com/get/noto/#sans-lgc");
     }
 
     @Test
@@ -1274,7 +1271,7 @@ public class ExFontSettings extends ApiExampleBase
         Assert.AreEqual(new String[] {"Arvo", "M+ 2m"}, tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
 
         // SetSubstitutes() can set a new list of substitute fonts for a font.
-        tableSubstitutionRule.setSubstitutes("Times New Roman", new String[] {"Squarish Sans CT", "M+ 2m"});
+        tableSubstitutionRule.setSubstitutes("Times New Roman", "Squarish Sans CT", "M+ 2m");
         Assert.AreEqual(new String[] {"Squarish Sans CT", "M+ 2m"},
             tableSubstitutionRule.getSubstitutes("Times New Roman").ToArray());
 
@@ -1304,7 +1301,7 @@ public class ExFontSettings extends ApiExampleBase
         // this rule will substitute the unavailable font with one that does exist.
         // In this case, all uses of the "MissingFont" will convert to "Comic Sans MS".
         TableSubstitutionRule substitutionRule = loadOptions.getFontSettings().getSubstitutionSettings().getTableSubstitution();
-        substitutionRule.addSubstitutes("MissingFont", new String[] {"Comic Sans MS"});
+        substitutionRule.addSubstitutes("MissingFont", "Comic Sans MS");
 
         Document doc = new Document(getMyDir() + "Missing font.html", loadOptions);
 
@@ -1373,7 +1370,7 @@ public class ExFontSettings extends ApiExampleBase
             parsedFonts.saveSearchCacheInternal(cacheStream);
             loadedCache.setFontsSourcesInternal(new FontSourceBase[]
             {
-                new SearchCacheStream(CACHE_KEY_1),                    
+                new SearchCacheStream(CACHE_KEY_1),
                 new MemoryFontSource(File.readAllBytes(getFontsDir() + "Arvo-Bold.ttf"), 0, CACHE_KEY_2)
             }, cacheStream);
         }

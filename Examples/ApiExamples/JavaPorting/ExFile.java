@@ -20,10 +20,10 @@ import com.aspose.words.LoadFormat;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.OdtSaveOptions;
 import com.aspose.words.CertificateHolder;
-import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.words.SignOptions;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
+import com.aspose.words.DigitalSignatureUtil;
 import com.aspose.ms.System.IO.FileStream;
 import java.io.FileInputStream;
 import com.aspose.ms.System.IO.File;
@@ -141,7 +141,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:FileFormatInfo.IsEncrypted
         //ExSummary:Shows how to use the FileFormatUtil class to detect the document format and encryption.
         Document doc = new Document();
-        
+
         // Configure a SaveOptions object to encrypt the document
         // with a password when we save it, and then save the document.
         OdtSaveOptions saveOptions = new OdtSaveOptions(SaveFormat.ODT);
@@ -173,8 +173,9 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         Assert.assertFalse(info.hasDigitalSignature());
 
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw", null);
+        SignOptions signOptions = new SignOptions(); { signOptions.setSignTime(new Date()); }
         DigitalSignatureUtil.sign(getMyDir() + "Document.docx", getArtifactsDir() + "File.DetectDigitalSignatures.docx",
-            certificateHolder, new SignOptions(); { .setSignTime(new Date()); });
+            certificateHolder, signOptions);
 
         // Use a new FileFormatInstance to confirm that it is signed.
         info = FileFormatUtil.detectFileFormat(getArtifactsDir() + "File.DetectDigitalSignatures.docx");
@@ -256,7 +257,7 @@ class ExFile !Test class should be public in Java to run, please fix .Net source
         //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
         //ExSummary:Shows how to extract images from a document, and save them to the local file system as individual files.
         Document doc = new Document(getMyDir() + "Images.docx");
-        
+
         // Get the collection of shapes from the document,
         // and save the image data of every shape with an image as a file to the local file system.
         NodeCollection shapes = doc.getChildNodes(NodeType.SHAPE, true);

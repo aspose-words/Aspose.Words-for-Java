@@ -74,7 +74,7 @@ public class ExThemes extends ApiExampleBase
         colors.setDark2(Color.Indigo);
         colors.setLight2(Color.Khaki);
 
-        colors.setAccent1(Color.OrangeRed);
+        colors.setAccent1(msColor.getOrangeRed());
         colors.setAccent2(Color.LightSalmon);
         colors.setAccent3(Color.YELLOW);
         colors.setAccent4(msColor.getGold());
@@ -90,7 +90,7 @@ public class ExThemes extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Themes.CustomColorsAndFonts.docx");
 
-        Assert.assertEquals(Color.OrangeRed.getRGB(), doc.getTheme().getColors().getAccent1().getRGB());
+        Assert.assertEquals(msColor.getOrangeRed().getRGB(), doc.getTheme().getColors().getAccent1().getRGB());
         Assert.assertEquals(Color.MidnightBlue.getRGB(), doc.getTheme().getColors().getDark1().getRGB());
         Assert.assertEquals(msColor.getGray().getRGB(), doc.getTheme().getColors().getFollowedHyperlink().getRGB());
         Assert.assertEquals(Color.BLACK.getRGB(), doc.getTheme().getColors().getHyperlink().getRGB());

@@ -85,7 +85,13 @@ public class ExBookmarksOutlineLevelCollection extends ApiExampleBase
         // Emptying this collection will preserve the bookmarks and put them all on the same outline level.
         outlineLevels.clear();
         //ExEnd
-        
+    }
+
+    @Test
+    public void usePdfBookmarkEditorForBookmarkLevels() throws Exception
+    {
+        bookmarkLevels();
+
         PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
         bookmarkEditor.BindPdf(getArtifactsDir() + "BookmarksOutlineLevelCollection.BookmarkLevels.pdf");
 
@@ -94,7 +100,7 @@ public class ExBookmarksOutlineLevelCollection extends ApiExampleBase
         Assert.AreEqual(3, bookmarks.Count);
         Assert.AreEqual("Bookmark 1", bookmarks[0].Title);
         Assert.AreEqual("Bookmark 2", bookmarks[1].Title);
-        Assert.AreEqual("Bookmark 3", bookmarks[2].Title);            
+        Assert.AreEqual("Bookmark 3", bookmarks[2].Title);
     }
 }
 

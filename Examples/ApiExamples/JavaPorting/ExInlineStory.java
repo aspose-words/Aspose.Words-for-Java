@@ -580,7 +580,7 @@ public class ExInlineStory extends ApiExampleBase
         table.ensureMinimum();
 
         // We can place a table inside a footnote, which will make it appear at the referencing page's footer.
-        Assert.That(footnote.getTables(), Is.Empty);
+        Assert.assertEquals(0, footnote.getTables().getCount());
         footnote.appendChild(table);
         Assert.assertEquals(1, footnote.getTables().getCount());
         Assert.assertEquals(NodeType.TABLE, footnote.getLastChild().getNodeType());
@@ -621,7 +621,7 @@ public class ExInlineStory extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "InlineStory.InsertInlineStoryNodes.docx");
         //ExEnd
-        
+
         doc = new Document(getArtifactsDir() + "InlineStory.InsertInlineStoryNodes.docx");
 
         footnote = (Footnote)doc.getChild(NodeType.FOOTNOTE, 0, true);

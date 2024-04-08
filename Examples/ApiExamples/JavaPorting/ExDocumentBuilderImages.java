@@ -387,7 +387,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Shape gifImage = builder.insertImage(getImageDir() + "Graphics Interchange Format.gif");
 
         gifImage = builder.insertImage(File.readAllBytes(getImageDir() + "Graphics Interchange Format.gif"));
-        
+
         builder.getDocument().save(getArtifactsDir() + "InsertGif.docx");
         //ExEnd
     }

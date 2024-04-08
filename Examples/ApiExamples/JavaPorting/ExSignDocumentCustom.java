@@ -142,7 +142,7 @@ public class ExSignDocumentCustom extends ApiExampleBase
                 imageToByteArray(signImagePath)));                
         }
     }
-    
+
     private static ArrayList<ExSignDocumentCustom.Signee> mSignees;
     //ExEnd
 }

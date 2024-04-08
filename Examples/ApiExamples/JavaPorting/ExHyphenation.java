@@ -45,7 +45,7 @@ public class ExHyphenation extends ApiExampleBase
         Hyphenation.registerDictionary("de-CH", getMyDir() + "hyph_de_CH.dic");
 
         Assert.assertTrue(Hyphenation.isDictionaryRegistered("de-CH"));
-        
+
         // Open a document containing text with a locale matching that of our dictionary,
         // and save it to a fixed-page save format. The text in that document will be hyphenated.
         Document doc = new Document(getMyDir() + "German text.docx");
@@ -64,6 +64,12 @@ public class ExHyphenation extends ApiExampleBase
         doc = new Document(getMyDir() + "German text.docx");
         doc.save(getArtifactsDir() + "Hyphenation.Dictionary.Unregistered.pdf");
         //ExEnd
+    }
+
+    @Test
+    public void usePdfDocumentForDictionary() throws Exception
+    {
+        dictionary();
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "Hyphenation.Dictionary.Registered.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
@@ -120,6 +126,10 @@ public class ExHyphenation extends ApiExampleBase
         Assert.assertEquals(WarningSource.LAYOUT, warningInfoCollection.get(0).getSource());
         Assert.assertEquals("Hyphenation dictionary contains duplicate patterns. The only first found pattern will be used. " +
                         "Content can be wrapped differently.", warningInfoCollection.get(0).getDescription());
+
+        Hyphenation.setWarningCallback(null); //ExSkip
+        Hyphenation.unregisterDictionary("en-US"); //ExSkip
+        Hyphenation.setCallback(null); //ExSkip
     }
 
     /// <summary>

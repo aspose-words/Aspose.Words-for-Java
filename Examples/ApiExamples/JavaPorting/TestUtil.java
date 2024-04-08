@@ -29,6 +29,7 @@ import com.aspose.words.FieldType;
 import com.aspose.words.Field;
 import com.aspose.ms.System.DateTime;
 import com.aspose.ms.System.TimeSpan;
+import java.util.Date;
 import com.aspose.words.CompositeNode;
 import com.aspose.words.NodeType;
 import com.aspose.words.ImageType;
@@ -103,7 +104,7 @@ class TestUtil extends ApiExampleBase
     /// </remarks>
     /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
     /// <param name="webAddress">URL where the request will be sent.</param>
-     static async System.Threading.Tasks.Task private VerifyWebResponseStatusCodeverifyWebResponseStatusCode(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
+     static async System.Threading.Tasks.Task private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
     {
         var myClient = new System.Net.Http.HttpClient();
         var response = await myClient.GetAsync(webAddress);
@@ -392,16 +393,22 @@ class TestUtil extends ApiExampleBase
     {
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(expectedType, field.Type);
-            Assert.AreEqual(expectedFieldCode, field.GetFieldCode(true));
-            referenceToDateTime.set(DateTime);
-            Assert.True(DateTime.TryParse(field.Result, /*out*/ referenceToDateTime actual));
-            DateTime = referenceToDateTime.get();
+            Assert.assertEquals(expectedType, field.getType());
+            Assert.assertEquals(expectedFieldCode, field.getFieldCode(true));
+            DateTime actual = new Date();
+            try
+            {
+                actual = DateTime.parse(field.getResult());
+            }
+            catch (Exception e)
+            {
+                Assert.fail();
+            }
 
-            if (field.Type == FieldType.FieldTime)
-                VerifyDate(expectedResult, actual, delta);
+            if (field.getType() == FieldType.FIELD_TIME)
+                verifyDate(expectedResult, actual, delta);
             else
-                VerifyDate(expectedResult.Date, actual, delta);
+                verifyDate(expectedResult.getDate(), actual, delta);
         });
     }
 

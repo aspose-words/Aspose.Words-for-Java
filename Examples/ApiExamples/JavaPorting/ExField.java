@@ -239,7 +239,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" DATE  \\@ \"dddd, MMMM dd, yyyy\"", field.getFieldCode());
 
         // Update the field to show the current date.
-        field.update();         
+        field.update();
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
@@ -292,7 +292,7 @@ public class ExField extends ApiExampleBase
         //ExSummary:Shows how to get the real text that a field displays in the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         builder.write("This document was written by ");
         FieldAuthor fieldAuthor = (FieldAuthor)builder.insertField(FieldType.FIELD_AUTHOR, true);
         fieldAuthor.setAuthorName("John Doe");
@@ -539,7 +539,7 @@ public class ExField extends ApiExampleBase
             LoadOptions options = new LoadOptions();
             options.setUpdateDirtyFields(updateDirtyFields);
             doc = new Document(docStream, options);
-            
+
             Assert.assertEquals("John & Jane Doe", doc.getBuiltInDocumentProperties().getAuthor());
 
             field = (FieldAuthor)doc.getRange().getFields().get(0);
@@ -585,9 +585,9 @@ public class ExField extends ApiExampleBase
 
         FieldBuilder fieldBuilder = new FieldBuilder(FieldType.FIELD_INCLUDE_TEXT);
 
-        Assert.That(
+        Assert.<IllegalArgumentException>Throws(
             () => fieldBuilder.addArgument(argumentBuilder).addArgument("=").addArgument("BestField")
-                .addArgument(10).addArgument(20.0).buildAndInsert(run), Throws.<IllegalArgumentException>TypeOf());
+                .addArgument(10).addArgument(20.0).buildAndInsert(run));
     }
 
     @Test
@@ -697,7 +697,7 @@ public class ExField extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Field.DATABASE.docx");
 
         Assert.assertEquals(2, doc.getRange().getFields().getCount());
-        
+
         Table table = doc.getFirstSection().getBody().getTables().get(0);
 
         Assert.assertEquals(77, table.getRows().getCount());
@@ -1091,7 +1091,7 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_ASK, 
             " ASK  MyAskField \"Please provide a response for this ASK field\" \\d \"Response from within the field.\" \\o", 
             "Response from MyPromptRespondent. Response from within the field.", fieldAsk);
-        
+
         Assert.assertEquals("MyAskField", fieldAsk.getBookmarkName());
         Assert.assertEquals("Please provide a response for this ASK field", fieldAsk.getPromptText());
         Assert.assertEquals("Response from within the field.", fieldAsk.getDefaultResponse());
@@ -1130,7 +1130,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" ADVANCE  \\r 5 \\u 5", field.getFieldCode());
 
         builder.write("This text will be moved up and to the right.");
-        
+
         field = (FieldAdvance)builder.insertField(FieldType.FIELD_ADVANCE, true);
         field.setDownOffset("5");
         field.setLeftOffset("100");
@@ -1639,7 +1639,7 @@ public class ExField extends ApiExampleBase
         for (FieldAutoNumLgl field : doc.getRange().getFields().Where(f => f.Type == FieldType.FieldAutoNumLegal) !!Autoporter error: Undefined expression type )
         {
             TestUtil.verifyField(FieldType.FIELD_AUTO_NUM_LEGAL, " AUTONUMLGL  \\s : \\e", "", field);
-            
+
             Assert.assertEquals(":", field.getSeparatorCharacter());
             Assert.assertTrue(field.getRemoveTrailingPeriod());
         }
@@ -1720,20 +1720,20 @@ public class ExField extends ApiExampleBase
         fieldAutoText.setEntryName("MyBlock");
 
         Assert.assertEquals(" AUTOTEXT  MyBlock", fieldAutoText.getFieldCode());
-        
+
         // 2 -  Using a GLOSSARY field:
         FieldGlossary fieldGlossary = (FieldGlossary)builder.insertField(FieldType.FIELD_GLOSSARY, true);
         fieldGlossary.setEntryName("MyBlock");
 
         Assert.assertEquals(" GLOSSARY  MyBlock", fieldGlossary.getFieldCode());
 
-		doc.updateFields();
+        doc.updateFields();
         doc.save(getArtifactsDir() + "Field.AUTOTEXT.GLOSSARY.dotx");
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Field.AUTOTEXT.GLOSSARY.dotx");
-        
-        Assert.That(doc.getFieldOptions().getBuiltInTemplatesPaths(), Is.Empty);
+
+        Assert.assertEquals(0, doc.getFieldOptions().getBuiltInTemplatesPaths().length);
 
         fieldAutoText = (FieldAutoText)doc.getRange().getFields().get(0);
 
@@ -1878,7 +1878,7 @@ public class ExField extends ApiExampleBase
 
         doc.getMailMerge().execute(table);
 
-        Assert.That(doc.getRange().getFields(), Is.Empty);
+        Assert.assertEquals(0, doc.getRange().getFields().getCount());
         Assert.assertEquals("Dear Mr. Doe,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
                         "\fDear Mrs. Cardholder,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!\r" +
                         "\fDear Sir or Madam,\r\r\tThis is your custom greeting, created programmatically using Aspose Words!",
@@ -2044,7 +2044,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("Dear Mr. Doe:\fDear Mrs. Cardholder:", doc.getText().trim());
         //ExEnd
 
-        Assert.That(doc.getRange().getFields(), Is.Empty);
+        Assert.assertEquals(0, doc.getRange().getFields().getCount());
     }
 
     //ExStart
@@ -2203,7 +2203,7 @@ public class ExField extends ApiExampleBase
 
         // This entry will be omitted from the table because it has an entry-level outside of the 1-3 range.
         insertTocEntry(builder, "TC field 4", "A", "5");
-        
+
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.TC.docx");
         testFieldTocEntryIdentifier(doc); //ExSkip
@@ -2493,7 +2493,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("MySequence", fieldSeq.getSequenceIdentifier());
     }
 
-    @Test        
+    @Test
     public void tocSeqBookmark() throws Exception
     {
         //ExStart
@@ -2585,7 +2585,7 @@ public class ExField extends ApiExampleBase
 
         TestUtil.verifyField(FieldType.FIELD_PAGE_REF, $" PAGEREF {pageRefIds[0]} \\h ", "2", fieldPageRef);
         Assert.assertEquals(pageRefIds[0], fieldPageRef.getBookmarkName());
-        
+
         fieldPageRef = (FieldPageRef)doc.getRange().getFields().get(2);
 
         TestUtil.verifyField(FieldType.FIELD_PAGE_REF, $" PAGEREF {pageRefIds[1]} \\h ", "2", fieldPageRef);
@@ -2618,9 +2618,9 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("MySequence", fieldSeq.getSequenceIdentifier());
     }
 
-    @Test        
+    @Test
     public void fieldCitation() throws Exception
-    {            
+    {
         msCultureInfo oldCulture = CurrentThread.getCurrentCulture();
         CurrentThread.setCurrentCulture(new msCultureInfo("en-nz", false));
 
@@ -2755,7 +2755,7 @@ public class ExField extends ApiExampleBase
 
         CurrentThread.setCurrentCulture(oldCulture); //ExSkip
     }
-    
+
     public static class BibliographyStylesProvider implements IBibliographyStylesProvider
     {
         public Stream /*IBibliographyStylesProvider.*/getStyle(String styleFileName) throws Exception
@@ -2777,7 +2777,7 @@ public class ExField extends ApiExampleBase
         FieldData field = (FieldData)builder.insertField(FieldType.FIELD_DATA, true);
         Assert.assertEquals(" DATA ", field.getFieldCode());
         //ExEnd
-        
+
         TestUtil.verifyField(FieldType.FIELD_DATA, " DATA ", "", DocumentHelper.saveOpen(doc).getRange().getFields().get(0));
     }
 
@@ -2873,7 +2873,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(getImageDir() + "Transparent background logo.png", fieldImport.getSourceFullName());
         Assert.assertEquals("PNG32", fieldImport.getGraphicFilter());
         Assert.assertTrue(fieldImport.isLinked());
-        
+
         doc = new Document(getArtifactsDir() + "Field.IMPORT.INCLUDEPICTURE.docx");
 
         // The INCLUDEPICTURE fields have been converted into shapes with linked images during loading.
@@ -2905,7 +2905,7 @@ public class ExField extends ApiExampleBase
     //ExFor:FieldIncludeText.XPath
     //ExFor:FieldIncludeText.XslTransformation
     //ExSummary:Shows how to create an INCLUDETEXT field, and set its properties.
-    @Test //ExSkip        
+    @Test //ExSkip
     public void fieldIncludeText() throws Exception
     {
         Document doc = new Document();
@@ -3079,7 +3079,7 @@ public class ExField extends ApiExampleBase
     }
 
     //ExStart
-    //ExFor:MergeFieldImageDimension        
+    //ExFor:MergeFieldImageDimension
     //ExFor:MergeFieldImageDimension.#ctor(Double)
     //ExFor:MergeFieldImageDimension.#ctor(Double,MergeFieldImageDimensionUnit)
     //ExFor:MergeFieldImageDimension.Unit
@@ -3109,7 +3109,7 @@ public class ExField extends ApiExampleBase
         dataTable.getRows().add(getImageDir() + "Logo.jpg");
         dataTable.getRows().add(getImageDir() + "Transparent background logo.png");
         dataTable.getRows().add(getImageDir() + "Enhanced Windows MetaFile.emf");
-        
+
         // Configure a callback to modify the sizes of images at merge time, then execute the mail merge.
         doc.getMailMerge().setFieldMergingCallback(new MergedImageResizer(200.0, 200.0, MergeFieldImageDimensionUnit.POINT));
         doc.getMailMerge().execute(dataTable);
@@ -3266,7 +3266,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(300.0d, shape.getHeight(), 1.0);
     }
 
-    @Test        
+    @Test
     public void fieldIndexFilter() throws Exception
     {
         //ExStart
@@ -3354,7 +3354,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("A", indexEntry.getEntryType());
     }
 
-    @Test        
+    @Test
     public void fieldIndexFormatting() throws Exception
     {
         //ExStart
@@ -3431,7 +3431,7 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INDEX.XE.Formatting.docx");
         //ExEnd
-        
+
         doc = new Document(getArtifactsDir() + "Field.INDEX.XE.Formatting.docx");
         index = (FieldIndex)doc.getRange().getFields().get(0);
 
@@ -3492,7 +3492,7 @@ public class ExField extends ApiExampleBase
         Assert.assertFalse(indexEntry.isItalic());
     }
 
-    @Test        
+    @Test
     public void fieldIndexSequence() throws Exception
     {
         //ExStart
@@ -3582,7 +3582,7 @@ public class ExField extends ApiExampleBase
         Assert.AreEqual(3, doc.getRange().getFields().Where(f => f.Type == FieldType.FieldSequence).Count());
     }
 
-    @Test        
+    @Test
     public void fieldIndexPageNumberSeparator() throws Exception
     {
         //ExStart
@@ -3605,7 +3605,7 @@ public class ExField extends ApiExampleBase
         // We can set custom separators to customize the appearance of these page numbers.
         index.setPageNumberSeparator(", on page(s) ");
         index.setPageNumberListSeparator(" & ");
-        
+
         Assert.assertEquals(" INDEX  \\e \", on page(s) \" \\l \" & \"", index.getFieldCode());
         Assert.assertTrue(index.hasPageNumberSeparator());
 
@@ -3638,7 +3638,7 @@ public class ExField extends ApiExampleBase
         Assert.assertTrue(index.hasPageNumberSeparator());
     }
 
-    @Test        
+    @Test
     public void fieldIndexPageRangeBookmark() throws Exception
     {
         //ExStart
@@ -3704,7 +3704,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("MyBookmark", indexEntry.getPageRangeBookmarkName());
     }
 
-    @Test        
+    @Test
     public void fieldIndexCrossReferenceSeparator() throws Exception
     {
         //ExStart
@@ -3752,7 +3752,7 @@ public class ExField extends ApiExampleBase
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INDEX.XE.CrossReferenceSeparator.docx");
         //ExEnd
-        
+
         doc = new Document(getArtifactsDir() + "Field.INDEX.XE.CrossReferenceSeparator.docx");
         index = (FieldIndex)doc.getRange().getFields().get(0);
 
@@ -3803,7 +3803,7 @@ public class ExField extends ApiExampleBase
         // We can set the RunSubentriesOnSameLine flag to true to keep the heading,
         // and every subheading for the group on one line instead, which will make the INDEX field more compact.
         index.setRunSubentriesOnSameLine(runSubentriesOnTheSameLine);
-        
+
         if (runSubentriesOnTheSameLine)
             Assert.assertEquals(" INDEX  \\e \", see page \" \\h A \\r", index.getFieldCode());
         else
@@ -3930,7 +3930,7 @@ public class ExField extends ApiExampleBase
         doc.save(getArtifactsDir() + "Field.INDEX.XE.Yomi.docx");
         //ExEnd
 
-        doc = new Document(getArtifactsDir() + "Field.INDEX.XE.Yomi.docx");            
+        doc = new Document(getArtifactsDir() + "Field.INDEX.XE.Yomi.docx");
         index = (FieldIndex)doc.getRange().getFields().get(0);
 
         if (sortEntriesUsingYomi)
@@ -4687,7 +4687,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals(" USERADDRESS ", fieldUserAddress.getFieldCode());
         Assert.assertEquals("123 Main Street", fieldUserAddress.getResult());
 
-        // We can set this property to get our field to override the value currently stored in the UserInformation object. 
+        // We can set this property to get our field to override the value currently stored in the UserInformation object.
         fieldUserAddress.setUserAddress("456 North Road");
         fieldUserAddress.update();
 
@@ -5091,7 +5091,7 @@ public class ExField extends ApiExampleBase
         // The SAVEDATE fields draw their date/time values from the LastSavedTime built-in property.
         // The document's Save method will not update this value, but we can still update it manually.
         doc.getBuiltInDocumentProperties().setLastSavedTimeInternal(new Date());
-        
+
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.SAVEDATE.docx");
         //ExEnd
@@ -5248,7 +5248,7 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_FORMULA, " = 2.5 * 5.2 ", "13", doc.getRange().getFields().get(8));
         TestUtil.fieldsAreNested(doc.getRange().getFields().get(8), doc.getRange().getFields().get(3));
     }
-    
+
     @Test
     public void fieldAuthor() throws Exception
     {
@@ -5283,12 +5283,12 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("Joe Bloggs", doc.getBuiltInDocumentProperties().getAuthor());
 
         // Changing this property, then updating the AUTHOR field will apply this value to the field.
-        doc.getBuiltInDocumentProperties().setAuthor("John Doe");      
+        doc.getBuiltInDocumentProperties().setAuthor("John Doe");
         field.update();
 
         Assert.assertEquals(" AUTHOR ", field.getFieldCode());
         Assert.assertEquals("John Doe", field.getResult());
-        
+
         // If we update an AUTHOR field after changing its "Name" property,
         // then the field will display the new name and apply the new name to the built-in property.
         field.setAuthorName("Jane Doe");
@@ -5341,7 +5341,7 @@ public class ExField extends ApiExampleBase
 
         // 2 -  Display a custom document variable:
         // Define a custom variable, then reference that variable with a DOCPROPERTY field.
-        Assert.That(doc.getVariables(), Is.Empty);
+        Assert.assertEquals(0, doc.getVariables().getCount());
         doc.getVariables().add("My variable", "My variable's value");
 
         FieldDocVariable fieldDocVariable = (FieldDocVariable)builder.insertField(FieldType.FIELD_DOC_VARIABLE, true);
@@ -5453,14 +5453,14 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_COMMENTS, " COMMENTS  \"My overriding comment.\"", "My overriding comment.", field);
         Assert.assertEquals("My overriding comment.", field.getText());
     }
-    
+
     @Test
     public void fieldFileSize() throws Exception
     {
         //ExStart
         //ExFor:FieldFileSize
         //ExFor:FieldFileSize.IsInKilobytes
-        //ExFor:FieldFileSize.IsInMegabytes            
+        //ExFor:FieldFileSize.IsInMegabytes
         //ExSummary:Shows how to display the file size of a document with a FILESIZE field.
         Document doc = new Document(getMyDir() + "Document.docx");
 
@@ -5558,7 +5558,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("My Button", field.getDisplayText());
         Assert.assertEquals("MyBookmark", field.getLocation());
     }
-    
+
     @Test
     //ExStart
     //ExFor:FieldFillIn
@@ -5585,12 +5585,12 @@ public class ExField extends ApiExampleBase
 
         FieldMergeField mergeField = (FieldMergeField)builder.insertField(FieldType.FIELD_MERGE_FIELD, true);
         mergeField.setFieldName("MergeField");
-        
+
         // If we perform a mail merge programmatically, we can use a custom prompt respondent
         // to automatically edit responses for FILLIN fields that the mail merge encounters.
         doc.getFieldOptions().setUserPromptRespondent(new PromptRespondent());
         doc.getMailMerge().execute(new String[] { "MergeField" }, new Object[] { "" });
-        
+
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.FILLIN.docx");
         testFieldFillIn(new Document(getArtifactsDir() + "Field.FILLIN.docx")); //ExSKip
@@ -5847,7 +5847,7 @@ public class ExField extends ApiExampleBase
         field.setPrinterInstructions("erasepage");
 
         Assert.assertEquals(" PRINT  erasepage \\p para", field.getFieldCode());
-        
+
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.PRINT.docx");
         //ExEnd
@@ -6052,7 +6052,7 @@ public class ExField extends ApiExampleBase
     //ExFor:FieldNoteRef.InsertReferenceMark
     //ExFor:FieldNoteRef.InsertRelativePosition
     //ExSummary:Shows to insert NOTEREF fields, and modify their appearance.
-    @Test //ExSkip        
+    @Test //ExSkip
     public void fieldNoteRef() throws Exception
     {
         Document doc = new Document();
@@ -6098,10 +6098,10 @@ public class ExField extends ApiExampleBase
         field.setInsertRelativePosition(insertRelativePosition);
         field.setInsertReferenceMark(insertReferenceMark);
         builder.writeln();
-        
+
         return field;
     }
-    
+
     /// <summary>
     /// Uses a document builder to insert a named bookmark with a footnote at the end.
     /// </summary>
@@ -6142,7 +6142,7 @@ public class ExField extends ApiExampleBase
         Assert.assertTrue(field.getInsertReferenceMark());
     }
 
-    @Test        
+    @Test
     public void noteRef() throws Exception
     {
         //ExStart
@@ -6164,9 +6164,9 @@ public class ExField extends ApiExampleBase
         builder.write("Hello world!");
         builder.insertFootnote(FootnoteType.FOOTNOTE, "Cross referenced footnote.");
         builder.endBookmark("CrossRefBookmark");
-        builder.writeln();            
+        builder.writeln();
 
-        doc.updateFields();           
+        doc.updateFields();
 
         // This field works only in older versions of Microsoft Word.
         doc.save(getArtifactsDir() + "Field.NOTEREF.doc");
@@ -6186,11 +6186,11 @@ public class ExField extends ApiExampleBase
     //ExFor:FieldPageRef.InsertHyperlink
     //ExFor:FieldPageRef.InsertRelativePosition
     //ExSummary:Shows to insert PAGEREF fields to display the relative location of bookmarks.
-    @Test //ExSkip        
+    @Test //ExSkip
     public void fieldPageRef() throws Exception
     {
         Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);            
+        DocumentBuilder builder = new DocumentBuilder(doc);
 
         insertAndNameBookmark(builder, "MyBookmark1");
 
@@ -6235,7 +6235,7 @@ public class ExField extends ApiExampleBase
         field.setInsertHyperlink(insertHyperlink);
         field.setInsertRelativePosition(insertRelativePosition);
         builder.writeln();
-      
+
         return field;
     }
 
@@ -6458,7 +6458,7 @@ public class ExField extends ApiExampleBase
         refDocBuilder.getCurrentParagraph().getParagraphFormat().setStyleName("Heading 1");
         refDocBuilder.writeln("TOC entry from referenced document");
         referencedDoc.save(getArtifactsDir() + "ReferencedDocument.docx");
-        
+
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.RD.docx");
         //ExEnd
@@ -6492,7 +6492,7 @@ public class ExField extends ApiExampleBase
         //ExSummary:Shows how to skip pages in a mail merge using the SKIPIF field.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // Insert a SKIPIF field. If the current row of a mail merge operation fulfills the condition
         // which the expressions of this field state, then the mail merge operation aborts the current row,
         // discards the current merge document, and then immediately moves to the next row to begin the next merge document.
@@ -6514,7 +6514,7 @@ public class ExField extends ApiExampleBase
         fieldMergeField = (FieldMergeField)builder.insertField(FieldType.FIELD_MERGE_FIELD, true);
         fieldMergeField.setFieldName("Name");
         builder.writeln(", ");
-        
+
         // This table has three rows, and one of them fulfills the condition of our SKIPIF field. 
         // The mail merge will produce two pages.
         DataTable table = new DataTable("Employees");
@@ -6534,7 +6534,7 @@ public class ExField extends ApiExampleBase
         Assert.assertEquals("Dear John Doe, \r" +
                         "\fDear Jane Doe, \r\f", doc.getText());
     }
-  
+
     @Test
     public void fieldSetRef() throws Exception
     {
@@ -6991,7 +6991,7 @@ public class ExField extends ApiExampleBase
         builder.write("You've been editing this document for ");
         FieldEditTime field = (FieldEditTime)builder.insertField(FieldType.FIELD_EDIT_TIME, true);
         builder.writeln(" minutes.");
-        
+
         // This built in document property tracks the minutes. Microsoft Word uses this property
         // to track the time spent with the document open. We can also edit it ourselves.
         doc.getBuiltInDocumentProperties().setTotalEditingTime(10);
@@ -7075,7 +7075,7 @@ public class ExField extends ApiExampleBase
         insertFieldEQ(builder, "\\i \\in( tan x, \\s \\up2(sec x), \\b(\\r(3) )\\s \\up4(t) \\s \\up7(2)  dt)");
 
         doc.save(getArtifactsDir() + "Field.EQ.docx");
-        Task.WhenAll(testFieldEQ(new Document(getArtifactsDir() + "Field.EQ.docx"))); //ExSkip
+        testFieldEQ(new Document(getArtifactsDir() + "Field.EQ.docx")); //ExSkip
     }
 
     /// <summary>
@@ -7087,10 +7087,13 @@ public class ExField extends ApiExampleBase
         builder.moveTo(field.getSeparator());
         builder.write(args);
         builder.moveTo(field.getStart().getParentNode());
-        
+
         builder.insertParagraph();
         return field;
-    }private TestFieldEQtestFieldEQ(Document doc)
+    }
+    //ExEnd
+
+    private void testFieldEQ(Document doc)
     {
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\f(1,4)", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\al \\co2 \\vs3 \\hs3(4x,- 4y,-4x,+ y)", "", doc.getRange().getFields().get(1));
@@ -7105,7 +7108,6 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\a \\ac \\vs1 \\co1(lim,n→∞) \\b (\\f(n,n2 + 12) + \\f(n,n2 + 22) + ... + \\f(n,n2 + n2))", "", doc.getRange().getFields().get(10));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\i (,,  \\b(\\f(x,x2 + 3x + 2))) \\s \\up10(2)", "", doc.getRange().getFields().get(11));
         TestUtil.verifyField(FieldType.FIELD_EQUATION, " EQ \\i \\in( tan x, \\s \\up2(sec x), \\b(\\r(3) )\\s \\up4(t) \\s \\up7(2)  dt)", "", doc.getRange().getFields().get(12));
-        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, "https://blogs.msdn.microsoft.com/murrays/2018/01/23/microsoft-word-eq-field/");
     }
 
     @Test
@@ -7207,7 +7209,7 @@ public class ExField extends ApiExampleBase
         TestUtil.verifyField(FieldType.FIELD_LAST_SAVED_BY, " LASTSAVEDBY ", "John Doe", doc.getRange().getFields().get(0));
     }
 
-    @Test        
+    @Test
     public void fieldMergeRec() throws Exception
     {
         //ExStart
@@ -7254,11 +7256,11 @@ public class ExField extends ApiExampleBase
         // On page 2, the MERGEREC field will display "3" and the MERGESEQ field will display "2".
         DataTable table = new DataTable("Employees");
         table.getColumns().add("Name");
-        table.getRows().add(new String[] { "Jane Doe" });
-        table.getRows().add(new String[] { "John Doe" });
-        table.getRows().add(new String[] { "Joe Bloggs" });
+        table.getRows().add("Jane Doe");
+        table.getRows().add("John Doe");
+        table.getRows().add("Joe Bloggs");
 
-        doc.getMailMerge().execute(table);            
+        doc.getMailMerge().execute(table);
         doc.save(getArtifactsDir() + "Field.MERGEREC.MERGESEQ.docx");
         //ExEnd
 
@@ -7810,7 +7812,7 @@ public class ExField extends ApiExampleBase
 
         Assert.assertTrue(callback.getFieldUpdatedCalls().contains("Updating John Doe"));
     }
-    
+
     /// <summary>
     /// Implement this interface if you want to have your own custom methods called during a field update.
     /// </summary>
@@ -7889,5 +7891,4 @@ public class ExField extends ApiExampleBase
         //ExEnd:BibliographySources
     }
 }
-
 

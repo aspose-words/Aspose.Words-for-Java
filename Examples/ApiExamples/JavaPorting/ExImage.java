@@ -226,7 +226,10 @@ public class ExImage extends ApiExampleBase
         Assert.assertEquals(125.0d, shape.getWidth());
         Assert.assertEquals(shape.getTop() + shape.getHeight(), shape.getBottom());
         Assert.assertEquals(shape.getLeft() + shape.getWidth(), shape.getRight());
-    }private InsertImageWithHyperlinkinsertImageWithHyperlink() throws Exception
+    }
+
+    @Test
+    public void insertImageWithHyperlink() throws Exception
     {
         //ExStart
         //ExFor:ShapeBase.HRef
@@ -245,12 +248,12 @@ public class ExImage extends ApiExampleBase
         // and take us to the hyperlink in the "HRef" property.
         doc.save(getArtifactsDir() + "Image.InsertImageWithHyperlink.docx");
         //ExEnd
-        
+
         doc = new Document(getArtifactsDir() + "Image.InsertImageWithHyperlink.docx");
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
-        _TestUtil.VerifyImageInShape(400, 400, ImageType.JPEG, shape);
+        Assert.assertEquals("https://forum.aspose.com/", shape.getHRef());
+        TestUtil.verifyImageInShape(400, 400, ImageType.JPEG, shape);
         Assert.assertEquals("New Window", shape.getTarget());
         Assert.assertEquals("Aspose.Words Support Forums", shape.getScreenTip());
     }
@@ -427,4 +430,33 @@ public class ExImage extends ApiExampleBase
         Assert.assertEquals(300.0d, imageSize.getHeightPoints());
     }
 
+    @Test
+    public void insertWebpImage() throws Exception
+    {
+        //ExStart:InsertWebpImage
+        //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:DocumentBuilder.InsertImage(String)
+        //ExSummary:Shows how to insert WebP image.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        
+        builder.insertImage(getImageDir() + "WebP image.webp");
+
+        doc.save(getArtifactsDir() + "Image.InsertWebpImage.docx");
+        //ExEnd:InsertWebpImage
+    }
+
+    @Test
+    public void readWebpImage() throws Exception
+    {
+        //ExStart:ReadWebpImage
+        //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:ImageType
+        //ExSummary:Shows how to read WebP image.
+        Document doc = new Document(getMyDir() + "Document with WebP image.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Assert.assertEquals(ImageType.WEB_P, shape.getImageData().getImageType());
+        //ExEnd:ReadWebpImage
+    }
 }

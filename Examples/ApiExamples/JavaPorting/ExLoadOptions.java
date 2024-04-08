@@ -181,7 +181,7 @@ public class ExLoadOptions extends ApiExampleBase
         //ExSummary:Shows how to emulate the loading procedure of a specific Microsoft Word version during document loading.
         // By default, Aspose.Words load documents according to Microsoft Word 2019 specification.
         LoadOptions loadOptions = new LoadOptions();
-        
+
         Assert.assertEquals(MsWordVersion.WORD_2019, loadOptions.getMswVersion());
 
         // This document is missing the default paragraph formatting style.
@@ -268,7 +268,7 @@ public class ExLoadOptions extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.docx", options);
 
         // The folder will persist with no residual contents from the load operation.
-        Assert.That(Directory.getFiles(options.getTempFolder()), Is.Empty);
+        Assert.assertEquals(0, Directory.getFiles(options.getTempFolder()).length);
         //ExEnd
     }
 

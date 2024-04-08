@@ -252,7 +252,7 @@ public class ExReportingEngine extends ApiExampleBase
     public void conditionalExpressionForLeaveChartSeries() throws Exception
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
-        
+
         int condition = 3;
         buildReport(doc, new Object[] { Common.getManagers(), condition }, new String[] { "managers", "condition" });
 
@@ -265,7 +265,7 @@ public class ExReportingEngine extends ApiExampleBase
     public void conditionalExpressionForRemoveChartSeries() throws Exception
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
-        
+
         int condition = 2;
         buildReport(doc, new Object[] { Common.getManagers(), condition }, new String[] { "managers", "condition" });
 
@@ -472,9 +472,9 @@ public class ExReportingEngine extends ApiExampleBase
     {
         Document template =
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.Image]>>", ShapeType.TEXT_BOX);
-        
+
         ImageTestClass image = new ImageTestBuilder().withImage(mImage).build();
-                    
+
         buildReport(template, image, "src", ReportBuildOptions.NONE);
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
 
@@ -651,7 +651,7 @@ public class ExReportingEngine extends ApiExampleBase
         builder.writeln("<<[new DateTime()]:”dd.MM.yyyy”>>");
 
         ReportingEngine engine = new ReportingEngine();
-        Assert.That(() => engine.buildReport(doc, ""), Throws.<IllegalStateException>TypeOf());
+        Assert.<IllegalStateException>Throws(() => engine.buildReport(doc, ""));
     }
 
     @Test
@@ -868,8 +868,8 @@ public class ExReportingEngine extends ApiExampleBase
             new String[] { "<<[missingObject.First().id]>>", "<<foreach [in missingObject]>><<[id]>><</foreach>>" });
 
         // Assert that build report failed without "ReportBuildOptions.AllowMissingMembers".
-        Assert.That(() => buildReport(builder.getDocument(), new DataSet(), "", ReportBuildOptions.NONE),
-            Throws.<IllegalStateException>TypeOf());
+        Assert.<IllegalStateException>Throws(
+            () => buildReport(builder.getDocument(), new DataSet(), "", ReportBuildOptions.NONE));
     }
 
     @Test
@@ -893,10 +893,10 @@ public class ExReportingEngine extends ApiExampleBase
     {
         DocumentBuilder builder = new DocumentBuilder();
         DocumentHelper.insertBuilderText(builder, new String[] { templateText });
-        
+
         buildReport(builder.getDocument(), new DataSet(), "", ReportBuildOptions.INLINE_ERROR_MESSAGES);
 
-        Assert.That(msString.trimEnd(builder.getDocument().getFirstSection().getBody().getParagraphs().get(0).getText()), Is.EqualTo(result));
+        Assert.assertEquals(result, msString.trimEnd(builder.getDocument().getFirstSection().getBody().getParagraphs().get(0).getText()));
     }
 
 	//JAVA-added data provider for test method
@@ -986,7 +986,7 @@ public class ExReportingEngine extends ApiExampleBase
                                FileFormatUtil.saveFormatToExtension(SaveFormat.DOCX);
         String goldPath = getGoldsDir() + resultDocumentName + " Gold" +
                           FileFormatUtil.saveFormatToExtension(SaveFormat.DOCX);
-        
+
         Document doc = new Document(getMyDir() + "Reporting engine template - Merging table cells dynamically.docx");
 
         ArrayList<ClientTestClass> clients = new ArrayList<ClientTestClass>();
@@ -1087,7 +1087,7 @@ public class ExReportingEngine extends ApiExampleBase
 
         JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json", options);
         buildReport(doc, dataSource, "persons");
-        
+
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataString.docx",
@@ -1101,7 +1101,7 @@ public class ExReportingEngine extends ApiExampleBase
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         options.setSimpleValueParseMode(JsonSimpleValueParseMode.STRICT);
-        
+
         JsonDataSource dataSource = new JsonDataSource(getMyDir() + "List of people.json", options);
         Assert.<IllegalStateException>Throws(() => buildReport(doc, dataSource, "persons"));
     }
@@ -1137,7 +1137,7 @@ public class ExReportingEngine extends ApiExampleBase
 
         JsonDataSource dataSource = new JsonDataSource(getMyDir() + "Nested elements.json");
         buildReport(doc, dataSource, "managers");
-        
+
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.JsonDataWithNestedElements.docx",
@@ -1167,7 +1167,7 @@ public class ExReportingEngine extends ApiExampleBase
             DocumentBuilder builder = new DocumentBuilder();
             builder.write(TEMPLATE);
 
-            buildReport(builder.getDocument(), dataSource, "ds");                
+            buildReport(builder.getDocument(), dataSource, "ds");
 
             Assert.assertEquals(EXPECTED_RESULT + ControlChar.SECTION_BREAK, builder.getDocument().getText());
         }
@@ -1178,14 +1178,14 @@ public class ExReportingEngine extends ApiExampleBase
     public void csvDataString() throws Exception
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination.docx");
-        
+
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
         loadOptions.setCommentChar('$');
 
         CsvDataSource dataSource = new CsvDataSource(getMyDir() + "List of people.csv", loadOptions);
         buildReport(doc, dataSource, "persons");
-        
+
         doc.save(getArtifactsDir() + "ReportingEngine.CsvDataString.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataString.docx",
@@ -1196,7 +1196,7 @@ public class ExReportingEngine extends ApiExampleBase
     public void csvDataStream() throws Exception
     {
         Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination.docx");
-        
+
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
         loadOptions.setCommentChar('$');
@@ -1208,7 +1208,7 @@ public class ExReportingEngine extends ApiExampleBase
             buildReport(doc, dataSource, "persons");
         }
         finally { if (stream != null) stream.close(); }
-        
+
         doc.save(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx");
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx",

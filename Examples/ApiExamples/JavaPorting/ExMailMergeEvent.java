@@ -67,7 +67,7 @@ public class ExMailMergeEvent extends ApiExampleBase
         
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeFieldInsertHtml());
         doc.getMailMerge().execute(new String[] { "html_Title", "html_Body" }, mergeData);
-        
+
         doc.save(getArtifactsDir() + "MailMergeEvent.MergeHtml.docx");
     }
 

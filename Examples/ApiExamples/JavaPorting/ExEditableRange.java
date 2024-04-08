@@ -286,7 +286,7 @@ class ExEditableRange !Test class should be public in Java to run, please fix .N
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Assert that isn't valid structure for the current document.
-        Assert.That(() => builder.endEditableRange(), Throws.<IllegalStateException>TypeOf());
+        Assert.<IllegalStateException>Throws(() => builder.endEditableRange());
 
         builder.startEditableRange();
     }

@@ -229,7 +229,7 @@ public class ExPageSetup extends ApiExampleBase
         //ExSummary:Shows how to specify a for the number of characters that each line may have.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // Enable pitching, and then use it to set the number of characters per line in this section.
         builder.getPageSetup().setLayoutMode(SectionLayoutMode.GRID);
         builder.getPageSetup().setCharactersPerLine(10);
@@ -261,7 +261,7 @@ public class ExPageSetup extends ApiExampleBase
         //ExSummary:Shows how to specify a limit for the number of lines that each page may have.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // Enable pitching, and then use it to set the number of lines per page in this section.
         // A large enough font size will push some lines down onto the next page to avoid overlapping characters.
         builder.getPageSetup().setLayoutMode(SectionLayoutMode.LINE_GRID);
@@ -356,7 +356,7 @@ public class ExPageSetup extends ApiExampleBase
         // Find the default printer that we will use for printing this document.
         // You can define a specific printer using the "PrinterName" property of the PrinterSettings object.
         PrinterSettings settings = new PrinterSettings();
-        
+
         // The paper tray value stored in documents is printer specific.
         // This means the code below resets all page tray values to use the current printers default tray.
         // You can enumerate PrinterSettings.PaperSources to find the other valid paper tray values of the selected printer.
@@ -366,7 +366,7 @@ public class ExPageSetup extends ApiExampleBase
             section.getPageSetup().setOtherPagesTray(settings.getDefaultPageSettings().PaperSource.RawKind);
         }
         //ExEnd
-        
+
         for (Section section : DocumentHelper.saveOpen(doc).getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
         {
             Assert.assertEquals(settings.getDefaultPageSettings().PaperSource.RawKind, section.getPageSetup().getFirstPageTray());
@@ -1003,7 +1003,7 @@ public class ExPageSetup extends ApiExampleBase
 
         // Determine how much space our pages have for text within the margins and then add an amount to pad a margin. 
         Assert.assertEquals(470.30d, pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin(), 0.01d);
-        
+
         pageSetup.setGutter(100.0d);
 
         // Set the "RtlGutter" property to "true" to place the gutter in a more suitable position for right-to-left text.

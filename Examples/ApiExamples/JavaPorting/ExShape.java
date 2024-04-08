@@ -149,7 +149,7 @@ public class ExShape extends ApiExampleBase
 
         TestUtil.fileContainsString(
             "<img src=\"Shape.AltText.001.png\" width=\"202\" height=\"202\" alt=\"Alt text for MyCube.\" " +
-            "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />", 
+            "style=\"-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />",
             getArtifactsDir() + "Shape.AltText.html");
     }
 
@@ -181,7 +181,7 @@ public class ExShape extends ApiExampleBase
             shape.getFont().setColor(Color.RED);
             shape.getFont().setUnderline(Underline.DASH);
         }
-        
+
         // Move the builder out of the text box back into the main document.
         builder.moveTo(shape.getParentParagraph());
 
@@ -278,7 +278,7 @@ public class ExShape extends ApiExampleBase
 
         // Move the shape closer to the center of the page, and then rotate the shape 60 degrees clockwise.
         shape.setTop(75.0);
-        shape.setLeft(150.0); 
+        shape.setLeft(150.0);
         shape.setRotation(60.0);
 
         // Add text that will wrap around the shape.
@@ -331,61 +331,66 @@ public class ExShape extends ApiExampleBase
         group.setCoordOriginInternal(msPoint.ctor(-250, -250));
 
         // Create a rectangle that will display the boundary of this group shape and add it to the group.
-        group.appendChild(new Shape(doc, ShapeType.RECTANGLE);
+        Shape child1 = new Shape(doc, ShapeType.RECTANGLE);
         {
-            .setWidth(msSize.getWidth(group.getCoordSizeInternal()));
-            .setHeight(msSize.getHeight(group.getCoordSizeInternal()));
-            .setLeft(msPoint.getX(group.getCoordOriginInternal()));
-            .setTop(msPoint.getY(group.getCoordOriginInternal()));
-        });
+            child1.setWidth(msSize.getWidth(group.getCoordSizeInternal()));
+            child1.setHeight(msSize.getHeight(group.getCoordSizeInternal()));
+            child1.setLeft(msPoint.getX(group.getCoordOriginInternal()));
+            child1.setTop(msPoint.getY(group.getCoordOriginInternal()));
+        }
+        group.appendChild(child1);
 
         // Once a shape is a part of a group shape, we can access it as a child node and then modify it.
         ((Shape)group.getChild(NodeType.SHAPE, 0, true)).getStroke().setDashStyle(DashStyle.DASH);
 
         // Create a small red star and insert it into the group.
         // Line up the shape with the group's coordinate origin, which we have moved to the center.
-        group.appendChild(new Shape(doc, ShapeType.STAR);
+        Shape child2 = new Shape(doc, ShapeType.STAR);
         {
-            .setWidth(20.0);
-            .setHeight(20.0);
-            .setLeft(-10);
-            .setTop(-10);
-            .setFillColor(Color.RED);
-        });
+            child2.setWidth(20.0);
+            child2.setHeight(20.0);
+            child2.setLeft(-10);
+            child2.setTop(-10);
+            child2.setFillColor(Color.RED);
+        }
+        group.appendChild(child2);
 
-        // Insert a rectangle, and then insert a slightly smaller rectangle in the same place with an image. 
+        // Insert a rectangle, and then insert a slightly smaller rectangle in the same place with an image.
         // Newer shapes that we add to the group overlap older shapes. The light blue rectangle will partially overlap the red star,
         // and then the shape with the image will overlap the light blue rectangle, using it as a frame.
-        // We cannot use the "ZOrder" properties of shapes to manipulate their arrangement within a group shape. 
-        group.appendChild(new Shape(doc, ShapeType.RECTANGLE);
+        // We cannot use the "ZOrder" properties of shapes to manipulate their arrangement within a group shape.
+        Shape child3 = new Shape(doc, ShapeType.RECTANGLE);
         {
-            .setWidth(250.0);
-            .setHeight(250.0);
-            .setLeft(-250);
-            .setTop(-250);
-            .setFillColor(msColor.getLightBlue());
-        });
+            child3.setWidth(250.0);
+            child3.setHeight(250.0);
+            child3.setLeft(-250);
+            child3.setTop(-250);
+            child3.setFillColor(msColor.getLightBlue());
+        }
+        group.appendChild(child3);
 
-        group.appendChild(new Shape(doc, ShapeType.IMAGE);
+        Shape child4 = new Shape(doc, ShapeType.IMAGE);
         {
-            .setWidth(200.0);
-            .setHeight(200.0);
-            .setLeft(-225);
-            .setTop(-225);
-        });
+            child4.setWidth(200.0);
+            child4.setHeight(200.0);
+            child4.setLeft(-225);
+            child4.setTop(-225);
+        }
+        group.appendChild(child4);
 
         ((Shape)group.getChild(NodeType.SHAPE, 3, true)).getImageData().setImage(getImageDir() + "Logo.jpg");
 
         // Insert a text box into the group shape. Set the "Left" property so that the text box's right edge
         // touches the right boundary of the group shape. Set the "Top" property so that the text box sits outside
         // the boundary of the group shape, with its top size lined up along the group shape's bottom margin.
-        group.appendChild(new Shape(doc, ShapeType.TEXT_BOX);
+        Shape child5 = new Shape(doc, ShapeType.TEXT_BOX);
         {
-            .setWidth(200.0);
-            .setHeight(50.0);
-            .setLeft(msSize.getWidth(group.getCoordSizeInternal()) + msPoint.getX(group.getCoordOriginInternal()) - 200);
-            .setTop(msSize.getHeight(group.getCoordSizeInternal()) + msPoint.getY(group.getCoordOriginInternal()));
-        });
+            child5.setWidth(200.0);
+            child5.setHeight(50.0);
+            child5.setLeft(msSize.getWidth(group.getCoordSizeInternal()) + msPoint.getX(group.getCoordOriginInternal()) - 200);
+            child5.setTop(msSize.getHeight(group.getCoordSizeInternal()) + msPoint.getY(group.getCoordOriginInternal()));
+        }
+        group.appendChild(child5);
 
         DocumentBuilder builder = new DocumentBuilder(doc);
         builder.insertNode(group);
@@ -520,7 +525,7 @@ public class ExShape extends ApiExampleBase
         // Set the "AnchorLocked" property to "false" to allow any movement of the shape
         // to also move its anchor to any other paragraph that the shape ends up close to.
         shape.setAnchorLocked(anchorLocked);
-        
+
         // If the shape does not have a visible anchor symbol to its left,
         // we will need to enable visible anchors via "Options" -> "Display" -> "Object Anchors".
         doc.save(getArtifactsDir() + "Shape.AnchorLocked.docx");
@@ -613,8 +618,8 @@ public class ExShape extends ApiExampleBase
         Assert.assertTrue(shape.isInline());
 
         // 2 -  Floating:
-        shape = builder.insertShape(ShapeType.RECTANGLE, RelativeHorizontalPosition.LEFT_MARGIN ,200.0, 
-            RelativeVerticalPosition.TOP_MARGIN ,200.0, 100.0, 100.0, WrapType.NONE);
+        shape = builder.insertShape(ShapeType.RECTANGLE, RelativeHorizontalPosition.LEFT_MARGIN, 200.0,
+            RelativeVerticalPosition.TOP_MARGIN, 200.0, 100.0, 100.0, WrapType.NONE);
         shape.setFillColor(msColor.getOrange());
 
         // A floating shape belongs to the paragraph that we insert it into,
@@ -775,7 +780,7 @@ public class ExShape extends ApiExampleBase
         // Set the "FlipOrientation" property to "FlipOrientation.Horizontal" to flip the fourth shape on both the x and y axes,
         // making it into a horizontal and vertical mirror image of the first shape.
         shape.setFlipOrientation(FlipOrientation.BOTH);
-        
+
         doc.save(getArtifactsDir() + "Shape.FlipShapeOrientation.docx");
         //ExEnd
 
@@ -834,7 +839,7 @@ public class ExShape extends ApiExampleBase
 
         // Set the shape fill color's opacity to a lower value so that we can see the text underneath it.
         shape.getFill().setOpacity(0.3);
-        
+
         doc.save(getArtifactsDir() + "Shape.Fill.docx");
         //ExEnd
 
@@ -862,7 +867,7 @@ public class ExShape extends ApiExampleBase
 
         // Apply texture alignment to the shape fill.
         shape.getFill().presetTextured(PresetTexture.CANVAS);
-        shape.getFill().setTextureAlignment(TextureAlignment.TOP_RIGHT);            
+        shape.getFill().setTextureAlignment(TextureAlignment.TOP_RIGHT);
 
         // Use the compliance option to define the shape using DML if you want to get "TextureAlignment"
         // property after the document saves.
@@ -894,7 +899,7 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to fill a shape with a gradients.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         Shape shape = builder.insertShape(ShapeType.RECTANGLE, 80.0, 80.0);
         // Apply One-color gradient fill to the shape with ForeColor of gradient fill.
         shape.getFill().oneColorGradient(Color.RED, GradientStyle.HORIZONTAL, GradientVariant.VARIANT_2, 0.1);
@@ -963,15 +968,15 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to add gradient stops to the gradient fill.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         Shape shape = builder.insertShape(ShapeType.RECTANGLE, 80.0, 80.0);
         shape.getFill().twoColorGradient(msColor.getGreen(), Color.RED, GradientStyle.HORIZONTAL, GradientVariant.VARIANT_2);
 
         // Get gradient stops collection.
         GradientStopCollection gradientStops = shape.getFill().getGradientStops();
 
-        // Change first gradient stop.            
-        gradientStops.get(0).setColor(msColor.getAqua());            
+        // Change first gradient stop.
+        gradientStops.get(0).setColor(msColor.getAqua());
         gradientStops.get(0).setPosition(0.1);
         gradientStops.get(0).setTransparency(0.25);
 
@@ -1008,10 +1013,10 @@ public class ExShape extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Shape.GradientStops.docx");
 
-        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
         gradientStops = shape.getFill().getGradientStops();
 
-        Assert.assertEquals(2, gradientStops.getCount());            
+        Assert.assertEquals(2, gradientStops.getCount());
 
         Assert.assertEquals(msColor.getAqua().getRGB(), gradientStops.get(0).getColor().getRGB());
         Assert.assertEquals(0.1d, gradientStops.get(0).getPosition(), 0.01d);
@@ -1021,8 +1026,8 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(0.75d, gradientStops.get(1).getPosition(), 0.01d);
         Assert.assertEquals(0.3d, gradientStops.get(1).getTransparency(), 0.01d);
     }
-        
-	@Test
+
+    @Test
     public void fillPattern() throws Exception
     {
         //ExStart
@@ -1059,7 +1064,7 @@ public class ExShape extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         Shape shape = builder.insertShape(ShapeType.ROUND_RECTANGLE, 80.0, 80.0);
-        
+
         Fill fill = shape.getFill();
         fill.setForeThemeColor(ThemeColor.DARK_1);
         fill.setBackThemeColor(ThemeColor.BACKGROUND_2);
@@ -1076,7 +1081,7 @@ public class ExShape extends ApiExampleBase
     public void fillTintAndShade() throws Exception
     {
         //ExStart
-        //ExFor:Fill.ForeTintAndShade            
+        //ExFor:Fill.ForeTintAndShade
         //ExSummary:Shows how to manage lightening and darkening foreground font color.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
@@ -1103,7 +1108,7 @@ public class ExShape extends ApiExampleBase
         shape.setWidth(200.0);
         shape.setHeight(200.0);
         shape.setTitle("My cube");
-        
+
         builder.insertNode(shape);
 
         // When we save a document with a shape that has a title,
@@ -1193,7 +1198,7 @@ public class ExShape extends ApiExampleBase
         // Set the horizontal, and vertical alignment of the text inside the shape.
         textBox.setHorizontalAlignment(HorizontalAlignment.CENTER);
         textBox.setVerticalAlignment(VerticalAlignment.TOP);
-        
+
         // Add a paragraph to the text box and add a run of text that the text box will display.
         textBox.appendChild(new Paragraph(doc));
         Paragraph para = textBox.getFirstParagraph();
@@ -1276,14 +1281,14 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to verify the properties of an ActiveX control.
         Document doc = new Document(getMyDir() + "ActiveX controls.docx");
 
-        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
         OleControl oleControl = shape.getOleFormat().getOleControl();
 
         Assert.assertEquals("CheckBox1", oleControl.getName());
 
         if (oleControl.isForms2OleControl())
         {
-            Forms2OleControl checkBox = (Forms2OleControl) oleControl;
+            Forms2OleControl checkBox = (Forms2OleControl)oleControl;
             Assert.assertEquals("First", checkBox.getCaption());
             Assert.assertEquals("0", checkBox.getValue());
             Assert.assertEquals(true, checkBox.getEnabled());
@@ -1300,7 +1305,7 @@ public class ExShape extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Shape.GetActiveXControlProperties.docx");
 
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
-        Forms2OleControl forms2OleControl = (Forms2OleControl) shape.getOleFormat().getOleControl();
+        Forms2OleControl forms2OleControl = (Forms2OleControl)shape.getOleFormat().getOleControl();
 
         Assert.assertEquals("Aspose group name", forms2OleControl.getGroupName());
     }
@@ -1334,9 +1339,9 @@ public class ExShape extends ApiExampleBase
         //ExFor:Chart.SourceFullName
         //ExSummary:Shows how to get/set the full name of the external xls/xlsx document if the chart is linked.
         Document doc = new Document(getMyDir() + "Shape with linked chart.docx");
-        
-        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);            
-        
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
         String sourceFullName = shape.getChart().getSourceFullName();
         Assert.assertTrue(sourceFullName.contains("Examples\\Data\\Spreadsheet.xlsx"));
 
@@ -1386,8 +1391,8 @@ public class ExShape extends ApiExampleBase
         oleFormat.save(getArtifactsDir() + "OLE spreadsheet saved directly" + oleFormat.getSuggestedExtension());
         //ExEnd
 
-        Assert.That(new FileInfo(getArtifactsDir() + "OLE spreadsheet extracted via stream.xlsx").getLength(), Is.LessThan(8400));
-        Assert.That(new FileInfo(getArtifactsDir() + "OLE spreadsheet saved directly.xlsx").getLength(), Is.LessThan(8400));
+        Assert.assertTrue(new FileInfo(getArtifactsDir() + "OLE spreadsheet extracted via stream.xlsx").getLength() < 8400);
+        Assert.assertTrue(new FileInfo(getArtifactsDir() + "OLE spreadsheet saved directly.xlsx").getLength() < 8400);
     }
 
     @Test
@@ -1488,7 +1493,7 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to get an OLE object's suggested file name.
         Document doc = new Document(getMyDir() + "OLE shape.rtf");
 
-        Shape oleShape = (Shape) doc.getFirstSection().getBody().getChild(NodeType.SHAPE, 0, true);
+        Shape oleShape = (Shape)doc.getFirstSection().getBody().getChild(NodeType.SHAPE, 0, true);
 
         // OLE objects can provide a suggested filename and extension,
         // which we can use when saving the object's contents into a file in the local file system.
@@ -1510,8 +1515,8 @@ public class ExShape extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "ActiveX controls.docx");
 
-        Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
-        Assert.That(shape.getOleFormat().getSuggestedFileName(), Is.Empty);
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Assert.assertEquals("", shape.getOleFormat().getSuggestedFileName());
     }
 
     @Test
@@ -1547,11 +1552,10 @@ public class ExShape extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Office math.docx");
 
-        OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
+        OfficeMath officeMath = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, 0, true);
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);
 
-        Assert.That(() => officeMath.setJustification(OfficeMathJustification.INLINE),
-            Throws.<IllegalArgumentException>TypeOf());
+        Assert.<IllegalArgumentException>Throws(() => officeMath.setJustification(OfficeMathJustification.INLINE));
     }
 
     @Test
@@ -1559,7 +1563,7 @@ public class ExShape extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Office math.docx");
 
-        OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 6, true);
+        OfficeMath officeMath = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, 6, true);
 
         Assert.assertEquals(OfficeMathDisplayType.INLINE, officeMath.getDisplayType());
         Assert.assertEquals(OfficeMathJustification.INLINE, officeMath.getJustification());
@@ -1579,7 +1583,7 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to set office math display formatting.
         Document doc = new Document(getMyDir() + "Office math.docx");
 
-        OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
+        OfficeMath officeMath = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, 0, true);
 
         // OfficeMath nodes that are children of other OfficeMath nodes are always inline.
         // The node we are working with is the base node to change its location and display type.
@@ -1602,7 +1606,7 @@ public class ExShape extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Office math.docx");
 
-        OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
+        OfficeMath officeMath = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, 0, true);
         officeMath.setDisplayType(OfficeMathDisplayType.DISPLAY);
 
         Assert.<IllegalArgumentException>Throws(() => officeMath.setJustification(OfficeMathJustification.INLINE));
@@ -1613,7 +1617,7 @@ public class ExShape extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Office math.docx");
 
-        OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
+        OfficeMath officeMath = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, 0, true);
         officeMath.setDisplayType(OfficeMathDisplayType.INLINE);
 
         Assert.<IllegalArgumentException>Throws(() => officeMath.setJustification(OfficeMathJustification.CENTER));
@@ -1624,7 +1628,7 @@ public class ExShape extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Office math.docx");
 
-        OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
+        OfficeMath officeMath = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, 0, true);
 
         Assert.assertEquals(OfficeMathDisplayType.DISPLAY, officeMath.getDisplayType());
         Assert.assertEquals(OfficeMathJustification.CENTER, officeMath.getJustification());
@@ -1635,7 +1639,7 @@ public class ExShape extends ApiExampleBase
     {
         Document doc = new Document(getMyDir() + "Office math.docx");
 
-        OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, index, true);
+        OfficeMath officeMath = (OfficeMath)doc.getChild(NodeType.OFFICE_MATH, index, true);
         Assert.assertEquals(objectType, officeMath.getMathObjectType());
     }
 
@@ -1677,7 +1681,7 @@ public class ExShape extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "Shape.AspectRatio.docx");
-        shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
         Assert.assertEquals(lockAspectRatio, shape.getAspectRatioLocked());
     }
@@ -1829,7 +1833,7 @@ public class ExShape extends ApiExampleBase
             shape.getOleFormat().getOlePackage().setDisplayName("Package display name.zip");
         }
         finally { if (stream != null) stream.close(); }
-        
+
         doc.save(getArtifactsDir() + "Shape.InsertOlePackage.docx");
         //ExEnd
 
@@ -1943,7 +1947,7 @@ public class ExShape extends ApiExampleBase
         builder.insertCell();
         builder.insertCell();
         builder.endTable();
-        
+
         TableStyle tableStyle = (TableStyle)doc.getStyles().add(StyleType.TABLE, "MyTableStyle1");
         tableStyle.setBottomPadding(20.0);
         tableStyle.setLeftPadding(10.0);
@@ -2005,7 +2009,7 @@ public class ExShape extends ApiExampleBase
 
         // Below are two wrapping types that shapes may have.
         // 1 -  Floating:
-        builder.insertShape(ShapeType.TOP_CORNERS_ROUNDED, RelativeHorizontalPosition.PAGE, 100.0, 
+        builder.insertShape(ShapeType.TOP_CORNERS_ROUNDED, RelativeHorizontalPosition.PAGE, 100.0,
                 RelativeVerticalPosition.PAGE, 100.0, 50.0, 50.0, WrapType.NONE);
 
         // 2 -  Inline:
@@ -2016,7 +2020,7 @@ public class ExShape extends ApiExampleBase
         // then save the document with "Strict" or "Transitional" compliance, which allows saving shape as DML.
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
         saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
-        
+
         doc.save(getArtifactsDir() + "Shape.ShapeInsertion.docx", saveOptions);
         //ExEnd
 
@@ -2103,7 +2107,6 @@ public class ExShape extends ApiExampleBase
                 Assert.assertEquals(shape.getStroke().getColor(), shape.getStrokeColor());
                 appendLine($"Stroke colors: {shape.Stroke.Color}, {shape.Stroke.Color2}");
                 appendLine($"Stroke weight: {shape.StrokeWeight}");
-
             }
 
             if (shape.getFilled())
@@ -2191,7 +2194,7 @@ public class ExShape extends ApiExampleBase
         // customize using the "SignatureLineOptions" object we have created above.
         // If we insert a shape whose coordinates originate at the bottom right hand corner of the page,
         // we will need to supply negative x and y coordinates to bring the shape into view.
-        Shape shape = builder.insertSignatureLine(options, RelativeHorizontalPosition.RIGHT_MARGIN, -170.0, 
+        Shape shape = builder.insertSignatureLine(options, RelativeHorizontalPosition.RIGHT_MARGIN, -170.0,
                 RelativeVerticalPosition.BOTTOM_MARGIN, -60.0, WrapType.NONE);
 
         Assert.assertTrue(shape.isSignatureLine());
@@ -2206,7 +2209,7 @@ public class ExShape extends ApiExampleBase
         Assert.assertTrue(signatureLine.getShowDate());
         Assert.assertTrue(signatureLine.getAllowComments());
         Assert.assertTrue(signatureLine.getDefaultInstructions());
-        
+
         doc.save(getArtifactsDir() + "Shape.SignatureLine.docx");
         //ExEnd
 
@@ -2382,7 +2385,7 @@ public class ExShape extends ApiExampleBase
         // Set the "TextBoxWrapMode" property to "TextBoxWrapMode.Square" to
         // wrap all text inside the text box, preserving its dimensions.
         textBox.setTextBoxWrapMode(textBoxWrapMode);
-        
+
         builder.moveTo(textBoxShape.getLastParagraph());
         builder.getFont().setSize(32.0);
         builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
@@ -2422,7 +2425,7 @@ public class ExShape extends ApiExampleBase
         // Not all formats are compatible with this one.
         // For most of the incompatible formats, AW generated warnings on save, so use doc.WarningCallback to check it.
         textBoxShape.getTextBox().setVerticalAnchor(TextBoxAnchor.BOTTOM);
-        
+
         builder.moveTo(textBoxShape.getLastParagraph());
         builder.write("Text placed bottom");
 
@@ -2444,18 +2447,18 @@ public class ExShape extends ApiExampleBase
         Shape textBoxShape1 = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 100.0);
         TextBox textBox1 = textBoxShape1.getTextBox();
         builder.writeln();
-        
+
         Shape textBoxShape2 = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 100.0);
         TextBox textBox2 = textBoxShape2.getTextBox();
         builder.writeln();
-        
+
         Shape textBoxShape3 = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 100.0);
         TextBox textBox3 = textBoxShape3.getTextBox();
         builder.writeln();
 
         Shape textBoxShape4 = builder.insertShape(ShapeType.TEXT_BOX, 100.0, 100.0);
         TextBox textBox4 = textBoxShape4.getTextBox();
-        
+
         // Create links between some of the text boxes.
         if (textBox1.isValidLinkTarget(textBox2))
             textBox1.setNext(textBox2);
@@ -2468,19 +2471,19 @@ public class ExShape extends ApiExampleBase
 
         builder.moveTo(textBoxShape4.getLastParagraph());
         builder.write("Hello world!");
-        
+
         Assert.assertFalse(textBox3.isValidLinkTarget(textBox4));
-        
+
         if (textBox1.getNext() != null && textBox1.getPrevious() == null)
             System.out.println("This TextBox is the head of the sequence");
- 
+
         if (textBox2.getNext() != null && textBox2.getPrevious() != null)
             System.out.println("This TextBox is the middle of the sequence");
- 
+
         if (textBox3.getNext() == null && textBox3.getPrevious() != null)
         {
             System.out.println("This TextBox is the tail of the sequence");
-            
+
             // Break the forward link between textBox2 and textBox3, and then verify that they are no longer linked.
             textBox3.getPrevious().breakForwardLink();
 
@@ -2532,7 +2535,7 @@ public class ExShape extends ApiExampleBase
         // Set the "VerticalAnchor" property to "TextBoxAnchor.Bottom" to
         // align the text in this text box to the bottom of the shape.
         shape.getTextBox().setVerticalAnchor(verticalAnchor);
-        
+
         builder.moveTo(shape.getFirstParagraph());
         builder.write("Hello world!");
 
@@ -2540,7 +2543,7 @@ public class ExShape extends ApiExampleBase
         doc.getCompatibilityOptions().optimizeFor(MsWordVersion.WORD_2007);
         doc.save(getArtifactsDir() + "Shape.VerticalAnchor.docx");
         //ExEnd
-        
+
         doc = new Document(getArtifactsDir() + "Shape.VerticalAnchor.docx");
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
@@ -2594,7 +2597,7 @@ public class ExShape extends ApiExampleBase
 
         // Insert a WordArt object to display text in a shape that we can re-size and move by using the mouse in Microsoft Word.
         // Provide a "ShapeType" as an argument to set a shape for the WordArt.
-        Shape shape = appendWordArt(doc, "Hello World! This text is bold, and italic.", 
+        Shape shape = appendWordArt(doc, "Hello World! This text is bold, and italic.",
             "Arial", 480.0, 24.0, Color.WHITE, Color.BLACK, ShapeType.TEXT_PLAIN_TEXT);
 
         // Apply the "Bold" and "Italic" formatting settings to the text using the respective properties.
@@ -2855,7 +2858,7 @@ public class ExShape extends ApiExampleBase
         shape = shapes[1];
         rectangleF = new RectangleF(200f, 200f, 1000f, 1000f);
         rectangleFOut = shape.adjustWithEffectsInternal(rectangleF);
-        
+
         // The shape effects have moved the apparent top left corner of the shape slightly.
         Assert.assertEquals(171.5, rectangleFOut.getX());
         Assert.assertEquals(167, rectangleFOut.getY());
@@ -2904,7 +2907,7 @@ public class ExShape extends ApiExampleBase
         //ExFor:Shape.HasSmartArt
         //ExSummary:Shows how to count the number of shapes in a document with SmartArt objects.
         Document doc = new Document(getMyDir() + "SmartArt.docx");
- 
+
         int numberOfSmartArtShapes = doc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().Count(shape => shape.HasSmartArt);
 
         Assert.assertEquals(2, numberOfSmartArtShapes);
@@ -2980,10 +2983,10 @@ public class ExShape extends ApiExampleBase
 
         builder.insertShape(ShapeType.HEPTAGON, RelativeHorizontalPosition.PAGE, 0.0,
             RelativeVerticalPosition.PAGE, 0.0, 0.0, 0.0, WrapType.NONE);
-        
+
         builder.insertShape(ShapeType.CLOUD, RelativeHorizontalPosition.RIGHT_MARGIN, 0.0,
             RelativeVerticalPosition.PAGE, 0.0, 0.0, 0.0, WrapType.NONE);
-        
+
         builder.insertShape(ShapeType.MATH_PLUS, RelativeHorizontalPosition.RIGHT_MARGIN, 0.0,
             RelativeVerticalPosition.PAGE, 0.0, 0.0, 0.0, WrapType.NONE);
 
@@ -2993,7 +2996,7 @@ public class ExShape extends ApiExampleBase
             // "Strict" or "Transitional" compliance allows to save shape as DML.
             saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_TRANSITIONAL);
         }
-        
+
         doc.save(getArtifactsDir() + "Shape.ShapeTypes.docx", saveOptions);
         doc = new Document(getArtifactsDir() + "Shape.ShapeTypes.docx");
 
@@ -3014,9 +3017,9 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to set that the shape is decorative.
         Document doc = new Document(getMyDir() + "Decorative shapes.docx");
 
-        Shape shape = (Shape) doc.getChildNodes(NodeType.SHAPE, true).get(0);
+        Shape shape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
         Assert.assertTrue(shape.isDecorative());
-        
+
         // If "AlternativeText" is not empty, the shape cannot be decorative.
         // That's why our value has changed to 'false'.
         shape.setAlternativeText("Alternative text.");
@@ -3047,11 +3050,11 @@ public class ExShape extends ApiExampleBase
         // 1 -  Using a local system filename:
         shape.getFill().setImage(getImageDir() + "Logo.jpg");
         doc.save(getArtifactsDir() + "Shape.FillImage.FileName.docx");
-        
+
         // 2 -  Load a file into a byte array:
         shape.getFill().setImage(File.readAllBytes(getImageDir() + "Logo.jpg"));
         doc.save(getArtifactsDir() + "Shape.FillImage.ByteArray.docx");
-        
+
         // 3 -  From a stream:
         FileStream stream = new FileStream(getImageDir() + "Logo.jpg", FileMode.OPEN);
         try /*JAVA: was using*/
@@ -3073,11 +3076,11 @@ public class ExShape extends ApiExampleBase
         //ExSummary:Shows how to work with a shadow formatting for the shape.
         Document doc = new Document(getMyDir() + "Shape stroke pattern border.docx");
         Shape shape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
-        
-        if (shape.getShadowFormat().getVisible() && shape.getShadowFormat().getType() == ShadowType.SHADOW_2)                
+
+        if (shape.getShadowFormat().getVisible() && shape.getShadowFormat().getType() == ShadowType.SHADOW_2)
             shape.getShadowFormat().setType(ShadowType.SHADOW_7);
-        
-        if (shape.getShadowFormat().getType() == ShadowType.SHADOW_MIXED)            
+
+        if (shape.getShadowFormat().getType() == ShadowType.SHADOW_MIXED)
             shape.getShadowFormat().clear();
         //ExEnd
     }
@@ -3101,7 +3104,6 @@ public class ExShape extends ApiExampleBase
         shape = (Shape)doc.getChildNodes(NodeType.SHAPE, true).get(0);
 
         Assert.assertEquals(true, shape.getTextBox().getNoTextRotation());
-
     }
 
     @Test
@@ -3217,8 +3219,8 @@ public class ExShape extends ApiExampleBase
     {
         //ExStart:StrokeForeThemeColors
         //GistId:eeeec1fbf118e95e7df3f346c91ed726
-        //ExFor:Stroke.ForeThemeColor            
-        //ExFor:Stroke.ForeTintAndShade            
+        //ExFor:Stroke.ForeThemeColor
+        //ExFor:Stroke.ForeTintAndShade
         //ExSummary:Shows how to set fore theme color and tint and shade.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3243,7 +3245,7 @@ public class ExShape extends ApiExampleBase
     {
         //ExStart:StrokeBackThemeColors
         //GistId:eeeec1fbf118e95e7df3f346c91ed726
-        //ExFor:Stroke.BackThemeColor            
+        //ExFor:Stroke.BackThemeColor
         //ExFor:Stroke.BackTintAndShade
         //ExSummary:Shows how to set back theme color and tint and shade.
         Document doc = new Document(getMyDir() + "Stroke gradient outline.docx");
@@ -3281,6 +3283,80 @@ public class ExShape extends ApiExampleBase
         textBoxControl.setText("Updated text");
         Assert.assertEquals("Updated text", textBoxControl.getText());
         //ExEnd:TextBoxOleControl
+    }
+
+    @Test
+    public void glow() throws Exception
+    {
+        //ExStart:Glow
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:ShapeBase.Glow
+        //ExFor:GlowFormat.Color
+        //ExFor:GlowFormat.Radius
+        //ExFor:GlowFormat.Transparency
+        //ExFor:GlowFormat.Remove()
+        //ExSummary:Shows how to interact with glow shape effect.
+        Document doc = new Document(getMyDir() + "Various shapes.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        shape.getGlow().setColor(msColor.getSalmon());
+        shape.getGlow().setRadius(30.0);
+        shape.getGlow().setTransparency(0.15);
+
+        doc.save(getArtifactsDir() + "Shape.Glow.docx");
+
+        doc = new Document(getArtifactsDir() + "Shape.Glow.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(new Color((250), (128), (114), (217)).getRGB(), shape.getGlow().getColor().getRGB());
+        Assert.assertEquals(30, shape.getGlow().getRadius());
+        Assert.assertEquals(0.15d, shape.getGlow().getTransparency(), 0.01d);
+
+        shape.getGlow().remove();
+
+        Assert.assertEquals(Color.BLACK.getRGB(), shape.getGlow().getColor().getRGB());
+        Assert.assertEquals(0, shape.getGlow().getRadius());
+        Assert.assertEquals(0, shape.getGlow().getTransparency());
+        //ExEnd:Glow
+    }
+
+    @Test
+    public void reflection() throws Exception
+    {
+        //ExStart:Reflection
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:ShapeBase.Reflection
+        //ExFor:ReflectionFormat.Size
+        //ExFor:ReflectionFormat.Blur
+        //ExFor:ReflectionFormat.Transparency
+        //ExFor:ReflectionFormat.Distance
+        //ExFor:ReflectionFormat.Remove()
+        //ExSummary:Shows how to interact with reflection shape effect.
+        Document doc = new Document(getMyDir() + "Various shapes.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        shape.getReflection().setTransparency(0.37);
+        shape.getReflection().setSize(0.48);
+        shape.getReflection().setBlur(17.5);
+        shape.getReflection().setDistance(9.2);
+
+        doc.save(getArtifactsDir() + "Shape.Reflection.docx");
+
+        doc = new Document(getArtifactsDir() + "Shape.Reflection.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(0.37d, shape.getReflection().getTransparency(), 0.01d);
+        Assert.assertEquals(0.48d, shape.getReflection().getSize(), 0.01d);
+        Assert.assertEquals(17.5d, shape.getReflection().getBlur(), 0.01d);
+        Assert.assertEquals(9.2d, shape.getReflection().getDistance(), 0.01d);
+
+        shape.getReflection().remove();
+
+        Assert.assertEquals(0, shape.getReflection().getTransparency());
+        Assert.assertEquals(0, shape.getReflection().getSize());
+        Assert.assertEquals(0, shape.getReflection().getBlur());
+        Assert.assertEquals(0, shape.getReflection().getDistance());
+        //ExEnd:Reflection
     }
 }
 

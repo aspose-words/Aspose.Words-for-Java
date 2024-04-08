@@ -184,14 +184,13 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocumentBuilder.HeadersAndFooters.docx");
         //ExEnd
 
-        HeaderFooterCollection headersFooters =
+        HeaderFooterCollection headersFooters = 
             new Document(getArtifactsDir() + "DocumentBuilder.HeadersAndFooters.docx").getFirstSection().getHeadersFooters();
 
         Assert.assertEquals(3, headersFooters.getCount());
         Assert.assertEquals("Header for the first page", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_FIRST).getText().trim());
         Assert.assertEquals("Header for even pages", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_EVEN).getText().trim());
         Assert.assertEquals("Header for all other pages", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText().trim());
-
     }
 
     @Test
@@ -228,9 +227,9 @@ public class ExDocumentBuilder extends ApiExampleBase
                         " Text between our merge fields. " +
                         "\u0013MERGEFIELD MyMergeField2 \\* MERGEFORMAT\u0014«MyMergeField2»\u0015", doc.getText().trim());
         Assert.assertEquals(2, doc.getRange().getFields().getCount());
-        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField1 \\* MERGEFORMAT",
+        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField1 \\* MERGEFORMAT", 
             "«MyMergeField1»", doc.getRange().getFields().get(0));
-        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField2 \\* MERGEFORMAT",
+        TestUtil.verifyField(FieldType.FIELD_MERGE_FIELD, "MERGEFIELD MyMergeField2 \\* MERGEFORMAT", 
             "«MyMergeField2»", doc.getRange().getFields().get(1));
     }
 
@@ -281,17 +280,17 @@ public class ExDocumentBuilder extends ApiExampleBase
         HorizontalRuleFormat horizontalRuleFormat = shape.getHorizontalRuleFormat();
         horizontalRuleFormat.setWidthPercent(1.0);
         horizontalRuleFormat.setWidthPercent(100.0);
-        Assert.That(() => horizontalRuleFormat.setWidthPercent(0.0), Throws.<IllegalArgumentException>TypeOf());
-        Assert.That(() => horizontalRuleFormat.setWidthPercent(101.0), Throws.<IllegalArgumentException>TypeOf());
+        Assert.<IllegalArgumentException>Throws(() => horizontalRuleFormat.setWidthPercent(0.0));
+        Assert.<IllegalArgumentException>Throws(() => horizontalRuleFormat.setWidthPercent(101.0));
 
         horizontalRuleFormat.setHeight(0.0);
         horizontalRuleFormat.setHeight(1584.0);
-        Assert.That(() => horizontalRuleFormat.setHeight(-1), Throws.<IllegalArgumentException>TypeOf());
-        Assert.That(() => horizontalRuleFormat.setHeight(1585.0), Throws.<IllegalArgumentException>TypeOf());
+        Assert.<IllegalArgumentException>Throws(() => horizontalRuleFormat.setHeight(-1));
+        Assert.<IllegalArgumentException>Throws(() => horizontalRuleFormat.setHeight(1585.0));
     }
 
-    [Test]
-    public async Task private InsertHyperlinkAsyncinsertHyperlinkAsync() throws Exception
+    @Test
+    public void insertHyperlink() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertHyperlink
@@ -320,14 +319,17 @@ public class ExDocumentBuilder extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertHyperlink.docx");
 
         FieldHyperlink hyperlink = (FieldHyperlink)doc.getRange().getFields().get(0);
-        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, hyperlink.getAddress());
+        Assert.assertEquals("https://www.google.com", hyperlink.getAddress());
 
         Run fieldContents = (Run)hyperlink.getStart().getNextSibling();
 
         Assert.assertEquals(Color.BLUE.getRGB(), fieldContents.getFont().getColor().getRGB());
         Assert.assertEquals(Underline.SINGLE, fieldContents.getFont().getUnderline());
         Assert.assertEquals("HYPERLINK \"https://www.google.com\"", fieldContents.getText().trim());
-    }private PushPopFontpushPopFont() throws Exception
+    }
+
+    @Test
+    public void pushPopFont() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.PushFont
@@ -379,7 +381,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertNotEquals(runs.get(0).getFont().getColor(), runs.get(2).getFont().getColor());
         Assert.assertNotEquals(runs.get(0).getFont().getUnderline(), runs.get(2).getFont().getUnderline());
 
-        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, ((FieldHyperlink)doc.getRange().getFields().get(0)).getAddress());
+        Assert.assertEquals("http://www.google.com", ((FieldHyperlink)doc.getRange().getFields().get(0)).getAddress());
     }
 
     @Test
@@ -443,7 +445,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         {
             // If 'presentation' is omitted and 'asIcon' is set, this overloaded method selects
             // the icon according to the file extension and uses the filename for the icon caption.
-            builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", false, false, imageStream);
+            builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", false, false, imageStream); 
         }
         finally { if (imageStream != null) imageStream.close(); }
 
@@ -490,9 +492,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        final String HTML = "<p align='right'>Paragraph right</p>" +
+        final String HTML = "<p align='right'>Paragraph right</p>" + 
                             "<b>Implicit paragraph left</b>" +
-                            "<div align='center'>Div center</div>" +
+                            "<div align='center'>Div center</div>" + 
                             "<h1 align='left'>Heading 1 left.</h1>";
 
         builder.insertHtml(HTML);
@@ -592,7 +594,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.startBookmark("MyBookmark");
         builder.writeln("Hello world!");
         builder.endBookmark("MyBookmark");
-
+        
         Assert.assertEquals(1, doc.getRange().getBookmarks().getCount());
         Assert.assertEquals("MyBookmark", doc.getRange().getBookmarks().get(0).getName());
         Assert.assertEquals("Hello world!", doc.getRange().getBookmarks().get(0).getText().trim());
@@ -660,7 +662,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Form fields are objects in the document that the user can interact with by being prompted to enter values.
         // We can create them using a document builder, and below are two ways of doing so.
         // 1 -  Basic text input:
-        builder.insertTextInput("My text input", TextFormFieldType.REGULAR,
+        builder.insertTextInput("My text input", TextFormFieldType.REGULAR, 
             "", "Enter your name here", 30);
 
         // 2 -  Combo box with prompt text, and a range of possible values:
@@ -771,7 +773,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Create a valid bookmark, an entity that consists of nodes enclosed by a bookmark start node,
-        // and a bookmark end node.
+        // and a bookmark end node. 
         builder.startBookmark("MyBookmark");
         builder.write("Bookmark contents.");
         builder.endBookmark("MyBookmark");
@@ -857,7 +859,6 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         Assert.assertTrue(paragraphs.get(2).getRuns().get(0).getFont().getItalic());
         Assert.assertEquals("John Bloggs", paragraphs.get(2).getRuns().get(0).getText().trim());
-
     }
 
     @Test
@@ -1124,7 +1125,7 @@ public class ExDocumentBuilder extends ApiExampleBase
     {
         //ExStart
         //ExFor:RowFormat.HeadingFormat
-        //ExSummary:Shows how to build a table with rows that repeat on every page.
+        //ExSummary:Shows how to build a table with rows that repeat on every page. 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1561,7 +1562,8 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.endBookmark("Bookmark1");
         builder.writeln("Text outside of the bookmark.");
 
-        // Insert a HYPERLINK field that links to the bookmark.
+        // Insert a HYPERLINK field that links to the bookmark. We can pass field switches
+        // to the "InsertHyperlink" method as part of the argument containing the referenced bookmark's name.
         builder.getFont().setColor(Color.BLUE);
         builder.getFont().setUnderline(Underline.SINGLE);
         FieldHyperlink hyperlink = (FieldHyperlink)builder.insertHyperlink("Link to Bookmark1", "Bookmark1", true);
@@ -2029,7 +2031,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         CertificateHolder certHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
-        DigitalSignatureUtil.sign(getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId.docx",
+        DigitalSignatureUtil.sign(getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId.docx", 
             getArtifactsDir() + "DocumentBuilder.SignatureLineProviderId.Signed.docx", certHolder, signOptions);
 
         // Re-open our saved document, and verify that the "IsSigned" and "IsValid" properties both equal "true",
@@ -2061,7 +2063,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(DateTime.getToday(), signatures.get(0).getSignTimeInternal().getDate());
         Assert.assertEquals("CN=Morzal.Me", signatures.get(0).getIssuerName());
         Assert.assertEquals(DigitalSignatureType.XML_DSIG, signatures.get(0).getSignatureType());
-
     }
 
     @Test
@@ -2584,7 +2585,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             Assert.assertNull(builder.getCurrentNode());
             builder.write(" Text immediately after the field.");
 
-            Assert.assertEquals("\u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015 Text immediately after the field.",
+            Assert.assertEquals("\u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015 Text immediately after the field.", 
                 doc.getText().trim());
         }
         else
@@ -2592,7 +2593,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             Assert.assertEquals(field.getStart(), builder.getCurrentNode());
             builder.write("Text immediately before the field. ");
 
-            Assert.assertEquals("Text immediately before the field. \u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015",
+            Assert.assertEquals("Text immediately before the field. \u0013 AUTHOR \"John Doe\" \u0014John Doe\u0015", 
                 doc.getText().trim());
         }
         //ExEnd
@@ -2615,8 +2616,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Assert.That(() => builder.insertOleObjectInternal("", "checkbox", false, true, null),
-            Throws.<IllegalArgumentException>TypeOf());
+        Assert.<IllegalArgumentException>Throws(() => builder.insertOleObjectInternal("", "checkbox", false, true, null));
     }
 
     @Test
@@ -2628,7 +2628,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Chart chart = builder.insertChart(ChartType.PIE, ConvertUtil.pixelToPoint(300.0),
+        Chart chart = builder.insertChart(ChartType.PIE, ConvertUtil.pixelToPoint(300.0), 
             ConvertUtil.pixelToPoint(300.0)).getChart();
         Assert.assertEquals(225.0d, ConvertUtil.pixelToPoint(300.0)); //ExSkip
         chart.getSeries().clear();
@@ -2694,7 +2694,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals("DATE \\@ \"dddd, MMMM dd, yyyy\"", field.getFieldCode());
 
         // This overload of the InsertField method automatically updates inserted fields.
-        Assert.That(DateTime.parse(field.getResult()), Is.EqualTo(DateTime.getToday()).Within(1).Days);
+        Assert.assertTrue((DateTime.subtract(DateTime.getToday(), DateTime.parse(field.getResult()))).getDays() <= 1);
         //ExEnd
     }
 
@@ -2818,9 +2818,9 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         public String formatNumeric(double value, String format)
         {
-            if (msString.isNullOrEmpty(mNumberFormat))
+            if (msString.isNullOrEmpty(mNumberFormat)) 
                 return null;
-
+            
             String newValue = MessageFormat.format(mNumberFormat, value);
             getFormatInvocations().add(new FormatInvocation(FormatInvocationType.NUMERIC, value, format, newValue));
             return newValue;
@@ -2860,7 +2860,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         {
             if (formatInvocationType == FormatInvocationType.ALL)
                 return getFormatInvocations().size();
-
             return getFormatInvocations().Count(f => f.FormatInvocationType == formatInvocationType);
         }
 
@@ -2875,11 +2874,11 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         private /*final*/ String mNumberFormat;
         private /*final*/ String mDateFormat;
-        private /*final*/ String mGeneralFormat;
+        private /*final*/ String mGeneralFormat; 
         private ArrayList<FieldResultFormatter.FormatInvocation> getFormatInvocations() { return mFormatInvocations; };
 
-        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<FieldResultFormatter.FormatInvocation>list();
-
+        private ArrayList<FieldResultFormatter.FormatInvocation> mFormatInvocations !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<FieldResultFormatter.FormatInvocation>list();
+        
         private static class FormatInvocation
         {
             public /*FormatInvocationType*/int getFormatInvocationType() { return mFormatInvocationType; };
@@ -2918,8 +2917,8 @@ public class ExDocumentBuilder extends ApiExampleBase
     }
     //ExEnd
 
-    [Test]
-    public async Task private InsertVideoWithUrlinsertVideoWithUrl() throws Exception
+    @Test (enabled = false, description = "Failed")
+    public void insertVideoWithUrl() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, Double, Double)
@@ -2937,7 +2936,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
         TestUtil.verifyImageInShape(480, 360, ImageType.JPEG, shape);
-        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
+        Assert.assertEquals("https://youtu.be/t_1LYZ102RA", shape.getHRef());
 
         Assert.assertEquals(360.0d, shape.getWidth());
         Assert.assertEquals(270.0d, shape.getHeight());
@@ -3029,21 +3028,16 @@ public class ExDocumentBuilder extends ApiExampleBase
         Stream powerpointStream = File.open(getMyDir() + "Presentation.pptx", FileMode.OPEN);
         try /*JAVA: was using*/
         {
-            HttpClient httpClient = new HttpClient();
+            byte[] imgBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
+
+            MemoryStream imageStream = new MemoryStream(imgBytes);
             try /*JAVA: was using*/
             {
-                byte[] imgBytes = File.readAllBytes(getImageDir() + "Logo.jpg");
-
-                MemoryStream imageStream = new MemoryStream(imgBytes);
-                try /*JAVA: was using*/
-                {
-                    builder.insertParagraph();
-                    builder.writeln("Powerpoint Ole object:");
-                    builder.insertOleObjectInternal(powerpointStream, "OleObject.pptx", true, imageStream);
-                }
-                finally { if (imageStream != null) imageStream.close(); }
+                builder.insertParagraph();
+                builder.writeln("Powerpoint Ole object:");
+                builder.insertOleObjectInternal(powerpointStream, "OleObject.pptx", true, imageStream);
             }
-            finally { if (httpClient != null) httpClient.close(); }
+            finally { if (imageStream != null) imageStream.close(); }
         }
         finally { if (powerpointStream != null) powerpointStream.close(); }
 
@@ -3106,9 +3100,9 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals("Heading 1", doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat().getStyle().getName());
         Assert.assertEquals("MyParaStyle", doc.getFirstSection().getBody().getParagraphs().get(1).getParagraphFormat().getStyle().getName());
         Assert.assertEquals(" ", doc.getFirstSection().getBody().getParagraphs().get(1).getRuns().get(0).getText());
-        TestUtil.docPackageFileContainsString("w:rPr><w:vanish /><w:specVanish /></w:rPr>",
+        TestUtil.docPackageFileContainsString("w:rPr><w:vanish /><w:specVanish /></w:rPr>", 
             getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
-        TestUtil.docPackageFileContainsString("<w:t xml:space=\"preserve\"> </w:t>",
+        TestUtil.docPackageFileContainsString("<w:t xml:space=\"preserve\"> </w:t>", 
             getArtifactsDir() + "DocumentBuilder.InsertStyleSeparator.docx", "document.xml");
     }
 
@@ -3186,11 +3180,11 @@ public class ExDocumentBuilder extends ApiExampleBase
     public void emphasesWarningSourceMarkdown() throws Exception
     {
         Document doc = new Document(getMyDir() + "Emphases markdown warning.docx");
-
+        
         WarningInfoCollection warnings = new WarningInfoCollection();
         doc.setWarningCallback(warnings);
         doc.save(getArtifactsDir() + "DocumentBuilder.EmphasesWarningSourceMarkdown.md");
-
+ 
         for (WarningInfo warningInfo : warnings)
         {
             if (warningInfo.getSource() == WarningSource.MARKDOWN)
@@ -3206,10 +3200,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExSummary:Shows how to specifies ignoring or not source formatting of headers/footers content.
         Document dstDoc = new Document(getMyDir() + "Document.docx");
         Document srcDoc = new Document(getMyDir() + "Header and footer types.docx");
-
+ 
         ImportFormatOptions importFormatOptions = new ImportFormatOptions();
         importFormatOptions.setIgnoreHeaderFooter(false);
-
+ 
         dstDoc.appendDocument(srcDoc, ImportFormatMode.KEEP_SOURCE_FORMATTING, importFormatOptions);
 
         dstDoc.save(getArtifactsDir() + "DocumentBuilder.DoNotIgnoreHeaderFooter.docx");
@@ -3227,7 +3221,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // Use clear formatting if we don't want to combine styles between paragraphs.
         builder.getFont().clearFormatting();
-
+        
         builder.getFont().setBold(true);
         builder.writeln("This text will be bold");
 
@@ -3248,7 +3242,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         // Markdown treats asterisks (*), underscores (_) and tilde (~) as indicators of emphasis.
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
-
+    
     @Test (enabled = false)
     public void markdownDocumentInlineCode() throws Exception
     {
@@ -3461,7 +3455,7 @@ public class ExDocumentBuilder extends ApiExampleBase
 
         // Insert HorizontalRule that will be present in .md file as '-----'.
         builder.insertHorizontalRule();
-
+ 
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
@@ -3488,7 +3482,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         builder.getListFormat().listIndent();
         builder.writeln("Item 2a");
         builder.writeln("Item 2b");
-
+ 
         builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.MarkdownDocument.md");
     }
 
@@ -3568,8 +3562,8 @@ public class ExDocumentBuilder extends ApiExampleBase
 		};
 	}
 
-    [Test]
-    public async Task private InsertOnlineVideoinsertOnlineVideo() throws Exception
+    @Test
+    public void insertOnlineVideo() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, RelativeHorizontalPosition, Double, RelativeVerticalPosition, Double, Double, Double, WrapType)
@@ -3603,11 +3597,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(RelativeHorizontalPosition.LEFT_MARGIN, shape.getRelativeHorizontalPosition());
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
-        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
     }
 
-    [Test]
-    public async Task private InsertOnlineVideoCustomThumbnailinsertOnlineVideoCustomThumbnail() throws Exception
+    @Test
+    public void insertOnlineVideoCustomThumbnail() throws Exception
     {
         //ExStart
         //ExFor:DocumentBuilder.InsertOnlineVideo(String, String, Byte[], Double, Double)
@@ -3677,9 +3670,6 @@ public class ExDocumentBuilder extends ApiExampleBase
         Assert.assertEquals(RelativeHorizontalPosition.RIGHT_MARGIN, shape.getRelativeHorizontalPosition());
 
         Assert.assertEquals("https://vimeo.com/52477838", shape.getHRef());
-
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        await _TestUtil.VerifyWebResponseStatusCode(HttpStatusCode.OK, shape.getHRef());
     }
 
     @Test

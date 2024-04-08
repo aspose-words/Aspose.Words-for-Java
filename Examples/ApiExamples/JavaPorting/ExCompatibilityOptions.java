@@ -14,8 +14,7 @@ import com.aspose.words.Document;
 import com.aspose.words.CompatibilityOptions;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.MsWordVersion;
-import com.aspose.ms.System.Convert;
-import java.lang.Class;
+import java.util.ArrayList;
 import org.testng.Assert;
 
 
@@ -60,24 +59,93 @@ public class ExCompatibilityOptions extends ApiExampleBase
     /// </summary>
     private static void printCompatibilityOptions(CompatibilityOptions options)
     {
-        for (int i = 1; i >= 0; i--)
-        {
-            System.out.println(Convert.toBoolean(i) ? "\tEnabled options:" : "\tDisabled options:");
-            SortedSet<String> optionNames = new SortedSet<String>();
+        ArrayList<String> enabledOptions = new ArrayList<String>();
+        ArrayList<String> disabledOptions = new ArrayList<String>();
+        addOptionName(options.getAdjustLineHeightInTable(), "AdjustLineHeightInTable", enabledOptions, disabledOptions);
+        addOptionName(options.getAlignTablesRowByRow(), "AlignTablesRowByRow", enabledOptions, disabledOptions);
+        addOptionName(options.getAllowSpaceOfSameStyleInTable(), "AllowSpaceOfSameStyleInTable", enabledOptions, disabledOptions);
+        addOptionName(options.getApplyBreakingRules(), "ApplyBreakingRules", enabledOptions, disabledOptions);
+        addOptionName(options.getAutoSpaceLikeWord95(), "AutoSpaceLikeWord95", enabledOptions, disabledOptions);
+        addOptionName(options.getAutofitToFirstFixedWidthCell(), "AutofitToFirstFixedWidthCell", enabledOptions, disabledOptions);
+        addOptionName(options.getBalanceSingleByteDoubleByteWidth(), "BalanceSingleByteDoubleByteWidth", enabledOptions, disabledOptions);
+        addOptionName(options.getCachedColBalance(), "CachedColBalance", enabledOptions, disabledOptions);
+        addOptionName(options.getConvMailMergeEsc(), "ConvMailMergeEsc", enabledOptions, disabledOptions);
+        addOptionName(options.getDisableOpenTypeFontFormattingFeatures(), "DisableOpenTypeFontFormattingFeatures", enabledOptions, disabledOptions);
+        addOptionName(options.getDisplayHangulFixedWidth(), "DisplayHangulFixedWidth", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotAutofitConstrainedTables(), "DoNotAutofitConstrainedTables", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotBreakConstrainedForcedTable(), "DoNotBreakConstrainedForcedTable", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotBreakWrappedTables(), "DoNotBreakWrappedTables", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotExpandShiftReturn(), "DoNotExpandShiftReturn", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotLeaveBackslashAlone(), "DoNotLeaveBackslashAlone", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotSnapToGridInCell(), "DoNotSnapToGridInCell", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotSuppressIndentation(), "DoNotSnapToGridInCell", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotSuppressParagraphBorders(), "DoNotSuppressParagraphBorders", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotUseEastAsianBreakRules(), "DoNotUseEastAsianBreakRules", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotUseHTMLParagraphAutoSpacing(), "DoNotUseHTMLParagraphAutoSpacing", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotUseIndentAsNumberingTabStop(), "DoNotUseIndentAsNumberingTabStop", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotVertAlignCellWithSp(), "DoNotVertAlignCellWithSp", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotVertAlignInTxbx(), "DoNotVertAlignInTxbx", enabledOptions, disabledOptions);
+        addOptionName(options.getDoNotWrapTextWithPunct(), "DoNotWrapTextWithPunct", enabledOptions, disabledOptions);
+        addOptionName(options.getFootnoteLayoutLikeWW8(), "FootnoteLayoutLikeWW8", enabledOptions, disabledOptions);
+        addOptionName(options.getForgetLastTabAlignment(), "ForgetLastTabAlignment", enabledOptions, disabledOptions);
+        addOptionName(options.getGrowAutofit(), "GrowAutofit", enabledOptions, disabledOptions);
+        addOptionName(options.getLayoutRawTableWidth(), "LayoutRawTableWidth", enabledOptions, disabledOptions);
+        addOptionName(options.getLayoutTableRowsApart(), "LayoutTableRowsApart", enabledOptions, disabledOptions);
+        addOptionName(options.getLineWrapLikeWord6(), "LineWrapLikeWord6", enabledOptions, disabledOptions);
+        addOptionName(options.getMWSmallCaps(), "MWSmallCaps", enabledOptions, disabledOptions);
+        addOptionName(options.getNoColumnBalance(), "NoColumnBalance", enabledOptions, disabledOptions);
+        addOptionName(options.getNoExtraLineSpacing(), "NoExtraLineSpacing", enabledOptions, disabledOptions);
+        addOptionName(options.getNoLeading(), "NoLeading", enabledOptions, disabledOptions);
+        addOptionName(options.getNoSpaceRaiseLower(), "NoSpaceRaiseLower", enabledOptions, disabledOptions);
+        addOptionName(options.getNoTabHangInd(), "NoTabHangInd", enabledOptions, disabledOptions);
+        addOptionName(options.getOverrideTableStyleFontSizeAndJustification(), "OverrideTableStyleFontSizeAndJustification", enabledOptions, disabledOptions);
+        addOptionName(options.getPrintBodyTextBeforeHeader(), "PrintBodyTextBeforeHeader", enabledOptions, disabledOptions);
+        addOptionName(options.getPrintColBlack(), "PrintColBlack", enabledOptions, disabledOptions);
+        addOptionName(options.getSelectFldWithFirstOrLastChar(), "SelectFldWithFirstOrLastChar", enabledOptions, disabledOptions);
+        addOptionName(options.getShapeLayoutLikeWW8(), "ShapeLayoutLikeWW8", enabledOptions, disabledOptions);
+        addOptionName(options.getShowBreaksInFrames(), "ShowBreaksInFrames", enabledOptions, disabledOptions);
+        addOptionName(options.getSpaceForUL(), "SpaceForUL", enabledOptions, disabledOptions);
+        addOptionName(options.getSpacingInWholePoints(), "SpacingInWholePoints", enabledOptions, disabledOptions);
+        addOptionName(options.getSplitPgBreakAndParaMark(), "SplitPgBreakAndParaMark", enabledOptions, disabledOptions);
+        addOptionName(options.getSubFontBySize(), "SubFontBySize", enabledOptions, disabledOptions);
+        addOptionName(options.getSuppressBottomSpacing(), "SuppressBottomSpacing", enabledOptions, disabledOptions);
+        addOptionName(options.getSuppressSpBfAfterPgBrk(), "SuppressSpBfAfterPgBrk", enabledOptions, disabledOptions);
+        addOptionName(options.getSuppressSpacingAtTopOfPage(), "SuppressSpacingAtTopOfPage", enabledOptions, disabledOptions);
+        addOptionName(options.getSuppressTopSpacing(), "SuppressTopSpacing", enabledOptions, disabledOptions);
+        addOptionName(options.getSuppressTopSpacingWP(), "SuppressTopSpacingWP", enabledOptions, disabledOptions);
+        addOptionName(options.getSwapBordersFacingPgs(), "SwapBordersFacingPgs", enabledOptions, disabledOptions);
+        addOptionName(options.getSwapInsideAndOutsideForMirrorIndentsAndRelativePositioning(), "SwapInsideAndOutsideForMirrorIndentsAndRelativePositioning", enabledOptions, disabledOptions);
+        addOptionName(options.getTransparentMetafiles(), "TransparentMetafiles", enabledOptions, disabledOptions);
+        addOptionName(options.getTruncateFontHeightsLikeWP6(), "TruncateFontHeightsLikeWP6", enabledOptions, disabledOptions);
+        addOptionName(options.getUICompat97To2003(), "UICompat97To2003", enabledOptions, disabledOptions);
+        addOptionName(options.getUlTrailSpace(), "UlTrailSpace", enabledOptions, disabledOptions);
+        addOptionName(options.getUnderlineTabInNumList(), "UnderlineTabInNumList", enabledOptions, disabledOptions);
+        addOptionName(options.getUseAltKinsokuLineBreakRules(), "UseAltKinsokuLineBreakRules", enabledOptions, disabledOptions);
+        addOptionName(options.getUseAnsiKerningPairs(), "UseAnsiKerningPairs", enabledOptions, disabledOptions);
+        addOptionName(options.getUseFELayout(), "UseFELayout", enabledOptions, disabledOptions);
+        addOptionName(options.getUseNormalStyleForList(), "UseNormalStyleForList", enabledOptions, disabledOptions);
+        addOptionName(options.getUsePrinterMetrics(), "UsePrinterMetrics", enabledOptions, disabledOptions);
+        addOptionName(options.getUseSingleBorderforContiguousCells(), "UseSingleBorderforContiguousCells", enabledOptions, disabledOptions);
+        addOptionName(options.getUseWord2002TableStyleRules(), "UseWord2002TableStyleRules", enabledOptions, disabledOptions);
+        addOptionName(options.getUseWord2010TableStyleRules(), "UseWord2010TableStyleRules", enabledOptions, disabledOptions);
+        addOptionName(options.getUseWord97LineBreakRules(), "UseWord97LineBreakRules", enabledOptions, disabledOptions);
+        addOptionName(options.getWPJustification(), "WPJustification", enabledOptions, disabledOptions);
+        addOptionName(options.getWPSpaceWidth(), "WPSpaceWidth", enabledOptions, disabledOptions);
+        addOptionName(options.getWrapTrailSpaces(), "WrapTrailSpaces", enabledOptions, disabledOptions);
+        System.out.println("\tEnabled options:");
+        for (String optionName : enabledOptions)
+            System.out.println("\t\t{optionName}");
+        System.out.println("\tDisabled options:");
+        for (String optionName : disabledOptions)
+            System.out.println("\t\t{optionName}");
+    }
 
-            for (PropertyDescriptor descriptor : (Iterable<PropertyDescriptor>) TypeDescriptor.GetProperties(options))
-            {
-                if (descriptor.PropertyType == Class.GetType("System.Boolean") && i == Convert.toInt32(descriptor.GetValue(options)))
-                {
-                    optionNames.Add(descriptor.Name);
-                }
-            }
-
-            for (String s : optionNames)
-            {
-                System.out.println("\t\t{s}");
-            }
-        }
+    private static void addOptionName(boolean option, String optionName, ArrayList<String> enabledOptions, ArrayList<String> disabledOptions)
+    {
+        if (option)
+            enabledOptions.add(optionName);
+        else
+            disabledOptions.add(optionName);
     }
     //ExEnd
 

@@ -430,7 +430,7 @@ class ExHtmlFixedSaveOptions !Test class should be public in Java to run, please
     public void pageMarginsException()
     {
         HtmlFixedSaveOptions saveOptions = new HtmlFixedSaveOptions();
-        Assert.That(() => saveOptions.setPageMargins(-1), Throws.<IllegalArgumentException>TypeOf());
+        Assert.<IllegalArgumentException>Throws(() => saveOptions.setPageMargins(-1));
     }
 
     @Test (dataProvider = "optimizeGraphicsOutputDataProvider")

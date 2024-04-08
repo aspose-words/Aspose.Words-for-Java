@@ -287,8 +287,8 @@ public class ExDocumentProperties extends ApiExampleBase
         // Set a different template for our document, and then update the "Template" built-in property manually to reflect this change.
         doc.setAttachedTemplate(getMyDir() + "Business brochure.dotx");
 
-        Assert.assertEquals("Normal", properties.getTemplate());    
-        
+        Assert.assertEquals("Normal", properties.getTemplate());
+
         properties.setTemplate(doc.getAttachedTemplate());
 
         // "ContentStatus" is a descriptive built-in property.
@@ -447,7 +447,7 @@ public class ExDocumentProperties extends ApiExampleBase
         //ExFor:Properties.BuiltInDocumentProperties.TitlesOfParts
         //ExSummary:Shows the relationship between "HeadingPairs" and "TitlesOfParts" properties.
         Document doc = new Document(getMyDir() + "Heading pairs and titles of parts.docx");
-        
+
         // We can find the combined values of these collections via
         // "File" -> "Properties" -> "Advanced Properties" -> "Contents" tab.
         // The HeadingPairs property is a collection of <string, int> pairs that
@@ -580,7 +580,7 @@ public class ExDocumentProperties extends ApiExampleBase
         Assert.assertEquals(true, customProperty.isLinkToContent());
         Assert.assertEquals("MyBookmark", customProperty.getLinkSource());
         Assert.assertEquals("Hello world!", customProperty.getValue());
-        
+
         doc.save(getArtifactsDir() + "DocumentProperties.LinkCustomDocumentPropertiesToBookmark.docx");
         //ExEnd
 
