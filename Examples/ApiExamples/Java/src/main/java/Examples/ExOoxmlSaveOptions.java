@@ -404,4 +404,26 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         builder.getDocument().save(getArtifactsDir() + "OoxmlSaveOptions.Zip64ModeOption.docx", saveOptions);
         //ExEnd:Zip64ModeOption
     }
+
+    @Test
+    public void digitalSignature() throws Exception
+    {
+        //ExStart:DigitalSignature
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:OoxmlSaveOptions.DigitalSignatureDetails
+        //ExSummary:Shows how to sign OOXML document.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        saveOptions.getDigitalSignatureDetails().setComments("Some comments");
+        saveOptions.getDigitalSignatureDetails().setSignTime(new Date());
+        saveOptions.setDigitalSignatureDetails(new DigitalSignatureDetails(
+                certificateHolder,
+                new SignOptions()));
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.DigitalSignature.docx", saveOptions);
+        //ExEnd:DigitalSignature
+    }
 }

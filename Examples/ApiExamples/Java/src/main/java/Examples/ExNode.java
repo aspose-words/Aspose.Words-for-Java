@@ -12,7 +12,9 @@ import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Array;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class ExNode extends ApiExampleBase {
@@ -105,7 +107,6 @@ public class ExNode extends ApiExampleBase {
         //ExFor:CompositeNode
         //ExFor:CompositeNode.GetChild
         //ExFor:CompositeNode.GetChildNodes(NodeType, bool)
-        //ExFor:CompositeNode.GetEnumerator
         //ExFor:NodeCollection.Count
         //ExFor:NodeCollection.Item
         //ExSummary:Shows how to traverse through a composite node's collection of child nodes.
@@ -135,12 +136,12 @@ public class ExNode extends ApiExampleBase {
             switch (child.getNodeType()) {
                 case NodeType.RUN:
                     System.out.println("Run contents:");
-                    System.out.println("\t\"{child.GetText().Trim()}\"");
+                    System.out.println(MessageFormat.format("\t\"{0}\"", child.getText().trim()));
                     break;
                 case NodeType.SHAPE:
-                    Shape childShape = (Shape) child;
+                    Shape childShape = (Shape)child;
                     System.out.println("Shape:");
-                    System.out.println("\t{childShape.ShapeType}, {childShape.Width}x{childShape.Height}");
+                    System.out.println(MessageFormat.format("\t{0}, {1}x{2}", childShape.getShapeType(), childShape.getWidth(), childShape.getHeight()));
                     Assert.assertEquals(100, shape.getCustomNodeId()); //ExSkip
                     break;
             }
@@ -206,7 +207,7 @@ public class ExNode extends ApiExampleBase {
                 System.out.println();
                 traverseAllNodes((CompositeNode) childNode, depth + 1);
             } else if (childNode instanceof Inline) {
-                System.out.println(" - \"{childNode.GetText().Trim()}\"");
+                System.out.println(MessageFormat.format(" - \"{0}\"", childNode.getText().trim()));
             } else {
                 System.out.println();
             }
@@ -365,9 +366,11 @@ public class ExNode extends ApiExampleBase {
         // Currently does not find rare fields in which the FieldCode or FieldResult spans across multiple paragraphs.
         NodeList resultList =
                 doc.selectNodes("//FieldStart/following-sibling::node()[following-sibling::FieldEnd]");
+        Run[] runs = Arrays.stream(resultList.toArray()).filter(n -> n.getNodeType() == NodeType.RUN).toArray(Run[]::new);
+        Run run = runs[0];
 
         // Check if the specified run is one of the nodes that are inside the field.
-        System.out.println("Contents of the first Run node that's part of a field: {resultList.First(n => n.NodeType == NodeType.Run).GetText().Trim()}");
+        System.out.println(MessageFormat.format("Contents of the first Run node that''s part of a field: {0}", run.getText().trim()));
         //ExEnd
     }
 

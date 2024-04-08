@@ -3080,4 +3080,84 @@ public class ExShape extends ApiExampleBase {
         Assert.assertEquals(textBoxControl.getText(), "Updated text");
         //ExEnd:TextBoxOleControl
     }
+
+    @Test
+    public void glow() throws Exception
+    {
+        //ExStart:Glow
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:ShapeBase.Glow
+        //ExFor:GlowFormat.Color
+        //ExFor:GlowFormat.Radius
+        //ExFor:GlowFormat.Transparency
+        //ExFor:GlowFormat.Remove()
+        //ExSummary:Shows how to interact with glow shape effect.
+        Document doc = new Document(getMyDir() + "Various shapes.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        // Apply glow effect to the shape.
+        shape.getGlow().setColor(msColor.getSalmon());
+        shape.getGlow().setRadius(30.0);
+        shape.getGlow().setTransparency(0.15);
+
+        doc.save(getArtifactsDir() + "Shape.Glow.docx");
+
+        doc = new Document(getArtifactsDir() + "Shape.Glow.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        // Check glow effect attributes.
+        Assert.assertEquals(new Color((250), (128), (114), (217)).getRGB(), shape.getGlow().getColor().getRGB());
+        Assert.assertEquals(30, shape.getGlow().getRadius());
+        Assert.assertEquals(0.15d, shape.getGlow().getTransparency(), 0.01d);
+
+        // Remove glow effect from the shape.
+        shape.getGlow().remove();
+
+        Assert.assertEquals(Color.BLACK.getRGB(), shape.getGlow().getColor().getRGB());
+        Assert.assertEquals(0, shape.getGlow().getRadius());
+        Assert.assertEquals(0, shape.getGlow().getTransparency());
+        //ExEnd:Glow
+    }
+
+    @Test
+    public void reflection() throws Exception
+    {
+        //ExStart:Reflection
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:ShapeBase.Reflection
+        //ExFor:ReflectionFormat.Size
+        //ExFor:ReflectionFormat.Blur
+        //ExFor:ReflectionFormat.Transparency
+        //ExFor:ReflectionFormat.Distance
+        //ExFor:ReflectionFormat.Remove()
+        //ExSummary:Shows how to interact with reflection shape effect.
+        Document doc = new Document(getMyDir() + "Various shapes.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        // Apply reflection effect to the shape.
+        shape.getReflection().setTransparency(0.37);
+        shape.getReflection().setSize(0.48);
+        shape.getReflection().setBlur(17.5);
+        shape.getReflection().setDistance(9.2);
+
+        doc.save(getArtifactsDir() + "Shape.Reflection.docx");
+
+        doc = new Document(getArtifactsDir() + "Shape.Reflection.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        // Check reflection effect attributes.
+        Assert.assertEquals(0.37d, shape.getReflection().getTransparency(), 0.01d);
+        Assert.assertEquals(0.48d, shape.getReflection().getSize(), 0.01d);
+        Assert.assertEquals(17.5d, shape.getReflection().getBlur(), 0.01d);
+        Assert.assertEquals(9.2d, shape.getReflection().getDistance(), 0.01d);
+
+        // Remove reflection effect from the shape.
+        shape.getReflection().remove();
+
+        Assert.assertEquals(0, shape.getReflection().getTransparency());
+        Assert.assertEquals(0, shape.getReflection().getSize());
+        Assert.assertEquals(0, shape.getReflection().getBlur());
+        Assert.assertEquals(0, shape.getReflection().getDistance());
+        //ExEnd:Reflection
+    }
 }

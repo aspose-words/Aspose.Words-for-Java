@@ -258,4 +258,19 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
                         {BlockImportMode.MERGE},
                 };
     }
+
+    @Test
+    public void fontFaceRules() throws Exception
+    {
+        //ExStart:FontFaceRules
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:HtmlLoadOptions.SupportFontFaceRules
+        //ExSummary:Shows how to load declared "@font-face" rules.
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions();
+        loadOptions.setSupportFontFaceRules(true);
+        Document doc = new Document(getMyDir() + "Html with FontFace.html", loadOptions);
+
+        Assert.assertEquals("Squarish Sans CT Regular", doc.getFontInfos().get(0).getName());
+        //ExEnd:FontFaceRules
+    }
 }

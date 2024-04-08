@@ -14,7 +14,6 @@ import com.aspose.words.List;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
 import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
-import org.apache.commons.collections4.IterableUtils;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -1725,9 +1724,8 @@ public class ExDocument extends ApiExampleBase {
         pdfDoc.close();
     }
 
-    //JAVA-added data provider for test method
     @DataProvider(name = "layoutOptionsHiddenTextDataProvider")
-    public static Object[][] layoutOptionsHiddenTextDataProvider() throws Exception {
+    public static Object[][] layoutOptionsHiddenTextDataProvider() {
         return new Object[][]
                 {
                         {false},

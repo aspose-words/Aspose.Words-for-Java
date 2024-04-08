@@ -390,4 +390,28 @@ public class ExStyles extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Styles.StylePriority.docx");
         //ExEnd:StylePriority
     }
+
+    @Test
+    public void linkedStyleName() throws Exception
+    {
+        //ExStart:LinkedStyleName
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:Style.LinkedStyleName
+        //ExSummary:Shows how to link styles among themselves.
+        Document doc = new Document();
+
+        Style styleHeading1 = doc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1);
+
+        Style styleHeading1Char = doc.getStyles().add(StyleType.CHARACTER, "Heading 1 Char");
+        styleHeading1Char.getFont().setName("Verdana");
+        styleHeading1Char.getFont().setBold(true);
+        styleHeading1Char.getFont().getBorder().setLineStyle(LineStyle.DOT);
+        styleHeading1Char.getFont().getBorder().setLineWidth(15.0);
+
+        styleHeading1.setLinkedStyleName("Heading 1 Char");
+
+        Assert.assertEquals("Heading 1 Char", styleHeading1.getLinkedStyleName());
+        Assert.assertEquals("Heading 1", styleHeading1Char.getLinkedStyleName());
+        //ExEnd:LinkedStyleName
+    }
 }

@@ -69,8 +69,8 @@ public class ExRendering extends ApiExampleBase {
         // Calculate the number of rows and columns that we will fill with thumbnails.
         final int thumbColumns = 2;
         int thumbRows = doc.getPageCount() / thumbColumns;
-
         int remainder = doc.getPageCount() % thumbColumns;
+
         if (remainder > 0) thumbRows++;
 
         // Scale the thumbnails relative to the size of the first page.
