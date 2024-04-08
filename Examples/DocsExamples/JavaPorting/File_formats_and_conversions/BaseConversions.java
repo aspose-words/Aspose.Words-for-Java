@@ -151,6 +151,16 @@ public class BaseConversions extends DocsExamplesBase
     }
 
     @Test
+    public void docxToXlsx() throws Exception
+    {
+        //ExStart:DocxToXlsx
+        //GistId:f5a08835e924510d3809e41c3b8b81a2
+        Document doc = new Document(getMyDir() + "Document.docx");
+        doc.save(getArtifactsDir() + "BaseConversions.DocxToXlsx.xlsx");
+        //ExEnd:DocxToXlsx
+    }
+
+    @Test
     public void txtToDocx() throws Exception
     {
         //ExStart:TxtToDocx
