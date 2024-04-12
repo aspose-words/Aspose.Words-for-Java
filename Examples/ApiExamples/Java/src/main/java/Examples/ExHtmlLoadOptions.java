@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -263,7 +263,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
     public void fontFaceRules() throws Exception
     {
         //ExStart:FontFaceRules
-        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //GistId:31b7350f8d91d4b12eb43978940d566a
         //ExFor:HtmlLoadOptions.SupportFontFaceRules
         //ExSummary:Shows how to load declared "@font-face" rules.
         HtmlLoadOptions loadOptions = new HtmlLoadOptions();

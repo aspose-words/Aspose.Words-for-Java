@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -563,7 +563,7 @@ public class ExParagraphFormat extends ApiExampleBase {
     public void mirrorIndents() throws Exception
     {
         //ExStart:MirrorIndents
-        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //GistId:31b7350f8d91d4b12eb43978940d566a
         //ExFor:ParagraphFormat.MirrorIndents
         //ExSummary:Show how to make left and right indents the same.
         Document doc = new Document(getMyDir() + "Document.docx");

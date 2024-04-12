@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -3085,7 +3085,7 @@ public class ExShape extends ApiExampleBase {
     public void glow() throws Exception
     {
         //ExStart:Glow
-        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //GistId:31b7350f8d91d4b12eb43978940d566a
         //ExFor:ShapeBase.Glow
         //ExFor:GlowFormat.Color
         //ExFor:GlowFormat.Radius
@@ -3123,7 +3123,7 @@ public class ExShape extends ApiExampleBase {
     public void reflection() throws Exception
     {
         //ExStart:Reflection
-        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //GistId:31b7350f8d91d4b12eb43978940d566a
         //ExFor:ShapeBase.Reflection
         //ExFor:ReflectionFormat.Size
         //ExFor:ReflectionFormat.Blur

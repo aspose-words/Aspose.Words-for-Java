@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -395,7 +395,7 @@ public class ExStyles extends ApiExampleBase {
     public void linkedStyleName() throws Exception
     {
         //ExStart:LinkedStyleName
-        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //GistId:31b7350f8d91d4b12eb43978940d566a
         //ExFor:Style.LinkedStyleName
         //ExSummary:Shows how to link styles among themselves.
         Document doc = new Document();
