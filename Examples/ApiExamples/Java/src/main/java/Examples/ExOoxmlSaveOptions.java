@@ -417,11 +417,12 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
 
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
-        saveOptions.getDigitalSignatureDetails().setComments("Some comments");
-        saveOptions.getDigitalSignatureDetails().setSignTime(new Date());
+        SignOptions signOptions = new SignOptions();
+        signOptions.setComments("Some comments");
+        signOptions.setSignTime(new Date());
         saveOptions.setDigitalSignatureDetails(new DigitalSignatureDetails(
                 certificateHolder,
-                new SignOptions()));
+                signOptions));
 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.DigitalSignature.docx", saveOptions);
         //ExEnd:DigitalSignature

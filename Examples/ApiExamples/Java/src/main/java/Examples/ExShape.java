@@ -3096,7 +3096,7 @@ public class ExShape extends ApiExampleBase {
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
         // Apply glow effect to the shape.
-        shape.getGlow().setColor(msColor.getSalmon());
+        shape.getGlow().setColor(new Color(0xFFFA8072));
         shape.getGlow().setRadius(30.0);
         shape.getGlow().setTransparency(0.15);
 
