@@ -54,7 +54,6 @@ import com.aspose.words.Paragraph;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.FindReplaceOptions;
 import org.testng.annotations.DataProvider;
-import com.aspose.words.ref.Ref;
 
 
 @Test
@@ -168,7 +167,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             .<StructuredDocumentTag>OfType().ToArray();
 
         Assert.assertEquals(true, tags[0].getChecked());
-        Assert.That(tags[0].getXmlMapping().getStoreItemId(), Is.Empty);
+        Assert.assertEquals("", tags[0].getXmlMapping().getStoreItemId());
     }
 
     @Test (groups = "SkipMono")
@@ -240,7 +239,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         tag.setTag("MyPlainTextSDT");
 
         // Every structured document tag has a random unique ID.
-        Assert.That(tag.getId(), Is.Positive);
+        Assert.assertTrue(tag.getId() > 0);
 
         // Set the font for the text inside the structured document tag.
         tag.getContentsFont().setName("Arial");
@@ -281,7 +280,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals("My plain text", tag.getTitle());
         Assert.assertEquals(Color.MAGENTA.getRGB(), tag.getColor().getRGB());
         Assert.assertEquals("MyPlainTextSDT", tag.getTag());
-        Assert.That(tag.getId(), Is.Positive);
+        Assert.assertTrue(tag.getId() > 0);
         Assert.assertEquals("Arial", tag.getContentsFont().getName());
         Assert.assertEquals("Arial Black", tag.getEndCharacterFont().getName());
         Assert.assertTrue(tag.getMultiline());
@@ -613,9 +612,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.CustomXml.docx");
         xmlPart = doc.getCustomXmlParts().get(0);
 
-        Ref<Guid> referenceToGuid = new Ref<Guid>(Guid);
-        Assert.True(Guid.TryParse(xmlPart.getId(), /*out*/ referenceToGuid temp));
-        Guid = referenceToGuid.get();
+        Assert.DoesNotThrow(() => Guid.parse(xmlPart.getId()));
         Assert.assertEquals("<root><text>Hello world!</text></root>", Encoding.getUTF8().getString(xmlPart.getData()));
         Assert.assertEquals("http://www.w3.org/2001/XMLSchema", xmlPart.getSchemas().get(0));
 
@@ -697,9 +694,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.XmlMapping.docx");
         xmlPart = doc.getCustomXmlParts().get(0);
 
-        Ref<Guid> referenceToGuid = new Ref<Guid>(Guid);
-        Assert.True(Guid.TryParse(xmlPart.getId(), /*out*/ referenceToGuid temp));
-        Guid = referenceToGuid.get();
+        Assert.DoesNotThrow(() => Guid.parse(xmlPart.getId()));
         Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>", Encoding.getUTF8().getString(xmlPart.getData()));
 
         tag = (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 0, true);
@@ -738,9 +733,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         doc = new Document(getArtifactsDir() + "StructuredDocumentTag.StructuredDocumentTagRangeStartXmlMapping.docx");
         xmlPart = doc.getCustomXmlParts().get(0);
 
-        Ref<Guid> referenceToGuid = new Ref<Guid>(Guid);
-        Assert.True(Guid.TryParse(xmlPart.getId(), /*out*/ referenceToGuid temp));
-        Guid = referenceToGuid.get();
+        Assert.DoesNotThrow(() => Guid.parse(xmlPart.getId()));
         Assert.assertEquals("<root><text>Text element #1</text><text>Text element #2</text></root>", Encoding.getUTF8().getString(xmlPart.getData()));
 
         sdtRangeStart = (StructuredDocumentTagRangeStart)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true);
@@ -903,7 +896,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
             (StructuredDocumentTag)doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG, 1, true);
 
         Assert.assertEquals(SdtType.PLAIN_TEXT, plainTextSdt.getSdtType());
-        Assert.That(() => plainTextSdt.getBuildingBlockGallery(), Throws.<IllegalStateException>TypeOf(),
+        Assert.<IllegalStateException>Throws(() => { String _ =plainTextSdt.getBuildingBlockGallery(); },
             "BuildingBlockType is only accessible for BuildingBlockGallery SDT type.");
     }
 
@@ -955,6 +948,12 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         doc.getFirstSection().getBody().appendChild(tag);
 
         doc.save(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
+    }
+
+    @Test
+    public void usePdfDocumentForUpdateSdtContent() throws Exception
+    {
+        updateSdtContent();
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "StructuredDocumentTag.UpdateSdtContent.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
@@ -1133,7 +1132,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     @Test
     public void sdtChildNodes() throws Exception
     {
-        //ExStart            
+        //ExStart
         //ExFor:StructuredDocumentTagRangeStart.GetChildNodes(NodeType, bool)
         //ExSummary:Shows how to get child nodes of StructuredDocumentTagRangeStart.
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
@@ -1165,16 +1164,14 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
 
         builder.writeln("StructuredDocumentTag element");
 
-        Ref<StructuredDocumentTagRangeStart> referenceToStructuredDocumentTagRangeStart = new Ref<StructuredDocumentTagRangeStart>(StructuredDocumentTagRangeStart);
-        InsertStructuredDocumentTagRanges(doc, /*out*/ referenceToStructuredDocumentTagRangeStart rangeStart);
-        StructuredDocumentTagRangeStart = referenceToStructuredDocumentTagRangeStart.get();            
+        StructuredDocumentTagRangeStart rangeStart = insertStructuredDocumentTagRanges(doc);
 
         // Removes ranged structured document tag, but keeps content inside.
-        rangeStart.RemoveSelfOnly();
+        rangeStart.removeSelfOnly();
 
         rangeStart = (StructuredDocumentTagRangeStart)doc.getChild(
             NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, false);
-        Assert.AreEqual(null, rangeStart);
+        Assert.assertEquals(null, rangeStart);
 
         StructuredDocumentTagRangeEnd rangeEnd = (StructuredDocumentTagRangeEnd)doc.getChild(
             NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, 0, false);
@@ -1182,28 +1179,28 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Assert.assertEquals(null, rangeEnd);
         Assert.assertEquals("StructuredDocumentTag element", doc.getText().trim());
 
-        referenceToRangeStart.set(rangeStart);
-        InsertStructuredDocumentTagRanges(doc, /*out*/ referenceToRangeStart);
-        rangeStart = referenceToRangeStart.get();
+        rangeStart = insertStructuredDocumentTagRanges(doc);
 
         Node paragraphNode = rangeStart.LastOrDefault();
         Assert.AreEqual("StructuredDocumentTag element", paragraphNode?.GetText().Trim());
 
         // Removes ranged structured document tag and content inside.
-        rangeStart.RemoveAllChildren();
+        rangeStart.removeAllChildren();
 
         paragraphNode = rangeStart.LastOrDefault();
         Assert.AreEqual(null, paragraphNode?.GetText());
     }
 
     @Test (enabled = false)
-    public void insertStructuredDocumentTagRanges(Document doc, /*out*/Ref<StructuredDocumentTagRangeStart> rangeStart)
+    public StructuredDocumentTagRangeStart insertStructuredDocumentTagRanges(Document doc)
     {
-        rangeStart.set(new StructuredDocumentTagRangeStart(doc, SdtType.PLAIN_TEXT));
-        StructuredDocumentTagRangeEnd rangeEnd = new StructuredDocumentTagRangeEnd(doc, rangeStart.get().getId());
+        StructuredDocumentTagRangeStart rangeStart = new StructuredDocumentTagRangeStart(doc, SdtType.PLAIN_TEXT);
+        StructuredDocumentTagRangeEnd rangeEnd = new StructuredDocumentTagRangeEnd(doc, rangeStart.getId());
 
-        doc.getFirstSection().getBody().insertBefore(rangeStart.get(), doc.getFirstSection().getBody().getFirstParagraph());
+        doc.getFirstSection().getBody().insertBefore(rangeStart, doc.getFirstSection().getBody().getFirstParagraph());
         doc.getLastSection().getBody().insertAfter(rangeEnd, doc.getFirstSection().getBody().getFirstParagraph());
+
+        return rangeStart;
     }
     //ExEnd
 
@@ -1239,7 +1236,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     @Test
     public void rangeSdt() throws Exception
     {
-        //ExStart            
+        //ExStart
         //ExFor:StructuredDocumentTagCollection.GetById(int)
         //ExFor:StructuredDocumentTagCollection.GetByTitle(String)
         //ExFor:IStructuredDocumentTag.IsMultiSection
@@ -1373,15 +1370,15 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
         
         // This collection provides a unified interface for accessing ranged and non-ranged structured tags. 
-        Iterable<IStructuredDocumentTag> sdts = doc.getRange().getStructuredDocumentTags().<IStructuredDocumentTag>Cast().ToList();
+        Iterable<IStructuredDocumentTag> sdts = doc.getRange().getStructuredDocumentTags().ToList();
         Assert.AreEqual(5, sdts.Count());
 
         // Here we can get child nodes from the common interface of ranged and non-ranged structured tags.
-        for (IStructuredDocumentTag sdt : sdts)                
+        for (IStructuredDocumentTag sdt : sdts)
             if (sdt.getChildNodes(NodeType.ANY, false).getCount() > 0)
                 sdt.removeSelfOnly();
         
-        sdts = doc.getRange().getStructuredDocumentTags().<IStructuredDocumentTag>Cast().ToList();
+        sdts = doc.getRange().getStructuredDocumentTags().ToList();
         Assert.AreEqual(0, sdts.Count());
         //ExEnd:RemoveSelfOnly
     }

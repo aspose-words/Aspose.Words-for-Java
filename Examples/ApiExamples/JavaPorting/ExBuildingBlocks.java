@@ -166,11 +166,16 @@ public class ExBuildingBlocks extends ApiExampleBase
         Document doc = new Document();
         GlossaryDocument glossaryDoc = new GlossaryDocument();
 
-        glossaryDoc.appendChild(new BuildingBlock(glossaryDoc); { .setName("Block 1"); });
-        glossaryDoc.appendChild(new BuildingBlock(glossaryDoc); { .setName("Block 2"); });
-        glossaryDoc.appendChild(new BuildingBlock(glossaryDoc); { .setName("Block 3"); });
-        glossaryDoc.appendChild(new BuildingBlock(glossaryDoc); { .setName("Block 4"); });
-        glossaryDoc.appendChild(new BuildingBlock(glossaryDoc); { .setName("Block 5"); });
+        BuildingBlock child1 = new BuildingBlock(glossaryDoc); { child1.setName("Block 1"); }
+        glossaryDoc.appendChild(child1);
+        BuildingBlock child2 = new BuildingBlock(glossaryDoc); { child2.setName("Block 2"); }
+        glossaryDoc.appendChild(child2);
+        BuildingBlock child3 = new BuildingBlock(glossaryDoc); { child3.setName("Block 3"); }
+        glossaryDoc.appendChild(child3);
+        BuildingBlock child4 = new BuildingBlock(glossaryDoc); { child4.setName("Block 4"); }
+        glossaryDoc.appendChild(child4);
+        BuildingBlock child5 = new BuildingBlock(glossaryDoc); { child5.setName("Block 5"); }
+        glossaryDoc.appendChild(child5);
 
         Assert.assertEquals(5, glossaryDoc.getBuildingBlocks().getCount());
 

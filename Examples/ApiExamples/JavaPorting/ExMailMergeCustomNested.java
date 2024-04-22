@@ -68,7 +68,7 @@ public class ExMailMergeCustomNested extends ApiExampleBase
 
         // To mail merge from your data source, we must wrap it into an object that implements the IMailMergeDataSource interface.
         CustomerMailMergeDataSource customersDataSource = new CustomerMailMergeDataSource(customers);
-        
+
         doc.getMailMerge().executeWithRegions(customersDataSource);
 
         doc.save(getArtifactsDir() + "NestedMailMergeCustom.CustomDataSource.docx");

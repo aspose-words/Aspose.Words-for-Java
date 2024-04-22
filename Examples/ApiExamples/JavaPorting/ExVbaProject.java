@@ -139,13 +139,13 @@ class ExVbaProject !Test class should be public in Java to run, please fix .Net 
                 references.removeAt(i);
         }
         Assert.assertEquals(4 ,references.getCount());
-        
+
         references.remove(references.get(1));
         Assert.assertEquals(3 ,references.getCount());
- 
+
         doc.save(getArtifactsDir() + "VbaProject.RemoveVbaReference.docm"); 
     }
- 
+
     /// <summary>
     /// Returns string representing LibId path of a specified reference. 
     /// </summary>

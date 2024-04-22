@@ -10,7 +10,7 @@ public class ImageTestClass
 {
     public BufferedImage getImage() { return mImage; }; public void setImage(BufferedImage value) { mImage = value; };
 
-    private BufferedImage mImage;        
+    private BufferedImage mImage;
     public Stream getImageStream() { return mImageStream; }; public void setImageStream(Stream value) { mImageStream = value; };
 
     private Stream mImageStream;

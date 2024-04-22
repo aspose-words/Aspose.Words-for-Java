@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -257,5 +257,20 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
                         {BlockImportMode.PRESERVE},
                         {BlockImportMode.MERGE},
                 };
+    }
+
+    @Test
+    public void fontFaceRules() throws Exception
+    {
+        //ExStart:FontFaceRules
+        //GistId:31b7350f8d91d4b12eb43978940d566a
+        //ExFor:HtmlLoadOptions.SupportFontFaceRules
+        //ExSummary:Shows how to load declared "@font-face" rules.
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions();
+        loadOptions.setSupportFontFaceRules(true);
+        Document doc = new Document(getMyDir() + "Html with FontFace.html", loadOptions);
+
+        Assert.assertEquals("Squarish Sans CT Regular", doc.getFontInfos().get(0).getName());
+        //ExEnd:FontFaceRules
     }
 }

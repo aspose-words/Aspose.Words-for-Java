@@ -50,8 +50,8 @@ public class ExReplaceHyperlinks extends ApiExampleBase
                     continue;
 
                 // Give each URL hyperlink a new URL and name.
-                hyperlink.(NEW_URL);
-                hyperlink.(NEW_NAME);
+                hyperlink.setTarget(NEW_URL);
+                hyperlink.setName(NEW_NAME);
             }
         }
 
@@ -111,45 +111,45 @@ class Hyperlink
     /// <summary>
     /// Gets or sets the display name of the hyperlink.
     /// </summary>
-    String getName() { return mName; }
+    String getName()
+    {
+        return getTextSameParent(mFieldSeparator, mFieldEnd);
+    }
+    void setName(String value)
+    {
+        // Hyperlink display name is stored in the field result, which is a Run 
+        // node between field separator and field end.
+        Run fieldResult = (Run) mFieldSeparator.getNextSibling();
+        fieldResult.setText(value);
 
-    private String mName; => GetTextSameParent(mFieldSeparator, mFieldEnd); 
-        set
-        {
-            // Hyperlink display name is stored in the field result, which is a Run 
-            // node between field separator and field end.
-            Run fieldResult = (Run) mFieldSeparator.NextSibling;
-            fieldResult.Text = value;
-
-            // If the field result consists of more than one run, delete these runs.
-            RemoveSameParent(fieldResult.NextSibling, mFieldEnd);
-        }
+        // If the field result consists of more than one run, delete these runs.
+        removeSameParent(fieldResult.getNextSibling(), mFieldEnd);
     }
 
     /// <summary>
     /// Gets or sets the target URL or bookmark name of the hyperlink.
     /// </summary>
-    String getTarget() { return mTarget; }
-
-    private String mTarget; => mTarget;
-        set
-        {
-            mTarget = value;
-            UpdateFieldCode();
-        }
+    String getTarget()
+    {
+        return mTarget;
+    }
+    void setTarget(String value)
+    {
+        mTarget = value;
+        updateFieldCode();
     }
 
     /// <summary>
     /// True if the hyperlinks target is a bookmark inside the document. False if the hyperlink is a URL.
     /// </summary>
-    boolean isLocal() { return mIsLocal; }
-
-    private boolean mIsLocal; => mIsLocal; 
-        set
-        {
-            mIsLocal = value;
-            UpdateFieldCode();
-        }
+    boolean isLocal()
+    {
+        return mIsLocal;
+    }
+    void isLocal(boolean value)
+    {
+        mIsLocal = value;
+        updateFieldCode();
     }
 
     private void updateFieldCode()

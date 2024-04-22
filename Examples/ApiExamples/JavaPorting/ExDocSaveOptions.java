@@ -83,7 +83,7 @@ public class ExDocSaveOptions extends ApiExampleBase
         doc.save(getArtifactsDir() + "DocSaveOptions.TempFolder.doc", options);
 
         // The folder will persist with no residual contents from the load operation.
-        Assert.That(Directory.getFiles(options.getTempFolder()), Is.Empty);
+        Assert.assertEquals(0, Directory.getFiles(options.getTempFolder()).length);
         //ExEnd
     }
 
@@ -203,9 +203,9 @@ public class ExDocSaveOptions extends ApiExampleBase
         long testedFileLength = new FileInfo(getArtifactsDir() + "DocSaveOptions.AlwaysCompressMetafiles.docx").getLength();
 
         if (compressAllMetafiles)
-            Assert.That(testedFileLength, Is.LessThan(14000));
+            Assert.assertTrue(testedFileLength < 14000);
         else
-            Assert.That(testedFileLength, Is.LessThan(22000));            
+            Assert.assertTrue(testedFileLength < 22000);
     }
 
 	//JAVA-added data provider for test method

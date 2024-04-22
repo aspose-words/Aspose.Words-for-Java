@@ -204,7 +204,7 @@ public class ExDocumentVisitor extends ApiExampleBase
         public /*override*/ /*VisitorAction*/int visitSubDocument(SubDocument subDocument)
         {
             indentAndAppendLine("[SubDocument]");
-            
+
             return VisitorAction.CONTINUE;
         }
 

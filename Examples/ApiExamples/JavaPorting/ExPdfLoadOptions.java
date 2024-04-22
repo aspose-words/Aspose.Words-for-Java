@@ -29,7 +29,7 @@ class ExPdfLoadOptions !Test class should be public in Java to run, please fix .
         //ExSummary:Shows how to skip images during loading PDF files.
         PdfLoadOptions options = new PdfLoadOptions();
         options.setSkipPdfImages(isSkipPdfImages);
-        
+
         Document doc = new Document(getMyDir() + "Images.pdf", options);
         NodeCollection shapeCollection = doc.getChildNodes(NodeType.SHAPE, true);
 

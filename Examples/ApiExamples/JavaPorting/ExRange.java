@@ -174,7 +174,7 @@ public class ExRange extends ApiExampleBase
         // Set the "IgnoreDeleted" flag to "false" to get the find-and-replace
         // operation to also search for text inside delete revisions.
         options.setIgnoreDeleted(ignoreTextInsideDeleteRevisions);
-        
+
         doc.getRange().replace("Hello", "Greetings", options);
 
         Assert.assertEquals(
@@ -384,11 +384,12 @@ public class ExRange extends ApiExampleBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-        builder.insertShape(ShapeType.BALLOON, 200.0, 200.0);            
+        builder.insertShape(ShapeType.BALLOON, 200.0, 200.0);
         builder.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
+        FindReplaceOptions findReplaceOptions = new FindReplaceOptions(); { findReplaceOptions.setIgnoreShapes(true); }
         builder.getDocument().getRange().replace("Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", new FindReplaceOptions(); { .setIgnoreShapes(true); });
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", findReplaceOptions);
         Assert.assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", builder.getDocument().getText().trim());
         //ExEnd
     }
@@ -499,7 +500,7 @@ public class ExRange extends ApiExampleBase
         {
             msStringBuilder.appendLine(mLog, $"\"{args.Match.Value}\" converted to \"{args.Replacement}\" " +
                             $"{args.MatchOffset} characters into a {args.MatchNode.NodeType} node.");
-            
+
             args.setReplacement("(Old value:\"{args.Match.Value}\") {args.Replacement}");
             return ReplaceAction.REPLACE;
         }
@@ -536,7 +537,7 @@ public class ExRange extends ApiExampleBase
 
         // Set the "HighlightColor" property to a background color that we want to apply to the operation's resulting text.
         options.getApplyFont().setHighlightColor(msColor.getLightGray());
-        
+
         NumberHexer numberHexer = new NumberHexer();
         options.setReplacingCallback(numberHexer);
 
@@ -560,9 +561,9 @@ public class ExRange extends ApiExampleBase
         public /*ReplaceAction*/int replacing(ReplacingArgs args)
         {
             mCurrentReplacementNumber++;
-            
+
             int number = Convert.toInt32(args.getMatchInternal().getValue());
-            
+
             args.setReplacement("0x{number:X}");
 
             msStringBuilder.appendLine(mLog, $"Match #{mCurrentReplacementNumber}");
@@ -636,7 +637,7 @@ public class ExRange extends ApiExampleBase
         //ExSummary:Shows how to delete all the nodes from a range.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         // Add text to the first section in the document, and then add another section.
         builder.write("Section 1. ");
         builder.insertBreak(BreakType.SECTION_BREAK_CONTINUOUS);
@@ -731,7 +732,7 @@ public class ExRange extends ApiExampleBase
 
         public ArrayList<String> getMatches() { return mMatches; };
 
-        private ArrayList<String> mMatches !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<String>list();
+        private ArrayList<String> mMatches !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<String>list();
     }
     //ExEnd
 

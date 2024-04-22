@@ -86,8 +86,8 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         finally { if (streamIn != null) streamIn.close(); }
 
         // Verify that both our output documents have no digital signatures.
-        Assert.That(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx"), Is.Empty);
-        Assert.That(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx"), Is.Empty);
+        Assert.assertEquals(0, DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromString.docx").getCount());
+        Assert.assertEquals(0, DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.LoadAndRemove.FromStream.docx").getCount());
         //ExEnd
     }
 
@@ -97,7 +97,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         DigitalSignatureUtil.removeAllSignatures(getMyDir() + "Digitally signed.odt",
             getArtifactsDir() + "DigitalSignatureUtil.RemoveSignatures.odt");
 
-        Assert.That(DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.RemoveSignatures.odt"), Is.Empty);
+        Assert.assertEquals(0, DigitalSignatureUtil.loadSignatures(getArtifactsDir() + "DigitalSignatureUtil.RemoveSignatures.odt").getCount());
     }
 
     @Test (description = "WORDSNET-16868")
@@ -217,9 +217,9 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
             signOptions.setDecryptionPassword("docPassword1");
         }
 
-        Assert.That(
+        Assert.<IncorrectPasswordException>Throws(
             () => DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, certificateHolder, signOptions),
-            Throws.<IncorrectPasswordException>TypeOf(), "The document password is incorrect.");
+            "The document password is incorrect.");
     }
 
     @Test
@@ -232,8 +232,8 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
             signOptions.setDecryptionPassword("");
         }
 
-        Assert.That(() => DigitalSignatureUtil.sign("", "", null, signOptions),
-            Throws.<IllegalArgumentException>TypeOf());
+        Assert.<IllegalArgumentException>Throws(
+            () => DigitalSignatureUtil.sign("", "", null, signOptions));
     }
 
     @Test
@@ -249,7 +249,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
             signOptions.setDecryptionPassword("docPassword");
         }
 
-        Assert.That(() => DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, null, signOptions),
-            Throws.<NullPointerException>TypeOf());
+        Assert.<NullPointerException>Throws(
+            () => DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, null, signOptions));
     }
 }

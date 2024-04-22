@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -557,6 +557,27 @@ public class ExParagraphFormat extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "ParagraphFormat.ParagraphBaselineAlignment.docx");
         format = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat();
         Assert.assertEquals(BaselineAlignment.TOP, format.getBaselineAlignment());
+    }
+
+    @Test
+    public void mirrorIndents() throws Exception
+    {
+        //ExStart:MirrorIndents
+        //GistId:31b7350f8d91d4b12eb43978940d566a
+        //ExFor:ParagraphFormat.MirrorIndents
+        //ExSummary:Show how to make left and right indents the same.
+        Document doc = new Document(getMyDir() + "Document.docx");
+        ParagraphFormat format = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat();
+
+        format.setMirrorIndents(true);
+
+        doc.save(getArtifactsDir() + "ParagraphFormat.MirrorIndents.docx");
+        //ExEnd:MirrorIndents
+
+        doc = new Document(getArtifactsDir() + "ParagraphFormat.MirrorIndents.docx");
+        format = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat();
+
+        Assert.assertEquals(true, format.getMirrorIndents());
     }
 }
 

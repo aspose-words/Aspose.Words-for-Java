@@ -50,7 +50,7 @@ public class ExHeaderFooter extends ApiExampleBase
         //ExFor:Story.AppendParagraph
         //ExSummary:Shows how to create a header and a footer.
         Document doc = new Document();
-        
+
         // Create a header and append a paragraph to it. The text in that paragraph
         // will appear at the top of every page of this section, above the main body text.
         HeaderFooter header = new HeaderFooter(doc, HeaderFooterType.HEADER_PRIMARY);
@@ -278,7 +278,7 @@ public class ExHeaderFooter extends ApiExampleBase
 
         ReplaceLog logger = new ReplaceLog();
         FindReplaceOptions options = new FindReplaceOptions(); { options.setReplacingCallback(logger); }
-        
+
         // Using a different header/footer for the first page will affect the search order.
         firstPageSection.getPageSetup().setDifferentFirstPageHeaderFooter(differentFirstPageHeaderFooter);
         doc.getRange().replaceInternal(new Regex("(header|footer)"), "", options);

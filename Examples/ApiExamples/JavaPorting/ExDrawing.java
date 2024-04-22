@@ -36,7 +36,6 @@ import com.aspose.ms.System.IO.FileAccess;
 import com.aspose.words.ImageType;
 import com.aspose.words.Fill;
 import com.aspose.ms.System.msConsole;
-import java.util.Iterator;
 import com.aspose.words.ImageData;
 import com.aspose.ms.System.IO.Directory;
 import java.util.ArrayList;
@@ -306,30 +305,20 @@ public class ExDrawing extends ApiExampleBase
         Document imgSourceDoc = new Document(getMyDir() + "Images.docx");
 
         // Shapes with the "HasImage" flag set store and display all the document's images.
-        Iterable<Shape> shapesWithImages = 
-            imgSourceDoc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast().Where(s => s.HasImage);
+        Shape[] shapesWithImages = imgSourceDoc.getChildNodes(NodeType.SHAPE, true).<Shape>Cast()
+            .Where(s => s.HasImage).ToArray();
 
         // Go through each shape and save its image.
-        ImageFormatConverter formatConverter = new ImageFormatConverter();
-
-        Iterator<Shape> enumerator = shapesWithImages.iterator();
-        try /*JAVA: was using*/
+        for (int shapeIndex = 0; shapeIndex < shapesWithImages.length; ++shapeIndex)
         {
-            int shapeIndex = 0;
-
-            while (enumerator.hasNext())
-            {
-                ImageData imageData = enumerator.next().getImageData();                    
-
-                FileStream fileStream = File.create(getArtifactsDir() + $"Drawing.SaveAllImages.{++shapeIndex}.{imageData.ImageType}");
-                try /*JAVA: was using*/
-            	{
-                    imageData.save(fileStream);
-            	}
-                finally { if (fileStream != null) fileStream.close(); }
-            }
+            ImageData imageData = shapesWithImages[shapeIndex].getImageData();
+            FileStream fileStream = File.create(getArtifactsDir() + $"Drawing.SaveAllImages.{shapeIndex + 1}.{imageData.ImageType}");
+            try /*JAVA: was using*/
+        	{
+                imageData.save(fileStream);
+        	}
+            finally { if (fileStream != null) fileStream.close(); }
         }
-        finally { if (enumerator != null) enumerator.close(); }
         //ExEnd
 
         String[] imageFileNames = Directory.getFiles(getArtifactsDir()).Where(s => s.StartsWith(ArtifactsDir + "Drawing.SaveAllImages.")).OrderBy(s => s).ToArray();
@@ -353,7 +342,7 @@ public class ExDrawing extends ApiExampleBase
         Assert.assertEquals(".Jpeg", fileInfos.get(7).Extension);
         TestUtil.verifyImage(1200, 1500, fileInfos.get(8).getFullName());
         Assert.assertEquals(".Jpeg", fileInfos.get(8).Extension);
-    }        
+    }
 
     @Test
     public void strokePattern() throws Exception
@@ -400,14 +389,14 @@ public class ExDrawing extends ApiExampleBase
         // please use DocumentBuilder.InsertShape methods.
         Shape balloon = new Shape(doc, ShapeType.BALLOON);
         {
-            balloon.setWidth(200.0); 
+            balloon.setWidth(200.0);
             balloon.setHeight(200.0);
             balloon.setStroke({ balloon.getStroke().setColor(Color.RED); });
         }
 
         Shape cube = new Shape(doc, ShapeType.CUBE);
         {
-            cube.setWidth(100.0); 
+            cube.setWidth(100.0);
             cube.setHeight(100.0);
             cube.setStroke({ cube.getStroke().setColor(Color.BLUE); });
         }
@@ -507,17 +496,17 @@ public class ExDrawing extends ApiExampleBase
 
         Shape textbox = new Shape(doc, ShapeType.TEXT_BOX);
         {
-            textbox.setWidth(100.0); 
+            textbox.setWidth(100.0);
             textbox.setHeight(100.0);
-            textbox.setTextBox({ textbox.getTextBox().setLayoutFlow(LayoutFlow.BOTTOM_TO_TOP); });
         }
-        
+        textbox.getTextBox().setLayoutFlow(LayoutFlow.BOTTOM_TO_TOP);
+
         textbox.appendChild(new Paragraph(doc));
         builder.insertNode(textbox);
 
         builder.moveTo(textbox.getFirstParagraph());
         builder.write("This text is flipped 90 degrees to the left.");
-        
+
         doc.save(getArtifactsDir() + "Drawing.TextBox.docx");
         //ExEnd
 
@@ -681,13 +670,13 @@ public class ExDrawing extends ApiExampleBase
 
         // If the shape contains an image, its ImageData property will be valid,
         // and it will contain an ImageSize object.
-        ImageSize imageSize = shape.getImageData().getImageSize(); 
+        ImageSize imageSize = shape.getImageData().getImageSize();
 
         // The ImageSize object contains read-only information about the image within the shape.
         Assert.assertEquals(400, imageSize.getHeightPixels());
         Assert.assertEquals(400, imageSize.getWidthPixels());
 
-		final double DELTA = 0.05;
+        final double DELTA = 0.05;
         Assert.assertEquals(95.98d, imageSize.getHorizontalResolution(), DELTA);
         Assert.assertEquals(95.98d, imageSize.getVerticalResolution(), DELTA);
 

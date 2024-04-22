@@ -522,15 +522,16 @@ public class ExImageSaveOptions extends ApiExampleBase {
     }
 
     @Test(dataProvider = "tiffImageCompressionDataProvider")
-    public void tiffImageCompression(/*TiffCompression*/int tiffCompression) throws Exception {
-        //ExStart
+    public void tiffImageCompression(int tiffCompression) throws Exception {
+        //ExStart:TiffImageCompression
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:TiffCompression
         //ExFor:ImageSaveOptions.TiffCompression
         //ExSummary:Shows how to select the compression scheme to apply to a document that we convert into a TIFF image.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertImage(getImageDir() + "Logo.jpg");
+        builder.insertImage(getImageDir() + "Tagged Image File Format.tiff");
 
         // Create an "ImageSaveOptions" object which we can pass to the document's "Save" method
         // to modify the way in which that method renders the document into an image.
@@ -545,7 +546,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
         options.setTiffCompression(tiffCompression);
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.TiffImageCompression.tiff", options);
-        //ExEnd
+        //ExEnd:TiffImageCompression
     }
 
     //JAVA-added data provider for test method

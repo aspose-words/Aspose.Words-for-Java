@@ -745,7 +745,6 @@ public class ExLists extends ApiExampleBase
     //ExStart
     //ExFor:ListCollection
     //ExFor:ListCollection.AddCopy(List)
-    //ExFor:ListCollection.GetEnumerator
     //ExSummary:Shows how to create a document with a sample of all the lists from another document.
     @Test //ExSkip
     public void printOutAllLists() throws Exception
@@ -778,7 +777,7 @@ public class ExLists extends ApiExampleBase
         builder.getListFormat().removeNumbers();
         builder.writeln();
     }
-    //ExEnd		
+    //ExEnd
 
     private void testPrintOutAllLists(Document listSourceDoc, Document outDoc)
     {
@@ -835,7 +834,6 @@ public class ExLists extends ApiExampleBase
         //ExFor:ListLevel.IsLegal
         //ExFor:ListLevel.RestartAfterLevel
         //ExFor:ListLevel.LinkedStyle
-        //ExFor:ListLevelCollection.GetEnumerator
         //ExSummary:Shows advances ways of customizing list labels.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1007,12 +1005,10 @@ public class ExLists extends ApiExampleBase
         Assert.assertEquals("005", ListLevel.getEffectiveValue(5, NumberStyle.CUSTOM, customNumberStyleFormat));
         //ExEnd
 
-        Assert.That(() => ListLevel.getEffectiveValue(5, NumberStyle.LOWERCASE_ROMAN, customNumberStyleFormat),
-            Throws.<IllegalArgumentException>TypeOf());
-        Assert.That(() => ListLevel.getEffectiveValue(5, NumberStyle.CUSTOM, null),
-            Throws.<IllegalArgumentException>TypeOf());
-        Assert.That(() => ListLevel.getEffectiveValue(5, NumberStyle.CUSTOM, "...."),
-            Throws.<IllegalArgumentException>TypeOf());
+        Assert.<IllegalArgumentException>Throws(
+            () => ListLevel.getEffectiveValue(5, NumberStyle.LOWERCASE_ROMAN, customNumberStyleFormat));
+        Assert.<IllegalArgumentException>Throws(() => ListLevel.getEffectiveValue(5, NumberStyle.CUSTOM, null));
+        Assert.<IllegalArgumentException>Throws(() => ListLevel.getEffectiveValue(5, NumberStyle.CUSTOM, "...."));
     }
 
     @Test

@@ -44,7 +44,7 @@ class ExOdtSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt", saveOptions);
         //ExEnd
-        
+
         doc = new Document(getArtifactsDir() + "OdtSaveOptions.Odt11Schema.odt");
 
         Assert.assertEquals(com.aspose.words.MeasurementUnits.CENTIMETERS, doc.getLayoutOptions().getRevisionOptions().getMeasurementUnit());

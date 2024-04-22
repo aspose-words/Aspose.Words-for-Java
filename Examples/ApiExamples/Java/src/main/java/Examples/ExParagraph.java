@@ -495,7 +495,8 @@ public class ExParagraph extends ApiExampleBase {
         // Accept the revision, and then verify that the paragraph is gone.
         doc.acceptAllRevisions();
 
-        Assert.assertEquals(3, paragraphs.getCount());
+        Assert.assertEquals(paragraphs.getCount(), 3);
+        Assert.assertEquals(para.getCount(), 0);
         Assert.assertEquals(
                 "Paragraph 1. \r" +
                         "Paragraph 2. \r" +

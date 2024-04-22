@@ -95,7 +95,7 @@ public class ExSection extends ApiExampleBase
         doc.getSections().removeAt(0);
 
         Assert.assertEquals("Section 2", doc.getText().trim());
-        
+
         // Append a copy of what is now the first section to the end of the document.
         int lastSectionIdx = doc.getSections().getCount() - 1;
         Section newSection = doc.getSections().get(lastSectionIdx).deepClone();
@@ -191,7 +191,7 @@ public class ExSection extends ApiExampleBase
         // Set some page setup properties for the section.
         section.getPageSetup().setSectionStart(SectionStart.NEW_PAGE);
         section.getPageSetup().setPaperSize(PaperSize.LETTER);
-        
+
         // A section needs a body, which will contain and display all its contents
         // on the page between the section's header and footer.
         Body body = new Body(doc);
@@ -227,7 +227,7 @@ public class ExSection extends ApiExampleBase
         //ExFor:SectionCollection.Item(Int32)
         //ExSummary:Shows how to prepare a new section node for editing.
         Document doc = new Document();
-        
+
         // A blank document comes with a section, which has a body, which in turn has a paragraph.
         // We can add contents to this document by adding elements such as text runs, shapes, or tables to that paragraph.
         Assert.assertEquals(NodeType.SECTION, doc.getChild(NodeType.ANY, 0, true).getNodeType());
@@ -278,7 +278,7 @@ public class ExSection extends ApiExampleBase
 
         // This body has no children, so we cannot add runs to it yet.
         Assert.assertEquals(0, doc.getFirstSection().getBody().getChildNodes(NodeType.ANY, true).getCount());
-        
+
         // Call the "EnsureMinimum" to make sure that this body contains at least one empty paragraph. 
         body.ensureMinimum();
 
@@ -354,7 +354,7 @@ public class ExSection extends ApiExampleBase
 
         // Clear the collection of sections, which will remove all of the document's children.
         doc.getSections().clear();
-        
+
         Assert.assertEquals(0, doc.getChildNodes(NodeType.ANY, true).getCount());
         Assert.assertEquals("", doc.getText().trim());
         //ExEnd
@@ -536,7 +536,7 @@ public class ExSection extends ApiExampleBase
 
         // Assert that page defaults comply with current culture info.
         Section sectionEn = docEn.getSections().get(0);
-        Assert.assertEquals(72.0, sectionEn.getPageSetup().getLeftMargin()); // 2.54 cm         
+        Assert.assertEquals(72.0, sectionEn.getPageSetup().getLeftMargin()); // 2.54 cm
         Assert.assertEquals(72.0, sectionEn.getPageSetup().getRightMargin()); // 2.54 cm
         Assert.assertEquals(72.0, sectionEn.getPageSetup().getTopMargin()); // 2.54 cm
         Assert.assertEquals(72.0, sectionEn.getPageSetup().getBottomMargin()); // 2.54 cm
@@ -550,7 +550,7 @@ public class ExSection extends ApiExampleBase
         Document docDe = new Document();
 
         Section sectionDe = docDe.getSections().get(0);
-        Assert.assertEquals(70.85, sectionDe.getPageSetup().getLeftMargin()); // 2.5 cm         
+        Assert.assertEquals(70.85, sectionDe.getPageSetup().getLeftMargin()); // 2.5 cm
         Assert.assertEquals(70.85, sectionDe.getPageSetup().getRightMargin()); // 2.5 cm
         Assert.assertEquals(70.85, sectionDe.getPageSetup().getTopMargin()); // 2.5 cm
         Assert.assertEquals(56.7, sectionDe.getPageSetup().getBottomMargin()); // 2 cm
@@ -570,7 +570,7 @@ public class ExSection extends ApiExampleBase
         docDe = DocumentHelper.saveOpen(docDe);
 
         Section sectionDeAfter = docDe.getSections().get(0);
-        Assert.assertEquals(90.0, sectionDeAfter.getPageSetup().getLeftMargin()); // 3.17 cm         
+        Assert.assertEquals(90.0, sectionDeAfter.getPageSetup().getLeftMargin()); // 3.17 cm
         Assert.assertEquals(90.0, sectionDeAfter.getPageSetup().getRightMargin()); // 3.17 cm
         Assert.assertEquals(72.0, sectionDeAfter.getPageSetup().getTopMargin()); // 2.54 cm
         Assert.assertEquals(72.0, sectionDeAfter.getPageSetup().getBottomMargin()); // 2.54 cm

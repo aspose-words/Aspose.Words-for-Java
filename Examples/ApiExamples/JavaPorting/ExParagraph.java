@@ -546,7 +546,7 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
         doc.acceptAllRevisions();
 
         Assert.assertEquals(3, paragraphs.getCount());
-        Assert.That(para, Is.Empty);
+        Assert.assertEquals(0, para.getCount());
         Assert.assertEquals(
             "Paragraph 1. \r" +
             "Paragraph 2. \r" +

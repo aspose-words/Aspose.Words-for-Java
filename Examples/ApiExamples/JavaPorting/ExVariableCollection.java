@@ -99,7 +99,7 @@ public class ExVariableCollection extends ApiExampleBase
         // 3 -  Clear the whole collection at once:
         variables.clear();
 
-        Assert.That(variables, Is.Empty);
+        Assert.assertEquals(0, variables.getCount());
         //ExEnd
     }
 }

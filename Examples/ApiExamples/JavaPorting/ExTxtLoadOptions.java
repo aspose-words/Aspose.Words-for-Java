@@ -216,11 +216,11 @@ public class ExTxtLoadOptions extends ApiExampleBase
     public void autoNumberingDetection() throws Exception
     {
         //ExStart
-        //ExFor:TxtLoadOptions.AutoNumberingDetection            
-        //ExSummary:Shows how to disable automatic numbering detection.            
+        //ExFor:TxtLoadOptions.AutoNumberingDetection
+        //ExSummary:Shows how to disable automatic numbering detection.
         TxtLoadOptions options = new TxtLoadOptions(); { options.setAutoNumberingDetection(false); }
         Document doc = new Document(getMyDir() + "Number detection.txt", options);
-        //ExEnd            
+        //ExEnd
 
         int listItemsCount = 0;
         for (Paragraph paragraph : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
@@ -229,7 +229,7 @@ public class ExTxtLoadOptions extends ApiExampleBase
                 listItemsCount++;
         }
 
-        Assert.assertEquals(0, listItemsCount);            
+        Assert.assertEquals(0, listItemsCount);
     }
 
     @Test

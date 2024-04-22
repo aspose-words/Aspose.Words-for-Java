@@ -54,7 +54,7 @@ class ExPclSaveOptions !Test class should be public in Java to run, please fix .
 
         PclSaveOptions saveOptions = new PclSaveOptions();
         saveOptions.setFallbackFontName("Times New Roman");
-        
+
         // This document will instruct the printer to apply "Times New Roman" to the text with the missing font.
         // Should "Times New Roman" also be unavailable, the printer will default to the "Arial" font.
         doc.save(getArtifactsDir() + "PclSaveOptions.SetPrinterFont.pcl", saveOptions);

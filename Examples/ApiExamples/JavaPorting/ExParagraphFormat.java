@@ -318,7 +318,6 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
         Assert.assertEquals(OutlineLevel.LEVEL_3, paragraphs.get(2).getParagraphFormat().getOutlineLevel());
         Assert.assertEquals(OutlineLevel.LEVEL_3, paragraphs.get(3).getParagraphFormat().getOutlineLevel());
         Assert.assertEquals(OutlineLevel.BODY_TEXT, paragraphs.get(4).getParagraphFormat().getOutlineLevel());
-
     }
 
     @Test (dataProvider = "pageBreakBeforeDataProvider")
@@ -471,10 +470,27 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
 
         doc.save(getArtifactsDir() + "ParagraphFormat.SuppressHyphens.pdf");
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "suppressHyphensDataProvider")
+	public static Object[][] suppressHyphensDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForSuppressHyphensDataProvider")
+    public void usePdfDocumentForSuppressHyphens(boolean suppressAutoHyphens) throws Exception
+    {
+        suppressHyphens(suppressAutoHyphens);
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "ParagraphFormat.SuppressHyphens.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
-        textAbsorber.Visit(pdfDoc);            
+        textAbsorber.Visit(pdfDoc);
 
         if (suppressAutoHyphens)
             Assert.True(textAbsorber.Text.Replace("  ", " ").Contains($"La ob storen an deinen am sachen. {Environment.NewLine}" +
@@ -487,8 +503,8 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "suppressHyphensDataProvider")
-	public static Object[][] suppressHyphensDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForSuppressHyphensDataProvider")
+	public static Object[][] usePdfDocumentForSuppressHyphensDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -510,7 +526,7 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         ParagraphFormat format = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat();
-        
+
         // Below are five different spacing options, along with the properties that their configuration indirectly affects.
         // 1 -  Left indent:
         Assert.assertEquals(format.getLeftIndent(), 0.0d);
@@ -555,19 +571,19 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
 
         doc = DocumentHelper.saveOpen(doc);
         format = doc.getFirstSection().getBody().getFirstParagraph().getParagraphFormat();
-        
+
         Assert.assertEquals(format.getCharacterUnitLeftIndent(), 10.0d);
         Assert.assertEquals(format.getLeftIndent(), 120.0d);
         
         Assert.assertEquals(format.getCharacterUnitRightIndent(), -5.5d);
         Assert.assertEquals(format.getRightIndent(), -66.0d);
-        
+
         Assert.assertEquals(format.getCharacterUnitFirstLineIndent(), 20.3d);
         Assert.assertEquals(format.getFirstLineIndent(), 243.59d, 0.1d);
         
         Assert.assertEquals(format.getLineUnitBefore(), 5.1d, 0.1d);
         Assert.assertEquals(format.getSpaceBefore(), 61.1d, 0.1d);
-        
+
         Assert.assertEquals(format.getLineUnitAfter(), 10.9d);
         Assert.assertEquals(format.getSpaceAfter(), 130.8d, 0.1d);
     }
@@ -593,6 +609,27 @@ class ExParagraphFormat !Test class should be public in Java to run, please fix 
         doc = new Document(getArtifactsDir() + "ParagraphFormat.ParagraphBaselineAlignment.docx");
         format = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat();
         Assert.assertEquals(BaselineAlignment.TOP, format.getBaselineAlignment());
+    }
+
+    @Test
+    public void mirrorIndents() throws Exception
+    {
+        //ExStart:MirrorIndents
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:ParagraphFormat.MirrorIndents
+        //ExSummary:Show how to make left and right indents the same.
+        Document doc = new Document(getMyDir() + "Document.docx");
+        ParagraphFormat format = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat();
+
+        format.setMirrorIndents(true);
+
+        doc.save(getArtifactsDir() + "ParagraphFormat.MirrorIndents.docx");
+        //ExEnd:MirrorIndents
+
+        doc = new Document(getArtifactsDir() + "ParagraphFormat.MirrorIndents.docx");
+        format = doc.getFirstSection().getBody().getParagraphs().get(0).getParagraphFormat();
+
+        Assert.assertEquals(true, format.getMirrorIndents());
     }
 }
 

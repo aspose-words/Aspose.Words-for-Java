@@ -190,7 +190,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         //ExFor:GraphicsQualityOptions.UseTileFlipMode
         //ExSummary:Shows how to prevent the white line appears when rendering with a high resolution.
         Document doc = new Document(getMyDir() + "Shape high dpi.docx");
-                    
+
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
         ShapeRenderer renderer = shape.getShapeRenderer();
 
@@ -223,7 +223,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         options.getMetafileRenderingOptions().setRenderingMode(metafileRenderingMode);
         // Aspose.Words uses GDI+ for raster operations emulation, when value is set to true.
         options.getMetafileRenderingOptions().setUseGdiRasterOperationsEmulation(true);
-        
+
         doc.save(getArtifactsDir() + "ImageSaveOptions.WindowsMetaFile.png", options);
         //ExEnd
 
@@ -310,7 +310,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         // and preserve all the document's colors in the output image.
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setImageColorMode(imageColorMode);
-        
+
         doc.save(getArtifactsDir() + "ImageSaveOptions.ColorMode.png", imageSaveOptions);
         //ExEnd
 
@@ -319,13 +319,13 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         switch (imageColorMode)
         {
             case ImageColorMode.NONE:
-                Assert.That(testedImageLength, Is.LessThan(175000));
+                Assert.assertTrue(testedImageLength < 175000);
                 break;
             case ImageColorMode.GRAYSCALE:
-                Assert.That(testedImageLength, Is.LessThan(90000));
+                Assert.assertTrue(testedImageLength < 90000);
                 break;
             case ImageColorMode.BLACK_AND_WHITE:
-                Assert.That(testedImageLength, Is.LessThan(15000));
+                Assert.assertTrue(testedImageLength < 15000);
                 break;
         }
     }
@@ -379,7 +379,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
             TestUtil.imageContainsTransparency(getArtifactsDir() + "ImageSaveOptions.PaperColor.LightCoral.png"));
     }
 
-    @Test (dataProvider = "pixelFormatDataProvider")        
+    @Test (dataProvider = "pixelFormatDataProvider")
     public void pixelFormat(/*ImagePixelFormat*/int imagePixelFormat) throws Exception
     {
         //ExStart
@@ -411,27 +411,27 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         switch (imagePixelFormat)
         {
             case ImagePixelFormat.FORMAT_1_BPP_INDEXED:
-                Assert.That(testedImageLength, Is.LessThan(2500));
-                break;                
+                Assert.assertTrue(testedImageLength < 2500);
+                break;
             case ImagePixelFormat.FORMAT_16_BPP_RGB_565:
-                Assert.That(testedImageLength, Is.LessThan(104000));
+                Assert.assertTrue(testedImageLength < 104000);
                 break;
             case ImagePixelFormat.FORMAT_16_BPP_RGB_555:
-                Assert.That(testedImageLength, Is.LessThan(88000));
+                Assert.assertTrue(testedImageLength < 88000);
                 break;
             case ImagePixelFormat.FORMAT_24_BPP_RGB:
-                Assert.That(testedImageLength, Is.LessThan(160000));
+                Assert.assertTrue(testedImageLength < 160000);
                 break;
             case ImagePixelFormat.FORMAT_32_BPP_RGB:
             case ImagePixelFormat.FORMAT_32_BPP_ARGB:
-                Assert.That(testedImageLength, Is.LessThan(175000));
+                Assert.assertTrue(testedImageLength < 175000);
                 break;
             case ImagePixelFormat.FORMAT_48_BPP_RGB:
-                Assert.That(testedImageLength, Is.LessThan(212000));
+                Assert.assertTrue(testedImageLength < 212000);
                 break;
             case ImagePixelFormat.FORMAT_64_BPP_ARGB:
             case ImagePixelFormat.FORMAT_64_BPP_P_ARGB:
-                Assert.That(testedImageLength, Is.LessThan(239000));
+                Assert.assertTrue(testedImageLength < 239000);
                 break;
         }
     }
@@ -483,7 +483,6 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
 
         doc.save(getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff", options);
         //ExEnd
-        
         TestUtil.verifyImage(816, 1056, getArtifactsDir() + "ImageSaveOptions.FloydSteinbergDithering.tiff");
     }
 
@@ -551,7 +550,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         // Set the "JpegQuality" property to "10" to use stronger compression when rendering the document.
         // This will reduce the file size of the document, but the image will display more prominent compression artifacts.
         imageOptions.setJpegQuality(10);
-        doc.save(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg", imageOptions);            
+        doc.save(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg", imageOptions);
 
         // Set the "JpegQuality" property to "100" to use weaker compression when rending the document.
         // This will improve the quality of the image at the cost of an increased file size.
@@ -559,8 +558,8 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         doc.save(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighQuality.jpg", imageOptions);
         //ExEnd
 
-        Assert.That(new FileInfo(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg").getLength(), Is.LessThan(18000));
-        Assert.That(new FileInfo(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighQuality.jpg").getLength(), Is.LessThan(75000));            
+        Assert.assertTrue(new FileInfo(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighCompression.jpg").getLength() < 18000);
+        Assert.assertTrue(new FileInfo(getArtifactsDir() + "ImageSaveOptions.JpegQuality.HighQuality.jpg").getLength() < 75000);
     }
 
     @Test (groups = "SkipMono", dataProvider = "tiffImageCompressionDataProvider")
@@ -594,21 +593,21 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         switch (tiffCompression)
         {
             case TiffCompression.NONE:
-                Assert.That(testedImageLength, Is.LessThan(3450000));
+                Assert.assertTrue(testedImageLength < 3450000);
                 break;
             case TiffCompression.RLE:
-                Assert.That(testedImageLength, Is.LessThan(687000));
+                Assert.assertTrue(testedImageLength < 687000);
                 break;
             case TiffCompression.LZW:
-                Assert.That(testedImageLength, Is.LessThan(250000));
+                Assert.assertTrue(testedImageLength < 250000);
                 break;
             case TiffCompression.CCITT_3:
-                Assert.That(testedImageLength, Is.LessThan(8300));
+                Assert.assertTrue(testedImageLength < 8300);
                 break;
             case TiffCompression.CCITT_4:
-                Assert.That(testedImageLength, Is.LessThan(1700));
+                Assert.assertTrue(testedImageLength < 1700);
                 break;
-        }            
+        }
     }
 
 	//JAVA-added data provider for test method

@@ -224,7 +224,8 @@ public class ExRendering extends ApiExampleBase
 
         // Calculate the number of rows and columns that we will fill with thumbnails.
         final int THUMB_COLUMNS = 2;
-        int thumbRows = Math.DivRem(doc.getPageCount(), THUMB_COLUMNS, /*out*/ int remainder);
+        int thumbRows = doc.getPageCount() / THUMB_COLUMNS;
+        int remainder = doc.getPageCount() % THUMB_COLUMNS;
 
         if (remainder > 0)
             thumbRows++;
@@ -250,7 +251,8 @@ public class ExRendering extends ApiExampleBase
 
                 for (int pageIndex = 0; pageIndex < doc.getPageCount(); pageIndex++)
                 {
-                    int rowIdx = Math.DivRem(pageIndex, THUMB_COLUMNS, /*out*/ int columnIdx);
+                    int rowIdx = pageIndex / THUMB_COLUMNS;
+                    int columnIdx = pageIndex % THUMB_COLUMNS;
 
                     // Specify where we want the thumbnail to appear.
                     float thumbLeft = columnIdx * msSize.getWidth(thumbSize);

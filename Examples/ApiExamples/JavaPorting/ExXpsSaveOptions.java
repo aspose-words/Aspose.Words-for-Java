@@ -137,9 +137,9 @@ public class ExXpsSaveOptions extends ApiExampleBase
 
         long testedFileLength = new FileInfo(getArtifactsDir() + "XpsSaveOptions.OptimizeOutput.xps").getLength();
         if (optimizeOutput)
-            Assert.That(testedFileLength, Is.LessThan(43000));
+            Assert.assertTrue(testedFileLength < 43000);
         else
-            Assert.That(testedFileLength, Is.LessThan(64000));
+            Assert.assertTrue(testedFileLength < 64000);
 
         TestUtil.docPackageFileContainsString(
             optimizeOutput

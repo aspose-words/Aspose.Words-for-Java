@@ -72,7 +72,7 @@ public class ExTableColumn extends ApiExampleBase
             // Create a clone of this column
             for (Cell cell : columnCells)
                 cell.getParentRow().insertBefore(cell.deepClone(false), cell);
-            
+
             Column newColumn = new Column(columnCells[0].getParentRow().getParentTable(), mColumnIndex);
 
             // We want to make sure that the cells are all valid to work with (have at least one paragraph).
@@ -136,7 +136,7 @@ public class ExTableColumn extends ApiExampleBase
 
         Column column = Column.fromIndex(table, 2);
         column.remove();
-        
+
         doc.save(getArtifactsDir() + "TableColumn.RemoveColumn.doc");
 
         Assert.assertEquals(16, table.getChildNodes(NodeType.CELL, true).getCount());
@@ -159,7 +159,7 @@ public class ExTableColumn extends ApiExampleBase
         // Add some text to each cell in the column.
         for (Cell cell : newColumn.getCells())
             cell.getFirstParagraph().appendChild(new Run(doc, "Column Text " + newColumn.indexOf(cell)));
-        
+
         doc.save(getArtifactsDir() + "TableColumn.Insert.doc");
 
         Assert.assertEquals(24, table.getChildNodes(NodeType.CELL, true).getCount());

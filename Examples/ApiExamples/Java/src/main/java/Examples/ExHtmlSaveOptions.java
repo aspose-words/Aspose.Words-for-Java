@@ -20,6 +20,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -1980,4 +1981,30 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         private static final double MAX_DURATION = 0.01d;
     }
     //ExEnd
+
+    @Test (dataProvider = "mobiAzw3DefaultEncodingDataProvider")
+    public void mobiAzw3DefaultEncoding(int saveFormat) throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setSaveFormat(saveFormat);
+        saveOptions.setEncoding(StandardCharsets.US_ASCII);
+
+        String outputFileName = String.format("%sHtmlSaveOptions.MobiDefaultEncoding%s", getArtifactsDir(), FileFormatUtil.saveFormatToExtension(saveFormat));
+        doc.save(outputFileName, saveOptions);
+
+        Charset encoding = TestUtil.getEncoding(outputFileName);
+        Assert.assertNotEquals(StandardCharsets.US_ASCII, encoding);
+        Assert.assertEquals(StandardCharsets.UTF_8, encoding);
+    }
+
+    @DataProvider(name = "mobiAzw3DefaultEncodingDataProvider")
+    public static Object[][] mobiAzw3DefaultEncodingDataProvider() {
+        return new Object[][]
+                {
+                        {SaveFormat.MOBI},
+                        {SaveFormat.AZW_3},
+                };
+    }
 }

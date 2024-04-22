@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -403,5 +403,28 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
 
         builder.getDocument().save(getArtifactsDir() + "OoxmlSaveOptions.Zip64ModeOption.docx", saveOptions);
         //ExEnd:Zip64ModeOption
+    }
+
+    @Test
+    public void digitalSignature() throws Exception
+    {
+        //ExStart:DigitalSignature
+        //GistId:31b7350f8d91d4b12eb43978940d566a
+        //ExFor:OoxmlSaveOptions.DigitalSignatureDetails
+        //ExSummary:Shows how to sign OOXML document.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        SignOptions signOptions = new SignOptions();
+        signOptions.setComments("Some comments");
+        signOptions.setSignTime(new Date());
+        saveOptions.setDigitalSignatureDetails(new DigitalSignatureDetails(
+                certificateHolder,
+                signOptions));
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.DigitalSignature.docx", saveOptions);
+        //ExEnd:DigitalSignature
     }
 }

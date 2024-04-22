@@ -16,12 +16,10 @@ import org.testng.Assert;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.MessageFormat;
@@ -354,6 +352,16 @@ class TestUtil {
         Assert.assertEquals(expectedId, editableRange.getId());
         Assert.assertEquals(expectedEditorUser, editableRange.getSingleUser());
         Assert.assertEquals(expectedEditorGroup, editableRange.getEditorGroup());
+    }
+
+    /// <summary>
+    /// Get File's Encoding.
+    /// </summary>
+    static Charset getEncoding(String filename) throws Exception {
+        try (FileReader fileReader = new FileReader(filename)) {
+            String encoding = fileReader.getEncoding();
+            return Charset.forName(encoding);
+        }
     }
 }
 

@@ -1,15 +1,17 @@
-package com.aspose.words;
+package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
-import ApiExamples.ApiExampleBase;
 import org.testng.annotations.Test;
 import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Text.Encoding;
+import com.aspose.words.MarkdownLoadOptions;
+import com.aspose.words.Document;
 import org.testng.Assert;
 
 
-class ExMarkdownLoadOptions extends ApiExampleBase
+@Test
+public class ExMarkdownLoadOptions extends ApiExampleBase
 {
     @Test
     public void preserveEmptyLines() throws Exception

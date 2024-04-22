@@ -21,7 +21,7 @@
 		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with RtfSaveOptions" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="File Formats and Conversions\Save Options" name="Working with TxtSaveOptions" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="File Formats and Conversions" name="Working with FileFormat" status="AUTO" isTest="false" />
-		<File project="DocsExamples" dir="Getting started" name="Apply License" status="NEW" isTest="false" />
+		<File project="DocsExamples" dir="Getting started" name="Apply License" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Base operations" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="LINQ Reporting Engine" name="BuildOptions" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="LINQ Reporting Engine" name="Charts" status="AUTO" isTest="false" />
@@ -41,7 +41,6 @@
 		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Working with CleanupOptions" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Working with Fields" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Mail Merge and Reporting" name="Working with XML data" status="AUTO" isTest="false" />
-		<File project="DocsExamples" dir="Programming with Documents" name="Apply License" status="DELETED-IN-DOTNET" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Extract content helper" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Extract content" status="AUTO" isTest="false" />
 		<File project="DocsExamples" dir="Programming with Documents\Contents Management" name="Find and replace" status="AUTO" isTest="false" />

@@ -106,6 +106,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         }
         finally { if (stream != null) stream.close(); }
         //ExEnd
+    }
+
+    @Test
+    public void usePdfDocumentForOnePage() throws Exception
+    {
+        onePage();
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.OnePage.pdf");
 
@@ -158,13 +164,19 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.HeadingsOutlineLevels.pdf", saveOptions);
         //ExEnd
+    }
+
+    @Test
+    public void usePdfBookmarkEditorForHeadingsOutlineLevels() throws Exception
+    {
+        headingsOutlineLevels();
 
         PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
         bookmarkEditor.BindPdf(getArtifactsDir() + "PdfSaveOptions.HeadingsOutlineLevels.pdf");
 
         Bookmarks bookmarks = bookmarkEditor.ExtractBookmarks();
 
-        Assert.AreEqual(3, bookmarks.Count);            
+        Assert.AreEqual(3, bookmarks.Count);
     }
 
     @Test (dataProvider = "createMissingOutlineLevelsDataProvider")
@@ -208,6 +220,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.CreateMissingOutlineLevels.pdf", saveOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "createMissingOutlineLevelsDataProvider")
+	public static Object[][] createMissingOutlineLevelsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfBookmarkEditorForCreateMissingOutlineLevelsDataProvider")
+    public void usePdfBookmarkEditorForCreateMissingOutlineLevels(boolean createMissingOutlineLevels) throws Exception
+    {
+        createMissingOutlineLevels(createMissingOutlineLevels);
 
         PdfBookmarkEditor bookmarkEditor = new PdfBookmarkEditor();
         bookmarkEditor.BindPdf(getArtifactsDir() + "PdfSaveOptions.CreateMissingOutlineLevels.pdf");
@@ -218,8 +247,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "createMissingOutlineLevelsDataProvider")
-	public static Object[][] createMissingOutlineLevelsDataProvider() throws Exception
+	@DataProvider(name = "usePdfBookmarkEditorForCreateMissingOutlineLevelsDataProvider")
+	public static Object[][] usePdfBookmarkEditorForCreateMissingOutlineLevelsDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -270,6 +299,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.TableHeadingOutlines.pdf", pdfSaveOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "tableHeadingOutlinesDataProvider")
+	public static Object[][] tableHeadingOutlinesDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForTableHeadingOutlinesDataProvider")
+    public void usePdfDocumentForTableHeadingOutlines(boolean createOutlinesForHeadingsInTables) throws Exception
+    {
+        tableHeadingOutlines(createOutlinesForHeadingsInTables);
 
         Aspose.Pdf.Document pdfDoc = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.TableHeadingOutlines.pdf");
 
@@ -277,7 +323,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         {
             Assert.AreEqual(1, pdfDoc.Outlines.Count);
             Assert.AreEqual("Customers", pdfDoc.Outlines[1].Title);
-        } else
+        }
+        else
             Assert.AreEqual(0, pdfDoc.Outlines.Count);
 
         TableAbsorber tableAbsorber = new TableAbsorber();
@@ -289,8 +336,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "tableHeadingOutlinesDataProvider")
-	public static Object[][] tableHeadingOutlinesDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForTableHeadingOutlinesDataProvider")
+	public static Object[][] usePdfDocumentForTableHeadingOutlinesDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -358,6 +405,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.ExpandedOutlineLevels.pdf", options);
         //ExEnd
+    }
+
+    @Test
+    public void usePdfDocumentForExpandedOutlineLevels() throws Exception
+    {
+        expandedOutlineLevels();
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExpandedOutlineLevels.pdf");
 
@@ -410,6 +463,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf", options);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "updateFieldsDataProvider")
+	public static Object[][] updateFieldsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForUpdateFieldsDataProvider")
+    public void usePdfDocumentForUpdateFields(boolean updateFields) throws Exception
+    {
+        updateFields(updateFields);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.UpdateFields.pdf");
 
@@ -420,8 +490,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "updateFieldsDataProvider")
-	public static Object[][] updateFieldsDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForUpdateFieldsDataProvider")
+	public static Object[][] usePdfDocumentForUpdateFieldsDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -455,6 +525,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf", pdfOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "preserveFormFieldsDataProvider")
+	public static Object[][] preserveFormFieldsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForPreserveFormFieldsDataProvider")
+    public void usePdfDocumentForPreserveFormFields(boolean preserveFormFields) throws Exception
+    {
+        preserveFormFields(preserveFormFields);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PreserveFormFields.pdf");
 
@@ -492,8 +579,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "preserveFormFieldsDataProvider")
-	public static Object[][] preserveFormFieldsDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForPreserveFormFieldsDataProvider")
+	public static Object[][] usePdfDocumentForPreserveFormFieldsDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -532,6 +619,27 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.Compliance.pdf", saveOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "complianceDataProvider")
+	public static Object[][] complianceDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{PdfCompliance.PDF_A_2_U},
+			{PdfCompliance.PDF_17},
+			{PdfCompliance.PDF_A_2_A},
+			{PdfCompliance.PDF_UA_1},
+			{PdfCompliance.PDF_20},
+			{PdfCompliance.PDF_A_4},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForComplianceDataProvider")
+    public void usePdfDocumentForCompliance(/*PdfCompliance*/int pdfCompliance) throws Exception
+    {
+        compliance(pdfCompliance);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.Compliance.pdf");
 
@@ -565,8 +673,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "complianceDataProvider")
-	public static Object[][] complianceDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForComplianceDataProvider")
+	public static Object[][] usePdfDocumentForComplianceDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -613,11 +721,11 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (pdfTextCompression)
         {
             case PdfTextCompression.NONE:
-                Assert.That(testedFileLength, Is.LessThan(69000));
+                Assert.assertTrue(testedFileLength < 69000);
                 TestUtil.fileContainsString("<</Length 11 0 R>>stream", filePath);
                 break;
             case PdfTextCompression.FLATE:
-                Assert.That(testedFileLength, Is.LessThan(27000));
+                Assert.assertTrue(testedFileLength < 27000);
                 TestUtil.fileContainsString("<</Length 11 0 R/Filter/FlateDecode>>stream", filePath);
                 break;
         }
@@ -664,8 +772,27 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf", pdfSaveOptions);
         //ExEnd
+    }
 
-        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf");
+	//JAVA-added data provider for test method
+	@DataProvider(name = "imageCompressionDataProvider")
+	public static Object[][] imageCompressionDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{PdfImageCompression.AUTO},
+			{PdfImageCompression.JPEG},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForImageCompressionDataProvider")
+    public void usePdfDocumentForImageCompression(/*PdfImageCompression*/int pdfImageCompression) throws Exception
+    {
+        imageCompression(pdfImageCompression);
+
+
+        Aspose.Pdf.Document pdfDocument =
+            new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ImageCompression.pdf");
         XImage image = pdfDocument.Pages[1].Resources.Images[1];
         String imagePath = getArtifactsDir() + $"PdfSaveOptions.ImageCompression.Image1.{image.FilterType}";
         FileStream stream = new FileStream(imagePath, FileMode.CREATE);
@@ -690,19 +817,19 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (pdfImageCompression)
         {
             case PdfImageCompression.AUTO:
-                Assert.That(testedFileLength, Is.LessThan(54000));
+                Assert.assertTrue(testedFileLength < 54000);
                 TestUtil.verifyImage(400, 400, imagePath);
                 break;
             case PdfImageCompression.JPEG:
-                Assert.That(testedFileLength, Is.LessThan(40000));
+                Assert.assertTrue(testedFileLength < 40000);
                 TestUtil.verifyImage(400, 400, imagePath);
                 break;
         }
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "imageCompressionDataProvider")
-	public static Object[][] imageCompressionDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForImageCompressionDataProvider")
+	public static Object[][] usePdfDocumentForImageCompressionDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -741,6 +868,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.ImageColorSpaceExportMode.pdf", pdfSaveOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "imageColorSpaceExportModeDataProvider")
+	public static Object[][] imageColorSpaceExportModeDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{PdfImageColorSpaceExportMode.AUTO},
+			{PdfImageColorSpaceExportMode.SIMPLE_CMYK},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForImageColorSpaceExportModeDataProvider")
+    public void usePdfDocumentForImageColorSpaceExportMode(/*PdfImageColorSpaceExportMode*/int pdfImageColorSpaceExportMode) throws Exception
+    {
+        imageColorSpaceExportMode(pdfImageColorSpaceExportMode);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ImageColorSpaceExportMode.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
@@ -749,10 +893,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (pdfImageColorSpaceExportMode)
         {
             case PdfImageColorSpaceExportMode.AUTO:
-                Assert.That(testedImageLength, Is.LessThan(20500));
+                Assert.IsTrue(testedImageLength < 20500);
                 break;
             case PdfImageColorSpaceExportMode.SIMPLE_CMYK:
-                Assert.That(testedImageLength, Is.LessThan(140000));
+                Assert.IsTrue(testedImageLength < 140000);
                 break;
         }
 
@@ -761,15 +905,15 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
 
         pdfDocImage = pdfDocument.Pages[1].Resources.Images[2];
-        
+
         testedImageLength = pdfDocImage.ToStream().Length;
         switch (pdfImageColorSpaceExportMode)
         {
             case PdfImageColorSpaceExportMode.AUTO:
-                Assert.That(testedImageLength, Is.LessThan(20500));
+                Assert.IsTrue(testedImageLength < 20500);
                 break;
             case PdfImageColorSpaceExportMode.SIMPLE_CMYK:
-                Assert.That(testedImageLength, Is.LessThan(21500));
+                Assert.IsTrue(testedImageLength < 21500);
                 break;
         }
 
@@ -779,8 +923,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "imageColorSpaceExportModeDataProvider")
-	public static Object[][] imageColorSpaceExportModeDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForImageColorSpaceExportModeDataProvider")
+	public static Object[][] usePdfDocumentForImageColorSpaceExportModeDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -822,11 +966,17 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Only the first two images from the document will be downsampled at this stage.
         doc.save(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.LowerResolution.pdf", options);
         //ExEnd
+    }
+
+    @Test
+    public void usePdfDocumentForDownsampleOptions() throws Exception
+    {
+        downsampleOptions();
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DownsampleOptions.Default.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
 
-        Assert.That(pdfDocImage.ToStream().Length, Is.LessThan(400000));
+        Assert.IsTrue(pdfDocImage.ToStream().Length < 400000);
         Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
     }
 
@@ -849,6 +999,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf", pdfSaveOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "colorRenderingDataProvider")
+	public static Object[][] colorRenderingDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{ColorMode.GRAYSCALE},
+			{ColorMode.NORMAL},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForColorRenderingDataProvider")
+    public void usePdfDocumentForColorRendering(/*ColorMode*/int colorMode) throws Exception
+    {
+        colorRendering(colorMode);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ColorRendering.pdf");
         XImage pdfDocImage = pdfDocument.Pages[1].Resources.Images[1];
@@ -857,19 +1024,19 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (colorMode)
         {
             case ColorMode.NORMAL:
-                Assert.That(testedImageLength, Is.LessThan(400000));
+                Assert.IsTrue(testedImageLength < 400000);
                 Assert.AreEqual(ColorType.Rgb, pdfDocImage.GetColorType());
                 break;
             case ColorMode.GRAYSCALE:
-                Assert.That(testedImageLength, Is.LessThan(1450000));
+                Assert.IsTrue(testedImageLength < 1450000);
                 Assert.AreEqual(ColorType.Grayscale, pdfDocImage.GetColorType());
                 break;
         }
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "colorRenderingDataProvider")
-	public static Object[][] colorRenderingDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForColorRenderingDataProvider")
+	public static Object[][] usePdfDocumentForColorRenderingDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -899,6 +1066,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf", pdfSaveOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "docTitleDataProvider")
+	public static Object[][] docTitleDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForDocTitleDataProvider")
+    public void usePdfDocumentForDocTitle(boolean displayDocTitle) throws Exception
+    {
+        docTitle(displayDocTitle);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DocTitle.pdf");
 
@@ -907,8 +1091,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "docTitleDataProvider")
-	public static Object[][] docTitleDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForDocTitleDataProvider")
+	public static Object[][] usePdfDocumentForDocTitleDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -958,6 +1142,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         builder.insertHyperlink("Testlink", uri, false);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf");
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "escapeUriDataProvider")
+	public static Object[][] escapeUriDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{"https://www.google.com/search?q= aspose",  "https://www.google.com/search?q=%20aspose"},
+			{"https://www.google.com/search?q=%20aspose",  "https://www.google.com/search?q=%20aspose"},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForEscapeUriDataProvider")
+    public void usePdfDocumentForEscapeUri(String uri, String result) throws Exception
+    {
+        escapeUri(uri, result);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EscapedUri.pdf");
 
@@ -970,8 +1171,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "escapeUriDataProvider")
-	public static Object[][] escapeUriDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForEscapeUriDataProvider")
+	public static Object[][] usePdfDocumentForEscapeUriDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1012,20 +1213,37 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 "<</Type/Annot/Subtype/Link/Rect[70.84999847 707.35101318 110.17799377 721.15002441]/BS" +
                 "<</Type/Border/S/S/W 0>>/A<</Type/Action/S/URI/URI(https://www.google.com/search?q=%20aspose)>>>>",
                 getArtifactsDir() + "PdfSaveOptions.OpenHyperlinksInNewWindow.pdf");
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "openHyperlinksInNewWindowDataProvider")
+	public static Object[][] openHyperlinksInNewWindowDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForOpenHyperlinksInNewWindowDataProvider")
+    public void usePdfDocumentForOpenHyperlinksInNewWindow(boolean openHyperlinksInNewWindow) throws Exception
+    {
+        openHyperlinksInNewWindow(openHyperlinksInNewWindow);
 
         Aspose.Pdf.Document pdfDocument =
             new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.OpenHyperlinksInNewWindow.pdf");
 
         Page page = pdfDocument.Pages[1];
-        LinkAnnotation linkAnnot = (LinkAnnotation) page.Annotations[1];
+        LinkAnnotation linkAnnot = (LinkAnnotation)page.Annotations[1];
 
         Assert.AreEqual(openHyperlinksInNewWindow ? JavascriptAction.class : GoToURIAction.class,
             linkAnnot.Action.GetType());
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "openHyperlinksInNewWindowDataProvider")
-	public static Object[][] openHyperlinksInNewWindowDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForOpenHyperlinksInNewWindowDataProvider")
+	public static Object[][] usePdfDocumentForOpenHyperlinksInNewWindowDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1124,6 +1342,45 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf", saveOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "headerFooterBookmarksExportModeDataProvider")
+	public static Object[][] headerFooterBookmarksExportModeDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{com.aspose.words.HeaderFooterBookmarksExportMode.NONE},
+			{com.aspose.words.HeaderFooterBookmarksExportMode.FIRST},
+			{com.aspose.words.HeaderFooterBookmarksExportMode.ALL},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForHeaderFooterBookmarksExportModeDataProvider")
+    public void usePdfDocumentForHeaderFooterBookmarksExportMode(/*HeaderFooterBookmarksExportMode*/int headerFooterBookmarksExportMode) throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Bookmarks in headers and footers.docx");
+
+        // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
+        // to modify how that method converts the document to .PDF.
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+
+        // Set the "PageMode" property to "PdfPageMode.UseOutlines" to display the outline navigation pane in the output PDF.
+        saveOptions.setPageMode(PdfPageMode.USE_OUTLINES);
+
+        // Set the "DefaultBookmarksOutlineLevel" property to "1" to display all
+        // bookmarks at the first level of the outline in the output PDF.
+        saveOptions.getOutlineOptions().setDefaultBookmarksOutlineLevel(1);
+
+        // Set the "HeaderFooterBookmarksExportMode" property to "HeaderFooterBookmarksExportMode.None" to
+        // not export any bookmarks that are inside headers/footers.
+        // Set the "HeaderFooterBookmarksExportMode" property to "HeaderFooterBookmarksExportMode.First" to
+        // only export bookmarks in the first section's header/footers.
+        // Set the "HeaderFooterBookmarksExportMode" property to "HeaderFooterBookmarksExportMode.All" to
+        // export bookmarks that are in all headers/footers.
+        saveOptions.setHeaderFooterBookmarksExportMode(headerFooterBookmarksExportMode);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf", saveOptions);
 
         Aspose.Pdf.Document pdfDoc =
             new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.HeaderFooterBookmarksExportMode.pdf");
@@ -1164,8 +1421,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "headerFooterBookmarksExportModeDataProvider")
-	public static Object[][] headerFooterBookmarksExportModeDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForHeaderFooterBookmarksExportModeDataProvider")
+	public static Object[][] usePdfDocumentForHeaderFooterBookmarksExportModeDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1185,8 +1442,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOption.UnsupportedImageFormatWarning.pdf", SaveFormat.PDF);
 
-        Assert.That(saveWarningCallback.SaveWarnings.get(0).getDescription(),
-            Is.EqualTo("Image can not be processed. Possibly unsupported image format."));
+        Assert.assertEquals("Image can not be processed. Possibly unsupported image format.",
+            saveWarningCallback.SaveWarnings.get(0).getDescription());
     }
 
     public static class SaveWarningCallback implements IWarningCallback
@@ -1201,12 +1458,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         }
 
         WarningInfoCollection SaveWarnings = new WarningInfoCollection();
-	}
+    }
 
-	@Test (dataProvider = "emulateRenderingToSizeOnPageDataProvider")
+    @Test (dataProvider = "emulateRenderingToSizeOnPageDataProvider")
     public void emulateRenderingToSizeOnPage(boolean renderToSize) throws Exception
     {
-        //ExStart            
+        //ExStart
         //ExFor:MetafileRenderingOptions.EmulateRenderingToSizeOnPage
         //ExFor:MetafileRenderingOptions.EmulateRenderingToSizeOnPageResolution
         //ExSummary:Shows how to display of the metafile according to the size on page.
@@ -1215,6 +1472,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Create a "PdfSaveOptions" object that we can pass to the document's "Save" method
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions saveOptions = new PdfSaveOptions();
+
 
         // Set the "EmulateRenderingToSizeOnPage" property to "true"
         // to emulate rendering according to the metafile size on page.
@@ -1225,6 +1483,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf", saveOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "emulateRenderingToSizeOnPageDataProvider")
+	public static Object[][] emulateRenderingToSizeOnPageDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForEmulateRenderingToSizeOnPageDataProvider")
+    public void usePdfDocumentForEmulateRenderingToSizeOnPage(boolean renderToSize) throws Exception
+    {
+        emulateRenderingToSizeOnPage(renderToSize);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmulateRenderingToSizeOnPage.pdf");
         TextFragmentAbsorber textAbsorber = new TextFragmentAbsorber();
@@ -1236,8 +1511,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "emulateRenderingToSizeOnPageDataProvider")
-	public static Object[][] emulateRenderingToSizeOnPageDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForEmulateRenderingToSizeOnPageDataProvider")
+	public static Object[][] usePdfDocumentForEmulateRenderingToSizeOnPageDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1263,7 +1538,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         // Configure our font sources to ensure that we have access to both the fonts in this document.
         FontSourceBase[] originalFontsSources = FontSettings.getDefaultInstance().getFontsSources();
-        FolderFontSource folderFontSource = new FolderFontSource(getFontsDir(), true);
+        FolderFontSource folderFontSource =
+            new FolderFontSource(getFontsDir(), true);
         FontSettings.getDefaultInstance().setFontsSources(new FontSourceBase[] { originalFontsSources[0], folderFontSource });
 
         FontSourceBase[] fontSources = FontSettings.getDefaultInstance().getFontsSources();
@@ -1290,9 +1566,26 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf").getLength();
         if (embedFullFonts)
-            Assert.That(testedFileLength, Is.LessThan(571000));
+            Assert.assertTrue(testedFileLength < 571000);
         else
-            Assert.That(testedFileLength, Is.LessThan(24000));
+            Assert.assertTrue(testedFileLength < 24000);
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "embedFullFontsDataProvider")
+	public static Object[][] embedFullFontsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForEmbedFullFontsDataProvider")
+    public void usePdfDocumentForEmbedFullFonts(boolean embedFullFonts) throws Exception
+    {
+        embedFullFonts(embedFullFonts);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedFullFonts.pdf");
         Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
@@ -1305,8 +1598,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "embedFullFontsDataProvider")
-	public static Object[][] embedFullFontsDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForEmbedFullFontsDataProvider")
+	public static Object[][] usePdfDocumentForEmbedFullFontsDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1348,15 +1641,33 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         switch (pdfFontEmbeddingMode)
         {
             case PdfFontEmbeddingMode.EMBED_ALL:
-                Assert.That(testedFileLength, Is.LessThan(1040000));
+                Assert.assertTrue(testedFileLength < 1040000);
                 break;
             case PdfFontEmbeddingMode.EMBED_NONSTANDARD:
-                Assert.That(testedFileLength, Is.LessThan(492000));
+                Assert.assertTrue(testedFileLength < 492000);
                 break;
             case PdfFontEmbeddingMode.EMBED_NONE:
-                Assert.That(testedFileLength, Is.LessThan(4300));
+                Assert.assertTrue(testedFileLength < 4300);
                 break;
-        }            
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "embedWindowsFontsDataProvider")
+	public static Object[][] embedWindowsFontsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{PdfFontEmbeddingMode.EMBED_ALL},
+			{PdfFontEmbeddingMode.EMBED_NONE},
+			{PdfFontEmbeddingMode.EMBED_NONSTANDARD},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForEmbedWindowsFontsDataProvider")
+    public void usePdfDocumentForEmbedWindowsFonts(/*PdfFontEmbeddingMode*/int pdfFontEmbeddingMode) throws Exception
+    {
+        embedWindowsFonts(pdfFontEmbeddingMode);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedWindowsFonts.pdf");
         Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
@@ -1371,8 +1682,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "embedWindowsFontsDataProvider")
-	public static Object[][] embedWindowsFontsDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForEmbedWindowsFontsDataProvider")
+	public static Object[][] usePdfDocumentForEmbedWindowsFontsDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1409,10 +1720,27 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf").getLength();
         if (useCoreFonts)
-            Assert.That(testedFileLength, Is.LessThan(2000));
+            Assert.assertTrue(testedFileLength < 2000);
         else
-            Assert.That(testedFileLength, Is.LessThan(33500));
-        
+            Assert.assertTrue(testedFileLength < 33500);
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "embedCoreFontsDataProvider")
+	public static Object[][] embedCoreFontsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForEmbedCoreFontsDataProvider")
+    public void usePdfDocumentForEmbedCoreFonts(boolean useCoreFonts) throws Exception
+    {
+        embedCoreFonts(useCoreFonts);
+
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.EmbedCoreFonts.pdf");
         Aspose.Pdf.Text.Font[] pdfDocFonts = pdfDocument.FontUtilities.GetAllFonts();
 
@@ -1432,8 +1760,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "embedCoreFontsDataProvider")
-	public static Object[][] embedCoreFontsDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForEmbedCoreFontsDataProvider")
+	public static Object[][] usePdfDocumentForEmbedCoreFontsDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1464,6 +1792,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf", saveOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "additionalTextPositioningDataProvider")
+	public static Object[][] additionalTextPositioningDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForAdditionalTextPositioningDataProvider")
+    public void usePdfDocumentForAdditionalTextPositioning(boolean applyAdditionalTextPositioning) throws Exception
+    {
+        additionalTextPositioning(applyAdditionalTextPositioning);
 
         Aspose.Pdf.Document pdfDocument =
             new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf");
@@ -1471,27 +1816,26 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         pdfDocument.Pages[1].Accept(textAbsorber);
 
-        SetGlyphsPositionShowText tjOperator =
-            (SetGlyphsPositionShowText) textAbsorber.TextFragments[1].Page.Contents[83];
+        SetGlyphsPositionShowText tjOperator = (SetGlyphsPositionShowText) textAbsorber.TextFragments[1].Page.Contents[83];
 
         long testedFileLength = new FileInfo(getArtifactsDir() + "PdfSaveOptions.AdditionalTextPositioning.pdf").getLength();
         if (applyAdditionalTextPositioning)
         {
-            Assert.That(testedFileLength, Is.LessThan(102000));
+            Assert.assertTrue(testedFileLength < 102000);
             Assert.AreEqual(
                 "[0 (S) 0 (a) 0 (m) 0 (s) 0 (t) 0 (a) -1 (g) 1 (,) 0 ( ) 0 (1) 0 (0) 0 (.) 0 ( ) 0 (N) 0 (o) 0 (v) 0 (e) 0 (m) 0 (b) 0 (e) 0 (r) -1 ( ) 1 (2) -1 (0) 0 (1) 0 (8)] TJ",
                 tjOperator.ToString());
         }
         else
         {
-            Assert.That(testedFileLength, Is.LessThan(99500));
+            Assert.assertTrue(testedFileLength < 99500);
             Assert.AreEqual("[(Samsta) -1 (g) 1 (, 10. November) -1 ( ) 1 (2) -1 (018)] TJ", tjOperator.ToString());
         }
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "additionalTextPositioningDataProvider")
-	public static Object[][] additionalTextPositioningDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForAdditionalTextPositioningDataProvider")
+	public static Object[][] usePdfDocumentForAdditionalTextPositioningDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1529,6 +1873,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // and the contents will line up in a way that creates a booklet.
         doc.save(getArtifactsDir() + "PdfSaveOptions.SaveAsPdfBookFold.pdf", options);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "saveAsPdfBookFoldDataProvider")
+	public static Object[][] saveAsPdfBookFoldDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForSaveAsPdfBookFoldDataProvider")
+    public void usePdfDocumentForSaveAsPdfBookFold(boolean renderTextAsBookfold) throws Exception
+    {
+        saveAsPdfBookFold(renderTextAsBookfold);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.SaveAsPdfBookFold.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
@@ -1562,8 +1923,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "saveAsPdfBookFoldDataProvider")
-	public static Object[][] saveAsPdfBookFoldDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForSaveAsPdfBookFoldDataProvider")
+	public static Object[][] usePdfDocumentForSaveAsPdfBookFoldDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1598,6 +1959,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // When we open this document using a reader such as Adobe Acrobat, we will see the document scaled at 1/4 of its actual size.
         doc.save(getArtifactsDir() + "PdfSaveOptions.ZoomBehaviour.pdf", options);
         //ExEnd
+    }
+
+    @Test
+    public void usePdfDocumentForZoomBehaviour() throws Exception
+    {
+        zoomBehaviour();
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ZoomBehaviour.pdf");
         GoToAction action = (GoToAction)pdfDocument.OpenAction;
@@ -1665,6 +2032,27 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                     getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
                 break;
         }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "pageModeDataProvider")
+	public static Object[][] pageModeDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{PdfPageMode.FULL_SCREEN},
+			{PdfPageMode.USE_THUMBS},
+			{PdfPageMode.USE_OC},
+			{PdfPageMode.USE_OUTLINES},
+			{PdfPageMode.USE_NONE},
+			{PdfPageMode.USE_ATTACHMENTS},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForPageModeDataProvider")
+    public void usePdfDocumentForPageMode(/*PdfPageMode*/int pageMode) throws Exception
+    {
+        pageMode(pageMode);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PageMode.pdf");
 
@@ -1690,8 +2078,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "pageModeDataProvider")
-	public static Object[][] pageModeDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForPageModeDataProvider")
+	public static Object[][] usePdfDocumentForPageModeDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1758,6 +2146,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                     TestUtil.fileContainsString("<</Type /Annot/Subtype /Link/Rect",
                         getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf"));
         }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "noteHyperlinksDataProvider")
+	public static Object[][] noteHyperlinksDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForNoteHyperlinksDataProvider")
+    public void usePdfDocumentForNoteHyperlinks(boolean createNoteHyperlinks) throws Exception
+    {
+        noteHyperlinks(createNoteHyperlinks);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.NoteHyperlinks.pdf");
         Page page = pdfDocument.Pages[1];
@@ -1787,8 +2192,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "noteHyperlinksDataProvider")
-	public static Object[][] noteHyperlinksDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForNoteHyperlinksDataProvider")
+	public static Object[][] usePdfDocumentForNoteHyperlinksDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1849,6 +2254,24 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                     getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
                 break;
         }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "customPropertiesExportDataProvider")
+	public static Object[][] customPropertiesExportDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{PdfCustomPropertiesExport.NONE},
+			{PdfCustomPropertiesExport.STANDARD},
+			{PdfCustomPropertiesExport.METADATA},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForCustomPropertiesExportDataProvider")
+    public void usePdfDocumentForCustomPropertiesExport(/*PdfCustomPropertiesExport*/int pdfCustomPropertiesExportMode) throws Exception
+    {
+        customPropertiesExport(pdfCustomPropertiesExportMode);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.CustomPropertiesExport.pdf");
 
@@ -1878,8 +2301,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "customPropertiesExportDataProvider")
-	public static Object[][] customPropertiesExportDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForCustomPropertiesExportDataProvider")
+	public static Object[][] usePdfDocumentForCustomPropertiesExportDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1916,6 +2339,24 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.DrawingMLEffects.pdf", options);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "drawingMLEffectsDataProvider")
+	public static Object[][] drawingMLEffectsDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{DmlEffectsRenderingMode.NONE},
+			{DmlEffectsRenderingMode.SIMPLIFIED},
+			{DmlEffectsRenderingMode.FINE},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForDrawingMLEffectsDataProvider")
+    public void usePdfDocumentForDrawingMLEffects(/*DmlEffectsRenderingMode*/int effectsRenderingMode) throws Exception
+    {
+        drawingMLEffects(effectsRenderingMode);
 
         Aspose.Pdf.Document pdfDocument =
             new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DrawingMLEffects.pdf");
@@ -1946,8 +2387,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "drawingMLEffectsDataProvider")
-	public static Object[][] drawingMLEffectsDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForDrawingMLEffectsDataProvider")
+	public static Object[][] usePdfDocumentForDrawingMLEffectsDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -1992,6 +2433,23 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                     getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
                 break;
         }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "drawingMLFallbackDataProvider")
+	public static Object[][] drawingMLFallbackDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{DmlRenderingMode.FALLBACK},
+			{DmlRenderingMode.DRAWING_ML},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForDrawingMLFallbackDataProvider")
+    public void usePdfDocumentForDrawingMLFallback(/*DmlRenderingMode*/int dmlRenderingMode) throws Exception
+    {
+        drawingMLFallback(dmlRenderingMode);
 
         Aspose.Pdf.Document pdfDocument =
             new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.DrawingMLFallback.pdf");
@@ -2014,8 +2472,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "drawingMLFallbackDataProvider")
-	public static Object[][] drawingMLFallbackDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForDrawingMLFallbackDataProvider")
+	public static Object[][] usePdfDocumentForDrawingMLFallbackDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -2112,7 +2570,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             }
             else
             {
-                Assert.That(stream.getLength(), Is.LessThan(19500));
+                Assert.assertTrue(stream.getLength() < 19500);
             }
         }
         finally { if (stream != null) stream.close(); }
@@ -2260,6 +2718,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf")
             .hasDigitalSignature());
+    }
+
+    @Test
+    public void usePdfDocumentForPdfDigitalSignature() throws Exception
+    {
+        pdfDigitalSignature();
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf");
 
@@ -2270,6 +2734,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Assert.AreEqual("AsposeDigitalSignature", signatureField.FullName);
         Assert.AreEqual("AsposeDigitalSignature", signatureField.PartialName);
         Assert.AreEqual(Aspose.Pdf.Forms.PKCS7Detached.class, signatureField.Signature.GetType());
+        DateTime signingTime = new DateTime(2015, 7, 20);
         Assert.AreEqual(signingTime, signatureField.Signature.Date.ToLocalTime());
         Assert.AreEqual("þÿ\u0000M\u0000o\u0000r\u0000z\0a\u0000l\u0000.\u0000M\0e", signatureField.Signature.Authority);
         Assert.AreEqual("þÿ\u0000M\u0000y\u0000 \u0000O\0f\0f\u0000i\0c\0e", signatureField.Signature.Location);
@@ -2323,6 +2788,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Assert.assertFalse(FileFormatUtil.detectFileFormat(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf").hasDigitalSignature());
         TestUtil.fileContainsString("<</Type/Annot/Subtype/Widget/Rect[0 0 0 0]/FT/Sig/T",
         getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
+    }
+
+    @Test
+    public void usePdfDocumentForPdfDigitalSignatureTimestamp() throws Exception
+    {
+        pdfDigitalSignatureTimestamp();
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignatureTimestamp.pdf");
 
@@ -2369,6 +2840,24 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf", saveOptions);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "renderMetafileDataProvider")
+	public static Object[][] renderMetafileDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{EmfPlusDualRenderingMode.EMF},
+			{EmfPlusDualRenderingMode.EMF_PLUS},
+			{EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForRenderMetafileDataProvider")
+    public void usePdfDocumentForRenderMetafile(/*EmfPlusDualRenderingMode*/int renderingMode) throws Exception
+    {
+        renderMetafile(renderingMode);
 
         Aspose.Pdf.Document pdfDocument =
             new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
@@ -2386,8 +2875,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "renderMetafileDataProvider")
-	public static Object[][] renderMetafileDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForRenderMetafileDataProvider")
+	public static Object[][] usePdfDocumentForRenderMetafileDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -2427,6 +2916,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // When we open this document, we will need to provide the password before accessing its contents.
         doc.save(getArtifactsDir() + "PdfSaveOptions.EncryptionPermissions.pdf", saveOptions);
         //ExEnd
+    }
+
+    @Test
+    public void usePdfDocumentForEncryptionPermissions() throws Exception
+    {
+        encryptionPermissions();
 
         Aspose.Pdf.Document pdfDocument;
 
@@ -2470,6 +2965,26 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.SetNumeralFormat.pdf", options);
         //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "setNumeralFormatDataProvider")
+	public static Object[][] setNumeralFormatDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{NumeralFormat.ARABIC_INDIC},
+			{NumeralFormat.CONTEXT},
+			{NumeralFormat.EASTERN_ARABIC_INDIC},
+			{NumeralFormat.EUROPEAN},
+			{NumeralFormat.SYSTEM},
+		};
+	}
+
+    @Test (dataProvider = "usePdfDocumentForSetNumeralFormatDataProvider")
+    public void usePdfDocumentForSetNumeralFormat(/*NumeralFormat*/int numeralFormat) throws Exception
+    {
+        setNumeralFormat(numeralFormat);
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.SetNumeralFormat.pdf");
         TextFragmentAbsorber textAbsorber = new TextFragmentAbsorber();
@@ -2491,8 +3006,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     }
 
 	//JAVA-added data provider for test method
-	@DataProvider(name = "setNumeralFormatDataProvider")
-	public static Object[][] setNumeralFormatDataProvider() throws Exception
+	@DataProvider(name = "usePdfDocumentForSetNumeralFormatDataProvider")
+	public static Object[][] usePdfDocumentForSetNumeralFormatDataProvider() throws Exception
 	{
 		return new Object[][]
 		{
@@ -2541,6 +3056,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.All.pdf", options);
         //ExEnd
+    }
+
+    @Test
+    public void usePdfDocumentForExportPageSet() throws Exception
+    {
+        exportPageSet();
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportPageSet.Even.pdf");
         TextAbsorber textAbsorber = new TextAbsorber();
@@ -2643,6 +3164,12 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf", saveOptions);
         //ExEnd
+    }
+
+    @Test
+    public void usePdfDocumentForExportParagraphGraphicsToArtifact() throws Exception
+    {
+        exportParagraphGraphicsToArtifact();
 
         Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(getArtifactsDir() + "PdfSaveOptions.ExportParagraphGraphicsToArtifact.pdf");
         Assert.AreEqual(3, pdfDocument.Pages[1].Artifacts.Count());

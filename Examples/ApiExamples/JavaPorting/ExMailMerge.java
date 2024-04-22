@@ -86,11 +86,11 @@ public class ExMailMerge extends ApiExampleBase
             new Object[] { "James Bond", "MI5 Headquarters", "Milbank", "London" });
 
         // Send the document to the client browser.
-        Assert.That(() => doc.Save(response, "Artifacts/MailMerge.ExecuteArray.docx", ContentDisposition.INLINE, null),
-            Throws.<NullPointerException>TypeOf()); //Thrown because HttpResponse is null in the test.
+        //Thrown because HttpResponse is null in the test.
+        Assert.<NullPointerException>Throws(() => doc.Save(response, "Artifacts/MailMerge.ExecuteArray.docx", ContentDisposition.INLINE, null));
 
         // We will need to close this response manually to ensure that we do not add any superfluous content to the document after saving.
-        Assert.That(() => response.End(), Throws.<NullPointerException>TypeOf());
+        Assert.<NullPointerException>Throws(() => response.End());
         //ExEnd
 
         doc = DocumentHelper.saveOpen(doc);
@@ -131,8 +131,8 @@ public class ExMailMerge extends ApiExampleBase
             OleDbCommand command = new OleDbCommand(query, connection);
             command.CommandText = query;
             try
-            {                    
-                connection.Open();                 
+            {
+                connection.Open();
                 OleDbDataReader reader = command.ExecuteReader();
                 try /*JAVA: was using*/
                 {
@@ -144,7 +144,7 @@ public class ExMailMerge extends ApiExampleBase
             catch (Exception ex)
             {
                 System.out.println(ex.getMessage());
-            }                
+            }
         }
         finally { if (connection != null) connection.close(); }
 
@@ -305,7 +305,7 @@ public class ExMailMerge extends ApiExampleBase
 
         // 2 -  Use one row of the table to create one output mail merge document:
         doc = createSourceDocExecuteDataTable();
-        
+
         doc.getMailMerge().execute(table.getRows().get(1));
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteDataTable.OneRow.docx");
@@ -1701,7 +1701,7 @@ public class ExMailMerge extends ApiExampleBase
         //ExEnd
 
         doc = new Document(getArtifactsDir() + "MailMerge.OdsoEmail.docx");
-        Assert.That(doc.getMailMergeSettings().getConnectString(), Is.Empty);
+        Assert.assertEquals("", doc.getMailMergeSettings().getConnectString());
     }
 
     private void testOdsoEmail(Document doc)
@@ -1963,7 +1963,7 @@ public class ExMailMerge extends ApiExampleBase
         //ExFor:MailMerge.RestartListsAtEachSection
         //ExSummary:Shows how to control whether or not list numbering is restarted at each section when mail merge is performed.
         Document doc = new Document(getMyDir() + "Section breaks with numbering.docx");
-        
+
         doc.getMailMerge().setRestartListsAtEachSection(false);
         doc.getMailMerge().execute(new String[0], new Object[0]);
 

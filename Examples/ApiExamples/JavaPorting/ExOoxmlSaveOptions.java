@@ -42,6 +42,9 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.Color;
 import com.aspose.words.Zip64Mode;
+import com.aspose.words.CertificateHolder;
+import com.aspose.words.DigitalSignatureDetails;
+import com.aspose.words.SignOptions;
 import org.testng.annotations.DataProvider;
 
 
@@ -192,7 +195,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         DateTime lastSavedTimeNew = doc.getBuiltInDocumentProperties().getLastSavedTimeInternal();
 
         if (updateLastSavedTimeProperty)
-            Assert.That(new Date(), Is.EqualTo(lastSavedTimeNew).Within(1).Days);
+            Assert.assertTrue((DateTime.subtract(new Date(), lastSavedTimeNew)).getDays() < 1);
         else
             Assert.assertEquals(new DateTime(2021, 5, 11, 6, 32, 0), 
                 lastSavedTimeNew);
@@ -267,7 +270,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         // the default compression that Microsoft Word uses.
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(SaveFormat.DOCX);
         saveOptions.setCompressionLevel(compressionLevel);
-        
+
         Stopwatch st = Stopwatch.startNew();
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.DocumentCompression.docx", saveOptions);
         st.stop();
@@ -284,16 +287,16 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         switch (compressionLevel)
         {
             case CompressionLevel.MAXIMUM:
-                Assert.That(testedFileLength, Is.LessThan(1269000));
+                Assert.assertTrue(testedFileLength < 1269000);
                 break;
             case CompressionLevel.NORMAL:
-                Assert.That(testedFileLength, Is.LessThan(1271000));
+                Assert.assertTrue(testedFileLength < 1271000);
                 break;
             case CompressionLevel.FAST:
-                Assert.That(testedFileLength, Is.LessThan(1280000));
+                Assert.assertTrue(testedFileLength < 1280000);
                 break;
             case CompressionLevel.SUPER_FAST:
-                Assert.That(testedFileLength, Is.LessThan(1276000));
+                Assert.assertTrue(testedFileLength < 1276000);
                 break;
         }
     }
@@ -345,7 +348,7 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
             try /*JAVA: was using*/
             {
                 long fileSize = outputFileStream.getLength();
-                Assert.That(prevFileSize < fileSize);
+                Assert.assertTrue(prevFileSize < fileSize);
 
                 TestUtil.copyStream(outputFileStream, stream);
                 Assert.assertEquals(fileSignatures[i], TestUtil.dumpArray(stream.toArray(), 0, 10));
@@ -365,10 +368,10 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         //ExFor:SaveOptions.ExportGeneratorName
         //ExSummary:Shows how to disable adding name and version of Aspose.Words into produced files.
         Document doc = new Document();
-        
+
         // Use https://docs.aspose.com/words/net/generator-or-producer-name-included-in-output-documents/ to know how to check the result.
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setExportGeneratorName(false); }
-        
+
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.ExportGeneratorName.docx", saveOptions);
         //ExEnd
     }
@@ -482,6 +485,25 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         builder.getDocument().save(getArtifactsDir() + "OoxmlSaveOptions.Zip64ModeOption.docx", 
             new OoxmlSaveOptions(); { .setZip64Mode(Zip64Mode.ALWAYS); });
         //ExEnd:Zip64ModeOption
+    }
+
+    @Test
+    public void digitalSignature() throws Exception
+    {
+        //ExStart:DigitalSignature
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:OoxmlSaveOptions.DigitalSignatureDetails
+        //ExSummary:Shows how to sign OOXML document.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        saveOptions.setDigitalSignatureDetails(new DigitalSignatureDetails(
+            certificateHolder,
+            new SignOptions(); { saveOptions.getDigitalSignatureDetails().setComments("Some comments"); saveOptions.getDigitalSignatureDetails().setSignTime(new Date()); }));
+
+        doc.save(getArtifactsDir() + "OoxmlSaveOptions.DigitalSignature.docx", saveOptions);
+        //ExEnd:DigitalSignature
     }
 }
 

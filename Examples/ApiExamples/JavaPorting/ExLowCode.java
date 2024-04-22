@@ -38,7 +38,8 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
         //There is a several ways to merge documents:
         Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SimpleMerge.docx", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" });
 
-        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SaveOptions.docx", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" }, new OoxmlSaveOptions(); { .setPassword("Aspose.Words"); }, MergeFormatMode.KEEP_SOURCE_FORMATTING);
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setPassword("Aspose.Words"); }
+        Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SaveOptions.docx", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" }, saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
 
         Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SaveFormat.pdf", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" }, SaveFormat.PDF, MergeFormatMode.KEEP_SOURCE_LAYOUT);
 
@@ -50,7 +51,7 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
     @Test
     public void mergeStreamDocument() throws Exception
     {
-        //ExStart            
+        //ExStart
         //ExFor:Merger.Merge(Stream[], MergeFormatMode)
         //ExFor:Merger.Merge(Stream, Stream[], SaveOptions, MergeFormatMode)
         //ExFor:Merger.Merge(Stream, Stream[], SaveFormat)
@@ -62,20 +63,21 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
             FileStream secondStreamIn = new FileStream(getMyDir() + "Tables.docx", FileMode.OPEN, FileAccess.READ);
             try /*JAVA: was using*/
             {
+                OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setPassword("Aspose.Words"); }
                 FileStream streamOut = new FileStream(getArtifactsDir() + "LowCode.MergeStreamDocument.SaveOptions.docx", FileMode.CREATE, FileAccess.READ_WRITE);
                 try /*JAVA: was using*/
             	{
-                    Merger.mergeInternal(streamOut, new FileStream[] { firstStreamIn, secondStreamIn }, new OoxmlSaveOptions(); { .setPassword("Aspose.Words"); }, MergeFormatMode.KEEP_SOURCE_FORMATTING);
+                    Merger.mergeInternal(streamOut, new FileStream[] { firstStreamIn, secondStreamIn }, saveOptions, MergeFormatMode.KEEP_SOURCE_FORMATTING);
             	}
                 finally { if (streamOut != null) streamOut.close(); }
 
                 FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.MergeStreamDocument.SaveFormat.docx", FileMode.CREATE, FileAccess.READ_WRITE);
                 try /*JAVA: was using*/
-            	{                    
+            	{
                     Merger.mergeInternal(streamOut1, new FileStream[] { firstStreamIn, secondStreamIn }, SaveFormat.DOCX);
             	}
                 finally { if (streamOut1 != null) streamOut1.close(); }
-               
+
                 Document doc = Merger.mergeInternal(new FileStream[] { firstStreamIn, secondStreamIn }, MergeFormatMode.MERGE_FORMATTING);
                 doc.save(getArtifactsDir() + "LowCode.MergeStreamDocument.DocumentInstance.docx");
             }
@@ -96,10 +98,10 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
         firstDoc.getFont().setSize(16.0);
         firstDoc.getFont().setColor(Color.BLUE);
         firstDoc.write("Hello first word!");
-        
+
         DocumentBuilder secondDoc = new DocumentBuilder();
         secondDoc.write("Hello second word!");
-        
+
         Document mergedDoc = Merger.merge(new Document[] { firstDoc.getDocument(), secondDoc.getDocument() }, MergeFormatMode.KEEP_SOURCE_LAYOUT);
         Assert.assertEquals("Hello first word!\fHello second word!\f", mergedDoc.getText());
         //ExEnd:MergeDocumentInstances

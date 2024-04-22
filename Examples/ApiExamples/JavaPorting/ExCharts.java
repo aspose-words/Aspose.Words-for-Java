@@ -198,9 +198,9 @@ public class ExCharts extends ApiExampleBase
         xAxis.setMinorTickMark(AxisTickMark.CROSS);
         xAxis.setMajorUnit(10.0d);
         xAxis.setMinorUnit(15.0d);
-        xAxis.setTickLabelOffset(50);
-        xAxis.setTickLabelPosition(AxisTickLabelPosition.LOW);
-        xAxis.setTickLabelSpacingIsAuto(false);
+        xAxis.getTickLabels().setOffset(50);
+        xAxis.getTickLabels().setPosition(AxisTickLabelPosition.LOW);
+        xAxis.getTickLabels().isAutoSpacing(false);
         xAxis.setTickMarkSpacing(1);
 
         ChartAxis yAxis = chart.getAxisY();
@@ -211,7 +211,7 @@ public class ExCharts extends ApiExampleBase
         yAxis.setMinorTickMark(AxisTickMark.CROSS);
         yAxis.setMajorUnit(100.0d);
         yAxis.setMinorUnit(20.0d);
-        yAxis.setTickLabelPosition(AxisTickLabelPosition.NEXT_TO_AXIS);
+        yAxis.getTickLabels().setPosition(AxisTickLabelPosition.NEXT_TO_AXIS);
 
         // Column charts do not have a Z-axis.
         Assert.assertNull(chart.getAxisZ());
@@ -229,9 +229,9 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(AxisTickMark.CROSS, chart.getAxisX().getMinorTickMark());
         Assert.assertEquals(1.0d, chart.getAxisX().getMajorUnit());
         Assert.assertEquals(0.5d, chart.getAxisX().getMinorUnit());
-        Assert.assertEquals(50, chart.getAxisX().getTickLabelOffset());
-        Assert.assertEquals(AxisTickLabelPosition.LOW, chart.getAxisX().getTickLabelPosition());
-        Assert.assertFalse(chart.getAxisX().getTickLabelSpacingIsAuto());
+        Assert.assertEquals(50, chart.getAxisX().getTickLabels().getOffset());
+        Assert.assertEquals(AxisTickLabelPosition.LOW, chart.getAxisX().getTickLabels().getPosition());
+        Assert.assertFalse(chart.getAxisX().getTickLabels().isAutoSpacing());
         Assert.assertEquals(1, chart.getAxisX().getTickMarkSpacing());
 
         Assert.assertEquals(AxisCategoryType.CATEGORY, chart.getAxisY().getCategoryType());
@@ -241,7 +241,7 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(AxisTickMark.CROSS, chart.getAxisY().getMinorTickMark());
         Assert.assertEquals(100.0d, chart.getAxisY().getMajorUnit());
         Assert.assertEquals(20.0d, chart.getAxisY().getMinorUnit());
-        Assert.assertEquals(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisY().getTickLabelPosition());
+        Assert.assertEquals(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisY().getTickLabels().getPosition());
     }
 
     @Test
@@ -320,7 +320,7 @@ public class ExCharts extends ApiExampleBase
 
         // Define Y-axis properties for decimal values.
         ChartAxis yAxis = chart.getAxisY();
-        yAxis.setTickLabelPosition(AxisTickLabelPosition.HIGH);
+        yAxis.getTickLabels().setPosition(AxisTickLabelPosition.HIGH);
         yAxis.setMajorUnit(100.0d);
         yAxis.setMinorUnit(50.0d);
         yAxis.getDisplayUnit().setUnit(AxisBuiltInUnit.HUNDREDS);
@@ -345,7 +345,7 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(true, chart.getAxisX().hasMajorGridlines());
         Assert.assertEquals(true, chart.getAxisX().hasMinorGridlines());
 
-        Assert.assertEquals(AxisTickLabelPosition.HIGH, chart.getAxisY().getTickLabelPosition());
+        Assert.assertEquals(AxisTickLabelPosition.HIGH, chart.getAxisY().getTickLabels().getPosition());
         Assert.assertEquals(100.0d, chart.getAxisY().getMajorUnit());
         Assert.assertEquals(50.0d, chart.getAxisY().getMinorUnit());
         Assert.assertEquals(AxisBuiltInUnit.HUNDREDS, chart.getAxisY().getDisplayUnit().getUnit());
@@ -426,6 +426,64 @@ public class ExCharts extends ApiExampleBase
         chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
 
         Assert.assertEquals("#,##0", chart.getAxisY().getNumberFormat().getFormatCode());
+    }
+
+    @Test (dataProvider = "testDisplayChartsWithConversionDataProvider")
+    public void testDisplayChartsWithConversion(/*ChartType*/int chartType) throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(chartType, 500.0, 300.0);
+        Chart chart = shape.getChart();
+        chart.getSeries().clear();
+        
+        chart.getSeries().add("Aspose Test Series",
+            new String[] { "Word", "PDF", "Excel", "GoogleDocs", "Note" },
+            new double[] { 1900000.0, 850000.0, 2100000.0, 600000.0, 1500000.0 });
+
+        doc.save(getArtifactsDir() + "Charts.TestDisplayChartsWithConversion.docx");
+        doc.save(getArtifactsDir() + "Charts.TestDisplayChartsWithConversion.pdf");
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "testDisplayChartsWithConversionDataProvider")
+	public static Object[][] testDisplayChartsWithConversionDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{ChartType.COLUMN},
+			{ChartType.LINE},
+			{ChartType.PIE},
+			{ChartType.BAR},
+			{ChartType.AREA},
+		};
+	}
+
+    @Test
+    public void surface3DChart() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.SURFACE_3_D, 500.0, 300.0);
+        Chart chart = shape.getChart();
+        chart.getSeries().clear();
+
+        chart.getSeries().add("Aspose Test Series 1",
+            new String[] { "Word", "PDF", "Excel", "GoogleDocs", "Note" },
+            new double[] { 1900000.0, 850000.0, 2100000.0, 600000.0, 1500000.0 });
+
+        chart.getSeries().add("Aspose Test Series 2",
+            new String[] { "Word", "PDF", "Excel", "GoogleDocs", "Note" },
+            new double[] { 900000.0, 50000.0, 1100000.0, 400000.0, 2500000.0 });
+
+        chart.getSeries().add("Aspose Test Series 3",
+            new String[] { "Word", "PDF", "Excel", "GoogleDocs", "Note" },
+            new double[] { 500000.0, 820000.0, 1500000.0, 400000.0, 100000.0 });
+
+        doc.save(getArtifactsDir() + "Charts.SurfaceChart.docx");
+        doc.save(getArtifactsDir() + "Charts.SurfaceChart.pdf");
     }
 
     @Test
@@ -1168,9 +1226,9 @@ public class ExCharts extends ApiExampleBase
         // Set the X-axis bounds so that the X-axis spans 5 major tick marks and 12 minor tick marks.
         axis.getScaling().setMinimum(new AxisBound(-10));
         axis.getScaling().setMaximum(new AxisBound(30.0));
-        axis.setTickLabelAlignment(ParagraphAlignment.RIGHT);
+        axis.getTickLabels().setAlignment(ParagraphAlignment.RIGHT);
 
-        Assert.assertEquals(1, axis.getTickLabelSpacing());
+        Assert.assertEquals(1, axis.getTickLabels().getSpacing());
 
         // Set the tick labels to display their value in millions.
         axis.getDisplayUnit().setUnit(AxisBuiltInUnit.MILLIONS);
@@ -1196,8 +1254,8 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(10.0d, axis.getMajorUnit());
         Assert.assertEquals(-10.0d, axis.getScaling().getMinimum().getValue());
         Assert.assertEquals(30.0d, axis.getScaling().getMaximum().getValue());
-        Assert.assertEquals(1, axis.getTickLabelSpacing());
-        Assert.assertEquals(ParagraphAlignment.RIGHT, axis.getTickLabelAlignment());
+        Assert.assertEquals(1, axis.getTickLabels().getSpacing());
+        Assert.assertEquals(ParagraphAlignment.RIGHT, axis.getTickLabels().getAlignment());
         Assert.assertEquals(AxisBuiltInUnit.CUSTOM, axis.getDisplayUnit().getUnit());
         Assert.assertEquals(1000000.0d, axis.getDisplayUnit().getCustomUnit());
 
@@ -1379,7 +1437,7 @@ public class ExCharts extends ApiExampleBase
         //ExStart
         //ExFor:ChartSeries.SeriesType
         //ExFor:ChartSeriesType
-        //ExSummary:Shows how to 
+        //ExSummary:Shows how to remove specific chart serie.
         Document doc = new Document(getMyDir() + "Reporting engine template - Chart series.docx");
         Chart chart = ((Shape)doc.getChild(NodeType.SHAPE, 0, true)).getChart();
 
@@ -1683,7 +1741,7 @@ public class ExCharts extends ApiExampleBase
         ChartSeries series = shape.getChart().getSeries().get(0);
         ChartDataPoint dataPoint = series.getDataPoints().get(1);
 
-        Assert.assertTrue(dataPoint.getFormat().isDefined());            
+        Assert.assertTrue(dataPoint.getFormat().isDefined());
 
         dataPoint.getFormat().setDefaultFill();
 
@@ -1704,7 +1762,7 @@ public class ExCharts extends ApiExampleBase
 
         Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
         Chart chart = shape.getChart();
-
+        
         ChartSeriesCollection series = chart.getSeries();
         series.clear();
         double[] xValues = new double[] { 2020.0, 2021.0, 2022.0, 2023.0 };
@@ -1726,6 +1784,61 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.DataTable.docx");
         //ExEnd:DataTable
+    }
+
+    @Test
+    public void chartFormat() throws Exception
+    {
+        //ExStart:ChartFormat
+        //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:Chart.Format
+        //ExFor:ChartTitle.Format
+        //ExFor:ChartAxisTitle.Format
+        //ExFor:ChartLegend.Format
+        //ExSummary:Shows how to use chart formating.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        Chart chart = shape.getChart();
+
+        // Delete series generated by default.
+        ChartSeriesCollection series = chart.getSeries();
+        series.clear();
+
+        String[] categories = new String[] { "Category 1", "Category 2" };
+        series.add("Series 1", categories, new double[] { 1.0, 2.0 });
+        series.add("Series 2", categories, new double[] { 3.0, 4.0 });
+
+        // Format chart background.
+        chart.getFormat().getFill().solid(Color.DarkSlateGray);
+
+        // Hide axis tick labels.
+        chart.getAxisX().getTickLabels().setPosition(AxisTickLabelPosition.NONE);
+        chart.getAxisY().getTickLabels().setPosition(AxisTickLabelPosition.NONE);
+
+        // Format chart title.
+        chart.getTitle().getFormat().getFill().solid(Color.LightGoldenrodYellow);
+
+        // Format axis title.
+        chart.getAxisX().getTitle().setShow(true);
+        chart.getAxisX().getTitle().getFormat().getFill().solid(Color.LightGoldenrodYellow);
+
+        // Format legend.
+        chart.getLegend().getFormat().getFill().solid(Color.LightGoldenrodYellow);
+
+        doc.save(getArtifactsDir() + "Charts.ChartFormat.docx");
+        //ExEnd:ChartFormat
+
+        doc = new Document(getArtifactsDir() + "Charts.ChartFormat.docx");
+
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        chart = shape.getChart();
+
+        Assert.assertEquals(Color.DarkSlateGray.getRGB(), chart.getFormat().getFill().getColor().getRGB());
+        Assert.assertEquals(Color.LightGoldenrodYellow.getRGB(), chart.getTitle().getFormat().getFill().getColor().getRGB());
+        Assert.assertEquals(Color.LightGoldenrodYellow.getRGB(), chart.getAxisX().getTitle().getFormat().getFill().getColor().getRGB());
+        Assert.assertEquals(Color.LightGoldenrodYellow.getRGB(), chart.getLegend().getFormat().getFill().getColor().getRGB());
     }
 }
 
