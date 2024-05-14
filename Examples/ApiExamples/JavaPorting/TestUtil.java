@@ -245,7 +245,7 @@ class TestUtil extends ApiExampleBase
 
         for (int i = 0; i < expectedResult.getRows().getCount(); i++)
             expectedStrings[i] = Object[].ConvertAll(expectedResult.getRows().get(i).getItemArray(), x => x.toString());
-        
+
         mailMergeMatchesArray(expectedStrings, doc, onePagePerRow);
     }
 
@@ -302,10 +302,10 @@ class TestUtil extends ApiExampleBase
         try /*JAVA: was using*/
         {
             ZipArchiveEntry entry = archive.Entries.First(e => e.Name == docPartFilename);
-            
+
             Stream stream = entry.Open();
             try /*JAVA: was using*/
-            { 
+            {
                streamContainsString(expected, stream);
             }
             finally { if (stream != null) stream.close(); }

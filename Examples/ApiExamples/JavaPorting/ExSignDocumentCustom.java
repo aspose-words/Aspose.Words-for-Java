@@ -137,9 +137,9 @@ public class ExSignDocumentCustom extends ApiExampleBase
         mSignees = new ArrayList<ExSignDocumentCustom.Signee>();
         {
             mSignees.add(new Signee(Guid.newGuid(), "Ron Williams", "Chief Executive Officer",
-                imageToByteArray(signImagePath)));                
+                imageToByteArray(signImagePath)));
             mSignees.add(new Signee(Guid.newGuid(), "Stephen Morse", "Head of Compliance",
-                imageToByteArray(signImagePath)));                
+                imageToByteArray(signImagePath)));
         }
     }
 

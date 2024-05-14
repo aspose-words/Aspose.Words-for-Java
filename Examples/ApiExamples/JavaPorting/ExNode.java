@@ -618,7 +618,7 @@ public class ExNode extends ApiExampleBase
         builder.write("Cell 2");
         builder.endTable();
 
-        builder.insertImage(getImageDir() + "Logo.jpg");            
+        builder.insertImage(getImageDir() + "Logo.jpg");
 
         builder.getCurrentParagraph().getParentNode().removeAllChildren();
     }
@@ -709,7 +709,7 @@ public class ExNode extends ApiExampleBase
     {
         //ExStart
         //ExFor:NodeList.Count
-        //ExFor:NodeList.Item(System.Int32)
+        //ExFor:NodeList.Item(Int32)
         //ExSummary:Shows how to use XPaths to navigate a NodeList.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -724,7 +724,7 @@ public class ExNode extends ApiExampleBase
         builder.write("Cell 2");
         builder.endTable();
 
-        builder.insertImage(getImageDir() + "Logo.jpg");            
+        builder.insertImage(getImageDir() + "Logo.jpg");
 
         // Our document contains three Run nodes.
         NodeList nodeList = doc.selectNodes("//Run");

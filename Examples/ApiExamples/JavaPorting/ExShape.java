@@ -101,6 +101,8 @@ import com.aspose.words.ShadowType;
 import com.aspose.words.RelativeHorizontalSize;
 import com.aspose.words.RelativeVerticalSize;
 import com.aspose.words.TextBoxControl;
+import com.aspose.words.AdjustmentCollection;
+import com.aspose.words.Adjustment;
 import org.testng.annotations.DataProvider;
 
 
@@ -952,11 +954,11 @@ public class ExShape extends ApiExampleBase
         //ExStart
         //ExFor:Fill.GradientStops
         //ExFor:GradientStopCollection
-        //ExFor:GradientStopCollection.Insert(System.Int32, GradientStop)
+        //ExFor:GradientStopCollection.Insert(Int32, GradientStop)
         //ExFor:GradientStopCollection.Add(GradientStop)
-        //ExFor:GradientStopCollection.RemoveAt(System.Int32)
+        //ExFor:GradientStopCollection.RemoveAt(Int32)
         //ExFor:GradientStopCollection.Remove(GradientStop)
-        //ExFor:GradientStopCollection.Item(System.Int32)
+        //ExFor:GradientStopCollection.Item(Int32)
         //ExFor:GradientStopCollection.Count
         //ExFor:GradientStop.#ctor(Color, Double)
         //ExFor:GradientStop.#ctor(Color, Double, Double)
@@ -1268,8 +1270,8 @@ public class ExShape extends ApiExampleBase
     {
         //ExStart
         //ExFor:OleControl
-        //ExFor:Ole.OleControl.IsForms2OleControl
-        //ExFor:Ole.OleControl.Name
+        //ExFor:OleControl.IsForms2OleControl
+        //ExFor:OleControl.Name
         //ExFor:OleFormat.OleControl
         //ExFor:Forms2OleControl
         //ExFor:Forms2OleControl.Caption
@@ -1456,9 +1458,9 @@ public class ExShape extends ApiExampleBase
     {
         //ExStart
         //ExFor:OleFormat.Clsid
-        //ExFor:Ole.Forms2OleControlCollection
-        //ExFor:Ole.Forms2OleControlCollection.Count
-        //ExFor:Ole.Forms2OleControlCollection.Item(Int32)
+        //ExFor:Forms2OleControlCollection
+        //ExFor:Forms2OleControlCollection.Count
+        //ExFor:Forms2OleControlCollection.Item(Int32)
         //ExSummary:Shows how to access an OLE control embedded in a document and its child controls.
         Document doc = new Document(getMyDir() + "OLE ActiveX controls.docm");
 
@@ -2048,7 +2050,7 @@ public class ExShape extends ApiExampleBase
     public void visitShapes() throws Exception
     {
         Document doc = new Document(getMyDir() + "Revision shape.docx");
-        Assert.assertEquals(2, doc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSKip
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSkip
 
         ShapeAppearancePrinter visitor = new ShapeAppearancePrinter();
         doc.accept(visitor);
@@ -3357,6 +3359,75 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(0, shape.getReflection().getBlur());
         Assert.assertEquals(0, shape.getReflection().getDistance());
         //ExEnd:Reflection
+    }
+
+    @Test
+    public void softEdge() throws Exception
+    {
+        //ExStart:SoftEdge
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ShapeBase.SoftEdge
+        //ExFor:SoftEdgeFormat.Radius
+        //ExFor:SoftEdgeFormat.Remove
+        //ExSummary:Shows how to work with soft edge formatting.
+        DocumentBuilder builder = new DocumentBuilder();
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 200.0, 200.0);
+
+        // Apply soft edge to the shape.
+        shape.getSoftEdge().setRadius(30.0);
+
+        builder.getDocument().save(getArtifactsDir() + "Shape.SoftEdge.docx");
+
+        // Load document with rectangle shape with soft edge.
+        Document doc = new Document(getArtifactsDir() + "Shape.SoftEdge.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        // Check soft edge radius.
+        Assert.assertEquals(30, shape.getSoftEdge().getRadius());
+
+        // Remove soft edge from the shape.
+        shape.getSoftEdge().remove();
+
+        // Check radius of the removed soft edge.
+        Assert.assertEquals(0, shape.getSoftEdge().getRadius());
+        //ExEnd:SoftEdge
+    }
+
+    @Test
+    public void adjustments() throws Exception
+    {
+        //ExStart:Adjustments
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:Shape.Adjustments
+        //ExFor:AdjustmentCollection
+        //ExFor:Adjustment
+        //ExFor:Adjustment.Name
+        //ExFor:Adjustment.Value
+        //ExSummary:Shows how to work with adjustment raw values.
+        Document doc = new Document(getMyDir() + "Rounded rectangle shape.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        AdjustmentCollection adjustments = shape.getAdjustments();
+        Assert.assertEquals(1, adjustments.getCount());
+
+        Adjustment adjustment = adjustments.get(0);
+        Assert.assertEquals("adj", adjustment.getName());
+        Assert.assertEquals(16667, adjustment.getValue());
+
+        adjustment.setValue(30000);
+
+        doc.save(getArtifactsDir() + "Shape.Adjustments.docx");
+        //ExEnd:Adjustments
+
+        doc = new Document(getArtifactsDir() + "Shape.Adjustments.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        adjustments = shape.getAdjustments();
+        Assert.assertEquals(1, adjustments.getCount());
+
+        adjustment = adjustments.get(0);
+        Assert.assertEquals("adj", adjustment.getName());
+        Assert.assertEquals(30000, adjustment.getValue());
     }
 }
 

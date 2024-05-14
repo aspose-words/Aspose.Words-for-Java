@@ -2466,7 +2466,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 Assert.AreEqual(6, tableAbsorber.TableList.Count);
                 break;
             case DmlRenderingMode.FALLBACK:
-                Assert.AreEqual(15, tableAbsorber.TableList.Count);
+                Assert.AreEqual(12, tableAbsorber.TableList.Count);
                 break;
         }
     }

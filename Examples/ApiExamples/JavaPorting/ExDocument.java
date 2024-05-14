@@ -1759,7 +1759,7 @@ public class ExDocument extends ApiExampleBase
 
         // 2 -  Use the first image found in the document:
         ThumbnailGeneratingOptions options = new ThumbnailGeneratingOptions();
-        Assert.assertEquals(msSize.ctor(600, 900), options.getThumbnailSizeInternal()); //ExSKip
+        Assert.assertEquals(msSize.ctor(600, 900), options.getThumbnailSizeInternal()); //ExSkip
         Assert.assertTrue(options.getGenerateFromFirstPage()); //ExSkip
         options.setThumbnailSizeInternal(msSize.ctor(400, 400));
         options.setGenerateFromFirstPage(false);
@@ -1843,7 +1843,7 @@ public class ExDocument extends ApiExampleBase
     public void imageSaveOptions() throws Exception
     {
         //ExStart
-        //ExFor:Document.Save(String, Saving.SaveOptions)
+        //ExFor:Document.Save(String, SaveOptions)
         //ExFor:SaveOptions.UseAntiAliasing
         //ExFor:SaveOptions.UseHighQualityRendering
         //ExSummary:Shows how to improve the quality of a rendered document with SaveOptions.
@@ -2066,7 +2066,7 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.LayoutOptions
         //ExFor:LayoutOptions
-        //ExFor:Layout.LayoutOptions.ShowHiddenText
+        //ExFor:LayoutOptions.ShowHiddenText
         //ExSummary:Shows how to hide text in a rendered output document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2125,7 +2125,7 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:Document.LayoutOptions
         //ExFor:LayoutOptions
-        //ExFor:Layout.LayoutOptions.ShowParagraphMarks
+        //ExFor:LayoutOptions.ShowParagraphMarks
         //ExSummary:Shows how to show paragraph marks in a rendered output document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2549,8 +2549,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.VbaProject
         //ExFor:VbaModuleCollection
         //ExFor:VbaModuleCollection.Count
-        //ExFor:VbaModuleCollection.Item(System.Int32)
-        //ExFor:VbaModuleCollection.Item(System.String)
+        //ExFor:VbaModuleCollection.Item(Int32)
+        //ExFor:VbaModuleCollection.Item(String)
         //ExFor:VbaModuleCollection.Remove
         //ExFor:VbaModule
         //ExFor:VbaModule.Name
@@ -3318,6 +3318,18 @@ public class ExDocument extends ApiExampleBase
 			{SaveFormat.EPS},
 		};
 	}
+
+    @Test
+    public void hasMacros() throws Exception
+    {
+        //ExStart:HasMacros
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:FileFormatInfo.HasMacros
+        //ExSummary:Shows how to check VBA macro presence without loading document.
+        FileFormatInfo fileFormatInfo = FileFormatUtil.detectFileFormat(getMyDir() + "Macro.docm");
+        Assert.assertTrue(fileFormatInfo.hasMacros());
+        //ExEnd:HasMacros
+    }
 
 	//JAVA-added for string switch emulation
 	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap

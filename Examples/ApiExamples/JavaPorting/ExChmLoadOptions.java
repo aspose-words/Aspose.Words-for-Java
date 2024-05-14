@@ -31,7 +31,7 @@ public class ExChmLoadOptions extends ApiExampleBase
 
         Document doc = new Document(new MemoryStream(File.readAllBytes(getMyDir() + "Document with ms-its links.chm")),
             loadOptions);
-        
+
         doc.save(getArtifactsDir() + "ExChmLoadOptions.OriginalFileName.html");
         //ExEnd
     }

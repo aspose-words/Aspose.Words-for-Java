@@ -207,7 +207,7 @@ class ExMarkdownSaveOptions extends ApiExampleBase
         //ExSummary:Shows how to specifies the name of the folder used to construct image URIs.
         DocumentBuilder builder = new DocumentBuilder();
 
-        builder.writeln("Some image below:");            
+        builder.writeln("Some image below:");
         builder.insertImage(getImageDir() + "Logo.jpg");
 
         String imagesFolder = Path.combine(getArtifactsDir(), "ImagesDir");

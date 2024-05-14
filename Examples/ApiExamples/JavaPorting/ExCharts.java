@@ -55,6 +55,9 @@ import com.aspose.words.ChartAxisTitle;
 import java.lang.Class;
 import com.aspose.words.ChartDataTable;
 import com.aspose.words.DashStyle;
+import com.aspose.words.ChartSeriesGroup;
+import com.aspose.words.AxisGroup;
+import com.aspose.words.ChartSeriesGroupCollection;
 import org.testng.annotations.DataProvider;
 
 
@@ -168,8 +171,8 @@ public class ExCharts extends ApiExampleBase
         //ExFor:AxisTickLabels.Position
         //ExFor:AxisTickLabels.IsAutoSpacing
         //ExFor:ChartAxis.TickMarkSpacing
-        //ExFor:Charts.AxisCategoryType
-        //ExFor:Charts.AxisCrosses
+        //ExFor:AxisCategoryType
+        //ExFor:AxisCrosses
         //ExFor:Chart.AxisX
         //ExFor:Chart.AxisY
         //ExFor:Chart.AxisZ
@@ -278,10 +281,10 @@ public class ExCharts extends ApiExampleBase
         //ExFor:AxisScaling.Minimum
         //ExFor:AxisScaling.Maximum
         //ExFor:ChartAxis.Scaling
-        //ExFor:Charts.AxisTickMark
-        //ExFor:Charts.AxisTickLabelPosition
-        //ExFor:Charts.AxisTimeUnit
-        //ExFor:Charts.ChartAxis.BaseTimeUnit
+        //ExFor:AxisTickMark
+        //ExFor:AxisTickLabelPosition
+        //ExFor:AxisTimeUnit
+        //ExFor:ChartAxis.BaseTimeUnit
         //ExFor:ChartAxis.HasMajorGridlines
         //ExFor:ChartAxis.HasMinorGridlines
         //ExSummary:Shows how to insert chart with date/time values.
@@ -394,9 +397,9 @@ public class ExCharts extends ApiExampleBase
     {
         //ExStart
         //ExFor:ChartAxis.NumberFormat
-        //ExFor:Charts.ChartNumberFormat
+        //ExFor:ChartNumberFormat
         //ExFor:ChartNumberFormat.FormatCode
-        //ExFor:Charts.ChartNumberFormat.IsLinkedToSource
+        //ExFor:ChartNumberFormat.IsLinkedToSource
         //ExSummary:Shows how to set formatting for chart values.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -679,7 +682,7 @@ public class ExCharts extends ApiExampleBase
     //ExFor:ChartDataPointCollection.ClearFormat
     //ExFor:ChartDataPointCollection.Count
     //ExFor:ChartDataPointCollection.GetEnumerator
-    //ExFor:ChartDataPointCollection.Item(System.Int32)
+    //ExFor:ChartDataPointCollection.Item(Int32)
     //ExFor:ChartMarker
     //ExFor:ChartMarker.Size
     //ExFor:ChartMarker.Symbol
@@ -749,7 +752,7 @@ public class ExCharts extends ApiExampleBase
     public void pieChartExplosion() throws Exception
     {
         //ExStart
-        //ExFor:Charts.IChartDataPoint.Explosion
+        //ExFor:IChartDataPoint.Explosion
         //ExSummary:Shows how to move the slices of a pie chart away from the center.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -784,9 +787,9 @@ public class ExCharts extends ApiExampleBase
     public void bubble3D() throws Exception
     {
         //ExStart
-        //ExFor:Charts.ChartDataLabel.ShowBubbleSize
-        //ExFor:Charts.ChartDataLabel.Font
-        //ExFor:Charts.IChartDataPoint.Bubble3D
+        //ExFor:ChartDataLabel.ShowBubbleSize
+        //ExFor:ChartDataLabel.Font
+        //ExFor:IChartDataPoint.Bubble3D
         //ExSummary:Shows how to use 3D effects with bubble charts.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1839,6 +1842,117 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(Color.LightGoldenrodYellow.getRGB(), chart.getTitle().getFormat().getFill().getColor().getRGB());
         Assert.assertEquals(Color.LightGoldenrodYellow.getRGB(), chart.getAxisX().getTitle().getFormat().getFill().getColor().getRGB());
         Assert.assertEquals(Color.LightGoldenrodYellow.getRGB(), chart.getLegend().getFormat().getFill().getColor().getRGB());
+    }
+
+    @Test
+    public void secondaryAxis() throws Exception
+    {
+        //ExStart:SecondaryAxis
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ChartSeriesGroup
+        //ExFor:ChartSeriesGroup.AxisGroup
+        //ExFor:ChartSeriesGroup.AxisX
+        //ExFor:ChartSeriesGroup.AxisY
+        //ExFor:ChartSeriesGroup.Series
+        //ExFor:ChartSeriesGroupCollection.Add(ChartSeriesType)
+        //ExFor:AxisGroup
+        //ExSummary:Shows how to work with the secondary axis of chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.LINE, 450.0, 250.0);
+        Chart chart = shape.getChart();
+        ChartSeriesCollection series = chart.getSeries();
+
+        // Delete default generated series.
+        series.clear();
+
+        String[] categories = new String[] { "Category 1", "Category 2", "Category 3" };
+        series.add("Series 1 of primary series group", categories, new double[] { 2.0, 3.0, 4.0 });
+        series.add("Series 2 of primary series group", categories, new double[] { 5.0, 2.0, 3.0 });
+
+        // Create an additional series group, also of the line type.
+        ChartSeriesGroup newSeriesGroup = chart.getSeriesGroups().add(ChartSeriesType.LINE);
+        // Specify the use of secondary axes for the new series group.
+        newSeriesGroup.setAxisGroup(AxisGroup.SECONDARY);
+        // Hide the secondary X axis.
+        newSeriesGroup.getAxisX().setHidden(true);
+        // Define title of the secondary Y axis.
+        newSeriesGroup.getAxisY().getTitle().setShow(true);
+        newSeriesGroup.getAxisY().getTitle().setText("Secondary Y axis");
+
+        // Add a series to the new series group.
+        ChartSeries series3 =
+            newSeriesGroup.getSeries().add("Series of secondary series group", categories, new double[] { 13.0, 11.0, 16.0 });
+        series3.getFormat().getStroke().setWeight(3.5);
+
+        doc.save(getArtifactsDir() + "Charts.SecondaryAxis.docx");
+        //ExEnd:SecondaryAxis
+    }
+
+    @Test
+    public void configureGapOverlap() throws Exception
+    {
+        //ExStart:ConfigureGapOverlap
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ChartSeriesGroup.GapWidth
+        //ExFor:ChartSeriesGroup.Overlap
+        //ExSummary:Show how to configure gap width and overlap.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 450.0, 250.0);
+        ChartSeriesGroup seriesGroup = shape.getChart().getSeriesGroups().get(0);
+
+        // Set column gap width and overlap.
+        seriesGroup.setGapWidth(450);
+        seriesGroup.setOverlap(-75);
+
+        doc.save(getArtifactsDir() + "Charts.ConfigureGapOverlap.docx");
+        //ExEnd:ConfigureGapOverlap
+    }
+
+    @Test
+    public void bubbleScale() throws Exception
+    {
+        //ExStart:BubbleScale
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ChartSeriesGroup.BubbleScale
+        //ExSummary:Show how to set size of the bubbles.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a bubble 3D chart.
+        Shape shape = builder.insertChart(ChartType.BUBBLE_3_D, 450.0, 250.0);
+        ChartSeriesGroup seriesGroup = shape.getChart().getSeriesGroups().get(0);
+
+        // Set bubble scale to 200%.
+        seriesGroup.setBubbleScale(200);
+
+        doc.save(getArtifactsDir() + "Charts.BubbleScale.docx");
+        //ExEnd:BubbleScale
+    }
+
+    @Test
+    public void removeSecondaryAxis() throws Exception
+    {
+        //ExStart:RemoveSecondaryAxis
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ChartSeriesGroupCollection.Count
+        //ExFor:ChartSeriesGroupCollection.Item(Int32)
+        //ExFor:ChartSeriesGroupCollection.RemoveAt(Int32)
+        //ExSummary:Show how to remove secondary axis.
+        Document doc = new Document(getMyDir() + "Combo chart.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Chart chart = shape.getChart();
+        ChartSeriesGroupCollection seriesGroups = chart.getSeriesGroups();
+
+        // Find secondary axis and remove from the collection.
+        for (int i = 0; i < seriesGroups.getCount(); i++)
+            if (seriesGroups.get(i).getAxisGroup() == AxisGroup.SECONDARY)
+                seriesGroups.removeAt(i);
+        //ExEnd:RemoveSecondaryAxis
     }
 }
 

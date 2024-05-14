@@ -40,7 +40,7 @@ public class ExRendering extends ApiExampleBase
     //ExStart
     //ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
     //ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
-    //ExFor:ShapeRenderer        
+    //ExFor:ShapeRenderer
     //ExSummary:Shows how to render a shape with a Graphics object and display it using a Windows Form.
     @Test (groups = "IgnoreOnJenkins") //ExSkip
     public void renderShapesOnForm() throws Exception
@@ -98,10 +98,10 @@ public class ExRendering extends ApiExampleBase
     {
         public ShapeForm(/*Size*/long size)
         {
-            Timer timer = new Timer(); //ExSKip
-            timer.Interval = 10000; //ExSKip
-            timer.Tick += timerTick; //ExSKip
-            timer.Start(); //ExSKip
+            Timer timer = new Timer(); //ExSkip
+            timer.Interval = 10000; //ExSkip
+            timer.Tick += timerTick; //ExSkip
+            timer.Start(); //ExSkip
             Size = size;
             mShapesToRender = new ArrayList<Map.Entry<ShapeBase, float[]>>();
         }

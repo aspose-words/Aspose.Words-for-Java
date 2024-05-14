@@ -326,7 +326,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         builder.write("This does not count as a revision. ");
 
         // To register our edits as revisions, we need to declare an author, and then start tracking them.
-        doc.startTrackRevisionsInternal("John Doe", new Date());            
+        doc.startTrackRevisionsInternal("John Doe", new Date());
         builder.write("This is insertion revision #1. ");
         doc.stopTrackRevisions();
 

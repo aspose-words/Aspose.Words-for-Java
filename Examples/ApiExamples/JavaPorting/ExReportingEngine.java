@@ -28,6 +28,7 @@ import com.aspose.ms.System.Drawing.msColor;
 import com.aspose.words.ReportingEngine;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.ms.NUnit.Framework.msAssert;
+import com.aspose.ms.System.Environment;
 import com.aspose.ms.System.IO.FileStream;
 import com.aspose.ms.System.IO.FileMode;
 import com.aspose.ms.System.IO.FileAccess;
@@ -409,6 +410,29 @@ public class ExReportingEngine extends ApiExampleBase
 
         template = new Document(getArtifactsDir() + "ReportingEngine.InsertDocumentDynamically.docx");
         Assert.assertEquals(1, template.getFirstSection().getBody().getParagraphs().getCount());
+    }
+
+    @Test
+    public void sourseListNumbering() throws Exception
+    {
+        //ExStart:SourseListNumbering
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ReportingEngine.BuildReport(Document, Object[], String[])
+        //ExSummary:Shows how to keep inserted numbering as is.
+        // By default, numbered lists from a template document are continued when their identifiers match those from a document being inserted.
+        // With "-sourceNumbering" numbering should be separated and kept as is.
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.Document]>>" + Environment.getNewLine() + "<<doc [src.Document] -sourceNumbering>>");
+
+        DocumentTestClass doc = new DocumentTestBuilder()
+            .withDocument(new Document(getMyDir() + "List item.docx")).build();
+
+        ReportingEngine engine = new ReportingEngine(); { engine.setOptions(ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS); }
+        engine.buildReport(template, new Object[] { doc }, new String[] { "src" });
+
+        template.save(getArtifactsDir() + "ReportingEngine.SourseListNumbering.docx");
+        //ExEnd:SourseListNumbering
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SourseListNumbering.docx", getGoldsDir() + "ReportingEngine.SourseListNumbering Gold.docx"));
     }
 
     @Test

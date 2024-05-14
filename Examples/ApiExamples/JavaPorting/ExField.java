@@ -1014,11 +1014,11 @@ public class ExField extends ApiExampleBase
     }
     
     //ExStart
-    //ExFor:Fields.FieldAsk
-    //ExFor:Fields.FieldAsk.BookmarkName
-    //ExFor:Fields.FieldAsk.DefaultResponse
-    //ExFor:Fields.FieldAsk.PromptOnceOnMailMerge
-    //ExFor:Fields.FieldAsk.PromptText
+    //ExFor:FieldAsk
+    //ExFor:FieldAsk.BookmarkName
+    //ExFor:FieldAsk.DefaultResponse
+    //ExFor:FieldAsk.PromptOnceOnMailMerge
+    //ExFor:FieldAsk.PromptText
     //ExFor:FieldOptions.UserPromptRespondent
     //ExFor:IFieldUserPromptRespondent
     //ExFor:IFieldUserPromptRespondent.Respond(String,String)
@@ -1104,13 +1104,13 @@ public class ExField extends ApiExampleBase
     public void fieldAdvance() throws Exception
     {
         //ExStart
-        //ExFor:Fields.FieldAdvance
-        //ExFor:Fields.FieldAdvance.DownOffset
-        //ExFor:Fields.FieldAdvance.HorizontalPosition
-        //ExFor:Fields.FieldAdvance.LeftOffset
-        //ExFor:Fields.FieldAdvance.RightOffset
-        //ExFor:Fields.FieldAdvance.UpOffset
-        //ExFor:Fields.FieldAdvance.VerticalPosition
+        //ExFor:FieldAdvance
+        //ExFor:FieldAdvance.DownOffset
+        //ExFor:FieldAdvance.HorizontalPosition
+        //ExFor:FieldAdvance.LeftOffset
+        //ExFor:FieldAdvance.RightOffset
+        //ExFor:FieldAdvance.UpOffset
+        //ExFor:FieldAdvance.VerticalPosition
         //ExSummary:Shows how to insert an ADVANCE field, and edit its properties. 
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1176,11 +1176,11 @@ public class ExField extends ApiExampleBase
     public void fieldAddressBlock() throws Exception
     {
         //ExStart
-        //ExFor:Fields.FieldAddressBlock.ExcludedCountryOrRegionName
-        //ExFor:Fields.FieldAddressBlock.FormatAddressOnCountryOrRegion
-        //ExFor:Fields.FieldAddressBlock.IncludeCountryOrRegionName
-        //ExFor:Fields.FieldAddressBlock.LanguageId
-        //ExFor:Fields.FieldAddressBlock.NameAndAddressFormat
+        //ExFor:FieldAddressBlock.ExcludedCountryOrRegionName
+        //ExFor:FieldAddressBlock.FormatAddressOnCountryOrRegion
+        //ExFor:FieldAddressBlock.IncludeCountryOrRegionName
+        //ExFor:FieldAddressBlock.LanguageId
+        //ExFor:FieldAddressBlock.NameAndAddressFormat
         //ExSummary:Shows how to insert an ADDRESSBLOCK field.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1683,7 +1683,7 @@ public class ExField extends ApiExampleBase
     public void fieldAutoText() throws Exception
     {
         //ExStart
-        //ExFor:Fields.FieldAutoText
+        //ExFor:FieldAutoText
         //ExFor:FieldAutoText.EntryName
         //ExFor:FieldOptions.BuiltInTemplatesPaths
         //ExFor:FieldGlossary
@@ -1747,10 +1747,10 @@ public class ExField extends ApiExampleBase
     }
 
     //ExStart
-    //ExFor:Fields.FieldAutoTextList
-    //ExFor:Fields.FieldAutoTextList.EntryName
-    //ExFor:Fields.FieldAutoTextList.ListStyle
-    //ExFor:Fields.FieldAutoTextList.ScreenTip
+    //ExFor:FieldAutoTextList
+    //ExFor:FieldAutoTextList.EntryName
+    //ExFor:FieldAutoTextList.ListStyle
+    //ExFor:FieldAutoTextList.ScreenTip
     //ExSummary:Shows how to use an AUTOTEXTLIST field to select from a list of AutoText entries.
     @Test //ExSkip
     public void fieldAutoTextList() throws Exception
@@ -5254,7 +5254,7 @@ public class ExField extends ApiExampleBase
     {
         //ExStart
         //ExFor:FieldAuthor
-        //ExFor:FieldAuthor.AuthorName  
+        //ExFor:FieldAuthor.AuthorName
         //ExFor:FieldOptions.DefaultDocumentAuthor
         //ExSummary:Shows how to use an AUTHOR field to display a document creator's name.
         Document doc = new Document();
@@ -5593,7 +5593,7 @@ public class ExField extends ApiExampleBase
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.FILLIN.docx");
-        testFieldFillIn(new Document(getArtifactsDir() + "Field.FILLIN.docx")); //ExSKip
+        testFieldFillIn(new Document(getArtifactsDir() + "Field.FILLIN.docx")); //ExSkip
     }
 
     /// <summary>
@@ -6007,7 +6007,7 @@ public class ExField extends ApiExampleBase
         // Our data source has 3 rows, and we skipped rows twice. 
         // Our output document will have 1 page with data from all 3 rows.
         doc.save(getArtifactsDir() + "Field.NEXT.NEXTIF.docx");
-        testFieldNext(doc); //ExSKip
+        testFieldNext(doc); //ExSkip
     }
 
     /// <summary>
@@ -6880,7 +6880,7 @@ public class ExField extends ApiExampleBase
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.TOA.TA.docx");
-        testFieldTOA(new Document(getArtifactsDir() + "Field.TOA.TA.docx")); //ExSKip
+        testFieldTOA(new Document(getArtifactsDir() + "Field.TOA.TA.docx")); //ExSkip
     }
 
     private static FieldTA insertToaEntry(DocumentBuilder builder, String entryCategory, String longCitation) throws Exception

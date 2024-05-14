@@ -321,7 +321,7 @@ public class ExStyles extends ApiExampleBase
         //ExStart
         //ExFor:Style.Aliases
         //ExFor:Style.BaseStyleName
-        //ExFor:Style.Equals(Aspose.Words.Style)
+        //ExFor:Style.Equals(Style)
         //ExFor:Style.LinkedStyleName
         //ExSummary:Shows how to use style aliases.
         Document doc = new Document(getMyDir() + "Style with alias.docx");
@@ -381,14 +381,14 @@ public class ExStyles extends ApiExampleBase
         Document doc = new Document();
 
         Style styleHeading1 = doc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1);
-        if (!styleHeading1.getLocked())            
+        if (!styleHeading1.getLocked())
             styleHeading1.setLocked(true);
 
         doc.save(getArtifactsDir() + "Styles.LockStyle.docx");
         //ExEnd:LockStyle
 
         doc = new Document(getArtifactsDir() + "Styles.LockStyle.docx");
-        Assert.assertTrue(doc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1).getLocked());            
+        Assert.assertTrue(doc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1).getLocked());
     }
 
     @Test

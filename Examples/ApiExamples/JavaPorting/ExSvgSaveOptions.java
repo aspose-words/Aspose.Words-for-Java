@@ -109,5 +109,23 @@ public class ExSvgSaveOptions extends ApiExampleBase
         math.getMathRenderer().save(getArtifactsDir() + "SvgSaveOptions.Output.svg", options);
         //ExEnd:SaveOfficeMath
     }
+
+    @Test
+    public void maxImageResolution() throws Exception
+    {
+        //ExStart:MaxImageResolution
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ShapeBase.SoftEdge
+        //ExFor:SoftEdgeFormat.Radius
+        //ExFor:SoftEdgeFormat.Remove
+        //ExSummary:Shows how to set limit for image resolution.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+
+        SvgSaveOptions saveOptions = new SvgSaveOptions();
+        saveOptions.setMaxImageResolution(72);
+
+        doc.save(getArtifactsDir() + "SvgSaveOptions.MaxImageResolution.svg", saveOptions);
+        //ExEnd:MaxImageResolution
+    }
 }
 
