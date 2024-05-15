@@ -103,12 +103,16 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExStart
         //ExFor:StructuredDocumentTag.#ctor(DocumentBase, SdtType, MarkupLevel)
         //ExFor:StructuredDocumentTag.Checked
+        //ExFor:StructuredDocumentTag.SetCheckedSymbol(Int32, String)
+        //ExFor:StructuredDocumentTag.SetUncheckedSymbol(Int32, String)
         //ExSummary:Show how to create a structured document tag in the form of a check box.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         StructuredDocumentTag sdtCheckBox = new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE);
         sdtCheckBox.setChecked(true);
+        sdtCheckBox.setCheckedSymbol(0x00A9, "Times New Roman");
+        sdtCheckBox.setUncheckedSymbol(0x00AE, "Times New Roman");
 
         builder.insertNode(sdtCheckBox);
 
@@ -121,6 +125,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) sdts.get(0);
         Assert.assertEquals(true, sdt.getChecked());
+        Assert.assertEquals("", sdt.getXmlMapping().getStoreItemId());
     }
 
     @Test
@@ -406,17 +411,17 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     public void listItemCollection() throws Exception {
         //ExStart
         //ExFor:SdtListItem
-        //ExFor:SdtListItem.#ctor(System.String)
-        //ExFor:SdtListItem.#ctor(System.String,System.String)
+        //ExFor:SdtListItem.#ctor(String)
+        //ExFor:SdtListItem.#ctor(String,String)
         //ExFor:SdtListItem.DisplayText
         //ExFor:SdtListItem.Value
         //ExFor:SdtListItemCollection
-        //ExFor:SdtListItemCollection.Add(Aspose.Words.Markup.SdtListItem)
+        //ExFor:SdtListItemCollection.Add(SdtListItem)
         //ExFor:SdtListItemCollection.Clear
         //ExFor:SdtListItemCollection.Count
         //ExFor:SdtListItemCollection.GetEnumerator
-        //ExFor:SdtListItemCollection.Item(System.Int32)
-        //ExFor:SdtListItemCollection.RemoveAt(System.Int32)
+        //ExFor:SdtListItemCollection.Item(Int32)
+        //ExFor:SdtListItemCollection.RemoveAt(Int32)
         //ExFor:SdtListItemCollection.SelectedValue
         //ExFor:StructuredDocumentTag.ListItems
         //ExSummary:Shows how to work with drop down-list structured document tags.
@@ -642,15 +647,15 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     public void customXmlSchemaCollection() throws Exception {
         //ExStart
         //ExFor:CustomXmlSchemaCollection
-        //ExFor:CustomXmlSchemaCollection.Add(System.String)
+        //ExFor:CustomXmlSchemaCollection.Add(String)
         //ExFor:CustomXmlSchemaCollection.Clear
         //ExFor:CustomXmlSchemaCollection.Clone
         //ExFor:CustomXmlSchemaCollection.Count
         //ExFor:CustomXmlSchemaCollection.GetEnumerator
-        //ExFor:CustomXmlSchemaCollection.IndexOf(System.String)
-        //ExFor:CustomXmlSchemaCollection.Item(System.Int32)
-        //ExFor:CustomXmlSchemaCollection.Remove(System.String)
-        //ExFor:CustomXmlSchemaCollection.RemoveAt(System.Int32)
+        //ExFor:CustomXmlSchemaCollection.IndexOf(String)
+        //ExFor:CustomXmlSchemaCollection.Item(Int32)
+        //ExFor:CustomXmlSchemaCollection.Remove(String)
+        //ExFor:CustomXmlSchemaCollection.RemoveAt(Int32)
         //ExSummary:Shows how to work with an XML schema collection.
         Document doc = new Document();
 

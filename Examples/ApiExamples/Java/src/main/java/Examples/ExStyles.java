@@ -296,7 +296,7 @@ public class ExStyles extends ApiExampleBase {
         //ExStart
         //ExFor:Style.Aliases
         //ExFor:Style.BaseStyleName
-        //ExFor:Style.Equals(Aspose.Words.Style)
+        //ExFor:Style.Equals(Style)
         //ExFor:Style.LinkedStyleName
         //ExSummary:Shows how to use style aliases.
         Document doc = new Document(getMyDir() + "Style with alias.docx");
