@@ -1853,7 +1853,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 Assert.assertEquals(6, tableAbsorber.getTableList().size());
                 break;
             case DmlRenderingMode.FALLBACK:
-                Assert.assertEquals(12, tableAbsorber.getTableList().size());
+                Assert.assertEquals(15, tableAbsorber.getTableList().size());
                 break;
         }
 

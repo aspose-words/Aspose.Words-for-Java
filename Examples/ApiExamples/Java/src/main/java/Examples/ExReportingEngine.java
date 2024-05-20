@@ -325,7 +325,7 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExSummary:Shows how to keep inserted numbering as is.
         // By default, numbered lists from a template document are continued when their identifiers match those from a document being inserted.
         // With "-sourceNumbering" numbering should be separated and kept as is.
-        Document template = DocumentHelper.createSimpleDocument("<<doc [src.Document]>>" + System.lineSeparator() + "<<doc [src.Document] -sourceNumbering>>");
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocument()]>>" + System.lineSeparator() + "<<doc [src.getDocument()] -sourceNumbering>>");
 
         DocumentTestClass doc = new DocumentTestBuilder()
                 .withDocument(new Document(getMyDir() + "List item.docx")).build();

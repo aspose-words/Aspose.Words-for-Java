@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -849,7 +849,6 @@ public class ExShape extends ApiExampleBase {
         //ExFor:GradientStopCollection.Add(GradientStop)
         //ExFor:GradientStopCollection.RemoveAt(Int32)
         //ExFor:GradientStopCollection.Remove(GradientStop)
-        //ExFor:GradientStopCollection.Item(Int32)
         //ExFor:GradientStopCollection.Item(Int32)
         //ExFor:GradientStopCollection.Count
         //ExFor:GradientStop.#ctor(Color, Double)
