@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -320,7 +320,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void sourseListNumbering() throws Exception
     {
         //ExStart:SourseListNumbering
-        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:ReportingEngine.BuildReport(Document, Object[], String[])
         //ExSummary:Shows how to keep inserted numbering as is.
         // By default, numbered lists from a template document are continued when their identifiers match those from a document being inserted.

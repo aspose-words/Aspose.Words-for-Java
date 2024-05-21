@@ -1764,7 +1764,7 @@ public class ExCharts extends ApiExampleBase {
     public void secondaryAxis() throws Exception
     {
         //ExStart:SecondaryAxis
-        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:ChartSeriesGroup
         //ExFor:ChartSeriesGroup.AxisGroup
         //ExFor:ChartSeriesGroup.AxisX
@@ -1810,7 +1810,7 @@ public class ExCharts extends ApiExampleBase {
     public void configureGapOverlap() throws Exception
     {
         //ExStart:ConfigureGapOverlap
-        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:ChartSeriesGroup.GapWidth
         //ExFor:ChartSeriesGroup.Overlap
         //ExSummary:Show how to configure gap width and overlap.
@@ -1832,7 +1832,7 @@ public class ExCharts extends ApiExampleBase {
     public void bubbleScale() throws Exception
     {
         //ExStart:BubbleScale
-        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:ChartSeriesGroup.BubbleScale
         //ExSummary:Show how to set size of the bubbles.
         Document doc = new Document();
@@ -1853,7 +1853,7 @@ public class ExCharts extends ApiExampleBase {
     public void removeSecondaryAxis() throws Exception
     {
         //ExStart:RemoveSecondaryAxis
-        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:ChartSeriesGroupCollection.Count
         //ExFor:ChartSeriesGroupCollection.Item(Int32)
         //ExFor:ChartSeriesGroupCollection.RemoveAt(Int32)

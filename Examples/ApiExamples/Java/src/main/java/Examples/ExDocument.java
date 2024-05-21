@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -2805,7 +2805,7 @@ public class ExDocument extends ApiExampleBase {
     public void hasMacros() throws Exception
     {
         //ExStart:HasMacros
-        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:FileFormatInfo.HasMacros
         //ExSummary:Shows how to check VBA macro presence without loading document.
         FileFormatInfo fileFormatInfo = FileFormatUtil.detectFileFormat(getMyDir() + "Macro.docm");

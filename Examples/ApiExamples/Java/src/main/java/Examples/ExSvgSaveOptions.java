@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -101,7 +101,7 @@ public class ExSvgSaveOptions extends ApiExampleBase {
     public void maxImageResolution() throws Exception
     {
         //ExStart:MaxImageResolution
-        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:ShapeBase.SoftEdge
         //ExFor:SoftEdgeFormat.Radius
         //ExFor:SoftEdgeFormat.Remove
