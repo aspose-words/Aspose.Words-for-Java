@@ -1544,7 +1544,7 @@ public class ExShape extends ApiExampleBase
         //ExEnd
 
         if (!isRunningOnMono())
-            TestUtil.verifyImage(792, 87, getArtifactsDir() + "Shape.RenderOfficeMath.png");
+            TestUtil.verifyImage(799, 87, getArtifactsDir() + "Shape.RenderOfficeMath.png");
         else
             TestUtil.verifyImage(735, 128, getArtifactsDir() + "Shape.RenderOfficeMath.png");
     }
@@ -2932,7 +2932,7 @@ public class ExShape extends ApiExampleBase
         //ExFor:NodeRendererBase.OpaqueBoundsInPoints
         //ExFor:NodeRendererBase.SizeInPoints
         //ExFor:OfficeMathRenderer
-        //ExFor:OfficeMathRenderer.#ctor(Math.OfficeMath)
+        //ExFor:OfficeMathRenderer.#ctor(OfficeMath)
         //ExSummary:Shows how to measure and scale shapes.
         Document doc = new Document(getMyDir() + "Office math.docx");
 
@@ -2940,36 +2940,36 @@ public class ExShape extends ApiExampleBase
         OfficeMathRenderer renderer = new OfficeMathRenderer(officeMath);
 
         // Verify the size of the image that the OfficeMath object will create when we render it.
-        Assert.assertEquals(119.0f, msSizeF.getWidth(renderer.getSizeInPointsInternal()), 0.25f);
+        Assert.assertEquals(120.0f, msSizeF.getWidth(renderer.getSizeInPointsInternal()), 0.25f);
         Assert.assertEquals(13.0f, msSizeF.getHeight(renderer.getSizeInPointsInternal()), 0.1f);
 
-        Assert.assertEquals(119.0f, renderer.getBoundsInPointsInternal().getWidth(), 0.25f);
+        Assert.assertEquals(120.0f, renderer.getBoundsInPointsInternal().getWidth(), 0.25f);
         Assert.assertEquals(13.0f, renderer.getBoundsInPointsInternal().getHeight(), 0.1f);
 
         // Shapes with transparent parts may contain different values in the "OpaqueBoundsInPoints" properties.
-        Assert.assertEquals(119.0f, renderer.getOpaqueBoundsInPointsInternal().getWidth(), 0.25f);
+        Assert.assertEquals(120.0f, renderer.getOpaqueBoundsInPointsInternal().getWidth(), 0.25f);
         Assert.assertEquals(14.2f, renderer.getOpaqueBoundsInPointsInternal().getHeight(), 0.1f);
 
         // Get the shape size in pixels, with linear scaling to a specific DPI.
         Rectangle bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f);
 
-        Assert.assertEquals(159, bounds.getWidth());
+        Assert.assertEquals(160, bounds.getWidth());
         Assert.assertEquals(18, bounds.getHeight());
 
         // Get the shape size in pixels, but with a different DPI for the horizontal and vertical dimensions.
         bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f, 150.0f);
-        Assert.assertEquals(159, bounds.getWidth());
+        Assert.assertEquals(160, bounds.getWidth());
         Assert.assertEquals(28, bounds.getHeight());
 
         // The opaque bounds may vary here also.
         bounds = renderer.getOpaqueBoundsInPixelsInternal(1.0f, 96.0f);
 
-        Assert.assertEquals(159, bounds.getWidth());
+        Assert.assertEquals(160, bounds.getWidth());
         Assert.assertEquals(18, bounds.getHeight());
 
         bounds = renderer.getOpaqueBoundsInPixelsInternal(1.0f, 96.0f, 150.0f);
 
-        Assert.assertEquals(159, bounds.getWidth());
+        Assert.assertEquals(160, bounds.getWidth());
         Assert.assertEquals(30, bounds.getHeight());
         //ExEnd
     }
@@ -3428,6 +3428,20 @@ public class ExShape extends ApiExampleBase
         adjustment = adjustments.get(0);
         Assert.assertEquals("adj", adjustment.getName());
         Assert.assertEquals(30000, adjustment.getValue());
+    }
+
+    @Test
+    public void shadowFormatColor() throws Exception
+    {
+        //ExStart:ShadowFormatColor
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ShadowFormat.Color
+        //ExSummary:Shows how to get shadow color.
+        Document doc = new Document(getMyDir() + "Shadow color.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(Color.RED.getRGB(), shape.getShadowFormat().getColor().getRGB());
+        //ExEnd:ShadowFormatColor
     }
 }
 

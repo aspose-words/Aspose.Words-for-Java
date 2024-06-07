@@ -169,7 +169,7 @@ public class ExStyles extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Table of contents.docx");
 
         // Iterate through all paragraphs with TOC result-based styles; this is any style between TOC and TOC9.
-        for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
             if (para.getParagraphFormat().getStyle().getStyleIdentifier() >= StyleIdentifier.TOC_1 &&
                 para.getParagraphFormat().getStyle().getStyleIdentifier() <= StyleIdentifier.TOC_9)
             {
@@ -186,7 +186,7 @@ public class ExStyles extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Styles.ChangeTocsTabStops.docx");
 
-        for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
             if (para.getParagraphFormat().getStyle().getStyleIdentifier() >= StyleIdentifier.TOC_1 &&
                 para.getParagraphFormat().getStyle().getStyleIdentifier() <= StyleIdentifier.TOC_9)
             {

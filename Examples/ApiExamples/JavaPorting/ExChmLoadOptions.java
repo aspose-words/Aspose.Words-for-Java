@@ -16,6 +16,7 @@ import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.IO.File;
 
 
+@Test
 public class ExChmLoadOptions extends ApiExampleBase
 {
     @Test // ToDo: Need to add tests.

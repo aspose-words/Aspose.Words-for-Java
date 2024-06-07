@@ -521,7 +521,7 @@ public class ExSection extends ApiExampleBase
 
         // It is important to understand that a document can contain many sections,
         // and each section has its page setup. In this case, we want to modify them all.
-        for (Section section : doc.<Section>OfType() !!Autoporter error: Undefined expression type )
+        for (Section section : (Iterable<Section>) doc.getChildNodes(NodeType.SECTION, true))
             section.getPageSetup().setPaperSize(PaperSize.LETTER);
 
         doc.save(getArtifactsDir() + "Section.ModifyPageSetupInAllSections.doc");

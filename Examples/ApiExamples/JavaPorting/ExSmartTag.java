@@ -33,12 +33,12 @@ class ExSmartTag !Test class should be public in Java to run, please fix .Net so
     //ExFor:CustomXmlProperty.#ctor(String,String,String)
     //ExFor:CustomXmlProperty.Name
     //ExFor:CustomXmlProperty.Value
-    //ExFor:Markup.SmartTag
-    //ExFor:Markup.SmartTag.#ctor(DocumentBase)
-    //ExFor:Markup.SmartTag.Accept(DocumentVisitor)
-    //ExFor:Markup.SmartTag.Element
-    //ExFor:Markup.SmartTag.Properties
-    //ExFor:Markup.SmartTag.Uri
+    //ExFor:SmartTag
+    //ExFor:SmartTag.#ctor(DocumentBase)
+    //ExFor:SmartTag.Accept(DocumentVisitor)
+    //ExFor:SmartTag.Element
+    //ExFor:SmartTag.Properties
+    //ExFor:SmartTag.Uri
     //ExSummary:Shows how to create smart tags.
     @Test //ExSkip
     public void create() throws Exception

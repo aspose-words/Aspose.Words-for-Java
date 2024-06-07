@@ -120,7 +120,7 @@ public class ExFont extends ApiExampleBase
         run.getFont().setAllCaps(true);
         para.appendChild(run);
 
-        para = para.getParentNode().appendChild(new Paragraph(doc));
+        para = (Paragraph)para.getParentNode().appendChild(new Paragraph(doc));
 
         // 2 -  Set the SmallCaps flag to display all characters in small capitals:
         // If a character is lower case, it will appear in its upper case form
@@ -260,7 +260,7 @@ public class ExFont extends ApiExampleBase
         run.getFont().setStrikeThrough(true);
         para.appendChild(run);
 
-        para = para.getParentNode().appendChild(new Paragraph(doc));
+        para = (Paragraph)para.getParentNode().appendChild(new Paragraph(doc));
 
         run = new Run(doc, "Text with a double-line strikethrough.");
         run.getFont().setDoubleStrikeThrough(true);
@@ -958,7 +958,7 @@ public class ExFont extends ApiExampleBase
 
         // Convert all uses of one style to another,
         // using the above methods to reference old and new styles.
-        for (Run run : doc.getChildNodes(NodeType.RUN, true).<Run>OfType() !!Autoporter error: Undefined expression type )
+        for (Run run : (Iterable<Run>) doc.getChildNodes(NodeType.RUN, true))
         {
             if ("Emphasis".equals(run.getFont().getStyleName()))
                 run.getFont().setStyleName("Strong");
@@ -1028,7 +1028,7 @@ public class ExFont extends ApiExampleBase
         builder.write("This text is in a custom style.");
 
         // Iterate over every run and add a double underline to every custom style.
-        for (Run run : doc.getChildNodes(NodeType.RUN, true).<Run>OfType() !!Autoporter error: Undefined expression type )
+        for (Run run : (Iterable<Run>) doc.getChildNodes(NodeType.RUN, true))
         {
             Style charStyle = run.getFont().getStyle();
 

@@ -3,6 +3,7 @@ package ApiExamples;
 
 // ********* THIS FILE IS AUTO PORTED *********
 
+import org.testng.annotations.Test;
 import com.aspose.words.TableContentAlignment;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.ParagraphAlignment;
@@ -10,7 +11,6 @@ import com.aspose.words.MarkdownSaveOptions;
 import com.aspose.words.Document;
 import com.aspose.words.Table;
 import org.testng.Assert;
-import org.testng.annotations.Test;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.IImageSavingCallback;
 import com.aspose.words.ImageSavingArgs;
@@ -23,7 +23,8 @@ import com.aspose.words.Underline;
 import org.testng.annotations.DataProvider;
 
 
-class ExMarkdownSaveOptions extends ApiExampleBase
+@Test
+class ExMarkdownSaveOptions !Test class should be public in Java to run, please fix .Net source!  extends ApiExampleBase
 {
     @Test (dataProvider = "markdownDocumentTableContentAlignmentDataProvider")
     public void markdownDocumentTableContentAlignment(/*TableContentAlignment*/int tableContentAlignment) throws Exception

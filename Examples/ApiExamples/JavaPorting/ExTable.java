@@ -322,9 +322,9 @@ public class ExTable extends ApiExampleBase
     {
         int childTableCount = 0;
 
-        for (Row row : table.getRows().<Row>OfType() !!Autoporter error: Undefined expression type )
+        for (Row row : (Iterable<Row>) table.getRows())
         {
-            for (Cell Cell : row.getCells().<Cell>OfType() !!Autoporter error: Undefined expression type )
+            for (Cell Cell : (Iterable<Cell>) row.getCells())
             {
                 TableCollection childTables = Cell.getTables();
 
@@ -739,7 +739,7 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(3, doc.getChildNodes(NodeType.TABLE, true).getCount());
         Assert.assertEquals(table.getRange().getText(), tableClone.getRange().getText());
 
-        for (Cell cell : tableClone.getChildNodes(NodeType.CELL, true).<Cell>OfType() !!Autoporter error: Undefined expression type )
+        for (Cell cell : (Iterable<Cell>) tableClone.getChildNodes(NodeType.CELL, true))
             cell.removeAllChildren();
 
         Assert.assertEquals("", tableClone.toString(SaveFormat.TEXT).trim());
@@ -758,7 +758,7 @@ public class ExTable extends ApiExampleBase
         // in one piece if a table spans two pages, which break up along that row.
         // If the row is too big to fit in one page, Microsoft Word will push it down to the next page.
         // Set the "AllowBreakAcrossPages" property to "true" to allow the row to break up across two pages.
-        for (Row row : table.<Row>OfType() !!Autoporter error: Undefined expression type )
+        for (Row row : (Iterable<Row>) table)
             row.getRowFormat().setAllowBreakAcrossPages(allowBreakAcrossPages);
 
         doc.save(getArtifactsDir() + "Table.AllowBreakAcrossPages.docx");
@@ -859,8 +859,8 @@ public class ExTable extends ApiExampleBase
 
         // Enabling KeepWithNext for every paragraph in the table except for the
         // last ones in the last row will prevent the table from splitting across multiple pages.
-        for (Cell cell : table.getChildNodes(NodeType.CELL, true).<Cell>OfType() !!Autoporter error: Undefined expression type )
-            for (Paragraph para : cell.getParagraphs().<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Cell cell : (Iterable<Cell>) table.getChildNodes(NodeType.CELL, true))
+            for (Paragraph para : (Iterable<Paragraph>) cell.getParagraphs())
             {
                 Assert.assertTrue(para.isInCell());
 
@@ -874,7 +874,7 @@ public class ExTable extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Table.KeepTableTogether.docx");
         table = doc.getFirstSection().getBody().getTables().get(0);
 
-        for (Paragraph para : table.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph para : (Iterable<Paragraph>) table.getChildNodes(NodeType.PARAGRAPH, true))
             if (para.isEndOfCell() && ((Cell)para.getParentNode()).getParentRow().isLastRow())
                 Assert.assertFalse(para.getParagraphFormat().getKeepWithNext());
             else
@@ -1074,8 +1074,8 @@ public class ExTable extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Table with merged cells.docx");
         Table table = doc.getFirstSection().getBody().getTables().get(0);
 
-        for (Row row : table.getRows().<Row>OfType() !!Autoporter error: Undefined expression type )
-            for (Cell cell : row.getCells().<Cell>OfType() !!Autoporter error: Undefined expression type )
+        for (Row row : (Iterable<Row>) table.getRows())
+            for (Cell cell : (Iterable<Cell>) row.getCells())
                 System.out.println(printCellMergeType(cell));
         Assert.assertEquals("The cell at R1, C1 is vertically merged", printCellMergeType(table.getFirstRow().getFirstCell())); //ExSkip
     }
@@ -1151,9 +1151,9 @@ public class ExTable extends ApiExampleBase
             Math.abs(msPoint.getX(endCellPos) - msPoint.getX(startCellPos)) + 1,
             Math.abs(msPoint.getY(endCellPos) - msPoint.getY(startCellPos)) + 1);
 
-        for (Row row : parentTable.getRows().<Row>OfType() !!Autoporter error: Undefined expression type )
+        for (Row row : (Iterable<Row>) parentTable.getRows())
         {
-            for (Cell cell : row.getCells().<Cell>OfType() !!Autoporter error: Undefined expression type )
+            for (Cell cell : (Iterable<Cell>) row.getCells())
             {
                 /*Point*/long currentPos = msPoint.ctor(row.indexOf(cell), parentTable.indexOf(row));
 
