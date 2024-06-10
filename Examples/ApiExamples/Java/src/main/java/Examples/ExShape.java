@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -2757,7 +2757,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:NodeRendererBase.OpaqueBoundsInPoints
         //ExFor:NodeRendererBase.SizeInPoints
         //ExFor:OfficeMathRenderer
-        //ExFor:OfficeMathRenderer.#ctor(Math.OfficeMath)
+        //ExFor:OfficeMathRenderer.#ctor(OfficeMath)
         //ExSummary:Shows how to measure and scale shapes.
         Document doc = new Document(getMyDir() + "Office math.docx");
 
@@ -3228,5 +3228,19 @@ public class ExShape extends ApiExampleBase {
         adjustment = adjustments.get(0);
         Assert.assertEquals("adj", adjustment.getName());
         Assert.assertEquals(30000, adjustment.getValue());
+    }
+
+    @Test
+    public void shadowFormatColor() throws Exception
+    {
+        //ExStart:ShadowFormatColor
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ShadowFormat.Color
+        //ExSummary:Shows how to get shadow color.
+        Document doc = new Document(getMyDir() + "Shadow color.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        Assert.assertEquals(Color.RED.getRGB(), shape.getShadowFormat().getColor().getRGB());
+        //ExEnd:ShadowFormatColor
     }
 }

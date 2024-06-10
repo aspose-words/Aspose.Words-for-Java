@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -672,18 +672,22 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void withMissingMembers() throws Exception {
+    public void missingMembers() throws Exception {
+        //ExStart:MissingMembers
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ReportingEngine.BuildReport(Document, Object, String)
+        //ExSummary:Shows how to allow missing members.
         DocumentBuilder builder = new DocumentBuilder();
+        builder.writeln("<<[missingObject.First().id]>>");
+        builder.writeln("<<foreach [in missingObject]>><<[id]>><</foreach>>");
 
-        // Add templete to the document for reporting engine
-        DocumentHelper.insertBuilderText(builder,
-                new String[]{"<<[missingObject.First().id]>>", "<<foreach [in missingObject]>><<[id]>><</foreach>>"});
-
-        buildReport(builder.getDocument(), new DataSet(), "", ReportBuildOptions.ALLOW_MISSING_MEMBERS);
+        ReportingEngine engine = new ReportingEngine(); { engine.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); }
+        engine.setMissingMemberMessage("Missed");
+        engine.buildReport(builder.getDocument(), new DataSet(), "");
+        //ExEnd:MissingMembers
 
         // Assert that build report success with "ReportBuildOptions.AllowMissingMembers"
-        Assert.assertEquals(ControlChar.PARAGRAPH_BREAK + ControlChar.PARAGRAPH_BREAK + ControlChar.SECTION_BREAK,
-                builder.getDocument().getText());
+        Assert.assertEquals("Missed", builder.getDocument().getText().trim());
     }
 
     @Test(dataProvider = "inlineErrorMessagesDataProvider")
@@ -1085,6 +1089,25 @@ public class ExReportingEngine extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ReportingEngine.Word2016Charts.docx");
         //ExEnd:Word2016Charts
+    }
+
+    @Test
+    public void removeParagraphsSelectively() throws Exception
+    {
+        //ExStart:RemoveParagraphsSelectively
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ReportingEngine.BuildReport(Document, Object, String)
+        //ExSummary:Shows how to remove paragraphs selectively.
+        // Template contains tags with an exclamation mark. For such tags, empty paragraphs will be removed.
+        Document doc = new Document(getMyDir() + "Reporting engine template - Selective remove paragraphs.docx");
+
+        ReportingEngine engine = new ReportingEngine();
+        engine.buildReport(doc, false, "value");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.SelectiveDeletionOfParagraphs.docx");
+        //ExEnd:RemoveParagraphsSelectively
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SelectiveDeletionOfParagraphs.docx", getGoldsDir() + "ReportingEngine.SelectiveDeletionOfParagraphs Gold.docx"));
     }
 
     private static void buildReport(final Document document, final Object dataSource) throws Exception {
