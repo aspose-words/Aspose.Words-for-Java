@@ -340,7 +340,7 @@ public class ExComment extends ApiExampleBase {
 
         comment = (Comment)doc.getChild(NodeType.COMMENT, 0, true);
         // DateTimeUtc return data without milliseconds.
-        Assert.assertEquals(dateTime.toUniversalTime().toString("yyyy-MM-dd hh:mm:ss"), comment.getDateTimeUtc().toString("yyyy-MM-dd hh:mm:ss"));
+        Assert.assertEquals(dateTime.toString(), comment.getDateTimeUtc().toString());
         //ExEnd:UtcDateTime
     }
 }

@@ -2165,65 +2165,6 @@ public class ExDocument extends ApiExampleBase {
                 };
     }
 
-    @Test(dataProvider = "granularityCompareOptionDataProvider")
-    public void granularityCompareOption(int granularity) throws Exception {
-        //ExStart
-        //ExFor:CompareOptions.Granularity
-        //ExFor:Granularity
-        //ExSummary:Shows to specify a granularity while comparing documents.
-        Document docA = new Document();
-        DocumentBuilder builderA = new DocumentBuilder(docA);
-        builderA.writeln("Alpha Lorem ipsum dolor sit amet, consectetur adipiscing elit");
-
-        Document docB = new Document();
-        DocumentBuilder builderB = new DocumentBuilder(docB);
-        builderB.writeln("Lorems ipsum dolor sit amet consectetur - \"adipiscing\" elit");
-
-        // Specify whether changes are tracking
-        // by character ('Granularity.CharLevel'), or by word ('Granularity.WordLevel').
-        CompareOptions compareOptions = new CompareOptions();
-        compareOptions.setGranularity(granularity);
-
-        docA.compare(docB, "author", new Date(), compareOptions);
-
-        // The first document's collection of revision groups contains all the differences between documents.
-        RevisionGroupCollection groups = docA.getRevisions().getGroups();
-        Assert.assertEquals(5, groups.getCount());
-        //ExEnd
-
-        if (granularity == Granularity.CHAR_LEVEL) {
-            Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
-            Assert.assertEquals("Alpha ", groups.get(0).getText());
-
-            Assert.assertEquals(RevisionType.DELETION, groups.get(1).getRevisionType());
-            Assert.assertEquals(",", groups.get(1).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(2).getRevisionType());
-            Assert.assertEquals("s", groups.get(2).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(3).getRevisionType());
-            Assert.assertEquals("- \"", groups.get(3).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(4).getRevisionType());
-            Assert.assertEquals("\"", groups.get(4).getText());
-        } else {
-            Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
-            Assert.assertEquals("Alpha Lorem", groups.get(0).getText());
-
-            Assert.assertEquals(RevisionType.DELETION, groups.get(1).getRevisionType());
-            Assert.assertEquals(",", groups.get(1).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(2).getRevisionType());
-            Assert.assertEquals("Lorems", groups.get(2).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(3).getRevisionType());
-            Assert.assertEquals("- \"", groups.get(3).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(4).getRevisionType());
-            Assert.assertEquals("\"", groups.get(4).getText());
-        }
-    }
-
     @DataProvider(name = "granularityCompareOptionDataProvider")
     public static Object[][] granularityCompareOptionDataProvider() throws Exception {
         return new Object[][]

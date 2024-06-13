@@ -736,7 +736,7 @@ public class ExRevision extends ApiExampleBase {
         CompareOptions compareOptions = new CompareOptions();
         compareOptions.getAdvancedOptions().setIgnoreStoreItemId(false);
 
-        docA.compareInternal(docB, "user", new Date(), compareOptions);
+        docA.compare(docB, "user", new Date(), compareOptions);
         Assert.assertEquals(8, docA.getRevisions().getCount());
 
         compareOptions.getAdvancedOptions().setIgnoreStoreItemId(true);

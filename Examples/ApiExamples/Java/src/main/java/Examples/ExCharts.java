@@ -2151,7 +2151,7 @@ public class ExCharts extends ApiExampleBase {
         series.hasDataLabels(true);
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
         String decimalSeparator = Character.toString(symbols.getGroupingSeparator());
-        series.getDataLabels().getNumberFormat().setFormatCode(String.format("0{0}0%", decimalSeparator));
+        series.getDataLabels().getNumberFormat().setFormatCode("0" + decimalSeparator + "0%");
 
         doc.save(getArtifactsDir() + "Charts.Funnel.docx");
         //ExEnd:FunnelChart
