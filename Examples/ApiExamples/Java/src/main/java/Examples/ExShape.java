@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -3234,7 +3234,7 @@ public class ExShape extends ApiExampleBase {
     public void shadowFormatColor() throws Exception
     {
         //ExStart:ShadowFormatColor
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ShadowFormat.Color
         //ExSummary:Shows how to get shadow color.
         Document doc = new Document(getMyDir() + "Shadow color.docx");

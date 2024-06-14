@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -674,7 +674,7 @@ public class ExReportingEngine extends ApiExampleBase {
     @Test
     public void missingMembers() throws Exception {
         //ExStart:MissingMembers
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ReportingEngine.BuildReport(Document, Object, String)
         //ExSummary:Shows how to allow missing members.
         DocumentBuilder builder = new DocumentBuilder();
@@ -1095,7 +1095,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void removeParagraphsSelectively() throws Exception
     {
         //ExStart:RemoveParagraphsSelectively
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ReportingEngine.BuildReport(Document, Object, String)
         //ExSummary:Shows how to remove paragraphs selectively.
         // Template contains tags with an exclamation mark. For such tags, empty paragraphs will be removed.

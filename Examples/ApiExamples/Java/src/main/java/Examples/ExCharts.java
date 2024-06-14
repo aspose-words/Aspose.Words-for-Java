@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -1878,7 +1878,7 @@ public class ExCharts extends ApiExampleBase {
     public void treemapChart() throws Exception
     {
         //ExStart:TreemapChart
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ChartSeriesCollection.Add(String, ChartMultilevelValue[], double[])
         //ExFor:ChartMultilevelValue.#ctor(String, String)
         //ExSummary:Shows how to create treemap chart.
@@ -1946,7 +1946,7 @@ public class ExCharts extends ApiExampleBase {
     public void sunburstChart() throws Exception
     {
         //ExStart:SunburstChart
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ChartSeriesCollection.Add(String, ChartMultilevelValue[], double[])
         //ExSummary:Shows how to create sunburst chart.
         Document doc = new Document();
@@ -1994,7 +1994,7 @@ public class ExCharts extends ApiExampleBase {
     public void histogramChart() throws Exception
     {
         //ExStart:HistogramChart
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ChartSeriesCollection.Add(String, double[])
         //ExSummary:Shows how to create histogram chart.
         Document doc = new Document();
@@ -2026,7 +2026,7 @@ public class ExCharts extends ApiExampleBase {
     public void paretoChart() throws Exception
     {
         //ExStart:ParetoChart
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ChartSeriesCollection.Add(String, String[], double[])
         //ExSummary:Shows how to create pareto chart.
         Document doc = new Document();
@@ -2054,7 +2054,7 @@ public class ExCharts extends ApiExampleBase {
     public void boxAndWhiskerChart() throws Exception
     {
         //ExStart:BoxAndWhiskerChart
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ChartSeriesCollection.Add(String, String[], double[])
         //ExSummary:Shows how to create box and whisker chart.
         Document doc = new Document();
@@ -2095,7 +2095,7 @@ public class ExCharts extends ApiExampleBase {
     public void waterfallChart() throws Exception
     {
         //ExStart:WaterfallChart
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ChartSeriesCollection.Add(String, String[], double[], bool[])
         //ExSummary:Shows how to create waterfall chart.
         Document doc = new Document();
@@ -2127,7 +2127,7 @@ public class ExCharts extends ApiExampleBase {
     public void funnelChart() throws Exception
     {
         //ExStart:FunnelChart
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ChartSeriesCollection.Add(String, String[], double[])
         //ExSummary:Shows how to create funnel chart.
         Document doc = new Document();

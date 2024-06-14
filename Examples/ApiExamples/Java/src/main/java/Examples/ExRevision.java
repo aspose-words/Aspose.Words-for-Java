@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -726,7 +726,7 @@ public class ExRevision extends ApiExampleBase {
     public void ignoreStoreItemId() throws Exception
     {
         //ExStart:IgnoreStoreItemId
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:AdvancedCompareOptions.IgnoreStoreItemId
         //ExSummary:Shows how to compare SDT with same content but different store item id.
         Document docA = new Document(getMyDir() + "Document with SDT 1.docx");

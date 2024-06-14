@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -323,7 +323,7 @@ public class ExComment extends ApiExampleBase {
     public void utcDateTime() throws Exception
     {
         //ExStart:UtcDateTime
-        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:Comment.DateTimeUtc
         //ExSummary:Shows how to get UTC date and time.
         Document doc = new Document();
