@@ -493,17 +493,25 @@ class ExOoxmlSaveOptions !Test class should be public in Java to run, please fix
         //ExStart:DigitalSignature
         //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
         //ExFor:OoxmlSaveOptions.DigitalSignatureDetails
+        //ExFor:DigitalSignatureDetails
+        //ExFor:DigitalSignatureDetails.#ctor(CertificateHolder, SignOptions)
+        //ExFor:DigitalSignatureDetails.CertificateHolder
+        //ExFor:DigitalSignatureDetails.SignOptions
         //ExSummary:Shows how to sign OOXML document.
         Document doc = new Document(getMyDir() + "Document.docx");
 
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
-        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
-        saveOptions.setDigitalSignatureDetails(new DigitalSignatureDetails(
+        DigitalSignatureDetails digitalSignatureDetails = new DigitalSignatureDetails(
             certificateHolder,
-            new SignOptions(); { saveOptions.getDigitalSignatureDetails().setComments("Some comments"); saveOptions.getDigitalSignatureDetails().setSignTime(new Date()); }));
+            new SignOptions(); { digitalSignatureDetails.setComments("Some comments"); digitalSignatureDetails.setSignTime(new Date()); });
+
+        OoxmlSaveOptions saveOptions = new OoxmlSaveOptions();
+        saveOptions.setDigitalSignatureDetails(digitalSignatureDetails);
+
+        Assert.assertEquals(certificateHolder, digitalSignatureDetails.getCertificateHolder());
+        Assert.assertEquals("Some comments", digitalSignatureDetails.getSignOptions().getComments());
 
         doc.save(getArtifactsDir() + "OoxmlSaveOptions.DigitalSignature.docx", saveOptions);
         //ExEnd:DigitalSignature
     }
 }
-

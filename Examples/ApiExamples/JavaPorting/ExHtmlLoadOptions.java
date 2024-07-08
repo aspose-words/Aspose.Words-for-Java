@@ -46,6 +46,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     public void supportVml(boolean supportVml) throws Exception
     {
         //ExStart
+        //ExFor:HtmlLoadOptions
         //ExFor:HtmlLoadOptions.#ctor
         //ExFor:HtmlLoadOptions.SupportVml
         //ExSummary:Shows how to support conditional comments while loading an HTML document.
@@ -236,6 +237,7 @@ class ExHtmlLoadOptions !Test class should be public in Java to run, please fix 
     {
         //ExStart
         //ExFor:HtmlLoadOptions.PreferredControlType
+        //ExFor:HtmlControlType
         //ExSummary:Shows how to set preferred type of document nodes that will represent imported <input> and <select> elements.
         final String HTML = "\n                <html>\n                    <select name='ComboBox' size='1'>\n                        <option value='val1'>item1</option>\n                        <option value='val2'></option>\n                    </select>\n                </html>\n            ";
 

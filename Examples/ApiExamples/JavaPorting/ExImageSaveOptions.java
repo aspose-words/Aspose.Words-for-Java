@@ -52,6 +52,8 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
         //ExFor:Document.Save(String, SaveOptions)
         //ExFor:FixedPageSaveOptions
         //ExFor:ImageSaveOptions.PageSet
+        //ExFor:PageSet
+        //ExFor:PageSet.#ctor(Int32)
         //ExSummary:Shows how to render one page from a document to a JPEG image.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -662,6 +664,7 @@ class ExImageSaveOptions !Test class should be public in Java to run, please fix
     {
         //ExStart
         //ExFor:PageSet.#ctor(PageRange[])
+        //ExFor:PageRange
         //ExFor:PageRange.#ctor(int, int)
         //ExFor:ImageSaveOptions.PageSet
         //ExSummary:Shows how to extract pages based on exact page ranges.

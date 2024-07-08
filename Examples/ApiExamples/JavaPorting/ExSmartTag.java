@@ -36,6 +36,8 @@ class ExSmartTag !Test class should be public in Java to run, please fix .Net so
     //ExFor:SmartTag
     //ExFor:SmartTag.#ctor(DocumentBase)
     //ExFor:SmartTag.Accept(DocumentVisitor)
+    //ExFor:SmartTag.AcceptStart(DocumentVisitor)
+    //ExFor:SmartTag.AcceptEnd(DocumentVisitor)
     //ExFor:SmartTag.Element
     //ExFor:SmartTag.Properties
     //ExFor:SmartTag.Uri

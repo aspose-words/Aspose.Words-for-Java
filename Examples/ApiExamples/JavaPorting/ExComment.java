@@ -82,6 +82,7 @@ public class ExComment extends ApiExampleBase
         //ExFor:Comment.Ancestor
         //ExFor:Comment.Author
         //ExFor:Comment.Replies
+        //ExFor:CompositeNode.GetEnumerator
         //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
         //ExSummary:Shows how to print all of a document's comments and their replies.
         Document doc = new Document(getMyDir() + "Comments.docx");
@@ -178,11 +179,13 @@ public class ExComment extends ApiExampleBase
         Assert.assertEquals("\u0005Fix the spelling error!", comment.getText().trim());
         Assert.assertEquals("Hello world!", doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText());
     }
-    
+
     //ExStart
     //ExFor:Comment.Done
     //ExFor:Comment.#ctor(DocumentBase)
     //ExFor:Comment.Accept(DocumentVisitor)
+    //ExFor:Comment.AcceptStart(DocumentVisitor)
+    //ExFor:Comment.AcceptEnd(DocumentVisitor)
     //ExFor:Comment.DateTime
     //ExFor:Comment.Id
     //ExFor:Comment.Initial
@@ -239,6 +242,10 @@ public class ExComment extends ApiExampleBase
 
             // Then, visit the comment, and any replies that it may have.
             comment.accept(commentVisitor);
+            // Visit only start of the comment.
+            comment.acceptStart(commentVisitor);
+            // Visit only end of the comment.
+            comment.acceptEnd(commentVisitor);
 
             for (Comment reply : (Iterable<Comment>) comment.getReplies())
                 reply.accept(commentVisitor);

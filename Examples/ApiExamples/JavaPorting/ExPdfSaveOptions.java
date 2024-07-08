@@ -614,6 +614,9 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         // Set the "Compliance" property to "PdfCompliance.Pdf20" to comply with the "PDF 2.0" (ISO 32000-2) standard.
         // Set the "Compliance" property to "PdfCompliance.PdfA4" to comply with the "PDF/A-4" (ISO 19004:2020) standard,
         // which preserving document static visual appearance over time.
+        // Set the "Compliance" property to "PdfCompliance.PdfA4Ua2" to comply with both PDF/A-4 (ISO 19005-4:2020)
+        // and PDF/UA-2 (ISO 14289-2:2024) standards.
+        // Set the "Compliance" property to "PdfCompliance.PdfUa2" to comply with the PDF/UA-2 (ISO 14289-2:2024) standard.
         // This helps with making documents searchable but may significantly increase the size of already large documents.
         saveOptions.setCompliance(pdfCompliance);
 
@@ -633,6 +636,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 			{PdfCompliance.PDF_UA_1},
 			{PdfCompliance.PDF_20},
 			{PdfCompliance.PDF_A_4},
+			{PdfCompliance.PDF_A_4_UA_2},
+			{PdfCompliance.PDF_UA_2},
 		};
 	}
 
@@ -669,6 +674,14 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
                 Assert.AreEqual(PdfFormat.v_2_0, pdfDocument.PdfFormat);
                 Assert.AreEqual("2.0", pdfDocument.Version);
                 break;
+            case PdfCompliance.PDF_A_4_UA_2:
+                Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
+                Assert.AreEqual("2.0", pdfDocument.Version);
+                break;
+            case PdfCompliance.PDF_UA_2:
+                Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
+                Assert.AreEqual("2.0", pdfDocument.Version);
+                break;
         }
     }
 
@@ -684,6 +697,8 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
 			{PdfCompliance.PDF_UA_1},
 			{PdfCompliance.PDF_20},
 			{PdfCompliance.PDF_A_4},
+			{PdfCompliance.PDF_A_4_UA_2},
+			{PdfCompliance.PDF_UA_2},
 		};
 	}
 
@@ -2637,6 +2652,10 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     @Test (groups = "SkipMono")
     public void dml3DEffectsRenderingModeTest() throws Exception
     {
+        //ExStart
+        //ExFor:Dml3DEffectsRenderingMode
+        //ExFor:SaveOptions.Dml3DEffectsRenderingMode
+        //ExSummary:Shows how 3D effects are rendered.
         Document doc = new Document(getMyDir() + "DrawingML shape 3D effects.docx");
 
         RenderCallback warningCallback = new RenderCallback();
@@ -2646,6 +2665,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         saveOptions.setDml3DEffectsRenderingMode(Dml3DEffectsRenderingMode.ADVANCED);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
+        //ExEnd
 
         Assert.AreEqual(38, warningCallback.Count);
     }
@@ -2689,6 +2709,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         //ExFor:PdfDigitalSignatureDetails.SignatureDate
         //ExFor:PdfDigitalSignatureHashAlgorithm
         //ExFor:PdfSaveOptions.DigitalSignatureDetails
+        //ExFor:PdfDigitalSignatureDetails.CertificateHolder
         //ExSummary:Shows how to sign a generated PDF document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2709,6 +2730,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
         Assert.assertEquals("Test Signing", options.getDigitalSignatureDetails().getReason());
         Assert.assertEquals("My Office", options.getDigitalSignatureDetails().getLocation());
         Assert.assertEquals(signingTime, options.getDigitalSignatureDetails().getSignatureDateInternal().toLocalTime());
+        Assert.assertEquals(certificateHolder, options.getDigitalSignatureDetails().getCertificateHolder());
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PdfDigitalSignature.pdf", options);
         //ExEnd
@@ -2868,7 +2890,7 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
             case EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK:
             case EmfPlusDualRenderingMode.EMF_PLUS:
                 Assert.AreEqual(0, pdfDocument.Pages[1].Resources.Images.Count);
-                TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABF 15 0 R/FAAACB 21 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABG 16 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                     getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
                 break;
         }
@@ -3024,6 +3046,9 @@ class ExPdfSaveOptions !Test class should be public in Java to run, please fix .
     {
         //ExStart
         //ExFor:FixedPageSaveOptions.PageSet
+        //ExFor:PageSet.All
+        //ExFor:PageSet.Even
+        //ExFor:PageSet.Odd
         //ExSummary:Shows how to export Odd pages from the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

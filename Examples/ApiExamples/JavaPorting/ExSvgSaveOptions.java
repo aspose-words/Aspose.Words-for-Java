@@ -20,6 +20,7 @@ import com.aspose.words.ResourceSavingArgs;
 import com.aspose.ms.System.msConsole;
 import com.aspose.words.OfficeMath;
 import com.aspose.words.NodeType;
+import com.aspose.ms.System.IO.MemoryStream;
 
 
 @Test
@@ -98,6 +99,7 @@ public class ExSvgSaveOptions extends ApiExampleBase
         //ExStart:SaveOfficeMath
         //GistId:a775441ecb396eea917a2717cb9e8f8f
         //ExFor:NodeRendererBase.Save(String, SvgSaveOptions)
+        //ExFor:NodeRendererBase.Save(Stream, SvgSaveOptions)
         //ExSummary:Shows how to pass save options when rendering office math.
         Document doc = new Document(getMyDir() + "Office math.docx");
 
@@ -107,6 +109,13 @@ public class ExSvgSaveOptions extends ApiExampleBase
         options.setTextOutputMode(SvgTextOutputMode.USE_PLACED_GLYPHS);
 
         math.getMathRenderer().save(getArtifactsDir() + "SvgSaveOptions.Output.svg", options);
+        
+        MemoryStream stream = new MemoryStream();
+        try /*JAVA: was using*/
+    	{
+            math.getMathRenderer().save(stream, options);
+    	}
+        finally { if (stream != null) stream.close(); }
         //ExEnd:SaveOfficeMath
     }
 
@@ -118,6 +127,7 @@ public class ExSvgSaveOptions extends ApiExampleBase
         //ExFor:ShapeBase.SoftEdge
         //ExFor:SoftEdgeFormat.Radius
         //ExFor:SoftEdgeFormat.Remove
+        //ExFor:SvgSaveOptions.MaxImageResolution
         //ExSummary:Shows how to set limit for image resolution.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 

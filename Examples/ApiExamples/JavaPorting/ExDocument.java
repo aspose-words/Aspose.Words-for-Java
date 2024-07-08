@@ -132,6 +132,7 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart:CreateSimpleDocument
         //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:DocumentBase.Document
         //ExFor:Document.#ctor()
         //ExSummary:Shows how to create simple document.
         Document doc = new Document();
@@ -518,6 +519,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.#ctor(Stream,LoadOptions)
         //ExFor:LoadOptions.#ctor
         //ExFor:LoadOptions.BaseUri
+        //ExFor:ShapeBase.IsImage
         //ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
         Stream stream = new FileInputStream(getMyDir() + "Document.html");
         try /*JAVA: was using*/
@@ -611,10 +613,16 @@ public class ExDocument extends ApiExampleBase
     @Test
     public void notSupportedWarning() throws Exception
     {
-        WarningInfoCollection warings = new WarningInfoCollection();
-        Document doc = new Document(getMyDir() + "FB2 document.fb2", new LoadOptions(); { doc.setWarningCallback(warings); });
+        //ExStart
+        //ExFor:WarningInfoCollection.Count
+        //ExFor:WarningInfoCollection.Item(Int32)
+        //ExSummary:Shows how to get warnings about unsupported formats.
+        WarningInfoCollection warnings = new WarningInfoCollection();
+        Document doc = new Document(getMyDir() + "FB2 document.fb2", new LoadOptions(); { doc.setWarningCallback(warnings); });
 
-        Assert.assertEquals("The original file load format is FB2, which is not supported by Aspose.Words. The file is loaded as an XML document.", warings.get(0).getDescription());
+        Assert.assertEquals("The original file load format is FB2, which is not supported by Aspose.Words. The file is loaded as an XML document.", warnings.get(0).getDescription());
+        Assert.assertEquals(1, warnings.getCount());
+        //ExEnd
     }
 
     @Test
@@ -689,6 +697,7 @@ public class ExDocument extends ApiExampleBase
     }
 
     //ExStart
+    //ExFor:Range.Fields
     //ExFor:INodeChangingCallback
     //ExFor:INodeChangingCallback.NodeInserting
     //ExFor:INodeChangingCallback.NodeInserted
@@ -1679,6 +1688,7 @@ public class ExDocument extends ApiExampleBase
     public void useSubstitutions() throws Exception
     {
         //ExStart
+        //ExFor:FindReplaceOptions.#ctor
         //ExFor:FindReplaceOptions.UseSubstitutions
         //ExFor:FindReplaceOptions.LegacyMode
         //ExSummary:Shows how to recognize and use substitutions within replacement patterns.
@@ -1706,6 +1716,7 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Document.NormalizeFieldTypes
+        //ExFor:Range.NormalizeFieldTypes
         //ExSummary:Shows how to get the keep a field's type up to date with its field code.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1863,6 +1874,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:StyleCollection.Item(String)
         //ExFor:SectionCollection.Item(Int32)
         //ExFor:Document.UpdatePageLayout
+        //ExFor:Margins
         //ExFor:PageSetup.Margins
         //ExSummary:Shows when to recalculate the page layout of the document.
         Document doc = new Document(getMyDir() + "Rendering.docx");
@@ -2323,6 +2335,7 @@ public class ExDocument extends ApiExampleBase
         //ExStart
         //ExFor:BaseWebExtensionCollection`1.Add(`0)
         //ExFor:BaseWebExtensionCollection`1.Clear
+        //ExFor:Document.WebExtensionTaskPanes
         //ExFor:TaskPane
         //ExFor:TaskPane.DockState
         //ExFor:TaskPane.IsVisible
@@ -2335,6 +2348,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:WebExtension.Properties
         //ExFor:WebExtension.Bindings
         //ExFor:WebExtension.IsFrozen
+        //ExFor:WebExtensionReference
         //ExFor:WebExtensionReference.Id
         //ExFor:WebExtensionReference.Version
         //ExFor:WebExtensionReference.StoreType
@@ -2347,6 +2361,8 @@ public class ExDocument extends ApiExampleBase
         //ExFor:WebExtensionBindingType
         //ExFor:TaskPaneDockState
         //ExFor:TaskPaneCollection
+        //ExFor:WebExtensionBinding.AppRef
+        //ExFor:WebExtensionBinding.BindingType
         //ExSummary:Shows how to add a web extension to a document.
         Document doc = new Document();
 
@@ -2383,7 +2399,6 @@ public class ExDocument extends ApiExampleBase
         doc.getWebExtensionTaskPanes().clear();
 
         Assert.assertEquals(0, doc.getWebExtensionTaskPanes().getCount());
-        //ExEnd
 
         doc = new Document(getArtifactsDir() + "Document.WebExtension.docx");
         myScriptTaskPane = doc.getWebExtensionTaskPanes().get(0);
@@ -2408,6 +2423,7 @@ public class ExDocument extends ApiExampleBase
         Assert.assertEquals("104380646", webExtension.getBindings().get(0).getAppRef());
 
         Assert.assertFalse(webExtension.isFrozen());
+        //ExEnd
     }
 
     @Test
@@ -2466,9 +2482,12 @@ public class ExDocument extends ApiExampleBase
     public void textWatermark() throws Exception
     {
         //ExStart
+        //ExFor:Document.Watermark
+        //ExFor:Watermark
         //ExFor:Watermark.SetText(String)
         //ExFor:Watermark.SetText(String, TextWatermarkOptions)
         //ExFor:Watermark.Remove
+        //ExFor:TextWatermarkOptions
         //ExFor:TextWatermarkOptions.FontFamily
         //ExFor:TextWatermarkOptions.FontSize
         //ExFor:TextWatermarkOptions.Color
@@ -2476,6 +2495,7 @@ public class ExDocument extends ApiExampleBase
         //ExFor:TextWatermarkOptions.IsSemitrasparent
         //ExFor:WatermarkLayout
         //ExFor:WatermarkType
+        //ExFor:Watermark.Type
         //ExSummary:Shows how to create a text watermark.
         Document doc = new Document();
 
@@ -2510,8 +2530,11 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:Watermark.SetImage(Image, ImageWatermarkOptions)
+        //ExFor:ImageWatermarkOptions
         //ExFor:ImageWatermarkOptions.Scale
         //ExFor:ImageWatermarkOptions.IsWashout
+        //ExFor:Watermark.SetImage(Image)
+        //ExFor:Watermark.SetImage(String, ImageWatermarkOptions)
         //ExSummary:Shows how to create a watermark from an image in the local file system.
         Document doc = new Document();
 
@@ -2521,7 +2544,12 @@ public class ExDocument extends ApiExampleBase
         imageWatermarkOptions.setScale(5.0);
         imageWatermarkOptions.isWashout(false);
 
+        // We have a different options to insert image:
         doc.getWatermark().setImage(ImageIO.read(getImageDir() + "Logo.jpg"), imageWatermarkOptions);
+
+        doc.getWatermark().setImage(ImageIO.read(getImageDir() + "Logo.jpg"));
+
+        doc.getWatermark().setImage(getImageDir() + "Logo.jpg", imageWatermarkOptions);
 
         doc.save(getArtifactsDir() + "Document.ImageWatermark.docx");
         //ExEnd
@@ -2673,10 +2701,14 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Frameset.FrameDefaultUrl
         //ExFor:Frameset.IsFrameLinkToFile
         //ExFor:Frameset.ChildFramesets
+        //ExFor:FramesetCollection
+        //ExFor:FramesetCollection.Count
+        //ExFor:FramesetCollection.Item(Int32)
         //ExSummary:Shows how to access frames on-page.
         // Document contains several frames with links to other documents.
         Document doc = new Document(getMyDir() + "Frameset.docx");
 
+        Assert.assertEquals(3, doc.getFrameset().getChildFramesets().getCount());
         // We can check the default URL (a web page URL or local document) or if the frame is an external resource.
         Assert.assertEquals("https://file-examples-com.github.io/uploads/2017/02/file-sample_100kB.docx",
             doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
@@ -2807,6 +2839,7 @@ public class ExDocument extends ApiExampleBase
     {
         //ExStart
         //ExFor:PageInfo.Colored
+        //ExFor:Document.GetPageInfo(Int32)
         //ExSummary:Shows how to check whether the page is in color or not.
         Document doc = new Document(getMyDir() + "Document.docx");
 

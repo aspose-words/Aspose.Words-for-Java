@@ -685,6 +685,7 @@ public class ExFont extends ApiExampleBase
     public void sparklingText() throws Exception
     {
         //ExStart
+        //ExFor:TextEffect
         //ExFor:Font.TextEffect
         //ExSummary:Shows how to apply a visual effect to a run.
         Document doc = new Document();
@@ -1123,7 +1124,9 @@ public class ExFont extends ApiExampleBase
 
     //ExStart
     //ExFor:Font.Hidden
-    //ExFor:Paragraph.Accept
+    //ExFor:Paragraph.Accept(DocumentVisitor)
+    //ExFor:Paragraph.AcceptStart(DocumentVisitor)
+    //ExFor:Paragraph.AcceptEnd(DocumentVisitor)
     //ExFor:DocumentVisitor.VisitParagraphStart(Paragraph)
     //ExFor:DocumentVisitor.VisitFormField(FormField)
     //ExFor:DocumentVisitor.VisitTableEnd(Table)
@@ -1135,9 +1138,13 @@ public class ExFont extends ApiExampleBase
     //ExFor:DocumentVisitor.VisitCommentStart(Comment)
     //ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
     //ExFor:SpecialChar
-    //ExFor:Node.Accept
+    //ExFor:SpecialChar.Accept(DocumentVisitor)
+    //ExFor:SpecialChar.GetText
+    //ExFor:Node.Accept(DocumentVisitor)
     //ExFor:Paragraph.ParagraphBreakFont
-    //ExFor:Table.Accept
+    //ExFor:Table.Accept(DocumentVisitor)
+    //ExFor:Table.AcceptStart(DocumentVisitor)
+    //ExFor:Table.AcceptEnd(DocumentVisitor)
     //ExSummary:Shows how to use a DocumentVisitor implementation to remove all hidden content from a document.
     @Test //ExSkip
     public void removeHiddenContentFromDocument() throws Exception
@@ -1285,6 +1292,8 @@ public class ExFont extends ApiExampleBase
         /// </summary>
         public /*override*/ /*VisitorAction*/int visitSpecialChar(SpecialChar specialChar)
         {
+            System.out.println(specialChar.getText());
+
             if (specialChar.getFont().getHidden())
                 specialChar.remove();
 
@@ -1504,6 +1513,7 @@ public class ExFont extends ApiExampleBase
     {
         //ExStart
         //ExFor:Font.HasDmlEffect(TextDmlEffect)
+        //ExFor:TextDmlEffect
         //ExSummary:Shows how to check if a run displays a DrawingML text effect.
         Document doc = new Document(getMyDir() + "DrawingML text effects.docx");
 
@@ -1708,4 +1718,5 @@ public class ExFont extends ApiExampleBase
         Assert.assertEquals(msColor.Empty, run.getFont().getColor());
     }
 }
+
 

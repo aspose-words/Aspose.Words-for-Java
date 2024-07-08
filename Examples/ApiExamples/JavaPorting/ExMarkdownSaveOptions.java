@@ -11,6 +11,7 @@ import com.aspose.words.MarkdownSaveOptions;
 import com.aspose.words.Document;
 import com.aspose.words.Table;
 import org.testng.Assert;
+import com.aspose.words.SaveFormat;
 import com.aspose.ms.System.IO.Directory;
 import com.aspose.words.IImageSavingCallback;
 import com.aspose.words.ImageSavingArgs;
@@ -20,6 +21,8 @@ import com.aspose.ms.System.IO.File;
 import com.aspose.words.MarkdownListExportMode;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.words.Underline;
+import com.aspose.words.ShapeType;
+import com.aspose.words.MarkdownLinkExportMode;
 import org.testng.annotations.DataProvider;
 
 
@@ -29,6 +32,10 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
     @Test (dataProvider = "markdownDocumentTableContentAlignmentDataProvider")
     public void markdownDocumentTableContentAlignment(/*TableContentAlignment*/int tableContentAlignment) throws Exception
     {
+        //ExStart
+        //ExFor:TableContentAlignment
+        //ExFor:MarkdownSaveOptions.TableContentAlignment
+        //ExSummary:Shows how to align contents in tables.
         DocumentBuilder builder = new DocumentBuilder();
 
         builder.insertCell();
@@ -72,6 +79,7 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
                     table.getFirstRow().getCells().get(1).getFirstParagraph().getParagraphFormat().getAlignment());
                 break;
         }
+        //ExEnd
     }
 
 	//JAVA-added data provider for test method
@@ -88,7 +96,10 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
 	}
 
     //ExStart
+    //ExFor:MarkdownSaveOptions
+    //ExFor:MarkdownSaveOptions.#ctor
     //ExFor:MarkdownSaveOptions.ImageSavingCallback
+    //ExFor:MarkdownSaveOptions.SaveFormat
     //ExFor:IImageSavingCallback
     //ExSummary:Shows how to rename the image name during saving into Markdown document.
     @Test //ExSkip
@@ -97,11 +108,11 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
-
         // If we convert a document that contains images into Markdown, we will end up with one Markdown file which links to several images.
         // Each image will be in the form of a file in the local file system.
         // There is also a callback that can customize the name and file system location of each image.
         saveOptions.setImageSavingCallback(new SavedImageRename("MarkdownSaveOptions.HandleDocument.md"));
+        saveOptions.setSaveFormat(SaveFormat.MARKDOWN);
 
         // The ImageSaving() method of our callback will be run at this time.
         doc.save(getArtifactsDir() + "MarkdownSaveOptions.HandleDocument.md", saveOptions);
@@ -179,6 +190,7 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
     {
         //ExStart
         //ExFor:MarkdownSaveOptions.ListExportMode
+        //ExFor:MarkdownListExportMode
         //ExSummary:Shows how to list items will be written to the markdown document.
         Document doc = new Document(getMyDir() + "List item.docx");
 
@@ -246,5 +258,36 @@ class ExMarkdownSaveOptions !Test class should be public in Java to run, please 
         doc.save(getArtifactsDir() + "MarkdownSaveOptions.ExportUnderlineFormatting.md", saveOptions);
         //ExEnd:ExportUnderlineFormatting
     }
+
+    @Test
+    public void linkExportMode() throws Exception
+    {
+        //ExStart:LinkExportMode
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:MarkdownSaveOptions.LinkExportMode
+        //ExFor:MarkdownLinkExportMode
+        //ExSummary:Shows how to links will be written to the .md file.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        builder.insertShape(ShapeType.BALLOON, 100.0, 100.0);
+
+        // Image will be written as reference:
+        // ![ref1]
+        //
+        // [ref1]: aw_ref.001.png
+        MarkdownSaveOptions saveOptions = new MarkdownSaveOptions();
+        saveOptions.setLinkExportMode(MarkdownLinkExportMode.REFERENCE);
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.LinkExportMode.Reference.md", saveOptions);
+
+        // Image will be written as inline:
+        // ![](aw_inline.001.png)
+        saveOptions.setLinkExportMode(MarkdownLinkExportMode.INLINE);
+        doc.save(getArtifactsDir() + "MarkdownSaveOptions.LinkExportMode.Inline.md", saveOptions);
+        //ExEnd:LinkExportMode
+
+        String outDocContents = File.readAllText(getArtifactsDir() + "MarkdownSaveOptions.LinkExportMode.Inline.md");
+        Assert.assertEquals("![](MarkdownSaveOptions.LinkExportMode.Inline.001.png)", outDocContents.trim());
+    }
 }
+
 

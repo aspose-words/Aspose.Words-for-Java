@@ -41,6 +41,7 @@ public class ExRendering extends ApiExampleBase
     //ExFor:NodeRendererBase.RenderToScale(Graphics, Single, Single, Single)
     //ExFor:NodeRendererBase.RenderToSize(Graphics, Single, Single, Single, Single)
     //ExFor:ShapeRenderer
+    //ExFor:ShapeRenderer.#ctor(ShapeBase)
     //ExSummary:Shows how to render a shape with a Graphics object and display it using a Windows Form.
     @Test (groups = "IgnoreOnJenkins") //ExSkip
     public void renderShapesOnForm() throws Exception

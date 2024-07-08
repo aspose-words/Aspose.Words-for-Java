@@ -34,6 +34,8 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
         //ExFor:Merger.Merge(String[], MergeFormatMode)
         //ExFor:Merger.Merge(String, String[], SaveOptions, MergeFormatMode)
         //ExFor:Merger.Merge(String, String[], SaveFormat, MergeFormatMode)
+        //ExFor:LowCode.MergeFormatMode
+        //ExFor:LowCode.Merger
         //ExSummary:Shows how to merge documents into a single output document.
         //There is a several ways to merge documents:
         Merger.merge(getArtifactsDir() + "LowCode.MergeDocument.SimpleMerge.docx", new String[] { getMyDir() + "Big document.docx", getMyDir() + "Tables.docx" });

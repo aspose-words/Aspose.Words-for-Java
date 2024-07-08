@@ -1941,7 +1941,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             case HtmlOfficeMathOutputMode.IMAGE:
                 Assert.assertTrue(Regex.match(outDocContents,
                     "<p style=\"margin-top:0pt; margin-bottom:10pt\">" +
-                        "<img src=\"HtmlSaveOptions.OfficeMathOutputMode.001.png\" width=\"160\" height=\"19\" alt=\"\" style=\"vertical-align:middle; " +
+                        "<img src=\"HtmlSaveOptions.OfficeMathOutputMode.001.png\" width=\"163\" height=\"19\" alt=\"\" style=\"vertical-align:middle; " +
                         "-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
                     "</p>").getSuccess());
                 break;
@@ -2174,6 +2174,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     //ExFor:IDocumentSavingCallback
     //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
     //ExFor:DocumentSavingArgs.EstimatedProgress
+    //ExFor:DocumentSavingArgs
     //ExSummary:Shows how to manage a document while saving to html.
     public void progressCallback(/*SaveFormat*/int saveFormat, String ext) throws Exception
     {

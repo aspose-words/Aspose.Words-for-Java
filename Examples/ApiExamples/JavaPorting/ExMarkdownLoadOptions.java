@@ -19,6 +19,7 @@ public class ExMarkdownLoadOptions extends ApiExampleBase
         //ExStart:PreserveEmptyLines
         //GistId:a775441ecb396eea917a2717cb9e8f8f
         //ExFor:MarkdownLoadOptions
+        //ExFor:MarkdownLoadOptions.#ctor
         //ExFor:MarkdownLoadOptions.PreserveEmptyLines
         //ExSummary:Shows how to preserve empty line while load a document.
         String mdText = $"{Environment.NewLine}Line1{Environment.NewLine}{Environment.NewLine}Line2{Environment.NewLine}{Environment.NewLine}";

@@ -262,10 +262,12 @@ class ExLayout !Test class should be public in Java to run, please fix .Net sour
     //ExStart
     //ExFor:IPageLayoutCallback
     //ExFor:IPageLayoutCallback.Notify(PageLayoutCallbackArgs)
+    //ExFor:PageLayoutCallbackArgs
     //ExFor:PageLayoutCallbackArgs.Event
     //ExFor:PageLayoutCallbackArgs.Document
     //ExFor:PageLayoutCallbackArgs.PageIndex
     //ExFor:PageLayoutEvent
+    //ExFor:LayoutOptions.Callback
     //ExSummary:Shows how to track layout changes with a layout callback.
     @Test//ExSkip
     public void pageLayoutCallback() throws Exception

@@ -43,6 +43,7 @@ import com.aspose.words.Table;
 import com.aspose.words.FieldDate;
 import com.aspose.words.CompareOptions;
 import com.aspose.words.ComparisonTargetType;
+import com.aspose.words.HorizontalAlignment;
 import com.aspose.words.Granularity;
 import com.aspose.words.RevisionGroupCollection;
 import org.testng.annotations.DataProvider;
@@ -307,7 +308,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         revisionOptions.setMovedFromTextColor(RevisionColor.YELLOW);
         revisionOptions.setMovedFromTextEffect(RevisionTextEffect.DOUBLE_STRIKE_THROUGH);
         revisionOptions.setMovedToTextColor(RevisionColor.CLASSIC_BLUE);
-        revisionOptions.setMovedFromTextEffect(RevisionTextEffect.DOUBLE_UNDERLINE);
+        revisionOptions.setMovedToTextEffect(RevisionTextEffect.DOUBLE_UNDERLINE);
 
         // Render format revisions in dark red and bold.
         revisionOptions.setRevisedPropertiesColor(RevisionColor.DARK_RED);
@@ -335,6 +336,8 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
     //GistId:470c0da51e4317baae82ad9495747fed
     //ExFor:RevisionCollection.Accept(IRevisionCriteria)
     //ExFor:RevisionCollection.Reject(IRevisionCriteria)
+    //ExFor:IRevisionCriteria
+    //ExFor:IRevisionCriteria.IsMatch(Revision)
     //ExSummary:Shows how to accept or reject revision based on criteria.
     @Test //ExSkip
     public void revisionSpecifiedCriteria() throws Exception
@@ -639,6 +642,8 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
     public void ignoreDmlUniqueId(boolean isIgnoreDmlUniqueId) throws Exception
     {
         //ExStart
+        //ExFor:CompareOptions.AdvancedOptions
+        //ExFor:AdvancedCompareOptions.IgnoreDmlUniqueId
         //ExFor:CompareOptions.IgnoreDmlUniqueId
         //ExSummary:Shows how to compare documents ignoring DML unique ID.
         Document docA = new Document(getMyDir() + "DML unique ID original.docx");
@@ -677,6 +682,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         //ExFor:RevisionOptions
         //ExFor:RevisionOptions.InsertedTextColor
         //ExFor:RevisionOptions.ShowRevisionBars
+        //ExFor:RevisionOptions.RevisionBarsPosition
         //ExSummary:Shows how to alter the appearance of revisions in a rendered output document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -693,6 +699,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         // Remove the bar that appears to the left of every revised line.
         doc.getLayoutOptions().getRevisionOptions().setInsertedTextColor(RevisionColor.BRIGHT_GREEN);
         doc.getLayoutOptions().getRevisionOptions().setShowRevisionBars(false);
+        doc.getLayoutOptions().getRevisionOptions().setRevisionBarsPosition(HorizontalAlignment.RIGHT);
 
         doc.save(getArtifactsDir() + "Document.LayoutOptionsRevisions.pdf");
         //ExEnd
@@ -777,6 +784,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
     {
         //ExStart:IgnoreStoreItemId
         //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:AdvancedCompareOptions
         //ExFor:AdvancedCompareOptions.IgnoreStoreItemId
         //ExSummary:Shows how to compare SDT with same content but different store item id.
         Document docA = new Document(getMyDir() + "Document with SDT 1.docx");

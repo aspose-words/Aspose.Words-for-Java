@@ -114,12 +114,15 @@ class ExVbaProject !Test class should be public in Java to run, please fix .Net 
 
     //ExStart
     //ExFor:VbaReference
+    //ExFor:VbaReference.Type
     //ExFor:VbaReference.LibId
     //ExFor:VbaReferenceCollection
+    //ExFor:VbaReferenceCollection.Item(Int32)
     //ExFor:VbaReferenceCollection.Count
     //ExFor:VbaReferenceCollection.RemoveAt(int)
     //ExFor:VbaReferenceCollection.Remove(VbaReference)
     //ExFor:VbaReferenceType
+    //ExFor:VbaProject.References
     //ExSummary:Shows how to get/remove an element from the VBA reference collection.
     @Test//ExSkip
     public void removeVbaReference() throws Exception
@@ -187,5 +190,17 @@ class ExVbaProject !Test class should be public in Java to run, please fix .Net 
         return libIdProject != null ? libIdProject.substring(3) : "";
     }
     //ExEnd
+
+    @Test
+    public void isProtected() throws Exception
+    {
+        //ExStart:IsProtected
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:VbaProject.IsProtected
+        //ExSummary:Shows whether the VbaProject is password protected.
+        Document doc = new Document(getMyDir() + "Vba protected.docm");
+        Assert.assertTrue(doc.getVbaProject().isProtected());
+        //ExEnd:IsProtected
+    }
 }
 

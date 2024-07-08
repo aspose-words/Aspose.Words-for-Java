@@ -27,6 +27,7 @@ import com.aspose.words.AxisCategoryType;
 import com.aspose.words.AxisCrosses;
 import com.aspose.words.AxisTickMark;
 import com.aspose.words.AxisTickLabelPosition;
+import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.ChartAxisType;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.AxisBound;
@@ -41,7 +42,6 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.AxisScaleType;
 import com.aspose.words.ChartLegend;
 import com.aspose.words.LegendPosition;
-import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.ChartDataPointCollection;
 import com.aspose.words.PresetTexture;
 import com.aspose.words.ChartLegendEntryCollection;
@@ -60,6 +60,7 @@ import com.aspose.words.AxisGroup;
 import com.aspose.words.ChartSeriesGroupCollection;
 import com.aspose.words.ChartMultilevelValue;
 import com.aspose.ms.System.Globalization.msCultureInfo;
+import com.aspose.words.ShapeTextOrientation;
 import org.testng.annotations.DataProvider;
 
 
@@ -169,9 +170,13 @@ public class ExCharts extends ApiExampleBase
         //ExFor:ChartAxis.MinorTickMark
         //ExFor:ChartAxis.MajorUnit
         //ExFor:ChartAxis.MinorUnit
+        //ExFor:AxisTickLabels
         //ExFor:AxisTickLabels.Offset
         //ExFor:AxisTickLabels.Position
         //ExFor:AxisTickLabels.IsAutoSpacing
+        //ExFor:AxisTickLabels.Alignment
+        //ExFor:AxisTickLabels.Font
+        //ExFor:AxisTickLabels.Spacing
         //ExFor:ChartAxis.TickMarkSpacing
         //ExFor:AxisCategoryType
         //ExFor:AxisCrosses
@@ -217,6 +222,9 @@ public class ExCharts extends ApiExampleBase
         yAxis.setMajorUnit(100.0d);
         yAxis.setMinorUnit(20.0d);
         yAxis.getTickLabels().setPosition(AxisTickLabelPosition.NEXT_TO_AXIS);
+        yAxis.getTickLabels().setAlignment(ParagraphAlignment.CENTER);
+        yAxis.getTickLabels().getFont().setColor(Color.RED);
+        yAxis.getTickLabels().setSpacing(1);
 
         // Column charts do not have a Z-axis.
         Assert.assertNull(chart.getAxisZ());
@@ -247,6 +255,9 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(100.0d, chart.getAxisY().getMajorUnit());
         Assert.assertEquals(20.0d, chart.getAxisY().getMinorUnit());
         Assert.assertEquals(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisY().getTickLabels().getPosition());
+        Assert.assertEquals(ParagraphAlignment.CENTER, chart.getAxisY().getTickLabels().getAlignment());
+        Assert.assertEquals(Color.RED.getRGB(), chart.getAxisY().getTickLabels().getFont().getColor().getRGB());
+        Assert.assertEquals(1, chart.getAxisY().getTickLabels().getSpacing());
     }
 
     @Test
@@ -1285,6 +1296,7 @@ public class ExCharts extends ApiExampleBase
         //ExFor:Stroke.BackColor
         //ExFor:Stroke.Visible
         //ExFor:Stroke.Transparency
+        //ExFor:PresetTexture
         //ExFor:Fill.PresetTextured(PresetTexture)
         //ExSummary:Show how to set marker formatting.
         Document doc = new Document();
@@ -1419,6 +1431,7 @@ public class ExCharts extends ApiExampleBase
     {
         //ExStart:LegendFont
         //GistId:470c0da51e4317baae82ad9495747fed
+        //ExFor:ChartLegendEntry
         //ExFor:ChartLegendEntry.Font
         //ExFor:ChartLegend.Font
         //ExSummary:Shows how to work with a legend font.
@@ -1466,6 +1479,7 @@ public class ExCharts extends ApiExampleBase
     public void populateChartWithData() throws Exception
     {
         //ExStart
+        //ExFor:ChartXValue
         //ExFor:ChartXValue.FromDouble(Double)
         //ExFor:ChartYValue.FromDouble(Double)
         //ExFor:ChartSeries.Add(ChartXValue, ChartYValue)
@@ -1759,6 +1773,7 @@ public class ExCharts extends ApiExampleBase
     {
         //ExStart:DataTable
         //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //ExFor:Chart.DataTable
         //ExFor:ChartDataTable
         //ExFor:ChartDataTable.Show
         //ExSummary:Shows how to show data table with chart series data.
@@ -1796,10 +1811,12 @@ public class ExCharts extends ApiExampleBase
     {
         //ExStart:ChartFormat
         //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:ChartFormat
         //ExFor:Chart.Format
         //ExFor:ChartTitle.Format
         //ExFor:ChartAxisTitle.Format
         //ExFor:ChartLegend.Format
+        //ExFor:Fill.Solid(Color)
         //ExSummary:Shows how to use chart formating.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1856,6 +1873,7 @@ public class ExCharts extends ApiExampleBase
         //ExFor:ChartSeriesGroup.AxisX
         //ExFor:ChartSeriesGroup.AxisY
         //ExFor:ChartSeriesGroup.Series
+        //ExFor:ChartSeriesGroupCollection
         //ExFor:ChartSeriesGroupCollection.Add(ChartSeriesType)
         //ExFor:AxisGroup
         //ExSummary:Shows how to work with the secondary axis of chart.
@@ -1897,6 +1915,7 @@ public class ExCharts extends ApiExampleBase
     {
         //ExStart:ConfigureGapOverlap
         //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:Chart.SeriesGroups
         //ExFor:ChartSeriesGroup.GapWidth
         //ExFor:ChartSeriesGroup.Overlap
         //ExSummary:Show how to configure gap width and overlap.
@@ -1963,7 +1982,10 @@ public class ExCharts extends ApiExampleBase
         //ExStart:TreemapChart
         //GistId:65919861586e42e24f61a3ccb65f8f4e
         //ExFor:ChartSeriesCollection.Add(String, ChartMultilevelValue[], double[])
+        //ExFor:ChartMultilevelValue
+        //ExFor:ChartMultilevelValue.#ctor(String, String, String)
         //ExFor:ChartMultilevelValue.#ctor(String, String)
+        //ExFor:ChartMultilevelValue.#ctor(String)
         //ExSummary:Shows how to create treemap chart.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1999,7 +2021,7 @@ public class ExCharts extends ApiExampleBase
                 new ChartMultilevelValue("Latin America", "Brazil"),
                 new ChartMultilevelValue("Latin America", "Mexico"),
                 new ChartMultilevelValue("Latin America", "Other"),
-                new ChartMultilevelValue("Northern America", "United States"),
+                new ChartMultilevelValue("Northern America", "United States", "Other"),
                 new ChartMultilevelValue("Northern America", "Other"),
                 new ChartMultilevelValue("Oceania")
             },
@@ -2236,6 +2258,45 @@ public class ExCharts extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "Charts.Funnel.docx");
         //ExEnd:FunnelChart
+    }
+
+    @Test
+    public void labelOrientationRotation() throws Exception
+    {
+        //ExStart:LabelOrientationRotation
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:ChartDataLabelCollection.Orientation
+        //ExFor:ChartDataLabelCollection.Rotation
+        //ExFor:ChartDataLabel.Rotation
+        //ExFor:ChartDataLabel.Orientation
+        //ExFor:ShapeTextOrientation
+        //ExSummary:Shows how to change orientation and rotation for data labels.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        ChartSeries series = shape.getChart().getSeries().get(0);
+        ChartDataLabelCollection dataLabels = series.getDataLabels();
+
+        // Show data labels.
+        series.hasDataLabels(true);
+        dataLabels.setShowValue(true);
+        dataLabels.setShowCategoryName(true);
+
+        // Define data label shape.
+        dataLabels.getFormat().setShapeType(ChartShapeType.UP_ARROW);
+        dataLabels.getFormat().getStroke().getFill().solid(msColor.getDarkBlue());
+
+        // Set data label orientation and rotation for the entire series.
+        dataLabels.setOrientation(ShapeTextOrientation.VERTICAL_FAR_EAST);
+        dataLabels.setRotation(-45);
+
+        // Change orientation and rotation of the first data label.
+        dataLabels.get(0).setOrientation(ShapeTextOrientation.HORIZONTAL);
+        dataLabels.get(0).setRotation(45);
+
+        doc.save(getArtifactsDir() + "Charts.LabelOrientationRotation.docx");
+        //ExEnd:LabelOrientationRotation
     }
 }
 

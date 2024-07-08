@@ -268,6 +268,7 @@ public class ExHeaderFooter extends ApiExampleBase
     //ExStart
     //ExFor:IReplacingCallback
     //ExFor:PageSetup.DifferentFirstPageHeaderFooter
+    //ExFor:FindReplaceOptions.#ctor(IReplacingCallback)
     //ExSummary:Shows how to track the order in which a text replacement operation traverses nodes.
     @Test (dataProvider = "orderDataProvider") //ExSkip
     public void order(boolean differentFirstPageHeaderFooter) throws Exception
@@ -277,7 +278,7 @@ public class ExHeaderFooter extends ApiExampleBase
         Section firstPageSection = doc.getFirstSection();
 
         ReplaceLog logger = new ReplaceLog();
-        FindReplaceOptions options = new FindReplaceOptions(); { options.setReplacingCallback(logger); }
+        FindReplaceOptions options = new FindReplaceOptions(logger);
 
         // Using a different header/footer for the first page will affect the search order.
         firstPageSection.getPageSetup().setDifferentFirstPageHeaderFooter(differentFirstPageHeaderFooter);

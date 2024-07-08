@@ -271,7 +271,11 @@ public class ExDrawing extends ApiExampleBase
     {
         //ExStart
         //ExFor:Fill.Color()
-        //ExFor:Fill.Solid(Color)
+        //ExFor:FillType
+        //ExFor:Fill.FillType
+        //ExFor:Fill.Solid
+        //ExFor:Fill.Transparency
+        //ExFor:Font.Fill
         //ExSummary:Shows how to convert any of the fills back to solid fill.
         Document doc = new Document(getMyDir() + "Two color gradient.docx");
 
@@ -284,7 +288,7 @@ public class ExDrawing extends ApiExampleBase
         System.out.println("The fill is transparent at {0}%",fill.getTransparency() * 100.0);
 
         // Change type of the fill to Solid with uniform green color.
-        fill.solid(msColor.getGreen());
+        fill.solid();
         System.out.println("\nThe fill is changed:");
         System.out.println("The type of the fill is: {0}",fill.getFillType());
         System.out.println("The foreground color of the fill is: {0}",fill.getForeColor());
@@ -375,6 +379,8 @@ public class ExDrawing extends ApiExampleBase
     //ExFor:GroupShape
     //ExFor:GroupShape.#ctor(DocumentBase)
     //ExFor:GroupShape.Accept(DocumentVisitor)
+    //ExFor:GroupShape.AcceptStart(DocumentVisitor)
+    //ExFor:GroupShape.AcceptEnd(DocumentVisitor)
     //ExFor:ShapeBase.IsGroup
     //ExFor:ShapeBase.ShapeType
     //ExSummary:Shows how to create a group of shapes, and print its contents using a document visitor.

@@ -1349,6 +1349,9 @@ public class ExFontSettings extends ApiExampleBase
     //ExFor:MemoryFontSource.#ctor(Byte[], Int32, String)
     //ExFor:FontSettings.SaveSearchCache(Stream)
     //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
+    //ExFor:FileFontSource.CacheKey
+    //ExFor:MemoryFontSource.CacheKey
+    //ExFor:StreamFontSource.CacheKey
     //ExSummary:Shows how to speed up the font cache initialization process.
     @Test//ExSkip
     public void loadFontSearchCache() throws Exception

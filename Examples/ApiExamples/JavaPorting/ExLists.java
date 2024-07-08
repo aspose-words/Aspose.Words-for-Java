@@ -32,6 +32,7 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.ListCollection;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.ListLabel;
+import com.aspose.words.ParagraphCollection;
 
 
 @Test
@@ -983,7 +984,7 @@ public class ExLists extends ApiExampleBase
     }
 
     @Test
-    public void customNumberStyleFormat() throws Exception
+    public void getCustomNumberStyleFormat() throws Exception
     {
         //ExStart
         //ExFor:ListLevel.CustomNumberStyleFormat
@@ -1022,5 +1023,31 @@ public class ExLists extends ApiExampleBase
         Assert.assertTrue(doc.getLists().get(0).hasSameTemplate(doc.getLists().get(1)));
         Assert.assertFalse(doc.getLists().get(1).hasSameTemplate(doc.getLists().get(2)));
         //ExEnd
+    }
+
+    @Test
+    public void setCustomNumberStyleFormat() throws Exception
+    {
+        //ExStart:SetCustomNumberStyleFormat
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:ListLevel.CustomNumberStyleFormat
+        //ExSummary:Shows how to set customer number style format.
+        Document doc = new Document(getMyDir() + "List with leading zero.docx");
+
+        doc.updateListLabels();
+
+        ParagraphCollection paras = doc.getFirstSection().getBody().getParagraphs();
+        Assert.assertEquals("001.", paras.get(0).getListLabel().getLabelString());
+        Assert.assertEquals("0001.", paras.get(1).getListLabel().getLabelString());
+        Assert.assertEquals("0002.", paras.get(2).getListLabel().getLabelString());
+
+        paras.get(1).getListFormat().getListLevel().setCustomNumberStyleFormat("001, 002, 003, ...");
+
+        doc.updateListLabels();
+
+        Assert.assertEquals("001.", paras.get(0).getListLabel().getLabelString());
+        Assert.assertEquals("001.", paras.get(1).getListLabel().getLabelString());
+        Assert.assertEquals("002.", paras.get(2).getListLabel().getLabelString());
+        //ExEnd:SetCustomNumberStyleFormat
     }
 }
