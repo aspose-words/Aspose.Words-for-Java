@@ -23,6 +23,8 @@ public class ExBuildingBlocks extends ApiExampleBase {
     //ExFor:BuildingBlock
     //ExFor:BuildingBlock.#ctor(GlossaryDocument)
     //ExFor:BuildingBlock.Accept(DocumentVisitor)
+    //ExFor:BuildingBlock.AcceptStart(DocumentVisitor)
+    //ExFor:BuildingBlock.AcceptEnd(DocumentVisitor)
     //ExFor:BuildingBlock.Behavior
     //ExFor:BuildingBlock.Category
     //ExFor:BuildingBlock.Description
@@ -64,7 +66,12 @@ public class ExBuildingBlocks extends ApiExampleBase {
         // Before we can add this building block to our document, we will need to give it some contents,
         // which we will do using a document visitor. This visitor will also set a category, gallery, and behavior.
         BuildingBlockVisitor visitor = new BuildingBlockVisitor(glossaryDoc);
+        // Visit start/end of the BuildingBlock.
         block.accept(visitor);
+        // Visit only start of the BuildingBlock.
+        block.acceptStart(visitor);
+        // Visit only end of the BuildingBlock.
+        block.acceptEnd(visitor);
 
         // We can access the block that we just made from the glossary document.
         BuildingBlock customBlock = glossaryDoc.getBuildingBlock(BuildingBlockGallery.QUICK_PARTS,
@@ -126,6 +133,8 @@ public class ExBuildingBlocks extends ApiExampleBase {
     //ExStart
     //ExFor:GlossaryDocument
     //ExFor:GlossaryDocument.Accept(DocumentVisitor)
+    //ExFor:GlossaryDocument.AcceptStart(DocumentVisitor)
+    //ExFor:GlossaryDocument.AcceptEnd(DocumentVisitor)
     //ExFor:GlossaryDocument.BuildingBlocks
     //ExFor:GlossaryDocument.FirstBuildingBlock
     //ExFor:GlossaryDocument.GetBuildingBlock(BuildingBlockGallery,String,String)
@@ -170,7 +179,12 @@ public class ExBuildingBlocks extends ApiExampleBase {
         // We will do that using a custom visitor,
         // which will give every BuildingBlock in the GlossaryDocument a unique GUID
         GlossaryDocVisitor visitor = new GlossaryDocVisitor();
+        // Visit start/end of the Glossary document.
         glossaryDoc.accept(visitor);
+        // Visit only start of the Glossary document.
+        glossaryDoc.acceptStart(visitor);
+        // Visit only end of the Glossary document.
+        glossaryDoc.acceptEnd(visitor);
         Assert.assertEquals(5, visitor.getDictionary().size()); //ExSkip
 
         System.out.println(visitor.getText());

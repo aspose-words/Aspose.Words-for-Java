@@ -461,10 +461,10 @@ public class ExFieldOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
         //ExEnd
 
-        TestUtil.verifyImage(496, 496, getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
-        TestUtil.verifyImage(117, 108, getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
-        TestUtil.verifyImage(395, 70, getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
-        TestUtil.verifyImage(633, 134, getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
+        TestUtil.verifyImage(223, 223, getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
+        TestUtil.verifyImage(126, 118, getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
+        TestUtil.verifyImage(204, 70, getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
+        TestUtil.verifyImage(168, 134, getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
 
         doc = new Document(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
         Shape barcode = (Shape) doc.getChild(NodeType.SHAPE, 0, true);

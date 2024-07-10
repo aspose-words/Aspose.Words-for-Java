@@ -123,24 +123,24 @@ public class ExMailMerge extends ApiExampleBase {
 
     //ExStart
     //ExFor:MailMerge.ExecuteWithRegions(DataSet)
-    //ExSummary:Shows how to create a nested mail merge with regions with data from a data set with two related tables.
+    //ExSummary:Shows how to execute a nested mail merge with two merge regions and two data tables.
     @Test//ExSkip
     public void executeWithRegionsNested() throws Exception {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Create a MERGEFIELD with a value of "TableStart:Customers"
-        // Normally, MERGEFIELDs specify the name of the column that they take row data from
-        // "TableStart:Customers" however means that we are starting a mail merge region which belongs to a table called "Customers"
-        // This will start the outer region and an "TableEnd:Customers" MERGEFIELD will signify its end
+        // Normally, MERGEFIELDs contain the name of a column of a mail merge data source.
+        // Instead, we can use "TableStart:" and "TableEnd:" prefixes to begin/end a mail merge region.
+        // Each region will belong to a table with a name that matches the string immediately after the prefix's colon.
         builder.insertField(" MERGEFIELD TableStart:Customers");
 
-        // Data from rows of the "CustomerName" column of the "Customers" table will go in this MERGEFIELD
+        // This MERGEFIELD is inside the mail merge region of the "Customers" table.
+        // When we execute the mail merge, this field will receive data from rows in a data source named "Customers".
         builder.write("Orders for ");
         builder.insertField(" MERGEFIELD CustomerName");
         builder.write(":");
 
-        // Create column headers for a table which will contain values from the second inner region
+        // Create column headers for a table that will contain values from a second inner region.
         builder.startTable();
         builder.insertCell();
         builder.write("Item");
@@ -148,11 +148,8 @@ public class ExMailMerge extends ApiExampleBase {
         builder.write("Quantity");
         builder.endRow();
 
-        // We have a second data table called "Orders", which has a many-to-one relationship with "Customers",
-        // related by a "CustomerID" column
-        // We will start this inner mail merge region over which the "Orders" table will preside,
-        // which will iterate over the "Orders" table once for each merge of the outer "Customers" region,
-        // picking up rows with the same CustomerID value
+        // Create a second mail merge region inside the outer region for a table named "Orders".
+        // The "Orders" table has a many-to-one relationship with the "Customers" table on the "CustomerID" column.
         builder.insertCell();
         builder.insertField(" MERGEFIELD TableStart:Orders");
         builder.insertField(" MERGEFIELD ItemName");
@@ -165,9 +162,11 @@ public class ExMailMerge extends ApiExampleBase {
         builder.insertField(" MERGEFIELD TableEnd:Orders");
         builder.endTable();
 
-        // End the outer region
         builder.insertField(" MERGEFIELD TableEnd:Customers");
 
+        // Create a dataset that contains the two tables with the required names and relationships.
+        // Each merge document for each row of the "Customers" table of the outer merge region will perform its mail merge on the "Orders" table.
+        // Each merge document will display all rows of the latter table whose "CustomerID" column values match the current "Customers" table row.
         DataSet customersAndOrders = createDataSet();
         doc.getMailMerge().executeWithRegions(customersAndOrders);
 
@@ -217,22 +216,24 @@ public class ExMailMerge extends ApiExampleBase {
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // If we want to perform two consecutive mail merges on one document while taking data from two tables
-        // that are related to each other in any way, we can separate the mail merges with regions
-        // A mail merge region starts and ends with "TableStart:[RegionName]" and "TableEnd:[RegionName]" MERGEFIELDs
-        // These regions are separate for unrelated data, while they can be nested for hierarchical data
+        // related to each other in any way, we can separate the mail merges with regions.
+        // Normally, MERGEFIELDs contain the name of a column of a mail merge data source.
+        // Instead, we can use "TableStart:" and "TableEnd:" prefixes to begin/end a mail merge region.
+        // Each region will belong to a table with a name that matches the string immediately after the prefix's colon.
+        // These regions are separate for unrelated data, while they can be nested for hierarchical data.
         builder.writeln("\tCities: ");
         builder.insertField(" MERGEFIELD TableStart:Cities");
         builder.insertField(" MERGEFIELD Name");
         builder.insertField(" MERGEFIELD TableEnd:Cities");
         builder.insertParagraph();
 
-        // Both MERGEFIELDs refer to a same column name, but values for each will come from different data tables
+        // Both MERGEFIELDs refer to the same column name, but values for each will come from different data tables.
         builder.writeln("\tFruit: ");
         builder.insertField(" MERGEFIELD TableStart:Fruit");
         builder.insertField(" MERGEFIELD Name");
         builder.insertField(" MERGEFIELD TableEnd:Fruit");
 
-        // Create two data tables that aren't linked or related in any way which we still want in the same document
+        // Create two unrelated data tables.
         DataTable tableCities = new DataTable("Cities");
         tableCities.getColumns().add("Name");
         tableCities.getRows().add("Washington");
@@ -246,8 +247,8 @@ public class ExMailMerge extends ApiExampleBase {
         tableFruit.getRows().add("Watermelon");
         tableFruit.getRows().add("Banana");
 
-        // We will need to run one mail merge per table
-        // This mail merge will populate the MERGEFIELDs in the "Cities" range, while leaving the fields in "Fruit" empty
+        // We will need to run one mail merge per table. The first mail merge will populate the MERGEFIELDs
+        // in the "Cities" range while leaving the fields the "Fruit" range unfilled.
         doc.getMailMerge().executeWithRegions(tableCities);
 
         doc.save(getArtifactsDir() + "MailMerge.ExecuteWithRegionsConcurrent.docx");
@@ -263,7 +264,7 @@ public class ExMailMerge extends ApiExampleBase {
         //ExFor:MailMerge.RegionEndTag
         //ExFor:MailMerge.RegionStartTag
         //ExFor:MailMergeRegionInfo.ParentRegion
-        //ExSummary:Shows how to create, list and read mail merge regions.
+        //ExSummary:Shows how to create, list, and read mail merge regions.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 

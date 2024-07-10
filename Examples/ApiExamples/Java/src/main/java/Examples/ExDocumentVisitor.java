@@ -18,8 +18,12 @@ import java.text.MessageFormat;
 public class ExDocumentVisitor extends ApiExampleBase {
     //ExStart
     //ExFor:Document.Accept(DocumentVisitor)
-    //ExFor:Body.Accept(DocumentVisitor)
+    //ExFor:Section.Accept(DocumentVisitor)
     //ExFor:SubDocument.Accept(DocumentVisitor)
+    //ExFor:CompositeNode.AcceptEnd(DocumentVisitor)
+    //ExFor:CompositeNode.AcceptStart(DocumentVisitor)
+    //ExFor:Document.AcceptEnd(DocumentVisitor)
+    //ExFor:Document.AcceptStart(DocumentVisitor)
     //ExFor:DocumentVisitor
     //ExFor:DocumentVisitor.VisitRun(Run)
     //ExFor:DocumentVisitor.VisitDocumentEnd(Document)
@@ -31,6 +35,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitParagraphStart(Paragraph)
     //ExFor:DocumentVisitor.VisitParagraphEnd(Paragraph)
     //ExFor:DocumentVisitor.VisitSubDocument(SubDocument)
+    //ExFor:DocumentVisitor.VisitStructuredDocumentTagRangeEnd(StructuredDocumentTagRangeEnd)
+    //ExFor:DocumentVisitor.VisitStructuredDocumentTagRangeStart(StructuredDocumentTagRangeStart)
     //ExSummary:Shows how to use a document visitor to print a document's node structure.
     @Test //ExSkip
     public void docStructureToText() throws Exception {
@@ -166,6 +172,26 @@ public class ExDocumentVisitor extends ApiExampleBase {
         }
 
         /// <summary>
+        /// Called when a SubDocument node is encountered in the document.
+        /// </summary>
+        public /*override*/ /*VisitorAction*/int visitStructuredDocumentTagRangeStart(StructuredDocumentTagRangeStart sdtRangeStart)
+        {
+            indentAndAppendLine("[SdtRangeStart]");
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
+        /// Called when a SubDocument node is encountered in the document.
+        /// </summary>
+        public /*override*/ /*VisitorAction*/int visitStructuredDocumentTagRangeEnd(StructuredDocumentTagRangeEnd sdtRangeEnd)
+        {
+            indentAndAppendLine("[SdtRangeEnd]");
+
+            return VisitorAction.CONTINUE;
+        }
+
+        /// <summary>
         /// Append a line to the StringBuilder and indent it depending on how deep the visitor is into the document tree.
         /// </summary>
         /// <param name="text"></param>
@@ -199,6 +225,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
 
     //ExStart
     //ExFor:Cell.Accept(DocumentVisitor)
+    //ExFor:Cell.AcceptStart(DocumentVisitor)
+    //ExFor:Cell.AcceptEnd(DocumentVisitor)
     //ExFor:Cell.IsFirstCell
     //ExFor:Cell.IsLastCell
     //ExFor:DocumentVisitor.VisitTableEnd(Table)
@@ -208,6 +236,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitCellStart(Cell)
     //ExFor:DocumentVisitor.VisitCellEnd(Cell)
     //ExFor:Row.Accept(DocumentVisitor)
+    //ExFor:Row.AcceptStart(DocumentVisitor)
+    //ExFor:Row.AcceptEnd(DocumentVisitor)
     //ExFor:Row.FirstCell
     //ExFor:Row.GetText
     //ExFor:Row.IsFirstRow
@@ -594,6 +624,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitHeaderFooterStart(HeaderFooter)
     //ExFor:DocumentVisitor.VisitHeaderFooterEnd(HeaderFooter)
     //ExFor:HeaderFooter.Accept(DocumentVisitor)
+    //ExFor:HeaderFooter.AcceptStart(DocumentVisitor)
+    //ExFor:HeaderFooter.AcceptEnd(DocumentVisitor)
     //ExFor:HeaderFooterCollection.ToArray
     //ExFor:Run.Accept(DocumentVisitor)
     //ExFor:Run.GetText
@@ -792,6 +824,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitFootnoteEnd(Footnote)
     //ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
     //ExFor:Footnote.Accept(DocumentVisitor)
+    //ExFor:Footnote.AcceptStart(DocumentVisitor)
+    //ExFor:Footnote.AcceptEnd(DocumentVisitor)
     //ExSummary:Shows how to print the node structure of every footnote in a document.
     @Test //ExSkip
     public void footnoteToText() throws Exception {
@@ -888,6 +922,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitOfficeMathStart(OfficeMath)
     //ExFor:MathObjectType
     //ExFor:OfficeMath.Accept(DocumentVisitor)
+    //ExFor:OfficeMath.AcceptStart(DocumentVisitor)
+    //ExFor:OfficeMath.AcceptEnd(DocumentVisitor)
     //ExFor:OfficeMath.MathObjectType
     //ExSummary:Shows how to print the node structure of every office math node in a document.
     @Test //ExSkip
@@ -1090,6 +1126,8 @@ public class ExDocumentVisitor extends ApiExampleBase {
 
     //ExStart
     //ExFor:StructuredDocumentTag.Accept(DocumentVisitor)
+    //ExFor:StructuredDocumentTag.AcceptStart(DocumentVisitor)
+    //ExFor:StructuredDocumentTag.AcceptEnd(DocumentVisitor)
     //ExFor:DocumentVisitor.VisitStructuredDocumentTagEnd(StructuredDocumentTag)
     //ExFor:DocumentVisitor.VisitStructuredDocumentTagStart(StructuredDocumentTag)
     //ExSummary:Shows how to print the node structure of every structured document tag in a document.

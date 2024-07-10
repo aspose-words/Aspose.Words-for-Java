@@ -188,7 +188,11 @@ public class ExDrawing extends ApiExampleBase {
     {
         //ExStart
         //ExFor:Fill.Color()
-        //ExFor:Fill.Solid(Color)
+        //ExFor:FillType
+        //ExFor:Fill.FillType
+        //ExFor:Fill.Solid
+        //ExFor:Fill.Transparency
+        //ExFor:Font.Fill
         //ExSummary:Shows how to convert any of the fills back to solid fill.
         Document doc = new Document(getMyDir() + "Two color gradient.docx");
 
@@ -351,6 +355,8 @@ public class ExDrawing extends ApiExampleBase {
     //ExFor:GroupShape
     //ExFor:GroupShape.#ctor(DocumentBase)
     //ExFor:GroupShape.Accept(DocumentVisitor)
+    //ExFor:GroupShape.AcceptStart(DocumentVisitor)
+    //ExFor:GroupShape.AcceptEnd(DocumentVisitor)
     //ExFor:ShapeBase.IsGroup
     //ExFor:ShapeBase.ShapeType
     //ExSummary:Shows how to create a group of shapes, and print its contents using a document visitor.

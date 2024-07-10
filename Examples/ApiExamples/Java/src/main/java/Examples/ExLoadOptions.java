@@ -98,7 +98,26 @@ public class ExLoadOptions extends ApiExampleBase {
     }
 
     @Test
-    public void fontSettings() throws Exception {
+    public void setEncoding() throws Exception
+    {
+        //ExStart
+        //ExFor:LoadOptions.Encoding
+        //ExSummary:Shows how to set the encoding with which to open a document.
+        LoadOptions loadOptions = new LoadOptions();
+        {
+            loadOptions.setEncoding(Encoding.getASCII());
+        }
+
+        // Load the document while passing the LoadOptions object, then verify the document's contents.
+        Document doc = new Document(getMyDir() + "English text.txt", loadOptions);
+
+        Assert.assertTrue(doc.toString(SaveFormat.TEXT).contains("This is a sample text in English."));
+        //ExEnd
+    }
+
+    @Test
+    public void fontSettings() throws Exception
+    {
         //ExStart
         //ExFor:LoadOptions.FontSettings
         //ExSummary:Shows how to apply font substitution settings while loading a document. 
@@ -305,6 +324,8 @@ public class ExLoadOptions extends ApiExampleBase {
     //ExFor:LoadOptions.ProgressCallback
     //ExFor:IDocumentLoadingCallback
     //ExFor:IDocumentLoadingCallback.Notify
+    //ExFor:DocumentLoadingArgs
+    //ExFor:DocumentLoadingArgs.EstimatedProgress
     //ExSummary:Shows how to notify the user if document loading exceeded expected loading time.
     @Test//ExSkip
     public void progressCallback() throws Exception

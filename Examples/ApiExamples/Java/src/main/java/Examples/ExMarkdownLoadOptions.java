@@ -25,6 +25,7 @@ class ExMarkdownLoadOptions extends ApiExampleBase
         //ExStart:PreserveEmptyLines
         //GistId:9c17d666c47318436785490829a3984f
         //ExFor:MarkdownLoadOptions
+        //ExFor:MarkdownLoadOptions.#ctor
         //ExFor:MarkdownLoadOptions.PreserveEmptyLines
         //ExSummary:Shows how to preserve empty line while load a document.
         String mdText = MessageFormat.format("{0}Line1{0}{0}Line2{0}{0}", System.lineSeparator());

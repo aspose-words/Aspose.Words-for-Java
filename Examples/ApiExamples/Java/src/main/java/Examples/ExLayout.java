@@ -91,7 +91,7 @@ public class ExLayout extends ApiExampleBase {
     //ExFor:LayoutEnumerator.MoveNext
     //ExFor:LayoutEnumerator.MoveNextLogical
     //ExFor:LayoutEnumerator.MoveParent
-    //ExFor:LayoutEnumerator.MoveParent(Layout.LayoutEntityType)
+    //ExFor:LayoutEnumerator.MoveParent(LayoutEntityType)
     //ExFor:LayoutEnumerator.MovePrevious
     //ExFor:LayoutEnumerator.MovePreviousLogical
     //ExFor:LayoutEnumerator.PageIndex
@@ -227,10 +227,12 @@ public class ExLayout extends ApiExampleBase {
     //ExStart
     //ExFor:IPageLayoutCallback
     //ExFor:IPageLayoutCallback.Notify(PageLayoutCallbackArgs)
+    //ExFor:PageLayoutCallbackArgs
     //ExFor:PageLayoutCallbackArgs.Event
     //ExFor:PageLayoutCallbackArgs.Document
     //ExFor:PageLayoutCallbackArgs.PageIndex
     //ExFor:PageLayoutEvent
+    //ExFor:LayoutOptions.Callback
     //ExSummary:Shows how to track layout changes with a layout callback.
     @Test//ExSkip
     public void pageLayoutCallback() throws Exception {

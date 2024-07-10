@@ -85,6 +85,7 @@ public class ExSvgSaveOptions extends ApiExampleBase {
         //ExStart:SaveOfficeMath
         //GistId:9c17d666c47318436785490829a3984f
         //ExFor:NodeRendererBase.Save(String, SvgSaveOptions)
+        //ExFor:NodeRendererBase.Save(Stream, SvgSaveOptions)
         //ExSummary:Shows how to pass save options when rendering office math.
         Document doc = new Document(getMyDir() + "Office math.docx");
 
@@ -105,6 +106,7 @@ public class ExSvgSaveOptions extends ApiExampleBase {
         //ExFor:ShapeBase.SoftEdge
         //ExFor:SoftEdgeFormat.Radius
         //ExFor:SoftEdgeFormat.Remove
+        //ExFor:SvgSaveOptions.MaxImageResolution
         //ExSummary:Shows how to set limit for image resolution.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 

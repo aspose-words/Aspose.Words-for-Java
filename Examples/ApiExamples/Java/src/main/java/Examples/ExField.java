@@ -459,6 +459,10 @@ public class ExField extends ApiExampleBase {
         //ExFor:FieldDatabase.LastRecord
         //ExFor:FieldDatabase.Query
         //ExFor:FieldDatabase.TableFormat
+        //ExFor:FieldDatabaseDataTable
+        //ExFor:IFieldDatabaseProvider
+        //ExFor:IFieldDatabaseProvider.GetQueryResult(String,String,String,FieldDatabase)
+        //ExFor:FieldOptions.FieldDatabaseProvider
         //ExSummary:Shows how to extract data from a database and insert it as a field into a document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2357,6 +2361,8 @@ public class ExField extends ApiExampleBase {
         //ExFor:FieldCitation.VolumeNumber
         //ExFor:FieldBibliography
         //ExFor:FieldBibliography.FormatLanguageId
+        //ExFor:FieldBibliography.FilterLanguageId
+        //ExFor:FieldBibliography.SourceTag
         //ExSummary:Shows how to work with CITATION and BIBLIOGRAPHY fields.
         // Open a document containing bibliographical sources that we can find in
         // Microsoft Word via References -> Citations & Bibliography -> Manage Sources.
@@ -2397,10 +2403,12 @@ public class ExField extends ApiExampleBase {
 
         // We can use a BIBLIOGRAPHY field to display all the sources within the document.
         builder.insertBreak(BreakType.PAGE_BREAK);
-        FieldBibliography fieldBibliography = (FieldBibliography) builder.insertField(FieldType.FIELD_BIBLIOGRAPHY, true);
-        fieldBibliography.setFormatLanguageId("1124");
+        FieldBibliography fieldBibliography = (FieldBibliography)builder.insertField(FieldType.FIELD_BIBLIOGRAPHY, true);
+        fieldBibliography.setFormatLanguageId("5129");
+        fieldBibliography.setFilterLanguageId("5129");
+        fieldBibliography.setSourceTag("Book2");
 
-        Assert.assertEquals(" BIBLIOGRAPHY  \\l 1124", fieldBibliography.getFieldCode());
+        Assert.assertEquals(" BIBLIOGRAPHY  \\l 5129 \\f 5129 \\m Book2", fieldBibliography.getFieldCode());
 
         doc.updateFields();
         doc.save(getArtifactsDir() + "Field.CITATION.docx");
@@ -2437,9 +2445,10 @@ public class ExField extends ApiExampleBase {
 
         fieldBibliography = (FieldBibliography) doc.getRange().getFields().get(2);
 
-        TestUtil.verifyField(FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY  \\l 1124",
-                "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\rDoe, J. (2018). My Book, Vol I. London: Doe Co. Ltd.\r", fieldBibliography);
-        Assert.assertEquals("1124", fieldBibliography.getFormatLanguageId());
+        TestUtil.verifyField(FieldType.FIELD_BIBLIOGRAPHY, " BIBLIOGRAPHY  \\l 5129 \\f 5129 \\m Book2",
+            "Cardholder, A. (2018). My Book, Vol. II. New York: Doe Co. Ltd.\r", fieldBibliography);
+        Assert.assertEquals("5129", fieldBibliography.getFormatLanguageId());
+        Assert.assertEquals("5129", fieldBibliography.getFilterLanguageId());
 
         fieldCitation = (FieldCitation) doc.getRange().getFields().get(3);
 
@@ -2455,6 +2464,7 @@ public class ExField extends ApiExampleBase {
 
     //ExStart
     //ExFor:IBibliographyStylesProvider
+    //ExFor:IBibliographyStylesProvider.GetStyle(String)
     //ExFor:FieldOptions.BibliographyStylesProvider
     //ExSummary:Shows how to override built-in styles or provide custom one.
     @Test //ExSkip
@@ -2631,6 +2641,7 @@ public class ExField extends ApiExampleBase {
         fieldIncludeText.setNamespaceMappings("xmlns:n='myNamespace'");
         fieldIncludeText.setXPath("/catalog/cd/title");
 
+        doc.updateFields();
         doc.save(getArtifactsDir() + "Field.INCLUDETEXT.docx");
     }
 
@@ -4017,8 +4028,41 @@ public class ExField extends ApiExampleBase {
 
     //ExStart
     //ExFor:FieldLink
+    //ExFor:FieldLink.AutoUpdate
+    //ExFor:FieldLink.FormatUpdateType
+    //ExFor:FieldLink.InsertAsBitmap
+    //ExFor:FieldLink.InsertAsHtml
+    //ExFor:FieldLink.InsertAsPicture
+    //ExFor:FieldLink.InsertAsRtf
+    //ExFor:FieldLink.InsertAsText
+    //ExFor:FieldLink.InsertAsUnicode
+    //ExFor:FieldLink.IsLinked
+    //ExFor:FieldLink.ProgId
+    //ExFor:FieldLink.SourceFullName
+    //ExFor:FieldLink.SourceItem
     //ExFor:FieldDde
+    //ExFor:FieldDde.AutoUpdate
+    //ExFor:FieldDde.InsertAsBitmap
+    //ExFor:FieldDde.InsertAsHtml
+    //ExFor:FieldDde.InsertAsPicture
+    //ExFor:FieldDde.InsertAsRtf
+    //ExFor:FieldDde.InsertAsText
+    //ExFor:FieldDde.InsertAsUnicode
+    //ExFor:FieldDde.IsLinked
+    //ExFor:FieldDde.ProgId
+    //ExFor:FieldDde.SourceFullName
+    //ExFor:FieldDde.SourceItem
     //ExFor:FieldDdeAuto
+    //ExFor:FieldDdeAuto.InsertAsBitmap
+    //ExFor:FieldDdeAuto.InsertAsHtml
+    //ExFor:FieldDdeAuto.InsertAsPicture
+    //ExFor:FieldDdeAuto.InsertAsRtf
+    //ExFor:FieldDdeAuto.InsertAsText
+    //ExFor:FieldDdeAuto.InsertAsUnicode
+    //ExFor:FieldDdeAuto.IsLinked
+    //ExFor:FieldDdeAuto.ProgId
+    //ExFor:FieldDdeAuto.SourceFullName
+    //ExFor:FieldDdeAuto.SourceItem
     //ExSummary:Shows how to use various field types to link to other documents in the local file system, and display their contents.
     @Test(enabled = false, description = "WORDSNET-16226", dataProvider = "fieldLinkedObjectsAsTextDataProvider")//ExSkip
     public void fieldLinkedObjectsAsText(/*InsertLinkedObjectAs*/int insertLinkedObjectAs) throws Exception {
@@ -4613,6 +4657,7 @@ public class ExField extends ApiExampleBase {
         //ExFor:FieldBuilder.AddSwitch(String, String)
         //ExFor:FieldBuilder.BuildAndInsert(Paragraph)
         //ExFor:FieldArgumentBuilder
+        //ExFor:FieldArgumentBuilder.#ctor
         //ExFor:FieldArgumentBuilder.AddField(FieldBuilder)
         //ExFor:FieldArgumentBuilder.AddText(String)
         //ExFor:FieldArgumentBuilder.AddNode(Inline)
@@ -6549,7 +6594,32 @@ public class ExField extends ApiExampleBase {
     }
 
     @Test
-    public void fieldForms() throws Exception {
+    public void fieldEQAsOfficeMath() throws Exception
+    {
+        //ExStart
+        //ExFor:FieldEQ
+        //ExFor:FieldEQ.AsOfficeMath
+        //ExSummary:Shows how to replace the EQ field with Office Math.
+        Document doc = new Document(getMyDir() + "Field sample - EQ.docx");
+        FieldCollection fields = doc.getRange().getFields();
+
+        for (Field field : fields) {
+            if (field.getType() == FieldType.FIELD_EQUATION) {
+                FieldEQ fieldEQ = (FieldEQ) field;
+                OfficeMath officeMath = fieldEQ.asOfficeMath();
+
+                fieldEQ.getStart().getParentNode().insertBefore(officeMath, fieldEQ.getStart());
+                fieldEQ.remove();
+            }
+        }
+
+        doc.save(getArtifactsDir() + "Field.EQAsOfficeMath.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void fieldForms() throws Exception
+    {
         //ExStart
         //ExFor:FieldFormCheckBox
         //ExFor:FieldFormDropDown
@@ -6973,6 +7043,7 @@ public class ExField extends ApiExampleBase {
     @Test
     public void setFieldIndexFormat() throws Exception {
         //ExStart
+        //ExFor:FieldIndexFormat
         //ExFor:FieldOptions.FieldIndexFormat
         //ExSummary:Shows how to formatting FieldIndex fields.
         Document doc = new Document();
@@ -6992,9 +7063,18 @@ public class ExField extends ApiExampleBase {
     }
 
     //ExStart
+    //ExFor:ComparisonEvaluationResult.#ctor(bool)
+    //ExFor:ComparisonEvaluationResult.#ctor(string)
     //ExFor:ComparisonEvaluationResult
+    //ExFor:ComparisonEvaluationResult.ErrorMessage
+    //ExFor:ComparisonEvaluationResult.Result
     //ExFor:ComparisonExpression
+    //ExFor:ComparisonExpression.LeftExpression
+    //ExFor:ComparisonExpression.ComparisonOperator
+    //ExFor:ComparisonExpression.RightExpression
     //ExFor:FieldOptions.ComparisonExpressionEvaluator
+    //ExFor:IComparisonExpressionEvaluator
+    //ExFor:IComparisonExpressionEvaluator.Evaluate(Field,ComparisonExpression)
     //ExSummary:Shows how to implement custom evaluation for the IF and COMPARE fields.
     @Test(dataProvider = "conditionEvaluationExtensionPointDataProvider") //ExSkip
     public void conditionEvaluationExtensionPoint(String fieldCode, byte comparisonResult, String comparisonError,
@@ -7168,7 +7248,15 @@ public class ExField extends ApiExampleBase {
     }
 
     //ExStart
+    //ExFor:FieldOptions.FieldUpdatingCallback
+    //ExFor:FieldOptions.FieldUpdatingProgressCallback
     //ExFor:IFieldUpdatingCallback
+    //ExFor:IFieldUpdatingProgressCallback
+    //ExFor:IFieldUpdatingProgressCallback.Notify(FieldUpdatingProgressArgs)
+    //ExFor:FieldUpdatingProgressArgs
+    //ExFor:FieldUpdatingProgressArgs.UpdateCompleted
+    //ExFor:FieldUpdatingProgressArgs.TotalFieldsCount
+    //ExFor:FieldUpdatingProgressArgs.UpdatedFieldsCount
     //ExFor:IFieldUpdatingCallback.FieldUpdating(Field)
     //ExFor:IFieldUpdatingCallback.FieldUpdated(Field)
     //ExSummary:Shows how to use callback methods during a field update.
@@ -7237,13 +7325,84 @@ public class ExField extends ApiExampleBase {
     {
         //ExStart:BibliographySources
         //GistId:b9e728d2381f759edd5b31d64c1c4d3f
+        //ExFor:Document.Bibliography
         //ExFor:Bibliography
         //ExFor:Bibliography.Sources
+        //ExFor:Source
         //ExFor:Source.Title
+        //ExFor:Source.AbbreviatedCaseNumber
+        //ExFor:Source.AlbumTitle
+        //ExFor:Source.BookTitle
+        //ExFor:Source.Broadcaster
+        //ExFor:Source.BroadcastTitle
+        //ExFor:Source.CaseNumber
+        //ExFor:Source.ChapterNumber
+        //ExFor:Source.City
+        //ExFor:Source.Comments
+        //ExFor:Source.ConferenceName
+        //ExFor:Source.CountryOrRegion
+        //ExFor:Source.Court
+        //ExFor:Source.Day
+        //ExFor:Source.DayAccessed
+        //ExFor:Source.Department
+        //ExFor:Source.Distributor
+        //ExFor:Source.Edition
+        //ExFor:Source.Guid
+        //ExFor:Source.Institution
+        //ExFor:Source.InternetSiteTitle
+        //ExFor:Source.Issue
+        //ExFor:Source.JournalName
+        //ExFor:Source.Lcid
+        //ExFor:Source.Medium
+        //ExFor:Source.Month
+        //ExFor:Source.MonthAccessed
+        //ExFor:Source.NumberVolumes
+        //ExFor:Source.Pages
+        //ExFor:Source.PatentNumber
+        //ExFor:Source.PeriodicalTitle
+        //ExFor:Source.ProductionCompany
+        //ExFor:Source.PublicationTitle
+        //ExFor:Source.Publisher
+        //ExFor:Source.RecordingNumber
+        //ExFor:Source.RefOrder
+        //ExFor:Source.Reporter
+        //ExFor:Source.ShortTitle
+        //ExFor:Source.SourceType
+        //ExFor:Source.StandardNumber
+        //ExFor:Source.StateOrProvince
+        //ExFor:Source.Station
+        //ExFor:Source.Tag
+        //ExFor:Source.Theater
+        //ExFor:Source.ThesisType
+        //ExFor:Source.Type
+        //ExFor:Source.Url
+        //ExFor:Source.Version
+        //ExFor:Source.Volume
+        //ExFor:Source.Year
+        //ExFor:Source.YearAccessed
         //ExFor:Source.Contributors
+        //ExFor:SourceType
+        //ExFor:Contributor
         //ExFor:ContributorCollection
         //ExFor:ContributorCollection.Author
+        //ExFor:ContributorCollection.Artist
+        //ExFor:ContributorCollection.BookAuthor
+        //ExFor:ContributorCollection.Compiler
+        //ExFor:ContributorCollection.Composer
+        //ExFor:ContributorCollection.Conductor
+        //ExFor:ContributorCollection.Counsel
+        //ExFor:ContributorCollection.Director
+        //ExFor:ContributorCollection.Editor
+        //ExFor:ContributorCollection.Interviewee
+        //ExFor:ContributorCollection.Interviewer
+        //ExFor:ContributorCollection.Inventor
+        //ExFor:ContributorCollection.Performer
+        //ExFor:ContributorCollection.Producer
+        //ExFor:ContributorCollection.Translator
+        //ExFor:ContributorCollection.Writer
         //ExFor:PersonCollection
+        //ExFor:PersonCollection.Count
+        //ExFor:PersonCollection.Item(Int32)
         //ExFor:Person
         //ExFor:Person.First
         //ExFor:Person.Middle
@@ -7254,16 +7413,86 @@ public class ExField extends ApiExampleBase {
         Bibliography bibliography = document.getBibliography();
         Assert.assertEquals(12, bibliography.getSources().size());
 
-        Source source = (Source)bibliography.getSources().toArray()[8];
-        Assert.assertEquals(source.getTitle(), "Book 0 (No LCID)");
+        Collection<Source> sources = bibliography.getSources();
+        Source source = sources.iterator().next();
+        Assert.assertEquals("Book 0 (No LCID)", source.getTitle());
+        Assert.assertEquals(SourceType.BOOK, source.getSourceType());
+        Assert.assertNull(source.getAbbreviatedCaseNumber());
+        Assert.assertNull(source.getAlbumTitle());
+        Assert.assertNull(source.getBookTitle());
+        Assert.assertNull(source.getBroadcaster());
+        Assert.assertNull(source.getBroadcastTitle());
+        Assert.assertNull(source.getCaseNumber());
+        Assert.assertNull(source.getChapterNumber());
+        Assert.assertNull(source.getComments());
+        Assert.assertNull(source.getConferenceName());
+        Assert.assertNull(source.getCountryOrRegion());
+        Assert.assertNull(source.getCourt());
+        Assert.assertNull(source.getDay());
+        Assert.assertNull(source.getDayAccessed());
+        Assert.assertNull(source.getDepartment());
+        Assert.assertNull(source.getDistributor());
+        Assert.assertNull(source.getEdition());
+        Assert.assertNull(source.getGuid());
+        Assert.assertNull(source.getInstitution());
+        Assert.assertNull(source.getInternetSiteTitle());
+        Assert.assertNull(source.getIssue());
+        Assert.assertNull(source.getJournalName());
+        Assert.assertNull(source.getLcid());
+        Assert.assertNull(source.getMedium());
+        Assert.assertNull(source.getMonth());
+        Assert.assertNull(source.getMonthAccessed());
+        Assert.assertNull(source.getNumberVolumes());
+        Assert.assertNull(source.getPages());
+        Assert.assertNull(source.getPatentNumber());
+        Assert.assertNull(source.getPeriodicalTitle());
+        Assert.assertNull(source.getProductionCompany());
+        Assert.assertNull(source.getPublicationTitle());
+        Assert.assertNull(source.getPublisher());
+        Assert.assertNull(source.getRecordingNumber());
+        Assert.assertNull(source.getRefOrder());
+        Assert.assertNull(source.getReporter());
+        Assert.assertNull(source.getShortTitle());
+        Assert.assertNull(source.getStandardNumber());
+        Assert.assertNull(source.getStateOrProvince());
+        Assert.assertNull(source.getStation());
+        Assert.assertEquals("BookNoLCID", source.getTag());
+        Assert.assertNull(source.getTheater());
+        Assert.assertNull(source.getThesisType());
+        Assert.assertNull(source.getType());
+        Assert.assertNull(source.getUrl());
+        Assert.assertNull(source.getVersion());
+        Assert.assertNull(source.getVolume());
+        Assert.assertNull(source.getYear());
+        Assert.assertNull(source.getYearAccessed());
 
         ContributorCollection contributors = source.getContributors();
+        Assert.assertNull(contributors.getArtist());
+        Assert.assertNull(contributors.getBookAuthor());
+        Assert.assertNull(contributors.getCompiler());
+        Assert.assertNull(contributors.getComposer());
+        Assert.assertNull(contributors.getConductor());
+        Assert.assertNull(contributors.getCounsel());
+        Assert.assertNull(contributors.getDirector());
+        Assert.assertNotNull(contributors.getEditor());
+        Assert.assertNull(contributors.getInterviewee());
+        Assert.assertNull(contributors.getInterviewer());
+        Assert.assertNull(contributors.getInventor());
+        Assert.assertNull(contributors.getPerformer());
+        Assert.assertNull(contributors.getProducer());
+        Assert.assertNotNull(contributors.getTranslator());
+        Assert.assertNull(contributors.getWriter());
+        
+        Contributor editor  = contributors.getEditor();
+        Assert.assertEquals(2, ((PersonCollection)editor).getCount());
+        
         PersonCollection authors = (PersonCollection)contributors.getAuthor();
+        Assert.assertEquals(2, authors.getCount());
 
-        Person person = authors.iterator().next();
-        Assert.assertEquals(person.getFirst(), "Roxanne");
-        Assert.assertEquals(person.getMiddle(), "Brielle");
-        Assert.assertEquals(person.getLast(), "Tejeda");
+        Person person = authors.get(0);
+        Assert.assertEquals("Roxanne", person.getFirst());
+        Assert.assertEquals("Brielle", person.getMiddle());
+        Assert.assertEquals("Tejeda", person.getLast());
         //ExEnd:BibliographySources
     }
 }

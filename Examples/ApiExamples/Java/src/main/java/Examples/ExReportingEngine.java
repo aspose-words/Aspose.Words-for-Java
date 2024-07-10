@@ -676,7 +676,9 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExStart:MissingMembers
         //GistId:a76df4b18bee76d169e55cdf6af8129c
         //ExFor:ReportingEngine.BuildReport(Document, Object, String)
-        //ExSummary:Shows how to allow missing members.
+        //ExFor:ReportingEngine.MissingMemberMessage
+        //ExFor:ReportingEngine.Options
+        //ExSummary:Shows how to allow missinng members.
         DocumentBuilder builder = new DocumentBuilder();
         builder.writeln("<<[missingObject.First().id]>>");
         builder.writeln("<<foreach [in missingObject]>><<[id]>><</foreach>>");
@@ -791,21 +793,32 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void xmlDataStringWithoutSchema() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
+    public void xmlDataStringWithoutSchema() throws Exception
+    {
+        //ExStart
+        //ExFor:XmlDataSource
+        //ExFor:XmlDataSource.#ctor(String)
+        //ExSummary:Show how to use XML as a data source (string).
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
 
         XmlDataSource dataSource = new XmlDataSource(getMyDir() + "List of people.xml");
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.XmlDataString.docx");
+        //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataString.docx",
                 getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
     }
 
     @Test
-    public void xmlDataStreamWithoutSchema() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
+    public void xmlDataStreamWithoutSchema() throws Exception
+    {
+        //ExStart
+        //ExFor:XmlDataSource
+        //ExFor:XmlDataSource.#ctor(Stream)
+        //ExSummary:Show how to use XML as a data source (stream).
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
 
         InputStream stream = new FileInputStream(getMyDir() + "List of people.xml");
         try {
@@ -816,6 +829,7 @@ public class ExReportingEngine extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "ReportingEngine.XmlDataStream.docx");
+        //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataStream.docx",
                 getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
@@ -835,8 +849,20 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void jsonDataString() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
+    public void jsonDataString() throws Exception
+    {
+        //ExStart
+        //ExFor:JsonDataLoadOptions
+        //ExFor:JsonDataLoadOptions.#ctor
+        //ExFor:JsonDataLoadOptions.ExactDateTimeParseFormats
+        //ExFor:JsonDataLoadOptions.AlwaysGenerateRootObject
+        //ExFor:JsonDataLoadOptions.PreserveSpaces
+        //ExFor:JsonDataLoadOptions.SimpleValueParseMode
+        //ExFor:JsonDataSource
+        //ExFor:JsonDataSource.#ctor(String,JsonDataLoadOptions)
+        //ExFor:JsonSimpleValueParseMode
+        //ExSummary:Shows how to use JSON as a data source (string).
+        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination.docx");
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
@@ -847,11 +873,16 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
+        //ExEnd
     }
 
     @Test
-    public void jsonDataStream() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
+    public void jsonDataStream() throws Exception
+    {
+        //ExStart
+        //ExFor:JsonDataSource.#ctor(Stream,JsonDataLoadOptions)
+        //ExSummary:Shows how to use JSON as a data source (stream).
+        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination.docx");
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
@@ -867,6 +898,7 @@ public class ExReportingEngine extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx");
+        //ExEnd
     }
 
     @Test
@@ -913,25 +945,44 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void csvDataString() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - Csv data destination (Java).docx");
+    public void csvDataString() throws Exception
+    {
+        //ExStart
+        //ExFor:CsvDataLoadOptions
+        //ExFor:CsvDataLoadOptions.#ctor
+        //ExFor:CsvDataLoadOptions.#ctor(Boolean)
+        //ExFor:CsvDataLoadOptions.Delimiter
+        //ExFor:CsvDataLoadOptions.CommentChar
+        //ExFor:CsvDataLoadOptions.HasHeaders
+        //ExFor:CsvDataLoadOptions.QuoteChar
+        //ExFor:CsvDataSource
+        //ExFor:CsvDataSource.#ctor(String,CsvDataLoadOptions)
+        //ExSummary:Shows how to use CSV as a data source (string).
+        Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination.docx");
 
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
         loadOptions.setCommentChar('$');
+        loadOptions.hasHeaders(true);
+        loadOptions.setQuoteChar('"');
 
         CsvDataSource dataSource = new CsvDataSource(getMyDir() + "List of people.csv", loadOptions);
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.CsvDataString.docx");
+        //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataString.docx",
                 getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
     }
 
     @Test
-    public void csvDataStream() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - Csv data destination (Java).docx");
+    public void csvDataStream() throws Exception
+    {
+        //ExStart
+        //ExFor:CsvDataSource.#ctor(Stream,CsvDataLoadOptions)
+        //ExSummary:Shows how to use CSV as a data source (stream).
+        Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination.docx");
 
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
@@ -946,6 +997,7 @@ public class ExReportingEngine extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx");
+        //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx",
                 getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));

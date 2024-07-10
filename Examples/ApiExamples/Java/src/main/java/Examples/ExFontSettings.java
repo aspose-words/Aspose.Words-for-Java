@@ -965,8 +965,8 @@ public class ExFontSettings extends ApiExampleBase {
         //ExFor:TableSubstitutionRule
         //ExFor:TableSubstitutionRule.LoadLinuxSettings
         //ExFor:TableSubstitutionRule.LoadWindowsSettings
-        //ExFor:TableSubstitutionRule.Save(System.IO.Stream)
-        //ExFor:TableSubstitutionRule.Save(System.String)
+        //ExFor:TableSubstitutionRule.Save(Stream)
+        //ExFor:TableSubstitutionRule.Save(String)
         //ExSummary:Shows how to access font substitution tables for Windows and Linux.
         Document doc = new Document();
         FontSettings fontSettings = new FontSettings();
@@ -1002,11 +1002,11 @@ public class ExFontSettings extends ApiExampleBase {
     public void tableSubstitutionRuleCustom() throws Exception {
         //ExStart
         //ExFor:FontSubstitutionSettings.TableSubstitution
-        //ExFor:TableSubstitutionRule.AddSubstitutes(System.String,System.String[])
-        //ExFor:TableSubstitutionRule.GetSubstitutes(System.String)
-        //ExFor:TableSubstitutionRule.Load(System.IO.Stream)
-        //ExFor:TableSubstitutionRule.Load(System.String)
-        //ExFor:TableSubstitutionRule.SetSubstitutes(System.String,System.String[])
+        //ExFor:TableSubstitutionRule.AddSubstitutes(String,String[])
+        //ExFor:TableSubstitutionRule.GetSubstitutes(String)
+        //ExFor:TableSubstitutionRule.Load(Stream)
+        //ExFor:TableSubstitutionRule.Load(String)
+        //ExFor:TableSubstitutionRule.SetSubstitutes(String,String[])
         //ExSummary:Shows how to work with custom font substitution tables.
         Document doc = new Document();
         FontSettings fontSettings = new FontSettings();
@@ -1117,6 +1117,9 @@ public class ExFontSettings extends ApiExampleBase {
     //ExFor:MemoryFontSource.#ctor(Byte[], Int32, String)
     //ExFor:FontSettings.SaveSearchCache(Stream)
     //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
+    //ExFor:FileFontSource.CacheKey
+    //ExFor:MemoryFontSource.CacheKey
+    //ExFor:StreamFontSource.CacheKey
     //ExSummary:Shows how to speed up the font cache initialization process.
     @Test //ExSkip
     public void loadFontSearchCache() throws Exception

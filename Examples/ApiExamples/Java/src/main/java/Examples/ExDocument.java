@@ -14,6 +14,7 @@ import com.aspose.words.List;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
 import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -31,7 +32,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Test
-public class ExDocument extends ApiExampleBase {
+public class ExDocument extends ApiExampleBase
+{
+    @Test
+    public void createSimpleDocument() throws Exception
+    {
+        //ExStart:CreateSimpleDocument
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:DocumentBase.Document
+        //ExFor:Document.#ctor()
+        //ExSummary:Shows how to create simple document.
+        Document doc = new Document();
+
+        // New Document objects by default come with the minimal set of nodes
+        // required to begin adding content such as text and shapes: a Section, a Body, and a Paragraph.
+        doc.appendChild(new Section(doc))
+            .appendChild(new Body(doc))
+            .appendChild(new Paragraph(doc))
+            .appendChild(new Run(doc, "Hello world!"));
+        //ExEnd:CreateSimpleDocument
+    }
+
     @Test
     public void constructor() throws Exception {
         //ExStart
@@ -164,6 +185,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Document.#ctor(Stream,LoadOptions)
         //ExFor:LoadOptions.#ctor
         //ExFor:LoadOptions.BaseUri
+        //ExFor:ShapeBase.IsImage
         //ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
         InputStream stream = new FileInputStream(getMyDir() + "Document.html");
         try /*JAVA: was using*/ {
@@ -259,12 +281,17 @@ public class ExDocument extends ApiExampleBase {
     @Test
     public void notSupportedWarning() throws Exception
     {
+        //ExStart
+        //ExFor:WarningInfoCollection.Count
+        //ExFor:WarningInfoCollection.Item(Int32)
+        //ExSummary:Shows how to get warnings about unsupported formats.
         WarningInfoCollection warings = new WarningInfoCollection();
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setWarningCallback(warings);
         Document doc = new Document(getMyDir() + "FB2 document.fb2", loadOptions);
 
         Assert.assertEquals("The original file load format is FB2, which is not supported by Aspose.Words. The file is loaded as an XML document.", warings.get(0).getDescription());
+        //ExEnd
     }
 
     @Test
@@ -281,46 +308,6 @@ public class ExDocument extends ApiExampleBase {
 
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
         //ExEnd
-    }
-
-    @Test
-    public void pageIsInColor() throws Exception
-    {
-        //ExStart
-        //ExFor:PageInfo.Colored
-        //ExSummary:Shows how to check whether the page is in color or not.
-        Document doc = new Document(getMyDir() + "Document.docx");
-
-        // Check that the first page of the document is not colored.
-        Assert.assertFalse(doc.getPageInfo(0).getColored());
-        //ExEnd
-    }
-
-    @Test
-    public void insertDocumentInline() throws Exception
-    {
-        //ExStart:InsertDocumentInline
-        //GistId:6d898be16b796fcf7448ad3bfe18e51c
-        //ExFor:DocumentBuilder.InsertDocumentInline(Document, ImportFormatMode, ImportFormatOptions)
-        //ExSummary:Shows how to insert a document inline at the cursor position.
-        DocumentBuilder srcDoc = new DocumentBuilder();
-        srcDoc.write("[src content]");
-
-        // Create destination document.
-        DocumentBuilder dstDoc = new DocumentBuilder();
-        dstDoc.write("Before ");
-        dstDoc.insertNode(new BookmarkStart(dstDoc.getDocument(), "src_place"));
-        dstDoc.insertNode(new BookmarkEnd(dstDoc.getDocument(), "src_place"));
-        dstDoc.write(" after");
-
-        Assert.assertEquals("Before  after", dstDoc.getDocument().getText().trim());
-
-        // Insert source document into destination inline.
-        dstDoc.moveToBookmark("src_place");
-        dstDoc.insertDocumentInline(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
-
-        Assert.assertEquals("Before [src content] after", dstDoc.getDocument().getText().trim());
-        //ExEnd:InsertDocumentInline
     }
 
     @Test
@@ -375,6 +362,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     //ExStart
+    //ExFor:Range.Fields
     //ExFor:INodeChangingCallback
     //ExFor:INodeChangingCallback.NodeInserting
     //ExFor:INodeChangingCallback.NodeInserted
@@ -1361,9 +1349,38 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void setInvalidateFieldTypes() throws Exception {
+    public void useSubstitutions() throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.#ctor
+        //ExFor:FindReplaceOptions.UseSubstitutions
+        //ExFor:FindReplaceOptions.LegacyMode
+        //ExSummary:Shows how to recognize and use substitutions within replacement patterns.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Jason gave money to Paul.");
+
+        Regex regex = new Regex("([A-z]+) gave money to ([A-z]+)");
+
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setUseSubstitutions(true);
+
+        // Using legacy mode does not support many advanced features, so we need to set it to 'false'.
+        options.setLegacyMode(false);
+
+        doc.getRange().replace(regex, "$2 took money from $1", options);
+
+        Assert.assertEquals(doc.getText(), "Paul took money from Jason.\f");
+        //ExEnd
+    }
+
+    @Test
+    public void setInvalidateFieldTypes() throws Exception
+    {
         //ExStart
         //ExFor:Document.NormalizeFieldTypes
+        //ExFor:Range.NormalizeFieldTypes
         //ExSummary:Shows how to get the keep a field's type up to date with its field code.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1484,6 +1501,8 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:StyleCollection.Item(String)
         //ExFor:SectionCollection.Item(Int32)
+        //ExFor:Document.UpdatePageLayout
+        //ExFor:Margins
         //ExFor:PageSetup.Margins
         //ExFor:Document.UpdatePageLayout
         //ExSummary:Shows when to recalculate the page layout of the document.
@@ -1927,6 +1946,7 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:BaseWebExtensionCollection`1.Add(`0)
         //ExFor:BaseWebExtensionCollection`1.Clear
+        //ExFor:Document.WebExtensionTaskPanes
         //ExFor:TaskPane
         //ExFor:TaskPane.DockState
         //ExFor:TaskPane.IsVisible
@@ -1939,6 +1959,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:WebExtension.Properties
         //ExFor:WebExtension.Bindings
         //ExFor:WebExtension.IsFrozen
+        //ExFor:WebExtensionReference
         //ExFor:WebExtensionReference.Id
         //ExFor:WebExtensionReference.Version
         //ExFor:WebExtensionReference.StoreType
@@ -1951,6 +1972,8 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:WebExtensionBindingType
         //ExFor:TaskPaneDockState
         //ExFor:TaskPaneCollection
+        //ExFor:WebExtensionBinding.AppRef
+        //ExFor:WebExtensionBinding.BindingType
         //ExSummary:Shows how to add a web extension to a document.
         Document doc = new Document();
 
@@ -2063,9 +2086,12 @@ public class ExDocument extends ApiExampleBase {
     @Test
     public void textWatermark() throws Exception {
         //ExStart
+        //ExFor:Document.Watermark
+        //ExFor:Watermark
         //ExFor:Watermark.SetText(String)
         //ExFor:Watermark.SetText(String, TextWatermarkOptions)
         //ExFor:Watermark.Remove
+        //ExFor:TextWatermarkOptions
         //ExFor:TextWatermarkOptions.FontFamily
         //ExFor:TextWatermarkOptions.FontSize
         //ExFor:TextWatermarkOptions.Color
@@ -2073,6 +2099,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:TextWatermarkOptions.IsSemitrasparent
         //ExFor:WatermarkLayout
         //ExFor:WatermarkType
+        //ExFor:Watermark.Type
         //ExSummary:Shows how to create a text watermark.
         Document doc = new Document();
 
@@ -2106,8 +2133,11 @@ public class ExDocument extends ApiExampleBase {
     public void imageWatermark() throws Exception {
         //ExStart
         //ExFor:Watermark.SetImage(Image, ImageWatermarkOptions)
+        //ExFor:ImageWatermarkOptions
         //ExFor:ImageWatermarkOptions.Scale
         //ExFor:ImageWatermarkOptions.IsWashout
+        //ExFor:Watermark.SetImage(Image)
+        //ExFor:Watermark.SetImage(String, ImageWatermarkOptions)
         //ExSummary:Shows how to create a watermark from an image in the local file system.
         Document doc = new Document();
 
@@ -2270,6 +2300,9 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Frameset.FrameDefaultUrl
         //ExFor:Frameset.IsFrameLinkToFile
         //ExFor:Frameset.ChildFramesets
+        //ExFor:FramesetCollection
+        //ExFor:FramesetCollection.Count
+        //ExFor:FramesetCollection.Item(Int32)
         //ExSummary:Shows how to access frames on-page.
         // Document contains several frames with links to other documents.
         Document doc = new Document(getMyDir() + "Frameset.docx");
@@ -2293,6 +2326,36 @@ public class ExDocument extends ApiExampleBase {
                 "https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx",
                 doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
         Assert.assertFalse(doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).isFrameLinkToFile());
+    }
+
+    @Test
+    public void openAzw() throws Exception
+    {
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Azw3 document.azw3");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.AZW_3);
+
+        Document doc = new Document(getMyDir() + "Azw3 document.azw3");
+        Assert.assertTrue(doc.getText().contains("Hachette Book Group USA"));
+    }
+
+    @Test
+    public void openEpub() throws Exception
+    {
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Epub document.epub");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.EPUB);
+
+        Document doc = new Document(getMyDir() + "Epub document.epub");
+        Assert.assertTrue(doc.getText().contains("Down the Rabbit-Hole"));
+    }
+
+    @Test
+    public void openXml() throws Exception
+    {
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Mail merge data - Customers.xml");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.XML);
+
+        Document doc = new Document(getMyDir() + "Mail merge data - Purchase order.xml");
+        Assert.assertTrue(doc.getText().contains("Ellen Adams\r123 Maple Street"));
     }
 
     @Test
@@ -2367,6 +2430,47 @@ public class ExDocument extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Document.SetJustificationMode.docx");
         //ExEnd
+    }
+
+    @Test
+    public void pageIsInColor() throws Exception
+    {
+        //ExStart
+        //ExFor:PageInfo.Colored
+        //ExFor:Document.GetPageInfo(Int32)
+        //ExSummary:Shows how to check whether the page is in color or not.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        // Check that the first page of the document is not colored.
+        Assert.assertFalse(doc.getPageInfo(0).getColored());
+        //ExEnd
+    }
+
+    @Test
+    public void insertDocumentInline() throws Exception
+    {
+        //ExStart:InsertDocumentInline
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:DocumentBuilder.InsertDocumentInline(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to insert a document inline at the cursor position.
+        DocumentBuilder srcDoc = new DocumentBuilder();
+        srcDoc.write("[src content]");
+
+        // Create destination document.
+        DocumentBuilder dstDoc = new DocumentBuilder();
+        dstDoc.write("Before ");
+        dstDoc.insertNode(new BookmarkStart(dstDoc.getDocument(), "src_place"));
+        dstDoc.insertNode(new BookmarkEnd(dstDoc.getDocument(), "src_place"));
+        dstDoc.write(" after");
+
+        Assert.assertEquals("Before  after", msString.trimEnd(dstDoc.getDocument().getText()));
+
+        // Insert source document into destination inline.
+        dstDoc.moveToBookmark("src_place");
+        dstDoc.insertDocumentInline(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
+
+        Assert.assertEquals("Before [src content] after", msString.trimEnd(dstDoc.getDocument().getText()));
+        //ExEnd:InsertDocumentInline
     }
 
     @Test (dataProvider = "saveDocumentToStreamDataProvider")

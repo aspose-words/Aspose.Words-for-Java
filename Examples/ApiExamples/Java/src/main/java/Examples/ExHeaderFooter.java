@@ -250,6 +250,7 @@ public class ExHeaderFooter extends ApiExampleBase {
     //ExStart
     //ExFor:IReplacingCallback
     //ExFor:PageSetup.DifferentFirstPageHeaderFooter
+    //ExFor:FindReplaceOptions.#ctor(IReplacingCallback)
     //ExSummary:Shows how to track the order in which a text replacement operation traverses nodes.
     @Test(dataProvider = "orderDataProvider") //ExSkip
     public void order(boolean differentFirstPageHeaderFooter) throws Exception {

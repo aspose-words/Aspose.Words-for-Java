@@ -288,6 +288,8 @@ public class ExRevision extends ApiExampleBase {
     //GistId:66dd22f0854357e394a013b536e2181b
     //ExFor:RevisionCollection.Accept(IRevisionCriteria)
     //ExFor:RevisionCollection.Reject(IRevisionCriteria)
+    //ExFor:IRevisionCriteria
+    //ExFor:IRevisionCriteria.IsMatch(Revision)
     //ExSummary:Shows how to accept or reject revision based on criteria.
     @Test //ExSkip
     public void revisionSpecifiedCriteria() throws Exception
@@ -591,6 +593,8 @@ public class ExRevision extends ApiExampleBase {
     public void ignoreDmlUniqueId(boolean isIgnoreDmlUniqueId) throws Exception
     {
         //ExStart
+        //ExFor:CompareOptions.AdvancedOptions
+        //ExFor:AdvancedCompareOptions.IgnoreDmlUniqueId
         //ExFor:CompareOptions.IgnoreDmlUniqueId
         //ExSummary:Shows how to compare documents ignoring DML unique ID.
         Document docA = new Document(getMyDir() + "DML unique ID original.docx");
@@ -629,6 +633,7 @@ public class ExRevision extends ApiExampleBase {
         //ExFor:RevisionOptions
         //ExFor:RevisionOptions.InsertedTextColor
         //ExFor:RevisionOptions.ShowRevisionBars
+        //ExFor:RevisionOptions.RevisionBarsPosition
         //ExSummary:Shows how to alter the appearance of revisions in a rendered output document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -645,6 +650,7 @@ public class ExRevision extends ApiExampleBase {
         // Remove the bar that appears to the left of every revised line.
         doc.getLayoutOptions().getRevisionOptions().setInsertedTextColor(RevisionColor.BRIGHT_GREEN);
         doc.getLayoutOptions().getRevisionOptions().setShowRevisionBars(false);
+        doc.getLayoutOptions().getRevisionOptions().setRevisionBarsPosition(HorizontalAlignment.RIGHT);
 
         doc.save(getArtifactsDir() + "Document.LayoutOptionsRevisions.pdf");
         //ExEnd
@@ -727,6 +733,7 @@ public class ExRevision extends ApiExampleBase {
     {
         //ExStart:IgnoreStoreItemId
         //GistId:a76df4b18bee76d169e55cdf6af8129c
+        //ExFor:AdvancedCompareOptions
         //ExFor:AdvancedCompareOptions.IgnoreStoreItemId
         //ExSummary:Shows how to compare SDT with same content but different store item id.
         Document docA = new Document(getMyDir() + "Document with SDT 1.docx");

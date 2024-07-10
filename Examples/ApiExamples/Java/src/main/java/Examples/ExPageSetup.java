@@ -452,6 +452,8 @@ public class ExPageSetup extends ApiExampleBase {
         //ExFor:TextColumnCollection
         //ExFor:TextColumnCollection.Spacing
         //ExFor:TextColumnCollection.SetCount
+        //ExFor:TextColumnCollection.Count
+        //ExFor:TextColumnCollection.Width
         //ExSummary:Shows how to create multiple evenly spaced columns in a section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -471,6 +473,7 @@ public class ExPageSetup extends ApiExampleBase {
 
         Assert.assertEquals(100.0d, doc.getFirstSection().getPageSetup().getTextColumns().getSpacing());
         Assert.assertEquals(2, doc.getFirstSection().getPageSetup().getTextColumns().getCount());
+        Assert.assertEquals(185.15, doc.getFirstSection().getPageSetup().getTextColumns().getWidth(), 0.01);
     }
 
     @Test
@@ -493,7 +496,7 @@ public class ExPageSetup extends ApiExampleBase {
         // Determine the amount of room that we have available for arranging columns.
         double contentWidth = pageSetup.getPageWidth() - pageSetup.getLeftMargin() - pageSetup.getRightMargin();
 
-        Assert.assertEquals(468.0d, contentWidth, 0.01d);
+        Assert.assertEquals(470.30d, contentWidth, 0.01d);
 
         // Set the first column to be narrow.
         TextColumn column = columns.get(0);
@@ -518,7 +521,7 @@ public class ExPageSetup extends ApiExampleBase {
         Assert.assertEquals(2, pageSetup.getTextColumns().getCount());
         Assert.assertEquals(100.0d, pageSetup.getTextColumns().get(0).getWidth());
         Assert.assertEquals(20.0d, pageSetup.getTextColumns().get(0).getSpaceAfter());
-        Assert.assertEquals(468.0d, pageSetup.getTextColumns().get(1).getWidth());
+        Assert.assertEquals(470.3d, pageSetup.getTextColumns().get(1).getWidth());
         Assert.assertEquals(0.0d, pageSetup.getTextColumns().get(1).getSpaceAfter());
     }
 
@@ -931,6 +934,7 @@ public class ExPageSetup extends ApiExampleBase {
         //ExFor:PageSetup.Gutter
         //ExFor:PageSetup.MultiplePages
         //ExFor:PageSetup.SheetsPerBooklet
+        //ExFor:MultiplePagesType
         //ExSummary:Shows how to configure a document that can be printed as a book fold.
         Document doc = new Document();
 

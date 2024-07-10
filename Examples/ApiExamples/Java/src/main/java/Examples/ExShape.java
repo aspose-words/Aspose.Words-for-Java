@@ -750,6 +750,7 @@ public class ExShape extends ApiExampleBase {
     public void textureFill() throws Exception
     {
         //ExStart
+        //ExFor:Fill.PresetTexture
         //ExFor:Fill.TextureAlignment
         //ExFor:TextureAlignment
         //ExSummary:Shows how to fill and tiling the texture inside the shape.
@@ -784,6 +785,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:Fill.OneColorGradient(GradientStyle, GradientVariant, Double)
         //ExFor:Fill.TwoColorGradient(Color, Color, GradientStyle, GradientVariant)
         //ExFor:Fill.TwoColorGradient(GradientStyle, GradientVariant)
+        //ExFor:Fill.BackColor
         //ExFor:Fill.GradientStyle
         //ExFor:Fill.GradientVariant
         //ExFor:Fill.GradientAngle
@@ -851,6 +853,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:GradientStopCollection.Remove(GradientStop)
         //ExFor:GradientStopCollection.Item(Int32)
         //ExFor:GradientStopCollection.Count
+        //ExFor:GradientStop
         //ExFor:GradientStop.#ctor(Color, Double)
         //ExFor:GradientStop.#ctor(Color, Double, Double)
         //ExFor:GradientStop.BaseColor
@@ -924,6 +927,8 @@ public class ExShape extends ApiExampleBase {
     public void fillPattern() throws Exception
     {
         //ExStart
+        //ExFor:PatternType
+        //ExFor:Fill.Pattern
         //ExFor:Fill.Patterned(PatternType)
         //ExFor:Fill.Patterned(PatternType, Color, Color)
         //ExSummary:Shows how to set pattern for a shape.
@@ -1172,6 +1177,7 @@ public class ExShape extends ApiExampleBase {
         //ExFor:Forms2OleControl.Enabled
         //ExFor:Forms2OleControl.Type
         //ExFor:Forms2OleControl.ChildNodes
+        //ExFor:Forms2OleControl.GroupName
         //ExSummary:Shows how to verify the properties of an ActiveX control.
         Document doc = new Document(getMyDir() + "ActiveX controls.docx");
 
@@ -1878,6 +1884,8 @@ public class ExShape extends ApiExampleBase {
 
     //ExStart
     //ExFor:Shape.Accept(DocumentVisitor)
+    //ExFor:Shape.AcceptStart(DocumentVisitor)
+    //ExFor:Shape.AcceptEnd(DocumentVisitor)
     //ExFor:Shape.Chart
     //ExFor:Shape.ExtrusionEnabled
     //ExFor:Shape.Filled
@@ -2413,6 +2421,7 @@ public class ExShape extends ApiExampleBase {
     //ExFor:TextPath.Trim
     //ExFor:TextPath.Underline
     //ExFor:TextPath.XScale
+    //ExFor:TextPath.Size
     //ExFor:TextPathAlignment
     //ExSummary:Shows how to work with WordArt.
     @Test //ExSkip
@@ -2863,6 +2872,38 @@ public class ExShape extends ApiExampleBase {
     }
 
     @Test
+    public void fillImage() throws Exception
+    {
+        //ExStart
+        //ExFor:Fill.SetImage(String)
+        //ExFor:Fill.SetImage(Byte[])
+        //ExFor:Fill.SetImage(Stream)
+        //ExSummary:Shows how to set shape fill type as image.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // There are several ways of setting image.
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 80.0, 80.0);
+        // 1 -  Using a local system filename:
+        shape.getFill().setImage(getImageDir() + "Logo.jpg");
+        doc.save(getArtifactsDir() + "Shape.FillImage.FileName.docx");
+
+        // 2 -  Load a file into a byte array:
+        shape.getFill().setImage(File.readAllBytes(getImageDir() + "Logo.jpg"));
+        doc.save(getArtifactsDir() + "Shape.FillImage.ByteArray.docx");
+
+        // 3 -  From a stream:
+        FileStream stream = new FileStream(getImageDir() + "Logo.jpg", FileMode.OPEN);
+        try /*JAVA: was using*/
+    	{
+            shape.getFill().setImageInternal(stream);
+    	}
+        finally { if (stream != null) stream.close(); }
+        doc.save(getArtifactsDir() + "Shape.FillImage.Stream.docx");
+        //ExEnd
+    }
+
+    @Test
     public void shadowFormat() throws Exception
     {
         //ExStart
@@ -3069,6 +3110,7 @@ public class ExShape extends ApiExampleBase {
         //GistId:b9e728d2381f759edd5b31d64c1c4d3f
         //ExFor:TextBoxControl
         //ExFor:TextBoxControl.Text
+        //ExFor:TextBoxControl.Type
         //ExSummary:Shows how to change text of the TextBox OLE control.
         Document doc = new Document(getMyDir() + "Textbox control.docm");
 
@@ -3087,6 +3129,7 @@ public class ExShape extends ApiExampleBase {
         //ExStart:Glow
         //GistId:31b7350f8d91d4b12eb43978940d566a
         //ExFor:ShapeBase.Glow
+        //ExFor:GlowFormat
         //ExFor:GlowFormat.Color
         //ExFor:GlowFormat.Radius
         //ExFor:GlowFormat.Transparency
@@ -3125,6 +3168,7 @@ public class ExShape extends ApiExampleBase {
         //ExStart:Reflection
         //GistId:31b7350f8d91d4b12eb43978940d566a
         //ExFor:ShapeBase.Reflection
+        //ExFor:ReflectionFormat
         //ExFor:ReflectionFormat.Size
         //ExFor:ReflectionFormat.Blur
         //ExFor:ReflectionFormat.Transparency
@@ -3167,6 +3211,7 @@ public class ExShape extends ApiExampleBase {
         //ExStart:SoftEdge
         //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:ShapeBase.SoftEdge
+        //ExFor:SoftEdgeFormat
         //ExFor:SoftEdgeFormat.Radius
         //ExFor:SoftEdgeFormat.Remove
         //ExSummary:Shows how to work with soft edge formatting.
@@ -3200,6 +3245,8 @@ public class ExShape extends ApiExampleBase {
         //GistId:f99d87e10ab87a581c52206321d8b617
         //ExFor:Shape.Adjustments
         //ExFor:AdjustmentCollection
+        //ExFor:AdjustmentCollection.Count
+        //ExFor:AdjustmentCollection.Item(Int32)
         //ExFor:Adjustment
         //ExFor:Adjustment.Name
         //ExFor:Adjustment.Value
@@ -3235,12 +3282,92 @@ public class ExShape extends ApiExampleBase {
     {
         //ExStart:ShadowFormatColor
         //GistId:a76df4b18bee76d169e55cdf6af8129c
+        //ExFor:ShapeBase.ShadowFormat
+        //ExFor:ShadowFormat
         //ExFor:ShadowFormat.Color
+        //ExFor:ShadowFormat.Type
         //ExSummary:Shows how to get shadow color.
         Document doc = new Document(getMyDir() + "Shadow color.docx");
         Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        ShadowFormat shadowFormat = shape.getShadowFormat();
 
-        Assert.assertEquals(Color.RED.getRGB(), shape.getShadowFormat().getColor().getRGB());
+        Assert.assertEquals(Color.RED.getRGB(), shadowFormat.getColor().getRGB());
+        Assert.assertEquals(ShadowType.SHADOW_MIXED, shadowFormat.getType());
         //ExEnd:ShadowFormatColor
+    }
+
+    @Test
+    public void setActiveXProperties() throws Exception
+    {
+        //ExStart:SetActiveXProperties
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:Forms2OleControl.ForeColor
+        //ExFor:Forms2OleControl.BackColor
+        //ExFor:Forms2OleControl.Height
+        //ExFor:Forms2OleControl.Width
+        //ExSummary:Shows how to set properties for ActiveX control.
+        Document doc = new Document(getMyDir() + "ActiveX controls.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Forms2OleControl oleControl = (Forms2OleControl)shape.getOleFormat().getOleControl();
+        oleControl.setForeColor(new Color((0x17), (0xE1), (0x35)));
+        oleControl.setBackColor(new Color((0x33), (0x97), (0xF4)));
+        oleControl.setHeight(100.54);
+        oleControl.setWidth(201.06);
+        //ExEnd:SetActiveXProperties
+
+        Assert.assertEquals(new Color((0x17), (0xE1), (0x35)).getRGB(), oleControl.getForeColor().getRGB());
+        Assert.assertEquals(new Color((0x33), (0x97), (0xF4)).getRGB(), oleControl.getBackColor().getRGB());
+        Assert.assertEquals(100.54, oleControl.getHeight());
+        Assert.assertEquals(201.06, oleControl.getWidth());
+    }
+
+    @Test
+    public void selectRadioControl() throws Exception
+    {
+        //ExStart:SelectRadioControl
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:OptionButtonControl
+        //ExFor:OptionButtonControl.Selected
+        //ExFor:OptionButtonControl.Type
+        //ExSummary:Shows how to select radio button.
+        Document doc = new Document(getMyDir() + "Radio buttons.docx");
+
+        Shape shape1 = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        OptionButtonControl optionButton1 = (OptionButtonControl)shape1.getOleFormat().getOleControl();
+        // Deselect selected first item.
+        optionButton1.setSelected(false);
+
+        Shape shape2 = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+        OptionButtonControl optionButton2 = (OptionButtonControl)shape2.getOleFormat().getOleControl();
+        // Select second option button.
+        optionButton2.setSelected(true);
+
+        Assert.assertEquals(Forms2OleControlType.OPTION_BUTTON, optionButton1.getType());
+        Assert.assertEquals(Forms2OleControlType.OPTION_BUTTON, optionButton2.getType());
+
+        doc.save(getArtifactsDir() + "Shape.SelectRadioControl.docx");
+        //ExEnd:SelectRadioControl
+    }
+
+    @Test
+    public void checkedCheckBox() throws Exception
+    {
+        //ExStart:CheckedCheckBox
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:CheckBoxControl
+        //ExFor:CheckBoxControl.Checked
+        //ExFor:CheckBoxControl.Type
+        //ExFor:Forms2OleControlType
+        //ExSummary:Shows how to change state of the CheckBox control.
+        Document doc = new Document(getMyDir() + "ActiveX controls.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        CheckBoxControl checkBoxControl = (CheckBoxControl)shape.getOleFormat().getOleControl();
+        checkBoxControl.setChecked(true);
+        
+        Assert.assertEquals(true, checkBoxControl.getChecked());
+        Assert.assertEquals(Forms2OleControlType.CHECK_BOX, checkBoxControl.getType());
+        //ExEnd:CheckedCheckBox
     }
 }

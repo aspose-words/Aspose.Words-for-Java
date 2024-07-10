@@ -125,7 +125,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     {
         //ExStart
         //ExFor:HtmlSaveOptions.NavigationMapLevel
-        //ExSummary:Shows how to generate table of contents for azw3 documents.
+        //ExSummary:Shows how to generate table of contents for Azw3 documents.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.AZW_3);
@@ -1380,7 +1380,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     public void exportShapes(boolean exportShapesAsSvg) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportShapesAsSvg
-        //ExSummary:Shows how to export text boxes as scalable vector graphics.
+        //ExSummary:Shows how to export shape as scalable vector graphics.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1636,9 +1636,16 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:HtmlMetafileFormat
         //ExFor:HtmlSaveOptions.MetafileFormat
+        //ExFor:HtmlLoadOptions.ConvertSvgToEmf
         //ExSummary:Shows how to convert SVG objects to a different format when saving HTML documents.
-        String html =
-                "<html>\r\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\r\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\r\n                    </svg>\r\n                </html>";
+        String html = 
+            "<html>\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\n                    </svg>\n                </html>";
+
+        // Use 'ConvertSvgToEmf' to turn back the legacy behavior
+        // where all SVG images loaded from an HTML document were converted to EMF.
+        // Now SVG images are loaded without conversion
+        // if the MS Word version specified in load options supports SVG images natively.
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions(); { loadOptions.setConvertSvgToEmf(true); }
 
         Document doc = new Document(new ByteArrayInputStream(html.getBytes()));
 
@@ -1912,6 +1919,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     //ExFor:IDocumentSavingCallback
     //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
     //ExFor:DocumentSavingArgs.EstimatedProgress
+    //ExFor:DocumentSavingArgs
     //ExSummary:Shows how to manage a document while saving to html.
     public void progressCallback(int saveFormat, String ext) throws Exception
     {

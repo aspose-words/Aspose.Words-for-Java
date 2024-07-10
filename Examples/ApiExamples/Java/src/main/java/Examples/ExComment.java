@@ -65,6 +65,7 @@ public class ExComment extends ApiExampleBase {
         //ExFor:Comment.Ancestor
         //ExFor:Comment.Author
         //ExFor:Comment.Replies
+        //ExFor:CompositeNode.GetEnumerator
         //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
         //ExSummary:Shows how to print all of a document's comments and their replies.
         Document doc = new Document(getMyDir() + "Comments.docx");
@@ -164,6 +165,8 @@ public class ExComment extends ApiExampleBase {
     //ExFor:Comment.Done
     //ExFor:Comment.#ctor(DocumentBase)
     //ExFor:Comment.Accept(DocumentVisitor)
+    //ExFor:Comment.AcceptStart(DocumentVisitor)
+    //ExFor:Comment.AcceptEnd(DocumentVisitor)
     //ExFor:Comment.DateTime
     //ExFor:Comment.Id
     //ExFor:Comment.Initial

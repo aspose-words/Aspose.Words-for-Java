@@ -20,6 +20,8 @@ public class ExOdtSaveOptions extends ApiExampleBase {
         //ExFor:OdtSaveOptions
         //ExFor:OdtSaveOptions.#ctor
         //ExFor:OdtSaveOptions.IsStrictSchema11
+        //ExFor:RevisionOptions.MeasurementUnit
+        //ExFor:MeasurementUnits
         //ExSummary:Shows how to make a saved document conform to an older ODT schema.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
