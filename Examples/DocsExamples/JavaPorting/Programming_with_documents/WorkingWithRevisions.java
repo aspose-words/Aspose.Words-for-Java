@@ -127,6 +127,7 @@ class WorkingWithRevisions extends DocsExamplesBase
     public void showRevisionsInBalloons() throws Exception
     {
         //ExStart:ShowRevisionsInBalloons
+        //GistId:ce015d9bade4e0294485ffb47462ded4
         //ExStart:SetMeasurementUnit
         //ExStart:SetRevisionBarsPosition
         Document doc = new Document(getMyDir() + "Revisions.docx");

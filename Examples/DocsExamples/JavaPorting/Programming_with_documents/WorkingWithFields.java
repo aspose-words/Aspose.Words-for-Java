@@ -455,6 +455,7 @@ class WorkingWithFields extends DocsExamplesBase
     public void getMailMergeFieldNames() throws Exception
     {
         //ExStart:GetFieldNames
+        //GistId:b4bab1bf22437a86d8062e91cf154494
         Document doc = new Document();
 
         String[] fieldNames = doc.getMailMerge().getFieldNames();
@@ -466,6 +467,7 @@ class WorkingWithFields extends DocsExamplesBase
     public void mappedDataFields() throws Exception
     {
         //ExStart:MappedDataFields
+        //GistId:b4bab1bf22437a86d8062e91cf154494
         Document doc = new Document();
 
         doc.getMailMerge().getMappedDataFields().add("MyFieldName_InDocument", "MyFieldName_InDataSource");
@@ -476,6 +478,7 @@ class WorkingWithFields extends DocsExamplesBase
     public void deleteFields() throws Exception
     {
         //ExStart:DeleteFields
+        //GistId:f39874821cb317d245a769c9ce346fea
         Document doc = new Document();
 
         doc.getMailMerge().deleteFields();

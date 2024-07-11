@@ -31,6 +31,7 @@ public class BaseConversions extends DocsExamplesBase
     public void docToDocx() throws Exception
     {
         //ExStart:LoadAndSave
+        //GistId:7ee438947078cf070c5bc36a4e45a18c
         //ExStart:OpenDocument
         Document doc = new Document(getMyDir() + "Document.doc");
         //ExEnd:OpenDocument
@@ -42,15 +43,17 @@ public class BaseConversions extends DocsExamplesBase
     @Test
     public void docxToRtf() throws Exception
     {
-        //ExStart:LoadAndSaveToStream 
-        //ExStart:OpeningFromStream
+        //ExStart:LoadAndSaveToStream
+        //GistId:7ee438947078cf070c5bc36a4e45a18c
+        //ExStart:OpenFromStream
+        //GistId:1d626c7186a318d22d022dc96dd91d55
         // Read only access is enough for Aspose.Words to load a document.
         Stream stream = new FileInputStream(getMyDir() + "Document.docx");
 
         Document doc = new Document(stream);
         // You can close the stream now, it is no longer needed because the document is in memory.
         stream.close();
-        //ExEnd:OpeningFromStream 
+        //ExEnd:OpenFromStream
 
         // ... do something with the document.
 
@@ -60,7 +63,7 @@ public class BaseConversions extends DocsExamplesBase
 
         // Rewind the stream position back to zero so it is ready for the next reader.
         dstStream.setPosition(0);
-        //ExEnd:LoadAndSaveToStream 
+        //ExEnd:LoadAndSaveToStream
         
         File.writeAllBytes(getArtifactsDir() + "BaseConversions.DocxToRtf.rtf", dstStream.toArray());
     }
@@ -80,6 +83,7 @@ public class BaseConversions extends DocsExamplesBase
     public void docxToByte() throws Exception
     {
         //ExStart:DocxToByte
+        //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
         Document doc = new Document(getMyDir() + "Document.docx");
 
         MemoryStream outStream = new MemoryStream();
@@ -102,10 +106,22 @@ public class BaseConversions extends DocsExamplesBase
         //ExEnd:DocxToEpub
     }
 
-    @Test (enabled = false, description = "Only for example")
-    public void docxToMhtmlAndSendingEmail() throws Exception
+    @Test
+    public void docxToHtml() throws Exception
     {
-        //ExStart:DocxToMhtmlAndSendingEmail
+        //ExStart:DocxToHtml
+        //GistId:c0df00d37081f41a7683339fd7ef66c1
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        doc.save(getArtifactsDir() + "BaseConversions.DocxToHtml.html");
+        //ExEnd:DocxToHtml
+    }
+
+    @Test (enabled = false, description = "Only for example")
+    public void docxToMhtml() throws Exception
+    {
+        //ExStart:DocxToMhtml
+        //GistId:537e7d4e2ddd23fa701dc4bf315064b9
         Document doc = new Document(getMyDir() + "Document.docx");
 
         Stream stream = new MemoryStream();
@@ -124,20 +140,21 @@ public class BaseConversions extends DocsExamplesBase
         SmtpClient client = new SmtpClient();
         client.Host = "your_smtp.com";
         client.Send(message);
-        //ExEnd:DocxToMhtmlAndSendingEmail
+        //ExEnd:DocxToMhtml
     }
 
     @Test
     public void docxToMarkdown() throws Exception
     {
-        //ExStart:SaveToMarkdownDocument
+        //ExStart:DocxToMarkdown
+        //GistId:51b4cb9c451832f23527892e19c7bca6
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         builder.writeln("Some text!");
 
         doc.save(getArtifactsDir() + "BaseConversions.DocxToMarkdown.md");
-        //ExEnd:SaveToMarkdownDocument
+        //ExEnd:DocxToMarkdown
     }
 
     @Test
@@ -175,6 +192,7 @@ public class BaseConversions extends DocsExamplesBase
     public void pdfToJpeg() throws Exception
     {
         //ExStart:PdfToJpeg
+        //GistId:ebbb90d74ef57db456685052a18f8e86
         Document doc = new Document(getMyDir() + "Pdf Document.pdf");
 
         doc.save(getArtifactsDir() + "BaseConversions.PdfToJpeg.jpeg");
@@ -185,6 +203,7 @@ public class BaseConversions extends DocsExamplesBase
     public void pdfToDocx() throws Exception
     {
         //ExStart:PdfToDocx
+        //GistId:a0d52b62c1643faa76a465a41537edfc
         Document doc = new Document(getMyDir() + "Pdf Document.pdf");
 
         doc.save(getArtifactsDir() + "BaseConversions.PdfToDocx.docx");
@@ -195,6 +214,7 @@ public class BaseConversions extends DocsExamplesBase
     public void pdfToXlsx() throws Exception
     {
         //ExStart:PdfToXlsx
+        //GistId:a50652f28531278511605e0fd778bbdf
         Document doc = new Document(getMyDir() + "Pdf Document.pdf");
 
         doc.save(getArtifactsDir() + "BaseConversions.PdfToXlsx.xlsx");
@@ -204,6 +224,8 @@ public class BaseConversions extends DocsExamplesBase
     @Test
     public void findReplaceXlsx() throws Exception
     {
+        //ExStart:FindReplaceXlsx
+        //GistId:a50652f28531278511605e0fd778bbdf
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -219,17 +241,21 @@ public class BaseConversions extends DocsExamplesBase
         doc.getRange().replace("Ruby", "Jade", options);
 
         doc.save(getArtifactsDir() + "BaseConversions.FindReplaceXlsx.xlsx");
+        //ExEnd:FindReplaceXlsx
     }
 
     @Test
     public void compressXlsx() throws Exception
     {
+        //ExStart:CompressXlsx
+        //GistId:a50652f28531278511605e0fd778bbdf
         Document doc = new Document(getMyDir() + "Document.docx");
 
         XlsxSaveOptions saveOptions = new XlsxSaveOptions();
         saveOptions.setCompressionLevel(CompressionLevel.MAXIMUM);
 
         doc.save(getArtifactsDir() + "BaseConversions.CompressXlsx.xlsx", saveOptions);
+        //ExEnd:CompressXlsx
     }
 
     @Test

@@ -18,6 +18,7 @@ class WorkingWithXmlData extends DocsExamplesBase
     public void xmlMailMerge() throws Exception
     {
         //ExStart:XmlMailMerge
+        //GistId:0441f68c5209fec25c47d1a0a203fbb0
         DataSet customersDs = new DataSet();
         customersDs.readXml(getMyDir() + "Mail merge data - Customers.xml");
 
@@ -32,6 +33,7 @@ class WorkingWithXmlData extends DocsExamplesBase
     public void nestedMailMerge() throws Exception
     {
         //ExStart:NestedMailMerge
+        //GistId:c68048adceb3bda6a1511c7d6f5ebf7b
         // The Datatable.TableNames and the DataSet.Relations are defined implicitly by .NET through ReadXml.
         DataSet pizzaDs = new DataSet();
         pizzaDs.readXml(getMyDir() + "Mail merge data - Orders.xml");

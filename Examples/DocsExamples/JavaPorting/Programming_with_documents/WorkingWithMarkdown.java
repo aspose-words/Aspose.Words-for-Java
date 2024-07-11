@@ -63,6 +63,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void inlineCode() throws Exception
     {
         //ExStart:InlineCode
+        //GistId:51b4cb9c451832f23527892e19c7bca6
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 

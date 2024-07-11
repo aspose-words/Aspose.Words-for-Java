@@ -15,6 +15,7 @@ public class WorkingWithPclSaveOptions extends DocsExamplesBase
     public void rasterizeTransformedElements() throws Exception
     {
         //ExStart:RasterizeTransformedElements
+        //GistId:7ee438947078cf070c5bc36a4e45a18c
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PclSaveOptions saveOptions = new PclSaveOptions();

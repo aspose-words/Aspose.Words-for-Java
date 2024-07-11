@@ -17,14 +17,16 @@ public class WorkingWithDocumentInDatabase extends DocsExamplesBase
     public void loadAndSaveDocToDatabase() throws Exception
     {
         Document doc = new Document(getMyDir() + "Document.docx");
-        //ExStart:OpenDatabaseConnection 
+        //ExStart:OpenDatabaseConnection
+        //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
         String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
         
         OleDbConnection connection = new OleDbConnection(connString);
         connection.Open();
         //ExEnd:OpenDatabaseConnection
-        
-        //ExStart:OpenRetrieveAndDelete 
+
+        //ExStart:OpenRetrieveAndDelete
+        //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
         storeToDatabase(doc, connection);
         
         Document dbDoc = readFromDatabase("Document.docx", connection);
@@ -33,10 +35,11 @@ public class WorkingWithDocumentInDatabase extends DocsExamplesBase
         deleteFromDatabase("Document.docx", connection);
 
         connection.Close();
-        //ExEnd:OpenRetrieveAndDelete 
+        //ExEnd:OpenRetrieveAndDelete
     }
 
-    //ExStart:StoreToDatabase 
+    //ExStart:StoreToDatabase
+    //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
     public void storeToDatabase(Document doc, OleDbConnection connection) throws Exception
     {
         MemoryStream stream = new MemoryStream();
@@ -50,8 +53,9 @@ public class WorkingWithDocumentInDatabase extends DocsExamplesBase
         command.ExecuteNonQuery();
     }
     //ExEnd:StoreToDatabase
-    
-    //ExStart:ReadFromDatabase 
+
+    //ExStart:ReadFromDatabase
+    //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
     public Document readFromDatabase(String fileName, OleDbConnection connection) throws Exception
     {
         String commandString = "SELECT * FROM Documents WHERE Name='" + fileName + "'";
@@ -77,8 +81,9 @@ public class WorkingWithDocumentInDatabase extends DocsExamplesBase
         return doc;
     }
     //ExEnd:ReadFromDatabase
-    
-    //ExStart:DeleteFromDatabase 
+
+    //ExStart:DeleteFromDatabase
+    //GistId:f8a622f8bc1cf3c2fa8a7a9be359faa2
     public void deleteFromDatabase(String fileName, OleDbConnection connection)
     {
         String commandString = "DELETE * FROM Documents WHERE Name='" + fileName + "'";

@@ -48,9 +48,10 @@ public class WorkingWithMarkdownSaveOptions extends DocsExamplesBase
     }
 
     @Test
-    public void setImagesFolder() throws Exception
+    public void imagesFolder() throws Exception
     {
-        //ExStart:SetImagesFolder
+        //ExStart:ImagesFolder
+        //GistId:51b4cb9c451832f23527892e19c7bca6
         Document doc = new Document(getMyDir() + "Image bullet points.docx");
 
         MarkdownSaveOptions saveOptions = new MarkdownSaveOptions(); { saveOptions.setImagesFolder(getArtifactsDir() + "Images"); }
@@ -61,7 +62,7 @@ public class WorkingWithMarkdownSaveOptions extends DocsExamplesBase
             doc.save(stream, saveOptions);
     	}
         finally { if (stream != null) stream.close(); }
-        //ExEnd:SetImagesFolder
+        //ExEnd:ImagesFolder
     }
 }
 

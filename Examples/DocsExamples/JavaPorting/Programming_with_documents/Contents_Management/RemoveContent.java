@@ -25,9 +25,10 @@ class RemoveContent extends DocsExamplesBase
     @Test
     public void removePageBreaks() throws Exception
     {
-        //ExStart:OpenFromFile
+        //ExStart:OpenDocument
+        //GistId:1d626c7186a318d22d022dc96dd91d55
         Document doc = new Document(getMyDir() + "Document.docx");
-        //ExEnd:OpenFromFile
+        //ExEnd:OpenDocument
 
         // In Aspose.Words section breaks are represented as separate Section nodes in the document.
         // To remove these separate sections, the sections are combined.

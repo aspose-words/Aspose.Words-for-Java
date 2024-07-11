@@ -154,7 +154,8 @@ class NestedMailMergeCustom extends DocsExamplesBase
             return !IsEof;
         }
 
-        //ExStart:GetChildDataSourceExample           
+        //ExStart:GetChildDataSource
+        //GistId:c68048adceb3bda6a1511c7d6f5ebf7b
         public IMailMergeDataSource getChildDataSource(String tableName)
         {
             switch (gStringSwitchMap.of(tableName))
@@ -166,7 +167,7 @@ class NestedMailMergeCustom extends DocsExamplesBase
                     return null;
             }
         }
-        //ExEnd:GetChildDataSourceExample
+        //ExEnd:GetChildDataSource
 
         private boolean IsEof => (mRecordIndex >= mCustomers.Count);
 

@@ -21,9 +21,10 @@ import java.text.MessageFormat;
 public class WorkingWithImageSaveOptions extends DocsExamplesBase
 {
     @Test
-    public void exposeThresholdControlForTiffBinarization() throws Exception
+    public void exposeThresholdControl() throws Exception
     {
-        //ExStart:ExposeThresholdControlForTiffBinarization
+        //ExStart:ExposeThresholdControl
+        //GistId:b20a0ec0e1ff0556aa20d12f486e1963
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.TIFF);
@@ -34,19 +35,21 @@ public class WorkingWithImageSaveOptions extends DocsExamplesBase
             saveOptions.setThresholdForFloydSteinbergDithering((byte) 254);
         }
 
-        doc.save(getArtifactsDir() + "WorkingWithImageSaveOptions.ExposeThresholdControlForTiffBinarization.tiff", saveOptions);
-        //ExEnd:ExposeThresholdControlForTiffBinarization
+        doc.save(getArtifactsDir() + "WorkingWithImageSaveOptions.ExposeThresholdControl.tiff", saveOptions);
+        //ExEnd:ExposeThresholdControl
     }
 
     @Test
     public void getTiffPageRange() throws Exception
     {
         //ExStart:GetTiffPageRange
+        //GistId:b20a0ec0e1ff0556aa20d12f486e1963
         Document doc = new Document(getMyDir() + "Rendering.docx");
-        //ExStart:SaveAsTIFF
+        //ExStart:SaveAsTiff
+        //GistId:b20a0ec0e1ff0556aa20d12f486e1963
         doc.save(getArtifactsDir() + "WorkingWithImageSaveOptions.MultipageTiff.tiff");
-        //ExEnd:SaveAsTIFF
-        
+        //ExEnd:SaveAsTiff
+
         //ExStart:SaveAsTIFFUsingImageSaveOptions
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.TIFF);
         {
@@ -62,6 +65,7 @@ public class WorkingWithImageSaveOptions extends DocsExamplesBase
     public void format1BppIndexed() throws Exception
     {
         //ExStart:Format1BppIndexed
+        //GistId:83e5c469d0e72b5114fb8a05a1d01977
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions saveOptions = new ImageSaveOptions(SaveFormat.PNG);
@@ -79,6 +83,7 @@ public class WorkingWithImageSaveOptions extends DocsExamplesBase
     public void getJpegPageRange() throws Exception
     {
         //ExStart:GetJpegPageRange
+        //GistId:ebbb90d74ef57db456685052a18f8e86
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);

@@ -318,6 +318,7 @@ class ApplyCustomLogicToEmptyRegions extends DocsExamplesBase
     private void disableForeignKeyConstraints(DataSet dataSet)
     {
         //ExStart:DisableForeignKeyConstraints
+        //GistId:c68048adceb3bda6a1511c7d6f5ebf7b
         dataSet.getRelations().add(new DataRelation("OrderToItem", orderTable.getColumns().get("Order_Id"),
             itemTable.getColumns().get("Order_Id"), false));
         //ExEnd:DisableForeignKeyConstraints

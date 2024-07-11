@@ -46,8 +46,8 @@ class RenderingShapes extends DocsExamplesBase
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         //ExStart:RenderShapeAsEmf
+        //GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
         ShapeRenderer render = shape.getShapeRenderer();
-
         ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.EMF);
         {
             imageOptions.setScale(1.5f);
@@ -65,6 +65,7 @@ class RenderingShapes extends DocsExamplesBase
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         //ExStart:RenderShapeAsJpeg
+        //GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
         ShapeRenderer render = new ShapeRenderer(shape);
 
         ImageSaveOptions imageOptions = new ImageSaveOptions(SaveFormat.JPEG);
@@ -87,6 +88,7 @@ class RenderingShapes extends DocsExamplesBase
 
     @Test
     //ExStart:RenderShapeToGraphics
+    //GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
     public void renderShapeToGraphics() throws Exception
     {
         Document doc = new Document(getMyDir() + "Rendering.docx");
@@ -181,6 +183,7 @@ class RenderingShapes extends DocsExamplesBase
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
         //ExStart:FindShapeSizes
+        //GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
         /*Size*/long shapeRenderedSize = shape.getShapeRenderer().getSizeInPixelsInternal(1.0f, 96.0f);
 
         BufferedImage image = new BufferedImage(msSize.getWidth(shapeRenderedSize), msSize.getHeight(shapeRenderedSize));
@@ -205,6 +208,7 @@ class RenderingShapes extends DocsExamplesBase
         
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
         //ExStart:RenderShapeImage
+        //GistId:7fc867ac8ef1b729b6f70580fbc5b3f9
         shape.getShapeRenderer().save(getArtifactsDir() + "RenderShape.RenderShapeImage.jpg", new ImageSaveOptions(SaveFormat.JPEG));
         //ExEnd:RenderShapeImage
     }

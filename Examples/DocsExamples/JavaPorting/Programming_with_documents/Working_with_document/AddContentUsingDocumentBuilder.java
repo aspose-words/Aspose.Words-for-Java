@@ -49,6 +49,7 @@ class AddContentUsingDocumentBuilder extends DocsExamplesBase
     public void createNewDocument() throws Exception
     {
         //ExStart:CreateNewDocument
+        //GistId:1d626c7186a318d22d022dc96dd91d55
         Document doc = new Document();
 
         // Use a document builder to add content to the document.
