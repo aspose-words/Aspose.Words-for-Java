@@ -8,11 +8,8 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.XlsxSectionMode;
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.XlsxSaveOptions;
-import com.aspose.words.CompressionLevel;
 
 @Test
 class ExXlsxSaveOptions extends ApiExampleBase

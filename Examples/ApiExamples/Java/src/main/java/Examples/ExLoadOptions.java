@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
@@ -105,7 +106,7 @@ public class ExLoadOptions extends ApiExampleBase {
         //ExSummary:Shows how to set the encoding with which to open a document.
         LoadOptions loadOptions = new LoadOptions();
         {
-            loadOptions.setEncoding(Encoding.getASCII());
+            loadOptions.setEncoding(StandardCharsets.US_ASCII);
         }
 
         // Load the document while passing the LoadOptions object, then verify the document's contents.

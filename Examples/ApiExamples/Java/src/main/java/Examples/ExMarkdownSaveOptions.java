@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -277,7 +278,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
         doc.save(getArtifactsDir() + "MarkdownSaveOptions.LinkExportMode.Inline.md", saveOptions);
         //ExEnd:LinkExportMode
 
-        String outDocContents = File.readAllText(getArtifactsDir() + "MarkdownSaveOptions.LinkExportMode.Inline.md");
+        String outDocContents = Files.readAllLines(Paths.get(getArtifactsDir() + "MarkdownSaveOptions.LinkExportMode.Inline.md")).get(1);
         Assert.assertEquals("![](MarkdownSaveOptions.LinkExportMode.Inline.001.png)", outDocContents.trim());
     }
 }

@@ -799,7 +799,7 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExFor:XmlDataSource
         //ExFor:XmlDataSource.#ctor(String)
         //ExSummary:Show how to use XML as a data source (string).
-        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
 
         XmlDataSource dataSource = new XmlDataSource(getMyDir() + "List of people.xml");
         buildReport(doc, dataSource, "persons");
@@ -818,7 +818,7 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExFor:XmlDataSource
         //ExFor:XmlDataSource.#ctor(Stream)
         //ExSummary:Show how to use XML as a data source (stream).
-        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
 
         InputStream stream = new FileInputStream(getMyDir() + "List of people.xml");
         try {
@@ -862,7 +862,7 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExFor:JsonDataSource.#ctor(String,JsonDataLoadOptions)
         //ExFor:JsonSimpleValueParseMode
         //ExSummary:Shows how to use JSON as a data source (string).
-        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination (Java).docx");
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
@@ -882,7 +882,7 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExStart
         //ExFor:JsonDataSource.#ctor(Stream,JsonDataLoadOptions)
         //ExSummary:Shows how to use JSON as a data source (stream).
-        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination (Java).docx");
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
@@ -958,7 +958,7 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExFor:CsvDataSource
         //ExFor:CsvDataSource.#ctor(String,CsvDataLoadOptions)
         //ExSummary:Shows how to use CSV as a data source (string).
-        Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination (Java).docx");
 
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
@@ -982,7 +982,7 @@ public class ExReportingEngine extends ApiExampleBase {
         //ExStart
         //ExFor:CsvDataSource.#ctor(Stream,CsvDataLoadOptions)
         //ExSummary:Shows how to use CSV as a data source (stream).
-        Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination.docx");
+        Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination (Java).docx");
 
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');

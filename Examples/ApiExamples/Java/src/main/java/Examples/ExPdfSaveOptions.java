@@ -492,36 +492,36 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         switch (pdfCompliance) {
             case PdfCompliance.PDF_17:
-                Assert.AreEqual(PdfFormat.v_1_7, pdfDocument.PdfFormat);
-                Assert.AreEqual("1.7", pdfDocument.Version);
+                Assert.assertEquals(PdfFormat.v_1_7, pdfDocument.getPdfFormat());
+                Assert.assertEquals("1.7", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_A_2_A:
-                Assert.AreEqual(PdfFormat.PDF_A_2A, pdfDocument.PdfFormat);
-                Assert.AreEqual("1.7", pdfDocument.Version);
+                Assert.assertEquals(PdfFormat.PDF_A_2A, pdfDocument.getPdfFormat());
+                Assert.assertEquals("1.7", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_A_2_U:
-                Assert.AreEqual(PdfFormat.PDF_A_2U, pdfDocument.PdfFormat);
-                Assert.AreEqual("1.7", pdfDocument.Version);
+                Assert.assertEquals(PdfFormat.PDF_A_2U, pdfDocument.getPdfFormat());
+                Assert.assertEquals("1.7", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_UA_1:
-                Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
-                Assert.AreEqual("1.7", pdfDocument.Version);
+                Assert.assertEquals(PdfFormat.PDF_UA_1, pdfDocument.getPdfFormat());
+                Assert.assertEquals("1.7", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_20:
-                Assert.AreEqual(PdfFormat.v_2_0, pdfDocument.PdfFormat);
-                Assert.AreEqual("2.0", pdfDocument.Version);
+                Assert.assertEquals(PdfFormat.v_2_0, pdfDocument.getPdfFormat());
+                Assert.assertEquals("2.0", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_A_4:
-                Assert.AreEqual(PdfFormat.v_2_0, pdfDocument.PdfFormat);
-                Assert.AreEqual("2.0", pdfDocument.Version);
+                Assert.assertEquals(PdfFormat.v_2_0, pdfDocument.getPdfFormat());
+                Assert.assertEquals("2.0", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_A_4_UA_2:
-                Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
-                Assert.AreEqual("2.0", pdfDocument.Version);
+                Assert.assertEquals(PdfFormat.PDF_UA_1, pdfDocument.getPdfFormat());
+                Assert.assertEquals("2.0", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_UA_2:
-                Assert.AreEqual(PdfFormat.PDF_UA_1, pdfDocument.PdfFormat);
-                Assert.AreEqual("2.0", pdfDocument.Version);
+                Assert.assertEquals(PdfFormat.PDF_UA_1, pdfDocument.getPdfFormat());
+                Assert.assertEquals("2.0", pdfDocument.getVersion());
                 break;
         }
 
@@ -2211,7 +2211,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
             case EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK:
             case EmfPlusDualRenderingMode.EMF_PLUS:
                 Assert.assertEquals(0, pdfDocument.getPages().get_Item(1).getResources().getImages().size());
-                TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABF 15 0 R/FAAACB 21 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABG 16 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                         getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
                 break;
         }
@@ -2435,7 +2435,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.insertOleObjectInternal(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
+        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
 
         PdfSaveOptions options = new PdfSaveOptions();
         options.setEmbedAttachments(true);
@@ -2457,10 +2457,10 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.CacheBackgroundGraphics.pdf", saveOptions);
 
-        long asposeToPdfSize = new FileInfo(getArtifactsDir() + "PdfSaveOptions.CacheBackgroundGraphics.pdf").getLength();
-        long wordToPdfSize = new FileInfo(getMyDir() + "Background images (word to pdf).pdf").getLength();
+        long asposeToPdfSize = new File(getArtifactsDir() + "PdfSaveOptions.CacheBackgroundGraphics.pdf").length();
+        long wordToPdfSize = new File(getMyDir() + "Background images (word to pdf).pdf").length();
 
-        msAssert.less(asposeToPdfSize, wordToPdfSize);
+        Assert.assertTrue(asposeToPdfSize < wordToPdfSize);
         //ExEnd
     }
 

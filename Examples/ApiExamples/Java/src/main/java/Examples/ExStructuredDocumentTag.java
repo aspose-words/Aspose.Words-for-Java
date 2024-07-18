@@ -1076,14 +1076,15 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         rangeStart = insertStructuredDocumentTagRanges(doc);
 
-        Node paragraphNode = rangeStart.LastOrDefault();
-        Assert.AreEqual("StructuredDocumentTag element", paragraphNode?.GetText().Trim());
+        Node paragraphNode = rangeStart.getLastChild();
+        if (paragraphNode != null)
+            Assert.assertEquals("StructuredDocumentTag element", paragraphNode.getText().trim());
 
         // Removes ranged structured document tag and content inside.
         rangeStart.removeAllChildren();
 
-        paragraphNode = rangeStart.LastOrDefault();
-        Assert.AreEqual(null, paragraphNode?.GetText());
+        paragraphNode = rangeStart.getLastChild();
+        Assert.assertEquals("",  paragraphNode.getText());
     }
 
     @Test (enabled = false)

@@ -22,6 +22,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -1417,7 +1419,7 @@ public class ExShape extends ApiExampleBase {
         math.getMathRenderer().save(getArtifactsDir() + "Shape.RenderOfficeMath.png", saveOptions);
         //ExEnd
 
-        TestUtil.verifyImage(799, 87, getArtifactsDir() + "Shape.RenderOfficeMath.png");
+        TestUtil.verifyImage(813, 86, getArtifactsDir() + "Shape.RenderOfficeMath.png");
     }
 
     @Test
@@ -2773,34 +2775,34 @@ public class ExShape extends ApiExampleBase {
         OfficeMath officeMath = (OfficeMath) doc.getChild(NodeType.OFFICE_MATH, 0, true);
         OfficeMathRenderer renderer = new OfficeMathRenderer(officeMath);
 
-        Assert.assertEquals(120.0f, renderer.getBoundsInPoints().getWidth(), 0.25f);
-        Assert.assertEquals(13.0f, renderer.getBoundsInPoints().getHeight(), 0.1f);
+        Assert.assertEquals(122.0f, renderer.getBoundsInPoints().getWidth(), 0.25f);
+        Assert.assertEquals(12.9f, renderer.getBoundsInPoints().getHeight(), 0.1f);
 
         // Shapes with transparent parts may contain different values in the "OpaqueBoundsInPoints" properties.
-        Assert.assertEquals(120.0f, renderer.getOpaqueBoundsInPoints().getWidth(), 0.25f);
+        Assert.assertEquals(122.0f, renderer.getOpaqueBoundsInPoints().getWidth(), 0.25f);
         Assert.assertEquals(14.2f, renderer.getOpaqueBoundsInPoints().getHeight(), 0.1f);
 
         // Get the shape size in pixels, with linear scaling to a specific DPI.
         Rectangle bounds = renderer.getBoundsInPixels(1.0f, 96.0f);
 
-        Assert.assertEquals(160.0, bounds.getWidth());
+        Assert.assertEquals(163.0, bounds.getWidth());
         Assert.assertEquals(18.0, bounds.getHeight());
 
         // Get the shape size in pixels, but with a different DPI for the horizontal and vertical dimensions.
         bounds = renderer.getBoundsInPixels(1.0f, 96.0f, 150.0f);
-        Assert.assertEquals(160.0, bounds.getWidth());
-        Assert.assertEquals(28.0, bounds.getHeight());
+        Assert.assertEquals(163.0, bounds.getWidth());
+        Assert.assertEquals(27.0, bounds.getHeight());
 
         // The opaque bounds may vary here also.
         bounds = renderer.getOpaqueBoundsInPixels(1.0f, 96.0f);
 
-        Assert.assertEquals(160.0, bounds.getWidth());
-        Assert.assertEquals(18.0, bounds.getHeight());
+        Assert.assertEquals(163.0, bounds.getWidth());
+        Assert.assertEquals(19.0, bounds.getHeight());
 
         bounds = renderer.getOpaqueBoundsInPixels(1.0f, 96.0f, 150.0f);
 
-        Assert.assertEquals(160.0, bounds.getWidth());
-        Assert.assertEquals(30.0, bounds.getHeight());
+        Assert.assertEquals(163.0, bounds.getWidth());
+        Assert.assertEquals(29.0, bounds.getHeight());
         //ExEnd
     }
 
@@ -2889,14 +2891,14 @@ public class ExShape extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Shape.FillImage.FileName.docx");
 
         // 2 -  Load a file into a byte array:
-        shape.getFill().setImage(File.readAllBytes(getImageDir() + "Logo.jpg"));
+        shape.getFill().setImage(Files.readAllBytes(Paths.get(getImageDir() + "Logo.jpg")));
         doc.save(getArtifactsDir() + "Shape.FillImage.ByteArray.docx");
 
         // 3 -  From a stream:
-        FileStream stream = new FileStream(getImageDir() + "Logo.jpg", FileMode.OPEN);
+        FileInputStream stream = new FileInputStream(getImageDir() + "Logo.jpg");
         try /*JAVA: was using*/
     	{
-            shape.getFill().setImageInternal(stream);
+            shape.getFill().setImage(stream);
     	}
         finally { if (stream != null) stream.close(); }
         doc.save(getArtifactsDir() + "Shape.FillImage.Stream.docx");

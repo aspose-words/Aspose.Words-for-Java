@@ -1361,7 +1361,7 @@ public class ExDocument extends ApiExampleBase
 
         builder.write("Jason gave money to Paul.");
 
-        Regex regex = new Regex("([A-z]+) gave money to ([A-z]+)");
+        String regex = "([A-z]+) gave money to ([A-z]+)";
 
         FindReplaceOptions options = new FindReplaceOptions();
         options.setUseSubstitutions(true);
@@ -1369,7 +1369,7 @@ public class ExDocument extends ApiExampleBase
         // Using legacy mode does not support many advanced features, so we need to set it to 'false'.
         options.setLegacyMode(false);
 
-        doc.getRange().replace(regex, "$2 took money from $1", options);
+        doc.getRange().replace(Pattern.compile(regex), "$2 took money from $1", options);
 
         Assert.assertEquals(doc.getText(), "Paul took money from Jason.\f");
         //ExEnd
@@ -1504,7 +1504,6 @@ public class ExDocument extends ApiExampleBase
         //ExFor:Document.UpdatePageLayout
         //ExFor:Margins
         //ExFor:PageSetup.Margins
-        //ExFor:Document.UpdatePageLayout
         //ExSummary:Shows when to recalculate the page layout of the document.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
@@ -2463,13 +2462,13 @@ public class ExDocument extends ApiExampleBase
         dstDoc.insertNode(new BookmarkEnd(dstDoc.getDocument(), "src_place"));
         dstDoc.write(" after");
 
-        Assert.assertEquals("Before  after", msString.trimEnd(dstDoc.getDocument().getText()));
+        Assert.assertEquals("Before  after", dstDoc.getDocument().getText().trim());
 
         // Insert source document into destination inline.
         dstDoc.moveToBookmark("src_place");
         dstDoc.insertDocumentInline(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
 
-        Assert.assertEquals("Before [src content] after", msString.trimEnd(dstDoc.getDocument().getText()));
+        Assert.assertEquals("Before [src content] after", dstDoc.getDocument().getText().trim());
         //ExEnd:InsertDocumentInline
     }
 
