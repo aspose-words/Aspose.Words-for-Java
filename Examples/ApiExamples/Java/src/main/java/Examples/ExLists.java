@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -990,7 +990,7 @@ public class ExLists extends ApiExampleBase {
     public void setCustomNumberStyleFormat() throws Exception
     {
         //ExStart:SetCustomNumberStyleFormat
-        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //GistId:67585b023474b7f73b0066dd022cf938
         //ExFor:ListLevel.CustomNumberStyleFormat
         //ExSummary:Shows how to set customer number style format.
         Document doc = new Document(getMyDir() + "List with leading zero.docx");

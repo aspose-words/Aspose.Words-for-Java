@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -3302,7 +3302,7 @@ public class ExShape extends ApiExampleBase {
     public void setActiveXProperties() throws Exception
     {
         //ExStart:SetActiveXProperties
-        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //GistId:67585b023474b7f73b0066dd022cf938
         //ExFor:Forms2OleControl.ForeColor
         //ExFor:Forms2OleControl.BackColor
         //ExFor:Forms2OleControl.Height
@@ -3328,7 +3328,7 @@ public class ExShape extends ApiExampleBase {
     public void selectRadioControl() throws Exception
     {
         //ExStart:SelectRadioControl
-        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //GistId:67585b023474b7f73b0066dd022cf938
         //ExFor:OptionButtonControl
         //ExFor:OptionButtonControl.Selected
         //ExFor:OptionButtonControl.Type
@@ -3356,7 +3356,7 @@ public class ExShape extends ApiExampleBase {
     public void checkedCheckBox() throws Exception
     {
         //ExStart:CheckedCheckBox
-        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //GistId:67585b023474b7f73b0066dd022cf938
         //ExFor:CheckBoxControl
         //ExFor:CheckBoxControl.Checked
         //ExFor:CheckBoxControl.Type

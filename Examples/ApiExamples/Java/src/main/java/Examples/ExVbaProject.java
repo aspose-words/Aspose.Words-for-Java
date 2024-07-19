@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -173,7 +173,7 @@ public class ExVbaProject extends ApiExampleBase {
     public void isProtected() throws Exception
     {
         //ExStart:IsProtected
-        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //GistId:67585b023474b7f73b0066dd022cf938
         //ExFor:VbaProject.IsProtected
         //ExSummary:Shows whether the VbaProject is password protected.
         Document doc = new Document(getMyDir() + "Vba protected.docm");

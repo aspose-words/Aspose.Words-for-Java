@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -55,7 +55,7 @@ class ExXlsxSaveOptions extends ApiExampleBase
     public void dateTimeParsingMode() throws Exception
     {
         //ExStart:DateTimeParsingMode
-        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //GistId:67585b023474b7f73b0066dd022cf938
         //ExFor:XlsxSaveOptions.DateTimeParsingMode
         //ExFor:XlsxDateTimeParsingMode
         //ExSummary:Shows how to specify autodetection of the date time format.

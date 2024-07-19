@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -256,7 +256,7 @@ public class ExMarkdownSaveOptions extends ApiExampleBase
     public void linkExportMode() throws Exception
     {
         //ExStart:LinkExportMode
-        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //GistId:67585b023474b7f73b0066dd022cf938
         //ExFor:MarkdownSaveOptions.LinkExportMode
         //ExFor:MarkdownLinkExportMode
         //ExSummary:Shows how to links will be written to the .md file.

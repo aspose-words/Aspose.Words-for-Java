@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -38,7 +38,7 @@ public class ExDocument extends ApiExampleBase
     public void createSimpleDocument() throws Exception
     {
         //ExStart:CreateSimpleDocument
-        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
         //ExFor:DocumentBase.Document
         //ExFor:Document.#ctor()
         //ExSummary:Shows how to create simple document.
