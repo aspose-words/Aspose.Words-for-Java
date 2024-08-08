@@ -429,9 +429,6 @@ class WorkingWithTables extends DocsExamplesBase
         row.getRowFormat().setAllowBreakAcrossPages(true);
         table.appendChild(row);
 
-        // We can now apply any auto fit settings.
-        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
-
         Cell cell = new Cell(doc);
         cell.getCellFormat().getShading().setBackgroundPatternColor(msColor.getLightBlue());
         cell.getCellFormat().setWidth(80.0);
@@ -445,7 +442,10 @@ class WorkingWithTables extends DocsExamplesBase
         row.appendChild(cell.deepClone(false));
         row.getLastCell().appendChild(new Paragraph(doc));
         row.getLastCell().getFirstParagraph().appendChild(new Run(doc, "Row 1, Cell 2 Text"));
-        
+
+        // We can now apply any auto fit settings.
+        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
+
         doc.save(getArtifactsDir() + "WorkingWithTables.InsertTableDirectly.docx");
         //ExEnd:InsertTableDirectly
     }
@@ -661,7 +661,6 @@ class WorkingWithTables extends DocsExamplesBase
         firstTable.getParentNode().insertAfter(new Paragraph(doc), firstTable);
 
         Row currentRow;
-
         do
         {
             currentRow = firstTable.getLastRow();
@@ -904,7 +903,7 @@ class WorkingWithTables extends DocsExamplesBase
     {
         public ArrayList<WorkingWithTables.RowInfo> getRows() { return mRows; };
 
-        private ArrayList<WorkingWithTables.RowInfo> mRows !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ArrayList<WorkingWithTables.RowInfo>list();
+        private ArrayList<WorkingWithTables.RowInfo> mRows !!!Autoporter warning: AutoProperty initialization can't be autoported!  = /*new*/ ArrayList<WorkingWithTables.RowInfo>list();
     }
 
     /// <summary>
@@ -1094,8 +1093,6 @@ class WorkingWithTables extends DocsExamplesBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a table row made up of three cells which have different preferred widths.
-        builder.startTable();
-
         // Insert an absolute sized cell.
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPoints(40.0));

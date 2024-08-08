@@ -211,7 +211,7 @@ class WorkingWithFonts extends DocsExamplesBase
     {
         //ExStart:SetFontsFoldersSystemAndCustomFolder
         Document doc = new Document(getMyDir() + "Rendering.docx");
-        
+
         FontSettings fontSettings = new FontSettings();
         // Retrieve the array of environment-dependent font sources that are searched by default.
         // For example this will contain a "Windows\Fonts\" source on a Windows machines.
@@ -220,15 +220,14 @@ class WorkingWithFonts extends DocsExamplesBase
 
         // Add a new folder source which will instruct Aspose.Words to search the following folder for fonts.
         FolderFontSource folderFontSource = new FolderFontSource("C:\\MyFonts\\", true);
-
         // Add the custom folder which contains our fonts to the list of existing font sources.
         fontSources.add(folderFontSource);
 
         FontSourceBase[] updatedFontSources = msArrayList.toArray(fontSources, new FontSourceBase[0]);
         fontSettings.setFontsSources(updatedFontSources);
-        
+
         doc.setFontSettings(fontSettings);
-        
+
         doc.save(getArtifactsDir() + "WorkingWithFonts.SetFontsFoldersSystemAndCustomFolder.pdf");
         //ExEnd:SetFontsFoldersSystemAndCustomFolder
     }

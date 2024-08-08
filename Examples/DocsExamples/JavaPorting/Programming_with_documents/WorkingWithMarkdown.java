@@ -8,8 +8,6 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Style;
 import com.aspose.words.StyleType;
 import com.aspose.words.Shape;
-import com.aspose.words.ShapeType;
-import com.aspose.words.WrapType;
 import com.aspose.words.Document;
 import com.aspose.words.Paragraph;
 import com.aspose.words.WarningInfoCollection;
@@ -112,11 +110,8 @@ class WorkingWithMarkdown extends DocsExamplesBase
         DocumentBuilder builder = new DocumentBuilder();
 
         // Insert image.
-        Shape shape = new Shape(builder.getDocument(), ShapeType.IMAGE);
-        shape.setWrapType(WrapType.INLINE);
-        shape.getImageData().setSourceFullName("/attachment/1456/pic001.png");
+        Shape shape = builder.insertImage(getImagesDir() + "Logo.jpg");
         shape.getImageData().setTitle("title");
-        builder.insertNode(shape);
         //ExEnd:Image
     }
 
@@ -262,9 +257,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.getListFormat().applyBulletDefault();
-        builder.getListFormat().getList().getListLevels().get(0).setNumberFormat("{(char) 0}.");
-        builder.getListFormat().getList().getListLevels().get(1).setNumberFormat("{(char) 1}.");
+        builder.getListFormat().applyNumberDefault();
 
         builder.writeln("Item 1");
         builder.writeln("Item 2");
@@ -288,6 +281,8 @@ class WorkingWithMarkdown extends DocsExamplesBase
         builder.writeln("a");
         builder.insertCell();
         builder.writeln("b");
+
+        builder.endRow();
 
         // Add the second row.
         builder.insertCell();

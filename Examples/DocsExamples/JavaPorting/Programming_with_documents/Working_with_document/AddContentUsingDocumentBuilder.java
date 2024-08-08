@@ -7,22 +7,22 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Table;
-import com.aspose.words.AutoFitBehavior;
 import com.aspose.words.CellVerticalAlignment;
 import com.aspose.words.HeightRule;
 import com.aspose.words.TextOrientation;
+import com.aspose.words.AutoFitBehavior;
 import com.aspose.words.Shape;
 import com.aspose.words.HorizontalRuleFormat;
 import com.aspose.words.HorizontalRuleAlignment;
 import java.awt.Color;
 import com.aspose.words.BreakType;
 import com.aspose.words.TextFormFieldType;
-import com.aspose.words.Underline;
 import com.aspose.words.StyleIdentifier;
 import com.aspose.words.RelativeHorizontalPosition;
 import com.aspose.words.RelativeVerticalPosition;
 import com.aspose.words.WrapType;
 import com.aspose.words.Font;
+import com.aspose.words.Underline;
 import com.aspose.words.ParagraphFormat;
 import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.FindReplaceOptions;
@@ -84,7 +84,6 @@ class AddContentUsingDocumentBuilder extends DocsExamplesBase
 
         Table table = builder.startTable();
         builder.insertCell();
-        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
 
         builder.getCellFormat().setVerticalAlignment(CellVerticalAlignment.CENTER);
         builder.write("This is row 1 cell 1");
@@ -107,6 +106,8 @@ class AddContentUsingDocumentBuilder extends DocsExamplesBase
 
         builder.endRow();
         builder.endTable();
+
+        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
 
         doc.save(getArtifactsDir() + "AddContentUsingDocumentBuilder.BuildTable.docx");
         //ExEnd:BuildTable
@@ -228,14 +229,13 @@ class AddContentUsingDocumentBuilder extends DocsExamplesBase
         //ExStart:InsertHyperlink
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
-        
+
         builder.write("Please make sure to visit ");
-        builder.getFont().setColor(Color.BLUE);
-        builder.getFont().setUnderline(Underline.SINGLE);
-        
+
+        builder.getFont().setStyle(doc.getStyles().getByStyleIdentifier(StyleIdentifier.HYPERLINK));
         builder.insertHyperlink("Aspose Website", "http://www.aspose.com", false);
-        
         builder.getFont().clearFormatting();
+
         builder.write(" for more information.");
 
         doc.save(getArtifactsDir() + "AddContentUsingDocumentBuilder.InsertHyperlink.docx");

@@ -48,24 +48,29 @@ public class BaseConversions extends DocsExamplesBase
         //ExStart:OpenFromStream
         //GistId:1d626c7186a318d22d022dc96dd91d55
         // Read only access is enough for Aspose.Words to load a document.
+        Document doc;
         Stream stream = new FileInputStream(getMyDir() + "Document.docx");
-
-        Document doc = new Document(stream);
-        // You can close the stream now, it is no longer needed because the document is in memory.
-        stream.close();
+        try /*JAVA: was using*/
+    	{
+            doc = new Document(stream);
+    	}
+        finally { if (stream != null) stream.close(); }
         //ExEnd:OpenFromStream
 
         // ... do something with the document.
 
         // Convert the document to a different format and save to stream.
         MemoryStream dstStream = new MemoryStream();
-        doc.save(dstStream, SaveFormat.RTF);
+        try /*JAVA: was using*/
+        {
+            doc.save(dstStream, SaveFormat.RTF);
+            // Rewind the stream position back to zero so it is ready for the next reader.
+            dstStream.setPosition(0);
 
-        // Rewind the stream position back to zero so it is ready for the next reader.
-        dstStream.setPosition(0);
+            File.writeAllBytes(getArtifactsDir() + "BaseConversions.DocxToRtf.rtf", dstStream.toArray());
+        }
+        finally { if (dstStream != null) dstStream.close(); }
         //ExEnd:LoadAndSaveToStream
-        
-        File.writeAllBytes(getArtifactsDir() + "BaseConversions.DocxToRtf.rtf", dstStream.toArray());
     }
 
     @Test

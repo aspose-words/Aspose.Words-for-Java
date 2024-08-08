@@ -13,7 +13,7 @@ import com.aspose.words.net.System.Data.DataTable;
 
 public class WorkingWithDocumentInDatabase extends DocsExamplesBase
 {
-    @Test
+    @Test (groups = "IgnoreOnJenkins")
     public void loadAndSaveDocToDatabase() throws Exception
     {
         Document doc = new Document(getMyDir() + "Document.docx");

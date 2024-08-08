@@ -220,8 +220,7 @@ class WorkingWithFields extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(0);
-
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
         builder.moveTo(para);
 
         // We want to insert a merge field like this:

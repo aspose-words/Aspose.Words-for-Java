@@ -188,11 +188,8 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
-        builder.insertHyperlink("Testlink", 
-            "https://www.google.com/search?q=%2Fthe%20test", false);
-        builder.writeln();
-        builder.insertHyperlink("https://www.google.com/search?q=%2Fthe%20test", 
-            "https://www.google.com/search?q=%2Fthe%20test", false);
+        builder.insertHyperlink("Testlink",
+            "https://www.google.com/search?q= aspose", false);
 
         doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.EscapeUri.pdf");
         //ExEnd:EscapeUri

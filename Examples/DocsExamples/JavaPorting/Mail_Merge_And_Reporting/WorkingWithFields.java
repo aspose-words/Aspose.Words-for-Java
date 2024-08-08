@@ -28,6 +28,7 @@ import java.awt.Color;
 import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.FieldNextIf;
 import com.aspose.words.FieldType;
+import com.aspose.words.FieldSkipIf;
 import com.aspose.words.ref.Ref;
 
 
@@ -237,7 +238,7 @@ class WorkingWithFields extends DocsExamplesBase
         //ExEnd:MailMergeAndConditionalField
     }
 
-    @Test
+    @Test (groups = "IgnoreOnJenkins")
     public void mailMergeImageFromBlob() throws Exception
     {
         //ExStart:MailMergeImageFromBlob
@@ -425,7 +426,7 @@ class WorkingWithFields extends DocsExamplesBase
         FieldNextIf fieldNextIf = (FieldNextIf)builder.insertField(FieldType.FIELD_NEXT_IF, true);
 
         // Or use SkipIf field.
-        FieldNextIf fieldSkipIf = (FieldNextIf)builder.insertField(FieldType.FIELD_SKIP_IF, true);
+        FieldSkipIf fieldSkipIf = (FieldSkipIf)builder.insertField(FieldType.FIELD_SKIP_IF, true);
         
         fieldNextIf.setLeftExpression("5");
         fieldNextIf.setRightExpression("2 + 3");

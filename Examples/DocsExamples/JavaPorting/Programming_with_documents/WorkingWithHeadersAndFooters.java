@@ -169,7 +169,7 @@ class WorkingWithHeadersAndFooters extends DocsExamplesBase
         builder.getFont().setSize(14.0);
         builder.write("Header for the first page.");
 
-        builder.moveToDocumentEnd();            
+        builder.moveToDocumentEnd();
         builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
 
         Section currentSection = builder.getCurrentSection();
@@ -187,7 +187,7 @@ class WorkingWithHeadersAndFooters extends DocsExamplesBase
 
         builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
-        builder.getFont().setName("Arial");            
+        builder.getFont().setName("Arial");
         builder.getFont().setSize(12.0);
         builder.write("New Header for the first page.");
 
@@ -198,8 +198,8 @@ class WorkingWithHeadersAndFooters extends DocsExamplesBase
     @Test
     public void sectionsWithDifferentHeaders() throws Exception
     {
-        //ExStart:SectionsWithDifferentHeaders            
-        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d            
+        //ExStart:SectionsWithDifferentHeaders
+        //GistId:1afca4d3da7cb4240fb91c3d93d8c30d
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
