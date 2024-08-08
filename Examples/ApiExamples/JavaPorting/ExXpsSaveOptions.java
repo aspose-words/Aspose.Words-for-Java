@@ -21,6 +21,11 @@ import com.aspose.words.MultiplePagesType;
 import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.words.BreakType;
 import com.aspose.words.PageSet;
+import com.aspose.words.CertificateHolder;
+import com.aspose.words.DigitalSignatureDetails;
+import com.aspose.words.SignOptions;
+import java.util.Date;
+import com.aspose.ms.System.DateTime;
 import org.testng.annotations.DataProvider;
 
 
@@ -187,5 +192,29 @@ public class ExXpsSaveOptions extends ApiExampleBase
 
         doc.save(getArtifactsDir() + "XpsSaveOptions.ExportExactPages.xps", xpsOptions);
         //ExEnd
+    }
+
+    @Test
+    public void xpsDigitalSignature() throws Exception
+    {
+        //ExStart:XpsDigitalSignature
+        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //ExFor:XpsSaveOptions.DigitalSignatureDetails
+        //ExSummary:Shows how to sign XPS document.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+        DigitalSignatureDetails digitalSignatureDetails = new DigitalSignatureDetails(
+            certificateHolder,
+            new SignOptions(); { digitalSignatureDetails.setComments("Some comments"); digitalSignatureDetails.setSignTime(new Date()); });
+
+        XpsSaveOptions saveOptions = new XpsSaveOptions();
+        saveOptions.setDigitalSignatureDetails(digitalSignatureDetails);
+
+        Assert.assertEquals(certificateHolder, digitalSignatureDetails.getCertificateHolder());
+        Assert.assertEquals("Some comments", digitalSignatureDetails.getSignOptions().getComments());
+
+        doc.save(getArtifactsDir() + "XpsSaveOptions.XpsDigitalSignature.docx", saveOptions);
+        //ExEnd:XpsDigitalSignature
     }
 }

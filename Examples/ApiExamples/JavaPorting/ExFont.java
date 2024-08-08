@@ -64,6 +64,8 @@ import com.aspose.ms.System.IO.Path;
 import com.aspose.words.SystemFontSource;
 import com.aspose.words.EmphasisMark;
 import com.aspose.words.ThemeFont;
+import com.aspose.words.FontSettings;
+import java.util.ArrayList;
 import org.testng.annotations.DataProvider;
 
 
@@ -1717,6 +1719,55 @@ public class ExFont extends ApiExampleBase
         Assert.assertEquals(ThemeColor.ACCENT_5, run.getFont().getThemeColor());
         Assert.assertEquals(msColor.Empty, run.getFont().getColor());
     }
+
+    @Test
+    public void fontInfoEmbeddingLicensingRights() throws Exception
+    {
+        //ExStart:FontInfoEmbeddingLicensingRights
+        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //ExFor:FontInfo.EmbeddingLicensingRights
+        //ExFor:FontEmbeddingUsagePermissions
+        //ExFor:FontEmbeddingLicensingRights.EmbeddingUsagePermissions
+        //ExFor:FontEmbeddingLicensingRights.BitmapEmbeddingOnly
+        //ExFor:FontEmbeddingLicensingRights.NoSubsetting
+        //ExSummary:Shows how to get license rights information for embedded fonts (FontInfo).
+        Document doc = new Document(getMyDir() + "Embedded font rights.docx");
+
+        // Get the list of document fonts.
+        FontInfoCollection fontInfos = doc.getFontInfos();
+        for (FontInfo fontInfo : fontInfos) 
+        {
+            if (fontInfo.getEmbeddingLicensingRights() != null)
+            {
+                System.out.println(fontInfo.getEmbeddingLicensingRights().getEmbeddingUsagePermissions());
+                msConsole.writeLine(fontInfo.getEmbeddingLicensingRights().getBitmapEmbeddingOnly());
+                msConsole.writeLine(fontInfo.getEmbeddingLicensingRights().getNoSubsetting());
+            }
+        }
+        //ExEnd:FontInfoEmbeddingLicensingRights
+    }
+
+    @Test
+    public void physicalFontInfoEmbeddingLicensingRights()
+    {
+        //ExStart:PhysicalFontInfoEmbeddingLicensingRights
+        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //ExFor:PhysicalFontInfo.EmbeddingLicensingRights
+        //ExSummary:Shows how to get license rights information for embedded fonts (PhysicalFontInfo).
+        FontSettings settings = FontSettings.getDefaultInstance();
+        FontSourceBase source = settings.getFontsSources()[0];
+
+        // Get the list of available fonts.
+        ArrayList<PhysicalFontInfo> fontInfos = source.getAvailableFonts();
+        for (PhysicalFontInfo fontInfo : fontInfos)
+        {
+            if (fontInfo.getEmbeddingLicensingRights() != null)
+            {
+                System.out.println(fontInfo.getEmbeddingLicensingRights().getEmbeddingUsagePermissions());
+                msConsole.writeLine(fontInfo.getEmbeddingLicensingRights().getBitmapEmbeddingOnly());
+                msConsole.writeLine(fontInfo.getEmbeddingLicensingRights().getNoSubsetting());
+            }
+        }
+        //ExEnd:PhysicalFontInfoEmbeddingLicensingRights
+    }
 }
-
-

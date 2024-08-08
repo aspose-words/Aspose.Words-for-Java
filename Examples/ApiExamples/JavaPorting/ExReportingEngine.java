@@ -539,7 +539,7 @@ public class ExReportingEngine extends ApiExampleBase
             DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.ImageString]>>", ShapeType.TEXT_BOX);
         ImageTestClass imageUri = new ImageTestBuilder()
             .withImageString(
-                "http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png")
+                "https://metrics.aspose.com/img/headergraphics.svg")
             .build();
 
         buildReport(template, imageUri, "src", ReportBuildOptions.NONE);

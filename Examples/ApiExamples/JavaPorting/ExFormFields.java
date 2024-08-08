@@ -333,7 +333,7 @@ public class ExFormFields extends ApiExampleBase
 
         TestUtil.verifyField(FieldType.FIELD_FORM_DROP_DOWN, " FORMDROPDOWN \u0001", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_FORM_CHECK_BOX, " FORMCHECKBOX \u0001", "", doc.getRange().getFields().get(1));
-        TestUtil.verifyField(FieldType.FIELD_FORM_TEXT_INPUT, " FORMTEXT \u0001", "New placeholder text", doc.getRange().getFields().get(2));
+        TestUtil.verifyField(FieldType.FIELD_FORM_TEXT_INPUT, " FORMTEXT \u0001", "Regular", doc.getRange().getFields().get(2));
 
         FormFieldCollection formFields = doc.getRange().getFormFields();
         Assert.assertEquals(3, formFields.getCount());
@@ -363,7 +363,7 @@ public class ExFormFields extends ApiExampleBase
         Assert.assertEquals("FIRST CAPITAL", formFields.get(2).getTextInputFormat());
         Assert.assertEquals(TextFormFieldType.REGULAR, formFields.get(2).getTextInputType());
         Assert.assertEquals(50, formFields.get(2).getMaxLength());
-        Assert.assertEquals("New placeholder text", formFields.get(2).getResult());
+        Assert.assertEquals("Regular", formFields.get(2).getResult());
     }
 
     @Test

@@ -305,7 +305,7 @@ public class ExDocumentBuilderImages extends ApiExampleBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        byte[] imageByteArray = File.readAllBytes(getImageDir() + "Logo.jpg");
+        byte[] imageByteArray = TestUtil.imageToByteArray(getImageDir() + "Logo.jpg");
 
         // Below are three ways of inserting an image from a byte array.
         // 1 -  Inline shape with a default size based on the image's original dimensions:

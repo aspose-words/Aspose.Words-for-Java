@@ -2267,5 +2267,24 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 			{SaveFormat.AZW_3},
 		};
 	}
+
+    @Test
+    public void htmlReplaceBackslashWithYenSign() throws Exception
+    {
+        //ExStart:HtmlReplaceBackslashWithYenSign
+        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //ExFor:HtmlSaveOptions.ReplaceBackslashWithYenSign
+        //ExSummary:Shows how to replace backslash characters with yen signs (Html).
+        Document doc = new Document(getMyDir() + "Korean backslash symbol.docx");
+
+        // By default, Aspose.Words mimics MS Word's behavior and doesn't replace backslash characters with yen signs in
+        // generated HTML documents. However, previous versions of Aspose.Words performed such replacements in certain
+        // scenarios. This flag enables backward compatibility with previous versions of Aspose.Words.
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setReplaceBackslashWithYenSign(true);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ReplaceBackslashWithYenSign.html", saveOptions);
+        //ExEnd:HtmlReplaceBackslashWithYenSign
+    }
 }
 
