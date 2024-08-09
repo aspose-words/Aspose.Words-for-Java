@@ -408,10 +408,7 @@ public class ExReportingEngine extends ApiExampleBase {
     public void insertImageDynamicallyByUri() throws Exception {
         Document template =
                 DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImageString()]>>", ShapeType.TEXT_BOX);
-        ImageTestClass imageUri = new ImageTestBuilder()
-                .withImageString(
-                        "http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png")
-                .build();
+        ImageTestClass imageUri = new ImageTestBuilder().withImageString("https://metrics.aspose.com/img/headergraphics.svg").build();
 
         buildReport(template, imageUri, "src");
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");

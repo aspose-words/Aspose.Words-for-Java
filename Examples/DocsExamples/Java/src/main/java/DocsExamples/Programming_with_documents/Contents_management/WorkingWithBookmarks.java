@@ -166,7 +166,7 @@ public class WorkingWithBookmarks extends DocsExamplesBase
         options.getOutlineOptions().getBookmarksOutlineLevels().add("My Bookmark", 1);
         options.getOutlineOptions().getBookmarksOutlineLevels().add("Nested Bookmark", 2);
 
-        doc.save(getArtifactsDir() + "WorkingWithBookmarks.CreateBookmark.pdf", options);
+        doc.save(getArtifactsDir() + "WorkingWithBookmarks.CreateBookmark.docx", options);
         //ExEnd:CreateBookmark
     }
 
@@ -176,58 +176,27 @@ public class WorkingWithBookmarks extends DocsExamplesBase
         //ExStart:ShowHideBookmarks
         Document doc = new Document(getMyDir() + "Bookmarks.docx");
 
-        showHideBookmarkedContent(doc, "MyBookmark1", false);
+        showHideBookmarkedContent(doc, "MyBookmark1", true);
         
         doc.save(getArtifactsDir() + "WorkingWithBookmarks.ShowHideBookmarks.docx");
         //ExEnd:ShowHideBookmarks
     }
 
     //ExStart:ShowHideBookmarkedContent
-    private void showHideBookmarkedContent(Document doc, String bookmarkName, boolean showHide) throws Exception
+    public void showHideBookmarkedContent(Document doc, String bookmarkName, boolean isHidden)
     {
         Bookmark bm = doc.getRange().getBookmarks().get(bookmarkName);
 
-        DocumentBuilder builder = new DocumentBuilder(doc);
-        builder.moveToDocumentEnd();
-
-        // {IF "{MERGEFIELD bookmark}" = "true" "" ""}
-        Field field = builder.insertField("IF \"", null);
-        builder.moveTo(field.getStart().getNextSibling());
-        builder.insertField("MERGEFIELD " + bookmarkName + "", null);
-        builder.write("\" = \"true\" ");
-        builder.write("\"");
-        builder.write("\"");
-        builder.write(" \"\"");
-
-        Node currentNode = field.getStart();
-        boolean flag = true;
-        while (currentNode != null && flag)
+        Node currentNode = bm.getBookmarkStart();
+        while (currentNode != null && currentNode.getNodeType() != NodeType.BOOKMARK_END)
         {
             if (currentNode.getNodeType() == NodeType.RUN)
-                if ("\"".equals(currentNode.toString(SaveFormat.TEXT).trim()))
-                    flag = false;
-
-            Node nextNode = currentNode.getNextSibling();
-
-            bm.getBookmarkStart().getParentNode().insertBefore(currentNode, bm.getBookmarkStart());
-            currentNode = nextNode;
+            {
+                Run run = (Run)currentNode;
+                run.getFont().setHidden(isHidden);
+            }
+            currentNode = currentNode.getNextSibling();
         }
-
-        Node endNode = bm.getBookmarkEnd();
-        flag = true;
-        while (currentNode != null && flag)
-        {
-            if (currentNode.getNodeType() == NodeType.FIELD_END)
-                flag = false;
-
-            Node nextNode = currentNode.getNextSibling();
-
-            bm.getBookmarkEnd().getParentNode().insertAfter(currentNode, endNode);
-            endNode = currentNode;
-            currentNode = nextNode;
-        }
-
-        doc.getMailMerge().execute(new String[] { bookmarkName }, new Object[] { showHide });
     }
     //ExEnd:ShowHideBookmarkedContent
 

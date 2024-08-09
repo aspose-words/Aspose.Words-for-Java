@@ -413,9 +413,6 @@ public class WorkingWithTables extends DocsExamplesBase
         row.getRowFormat().setAllowBreakAcrossPages(true);
         table.appendChild(row);
 
-        // We can now apply any auto fit settings.
-        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
-
         Cell cell = new Cell(doc);
         cell.getCellFormat().getShading().setBackgroundPatternColor(Color.BLUE);
         cell.getCellFormat().setWidth(80.0);
@@ -429,6 +426,9 @@ public class WorkingWithTables extends DocsExamplesBase
         row.appendChild(cell.deepClone(false));
         row.getLastCell().appendChild(new Paragraph(doc));
         row.getLastCell().getFirstParagraph().appendChild(new Run(doc, "Row 1, Cell 2 Text"));
+
+        // We can now apply any auto fit settings.
+        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
         
         doc.save(getArtifactsDir() + "WorkingWithTables.InsertTableDirectly.docx");
         //ExEnd:InsertTableDirectly
@@ -1074,8 +1074,6 @@ public class WorkingWithTables extends DocsExamplesBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a table row made up of three cells which have different preferred widths.
-        builder.startTable();
-
         // Insert an absolute sized cell.
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPoints(40.0));

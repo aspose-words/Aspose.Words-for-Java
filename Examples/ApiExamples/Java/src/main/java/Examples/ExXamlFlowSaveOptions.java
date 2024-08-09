@@ -174,4 +174,23 @@ public class ExXamlFlowSaveOptions extends ApiExampleBase {
         private static final double MAX_DURATION = 0.01d;
     }
     //ExEnd
+
+    @Test
+    public void xamlReplaceBackslashWithYenSign() throws Exception
+    {
+        //ExStart:XamlReplaceBackslashWithYenSign
+        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //ExFor:XamlFlowSaveOptions.ReplaceBackslashWithYenSign
+        //ExSummary:Shows how to replace backslash characters with yen signs (Xaml).
+        Document doc = new Document(getMyDir() + "Korean backslash symbol.docx");
+
+        // By default, Aspose.Words mimics MS Word's behavior and doesn't replace backslash characters with yen signs in
+        // generated HTML documents. However, previous versions of Aspose.Words performed such replacements in certain
+        // scenarios. This flag enables backward compatibility with previous versions of Aspose.Words.
+        XamlFlowSaveOptions saveOptions = new XamlFlowSaveOptions();
+        saveOptions.setReplaceBackslashWithYenSign(true);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ReplaceBackslashWithYenSign.xaml", saveOptions);
+        //ExEnd:XamlReplaceBackslashWithYenSign
+    }
 }

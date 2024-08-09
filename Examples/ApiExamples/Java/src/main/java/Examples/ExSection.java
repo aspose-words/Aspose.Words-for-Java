@@ -533,4 +533,43 @@ public class ExSection extends ApiExampleBase {
         Assert.assertEquals(sectionDeAfter.getPageSetup().getFooterDistance(), 35.4); // 1.25 cm
         Assert.assertEquals(sectionDeAfter.getPageSetup().getTextColumns().getSpacing(), 35.4); // 1.25 cm
     }
+
+    @Test
+    public void preserveWatermarks() throws Exception
+    {
+        //ExStart:PreserveWatermarks
+        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //ExFor:Section.ClearHeadersFooters(bool)
+        //ExSummary:Shows how to clear the contents of header and footer with or without a watermark.
+        Document doc = new Document(getMyDir() + "Header and footer types.docx");
+
+        // Add a plain text watermark.
+        doc.getWatermark().setText("Aspose Watermark");
+
+        // Make sure the headers and footers have content.
+        HeaderFooterCollection headersFooters = doc.getFirstSection().getHeadersFooters();
+        Assert.assertEquals("First header", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_FIRST).getText().trim());
+        Assert.assertEquals("Second header", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_EVEN).getText().trim());
+        Assert.assertEquals("Third header", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText().trim());
+        Assert.assertEquals("First footer", headersFooters.getByHeaderFooterType(HeaderFooterType.FOOTER_FIRST).getText().trim());
+        Assert.assertEquals("Second footer", headersFooters.getByHeaderFooterType(HeaderFooterType.FOOTER_EVEN).getText().trim());
+        Assert.assertEquals("Third footer", headersFooters.getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().trim());
+
+        // Removes all header and footer content except watermarks.
+        doc.getFirstSection().clearHeadersFooters(true);
+
+        headersFooters = doc.getFirstSection().getHeadersFooters();
+        Assert.assertEquals("", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_FIRST).getText().trim());
+        Assert.assertEquals("", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_EVEN).getText().trim());
+        Assert.assertEquals("", headersFooters.getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getText().trim());
+        Assert.assertEquals("", headersFooters.getByHeaderFooterType(HeaderFooterType.FOOTER_FIRST).getText().trim());
+        Assert.assertEquals("", headersFooters.getByHeaderFooterType(HeaderFooterType.FOOTER_EVEN).getText().trim());
+        Assert.assertEquals("", headersFooters.getByHeaderFooterType(HeaderFooterType.FOOTER_PRIMARY).getText().trim());
+        Assert.assertEquals(WatermarkType.TEXT, doc.getWatermark().getType());
+
+        // Removes all header and footer content including watermarks.
+        doc.getFirstSection().clearHeadersFooters(false);
+        Assert.assertEquals(WatermarkType.NONE, doc.getWatermark().getType());
+        //ExEnd:PreserveWatermarks
+    }
 }

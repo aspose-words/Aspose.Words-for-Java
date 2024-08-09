@@ -2216,4 +2216,30 @@ public class ExCharts extends ApiExampleBase {
         doc.save(getArtifactsDir() + "Charts.LabelOrientationRotation.docx");
         //ExEnd:LabelOrientationRotation
     }
+
+    @Test
+    public void tickLabelsOrientationRotation() throws Exception
+    {
+        //ExStart:TickLabelsOrientationRotation
+        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //ExFor:AxisTickLabels.Rotation
+        //ExFor:AxisTickLabels.Orientation
+        //ExSummary:Shows how to change orientation and rotation for axis tick labels.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a column chart.
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        AxisTickLabels xTickLabels = shape.getChart().getAxisX().getTickLabels();
+        AxisTickLabels yTickLabels = shape.getChart().getAxisY().getTickLabels();
+
+        // Set axis tick label orientation and rotation.
+        xTickLabels.setOrientation(ShapeTextOrientation.VERTICAL_FAR_EAST);
+        xTickLabels.setRotation(-30);
+        yTickLabels.setOrientation(ShapeTextOrientation.HORIZONTAL);
+        yTickLabels.setRotation(45);
+
+        doc.save(getArtifactsDir() + "Charts.TickLabelsOrientationRotation.docx");
+        //ExEnd:TickLabelsOrientationRotation
+    }
 }

@@ -2999,6 +2999,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document dstDoc = new Document(getMyDir() + "Document.docx");
         Document srcDoc = new Document(getMyDir() + "Header and footer types.docx");
 
+        // If 'IgnoreHeaderFooter' is false then the original formatting for header/footer content
+        // from "Header and footer types.docx" will be used.
+        // If 'IgnoreHeaderFooter' is true then the formatting for header/footer content
+        // from "Document.docx" will be used.
         ImportFormatOptions importFormatOptions = new ImportFormatOptions();
         importFormatOptions.setIgnoreHeaderFooter(false);
 

@@ -1,15 +1,14 @@
 package DocsExamples.File_formats_and_conversions.Save_options;
 
 import DocsExamples.DocsExamplesBase;
+import com.aspose.words.*;
 import org.testng.annotations.Test;
-import com.aspose.words.Document;
-import com.aspose.words.HtmlSaveOptions;
-import com.aspose.words.CssStyleSheetType;
-import com.aspose.words.DocumentBuilder;
-import com.aspose.words.HtmlMetafileFormat;
-import com.aspose.words.SaveFormat;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 
 @Test
@@ -58,20 +57,24 @@ public class WorkingWithHtmlSaveOptions extends DocsExamplesBase
     }
 
     @Test
-    public void convertMetafilesToEmfOrWmf() throws Exception
+    public void convertMetafilesToPng() throws Exception
     {
-        //ExStart:ConvertMetafilesToEmfOrWmf
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
+        //ExStart:ConvertMetafilesToPng
+        String html =
+                "<html>\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\n                    </svg>\n                </html>";
 
-        builder.write("Here is an image as is: ");
-        builder.insertHtml(
-            "<img src=\"data:image/png;base64,\r\n                    iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP\r\n                    C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA\r\n                    AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J\r\n                    REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq\r\n                    ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0\r\n                    vr4MkhoXe0rZigAAAABJRU5ErkJggg==\" alt=\"Red dot\" />");
+        // Use 'ConvertSvgToEmf' to turn back the legacy behavior
+        // where all SVG images loaded from an HTML document were converted to EMF.
+        // Now SVG images are loaded without conversion
+        // if the MS Word version specified in load options supports SVG images natively.
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions(); { loadOptions.setConvertSvgToEmf(true); }
+        Charset charset = StandardCharsets.UTF_8;
+        Document doc = new Document(new ByteArrayInputStream(html.getBytes(charset)), loadOptions);
 
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.EMF_OR_WMF); }
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.PNG); }
 
-        doc.save(getArtifactsDir() + "WorkingWithHtmlSaveOptions.ConvertMetafilesToEmfOrWmf.html", saveOptions);
-        //ExEnd:ConvertMetafilesToEmfOrWmf
+        doc.save(getArtifactsDir() + "WorkingWithHtmlSaveOptions.ConvertMetafilesToPng.html", saveOptions);
+        //ExEnd:ConvertMetafilesToPng
     }
 
     @Test

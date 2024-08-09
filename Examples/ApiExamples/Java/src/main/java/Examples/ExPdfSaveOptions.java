@@ -2502,4 +2502,23 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         doc.save(getArtifactsDir() + "PdfSaveOptions.PageLayout.pdf", saveOptions);
         //ExEnd:PageLayout
     }
+
+    @Test
+    public void sdtTagAsFormFieldName() throws Exception
+    {
+        //ExStart:SdtTagAsFormFieldName
+        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //ExFor:PdfSaveOptions.UseSdtTagAsFormFieldName
+        //ExSummary:Shows how to use SDT control Tag or Id property as a name of form field in PDF.
+        Document doc = new Document(getMyDir() + "Form fields.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setPreserveFormFields(true);
+        // When set to 'false', SDT control Id property is used as a name of form field in PDF.
+        // When set to 'true', SDT control Tag property is used as a name of form field in PDF.
+        saveOptions.setUseSdtTagAsFormFieldName(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.SdtTagAsFormFieldName.pdf", saveOptions);
+        //ExEnd:SdtTagAsFormFieldName
+    }
 }
