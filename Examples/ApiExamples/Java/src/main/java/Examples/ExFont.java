@@ -1660,4 +1660,3 @@ public class ExFont extends ApiExampleBase {
         //ExEnd:PhysicalFontInfoEmbeddingLicensingRights
     }
 }
-}

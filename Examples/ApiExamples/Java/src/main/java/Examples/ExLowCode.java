@@ -13,10 +13,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.stream.Stream;
 
@@ -137,7 +134,7 @@ public class ExLowCode extends ApiExampleBase
         //ExFor:Converter.ConvertToImages(Document, SaveFormat)
         //ExFor:Converter.ConvertToImages(Document, ImageSaveOptions)
         //ExSummary:Shows how to convert document to images stream.
-        Stream[] streams = Converter.convertToImages(getMyDir() + "Big document.docx", SaveFormat.PNG);
+        InputStream[] streams = Converter.convertToImages(getMyDir() + "Big document.docx", SaveFormat.PNG);
 
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setPageSet(new PageSet(1));
@@ -159,7 +156,7 @@ public class ExLowCode extends ApiExampleBase
         //ExSummary:Shows how to convert document to images from stream.
         try (FileInputStream streamIn = new FileInputStream(getMyDir() + "Big document.docx"))
         {
-            Stream[] streams = Converter.convertToImages(streamIn, SaveFormat.JPEG);
+            InputStream[] streams = Converter.convertToImages(streamIn, SaveFormat.JPEG);
 
             ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
             imageSaveOptions.setPageSet(new PageSet(1));
