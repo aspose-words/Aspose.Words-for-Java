@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
@@ -174,7 +174,7 @@ public class ExXpsSaveOptions extends ApiExampleBase {
     public void xpsDigitalSignature() throws Exception
     {
         //ExStart:XpsDigitalSignature
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:XpsSaveOptions.DigitalSignatureDetails
         //ExSummary:Shows how to sign XPS document.
         Document doc = new Document(getMyDir() + "Document.docx");

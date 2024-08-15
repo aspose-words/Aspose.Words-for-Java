@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -1613,7 +1613,7 @@ public class ExFont extends ApiExampleBase {
     public void fontInfoEmbeddingLicensingRights() throws Exception
     {
         //ExStart:FontInfoEmbeddingLicensingRights
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:FontInfo.EmbeddingLicensingRights
         //ExFor:FontEmbeddingUsagePermissions
         //ExFor:FontEmbeddingLicensingRights.EmbeddingUsagePermissions
@@ -1640,7 +1640,7 @@ public class ExFont extends ApiExampleBase {
     public void physicalFontInfoEmbeddingLicensingRights()
     {
         //ExStart:PhysicalFontInfoEmbeddingLicensingRights
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:PhysicalFontInfo.EmbeddingLicensingRights
         //ExSummary:Shows how to get license rights information for embedded fonts (PhysicalFontInfo).
         FontSettings settings = FontSettings.getDefaultInstance();

@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -538,7 +538,7 @@ public class ExSection extends ApiExampleBase {
     public void preserveWatermarks() throws Exception
     {
         //ExStart:PreserveWatermarks
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Section.ClearHeadersFooters(bool)
         //ExSummary:Shows how to clear the contents of header and footer with or without a watermark.
         Document doc = new Document(getMyDir() + "Header and footer types.docx");

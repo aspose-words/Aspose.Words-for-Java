@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -2507,7 +2507,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public void sdtTagAsFormFieldName() throws Exception
     {
         //ExStart:SdtTagAsFormFieldName
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:PdfSaveOptions.UseSdtTagAsFormFieldName
         //ExSummary:Shows how to use SDT control Tag or Id property as a name of form field in PDF.
         Document doc = new Document(getMyDir() + "Form fields.docx");

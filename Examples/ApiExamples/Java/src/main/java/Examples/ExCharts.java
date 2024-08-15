@@ -2221,7 +2221,7 @@ public class ExCharts extends ApiExampleBase {
     public void tickLabelsOrientationRotation() throws Exception
     {
         //ExStart:TickLabelsOrientationRotation
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:AxisTickLabels.Rotation
         //ExFor:AxisTickLabels.Orientation
         //ExSummary:Shows how to change orientation and rotation for axis tick labels.

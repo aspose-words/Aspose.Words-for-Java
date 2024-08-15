@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -68,7 +68,7 @@ public class ExLowCode extends ApiExampleBase
     public void convert() throws Exception
     {
         //ExStart:Convert
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Converter.Convert(String, String)
         //ExFor:Converter.Convert(String, String, SaveFormat)
         //ExFor:Converter.Convert(String, String, SaveOptions)
@@ -86,7 +86,7 @@ public class ExLowCode extends ApiExampleBase
     public void convertStream() throws Exception
     {
         //ExStart:ConvertStream
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Converter.Convert(Stream, Stream, SaveFormat)
         //ExFor:Converter.Convert(Stream, Stream, SaveOptions)
         //ExSummary:Shows how to convert documents with a single line of code (Stream).
@@ -109,7 +109,7 @@ public class ExLowCode extends ApiExampleBase
     public void convertToImages() throws Exception
     {
         //ExStart:ConvertToImages
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Converter.ConvertToImages(String, String)
         //ExFor:Converter.ConvertToImages(String, String, SaveFormat)
         //ExFor:Converter.ConvertToImages(String, String, ImageSaveOptions)
@@ -128,7 +128,7 @@ public class ExLowCode extends ApiExampleBase
     public void convertToImagesStream() throws Exception
     {
         //ExStart:ConvertToImagesStream
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Converter.ConvertToImages(String, SaveFormat)
         //ExFor:Converter.ConvertToImages(String, ImageSaveOptions)
         //ExFor:Converter.ConvertToImages(Document, SaveFormat)
@@ -150,7 +150,7 @@ public class ExLowCode extends ApiExampleBase
     public void convertToImagesFromStream() throws Exception
     {
         //ExStart:ConvertToImagesFromStream
-        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //GistId:0ede368e82d1e97d02e615a76923846b
         //ExFor:Converter.ConvertToImages(Stream, SaveFormat)
         //ExFor:Converter.ConvertToImages(Stream, ImageSaveOptions)
         //ExSummary:Shows how to convert document to images from stream.
