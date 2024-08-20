@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
 //
@@ -191,7 +191,7 @@ public class ExXpsSaveOptions extends ApiExampleBase {
         saveOptions.setDigitalSignatureDetails(digitalSignatureDetails);
 
         Assert.assertEquals(certificateHolder, digitalSignatureDetails.getCertificateHolder());
-        Assert.assertEquals("Some comments", digitalSignatureDetails.getSignOptions().getComments());
+        Assert.assertEquals("My comment", digitalSignatureDetails.getSignOptions().getComments());
 
         doc.save(getArtifactsDir() + "XpsSaveOptions.XpsDigitalSignature.docx", saveOptions);
         //ExEnd:XpsDigitalSignature
