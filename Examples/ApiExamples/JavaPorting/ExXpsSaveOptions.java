@@ -22,10 +22,10 @@ import com.aspose.ms.System.IO.FileInfo;
 import com.aspose.words.BreakType;
 import com.aspose.words.PageSet;
 import com.aspose.words.CertificateHolder;
-import com.aspose.words.DigitalSignatureDetails;
 import com.aspose.words.SignOptions;
 import java.util.Date;
 import com.aspose.ms.System.DateTime;
+import com.aspose.words.DigitalSignatureDetails;
 import org.testng.annotations.DataProvider;
 
 
@@ -204,9 +204,11 @@ public class ExXpsSaveOptions extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Document.docx");
 
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
-        DigitalSignatureDetails digitalSignatureDetails = new DigitalSignatureDetails(
-            certificateHolder,
-            new SignOptions(); { digitalSignatureDetails.setComments("Some comments"); digitalSignatureDetails.setSignTime(new Date()); });
+        SignOptions options = new SignOptions();
+        options.setSignTimeInternal(new Date());
+        options.setComments("Some comments");
+
+        DigitalSignatureDetails digitalSignatureDetails = new DigitalSignatureDetails(certificateHolder, options);
 
         XpsSaveOptions saveOptions = new XpsSaveOptions();
         saveOptions.setDigitalSignatureDetails(digitalSignatureDetails);

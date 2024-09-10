@@ -145,7 +145,7 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
             FileStream streamOut = new FileStream(getArtifactsDir() + "LowCode.ConvertStream.SaveFormat.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
         	{
-                Converter.convert(streamIn, streamOut, SaveFormat.DOCX);
+                Converter.convertInternal(streamIn, streamOut, SaveFormat.DOCX);
         	}
             finally { if (streamOut != null) streamOut.close(); }
 
@@ -153,7 +153,7 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
             FileStream streamOut1 = new FileStream(getArtifactsDir() + "LowCode.ConvertStream.SaveOptions.docx", FileMode.CREATE, FileAccess.READ_WRITE);
             try /*JAVA: was using*/
         	{
-                Converter.convert(streamIn, streamOut1, saveOptions);
+                Converter.convertInternal(streamIn, streamOut1, saveOptions);
         	}
             finally { if (streamOut1 != null) streamOut1.close(); }
         }
@@ -190,15 +190,15 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
         //ExFor:Converter.ConvertToImages(Document, SaveFormat)
         //ExFor:Converter.ConvertToImages(Document, ImageSaveOptions)
         //ExSummary:Shows how to convert document to images stream.
-        Stream[] streams = Converter.convertToImages(getMyDir() + "Big document.docx", SaveFormat.PNG);
+        Stream[] streams = Converter.convertToImagesInternal(getMyDir() + "Big document.docx", SaveFormat.PNG);
 
         ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
         imageSaveOptions.setPageSet(new PageSet(1));
-        streams = Converter.convertToImages(getMyDir() + "Big document.docx", imageSaveOptions);
+        streams = Converter.convertToImagesInternal(getMyDir() + "Big document.docx", imageSaveOptions);
 
-        streams = Converter.convertToImages(new Document(getMyDir() + "Big document.docx"), SaveFormat.PNG);
+        streams = Converter.convertToImagesInternal(new Document(getMyDir() + "Big document.docx"), SaveFormat.PNG);
 
-        streams = Converter.convertToImages(new Document(getMyDir() + "Big document.docx"), imageSaveOptions);
+        streams = Converter.convertToImagesInternal(new Document(getMyDir() + "Big document.docx"), imageSaveOptions);
         //ExEnd:ConvertToImagesStream
     }
 
@@ -213,11 +213,11 @@ class ExLowCode !Test class should be public in Java to run, please fix .Net sou
         FileStream streamIn = new FileStream(getMyDir() + "Big document.docx", FileMode.OPEN, FileAccess.READ);
         try /*JAVA: was using*/
         {
-            Stream[] streams = Converter.convertToImages(streamIn, SaveFormat.JPEG);
+            Stream[] streams = Converter.convertToImagesInternal(streamIn, SaveFormat.JPEG);
 
             ImageSaveOptions imageSaveOptions = new ImageSaveOptions(SaveFormat.PNG);
             imageSaveOptions.setPageSet(new PageSet(1));
-            streams = Converter.convertToImages(streamIn, imageSaveOptions);
+            streams = Converter.convertToImagesInternal(streamIn, imageSaveOptions);
         }
         finally { if (streamIn != null) streamIn.close(); }
         //ExEnd:ConvertToImagesFromStream

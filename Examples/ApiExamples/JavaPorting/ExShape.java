@@ -3548,5 +3548,42 @@ public class ExShape extends ApiExampleBase
         Assert.assertEquals(Forms2OleControlType.CHECK_BOX, checkBoxControl.getType());
         //ExEnd:CheckedCheckBox
     }
+
+    @Test
+    public void insertGroupShape() throws Exception
+    {
+        //ExStart:InsertGroupShape
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:DocumentBuilder.InsertGroupShape(double, double, double, double, Shape[])
+        //ExFor:DocumentBuilder.InsertGroupShape(Shape[])
+        //ExSummary:Shows how to insert DML group shape.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape1 = builder.insertShape(ShapeType.RECTANGLE, 200.0, 250.0);
+        shape1.setLeft(20.0);
+        shape1.setTop(20.0);
+        shape1.getStroke().setColor(Color.RED);
+
+        Shape shape2 = builder.insertShape(ShapeType.ELLIPSE, 150.0, 200.0);
+        shape2.setLeft(40.0);
+        shape2.setTop(50.0);
+        shape2.getStroke().setColor(msColor.getGreen());
+
+        // Dimensions for the new GroupShape node.
+        double left = 10.0;
+        double top = 10.0;
+        double width = 200.0;
+        double height = 300.0;
+        // Insert GroupShape node for the specified size which is inserted into the specified position.
+        GroupShape groupShape1 = builder.insertGroupShape(left, top, width, height, new Shape[] { shape1, shape2 });
+
+        // Insert GroupShape node which position and dimension will be calculated automatically.
+        Shape shape3 = (Shape)shape1.deepClone(true);
+        GroupShape groupShape2 = builder.insertGroupShape(shape3);
+
+        doc.save(getArtifactsDir() + "Shape.InsertGroupShape.docx");
+        //ExEnd:InsertGroupShape
+    }
 }
 

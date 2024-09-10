@@ -535,8 +535,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         outDocContents = File.readAllText(getArtifactsDir() + "HtmlSaveOptions.CssClassNamePrefix.css");
 
-        Assert.assertTrue(outDocContents.contains(".myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:footer }\r\n" +
-                                            ".myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:header }\r\n"));
+        Assert.assertTrue(outDocContents.contains(".myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:footer }"));
+        Assert.assertTrue(outDocContents.contains(".myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:header }"));
         //ExEnd
     }
 

@@ -65,6 +65,7 @@ import com.aspose.words.ParagraphCollection;
 import com.aspose.words.TabStop;
 import com.aspose.words.TabAlignment;
 import com.aspose.words.TabLeader;
+import com.aspose.words.DocumentBuilderOptions;
 import org.testng.annotations.DataProvider;
 import com.aspose.words.ref.RefInt;
 
@@ -1797,10 +1798,10 @@ public class ExTable extends ApiExampleBase
 
         // Replace the table with the new paragraph
         convertTable(table);
-
+        // Remove table after convertion.
         table.remove();
 
-        doc.save(getArtifactsDir() + "output.docx");
+        doc.save(getArtifactsDir() + "Table.ConvertWithParagraphMark.docx");
     }
 
     /// <summary>
@@ -1990,5 +1991,39 @@ public class ExTable extends ApiExampleBase
             cell = cell.getNextCell();
         }
         return cell;
+    }
+
+    @Test
+    public void contextTableFormatting() throws Exception
+    {
+        //ExStart:ContextTableFormatting
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:DocumentBuilderOptions
+        //ExFor:DocumentBuilderOptions.ContextTableFormatting
+        //ExSummary:Shows how to ignore table formatting for content after.
+        Document doc = new Document();
+        DocumentBuilderOptions builderOptions = new DocumentBuilderOptions();
+        builderOptions.setContextTableFormatting(true);
+        DocumentBuilder builder = new DocumentBuilder(doc, builderOptions);
+
+        // Adds content before the table.
+        // Default font size is 12.
+        builder.writeln("Font size 12 here.");
+        builder.startTable();
+        builder.insertCell();
+        // Changes the font size inside the table.
+        builder.getFont().setSize(5.0);
+        builder.write("Font size 5 here");
+        builder.insertCell();
+        builder.write("Font size 5 here");
+        builder.endRow();
+        builder.endTable();
+
+        // If ContextTableFormatting is true, then table formatting isn't applied to the content after.
+        // If ContextTableFormatting is false, then table formatting is applied to the content after.
+        builder.writeln("Font size 12 here.");
+
+        doc.save(getArtifactsDir() + "Table.ContextTableFormatting.docx");
+        //ExEnd:ContextTableFormatting
     }
 }

@@ -124,18 +124,18 @@ public class ExComment extends ApiExampleBase
         comment.addReplyInternal("Joe Bloggs", "J.B.", new Date(), "New reply");
         comment.addReplyInternal("Joe Bloggs", "J.B.", new Date(), "Another reply");
 
-        Assert.AreEqual(2, comment.getReplies().Count()); 
+        Assert.assertEquals(2, comment.getReplies().getCount()); 
 
         // Below are two ways of removing replies from a comment.
         // 1 -  Use the "RemoveReply" method to remove replies from a comment individually:
         comment.removeReply(comment.getReplies().get(0));
 
-        Assert.AreEqual(1, comment.getReplies().Count());
+        Assert.assertEquals(1, comment.getReplies().getCount());
 
         // 2 -  Use the "RemoveAllReplies" method to remove all replies from a comment at once:
         comment.removeAllReplies();
 
-        Assert.AreEqual(0, comment.getReplies().Count()); 
+        Assert.assertEquals(0, comment.getReplies().getCount()); 
         //ExEnd
     }
 
