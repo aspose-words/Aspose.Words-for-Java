@@ -48,8 +48,6 @@ public class BaseOperations extends DocsExamplesBase
         //ExStart:UseIfElseMustache
         //GistId:544788f602e697802e313a641cedb9b8
         Document doc = new Document(getMyDir() + "Mail merge destinations - Mustache syntax.docx");
-        doc.getSections().clear();
-        doc.save(getArtifactsDir() + "output.docx");
 
         doc.getMailMerge().setUseNonMergeFields(true);
         doc.getMailMerge().execute(new String[] { "GENDER" }, new Object[] { "MALE" });
