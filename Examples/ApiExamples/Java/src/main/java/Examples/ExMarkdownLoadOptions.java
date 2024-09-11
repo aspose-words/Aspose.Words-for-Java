@@ -8,12 +8,12 @@ package Examples;
 // "as is", without warranty of any kind, either expressed or implied.
 //////////////////////////////////////////////////////////////////////////
 
-import com.aspose.words.Document;
-import com.aspose.words.MarkdownLoadOptions;
+import com.aspose.words.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 
 @Test
@@ -36,6 +36,30 @@ class ExMarkdownLoadOptions extends ApiExampleBase
 
         Assert.assertEquals("\rLine1\r\rLine2\r\f", doc.getText());
         //ExEnd:PreserveEmptyLines
+    }
+
+    @Test
+    public void importUnderlineFormatting() throws Exception
+    {
+        //ExStart:ImportUnderlineFormatting
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:MarkdownLoadOptions.ImportUnderlineFormatting
+        //ExSummary:Shows how to recognize plus characters "++" as underline text formatting.
+        try (ByteArrayInputStream stream = new ByteArrayInputStream("++12 and B++".getBytes(StandardCharsets.US_ASCII)))
+        {
+            MarkdownLoadOptions loadOptions = new MarkdownLoadOptions(); { loadOptions.setImportUnderlineFormatting(true); }
+            Document doc = new Document(stream, loadOptions);
+
+            Paragraph para = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 0, true);
+            Assert.assertEquals(Underline.SINGLE, para.getRuns().get(0).getFont().getUnderline());
+
+            loadOptions = new MarkdownLoadOptions(); { loadOptions.setImportUnderlineFormatting(false); }
+            doc = new Document(stream, loadOptions);
+
+            para = (Paragraph)doc.getChild(NodeType.PARAGRAPH, 0, true);
+            Assert.assertEquals(Underline.NONE, para.getRuns().get(0).getFont().getUnderline());
+        }
+        //ExEnd:ImportUnderlineFormatting
     }
 }
 

@@ -1298,4 +1298,26 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
             tag.setAppearance(SdtAppearance.TAGS);
         //ExEnd:Appearance
     }
+
+    @Test
+    public void insertStructuredDocumentTag() throws Exception
+    {
+        //ExStart:InsertStructuredDocumentTag
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:DocumentBuilder.InsertStructuredDocumentTag(SdtType)
+        //ExSummary:Shows how to simply insert structured document tag.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.moveTo(doc.getFirstSection().getBody().getParagraphs().get(3));
+        // Note, that only following StructuredDocumentTag types are allowed for insertion:
+        // SdtType.PlainText, SdtType.RichText, SdtType.Checkbox, SdtType.DropDownList,
+        // SdtType.ComboBox, SdtType.Picture, SdtType.Date.
+        // Markup level of inserted StructuredDocumentTag will be detected automatically and depends on position being inserted at.
+        // Added StructuredDocumentTag will inherit paragraph and font formatting from cursor position.
+        StructuredDocumentTag sdtPlain = builder.insertStructuredDocumentTag(SdtType.PLAIN_TEXT);
+
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.InsertStructuredDocumentTag.docx");
+        //ExEnd:InsertStructuredDocumentTag
+    }
 }

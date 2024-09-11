@@ -229,4 +229,21 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
         Assert.assertThrows(NullPointerException.class, () -> DigitalSignatureUtil.sign(doc.getOriginalFileName(),
                 getArtifactsDir() + "DigitalSignatureUtil.NoCertificateForSign.docx", null, signOptions));
     }
+
+    @Test
+    public void xmlDsig() throws Exception
+    {
+        //ExStart:XmlDsig
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:SignOptions.XmlDsigLevel
+        //ExFor:XmlDsigLevel
+        //ExSummary:Shows how to sign document based on XML-DSig standard.
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+        SignOptions signOptions = new SignOptions(); { signOptions.setXmlDsigLevel(XmlDsigLevel.X_AD_ES_EPES); }
+
+        String inputFileName = getMyDir() + "Document.docx";
+        String outputFileName = getArtifactsDir() + "DigitalSignatureUtil.XmlDsig.docx";
+        DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
+        //ExEnd:XmlDsig
+    }
 }
