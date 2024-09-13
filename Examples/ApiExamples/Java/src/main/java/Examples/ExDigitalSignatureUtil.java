@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -234,7 +234,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase {
     public void xmlDsig() throws Exception
     {
         //ExStart:XmlDsig
-        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //GistId:6280fd6c1c1854468bea095ec2af902b
         //ExFor:SignOptions.XmlDsigLevel
         //ExFor:XmlDsigLevel
         //ExSummary:Shows how to sign document based on XML-DSig standard.

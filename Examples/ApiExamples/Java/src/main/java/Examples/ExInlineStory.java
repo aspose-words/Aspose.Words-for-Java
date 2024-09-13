@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -651,7 +651,7 @@ public class ExInlineStory extends ApiExampleBase {
     public void endnoteSeparator() throws Exception
     {
         //ExStart:EndnoteSeparator
-        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //GistId:6280fd6c1c1854468bea095ec2af902b
         //ExFor:DocumentBase.FootnoteSeparators
         //ExFor:FootnoteSeparatorType
         //ExSummary:Shows how to remove endnote separator.
@@ -669,7 +669,7 @@ public class ExInlineStory extends ApiExampleBase {
     public void footnoteSeparator() throws Exception
     {
         //ExStart:FootnoteSeparator
-        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //GistId:6280fd6c1c1854468bea095ec2af902b
         //ExFor:DocumentBase.FootnoteSeparators
         //ExFor:FootnoteSeparatorType
         //ExSummary:Shows how to manage footnote separator format.

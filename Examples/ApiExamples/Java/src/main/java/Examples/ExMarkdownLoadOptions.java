@@ -1,4 +1,4 @@
-package Examples;
+﻿package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -42,7 +42,7 @@ class ExMarkdownLoadOptions extends ApiExampleBase
     public void importUnderlineFormatting() throws Exception
     {
         //ExStart:ImportUnderlineFormatting
-        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //GistId:6280fd6c1c1854468bea095ec2af902b
         //ExFor:MarkdownLoadOptions.ImportUnderlineFormatting
         //ExSummary:Shows how to recognize plus characters "++" as underline text formatting.
         try (ByteArrayInputStream stream = new ByteArrayInputStream("++12 and B++".getBytes(StandardCharsets.US_ASCII)))
