@@ -3810,8 +3810,8 @@ public class ExField extends ApiExampleBase {
         // which will display a QR code with the value from the merged row.
         DataTable table = new DataTable("Barcodes");
         table.getColumns().add("MyQRCode");
-        table.getRows().add(new String[]{"ABC123"});
-        table.getRows().add(new String[]{"DEF456"});
+        table.getRows().add("ABC123");
+        table.getRows().add("DEF456");
 
         doc.getMailMerge().execute(table);
 
@@ -3877,8 +3877,8 @@ public class ExField extends ApiExampleBase {
         // which will display an EAN13 barcode with the value from the merged row.
         DataTable table = new DataTable("Barcodes");
         table.getColumns().add("MyEAN13Barcode");
-        table.getRows().add(new String[]{"501234567890"});
-        table.getRows().add(new String[]{"123456789012"});
+        table.getRows().add("501234567890");
+        table.getRows().add("123456789012");
 
         doc.getMailMerge().execute(table);
 
@@ -3937,8 +3937,8 @@ public class ExField extends ApiExampleBase {
         // which will display a CODE39 barcode with the value from the merged row.
         DataTable table = new DataTable("Barcodes");
         table.getColumns().add("MyCODE39Barcode");
-        table.getRows().add(new String[]{"12345ABCDE"});
-        table.getRows().add(new String[]{"67890FGHIJ"});
+        table.getRows().add("12345ABCDE");
+        table.getRows().add("67890FGHIJ");
 
         doc.getMailMerge().execute(table);
 
@@ -3994,8 +3994,8 @@ public class ExField extends ApiExampleBase {
         // which will display an ITF14 barcode with the value from the merged row.
         DataTable table = new DataTable("Barcodes");
         table.getColumns().add("MyITF14Barcode");
-        table.getRows().add(new String[]{"09312345678907"});
-        table.getRows().add(new String[]{"1234567891234"});
+        table.getRows().add("09312345678907");
+        table.getRows().add("1234567891234");
 
         doc.getMailMerge().execute(table);
 
@@ -6742,9 +6742,9 @@ public class ExField extends ApiExampleBase {
         // On page 2, the MERGEREC field will display "3" and the MERGESEQ field will display "2".
         DataTable table = new DataTable("Employees");
         table.getColumns().add("Name");
-        table.getRows().add(new String[]{"Jane Doe"});
-        table.getRows().add(new String[]{"John Doe"});
-        table.getRows().add(new String[]{"Joe Bloggs"});
+        table.getRows().add("Jane Doe");
+        table.getRows().add("John Doe");
+        table.getRows().add("Joe Bloggs");
 
         doc.getMailMerge().execute(table);
         doc.save(getArtifactsDir() + "Field.MERGEREC.MERGESEQ.docx");

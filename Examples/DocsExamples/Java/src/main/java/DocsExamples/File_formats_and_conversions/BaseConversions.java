@@ -3,7 +3,12 @@ package DocsExamples.File_formats_and_conversions;
 import DocsExamples.DocsExamplesBase;
 import com.aspose.email.*;
 import com.aspose.words.*;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.ImageTranscoder;
+import org.apache.batik.transcoder.wmf.tosvg.WMFTranscoder;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
@@ -211,46 +216,19 @@ public class BaseConversions extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        // Load images from the disk using the appropriate reader.
-        // The file formats that can be loaded depends on the image readers available on the machine.
-        ImageInputStream iis = ImageIO.createImageInputStream(new File(inputFileName));
-        ImageReader reader = ImageIO.getImageReaders(iis).next();
-        reader.setInput(iis, false);
+        // Insert the image into the document and position it at the top left corner of the page.
+        Shape image = builder.insertImage(inputFileName);
+        image.setRelativeHorizontalPosition(RelativeHorizontalPosition.PAGE);
+        image.setRelativeVerticalPosition(RelativeVerticalPosition.PAGE);
+        image.setLeft(0);
+        image.setTop(0);
+        image.setWrapType(WrapType.NONE);
 
-        // Get the number of frames in the image.
-        int framesCount = reader.getNumImages(true);
-
-        // Loop through all frames.
-        for (int frameIdx = 0; frameIdx < framesCount; frameIdx++) {
-            // Insert a section break before each new page, in case of a multi-frame image.
-            if (frameIdx != 0)
-                builder.insertBreak(BreakType.SECTION_BREAK_NEW_PAGE);
-
-            // Select active frame.
-            BufferedImage image = reader.read(frameIdx);
-
-            // We want the size of the page to be the same as the size of the image.
-            // Convert pixels to points to size the page to the actual image size.
-            PageSetup ps = builder.getPageSetup();
-            ps.setPageWidth(ConvertUtil.pixelToPoint(image.getWidth()));
-            ps.setPageHeight(ConvertUtil.pixelToPoint(image.getHeight()));
-
-            // Insert the image into the document and position it at the top left corner of the page.
-            builder.insertImage(
-                    image,
-                    RelativeHorizontalPosition.PAGE,
-                    0,
-                    RelativeVerticalPosition.PAGE,
-                    0,
-                    ps.getPageWidth(),
-                    ps.getPageHeight(),
-                    WrapType.NONE);
-        }
-
-        if (iis != null) {
-            iis.close();
-            reader.dispose();
-        }
+        // We want the size of the page to be the same as the size of the image.
+        // Convert pixels to points to size the page to the actual image size.
+        PageSetup ps = builder.getPageSetup();
+        ps.setPageWidth(image.getWidth());
+        ps.setPageHeight(image.getHeight());
 
         doc.save(outputFileName);
     }

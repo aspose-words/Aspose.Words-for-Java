@@ -183,7 +183,7 @@ public class WorkingWithBookmarks extends DocsExamplesBase
     }
 
     //ExStart:ShowHideBookmarkedContent
-    public void showHideBookmarkedContent(Document doc, String bookmarkName, boolean isHidden)
+    private void showHideBookmarkedContent(Document doc, String bookmarkName, boolean isHidden)
     {
         Bookmark bm = doc.getRange().getBookmarks().get(bookmarkName);
 

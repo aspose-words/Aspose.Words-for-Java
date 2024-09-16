@@ -2337,7 +2337,7 @@ public class ExDocument extends ApiExampleBase
         Assert.assertTrue(doc.getText().contains("Hachette Book Group USA"));
     }
 
-    @Test
+    @Test(enabled = false, description = "https://issue.auckland.dynabic.com/issues/WORDSJAVA-2892")
     public void openEpub() throws Exception
     {
         FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Epub document.epub");

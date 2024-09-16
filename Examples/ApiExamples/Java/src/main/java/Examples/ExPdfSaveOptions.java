@@ -512,7 +512,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 Assert.assertEquals("2.0", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_A_4:
-                Assert.assertEquals(PdfFormat.v_2_0, pdfDocument.getPdfFormat());
+                Assert.assertEquals(PdfFormat.PDF_A_4, pdfDocument.getPdfFormat());
                 Assert.assertEquals("2.0", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_A_4_UA_2:
@@ -1876,7 +1876,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 Assert.assertEquals(6, tableAbsorber.getTableList().size());
                 break;
             case DmlRenderingMode.FALLBACK:
-                Assert.assertEquals(15, tableAbsorber.getTableList().size());
+                Assert.assertEquals(12, tableAbsorber.getTableList().size());
                 break;
         }
 
