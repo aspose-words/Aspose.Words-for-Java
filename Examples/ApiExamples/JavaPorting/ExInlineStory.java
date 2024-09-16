@@ -32,6 +32,9 @@ import com.aspose.words.StoryType;
 import java.util.Date;
 import com.aspose.words.SaveFormat;
 import com.aspose.words.ShapeType;
+import com.aspose.words.FootnoteSeparator;
+import com.aspose.words.FootnoteSeparatorType;
+import com.aspose.words.ParagraphAlignment;
 import org.testng.annotations.DataProvider;
 
 
@@ -678,6 +681,42 @@ public class ExInlineStory extends ApiExampleBase
 
         Assert.assertEquals("1", footnote.getActualReferenceMark());
         //ExEnd:UpdateActualReferenceMarks
+    }
+
+    @Test
+    public void endnoteSeparator() throws Exception
+    {
+        //ExStart:EndnoteSeparator
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:DocumentBase.FootnoteSeparators
+        //ExFor:FootnoteSeparatorType
+        //ExSummary:Shows how to remove endnote separator.
+        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
+
+        FootnoteSeparator endnoteSeparator = doc.getFootnoteSeparators().getByFootnoteSeparatorType(FootnoteSeparatorType.ENDNOTE_SEPARATOR);
+        // Remove endnote separator.
+        endnoteSeparator.getFirstParagraph().getFirstChild().remove();
+        //ExEnd:EndnoteSeparator
+
+        doc.save(getArtifactsDir() + "InlineStory.EndnoteSeparator.docx");
+    }
+
+    @Test
+    public void footnoteSeparator() throws Exception
+    {
+        //ExStart:FootnoteSeparator
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:DocumentBase.FootnoteSeparators
+        //ExFor:FootnoteSeparatorType
+        //ExSummary:Shows how to manage footnote separator format.
+        Document doc = new Document(getMyDir() + "Footnotes and endnotes.docx");
+
+        FootnoteSeparator footnoteSeparator = doc.getFootnoteSeparators().getByFootnoteSeparatorType(FootnoteSeparatorType.FOOTNOTE_SEPARATOR);
+        // Align footnote separator.
+        footnoteSeparator.getFirstParagraph().getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+        //ExEnd:FootnoteSeparator
+
+        doc.save(getArtifactsDir() + "InlineStory.FootnoteSeparator.docx");
     }
 }
 

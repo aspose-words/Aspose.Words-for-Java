@@ -82,6 +82,7 @@ public class ExComment extends ApiExampleBase
         //ExFor:Comment.Ancestor
         //ExFor:Comment.Author
         //ExFor:Comment.Replies
+        //ExFor:CompositeNode.GetEnumerator
         //ExFor:CompositeNode.GetChildNodes(NodeType, Boolean)
         //ExSummary:Shows how to print all of a document's comments and their replies.
         Document doc = new Document(getMyDir() + "Comments.docx");
@@ -123,18 +124,18 @@ public class ExComment extends ApiExampleBase
         comment.addReplyInternal("Joe Bloggs", "J.B.", new Date(), "New reply");
         comment.addReplyInternal("Joe Bloggs", "J.B.", new Date(), "Another reply");
 
-        Assert.AreEqual(2, comment.getReplies().Count()); 
+        Assert.assertEquals(2, comment.getReplies().getCount()); 
 
         // Below are two ways of removing replies from a comment.
         // 1 -  Use the "RemoveReply" method to remove replies from a comment individually:
         comment.removeReply(comment.getReplies().get(0));
 
-        Assert.AreEqual(1, comment.getReplies().Count());
+        Assert.assertEquals(1, comment.getReplies().getCount());
 
         // 2 -  Use the "RemoveAllReplies" method to remove all replies from a comment at once:
         comment.removeAllReplies();
 
-        Assert.AreEqual(0, comment.getReplies().Count()); 
+        Assert.assertEquals(0, comment.getReplies().getCount()); 
         //ExEnd
     }
 
@@ -178,11 +179,13 @@ public class ExComment extends ApiExampleBase
         Assert.assertEquals("\u0005Fix the spelling error!", comment.getText().trim());
         Assert.assertEquals("Hello world!", doc.getFirstSection().getBody().getFirstParagraph().getRuns().get(0).getText());
     }
-    
+
     //ExStart
     //ExFor:Comment.Done
     //ExFor:Comment.#ctor(DocumentBase)
     //ExFor:Comment.Accept(DocumentVisitor)
+    //ExFor:Comment.AcceptStart(DocumentVisitor)
+    //ExFor:Comment.AcceptEnd(DocumentVisitor)
     //ExFor:Comment.DateTime
     //ExFor:Comment.Id
     //ExFor:Comment.Initial
@@ -239,6 +242,10 @@ public class ExComment extends ApiExampleBase
 
             // Then, visit the comment, and any replies that it may have.
             comment.accept(commentVisitor);
+            // Visit only start of the comment.
+            comment.acceptStart(commentVisitor);
+            // Visit only end of the comment.
+            comment.acceptEnd(commentVisitor);
 
             for (Comment reply : (Iterable<Comment>) comment.getReplies())
                 reply.accept(commentVisitor);
@@ -349,4 +356,29 @@ public class ExComment extends ApiExampleBase
         private /*final*/ StringBuilder mBuilder;
     }
     //ExEnd
+
+    @Test
+    public void utcDateTime() throws Exception
+    {
+        //ExStart:UtcDateTime
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:Comment.DateTimeUtc
+        //ExSummary:Shows how to get UTC date and time.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        DateTime dateTime = new Date();
+        Comment comment = new Comment(doc, "John Doe", "J.D.", dateTime);
+        comment.setText("My comment.");
+
+        builder.getCurrentParagraph().appendChild(comment);
+
+        doc.save(getArtifactsDir() + "Comment.UtcDateTime.docx");
+        doc = new Document(getArtifactsDir() + "Comment.UtcDateTime.docx");
+
+        comment = (Comment)doc.getChild(NodeType.COMMENT, 0, true);
+        // DateTimeUtc return data without milliseconds.
+        Assert.assertEquals(dateTime.toUniversalTime().toString("yyyy-MM-dd hh:mm:ss"), comment.getDateTimeUtcInternal().toString("yyyy-MM-dd hh:mm:ss"));
+        //ExEnd:UtcDateTime
+    }
 }

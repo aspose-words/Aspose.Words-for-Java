@@ -28,6 +28,25 @@ import com.aspose.words.RevisionColor;
 import com.aspose.words.RevisionTextEffect;
 import com.aspose.words.IRevisionCriteria;
 import com.aspose.ms.System.msString;
+import com.aspose.words.ParagraphCollection;
+import com.aspose.words.RevisionsView;
+import com.aspose.words.FootnoteType;
+import com.aspose.words.Shape;
+import com.aspose.words.ShapeType;
+import com.aspose.words.Comment;
+import com.aspose.words.HeaderFooterType;
+import com.aspose.words.Paragraph;
+import com.aspose.words.StyleIdentifier;
+import com.aspose.words.Footnote;
+import com.aspose.words.NodeType;
+import com.aspose.words.Table;
+import com.aspose.words.FieldDate;
+import com.aspose.words.CompareOptions;
+import com.aspose.words.ComparisonTargetType;
+import com.aspose.words.HorizontalAlignment;
+import com.aspose.words.Granularity;
+import com.aspose.words.RevisionGroupCollection;
+import org.testng.annotations.DataProvider;
 
 
 @Test
@@ -289,7 +308,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         revisionOptions.setMovedFromTextColor(RevisionColor.YELLOW);
         revisionOptions.setMovedFromTextEffect(RevisionTextEffect.DOUBLE_STRIKE_THROUGH);
         revisionOptions.setMovedToTextColor(RevisionColor.CLASSIC_BLUE);
-        revisionOptions.setMovedFromTextEffect(RevisionTextEffect.DOUBLE_UNDERLINE);
+        revisionOptions.setMovedToTextEffect(RevisionTextEffect.DOUBLE_UNDERLINE);
 
         // Render format revisions in dark red and bold.
         revisionOptions.setRevisedPropertiesColor(RevisionColor.DARK_RED);
@@ -317,6 +336,8 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
     //GistId:470c0da51e4317baae82ad9495747fed
     //ExFor:RevisionCollection.Accept(IRevisionCriteria)
     //ExFor:RevisionCollection.Reject(IRevisionCriteria)
+    //ExFor:IRevisionCriteria
+    //ExFor:IRevisionCriteria.IsMatch(Revision)
     //ExSummary:Shows how to accept or reject revision based on criteria.
     @Test //ExSkip
     public void revisionSpecifiedCriteria() throws Exception
@@ -326,7 +347,7 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         builder.write("This does not count as a revision. ");
 
         // To register our edits as revisions, we need to declare an author, and then start tracking them.
-        doc.startTrackRevisionsInternal("John Doe", new Date());            
+        doc.startTrackRevisionsInternal("John Doe", new Date());
         builder.write("This is insertion revision #1. ");
         doc.stopTrackRevisions();
 
@@ -367,5 +388,421 @@ class ExRevision !Test class should be public in Java to run, please fix .Net so
         }
     }
     //ExEnd:RevisionSpecifiedCriteria
+
+    @Test
+    public void trackRevisions() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.StartTrackRevisions(String)
+        //ExFor:Document.StartTrackRevisions(String, DateTime)
+        //ExFor:Document.StopTrackRevisions
+        //ExSummary:Shows how to track revisions while editing a document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Editing a document usually does not count as a revision until we begin tracking them.
+        builder.write("Hello world! ");
+
+        Assert.assertEquals(0, doc.getRevisions().getCount());
+        Assert.assertFalse(doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0).isInsertRevision());
+
+        doc.startTrackRevisions("John Doe");
+
+        builder.write("Hello again! ");
+
+        Assert.assertEquals(1, doc.getRevisions().getCount());
+        Assert.assertTrue(doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(1).isInsertRevision());
+        Assert.assertEquals("John Doe", doc.getRevisions().get(0).getAuthor());
+        Assert.assertTrue((DateTime.subtract(new Date(), doc.getRevisions().get(0).getDateTimeInternal())).getMilliseconds() <= 10);
+
+        // Stop tracking revisions to not count any future edits as revisions.
+        doc.stopTrackRevisions();
+        builder.write("Hello again! ");
+
+        Assert.assertEquals(1, doc.getRevisions().getCount());
+        Assert.assertFalse(doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(2).isInsertRevision());
+
+        // Creating revisions gives them a date and time of the operation.
+        // We can disable this by passing DateTime.MinValue when we start tracking revisions.
+        doc.startTrackRevisionsInternal("John Doe", DateTime.MinValue);
+        builder.write("Hello again! ");
+
+        Assert.assertEquals(2, doc.getRevisions().getCount());
+        Assert.assertEquals("John Doe", doc.getRevisions().get(1).getAuthor());
+        Assert.assertEquals(DateTime.MinValue, doc.getRevisions().get(1).getDateTimeInternal());
+
+        // We can accept/reject these revisions programmatically
+        // by calling methods such as Document.AcceptAllRevisions, or each revision's Accept method.
+        // In Microsoft Word, we can process them manually via "Review" -> "Changes".
+        doc.save(getArtifactsDir() + "Document.StartTrackRevisions.docx");
+        //ExEnd
+    }
+
+    @Test
+    public void acceptAllRevisions() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.AcceptAllRevisions
+        //ExSummary:Shows how to accept all tracking changes in the document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Edit the document while tracking changes to create a few revisions.
+        doc.startTrackRevisions("John Doe");
+        builder.write("Hello world! ");
+        builder.write("Hello again! ");
+        builder.write("This is another revision.");
+        doc.stopTrackRevisions();
+
+        Assert.assertEquals(3, doc.getRevisions().getCount());
+
+        // We can iterate through every revision and accept/reject it as a part of our document.
+        // If we know we wish to accept every revision, we can do it more straightforwardly so by calling this method.
+        doc.acceptAllRevisions();
+
+        Assert.assertEquals(0, doc.getRevisions().getCount());
+        Assert.assertEquals("Hello world! Hello again! This is another revision.", doc.getText().trim());
+        //ExEnd
+    }
+
+    @Test
+    public void getRevisedPropertiesOfList() throws Exception
+    {
+        //ExStart
+        //ExFor:RevisionsView
+        //ExFor:Document.RevisionsView
+        //ExSummary:Shows how to switch between the revised and the original view of a document.
+        Document doc = new Document(getMyDir() + "Revisions at list levels.docx");
+        doc.updateListLabels();
+
+        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
+        Assert.assertEquals("1.", paragraphs.get(0).getListLabel().getLabelString());
+        Assert.assertEquals("a.", paragraphs.get(1).getListLabel().getLabelString());
+        Assert.assertEquals("", paragraphs.get(2).getListLabel().getLabelString());
+
+        // View the document object as if all the revisions are accepted. Currently supports list labels.
+        doc.setRevisionsView(RevisionsView.FINAL);
+
+        Assert.assertEquals("", paragraphs.get(0).getListLabel().getLabelString());
+        Assert.assertEquals("1.", paragraphs.get(1).getListLabel().getLabelString());
+        Assert.assertEquals("a.", paragraphs.get(2).getListLabel().getLabelString());
+        //ExEnd
+
+        doc.setRevisionsView(RevisionsView.ORIGINAL);
+        doc.acceptAllRevisions();
+
+        Assert.assertEquals("a.", paragraphs.get(0).getListLabel().getLabelString());
+        Assert.assertEquals("", paragraphs.get(1).getListLabel().getLabelString());
+        Assert.assertEquals("b.", paragraphs.get(2).getListLabel().getLabelString());
+    }
+
+    @Test
+    public void compare() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.Compare(Document, String, DateTime)
+        //ExFor:RevisionCollection.AcceptAll
+        //ExSummary:Shows how to compare documents.
+        Document docOriginal = new Document();
+        DocumentBuilder builder = new DocumentBuilder(docOriginal);
+        builder.writeln("This is the original document.");
+
+        Document docEdited = new Document();
+        builder = new DocumentBuilder(docEdited);
+        builder.writeln("This is the edited document.");
+
+        // Comparing documents with revisions will throw an exception.
+        if (docOriginal.getRevisions().getCount() == 0 && docEdited.getRevisions().getCount() == 0)
+            docOriginal.compareInternal(docEdited, "authorName", new Date());
+
+        // After the comparison, the original document will gain a new revision
+        // for every element that is different in the edited document.
+        Assert.assertEquals(2, docOriginal.getRevisions().getCount()); //ExSkip
+        for (Revision r : docOriginal.getRevisions())
+        {
+            System.out.println("Revision type: {r.RevisionType}, on a node of type \"{r.ParentNode.NodeType}\"");
+            System.out.println("\tChanged text: \"{r.ParentNode.GetText()}\"");
+        }
+
+        // Accepting these revisions will transform the original document into the edited document.
+        docOriginal.getRevisions().acceptAll();
+
+        Assert.assertEquals(docOriginal.getText(), docEdited.getText());
+        //ExEnd
+
+        docOriginal = DocumentHelper.saveOpen(docOriginal);
+        Assert.assertEquals(0, docOriginal.getRevisions().getCount());
+    }
+
+    @Test
+    public void compareDocumentWithRevisions() throws Exception
+    {
+        Document doc1 = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc1);
+        builder.writeln("Hello world! This text is not a revision.");
+
+        Document docWithRevision = new Document();
+        builder = new DocumentBuilder(docWithRevision);
+
+        docWithRevision.startTrackRevisions("John Doe");
+        builder.writeln("This is a revision.");
+
+        Assert.<IllegalStateException>Throws(() => docWithRevision.compareInternal(doc1, "John Doe", new Date()));
+    }
+
+    @Test
+    public void compareOptions() throws Exception
+    {
+        //ExStart
+        //ExFor:CompareOptions
+        //ExFor:CompareOptions.IgnoreFormatting
+        //ExFor:CompareOptions.IgnoreCaseChanges
+        //ExFor:CompareOptions.IgnoreComments
+        //ExFor:CompareOptions.IgnoreTables
+        //ExFor:CompareOptions.IgnoreFields
+        //ExFor:CompareOptions.IgnoreFootnotes
+        //ExFor:CompareOptions.IgnoreTextboxes
+        //ExFor:CompareOptions.IgnoreHeadersAndFooters
+        //ExFor:CompareOptions.Target
+        //ExFor:ComparisonTargetType
+        //ExFor:Document.Compare(Document, String, DateTime, CompareOptions)
+        //ExSummary:Shows how to filter specific types of document elements when making a comparison.
+        // Create the original document and populate it with various kinds of elements.
+        Document docOriginal = new Document();
+        DocumentBuilder builder = new DocumentBuilder(docOriginal);
+
+        // Paragraph text referenced with an endnote:
+        builder.writeln("Hello world! This is the first paragraph.");
+        builder.insertFootnote(FootnoteType.ENDNOTE, "Original endnote text.");
+
+        // Table:
+        builder.startTable();
+        builder.insertCell();
+        builder.write("Original cell 1 text");
+        builder.insertCell();
+        builder.write("Original cell 2 text");
+        builder.endTable();
+
+        // Textbox:
+        Shape textBox = builder.insertShape(ShapeType.TEXT_BOX, 150.0, 20.0);
+        builder.moveTo(textBox.getFirstParagraph());
+        builder.write("Original textbox contents");
+
+        // DATE field:
+        builder.moveTo(docOriginal.getFirstSection().getBody().appendParagraph(""));
+        builder.insertField(" DATE ");
+
+        // Comment:
+        Comment newComment = new Comment(docOriginal, "John Doe", "J.D.", new Date());
+        newComment.setText("Original comment.");
+        builder.getCurrentParagraph().appendChild(newComment);
+
+        // Header:
+        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
+        builder.writeln("Original header contents.");
+
+        // Create a clone of our document and perform a quick edit on each of the cloned document's elements.
+        Document docEdited = (Document)docOriginal.deepClone(true);
+        Paragraph firstParagraph = docEdited.getFirstSection().getBody().getFirstParagraph();
+
+        firstParagraph.getRuns().get(0).setText("hello world! this is the first paragraph, after editing.");
+        firstParagraph.getParagraphFormat().setStyle(docEdited.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1));
+        ((Footnote)docEdited.getChild(NodeType.FOOTNOTE, 0, true)).getFirstParagraph().getRuns().get(1).setText("Edited endnote text.");
+        ((Table)docEdited.getChild(NodeType.TABLE, 0, true)).getFirstRow().getCells().get(1).getFirstParagraph().getRuns().get(0).setText("Edited Cell 2 contents");
+        ((Shape)docEdited.getChild(NodeType.SHAPE, 0, true)).getFirstParagraph().getRuns().get(0).setText("Edited textbox contents");
+        ((FieldDate)docEdited.getRange().getFields().get(0)).setUseLunarCalendar(true);
+        ((Comment)docEdited.getChild(NodeType.COMMENT, 0, true)).getFirstParagraph().getRuns().get(0).setText("Edited comment.");
+        docEdited.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getFirstParagraph().getRuns().get(0).setText("Edited header contents.");
+
+        // Comparing documents creates a revision for every edit in the edited document.
+        // A CompareOptions object has a series of flags that can suppress revisions
+        // on each respective type of element, effectively ignoring their change.
+        CompareOptions compareOptions = new CompareOptions();
+        compareOptions.setIgnoreFormatting(false);
+        compareOptions.setIgnoreCaseChanges(false);
+        compareOptions.setIgnoreComments(false);
+        compareOptions.setIgnoreTables(false);
+        compareOptions.setIgnoreFields(false);
+        compareOptions.setIgnoreFootnotes(false);
+        compareOptions.setIgnoreTextboxes(false);
+        compareOptions.setIgnoreHeadersAndFooters(false);
+        compareOptions.setTarget(ComparisonTargetType.NEW);
+
+        docOriginal.compareInternal(docEdited, "John Doe", new Date(), compareOptions);
+        docOriginal.save(getArtifactsDir() + "Document.CompareOptions.docx");
+        //ExEnd
+
+        docOriginal = new Document(getArtifactsDir() + "Document.CompareOptions.docx");
+
+        TestUtil.verifyFootnote(FootnoteType.ENDNOTE, true, "",
+            "OriginalEdited endnote text.", (Footnote)docOriginal.getChild(NodeType.FOOTNOTE, 0, true));
+    }
+
+    @Test (dataProvider = "ignoreDmlUniqueIdDataProvider")
+    public void ignoreDmlUniqueId(boolean isIgnoreDmlUniqueId) throws Exception
+    {
+        //ExStart
+        //ExFor:CompareOptions.AdvancedOptions
+        //ExFor:AdvancedCompareOptions.IgnoreDmlUniqueId
+        //ExFor:CompareOptions.IgnoreDmlUniqueId
+        //ExSummary:Shows how to compare documents ignoring DML unique ID.
+        Document docA = new Document(getMyDir() + "DML unique ID original.docx");
+        Document docB = new Document(getMyDir() + "DML unique ID compare.docx");
+
+        // By default, Aspose.Words do not ignore DML's unique ID, and the revisions count was 2.
+        // If we are ignoring DML's unique ID, and revisions count were 0.
+        CompareOptions compareOptions = new CompareOptions();
+        compareOptions.getAdvancedOptions().setIgnoreDmlUniqueId(isIgnoreDmlUniqueId);
+
+        docA.compareInternal(docB, "Aspose.Words", new Date(), compareOptions);
+
+        Assert.assertEquals(isIgnoreDmlUniqueId ? 0 : 2, docA.getRevisions().getCount());
+        //ExEnd
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "ignoreDmlUniqueIdDataProvider")
+	public static Object[][] ignoreDmlUniqueIdDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{false},
+			{true},
+		};
+	}
+
+    @Test
+    public void layoutOptionsRevisions() throws Exception
+    {
+        //ExStart
+        //ExFor:Document.LayoutOptions
+        //ExFor:LayoutOptions
+        //ExFor:LayoutOptions.RevisionOptions
+        //ExFor:RevisionColor
+        //ExFor:RevisionOptions
+        //ExFor:RevisionOptions.InsertedTextColor
+        //ExFor:RevisionOptions.ShowRevisionBars
+        //ExFor:RevisionOptions.RevisionBarsPosition
+        //ExSummary:Shows how to alter the appearance of revisions in a rendered output document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a revision, then change the color of all revisions to green.
+        builder.writeln("This is not a revision.");
+        doc.startTrackRevisionsInternal("John Doe", new Date());
+        Assert.assertEquals(RevisionColor.BY_AUTHOR, doc.getLayoutOptions().getRevisionOptions().getInsertedTextColor()); //ExSkip
+        Assert.assertTrue(doc.getLayoutOptions().getRevisionOptions().getShowRevisionBars()); //ExSkip
+        builder.writeln("This is a revision.");
+        doc.stopTrackRevisions();
+        builder.writeln("This is not a revision.");
+
+        // Remove the bar that appears to the left of every revised line.
+        doc.getLayoutOptions().getRevisionOptions().setInsertedTextColor(RevisionColor.BRIGHT_GREEN);
+        doc.getLayoutOptions().getRevisionOptions().setShowRevisionBars(false);
+        doc.getLayoutOptions().getRevisionOptions().setRevisionBarsPosition(HorizontalAlignment.RIGHT);
+
+        doc.save(getArtifactsDir() + "Document.LayoutOptionsRevisions.pdf");
+        //ExEnd
+    }
+
+    @Test (dataProvider = "granularityCompareOptionDataProvider")
+    public void granularityCompareOption(/*Granularity*/int granularity) throws Exception
+    {
+        //ExStart
+        //ExFor:CompareOptions.Granularity
+        //ExFor:Granularity
+        //ExSummary:Shows to specify a granularity while comparing documents.
+        Document docA = new Document();
+        DocumentBuilder builderA = new DocumentBuilder(docA);
+        builderA.writeln("Alpha Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+
+        Document docB = new Document();
+        DocumentBuilder builderB = new DocumentBuilder(docB);
+        builderB.writeln("Lorems ipsum dolor sit amet consectetur - \"adipiscing\" elit");
+
+        // Specify whether changes are tracking
+        // by character ('Granularity.CharLevel'), or by word ('Granularity.WordLevel').
+        CompareOptions compareOptions = new CompareOptions();
+        compareOptions.setGranularity(granularity);
+
+        docA.compareInternal(docB, "author", new Date(), compareOptions);
+
+        // The first document's collection of revision groups contains all the differences between documents.
+        RevisionGroupCollection groups = docA.getRevisions().getGroups();
+        Assert.assertEquals(5, groups.getCount());
+        //ExEnd
+
+        if (granularity == Granularity.CHAR_LEVEL)
+        {
+            Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
+            Assert.assertEquals("Alpha ", groups.get(0).getText());
+
+            Assert.assertEquals(RevisionType.DELETION, groups.get(1).getRevisionType());
+            Assert.assertEquals(",", groups.get(1).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(2).getRevisionType());
+            Assert.assertEquals("s", groups.get(2).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(3).getRevisionType());
+            Assert.assertEquals("- \"", groups.get(3).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(4).getRevisionType());
+            Assert.assertEquals("\"", groups.get(4).getText());
+        }
+        else
+        {
+            Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
+            Assert.assertEquals("Alpha Lorem", groups.get(0).getText());
+
+            Assert.assertEquals(RevisionType.DELETION, groups.get(1).getRevisionType());
+            Assert.assertEquals(",", groups.get(1).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(2).getRevisionType());
+            Assert.assertEquals("Lorems", groups.get(2).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(3).getRevisionType());
+            Assert.assertEquals("- \"", groups.get(3).getText());
+
+            Assert.assertEquals(RevisionType.INSERTION, groups.get(4).getRevisionType());
+            Assert.assertEquals("\"", groups.get(4).getText());
+        }
+    }
+
+	//JAVA-added data provider for test method
+	@DataProvider(name = "granularityCompareOptionDataProvider")
+	public static Object[][] granularityCompareOptionDataProvider() throws Exception
+	{
+		return new Object[][]
+		{
+			{Granularity.CHAR_LEVEL},
+			{Granularity.WORD_LEVEL},
+		};
+	}
+
+    @Test
+    public void ignoreStoreItemId() throws Exception
+    {
+        //ExStart:IgnoreStoreItemId
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:AdvancedCompareOptions
+        //ExFor:AdvancedCompareOptions.IgnoreStoreItemId
+        //ExSummary:Shows how to compare SDT with same content but different store item id.
+        Document docA = new Document(getMyDir() + "Document with SDT 1.docx");
+        Document docB = new Document(getMyDir() + "Document with SDT 2.docx");
+
+        // Configure options to compare SDT with same content but different store item id.
+        CompareOptions compareOptions = new CompareOptions();
+        compareOptions.getAdvancedOptions().setIgnoreStoreItemId(false);
+
+        docA.compareInternal(docB, "user", new Date(), compareOptions);
+        Assert.assertEquals(8, docA.getRevisions().getCount());
+
+        compareOptions.getAdvancedOptions().setIgnoreStoreItemId(true);
+
+        docA.getRevisions().rejectAll();
+        docA.compareInternal(docB, "user", new Date(), compareOptions);
+        Assert.assertEquals(0, docA.getRevisions().getCount());
+        //ExEnd:IgnoreStoreItemId
+    }
 }
 

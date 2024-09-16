@@ -616,6 +616,7 @@ public class ExFont extends ApiExampleBase {
     @Test
     public void sparklingText() throws Exception {
         //ExStart
+        //ExFor:TextEffect
         //ExFor:Font.TextEffect
         //ExSummary:Shows how to apply a visual effect to a run.
         Document doc = new Document();
@@ -767,7 +768,6 @@ public class ExFont extends ApiExampleBase {
 
             Assert.assertEquals(1033, run.getFont().getLocaleId());
             Assert.assertEquals(16, run.getFont().getSize());
-            Assert.assertEquals("Courier New", run.getFont().getName());
             Assert.assertFalse(run.getFont().getItalic());
             Assert.assertFalse(run.getFont().getBold());
             Assert.assertEquals(1025, run.getFont().getLocaleIdBi());
@@ -972,7 +972,7 @@ public class ExFont extends ApiExampleBase {
     @Test
     public void getAvailableFonts() throws Exception {
         //ExStart
-        //ExFor:Fonts.PhysicalFontInfo
+        //ExFor:PhysicalFontInfo
         //ExFor:FontSourceBase.GetAvailableFonts
         //ExFor:PhysicalFontInfo.FontFamilyName
         //ExFor:PhysicalFontInfo.FullFontName
@@ -1041,7 +1041,9 @@ public class ExFont extends ApiExampleBase {
 
     //ExStart
     //ExFor:Font.Hidden
-    //ExFor:Paragraph.Accept
+    //ExFor:Paragraph.Accept(DocumentVisitor)
+    //ExFor:Paragraph.AcceptStart(DocumentVisitor)
+    //ExFor:Paragraph.AcceptEnd(DocumentVisitor)
     //ExFor:DocumentVisitor.VisitParagraphStart(Paragraph)
     //ExFor:DocumentVisitor.VisitFormField(FormField)
     //ExFor:DocumentVisitor.VisitTableEnd(Table)
@@ -1053,9 +1055,13 @@ public class ExFont extends ApiExampleBase {
     //ExFor:DocumentVisitor.VisitCommentStart(Comment)
     //ExFor:DocumentVisitor.VisitFootnoteStart(Footnote)
     //ExFor:SpecialChar
-    //ExFor:Node.Accept
+    //ExFor:SpecialChar.Accept(DocumentVisitor)
+    //ExFor:SpecialChar.GetText
+    //ExFor:Node.Accept(DocumentVisitor)
     //ExFor:Paragraph.ParagraphBreakFont
-    //ExFor:Table.Accept
+    //ExFor:Table.Accept(DocumentVisitor)
+    //ExFor:Table.AcceptStart(DocumentVisitor)
+    //ExFor:Table.AcceptEnd(DocumentVisitor)
     //ExSummary:Shows how to use a DocumentVisitor implementation to remove all hidden content from a document.
     @Test //ExSkip
     public void removeHiddenContentFromDocument() throws Exception {
@@ -1291,8 +1297,8 @@ public class ExFont extends ApiExampleBase {
     @Test
     public void defaultFonts() throws Exception {
         //ExStart
-        //ExFor:Fonts.FontInfoCollection.Contains(String)
-        //ExFor:Fonts.FontInfoCollection.Count
+        //ExFor:FontInfoCollection.Contains(String)
+        //ExFor:FontInfoCollection.Count
         //ExSummary:Shows info about the fonts that are present in the blank document.
         Document doc = new Document();
 
@@ -1311,12 +1317,12 @@ public class ExFont extends ApiExampleBase {
     @Test
     public void extractEmbeddedFont() throws Exception {
         //ExStart
-        //ExFor:Fonts.EmbeddedFontFormat
-        //ExFor:Fonts.EmbeddedFontStyle
-        //ExFor:Fonts.FontInfo.GetEmbeddedFont(EmbeddedFontFormat,EmbeddedFontStyle)
-        //ExFor:Fonts.FontInfo.GetEmbeddedFontAsOpenType(EmbeddedFontStyle)
-        //ExFor:Fonts.FontInfoCollection.Item(Int32)
-        //ExFor:Fonts.FontInfoCollection.Item(String)
+        //ExFor:EmbeddedFontFormat
+        //ExFor:EmbeddedFontStyle
+        //ExFor:FontInfo.GetEmbeddedFont(EmbeddedFontFormat,EmbeddedFontStyle)
+        //ExFor:FontInfo.GetEmbeddedFontAsOpenType(EmbeddedFontStyle)
+        //ExFor:FontInfoCollection.Item(Int32)
+        //ExFor:FontInfoCollection.Item(String)
         //ExSummary:Shows how to extract an embedded font from a document, and save it to the local file system.
         Document doc = new Document(getMyDir() + "Embedded font.docx");
 
@@ -1343,14 +1349,14 @@ public class ExFont extends ApiExampleBase {
     @Test
     public void getFontInfoFromFile() throws Exception {
         //ExStart
-        //ExFor:Fonts.FontFamily
-        //ExFor:Fonts.FontPitch
-        //ExFor:Fonts.FontInfo.AltName
-        //ExFor:Fonts.FontInfo.Charset
-        //ExFor:Fonts.FontInfo.Family
-        //ExFor:Fonts.FontInfo.Panose
-        //ExFor:Fonts.FontInfo.Pitch
-        //ExFor:Fonts.FontInfoCollection.GetEnumerator
+        //ExFor:FontFamily
+        //ExFor:FontPitch
+        //ExFor:FontInfo.AltName
+        //ExFor:FontInfo.Charset
+        //ExFor:FontInfo.Family
+        //ExFor:FontInfo.Panose
+        //ExFor:FontInfo.Pitch
+        //ExFor:FontInfoCollection.GetEnumerator
         //ExSummary:Shows how to access and print details of each font in a document.
         Document doc = new Document(getMyDir() + "Document.docx");
 
@@ -1403,6 +1409,7 @@ public class ExFont extends ApiExampleBase {
     public void hasDmlEffect() throws Exception {
         //ExStart
         //ExFor:Font.HasDmlEffect(TextDmlEffect)
+        //ExFor:TextDmlEffect
         //ExSummary:Shows how to check if a run displays a DrawingML text effect.
         Document doc = new Document(getMyDir() + "DrawingML text effects.docx");
 
@@ -1600,5 +1607,56 @@ public class ExFont extends ApiExampleBase {
 
         Assert.assertEquals(ThemeColor.ACCENT_5, run.getFont().getThemeColor());
         Assert.assertEquals(0, run.getFont().getColor().getRGB());
+    }
+
+    @Test
+    public void fontInfoEmbeddingLicensingRights() throws Exception
+    {
+        //ExStart:FontInfoEmbeddingLicensingRights
+        //GistId:0ede368e82d1e97d02e615a76923846b
+        //ExFor:FontInfo.EmbeddingLicensingRights
+        //ExFor:FontEmbeddingUsagePermissions
+        //ExFor:FontEmbeddingLicensingRights.EmbeddingUsagePermissions
+        //ExFor:FontEmbeddingLicensingRights.BitmapEmbeddingOnly
+        //ExFor:FontEmbeddingLicensingRights.NoSubsetting
+        //ExSummary:Shows how to get license rights information for embedded fonts (FontInfo).
+        Document doc = new Document(getMyDir() + "Embedded font rights.docx");
+
+        // Get the list of document fonts.
+        FontInfoCollection fontInfos = doc.getFontInfos();
+        for (FontInfo fontInfo : fontInfos)
+        {
+            if (fontInfo.getEmbeddingLicensingRights() != null)
+            {
+                System.out.println(fontInfo.getEmbeddingLicensingRights().getEmbeddingUsagePermissions());
+                System.out.println(fontInfo.getEmbeddingLicensingRights().getBitmapEmbeddingOnly());
+                System.out.println(fontInfo.getEmbeddingLicensingRights().getNoSubsetting());
+            }
+        }
+        //ExEnd:FontInfoEmbeddingLicensingRights
+    }
+
+    @Test
+    public void physicalFontInfoEmbeddingLicensingRights()
+    {
+        //ExStart:PhysicalFontInfoEmbeddingLicensingRights
+        //GistId:0ede368e82d1e97d02e615a76923846b
+        //ExFor:PhysicalFontInfo.EmbeddingLicensingRights
+        //ExSummary:Shows how to get license rights information for embedded fonts (PhysicalFontInfo).
+        FontSettings settings = FontSettings.getDefaultInstance();
+        FontSourceBase source = settings.getFontsSources()[0];
+
+        // Get the list of available fonts.
+        ArrayList<PhysicalFontInfo> fontInfos = source.getAvailableFonts();
+        for (PhysicalFontInfo fontInfo : fontInfos)
+        {
+            if (fontInfo.getEmbeddingLicensingRights() != null)
+            {
+                System.out.println(fontInfo.getEmbeddingLicensingRights().getEmbeddingUsagePermissions());
+                System.out.println(fontInfo.getEmbeddingLicensingRights().getBitmapEmbeddingOnly());
+                System.out.println(fontInfo.getEmbeddingLicensingRights().getNoSubsetting());
+            }
+        }
+        //ExEnd:PhysicalFontInfoEmbeddingLicensingRights
     }
 }

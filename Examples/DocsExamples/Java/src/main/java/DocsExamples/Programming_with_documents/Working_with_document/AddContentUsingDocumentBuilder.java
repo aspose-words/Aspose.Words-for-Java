@@ -38,7 +38,6 @@ public class AddContentUsingDocumentBuilder extends DocsExamplesBase
 
         Table table = builder.startTable();
         builder.insertCell();
-        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
 
         builder.getCellFormat().setVerticalAlignment(CellVerticalAlignment.CENTER);
         builder.write("This is row 1 cell 1");
@@ -61,6 +60,8 @@ public class AddContentUsingDocumentBuilder extends DocsExamplesBase
 
         builder.endRow();
         builder.endTable();
+
+        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
 
         doc.save(getArtifactsDir() + "AddContentUsingDocumentBuilder.BuildTable.docx");
         //ExEnd:BuildTable
@@ -184,9 +185,8 @@ public class AddContentUsingDocumentBuilder extends DocsExamplesBase
         DocumentBuilder builder = new DocumentBuilder(doc);
         
         builder.write("Please make sure to visit ");
-        builder.getFont().setColor(Color.BLUE);
-        builder.getFont().setUnderline(Underline.SINGLE);
-        
+
+        builder.getFont().setStyle(doc.getStyles().getByStyleIdentifier(StyleIdentifier.HYPERLINK));
         builder.insertHyperlink("Aspose Website", "http://www.aspose.com", false);
         
         builder.getFont().clearFormatting();

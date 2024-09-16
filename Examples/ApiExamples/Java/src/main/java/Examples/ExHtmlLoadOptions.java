@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -23,6 +23,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
     @Test(dataProvider = "supportVmlDataProvider")
     public void supportVml(boolean supportVml) throws Exception {
         //ExStart
+        //ExFor:HtmlLoadOptions
         //ExFor:HtmlLoadOptions.#ctor
         //ExFor:HtmlLoadOptions.SupportVml
         //ExSummary:Shows how to support conditional comments while loading an HTML document.
@@ -161,6 +162,7 @@ public class ExHtmlLoadOptions extends ApiExampleBase {
     public void getSelectAsSdt() throws Exception {
         //ExStart
         //ExFor:HtmlLoadOptions.PreferredControlType
+        //ExFor:HtmlControlType
         //ExSummary:Shows how to set preferred type of document nodes that will represent imported <input> and <select> elements.
         final String html = "\r\n<html>\r\n<select name='ComboBox' size='1'>\r\n"
                 + "<option value='val1'>item1</option>\r\n<option value='val2'></option>\r\n</select>\r\n</html>\r\n";

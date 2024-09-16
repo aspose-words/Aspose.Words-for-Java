@@ -333,7 +333,7 @@ public class ExFormFields extends ApiExampleBase
 
         TestUtil.verifyField(FieldType.FIELD_FORM_DROP_DOWN, " FORMDROPDOWN \u0001", "", doc.getRange().getFields().get(0));
         TestUtil.verifyField(FieldType.FIELD_FORM_CHECK_BOX, " FORMCHECKBOX \u0001", "", doc.getRange().getFields().get(1));
-        TestUtil.verifyField(FieldType.FIELD_FORM_TEXT_INPUT, " FORMTEXT \u0001", "New placeholder text", doc.getRange().getFields().get(2));
+        TestUtil.verifyField(FieldType.FIELD_FORM_TEXT_INPUT, " FORMTEXT \u0001", "Regular", doc.getRange().getFields().get(2));
 
         FormFieldCollection formFields = doc.getRange().getFormFields();
         Assert.assertEquals(3, formFields.getCount());
@@ -363,24 +363,24 @@ public class ExFormFields extends ApiExampleBase
         Assert.assertEquals("FIRST CAPITAL", formFields.get(2).getTextInputFormat());
         Assert.assertEquals(TextFormFieldType.REGULAR, formFields.get(2).getTextInputType());
         Assert.assertEquals(50, formFields.get(2).getMaxLength());
-        Assert.assertEquals("New placeholder text", formFields.get(2).getResult());
+        Assert.assertEquals("Regular", formFields.get(2).getResult());
     }
 
     @Test
     public void dropDownItemCollection() throws Exception
     {
         //ExStart
-        //ExFor:Fields.DropDownItemCollection
-        //ExFor:Fields.DropDownItemCollection.Add(String)
-        //ExFor:Fields.DropDownItemCollection.Clear
-        //ExFor:Fields.DropDownItemCollection.Contains(String)
-        //ExFor:Fields.DropDownItemCollection.Count
-        //ExFor:Fields.DropDownItemCollection.GetEnumerator
-        //ExFor:Fields.DropDownItemCollection.IndexOf(String)
-        //ExFor:Fields.DropDownItemCollection.Insert(Int32, String)
-        //ExFor:Fields.DropDownItemCollection.Item(Int32)
-        //ExFor:Fields.DropDownItemCollection.Remove(String)
-        //ExFor:Fields.DropDownItemCollection.RemoveAt(Int32)
+        //ExFor:DropDownItemCollection
+        //ExFor:DropDownItemCollection.Add(String)
+        //ExFor:DropDownItemCollection.Clear
+        //ExFor:DropDownItemCollection.Contains(String)
+        //ExFor:DropDownItemCollection.Count
+        //ExFor:DropDownItemCollection.GetEnumerator
+        //ExFor:DropDownItemCollection.IndexOf(String)
+        //ExFor:DropDownItemCollection.Insert(Int32, String)
+        //ExFor:DropDownItemCollection.Item(Int32)
+        //ExFor:DropDownItemCollection.Remove(String)
+        //ExFor:DropDownItemCollection.RemoveAt(Int32)
         //ExSummary:Shows how to insert a combo box field, and edit the elements in its item collection.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

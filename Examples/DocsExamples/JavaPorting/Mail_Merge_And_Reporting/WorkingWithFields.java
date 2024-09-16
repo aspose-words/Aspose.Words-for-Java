@@ -26,6 +26,9 @@ import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.words.FieldMergeField;
 import java.awt.Color;
 import com.aspose.words.net.System.Data.DataRow;
+import com.aspose.words.FieldNextIf;
+import com.aspose.words.FieldType;
+import com.aspose.words.FieldSkipIf;
 import com.aspose.words.ref.Ref;
 
 
@@ -35,6 +38,7 @@ class WorkingWithFields extends DocsExamplesBase
     public void mailMergeFormFields() throws Exception
     {
         //ExStart:MailMergeFormFields
+        //GistId:0a1baaa127443b485cc692c8d98ee353
         Document doc = new Document(getMyDir() + "Mail merge destinations - Fax.docx");
 
         // Setup mail merge event handler to do the custom work.
@@ -59,6 +63,7 @@ class WorkingWithFields extends DocsExamplesBase
     }
 
     //ExStart:HandleMergeField
+    //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
     private static class HandleMergeField implements IFieldMergingCallback
     {
         /// <summary>
@@ -100,6 +105,7 @@ class WorkingWithFields extends DocsExamplesBase
         }
 
         //ExStart:ImageFieldMerging
+        //GistId:0a1baaa127443b485cc692c8d98ee353
         public void /*IFieldMergingCallback.*/imageFieldMerging(ImageFieldMergingArgs args)
         {
             args.setImageFileName("Image.png");
@@ -115,7 +121,8 @@ class WorkingWithFields extends DocsExamplesBase
     @Test
     public void mailMergeImageField() throws Exception
     {
-        //ExStart:MailMergeImageField       
+        //ExStart:MailMergeImageField
+        //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -139,6 +146,7 @@ class WorkingWithFields extends DocsExamplesBase
     }
 
     //ExStart:ImageFieldMergingHandler
+    //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
     private static class ImageFieldMergingHandler implements IFieldMergingCallback
     {
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args)
@@ -161,6 +169,7 @@ class WorkingWithFields extends DocsExamplesBase
     //ExEnd:ImageFieldMergingHandler
 
     //ExStart:DataSourceRoot
+    //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
     public static class DataSourceRoot implements IMailMergeDataSourceRoot
     {
         public IMailMergeDataSource getDataSource(String s)
@@ -170,7 +179,9 @@ class WorkingWithFields extends DocsExamplesBase
 
         private static class DataSource implements IMailMergeDataSource
         {
-            private boolean next = true;private TableNametableName();
+            private boolean next = true;
+
+            String IMailMergeDataSource.TableName => private TableNametableName();
 
             private String tableName()
             {
@@ -227,10 +238,11 @@ class WorkingWithFields extends DocsExamplesBase
         //ExEnd:MailMergeAndConditionalField
     }
 
-    @Test
+    @Test (groups = "IgnoreOnJenkins")
     public void mailMergeImageFromBlob() throws Exception
     {
         //ExStart:MailMergeImageFromBlob
+        //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind employees.docx");
 
         doc.getMailMerge().setFieldMergingCallback(new HandleMergeImageFieldFromBlob());
@@ -250,7 +262,8 @@ class WorkingWithFields extends DocsExamplesBase
         //ExEnd:MailMergeImageFromBlob
     }
 
-    //ExStart:HandleMergeImageFieldFromBlob 
+    //ExStart:HandleMergeImageFieldFromBlob
+    //GistId:8a66b5cea0f9f8b862c092c9b93ccb3c
     public static class HandleMergeImageFieldFromBlob implements IFieldMergingCallback
     {
         public void /*IFieldMergingCallback.*/fieldMerging(FieldMergingArgs args)
@@ -398,6 +411,30 @@ class WorkingWithFields extends DocsExamplesBase
 
         return dataTable;
     }
+    //ExEnd:HandleMergeFieldAlternatingRows
+
+    @Test
+    public void fieldNext() throws Exception
+    {
+        //ExStart:FieldNext
+        //GistId:b4bab1bf22437a86d8062e91cf154494
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Use NextIf field. A NEXTIF field has the same function as a NEXT field,
+        // but it skips to the next row only if a statement constructed by the following 3 properties is true.
+        FieldNextIf fieldNextIf = (FieldNextIf)builder.insertField(FieldType.FIELD_NEXT_IF, true);
+
+        // Or use SkipIf field.
+        FieldSkipIf fieldSkipIf = (FieldSkipIf)builder.insertField(FieldType.FIELD_SKIP_IF, true);
+        
+        fieldNextIf.setLeftExpression("5");
+        fieldNextIf.setRightExpression("2 + 3");
+        fieldNextIf.setComparisonOperator("=");
+
+        doc.save(getArtifactsDir() + "WorkingWithFields.FieldNext.docx");
+        //ExEnd:FieldNext
+    }
 
 	//JAVA-added for string switch emulation
 	private static final StringSwitchMap gStringSwitchMap = new StringSwitchMap
@@ -406,5 +443,4 @@ class WorkingWithFields extends DocsExamplesBase
 		"Subject"
 	);
 
-    //ExEnd:HandleMergeFieldAlternatingRows
 }

@@ -178,7 +178,7 @@ public class WorkingWithFields extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(0);
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         builder.moveTo(para);
 
@@ -216,7 +216,7 @@ public class WorkingWithFields extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(0);
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         builder.moveTo(para);
 
@@ -301,7 +301,7 @@ public class WorkingWithFields extends DocsExamplesBase
         //ExStart:InsertAuthorField
         Document doc = new Document();
 
-        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(0);
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         // We want to insert an AUTHOR field like this:
         // { AUTHOR Test1 }
@@ -321,7 +321,7 @@ public class WorkingWithFields extends DocsExamplesBase
         //ExStart:InsertASKFieldWithOutDocumentBuilder
         Document doc = new Document();
 
-        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(0);
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         // We want to insert an Ask field like this:
         // { ASK \"Test 1\" Test2 \\d Test3 \\o }
@@ -352,7 +352,7 @@ public class WorkingWithFields extends DocsExamplesBase
         //ExStart:InsertAdvanceFieldWithOutDocumentBuilder
         Document doc = new Document();
 
-        Paragraph para = (Paragraph) doc.getChildNodes(NodeType.PARAGRAPH, true).get(0);
+        Paragraph para = (Paragraph) doc.getChild(NodeType.PARAGRAPH, 0, true);
 
         // We want to insert an Advance field like this:
         // { ADVANCE \\d 10 \\l 10 \\r -3.3 \\u 0 \\x 100 \\y 100 }

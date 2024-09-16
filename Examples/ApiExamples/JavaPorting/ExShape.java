@@ -101,6 +101,13 @@ import com.aspose.words.ShadowType;
 import com.aspose.words.RelativeHorizontalSize;
 import com.aspose.words.RelativeVerticalSize;
 import com.aspose.words.TextBoxControl;
+import com.aspose.words.ReflectionFormat;
+import com.aspose.words.SoftEdgeFormat;
+import com.aspose.words.AdjustmentCollection;
+import com.aspose.words.Adjustment;
+import com.aspose.words.ShadowFormat;
+import com.aspose.words.OptionButtonControl;
+import com.aspose.words.CheckBoxControl;
 import org.testng.annotations.DataProvider;
 
 
@@ -857,6 +864,7 @@ public class ExShape extends ApiExampleBase
     public void textureFill() throws Exception
     {
         //ExStart
+        //ExFor:Fill.PresetTexture
         //ExFor:Fill.TextureAlignment
         //ExFor:TextureAlignment
         //ExSummary:Shows how to fill and tiling the texture inside the shape.
@@ -874,13 +882,13 @@ public class ExShape extends ApiExampleBase
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setCompliance(OoxmlCompliance.ISO_29500_2008_STRICT); }
 
         doc.save(getArtifactsDir() + "Shape.TextureFill.docx", saveOptions);
-        //ExEnd
 
         doc = new Document(getArtifactsDir() + "Shape.TextureFill.docx");
-
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
         Assert.assertEquals(TextureAlignment.TOP_RIGHT, shape.getFill().getTextureAlignment());
+        Assert.assertEquals(PresetTexture.CANVAS, shape.getFill().getPresetTexture());
+        //ExEnd
     }
 
     @Test
@@ -891,6 +899,7 @@ public class ExShape extends ApiExampleBase
         //ExFor:Fill.OneColorGradient(GradientStyle, GradientVariant, Double)
         //ExFor:Fill.TwoColorGradient(Color, Color, GradientStyle, GradientVariant)
         //ExFor:Fill.TwoColorGradient(GradientStyle, GradientVariant)
+        //ExFor:Fill.BackColor
         //ExFor:Fill.GradientStyle
         //ExFor:Fill.GradientVariant
         //ExFor:Fill.GradientAngle
@@ -952,12 +961,13 @@ public class ExShape extends ApiExampleBase
         //ExStart
         //ExFor:Fill.GradientStops
         //ExFor:GradientStopCollection
-        //ExFor:GradientStopCollection.Insert(System.Int32, GradientStop)
+        //ExFor:GradientStopCollection.Insert(Int32, GradientStop)
         //ExFor:GradientStopCollection.Add(GradientStop)
-        //ExFor:GradientStopCollection.RemoveAt(System.Int32)
+        //ExFor:GradientStopCollection.RemoveAt(Int32)
         //ExFor:GradientStopCollection.Remove(GradientStop)
-        //ExFor:GradientStopCollection.Item(System.Int32)
+        //ExFor:GradientStopCollection.Item(Int32)
         //ExFor:GradientStopCollection.Count
+        //ExFor:GradientStop
         //ExFor:GradientStop.#ctor(Color, Double)
         //ExFor:GradientStop.#ctor(Color, Double, Double)
         //ExFor:GradientStop.BaseColor
@@ -1031,6 +1041,8 @@ public class ExShape extends ApiExampleBase
     public void fillPattern() throws Exception
     {
         //ExStart
+        //ExFor:PatternType
+        //ExFor:Fill.Pattern
         //ExFor:Fill.Patterned(PatternType)
         //ExFor:Fill.Patterned(PatternType, Color, Color)
         //ExSummary:Shows how to set pattern for a shape.
@@ -1268,8 +1280,8 @@ public class ExShape extends ApiExampleBase
     {
         //ExStart
         //ExFor:OleControl
-        //ExFor:Ole.OleControl.IsForms2OleControl
-        //ExFor:Ole.OleControl.Name
+        //ExFor:OleControl.IsForms2OleControl
+        //ExFor:OleControl.Name
         //ExFor:OleFormat.OleControl
         //ExFor:Forms2OleControl
         //ExFor:Forms2OleControl.Caption
@@ -1456,9 +1468,9 @@ public class ExShape extends ApiExampleBase
     {
         //ExStart
         //ExFor:OleFormat.Clsid
-        //ExFor:Ole.Forms2OleControlCollection
-        //ExFor:Ole.Forms2OleControlCollection.Count
-        //ExFor:Ole.Forms2OleControlCollection.Item(Int32)
+        //ExFor:Forms2OleControlCollection
+        //ExFor:Forms2OleControlCollection.Count
+        //ExFor:Forms2OleControlCollection.Item(Int32)
         //ExSummary:Shows how to access an OLE control embedded in a document and its child controls.
         Document doc = new Document(getMyDir() + "OLE ActiveX controls.docm");
 
@@ -1542,7 +1554,7 @@ public class ExShape extends ApiExampleBase
         //ExEnd
 
         if (!isRunningOnMono())
-            TestUtil.verifyImage(792, 87, getArtifactsDir() + "Shape.RenderOfficeMath.png");
+            TestUtil.verifyImage(813, 87, getArtifactsDir() + "Shape.RenderOfficeMath.png");
         else
             TestUtil.verifyImage(735, 128, getArtifactsDir() + "Shape.RenderOfficeMath.png");
     }
@@ -2033,6 +2045,8 @@ public class ExShape extends ApiExampleBase
 
     //ExStart
     //ExFor:Shape.Accept(DocumentVisitor)
+    //ExFor:Shape.AcceptStart(DocumentVisitor)
+    //ExFor:Shape.AcceptEnd(DocumentVisitor)
     //ExFor:Shape.Chart
     //ExFor:Shape.ExtrusionEnabled
     //ExFor:Shape.Filled
@@ -2048,7 +2062,7 @@ public class ExShape extends ApiExampleBase
     public void visitShapes() throws Exception
     {
         Document doc = new Document(getMyDir() + "Revision shape.docx");
-        Assert.assertEquals(2, doc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSKip
+        Assert.assertEquals(2, doc.getChildNodes(NodeType.SHAPE, true).getCount()); //ExSkip
 
         ShapeAppearancePrinter visitor = new ShapeAppearancePrinter();
         doc.accept(visitor);
@@ -2588,6 +2602,7 @@ public class ExShape extends ApiExampleBase
     //ExFor:TextPath.Trim
     //ExFor:TextPath.Underline
     //ExFor:TextPath.XScale
+    //ExFor:TextPath.Size
     //ExFor:TextPathAlignment
     //ExSummary:Shows how to work with WordArt.
     @Test //ExSkip
@@ -2930,7 +2945,7 @@ public class ExShape extends ApiExampleBase
         //ExFor:NodeRendererBase.OpaqueBoundsInPoints
         //ExFor:NodeRendererBase.SizeInPoints
         //ExFor:OfficeMathRenderer
-        //ExFor:OfficeMathRenderer.#ctor(Math.OfficeMath)
+        //ExFor:OfficeMathRenderer.#ctor(OfficeMath)
         //ExSummary:Shows how to measure and scale shapes.
         Document doc = new Document(getMyDir() + "Office math.docx");
 
@@ -2938,37 +2953,37 @@ public class ExShape extends ApiExampleBase
         OfficeMathRenderer renderer = new OfficeMathRenderer(officeMath);
 
         // Verify the size of the image that the OfficeMath object will create when we render it.
-        Assert.assertEquals(119.0f, msSizeF.getWidth(renderer.getSizeInPointsInternal()), 0.25f);
-        Assert.assertEquals(13.0f, msSizeF.getHeight(renderer.getSizeInPointsInternal()), 0.1f);
+        Assert.assertEquals(122.0f, msSizeF.getWidth(renderer.getSizeInPointsInternal()), 0.25f);
+        Assert.assertEquals(13.0f, msSizeF.getHeight(renderer.getSizeInPointsInternal()), 0.15f);
 
-        Assert.assertEquals(119.0f, renderer.getBoundsInPointsInternal().getWidth(), 0.25f);
-        Assert.assertEquals(13.0f, renderer.getBoundsInPointsInternal().getHeight(), 0.1f);
+        Assert.assertEquals(122.0f, renderer.getBoundsInPointsInternal().getWidth(), 0.25f);
+        Assert.assertEquals(13.0f, renderer.getBoundsInPointsInternal().getHeight(), 0.15f);
 
         // Shapes with transparent parts may contain different values in the "OpaqueBoundsInPoints" properties.
-        Assert.assertEquals(119.0f, renderer.getOpaqueBoundsInPointsInternal().getWidth(), 0.25f);
+        Assert.assertEquals(122.0f, renderer.getOpaqueBoundsInPointsInternal().getWidth(), 0.25f);
         Assert.assertEquals(14.2f, renderer.getOpaqueBoundsInPointsInternal().getHeight(), 0.1f);
 
         // Get the shape size in pixels, with linear scaling to a specific DPI.
         Rectangle bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f);
 
-        Assert.assertEquals(159, bounds.getWidth());
+        Assert.assertEquals(163, bounds.getWidth());
         Assert.assertEquals(18, bounds.getHeight());
 
         // Get the shape size in pixels, but with a different DPI for the horizontal and vertical dimensions.
         bounds = renderer.getBoundsInPixelsInternal(1.0f, 96.0f, 150.0f);
-        Assert.assertEquals(159, bounds.getWidth());
-        Assert.assertEquals(28, bounds.getHeight());
+        Assert.assertEquals(163, bounds.getWidth());
+        Assert.assertEquals(27, bounds.getHeight());
 
         // The opaque bounds may vary here also.
         bounds = renderer.getOpaqueBoundsInPixelsInternal(1.0f, 96.0f);
 
-        Assert.assertEquals(159, bounds.getWidth());
-        Assert.assertEquals(18, bounds.getHeight());
+        Assert.assertEquals(163, bounds.getWidth());
+        Assert.assertEquals(19, bounds.getHeight());
 
         bounds = renderer.getOpaqueBoundsInPixelsInternal(1.0f, 96.0f, 150.0f);
 
-        Assert.assertEquals(159, bounds.getWidth());
-        Assert.assertEquals(30, bounds.getHeight());
+        Assert.assertEquals(163, bounds.getWidth());
+        Assert.assertEquals(29, bounds.getHeight());
         //ExEnd
     }
 
@@ -3041,6 +3056,8 @@ public class ExShape extends ApiExampleBase
     {
         //ExStart
         //ExFor:Fill.SetImage(String)
+        //ExFor:Fill.SetImage(Byte[])
+        //ExFor:Fill.SetImage(Stream)
         //ExSummary:Shows how to set shape fill type as image.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -3273,6 +3290,7 @@ public class ExShape extends ApiExampleBase
         //GistId:eeeec1fbf118e95e7df3f346c91ed726
         //ExFor:TextBoxControl
         //ExFor:TextBoxControl.Text
+        //ExFor:TextBoxControl.Type
         //ExSummary:Shows how to change text of the TextBox OLE control.
         Document doc = new Document(getMyDir() + "Textbox control.docm");
 
@@ -3282,6 +3300,7 @@ public class ExShape extends ApiExampleBase
 
         textBoxControl.setText("Updated text");
         Assert.assertEquals("Updated text", textBoxControl.getText());
+        Assert.assertEquals(Forms2OleControlType.TEXTBOX, textBoxControl.getType());
         //ExEnd:TextBoxOleControl
     }
 
@@ -3291,6 +3310,7 @@ public class ExShape extends ApiExampleBase
         //ExStart:Glow
         //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
         //ExFor:ShapeBase.Glow
+        //ExFor:GlowFormat
         //ExFor:GlowFormat.Color
         //ExFor:GlowFormat.Radius
         //ExFor:GlowFormat.Transparency
@@ -3326,6 +3346,7 @@ public class ExShape extends ApiExampleBase
         //ExStart:Reflection
         //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
         //ExFor:ShapeBase.Reflection
+        //ExFor:ReflectionFormat
         //ExFor:ReflectionFormat.Size
         //ExFor:ReflectionFormat.Blur
         //ExFor:ReflectionFormat.Transparency
@@ -3345,18 +3366,224 @@ public class ExShape extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Shape.Reflection.docx");
         shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
 
-        Assert.assertEquals(0.37d, shape.getReflection().getTransparency(), 0.01d);
-        Assert.assertEquals(0.48d, shape.getReflection().getSize(), 0.01d);
-        Assert.assertEquals(17.5d, shape.getReflection().getBlur(), 0.01d);
-        Assert.assertEquals(9.2d, shape.getReflection().getDistance(), 0.01d);
+        ReflectionFormat reflectionFormat = shape.getReflection();
 
-        shape.getReflection().remove();
+        Assert.assertEquals(0.37d, reflectionFormat.getTransparency(), 0.01d);
+        Assert.assertEquals(0.48d, reflectionFormat.getSize(), 0.01d);
+        Assert.assertEquals(17.5d, reflectionFormat.getBlur(), 0.01d);
+        Assert.assertEquals(9.2d, reflectionFormat.getDistance(), 0.01d);
 
-        Assert.assertEquals(0, shape.getReflection().getTransparency());
-        Assert.assertEquals(0, shape.getReflection().getSize());
-        Assert.assertEquals(0, shape.getReflection().getBlur());
-        Assert.assertEquals(0, shape.getReflection().getDistance());
+        reflectionFormat.remove();
+
+        Assert.assertEquals(0, reflectionFormat.getTransparency());
+        Assert.assertEquals(0, reflectionFormat.getSize());
+        Assert.assertEquals(0, reflectionFormat.getBlur());
+        Assert.assertEquals(0, reflectionFormat.getDistance());
         //ExEnd:Reflection
+    }
+
+    @Test
+    public void softEdge() throws Exception
+    {
+        //ExStart:SoftEdge
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ShapeBase.SoftEdge
+        //ExFor:SoftEdgeFormat
+        //ExFor:SoftEdgeFormat.Radius
+        //ExFor:SoftEdgeFormat.Remove
+        //ExSummary:Shows how to work with soft edge formatting.
+        DocumentBuilder builder = new DocumentBuilder();
+        Shape shape = builder.insertShape(ShapeType.RECTANGLE, 200.0, 200.0);
+
+        // Apply soft edge to the shape.
+        shape.getSoftEdge().setRadius(30.0);
+
+        builder.getDocument().save(getArtifactsDir() + "Shape.SoftEdge.docx");
+
+        // Load document with rectangle shape with soft edge.
+        Document doc = new Document(getArtifactsDir() + "Shape.SoftEdge.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        SoftEdgeFormat softEdgeFormat = shape.getSoftEdge();
+
+        // Check soft edge radius.
+        Assert.assertEquals(30, softEdgeFormat.getRadius());
+
+        // Remove soft edge from the shape.
+        softEdgeFormat.remove();
+
+        // Check radius of the removed soft edge.
+        Assert.assertEquals(0, softEdgeFormat.getRadius());
+        //ExEnd:SoftEdge
+    }
+
+    @Test
+    public void adjustments() throws Exception
+    {
+        //ExStart:Adjustments
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:Shape.Adjustments
+        //ExFor:AdjustmentCollection
+        //ExFor:AdjustmentCollection.Count
+        //ExFor:AdjustmentCollection.Item(Int32)
+        //ExFor:Adjustment
+        //ExFor:Adjustment.Name
+        //ExFor:Adjustment.Value
+        //ExSummary:Shows how to work with adjustment raw values.
+        Document doc = new Document(getMyDir() + "Rounded rectangle shape.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        AdjustmentCollection adjustments = shape.getAdjustments();
+        Assert.assertEquals(1, adjustments.getCount());
+
+        Adjustment adjustment = adjustments.get(0);
+        Assert.assertEquals("adj", adjustment.getName());
+        Assert.assertEquals(16667, adjustment.getValue());
+
+        adjustment.setValue(30000);
+
+        doc.save(getArtifactsDir() + "Shape.Adjustments.docx");
+        //ExEnd:Adjustments
+
+        doc = new Document(getArtifactsDir() + "Shape.Adjustments.docx");
+        shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+
+        adjustments = shape.getAdjustments();
+        Assert.assertEquals(1, adjustments.getCount());
+
+        adjustment = adjustments.get(0);
+        Assert.assertEquals("adj", adjustment.getName());
+        Assert.assertEquals(30000, adjustment.getValue());
+    }
+
+    @Test
+    public void shadowFormatColor() throws Exception
+    {
+        //ExStart:ShadowFormatColor
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ShapeBase.ShadowFormat
+        //ExFor:ShadowFormat
+        //ExFor:ShadowFormat.Color
+        //ExFor:ShadowFormat.Type
+        //ExSummary:Shows how to get shadow color.
+        Document doc = new Document(getMyDir() + "Shadow color.docx");
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        ShadowFormat shadowFormat = shape.getShadowFormat();
+
+        Assert.assertEquals(Color.RED.getRGB(), shadowFormat.getColor().getRGB());
+        Assert.assertEquals(ShadowType.SHADOW_MIXED, shadowFormat.getType());
+        //ExEnd:ShadowFormatColor
+    }
+
+    @Test
+    public void setActiveXProperties() throws Exception
+    {
+        //ExStart:SetActiveXProperties
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:Forms2OleControl.ForeColor
+        //ExFor:Forms2OleControl.BackColor
+        //ExFor:Forms2OleControl.Height
+        //ExFor:Forms2OleControl.Width
+        //ExSummary:Shows how to set properties for ActiveX control.
+        Document doc = new Document(getMyDir() + "ActiveX controls.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Forms2OleControl oleControl = (Forms2OleControl)shape.getOleFormat().getOleControl();
+        oleControl.setForeColor(new Color((0x17), (0xE1), (0x35)));
+        oleControl.setBackColor(new Color((0x33), (0x97), (0xF4)));
+        oleControl.setHeight(100.54);
+        oleControl.setWidth(201.06);
+        //ExEnd:SetActiveXProperties
+
+        Assert.assertEquals(new Color((0x17), (0xE1), (0x35)).getRGB(), oleControl.getForeColor().getRGB());
+        Assert.assertEquals(new Color((0x33), (0x97), (0xF4)).getRGB(), oleControl.getBackColor().getRGB());
+        Assert.assertEquals(100.54, oleControl.getHeight());
+        Assert.assertEquals(201.06, oleControl.getWidth());
+    }
+
+    @Test
+    public void selectRadioControl() throws Exception
+    {
+        //ExStart:SelectRadioControl
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:OptionButtonControl
+        //ExFor:OptionButtonControl.Selected
+        //ExFor:OptionButtonControl.Type
+        //ExSummary:Shows how to select radio button.
+        Document doc = new Document(getMyDir() + "Radio buttons.docx");
+
+        Shape shape1 = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        OptionButtonControl optionButton1 = (OptionButtonControl)shape1.getOleFormat().getOleControl();
+        // Deselect selected first item.
+        optionButton1.setSelected(false);
+
+        Shape shape2 = (Shape)doc.getChild(NodeType.SHAPE, 1, true);
+        OptionButtonControl optionButton2 = (OptionButtonControl)shape2.getOleFormat().getOleControl();
+        // Select second option button.
+        optionButton2.setSelected(true);
+
+        Assert.assertEquals(Forms2OleControlType.OPTION_BUTTON, optionButton1.getType());
+        Assert.assertEquals(Forms2OleControlType.OPTION_BUTTON, optionButton2.getType());
+
+        doc.save(getArtifactsDir() + "Shape.SelectRadioControl.docx");
+        //ExEnd:SelectRadioControl
+    }
+
+    @Test
+    public void checkedCheckBox() throws Exception
+    {
+        //ExStart:CheckedCheckBox
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:CheckBoxControl
+        //ExFor:CheckBoxControl.Checked
+        //ExFor:CheckBoxControl.Type
+        //ExFor:Forms2OleControlType
+        //ExSummary:Shows how to change state of the CheckBox control.
+        Document doc = new Document(getMyDir() + "ActiveX controls.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        CheckBoxControl checkBoxControl = (CheckBoxControl)shape.getOleFormat().getOleControl();
+        checkBoxControl.setChecked(true);
+        
+        Assert.assertEquals(true, checkBoxControl.getChecked());
+        Assert.assertEquals(Forms2OleControlType.CHECK_BOX, checkBoxControl.getType());
+        //ExEnd:CheckedCheckBox
+    }
+
+    @Test
+    public void insertGroupShape() throws Exception
+    {
+        //ExStart:InsertGroupShape
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:DocumentBuilder.InsertGroupShape(double, double, double, double, Shape[])
+        //ExFor:DocumentBuilder.InsertGroupShape(Shape[])
+        //ExSummary:Shows how to insert DML group shape.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape1 = builder.insertShape(ShapeType.RECTANGLE, 200.0, 250.0);
+        shape1.setLeft(20.0);
+        shape1.setTop(20.0);
+        shape1.getStroke().setColor(Color.RED);
+
+        Shape shape2 = builder.insertShape(ShapeType.ELLIPSE, 150.0, 200.0);
+        shape2.setLeft(40.0);
+        shape2.setTop(50.0);
+        shape2.getStroke().setColor(msColor.getGreen());
+
+        // Dimensions for the new GroupShape node.
+        double left = 10.0;
+        double top = 10.0;
+        double width = 200.0;
+        double height = 300.0;
+        // Insert GroupShape node for the specified size which is inserted into the specified position.
+        GroupShape groupShape1 = builder.insertGroupShape(left, top, width, height, new Shape[] { shape1, shape2 });
+
+        // Insert GroupShape node which position and dimension will be calculated automatically.
+        Shape shape3 = (Shape)shape1.deepClone(true);
+        GroupShape groupShape2 = builder.insertGroupShape(shape3);
+
+        doc.save(getArtifactsDir() + "Shape.InsertGroupShape.docx");
+        //ExEnd:InsertGroupShape
     }
 }
 

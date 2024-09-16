@@ -11,17 +11,18 @@ import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.net.System.Data.DataView;
 import java.text.MessageFormat;
 import com.aspose.words.net.System.Data.DataSet;
-import java.util.ArrayList;
 import com.aspose.words.MailMergeRegionInfo;
+import java.util.ArrayList;
 import org.testng.Assert;
 
 
-class BaseOperations extends DocsExamplesBase
+public class BaseOperations extends DocsExamplesBase
 {
     @Test
     public void simpleMailMerge() throws Exception
     {
-        //ExStart:SimpleMailMerge
+        //ExStart:ExecuteSimpleMailMerge
+        //GistId:341b834e9b6a84ac6885e907e0ea4229
         // Include the code for our template.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -38,26 +39,28 @@ class BaseOperations extends DocsExamplesBase
             new Object[] { "John Doe", "Hawaiian", "2" });
 
         doc.save(getArtifactsDir() + "BaseOperations.SimpleMailMerge.docx");
-        //ExEnd:SimpleMailMerge
+        //ExEnd:ExecuteSimpleMailMerge
     }
 
     @Test
     public void useIfElseMustache() throws Exception
     {
-        //ExStart:UseOfifelseMustacheSyntax
+        //ExStart:UseIfElseMustache
+        //GistId:544788f602e697802e313a641cedb9b8
         Document doc = new Document(getMyDir() + "Mail merge destinations - Mustache syntax.docx");
 
         doc.getMailMerge().setUseNonMergeFields(true);
         doc.getMailMerge().execute(new String[] { "GENDER" }, new Object[] { "MALE" });
 
         doc.save(getArtifactsDir() + "BaseOperations.IfElseMustache.docx");
-        //ExEnd:UseOfifelseMustacheSyntax
+        //ExEnd:UseIfElseMustache
     }
 
     @Test
     public void mustacheSyntaxUsingDataTable() throws Exception
     {
         //ExStart:MustacheSyntaxUsingDataTable
+        //GistId:544788f602e697802e313a641cedb9b8
         Document doc = new Document(getMyDir() + "Mail merge destinations - Vendor.docx");
 
         // Loop through each row and fill it with data.
@@ -79,10 +82,11 @@ class BaseOperations extends DocsExamplesBase
         //ExEnd:MustacheSyntaxUsingDataTable
     }
 
-    @Test
+    @Test (groups = "IgnoreOnJenkins")
     public void executeWithRegionsDataTable() throws Exception
     {
         //ExStart:ExecuteWithRegionsDataTable
+        //GistId:de5e13f5d5bb7d8cb88da900b4f9ed8b
         Document doc = new Document(getMyDir() + "Mail merge destinations - Orders.docx");
 
         // Use DataTable as a data source.
@@ -141,10 +145,11 @@ class BaseOperations extends DocsExamplesBase
     }
     //ExEnd:ExecuteWithRegionsDataTableMethods
 
-    @Test
+    @Test (groups = "IgnoreOnJenkins")
     public void produceMultipleDocuments() throws Exception
     {
         //ExStart:ProduceMultipleDocuments
+        //GistId:341b834e9b6a84ac6885e907e0ea4229
         String connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + getDatabaseDir() + "Northwind.accdb";
 
         Document doc = new Document(getMyDir() + "Mail merge destination - Northwind suppliers.docx");
@@ -175,10 +180,11 @@ class BaseOperations extends DocsExamplesBase
         //ExEnd:ProduceMultipleDocuments
     }
 
-    //ExStart:MailMergeWithRegions
     @Test
     public void mailMergeWithRegions() throws Exception
     {
+        //ExStart:MailMergeWithRegions
+        //GistId:341b834e9b6a84ac6885e907e0ea4229
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -211,15 +217,16 @@ class BaseOperations extends DocsExamplesBase
         // The end point of mail merge with regions.
         builder.insertField(" MERGEFIELD TableEnd:Customers");
 
-        // Pass our dataset to perform mail merge with regions.          
+        // Pass our dataset to perform mail merge with regions.
         DataSet customersAndOrders = createDataSet();
         doc.getMailMerge().executeWithRegions(customersAndOrders);
 
         doc.save(getArtifactsDir() + "BaseOperations.MailMergeWithRegions.docx");
+        //ExEnd:MailMergeWithRegions
     }
-    //ExEnd:MailMergeWithRegions
 
     //ExStart:CreateDataSet
+    //GistId:341b834e9b6a84ac6885e907e0ea4229
     private DataSet createDataSet()
     {
         // Create the customers table.
@@ -254,7 +261,13 @@ class BaseOperations extends DocsExamplesBase
     public void getRegionsByName() throws Exception
     {
         //ExStart:GetRegionsByName
+        //GistId:b4bab1bf22437a86d8062e91cf154494
         Document doc = new Document(getMyDir() + "Mail merge regions.docx");
+
+        //ExStart:GetRegionsHierarchy
+        //GistId:b4bab1bf22437a86d8062e91cf154494
+        MailMergeRegionInfo regionInfo = doc.getMailMerge().getRegionsHierarchy();
+        //ExEnd:GetRegionsHierarchy
 
         ArrayList<MailMergeRegionInfo> regions = doc.getMailMerge().getRegionsByName("Region1");
         Assert.assertEquals(1, doc.getMailMerge().getRegionsByName("Region1").size());

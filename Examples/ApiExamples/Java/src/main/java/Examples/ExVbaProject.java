@@ -99,12 +99,15 @@ public class ExVbaProject extends ApiExampleBase {
 
     //ExStart
     //ExFor:VbaReference
+    //ExFor:VbaReference.Type
     //ExFor:VbaReference.LibId
     //ExFor:VbaReferenceCollection
+    //ExFor:VbaReferenceCollection.Item(Int32)
     //ExFor:VbaReferenceCollection.Count
     //ExFor:VbaReferenceCollection.RemoveAt(int)
     //ExFor:VbaReferenceCollection.Remove(VbaReference)
     //ExFor:VbaReferenceType
+    //ExFor:VbaProject.References
     //ExSummary:Shows how to get/remove an element from the VBA reference collection.
     @Test//ExSkip
     public void removeVbaReference() throws Exception {
@@ -165,5 +168,17 @@ public class ExVbaProject extends ApiExampleBase {
         return libIdProject != null ? libIdProject.substring(3) : "";
     }
     //ExEnd
+
+    @Test
+    public void isProtected() throws Exception
+    {
+        //ExStart:IsProtected
+        //GistId:67585b023474b7f73b0066dd022cf938
+        //ExFor:VbaProject.IsProtected
+        //ExSummary:Shows whether the VbaProject is password protected.
+        Document doc = new Document(getMyDir() + "Vba protected.docm");
+        Assert.assertTrue(doc.getVbaProject().isProtected());
+        //ExEnd:IsProtected
+    }
 }
 

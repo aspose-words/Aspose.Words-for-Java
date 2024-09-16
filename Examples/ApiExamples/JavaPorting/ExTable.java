@@ -59,7 +59,15 @@ import java.util.Iterator;
 import com.aspose.words.ConditionalStyle;
 import com.aspose.words.TableStyleOptions;
 import com.aspose.words.ConditionalStyleCollection;
+import com.aspose.ms.System.msString;
+import com.aspose.words.ControlChar;
+import com.aspose.words.ParagraphCollection;
+import com.aspose.words.TabStop;
+import com.aspose.words.TabAlignment;
+import com.aspose.words.TabLeader;
+import com.aspose.words.DocumentBuilderOptions;
 import org.testng.annotations.DataProvider;
+import com.aspose.words.ref.RefInt;
 
 
 @Test
@@ -206,16 +214,16 @@ public class ExTable extends ApiExampleBase
         //ExStart
         //ExFor:Cell
         //ExFor:CellCollection
-        //ExFor:CellCollection.Item(System.Int32)
+        //ExFor:CellCollection.Item(Int32)
         //ExFor:CellCollection.ToArray
         //ExFor:Row
         //ExFor:Row.Cells
         //ExFor:RowCollection
-        //ExFor:RowCollection.Item(System.Int32)
+        //ExFor:RowCollection.Item(Int32)
         //ExFor:RowCollection.ToArray
         //ExFor:Table
         //ExFor:Table.Rows
-        //ExFor:TableCollection.Item(System.Int32)
+        //ExFor:TableCollection.Item(Int32)
         //ExFor:TableCollection.ToArray
         //ExSummary:Shows how to iterate through all tables in the document and print the contents of each cell.
         Document doc = new Document(getMyDir() + "Tables.docx");
@@ -259,7 +267,7 @@ public class ExTable extends ApiExampleBase
 
     //ExStart
     //ExFor:Node.GetAncestor(NodeType)
-    //ExFor:Node.GetAncestor(System.Type)
+    //ExFor:Node.GetAncestor(Type)
     //ExFor:Table.NodeType
     //ExFor:Cell.Tables
     //ExFor:TableCollection
@@ -322,9 +330,9 @@ public class ExTable extends ApiExampleBase
     {
         int childTableCount = 0;
 
-        for (Row row : table.getRows().<Row>OfType() !!Autoporter error: Undefined expression type )
+        for (Row row : (Iterable<Row>) table.getRows())
         {
-            for (Cell Cell : row.getCells().<Cell>OfType() !!Autoporter error: Undefined expression type )
+            for (Cell Cell : (Iterable<Cell>) row.getCells())
             {
                 TableCollection childTables = Cell.getTables();
 
@@ -739,7 +747,7 @@ public class ExTable extends ApiExampleBase
         Assert.assertEquals(3, doc.getChildNodes(NodeType.TABLE, true).getCount());
         Assert.assertEquals(table.getRange().getText(), tableClone.getRange().getText());
 
-        for (Cell cell : tableClone.getChildNodes(NodeType.CELL, true).<Cell>OfType() !!Autoporter error: Undefined expression type )
+        for (Cell cell : (Iterable<Cell>) tableClone.getChildNodes(NodeType.CELL, true))
             cell.removeAllChildren();
 
         Assert.assertEquals("", tableClone.toString(SaveFormat.TEXT).trim());
@@ -758,7 +766,7 @@ public class ExTable extends ApiExampleBase
         // in one piece if a table spans two pages, which break up along that row.
         // If the row is too big to fit in one page, Microsoft Word will push it down to the next page.
         // Set the "AllowBreakAcrossPages" property to "true" to allow the row to break up across two pages.
-        for (Row row : table.<Row>OfType() !!Autoporter error: Undefined expression type )
+        for (Row row : (Iterable<Row>) table)
             row.getRowFormat().setAllowBreakAcrossPages(allowBreakAcrossPages);
 
         doc.save(getArtifactsDir() + "Table.AllowBreakAcrossPages.docx");
@@ -859,8 +867,8 @@ public class ExTable extends ApiExampleBase
 
         // Enabling KeepWithNext for every paragraph in the table except for the
         // last ones in the last row will prevent the table from splitting across multiple pages.
-        for (Cell cell : table.getChildNodes(NodeType.CELL, true).<Cell>OfType() !!Autoporter error: Undefined expression type )
-            for (Paragraph para : cell.getParagraphs().<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Cell cell : (Iterable<Cell>) table.getChildNodes(NodeType.CELL, true))
+            for (Paragraph para : (Iterable<Paragraph>) cell.getParagraphs())
             {
                 Assert.assertTrue(para.isInCell());
 
@@ -874,7 +882,7 @@ public class ExTable extends ApiExampleBase
         doc = new Document(getArtifactsDir() + "Table.KeepTableTogether.docx");
         table = doc.getFirstSection().getBody().getTables().get(0);
 
-        for (Paragraph para : table.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph para : (Iterable<Paragraph>) table.getChildNodes(NodeType.PARAGRAPH, true))
             if (para.isEndOfCell() && ((Cell)para.getParentNode()).getParentRow().isLastRow())
                 Assert.assertFalse(para.getParagraphFormat().getKeepWithNext());
             else
@@ -1074,8 +1082,8 @@ public class ExTable extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Table with merged cells.docx");
         Table table = doc.getFirstSection().getBody().getTables().get(0);
 
-        for (Row row : table.getRows().<Row>OfType() !!Autoporter error: Undefined expression type )
-            for (Cell cell : row.getCells().<Cell>OfType() !!Autoporter error: Undefined expression type )
+        for (Row row : (Iterable<Row>) table.getRows())
+            for (Cell cell : (Iterable<Cell>) row.getCells())
                 System.out.println(printCellMergeType(cell));
         Assert.assertEquals("The cell at R1, C1 is vertically merged", printCellMergeType(table.getFirstRow().getFirstCell())); //ExSkip
     }
@@ -1151,9 +1159,9 @@ public class ExTable extends ApiExampleBase
             Math.abs(msPoint.getX(endCellPos) - msPoint.getX(startCellPos)) + 1,
             Math.abs(msPoint.getY(endCellPos) - msPoint.getY(startCellPos)) + 1);
 
-        for (Row row : parentTable.getRows().<Row>OfType() !!Autoporter error: Undefined expression type )
+        for (Row row : (Iterable<Row>) parentTable.getRows())
         {
-            for (Cell cell : row.getCells().<Cell>OfType() !!Autoporter error: Undefined expression type )
+            for (Cell cell : (Iterable<Cell>) row.getCells())
             {
                 /*Point*/long currentPos = msPoint.ctor(row.indexOf(cell), parentTable.indexOf(row));
 
@@ -1780,5 +1788,242 @@ public class ExTable extends ApiExampleBase
             }
         }
         //ExEnd
+    }
+
+    @Test
+    public void convertWithParagraphMark() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Nested tables.docx");
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+
+        // Replace the table with the new paragraph
+        convertTable(table);
+        // Remove table after convertion.
+        table.remove();
+
+        doc.save(getArtifactsDir() + "Table.ConvertWithParagraphMark.docx");
+    }
+
+    /// <summary>
+    /// Recursively converts nested tables within a given table.
+    /// </summary>
+    /// <param name="table">The table to be converted.</param>
+    private void convertTable(Table table)
+    {
+        Node currentNode = table;
+        for (Row row : (Iterable<Row>) table.getRows())
+        {
+            for (Cell cell : (Iterable<Cell>) row.getCells())
+            {
+                // Get all nested tables within the current cell.
+                NodeCollection nestedTables = cell.getChildNodes(NodeType.TABLE, true);
+                if (nestedTables.getCount() != 0)
+                    for (Table nestedTable : (Iterable<Table>) nestedTables)
+                        convertTable(nestedTable);
+
+                // Get the text content of the cell and trim any whitespace.
+                String cellText = cell.getText().trim();
+                if (msString.equals(cellText, ""))
+                    break;
+
+                for (Paragraph cellPara : (Iterable<Paragraph>) cell.getParagraphs())
+                    currentNode = table.getParentNode().insertAfter(cellPara.deepClone(true), currentNode);
+            }
+        }
+    }
+
+    @Test
+    public void convertWith() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Nested tables.docx");
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+
+        // Convert table to text with specified separator.
+        convertWith(ControlChar.TAB, table);
+        // Remove table after convertion.
+        table.remove();
+
+        doc.save(getArtifactsDir() + "Table.ConvertWith.docx");
+    }
+
+    /// <summary>
+    /// Converts the content of a table into a series of paragraphs, separated by a specified separator.
+    /// </summary>
+    /// <param name="separator">The string used to separate the content of each cell.</param>
+    /// <param name="table">The table to be converted.</param>
+    private void convertWith(String separator, Table table)
+    {
+        Document doc = (Document)table.getDocument();
+        Node currentPara = table.getNextSibling();
+        for (Row row : (Iterable<Row>) table.getRows())
+        {
+            double tabStopWidth = 0.0;
+            // By default MS Word adds 1.5 line spacing bitween paragraphs.
+            ((Paragraph)currentPara).getParagraphFormat().setLineSpacing(18.0);
+            for (Cell cell : (Iterable<Cell>) row.getCells())
+            {
+                NodeCollection nestedTables = cell.getChildNodes(NodeType.TABLE, true);
+                // If there are nested tables, process each one.
+                if (nestedTables.getCount() != 0)
+                    for (Table nestedTable : (Iterable<Table>) nestedTables)
+                        convertWith(separator, nestedTable);
+
+                ParagraphCollection paragraphs = cell.getParagraphs();
+                for (Paragraph paragraph : (Iterable<Paragraph>) paragraphs)
+                {
+                    // If there's more than one paragraph and it's not the first, clone and insert it after the current paragraph.
+                    if (paragraphs.getCount() > 1 && !paragraph.equals(cell.getFirstParagraph()))
+                    {
+                        Node node = currentPara.getParentNode().insertAfter(paragraph.deepClone(true), currentPara);
+                        currentPara = node;
+                    }
+                    else if (currentPara.getNodeType() == NodeType.PARAGRAPH)
+                    {
+                        // If the current cell is not the first cell, append a separator.
+                        if (!cell.isFirstCell())
+                        {
+                            ((Paragraph)currentPara).appendChild(new Run(doc, separator));
+                            // If the separator is a tab, calculate the tab stop position based on the width of the previous cell.
+                            if (msString.equals(separator, ControlChar.TAB))
+                            {
+                                Cell previousCell = cell.getPreviousCell();
+                                if (previousCell != null)
+                                    tabStopWidth += previousCell.getCellFormat().getWidth();
+
+                                // Add a tab stop at the calculated position.
+                                TabStop tabStop = new TabStop(tabStopWidth, TabAlignment.LEFT, TabLeader.NONE);
+                                ((Paragraph)currentPara).getParagraphFormat().getTabStops().add(tabStop);
+                            }
+                        }
+
+                        // Clone and append all child nodes of the paragraph to the current paragraph.
+                        NodeCollection childNodes = paragraph.getChildNodes(NodeType.ANY, true);
+                        if (childNodes.getCount() > 0)
+                            for (Node node : (Iterable<Node>) childNodes)
+                                ((Paragraph)currentPara).appendChild(node.deepClone(true));
+                    }
+                }
+            }
+
+            currentPara = currentPara.getParentNode().insertAfter(new Paragraph(doc), currentPara);
+        }
+    }
+
+    @Test
+    public void getColSpanRowSpan() throws Exception
+    {
+        Document doc = new Document(getMyDir() + "Merged table.docx");
+
+        Table table = (Table)doc.getChild(NodeType.TABLE, 0, true);
+        // Convert cells with merged columns into a format that can be easily manipulated.
+        table.convertToHorizontallyMergedCells();
+
+        for (Row row : (Iterable<Row>) table.getRows())
+        {
+            Cell cell = row.getFirstCell();
+
+            while (cell != null)
+            {
+                int rowIndex = table.indexOf(row);
+                int cellIndex = cell.getParentRow().indexOf(cell);
+
+                int rowSpan = 1;
+                int colSpan = 1;
+                
+                // Check if the current cell is the start of a vertically merged set of cells.
+                if (cell.getCellFormat().getVerticalMerge() == CellMerge.FIRST)
+                    rowSpan = calculateRowSpan(table, rowIndex, cellIndex);
+
+                // Check if the current cell is the start of a horizontally merged set of cells.
+                if (cell.getCellFormat().getHorizontalMerge() == CellMerge.FIRST)
+            	{
+                    RefInt referenceToColSpan = new RefInt(colSpan);
+                    cell = calculateColSpan(cell, /*out*/ referenceToColSpan);
+                    colSpan = referenceToColSpan.get();
+            	}
+                else
+                    cell = cell.getNextCell();
+
+                System.out.println("RowIndex = {rowIndex}\t ColSpan = {colSpan}\t RowSpan = {rowSpan}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Calculates the row span for a cell in a table.
+    /// </summary>
+    /// <param name="table">The table containing the cell.</param>
+    /// <param name="rowIndex">The index of the row containing the cell.</param>
+    /// <param name="cellIndex">The index of the cell within the row.</param>
+    /// <returns>The number of rows spanned by the cell.</returns>
+    private int calculateRowSpan(Table table, int rowIndex, int cellIndex)
+    {
+        int rowSpan = 1;
+        for (int i = rowIndex; i < table.getRows().getCount(); i++)
+        {
+            Row currentRow = table.getRows().get(i + 1);
+            if (currentRow == null) 
+                break;
+
+            Cell currentCell = currentRow.getCells().get(cellIndex);
+            if (currentCell.getCellFormat().getVerticalMerge() != CellMerge.PREVIOUS)
+                break;
+
+            rowSpan++;
+        }
+        return rowSpan;
+    }
+
+    /// <summary>
+    /// Calculates the column span of a cell based on its horizontal merge settings.
+    /// </summary>
+    /// <param name="cell">The cell for which to calculate the column span.</param>
+    /// <param name="colSpan">The resulting column span value.</param>
+    /// <returns>The next cell in the sequence after calculating the column span.</returns>
+    private Cell calculateColSpan(Cell cell, /*out*/RefInt colSpan)
+    {
+        colSpan.set(1);
+
+        cell = cell.getNextCell();
+        while (cell != null && cell.getCellFormat().getHorizontalMerge() == CellMerge.PREVIOUS)
+        {
+            colSpan.set(colSpan.get() + 1)/*Indexer++*/;
+            cell = cell.getNextCell();
+        }
+        return cell;
+    }
+
+    @Test
+    public void contextTableFormatting() throws Exception
+    {
+        //ExStart:ContextTableFormatting
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:DocumentBuilderOptions
+        //ExFor:DocumentBuilderOptions.ContextTableFormatting
+        //ExSummary:Shows how to ignore table formatting for content after.
+        Document doc = new Document();
+        DocumentBuilderOptions builderOptions = new DocumentBuilderOptions();
+        builderOptions.setContextTableFormatting(true);
+        DocumentBuilder builder = new DocumentBuilder(doc, builderOptions);
+
+        // Adds content before the table.
+        // Default font size is 12.
+        builder.writeln("Font size 12 here.");
+        builder.startTable();
+        builder.insertCell();
+        // Changes the font size inside the table.
+        builder.getFont().setSize(5.0);
+        builder.write("Font size 5 here");
+        builder.insertCell();
+        builder.write("Font size 5 here");
+        builder.endRow();
+        builder.endTable();
+
+        // If ContextTableFormatting is true, then table formatting isn't applied to the content after.
+        // If ContextTableFormatting is false, then table formatting is applied to the content after.
+        builder.writeln("Font size 12 here.");
+
+        doc.save(getArtifactsDir() + "Table.ContextTableFormatting.docx");
+        //ExEnd:ContextTableFormatting
     }
 }

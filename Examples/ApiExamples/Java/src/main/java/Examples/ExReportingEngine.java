@@ -18,6 +18,7 @@ import com.aspose.words.Shape;
 import com.aspose.words.*;
 import com.aspose.words.net.System.Data.DataSet;
 import org.apache.commons.io.FileUtils;
+import org.omg.CORBA.Environment;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -316,6 +317,29 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
+    public void sourseListNumbering() throws Exception
+    {
+        //ExStart:SourseListNumbering
+        //GistId:f99d87e10ab87a581c52206321d8b617
+        //ExFor:ReportingEngine.BuildReport(Document, Object[], String[])
+        //ExSummary:Shows how to keep inserted numbering as is.
+        // By default, numbered lists from a template document are continued when their identifiers match those from a document being inserted.
+        // With "-sourceNumbering" numbering should be separated and kept as is.
+        Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocument()]>>" + System.lineSeparator() + "<<doc [src.getDocument()] -sourceNumbering>>");
+
+        DocumentTestClass doc = new DocumentTestBuilder()
+                .withDocument(new Document(getMyDir() + "List item.docx")).build();
+
+        ReportingEngine engine = new ReportingEngine(); { engine.setOptions(ReportBuildOptions.REMOVE_EMPTY_PARAGRAPHS); }
+        engine.buildReport(template, new Object[] { doc }, new String[] { "src" });
+
+        template.save(getArtifactsDir() + "ReportingEngine.SourseListNumbering.docx");
+        //ExEnd:SourseListNumbering
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SourseListNumbering.docx", getGoldsDir() + "ReportingEngine.SourseListNumbering Gold.docx"));
+    }
+
+    @Test
     public void insertDocumentDynamicallyByStream() throws Exception {
         Document template = DocumentHelper.createSimpleDocument("<<doc [src.getDocumentStream()]>>");
 
@@ -380,14 +404,11 @@ public class ExReportingEngine extends ApiExampleBase {
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
     }
 
-    @Test
+    @Test(enabled = false, description = "https://issue.auckland.dynabic.com/issues/WORDSJAVA-2978")
     public void insertImageDynamicallyByUri() throws Exception {
         Document template =
                 DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImageString()]>>", ShapeType.TEXT_BOX);
-        ImageTestClass imageUri = new ImageTestBuilder()
-                .withImageString(
-                        "http://joomla-aspose.dynabic.com/templates/aspose/App_Themes/V3/images/customers/americanexpress.png")
-                .build();
+        ImageTestClass imageUri = new ImageTestBuilder().withImageString("https://metrics.aspose.com/img/headergraphics.svg").build();
 
         buildReport(template, imageUri, "src");
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
@@ -648,18 +669,24 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void withMissingMembers() throws Exception {
+    public void missingMembers() throws Exception {
+        //ExStart:MissingMembers
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
+        //ExFor:ReportingEngine.BuildReport(Document, Object, String)
+        //ExFor:ReportingEngine.MissingMemberMessage
+        //ExFor:ReportingEngine.Options
+        //ExSummary:Shows how to allow missinng members.
         DocumentBuilder builder = new DocumentBuilder();
+        builder.writeln("<<[missingObject.First().id]>>");
+        builder.writeln("<<foreach [in missingObject]>><<[id]>><</foreach>>");
 
-        // Add templete to the document for reporting engine
-        DocumentHelper.insertBuilderText(builder,
-                new String[]{"<<[missingObject.First().id]>>", "<<foreach [in missingObject]>><<[id]>><</foreach>>"});
-
-        buildReport(builder.getDocument(), new DataSet(), "", ReportBuildOptions.ALLOW_MISSING_MEMBERS);
+        ReportingEngine engine = new ReportingEngine(); { engine.setOptions(ReportBuildOptions.ALLOW_MISSING_MEMBERS); }
+        engine.setMissingMemberMessage("Missed");
+        engine.buildReport(builder.getDocument(), new DataSet(), "");
+        //ExEnd:MissingMembers
 
         // Assert that build report success with "ReportBuildOptions.AllowMissingMembers"
-        Assert.assertEquals(ControlChar.PARAGRAPH_BREAK + ControlChar.PARAGRAPH_BREAK + ControlChar.SECTION_BREAK,
-                builder.getDocument().getText());
+        Assert.assertEquals("Missed", builder.getDocument().getText().trim());
     }
 
     @Test(dataProvider = "inlineErrorMessagesDataProvider")
@@ -763,20 +790,31 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void xmlDataStringWithoutSchema() throws Exception {
+    public void xmlDataStringWithoutSchema() throws Exception
+    {
+        //ExStart
+        //ExFor:XmlDataSource
+        //ExFor:XmlDataSource.#ctor(String)
+        //ExSummary:Show how to use XML as a data source (string).
         Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
 
         XmlDataSource dataSource = new XmlDataSource(getMyDir() + "List of people.xml");
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.XmlDataString.docx");
+        //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataString.docx",
                 getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
     }
 
     @Test
-    public void xmlDataStreamWithoutSchema() throws Exception {
+    public void xmlDataStreamWithoutSchema() throws Exception
+    {
+        //ExStart
+        //ExFor:XmlDataSource
+        //ExFor:XmlDataSource.#ctor(Stream)
+        //ExSummary:Show how to use XML as a data source (stream).
         Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
 
         InputStream stream = new FileInputStream(getMyDir() + "List of people.xml");
@@ -788,6 +826,7 @@ public class ExReportingEngine extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "ReportingEngine.XmlDataStream.docx");
+        //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.XmlDataStream.docx",
                 getGoldsDir() + "ReportingEngine.DataSource Gold.docx"));
@@ -807,8 +846,20 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void jsonDataString() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
+    public void jsonDataString() throws Exception
+    {
+        //ExStart
+        //ExFor:JsonDataLoadOptions
+        //ExFor:JsonDataLoadOptions.#ctor
+        //ExFor:JsonDataLoadOptions.ExactDateTimeParseFormats
+        //ExFor:JsonDataLoadOptions.AlwaysGenerateRootObject
+        //ExFor:JsonDataLoadOptions.PreserveSpaces
+        //ExFor:JsonDataLoadOptions.SimpleValueParseMode
+        //ExFor:JsonDataSource
+        //ExFor:JsonDataSource.#ctor(String,JsonDataLoadOptions)
+        //ExFor:JsonSimpleValueParseMode
+        //ExSummary:Shows how to use JSON as a data source (string).
+        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination (Java).docx");
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
@@ -819,11 +870,16 @@ public class ExReportingEngine extends ApiExampleBase {
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataString.docx");
+        //ExEnd
     }
 
     @Test
-    public void jsonDataStream() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - XML data destination (Java).docx");
+    public void jsonDataStream() throws Exception
+    {
+        //ExStart
+        //ExFor:JsonDataSource.#ctor(Stream,JsonDataLoadOptions)
+        //ExSummary:Shows how to use JSON as a data source (stream).
+        Document doc = new Document(getMyDir() + "Reporting engine template - JSON data destination (Java).docx");
 
         JsonDataLoadOptions options = new JsonDataLoadOptions();
         {
@@ -839,6 +895,7 @@ public class ExReportingEngine extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "ReportingEngine.JsonDataStream.docx");
+        //ExEnd
     }
 
     @Test
@@ -885,25 +942,44 @@ public class ExReportingEngine extends ApiExampleBase {
     }
 
     @Test
-    public void csvDataString() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - Csv data destination (Java).docx");
+    public void csvDataString() throws Exception
+    {
+        //ExStart
+        //ExFor:CsvDataLoadOptions
+        //ExFor:CsvDataLoadOptions.#ctor
+        //ExFor:CsvDataLoadOptions.#ctor(Boolean)
+        //ExFor:CsvDataLoadOptions.Delimiter
+        //ExFor:CsvDataLoadOptions.CommentChar
+        //ExFor:CsvDataLoadOptions.HasHeaders
+        //ExFor:CsvDataLoadOptions.QuoteChar
+        //ExFor:CsvDataSource
+        //ExFor:CsvDataSource.#ctor(String,CsvDataLoadOptions)
+        //ExSummary:Shows how to use CSV as a data source (string).
+        Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination (Java).docx");
 
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
         loadOptions.setCommentChar('$');
+        loadOptions.hasHeaders(true);
+        loadOptions.setQuoteChar('"');
 
         CsvDataSource dataSource = new CsvDataSource(getMyDir() + "List of people.csv", loadOptions);
         buildReport(doc, dataSource, "persons");
 
         doc.save(getArtifactsDir() + "ReportingEngine.CsvDataString.docx");
+        //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataString.docx",
                 getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
     }
 
     @Test
-    public void csvDataStream() throws Exception {
-        Document doc = new Document(getMyDir() + "Reporting engine template - Csv data destination (Java).docx");
+    public void csvDataStream() throws Exception
+    {
+        //ExStart
+        //ExFor:CsvDataSource.#ctor(Stream,CsvDataLoadOptions)
+        //ExSummary:Shows how to use CSV as a data source (stream).
+        Document doc = new Document(getMyDir() + "Reporting engine template - CSV data destination (Java).docx");
 
         CsvDataLoadOptions loadOptions = new CsvDataLoadOptions(true);
         loadOptions.setDelimiter(';');
@@ -918,6 +994,7 @@ public class ExReportingEngine extends ApiExampleBase {
         }
 
         doc.save(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx");
+        //ExEnd
 
         Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.CsvDataStream.docx",
                 getGoldsDir() + "ReportingEngine.CsvData Gold.docx"));
@@ -1061,6 +1138,25 @@ public class ExReportingEngine extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "ReportingEngine.Word2016Charts.docx");
         //ExEnd:Word2016Charts
+    }
+
+    @Test
+    public void removeParagraphsSelectively() throws Exception
+    {
+        //ExStart:RemoveParagraphsSelectively
+        //GistId:a76df4b18bee76d169e55cdf6af8129c
+        //ExFor:ReportingEngine.BuildReport(Document, Object, String)
+        //ExSummary:Shows how to remove paragraphs selectively.
+        // Template contains tags with an exclamation mark. For such tags, empty paragraphs will be removed.
+        Document doc = new Document(getMyDir() + "Reporting engine template - Selective remove paragraphs.docx");
+
+        ReportingEngine engine = new ReportingEngine();
+        engine.buildReport(doc, false, "value");
+
+        doc.save(getArtifactsDir() + "ReportingEngine.SelectiveDeletionOfParagraphs.docx");
+        //ExEnd:RemoveParagraphsSelectively
+
+        Assert.assertTrue(DocumentHelper.compareDocs(getArtifactsDir() + "ReportingEngine.SelectiveDeletionOfParagraphs.docx", getGoldsDir() + "ReportingEngine.SelectiveDeletionOfParagraphs Gold.docx"));
     }
 
     private static void buildReport(final Document document, final Object dataSource) throws Exception {

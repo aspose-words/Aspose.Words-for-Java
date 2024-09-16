@@ -204,9 +204,9 @@ public class WorkingWithCharts extends DocsExamplesBase
         xAxis.setReverseOrder(true);
         xAxis.setMajorTickMark(AxisTickMark.CROSS);
         xAxis.setMinorTickMark(AxisTickMark.OUTSIDE);
-        xAxis.setTickLabelOffset(200);
+        xAxis.getTickLabels().setOffset(200);
 
-        yAxis.setTickLabelPosition(AxisTickLabelPosition.HIGH);
+        yAxis.getTickLabels().setPosition(AxisTickLabelPosition.HIGH);
         yAxis.setMajorUnit(100.0);
         yAxis.setMinorUnit(50.0);
         yAxis.getDisplayUnit().setUnit(AxisBuiltInUnit.HUNDREDS);
@@ -315,7 +315,7 @@ public class WorkingWithCharts extends DocsExamplesBase
             new String[] { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" },
             new double[] { 1.2, 0.3, 2.1, 2.9, 4.2 });
 
-        chart.getAxisX().setTickLabelSpacing(2);
+        chart.getAxisX().getTickLabels().setSpacing(2);
 
         doc.save(getArtifactsDir() + "WorkingWithCharts.IntervalUnitBetweenLabelsOnAxis.docx");
         //ExEnd:SetIntervalUnitBetweenLabelsOnAxis
@@ -355,7 +355,7 @@ public class WorkingWithCharts extends DocsExamplesBase
 
         ChartAxis axis = shape.getChart().getAxisX();
         // This property has effect only for multi-line labels.
-        axis.setTickLabelAlignment(ParagraphAlignment.RIGHT);
+        axis.getTickLabels().setAlignment(ParagraphAlignment.RIGHT);
 
         doc.save(getArtifactsDir() + "WorkingWithCharts.TickMultiLineLabelAlignment.docx");
         //ExEnd:TickMultiLineLabelAlignment

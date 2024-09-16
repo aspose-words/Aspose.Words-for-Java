@@ -3,14 +3,13 @@ package DocsExamples.Rendering_and_printing;
 import DocsExamples.DocsExamplesBase;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
-import org.apache.commons.io.FilenameUtils;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -112,7 +111,8 @@ public class RenderingShapes extends DocsExamplesBase
 
         //ExStart:RenderCellToImage
         Cell cell = (Cell)doc.getChild(NodeType.CELL, 2, true);
-        renderNode(cell, getArtifactsDir() + "RenderShape.RenderCellToImage.png", null);
+        Document tmp = convertToImage(doc, cell);
+        tmp.save(getArtifactsDir() + "RenderShape.RenderCellToImage.png");
         //ExEnd:RenderCellToImage
     }
 
@@ -123,7 +123,8 @@ public class RenderingShapes extends DocsExamplesBase
 
         //ExStart:RenderRowToImage
         Row row = (Row) doc.getChild(NodeType.ROW, 0, true);
-        renderNode(row, getArtifactsDir() + "RenderShape.RenderRowToImage.png", null);
+        Document tmp = convertToImage(doc, row);
+        tmp.save(getArtifactsDir() + "RenderShape.RenderRowToImage.png");
         //ExEnd:RenderRowToImage
     }
 
@@ -144,7 +145,8 @@ public class RenderingShapes extends DocsExamplesBase
             options.setPaperColor(new Color(255, 182, 193));
         }
 
-        renderNode(textBoxShape.getLastParagraph(), getArtifactsDir() + "RenderShape.RenderParagraphToImage.png", options);
+        Document tmp = convertToImage(doc, textBoxShape.getLastParagraph());
+        tmp.save(getArtifactsDir() + "RenderShape.RenderParagraphToImage.png");
         //ExEnd:RenderParagraphToImage
     }
 
@@ -184,80 +186,96 @@ public class RenderingShapes extends DocsExamplesBase
     }
 
     /// <summary>
-    /// Renders any node in a document to the path specified using the image save options.
+    /// Renders any node in a document into an image.
     /// </summary>
+    /// <param name="doc">The current document.</param>
     /// <param name="node">The node to render.</param>
-    /// <param name="filePath">The path to save the rendered image to.</param>
-    /// <param name="imageOptions">The image options to use during rendering. This can be null.</param>
-    void renderNode(Node node, String filePath, ImageSaveOptions imageOptions) throws Exception {
-        if (imageOptions == null)
-            imageOptions = new ImageSaveOptions(FileFormatUtil.extensionToSaveFormat(FilenameUtils.getExtension(filePath)));
+    private static Document convertToImage(Document doc, CompositeNode node) throws Exception
+    {
+        Document tmp = createTemporaryDocument(doc, node);
+        appendNodeContent(tmp, node);
+        adjustDocumentLayout(tmp);
+        return tmp;
+    }
 
-        // Store the paper color to be used on the final image and change to transparent.
-        // This will cause any content around the rendered node to be removed later on.
-        Color savePaperColor = imageOptions.getPaperColor();
-        imageOptions.setPaperColor(new Color(0, 0, 0, 0));
+    /// <summary>
+    /// Creates a temporary document for further rendering.
+    /// </summary>
+    private static Document createTemporaryDocument(Document doc, CompositeNode node)
+    {
+        Document tmp = (Document)doc.deepClone(false);
+        tmp.getSections().add(tmp.importNode(node.getAncestor(NodeType.SECTION), false, ImportFormatMode.USE_DESTINATION_STYLES));
+        tmp.getFirstSection().appendChild(new Body(tmp));
+        tmp.getFirstSection().getPageSetup().setTopMargin(0.0);
+        tmp.getFirstSection().getPageSetup().setBottomMargin(0.0);
 
-        // There a bug which affects the cache of a cloned node.
-        // To avoid this, we clone the entire document, including all nodes,
-        // finding the matching node in the cloned document and rendering that instead.
-        Document doc = (Document) node.getDocument().deepClone(true);
-        node = doc.getChild(NodeType.ANY, node.getDocument().getChildNodes(NodeType.ANY, true).indexOf(node), true);
+        return tmp;
+    }
 
-        // Create a temporary shape to store the target node in. This shape will be rendered to retrieve
-        // the rendered content of the node.
-        Shape shape = new Shape(doc, ShapeType.TEXT_BOX);
-        Section parentSection = (Section) node.getAncestor(NodeType.SECTION);
+    /// <summary>
+    /// Adds a node to a temporary document.
+    /// </summary>
+    private static void appendNodeContent(Document tmp, CompositeNode node)
+    {
+        if (node.getNodeType() == NodeType.HEADER_FOOTER) {
+            for (Node hfNode : node.getChildNodes(NodeType.ANY, false).toArray())
+                tmp.getFirstSection().getBody().appendChild(tmp.importNode(hfNode, true, ImportFormatMode.USE_DESTINATION_STYLES));
+        }
+        else
+            appendNonHeaderFooterContent(tmp, node);
+    }
 
-        // Assume that the node cannot be larger than the page in size.
-        shape.setWidth(parentSection.getPageSetup().getPageWidth());
-        shape.setHeight(parentSection.getPageSetup().getPageHeight());
-        shape.setFillColor(new Color(0, 0, 0, 0));
-
-        // Don't draw a surronding line on the shape.
-        shape.setStroked(false);
-
-        // Move up through the DOM until we find a suitable node to insert into a Shape
-        // (a node with a parent can contain paragraphs, tables the same as a shape). Each parent node is cloned
-        // on the way up so even a descendant node passed to this method can be rendered. Since we are working
-        // with the actual nodes of the document we need to clone the target node into the temporary shape.
-        Node currentNode = node;
-        while (!(currentNode.getParentNode() instanceof InlineStory || currentNode.getParentNode() instanceof Story ||
-                currentNode.getParentNode() instanceof ShapeBase)) {
-            CompositeNode parent = (CompositeNode) currentNode.getParentNode().deepClone(false);
-            currentNode = currentNode.getParentNode();
+    private static void appendNonHeaderFooterContent(Document tmp, CompositeNode node)
+    {
+        Node parentNode = node.getParentNode();
+        while (!(parentNode instanceof InlineStory || parentNode instanceof Story || parentNode instanceof ShapeBase))
+        {
+            CompositeNode parent = (CompositeNode)parentNode.deepClone(false);
             parent.appendChild(node.deepClone(true));
-            node = parent; // Store this new node to be inserted into the shape.
+            node = parent;
+
+            parentNode = parentNode.getParentNode();
         }
 
-        // We must add the shape to the document tree to have it rendered.
-        shape.appendChild(node.deepClone(true));
-        parentSection.getBody().getFirstParagraph().appendChild(shape);
+        tmp.getFirstSection().getBody().appendChild(tmp.importNode(node, true, ImportFormatMode.USE_DESTINATION_STYLES));
+    }
 
-        // Render the shape to stream so we can take advantage of the effects of the ImageSaveOptions class.
-        // Retrieve the rendered image and remove the shape from the document.
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        ShapeRenderer renderer = shape.getShapeRenderer();
-        shape.getShapeRenderer().save(stream, imageOptions);
-        shape.remove();
+    /// <summary>
+    /// Adjusts the layout of the document to fit the content area.
+    /// </summary>
+    private static void adjustDocumentLayout(Document tmp) throws Exception
+    {
+        LayoutEnumerator enumerator = new LayoutEnumerator(tmp);
+        Rectangle2D.Float rect = new Rectangle2D.Float(0f, 0f, 0f, 0f);
+        rect = calculateVisibleRect(enumerator, rect);
 
-        Rectangle cropRectangle = renderer.getOpaqueBoundsInPixels(imageOptions.getScale(), imageOptions.getHorizontalResolution(),
-                imageOptions.getVerticalResolution());
-        BufferedImage renderedImage = new BufferedImage(cropRectangle.width, cropRectangle.height,
-                BufferedImage.TYPE_INT_RGB);
+        tmp.getFirstSection().getPageSetup().setPageHeight(rect.getHeight());
+        tmp.updatePageLayout();
+    }
 
-        // Create the final image with the proper background color.
-        Graphics2D graphics = renderedImage.createGraphics();
-        try {
-            graphics.setBackground(savePaperColor);
-            graphics.clearRect(0, 0, renderedImage.getWidth(), renderedImage.getHeight());
-            graphics.drawImage(renderedImage, 0, 0, renderedImage.getWidth(), renderedImage.getHeight(), (int) cropRectangle.getX(),
-                    (int) cropRectangle.getY(), (int) cropRectangle.getWidth(), (int) cropRectangle.getHeight(), null);
+    /// <summary>
+    /// Calculates the visible area of the content.
+    /// </summary>
+    private static Rectangle2D.Float calculateVisibleRect(LayoutEnumerator enumerator, Rectangle2D.Float rect) throws Exception
+    {
+        Rectangle2D.Float result = rect;
+        do
+        {
+            if (enumerator.moveFirstChild())
+            {
+                if (enumerator.getType() == LayoutEntityType.LINE || enumerator.getType() == LayoutEntityType.SPAN) {
+                    if (result.isEmpty())
+                        result = enumerator.getRectangle();
+                    else
+                        Rectangle2D.Float.union(result, enumerator.getRectangle(), result);
+                }
 
-            ImageIO.write(renderedImage, "png", new File(filePath));
-        } finally {
-            if (graphics != null) graphics.dispose();
-        }
+                result = calculateVisibleRect(enumerator, result);
+                enumerator.moveParent();
+            }
+        } while (enumerator.moveNext());
+
+        return result;
     }
 }
 

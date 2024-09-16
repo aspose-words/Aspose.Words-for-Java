@@ -524,9 +524,9 @@ public class ExMailMerge extends ApiExampleBase
     public void mailMergeRegionInfo() throws Exception
     {
         //ExStart
-        //ExFor:MailMerge.GetFieldNamesForRegion(System.String)
-        //ExFor:MailMerge.GetFieldNamesForRegion(System.String,System.Int32)
-        //ExFor:MailMerge.GetRegionsByName(System.String)
+        //ExFor:MailMerge.GetFieldNamesForRegion(String)
+        //ExFor:MailMerge.GetFieldNamesForRegion(String,Int32)
+        //ExFor:MailMerge.GetRegionsByName(String)
         //ExFor:MailMerge.RegionEndTag
         //ExFor:MailMerge.RegionStartTag
         //ExFor:MailMergeRegionInfo.ParentRegion
@@ -1330,6 +1330,7 @@ public class ExMailMerge extends ApiExampleBase
         //ExFor:MailMergeRegionInfo.StartField
         //ExFor:MailMergeRegionInfo.EndField
         //ExFor:MailMergeRegionInfo.Level
+        //ExFor:MailMergeRegionInfo.MustacheTags
         //ExSummary:Shows how to verify mail merge regions.
         Document doc = new Document(getMyDir() + "Mail merge regions.docx");
 
@@ -1353,6 +1354,7 @@ public class ExMailMerge extends ApiExampleBase
         Assert.assertEquals("NestedRegion2", nestedRegions.get(1).getName());
         Assert.assertEquals(2, nestedRegions.get(0).getLevel());
         Assert.assertEquals(2, nestedRegions.get(1).getLevel());
+        Assert.assertEquals(0, nestedRegions.get(1).getMustacheTags().size());
 
         // Get list of fields inside the first top region.
         ArrayList<Field> fieldList = topRegions.get(0).getFields();
@@ -2004,6 +2006,7 @@ public class ExMailMerge extends ApiExampleBase
     public void mustacheTags() throws Exception
     {
         //ExStart
+        //ExFor:MustacheTag
         //ExFor:MustacheTag.Text
         //ExFor:MustacheTag.ReferenceOffset
         //ExFor:MustacheTag.ReferenceRun

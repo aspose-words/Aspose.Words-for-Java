@@ -7,8 +7,11 @@ import org.testng.annotations.Test;
 import com.aspose.words.Document;
 import com.aspose.words.HtmlSaveOptions;
 import com.aspose.words.CssStyleSheetType;
-import com.aspose.words.DocumentBuilder;
+import com.aspose.words.HtmlLoadOptions;
+import com.aspose.ms.System.IO.MemoryStream;
+import com.aspose.ms.System.Text.Encoding;
 import com.aspose.words.HtmlMetafileFormat;
+import com.aspose.words.DocumentBuilder;
 import com.aspose.words.SaveFormat;
 import com.aspose.ms.System.IO.Path;
 import com.aspose.ms.System.IO.Directory;
@@ -20,6 +23,7 @@ public class WorkingWithHtmlSaveOptions extends DocsExamplesBase
     public void exportRoundtripInformation() throws Exception
     {
         //ExStart:ExportRoundtripInformation
+        //GistId:c0df00d37081f41a7683339fd7ef66c1
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setExportRoundtripInformation(true); }
@@ -32,6 +36,7 @@ public class WorkingWithHtmlSaveOptions extends DocsExamplesBase
     public void exportFontsAsBase64() throws Exception
     {
         //ExStart:ExportFontsAsBase64
+        //GistId:c0df00d37081f41a7683339fd7ef66c1
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setExportFontsAsBase64(true); }
@@ -44,6 +49,7 @@ public class WorkingWithHtmlSaveOptions extends DocsExamplesBase
     public void exportResources() throws Exception
     {
         //ExStart:ExportResources
+        //GistId:c0df00d37081f41a7683339fd7ef66c1
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
@@ -59,20 +65,23 @@ public class WorkingWithHtmlSaveOptions extends DocsExamplesBase
     }
 
     @Test
-    public void convertMetafilesToEmfOrWmf() throws Exception
+    public void convertMetafilesToPng() throws Exception
     {
-        //ExStart:ConvertMetafilesToEmfOrWmf
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
+        //ExStart:ConvertMetafilesToPng
+        String html =
+            "<html>\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\n                    </svg>\n                </html>";
 
-        builder.write("Here is an image as is: ");
-        builder.insertHtml(
-            "<img src=\"data:image/png;base64,\n                    iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGP\n                    C/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IA\n                    AAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1J\n                    REFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jq\n                    ch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0\n                    vr4MkhoXe0rZigAAAABJRU5ErkJggg==\" alt=\"Red dot\" />");
+        // Use 'ConvertSvgToEmf' to turn back the legacy behavior
+        // where all SVG images loaded from an HTML document were converted to EMF.
+        // Now SVG images are loaded without conversion
+        // if the MS Word version specified in load options supports SVG images natively.
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions(); { loadOptions.setConvertSvgToEmf(true); }
+        Document doc = new Document(new MemoryStream(Encoding.getUTF8().getBytes(html)), loadOptions);
 
-        HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.EMF_OR_WMF); }
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.PNG); }
 
-        doc.save(getArtifactsDir() + "WorkingWithHtmlSaveOptions.ConvertMetafilesToEmfOrWmf.html", saveOptions);
-        //ExEnd:ConvertMetafilesToEmfOrWmf
+        doc.save(getArtifactsDir() + "WorkingWithHtmlSaveOptions.ConvertMetafilesToPng.html", saveOptions);
+        //ExEnd:ConvertMetafilesToPng
     }
 
     @Test
@@ -84,7 +93,7 @@ public class WorkingWithHtmlSaveOptions extends DocsExamplesBase
         
         builder.write("Here is an SVG image: ");
         builder.insertHtml(
-            "<svg height='210' width='500'>\n                <polygon points='100,10 40,198 190,78 10,78 160,198' \n                    style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />\n            </svg> ");
+            "<svg height='210' width='500'>\r\n                <polygon points='100,10 40,198 190,78 10,78 160,198' \r\n                    style='fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;' />\r\n            </svg> ");
 
         HtmlSaveOptions saveOptions = new HtmlSaveOptions(); { saveOptions.setMetafileFormat(HtmlMetafileFormat.SVG); }
 
@@ -141,6 +150,7 @@ public class WorkingWithHtmlSaveOptions extends DocsExamplesBase
     public void exportTextInputFormFieldAsText() throws Exception
     {
         //ExStart:ExportTextInputFormFieldAsText
+        //GistId:83e5c469d0e72b5114fb8a05a1d01977
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         String imagesDir = Path.combine(getArtifactsDir(), "Images");

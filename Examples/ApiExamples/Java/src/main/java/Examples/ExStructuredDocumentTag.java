@@ -47,6 +47,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     {
         //ExStart
         //ExFor:StructuredDocumentTag.WordOpenXML
+        //ExFor:IStructuredDocumentTag.WordOpenXML
         //ExSummary:Shows how to get XML contained within the node in the FlatOpc format.
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
@@ -68,6 +69,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExFor:StructuredDocumentTag.NodeType
         //ExFor:StructuredDocumentTag.Style
         //ExFor:StructuredDocumentTag.StyleName
+        //ExFor:StructuredDocumentTag.WordOpenXMLMinimal
         //ExFor:MarkupLevel
         //ExFor:SdtType
         //ExSummary:Shows how to work with styles for content control elements.
@@ -103,12 +105,16 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExStart
         //ExFor:StructuredDocumentTag.#ctor(DocumentBase, SdtType, MarkupLevel)
         //ExFor:StructuredDocumentTag.Checked
+        //ExFor:StructuredDocumentTag.SetCheckedSymbol(Int32, String)
+        //ExFor:StructuredDocumentTag.SetUncheckedSymbol(Int32, String)
         //ExSummary:Show how to create a structured document tag in the form of a check box.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         StructuredDocumentTag sdtCheckBox = new StructuredDocumentTag(doc, SdtType.CHECKBOX, MarkupLevel.INLINE);
         sdtCheckBox.setChecked(true);
+        sdtCheckBox.setCheckedSymbol(0x00A9, "Times New Roman");
+        sdtCheckBox.setUncheckedSymbol(0x00AE, "Times New Roman");
 
         builder.insertNode(sdtCheckBox);
 
@@ -121,6 +127,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
 
         StructuredDocumentTag sdt = (StructuredDocumentTag) sdts.get(0);
         Assert.assertEquals(true, sdt.getChecked());
+        Assert.assertEquals("", sdt.getXmlMapping().getStoreItemId());
     }
 
     @Test
@@ -131,6 +138,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExFor:StructuredDocumentTag.DateDisplayLocale
         //ExFor:StructuredDocumentTag.DateStorageFormat
         //ExFor:StructuredDocumentTag.FullDate
+        //ExFor:SdtCalendarType
+        //ExFor:SdtDateStorageFormat
         //ExSummary:Shows how to prompt the user to enter a date with a structured document tag.
         Document doc = new Document();
 
@@ -173,6 +182,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExFor:StructuredDocumentTag.Id
         //ExFor:StructuredDocumentTag.Level
         //ExFor:StructuredDocumentTag.Multiline
+        //ExFor:IStructuredDocumentTag.Tag
         //ExFor:StructuredDocumentTag.Tag
         //ExFor:StructuredDocumentTag.Title
         //ExFor:StructuredDocumentTag.RemoveSelfOnly
@@ -298,8 +308,11 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     public void placeholderBuildingBlock(boolean isShowingPlaceholderText) throws Exception {
         //ExStart
         //ExFor:StructuredDocumentTag.IsShowingPlaceholderText
+        //ExFor:IStructuredDocumentTag.IsShowingPlaceholderText
         //ExFor:StructuredDocumentTag.Placeholder
         //ExFor:StructuredDocumentTag.PlaceholderName
+        //ExFor:IStructuredDocumentTag.Placeholder
+        //ExFor:IStructuredDocumentTag.PlaceholderName
         //ExSummary:Shows how to use a building block's contents as a custom placeholder text for a structured document tag. 
         Document doc = new Document();
 
@@ -365,6 +378,8 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExStart
         //ExFor:StructuredDocumentTag.LockContentControl
         //ExFor:StructuredDocumentTag.LockContents
+        //ExFor:IStructuredDocumentTag.LockContentControl
+        //ExFor:IStructuredDocumentTag.LockContents
         //ExSummary:Shows how to apply editing restrictions to structured document tags.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -406,17 +421,17 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     public void listItemCollection() throws Exception {
         //ExStart
         //ExFor:SdtListItem
-        //ExFor:SdtListItem.#ctor(System.String)
-        //ExFor:SdtListItem.#ctor(System.String,System.String)
+        //ExFor:SdtListItem.#ctor(String)
+        //ExFor:SdtListItem.#ctor(String,String)
         //ExFor:SdtListItem.DisplayText
         //ExFor:SdtListItem.Value
         //ExFor:SdtListItemCollection
-        //ExFor:SdtListItemCollection.Add(Aspose.Words.Markup.SdtListItem)
+        //ExFor:SdtListItemCollection.Add(SdtListItem)
         //ExFor:SdtListItemCollection.Clear
         //ExFor:SdtListItemCollection.Count
         //ExFor:SdtListItemCollection.GetEnumerator
-        //ExFor:SdtListItemCollection.Item(System.Int32)
-        //ExFor:SdtListItemCollection.RemoveAt(System.Int32)
+        //ExFor:SdtListItemCollection.Item(Int32)
+        //ExFor:SdtListItemCollection.RemoveAt(Int32)
         //ExFor:SdtListItemCollection.SelectedValue
         //ExFor:StructuredDocumentTag.ListItems
         //ExSummary:Shows how to work with drop down-list structured document tags.
@@ -489,6 +504,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExFor:CustomXmlPartCollection.RemoveAt(Int32)
         //ExFor:Document.CustomXmlParts
         //ExFor:StructuredDocumentTag.XmlMapping
+        //ExFor:IStructuredDocumentTag.XmlMapping
         //ExFor:XmlMapping.SetMapping(CustomXmlPart, String, String)
         //ExSummary:Shows how to create a structured document tag with custom XML data.
         Document doc = new Document();
@@ -642,15 +658,15 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     public void customXmlSchemaCollection() throws Exception {
         //ExStart
         //ExFor:CustomXmlSchemaCollection
-        //ExFor:CustomXmlSchemaCollection.Add(System.String)
+        //ExFor:CustomXmlSchemaCollection.Add(String)
         //ExFor:CustomXmlSchemaCollection.Clear
         //ExFor:CustomXmlSchemaCollection.Clone
         //ExFor:CustomXmlSchemaCollection.Count
         //ExFor:CustomXmlSchemaCollection.GetEnumerator
-        //ExFor:CustomXmlSchemaCollection.IndexOf(System.String)
-        //ExFor:CustomXmlSchemaCollection.Item(System.Int32)
-        //ExFor:CustomXmlSchemaCollection.Remove(System.String)
-        //ExFor:CustomXmlSchemaCollection.RemoveAt(System.Int32)
+        //ExFor:CustomXmlSchemaCollection.IndexOf(String)
+        //ExFor:CustomXmlSchemaCollection.Item(Int32)
+        //ExFor:CustomXmlSchemaCollection.Remove(String)
+        //ExFor:CustomXmlSchemaCollection.RemoveAt(Int32)
         //ExSummary:Shows how to work with an XML schema collection.
         Document doc = new Document();
 
@@ -964,14 +980,17 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     public void multiSectionTags() throws Exception {
         //ExStart
         //ExFor:StructuredDocumentTagRangeStart
+        //ExFor:IStructuredDocumentTag.Id
         //ExFor:StructuredDocumentTagRangeStart.Id
         //ExFor:StructuredDocumentTagRangeStart.Title
         //ExFor:StructuredDocumentTagRangeStart.PlaceholderName
         //ExFor:StructuredDocumentTagRangeStart.IsShowingPlaceholderText
         //ExFor:StructuredDocumentTagRangeStart.LockContentControl
         //ExFor:StructuredDocumentTagRangeStart.LockContents
+        //ExFor:IStructuredDocumentTag.Level
         //ExFor:StructuredDocumentTagRangeStart.Level
         //ExFor:StructuredDocumentTagRangeStart.RangeEnd
+        //ExFor:IStructuredDocumentTag.Color
         //ExFor:StructuredDocumentTagRangeStart.Color
         //ExFor:StructuredDocumentTagRangeStart.SdtType
         //ExFor:StructuredDocumentTagRangeStart.WordOpenXML
@@ -1026,10 +1045,66 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //ExEnd
     }
 
+    //ExStart
+    //ExFor:StructuredDocumentTagRangeStart.#ctor(DocumentBase, SdtType)
+    //ExFor:StructuredDocumentTagRangeEnd.#ctor(DocumentBase, int)
+    //ExFor:StructuredDocumentTagRangeStart.RemoveSelfOnly
+    //ExFor:StructuredDocumentTagRangeStart.RemoveAllChildren
+    //ExSummary:Shows how to create/remove structured document tag and its content.
+    @Test //ExSkip
+    public void sdtRangeExtendedMethods() throws Exception
+    {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.writeln("StructuredDocumentTag element");
+
+        StructuredDocumentTagRangeStart rangeStart = insertStructuredDocumentTagRanges(doc);
+
+        // Removes ranged structured document tag, but keeps content inside.
+        rangeStart.removeSelfOnly();
+
+        rangeStart = (StructuredDocumentTagRangeStart)doc.getChild(
+            NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, false);
+        Assert.assertEquals(null, rangeStart);
+
+        StructuredDocumentTagRangeEnd rangeEnd = (StructuredDocumentTagRangeEnd)doc.getChild(
+            NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_END, 0, false);
+
+        Assert.assertEquals(null, rangeEnd);
+        Assert.assertEquals("StructuredDocumentTag element", doc.getText().trim());
+
+        rangeStart = insertStructuredDocumentTagRanges(doc);
+
+        Node paragraphNode = rangeStart.getLastChild();
+        if (paragraphNode != null)
+            Assert.assertEquals("StructuredDocumentTag element", paragraphNode.getText().trim());
+
+        // Removes ranged structured document tag and content inside.
+        rangeStart.removeAllChildren();
+
+        paragraphNode = rangeStart.getLastChild();
+        Assert.assertEquals("",  paragraphNode.getText());
+    }
+
+    @Test (enabled = false)
+    public StructuredDocumentTagRangeStart insertStructuredDocumentTagRanges(Document doc)
+    {
+        StructuredDocumentTagRangeStart rangeStart = new StructuredDocumentTagRangeStart(doc, SdtType.PLAIN_TEXT);
+        StructuredDocumentTagRangeEnd rangeEnd = new StructuredDocumentTagRangeEnd(doc, rangeStart.getId());
+
+        doc.getFirstSection().getBody().insertBefore(rangeStart, doc.getFirstSection().getBody().getFirstParagraph());
+        doc.getLastSection().getBody().insertAfter(rangeEnd, doc.getFirstSection().getBody().getFirstParagraph());
+
+        return rangeStart;
+    }
+    //ExEnd
+
     @Test
     public void getSdt() throws Exception
     {
         //ExStart
+        //ExFor:Range.StructuredDocumentTags
         //ExFor:StructuredDocumentTagCollection.Remove(int)
         //ExFor:StructuredDocumentTagCollection.RemoveAt(int)
         //ExSummary:Shows how to remove structured document tag.
@@ -1059,9 +1134,10 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     public void rangeSdt() throws Exception
     {
         //ExStart
+        //ExFor:StructuredDocumentTagCollection
         //ExFor:StructuredDocumentTagCollection.GetById(int)
         //ExFor:StructuredDocumentTagCollection.GetByTitle(String)
-        //ExFor:IStructuredDocumentTag.IsMultiSection()
+        //ExFor:IStructuredDocumentTag.IsMultiSection
         //ExFor:IStructuredDocumentTag.Title
         //ExSummary:Shows how to get structured document tag.
         Document doc = new Document(getMyDir() + "Structured document tags by id.docx");
@@ -1186,6 +1262,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
     {
         //ExStart:RemoveSelfOnly
         //GistId:f0964b777330b758f6b82330b040b24c
+        //ExFor:IStructuredDocumentTag
         //ExFor:IStructuredDocumentTag.GetChildNodes(NodeType, bool)
         //ExFor:IStructuredDocumentTag.RemoveSelfOnly
         //ExSummary:Shows how to remove structured document tag, but keeps content inside.
@@ -1212,6 +1289,7 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         //GistId:9c17d666c47318436785490829a3984f
         //ExFor:SdtAppearance
         //ExFor:StructuredDocumentTagRangeStart.Appearance
+        //ExFor:IStructuredDocumentTag.Appearance
         //ExSummary:Shows how to show tag around content.
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
         StructuredDocumentTagRangeStart tag = (StructuredDocumentTagRangeStart) doc.getChild(NodeType.STRUCTURED_DOCUMENT_TAG_RANGE_START, 0, true);
@@ -1219,5 +1297,27 @@ public class ExStructuredDocumentTag extends ApiExampleBase {
         if (tag.getAppearance() == SdtAppearance.HIDDEN)
             tag.setAppearance(SdtAppearance.TAGS);
         //ExEnd:Appearance
+    }
+
+    @Test
+    public void insertStructuredDocumentTag() throws Exception
+    {
+        //ExStart:InsertStructuredDocumentTag
+        //GistId:6280fd6c1c1854468bea095ec2af902b
+        //ExFor:DocumentBuilder.InsertStructuredDocumentTag(SdtType)
+        //ExSummary:Shows how to simply insert structured document tag.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.moveTo(doc.getFirstSection().getBody().getParagraphs().get(3));
+        // Note, that only following StructuredDocumentTag types are allowed for insertion:
+        // SdtType.PlainText, SdtType.RichText, SdtType.Checkbox, SdtType.DropDownList,
+        // SdtType.ComboBox, SdtType.Picture, SdtType.Date.
+        // Markup level of inserted StructuredDocumentTag will be detected automatically and depends on position being inserted at.
+        // Added StructuredDocumentTag will inherit paragraph and font formatting from cursor position.
+        StructuredDocumentTag sdtPlain = builder.insertStructuredDocumentTag(SdtType.PLAIN_TEXT);
+
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.InsertStructuredDocumentTag.docx");
+        //ExEnd:InsertStructuredDocumentTag
     }
 }

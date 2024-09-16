@@ -18,9 +18,10 @@ import com.aspose.words.ImportFormatMode;
 class SplitDocument extends DocsExamplesBase
 {
     @Test
-    public void byHeadingsHtml() throws Exception
+    public void byHeadings() throws Exception
     {
-        //ExStart:SplitDocumentByHeadingsHtml
+        //ExStart:SplitDocumentByHeadings
+        //GistId:c0df00d37081f41a7683339fd7ef66c1
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         HtmlSaveOptions options = new HtmlSaveOptions();
@@ -29,9 +30,8 @@ class SplitDocument extends DocsExamplesBase
             options.setDocumentSplitCriteria(DocumentSplitCriteria.HEADING_PARAGRAPH);
         }
         
-
-        doc.save(getArtifactsDir() + "SplitDocument.ByHeadingsHtml.html", options);
-        //ExEnd:SplitDocumentByHeadingsHtml
+        doc.save(getArtifactsDir() + "SplitDocument.ByHeadings.epub", options);
+        //ExEnd:SplitDocumentByHeadings
     }
 
     @Test

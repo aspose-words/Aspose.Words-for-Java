@@ -13,6 +13,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.Date;
 
 public class ExXpsSaveOptions extends ApiExampleBase {
     @Test
@@ -167,5 +168,32 @@ public class ExXpsSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "XpsSaveOptions.ExportExactPages.xps", xpsOptions);
         //ExEnd
+    }
+
+    @Test
+    public void xpsDigitalSignature() throws Exception
+    {
+        //ExStart:XpsDigitalSignature
+        //GistId:0ede368e82d1e97d02e615a76923846b
+        //ExFor:XpsSaveOptions.DigitalSignatureDetails
+        //ExSummary:Shows how to sign XPS document.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+        SignOptions signOptions = new SignOptions();
+        {
+            signOptions.setComments("My comment");
+            signOptions.setSignTime(new Date());
+        }
+        DigitalSignatureDetails digitalSignatureDetails = new DigitalSignatureDetails(certificateHolder, signOptions);
+
+        XpsSaveOptions saveOptions = new XpsSaveOptions();
+        saveOptions.setDigitalSignatureDetails(digitalSignatureDetails);
+
+        Assert.assertEquals(certificateHolder, digitalSignatureDetails.getCertificateHolder());
+        Assert.assertEquals("My comment", digitalSignatureDetails.getSignOptions().getComments());
+
+        doc.save(getArtifactsDir() + "XpsSaveOptions.XpsDigitalSignature.docx", saveOptions);
+        //ExEnd:XpsDigitalSignature
     }
 }

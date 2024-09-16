@@ -14,6 +14,7 @@ class EnableOpenTypeFeatures extends DocsExamplesBase
     public void openTypeFeatures() throws Exception
     {
         //ExStart:OpenTypeFeatures
+        //GistId:7840fae2297fa05bba1ca0608cb81bf1
         Document doc = new Document(getMyDir() + "OpenType text shaping.docx");
 
         // When we set the text shaper factory, the layout starts to use OpenType features.

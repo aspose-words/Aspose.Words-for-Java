@@ -28,6 +28,8 @@ public class ExVariableCollection extends ApiExampleBase {
         //ExFor:VariableCollection.IndexOfKey
         //ExFor:VariableCollection.Remove
         //ExFor:VariableCollection.RemoveAt
+        //ExFor:VariableCollection.Item(Int32)
+        //ExFor:VariableCollection.Item(String)
         //ExSummary:Shows how to work with a document's variable collection.
         Document doc = new Document();
         VariableCollection variables = doc.getVariables();

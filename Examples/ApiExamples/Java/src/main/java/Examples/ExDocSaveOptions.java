@@ -28,6 +28,7 @@ public class ExDocSaveOptions extends ApiExampleBase {
         //ExFor:DocSaveOptions.Password
         //ExFor:DocSaveOptions.SaveFormat
         //ExFor:DocSaveOptions.SaveRoutingSlip
+        //ExFor:IncorrectPasswordException
         //ExSummary:Shows how to set save options for older Microsoft Word formats.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -136,7 +137,7 @@ public class ExDocSaveOptions extends ApiExampleBase {
     public void updateCreatedTimeProperty(boolean isUpdateCreatedTimeProperty) throws Exception
     {
         //ExStart
-        //ExFor:SaveOptions.UpdateLastPrintedProperty
+        //ExFor:SaveOptions.UpdateCreatedTimeProperty
         //ExSummary:Shows how to update a document's "CreatedTime" property when saving.
         Document doc = new Document();
 

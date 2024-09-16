@@ -38,6 +38,7 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
         //ExStart:LoadSaveEncryptedDocument
         //GistId:af95c7a408187bb25cf9137465fe5ce6
         //ExStart:OpenEncryptedDocument
+        //GistId:40be8275fc43f78f5e5877212e4e1bf3
         Document doc = new Document(getMyDir() + "Encrypted.docx", new LoadOptions("docPassword"));
         //ExEnd:OpenEncryptedDocument
 
@@ -72,7 +73,8 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
     @Test
     public void setMsWordVersion() throws Exception
     {
-        //ExStart:SetMSWordVersion
+        //ExStart:SetMsWordVersion
+        //GistId:40be8275fc43f78f5e5877212e4e1bf3
         // Create a new LoadOptions object, which will load documents according to MS Word 2019 specification by default
         // and change the loading version to Microsoft Word 2010.
         LoadOptions loadOptions = new LoadOptions(); { loadOptions.setMswVersion(MsWordVersion.WORD_2010); }
@@ -80,30 +82,33 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
 
         doc.save(getArtifactsDir() + "WorkingWithLoadOptions.SetMsWordVersion.docx");
-        //ExEnd:SetMSWordVersion
+        //ExEnd:SetMsWordVersion
     }
 
     @Test
-    public void useTempFolder() throws Exception
+    public void tempFolder() throws Exception
     {
-        //ExStart:UseTempFolder  
+        //ExStart:TempFolder
+        //GistId:40be8275fc43f78f5e5877212e4e1bf3
         LoadOptions loadOptions = new LoadOptions(); { loadOptions.setTempFolder(getArtifactsDir()); }
 
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
-        //ExEnd:UseTempFolder  
+        //ExEnd:TempFolder
     }
     
     @Test
     public void warningCallback() throws Exception
     {
         //ExStart:WarningCallback
+        //GistId:40be8275fc43f78f5e5877212e4e1bf3
         LoadOptions loadOptions = new LoadOptions(); { loadOptions.setWarningCallback(new DocumentLoadingWarningCallback()); }
         
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
         //ExEnd:WarningCallback
     }
 
-    //ExStart:DocumentLoadingWarningCallback
+    //ExStart:IWarningCallback
+    //GistId:40be8275fc43f78f5e5877212e4e1bf3
     public static class DocumentLoadingWarningCallback implements IWarningCallback
     {
         public void warning(WarningInfo info)
@@ -113,13 +118,14 @@ public class WorkingWithLoadOptions extends DocsExamplesBase
             System.out.println("\tDescription: {info.Description}");
         }
     }
-    //ExEnd:DocumentLoadingWarningCallback
-    
+    //ExEnd:IWarningCallback
+
 
     @Test
     public void loadWithEncoding() throws Exception
     {
         //ExStart:LoadWithEncoding
+        //GistId:40be8275fc43f78f5e5877212e4e1bf3
         LoadOptions loadOptions = new LoadOptions(); { loadOptions.setEncoding(Encoding.getASCII()); }
 
         // Load the document while passing the LoadOptions object, then verify the document's contents.

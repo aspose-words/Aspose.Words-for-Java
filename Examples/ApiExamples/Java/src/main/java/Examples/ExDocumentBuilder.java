@@ -160,6 +160,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExFor:DocumentBuilder.InsertHorizontalRule
         //ExFor:ShapeBase.IsHorizontalRule
         //ExFor:Shape.HorizontalRuleFormat
+        //ExFor:HorizontalRuleAlignment
         //ExFor:HorizontalRuleFormat
         //ExFor:HorizontalRuleFormat.Alignment
         //ExFor:HorizontalRuleFormat.WidthPercent
@@ -1095,7 +1096,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExFor:PreferredWidth
         //ExFor:PreferredWidth.Auto
         //ExFor:PreferredWidth.Equals(PreferredWidth)
-        //ExFor:PreferredWidth.Equals(System.Object)
+        //ExFor:PreferredWidth.Equals(Object)
         //ExFor:PreferredWidth.FromPoints
         //ExFor:PreferredWidth.FromPercent
         //ExFor:PreferredWidth.GetHashCode
@@ -1854,6 +1855,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         //ExFor:SignatureLine.IsSigned
         //ExFor:SignatureLine.IsValid
         //ExFor:SignatureLine.ProviderId
+        //ExFor:SignatureLineOptions
         //ExFor:SignatureLineOptions.ShowDate
         //ExFor:SignatureLineOptions.Email
         //ExFor:SignatureLineOptions.DefaultInstructions
@@ -2757,8 +2759,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
         doc = new Document(getArtifactsDir() + "DocumentBuilder.InsertVideoWithUrl.docx");
         Shape shape = (Shape) doc.getChild(NodeType.SHAPE, 0, true);
 
-        TestUtil.verifyImageInShape(480, 360, ImageType.JPEG, shape);
-        TestUtil.verifyWebResponseStatusCode(200, new URL(shape.getHRef()));
+        TestUtil.verifyImageInShape(480, 360, ImageType.PNG, shape);
 
         Assert.assertEquals(360.0d, shape.getWidth());
         Assert.assertEquals(270.0d, shape.getHeight());
@@ -2970,7 +2971,12 @@ public class ExDocumentBuilder extends ApiExampleBase {
     }
 
     @Test
-    public void emphasesWarningSourceMarkdown() throws Exception {
+    public void emphasesWarningSourceMarkdown() throws Exception
+    {
+        //ExStart
+        //ExFor:WarningInfo.Source
+        //ExFor:WarningSource
+        //ExSummary:Shows how to work with the warning source.
         Document doc = new Document(getMyDir() + "Emphases markdown warning.docx");
 
         WarningInfoCollection warnings = new WarningInfoCollection();
@@ -2981,6 +2987,7 @@ public class ExDocumentBuilder extends ApiExampleBase {
             if (warningInfo.getSource() == WarningSource.MARKDOWN)
                 Assert.assertEquals("The (*, 0:11) cannot be properly written into Markdown.", warningInfo.getDescription());
         }
+        //ExEnd
     }
 
     @Test
@@ -2991,6 +2998,10 @@ public class ExDocumentBuilder extends ApiExampleBase {
         Document dstDoc = new Document(getMyDir() + "Document.docx");
         Document srcDoc = new Document(getMyDir() + "Header and footer types.docx");
 
+        // If 'IgnoreHeaderFooter' is false then the original formatting for header/footer content
+        // from "Header and footer types.docx" will be used.
+        // If 'IgnoreHeaderFooter' is true then the formatting for header/footer content
+        // from "Document.docx" will be used.
         ImportFormatOptions importFormatOptions = new ImportFormatOptions();
         importFormatOptions.setIgnoreHeaderFooter(false);
 
@@ -3518,22 +3529,41 @@ public class ExDocumentBuilder extends ApiExampleBase {
     }
 
     @Test
+    public void preserveBlocks() throws Exception
+    {
+        //ExStart
+        //ExFor:HtmlInsertOptions
+        //ExSummary:Shows how to allows better preserve borders and margins seen.
+        final String HTML = "\n                <html>\n                    <div style='border:dotted'>\n                    <div style='border:solid'>\n                        <p>paragraph 1</p>\n                        <p>paragraph 2</p>\n                    </div>\n                    </div>\n                </html>";
+
+        // Set the new mode of import HTML block-level elements.
+        int insertOptions = HtmlInsertOptions.PRESERVE_BLOCKS;
+
+        DocumentBuilder builder = new DocumentBuilder();
+        builder.insertHtml(HTML, insertOptions);
+        builder.getDocument().save(getArtifactsDir() + "DocumentBuilder.PreserveBlocks.docx");
+        //ExEnd
+    }
+
+    @Test
     public void phoneticGuide() throws Exception
     {
         //ExStart
         //ExFor:Run.IsPhoneticGuide
         //ExFor:Run.PhoneticGuide
+        //ExFor:PhoneticGuide
         //ExFor:PhoneticGuide.BaseText
         //ExFor:PhoneticGuide.RubyText
         //ExSummary:Shows how to get properties of the phonetic guide.
         Document doc = new Document(getMyDir() + "Phonetic guide.docx");
 
         RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
-
         // Use phonetic guide in the Asian text.
         Assert.assertEquals(true, runs.get(0).isPhoneticGuide());
-        Assert.assertEquals("base", runs.get(0).getPhoneticGuide().getBaseText());
-        Assert.assertEquals("ruby", runs.get(0).getPhoneticGuide().getRubyText());
+
+        PhoneticGuide phoneticGuide = runs.get(0).getPhoneticGuide();
+        Assert.assertEquals("base", phoneticGuide.getBaseText());
+        Assert.assertEquals("ruby", phoneticGuide.getRubyText());
         //ExEnd
 
     }

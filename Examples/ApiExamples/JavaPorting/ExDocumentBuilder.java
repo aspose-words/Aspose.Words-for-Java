@@ -102,6 +102,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import com.aspose.words.OlePackage;
 import com.aspose.words.HtmlInsertOptions;
+import com.aspose.words.PhoneticGuide;
 import org.testng.annotations.DataProvider;
 
 
@@ -240,6 +241,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:DocumentBuilder.InsertHorizontalRule
         //ExFor:ShapeBase.IsHorizontalRule
         //ExFor:Shape.HorizontalRuleFormat
+        //ExFor:HorizontalRuleAlignment
         //ExFor:HorizontalRuleFormat
         //ExFor:HorizontalRuleFormat.Alignment
         //ExFor:HorizontalRuleFormat.WidthPercent
@@ -1206,7 +1208,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:PreferredWidth
         //ExFor:PreferredWidth.Auto
         //ExFor:PreferredWidth.Equals(PreferredWidth)
-        //ExFor:PreferredWidth.Equals(System.Object)
+        //ExFor:PreferredWidth.Equals(Object)
         //ExFor:PreferredWidth.FromPoints
         //ExFor:PreferredWidth.FromPercent
         //ExFor:PreferredWidth.GetHashCode
@@ -1991,6 +1993,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExFor:SignatureLine.IsSigned
         //ExFor:SignatureLine.IsValid
         //ExFor:SignatureLine.ProviderId
+        //ExFor:SignatureLineOptions
         //ExFor:SignatureLineOptions.ShowDate
         //ExFor:SignatureLineOptions.Email
         //ExFor:SignatureLineOptions.DefaultInstructions
@@ -3179,6 +3182,10 @@ public class ExDocumentBuilder extends ApiExampleBase
     @Test
     public void emphasesWarningSourceMarkdown() throws Exception
     {
+        //ExStart
+        //ExFor:WarningInfo.Source
+        //ExFor:WarningSource
+        //ExSummary:Shows how to work with the warning source.
         Document doc = new Document(getMyDir() + "Emphases markdown warning.docx");
         
         WarningInfoCollection warnings = new WarningInfoCollection();
@@ -3190,6 +3197,7 @@ public class ExDocumentBuilder extends ApiExampleBase
             if (warningInfo.getSource() == WarningSource.MARKDOWN)
                 Assert.assertEquals("The (*, 0:11) cannot be properly written into Markdown.", warningInfo.getDescription());
         }
+        //ExEnd
     }
 
     @Test
@@ -3200,7 +3208,11 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExSummary:Shows how to specifies ignoring or not source formatting of headers/footers content.
         Document dstDoc = new Document(getMyDir() + "Document.docx");
         Document srcDoc = new Document(getMyDir() + "Header and footer types.docx");
- 
+
+        // If 'IgnoreHeaderFooter' is false then the original formatting for header/footer content
+        // from "Header and footer types.docx" will be used.
+        // If 'IgnoreHeaderFooter' is true then the formatting for header/footer content
+        // from "Document.docx" will be used.
         ImportFormatOptions importFormatOptions = new ImportFormatOptions();
         importFormatOptions.setIgnoreHeaderFooter(false);
  
@@ -3729,6 +3741,7 @@ public class ExDocumentBuilder extends ApiExampleBase
         //ExStart
         //ExFor:Run.IsPhoneticGuide
         //ExFor:Run.PhoneticGuide
+        //ExFor:PhoneticGuide
         //ExFor:PhoneticGuide.BaseText
         //ExFor:PhoneticGuide.RubyText
         //ExSummary:Shows how to get properties of the phonetic guide.
@@ -3737,8 +3750,10 @@ public class ExDocumentBuilder extends ApiExampleBase
         RunCollection runs = doc.getFirstSection().getBody().getFirstParagraph().getRuns();
         // Use phonetic guide in the Asian text.
         Assert.assertEquals(true, runs.get(0).isPhoneticGuide());
-        Assert.assertEquals("base", runs.get(0).getPhoneticGuide().getBaseText());
-        Assert.assertEquals("ruby", runs.get(0).getPhoneticGuide().getRubyText());
+
+        PhoneticGuide phoneticGuide = runs.get(0).getPhoneticGuide();
+        Assert.assertEquals("base", phoneticGuide.getBaseText());
+        Assert.assertEquals("ruby", phoneticGuide.getRubyText());
         //ExEnd
     }
 }

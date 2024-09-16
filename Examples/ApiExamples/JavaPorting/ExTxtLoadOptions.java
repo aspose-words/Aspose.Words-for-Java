@@ -188,6 +188,7 @@ public class ExTxtLoadOptions extends ApiExampleBase
     public void detectDocumentDirection() throws Exception
     {
         //ExStart
+        //ExFor:DocumentDirection
         //ExFor:TxtLoadOptions.DocumentDirection
         //ExFor:ParagraphFormat.Bidi
         //ExSummary:Shows how to detect plaintext document text direction.
@@ -237,6 +238,8 @@ public class ExTxtLoadOptions extends ApiExampleBase
     {
         //ExStart:DetectHyperlinks
         //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:TxtLoadOptions
+        //ExFor:TxtLoadOptions.#ctor
         //ExFor:TxtLoadOptions.DetectHyperlinks
         //ExSummary:Shows how to read and display hyperlinks.
         final String INPUT_TEXT = "Some links in TXT:\n" +

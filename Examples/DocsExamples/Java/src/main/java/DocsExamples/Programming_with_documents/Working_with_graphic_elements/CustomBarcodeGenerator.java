@@ -1,10 +1,6 @@
 package DocsExamples.Programming_with_documents.Working_with_graphic_elements;
 
-import DocsExamples.DocsExamplesBase;
-import com.aspose.barcode.generation.AutoSizeMode;
-import com.aspose.barcode.generation.BarcodeGenerator;
-import com.aspose.barcode.generation.CodeLocation;
-import com.aspose.barcode.generation.EncodeTypes;
+import com.aspose.barcode.generation.*;
 import com.aspose.words.BarcodeParameters;
 import com.aspose.words.IBarcodeGenerator;
 
@@ -13,217 +9,253 @@ import java.awt.image.BufferedImage;
 
 //ExStart:CustomBarcodeGenerator
 //GistId:689e63b98de2dcbb12dffc37afbe9067
-public class CustomBarcodeGenerator extends DocsExamplesBase implements IBarcodeGenerator
-{
+class CustomBarcodeGeneratorUtils {
     /// <summary>
-    /// Converts barcode image height from Word units to Aspose.BarCode units.
+    /// Converts a height value in twips to pixels using a default DPI of 96.
     /// </summary>
-    /// <param name="heightInTwipsString"></param>
-    /// <returns></returns>
-    private static float convertSymbolHeight(String heightInTwipsString) throws Exception {
-        // Input value is in 1/1440 inches (twips).
-        int heightInTwips = tryParseInt(heightInTwipsString);
-
-        if (heightInTwips == Integer.MIN_VALUE)
-            throw new Exception("Error! Incorrect height - " + heightInTwipsString + ".");
-
-        // Convert to mm.
-        return (float) (heightInTwips * 25.4 / 1440.0);
+    /// <param name="heightInTwips">The height value in twips.</param>
+    /// <param name="defVal">The default value to return if the conversion fails.</param>
+    /// <returns>The height value in pixels.</returns>
+    public static double twipsToPixels(String heightInTwips, double defVal) {
+        return twipsToPixels(heightInTwips, 96.0, defVal);
     }
 
     /// <summary>
-    /// Converts barcode image color from Word to Aspose.BarCode.
+    /// Converts a height value in twips to pixels based on the given resolution.
     /// </summary>
-    /// <param name="inputColor"></param>
-    /// <returns></returns>
-    private static Color convertColor(String inputColor) throws Exception {
-        // Input should be from "0x000000" to "0xFFFFFF".
-        int color = tryParseHex(inputColor.replace("0x", ""));
-
-        if (color == Integer.MIN_VALUE)
-            throw new Exception("Error! Incorrect color - " + inputColor + ".");
-
-        return new Color((color >> 16), ((color & 0xFF00) >> 8), (color & 0xFF));
-
-        // Backward conversion -
-        // return string.Format("0x{0,6:X6}", mControl.ForeColor.ToArgb() & 0xFFFFFF);
+    /// <param name="heightInTwips">The height value in twips to be converted.</param>
+    /// <param name="resolution">The resolution in pixels per inch.</param>
+    /// <param name="defVal">The default value to be returned if the conversion fails.</param>
+    /// <returns>The converted height value in pixels.</returns>
+    public static double twipsToPixels(String heightInTwips, double resolution, double defVal) {
+        try {
+            int lVal = Integer.parseInt(heightInTwips);
+            return (lVal / 1440.0) * resolution;
+        } catch (Exception e) {
+            return defVal;
+        }
     }
 
     /// <summary>
-    /// Converts bar code scaling factor from percent to float.
+    /// Gets the rotation angle in degrees based on the given rotation angle string.
     /// </summary>
-    /// <param name="scalingFactor"></param>
-    /// <returns></returns>
-    private static float convertScalingFactor(String scalingFactor) throws Exception {
-        boolean isParsed = false;
-        int percent = tryParseInt(scalingFactor);
-
-        if (percent != Integer.MIN_VALUE && percent >= 10 && percent <= 10000)
-            isParsed = true;
-
-        if (!isParsed)
-            throw new Exception("Error! Incorrect scaling factor - " + scalingFactor + ".");
-
-        return percent / 100.0f;
+    /// <param name="rotationAngle">The rotation angle string.</param>
+    /// <param name="defVal">The default value to return if the rotation angle is not recognized.</param>
+    /// <returns>The rotation angle in degrees.</returns>
+    public static float getRotationAngle(String rotationAngle, float defVal) {
+        switch (rotationAngle) {
+            case "0":
+                return 0f;
+            case "1":
+                return 270f;
+            case "2":
+                return 180f;
+            case "3":
+                return 90f;
+            default:
+                return defVal;
+        }
     }
 
     /// <summary>
-    /// Implementation of the GetBarCodeImage() method for IBarCodeGenerator interface.
+    /// Converts a string representation of an error correction level to a QRErrorLevel enum value.
     /// </summary>
-    /// <param name="parameters"></param>
-    /// <returns></returns>
-    public BufferedImage getBarcodeImage(BarcodeParameters parameters) throws Exception {
-        if (parameters.getBarcodeType() == null || parameters.getBarcodeValue() == null)
-            return null;
+    /// <param name="errorCorrectionLevel">The string representation of the error correction level.</param>
+    /// <param name="def">The default error correction level to return if the input is invalid.</param>
+    /// <returns>The corresponding QRErrorLevel enum value.</returns>
+    public static QRErrorLevel getQRCorrectionLevel(String errorCorrectionLevel, QRErrorLevel def) {
+        switch (errorCorrectionLevel) {
+            case "0":
+                return QRErrorLevel.LEVEL_L;
+            case "1":
+                return QRErrorLevel.LEVEL_M;
+            case "2":
+                return QRErrorLevel.LEVEL_Q;
+            case "3":
+                return QRErrorLevel.LEVEL_H;
+            default:
+                return def;
+        }
+    }
 
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.QR);
-
-        String type = parameters.getBarcodeType().toUpperCase();
-
-        switch (type)
-        {
+    /// <summary>
+    /// Gets the barcode encode type based on the given encode type from Word.
+    /// </summary>
+    /// <param name="encodeTypeFromWord">The encode type from Word.</param>
+    /// <returns>The barcode encode type.</returns>
+    public static SymbologyEncodeType getBarcodeEncodeType(String encodeTypeFromWord) {
+        // https://support.microsoft.com/en-au/office/field-codes-displaybarcode-6d81eade-762d-4b44-ae81-f9d3d9e07be3
+        switch (encodeTypeFromWord) {
             case "QR":
-                generator = new BarcodeGenerator(EncodeTypes.QR);
-                break;
+                return EncodeTypes.QR;
             case "CODE128":
-                generator = new BarcodeGenerator(EncodeTypes.CODE_128);
-                break;
+                return EncodeTypes.CODE_128;
             case "CODE39":
-                generator = new BarcodeGenerator(EncodeTypes.CODE_39_STANDARD);
-                break;
+                return EncodeTypes.CODE_39;
+            case "JPPOST":
+                return EncodeTypes.RM_4_SCC;
             case "EAN8":
-                generator = new BarcodeGenerator(EncodeTypes.EAN_8);
-                break;
+            case "JAN8":
+                return EncodeTypes.EAN_8;
             case "EAN13":
-                generator = new BarcodeGenerator(EncodeTypes.EAN_13);
-                break;
+            case "JAN13":
+                return EncodeTypes.EAN_13;
             case "UPCA":
-                generator = new BarcodeGenerator(EncodeTypes.UPCA);
-                break;
+                return EncodeTypes.UPCA;
             case "UPCE":
-                generator = new BarcodeGenerator(EncodeTypes.UPCE);
-                break;
+                return EncodeTypes.UPCE;
+            case "CASE":
             case "ITF14":
-                generator = new BarcodeGenerator(EncodeTypes.ITF_14);
+                return EncodeTypes.ITF_14;
+            case "NW7":
+                return EncodeTypes.CODABAR;
+            default:
+                return EncodeTypes.NONE;
+        }
+    }
+
+    /// <summary>
+    /// Converts a hexadecimal color string to a Color object.
+    /// </summary>
+    /// <param name="inputColor">The hexadecimal color string to convert.</param>
+    /// <param name="defVal">The default Color value to return if the conversion fails.</param>
+    /// <returns>The Color object representing the converted color, or the default value if the conversion fails.</returns>
+    public static Color convertColor(String inputColor, Color defVal) {
+        if (inputColor == null || inputColor.isEmpty()) return defVal;
+        try {
+            int color = Integer.parseInt(inputColor, 16);
+            // Return Color.FromArgb((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF);
+            return new Color((color & 0xFF), ((color >> 8) & 0xFF), ((color >> 16) & 0xFF));
+        } catch (Exception e) {
+            return defVal;
+        }
+    }
+
+    /// <summary>
+    /// Calculates the scale factor based on the provided string representation.
+    /// </summary>
+    /// <param name="scaleFactor">The string representation of the scale factor.</param>
+    /// <param name="defVal">The default value to return if the scale factor cannot be parsed.</param>
+    /// <returns>
+    /// The scale factor as a decimal value between 0 and 1, or the default value if the scale factor cannot be parsed.
+    /// </returns>
+    public static double scaleFactor(String scaleFactor, double defVal) {
+        try {
+            int scale = Integer.parseInt(scaleFactor);
+            return scale / 100.0;
+        } catch (Exception e) {
+            return defVal;
+        }
+    }
+
+    /// <summary>
+    /// Sets the position code style for a barcode generator.
+    /// </summary>
+    /// <param name="gen">The barcode generator.</param>
+    /// <param name="posCodeStyle">The position code style to set.</param>
+    /// <param name="barcodeValue">The barcode value.</param>
+    public static void setPosCodeStyle(BarcodeGenerator gen, String posCodeStyle, String barcodeValue) {
+        switch (posCodeStyle) {
+            // STD default and without changes.
+            case "SUP2":
+                gen.setCodeText(barcodeValue.substring((0), (0) + (barcodeValue.length() - 2)));
+                gen.getParameters().getBarcode().getSupplement().setSupplementData(barcodeValue.substring((barcodeValue.length() - 2), (barcodeValue.length() - 2) + (2)));
+                break;
+            case "SUP5":
+                gen.setCodeText(barcodeValue.substring((0), (0) + (barcodeValue.length() - 5)));
+                gen.getParameters().getBarcode().getSupplement().setSupplementData(barcodeValue.substring((barcodeValue.length() - 5), (barcodeValue.length() - 5) + (5)));
                 break;
             case "CASE":
-                generator = new BarcodeGenerator(EncodeTypes.NONE);
+                gen.getParameters().getBorder().setVisible(true);
+                gen.getParameters().getBorder().setColor(gen.getParameters().getBarcode().getBarColor());
+                gen.getParameters().getBorder().setDashStyle(BorderDashStyle.SOLID);
+                gen.getParameters().getBorder().getWidth().setPixels(gen.getParameters().getBarcode().getXDimension().getPixels() * 5);
                 break;
         }
-
-        if (generator.getBarcodeType().equals(EncodeTypes.NONE))
-            return null;
-
-        generator.setCodeText(parameters.getBarcodeValue());
-
-        if (generator.getBarcodeType().equals(EncodeTypes.QR))
-            generator.getParameters().getBarcode().getCodeTextParameters().setTwoDDisplayText(parameters.getBarcodeValue());
-
-        if (parameters.getForegroundColor() != null)
-            generator.getParameters().getBarcode().setBarColor(convertColor(parameters.getForegroundColor()));
-
-        if (parameters.getBackgroundColor() != null)
-            generator.getParameters().setBackColor(convertColor(parameters.getBackgroundColor()));
-
-        if (parameters.getSymbolHeight() != null)
-        {
-            generator.getParameters().getImageHeight().setPixels(convertSymbolHeight(parameters.getSymbolHeight()));
-            generator.getParameters().setAutoSizeMode(AutoSizeMode.NONE);
-        }
-
-        generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
-
-        if (parameters.getDisplayText())
-            generator.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
-
-        generator.getParameters().getCaptionAbove().setText("");
-
-        // Empiric scaling factor for converting Word barcode to Aspose.BarCode.
-        final float SCALE = 2.4f;
-        float xdim = 1.0f;
-
-        if (generator.getBarcodeType().equals(EncodeTypes.QR))
-        {
-            generator.getParameters().setAutoSizeMode(AutoSizeMode.NEAREST);
-            generator.getParameters().getImageWidth().setInches(generator.getParameters().getImageWidth().getInches() * SCALE);
-            generator.getParameters().getImageHeight().setInches(generator.getParameters().getImageWidth().getInches());
-            xdim = generator.getParameters().getImageHeight().getInches() / 25;
-            generator.getParameters().getBarcode().getXDimension().setInches(xdim);
-            generator.getParameters().getBarcode().getBarHeight().setInches(xdim);
-        }
-
-        if (parameters.getScalingFactor() != null)
-        {
-            float scalingFactor = convertScalingFactor(parameters.getScalingFactor());
-            generator.getParameters().getImageHeight().setInches(generator.getParameters().getImageHeight().getInches() * scalingFactor);
-
-            if (generator.getBarcodeType().equals(EncodeTypes.QR))
-            {
-                generator.getParameters().getImageWidth().setInches(generator.getParameters().getImageHeight().getInches());
-                generator.getParameters().getBarcode().getXDimension().setInches(xdim * scalingFactor);
-                generator.getParameters().getBarcode().getBarHeight().setInches(xdim * scalingFactor);
-            }
-
-            generator.getParameters().setAutoSizeMode(AutoSizeMode.NONE);
-        }
-
-        return generator.generateBarCodeImage();
-
     }
 
+    public static final double DEFAULT_QRX_DIMENSION_IN_PIXELS = 4.0;
+    public static final double DEFAULT_1_DX_DIMENSION_IN_PIXELS = 1.0;
+
     /// <summary>
-    /// Implementation of the GetOldBarcodeImage() method for IBarCodeGenerator interface.
+    /// Draws an error image with the specified exception message.
     /// </summary>
-    /// <param name="parameters"></param>
-    /// <returns></returns>
-    public BufferedImage getOldBarcodeImage(BarcodeParameters parameters)
-    {
-        if (parameters.getPostalAddress() == null)
-            return null;
+    /// <param name="error">The exception containing the error message.</param>
+    /// <returns>A Bitmap object representing the error image.</returns>
+    public static BufferedImage drawErrorImage(Exception error) {
+        BufferedImage bmp = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
 
-        BarcodeGenerator generator = new BarcodeGenerator(EncodeTypes.POSTNET);
-        {
-            generator.setCodeText(parameters.getPostalAddress());
-        }
+        Graphics2D grf = bmp.createGraphics();
+        grf.setColor(Color.WHITE);
+        grf.fillRect(0, 0, bmp.getWidth(), bmp.getHeight());
+        grf.setFont(new Font("Microsoft Sans Serif", 8, FontStyle.REGULAR));
+        grf.setColor(Color.RED);
+        grf.drawString(error.getMessage(), 0, 0);
 
-        return generator.generateBarCodeImage();
+        return bmp;
     }
 
-    /// <summary>
-    /// Parses an integer using the invariant culture. Returns Int.MinValue if cannot parse.
-    /// 
-    /// Allows leading sign.
-    /// Allows leading and trailing spaces.
-    /// </summary>
-    public static int tryParseInt(String s) {
+    public static BufferedImage convertImageToWord(BufferedImage bmp) {
+        return bmp;
+    }
+}
+
+class CustomBarcodeGenerator implements IBarcodeGenerator {
+    public BufferedImage getBarcodeImage(BarcodeParameters parameters) {
         try {
-            double value = Double.parseDouble(s);
-            return castDoubleToInt(value);
-        } catch (NumberFormatException e) {
-            return Integer.MIN_VALUE;
+            BarcodeGenerator gen = new BarcodeGenerator(CustomBarcodeGeneratorUtils.getBarcodeEncodeType(parameters.getBarcodeType()), parameters.getBarcodeValue());
+
+            // Set color.
+            gen.getParameters().getBarcode().setBarColor(CustomBarcodeGeneratorUtils.convertColor(parameters.getForegroundColor(), gen.getParameters().getBarcode().getBarColor()));
+            gen.getParameters().setBackColor(CustomBarcodeGeneratorUtils.convertColor(parameters.getBackgroundColor(), gen.getParameters().getBackColor()));
+
+            // Set display or hide text.
+            if (!parameters.getDisplayText())
+                gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.NONE);
+            else
+                gen.getParameters().getBarcode().getCodeTextParameters().setLocation(CodeLocation.BELOW);
+
+            // Set QR Code error correction level.s
+            gen.getParameters().getBarcode().getQR().setQrErrorLevel(QRErrorLevel.LEVEL_H);
+            String errorCorrectionLevel = parameters.getErrorCorrectionLevel();
+            if (errorCorrectionLevel != null)
+                gen.getParameters().getBarcode().getQR().setQrErrorLevel(CustomBarcodeGeneratorUtils.getQRCorrectionLevel(errorCorrectionLevel, gen.getParameters().getBarcode().getQR().getQrErrorLevel()));
+
+            // Set rotation angle.
+            String symbolRotation = parameters.getSymbolRotation();
+            if (symbolRotation != null)
+                gen.getParameters().setRotationAngle(CustomBarcodeGeneratorUtils.getRotationAngle(symbolRotation, gen.getParameters().getRotationAngle()));
+
+            // Set scaling factor.
+            double scalingFactor = 1.0;
+            if (parameters.getScalingFactor() != null)
+                scalingFactor = CustomBarcodeGeneratorUtils.scaleFactor(parameters.getScalingFactor(), scalingFactor);
+
+            // Set size.
+            if (gen.getBarcodeType() == EncodeTypes.QR)
+                gen.getParameters().getBarcode().getXDimension().setPixels((float) Math.max(1.0, Math.round(CustomBarcodeGeneratorUtils.DEFAULT_QRX_DIMENSION_IN_PIXELS * scalingFactor)));
+            else
+                gen.getParameters().getBarcode().getXDimension().setPixels((float) Math.max(1.0, Math.round(CustomBarcodeGeneratorUtils.DEFAULT_1_DX_DIMENSION_IN_PIXELS * scalingFactor)));
+
+            //Set height.
+            String symbolHeight = parameters.getSymbolHeight();
+            if (symbolHeight != null)
+                gen.getParameters().getBarcode().getBarHeight().setPixels((float) Math.max(5.0,
+                        Math.round(CustomBarcodeGeneratorUtils.twipsToPixels(symbolHeight, gen.getParameters().getBarcode().getBarHeight().getPixels()) * scalingFactor)));
+
+            // Set style of a Point-of-Sale barcode.
+            String posCodeStyle = parameters.getPosCodeStyle();
+            if (posCodeStyle != null)
+                CustomBarcodeGeneratorUtils.setPosCodeStyle(gen, posCodeStyle, parameters.getBarcodeValue());
+
+            return CustomBarcodeGeneratorUtils.convertImageToWord(gen.generateBarCodeImage());
+        } catch (Exception e) {
+            return CustomBarcodeGeneratorUtils.convertImageToWord(CustomBarcodeGeneratorUtils.drawErrorImage(e));
         }
     }
 
-    /// <summary>
-    /// Casts a double to int32 in a way that uint32 are "correctly" casted too (they become negative numbers).
-    /// </summary>
-    public static int castDoubleToInt(double value)
-    {
-        long temp = (long) value;
-        return (int) temp;
-    }
-
-    /// <summary>
-    /// Try parses a hex String into an integer value.
-    /// on error return int.MinValue
-    /// </summary>
-    public static int tryParseHex(String s)
-    {
-        try {
-            return Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return Integer.MIN_VALUE;
-        }
+    public BufferedImage getOldBarcodeImage(BarcodeParameters parameters) {
+        throw new UnsupportedOperationException();
     }
 }
 //ExEnd:CustomBarcodeGenerator

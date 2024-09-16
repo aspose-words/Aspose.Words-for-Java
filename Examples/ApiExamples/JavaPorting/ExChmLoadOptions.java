@@ -16,12 +16,15 @@ import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.IO.File;
 
 
+@Test
 public class ExChmLoadOptions extends ApiExampleBase
 {
     @Test // ToDo: Need to add tests.
     public void originalFileName() throws Exception
     {
         //ExStart
+        //ExFor:ChmLoadOptions
+        //ExFor:ChmLoadOptions.#ctor
         //ExFor:ChmLoadOptions.OriginalFileName
         //ExSummary:Shows how to resolve URLs like "ms-its:myfile.chm::/index.htm".
         // Our document contains URLs like "ms-its:amhelp.chm::....htm", but it has a different name,
@@ -31,7 +34,7 @@ public class ExChmLoadOptions extends ApiExampleBase
 
         Document doc = new Document(new MemoryStream(File.readAllBytes(getMyDir() + "Document with ms-its links.chm")),
             loadOptions);
-        
+
         doc.save(getArtifactsDir() + "ExChmLoadOptions.OriginalFileName.html");
         //ExEnd
     }

@@ -70,7 +70,7 @@ public class ExTabStop extends ApiExampleBase
     @Test
     public void tabStopCollection() throws Exception
     {
-        //ExStart            
+        //ExStart
         //ExFor:TabStop.#ctor(Double)
         //ExFor:TabStop.#ctor(Double,TabAlignment,TabLeader)
         //ExFor:TabStop.Equals(TabStop)

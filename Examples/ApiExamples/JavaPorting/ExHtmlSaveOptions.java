@@ -535,8 +535,8 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 
         outDocContents = File.readAllText(getArtifactsDir() + "HtmlSaveOptions.CssClassNamePrefix.css");
 
-        Assert.assertTrue(outDocContents.contains(".myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt }\r\n" +
-                                            ".myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt }\r\n"));
+        Assert.assertTrue(outDocContents.contains(".myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:footer }"));
+        Assert.assertTrue(outDocContents.contains(".myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:header }"));
         //ExEnd
     }
 
@@ -894,7 +894,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
             case HtmlVersion.HTML_5:
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
-                Assert.assertTrue(outDocContents.contains("<table style=\"-aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
+                Assert.assertTrue(outDocContents.contains("<table style=\"padding:0pt; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
                 break;
             case HtmlVersion.XHTML:
                 Assert.assertTrue(outDocContents.contains("<a name=\"_Toc76372689\"></a>"));
@@ -1939,9 +1939,9 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
         switch (htmlOfficeMathOutputMode)
         {
             case HtmlOfficeMathOutputMode.IMAGE:
-                Assert.assertTrue(Regex.match(outDocContents, 
+                Assert.assertTrue(Regex.match(outDocContents,
                     "<p style=\"margin-top:0pt; margin-bottom:10pt\">" +
-                        "<img src=\"HtmlSaveOptions.OfficeMathOutputMode.001.png\" width=\"159\" height=\"19\" alt=\"\" style=\"vertical-align:middle; " +
+                        "<img src=\"HtmlSaveOptions.OfficeMathOutputMode.001.png\" width=\"163\" height=\"19\" alt=\"\" style=\"vertical-align:middle; " +
                         "-aw-left-pos:0pt; -aw-rel-hpos:column; -aw-rel-vpos:paragraph; -aw-top-pos:0pt; -aw-wrap-type:inline\" />" +
                     "</p>").getSuccess());
                 break;
@@ -2174,6 +2174,7 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
     //ExFor:IDocumentSavingCallback
     //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
     //ExFor:DocumentSavingArgs.EstimatedProgress
+    //ExFor:DocumentSavingArgs
     //ExSummary:Shows how to manage a document while saving to html.
     public void progressCallback(/*SaveFormat*/int saveFormat, String ext) throws Exception
     {
@@ -2266,5 +2267,24 @@ class ExHtmlSaveOptions !Test class should be public in Java to run, please fix 
 			{SaveFormat.AZW_3},
 		};
 	}
+
+    @Test
+    public void htmlReplaceBackslashWithYenSign() throws Exception
+    {
+        //ExStart:HtmlReplaceBackslashWithYenSign
+        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //ExFor:HtmlSaveOptions.ReplaceBackslashWithYenSign
+        //ExSummary:Shows how to replace backslash characters with yen signs (Html).
+        Document doc = new Document(getMyDir() + "Korean backslash symbol.docx");
+
+        // By default, Aspose.Words mimics MS Word's behavior and doesn't replace backslash characters with yen signs in
+        // generated HTML documents. However, previous versions of Aspose.Words performed such replacements in certain
+        // scenarios. This flag enables backward compatibility with previous versions of Aspose.Words.
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setReplaceBackslashWithYenSign(true);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ReplaceBackslashWithYenSign.html", saveOptions);
+        //ExEnd:HtmlReplaceBackslashWithYenSign
+    }
 }
 

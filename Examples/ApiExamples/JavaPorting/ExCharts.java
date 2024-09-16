@@ -27,6 +27,7 @@ import com.aspose.words.AxisCategoryType;
 import com.aspose.words.AxisCrosses;
 import com.aspose.words.AxisTickMark;
 import com.aspose.words.AxisTickLabelPosition;
+import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.ChartAxisType;
 import com.aspose.ms.System.DateTime;
 import com.aspose.words.AxisBound;
@@ -41,7 +42,6 @@ import com.aspose.ms.System.msConsole;
 import com.aspose.words.AxisScaleType;
 import com.aspose.words.ChartLegend;
 import com.aspose.words.LegendPosition;
-import com.aspose.words.ParagraphAlignment;
 import com.aspose.words.ChartDataPointCollection;
 import com.aspose.words.PresetTexture;
 import com.aspose.words.ChartLegendEntryCollection;
@@ -55,6 +55,13 @@ import com.aspose.words.ChartAxisTitle;
 import java.lang.Class;
 import com.aspose.words.ChartDataTable;
 import com.aspose.words.DashStyle;
+import com.aspose.words.ChartSeriesGroup;
+import com.aspose.words.AxisGroup;
+import com.aspose.words.ChartSeriesGroupCollection;
+import com.aspose.words.ChartMultilevelValue;
+import com.aspose.ms.System.Globalization.msCultureInfo;
+import com.aspose.words.ShapeTextOrientation;
+import com.aspose.words.AxisTickLabels;
 import org.testng.annotations.DataProvider;
 
 
@@ -164,12 +171,16 @@ public class ExCharts extends ApiExampleBase
         //ExFor:ChartAxis.MinorTickMark
         //ExFor:ChartAxis.MajorUnit
         //ExFor:ChartAxis.MinorUnit
+        //ExFor:AxisTickLabels
         //ExFor:AxisTickLabels.Offset
         //ExFor:AxisTickLabels.Position
         //ExFor:AxisTickLabels.IsAutoSpacing
+        //ExFor:AxisTickLabels.Alignment
+        //ExFor:AxisTickLabels.Font
+        //ExFor:AxisTickLabels.Spacing
         //ExFor:ChartAxis.TickMarkSpacing
-        //ExFor:Charts.AxisCategoryType
-        //ExFor:Charts.AxisCrosses
+        //ExFor:AxisCategoryType
+        //ExFor:AxisCrosses
         //ExFor:Chart.AxisX
         //ExFor:Chart.AxisY
         //ExFor:Chart.AxisZ
@@ -212,6 +223,9 @@ public class ExCharts extends ApiExampleBase
         yAxis.setMajorUnit(100.0d);
         yAxis.setMinorUnit(20.0d);
         yAxis.getTickLabels().setPosition(AxisTickLabelPosition.NEXT_TO_AXIS);
+        yAxis.getTickLabels().setAlignment(ParagraphAlignment.CENTER);
+        yAxis.getTickLabels().getFont().setColor(Color.RED);
+        yAxis.getTickLabels().setSpacing(1);
 
         // Column charts do not have a Z-axis.
         Assert.assertNull(chart.getAxisZ());
@@ -242,6 +256,9 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(100.0d, chart.getAxisY().getMajorUnit());
         Assert.assertEquals(20.0d, chart.getAxisY().getMinorUnit());
         Assert.assertEquals(AxisTickLabelPosition.NEXT_TO_AXIS, chart.getAxisY().getTickLabels().getPosition());
+        Assert.assertEquals(ParagraphAlignment.CENTER, chart.getAxisY().getTickLabels().getAlignment());
+        Assert.assertEquals(Color.RED.getRGB(), chart.getAxisY().getTickLabels().getFont().getColor().getRGB());
+        Assert.assertEquals(1, chart.getAxisY().getTickLabels().getSpacing());
     }
 
     @Test
@@ -278,10 +295,10 @@ public class ExCharts extends ApiExampleBase
         //ExFor:AxisScaling.Minimum
         //ExFor:AxisScaling.Maximum
         //ExFor:ChartAxis.Scaling
-        //ExFor:Charts.AxisTickMark
-        //ExFor:Charts.AxisTickLabelPosition
-        //ExFor:Charts.AxisTimeUnit
-        //ExFor:Charts.ChartAxis.BaseTimeUnit
+        //ExFor:AxisTickMark
+        //ExFor:AxisTickLabelPosition
+        //ExFor:AxisTimeUnit
+        //ExFor:ChartAxis.BaseTimeUnit
         //ExFor:ChartAxis.HasMajorGridlines
         //ExFor:ChartAxis.HasMinorGridlines
         //ExSummary:Shows how to insert chart with date/time values.
@@ -394,9 +411,9 @@ public class ExCharts extends ApiExampleBase
     {
         //ExStart
         //ExFor:ChartAxis.NumberFormat
-        //ExFor:Charts.ChartNumberFormat
+        //ExFor:ChartNumberFormat
         //ExFor:ChartNumberFormat.FormatCode
-        //ExFor:Charts.ChartNumberFormat.IsLinkedToSource
+        //ExFor:ChartNumberFormat.IsLinkedToSource
         //ExSummary:Shows how to set formatting for chart values.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -679,7 +696,7 @@ public class ExCharts extends ApiExampleBase
     //ExFor:ChartDataPointCollection.ClearFormat
     //ExFor:ChartDataPointCollection.Count
     //ExFor:ChartDataPointCollection.GetEnumerator
-    //ExFor:ChartDataPointCollection.Item(System.Int32)
+    //ExFor:ChartDataPointCollection.Item(Int32)
     //ExFor:ChartMarker
     //ExFor:ChartMarker.Size
     //ExFor:ChartMarker.Symbol
@@ -749,7 +766,7 @@ public class ExCharts extends ApiExampleBase
     public void pieChartExplosion() throws Exception
     {
         //ExStart
-        //ExFor:Charts.IChartDataPoint.Explosion
+        //ExFor:IChartDataPoint.Explosion
         //ExSummary:Shows how to move the slices of a pie chart away from the center.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -784,9 +801,9 @@ public class ExCharts extends ApiExampleBase
     public void bubble3D() throws Exception
     {
         //ExStart
-        //ExFor:Charts.ChartDataLabel.ShowBubbleSize
-        //ExFor:Charts.ChartDataLabel.Font
-        //ExFor:Charts.IChartDataPoint.Bubble3D
+        //ExFor:ChartDataLabel.ShowBubbleSize
+        //ExFor:ChartDataLabel.Font
+        //ExFor:IChartDataPoint.Bubble3D
         //ExSummary:Shows how to use 3D effects with bubble charts.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1183,8 +1200,6 @@ public class ExCharts extends ApiExampleBase
         //ExFor:ChartAxis.MajorUnitScale
         //ExFor:ChartAxis.MinorUnitIsAuto
         //ExFor:ChartAxis.MinorUnitScale
-        //ExFor:ChartAxis.TickLabelSpacing
-        //ExFor:ChartAxis.TickLabelAlignment
         //ExFor:AxisDisplayUnit
         //ExFor:AxisDisplayUnit.CustomUnit
         //ExFor:AxisDisplayUnit.Unit
@@ -1280,6 +1295,7 @@ public class ExCharts extends ApiExampleBase
         //ExFor:Stroke.BackColor
         //ExFor:Stroke.Visible
         //ExFor:Stroke.Transparency
+        //ExFor:PresetTexture
         //ExFor:Fill.PresetTextured(PresetTexture)
         //ExSummary:Show how to set marker formatting.
         Document doc = new Document();
@@ -1414,6 +1430,7 @@ public class ExCharts extends ApiExampleBase
     {
         //ExStart:LegendFont
         //GistId:470c0da51e4317baae82ad9495747fed
+        //ExFor:ChartLegendEntry
         //ExFor:ChartLegendEntry.Font
         //ExFor:ChartLegend.Font
         //ExSummary:Shows how to work with a legend font.
@@ -1461,6 +1478,7 @@ public class ExCharts extends ApiExampleBase
     public void populateChartWithData() throws Exception
     {
         //ExStart
+        //ExFor:ChartXValue
         //ExFor:ChartXValue.FromDouble(Double)
         //ExFor:ChartYValue.FromDouble(Double)
         //ExFor:ChartSeries.Add(ChartXValue, ChartYValue)
@@ -1754,6 +1772,7 @@ public class ExCharts extends ApiExampleBase
     {
         //ExStart:DataTable
         //GistId:a775441ecb396eea917a2717cb9e8f8f
+        //ExFor:Chart.DataTable
         //ExFor:ChartDataTable
         //ExFor:ChartDataTable.Show
         //ExSummary:Shows how to show data table with chart series data.
@@ -1791,10 +1810,12 @@ public class ExCharts extends ApiExampleBase
     {
         //ExStart:ChartFormat
         //GistId:5f20ac02cb42c6b08481aa1c5b0cd3db
+        //ExFor:ChartFormat
         //ExFor:Chart.Format
         //ExFor:ChartTitle.Format
         //ExFor:ChartAxisTitle.Format
         //ExFor:ChartLegend.Format
+        //ExFor:Fill.Solid(Color)
         //ExSummary:Shows how to use chart formating.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1839,6 +1860,468 @@ public class ExCharts extends ApiExampleBase
         Assert.assertEquals(Color.LightGoldenrodYellow.getRGB(), chart.getTitle().getFormat().getFill().getColor().getRGB());
         Assert.assertEquals(Color.LightGoldenrodYellow.getRGB(), chart.getAxisX().getTitle().getFormat().getFill().getColor().getRGB());
         Assert.assertEquals(Color.LightGoldenrodYellow.getRGB(), chart.getLegend().getFormat().getFill().getColor().getRGB());
+    }
+
+    @Test
+    public void secondaryAxis() throws Exception
+    {
+        //ExStart:SecondaryAxis
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ChartSeriesGroup
+        //ExFor:ChartSeriesGroup.AxisGroup
+        //ExFor:ChartSeriesGroup.AxisX
+        //ExFor:ChartSeriesGroup.AxisY
+        //ExFor:ChartSeriesGroup.Series
+        //ExFor:ChartSeriesGroupCollection
+        //ExFor:ChartSeriesGroupCollection.Add(ChartSeriesType)
+        //ExFor:AxisGroup
+        //ExSummary:Shows how to work with the secondary axis of chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.LINE, 450.0, 250.0);
+        Chart chart = shape.getChart();
+        ChartSeriesCollection series = chart.getSeries();
+
+        // Delete default generated series.
+        series.clear();
+
+        String[] categories = new String[] { "Category 1", "Category 2", "Category 3" };
+        series.add("Series 1 of primary series group", categories, new double[] { 2.0, 3.0, 4.0 });
+        series.add("Series 2 of primary series group", categories, new double[] { 5.0, 2.0, 3.0 });
+
+        // Create an additional series group, also of the line type.
+        ChartSeriesGroup newSeriesGroup = chart.getSeriesGroups().add(ChartSeriesType.LINE);
+        // Specify the use of secondary axes for the new series group.
+        newSeriesGroup.setAxisGroup(AxisGroup.SECONDARY);
+        // Hide the secondary X axis.
+        newSeriesGroup.getAxisX().setHidden(true);
+        // Define title of the secondary Y axis.
+        newSeriesGroup.getAxisY().getTitle().setShow(true);
+        newSeriesGroup.getAxisY().getTitle().setText("Secondary Y axis");
+
+        // Add a series to the new series group.
+        ChartSeries series3 =
+            newSeriesGroup.getSeries().add("Series of secondary series group", categories, new double[] { 13.0, 11.0, 16.0 });
+        series3.getFormat().getStroke().setWeight(3.5);
+
+        doc.save(getArtifactsDir() + "Charts.SecondaryAxis.docx");
+        //ExEnd:SecondaryAxis
+    }
+
+    @Test
+    public void configureGapOverlap() throws Exception
+    {
+        //ExStart:ConfigureGapOverlap
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:Chart.SeriesGroups
+        //ExFor:ChartSeriesGroup.GapWidth
+        //ExFor:ChartSeriesGroup.Overlap
+        //ExSummary:Show how to configure gap width and overlap.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 450.0, 250.0);
+        ChartSeriesGroup seriesGroup = shape.getChart().getSeriesGroups().get(0);
+
+        // Set column gap width and overlap.
+        seriesGroup.setGapWidth(450);
+        seriesGroup.setOverlap(-75);
+
+        doc.save(getArtifactsDir() + "Charts.ConfigureGapOverlap.docx");
+        //ExEnd:ConfigureGapOverlap
+    }
+
+    @Test
+    public void bubbleScale() throws Exception
+    {
+        //ExStart:BubbleScale
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ChartSeriesGroup.BubbleScale
+        //ExSummary:Show how to set size of the bubbles.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a bubble 3D chart.
+        Shape shape = builder.insertChart(ChartType.BUBBLE_3_D, 450.0, 250.0);
+        ChartSeriesGroup seriesGroup = shape.getChart().getSeriesGroups().get(0);
+
+        // Set bubble scale to 200%.
+        seriesGroup.setBubbleScale(200);
+
+        doc.save(getArtifactsDir() + "Charts.BubbleScale.docx");
+        //ExEnd:BubbleScale
+    }
+
+    @Test
+    public void removeSecondaryAxis() throws Exception
+    {
+        //ExStart:RemoveSecondaryAxis
+        //GistId:6e4482e7434754c31c6f2f6e4bf48bb1
+        //ExFor:ChartSeriesGroupCollection.Count
+        //ExFor:ChartSeriesGroupCollection.Item(Int32)
+        //ExFor:ChartSeriesGroupCollection.RemoveAt(Int32)
+        //ExSummary:Show how to remove secondary axis.
+        Document doc = new Document(getMyDir() + "Combo chart.docx");
+
+        Shape shape = (Shape)doc.getChild(NodeType.SHAPE, 0, true);
+        Chart chart = shape.getChart();
+        ChartSeriesGroupCollection seriesGroups = chart.getSeriesGroups();
+
+        // Find secondary axis and remove from the collection.
+        for (int i = 0; i < seriesGroups.getCount(); i++)
+            if (seriesGroups.get(i).getAxisGroup() == AxisGroup.SECONDARY)
+                seriesGroups.removeAt(i);
+        //ExEnd:RemoveSecondaryAxis
+    }
+
+    @Test
+    public void treemapChart() throws Exception
+    {
+        //ExStart:TreemapChart
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ChartSeriesCollection.Add(String, ChartMultilevelValue[], double[])
+        //ExFor:ChartMultilevelValue
+        //ExFor:ChartMultilevelValue.#ctor(String, String, String)
+        //ExFor:ChartMultilevelValue.#ctor(String, String)
+        //ExFor:ChartMultilevelValue.#ctor(String)
+        //ExSummary:Shows how to create treemap chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a Treemap chart.
+        Shape shape = builder.insertChart(ChartType.TREEMAP, 450.0, 280.0);
+        Chart chart = shape.getChart();
+        chart.getTitle().setText("World Population");
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        // Add a series.
+        ChartSeries series = chart.getSeries().add(
+            "Population by Region",
+            new ChartMultilevelValue[]
+            {
+                new ChartMultilevelValue("Asia", "China"),
+                new ChartMultilevelValue("Asia", "India"),
+                new ChartMultilevelValue("Asia", "Indonesia"),
+                new ChartMultilevelValue("Asia", "Pakistan"),
+                new ChartMultilevelValue("Asia", "Bangladesh"),
+                new ChartMultilevelValue("Asia", "Japan"),
+                new ChartMultilevelValue("Asia", "Philippines"),
+                new ChartMultilevelValue("Asia", "Other"),
+                new ChartMultilevelValue("Africa", "Nigeria"),
+                new ChartMultilevelValue("Africa", "Ethiopia"),
+                new ChartMultilevelValue("Africa", "Egypt"),
+                new ChartMultilevelValue("Africa", "Other"),
+                new ChartMultilevelValue("Europe", "Russia"),
+                new ChartMultilevelValue("Europe", "Germany"),
+                new ChartMultilevelValue("Europe", "Other"),
+                new ChartMultilevelValue("Latin America", "Brazil"),
+                new ChartMultilevelValue("Latin America", "Mexico"),
+                new ChartMultilevelValue("Latin America", "Other"),
+                new ChartMultilevelValue("Northern America", "United States", "Other"),
+                new ChartMultilevelValue("Northern America", "Other"),
+                new ChartMultilevelValue("Oceania")
+            },
+            new double[]
+            {
+                1409670000.0, 1400744000.0, 279118866.0, 241499431.0, 169828911.0, 123930000.0, 112892781.0, 764000000.0,
+                223800000.0, 107334000.0, 105914499.0, 903000000.0,
+                146150789.0, 84607016.0, 516000000.0,
+                203080756.0, 129713690.0, 310000000.0,
+                335893238.0, 35000000.0,
+                42000000.0
+            });
+
+        // Show data labels.
+        series.hasDataLabels(true);
+        series.getDataLabels().setShowValue(true);
+        series.getDataLabels().setShowCategoryName(true);
+        String thousandSeparator = msCultureInfo.getCurrentCulture().getNumberFormat().CurrencyGroupSeparator;
+        series.getDataLabels().getNumberFormat().setFormatCode("#{thousandSeparator}0");
+
+        doc.save(getArtifactsDir() + "Charts.Treemap.docx");
+        //ExEnd:TreemapChart
+    }
+
+    @Test
+    public void sunburstChart() throws Exception
+    {
+        //ExStart:SunburstChart
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ChartSeriesCollection.Add(String, ChartMultilevelValue[], double[])
+        //ExSummary:Shows how to create sunburst chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a Sunburst chart.
+        Shape shape = builder.insertChart(ChartType.SUNBURST, 450.0, 450.0);
+        Chart chart = shape.getChart();
+        chart.getTitle().setText("Sales");
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        // Add a series.
+        ChartSeries series = chart.getSeries().add(
+            "Sales",
+            new ChartMultilevelValue[]
+            {
+                new ChartMultilevelValue("Sales - Europe", "UK", "London Dep."),
+                new ChartMultilevelValue("Sales - Europe", "UK", "Liverpool Dep."),
+                new ChartMultilevelValue("Sales - Europe", "UK", "Manchester Dep."),
+                new ChartMultilevelValue("Sales - Europe", "France", "Paris Dep."),
+                new ChartMultilevelValue("Sales - Europe", "France", "Lyon Dep."),
+                new ChartMultilevelValue("Sales - NA", "USA", "Denver Dep."),
+                new ChartMultilevelValue("Sales - NA", "USA", "Seattle Dep."),
+                new ChartMultilevelValue("Sales - NA", "USA", "Detroit Dep."),
+                new ChartMultilevelValue("Sales - NA", "USA", "Houston Dep."),
+                new ChartMultilevelValue("Sales - NA", "Canada", "Toronto Dep."),
+                new ChartMultilevelValue("Sales - NA", "Canada", "Montreal Dep."),
+                new ChartMultilevelValue("Sales - Oceania", "Australia", "Sydney Dep."),
+                new ChartMultilevelValue("Sales - Oceania", "New Zealand", "Auckland Dep.")
+            },
+            new double[] { 1236.0, 851.0, 536.0, 468.0, 179.0, 527.0, 799.0, 1148.0, 921.0, 457.0, 482.0, 761.0, 694.0 });
+
+        // Show data labels.
+        series.hasDataLabels(true);
+        series.getDataLabels().setShowValue(false);
+        series.getDataLabels().setShowCategoryName(true);
+
+        doc.save(getArtifactsDir() + "Charts.Sunburst.docx");
+        //ExEnd:SunburstChart
+    }
+
+    @Test
+    public void histogramChart() throws Exception
+    {
+        //ExStart:HistogramChart
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ChartSeriesCollection.Add(String, double[])
+        //ExSummary:Shows how to create histogram chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a Histogram chart.
+        Shape shape = builder.insertChart(ChartType.HISTOGRAM, 450.0, 450.0);
+        Chart chart = shape.getChart();
+        chart.getTitle().setText("Avg Temperature since 1991");
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        // Add a series.
+        chart.getSeries().add(
+            "Avg Temperature",
+            new double[]
+            {
+                51.8, 53.6, 50.3, 54.7, 53.9, 54.3, 53.4, 52.9, 53.3, 53.7, 53.8, 52.0, 55.0, 52.1, 53.4,
+                53.8, 53.8, 51.9, 52.1, 52.7, 51.8, 56.6, 53.3, 55.6, 56.3, 56.2, 56.1, 56.2, 53.6, 55.7,
+                56.3, 55.9, 55.6
+            });
+
+        doc.save(getArtifactsDir() + "Charts.Histogram.docx");
+        //ExEnd:HistogramChart
+    }
+
+    @Test
+    public void paretoChart() throws Exception
+    {
+        //ExStart:ParetoChart
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ChartSeriesCollection.Add(String, String[], double[])
+        //ExSummary:Shows how to create pareto chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a Pareto chart.
+        Shape shape = builder.insertChart(ChartType.PARETO, 450.0, 450.0);
+        Chart chart = shape.getChart();
+        chart.getTitle().setText("Best-Selling Car");
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        // Add a series.
+        chart.getSeries().add(
+            "Best-Selling Car",
+            new String[] { "Tesla Model Y", "Toyota Corolla", "Toyota RAV4", "Ford F-Series", "Honda CR-V" },
+            new double[] { 1.43, 0.91, 1.17, 0.98, 0.85 });
+
+        doc.save(getArtifactsDir() + "Charts.Pareto.docx");
+        //ExEnd:ParetoChart
+    }
+
+    @Test
+    public void boxAndWhiskerChart() throws Exception
+    {
+        //ExStart:BoxAndWhiskerChart
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ChartSeriesCollection.Add(String, String[], double[])
+        //ExSummary:Shows how to create box and whisker chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a Box & Whisker chart.
+        Shape shape = builder.insertChart(ChartType.BOX_AND_WHISKER, 450.0, 450.0);
+        Chart chart = shape.getChart();
+        chart.getTitle().setText("Points by Years");
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        // Add a series.
+        ChartSeries series = chart.getSeries().add(
+            "Points by Years",
+            new String[]
+            {
+                "WC", "WC", "WC", "WC", "WC", "WC", "WC", "WC", "WC", "WC",
+                "NR", "NR", "NR", "NR", "NR", "NR", "NR", "NR", "NR", "NR",
+                "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"
+            },
+            new double[]
+            {
+                91.0, 80.0, 100.0, 77.0, 90.0, 104.0, 105.0, 118.0, 120.0, 101.0,
+                114.0, 107.0, 110.0, 60.0, 79.0, 78.0, 77.0, 102.0, 101.0, 113.0,
+                94.0, 93.0, 84.0, 71.0, 80.0, 103.0, 80.0, 94.0, 100.0, 101.0
+            });
+
+        // Show data labels.
+        series.hasDataLabels(true);
+
+        doc.save(getArtifactsDir() + "Charts.BoxAndWhisker.docx");
+        //ExEnd:BoxAndWhiskerChart
+    }
+
+    @Test
+    public void waterfallChart() throws Exception
+    {
+        //ExStart:WaterfallChart
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ChartSeriesCollection.Add(String, String[], double[], bool[])
+        //ExSummary:Shows how to create waterfall chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a Waterfall chart.
+        Shape shape = builder.insertChart(ChartType.WATERFALL, 450.0, 450.0);
+        Chart chart = shape.getChart();
+        chart.getTitle().setText("New Zealand GDP");
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        // Add a series.
+        ChartSeries series = chart.getSeries().add(
+            "New Zealand GDP",
+            new String[] { "2018", "2019 growth", "2020 growth", "2020", "2021 growth", "2022 growth", "2022" },
+            new double[] { 100.0, 0.57, -0.25, 100.32, 20.22, -2.92, 117.62 },
+            new boolean[] { true, false, false, true, false, false, true });
+
+        // Show data labels.
+        series.hasDataLabels(true);
+
+        doc.save(getArtifactsDir() + "Charts.Waterfall.docx");
+        //ExEnd:WaterfallChart
+    }
+
+    @Test
+    public void funnelChart() throws Exception
+    {
+        //ExStart:FunnelChart
+        //GistId:65919861586e42e24f61a3ccb65f8f4e
+        //ExFor:ChartSeriesCollection.Add(String, String[], double[])
+        //ExSummary:Shows how to create funnel chart.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a Funnel chart.
+        Shape shape = builder.insertChart(ChartType.FUNNEL, 450.0, 450.0);
+        Chart chart = shape.getChart();
+        chart.getTitle().setText("Population by Age Group");
+
+        // Delete default generated series.
+        chart.getSeries().clear();
+
+        // Add a series.
+        ChartSeries series = chart.getSeries().add(
+            "Population by Age Group",
+            new String[] { "0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80-89", "90-" },
+            new double[] { 0.121, 0.128, 0.132, 0.146, 0.124, 0.124, 0.111, 0.075, 0.032, 0.007 });
+
+        // Show data labels.
+        series.hasDataLabels(true);
+        String decimalSeparator = msCultureInfo.getCurrentCulture().getNumberFormat().CurrencyDecimalSeparator;
+        series.getDataLabels().getNumberFormat().setFormatCode("0{decimalSeparator}0%");
+
+        doc.save(getArtifactsDir() + "Charts.Funnel.docx");
+        //ExEnd:FunnelChart
+    }
+
+    @Test
+    public void labelOrientationRotation() throws Exception
+    {
+        //ExStart:LabelOrientationRotation
+        //GistId:ac8ba4eb35f3fbb8066b48c999da63b0
+        //ExFor:ChartDataLabelCollection.Orientation
+        //ExFor:ChartDataLabelCollection.Rotation
+        //ExFor:ChartDataLabel.Rotation
+        //ExFor:ChartDataLabel.Orientation
+        //ExFor:ShapeTextOrientation
+        //ExSummary:Shows how to change orientation and rotation for data labels.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        ChartSeries series = shape.getChart().getSeries().get(0);
+        ChartDataLabelCollection dataLabels = series.getDataLabels();
+
+        // Show data labels.
+        series.hasDataLabels(true);
+        dataLabels.setShowValue(true);
+        dataLabels.setShowCategoryName(true);
+
+        // Define data label shape.
+        dataLabels.getFormat().setShapeType(ChartShapeType.UP_ARROW);
+        dataLabels.getFormat().getStroke().getFill().solid(msColor.getDarkBlue());
+
+        // Set data label orientation and rotation for the entire series.
+        dataLabels.setOrientation(ShapeTextOrientation.VERTICAL_FAR_EAST);
+        dataLabels.setRotation(-45);
+
+        // Change orientation and rotation of the first data label.
+        dataLabels.get(0).setOrientation(ShapeTextOrientation.HORIZONTAL);
+        dataLabels.get(0).setRotation(45);
+
+        doc.save(getArtifactsDir() + "Charts.LabelOrientationRotation.docx");
+        //ExEnd:LabelOrientationRotation
+    }
+
+    @Test
+    public void tickLabelsOrientationRotation() throws Exception
+    {
+        //ExStart:TickLabelsOrientationRotation
+        //GistId:708ce40a68fac5003d46f6b4acfd5ff1
+        //ExFor:AxisTickLabels.Rotation
+        //ExFor:AxisTickLabels.Orientation
+        //ExSummary:Shows how to change orientation and rotation for axis tick labels.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        // Insert a column chart.
+        Shape shape = builder.insertChart(ChartType.COLUMN, 432.0, 252.0);
+        AxisTickLabels xTickLabels = shape.getChart().getAxisX().getTickLabels();
+        AxisTickLabels yTickLabels = shape.getChart().getAxisY().getTickLabels();
+
+        // Set axis tick label orientation and rotation.
+        xTickLabels.setOrientation(ShapeTextOrientation.VERTICAL_FAR_EAST);
+        xTickLabels.setRotation(-30);
+        yTickLabels.setOrientation(ShapeTextOrientation.HORIZONTAL);
+        yTickLabels.setRotation(45);
+
+        doc.save(getArtifactsDir() + "Charts.TickLabelsOrientationRotation.docx");
+        //ExEnd:TickLabelsOrientationRotation
     }
 }
 

@@ -545,6 +545,8 @@ public class ExParagraph extends ApiExampleBase {
     @Test
     public void tabStops() throws Exception {
         //ExStart
+        //ExFor:TabLeader
+        //ExFor:TabAlignment
         //ExFor:Paragraph.GetEffectiveTabStops
         //ExSummary:Shows how to set custom tab stops for a paragraph.
         Document doc = new Document();

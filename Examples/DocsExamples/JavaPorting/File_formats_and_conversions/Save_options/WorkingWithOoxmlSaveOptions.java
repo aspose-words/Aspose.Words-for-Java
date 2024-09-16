@@ -41,15 +41,16 @@ public class WorkingWithOoxmlSaveOptions extends DocsExamplesBase
     }
 
     @Test
-    public void updateLastSavedTimeProperty() throws Exception
+    public void updateLastSavedTime() throws Exception
     {
-        //ExStart:UpdateLastSavedTimeProperty
+        //ExStart:UpdateLastSavedTime
+        //GistId:83e5c469d0e72b5114fb8a05a1d01977
         Document doc = new Document(getMyDir() + "Document.docx");
 
         OoxmlSaveOptions saveOptions = new OoxmlSaveOptions(); { saveOptions.setUpdateLastSavedTimeProperty(true); }
 
-        doc.save(getArtifactsDir() + "WorkingWithOoxmlSaveOptions.UpdateLastSavedTimeProperty.docx", saveOptions);
-        //ExEnd:UpdateLastSavedTimeProperty
+        doc.save(getArtifactsDir() + "WorkingWithOoxmlSaveOptions.UpdateLastSavedTime.docx", saveOptions);
+        //ExEnd:UpdateLastSavedTime
     }
 
     @Test

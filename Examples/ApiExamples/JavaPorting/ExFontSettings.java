@@ -59,7 +59,7 @@ public class ExFontSettings extends ApiExampleBase
     public void defaultFontInstance() throws Exception
     {
         //ExStart
-        //ExFor:Fonts.FontSettings.DefaultInstance
+        //ExFor:FontSettings.DefaultInstance
         //ExSummary:Shows how to configure the default font settings instance.
         // Configure the default font settings instance to use the "Courier New" font
         // as a backup substitute when we attempt to use an unknown font.
@@ -173,7 +173,7 @@ public class ExFontSettings extends ApiExampleBase
     //ExStart
     //ExFor:IWarningCallback
     //ExFor:DocumentBase.WarningCallback
-    //ExFor:Fonts.FontSettings.DefaultInstance
+    //ExFor:FontSettings.DefaultInstance
     //ExSummary:Shows how to use the IWarningCallback interface to monitor font substitution warnings.
     @Test //ExSkip
     public void substitutionWarning() throws Exception
@@ -256,8 +256,8 @@ public class ExFontSettings extends ApiExampleBase
     //ExEnd
 
     //ExStart
-    //ExFor:Fonts.FontInfoSubstitutionRule
-    //ExFor:Fonts.FontSubstitutionSettings.FontInfoSubstitution
+    //ExFor:FontInfoSubstitutionRule
+    //ExFor:FontSubstitutionSettings.FontInfoSubstitution
     //ExFor:LayoutOptions.KeepOriginalFontMetrics
     //ExFor:IWarningCallback
     //ExFor:IWarningCallback.Warning(WarningInfo)
@@ -424,15 +424,15 @@ public class ExFontSettings extends ApiExampleBase
     public void fontSourceFile() throws Exception
     {
         //ExStart
-        //ExFor:Fonts.FileFontSource
-        //ExFor:Fonts.FileFontSource.#ctor(String)
-        //ExFor:Fonts.FileFontSource.#ctor(String, Int32)
-        //ExFor:Fonts.FileFontSource.FilePath
-        //ExFor:Fonts.FileFontSource.Type
-        //ExFor:Fonts.FontSourceBase
-        //ExFor:Fonts.FontSourceBase.Priority
-        //ExFor:Fonts.FontSourceBase.Type
-        //ExFor:Fonts.FontSourceType
+        //ExFor:FileFontSource
+        //ExFor:FileFontSource.#ctor(String)
+        //ExFor:FileFontSource.#ctor(String, Int32)
+        //ExFor:FileFontSource.FilePath
+        //ExFor:FileFontSource.Type
+        //ExFor:FontSourceBase
+        //ExFor:FontSourceBase.Priority
+        //ExFor:FontSourceBase.Type
+        //ExFor:FontSourceType
         //ExSummary:Shows how to use a font file in the local file system as a font source.
         FileFontSource fileFontSource = new FileFontSource(getMyDir() + "Alte DIN 1451 Mittelschrift.ttf", 0);
 
@@ -450,12 +450,12 @@ public class ExFontSettings extends ApiExampleBase
     public void fontSourceFolder() throws Exception
     {
         //ExStart
-        //ExFor:Fonts.FolderFontSource
-        //ExFor:Fonts.FolderFontSource.#ctor(String, Boolean)
-        //ExFor:Fonts.FolderFontSource.#ctor(String, Boolean, Int32)
-        //ExFor:Fonts.FolderFontSource.FolderPath
-        //ExFor:Fonts.FolderFontSource.ScanSubfolders
-        //ExFor:Fonts.FolderFontSource.Type
+        //ExFor:FolderFontSource
+        //ExFor:FolderFontSource.#ctor(String, Boolean)
+        //ExFor:FolderFontSource.#ctor(String, Boolean, Int32)
+        //ExFor:FolderFontSource.FolderPath
+        //ExFor:FolderFontSource.ScanSubfolders
+        //ExFor:FolderFontSource.Type
         //ExSummary:Shows how to use a local system folder which contains fonts as a font source.
 
         // Create a font source from a folder that contains font files.
@@ -768,11 +768,11 @@ public class ExFontSettings extends ApiExampleBase
     public void fontSourceMemory() throws Exception
     {
         //ExStart
-        //ExFor:Fonts.MemoryFontSource
-        //ExFor:Fonts.MemoryFontSource.#ctor(Byte[])
-        //ExFor:Fonts.MemoryFontSource.#ctor(Byte[], Int32)
-        //ExFor:Fonts.MemoryFontSource.FontData
-        //ExFor:Fonts.MemoryFontSource.Type
+        //ExFor:MemoryFontSource
+        //ExFor:MemoryFontSource.#ctor(Byte[])
+        //ExFor:MemoryFontSource.#ctor(Byte[], Int32)
+        //ExFor:MemoryFontSource.FontData
+        //ExFor:MemoryFontSource.Type
         //ExSummary:Shows how to use a byte array with data from a font file as a font source.
 
         byte[] fontBytes = File.readAllBytes(getMyDir() + "Alte DIN 1451 Mittelschrift.ttf");
@@ -794,14 +794,14 @@ public class ExFontSettings extends ApiExampleBase
         //ExFor:TableSubstitutionRule.AddSubstitutes(String, String[])
         //ExFor:FontSubstitutionRule.Enabled
         //ExFor:TableSubstitutionRule.GetSubstitutes(String)
-        //ExFor:Fonts.FontSettings.ResetFontSources
-        //ExFor:Fonts.FontSettings.SubstitutionSettings
-        //ExFor:Fonts.FontSubstitutionSettings
-        //ExFor:Fonts.SystemFontSource
-        //ExFor:Fonts.SystemFontSource.#ctor
-        //ExFor:Fonts.SystemFontSource.#ctor(Int32)
-        //ExFor:Fonts.SystemFontSource.GetSystemFontFolders
-        //ExFor:Fonts.SystemFontSource.Type
+        //ExFor:FontSettings.ResetFontSources
+        //ExFor:FontSettings.SubstitutionSettings
+        //ExFor:FontSubstitutionSettings
+        //ExFor:SystemFontSource
+        //ExFor:SystemFontSource.#ctor
+        //ExFor:SystemFontSource.#ctor(Int32)
+        //ExFor:SystemFontSource.GetSystemFontFolders
+        //ExFor:SystemFontSource.Type
         //ExSummary:Shows how to access a document's system font source and set font substitutes.
         Document doc = new Document();
         doc.setFontSettings(new FontSettings());
@@ -961,9 +961,9 @@ public class ExFontSettings extends ApiExampleBase
     public void defaultFontSubstitutionRule() throws Exception
     {
         //ExStart
-        //ExFor:Fonts.DefaultFontSubstitutionRule
-        //ExFor:Fonts.DefaultFontSubstitutionRule.DefaultFontName
-        //ExFor:Fonts.FontSubstitutionSettings.DefaultFontSubstitution
+        //ExFor:DefaultFontSubstitutionRule
+        //ExFor:DefaultFontSubstitutionRule.DefaultFontName
+        //ExFor:FontSubstitutionSettings.DefaultFontSubstitution
         //ExSummary:Shows how to set the default font substitution rule.
         Document doc = new Document();
         FontSettings fontSettings = new FontSettings();
@@ -996,13 +996,13 @@ public class ExFontSettings extends ApiExampleBase
     public void fontConfigSubstitution()
     {
         //ExStart
-        //ExFor:Fonts.FontConfigSubstitutionRule
-        //ExFor:Fonts.FontConfigSubstitutionRule.Enabled
-        //ExFor:Fonts.FontConfigSubstitutionRule.IsFontConfigAvailable
-        //ExFor:Fonts.FontConfigSubstitutionRule.ResetCache
-        //ExFor:Fonts.FontSubstitutionRule
-        //ExFor:Fonts.FontSubstitutionRule.Enabled
-        //ExFor:Fonts.FontSubstitutionSettings.FontConfigSubstitution
+        //ExFor:FontConfigSubstitutionRule
+        //ExFor:FontConfigSubstitutionRule.Enabled
+        //ExFor:FontConfigSubstitutionRule.IsFontConfigAvailable
+        //ExFor:FontConfigSubstitutionRule.ResetCache
+        //ExFor:FontSubstitutionRule
+        //ExFor:FontSubstitutionRule.Enabled
+        //ExFor:FontSubstitutionSettings.FontConfigSubstitution
         //ExSummary:Shows operating system-dependent font config substitution.
         FontSettings fontSettings = new FontSettings();
         FontConfigSubstitutionRule fontConfigSubstitution =
@@ -1038,8 +1038,8 @@ public class ExFontSettings extends ApiExampleBase
     public void fallbackSettings() throws Exception
     {
         //ExStart
-        //ExFor:Fonts.FontFallbackSettings.LoadMsOfficeFallbackSettings
-        //ExFor:Fonts.FontFallbackSettings.LoadNotoFallbackSettings
+        //ExFor:FontFallbackSettings.LoadMsOfficeFallbackSettings
+        //ExFor:FontFallbackSettings.LoadNotoFallbackSettings
         //ExSummary:Shows how to load pre-defined fallback font settings.
         Document doc = new Document();
 
@@ -1079,9 +1079,9 @@ public class ExFontSettings extends ApiExampleBase
     public void fallbackSettingsCustom() throws Exception
     {
         //ExStart
-        //ExFor:Fonts.FontSettings.FallbackSettings
-        //ExFor:Fonts.FontFallbackSettings
-        //ExFor:Fonts.FontFallbackSettings.BuildAutomatic
+        //ExFor:FontSettings.FallbackSettings
+        //ExFor:FontFallbackSettings
+        //ExFor:FontFallbackSettings.BuildAutomatic
         //ExSummary:Shows how to distribute fallback fonts across Unicode character code ranges.
         Document doc = new Document();
 
@@ -1160,11 +1160,11 @@ public class ExFontSettings extends ApiExampleBase
     public void tableSubstitutionRule() throws Exception
     {
         //ExStart
-        //ExFor:Fonts.TableSubstitutionRule
-        //ExFor:Fonts.TableSubstitutionRule.LoadLinuxSettings
-        //ExFor:Fonts.TableSubstitutionRule.LoadWindowsSettings
-        //ExFor:Fonts.TableSubstitutionRule.Save(System.IO.Stream)
-        //ExFor:Fonts.TableSubstitutionRule.Save(System.String)
+        //ExFor:TableSubstitutionRule
+        //ExFor:TableSubstitutionRule.LoadLinuxSettings
+        //ExFor:TableSubstitutionRule.LoadWindowsSettings
+        //ExFor:TableSubstitutionRule.Save(Stream)
+        //ExFor:TableSubstitutionRule.Save(String)
         //ExSummary:Shows how to access font substitution tables for Windows and Linux.
         Document doc = new Document();
         FontSettings fontSettings = new FontSettings();
@@ -1224,12 +1224,12 @@ public class ExFontSettings extends ApiExampleBase
     public void tableSubstitutionRuleCustom() throws Exception
     {
         //ExStart
-        //ExFor:Fonts.FontSubstitutionSettings.TableSubstitution
-        //ExFor:Fonts.TableSubstitutionRule.AddSubstitutes(System.String,System.String[])
-        //ExFor:Fonts.TableSubstitutionRule.GetSubstitutes(System.String)
-        //ExFor:Fonts.TableSubstitutionRule.Load(System.IO.Stream)
-        //ExFor:Fonts.TableSubstitutionRule.Load(System.String)
-        //ExFor:Fonts.TableSubstitutionRule.SetSubstitutes(System.String,System.String[])
+        //ExFor:FontSubstitutionSettings.TableSubstitution
+        //ExFor:TableSubstitutionRule.AddSubstitutes(String,String[])
+        //ExFor:TableSubstitutionRule.GetSubstitutes(String)
+        //ExFor:TableSubstitutionRule.Load(Stream)
+        //ExFor:TableSubstitutionRule.Load(String)
+        //ExFor:TableSubstitutionRule.SetSubstitutes(String,String[])
         //ExSummary:Shows how to work with custom font substitution tables.
         Document doc = new Document();
         FontSettings fontSettings = new FontSettings();
@@ -1349,6 +1349,9 @@ public class ExFontSettings extends ApiExampleBase
     //ExFor:MemoryFontSource.#ctor(Byte[], Int32, String)
     //ExFor:FontSettings.SaveSearchCache(Stream)
     //ExFor:FontSettings.SetFontsSources(FontSourceBase[], Stream)
+    //ExFor:FileFontSource.CacheKey
+    //ExFor:MemoryFontSource.CacheKey
+    //ExFor:StreamFontSource.CacheKey
     //ExSummary:Shows how to speed up the font cache initialization process.
     @Test//ExSkip
     public void loadFontSearchCache() throws Exception

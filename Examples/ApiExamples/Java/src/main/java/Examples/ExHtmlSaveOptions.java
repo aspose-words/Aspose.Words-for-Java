@@ -125,7 +125,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     {
         //ExStart
         //ExFor:HtmlSaveOptions.NavigationMapLevel
-        //ExSummary:Shows how to generate table of contents for azw3 documents.
+        //ExSummary:Shows how to generate table of contents for Azw3 documents.
         Document doc = new Document(getMyDir() + "Big document.docx");
 
         HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.AZW_3);
@@ -420,8 +420,8 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
 
         outDocContents = FileUtils.readFileToString(new File(getArtifactsDir() + "HtmlSaveOptions.CssClassNamePrefix.css"), StandardCharsets.UTF_8);
 
-        Assert.assertTrue(outDocContents.contains(".myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt }\r\n" +
-                ".myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt }\r\n"));
+        Assert.assertTrue(outDocContents.contains(".myprefix-Footer { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:footer }\r\n" +
+                ".myprefix-Header { margin-bottom:0pt; line-height:normal; font-family:Arial; font-size:11pt; -aw-style-name:header }\r\n"));
         //ExEnd
     }
 
@@ -752,7 +752,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
             case HtmlVersion.HTML_5:
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
                 Assert.assertTrue(outDocContents.contains("<a id=\"_Toc76372689\"></a>"));
-                Assert.assertTrue(outDocContents.contains("<table style=\"-aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
+                Assert.assertTrue(outDocContents.contains("<table style=\"padding:0pt; -aw-border-insideh:0.5pt single #000000; -aw-border-insidev:0.5pt single #000000; border-collapse:collapse\">"));
                 break;
             case HtmlVersion.XHTML:
                 Assert.assertTrue(outDocContents.contains("<a name=\"_Toc76372689\"></a>"));
@@ -1380,7 +1380,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     public void exportShapes(boolean exportShapesAsSvg) throws Exception {
         //ExStart
         //ExFor:HtmlSaveOptions.ExportShapesAsSvg
-        //ExSummary:Shows how to export text boxes as scalable vector graphics.
+        //ExSummary:Shows how to export shape as scalable vector graphics.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
@@ -1636,9 +1636,16 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
         //ExStart
         //ExFor:HtmlMetafileFormat
         //ExFor:HtmlSaveOptions.MetafileFormat
+        //ExFor:HtmlLoadOptions.ConvertSvgToEmf
         //ExSummary:Shows how to convert SVG objects to a different format when saving HTML documents.
-        String html =
-                "<html>\r\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\r\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\r\n                    </svg>\r\n                </html>";
+        String html = 
+            "<html>\n                    <svg xmlns='http://www.w3.org/2000/svg' width='500' height='40' viewBox='0 0 500 40'>\n                        <text x='0' y='35' font-family='Verdana' font-size='35'>Hello world!</text>\n                    </svg>\n                </html>";
+
+        // Use 'ConvertSvgToEmf' to turn back the legacy behavior
+        // where all SVG images loaded from an HTML document were converted to EMF.
+        // Now SVG images are loaded without conversion
+        // if the MS Word version specified in load options supports SVG images natively.
+        HtmlLoadOptions loadOptions = new HtmlLoadOptions(); { loadOptions.setConvertSvgToEmf(true); }
 
         Document doc = new Document(new ByteArrayInputStream(html.getBytes()));
 
@@ -1912,6 +1919,7 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
     //ExFor:IDocumentSavingCallback
     //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
     //ExFor:DocumentSavingArgs.EstimatedProgress
+    //ExFor:DocumentSavingArgs
     //ExSummary:Shows how to manage a document while saving to html.
     public void progressCallback(int saveFormat, String ext) throws Exception
     {
@@ -2006,5 +2014,24 @@ public class ExHtmlSaveOptions extends ApiExampleBase {
                         {SaveFormat.MOBI},
                         {SaveFormat.AZW_3},
                 };
+    }
+
+    @Test
+    public void htmlReplaceBackslashWithYenSign() throws Exception
+    {
+        //ExStart:HtmlReplaceBackslashWithYenSign
+        //GistId:0ede368e82d1e97d02e615a76923846b
+        //ExFor:HtmlSaveOptions.ReplaceBackslashWithYenSign
+        //ExSummary:Shows how to replace backslash characters with yen signs (Html).
+        Document doc = new Document(getMyDir() + "Korean backslash symbol.docx");
+
+        // By default, Aspose.Words mimics MS Word's behavior and doesn't replace backslash characters with yen signs in
+        // generated HTML documents. However, previous versions of Aspose.Words performed such replacements in certain
+        // scenarios. This flag enables backward compatibility with previous versions of Aspose.Words.
+        HtmlSaveOptions saveOptions = new HtmlSaveOptions();
+        saveOptions.setReplaceBackslashWithYenSign(true);
+
+        doc.save(getArtifactsDir() + "HtmlSaveOptions.ReplaceBackslashWithYenSign.html", saveOptions);
+        //ExEnd:HtmlReplaceBackslashWithYenSign
     }
 }

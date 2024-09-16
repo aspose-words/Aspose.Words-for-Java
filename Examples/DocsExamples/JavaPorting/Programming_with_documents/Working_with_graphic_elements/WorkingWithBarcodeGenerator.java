@@ -5,6 +5,7 @@ package DocsExamples.Programming_with_Documents.Working_with_Graphic_Elements;
 import DocsExamples.DocsExamplesBase;
 import org.testng.annotations.Test;
 import com.aspose.words.Document;
+import DocsExamples.CustomBarcodeGenerator;
 
 
 class WorkingWithBarcodeGenerator extends DocsExamplesBase

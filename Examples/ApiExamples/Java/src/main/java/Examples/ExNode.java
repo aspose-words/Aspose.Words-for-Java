@@ -576,7 +576,7 @@ public class ExNode extends ApiExampleBase {
     public void nodeList() throws Exception {
         //ExStart
         //ExFor:NodeList.Count
-        //ExFor:NodeList.Item(System.Int32)
+        //ExFor:NodeList.Item(Int32)
         //ExSummary:Shows how to use XPaths to navigate a NodeList.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

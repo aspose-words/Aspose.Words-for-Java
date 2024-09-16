@@ -19,9 +19,6 @@ import com.aspose.words.SignatureLine;
 import com.aspose.words.CertificateHolder;
 import com.aspose.words.SignOptions;
 import com.aspose.words.DigitalSignatureUtil;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import com.aspose.ms.System.IO.MemoryStream;
 import com.aspose.ms.System.Guid;
 import java.util.ArrayList;
 
@@ -91,21 +88,6 @@ public class ExSignDocumentCustom extends ApiExampleBase
         DigitalSignatureUtil.sign(dstDocumentPath, dstDocumentPath, certificateHolder, signOptions);
     }
 
-    /// <summary>
-    /// Converts an image to a byte array.
-    /// </summary>
-    private static byte[] imageToByteArray(String imagePath) throws Exception
-    {
-        BufferedImage image = ImageIO.read(imagePath);
-        MemoryStream ms = new MemoryStream();
-        try /*JAVA: was using*/
-        {
-            image.Save(ms, ImageFormat.Png);
-            return ms.toArray();
-        }
-        finally { if (ms != null) ms.close(); }
-    }
-
     public static class Signee
     {
         public Guid getPersonId() { return mPersonId; }; public void setPersonId(Guid value) { mPersonId = value; };
@@ -136,10 +118,8 @@ public class ExSignDocumentCustom extends ApiExampleBase
 
         mSignees = new ArrayList<ExSignDocumentCustom.Signee>();
         {
-            mSignees.add(new Signee(Guid.newGuid(), "Ron Williams", "Chief Executive Officer",
-                imageToByteArray(signImagePath)));                
-            mSignees.add(new Signee(Guid.newGuid(), "Stephen Morse", "Head of Compliance",
-                imageToByteArray(signImagePath)));                
+            mSignees.add(new Signee(Guid.newGuid(), "Ron Williams", "Chief Executive Officer", TestUtil.imageToByteArray(signImagePath)));
+            mSignees.add(new Signee(Guid.newGuid(), "Stephen Morse", "Head of Compliance", TestUtil.imageToByteArray(signImagePath)));
         }
     }
 

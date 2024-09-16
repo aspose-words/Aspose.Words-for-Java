@@ -24,6 +24,7 @@ import com.aspose.words.PdfCompliance;
 import com.aspose.words.PdfCustomPropertiesExport;
 import com.aspose.words.PdfImageCompression;
 import com.aspose.words.Dml3DEffectsRenderingMode;
+import com.aspose.words.FieldHyperlink;
 
 
 public class WorkingWithPdfSaveOptions extends DocsExamplesBase
@@ -42,6 +43,7 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
 
     @Test
     //ExStart:PdfRenderWarnings
+    //GistId:f9c5250f94e595ea3590b3be679475ba
     public void pdfRenderWarnings() throws Exception
     {
         Document doc = new Document(getMyDir() + "WMF with image.docx");
@@ -67,7 +69,6 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
         }
     }
 
-    //ExStart:RenderMetafileToBitmap
     public static class HandleDocumentWarnings implements IWarningCallback
     {
         /// <summary>
@@ -88,7 +89,6 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
 
         public WarningInfoCollection mWarnings = new WarningInfoCollection();
     }
-    //ExEnd:RenderMetafileToBitmap
     //ExEnd:PdfRenderWarnings
 
     @Test
@@ -115,34 +115,37 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     @Test
     public void embeddedAllFonts() throws Exception
     {
-        //ExStart:EmbeddAllFonts
+        //ExStart:EmbeddedAllFonts
+        //GistId:6debb84fc15c7e5b8e35384d9c116215
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // The output PDF will be embedded with all fonts found in the document.
         PdfSaveOptions saveOptions = new PdfSaveOptions(); { saveOptions.setEmbedFullFonts(true); }
         
-        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.EmbeddedFontsInPdf.pdf", saveOptions);
-        //ExEnd:EmbeddAllFonts
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.EmbeddedAllFonts.pdf", saveOptions);
+        //ExEnd:EmbeddedAllFonts
     }
 
     @Test
     public void embeddedSubsetFonts() throws Exception
     {
-        //ExStart:EmbeddSubsetFonts
+        //ExStart:EmbeddedSubsetFonts
+        //GistId:6debb84fc15c7e5b8e35384d9c116215
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // The output PDF will contain subsets of the fonts in the document.
         // Only the glyphs used in the document are included in the PDF fonts.
         PdfSaveOptions saveOptions = new PdfSaveOptions(); { saveOptions.setEmbedFullFonts(false); }
         
-        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.EmbeddSubsetFonts.pdf", saveOptions);
-        //ExEnd:EmbeddSubsetFonts
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.EmbeddedSubsetFonts.pdf", saveOptions);
+        //ExEnd:EmbeddedSubsetFonts
     }
 
     @Test
     public void disableEmbedWindowsFonts() throws Exception
     {
         //ExStart:DisableEmbedWindowsFonts
+        //GistId:6debb84fc15c7e5b8e35384d9c116215
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // The output PDF will be saved without embedding standard windows fonts.
@@ -168,6 +171,7 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     public void avoidEmbeddingCoreFonts() throws Exception
     {
         //ExStart:AvoidEmbeddingCoreFonts
+        //GistId:6debb84fc15c7e5b8e35384d9c116215
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // The output PDF will not be embedded with core fonts such as Arial, Times New Roman etc.
@@ -184,11 +188,8 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
         
-        builder.insertHyperlink("Testlink", 
-            "https://www.google.com/search?q=%2Fthe%20test", false);
-        builder.writeln();
-        builder.insertHyperlink("https://www.google.com/search?q=%2Fthe%20test", 
-            "https://www.google.com/search?q=%2Fthe%20test", false);
+        builder.insertHyperlink("Testlink",
+            "https://www.google.com/search?q= aspose", false);
 
         doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.EscapeUri.pdf");
         //ExEnd:EscapeUri
@@ -198,6 +199,7 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     public void exportHeaderFooterBookmarks() throws Exception
     {
         //ExStart:ExportHeaderFooterBookmarks
+        //GistId:6debb84fc15c7e5b8e35384d9c116215
         Document doc = new Document(getMyDir() + "Bookmarks in headers and footers.docx");
 
         PdfSaveOptions saveOptions = new PdfSaveOptions();
@@ -256,6 +258,7 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     public void downsamplingImages() throws Exception
     {
         //ExStart:DownsamplingImages
+        //GistId:6debb84fc15c7e5b8e35384d9c116215
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         // We can set a minimum threshold for downsampling.
@@ -270,23 +273,25 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     }
 
     @Test
-    public void setOutlineOptions() throws Exception
+    public void outlineOptions() throws Exception
     {
-        //ExStart:SetOutlineOptions
+        //ExStart:OutlineOptions
+        //GistId:6debb84fc15c7e5b8e35384d9c116215
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PdfSaveOptions saveOptions = new PdfSaveOptions();
         saveOptions.getOutlineOptions().setHeadingsOutlineLevels(3);
         saveOptions.getOutlineOptions().setExpandedOutlineLevels(1);
 
-        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.SetOutlineOptions.pdf", saveOptions);
-        //ExEnd:SetOutlineOptions
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.OutlineOptions.pdf", saveOptions);
+        //ExEnd:OutlineOptions
     }
 
     @Test
     public void customPropertiesExport() throws Exception
     {
         //ExStart:CustomPropertiesExport
+        //GistId:6debb84fc15c7e5b8e35384d9c116215
         Document doc = new Document();
         doc.getCustomDocumentProperties().add("Company", "Aspose");
 
@@ -300,6 +305,7 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     public void exportDocumentStructure() throws Exception
     {
         //ExStart:ExportDocumentStructure
+        //GistId:6debb84fc15c7e5b8e35384d9c116215
         Document doc = new Document(getMyDir() + "Paragraphs.docx");
 
         // The file size will be increased and the structure will be visible in the "Content" navigation pane
@@ -313,7 +319,8 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
     @Test
     public void imageCompression() throws Exception
     {
-        //ExStart:PdfImageCompression
+        //ExStart:ImageCompression
+        //GistId:6debb84fc15c7e5b8e35384d9c116215
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PdfSaveOptions saveOptions = new PdfSaveOptions();
@@ -321,7 +328,7 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
             saveOptions.setImageCompression(PdfImageCompression.JPEG); saveOptions.setPreserveFormFields(true);
         }
 
-        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.PdfImageCompression.pdf", saveOptions);
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.ImageCompression.pdf", saveOptions);
 
         PdfSaveOptions saveOptionsA2U = new PdfSaveOptions();
         {
@@ -332,20 +339,21 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
 
         
 
-        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.PdfImageCompression_A2u.pdf", saveOptionsA2U);
-        //ExEnd:PdfImageComppression
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.ImageCompression_A2u.pdf", saveOptionsA2U);
+        //ExEnd:ImageCompression
     }
 
     @Test
-    public void updateLastPrintedProperty() throws Exception
+    public void updateLastPrinted() throws Exception
     {
-        //ExStart:UpdateIfLastPrinted
+        //ExStart:UpdateLastPrinted
+        //GistId:83e5c469d0e72b5114fb8a05a1d01977
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
         PdfSaveOptions saveOptions = new PdfSaveOptions(); { saveOptions.setUpdateLastPrintedProperty(true); }
 
-        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.UpdateIfLastPrinted.pdf", saveOptions);
-        //ExEnd:UpdateIfLastPrinted
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.UpdateLastPrinted.pdf", saveOptions);
+        //ExEnd:UpdateLastPrinted
     }
 
     @Test
@@ -383,5 +391,33 @@ public class WorkingWithPdfSaveOptions extends DocsExamplesBase
 
         doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.OptimizeOutput.pdf", saveOptions);
         //ExEnd:OptimizeOutput
+    }
+
+    @Test
+    public void updateScreenTip() throws Exception
+    {
+        //ExStart:UpdateScreenTip
+        //GistId:8b0ab362f95040ada1255a0473acefe2
+        Document doc = new Document(getMyDir() + "Table of contents.docx");
+
+        var tocHyperLinks = doc.getRange().getFields()
+            .Where(f => f.Type == FieldType.FieldHyperlink)
+            .<FieldHyperlink>Cast()
+            .Where(f => f.SubAddress.StartsWith("#_Toc"));
+
+        for (FieldHyperlink link : (Iterable<FieldHyperlink>) tocHyperLinks)
+            link.setScreenTip(link.getDisplayResult());
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        {
+            saveOptions.setCompliance(PdfCompliance.PDF_UA_1);
+            saveOptions.setDisplayDocTitle(true);
+            saveOptions.setExportDocumentStructure(true);
+        }
+        saveOptions.getOutlineOptions().setHeadingsOutlineLevels(3);
+        saveOptions.getOutlineOptions().setCreateMissingOutlineLevels(true);
+
+        doc.save(getArtifactsDir() + "WorkingWithPdfSaveOptions.UpdateScreenTip.pdf", saveOptions);
+        //ExEnd:UpdateScreenTip
     }
 }

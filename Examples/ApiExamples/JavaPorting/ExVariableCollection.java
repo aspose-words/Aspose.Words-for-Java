@@ -38,6 +38,8 @@ public class ExVariableCollection extends ApiExampleBase
         //ExFor:VariableCollection.IndexOfKey
         //ExFor:VariableCollection.Remove
         //ExFor:VariableCollection.RemoveAt
+        //ExFor:VariableCollection.Item(Int32)
+        //ExFor:VariableCollection.Item(String)
         //ExSummary:Shows how to work with a document's variable collection.
         Document doc = new Document();
         VariableCollection variables = doc.getVariables();
@@ -75,6 +77,9 @@ public class ExVariableCollection extends ApiExampleBase
         Assert.assertEquals(0, variables.indexOfKey("Bedrooms"));
         Assert.assertEquals(1, variables.indexOfKey("City"));
         Assert.assertEquals(2, variables.indexOfKey("Home address"));
+
+        Assert.assertEquals("3", variables.get(0));
+        Assert.assertEquals("London", variables.get("City"));
 
         // Enumerate over the collection of variables.
         Iterator<Map.Entry<String, String>> enumerator = doc.getVariables().iterator();

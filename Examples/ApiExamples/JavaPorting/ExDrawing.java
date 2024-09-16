@@ -57,15 +57,15 @@ public class ExDrawing extends ApiExampleBase
     public void variousShapes() throws Exception
     {
         //ExStart
-        //ExFor:Drawing.ArrowLength
-        //ExFor:Drawing.ArrowType
-        //ExFor:Drawing.ArrowWidth
-        //ExFor:Drawing.DashStyle
-        //ExFor:Drawing.EndCap
-        //ExFor:Drawing.Fill.ForeColor
-        //ExFor:Drawing.Fill.ImageBytes
-        //ExFor:Drawing.Fill.Visible
-        //ExFor:Drawing.JoinStyle
+        //ExFor:ArrowLength
+        //ExFor:ArrowType
+        //ExFor:ArrowWidth
+        //ExFor:DashStyle
+        //ExFor:EndCap
+        //ExFor:Fill.ForeColor
+        //ExFor:Fill.ImageBytes
+        //ExFor:Fill.Visible
+        //ExFor:JoinStyle
         //ExFor:Shape.Stroke
         //ExFor:Stroke.Color
         //ExFor:Stroke.StartArrowLength
@@ -256,7 +256,7 @@ public class ExDrawing extends ApiExampleBase
     public void typeOfImage() throws Exception
     {
         //ExStart
-        //ExFor:Drawing.ImageType
+        //ExFor:ImageType
         //ExSummary:Shows how to add an image to a shape and check its type.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -271,7 +271,11 @@ public class ExDrawing extends ApiExampleBase
     {
         //ExStart
         //ExFor:Fill.Color()
-        //ExFor:Fill.Solid(Color)
+        //ExFor:FillType
+        //ExFor:Fill.FillType
+        //ExFor:Fill.Solid
+        //ExFor:Fill.Transparency
+        //ExFor:Font.Fill
         //ExSummary:Shows how to convert any of the fills back to solid fill.
         Document doc = new Document(getMyDir() + "Two color gradient.docx");
 
@@ -284,7 +288,7 @@ public class ExDrawing extends ApiExampleBase
         System.out.println("The fill is transparent at {0}%",fill.getTransparency() * 100.0);
 
         // Change type of the fill to Solid with uniform green color.
-        fill.solid(msColor.getGreen());
+        fill.solid();
         System.out.println("\nThe fill is changed:");
         System.out.println("The type of the fill is: {0}",fill.getFillType());
         System.out.println("The foreground color of the fill is: {0}",fill.getForeColor());
@@ -372,9 +376,11 @@ public class ExDrawing extends ApiExampleBase
     //ExFor:DocumentVisitor.VisitShapeStart(Shape)
     //ExFor:DocumentVisitor.VisitGroupShapeEnd(GroupShape)
     //ExFor:DocumentVisitor.VisitGroupShapeStart(GroupShape)
-    //ExFor:Drawing.GroupShape
-    //ExFor:Drawing.GroupShape.#ctor(DocumentBase)
-    //ExFor:Drawing.GroupShape.Accept(DocumentVisitor)
+    //ExFor:GroupShape
+    //ExFor:GroupShape.#ctor(DocumentBase)
+    //ExFor:GroupShape.Accept(DocumentVisitor)
+    //ExFor:GroupShape.AcceptStart(DocumentVisitor)
+    //ExFor:GroupShape.AcceptEnd(DocumentVisitor)
     //ExFor:ShapeBase.IsGroup
     //ExFor:ShapeBase.ShapeType
     //ExSummary:Shows how to create a group of shapes, and print its contents using a document visitor.
@@ -489,7 +495,7 @@ public class ExDrawing extends ApiExampleBase
     public void textBox() throws Exception
     {
         //ExStart
-        //ExFor:Drawing.LayoutFlow
+        //ExFor:LayoutFlow
         //ExSummary:Shows how to add text to a text box, and change its orientation
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

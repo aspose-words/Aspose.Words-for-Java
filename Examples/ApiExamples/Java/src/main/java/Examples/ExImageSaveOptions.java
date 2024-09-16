@@ -27,6 +27,8 @@ public class ExImageSaveOptions extends ApiExampleBase {
         //ExFor:Document.Save(String, SaveOptions)
         //ExFor:FixedPageSaveOptions
         //ExFor:ImageSaveOptions.PageSet
+        //ExFor:PageSet
+        //ExFor:PageSet.#ctor(Int32)
         //ExSummary:Shows how to render one page from a document to a JPEG image.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -41,7 +43,6 @@ public class ExImageSaveOptions extends ApiExampleBase {
         // Create an "ImageSaveOptions" object which we can pass to the document's "Save" method
         // to modify the way in which that method renders the document into an image.
         ImageSaveOptions options = new ImageSaveOptions(SaveFormat.JPEG);
-
         // Set the "PageSet" to "1" to select the second page via
         // the zero-based index to start rendering the document from.
         options.setPageSet(new PageSet(1));
@@ -598,6 +599,7 @@ public class ExImageSaveOptions extends ApiExampleBase {
     public void exportVariousPageRanges() throws Exception {
         //ExStart
         //ExFor:PageSet.#ctor(PageRange[])
+        //ExFor:PageRange
         //ExFor:PageRange.#ctor(int, int)
         //ExFor:ImageSaveOptions.PageSet
         //ExSummary:Shows how to extract pages based on exact page ranges.

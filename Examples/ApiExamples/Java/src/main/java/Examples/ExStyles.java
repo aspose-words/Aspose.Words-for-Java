@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -180,6 +180,7 @@ public class ExStyles extends ApiExampleBase {
     @Test
     public void copyStyleSameDocument() throws Exception {
         //ExStart
+        //ExFor:StyleCollection.Add(Style)
         //ExFor:StyleCollection.AddCopy(Style)
         //ExFor:Style.Name
         //ExSummary:Shows how to clone a document's style.
@@ -296,7 +297,7 @@ public class ExStyles extends ApiExampleBase {
         //ExStart
         //ExFor:Style.Aliases
         //ExFor:Style.BaseStyleName
-        //ExFor:Style.Equals(Aspose.Words.Style)
+        //ExFor:Style.Equals(Style)
         //ExFor:Style.LinkedStyleName
         //ExSummary:Shows how to use style aliases.
         Document doc = new Document(getMyDir() + "Style with alias.docx");

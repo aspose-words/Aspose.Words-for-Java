@@ -51,6 +51,7 @@ import com.aspose.words.EditorType;
 import com.aspose.words.EditableRange;
 import com.aspose.ms.System.Text.Encoding;
 import com.aspose.ms.System.IO.StreamReader;
+import com.aspose.ms.System.IO.File;
 
 
 class TestUtil extends ApiExampleBase
@@ -94,17 +95,7 @@ class TestUtil extends ApiExampleBase
         finally { if (bitmap != null) bitmap.close(); }
 
         Assert.fail($"The image from \"{filename}\" does not contain any transparency.");
-    }
-
-    /// <summary>
-    /// Checks whether an HTTP request sent to the specified address produces an expected web response. 
-    /// </summary>
-    /// <remarks>
-    /// Serves as a notification of any URLs used in code examples becoming unusable in the future.
-    /// </remarks>
-    /// <param name="expectedHttpStatusCode">Expected result status code of a request HTTP "HEAD" method performed on the web address.</param>
-    /// <param name="webAddress">URL where the request will be sent.</param>
-     static async System.Threading.Tasks.Task private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
+    }private VerifyWebResponseStatusCodeAsyncverifyWebResponseStatusCodeAsync(/*HttpStatusCode*/int expectedHttpStatusCode, String webAddress)
     {
         var myClient = new System.Net.Http.HttpClient();
         var response = await myClient.GetAsync(webAddress);
@@ -245,7 +236,7 @@ class TestUtil extends ApiExampleBase
 
         for (int i = 0; i < expectedResult.getRows().getCount(); i++)
             expectedStrings[i] = Object[].ConvertAll(expectedResult.getRows().get(i).getItemArray(), x => x.toString());
-        
+
         mailMergeMatchesArray(expectedStrings, doc, onePagePerRow);
     }
 
@@ -302,10 +293,10 @@ class TestUtil extends ApiExampleBase
         try /*JAVA: was using*/
         {
             ZipArchiveEntry entry = archive.Entries.First(e => e.Name == docPartFilename);
-            
+
             Stream stream = entry.Open();
             try /*JAVA: was using*/
-            { 
+            {
                streamContainsString(expected, stream);
             }
             finally { if (stream != null) stream.close(); }
@@ -627,6 +618,14 @@ class TestUtil extends ApiExampleBase
             return streamReader.getCurrentEncoding();
         }
         finally { if (streamReader != null) streamReader.close(); }
+    }
+
+    /// <summary>
+    /// Converts an image to a byte array.
+    /// </summary>
+    static byte[] imageToByteArray(String imagePath) throws Exception
+    {
+        return File.readAllBytes(imagePath);
     }
 }
 

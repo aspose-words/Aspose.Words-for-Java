@@ -6,24 +6,14 @@ import com.aspose.words.net.System.Data.DataColumn;
 import com.aspose.words.net.System.Data.DataRow;
 import com.aspose.words.net.System.Data.DataSet;
 import com.aspose.words.net.System.Data.DataTable;
-import com.sun.deploy.xml.XMLNode;
-import jdk.nashorn.internal.runtime.Undefined;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.testng.annotations.Test;
-import org.w3c.dom.Attr;
-import org.xml.sax.InputSource;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.io.ByteArrayOutputStream;
-import java.io.StringReader;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -413,9 +403,6 @@ public class WorkingWithTables extends DocsExamplesBase
         row.getRowFormat().setAllowBreakAcrossPages(true);
         table.appendChild(row);
 
-        // We can now apply any auto fit settings.
-        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
-
         Cell cell = new Cell(doc);
         cell.getCellFormat().getShading().setBackgroundPatternColor(Color.BLUE);
         cell.getCellFormat().setWidth(80.0);
@@ -429,6 +416,9 @@ public class WorkingWithTables extends DocsExamplesBase
         row.appendChild(cell.deepClone(false));
         row.getLastCell().appendChild(new Paragraph(doc));
         row.getLastCell().getFirstParagraph().appendChild(new Run(doc, "Row 1, Cell 2 Text"));
+
+        // We can now apply any auto fit settings.
+        table.autoFit(AutoFitBehavior.FIXED_COLUMN_WIDTHS);
         
         doc.save(getArtifactsDir() + "WorkingWithTables.InsertTableDirectly.docx");
         //ExEnd:InsertTableDirectly
@@ -1074,8 +1064,6 @@ public class WorkingWithTables extends DocsExamplesBase
         DocumentBuilder builder = new DocumentBuilder(doc);
 
         // Insert a table row made up of three cells which have different preferred widths.
-        builder.startTable();
-
         // Insert an absolute sized cell.
         builder.insertCell();
         builder.getCellFormat().setPreferredWidth(PreferredWidth.fromPoints(40.0));

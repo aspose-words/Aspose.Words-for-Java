@@ -25,6 +25,7 @@ import com.aspose.words.DigitalSignatureType;
 import com.aspose.words.LoadOptions;
 import com.aspose.words.Document;
 import com.aspose.words.IncorrectPasswordException;
+import com.aspose.words.XmlDsigLevel;
 
 
 @Test
@@ -107,6 +108,7 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
         //ExFor:CertificateHolder
         //ExFor:CertificateHolder.Create(String, String)
         //ExFor:DigitalSignatureUtil.Sign(Stream, Stream, CertificateHolder, SignOptions)
+        //ExFor:DigitalSignatures.SignOptions
         //ExFor:SignOptions.Comments
         //ExFor:SignOptions.SignTime
         //ExSummary:Shows how to digitally sign documents.
@@ -251,5 +253,22 @@ public class ExDigitalSignatureUtil extends ApiExampleBase
 
         Assert.<NullPointerException>Throws(
             () => DigitalSignatureUtil.sign(doc.getOriginalFileName(), outputFileName, null, signOptions));
+    }
+
+    @Test
+    public void xmlDsig() throws Exception
+    {
+        //ExStart:XmlDsig
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:SignOptions.XmlDsigLevel
+        //ExFor:XmlDsigLevel
+        //ExSummary:Shows how to sign document based on XML-DSig standard.
+        CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
+        SignOptions signOptions = new SignOptions(); { signOptions.setXmlDsigLevel(XmlDsigLevel.X_AD_ES_EPES); }
+
+        String inputFileName = getMyDir() + "Document.docx";
+        String outputFileName = getArtifactsDir() + "DigitalSignatureUtil.XmlDsig.docx";
+        DigitalSignatureUtil.sign(inputFileName, outputFileName, certificateHolder, signOptions);
+        //ExEnd:XmlDsig
     }
 }

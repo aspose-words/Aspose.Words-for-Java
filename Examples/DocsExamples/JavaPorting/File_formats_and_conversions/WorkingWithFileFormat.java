@@ -19,6 +19,7 @@ public class WorkingWithFileFormat extends DocsExamplesBase
     public void detectFileFormat() throws Exception
     {
         //ExStart:CheckFormatCompatibility
+        //GistId:7fe3fc4004f081628a63608db70332b3
         String supportedDir = getArtifactsDir() + "Supported";
         String unknownDir = getArtifactsDir() + "Unknown";
         String encryptedDir = getArtifactsDir() + "Encrypted";
@@ -34,15 +35,15 @@ public class WorkingWithFileFormat extends DocsExamplesBase
         if (Directory.exists(pre97Dir) == false)
             Directory.createDirectory(pre97Dir);
 
-        //ExStart:GetListOfFilesInFolder
+        //ExStart:GetFiles
+        //GistId:7fe3fc4004f081628a63608db70332b3
         Iterable<String> fileList = Directory.getFiles(getMyDir()).Where(name => !name.EndsWith("Corrupted document.docx"));
-        //ExEnd:GetListOfFilesInFolder
+        //ExEnd:GetFiles
         for (String fileName : fileList)
         {
             String nameOnly = Path.getFileName(fileName);
             
             msConsole.write(nameOnly);
-            //ExStart:DetectFileFormat
             FileFormatInfo info = FileFormatUtil.detectFileFormat(fileName);
 
             // Display the document type
@@ -94,7 +95,6 @@ public class WorkingWithFileFormat extends DocsExamplesBase
                     System.out.println("\tUnknown format.");
                     break;
             }
-            //ExEnd:DetectFileFormat
 
             if (info.isEncrypted())
             {
@@ -131,7 +131,7 @@ public class WorkingWithFileFormat extends DocsExamplesBase
         {
             System.out.println("Document {Path.GetFileName(MyDir + ");
         }
-        //ExEnd:DetectDocumentSignatures            
+        //ExEnd:DetectDocumentSignatures
     }
 
     @Test

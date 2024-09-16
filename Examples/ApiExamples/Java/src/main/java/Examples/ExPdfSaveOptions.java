@@ -162,7 +162,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         // Set the "HeadingsOutlineLevels" property to "5" to include all headings of levels 5 and below in the outline.
         saveOptions.getOutlineOptions().setHeadingsOutlineLevels(5);
 
-        // This document contains headings of levels 1 and 5, and no headings with levels of 2, 3, and 4. 
+        // This document contains headings of levels 1 and 5, and no headings with levels of 2, 3, and 4.
         // The output PDF document will treat outline levels 2, 3, and 4 as "missing".
         // Set the "CreateMissingOutlineLevels" property to "true" to include all missing levels in the outline,
         // leaving blank outline entries since there are no usable headings.
@@ -479,6 +479,9 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         // Set the "Compliance" property to "PdfCompliance.Pdf20" to comply with the "PDF 2.0" (ISO 32000-2) standard.
         // Set the "Compliance" property to "PdfCompliance.PdfA4" to comply with the "PDF/A-4" (ISO 19004:2020) standard,
         // which preserving document static visual appearance over time.
+        // Set the "Compliance" property to "PdfCompliance.PdfA4Ua2" to comply with both PDF/A-4 (ISO 19005-4:2020)
+        // and PDF/UA-2 (ISO 14289-2:2024) standards.
+        // Set the "Compliance" property to "PdfCompliance.PdfUa2" to comply with the PDF/UA-2 (ISO 14289-2:2024) standard.
         // This helps with making documents searchable but may significantly increase the size of already large documents.
         saveOptions.setCompliance(pdfCompliance);
 
@@ -492,17 +495,33 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 Assert.assertEquals(PdfFormat.v_1_7, pdfDocument.getPdfFormat());
                 Assert.assertEquals("1.7", pdfDocument.getVersion());
                 break;
-            case PdfCompliance.PDF_A_1_A:
-                Assert.assertEquals(PdfFormat.PDF_A_1A, pdfDocument.getPdfFormat());
+            case PdfCompliance.PDF_A_2_A:
+                Assert.assertEquals(PdfFormat.PDF_A_2A, pdfDocument.getPdfFormat());
                 Assert.assertEquals("1.7", pdfDocument.getVersion());
                 break;
-            case PdfCompliance.PDF_A_1_B:
-                Assert.assertEquals(PdfFormat.PDF_A_1B, pdfDocument.getPdfFormat());
+            case PdfCompliance.PDF_A_2_U:
+                Assert.assertEquals(PdfFormat.PDF_A_2U, pdfDocument.getPdfFormat());
                 Assert.assertEquals("1.7", pdfDocument.getVersion());
                 break;
             case PdfCompliance.PDF_UA_1:
                 Assert.assertEquals(PdfFormat.PDF_UA_1, pdfDocument.getPdfFormat());
                 Assert.assertEquals("1.7", pdfDocument.getVersion());
+                break;
+            case PdfCompliance.PDF_20:
+                Assert.assertEquals(PdfFormat.v_2_0, pdfDocument.getPdfFormat());
+                Assert.assertEquals("2.0", pdfDocument.getVersion());
+                break;
+            case PdfCompliance.PDF_A_4:
+                Assert.assertEquals(PdfFormat.PDF_A_4, pdfDocument.getPdfFormat());
+                Assert.assertEquals("2.0", pdfDocument.getVersion());
+                break;
+            case PdfCompliance.PDF_A_4_UA_2:
+                Assert.assertEquals(PdfFormat.PDF_UA_1, pdfDocument.getPdfFormat());
+                Assert.assertEquals("2.0", pdfDocument.getVersion());
+                break;
+            case PdfCompliance.PDF_UA_2:
+                Assert.assertEquals(PdfFormat.PDF_UA_1, pdfDocument.getPdfFormat());
+                Assert.assertEquals("2.0", pdfDocument.getVersion());
                 break;
         }
 
@@ -515,8 +534,12 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 {
                         {PdfCompliance.PDF_A_1_B},
                         {PdfCompliance.PDF_17},
-                        {PdfCompliance.PDF_A_1_A},
-                        {PdfCompliance.PDF_UA_1}
+			{PdfCompliance.PDF_A_2_A},
+			{PdfCompliance.PDF_UA_1},
+			{PdfCompliance.PDF_20},
+			{PdfCompliance.PDF_A_4},
+			{PdfCompliance.PDF_A_4_UA_2},
+			{PdfCompliance.PDF_UA_2},
                 };
     }
 
@@ -1670,7 +1693,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         PdfSaveOptions options = new PdfSaveOptions();
 
         // Set the "CustomPropertiesExport" property to "PdfCustomPropertiesExport.None" to discard
-        // custom document properties as we save the document to .PDF. 
+        // custom document properties as we save the document to .PDF.
         // Set the "CustomPropertiesExport" property to "PdfCustomPropertiesExport.Standard"
         // to preserve custom properties within the output PDF document.
         // Set the "CustomPropertiesExport" property to "PdfCustomPropertiesExport.Metadata"
@@ -1853,7 +1876,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
                 Assert.assertEquals(6, tableAbsorber.getTableList().size());
                 break;
             case DmlRenderingMode.FALLBACK:
-                Assert.assertEquals(15, tableAbsorber.getTableList().size());
+                Assert.assertEquals(12, tableAbsorber.getTableList().size());
                 break;
         }
 
@@ -1999,6 +2022,10 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
     @Test(groups = "SkipMono")
     public void dml3DEffectsRenderingModeTest() throws Exception {
+        //ExStart
+        //ExFor:Dml3DEffectsRenderingMode
+        //ExFor:SaveOptions.Dml3DEffectsRenderingMode
+        //ExSummary:Shows how 3D effects are rendered.
         Document doc = new Document(getMyDir() + "DrawingML shape 3D effects.docx");
 
         RenderCallback warningCallback = new RenderCallback();
@@ -2008,6 +2035,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         saveOptions.setDml3DEffectsRenderingMode(Dml3DEffectsRenderingMode.ADVANCED);
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.Dml3DEffectsRenderingModeTest.pdf", saveOptions);
+        //ExEnd
 
         Assert.assertEquals(38, warningCallback.getCount());
     }
@@ -2038,6 +2066,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         //ExFor:PdfDigitalSignatureDetails.SignatureDate
         //ExFor:PdfDigitalSignatureHashAlgorithm
         //ExFor:PdfSaveOptions.DigitalSignatureDetails
+        //ExFor:PdfDigitalSignatureDetails.CertificateHolder
         //ExSummary:Shows how to sign a generated PDF document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2105,7 +2134,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
         // to modify how that method converts the document to .PDF.
         PdfSaveOptions options = new PdfSaveOptions();
 
-        // Create a digital signature, and assign it to our SaveOptions object to sign the document when we save it to PDF. 
+        // Create a digital signature and assign it to our SaveOptions object to sign the document when we save it to PDF.
         CertificateHolder certificateHolder = CertificateHolder.create(getMyDir() + "morzal.pfx", "aw");
         options.setDigitalSignatureDetails(new PdfDigitalSignatureDetails(certificateHolder, "Test Signing", "Aspose Office", new Date()));
 
@@ -2182,7 +2211,7 @@ public class ExPdfSaveOptions extends ApiExampleBase {
             case EmfPlusDualRenderingMode.EMF_PLUS_WITH_FALLBACK:
             case EmfPlusDualRenderingMode.EMF_PLUS:
                 Assert.assertEquals(0, pdfDocument.getPages().get_Item(1).getResources().getImages().size());
-                TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABF 15 0 R/FAAACB 21 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
+                TestUtil.fileContainsString("<</Type/Page/Parent 3 0 R/Contents 6 0 R/MediaBox[0 0 595.29998779 841.90002441]/Resources<</Font<</FAAAAI 8 0 R/FAAABC 12 0 R/FAAABG 16 0 R>>>>/Group<</Type/Group/S/Transparency/CS/DeviceRGB>>>>",
                         getArtifactsDir() + "PdfSaveOptions.RenderMetafile.pdf");
                 break;
         }
@@ -2308,6 +2337,9 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     public void exportPageSet() throws Exception {
         //ExStart
         //ExFor:FixedPageSaveOptions.PageSet
+        //ExFor:PageSet.All
+        //ExFor:PageSet.Even
+        //ExFor:PageSet.Odd
         //ExSummary:Shows how to export Odd pages from the document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -2395,6 +2427,44 @@ public class ExPdfSaveOptions extends ApiExampleBase {
     }
 
     @Test
+    public void pdfEmbedAttachments() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.EmbedAttachments
+        //ExSummary:Shows how to add embed attachments to the PDF document.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.insertOleObject(getMyDir() + "Spreadsheet.xlsx", "Excel.Sheet", false, true, null);
+
+        PdfSaveOptions options = new PdfSaveOptions();
+        options.setEmbedAttachments(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.PdfEmbedAttachments.pdf", options);
+        //ExEnd
+    }
+
+    @Test
+    public void cacheBackgroundGraphics() throws Exception
+    {
+        //ExStart
+        //ExFor:PdfSaveOptions.CacheBackgroundGraphics
+        //ExSummary:Shows how to cache graphics placed in document's background.
+        Document doc = new Document(getMyDir() + "Background images.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setCacheBackgroundGraphics(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.CacheBackgroundGraphics.pdf", saveOptions);
+
+        long asposeToPdfSize = new File(getArtifactsDir() + "PdfSaveOptions.CacheBackgroundGraphics.pdf").length();
+        long wordToPdfSize = new File(getMyDir() + "Background images (word to pdf).pdf").length();
+
+        Assert.assertTrue(asposeToPdfSize < wordToPdfSize);
+        //ExEnd
+    }
+
+    @Test
     public void exportParagraphGraphicsToArtifact() throws Exception
     {
         //ExStart
@@ -2431,5 +2501,24 @@ public class ExPdfSaveOptions extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "PdfSaveOptions.PageLayout.pdf", saveOptions);
         //ExEnd:PageLayout
+    }
+
+    @Test
+    public void sdtTagAsFormFieldName() throws Exception
+    {
+        //ExStart:SdtTagAsFormFieldName
+        //GistId:0ede368e82d1e97d02e615a76923846b
+        //ExFor:PdfSaveOptions.UseSdtTagAsFormFieldName
+        //ExSummary:Shows how to use SDT control Tag or Id property as a name of form field in PDF.
+        Document doc = new Document(getMyDir() + "Form fields.docx");
+
+        PdfSaveOptions saveOptions = new PdfSaveOptions();
+        saveOptions.setPreserveFormFields(true);
+        // When set to 'false', SDT control Id property is used as a name of form field in PDF.
+        // When set to 'true', SDT control Tag property is used as a name of form field in PDF.
+        saveOptions.setUseSdtTagAsFormFieldName(true);
+
+        doc.save(getArtifactsDir() + "PdfSaveOptions.SdtTagAsFormFieldName.pdf", saveOptions);
+        //ExEnd:SdtTagAsFormFieldName
     }
 }

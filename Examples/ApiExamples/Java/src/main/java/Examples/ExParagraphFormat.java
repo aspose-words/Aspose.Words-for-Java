@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -94,6 +94,7 @@ public class ExParagraphFormat extends ApiExampleBase {
         //ExStart
         //ExFor:ParagraphFormat.LineSpacing
         //ExFor:ParagraphFormat.LineSpacingRule
+        //ExFor:LineSpacingRule
         //ExSummary:Shows how to work with line spacing.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -258,6 +259,7 @@ public class ExParagraphFormat extends ApiExampleBase {
     public void paragraphOutlineLevel() throws Exception {
         //ExStart
         //ExFor:ParagraphFormat.OutlineLevel
+        //ExFor:OutlineLevel
         //ExSummary:Shows how to configure paragraph outline levels to create collapsible text.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);

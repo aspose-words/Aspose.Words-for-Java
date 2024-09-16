@@ -35,6 +35,7 @@ public class ExViewOptions extends ApiExampleBase
         //ExFor:ViewOptions.ViewType
         //ExFor:ViewOptions.ZoomPercent
         //ExFor:ViewOptions.ZoomType
+        //ExFor:ZoomType
         //ExFor:ViewType
         //ExSummary:Shows how to set a custom zoom factor, which older versions of Microsoft Word will apply to a document upon loading.
         Document doc = new Document();

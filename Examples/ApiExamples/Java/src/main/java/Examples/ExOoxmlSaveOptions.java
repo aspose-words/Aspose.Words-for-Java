@@ -1,4 +1,4 @@
-﻿package Examples;
+package Examples;
 
 //////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2001-2024 Aspose Pty Ltd. All Rights Reserved.
@@ -304,6 +304,7 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
     @Test (dataProvider = "progressCallbackDataProvider")
     //ExStart
     //ExFor:SaveOptions.ProgressCallback
+    //ExFor:IDocumentSavingCallback
     //ExFor:IDocumentSavingCallback.Notify(DocumentSavingArgs)
     //ExFor:DocumentSavingArgs.EstimatedProgress
     //ExSummary:Shows how to manage a document while saving to docx.
@@ -411,6 +412,10 @@ public class ExOoxmlSaveOptions extends ApiExampleBase {
         //ExStart:DigitalSignature
         //GistId:31b7350f8d91d4b12eb43978940d566a
         //ExFor:OoxmlSaveOptions.DigitalSignatureDetails
+        //ExFor:DigitalSignatureDetails
+        //ExFor:DigitalSignatureDetails.#ctor(CertificateHolder, SignOptions)
+        //ExFor:DigitalSignatureDetails.CertificateHolder
+        //ExFor:DigitalSignatureDetails.SignOptions
         //ExSummary:Shows how to sign OOXML document.
         Document doc = new Document(getMyDir() + "Document.docx");
 

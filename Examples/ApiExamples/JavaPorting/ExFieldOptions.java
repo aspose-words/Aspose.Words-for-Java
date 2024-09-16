@@ -314,7 +314,7 @@ public class ExFieldOptions extends ApiExampleBase
 
         // Sometimes, fields may not format their numbers correctly under certain cultures. 
         Assert.assertFalse(doc.getFieldOptions().getUseInvariantCultureNumberFormat());
-        Assert.assertEquals("$1234567,89 .     ", field.getResult());
+        Assert.assertEquals("$1.234.567,89 ,     ", field.getResult());
 
         // To fix this, we could change the culture for the entire thread.
         // Another way to fix this is to set this flag,
@@ -432,7 +432,7 @@ public class ExFieldOptions extends ApiExampleBase
         Assert.assertNull(doc.getFieldOptions().getBarcodeGenerator()); //ExSkip
 
         // We can use a custom IBarcodeGenerator implementation to generate barcodes,
-        // and then insert them into the document as images.            
+        // and then insert them into the document as images.
         doc.getFieldOptions().setBarcodeGenerator(new CustomBarcodeGenerator());
 
         // Below are four examples of different barcode types that we can create using our generator.
@@ -496,10 +496,10 @@ public class ExFieldOptions extends ApiExampleBase
         doc.save(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
         //ExEnd
 
-        TestUtil.verifyImage(769, 769, getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
-        TestUtil.verifyImage(117, 108, getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
-        TestUtil.verifyImage(395, 70, getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
-        TestUtil.verifyImage(633, 134, getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
+        TestUtil.verifyImage(223, 223, getArtifactsDir() + "FieldOptions.BarcodeGenerator.QR.jpg");
+        TestUtil.verifyImage(126, 118, getArtifactsDir() + "FieldOptions.BarcodeGenerator.EAN13.jpg");
+        TestUtil.verifyImage(204, 70, getArtifactsDir() + "FieldOptions.BarcodeGenerator.CODE39.jpg");
+        TestUtil.verifyImage(168, 134, getArtifactsDir() + "FieldOptions.BarcodeGenerator.ITF14.jpg");
 
         doc = new Document(getArtifactsDir() + "FieldOptions.BarcodeGenerator.docx");
         Shape barcode = (Shape)doc.getChild(NodeType.SHAPE, 0, true);

@@ -169,7 +169,7 @@ public class ExStyles extends ApiExampleBase
         Document doc = new Document(getMyDir() + "Table of contents.docx");
 
         // Iterate through all paragraphs with TOC result-based styles; this is any style between TOC and TOC9.
-        for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
             if (para.getParagraphFormat().getStyle().getStyleIdentifier() >= StyleIdentifier.TOC_1 &&
                 para.getParagraphFormat().getStyle().getStyleIdentifier() <= StyleIdentifier.TOC_9)
             {
@@ -186,7 +186,7 @@ public class ExStyles extends ApiExampleBase
 
         doc = new Document(getArtifactsDir() + "Styles.ChangeTocsTabStops.docx");
 
-        for (Paragraph para : doc.getChildNodes(NodeType.PARAGRAPH, true).<Paragraph>OfType() !!Autoporter error: Undefined expression type )
+        for (Paragraph para : (Iterable<Paragraph>) doc.getChildNodes(NodeType.PARAGRAPH, true))
             if (para.getParagraphFormat().getStyle().getStyleIdentifier() >= StyleIdentifier.TOC_1 &&
                 para.getParagraphFormat().getStyle().getStyleIdentifier() <= StyleIdentifier.TOC_9)
             {
@@ -201,6 +201,7 @@ public class ExStyles extends ApiExampleBase
     public void copyStyleSameDocument() throws Exception
     {
         //ExStart
+        //ExFor:StyleCollection.Add(Style)
         //ExFor:StyleCollection.AddCopy(Style)
         //ExFor:Style.Name
         //ExSummary:Shows how to clone a document's style.
@@ -321,7 +322,7 @@ public class ExStyles extends ApiExampleBase
         //ExStart
         //ExFor:Style.Aliases
         //ExFor:Style.BaseStyleName
-        //ExFor:Style.Equals(Aspose.Words.Style)
+        //ExFor:Style.Equals(Style)
         //ExFor:Style.LinkedStyleName
         //ExSummary:Shows how to use style aliases.
         Document doc = new Document(getMyDir() + "Style with alias.docx");
@@ -381,14 +382,14 @@ public class ExStyles extends ApiExampleBase
         Document doc = new Document();
 
         Style styleHeading1 = doc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1);
-        if (!styleHeading1.getLocked())            
+        if (!styleHeading1.getLocked())
             styleHeading1.setLocked(true);
 
         doc.save(getArtifactsDir() + "Styles.LockStyle.docx");
         //ExEnd:LockStyle
 
         doc = new Document(getArtifactsDir() + "Styles.LockStyle.docx");
-        Assert.assertTrue(doc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1).getLocked());            
+        Assert.assertTrue(doc.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1).getLocked());
     }
 
     @Test

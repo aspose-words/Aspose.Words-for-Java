@@ -125,16 +125,16 @@ class WorkingWithDocumentOptionsAndSettings extends DocsExamplesBase
     }
 
     @Test
-    public void addJapaneseAsEditingLanguages() throws Exception
+    public void addEditingLanguage() throws Exception
     {
-        //ExStart:AddJapaneseAsEditinglanguages
+        //ExStart:AddEditingLanguage
+        //GistId:40be8275fc43f78f5e5877212e4e1bf3
         LoadOptions loadOptions = new LoadOptions();
-        
         // Set language preferences that will be used when document is loading.
         loadOptions.getLanguagePreferences().addEditingLanguage(EditingLanguage.JAPANESE);
-        //ExEnd:AddJapaneseAsEditinglanguages
-
+        
         Document doc = new Document(getMyDir() + "No default editing language.docx", loadOptions);
+        //ExEnd:AddEditingLanguage
 
         int localeIdFarEast = doc.getStyles().getDefaultFont().getLocaleIdFarEast();
         System.out.println(localeIdFarEast == (int) EditingLanguage.JAPANESE

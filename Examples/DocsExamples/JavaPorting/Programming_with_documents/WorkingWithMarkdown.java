@@ -8,8 +8,6 @@ import com.aspose.words.DocumentBuilder;
 import com.aspose.words.Style;
 import com.aspose.words.StyleType;
 import com.aspose.words.Shape;
-import com.aspose.words.ShapeType;
-import com.aspose.words.WrapType;
 import com.aspose.words.Document;
 import com.aspose.words.Paragraph;
 import com.aspose.words.WarningInfoCollection;
@@ -63,6 +61,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
     public void inlineCode() throws Exception
     {
         //ExStart:InlineCode
+        //GistId:51b4cb9c451832f23527892e19c7bca6
         // Use a document builder to add content to the document.
         DocumentBuilder builder = new DocumentBuilder();
 
@@ -111,11 +110,8 @@ class WorkingWithMarkdown extends DocsExamplesBase
         DocumentBuilder builder = new DocumentBuilder();
 
         // Insert image.
-        Shape shape = new Shape(builder.getDocument(), ShapeType.IMAGE);
-        shape.setWrapType(WrapType.INLINE);
-        shape.getImageData().setSourceFullName("/attachment/1456/pic001.png");
+        Shape shape = builder.insertImage(getImagesDir() + "Logo.jpg");
         shape.getImageData().setTitle("title");
-        builder.insertNode(shape);
         //ExEnd:Image
     }
 
@@ -261,9 +257,7 @@ class WorkingWithMarkdown extends DocsExamplesBase
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
 
-        builder.getListFormat().applyBulletDefault();
-        builder.getListFormat().getList().getListLevels().get(0).setNumberFormat("{(char) 0}.");
-        builder.getListFormat().getList().getListLevels().get(1).setNumberFormat("{(char) 1}.");
+        builder.getListFormat().applyNumberDefault();
 
         builder.writeln("Item 1");
         builder.writeln("Item 2");
@@ -287,6 +281,8 @@ class WorkingWithMarkdown extends DocsExamplesBase
         builder.writeln("a");
         builder.insertCell();
         builder.writeln("b");
+
+        builder.endRow();
 
         // Add the second row.
         builder.insertCell();

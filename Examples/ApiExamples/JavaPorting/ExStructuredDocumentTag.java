@@ -64,6 +64,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:StructuredDocumentTag.SdtType
+        //ExFor:IStructuredDocumentTag.SdtType
         //ExSummary:Shows how to get the type of a structured document tag.
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
@@ -81,6 +82,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:StructuredDocumentTag.WordOpenXML
+        //ExFor:IStructuredDocumentTag.WordOpenXML
         //ExSummary:Shows how to get XML contained within the node in the FlatOpc format.
         Document doc = new Document(getMyDir() + "Structured document tags.docx");
 
@@ -143,8 +145,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:StructuredDocumentTag.#ctor(DocumentBase, SdtType, MarkupLevel)
         //ExFor:StructuredDocumentTag.Checked
-        //ExFor:StructuredDocumentTag.SetCheckedSymbol(System.Int32, System.String)
-        //ExFor:StructuredDocumentTag.SetUncheckedSymbol(System.Int32, System.String)
+        //ExFor:StructuredDocumentTag.SetCheckedSymbol(Int32, String)
+        //ExFor:StructuredDocumentTag.SetUncheckedSymbol(Int32, String)
         //ExSummary:Show how to create a structured document tag in the form of a check box.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -179,6 +181,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:StructuredDocumentTag.DateDisplayLocale
         //ExFor:StructuredDocumentTag.DateStorageFormat
         //ExFor:StructuredDocumentTag.FullDate
+        //ExFor:SdtCalendarType
+        //ExFor:SdtDateStorageFormat
         //ExSummary:Shows how to prompt the user to enter a date with a structured document tag.
         Document doc = new Document();
 
@@ -220,6 +224,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:StructuredDocumentTag.Id
         //ExFor:StructuredDocumentTag.Level
         //ExFor:StructuredDocumentTag.Multiline
+        //ExFor:IStructuredDocumentTag.Tag
         //ExFor:StructuredDocumentTag.Tag
         //ExFor:StructuredDocumentTag.Title
         //ExFor:StructuredDocumentTag.RemoveSelfOnly
@@ -346,8 +351,11 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:StructuredDocumentTag.IsShowingPlaceholderText
+        //ExFor:IStructuredDocumentTag.IsShowingPlaceholderText
         //ExFor:StructuredDocumentTag.Placeholder
         //ExFor:StructuredDocumentTag.PlaceholderName
+        //ExFor:IStructuredDocumentTag.Placeholder
+        //ExFor:IStructuredDocumentTag.PlaceholderName
         //ExSummary:Shows how to use a building block's contents as a custom placeholder text for a structured document tag. 
         Document doc = new Document();
 
@@ -415,6 +423,8 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExStart
         //ExFor:StructuredDocumentTag.LockContentControl
         //ExFor:StructuredDocumentTag.LockContents
+        //ExFor:IStructuredDocumentTag.LockContentControl
+        //ExFor:IStructuredDocumentTag.LockContents
         //ExSummary:Shows how to apply editing restrictions to structured document tags.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -457,17 +467,17 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:SdtListItem
-        //ExFor:SdtListItem.#ctor(System.String)
-        //ExFor:SdtListItem.#ctor(System.String,System.String)
+        //ExFor:SdtListItem.#ctor(String)
+        //ExFor:SdtListItem.#ctor(String,String)
         //ExFor:SdtListItem.DisplayText
         //ExFor:SdtListItem.Value
         //ExFor:SdtListItemCollection
-        //ExFor:SdtListItemCollection.Add(Aspose.Words.Markup.SdtListItem)
+        //ExFor:SdtListItemCollection.Add(SdtListItem)
         //ExFor:SdtListItemCollection.Clear
         //ExFor:SdtListItemCollection.Count
         //ExFor:SdtListItemCollection.GetEnumerator
-        //ExFor:SdtListItemCollection.Item(System.Int32)
-        //ExFor:SdtListItemCollection.RemoveAt(System.Int32)
+        //ExFor:SdtListItemCollection.Item(Int32)
+        //ExFor:SdtListItemCollection.RemoveAt(Int32)
         //ExFor:SdtListItemCollection.SelectedValue
         //ExFor:StructuredDocumentTag.ListItems
         //ExSummary:Shows how to work with drop down-list structured document tags.
@@ -544,6 +554,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //ExFor:CustomXmlPartCollection.RemoveAt(Int32)
         //ExFor:Document.CustomXmlParts
         //ExFor:StructuredDocumentTag.XmlMapping
+        //ExFor:IStructuredDocumentTag.XmlMapping
         //ExFor:XmlMapping.SetMapping(CustomXmlPart, String, String)
         //ExSummary:Shows how to create a structured document tag with custom XML data.
         Document doc = new Document();
@@ -745,15 +756,15 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:CustomXmlSchemaCollection
-        //ExFor:CustomXmlSchemaCollection.Add(System.String)
+        //ExFor:CustomXmlSchemaCollection.Add(String)
         //ExFor:CustomXmlSchemaCollection.Clear
         //ExFor:CustomXmlSchemaCollection.Clone
         //ExFor:CustomXmlSchemaCollection.Count
         //ExFor:CustomXmlSchemaCollection.GetEnumerator
-        //ExFor:CustomXmlSchemaCollection.IndexOf(System.String)
-        //ExFor:CustomXmlSchemaCollection.Item(System.Int32)
-        //ExFor:CustomXmlSchemaCollection.Remove(System.String)
-        //ExFor:CustomXmlSchemaCollection.RemoveAt(System.Int32)
+        //ExFor:CustomXmlSchemaCollection.IndexOf(String)
+        //ExFor:CustomXmlSchemaCollection.Item(Int32)
+        //ExFor:CustomXmlSchemaCollection.Remove(String)
+        //ExFor:CustomXmlSchemaCollection.RemoveAt(Int32)
         //ExSummary:Shows how to work with an XML schema collection.
         Document doc = new Document();
 
@@ -1082,14 +1093,17 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart
         //ExFor:StructuredDocumentTagRangeStart
+        //ExFor:IStructuredDocumentTag.Id
         //ExFor:StructuredDocumentTagRangeStart.Id
         //ExFor:StructuredDocumentTagRangeStart.Title
         //ExFor:StructuredDocumentTagRangeStart.PlaceholderName
         //ExFor:StructuredDocumentTagRangeStart.IsShowingPlaceholderText
         //ExFor:StructuredDocumentTagRangeStart.LockContentControl
         //ExFor:StructuredDocumentTagRangeStart.LockContents
+        //ExFor:IStructuredDocumentTag.Level
         //ExFor:StructuredDocumentTagRangeStart.Level
         //ExFor:StructuredDocumentTagRangeStart.RangeEnd
+        //ExFor:IStructuredDocumentTag.Color
         //ExFor:StructuredDocumentTagRangeStart.Color
         //ExFor:StructuredDocumentTagRangeStart.SdtType
         //ExFor:StructuredDocumentTagRangeStart.WordOpenXML
@@ -1208,6 +1222,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     public void getSdt() throws Exception
     {
         //ExStart
+        //ExFor:Range.StructuredDocumentTags
         //ExFor:StructuredDocumentTagCollection.Remove(int)
         //ExFor:StructuredDocumentTagCollection.RemoveAt(int)
         //ExSummary:Shows how to remove structured document tag.
@@ -1237,6 +1252,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     public void rangeSdt() throws Exception
     {
         //ExStart
+        //ExFor:StructuredDocumentTagCollection
         //ExFor:StructuredDocumentTagCollection.GetById(int)
         //ExFor:StructuredDocumentTagCollection.GetByTitle(String)
         //ExFor:IStructuredDocumentTag.IsMultiSection
@@ -1364,6 +1380,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
     {
         //ExStart:RemoveSelfOnly
         //GistId:e386727403c2341ce4018bca370a5b41
+        //ExFor:IStructuredDocumentTag
         //ExFor:IStructuredDocumentTag.GetChildNodes(NodeType, bool)
         //ExFor:IStructuredDocumentTag.RemoveSelfOnly
         //ExSummary:Shows how to remove structured document tag, but keeps content inside.
@@ -1390,6 +1407,7 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         //GistId:a775441ecb396eea917a2717cb9e8f8f
         //ExFor:SdtAppearance
         //ExFor:StructuredDocumentTagRangeStart.Appearance
+        //ExFor:IStructuredDocumentTag.Appearance
         //ExSummary:Shows how to show tag around content.
         Document doc = new Document(getMyDir() + "Multi-section structured document tags.docx");
         StructuredDocumentTagRangeStart tag =
@@ -1398,6 +1416,28 @@ class ExStructuredDocumentTag !Test class should be public in Java to run, pleas
         if (tag.getAppearance() == SdtAppearance.HIDDEN)
             tag.setAppearance(SdtAppearance.TAGS);
         //ExEnd:Appearance
+    }
+
+    @Test
+    public void insertStructuredDocumentTag() throws Exception
+    {
+        //ExStart:InsertStructuredDocumentTag
+        //GistId:e06aa7a168b57907a5598e823a22bf0a
+        //ExFor:DocumentBuilder.InsertStructuredDocumentTag(SdtType)
+        //ExSummary:Shows how to simply insert structured document tag.
+        Document doc = new Document(getMyDir() + "Rendering.docx");
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.moveTo(doc.getFirstSection().getBody().getParagraphs().get(3));
+        // Note, that only following StructuredDocumentTag types are allowed for insertion:
+        // SdtType.PlainText, SdtType.RichText, SdtType.Checkbox, SdtType.DropDownList,
+        // SdtType.ComboBox, SdtType.Picture, SdtType.Date.
+        // Markup level of inserted StructuredDocumentTag will be detected automatically and depends on position being inserted at.
+        // Added StructuredDocumentTag will inherit paragraph and font formatting from cursor position.
+        StructuredDocumentTag sdtPlain = builder.insertStructuredDocumentTag(SdtType.PLAIN_TEXT);
+
+        doc.save(getArtifactsDir() + "StructuredDocumentTag.InsertStructuredDocumentTag.docx");
+        //ExEnd:InsertStructuredDocumentTag
     }
 }
 

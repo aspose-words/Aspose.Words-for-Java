@@ -89,7 +89,7 @@ class ExPclSaveOptions !Test class should be public in Java to run, please fix .
 
         // Paper tray information is now preserved when saving document to PCL format.
         // Following information is transferred from document's model to PCL file.
-        for (Section section : doc.getSections().<Section>OfType() !!Autoporter error: Undefined expression type )
+        for (Section section : (Iterable<Section>) doc.getSections())
         {
             section.getPageSetup().setFirstPageTray(15);
             section.getPageSetup().setOtherPagesTray(12);

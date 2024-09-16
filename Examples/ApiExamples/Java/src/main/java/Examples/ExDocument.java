@@ -14,6 +14,7 @@ import com.aspose.words.List;
 import com.aspose.words.Shape;
 import com.aspose.words.*;
 import com.aspose.words.shaping.harfbuzz.HarfBuzzTextShaperFactory;
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -31,7 +32,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Test
-public class ExDocument extends ApiExampleBase {
+public class ExDocument extends ApiExampleBase
+{
+    @Test
+    public void createSimpleDocument() throws Exception
+    {
+        //ExStart:CreateSimpleDocument
+        //GistId:6d898be16b796fcf7448ad3bfe18e51c
+        //ExFor:DocumentBase.Document
+        //ExFor:Document.#ctor()
+        //ExSummary:Shows how to create simple document.
+        Document doc = new Document();
+
+        // New Document objects by default come with the minimal set of nodes
+        // required to begin adding content such as text and shapes: a Section, a Body, and a Paragraph.
+        doc.appendChild(new Section(doc))
+            .appendChild(new Body(doc))
+            .appendChild(new Paragraph(doc))
+            .appendChild(new Run(doc, "Hello world!"));
+        //ExEnd:CreateSimpleDocument
+    }
+
     @Test
     public void constructor() throws Exception {
         //ExStart
@@ -164,6 +185,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Document.#ctor(Stream,LoadOptions)
         //ExFor:LoadOptions.#ctor
         //ExFor:LoadOptions.BaseUri
+        //ExFor:ShapeBase.IsImage
         //ExSummary:Shows how to open an HTML document with images from a stream using a base URI.
         InputStream stream = new FileInputStream(getMyDir() + "Document.html");
         try /*JAVA: was using*/ {
@@ -259,12 +281,17 @@ public class ExDocument extends ApiExampleBase {
     @Test
     public void notSupportedWarning() throws Exception
     {
+        //ExStart
+        //ExFor:WarningInfoCollection.Count
+        //ExFor:WarningInfoCollection.Item(Int32)
+        //ExSummary:Shows how to get warnings about unsupported formats.
         WarningInfoCollection warings = new WarningInfoCollection();
         LoadOptions loadOptions = new LoadOptions();
         loadOptions.setWarningCallback(warings);
         Document doc = new Document(getMyDir() + "FB2 document.fb2", loadOptions);
 
         Assert.assertEquals("The original file load format is FB2, which is not supported by Aspose.Words. The file is loaded as an XML document.", warings.get(0).getDescription());
+        //ExEnd
     }
 
     @Test
@@ -281,46 +308,6 @@ public class ExDocument extends ApiExampleBase {
 
         Document doc = new Document(getMyDir() + "Document.docx", loadOptions);
         //ExEnd
-    }
-
-    @Test
-    public void pageIsInColor() throws Exception
-    {
-        //ExStart
-        //ExFor:PageInfo.Colored
-        //ExSummary:Shows how to check whether the page is in color or not.
-        Document doc = new Document(getMyDir() + "Document.docx");
-
-        // Check that the first page of the document is not colored.
-        Assert.assertFalse(doc.getPageInfo(0).getColored());
-        //ExEnd
-    }
-
-    @Test
-    public void insertDocumentInline() throws Exception
-    {
-        //ExStart:InsertDocumentInline
-        //GistId:6d898be16b796fcf7448ad3bfe18e51c
-        //ExFor:DocumentBuilder.InsertDocumentInline(Document, ImportFormatMode, ImportFormatOptions)
-        //ExSummary:Shows how to insert a document inline at the cursor position.
-        DocumentBuilder srcDoc = new DocumentBuilder();
-        srcDoc.write("[src content]");
-
-        // Create destination document.
-        DocumentBuilder dstDoc = new DocumentBuilder();
-        dstDoc.write("Before ");
-        dstDoc.insertNode(new BookmarkStart(dstDoc.getDocument(), "src_place"));
-        dstDoc.insertNode(new BookmarkEnd(dstDoc.getDocument(), "src_place"));
-        dstDoc.write(" after");
-
-        Assert.assertEquals("Before  after", dstDoc.getDocument().getText().trim());
-
-        // Insert source document into destination inline.
-        dstDoc.moveToBookmark("src_place");
-        dstDoc.insertDocumentInline(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
-
-        Assert.assertEquals("Before [src content] after", dstDoc.getDocument().getText().trim());
-        //ExEnd:InsertDocumentInline
     }
 
     @Test
@@ -375,6 +362,7 @@ public class ExDocument extends ApiExampleBase {
     }
 
     //ExStart
+    //ExFor:Range.Fields
     //ExFor:INodeChangingCallback
     //ExFor:INodeChangingCallback.NodeInserting
     //ExFor:INodeChangingCallback.NodeInserted
@@ -1124,168 +1112,6 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void compare() throws Exception {
-        //ExStart
-        //ExFor:Document.Compare(Document, String, DateTime)
-        //ExFor:RevisionCollection.AcceptAll
-        //ExSummary:Shows how to compare documents. 
-        Document docOriginal = new Document();
-        DocumentBuilder builder = new DocumentBuilder(docOriginal);
-        builder.writeln("This is the original document.");
-
-        Document docEdited = new Document();
-        builder = new DocumentBuilder(docEdited);
-        builder.writeln("This is the edited document.");
-
-        // Comparing documents with revisions will throw an exception.
-        if (docOriginal.getRevisions().getCount() == 0 && docEdited.getRevisions().getCount() == 0)
-            docOriginal.compare(docEdited, "authorName", new Date());
-
-        // After the comparison, the original document will gain a new revision
-        // for every element that is different in the edited document.
-        Assert.assertEquals(2, docOriginal.getRevisions().getCount()); //ExSkip
-        for (Revision r : docOriginal.getRevisions()) {
-            System.out.println("Revision type: {r.RevisionType}, on a node of type \"{r.ParentNode.NodeType}\"");
-            System.out.println("\tChanged text: \"{r.ParentNode.GetText()}\"");
-        }
-
-        // Accepting these revisions will transform the original document into the edited document.
-        docOriginal.getRevisions().acceptAll();
-
-        Assert.assertEquals(docOriginal.getText(), docEdited.getText());
-        //ExEnd
-
-        docOriginal = DocumentHelper.saveOpen(docOriginal);
-        Assert.assertEquals(0, docOriginal.getRevisions().getCount());
-    }
-
-    @Test
-    public void compareDocumentWithRevisions() throws Exception {
-        Document doc1 = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc1);
-        builder.writeln("Hello world! This text is not a revision.");
-
-        Document docWithRevision = new Document();
-        builder = new DocumentBuilder(docWithRevision);
-
-        docWithRevision.startTrackRevisions("John Doe");
-        builder.writeln("This is a revision.");
-
-        Assert.assertThrows(IllegalStateException.class, () -> docWithRevision.compare(doc1, "John Doe", new Date()));
-    }
-
-    @Test
-    public void compareOptions() throws Exception {
-        //ExStart
-        //ExFor:CompareOptions
-        //ExFor:CompareOptions.IgnoreFormatting
-        //ExFor:CompareOptions.IgnoreCaseChanges
-        //ExFor:CompareOptions.IgnoreComments
-        //ExFor:CompareOptions.IgnoreTables
-        //ExFor:CompareOptions.IgnoreFields
-        //ExFor:CompareOptions.IgnoreFootnotes
-        //ExFor:CompareOptions.IgnoreTextboxes
-        //ExFor:CompareOptions.IgnoreHeadersAndFooters
-        //ExFor:CompareOptions.Target
-        //ExFor:ComparisonTargetType
-        //ExFor:Document.Compare(Document, String, DateTime, CompareOptions)
-        //ExSummary:Shows how to filter specific types of document elements when making a comparison.
-        // Create the original document and populate it with various kinds of elements.
-        Document docOriginal = new Document();
-        DocumentBuilder builder = new DocumentBuilder(docOriginal);
-
-        // Paragraph text referenced with an endnote:
-        builder.writeln("Hello world! This is the first paragraph.");
-        builder.insertFootnote(FootnoteType.ENDNOTE, "Original endnote text.");
-
-        // Table:
-        builder.startTable();
-        builder.insertCell();
-        builder.write("Original cell 1 text");
-        builder.insertCell();
-        builder.write("Original cell 2 text");
-        builder.endTable();
-
-        // Textbox:
-        Shape textBox = builder.insertShape(ShapeType.TEXT_BOX, 150.0, 20.0);
-        builder.moveTo(textBox.getFirstParagraph());
-        builder.write("Original textbox contents");
-
-        // DATE field:
-        builder.moveTo(docOriginal.getFirstSection().getBody().appendParagraph(""));
-        builder.insertField(" DATE ");
-
-        // Comment:
-        Comment newComment = new Comment(docOriginal, "John Doe", "J.D.", new Date());
-        newComment.setText("Original comment.");
-        builder.getCurrentParagraph().appendChild(newComment);
-
-        // Header:
-        builder.moveToHeaderFooter(HeaderFooterType.HEADER_PRIMARY);
-        builder.writeln("Original header contents.");
-
-        // Create a clone of our document and perform a quick edit on each of the cloned document's elements.
-        Document docEdited = (Document) docOriginal.deepClone(true);
-        Paragraph firstParagraph = docEdited.getFirstSection().getBody().getFirstParagraph();
-
-        firstParagraph.getRuns().get(0).setText("hello world! this is the first paragraph, after editing.");
-        firstParagraph.getParagraphFormat().setStyle(docEdited.getStyles().getByStyleIdentifier(StyleIdentifier.HEADING_1));
-        ((Footnote) docEdited.getChild(NodeType.FOOTNOTE, 0, true)).getFirstParagraph().getRuns().get(1).setText("Edited endnote text.");
-        ((Table) docEdited.getChild(NodeType.TABLE, 0, true)).getFirstRow().getCells().get(1).getFirstParagraph().getRuns().get(0).setText("Edited Cell 2 contents");
-        ((Shape) docEdited.getChild(NodeType.SHAPE, 0, true)).getFirstParagraph().getRuns().get(0).setText("Edited textbox contents");
-        ((FieldDate) docEdited.getRange().getFields().get(0)).setUseLunarCalendar(true);
-        ((Comment) docEdited.getChild(NodeType.COMMENT, 0, true)).getFirstParagraph().getRuns().get(0).setText("Edited comment.");
-        docEdited.getFirstSection().getHeadersFooters().getByHeaderFooterType(HeaderFooterType.HEADER_PRIMARY).getFirstParagraph().getRuns().get(0).setText("Edited header contents.");
-
-        // Comparing documents creates a revision for every edit in the edited document.
-        // A CompareOptions object has a series of flags that can suppress revisions
-        // on each respective type of element, effectively ignoring their change.
-        CompareOptions compareOptions = new CompareOptions();
-        compareOptions.setIgnoreFormatting(false);
-        compareOptions.setIgnoreCaseChanges(false);
-        compareOptions.setIgnoreComments(false);
-        compareOptions.setIgnoreTables(false);
-        compareOptions.setIgnoreFields(false);
-        compareOptions.setIgnoreFootnotes(false);
-        compareOptions.setIgnoreTextboxes(false);
-        compareOptions.setIgnoreHeadersAndFooters(false);
-        compareOptions.setTarget(ComparisonTargetType.NEW);
-
-        docOriginal.compare(docEdited, "John Doe", new Date(), compareOptions);
-        docOriginal.save(getArtifactsDir() + "Document.CompareOptions.docx");
-        //ExEnd
-    }
-
-    @Test(dataProvider = "ignoreDmlUniqueIdDataProvider")
-    public void ignoreDmlUniqueId(boolean isIgnoreDmlUniqueId) throws Exception {
-        //ExStart
-        //ExFor:CompareOptions.IgnoreDmlUniqueId
-        //ExSummary:Shows how to compare documents ignoring DML unique ID.
-        Document docA = new Document(getMyDir() + "DML unique ID original.docx");
-        Document docB = new Document(getMyDir() + "DML unique ID compare.docx");
-
-        // By default, Aspose.Words do not ignore DML's unique ID, and the revisions count was 2.
-        // If we are ignoring DML's unique ID, and revisions count were 0.
-        CompareOptions compareOptions = new CompareOptions();
-        compareOptions.setIgnoreDmlUniqueId(isIgnoreDmlUniqueId);
-
-        docA.compare(docB, "Aspose.Words", new Date(), compareOptions);
-
-        Assert.assertEquals(isIgnoreDmlUniqueId ? 0 : 2, docA.getRevisions().getCount());
-        //ExEnd
-    }
-
-    //JAVA-added data provider for test method
-    @DataProvider(name = "ignoreDmlUniqueIdDataProvider")
-    public static Object[][] ignoreDmlUniqueIdDataProvider() throws Exception {
-        return new Object[][]
-                {
-                        {false},
-                        {true},
-                };
-    }
-
-    @Test
     public void removeExternalSchemaReferences() throws Exception {
         //ExStart
         //ExFor:Document.RemoveExternalSchemaReferences
@@ -1294,109 +1120,6 @@ public class ExDocument extends ApiExampleBase {
 
         doc.removeExternalSchemaReferences();
         //ExEnd
-    }
-
-    @Test
-    public void trackRevisions() throws Exception {
-        //ExStart
-        //ExFor:Document.StartTrackRevisions(String)
-        //ExFor:Document.StartTrackRevisions(String, DateTime)
-        //ExFor:Document.StopTrackRevisions
-        //ExSummary:Shows how to track revisions while editing a document.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Editing a document usually does not count as a revision until we begin tracking them.
-        builder.write("Hello world! ");
-
-        Assert.assertEquals(0, doc.getRevisions().getCount());
-        Assert.assertFalse(doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(0).isInsertRevision());
-
-        doc.startTrackRevisions("John Doe");
-
-        builder.write("Hello again! ");
-
-        Assert.assertEquals(1, doc.getRevisions().getCount());
-        Assert.assertTrue(doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(1).isInsertRevision());
-        Assert.assertEquals("John Doe", doc.getRevisions().get(0).getAuthor());
-
-        // Stop tracking revisions to not count any future edits as revisions.
-        doc.stopTrackRevisions();
-        builder.write("Hello again! ");
-
-        Assert.assertEquals(1, doc.getRevisions().getCount());
-        Assert.assertFalse(doc.getFirstSection().getBody().getParagraphs().get(0).getRuns().get(2).isInsertRevision());
-
-        // Creating revisions gives them a date and time of the operation.
-        // We can disable this by passing DateTime.MinValue when we start tracking revisions.
-        doc.startTrackRevisions("John Doe", new Date());
-        builder.write("Hello again! ");
-
-        Assert.assertEquals(2, doc.getRevisions().getCount());
-        Assert.assertEquals("John Doe", doc.getRevisions().get(1).getAuthor());
-        Assert.assertEquals(new Date(), doc.getRevisions().get(1).getDateTime());
-
-        // We can accept/reject these revisions programmatically
-        // by calling methods such as Document.AcceptAllRevisions, or each revision's Accept method.
-        // In Microsoft Word, we can process them manually via "Review" -> "Changes".
-        doc.save(getArtifactsDir() + "Document.StartTrackRevisions.docx");
-        //ExEnd
-    }
-
-    @Test
-    public void acceptAllRevisions() throws Exception {
-        //ExStart
-        //ExFor:Document.AcceptAllRevisions
-        //ExSummary:Shows how to accept all tracking changes in the document.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Edit the document while tracking changes to create a few revisions.
-        doc.startTrackRevisions("John Doe");
-        builder.write("Hello world! ");
-        builder.write("Hello again! ");
-        builder.write("This is another revision.");
-        doc.stopTrackRevisions();
-
-        Assert.assertEquals(3, doc.getRevisions().getCount());
-
-        // We can iterate through every revision and accept/reject it as a part of our document.
-        // If we know we wish to accept every revision, we can do it more straightforwardly so by calling this method.
-        doc.acceptAllRevisions();
-
-        Assert.assertEquals(0, doc.getRevisions().getCount());
-        Assert.assertEquals("Hello world! Hello again! This is another revision.", doc.getText().trim());
-        //ExEnd
-    }
-
-    @Test
-    public void getRevisedPropertiesOfList() throws Exception {
-        //ExStart
-        //ExFor:RevisionsView
-        //ExFor:Document.RevisionsView
-        //ExSummary:Shows how to switch between the revised and the original view of a document.
-        Document doc = new Document(getMyDir() + "Revisions at list levels.docx");
-        doc.updateListLabels();
-
-        ParagraphCollection paragraphs = doc.getFirstSection().getBody().getParagraphs();
-        Assert.assertEquals("1.", paragraphs.get(0).getListLabel().getLabelString());
-        Assert.assertEquals("a.", paragraphs.get(1).getListLabel().getLabelString());
-        Assert.assertEquals("", paragraphs.get(2).getListLabel().getLabelString());
-
-        // View the document object as if all the revisions are accepted. Currently supports list labels.
-        doc.setRevisionsView(RevisionsView.FINAL);
-
-        Assert.assertEquals("", paragraphs.get(0).getListLabel().getLabelString());
-        Assert.assertEquals("1.", paragraphs.get(1).getListLabel().getLabelString());
-        Assert.assertEquals("a.", paragraphs.get(2).getListLabel().getLabelString());
-        //ExEnd
-
-        doc.setRevisionsView(RevisionsView.ORIGINAL);
-        doc.acceptAllRevisions();
-
-        Assert.assertEquals("a.", paragraphs.get(0).getListLabel().getLabelString());
-        Assert.assertEquals("", paragraphs.get(1).getListLabel().getLabelString());
-        Assert.assertEquals("b.", paragraphs.get(2).getListLabel().getLabelString());
     }
 
     @Test
@@ -1506,7 +1229,7 @@ public class ExDocument extends ApiExampleBase {
     @Test(enabled = false, description = "WORDSNET-20342")
     public void imageSaveOptions() throws Exception {
         //ExStart
-        //ExFor:Document.Save(String, Saving.SaveOptions)
+        //ExFor:Document.Save(String, SaveOptions)
         //ExFor:SaveOptions.UseAntiAliasing
         //ExFor:SaveOptions.UseHighQualityRendering
         //ExSummary:Shows how to improve the quality of a rendered document with SaveOptions.
@@ -1626,9 +1349,38 @@ public class ExDocument extends ApiExampleBase {
     }
 
     @Test
-    public void setInvalidateFieldTypes() throws Exception {
+    public void useSubstitutions() throws Exception
+    {
+        //ExStart
+        //ExFor:FindReplaceOptions.#ctor
+        //ExFor:FindReplaceOptions.UseSubstitutions
+        //ExFor:FindReplaceOptions.LegacyMode
+        //ExSummary:Shows how to recognize and use substitutions within replacement patterns.
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        builder.write("Jason gave money to Paul.");
+
+        String regex = "([A-z]+) gave money to ([A-z]+)";
+
+        FindReplaceOptions options = new FindReplaceOptions();
+        options.setUseSubstitutions(true);
+
+        // Using legacy mode does not support many advanced features, so we need to set it to 'false'.
+        options.setLegacyMode(false);
+
+        doc.getRange().replace(Pattern.compile(regex), "$2 took money from $1", options);
+
+        Assert.assertEquals(doc.getText(), "Paul took money from Jason.\f");
+        //ExEnd
+    }
+
+    @Test
+    public void setInvalidateFieldTypes() throws Exception
+    {
         //ExStart
         //ExFor:Document.NormalizeFieldTypes
+        //ExFor:Range.NormalizeFieldTypes
         //ExSummary:Shows how to get the keep a field's type up to date with its field code.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1661,43 +1413,12 @@ public class ExDocument extends ApiExampleBase {
         //ExEnd
     }
 
-    @Test
-    public void layoutOptionsRevisions() throws Exception {
-        //ExStart
-        //ExFor:Document.LayoutOptions
-        //ExFor:LayoutOptions
-        //ExFor:LayoutOptions.RevisionOptions
-        //ExFor:RevisionColor
-        //ExFor:RevisionOptions
-        //ExFor:RevisionOptions.InsertedTextColor
-        //ExFor:RevisionOptions.ShowRevisionBars
-        //ExSummary:Shows how to alter the appearance of revisions in a rendered output document.
-        Document doc = new Document();
-        DocumentBuilder builder = new DocumentBuilder(doc);
-
-        // Insert a revision, then change the color of all revisions to green.
-        builder.writeln("This is not a revision.");
-        doc.startTrackRevisions("John Doe", new Date());
-        Assert.assertEquals(RevisionColor.BY_AUTHOR, doc.getLayoutOptions().getRevisionOptions().getInsertedTextColor()); //ExSkip
-        Assert.assertTrue(doc.getLayoutOptions().getRevisionOptions().getShowRevisionBars()); //ExSkip
-        builder.writeln("This is a revision.");
-        doc.stopTrackRevisions();
-        builder.writeln("This is not a revision.");
-
-        // Remove the bar that appears to the left of every revised line.
-        doc.getLayoutOptions().getRevisionOptions().setInsertedTextColor(RevisionColor.BRIGHT_GREEN);
-        doc.getLayoutOptions().getRevisionOptions().setShowRevisionBars(false);
-
-        doc.save(getArtifactsDir() + "Document.LayoutOptionsRevisions.pdf");
-        //ExEnd
-    }
-
     @Test(dataProvider = "layoutOptionsHiddenTextDataProvider")
     public void layoutOptionsHiddenText(boolean showHiddenText) throws Exception {
         //ExStart
         //ExFor:Document.LayoutOptions
         //ExFor:LayoutOptions
-        //ExFor:Layout.LayoutOptions.ShowHiddenText
+        //ExFor:LayoutOptions.ShowHiddenText
         //ExSummary:Shows how to hide text in a rendered output document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1738,7 +1459,7 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:Document.LayoutOptions
         //ExFor:LayoutOptions
-        //ExFor:Layout.LayoutOptions.ShowParagraphMarks
+        //ExFor:LayoutOptions.ShowParagraphMarks
         //ExSummary:Shows how to show paragraph marks in a rendered output document.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -1780,8 +1501,9 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:StyleCollection.Item(String)
         //ExFor:SectionCollection.Item(Int32)
-        //ExFor:PageSetup.Margins
         //ExFor:Document.UpdatePageLayout
+        //ExFor:Margins
+        //ExFor:PageSetup.Margins
         //ExSummary:Shows when to recalculate the page layout of the document.
         Document doc = new Document(getMyDir() + "Rendering.docx");
 
@@ -2129,8 +1851,8 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Document.VbaProject
         //ExFor:VbaModuleCollection
         //ExFor:VbaModuleCollection.Count
-        //ExFor:VbaModuleCollection.Item(System.Int32)
-        //ExFor:VbaModuleCollection.Item(System.String)
+        //ExFor:VbaModuleCollection.Item(Int32)
+        //ExFor:VbaModuleCollection.Item(String)
         //ExFor:VbaModuleCollection.Remove
         //ExFor:VbaModule
         //ExFor:VbaModule.Name
@@ -2223,6 +1945,7 @@ public class ExDocument extends ApiExampleBase {
         //ExStart
         //ExFor:BaseWebExtensionCollection`1.Add(`0)
         //ExFor:BaseWebExtensionCollection`1.Clear
+        //ExFor:Document.WebExtensionTaskPanes
         //ExFor:TaskPane
         //ExFor:TaskPane.DockState
         //ExFor:TaskPane.IsVisible
@@ -2235,6 +1958,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:WebExtension.Properties
         //ExFor:WebExtension.Bindings
         //ExFor:WebExtension.IsFrozen
+        //ExFor:WebExtensionReference
         //ExFor:WebExtensionReference.Id
         //ExFor:WebExtensionReference.Version
         //ExFor:WebExtensionReference.StoreType
@@ -2247,6 +1971,8 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:WebExtensionBindingType
         //ExFor:TaskPaneDockState
         //ExFor:TaskPaneCollection
+        //ExFor:WebExtensionBinding.AppRef
+        //ExFor:WebExtensionBinding.BindingType
         //ExSummary:Shows how to add a web extension to a document.
         Document doc = new Document();
 
@@ -2359,9 +2085,12 @@ public class ExDocument extends ApiExampleBase {
     @Test
     public void textWatermark() throws Exception {
         //ExStart
+        //ExFor:Document.Watermark
+        //ExFor:Watermark
         //ExFor:Watermark.SetText(String)
         //ExFor:Watermark.SetText(String, TextWatermarkOptions)
         //ExFor:Watermark.Remove
+        //ExFor:TextWatermarkOptions
         //ExFor:TextWatermarkOptions.FontFamily
         //ExFor:TextWatermarkOptions.FontSize
         //ExFor:TextWatermarkOptions.Color
@@ -2369,6 +2098,7 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:TextWatermarkOptions.IsSemitrasparent
         //ExFor:WatermarkLayout
         //ExFor:WatermarkType
+        //ExFor:Watermark.Type
         //ExSummary:Shows how to create a text watermark.
         Document doc = new Document();
 
@@ -2402,8 +2132,11 @@ public class ExDocument extends ApiExampleBase {
     public void imageWatermark() throws Exception {
         //ExStart
         //ExFor:Watermark.SetImage(Image, ImageWatermarkOptions)
+        //ExFor:ImageWatermarkOptions
         //ExFor:ImageWatermarkOptions.Scale
         //ExFor:ImageWatermarkOptions.IsWashout
+        //ExFor:Watermark.SetImage(Image)
+        //ExFor:Watermark.SetImage(String, ImageWatermarkOptions)
         //ExSummary:Shows how to create a watermark from an image in the local file system.
         Document doc = new Document();
 
@@ -2459,65 +2192,6 @@ public class ExDocument extends ApiExampleBase {
                         {false},
                         {true},
                 };
-    }
-
-    @Test(dataProvider = "granularityCompareOptionDataProvider")
-    public void granularityCompareOption(int granularity) throws Exception {
-        //ExStart
-        //ExFor:CompareOptions.Granularity
-        //ExFor:Granularity
-        //ExSummary:Shows to specify a granularity while comparing documents.
-        Document docA = new Document();
-        DocumentBuilder builderA = new DocumentBuilder(docA);
-        builderA.writeln("Alpha Lorem ipsum dolor sit amet, consectetur adipiscing elit");
-
-        Document docB = new Document();
-        DocumentBuilder builderB = new DocumentBuilder(docB);
-        builderB.writeln("Lorems ipsum dolor sit amet consectetur - \"adipiscing\" elit");
-
-        // Specify whether changes are tracking
-        // by character ('Granularity.CharLevel'), or by word ('Granularity.WordLevel').
-        CompareOptions compareOptions = new CompareOptions();
-        compareOptions.setGranularity(granularity);
-
-        docA.compare(docB, "author", new Date(), compareOptions);
-
-        // The first document's collection of revision groups contains all the differences between documents.
-        RevisionGroupCollection groups = docA.getRevisions().getGroups();
-        Assert.assertEquals(5, groups.getCount());
-        //ExEnd
-
-        if (granularity == Granularity.CHAR_LEVEL) {
-            Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
-            Assert.assertEquals("Alpha ", groups.get(0).getText());
-
-            Assert.assertEquals(RevisionType.DELETION, groups.get(1).getRevisionType());
-            Assert.assertEquals(",", groups.get(1).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(2).getRevisionType());
-            Assert.assertEquals("s", groups.get(2).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(3).getRevisionType());
-            Assert.assertEquals("- \"", groups.get(3).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(4).getRevisionType());
-            Assert.assertEquals("\"", groups.get(4).getText());
-        } else {
-            Assert.assertEquals(RevisionType.DELETION, groups.get(0).getRevisionType());
-            Assert.assertEquals("Alpha Lorem", groups.get(0).getText());
-
-            Assert.assertEquals(RevisionType.DELETION, groups.get(1).getRevisionType());
-            Assert.assertEquals(",", groups.get(1).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(2).getRevisionType());
-            Assert.assertEquals("Lorems", groups.get(2).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(3).getRevisionType());
-            Assert.assertEquals("- \"", groups.get(3).getText());
-
-            Assert.assertEquals(RevisionType.INSERTION, groups.get(4).getRevisionType());
-            Assert.assertEquals("\"", groups.get(4).getText());
-        }
     }
 
     @DataProvider(name = "granularityCompareOptionDataProvider")
@@ -2625,6 +2299,9 @@ public class ExDocument extends ApiExampleBase {
         //ExFor:Frameset.FrameDefaultUrl
         //ExFor:Frameset.IsFrameLinkToFile
         //ExFor:Frameset.ChildFramesets
+        //ExFor:FramesetCollection
+        //ExFor:FramesetCollection.Count
+        //ExFor:FramesetCollection.Item(Int32)
         //ExSummary:Shows how to access frames on-page.
         // Document contains several frames with links to other documents.
         Document doc = new Document(getMyDir() + "Frameset.docx");
@@ -2648,6 +2325,36 @@ public class ExDocument extends ApiExampleBase {
                 "https://github.com/aspose-words/Aspose.Words-for-.NET/blob/master/Examples/Data/Absolute%20position%20tab.docx",
                 doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).getFrameDefaultUrl());
         Assert.assertFalse(doc.getFrameset().getChildFramesets().get(0).getChildFramesets().get(0).isFrameLinkToFile());
+    }
+
+    @Test
+    public void openAzw() throws Exception
+    {
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Azw3 document.azw3");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.AZW_3);
+
+        Document doc = new Document(getMyDir() + "Azw3 document.azw3");
+        Assert.assertTrue(doc.getText().contains("Hachette Book Group USA"));
+    }
+
+    @Test(enabled = false, description = "https://issue.auckland.dynabic.com/issues/WORDSJAVA-2892")
+    public void openEpub() throws Exception
+    {
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Epub document.epub");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.EPUB);
+
+        Document doc = new Document(getMyDir() + "Epub document.epub");
+        Assert.assertTrue(doc.getText().contains("Down the Rabbit-Hole"));
+    }
+
+    @Test
+    public void openXml() throws Exception
+    {
+        FileFormatInfo info = FileFormatUtil.detectFileFormat(getMyDir() + "Mail merge data - Customers.xml");
+        Assert.assertEquals(info.getLoadFormat(), LoadFormat.XML);
+
+        Document doc = new Document(getMyDir() + "Mail merge data - Purchase order.xml");
+        Assert.assertTrue(doc.getText().contains("Ellen Adams\r123 Maple Street"));
     }
 
     @Test
@@ -2722,6 +2429,47 @@ public class ExDocument extends ApiExampleBase {
 
         doc.save(getArtifactsDir() + "Document.SetJustificationMode.docx");
         //ExEnd
+    }
+
+    @Test
+    public void pageIsInColor() throws Exception
+    {
+        //ExStart
+        //ExFor:PageInfo.Colored
+        //ExFor:Document.GetPageInfo(Int32)
+        //ExSummary:Shows how to check whether the page is in color or not.
+        Document doc = new Document(getMyDir() + "Document.docx");
+
+        // Check that the first page of the document is not colored.
+        Assert.assertFalse(doc.getPageInfo(0).getColored());
+        //ExEnd
+    }
+
+    @Test
+    public void insertDocumentInline() throws Exception
+    {
+        //ExStart:InsertDocumentInline
+        //GistId:3428e84add5beb0d46a8face6e5fc858
+        //ExFor:DocumentBuilder.InsertDocumentInline(Document, ImportFormatMode, ImportFormatOptions)
+        //ExSummary:Shows how to insert a document inline at the cursor position.
+        DocumentBuilder srcDoc = new DocumentBuilder();
+        srcDoc.write("[src content]");
+
+        // Create destination document.
+        DocumentBuilder dstDoc = new DocumentBuilder();
+        dstDoc.write("Before ");
+        dstDoc.insertNode(new BookmarkStart(dstDoc.getDocument(), "src_place"));
+        dstDoc.insertNode(new BookmarkEnd(dstDoc.getDocument(), "src_place"));
+        dstDoc.write(" after");
+
+        Assert.assertEquals("Before  after", dstDoc.getDocument().getText().trim());
+
+        // Insert source document into destination inline.
+        dstDoc.moveToBookmark("src_place");
+        dstDoc.insertDocumentInline(srcDoc.getDocument(), ImportFormatMode.USE_DESTINATION_STYLES, new ImportFormatOptions());
+
+        Assert.assertEquals("Before [src content] after", dstDoc.getDocument().getText().trim());
+        //ExEnd:InsertDocumentInline
     }
 
     @Test (dataProvider = "saveDocumentToStreamDataProvider")
@@ -2799,5 +2547,17 @@ public class ExDocument extends ApiExampleBase {
                         {SaveFormat.GIF},
                         {SaveFormat.EPS},
                 };
+    }
+
+    @Test
+    public void hasMacros() throws Exception
+    {
+        //ExStart:HasMacros
+        //GistId:f99d87e10ab87a581c52206321d8b617
+        //ExFor:FileFormatInfo.HasMacros
+        //ExSummary:Shows how to check VBA macro presence without loading document.
+        FileFormatInfo fileFormatInfo = FileFormatUtil.detectFileFormat(getMyDir() + "Macro.docm");
+        Assert.assertTrue(fileFormatInfo.hasMacros());
+        //ExEnd:HasMacros
     }
 }

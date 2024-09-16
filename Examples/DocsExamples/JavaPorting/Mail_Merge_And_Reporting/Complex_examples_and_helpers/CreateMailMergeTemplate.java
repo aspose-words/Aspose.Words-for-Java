@@ -10,9 +10,11 @@ import com.aspose.words.BreakType;
 
 class CreateMailMergeTemplate
 {
-    //ExStart:CreateMailMergeTemplate
+    
     public Document template() throws Exception
     {
+        //ExStart:CreateMailMergeTemplate
+        //GistId:0a1baaa127443b485cc692c8d98ee353
         DocumentBuilder builder = new DocumentBuilder();
 
         // Insert a text input field the unique name of this field is "Hello", the other parameters define
@@ -56,7 +58,7 @@ class CreateMailMergeTemplate
         builder.insertField("MERGEFIELD EmployeeDepartment \\* MERGEFORMAT");
 
         return builder.getDocument();
+        //ExEnd:CreateMailMergeTemplate
     }
-    //ExEnd:CreateMailMergeTemplate
 }
 

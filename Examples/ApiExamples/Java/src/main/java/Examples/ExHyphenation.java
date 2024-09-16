@@ -82,7 +82,7 @@ public class ExHyphenation extends ApiExampleBase {
     //ExFor:Hyphenation.RegisterDictionary(String, String)
     //ExFor:Hyphenation.WarningCallback
     //ExFor:IHyphenationCallback
-    //ExFor:IHyphenationCallback.RequestDictionary(System.String)
+    //ExFor:IHyphenationCallback.RequestDictionary(String)
     //ExSummary:Shows how to open and register a dictionary from a file.
     @Test //ExSkip
     public void registerDictionary() throws Exception {

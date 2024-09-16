@@ -597,6 +597,8 @@ class ExParagraph !Test class should be public in Java to run, please fix .Net s
     public void tabStops() throws Exception
     {
         //ExStart
+        //ExFor:TabLeader
+        //ExFor:TabAlignment
         //ExFor:Paragraph.GetEffectiveTabStops
         //ExSummary:Shows how to set custom tab stops for a paragraph.
         Document doc = new Document();

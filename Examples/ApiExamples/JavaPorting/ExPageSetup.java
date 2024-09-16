@@ -537,6 +537,8 @@ public class ExPageSetup extends ApiExampleBase
         //ExFor:TextColumnCollection
         //ExFor:TextColumnCollection.Spacing
         //ExFor:TextColumnCollection.SetCount
+        //ExFor:TextColumnCollection.Count
+        //ExFor:TextColumnCollection.Width
         //ExSummary:Shows how to create multiple evenly spaced columns in a section.
         Document doc = new Document();
         DocumentBuilder builder = new DocumentBuilder(doc);
@@ -556,6 +558,7 @@ public class ExPageSetup extends ApiExampleBase
 
         Assert.assertEquals(100.0d, doc.getFirstSection().getPageSetup().getTextColumns().getSpacing());
         Assert.assertEquals(2, doc.getFirstSection().getPageSetup().getTextColumns().getCount());
+        Assert.assertEquals(185.15, doc.getFirstSection().getPageSetup().getTextColumns().getWidth(), 0.01);
     }
 
     @Test
@@ -1031,6 +1034,7 @@ public class ExPageSetup extends ApiExampleBase
         //ExFor:PageSetup.Gutter
         //ExFor:PageSetup.MultiplePages
         //ExFor:PageSetup.SheetsPerBooklet
+        //ExFor:MultiplePagesType
         //ExSummary:Shows how to configure a document that can be printed as a book fold.
         Document doc = new Document();
 

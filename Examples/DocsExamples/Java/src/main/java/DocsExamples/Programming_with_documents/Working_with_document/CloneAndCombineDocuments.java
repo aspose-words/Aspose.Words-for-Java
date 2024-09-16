@@ -156,7 +156,7 @@ public class CloneAndCombineDocuments extends DocsExamplesBase
         // This object will be translating styles and lists during the import.
         NodeImporter importer = new NodeImporter(srcDoc, dstDoc, ImportFormatMode.USE_DESTINATION_STYLES);
 
-        for (Section srcSection : (Iterable<Section>) srcDoc.getSections())
+        for (Section srcSection : srcDoc.getSections())
         {
             Node newNode = importer.importNode(srcSection, true);
 
