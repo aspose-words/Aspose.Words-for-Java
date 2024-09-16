@@ -404,7 +404,7 @@ public class ExReportingEngine extends ApiExampleBase {
         template.save(getArtifactsDir() + "ReportingEngine.InsertImageDynamically.docx");
     }
 
-    @Test
+    @Test(enabled = false, description = "https://issue.auckland.dynabic.com/issues/WORDSJAVA-2978")
     public void insertImageDynamicallyByUri() throws Exception {
         Document template =
                 DocumentHelper.createTemplateDocumentWithDrawObjects("<<image [src.getImageString()]>>", ShapeType.TEXT_BOX);
